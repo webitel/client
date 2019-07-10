@@ -3,10 +3,9 @@
         <!--        ANIMATION CANVAS-->
         <canvas ref="login-canvas" class="login-canvas"></canvas>
 
-        <v-container fluid>
+        <v-container fluid class="pa-0">
             <v-layout>
                 <v-flex xs12>
-
                     <section class="login">
                         <h2>Enter your details below</h2>
                         <v-form @submit="login()">
