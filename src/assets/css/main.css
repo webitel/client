@@ -1,0 +1,9 @@
+
+/*default stying for error alert messages*/
+.error-message {
+    text-align: right;
+    position: absolute;
+    top: 5px;
+    right: 10px;
+    width: 250px;
+}

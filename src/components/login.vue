@@ -6,6 +6,11 @@
         <v-container fluid class="pa-0">
             <v-layout>
                 <v-flex xs12>
+                    <v-alert
+                            class="error-message"
+                        :value="error"
+                        color="error"
+                    >{{error}}</v-alert>
                     <section class="login">
                         <h2>{{$t('auth.loginTitle')}}</h2>
                         <v-form>
@@ -29,13 +34,15 @@
 
 <script>
     import {login} from "../api/auth";
+    import errorMixin from '../mixins/errorMixin';
 
     export default {
         name: "login",
+        mixins: [errorMixin],
         data() {
             return {
-                username: '',
-                password: ''
+                username: 'srgdemon@webitel.lo',
+                password: '12qwaszx'
             }
         },
         mounted() {
@@ -49,10 +56,11 @@
                 return new Promise((resolve, reject) => {
                     login({username: this.username, password: this.password}, resolve, reject);
                 }).then(response => {
-                            console.log(response);
+                            // console.log(response);
                         },
                         error => {
                             console.log(error);
+                            this.showError();
                         }
                     );
             },
