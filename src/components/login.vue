@@ -7,19 +7,18 @@
             <v-layout>
                 <v-flex xs12>
                     <section class="login">
-                        <h2>Enter your details below</h2>
-                        <v-form @submit="login()">
+                        <h2>{{$t('auth.loginTitle')}}</h2>
+                        <v-form>
                             <v-text-field
-                                    label="Root"
+                                    v-bind:label="$t('auth.user')"
+                                    v-model="username"
                             ></v-text-field>
                             <v-text-field
-                                    label="Password"
+                                    v-bind:label="$t('auth.password')"
+                                    v-model="password"
                                     password
                             ></v-text-field>
-                            <v-text-field
-                                    label="Server address"
-                            ></v-text-field>
-                            <v-btn>Submit</v-btn>
+                            <v-btn @click="login">{{$t('auth.submit')}}</v-btn>
                         </v-form>
                     </section>
                 </v-flex>
@@ -29,15 +28,14 @@
 </template>
 
 <script>
-    import {login} from "../api/login";
+    import {login} from "../api/auth";
 
     export default {
         name: "login",
         data() {
             return {
                 username: '',
-                password: '',
-                address: ''
+                password: ''
             }
         },
         mounted() {
@@ -48,14 +46,15 @@
         },
         methods: {
             login() {
-                // login({this.username, this.password, this.address})
-                //     .then(resolve => {
-                //             console.log(resolve);
-                //         },
-                //         reject => {
-                //             console.log(reject);
-                //         }
-                //     );
+                return new Promise((resolve, reject) => {
+                    login({username: this.username, password: this.password}, resolve, reject);
+                }).then(response => {
+                            console.log(response);
+                        },
+                        error => {
+                            console.log(error);
+                        }
+                    );
             },
             animateBackground() {
                 let canvas = this.$refs['login-canvas'];
