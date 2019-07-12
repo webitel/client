@@ -4,5 +4,9 @@ export default {
     user: 'Root',
     password: 'Password',
     submit: 'submit',
+    validation: {
+      email: 'Should look email-like',
+      required: 'This field is required'
+    }
   },
 };

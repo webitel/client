@@ -16,17 +16,22 @@
 
                     <section class="login">
                         <h2>{{$t('auth.loginTitle')}}</h2>
-                        <v-form>
+                        <v-form
+                                v-model="valid"
+                                @submit.prevent="login"
+                        >
                             <v-text-field
                                     v-bind:label="$t('auth.user')"
                                     v-model="username"
+                                    :rules="emailRules"
                             ></v-text-field>
                             <v-text-field
                                     v-bind:label="$t('auth.password')"
                                     v-model="password"
+                                    :rules="requiredRules"
                                     password
                             ></v-text-field>
-                            <v-btn @click="login">{{$t('auth.submit')}}</v-btn>
+                            <v-btn type="submit">{{$t('auth.submit')}}</v-btn>
                         </v-form>
                     </section>
                 </v-flex>
@@ -47,6 +52,16 @@ export default {
     return {
       username: 'srgdemon@webitel.lo',
       password: '12qwaszx',
+
+        valid: true,   //form validation trigger
+        emailRules: [
+            v => !!v || this.$t('auth.validation.required'),
+            v => /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/.test(v)
+                || this.$t('auth.validation.email'),
+        ],
+        requiredRules: [
+            v => !!v || this.$t('auth.validation.required')
+        ]
     };
   },
   mounted() {
