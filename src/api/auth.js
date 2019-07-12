@@ -8,14 +8,8 @@ import store from '../store/store';
 export function getSession() {
   console.log('get session');
   const url = '/session';
-  const accessToken = localStorage.getItem('access-token');
-  const config = {
-    headers: {
-      Authorization: `Bearer ${accessToken}`,
-    },
-  };
 
-  instance.get(url, config)
+  instance.get(url)
     .then((response) => {
       // console.log(response.data);
       store.dispatch('setUser', response.data.session.username);
@@ -28,6 +22,7 @@ export function getSession() {
 // posts user credentials and gets tokens
 // credentials: username, password (!NO DOMAIN NAME)
 // stores tokens in localstorage
+// and updates global instance access-token header
 // if succeeded, calls getSession function
 export function login(credentials) {
   console.log('login');
@@ -38,6 +33,8 @@ export function login(credentials) {
       console.log(response);
       localStorage.setItem('access-token', response.data.authorization.access_token);
       localStorage.setItem('refresh-token', response.data.authorization.refresh_token);
+
+      instance.defaults.headers['X-Webitel-Access'] = localStorage.getItem('access-token');
       getSession();
     },
     (error) => {
