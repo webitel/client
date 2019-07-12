@@ -6,11 +6,11 @@ import ru from './ru/ru';
 Vue.use(VueI18n);
 
 const messages = {
-    en: en,
-    ru: ru
+  en,
+  ru,
 };
 
 export default new VueI18n({
-    locale: 'en',
-    messages
+  locale: 'en',
+  messages,
 });
