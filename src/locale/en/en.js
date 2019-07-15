@@ -6,7 +6,7 @@ export default {
     submit: 'submit',
     validation: {
       email: 'Should look email-like',
-      required: 'This field is required'
-    }
+      required: 'This field is required',
+    },
   },
 };

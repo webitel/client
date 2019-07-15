@@ -53,15 +53,14 @@ export default {
       username: 'srgdemon@webitel.lo',
       password: '12qwaszx',
 
-        valid: true,   //form validation trigger
-        emailRules: [
-            v => !!v || this.$t('auth.validation.required'),
-            v => /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/.test(v)
-                || this.$t('auth.validation.email'),
-        ],
-        requiredRules: [
-            v => !!v || this.$t('auth.validation.required')
-        ]
+      valid: true, // form validation trigger
+      emailRules: [
+        v => !!v || this.$t('auth.validation.required'),
+        v => /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/.test(v) || this.$t('auth.validation.email'),
+      ],
+      requiredRules: [
+        v => !!v || this.$t('auth.validation.required'),
+      ],
     };
   },
   mounted() {
@@ -72,11 +71,9 @@ export default {
       return new Promise(() => {
         login({ username: this.username, password: this.password });
       }).catch((error) => {
-        console.log(error);
-        this.showError();
+        this.showError(error);
       });
     },
-
 
   },
 };

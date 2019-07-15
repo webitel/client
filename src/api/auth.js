@@ -1,21 +1,24 @@
+import Vue from 'vue';
 import instance from './instance';
 import router from '../router/router';
 import store from '../store/store';
+
+// Vue is imported for logging
 
 
 // gets user by token from localstorage
 // stores response username in vuex
 export function getSession() {
-  console.log('get session');
+  Vue.$log.info('get session started');
+
   const url = '/session';
 
   instance.get(url)
     .then((response) => {
-      // console.log(response.data);
       store.dispatch('setUser', response.data.session.username);
     },
     (error) => {
-      console.log(error);
+      Vue.$log.error('get session error', error);
     });
 }
 
@@ -25,12 +28,10 @@ export function getSession() {
 // and updates global instance access-token header
 // if succeeded, calls getSession function
 export function login(credentials) {
-  console.log('login');
+  Vue.$log.info('login started');
   const url = '/login';
-  // console.log(credentials, url);
   instance.post(url, credentials)
     .then((response) => {
-      console.log(response);
       localStorage.setItem('access-token', response.data.authorization.access_token);
       localStorage.setItem('refresh-token', response.data.authorization.refresh_token);
 
@@ -38,7 +39,6 @@ export function login(credentials) {
       getSession();
     },
     (error) => {
-      // console.log(error);
       throw error;
     });
 }
@@ -46,7 +46,7 @@ export function login(credentials) {
 // tries to refresh access token, if it expired
 // if refresh is expired too, router throws user to login page
 export function refreshToken(resolve, reject) {
-  console.log('refresh token');
+  Vue.$log.info('refresh token started');
   // TODO: add refresh request, when endpoint is complete
   // const url = API_URL;
   // let refreshToken = localStorage.getItem('refresh-token');
