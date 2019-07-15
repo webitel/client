@@ -1,4 +1,8 @@
 
+* {
+    font-family: 'AvantGardeGothicMedium', sans-serif;
+}
+
 /*default stying for error alert messages*/
 .error-message {
     text-align: right;
