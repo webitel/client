@@ -1,6 +1,7 @@
 export default {
   auth: {
     loginTitle: 'Введіть дані: ',
+    loginSubtitle: 'Введіть дані: ',
     user: 'Логін',
     password: 'Пароль',
     submit: 'підтвердити',

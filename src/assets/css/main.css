@@ -11,3 +11,21 @@
     right: 10px;
     width: 250px;
 }
+
+.form__button {
+    float: right;
+    color: #000;
+}
+
+/*disables bottom borders on inputs*/
+.login .v-text-field>.v-input__control>.v-input__slot:after,
+.login .v-text-field>.v-input__control>.v-input__slot:before {
+    width: 0;
+}
+
+.login .v-label {
+    top: -10px;
+    left: -14px !important;
+    font-size: 14px;
+    line-height: 16px;
+}

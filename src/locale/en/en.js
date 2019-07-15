@@ -1,6 +1,7 @@
 export default {
   auth: {
-    loginTitle: 'Enter your details below',
+    loginTitle: 'Sign in to Webitel',
+    loginSubtitle: 'Enter your details below',
     user: 'Root',
     password: 'Password',
     submit: 'submit',
