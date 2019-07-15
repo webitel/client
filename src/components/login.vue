@@ -109,8 +109,8 @@
         left: 50%;
         width: 416px;
         padding: 20px;
-        color: #fff;
         background: #212227;
+        /*background: transparent;*/
         border-radius: 10px;
         transform: translate(-50%, -50%);
         z-index: 2;
@@ -148,7 +148,9 @@
         float: right;
         width: 124px;
         height: 48px;
+        /*important is used for vuetify color overriding*/
         color: #000 !important;
+        margin-right: 0;
     }
 
 </style>

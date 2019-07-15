@@ -1,6 +1,6 @@
 export default (function () {
     'use strict';
-    const animateBackground = function(canvas) {
+    const animateBackground = function (canvas) {
         const canvasContext = canvas.getContext('2d');
 
         // normalizes canvas size
@@ -11,8 +11,24 @@ export default (function () {
         window.addEventListener('resize', resize);
         resize();
 
-        const img = new Image();
-        img.src = 'https://media.giphy.com/media/IB9foBA4PVkKA/giphy.gif';
+        const img = {
+            callCenter: new Image(),
+            email: new Image(),
+            internet: new Image(),
+            phoneCall: new Image(),
+            rating: new Image(),
+            shield: new Image(),
+            videoCall: new Image(),
+            wallClock: new Image(),
+        };
+        img.callCenter.src = require('../img/call-center.svg');
+        img.email.src = require('../img/email.svg');
+        img.internet.src = require('../img/internet.svg');
+        img.phoneCall.src = require('../img/phone-call.svg');
+        img.rating.src = require('../img/rating.svg');
+        img.shield.src = require('../img/shield.svg');
+        img.videoCall.src = require('../img/video-call.svg');
+        img.wallClock.src = require('../img/wall-clock.svg');
 
         // elements list to draw
         const elements = [];
@@ -20,22 +36,33 @@ export default (function () {
         // loop generates elements
         for (let x = 0; x < canvas.width; x++) {
             for (let y = 0; y < canvas.height; y++) {
-                if (Math.round(Math.random() * 8000) === 1) {
-                    const s = ((Math.random() * 5) + 1) / 10;
-                    if (Math.round(Math.random()) === 1) {
-                        elements.push(canvasPresetO(x, y, s, 0, 0));
-                    } else {
-                        elements.push(canvasPresetX(x, y, s, 0, 0,
-                            ((Math.random() * 3) - 1) / 10, (Math.random() * 360)));
-                    }
-
-                    if (Math.random() < 0.25) {
-                        elements.push(canvasPresetImg(img, x, y, s, 0, 0,
-                            ((Math.random() * 3) - 1) / 10, (Math.random() * 360)));
+                if (!(canvas.width/2.8 < x && x < canvas.width/1.55) || !(canvas.height/3.6 < y && y < canvas.height/1.4)) {
+                    if (Math.round(Math.random() * 16000) === 1) {
+                        const s = ((Math.random() * 5) + 1) / 10;
+                        if (Math.round(Math.random()) === 1) {
+                            elements.push(canvasPresetO(x, y, s, 0, 0));
+                        } else {
+                            elements.push(canvasPresetX(x, y, s, 0, 0,
+                                ((Math.random() * 3) - 1) / 10, (Math.random() * 360)));
+                        }
                     }
                 }
             }
         }
+
+
+        elements.push(canvasPresetImg(img.callCenter, canvas.width / 5.5, canvas.height / 2, ((Math.random() * 5) + 1) / 10, 0, 0, ((Math.random() * 3) - 1) / 10, (Math.random() * 360)));
+        elements.push(canvasPresetImg(img.email, canvas.width / 1.55, canvas.height / 2.9, ((Math.random() * 5) + 1) / 10, 0, 0, ((Math.random() * 3) - 1) / 10, (Math.random() * 360)));
+        elements.push(canvasPresetImg(img.internet, canvas.width / 2.9, canvas.height / 5, ((Math.random() * 5) + 1) / 10, 0, 0, ((Math.random() * 3) - 1) / 10, (Math.random() * 360)));
+        elements.push(canvasPresetImg(img.rating, canvas.width / 1.4, canvas.height / 1.6, ((Math.random() * 5) + 1) / 10, 0, 0, ((Math.random() * 3) - 1) / 10, (Math.random() * 360)));
+        elements.push(canvasPresetImg(img.shield, canvas.width / 2.9, canvas.height / 1.3, ((Math.random() * 5) + 1) / 10, 0, 0, ((Math.random() * 3) - 1) / 10, (Math.random() * 360)));
+        elements.push(canvasPresetImg(img.videoCall, canvas.width / 3.8, canvas.height / 1.3, ((Math.random() * 5) + 1) / 10, 0, 0, ((Math.random() * 3) - 1) / 10, (Math.random() * 360)));
+        elements.push(canvasPresetImg(img.wallClock, canvas.width / 1.4, canvas.height / 4, ((Math.random() * 5) + 1) / 10, 0, 0, ((Math.random() * 3) - 1) / 10, (Math.random() * 360)));
+
+        elements.push(canvasPresetImg(img.phoneCall, canvas.width / 4.9, canvas.height / 4, ((Math.random() * 5) + 1) / 10, 0, 0, ((Math.random() * 3) - 1) / 10, (Math.random() * 360)));
+        elements.push(canvasPresetImg(img.phoneCall, canvas.width / 1.6, canvas.height / 8, ((Math.random() * 5) + 1) / 10, 0, 0, ((Math.random() * 3) - 1) / 10, (Math.random() * 360)));
+        elements.push(canvasPresetImg(img.phoneCall, canvas.width / 1.6, canvas.height / 1.3, ((Math.random() * 5) + 1) / 10, 0, 0, ((Math.random() * 3) - 1) / 10, (Math.random() * 360)));
+
 
         // moving animation, which depends on time
         setInterval(() => {
@@ -45,7 +72,7 @@ export default (function () {
             Object.keys(elements).forEach((elem) => {
                 elements[elem].draw(canvasContext, time);
             });
-        }, 10);
+        }, 5);
     };
 
     const canvasPresetX = function (x, y, s, dx, dy, dr, r = 0) { // animation drawing and trajectory
@@ -110,7 +137,7 @@ export default (function () {
             },
         };
     };
-    const canvasPresetImg = function(img, x, y, s, dx, dy) { // animation trajectory
+    const canvasPresetImg = function (img, x, y, s, dx, dy) { // animation trajectory
         return {
             x,
             y,
@@ -124,7 +151,7 @@ export default (function () {
 
                 context.beginPath();
                 context.drawImage(img, this.x + Math.sin((100 + x + (time / 10)) / 100) * 4,
-                    this.y + Math.sin((75 + x + (time / 10)) / 100) * 3, 50, 50);
+                    this.y + Math.sin((75 + x + (time / 10)) / 100) * 3, 29, 29);
                 context.lineWidth = this.w;
                 context.strokeStyle = '#fff';
                 context.stroke();
@@ -134,4 +161,3 @@ export default (function () {
 
     return animateBackground;
 }());
-// export default loginAnimation;
