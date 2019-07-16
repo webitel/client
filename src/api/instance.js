@@ -11,11 +11,14 @@ const instance = axios.create({
   },
 });
 
+let isRefresh = false; // prevents infinite loop refresh 401 intercepts and calls itself
+
 // catches 401 error across all api and tries to refresh token
 instance.interceptors.response.use(undefined, (error) => {
-  if (error.response && error.response.status === 401) {
+  if (error.response && error.response.status === 401 && !isRefresh) {
     Vue.$log.info('intercepted 401');
-    return refreshToken();
+    isRefresh = true;
+    refreshToken();
   }
   // if error isn't 401, returns it
   return Promise.reject(error.response.data);
