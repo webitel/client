@@ -1,13 +1,15 @@
 export default {
   auth: {
-    loginTitle: 'Введіть дані: ',
-    loginSubtitle: 'Введіть дані: ',
-    user: 'Логін',
+    loginTitle: 'Войти в Webitel: ',
+    loginSubtitle: 'Введите даные: ',
+    user: 'Логин',
+    userPlaceholder: 'Введите логин',
     password: 'Пароль',
-    submit: 'підтвердити',
+    passwordPlaceholder: 'Введите пароль',
+    submit: 'Войти',
     validation: {
-      email: 'Повинно вилядати як емейл',
-      required: "Поле обов'язкове",
+      email: 'Должно выглядить как эмейл',
+      required: "Поле обязательное",
     },
   },
 };
