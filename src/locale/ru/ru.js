@@ -9,7 +9,7 @@ export default {
     submit: 'Войти',
     validation: {
       email: 'Должно выглядить как эмейл',
-      required: "Поле обязательное",
+      required: 'Поле обязательное',
     },
   },
 };

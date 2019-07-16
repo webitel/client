@@ -59,42 +59,42 @@
 </template>
 
 <script>
-    import {login} from '../api/auth';
-    import errorMixin from '../mixins/errorMixin';
-    import loginAnimation from '../assets/js/loginAnimation';
+import { login } from '../api/auth';
+import errorMixin from '../mixins/errorMixin';
+import loginAnimation from '../assets/js/loginAnimation';
 
-    export default {
-        name: 'login',
-        mixins: [errorMixin],
-        data() {
-            return {
-                username: 'srgdemon@webitel.lo',
-                password: '12qwaszx',
+export default {
+  name: 'login',
+  mixins: [errorMixin],
+  data() {
+    return {
+      username: 'srgdemon@webitel.lo',
+      password: '12qwaszx',
 
-                valid: true, // form validation trigger
-                emailRules: [
-                    v => !!v || this.$t('auth.validation.required'),
-                    v => /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/.test(v) || this.$t('auth.validation.email'),
-                ],
-                requiredRules: [ //required field rules
-                    v => !!v || this.$t('auth.validation.required'),
-                ],
-            };
-        },
-        mounted() {
-            // width and height are sent to calc dynamic animation border
-            loginAnimation(this.$refs['login-canvas'], this.$refs['login'].offsetWidth, this.$refs['login'].offsetHeight);
-        },
-        methods: {
-            login() {
-                login({username: this.username, password: this.password})
-                    .catch((error) => {
-                        this.showError(error); //from Mixin
-                    });
-            },
-
-        },
+      valid: true, // form validation trigger
+      emailRules: [
+        v => !!v || this.$t('auth.validation.required'),
+        v => /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/.test(v) || this.$t('auth.validation.email'),
+      ],
+      requiredRules: [ // required field rules
+        v => !!v || this.$t('auth.validation.required'),
+      ],
     };
+  },
+  mounted() {
+    // width and height are sent to calc dynamic animation border
+    loginAnimation(this.$refs['login-canvas'], this.$refs.login.offsetWidth, this.$refs.login.offsetHeight);
+  },
+  methods: {
+    login() {
+      login({ username: this.username, password: this.password })
+        .catch((error) => {
+          this.showError(error); // from Mixin
+        });
+    },
+
+  },
+};
 </script>
 
 <style scoped>

@@ -12,17 +12,20 @@ import './assets/css/main.css';
 Vue.config.productionTip = false;
 Vue.use(Vuetify, {
   theme: {
-    accent: '#FFC107'
-  }
+    accent: '#FFC107',
+  },
 });
 Vue.use(VueLogger, {
   isEnabled: true,
   // logLevel: isProduction ? 'error' : 'debug',
-  stringifyArguments: false, // If true, all input will go through JSON.stringify(). Useful when printing reactive properties.
+  stringifyArguments: false, // If true, all input will go through JSON.stringify().
+  // Useful when printing reactive properties.
   showLogLevel: true,
-  showMethodName: true,      // If true, the method name of the parent function will be shown in the console.
+  showMethodName: true, // If true, the method name of
+  // the parent function will be shown in the console.
   separator: ' | ',
-  showConsoleColors: false,   // If true, enables console.warn, console.fatal, console.error for corresponding loglevels.
+  showConsoleColors: false, // If true, enables console.warn,
+  // console.fatal, console.error for corresponding loglevels.
 });
 
 new Vue({
