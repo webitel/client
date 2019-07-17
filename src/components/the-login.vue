@@ -21,7 +21,7 @@
                         <v-form
                                 class="form login__form"
                                 v-model="valid"
-                                @submit.prevent="login"
+                                @submit.prevent="the-login"
                         >
                             <v-text-field
                                     class="form__input"
@@ -71,7 +71,7 @@
     import loginAnimation from '../assets/js/loginAnimation';
 
     export default {
-        name: 'login',
+        name: 'the-login',
         mixins: [errorMixin],
         data() {
             return {
