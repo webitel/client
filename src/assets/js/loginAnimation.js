@@ -13,9 +13,38 @@ export default (function () {
 
         // coords - position in mock
         const calcIconPos = function (coordsX, coordsY) {
+            const leftBorder = canvas.width / 2 - elemWidth / 2 - 10;
+            const rightBorder = canvas.width / 2 + elemWidth / 2 + 10;
+            const topBorder = canvas.height / 2 - elemHeight / 2 - 10;
+            const bottomBorder = canvas.height / 2 + elemHeight / 2 + 10;
+
+            let x = coordsX * canvas.width / 1440;
+            let y = coordsY * canvas.height / 923;
+
+            if (canvas.width < 1024) {
+                if ((leftBorder < x && x < rightBorder) && (topBorder < y && y < bottomBorder)) {
+                    // console.log(canvas.width / 2, x);
+                    if (canvas.width / 2 > x) {      // if element is in the left half
+                        return {
+                            x: getRandomFromRange(canvas.width * 0.1, leftBorder - 20),
+                            y: y
+                        }
+                    } else {                            // if element is in the right half
+                        // console.log('else', rightBorder, canvas.width * 0.85, x);
+                        return {
+                            x: getRandomFromRange(rightBorder + 20, canvas.width * 0.9),
+                            y: y
+                        }
+                        // return {
+                        //     x: x,
+                        //     y: y
+                        // }
+                    }
+                }
+            }
+
             return {
-                x: coordsX * canvas.width / 1440,
-                y: coordsY * canvas.height / 923
+                x, y
             }
         };
 
@@ -43,13 +72,23 @@ export default (function () {
 
         // loop generates elements
         // element width and height to calc dynamic animation border
-        for (let x = canvas.width * 0.15; x < canvas.width * 0.85; x++) { // add item on each coords
+
+        let animationWidthEndingMultiplier = 0.85;
+        if (canvas.width < 1024) {
+            animationWidthEndingMultiplier = 0.9;
+        }
+
+        for (let x = canvas.width * (1 - animationWidthEndingMultiplier); x < canvas.width * animationWidthEndingMultiplier; x++) { // add item on each coords
             for (let y = canvas.height * 0.9 * 0.1; y < canvas.height * 0.9; y++) {// add item on each coords
                 // calc dynamic border: divide page on 50% and - half of elements size because it's centered
                 if (!((canvas.width / 2) - elemWidth / 2 - 10 < x && x < (canvas.width / 2) + elemWidth / 2 + 10)
                     || !(canvas.height / 2 - elemHeight / 2 - 10 < y && y < canvas.height / 2 + elemHeight / 2 + 10)) {
                     // smaller multiplier => more elements
-                    if (Math.round(Math.random() * 8000) === 1) {
+                    let elementsMultiplier = 8000;
+                    if (canvas.width < 1024) {
+                        elementsMultiplier = 2000;
+                    }
+                    if (Math.round(Math.random() * elementsMultiplier) === 1) {
                         const s = ((Math.random() * 5) + 1) / 10;
                         if (Math.round(Math.random()) === 1) {
                             elements.push(canvasPresetO(x, y, s, 0, 0));
@@ -93,7 +132,7 @@ export default (function () {
         elements.push(canvasPresetImg(img.phoneInfo, calcIconPos(1024, 670), {width: 26, height: 26}));
         elements.push(canvasPresetImg(img.phoneText, calcIconPos(1163, 550), {width: 26, height: 26}));
         elements.push(canvasPresetImg(img.callCenterOk, calcIconPos(1013, 438), {width: 25, height: 22}));
-        elements.push(canvasPresetImg(img.peoplePhone, calcIconPos(1175, 327), {width: 24, height: 28}));
+        elements.push(canvasPresetImg(img.peoplePhone, calcIconPos(1175, 337), {width: 24, height: 28}));
         elements.push(canvasPresetImg(img.phoneText, calcIconPos(916, 313), {width: 24, height: 24}));
         elements.push(canvasPresetImg(img.peopleCallCenter, calcIconPos(1063, 179), {width: 19, height: 22}));
 
@@ -194,6 +233,10 @@ export default (function () {
             },
         };
     };
+
+    function getRandomFromRange(min, max) {
+        return Math.floor(Math.random() * (max - min + 1)) + min;
+    }
 
     return animateBackground;
 }());
