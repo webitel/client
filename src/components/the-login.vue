@@ -21,7 +21,7 @@
                         <v-form
                                 class="form login__form"
                                 v-model="valid"
-                                @submit.prevent="the-login"
+                                @submit.prevent="login"
                         >
                             <v-text-field
                                     class="form__input"

@@ -4,12 +4,13 @@ export default (function () {
 
         // normalizes canvas size
         const resize = () => {
-            canvas.width = canvas.clientWidth;
-            canvas.height = canvas.clientHeight;
+            // canvas.width = canvas.offsetWidth;
+            // canvas.height = canvas.offsetHeight;
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
         };
         window.addEventListener('resize', resize);
         resize();
-
 
         // form border for further calculations
         // used to disable animation in this area
