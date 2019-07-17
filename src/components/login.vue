@@ -51,6 +51,13 @@
                                 {{$t('auth.submit')}}
                             </v-btn>
                         </v-form>
+<!--                        <v-btn-->
+<!--                                class="form__button"-->
+<!--                                color="accent"-->
+<!--                                @click="logout"-->
+<!--                        >-->
+<!--                            logout-->
+<!--                        </v-btn>-->
                     </section>
                 </v-flex>
             </v-layout>
@@ -59,42 +66,47 @@
 </template>
 
 <script>
-import { login } from '../api/auth';
-import errorMixin from '../mixins/errorMixin';
-import loginAnimation from '../assets/js/loginAnimation';
+    import {login, logout} from '../api/auth';
+    import errorMixin from '../mixins/errorMixin';
+    import loginAnimation from '../assets/js/loginAnimation';
 
-export default {
-  name: 'login',
-  mixins: [errorMixin],
-  data() {
-    return {
-      username: 'srgdemon@webitel.lo',
-      password: '12qwaszx',
+    export default {
+        name: 'login',
+        mixins: [errorMixin],
+        data() {
+            return {
+                username: 'srgdemon@webitel.lo',
+                password: '12qwaszx',
 
-      valid: true, // form validation trigger
-      emailRules: [
-        v => !!v || this.$t('auth.validation.required'),
-        v => /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/.test(v) || this.$t('auth.validation.email'),
-      ],
-      requiredRules: [ // required field rules
-        v => !!v || this.$t('auth.validation.required'),
-      ],
+                valid: true, // form validation trigger
+                emailRules: [
+                    v => !!v || this.$t('auth.validation.required'),
+                    v => /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/.test(v) || this.$t('auth.validation.email'),
+                ],
+                requiredRules: [ // required field rules
+                    v => !!v || this.$t('auth.validation.required'),
+                ],
+            };
+        },
+        mounted() {
+            // width and height are sent to calc dynamic animation border
+            loginAnimation(this.$refs['login-canvas'], this.$refs.login.offsetWidth, this.$refs.login.offsetHeight);
+        },
+        methods: {
+            login() {
+                login({username: this.username, password: this.password})
+                    .catch((error) => {
+                        this.showError(error); // from Mixin
+                    });
+            },
+            logout() {
+                logout()
+                    .catch((error) => {
+                        this.showError(error);
+                    });
+            }
+        },
     };
-  },
-  mounted() {
-    // width and height are sent to calc dynamic animation border
-    loginAnimation(this.$refs['login-canvas'], this.$refs.login.offsetWidth, this.$refs.login.offsetHeight);
-  },
-  methods: {
-    login() {
-      login({ username: this.username, password: this.password })
-        .catch((error) => {
-          this.showError(error); // from Mixin
-        });
-    },
-
-  },
-};
 </script>
 
 <style scoped>
@@ -144,6 +156,7 @@ export default {
         height: 48px;
         padding: 13px 16px;
         margin-top: 51px;
+        font-size: 14px;
         background: rgba(255, 255, 255, 0.04);
         border-radius: 4px;
     }
