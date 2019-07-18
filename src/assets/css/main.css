@@ -29,3 +29,8 @@
     font-size: 14px;
     line-height: 16px;
 }
+
+.theme--dark.v-expansion-panel .v-expansion-panel__container {
+    background: transparent;
+    color: rgba(0, 0, 0, 0.3);
+}
