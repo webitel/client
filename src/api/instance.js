@@ -5,7 +5,7 @@ import { refreshToken } from './auth';
 // global API configuration
 // 'X-Webitel-Access' ~ 'X-Access-Token'
 const instance = axios.create({
-  baseURL: '/api',
+  baseURL: process.env.VUE_APP_API_URL,
   headers: {
     'X-Webitel-Access': localStorage.getItem('access-token') || '',
   },
