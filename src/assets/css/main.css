@@ -18,8 +18,8 @@
 }
 
 /*disables bottom borders on inputs*/
-.login .v-text-field>.v-input__control>.v-input__slot:after,
-.login .v-text-field>.v-input__control>.v-input__slot:before {
+.login .v-text-field > .v-input__control > .v-input__slot:after,
+.login .v-text-field > .v-input__control > .v-input__slot:before {
     width: 0;
 }
 
@@ -30,7 +30,22 @@
     line-height: 16px;
 }
 
-.theme--dark.v-expansion-panel .v-expansion-panel__container {
+.theme--light.v-expansion-panel .v-expansion-panel__container {
     background: transparent;
     color: rgba(0, 0, 0, 0.3);
+}
+
+.v-btn {
+    /*important is used for vuetify color overriding*/
+    color: #000 !important;
+}
+
+.btn {
+    height: 48px;
+}
+
+.page-header__btn .v-btn__content {
+    padding: 20px 37px;
+    font-size: 14px;
+    line-height: 1;
 }

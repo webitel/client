@@ -1,5 +1,5 @@
 <template>
-    <v-app style="background: #212227;">
+    <v-app dark style="background: #212227;">
         <!--        ANIMATION CANVAS-->
         <canvas ref="login-canvas" class="login__canvas"></canvas>
 
@@ -44,7 +44,7 @@
                             </v-text-field>
 
                             <v-btn
-                                    class="form__button"
+                                    class="btn form__button"
                                     type="submit"
                                     color="accent"
                             >
@@ -164,11 +164,8 @@
     .form__button {
         float: right;
         width: 124px;
-        height: 48px;
         margin-top: 40px;
         margin-right: 0;
-        /*important is used for vuetify color overriding*/
-        color: #000 !important;
     }
 
     /* Extra Small Devices, Phones */

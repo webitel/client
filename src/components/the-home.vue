@@ -4,8 +4,8 @@
             <v-layout>
                 <v-flex xs12>
                     <app-header></app-header>
-                    <!--                <app-nav></app-nav>-->
-                    <h1>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Architecto culpa eligendi fugiat libero magnam modi necessitatibus, odio? Ab ad adipisci ea eius est, fugit odio suscipit voluptas. Cum, maiores praesentium?</h1>
+                    <app-nav></app-nav>
+                    <page-header></page-header>
                     <router-link to="/login">BUTTONNN</router-link>
                 </v-flex>
             </v-layout>
@@ -16,12 +16,14 @@
 <script>
     import theHeader from './the-header';
     import theNavbar from './the-navbar';
+    import pageHeader from './page-header';
 
     export default {
         name: "the-home",
         components: {
             'app-header': theHeader,
-            'app-nav': theNavbar
+            'app-nav': theNavbar,
+            'page-header': pageHeader,
         }
     }
 </script>
