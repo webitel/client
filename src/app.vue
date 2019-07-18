@@ -1,20 +1,18 @@
 <template>
-    <v-app>
-        <keep-alive>
-            <router-view></router-view>
-        </keep-alive>
-    </v-app>
+    <keep-alive>
+        <router-view></router-view>
+    </keep-alive>
 </template>
 
 <script>
-import { getSession } from './api/auth';
+    import {getSession} from './api/auth';
 
-export default {
-  name: 'app',
-  created() {
-    getSession();
-  },
-};
+    export default {
+        name: 'app',
+        created() {
+            getSession();
+        },
+    };
 </script>
 
 <style>

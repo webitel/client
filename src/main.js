@@ -1,20 +1,14 @@
 import VueLogger from 'vuejs-logger';
 import Vue from 'vue';
-import Vuetify from 'vuetify';
 import App from './app.vue';
 import router from './router/router';
 import store from './store/store';
-import 'vuetify/dist/vuetify.min.css';
 import i18n from './locale/i18n';
 import './assets/css/fonts.css';
 import './assets/css/main.css';
 
 Vue.config.productionTip = false;
-Vue.use(Vuetify, {
-  theme: {
-    accent: '#FFC107',
-  },
-});
+
 Vue.use(VueLogger, {
   isEnabled: true,
   // logLevel: isProduction ? 'error' : 'debug',

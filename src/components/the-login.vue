@@ -1,68 +1,54 @@
 <template>
-    <v-app dark style="background: #212227;">
-        <!--        ANIMATION CANVAS-->
-        <canvas ref="login-canvas" class="login__canvas"></canvas>
+    <main>
+    <!--        ANIMATION CANVAS-->
+    <canvas ref="login-canvas" class="login__canvas"></canvas>
 
-        <v-container fluid class="pa-0">
-            <v-layout>
-                <v-flex xs12>
 
-                    <!--                    alerts login error-->
-                    <v-alert
-                            class="error-message"
-                            :value="error"
-                            color="error"
-                    >{{error}}
-                    </v-alert>
-                    <div class="logo">Webitel</div>
-                    <section class="login" ref="login">
-                        <h2 class="login__title">{{$t('auth.loginTitle')}}</h2>
-                        <p class="login__subtitle">{{$t('auth.loginSubtitle')}}</p>
-                        <v-form
-                                class="form login__form"
-                                v-model="valid"
-                                @submit.prevent="login"
-                        >
-                            <v-text-field
-                                    class="form__input"
-                                    v-bind:label="$t('auth.user')"
-                                    v-bind:placeholder="$t('auth.userPlaceholder')"
-                                    v-model="username"
-                                    :rules="emailRules"
-                                    :autofocus="true"
-                                    color="accent"
-                            ></v-text-field>
-                            <v-text-field
-                                    class="form__input"
-                                    v-bind:label="$t('auth.password')"
-                                    v-bind:placeholder="$t('auth.passwordPlaceholder')"
-                                    v-model="password"
-                                    :rules="requiredRules"
-                                    type="password"
-                                    color="accent"
-                            >
-                            </v-text-field>
+    <!--                    alerts login error-->
+    <!--                    <v-alert-->
+    <!--                            class="error-message"-->
+    <!--                            :value="error"-->
+    <!--                            color="error"-->
+    <!--                    >{{error}}-->
+    <!--                    </v-alert>-->
+    <div class="logo">Webitel</div>
+    <section class="login" ref="login">
+        <h2 class="login__title">{{$t('auth.loginTitle')}}</h2>
+        <p class="login__subtitle">{{$t('auth.loginSubtitle')}}</p>
+        <form
+                class="form login__form"
+                v-model="valid"
+                @submit.prevent="login"
+        >
+            <!--                            <input-->
+            <!--                                    class="form__input"-->
+            <!--                                    v-bind:label="$t('auth.user')"-->
+            <!--                                    v-bind:placeholder="$t('auth.userPlaceholder')"-->
+            <!--                                    v-model="username"-->
+            <!--                                    :rules="emailRules"-->
+            <!--                                    :autofocus="true"-->
+            <!--                                    color="accent"-->
+            <!--                            ></input>-->
+            <!--                            <input-->
+            <!--                                    class="form__input"-->
+            <!--                                    v-bind:label="$t('auth.password')"-->
+            <!--                                    v-bind:placeholder="$t('auth.passwordPlaceholder')"-->
+            <!--                                    v-model="password"-->
+            <!--                                    :rules="requiredRules"-->
+            <!--                                    type="password"-->
+            <!--                                    color="accent"-->
+            <!--                            >-->
+            <!--                            </input>-->
 
-                            <v-btn
-                                    class="btn form__button"
-                                    type="submit"
-                                    color="accent"
-                            >
-                                {{$t('auth.submit')}}
-                            </v-btn>
-                        </v-form>
-<!--                        <v-btn-->
-<!--                                class="form__button"-->
-<!--                                color="accent"-->
-<!--                                @click="logout"-->
-<!--                        >-->
-<!--                            logout-->
-<!--                        </v-btn>-->
-                    </section>
-                </v-flex>
-            </v-layout>
-        </v-container>
-    </v-app>
+            <button
+                    class="btn form__button"
+                    type="submit"
+            >
+                {{$t('auth.submit')}}
+            </button>
+        </form>
+    </section>
+    </main>
 </template>
 
 <script>

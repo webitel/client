@@ -1,16 +1,12 @@
 <template>
-    <v-app>
         <header class="page-header">
             <h2 class="page__title">Dashboard</h2>
-            <v-btn
+            <button
                     class="btn page-header__btn"
-                    color="accent"
             >
                 add new
-            </v-btn>
+            </button>
         </header>
-        <v-divider></v-divider>
-    </v-app>
 </template>
 
 <script>

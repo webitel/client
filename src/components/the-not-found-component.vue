@@ -1,16 +1,8 @@
 <template>
-    <v-app>
-        <v-container>
-            <v-layout>
-                <v-flex>
-                    <section class="not-found">
-                        <h2 class="not-found__title">404 not found</h2>
-                        <router-link class="not-found__escape-button" to="/">back to home page</router-link>
-                    </section>
-                </v-flex>
-            </v-layout>
-        </v-container>
-    </v-app>
+    <section class="not-found">
+        <h2 class="not-found__title">404 not found</h2>
+        <router-link class="not-found__escape-button" to="/">back to home page</router-link>
+    </section>
 </template>
 
 <script>
