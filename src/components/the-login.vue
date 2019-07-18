@@ -1,5 +1,5 @@
 <template>
-    <main>
+    <main class="login">
     <!--        ANIMATION CANVAS-->
     <canvas ref="login-canvas" class="login__canvas"></canvas>
 
@@ -12,7 +12,7 @@
     <!--                    >{{error}}-->
     <!--                    </v-alert>-->
     <div class="logo">Webitel</div>
-    <section class="login" ref="login">
+    <section class="login__wrap" ref="login">
         <h2 class="login__title">{{$t('auth.loginTitle')}}</h2>
         <p class="login__subtitle">{{$t('auth.loginSubtitle')}}</p>
         <form
@@ -95,7 +95,12 @@
     };
 </script>
 
-<style scoped>
+<style lang="scss" scoped>
+
+    .login {
+        background: #212227;
+    }
+    
     .login__canvas {
         position: relative;
         width: 100vw;
@@ -110,13 +115,12 @@
         background: #212227;
     }
 
-    .login {
+    .login__wrap {
         position: absolute;
         top: 50%;
         left: 50%;
         width: 416px;
         padding: 20px;
-        /*background: #212227;*/
         background: transparent;
         border-radius: 10px;
         transform: translate(-50%, -50%);
@@ -154,7 +158,7 @@
         margin-right: 0;
     }
 
-    /* Extra Small Devices, Phones */
+     /*Extra Small Devices, Phones*/
     @media only screen and (max-width: 480px) {
         .logo {
             top: 30px;

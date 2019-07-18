@@ -4,6 +4,8 @@ import App from './app.vue';
 import router from './router/router';
 import store from './store/store';
 import i18n from './locale/i18n';
+
+import './assets/css/bootstrap-grid.min.css';
 import './assets/css/fonts.css';
 import './assets/css/main.css';
 
