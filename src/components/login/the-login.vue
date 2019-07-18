@@ -1,63 +1,70 @@
 <template>
     <main class="login">
-    <!--        ANIMATION CANVAS-->
-    <canvas ref="login-canvas" class="login__canvas"></canvas>
+        <!--        ANIMATION CANVAS-->
+        <canvas ref="login-canvas" class="login__canvas"></canvas>
 
 
-    <!--                    alerts login error-->
-    <!--                    <v-alert-->
-    <!--                            class="error-message"-->
-    <!--                            :value="error"-->
-    <!--                            color="error"-->
-    <!--                    >{{error}}-->
-    <!--                    </v-alert>-->
-    <div class="logo">Webitel</div>
-    <section class="login__wrap" ref="login">
-        <h2 class="login__title">{{$t('auth.loginTitle')}}</h2>
-        <p class="login__subtitle">{{$t('auth.loginSubtitle')}}</p>
+        <!--                    alerts login error-->
+        <!--                    <v-alert-->
+        <!--                            class="error-message"-->
+        <!--                            :value="error"-->
+        <!--                            color="error"-->
+        <!--                    >{{error}}-->
+        <!--                    </v-alert>-->
+
+
+        <div class="logo">Webitel</div>
         <form
-                class="form login__form"
+                class="login__form"
+                ref="login"
                 v-model="valid"
                 @submit.prevent="login"
         >
-            <!--                            <input-->
-            <!--                                    class="form__input"-->
-            <!--                                    v-bind:label="$t('auth.user')"-->
-            <!--                                    v-bind:placeholder="$t('auth.userPlaceholder')"-->
-            <!--                                    v-model="username"-->
-            <!--                                    :rules="emailRules"-->
-            <!--                                    :autofocus="true"-->
-            <!--                                    color="accent"-->
-            <!--                            ></input>-->
-            <!--                            <input-->
-            <!--                                    class="form__input"-->
-            <!--                                    v-bind:label="$t('auth.password')"-->
-            <!--                                    v-bind:placeholder="$t('auth.passwordPlaceholder')"-->
-            <!--                                    v-model="password"-->
-            <!--                                    :rules="requiredRules"-->
-            <!--                                    type="password"-->
-            <!--                                    color="accent"-->
-            <!--                            >-->
-            <!--                            </input>-->
+            <h2 class="login__title">{{$t('auth.loginTitle')}}</h2>
+            <p class="login__subtitle">{{$t('auth.loginSubtitle')}}</p>
 
-            <button
+            <form-input
+                    class="form__input"
+                    v-model="username"
+                    :label="$t('auth.user')"
+                    :placeholder="$t('auth.userPlaceholder')"
+                    :rules="emailRules"
+                    :autofocus="true"
+            ></form-input>
+
+            <form-input
+                    class="form__input"
+                    v-bind:label="$t('auth.password')"
+                    v-bind:placeholder="$t('auth.passwordPlaceholder')"
+                    v-model="password"
+                    :rules="requiredRules"
+                    :password="true"
+            ></form-input>
+
+            <btn
                     class="btn form__button"
                     type="submit"
             >
                 {{$t('auth.submit')}}
-            </button>
+            </btn>
         </form>
-    </section>
     </main>
 </template>
 
 <script>
-    import {login, logout} from '../api/auth';
-    import errorMixin from '../mixins/errorMixin';
-    import loginAnimation from '../assets/js/loginAnimation';
+    import formInput from './form-input';
+    import btn from './btn';
+
+    import {login, logout} from '../../api/auth';
+    import errorMixin from '../../mixins/errorMixin';
+    import loginAnimation from '../../assets/js/loginAnimation';
 
     export default {
         name: 'the-login',
+        components: {
+            'form-input': formInput,
+            'btn': btn
+        },
         mixins: [errorMixin],
         data() {
             return {
@@ -96,15 +103,20 @@
 </script>
 
 <style lang="scss" scoped>
+    @import "../../assets/css/main";
 
     .login {
-        background: #212227;
-    }
-    
-    .login__canvas {
-        position: relative;
         width: 100vw;
         height: 100vh;
+        overflow: hidden;
+        color: #fff;
+        background: $login-background;
+    }
+
+    .login__canvas {
+        position: relative;
+        width: 100%;
+        height: 100%;
     }
 
     .logo {
@@ -112,17 +124,15 @@
         top: 70px;
         left: 72px;
         font: 25.5px 'AvantGardeGothicBold';
-        background: #212227;
     }
 
-    .login__wrap {
+    .login__form {
         position: absolute;
         top: 50%;
         left: 50%;
         width: 416px;
         padding: 20px;
         background: transparent;
-        border-radius: 10px;
         transform: translate(-50%, -50%);
         z-index: 2;
     }
@@ -138,17 +148,9 @@
         line-height: 24px;
     }
 
-    .login__form {
-        color: #fff;
-    }
-
     .form__input {
-        height: 48px;
-        padding: 13px 16px;
-        margin-top: 51px;
+        margin-top: 27px;
         font-size: 14px;
-        background: rgba(255, 255, 255, 0.04);
-        border-radius: 4px;
     }
 
     .form__button {
@@ -158,7 +160,7 @@
         margin-right: 0;
     }
 
-     /*Extra Small Devices, Phones*/
+    /*Extra Small Devices, Phones*/
     @media only screen and (max-width: 480px) {
         .logo {
             top: 30px;

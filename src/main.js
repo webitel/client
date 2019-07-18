@@ -5,9 +5,10 @@ import router from './router/router';
 import store from './store/store';
 import i18n from './locale/i18n';
 
+import './assets/css/normalize.scss';
 import './assets/css/bootstrap-grid.min.css';
-import './assets/css/fonts.css';
-import './assets/css/main.css';
+import './assets/css/fonts.scss';
+import './assets/css/main.scss';
 
 Vue.config.productionTip = false;
 

@@ -1,6 +1,6 @@
 import Vue from 'vue';
 import Router from 'vue-router';
-import login from '../components/the-login';
+import login from '../components/login/the-login';
 import home from '../components/the-home';
 import notFound from '../components/the-not-found-component';
 
