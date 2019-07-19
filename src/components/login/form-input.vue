@@ -83,7 +83,7 @@
         width: 100%;
         height: 48px;
         /*different top and bottom padding to vertically align text*/
-        padding: 17px 16px 9px;
+        padding: 15px 16px 11px;
         background: rgba(255, 255, 255, 0.04);
         border-radius: 4px;
 

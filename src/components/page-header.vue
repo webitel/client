@@ -34,7 +34,7 @@
     }
 
     .page__title {
-        font: 20px AvantGardeGothicBold;
+        font: 20px 'AvantGardeBold';
         line-height: 24px;
         letter-spacing: 0.15px;
     }

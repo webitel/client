@@ -3,11 +3,28 @@ $accent-color: #FFC107;
 $form-error-color: #FF4444;
 
 * {
-    font-family: 'AvantGardeGothicMedium', sans-serif;
+    font-family: 'AvantGardeBook', sans-serif;
+}
+
+ul {
+  padding: 0;
+  margin: 0;
+  list-style-type: none;
 }
 
 .no-padding {
   padding: 0;
+}
+
+//FIXME: not sure, if global class logo is needed
+.logo {
+  color: #fff;
+  font: 25.5px 'AvantGardeBold';
+
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
 }
 
 // TODO: rename fs*lh* classes

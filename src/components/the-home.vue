@@ -1,11 +1,15 @@
 <template>
-    <main class="container-fluid no-padding">
-        <div class="row">
-            <app-header></app-header>
+    <div class="container-fluid no-padding">
+        <div class="page-wrap">
             <app-nav></app-nav>
-            <page-header>Dashboard</page-header>
+            <main class="home-page">
+                <div class="row">
+                    <app-header></app-header>
+                    <page-header>Dashboard</page-header>
+                </div>
+            </main>
         </div>
-    </main>
+    </div>
 </template>
 
 <script>
@@ -23,6 +27,13 @@
     }
 </script>
 
-<style scoped>
-
+<style lang="scss" scoped>
+    .page-wrap {
+        display: flex;
+        width: 100vw;
+        overflow-x: hidden;
+    }
+    .home-page {
+        flex-grow: 1;
+    }
 </style>

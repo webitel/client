@@ -124,12 +124,6 @@
         position: absolute;
         top: 70px;
         left: 72px;
-        font: 25.5px 'AvantGardeGothicBold';
-
-        -webkit-user-select: none;
-        -moz-user-select: none;
-        -ms-user-select: none;
-        user-select: none;
     }
 
     .login__form {
@@ -145,6 +139,7 @@
 
     .login__title {
         margin: 0;
+        font-family: 'AvantGardeBold', sans-serif;
     }
 
     .login__subtitle {

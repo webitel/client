@@ -1,15 +1,24 @@
 @font-face {
-    font-family: 'AvantGardeGothicBold';
-    src: url('../fonts/Avant Garde Bold/AvantGardeGothicCTT Bold.eot');
-    src: local('☺'), url('../fonts/Avant Garde Bold/AvantGardeGothicCTT Bold.woff') format('woff'), url('../fonts/Avant Garde Bold/AvantGardeGothicCTT Bold.ttf') format('truetype'), url('../fonts/Avant Garde Bold/AvantGardeGothicCTT Bold.svg') format('svg');
+    font-family: 'AvantGardeBold';
+    src: url('../fonts/AvantGardeBold/itc-avant-garde-gothic-std-bold-589572c7e9955.eot');
+    src: local('☺'), url('../fonts/AvantGardeBold/itc-avant-garde-gothic-std-bold-589572c7e9955.woff') format('woff'), url('../fonts/AvantGardeBold/itc-avant-garde-gothic-std-bold-589572c7e9955.ttf') format('truetype'), url('../fonts/AvantGardeBold/itc-avant-garde-gothic-std-bold-589572c7e9955.svg') format('svg');
     font-weight: normal;
     font-style: normal;
 }
 
 @font-face {
-    font-family: 'AvantGardeGothicMedium';
-    src: url('../fonts/Avant Garde Medium/ITCAvantGardeStd-Md.eot');
-    src: local('☺'), url('../fonts/Avant Garde Medium/ITCAvantGardeStd-Md.woff') format('woff'), url('../fonts/Avant Garde Medium/ITCAvantGardeStd-Md.ttf') format('truetype'), url('../fonts/Avant Garde Medium/ITCAvantGardeStd-Md.svg') format('svg');
+    font-family: 'AvantGardeDemi';
+    src: url('../fonts/AvantGardeDemi/itc-avant-garde-gothic-std-demi-589572a199962.eot');
+    src: local('☺'), url('../fonts/AvantGardeDemi/itc-avant-garde-gothic-std-demi-589572a199962.woff') format('woff'), url('../fonts/AvantGardeDemi/itc-avant-garde-gothic-std-demi-589572a199962.ttf') format('truetype'), url('../fonts/AvantGardeDemi/itc-avant-garde-gothic-std-demi-589572a199962.svg') format('svg');
     font-weight: normal;
     font-style: normal;
 }
+
+@font-face {
+    font-family: 'AvantGardeBook';
+    src: url('../fonts/AvantGardeBook/itc-avant-garde-gothic-std-book-58957161d80eb.eot');
+    src: local('☺'), url('../fonts/AvantGardeBook/itc-avant-garde-gothic-std-book-58957161d80eb.woff') format('woff'), url('../fonts/AvantGardeBook/itc-avant-garde-gothic-std-book-58957161d80eb.ttf') format('truetype'), url('../fonts/AvantGardeBook/itc-avant-garde-gothic-std-book-58957161d80eb.svg') format('svg');
+    font-weight: normal;
+    font-style: normal;
+}
+

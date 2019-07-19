@@ -27,6 +27,7 @@
         padding: 20px 27px;
         letter-spacing: 0.5px;
         text-transform: uppercase;
+        font-family: 'AvantGardeDemi', sans-serif;
         color: #000;
         background: $accent-color;
         border-radius: 4px;

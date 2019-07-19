@@ -66,6 +66,7 @@
             position: relative;
             padding-right: 20px;
             letter-spacing: 0.5px;
+            font-family: 'AvantGardeDemi', sans-serif;
             color: rgba(0, 0, 0, 0.3);
             user-select: none;
         }
