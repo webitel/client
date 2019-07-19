@@ -1,9 +1,10 @@
 <template>
-    <main>
-        <app-header></app-header>
-        <app-nav></app-nav>
-        <page-header></page-header>
-        <router-link to="/login">BUTTON</router-link>
+    <main class="container-fluid no-padding">
+        <div class="row">
+            <app-header></app-header>
+            <app-nav></app-nav>
+            <page-header>Dashboard</page-header>
+        </div>
     </main>
 </template>
 

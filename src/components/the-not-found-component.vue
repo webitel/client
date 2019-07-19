@@ -18,12 +18,11 @@
         font-family: 'AvantGardeGothicMedium', sans-serif;
     }
 
-    .not-found__title {
+    .not-found__title {margin-bottom: 30px;
         font-size: 6em;
     }
 
     .not-found__escape-button {
         font-size: 1.6em;
-        color: #fff;
     }
 </style>
