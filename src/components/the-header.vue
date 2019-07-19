@@ -13,7 +13,7 @@
                     <img class="the-header__img" src="../assets/img/home/user-add.svg" alt="add button">
                 </div>
                 <div class="the-header__user-item the-header__domain-select">
-                    <div class="the-header__domain-select-title">
+                    <div class="the-header__domain-select-title fs14-lh16">
                         Select domain
                     </div>
                 </div>
@@ -65,8 +65,6 @@
         .the-header__domain-select-title {
             position: relative;
             padding-right: 20px;
-            font-size: 14px;
-            line-height: 16px;
             letter-spacing: 0.5px;
             color: rgba(0, 0, 0, 0.3);
             user-select: none;

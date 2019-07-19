@@ -1,7 +1,7 @@
 <template>
     <div class="form-input">
         <label>
-            <span class="label" :class="{'invalid': this.v.$error}">{{this.label}}</span>
+            <span class="label fs14-lh16" :class="{'invalid': this.v.$error}">{{this.label}}</span>
             <input
                     class="input"
                     ref="input"
@@ -10,8 +10,8 @@
                     v-bind:placeholder=placeholder
             />
         </label>
-        <div class="invalid form-input__details" v-show="v.email===false">{{$t('auth.validation.email')}}</div>
-        <div class="invalid form-input__details" v-show="v.required===false">{{$t('auth.validation.required')}}</div>
+        <div class="invalid form-input__details fs12-lh16" v-show="v.email===false">{{$t('auth.validation.email')}}</div>
+        <div class="invalid form-input__details fs12-lh16" v-show="v.required===false">{{$t('auth.validation.required')}}</div>
     </div>
 </template>
 
@@ -74,8 +74,6 @@
     .label {
         display: block;
         margin-bottom: 9px;
-        font-size: 14px;
-        line-height: 16px;
         transition: 0.3s;
     }
 
@@ -98,8 +96,6 @@
         position: absolute;
         bottom: 0;
         left: 0;
-        font-size: 12px;
-        line-height: 16px;
     }
 
     .invalid {

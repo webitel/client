@@ -9,3 +9,28 @@ $form-error-color: #FF4444;
 .no-padding {
   padding: 0;
 }
+
+// TODO: rename fs*lh* classes
+.fs14 {
+  font-size: 14px;
+}
+
+.fs14-lh16{
+  font-size: 14px;
+  line-height: 16px;
+}
+
+.fs12-lh16 {
+  font-size: 12px;
+  line-height: 16px;
+}
+
+.fs24-lh24 {
+  font-size: 24px;
+  line-height: 24px;
+}
+
+.fs14-lh24 {
+  font-size: 24px;
+  line-height: 24px;
+}

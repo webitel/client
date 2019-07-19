@@ -10,11 +10,11 @@
                 ref="login"
                 @submit.prevent="login"
         >
-            <h2 class="login__title">{{$t('auth.loginTitle')}}</h2>
-            <p class="login__subtitle">{{$t('auth.loginSubtitle')}}</p>
+            <h2 class="login__title fs24-lh24">{{$t('auth.loginTitle')}}</h2>
+            <p class="login__subtitle fs12-lh24">{{$t('auth.loginSubtitle')}}</p>
 
             <form-input
-                    class="form__input"
+                    class="form__input fs14"
                     v-model.trim="$v.form.username.$model"
                     :label="$t('auth.user')"
                     :placeholder="$t('auth.userPlaceholder')"
@@ -23,7 +23,7 @@
             ></form-input>
 
             <form-input
-                    class="form__input"
+                    class="form__input fs14"
                     v-model.trim="$v.form.password.$model"
                     :label="$t('auth.password')"
                     :placeholder="$t('auth.passwordPlaceholder')"
@@ -145,19 +145,14 @@
 
     .login__title {
         margin: 0;
-        font-size: 24px;
-        line-height: 24px;
     }
 
     .login__subtitle {
         margin: 10px 0 27px;
-        font-size: 14px;
-        line-height: 24px;
     }
 
     .form__input {
         margin-bottom: 4px;
-        font-size: 14px;
     }
 
     .form__button {

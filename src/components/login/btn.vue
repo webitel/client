@@ -1,6 +1,6 @@
 <template>
     <button
-            class="btn"
+            class="btn fs14-lh16"
             v-bind:type="type"
     >
         <slot></slot>
@@ -25,8 +25,6 @@
     .btn {
         height: 48px;
         padding: 20px 27px;
-        font-size: 14px;
-        line-height: 16px;
         letter-spacing: 0.5px;
         text-transform: uppercase;
         color: #000;
