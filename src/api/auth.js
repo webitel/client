@@ -38,6 +38,7 @@ export function login(credentials) {
 
                 instance.defaults.headers['X-Webitel-Access'] = localStorage.getItem('access-token');
                 getSession();
+                router.replace('/');
             },
             (error) => {
                 throw error;
