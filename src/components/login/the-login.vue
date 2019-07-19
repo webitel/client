@@ -2,22 +2,12 @@
     <main class="login">
         <!--        ANIMATION CANVAS-->
         <canvas ref="login-canvas" class="login__canvas"></canvas>
-
-
-        <!--                    alerts login error-->
-        <!--                    <v-alert-->
-        <!--                            class="error-message"-->
-        <!--                            :value="error"-->
-        <!--                            color="error"-->
-        <!--                    >{{error}}-->
-        <!--                    </v-alert>-->
-
+<!--        TODO: alert component-->
 
         <div class="logo">Webitel</div>
         <form
                 class="login__form"
                 ref="login"
-                v-model="valid"
                 @submit.prevent="login"
         >
             <h2 class="login__title">{{$t('auth.loginTitle')}}</h2>
@@ -25,20 +15,20 @@
 
             <form-input
                     class="form__input"
-                    v-model="username"
+                    v-model.trim="$v.form.username.$model"
                     :label="$t('auth.user')"
                     :placeholder="$t('auth.userPlaceholder')"
-                    :rules="emailRules"
+                    :v="$v.form.username"
                     :autofocus="true"
             ></form-input>
 
             <form-input
                     class="form__input"
-                    v-bind:label="$t('auth.password')"
-                    v-bind:placeholder="$t('auth.passwordPlaceholder')"
-                    v-model="password"
-                    :rules="requiredRules"
-                    :password="true"
+                    v-model.trim="$v.form.password.$model"
+                    :label="$t('auth.password')"
+                    :placeholder="$t('auth.passwordPlaceholder')"
+                    :v="$v.form.password"
+                    :type="'password'"
             ></form-input>
 
             <btn
@@ -54,6 +44,7 @@
 <script>
     import formInput from './form-input';
     import btn from './btn';
+    import { required, email } from 'vuelidate/lib/validators'
 
     import {login, logout} from '../../api/auth';
     import errorMixin from '../../mixins/errorMixin';
@@ -68,18 +59,24 @@
         mixins: [errorMixin],
         data() {
             return {
-                username: 'srgdemon@webitel.lo',
-                password: '12qwaszx',
-
-                valid: true, // form validation trigger
-                emailRules: [
-                    v => !!v || this.$t('auth.validation.required'),
-                    v => /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/.test(v) || this.$t('auth.validation.email'),
-                ],
-                requiredRules: [ // required field rules
-                    v => !!v || this.$t('auth.validation.required'),
-                ],
+                form: {
+                    username: 'srgdemon@webitel.lo',
+                    password: '12qwaszx',
+                }
             };
+        },
+
+        // by vuelidate
+        validations: {
+            form: {
+                username: {
+                    required,
+                    email
+                },
+                password: {
+                    required,
+                }
+            }
         },
         mounted() {
             // width and height are sent to calc dynamic animation border
@@ -87,7 +84,11 @@
         },
         methods: {
             login() {
-                login({username: this.username, password: this.password})
+                this.$v.form.$touch();
+                // if its still pending or an error is returned do not submit
+                if (this.$v.form.$pending || this.$v.form.$error) return;
+
+                login(this.form)
                     .catch((error) => {
                         this.showError(error); // from Mixin
                     });
@@ -124,13 +125,18 @@
         top: 70px;
         left: 72px;
         font: 25.5px 'AvantGardeGothicBold';
+
+        -webkit-user-select: none;
+        -moz-user-select: none;
+        -ms-user-select: none;
+        user-select: none;
     }
 
     .login__form {
         position: absolute;
         top: 50%;
         left: 50%;
-        width: 416px;
+        width: 456px;
         padding: 20px;
         background: transparent;
         transform: translate(-50%, -50%);
@@ -138,25 +144,26 @@
     }
 
     .login__title {
-        margin-bottom: 10px;
+        margin: 0;
         font-size: 24px;
         line-height: 24px;
     }
 
     .login__subtitle {
+        margin: 10px 0 27px;
         font-size: 14px;
         line-height: 24px;
     }
 
     .form__input {
-        margin-top: 27px;
+        margin-bottom: 4px;
         font-size: 14px;
     }
 
     .form__button {
         float: right;
         width: 124px;
-        margin-top: 40px;
+        margin-top: 12px;
         margin-right: 0;
     }
 
@@ -169,7 +176,7 @@
             transform: translateX(-50%);
         }
 
-        .login {
+        .login__form {
             width: 100%;
         }
     }
