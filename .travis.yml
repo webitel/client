@@ -1,0 +1,13 @@
+sudo: required
+language: bash
+services:
+  - docker
+env:
+  - DOCKER_IMAGE_NAME=webitel/web
+before_install:
+  - docker login --username=$DOCKER_HUB_USERNAME --password=$DOCKER_HUB_PASSWORD
+install:
+  - docker build --no-cache -t $DOCKER_IMAGE_NAME .
+script:
+  - docker build -t $DOCKER_IMAGE_NAME .
+  - if [ ! -z "$TRAVIS_TAG" ]; then docker tag $DOCKER_IMAGE_NAME:latest $DOCKER_IMAGE_NAME:$TRAVIS_TAG; fi && docker push $DOCKER_IMAGE_NAME
