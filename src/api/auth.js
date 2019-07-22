@@ -41,6 +41,7 @@ export function login(credentials) {
                 router.replace('/');
             },
             (error) => {
+                Vue.$log.info('login error', error);
                 throw error;
             });
 }

@@ -12,11 +12,14 @@ export default {
     key: 'Key',
     passwordPlaceholder: 'Enter password',
     keyPlaceholder: 'Enter key',
-    submit: 'submit',
+    registerSubmit: 'Register',
+    resetSubmit: 'Reset',
+    loginSubmit: 'Log in',
     validation: {
       email: 'Should look email-like',
       required: 'This field is required',
       confirmPassword: 'incorrect password'
     },
+    toLogin: 'Log in',
   },
 };

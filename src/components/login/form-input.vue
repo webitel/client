@@ -69,7 +69,7 @@
     .form-input {
         position: relative;
         /* for form-input__details bottom 0 */
-        padding-bottom: 24px;
+        padding-bottom: 20px;
     }
 
     .label {

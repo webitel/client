@@ -113,8 +113,8 @@ export default (function () {
             elements.length = 0;
 
             // loop generates elements
-            for (let x = canvas.width * 0.1; x < canvas.width * 0.9; x++) { // add item on each coords
-                for (let y = canvas.height * 0.1; y < canvas.height * 0.9; y++) {// add item on each coords
+            for (let x = canvas.width * 0.05; x < canvas.width * 0.95; x++) { // add item on each coords
+                for (let y = canvas.height * 0.05; y < canvas.height * 0.95; y++) {// add item on each coords
                     if (!((leftBorder < x && x < rightBorder) && (topBorder < y && y < bottomBorder))) {
                         // smaller multiplier => more elements
                         let elementsMultiplier = 12000;

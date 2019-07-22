@@ -2,7 +2,7 @@ export default {
   auth: {
     registerTitle: 'Зарегестрировать Webitel',
     loginTitle: 'Войти в Webitel: ',
-    registerReset: 'Reset password',
+    registerReset: 'Сбросить пароль',
     loginSubtitle: 'Введите даные: ',
     resetPasswordLink: 'Сбросить пароль?',
     user: 'Логин',
@@ -12,11 +12,14 @@ export default {
     passwordPlaceholder: 'Введите пароль',
     key: 'Ключ',
     keyPlaceholder: 'Введите ключ',
-    submit: 'Войти',
+    registerSubmit: 'Зарегестрироваться',
+    resetSubmit: 'Сбросить',
+    loginSubmit: 'Войти',
     validation: {
       email: 'Должно выглядить как эмейл',
       required: 'Поле обязательное',
       confirmPassword: 'Неверный пароль'
     },
+    toLogin: 'Войти',
   },
 };

@@ -43,7 +43,7 @@
                     class="btn form__button"
                     type="submit"
             >
-                {{$t('auth.submit')}}
+                {{$t('auth.loginSubmit')}}
             </btn>
         </form>
     </main>
@@ -121,6 +121,17 @@
         position: absolute;
         bottom: 160px;
         right: 20px;
+        text-decoration: none;
         color: rgba(255, 255, 255, 0.3);
+    }
+
+    .form__reset-password:before {
+        content: '';
+        position: absolute;
+        bottom: 0;
+        right: 0;
+        left: 0;
+        height: 1px;
+        background: rgba(255, 255, 255, 0.3);
     }
 </style>
