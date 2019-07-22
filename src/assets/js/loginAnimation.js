@@ -1,16 +1,8 @@
 export default (function () {
     'use strict';
-    return function (canvas, form) {
 
-        // normalizes canvas size
-        const resize = () => {
-            // canvas.width = canvas.offsetWidth;
-            // canvas.height = canvas.offsetHeight;
-            canvas.width = window.innerWidth;
-            canvas.height = window.innerHeight;
-        };
-        window.addEventListener('resize', resize);
-        resize();
+    let intervalState = null;
+    const start = (canvas, form) => {
 
         // form border for further calculations
         // used to disable animation in this area
@@ -18,6 +10,9 @@ export default (function () {
         const rightBorder = form.offsetLeft + form.offsetWidth + 10;
         const topBorder = form.offsetTop - 10;
         const bottomBorder = form.offsetTop + form.offsetHeight + 10;
+
+        // element list to draw
+        const elements = [];
 
         // calcs responsive icon coords
         const calcIconPos = function (x, y) {   // coords - position in mock
@@ -52,49 +47,10 @@ export default (function () {
         // main function, creates and draws elements
         const animateBackground = function () {
             const canvasContext = canvas.getContext('2d');
-            // element list to draw
-            const elements = [];
 
-            // loop generates elements
-            for (let x = canvas.width * 0.1; x < canvas.width * 0.9; x++) { // add item on each coords
-                for (let y = canvas.height * 0.1; y < canvas.height * 0.9; y++) {// add item on each coords
-                    if (!((leftBorder < x && x < rightBorder) && (topBorder < y && y < bottomBorder))) {
-                        // smaller multiplier => more elements
-                        let elementsMultiplier = 12000;
-                        if (canvas.width < 1024) {
-                            elementsMultiplier = 4000;
-                        }
-                        if (Math.round(Math.random() * elementsMultiplier) === 1) {
-                            elements.push(canvasPresetO({x, y}));
-                        }
-                    }
-                }
-            }
-
-            if (canvas.width >= 768) {
-                elements.push(canvasPresetImg(img.phoneText, calcIconPos(149, 198)));
-                elements.push(canvasPresetImg(img.callCenterOk, calcIconPos(292, 269), {width: 27, height: 24}));
-                elements.push(canvasPresetImg(img.peoplePhone, calcIconPos(172, 423), {width: 26, height: 30}));
-                elements.push(canvasPresetImg(img.phoneText, calcIconPos(422, 387)));
-                elements.push(canvasPresetImg(img.phoneInfo, calcIconPos(159, 595), {width: 28, height: 28}));
-                elements.push(canvasPresetImg(img.callCenterOk, calcIconPos(340, 553), {width: 27, height: 24}));
-                elements.push(canvasPresetImg(img.callCenterSettings, calcIconPos(470, 712), {width: 27, height: 24}));
-                elements.push(canvasPresetImg(img.phoneText, calcIconPos(617, 694)));
-                elements.push(canvasPresetImg(img.phonePlus, calcIconPos(470, 159), {width: 26, height: 31}));
-                elements.push(canvasPresetImg(img.phoneReply, calcIconPos(634, 199), {width: 24, height: 24}));
-                elements.push(canvasPresetImg(img.phoneInfo, calcIconPos(1024, 670), {width: 26, height: 26}));
-                elements.push(canvasPresetImg(img.phoneText, calcIconPos(1163, 550), {width: 26, height: 26}));
-                elements.push(canvasPresetImg(img.callCenterOk, calcIconPos(1013, 438), {width: 25, height: 22}));
-                elements.push(canvasPresetImg(img.peoplePhone, calcIconPos(1175, 337), {width: 24, height: 28}));
-                elements.push(canvasPresetImg(img.phoneText, calcIconPos(916, 313), {width: 24, height: 24}));
-                elements.push(canvasPresetImg(img.peopleCallCenter, calcIconPos(1063, 179), {width: 19, height: 22}));
-            }
-
-            // FIXME: disable after login quit
             // moving animation, which depends on time
-            setInterval(() => {
+            intervalState = setInterval(() => {
                 canvasContext.clearRect(0, 0, canvas.width, canvas.height);
-                // console.log(canvas.width, canvas.height);
 
                 const time = new Date().getTime();
                 elements.forEach((elem) => {
@@ -153,6 +109,45 @@ export default (function () {
 
         };
 
+        function generateElements() {
+            elements.length = 0;
+
+            // loop generates elements
+            for (let x = canvas.width * 0.1; x < canvas.width * 0.9; x++) { // add item on each coords
+                for (let y = canvas.height * 0.1; y < canvas.height * 0.9; y++) {// add item on each coords
+                    if (!((leftBorder < x && x < rightBorder) && (topBorder < y && y < bottomBorder))) {
+                        // smaller multiplier => more elements
+                        let elementsMultiplier = 12000;
+                        if (canvas.width < 1024) {
+                            elementsMultiplier = 4000;
+                        }
+                        if (Math.round(Math.random() * elementsMultiplier) === 1) {
+                            elements.push(canvasPresetO({x, y}));
+                        }
+                    }
+                }
+            }
+
+            if (canvas.width >= 768) {
+                elements.push(canvasPresetImg(img.phoneText, calcIconPos(149, 198)));
+                elements.push(canvasPresetImg(img.callCenterOk, calcIconPos(292, 269), {width: 27, height: 24}));
+                elements.push(canvasPresetImg(img.peoplePhone, calcIconPos(172, 423), {width: 26, height: 30}));
+                elements.push(canvasPresetImg(img.phoneText, calcIconPos(422, 387)));
+                elements.push(canvasPresetImg(img.phoneInfo, calcIconPos(159, 595), {width: 28, height: 28}));
+                elements.push(canvasPresetImg(img.callCenterOk, calcIconPos(340, 553), {width: 27, height: 24}));
+                elements.push(canvasPresetImg(img.callCenterSettings, calcIconPos(470, 712), {width: 27, height: 24}));
+                elements.push(canvasPresetImg(img.phoneText, calcIconPos(617, 694)));
+                elements.push(canvasPresetImg(img.phonePlus, calcIconPos(470, 159), {width: 26, height: 31}));
+                elements.push(canvasPresetImg(img.phoneReply, calcIconPos(634, 199), {width: 24, height: 24}));
+                elements.push(canvasPresetImg(img.phoneInfo, calcIconPos(1024, 670), {width: 26, height: 26}));
+                elements.push(canvasPresetImg(img.phoneText, calcIconPos(1163, 550), {width: 26, height: 26}));
+                elements.push(canvasPresetImg(img.callCenterOk, calcIconPos(1013, 438), {width: 25, height: 22}));
+                elements.push(canvasPresetImg(img.peoplePhone, calcIconPos(1175, 337), {width: 24, height: 28}));
+                elements.push(canvasPresetImg(img.phoneText, calcIconPos(916, 313), {width: 24, height: 24}));
+                elements.push(canvasPresetImg(img.peopleCallCenter, calcIconPos(1063, 179), {width: 19, height: 22}));
+            }
+        }
+
 
         function getRandomFromRange(min, max) {
             return Math.floor(Math.random() * (max - min + 1)) + min;
@@ -178,6 +173,30 @@ export default (function () {
         img.phoneReply.src = require('../img/login/phone-replying.svg');
         img.phoneText.src = require('../img/login/phone-text.svg');
 
+
+
+        // normalizes canvas size
+        const resize = () => {
+            // canvas.width = canvas.offsetWidth;
+            // canvas.height = canvas.offsetHeight;
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+            generateElements();
+        };
+        window.addEventListener('resize', resize);
+        resize();
+
         animateBackground();
+    };
+
+    const end = () => {
+        console.log('end', intervalState);
+        clearInterval(intervalState);
+        console.log('end2', intervalState);
+    };
+
+    return {
+        start,
+        end
     };
 }());

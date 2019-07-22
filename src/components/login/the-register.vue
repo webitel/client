@@ -80,7 +80,8 @@
                 form: {
                     username: 'srgdemon@webitel.lo',
                     password: '12qwaszx',
-                }
+                },
+                animationInstance: null
             };
         },
 
@@ -97,8 +98,12 @@
             }
         },
         mounted() {
-            // width and height are sent to calc dynamic animation border
-            loginAnimation(this.$refs['auth-canvas'], this.$refs.register);
+            // form is sent to calc dynamic animation border
+            this.animationInstance = loginAnimation;
+            this.animationInstance.start(this.$refs['auth-canvas'], this.$refs.register);
+        },
+        deactivated() {
+            this.animationInstance.end();
         },
         methods: {
             submit() {
@@ -118,27 +123,5 @@
 <style lang="scss" scoped>
     @import "../../assets/css/main";
     @import "../../assets/css/auth";
-
-
-    /*@media only screen and (max-width: 1440px) {*/
-    /*    .auth {*/
-    /*        height: 800px;*/
-    /*    }*/
-    /*}*/
-
-    /*!*Extra Small Devices, Phones*!*/
-    /*@media only screen and (max-width: 992px) {*/
-    /*    .auth {*/
-    /*        height: 1200px;*/
-    /*    }*/
-    /*}*/
-
-    /*!*Extra Small Devices, Phones*!*/
-    /*@media only screen and (max-width: 480px) {*/
-    /*    .auth {*/
-    /*        min-height: 100vh;*/
-    /*        height: 740px;*/
-    /*    }*/
-    /*}*/
 
 </style>

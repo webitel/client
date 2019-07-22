@@ -3,7 +3,11 @@ $accent-color: #FFC107;
 $form-error-color: #FF4444;
 
 * {
-    font-family: 'AvantGardeBook', sans-serif;
+  font-family: 'AvantGardeBook', sans-serif;
+}
+
+body {
+  display: flex;
 }
 
 ul {
@@ -33,7 +37,7 @@ ul {
   font-size: 14px;
 }
 
-.fs14-lh16{
+.fs14-lh16 {
   font-size: 14px;
   line-height: 16px;
 }

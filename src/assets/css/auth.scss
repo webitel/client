@@ -11,8 +11,9 @@
 .canvas {
   position: fixed;
   top: 0;
-  width: 100vw;
-  height: 100vh;
+  right: 0;
+  bottom: 0;
+  left: 0;
 }
 
 .logo {
@@ -22,6 +23,7 @@
 }
 
 .auth__form {
+  position: relative;
   width: 456px;
   padding: 20px;
   margin: auto;
@@ -42,7 +44,6 @@
 }
 
 .form__button {
-  //float: right;
   width: 124px;
   margin-top: 12px;
   margin-right: 0;

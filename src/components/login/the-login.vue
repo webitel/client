@@ -2,7 +2,7 @@
     <main class="auth login">
         <!--        ANIMATION CANVAS-->
         <canvas ref="auth-canvas" class="canvas"></canvas>
-<!--        TODO: alert component-->
+        <!--        TODO: alert component-->
 
         <div class="logo">Webitel</div>
         <form
@@ -44,7 +44,7 @@
 <script>
     import formInput from './form-input';
     import btn from './btn';
-    import { required, email } from 'vuelidate/lib/validators'
+    import {required, email} from 'vuelidate/lib/validators'
 
     import {login, logout} from '../../api/auth';
     import errorMixin from '../../mixins/errorMixin';
@@ -62,7 +62,8 @@
                 form: {
                     username: 'srgdemon@webitel.lo',
                     password: '12qwaszx',
-                }
+                },
+                animationInstance: null
             };
         },
 
@@ -80,7 +81,11 @@
         },
         mounted() {
             // form is sent to calc dynamic animation border
-           loginAnimation(this.$refs['auth-canvas'], this.$refs.login);
+            this.animationInstance = loginAnimation;
+            this.animationInstance.start(this.$refs['auth-canvas'], this.$refs.login);
+        },
+        deactivated(){
+            this.animationInstance.end();
         },
         methods: {
             submit() {
