@@ -119,12 +119,26 @@
     @import "../../assets/css/main";
     @import "../../assets/css/auth";
 
-    /*Extra Small Devices, Phones*/
-    @media only screen and (max-width: 480px) {
-        .auth {
-            min-height: 100vh;
-            height: 740px;
-        }
-    }
+
+    /*@media only screen and (max-width: 1440px) {*/
+    /*    .auth {*/
+    /*        height: 800px;*/
+    /*    }*/
+    /*}*/
+
+    /*!*Extra Small Devices, Phones*!*/
+    /*@media only screen and (max-width: 992px) {*/
+    /*    .auth {*/
+    /*        height: 1200px;*/
+    /*    }*/
+    /*}*/
+
+    /*!*Extra Small Devices, Phones*!*/
+    /*@media only screen and (max-width: 480px) {*/
+    /*    .auth {*/
+    /*        min-height: 100vh;*/
+    /*        height: 740px;*/
+    /*    }*/
+    /*}*/
 
 </style>

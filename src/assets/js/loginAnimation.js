@@ -14,8 +14,8 @@ export default (function () {
 
         // form border for further calculations
         // used to disable animation in this area
-        const leftBorder = form.offsetLeft - form.offsetWidth/2 - 10;
-        const rightBorder = form.offsetLeft + form.offsetWidth/2 + 10;
+        const leftBorder = form.offsetLeft - 10;
+        const rightBorder = form.offsetLeft + form.offsetWidth + 10;
         const topBorder = form.offsetTop - 10;
         const bottomBorder = form.offsetTop + form.offsetHeight + 10;
 
@@ -60,7 +60,7 @@ export default (function () {
                 for (let y = canvas.height * 0.1; y < canvas.height * 0.9; y++) {// add item on each coords
                     if (!((leftBorder < x && x < rightBorder) && (topBorder < y && y < bottomBorder))) {
                         // smaller multiplier => more elements
-                        let elementsMultiplier = 16000;
+                        let elementsMultiplier = 12000;
                         if (canvas.width < 1024) {
                             elementsMultiplier = 4000;
                         }
