@@ -3,7 +3,7 @@
 .auth {
   width: 100vw;
   min-height: 100vh;
-  padding: 30vh 0 10vh;
+  padding: 25vh 0 10vh;
   color: #fff;
   background: $login-background;
 }
@@ -16,10 +16,21 @@
   left: 0;
 }
 
-.logo {
+.auth__header {
+  display: flex;
+  justify-content: space-between;
   position: absolute;
   top: 70px;
-  left: 72px;
+  left: 0;
+  right: 0;
+  padding: 0 72px;
+}
+
+.auth__link {
+  font: 20px 'AvantGardeBold';
+  line-height: 24px;
+  text-decoration: underline;
+  color: #fff;
 }
 
 .auth__form {
@@ -44,9 +55,9 @@
 }
 
 .form__button {
+  display: block;
   width: 124px;
-  margin-top: 12px;
-  margin-right: 0;
+  margin: 12px 0 0 auto;
 }
 
 /*Extra Small Devices, Phones*/

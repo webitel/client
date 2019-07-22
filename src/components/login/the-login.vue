@@ -4,7 +4,10 @@
         <canvas ref="auth-canvas" class="canvas"></canvas>
         <!--        TODO: alert component-->
 
-        <div class="logo">Webitel</div>
+        <header class="auth__header">
+            <div class="logo">Webitel</div>
+        </header>
+
         <form
                 class="auth__form"
                 ref="login"
@@ -30,6 +33,11 @@
                     :v="$v.form.password"
                     :type="'password'"
             ></form-input>
+
+            <router-link
+                    class="form__reset-password fs14-lh16"
+                    :to="{ path: '/register', query: { reset: true }}">
+                {{$t('auth.resetPasswordLink')}}</router-link>
 
             <btn
                     class="btn form__button"
@@ -98,6 +106,9 @@
                         this.showError(error); // from Mixin
                     });
             },
+            toReset() {
+                this.$router.push({ name: 'register', params: {reset: 'true' }})
+            }
         },
     };
 </script>
@@ -106,4 +117,10 @@
     @import "../../assets/css/main";
     @import "../../assets/css/auth";
 
+    .form__reset-password {
+        position: absolute;
+        bottom: 160px;
+        right: 20px;
+        color: rgba(255, 255, 255, 0.3);
+    }
 </style>

@@ -12,6 +12,7 @@
         </label>
         <div class="invalid form-input__details fs12-lh16" v-show="v.email===false">{{$t('auth.validation.email')}}</div>
         <div class="invalid form-input__details fs12-lh16" v-show="v.required===false">{{$t('auth.validation.required')}}</div>
+        <div class="invalid form-input__details fs12-lh16" v-show="v.sameAs===false">{{$t('auth.validation.confirmPassword')}}</div>
     </div>
 </template>
 

@@ -4,13 +4,16 @@
         <canvas ref="auth-canvas" class="canvas"></canvas>
         <!--        TODO: alert component-->
 
-        <div class="logo">Webitel</div>
+        <header class="auth__header">
+            <div class="logo">Webitel</div>
+            <router-link class="auth__link" to="/login">Log in</router-link>
+        </header>
         <form
                 class="auth__form"
                 ref="register"
                 @submit.prevent="submit"
         >
-            <h2 class="auth__title fs24-lh24">{{$t('auth.loginTitle')}}</h2>
+            <h2 class="auth__title fs24-lh24">{{computeTitle}}</h2>
             <p class="auth__subtitle fs12-lh24">{{$t('auth.loginSubtitle')}}</p>
 
             <form-input
@@ -25,6 +28,7 @@
             <form-input
                     class="form__input fs14"
                     v-model.trim="$v.form.password.$model"
+                    ref="passwordRef"
                     :label="$t('auth.password')"
                     :placeholder="$t('auth.passwordPlaceholder')"
                     :v="$v.form.password"
@@ -33,20 +37,19 @@
 
             <form-input
                     class="form__input fs14"
-                    v-model.trim="$v.form.password.$model"
-                    :label="$t('auth.password')"
+                    v-model.trim="$v.form.confirmPassword.$model"
+                    :label="$t('auth.confirmPassword')"
                     :placeholder="$t('auth.passwordPlaceholder')"
-                    :v="$v.form.password"
+                    :v="$v.form.confirmPassword"
                     :type="'password'"
             ></form-input>
 
             <form-input
                     class="form__input fs14"
-                    v-model.trim="$v.form.password.$model"
-                    :label="$t('auth.password')"
-                    :placeholder="$t('auth.passwordPlaceholder')"
-                    :v="$v.form.password"
-                    :type="'password'"
+                    v-model.trim="$v.form.key.$model"
+                    :label="$t('auth.key')"
+                    :placeholder="$t('auth.keyPlaceholder')"
+                    :v="$v.form.key"
             ></form-input>
 
             <btn
@@ -62,7 +65,7 @@
 <script>
     import formInput from './form-input';
     import btn from './btn';
-    import {required, email} from 'vuelidate/lib/validators'
+    import {required, email, sameAs} from 'vuelidate/lib/validators'
 
     import {login, logout} from '../../api/auth';
     import errorMixin from '../../mixins/errorMixin';
@@ -80,6 +83,8 @@
                 form: {
                     username: 'srgdemon@webitel.lo',
                     password: '12qwaszx',
+                    confirmPassword: '12qwaszx',
+                    key: 'wcBMA1HFhJxxpGedAQgALQ5DMZpjTudS7hL+qVO2N1YgYqOXQRmdhXGzbGZjKudztEua1KmNB7rRYQZUWN6evslMcZV+KItxJxHsPBcQw3W+abQlXbkutMru1daCZGYioE8h3g/7aVB7EafuoAhjckSIzWdDTQvP1PsBUN8bqYuR6cl/H6ERTspktooWCBYx46C3U2VazFrkBr5qYvz18lVecMMVnbleqDwgMegFtw+cqmSKz6TndtjQhRsrtjrKLYWL+xsbtGRNublPtO9s9Xi3HB78CJrsdzh3keB19N6yE789oXxWfDdXyP1yDPXnm87ueCHHOnzJ9h5yimyXRxfcx7jdETlGzXsVQ4BMa9LgAeMSL2+uLcecU+EG0eFCZOM3IwO/oCJyG+LUysB74MvgTeAP4Ruh4LHkrjxg5nKsCQbO8XCNkNsNG+AY4tE0Ne7gT+IzOKFq4KjnPMsdYzPucxJypXNgXDFgZ+swfS7UiTa4xAVyGe4eZXnYeDNDnPQNUUV7vILpQIYHk2/7N75cyDwTTWFKbcT9xqfvTi5w/8GLwBcDA1p/HWyqweIBukvjQnwXSqK8pRE5gIa13qqVD+O8oa94eGskbqSqFw4dY4hRCsZaRx1Ty3Hg0eAS4PPhj9zgj+SFcuOxCaEcI5UZmf4bYAjG4+Z+apasN+4S4r9LJP/hMWzhuDfhVqPo5Z0uXfd0s2bHKCEyiNAg66nnI88dkHeHz1/Sfns1f7dBQBa40o/dFTMdYwMP0jVj9RAf88Qp5yCKJUoks3JUD43a6CXvWTWyBa/LMyT7ADsgHz8KESzHcX1jLiMnsWiUBXCXHiICyMr2iKlDvFDGnjBmqm6/8rDN6nEyhIP+RKIAFKDhde3EWAgVmoamiw6ijO65QuJaGVVzUD1Ouswthlu1qm4UlMQTOTGeINFxdZsEwT9HVlbEF69CXehF7oJdhSu5bqt1NI2ngcFplsGQfDw+y4+yzqMwLTi69RLjNyQy9xq/rr8IdL9B8ocr4FsAlySqovKRujibD2yS42P1meTSECie6iXH4yFf1I1C5zWq4jls5N7h4wgA'
                 },
                 animationInstance: null
             };
@@ -94,6 +99,12 @@
                 },
                 password: {
                     required,
+                },
+                confirmPassword: {
+                    sameAs: sameAs('password')
+                },
+                key: {
+                    required
                 }
             }
         },
@@ -117,6 +128,11 @@
                     });
             }
         },
+        computed: {
+            computeTitle() {
+                return this.$route.query.reset ? this.$t('auth.registerReset') : this.$t('auth.registerTitle');
+            }
+        }
     };
 </script>
 

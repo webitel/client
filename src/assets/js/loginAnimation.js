@@ -190,9 +190,7 @@ export default (function () {
     };
 
     const end = () => {
-        console.log('end', intervalState);
         clearInterval(intervalState);
-        console.log('end2', intervalState);
     };
 
     return {
