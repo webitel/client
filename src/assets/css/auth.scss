@@ -1,0 +1,65 @@
+@import "./main";
+
+.auth {
+  width: 100vw;
+  height: 100vh;
+  overflow: hidden;
+  color: #fff;
+  background: $login-background;
+}
+
+.canvas {
+  position: relative;
+  width: 100%;
+  height: 100%;
+}
+
+.logo {
+  position: absolute;
+  top: 70px;
+  left: 72px;
+}
+.auth__form {
+  position: absolute;
+  top: 20%;
+  left: 50%;
+  width: 456px;
+  padding: 20px;
+  background: transparent;
+  transform: translateX(-50%);
+  z-index: 2;
+}
+
+.auth__title {
+  margin: 0;
+  font-family: 'AvantGardeBold', sans-serif;
+}
+
+.auth__subtitle {
+  margin: 10px 0 27px;
+}
+
+.form__input {
+  margin-bottom: 4px;
+}
+
+.form__button {
+  float: right;
+  width: 124px;
+  margin-top: 12px;
+  margin-right: 0;
+}
+
+/*Extra Small Devices, Phones*/
+@media only screen and (max-width: 480px) {
+  .logo {
+    top: 30px;
+    left: 50%;
+    font-size: 36px;
+    transform: translateX(-50%);
+  }
+
+  .auth__form {
+    width: 100%;
+  }
+}

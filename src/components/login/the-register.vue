@@ -1,13 +1,13 @@
 <template>
-    <main class="auth login">
+    <main class="auth register">
         <!--        ANIMATION CANVAS-->
         <canvas ref="auth-canvas" class="canvas"></canvas>
-<!--        TODO: alert component-->
+        <!--        TODO: alert component-->
 
         <div class="logo">Webitel</div>
         <form
                 class="auth__form"
-                ref="login"
+                ref="register"
                 @submit.prevent="submit"
         >
             <h2 class="auth__title fs24-lh24">{{$t('auth.loginTitle')}}</h2>
@@ -20,6 +20,24 @@
                     :placeholder="$t('auth.userPlaceholder')"
                     :v="$v.form.username"
                     :autofocus="true"
+            ></form-input>
+
+            <form-input
+                    class="form__input fs14"
+                    v-model.trim="$v.form.password.$model"
+                    :label="$t('auth.password')"
+                    :placeholder="$t('auth.passwordPlaceholder')"
+                    :v="$v.form.password"
+                    :type="'password'"
+            ></form-input>
+
+            <form-input
+                    class="form__input fs14"
+                    v-model.trim="$v.form.password.$model"
+                    :label="$t('auth.password')"
+                    :placeholder="$t('auth.passwordPlaceholder')"
+                    :v="$v.form.password"
+                    :type="'password'"
             ></form-input>
 
             <form-input
@@ -44,14 +62,14 @@
 <script>
     import formInput from './form-input';
     import btn from './btn';
-    import { required, email } from 'vuelidate/lib/validators'
+    import {required, email} from 'vuelidate/lib/validators'
 
     import {login, logout} from '../../api/auth';
     import errorMixin from '../../mixins/errorMixin';
     import loginAnimation from '../../assets/js/loginAnimation';
 
     export default {
-        name: 'the-login',
+        name: 'the-register',
         components: {
             'form-input': formInput,
             'btn': btn
@@ -79,8 +97,8 @@
             }
         },
         mounted() {
-            // form is sent to calc dynamic animation border
-           loginAnimation(this.$refs['auth-canvas'], this.$refs.login);
+            // width and height are sent to calc dynamic animation border
+            loginAnimation(this.$refs['auth-canvas'], this.$refs.register);
         },
         methods: {
             submit() {
@@ -92,7 +110,7 @@
                     .catch((error) => {
                         this.showError(error); // from Mixin
                     });
-            },
+            }
         },
     };
 </script>
@@ -100,5 +118,13 @@
 <style lang="scss" scoped>
     @import "../../assets/css/main";
     @import "../../assets/css/auth";
+
+    /*Extra Small Devices, Phones*/
+    @media only screen and (max-width: 480px) {
+        .auth {
+            min-height: 100vh;
+            height: 740px;
+        }
+    }
 
 </style>

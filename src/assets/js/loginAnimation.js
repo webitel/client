@@ -1,6 +1,6 @@
 export default (function () {
     'use strict';
-    return function (canvas, formWidth, formHeight) {
+    return function (canvas, form) {
 
         // normalizes canvas size
         const resize = () => {
@@ -14,11 +14,10 @@ export default (function () {
 
         // form border for further calculations
         // used to disable animation in this area
-        const leftBorder = canvas.width / 2 - formWidth / 2 - 10;
-        const rightBorder = canvas.width / 2 + formWidth / 2 + 10;
-        const topBorder = canvas.height / 2 - formHeight / 2 - 10;
-        const bottomBorder = canvas.height / 2 + formHeight / 2 + 10;
-
+        const leftBorder = form.offsetLeft - form.offsetWidth/2 - 10;
+        const rightBorder = form.offsetLeft + form.offsetWidth/2 + 10;
+        const topBorder = form.offsetTop - 10;
+        const bottomBorder = form.offsetTop + form.offsetHeight + 10;
 
         // calcs responsive icon coords
         const calcIconPos = function (x, y) {   // coords - position in mock
@@ -29,7 +28,7 @@ export default (function () {
             x = x * canvas.width / mockScreen.width;
             y = y * canvas.height / mockScreen.height;
 
-            if (canvas.width < 1280) {
+            // if (canvas.width < 1280) {
                 // if icon's default coords are in form area
                 if ((leftBorder < x && x < rightBorder) && (topBorder < y && y < bottomBorder)) {
                     if (canvas.width / 2 > x) {      // if element is in the left half
@@ -44,7 +43,7 @@ export default (function () {
                         }
                     }
                 }
-            }
+            // }
             return {
                 x, y
             }
@@ -59,7 +58,7 @@ export default (function () {
             // loop generates elements
             for (let x = canvas.width * 0.1; x < canvas.width * 0.9; x++) { // add item on each coords
                 for (let y = canvas.height * 0.1; y < canvas.height * 0.9; y++) {// add item on each coords
-                    if ((leftBorder > x || x > rightBorder) || (topBorder > y || y > bottomBorder)) {
+                    if (!((leftBorder < x && x < rightBorder) && (topBorder < y && y < bottomBorder))) {
                         // smaller multiplier => more elements
                         let elementsMultiplier = 16000;
                         if (canvas.width < 1024) {
@@ -91,9 +90,11 @@ export default (function () {
                 elements.push(canvasPresetImg(img.peopleCallCenter, calcIconPos(1063, 179), {width: 19, height: 22}));
             }
 
+            // FIXME: disable after login quit
             // moving animation, which depends on time
             setInterval(() => {
                 canvasContext.clearRect(0, 0, canvas.width, canvas.height);
+                // console.log(canvas.width, canvas.height);
 
                 const time = new Date().getTime();
                 elements.forEach((elem) => {
