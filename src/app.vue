@@ -5,14 +5,14 @@
 </template>
 
 <script>
-    import {getSession} from './api/auth';
+import { getSession } from './api/auth';
 
-    export default {
-        name: 'app',
-        created() {
-            getSession();
-        },
-    };
+export default {
+  name: 'app',
+  created() {
+    getSession();
+  },
+};
 </script>
 
 <style>

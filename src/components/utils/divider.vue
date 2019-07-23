@@ -3,9 +3,9 @@
 </template>
 
 <script>
-    export default {
-        name: "divider"
-    }
+export default {
+  name: 'divider',
+};
 </script>
 
 <style scoped>

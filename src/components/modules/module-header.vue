@@ -13,16 +13,16 @@
 </template>
 
 <script>
-    import btn from './login/btn';
-    import divider from './divider';
+import btn from '../utils/btn';
+import divider from '../utils/divider';
 
-    export default {
-        name: "page-header",
-        components: {
-            'btn': btn,
-            'divider': divider
-        }
-    }
+export default {
+  name: 'page-header',
+  components: {
+    'btn': btn,
+    'divider': divider,
+  },
+};
 </script>
 
 <style scoped>

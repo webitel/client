@@ -18,7 +18,7 @@ export default {
     validation: {
       email: 'Should look email-like',
       required: 'This field is required',
-      confirmPassword: 'incorrect password'
+      confirmPassword: 'incorrect password',
     },
     toLogin: 'Log in',
   },

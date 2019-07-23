@@ -18,7 +18,7 @@ export default {
     validation: {
       email: 'Должно выглядить как эмейл',
       required: 'Поле обязательное',
-      confirmPassword: 'Неверный пароль'
+      confirmPassword: 'Неверный пароль',
     },
     toLogin: 'Войти',
   },

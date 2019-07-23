@@ -35,7 +35,7 @@
             ></form-input>
 
             <router-link
-                    class="form__reset-password fs14-lh16"
+                    class="form__reset-password border-underline fs14-lh16"
                     :to="{ path: '/register', query: { reset: true }}">
                 {{$t('auth.resetPasswordLink')}}</router-link>
 
@@ -50,67 +50,64 @@
 </template>
 
 <script>
-    import formInput from './form-input';
-    import btn from './btn';
-    import {required, email} from 'vuelidate/lib/validators'
+import { required, email } from 'vuelidate/lib/validators';
+import formInput from '../utils/form-input';
+import btn from '../utils/btn';
 
-    import {login, logout} from '../../api/auth';
-    import errorMixin from '../../mixins/errorMixin';
-    import loginAnimation from '../../assets/js/loginAnimation';
+import { login, logout } from '../../api/auth';
+import errorMixin from '../../mixins/errorMixin';
+import loginAnimation from '../../assets/js/loginAnimation';
 
-    export default {
-        name: 'the-login',
-        components: {
-            'form-input': formInput,
-            'btn': btn
-        },
-        mixins: [errorMixin],
-        data() {
-            return {
-                form: {
-                    username: 'srgdemon@webitel.lo',
-                    password: '12qwaszx',
-                },
-                animationInstance: null
-            };
-        },
-
-        // by vuelidate
-        validations: {
-            form: {
-                username: {
-                    required,
-                    email
-                },
-                password: {
-                    required,
-                }
-            }
-        },
-        mounted() {
-            // form is sent to calc dynamic animation border
-            this.animationInstance = loginAnimation;
-            this.animationInstance.start(this.$refs['auth-canvas'], this.$refs.login);
-        },
-        deactivated(){
-            this.animationInstance.end();
-        },
-        methods: {
-            submit() {
-                this.$v.form.$touch();
-                // if its still pending or an error is returned do not submit
-                if (this.$v.form.$pending || this.$v.form.$error) return;
-
-                login(this.form)
-                    .catch((error) => {
-                        this.showError(error); // from Mixin
-                    });
-            },
-            toReset() {
-                this.$router.push({ name: 'register', params: {reset: 'true' }})
-            }
-        },
+export default {
+  name: 'the-login',
+  components: {
+    'form-input': formInput,
+    btn,
+  },
+  mixins: [errorMixin],
+  data() {
+    return {
+      form: {
+        username: 'srgdemon@webitel.lo',
+        password: '12qwaszx',
+      },
+      animationInstance: null,
     };
+  },
+
+  // by vuelidate
+  validations: {
+    form: {
+      username: {
+        required,
+        email,
+      },
+      password: {
+        required,
+      },
+    },
+  },
+  mounted() {
+    // form is sent to calc dynamic animation border
+    this.animationInstance = loginAnimation;
+    this.animationInstance.start(this.$refs['auth-canvas'], this.$refs.login);
+  },
+  deactivated() {
+    this.animationInstance.end();
+  },
+  methods: {
+    submit() {
+      this.$v.form.$touch();
+      // if its still pending or an error is returned do not submit
+      if (this.$v.form.$pending || this.$v.form.$error) return;
+
+      login(this.form)
+        .catch((error) => {
+          this.showError(error); // from Mixin
+        });
+    },
+  },
+};
 </script>
 
 <style lang="scss" scoped>
@@ -125,12 +122,7 @@
         color: rgba(255, 255, 255, 0.3);
     }
 
-    .form__reset-password:before {
-        content: '';
-        position: absolute;
-        bottom: 0;
-        right: 0;
-        left: 0;
+    .border-underline:before {
         height: 1px;
         background: rgba(255, 255, 255, 0.3);
     }

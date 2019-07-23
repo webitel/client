@@ -8,15 +8,15 @@
 </template>
 
 <script>
-    export default {
-        name: "btn",
-        props: {
-            type: {
-                type: String,
-                default: 'button'
-            }
-        }
-    }
+export default {
+  name: 'btn',
+  props: {
+    type: {
+      type: String,
+      default: 'button',
+    },
+  },
+};
 </script>
 
 <style lang="scss" scoped>

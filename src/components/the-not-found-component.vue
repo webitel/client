@@ -6,19 +6,19 @@
 </template>
 
 <script>
-    export default {
-        name: "the-not-found-component"
-    }
+export default {
+  name: 'the-not-found-component',
+};
 </script>
 
 <style scoped>
     .not-found {
-        text-align: center;
-        margin-top: 90px;
+        margin: 90px auto 0;
         font-family: 'AvantGardeGothicMedium', sans-serif;
     }
 
-    .not-found__title {margin-bottom: 30px;
+    .not-found__title {
+        margin-bottom: 30px;
         font-size: 6em;
     }
 

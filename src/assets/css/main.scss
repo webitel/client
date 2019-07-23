@@ -7,19 +7,36 @@ $form-error-color: #FF4444;
   font-family: 'AvantGardeBook', sans-serif;
 }
 
+//disables scrollbar on 100vh auth on small laptops
 body {
   display: flex;
 }
 
+//reset ul styles
 ul {
   padding: 0;
   margin: 0;
   list-style-type: none;
 }
 
+// helper class
 .no-padding {
   padding: 0;
 }
+
+// helper underline class
+.border-underline {
+  position: relative;
+  &:before {
+    content: '';
+    position: absolute;
+    bottom: 2px;
+    left: 0;
+    right: 0;
+    height: 2px;
+  }
+}
+
 
 //FIXME: not sure, if global class logo is needed
 .logo {
