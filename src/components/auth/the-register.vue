@@ -162,6 +162,7 @@ export default {
     }
     /*border*/
     .border-underline:before {
+        bottom: 6px;
         background: #fff;
     }
 </style>

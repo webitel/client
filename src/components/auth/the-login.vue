@@ -116,7 +116,7 @@ export default {
 
     .form__reset-password {
         position: absolute;
-        bottom: 160px;
+        bottom: 146px;
         right: 20px;
         text-decoration: none;
         color: rgba(255, 255, 255, 0.3);
