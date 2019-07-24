@@ -3,9 +3,10 @@
         <app-nav></app-nav>
         <main class="module permissions">
             <app-header></app-header>
-            <module-header>Permissions | Roles</module-header>
+            <module-header :primaryAction="create">{{$t('modules.permissions.permissionsTitle')}} |
+                {{$tc('modules.permissions.permissionsRole', 2)}}</module-header>
             <section class="module-content">
-                <h3 class="module-content__header">All roles</h3>
+                <h3 class="module-content__header">{{$t('modules.permissions.allRoles')}}</h3>
 
                 <vuetable
                         :api-mode="false"
@@ -50,9 +51,9 @@
             return {
                 //vuetable prop
                 fields: [
-                    'head',
-                    'body',
-                    {name: '__slot:image', title: 'Action'},
+                    {name: 'head', title: this.$t('modules.permissions.name')},
+                    {name: 'body', title: this.$t('modules.description')},
+                    {name: '__slot:image', title: this.$t('modules.action')},
                 ],
                 test: []
             }
@@ -76,8 +77,13 @@
             })
         },
         methods: {
+            create() {
+                this.$router.push('/permissions/new');
+            },
             action(action) {
-                console.log(action);
+                if(action === 'edit') {
+                    this.$router.push({path: 'permissions/new', query: {edit: 'true'}});
+                }
             }
         }
     }

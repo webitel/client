@@ -5,6 +5,7 @@ import register from '../components/auth/the-register';
 import home from '../components/modules/home/the-home';
 import notFound from '../components/the-not-found-component';
 import permissions from '../components/modules/permissions/the-permissions';
+import permissionsNew from '../components/modules/permissions/permissions-new';
 
 Vue.use(Router);
 
@@ -30,7 +31,13 @@ export default new Router({
     {
       path: '/permissions',
       name: 'permissions',
-      component: permissions
+      component: permissions,
+      children: []
+    },
+    {
+      path: '/permissions/new',
+      name: 'permissions-new',
+      component: permissionsNew
     },
     {
       path: '*',

@@ -29,6 +29,10 @@
     }
   }
 
+  .vuetable-action {
+    cursor: pointer;
+  }
+
   .vuetable-action:first-child {
     margin-right: 30px;
   }

@@ -35,4 +35,10 @@ export default {
         border: none;
         outline: none;
     }
+
+    .secondary-btn {
+        color: rgba(0, 0, 0, 0.3);
+        background: transparent;
+        border: 1px solid rgba(0, 0, 0, 0.3);
+    }
 </style>

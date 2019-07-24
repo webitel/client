@@ -5,64 +5,91 @@
             <input
                     class="input"
                     ref="input"
+                    v-if="!textarea"
                     v-model="validation"
                     @input="$emit('input, $event.target.value')"
                     v-bind:placeholder=placeholder
             />
+            <textarea
+                    class="input"
+                    ref="input"
+                    v-if="textarea"
+                    v-model="validation"
+                    @input="$emit('input, $event.target.value')"
+                    v-bind:placeholder=placeholder
+            ></textarea>
         </label>
         <div class="invalid form-input__details fs12-lh16" v-show="v.email===false">
-            {{$t('auth.validation.email')}}</div>
+            {{$t('auth.validation.email')}}
+        </div>
         <div class="invalid form-input__details fs12-lh16" v-show="v.required===false">
-            {{$t('auth.validation.required')}}</div>
+            {{$t('auth.validation.required')}}
+        </div>
         <div class="invalid form-input__details fs12-lh16" v-show="v.sameAs===false">
-            {{$t('auth.validation.confirmPassword')}}</div>
+            {{$t('auth.validation.confirmPassword')}}
+        </div>
     </div>
 </template>
 
 <script>
-export default {
-  name: 'login-input',
-  props: {
-    // value -- w-model from outer component
-    value: {
-      type: String,
-      default: '',
-    },
-    label: {
-      type: String,
-    },
-    placeholder: {
-      type: String,
-    },
-    autofocus: {
-      type: Boolean,
-      default: false,
-    },
-    type: {
-      type: String,
-      default: 'text',
-    },
-    // validation rules
-    v: {
-      type: Object,
-    },
-  },
-  mounted() {
-    this.$refs.input.autofocus = this.autofocus;
-    this.$refs.input.type = this.type;
-  },
-  computed: {
-    validation: {
-      get() {
-        return this.value;
-      },
-      set(value) {
-        this.v.$touch();
-        this.$emit('input', value);
-      },
-    },
-  },
-};
+    export default {
+        name: 'login-input',
+        props: {
+            textarea: {
+                type: Boolean,
+                default: false
+            },
+            // value -- w-model from outer component
+            value: {
+                type: String,
+                default: '',
+            },
+            label: {
+                type: String,
+            },
+            placeholder: {
+                type: String,
+            },
+            autofocus: {
+                type: Boolean,
+                default: false,
+            },
+            type: {
+                type: String,
+                default: 'text',
+            },
+            // validation rules
+            v: {
+                type: Object,
+                default: () => {
+                    return {
+                        $error: null,
+                        $touch: () => {}
+                    }
+                }
+            },
+            height: {
+                type: Number,
+                default: 48
+            }
+        },
+        mounted() {
+            this.$refs.input.autofocus = this.autofocus;
+            if(!this.textarea) this.$refs.input.type = this.type;
+            this.$refs.input.style.height = this.height+"px";
+        },
+        computed: {
+            validation: {
+                get() {
+                    return this.value;
+                },
+                set(value) {
+                    this.v.$touch();
+                    this.$emit('input', value);
+                },
+            },
+        },
+    };
 </script>
 
 <style lang="scss" scoped>
@@ -81,10 +108,8 @@ export default {
     }
 
     .input {
-        vertical-align: bottom;
         display: block;
         width: 100%;
-        height: 48px;
         /*different top and bottom padding to vertically align text*/
         padding: 15px 16px 11px;
         background: rgba(255, 255, 255, 0.04);
@@ -104,5 +129,9 @@ export default {
     .invalid {
         color: $form-error-color;
         border-color: $form-error-color;
+    }
+
+    textarea {
+        resize: none;
     }
 </style>

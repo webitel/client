@@ -22,4 +22,17 @@ export default {
     },
     toLogin: 'Log in',
   },
+  modules: {
+    new: 'New',
+    edit: 'Edit',
+    description: 'Description',
+    action: 'Action',
+    moduleHeader: {},
+    permissions: {
+      permissionsTitle: 'Permissions',
+      permissionsRole: 'Role | Roles',
+      allRoles: 'All roles',
+      name: 'Name'
+    }
+  }
 };
