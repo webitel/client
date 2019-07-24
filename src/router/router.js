@@ -4,6 +4,7 @@ import login from '../components/auth/the-login';
 import register from '../components/auth/the-register';
 import home from '../components/modules/home/the-home';
 import notFound from '../components/the-not-found-component';
+import permissions from '../components/modules/permissions/the-permissions';
 
 Vue.use(Router);
 
@@ -25,6 +26,11 @@ export default new Router({
       path: '/',
       name: 'home',
       component: home
+    },
+    {
+      path: '/permissions',
+      name: 'permissions',
+      component: permissions
     },
     {
       path: '*',

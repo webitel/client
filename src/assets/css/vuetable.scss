@@ -1,0 +1,35 @@
+
+.vuetable {
+  text-align: left;
+  width: 100%;
+  font-size: 12px;
+  line-height: 16px;
+
+  thead {
+    //font-size: 12px;
+    //line-height: 16px;
+    color: rgba(0, 0, 0, 0.4);
+
+    th {
+      font-weight: normal;
+    }
+  }
+
+  tr {
+    height: 52px;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.12);
+
+    td {
+      letter-spacing: 0.4px;
+    }
+
+    /*ACTION COLUMN*/
+    td:last-child {
+      width: 180px;
+    }
+  }
+
+  .vuetable-action:first-child {
+    margin-right: 30px;
+  }
+}

@@ -1,7 +1,9 @@
 <template>
-    <div class="col-12">
+    <section class="header-wrap">
         <header class="page-header">
-            <h2 class="page__title"><slot></slot></h2>
+            <h2 class="page__title">
+                <slot></slot>
+            </h2>
             <btn
                     class="btn page-header__btn"
             >
@@ -9,20 +11,20 @@
             </btn>
         </header>
         <divider/>
-    </div>
+    </section>
 </template>
 
 <script>
-import btn from '../utils/btn';
-import divider from '../utils/divider';
+    import btn from '../utils/btn';
+    import divider from '../utils/divider';
 
-export default {
-  name: 'page-header',
-  components: {
-    'btn': btn,
-    'divider': divider,
-  },
-};
+    export default {
+        name: 'page-header',
+        components: {
+            'btn': btn,
+            'divider': divider,
+        },
+    };
 </script>
 
 <style scoped>

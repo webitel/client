@@ -5,7 +5,11 @@
         </div>
         <nav class="the-nav">
             <ul class="nav__icons">
-                <li class="nav-icon icon__closed">
+                <li class="nav-icon icon__closed"
+                    :class="{'nav__current': current.home && !hovered}"
+                    @mouseover="hovered = true"
+                    @mouseleave="hovered = false"
+                >
                     <div class="nav-icon__img">
                         <img src="../assets/img/nav/gray/home.svg" alt="home">
                         <img
@@ -14,7 +18,10 @@
                                 alt="home">
                     </div>
                 </li>
-                <li class="nav-icon icon__closed">
+                <li class="nav-icon icon__closed"
+                    @mouseover="hovered = true"
+                    @mouseleave="hovered = false"
+                >
                     <div class="nav-icon__img">
                         <img src="../assets/img/nav/gray/domain.svg" alt="domain">
                         <img
@@ -23,7 +30,10 @@
                                 alt="domain">
                     </div>
                 </li>
-                <li class="nav-icon icon__closed">
+                <li class="nav-icon icon__closed"
+                    @mouseover="hovered = true"
+                    @mouseleave="hovered = false"
+                >
                     <div class="nav-icon__img">
                         <img src="../assets/img/nav/gray/store.svg" alt="store">
                         <img
@@ -32,7 +42,10 @@
                                 alt="store">
                     </div>
                 </li>
-                <li class="nav-icon icon__closed">
+                <li class="nav-icon icon__closed"
+                    @mouseover="hovered = true"
+                    @mouseleave="hovered = false"
+                >
                     <div class="nav-icon__img">
                         <img src="../assets/img/nav/gray/callflow.svg" alt="callflow">
                         <img
@@ -41,7 +54,10 @@
                                 alt="callflow">
                     </div>
                 </li>
-                <li class="nav-icon icon__closed">
+                <li class="nav-icon icon__closed"
+                    @mouseover="hovered = true"
+                    @mouseleave="hovered = false"
+                >
                     <div class="nav-icon__img">
                         <img src="../assets/img/nav/gray/queue.svg" alt="queue">
                         <img
@@ -50,7 +66,10 @@
                                 alt="queue">
                     </div>
                 </li>
-                <li class="nav-icon icon__closed">
+                <li class="nav-icon icon__closed"
+                    @mouseover="hovered = true"
+                    @mouseleave="hovered = false"
+                >
                     <div class="nav-icon__img">
                         <img src="../assets/img/nav/gray/flag.svg" alt="flag">
                         <img
@@ -59,7 +78,10 @@
                                 alt="flag">
                     </div>
                 </li>
-                <li class="nav-icon icon__closed">
+                <li class="nav-icon icon__closed"
+                    @mouseover="hovered = true"
+                    @mouseleave="hovered = false"
+                >
                     <div class="nav-icon__img">
                         <img src="../assets/img/nav/gray/calendar.svg" alt="calendar">
                         <img
@@ -68,7 +90,10 @@
                                 alt="calendar">
                     </div>
                 </li>
-                <li class="nav-icon icon__closed">
+                <li class="nav-icon icon__closed"
+                    @mouseover="hovered = true"
+                    @mouseleave="hovered = false"
+                >
                     <div class="nav-icon__img">
                         <img src="../assets/img/nav/gray/media.svg" alt="media">
                         <img
@@ -85,6 +110,17 @@
 <script>
 export default {
   name: 'the-nav',
+    data() {
+      return {
+          current: {
+              home: false,
+          },
+          hovered: false
+      }
+    },
+    mounted() {
+      this.current[this.$route.name] = true;
+    }
 };
 </script>
 
@@ -111,20 +147,22 @@ export default {
     .nav-icon {
         position: relative;
         width: 73px;
-        height: 38px;
-        margin: 0 0 13px 1px;
+        height: 52px;
+        margin-left: 1px;
         border-left: 3px solid transparent;
         transition: 0.3s;
         cursor: pointer;
 
+        &:hover {
+            border-color: $accent-color;
+
+        }
         img {
             position: absolute;
             top: 50%;
             left: calc(50% - 3px);
             transform: translate(-50%, -50%);
             transition: 0.3s;
-
-
         }
 
         &:hover img {
@@ -142,7 +180,16 @@ export default {
 
     }
 
-    .nav-icon:hover {
+    .nav__current {
         border-color: $accent-color;
+
+        img {
+            opacity: 0;
+        }
+
+        .nav-icon__img__hovered {
+            opacity: 1;
+        }
     }
+
 </style>

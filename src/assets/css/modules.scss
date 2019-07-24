@@ -1,0 +1,19 @@
+
+.module-wrap {
+  display: flex;
+  width: 100vw;
+  overflow-x: hidden;
+}
+
+.module {
+  flex-grow: 1;
+}
+
+.module-content {
+  padding: 0 28px 0 44px;
+}
+
+.module-content__header {
+  margin: 34px 0 0;
+  font: 20px 'AvantGardeDemi';
+}

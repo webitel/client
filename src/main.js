@@ -8,6 +8,7 @@ import i18n from './locale/i18n';
 
 import './assets/lib/normalize.scss';
 import './assets/lib/bootstrap-grid.min.css';
+import './assets/css/vuetable.scss';
 import './assets/css/fonts.scss';
 import './assets/css/main.scss';
 

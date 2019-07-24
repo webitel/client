@@ -1,39 +1,37 @@
 <template>
-    <div class="col-12">
-        <header class="the-header">
-            <div class="the-header__user-panel">
-                <div class="the-header__user-item the-header__user-pic">
-                    <img
-                            class="the-header__img"
-                            src="../assets/img/header/user-pic.svg"
-                            alt="user picture">
-                </div>
-                <div class="the-header__user-item the-header__user-notifications">
-                    <img
-                            class="the-header__img"
-                            src="../assets/img/header/user-notification.svg"
-                            alt="notifications">
-                </div>
-                <div class="the-header__user-item the-header__user-add">
-                    <img
-                            class="the-header__img"
-                            src="../assets/img/header/user-add.svg"
-                            alt="add button">
-                </div>
-                <div class="the-header__user-item the-header__domain-select">
-                    <div class="the-header__domain-select-title fs14-lh16">
-                        Select domain
-                    </div>
+    <header class="the-header">
+        <div class="the-header__user-panel">
+            <div class="the-header__user-item the-header__user-pic">
+                <img
+                        class="the-header__img"
+                        src="../assets/img/header/user-pic.svg"
+                        alt="user picture">
+            </div>
+            <div class="the-header__user-item the-header__user-notifications">
+                <img
+                        class="the-header__img"
+                        src="../assets/img/header/user-notification.svg"
+                        alt="notifications">
+            </div>
+            <div class="the-header__user-item the-header__user-add">
+                <img
+                        class="the-header__img"
+                        src="../assets/img/header/user-add.svg"
+                        alt="add button">
+            </div>
+            <div class="the-header__user-item the-header__domain-select">
+                <div class="the-header__domain-select-title fs14-lh16">
+                    Select domain
                 </div>
             </div>
-        </header>
-    </div>
+        </div>
+    </header>
 </template>
 
 <script>
-export default {
-  name: 'the-header',
-};
+    export default {
+        name: 'the-header',
+    };
 </script>
 
 <style scoped>
