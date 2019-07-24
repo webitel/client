@@ -1,9 +1,9 @@
 <template>
     <aside class="the-nav__wrap">
-        <div class="logo logo__closed">
-            W
-        </div>
         <nav class="the-nav">
+            <div class="logo logo__closed">
+                W
+            </div>
             <ul class="nav__icons">
                 <li class="nav-icon icon__closed"
                     :class="{'nav__current': current.home && !hovered}"
@@ -130,7 +130,8 @@ export default {
     .the-nav__wrap {
         position: relative;
         width: 74px;
-        height: 100vh;
+        height: 100%;
+        min-height: 100vh;
         background: #171A2A;
         z-index: 1;
     }

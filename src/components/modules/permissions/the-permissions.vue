@@ -65,7 +65,7 @@
                 head: 'head',
                 body: 'body'
             };
-            for (let i = 0; i < 10; i++) {
+            for (let i = 0; i < 100; i++) {
                 this.test.push(data);
             }
             this.$nextTick(function () {
@@ -84,5 +84,5 @@
 </script>
 
 <style lang="scss">
-    @import '../../../assets/css/modules';
+    @import '../../../assets/css/modules/modules';
 </style>
