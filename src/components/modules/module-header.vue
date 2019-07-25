@@ -16,7 +16,7 @@
                         class="btn"
                         @click.native="primaryAction"
                 >
-                    {{this.primaryButton}}
+                    {{this.primaryText}}
                 </btn>
             </div>
         </header>
@@ -35,14 +35,14 @@
             'divider': divider,
         },
         props: {
-            primaryButton: {
+            primaryText: {
                 type: String,
                 default: 'Add new'
             },
             primaryAction: {
                 type: Function
             },
-            secondaryButton: {
+            secondaryText: {
                 type: String,
                 default: ''
             },

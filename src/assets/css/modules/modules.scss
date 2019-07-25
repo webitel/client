@@ -14,8 +14,47 @@
 }
 
 .module-content__header {
+  position: relative;
+  display: inline-block;
+  padding-right: 30px;
+}
+
+.module-content__title {
+  display: inline-block;
   margin: 34px 0 0;
   font: 20px 'AvantGardeDemi';
+}
+
+.module__info-helper {
+  display: inline-block;
+  position: absolute;
+  bottom: 1px;
+  right: 0;
+
+  .module__info-helper__img {
+    vertical-align: middle;
+    cursor: pointer;
+  }
+
+  .module__info-helper__text {
+    position: absolute;
+    bottom: 0;
+    left: 30px;
+    min-width: 200px;
+    height: 40px;
+    padding: 10px;
+    background: #eee;
+    border: 1px dashed rgba(0, 0, 0, 0.4);
+    border-radius: 4px;
+    transition: 0.3s;
+    opacity: 0;
+    pointer-events: none;
+  }
+
+  .module__info-helper__img:hover + .module__info-helper__text {
+    opacity: 1;
+    pointer-events: auto;
+  }
 }
 
 

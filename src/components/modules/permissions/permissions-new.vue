@@ -3,10 +3,16 @@
         <app-nav></app-nav>
         <main class="module permissions-new">
             <app-header></app-header>
-            <module-header :primaryButton="'Save'" :secondaryAction="close">
+            <module-header :primaryText="'Save'" :secondaryAction="close">
                 {{$tc('modules.permissions.permissionsRole')}} | {{computeTitle}}</module-header>
             <section class="module-content">
-                <h3 class="module-content__header">General info</h3>
+                <header class="module-content__header">
+                    <h3 class="module-content__title">General info</h3>
+                    <div class="module__info-helper">
+                        <img class="module__info-helper__img" src="../../../assets/img/modules/info-helper.svg" alt="?">
+                        <div class="module__info-helper__text">Ya s`el deda :(</div>
+                    </div>
+                </header>
 
                 <form>
                     <form-input
