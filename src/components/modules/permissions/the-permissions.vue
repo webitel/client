@@ -94,15 +94,6 @@
             }
         },
         mounted() {
-            getRoles()
-                .then(resolve => {
-                    this.$log.info('resolve', resolve);
-                },
-                reject => {
-                    this.showError(reject);
-                });
-
-
             //FIXME: delete test data
             for (let i = 0; i < 10; i++) {
                 this.test.push({
@@ -111,6 +102,20 @@
                     id: i
                 });
             }
+
+            getRoles()
+                .then(response => {
+                    response.forEach((item, index) => {
+                        this.test[index].head = item.role;
+                    });
+                    this.test.length = response.length;
+                },
+                error => {
+                    this.$log.info('error roles', error);
+                    this.showError(error);
+                });
+
+
         },
         methods: {
             create() {

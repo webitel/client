@@ -42,6 +42,8 @@
             text (value) {
                 if (value == '' || value == undefined) {
                     this.label = this.placeholder
+                } else {
+                    this.label = this.text
                 }
             }
         },

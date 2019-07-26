@@ -13,6 +13,7 @@ export function getSession() {
     const url = '/session';
     instance.get(url)
       .then((response) => {
+        Vue.$log.info('get session response', response);
         store.dispatch('setUser', response.data.session.username);
       },
       (error) => {
