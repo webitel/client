@@ -9,6 +9,7 @@
                     v-model="validation"
                     @input="$emit('input, $event.target.value')"
                     v-bind:placeholder=placeholder
+
             />
             <textarea
                     class="input"
@@ -17,6 +18,7 @@
                     v-model="validation"
                     @input="$emit('input, $event.target.value')"
                     v-bind:placeholder=placeholder
+
             ></textarea>
         </label>
         <div class="invalid form-input__details fs12-lh16" v-show="v.email===false">
@@ -32,6 +34,7 @@
 </template>
 
 <script>
+
     export default {
         name: 'login-input',
         props: {
@@ -64,7 +67,8 @@
                 default: () => {
                     return {
                         $error: null,
-                        $touch: () => {}
+                        $touch: () => {
+                        }
                     }
                 }
             },
@@ -75,8 +79,8 @@
         },
         mounted() {
             this.$refs.input.autofocus = this.autofocus;
-            if(!this.textarea) this.$refs.input.type = this.type;
-            this.$refs.input.style.height = this.height+"px";
+            if (!this.textarea) this.$refs.input.type = this.type;
+            this.$refs.input.style.height = this.height + "px";
         },
         computed: {
             validation: {
@@ -118,6 +122,10 @@
         border: 1px solid transparent;
         outline: none;
         transition: 0.3s;
+
+        &:disabled {
+            border-color: transparent;
+        }
     }
 
     .form-input__details {

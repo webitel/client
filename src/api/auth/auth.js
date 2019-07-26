@@ -1,7 +1,7 @@
 import Vue from 'vue';
-import instance from './instance';
-import router from '../router/router';
-import store from '../store/store';
+import instance from '../instance';
+import router from '../../router/router';
+import store from '../../store/store';
 
 
 // gets user by token from localstorage
@@ -27,8 +27,8 @@ export function getSession() {
 // and updates global instance access-token header
 // if succeeded, calls getSession function
 export function login(credentials) {
-  Vue.$log.info('auth started');
-  const url = '/auth';
+  Vue.$log.info('login started');
+  const url = '/login';
   return instance.post(url, credentials)
     .then((response) => {
       localStorage.setItem('access-token', response.data.authorization.access_token);

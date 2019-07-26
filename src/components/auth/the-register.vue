@@ -72,7 +72,7 @@ import { required, email, sameAs } from 'vuelidate/lib/validators';
 import formInput from '../utils/form-input';
 import btn from '../utils/btn';
 
-import { login, logout } from '../../api/auth';
+import { login, logout } from '../../api/auth/auth';
 import errorMixin from '../../mixins/errorMixin';
 import loginAnimation from '../../assets/js/loginAnimation';
 
@@ -148,7 +148,7 @@ export default {
 
 <style lang="scss" scoped>
     @import "../../assets/css/main";
-    @import "../../assets/css/auth";
+    @import "../../assets/css/auth/auth";
 
     /*auth link*/
     .auth__link {

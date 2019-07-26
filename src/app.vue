@@ -5,7 +5,7 @@
 </template>
 
 <script>
-import { getSession } from './api/auth';
+import { getSession } from './api/auth/auth';
 
 export default {
   name: 'app',

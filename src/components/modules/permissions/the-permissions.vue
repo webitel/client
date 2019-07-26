@@ -4,7 +4,8 @@
         <main class="module permissions">
             <app-header></app-header>
             <module-header :primaryAction="create">{{$t('modules.permissions.permissionsTitle')}} |
-                {{$tc('modules.permissions.permissionsRole', 2)}}</module-header>
+                {{$tc('modules.permissions.permissionsRole', 2)}}
+            </module-header>
             <section class="module-content">
                 <h3 class="module-content__header">{{$t('modules.permissions.allRoles')}}</h3>
 
@@ -13,6 +14,28 @@
                         :fields="fields"
                         :data="test"
                 >
+
+                    <template slot="head" slot-scope="props">
+
+                        <edit-field
+                                class="form__input fs14"
+                                v-bind:text="test[props.rowData.id].head"
+                                placeholder="$t('auth.passwordPlaceholder')"
+                                @text-updated-blur="inlineEdit($event, props.rowData.id, 'head')"
+                                @text-updated-enter="inlineEdit($event, props.rowData.id, 'head')"
+                        ></edit-field>
+                    </template>
+
+                    <template slot="body" slot-scope="props">
+                        <edit-field
+                                class="form__input fs14"
+                                v-bind:text="test[props.rowData.id].body"
+                                placeholder="$t('auth.passwordPlaceholder')"
+                                @text-updated-blur="inlineEdit($event, props.rowData.id, 'body')"
+                                @text-updated-enter="inlineEdit($event, props.rowData.id, 'body')"
+                        ></edit-field>
+                    </template>
+
                     <template slot="image" slot-scope="props">
                         <img class="vuetable-action"
                              src="../../../assets/img/modules/table/edit.svg"
@@ -35,8 +58,9 @@
     import theHeader from '../../the-header';
     import theNavbar from '../../the-navbar';
     import moduleHeader from '../module-header';
-    import divider from '../../utils/divider';
     import vuetable from 'vuetable-2/src/components/Vuetable';
+    import editField from '../utils/edit-field';
+
 
     export default {
         name: "the-permissions",
@@ -44,51 +68,49 @@
             'app-header': theHeader,
             'app-nav': theNavbar,
             'module-header': moduleHeader,
-            divider,
-            vuetable
+            vuetable,
+            'edit-field': editField
         },
         data() {
             return {
                 //vuetable prop
                 fields: [
-                    {name: 'head', title: this.$t('modules.permissions.name')},
-                    {name: 'body', title: this.$t('modules.description')},
+                    {name: '__slot:head', title: this.$t('modules.permissions.name')},
+                    {name: '__slot:body', title: this.$t('modules.description')},
                     {name: '__slot:image', title: this.$t('modules.action')},
                 ],
-                test: []
+                test: [],
             }
         },
         mounted() {
 
             //FIXME: delete test data
-            let start = Date.now();
-            let data = {
-                head: 'head',
-                body: 'body'
-            };
-            for (let i = 0; i < 100; i++) {
-                this.test.push(data);
+            for (let i = 0; i < 10; i++) {
+                this.test.push({
+                    head: 'head' + i,
+                    body: 'body',
+                    id: i
+                });
             }
-            this.$nextTick(function () {
-                // Code that will run only after the
-                // entire view has been rendered
-                let end = Date.now();
-                console.log(end - start);
-            })
         },
         methods: {
             create() {
                 this.$router.push('/permissions/new');
             },
             action(action) {
-                if(action === 'edit') {
+                if (action === 'edit') {
                     this.$router.push({path: 'permissions/new', query: {edit: 'true'}});
                 }
-            }
+            },
+            inlineEdit(newValue, id, property) {
+                this.test[id][property] = newValue;
+            },
         }
     }
 </script>
 
 <style lang="scss">
     @import '../../../assets/css/modules/modules';
+
+
 </style>
