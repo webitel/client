@@ -2,6 +2,11 @@
     <div class="module-wrap">
         <app-nav></app-nav>
         <main class="module permissions">
+
+            <alert
+                :error="error"
+            ></alert>
+
             <app-header></app-header>
             <module-header :primaryAction="create">{{$t('modules.permissions.permissionsTitle')}} |
                 {{$tc('modules.permissions.permissionsRole', 2)}}
@@ -60,6 +65,10 @@
     import moduleHeader from '../module-header';
     import vuetable from 'vuetable-2/src/components/Vuetable';
     import editField from '../utils/edit-field';
+    import alert from '../../utils/alert';
+
+    import errorMixin from '../../../mixins/errorMixin';
+    import {getRoles} from "../../../api/modules/permissions/permissions";
 
 
     export default {
@@ -68,9 +77,11 @@
             'app-header': theHeader,
             'app-nav': theNavbar,
             'module-header': moduleHeader,
+            'edit-field': editField,
             vuetable,
-            'edit-field': editField
+            alert,
         },
+        mixins: [errorMixin],
         data() {
             return {
                 //vuetable prop
@@ -83,6 +94,14 @@
             }
         },
         mounted() {
+            getRoles()
+                .then(resolve => {
+                    this.$log.info('resolve', resolve);
+                },
+                reject => {
+                    this.showError(reject);
+                });
+
 
             //FIXME: delete test data
             for (let i = 0; i < 10; i++) {
