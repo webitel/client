@@ -73,7 +73,12 @@ export function refreshToken() {
       getSession();
     }, (error) => {
       Vue.$log.error('refresh error', error);
-      router.replace('/auth');
+        // remove tokens
+        localStorage.removeItem('access-token');
+        localStorage.removeItem('refresh-token');
+        instance.defaults.headers['X-Webitel-Access'] = '';
+        // and throw user to auth page
+        router.replace('/login');
     });
 }
 
@@ -88,7 +93,7 @@ export function logout() {
       localStorage.removeItem('refresh-token');
       instance.defaults.headers['X-Webitel-Access'] = '';
       // and throw user to auth page
-      router.replace('/auth');
+      router.replace('/login');
     },
     (error) => {
       Vue.$log.info('logout error', error);

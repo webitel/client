@@ -1,6 +1,6 @@
 import axios from 'axios';
 import Vue from 'vue';
-import { refreshToken } from './auth/auth';
+import {logout, refreshToken} from './auth/auth';
 
 // global API configuration
 // 'X-Webitel-Access' ~ 'X-Access-Token'
