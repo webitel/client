@@ -6,6 +6,7 @@
   line-height: 16px;
 
   thead {
+    margin-top: 16px;
     color: rgba(0, 0, 0, 0.4);
 
     th {
@@ -37,15 +38,5 @@
     margin-right: 30px;
   }
 
-
-  //FIXME delete styles
-  //editable grid
-  .input {
-    border-color: transparent;
-  }
-
-  .form-input .input__edit {
-    border-color: rgba(0, 0, 0, 0.2);
-  }
 }
 

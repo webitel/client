@@ -12,7 +12,9 @@
                 {{$tc('modules.permissions.permissionsRole', 2)}}
             </module-header>
             <section class="module-content">
-                <h3 class="module-content__header">{{$t('modules.permissions.allRoles')}}</h3>
+                <header class="module-content__header">
+                    <h3 class="module-content__title">{{$t('modules.permissions.allRoles')}}</h3>
+                </header>
 
                 <vuetable
                         :api-mode="false"
@@ -135,6 +137,5 @@
 
 <style lang="scss">
     @import '../../../assets/css/modules/modules';
-
 
 </style>

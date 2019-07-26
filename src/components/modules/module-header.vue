@@ -40,7 +40,8 @@
                 default: 'Add new'
             },
             primaryAction: {
-                type: Function
+                type: Function,
+                default: () => {}
             },
             secondaryText: {
                 type: String,

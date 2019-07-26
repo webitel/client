@@ -1,7 +1,7 @@
 <template>
     <div class="module-wrap">
         <app-nav></app-nav>
-        <main class="module permissions-new">
+        <main class="module module-new permissions-new">
             <app-header></app-header>
             <module-header :primaryText="'Save'" :secondaryAction="close">
                 {{$tc('modules.permissions.permissionsRole')}} | {{computeTitle}}</module-header>
@@ -14,7 +14,7 @@
                     </div>
                 </header>
 
-                <form>
+                <form class="form">
                     <form-input
                             class="form__input fs14"
                             v-model="form.name"
