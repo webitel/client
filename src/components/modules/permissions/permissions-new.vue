@@ -3,13 +3,18 @@
         <app-nav></app-nav>
         <main class="module module-new permissions-new">
             <app-header></app-header>
-            <module-header :primaryText="'Save'" :secondaryAction="close">
-                {{$tc('modules.permissions.permissionsRole')}} | {{computeTitle}}</module-header>
+            <module-header :primaryText="$t('modules.save')" :secondaryAction="close">
+                {{$tc('modules.permissions.permissionsRole')}} | {{computeTitle}}
+            </module-header>
             <section class="module-content">
                 <header class="module-content__header">
-                    <h3 class="module-content__title">General info</h3>
+                    <h3 class="module-content__title">{{$t('modules.permissions.permissionsNew.generalInfo')}} </h3>
                     <div class="module__info-helper">
-                        <img class="module__info-helper__img" src="../../../assets/img/modules/info-helper.svg" alt="?">
+                        <img
+                                class="module__info-helper__img"
+                                src="../../../assets/img/modules/info-helper.svg"
+                                alt="?"
+                        >
                         <div class="module__info-helper__text">Ya s`el deda :(</div>
                     </div>
                 </header>
@@ -18,16 +23,16 @@
                     <form-input
                             class="form__input fs14"
                             v-model="form.name"
-                            :label="$t('auth.password')"
-                            :placeholder="$t('auth.passwordPlaceholder')"
+                            :label="$t('modules.permissions.permissionsNew.name')"
+                            :placeholder="$t('modules.permissions.permissionsNew.namePlaceholder')"
                     ></form-input>
                     <form-input
                             class="form__input fs14"
                             v-model="form.description"
                             :textarea="true"
                             :height="164"
-                            :label="$t('auth.password')"
-                            :placeholder="$t('auth.passwordPlaceholder')"
+                            :label="$t('modules.permissions.permissionsNew.description')"
+                            :placeholder="$t('modules.permissions.permissionsNew.descriptionPlaceholder')"
                     ></form-input>
                 </form>
             </section>

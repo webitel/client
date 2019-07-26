@@ -25,6 +25,8 @@ export default {
   modules: {
     new: 'New',
     edit: 'Edit',
+    save: 'Save',
+    close: 'Close',
     description: 'Description',
     action: 'Action',
     moduleHeader: {},
@@ -32,7 +34,14 @@ export default {
       permissionsTitle: 'Permissions',
       permissionsRole: 'Role | Roles',
       allRoles: 'All roles',
-      name: 'Name'
+      name: 'Name',
+      permissionsNew: {
+        generalInfo: 'General info',
+        name: 'Name',
+        namePlaceholder: 'Enter a name',
+        description: 'Description',
+        descriptionPlaceholder: 'Enter a description'
+      }
     }
   }
 };
