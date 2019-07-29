@@ -79,6 +79,11 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+
+    .form {
+        width: 50%;
+    }
+
     .form-input {
         margin: 16px 0 10px;
     }
