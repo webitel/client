@@ -40,8 +40,8 @@ export default {
         name: 'Name',
         namePlaceholder: 'Enter a name',
         description: 'Description',
-        descriptionPlaceholder: 'Enter a description'
-      }
-    }
-  }
+        descriptionPlaceholder: 'Enter a description',
+      },
+    },
+  },
 };

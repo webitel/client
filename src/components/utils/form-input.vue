@@ -35,65 +35,63 @@
 
 <script>
 
-    export default {
-        name: 'login-input',
-        props: {
-            textarea: {
-                type: Boolean,
-                default: false
-            },
-            // value -- w-model from outer component
-            value: {
-                type: String,
-                default: '',
-            },
-            label: {
-                type: String,
-            },
-            placeholder: {
-                type: String,
-            },
-            autofocus: {
-                type: Boolean,
-                default: false,
-            },
-            type: {
-                type: String,
-                default: 'text',
-            },
-            // validation rules
-            v: {
-                type: Object,
-                default: () => {
-                    return {
-                        $error: null,
-                        $touch: () => {
-                        }
-                    }
-                }
-            },
-            height: {
-                type: Number,
-                default: 48
-            }
+export default {
+  name: 'login-input',
+  props: {
+    textarea: {
+      type: Boolean,
+      default: false,
+    },
+    // value -- w-model from outer component
+    value: {
+      type: String,
+      default: '',
+    },
+    label: {
+      type: String,
+    },
+    placeholder: {
+      type: String,
+    },
+    autofocus: {
+      type: Boolean,
+      default: false,
+    },
+    type: {
+      type: String,
+      default: 'text',
+    },
+    // validation rules
+    v: {
+      type: Object,
+      default: () => ({
+        $error: null,
+        $touch: () => {
         },
-        mounted() {
-            this.$refs.input.autofocus = this.autofocus;
-            if (!this.textarea) this.$refs.input.type = this.type;
-            this.$refs.input.style.height = this.height + "px";
-        },
-        computed: {
-            validation: {
-                get() {
-                    return this.value;
-                },
-                set(value) {
-                    this.v.$touch();
-                    this.$emit('input', value);
-                },
-            },
-        },
-    };
+      }),
+    },
+    height: {
+      type: Number,
+      default: 48,
+    },
+  },
+  mounted() {
+    this.$refs.input.autofocus = this.autofocus;
+    if (!this.textarea) this.$refs.input.type = this.type;
+    this.$refs.input.style.height = `${this.height}px`;
+  },
+  computed: {
+    validation: {
+      get() {
+        return this.value;
+      },
+      set(value) {
+        this.v.$touch();
+        this.$emit('input', value);
+      },
+    },
+  },
+};
 </script>
 
 <style lang="scss" scoped>

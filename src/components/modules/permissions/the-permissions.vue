@@ -17,6 +17,7 @@
                 </header>
 
                 <vuetable
+                        class="permissions-table"
                         :api-mode="false"
                         :fields="fields"
                         :data="test"
@@ -24,6 +25,7 @@
 
                     <template slot="head" slot-scope="props">
 
+<!--                        v-bind:text="test[props.rowData.id].head"-->
                         <edit-field
                                 class="form__input fs14"
                                 v-bind:text="test[props.rowData.id].head"
@@ -62,77 +64,75 @@
 </template>
 
 <script>
-    import theHeader from '../../the-header';
-    import theNavbar from '../../the-navbar';
-    import moduleHeader from '../module-header';
-    import vuetable from 'vuetable-2/src/components/Vuetable';
-    import editField from '../utils/edit-field';
-    import alert from '../../utils/alert';
+import vuetable from 'vuetable-2/src/components/Vuetable';
+import theHeader from '../../the-header';
+import theNavbar from '../../the-navbar';
+import moduleHeader from '../module-header';
+import editField from '../utils/edit-field';
+import alert from '../../utils/alert';
 
-    import errorMixin from '../../../mixins/errorMixin';
-    import {getRoles} from "../../../api/modules/permissions/permissions";
-
-
-    export default {
-        name: "the-permissions",
-        components: {
-            'app-header': theHeader,
-            'app-nav': theNavbar,
-            'module-header': moduleHeader,
-            'edit-field': editField,
-            vuetable,
-            alert,
-        },
-        mixins: [errorMixin],
-        data() {
-            return {
-                //vuetable prop
-                fields: [
-                    {name: '__slot:head', title: this.$t('modules.permissions.name')},
-                    {name: '__slot:body', title: this.$t('modules.description')},
-                    {name: '__slot:image', title: this.$t('modules.action')},
-                ],
-                test: [],
-            }
-        },
-        mounted() {
-            //FIXME: delete test data
-            for (let i = 0; i < 10; i++) {
-                this.test.push({
-                    head: 'head' + i,
-                    body: 'body',
-                    id: i
-                });
-            }
-
-            getRoles()
-                .then(response => {
-                    response.forEach((item, index) => {
-                        this.test[index].head = item.role;
-                    });
-                    this.test.length = response.length;
-                },
-                error => {
-                    this.$log.info('error roles', error);
-                    this.showError(error);
-                });
+import errorMixin from '../../../mixins/errorMixin';
+import { getRoles } from '../../../api/modules/permissions/permissions';
 
 
-        },
-        methods: {
-            create() {
-                this.$router.push('/permissions/new');
-            },
-            action(action) {
-                if (action === 'edit') {
-                    this.$router.push({path: 'permissions/new', query: {edit: 'true'}});
-                }
-            },
-            inlineEdit(newValue, id, property) {
-                this.test[id][property] = newValue;
-            },
-        }
+export default {
+  name: 'the-permissions',
+  components: {
+    'app-header': theHeader,
+    'app-nav': theNavbar,
+    'module-header': moduleHeader,
+    'edit-field': editField,
+    vuetable,
+    alert,
+  },
+  mixins: [errorMixin],
+  data() {
+    return {
+      // vuetable prop
+      fields: [
+        { name: '__slot:head', title: this.$t('modules.permissions.name') },
+        { name: '__slot:body', title: this.$t('modules.description') },
+        { name: '__slot:image', title: this.$t('modules.action') },
+      ],
+      test: [],
+    };
+  },
+  mounted() {
+    // FIXME: delete test data
+    for (let i = 0; i < 10; i++) {
+      this.test.push({
+        head: `head${i}`,
+        body: 'body',
+        id: i,
+      });
     }
+
+    getRoles()
+      .then((response) => {
+        response.forEach((item, index) => {
+          this.test[index].head = item.role;
+        });
+        this.test.length = response.length;
+      },
+      (error) => {
+        this.$log.info('error roles', error);
+        this.showError(error);
+      });
+  },
+  methods: {
+    create() {
+      this.$router.push('/permissions/new');
+    },
+    action(action) {
+      if (action === 'edit') {
+        this.$router.push({ path: 'permissions/new', query: { edit: 'true' } });
+      }
+    },
+    inlineEdit(newValue, id, property) {
+      this.test[id][property] = newValue;
+    },
+  },
+};
 </script>
 
 <style lang="scss">

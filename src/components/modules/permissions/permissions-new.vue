@@ -41,41 +41,41 @@
 </template>
 
 <script>
-    import theHeader from '../../the-header';
-    import theNavbar from '../../the-navbar';
-    import moduleHeader from '../module-header';
-    import formInput from '../../utils/form-input';
+import theHeader from '../../the-header';
+import theNavbar from '../../the-navbar';
+import moduleHeader from '../module-header';
+import formInput from '../../utils/form-input';
 
-    export default {
-        name: "permissions-new",
-        components: {
-            'app-header': theHeader,
-            'app-nav': theNavbar,
-            'module-header': moduleHeader,
-            'form-input': formInput
-        },
-        data() {
-            return {
-                form: {
-                    name: '',
-                    description: ''
-                }
-            }
-        },
-        mounted() {
-            this.$log.info('new');
-        },
-        methods: {
-            close() {
-                this.$router.push('/permissions');
-            }
-        },
-        computed: {
-            computeTitle() {
-                return this.$route.query.edit ? this.$t('modules.edit') : this.$t('modules.new');
-            }
-        }
-    }
+export default {
+  name: 'permissions-new',
+  components: {
+    'app-header': theHeader,
+    'app-nav': theNavbar,
+    'module-header': moduleHeader,
+    'form-input': formInput,
+  },
+  data() {
+    return {
+      form: {
+        name: '',
+        description: '',
+      },
+    };
+  },
+  mounted() {
+    this.$log.info('new');
+  },
+  methods: {
+    close() {
+      this.$router.push('/permissions');
+    },
+  },
+  computed: {
+    computeTitle() {
+      return this.$route.query.edit ? this.$t('modules.edit') : this.$t('modules.new');
+    },
+  },
+};
 </script>
 
 <style lang="scss" scoped>

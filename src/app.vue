@@ -3,14 +3,14 @@
 </template>
 
 <script>
-    import {getSession} from './api/auth/auth';
+import { getSession } from './api/auth/auth';
 
-    export default {
-        name: 'app',
-        created() {
-            getSession();
-        },
-    };
+export default {
+  name: 'app',
+  created() {
+    getSession();
+  },
+};
 </script>
 
 <style>

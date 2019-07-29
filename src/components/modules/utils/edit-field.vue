@@ -115,12 +115,9 @@ export default {
     }
 
     .edit-field__label {
-        /*position: absolute;*/
-        /*top: 0;*/
-        /*left: 0;*/
-        /*right: 0;*/
         /*different top and bottom padding to vertically align text*/
         padding: 15px 16px 11px 0;
+        word-wrap: break-word;
         border-radius: 4px;
 
         transition: 0.3s;

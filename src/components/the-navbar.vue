@@ -110,17 +110,17 @@
 <script>
 export default {
   name: 'the-nav',
-    data() {
-      return {
-          current: {
-              home: false,
-          },
-          hovered: false
-      }
-    },
-    mounted() {
-      this.current[this.$route.name] = true;
-    }
+  data() {
+    return {
+      current: {
+        home: false,
+      },
+      hovered: false,
+    };
+  },
+  mounted() {
+    this.current[this.$route.name] = true;
+  },
 };
 </script>
 
@@ -129,6 +129,7 @@ export default {
 
     .the-nav__wrap {
         position: relative;
+        min-width: 74px;
         width: 74px;
         height: 100%;
         min-height: 100vh;

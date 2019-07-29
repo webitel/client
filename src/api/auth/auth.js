@@ -73,12 +73,12 @@ export function refreshToken() {
       getSession();
     }, (error) => {
       Vue.$log.error('refresh error', error);
-        // remove tokens
-        localStorage.removeItem('access-token');
-        localStorage.removeItem('refresh-token');
-        instance.defaults.headers['X-Webitel-Access'] = '';
-        // and throw user to auth page
-        router.replace('/login');
+      // remove tokens
+      localStorage.removeItem('access-token');
+      localStorage.removeItem('refresh-token');
+      instance.defaults.headers['X-Webitel-Access'] = '';
+      // and throw user to auth page
+      router.replace('/login');
     });
 }
 

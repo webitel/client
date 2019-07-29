@@ -25,33 +25,33 @@
 </template>
 
 <script>
-    import btn from '../utils/btn';
-    import divider from '../utils/divider';
+import btn from '../utils/btn';
+import divider from '../utils/divider';
 
-    export default {
-        name: 'page-header',
-        components: {
-            'btn': btn,
-            'divider': divider,
-        },
-        props: {
-            primaryText: {
-                type: String,
-                default: 'Add new'
-            },
-            primaryAction: {
-                type: Function,
-                default: () => {}
-            },
-            secondaryText: {
-                type: String,
-                default: ''
-            },
-            secondaryAction: {
-                type: Function
-            }
-        }
-    };
+export default {
+  name: 'page-header',
+  components: {
+    btn,
+    divider,
+  },
+  props: {
+    primaryText: {
+      type: String,
+      default: 'Add new',
+    },
+    primaryAction: {
+      type: Function,
+      default: () => {},
+    },
+    secondaryText: {
+      type: String,
+      default: '',
+    },
+    secondaryAction: {
+      type: Function,
+    },
+  },
+};
 </script>
 
 <style lang="scss" scoped>

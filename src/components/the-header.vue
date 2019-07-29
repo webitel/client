@@ -29,9 +29,9 @@
 </template>
 
 <script>
-    export default {
-        name: 'the-header',
-    };
+export default {
+  name: 'the-header',
+};
 </script>
 
 <style scoped>
