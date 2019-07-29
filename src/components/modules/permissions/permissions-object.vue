@@ -27,29 +27,31 @@
                 </template>
 
                 <template slot="ObAC" slot-scope="props">
-                    <edit-field
-                            class="form__input fs14"
-                            v-bind:text="test[props.rowData.id].ObAC"
-                            @text-updated-blur="inlineEdit($event, props.rowData.id, 'body')"
-                            @text-updated-enter="inlineEdit($event, props.rowData.id, 'body')"
-                    ></edit-field>
-                </template>
-
-                <template slot="RbAC" slot-scope="props">
-                    <edit-field
-                            class="form__input fs14"
-                            v-bind:text="test[props.rowData.id].RbAC"
-                            @text-updated-blur="inlineEdit($event, props.rowData.id, 'body')"
-                            @text-updated-enter="inlineEdit($event, props.rowData.id, 'body')"
-                    ></edit-field>
-                </template>
-
-                <template slot="image" slot-scope="props">
-                    <img class="vuetable-action"
-                         src="../../../assets/img/modules/table/edit.svg"
+                    <img
+                         class="permissions__object-boolean"
+                         src="../../../assets/img/modules/table/circle-true.svg"
                          alt="edit"
                          @click="edit"
                     >
+                </template>
+
+                <template slot="RbAC" slot-scope="props">
+                    <img
+                            class="permissions__object-boolean"
+                            src="../../../assets/img/modules/table/circle-false.svg"
+                         alt="edit"
+                         @click="edit"
+                    >
+                </template>
+
+                <template slot="image" slot-scope="props">
+                    <div class="vuetable-actions vuetable-actions-1">
+                        <img class="vuetable-action"
+                             src="../../../assets/img/modules/table/edit.svg"
+                             alt="edit"
+                             @click="edit"
+                        >
+                    </div>
                 </template>
             </vuetable>
         </section>
@@ -75,9 +77,9 @@
                 // vuetable prop
                 fields: [
                     {name: '__slot:head', title: this.$t('modules.permissions.name')},
-                    {name: '__slot:ObAC', title: this.$t('modules.description')},
-                    {name: '__slot:RbAC', title: this.$t('modules.description')},
-                    {name: '__slot:image', title: this.$t('modules.action')},
+                    {name: '__slot:ObAC', title: 'Managed by operations'},
+                    {name: '__slot:RbAC', title: 'Managed by records'},
+                    {name: '__slot:image', title: ''},
                 ],
                 test: [],
             };
@@ -101,6 +103,8 @@
     }
 </script>
 
-<style scoped>
-
+<style lang="scss" scoped>
+    .permissions__object-boolean {
+        margin: auto;
+    }
 </style>

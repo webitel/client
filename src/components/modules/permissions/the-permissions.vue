@@ -41,16 +41,18 @@
                </template>
 
                <template slot="image" slot-scope="props">
-                   <img class="vuetable-action"
-                        src="../../../assets/img/modules/table/edit.svg"
-                        alt="edit"
-                        @click="action('edit')"
-                   >
-                   <img class="vuetable-action"
-                        src="../../../assets/img/modules/table/delete.svg"
-                        alt="delete"
-                        @click="action('delete')"
-                   >
+                   <div class="vuetable-actions vuetable-actions-2">
+                       <img class="vuetable-action"
+                            src="../../../assets/img/modules/table/edit.svg"
+                            alt="edit"
+                            @click="action('edit')"
+                       >
+                       <img class="vuetable-action"
+                            src="../../../assets/img/modules/table/delete.svg"
+                            alt="delete"
+                            @click="action('delete')"
+                       >
+                   </div>
                </template>
            </vuetable>
        </section>
@@ -80,7 +82,7 @@
                 fields: [
                     {name: '__slot:head', title: this.$t('modules.permissions.name')},
                     {name: '__slot:body', title: this.$t('modules.description')},
-                    {name: '__slot:image', title: this.$t('modules.action')},
+                    {name: '__slot:image', title: ''},
                 ],
                 test: [],
             };

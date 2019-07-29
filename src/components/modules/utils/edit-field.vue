@@ -132,6 +132,7 @@
         top: 12px;
         left: 0;
         /*right: 0;*/
+        min-width: 400px;
         width: 100%;
         padding: 24px 24px 28px 30px;
         /*different top and bottom padding to vertically align text*/
