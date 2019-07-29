@@ -32,7 +32,7 @@ export default {
         background: $accent-color;
         border-radius: 4px;
 
-        border: none;
+        border: 1px solid transparent;
         outline: none;
     }
 
