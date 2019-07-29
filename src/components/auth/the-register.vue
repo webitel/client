@@ -118,7 +118,7 @@ export default {
     this.animationInstance = loginAnimation;
     this.animationInstance.start(this.$refs['auth-canvas'], this.$refs.register);
   },
-  deactivated() {
+  destroyed() {
     this.animationInstance.end();
   },
   methods: {

@@ -3,10 +3,13 @@ import store from '../store/store';
 import Router from 'vue-router';
 import login from '../components/auth/the-login';
 import register from '../components/auth/the-register';
+
+import moduleWrap from '../components/modules/module-wrap';
 import home from '../components/modules/home/the-home';
 import notFound from '../components/the-not-found-component';
 import permissions from '../components/modules/permissions/the-permissions';
 import permissionsNew from '../components/modules/permissions/permissions-new';
+import permissionsObject from '../components/modules/permissions/permissions-object';
 
 Vue.use(Router);
 
@@ -26,19 +29,29 @@ const router = new Router({
         },
         {
             path: '/',
-            name: 'home',
-            component: home
-        },
-        {
-            path: '/permissions',
-            name: 'permissions',
-            component: permissions,
-            children: []
-        },
-        {
-            path: '/permissions/new',
-            name: 'permissions-new',
-            component: permissionsNew
+            component: moduleWrap,
+            children: [
+                {
+                    path: '/',
+                    name: 'home',
+                    component: home
+                },
+                {
+                    path: '/permissions',
+                    name: 'permissions',
+                    component: permissions,
+                },
+                {
+                    path: '/permissions/new',
+                    name: 'permissions-new',
+                    component: permissionsNew
+                },
+                {
+                    path: '/permissions/object',
+                    name: 'permissions-object',
+                    component: permissionsObject
+                },
+            ]
         },
         {
             path: '*',

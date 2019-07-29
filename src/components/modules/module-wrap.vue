@@ -8,7 +8,7 @@
             ></alert>
             <app-header></app-header>
 
-            <slot></slot>
+            <router-view></router-view>
 
         </main>
     </div>
@@ -33,4 +33,5 @@
 
 <style lang="scss" scoped>
     @import "../../assets/css/modules/modules";
+    @import "../../assets/css/modules/vuetable";
 </style>

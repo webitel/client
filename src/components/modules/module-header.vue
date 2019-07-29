@@ -14,6 +14,7 @@
                 </btn>
                 <btn
                         class="btn"
+                        v-if="primaryAction"
                         @click.native="primaryAction"
                 >
                     {{this.primaryText}}
@@ -40,8 +41,7 @@ export default {
       default: 'Add new',
     },
     primaryAction: {
-      type: Function,
-      default: () => {},
+      type: Function
     },
     secondaryText: {
       type: String,
