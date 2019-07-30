@@ -1,5 +1,6 @@
 
 .vuetable {
+  table-layout: fixed;
   text-align: left;
   width: 100%;
   margin-top: 16px;
@@ -24,50 +25,52 @@
       letter-spacing: 0.4px;
     }
 
-    /*ACTION COLUMN*/
-    td:last-child {
-      text-align: right;
-      padding-right: 0;
+
+  }
+
+  /*ACTION COLUMN*/
+  // vuetable class is to override default style priority
+  &.vuetable .vuetable-td-actions {
+    text-align: right;
+    width: 120px;
+    padding-right: 0;
+
+    // div icons wrap
+    .vuetable-actions {
+      width: 100%;
+    }
+
+    // icon
+    .vuetable-action {
+      vertical-align: middle;
+      display: inline-block;
+      margin-right: 25px;
+      border: 1px dashed rgba(0, 0, 0, 0.3);
+      cursor: pointer;
+    }
+
+    .vuetable-action:first-child {
+      margin-right: 30px;
     }
   }
 
-  .vuetable-actions {
-    width: 100%;
+  &.vuetable-actions-1 .vuetable-td-actions {
+    width: 60px;
+
+    // div icons wrap
+    .vuetable-actions {
+      width: fit-content;
+      width: -moz-fit-content;
+      display: inline-block;
+    }
   }
 
-  .vuetable-action {
-    vertical-align: middle;
-    display: inline-block;
-    margin-right: 25px;
-    border: 1px dashed rgba(0, 0, 0, 0.3);
-    cursor: pointer;
-  }
-
-  .vuetable-action:first-child {
-    margin-right: 30px;
-  }
-
-  .vuetable-actions-1 {
-    width: fit-content;
-    width: -moz-fit-content;
-    display: inline-block;
-
-  }
 
   // -------------------- BELOW GOES CUSTOM COLUMN WIDTH PARAMS ON PAGE -----------------------
 
   &.permissions-table {
-    table-layout: fixed;
-
-    tr {
-      th {
-        width: calc((100% - 120px) / 2);
-      }
-
-      /*ACTION COLUMN*/
-      th:last-child {
-        width: 120px;
-      }
+    th {
+      width: calc((100% - 120px) / 2);
     }
   }
 }

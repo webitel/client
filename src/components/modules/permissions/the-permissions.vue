@@ -1,62 +1,62 @@
 <template>
-   <div class="content-wrap">
+    <div class="content-wrap">
 
-       <module-header
-               :primaryAction="create"
-       >
-           {{$t('modules.permissions.permissionsTitle')}} |
-           {{$tc('modules.permissions.permissionsRole', 2)}}
-       </module-header>
+        <module-header
+                :primaryAction="create"
+        >
+            {{$t('modules.permissions.permissionsTitle')}} |
+            {{$tc('modules.permissions.permissionsRole', 2)}}
+        </module-header>
 
-       <section class="module-content">
-           <header class="module-content__header">
-               <h3 class="module-content__title">{{$t('modules.permissions.allRoles')}}</h3>
-           </header>
+        <section class="module-content">
+            <header class="module-content__header">
+                <h3 class="module-content__title">{{$t('modules.permissions.allRoles')}}</h3>
+            </header>
 
-           <vuetable
-                   class="permissions-table"
-                   :api-mode="false"
-                   :fields="fields"
-                   :data="test"
-           >
+            <vuetable
+                    class="permissions-table"
+                    :api-mode="false"
+                    :fields="fields"
+                    :data="test"
+            >
 
-               <template slot="head" slot-scope="props">
-                   <edit-field
-                           class="form__input fs14"
-                           v-bind:text="test[props.rowData.id].head"
-                           :placeholder="$t('auth.passwordPlaceholder')"
-                           @text-updated-blur="inlineEdit($event, props.rowData.id, 'head')"
-                           @text-updated-enter="inlineEdit($event, props.rowData.id, 'head')"
-                   ></edit-field>
-               </template>
+                <template slot="head" slot-scope="props">
+                    <edit-field
+                            class="form__input fs14"
+                            v-bind:text="test[props.rowData.id].head"
+                            :placeholder="$t('auth.passwordPlaceholder')"
+                            @text-updated-blur="inlineEdit($event, props.rowData.id, 'head')"
+                            @text-updated-enter="inlineEdit($event, props.rowData.id, 'head')"
+                    ></edit-field>
+                </template>
 
-               <template slot="body" slot-scope="props">
-                   <edit-field
-                           class="form__input fs14"
-                           v-bind:text="test[props.rowData.id].body"
-                           :placeholder="$t('auth.passwordPlaceholder')"
-                           @text-updated-blur="inlineEdit($event, props.rowData.id, 'body')"
-                           @text-updated-enter="inlineEdit($event, props.rowData.id, 'body')"
-                   ></edit-field>
-               </template>
+                <template slot="body" slot-scope="props">
+                    <edit-field
+                            class="form__input fs14"
+                            v-bind:text="test[props.rowData.id].body"
+                            :placeholder="$t('auth.passwordPlaceholder')"
+                            @text-updated-blur="inlineEdit($event, props.rowData.id, 'body')"
+                            @text-updated-enter="inlineEdit($event, props.rowData.id, 'body')"
+                    ></edit-field>
+                </template>
 
-               <template slot="image" slot-scope="props">
-                   <div class="vuetable-actions vuetable-actions-2">
-                       <img class="vuetable-action"
-                            src="../../../assets/img/modules/table/edit.svg"
-                            alt="edit"
-                            @click="action('edit')"
-                       >
-                       <img class="vuetable-action"
-                            src="../../../assets/img/modules/table/delete.svg"
-                            alt="delete"
-                            @click="action('delete')"
-                       >
-                   </div>
-               </template>
-           </vuetable>
-       </section>
-   </div>
+                <template slot="image" slot-scope="props">
+                    <div class="vuetable-actions">
+                        <img class="vuetable-action"
+                             src="../../../assets/img/modules/table/edit.svg"
+                             alt="edit"
+                             @click="action('edit')"
+                        >
+                        <img class="vuetable-action"
+                             src="../../../assets/img/modules/table/delete.svg"
+                             alt="delete"
+                             @click="action('delete')"
+                        >
+                    </div>
+                </template>
+            </vuetable>
+        </section>
+    </div>
 </template>
 
 <script>
@@ -80,7 +80,12 @@
                 fields: [
                     {name: '__slot:head', title: this.$t('modules.permissions.name')},
                     {name: '__slot:body', title: this.$t('modules.description')},
-                    {name: '__slot:image', title: ''},
+                    {
+                        name: '__slot:image',
+                        title: '',
+                        titleClass: 'vuetable-td-actions',
+                        dataClass: 'vuetable-td-actions',
+                    },
                 ],
                 test: [],
             };

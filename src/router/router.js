@@ -10,6 +10,7 @@ import notFound from '../components/the-not-found-component';
 import permissions from '../components/modules/permissions/the-permissions';
 import permissionsNew from '../components/modules/permissions/permissions-new';
 import permissionsObject from '../components/modules/permissions/permissions-object';
+import permissionsObjectEdit from '../components/modules/permissions/permissions-object-edit';
 
 Vue.use(Router);
 
@@ -50,6 +51,11 @@ const router = new Router({
                     path: '/permissions/object',
                     name: 'permissions-object',
                     component: permissionsObject
+                },
+                {
+                    path: '/permissions/object/edit',
+                    name: 'permissions-object-edit',
+                    component: permissionsObjectEdit
                 },
             ]
         },

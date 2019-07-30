@@ -10,7 +10,7 @@
             </header>
 
             <vuetable
-                    class="permissions-table"
+                    class="permissions-table permissions-object-table vuetable-actions-1"
                     :api-mode="false"
                     :fields="fields"
                     :data="test"
@@ -43,7 +43,7 @@
                 </template>
 
                 <template slot="image" slot-scope="props">
-                    <div class="vuetable-actions vuetable-actions-1">
+                    <div class="vuetable-actions">
                         <img class="vuetable-action"
                              src="../../../assets/img/modules/table/edit.svg"
                              alt="edit"
@@ -75,7 +75,12 @@
                     {name: '__slot:head', title: this.$t('modules.permissions.name')},
                     {name: '__slot:ObAC', title: 'Managed by operations'},
                     {name: '__slot:RbAC', title: 'Managed by records'},
-                    {name: '__slot:image', title: ''},
+                    {
+                        name: '__slot:image',
+                        title: '',
+                        titleClass: 'vuetable-td-actions',
+                        dataClass: 'vuetable-td-actions',
+                    },
                 ],
                 test: [],
             };
@@ -93,7 +98,7 @@
         },
         methods: {
             edit() {
-                // this.$router.push({path: '/permissions/new', query: {edit: 'true'}});
+                this.$router.push('/permissions/object/edit');
             },
             computeStatusIcon(status) {
                 return status ? require('../../../assets/img/modules/table/circle-true.svg')
