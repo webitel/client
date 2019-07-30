@@ -24,7 +24,7 @@
                    <edit-field
                            class="form__input fs14"
                            v-bind:text="test[props.rowData.id].head"
-                           placeholder="$t('auth.passwordPlaceholder')"
+                           :placeholder="$t('auth.passwordPlaceholder')"
                            @text-updated-blur="inlineEdit($event, props.rowData.id, 'head')"
                            @text-updated-enter="inlineEdit($event, props.rowData.id, 'head')"
                    ></edit-field>
@@ -34,7 +34,7 @@
                    <edit-field
                            class="form__input fs14"
                            v-bind:text="test[props.rowData.id].body"
-                           placeholder="$t('auth.passwordPlaceholder')"
+                           :placeholder="$t('auth.passwordPlaceholder')"
                            @text-updated-blur="inlineEdit($event, props.rowData.id, 'body')"
                            @text-updated-enter="inlineEdit($event, props.rowData.id, 'body')"
                    ></edit-field>
@@ -60,7 +60,6 @@
 </template>
 
 <script>
-    import moduleWrap from '../module-wrap';
     import vuetable from 'vuetable-2/src/components/Vuetable';
     import moduleHeader from '../module-header';
     import editField from '../utils/edit-field';
@@ -71,7 +70,6 @@
     export default {
         name: 'the-permissions',
         components: {
-            'module-wrap': moduleWrap,
             'module-header': moduleHeader,
             'edit-field': editField,
             vuetable,
@@ -126,5 +124,5 @@
 </script>
 
 <style lang="scss" scoped>
-    /*@import '../../../assets/css/modules/modules';*/
+
 </style>

@@ -2,7 +2,7 @@
 
     <div class="module-wrap">
         <app-nav></app-nav>
-        <main class="module permissions">
+        <main class="module">
             <alert
                     :error="error"
             ></alert>

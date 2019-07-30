@@ -19,10 +19,8 @@
                 <template slot="head" slot-scope="props">
                     <edit-field
                             class="form__input fs14"
-                            v-bind:text="test[props.rowData.id].head"
-                            placeholder="$t('auth.passwordPlaceholder')"
-                            @text-updated-blur="inlineEdit($event, props.rowData.id, 'head')"
-                            @text-updated-enter="inlineEdit($event, props.rowData.id, 'head')"
+                            :text="test[props.rowData.id].head"
+                            :disabled="true"
                     ></edit-field>
                 </template>
 
@@ -59,7 +57,6 @@
 </template>
 
 <script>
-    import moduleWrap from '../module-wrap';
     import vuetable from 'vuetable-2/src/components/Vuetable';
     import moduleHeader from '../module-header';
     import editField from '../utils/edit-field';
@@ -67,7 +64,6 @@
     export default {
         name: "permissions-object",
         components: {
-            'module-wrap': moduleWrap,
             'module-header': moduleHeader,
             'edit-field': editField,
             vuetable,
@@ -104,7 +100,5 @@
 </script>
 
 <style lang="scss" scoped>
-    .permissions__object-boolean {
-        margin: auto;
-    }
+
 </style>

@@ -45,7 +45,6 @@ export default {
     },
     secondaryText: {
       type: String,
-      default: '',
     },
     secondaryAction: {
       type: Function,

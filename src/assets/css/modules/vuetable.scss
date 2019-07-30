@@ -26,17 +26,19 @@
 
     /*ACTION COLUMN*/
     td:last-child {
-      width: 120px;
+      text-align: right;
+      padding-right: 0;
     }
   }
 
   .vuetable-actions {
     width: 100%;
-    display: flex;
-    justify-content:space-evenly;
   }
 
   .vuetable-action {
+    vertical-align: middle;
+    display: inline-block;
+    margin-right: 25px;
     border: 1px dashed rgba(0, 0, 0, 0.3);
     cursor: pointer;
   }
@@ -45,12 +47,21 @@
     margin-right: 30px;
   }
 
+  .vuetable-actions-1 {
+    width: fit-content;
+    width: -moz-fit-content;
+    display: inline-block;
+
+  }
+
+  // -------------------- BELOW GOES CUSTOM COLUMN WIDTH PARAMS ON PAGE -----------------------
 
   &.permissions-table {
     table-layout: fixed;
+
     tr {
       th {
-        width: calc((100% - 120px)/2);
+        width: calc((100% - 120px) / 2);
       }
 
       /*ACTION COLUMN*/

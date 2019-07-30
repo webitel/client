@@ -1,6 +1,10 @@
 <template>
     <div class="content-wrap">
-        <module-header :primaryText="$t('modules.save')" :primaryAction="close" :secondaryAction="close">
+        <module-header
+                :primaryText="$t('modules.save')"
+                :primaryAction="close"
+                :secondaryAction="close"
+        >
             {{$tc('modules.permissions.permissionsRole')}} | {{computeTitle}}
         </module-header>
         <section class="module-content module-new permissions-new">
@@ -37,14 +41,12 @@
 </template>
 
 <script>
-    import moduleWrap from '../module-wrap';
     import moduleHeader from '../module-header';
     import formInput from '../../utils/form-input';
 
     export default {
         name: 'permissions-new',
         components: {
-            'module-wrap': moduleWrap,
             'module-header': moduleHeader,
             'form-input': formInput,
         },
@@ -55,9 +57,6 @@
                     description: '',
                 },
             };
-        },
-        mounted() {
-            this.$log.info('new');
         },
         methods: {
             close() {

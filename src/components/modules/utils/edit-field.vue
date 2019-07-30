@@ -2,16 +2,16 @@
     <div class="edit-field">
         <div
                 class="edit-field__label"
-                :class="{'hidden' : edit}"
+                :class="{'hidden' : edit && !disabled}"
                 @dblclick="onLabelClick"
         >
             {{vlabel}}
         </div>
         <form
                 class="edit-field__form"
-                :class="{'hidden' : !edit}"
+                :class="{'hidden' : !edit || disabled}"
                 ref="labeledit"
-                @submit.prevent="updateTextEnter"
+                @submit.prevent="updateTextSubmit"
         >
             <input
                     class="edit-field__input"
@@ -24,8 +24,6 @@
                 <btn class="btn" type="submit">save</btn>
             </div>
         </form>
-        <!--        @keyup.enter="updateTextEnter"-->
-        <!--        @blur="updateTextBlur"-->
     </div>
 </template>
 
@@ -51,6 +49,12 @@
                 type: String,
                 default: 'Enter value',
             },
+
+            // disables not-editable fields
+            disabled: {
+                type: Boolean,
+                default: false
+            }
         },
         watch: {
             text(value) {
@@ -84,14 +88,7 @@
                 this.edit = true;
                 this.label = this.text;
             },
-            // trigger when textbox got lost focus
-            updateTextBlur() {
-                // update the edit mode to false .. display div label text
-                this.edit = false;
-                // emit text updated callback
-                this.$emit('text-updated-blur', this.label);
-            },
-            updateTextEnter() {
+            updateTextSubmit() {
                 this.edit = false;
                 this.$emit('text-updated-enter', this.label);
             },
@@ -131,7 +128,6 @@
         position: absolute;
         top: 12px;
         left: 0;
-        /*right: 0;*/
         min-width: 400px;
         width: 100%;
         padding: 24px 24px 28px 30px;

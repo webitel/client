@@ -1,14 +1,15 @@
-
+// outer wrap of module- page
 .module-wrap {
   display: flex;
   width: 100vw;
   overflow-x: hidden;
 }
 
+// main content itself, without nav but with main header
 .module {
   flex-grow: 1;
 }
-
+// inner content section
 .module-content {
   padding: 0 28px 0 44px;
 }
@@ -59,7 +60,6 @@
 
 
 .module-new {
-
   .input {
     border: 1px solid rgba(0, 0, 0, 0.2);
   }

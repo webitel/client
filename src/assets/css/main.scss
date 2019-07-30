@@ -27,6 +27,7 @@ ul {
 // helper underline class
 .border-underline {
   position: relative;
+
   &:before {
     content: '';
     position: absolute;
