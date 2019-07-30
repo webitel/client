@@ -1,7 +1,7 @@
 <template>
     <div class="content-wrap">
         <module-header>{{$t('modules.permissions.permissionsTitle')}} |
-            Object
+            Objects
         </module-header>
 
         <section class="module-content">
@@ -25,21 +25,15 @@
                 </template>
 
                 <template slot="ObAC" slot-scope="props">
-                    <img
-                            class="permissions__object-boolean"
-                            :src="computeStatusIcon(test[props.rowData.id].ObAC)"
-                            alt="edit"
-                            @click="edit"
-                    >
+                    <table-status
+                        :value="test[props.rowData.id].ObAC"
+                    ></table-status>
                 </template>
 
                 <template slot="RbAC" slot-scope="props">
-                    <img
-                            class="permissions__object-boolean"
-                            :src="computeStatusIcon(test[props.rowData.id].RbAC)"
-                            alt="edit"
-                            @click="edit"
-                    >
+                    <table-status
+                            :value="test[props.rowData.id].RbAC"
+                    ></table-status>
                 </template>
 
                 <template slot="image" slot-scope="props">
@@ -60,12 +54,14 @@
     import vuetable from 'vuetable-2/src/components/Vuetable';
     import moduleHeader from '../module-header';
     import editField from '../utils/edit-field';
+    import tableStatus from '../utils/table-status';
 
     export default {
         name: "permissions-object",
         components: {
             'module-header': moduleHeader,
             'edit-field': editField,
+            'table-status': tableStatus,
             vuetable,
         },
         data() {
@@ -100,10 +96,6 @@
             edit() {
                 this.$router.push('/permissions/object/edit');
             },
-            computeStatusIcon(status) {
-                return status ? require('../../../assets/img/modules/table/circle-true.svg')
-                    : require('../../../assets/img/modules/table/circle-false.svg');
-            }
         },
     }
 </script>
