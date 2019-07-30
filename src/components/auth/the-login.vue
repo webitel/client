@@ -35,7 +35,7 @@
             ></form-input>
 
             <router-link
-                    class="form__reset-password border-underline fs14-lh16"
+                    class="form__reset-password fs14-lh16"
                     :to="{ path: '/register', query: { reset: true }}">
                 {{$t('auth.resetPasswordLink')}}</router-link>
 

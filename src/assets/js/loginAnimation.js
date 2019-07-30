@@ -137,7 +137,7 @@ export default (function () {
                 elements.push(canvasPresetImg(img.callCenterOk, calcIconPos(340, 553), {width: 27, height: 24}));
                 elements.push(canvasPresetImg(img.callCenterSettings, calcIconPos(470, 712), {width: 27, height: 24}));
                 elements.push(canvasPresetImg(img.phoneText, calcIconPos(617, 694)));
-                elements.push(canvasPresetImg(img.phonePlus, calcIconPos(470, 159), {width: 26, height: 31}));
+                elements.push(canvasPresetImg(img.phonePlus, calcIconPos(470, 159), {width: 31, height: 31}));
                 elements.push(canvasPresetImg(img.phoneReply, calcIconPos(634, 199), {width: 24, height: 24}));
                 elements.push(canvasPresetImg(img.phoneInfo, calcIconPos(1024, 670), {width: 26, height: 26}));
                 elements.push(canvasPresetImg(img.phoneText, calcIconPos(1163, 550), {width: 26, height: 26}));

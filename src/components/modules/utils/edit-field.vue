@@ -85,12 +85,16 @@
             },
             // when the div label got clicked and trigger the text box
             onLabelClick() {
-                this.edit = true;
-                this.label = this.text;
+                if(!this.disabled) {
+                    this.edit = true;
+                    this.label = this.text;
+
+                    this.$emit('start-update');
+                }
             },
             updateTextSubmit() {
                 this.edit = false;
-                this.$emit('text-updated-enter', this.label);
+                this.$emit('text-updated', this.label);
             },
         },
         computed: {
@@ -151,7 +155,7 @@
 
         .edit-field__form-controls {
             text-align: right;
-            margin: 20px 10px 0 0;
+            margin-top: 20px;
 
             .secondary-btn {
                 margin-right: 30px;

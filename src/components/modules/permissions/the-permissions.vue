@@ -25,8 +25,9 @@
                             class="form__input fs14"
                             v-bind:text="test[props.rowData.id].head"
                             :placeholder="$t('auth.passwordPlaceholder')"
-                            @text-updated-blur="inlineEdit($event, props.rowData.id, 'head')"
-                            @text-updated-enter="inlineEdit($event, props.rowData.id, 'head')"
+                            :disabled="computeEditInstance(props.rowData.id, 'head')"
+                            @start-update="startUpdate({id: props.rowData.id,name: 'head'})"
+                            @text-updated="inlineEdit($event, props.rowData.id, 'head')"
                     ></edit-field>
                 </template>
 
@@ -35,8 +36,9 @@
                             class="form__input fs14"
                             v-bind:text="test[props.rowData.id].body"
                             :placeholder="$t('auth.passwordPlaceholder')"
-                            @text-updated-blur="inlineEdit($event, props.rowData.id, 'body')"
-                            @text-updated-enter="inlineEdit($event, props.rowData.id, 'body')"
+                            :disabled="computeEditInstance(props.rowData.id, 'body')"
+                            @start-update="startUpdate({id: props.rowData.id,name: 'body'})"
+                            @text-updated="inlineEdit($event, props.rowData.id, 'body')"
                     ></edit-field>
                 </template>
 
@@ -88,11 +90,12 @@
                     },
                 ],
                 test: [],
+                editInstance: null
             };
         },
         mounted() {
             // FIXME: delete test data
-            for (let i = 0; i < 10; i++) {
+            for (let i = 0; i < 20; i++) {
                 this.test.push({
                     head: `head${i}`,
                     body: 'body',
@@ -105,7 +108,7 @@
                         response.forEach((item, index) => {
                             this.test[index].head = item.role;
                         });
-                        this.test.length = response.length;
+                        // this.test.length = response.length;
                     },
                     (error) => {
                         this.$log.info('error roles', error);
@@ -118,13 +121,25 @@
             },
             action(action) {
                 if (action === 'edit') {
-                    this.$router.push({path: 'permissions/new', query: {edit: 'true'}});
+                    this.$router.push({path: '/permissions/new', query: {edit: 'true'}});
                 }
             },
             inlineEdit(newValue, id, property) {
                 this.test[id][property] = newValue;
+                this.editInstance = null;
             },
-        },
+
+            // Edit Instance -- only 1 instance of editable field which we can edit at one time
+            startUpdate(editInstance) {
+                this.editInstance = editInstance;
+            },
+            computeEditInstance(id, name) {
+                if(this.editInstance) {
+                    return !(id === this.editInstance.id && name === this.editInstance.name);
+                }
+                return false;
+            }
+        }
     };
 </script>
 

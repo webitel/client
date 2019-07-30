@@ -92,7 +92,7 @@
                 test: [],
                 checkboxLabels: {
                     true: 'Allow',
-                    false: '--'
+                    false: '- -'
                 }
             };
         },
