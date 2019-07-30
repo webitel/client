@@ -26,19 +26,19 @@
 
                 <template slot="ObAC" slot-scope="props">
                     <img
-                         class="permissions__object-boolean"
-                         src="../../../assets/img/modules/table/circle-true.svg"
-                         alt="edit"
-                         @click="edit"
+                            class="permissions__object-boolean"
+                            :src="computeStatusIcon(test[props.rowData.id].ObAC)"
+                            alt="edit"
+                            @click="edit"
                     >
                 </template>
 
                 <template slot="RbAC" slot-scope="props">
                     <img
                             class="permissions__object-boolean"
-                            src="../../../assets/img/modules/table/circle-false.svg"
-                         alt="edit"
-                         @click="edit"
+                            :src="computeStatusIcon(test[props.rowData.id].RbAC)"
+                            alt="edit"
+                            @click="edit"
                     >
                 </template>
 
@@ -85,8 +85,8 @@
             for (let i = 0; i < 10; i++) {
                 this.test.push({
                     head: `head${i}`,
-                    ObAC: 'true',
-                    RbAC: 'false',
+                    ObAC: true,
+                    RbAC: false,
                     id: i,
                 });
             }
@@ -95,6 +95,10 @@
             edit() {
                 // this.$router.push({path: '/permissions/new', query: {edit: 'true'}});
             },
+            computeStatusIcon(status) {
+                return status ? require('../../../assets/img/modules/table/circle-true.svg')
+                    : require('../../../assets/img/modules/table/circle-false.svg');
+            }
         },
     }
 </script>
