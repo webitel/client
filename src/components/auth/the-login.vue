@@ -13,8 +13,8 @@
                 ref="login"
                 @submit.prevent="submit"
         >
-            <h2 class="auth__title fs24-lh24">{{$t('auth.loginTitle')}}</h2>
-            <p class="auth__subtitle fs12-lh24">{{$t('auth.loginSubtitle')}}</p>
+            <h2 class="auth__title">{{$t('auth.loginTitle')}}</h2>
+            <p class="auth__subtitle">{{$t('auth.loginSubtitle')}}</p>
 
             <form-input
                     class="form__input fs14"
@@ -35,7 +35,7 @@
             ></form-input>
 
             <router-link
-                    class="form__reset-password fs14-lh16"
+                    class="form__reset-password"
                     :to="{ path: '/register', query: { reset: true }}">
                 {{$t('auth.resetPasswordLink')}}</router-link>
 
@@ -115,6 +115,8 @@ export default {
     @import "../../assets/css/auth/auth";
 
     .form__reset-password {
+        @extend .typo-input-label;
+
         position: absolute;
         bottom: 146px;
         right: 20px;

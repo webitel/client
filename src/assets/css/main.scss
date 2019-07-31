@@ -51,7 +51,74 @@ ul {
   user-select: none;
 }
 
-// TODO: rename fs*lh* classes
+
+
+.typo-heading-1 {
+  font: 24px 'AvantGardeDemi';
+  line-height: 24px;
+}
+
+.typo-heading-2 {
+  font: 20px 'AvantGardeDemi';
+  line-height: 24px;
+}
+
+.typo-heading-3 {
+  font: 20px 'AvantGardeBold';
+  line-height: 24px;
+}
+
+.typo-subheading-1 {
+  font: 18px 'AvantGardeBook';
+  line-height: 16px;
+}
+
+.typo-subheading-2 {
+  font: 12px 'AvantGardeBook';
+  line-height: 16px;
+}
+
+.typo-subheading-3 {
+  font: 14px 'AvantGardeBook';
+  line-height: 20px;
+}
+
+.typo-subheading-4 {
+  font: 11px 'AvantGardeBook';
+  line-height: 14px;
+}
+
+.typo-body {
+  font: 12px 'AvantGardeBook';
+  line-height: 20px;
+}
+
+.typo-btn {
+  font: 14px 'AvantGardeDemi';
+  line-height: 16px;
+}
+
+.typo-input-label {
+  font: 14px 'AvantGardeBook';
+  line-height: 16px;
+}
+
+.typo-input-text {
+  font: 14px 'AvantGardeBook';
+  line-height: 24px;
+}
+
+.typo-text-link {
+  @extend .border-underline;
+  font: 20px 'AvantGardeBold';
+  line-height: 24px;
+}
+
+
+
+
+
+// TODO: delete fs*lh* classes
 .fs14 {
   font-size: 14px;
 }
@@ -66,10 +133,6 @@ ul {
   line-height: 16px;
 }
 
-.fs24-lh24 {
-  font-size: 24px;
-  line-height: 24px;
-}
 
 .fs14-lh24 {
   font-size: 24px;

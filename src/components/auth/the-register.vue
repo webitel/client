@@ -18,7 +18,7 @@
                 ref="register"
                 @submit.prevent="submit"
         >
-            <h2 class="auth__title fs24-lh24">{{computeTitle}}</h2>
+            <h2 class="auth__title heading-1">{{computeTitle}}</h2>
             <p class="auth__subtitle fs12-lh24">{{$t('auth.loginSubtitle')}}</p>
 
             <form-input
@@ -152,11 +152,11 @@ export default {
 
     /*auth link*/
     .auth__link {
+        @extend .typo-heading-3;
+
         display: block;
         position: relative;
         padding-bottom: 2px;
-        font: 20px 'AvantGardeBold';
-        line-height: 24px;
         text-decoration: none;
         color: #fff;
     }

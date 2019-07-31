@@ -1,7 +1,7 @@
 <template>
     <div class="form-input">
         <label>
-            <span class="label fs14-lh16" :class="{'invalid': this.v.$error}">{{this.label}}</span>
+            <span class="label" :class="{'invalid': this.v.$error}">{{this.label}}</span>
             <input
                     class="input"
                     ref="input"
@@ -21,13 +21,13 @@
 
             ></textarea>
         </label>
-        <div class="invalid form-input__details fs12-lh16" v-show="v.email===false">
+        <div class="invalid form-input__details" v-show="v.email===false">
             {{$t('auth.validation.email')}}
         </div>
-        <div class="invalid form-input__details fs12-lh16" v-show="v.required===false">
+        <div class="invalid form-input__details" v-show="v.required===false">
             {{$t('auth.validation.required')}}
         </div>
-        <div class="invalid form-input__details fs12-lh16" v-show="v.sameAs===false">
+        <div class="invalid form-input__details" v-show="v.sameAs===false">
             {{$t('auth.validation.confirmPassword')}}
         </div>
     </div>
@@ -104,12 +104,16 @@ export default {
     }
 
     .label {
+        @extend .typo-input-label;
+
         display: block;
         margin-bottom: 9px;
         transition: 0.3s;
     }
 
     .input {
+        @extend .typo-input-text;
+
         display: block;
         width: 100%;
         /*different top and bottom padding to vertically align text*/
