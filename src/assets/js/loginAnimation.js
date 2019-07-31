@@ -90,7 +90,7 @@ export default (function () {
         };
 
         // template for creating img`s
-        const canvasPresetImg = function (img, {x, y}, size = {width: 25, height: 25}, dx = 0, dy = 0) { // animation trajectory
+        const canvasPresetImg = function (img, {x, y}, size = {width: 28, height: 28}, dx = 0, dy = 0) { // animation trajectory
             return {
                 x,
                 y,
@@ -130,23 +130,24 @@ export default (function () {
 
             if (canvas.width >= 768) {
                 elements.push(canvasPresetImg(img.phoneText, calcIconPos(149, 198)));
-                elements.push(canvasPresetImg(img.callCenterOk, calcIconPos(292, 269), {width: 27, height: 24}));
-                elements.push(canvasPresetImg(img.peoplePhone, calcIconPos(172, 423), {width: 26, height: 30}));
+                elements.push(canvasPresetImg(img.callCenterOk, calcIconPos(292, 269)));
+                elements.push(canvasPresetImg(img.peoplePhone, calcIconPos(172, 423)));
                 elements.push(canvasPresetImg(img.phoneText, calcIconPos(422, 387)));
-                elements.push(canvasPresetImg(img.phoneInfo, calcIconPos(159, 595), {width: 28, height: 28}));
-                elements.push(canvasPresetImg(img.callCenterOk, calcIconPos(340, 553), {width: 27, height: 24}));
-                elements.push(canvasPresetImg(img.callCenterSettings, calcIconPos(470, 712), {width: 27, height: 24}));
+                elements.push(canvasPresetImg(img.phoneInfo, calcIconPos(159, 595)));
+                elements.push(canvasPresetImg(img.callCenterOk, calcIconPos(340, 553)));
+                elements.push(canvasPresetImg(img.callCenterSettings, calcIconPos(470, 712)));
                 elements.push(canvasPresetImg(img.phoneText, calcIconPos(617, 694)));
-                elements.push(canvasPresetImg(img.phonePlus, calcIconPos(470, 159), {width: 31, height: 31}));
-                elements.push(canvasPresetImg(img.phoneReply, calcIconPos(634, 199), {width: 24, height: 24}));
-                elements.push(canvasPresetImg(img.phoneInfo, calcIconPos(1024, 670), {width: 26, height: 26}));
-                elements.push(canvasPresetImg(img.phoneText, calcIconPos(1163, 550), {width: 26, height: 26}));
-                elements.push(canvasPresetImg(img.callCenterOk, calcIconPos(1013, 438), {width: 25, height: 22}));
-                elements.push(canvasPresetImg(img.peoplePhone, calcIconPos(1175, 337), {width: 24, height: 28}));
-                elements.push(canvasPresetImg(img.phoneText, calcIconPos(916, 313), {width: 24, height: 24}));
-                elements.push(canvasPresetImg(img.peopleCallCenter, calcIconPos(1063, 179), {width: 19, height: 22}));
+                elements.push(canvasPresetImg(img.phonePlus, calcIconPos(470, 159)));
+                elements.push(canvasPresetImg(img.phoneReply, calcIconPos(634, 199)));
+                elements.push(canvasPresetImg(img.phoneInfo, calcIconPos(1024, 670)));
+                elements.push(canvasPresetImg(img.phoneText, calcIconPos(1163, 550)));
+                elements.push(canvasPresetImg(img.callCenterOk, calcIconPos(1013, 438)));
+                elements.push(canvasPresetImg(img.peoplePhone, calcIconPos(1175, 337)));
+                elements.push(canvasPresetImg(img.phoneText, calcIconPos(916, 313)));
+                elements.push(canvasPresetImg(img.peopleCallCenter, calcIconPos(1063, 179)));
             }
         }
+
 
 
         function getRandomFromRange(min, max) {

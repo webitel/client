@@ -11,11 +11,9 @@
             <header class="module-content__header">
                 <h3 class="module-content__title">{{$t('modules.permissions.permissionsNew.generalInfo')}} </h3>
                 <div class="module__info-helper">
-                    <img
-                            class="module__info-helper__img"
-                            src="../../../assets/img/modules/info-helper.svg"
-                            alt="?"
-                    >
+                    <i
+                            class="module__info-helper__img icon-icon_question"
+                    ></i>
                     <div class="module__info-helper__text">Ya s`el deda :(</div>
                 </div>
             </header>

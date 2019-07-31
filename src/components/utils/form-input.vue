@@ -137,8 +137,8 @@ export default {
     }
 
     .invalid {
-        color: $form-error-color;
-        border-color: $form-error-color;
+        color: $false-color;
+        border-color: $false-color;
     }
 
     textarea {

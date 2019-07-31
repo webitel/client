@@ -1,10 +1,13 @@
 <template>
     <div class="table-status">
-        <img
-                class="table-status__icon"
-                :src="computeStatusIcon"
-                :alt="'status: ' + value"
-        >
+        <i
+                class="table-status__icon icon-icon_allow"
+                v-if="value"
+        ></i>
+        <i
+                class="table-status__icon icon-icon_deny"
+                v-if="!value"
+        ></i>
         <span class="table-status__text">
             {{computeStatusText}}
         </span>
@@ -31,10 +34,6 @@
             }
         },
         computed: {
-            computeStatusIcon() {
-                return this.value ? require('../../../assets/img/modules/table/circle-true.svg')
-                    : require('../../../assets/img/modules/table/circle-false.svg');
-            },
             computeStatusText() {
                 return this.text[this.value];
             }
@@ -42,11 +41,21 @@
     }
 </script>
 
-<style scoped>
+<style lang="scss" scoped>
+    @import "../../../assets/css/main";
 
     .table-status {
         display: flex;
         align-items: center;
+    }
+
+    .icon-icon_allow {
+       color: $true-color;
+    }
+
+
+    .icon-icon_deny {
+       color: $false-color;
     }
 
     .table-status__text {

@@ -1,3 +1,5 @@
+@import "../main";
+
 // outer wrap of module- page
 .module-wrap {
   display: flex;
@@ -34,7 +36,13 @@
 
   .module__info-helper__img {
     vertical-align: middle;
+    color: rgba(0, 0, 0, 0.3);
+    transition: $transition;
     cursor: pointer;
+
+    &:hover {
+      color: #000;
+    }
   }
 
   .module__info-helper__text {

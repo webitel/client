@@ -38,11 +38,9 @@
 
                 <template slot="image" slot-scope="props">
                     <div class="vuetable-actions">
-                        <img class="vuetable-action"
-                             src="../../../assets/img/modules/table/edit.svg"
-                             alt="edit"
-                             @click="edit"
-                        >
+                        <i class="vuetable-action icon-icon_pen"
+                           @click="edit"
+                        ></i>
                     </div>
                 </template>
             </vuetable>

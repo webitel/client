@@ -44,16 +44,12 @@
 
                 <template slot="image" slot-scope="props">
                     <div class="vuetable-actions">
-                        <img class="vuetable-action"
-                             src="../../../assets/img/modules/table/edit.svg"
-                             alt="edit"
+                        <i class="vuetable-action icon-icon_pen"
                              @click="action('edit')"
-                        >
-                        <img class="vuetable-action"
-                             src="../../../assets/img/modules/table/delete.svg"
-                             alt="delete"
+                        ></i>
+                        <i class="vuetable-action icon-icon_bascket"
                              @click="action('delete')"
-                        >
+                        ></i>
                     </div>
                 </template>
             </vuetable>

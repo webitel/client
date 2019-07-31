@@ -2,26 +2,23 @@
     <header class="the-header">
         <div class="the-header__user-panel">
             <div class="the-header__user-item the-header__user-pic">
-                <img
-                        class="the-header__img"
-                        src="../assets/img/header/user-pic.svg"
-                        alt="user picture">
+                <i
+                        class="the-header__img icon-icon_chat"
+                ></i>
             </div>
             <div class="the-header__user-item the-header__user-notifications">
-                <img
-                        class="the-header__img"
-                        src="../assets/img/header/user-notification.svg"
-                        alt="notifications">
+                <i
+                        class="the-header__img icon-icon_ball"
+                ></i>
             </div>
             <div class="the-header__user-item the-header__user-add">
-                <img
-                        class="the-header__img"
-                        src="../assets/img/header/user-add.svg"
-                        alt="add button">
+                <i
+                        class="the-header__img icon-icon_plus"
+                ></i>
             </div>
             <div class="the-header__user-item the-header__domain-select">
-                <div class="the-header__domain-select-title fs14-lh16">
-                    Select domain
+                <div class="the-header__domain-select-title">
+                    Select domain <span class="the-header__domain-select-icon icon-icon_arrow_down"></span>
                 </div>
             </div>
         </div>
@@ -29,12 +26,14 @@
 </template>
 
 <script>
-export default {
-  name: 'the-header',
-};
+    export default {
+        name: 'the-header',
+    };
 </script>
 
-<style scoped>
+<style lang="scss" scoped>
+    @import "../assets/css/main";
+
     .the-header {
         height: 63px;
         background: #e8e8e8;
@@ -65,29 +64,23 @@ export default {
     }
 
     .the-header__img {
-        display: block;
+        color: rgba(0, 0, 0, 0.3);
+        transition: $transition;
+
+        &:hover {
+            color: #000;
+        }
     }
 
     .the-header__domain-select-title {
-        position: relative;
-        padding-right: 20px;
         letter-spacing: 0.5px;
         font-family: 'AvantGardeDemi', sans-serif;
         color: rgba(0, 0, 0, 0.3);
         user-select: none;
     }
 
-    .the-header__domain-select-title:before {
-        content: '';
-        position: absolute;
-        top: 0;
-        right: 0;
-        width: 12px;
-        height: 12px;
-        background: url("../assets/img/header/select-domain-arrow.svg") no-repeat center center;
-        background-size: contain;
-        transform: rotate(0);
-        transition: 0.3s;
+    .the-header__domain-select-icon {
+        vertical-align: middle;
     }
 
 </style>

@@ -1,3 +1,4 @@
+@import "../main";
 
 .vuetable {
   table-layout: fixed;
@@ -45,8 +46,14 @@
       vertical-align: middle;
       display: inline-block;
       margin-right: 25px;
+      color: rgba(0, 0, 0, 0.3);
+      transition: $transition;
       //border: 1px dashed rgba(0, 0, 0, 0.3);
       cursor: pointer;
+
+      &:hover {
+        color: #000;
+      }
     }
 
     .vuetable-action:first-child {
