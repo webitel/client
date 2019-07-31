@@ -4,13 +4,13 @@
                 :primaryText="$t('modules.save')"
                 :primaryAction="close"
                 :secondaryAction="close"
-        >Users |
-            Edit
+        >{{$t('modules.users')}} |
+            {{$t('modules.edit')}}
         </module-header>
 
         <section class="module-content">
             <header class="module-content__header">
-                <h3 class="module-content__title">All objects</h3>
+                <h3 class="module-content__title">{{$t('modules.permissions.allRoles')}}</h3>
             </header>
 
             <vuetable
@@ -84,14 +84,14 @@
                 // vuetable prop
                 fields: [
                     {name: '__slot:head', title: this.$t('modules.permissions.name')},
-                    {name: '__slot:create', title: 'Create'},
-                    {name: '__slot:read', title: 'Read'},
-                    {name: '__slot:edit', title: 'Edit'},
-                    {name: '__slot:delete', title: 'Delete'},
+                    {name: '__slot:create', title: this.$t('modules.create')},
+                    {name: '__slot:read', title: this.$t('modules.read')},
+                    {name: '__slot:edit', title: this.$t('modules.edit')},
+                    {name: '__slot:delete', title: this.$t('modules.delete')},
                 ],
                 test: [],
                 checkboxLabels: {
-                    true: 'Allow',
+                    true: this.$t('modules.allow'),
                     false: '- -'
                 }
             };

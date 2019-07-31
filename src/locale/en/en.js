@@ -24,11 +24,16 @@ export default {
   },
   modules: {
     new: 'New',
+    create: 'Create',
+    read: 'Read',
     edit: 'Edit',
+    delete: 'Delete',
     save: 'Save',
     close: 'Close',
+    users: 'Users',
     description: 'Description',
     action: 'Action',
+    allow: 'Allow',
     moduleHeader: {},
     permissions: {
       permissionsTitle: 'Permissions',
@@ -42,6 +47,14 @@ export default {
         description: 'Description',
         descriptionPlaceholder: 'Enter a description',
       },
+      object: {
+        object: 'Object',
+        allObjects: 'All Objects',
+        ObAC: 'Managed by operations',
+        RbAC: 'Managed by records',
+        edit: {
+        }
+      }
     },
   },
 };

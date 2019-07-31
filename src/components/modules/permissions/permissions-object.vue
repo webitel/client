@@ -1,12 +1,12 @@
 <template>
     <div class="content-wrap">
         <module-header>{{$t('modules.permissions.permissionsTitle')}} |
-            Objects
+            {{$t('modules.permissions.object.object')}}
         </module-header>
 
         <section class="module-content">
             <header class="module-content__header">
-                <h3 class="module-content__title">All objects</h3>
+                <h3 class="module-content__title">{{$t('modules.permissions.object.allObjects')}}</h3>
             </header>
 
             <vuetable
@@ -69,8 +69,8 @@
                 // vuetable prop
                 fields: [
                     {name: '__slot:head', title: this.$t('modules.permissions.name')},
-                    {name: '__slot:ObAC', title: 'Managed by operations'},
-                    {name: '__slot:RbAC', title: 'Managed by records'},
+                    {name: '__slot:ObAC', title: this.$t('modules.permissions.object.ObAC')},
+                    {name: '__slot:RbAC', title: this.$t('modules.permissions.object.RbAC')},
                     {
                         name: '__slot:image',
                         title: '',
