@@ -20,8 +20,7 @@
     "vuelidate": "^0.7.4",
     "vuetable-2": "^1.7.5",
     "vuex": "^3.0.1",
-    "webpack": "^4.35.3",
-    "webpack-dev-server": "^3.7.2"
+    "webpack": "^4.35.3"
   },
   "devDependencies": {
     "@vue/cli-plugin-babel": "^3.9.0",
