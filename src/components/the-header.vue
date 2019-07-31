@@ -18,7 +18,8 @@
             </div>
             <div class="the-header__user-item the-header__domain-select">
                 <div class="the-header__domain-select-title">
-                    Select domain <span class="the-header__domain-select-icon icon-icon_arrow_down"></span>
+                    Select domain
+                    <span class="the-header__domain-select-icon icon-icon_arrow_down"></span>
                 </div>
             </div>
         </div>
@@ -72,15 +73,23 @@
         }
     }
 
-    .the-header__domain-select-title {
-        letter-spacing: 0.5px;
-        font-family: 'AvantGardeDemi', sans-serif;
-        color: rgba(0, 0, 0, 0.3);
-        user-select: none;
-    }
+    .the-header__domain-select {
+        .the-header__domain-select-title {
+            letter-spacing: 0.5px;
+            font-family: 'AvantGardeDemi', sans-serif;
+            color: rgba(0, 0, 0, 0.3);
+            user-select: none;
+        }
 
-    .the-header__domain-select-icon {
-        vertical-align: middle;
+        .the-header__domain-select-icon {
+            vertical-align: middle;
+        }
+
+        &:hover {
+            .the-header__domain-select-icon {
+                color: #000;
+            }
+        }
     }
 
 </style>

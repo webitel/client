@@ -137,7 +137,6 @@
         padding: 24px 24px 28px 30px;
         /*different top and bottom padding to vertically align text*/
         background: #fff;
-        box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
         transition: all 0.3s cubic-bezier(.25,.8,.25,1);
         z-index: 1;
 
