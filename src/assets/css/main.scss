@@ -1,9 +1,17 @@
-//$login-background: #212227;
+// BRAND COLORS:
+// sidebar panel
 $login-background: #171A2A;
+
+// links, icons, buttons
 $accent-color: #FFC107;
-$true-color: #4CAF50 ;
+
+// header
+$header-color: #EAEAEA;
+
+$true-color: #4CAF50;
 $false-color: #FF4444;
 
+$border-radius: 4px;
 $transition: 0.2s;
 
 * {
@@ -55,45 +63,34 @@ ul {
 }
 
 
-
 .typo-heading-1 {
   font: 24px 'AvantGardeDemi';
-  line-height: 24px;
+  line-height: 26px;
 }
 
 .typo-heading-2 {
   font: 20px 'AvantGardeDemi';
-  line-height: 24px;
+  line-height: 22px;
 }
 
 .typo-heading-3 {
-  font: 20px 'AvantGardeBold';
-  line-height: 24px;
-}
-
-.typo-subheading-1 {
-  font: 18px 'AvantGardeBook';
-  line-height: 16px;
-}
-
-.typo-subheading-2 {
   font: 12px 'AvantGardeBook';
-  line-height: 16px;
-}
-
-.typo-subheading-3 {
-  font: 14px 'AvantGardeBook';
-  line-height: 20px;
-}
-
-.typo-subheading-4 {
-  font: 11px 'AvantGardeBook';
   line-height: 14px;
 }
 
-.typo-body {
-  font: 12px 'AvantGardeBook';
+.typo-body-1 {
+  font: 18px 'AvantGardeBook';
   line-height: 20px;
+}
+
+.typo-body-2 {
+  font: 12px 'AvantGardeBook';
+  line-height: 16px;
+}
+
+.typo-body-3 {
+  font: 11px 'AvantGardeBook';
+  line-height: 13px;
 }
 
 .typo-btn {
@@ -117,8 +114,90 @@ ul {
   line-height: 24px;
 }
 
+.tooltip {
+  @extend .typo-body-3;
 
+  position: absolute;
+  min-width: 200px;
+  height: 40px;
+  padding: 10px 8px;
+  color: #fff;
+  background: $login-background;
+  border-radius: $border-radius;
+  transition: $transition;
+  z-index: 10;
+  opacity: 0;
+  pointer-events: none;
 
+  &:before {
+    content:'';
+    display:block;
+    position:absolute;
+    width:0;
+    height:0;
+
+    border-top: 7.5px solid transparent;
+    border-bottom: 7.5px solid transparent;
+    border-right: 8px solid $login-background;
+  }
+}
+
+.tooltip-activator:hover + .tooltip {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.tooltip-left {
+  @extend .tooltip;
+
+  top: 50%;
+  left: 30px;
+  transform: translate(0, -50%);
+  &:before {
+    top: 50%;
+    left: -8px;
+    transform: translate(0, -50%);
+  }
+}
+
+.tooltip-top {
+  @extend .tooltip;
+
+  bottom: 30px;
+  left: 50%;
+  transform: translate(-50%, 0);
+  &:before {
+    bottom: -8px;
+    left: 50%;
+    transform: translate(-50%, 0) rotate(-90deg);
+  }
+}
+
+.tooltip-bottom {
+  @extend .tooltip;
+
+  top: 30px;
+  left: 50%;
+  transform: translate(-50%, 0);
+  &:before {
+    top: -8px;
+    left: 50%;
+    transform: translate(-50%, 0) rotate(90deg);
+  }
+}
+
+.tooltip-right {
+  @extend .tooltip;
+
+  top: 50%;
+  right: 30px;
+  transform: translate(0, -50%);
+  &:before {
+    top: 50%;
+    right: -8px;
+    transform: translate(0, -50%) rotate(180deg);
+  }
+}
 
 
 // TODO: delete fs*lh* classes

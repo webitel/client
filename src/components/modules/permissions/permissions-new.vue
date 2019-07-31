@@ -12,9 +12,9 @@
                 <h3 class="module-content__title">{{$t('modules.permissions.permissionsNew.generalInfo')}} </h3>
                 <div class="module__info-helper">
                     <i
-                            class="module__info-helper__img icon-icon_question"
+                            class="module__info-helper__img tooltip-activator icon-icon_question"
                     ></i>
-                    <div class="module__info-helper__text">Ya s`el deda :(</div>
+                    <div class="tooltip-left">Ya s`el deda :(</div>
                 </div>
             </header>
 
