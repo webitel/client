@@ -147,7 +147,7 @@
 
             background: transparent;
 
-            border: 1px solid rgba(0, 0, 0, 0.2);
+            border: 1px solid $input;
             outline: none;
             transition: $transition;
         }

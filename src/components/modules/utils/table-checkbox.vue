@@ -76,7 +76,7 @@
             width: 18px;
             height: 18px;
             background: #fff;
-            border: 2px solid rgba(0, 0, 0, 0.2);
+            border: 2px solid $input;
             border-radius: 2px;
         }
 
@@ -92,14 +92,14 @@
             left: 50%;
             width: 6px;
             height: 12px;
-            border: solid $accent-color;
+            border: solid $info-color;
             border-width: 0 2.5px 2.5px 0;
             transform: translate(-50%, -60%) rotate(45deg);
 
         }
 
         input:checked ~ .checkbox {
-            border-color: $accent-color;
+            border-color: $info-color;
         }
 
         /* Show the checkmark when checked */

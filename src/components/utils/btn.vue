@@ -46,7 +46,7 @@
         outline: none;
 
         &:hover {
-            background: #FED546;
+            background: #F3BA00;
         }
 
         &:active {
@@ -59,13 +59,13 @@
 
 
         &.secondary-btn {
-            color: #000;
+            color: rgba(0, 0, 0, 0.7);
             background: transparent;
-            border: 1px solid #000;
+            border: 1px solid rgba(0, 0, 0, 0.7);
 
             &:hover {
-                color: rgba(0, 0, 0, 0.3);
-                border-color: rgba(0, 0, 0, 0.3);
+                color: #000;
+                border-color: #000;
             }
 
             &:active {

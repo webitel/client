@@ -1,16 +1,21 @@
-// BRAND COLORS:
-// sidebar panel
-$login-background: #171A2A;
+// PRIMARY COLORS:
+$sidebar-color: #171A2A;   // sidebar panel
+$header-color: #EAEAEA;       // header
+$content-bg-color: #FFF;    // content
 
-// links, icons, buttons
-$accent-color: #FFC107;
+// ACCENT COLORS:
+$icon-color: rgba(255, 255, 255, 0.4);    //icon color
+$accent-color: #FFC107;       // links, icons, buttons
 
-// header
-$header-color: #EAEAEA;
-
+// SEMANTIC COLORS:
 $true-color: #4CAF50;
 $false-color: #FF4444;
+$info-color: $accent-color;
 
+// NEUTRAL COLORS:
+$input: rgba(0, 0, 0, 0.2);
+
+// OTHER
 $border-radius: 4px;
 $transition: 0.2s;
 
@@ -125,7 +130,7 @@ ul {
   min-height: 40px;
   padding: 10px 8px;
   color: #fff;
-  background: $login-background;
+  background: $sidebar-color;
   border-radius: $border-radius;
   transition: $transition;
   z-index: 10;
@@ -141,7 +146,7 @@ ul {
 
     border-top: 7.5px solid transparent;
     border-bottom: 7.5px solid transparent;
-    border-right: 8px solid $login-background;
+    border-right: 8px solid $sidebar-color;
   }
 }
 

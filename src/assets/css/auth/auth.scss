@@ -6,7 +6,7 @@
   min-height: 100vh;
   padding: 25vh 0 10vh;
   color: #fff;
-  background: $login-background;
+  background: $sidebar-color;
 }
 
 .canvas {
@@ -50,7 +50,7 @@
   margin-bottom: 4px;
 
   .input {
-    background: rgba(0, 0, 0, 0.2);
+    background: $input;
     border-color: transparent;
   }
 }
