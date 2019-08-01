@@ -48,6 +48,11 @@
 
 .form__input {
   margin-bottom: 4px;
+
+  .input {
+    background: rgba(0, 0, 0, 0.2);
+    border-color: transparent;
+  }
 }
 
 .form__button {

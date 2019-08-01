@@ -100,7 +100,7 @@ export default {
     .form-input {
         position: relative;
         /* for form-input__details bottom 0 */
-        padding-bottom: 16px;
+        padding-bottom: 20px;
     }
 
     .label {
@@ -119,18 +119,37 @@ export default {
         /*different top and bottom padding to vertically align text*/
         padding: 15px 16px 11px;
         background: rgba(255, 255, 255, 0.04);
-        border-radius: 4px;
+        border-radius: $border-radius;
 
         border: 1px solid transparent;
         outline: none;
         transition: 0.3s;
 
-        &:disabled {
-            border-color: transparent;
+        &:hover {
+            border-color: #000;
+
+            &:-moz-placeholder{ color:#000; };
+            &::-moz-placeholder{ color:#000; };
+            &:-ms-input-placeholder { color:#000; };
+            &::-webkit-input-placeholder { color:#000; };
+            /*&:-moz-placeholder{ color:transparent; };*/
+            /*&::-moz-placeholder{ color:transparent; };*/
+            /*&:-ms-input-placeholder { color:transparent; };*/
+            /*&::-webkit-input-placeholder { color:transparent; };*/
+        }
+
+        &:focus {
+            border-color: #000;
+            /*&:-moz-placeholder{ color:#000; };*/
+            /*&::-moz-placeholder{ color:#000; };*/
+            /*&:-ms-input-placeholder { color:#000; };*/
+            /*&::-webkit-input-placeholder { color:#000; };*/
         }
     }
 
     .form-input__details {
+        @extend .typo-body-md;
+
         position: absolute;
         bottom: 0;
         left: 0;
