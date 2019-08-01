@@ -1,5 +1,5 @@
 <template>
-    <div class="alert" v-if="info || error">
+    <div class="alert" v-if="info || error" v-show="closeShowTrigger">
         <i
             class="icon-icon_close icon-icon_deny"
             @click="close"
@@ -24,15 +24,20 @@
         props: {
             info: {
                 type: String,
-                // default: 'lorem ipsum dolor sit amet'
+                // default: 'lorem ipsum dolor sit ametlorem ipsum dolor sit asum dolor sit ametlorem ipsum dolor sit amet'
             },
             error: {
                 type: String
             }
         },
+        data() {
+            return {
+                closeShowTrigger: true
+            }
+        },
         methods: {
             close() {
-
+                this.closeShowTrigger = false;
             }
         }
     };
@@ -42,7 +47,7 @@
     @import "../../assets/css/main";
 
     .alert {
-        /*<!--@extend .;-->*/
+        @extend .typo-notification-text;
         @extend .box-shadow;
 
         display: flex;
@@ -52,7 +57,7 @@
         right: 5px;
         min-width: 430px;
         max-width: 850px;
-        padding: 20px;
+        padding: 24px 30px;
         color: #000;
         background: #fff;
         border-radius: 4px;
@@ -77,6 +82,6 @@
     }
 
     .alert__text {
-        margin: 0 24px 0 30px;
+        margin: 0 24px 0 40px;
     }
 </style>
