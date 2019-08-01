@@ -23,7 +23,7 @@
             },
             // Object with true/false properties
             label: {
-                type: Object
+                type: Object,
             },
         },
         data() {
@@ -39,12 +39,16 @@
                 // =============================== ATTENTION!!!!!============================================
                 // WE PASS INVERTED CHECKBOX VALUE
                 // BECAUSE CLICK EVENT FIRES BEFORE CHECKBOX CHANGE
-                this.$emit('changeCheckbox', !this.checkbox);
+                this.$emit('toggleCheckbox', !this.checkbox);
             }
         },
         computed: {
             computeLabel() {
-                return this.label[this.checkbox];
+                if(this.label) {
+                    return this.label[this.checkbox];
+                }
+                return ''
+
             }
         }
     }

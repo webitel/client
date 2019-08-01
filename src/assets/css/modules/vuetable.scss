@@ -29,6 +29,11 @@
 
   }
 
+  /*CHECKBOX ACTION COLUMN*/
+  .vuetable-td-checkbox {
+    width: 49px;
+  }
+
   /*ACTION COLUMN*/
   // vuetable class is to override default style priority
   &.vuetable .vuetable-td-actions {

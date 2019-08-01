@@ -110,7 +110,7 @@
             }
         },
         methods: {
-            changeCheckbox(newValue, id, property) {
+            toggleCheckbox(newValue, id, property) {
                 this.test[id][property] = newValue;
             },
             close() {
