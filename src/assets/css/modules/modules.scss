@@ -11,22 +11,63 @@
 .module {
   flex-grow: 1;
 }
+
 // inner content section
 .module-content {
   padding: 0 28px 0 44px;
 }
 
 .module-content__header {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
   position: relative;
-  display: inline-block;
   padding-right: 32px;
-}
 
-.module-content__title {
-  @extend .typo-heading-md;
+  .module-content__title {
+    @extend .typo-heading-md;
 
-  display: inline-block;
-  margin: 34px 0 0;
+    display: inline-block;
+    margin: 34px 0 0;
+  }
+
+  .module-content__actions {
+    display: flex;
+
+    .search-form {
+      display: flex;
+      align-items: center;
+      width: 286px;
+      height: 48px;
+
+      input {
+        @extend .typo-input-text;
+
+        flex: 1;
+        padding: 13px 16px;
+        border: none;
+        outline: none;
+      }
+
+      i {
+        height: 24px;
+        color: $icon-color;
+        cursor: pointer;
+      }
+    }
+
+    .action-buttons {
+      display: flex;
+      align-items: center;
+      color: $icon-color;
+
+      i {
+        margin-left: 30px;
+        border: 1px dashed #eee;
+        cursor: pointer;
+      }
+    }
+  }
 }
 
 .module__info-helper {

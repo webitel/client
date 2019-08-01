@@ -54,7 +54,7 @@
         }
 
         &:disabled {
-            background: rgba(0, 0, 0, 0.3);
+            background: $icon-color;
         }
 
 
@@ -74,7 +74,7 @@
             }
 
             &:disabled {
-                color: rgba(0, 0, 0, 0.3);
+                color: $icon-color;
                 border-color: rgba(0, 0, 0, 0.3);
             }
         }

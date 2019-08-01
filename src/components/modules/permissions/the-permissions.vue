@@ -23,22 +23,22 @@
                 <template slot="head" slot-scope="props">
                     <edit-field
                             class="form__input"
-                            v-bind:text="test[props.rowData.id].head"
+                            v-bind:text="test[props.rowIndex].head"
                             :placeholder="$t('auth.passwordPlaceholder')"
-                            :disabled="computeEditInstance(props.rowData.id, 'head')"
-                            @start-update="startUpdate({id: props.rowData.id,name: 'head'})"
-                            @text-updated="inlineEdit($event, props.rowData.id, 'head')"
+                            :disabled="computeEditInstance(props.rowIndex, 'head')"
+                            @start-update="startUpdate({id: props.rowIndex,name: 'head'})"
+                            @text-updated="inlineEdit($event, props.rowIndex, 'head')"
                     ></edit-field>
                 </template>
 
                 <template slot="body" slot-scope="props">
                     <edit-field
                             class="form__input"
-                            v-bind:text="test[props.rowData.id].body"
+                            :text="test[props.rowIndex].body"
                             :placeholder="$t('auth.passwordPlaceholder')"
-                            :disabled="computeEditInstance(props.rowData.id, 'body')"
-                            @start-update="startUpdate({id: props.rowData.id,name: 'body'})"
-                            @text-updated="inlineEdit($event, props.rowData.id, 'body')"
+                            :disabled="computeEditInstance(props.rowIndex, 'body')"
+                            @start-update="startUpdate({id: props.rowIndex,name: 'body'})"
+                            @text-updated="inlineEdit($event, props.rowIndex, 'body')"
                     ></edit-field>
                 </template>
 

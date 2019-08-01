@@ -19,20 +19,20 @@
                 <template slot="head" slot-scope="props">
                     <edit-field
                             class="form__input"
-                            :text="test[props.rowData.id].head"
+                            :text="test[props.rowIndex].head"
                             :disabled="true"
                     ></edit-field>
                 </template>
 
                 <template slot="ObAC" slot-scope="props">
                     <table-status
-                        :value="test[props.rowData.id].ObAC"
+                        :value="test[props.rowIndex].ObAC"
                     ></table-status>
                 </template>
 
                 <template slot="RbAC" slot-scope="props">
                     <table-status
-                            :value="test[props.rowData.id].RbAC"
+                            :value="test[props.rowIndex].RbAC"
                     ></table-status>
                 </template>
 

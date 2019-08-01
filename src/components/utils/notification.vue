@@ -67,7 +67,7 @@
             position: absolute;
             top: 50%;
             right: 24px;
-            color: rgba(0, 0, 0, 0.3);
+            color: $icon-color;
             transform: translateY(-50%);
             cursor: pointer;
         }

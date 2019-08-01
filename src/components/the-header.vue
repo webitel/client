@@ -65,7 +65,7 @@
     }
 
     .the-header__img {
-        color: rgba(0, 0, 0, 0.3);
+        color: $icon-color;
         transition: $transition;
 
         &:hover {
@@ -77,7 +77,7 @@
         .the-header__domain-select-title {
             letter-spacing: 0.5px;
             font-family: 'AvantGardeDemi', sans-serif;
-            color: rgba(0, 0, 0, 0.3);
+            color: $icon-color;
             user-select: none;
         }
 

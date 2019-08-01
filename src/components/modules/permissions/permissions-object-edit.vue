@@ -23,40 +23,40 @@
                 <template slot="head" slot-scope="props">
                     <edit-field
                             class="form__input"
-                            :text="test[props.rowData.id].head"
+                            :text="test[props.rowIndex].head"
                             :disabled="true"
                     ></edit-field>
                 </template>
 
                 <template slot="create" slot-scope="props">
                     <checkbox
-                        :value="test[props.rowData.id].create"
+                        :value="test[props.rowIndex].create"
                         :label="checkboxLabels"
-                        @changeCheckbox="changeCheckbox($event, props.rowData.id, 'create')"
+                        @changeCheckbox="changeCheckbox($event, props.rowIndex, 'create')"
                     ></checkbox>
                 </template>
 
                 <template slot="read" slot-scope="props">
                     <checkbox
-                            :value="test[props.rowData.id].read"
+                            :value="test[props.rowIndex].read"
                             :label="checkboxLabels"
-                            @changeCheckbox="changeCheckbox($event, props.rowData.id, 'read')"
+                            @changeCheckbox="changeCheckbox($event, props.rowIndex, 'read')"
                     ></checkbox>
                 </template>
 
                 <template slot="edit" slot-scope="props">
                     <checkbox
-                            :value="test[props.rowData.id].edit"
+                            :value="test[props.rowIndex].edit"
                             :label="checkboxLabels"
-                            @changeCheckbox="changeCheckbox($event, props.rowData.id, 'edit')"
+                            @changeCheckbox="changeCheckbox($event, props.rowIndex, 'edit')"
                     ></checkbox>
                 </template>
 
                 <template slot="delete" slot-scope="props">
                     <checkbox
-                            :value="test[props.rowData.id].delete"
+                            :value="test[props.rowIndex].delete"
                             :label="checkboxLabels"
-                            @changeCheckbox="changeCheckbox($event, props.rowData.id, 'delete')"
+                            @changeCheckbox="changeCheckbox($event, props.rowIndex, 'delete')"
                     ></checkbox>
                 </template>
             </vuetable>
