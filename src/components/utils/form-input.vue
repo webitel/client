@@ -35,63 +35,63 @@
 
 <script>
 
-export default {
-  name: 'login-input',
-  props: {
-    textarea: {
-      type: Boolean,
-      default: false,
-    },
-    // value -- w-model from outer component
-    value: {
-      type: String,
-      default: '',
-    },
-    label: {
-      type: String,
-    },
-    placeholder: {
-      type: String,
-    },
-    autofocus: {
-      type: Boolean,
-      default: false,
-    },
-    type: {
-      type: String,
-      default: 'text',
-    },
-    // validation rules
-    v: {
-      type: Object,
-      default: () => ({
-        $error: null,
-        $touch: () => {
+    export default {
+        name: 'login-input',
+        props: {
+            textarea: {
+                type: Boolean,
+                default: false,
+            },
+            // value -- w-model from outer component
+            value: {
+                type: String,
+                default: '',
+            },
+            label: {
+                type: String,
+            },
+            placeholder: {
+                type: String,
+            },
+            autofocus: {
+                type: Boolean,
+                default: false,
+            },
+            type: {
+                type: String,
+                default: 'text',
+            },
+            // validation rules
+            v: {
+                type: Object,
+                default: () => ({
+                    $error: null,
+                    $touch: () => {
+                    },
+                }),
+            },
+            height: {
+                type: Number,
+                default: 48,
+            },
         },
-      }),
-    },
-    height: {
-      type: Number,
-      default: 48,
-    },
-  },
-  mounted() {
-    this.$refs.input.autofocus = this.autofocus;
-    if (!this.textarea) this.$refs.input.type = this.type;
-    this.$refs.input.style.height = `${this.height}px`;
-  },
-  computed: {
-    validation: {
-      get() {
-        return this.value;
-      },
-      set(value) {
-        this.v.$touch();
-        this.$emit('input', value);
-      },
-    },
-  },
-};
+        mounted() {
+            this.$refs.input.autofocus = this.autofocus;
+            if (!this.textarea) this.$refs.input.type = this.type;
+            this.$refs.input.style.height = `${this.height}px`;
+        },
+        computed: {
+            validation: {
+                get() {
+                    return this.value;
+                },
+                set(value) {
+                    this.v.$touch();
+                    this.$emit('input', value);
+                },
+            },
+        },
+    };
 </script>
 
 <style lang="scss" scoped>
@@ -128,24 +128,40 @@ export default {
         &:hover {
             border-color: #000;
 
-            &:-moz-placeholder{ color:#000; };
-            &::-moz-placeholder{ color:#000; };
-            &:-ms-input-placeholder { color:#000; };
-            &::-webkit-input-placeholder { color:#000; };
-            /*&:-moz-placeholder{ color:transparent; };*/
-            /*&::-moz-placeholder{ color:transparent; };*/
-            /*&:-ms-input-placeholder { color:transparent; };*/
-            /*&::-webkit-input-placeholder { color:transparent; };*/
+            &:-moz-placeholder {
+                color: #000;
+            };
+
+            &::-moz-placeholder {
+                color: #000;
+            };
+
+            &:-ms-input-placeholder {
+                color: #000;
+            };
+
+            &::-webkit-input-placeholder {
+                color: #000;
+            };
         }
 
         &:focus {
             border-color: #000;
-            /*&:-moz-placeholder{ color:#000; };*/
-            /*&::-moz-placeholder{ color:#000; };*/
-            /*&:-ms-input-placeholder { color:#000; };*/
-            /*&::-webkit-input-placeholder { color:#000; };*/
         }
     }
+
+    .auth .input {
+        border-color: transparent;
+
+        &:hover {
+            border-color: transparent;
+        }
+
+        &:focus {
+            border-color: transparent;
+        }
+    }
+
 
     .form-input__details {
         @extend .typo-body-md;
