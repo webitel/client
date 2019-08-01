@@ -4,6 +4,7 @@
         <app-nav></app-nav>
         <main class="module">
             <notification
+                    :info="info"
                     :error="error"
             ></notification>
             <app-header></app-header>

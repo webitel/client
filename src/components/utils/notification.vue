@@ -1,7 +1,7 @@
 <template>
     <div class="alert" v-if="info || error" v-show="closeShowTrigger">
         <i
-            class="icon-icon_close icon-icon_deny"
+            class="icon-icon_close"
             @click="close"
         ></i>
         <i
@@ -24,7 +24,7 @@
         props: {
             info: {
                 type: String,
-                // default: 'lorem ipsum dolor sit ametlorem ipsum dolor sit asum dolor sit ametlorem ipsum dolor sit amet'
+                default: 'lorem ipsum dolor sit ametlorem ipsum dolor sit asum dolor sit ametlorem ipsum dolor sit amet'
             },
             error: {
                 type: String

@@ -3,12 +3,12 @@
         <div class="the-header__user-panel">
             <div class="the-header__user-item the-header__user-pic">
                 <i
-                        class="the-header__img icon-icon_chat"
+                        class="the-header__img icon-icon_question"
                 ></i>
             </div>
             <div class="the-header__user-item the-header__user-notifications">
                 <i
-                        class="the-header__img icon-icon_ball"
+                        class="the-header__img icon-icon_notification"
                 ></i>
             </div>
             <div class="the-header__user-item the-header__user-add">
@@ -19,7 +19,7 @@
             <div class="the-header__user-item the-header__domain-select">
                 <div class="the-header__domain-select-title">
                     Select domain
-                    <span class="the-header__domain-select-icon icon-icon_arrow_down"></span>
+                    <span class="the-header__domain-select-icon icon-icon_arrow-down"></span>
                 </div>
             </div>
         </div>

@@ -47,6 +47,10 @@
     .table-status {
         display: flex;
         align-items: center;
+
+        .table-status__icon {
+            font-size: 20px;
+        }
     }
 
     .icon-icon_allow {

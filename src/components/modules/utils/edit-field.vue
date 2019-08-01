@@ -127,6 +127,8 @@
     }
 
     .edit-field__form {
+        @extend .box-shadow;
+
         display: flex;
         flex-direction: column;
         position: absolute;

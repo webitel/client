@@ -38,7 +38,7 @@
 
                 <template slot="image" slot-scope="props">
                     <div class="vuetable-actions">
-                        <i class="vuetable-action icon-icon_pen"
+                        <i class="vuetable-action icon-icon_edit"
                            @click="edit"
                         ></i>
                     </div>
