@@ -7,7 +7,7 @@
         <header class="auth__header">
             <div class="logo">Webitel</div>
             <router-link
-                    class="auth__link border-underline"
+                    class="auth__link"
                     to="/login"
                     v-if="!this.$route.query.reset"
             >
@@ -22,7 +22,7 @@
             <p class="auth__subtitle fs12-lh24">{{$t('auth.loginSubtitle')}}</p>
 
             <form-input
-                    class="form__input fs14"
+                    class="form__input"
                     v-model.trim="$v.form.username.$model"
                     :label="$t('auth.user')"
                     :placeholder="$t('auth.userPlaceholder')"
@@ -31,7 +31,7 @@
             ></form-input>
 
             <form-input
-                    class="form__input fs14"
+                    class="form__input"
                     v-model.trim="$v.form.password.$model"
                     ref="passwordRef"
                     :label="$t('auth.password')"
@@ -41,7 +41,7 @@
             ></form-input>
 
             <form-input
-                    class="form__input fs14"
+                    class="form__input"
                     v-model.trim="$v.form.confirmPassword.$model"
                     :label="$t('auth.confirmPassword')"
                     :placeholder="$t('auth.passwordPlaceholder')"
@@ -50,7 +50,7 @@
             ></form-input>
 
             <form-input
-                    class="form__input fs14"
+                    class="form__input"
                     v-model.trim="$v.form.certificate.$model"
                     :label="$t('auth.key')"
                     :placeholder="$t('auth.keyPlaceholder')"
@@ -152,7 +152,8 @@ export default {
 
     /*auth link*/
     .auth__link {
-        @extend .typo-heading-3;
+        @extend .typo-heading-lg;
+        @extend .border-underline;
 
         display: block;
         position: relative;

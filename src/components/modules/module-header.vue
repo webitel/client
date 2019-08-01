@@ -54,6 +54,8 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+    @import "../../assets/css/main";
+
     .module-header {
         display: flex;
         justify-content: space-between;
@@ -62,8 +64,8 @@ export default {
     }
 
     .module__title {
-        font: 20px 'AvantGardeBold';
-        line-height: 24px;
+        @extend .typo-heading-lg;
+
         letter-spacing: 0.15px;
     }
 

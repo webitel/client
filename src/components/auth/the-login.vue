@@ -17,7 +17,7 @@
             <p class="auth__subtitle">{{$t('auth.loginSubtitle')}}</p>
 
             <form-input
-                    class="form__input fs14"
+                    class="form__input"
                     v-model.trim="$v.form.username.$model"
                     :label="$t('auth.user')"
                     :placeholder="$t('auth.userPlaceholder')"
@@ -26,7 +26,7 @@
             ></form-input>
 
             <form-input
-                    class="form__input fs14"
+                    class="form__input"
                     v-model.trim="$v.form.password.$model"
                     :label="$t('auth.password')"
                     :placeholder="$t('auth.passwordPlaceholder')"

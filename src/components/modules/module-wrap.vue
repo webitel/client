@@ -3,9 +3,9 @@
     <div class="module-wrap">
         <app-nav></app-nav>
         <main class="module">
-            <alert
+            <notification
                     :error="error"
-            ></alert>
+            ></notification>
             <app-header></app-header>
 
             <router-view></router-view>
@@ -17,7 +17,7 @@
 <script>
     import theHeader from '../the-header';
     import theNavbar from '../the-navbar';
-    import alert from '../utils/alert';
+    import notification from '../utils/notification';
 
     import errorMixin from '../../mixins/errorMixin';
     export default {
@@ -25,7 +25,7 @@
         components: {
             'app-header': theHeader,
             'app-nav': theNavbar,
-            alert,
+            notification,
         },
         mixins: [errorMixin],
     }

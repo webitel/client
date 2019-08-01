@@ -20,13 +20,13 @@
 
             <form class="permissions-new__form">
                 <form-input
-                        class="form__input fs14"
+                        class="form__input"
                         v-model="form.name"
                         :label="$t('modules.permissions.permissionsNew.name')"
                         :placeholder="$t('modules.permissions.permissionsNew.namePlaceholder')"
                 ></form-input>
                 <form-input
-                        class="form__input fs14"
+                        class="form__input"
                         v-model="form.description"
                         :textarea="true"
                         :height="164"

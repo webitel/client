@@ -1,12 +1,12 @@
 @import "../main";
 
 .vuetable {
+  @extend .typo-body-md;
+
   table-layout: fixed;
   text-align: left;
   width: 100%;
   margin-top: 16px;
-  font-size: 12px;
-  line-height: 16px;
 
   thead {
     color: rgba(0, 0, 0, 0.4);

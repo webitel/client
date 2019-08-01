@@ -67,32 +67,32 @@ ul {
 }
 
 
-.typo-heading-1 {
+.typo-heading-lg {
   font: 24px 'AvantGardeDemi';
   line-height: 26px;
 }
 
-.typo-heading-2 {
+.typo-heading-md {
   font: 20px 'AvantGardeDemi';
   line-height: 22px;
 }
 
-.typo-heading-3 {
+.typo-heading-sm {
   font: 12px 'AvantGardeBook';
   line-height: 14px;
 }
 
-.typo-body-1 {
+.typo-body-lg {
   font: 18px 'AvantGardeBook';
   line-height: 20px;
 }
 
-.typo-body-2 {
+.typo-body-md {
   font: 12px 'AvantGardeBook';
   line-height: 16px;
 }
 
-.typo-body-3 {
+.typo-body-sm {
   font: 11px 'AvantGardeBook';
   line-height: 13px;
 }
@@ -112,19 +112,13 @@ ul {
   line-height: 24px;
 }
 
-.typo-text-link {
-  @extend .border-underline;
-  font: 20px 'AvantGardeBold';
-  line-height: 24px;
-}
-
 .typo-notification-text {
   font: 16px 'AvantGardeBook';
   line-height: 18px;
 }
 
 .tooltip {
-  @extend .typo-body-3;
+  @extend .typo-body-sm;
 
   position: absolute;
   width: 200px;
@@ -206,26 +200,4 @@ ul {
     right: -8px;
     transform: translate(0, -50%) rotate(180deg);
   }
-}
-
-
-// TODO: delete fs*lh* classes
-.fs14 {
-  font-size: 14px;
-}
-
-.fs14-lh16 {
-  font-size: 14px;
-  line-height: 16px;
-}
-
-.fs12-lh16 {
-  font-size: 12px;
-  line-height: 16px;
-}
-
-
-.fs14-lh24 {
-  font-size: 24px;
-  line-height: 24px;
 }

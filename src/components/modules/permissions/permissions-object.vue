@@ -18,7 +18,7 @@
 
                 <template slot="head" slot-scope="props">
                     <edit-field
-                            class="form__input fs14"
+                            class="form__input"
                             :text="test[props.rowData.id].head"
                             :disabled="true"
                     ></edit-field>

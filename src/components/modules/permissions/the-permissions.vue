@@ -22,7 +22,7 @@
 
                 <template slot="head" slot-scope="props">
                     <edit-field
-                            class="form__input fs14"
+                            class="form__input"
                             v-bind:text="test[props.rowData.id].head"
                             :placeholder="$t('auth.passwordPlaceholder')"
                             :disabled="computeEditInstance(props.rowData.id, 'head')"
@@ -33,7 +33,7 @@
 
                 <template slot="body" slot-scope="props">
                     <edit-field
-                            class="form__input fs14"
+                            class="form__input"
                             v-bind:text="test[props.rowData.id].body"
                             :placeholder="$t('auth.passwordPlaceholder')"
                             :disabled="computeEditInstance(props.rowData.id, 'body')"

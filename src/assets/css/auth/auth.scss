@@ -37,12 +37,12 @@
 
 //title and subtitle are inside form
 .auth__title {
-  @extend .typo-heading-3;
+  @extend .typo-heading-lg;
   margin: 0;
 }
 
 .auth__subtitle {
-  @extend .typo-subheading-1;
+  @extend .typo-body-lg;
   margin: 10px 0 27px;
 }
 
