@@ -39,8 +39,8 @@
         font-family: 'AvantGardeDemi', sans-serif;
         color: #000;
         background: $accent-color;
-        border-radius: 4px;
-        transition: 0.2s;
+        border-radius: $border-radius;
+        transition: $transition;
 
         border: 1px solid transparent;
         outline: none;

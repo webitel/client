@@ -152,7 +152,7 @@ export default {
         height: 52px;
         margin-left: 1px;
         border-left: 3px solid transparent;
-        transition: 0.3s;
+        transition: $transition;
         cursor: pointer;
 
         &:hover {
@@ -164,7 +164,7 @@ export default {
             top: 50%;
             left: calc(50% - 3px);
             transform: translate(-50%, -50%);
-            transition: 0.3s;
+            transition: $transition;
         }
 
         &:hover img {

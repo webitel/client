@@ -121,9 +121,9 @@
         /*different top and bottom padding to vertically align text*/
         padding: 15px 16px 11px 0;
         word-wrap: break-word;
-        border-radius: 4px;
+        border-radius: $border-radius;
 
-        transition: 0.3s;
+        transition: $transition;
     }
 
     .edit-field__form {
@@ -137,19 +137,19 @@
         padding: 24px 24px 28px 30px;
         /*different top and bottom padding to vertically align text*/
         background: #fff;
-        transition: all 0.3s cubic-bezier(.25,.8,.25,1);
+        transition: all $transition cubic-bezier(.25,.8,.25,1);
         z-index: 1;
 
         .edit-field__input {
             padding: 15px 16px 10px;
             margin-right: 0;
-            border-radius: 4px;
+            border-radius: $border-radius;
 
             background: transparent;
 
             border: 1px solid rgba(0, 0, 0, 0.2);
             outline: none;
-            transition: 0.3s;
+            transition: $transition;
         }
 
         .edit-field__form-controls {

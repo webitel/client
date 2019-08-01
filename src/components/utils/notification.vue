@@ -60,7 +60,7 @@
         padding: 24px 30px;
         color: #000;
         background: #fff;
-        border-radius: 4px;
+        border-radius: $border-radius;
         z-index: 100;
 
         .icon-icon_close {

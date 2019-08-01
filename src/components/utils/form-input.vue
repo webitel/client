@@ -108,7 +108,7 @@ export default {
 
         display: block;
         margin-bottom: 9px;
-        transition: 0.3s;
+        transition: $transition;
     }
 
     .input {
@@ -123,7 +123,7 @@ export default {
 
         border: 1px solid transparent;
         outline: none;
-        transition: 0.3s;
+        transition: $transition;
 
         &:hover {
             border-color: #000;
