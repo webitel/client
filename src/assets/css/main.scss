@@ -207,3 +207,8 @@ ul {
     transform: translate(0, -50%) rotate(180deg);
   }
 }
+
+.hidden {
+  opacity: 0;
+  pointer-events: none;
+}

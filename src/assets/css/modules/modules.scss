@@ -61,10 +61,40 @@
       align-items: center;
       color: $icon-color;
 
+      .active {
+        color: #000;
+      }
+      .filter {
+        display: flex;
+      }
+
+      .filter-items__list {
+        @extend .typo-body-md;
+        @extend .box-shadow;
+
+        position: absolute;
+        top: 74px;
+        right: 26px;
+        min-width: 196px;
+        padding: 13px 16px;
+        color: #000;
+        background: #fff;
+
+        .filter-items__list-item {
+          padding: 3px;
+          margin-bottom: 13px;
+        }
+      }
+
       i {
         margin-left: 30px;
         border: 1px dashed #eee;
+        transition: $transition;
         cursor: pointer;
+
+        &.icon-icon_filter:hover {
+          color: #000;
+        }
       }
     }
   }

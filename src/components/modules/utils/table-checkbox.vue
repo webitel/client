@@ -23,7 +23,7 @@
             },
             // Object with true/false properties
             label: {
-                type: Object,
+                // type: Object,
             },
         },
         data() {
@@ -45,7 +45,7 @@
         computed: {
             computeLabel() {
                 if(this.label) {
-                    return this.label[this.checkbox];
+                    return this.label[this.checkbox] || this.label;
                 }
                 return ''
 

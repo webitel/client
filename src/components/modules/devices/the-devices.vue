@@ -19,7 +19,20 @@
                     <div class="action-buttons">
                         <i class="icon-icon_delete" v-show="anySelected"></i>
                         <i class="icon-icon_approve"></i>
-                        <i class="icon-icon_approve"></i>
+                        <div class="filter">
+                            <i class="icon-icon_approve icon-icon_filter" @click="toggleFilter"
+                               :class="{'active': isFilterOpened}"></i>
+                            <ul class="filter-items__list" :class="{'hidden': !isFilterOpened}">
+                                <li class="filter-items__list-item"
+                                    v-for="item in test"
+                                >
+                                    <checkbox
+                                            :value="true"
+                                            :label="item.presence"
+                                    ></checkbox>
+                                </li>
+                            </ul>
+                        </div>
                     </div>
                 </div>
             </header>
@@ -66,8 +79,8 @@
 
                 <template slot="presence" slot-scope="props">
                     <div class="devices-table__presence">
-                        <div class="presence-icon"></div>
-                        <div class="presence-text">{{filtered[0].presence}}</div>
+                        <div class="presence-icon" :class="computePresenceClass(props.rowIndex)"></div>
+                        <div class="presence-text">{{filtered[props.rowIndex].presence}}</div>
                     </div>
                 </template>
 
@@ -127,21 +140,70 @@
                 test: [],
                 filtered: [],
                 filter: '',
-                propertiesToFilter: ['head', 'authId', 'user']
+                propertiesToFilter: ['head', 'authId', 'user'],
+
+                isFilterOpened: false
             };
         },
         mounted() {
             // FIXME: delete test data
-            for (let i = 0; i < 5; i++) {
-                this.test.push({
-                    isSelected: false,
-                    head: `head${i}`,
-                    authId: (i * Math.round(Math.random() * 10)) + '',
-                    user: 'user ' + Math.round(Math.random() * 10),
-                    presence: 'Offline',
-                    id: i,
-                });
-            }
+            // for (let i = 0; i < 5; i++) {
+            //     this.test.push({
+            //         isSelected: false,
+            //         head: `head${i}`,
+            //         authId: (i * Math.round(Math.random() * 10)) + '',
+            //         user: 'user ' + Math.round(Math.random() * 10),
+            //         presence: 'Offline',
+            //         id: i,
+            //     });
+            // }
+
+            this.test.push({
+                isSelected: false,
+                head: 'head0',
+                authId: (0 * Math.round(Math.random() * 10)) + '',
+                user: 'user ' + Math.round(Math.random() * 10),
+                presence: 'Offline',
+                id: 0,
+            });
+
+            this.test.push({
+                isSelected: false,
+                head: 'head1',
+                authId: (1 * Math.round(Math.random() * 10)) + '',
+                user: 'user ' + Math.round(Math.random() * 10),
+                presence: 'Available',
+                id: 1,
+            });
+
+            this.test.push({
+                isSelected: false,
+                head: 'head2',
+                authId: (2 * Math.round(Math.random() * 10)) + '',
+                user: 'user ' + Math.round(Math.random() * 10),
+                presence: 'Ringing',
+                id: 2,
+            });
+
+            this.test.push({
+                isSelected: false,
+                head: 'head3',
+                authId: (3 * Math.round(Math.random() * 10)) + '',
+                user: 'user ' + Math.round(Math.random() * 10),
+                presence: 'On a call',
+                id: 3,
+            });
+
+            this.test.push({
+                isSelected: false,
+                head: 'head4',
+                authId: (4 * Math.round(Math.random() * 10)) + '',
+                user: 'user ' + Math.round(Math.random() * 10),
+                presence: 'On hold',
+                id: 4,
+            });
+
+
             this.filterData();
         },
         methods: {
@@ -172,6 +234,12 @@
                         }
                     });
                 }
+            },
+            toggleFilter() {
+                this.isFilterOpened = !this.isFilterOpened;
+            },
+            computePresenceClass(id) {
+                return this.filtered[id].presence.toLowerCase().split(' ').join('-');
             }
         },
         computed: {
@@ -185,6 +253,7 @@
 <style lang="scss" scoped>
     @import '../../../assets/css/main';
 
+
     .devices-table__presence {
         display: flex;
 
@@ -193,12 +262,39 @@
             height: 15px;
             background: $icon-color;
             border-radius: 50%;
+
+            &.available {
+                background: $true-color;
+            }
+
+            &.ringing {
+                background: #FF9C07;
+            }
+
+            &.on-a-call {
+                background: $false-color;
+            }
+
+            &.on-hold {
+                background: #FFEA00;
+            }
         }
 
         .presence-text {
             @extend .typo-body-md;
 
             margin-left: 13px;
+        }
+
+        .module-content__header {
+            .icon-icon_filter {
+                color: #000;
+                cursor: pointer;
+
+                &:hover {
+                    color: #000;
+                }
+            }
         }
     }
 </style>
