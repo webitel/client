@@ -14,7 +14,7 @@
         name: "expansion-panel",
         data() {
             return {
-                isExpanded: false,
+                isExpanded: true,
             }
         },
         methods: {

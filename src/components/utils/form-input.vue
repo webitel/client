@@ -34,6 +34,7 @@
 </template>
 
 <script>
+import eventBus from '../../utils/eventBus';
 
     export default {
         name: 'login-input',
@@ -79,6 +80,17 @@
             this.$refs.input.autofocus = this.autofocus;
             if (!this.textarea) this.$refs.input.type = this.type;
             this.$refs.input.style.height = `${this.height}px`;
+
+            eventBus.$on('copyToClipboard', this.copyToClipboard);
+        },
+        methods: {
+            // pass copyTarget to be sure that selected text will be copied
+            copyToClipboard(copyTarget) {
+                if(this.value === copyTarget) {
+                    this.$refs.input.select();
+                    document.execCommand('copy');
+                }
+            }
         },
         computed: {
             validation: {

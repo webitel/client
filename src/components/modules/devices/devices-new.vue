@@ -28,18 +28,22 @@
                             :placeholder="'authId'"
                     ></form-input>
 
-                    <div class="form__input-wrap">
+                    <div class="input-extension-wrap">
 
 
                         <form-input
                                 class="form__input"
+                                ref="input-password"
                                 v-model="password"
                                 :label="'password'"
                                 :placeholder="'password'"
                         ></form-input>
 
-                        <i class="icon-icon_deny" @click="generatePassword"></i>
-                    </div>
+                        <div class="input-extension">
+                            <span class="input-extension__copy" @click="copyToClipboard">Copy</span>
+                            <i class="input-extension__generate icon-icon_deny" @click="generatePassword"></i>
+                        </div>
+                     </div>
 
                     <form-input
                             class="form__input"
@@ -96,6 +100,7 @@
     import moduleHeader from '../module-header';
     import formInput from '../../utils/form-input';
     import expansionPanel from '../utils/expansion-panel';
+    import eventBus from '../../../utils/eventBus';
 
     export default {
         name: 'devices-new',
@@ -131,14 +136,17 @@
                 for(let i = 0; i < length; i++) {
                     result += charset.charAt(Math.floor(Math.random()*charset.length));
                 }
-                console.log(result);
-                return result;
+                this.password = result;
+            },
+            copyToClipboard() {
+                eventBus.$emit('copyToClipboard', this.password);
             }
         }
     }
 </script>
 
 <style lang="scss" scoped>
+    @import "../../../assets/css/main";
     @import "../../../assets/css/modules/modules";
 
     .module-content {
@@ -149,5 +157,35 @@
         margin: 0;
     }
 
+    .input-extension-wrap {
+        position: relative;
 
+        .input-extension {
+            display: flex;
+            position: absolute;
+            top: 50%;
+            right: 0;
+            transform: translate(0, -35%);
+
+            .input-extension__copy {
+                @extend .typo-input-text;
+                @extend .border-underline;
+
+                margin-right: 16px;
+                cursor: pointer;
+
+                &:before {
+                    bottom: 6px;
+                    height: 1px;
+                    background: #000;
+                }
+            }
+
+            .input-extension__generate {
+                margin-right: 16px;
+                color: #000;
+                cursor: pointer;
+            }
+        }
+    }
 </style>
