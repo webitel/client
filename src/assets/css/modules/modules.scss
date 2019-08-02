@@ -117,3 +117,17 @@
     border: 1px solid $input;
   }
 }
+
+// FIXME: WRAP IT DIV AND STYLE IN DEVICES-NEW COMPONENT OR USE AS GLOBAL STYLE
+.devices-new {
+  .expansion-content {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-column-gap: 28px;
+    grid-row-gap: 7px;
+
+    .form__input {
+      margin: 0;
+    }
+  }
+}
