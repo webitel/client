@@ -65,7 +65,6 @@
     }
 
     .the-header__img {
-        color: $icon-color;
         transition: $transition;
 
         &:hover {

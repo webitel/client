@@ -4,7 +4,7 @@ $header-color: #EAEAEA;       // header
 $content-bg-color: #FFF;    // content
 
 // ACCENT COLORS:
-$icon-color: rgba(255, 255, 255, 0.4);    //nav icon color
+$nav-icon-color: rgba(255, 255, 255, 0.4);    //nav icon color
 $icon-color: rgba(0, 0, 0, 0.3);    //icon color
 $accent-color: #FFC107;       // links, icons, buttons
 
@@ -34,6 +34,11 @@ ul {
   padding: 0;
   margin: 0;
   list-style-type: none;
+}
+
+i {
+  color: $icon-color;
+  transition: $transition;
 }
 
 // helper class

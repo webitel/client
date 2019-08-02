@@ -10,20 +10,28 @@
         <section class="module-content">
             <header class="module-content__header">
                 <h3 class="module-content__title">All devices</h3>
-                <div class="module-content__actions">
+                <div class="module-content__table-actions">
                     <div class="search-form">
-                        <input type="text" placeholder="Name, user, auth ID & desk ID" v-model="filter"
-                               @keyup="filterData">
-                        <i class="icon-icon_deny"></i>
+                        <input
+                                class="search-input"
+                                type="text"
+                                placeholder="Name, user, auth ID & desk ID"
+                                v-model="search"
+                               @keyup="filterData"
+                        >
+                        <i class="icon-icon_deny icon-icon_search"></i>
                     </div>
-                    <div class="action-buttons">
-                        <i class="icon-icon_delete" v-show="anySelected"></i>
+                    <div class="table-action__actions">
+                        <i class="icon-icon_delete" :class="{'hidden': anySelected}"></i>
                         <i class="icon-icon_approve"></i>
                         <div class="filter">
-                            <i class="icon-icon_approve icon-icon_filter" @click="toggleFilter"
-                               :class="{'active': isFilterOpened}"></i>
-                            <ul class="filter-items__list" :class="{'hidden': !isFilterOpened}">
-                                <li class="filter-items__list-item"
+                            <i
+                                    class="icon-icon_approve icon-icon_filter"
+                                    @click="toggleFilter"
+                                    :class="{'active': isFilterOpenedClassTrigger}"
+                            ></i>
+                            <ul class="filter__list" :class="{'hidden': !isFilterOpenedClassTrigger}">
+                                <li class="filter__list-item"
                                     v-for="item in test"
                                 >
                                     <checkbox
@@ -48,7 +56,7 @@
                 <template slot="checkbox" slot-scope="props">
                     <checkbox
                             :value="test[props.rowIndex].isSelected"
-                            @toggleCheckbox="toggleCheckbox($event, props.rowIndex)"
+                            @toggleCheckbox="selectRow($event, props.rowIndex)"
                     >
                     </checkbox>
                 </template>
@@ -79,7 +87,10 @@
 
                 <template slot="presence" slot-scope="props">
                     <div class="devices-table__presence">
-                        <div class="presence-icon" :class="computePresenceClass(props.rowIndex)"></div>
+                        <div
+                                class="presence-icon"
+                                :class="computePresenceClass(props.rowIndex)"
+                        ></div>
                         <div class="presence-text">{{filtered[props.rowIndex].presence}}</div>
                     </div>
                 </template>
@@ -139,29 +150,18 @@
                 ],
                 test: [],
                 filtered: [],
-                filter: '',
-                propertiesToFilter: ['head', 'authId', 'user'],
+                search: '',
+                propertiesToSearch: ['head', 'authId', 'user'],
 
-                isFilterOpened: false
+                isFilterOpenedClassTrigger: false
             };
         },
         mounted() {
             // FIXME: delete test data
-            // for (let i = 0; i < 5; i++) {
-            //     this.test.push({
-            //         isSelected: false,
-            //         head: `head${i}`,
-            //         authId: (i * Math.round(Math.random() * 10)) + '',
-            //         user: 'user ' + Math.round(Math.random() * 10),
-            //         presence: 'Offline',
-            //         id: i,
-            //     });
-            // }
-
             this.test.push({
-                isSelected: false,
+                isSelected: true,
                 head: 'head0',
-                authId: (0 * Math.round(Math.random() * 10)) + '',
+                authId: 0 + '',
                 user: 'user ' + Math.round(Math.random() * 10),
                 presence: 'Offline',
                 id: 0,
@@ -170,7 +170,7 @@
             this.test.push({
                 isSelected: false,
                 head: 'head1',
-                authId: (1 * Math.round(Math.random() * 10)) + '',
+                authId: (Math.round(Math.random() * 10)) + '',
                 user: 'user ' + Math.round(Math.random() * 10),
                 presence: 'Available',
                 id: 1,
@@ -215,34 +215,40 @@
                     // this.$router.push({path: '/permissions/new', query: {edit: 'true'}});
                 }
             },
-            toggleCheckbox(newValue, id) {
-                this.test[id].isSelected = newValue;
+            selectRow(newValue, id) {
+                this.filtered[id].isSelected = newValue;
             },
+
+            // now it just searches
             filterData() {
                 this.filtered = [];
-                if (!this.filter) {
+                if (!this.search) {
                     this.filtered = [...this.test];
                 } else {
                     this.test.filter((item) => {
-                        for (let i = 0; i < this.propertiesToFilter.length; i++) {
-                            const key = this.propertiesToFilter[i];
-                            if (item[key].includes(this.filter)) {
+                        for (let i = 0; i < this.propertiesToSearch.length; i++) {
+                            const key = this.propertiesToSearch[i];
+                            if (item[key].includes(this.search)) {
                                 this.filtered.push(item);
-                                console.log(key, item[key], this.filter, item[key].includes(this.filter), this.filtered);
                                 break;
                             }
                         }
                     });
                 }
             },
+
+            // toggles filter list appearance
             toggleFilter() {
-                this.isFilterOpened = !this.isFilterOpened;
+                this.isFilterOpenedClassTrigger = !this.isFilterOpenedClassTrigger;
             },
+
+            // computes dynamic class name for presence icon colorizing
             computePresenceClass(id) {
                 return this.filtered[id].presence.toLowerCase().split(' ').join('-');
             }
         },
         computed: {
+            // shows delete table action if some items are selected
             anySelected() {
                 return this.filtered.some((item) => item.isSelected);
             }
