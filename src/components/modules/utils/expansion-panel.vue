@@ -6,12 +6,18 @@
         <div class="expansion-content" v-if="isExpanded">
             <slot name="expansion-content"></slot>
         </div>
+        <divider v-if="!isExpanded"></divider>
     </div>
 </template>
 
 <script>
+    import divider from '../../utils/divider';
+
     export default {
         name: "expansion-panel",
+        components: {
+            divider
+        },
         data() {
             return {
                 isExpanded: true,
@@ -30,7 +36,7 @@
 
     .expansion-header {
         display: flex;
-        margin: 2px 0 8px;
+        margin: 17px 0 15px;
         cursor: pointer;
 
         .icon {

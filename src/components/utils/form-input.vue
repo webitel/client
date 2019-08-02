@@ -191,4 +191,20 @@ import eventBus from '../../utils/eventBus';
     textarea {
         resize: none;
     }
+
+
+
+
+
+
+
+
+
+    .devices-new {
+        .input-extension-wrap {
+            .input {
+                padding-right: 100px;
+            }
+        }
+    }
 </style>
