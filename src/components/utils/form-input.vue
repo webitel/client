@@ -1,7 +1,14 @@
 <template>
     <div class="form-input">
         <label>
-            <span class="label" :class="{'invalid': this.v.$error}">{{this.label}}</span>
+            <div class="label" :class="{'invalid': this.v.$error}">{{this.label}}
+                <div class="module__info-hint" v-if="this.hintText">
+                    <i
+                            class="module__info-hint__img tooltip-activator icon-icon_question"
+                    ></i>
+                    <div class="tooltip-left">{{this.hintText}}</div>
+                </div>
+            </div>
             <input
                     class="input"
                     ref="input"
@@ -21,6 +28,8 @@
 
             ></textarea>
         </label>
+
+
         <div class="invalid form-input__details" v-show="v.email===false && v.$error">
             {{$t('auth.validation.email')}}
         </div>
@@ -34,7 +43,7 @@
 </template>
 
 <script>
-import eventBus from '../../utils/eventBus';
+    import eventBus from '../../utils/eventBus';
 
     export default {
         name: 'login-input',
@@ -62,6 +71,9 @@ import eventBus from '../../utils/eventBus';
                 type: String,
                 default: 'text',
             },
+            hintText: {
+                type: String,
+            },
             // validation rules
             v: {
                 type: Object,
@@ -86,7 +98,7 @@ import eventBus from '../../utils/eventBus';
         methods: {
             // pass copyTarget to be sure that selected text will be copied
             copyToClipboard(copyTarget) {
-                if(this.value === copyTarget) {
+                if (this.value === copyTarget) {
                     this.$refs.input.select();
                     document.execCommand('copy');
                 }
@@ -142,7 +154,8 @@ import eventBus from '../../utils/eventBus';
 
             &::placeholder {
                 color: #000;
-            };
+            }
+        ;
         }
 
         &:focus {
@@ -166,6 +179,11 @@ import eventBus from '../../utils/eventBus';
         }
     }
 
+    .module__info-hint {
+        /*position: absolute;*/
+        /*top: 0;*/
+        /*right: 0;*/
+    }
 
     .form-input__details {
         @extend .typo-body-md;
@@ -183,13 +201,6 @@ import eventBus from '../../utils/eventBus';
     textarea {
         resize: none;
     }
-
-
-
-
-
-
-
 
 
     .devices-new {

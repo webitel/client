@@ -10,9 +10,9 @@
         <section class="module-content module-new permissions-new">
             <header class="module-content__header">
                 <h3 class="module-content__title">{{$t('modules.permissions.permissionsNew.generalInfo')}} </h3>
-                <div class="module__info-helper">
+                <div class="module__info-hint">
                     <i
-                            class="module__info-helper__img tooltip-activator icon-icon_question"
+                            class="module__info-hint__img tooltip-activator icon-icon_question"
                     ></i>
                     <div class="tooltip-left">Ya s`el deda :(</div>
                 </div>

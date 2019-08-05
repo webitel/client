@@ -21,6 +21,7 @@
                             :v="$v.name"
                             :label="'name*'"
                             :placeholder="'name'"
+                            :hintText="'Ya s`el deda :('"
                     ></form-input>
                     <form-input
                             class="form__input"
@@ -28,6 +29,7 @@
                             :v="$v.authId"
                             :label="'authId*'"
                             :placeholder="'authId'"
+                            :hintText="'Ya s`el deda :('"
                     ></form-input>
 
                     <div class="input-extension-wrap">
@@ -46,7 +48,7 @@
                             <span class="input-extension__copy" @click="copyToClipboard">Copy</span>
                             <i class="input-extension__generate icon-icon_deny" @click="generatePassword"></i>
                         </div>
-                     </div>
+                    </div>
 
                     <form-input
                             class="form__input"
@@ -54,6 +56,43 @@
                             :label="'user'"
                             :placeholder="'user'"
                     ></form-input>
+                </template>
+            </expansion-panel>
+
+            <expansion-panel>
+                <template slot="expansion-header">
+                    <h3 class="module-content__title">Hot desking</h3>
+                </template>
+
+                <template slot="expansion-content">
+                    <div class="tags-input-wrap">
+                        <div class="tags-input__label">Host name*
+
+                            <div class="module__info-hint">
+                                <i
+                                        class="module__info-hint__img tooltip-activator icon-icon_question"
+                                ></i>
+                                <div class="tooltip-left">Ya s`el deda :(</div>
+                            </div>
+                        </div>
+                        <tags-input
+                                v-model="hostTag"
+                                :tags="hostTags"
+                                :autocomplete-items="tagsList"
+                                :add-only-from-autocomplete="true"
+                                :placeholder="'Host name'"
+                                @tags-changed="newTags => this.hostTags = newTags"
+                        ></tags-input>
+                    </div>
+                </template>
+            </expansion-panel>
+
+            <expansion-panel>
+                <template slot="expansion-header">
+                    <h3 class="module-content__title">Phone Info</h3>
+                </template>
+
+                <template slot="expansion-content">
                     <form-input
                             class="form__input"
                             v-model="phone"
@@ -65,36 +104,32 @@
                             v-model="IPv4"
                             :label="'IPv4'"
                             :placeholder="'IPv4'"
+                            :hintText="'Ya s`el deda :('"
                     ></form-input>
-                </template>
-            </expansion-panel>
-
-            <expansion-panel>
-                <template slot="expansion-header">
-                    <h3 class="module-content__title">Autoprovision</h3>
-                </template>
-
-                <template slot="expansion-content">
                     <form-input
                             class="form__input"
                             v-model="vendor"
                             :label="'vendor'"
                             :placeholder="'vendor'"
+                            :hintText="'Ya s`el deda :('"
                     ></form-input>
                     <form-input
                             class="form__input"
                             v-model="model"
                             :label="'model'"
                             :placeholder="'model'"
+                            :hintText="'Ya s`el deda :('"
                     ></form-input>
                     <form-input
                             class="form__input"
                             v-model="MAC"
                             :label="'MAC'"
                             :placeholder="'MAC'"
+                            :hintText="'Ya s`el deda :('"
                     ></form-input>
                 </template>
             </expansion-panel>
+
         </section>
     </div>
 </template>
@@ -104,14 +139,16 @@
     import formInput from '../../utils/form-input';
     import expansionPanel from '../utils/expansion-panel';
     import eventBus from '../../../utils/eventBus';
-    import { required } from 'vuelidate/lib/validators';
+    import {required} from 'vuelidate/lib/validators';
+    import vueTagsInput from '@johmun/vue-tags-input';
 
     export default {
         name: 'devices-new',
         components: {
             'module-header': moduleHeader,
             'form-input': formInput,
-            'expansion-panel': expansionPanel
+            'expansion-panel': expansionPanel,
+            'tags-input': vueTagsInput
         },
         data() {
             return {
@@ -126,22 +163,25 @@
                 model: '',
                 MAC: '',
 
-                hostName: [],
+                hostTag: '',
+                hostTags: [],
+                tagsList: [{text: 'Tag1'}, {text: 'Tag2'}, {text: 'Tag3'}, {text: 'Tag3Tag3Tag3Tag3'},
+                    {text: 'Tag5555555555555553'}, {text: 'Ta55g3'}]
             }
         },
 
         // by vuelidate
         validations: {
             // form: {
-                name: {
-                    required,
-                },
-                authId: {
-                    required
-                },
-                password: {
-                    required,
-                },
+            name: {
+                required,
+            },
+            authId: {
+                required
+            },
+            password: {
+                required,
+            },
             // },
         },
         methods: {
@@ -152,8 +192,8 @@
                 const length = 12;
                 const charset = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
                 let result = '';
-                for(let i = 0; i < length; i++) {
-                    result += charset.charAt(Math.floor(Math.random()*charset.length));
+                for (let i = 0; i < length; i++) {
+                    result += charset.charAt(Math.floor(Math.random() * charset.length));
                 }
                 this.password = result;
             },

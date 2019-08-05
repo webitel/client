@@ -95,11 +95,11 @@
   }
 }
 
-.module__info-helper {
+.module__info-hint {
   position: relative;
   display: inline-block;
 
-  .module__info-helper__img {
+  .module__info-hint__img {
     vertical-align: middle;
     color: rgba(0, 0, 0, 0.3);
     transition: $transition;
@@ -131,3 +131,70 @@
     }
   }
 }
+
+
+.tags-input-wrap {
+  position: relative;
+  padding-top: 33px;
+
+  .tags-input__label {
+    @extend .typo-input-label;
+
+    position: absolute;
+    top: 0;
+  }
+
+  .vue-tags-input {
+    width: 100%;
+    max-width: 100%;
+    min-height: 48px;
+
+    .ti-input {
+      @extend .typo-input-label;
+
+      padding: 10px 14px !important;
+      border-radius: $border-radius;
+
+      .ti-tag {
+        color: #000;
+        background: rgba(0, 0, 0, 0.05);
+        padding: 7px 7px 3px !important;
+
+        &.ti-deletion-mark {
+          background-color: rgba(0, 0, 0, 0.05) !important;
+        }
+
+        .ti-actions {
+          margin-left: 11px !important;
+
+          .ti-icon-close {
+            color: #000;
+
+            &:before {
+              content: "\e906";
+            }
+          }
+        }
+      }
+    }
+
+    .ti-autocomplete {
+      @extend .box-shadow;
+
+      padding: 8px 0;
+      margin-top: 12px;
+
+      .ti-item {
+        @extend .typo-body-sm;
+
+        padding: 16px 12px;
+
+        &.ti-selected-item {
+          color: #000;
+          background: rgba(0, 0, 0, 0.05);
+        }
+      }
+    }
+  }
+}
+
