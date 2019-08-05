@@ -21,13 +21,13 @@
 
             ></textarea>
         </label>
-        <div class="invalid form-input__details" v-show="v.email===false">
+        <div class="invalid form-input__details" v-show="v.email===false && v.$error">
             {{$t('auth.validation.email')}}
         </div>
-        <div class="invalid form-input__details" v-show="v.required===false">
+        <div class="invalid form-input__details" v-show="v.required===false && v.$error">
             {{$t('auth.validation.required')}}
         </div>
-        <div class="invalid form-input__details" v-show="v.sameAs===false">
+        <div class="invalid form-input__details" v-show="v.sameAs===false && v.$error">
             {{$t('auth.validation.confirmPassword')}}
         </div>
     </div>

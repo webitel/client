@@ -208,11 +208,11 @@
         },
         methods: {
             create() {
-                // this.$router.push('/permissions/new');
+                this.$router.push('/devices/new');
             },
             action(action) {
                 if (action === 'edit') {
-                    // this.$router.push({path: '/permissions/new', query: {edit: 'true'}});
+                    this.$router.push({path: '/devices/new', query: {edit: 'true'}});
                 }
             },
             selectRow(newValue, id) {
@@ -250,7 +250,7 @@
         computed: {
             // shows delete table action if some items are selected
             anySelected() {
-                return this.filtered.some((item) => item.isSelected);
+                return !this.filtered.some((item) => item.isSelected);
             }
         }
     };

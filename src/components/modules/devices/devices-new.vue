@@ -5,7 +5,7 @@
                 :primaryAction="close"
                 :secondaryAction="close"
         >
-            Devices | New
+            Devices | {{computeTitle}}
         </module-header>
         <section class="module-content module-new devices-new">
 
@@ -17,14 +17,16 @@
                 <template slot="expansion-content">
                     <form-input
                             class="form__input"
-                            v-model="name"
-                            :label="'name'"
+                            v-model.trim="$v.name.$model"
+                            :v="$v.name"
+                            :label="'name*'"
                             :placeholder="'name'"
                     ></form-input>
                     <form-input
                             class="form__input"
-                            v-model="authId"
-                            :label="'authId'"
+                            v-model.trim="$v.authId.$model"
+                            :v="$v.authId"
+                            :label="'authId*'"
                             :placeholder="'authId'"
                     ></form-input>
 
@@ -34,8 +36,9 @@
                         <form-input
                                 class="form__input"
                                 ref="input-password"
-                                v-model="password"
-                                :label="'password'"
+                                v-model.trim="$v.password.$model"
+                                :v="$v.password"
+                                :label="'password*'"
                                 :placeholder="'password'"
                         ></form-input>
 
@@ -101,6 +104,7 @@
     import formInput from '../../utils/form-input';
     import expansionPanel from '../utils/expansion-panel';
     import eventBus from '../../../utils/eventBus';
+    import { required } from 'vuelidate/lib/validators';
 
     export default {
         name: 'devices-new',
@@ -125,6 +129,21 @@
                 hostName: [],
             }
         },
+
+        // by vuelidate
+        validations: {
+            // form: {
+                name: {
+                    required,
+                },
+                authId: {
+                    required
+                },
+                password: {
+                    required,
+                },
+            // },
+        },
         methods: {
             close() {
                 this.$router.push('/devices');
@@ -141,6 +160,11 @@
             copyToClipboard() {
                 eventBus.$emit('copyToClipboard', this.password);
             }
+        },
+        computed: {
+            computeTitle() {
+                return this.$route.query.edit ? this.$t('modules.edit') : this.$t('modules.new');
+            },
         }
     }
 </script>
