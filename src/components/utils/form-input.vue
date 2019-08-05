@@ -140,19 +140,7 @@ import eventBus from '../../utils/eventBus';
         &:hover {
             border-color: #000;
 
-            &:-moz-placeholder {
-                color: #000;
-            };
-
-            &::-moz-placeholder {
-                color: #000;
-            };
-
-            &:-ms-input-placeholder {
-                color: #000;
-            };
-
-            &::-webkit-input-placeholder {
+            &::placeholder {
                 color: #000;
             };
         }
@@ -167,6 +155,10 @@ import eventBus from '../../utils/eventBus';
 
         &:hover {
             border-color: transparent;
+
+            &::placeholder {
+                color: rgba(255, 255, 255, 0.4);
+            }
         }
 
         &:focus {
