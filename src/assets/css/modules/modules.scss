@@ -10,6 +10,7 @@
 // main content itself, without nav but with main header
 .module {
   flex-grow: 1;
+  overflow-y: scroll;
 }
 
 // inner content section

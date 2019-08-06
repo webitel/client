@@ -61,34 +61,6 @@
 
             <expansion-panel>
                 <template slot="expansion-header">
-                    <h3 class="module-content__title">Hot desking</h3>
-                </template>
-
-                <template slot="expansion-content">
-                    <div class="tags-input-wrap">
-                        <div class="tags-input__label">Host name*
-
-                            <div class="module__info-hint">
-                                <i
-                                        class="module__info-hint__img tooltip-activator icon-icon_question"
-                                ></i>
-                                <div class="tooltip-left">Ya s`el deda :(</div>
-                            </div>
-                        </div>
-                        <tags-input
-                                v-model="hostTag"
-                                :tags="hostTags"
-                                :autocomplete-items="tagsList"
-                                :add-only-from-autocomplete="true"
-                                :placeholder="'Host name'"
-                                @tags-changed="newTags => this.hostTags = newTags"
-                        ></tags-input>
-                    </div>
-                </template>
-            </expansion-panel>
-
-            <expansion-panel>
-                <template slot="expansion-header">
                     <h3 class="module-content__title">Phone Info</h3>
                 </template>
 
@@ -130,6 +102,34 @@
                 </template>
             </expansion-panel>
 
+
+            <expansion-panel>
+                <template slot="expansion-header">
+                    <h3 class="module-content__title">Hot desking</h3>
+                </template>
+
+                <template slot="expansion-content">
+                    <div class="tags-input-wrap">
+                        <div class="tags-input__label">Host name*
+
+                            <div class="module__info-hint">
+                                <i
+                                        class="module__info-hint__img tooltip-activator icon-icon_question"
+                                ></i>
+                                <div class="tooltip-left">Ya s`el deda :(</div>
+                            </div>
+                        </div>
+                        <tags-input
+                                v-model="hostTag"
+                                :tags="hostTags"
+                                :autocomplete-items="tagsList"
+                                :add-only-from-autocomplete="true"
+                                :placeholder="'Host name'"
+                                @tags-changed="newTags => this.hostTags = newTags"
+                        ></tags-input>
+                    </div>
+                </template>
+            </expansion-panel>
         </section>
     </div>
 </template>

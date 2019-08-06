@@ -1,5 +1,4 @@
 <template>
-
     <div class="module-wrap">
         <app-nav></app-nav>
         <main class="module">
@@ -10,7 +9,6 @@
             <app-header></app-header>
 
             <router-view></router-view>
-
         </main>
     </div>
 </template>

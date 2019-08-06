@@ -132,7 +132,7 @@
         display: flex;
         flex-direction: column;
         position: absolute;
-        top: 12px;
+        bottom: 12px;
         left: 0;
         min-width: 400px;
         width: 100%;
