@@ -8,7 +8,9 @@ export default {
 };
 </script>
 
-<style scoped>
+<style lang="scss" scoped>
+    @import "../../assets/css/main";
+
     .divider {
         display: block;
         flex: 1 1 0;
@@ -17,7 +19,7 @@ export default {
         max-height: 0;
         padding: 0;
         margin: 0;
-        border: 0 solid rgba(0, 0, 0, 0.12);
+        border: 0 solid $divider-color;
         border-top-width: thin;
         transition: inherit;
     }
