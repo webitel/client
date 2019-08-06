@@ -140,7 +140,13 @@
                     <header class="module-content__header">
                         <h3 class="module-content__title">Device history</h3>
                         <div class="module-content__table-actions">
-
+                            <datepicker
+                                    v-model="historyDate"
+                                    :monday-first="true"
+                                    :full-month-name="true"
+                                    :calendar-button="true"
+                                    :calendar-button-icon="'icon-icon_arrow-down'"
+                            ></datepicker>
                         </div>
                     </header>
                     <vuetable
@@ -165,6 +171,7 @@
     import {required} from 'vuelidate/lib/validators';
     import vueTagsInput from '@johmun/vue-tags-input';
     import vuetable from 'vuetable-2/src/components/Vuetable';
+    import datepicker from 'vuejs-datepicker';
 
     export default {
         name: 'devices-new',
@@ -173,7 +180,8 @@
             'form-input': formInput,
             'expansion-panel': expansionPanel,
             'tags-input': vueTagsInput,
-            vuetable
+            vuetable,
+            datepicker
         },
         data() {
             return {
@@ -194,6 +202,7 @@
                     {text: 'Tag5555555555555553'}, {text: 'Ta55g3'}],
 
                 history: [],
+                historyDate: Date.now(),
                 // vuetable prop
                 fields: [
                     // TODO: UNITED 'NAME' TRANSLATION
@@ -219,6 +228,12 @@
             // },
         },
         mounted() {
+
+            document.querySelectorAll('.vdp-datepicker .day-header').forEach(item => {
+                console.log(item.innerHTML);
+                item.innerHTML = item.innerHTML.slice(0, -1);
+            });
+
             // FIXME: delete test data
             for (let i = 0; i < 7; i++) {
                 this.history.push({

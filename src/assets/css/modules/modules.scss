@@ -63,6 +63,7 @@
       .active {
         color: #000;
       }
+
       .filter {
         display: flex;
       }
@@ -212,3 +213,106 @@
   }
 }
 
+.vdp-datepicker {
+  > div input {
+    min-width: 173px;
+    height: 48px;
+    padding: 17px 16px 9px;
+    border: 1px solid $input;
+    border-radius: $border-radius;
+    outline: none;
+
+  }
+
+  // arrow down icon
+  .vdp-datepicker__calendar-button {
+    position: absolute;
+    top: 50%;
+    right: 16px;
+    transform: translate(0, -50%);
+  }
+
+  .vdp-datepicker__calendar {
+    @extend .box-shadow;
+
+    //display: block !important;
+    right: 0;
+    padding: 16px;
+    margin-top: 8px;
+
+    .prev, .next {
+      &:hover {
+        background-color: transparent !important;
+      }
+
+      &:after {
+        content: '\e005';
+        position: absolute;
+        top: 16px;
+        font-size: 24px;
+        font-family: 'icomoon';
+        text-indent: initial;
+        color: $icon-color;
+        border: none;
+        transition: $transition;
+        cursor: pointer;
+        pointer-events: none;
+
+      }
+
+      &:hover:after {
+        color: #000;
+      }
+    }
+
+    .next:after {
+      transform: translate(-50%, -50%) rotate(180deg);
+    }
+
+    .cell {
+      transition: $transition;
+
+      &.day {
+        border-radius: 50%;
+
+        &.day-header {
+          color: $icon-color;
+        }
+
+        &.selected {
+          background: $accent-color;
+
+          &:hover {
+            background: $accent-color !important;
+          }
+        }
+
+        &:not(.blank):not(.disabled).day:hover,
+        &:not(.blank):not(.disabled).month:hover,
+        &:not(.blank):not(.disabled).year:hover {
+          background: #F2F2F2;
+          border-color: transparent;
+        }
+      }
+
+
+      &.month {
+
+        &.selected {
+          border-bottom-color: $info-color;
+
+          &:hover {
+            border-bottom-color: $accent-color !important;
+          }
+        }
+
+        &:not(.blank):not(.disabled).day:hover,
+        &:not(.blank):not(.disabled).month:hover,
+        &:not(.blank):not(.disabled).year:hover {
+          border-bottom-color: $icon-color !important;
+        }
+
+      }
+    }
+  }
+}
