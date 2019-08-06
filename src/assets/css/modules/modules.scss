@@ -4,7 +4,7 @@
 .module-wrap {
   display: flex;
   width: 100vw;
-  overflow: hidden;
+  overflow-x: hidden;
 }
 
 // main content itself, without nav but with main header
@@ -153,8 +153,13 @@
     .ti-input {
       @extend .typo-input-label;
 
-      padding: 10px 14px !important;
+      padding: 10px 16px !important;
       border-radius: $border-radius;
+
+      .ti-new-tag-input-wrapper {
+        padding-left: 0;
+        margin-left: 0;
+      }
 
       .ti-tag {
         color: #000;
