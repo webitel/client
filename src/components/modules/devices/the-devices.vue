@@ -17,7 +17,7 @@
                                 type="text"
                                 placeholder="Name, user, auth ID & desk ID"
                                 v-model="search"
-                               @keyup="filterData"
+                                @keyup="filterData"
                         >
                         <i class="icon-icon_deny icon-icon_search"></i>
                     </div>
@@ -27,10 +27,14 @@
                         <div class="filter">
                             <i
                                     class="icon-icon_approve icon-icon_filter"
-                                    @click="toggleFilter"
+                                    @click.stop="toggleFilter"
                                     :class="{'active': isFilterOpenedClassTrigger}"
                             ></i>
-                            <ul class="filter__list" :class="{'hidden': !isFilterOpenedClassTrigger}">
+                            <ul
+                                    class="filter__list"
+                                    v-if="isFilterOpenedClassTrigger"
+                                    v-clickaway="toggleFilter"
+                            >
                                 <li class="filter__list-item"
                                     v-for="item in test"
                                 >
@@ -117,6 +121,8 @@
     import editField from '../utils/edit-field';
     import checkbox from '../utils/table-checkbox';
 
+    import clickaway from '../../../directives/clickaway';
+
 
     export default {
         name: 'the-devices',
@@ -126,6 +132,11 @@
             vuetable,
             checkbox
         },
+
+        directives: {
+            clickaway
+        },
+
         data() {
             return {
                 // vuetable prop
@@ -239,7 +250,7 @@
 
             // toggles filter list appearance
             toggleFilter() {
-                this.isFilterOpenedClassTrigger = !this.isFilterOpenedClassTrigger;
+              this.isFilterOpenedClassTrigger = !this.isFilterOpenedClassTrigger;
             },
 
             // computes dynamic class name for presence icon colorizing
