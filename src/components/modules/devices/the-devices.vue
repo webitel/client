@@ -51,7 +51,6 @@
 
             <vuetable
                     class="devices-table"
-                    ref="vuetable"
                     :api-mode="false"
                     :fields="fields"
                     :data="filtered"

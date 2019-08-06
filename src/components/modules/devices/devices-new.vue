@@ -129,6 +129,30 @@
                     </div>
                 </template>
             </expansion-panel>
+
+
+            <expansion-panel class="w100">
+                <template slot="expansion-header">
+                    <h3 class="module-content__title">History</h3>
+                </template>
+
+                <template slot="expansion-content">
+                    <header class="module-content__header">
+                        <h3 class="module-content__title">Device history</h3>
+                        <div class="module-content__table-actions">
+
+                        </div>
+                    </header>
+                    <vuetable
+                            class="devices-history-table"
+                            :api-mode="false"
+                            :fields="fields"
+                            :data="history"
+                    >
+
+                    </vuetable>
+                </template>
+            </expansion-panel>
         </section>
     </div>
 </template>
@@ -140,6 +164,7 @@
     import eventBus from '../../../utils/eventBus';
     import {required} from 'vuelidate/lib/validators';
     import vueTagsInput from '@johmun/vue-tags-input';
+    import vuetable from 'vuetable-2/src/components/Vuetable';
 
     export default {
         name: 'devices-new',
@@ -147,7 +172,8 @@
             'module-header': moduleHeader,
             'form-input': formInput,
             'expansion-panel': expansionPanel,
-            'tags-input': vueTagsInput
+            'tags-input': vueTagsInput,
+            vuetable
         },
         data() {
             return {
@@ -165,7 +191,16 @@
                 hostTag: '',
                 hostTags: [],
                 tagsList: [{text: 'Tag1'}, {text: 'Tag2'}, {text: 'Tag3'}, {text: 'Tag3Tag3Tag3Tag3'},
-                    {text: 'Tag5555555555555553'}, {text: 'Ta55g3'}]
+                    {text: 'Tag5555555555555553'}, {text: 'Ta55g3'}],
+
+                history: [],
+                // vuetable prop
+                fields: [
+                    // TODO: UNITED 'NAME' TRANSLATION
+                    {name: 'login', title: 'Login',},
+                    {name: 'logout', title: 'Logout'},
+                    {name: 'user', title: 'User'},
+                ],
             }
         },
 
@@ -182,6 +217,17 @@
                 required,
             },
             // },
+        },
+        mounted() {
+            // FIXME: delete test data
+            for (let i = 0; i < 7; i++) {
+                this.history.push({
+                    login: '5 August 2019, 10:16 AM',
+                    logout: '5 August 2019, 10:16 AM',
+                    user: `User ${i}`,
+                    id: i,
+                });
+            }
         },
         methods: {
             close() {

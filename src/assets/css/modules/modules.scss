@@ -132,6 +132,10 @@
       margin: 0;
     }
   }
+
+  .w100 .expansion-content {
+    grid-template-columns: 1fr;
+  }
 }
 
 
