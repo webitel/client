@@ -10,7 +10,7 @@
             </header>
 
             <vuetable
-                    class="permissions-table permissions-object-table vuetable-actions-1"
+                    class="permissions-table permissions-object-table"
                     :api-mode="false"
                     :fields="fields"
                     :data="test"
@@ -66,14 +66,15 @@
             return {
                 // vuetable prop
                 fields: [
-                    {name: '__slot:head', title: this.$t('modules.permissions.name')},
-                    {name: '__slot:ObAC', title: this.$t('modules.permissions.object.ObAC')},
-                    {name: '__slot:RbAC', title: this.$t('modules.permissions.object.RbAC')},
+                    {name: 'head', title: this.$t('modules.permissions.name')},
+                    {name: 'ObAC', title: this.$t('modules.permissions.object.ObAC')},
+                    {name: 'RbAC', title: this.$t('modules.permissions.object.RbAC')},
                     {
-                        name: '__slot:image',
+                        name: 'image',
                         title: '',
                         titleClass: 'vuetable-td-actions',
                         dataClass: 'vuetable-td-actions',
+                        width: '60px'
                     },
                 ],
                 test: [],

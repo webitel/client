@@ -83,6 +83,7 @@
                         title: '',
                         titleClass: 'vuetable-td-actions',
                         dataClass: 'vuetable-td-actions',
+                        width: '120px'
                     },
                 ],
                 test: [],

@@ -23,7 +23,7 @@
                     </div>
                     <div class="table-action__actions">
                         <i class="icon-icon_delete" :class="{'hidden': anySelected}"></i>
-                        <i class="icon-icon_approve"></i>
+                        <i class="icon-icon_upload"></i>
                         <div class="filter">
                             <i
                                     class="icon-icon_approve icon-icon_filter"
@@ -56,13 +56,13 @@
                     :data="filtered"
             >
 
-                <template slot="checkbox" slot-scope="props">
-                    <checkbox
-                            :value="test[props.rowIndex].isSelected"
-                            @toggleCheckbox="selectRow($event, props.rowIndex)"
-                    >
-                    </checkbox>
-                </template>
+<!--                <template slot="checkbox" slot-scope="props">-->
+<!--                    <checkbox-->
+<!--                            :value="test[props.rowIndex].isSelected"-->
+<!--                            @toggleCheckbox="selectRow($event, props.rowIndex)"-->
+<!--                    >-->
+<!--                    </checkbox>-->
+<!--                </template>-->
 
                 <template slot="name" slot-scope="props">
                     <edit-field
@@ -118,10 +118,8 @@
     import vuetable from 'vuetable-2/src/components/Vuetable';
     import moduleHeader from '../module-header';
     import editField from '../utils/edit-field';
-    import checkbox from '../utils/table-checkbox';
 
     import clickaway from '../../../directives/clickaway';
-
 
     export default {
         name: 'the-devices',
@@ -129,7 +127,6 @@
             'module-header': moduleHeader,
             'edit-field': editField,
             vuetable,
-            checkbox
         },
 
         directives: {
@@ -142,20 +139,21 @@
                 fields: [
                     // TODO: UNITED 'NAME' TRANSLATION
                     {
-                        name: '__slot:checkbox',
-                        title: '',
+                        name: '__table-checkbox',
                         titleClass: 'vuetable-td-checkbox',
                         dataClass: 'vuetable-td-checkbox',
+                        width: '55px'
                     },
-                    {name: '__slot:name', title: this.$t('modules.permissions.name')},
-                    {name: '__slot:authId', title: 'Auth ID'},
-                    {name: '__slot:user', title: 'User'},
-                    {name: '__slot:presence', title: 'Presence'},
+                    {name: 'name', title: this.$t('modules.permissions.name')},
+                    {name: 'authId', title: 'Auth ID'},
+                    {name: 'user', title: 'User'},
+                    {name: 'presence', title: 'Presence'},
                     {
-                        name: '__slot:image',
+                        name: 'image',
                         title: '',
                         titleClass: 'vuetable-td-actions',
                         dataClass: 'vuetable-td-actions',
+                        width: '120px'
                     },
                 ],
                 test: [],
@@ -227,7 +225,11 @@
                 }
             },
             selectRow(newValue, id) {
-                this.filtered[id].isSelected = newValue;
+                if(newValue && id) {
+                    this.filtered[id].isSelected = newValue;
+                } else {
+
+                }
             },
 
             // now it just searches

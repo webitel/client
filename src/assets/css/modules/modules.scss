@@ -23,13 +23,13 @@
   justify-content: space-between;
   align-items: baseline;
   position: relative;
-  padding-right: 32px;
+  margin: 38px 32px 12px 0;
 
   .module-content__title {
     @extend .typo-heading-md;
 
     display: inline-block;
-    margin: 34px 0 0;
+    margin: 0;
   }
 
   .module-content__table-actions {
@@ -38,17 +38,19 @@
     .search-form {
       display: flex;
       align-items: center;
-      width: 286px;
-      height: 48px;
+      width: 254px;
 
       .search-input {
         @extend .typo-input-text;
 
         flex: 1;
-        padding: 13px 16px;
-        color: $divider-color;
+        padding: 0;
         border: none;
         outline: none;
+
+        &::placeholder {
+          color: $icon-color;
+        }
       }
 
       .icon-icon_search {
@@ -73,14 +75,16 @@
         @extend .box-shadow;
 
         position: absolute;
-        top: 74px;
-        right: 26px;
+        top: 24px; //icon height
+        right: 0;
         min-width: 196px;
-        padding: 13px 16px;
+        padding: 13px 16px 14px;
+        margin-top: 8px; //margin to icon
         color: #000;
         background: #fff;
 
         .filter__list-item {
+          height: 24px;
           padding: 3px;
           margin-bottom: 13px;
         }
@@ -90,7 +94,7 @@
         margin-left: 30px;
         cursor: pointer;
 
-        &.icon-icon_filter:hover {
+        &:hover {
           color: #000;
         }
       }

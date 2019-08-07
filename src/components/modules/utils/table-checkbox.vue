@@ -1,7 +1,7 @@
 <template>
     <label
             class="checkbox-label"
-           @click="changeValue"
+           @click.prevent="changeValue"
     >
         <input
                 class="checkbox"
@@ -25,6 +25,11 @@
             label: {
                 // type: Object,
             },
+        },
+        watch: {
+            value: function(newVal) {
+                this.checkbox = newVal;
+            }
         },
         data() {
             return {

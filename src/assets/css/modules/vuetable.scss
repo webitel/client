@@ -6,7 +6,6 @@
   table-layout: fixed;
   text-align: left;
   width: 100%;
-  margin-top: 16px;
 
   thead {
     color: rgba(0, 0, 0, 0.4);
@@ -28,18 +27,12 @@
 
 
   }
-
-  /*CHECKBOX ACTION COLUMN*/
-  .vuetable-td-checkbox {
-    width: 49px;
-  }
-
   /*ACTION COLUMN*/
   // vuetable class is to override default style priority
   &.vuetable .vuetable-td-actions {
     text-align: right;
-    width: 120px;
     padding-right: 0;
+    margin-right: 30px;
 
     // div icons wrap
     .vuetable-actions {
@@ -48,12 +41,11 @@
 
     // icon
     .vuetable-action {
-      vertical-align: middle;
+      vertical-align: middle; //aligns not icon but container
       display: inline-block;
       margin-right: 25px;
       color: $icon-color;
       transition: $transition;
-      //border: 1px dashed rgba(0, 0, 0, 0.3);
       cursor: pointer;
 
       &:hover {
@@ -61,20 +53,9 @@
       }
     }
 
-    .vuetable-action:first-child {
-      margin-right: 30px;
-    }
-  }
-
-  &.vuetable-actions-1 .vuetable-td-actions {
-    width: 60px;
-
-    // div icons wrap
-    .vuetable-actions {
-      width: fit-content;
-      width: -moz-fit-content;
-      display: inline-block;
-    }
+    //.vuetable-action:first-child {
+      //margin-right: 30px;
+    //}
   }
 
 

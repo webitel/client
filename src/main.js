@@ -12,8 +12,12 @@ import './assets/css/modules/vuetable.scss';
 import './assets/css/fonts.scss';
 import './assets/css/main.scss';
 
+import tableCheckboxColumn from './components/modules/utils/table-checkbox-column';
+
+
 Vue.config.productionTip = false;
 
+Vue.component('vuetable-field-table-checkbox', tableCheckboxColumn);
 Vue.use(Vuelidate);
 
 Vue.use(VueLogger, {

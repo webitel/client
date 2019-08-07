@@ -83,11 +83,11 @@
             return {
                 // vuetable prop
                 fields: [
-                    {name: '__slot:head', title: this.$t('modules.permissions.name')},
-                    {name: '__slot:create', title: this.$t('modules.create')},
-                    {name: '__slot:read', title: this.$t('modules.read')},
-                    {name: '__slot:edit', title: this.$t('modules.edit')},
-                    {name: '__slot:delete', title: this.$t('modules.delete')},
+                    {name: 'head', title: this.$t('modules.permissions.name')},
+                    {name: 'create', title: this.$t('modules.create')},
+                    {name: 'read', title: this.$t('modules.read')},
+                    {name: 'edit', title: this.$t('modules.edit')},
+                    {name: 'delete', title: this.$t('modules.delete')},
                 ],
                 test: [],
                 checkboxLabels: {
