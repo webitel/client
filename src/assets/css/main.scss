@@ -133,6 +133,8 @@ i {
 .tooltip {
   @extend .typo-body-sm;
 
+  display: flex;
+  align-items: center;
   position: absolute;
   width: 200px;
   min-height: 40px;
@@ -158,7 +160,7 @@ i {
   }
 }
 
-.tooltip-activator:hover + .tooltip {
+.tooltip-activator:hover + .tooltip, .tooltip.active {
   opacity: 1;
   pointer-events: auto;
 }

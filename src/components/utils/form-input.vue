@@ -103,7 +103,7 @@
         methods: {
             // pass copyTarget to be sure that selected text will be copied
             copyToClipboard(copyTarget) {
-                if (this.value === copyTarget) {
+                if (this.value === copyTarget && this.value) {
                     this.$refs.input.select();
                     document.execCommand('copy');
                 }

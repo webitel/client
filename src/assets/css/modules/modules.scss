@@ -137,6 +137,20 @@
   .w100 .expansion-content {
     grid-template-columns: 1fr;
   }
+
+  .input-extension__copy {
+
+    .icon-icon_approve {
+      margin-right: 8px;
+      color: $true-color;
+    }
+
+    .tooltip-top {
+      justify-content: center;
+      bottom: 20px; //14px Copy span + 6px margin
+      transform: translate(-60%, 0);
+    }
+  }
 }
 
 
@@ -183,17 +197,23 @@
 
           .ti-icon-close {
             color: #000;
-
-            &:before {
-              content: "\e906";
-            }
+            transform: translateY(-1px);
           }
         }
       }
     }
 
     &.ti-disabled .ti-input {
-      background: $input-disabled;
+      border: transparent;
+
+      input::placeholder {
+        color: transparent;
+      }
+
+      .ti-icon-close {
+        opacity: 0;
+        pointer-events: none;
+      }
     }
 
     .ti-autocomplete {

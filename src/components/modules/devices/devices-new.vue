@@ -45,7 +45,17 @@
                         ></form-input>
 
                         <div class="input-extension">
-                            <span class="input-extension__copy" @click="copyToClipboard">Copy</span>
+
+                            <div class="input-extension__copy" @click="copyToClipboard">
+                                <span>Copy</span>
+
+                                <div class="module__info-hint" v-if="copyMessage">
+                                    <div class="tooltip-top active">
+                                        <i class="icon-icon_approve"></i>
+                                        <span>{{this.copyMessage}}</span>
+                                    </div>
+                                </div>
+                            </div>
                             <i class="input-extension__generate icon-icon_deny" @click="generatePassword"></i>
                         </div>
                     </div>
@@ -200,8 +210,10 @@
                 model: '',
                 MAC: '',
 
+                copyMessage: '',
+
                 hostTag: '',
-                hostTags: [],
+                hostTags: [{text: 'Tag1'}, {text: 'Tag2'}],
                 tagsList: [{text: 'Tag1'}, {text: 'Tag2'}, {text: 'Tag3'}, {text: 'Tag3Tag3Tag3Tag3'},
                     {text: 'Tag5555555555555553'}, {text: 'Ta55g3'}],
                 disableHost: true,
@@ -263,19 +275,17 @@
                 this.password = result;
             },
             copyToClipboard() {
-                eventBus.$emit('copyToClipboard', this.password);
+                if(this.password) {
+                    eventBus.$emit('copyToClipboard', this.password);
+                    this.copyMessage = 'Copied to clipboard!';
+                    setTimeout(() => this.copyMessage = '', 2000);
+                }
             },
         },
         computed: {
             computeTitle() {
                 return this.$route.query.edit ? this.$t('modules.edit') : this.$t('modules.new');
             },
-            // computeDateName() {
-            //     console.log(this.historyDate.toLocaleString("en-us", {month: 'long'}));
-            //     return this.historyDate.getDay() + ' '
-            //         + this.historyDate.toLocaleString("en-us", {month: 'long'}) + ' '
-            //         + this.historyDate.getFullYear();
-            // },
             filterTags() {
                 const filteredTags = this.tagsList.filter(item => {
                     return item.text.toLowerCase().includes(this.hostTag.toLowerCase());
