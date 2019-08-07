@@ -167,6 +167,7 @@
         margin-left: 8px;
       }
 
+
       .ti-tag {
         color: #000;
         background: rgba(0, 0, 0, 0.05);
@@ -189,6 +190,10 @@
           }
         }
       }
+    }
+
+    &.ti-disabled .ti-input {
+      background: $input-disabled;
     }
 
     .ti-autocomplete {
@@ -272,12 +277,12 @@
     .cell {
       transition: $transition;
 
+      &.day-header {
+        color: $icon-color !important;
+      }
+
       &.day {
         border-radius: 50%;
-
-        &.day-header {
-          color: $icon-color;
-        }
 
         &.selected {
           background: $accent-color;

@@ -15,7 +15,8 @@
                     v-if="!textarea"
                     v-model="validation"
                     @input="$emit('input, $event.target.value')"
-                    v-bind:placeholder=placeholder
+                    :placeholder=placeholder
+                    :disabled="disabled"
 
             />
             <textarea
@@ -24,7 +25,8 @@
                     v-if="textarea"
                     v-model="validation"
                     @input="$emit('input, $event.target.value')"
-                    v-bind:placeholder=placeholder
+                    :placeholder=placeholder
+                    :disabled="disabled"
 
             ></textarea>
         </label>
@@ -87,6 +89,9 @@
                 type: Number,
                 default: 48,
             },
+            disabled: {
+                type: Boolean
+            }
         },
         mounted() {
             this.$refs.input.autofocus = this.autofocus;
@@ -149,7 +154,7 @@
         outline: none;
         transition: $transition;
 
-        &:hover {
+        &:hover:not(:disabled) {
             border-color: #000;
 
             &::placeholder {
@@ -160,6 +165,11 @@
 
         &:focus {
             border-color: #000;
+        }
+
+        &:disabled {
+            background: $input-disabled;
+            border-color: $input;
         }
     }
 

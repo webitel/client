@@ -167,6 +167,7 @@
             };
         },
         mounted() {
+
             // FIXME: delete test data
             this.test.push({
                 isSelected: true,

@@ -70,6 +70,7 @@
                             v-model="phone"
                             :label="'phone'"
                             :placeholder="'phone'"
+                            disabled
                     ></form-input>
                     <form-input
                             class="form__input"
@@ -125,6 +126,7 @@
                                 :autocomplete-items="filterTags"
                                 :placeholder="'Host name'"
                                 @tags-changed="newTags => this.hostTags = newTags"
+                                :disabled="disableHost"
                         ></tags-input>
                     </div>
                 </template>
@@ -142,10 +144,12 @@
                         <div class="module-content__table-actions">
                             <datepicker
                                     v-model="historyDate"
-                                    :monday-first="true"
-                                    :full-month-name="true"
-                                    :calendar-button="true"
+                                    :format="'d MMMM yyyy'"
                                     :calendar-button-icon="'icon-icon_arrow-down'"
+                                    :maximum-view="'day'"
+                                    monday-first
+                                    full-month-name
+                                    calendar-button
                             ></datepicker>
                         </div>
                     </header>
@@ -200,9 +204,10 @@
                 hostTags: [],
                 tagsList: [{text: 'Tag1'}, {text: 'Tag2'}, {text: 'Tag3'}, {text: 'Tag3Tag3Tag3Tag3'},
                     {text: 'Tag5555555555555553'}, {text: 'Ta55g3'}],
+                disableHost: true,
 
                 history: [],
-                historyDate: Date.now(),
+                historyDate: new Date,
                 // vuetable prop
                 fields: [
                     // TODO: UNITED 'NAME' TRANSLATION
@@ -228,9 +233,9 @@
             // },
         },
         mounted() {
+            // console.log(this.historyDate.toLocaleString("en-us", {month: 'long'}), this.historyDate.getFullYear());
 
             document.querySelectorAll('.vdp-datepicker .day-header').forEach(item => {
-                console.log(item.innerHTML);
                 item.innerHTML = item.innerHTML.slice(0, -1);
             });
 
@@ -259,12 +264,18 @@
             },
             copyToClipboard() {
                 eventBus.$emit('copyToClipboard', this.password);
-            }
+            },
         },
         computed: {
             computeTitle() {
                 return this.$route.query.edit ? this.$t('modules.edit') : this.$t('modules.new');
             },
+            // computeDateName() {
+            //     console.log(this.historyDate.toLocaleString("en-us", {month: 'long'}));
+            //     return this.historyDate.getDay() + ' '
+            //         + this.historyDate.toLocaleString("en-us", {month: 'long'}) + ' '
+            //         + this.historyDate.getFullYear();
+            // },
             filterTags() {
                 const filteredTags = this.tagsList.filter(item => {
                     return item.text.toLowerCase().includes(this.hostTag.toLowerCase());
