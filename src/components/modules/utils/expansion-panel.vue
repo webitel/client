@@ -1,7 +1,11 @@
 <template>
     <div class="expansion-panel">
         <header class="expansion-header" @click="expand">
-            <span class="icon icon-icon_arrow-down"></span><slot name="expansion-header"></slot>
+            <span
+                    class="icon icon-icon_arrow-down"
+                    :class="{'closed': !this.isExpanded}"
+            ></span>
+            <slot name="expansion-header"></slot>
         </header>
         <div class="expansion-content" v-if="isExpanded">
             <slot name="expansion-content"></slot>
@@ -34,14 +38,23 @@
 <style lang="scss" scoped>
     @import "../../../assets/css/main";
 
+    .expansion-panel {
+        margin-top: 17px;
+    }
+
     .expansion-header {
         display: flex;
-        margin: 17px 0 15px;
+        margin-bottom: 15px;
         cursor: pointer;
 
         .icon {
             padding: 0 10px;
-            margin-right: 8px;
+            color: $icon-color;
+            transition: $transition;
+
+            &.closed {
+                transform: rotate(-90deg);
+            }
         }
     }
 </style>

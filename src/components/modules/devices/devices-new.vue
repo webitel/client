@@ -56,7 +56,7 @@
                                     </div>
                                 </div>
                             </div>
-                            <i class="input-extension__generate icon-icon_deny" @click="generatePassword"></i>
+                            <i class="input-extension__generate icon-icon_generate" @click="generatePassword"></i>
                         </div>
                     </div>
 
@@ -68,6 +68,36 @@
                     ></form-input>
                 </template>
             </expansion-panel>
+
+
+            <expansion-panel>
+                <template slot="expansion-header">
+                    <h3 class="module-content__title">Hot desking</h3>
+                </template>
+
+                <template slot="expansion-content">
+                    <div class="tags-input-wrap">
+                        <div class="tags-input__label">Host name*
+
+                            <div class="module__info-hint">
+                                <i
+                                        class="module__info-hint__img tooltip-activator icon-icon_question"
+                                ></i>
+                                <div class="tooltip-left">Ya s`el deda :(</div>
+                            </div>
+                        </div>
+                        <tags-input
+                                v-model="hostTag"
+                                :tags="hostTags"
+                                :autocomplete-items="filterTags"
+                                :placeholder="'Host name'"
+                                @tags-changed="newTags => this.hostTags = newTags"
+
+                        ></tags-input>
+                    </div>
+                </template>
+            </expansion-panel>
+
 
             <expansion-panel>
                 <template slot="expansion-header">
@@ -110,35 +140,6 @@
                             :placeholder="'MAC'"
                             :hintText="'Ya s`el deda :('"
                     ></form-input>
-                </template>
-            </expansion-panel>
-
-
-            <expansion-panel>
-                <template slot="expansion-header">
-                    <h3 class="module-content__title">Hot desking</h3>
-                </template>
-
-                <template slot="expansion-content">
-                    <div class="tags-input-wrap">
-                        <div class="tags-input__label">Host name*
-
-                            <div class="module__info-hint">
-                                <i
-                                        class="module__info-hint__img tooltip-activator icon-icon_question"
-                                ></i>
-                                <div class="tooltip-left">Ya s`el deda :(</div>
-                            </div>
-                        </div>
-                        <tags-input
-                                v-model="hostTag"
-                                :tags="hostTags"
-                                :autocomplete-items="filterTags"
-                                :placeholder="'Host name'"
-                                @tags-changed="newTags => this.hostTags = newTags"
-                                :disabled="disableHost"
-                        ></tags-input>
-                    </div>
                 </template>
             </expansion-panel>
 
@@ -301,10 +302,6 @@
     @import "../../../assets/css/main";
     @import "../../../assets/css/modules/modules";
 
-    .module-content {
-        padding-top: 36px;
-    }
-
     .module-content__title {
         margin: 0;
     }
@@ -322,8 +319,6 @@
             .input-extension__copy {
                 @extend .typo-input-text;
                 @extend .border-underline;
-
-                margin-right: 16px;
                 cursor: pointer;
 
                 &:before {
@@ -334,7 +329,7 @@
             }
 
             .input-extension__generate {
-                margin-right: 16px;
+                margin: 0 16px;
                 color: #000;
                 cursor: pointer;
             }
