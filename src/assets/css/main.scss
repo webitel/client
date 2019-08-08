@@ -130,6 +130,36 @@ i {
   line-height: 18px;
 }
 
+.default-input {
+  display: block;
+  width: 100%;
+  /*different top and bottom padding to vertically align text*/
+  padding: 15px 16px 11px;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid $input;
+  border-radius: $border-radius;
+  outline: none;
+  transition: $transition;
+
+  &:hover:not(:disabled) {
+    border-color: #000;
+
+    &::placeholder {
+      color: #000;
+    }
+  ;
+  }
+
+  &:focus {
+    border-color: #000;
+  }
+
+  &:disabled {
+    background: $input-disabled;
+    border-color: $input;
+  }
+}
+
 .tooltip {
   @extend .typo-body-sm;
 

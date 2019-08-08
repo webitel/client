@@ -7,10 +7,12 @@
             Devices
         </module-header>
 
+<!--        <upload-popup></upload-popup>-->
+
         <section class="module-content">
-            <header class="module-content__header">
-                <h3 class="module-content__title">All devices</h3>
-                <div class="module-content__table-actions">
+            <header class="content-header page-header">
+                <h3 class="content-title">All devices</h3>
+                <div class="content-header__actions-wrap">
                     <div class="search-form">
                         <input
                                 class="search-input"
@@ -23,7 +25,15 @@
                     </div>
                     <div class="table-action__actions">
                         <i class="icon-icon_delete" :class="{'hidden': anySelected}"></i>
-                        <i class="icon-icon_upload"></i>
+                        <div class="upload-csv">
+                            <i class="icon-icon_upload"></i>
+                            <input
+                                    class="upload-csv__input"
+                                    type="file"
+                                    @change="processCSV($event)"
+                                    accept=".csv"
+                            >
+                        </div>
                         <div class="filter">
                             <i
                                     class="icon-icon_approve icon-icon_filter"
@@ -112,7 +122,8 @@
     import vuetable from 'vuetable-2/src/components/Vuetable';
     import moduleHeader from '../module-header';
     import editField from '../utils/edit-field';
-    import checkbox from '../utils/table-checkbox';
+    import checkbox from '../utils/checkbox';
+    import uploadPopup from '../utils/upload-popup';
 
     import clickaway from '../../../directives/clickaway';
 
@@ -121,8 +132,9 @@
         components: {
             'module-header': moduleHeader,
             'edit-field': editField,
+            'upload-popup': uploadPopup,
             vuetable,
-            checkbox
+            checkbox,
         },
 
         directives: {
@@ -157,8 +169,10 @@
                 search: '',
                 propertiesToSearch: ['head', 'authId', 'user'],
                 filterPresence: [],
+                isUploadPopupOpened: false,
 
-                isFilterOpenedClassTrigger: false
+                isFilterOpenedClassTrigger: false,
+                csvFile: null
             };
         },
         mounted() {
@@ -259,6 +273,12 @@
                     }
                 }
                 // console.log(this.filterPresence)
+            },
+            processCSV(event) {
+                const file = event.target.files[0];
+                if(file) {
+
+                }
             },
 
             // now it just searches

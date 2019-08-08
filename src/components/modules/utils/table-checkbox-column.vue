@@ -19,7 +19,7 @@
 
 <script>
     import VuetableFieldMixin from 'vuetable-2/src/components/VuetableFieldMixin';
-    import checkbox from './table-checkbox';
+    import checkbox from './checkbox';
 
     export default {
         name: 'vuetable-field-table-checkbox',

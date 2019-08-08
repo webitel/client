@@ -11,7 +11,7 @@
 
             <expansion-panel>
                 <template slot="expansion-header">
-                    <h3 class="module-content__title">General info</h3>
+                    <h3 class="content-title">General info</h3>
                 </template>
 
                 <template slot="expansion-content">
@@ -49,7 +49,7 @@
                             <div class="input-extension__copy" @click="copyToClipboard">
                                 <span>Copy</span>
 
-                                <div class="module__info-hint" v-if="copyMessage">
+                                <div class="hint" v-if="copyMessage">
                                     <div class="tooltip-top active">
                                         <i class="icon-icon_approve"></i>
                                         <span>{{this.copyMessage}}</span>
@@ -72,16 +72,16 @@
 
             <expansion-panel>
                 <template slot="expansion-header">
-                    <h3 class="module-content__title">Hot desking</h3>
+                    <h3 class="content-title">Hot desking</h3>
                 </template>
 
                 <template slot="expansion-content">
                     <div class="tags-input-wrap">
                         <div class="tags-input__label">Host name*
 
-                            <div class="module__info-hint">
+                            <div class="hint">
                                 <i
-                                        class="module__info-hint__img tooltip-activator icon-icon_question"
+                                        class="hint__img tooltip-activator icon-icon_question"
                                 ></i>
                                 <div class="tooltip-left">Ya s`el deda :(</div>
                             </div>
@@ -101,7 +101,7 @@
 
             <expansion-panel>
                 <template slot="expansion-header">
-                    <h3 class="module-content__title">Phone Info</h3>
+                    <h3 class="content-title">Phone Info</h3>
                 </template>
 
                 <template slot="expansion-content">
@@ -144,15 +144,15 @@
             </expansion-panel>
 
 
-            <expansion-panel class="w100">
+            <expansion-panel class="grid-w100">
                 <template slot="expansion-header">
-                    <h3 class="module-content__title">History</h3>
+                    <h3 class="content-title">History</h3>
                 </template>
 
                 <template slot="expansion-content">
-                    <header class="module-content__header">
-                        <h3 class="module-content__title">Device history</h3>
-                        <div class="module-content__table-actions">
+                    <header class="content-header">
+                        <h3 class="content-title">Device history</h3>
+                        <div class="content-header__actions-wrap">
                             <datepicker
                                     v-model="historyDate"
                                     :format="'d MMMM yyyy'"
@@ -302,7 +302,7 @@
     @import "../../../assets/css/main";
     @import "../../../assets/css/modules/modules";
 
-    .module-content__title {
+    .content-title {
         margin: 0;
     }
 

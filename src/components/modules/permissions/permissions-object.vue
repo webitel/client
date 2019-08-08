@@ -5,8 +5,8 @@
         </module-header>
 
         <section class="module-content">
-            <header class="module-content__header">
-                <h3 class="module-content__title">{{$t('modules.permissions.object.allObjects')}}</h3>
+            <header class="content-header page-header">
+                <h3 class="content-title">{{$t('modules.permissions.object.allObjects')}}</h3>
             </header>
 
             <vuetable

@@ -2,9 +2,9 @@
     <div class="form-input">
         <label>
             <div class="label" :class="{'invalid': this.v.$error}">{{this.label}}
-                <div class="module__info-hint" v-if="this.hintText">
+                <div class="hint" v-if="this.hintText">
                     <i
-                            class="module__info-hint__img tooltip-activator icon-icon_question"
+                            class="hint__img tooltip-activator icon-icon_question"
                     ></i>
                     <div class="tooltip-left">{{this.hintText}}</div>
                 </div>
@@ -15,7 +15,9 @@
                     v-if="!textarea"
                     v-model="validation"
                     @input="$emit('input, $event.target.value')"
-                    :placeholder=placeholder
+                    :type="type"
+                    :placeholder="placeholder"
+                    :autofocus="autofocus"
                     :disabled="disabled"
 
             />
@@ -25,7 +27,8 @@
                     v-if="textarea"
                     v-model="validation"
                     @input="$emit('input, $event.target.value')"
-                    :placeholder=placeholder
+                    :placeholder="placeholder"
+                    :autofocus="autofocus"
                     :disabled="disabled"
 
             ></textarea>
@@ -50,32 +53,56 @@
     export default {
         name: 'login-input',
         props: {
-            textarea: {
-                type: Boolean,
-                default: false,
-            },
             // value -- w-model from outer component
             value: {
                 type: String,
                 default: '',
             },
+
+            // label above input itself
             label: {
                 type: String,
             },
+
+            // input placeholder
             placeholder: {
                 type: String,
             },
+
+            // autofocus on input when page is first loaded
             autofocus: {
                 type: Boolean,
                 default: false,
             },
+
+            // for specific types like password
             type: {
                 type: String,
                 default: 'text',
             },
+
+            // "?" hint text. Also controls "?" display
             hintText: {
                 type: String,
             },
+
+            // if textarea needed
+            textarea: {
+                type: Boolean,
+                default: false,
+            },
+
+            // specify height easily. Used for textarea
+            height: {
+                type: Number,
+                default: 48,
+            },
+
+            // disables input
+            disabled: {
+                type: Boolean
+            },
+
             // validation rules
             v: {
                 type: Object,
@@ -85,20 +112,11 @@
                     },
                 }),
             },
-            height: {
-                type: Number,
-                default: 48,
-            },
-            disabled: {
-                type: Boolean
-            }
         },
         mounted() {
-            this.$refs.input.autofocus = this.autofocus;
-            if (!this.textarea) this.$refs.input.type = this.type;
-            this.$refs.input.style.height = `${this.height}px`;
-
             eventBus.$on('copyToClipboard', this.copyToClipboard);
+
+            this.$refs.input.style.height = `${this.height}px`;
         },
         methods: {
             // pass copyTarget to be sure that selected text will be copied
@@ -142,57 +160,7 @@
 
     .input {
         @extend .typo-input-text;
-
-        display: block;
-        width: 100%;
-        /*different top and bottom padding to vertically align text*/
-        padding: 15px 16px 11px;
-        background: rgba(255, 255, 255, 0.04);
-        border-radius: $border-radius;
-
-        border: 1px solid transparent;
-        outline: none;
-        transition: $transition;
-
-        &:hover:not(:disabled) {
-            border-color: #000;
-
-            &::placeholder {
-                color: #000;
-            }
-        ;
-        }
-
-        &:focus {
-            border-color: #000;
-        }
-
-        &:disabled {
-            background: $input-disabled;
-            border-color: $input;
-        }
-    }
-
-    .auth .input {
-        border-color: transparent;
-
-        &:hover {
-            border-color: transparent;
-
-            &::placeholder {
-                color: rgba(255, 255, 255, 0.4);
-            }
-        }
-
-        &:focus {
-            border-color: transparent;
-        }
-    }
-
-    .module__info-hint {
-        /*position: absolute;*/
-        /*top: 0;*/
-        /*right: 0;*/
+        @extend .default-input;
     }
 
     .form-input__details {
@@ -213,11 +181,25 @@
     }
 
 
-    .devices-new {
-        .input-extension-wrap {
-            .input {
-                padding-right: 100px;
+    .auth .input {
+        border-color: transparent;
+
+        &:hover {
+            border-color: transparent;
+
+            &::placeholder {
+                color: rgba(255, 255, 255, 0.4);
             }
         }
+
+        &:focus {
+            border-color: transparent;
+        }
     }
+
+    /*if extra icons/controls in the end of input inself needed */
+    .input-extension-wrap .input {
+        padding-right: 100px;
+    }
+
 </style>

@@ -37,6 +37,7 @@
 
 <style lang="scss" scoped>
     @import "../../../assets/css/main";
+    @import "../../../assets/css/modules/modules";
 
     .expansion-panel {
         margin-top: 17px;
@@ -55,6 +56,19 @@
             &.closed {
                 transform: rotate(-90deg);
             }
+        }
+    }
+
+    // EXPANSION PANEL CONTENT STYLING
+    .expansion-content {
+        @extend .module-input-grid;
+
+        .form__input {
+            margin: 0;
+        }
+
+        .content-header {
+            margin: 12px 0 4px;
         }
     }
 </style>

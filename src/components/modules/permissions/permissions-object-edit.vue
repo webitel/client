@@ -9,8 +9,8 @@
         </module-header>
 
         <section class="module-content">
-            <header class="module-content__header">
-                <h3 class="module-content__title">{{$t('modules.permissions.allRoles')}}</h3>
+            <header class="content-header page-header">
+                <h3 class="content-title">{{$t('modules.permissions.allRoles')}}</h3>
             </header>
 
             <vuetable
@@ -69,7 +69,7 @@
     import vuetable from 'vuetable-2/src/components/Vuetable';
     import moduleHeader from '../module-header';
     import editField from '../utils/edit-field';
-    import tableCheckbox from '../utils/table-checkbox';
+    import tableCheckbox from '../utils/checkbox';
 
     export default {
         name: "permissions-object",

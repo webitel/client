@@ -10,7 +10,6 @@
 // main content itself, without nav but with main header
 .module {
   flex-grow: 1;
-  overflow-y: scroll;
 }
 
 // inner content section
@@ -18,21 +17,26 @@
   padding: 38px 28px 0 44px;
 }
 
-.module-content__header {
+// SECTION HEADING
+.content-header {
   display: flex;
   justify-content: space-between;
   align-items: baseline;
   position: relative;
-  margin: 38px 32px 12px 0;
 
-  .module-content__title {
+  &.page-header {
+    margin: 38px 32px 12px 0;
+  }
+
+  .content-title {
     @extend .typo-heading-md;
 
     display: inline-block;
     margin: 0;
   }
 
-  .module-content__table-actions {
+  // WRAP FOR SEARCH INPUT
+  .content-header__actions-wrap {
     display: flex;
 
     .search-form {
@@ -58,6 +62,7 @@
       }
     }
 
+    // ACTIONS
     .table-action__actions {
       display: flex;
       align-items: center;
@@ -66,27 +71,54 @@
         color: #000;
       }
 
-      .filter {
-        display: flex;
+      .upload-csv {
+        position: relative;
+        height: 24px;
+        margin-left: 30px;
+
+        .icon-icon_upload {
+          margin-left: 0;
+          opacity: 1;
+          pointer-events: none;
+        }
+
+        &:hover .icon-icon_upload {
+          color: #000;
+        }
+
+        .upload-csv__input {
+          position: absolute;
+          top: -2px;
+          left: 0;
+          width: 24px;
+          height: 24px;
+          font-size: 0;
+          cursor: pointer;
+          opacity: 0;
+        }
       }
 
-      .filter__list {
-        @extend .typo-body-md;
-        @extend .box-shadow;
+      .filter {
+        display: flex;
 
-        position: absolute;
-        top: 24px; //icon height
-        right: 0;
-        min-width: 196px;
-        padding: 13px 16px 14px;
-        margin-top: 8px; //margin to icon
-        color: #000;
-        background: #fff;
+        .filter__list {
+          @extend .typo-body-md;
+          @extend .box-shadow;
 
-        .filter__list-item {
-          height: 24px;
-          padding: 3px;
-          margin-bottom: 13px;
+          position: absolute;
+          top: 24px; //icon height
+          right: 0;
+          min-width: 196px;
+          padding: 13px 16px 14px;
+          margin-top: 8px; //margin to icon
+          color: #000;
+          background: #fff;
+
+          .filter__list-item {
+            height: 24px;
+            padding: 3px;
+            margin-bottom: 13px;
+          }
         }
       }
 
@@ -102,11 +134,12 @@
   }
 }
 
-.module__info-hint {
+// "?" HINT STYLING
+.hint {
   position: relative;
   display: inline-block;
 
-  .module__info-hint__img {
+  .hint__img {
     vertical-align: middle;
     color: rgba(0, 0, 0, 0.3);
     transition: $transition;
@@ -118,49 +151,34 @@
   }
 }
 
+// GRID TEMPLATE FOR MODULE INPUTS
+.module-input-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-column-gap: 28px;
+  grid-row-gap: 8px;
 
-.module-new {
-  .input {
-    border: 1px solid $input;
-  }
+
 }
-
-// FIXME: WRAP IT DIV AND STYLE IN DEVICES-NEW COMPONENT OR USE AS GLOBAL STYLE
-.devices-new {
-  .expansion-content {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    grid-column-gap: 28px;
-    grid-row-gap: 8px;
-
-    .form__input {
-      margin: 0;
-    }
-
-    .module-content__header {
-      margin: 12px 0 4px;
-    }
-  }
-
-  .w100 .expansion-content {
+.grid-w100 {
+  .module-input-grid {
     grid-template-columns: 1fr;
   }
-
-  .input-extension__copy {
-
-    .icon-icon_approve {
-      margin-right: 8px;
-      color: $true-color;
-    }
-
-    .tooltip-top {
-      justify-content: center;
-      bottom: 27px;
-      transform: translate(-60%, 0);
-    }
-  }
 }
 
+
+.input-extension__copy {
+  .icon-icon_approve {
+    margin-right: 8px;
+    color: $true-color;
+  }
+
+  .tooltip-top {
+    justify-content: center;
+    bottom: 27px;
+    transform: translate(-60%, 0);
+  }
+}
 
 .tags-input-wrap {
   position: relative;
@@ -180,8 +198,9 @@
     min-height: 48px;
 
     .ti-input {
-      padding: 10px 16px !important;
-      border-radius: $border-radius;
+      @extend .default-input;
+
+      padding: 10px 16px;
 
       .ti-new-tag-input-wrapper {
         padding-left: 0;
@@ -253,14 +272,11 @@
 
 .vdp-datepicker {
   > div input {
+    @extend .default-input;
     @extend .typo-input-label;
 
     min-width: 173px;
-    height: 48px;
     padding: 12px 16px 9px;
-    border: 1px solid $input;
-    border-radius: $border-radius;
-    outline: none;
 
   }
 
@@ -286,7 +302,7 @@
     header {
       display: flex;
       justify-content: space-between;
-      align-content: end;
+      align-content: flex-end;
       margin-bottom: 24px;
       line-height: 0;
 
@@ -310,7 +326,7 @@
           content: '\e005';
           position: absolute;
           font-size: 24px;
-          font-family: 'icomoon';
+          font-family: 'icomoon', sans-serif;
           text-indent: 0;
           color: $icon-color;
           border: none;
