@@ -6,7 +6,7 @@
         <input
                 class="checkbox"
                 type="checkbox"
-                v-model="checkbox"
+                :checked="value"
         >
         <span class="checkbox"></span>
         {{computeLabel}}
@@ -21,36 +21,23 @@
                 type: Boolean,
                 required: true
             },
-            // Object with true/false properties
+            // may be a string, or object with true/false values
             label: {
-                // type: Object,
+
             },
-        },
-        watch: {
-            value: function(newVal) {
-                this.checkbox = newVal;
-            }
-        },
-        data() {
-            return {
-                checkbox: null
-            }
-        },
-        mounted() {
-            this.checkbox = this.value;
         },
         methods: {
             changeValue() {
                 // =============================== ATTENTION!!!!!============================================
                 // WE PASS INVERTED CHECKBOX VALUE
                 // BECAUSE CLICK EVENT FIRES BEFORE CHECKBOX CHANGE
-                this.$emit('toggleCheckbox', !this.checkbox);
+                this.$emit('toggleCheckbox', !this.value);
             }
         },
         computed: {
             computeLabel() {
                 if(this.label) {
-                    return this.label[this.checkbox] || this.label;
+                    return this.label[this.value] || this.label;
                 }
                 return ''
 

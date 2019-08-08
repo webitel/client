@@ -36,11 +36,13 @@
                                     v-clickaway="toggleFilter"
                             >
                                 <li class="filter__list-item"
-                                    v-for="item in test"
+                                    v-for="(item, key) in filterPresence"
                                 >
                                     <checkbox
-                                            :value="true"
-                                            :label="item.presence"
+                                            :value="item.value"
+                                            :label="item.name"
+                                            :key="key"
+                                            @toggleCheckbox="togglePresenceFilterProperty($event, item.name)"
                                     ></checkbox>
                                 </li>
                             </ul>
@@ -55,14 +57,6 @@
                     :fields="fields"
                     :data="filtered"
             >
-
-<!--                <template slot="checkbox" slot-scope="props">-->
-<!--                    <checkbox-->
-<!--                            :value="test[props.rowIndex].isSelected"-->
-<!--                            @toggleCheckbox="selectRow($event, props.rowIndex)"-->
-<!--                    >-->
-<!--                    </checkbox>-->
-<!--                </template>-->
 
                 <template slot="name" slot-scope="props">
                     <edit-field
@@ -89,7 +83,7 @@
                 </template>
 
                 <template slot="presence" slot-scope="props">
-                    <div class="devices-table__presence">
+                    <div class="presence">
                         <div
                                 class="presence-icon"
                                 :class="computePresenceClass(props.rowIndex)"
@@ -118,6 +112,7 @@
     import vuetable from 'vuetable-2/src/components/Vuetable';
     import moduleHeader from '../module-header';
     import editField from '../utils/edit-field';
+    import checkbox from '../utils/table-checkbox';
 
     import clickaway from '../../../directives/clickaway';
 
@@ -127,6 +122,7 @@
             'module-header': moduleHeader,
             'edit-field': editField,
             vuetable,
+            checkbox
         },
 
         directives: {
@@ -160,6 +156,7 @@
                 filtered: [],
                 search: '',
                 propertiesToSearch: ['head', 'authId', 'user'],
+                filterPresence: [],
 
                 isFilterOpenedClassTrigger: false
             };
@@ -212,6 +209,26 @@
                 id: 4,
             });
 
+            this.test.push({
+                isSelected: false,
+                head: 'head4',
+                authId: (4 * Math.round(Math.random() * 10)) + '',
+                user: 'user ' + Math.round(Math.random() * 10),
+                presence: 'On hold',
+                id: 4,
+            });
+
+
+            this.test.forEach((item) => {
+                // if statement is emulating Set for an array
+                // Set is unable to use because v-for props doesn't update on set values change
+                if(!this.filterPresence.some(element => element.name === item.presence)) {
+                    this.filterPresence.push({
+                        name: item.presence,
+                        value: true
+                    });
+                }
+            });
 
             this.filterData();
         },
@@ -225,11 +242,23 @@
                 }
             },
             selectRow(newValue, id) {
-                if(newValue && id) {
+                if (newValue && id) {
                     this.filtered[id].isSelected = newValue;
                 } else {
 
                 }
+            },
+            togglePresenceFilterProperty(newVal, property) {
+                // console.log(newVal, property);
+                for (let item of this.filterPresence) {
+                    if (item.name === property) {
+                        // console.log(item.name);
+                        item.value = newVal;
+                        // console.log(item.value);
+                        break;
+                    }
+                }
+                // console.log(this.filterPresence)
             },
 
             // now it just searches
@@ -252,7 +281,7 @@
 
             // toggles filter list appearance
             toggleFilter() {
-              this.isFilterOpenedClassTrigger = !this.isFilterOpenedClassTrigger;
+                this.isFilterOpenedClassTrigger = !this.isFilterOpenedClassTrigger;
             },
 
             // computes dynamic class name for presence icon colorizing
@@ -266,19 +295,21 @@
                 return !this.filtered.some((item) => item.isSelected);
             }
         }
-    };
+    }
+    ;
 </script>
 
 <style lang="scss" scoped>
     @import '../../../assets/css/main';
 
 
-    .devices-table__presence {
+    .presence {
         display: flex;
 
         .presence-icon {
-            width: 15px;
-            height: 15px;
+            width: 10px;
+            height: 10px;
+            margin-right: 14px;
             background: $icon-color;
             border-radius: 50%;
 
@@ -296,23 +327,6 @@
 
             &.on-hold {
                 background: #FFEA00;
-            }
-        }
-
-        .presence-text {
-            @extend .typo-body-md;
-
-            margin-left: 13px;
-        }
-
-        .module-content__header {
-            .icon-icon_filter {
-                color: #000;
-                cursor: pointer;
-
-                &:hover {
-                    color: #000;
-                }
             }
         }
     }
