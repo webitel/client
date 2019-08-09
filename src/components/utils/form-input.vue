@@ -2,7 +2,7 @@
     <div class="form-input">
         <label>
             <div class="label" :class="{'invalid': this.v.$error}">{{this.label}}
-                <div class="hint" v-if="this.hintText">
+                <div class="hint" v-show="this.hintText">
                     <i
                             class="hint__img tooltip-activator icon-icon_question"
                     ></i>
@@ -153,9 +153,15 @@
     .label {
         @extend .typo-input-label;
 
+        position: relative;
         display: block;
         margin-bottom: 9px;
         transition: $transition;
+    }
+
+    .hint {
+        position: absolute;
+        bottom: -2px;
     }
 
     .input {

@@ -7,6 +7,12 @@
   overflow-x: hidden;
 }
 
+.btn-controls {
+  .btn {
+    margin-left: 27px;
+  }
+}
+
 // main content itself, without nav but with main header
 .module {
   flex-grow: 1;

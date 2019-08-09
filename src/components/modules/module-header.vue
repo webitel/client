@@ -4,7 +4,7 @@
             <h2 class="module__title">
                 <slot></slot>
             </h2>
-            <div class="module-header__controls">
+            <div class="btn-controls">
                 <btn
                         class="btn secondary-btn"
                         v-if="secondaryAction"
@@ -67,11 +67,5 @@ export default {
         @extend .typo-heading-lg;
 
         letter-spacing: 0.15px;
-    }
-
-    .module-header__controls {
-        .btn {
-            margin-left: 27px;
-        }
     }
 </style>

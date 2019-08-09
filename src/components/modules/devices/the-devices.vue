@@ -7,7 +7,7 @@
             Devices
         </module-header>
 
-<!--        <upload-popup></upload-popup>-->
+        <upload-popup></upload-popup>
 
         <section class="module-content">
             <header class="content-header page-header">

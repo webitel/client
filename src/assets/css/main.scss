@@ -247,6 +247,20 @@ i {
   }
 }
 
+.scrollbar {
+  // scrollbar itself
+  &::-webkit-scrollbar {
+    width: 10px;
+    background-color: rgba(0, 0, 0, 0.2);
+  }
+
+  // scrollable element
+  &::-webkit-scrollbar-thumb {
+    width: 10px;
+    background-color: rgba(0, 0, 0, 0.3);
+  }
+}
+
 .hidden {
   opacity: 0;
   pointer-events: none;
