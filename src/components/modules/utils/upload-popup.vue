@@ -2,7 +2,7 @@
     <aside class="upload-popup">
 
         <header class="content-header">
-            <h3 class="content-title">Import CSV</h3>
+            <h3 class="content-title">{{$t('modules.importCSV')}}</h3>
         </header>
 
         <section class="upload-popup__info">
@@ -10,23 +10,22 @@
             <checkbox
                     class="upload-popup__info-headers"
                     :value="isHeadersSkip"
-                    :label="'Skip headers'"
+                    :label="$t('modules.CSV.skipHeaders')"
                     @toggleCheckbox="toggleHeadersSkip"
             ></checkbox>
             <form>
-                <form-input
+                <dropdown-select
                         class="form__input"
-                        v-model="separator"
-                        :label="'Char set'"
-                        :placeholder="'Char set'"
+                        :label="$t('modules.CSV.charSet')"
+                        :placeholder="$t('modules.CSV.charSet')"
                 >
-                </form-input>
+                </dropdown-select>
 
                 <form-input
                         class="form__input"
                         v-model="separator"
-                        :label="'Separator'"
-                        :placeholder="'Separator'"
+                        :label="$t('modules.CSV.separator')"
+                        :placeholder="$t('modules.CSV.separator')"
                 >
                 </form-input>
             </form>
@@ -35,8 +34,8 @@
 
         <section class="CSV-column-match">
             <header class="column-headers">
-                <div>CSV column</div>
-                <div>Test rail field</div>
+                <div>{{$t('modules.CSV.CSVColumn')}}</div>
+                <div>{{$t('modules.CSV.testRailField')}}</div>
             </header>
             <divider/>
             <div class="column-rows">
@@ -99,6 +98,7 @@
         data() {
             return {
                 isHeadersSkip: true,
+                charSet: '',
                 separator: ''
             }
         },
@@ -148,7 +148,7 @@
             form {
                 @extend .module-input-grid;
 
-                .form__input {
+                .form__input,  {
                     margin: 27px 0 21px; // bottom 41 - 20 hint
                 }
             }

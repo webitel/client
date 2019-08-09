@@ -4,20 +4,22 @@
         <module-header
                 :primaryAction="create"
         >
-            Devices
+            {{$t('modules.devices.devicesTitle')}}
         </module-header>
 
         <upload-popup v-if="isUploadPopupOpened" @close="closeCSVpopup"></upload-popup>
 
         <section class="module-content">
             <header class="content-header page-header">
-                <h3 class="content-title">All devices</h3>
+                <h3 class="content-title">
+                    {{$t('modules.devices.allDevices')}}
+                </h3>
                 <div class="content-header__actions-wrap">
                     <div class="search-form">
                         <input
                                 class="search-input"
                                 type="text"
-                                placeholder="Name, user, auth ID & desk ID"
+                                :placeholder="$t('modules.devices.searchPlaceholder')"
                                 v-model="search"
                                 @keyup="filterData"
                         >
@@ -152,10 +154,10 @@
                         dataClass: 'vuetable-td-checkbox',
                         width: '55px'
                     },
-                    {name: 'name', title: this.$t('modules.permissions.name')},
-                    {name: 'authId', title: 'Auth ID'},
-                    {name: 'user', title: 'User'},
-                    {name: 'presence', title: 'Presence'},
+                    {name: 'name', title: this.$t('modules.name')},
+                    {name: 'authId', title: this.$t('modules.devices.authId')},
+                    {name: 'user', title: this.$t('modules.user')},
+                    {name: 'presence', title: this.$t('modules.devices.presence')},
                     {
                         name: 'image',
                         title: '',
@@ -236,7 +238,7 @@
             this.test.forEach((item) => {
                 // if statement is emulating Set for an array
                 // Set is unable to use because v-for props doesn't update on set values change
-                if(!this.filterPresence.some(element => element.name === item.presence)) {
+                if (!this.filterPresence.some(element => element.name === item.presence)) {
                     this.filterPresence.push({
                         name: item.presence,
                         value: true
@@ -263,20 +265,16 @@
                 }
             },
             togglePresenceFilterProperty(newVal, property) {
-                // console.log(newVal, property);
                 for (let item of this.filterPresence) {
                     if (item.name === property) {
-                        // console.log(item.name);
                         item.value = newVal;
-                        // console.log(item.value);
                         break;
                     }
                 }
-                // console.log(this.filterPresence)
             },
             processCSV(event) {
                 const file = event.target.files[0];
-                if(file) {
+                if (file) {
                     this.isUploadPopupOpened = true;
                 }
             },

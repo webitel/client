@@ -9,7 +9,7 @@
         </module-header>
         <section class="module-content module-new permissions-new">
             <header class="content-header page-header">
-                <h3 class="content-title">{{$t('modules.permissions.permissionsNew.generalInfo')}} </h3>
+                <h3 class="content-title">{{$t('modules.generalInfo')}} </h3>
                 <div class="hint">
                     <i
                             class="hint__img tooltip-activator icon-icon_question"
@@ -22,8 +22,8 @@
                 <form-input
                         class="form__input"
                         v-model="form.name"
-                        :label="$t('modules.permissions.permissionsNew.name')"
-                        :placeholder="$t('modules.permissions.permissionsNew.namePlaceholder')"
+                        :label="$t('modules.name')"
+                        :placeholder="$t('modules.namePlaceholder')"
                 ></form-input>
                 <form-input
                         class="form__input"

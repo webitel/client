@@ -66,7 +66,7 @@
             return {
                 // vuetable prop
                 fields: [
-                    {name: 'head', title: this.$t('modules.permissions.name')},
+                    {name: 'head', title: this.$t('modules.name')},
                     {name: 'ObAC', title: this.$t('modules.permissions.object.ObAC')},
                     {name: 'RbAC', title: this.$t('modules.permissions.object.RbAC')},
                     {

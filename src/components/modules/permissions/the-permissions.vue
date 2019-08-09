@@ -76,7 +76,7 @@
             return {
                 // vuetable prop
                 fields: [
-                    {name: '__slot:head', title: this.$t('modules.permissions.name')},
+                    {name: '__slot:head', title: this.$t('modules.name')},
                     {name: '__slot:body', title: this.$t('modules.description')},
                     {
                         name: '__slot:image',

@@ -5,6 +5,7 @@
             v-ripple
             :type="type"
     >
+<!--        <i class="icon-icon_plus"></i>-->
         <slot></slot>
     </button>
 </template>

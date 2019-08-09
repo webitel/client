@@ -30,20 +30,32 @@ export default {
     delete: 'Delete',
     save: 'Save',
     close: 'Close',
-    users: 'Users',
+    name: 'Name',
+    namePlaceholder: 'Enter a name',
     description: 'Description',
+    user: 'User',
+    users: 'Users',
     action: 'Action',
     allow: 'Allow',
+    password: 'Password',
+    history: 'History',
+    copy: 'Copy',
+    copied: 'Copied to clipboard!',
+    importCSV: 'Import CSV',
+    CSV: {
+      skipHeaders: 'Skip headers',
+      charSet: 'Char set',
+      separator: 'Separator',
+      CSVColumn: 'CSV column',
+      testRailField: 'Test rail field'
+    },
+    generalInfo: 'General info',
     moduleHeader: {},
     permissions: {
       permissionsTitle: 'Permissions',
       permissionsRole: 'Role | Roles',
       allRoles: 'All roles',
-      name: 'Name',
       permissionsNew: {
-        generalInfo: 'General info',
-        name: 'Name',
-        namePlaceholder: 'Enter a name',
         description: 'Description',
         descriptionPlaceholder: 'Enter a description',
       },
@@ -56,5 +68,23 @@ export default {
         }
       }
     },
+    devices: {
+      devicesTitle: 'Devices',
+      allDevices: 'All devices',
+      searchPlaceholder: 'Name, user, auth ID & desk ID',
+      authId: 'Auth ID',
+      presence: 'Presence',
+      devicesNew: {
+        hotDesking: 'Hot desking',
+        hostName: 'Host Name',
+        phoneInfo: 'Phone info',
+        phone: 'Phone',
+        vendor: 'Vendor',
+        model: 'Model',
+        deviceHistory: 'Device history',
+        loggedIn: 'Logged In',
+        loggedOut: 'Logged Out',
+      }
+    }
   },
 };
