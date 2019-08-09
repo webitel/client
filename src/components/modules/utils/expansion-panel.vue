@@ -7,9 +7,11 @@
             ></span>
             <slot name="expansion-header"></slot>
         </header>
-        <div class="expansion-content" v-if="isExpanded">
-            <slot name="expansion-content"></slot>
-        </div>
+        <keep-alive>
+            <div class="expansion-content" v-if="isExpanded">
+                <slot name="expansion-content"></slot>
+            </div>
+        </keep-alive>
         <divider v-if="!isExpanded"></divider>
     </div>
 </template>
