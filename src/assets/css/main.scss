@@ -130,16 +130,35 @@ i {
   line-height: 18px;
 }
 
+.label {
+  @extend .typo-input-label;
+
+  position: relative;
+  display: block;
+  margin-bottom: 9px;
+  transition: $transition;
+
+  .hint {
+    position: absolute;
+    bottom: -2px;
+  }
+}
+
 .default-input {
+  @extend .typo-input-text;
+
   display: block;
   width: 100%;
   /*different top and bottom padding to vertically align text*/
   padding: 15px 16px 11px;
-  background: rgba(255, 255, 255, 0.04);
   border: 1px solid $input;
   border-radius: $border-radius;
   outline: none;
   transition: $transition;
+
+  &::placeholder {
+    color: $input;
+  }
 
   &:hover:not(:disabled) {
     border-color: #000;
@@ -159,6 +178,7 @@ i {
     border-color: $input;
   }
 }
+
 
 .tooltip {
   @extend .typo-body-sm;

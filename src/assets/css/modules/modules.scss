@@ -166,12 +166,38 @@
 
 
 }
+
 .grid-w100 {
   .module-input-grid {
     grid-template-columns: 1fr;
   }
 }
 
+// used both in tags input and select dropdowns
+.select-options {
+  @extend .box-shadow;
+
+  position: absolute;
+  width: 100%;
+  padding: 8px 0;
+  margin-top: 8px;
+  background: #fff;
+  z-index: 10;
+
+  .select-option {
+    @extend .typo-body-md;
+
+    div {
+      padding: 12px 16px 11px;
+      cursor: pointer;
+    }
+
+    &.select-option__selected, &:hover {
+      color: #000;
+      background: rgba(0, 0, 0, 0.05);
+    }
+  }
+}
 
 .input-extension__copy {
   .icon-icon_approve {
@@ -255,21 +281,13 @@
     }
 
     .ti-autocomplete {
-      @extend .box-shadow;
-
-      padding: 8px 0;
-      margin-top: 8px;
+      @extend .select-options;
 
       .ti-item {
-        @extend .typo-body-md;
-
-        div {
-          padding: 12px 16px 11px;
-        }
+        @extend .select-option;
 
         &.ti-selected-item {
-          color: #000;
-          background: rgba(0, 0, 0, 0.05);
+          @extend .select-option__selected;
         }
       }
     }

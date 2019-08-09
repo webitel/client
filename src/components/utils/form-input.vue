@@ -150,20 +150,6 @@
         padding-bottom: 20px;
     }
 
-    .label {
-        @extend .typo-input-label;
-
-        position: relative;
-        display: block;
-        margin-bottom: 9px;
-        transition: $transition;
-    }
-
-    .hint {
-        position: absolute;
-        bottom: -2px;
-    }
-
     .input {
         @extend .typo-input-text;
         @extend .default-input;
@@ -188,6 +174,7 @@
 
 
     .auth .input {
+        background: rgba(255, 255, 255, 0.04);
         border-color: transparent;
 
         &:hover {

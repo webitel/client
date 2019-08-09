@@ -119,13 +119,18 @@
                             :placeholder="'IPv4'"
                             :hintText="'Ya s`el deda :('"
                     ></form-input>
-                    <form-input
-                            class="form__input"
-                            v-model="vendor"
+                    <dropdown-select
                             :label="'vendor'"
                             :placeholder="'vendor'"
                             :hintText="'Ya s`el deda :('"
-                    ></form-input>
+                    ></dropdown-select>
+                    <!--                    <form-input-->
+                    <!--                            class="form__input"-->
+                    <!--                            v-model="vendor"-->
+                    <!--                            :label="'vendor'"-->
+                    <!--                            :placeholder="'vendor'"-->
+                    <!--                            :hintText="'Ya s`el deda :('"-->
+                    <!--                    ></form-input>-->
                     <form-input
                             class="form__input"
                             v-model="model"
@@ -138,7 +143,6 @@
                             v-model="MAC"
                             :label="'MAC'"
                             :placeholder="'MAC'"
-                            :hintText="'Ya s`el deda :('"
                     ></form-input>
                 </template>
             </expansion-panel>
@@ -187,6 +191,7 @@
     import vueTagsInput from '@johmun/vue-tags-input';
     import vuetable from 'vuetable-2/src/components/Vuetable';
     import datepicker from 'vuejs-datepicker';
+    import dropdownSelect from '../utils/dropdown-select';
 
     export default {
         name: 'devices-new',
@@ -196,7 +201,8 @@
             'expansion-panel': expansionPanel,
             'tags-input': vueTagsInput,
             vuetable,
-            datepicker
+            datepicker,
+            'dropdown-select': dropdownSelect
         },
         data() {
             return {
@@ -276,7 +282,7 @@
                 this.password = result;
             },
             copyToClipboard() {
-                if(this.password) {
+                if (this.password) {
                     eventBus.$emit('copyToClipboard', this.password);
                     this.copyMessage = 'Copied to clipboard!';
                     setTimeout(() => this.copyMessage = '', 2000);
