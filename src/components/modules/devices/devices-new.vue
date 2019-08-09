@@ -123,21 +123,15 @@
                             :label="'vendor'"
                             :placeholder="'vendor'"
                             :hintText="'Ya s`el deda :('"
+                            @input="vendor = $event"
+                            disabled
                     ></dropdown-select>
-                    <!--                    <form-input-->
-                    <!--                            class="form__input"-->
-                    <!--                            v-model="vendor"-->
-                    <!--                            :label="'vendor'"-->
-                    <!--                            :placeholder="'vendor'"-->
-                    <!--                            :hintText="'Ya s`el deda :('"-->
-                    <!--                    ></form-input>-->
-                    <form-input
-                            class="form__input"
-                            v-model="model"
+                    <dropdown-select
                             :label="'model'"
                             :placeholder="'model'"
                             :hintText="'Ya s`el deda :('"
-                    ></form-input>
+                            @input="model = $event"
+                    ></dropdown-select>
                     <form-input
                             class="form__input"
                             v-model="MAC"

@@ -42,19 +42,27 @@
                 </li>
                 <li>
                     <div>ID</div>
-                    <div>ID</div>
+                    <dropdown-select
+                        :placeholder="'ID'"
+                    ></dropdown-select>
                 </li>
                 <li>
                     <div>Title</div>
-                    <div>Title</div>
+                    <dropdown-select
+                            :placeholder="'Title'"
+                    ></dropdown-select>
                 </li>
                 <li>
                     <div>Type</div>
-                    <div>Type</div>
+                    <dropdown-select
+                            :placeholder="'Type'"
+                    ></dropdown-select>
                 </li>
                 <li>
                     <div>Priority</div>
-                    <div>Priority</div>
+                    <dropdown-select
+                            :placeholder="'Priority'"
+                    ></dropdown-select>
                 </li>
             </ul>
         </section>
@@ -73,14 +81,16 @@
     import formInput from '../../utils/form-input';
     import divider from '../../utils/divider';
     import btn from '../../utils/btn';
+    import dropdownSelect from '../utils/dropdown-select';
 
     export default {
         name: "upload-popup",
         components: {
             'form-input': formInput,
+            'dropdown-select': dropdownSelect,
             checkbox,
             divider,
-            btn
+            btn,
         },
         data() {
             return {
@@ -147,10 +157,7 @@
                 margin-bottom: 8px;
 
                 div {
-                    @extend .default-input;
-                    &:last-child {
-                        @extend .default-input;
-                    }
+                    align-self: center;
                 }
             }
         }

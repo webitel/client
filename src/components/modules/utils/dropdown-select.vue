@@ -11,7 +11,7 @@
         <div class="select">
             <div
                     class="select-preview"
-                    :class="{'opened': isOpened, 'empty': !selected}"
+                    :class="{'opened': isOpened, 'empty': !selected, 'disabled': disabled}"
                     ref="select-preview"
                     @click="toggleSelect"
             >
@@ -47,7 +47,12 @@
         name: "dropdown-select",
         directives: {clickaway},
         props: {
-            // otions
+            // initial value, if exists
+            value: {
+                type: String
+            },
+
+            // options to select
             options: {
                 type: Array,
                 // required: true,
@@ -76,13 +81,15 @@
         },
         data() {
             return {
-                selected: '',
+                selected: this.value || '',
                 isOpened: false
             }
         },
         methods: {
             toggleSelect() {
-                this.isOpened = !this.isOpened;
+                if(!this.disabled) {
+                    this.isOpened = !this.isOpened;
+                }
             },
             closeSelect(event) {
                 const preview = this.$refs['select-preview'];
@@ -92,6 +99,7 @@
             },
             selectItem(optionId) {
                 this.selected = this.options[optionId];
+                this.$emit('input', this.selected);
                 this.isOpened = false;
             },
         }
@@ -122,6 +130,17 @@
 
             &.opened {
                 @extend .default-input:hover;
+            }
+
+            &.disabled {
+                @extend .default-input:disabled;
+
+                &:hover, &.empty:hover {
+                    color: $input;
+                    border-color: $input;
+                    cursor: auto;
+
+                }
             }
 
             .icon-icon_arrow-down {
