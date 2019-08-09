@@ -7,7 +7,7 @@
             Devices
         </module-header>
 
-        <upload-popup></upload-popup>
+        <upload-popup v-if="isUploadPopupOpened" @close="closeCSVpopup"></upload-popup>
 
         <section class="module-content">
             <header class="content-header page-header">
@@ -169,7 +169,7 @@
                 search: '',
                 propertiesToSearch: ['head', 'authId', 'user'],
                 filterPresence: [],
-                isUploadPopupOpened: false,
+                isUploadPopupOpened: true,
 
                 isFilterOpenedClassTrigger: false,
                 csvFile: null
@@ -277,7 +277,7 @@
             processCSV(event) {
                 const file = event.target.files[0];
                 if(file) {
-
+                    this.isUploadPopupOpened = true;
                 }
             },
 
@@ -307,6 +307,10 @@
             // computes dynamic class name for presence icon colorizing
             computePresenceClass(id) {
                 return this.filtered[id].presence.toLowerCase().split(' ').join('-');
+            },
+
+            closeCSVpopup() {
+                this.isUploadPopupOpened = false;
             }
         },
         computed: {

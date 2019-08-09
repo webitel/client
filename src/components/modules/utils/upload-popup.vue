@@ -32,46 +32,50 @@
             </form>
         </section>
 
-        <divider/>
 
         <section class="CSV-column-match">
-            <ul class="">
-                <li class="column-header">
-                    <div>CSV column</div>
-                    <div>Test rail field</div>
-                </li>
-                <li>
-                    <div>ID</div>
-                    <dropdown-select
-                        :placeholder="'ID'"
-                    ></dropdown-select>
-                </li>
-                <li>
-                    <div>Title</div>
-                    <dropdown-select
-                            :placeholder="'Title'"
-                    ></dropdown-select>
-                </li>
-                <li>
-                    <div>Type</div>
-                    <dropdown-select
-                            :placeholder="'Type'"
-                    ></dropdown-select>
-                </li>
-                <li>
-                    <div>Priority</div>
-                    <dropdown-select
-                            :placeholder="'Priority'"
-                    ></dropdown-select>
-                </li>
-            </ul>
+            <header class="column-headers">
+                <div>CSV column</div>
+                <div>Test rail field</div>
+            </header>
+            <divider/>
+            <div class="column-rows">
+
+                <ul>
+                    <li>
+                        <div>ID</div>
+                        <dropdown-select
+                                :placeholder="'ID'"
+                        ></dropdown-select>
+                    </li>
+                    <li>
+                        <div>Title</div>
+                        <dropdown-select
+                                :placeholder="'Title'"
+                        ></dropdown-select>
+                    </li>
+                    <li>
+                        <div>Type</div>
+                        <dropdown-select
+                                :placeholder="'Type'"
+                        ></dropdown-select>
+                    </li>
+                    <li>
+                        <div>Priority</div>
+                        <dropdown-select
+                                :placeholder="'Priority'"
+                        ></dropdown-select>
+                    </li>
+                </ul>
+
+            </div>
         </section>
 
         <divider/>
 
         <div class="btn-controls">
-            <btn class="btn secondary-btn" type="submit">close</btn>
-            <btn class= "btn" type="submit">save</btn>
+            <btn class="btn secondary-btn"@click.native="close">close</btn>
+            <btn class="btn" @click.native="close">save</btn>
         </div>
     </aside>
 </template>
@@ -101,6 +105,9 @@
         methods: {
             toggleHeadersSkip() {
                 this.isHeadersSkip = !this.isHeadersSkip;
+            },
+            close() {
+                this.$emit('close');
             }
         }
     }
@@ -113,7 +120,7 @@
     .upload-popup {
         @extend .box-shadow;
 
-        position: fixed;
+        position: absolute;
         top: 99px;
         left: 50%;
         width: 738px;
@@ -123,6 +130,7 @@
         border-radius: $border-radius;
         transform: translate(-50%, 0);
         z-index: 100;
+        overflow-y: auto;
 
         .content-header {
             padding: 0 44px;
@@ -132,12 +140,14 @@
 
         .upload-popup__info {
             padding: 0 44px;
+
             .upload-popup__info-headers {
                 @extend .typo-body-md;
             }
 
             form {
                 @extend .module-input-grid;
+
                 .form__input {
                     margin: 27px 0 21px; // bottom 41 - 20 hint
                 }
@@ -145,24 +155,39 @@
         }
 
         .CSV-column-match {
-            @extend .scrollbar;
 
-            max-height: calc(80vh - 252px - 101px);
-            padding: 27px 44px;
-            overflow-y: scroll;
-            ul li {
-                display: grid;
-                grid-template-columns: 1fr 1fr;
-                grid-column-gap: 28px;
-                margin-bottom: 8px;
+            .column-headers {
+                @extend .module-input-grid;
+                @extend .typo-body-md;
+
+                padding: 0 44px;
+                margin-bottom: 24px;
+                color: $input;
 
                 div {
                     align-self: center;
                 }
             }
+
+            .column-rows {
+                @extend .scrollbar;
+
+                /*max-height: calc(80vh - 302px - 101px);*/
+                padding: 22px 44px 27px;
+                /*overflow-y: scroll;*/
+
+                li {
+                    @extend .module-input-grid;
+
+                    div {
+                        @extend .typo-body-md;
+                        align-self: center;
+                    }
+                }
+            }
         }
 
-        .btn-controls  {
+        .btn-controls {
             text-align: right;
             margin: 26px 44px 0;
         }

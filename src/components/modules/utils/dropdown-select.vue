@@ -152,6 +152,7 @@
         }
 
         .select-options {
+            position: absolute;
             top: 48px;
             opacity: 0;
             pointer-events: none;
