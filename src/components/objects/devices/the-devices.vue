@@ -4,7 +4,7 @@
         <module-header
                 :primaryAction="create"
         >
-            {{$t('modules.devices.devicesTitle')}}
+            {{$t('objects.devices.devicesTitle')}}
         </module-header>
 
         <upload-popup v-if="isUploadPopupOpened" @close="closeCSVpopup"></upload-popup>
@@ -12,14 +12,14 @@
         <section class="module-content">
             <header class="content-header page-header">
                 <h3 class="content-title">
-                    {{$t('modules.devices.allDevices')}}
+                    {{$t('objects.devices.allDevices')}}
                 </h3>
                 <div class="content-header__actions-wrap">
                     <div class="search-form">
                         <input
                                 class="search-input"
                                 type="text"
-                                :placeholder="$t('modules.devices.searchPlaceholder')"
+                                :placeholder="$t('objects.devices.searchPlaceholder')"
                                 v-model="search"
                                 @keyup="filterData"
                         >
@@ -122,7 +122,7 @@
 
 <script>
     import vuetable from 'vuetable-2/src/components/Vuetable';
-    import moduleHeader from '../module-header';
+    import moduleHeader from '../object-header';
     import editField from '../utils/edit-field';
     import checkbox from '../utils/checkbox';
     import uploadPopup from '../utils/upload-popup';
@@ -154,10 +154,10 @@
                         dataClass: 'vuetable-td-checkbox',
                         width: '55px'
                     },
-                    {name: 'name', title: this.$t('modules.name')},
-                    {name: 'authId', title: this.$t('modules.devices.authId')},
-                    {name: 'user', title: this.$t('modules.user')},
-                    {name: 'presence', title: this.$t('modules.devices.presence')},
+                    {name: 'name', title: this.$t('objects.name')},
+                    {name: 'authId', title: this.$t('objects.devices.authId')},
+                    {name: 'user', title: this.$t('objects.user')},
+                    {name: 'presence', title: this.$t('objects.devices.presence')},
                     {
                         name: 'image',
                         title: '',

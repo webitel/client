@@ -1,17 +1,17 @@
 <template>
     <div class="content-wrap">
         <module-header
-                :primaryText="$t('modules.save')"
+                :primaryText="$t('objects.save')"
                 :primaryAction="close"
                 :secondaryAction="close"
         >
-            {{$t('modules.devices.devicesTitle')}} | {{computeTitle}}
+            {{$t('objects.devices.devicesTitle')}} | {{computeTitle}}
         </module-header>
         <section class="module-content module-new devices-new">
 
             <expansion-panel>
                 <template slot="expansion-header">
-                    <h3 class="content-title">{{$t('modules.generalInfo')}}</h3>
+                    <h3 class="content-title">{{$t('objects.generalInfo')}}</h3>
                 </template>
 
                 <template slot="expansion-content">
@@ -19,16 +19,16 @@
                             class="form__input"
                             v-model.trim="$v.name.$model"
                             :v="$v.name"
-                            :label="$t('modules.name') + '*'"
-                            :placeholder="$t('modules.name') + '*'"
+                            :label="$t('objects.name') + '*'"
+                            :placeholder="$t('objects.name') + '*'"
                             :hintText="'Ya s`el deda :('"
                     ></form-input>
                     <form-input
                             class="form__input"
                             v-model.trim="$v.authId.$model"
                             :v="$v.authId"
-                            :label="$t('modules.devices.authId') + '*'"
-                            :placeholder="$t('modules.devices.authId') + '*'"
+                            :label="$t('objects.devices.authId') + '*'"
+                            :placeholder="$t('objects.devices.authId') + '*'"
                             :hintText="'Ya s`el deda :('"
                     ></form-input>
 
@@ -40,14 +40,14 @@
                                 ref="input-password"
                                 v-model.trim="$v.password.$model"
                                 :v="$v.password"
-                                :label="$t('modules.password') + '*'"
-                                :placeholder="$t('modules.password') + '*'"
+                                :label="$t('objects.password') + '*'"
+                                :placeholder="$t('objects.password') + '*'"
                         ></form-input>
 
                         <div class="input-extension">
 
                             <div class="input-extension__copy" @click="copyToClipboard">
-                                <span>{{$t('modules.copy')}}</span>
+                                <span>{{$t('objects.copy')}}</span>
 
                                 <div class="hint" v-if="copyMessage">
                                     <div class="tooltip-top active">
@@ -63,8 +63,8 @@
                     <form-input
                             class="form__input"
                             v-model="user"
-                            :label="$t('modules.user')"
-                            :placeholder="$t('modules.user')"
+                            :label="$t('objects.user')"
+                            :placeholder="$t('objects.user')"
                     ></form-input>
                 </template>
             </expansion-panel>
@@ -72,12 +72,12 @@
 
             <expansion-panel>
                 <template slot="expansion-header">
-                    <h3 class="content-title">{{$t('modules.devices.devicesNew.hotDesking')}}</h3>
+                    <h3 class="content-title">{{$t('objects.devices.devicesNew.hotDesking')}}</h3>
                 </template>
 
                 <template slot="expansion-content">
                     <div class="tags-input-wrap">
-                        <div class="tags-input__label">{{$t('modules.devices.devicesNew.hostName') + '*'}}
+                        <div class="tags-input__label">{{$t('objects.devices.devicesNew.hostName') + '*'}}
 
                             <div class="hint">
                                 <i
@@ -90,7 +90,7 @@
                                 v-model="hostTag"
                                 :tags="hostTags"
                                 :autocomplete-items="filterTags"
-                                :placeholder="$t('modules.devices.devicesNew.hostName')"
+                                :placeholder="$t('objects.devices.devicesNew.hostName')"
                                 @tags-changed="newTags => this.hostTags = newTags"
 
                         ></tags-input>
@@ -101,15 +101,15 @@
 
             <expansion-panel>
                 <template slot="expansion-header">
-                    <h3 class="content-title">{{$t('modules.devices.devicesNew.phoneInfo')}}</h3>
+                    <h3 class="content-title">{{$t('objects.devices.devicesNew.phoneInfo')}}</h3>
                 </template>
 
                 <template slot="expansion-content">
                     <form-input
                             class="form__input"
                             v-model="phone"
-                            :label="$t('modules.devices.devicesNew.phone')"
-                            :placeholder="$t('modules.devices.devicesNew.phone')"
+                            :label="$t('objects.devices.devicesNew.phone')"
+                            :placeholder="$t('objects.devices.devicesNew.phone')"
                             disabled
                     ></form-input>
                     <form-input
@@ -120,15 +120,15 @@
                             :hintText="'Ya s`el deda :('"
                     ></form-input>
                     <dropdown-select
-                            :label="$t('modules.devices.devicesNew.vendor')"
-                            :placeholder="$t('modules.devices.devicesNew.vendor')"
+                            :label="$t('objects.devices.devicesNew.vendor')"
+                            :placeholder="$t('objects.devices.devicesNew.vendor')"
                             :hintText="'Ya s`el deda :('"
                             @input="vendor = $event"
                             disabled
                     ></dropdown-select>
                     <dropdown-select
-                            :label="$t('modules.devices.devicesNew.model')"
-                            :placeholder="$t('modules.devices.devicesNew.model')"
+                            :label="$t('objects.devices.devicesNew.model')"
+                            :placeholder="$t('objects.devices.devicesNew.model')"
                             :hintText="'Ya s`el deda :('"
                             @input="model = $event"
                     ></dropdown-select>
@@ -144,12 +144,12 @@
 
             <expansion-panel class="grid-w100">
                 <template slot="expansion-header">
-                    <h3 class="content-title">{{$t('modules.history')}}</h3>
+                    <h3 class="content-title">{{$t('objects.history')}}</h3>
                 </template>
 
                 <template slot="expansion-content">
                     <header class="content-header">
-                        <h3 class="content-title">{{$t('modules.devices.devicesNew.deviceHistory')}}</h3>
+                        <h3 class="content-title">{{$t('objects.devices.devicesNew.deviceHistory')}}</h3>
                         <div class="content-header__actions-wrap">
                             <datepicker
                                     v-model="historyDate"
@@ -177,7 +177,7 @@
 </template>
 
 <script>
-    import moduleHeader from '../module-header';
+    import moduleHeader from '../object-header';
     import formInput from '../../utils/form-input';
     import expansionPanel from '../utils/expansion-panel';
     import eventBus from '../../../utils/eventBus';
@@ -223,9 +223,9 @@
                 historyDate: new Date,
                 // vuetable prop
                 fields: [
-                    {name: 'login', title: this.$t('modules.devices.devicesNew.loggedIn')},
-                    {name: 'logout', title: this.$t('modules.devices.devicesNew.loggedOut')},
-                    {name: 'user', title: this.$t('modules.user')},
+                    {name: 'login', title: this.$t('objects.devices.devicesNew.loggedIn')},
+                    {name: 'logout', title: this.$t('objects.devices.devicesNew.loggedOut')},
+                    {name: 'user', title: this.$t('objects.user')},
                 ],
             }
         },
@@ -277,14 +277,14 @@
             copyToClipboard() {
                 if (this.password) {
                     eventBus.$emit('copyToClipboard', this.password);
-                    this.copyMessage = this.$t('modules.copied');
+                    this.copyMessage = this.$t('objects.copied');
                     setTimeout(() => this.copyMessage = '', 2000);
                 }
             },
         },
         computed: {
             computeTitle() {
-                return this.$route.query.edit ? this.$t('modules.edit') : this.$t('modules.new');
+                return this.$route.query.edit ? this.$t('objects.edit') : this.$t('objects.new');
             },
             filterTags() {
                 const filteredTags = this.tagsList.filter(item => {
@@ -299,7 +299,7 @@
 
 <style lang="scss" scoped>
     @import "../../../assets/css/main";
-    @import "../../../assets/css/modules/modules";
+    @import "../../../assets/css/objects/objects";
 
     .content-title {
         margin: 0;

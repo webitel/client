@@ -1,12 +1,12 @@
 <template>
     <div class="content-wrap">
-        <module-header>{{$t('modules.permissions.permissionsTitle')}} |
-            {{$t('modules.permissions.object.object')}}
+        <module-header>{{$t('objects.permissions.permissionsTitle')}} |
+            {{$t('objects.permissions.object.object')}}
         </module-header>
 
         <section class="module-content">
             <header class="content-header page-header">
-                <h3 class="content-title">{{$t('modules.permissions.object.allObjects')}}</h3>
+                <h3 class="content-title">{{$t('objects.permissions.object.allObjects')}}</h3>
             </header>
 
             <vuetable
@@ -50,7 +50,7 @@
 
 <script>
     import vuetable from 'vuetable-2/src/components/Vuetable';
-    import moduleHeader from '../module-header';
+    import moduleHeader from '../object-header';
     import editField from '../utils/edit-field';
     import tableStatus from '../utils/table-status';
 
@@ -66,9 +66,9 @@
             return {
                 // vuetable prop
                 fields: [
-                    {name: 'head', title: this.$t('modules.name')},
-                    {name: 'ObAC', title: this.$t('modules.permissions.object.ObAC')},
-                    {name: 'RbAC', title: this.$t('modules.permissions.object.RbAC')},
+                    {name: 'head', title: this.$t('objects.name')},
+                    {name: 'ObAC', title: this.$t('objects.permissions.object.ObAC')},
+                    {name: 'RbAC', title: this.$t('objects.permissions.object.RbAC')},
                     {
                         name: 'image',
                         title: '',

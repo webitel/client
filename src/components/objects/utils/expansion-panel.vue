@@ -39,7 +39,7 @@
 
 <style lang="scss" scoped>
     @import "../../../assets/css/main";
-    @import "../../../assets/css/modules/modules";
+    @import "../../../assets/css/objects/objects";
 
     .expansion-panel {
         margin-top: 17px;

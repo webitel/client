@@ -4,13 +4,13 @@
         <module-header
                 :primaryAction="create"
         >
-            {{$t('modules.permissions.permissionsTitle')}} |
-            {{$tc('modules.permissions.permissionsRole', 2)}}
+            {{$t('objects.permissions.permissionsTitle')}} |
+            {{$tc('objects.permissions.permissionsRole', 2)}}
         </module-header>
 
         <section class="module-content">
             <header class="content-header page-header">
-                <h3 class="content-title">{{$t('modules.permissions.allRoles')}}</h3>
+                <h3 class="content-title">{{$t('objects.permissions.allRoles')}}</h3>
             </header>
 
             <vuetable
@@ -59,10 +59,10 @@
 
 <script>
     import vuetable from 'vuetable-2/src/components/Vuetable';
-    import moduleHeader from '../module-header';
+    import moduleHeader from '../object-header';
     import editField from '../utils/edit-field';
 
-    import {getRoles} from '../../../api/modules/permissions/permissions';
+    import {getRoles} from '../../../api/objects/permissions/permissions';
 
 
     export default {
@@ -76,8 +76,8 @@
             return {
                 // vuetable prop
                 fields: [
-                    {name: 'head', title: this.$t('modules.name')},
-                    {name: 'body', title: this.$t('modules.description')},
+                    {name: 'head', title: this.$t('objects.name')},
+                    {name: 'body', title: this.$t('objects.description')},
                     {
                         name: 'image',
                         title: '',

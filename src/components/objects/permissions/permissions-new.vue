@@ -1,15 +1,15 @@
 <template>
     <div class="content-wrap">
         <module-header
-                :primaryText="$t('modules.save')"
+                :primaryText="$t('objects.save')"
                 :primaryAction="close"
                 :secondaryAction="close"
         >
-            {{$tc('modules.permissions.permissionsRole')}} | {{computeTitle}}
+            {{$tc('objects.permissions.permissionsRole')}} | {{computeTitle}}
         </module-header>
         <section class="module-content module-new permissions-new">
             <header class="content-header page-header">
-                <h3 class="content-title">{{$t('modules.generalInfo')}} </h3>
+                <h3 class="content-title">{{$t('objects.generalInfo')}} </h3>
                 <div class="hint">
                     <i
                             class="hint__img tooltip-activator icon-icon_question"
@@ -22,16 +22,16 @@
                 <form-input
                         class="form__input"
                         v-model="form.name"
-                        :label="$t('modules.name')"
-                        :placeholder="$t('modules.namePlaceholder')"
+                        :label="$t('objects.name')"
+                        :placeholder="$t('objects.namePlaceholder')"
                 ></form-input>
                 <form-input
                         class="form__input"
                         v-model="form.description"
                         :textarea="true"
                         :height="164"
-                        :label="$t('modules.permissions.permissionsNew.description')"
-                        :placeholder="$t('modules.permissions.permissionsNew.descriptionPlaceholder')"
+                        :label="$t('objects.permissions.permissionsNew.description')"
+                        :placeholder="$t('objects.permissions.permissionsNew.descriptionPlaceholder')"
                 ></form-input>
             </form>
         </section>
@@ -39,7 +39,7 @@
 </template>
 
 <script>
-    import moduleHeader from '../module-header';
+    import moduleHeader from '../object-header';
     import formInput from '../../utils/form-input';
 
     export default {
@@ -63,15 +63,19 @@
         },
         computed: {
             computeTitle() {
-                return this.$route.query.edit ? this.$t('modules.edit') : this.$t('modules.new');
+                return this.$route.query.edit ? this.$t('objects.edit') : this.$t('objects.new');
             },
         },
     };
 </script>
 
-<!--there is no scope to set .input border from modules.scss-->
+<!--there is no scope to set .input border from objects.scss-->
 <style lang="scss">
-    @import "../../../assets/css/modules/modules";
+    @import "../../../assets/css/objects/objects";
+
+    .page-header {
+        justify-content: start;
+    }
 
     .permissions-new__form {
         width: 50%;

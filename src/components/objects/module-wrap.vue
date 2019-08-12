@@ -31,6 +31,6 @@
 </script>
 
 <style lang="scss" scoped>
-    @import "../../assets/css/modules/modules";
-    @import "../../assets/css/modules/vuetable";
+    @import "../../assets/css/objects/objects";
+    @import "../../assets/css/objects/objects";
 </style>

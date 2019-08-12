@@ -12,7 +12,7 @@ import './assets/css/modules/vuetable.scss';
 import './assets/css/fonts.scss';
 import './assets/css/main.scss';
 
-import tableCheckboxColumn from './components/modules/utils/table-checkbox-column';
+import tableCheckboxColumn from './components/objects/utils/table-checkbox-column';
 
 
 Vue.config.productionTip = false;

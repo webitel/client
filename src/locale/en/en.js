@@ -22,7 +22,7 @@ export default {
     },
     toLogin: 'Log in',
   },
-  modules: {
+  objects: {
     new: 'New',
     create: 'Create',
     read: 'Read',

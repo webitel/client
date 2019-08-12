@@ -10,7 +10,7 @@
                         v-if="secondaryAction"
                         @click.native="secondaryAction"
                 >
-                    {{$t('modules.close')}}
+                    {{$t('objects.close')}}
                 </btn>
                 <btn
                         class="btn"

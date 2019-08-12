@@ -2,7 +2,7 @@
     <aside class="upload-popup">
 
         <header class="content-header">
-            <h3 class="content-title">{{$t('modules.importCSV')}}</h3>
+            <h3 class="content-title">{{$t('objects.importCSV')}}</h3>
         </header>
 
         <section class="upload-popup__info">
@@ -10,22 +10,22 @@
             <checkbox
                     class="upload-popup__info-headers"
                     :value="isHeadersSkip"
-                    :label="$t('modules.CSV.skipHeaders')"
+                    :label="$t('objects.CSV.skipHeaders')"
                     @toggleCheckbox="toggleHeadersSkip"
             ></checkbox>
             <form>
                 <dropdown-select
                         class="form__input"
-                        :label="$t('modules.CSV.charSet')"
-                        :placeholder="$t('modules.CSV.charSet')"
+                        :label="$t('objects.CSV.charSet')"
+                        :placeholder="$t('objects.CSV.charSet')"
                 >
                 </dropdown-select>
 
                 <form-input
                         class="form__input"
                         v-model="separator"
-                        :label="$t('modules.CSV.separator')"
-                        :placeholder="$t('modules.CSV.separator')"
+                        :label="$t('objects.CSV.separator')"
+                        :placeholder="$t('objects.CSV.separator')"
                 >
                 </form-input>
             </form>
@@ -34,8 +34,8 @@
 
         <section class="CSV-column-match">
             <header class="column-headers">
-                <div>{{$t('modules.CSV.CSVColumn')}}</div>
-                <div>{{$t('modules.CSV.testRailField')}}</div>
+                <div>{{$t('objects.CSV.CSVColumn')}}</div>
+                <div>{{$t('objects.CSV.testRailField')}}</div>
             </header>
             <divider/>
             <div class="column-rows">
@@ -115,7 +115,7 @@
 
 <style lang="scss" scoped>
     @import "../../../assets/css/main";
-    @import "../../../assets/css/modules/modules";
+    @import "../../../assets/css/objects/objects";
 
     .upload-popup {
         @extend .scrollbar;

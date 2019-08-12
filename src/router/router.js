@@ -4,15 +4,15 @@ import Router from 'vue-router';
 import login from '../components/auth/the-login';
 import register from '../components/auth/the-register';
 
-import moduleWrap from '../components/modules/module-wrap';
-import home from '../components/modules/home/the-home';
+import moduleWrap from '../components/objects/module-wrap';
+import home from '../components/objects/home/the-home';
 import notFound from '../components/the-not-found-component';
-import permissions from '../components/modules/permissions/the-permissions';
-import permissionsNew from '../components/modules/permissions/permissions-new';
-import permissionsObject from '../components/modules/permissions/permissions-object';
-import permissionsObjectEdit from '../components/modules/permissions/permissions-object-edit';
-import devices from '../components/modules/devices/the-devices';
-import devicesNew from '../components/modules/devices/devices-new';
+import permissions from '../components/objects/permissions/the-permissions';
+import permissionsNew from '../components/objects/permissions/permissions-new';
+import permissionsObject from '../components/objects/permissions/permissions-object';
+import permissionsObjectEdit from '../components/objects/permissions/permissions-object-edit';
+import devices from '../components/objects/devices/the-devices';
+import devicesNew from '../components/objects/devices/devices-new';
 
 Vue.use(Router);
 
@@ -79,15 +79,15 @@ const router = new Router({
     ],
 });
 
-router.beforeEach((to, from, next) => {
-    if(!(to.fullPath === '/login' || to.fullPath === '/register')) {
-        if (!localStorage.getItem('access-token')) {
-            console.log('if');
-            next('/login');
-        }
-    }
-    next();
-});
+// router.beforeEach((to, from, next) => {
+//     if(!(to.fullPath === '/login' || to.fullPath === '/register')) {
+//         if (!localStorage.getItem('access-token')) {
+//             console.log('if');
+//             next('/login');
+//         }
+//     }
+//     next();
+// });
 
 
 export default router;

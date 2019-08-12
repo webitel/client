@@ -3,7 +3,7 @@
 </template>
 
 <script>
-    import moduleHeader from '../module-header';
+    import moduleHeader from '../object-header';
 
     export default {
         name: 'the-home',
@@ -14,5 +14,5 @@
 </script>
 
 <style lang="scss" scoped>
-    @import '../../../assets/css/modules/modules';
+    @import '../../../assets/css/objects/objects';
 </style>

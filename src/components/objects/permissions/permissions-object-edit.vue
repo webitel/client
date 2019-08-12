@@ -1,16 +1,16 @@
 <template>
     <div class="content-wrap">
         <module-header
-                :primaryText="$t('modules.save')"
+                :primaryText="$t('objects.save')"
                 :primaryAction="close"
                 :secondaryAction="close"
-        >{{$t('modules.users')}} |
-            {{$t('modules.edit')}}
+        >{{$t('objects.users')}} |
+            {{$t('objects.edit')}}
         </module-header>
 
         <section class="module-content">
             <header class="content-header page-header">
-                <h3 class="content-title">{{$t('modules.permissions.allRoles')}}</h3>
+                <h3 class="content-title">{{$t('objects.permissions.allRoles')}}</h3>
             </header>
 
             <vuetable
@@ -67,7 +67,7 @@
 
 <script>
     import vuetable from 'vuetable-2/src/components/Vuetable';
-    import moduleHeader from '../module-header';
+    import moduleHeader from '../object-header';
     import editField from '../utils/edit-field';
     import tableCheckbox from '../utils/checkbox';
 
@@ -83,15 +83,15 @@
             return {
                 // vuetable prop
                 fields: [
-                    {name: 'head', title: this.$t('modules.name')},
-                    {name: 'create', title: this.$t('modules.create')},
-                    {name: 'read', title: this.$t('modules.read')},
-                    {name: 'edit', title: this.$t('modules.edit')},
-                    {name: 'delete', title: this.$t('modules.delete')},
+                    {name: 'head', title: this.$t('objects.name')},
+                    {name: 'create', title: this.$t('objects.create')},
+                    {name: 'read', title: this.$t('objects.read')},
+                    {name: 'edit', title: this.$t('objects.edit')},
+                    {name: 'delete', title: this.$t('objects.delete')},
                 ],
                 test: [],
                 checkboxLabels: {
-                    true: this.$t('modules.allow'),
+                    true: this.$t('objects.allow'),
                     false: '- -'
                 }
             };
