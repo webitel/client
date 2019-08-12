@@ -73,8 +73,8 @@
         <divider/>
 
         <div class="btn-controls">
-            <btn class="btn secondary-btn"@click.native="close">close</btn>
-            <btn class="btn" @click.native="close">save</btn>
+            <btn class="secondary-btn"@click.native="close">close</btn>
+            <btn @click.native="close">save</btn>
         </div>
     </aside>
 </template>
@@ -128,14 +128,13 @@
         background: #fff;
         border-radius: $border-radius;
         transform: translate(-50%, -50%);
-        z-index: 100;
         overflow-y: auto;
+        z-index: 10;
 
         .content-header {
             padding: 0 44px;
             margin: 0 0 38px;
         }
-
 
         .upload-popup__info {
             padding: 0 44px;

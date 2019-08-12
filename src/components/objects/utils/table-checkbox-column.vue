@@ -27,9 +27,6 @@
         components: {
             checkbox
         },
-        mounted() {
-
-        },
         methods: {
             toggleCheckbox() {
                 this.rowData.isSelected = !this.rowData.isSelected;
