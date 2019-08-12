@@ -5,7 +5,6 @@
             v-ripple
             :type="type"
     >
-<!--        <i class="icon-icon_plus"></i>-->
         <slot></slot>
     </button>
 </template>
@@ -28,6 +27,14 @@
 </script>
 
 <style lang="scss" scoped>
+    $primary-btn-color: $accent-color;
+    $primary-btn-color_active: #F3BA00;
+
+    $secondary-btn-color: rgba(0, 0, 0, 0.7);
+    $secondary-btn-color_active: #000;
+
+    $btn-color_disabled: rgba(0, 0, 0, 0.3);
+
     .btn {
         @extend .typo-btn;
 
@@ -37,7 +44,7 @@
         text-transform: uppercase;
         font-family: 'AvantGardeDemi', sans-serif;
         color: #000;
-        background: $accent-color;
+        background: $primary-btn-color;
         border-radius: $border-radius;
         transition: $transition;
 
@@ -45,36 +52,36 @@
         outline: none;
 
         &:hover {
-            background: #F3BA00;
+            background: $primary-btn-color_active;
         }
 
         &:active {
-            background: $accent-color;
+            background: $primary-btn-color;
         }
 
         &:disabled {
-            background: $icon-color;
+            background: $btn-color_disabled;
         }
 
 
         &.secondary-btn {
-            color: rgba(0, 0, 0, 0.7);
+            color: $secondary-btn-color;
             background: transparent;
-            border: 1px solid rgba(0, 0, 0, 0.7);
+            border: 1px solid $secondary-btn-color;
 
             &:hover {
-                color: #000;
-                border-color: #000;
+                color: $secondary-btn-color_active;
+                border-color: $secondary-btn-color_active;
             }
 
             &:active {
-                color: #000;
-                border: 1px solid #000;
+                color: $secondary-btn-color_active;
+                border-color: $secondary-btn-color_active;
             }
 
             &:disabled {
-                color: $icon-color;
-                border-color: rgba(0, 0, 0, 0.3);
+                color: $btn-color_disabled;
+                border-color: $btn-color_disabled;
             }
         }
     }
