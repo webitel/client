@@ -16,7 +16,6 @@
 
                 <template slot="expansion-content">
                     <form-input
-                            class="form__input"
                             v-model.trim="$v.name.$model"
                             :v="$v.name"
                             :label="$t('objects.name') + '*'"
@@ -24,7 +23,6 @@
                             :hintText="'Ya s`el deda :('"
                     ></form-input>
                     <form-input
-                            class="form__input"
                             v-model.trim="$v.authId.$model"
                             :v="$v.authId"
                             :label="$t('objects.devices.authId') + '*'"
@@ -33,10 +31,7 @@
                     ></form-input>
 
                     <div class="input-extension-wrap">
-
-
                         <form-input
-                                class="form__input"
                                 ref="input-password"
                                 v-model.trim="$v.password.$model"
                                 :v="$v.password"
@@ -61,7 +56,6 @@
                     </div>
 
                     <form-input
-                            class="form__input"
                             v-model="user"
                             :label="$t('objects.user')"
                             :placeholder="$t('objects.user')"
@@ -106,14 +100,12 @@
 
                 <template slot="expansion-content">
                     <form-input
-                            class="form__input"
                             v-model="phone"
                             :label="$t('objects.devices.devicesNew.phone')"
                             :placeholder="$t('objects.devices.devicesNew.phone')"
                             disabled
                     ></form-input>
                     <form-input
-                            class="form__input"
                             v-model="IPv4"
                             :label="'IPv4'"
                             :placeholder="'IPv4'"
@@ -133,7 +125,6 @@
                             @input="model = $event"
                     ></dropdown-select>
                     <form-input
-                            class="form__input"
                             v-model="MAC"
                             :label="'MAC'"
                             :placeholder="'MAC'"
@@ -232,7 +223,6 @@
 
         // by vuelidate
         validations: {
-            // form: {
             name: {
                 required,
             },
@@ -242,11 +232,8 @@
             password: {
                 required,
             },
-            // },
         },
         mounted() {
-            // console.log(this.historyDate.toLocaleString("en-us", {month: 'long'}), this.historyDate.getFullYear());
-
             document.querySelectorAll('.vdp-datepicker .day-header').forEach(item => {
                 item.innerHTML = item.innerHTML.slice(0, -1);
             });

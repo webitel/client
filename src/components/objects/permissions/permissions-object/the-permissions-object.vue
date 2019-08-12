@@ -36,7 +36,7 @@
                     ></table-status>
                 </template>
 
-                <template slot="image" slot-scope="props">
+                <template slot="actions" slot-scope="props">
                     <div class="vuetable-actions">
                         <i class="vuetable-action icon-icon_edit"
                            @click="edit"
@@ -70,7 +70,7 @@
                     {name: 'ObAC', title: this.$t('objects.permissions.object.ObAC')},
                     {name: 'RbAC', title: this.$t('objects.permissions.object.RbAC')},
                     {
-                        name: 'image',
+                        name: 'actions',
                         title: '',
                         titleClass: 'vuetable-td-actions',
                         dataClass: 'vuetable-td-actions',

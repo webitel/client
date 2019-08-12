@@ -22,9 +22,8 @@
 
                 <template slot="head" slot-scope="props">
                     <edit-field
-                            class="form__input"
                             :text="test[props.rowIndex].head"
-                            :disabled="true"
+                            disabled
                     ></edit-field>
                 </template>
 

@@ -22,8 +22,7 @@
 
                 <template slot="head" slot-scope="props">
                     <edit-field
-                            class="form__input"
-                            v-bind:text="test[props.rowIndex].head"
+                            :text="test[props.rowIndex].head"
                             :placeholder="$t('auth.passwordPlaceholder')"
                             :disabled="computeEditInstance(props.rowIndex, 'head')"
                             @start-update="startUpdate({id: props.rowIndex,name: 'head'})"
@@ -33,7 +32,6 @@
 
                 <template slot="body" slot-scope="props">
                     <edit-field
-                            class="form__input"
                             :text="test[props.rowIndex].body"
                             :placeholder="$t('auth.passwordPlaceholder')"
                             :disabled="computeEditInstance(props.rowIndex, 'body')"
@@ -42,7 +40,7 @@
                     ></edit-field>
                 </template>
 
-                <template slot="image" slot-scope="props">
+                <template slot="actions" slot-scope="props">
                     <div class="vuetable-actions">
                         <i class="vuetable-action icon-icon_edit"
                              @click="action('edit')"
@@ -74,25 +72,25 @@
         },
         data() {
             return {
+                test: [],
+                editInstance: null, // only 1 field can be edited at a time
                 // vuetable prop
                 fields: [
                     {name: 'head', title: this.$t('objects.name')},
                     {name: 'body', title: this.$t('objects.description')},
                     {
-                        name: 'image',
+                        name: 'actions',
                         title: '',
                         titleClass: 'vuetable-td-actions',
                         dataClass: 'vuetable-td-actions',
                         width: '120px'
                     },
                 ],
-                test: [],
-                editInstance: null
             };
         },
         mounted() {
             // FIXME: delete test data
-            for (let i = 0; i < 20; i++) {
+            for (let i = 0; i < 10; i++) {
                 this.test.push({
                     head: `head${i}`,
                     body: 'body',
@@ -105,7 +103,7 @@
                         response.forEach((item, index) => {
                             this.test[index].head = item.role;
                         });
-                        // this.test.length = response.length;
+                        this.test.length = response.length;
                     },
                     (error) => {
                         this.$log.info('error roles', error);
