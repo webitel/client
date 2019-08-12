@@ -11,7 +11,6 @@ export default {
 <style lang="scss" scoped>
     .divider {
         display: block;
-        flex: 1 1 0;
         max-width: 100%;
         height: 0;
         max-height: 0;
@@ -19,6 +18,5 @@ export default {
         margin: 0;
         border: 0 solid $divider-color;
         border-top-width: thin;
-        transition: inherit;
     }
 </style>

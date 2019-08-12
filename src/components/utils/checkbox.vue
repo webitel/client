@@ -4,7 +4,6 @@
            @click.prevent="changeValue"
     >
         <input
-                class="checkbox"
                 type="checkbox"
                 :checked="value"
         >
@@ -22,9 +21,7 @@
                 required: true
             },
             // may be a string, or object with true/false values
-            label: {
-
-            },
+            label: {},
         },
         methods: {
             changeValue() {

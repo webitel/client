@@ -20,8 +20,8 @@
                     type="text"
             />
             <div class="edit-field__form-controls">
-                <btn class="btn secondary-btn" type="submit">close</btn>
-                <btn class="btn" type="submit">save</btn>
+                <btn class="secondary-btn" type="submit">close</btn>
+                <btn type="submit">save</btn>
             </div>
         </form>
     </div>
@@ -141,15 +141,7 @@
         z-index: 1;
 
         .edit-field__input {
-            padding: 15px 16px 10px;
-            margin-right: 0;
-            border-radius: $border-radius;
-
-            background: transparent;
-
-            border: 1px solid $input;
-            outline: none;
-            transition: $transition;
+            @extend .default-input;
         }
 
         .edit-field__form-controls {

@@ -1,5 +1,5 @@
 <template>
-    <label class="dropdown-select">
+    <div class="dropdown-select">
         <div class="label">{{this.label}}
             <div class="hint" v-show="this.hintText">
                 <i
@@ -37,7 +37,7 @@
                 </ul>
             </div>
         </div>
-    </label>
+    </div>
 </template>
 
 <script>
@@ -74,7 +74,7 @@
                 type: String,
             },
 
-            // disables input
+            // disables selection
             disabled: {
                 type: Boolean
             },
@@ -115,8 +115,21 @@
 
             height: 48px;
             position: relative;
+            /*padding for arrow icon*/
             padding-right: 40px;
             cursor: pointer;
+
+            .icon-icon_arrow-down {
+                position: absolute;
+                top: 50%;
+                right: 16px;
+                color: #000;
+                transform: translate(0, -50%);
+            }
+
+            &:hover .icon-icon_arrow-down {
+                color: #000;
+            }
 
             &.opened {
                 @extend .default-input:hover;
@@ -141,19 +154,6 @@
                 }
             }
 
-            .icon-icon_arrow-down {
-                position: absolute;
-                top: 50%;
-                right: 16px;
-                color: #000;
-                transform: translate(0, -50%);
-            }
-
-            &:hover {
-                .icon-icon_arrow-down {
-                    color: #000;
-                }
-            }
         }
 
         .select-options {
