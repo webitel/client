@@ -118,17 +118,19 @@
     @import "../../../assets/css/modules/modules";
 
     .upload-popup {
+        @extend .scrollbar;
         @extend .box-shadow;
 
         position: absolute;
-        top: 99px;
+        top: 50%;
         left: 50%;
         width: 738px;
+        min-height: 67vh;
         max-height: 80vh;
         padding: 27px 0;
         background: #fff;
         border-radius: $border-radius;
-        transform: translate(-50%, 0);
+        transform: translate(-50%, -50%);
         z-index: 100;
         overflow-y: auto;
 
@@ -148,7 +150,7 @@
             form {
                 @extend .module-input-grid;
 
-                .form__input,  {
+                .form__input {
                     margin: 27px 0 21px; // bottom 41 - 20 hint
                 }
             }
@@ -170,11 +172,7 @@
             }
 
             .column-rows {
-                @extend .scrollbar;
-
-                /*max-height: calc(80vh - 302px - 101px);*/
                 padding: 22px 44px 27px;
-                /*overflow-y: scroll;*/
 
                 li {
                     @extend .module-input-grid;

@@ -76,10 +76,10 @@
             return {
                 // vuetable prop
                 fields: [
-                    {name: '__slot:head', title: this.$t('modules.name')},
-                    {name: '__slot:body', title: this.$t('modules.description')},
+                    {name: 'head', title: this.$t('modules.name')},
+                    {name: 'body', title: this.$t('modules.description')},
                     {
-                        name: '__slot:image',
+                        name: 'image',
                         title: '',
                         titleClass: 'vuetable-td-actions',
                         dataClass: 'vuetable-td-actions',

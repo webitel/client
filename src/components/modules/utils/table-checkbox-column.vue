@@ -43,7 +43,7 @@
         },
         computed: {
             isAllItemsInCurrentPageSelected() {
-                if (!this.vuetable.tableData) return false;
+                if (!this.vuetable.tableData || this.vuetable.tableData.length === 0) return false;
 
                 return this.vuetable.tableData.every((item) => {
                     return item.isSelected;

@@ -171,7 +171,7 @@
                 search: '',
                 propertiesToSearch: ['head', 'authId', 'user'],
                 filterPresence: [],
-                isUploadPopupOpened: true,
+                isUploadPopupOpened: false,
 
                 isFilterOpenedClassTrigger: false,
                 csvFile: null

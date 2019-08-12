@@ -31,7 +31,7 @@
   position: relative;
 
   &.page-header {
-    margin: 38px 32px 12px 0;
+    margin: 0 32px 12px 0;
   }
 
   .content-title {
@@ -257,7 +257,7 @@
 
         .ti-actions {
           margin-left: 11px !important;
-          font-size: 24px;
+          font-size: 16px;
 
           .ti-icon-close {
             color: #000;
@@ -310,6 +310,13 @@
     top: 50%;
     right: 16px;
     transform: translate(0, -50%);
+    i {
+      color: #000;
+    }
+  }
+
+  &:hover .vdp-datepicker__calendar-button i {
+    color: #000;
   }
 
   .vdp-datepicker__calendar {
@@ -320,6 +327,7 @@
     right: 0;
     padding: 16px;
     margin-top: 8px;
+    line-height: 36px !important;
     border: none;
     border-radius: $border-radius;
 
@@ -376,6 +384,7 @@
       width: 36px;
       height: 36px;
       padding: 0;
+      line-height: 36px;
       font-size: 12px;
       transition: $transition;
 
