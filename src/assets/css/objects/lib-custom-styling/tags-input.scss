@@ -1,0 +1,82 @@
+
+.tags-input-wrap {
+  position: relative;
+  padding-top: 33px;
+  margin-bottom: 21px;
+
+  .tags-input__label {
+    @extend .typo-input-label;
+
+    position: absolute;
+    top: 0;
+  }
+
+  .vue-tags-input {
+    width: 100%;
+    max-width: 100%;
+    min-height: 48px;
+
+    .ti-input {
+      @extend .default-input;
+
+      padding: 10px 16px;
+
+      .ti-new-tag-input-wrapper {
+        padding-left: 0;
+      }
+
+
+      .ti-tag {
+        @extend .typo-input-label;
+
+        color: #000;
+        background: rgba(0, 0, 0, 0.05);
+        padding: 7px 7px 3px !important;
+        margin-right: 8px;
+
+        input {
+          @extend .typo-input-label;
+        }
+
+        &.ti-deletion-mark {
+          background-color: rgba(0, 0, 0, 0.05) !important;
+        }
+
+        .ti-actions {
+          margin-left: 11px !important;
+          font-size: 16px;
+
+          .ti-icon-close {
+            color: #000;
+            transform: translateY(-1px);
+          }
+        }
+      }
+    }
+
+    &.ti-disabled .ti-input {
+      border: transparent;
+
+      input::placeholder {
+        color: transparent;
+      }
+
+      .ti-icon-close {
+        opacity: 0;
+        pointer-events: none;
+      }
+    }
+
+    .ti-autocomplete {
+      @extend .select-options;
+
+      .ti-item {
+        @extend .select-option;
+
+        &.ti-selected-item {
+          @extend .select-option__selected;
+        }
+      }
+    }
+  }
+}

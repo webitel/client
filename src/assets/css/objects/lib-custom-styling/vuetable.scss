@@ -1,4 +1,4 @@
-@import "../main";
+@import "../../main";
 
 .vuetable {
   @extend .typo-body-md;
@@ -51,19 +51,6 @@
       &:hover {
         color: #000;
       }
-    }
-
-    //.vuetable-action:first-child {
-      //margin-right: 30px;
-    //}
-  }
-
-
-  // -------------------- BELOW GOES CUSTOM COLUMN WIDTH PARAMS ON PAGE -----------------------
-
-  &.permissions-table {
-    th {
-      width: calc((100% - 120px) / 2);
     }
   }
 }

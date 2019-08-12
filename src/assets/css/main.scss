@@ -1,3 +1,5 @@
+@import "./styleguide/typography";
+
 // PRIMARY COLORS:
 $sidebar-color: #171A2A;   // sidebar panel
 $header-color: #EAEAEA;       // header
@@ -66,8 +68,6 @@ i {
   }
 }
 
-
-//FIXME: not sure, if global class logo is needed
 .logo {
   color: #fff;
   font: 25.5px 'AvantGardeBold';
@@ -77,57 +77,6 @@ i {
   -moz-user-select: none;
   -ms-user-select: none;
   user-select: none;
-}
-
-
-.typo-heading-lg {
-  font: 24px 'AvantGardeDemi';
-  line-height: 26px;
-}
-
-.typo-heading-md {
-  font: 20px 'AvantGardeDemi';
-  line-height: 22px;
-}
-
-.typo-heading-sm {
-  font: 12px 'AvantGardeBook';
-  line-height: 14px;
-}
-
-.typo-body-lg {
-  font: 18px 'AvantGardeBook';
-  line-height: 20px;
-}
-
-.typo-body-md {
-  font: 12px 'AvantGardeBook';
-  line-height: 14px;
-}
-
-.typo-body-sm {
-  font: 11px 'AvantGardeBook';
-  line-height: 13px;
-}
-
-.typo-btn {
-  font: 14px 'AvantGardeDemi';
-  line-height: 16px;
-}
-
-.typo-input-label {
-  font: 14px 'AvantGardeBook';
-  line-height: 16px;
-}
-
-.typo-input-text {
-  font: 14px 'AvantGardeBook';
-  line-height: 24px;
-}
-
-.typo-notification-text {
-  font: 16px 'AvantGardeBook';
-  line-height: 18px;
 }
 
 .label {
@@ -179,99 +128,12 @@ i {
   }
 }
 
-
-.tooltip {
-  @extend .typo-body-sm;
-
-  display: flex;
-  align-items: center;
-  position: absolute;
-  width: 200px;
-  min-height: 40px;
-  padding: 10px 8px;
-  color: #fff;
-  background: $sidebar-color;
-  border-radius: $border-radius;
-  transition: $transition;
-  z-index: 10;
-  opacity: 0;
-  pointer-events: none;
-
-  &:before {
-    content:'';
-    display:block;
-    position:absolute;
-    width:0;
-    height:0;
-
-    border-top: 7.5px solid transparent;
-    border-bottom: 7.5px solid transparent;
-    border-right: 8px solid $sidebar-color;
-  }
-}
-
-.tooltip-activator:hover + .tooltip, .tooltip.active {
-  opacity: 1;
-  pointer-events: auto;
-}
-
-.tooltip-left {
-  @extend .tooltip;
-
-  top: 50%;
-  left: 30px;
-  transform: translate(0, -50%);
-  &:before {
-    top: 50%;
-    left: -8px;
-    transform: translate(0, -50%);
-  }
-}
-
-.tooltip-top {
-  @extend .tooltip;
-
-  bottom: 30px;
-  left: 50%;
-  transform: translate(-50%, 0);
-  &:before {
-    bottom: -8px;
-    left: 50%;
-    transform: translate(-50%, 0) rotate(-90deg);
-  }
-}
-
-.tooltip-bottom {
-  @extend .tooltip;
-
-  top: 30px;
-  left: 50%;
-  transform: translate(-50%, 0);
-  &:before {
-    top: -8px;
-    left: 50%;
-    transform: translate(-50%, 0) rotate(90deg);
-  }
-}
-
-.tooltip-right {
-  @extend .tooltip;
-
-  top: 50%;
-  right: 30px;
-  transform: translate(0, -50%);
-  &:before {
-    top: 50%;
-    right: -8px;
-    transform: translate(0, -50%) rotate(180deg);
-  }
-}
-
 .scrollbar {
   // scrollbar itself
   &::-webkit-scrollbar {
     width: 10px;
     background-color: rgba(0, 0, 0, 0.2);
+    cursor: pointer;
   }
 
   // scrollable element
