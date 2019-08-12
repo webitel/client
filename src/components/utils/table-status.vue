@@ -55,7 +55,6 @@
        color: $true-color;
     }
 
-
     .icon-icon_deny {
        color: $false-color;
     }

@@ -1,39 +1,36 @@
 <template>
     <div class="form-input">
-        <label>
-            <div class="label" :class="{'invalid': this.v.$error}">{{this.label}}
-                <div class="hint" v-show="this.hintText">
-                    <i
-                            class="hint__img tooltip-activator icon-icon_question"
-                    ></i>
-                    <div class="tooltip-left">{{this.hintText}}</div>
-                </div>
+        <div class="label" :class="{'invalid': this.v.$error}">{{this.label}}
+            <div class="hint" v-show="this.hintText">
+                <i
+                        class="hint__img tooltip-activator icon-icon_question"
+                ></i>
+                <div class="tooltip-left">{{this.hintText}}</div>
             </div>
-            <input
-                    class="input"
-                    ref="input"
-                    v-if="!textarea"
-                    v-model="validation"
-                    @input="$emit('input, $event.target.value')"
-                    :type="type"
-                    :placeholder="placeholder"
-                    :autofocus="autofocus"
-                    :disabled="disabled"
+        </div>
 
-            />
-            <textarea
-                    class="input"
-                    ref="input"
-                    v-if="textarea"
-                    v-model="validation"
-                    @input="$emit('input, $event.target.value')"
-                    :placeholder="placeholder"
-                    :autofocus="autofocus"
-                    :disabled="disabled"
+        <input
+                class="input"
+                ref="input"
+                v-if="!textarea"
+                v-model="validation"
+                @input="$emit('input, $event.target.value')"
+                :type="type"
+                :placeholder="placeholder"
+                :autofocus="autofocus"
+                :disabled="disabled"
+        />
 
-            ></textarea>
-        </label>
-
+        <textarea
+                class="input"
+                ref="input"
+                v-if="textarea"
+                v-model="validation"
+                @input="$emit('input, $event.target.value')"
+                :placeholder="placeholder"
+                :autofocus="autofocus"
+                :disabled="disabled"
+        ></textarea>
 
         <div class="invalid form-input__details" v-show="v.email===false && v.$error">
             {{$t('auth.validation.email')}}
