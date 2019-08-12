@@ -17,7 +17,7 @@
 </template>
 
 <script>
-    import divider from '../../utils/divider';
+    import divider from './divider';
 
     export default {
         name: "expansion-panel",

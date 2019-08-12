@@ -60,7 +60,7 @@
 <script>
     import vuetable from 'vuetable-2/src/components/Vuetable';
     import moduleHeader from '../object-header';
-    import editField from '../utils/edit-field';
+    import editField from '../../utils/edit-field';
 
     import {getRoles} from '../../../api/objects/permissions/permissions';
 

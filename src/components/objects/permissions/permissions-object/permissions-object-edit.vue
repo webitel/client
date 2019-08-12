@@ -67,9 +67,9 @@
 
 <script>
     import vuetable from 'vuetable-2/src/components/Vuetable';
-    import moduleHeader from '../object-header';
-    import editField from '../utils/edit-field';
-    import tableCheckbox from '../utils/checkbox';
+    import moduleHeader from '../../object-header';
+    import editField from '../../../utils/edit-field';
+    import tableCheckbox from '../../../utils/checkbox';
 
     export default {
         name: "permissions-object",

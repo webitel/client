@@ -50,9 +50,9 @@
 
 <script>
     import vuetable from 'vuetable-2/src/components/Vuetable';
-    import moduleHeader from '../object-header';
-    import editField from '../utils/edit-field';
-    import tableStatus from '../utils/table-status';
+    import moduleHeader from '../../object-header';
+    import editField from '../../../utils/edit-field';
+    import tableStatus from '../../../utils/table-status';
 
     export default {
         name: "permissions-object",

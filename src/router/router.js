@@ -6,11 +6,11 @@ import register from '../components/auth/the-register';
 
 import moduleWrap from '../components/objects/module-wrap';
 import home from '../components/objects/home/the-home';
-import notFound from '../components/the-not-found-component';
+import notFound from '../components/utils/the-not-found-component';
 import permissions from '../components/objects/permissions/the-permissions';
 import permissionsNew from '../components/objects/permissions/permissions-new';
-import permissionsObject from '../components/objects/permissions/permissions-object';
-import permissionsObjectEdit from '../components/objects/permissions/permissions-object-edit';
+import permissionsObject from '../components/objects/permissions/permissions-object/the-permissions-object';
+import permissionsObjectEdit from '../components/objects/permissions/permissions-object/permissions-object-edit';
 import devices from '../components/objects/devices/the-devices';
 import devicesNew from '../components/objects/devices/devices-new';
 

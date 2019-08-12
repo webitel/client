@@ -123,8 +123,8 @@
 <script>
     import vuetable from 'vuetable-2/src/components/Vuetable';
     import moduleHeader from '../object-header';
-    import editField from '../utils/edit-field';
-    import checkbox from '../utils/checkbox';
+    import editField from '../../utils/edit-field';
+    import checkbox from '../../utils/checkbox';
     import uploadPopup from '../utils/upload-popup';
 
     import clickaway from '../../../directives/clickaway';

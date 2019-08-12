@@ -80,11 +80,11 @@
 </template>
 
 <script>
-    import checkbox from './checkbox';
+    import checkbox from '../../utils/checkbox';
     import formInput from '../../utils/form-input';
     import divider from '../../utils/divider';
     import btn from '../../utils/btn';
-    import dropdownSelect from '../utils/dropdown-select';
+    import dropdownSelect from '../../utils/dropdown-select';
 
     export default {
         name: "upload-popup",

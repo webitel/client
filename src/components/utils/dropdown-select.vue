@@ -41,7 +41,7 @@
 </template>
 
 <script>
-    import clickaway from '../../../directives/clickaway';
+    import clickaway from '../../directives/clickaway';
 
     export default {
         name: "dropdown-select",
