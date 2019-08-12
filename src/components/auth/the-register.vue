@@ -147,9 +147,6 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-    @import "../../assets/css/main";
-    @import "../../assets/css/auth/auth";
-
     /*auth link*/
     .auth__link {
         @extend .typo-heading-lg;

@@ -44,8 +44,6 @@
 </script>
 
 <style lang="scss" scoped>
-    @import "../../assets/css/main";
-
     .alert {
         @extend .typo-notification-text;
         @extend .box-shadow;

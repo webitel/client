@@ -9,8 +9,6 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-    @import "../../assets/css/main";
-
     .divider {
         display: block;
         flex: 1 1 0;

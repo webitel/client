@@ -111,7 +111,6 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-    @import "../../assets/css/main";
     @import "../../assets/css/auth/auth";
 
     .form__reset-password {

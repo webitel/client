@@ -298,9 +298,6 @@
 </script>
 
 <style lang="scss" scoped>
-    @import "../../../assets/css/main";
-    @import "../../../assets/css/objects/objects";
-
     .content-title {
         margin: 0;
     }

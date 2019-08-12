@@ -142,8 +142,6 @@
 </script>
 
 <style lang="scss" scoped>
-    @import '../../assets/css/main';
-
     .form-input {
         position: relative;
         /* for form-input__details bottom 0 */

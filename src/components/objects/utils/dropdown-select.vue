@@ -107,8 +107,6 @@
 </script>
 
 <style lang="scss" scoped>
-    @import "../../../assets/css/main";
-
     .select {
         position: relative;
 

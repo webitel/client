@@ -125,8 +125,6 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-    @import '../assets/css/main';
-
     .the-nav__wrap {
         position: relative;
         min-width: 74px;

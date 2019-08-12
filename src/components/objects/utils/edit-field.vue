@@ -111,8 +111,6 @@
 </script>
 
 <style lang="scss" scoped>
-    @import '../../../assets/css/main';
-
     .edit-field {
         position: relative;
     }

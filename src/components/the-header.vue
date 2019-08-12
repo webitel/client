@@ -33,8 +33,6 @@
 </script>
 
 <style lang="scss" scoped>
-    @import "../assets/css/main";
-
     .the-header {
         height: 63px;
         background: #e8e8e8;

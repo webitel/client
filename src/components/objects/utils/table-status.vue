@@ -42,8 +42,6 @@
 </script>
 
 <style lang="scss" scoped>
-    @import "../../../assets/css/main";
-
     .table-status {
         display: flex;
         align-items: center;

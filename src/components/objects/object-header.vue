@@ -54,8 +54,6 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-    @import "../../assets/css/main";
-
     .module-header {
         display: flex;
         justify-content: space-between;

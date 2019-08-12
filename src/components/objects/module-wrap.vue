@@ -31,6 +31,5 @@
 </script>
 
 <style lang="scss" scoped>
-    @import "../../assets/css/objects/objects";
-    @import "../../assets/css/objects/objects";
+
 </style>

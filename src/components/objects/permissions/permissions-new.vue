@@ -70,9 +70,7 @@
 </script>
 
 <!--there is no scope to set .input border from objects.scss-->
-<style lang="scss">
-    @import "../../../assets/css/objects/objects";
-
+<style lang="scss" scoped>
     .page-header {
         justify-content: start;
     }

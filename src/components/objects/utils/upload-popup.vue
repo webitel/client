@@ -114,9 +114,6 @@
 </script>
 
 <style lang="scss" scoped>
-    @import "../../../assets/css/main";
-    @import "../../../assets/css/objects/objects";
-
     .upload-popup {
         @extend .scrollbar;
         @extend .box-shadow;

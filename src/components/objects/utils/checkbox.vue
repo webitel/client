@@ -47,8 +47,6 @@
 </script>
 
 <style lang="scss" scoped>
-    @import "../../../assets/css/main";
-
     .checkbox-label {
         position: relative;
         padding-left: 29px;

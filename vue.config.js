@@ -3,6 +3,16 @@ process.env.VUE_APP_API_URL = process.env.NODE_ENV === 'production' ? '/api' : '
 
 module.exports = {
   lintOnSave: false,
+  css: {
+    loaderOptions: {
+      sass: {
+        data: `
+          @import "@/assets/css/main.scss";
+          @import "@/assets/css/objects/objects.scss";
+        `
+      }
+    }
+  },
   configureWebpack: {
     devtool: 'source-map',
   },

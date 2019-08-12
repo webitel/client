@@ -28,8 +28,6 @@
 </script>
 
 <style lang="scss" scoped>
-    @import "../../assets/css/main";
-
     .btn {
         @extend .typo-btn;
 
