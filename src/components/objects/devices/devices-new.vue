@@ -285,37 +285,5 @@
 </script>
 
 <style lang="scss" scoped>
-    .content-title {
-        margin: 0;
-    }
 
-    .input-extension-wrap {
-        position: relative;
-
-        .input-extension {
-            display: flex;
-            position: absolute;
-            top: 50%;
-            right: 0;
-            transform: translate(0, -35%);
-
-            .input-extension__copy {
-                @extend .typo-input-text;
-                @extend .border-underline;
-                cursor: pointer;
-
-                &:before {
-                    bottom: 6px;
-                    height: 1px;
-                    background: #000;
-                }
-            }
-
-            .input-extension__generate {
-                margin: 0 16px;
-                color: #000;
-                cursor: pointer;
-            }
-        }
-    }
 </style>

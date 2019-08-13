@@ -14,6 +14,7 @@ import permissionsObjectEdit from '../components/objects/permissions/permissions
 import devices from '../components/objects/devices/the-devices';
 import devicesNew from '../components/objects/devices/devices-new';
 import users from '../components/objects/users/the-users';
+import usersNew from '../components/objects/users/users-new';
 
 Vue.use(Router);
 
@@ -74,7 +75,12 @@ const router = new Router({
                     path: '/users',
                     name: 'users',
                     component: users
-                }
+                },
+                {
+                    path:'/users/new',
+                    name: 'users-new',
+                    component: usersNew
+                },
             ]
         },
         {

@@ -47,6 +47,10 @@
         margin-bottom: 15px;
         cursor: pointer;
 
+        .content-title {
+            margin: 0;
+        }
+
         .icon {
             padding: 0 10px;
             color: $icon-color;
