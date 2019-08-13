@@ -50,7 +50,7 @@ export default {
       testRailField: 'Test rail field'
     },
     generalInfo: 'General info',
-    moduleHeader: {},
+    objectHeader: {},
     permissions: {
       permissionsTitle: 'Permissions',
       permissionsRole: 'Role | Roles',

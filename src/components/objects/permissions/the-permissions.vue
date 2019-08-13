@@ -1,14 +1,14 @@
 <template>
     <div class="content-wrap">
 
-        <module-header
+        <object-header
                 :primaryAction="create"
         >
             {{$t('objects.permissions.permissionsTitle')}} |
             {{$tc('objects.permissions.permissionsRole', 2)}}
-        </module-header>
+        </object-header>
 
-        <section class="module-content">
+        <section class="object-content">
             <header class="content-header page-header">
                 <h3 class="content-title">{{$t('objects.permissions.allRoles')}}</h3>
             </header>
@@ -57,7 +57,7 @@
 
 <script>
     import vuetable from 'vuetable-2/src/components/Vuetable';
-    import moduleHeader from '../object-header';
+    import objectHeader from '../object-header';
     import editField from '../../utils/edit-field';
 
     import {getRoles} from '../../../api/objects/permissions/permissions';
@@ -66,7 +66,7 @@
     export default {
         name: 'the-permissions',
         components: {
-            'module-header': moduleHeader,
+            'object-header': objectHeader,
             'edit-field': editField,
             vuetable,
         },

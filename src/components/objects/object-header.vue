@@ -1,7 +1,7 @@
 <template>
     <section class="header-wrap">
-        <header class="module-header">
-            <h2 class="module__title">
+        <header class="object-header">
+            <h2 class="object__title">
                 <slot></slot>
             </h2>
             <div class="btn-controls">
@@ -54,14 +54,14 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-    .module-header {
+    .object-header {
         display: flex;
         justify-content: space-between;
         align-items: center;
         padding: 18px 28px 18px 44px;
     }
 
-    .module__title {
+    .object__title {
         @extend .typo-heading-lg;
 
         letter-spacing: 0.15px;

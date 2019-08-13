@@ -60,7 +60,7 @@
 
     // EXPANSION PANEL CONTENT STYLING
     .expansion-content {
-        @extend .module-input-grid;
+        @extend .object-input-grid;
 
         .form__input {
             margin: 0;

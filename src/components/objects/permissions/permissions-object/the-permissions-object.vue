@@ -1,10 +1,10 @@
 <template>
     <div class="content-wrap">
-        <module-header>{{$t('objects.permissions.permissionsTitle')}} |
+        <object-header>{{$t('objects.permissions.permissionsTitle')}} |
             {{$t('objects.permissions.object.object')}}
-        </module-header>
+        </object-header>
 
-        <section class="module-content">
+        <section class="object-content">
             <header class="content-header page-header">
                 <h3 class="content-title">{{$t('objects.permissions.object.allObjects')}}</h3>
             </header>
@@ -50,14 +50,14 @@
 
 <script>
     import vuetable from 'vuetable-2/src/components/Vuetable';
-    import moduleHeader from '../../object-header';
+    import objectHeader from '../../object-header';
     import editField from '../../../utils/edit-field';
     import tableStatus from '../../../utils/table-status';
 
     export default {
         name: "permissions-object",
         components: {
-            'module-header': moduleHeader,
+            'object-header': objectHeader,
             'edit-field': editField,
             'table-status': tableStatus,
             vuetable,

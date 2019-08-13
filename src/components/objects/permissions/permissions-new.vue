@@ -1,13 +1,13 @@
 <template>
     <div class="content-wrap">
-        <module-header
+        <object-header
                 :primaryText="$t('objects.save')"
                 :primaryAction="close"
                 :secondaryAction="close"
         >
             {{$tc('objects.permissions.permissionsRole')}} | {{computeTitle}}
-        </module-header>
-        <section class="module-content module-new permissions-new">
+        </object-header>
+        <section class="object-content module-new permissions-new">
             <header class="content-header page-header">
                 <h3 class="content-title">{{$t('objects.generalInfo')}} </h3>
                 <div class="hint">
@@ -39,13 +39,13 @@
 </template>
 
 <script>
-    import moduleHeader from '../object-header';
+    import objectHeader from '../object-header';
     import formInput from '../../utils/form-input';
 
     export default {
         name: 'permissions-new',
         components: {
-            'module-header': moduleHeader,
+            'object-header': objectHeader,
             'form-input': formInput,
         },
         data() {

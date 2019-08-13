@@ -1,14 +1,14 @@
 <template>
-    <module-header>Dashboard</module-header>
+    <object-header>Dashboard</object-header>
 </template>
 
 <script>
-    import moduleHeader from '../object-header';
+    import objectHeader from '../object-header';
 
     export default {
         name: 'the-home',
         components: {
-            'module-header': moduleHeader,
+            'object-header': objectHeader,
         },
     };
 </script>

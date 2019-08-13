@@ -144,7 +144,7 @@
             }
 
             form {
-                @extend .module-input-grid;
+                @extend .object-input-grid;
 
                 .form__input {
                     margin: 27px 0 21px; // bottom 41 - 20 hint
@@ -155,7 +155,7 @@
         .CSV-column-match {
 
             .column-headers {
-                @extend .module-input-grid;
+                @extend .object-input-grid;
                 @extend .typo-body-md;
 
                 padding: 0 44px;
@@ -171,7 +171,7 @@
                 padding: 22px 44px 27px;
 
                 li {
-                    @extend .module-input-grid;
+                    @extend .object-input-grid;
 
                     div {
                         @extend .typo-body-md;

@@ -1,14 +1,14 @@
 <template>
     <div class="content-wrap">
-        <module-header
+        <object-header
                 :primaryText="$t('objects.save')"
                 :primaryAction="close"
                 :secondaryAction="close"
         >{{$t('objects.users')}} |
             {{$t('objects.edit')}}
-        </module-header>
+        </object-header>
 
-        <section class="module-content">
+        <section class="object-content">
             <header class="content-header page-header">
                 <h3 class="content-title">{{$t('objects.permissions.allRoles')}}</h3>
             </header>
@@ -66,14 +66,14 @@
 
 <script>
     import vuetable from 'vuetable-2/src/components/Vuetable';
-    import moduleHeader from '../../object-header';
+    import objectHeader from '../../object-header';
     import editField from '../../../utils/edit-field';
     import tableCheckbox from '../../../utils/checkbox';
 
     export default {
         name: "permissions-object",
         components: {
-            'module-header': moduleHeader,
+            'object-header': objectHeader,
             'edit-field': editField,
             checkbox: tableCheckbox,
             vuetable,

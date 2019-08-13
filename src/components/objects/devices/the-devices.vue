@@ -1,15 +1,15 @@
 <template>
     <div class="content-wrap">
 
-        <module-header
+        <object-header
                 :primaryAction="create"
         >
             {{$t('objects.devices.devicesTitle')}}
-        </module-header>
+        </object-header>
 
         <upload-popup v-if="isUploadPopupOpened" @close="closeCSVpopup"></upload-popup>
 
-        <section class="module-content">
+        <section class="object-content">
             <header class="content-header page-header">
                 <h3 class="content-title">
                     {{$t('objects.devices.allDevices')}}
@@ -122,7 +122,7 @@
 
 <script>
     import vuetable from 'vuetable-2/src/components/Vuetable';
-    import moduleHeader from '../object-header';
+    import objectHeader from '../object-header';
     import editField from '../../utils/edit-field';
     import checkbox from '../../utils/checkbox';
     import uploadPopup from '../utils/upload-popup';
@@ -132,7 +132,7 @@
     export default {
         name: 'the-devices',
         components: {
-            'module-header': moduleHeader,
+            'object-header': objectHeader,
             'edit-field': editField,
             'upload-popup': uploadPopup,
             vuetable,

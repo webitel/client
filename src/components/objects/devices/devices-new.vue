@@ -1,13 +1,13 @@
 <template>
     <div class="content-wrap">
-        <module-header
+        <object-header
                 :primaryText="$t('objects.save')"
                 :primaryAction="close"
                 :secondaryAction="close"
         >
             {{$t('objects.devices.devicesTitle')}} | {{computeTitle}}
-        </module-header>
-        <section class="module-content module-new devices-new">
+        </object-header>
+        <section class="object-content module-new devices-new">
 
             <expansion-panel>
                 <template slot="expansion-header">
@@ -168,7 +168,7 @@
 </template>
 
 <script>
-    import moduleHeader from '../object-header';
+    import objectHeader from '../object-header';
     import formInput from '../../utils/form-input';
     import expansionPanel from '../../utils/expansion-panel';
     import eventBus from '../../../utils/eventBus';
@@ -181,7 +181,7 @@
     export default {
         name: 'devices-new',
         components: {
-            'module-header': moduleHeader,
+            'object-header': objectHeader,
             'form-input': formInput,
             'expansion-panel': expansionPanel,
             'tags-input': vueTagsInput,

@@ -6,7 +6,7 @@
 @import "../styleguide/tooltip";
 
 // outer wrap of module- page
-.module-wrap {
+.object-wrap {
   display: flex;
   width: 100vw;
   overflow-x: hidden;
@@ -19,12 +19,12 @@
 }
 
 // main content itself, without nav but with main header
-.module {
+.object {
   flex-grow: 1;
 }
 
 // inner content section
-.module-content {
+.object-content {
   padding: 38px 28px 0 44px;
 }
 
@@ -164,7 +164,7 @@
 }
 
 // GRID TEMPLATE FOR MODULE INPUTS
-.module-input-grid {
+.object-input-grid {
   display: grid;
   grid-template-columns: 1fr 1fr;
   grid-column-gap: 28px;
@@ -174,7 +174,7 @@
 }
 
 .grid-w100 {
-  .module-input-grid {
+  .object-input-grid {
     grid-template-columns: 1fr;
   }
 }
@@ -218,6 +218,6 @@
   }
 }
 
-.module-new .module-input-grid .select-preview {
+.module-new .object-input-grid .select-preview {
   margin-bottom: 20px;
 }

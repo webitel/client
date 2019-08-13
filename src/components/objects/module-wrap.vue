@@ -1,7 +1,7 @@
 <template>
-    <div class="module-wrap">
+    <div class="object-wrap">
         <app-nav></app-nav>
-        <main class="module">
+        <main class="object">
             <notification
                     :info="info"
                     :error="error"
