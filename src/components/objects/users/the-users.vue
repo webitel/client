@@ -101,11 +101,10 @@
 
 
                 <template slot="DnD" slot-scope="props">
-                    <edit-field
-                            class="form__input"
-                            :text="filtered[props.rowIndex].DnD"
-                            :disabled="true"
-                    ></edit-field>
+                    <switcher
+                        :value="filtered[props.rowIndex].DnD"
+                        @toggleSwitch="toggleSwitch($event, props.rowIndex)"
+                    ></switcher>
                 </template>
 
 
@@ -138,6 +137,7 @@
     import objectHeader from '../object-header';
     import editField from '../../utils/edit-field';
     import checkbox from '../../utils/checkbox';
+    import switcher from '../../utils/switcher';
     import uploadPopup from '../utils/upload-popup';
     import clickaway from '../../../directives/clickaway';
 
@@ -148,7 +148,8 @@
             'edit-field': editField,
             'upload-popup': uploadPopup,
             vuetable,
-            checkbox
+            checkbox,
+            switcher
         },
         directives: {
             clickaway
@@ -166,7 +167,7 @@
                     {name: 'name', title: this.$t('objects.name')},
                     {name: 'login', title: 'Login'},
                     {name: 'extensions', title: 'Extensions'},
-                    {name: 'online', title: 'Online'},
+                    {name: 'online', title: 'State'},
                     {name: 'DnD', title: 'DnD'},
                     {name: 'status', title: 'Status'},
                     {
@@ -197,7 +198,7 @@
                     login: 'login' + (10-i),
                     extensions: ''+i+i+i,
                     online: true,
-                    DnD: 'false',
+                    DnD: true,
                     status: 'status',
                     id: i,
                 });
@@ -238,6 +239,9 @@
                         break;
                     }
                 }
+            },
+            toggleSwitch(newVal, id){
+                this.test[id].DnD = newVal;
             },
             processCSV(event) {
                 const file = event.target.files[0];
