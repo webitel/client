@@ -1,7 +1,6 @@
 @import "./lib-custom-styling/tags-input";
 @import "./lib-custom-styling/vdp-datepicker";
 @import "./lib-custom-styling/vuetable";
-
 @import "../main";
 @import "../styleguide/tooltip";
 
@@ -145,6 +144,15 @@
     }
   }
 }
+
+.status-icon {
+  width: 10px;
+  height: 10px;
+  margin-right: 14px;
+  background: $icon-color;
+  border-radius: 50%;
+}
+
 
 // "?" HINT STYLING
 .hint {

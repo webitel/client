@@ -96,10 +96,10 @@
 
                 <template slot="presence" slot-scope="props">
                     <div class="presence">
-                        <div
+                        <span
                                 class="presence-icon"
                                 :class="computePresenceClass(props.rowIndex)"
-                        ></div>
+                        ></span>
                         <div class="presence-text">{{filtered[props.rowIndex].presence}}</div>
                     </div>
                 </template>
@@ -324,11 +324,7 @@
         display: flex;
 
         .presence-icon {
-            width: 10px;
-            height: 10px;
-            margin-right: 14px;
-            background: $icon-color;
-            border-radius: 50%;
+            @extend .status-icon;
 
             &.available {
                 background: $true-color;

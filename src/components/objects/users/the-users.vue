@@ -93,11 +93,10 @@
 
 
                 <template slot="online" slot-scope="props">
-                    <edit-field
-                            class="form__input"
-                            :text="filtered[props.rowIndex].online"
-                            :disabled="true"
-                    ></edit-field>
+                    <div class="online-status">
+                        <span class="online-icon" :class="{'online': filtered[props.rowIndex].online}"></span>
+                        <div class="online-text">{{computeOnlineText(props.rowIndex)}}</div>
+                    </div>
                 </template>
 
 
@@ -197,7 +196,7 @@
                     head: `head${i}`,
                     login: 'login' + (10-i),
                     extensions: ''+i+i+i,
-                    online: 'true',
+                    online: true,
                     DnD: 'false',
                     status: 'status',
                     id: i,
@@ -271,8 +270,8 @@
             },
 
             // computes dynamic class name for presence icon colorizing
-            computePresenceClass(id) {
-                return this.filtered[id].presence.toLowerCase().split(' ').join('-');
+            computeOnlineText(id) {
+                return this.filtered[id].online ? 'Online' : 'Offline';
             },
 
             closeCSVpopup() {
@@ -289,5 +288,15 @@
 </script>
 
 <style lang="scss" scoped>
+    .online-status {
+        display: flex;
 
+        .online-icon {
+            @extend .status-icon;
+
+            &.online {
+                background: $true-color;
+            }
+        }
+    }
 </style>
