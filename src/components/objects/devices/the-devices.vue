@@ -36,29 +36,9 @@
                                     accept=".csv"
                             >
                         </div>
-                        <div class="filter">
-                            <i
-                                    class="icon-icon_filter"
-                                    :class="{'active': isFilterOpenedClassTrigger}"
-                                    @click.stop="toggleFilter"
-                            ></i>
-                            <ul
-                                    class="filter__list"
-                                    v-if="isFilterOpenedClassTrigger"
-                                    v-clickaway="toggleFilter"
-                            >
-                                <li class="filter__list-item"
-                                    v-for="(item, key) in filterPresence"
-                                >
-                                    <checkbox
-                                            :value="item.value"
-                                            :label="item.name"
-                                            :key="key"
-                                            @toggleCheckbox="togglePresenceFilterProperty($event, item.name)"
-                                    ></checkbox>
-                                </li>
-                            </ul>
-                        </div>
+                        <table-filter
+                            :filterObjects="filterObjects"
+                        ></table-filter>
                     </div>
                 </div>
             </header>
@@ -124,7 +104,7 @@
     import vuetable from 'vuetable-2/src/components/Vuetable';
     import objectHeader from '../object-header';
     import editField from '../../utils/edit-field';
-    import checkbox from '../../utils/checkbox';
+    import tableFilter from '../utils/table-filter';
     import uploadPopup from '../utils/upload-popup';
 
     import clickaway from '../../../directives/clickaway';
@@ -136,7 +116,7 @@
             'edit-field': editField,
             'upload-popup': uploadPopup,
             vuetable,
-            checkbox,
+            'table-filter': tableFilter,
         },
 
         directives: {
@@ -169,7 +149,12 @@
                 filtered: [],
                 search: '',
                 propertiesToSearch: ['head', 'authId', 'user'],
-                filterPresence: [],
+                filterObjects: {
+                    presence: {
+                        name: 'Presence',
+                        fields: []
+                    }
+                },
                 isUploadPopupOpened: false,
 
                 isFilterOpenedClassTrigger: false,
@@ -237,8 +222,8 @@
             this.test.forEach((item) => {
                 // if statement is emulating Set for an array
                 // Set is unable to use because v-for props doesn't update on set values change
-                if (!this.filterPresence.some(element => element.name === item.presence)) {
-                    this.filterPresence.push({
+                if (!this.filterObjects.presence.fields.some(element => element.name === item.presence)) {
+                    this.filterObjects.presence.fields.push({
                         name: item.presence,
                         value: true
                     });

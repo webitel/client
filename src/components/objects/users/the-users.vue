@@ -1,7 +1,7 @@
 <template>
     <div class="content-wrap">
         <object-header
-            :primary-action="create"
+                :primary-action="create"
         >
             Users
         </object-header>
@@ -11,54 +11,33 @@
         <section class="object-content">
             <header class="content-header page-header">
                 <h3 class="content-title">All users</h3>
-            <div class="content-header__actions-wrap">
-                <div class="search-form">
-                    <input
-                            class="search-input"
-                            type="text"
-                            :placeholder="'Name, login, extension, status..'"
-                            v-model="search"
-                            @keyup="filterData"
-                    >
-                    <i class="icon-icon_search"></i>
-                </div>
-                <div class="table-action__actions">
-                    <i class="icon-icon_delete" :class="{'hidden': anySelected}"></i>
-                    <div class="upload-csv">
-                        <i class="icon-icon_upload"></i>
+                <div class="content-header__actions-wrap">
+                    <div class="search-form">
                         <input
-                                class="upload-csv__input"
+                                class="search-input"
                                 type="text"
-                                @change="processCSV($event)"
-                                accept=".csv"
+                                :placeholder="'Name, login, extension, status..'"
+                                v-model="search"
+                                @keyup="filterData"
                         >
+                        <i class="icon-icon_search"></i>
                     </div>
-                    <div class="filter">
-                        <i
-                                class="icon-icon_filter"
-                                :class="{'active': isFilterOpenedClassTrigger}"
-                                @click.stop="toggleFilter"
-                        ></i>
-                        <ul
-                                class="filter__list"
-                                v-if="isFilterOpenedClassTrigger"
-                                v-clickaway="toggleFilter"
-                        >
-                            <li
-                                class="filter__list-item"
-                                v-for="(item, key) in filterPresence"
+                    <div class="table-action__actions">
+                        <i class="icon-icon_delete" :class="{'hidden': anySelected}"></i>
+                        <div class="upload-csv">
+                            <i class="icon-icon_upload"></i>
+                            <input
+                                    class="upload-csv__input"
+                                    type="file"
+                                    @change="processCSV($event)"
+                                    accept=".csv"
                             >
-                                <checkbox
-                                        :value="item.value"
-                                        :label="item.name"
-                                        :key="key"
-                                        @toggleCheckbox="togglePresenceFilterProperty($event, item.name)"
-                                ></checkbox>
-                            </li>
-                        </ul>
+                        </div>
+                        <table-filter
+                                :filterObjects="filterObjects"
+                        ></table-filter>
                     </div>
                 </div>
-            </div>
             </header>
 
             <vuetable
@@ -92,9 +71,9 @@
                 </template>
 
 
-                <template slot="online" slot-scope="props">
+                <template slot="state" slot-scope="props">
                     <div class="online-status">
-                        <span class="online-icon" :class="{'online': filtered[props.rowIndex].online}"></span>
+                        <span class="online-icon" :class="{'online': filtered[props.rowIndex].state}"></span>
                         <div class="online-text">{{computeOnlineText(props.rowIndex)}}</div>
                     </div>
                 </template>
@@ -102,8 +81,8 @@
 
                 <template slot="DnD" slot-scope="props">
                     <switcher
-                        :value="filtered[props.rowIndex].DnD"
-                        @toggleSwitch="toggleSwitch($event, props.rowIndex)"
+                            :value="filtered[props.rowIndex].DnD"
+                            @toggleSwitch="toggleSwitch($event, props.rowIndex)"
                     ></switcher>
                 </template>
 
@@ -136,10 +115,9 @@
     import vuetable from 'vuetable-2/src/components/Vuetable';
     import objectHeader from '../object-header';
     import editField from '../../utils/edit-field';
-    import checkbox from '../../utils/checkbox';
+    import tableFilter from '../utils/table-filter';
     import switcher from '../../utils/switcher';
     import uploadPopup from '../utils/upload-popup';
-    import clickaway from '../../../directives/clickaway';
 
     export default {
         name: "the-users",
@@ -148,11 +126,8 @@
             'edit-field': editField,
             'upload-popup': uploadPopup,
             vuetable,
-            checkbox,
+            'table-filter': tableFilter,
             switcher
-        },
-        directives: {
-            clickaway
         },
         data() {
             return {
@@ -167,7 +142,7 @@
                     {name: 'name', title: this.$t('objects.name')},
                     {name: 'login', title: 'Login'},
                     {name: 'extensions', title: 'Extensions'},
-                    {name: 'online', title: 'State'},
+                    {name: 'state', title: 'State'},
                     {name: 'DnD', title: 'DnD'},
                     {name: 'status', title: 'Status'},
                     {
@@ -182,7 +157,40 @@
                 filtered: [],
                 search: '',
                 propertiesToSearch: ['head', 'login', 'extensions', 'status'],
-                filterPresence: [],
+                filterObjects: {
+                    state: {
+                        name: 'State',
+                        fields:
+                            [
+                                {
+                                    name: 'Online',
+                                    value: true
+                                },
+                                {
+                                    name: 'Offline',
+                                    value: true
+                                }
+                            ]
+                    },
+                    DnD: {
+                        name: 'DnD',
+                        fields:
+                            [
+                                {
+                                    name: 'On',
+                                    value: true
+                                },
+                                {
+                                    name: 'Off',
+                                    value: true
+                                }]
+                    },
+                    roles: {
+                        name: 'Roles',
+                        fields:
+                            []
+                    }
+                },
                 isUploadPopupOpened: false,
 
                 isFilterOpenedClassTrigger: false,
@@ -195,11 +203,12 @@
                 this.test.push({
                     isSelected: false,
                     head: `head${i}`,
-                    login: 'login' + (10-i),
-                    extensions: ''+i+i+i,
-                    online: true,
+                    login: 'login' + (10 - i),
+                    extensions: '' + i + i + i,
+                    state: true,
                     DnD: true,
                     status: 'status',
+                    role: 'Admin',
                     id: i,
                 });
             }
@@ -208,9 +217,9 @@
             this.test.forEach((item) => {
                 // if statement is emulating Set for an array
                 // Set is unable to use because v-for props doesn't update on set values change
-                if (!this.filterPresence.some(element => element.name === item.presence)) {
-                    this.filterPresence.push({
-                        name: item.presence,
+                if (!this.filterObjects.roles.fields.some(element => element.name === item.role)) {
+                    this.filterObjects.roles.fields.push({
+                        name: item.role,
                         value: true
                     });
                 }
@@ -232,15 +241,7 @@
                     this.filtered[id].isSelected = newValue;
                 }
             },
-            togglePresenceFilterProperty(newVal, property) {
-                for (let item of this.filterPresence) {
-                    if (item.name === property) {
-                        item.value = newVal;
-                        break;
-                    }
-                }
-            },
-            toggleSwitch(newVal, id){
+            toggleSwitch(newVal, id) {
                 this.test[id].DnD = newVal;
             },
             processCSV(event) {
@@ -266,11 +267,6 @@
                         }
                     });
                 }
-            },
-
-            // toggles filter list appearance
-            toggleFilter() {
-                this.isFilterOpenedClassTrigger = !this.isFilterOpenedClassTrigger;
             },
 
             // computes dynamic class name for presence icon colorizing

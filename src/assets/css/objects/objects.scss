@@ -109,30 +109,6 @@
         }
       }
 
-      .filter {
-        display: flex;
-
-        .filter__list {
-          @extend .typo-body-md;
-          @extend .box-shadow;
-
-          position: absolute;
-          top: 24px; //icon height
-          right: 0;
-          min-width: 196px;
-          padding: 13px 16px 14px;
-          margin-top: 8px; //margin to icon
-          color: #000;
-          background: #fff;
-
-          .filter__list-item {
-            height: 24px;
-            padding: 3px;
-            margin-bottom: 13px;
-          }
-        }
-      }
-
       i {
         margin-left: 30px;
         cursor: pointer;
