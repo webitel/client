@@ -23,7 +23,7 @@
                                 v-model="search"
                                 @keyup="filterData"
                         >
-                        <i class="icon-icon_deny icon-icon_search"></i>
+                        <i class="icon-icon_search"></i>
                     </div>
                     <div class="table-action__actions">
                         <i class="icon-icon_delete" :class="{'hidden': anySelected}"></i>
@@ -38,9 +38,9 @@
                         </div>
                         <div class="filter">
                             <i
-                                    class="icon-icon_approve icon-icon_filter"
-                                    @click.stop="toggleFilter"
+                                    class="icon-icon_filter"
                                     :class="{'active': isFilterOpenedClassTrigger}"
+                                    @click.stop="toggleFilter"
                             ></i>
                             <ul
                                     class="filter__list"
@@ -105,7 +105,7 @@
                 </template>
 
 
-                <template slot="image" slot-scope="props">
+                <template slot="actions" slot-scope="props">
                     <div class="vuetable-actions">
                         <i class="vuetable-action icon-icon_edit"
                            @click="action('edit')"
@@ -147,7 +147,6 @@
             return {
                 // vuetable prop
                 fields: [
-                    // TODO: UNITED 'NAME' TRANSLATION
                     {
                         name: '__table-checkbox',
                         titleClass: 'vuetable-td-checkbox',
@@ -159,7 +158,7 @@
                     {name: 'user', title: this.$t('objects.user')},
                     {name: 'presence', title: this.$t('objects.devices.presence')},
                     {
-                        name: 'image',
+                        name: 'actions',
                         title: '',
                         titleClass: 'vuetable-td-actions',
                         dataClass: 'vuetable-td-actions',
@@ -317,8 +316,7 @@
                 return !this.filtered.some((item) => item.isSelected);
             }
         }
-    }
-    ;
+    };
 </script>
 
 <style lang="scss" scoped>

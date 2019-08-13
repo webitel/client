@@ -13,6 +13,7 @@ import permissionsObject from '../components/objects/permissions/permissions-obj
 import permissionsObjectEdit from '../components/objects/permissions/permissions-object/permissions-object-edit';
 import devices from '../components/objects/devices/the-devices';
 import devicesNew from '../components/objects/devices/devices-new';
+import users from '../components/objects/users/the-users';
 
 Vue.use(Router);
 
@@ -68,6 +69,11 @@ const router = new Router({
                     path:'/devices/new',
                     name: 'devices-new',
                     component: devicesNew
+                },
+                {
+                    path: '/users',
+                    name: 'users',
+                    component: users
                 }
             ]
         },
