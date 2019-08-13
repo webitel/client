@@ -13,9 +13,14 @@
                     class="select-preview"
                     :class="{'opened': isOpened, 'empty': !selected, 'disabled': disabled}"
                     ref="select-preview"
-                    @click="toggleSelect"
+                    @click.stop="toggleSelect"
             >
-                {{this.selected || this.placeholder}}
+                <input
+                        v-model="selected"
+                        type="text"
+                        :placeholder="this.selected || this.placeholder"
+                        :disabled="disabled"
+                >
                 <i
                         class="icon-icon_arrow-down"
                 ></i>
@@ -28,11 +33,14 @@
                 <ul>
                     <li
                             class="select-option"
-                            v-for="(option,key) in options"
+                            v-for="(option,key) in filterOptions"
                             :key="key"
                             @click="selectItem(key)"
                     >
                         <div>{{option}}</div>
+                    </li>
+                    <li class="select-option select-option__empty" v-if="filterOptions.length === 0">
+                        <div>No items available</div>
                     </li>
                 </ul>
             </div>
@@ -56,7 +64,7 @@
             options: {
                 type: Array,
                 // required: true,
-                default: () => ['opt1', 'opt2', 'opt3']
+                default: () => ['opt1', 'opt2', 'opt3', 'opt2', 'opt3', 'opt2', 'opt3', 'opt2', 'opt3', 'opt2', 'opt3', 'opt2', 'opt3', 'opt2', 'opt3', 'opt2', 'opt3', 'opt2', 'opt3', 'opt2', 'opt3', 'opt2', 'opt3', 'opt2', 'opt3', 'opt2', 'opt3', 'opt2', 'opt3', 'opt2', 'opt3', 'opt2', 'opt3', 'opt2', 'opt3', 'opt2', 'opt3', 'opt2', 'opt3', 'opt2', 'opt3', 'opt2', 'opt3', 'opt2', 'opt3', 'opt2', 'opt3', 'opt2', 'opt3', 'opt2', 'opt3', 'opt2', 'opt3', 'opt2', 'opt3', 'opt2', 'opt3', 'opt2', 'opt3', 'opt2', 'opt3', 'opt2', 'opt3', 'opt2', 'opt3', 'opt2', 'opt3', 'opt2', 'opt3', 'opt2', 'opt3', 'opt2', 'opt3', 'opt2', 'opt3']
             },
 
             // label above select itself
@@ -102,6 +110,12 @@
                 this.$emit('input', this.selected);
                 this.isOpened = false;
             },
+        },
+        computed: {
+            filterOptions() {
+                if(!this.selected) return this.options;
+                return this.options.filter((item) => item.includes(this.selected));
+            }
         }
     }
 </script>
@@ -111,13 +125,26 @@
         position: relative;
 
         .select-preview {
-            @extend .default-input;
-
             height: 48px;
             position: relative;
             /*padding for arrow icon*/
             padding-right: 40px;
+            margin-bottom: 20px;
+            border: 1px solid $input;
+            border-radius: $border-radius;
             cursor: pointer;
+
+            input {
+                @extend .default-input;
+
+                height: 46px;
+                background: transparent;
+                border: none;
+
+                &::placeholder {
+                    color: #000;
+                }
+            }
 
             .icon-icon_arrow-down {
                 position: absolute;
@@ -137,6 +164,10 @@
 
             &.disabled {
                 @extend .default-input:disabled;
+
+                input {
+                    background: transparent;
+                }
 
                 &:hover, &.empty:hover {
                     border-color: $input;
@@ -165,6 +196,11 @@
             &.opened {
                 opacity: 1;
                 pointer-events: auto;
+            }
+
+            .select-option__empty {
+                background: #fff;
+                cursor: auto;
             }
         }
     }

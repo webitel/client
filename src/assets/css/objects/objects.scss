@@ -166,12 +166,15 @@
 // used both in tags input and select dropdowns
 .select-options {
   @extend .box-shadow;
+  @extend .scrollbar;
 
   position: absolute;
   width: 100%;
+  max-height: 190px;
   padding: 8px 0;
   margin-top: 8px;
   background: #fff;
+  overflow-y: scroll;
   z-index: 10;
 
   .select-option {
