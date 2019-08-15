@@ -1,10 +1,5 @@
 <template>
-    <aside class="upload-popup">
-
-        <header class="content-header">
-            <h3 class="content-title">{{$t('objects.importCSV')}}</h3>
-        </header>
-
+    <popup class="upload-popup" @close="close">
         <section class="upload-popup__info">
 
             <checkbox
@@ -30,8 +25,6 @@
                 </form-input>
             </form>
         </section>
-
-
         <section class="CSV-column-match">
             <header class="column-headers">
                 <div>{{$t('objects.CSV.CSVColumn')}}</div>
@@ -69,21 +62,14 @@
 
             </div>
         </section>
-
-        <divider/>
-
-        <div class="btn-controls">
-            <btn class="secondary-btn"@click.native="close">close</btn>
-            <btn @click.native="close">save</btn>
-        </div>
-    </aside>
+    </popup>
 </template>
 
 <script>
     import checkbox from '../../utils/checkbox';
     import formInput from '../../utils/form-input';
     import divider from '../../utils/divider';
-    import btn from '../../utils/btn';
+    import popup from '../../utils/popup';
     import dropdownSelect from '../../utils/dropdown-select';
 
     export default {
@@ -93,7 +79,7 @@
             'dropdown-select': dropdownSelect,
             checkbox,
             divider,
-            btn,
+            popup
         },
         data() {
             return {
@@ -115,26 +101,7 @@
 
 <style lang="scss" scoped>
     .upload-popup {
-        @extend .scrollbar;
-        @extend .box-shadow;
-
-        position: absolute;
-        top: 50%;
-        left: 50%;
-        width: 738px;
         min-height: 67vh;
-        max-height: 80vh;
-        padding: 27px 0;
-        background: #fff;
-        border-radius: $border-radius;
-        transform: translate(-50%, -50%);
-        overflow-y: auto;
-        z-index: 10;
-
-        .content-header {
-            padding: 0 44px;
-            margin: 0 0 38px;
-        }
 
         .upload-popup__info {
             padding: 0 44px;
@@ -179,11 +146,6 @@
                     }
                 }
             }
-        }
-
-        .btn-controls {
-            text-align: right;
-            margin: 26px 44px 0;
         }
     }
 </style>
