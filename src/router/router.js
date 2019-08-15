@@ -15,6 +15,7 @@ import devices from '../components/objects/devices/the-devices';
 import devicesNew from '../components/objects/devices/devices-new';
 import users from '../components/objects/users/the-users';
 import usersNew from '../components/objects/users/users-new';
+import customers from '../components/objects/license/the-customers';
 import license from '../components/objects/license/license';
 
 Vue.use(Router);
@@ -84,8 +85,8 @@ const router = new Router({
                 },
                 {
                     path:'/license',
-                    name: 'license',
-                    component: license
+                    name: 'customers',
+                    component: customers
                 }
             ]
         },

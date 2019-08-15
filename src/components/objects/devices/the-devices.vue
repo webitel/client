@@ -84,7 +84,6 @@
                     </div>
                 </template>
 
-
                 <template slot="actions" slot-scope="props">
                     <div class="vuetable-actions">
                         <i class="vuetable-action icon-icon_edit"
