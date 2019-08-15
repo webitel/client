@@ -4,15 +4,24 @@
             License
         </object-header>
 
+        <license-popup
+            v-if="isUploadPopupOpened"
+            @close="closeCertPopup"
+        ></license-popup>
+
         <section class="object-content">
 
             <header class="content-header page-header">
                 <h3 class="content-title">
-                    {{$t('objects.devices.allDevices')}}
+                    All licenses
                 </h3>
                 <div class="content-header__actions-wrap">
                     <div class="table-action__actions">
-                            <i class="icon-icon_plus"></i>
+                            <i
+                                    class="icon-icon_plus"
+                                    :class="{'active': isUploadPopupOpened}"
+                                    @click="openCertPopup"
+                            ></i>
                     </div>
                 </div>
             </header>
@@ -83,12 +92,14 @@
     import vuetable from 'vuetable-2/src/components/Vuetable';
     import objectHeader from '../object-header';
     import editField from '../../utils/edit-field';
+    import licensePopup from './license-popup';
 
     export default {
         name: "license",
         components: {
             'object-header': objectHeader,
             'edit-field': editField,
+            'license-popup': licensePopup,
             vuetable,
         },
         data() {
@@ -126,6 +137,12 @@
 
         },
         methods: {
+            openCertPopup() {
+                this.isUploadPopupOpened = true;
+            },
+            closeCertPopup() {
+                this.isUploadPopupOpened = false;
+            },
             computeStatusText(endDate) {
                 const daysLeft = Math.floor(((new Date(endDate)- Date.now())/1000/60/60/24));
                 return  daysLeft +' days left';

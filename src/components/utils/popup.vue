@@ -4,7 +4,7 @@
     <aside class="popup">
 
         <header class="content-header">
-            <h3 class="content-title">{{$t('objects.importCSV')}}</h3>
+            <h3 class="content-title">{{title}}</h3>
         </header>
 
         <slot></slot>
@@ -27,6 +27,12 @@
         components: {
             divider,
             btn,
+        },
+        props: {
+            title: {
+                type: String,
+                default: 'Upload..'
+            }
         },
         methods: {
             close() {

@@ -1,5 +1,9 @@
 <template>
-    <popup class="upload-popup" @close="close">
+    <popup
+            class="upload-popup"
+            :title="$t('objects.importCSV')"
+            @close="close"
+    >
         <section class="upload-popup__info">
 
             <checkbox
