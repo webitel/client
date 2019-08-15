@@ -65,6 +65,7 @@ export default {
         ObAC: 'Managed by operations',
         RbAC: 'Managed by records',
         edit: {
+          operations: 'Operations'
         }
       }
     },
