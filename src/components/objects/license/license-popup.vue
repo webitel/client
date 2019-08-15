@@ -1,13 +1,13 @@
 <template>
     <popup
             class="license-popup"
-            :title="'Import license'"
+            :title="$t('objects.license.importLicense')"
             @close="close"
     >
         <section class="license-popup-content">
             <form-input
-                    :label="'Certificate'"
-                    :placeholder="'Cerificate'"
+                    :label="$t('objects.license.certificate')"
+                    :placeholder="$t('objects.license.certificate')"
             ></form-input>
         </section>
     </popup>

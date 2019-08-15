@@ -3,14 +3,14 @@
 
     <div class="content-wrap" v-else>
         <object-header>
-            Customers
+            {{this.$t('objects.license.customersTitle')}}
         </object-header>
 
         <section class="object-content">
 
             <header class="content-header page-header">
                 <h3 class="content-title">
-                    All customers
+                    {{this.$t('objects.license.allCustomers')}}
                 </h3>
             </header>
 
@@ -100,12 +100,12 @@
             return {
                 // vuetable prop
                 fields: [
-                    {name: 'serial', title: 'Serial'},
-                    {name: 'valid-from', title: 'Valid from'},
-                    {name: 'valid-till', title: 'Valid till'},
-                    {name: 'competitive', title: 'Competitive'},
-                    {name: 'used', title: 'Used'},
-                    {name: 'limit', title: 'Limit'},
+                    {name: 'serial', title: this.$t('objects.license.serial')},
+                    {name: 'valid-from', title: this.$t('objects.license.validFrom')},
+                    {name: 'valid-till', title: this.$t('objects.license.validTill')},
+                    {name: 'competitive', title: this.$t('objects.license.competitive')},
+                    {name: 'used', title: this.$t('objects.license.used')},
+                    {name: 'limit', title: this.$t('objects.license.status')},
                     {
                         name: 'actions',
                         title: '',
@@ -120,7 +120,7 @@
             };
         },
         created() {
-            this.$router.push({path: '/license', query: {id: '0'}})
+            // this.$router.push({path: '/license', query: {id: '0'}})
         },
         mounted() {
             // FIXME: delete test data

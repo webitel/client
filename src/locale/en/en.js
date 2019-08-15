@@ -86,6 +86,27 @@ export default {
         loggedIn: 'Logged In',
         loggedOut: 'Logged Out',
       }
+    },
+    license: {
+      customersTitle: 'Customers',
+      licenseTitle: 'License',
+      allCustomers: 'All customers',
+      allLicenses: 'All licenses',
+      serial: 'Serial',
+      product: 'Product',
+      validFrom: 'Valid from',
+      validTill: 'Valid till',
+      used: 'Used',
+      limit: 'Limit',
+      status: 'Status',
+      competitive: 'Competitive',
+      daysToExpire: {
+        0: 'Expired',
+        30: '30 or less',
+        90: '90 or less'
+      },
+      importLicense: 'Import license',
+      certificate: 'Certificate'
     }
   },
 };

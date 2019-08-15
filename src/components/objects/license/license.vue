@@ -1,7 +1,7 @@
 <template>
     <div class="content-wrap">
         <object-header>
-            License
+            {{$t('objects.license.licenseTitle')}}
         </object-header>
 
         <license-popup
@@ -13,7 +13,7 @@
 
             <header class="content-header page-header">
                 <h3 class="content-title">
-                    All licenses
+                    {{$t('objects.license.allLicenses')}}
                 </h3>
                 <div class="content-header__actions-wrap">
                     <div class="table-action__actions">
@@ -106,13 +106,13 @@
             return {
                 // vuetable prop
                 fields: [
-                    {name: 'serial', title: 'Serial'},
-                    {name: 'product', title: 'Product'},
-                    {name: 'valid-from', title: 'Valid from'},
-                    {name: 'valid-till', title: 'Valid till'},
-                    {name: 'used', title: 'Used'},
-                    {name: 'limit', title: 'Limit'},
-                    {name: 'status', title: 'Status'},
+                    {name: 'serial', title: this.$t('objects.license.serial')},
+                    {name: 'product', title: this.$t('objects.license.product')},
+                    {name: 'valid-from', title: this.$t('objects.license.validFrom')},
+                    {name: 'valid-till', title: this.$t('objects.license.validTill')},
+                    {name: 'used', title: this.$t('objects.license.used')},
+                    {name: 'limit', title: this.$t('objects.license.limit')},
+                    {name: 'status', title: this.$t('objects.license.status')},
 
                 ],
                 test: [],
@@ -127,7 +127,7 @@
                     serial: '' + i + i + i,
                     product: 'Kibana',
                     validFrom: new Date(2018, 10, Math.random()*30).toLocaleDateString(),
-                    validTill:new Date(2019, 7, Math.random()*30).toLocaleDateString(),
+                    validTill:new Date(2019, 8, Math.random()*30).toLocaleDateString(),
                     used: '444',
                     limit: '444',
                     status: 'status',
@@ -145,13 +145,18 @@
             },
             computeStatusText(endDate) {
                 const daysLeft = Math.floor(((new Date(endDate)- Date.now())/1000/60/60/24));
-                return  daysLeft +' days left';
+
+                if (daysLeft <= 0) {
+                    return this.$t('objects.license.daysToExpire.0');
+                } else if(daysLeft < 30) {
+                    return this.$t('objects.license.daysToExpire.30');
+                } else if(daysLeft < 90) {
+                    return this.$t('objects.license.daysToExpire.90');
+                }
             },
             computeStatusClass(endDate) {
-                console.log(endDate);
                 const daysLeft = Math.floor(((new Date(endDate)- Date.now())/1000/60/60/24));
 
-                console.log(daysLeft);
                 if (daysLeft <= 0) {
                     return 'days0';
                 } else if(daysLeft < 30) {
