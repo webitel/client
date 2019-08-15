@@ -1,4 +1,8 @@
 
+.ti-input {
+  @extend .default-input;
+}
+
 .tags-input-wrap {
   position: relative;
   padding-top: 33px;
@@ -16,9 +20,8 @@
     max-width: 100%;
     min-height: 48px;
 
-    .ti-input {
-      @extend .default-input;
 
+    .ti-input {
       padding: 10px 16px;
 
       .ti-new-tag-input-wrapper {
@@ -32,7 +35,7 @@
         color: #000;
         background: rgba(0, 0, 0, 0.05);
         padding: 7px 7px 3px !important;
-        margin-right: 8px;
+        margin: 0 8px 0 0;
 
         input {
           @extend .typo-input-label;
@@ -80,3 +83,4 @@
     }
   }
 }
+

@@ -163,6 +163,12 @@
   }
 }
 
+.grid-w50 {
+  .object-input-grid {
+    grid-template-columns: 50%;
+  }
+}
+
 // used both in tags input and select dropdowns
 .select-options {
   @extend .box-shadow;
@@ -191,9 +197,6 @@
     }
   }
 }
-
-
-
 
 .input-extension-wrap {
   position: relative;

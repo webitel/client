@@ -62,6 +62,57 @@
                     ></form-input>
                 </template>
             </expansion-panel>
+
+            <expansion-panel>
+                <template slot="expansion-header">
+                    <h3 class="content-title">Roles</h3>
+                </template>
+
+                <template slot="expansion-content">
+                    <div>
+
+                        <div class="tags-input-wrap">
+                            <div class="tags-input__label">
+                                Roles
+                                <div class="hint">
+                                    <i
+                                            class="hint__img tooltip-activator icon-icon_question"
+                                    ></i>
+                                    <div class="tooltip-left">Ya s`el deda :(</div>
+                                </div>
+                            </div>
+
+                            <tags-input
+                                    v-model="roleTag"
+                                    :tags="roleTags"
+                                    :autocomplete-items="availableRoles"
+                                    :autocomplete-min-length="0"
+                                    :placeholder="'Role'"
+                                    @tags-changed="newTags => this.roleTags = newTags"
+                                    add-only-from-autocomplete
+                                    autocomplete-filter-duplicates
+                            >
+
+                            </tags-input>
+                        </div>
+
+                        <ul class="role-admin">
+                            <li
+                                    class="role-admin__item"
+                                    v-for="item in roleTags"
+
+                            >
+                                <div>{{item.text}}</div>
+                                <checkbox
+                                    :value="item.isAdmin"
+                                    :label="'Admin'"
+                                    @toggleCheckbox="item.isAdmin = $event"
+                                ></checkbox>
+                            </li>
+                        </ul>
+                    </div>
+                </template>
+            </expansion-panel>
         </section>
     </div>
 </template>
@@ -70,12 +121,10 @@
     import objectHeader from '../object-header';
     import formInput from '../../utils/form-input';
     import expansionPanel from '../../utils/expansion-panel';
-    import eventBus from '../../../utils/eventBus';
     import {required} from 'vuelidate/lib/validators';
     import vueTagsInput from '@johmun/vue-tags-input';
     import vuetable from 'vuetable-2/src/components/Vuetable';
-    import datepicker from 'vuejs-datepicker';
-    import dropdownSelect from '../../utils/dropdown-select';
+    import checkbox from '../../utils/checkbox';
 
     export default {
         name: "users-new",
@@ -84,9 +133,8 @@
             'form-input': formInput,
             'expansion-panel': expansionPanel,
             'tags-input': vueTagsInput,
+            checkbox,
             vuetable,
-            datepicker,
-            'dropdown-select': dropdownSelect
         },
         data() {
             return {
@@ -95,6 +143,13 @@
                 password: '',
                 extention: '',
                 copyMessage: '',
+
+                roleTag: '',
+                roleTags: [{text: 'Admin', isAdmin: false}],
+                availableRoles: [{text: 'Admin', isAdmin: false},
+                    {text: 'Sales', isAdmin: false},
+                    {text: 'Manager', isAdmin: false},
+                    {text: 'Operator', isAdmin: false}]
             }
         },
 
@@ -112,6 +167,7 @@
         },
 
         methods: {
+
             close() {
                 this.$router.push('/users');
             },
@@ -142,4 +198,16 @@
 
 <style lang="scss" scoped>
 
+    .role-admin {
+        @extend .typo-body-md;
+
+        width: 50%;
+        margin-top: 29px;
+    }
+
+    .role-admin__item {
+        display: flex;
+        justify-content: space-between;
+        margin-top: 26px;
+    }
 </style>

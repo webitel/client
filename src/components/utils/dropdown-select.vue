@@ -18,7 +18,7 @@
                 <input
                         v-model="selected"
                         type="text"
-                        :placeholder="this.selected || this.placeholder"
+                        :placeholder="this.placeholder || this.selected"
                         :disabled="disabled"
                 >
                 <i
@@ -33,9 +33,9 @@
                 <ul>
                     <li
                             class="select-option"
-                            v-for="(option,key) in filterOptions"
+                            v-for="(option, key) in filterOptions"
                             :key="key"
-                            @click="selectItem(key)"
+                            @click="selectItem(option)"
                     >
                         <div>{{option}}</div>
                     </li>
@@ -55,11 +55,6 @@
         name: "dropdown-select",
         directives: {clickaway},
         props: {
-            // initial value, if exists
-            value: {
-                type: String
-            },
-
             // options to select
             options: {
                 type: Array,
@@ -89,7 +84,7 @@
         },
         data() {
             return {
-                selected: this.value || '',
+                selected: '',
                 isOpened: false
             }
         },
@@ -105,16 +100,16 @@
                     this.isOpened = false;
                 }
             },
-            selectItem(optionId) {
-                this.selected = this.options[optionId];
-                this.$emit('input', this.selected);
+            selectItem(option) {
+                this.$emit('input', option, this.placeholder);
+                this.selected = '';
                 this.isOpened = false;
             },
         },
         computed: {
             filterOptions() {
                 if(!this.selected) return this.options;
-                return this.options.filter((item) => item.includes(this.selected));
+                return this.options.filter((item) => item.toLowerCase().includes(this.selected.toLowerCase()));
             }
         }
     }

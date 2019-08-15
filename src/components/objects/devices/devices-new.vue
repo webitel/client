@@ -83,10 +83,10 @@
                         <tags-input
                                 v-model="hostTag"
                                 :tags="hostTags"
-                                :autocomplete-items="filterTags"
+                                :autocomplete-items="tagsList"
                                 :placeholder="$t('objects.devices.devicesNew.hostName')"
                                 @tags-changed="newTags => this.hostTags = newTags"
-
+                                autocomplete-filter-duplicates
                         ></tags-input>
                     </div>
                 </template>
@@ -273,13 +273,6 @@
             computeTitle() {
                 return this.$route.query.edit ? this.$t('objects.edit') : this.$t('objects.new');
             },
-            filterTags() {
-                const filteredTags = this.tagsList.filter(item => {
-                    return item.text.toLowerCase().includes(this.hostTag.toLowerCase());
-                });
-                if (filteredTags.length > 0) return filteredTags;
-                return [{text: this.hostTag}];
-            }
         }
     }
 </script>
