@@ -3,20 +3,22 @@
         <object-header
                 :primary-action="create"
         >
-            Users
+            {{$t('objects.usersObject.usersTitle')}}
         </object-header>
 
         <upload-popup v-if="isUploadPopupOpened" @close="closeCSVpopup"></upload-popup>
 
         <section class="object-content">
             <header class="content-header page-header">
-                <h3 class="content-title">All users</h3>
+                <h3 class="content-title">
+                    {{$t('objects.usersObject.allUsers')}}
+                </h3>
                 <div class="content-header__actions-wrap">
                     <div class="search-form">
                         <input
                                 class="search-input"
                                 type="text"
-                                :placeholder="'Name, login, extension, status..'"
+                                :placeholder="$t('objects.usersObject.searchPlaceholder')"
                                 v-model="search"
                                 @keyup="filterData"
                         >
@@ -140,11 +142,11 @@
                         width: '55px'
                     },
                     {name: 'name', title: this.$t('objects.name')},
-                    {name: 'login', title: 'Login'},
-                    {name: 'extensions', title: 'Extensions'},
-                    {name: 'state', title: 'State'},
-                    {name: 'DnD', title: 'DnD'},
-                    {name: 'status', title: 'Status'},
+                    {name: 'login', title:  this.$t('objects.usersObject.login')},
+                    {name: 'extensions', title: this.$t('objects.usersObject.extentions')},
+                    {name: 'state', title: this.$t('objects.usersObject.state')},
+                    {name: 'DnD', title:this.$t('objects.usersObject.DnD')},
+                    {name: 'status', title: this.$t('objects.usersObject.status')},
                     {
                         name: 'actions',
                         title: '',
@@ -269,9 +271,9 @@
                 }
             },
 
-            // computes dynamic class name for presence icon colorizing
+            // computes dynamic class name for status icon colorizing
             computeOnlineText(id) {
-                return this.filtered[id].online ? 'Online' : 'Offline';
+                return this.filtered[id].online ? this.$t('objects.online') : this.$t('objects.offline');
             },
 
             closeCSVpopup() {

@@ -5,7 +5,7 @@
                 :primaryAction="close"
                 :secondaryAction="close"
         >
-            Users | {{computeTitle}}
+            {{$t('objects.usersObject.usersTitle')}}  | {{computeTitle}}
         </object-header>
         <section class="object-content module-new devices-new">
 
@@ -25,8 +25,8 @@
                     <form-input
                             v-model.trim="$v.login.$model"
                             :v="$v.login"
-                            :label="'login' + '*'"
-                            :placeholder="'login' + '*'"
+                            :label="$t('objects.usersObject.login') + '*'"
+                            :placeholder="$t('objects.usersObject.login') + '*'"
                             :hintText="'lorem ipsum'"
                     ></form-input>
 
@@ -57,15 +57,15 @@
 
                     <form-input
                             v-model="extention"
-                            :label="'extention'"
-                            :placeholder="'extention'"
+                            :label="$t('objects.usersObject.extentions')"
+                            :placeholder="$t('objects.usersObject.extentions')"
                     ></form-input>
                 </template>
             </expansion-panel>
 
             <expansion-panel>
                 <template slot="expansion-header">
-                    <h3 class="content-title">Roles</h3>
+                    <h3 class="content-title">{{$tc('objects.permissions.permissionsRole')}}</h3>
                 </template>
 
                 <template slot="expansion-content">
@@ -73,8 +73,7 @@
 
                         <div class="tags-input-wrap">
                             <div class="tags-input__label">
-                                Roles
-                                <div class="hint">
+                                {{$tc('objects.permissions.permissionsRole')}}<div class="hint">
                                     <i
                                             class="hint__img tooltip-activator icon-icon_question"
                                     ></i>
@@ -87,7 +86,7 @@
                                     :tags="roleTags"
                                     :autocomplete-items="availableRoles"
                                     :autocomplete-min-length="0"
-                                    :placeholder="'Role'"
+                                    :placeholder="$tc('objects.permissions.permissionsRole')"
                                     @tags-changed="newTags => this.roleTags = newTags"
                                     add-only-from-autocomplete
                                     autocomplete-filter-duplicates
@@ -105,7 +104,7 @@
                                 <div>{{item.text}}</div>
                                 <checkbox
                                         :value="item.isAdmin"
-                                        :label="'Admin'"
+                                        :label="$t('objects.usersObject.new.roleAdmin')"
                                         @toggleCheckbox="item.isAdmin = $event"
                                 ></checkbox>
                             </li>
@@ -116,7 +115,7 @@
 
             <expansion-panel>
                 <template slot="expansion-header">
-                    <h3 class="content-title">License</h3>
+                    <h3 class="content-title">{{$t('objects.license.licenseTitle')}}</h3>
                 </template>
 
                 <template slot="expansion-content">
@@ -138,7 +137,7 @@
 
             <expansion-panel>
                 <template slot="expansion-header">
-                    <h3 class="content-title">Devices</h3>
+                    <h3 class="content-title">{{$t('objects.devices.devicesTitle')}}</h3>
                 </template>
 
                 <template slot="expansion-content">
@@ -146,7 +145,7 @@
 
                     <div class="tags-input-wrap">
                         <div class="tags-input__label">
-                            Devices
+                            {{$t('objects.devices.devicesTitle')}}
                             <div class="hint">
                                 <i
                                         class="hint__img tooltip-activator icon-icon_question"
@@ -160,7 +159,7 @@
                                 :tags="deviceTags"
                                 :autocomplete-items="deviceList"
                                 :autocomplete-min-length="0"
-                                :placeholder="'Devices..'"
+                                :placeholder="$t('objects.devices.devicesTitle')"
                                 @tags-changed="newTags => this.deviceTags = newTags"
                                 add-only-from-autocomplete
                                 autocomplete-filter-duplicates
@@ -169,7 +168,7 @@
                         </tags-input>
 
                         <div class="hint-link__wrap">
-                            <router-link class="hint-link__link" to="/devices/new">Didn't find the device?</router-link>
+                            <router-link class="hint-link__link" to="/devices/new">{{$t('objects.usersObject.new.deviceNotFound')}}</router-link>
                             <div class="hint">
                                 <i
                                         class="hint__img tooltip-activator icon-icon_question"
@@ -183,7 +182,7 @@
 
             <expansion-panel>
                 <template slot="expansion-header">
-                    <h3 class="content-title">Variables</h3>
+                    <h3 class="content-title">{{$t('objects.usersObject.new.variables')}}</h3>
                 </template>
 
                 <template slot="expansion-content">
@@ -194,11 +193,11 @@
                         >
                             <form-input
                                     v-model="variable.key"
-                                    :placeholder="'Key'"
+                                    :placeholder="$t('objects.usersObject.new.varKey')"
                             ></form-input>
                             <form-input
                                     v-model="variable.value"
-                                    :placeholder="'Value'"
+                                    :placeholder="$t('objects.usersObject.new.varVal')"
                             ></form-input>
                             <i class="icon-icon_delete" @click="deleteVariable(key)"></i>
                         </div>

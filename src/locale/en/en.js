@@ -42,6 +42,8 @@ export default {
     copy: 'Copy',
     copied: 'Copied to clipboard!',
     importCSV: 'Import CSV',
+    online: 'Online',
+    offline: 'Offline',
     CSV: {
       skipHeaders: 'Skip headers',
       charSet: 'Char set',
@@ -108,6 +110,23 @@ export default {
       },
       importLicense: 'Import license',
       certificate: 'Certificate'
+    },
+    usersObject: {
+      usersTitle: 'Users',
+      allUsers: 'All users',
+      searchPlaceholder: 'Name, login, extensions, status..',
+      login: 'Login',
+      extentions: 'Extentions',
+      state: 'State',
+      DnD: 'DnD',
+      status: 'Status',
+      new: {
+        roleAdmin: 'Admin',
+        deviceNotFound: "Didn't find the device?",
+        variables: 'Variables',
+        varKey: 'Key',
+        varVal: 'Value'
+      }
     }
   },
 };
