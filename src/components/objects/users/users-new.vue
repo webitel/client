@@ -20,14 +20,14 @@
                             :v="$v.name"
                             :label="$t('objects.name') + '*'"
                             :placeholder="$t('objects.name') + '*'"
-                            :hintText="'Ya s`el deda :('"
+                            :hintText="'lorem ipsum'"
                     ></form-input>
                     <form-input
                             v-model.trim="$v.login.$model"
                             :v="$v.login"
                             :label="'login' + '*'"
                             :placeholder="'login' + '*'"
-                            :hintText="'Ya s`el deda :('"
+                            :hintText="'lorem ipsum'"
                     ></form-input>
 
                     <div class="input-extension-wrap">
@@ -78,7 +78,7 @@
                                     <i
                                             class="hint__img tooltip-activator icon-icon_question"
                                     ></i>
-                                    <div class="tooltip-left">Ya s`el deda :(</div>
+                                    <div class="tooltip-left">lorem ipsum</div>
                                 </div>
                             </div>
 
@@ -152,7 +152,7 @@
                                 <i
                                         class="hint__img tooltip-activator icon-icon_question"
                                 ></i>
-                                <div class="tooltip-left">Ya s`el deda :(</div>
+                                <div class="tooltip-left">lorem ipsum</div>
                             </div>
                         </div>
 
@@ -175,7 +175,7 @@
                                 <i
                                         class="hint__img tooltip-activator icon-icon_question"
                                 ></i>
-                                <div class="tooltip-left">Ya s`el deda :(</div>
+                                <div class="tooltip-left">lorem ipsum</div>
                             </div>
                         </div>
                     </div>
@@ -201,6 +201,7 @@
                                     v-model="variable.value"
                                     :placeholder="'Value'"
                             ></form-input>
+                            <i class="icon-icon_delete"></i>
                         </div>
                         <i class="icon-icon_plus" @click="addVariable"></i>
                     </div>
@@ -359,6 +360,9 @@
 
     .variable-pair {
         @extend .object-input-grid;
+
+        align-items: center;
+        grid-template-columns: 1fr 1fr 10px;
 
         + .icon-icon_plus {
             cursor: pointer;

@@ -14,7 +14,7 @@
                     <i
                             class="hint__img tooltip-activator icon-icon_question"
                     ></i>
-                    <div class="tooltip-left">Ya s`el deda :(</div>
+                    <div class="tooltip-left">lorem ipsum</div>
                 </div>
             </header>
 

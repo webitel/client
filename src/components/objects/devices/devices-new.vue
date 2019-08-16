@@ -20,14 +20,14 @@
                             :v="$v.name"
                             :label="$t('objects.name') + '*'"
                             :placeholder="$t('objects.name') + '*'"
-                            :hintText="'Ya s`el deda :('"
+                            :hintText="'lorem ipsum'"
                     ></form-input>
                     <form-input
                             v-model.trim="$v.authId.$model"
                             :v="$v.authId"
                             :label="$t('objects.devices.authId') + '*'"
                             :placeholder="$t('objects.devices.authId') + '*'"
-                            :hintText="'Ya s`el deda :('"
+                            :hintText="'lorem ipsum'"
                     ></form-input>
 
                     <div class="input-extension-wrap">
@@ -77,7 +77,7 @@
                                 <i
                                         class="hint__img tooltip-activator icon-icon_question"
                                 ></i>
-                                <div class="tooltip-left">Ya s`el deda :(</div>
+                                <div class="tooltip-left">lorem ipsum</div>
                             </div>
                         </div>
                         <tags-input
@@ -109,19 +109,19 @@
                             v-model="IPv4"
                             :label="'IPv4'"
                             :placeholder="'IPv4'"
-                            :hintText="'Ya s`el deda :('"
+                            :hintText="'lorem ipsum'"
                     ></form-input>
                     <dropdown-select
                             :label="$t('objects.devices.devicesNew.vendor')"
                             :placeholder="$t('objects.devices.devicesNew.vendor')"
-                            :hintText="'Ya s`el deda :('"
+                            :hintText="'lorem ipsum'"
                             @input="vendor = $event"
                             disabled
                     ></dropdown-select>
                     <dropdown-select
                             :label="$t('objects.devices.devicesNew.model')"
                             :placeholder="$t('objects.devices.devicesNew.model')"
-                            :hintText="'Ya s`el deda :('"
+                            :hintText="'lorem ipsum'"
                             @input="model = $event"
                     ></dropdown-select>
                     <form-input
