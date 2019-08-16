@@ -16,12 +16,25 @@
                     {{$t('objects.license.allLicenses')}}
                 </h3>
                 <div class="content-header__actions-wrap">
+                    <div class="search-form">
+                        <input
+                                class="search-input"
+                                type="text"
+                                :placeholder="$t('objects.license.searchPlaceholder')"
+                                v-model="search"
+                                @keyup="filterData"
+                        >
+                        <i class="icon-icon_search"></i>
+                    </div>
                     <div class="table-action__actions">
                             <i
                                     class="icon-icon_plus"
                                     :class="{'active': isUploadPopupOpened}"
                                     @click="openCertPopup"
                             ></i>
+                        <table-filter
+                                :filterObjects="filterObjects"
+                        ></table-filter>
                     </div>
                 </div>
             </header>
@@ -31,7 +44,7 @@
                     class="devices-table"
                     :api-mode="false"
                     :fields="fields"
-                    :data="test"
+                    :data="filtered"
             >
 
                 <template slot="serial" slot-scope="props">
@@ -92,6 +105,7 @@
     import vuetable from 'vuetable-2/src/components/Vuetable';
     import objectHeader from '../object-header';
     import editField from '../../utils/edit-field';
+    import tableFilter from '../utils/table-filter';
     import licensePopup from './license-popup';
 
     export default {
@@ -100,6 +114,7 @@
             'object-header': objectHeader,
             'edit-field': editField,
             'license-popup': licensePopup,
+            'table-filter': tableFilter,
             vuetable,
         },
         data() {
@@ -116,8 +131,19 @@
 
                 ],
                 test: [],
+                filtered: [],
                 isUploadPopupOpened: false,
-                csvFile: null
+                csvFile: null,
+
+                search: '',
+                propertiesToSearch: ['serial', 'product'],
+                filterObjects: {
+                    product: {
+                        name: 'Product',
+                        fields: []
+                    }
+                },
+                isFilterOpenedClassTrigger: false,
             };
         },
         mounted() {
@@ -135,8 +161,38 @@
                 });
             }
 
+            this.test.forEach((item) => {
+                // if statement is emulating Set for an array
+                // Set is unable to use because v-for props doesn't update on set values change
+                if (!this.filterObjects.product.fields.some(element => element.name === item.product)) {
+                    this.filterObjects.product.fields.push({
+                        name: item.product,
+                        value: true
+                    });
+                }
+            });
+            this.filterData();
         },
         methods: {
+            // now it just searches
+            filterData() {
+                this.filtered = [];
+                if (!this.search) {
+                    console.log('spread');
+                    this.filtered = [...this.test];
+                } else {
+                    console.log('no');
+                    this.test.filter((item) => {
+                        for (let i = 0; i < this.propertiesToSearch.length; i++) {
+                            const key = this.propertiesToSearch[i];
+                            if (item[key].toLowerCase().includes(this.search.toLowerCase())) {
+                                this.filtered.push(item);
+                                break;
+                            }
+                        }
+                    });
+                }
+            },
             openCertPopup() {
                 this.isUploadPopupOpened = true;
             },

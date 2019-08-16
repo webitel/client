@@ -100,6 +100,7 @@ export default {
       limit: 'Limit',
       status: 'Status',
       competitive: 'Competitive',
+      searchPlaceholder: 'Serial, product..',
       daysToExpire: {
         0: 'Expired',
         30: '30 or less',

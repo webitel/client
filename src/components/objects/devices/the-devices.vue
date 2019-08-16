@@ -271,7 +271,7 @@
                     this.test.filter((item) => {
                         for (let i = 0; i < this.propertiesToSearch.length; i++) {
                             const key = this.propertiesToSearch[i];
-                            if (item[key].includes(this.search)) {
+                            if (item[key].toLowerCase().includes(this.search.toLowerCase())) {
                                 this.filtered.push(item);
                                 break;
                             }
