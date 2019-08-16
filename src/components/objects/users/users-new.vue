@@ -5,7 +5,7 @@
                 :primaryAction="close"
                 :secondaryAction="close"
         >
-            {{$t('objects.devices.devicesTitle')}} | {{computeTitle}}
+            Users | {{computeTitle}}
         </object-header>
         <section class="object-content module-new devices-new">
 
@@ -96,20 +96,113 @@
                             </tags-input>
                         </div>
 
-                        <ul class="role-admin">
+                        <ul class="checkbox-list">
                             <li
-                                    class="role-admin__item"
+                                    class="checkbox-list__item"
                                     v-for="item in roleTags"
 
                             >
                                 <div>{{item.text}}</div>
                                 <checkbox
-                                    :value="item.isAdmin"
-                                    :label="'Admin'"
-                                    @toggleCheckbox="item.isAdmin = $event"
+                                        :value="item.isAdmin"
+                                        :label="'Admin'"
+                                        @toggleCheckbox="item.isAdmin = $event"
                                 ></checkbox>
                             </li>
                         </ul>
+                    </div>
+                </template>
+            </expansion-panel>
+
+            <expansion-panel>
+                <template slot="expansion-header">
+                    <h3 class="content-title">License</h3>
+                </template>
+
+                <template slot="expansion-content">
+                    <ul class="checkbox-list">
+                        <li
+                                class="checkbox-list__item"
+                                v-for="item in licenseProducts"
+
+                        >
+                            <div>{{item.text}}</div>
+                            <checkbox
+                                    :value="item.allowed"
+                                    :label="computeLicenseLabel(item.allowed)"
+                                    @toggleCheckbox="item.allowed = $event"
+                            ></checkbox>
+                        </li>
+                    </ul>
+                </template>
+            </expansion-panel>
+
+            <expansion-panel>
+                <template slot="expansion-header">
+                    <h3 class="content-title">Devices</h3>
+                </template>
+
+                <template slot="expansion-content">
+
+
+                    <div class="tags-input-wrap">
+                        <div class="tags-input__label">
+                            Devices
+                            <div class="hint">
+                                <i
+                                        class="hint__img tooltip-activator icon-icon_question"
+                                ></i>
+                                <div class="tooltip-left">Ya s`el deda :(</div>
+                            </div>
+                        </div>
+
+                        <tags-input
+                                v-model="deviceTag"
+                                :tags="deviceTags"
+                                :autocomplete-items="deviceList"
+                                :autocomplete-min-length="0"
+                                :placeholder="'Devices..'"
+                                @tags-changed="newTags => this.deviceTags = newTags"
+                                add-only-from-autocomplete
+                                autocomplete-filter-duplicates
+                        >
+
+                        </tags-input>
+
+                        <div class="hint-link__wrap">
+                            <router-link class="hint-link__link" to="/devices/new">Didn't find the device?</router-link>
+                            <div class="hint">
+                                <i
+                                        class="hint__img tooltip-activator icon-icon_question"
+                                ></i>
+                                <div class="tooltip-left">Ya s`el deda :(</div>
+                            </div>
+                        </div>
+                    </div>
+                </template>
+            </expansion-panel>
+
+            <expansion-panel>
+                <template slot="expansion-header">
+                    <h3 class="content-title">Variables</h3>
+                </template>
+
+                <template slot="expansion-content">
+                    <div>
+                        <div
+                                class="variable-pair"
+                                v-for="variable in variables"
+                        >
+                            <form-input
+                                    v-model="variable.key"
+                                    :placeholder="'Key'"
+                            ></form-input>
+                            <form-input
+                                    v-model="variable.value"
+                                    :placeholder="'Value'"
+                            ></form-input>
+                        </div>
+                        <i class="icon-icon_plus" @click="addVariable"></i>
                     </div>
                 </template>
             </expansion-panel>
@@ -146,10 +239,31 @@
 
                 roleTag: '',
                 roleTags: [{text: 'Admin', isAdmin: false}],
-                availableRoles: [{text: 'Admin', isAdmin: false},
+                availableRoles: [
+                    {text: 'Admin', isAdmin: false},
                     {text: 'Sales', isAdmin: false},
                     {text: 'Manager', isAdmin: false},
-                    {text: 'Operator', isAdmin: false}]
+                    {text: 'Operator', isAdmin: false}
+                ],
+                licenseProducts: [
+                    {text: 'Product 1', allowed: false},
+                    {text: 'Product 2', allowed: false},
+                    {text: 'Product 3', allowed: false},
+                    {text: 'Product 4', allowed: false}
+                ],
+
+                deviceTag: '',
+                deviceTags: [{text: 'Dev1', isAdmin: false}],
+                deviceList: [
+                    {text: 'Dev1', isAdmin: false},
+                    {text: 'Dev2', isAdmin: false},
+                    {text: 'Dev3', isAdmin: false},
+                    {text: 'Dev5', isAdmin: false}
+                ],
+
+                variables: [
+                    {key: '', value: ''}
+                ]
             }
         },
 
@@ -167,7 +281,12 @@
         },
 
         methods: {
-
+            addVariable() {
+                this.variables.push({
+                    key: '',
+                    value: ''
+                });
+            },
             close() {
                 this.$router.push('/users');
             },
@@ -187,6 +306,9 @@
                     setTimeout(() => this.copyMessage = '', 2000);
                 }
             },
+            computeLicenseLabel(value) {
+                return value ? 'Allow' : '- -'
+            }
         },
         computed: {
             computeTitle() {
@@ -198,16 +320,52 @@
 
 <style lang="scss" scoped>
 
-    .role-admin {
+    .checkbox-list {
         @extend .typo-body-md;
 
         width: 50%;
-        margin-top: 29px;
+        /*margin: 29px 0 52px;*/
     }
 
-    .role-admin__item {
+    .tags-input-wrap + .checkbox-list {
+        margin-top: 28px;
+
+    }
+
+    .checkbox-list__item {
         display: flex;
         justify-content: space-between;
-        margin-top: 26px;
+        padding: 14px 0 14px 4px;
+
+        &:last-child {
+            margin-bottom: 0;
+        }
+
+        .checkbox-label {
+            width: 80px; // avoid reflow on text appearance
+        }
+    }
+
+    .hint-link__wrap {
+        margin-top: 9px;
+
+        .hint-link__link {
+            @extend .typo-input-label;
+            @extend .border-underline;
+
+            color: $icon-color;
+        }
+    }
+
+    .variable-pair {
+        @extend .object-input-grid;
+
+        + .icon-icon_plus {
+            cursor: pointer;
+
+            &:hover {
+                color: #000;
+            }
+        }
     }
 </style>

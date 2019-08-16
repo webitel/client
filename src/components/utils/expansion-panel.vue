@@ -44,6 +44,7 @@
 
     .expansion-header {
         display: flex;
+        align-items: center;
         margin-bottom: 15px;
         cursor: pointer;
 
@@ -52,7 +53,7 @@
         }
 
         .icon {
-            padding: 0 10px;
+            font-size: 30px;
             color: $icon-color;
             transition: $transition;
 
