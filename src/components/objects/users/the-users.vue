@@ -290,6 +290,8 @@
 <style lang="scss" scoped>
     .online-status {
         display: flex;
+        align-items: baseline;
+        padding: 15px 16px 11px 0;
 
         .online-icon {
             @extend .status-icon;

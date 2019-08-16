@@ -5,14 +5,18 @@
 
 .tags-input-wrap {
   position: relative;
-  padding-top: 33px;
   margin-bottom: 21px;
 
   .tags-input__label {
     @extend .typo-input-label;
 
-    position: absolute;
-    top: 0;
+    position: relative;
+    margin-bottom: 9px;
+
+    .hint {
+      position: absolute;
+      bottom: -2px;
+    }
   }
 
   .vue-tags-input {
@@ -33,7 +37,7 @@
         @extend .typo-input-label;
 
         color: #000;
-        background: rgba(0, 0, 0, 0.05);
+        background: #F1F4FF;
         padding: 7px 7px 3px !important;
         margin: 0 8px 0 0;
 

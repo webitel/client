@@ -126,10 +126,9 @@
                                 v-for="item in licenseProducts"
 
                         >
-                            <div>{{item.text}}</div>
                             <checkbox
                                     :value="item.allowed"
-                                    :label="computeLicenseLabel(item.allowed)"
+                                    :label="item.text"
                                     @toggleCheckbox="item.allowed = $event"
                             ></checkbox>
                         </li>
@@ -191,7 +190,7 @@
                     <div>
                         <div
                                 class="variable-pair"
-                                v-for="variable in variables"
+                                v-for="(variable, key) in variables"
                         >
                             <form-input
                                     v-model="variable.key"
@@ -201,7 +200,7 @@
                                     v-model="variable.value"
                                     :placeholder="'Value'"
                             ></form-input>
-                            <i class="icon-icon_delete"></i>
+                            <i class="icon-icon_delete" @click="deleteVariable(key)"></i>
                         </div>
                         <i class="icon-icon_plus" @click="addVariable"></i>
                     </div>
@@ -288,6 +287,9 @@
                     value: ''
                 });
             },
+            deleteVariable(id) {
+                this.variables.splice(id, 1);
+            },
             close() {
                 this.$router.push('/users');
             },
@@ -341,10 +343,6 @@
         &:last-child {
             margin-bottom: 0;
         }
-
-        .checkbox-label {
-            width: 80px; // avoid reflow on text appearance
-        }
     }
 
     .hint-link__wrap {
@@ -362,7 +360,16 @@
         @extend .object-input-grid;
 
         align-items: center;
-        grid-template-columns: 1fr 1fr 10px;
+        grid-template-columns: 1fr 1fr 24px;
+
+        .icon-icon_delete {
+            margin-bottom: 10px;
+            cursor: pointer;
+
+            &:hover {
+                color: #000;
+            }
+        }
 
         + .icon-icon_plus {
             cursor: pointer;
