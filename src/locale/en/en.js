@@ -13,11 +13,13 @@ export default {
     resetSubmit: 'Reset',
     loginSubmit: 'Log in',
   },
+
   validation: {
     email: 'Should look email-like',
     required: 'This field is required',
     confirmPassword: 'Incorrect password',
   },
+
   objects: {
     new: 'New',
     create: 'Create',
@@ -39,6 +41,7 @@ export default {
     importCSV: 'Import CSV',
     online: 'Online',
     offline: 'Offline',
+    all: 'All',
     CSV: {
       skipHeaders: 'Skip headers',
       charSet: 'Char set',
@@ -49,7 +52,7 @@ export default {
     generalInfo: 'General info',
     objectHeader: {},
     permissions: {
-      permissionsTitle: 'Permissions',
+      permissions: 'Permissions',
       permissionsRole: 'Role | Roles',
       allRoles: 'All roles',
       permissionsNew: {

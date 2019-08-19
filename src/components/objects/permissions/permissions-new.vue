@@ -24,15 +24,16 @@
                         v-model.trim="$v.name.$model"
                         :v="$v.name"
                         :label="$t('objects.name')"
-                        :placeholder="$t('objects.namePlaceholder')"
+                        :placeholder="$t('objects.name')"
+                        required
                 ></form-input>
                 <form-input
                         class="form__input"
                         v-model="description"
-                        :textarea="true"
                         :height="164"
-                        :label="$t('objects.permissions.permissionsNew.description')"
-                        :placeholder="$t('objects.permissions.permissionsNew.descriptionPlaceholder')"
+                        :label="$t('objects.description')"
+                        :placeholder="$t('objects.description')"
+                        textarea
                 ></form-input>
             </form>
         </section>

@@ -4,13 +4,14 @@
         <object-header
                 :primaryAction="create"
         >
-            {{$t('objects.permissions.permissionsTitle')}} |
+            {{$t('objects.permissions.permissions')}} |
             {{$tc('objects.permissions.permissionsRole', 2)}}
         </object-header>
 
         <section class="object-content">
             <header class="content-header page-header">
-                <h3 class="content-title">{{$t('objects.permissions.allRoles')}}</h3>
+                <h3 class="content-title">{{$t('objects.all') +
+                    $tc('objects.permissions.permissionsRole', 2)}}</h3>
             </header>
 
             <vuetable
@@ -23,7 +24,7 @@
                 <template slot="head" slot-scope="props">
                     <edit-field
                             :text="test[props.rowIndex].head"
-                            :placeholder="$t('auth.passwordPlaceholder')"
+                            :placeholder="$t('objects.password')"
                             :disabled="computeEditInstance(props.rowIndex, 'head')"
                             @start-update="startUpdate({id: props.rowIndex,name: 'head'})"
                             @text-updated="inlineEdit($event, props.rowIndex, 'head')"
@@ -33,7 +34,7 @@
                 <template slot="body" slot-scope="props">
                     <edit-field
                             :text="test[props.rowIndex].body"
-                            :placeholder="$t('auth.passwordPlaceholder')"
+                            :placeholder="$t('objects.password')"
                             :disabled="computeEditInstance(props.rowIndex, 'body')"
                             @start-update="startUpdate({id: props.rowIndex,name: 'body'})"
                             @text-updated="inlineEdit($event, props.rowIndex, 'body')"
