@@ -1,6 +1,6 @@
 <template>
     <div class="form-input">
-        <div class="label" :class="{'invalid': this.v.$error}">{{this.label}}
+        <div class="label" :class="{'invalid': this.v.$error, 'required-field': computeRequiredLabel}">{{this.label}}
             <div class="hint" v-show="this.hintText">
                 <i
                         class="hint__img tooltip-activator icon-icon_question"

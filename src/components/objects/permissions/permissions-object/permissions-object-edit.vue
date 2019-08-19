@@ -31,7 +31,7 @@
                     <checkbox
                         :value="test[props.rowIndex].create"
                         :label="checkboxLabels"
-                        @changeCheckbox="changeCheckbox($event, props.rowIndex, 'create')"
+                        @toggleCheckbox="selectRow($event, props.rowIndex, 'create')"
                     ></checkbox>
                 </template>
 
@@ -39,7 +39,7 @@
                     <checkbox
                             :value="test[props.rowIndex].read"
                             :label="checkboxLabels"
-                            @changeCheckbox="changeCheckbox($event, props.rowIndex, 'read')"
+                            @toggleCheckbox="selectRow($event, props.rowIndex, 'read')"
                     ></checkbox>
                 </template>
 
@@ -47,7 +47,7 @@
                     <checkbox
                             :value="test[props.rowIndex].edit"
                             :label="checkboxLabels"
-                            @changeCheckbox="changeCheckbox($event, props.rowIndex, 'edit')"
+                            @toggleCheckbox="selectRow($event, props.rowIndex, 'edit')"
                     ></checkbox>
                 </template>
 
@@ -55,7 +55,7 @@
                     <checkbox
                             :value="test[props.rowIndex].delete"
                             :label="checkboxLabels"
-                            @changeCheckbox="changeCheckbox($event, props.rowIndex, 'delete')"
+                            @toggleCheckbox="selectRow($event, props.rowIndex, 'delete')"
                     ></checkbox>
                 </template>
             </vuetable>

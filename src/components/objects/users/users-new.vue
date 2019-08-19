@@ -18,8 +18,8 @@
                     <form-input
                             v-model.trim="$v.name.$model"
                             :v="$v.name"
-                            :label="$t('objects.name') + '*'"
-                            :placeholder="$t('objects.name') + '*'"
+                            :label="$t('objects.name')"
+                            :placeholder="$t('objects.name')"
                             :hintText="'lorem ipsum'"
                     ></form-input>
                     <form-input
@@ -186,7 +186,7 @@
                 </template>
 
                 <template slot="expansion-content">
-                    <div>
+                    <div class="variables">
                         <div
                                 class="variable-pair"
                                 v-for="(variable, key) in variables"
@@ -213,6 +213,7 @@
     import objectHeader from '../object-header';
     import formInput from '../../utils/form-input';
     import expansionPanel from '../../utils/expansion-panel';
+    import eventBus from '../../../utils/eventBus';
     import {required} from 'vuelidate/lib/validators';
     import vueTagsInput from '@johmun/vue-tags-input';
     import vuetable from 'vuetable-2/src/components/Vuetable';
@@ -365,13 +366,13 @@
                 color: #000;
             }
         }
+    }
 
-        + .icon-icon_plus {
-            cursor: pointer;
+    .variables .icon-icon_plus {
+        cursor: pointer;
 
-            &:hover {
-                color: #000;
-            }
+        &:hover {
+            color: #000;
         }
     }
 </style>
