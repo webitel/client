@@ -58,7 +58,7 @@
                 <template slot="valid-from" slot-scope="props">
                     <edit-field
                             class="form__input"
-                            :text="test[props.rowIndex].validFrom"
+                            :text="test[props.rowIndex].validFrom.toLocaleDateString('ru-RU')"
                             :disabled="true"
                     ></edit-field>
                 </template>
@@ -66,7 +66,7 @@
                 <template slot="valid-till" slot-scope="props">
                     <edit-field
                             class="form__input"
-                            :text="test[props.rowIndex].validTill"
+                            :text="test[props.rowIndex].validTill.toLocaleDateString('ru-RU')"
                             :disabled="true"
                     ></edit-field>
                 </template>
@@ -152,8 +152,8 @@
                 this.test.push({
                     serial: '' + i + i + i,
                     product: 'Kibana',
-                    validFrom: new Date(2018, 10, Math.random()*30).toLocaleDateString(),
-                    validTill:new Date(2019, 8, Math.random()*30).toLocaleDateString(),
+                    validFrom: new Date(2018, 10, Math.random()*30),
+                    validTill:new Date(2019, 8, Math.random()*30),
                     used: '444',
                     limit: '444',
                     status: 'status',
