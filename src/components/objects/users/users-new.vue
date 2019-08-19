@@ -5,7 +5,7 @@
                 :primaryAction="close"
                 :secondaryAction="close"
         >
-            {{$t('objects.usersObject.usersTitle')}}  | {{computeTitle}}
+            {{$t('objects.usersObject.users')}}  | {{computeTitle}}
         </object-header>
         <section class="object-content module-new devices-new">
 
@@ -21,6 +21,7 @@
                             :label="$t('objects.name')"
                             :placeholder="$t('objects.name')"
                             :hintText="'lorem ipsum'"
+                            required
                     ></form-input>
                     <form-input
                             v-model.trim="$v.login.$model"
@@ -28,6 +29,7 @@
                             :label="$t('objects.usersObject.login')"
                             :placeholder="$t('objects.usersObject.login')"
                             :hintText="'lorem ipsum'"
+                            required
                     ></form-input>
 
                     <div class="input-extension-wrap">
@@ -37,6 +39,7 @@
                                 :v="$v.password"
                                 :label="$t('objects.password')"
                                 :placeholder="$t('objects.password')"
+                                required
                         ></form-input>
 
                         <div class="input-extension">
@@ -104,7 +107,7 @@
                                 <div>{{item.text}}</div>
                                 <checkbox
                                         :value="item.isAdmin"
-                                        :label="$t('objects.usersObject.new.roleAdmin')"
+                                        :label="$t('objects.usersObject.roleAdmin')"
                                         @toggleCheckbox="item.isAdmin = $event"
                                 ></checkbox>
                             </li>
@@ -115,7 +118,7 @@
 
             <expansion-panel>
                 <template slot="expansion-header">
-                    <h3 class="content-title">{{$t('objects.license.licenseTitle')}}</h3>
+                    <h3 class="content-title">{{$t('objects.license.license')}}</h3>
                 </template>
 
                 <template slot="expansion-content">
@@ -137,7 +140,7 @@
 
             <expansion-panel>
                 <template slot="expansion-header">
-                    <h3 class="content-title">{{$t('objects.devices.devicesTitle')}}</h3>
+                    <h3 class="content-title">{{$t('objects.devices.devices')}}</h3>
                 </template>
 
                 <template slot="expansion-content">
@@ -145,7 +148,7 @@
 
                     <div class="tags-input-wrap">
                         <div class="tags-input__label">
-                            {{$t('objects.devices.devicesTitle')}}
+                            {{$t('objects.devices.devices')}}
                             <div class="hint">
                                 <i
                                         class="hint__img tooltip-activator icon-icon_question"
@@ -159,7 +162,7 @@
                                 :tags="deviceTags"
                                 :autocomplete-items="deviceList"
                                 :autocomplete-min-length="0"
-                                :placeholder="$t('objects.devices.devicesTitle')"
+                                :placeholder="$t('objects.devices.devices')"
                                 @tags-changed="newTags => this.deviceTags = newTags"
                                 add-only-from-autocomplete
                                 autocomplete-filter-duplicates
@@ -168,7 +171,7 @@
                         </tags-input>
 
                         <div class="hint-link__wrap">
-                            <router-link class="hint-link__link" to="/devices/new">{{$t('objects.usersObject.new.deviceNotFound')}}</router-link>
+                            <router-link class="hint-link__link" to="/devices/new">{{$t('objects.usersObject.deviceNotFound')}}</router-link>
                             <div class="hint">
                                 <i
                                         class="hint__img tooltip-activator icon-icon_question"
@@ -182,7 +185,7 @@
 
             <expansion-panel>
                 <template slot="expansion-header">
-                    <h3 class="content-title">{{$t('objects.usersObject.new.variables')}}</h3>
+                    <h3 class="content-title">{{$t('objects.usersObject.variables')}}</h3>
                 </template>
 
                 <template slot="expansion-content">
@@ -193,11 +196,11 @@
                         >
                             <form-input
                                     v-model="variable.key"
-                                    :placeholder="$t('objects.usersObject.new.varKey')"
+                                    :placeholder="$t('objects.usersObject.varKey')"
                             ></form-input>
                             <form-input
                                     v-model="variable.value"
-                                    :placeholder="$t('objects.usersObject.new.varVal')"
+                                    :placeholder="$t('objects.usersObject.varVal')"
                             ></form-input>
                             <i class="icon-icon_delete" @click="deleteVariable(key)"></i>
                         </div>

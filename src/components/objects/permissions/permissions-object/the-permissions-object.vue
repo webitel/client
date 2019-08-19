@@ -1,7 +1,7 @@
 <template>
     <div class="content-wrap">
         <object-header>{{$t('objects.permissions.permissions')}} |
-            {{$t('objects.permissions.object.object')}}
+            {{$tc('objects.permissions.object.object', 1)}}
         </object-header>
 
         <section class="object-content">

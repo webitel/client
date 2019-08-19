@@ -77,11 +77,10 @@ export default {
             deviceHistory: 'Device history',
             loggedIn: 'Logged In',
             loggedOut: 'Logged Out',
-
         },
         license: {
-            customersTitle: 'Customers',
-            licenseTitle: 'License',
+            customers: 'Customers',
+            license: 'License',
             allCustomers: 'All customers',
             allLicenses: 'All licenses',
             serial: 'Serial',
@@ -98,11 +97,11 @@ export default {
                 30: '30 or less',
                 90: '90 or less'
             },
-            importLicense: 'Import license',
-            certificate: 'Certificate'
+            importLicense: 'Import license key',
+            licenseKey: 'License key'
         },
         usersObject: {
-            usersTitle: 'Users',
+            users: 'Users',
             allUsers: 'All users',
             searchPlaceholder: 'Name, login, extensions, status',
             login: 'Login',
@@ -110,13 +109,11 @@ export default {
             state: 'State',
             DnD: 'DnD',
             status: 'Status',
-            new: {
-                roleAdmin: 'Admin',
-                deviceNotFound: "Didn't find the device?",
-                variables: 'Variables',
-                varKey: 'Key',
-                varVal: 'Value'
-            }
+            roleAdmin: 'Admin',
+            deviceNotFound: "Didn't find the device?",
+            variables: 'Variables',
+            varKey: 'Key',
+            varVal: 'Value'
         }
     },
 };

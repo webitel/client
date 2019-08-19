@@ -1,11 +1,11 @@
 <template>
     <div class="content-wrap">
         <object-header>
-            {{$t('objects.license.licenseTitle')}}
+            {{$t('objects.license.license')}}
         </object-header>
 
         <license-popup
-            v-if="isUploadPopupOpened"
+            v-if="isPopupOpened"
             @close="closeCertPopup"
         ></license-popup>
 
@@ -29,7 +29,7 @@
                     <div class="table-action__actions">
                             <i
                                     class="icon-icon_plus"
-                                    :class="{'active': isUploadPopupOpened}"
+                                    :class="{'active': isPopupOpened}"
                                     @click="openCertPopup"
                             ></i>
                         <table-filter
@@ -194,10 +194,10 @@
                 }
             },
             openCertPopup() {
-                this.isUploadPopupOpened = true;
+                this.isPopupOpened = true;
             },
             closeCertPopup() {
-                this.isUploadPopupOpened = false;
+                this.isPopupOpened = false;
             },
             computeStatusText(endDate) {
                 const daysLeft = Math.floor(((new Date(endDate)- Date.now())/1000/60/60/24));

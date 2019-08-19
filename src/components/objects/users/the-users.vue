@@ -3,10 +3,10 @@
         <object-header
                 :primary-action="create"
         >
-            {{$t('objects.usersObject.usersTitle')}}
+            {{$t('objects.usersObject.users')}}
         </object-header>
 
-        <upload-popup v-if="isUploadPopupOpened" @close="closeCSVpopup"></upload-popup>
+        <upload-popup v-if="isPopupOpened" @close="closeCSVpopup"></upload-popup>
 
         <section class="object-content">
             <header class="content-header page-header">
@@ -249,7 +249,7 @@
             processCSV(event) {
                 const file = event.target.files[0];
                 if (file) {
-                    this.isUploadPopupOpened = true;
+                    this.isPopupOpened = true;
                 }
             },
 
@@ -277,7 +277,7 @@
             },
 
             closeCSVpopup() {
-                this.isUploadPopupOpened = false;
+                this.isPopupOpened = false;
             }
         },
         computed: {

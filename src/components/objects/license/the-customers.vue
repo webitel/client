@@ -3,7 +3,7 @@
 
     <div class="content-wrap" v-else>
         <object-header>
-            {{this.$t('objects.license.customersTitle')}}
+            {{this.$t('objects.license.customers')}}
         </object-header>
 
         <section class="object-content">
@@ -26,7 +26,7 @@
                     <edit-field
                             class="form__input"
                             :text="test[props.rowIndex].serial"
-                            :disabled="true"
+                            disabled
                     ></edit-field>
                 </template>
 
@@ -34,7 +34,7 @@
                     <edit-field
                             class="form__input"
                             :text="test[props.rowIndex].validFrom"
-                            :disabled="true"
+                            disabled
                     ></edit-field>
                 </template>
 
@@ -42,7 +42,7 @@
                     <edit-field
                             class="form__input"
                             :text="test[props.rowIndex].validTill"
-                            :disabled="true"
+                            disabled
                     ></edit-field>
                 </template>
 
@@ -50,7 +50,7 @@
                     <edit-field
                             class="form__input"
                             :text="test[props.rowIndex].competitive"
-                            :disabled="true"
+                            disabled
                     ></edit-field>
                 </template>
 
@@ -58,7 +58,7 @@
                     <edit-field
                             class="form__input"
                             :text="test[props.rowIndex].used"
-                            :disabled="true"
+                            disabled
                     ></edit-field>
                 </template>
 
@@ -66,7 +66,7 @@
                     <edit-field
                             class="form__input"
                             :text="test[props.rowIndex].limit"
-                            :disabled="true"
+                            disabled
                     ></edit-field>
                 </template>
 
