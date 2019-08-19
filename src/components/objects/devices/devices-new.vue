@@ -9,7 +9,7 @@
         </object-header>
         <section class="object-content module-new devices-new">
 
-            <expansion-panel>
+            <expansion-panel opened>
                 <template slot="expansion-header">
                     <h3 class="content-title">{{$t('objects.generalInfo')}}</h3>
                 </template>
@@ -113,14 +113,14 @@
                     ></form-input>
                     <dropdown-select
                             :label="$t('objects.devices.devicesNew.vendor')"
-                            :placeholder="$t('objects.devices.devicesNew.vendor')"
+                            :placeholder="vendor || $t('objects.devices.devicesNew.vendor')"
                             :hintText="'lorem ipsum'"
                             @input="vendor = $event"
                             disabled
                     ></dropdown-select>
                     <dropdown-select
                             :label="$t('objects.devices.devicesNew.model')"
-                            :placeholder="$t('objects.devices.devicesNew.model')"
+                            :placeholder="model || $t('objects.devices.devicesNew.model')"
                             :hintText="'lorem ipsum'"
                             @input="model = $event"
                     ></dropdown-select>

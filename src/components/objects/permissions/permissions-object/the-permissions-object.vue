@@ -26,7 +26,7 @@
 
                 <template slot="ObAC" slot-scope="props">
                     <table-status
-                        :value="test[props.rowIndex].ObAC"
+                            :value="test[props.rowIndex].ObAC"
                     ></table-status>
                 </template>
 
@@ -82,14 +82,24 @@
         },
         mounted() {
             // FIXME: delete test data
-            for (let i = 0; i < 10; i++) {
-                this.test.push({
-                    head: `head${i}`,
-                    ObAC: true,
-                    RbAC: false,
-                    id: i,
-                });
-            }
+            this.test.push({
+                head: 'Devices',
+                ObAC: true,
+                RbAC: false,
+                id: 0,
+            });
+            this.test.push({
+                head: 'Users',
+                ObAC: true,
+                RbAC: false,
+                id: 1,
+            });
+            this.test.push({
+                head: 'Roles',
+                ObAC: true,
+                RbAC: false,
+                id: 2,
+            });
         },
         methods: {
             edit() {

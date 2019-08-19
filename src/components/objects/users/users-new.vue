@@ -9,7 +9,7 @@
         </object-header>
         <section class="object-content module-new devices-new">
 
-            <expansion-panel>
+            <expansion-panel opened>
                 <template slot="expansion-header">
                     <h3 class="content-title">{{$t('objects.generalInfo')}}</h3>
                 </template>
@@ -308,9 +308,6 @@
                     setTimeout(() => this.copyMessage = '', 2000);
                 }
             },
-            computeLicenseLabel(value) {
-                return value ? 'Allow' : '- -'
-            }
         },
         computed: {
             computeTitle() {
@@ -326,7 +323,6 @@
         @extend .typo-body-md;
 
         width: 50%;
-        /*margin: 29px 0 52px;*/
     }
 
     .tags-input-wrap + .checkbox-list {

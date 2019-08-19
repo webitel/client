@@ -45,10 +45,20 @@
     .table-status {
         display: flex;
         align-items: center;
+        position: relative;
+        padding: $input-padding;
 
         .table-status__icon {
+            position: absolute; // icon absolute position for text vertical alligning
+            // too big fsz stretches table-status conteiner and text can't allign as all text fields
+            top: 50%;
             font-size: 20px;
+            transform: translateY(-50%);
         }
+    }
+
+    .table-status__text {
+        padding-left: 28px;
     }
 
     .icon-icon_allow {
@@ -57,9 +67,5 @@
 
     .icon-icon_deny {
        color: $false-color;
-    }
-
-    .table-status__text {
-        margin-left: 8px;
     }
 </style>

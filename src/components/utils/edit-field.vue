@@ -116,8 +116,6 @@
     }
 
     .edit-field__label {
-        /*different top and bottom padding to vertically align text*/
-        padding: 15px 16px 11px 0;
         word-wrap: break-word;
         border-radius: $border-radius;
 

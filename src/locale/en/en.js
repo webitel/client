@@ -1,7 +1,7 @@
 export default {
   auth: {
-    registerTitle: 'Register Webitel',
-    loginTitle: 'Login Webitel',
+    registerTitle: 'Register',
+    loginTitle: 'Login',
     registerReset: 'Reset password',
     loginSubtitle: 'Enter your details below',
     resetPasswordLink: 'Reset your password?',
@@ -102,7 +102,7 @@ export default {
       limit: 'Limit',
       status: 'Status',
       competitive: 'Competitive',
-      searchPlaceholder: 'Serial, product..',
+      searchPlaceholder: 'Serial, product',
       daysToExpire: {
         0: 'Expired',
         30: '30 or less',
@@ -114,7 +114,7 @@ export default {
     usersObject: {
       usersTitle: 'Users',
       allUsers: 'All users',
-      searchPlaceholder: 'Name, login, extensions, status..',
+      searchPlaceholder: 'Name, login, extensions, status',
       login: 'Login',
       extentions: 'Extentions',
       state: 'State',

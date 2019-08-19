@@ -16,6 +16,7 @@
                 </h3>
                 <div class="content-header__actions-wrap">
                     <div class="search-form">
+                        <i class="icon-icon_search"></i>
                         <input
                                 class="search-input"
                                 type="text"
@@ -23,7 +24,6 @@
                                 v-model="search"
                                 @keyup="filterData"
                         >
-                        <i class="icon-icon_search"></i>
                     </div>
                     <div class="table-action__actions">
                         <i class="icon-icon_delete" :class="{'hidden': anySelected}"></i>

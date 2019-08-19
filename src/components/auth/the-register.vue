@@ -5,7 +5,7 @@
         <!--        TODO: alert component-->
 
         <header class="auth__header">
-            <div class="logo">Webitel</div>
+            <div class="logo"><img src="../../assets/img/logo.svg" alt=""></div>
             <router-link
                     class="auth__link"
                     to="/login"
@@ -147,20 +147,5 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-    /*auth link*/
-    .auth__link {
-        @extend .typo-heading-lg;
-        @extend .border-underline;
-
-        display: block;
-        position: relative;
-        padding-bottom: 2px;
-        text-decoration: none;
-        color: #fff;
-    }
-    /*border*/
-    .border-underline:before {
-        bottom: 6px;
-        background: #fff;
-    }
+    @import "../../assets/css/auth/auth";
 </style>

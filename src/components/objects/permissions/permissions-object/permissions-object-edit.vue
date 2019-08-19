@@ -89,10 +89,8 @@
                     {name: 'delete', title: this.$t('objects.delete')},
                 ],
                 test: [],
-                checkboxLabels: {
-                    true: this.$t('objects.allow'),
-                    false: '- -'
-                }
+                checkboxLabels:  this.$t('objects.allow'),
+
             };
         },
         mounted() {

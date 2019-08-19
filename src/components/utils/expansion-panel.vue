@@ -24,9 +24,15 @@
         components: {
             divider
         },
+        props: {
+            opened: {
+                type: Boolean,
+                default: false
+            }
+        },
         data() {
             return {
-                isExpanded: true,
+                isExpanded: this.opened,
             }
         },
         methods: {

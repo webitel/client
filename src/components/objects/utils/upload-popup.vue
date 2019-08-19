@@ -29,12 +29,14 @@
                 </form-input>
             </form>
         </section>
+
+        <divider/>
+
         <section class="CSV-column-match">
             <header class="column-headers">
                 <div>{{$t('objects.CSV.CSVColumn')}}</div>
                 <div>{{$t('objects.CSV.testRailField')}}</div>
             </header>
-            <divider/>
             <div class="column-rows">
 
                 <ul>
@@ -130,7 +132,7 @@
                 @extend .typo-body-md;
 
                 padding: 0 44px;
-                margin-bottom: 24px;
+                margin-top: 24px;
                 color: $input;
 
                 div {
@@ -139,10 +141,11 @@
             }
 
             .column-rows {
-                padding: 22px 44px 27px;
+                padding: 24px 44px 18px;
 
                 li {
                     @extend .object-input-grid;
+                    grid-row-gap: 0; // (28px - 9px label + 20px bottom error)
 
                     div {
                         @extend .typo-body-md;

@@ -5,7 +5,12 @@
         <!--        TODO: alert component-->
 
         <header class="auth__header">
-            <div class="logo">Webitel</div>
+            <div class="logo"><img src="../../assets/img/logo.svg" alt=""></div>
+            <router-link
+                    class="auth__link"
+                    to="/register"
+            >
+                {{$t('auth.registerTitle')}}</router-link>
         </header>
 
         <form
@@ -121,10 +126,5 @@ export default {
         right: 20px;
         text-decoration: none;
         color: rgba(255, 255, 255, 0.3);
-    }
-
-    .border-underline:before {
-        height: 1px;
-        background: rgba(255, 255, 255, 0.3);
     }
 </style>

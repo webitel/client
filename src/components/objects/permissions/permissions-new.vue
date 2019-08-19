@@ -9,7 +9,7 @@
         </object-header>
         <section class="object-content module-new permissions-new">
             <header class="content-header page-header">
-                <h3 class="content-title">{{$t('objects.generalInfo')}} </h3>
+                <h3 class="content-title">{{$t('objects.generalInfo')}}</h3>
                 <div class="hint">
                     <i
                             class="hint__img tooltip-activator icon-icon_question"
@@ -21,13 +21,14 @@
             <form class="permissions-new__form">
                 <form-input
                         class="form__input"
-                        v-model="form.name"
-                        :label="$t('objects.name')"
-                        :placeholder="$t('objects.namePlaceholder')"
+                        v-model.trim="$v.name.$model"
+                        :v="$v.name"
+                        :label="$t('objects.name') + '*'"
+                        :placeholder="$t('objects.namePlaceholder') + '*'"
                 ></form-input>
                 <form-input
                         class="form__input"
-                        v-model="form.description"
+                        v-model="description"
                         :textarea="true"
                         :height="164"
                         :label="$t('objects.permissions.permissionsNew.description')"
@@ -41,6 +42,7 @@
 <script>
     import objectHeader from '../object-header';
     import formInput from '../../utils/form-input';
+    import {required} from 'vuelidate/lib/validators';
 
     export default {
         name: 'permissions-new',
@@ -50,12 +52,18 @@
         },
         data() {
             return {
-                form: {
-                    name: '',
-                    description: '',
-                },
+                name: '',
+                description: '',
             };
         },
+
+        // by vuelidate
+        validations: {
+            name: {
+                required,
+            }
+        },
+
         methods: {
             close() {
                 this.$router.push('/permissions');

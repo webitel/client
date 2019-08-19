@@ -93,6 +93,10 @@
             .filter__list-header {
                 margin-top: 18px;
                 color: rgba(0, 0, 0, 0.4);
+
+                &:first-child {
+                    margin-top: 0;
+                }
             }
 
             .filter__list-item {

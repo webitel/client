@@ -17,6 +17,7 @@
                 </h3>
                 <div class="content-header__actions-wrap">
                     <div class="search-form">
+                        <i class="icon-icon_search"></i>
                         <input
                                 class="search-input"
                                 type="text"
@@ -24,7 +25,6 @@
                                 v-model="search"
                                 @keyup="filterData"
                         >
-                        <i class="icon-icon_search"></i>
                     </div>
                     <div class="table-action__actions">
                             <i
@@ -231,6 +231,7 @@
     $license-0: rgba(0, 0, 0, 0.1);
 
     .license-status {
+        text-align: center;
         width: 93px;
         padding: 5px 8px 3px;
         border-radius: $border-radius;

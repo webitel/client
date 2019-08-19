@@ -55,6 +55,7 @@
         padding: 27px 0;
         background: #fff;
         transform: translate(-50%, -50%);
+        border-radius: $border-radius;
         overflow-y: auto;
         z-index: 10;
     }

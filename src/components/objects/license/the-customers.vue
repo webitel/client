@@ -105,7 +105,7 @@
                     {name: 'valid-till', title: this.$t('objects.license.validTill')},
                     {name: 'competitive', title: this.$t('objects.license.competitive')},
                     {name: 'used', title: this.$t('objects.license.used')},
-                    {name: 'limit', title: this.$t('objects.license.status')},
+                    {name: 'limit', title: this.$t('objects.license.limit')},
                     {
                         name: 'actions',
                         title: '',
