@@ -218,21 +218,6 @@
                     this.$router.push({path: '/devices/new', query: {edit: 'true'}});
                 }
             },
-            selectRow(newValue, id) {
-                if (newValue && id) {
-                    this.filtered[id].isSelected = newValue;
-                } else {
-
-                }
-            },
-            togglePresenceFilterProperty(newVal, property) {
-                for (let item of this.filterPresence) {
-                    if (item.name === property) {
-                        item.value = newVal;
-                        break;
-                    }
-                }
-            },
             processCSV(event) {
                 const file = event.target.files[0];
                 if (file) {

@@ -24,7 +24,7 @@
                     <checkbox
                         :value="test[props.rowIndex].create"
                         :label="$t('objects.allow')"
-                        @toggleCheckbox="selectRow($event, props.rowIndex, 'create')"
+                        @toggleCheckbox="test[props.rowIndex].create = $event"
                     ></checkbox>
                 </template>
 
@@ -32,7 +32,7 @@
                     <checkbox
                             :value="test[props.rowIndex].read"
                             :label="$t('objects.allow')"
-                            @toggleCheckbox="selectRow($event, props.rowIndex, 'read')"
+                            @toggleCheckbox="test[props.rowIndex].read = $event"
                     ></checkbox>
                 </template>
 
@@ -40,7 +40,7 @@
                     <checkbox
                             :value="test[props.rowIndex].edit"
                             :label="$t('objects.allow')"
-                            @toggleCheckbox="selectRow($event, props.rowIndex, 'edit')"
+                            @toggleCheckbox="test[props.rowIndex].edit = $event"
                     ></checkbox>
                 </template>
 
@@ -48,7 +48,7 @@
                     <checkbox
                             :value="test[props.rowIndex].delete"
                             :label="$t('objects.allow')"
-                            @toggleCheckbox="selectRow($event, props.rowIndex, 'delete')"
+                            @toggleCheckbox="test[props.rowIndex].delete = $event"
                     ></checkbox>
                 </template>
             </vuetable>
@@ -97,9 +97,6 @@
             }
         },
         methods: {
-            selectRow(newValue, id, property) {
-                this.test[id][property] = newValue;
-            },
             close() {
                 this.$router.push('/permissions/object');
             }
