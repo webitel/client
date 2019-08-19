@@ -63,22 +63,21 @@ export default {
             }
         },
         devices: {
-            devicesTitle: 'Devices',
+            devices: 'Devices',
             allDevices: 'All devices',
             searchPlaceholder: 'Name, user, auth ID & desk ID',
             authId: 'Auth ID',
             presence: 'Presence',
-            devicesNew: {
-                hotDesking: 'Hot desking',
-                hostName: 'Host Name',
-                phoneInfo: 'Phone info',
-                phone: 'Phone',
-                vendor: 'Vendor',
-                model: 'Model',
-                deviceHistory: 'Device history',
-                loggedIn: 'Logged In',
-                loggedOut: 'Logged Out',
-            }
+            hotDesking: 'Hot desking',
+            hostName: 'Host Name',
+            phoneInfo: 'Phone info',
+            phone: 'Phone',
+            vendor: 'Vendor',
+            model: 'Model',
+            deviceHistory: 'Device history',
+            loggedIn: 'Logged In',
+            loggedOut: 'Logged Out',
+
         },
         license: {
             customersTitle: 'Customers',

@@ -4,10 +4,10 @@
         <object-header
                 :primaryAction="create"
         >
-            {{$t('objects.devices.devicesTitle')}}
+            {{$t('objects.devices.devices')}}
         </object-header>
 
-        <upload-popup v-if="isUploadPopupOpened" @close="closeCSVpopup"></upload-popup>
+        <upload-popup v-if="isPopupOpened" @close="closeCSVpopup"></upload-popup>
 
         <section class="object-content">
             <header class="content-header page-header">
@@ -54,7 +54,7 @@
                     <edit-field
                             class="form__input"
                             :text="filtered[props.rowIndex].head"
-                            :disabled="true"
+                            disabled
                     ></edit-field>
                 </template>
 
@@ -62,7 +62,7 @@
                     <edit-field
                             class="form__input"
                             :text="filtered[props.rowIndex].authId"
-                            :disabled="true"
+                            disabled
                     ></edit-field>
                 </template>
 
@@ -70,7 +70,7 @@
                     <edit-field
                             class="form__input"
                             :text="filtered[props.rowIndex].user"
-                            :disabled="true"
+                            disabled
                     ></edit-field>
                 </template>
 
@@ -154,7 +154,7 @@
                         fields: []
                     }
                 },
-                isUploadPopupOpened: false,
+                isPopupOpened: false,
 
                 isFilterOpenedClassTrigger: false,
                 csvFile: null
@@ -258,7 +258,7 @@
             processCSV(event) {
                 const file = event.target.files[0];
                 if (file) {
-                    this.isUploadPopupOpened = true;
+                    this.isPopupOpened = true;
                 }
             },
 
@@ -291,7 +291,7 @@
             },
 
             closeCSVpopup() {
-                this.isUploadPopupOpened = false;
+                this.isPopupOpened = false;
             }
         },
         computed: {

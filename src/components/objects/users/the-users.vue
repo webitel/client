@@ -193,7 +193,7 @@
                             []
                     }
                 },
-                isUploadPopupOpened: false,
+                isPopupOpened: false,
 
                 isFilterOpenedClassTrigger: false,
                 csvFile: null

@@ -132,7 +132,7 @@
                 ],
                 test: [],
                 filtered: [],
-                isUploadPopupOpened: false,
+                isPopupOpened: false,
                 csvFile: null,
 
                 search: '',

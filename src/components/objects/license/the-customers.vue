@@ -115,7 +115,7 @@
                     },
                 ],
                 test: [],
-                isUploadPopupOpened: false,
+                isPopupOpened: false,
                 csvFile: null
             };
         },

@@ -5,7 +5,7 @@
                 :primaryAction="close"
                 :secondaryAction="close"
         >
-            {{$t('objects.devices.devicesTitle')}} | {{computeTitle}}
+            {{$t('objects.devices.devices')}} | {{computeTitle}}
         </object-header>
         <section class="object-content module-new devices-new">
 
@@ -21,6 +21,7 @@
                             :label="$t('objects.name')"
                             :placeholder="$t('objects.name')"
                             :hintText="'lorem ipsum'"
+                            required
                     ></form-input>
                     <form-input
                             v-model.trim="$v.authId.$model"
@@ -28,6 +29,7 @@
                             :label="$t('objects.devices.authId')"
                             :placeholder="$t('objects.devices.authId')"
                             :hintText="'lorem ipsum'"
+                            required
                     ></form-input>
 
                     <div class="input-extension-wrap">
@@ -37,6 +39,7 @@
                                 :v="$v.password"
                                 :label="$t('objects.password')"
                                 :placeholder="$t('objects.password')"
+                                required
                         ></form-input>
 
                         <div class="input-extension">
@@ -66,12 +69,12 @@
 
             <expansion-panel>
                 <template slot="expansion-header">
-                    <h3 class="content-title">{{$t('objects.devices.devicesNew.hotDesking')}}</h3>
+                    <h3 class="content-title">{{$t('objects.devices.hotDesking')}}</h3>
                 </template>
 
                 <template slot="expansion-content">
                     <div class="tags-input-wrap">
-                        <div class="tags-input__label">{{$t('objects.devices.devicesNew.hostName')}}
+                        <div class="tags-input__label">{{$t('objects.devices.hostName') + '*'}}
 
                             <div class="hint">
                                 <i
@@ -84,7 +87,7 @@
                                 v-model="hostTag"
                                 :tags="hostTags"
                                 :autocomplete-items="tagsList"
-                                :placeholder="$t('objects.devices.devicesNew.hostName')"
+                                :placeholder="$t('objects.devices.hostName')"
                                 @tags-changed="newTags => this.hostTags = newTags"
                                 autocomplete-filter-duplicates
                         ></tags-input>
@@ -95,14 +98,14 @@
 
             <expansion-panel>
                 <template slot="expansion-header">
-                    <h3 class="content-title">{{$t('objects.devices.devicesNew.phoneInfo')}}</h3>
+                    <h3 class="content-title">{{$t('objects.devices.phoneInfo')}}</h3>
                 </template>
 
                 <template slot="expansion-content">
                     <form-input
                             v-model="phone"
-                            :label="$t('objects.devices.devicesNew.phone')"
-                            :placeholder="$t('objects.devices.devicesNew.phone')"
+                            :label="$t('objects.devices.phone')"
+                            :placeholder="$t('objects.devices.phone')"
                             disabled
                     ></form-input>
                     <form-input
@@ -112,15 +115,15 @@
                             :hintText="'lorem ipsum'"
                     ></form-input>
                     <dropdown-select
-                            :label="$t('objects.devices.devicesNew.vendor')"
-                            :placeholder="vendor || $t('objects.devices.devicesNew.vendor')"
+                            :label="$t('objects.devices.vendor')"
+                            :placeholder="vendor || $t('objects.devices.vendor')"
                             :hintText="'lorem ipsum'"
                             @input="vendor = $event"
                             disabled
                     ></dropdown-select>
                     <dropdown-select
-                            :label="$t('objects.devices.devicesNew.model')"
-                            :placeholder="model || $t('objects.devices.devicesNew.model')"
+                            :label="$t('objects.devices.model')"
+                            :placeholder="model || $t('objects.devices.model')"
                             :hintText="'lorem ipsum'"
                             @input="model = $event"
                     ></dropdown-select>
@@ -140,7 +143,7 @@
 
                 <template slot="expansion-content">
                     <header class="content-header">
-                        <h3 class="content-title">{{$t('objects.devices.devicesNew.deviceHistory')}}</h3>
+                        <h3 class="content-title">{{$t('objects.devices.deviceHistory')}}</h3>
                         <div class="content-header__actions-wrap">
                             <datepicker
                                     v-model="historyDate"
@@ -214,8 +217,8 @@
                 historyDate: new Date,
                 // vuetable prop
                 fields: [
-                    {name: 'login', title: this.$t('objects.devices.devicesNew.loggedIn')},
-                    {name: 'logout', title: this.$t('objects.devices.devicesNew.loggedOut')},
+                    {name: 'login', title: this.$t('objects.devices.loggedIn')},
+                    {name: 'logout', title: this.$t('objects.devices.loggedOut')},
                     {name: 'user', title: this.$t('objects.user')},
                 ],
             }
