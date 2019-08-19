@@ -1,12 +1,14 @@
 <template>
     <div class="content-wrap">
-        <object-header>{{$t('objects.permissions.permissionsTitle')}} |
+        <object-header>{{$t('objects.permissions.permissions')}} |
             {{$t('objects.permissions.object.object')}}
         </object-header>
 
         <section class="object-content">
             <header class="content-header page-header">
-                <h3 class="content-title">{{$t('objects.permissions.object.allObjects')}}</h3>
+                <h3 class="content-title">
+                    {{$t('objects.permissions.object.allObjects')}}
+                </h3>
             </header>
 
             <vuetable
@@ -20,7 +22,7 @@
                     <edit-field
                             class="form__input"
                             :text="test[props.rowIndex].head"
-                            :disabled="true"
+                            disabled
                     ></edit-field>
                 </template>
 

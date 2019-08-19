@@ -10,8 +10,7 @@
 
         <section class="object-content">
             <header class="content-header page-header">
-                <h3 class="content-title">{{$t('objects.all') +
-                    $tc('objects.permissions.permissionsRole', 2)}}</h3>
+                <h3 class="content-title">{{$t('objects.permissions.allRoles')}}</h3>
             </header>
 
             <vuetable

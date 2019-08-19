@@ -10,7 +10,7 @@
 
         <section class="object-content">
             <header class="content-header page-header">
-                <h3 class="content-title">{{$t('objects.permissions.object.edit.operations')}}</h3>
+                <h3 class="content-title">{{$t('objects.permissions.object.operations')}}</h3>
             </header>
 
             <vuetable
@@ -30,7 +30,7 @@
                 <template slot="create" slot-scope="props">
                     <checkbox
                         :value="test[props.rowIndex].create"
-                        :label="checkboxLabels"
+                        :label="$t('objects.allow')"
                         @toggleCheckbox="selectRow($event, props.rowIndex, 'create')"
                     ></checkbox>
                 </template>
@@ -38,7 +38,7 @@
                 <template slot="read" slot-scope="props">
                     <checkbox
                             :value="test[props.rowIndex].read"
-                            :label="checkboxLabels"
+                            :label="$t('objects.allow')"
                             @toggleCheckbox="selectRow($event, props.rowIndex, 'read')"
                     ></checkbox>
                 </template>
@@ -46,7 +46,7 @@
                 <template slot="edit" slot-scope="props">
                     <checkbox
                             :value="test[props.rowIndex].edit"
-                            :label="checkboxLabels"
+                            :label="$t('objects.allow')"
                             @toggleCheckbox="selectRow($event, props.rowIndex, 'edit')"
                     ></checkbox>
                 </template>
@@ -54,7 +54,7 @@
                 <template slot="delete" slot-scope="props">
                     <checkbox
                             :value="test[props.rowIndex].delete"
-                            :label="checkboxLabels"
+                            :label="$t('objects.allow')"
                             @toggleCheckbox="selectRow($event, props.rowIndex, 'delete')"
                     ></checkbox>
                 </template>
@@ -89,7 +89,6 @@
                     {name: 'delete', title: this.$t('objects.delete')},
                 ],
                 test: [],
-                checkboxLabels:  this.$t('objects.allow'),
 
             };
         },
