@@ -75,13 +75,15 @@
                 </template>
 
                 <template slot="presence" slot-scope="props">
-                    <div class="presence">
-                        <span
-                                class="presence-icon"
-                                :class="computePresenceClass(props.rowIndex)"
-                        ></span>
-                        <div class="presence-text">{{filtered[props.rowIndex].presence}}</div>
-                    </div>
+
+<!--                    presence classes are specified in table-status component-->
+                    <status
+                            class="presence"
+                            :class="computePresenceClass(props.rowIndex)"
+                            :text="filtered[props.rowIndex].presence"
+                    >
+
+                    </status>
                 </template>
 
                 <template slot="actions" slot-scope="props">
@@ -105,6 +107,7 @@
     import editField from '../../utils/edit-field';
     import tableFilter from '../utils/table-filter';
     import uploadPopup from '../utils/upload-popup';
+    import status from '../../utils/status';
 
     import clickaway from '../../../directives/clickaway';
 
@@ -116,6 +119,7 @@
             'upload-popup': uploadPopup,
             vuetable,
             'table-filter': tableFilter,
+            status,
         },
 
         directives: {
@@ -304,27 +308,5 @@
 </script>
 
 <style lang="scss" scoped>
-    .presence {
-        display: flex;
 
-        .presence-icon {
-            @extend .status-icon;
-
-            &.available {
-                background: $true-color;
-            }
-
-            &.ringing {
-                background: #FF9C07;
-            }
-
-            &.on-a-call {
-                background: $false-color;
-            }
-
-            &.on-hold {
-                background: #FFEA00;
-            }
-        }
-    }
 </style>

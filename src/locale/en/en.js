@@ -41,6 +41,8 @@ export default {
         importCSV: 'Import CSV',
         online: 'Online',
         offline: 'Offline',
+        on: 'On',
+        off: 'Off',
         CSV: {
             skipHeaders: 'Skip headers',
             charSet: 'Char set',

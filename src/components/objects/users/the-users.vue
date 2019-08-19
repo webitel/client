@@ -74,10 +74,11 @@
 
 
                 <template slot="state" slot-scope="props">
-                    <div class="online-status">
-                        <span class="online-icon" :class="{'online': filtered[props.rowIndex].state}"></span>
-                        <div class="online-text">{{computeOnlineText(props.rowIndex)}}</div>
-                    </div>
+                    <status
+                            :class="{'status__true': filtered[props.rowIndex].state}"
+                            :text=computeOnlineText(filtered[props.rowIndex].state)
+                    >
+                    </status>
                 </template>
 
 
@@ -93,7 +94,7 @@
                     <edit-field
                             class="form__input"
                             :text="filtered[props.rowIndex].status"
-                            :disabled="true"
+                            disabled
                     ></edit-field>
                 </template>
 
@@ -120,6 +121,7 @@
     import tableFilter from '../utils/table-filter';
     import switcher from '../../utils/switcher';
     import uploadPopup from '../utils/upload-popup';
+    import status from '../../utils/status';
 
     export default {
         name: "the-users",
@@ -129,7 +131,8 @@
             'upload-popup': uploadPopup,
             vuetable,
             'table-filter': tableFilter,
-            switcher
+            switcher,
+            status
         },
         data() {
             return {
@@ -142,10 +145,10 @@
                         width: '55px'
                     },
                     {name: 'name', title: this.$t('objects.name')},
-                    {name: 'login', title:  this.$t('objects.usersObject.login')},
+                    {name: 'login', title: this.$t('objects.usersObject.login')},
                     {name: 'extensions', title: this.$t('objects.usersObject.extentions')},
                     {name: 'state', title: this.$t('objects.usersObject.state')},
-                    {name: 'DnD', title:this.$t('objects.usersObject.DnD')},
+                    {name: 'DnD', title: this.$t('objects.usersObject.DnD')},
                     {name: 'status', title: this.$t('objects.usersObject.status')},
                     {
                         name: 'actions',
@@ -271,9 +274,9 @@
                 }
             },
 
-            // computes dynamic class name for status icon colorizing
-            computeOnlineText(id) {
-                return this.filtered[id].online ? this.$t('objects.online') : this.$t('objects.offline');
+            computeOnlineText(state) {
+                console.log(state);
+                return state ? this.$t('objects.online') : this.$t('objects.offline');
             },
 
             closeCSVpopup() {
@@ -290,17 +293,5 @@
 </script>
 
 <style lang="scss" scoped>
-    .online-status {
-        display: flex;
-        align-items: baseline;
-        padding: 15px 16px 11px 0;
 
-        .online-icon {
-            @extend .status-icon;
-
-            &.online {
-                background: $true-color;
-            }
-        }
-    }
 </style>

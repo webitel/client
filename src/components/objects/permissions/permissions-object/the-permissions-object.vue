@@ -27,15 +27,17 @@
                 </template>
 
                 <template slot="ObAC" slot-scope="props">
-                    <table-status
-                            :value="test[props.rowIndex].ObAC"
-                    ></table-status>
+                    <status
+                            :class="{'status__true': test[props.rowIndex].ObAC}"
+                            :text="computeStatusText(test[props.rowIndex].ObAC)"
+                    ></status>
                 </template>
 
                 <template slot="RbAC" slot-scope="props">
-                    <table-status
-                            :value="test[props.rowIndex].RbAC"
-                    ></table-status>
+                    <status
+                            :class="{'status__true': test[props.rowIndex].RbAC}"
+                            :text="computeStatusText(test[props.rowIndex].RbAC)"
+                    ></status>
                 </template>
 
                 <template slot="actions" slot-scope="props">
@@ -54,14 +56,14 @@
     import vuetable from 'vuetable-2/src/components/Vuetable';
     import objectHeader from '../../object-header';
     import editField from '../../../utils/edit-field';
-    import tableStatus from '../../../utils/table-status';
+    import status from '../../../utils/status';
 
     export default {
         name: "permissions-object",
         components: {
             'object-header': objectHeader,
             'edit-field': editField,
-            'table-status': tableStatus,
+            status,
             vuetable,
         },
         data() {
@@ -107,6 +109,9 @@
             edit() {
                 this.$router.push('/permissions/object/edit');
             },
+            computeStatusText(state) {
+                return state ? this.$t('objects.on') : this.$t('objects.off');
+            }
         },
     }
 </script>
