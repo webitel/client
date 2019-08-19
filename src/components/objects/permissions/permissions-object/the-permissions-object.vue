@@ -12,19 +12,11 @@
             </header>
 
             <vuetable
-                    class="permissions-table permissions-object-table"
+                    class="permissions-table"
                     :api-mode="false"
                     :fields="fields"
                     :data="test"
             >
-
-                <template slot="head" slot-scope="props">
-                    <edit-field
-                            class="form__input"
-                            :text="test[props.rowIndex].head"
-                            disabled
-                    ></edit-field>
-                </template>
 
                 <template slot="ObAC" slot-scope="props">
                     <status
@@ -55,14 +47,12 @@
 <script>
     import vuetable from 'vuetable-2/src/components/Vuetable';
     import objectHeader from '../../object-header';
-    import editField from '../../../utils/edit-field';
     import status from '../../../utils/status';
 
     export default {
         name: "permissions-object",
         components: {
             'object-header': objectHeader,
-            'edit-field': editField,
             status,
             vuetable,
         },

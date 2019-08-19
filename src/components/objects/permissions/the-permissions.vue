@@ -20,33 +20,13 @@
                     :data="test"
             >
 
-                <template slot="head" slot-scope="props">
-                    <edit-field
-                            :text="test[props.rowIndex].head"
-                            :placeholder="$t('objects.password')"
-                            :disabled="computeEditInstance(props.rowIndex, 'head')"
-                            @start-update="startUpdate({id: props.rowIndex,name: 'head'})"
-                            @text-updated="inlineEdit($event, props.rowIndex, 'head')"
-                    ></edit-field>
-                </template>
-
-                <template slot="body" slot-scope="props">
-                    <edit-field
-                            :text="test[props.rowIndex].body"
-                            :placeholder="$t('objects.password')"
-                            :disabled="computeEditInstance(props.rowIndex, 'body')"
-                            @start-update="startUpdate({id: props.rowIndex,name: 'body'})"
-                            @text-updated="inlineEdit($event, props.rowIndex, 'body')"
-                    ></edit-field>
-                </template>
-
                 <template slot="actions" slot-scope="props">
                     <div class="vuetable-actions">
                         <i class="vuetable-action icon-icon_edit"
-                             @click="action('edit')"
+                           @click="action('edit')"
                         ></i>
                         <i class="vuetable-action icon-icon_delete"
-                             @click="action('delete')"
+                           @click="action('delete')"
                         ></i>
                     </div>
                 </template>
@@ -58,7 +38,6 @@
 <script>
     import vuetable from 'vuetable-2/src/components/Vuetable';
     import objectHeader from '../object-header';
-    import editField from '../../utils/edit-field';
 
     import {getRoles} from '../../../api/objects/permissions/permissions';
 
@@ -67,7 +46,6 @@
         name: 'the-permissions',
         components: {
             'object-header': objectHeader,
-            'edit-field': editField,
             vuetable,
         },
         data() {
@@ -76,7 +54,7 @@
                 editInstance: null, // only 1 field can be edited at a time
                 // vuetable prop
                 fields: [
-                    {name: 'head', title: this.$t('objects.name')},
+                    {name: 'name', title: this.$t('objects.name')},
                     {name: 'body', title: this.$t('objects.description')},
                     {
                         name: 'actions',
@@ -92,7 +70,7 @@
             // FIXME: delete test data
             for (let i = 0; i < 10; i++) {
                 this.test.push({
-                    head: `head${i}`,
+                    name: `head${i}`,
                     body: 'body',
                     id: i,
                 });
@@ -119,21 +97,6 @@
                     this.$router.push({path: '/permissions/new', query: {edit: 'true'}});
                 }
             },
-            inlineEdit(newValue, id, property) {
-                this.test[id][property] = newValue;
-                this.editInstance = null;
-            },
-
-            // Edit Instance -- only 1 instance of editable field which we can edit at one time
-            startUpdate(editInstance) {
-                this.editInstance = editInstance;
-            },
-            computeEditInstance(id, name) {
-                if(this.editInstance) {
-                    return !(id === this.editInstance.id && name === this.editInstance.name);
-                }
-                return false;
-            }
         }
     };
 </script>

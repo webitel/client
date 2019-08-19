@@ -50,30 +50,6 @@
                     :data="filtered"
             >
 
-                <template slot="name" slot-scope="props">
-                    <edit-field
-                            class="form__input"
-                            :text="filtered[props.rowIndex].head"
-                            disabled
-                    ></edit-field>
-                </template>
-
-                <template slot="authId" slot-scope="props">
-                    <edit-field
-                            class="form__input"
-                            :text="filtered[props.rowIndex].authId"
-                            disabled
-                    ></edit-field>
-                </template>
-
-                <template slot="user" slot-scope="props">
-                    <edit-field
-                            class="form__input"
-                            :text="filtered[props.rowIndex].user"
-                            disabled
-                    ></edit-field>
-                </template>
-
                 <template slot="presence" slot-scope="props">
 
 <!--                    presence classes are specified in table-status component-->
@@ -104,7 +80,6 @@
 <script>
     import vuetable from 'vuetable-2/src/components/Vuetable';
     import objectHeader from '../object-header';
-    import editField from '../../utils/edit-field';
     import tableFilter from '../utils/table-filter';
     import uploadPopup from '../utils/upload-popup';
     import status from '../../utils/status';
@@ -115,7 +90,6 @@
         name: 'the-devices',
         components: {
             'object-header': objectHeader,
-            'edit-field': editField,
             'upload-popup': uploadPopup,
             vuetable,
             'table-filter': tableFilter,
@@ -169,7 +143,7 @@
             // FIXME: delete test data
             this.test.push({
                 isSelected: true,
-                head: 'head0',
+                name: 'head0',
                 authId: 0 + '',
                 user: 'user ' + Math.round(Math.random() * 10),
                 presence: 'Offline',
@@ -178,7 +152,7 @@
 
             this.test.push({
                 isSelected: false,
-                head: 'head1',
+                name: 'head1',
                 authId: (Math.round(Math.random() * 10)) + '',
                 user: 'user ' + Math.round(Math.random() * 10),
                 presence: 'Available',
@@ -187,7 +161,7 @@
 
             this.test.push({
                 isSelected: false,
-                head: 'head2',
+                name: 'head2',
                 authId: (2 * Math.round(Math.random() * 10)) + '',
                 user: 'user ' + Math.round(Math.random() * 10),
                 presence: 'Ringing',
@@ -196,7 +170,7 @@
 
             this.test.push({
                 isSelected: false,
-                head: 'head3',
+                name: 'head3',
                 authId: (3 * Math.round(Math.random() * 10)) + '',
                 user: 'user ' + Math.round(Math.random() * 10),
                 presence: 'On a call',
@@ -205,7 +179,7 @@
 
             this.test.push({
                 isSelected: false,
-                head: 'head4',
+                name: 'head4',
                 authId: (4 * Math.round(Math.random() * 10)) + '',
                 user: 'user ' + Math.round(Math.random() * 10),
                 presence: 'On hold',
@@ -214,7 +188,7 @@
 
             this.test.push({
                 isSelected: false,
-                head: 'head4',
+                name: 'head4',
                 authId: (4 * Math.round(Math.random() * 10)) + '',
                 user: 'user ' + Math.round(Math.random() * 10),
                 presence: 'On hold',

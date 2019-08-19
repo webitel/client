@@ -47,44 +47,12 @@
                     :data="filtered"
             >
 
-                <template slot="serial" slot-scope="props">
-                    <edit-field
-                            class="form__input"
-                            :text="test[props.rowIndex].serial"
-                            :disabled="true"
-                    ></edit-field>
-                </template>
-
                 <template slot="valid-from" slot-scope="props">
-                    <edit-field
-                            class="form__input"
-                            :text="test[props.rowIndex].validFrom.toLocaleDateString('ru-RU')"
-                            :disabled="true"
-                    ></edit-field>
+                    <div>{{filtered[props.rowIndex].validFrom.toLocaleDateString('ru-RU')}}</div>
                 </template>
 
                 <template slot="valid-till" slot-scope="props">
-                    <edit-field
-                            class="form__input"
-                            :text="test[props.rowIndex].validTill.toLocaleDateString('ru-RU')"
-                            :disabled="true"
-                    ></edit-field>
-                </template>
-
-                <template slot="used" slot-scope="props">
-                    <edit-field
-                            class="form__input"
-                            :text="test[props.rowIndex].used"
-                            :disabled="true"
-                    ></edit-field>
-                </template>
-
-                <template slot="limit" slot-scope="props">
-                    <edit-field
-                            class="form__input"
-                            :text="test[props.rowIndex].limit"
-                            :disabled="true"
-                    ></edit-field>
+                    <div>{{filtered[props.rowIndex].validTill.toLocaleDateString('ru-RU')}}</div>
                 </template>
 
                 <template slot="status" slot-scope="props">
@@ -104,7 +72,6 @@
 <script>
     import vuetable from 'vuetable-2/src/components/Vuetable';
     import objectHeader from '../object-header';
-    import editField from '../../utils/edit-field';
     import tableFilter from '../utils/table-filter';
     import licensePopup from './license-popup';
 
@@ -112,7 +79,6 @@
         name: "license",
         components: {
             'object-header': objectHeader,
-            'edit-field': editField,
             'license-popup': licensePopup,
             'table-filter': tableFilter,
             vuetable,

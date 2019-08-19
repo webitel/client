@@ -20,13 +20,6 @@
                     :data="test"
             >
 
-                <template slot="head" slot-scope="props">
-                    <edit-field
-                            :text="test[props.rowIndex].head"
-                            disabled
-                    ></edit-field>
-                </template>
-
                 <template slot="create" slot-scope="props">
                     <checkbox
                         :value="test[props.rowIndex].create"
@@ -67,14 +60,12 @@
 <script>
     import vuetable from 'vuetable-2/src/components/Vuetable';
     import objectHeader from '../../object-header';
-    import editField from '../../../utils/edit-field';
     import tableCheckbox from '../../../utils/checkbox';
 
     export default {
         name: "permissions-object",
         components: {
             'object-header': objectHeader,
-            'edit-field': editField,
             checkbox: tableCheckbox,
             vuetable,
         },
@@ -82,7 +73,7 @@
             return {
                 // vuetable prop
                 fields: [
-                    {name: 'head', title: this.$t('objects.name')},
+                    {name: 'name', title: this.$t('objects.name')},
                     {name: 'create', title: this.$t('objects.create')},
                     {name: 'read', title: this.$t('objects.read')},
                     {name: 'edit', title: this.$t('objects.edit')},
@@ -96,7 +87,7 @@
             // FIXME: delete test data
             for (let i = 0; i < 10; i++) {
                 this.test.push({
-                    head: `Devices ${i}`,
+                    name: `Devices ${i}`,
                     create: true,
                     read: false,
                     edit: true,

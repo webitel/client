@@ -48,31 +48,6 @@
                     :data="filtered"
             >
 
-                <template slot="name" slot-scope="props">
-                    <edit-field
-                            class="form__input"
-                            :text="filtered[props.rowIndex].head"
-                            :disabled="true"
-                    ></edit-field>
-                </template>
-
-                <template slot="login" slot-scope="props">
-                    <edit-field
-                            class="form__input"
-                            :text="filtered[props.rowIndex].login"
-                            :disabled="true"
-                    ></edit-field>
-                </template>
-
-                <template slot="extensions" slot-scope="props">
-                    <edit-field
-                            class="form__input"
-                            :text="filtered[props.rowIndex].extensions"
-                            :disabled="true"
-                    ></edit-field>
-                </template>
-
-
                 <template slot="state" slot-scope="props">
                     <status
                             :class="{'status__true': filtered[props.rowIndex].state}"
@@ -91,11 +66,7 @@
 
 
                 <template slot="status" slot-scope="props">
-                    <edit-field
-                            class="form__input"
-                            :text="filtered[props.rowIndex].status"
-                            disabled
-                    ></edit-field>
+                    <div>{{filtered[props.rowIndex].status}}</div>
                 </template>
 
 
@@ -117,7 +88,6 @@
 <script>
     import vuetable from 'vuetable-2/src/components/Vuetable';
     import objectHeader from '../object-header';
-    import editField from '../../utils/edit-field';
     import tableFilter from '../utils/table-filter';
     import switcher from '../../utils/switcher';
     import uploadPopup from '../utils/upload-popup';
@@ -127,7 +97,6 @@
         name: "the-users",
         components: {
             'object-header': objectHeader,
-            'edit-field': editField,
             'upload-popup': uploadPopup,
             vuetable,
             'table-filter': tableFilter,
@@ -207,7 +176,7 @@
             for (let i = 0; i < 4; i++) {
                 this.test.push({
                     isSelected: false,
-                    head: `head${i}`,
+                    name: `head${i}`,
                     login: 'login' + (10 - i),
                     extensions: '' + i + i + i,
                     state: true,

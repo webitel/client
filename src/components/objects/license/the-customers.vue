@@ -22,53 +22,14 @@
                     :data="test"
             >
 
-                <template slot="serial" slot-scope="props">
-                    <edit-field
-                            class="form__input"
-                            :text="test[props.rowIndex].serial"
-                            disabled
-                    ></edit-field>
-                </template>
-
                 <template slot="valid-from" slot-scope="props">
-                    <edit-field
-                            class="form__input"
-                            :text="test[props.rowIndex].validFrom"
-                            disabled
-                    ></edit-field>
+                    <div>{{test[props.rowIndex].validFrom.toLocaleDateString('ru-RU')}}</div>
                 </template>
 
                 <template slot="valid-till" slot-scope="props">
-                    <edit-field
-                            class="form__input"
-                            :text="test[props.rowIndex].validTill"
-                            disabled
-                    ></edit-field>
+                    <div>{{test[props.rowIndex].validTill.toLocaleDateString('ru-RU')}}</div>
                 </template>
 
-                <template slot="competitive" slot-scope="props">
-                    <edit-field
-                            class="form__input"
-                            :text="test[props.rowIndex].competitive"
-                            disabled
-                    ></edit-field>
-                </template>
-
-                <template slot="used" slot-scope="props">
-                    <edit-field
-                            class="form__input"
-                            :text="test[props.rowIndex].used"
-                            disabled
-                    ></edit-field>
-                </template>
-
-                <template slot="limit" slot-scope="props">
-                    <edit-field
-                            class="form__input"
-                            :text="test[props.rowIndex].limit"
-                            disabled
-                    ></edit-field>
-                </template>
 
                 <template slot="actions" slot-scope="props">
                     <div class="vuetable-actions">
@@ -85,14 +46,12 @@
 <script>
     import vuetable from 'vuetable-2/src/components/Vuetable';
     import objectHeader from '../object-header';
-    import editField from '../../utils/edit-field';
     import license from './license';
 
     export default {
         name: "the-customers",
         components: {
             'object-header': objectHeader,
-            'edit-field': editField,
             vuetable,
             license
         },
@@ -127,8 +86,8 @@
             for (let i = 0; i < 4; i++) {
                 this.test.push({
                     serial: '' + i + i + i,
-                    validFrom: new Date(2018, 10, Math.random()*30).toLocaleDateString(),
-                    validTill:new Date(2019, 7, Math.random()*30).toLocaleDateString(),
+                    validFrom: new Date(2018, 10, Math.random()*30),
+                    validTill: new Date(2019, 7, Math.random()*30),
                     competitive: 'On',
                     used: '444',
                     limit: '444',
