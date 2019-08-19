@@ -1,6 +1,6 @@
 <template>
     <div class="form-input">
-        <div class="label" :class="{'invalid': this.v.$error, 'required-field': computeRequiredLabel}">{{this.label}}
+        <div class="label" :class="{'invalid': this.v.$error}">{{computeRequiredLabel}}
             <div class="hint" v-show="this.hintText">
                 <i
                         class="hint__img tooltip-activator icon-icon_question"
@@ -33,13 +33,13 @@
         ></textarea>
 
         <div class="invalid form-input__details" v-show="v.email===false && v.$error">
-            {{$t('auth.validation.email')}}
+            {{$t('validation.email')}}
         </div>
         <div class="invalid form-input__details" v-show="v.required===false && v.$error">
-            {{$t('auth.validation.required')}}
+            {{$t('validation.required')}}
         </div>
         <div class="invalid form-input__details" v-show="v.sameAs===false && v.$error">
-            {{$t('auth.validation.confirmPassword')}}
+            {{$t('validation.confirmPassword')}}
         </div>
     </div>
 </template>
@@ -100,6 +100,12 @@
                 type: Boolean
             },
 
+            // '*' sign property
+            required: {
+              type: Boolean,
+              default: false
+            },
+
             // validation rules
             v: {
                 type: Object,
@@ -134,6 +140,9 @@
                     this.$emit('input', value);
                 },
             },
+            computeRequiredLabel() {
+                return this.required ? this.label+ '*' : this.label;
+            }
         },
     };
 </script>

@@ -23,8 +23,8 @@
                         class="form__input"
                         v-model.trim="$v.name.$model"
                         :v="$v.name"
-                        :label="$t('objects.name') + '*'"
-                        :placeholder="$t('objects.namePlaceholder') + '*'"
+                        :label="$t('objects.name')"
+                        :placeholder="$t('objects.namePlaceholder')"
                 ></form-input>
                 <form-input
                         class="form__input"

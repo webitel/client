@@ -10,7 +10,7 @@
                     class="auth__link"
                     to="/register"
             >
-                {{$t('auth.registerTitle')}}</router-link>
+                {{$t('auth.register')}}</router-link>
         </header>
 
         <form
@@ -18,14 +18,14 @@
                 ref="login"
                 @submit.prevent="submit"
         >
-            <h2 class="auth__title">{{$t('auth.loginTitle')}}</h2>
-            <p class="auth__subtitle">{{$t('auth.loginSubtitle')}}</p>
+            <h2 class="auth__title">{{$t('auth.login')}}</h2>
+            <p class="auth__subtitle">{{$t('auth.detailsSubtitle')}}</p>
 
             <form-input
                     class="form__input"
                     v-model.trim="$v.form.username.$model"
                     :label="$t('auth.user')"
-                    :placeholder="$t('auth.userPlaceholder')"
+                    :placeholder="$t('auth.user')"
                     :v="$v.form.username"
                     :autofocus="true"
             ></form-input>
@@ -34,7 +34,7 @@
                     class="form__input"
                     v-model.trim="$v.form.password.$model"
                     :label="$t('auth.password')"
-                    :placeholder="$t('auth.passwordPlaceholder')"
+                    :placeholder="$t('auth.password')"
                     :v="$v.form.password"
                     :type="'password'"
             ></form-input>

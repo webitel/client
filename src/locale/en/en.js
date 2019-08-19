@@ -1,26 +1,22 @@
 export default {
   auth: {
-    registerTitle: 'Register',
-    loginTitle: 'Login',
+    register: 'Register',
+    login: 'Login',
     registerReset: 'Reset password',
-    loginSubtitle: 'Enter your details below',
+    detailsSubtitle: 'Enter your details below',
     resetPasswordLink: 'Reset your password?',
     user: 'Username',
-    userPlaceholder: 'Enter username',
     password: 'Password',
     confirmPassword: 'Repeat password',
-    key: 'Key',
-    passwordPlaceholder: 'Enter password',
-    keyPlaceholder: 'Enter key',
+    key: 'License key',
     registerSubmit: 'Register',
     resetSubmit: 'Reset',
     loginSubmit: 'Log in',
-    validation: {
-      email: 'Should look email-like',
-      required: 'This field is required',
-      confirmPassword: 'Incorrect password',
-    },
-    toLogin: 'Log in',
+  },
+  validation: {
+    email: 'Should look email-like',
+    required: 'This field is required',
+    confirmPassword: 'Incorrect password',
   },
   objects: {
     new: 'New',
@@ -31,7 +27,6 @@ export default {
     save: 'Save',
     close: 'Close',
     name: 'Name',
-    namePlaceholder: 'Enter a name',
     description: 'Description',
     user: 'User',
     users: 'Users',
@@ -59,7 +54,6 @@ export default {
       allRoles: 'All roles',
       permissionsNew: {
         description: 'Description',
-        descriptionPlaceholder: 'Enter a description',
       },
       object: {
         object: 'Object',

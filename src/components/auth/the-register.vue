@@ -11,7 +11,7 @@
                     to="/login"
                     v-if="!this.$route.query.reset"
             >
-                {{$t('auth.toLogin')}}</router-link>
+                {{$t('auth.login')}}</router-link>
         </header>
         <form
                 class="auth__form"
@@ -19,13 +19,13 @@
                 @submit.prevent="submit"
         >
             <h2 class="auth__title heading-1">{{computeTitle}}</h2>
-            <p class="auth__subtitle fs12-lh24">{{$t('auth.loginSubtitle')}}</p>
+            <p class="auth__subtitle fs12-lh24">{{$t('auth.detailsSubtitle')}}</p>
 
             <form-input
                     class="form__input"
                     v-model.trim="$v.form.username.$model"
                     :label="$t('auth.user')"
-                    :placeholder="$t('auth.userPlaceholder')"
+                    :placeholder="$t('auth.user')"
                     :v="$v.form.username"
                     :autofocus="true"
             ></form-input>
@@ -35,7 +35,7 @@
                     v-model.trim="$v.form.password.$model"
                     ref="passwordRef"
                     :label="$t('auth.password')"
-                    :placeholder="$t('auth.passwordPlaceholder')"
+                    :placeholder="$t('auth.password')"
                     :v="$v.form.password"
                     :type="'password'"
             ></form-input>
@@ -44,7 +44,7 @@
                     class="form__input"
                     v-model.trim="$v.form.confirmPassword.$model"
                     :label="$t('auth.confirmPassword')"
-                    :placeholder="$t('auth.passwordPlaceholder')"
+                    :placeholder="$t('auth.confirmPassword')"
                     :v="$v.form.confirmPassword"
                     :type="'password'"
             ></form-input>
@@ -53,7 +53,7 @@
                     class="form__input"
                     v-model.trim="$v.form.certificate.$model"
                     :label="$t('auth.key')"
-                    :placeholder="$t('auth.keyPlaceholder')"
+                    :placeholder="$t('auth.key')"
                     :v="$v.form.certificate"
             ></form-input>
 
@@ -137,7 +137,7 @@ export default {
   },
   computed: {
     computeTitle() {
-      return this.$route.query.reset ? this.$t('auth.registerReset') : this.$t('auth.registerTitle');
+      return this.$route.query.reset ? this.$t('auth.registerReset') : this.$t('auth.register');
     },
     computeButton() {
       return this.$route.query.reset ? this.$t('auth.resetSubmit') : this.$t('auth.registerSubmit');

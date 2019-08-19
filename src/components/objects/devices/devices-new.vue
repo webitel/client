@@ -18,15 +18,15 @@
                     <form-input
                             v-model.trim="$v.name.$model"
                             :v="$v.name"
-                            :label="$t('objects.name') + '*'"
-                            :placeholder="$t('objects.name') + '*'"
+                            :label="$t('objects.name')"
+                            :placeholder="$t('objects.name')"
                             :hintText="'lorem ipsum'"
                     ></form-input>
                     <form-input
                             v-model.trim="$v.authId.$model"
                             :v="$v.authId"
-                            :label="$t('objects.devices.authId') + '*'"
-                            :placeholder="$t('objects.devices.authId') + '*'"
+                            :label="$t('objects.devices.authId')"
+                            :placeholder="$t('objects.devices.authId')"
                             :hintText="'lorem ipsum'"
                     ></form-input>
 
@@ -35,8 +35,8 @@
                                 ref="input-password"
                                 v-model.trim="$v.password.$model"
                                 :v="$v.password"
-                                :label="$t('objects.password') + '*'"
-                                :placeholder="$t('objects.password') + '*'"
+                                :label="$t('objects.password')"
+                                :placeholder="$t('objects.password')"
                         ></form-input>
 
                         <div class="input-extension">
@@ -71,7 +71,7 @@
 
                 <template slot="expansion-content">
                     <div class="tags-input-wrap">
-                        <div class="tags-input__label">{{$t('objects.devices.devicesNew.hostName') + '*'}}
+                        <div class="tags-input__label">{{$t('objects.devices.devicesNew.hostName')}}
 
                             <div class="hint">
                                 <i

@@ -25,8 +25,8 @@
                     <form-input
                             v-model.trim="$v.login.$model"
                             :v="$v.login"
-                            :label="$t('objects.usersObject.login') + '*'"
-                            :placeholder="$t('objects.usersObject.login') + '*'"
+                            :label="$t('objects.usersObject.login')"
+                            :placeholder="$t('objects.usersObject.login')"
                             :hintText="'lorem ipsum'"
                     ></form-input>
 
@@ -35,8 +35,8 @@
                                 ref="input-password"
                                 v-model.trim="$v.password.$model"
                                 :v="$v.password"
-                                :label="$t('objects.password') + '*'"
-                                :placeholder="$t('objects.password') + '*'"
+                                :label="$t('objects.password')"
+                                :placeholder="$t('objects.password')"
                         ></form-input>
 
                         <div class="input-extension">
