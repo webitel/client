@@ -66,7 +66,12 @@
 
 
                 <template slot="status" slot-scope="props">
-                    <div>{{filtered[props.rowIndex].status}}</div>
+                    <dropdown-select
+                            class="inline-dropdown"
+                        :placeholder="filtered[props.rowIndex].status"
+                        :options="statusOptions"
+                        @input="filtered[props.rowIndex].status = $event"
+                    ></dropdown-select>
                 </template>
 
 
@@ -92,14 +97,16 @@
     import switcher from '../../utils/switcher';
     import uploadPopup from '../utils/upload-popup';
     import status from '../../utils/status';
+    import dropdownSelect from '../../utils/dropdown-select';
 
     export default {
         name: "the-users",
         components: {
             'object-header': objectHeader,
             'upload-popup': uploadPopup,
-            vuetable,
             'table-filter': tableFilter,
+            'dropdown-select': dropdownSelect,
+            vuetable,
             switcher,
             status
         },
@@ -131,6 +138,7 @@
                 filtered: [],
                 search: '',
                 propertiesToSearch: ['head', 'login', 'extensions', 'status'],
+                statusOptions: ['On break', 'Available', 'Chatting'],
                 filterObjects: {
                     state: {
                         name: 'State',

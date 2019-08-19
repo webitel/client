@@ -16,17 +16,16 @@
   }
 
   tr {
-    min-height: 52px;
-    height: 52px;
+    min-height: 54px;
+    height: 54px;
     border-bottom: 1px solid $divider-color;
 
     td {
       padding-right: 20px;
       letter-spacing: 0.4px;
     }
-
-
   }
+
   /*ACTION COLUMN*/
   // vuetable class is to override default style priority
   &.vuetable .vuetable-td-actions {

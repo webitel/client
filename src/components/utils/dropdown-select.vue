@@ -198,5 +198,40 @@
                 cursor: auto;
             }
         }
+
+    }
+
+    // inline edit (in-grid) styling
+    .inline-dropdown {
+        display: inline-block; // to vertical allign
+        height: 44px; // 44px height doesn't stratches vuetable rows
+        width: 160px; // to disable arrow right floating on high resolution screens
+
+        .label {
+            display: none; // no need in label in grid, also takes margin
+        }
+
+        .select {
+
+            .select-preview {
+                height: 100%; // fit container
+                margin-bottom: 0; // default styling reset
+                border: transparent; // default styling reset
+
+                input {
+                    padding: 0;
+                    /*border: 1px solid red;*/
+                }
+
+                .icon-icon_arrow-down {
+                    margin-bottom: 6px;
+                }
+            }
+
+            .select-options {
+                right: 16px;  // 40px right padding - 24px arrow
+                width: 196px;  // filter dropdown width
+            }
+        }
     }
 </style>
