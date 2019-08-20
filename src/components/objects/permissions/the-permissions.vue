@@ -68,7 +68,7 @@
         },
         mounted() {
             // FIXME: delete test data
-            for (let i = 0; i < 10; i++) {
+            for (let i = 0; i < 40; i++) {
                 this.test.push({
                     name: `head${i}`,
                     body: 'body',

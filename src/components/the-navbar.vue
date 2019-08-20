@@ -1,106 +1,49 @@
 <template>
     <aside class="the-nav__wrap">
         <nav class="the-nav">
-            <div class="logo logo__closed">
-                W
+            <div class="logo">
+                <img class="logo-sm__img" src="../assets/img/logo-sm.svg" alt="logo">
+                <img class="logo__img" src="../assets/img/logo.svg" alt="logo">
             </div>
-            <ul class="nav__icons">
-                <li class="nav-icon icon__closed"
-                    :class="{'nav__current': current.home && !hovered}"
-                    @mouseover="hovered = true"
-                    @mouseleave="hovered = false"
-                >
-                    <div class="nav-icon__img">
-                        <img src="../assets/img/nav/gray/home.svg" alt="home">
-                        <img
-                                class="nav-icon__img__hovered"
-                                src="../assets/img/nav/accent/home.svg"
-                                alt="home">
-                    </div>
+            <ul class="nav-items">
+                <li class="nav-item">
+                    <i class="nav-icon-arrow icon-icon_arrow-down"></i>
+                    <i class="nav-icon icon-icon_approve"></i>
+                    <span class="nav-text">Directory</span>
                 </li>
-                <li class="nav-icon icon__closed"
-                    @mouseover="hovered = true"
-                    @mouseleave="hovered = false"
-                >
-                    <div class="nav-icon__img">
-                        <img src="../assets/img/nav/gray/domain.svg" alt="domain">
-                        <img
-                                class="nav-icon__img__hovered"
-                                src="../assets/img/nav/accent/domain.svg"
-                                alt="domain">
-                    </div>
+                <li class="nav-item">
+                    <i class="nav-icon icon-icon_approve"></i>
+                    <span class="nav-text">Directory</span>
                 </li>
-                <li class="nav-icon icon__closed"
-                    @mouseover="hovered = true"
-                    @mouseleave="hovered = false"
-                >
-                    <div class="nav-icon__img">
-                        <img src="../assets/img/nav/gray/store.svg" alt="store">
-                        <img
-                                class="nav-icon__img__hovered"
-                                src="../assets/img/nav/accent/store.svg"
-                                alt="store">
-                    </div>
+                <li class="nav-item">
+                    <i class="nav-icon-arrow icon-icon_arrow-down"></i>
+                    <i class="nav-icon icon-icon_approve"></i>
+                    <span class="nav-text">Directory</span>
                 </li>
-                <li class="nav-icon icon__closed"
-                    @mouseover="hovered = true"
-                    @mouseleave="hovered = false"
-                >
-                    <div class="nav-icon__img">
-                        <img src="../assets/img/nav/gray/callflow.svg" alt="callflow">
-                        <img
-                                class="nav-icon__img__hovered"
-                                src="../assets/img/nav/accent/callflow.svg"
-                                alt="callflow">
-                    </div>
+                <li class="nav-item">
+                    <i class="nav-icon-arrow icon-icon_arrow-down"></i>
+                    <i class="nav-icon icon-icon_approve"></i>
+                    <span class="nav-text">Directory</span>
                 </li>
-                <li class="nav-icon icon__closed"
-                    @mouseover="hovered = true"
-                    @mouseleave="hovered = false"
-                >
-                    <div class="nav-icon__img">
-                        <img src="../assets/img/nav/gray/queue.svg" alt="queue">
-                        <img
-                                class="nav-icon__img__hovered"
-                                src="../assets/img/nav/accent/queue.svg"
-                                alt="queue">
-                    </div>
+                <li class="nav-item">
+                    <i class="nav-icon-arrow icon-icon_arrow-down"></i>
+                    <i class="nav-icon icon-icon_approve"></i>
+                    <span class="nav-text">Directory</span>
                 </li>
-                <li class="nav-icon icon__closed"
-                    @mouseover="hovered = true"
-                    @mouseleave="hovered = false"
-                >
-                    <div class="nav-icon__img">
-                        <img src="../assets/img/nav/gray/flag.svg" alt="flag">
-                        <img
-                                class="nav-icon__img__hovered"
-                                src="../assets/img/nav/accent/flag.svg"
-                                alt="flag">
-                    </div>
+                <li class="nav-item">
+                    <i class="nav-icon-arrow icon-icon_arrow-down"></i>
+                    <i class="nav-icon icon-icon_approve"></i>
+                    <span class="nav-text">Directory</span>
                 </li>
-                <li class="nav-icon icon__closed"
-                    @mouseover="hovered = true"
-                    @mouseleave="hovered = false"
-                >
-                    <div class="nav-icon__img">
-                        <img src="../assets/img/nav/gray/calendar.svg" alt="calendar">
-                        <img
-                                class="nav-icon__img__hovered"
-                                src="../assets/img/nav/accent/calendar.svg"
-                                alt="calendar">
-                    </div>
+                <li class="nav-item">
+                    <i class="nav-icon-arrow icon-icon_arrow-down"></i>
+                    <i class="nav-icon icon-icon_approve"></i>
+                    <span class="nav-text">Directory</span>
                 </li>
-                <li class="nav-icon icon__closed"
-                    @mouseover="hovered = true"
-                    @mouseleave="hovered = false"
-                >
-                    <div class="nav-icon__img">
-                        <img src="../assets/img/nav/gray/media.svg" alt="media">
-                        <img
-                                class="nav-icon__img__hovered"
-                                src="../assets/img/nav/accent/media.svg"
-                                alt="media">
-                    </div>
+                <li class="nav-item">
+                    <i class="nav-icon-arrow icon-icon_arrow-down"></i>
+                    <i class="nav-icon icon-icon_approve"></i>
+                    <span class="nav-text">Directory</span>
                 </li>
             </ul>
         </nav>
@@ -108,20 +51,20 @@
 </template>
 
 <script>
-export default {
-  name: 'the-nav',
-  data() {
-    return {
-      current: {
-        home: false,
-      },
-      hovered: false,
+    export default {
+        name: 'the-nav',
+        data() {
+            return {
+                current: {
+                    home: false,
+                },
+                hovered: false,
+            };
+        },
+        mounted() {
+            this.current[this.$route.name] = true;
+        },
     };
-  },
-  mounted() {
-    this.current[this.$route.name] = true;
-  },
-};
 </script>
 
 <style lang="scss" scoped>
@@ -129,66 +72,100 @@ export default {
         position: relative;
         min-width: 74px;
         width: 74px;
-        height: 100%;
         min-height: 100vh;
-        background: #171A2A;
         z-index: 1;
-    }
 
-    .logo {
-        text-align: center;
-        margin: 21px auto 42px;
     }
 
     .the-nav {
         position: fixed;
+        width: 74px;
+        height: 100%;
+        color: $nav-icon-color;
+        background: #171A2A;
+        transition: $transition;
+
+        i {
+            color: $nav-icon-color;
+        }
     }
 
-    .nav-icon {
-        position: relative;
-        width: 73px;
-        height: 52px;
-        margin-left: 1px;
-        border-left: 3px solid transparent;
-        transition: $transition;
-        cursor: pointer;
+    .logo {
+        width: 100%;
+        height: 20px; // reserving a place for absolute positioned img's
+        margin: 21px auto 42px;
 
-        &:hover {
-            border-color: $accent-color;
-
-        }
         img {
             position: absolute;
-            top: 50%;
-            left: calc(50% - 3px);
-            transform: translate(-50%, -50%);
+            left: 50%;
+            transform: translateX(-50%);
+            transition: $transition;
+            pointer-events: none;
+        }
+
+        .logo__img {
+            opacity: 0;
+        }
+    }
+
+    .nav-item {
+        position: relative; // text pos absolute
+        height: 24px;
+        padding: 14px 0;
+        box-sizing: content-box;
+        cursor: pointer;
+
+        .nav-icon-arrow {
+            position: absolute;
+            left: 3px;
+            /*border: 1px solid blue;*/
+            transform: rotate(-90deg);
+            transition: $transition;
+            opacity: 0;
+        }
+
+        .nav-icon {
+            text-align: center;
+            display: inline-block;
+            width: 70px;
+            /*border: 1px solid red;*/
             transition: $transition;
         }
 
-        &:hover img {
+        .nav-text {
+            position: absolute; // to prevent appearance below icon on transition start
+            top: 50%;
+            transform: translateY(-50%);
+            transition: $transition;
             opacity: 0;
         }
 
-        .nav-icon__img__hovered {
-            opacity: 0;
-
+        &:hover {
+            .nav-icon-arrow, .nav-icon, .nav-text {
+                color: $accent-color;
+            }
         }
-
-        &:hover .nav-icon__img__hovered {
-            opacity: 1;
-        }
-
     }
 
-    .nav__current {
-        border-color: $accent-color;
+    .the-nav:hover {
+        @extend .box-shadow;
 
-        img {
+        width: 275px;
+
+        .logo-sm__img {
             opacity: 0;
         }
 
-        .nav-icon__img__hovered {
+        .logo__img {
             opacity: 1;
+        }
+
+        .nav-icon-arrow, .nav-text {
+            opacity: 1;
+        }
+
+        .nav-icon {
+            transform: translateX(6px);
         }
     }
 
