@@ -19,17 +19,17 @@
             >
 
                 <template slot="ObAC" slot-scope="props">
-                    <status
-                            :class="{'status__true': test[props.rowIndex].ObAC}"
-                            :text="computeStatusText(test[props.rowIndex].ObAC)"
-                    ></status>
+                    <switcher
+                            :value="test[props.rowIndex].ObAC"
+                            @toggleSwitch="test[props.rowIndex].ObAC = $event"
+                    ></switcher>
                 </template>
 
                 <template slot="RbAC" slot-scope="props">
-                    <status
-                            :class="{'status__true': test[props.rowIndex].RbAC}"
-                            :text="computeStatusText(test[props.rowIndex].RbAC)"
-                    ></status>
+                    <switcher
+                            :value="test[props.rowIndex].RbAC"
+                            @toggleSwitch="test[props.rowIndex].RbAC = $event"
+                    ></switcher>
                 </template>
 
                 <template slot="actions" slot-scope="props">
@@ -47,13 +47,13 @@
 <script>
     import vuetable from 'vuetable-2/src/components/Vuetable';
     import objectHeader from '../../object-header';
-    import status from '../../../utils/status';
+    import switcher from '../../../utils/switcher';
 
     export default {
         name: "permissions-object",
         components: {
             'object-header': objectHeader,
-            status,
+            switcher,
             vuetable,
         },
         data() {
