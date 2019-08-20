@@ -1,7 +1,7 @@
 <template>
     <aside class="the-nav__wrap">
         <nav class="the-nav">
-            <div class="logo">
+            <div class="logo"  @click="$router.push('/')">
                 <img class="logo-sm__img" src="../assets/img/logo-sm.svg" alt="logo">
                 <img class="logo__img" src="../assets/img/logo.svg" alt="logo">
             </div>
@@ -17,15 +17,15 @@
                         <span class="nav-text">Directory</span>
                     </div>
                     <ul class="subnav-items" v-show="this.expanded.directory">
-                        <li class="subnav-item">
+                        <li class="subnav-item" @click="$router.push('/users')">
                             <i class="subnav-icon icon-icon_deny"></i>
                             <span class="subnav-text">Users</span>
                         </li>
-                        <li class="subnav-item">
+                        <li class="subnav-item" @click="$router.push('/devices')">
                             <i class="subnav-icon icon-icon_deny"></i>
                             <span class="subnav-text">Devices</span>
                         </li>
-                        <li class="subnav-item">
+                        <li class="subnav-item" @click="$router.push('/permissions')">
                             <i class="subnav-icon icon-icon_deny"></i>
                             <span class="subnav-text">Permissions</span>
                         </li>
@@ -256,6 +256,7 @@
         width: 100%;
         height: 20px; // reserving a place for absolute positioned img's
         margin: 21px auto 42px;
+        cursor: pointer;
 
         img {
             position: absolute;

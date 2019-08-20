@@ -64,6 +64,30 @@
                                 :placeholder="'Priority'"
                         ></dropdown-select>
                     </li>
+                    <li>
+                        <div>ID</div>
+                        <dropdown-select
+                                :placeholder="'ID'"
+                        ></dropdown-select>
+                    </li>
+                    <li>
+                        <div>Title</div>
+                        <dropdown-select
+                                :placeholder="'Title'"
+                        ></dropdown-select>
+                    </li>
+                    <li>
+                        <div>Type</div>
+                        <dropdown-select
+                                :placeholder="'Type'"
+                        ></dropdown-select>
+                    </li>
+                    <li>
+                        <div>Priority</div>
+                        <dropdown-select
+                                :placeholder="'Priority'"
+                        ></dropdown-select>
+                    </li>
                 </ul>
 
             </div>

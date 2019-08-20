@@ -234,4 +234,11 @@
             }
         }
     }
+
+    .column-rows {
+        .select-options {
+            max-height: 120px;
+        }
+    }
+
 </style>
