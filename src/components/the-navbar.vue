@@ -6,44 +6,195 @@
                 <img class="logo__img" src="../assets/img/logo.svg" alt="logo">
             </div>
             <ul class="nav-items">
-                <li class="nav-item">
-                    <i class="nav-icon-arrow icon-icon_arrow-down"></i>
-                    <i class="nav-icon icon-icon_approve"></i>
-                    <span class="nav-text">Directory</span>
+                <li
+                        class="nav-item-wrap"
+                        :class="{'nav-item__expanded': expanded.directory}"
+                        @click="expandItem('directory')"
+                >
+                    <div class="nav-item">
+                        <i class="nav-icon-arrow icon-icon_arrow-down"></i>
+                        <i class="nav-icon icon-icon_approve"></i>
+                        <span class="nav-text">Directory</span>
+                    </div>
+                    <ul class="subnav-items" v-show="this.expanded.directory">
+                        <li class="subnav-item">
+                            <i class="subnav-icon icon-icon_deny"></i>
+                            <span class="subnav-text">Users</span>
+                        </li>
+                        <li class="subnav-item">
+                            <i class="subnav-icon icon-icon_deny"></i>
+                            <span class="subnav-text">Devices</span>
+                        </li>
+                        <li class="subnav-item">
+                            <i class="subnav-icon icon-icon_deny"></i>
+                            <span class="subnav-text">Permissions</span>
+                        </li>
+                    </ul>
                 </li>
-                <li class="nav-item">
-                    <i class="nav-icon icon-icon_approve"></i>
-                    <span class="nav-text">Directory</span>
+
+                <li class="nav-item-wrap">
+                    <div class="nav-item">
+                        <i class="nav-icon icon-icon_approve"></i>
+                        <span class="nav-text">Contacts</span>
+                    </div>
                 </li>
-                <li class="nav-item">
-                    <i class="nav-icon-arrow icon-icon_arrow-down"></i>
-                    <i class="nav-icon icon-icon_approve"></i>
-                    <span class="nav-text">Directory</span>
+
+                <li
+                        class="nav-item-wrap"
+                        :class="{'nav-item__expanded': expanded.routing}"
+                        @click="expandItem('routing')"
+                >
+                    <div class="nav-item">
+                        <i class="nav-icon-arrow icon-icon_arrow-down"></i>
+                        <i class="nav-icon icon-icon_approve"></i>
+                        <span class="nav-text">Routing</span>
+                    </div>
+                    <ul class="subnav-items" v-show="this.expanded.routing">
+                        <li class="subnav-item">
+                            <i class="subnav-icon icon-icon_deny"></i>
+                            <span class="subnav-text">SIP Endpoints</span>
+                        </li>
+                        <li class="subnav-item">
+                            <i class="subnav-icon icon-icon_deny"></i>
+                            <span class="subnav-text">Flows manager</span>
+                        </li>
+                        <li class="subnav-item">
+                            <i class="subnav-icon icon-icon_deny"></i>
+                            <span class="subnav-text">Dialplan</span>
+                        </li>
+                        <li class="subnav-item">
+                            <i class="subnav-icon icon-icon_deny"></i>
+                            <span class="subnav-text">Chatplan</span>
+                        </li>
+                        <li class="subnav-item">
+                            <i class="subnav-icon icon-icon_deny"></i>
+                            <span class="subnav-text">Blacklists</span>
+                        </li>
+                    </ul>
                 </li>
-                <li class="nav-item">
-                    <i class="nav-icon-arrow icon-icon_arrow-down"></i>
-                    <i class="nav-icon icon-icon_approve"></i>
-                    <span class="nav-text">Directory</span>
+
+                <li
+                        class="nav-item-wrap"
+                        :class="{'nav-item__expanded': expanded.logs}"
+                        @click="expandItem('logs')"
+                >
+                    <div class="nav-item">
+                        <i class="nav-icon-arrow icon-icon_arrow-down"></i>
+                        <i class="nav-icon icon-icon_approve"></i>
+                        <span class="nav-text">Directory</span>
+                    </div>
+                    <ul class="subnav-items" v-show="this.expanded.logs">
+                        <li class="subnav-item">
+                            <i class="subnav-icon icon-icon_deny"></i>
+                            <span class="subnav-text">Call log</span>
+                        </li>
+                        <li class="subnav-item">
+                            <i class="subnav-icon icon-icon_deny"></i>
+                            <span class="subnav-text">Chat logs</span>
+                        </li>
+                        <li class="subnav-item">
+                            <i class="subnav-icon icon-icon_deny"></i>
+                            <span class="subnav-text">Actions log</span>
+                        </li>
+                    </ul>
                 </li>
-                <li class="nav-item">
-                    <i class="nav-icon-arrow icon-icon_arrow-down"></i>
-                    <i class="nav-icon icon-icon_approve"></i>
-                    <span class="nav-text">Directory</span>
+
+                <li
+                        class="nav-item-wrap"
+                        :class="{'nav-item__expanded': expanded.contactCenter}"
+                        @click="expandItem('contactCenter')"
+                >
+                    <div class="nav-item">
+                        <i class="nav-icon-arrow icon-icon_arrow-down"></i>
+                        <i class="nav-icon icon-icon_approve"></i>
+                        <span class="nav-text">Contact center</span>
+                    </div>
+                    <ul class="subnav-items" v-show="this.expanded.contactCenter">
+                        <li class="subnav-item">
+                            <i class="subnav-icon icon-icon_deny"></i>
+                            <span class="subnav-text">Dashboard</span>
+                        </li>
+                        <li class="subnav-item">
+                            <i class="subnav-icon icon-icon_deny"></i>
+                            <span class="subnav-text">Agents</span>
+                        </li>
+                        <li class="subnav-item">
+                            <i class="subnav-icon icon-icon_deny"></i>
+                            <span class="subnav-text">Resourses</span>
+                        </li>
+                        <li class="subnav-item">
+                            <i class="subnav-icon icon-icon_deny"></i>
+                            <span class="subnav-text">Queues</span>
+                        </li>
+                    </ul>
                 </li>
-                <li class="nav-item">
-                    <i class="nav-icon-arrow icon-icon_arrow-down"></i>
-                    <i class="nav-icon icon-icon_approve"></i>
-                    <span class="nav-text">Directory</span>
+
+                <li
+                        class="nav-item-wrap"
+                        :class="{'nav-item__expanded': expanded.integrations}"
+                        @click="expandItem('integrations')"
+                >
+                    <div class="nav-item">
+                        <i class="nav-icon-arrow icon-icon_arrow-down"></i>
+                        <i class="nav-icon icon-icon_approve"></i>
+                        <span class="nav-text">Integrations</span>
+                    </div>
+                    <ul class="subnav-items" v-show="this.expanded.integrations">
+                        <li class="subnav-item">
+                            <i class="subnav-icon icon-icon_deny"></i>
+                            <span class="subnav-text">API tokens</span>
+                        </li>
+                        <li class="subnav-item">
+                            <i class="subnav-icon icon-icon_deny"></i>
+                            <span class="subnav-text">Accounts</span>
+                        </li>
+                        <li class="subnav-item">
+                            <i class="subnav-icon icon-icon_deny"></i>
+                            <span class="subnav-text">Webhooks</span>
+                        </li>
+                        <li class="subnav-item">
+                            <i class="subnav-icon icon-icon_deny"></i>
+                            <span class="subnav-text">Site Wigets</span>
+                        </li>
+                        <li class="subnav-item">
+                            <i class="subnav-icon icon-icon_deny"></i>
+                            <span class="subnav-text">Call tracking</span>
+                        </li>
+                    </ul>
                 </li>
-                <li class="nav-item">
-                    <i class="nav-icon-arrow icon-icon_arrow-down"></i>
-                    <i class="nav-icon icon-icon_approve"></i>
-                    <span class="nav-text">Directory</span>
-                </li>
-                <li class="nav-item">
-                    <i class="nav-icon-arrow icon-icon_arrow-down"></i>
-                    <i class="nav-icon icon-icon_approve"></i>
-                    <span class="nav-text">Directory</span>
+
+                <li
+                        class="nav-item-wrap"
+                        :class="{'nav-item__expanded': expanded.administration}"
+                        @click="expandItem('administration')"
+                >
+                    <div class="nav-item">
+                        <i class="nav-icon-arrow icon-icon_arrow-down"></i>
+                        <i class="nav-icon icon-icon_approve"></i>
+                        <span class="nav-text">Administration</span>
+                    </div>
+                    <ul class="subnav-items" v-show="this.expanded.administration">
+                        <li class="subnav-item">
+                            <i class="subnav-icon icon-icon_deny"></i>
+                            <span class="subnav-text">License</span>
+                        </li>
+                        <li class="subnav-item">
+                            <i class="subnav-icon icon-icon_deny"></i>
+                            <span class="subnav-text">Storage</span>
+                        </li>
+                        <li class="subnav-item">
+                            <i class="subnav-icon icon-icon_deny"></i>
+                            <span class="subnav-text">Media files</span>
+                        </li>
+                        <li class="subnav-item">
+                            <i class="subnav-icon icon-icon_deny"></i>
+                            <span class="subnav-text">Lookups</span>
+                        </li>
+                        <li class="subnav-item">
+                            <i class="subnav-icon icon-icon_deny"></i>
+                            <span class="subnav-text">ADFS OAuth2</span>
+                        </li>
+                    </ul>
                 </li>
             </ul>
         </nav>
@@ -55,15 +206,27 @@
         name: 'the-nav',
         data() {
             return {
-                current: {
-                    home: false,
-                },
-                hovered: false,
+                expanded: {
+                    directory: true,
+                    routing: false,
+                    logs: false,
+                    contactCenter: false,
+                    integrations: false,
+                    administration: false
+                }
             };
         },
         mounted() {
-            this.current[this.$route.name] = true;
+
         },
+        methods: {
+            // watches only 1 item to be opened
+            expandItem(expandItem) {
+                Object.keys(this.expanded).map(item => {
+                    this.expanded[item] = item === expandItem;
+                });
+            }
+        }
     };
 </script>
 
@@ -74,7 +237,6 @@
         width: 74px;
         min-height: 100vh;
         z-index: 1;
-
     }
 
     .the-nav {
@@ -108,49 +270,84 @@
         }
     }
 
-    .nav-item {
-        position: relative; // text pos absolute
-        height: 24px;
-        padding: 14px 0;
-        box-sizing: content-box;
-        cursor: pointer;
+    .nav-item-wrap {
+        .nav-item {
+            display: flex;
+            align-items: center;
+            position: relative;
+            height: 24px;
+            padding: 8px 0;
+            box-sizing: content-box;
+            cursor: pointer;
 
-        .nav-icon-arrow {
+            .nav-icon-arrow {
+                position: absolute;
+                left: 6px;
+                transform: rotate(-90deg);
+                transition: $transition;
+                opacity: 0;
+            }
+
+            .nav-icon {
+                text-align: center;
+                flex: 0 0 74px;
+                transition: $transition;
+            }
+
+            .nav-text {
+                transition: $transition;
+                opacity: 0;
+            }
+        }
+
+
+        .subnav-items {
             position: absolute;
-            left: 3px;
-            /*border: 1px solid blue;*/
-            transform: rotate(-90deg);
+            margin: 20px 11px 20px 0;
             transition: $transition;
             opacity: 0;
+            pointer-events: none;
+
+            .subnav-item {
+                display: flex;
+                align-items: center;
+                height: 24px;
+                padding: 8px 0 8px 61px;
+                box-sizing: content-box;
+                border-radius: $border-radius;
+                transform: translateX(-4px);
+                cursor: pointer;
+
+                &:hover {
+                    background: rgba(0, 0, 0, 0.1);
+
+                    .subnav-text, .subnav-icon {
+                        color: $accent-color;
+                    }
+                }
+            }
+
+            .subnav-icon {
+                margin-right: 16px;
+            }
         }
 
-        .nav-icon {
-            text-align: center;
-            display: inline-block;
-            width: 70px;
-            /*border: 1px solid red;*/
-            transition: $transition;
-        }
-
-        .nav-text {
-            position: absolute; // to prevent appearance below icon on transition start
-            top: 50%;
-            transform: translateY(-50%);
-            transition: $transition;
-            opacity: 0;
-        }
-
-        &:hover {
+        &:hover, &.nav-item__expanded {
             .nav-icon-arrow, .nav-icon, .nav-text {
                 color: $accent-color;
+            }
+
+            .nav-icon-arrow {
+                transform: rotate(0);
             }
         }
     }
 
     .the-nav:hover {
+        /*.the-nav {*/
         @extend .box-shadow;
 
-        width: 275px;
+        width: 250px;
 
         .logo-sm__img {
             opacity: 0;
@@ -160,12 +357,20 @@
             opacity: 1;
         }
 
-        .nav-icon-arrow, .nav-text {
-            opacity: 1;
+        .nav-item {
+            .nav-icon-arrow, .nav-text {
+                opacity: 1;
+            }
+
+            .nav-icon {
+                transform: translateX(6px);
+            }
         }
 
-        .nav-icon {
-            transform: translateX(6px);
+        .subnav-items {
+            position: static;
+            opacity: 1;
+            pointer-events: auto;
         }
     }
 
