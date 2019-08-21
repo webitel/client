@@ -97,7 +97,7 @@
         },
         methods: {
             edit() {
-                this.$router.push('/permissions/object/edit');
+                this.$router.push('/permissions/objects/edit');
             },
             computeStatusText(state) {
                 return state ? this.$t('objects.on') : this.$t('objects.off');

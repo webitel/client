@@ -67,7 +67,7 @@
 
         methods: {
             close() {
-                this.$router.push('/permissions');
+                this.$router.push('/permissions/roles');
             },
         },
         computed: {
@@ -90,7 +90,7 @@
     }
 
     .form-input {
-        margin: 16px 0 10px;
+        margin: 10px 0;
     }
 
 </style>

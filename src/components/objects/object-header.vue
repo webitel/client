@@ -58,7 +58,8 @@ export default {
         display: flex;
         justify-content: space-between;
         align-items: center;
-        padding: 18px 28px 18px 44px;
+        /*height: 101px;*/
+        padding: 27px 28px 26px 44px;
     }
 
     .object__title {

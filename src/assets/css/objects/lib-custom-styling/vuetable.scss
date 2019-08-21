@@ -16,8 +16,8 @@
   }
 
   tr {
-    min-height: 54px;
-    height: 54px;
+    min-height: 52px;
+    height: 52px;
     border-bottom: 1px solid $divider-color;
 
     td {
@@ -49,6 +49,10 @@
 
       &:hover {
         color: #000;
+      }
+
+      &:last-child {
+        margin-right: 30px;
       }
     }
   }

@@ -90,11 +90,11 @@
         },
         methods: {
             create() {
-                this.$router.push('/permissions/new');
+                this.$router.push('/permissions/roles/new');
             },
             action(action) {
                 if (action === 'edit') {
-                    this.$router.push({path: '/permissions/new', query: {edit: 'true'}});
+                    this.$router.push({path: '/permissions/roles/new', query: {edit: 'true'}});
                 }
             },
         }

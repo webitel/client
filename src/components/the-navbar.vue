@@ -626,6 +626,7 @@
             .nav-text {
                 transition: $transition;
                 opacity: 0;
+                pointer-events: none;
             }
         }
 
@@ -689,6 +690,7 @@
         .nav-item {
             .nav-icon-arrow, .nav-text {
                 opacity: 1;
+                pointer-events: auto;
             }
 
             .nav-icon {

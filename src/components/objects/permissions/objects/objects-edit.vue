@@ -98,7 +98,7 @@
         },
         methods: {
             close() {
-                this.$router.push('/permissions/object');
+                this.$router.push('/permissions/objects');
             }
         },
     }
