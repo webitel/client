@@ -64,6 +64,7 @@ export default {
     .object__title {
         @extend .typo-heading-lg;
 
+        margin: 0;
         letter-spacing: 0.15px;
     }
 </style>

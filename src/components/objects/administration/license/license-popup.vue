@@ -14,8 +14,8 @@
 </template>
 
 <script>
-    import popup from '../../utils/popup';
-    import formInput from '../../utils/form-input';
+    import popup from '../../../utils/popup';
+    import formInput from '../../../utils/form-input';
 
     export default {
         name: "license-popup",

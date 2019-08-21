@@ -7,16 +7,16 @@ import register from '../components/auth/the-register';
 import moduleWrap from '../components/objects/module-wrap';
 import home from '../components/objects/home/the-home';
 import notFound from '../components/utils/the-not-found-component';
-import permissions from '../components/objects/permissions/the-permissions';
-import permissionsNew from '../components/objects/permissions/permissions-new';
-import permissionsObject from '../components/objects/permissions/permissions-object/the-permissions-object';
-import permissionsObjectEdit from '../components/objects/permissions/permissions-object/permissions-object-edit';
-import devices from '../components/objects/devices/the-devices';
-import devicesNew from '../components/objects/devices/devices-new';
-import users from '../components/objects/users/the-users';
-import usersNew from '../components/objects/users/users-new';
-import customers from '../components/objects/license/the-customers';
-import license from '../components/objects/license/license';
+import permissionsRoles from '../components/objects/permissions/roles/the-roles';
+import permissionsRolesNew from '../components/objects/permissions/roles/roles-new';
+import permissionsObjects from '../components/objects/permissions/objects/the-objects';
+import permissionsObjectsEdit from '../components/objects/permissions/objects/objects-edit';
+import devices from '../components/objects/directory/devices/the-devices';
+import devicesNew from '../components/objects/directory/devices/devices-new';
+import users from '../components/objects/directory/users/the-users';
+import usersNew from '../components/objects/directory/users/users-new';
+import customers from '../components/objects/administration/license/the-customers';
+import license from '../components/objects/administration/license/license';
 
 Vue.use(Router);
 
@@ -46,51 +46,60 @@ const router = new Router({
                     name: 'home',
                     component: home
                 },
+
+                // ----------DIRECTORY------------
                 {
-                    path: '/permissions',
-                    name: 'permissions',
-                    component: permissions,
-                },
-                {
-                    path: '/permissions/new',
-                    name: 'permissions-new',
-                    component: permissionsNew
-                },
-                {
-                    path: '/permissions/object',
-                    name: 'permissions-object',
-                    component: permissionsObject
-                },
-                {
-                    path: '/permissions/object/edit',
-                    name: 'permissions-object-edit',
-                    component: permissionsObjectEdit
-                },
-                {
-                    path:'/devices',
-                    name: 'devices',
+                    path:'directory/devices',
+                    name: 'directory-devices',
                     component: devices
                 },
                 {
-                    path:'/devices/new',
-                    name: 'devices-new',
+                    path:'/directory/devices/new',
+                    name: 'directory-devices-new',
                     component: devicesNew
                 },
                 {
-                    path: '/users',
-                    name: 'users',
+                    path: '/directory/users',
+                    name: 'directory-users',
                     component: users
                 },
                 {
-                    path:'/users/new',
-                    name: 'users-new',
+                    path:'/directory/users/new',
+                    name: 'directory-users-new',
                     component: usersNew
                 },
+                // ----------DIRECTORY END------------
+
+                // --------------ADMINISTRATION-------------
                 {
-                    path:'/license',
-                    name: 'customers',
+                    path:'/administration/license',
+                    name: 'administration-customers',
                     component: customers
-                }
+                },
+                // --------------ADMINISTRATION END-------------
+
+                // ----------PERMISSIONS-----------------
+                {
+                    path: '/permissions/roles',
+                    name: 'permissions-roles',
+                    component: permissionsRoles,
+                },
+                {
+                    path: '/permissions/roles/new',
+                    name: 'permissions-roles-new',
+                    component: permissionsRolesNew
+                },
+                {
+                    path: '/permissions/objects',
+                    name: 'permissions-objects',
+                    component: permissionsObjects
+                },
+                {
+                    path: '/permissions/objects/edit',
+                    name: 'permissions-objects-edit',
+                    component: permissionsObjectsEdit
+                },
+                // ----------PERMISSIONS END-----------------
             ]
         },
         {

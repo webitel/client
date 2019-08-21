@@ -71,8 +71,8 @@
 
 <script>
     import vuetable from 'vuetable-2/src/components/Vuetable';
-    import objectHeader from '../object-header';
-    import tableFilter from '../utils/table-filter';
+    import objectHeader from '../../object-header';
+    import tableFilter from '../../utils/table-filter';
     import licensePopup from './license-popup';
 
     export default {

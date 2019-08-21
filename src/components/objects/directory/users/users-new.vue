@@ -171,7 +171,7 @@
                         </tags-input>
 
                         <div class="hint-link__wrap">
-                            <router-link class="hint-link__link" to="/devices/new">{{$t('objects.usersObject.deviceNotFound')}}</router-link>
+                            <router-link class="hint-link__link" to="/directory/devices/new">{{$t('objects.usersObject.deviceNotFound')}}</router-link>
                             <div class="hint">
                                 <i
                                         class="hint__img tooltip-activator icon-icon_question"
@@ -213,14 +213,14 @@
 </template>
 
 <script>
-    import objectHeader from '../object-header';
-    import formInput from '../../utils/form-input';
-    import expansionPanel from '../../utils/expansion-panel';
-    import eventBus from '../../../utils/eventBus';
+    import objectHeader from '../../object-header';
+    import formInput from '../../../utils/form-input';
+    import expansionPanel from '../../../utils/expansion-panel';
+    import eventBus from '../../../../utils/eventBus';
     import {required} from 'vuelidate/lib/validators';
     import vueTagsInput from '@johmun/vue-tags-input';
     import vuetable from 'vuetable-2/src/components/Vuetable';
-    import checkbox from '../../utils/checkbox';
+    import checkbox from '../../../utils/checkbox';
 
     export default {
         name: "users-new",

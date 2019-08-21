@@ -171,15 +171,15 @@
 </template>
 
 <script>
-    import objectHeader from '../object-header';
-    import formInput from '../../utils/form-input';
-    import expansionPanel from '../../utils/expansion-panel';
-    import eventBus from '../../../utils/eventBus';
+    import objectHeader from '../../object-header';
+    import formInput from '../../../utils/form-input';
+    import expansionPanel from '../../../utils/expansion-panel';
+    import eventBus from '../../../../utils/eventBus';
     import {required} from 'vuelidate/lib/validators';
     import vueTagsInput from '@johmun/vue-tags-input';
     import vuetable from 'vuetable-2/src/components/Vuetable';
     import datepicker from 'vuejs-datepicker';
-    import dropdownSelect from '../../utils/dropdown-select';
+    import dropdownSelect from '../../../utils/dropdown-select';
 
     export default {
         name: 'devices-new',

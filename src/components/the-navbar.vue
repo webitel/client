@@ -1,14 +1,17 @@
 <template>
     <aside class="the-nav__wrap">
         <nav class="the-nav">
-            <div class="logo"  @click="$router.push('/')">
+            <div class="logo" @click="$router.push('/')">
                 <img class="logo-sm__img" src="../assets/img/logo-sm.svg" alt="logo">
                 <img class="logo__img" src="../assets/img/logo.svg" alt="logo">
             </div>
             <ul class="nav-items">
                 <li
                         class="nav-item-wrap"
-                        :class="{'nav-item__expanded': expanded.directory}"
+                        :class="{
+                        'nav-item__expanded': expanded.directory,
+                         'nav-item__current': currentRoute.directory
+                         }"
                         @click="expandItem('directory')"
                 >
                     <div class="nav-item">
@@ -17,17 +20,25 @@
                         <span class="nav-text">Directory</span>
                     </div>
                     <ul class="subnav-items" v-show="this.expanded.directory">
-                        <li class="subnav-item" @click="$router.push('/users')">
+                        <li
+                                class="subnav-item"
+                                :class="{
+                                    'nav-item__current': currentRouteItem.users
+                                 }"
+                                @click="$router.push('/directory/users')"
+                        >
                             <i class="subnav-icon icon-icon_deny"></i>
                             <span class="subnav-text">Users</span>
                         </li>
-                        <li class="subnav-item" @click="$router.push('/devices')">
+                        <li
+                                class="subnav-item"
+                                :class="{
+                                    'nav-item__current': currentRouteItem.devices
+                                 }"
+                                @click="$router.push('/directory/devices')"
+                        >
                             <i class="subnav-icon icon-icon_deny"></i>
                             <span class="subnav-text">Devices</span>
-                        </li>
-                        <li class="subnav-item" @click="$router.push('/permissions')">
-                            <i class="subnav-icon icon-icon_deny"></i>
-                            <span class="subnav-text">Permissions</span>
                         </li>
                     </ul>
                 </li>
@@ -41,7 +52,10 @@
 
                 <li
                         class="nav-item-wrap"
-                        :class="{'nav-item__expanded': expanded.routing}"
+                        :class="{
+                        'nav-item__expanded': expanded.routing,
+                         'nav-item__current': currentRoute.routing
+                         }"
                         @click="expandItem('routing')"
                 >
                     <div class="nav-item">
@@ -50,49 +64,83 @@
                         <span class="nav-text">Routing</span>
                     </div>
                     <ul class="subnav-items" v-show="this.expanded.routing">
-                        <li class="subnav-item">
+                        <li
+                                class="subnav-item"
+                                :class="{
+                                    'nav-item__current': currentRouteItem.sipEndpoints
+                                 }"
+                        >
                             <i class="subnav-icon icon-icon_deny"></i>
                             <span class="subnav-text">SIP Endpoints</span>
                         </li>
-                        <li class="subnav-item">
+                        <li
+                                class="subnav-item"
+                                :class="{
+                                    'nav-item__current': currentRouteItem.flowsManager
+                                 }"
+                        >
                             <i class="subnav-icon icon-icon_deny"></i>
                             <span class="subnav-text">Flows manager</span>
                         </li>
-                        <li class="subnav-item">
+                        <li
+                                class="subnav-item"
+                                :class="{
+                                    'nav-item__current': currentRouteItem.dialplan
+                                 }"
+                        >
                             <i class="subnav-icon icon-icon_deny"></i>
                             <span class="subnav-text">Dialplan</span>
                         </li>
-                        <li class="subnav-item">
+                        <li
+                                class="subnav-item"
+                                :class="{
+                                    'nav-item__current': currentRouteItem.chatplan
+                                 }"
+                        >
                             <i class="subnav-icon icon-icon_deny"></i>
                             <span class="subnav-text">Chatplan</span>
-                        </li>
-                        <li class="subnav-item">
-                            <i class="subnav-icon icon-icon_deny"></i>
-                            <span class="subnav-text">Blacklists</span>
                         </li>
                     </ul>
                 </li>
 
                 <li
                         class="nav-item-wrap"
-                        :class="{'nav-item__expanded': expanded.logs}"
+                        :class="{
+                        'nav-item__expanded': expanded.logs,
+                         'nav-item__current': currentRoute.logs
+                         }"
                         @click="expandItem('logs')"
                 >
                     <div class="nav-item">
                         <i class="nav-icon-arrow icon-icon_arrow-down"></i>
                         <i class="nav-icon icon-icon_approve"></i>
-                        <span class="nav-text">Directory</span>
+                        <span class="nav-text">Logs</span>
                     </div>
                     <ul class="subnav-items" v-show="this.expanded.logs">
-                        <li class="subnav-item">
+                        <li
+                                class="subnav-item"
+                                :class="{
+                                    'nav-item__current': currentRouteItem.callLogs
+                                 }"
+                        >
                             <i class="subnav-icon icon-icon_deny"></i>
                             <span class="subnav-text">Call log</span>
                         </li>
-                        <li class="subnav-item">
+                        <li
+                                class="subnav-item"
+                                :class="{
+                                    'nav-item__current': currentRouteItem.chatLogs
+                                 }"
+                        >
                             <i class="subnav-icon icon-icon_deny"></i>
                             <span class="subnav-text">Chat logs</span>
                         </li>
-                        <li class="subnav-item">
+                        <li
+                                class="subnav-item"
+                                :class="{
+                                    'nav-item__current': currentRouteItem.actionsLog
+                                 }"
+                        >
                             <i class="subnav-icon icon-icon_deny"></i>
                             <span class="subnav-text">Actions log</span>
                         </li>
@@ -101,7 +149,10 @@
 
                 <li
                         class="nav-item-wrap"
-                        :class="{'nav-item__expanded': expanded.contactCenter}"
+                        :class="{
+                        'nav-item__expanded': expanded.contactCenter,
+                         'nav-item__current': currentRoute.contactCenter
+                         }"
                         @click="expandItem('contactCenter')"
                 >
                     <div class="nav-item">
@@ -110,19 +161,39 @@
                         <span class="nav-text">Contact center</span>
                     </div>
                     <ul class="subnav-items" v-show="this.expanded.contactCenter">
-                        <li class="subnav-item">
+                        <li
+                                class="subnav-item"
+                                :class="{
+                                    'nav-item__current': currentRouteItem.dashboard
+                                 }"
+                        >
                             <i class="subnav-icon icon-icon_deny"></i>
                             <span class="subnav-text">Dashboard</span>
                         </li>
-                        <li class="subnav-item">
+                        <li
+                                class="subnav-item"
+                                :class="{
+                                    'nav-item__current': currentRouteItem.agents
+                                 }"
+                        >
                             <i class="subnav-icon icon-icon_deny"></i>
                             <span class="subnav-text">Agents</span>
                         </li>
-                        <li class="subnav-item">
+                        <li
+                                class="subnav-item"
+                                :class="{
+                                    'nav-item__current': currentRouteItem.resources
+                                 }"
+                        >
                             <i class="subnav-icon icon-icon_deny"></i>
                             <span class="subnav-text">Resourses</span>
                         </li>
-                        <li class="subnav-item">
+                        <li
+                                class="subnav-item"
+                                :class="{
+                                    'nav-item__current': currentRouteItem.queues
+                                 }"
+                        >
                             <i class="subnav-icon icon-icon_deny"></i>
                             <span class="subnav-text">Queues</span>
                         </li>
@@ -131,7 +202,81 @@
 
                 <li
                         class="nav-item-wrap"
-                        :class="{'nav-item__expanded': expanded.integrations}"
+                        :class="{
+                        'nav-item__expanded': expanded.lookups,
+                         'nav-item__current': currentRoute.lookups
+                         }"
+                        @click="expandItem('lookups')"
+                >
+                    <div class="nav-item">
+                        <i class="nav-icon-arrow icon-icon_arrow-down"></i>
+                        <i class="nav-icon icon-icon_approve"></i>
+                        <span class="nav-text">Lookups</span>
+                    </div>
+                    <ul class="subnav-items" v-show="this.expanded.lookups">
+                        <li
+                                class="subnav-item"
+                                :class="{
+                                    'nav-item__current': currentRouteItem.agentSkills
+                                 }"
+                        >
+                            <i class="subnav-icon icon-icon_deny"></i>
+                            <span class="subnav-text">Agent skills</span>
+                        </li>
+                        <li
+                                class="subnav-item"
+                                :class="{
+                                    'nav-item__current': currentRouteItem.calendars
+                                 }"
+                        >
+                            <i class="subnav-icon icon-icon_deny"></i>
+                            <span class="subnav-text">Calendars</span>
+                        </li>
+                        <li
+                                class="subnav-item"
+                                :class="{
+                                    'nav-item__current': currentRouteItem.communications
+                                 }"
+                        >
+                            <i class="subnav-icon icon-icon_deny"></i>
+                            <span class="subnav-text">Communications</span>
+                        </li>
+                        <li
+                                class="subnav-item"
+                                :class="{
+                                    'nav-item__current': currentRouteItem.contactType
+                                 }"
+                        >
+                            <i class="subnav-icon icon-icon_deny"></i>
+                            <span class="subnav-text">Contact type</span>
+                        </li>
+                        <li
+                                class="subnav-item"
+                                :class="{
+                                    'nav-item__current': currentRouteItem.leadSource
+                                 }"
+                        >
+                            <i class="subnav-icon icon-icon_deny"></i>
+                            <span class="subnav-text">Lead source</span>
+                        </li>
+                        <li
+                                class="subnav-item"
+                                :class="{
+                                    'nav-item__current': currentRouteItem.leadStatus
+                                 }"
+                        >
+                            <i class="subnav-icon icon-icon_deny"></i>
+                            <span class="subnav-text">Lead status</span>
+                        </li>
+                    </ul>
+                </li>
+
+                <li
+                        class="nav-item-wrap"
+                        :class="{
+                        'nav-item__expanded': expanded.integrations,
+                         'nav-item__current': currentRoute.integrations
+                         }"
                         @click="expandItem('integrations')"
                 >
                     <div class="nav-item">
@@ -140,23 +285,48 @@
                         <span class="nav-text">Integrations</span>
                     </div>
                     <ul class="subnav-items" v-show="this.expanded.integrations">
-                        <li class="subnav-item">
+                        <li
+                                class="subnav-item"
+                                :class="{
+                                    'nav-item__current': currentRouteItem.apiTokens
+                                 }"
+                        >
                             <i class="subnav-icon icon-icon_deny"></i>
                             <span class="subnav-text">API tokens</span>
                         </li>
-                        <li class="subnav-item">
+                        <li
+                                class="subnav-item"
+                                :class="{
+                                    'nav-item__current': currentRouteItem.accounts
+                                 }"
+                        >
                             <i class="subnav-icon icon-icon_deny"></i>
                             <span class="subnav-text">Accounts</span>
                         </li>
-                        <li class="subnav-item">
+                        <li
+                                class="subnav-item"
+                                :class="{
+                                    'nav-item__current': currentRouteItem.webhooks
+                                 }"
+                        >
                             <i class="subnav-icon icon-icon_deny"></i>
                             <span class="subnav-text">Webhooks</span>
                         </li>
-                        <li class="subnav-item">
+                        <li
+                                class="subnav-item"
+                                :class="{
+                                    'nav-item__current': currentRouteItem.siteWidgets
+                                 }"
+                        >
                             <i class="subnav-icon icon-icon_deny"></i>
                             <span class="subnav-text">Site Wigets</span>
                         </li>
-                        <li class="subnav-item">
+                        <li
+                                class="subnav-item"
+                                :class="{
+                                    'nav-item__current': currentRouteItem.callTracking
+                                 }"
+                        >
                             <i class="subnav-icon icon-icon_deny"></i>
                             <span class="subnav-text">Call tracking</span>
                         </li>
@@ -165,7 +335,10 @@
 
                 <li
                         class="nav-item-wrap"
-                        :class="{'nav-item__expanded': expanded.administration}"
+                        :class="{
+                        'nav-item__expanded': expanded.administration,
+                         'nav-item__current': currentRoute.administration
+                         }"
                         @click="expandItem('administration')"
                 >
                     <div class="nav-item">
@@ -174,25 +347,97 @@
                         <span class="nav-text">Administration</span>
                     </div>
                     <ul class="subnav-items" v-show="this.expanded.administration">
-                        <li class="subnav-item">
+                        <li
+                                class="subnav-item"
+                                :class="{
+                                    'nav-item__current': currentRouteItem.license
+                                 }"
+                                @click="$router.push('/administration/license')"
+                        >
                             <i class="subnav-icon icon-icon_deny"></i>
                             <span class="subnav-text">License</span>
                         </li>
-                        <li class="subnav-item">
+                        <li
+                                class="subnav-item"
+                                :class="{
+                                    'nav-item__current': currentRouteItem.storage
+                                 }"
+                        >
                             <i class="subnav-icon icon-icon_deny"></i>
                             <span class="subnav-text">Storage</span>
                         </li>
-                        <li class="subnav-item">
+                        <li
+                                class="subnav-item"
+                                :class="{
+                                    'nav-item__current': currentRouteItem.mediaFiles
+                                 }"
+                        >
                             <i class="subnav-icon icon-icon_deny"></i>
                             <span class="subnav-text">Media files</span>
                         </li>
-                        <li class="subnav-item">
+                        <li
+                                class="subnav-item"
+                                :class="{
+                                    'nav-item__current': currentRouteItem.blacklists
+                                 }"
+                        >
                             <i class="subnav-icon icon-icon_deny"></i>
-                            <span class="subnav-text">Lookups</span>
+                            <span class="subnav-text">Blacklists</span>
                         </li>
-                        <li class="subnav-item">
+                        <li
+                                class="subnav-item"
+                                :class="{
+                                    'nav-item__current': currentRouteItem.ADFS
+                                 }"
+                        >
                             <i class="subnav-icon icon-icon_deny"></i>
                             <span class="subnav-text">ADFS OAuth2</span>
+                        </li>
+                    </ul>
+                </li>
+
+                <li
+                        class="nav-item-wrap"
+                        :class="{
+                        'nav-item__expanded': expanded.permissions,
+                         'nav-item__current': currentRoute.permissions
+                         }"
+                        @click="expandItem('permissions')"
+                >
+                    <div class="nav-item">
+                        <i class="nav-icon-arrow icon-icon_arrow-down"></i>
+                        <i class="nav-icon icon-icon_approve"></i>
+                        <span class="nav-text">Permissions</span>
+                    </div>
+                    <ul class="subnav-items" v-show="this.expanded.permissions">
+                        <li
+                                class="subnav-item"
+                                :class="{
+                                    'nav-item__current': currentRouteItem.roles
+                                 }"
+                                @click="$router.push('/permissions/roles')"
+                        >
+                            <i class="subnav-icon icon-icon_deny"></i>
+                            <span class="subnav-text">Roles</span>
+                        </li>
+                        <li
+                                class="subnav-item"
+                                :class="{
+                                    'nav-item__current': currentRouteItem.objects
+                                 }"
+                                @click="$router.push('/permissions/objects')"
+                        >
+                            <i class="subnav-icon icon-icon_deny"></i>
+                            <span class="subnav-text">Objects</span>
+                        </li>
+                        <li
+                                class="subnav-item"
+                                :class="{
+                                    'nav-item__current': currentRouteItem.operations
+                                 }"
+                        >
+                            <i class="subnav-icon icon-icon_deny"></i>
+                            <span class="subnav-text">Operations</span>
                         </li>
                     </ul>
                 </li>
@@ -204,26 +449,109 @@
 <script>
     export default {
         name: 'the-nav',
+        watch: {
+            '$route': function () {
+                this.expandCurrentRoute();
+            }
+        },
         data() {
             return {
                 expanded: {
-                    directory: true,
+                    directory: false,
                     routing: false,
                     logs: false,
                     contactCenter: false,
+                    lookups: false,
                     integrations: false,
-                    administration: false
+                    administration: false,
+                    permissions: false
+                },
+                currentRoute: {
+                    directory: false,
+                    routing: false,
+                    logs: false,
+                    contactCenter: false,
+                    lookups: false,
+                    integrations: false,
+                    administration: false,
+                    permissions: false
+                },
+                currentRouteItem: {
+                    // Directory
+                    users: false,
+                    devices: false,
+
+                    // Contacts
+
+                    // Routing
+                    sipEndpoints: false,
+                    flowsManager: false,
+                    dialplan: false,
+                    chatplan: false,
+
+                    // Logs
+                    callLogs: false,
+                    chatLogs: false,
+                    actionsLog: false,
+
+                    // Contact Center
+                    dashboard: false,
+                    agents: false,
+                    resources: false,
+                    queues: false,
+
+                    // Lookups
+                    agentSkills: false,
+                    calendars: false,
+                    communications: false,
+                    contactType: false,
+                    leadSource: false,
+                    leadStatus: false,
+
+                    // Integrations
+                    apiTokens: false,
+                    accounts: false,
+                    webhooks: false,
+                    siteWidgets: false,
+                    callTracking: false,
+
+                    // Administration
+                    license: false,
+                    storage: false,
+                    mediaFiles: false,
+                    blacklists: false,
+                    ADFS: false,
+
+                    // Permissions
+                    roles: false,
+                    objects: false,
+                    operations: false,
                 }
             };
         },
         mounted() {
-
+            this.expandCurrentRoute();
         },
         methods: {
+            expandCurrentRoute() {
+                const currentRoute = this.$router.currentRoute.fullPath.split('/');
+                // [1] -- object, [2] -- page inself
+                this.highlightCurrent(currentRoute[1], currentRoute[2]);
+            },
+
             // watches only 1 item to be opened
             expandItem(expandItem) {
                 Object.keys(this.expanded).map(item => {
-                    this.expanded[item] = item === expandItem;
+                    this.expanded[item] = item === expandItem && !this.expanded[item];
+                });
+            },
+            highlightCurrent(currentObject, currentItem) {
+                this.expandItem(currentObject);
+                Object.keys(this.currentRoute).map(item => {
+                    this.currentRoute[item] = item === currentObject && !this.currentRoute[item];
+                });
+                Object.keys(this.currentRouteItem).map(item => {
+                    this.currentRouteItem[item] = item === currentItem && !this.currentRouteItem[item];
                 });
             }
         }
@@ -319,7 +647,7 @@
                 transform: translateX(-4px);
                 cursor: pointer;
 
-                &:hover {
+                &:hover, &.nav-item__current {
                     background: rgba(0, 0, 0, 0.1);
 
                     .subnav-text, .subnav-icon {
@@ -333,7 +661,7 @@
             }
         }
 
-        &:hover, &.nav-item__expanded {
+        &:hover, &.nav-item__expanded, &.nav-item__current {
             .nav-icon-arrow, .nav-icon, .nav-text {
                 color: $accent-color;
             }
@@ -348,7 +676,7 @@
         /*.the-nav {*/
         @extend .box-shadow;
 
-        width: 250px;
+        width: 260px;
 
         .logo-sm__img {
             opacity: 0;

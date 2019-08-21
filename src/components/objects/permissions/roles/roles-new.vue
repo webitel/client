@@ -41,8 +41,8 @@
 </template>
 
 <script>
-    import objectHeader from '../object-header';
-    import formInput from '../../utils/form-input';
+    import objectHeader from '../../object-header';
+    import formInput from '../../../utils/form-input';
     import {required} from 'vuelidate/lib/validators';
 
     export default {

@@ -45,7 +45,7 @@
 
 <script>
     import vuetable from 'vuetable-2/src/components/Vuetable';
-    import objectHeader from '../object-header';
+    import objectHeader from '../../object-header';
     import license from './license';
 
     export default {
