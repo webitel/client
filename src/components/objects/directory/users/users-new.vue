@@ -294,7 +294,7 @@
                 this.variables.splice(id, 1);
             },
             close() {
-                this.$router.push('/users');
+                this.$router.push('/directory/users');
             },
             generatePassword() {
                 const length = 12;
@@ -340,7 +340,7 @@
         padding: 14px 0 14px 4px;
 
         &:last-child {
-            margin-bottom: 0;
+            margin-bottom: 24px;
         }
     }
 

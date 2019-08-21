@@ -84,7 +84,7 @@
             top: 24px; //icon height
             right: 0;
             min-width: 196px;
-            padding: 13px 16px 14px;
+            padding: 13px 16px 19px;
             margin-top: 8px; //margin to icon
             color: #000;
             background: #fff;
@@ -104,6 +104,10 @@
                 padding: 3px;
                 margin-bottom: 13px;
             }
+        }
+
+        ul:last-child .filter__list-item {
+            margin-bottom: 0;
         }
     }
 </style>
