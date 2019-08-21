@@ -156,7 +156,7 @@
                 @extend .typo-body-md;
 
                 padding: 0 44px;
-                margin-top: 24px;
+                margin-top: 27px;
                 color: $input;
 
                 div {

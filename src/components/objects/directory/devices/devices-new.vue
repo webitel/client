@@ -90,6 +90,7 @@
                                 :placeholder="$t('objects.devices.hostName')"
                                 @tags-changed="newTags => this.hostTags = newTags"
                                 autocomplete-filter-duplicates
+                                disabled
                         ></tags-input>
                     </div>
                 </template>
@@ -237,9 +238,11 @@
             },
         },
         mounted() {
-            document.querySelectorAll('.vdp-datepicker .day-header').forEach(item => {
-                item.innerHTML = item.innerHTML.slice(0, -1);
-            });
+            // console.log(document.querySelectorAll('*'));
+            // document.querySelectorAll('.vdp-datepicker .day-header').forEach(item => {
+            //     console.log(item.innerHTML);
+            //     item.innerHTML = item.innerHTML.slice(0, -1);
+            // });
 
             // FIXME: delete test data
             for (let i = 0; i < 7; i++) {
@@ -253,7 +256,7 @@
         },
         methods: {
             close() {
-                this.$router.push('/devices');
+                this.$router.push('/directory/devices');
             },
             generatePassword() {
                 const length = 12;

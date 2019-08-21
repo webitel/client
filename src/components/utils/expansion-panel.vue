@@ -59,6 +59,7 @@
         }
 
         .icon {
+            margin-right: 23px;
             font-size: 30px;
             color: $icon-color;
             transition: $transition;
