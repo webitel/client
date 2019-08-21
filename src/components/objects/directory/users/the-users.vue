@@ -3,7 +3,7 @@
         <object-header
                 :primary-action="create"
         >
-            {{$t('objects.usersObject.users')}}
+            {{$t('objects.directory')}} | {{$t('objects.usersObject.users')}}
         </object-header>
 
         <upload-popup v-if="isPopupOpened" @close="closeCSVpopup"></upload-popup>

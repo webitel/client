@@ -21,6 +21,10 @@ export default {
     },
 
     objects: {
+
+        directory: 'Directory',
+        administration: 'Administration',
+
         new: 'New',
         create: 'Create',
         read: 'Read',
@@ -57,7 +61,7 @@ export default {
             permissionsRole: 'Role | Roles',
             allRoles: 'All roles',
             object: {
-                object: 'Object | Objects',
+                object: 'Objects',
                 allObjects: 'All objects',
                 ObAC: 'Managed by operations',
                 RbAC: 'Managed by records',

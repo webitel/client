@@ -1,7 +1,7 @@
 <template>
     <div class="content-wrap">
         <object-header>
-            {{$t('objects.license.license')}}
+            {{$t('objects.administration')}} | {{$t('objects.license.license')}}
         </object-header>
 
         <license-popup

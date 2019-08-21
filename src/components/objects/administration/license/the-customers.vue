@@ -3,7 +3,7 @@
 
     <div class="content-wrap" v-else>
         <object-header>
-            {{this.$t('objects.license.customers')}}
+            {{$t('objects.administration')}} | {{this.$t('objects.license.customers')}}
         </object-header>
 
         <section class="object-content">
@@ -97,7 +97,7 @@
         },
         methods: {
             openLicense() {
-                this.$router.push({path: '/license', query: {id: '0'}});
+                this.$router.push({path: '/administration/license', query: {id: '0'}});
             }
         }
     }
