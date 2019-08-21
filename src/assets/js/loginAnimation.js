@@ -24,20 +24,20 @@ export default (function () {
             y = y * canvas.height / mockScreen.height;
 
             // if (canvas.width < 1280) {
-                // if icon's default coords are in form area
-                if ((leftBorder < x && x < rightBorder) && (topBorder < y && y < bottomBorder)) {
-                    if (canvas.width / 2 > x) {      // if element is in the left half
-                        return {
-                            x: getRandomFromRange(canvas.width * 0.1, leftBorder - 20),
-                            y: y
-                        }
-                    } else {                            // if element is in the right half
-                        return {
-                            x: getRandomFromRange(rightBorder + 20, canvas.width * 0.9),
-                            y: y
-                        }
+            // if icon's default coords are in form area
+            if ((leftBorder < x && x < rightBorder) && (topBorder < y && y < bottomBorder)) {
+                if (canvas.width / 2 > x) {      // if element is in the left half
+                    return {
+                        x: getRandomFromRange(canvas.width * 0.1, leftBorder - 20),
+                        y: y
+                    }
+                } else {                            // if element is in the right half
+                    return {
+                        x: getRandomFromRange(rightBorder + 20, canvas.width * 0.9),
+                        y: y
                     }
                 }
+            }
             // }
             return {
                 x, y
@@ -75,8 +75,8 @@ export default (function () {
                     this.y += this.dy;
 
                     context.beginPath();
-                    context.arc(this.x + Math.sin((50 + x + (time / 10)) / 100) * 3, // x
-                        this.y + Math.sin((45 + x + (time / 10)) / 100) * 4, // y
+                    context.arc(this.x + Math.sin((50 + x + (time / 10)) / 100) * 3 * 10, // x
+                        this.y + Math.sin((45 + x + (time / 10)) / 100) * 4 *10, // y
                         this.r, // radius
                         0, // startAngle
                         2 * Math.PI, // endAngle
@@ -100,9 +100,11 @@ export default (function () {
                     this.x += this.dx;
                     this.y += this.dy;
 
+                    time*=0.01;
+
                     context.beginPath();
-                    context.drawImage(img, this.x + Math.sin((100 + x + (time / 10)) / 100) * 4,
-                        this.y + Math.sin((75 + x + (time / 10)) / 100) * 3, size.width, size.height);
+                    context.drawImage(img, this.x + Math.sin((2000 + x + (time / 10))) * 4 * 10,
+                        this.y + Math.sin((x + (time / 10))) * 3 * 10, size.width, size.height);
                     context.stroke();
                 },
             };
@@ -149,7 +151,6 @@ export default (function () {
         }
 
 
-
         function getRandomFromRange(min, max) {
             return Math.floor(Math.random() * (max - min + 1)) + min;
         }
@@ -173,7 +174,6 @@ export default (function () {
         img.phonePlus.src = require('../img/login/phone-plus.svg');
         img.phoneReply.src = require('../img/login/phone-replying.svg');
         img.phoneText.src = require('../img/login/phone-text.svg');
-
 
 
         // normalizes canvas size
