@@ -48,9 +48,9 @@
     import vuetable from 'vuetable-2/src/components/Vuetable';
     import objectHeader from '../../object-header';
     import switcher from '../../../utils/switcher';
-    // import notification from '../../../utils/notification';
 
-    import {getObjects} from "../../../../api/objects/permissions/objects";
+    import {getObjects} from '../../../../api/objects/permissions/objects';
+    import {updateObject} from '../../../../api/objects/permissions/objects';
 
     export default {
         name: "permissions-object",
@@ -103,7 +103,13 @@
             computeStatusText(state) {
                 return state ? this.$t('objects.on') : this.$t('objects.off');
             },
-            toggleObjectPermissions() {
+            toggleObjectPermissions(property, id) {
+                this.objectList[id][property] = !this.objectList[id][property];
+                updateObject(this.objectList[id].id, this.objectList[id])
+                    .catch(error => {
+                            this._showError(error);
+                            this.objectList[id][property] = !this.objectList[id][property];
+                        });
             }
         },
     }
