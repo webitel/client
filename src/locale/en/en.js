@@ -103,7 +103,7 @@ export default {
                 30: '30 or less',
                 90: '90 or less'
             },
-            importLicense: 'Import license key',
+            importLicense: 'Import license',
             licenseKey: 'License key'
         },
         usersObject: {

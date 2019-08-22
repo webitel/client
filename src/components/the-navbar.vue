@@ -1,6 +1,6 @@
 <template>
     <aside class="the-nav__wrap">
-        <nav class="the-nav">
+        <nav class="the-nav" @mouseleave="expandItem">
             <div class="logo" @click="$router.push('/')">
                 <img class="logo-sm__img" src="../assets/img/logo-sm.svg" alt="logo">
                 <img class="logo__img" src="../assets/img/logo.svg" alt="logo">
@@ -671,6 +671,13 @@
                 transform: rotate(0);
             }
         }
+    }
+
+    .nav-item__expanded ~ .nav-item__current {
+        .nav-icon-arrow, .nav-icon, .nav-text {
+            color: $nav-icon-color ;
+        }
+
     }
 
     .the-nav:hover {
