@@ -39,7 +39,7 @@
     import vuetable from 'vuetable-2/src/components/Vuetable';
     import objectHeader from '../../object-header';
 
-    import {getRoles} from '../../../../api/objects/permissions/permissions';
+    import {getRoles} from '../../../../api/objects/permissions/roles';
 
 
     export default {

@@ -13,12 +13,14 @@ import './assets/css/fonts.scss';
 import './assets/css/main.scss';
 
 import tableCheckboxColumn from './components/objects/utils/table-checkbox-column';
+import errorMixin from './mixins/errorMixin';
 
 
 Vue.config.productionTip = false;
 
 Vue.component('vuetable-field-table-checkbox', tableCheckboxColumn);
 Vue.use(Vuelidate);
+Vue.mixin(errorMixin);
 
 Vue.use(VueLogger, {
   isEnabled: true,

@@ -15,20 +15,20 @@
                     class="permissions-table"
                     :api-mode="false"
                     :fields="fields"
-                    :data="test"
+                    :data="objectList"
             >
 
-                <template slot="ObAC" slot-scope="props">
+                <template slot="obac" slot-scope="props">
                     <switcher
-                            :value="test[props.rowIndex].ObAC"
-                            @toggleSwitch="test[props.rowIndex].ObAC = $event"
+                            :value="objectList[props.rowIndex].obac"
+                            @toggleSwitch="toggleObjectPermissions('obac', props.rowIndex)"
                     ></switcher>
                 </template>
 
-                <template slot="RbAC" slot-scope="props">
+                <template slot="rbac" slot-scope="props">
                     <switcher
-                            :value="test[props.rowIndex].RbAC"
-                            @toggleSwitch="test[props.rowIndex].RbAC = $event"
+                            :value="objectList[props.rowIndex].rbac"
+                            @toggleSwitch="toggleObjectPermissions('rbac', props.rowIndex)"
                     ></switcher>
                 </template>
 
@@ -48,6 +48,9 @@
     import vuetable from 'vuetable-2/src/components/Vuetable';
     import objectHeader from '../../object-header';
     import switcher from '../../../utils/switcher';
+    // import notification from '../../../utils/notification';
+
+    import {getObjects} from "../../../../api/objects/permissions/objects";
 
     export default {
         name: "permissions-object",
@@ -60,9 +63,9 @@
             return {
                 // vuetable prop
                 fields: [
-                    {name: 'head', title: this.$t('objects.name')},
-                    {name: 'ObAC', title: this.$t('objects.permissions.object.ObAC')},
-                    {name: 'RbAC', title: this.$t('objects.permissions.object.RbAC')},
+                    {name: 'class', title: this.$t('objects.name')},
+                    {name: 'obac', title: this.$t('objects.permissions.object.ObAC')},
+                    {name: 'rbac', title: this.$t('objects.permissions.object.RbAC')},
                     {
                         name: 'actions',
                         title: '',
@@ -71,29 +74,27 @@
                         width: '60px'
                     },
                 ],
-                test: [],
+                objectList: [],
+                defaultObject: {
+                    class: '',
+                    obac: false,
+                    rbac: false,
+                    id: 0
+                }
             };
         },
         mounted() {
-            // FIXME: delete test data
-            this.test.push({
-                head: 'Devices',
-                ObAC: true,
-                RbAC: false,
-                id: 0,
-            });
-            this.test.push({
-                head: 'Users',
-                ObAC: true,
-                RbAC: false,
-                id: 1,
-            });
-            this.test.push({
-                head: 'Roles',
-                ObAC: true,
-                RbAC: false,
-                id: 2,
-            });
+
+            getObjects().then(
+                response => {
+                    this.objectList = response.classes.map(item => {
+                        return Object.assign({}, this.defaultObject, item);
+                    });
+                },
+                error => {
+                    this._showError(error);
+                }
+            );
         },
         methods: {
             edit() {
@@ -101,6 +102,8 @@
             },
             computeStatusText(state) {
                 return state ? this.$t('objects.on') : this.$t('objects.off');
+            },
+            toggleObjectPermissions() {
             }
         },
     }

@@ -6,7 +6,7 @@ import store from '../../../store/store';
 
 export function getRoles() {
   Vue.$log.info('get Roles started');
-  const url = '/rolef/6';
+  const url = '/role/6';
   return instance.get(url)
     .then((response) => {
       Vue.$log.info('get Roles', 'response', response);

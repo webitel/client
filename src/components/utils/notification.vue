@@ -1,41 +1,58 @@
 <template>
-    <div class="alert" v-if="info || error" v-show="closeShowTrigger">
+    <aside class="alert" v-if="info || error" v-show="closeShowTrigger">
         <i
-            class="icon-icon_close"
-            @click="close"
-        ></i>
-        <i
-                v-if="info"
                 class="icon-icon_approve"
+                v-if="info"
         ></i>
         <i
+                class="icon-icon_notification icon-icon_warning"
                 v-if="error"
-                class="icon-icon_warning"
         ></i>
         <div class="alert__text">
             {{info || error}}
         </div>
-    </div>
+        <i
+                class="icon-icon_close"
+                @click="close"
+        ></i>
+    </aside>
 </template>
 
 <script>
+    import eventBus from '../../utils/eventBus';
+
     export default {
         name: 'alert',
-        props: {
-            info: {
-                type: String,
-                default: 'lorem ipsum dolor sit ametlorem ipsum dolor sit asum dolor sit ametlorem ipsum dolor sit amet'
-            },
-            error: {
-                type: String
-            }
-        },
         data() {
             return {
+                info: null,
+                error: null,
                 closeShowTrigger: true
             }
         },
+        mounted() {
+            eventBus.$on('notificationInfo', (info) => {
+                this.showInfo(info);
+            });
+            eventBus.$on('notificationError', (error) => {
+                this.showError(error);
+            });
+        },
         methods: {
+            showInfo(info) {
+                this.info = info;
+                setTimeout(() => {
+                    this.info = null;
+                }, 4000);
+            },
+
+            showError(error) {
+                this.error = error;
+                setTimeout(() => {
+                    this.error = null;
+                }, 4000);
+            },
+
             close() {
                 this.closeShowTrigger = false;
             }
@@ -61,6 +78,14 @@
         border-radius: $border-radius;
         z-index: 100;
 
+        .icon-icon_approve {
+            color: $true-color;
+        }
+
+        .icon-icon_warning {
+            color: $false-color;
+        }
+
         .icon-icon_close {
             position: absolute;
             top: 50%;
@@ -68,14 +93,6 @@
             color: $icon-color;
             transform: translateY(-50%);
             cursor: pointer;
-        }
-
-        .icon-icon_approve {
-            color: $true-color;
-        }
-
-        .icon-icon_warning {
-            color: $false-color;
         }
     }
 

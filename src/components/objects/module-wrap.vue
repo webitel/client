@@ -3,8 +3,8 @@
         <app-nav></app-nav>
         <main class="object">
             <notification
-                    :info="info"
-                    :error="error"
+                    :info="notificationInfo"
+                    :error="notificationError"
             ></notification>
             <app-header></app-header>
 
@@ -18,7 +18,6 @@
     import theNavbar from '../the-navbar';
     import notification from '../utils/notification';
 
-    import errorMixin from '../../mixins/errorMixin';
     export default {
         name: "module-wrap",
         components: {
@@ -26,7 +25,12 @@
             'app-nav': theNavbar,
             notification,
         },
-        mixins: [errorMixin],
+        data() {
+            return {
+                notificationInfo: null,
+                notificationError: null,
+            }
+        }
     }
 </script>
 
