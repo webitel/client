@@ -35,7 +35,7 @@
                 <template slot="actions" slot-scope="props">
                     <div class="vuetable-actions">
                         <i class="vuetable-action icon-icon_edit"
-                           @click="edit"
+                           @click="edit(props.rowIndex)"
                         ></i>
                     </div>
                 </template>
@@ -97,8 +97,11 @@
             );
         },
         methods: {
-            edit() {
-                this.$router.push('/permissions/objects/edit');
+            edit(id) {
+                this.$router.push({
+                    name: 'permissions-objects-edit',
+                    params: {id: this.objectList[id].id},
+                });
             },
             computeStatusText(state) {
                 return state ? this.$t('objects.on') : this.$t('objects.off');

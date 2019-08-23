@@ -4,7 +4,7 @@
                 :primaryText="$t('objects.save')"
                 :primaryAction="close"
                 :secondaryAction="close"
-        >{{$t('objects.users')}} |
+        >{{objectTitle}} |
             {{$t('objects.edit')}}
         </object-header>
 
@@ -17,38 +17,38 @@
                     class="permissions-table"
                     :api-mode="false"
                     :fields="fields"
-                    :data="test"
+                    :data="data"
             >
 
                 <template slot="create" slot-scope="props">
                     <checkbox
-                        :value="test[props.rowIndex].create"
+                        :value="data[props.rowIndex].create"
                         :label="$t('objects.allow')"
-                        @toggleCheckbox="test[props.rowIndex].create = $event"
+                        @toggleCheckbox="data[props.rowIndex].create = $event"
                     ></checkbox>
                 </template>
 
                 <template slot="read" slot-scope="props">
                     <checkbox
-                            :value="test[props.rowIndex].read"
+                            :value="data[props.rowIndex].read"
                             :label="$t('objects.allow')"
-                            @toggleCheckbox="test[props.rowIndex].read = $event"
+                            @toggleCheckbox="data[props.rowIndex].read = $event"
                     ></checkbox>
                 </template>
 
                 <template slot="edit" slot-scope="props">
                     <checkbox
-                            :value="test[props.rowIndex].edit"
+                            :value="data[props.rowIndex].edit"
                             :label="$t('objects.allow')"
-                            @toggleCheckbox="test[props.rowIndex].edit = $event"
+                            @toggleCheckbox="data[props.rowIndex].edit = $event"
                     ></checkbox>
                 </template>
 
                 <template slot="delete" slot-scope="props">
                     <checkbox
-                            :value="test[props.rowIndex].delete"
+                            :value="data[props.rowIndex].delete"
                             :label="$t('objects.allow')"
-                            @toggleCheckbox="test[props.rowIndex].delete = $event"
+                            @toggleCheckbox="data[props.rowIndex].delete = $event"
                     ></checkbox>
                 </template>
             </vuetable>
@@ -62,6 +62,9 @@
     import objectHeader from '../../object-header';
     import tableCheckbox from '../../../utils/checkbox';
 
+    import {getObjects} from "../../../../api/objects/permissions/objects";
+    import {getObjectPermissions} from "../../../../api/objects/permissions/objects";
+
     export default {
         name: "permissions-object",
         components: {
@@ -73,28 +76,41 @@
             return {
                 // vuetable prop
                 fields: [
-                    {name: 'name', title: this.$t('objects.name')},
+                    {name: 'grantee.role', title: this.$t('objects.name')},
                     {name: 'create', title: this.$t('objects.create')},
                     {name: 'read', title: this.$t('objects.read')},
                     {name: 'edit', title: this.$t('objects.edit')},
                     {name: 'delete', title: this.$t('objects.delete')},
                 ],
-                test: [],
-
+                data: [],
+                id: this.$route.params.id,
+                objectTitle: ''
             };
         },
         mounted() {
-            // FIXME: delete test data
-            for (let i = 0; i < 10; i++) {
-                this.test.push({
-                    name: `Devices ${i}`,
-                    create: true,
-                    read: false,
-                    edit: true,
-                    delete: false,
-                    id: i,
-                });
-            }
+            getObjects(this.id)
+                .then(
+                    (response) => {
+                        this.objectTitle = response.class.class;
+                    }
+                );
+            getObjectPermissions(this.id)
+                .then(
+                    (response) => {
+                        this.data = response.list;
+                        console.log(this.data);
+                        this.data.forEach(item => {
+                            item.create = item.privileges.includes('CREATE');
+                            item.read = item.privileges.includes('SELECT');
+                            item.edit = item.privileges.includes('UPDATE');
+                            item.delete = item.privileges.includes('DELETE');
+                        });
+                        console.log(this.data);
+                    },
+                    (error) => {
+                        this._showError(error);
+                    }
+                );
         },
         methods: {
             close() {

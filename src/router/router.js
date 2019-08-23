@@ -95,9 +95,9 @@ const router = new Router({
                     component: permissionsObjects
                 },
                 {
-                    path: '/permissions/objects/edit',
+                    path: '/permissions/objects/:id',
                     name: 'permissions-objects-edit',
-                    component: permissionsObjectsEdit
+                    component: permissionsObjectsEdit,
                 },
                 // ----------PERMISSIONS END-----------------
             ]

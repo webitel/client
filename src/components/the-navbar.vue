@@ -564,7 +564,7 @@
         min-width: 74px;
         width: 74px;
         min-height: 100vh;
-        z-index: 1000;
+        z-index: 101;
     }
 
     .the-nav {
