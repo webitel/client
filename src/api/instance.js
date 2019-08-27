@@ -1,6 +1,7 @@
 import axios from 'axios';
 import Vue from 'vue';
 import { logout, refreshToken } from './auth/auth';
+import eventBus from "../utils/eventBus";
 
 // global API configuration
 // 'X-Webitel-Access' ~ 'X-Access-Token'
@@ -22,6 +23,7 @@ instance.interceptors.response.use(undefined, (error) => {
     refreshToken();
   }
   // if error isn't 401, returns it
+  eventBus.$emit('notificationError', error);
   return Promise.reject(error.response.data);
 });
 

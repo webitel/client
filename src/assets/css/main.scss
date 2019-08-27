@@ -55,6 +55,15 @@ i {
   box-shadow: 0px 5px 6px rgba(0, 0, 0, 0.2), 0px 3px 16px rgba(0, 0, 0, 0.12), 0px 9px 12px rgba(0, 0, 0, 0.14);
 }
 
+.icon-action {
+  transition: $transition;
+  cursor: pointer;
+
+  &:hover {
+    color: #000;
+  }
+}
+
 // helper underline class
 .border-underline {
   position: relative;

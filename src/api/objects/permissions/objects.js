@@ -42,7 +42,9 @@ export function getObjectPermissions(id) {
     return instance.get(url)
         .then((response) => {
                 Vue.$log.info('getObjectPermissions', 'response', response);
-                return response.data;
+
+                // FIXME RESULTS INSTEAD OF LIST
+                return response.data.list;
             },
             (error) => {
                 Vue.$log.info('getObjectPermissions', 'error', error);

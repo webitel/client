@@ -6,12 +6,12 @@ import store from '../../../store/store';
 
 export function getRoles() {
   Vue.$log.info('get Roles started');
-  const url = '/role/6';
+  const url = '/roles';
   return instance.get(url)
     .then((response) => {
       Vue.$log.info('get Roles', 'response', response);
-      store.dispatch('setRoles', response.data.roles);
-      return response.data.roles;
+      // store.dispatch('setRoles', response.data.roles);
+      return response.data.results;
     },
     (error) => {
       Vue.$log.info('get Roles', 'error', error);

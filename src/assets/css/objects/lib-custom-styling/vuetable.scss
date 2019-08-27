@@ -23,7 +23,10 @@
     td {
       padding-right: 20px;
       letter-spacing: 0.4px;
-      overflow-x: hidden;
+
+      > div:not(.dropdown-select) {
+        overflow-x: hidden;
+      }
     }
   }
 

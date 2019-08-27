@@ -212,7 +212,6 @@
         }
 
         .select {
-
             .select-preview {
                 height: 100%; // fit container
                 margin-bottom: 0; // default styling reset
@@ -229,9 +228,16 @@
             }
 
             .select-options {
-                right: 16px;  // 40px right padding - 24px arrow
                 width: 196px;  // filter dropdown width
             }
+        }
+
+        &.options-align-right .select-options {
+            right: 16px;  // 40px right padding - 24px arrow
+        }
+
+        &.options-align-left .select-options {
+            left: 0;
         }
     }
 

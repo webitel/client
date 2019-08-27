@@ -67,7 +67,7 @@
 
                 <template slot="status" slot-scope="props">
                     <dropdown-select
-                            class="inline-dropdown"
+                            class="inline-dropdown options-align-right"
                         :placeholder="filtered[props.rowIndex].status"
                         :options="statusOptions"
                         @input="filtered[props.rowIndex].status = $event"
