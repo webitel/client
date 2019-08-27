@@ -103,9 +103,11 @@
                     params: {id: this.objectList[id].id},
                 });
             },
+
             computeStatusText(state) {
                 return state ? this.$t('objects.on') : this.$t('objects.off');
             },
+
             toggleObjectPermissions(property, id) {
                 this.objectList[id][property] = !this.objectList[id][property];
                 updateObject(this.objectList[id].id, this.objectList[id])

@@ -94,8 +94,7 @@
                         this.objectTitle = response.class.class;
                     }
                 );
-            getObjectPermissions(this.id)
-                .then(
+            getObjectPermissions(this.id).then(
                     (response) => {
                         this.data = response.list;
                         console.log(this.data);
@@ -113,6 +112,7 @@
                 );
         },
         methods: {
+
             close() {
                 this.$router.push('/permissions/objects');
             }
