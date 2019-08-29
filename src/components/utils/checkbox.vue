@@ -56,7 +56,7 @@
             width: 0;
             height: 0;
             cursor: pointer;
-            opacity: 1;
+            opacity: 0;
         }
 
         /* Create a custom checkbox */
