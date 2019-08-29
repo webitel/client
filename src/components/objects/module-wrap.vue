@@ -2,10 +2,7 @@
     <div class="object-wrap">
         <app-nav></app-nav>
         <main class="object">
-            <notification
-                    :info="notificationInfo"
-                    :error="notificationError"
-            ></notification>
+            <notification></notification>
             <app-header></app-header>
 
             <router-view></router-view>
@@ -25,12 +22,6 @@
             'app-nav': theNavbar,
             notification,
         },
-        data() {
-            return {
-                notificationInfo: null,
-                notificationError: null,
-            }
-        }
     }
 </script>
 

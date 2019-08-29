@@ -1,20 +1,24 @@
 <template>
-    <aside class="alert" v-if="info || error" v-show="closeShowTrigger">
-        <i
-                class="icon-icon_approve"
-                v-if="info"
-        ></i>
-        <i
-                class="icon-icon_notification icon-icon_warning"
-                v-if="error"
-        ></i>
-        <div class="alert__text">
-            {{info || error}}
+    <aside class="alert-wrap">
+        <div class="alert"
+             v-for="message in messages"
+        >
+            <i
+                    class="icon-icon_approve"
+                    v-if="message.info"
+            ></i>
+            <i
+                    class="icon-icon_notification icon-icon_warning"
+                    v-if="message.error"
+            ></i>
+            <div class="alert__text">
+                {{message.info || message.error}}
+            </div>
+            <i
+                    class="icon-icon_close"
+                    @click="close(message.info || message.error)"
+            ></i>
         </div>
-        <i
-                class="icon-icon_close"
-                @click="close"
-        ></i>
     </aside>
 </template>
 
@@ -22,12 +26,10 @@
     import eventBus from '../../utils/eventBus';
 
     export default {
-        name: 'alert',
+        name: 'notification',
         data() {
             return {
-                info: null,
-                error: null,
-                closeShowTrigger: true
+                messages: [],
             }
         },
         mounted() {
@@ -40,39 +42,51 @@
         },
         methods: {
             showInfo(info) {
-                this.info = info;
+                this.messages.unshift({info});
                 setTimeout(() => {
-                    this.info = null;
+                    this.messages.splice(this.findMessageInArray(info), 1);
                 }, 4000);
             },
 
             showError(error) {
-                this.error = error;
+                this.messages.unshift({error});
                 setTimeout(() => {
-                    this.error = null;
+                    this.messages.splice(this.findMessageInArray(error), 1);
                 }, 4000);
             },
 
-            close() {
-                this.closeShowTrigger = false;
+            close(message) {
+                this.messages.splice(this.findMessageInArray(message), 1);
+            },
+
+            findMessageInArray(message) {
+                return this.messages.findIndex(item => {
+                    return item.message === message;
+                });
             }
         }
     };
 </script>
 
 <style lang="scss" scoped>
+    .alert-wrap {
+        position: fixed;
+        top: 5px;
+        right: 5px;
+        z-index: 1000;
+    }
+
     .alert {
         @extend .typo-notification-text;
         @extend .box-shadow;
 
+        position: relative;
         display: flex;
         align-items: center;
-        position: fixed;
-        top: 5px;
-        right: 5px;
         min-width: 430px;
         max-width: 850px;
         padding: 24px 30px;
+        margin-top: 7px;
         color: #000;
         background: #fff;
         border-radius: $border-radius;
@@ -92,7 +106,12 @@
             right: 24px;
             color: $icon-color;
             transform: translateY(-50%);
+            transition: $transition;
             cursor: pointer;
+
+            &:hover {
+                color: #000;
+            }
         }
     }
 

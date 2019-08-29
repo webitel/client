@@ -1,6 +1,7 @@
 <template>
     <aside class="the-nav__wrap">
-        <nav class="the-nav" @mouseleave="expandItem">
+<!--        <nav class="the-nav" @mouseleave="expandItem">-->
+        <nav class="the-nav">
             <div class="logo" @click="$router.push('/')">
                 <img class="logo-sm__img" src="../assets/img/logo-sm.svg" alt="logo">
                 <img class="logo__img" src="../assets/img/logo.svg" alt="logo">

@@ -192,7 +192,7 @@
             save() {
                 // if there are changes, process them
                 // if there aren't, or patch completed successfully, close page
-                if(this.changeAccessList.length !== 0) {
+                if (this.changeAccessList.length !== 0) {
 
                     const granteesToSend = {changes: []}; // object with changes to patch
                     const operations = ['c', 'r', 'u', 'd']; // array for future iteration
@@ -242,12 +242,13 @@
                     // and send the array with changes
                     // catch statement prevents close()
                     updateObjectPermissions(this.id, granteesToSend)
-                        .catch(error => {
-                            throw error
+                        .then(() => {
+                            this.close();
                         });
+                } else {
+                    this.close();
                 }
 
-                this.close();
             },
 
             close() {

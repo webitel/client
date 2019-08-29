@@ -33,7 +33,7 @@ export function updateObject(id, permissions) {
             },
             error => {
                 Vue.$log.info('put Object', 'error', error);
-                throw error;
+                // throw error;
             });
 }
 
@@ -67,19 +67,22 @@ export function getObjectPermissions(id) {
             },
             (error) => {
                 Vue.$log.info('getObjectPermissions', 'error', error);
-                throw error;
+                // throw error;
             });
 }
 
 export function updateObjectPermissions(id, granteesToSend) {
     Vue.$log.info('getObjectPermissions started');
-    const url = '/objects/' + id + '/acl';
+    const url = '/objects/' + id + '/al';
 
     console.log(granteesToSend);
-    instance.patch(url, granteesToSend)
+    return instance.patch(url, granteesToSend)
         .then(
             response => {
                 console.log(response);
+            },
+            error => {
+                // throw error;
             }
         )
 }
