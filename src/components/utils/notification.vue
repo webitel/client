@@ -15,7 +15,7 @@
                 {{message.info || message.error}}
             </div>
             <i
-                    class="icon-icon_close"
+                    class="icon-icon_close icon-action"
                     @click="close(message.info || message.error)"
             ></i>
         </div>
@@ -104,14 +104,9 @@
             position: absolute;
             top: 50%;
             right: 24px;
-            color: $icon-color;
             transform: translateY(-50%);
             transition: $transition;
             cursor: pointer;
-
-            &:hover {
-                color: #000;
-            }
         }
     }
 

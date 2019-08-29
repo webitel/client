@@ -24,8 +24,12 @@
       padding-right: 20px;
       letter-spacing: 0.4px;
 
-      > div:not(.dropdown-select) {
-        overflow-x: hidden;
+      > div {
+        text-transform: capitalize;
+
+        &:not(.dropdown-select) {
+          overflow-x: hidden;
+        }
       }
     }
   }

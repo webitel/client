@@ -22,13 +22,13 @@
             >
 
                 <template slot="grantee" slot-scope="props">
-                    <div class="tt-capitalize" v-if="!permissionsList[props.rowIndex].new">
+                    <div v-if="!permissionsList[props.rowIndex].new">
                         {{permissionsList[props.rowIndex].grantee.role}}
                     </div>
 
                     <dropdown-select
                             v-else
-                            class="inline-dropdown options-align-left tt-capitalize"
+                            class="inline-dropdown options-align-left"
                             :placeholder="permissionsList[props.rowIndex].grantee.role || 'Role'"
                             :options="computeAvailableGrantees"
                             @input="selectNewGrantee($event, props.rowIndex)"
@@ -194,7 +194,7 @@
                 // if there aren't, or patch completed successfully, close page
                 if (this.changeAccessList.length !== 0) {
 
-                    const granteesToSend = {changes: []}; // object with changes to patch
+                    const granteesToSend = []; // object with changes to patch
                     const operations = ['c', 'r', 'u', 'd']; // array for future iteration
 
                     // for each change
@@ -232,7 +232,7 @@
 
                         // if there are any changes -- push them to array
                         if (changedOperations.length > 0) {
-                            granteesToSend.changes.push({
+                            granteesToSend.push({
                                 grantee_id: changedGranteeId,
                                 access: changedOperations.join('')
                             });

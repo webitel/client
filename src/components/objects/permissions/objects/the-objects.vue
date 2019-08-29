@@ -18,6 +18,10 @@
                     :data="objectList"
             >
 
+                <template slot="objectName" slot-scope="props">
+                    <div>{{objectList[props.rowIndex].class}}</div>
+                </template>
+
                 <template slot="obac" slot-scope="props">
                     <switcher
                             :value="objectList[props.rowIndex].obac"
@@ -63,7 +67,7 @@
             return {
                 // vuetable prop
                 fields: [
-                    {name: 'class', title: this.$t('objects.name')},
+                    {name: 'objectName', title: this.$t('objects.name')},
                     {name: 'obac', title: this.$t('objects.permissions.object.ObAC')},
                     {name: 'rbac', title: this.$t('objects.permissions.object.RbAC')},
                     {

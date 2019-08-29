@@ -1,11 +1,12 @@
 import Vue from 'vue';
 import instance from '../../instance';
-import store from '../../../store/store';
+
+const BASE_URL = '/objects';
 
 export function getObjects(id = '') {
     Vue.$log.info('get Permissions Objects started');
     if (id) id = '/' + id;
-    const url = '/objects' + id;
+    const url = BASE_URL + id;
     return instance.get(url)
         .then((response) => {
                 Vue.$log.info('get Objects', 'response', response);
@@ -13,13 +14,12 @@ export function getObjects(id = '') {
             },
             (error) => {
                 Vue.$log.info('get Objects', 'error', error);
-                throw error;
             });
 }
 
 export function updateObject(id, permissions) {
     Vue.$log.info('update permissions Objects started');
-    const url = '/objects/' + id;
+    const url = BASE_URL + id;
     const data = {
         class: {
             obac: permissions.obac,
@@ -33,13 +33,12 @@ export function updateObject(id, permissions) {
             },
             error => {
                 Vue.$log.info('put Object', 'error', error);
-                // throw error;
             });
 }
 
 export function getObjectPermissions(id) {
     Vue.$log.info('getObjectPermissions started');
-    const url = '/objects/' + id + '/acl';
+    const url = BASE_URL + id + '/acl';
     return instance.get(url)
         .then((response) => {
                 Vue.$log.info('getObjectPermissions', 'response', response);
@@ -47,7 +46,7 @@ export function getObjectPermissions(id) {
                 let formattedResponse = [];
                 if (response.data.list) {
                     // format response before assignment
-                     formattedResponse = response.data.list.map(item => {
+                    formattedResponse = response.data.list.map(item => {
                         return {
                             grantee: {
                                 id: item.grantee.id,
@@ -67,22 +66,25 @@ export function getObjectPermissions(id) {
             },
             (error) => {
                 Vue.$log.info('getObjectPermissions', 'error', error);
-                // throw error;
             });
 }
 
 export function updateObjectPermissions(id, granteesToSend) {
-    Vue.$log.info('getObjectPermissions started');
-    const url = '/objects/' + id + '/al';
+    // granteesToSend -- array
+    Vue.$log.info('updateObjectPermissions started');
+    const url = BASE_URL + id + '/acl';
 
-    console.log(granteesToSend);
-    return instance.patch(url, granteesToSend)
+    const changes = {
+            changes: granteesToSend
+        }
+    ;
+    return instance.patch(url, changes)
         .then(
             response => {
-                console.log(response);
-            },
-            error => {
-                // throw error;
+                Vue.$log.info('updateObjectPermissions response', response);
+            }, error => {
+                Vue.$log.info('updateObjectPermissions', 'error', error);
+                throw error;
             }
         )
 }

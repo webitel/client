@@ -17,8 +17,19 @@
                     class="permissions-table"
                     :api-mode="false"
                     :fields="fields"
-                    :data="test"
+                    :data="roleList"
             >
+                <template slot="roleName" slot-scope="props">
+                    <div>
+                        {{roleList[props.rowIndex].role}}
+                    </div>
+                </template>
+
+                <template slot="roleDescription" slot-scope="props">
+                    <div>
+                        {{roleList[props.rowIndex].description || 'DESCRIPTION IS EMPTY'}}
+                    </div>
+                </template>
 
                 <template slot="actions" slot-scope="props">
                     <div class="vuetable-actions">
@@ -50,12 +61,11 @@
         },
         data() {
             return {
-                test: [],
-                editInstance: null, // only 1 field can be edited at a time
+                roleList: [],
                 // vuetable prop
                 fields: [
-                    {name: 'name', title: this.$t('objects.name')},
-                    {name: 'body', title: this.$t('objects.description')},
+                    {name: 'roleName', title: this.$t('objects.name')},
+                    {name: 'roleDescription', title: this.$t('objects.description')},
                     {
                         name: 'actions',
                         title: '',
@@ -67,26 +77,10 @@
             };
         },
         mounted() {
-            // FIXME: delete test data
-            for (let i = 0; i < 40; i++) {
-                this.test.push({
-                    name: `head${i}`,
-                    body: 'body',
-                    id: i,
-                });
-            }
-
             getRoles()
                 .then((response) => {
-                        response.forEach((item, index) => {
-                            this.test[index].head = item.role;
-                        });
-                        this.test.length = response.length;
-                    },
-                    (error) => {
-                        this.$log.info('error roles', error);
-                        this.showError(error);
-                    });
+                    this.roleList = [...response];
+                });
         },
         methods: {
             create() {
