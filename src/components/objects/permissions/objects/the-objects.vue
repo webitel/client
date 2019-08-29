@@ -94,17 +94,14 @@
                     this.objectList = response.classes.map(item => {
                         return Object.assign({}, this.defaultObject, item);
                     });
-                },
-                error => {
-                    this._showError(error);
                 }
             );
         },
         methods: {
-            edit(id) {
+            edit(rowId) {
                 this.$router.push({
                     name: 'permissions-objects-edit',
-                    params: {id: this.objectList[id].id},
+                    params: {id: this.objectList[rowId].id},
                 });
             },
 

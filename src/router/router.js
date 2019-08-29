@@ -85,6 +85,11 @@ const router = new Router({
                     component: permissionsRoles,
                 },
                 {
+                    path: '/permissions/roles/:id',
+                    name: 'permissions-roles-edit',
+                    component: permissionsRolesNew
+                },
+                {
                     path: '/permissions/roles/new',
                     name: 'permissions-roles-new',
                     component: permissionsRolesNew

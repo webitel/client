@@ -34,10 +34,10 @@
                 <template slot="actions" slot-scope="props">
                     <div class="vuetable-actions">
                         <i class="vuetable-action icon-icon_edit"
-                           @click="action('edit')"
+                           @click="action('edit', props.rowIndex)"
                         ></i>
                         <i class="vuetable-action icon-icon_delete"
-                           @click="action('delete')"
+                           @click="action('delete', props.rowIndex)"
                         ></i>
                     </div>
                 </template>
@@ -79,16 +79,19 @@
         mounted() {
             getRoles()
                 .then((response) => {
-                    this.roleList = [...response];
+                    this.roleList = [...response.results];
                 });
         },
         methods: {
             create() {
                 this.$router.push('/permissions/roles/new');
             },
-            action(action) {
+            action(action, rowId) {
                 if (action === 'edit') {
-                    this.$router.push({path: '/permissions/roles/new', query: {edit: 'true'}});
+                    this.$router.push({
+                        name: 'permissions-roles-edit',
+                        params: {id: this.roleList[rowId].id},
+                    });
                 }
             },
         }

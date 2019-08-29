@@ -11,7 +11,7 @@ export function getRoles(id = '') {
         .then((response) => {
                 Vue.$log.info('get Roles', 'response', response);
 
-                return response.data.results;
+                return response.data;
             },
             (error) => {
                 Vue.$log.info('get Roles', 'error', error);
@@ -20,11 +20,9 @@ export function getRoles(id = '') {
 
 export function addRole(roleToSend) {
     Vue.$log.info('add role started');
-
     const newRole = {
         role: roleToSend
     };
-
     return instance.post(BASE_URL, newRole)
         .then(response => {
                 Vue.$log.info('post Roles', 'response', response);
@@ -35,3 +33,21 @@ export function addRole(roleToSend) {
                 throw error;
             });
 }
+
+export function updateRole(id, roleToSend) {
+    Vue.$log.info('update role started');
+    const updatedRole = {
+        role: roleToSend
+    };
+    const url = BASE_URL + '/' + id;
+    return instance.put(url, updatedRole)
+        .then(response => {
+                Vue.$log.info('put Roles', 'response', response);
+
+            },
+            error => {
+                Vue.$log.info('put Roles', 'error', error);
+                throw error;
+            });
+}
+

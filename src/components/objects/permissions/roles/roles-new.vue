@@ -22,8 +22,8 @@
 
                 <form-input
                         class="form__input"
-                        v-model.trim="$v.role.$model"
-                        :v="$v.role"
+                        v-model.trim="$v.role.role.$model"
+                        :v="$v.role.role"
                         :label="$t('objects.name')"
                         :placeholder="$t('objects.name')"
                         required
@@ -31,14 +31,14 @@
 
                 <form-input
                         class="form__input"
-                        v-model="name"
+                        v-model="role.name"
                         :label="$t('objects.name')"
                         :placeholder="$t('objects.name')"
                 ></form-input>
 
                 <form-input
                         class="form__input"
-                        v-model="description"
+                        v-model="role.description"
                         :height="164"
                         :label="$t('objects.description')"
                         :placeholder="$t('objects.description')"
@@ -54,7 +54,7 @@
     import objectHeader from '../../object-header';
     import formInput from '../../../utils/form-input';
     import {required} from 'vuelidate/lib/validators';
-    import {addRole} from "../../../../api/objects/permissions/roles";
+    import {addRole, getRoles, updateRole} from "../../../../api/objects/permissions/roles";
 
     export default {
         name: 'permissions-new',
@@ -64,34 +64,56 @@
         },
         data() {
             return {
-                role: 'front-role',
-                name: '',
-                description: '',
-                isEdit: this.$route.query.edit || false
+                role: {
+                    role: 'front-role',
+                    name: '',
+                    description: '',
+                },
+                initialRole: {},
+                id: this.$route.params.id
             };
         },
 
         // by vuelidate
         validations: {
             role: {
-                required,
+                role: {
+                    required
+                }
             }
+        },
+
+        mounted() {
+            if (this.id !== 'new') {
+                getRoles(this.id)
+                    .then(response => {
+                        this.role = response.role;
+                        this.initialRole = JSON.parse(JSON.stringify(response.role));
+                    });
+            }
+
         },
 
         methods: {
             save() {
-                if (this.role) {
-                    let roleToSend = {
-                        role: this.role,
-                    };
+                const isEqualToInitial = Object.keys(this.role).every(newProperty => {
+                    return Object.keys(this.initialRole).some(oldProperty => {
+                        return this.role[newProperty] === this.initialRole[oldProperty];
+                    })
+                });
+                if (this.role.role && !isEqualToInitial) {
+                    if (!this.id) {
+                        addRole(this.role)
+                            .then(() => {
+                                this.close()
+                            });
+                    } else {
+                        updateRole(this.id, this.role)
+                            .then(() => {
+                                this.close();
+                            });
+                    }
 
-                    if (this.name) roleToSend.name = this.name;
-                    if (this.description) roleToSend.description = this.description;
-                    addRole(roleToSend)
-                        .then(() => {
-                            debugger;
-                            this.close()
-                        });
                 } else {
                     this.close();
                 }
@@ -103,7 +125,7 @@
         },
         computed: {
             computeTitle() {
-                return this.isEdit ? this.$t('objects.edit') : this.$t('objects.new');
+                return this.id ? this.$t('objects.edit') : this.$t('objects.new');
             },
         },
     };
