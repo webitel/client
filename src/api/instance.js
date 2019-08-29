@@ -9,7 +9,8 @@ const instance = axios.create({
   baseURL: process.env.VUE_APP_API_URL,
   headers: {
     // 'X-Webitel-Access': localStorage.getItem('access-token') || '',
-    'X-Webitel-Access': 'USER_TOKEN',
+    // 'X-Webitel-Access': 'USER_TOKEN',
+    'X-Webitel-Access': 'ITS_TOKEN',
   },
 });
 

@@ -1,23 +1,12 @@
+import objects from './objects/objects';
+import roles from './roles/roles';
 
-const state = {
-
-};
-
-const getters = {
-
-};
-
-const actions = {
-
-};
-
-const mutations = {
-
+const modules = {
+    roles,
+    objects
 };
 
 export default {
-    state,
-    getters,
-    actions,
-    mutations,
+    namespaced: true,
+    modules
 };

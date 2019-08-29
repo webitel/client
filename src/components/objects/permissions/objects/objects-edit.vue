@@ -2,7 +2,7 @@
     <div class="content-wrap">
         <object-header
                 :primaryText="$t('objects.save')"
-                :primaryAction="close"
+                :primaryAction="save"
                 :secondaryAction="close"
         >{{objectTitle}} |
             {{$t('objects.edit')}}
@@ -78,9 +78,12 @@
     import tableCheckbox from '../../../utils/checkbox';
     import dropdownSelect from '../../../utils/dropdown-select';
 
-    import {getObjects} from "../../../../api/objects/permissions/objects";
+    import {getObjects, updateObjectPermissions} from "../../../../api/objects/permissions/objects";
     import {getObjectPermissions} from "../../../../api/objects/permissions/objects";
     import {getRoles} from "../../../../api/objects/permissions/roles";
+
+    import {mapState} from 'vuex';
+
 
     export default {
         name: "permissions-object",
@@ -124,93 +127,105 @@
 
             getObjectPermissions(this.id).then(
                 (response) => {
-                    // format response before assignment
-                    response.forEach(item => {
-                        item.access = {
-                            c: item.privileges.includes('CREATE'),
-                            r: item.privileges.includes('SELECT'),
-                            u: item.privileges.includes('UPDATE'),
-                            d: item.privileges.includes('DELETE'),
-                        };
-                    });
-
-                    this.data = [...response];
-                    this.data.length = 6;
+                    if(response) {
+                        this.data = JSON.parse(JSON.stringify(response));
+                    }
                 }
             );
+
+            console.log(this.$store);
         },
 
         methods: {
             addGrantee() {
                 this.data.push({
                     grantee: {
-                        role: ''
+                        role: '',
                     },
-                    c: false,
-                    r: true,
-                    u: false,
-                    d: false,
+                    access: {
+                        c: false,
+                        r: true,
+                        u: false,
+                        d: false,
+                    },
                     new: true
                 });
             },
 
             selectNewGrantee(granteeRole, rowId) {
+                const granteeId = this.roleList.find(item => {
+                    return item.role === granteeRole
+                }).id;
                 this.data[rowId].grantee = {
                     role: granteeRole,
-                    id: this.roleList.find(item => {
-                        return item.role === granteeRole
-                    }).id
+                    id: granteeId
                 };
+
+                this.accessChanges.push(granteeId);
             },
 
             changeAccess(newValue, operation, rowId) {
-                const granteeId = this.data[rowId].grantee.id;
-
-                if (!granteeId) return;
-
-                // first, find grantee role with specified id
-                const granteeIndex = this.accessChanges.findIndex(item => {
-                    return item.grantee === granteeId;
-                });
-
-                // if there's a grantee with specified id
-                if (granteeIndex !== -1) {
-
-                    // if (operation === 'r' && this.data[rowId].access.r) {
-                    //     for (let op of this.data[rowId].access) {
-                    //         if (this.data[rowId].access[op]) {
-                    //             this.toggleAccess(op, granteeIndex);
-                    //             this.data[rowId].access[op] = false;
-                    //         }
-                    //     }
-                    //     return
-                    // }
-
-                    // toggle an operation to his access permissions
-                    this.toggleAccess(operation, granteeIndex);
-                } else {
-
-                    // if no -- add him to the list
-                    this.accessChanges.push({
-                        grantee: granteeId,
-                        access: [operation]
-                    });
+                // add grantee to changeList, if it have never changed
+                if (this.accessChanges.indexOf(this.data[rowId].grantee.id) === -1) {
+                    this.accessChanges.push(this.data[rowId].grantee.id);
                 }
-                // finally, toggle checkbox value
+
+                // if 'read' checkbox switches to false, make all operations false
+                if (operation === 'r' && this.data[rowId].access.r) {
+                    Object.keys(this.data[rowId].access).map(item => this.data[rowId].access[item] = false);
+                } else if (operation !== 'r' && !this.data[rowId].access.r) {
+                    this.data[rowId].access.r = true;
+                }
+
+                // finally, toggle value
                 this.data[rowId].access[operation] = newValue;
             },
 
-            // adds/removes operations in list
-            toggleAccess(operation, granteeIndex) {
-                // create a reference for code clearance
-                let accessChangesRef = this.accessChanges[granteeIndex].access;
+            save() {
+                const initialData = [...this.initialPermissions];
+                const granteesToSend = [];
+                const operations = ['c', 'r', 'u', 'd'];
+                this.accessChanges.forEach(changedGranteeId => {
+                    const newGrantee = this.data.find(currentGrantee => {
+                        return currentGrantee.grantee.id === changedGranteeId;
+                    });
 
-                // check if there is an index,
-                const operationIndex = accessChangesRef.indexOf(operation);
+                    // console.log(newGrantee);
 
-                // and, remove/push operation, depends on element presence
-                accessChangesRef = operationIndex !== -1 ?
-                    accessChangesRef.splice(operationIndex, 1) : accessChangesRef.push(operation);
+                    const oldGrantee = initialData.find(oldGrantee => {
+                        return oldGrantee.grantee.id === changedGranteeId;
+                    });
+
+                    // console.log(initialData[0].access.d, oldGrantee);
+
+                    const changedOperations = [];
+                    if(oldGrantee) {
+                        operations.forEach(operation => {
+                            if (oldGrantee.access[operation] !== newGrantee.access[operation]) {
+                                changedOperations.push(operation);
+                            }
+                        });
+                    } else if(newGrantee) {
+                        operations.forEach(operation => {
+                            if (newGrantee.access[operation]) {
+                                changedOperations.push(operation);
+                            }
+                        });
+                    }
+
+
+                    // console.log(changedOperations);
+
+                    if (changedOperations.length > 0) {
+                        granteesToSend.push({
+                            grantee_id: changedGranteeId,
+                            access: changedOperations.join('')
+                        });
+                    }
+                });
+
+                // console.log(granteesToSend);
+                updateObjectPermissions(this.id, granteesToSend);
             },
 
             close() {
@@ -218,11 +233,15 @@
             }
         },
         computed: {
+            ...mapState({
+                initialPermissions: state => state.permissions.objects.permissionsList || []
+            }),
+
             computeAvailableGrantees() {
                 // filter available grantees:
                 const availableGrantees = this.roleList.filter(grantee => {
                     return !this.data.some(usedGrantee => {
-                        return grantee.id === usedGrantee.id;
+                        return grantee.id === usedGrantee.grantee.id;
                     });
                 });
 

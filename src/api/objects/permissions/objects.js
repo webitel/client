@@ -1,5 +1,6 @@
 import Vue from 'vue';
 import instance from '../../instance';
+import store from '../../../store/store';
 
 export function getObjects(id = '') {
     Vue.$log.info('get Permissions Objects started');
@@ -43,6 +44,23 @@ export function getObjectPermissions(id) {
         .then((response) => {
                 Vue.$log.info('getObjectPermissions', 'response', response);
 
+                // response.data.list.length = 6;
+
+                if(response.data.list) {
+                    // format response before assignment
+                    response.data.list.forEach(item => {
+                        item.access = {
+                            c: item.privileges.includes('CREATE'),
+                            r: item.privileges.includes('SELECT'),
+                            u: item.privileges.includes('UPDATE'),
+                            d: item.privileges.includes('DELETE'),
+                        };
+                    });
+                }
+
+
+                store.dispatch('permissions/setObjectPermissions', response.data.list);
+
                 // FIXME RESULTS INSTEAD OF LIST
                 return response.data.list;
             },
@@ -50,4 +68,19 @@ export function getObjectPermissions(id) {
                 Vue.$log.info('getObjectPermissions', 'error', error);
                 throw error;
             });
+}
+
+export function updateObjectPermissions(id, granteesToSend) {
+    Vue.$log.info('getObjectPermissions started');
+    const url = '/objects/' + id + '/acl';
+    const changes = {changes: [...granteesToSend]};
+
+    console.log(changes);
+
+    instance.patch(url, changes)
+        .then(
+            response => {
+                console.log(response);
+            }
+        )
 }

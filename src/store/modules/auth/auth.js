@@ -4,7 +4,7 @@ const state = {
 };
 
 const getters = {
-  isAuthenticated: state => {
+  isAuthenticated (state) {
     return state.username || false;
   },
 };

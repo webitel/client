@@ -4,10 +4,10 @@ import auth from './modules/auth/auth';
 import permissions from './modules/objects/permissions/permissions';
 
 Vue.use(Vuex);
-
 export default new Vuex.Store({
-    modules: [
+    strict: true,
+    modules: {
         auth,
         permissions
-    ],
+    },
 });
