@@ -18,18 +18,18 @@
                     class="permissions-table"
                     :api-mode="false"
                     :fields="fields"
-                    :data="data"
+                    :data="permissionsList"
             >
 
                 <template slot="grantee" slot-scope="props">
-                    <div v-if="data[props.rowIndex].grantee.role && !data[props.rowIndex].new">
-                        {{data[props.rowIndex].grantee.role}}
+                    <div v-if="!permissionsList[props.rowIndex].new">
+                        {{permissionsList[props.rowIndex].grantee.role}}
                     </div>
 
                     <dropdown-select
                             v-else
                             class="inline-dropdown options-align-left"
-                            :placeholder="data[props.rowIndex].grantee.role || 'Role'"
+                            :placeholder="permissionsList[props.rowIndex].grantee.role || 'Role'"
                             :options="computeAvailableGrantees"
                             @input="selectNewGrantee($event, props.rowIndex)"
                     ></dropdown-select>
@@ -37,7 +37,7 @@
 
                 <template slot="create" slot-scope="props">
                     <checkbox
-                            :value="data[props.rowIndex].access.c"
+                            :value="permissionsList[props.rowIndex].access.c"
                             :label="$t('objects.allow')"
                             @toggleCheckbox="changeAccess($event, 'c', props.rowIndex)"
                     ></checkbox>
@@ -45,7 +45,7 @@
 
                 <template slot="read" slot-scope="props">
                     <checkbox
-                            :value="data[props.rowIndex].access.r"
+                            :value="permissionsList[props.rowIndex].access.r"
                             :label="$t('objects.allow')"
                             @toggleCheckbox="changeAccess($event, 'r', props.rowIndex)"
                     ></checkbox>
@@ -53,7 +53,7 @@
 
                 <template slot="edit" slot-scope="props">
                     <checkbox
-                            :value="data[props.rowIndex].access.u"
+                            :value="permissionsList[props.rowIndex].access.u"
                             :label="$t('objects.allow')"
                             @toggleCheckbox="changeAccess($event, 'u', props.rowIndex)"
                     ></checkbox>
@@ -61,7 +61,7 @@
 
                 <template slot="delete" slot-scope="props">
                     <checkbox
-                            :value="data[props.rowIndex].access.d"
+                            :value="permissionsList[props.rowIndex].access.d"
                             :label="$t('objects.allow')"
                             @toggleCheckbox="changeAccess($event, 'd', props.rowIndex)"
                     ></checkbox>
@@ -82,9 +82,6 @@
     import {getObjectPermissions} from "../../../../api/objects/permissions/objects";
     import {getRoles} from "../../../../api/objects/permissions/roles";
 
-    import {mapState} from 'vuex';
-
-
     export default {
         name: "permissions-object",
         components: {
@@ -103,42 +100,46 @@
                     {name: 'edit', title: this.$t('objects.edit')},
                     {name: 'delete', title: this.$t('objects.delete')},
                 ],
-                data: [],
-                id: this.$route.params.id,
-                objectTitle: '',
+                permissionsList: [], // list with all table data, contains user changes
+                initialPermissionsList: [],  // list of initial table data, used for user changes segregation
+                id: this.$route.params.id, // object id
+                objectTitle: '', // header title. retieves from object GET request
 
-                accessChanges: [],
-                roleList: []
+                changeAccessList: [], // contains id's of grantee`s changed permissions
+                roleList: [] // list of all roles to add new. retrieves from roles GET request
 
             };
         },
         mounted() {
+
+            // get object title to show on page header
             getObjects(this.id).then(
                 (response) => {
                     this.objectTitle = response.class.class;
                 }
             );
 
+            // get all roles to choose which to add
             getRoles().then(
                 (response) => {
                     this.roleList = [...response];
                 }
             );
 
+            // get object permissions
             getObjectPermissions(this.id).then(
                 (response) => {
-                    if(response) {
-                        this.data = JSON.parse(JSON.stringify(response));
+                    if (response) {
+                        this.permissionsList = [...response];
+                        this.initialPermissionsList = JSON.parse(JSON.stringify(response));
                     }
                 }
             );
-
-            console.log(this.$store);
         },
 
         methods: {
             addGrantee() {
-                this.data.push({
+                this.permissionsList.push({
                     grantee: {
                         role: '',
                     },
@@ -153,94 +154,111 @@
             },
 
             selectNewGrantee(granteeRole, rowId) {
-                const granteeId = this.roleList.find(item => {
-                    return item.role === granteeRole
+                // find grantee id in role list by role name
+                const granteeId = this.roleList.find(grantee => {
+                    return grantee.role === granteeRole
                 }).id;
-                this.data[rowId].grantee = {
+
+                // change an object
+                this.permissionsList[rowId].grantee = {
                     role: granteeRole,
                     id: granteeId
                 };
 
-                this.accessChanges.push(granteeId);
+                // push id to changes
+                this.changeAccessList.push(granteeId);
             },
 
             changeAccess(newValue, operation, rowId) {
                 // add grantee to changeList, if it have never changed
-                if (this.accessChanges.indexOf(this.data[rowId].grantee.id) === -1) {
-                    this.accessChanges.push(this.data[rowId].grantee.id);
+                if (this.changeAccessList.indexOf(this.permissionsList[rowId].grantee.id) === -1) {
+                    this.changeAccessList.push(this.permissionsList[rowId].grantee.id);
                 }
 
                 // if 'read' checkbox switches to false, make all operations false
-                if (operation === 'r' && this.data[rowId].access.r) {
-                    Object.keys(this.data[rowId].access).map(item => this.data[rowId].access[item] = false);
-                } else if (operation !== 'r' && !this.data[rowId].access.r) {
-                    this.data[rowId].access.r = true;
+                if (operation === 'r' && this.permissionsList[rowId].access.r) {
+                    Object.keys(this.permissionsList[rowId].access).map(item => {
+                        this.permissionsList[rowId].access[item] = false
+                    });
+                    // else if another operation switches to true with unactive 'read', activate 'read' too
+                } else if (operation !== 'r' && !this.permissionsList[rowId].access.r) {
+                    this.permissionsList[rowId].access.r = true;
                 }
 
-                // finally, toggle value
-                this.data[rowId].access[operation] = newValue;
+                // finally, toggle the value
+                this.permissionsList[rowId].access[operation] = newValue;
             },
 
             save() {
-                const initialData = [...this.initialPermissions];
-                const granteesToSend = [];
-                const operations = ['c', 'r', 'u', 'd'];
-                this.accessChanges.forEach(changedGranteeId => {
-                    const newGrantee = this.data.find(currentGrantee => {
-                        return currentGrantee.grantee.id === changedGranteeId;
+                // if there are changes, process them
+                // if there aren't, or patch completed successfully, close page
+                if(this.changeAccessList.length !== 0) {
+
+                    const granteesToSend = {changes: []}; // object with changes to patch
+                    const operations = ['c', 'r', 'u', 'd']; // array for future iteration
+
+                    // for each change
+                    this.changeAccessList.forEach(changedGranteeId => {
+
+                        // find changed grantee (by id)
+                        const newGrantee = this.permissionsList.find(currentGrantee => {
+                            return currentGrantee.grantee.id === changedGranteeId;
+                        });
+
+                        // find initial grantee (by id)
+                        const oldGrantee = this.initialPermissionsList.find(oldGrantee => {
+                            return oldGrantee.grantee.id === changedGranteeId;
+                        });
+
+                        // collect really changed operations (because operation can be changed twice)
+                        const changedOperations = [];
+
+                        // if there's old grantee
+                        if (oldGrantee) {
+                            operations.forEach(operation => {
+                                if (oldGrantee.access[operation] !== newGrantee.access[operation]) {
+                                    changedOperations.push(operation);
+                                }
+                            });
+                            // if there's new grantee,
+                            // and he wasn't changed
+                        } else if (newGrantee) {
+                            operations.forEach(operation => {
+                                if (newGrantee.access[operation]) {
+                                    changedOperations.push(operation);
+                                }
+                            });
+                        }
+
+                        // if there are any changes -- push them to array
+                        if (changedOperations.length > 0) {
+                            granteesToSend.changes.push({
+                                grantee_id: changedGranteeId,
+                                access: changedOperations.join('')
+                            });
+                        }
                     });
 
-                    // console.log(newGrantee);
-
-                    const oldGrantee = initialData.find(oldGrantee => {
-                        return oldGrantee.grantee.id === changedGranteeId;
-                    });
-
-                    // console.log(initialData[0].access.d, oldGrantee);
-
-                    const changedOperations = [];
-                    if(oldGrantee) {
-                        operations.forEach(operation => {
-                            if (oldGrantee.access[operation] !== newGrantee.access[operation]) {
-                                changedOperations.push(operation);
-                            }
+                    // and send the array with changes
+                    // catch statement prevents close()
+                    updateObjectPermissions(this.id, granteesToSend)
+                        .catch(error => {
+                            throw error
                         });
-                    } else if(newGrantee) {
-                        operations.forEach(operation => {
-                            if (newGrantee.access[operation]) {
-                                changedOperations.push(operation);
-                            }
-                        });
-                    }
+                }
 
-
-                    // console.log(changedOperations);
-
-                    if (changedOperations.length > 0) {
-                        granteesToSend.push({
-                            grantee_id: changedGranteeId,
-                            access: changedOperations.join('')
-                        });
-                    }
-                });
-
-                // console.log(granteesToSend);
-                updateObjectPermissions(this.id, granteesToSend);
+                this.close();
             },
 
             close() {
-                this.$router.push('/permissions/objects');
+                this.$router.go(-1);
             }
         },
         computed: {
-            ...mapState({
-                initialPermissions: state => state.permissions.objects.permissionsList || []
-            }),
-
             computeAvailableGrantees() {
                 // filter available grantees:
                 const availableGrantees = this.roleList.filter(grantee => {
-                    return !this.data.some(usedGrantee => {
+                    return !this.permissionsList.some(usedGrantee => {
                         return grantee.id === usedGrantee.grantee.id;
                     });
                 });

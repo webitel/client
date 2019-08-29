@@ -44,25 +44,26 @@ export function getObjectPermissions(id) {
         .then((response) => {
                 Vue.$log.info('getObjectPermissions', 'response', response);
 
-                // response.data.list.length = 6;
-
-                if(response.data.list) {
+                let formattedResponse = [];
+                if (response.data.list) {
                     // format response before assignment
-                    response.data.list.forEach(item => {
-                        item.access = {
-                            c: item.privileges.includes('CREATE'),
-                            r: item.privileges.includes('SELECT'),
-                            u: item.privileges.includes('UPDATE'),
-                            d: item.privileges.includes('DELETE'),
-                        };
+                     formattedResponse = response.data.list.map(item => {
+                        return {
+                            grantee: {
+                                id: item.grantee.id,
+                                role: item.grantee.role
+                            },
+                            access: {
+                                c: item.privileges.includes('CREATE'),
+                                r: item.privileges.includes('SELECT'),
+                                u: item.privileges.includes('UPDATE'),
+                                d: item.privileges.includes('DELETE'),
+                            }
+                        }
                     });
                 }
 
-
-                store.dispatch('permissions/setObjectPermissions', response.data.list);
-
-                // FIXME RESULTS INSTEAD OF LIST
-                return response.data.list;
+                return formattedResponse;
             },
             (error) => {
                 Vue.$log.info('getObjectPermissions', 'error', error);
@@ -73,11 +74,9 @@ export function getObjectPermissions(id) {
 export function updateObjectPermissions(id, granteesToSend) {
     Vue.$log.info('getObjectPermissions started');
     const url = '/objects/' + id + '/acl';
-    const changes = {changes: [...granteesToSend]};
 
-    console.log(changes);
-
-    instance.patch(url, changes)
+    console.log(granteesToSend);
+    instance.patch(url, granteesToSend)
         .then(
             response => {
                 console.log(response);
