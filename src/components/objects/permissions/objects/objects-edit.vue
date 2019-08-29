@@ -22,13 +22,13 @@
             >
 
                 <template slot="grantee" slot-scope="props">
-                    <div v-if="!permissionsList[props.rowIndex].new">
+                    <div class="tt-capitalize" v-if="!permissionsList[props.rowIndex].new">
                         {{permissionsList[props.rowIndex].grantee.role}}
                     </div>
 
                     <dropdown-select
                             v-else
-                            class="inline-dropdown options-align-left"
+                            class="inline-dropdown options-align-left tt-capitalize"
                             :placeholder="permissionsList[props.rowIndex].grantee.role || 'Role'"
                             :options="computeAvailableGrantees"
                             @input="selectNewGrantee($event, props.rowIndex)"

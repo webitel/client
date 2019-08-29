@@ -1,7 +1,7 @@
 <template>
     <section class="header-wrap">
         <header class="object-header">
-            <h2 class="object__title">
+            <h2 class="object__title tt-capitalize">
                 <slot></slot>
             </h2>
             <div class="btn-controls">
