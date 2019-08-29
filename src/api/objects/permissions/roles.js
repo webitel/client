@@ -51,3 +51,17 @@ export function updateRole(id, roleToSend) {
             });
 }
 
+export function deleteRole(id) {
+    Vue.$log.info('delete role started');
+    const url = BASE_URL + '/' + id;
+    return instance.delete(url)
+        .then(response => {
+                Vue.$log.info('delete Roles', 'response', response);
+
+            },
+            error => {
+                Vue.$log.info('delete Roles', 'error', error);
+                throw error;
+            });
+}
+

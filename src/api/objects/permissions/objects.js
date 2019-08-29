@@ -19,7 +19,7 @@ export function getObjects(id = '') {
 
 export function updateObject(id, permissions) {
     Vue.$log.info('update permissions Objects started');
-    const url = BASE_URL + id;
+    const url = BASE_URL + '/' + id;
     const data = {
         class: {
             obac: permissions.obac,
@@ -33,12 +33,13 @@ export function updateObject(id, permissions) {
             },
             error => {
                 Vue.$log.info('put Object', 'error', error);
+                throw error;
             });
 }
 
 export function getObjectPermissions(id) {
     Vue.$log.info('getObjectPermissions started');
-    const url = BASE_URL + id + '/acl';
+    const url = BASE_URL + '/' + id + '/acl';
     return instance.get(url)
         .then((response) => {
                 Vue.$log.info('getObjectPermissions', 'response', response);
@@ -72,7 +73,7 @@ export function getObjectPermissions(id) {
 export function updateObjectPermissions(id, granteesToSend) {
     // granteesToSend -- array
     Vue.$log.info('updateObjectPermissions started');
-    const url = BASE_URL + id + '/acl';
+    const url = BASE_URL + '/' + id + '/acl';
 
     const changes = {
             changes: granteesToSend

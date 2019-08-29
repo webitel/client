@@ -50,7 +50,7 @@
     import vuetable from 'vuetable-2/src/components/Vuetable';
     import objectHeader from '../../object-header';
 
-    import {getRoles} from '../../../../api/objects/permissions/roles';
+    import {deleteRole, getRoles} from '../../../../api/objects/permissions/roles';
 
 
     export default {
@@ -92,6 +92,15 @@
                         name: 'permissions-roles-edit',
                         params: {id: this.roleList[rowId].id},
                     });
+                } else if (action === 'delete') {
+                    const deletedRole = this.roleList.splice(rowId, 1)[0];
+                    console.log(deletedRole);
+                    deleteRole(deletedRole.id)
+                        .catch(
+                            () => {
+                                this.roleList.splice(rowId, 0, deletedRole);
+                            }
+                        )
                 }
             },
         }

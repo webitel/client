@@ -112,8 +112,7 @@
             toggleObjectPermissions(property, id) {
                 this.objectList[id][property] = !this.objectList[id][property];
                 updateObject(this.objectList[id].id, this.objectList[id])
-                    .catch(error => {
-                            this._showError(error);
+                    .catch(() => {
                             this.objectList[id][property] = !this.objectList[id][property];
                         });
             }
