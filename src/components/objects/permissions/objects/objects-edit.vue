@@ -78,8 +78,7 @@
     import tableCheckbox from '../../../utils/checkbox';
     import dropdownSelect from '../../../utils/dropdown-select';
 
-    import {getObjects, updateObjectPermissions} from "../../../../api/objects/permissions/objects";
-    import {getObjectPermissions} from "../../../../api/objects/permissions/objects";
+    import {getObject, updateObjectPermissions, getObjectPermissions} from "../../../../api/objects/permissions/objects";
     import {getRoles} from "../../../../api/objects/permissions/roles";
 
     export default {
@@ -113,9 +112,9 @@
         mounted() {
 
             // get object title to show on page header
-            getObjects(this.id).then(
+            getObject(this.id).then(
                 (response) => {
-                    this.objectTitle = response.class.class;
+                    this.objectTitle = response;
                 }
             );
 

@@ -78,22 +78,14 @@
                         width: '60px'
                     },
                 ],
-                objectList: [],
-                defaultObject: {
-                    class: '',
-                    obac: false,
-                    rbac: false,
-                    id: 0
-                }
+                objectList: [], // list of all objects to show
             };
         },
         mounted() {
 
             getObjects().then(
                 response => {
-                    this.objectList = response.classes.map(item => {
-                        return Object.assign({}, this.defaultObject, item);
-                    });
+                    this.objectList = [...response];
                 }
             );
         },
@@ -110,9 +102,11 @@
             },
 
             toggleObjectPermissions(property, id) {
+                // first, change UI, then send request
                 this.objectList[id][property] = !this.objectList[id][property];
                 updateObject(this.objectList[id].id, this.objectList[id])
                     .catch(() => {
+                        // if request throws error, move changes back
                             this.objectList[id][property] = !this.objectList[id][property];
                         });
             }

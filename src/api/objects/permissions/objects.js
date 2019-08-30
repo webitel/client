@@ -3,33 +3,56 @@ import instance from '../../instance';
 
 const BASE_URL = '/objects';
 
-export function getObjects(id = '') {
-    Vue.$log.info('get Permissions Objects started');
-    if (id) id = '/' + id;
-    const url = BASE_URL + id;
-    return instance.get(url)
+export function getObjects() {
+    Vue.$log.info('get Permissions Objects', 'started');
+    return instance.get(BASE_URL)
         .then((response) => {
-                Vue.$log.info('get Objects', 'response', response);
-                return response.data;
+                Vue.$log.info('get Permissions Objects', 'response', response);
+
+                const defaultObject = {  // default object prototype, to merge response with it to get all fields
+                    class: '',
+                    obac: false,
+                    rbac: false,
+                    id: 0
+                };
+
+                return response.data.classes.map(item => {
+                    return Object.assign({}, defaultObject, item);
+                });
             },
             (error) => {
-                Vue.$log.info('get Objects', 'error', error);
+                Vue.$log.warn('get Objects', 'error', error);
+                throw error;
+            });
+}
+
+export function getObject(id) {
+    Vue.$log.info('get Permissions Object (1)', 'started');
+
+    const url = BASE_URL + '/' + id;
+    return instance.get(url)
+        .then((response) => {
+                Vue.$log.info('get Permissions Object (1)', 'response', response);
+                return response.data.class.class;
+            },
+            (error) => {
+                Vue.$log.warn('get Permissions Object (1)', 'error', error);
+                throw error;
             });
 }
 
 export function updateObject(id, permissions) {
-    Vue.$log.info('update permissions Objects started');
+    Vue.$log.info('update permissions Objects', 'started');
     const url = BASE_URL + '/' + id;
-    const data = {
+    const updatedObject = {
         class: {
             obac: permissions.obac,
             rbac: permissions.rbac
         }
     };
-    return instance.put(url, data)
+    return instance.put(url, updatedObject)
         .then(response => {
                 Vue.$log.info('put Object', 'response', response);
-                return response.data;
             },
             error => {
                 Vue.$log.info('put Object', 'error', error);
@@ -38,7 +61,7 @@ export function updateObject(id, permissions) {
 }
 
 export function getObjectPermissions(id) {
-    Vue.$log.info('getObjectPermissions started');
+    Vue.$log.info('getObjectPermissions', 'started');
     const url = BASE_URL + '/' + id + '/acl';
     return instance.get(url)
         .then((response) => {
@@ -67,18 +90,19 @@ export function getObjectPermissions(id) {
             },
             (error) => {
                 Vue.$log.info('getObjectPermissions', 'error', error);
+                throw error;
             });
 }
 
 export function updateObjectPermissions(id, granteesToSend) {
     // granteesToSend -- array
-    Vue.$log.info('updateObjectPermissions started');
+    Vue.$log.info('updateObjectPermissions', 'started');
     const url = BASE_URL + '/' + id + '/acl';
 
     const changes = {
-            changes: granteesToSend
-        }
-    ;
+        changes: granteesToSend
+    };
+
     return instance.patch(url, changes)
         .then(
             response => {

@@ -3,18 +3,32 @@ import instance from '../../instance';
 
 const BASE_URL = '/roles';
 
-export function getRoles(id = '') {
-    Vue.$log.info('get Roles started');
-    if (id) id = '/' + id;
-    const url = BASE_URL + id;
-    return instance.get(url)
+export function getRoles() {
+    Vue.$log.info('get Roles',  'started');
+    return instance.get(BASE_URL)
         .then((response) => {
                 Vue.$log.info('get Roles', 'response', response);
+
+                return response.data.results;
+            },
+            (error) => {
+                Vue.$log.info('get Roles', 'error', error);
+                throw error;
+            });
+}
+
+export function getRole(id) {
+    Vue.$log.info('get Role (1)',  'started');
+    const url = BASE_URL + '/' + id;
+    return instance.get(url)
+        .then((response) => {
+                Vue.$log.info('get Role (1)', 'response', response);
 
                 return response.data;
             },
             (error) => {
-                Vue.$log.info('get Roles', 'error', error);
+                Vue.$log.info('get Role (1)', 'error', error);
+                throw error;
             });
 }
 
