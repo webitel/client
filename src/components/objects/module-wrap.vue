@@ -1,6 +1,6 @@
 <template>
     <div class="object-wrap">
-        <app-nav></app-nav>
+        <app-nav @re-renderNav="updateNav" :key="reloadNavKey"></app-nav>
         <main class="object">
             <notification></notification>
             <app-header></app-header>
@@ -22,6 +22,16 @@
             'app-nav': theNavbar,
             notification,
         },
+        data() {
+            return {
+                reloadNavKey: 0
+            }
+        },
+        methods: {
+            updateNav() {
+                this.reloadNavKey++;
+            }
+        }
     }
 </script>
 
