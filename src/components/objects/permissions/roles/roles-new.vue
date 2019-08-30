@@ -36,9 +36,9 @@
                         :placeholder="$t('objects.name')"
                 ></form-input>
 
+<!--                v-model="role.description"-->
                 <form-input
                         class="form__input"
-                        v-model="role.description"
                         :height="164"
                         :label="$t('objects.description')"
                         :placeholder="$t('objects.description')"
@@ -54,7 +54,7 @@
     import objectHeader from '../../object-header';
     import formInput from '../../../utils/form-input';
     import {required} from 'vuelidate/lib/validators';
-    import {addRole, getRoles, updateRole} from "../../../../api/objects/permissions/roles";
+    import {addRole, getRole, updateRole} from "../../../../api/objects/permissions/roles";
 
     export default {
         name: 'permissions-new',
@@ -67,10 +67,10 @@
                 role: {
                     role: 'front-role',
                     name: '',
-                    description: '',
+                    // description: '',
                 },
                 initialRole: {},
-                id: this.$route.params.id
+                id: null
             };
         },
 
@@ -84,8 +84,10 @@
         },
 
         mounted() {
-            if (this.id !== 'new') {
-                getRoles(this.id)
+            if(this.$route.params.id !== 'new') this.id = this.$route.params.id;
+
+            if (this.id) {
+                getRole(this.id)
                     .then(response => {
                         this.role = response.role;
                         this.initialRole = JSON.parse(JSON.stringify(response.role));
@@ -96,21 +98,22 @@
 
         methods: {
             save() {
+                // check if some fields was changed
                 const isEqualToInitial = Object.keys(this.role).every(newProperty => {
                     return Object.keys(this.initialRole).some(oldProperty => {
                         return this.role[newProperty] === this.initialRole[oldProperty];
                     })
                 });
                 if (this.role.role && !isEqualToInitial) {
-                    if (!this.id) {
-                        addRole(this.role)
-                            .then(() => {
-                                this.close()
-                            });
-                    } else {
+                    if (this.id) {
                         updateRole(this.id, this.role)
                             .then(() => {
                                 this.close();
+                            });
+                    } else {
+                        addRole(this.role)
+                            .then(() => {
+                                this.close()
                             });
                     }
 

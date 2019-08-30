@@ -79,7 +79,7 @@
         mounted() {
             getRoles()
                 .then((response) => {
-                    this.roleList = [...response.results];
+                    this.roleList = [...response];
                 });
         },
         methods: {
@@ -93,11 +93,11 @@
                         params: {id: this.roleList[rowId].id},
                     });
                 } else if (action === 'delete') {
+                    // remove role
                     const deletedRole = this.roleList.splice(rowId, 1)[0];
-                    console.log(deletedRole);
                     deleteRole(deletedRole.id)
-                        .catch(
-                            () => {
+                        .catch(() => {
+                            // if request fails, restore
                                 this.roleList.splice(rowId, 0, deletedRole);
                             }
                         )

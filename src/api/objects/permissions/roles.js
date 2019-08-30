@@ -8,7 +8,6 @@ export function getRoles() {
     return instance.get(BASE_URL)
         .then((response) => {
                 Vue.$log.info('get Roles', 'response', response);
-
                 return response.data.results;
             },
             (error) => {
@@ -23,7 +22,6 @@ export function getRole(id) {
     return instance.get(url)
         .then((response) => {
                 Vue.$log.info('get Role (1)', 'response', response);
-
                 return response.data;
             },
             (error) => {
@@ -33,14 +31,13 @@ export function getRole(id) {
 }
 
 export function addRole(roleToSend) {
-    Vue.$log.info('add role started');
+    Vue.$log.info('add role', 'started');
     const newRole = {
         role: roleToSend
     };
     return instance.post(BASE_URL, newRole)
         .then(response => {
                 Vue.$log.info('post Roles', 'response', response);
-
             },
             error => {
                 Vue.$log.info('post Roles', 'error', error);
@@ -49,7 +46,7 @@ export function addRole(roleToSend) {
 }
 
 export function updateRole(id, roleToSend) {
-    Vue.$log.info('update role started');
+    Vue.$log.info('update role', 'started');
     const updatedRole = {
         role: roleToSend
     };
@@ -57,7 +54,6 @@ export function updateRole(id, roleToSend) {
     return instance.put(url, updatedRole)
         .then(response => {
                 Vue.$log.info('put Roles', 'response', response);
-
             },
             error => {
                 Vue.$log.info('put Roles', 'error', error);
@@ -66,12 +62,11 @@ export function updateRole(id, roleToSend) {
 }
 
 export function deleteRole(id) {
-    Vue.$log.info('delete role started');
+    Vue.$log.info('delete role', 'started');
     const url = BASE_URL + '/' + id;
     return instance.delete(url)
         .then(response => {
                 Vue.$log.info('delete Roles', 'response', response);
-
             },
             error => {
                 Vue.$log.info('delete Roles', 'error', error);
