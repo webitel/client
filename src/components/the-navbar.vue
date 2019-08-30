@@ -1,7 +1,6 @@
 <template>
     <aside class="the-nav__wrap">
-<!--        <nav class="the-nav" @mouseleave="expandItem">-->
-        <nav class="the-nav">
+        <nav class="the-nav" :class="{'expanded-nav': computeNavExpansion}" @mouseleave="expandItem">
             <div class="logo" @click="$router.push('/')">
                 <img class="logo-sm__img" src="../assets/img/logo-sm.svg" alt="logo">
                 <img class="logo__img" src="../assets/img/logo.svg" alt="logo">
@@ -26,7 +25,7 @@
                                 :class="{
                                     'nav-item__current': currentRouteItem.users
                                  }"
-                                @click="$router.push('/directory/users')"
+                                @click="navigate('/directory/users')"
                         >
                             <i class="subnav-icon icon-icon_deny"></i>
                             <span class="subnav-text">Users</span>
@@ -36,7 +35,7 @@
                                 :class="{
                                     'nav-item__current': currentRouteItem.devices
                                  }"
-                                @click="$router.push('/directory/devices')"
+                                @click="navigate('/directory/devices')"
                         >
                             <i class="subnav-icon icon-icon_deny"></i>
                             <span class="subnav-text">Devices</span>
@@ -45,7 +44,7 @@
                 </li>
 
                 <li class="nav-item-wrap">
-                    <div class="nav-item">
+                    <div class="nav-item" @click="navigate">
                         <i class="nav-icon icon-icon_approve"></i>
                         <span class="nav-text">Contacts</span>
                     </div>
@@ -70,6 +69,7 @@
                                 :class="{
                                     'nav-item__current': currentRouteItem.sipEndpoints
                                  }"
+                                @click="navigate"
                         >
                             <i class="subnav-icon icon-icon_deny"></i>
                             <span class="subnav-text">SIP Endpoints</span>
@@ -79,6 +79,7 @@
                                 :class="{
                                     'nav-item__current': currentRouteItem.flowsManager
                                  }"
+                                @click="navigate"
                         >
                             <i class="subnav-icon icon-icon_deny"></i>
                             <span class="subnav-text">Flows manager</span>
@@ -88,6 +89,7 @@
                                 :class="{
                                     'nav-item__current': currentRouteItem.dialplan
                                  }"
+                                @click="navigate"
                         >
                             <i class="subnav-icon icon-icon_deny"></i>
                             <span class="subnav-text">Dialplan</span>
@@ -97,13 +99,13 @@
                                 :class="{
                                     'nav-item__current': currentRouteItem.chatplan
                                  }"
+                                @click="navigate"
                         >
                             <i class="subnav-icon icon-icon_deny"></i>
                             <span class="subnav-text">Chatplan</span>
                         </li>
                     </ul>
                 </li>
-
 
                 <li
                         class="nav-item-wrap"
@@ -124,6 +126,7 @@
                                 :class="{
                                     'nav-item__current': currentRouteItem.agentSkills
                                  }"
+                                @click="navigate"
                         >
                             <i class="subnav-icon icon-icon_deny"></i>
                             <span class="subnav-text">Agent skills</span>
@@ -133,6 +136,7 @@
                                 :class="{
                                     'nav-item__current': currentRouteItem.calendars
                                  }"
+                                @click="navigate"
                         >
                             <i class="subnav-icon icon-icon_deny"></i>
                             <span class="subnav-text">Calendars</span>
@@ -142,6 +146,7 @@
                                 :class="{
                                     'nav-item__current': currentRouteItem.communications
                                  }"
+                                @click="navigate"
                         >
                             <i class="subnav-icon icon-icon_deny"></i>
                             <span class="subnav-text">Communications</span>
@@ -151,6 +156,7 @@
                                 :class="{
                                     'nav-item__current': currentRouteItem.contactType
                                  }"
+                                @click="navigate"
                         >
                             <i class="subnav-icon icon-icon_deny"></i>
                             <span class="subnav-text">Contact type</span>
@@ -160,6 +166,7 @@
                                 :class="{
                                     'nav-item__current': currentRouteItem.leadSource
                                  }"
+                                @click="navigate"
                         >
                             <i class="subnav-icon icon-icon_deny"></i>
                             <span class="subnav-text">Lead source</span>
@@ -169,6 +176,7 @@
                                 :class="{
                                     'nav-item__current': currentRouteItem.leadStatus
                                  }"
+                                @click="navigate"
                         >
                             <i class="subnav-icon icon-icon_deny"></i>
                             <span class="subnav-text">Lead status</span>
@@ -195,6 +203,7 @@
                                 :class="{
                                     'nav-item__current': currentRouteItem.dashboard
                                  }"
+                                @click="navigate"
                         >
                             <i class="subnav-icon icon-icon_deny"></i>
                             <span class="subnav-text">Dashboard</span>
@@ -204,6 +213,7 @@
                                 :class="{
                                     'nav-item__current': currentRouteItem.agents
                                  }"
+                                @click="navigate"
                         >
                             <i class="subnav-icon icon-icon_deny"></i>
                             <span class="subnav-text">Agents</span>
@@ -213,6 +223,7 @@
                                 :class="{
                                     'nav-item__current': currentRouteItem.resources
                                  }"
+                                @click="navigate"
                         >
                             <i class="subnav-icon icon-icon_deny"></i>
                             <span class="subnav-text">Resourses</span>
@@ -222,6 +233,7 @@
                                 :class="{
                                     'nav-item__current': currentRouteItem.queues
                                  }"
+                                @click="navigate"
                         >
                             <i class="subnav-icon icon-icon_deny"></i>
                             <span class="subnav-text">Queues</span>
@@ -230,7 +242,7 @@
                 </li>
 
                 <li class="nav-item-wrap">
-                    <div class="nav-item">
+                    <div class="nav-item" @click="navigate">
                         <i class="nav-icon icon-icon_approve"></i>
                         <span class="nav-text">Kibana</span>
                     </div>
@@ -255,6 +267,7 @@
                                 :class="{
                                     'nav-item__current': currentRouteItem.apiTokens
                                  }"
+                                @click="navigate"
                         >
                             <i class="subnav-icon icon-icon_deny"></i>
                             <span class="subnav-text">API tokens</span>
@@ -264,6 +277,7 @@
                                 :class="{
                                     'nav-item__current': currentRouteItem.accounts
                                  }"
+                                @click="navigate"
                         >
                             <i class="subnav-icon icon-icon_deny"></i>
                             <span class="subnav-text">Accounts</span>
@@ -273,6 +287,7 @@
                                 :class="{
                                     'nav-item__current': currentRouteItem.webhooks
                                  }"
+                                @click="navigate"
                         >
                             <i class="subnav-icon icon-icon_deny"></i>
                             <span class="subnav-text">Webhooks</span>
@@ -282,6 +297,7 @@
                                 :class="{
                                     'nav-item__current': currentRouteItem.siteWidgets
                                  }"
+                                @click="navigate"
                         >
                             <i class="subnav-icon icon-icon_deny"></i>
                             <span class="subnav-text">Site Wigets</span>
@@ -291,6 +307,7 @@
                                 :class="{
                                     'nav-item__current': currentRouteItem.callTracking
                                  }"
+                                @click="navigate"
                         >
                             <i class="subnav-icon icon-icon_deny"></i>
                             <span class="subnav-text">Call tracking</span>
@@ -317,7 +334,7 @@
                                 :class="{
                                     'nav-item__current': currentRouteItem.license
                                  }"
-                                @click="$router.push('/administration/license')"
+                                @click="navigate('/administration/license')"
                         >
                             <i class="subnav-icon icon-icon_deny"></i>
                             <span class="subnav-text">License</span>
@@ -327,6 +344,7 @@
                                 :class="{
                                     'nav-item__current': currentRouteItem.storage
                                  }"
+                                @click="navigate"
                         >
                             <i class="subnav-icon icon-icon_deny"></i>
                             <span class="subnav-text">Storage</span>
@@ -336,6 +354,7 @@
                                 :class="{
                                     'nav-item__current': currentRouteItem.mediaFiles
                                  }"
+                                @click="navigate"
                         >
                             <i class="subnav-icon icon-icon_deny"></i>
                             <span class="subnav-text">Media files</span>
@@ -345,6 +364,7 @@
                                 :class="{
                                     'nav-item__current': currentRouteItem.blacklists
                                  }"
+                                @click="navigate"
                         >
                             <i class="subnav-icon icon-icon_deny"></i>
                             <span class="subnav-text">Blacklists</span>
@@ -354,6 +374,7 @@
                                 :class="{
                                     'nav-item__current': currentRouteItem.ADFS
                                  }"
+                                @click="navigate"
                         >
                             <i class="subnav-icon icon-icon_deny"></i>
                             <span class="subnav-text">ADFS OAuth2</span>
@@ -380,7 +401,7 @@
                                 :class="{
                                     'nav-item__current': currentRouteItem.roles
                                  }"
-                                @click="$router.push('/permissions/roles')"
+                                @click="navigate('/permissions/roles')"
                         >
                             <i class="subnav-icon icon-icon_deny"></i>
                             <span class="subnav-text">Roles</span>
@@ -390,7 +411,7 @@
                                 :class="{
                                     'nav-item__current': currentRouteItem.objects
                                  }"
-                                @click="$router.push('/permissions/objects')"
+                                @click="navigate('/permissions/objects')"
                         >
                             <i class="subnav-icon icon-icon_deny"></i>
                             <span class="subnav-text">Objects</span>
@@ -400,6 +421,7 @@
                                 :class="{
                                     'nav-item__current': currentRouteItem.operations
                                  }"
+                                @click="navigate"
                         >
                             <i class="subnav-icon icon-icon_deny"></i>
                             <span class="subnav-text">Operations</span>
@@ -432,6 +454,7 @@
                 },
                 currentRoute: {
                     directory: false,
+                    contacts: false,
                     routing: false,
                     lookups: false,
                     contactCenter: false,
@@ -467,6 +490,8 @@
                     resources: false,
                     queues: false,
 
+                    // Kibana
+
                     // Integrations
                     apiTokens: false,
                     accounts: false,
@@ -492,6 +517,13 @@
             this.expandCurrentRoute();
         },
         methods: {
+            navigate(route) {
+                if(route && route !== this.$router.currentRoute.fullPath) {
+                    this.$router.push(route);
+                    this.$emit('re-renderNav');
+                }
+            },
+
             expandCurrentRoute() {
                 const currentRoute = this.$router.currentRoute.fullPath.split('/');
                 // [1] -- object, [2] -- page inself
@@ -500,17 +532,29 @@
 
             // watches only 1 item to be opened
             expandItem(expandItem) {
-                Object.keys(this.expanded).map(item => {
-                    this.expanded[item] = item === expandItem && !this.expanded[item];
+                if(this.expanded[expandItem]) {
+                    this.expanded[expandItem] = false;
+                    return;
+                }
+                Object.keys(this.expanded).forEach(item => {
+                    this.expanded[item] = item === expandItem && !expandItem[item];
                 });
             },
             highlightCurrent(currentObject, currentItem) {
                 this.expandItem(currentObject);
-                Object.keys(this.currentRoute).map(item => {
+                Object.keys(this.currentRoute).forEach(item => {
                     this.currentRoute[item] = item === currentObject && !this.currentRoute[item];
                 });
-                Object.keys(this.currentRouteItem).map(item => {
+                Object.keys(this.currentRouteItem).forEach(item => {
                     this.currentRouteItem[item] = item === currentItem && !this.currentRouteItem[item];
+                });
+            }
+        },
+        computed: {
+            computeNavExpansion() {
+                return !Object.values(this.expanded).every(section => {
+                    console.log(section);
+                    return !section;
                 });
             }
         }
@@ -632,11 +676,10 @@
         }
     }
 
-    .nav-item__expanded ~ .nav-item__current {
+    .expanded-nav .nav-item__current:not(.nav-item__expanded) {
         .nav-icon-arrow, .nav-icon, .nav-text {
             color: $nav-icon-color ;
         }
-
     }
 
     .the-nav:hover {
