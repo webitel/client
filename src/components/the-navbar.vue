@@ -104,102 +104,6 @@
                     </ul>
                 </li>
 
-                <li
-                        class="nav-item-wrap"
-                        :class="{
-                        'nav-item__expanded': expanded.logs,
-                         'nav-item__current': currentRoute.logs
-                         }"
-                        @click="expandItem('logs')"
-                >
-                    <div class="nav-item">
-                        <i class="nav-icon-arrow icon-icon_arrow-down"></i>
-                        <i class="nav-icon icon-icon_approve"></i>
-                        <span class="nav-text">Logs</span>
-                    </div>
-                    <ul class="subnav-items" v-show="this.expanded.logs">
-                        <li
-                                class="subnav-item"
-                                :class="{
-                                    'nav-item__current': currentRouteItem.callLogs
-                                 }"
-                        >
-                            <i class="subnav-icon icon-icon_deny"></i>
-                            <span class="subnav-text">Call log</span>
-                        </li>
-                        <li
-                                class="subnav-item"
-                                :class="{
-                                    'nav-item__current': currentRouteItem.chatLogs
-                                 }"
-                        >
-                            <i class="subnav-icon icon-icon_deny"></i>
-                            <span class="subnav-text">Chat logs</span>
-                        </li>
-                        <li
-                                class="subnav-item"
-                                :class="{
-                                    'nav-item__current': currentRouteItem.actionsLog
-                                 }"
-                        >
-                            <i class="subnav-icon icon-icon_deny"></i>
-                            <span class="subnav-text">Actions log</span>
-                        </li>
-                    </ul>
-                </li>
-
-                <li
-                        class="nav-item-wrap"
-                        :class="{
-                        'nav-item__expanded': expanded.contactCenter,
-                         'nav-item__current': currentRoute.contactCenter
-                         }"
-                        @click="expandItem('contactCenter')"
-                >
-                    <div class="nav-item">
-                        <i class="nav-icon-arrow icon-icon_arrow-down"></i>
-                        <i class="nav-icon icon-icon_approve"></i>
-                        <span class="nav-text">Contact center</span>
-                    </div>
-                    <ul class="subnav-items" v-show="this.expanded.contactCenter">
-                        <li
-                                class="subnav-item"
-                                :class="{
-                                    'nav-item__current': currentRouteItem.dashboard
-                                 }"
-                        >
-                            <i class="subnav-icon icon-icon_deny"></i>
-                            <span class="subnav-text">Dashboard</span>
-                        </li>
-                        <li
-                                class="subnav-item"
-                                :class="{
-                                    'nav-item__current': currentRouteItem.agents
-                                 }"
-                        >
-                            <i class="subnav-icon icon-icon_deny"></i>
-                            <span class="subnav-text">Agents</span>
-                        </li>
-                        <li
-                                class="subnav-item"
-                                :class="{
-                                    'nav-item__current': currentRouteItem.resources
-                                 }"
-                        >
-                            <i class="subnav-icon icon-icon_deny"></i>
-                            <span class="subnav-text">Resourses</span>
-                        </li>
-                        <li
-                                class="subnav-item"
-                                :class="{
-                                    'nav-item__current': currentRouteItem.queues
-                                 }"
-                        >
-                            <i class="subnav-icon icon-icon_deny"></i>
-                            <span class="subnav-text">Queues</span>
-                        </li>
-                    </ul>
-                </li>
 
                 <li
                         class="nav-item-wrap"
@@ -270,6 +174,66 @@
                             <span class="subnav-text">Lead status</span>
                         </li>
                     </ul>
+                </li>
+
+                <li
+                        class="nav-item-wrap"
+                        :class="{
+                        'nav-item__expanded': expanded.contactCenter,
+                         'nav-item__current': currentRoute.contactCenter
+                         }"
+                        @click="expandItem('contactCenter')"
+                >
+                    <div class="nav-item">
+                        <i class="nav-icon-arrow icon-icon_arrow-down"></i>
+                        <i class="nav-icon icon-icon_approve"></i>
+                        <span class="nav-text">Contact center</span>
+                    </div>
+                    <ul class="subnav-items" v-show="this.expanded.contactCenter">
+                        <li
+                                class="subnav-item"
+                                :class="{
+                                    'nav-item__current': currentRouteItem.dashboard
+                                 }"
+                        >
+                            <i class="subnav-icon icon-icon_deny"></i>
+                            <span class="subnav-text">Dashboard</span>
+                        </li>
+                        <li
+                                class="subnav-item"
+                                :class="{
+                                    'nav-item__current': currentRouteItem.agents
+                                 }"
+                        >
+                            <i class="subnav-icon icon-icon_deny"></i>
+                            <span class="subnav-text">Agents</span>
+                        </li>
+                        <li
+                                class="subnav-item"
+                                :class="{
+                                    'nav-item__current': currentRouteItem.resources
+                                 }"
+                        >
+                            <i class="subnav-icon icon-icon_deny"></i>
+                            <span class="subnav-text">Resourses</span>
+                        </li>
+                        <li
+                                class="subnav-item"
+                                :class="{
+                                    'nav-item__current': currentRouteItem.queues
+                                 }"
+                        >
+                            <i class="subnav-icon icon-icon_deny"></i>
+                            <span class="subnav-text">Queues</span>
+                        </li>
+                    </ul>
+                </li>
+
+                <li class="nav-item-wrap">
+                    <div class="nav-item">
+                        <i class="nav-icon icon-icon_approve"></i>
+                        <span class="nav-text">Kibana</span>
+                    </div>
                 </li>
 
                 <li
@@ -460,9 +424,8 @@
                 expanded: {
                     directory: false,
                     routing: false,
-                    logs: false,
-                    contactCenter: false,
                     lookups: false,
+                    contactCenter: false,
                     integrations: false,
                     administration: false,
                     permissions: false
@@ -470,9 +433,9 @@
                 currentRoute: {
                     directory: false,
                     routing: false,
-                    logs: false,
-                    contactCenter: false,
                     lookups: false,
+                    contactCenter: false,
+                    kibana: false,
                     integrations: false,
                     administration: false,
                     permissions: false
@@ -490,17 +453,6 @@
                     dialplan: false,
                     chatplan: false,
 
-                    // Logs
-                    callLogs: false,
-                    chatLogs: false,
-                    actionsLog: false,
-
-                    // Contact Center
-                    dashboard: false,
-                    agents: false,
-                    resources: false,
-                    queues: false,
-
                     // Lookups
                     agentSkills: false,
                     calendars: false,
@@ -508,6 +460,12 @@
                     contactType: false,
                     leadSource: false,
                     leadStatus: false,
+
+                    // Contact Center
+                    dashboard: false,
+                    agents: false,
+                    resources: false,
+                    queues: false,
 
                     // Integrations
                     apiTokens: false,
