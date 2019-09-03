@@ -100,13 +100,17 @@
 
         methods: {
             save() {
+                this.$v.role.$touch();
+                // if its still pending or an error is returned do not submit
+                if (this.$v.role.$pending || this.$v.role.$error) return;
+
                 // check if some fields was changed
                 const isEqualToInitial = Object.keys(this.role).every(newProperty => {
                     return Object.keys(this.initialRole).some(oldProperty => {
                         return this.role[newProperty] === this.initialRole[oldProperty];
                     })
                 });
-                if (this.role.role && !isEqualToInitial) {
+                if (!isEqualToInitial) {
                     if (this.id) {
                         updateRole(this.id, this.role)
                             .then(() => {
