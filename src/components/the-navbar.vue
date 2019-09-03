@@ -553,7 +553,6 @@
         computed: {
             computeNavExpansion() {
                 return !Object.values(this.expanded).every(section => {
-                    console.log(section);
                     return !section;
                 });
             }
