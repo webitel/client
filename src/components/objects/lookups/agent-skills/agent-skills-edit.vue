@@ -5,7 +5,7 @@
                 :primaryAction="save"
                 :secondaryAction="close"
         >
-            {{$tc('objects.lookups.skills.skills', 1)}} | {{computeTitle}}
+            <span>{{$tc('objects.lookups.skills.skills', 1)}}</span> | {{computeTitle}}
         </object-header>
         <section class="object-content module-new permissions-new">
             <header class="content-header page-header">

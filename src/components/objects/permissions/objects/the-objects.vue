@@ -19,7 +19,7 @@
             >
 
                 <template slot="objectName" slot-scope="props">
-                    <div>{{objectList[props.rowIndex].class}}</div>
+                    <div class="tt-capitalize">{{objectList[props.rowIndex].class}}</div>
                 </template>
 
                 <template slot="obac" slot-scope="props">

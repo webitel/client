@@ -4,7 +4,7 @@
                 :primaryText="$t('objects.save')"
                 :primaryAction="save"
                 :secondaryAction="close"
-        >{{objectTitle}} |
+        ><span class="tt-capitalize">{{objectTitle}}</span> |
             {{$t('objects.edit')}}
         </object-header>
 
@@ -22,7 +22,7 @@
             >
 
                 <template slot="grantee" slot-scope="props">
-                    <div v-if="!permissionsList[props.rowIndex].new">
+                    <div v-if="!permissionsList[props.rowIndex].new" class="tt-capitalize">
                         {{permissionsList[props.rowIndex].grantee.role}}
                     </div>
 
