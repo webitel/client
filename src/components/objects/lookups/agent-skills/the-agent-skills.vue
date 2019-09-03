@@ -1,0 +1,107 @@
+<template>
+    <div class="content-wrap">
+
+        <object-header
+                :primaryAction="create"
+        >
+            {{$t('objects.lookups.lookups')}} |
+            {{$tc('objects.lookups.skills.skills', 2)}}
+        </object-header>
+
+        <section class="object-content">
+            <header class="content-header page-header">
+                <h3 class="content-title">{{$t('objects.lookups.skills.allSkills')}}</h3>
+            </header>
+
+            <vuetable
+                    class="permissions-table"
+                    :api-mode="false"
+                    :fields="fields"
+                    :data="skillsList"
+            >
+                <template slot="skillName" slot-scope="props">
+                    <div>
+                        {{skillsList[props.rowIndex].name}}
+                    </div>
+                </template>
+
+                <template slot="skillDescription" slot-scope="props">
+                    <div>
+                        {{skillsList[props.rowIndex].description || 'DESCRIPTION IS EMPTY'}}
+                    </div>
+                </template>
+
+                <template slot="actions" slot-scope="props">
+                    <div class="vuetable-actions">
+                        <i class="vuetable-action icon-icon_edit"
+                           @click="action('edit', props.rowIndex)"
+                        ></i>
+                        <i class="vuetable-action icon-icon_delete"
+                           @click="action('delete', props.rowIndex)"
+                        ></i>
+                    </div>
+                </template>
+            </vuetable>
+        </section>
+    </div>
+</template>
+
+<script>
+    import vuetable from 'vuetable-2/src/components/Vuetable';
+    import objectHeader from '@/components/objects/object-header';
+
+    export default {
+        name: "the-agent-skills",
+        components: {
+            'object-header': objectHeader,
+            vuetable,
+        },
+        data() {
+            return {
+                skillsList: [],
+                // vuetable prop
+                fields: [
+                    {name: 'skillName', title: this.$t('objects.name')},
+                    {name: 'skillDescription', title: this.$t('objects.description')},
+                    {
+                        name: 'actions',
+                        title: '',
+                        titleClass: 'vuetable-td-actions',
+                        dataClass: 'vuetable-td-actions',
+                        width: '120px'
+                    },
+                ],
+            };
+        },
+        mounted() {
+            for(let i = 0; i < 10; i++) {
+                this.skillsList.push({
+                    name: 'Skill name ' + i,
+                    description: 'Description',
+                    id: i
+                });
+            }
+        },
+        methods: {
+            create() {
+                this.$router.push('/lookups/skills/new');
+            },
+
+            action(action, rowId) {
+                if (action === 'edit') {
+                    this.$router.push({
+                        name: 'skills-lookup-edit',
+                        params: {id: this.skillsList[rowId].id},
+                    });
+                } else if (action === 'delete') {
+                    // remove role
+                    const deletedSkill = this.skillsList.splice(rowId, 1)[0];
+                }
+            },
+        }
+    }
+</script>
+
+<style scoped>
+
+</style>

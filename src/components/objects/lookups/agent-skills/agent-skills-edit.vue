@@ -5,7 +5,7 @@
                 :primaryAction="save"
                 :secondaryAction="close"
         >
-            {{$tc('objects.permissions.permissionsRole')}} | {{computeTitle}}
+            {{$tc('objects.lookups.skills.skills', 1)}} | {{computeTitle}}
         </object-header>
         <section class="object-content module-new permissions-new">
             <header class="content-header page-header">
@@ -22,21 +22,13 @@
 
                 <form-input
                         class="form__input"
-                        v-model.trim="$v.role.role.$model"
-                        :v="$v.role.role"
+                        v-model.trim="$v.skill.name.$model"
+                        :v="$v.skill.name"
                         :label="$t('objects.name')"
                         :placeholder="$t('objects.name')"
                         required
                 ></form-input>
 
-                <form-input
-                        class="form__input"
-                        v-model="role.name"
-                        :label="$t('objects.name')"
-                        :placeholder="$t('objects.name')"
-                ></form-input>
-
-<!--                v-model="role.description"-->
                 <form-input
                         class="form__input"
                         :height="164"
@@ -56,30 +48,27 @@
 
     import {required} from 'vuelidate/lib/validators';
 
-    import {addRole, getRole, updateRole} from "@/api/objects/permissions/roles";
-
     export default {
-        name: 'permissions-new',
+        name: "agent-skills-edit",
         components: {
             'object-header': objectHeader,
             'form-input': formInput,
         },
         data() {
             return {
-                role: {
-                    role: 'front-role',
-                    name: '',
+                skill: {
+                    name: 'skill name',
                     // description: '',
                 },
-                initialRole: {},
+                initialSkill: {},
                 id: null
             };
         },
 
         // by vuelidate
         validations: {
-            role: {
-                role: {
+            skill: {
+                name: {
                     required
                 }
             }
@@ -88,39 +77,25 @@
         mounted() {
             if(this.$route.params.id !== 'new') this.id = this.$route.params.id;
 
-            if (this.id) {
-                getRole(this.id)
-                    .then(response => {
-                        this.role = response.role;
-                        this.initialRole = JSON.parse(JSON.stringify(response.role));
-                    });
-            }
-
         },
 
         methods: {
             save() {
-                this.$v.role.$touch();
+                this.$v.skill.$touch();
                 // if its still pending or an error is returned do not submit
-                if (this.$v.role.$pending || this.$v.role.$error) return;
+                if (this.$v.skill.$pending || this.$v.skill.$error) return;
 
                 // check if some fields was changed
-                const isEqualToInitial = Object.keys(this.role).every(newProperty => {
-                    return Object.keys(this.initialRole).some(oldProperty => {
-                        return this.role[newProperty] === this.initialRole[oldProperty];
+                const isEqualToInitial = Object.keys(this.skill).every(newProperty => {
+                    return Object.keys(this.initialSkill).some(oldProperty => {
+                        return this.skill[newProperty] === this.initialSkill[oldProperty];
                     })
                 });
                 if (!isEqualToInitial) {
                     if (this.id) {
-                        updateRole(this.id, this.role)
-                            .then(() => {
-                                this.close();
-                            });
+                    //    update
                     } else {
-                        addRole(this.role)
-                            .then(() => {
-                                this.close()
-                            });
+                    //    create
                     }
 
                 } else {
@@ -137,10 +112,9 @@
                 return this.id ? this.$t('objects.edit') : this.$t('objects.new');
             },
         },
-    };
+    }
 </script>
 
-
-<style lang="scss" scoped>
+<style scoped>
 
 </style>

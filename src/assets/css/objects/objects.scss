@@ -238,3 +238,18 @@
 .module-new .object-input-grid .select-preview {
   margin-bottom: 20px;
 }
+
+.module-new {
+  .page-header {
+    justify-content: start;
+  }
+
+
+  .form_w50 {
+    width: 50%;
+
+    .form-input {
+      margin: 10px 0;
+    }
+  }
+}

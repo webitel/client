@@ -120,6 +120,13 @@ export default {
             variables: 'Variables',
             varKey: 'Key',
             varVal: 'Value'
+        },
+        lookups: {
+            lookups: 'Lookups',
+            skills: {
+                skills: 'Agent skill | Agent skills',
+                allSkills: 'All skills'
+            }
         }
     },
 };

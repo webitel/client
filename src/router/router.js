@@ -4,19 +4,20 @@ import Router from 'vue-router';
 import login from '../components/auth/the-login';
 import register from '../components/auth/the-register';
 
-import moduleWrap from '../components/objects/module-wrap';
-import home from '../components/objects/home/the-home';
-import notFound from '../components/utils/the-not-found-component';
-import permissionsRoles from '../components/objects/permissions/roles/the-roles';
-import permissionsRolesNew from '../components/objects/permissions/roles/roles-new';
-import permissionsObjects from '../components/objects/permissions/objects/the-objects';
-import permissionsObjectsEdit from '../components/objects/permissions/objects/objects-edit';
-import devices from '../components/objects/directory/devices/the-devices';
-import devicesNew from '../components/objects/directory/devices/devices-new';
-import users from '../components/objects/directory/users/the-users';
-import usersNew from '../components/objects/directory/users/users-new';
-import customers from '../components/objects/administration/license/the-customers';
-import license from '../components/objects/administration/license/license';
+import moduleWrap from '@/components/objects/module-wrap';
+import home from '@/components/objects/home/the-home';
+import notFound from '@/components/utils/the-not-found-component';
+import permissionsRoles from '@/components/objects/permissions/roles/the-roles';
+import permissionsRolesNew from '@/components/objects/permissions/roles/roles-new';
+import permissionsObjects from '@/components/objects/permissions/objects/the-objects';
+import permissionsObjectsEdit from '@/components/objects/permissions/objects/objects-edit';
+import devices from '@/components/objects/directory/devices/the-devices';
+import devicesNew from '@/components/objects/directory/devices/devices-new';
+import users from '@/components/objects/directory/users/the-users';
+import usersNew from '@/components/objects/directory/users/users-new';
+import customers from '@/components/objects/administration/license/the-customers';
+import agentSkills from '@/components/objects/lookups/agent-skills/the-agent-skills';
+import agentSkillsEdit from '@/components/objects/lookups/agent-skills/agent-skills-edit';
 
 Vue.use(Router);
 
@@ -69,6 +70,24 @@ const router = new Router({
                     component: usersNew
                 },
                 // ----------DIRECTORY END------------
+
+                // ----------LOOKUPS------------
+                {
+                    path:'/lookups/skills',
+                    name: 'skills-lookup',
+                    component: agentSkills
+                },
+                {
+                    path:'/lookups/skills/new',
+                    name: 'skills-lookup-new',
+                    component: agentSkillsEdit
+                },
+                {
+                    path:'/lookups/skills/:id',
+                    name: 'skills-lookup-edit',
+                    component: agentSkillsEdit
+                },
+                // ----------LOOKUPS END------------
 
                 // --------------ADMINISTRATION-------------
                 {

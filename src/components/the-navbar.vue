@@ -124,9 +124,9 @@
                         <li
                                 class="subnav-item"
                                 :class="{
-                                    'nav-item__current': currentRouteItem.agentSkills
+                                    'nav-item__current': currentRouteItem.skills
                                  }"
-                                @click="navigate"
+                                @click="navigate('/lookups/skills')"
                         >
                             <i class="subnav-icon icon-icon_deny"></i>
                             <span class="subnav-text">Agent skills</span>
@@ -477,7 +477,7 @@
                     chatplan: false,
 
                     // Lookups
-                    agentSkills: false,
+                    skills: false,     // agent skills
                     calendars: false,
                     communications: false,
                     contactType: false,
