@@ -50,11 +50,11 @@
 
 <script>
     import vuetable from 'vuetable-2/src/components/Vuetable';
-    import objectHeader from '../../object-header';
-    import switcher from '../../../utils/switcher';
+    import objectHeader from '@/components/objects/object-header';
+    import switcher from '@/components/utils/switcher';
 
-    import {getObjects} from '../../../../api/objects/permissions/objects';
-    import {updateObject} from '../../../../api/objects/permissions/objects';
+    import {getObjects} from '@/api/objects/permissions/objects';
+    import {updateObject} from '@/api/objects/permissions/objects';
 
     export default {
         name: "permissions-object",

@@ -28,7 +28,7 @@
 </template>
 
 <script>
-    import btn from './btn';
+    import btn from '@/components/utils/btn';
 
     export default {
         name: 'edit-field',

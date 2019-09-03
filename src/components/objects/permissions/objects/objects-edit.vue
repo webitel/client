@@ -74,12 +74,12 @@
 
 <script>
     import vuetable from 'vuetable-2/src/components/Vuetable';
-    import objectHeader from '../../object-header';
-    import tableCheckbox from '../../../utils/checkbox';
-    import dropdownSelect from '../../../utils/dropdown-select';
+    import objectHeader from '@/components/objects/object-header';
+    import tableCheckbox from '@/components/utils/checkbox';
+    import dropdownSelect from '@/components/utils/dropdown-select';
 
-    import {getObject, updateObjectPermissions, getObjectPermissions} from "../../../../api/objects/permissions/objects";
-    import {getRoles} from "../../../../api/objects/permissions/roles";
+    import {getObject, updateObjectPermissions, getObjectPermissions} from "@/api/objects/permissions/objects";
+    import {getRoles} from "@/api/objects/permissions/roles";
 
     export default {
         name: "permissions-object",

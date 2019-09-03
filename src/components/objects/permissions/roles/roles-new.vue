@@ -51,10 +51,12 @@
 </template>
 
 <script>
-    import objectHeader from '../../object-header';
-    import formInput from '../../../utils/form-input';
+    import objectHeader from '@/components/objects/object-header';
+    import formInput from '@/components/utils/form-input';
+
     import {required} from 'vuelidate/lib/validators';
-    import {addRole, getRole, updateRole} from "../../../../api/objects/permissions/roles";
+
+    import {addRole, getRole, updateRole} from "@/api/objects/permissions/roles";
 
     export default {
         name: 'permissions-new',

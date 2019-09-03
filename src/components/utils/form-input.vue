@@ -45,7 +45,7 @@
 </template>
 
 <script>
-    import eventBus from '../../utils/eventBus';
+    import eventBus from '@/utils/eventBus';
 
     export default {
         name: 'login-input',

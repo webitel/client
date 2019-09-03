@@ -26,8 +26,8 @@
 </template>
 
 <script>
-import btn from '../utils/btn';
-import divider from '../utils/divider';
+import btn from '@/components/utils/btn';
+import divider from '@/components/utils/divider';
 
 export default {
   name: 'page-header',

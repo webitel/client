@@ -1,5 +1,5 @@
 import Vue from 'vue';
-import instance from '../../instance';
+import instance from '@/api/instance';
 
 const BASE_URL = '/objects';
 

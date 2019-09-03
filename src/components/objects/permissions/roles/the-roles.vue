@@ -48,9 +48,9 @@
 
 <script>
     import vuetable from 'vuetable-2/src/components/Vuetable';
-    import objectHeader from '../../object-header';
+    import objectHeader from '@/components/objects/object-header';
 
-    import {deleteRole, getRoles} from '../../../../api/objects/permissions/roles';
+    import {deleteRole, getRoles} from '@/api/objects/permissions/roles';
 
 
     export default {
