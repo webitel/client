@@ -4,10 +4,10 @@ import instance from '../../instance';
 const BASE_URL = '/roles';
 
 export async function getRoles() {
-    Vue.$log.info('get Roles', 'started');
+    // Vue.$log.info('get Roles', 'started');
     try {
         const response = await instance.get(BASE_URL);
-        Vue.$log.info('get Roles', 'response', response);
+        // Vue.$log.info('get Roles', 'response', response);
         return response.data.results;
 
     } catch (error) {
@@ -16,12 +16,12 @@ export async function getRoles() {
 }
 
 export async function getRole(id) {
-    Vue.$log.info('get Role (1)', 'started');
+    // Vue.$log.info('get Role (1)', 'started');
     const url = BASE_URL + '/' + id;
 
     try {
         const response = await instance.get(url);
-        Vue.$log.info('get Role (1)', 'response', response);
+        // Vue.$log.info('get Role (1)', 'response', response);
         return response.data;
     } catch (error) {
         throw error;

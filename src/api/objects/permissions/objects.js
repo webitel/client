@@ -4,7 +4,7 @@ import instance from '@/api/instance';
 const BASE_URL = '/objects';
 
 export async function getObjects() {
-    Vue.$log.info('get Permissions Objects', 'started');
+    // Vue.$log.info('get Permissions Objects', 'started');
 
     const defaultObject = {  // default object prototype, to merge response with it to get all fields
         class: '',
@@ -15,7 +15,7 @@ export async function getObjects() {
 
     try {
         const response = await instance.get(BASE_URL);
-        Vue.$log.info('get Permissions Objects', 'response', response);
+        // Vue.$log.info('get Permissions Objects', 'response', response);
 
         return response.data.classes.map(item => {
             return Object.assign({}, defaultObject, item);
@@ -26,11 +26,11 @@ export async function getObjects() {
 }
 
 export async function getObject(id) {
-    Vue.$log.info('get Permissions Object (1)', 'started');
+    // Vue.$log.info('get Permissions Object (1)', 'started');
     const url = BASE_URL + '/' + id;
     try {
         const response = await instance.get(url);
-        Vue.$log.info('get Permissions Object (1)', 'response', response);
+        // Vue.$log.info('get Permissions Object (1)', 'response', response);
         return response.data.class.class;
     } catch (error) {
         throw error;

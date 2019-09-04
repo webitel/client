@@ -2,7 +2,7 @@
     <div class="content-wrap">
         <object-header
                 :primaryText="$t('objects.save')"
-                :primaryAction="save"
+                :primaryAction="submit.bind(this, 'roleInstance', 'initialRole')"
                 :secondaryAction="close"
         >
             {{$tc('objects.permissions.permissionsRole')}} | {{computeTitle}}
@@ -51,19 +51,15 @@
 </template>
 
 <script>
-    import objectHeader from '@/components/objects/object-header';
-    import formInput from '@/components/utils/form-input';
-
+    import editComponentMixin from '@/mixins/editComponentMixin';
     import {required} from 'vuelidate/lib/validators';
 
     import {addRole, getRole, updateRole} from "@/api/objects/permissions/roles";
 
     export default {
         name: 'permissions-new',
-        components: {
-            'object-header': objectHeader,
-            'form-input': formInput,
-        },
+        mixins: [editComponentMixin],
+
         data() {
             return {
                 roleInstance: {
@@ -72,7 +68,6 @@
                     // description: '',
                 },
                 initialRole: {},
-                id: null
             };
         },
 
@@ -86,46 +81,24 @@
         },
 
         mounted() {
-            if (this.$route.params.id !== 'new') this.id = this.$route.params.id;
-
             if (this.id) {
                 this.loadRole(this.id);
             }
-
         },
 
         methods: {
             save() {
-                this.$v.role.$touch();
-                // if its still pending or an error is returned do not submit
-                if (this.$v.role.$pending || this.$v.role.$error) return;
-
-                // check if some fields was changed
-                const isEqualToInitial = Object.keys(this.roleInstance).every(newProperty => {
-                    return Object.keys(this.initialRole).some(oldProperty => {
-                        return this.roleInstance[newProperty] === this.initialRole[oldProperty];
-                    })
-                });
-                if (!isEqualToInitial) {
-                    if (this.id) {
-                        updateRole(this.id, this.roleInstance)
-                            .then(() => {
-                                this.close();
-                            });
-                    } else {
-                        addRole(this.roleInstance)
-                            .then(() => {
-                                this.close();
-                            });
-                    }
-
+                if (this.id) {
+                    updateRole(this.id, this.roleInstance)
+                        .then(() => {
+                            this.close();
+                        });
                 } else {
-                    this.close();
+                    addRole(this.roleInstance)
+                        .then(() => {
+                            this.close();
+                        });
                 }
-            },
-
-            close() {
-                this.$router.go(-1);
             },
 
             // load current role from backend
@@ -136,11 +109,6 @@
                         this.initialRole = JSON.parse(JSON.stringify(response.role));
                     });
             }
-        },
-        computed: {
-            computeTitle() {
-                return this.id ? this.$t('objects.edit') : this.$t('objects.new');
-            },
         },
     };
 </script>
