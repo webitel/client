@@ -5,29 +5,35 @@
                 :primaryAction="create"
         >
             {{$t('objects.lookups.lookups')}} |
-            {{$tc('objects.lookups.leadSource.leadSource', 2)}}
+            {{$tc('objects.lookups.communications.communications', 2)}}
         </object-header>
 
         <section class="object-content">
             <header class="content-header page-header">
-                <h3 class="content-title">{{$t('objects.lookups.leadSource.allSources')}}</h3>
+                <h3 class="content-title">{{$t('objects.lookups.communications.allCommunications')}}</h3>
             </header>
 
             <vuetable
                     class="permissions-table"
                     :api-mode="false"
                     :fields="fields"
-                    :data="leadSourceList"
+                    :data="communicationsList"
             >
-                <template slot="leadSourceName" slot-scope="props">
+                <template slot="communicationCode" slot-scope="props">
                     <div>
-                        {{leadSourceList[props.rowIndex].name}}
+                        {{communicationsList[props.rowIndex].code}}
                     </div>
                 </template>
 
-                <template slot="leadSourceDescription" slot-scope="props">
+                <template slot="communicationName" slot-scope="props">
                     <div>
-                        {{leadSourceList[props.rowIndex].description || 'DESCRIPTION IS EMPTY'}}
+                        {{communicationsList[props.rowIndex].name}}
+                    </div>
+                </template>
+
+                <template slot="communicationDescription" slot-scope="props">
+                    <div>
+                        {{communicationsList[props.rowIndex].description || 'DESCRIPTION IS EMPTY'}}
                     </div>
                 </template>
 
@@ -51,18 +57,19 @@
     import objectHeader from '@/components/objects/object-header';
 
     export default {
-        name: "the-lead-status",
+        name: "the-communication-types",
         components: {
             'object-header': objectHeader,
             vuetable,
         },
         data() {
             return {
-                leadSourceList: [],
+                communicationsList: [],
                 // vuetable prop
                 fields: [
-                    {name: 'leadSourceName', title: this.$t('objects.name')},
-                    {name: 'leadSourceDescription', title: this.$t('objects.description')},
+                    {name: 'communicationCode', title: this.$t('objects.lookups.communications.code')},
+                    {name: 'communicationName', title: this.$t('objects.name')},
+                    {name: 'communicationDescription', title: this.$t('objects.description')},
                     {
                         name: 'actions',
                         title: '',
@@ -74,29 +81,30 @@
             };
         },
         mounted() {
-            this.loadLeadStatusList();
+            this.loadComunicationsList();
         },
         methods: {
             create() {
-                this.$router.push('/lookups/lead-source/new');
+                this.$router.push('/lookups/communications/new');
             },
 
             action(action, rowId) {
                 if (action === 'edit') {
                     this.$router.push({
-                        name: 'lead-source-lookup-edit',
-                        params: {id: this.leadSourceList[rowId].id},
+                        name: 'communications-lookup-edit',
+                        params: {id: this.communicationsList[rowId].id},
                     });
                 } else if (action === 'delete') {
                     // remove skill
-                    const deletedLeadSource = this.leadSourceList.splice(rowId, 1)[0];
+                    const deletedCommunications = this.communicationsList.splice(rowId, 1)[0];
                 }
             },
 
-            loadLeadStatusList() {
-                for(let i = 0; i < 10; i++) {
-                    this.leadSourceList.push({
-                        name: 'Lead source ' + i,
+            loadComunicationsList() {
+                for (let i = 0; i < 10; i++) {
+                    this.communicationsList.push({
+                        code: 'A' + i,
+                        name: 'Communication ' + i,
                         description: 'Description',
                         id: i
                     });

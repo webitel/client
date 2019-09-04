@@ -2,10 +2,10 @@
     <div class="content-wrap">
         <object-header
                 :primaryText="$t('objects.save')"
-                :primaryAction="submit.bind(this, 'leadSourceInstance', 'initialLeadSource')"
+                :primaryAction="submit.bind(this, 'communicationInstance', 'initialCommunication')"
                 :secondaryAction="close"
         >
-            <span>{{$tc('objects.lookups.leadSource.leadSource', 1)}}</span> | {{computeTitle}}
+            <span>{{$tc('objects.lookups.communications.communications', 1)}}</span> | {{computeTitle}}
         </object-header>
         <section class="object-content module-new permissions-new">
             <header class="content-header page-header">
@@ -22,8 +22,17 @@
 
                 <form-input
                         class="form__input"
-                        v-model.trim="$v.leadSourceInstance.name.$model"
-                        :v="$v.leadSourceInstance.name"
+                        v-model.trim="$v.communicationInstance.code.$model"
+                        :v="$v.communicationInstance.code"
+                        :label="$t('objects.lookups.communications.code')"
+                        :placeholder="$t('objects.lookups.communications.code')"
+                        required
+                ></form-input>
+
+                <form-input
+                        class="form__input"
+                        v-model.trim="$v.communicationInstance.name.$model"
+                        :v="$v.communicationInstance.name"
                         :label="$t('objects.name')"
                         :placeholder="$t('objects.name')"
                         required
@@ -48,15 +57,17 @@
     import {required} from 'vuelidate/lib/validators';
 
     export default {
-        name: "lead-status-edit",
+        name: "communications-type-edit",
         mixins: [editComponentMixin],
         data() {
             return {
-                leadSourceInstance: {
+                communicationInstance: {
+                    code: 'A1',
                     name: 'skill name',
                     // description: '',
                 },
-                initialLeadSource: {
+                initialCommunication: {
+                    code: 'A1',
                     name: 'skill name',
                     // description: '',
                 },
@@ -65,7 +76,10 @@
 
         // by vuelidate
         validations: {
-            leadSourceInstance: {
+            communicationInstance: {
+                code: {
+                    required
+                },
                 name: {
                     required
                 }

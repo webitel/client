@@ -129,7 +129,8 @@ export default {
             },
             communications: {
                 communications: 'Communication type | Comunication types',
-                allCommunications: 'All communiction types'
+                allCommunications: 'All communiction types',
+                code: 'Code'
             },
             contactType: {
                 contactType: 'Contact type | Contact types',
