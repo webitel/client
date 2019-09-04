@@ -112,13 +112,13 @@
         mounted() {
 
             // get object title to show on page header
-            this.loadObject();
+            this.loadObject(this.id);
 
             // get all roles to choose which to add
            this.loadRoleList();
 
             // get object permissions
-            this.loadObjectPermissions();
+            this.loadObjectPermissions(this.id);
         },
 
         methods: {

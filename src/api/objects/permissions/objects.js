@@ -26,11 +26,11 @@ export async function getObjects() {
 }
 
 export async function getObject(id) {
-    // Vue.$log.info('get Permissions Object (1)', 'started');
+    Vue.$log.info('get Permissions Object (1)', 'started');
     const url = BASE_URL + '/' + id;
     try {
         const response = await instance.get(url);
-        // Vue.$log.info('get Permissions Object (1)', 'response', response);
+        Vue.$log.info('get Permissions Object (1)', 'response', response);
         return response.data.class.class;
     } catch (error) {
         throw error;
