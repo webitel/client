@@ -51,7 +51,7 @@
     import objectHeader from '@/components/objects/object-header';
 
     export default {
-        name: "the-lead-source",
+        name: "the-lead-status",
         components: {
             'object-header': objectHeader,
             vuetable,
@@ -74,7 +74,7 @@
             };
         },
         mounted() {
-            this.loadLeadSourceList();
+            this.loadLeadStatusList();
         },
         methods: {
             create() {
@@ -93,7 +93,7 @@
                 }
             },
 
-            loadLeadSourceList() {
+            loadLeadStatusList() {
                 for(let i = 0; i < 10; i++) {
                     this.leadSourceList.push({
                         name: 'Lead source ' + i,

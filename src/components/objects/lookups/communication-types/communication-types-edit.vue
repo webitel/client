@@ -48,7 +48,7 @@
     import {required} from 'vuelidate/lib/validators';
 
     export default {
-        name: "lead-source-edit",
+        name: "lead-status-edit",
         mixins: [editComponentMixin],
         data() {
             return {

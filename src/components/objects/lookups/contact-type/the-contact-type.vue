@@ -5,29 +5,29 @@
                 :primaryAction="create"
         >
             {{$t('objects.lookups.lookups')}} |
-            {{$tc('objects.lookups.leadSource.leadSource', 2)}}
+            {{$tc('objects.lookups.contactType.contactType', 2)}}
         </object-header>
 
         <section class="object-content">
             <header class="content-header page-header">
-                <h3 class="content-title">{{$t('objects.lookups.leadSource.allSources')}}</h3>
+                <h3 class="content-title">{{$t('objects.lookups.contactType.allContactTypes')}}</h3>
             </header>
 
             <vuetable
                     class="permissions-table"
                     :api-mode="false"
                     :fields="fields"
-                    :data="leadSourceList"
+                    :data="contactTypeList"
             >
-                <template slot="leadSourceName" slot-scope="props">
+                <template slot="contactTypeName" slot-scope="props">
                     <div>
-                        {{leadSourceList[props.rowIndex].name}}
+                        {{contactTypeList[props.rowIndex].name}}
                     </div>
                 </template>
 
-                <template slot="leadSourceDescription" slot-scope="props">
+                <template slot="contactTypeDescription" slot-scope="props">
                     <div>
-                        {{leadSourceList[props.rowIndex].description || 'DESCRIPTION IS EMPTY'}}
+                        {{contactTypeList[props.rowIndex].description || 'DESCRIPTION IS EMPTY'}}
                     </div>
                 </template>
 
@@ -51,18 +51,18 @@
     import objectHeader from '@/components/objects/object-header';
 
     export default {
-        name: "the-lead-source",
+        name: "the-contact-type",
         components: {
             'object-header': objectHeader,
             vuetable,
         },
         data() {
             return {
-                leadSourceList: [],
+                contactTypeList: [],
                 // vuetable prop
                 fields: [
-                    {name: 'leadSourceName', title: this.$t('objects.name')},
-                    {name: 'leadSourceDescription', title: this.$t('objects.description')},
+                    {name: 'contactTypeName', title: this.$t('objects.name')},
+                    {name: 'contactTypeDescription', title: this.$t('objects.description')},
                     {
                         name: 'actions',
                         title: '',
@@ -74,29 +74,29 @@
             };
         },
         mounted() {
-            this.loadLeadSourceList();
+            this.loadContactTypeList();
         },
         methods: {
             create() {
-                this.$router.push('/lookups/lead-source/new');
+                this.$router.push('/lookups/contact-type/new');
             },
 
             action(action, rowId) {
                 if (action === 'edit') {
                     this.$router.push({
-                        name: 'lead-source-lookup-edit',
-                        params: {id: this.leadSourceList[rowId].id},
+                        name: 'contact-type-lookup-edit',
+                        params: {id: this.contactTypeList[rowId].id},
                     });
                 } else if (action === 'delete') {
                     // remove skill
-                    const deletedLeadSource = this.leadSourceList.splice(rowId, 1)[0];
+                    const deletedcontactType = this.contactTypeList.splice(rowId, 1)[0];
                 }
             },
 
-            loadLeadSourceList() {
+            loadContactTypeList() {
                 for(let i = 0; i < 10; i++) {
-                    this.leadSourceList.push({
-                        name: 'Lead source ' + i,
+                    this.contactTypeList.push({
+                        name: 'contact  Type ' + i,
                         description: 'Description',
                         id: i
                     });

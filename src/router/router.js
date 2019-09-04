@@ -22,6 +22,10 @@ import leadStatus from '@/components/objects/lookups/lead-status/the-lead-status
 import leadStatusEdit from '@/components/objects/lookups/lead-status/lead-status-edit';
 import leadSource from '@/components/objects/lookups/lead-source/the-lead-source';
 import leadSourceEdit from '@/components/objects/lookups/lead-source/lead-source-edit';
+import communicationTypes from '@/components/objects/lookups/communication-types/the-communication-types';
+import communicationTypesEdit from '@/components/objects/lookups/communication-types/communication-types-edit';
+import contactType from '@/components/objects/lookups/contact-type/the-contact-type';
+import contactTypeEdit from '@/components/objects/lookups/contact-type/contact-type-edit';
 
 Vue.use(Router);
 
@@ -90,6 +94,38 @@ const router = new Router({
                     path:'/lookups/skills/:id',
                     name: 'skills-lookup-edit',
                     component: agentSkillsEdit
+                },
+
+                {
+                    path:'/lookups/communications',
+                    name: 'communications-lookup',
+                    component: communicationTypes
+                },
+                {
+                    path:'/lookups/communications/new',
+                    name: 'communications-lookup-new',
+                    component: communicationTypesEdit
+                },
+                {
+                    path:'/lookups/communications/:id',
+                    name: 'communications-lookup-edit',
+                    component: communicationTypesEdit
+                },
+
+                {
+                    path:'/lookups/contact-type',
+                    name: 'contact-type-lookup',
+                    component: contactType
+                },
+                {
+                    path:'/lookups/contact-type/new',
+                    name: 'contact-type-lookup-new',
+                    component: contactTypeEdit
+                },
+                {
+                    path:'/lookups/contact-type/:id',
+                    name: 'contact-type-lookup-edit',
+                    component: contactTypeEdit
                 },
 
                 {

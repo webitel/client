@@ -2,10 +2,10 @@
     <div class="content-wrap">
         <object-header
                 :primaryText="$t('objects.save')"
-                :primaryAction="submit.bind(this, 'leadSourceInstance', 'initialLeadSource')"
+                :primaryAction="submit.bind(this, 'contactTypeInstance', 'initialContactType')"
                 :secondaryAction="close"
         >
-            <span>{{$tc('objects.lookups.leadSource.leadSource', 1)}}</span> | {{computeTitle}}
+            <span>{{$tc('objects.lookups.contactType.contactType', 1)}}</span> | {{computeTitle}}
         </object-header>
         <section class="object-content module-new permissions-new">
             <header class="content-header page-header">
@@ -22,8 +22,8 @@
 
                 <form-input
                         class="form__input"
-                        v-model.trim="$v.leadSourceInstance.name.$model"
-                        :v="$v.leadSourceInstance.name"
+                        v-model.trim="$v.contactTypeInstance.name.$model"
+                        :v="$v.contactTypeInstance.name"
                         :label="$t('objects.name')"
                         :placeholder="$t('objects.name')"
                         required
@@ -48,15 +48,15 @@
     import {required} from 'vuelidate/lib/validators';
 
     export default {
-        name: "lead-source-edit",
+        name: "contact-type-edit",
         mixins: [editComponentMixin],
         data() {
             return {
-                leadSourceInstance: {
+                contactTypeInstance: {
                     name: 'skill name',
                     // description: '',
                 },
-                initialLeadSource: {
+                initialContactType: {
                     name: 'skill name',
                     // description: '',
                 },
@@ -65,7 +65,7 @@
 
         // by vuelidate
         validations: {
-            leadSourceInstance: {
+            contactTypeInstance: {
                 name: {
                     required
                 }

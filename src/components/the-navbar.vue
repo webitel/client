@@ -136,7 +136,7 @@
                                 :class="{
                                     'nav-item__current': currentRouteItem.calendars
                                  }"
-                                @click="navigate"
+                                @click="navigate('/lookups/calendars')"
                         >
                             <i class="subnav-icon icon-icon_deny"></i>
                             <span class="subnav-text">Calendars</span>
@@ -146,7 +146,7 @@
                                 :class="{
                                     'nav-item__current': currentRouteItem.communications
                                  }"
-                                @click="navigate"
+                                @click="navigate('/lookups/communications')"
                         >
                             <i class="subnav-icon icon-icon_deny"></i>
                             <span class="subnav-text">Communications</span>
@@ -154,9 +154,9 @@
                         <li
                                 class="subnav-item"
                                 :class="{
-                                    'nav-item__current': currentRouteItem.contactType
+                                    'nav-item__current': currentRouteItem['contact-type']
                                  }"
-                                @click="navigate"
+                                @click="navigate('/lookups/contact-type')"
                         >
                             <i class="subnav-icon icon-icon_deny"></i>
                             <span class="subnav-text">Contact type</span>
@@ -480,7 +480,7 @@
                     skills: false,     // agent skills
                     calendars: false,
                     communications: false,
-                    contactType: false,
+                    'contact-type': false,
                     'lead-source': false,
                     'lead-status': false,
 

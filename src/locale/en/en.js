@@ -127,13 +127,21 @@ export default {
                 skills: 'Agent skill | Agent skills',
                 allSkills: 'All skills'
             },
-            leadStatus: {
-                leadStatus: 'Lead status',
-                allStatuses: 'All statuses'
+            communications: {
+                communications: 'Communication type | Comunication types',
+                allCommunications: 'All communiction types'
+            },
+            contactType: {
+                contactType: 'Contact type | Contact types',
+                allContactTypes: 'All contact types'
             },
             leadSource: {
                 leadSource: 'Lead source | Lead sources',
                 allSources: 'All sources'
+            },
+            leadStatus: {
+                leadStatus: 'Lead status',
+                allStatuses: 'All statuses'
             },
         }
     },
