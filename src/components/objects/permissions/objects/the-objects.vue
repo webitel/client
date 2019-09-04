@@ -82,12 +82,7 @@
             };
         },
         mounted() {
-
-            getObjects().then(
-                response => {
-                    this.objectList = [...response];
-                }
-            );
+            this.loadObjectList();
         },
         methods: {
             edit(rowId) {
@@ -109,6 +104,14 @@
                         // if request throws error, move changes back
                             this.objectList[id][property] = !this.objectList[id][property];
                         });
+            },
+
+            loadObjectList() {
+                getObjects().then(
+                    response => {
+                        this.objectList = [...response];
+                    }
+                );
             }
         },
     }

@@ -112,28 +112,13 @@
         mounted() {
 
             // get object title to show on page header
-            getObject(this.id).then(
-                (response) => {
-                    this.objectTitle = response;
-                }
-            );
+            this.loadObject();
 
             // get all roles to choose which to add
-            getRoles().then(
-                (response) => {
-                    this.roleList = [...response];
-                }
-            );
+           this.loadRoleList();
 
             // get object permissions
-            getObjectPermissions(this.id).then(
-                (response) => {
-                    if (response) {
-                        this.permissionsList = [...response];
-                        this.initialPermissionsList = JSON.parse(JSON.stringify(response));
-                    }
-                }
-            );
+            this.loadObjectPermissions();
         },
 
         methods: {
@@ -252,6 +237,36 @@
 
             close() {
                 this.$router.go(-1);
+            },
+
+            // get object title to show on page header
+            loadObject(id) {
+                getObject(id).then(
+                    (response) => {
+                        this.objectTitle = response;
+                    }
+                );
+            },
+
+            // get all roles to choose which to add
+            loadRoleList() {
+                getRoles().then(
+                    (response) => {
+                        this.roleList = [...response];
+                    }
+                );
+            },
+
+            // get object permissions
+            loadObjectPermissions(id) {
+                getObjectPermissions(id).then(
+                    (response) => {
+                        if (response) {
+                            this.permissionsList = [...response];
+                            this.initialPermissionsList = JSON.parse(JSON.stringify(response));
+                        }
+                    }
+                );
             }
         },
         computed: {

@@ -22,8 +22,8 @@
 
                 <form-input
                         class="form__input"
-                        v-model.trim="$v.skill.name.$model"
-                        :v="$v.skill.name"
+                        v-model.trim="$v.skillInstance.name.$model"
+                        :v="$v.skillInstance.name"
                         :label="$t('objects.name')"
                         :placeholder="$t('objects.name')"
                         required
@@ -56,7 +56,7 @@
         },
         data() {
             return {
-                skill: {
+                skillInstance: {
                     name: 'skill name',
                     // description: '',
                 },
@@ -67,7 +67,7 @@
 
         // by vuelidate
         validations: {
-            skill: {
+            skillInstance: {
                 name: {
                     required
                 }
@@ -81,14 +81,14 @@
 
         methods: {
             save() {
-                this.$v.skill.$touch();
+                this.$v.skillInstance.$touch();
                 // if its still pending or an error is returned do not submit
-                if (this.$v.skill.$pending || this.$v.skill.$error) return;
+                if (this.$v.skillInstance.$pending || this.$v.skillInstance.$error) return;
 
                 // check if some fields was changed
-                const isEqualToInitial = Object.keys(this.skill).every(newProperty => {
+                const isEqualToInitial = Object.keys(this.skillInstance).every(newProperty => {
                     return Object.keys(this.initialSkill).some(oldProperty => {
-                        return this.skill[newProperty] === this.initialSkill[oldProperty];
+                        return this.skillInstance[newProperty] === this.initialSkill[oldProperty];
                     })
                 });
                 if (!isEqualToInitial) {

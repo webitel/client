@@ -77,10 +77,7 @@
             };
         },
         mounted() {
-            getRoles()
-                .then((response) => {
-                    this.roleList = [...response];
-                });
+            this.loadRoleList();
         },
         methods: {
             create() {
@@ -103,6 +100,12 @@
                         )
                 }
             },
+            loadRoleList() {
+                getRoles()
+                    .then((response) => {
+                        this.roleList = [...response];
+                    });
+            }
         }
     };
 </script>

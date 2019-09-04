@@ -22,8 +22,8 @@
 
                 <form-input
                         class="form__input"
-                        v-model.trim="$v.role.role.$model"
-                        :v="$v.role.role"
+                        v-model.trim="$v.roleInstance.role.$model"
+                        :v="$v.roleInstance.role"
                         :label="$t('objects.name')"
                         :placeholder="$t('objects.name')"
                         required
@@ -31,12 +31,12 @@
 
                 <form-input
                         class="form__input"
-                        v-model="role.name"
+                        v-model="roleInstance.name"
                         :label="$t('objects.name')"
                         :placeholder="$t('objects.name')"
                 ></form-input>
 
-<!--                v-model="role.description"-->
+                <!--                v-model="role.description"-->
                 <form-input
                         class="form__input"
                         :height="164"
@@ -66,7 +66,7 @@
         },
         data() {
             return {
-                role: {
+                roleInstance: {
                     role: 'front-role',
                     name: '',
                     // description: '',
@@ -78,7 +78,7 @@
 
         // by vuelidate
         validations: {
-            role: {
+            roleInstance: {
                 role: {
                     required
                 }
@@ -86,14 +86,10 @@
         },
 
         mounted() {
-            if(this.$route.params.id !== 'new') this.id = this.$route.params.id;
+            if (this.$route.params.id !== 'new') this.id = this.$route.params.id;
 
             if (this.id) {
-                getRole(this.id)
-                    .then(response => {
-                        this.role = response.role;
-                        this.initialRole = JSON.parse(JSON.stringify(response.role));
-                    });
+                this.loadRole(this.id);
             }
 
         },
@@ -105,21 +101,21 @@
                 if (this.$v.role.$pending || this.$v.role.$error) return;
 
                 // check if some fields was changed
-                const isEqualToInitial = Object.keys(this.role).every(newProperty => {
+                const isEqualToInitial = Object.keys(this.roleInstance).every(newProperty => {
                     return Object.keys(this.initialRole).some(oldProperty => {
-                        return this.role[newProperty] === this.initialRole[oldProperty];
+                        return this.roleInstance[newProperty] === this.initialRole[oldProperty];
                     })
                 });
                 if (!isEqualToInitial) {
                     if (this.id) {
-                        updateRole(this.id, this.role)
+                        updateRole(this.id, this.roleInstance)
                             .then(() => {
                                 this.close();
                             });
                     } else {
-                        addRole(this.role)
+                        addRole(this.roleInstance)
                             .then(() => {
-                                this.close()
+                                this.close();
                             });
                     }
 
@@ -131,6 +127,15 @@
             close() {
                 this.$router.go(-1);
             },
+
+            // load current role from backend
+            loadRole(id) {
+                getRole(id)
+                    .then(response => {
+                        this.roleInstance = response.role;
+                        this.initialRole = JSON.parse(JSON.stringify(response.role));
+                    });
+            }
         },
         computed: {
             computeTitle() {

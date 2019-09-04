@@ -74,13 +74,7 @@
             };
         },
         mounted() {
-            for(let i = 0; i < 10; i++) {
-                this.skillsList.push({
-                    name: 'Skill name ' + i,
-                    description: 'Description',
-                    id: i
-                });
-            }
+            this.loadSkillsList();
         },
         methods: {
             create() {
@@ -98,6 +92,16 @@
                     const deletedSkill = this.skillsList.splice(rowId, 1)[0];
                 }
             },
+
+            loadSkillsList() {
+                for(let i = 0; i < 10; i++) {
+                    this.skillsList.push({
+                        name: 'Skill name ' + i,
+                        description: 'Description',
+                        id: i
+                    });
+                }
+            }
         }
     }
 </script>
