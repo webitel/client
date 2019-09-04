@@ -19,7 +19,11 @@
             >
 
                 <template slot="objectName" slot-scope="props">
-                    <div class="tt-capitalize">{{objectList[props.rowIndex].class}}</div>
+                    <div class="tt-capitalize">
+                        <span class="nameLink"  @click="edit(props.rowIndex)">
+                            {{objectList[props.rowIndex].class}}
+                        </span>
+                    </div>
                 </template>
 
                 <template slot="obac" slot-scope="props">

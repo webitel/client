@@ -123,7 +123,7 @@
 
         methods: {
             addGrantee() {
-                this.permissionsList.push({
+                this.permissionsList.unshift({
                     grantee: {
                         role: '',
                     },

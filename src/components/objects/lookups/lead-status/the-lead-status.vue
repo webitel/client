@@ -20,8 +20,10 @@
                     :data="leadStatusList"
             >
                 <template slot="leadStatusName" slot-scope="props">
-                    <div>
+                    <div class="tt-capitalize">
+                        <span class="nameLink"  @click="action('edit', props.rowIndex)">
                         {{leadStatusList[props.rowIndex].name}}
+                        </span>
                     </div>
                 </template>
 

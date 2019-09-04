@@ -28,9 +28,18 @@
 
 
         &:not(.dropdown-select) {
-          overflow-x: hidden;
+          overflow: hidden;
         }
       }
+    }
+  }
+
+
+  .nameLink {
+    cursor: pointer;
+    
+    &:hover {
+      text-decoration: underline;
     }
   }
 

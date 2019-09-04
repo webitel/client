@@ -229,6 +229,7 @@
 
             .select-options {
                 width: 196px;  // filter dropdown width
+                word-break: break-word;
             }
         }
 

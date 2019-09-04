@@ -20,8 +20,10 @@
                     :data="communicationsList"
             >
                 <template slot="communicationCode" slot-scope="props">
-                    <div>
+                    <div class="tt-capitalize">
+                        <span class="nameLink"  @click="action('edit', props.rowIndex)">
                         {{communicationsList[props.rowIndex].code}}
+                        </span>
                     </div>
                 </template>
 
