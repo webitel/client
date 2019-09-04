@@ -126,6 +126,10 @@ export default {
             skills: {
                 skills: 'Agent skill | Agent skills',
                 allSkills: 'All skills'
+            },
+            leadStatus: {
+                leadStatus: 'Lead status',
+                allStatuses: 'All statuses'
             }
         }
     },

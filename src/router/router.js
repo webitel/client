@@ -18,6 +18,8 @@ import usersNew from '@/components/objects/directory/users/users-new';
 import customers from '@/components/objects/administration/license/the-customers';
 import agentSkills from '@/components/objects/lookups/agent-skills/the-agent-skills';
 import agentSkillsEdit from '@/components/objects/lookups/agent-skills/agent-skills-edit';
+import leadStatus from '@/components/objects/lookups/lead-status/the-lead-status';
+import leadStatusEdit from '@/components/objects/lookups/lead-status/lead-status-edit';
 
 Vue.use(Router);
 
@@ -86,6 +88,22 @@ const router = new Router({
                     path:'/lookups/skills/:id',
                     name: 'skills-lookup-edit',
                     component: agentSkillsEdit
+                },
+
+                {
+                    path:'/lookups/lead-status',
+                    name: 'lead-status-lookup',
+                    component: leadStatus
+                },
+                {
+                    path:'/lookups/lead-status/new',
+                    name: 'lead-status-lookup-new',
+                    component: leadStatusEdit
+                },
+                {
+                    path:'/lookups/lead-status/:id',
+                    name: 'lead-status-lookup-edit',
+                    component: leadStatusEdit
                 },
                 // ----------LOOKUPS END------------
 

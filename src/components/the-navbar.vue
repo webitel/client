@@ -164,9 +164,9 @@
                         <li
                                 class="subnav-item"
                                 :class="{
-                                    'nav-item__current': currentRouteItem.leadSource
+                                    'nav-item__current': currentRouteItem['lead-source']
                                  }"
-                                @click="navigate"
+                                @click="navigate('/lookups/lead-source')"
                         >
                             <i class="subnav-icon icon-icon_deny"></i>
                             <span class="subnav-text">Lead source</span>
@@ -174,9 +174,9 @@
                         <li
                                 class="subnav-item"
                                 :class="{
-                                    'nav-item__current': currentRouteItem.leadStatus
+                                    'nav-item__current': currentRouteItem['lead-status']
                                  }"
-                                @click="navigate"
+                                @click="navigate('/lookups/lead-status')"
                         >
                             <i class="subnav-icon icon-icon_deny"></i>
                             <span class="subnav-text">Lead status</span>
@@ -481,8 +481,8 @@
                     calendars: false,
                     communications: false,
                     contactType: false,
-                    leadSource: false,
-                    leadStatus: false,
+                    'lead-source': false,
+                    'lead-status': false,
 
                     // Contact Center
                     dashboard: false,
