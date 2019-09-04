@@ -88,7 +88,7 @@
                         params: {id: this.skillsList[rowId].id},
                     });
                 } else if (action === 'delete') {
-                    // remove role
+                    // remove skill
                     const deletedSkill = this.skillsList.splice(rowId, 1)[0];
                 }
             },
