@@ -20,6 +20,8 @@ import agentSkills from '@/components/objects/lookups/agent-skills/the-agent-ski
 import agentSkillsEdit from '@/components/objects/lookups/agent-skills/agent-skills-edit';
 import leadStatus from '@/components/objects/lookups/lead-status/the-lead-status';
 import leadStatusEdit from '@/components/objects/lookups/lead-status/lead-status-edit';
+import leadSource from '@/components/objects/lookups/lead-source/the-lead-source';
+import leadSourceEdit from '@/components/objects/lookups/lead-source/lead-source-edit';
 
 Vue.use(Router);
 
@@ -88,6 +90,22 @@ const router = new Router({
                     path:'/lookups/skills/:id',
                     name: 'skills-lookup-edit',
                     component: agentSkillsEdit
+                },
+
+                {
+                    path:'/lookups/lead-source',
+                    name: 'lead-source-lookup',
+                    component: leadSource
+                },
+                {
+                    path:'/lookups/lead-source/new',
+                    name: 'lead-source-lookup-new',
+                    component: leadSourceEdit
+                },
+                {
+                    path:'/lookups/lead-source/:id',
+                    name: 'lead-source-lookup-edit',
+                    component: leadSourceEdit
                 },
 
                 {

@@ -5,29 +5,29 @@
                 :primaryAction="create"
         >
             {{$t('objects.lookups.lookups')}} |
-            {{$tc('objects.lookups.skills.skills', 2)}}
+            {{$tc('objects.lookups.leadSource.leadSource', 2)}}
         </object-header>
 
         <section class="object-content">
             <header class="content-header page-header">
-                <h3 class="content-title">{{$t('objects.lookups.skills.allSkills')}}</h3>
+                <h3 class="content-title">{{$t('objects.lookups.leadSource.allSources')}}</h3>
             </header>
 
             <vuetable
                     class="permissions-table"
                     :api-mode="false"
                     :fields="fields"
-                    :data="skillsList"
+                    :data="leadSourceList"
             >
-                <template slot="skillName" slot-scope="props">
+                <template slot="leadSourceName" slot-scope="props">
                     <div>
-                        {{skillsList[props.rowIndex].name}}
+                        {{leadSourceList[props.rowIndex].name}}
                     </div>
                 </template>
 
-                <template slot="skillDescription" slot-scope="props">
+                <template slot="leadSourceDescription" slot-scope="props">
                     <div>
-                        {{skillsList[props.rowIndex].description || 'DESCRIPTION IS EMPTY'}}
+                        {{leadSourceList[props.rowIndex].description || 'DESCRIPTION IS EMPTY'}}
                     </div>
                 </template>
 
@@ -51,18 +51,18 @@
     import objectHeader from '@/components/objects/object-header';
 
     export default {
-        name: "the-agent-skills",
+        name: "the-lead-status",
         components: {
             'object-header': objectHeader,
             vuetable,
         },
         data() {
             return {
-                skillsList: [],
+                leadSourceList: [],
                 // vuetable prop
                 fields: [
-                    {name: 'skillName', title: this.$t('objects.name')},
-                    {name: 'skillDescription', title: this.$t('objects.description')},
+                    {name: 'leadSourceName', title: this.$t('objects.name')},
+                    {name: 'leadSourceDescription', title: this.$t('objects.description')},
                     {
                         name: 'actions',
                         title: '',
@@ -74,29 +74,29 @@
             };
         },
         mounted() {
-            this.loadSkillsList();
+            this.loadLeadStatusList();
         },
         methods: {
             create() {
-                this.$router.push('/lookups/lead-status/new');
+                this.$router.push('/lookups/lead-source/new');
             },
 
             action(action, rowId) {
                 if (action === 'edit') {
                     this.$router.push({
-                        name: 'skills-lookup-edit',
-                        params: {id: this.skillsList[rowId].id},
+                        name: 'lead-source-lookup-edit',
+                        params: {id: this.leadSourceList[rowId].id},
                     });
                 } else if (action === 'delete') {
                     // remove skill
-                    const deletedSkill = this.skillsList.splice(rowId, 1)[0];
+                    const deletedLeadSource = this.leadSourceList.splice(rowId, 1)[0];
                 }
             },
 
-            loadSkillsList() {
+            loadLeadStatusList() {
                 for(let i = 0; i < 10; i++) {
-                    this.skillsList.push({
-                        name: 'Skill name ' + i,
+                    this.leadSourceList.push({
+                        name: 'Lead source ' + i,
                         description: 'Description',
                         id: i
                     });

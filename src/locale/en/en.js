@@ -130,7 +130,11 @@ export default {
             leadStatus: {
                 leadStatus: 'Lead status',
                 allStatuses: 'All statuses'
-            }
+            },
+            leadSource: {
+                leadSource: 'Lead source | Lead sources',
+                allSources: 'All sources'
+            },
         }
     },
 };
