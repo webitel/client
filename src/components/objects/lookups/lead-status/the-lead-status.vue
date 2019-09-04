@@ -36,10 +36,10 @@
                 <template slot="actions" slot-scope="props">
                     <div class="vuetable-actions">
                         <i class="vuetable-action icon-icon_edit"
-                           @click="action('edit', props.rowIndex)"
+                           @click="edit(props.rowIndex)"
                         ></i>
                         <i class="vuetable-action icon-icon_delete"
-                           @click="action('delete', props.rowIndex)"
+                           @click="remove(props.rowIndex)"
                         ></i>
                     </div>
                 </template>
@@ -83,16 +83,15 @@
                 this.$router.push('/lookups/skills/new');
             },
 
-            action(action, rowId) {
-                if (action === 'edit') {
-                    this.$router.push({
-                        name: 'lead-status-lookup-edit',
-                        params: {id: this.leadStatusList[rowId].id},
-                    });
-                } else if (action === 'delete') {
-                    // remove skill
-                    const deletedLeadStatus = this.leadStatusList.splice(rowId, 1)[0];
-                }
+            edit(rowId) {
+                this.$router.push({
+                    name: 'lead-status-lookup-edit',
+                    params: {id: this.leadStatusList[rowId].id},
+                });
+            },
+
+            remove(rowId) {
+                const deletedLeadStatus = this.leadStatusList.splice(rowId, 1)[0];
             },
 
             loadLeadStatusList() {

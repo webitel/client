@@ -36,10 +36,10 @@
                 <template slot="actions" slot-scope="props">
                     <div class="vuetable-actions">
                         <i class="vuetable-action icon-icon_edit"
-                           @click="action('edit', props.rowIndex)"
+                           @click="edit(props.rowIndex)"
                         ></i>
                         <i class="vuetable-action icon-icon_delete"
-                           @click="action('delete', props.rowIndex)"
+                           @click="remove(props.rowIndex)"
                         ></i>
                     </div>
                 </template>
@@ -83,16 +83,15 @@
                 this.$router.push('/lookups/lead-source/new');
             },
 
-            action(action, rowId) {
-                if (action === 'edit') {
-                    this.$router.push({
-                        name: 'lead-source-lookup-edit',
-                        params: {id: this.leadSourceList[rowId].id},
-                    });
-                } else if (action === 'delete') {
-                    // remove skill
-                    const deletedLeadSource = this.leadSourceList.splice(rowId, 1)[0];
-                }
+            edit(rowId) {
+                this.$router.push({
+                    name: 'lead-source-lookup-edit',
+                    params: {id: this.leadSourceList[rowId].id},
+                });
+            },
+
+            remove(rowId) {
+                const deletedLeadSource = this.leadSourceList.splice(rowId, 1)[0];
             },
 
             loadLeadSourceList() {

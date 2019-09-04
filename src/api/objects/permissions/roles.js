@@ -62,7 +62,7 @@ export async function deleteRole(id) {
     const url = BASE_URL + '/' + id;
 
     try {
-        const response = await instance.delete(url);
+        const response = await instance.remove(url);
         Vue.$log.info('delete Roles', 'response', response);
     } catch (error) {
         throw error;

@@ -21,7 +21,7 @@
             >
                 <template slot="roleName" slot-scope="props">
                     <div class="tt-capitalize">
-                        <span class="nameLink" @click="action('edit', props.rowIndex)">
+                        <span class="nameLink" @click="edit(props.rowIndex)">
                         {{roleList[props.rowIndex].role}}
                         </span>
                     </div>
@@ -36,10 +36,10 @@
                 <template slot="actions" slot-scope="props">
                     <div class="vuetable-actions">
                         <i class="vuetable-action icon-icon_edit"
-                           @click="action('edit', props.rowIndex)"
+                           @click="edit(props.rowIndex)"
                         ></i>
                         <i class="vuetable-action icon-icon_delete"
-                           @click="action('delete', props.rowIndex)"
+                           @click="remove(props.rowIndex)"
                         ></i>
                     </div>
                 </template>
@@ -85,23 +85,25 @@
             create() {
                 this.$router.push('/permissions/roles/new');
             },
-            action(action, rowId) {
-                if (action === 'edit') {
-                    this.$router.push({
-                        name: 'permissions-roles-edit',
-                        params: {id: this.roleList[rowId].id},
-                    });
-                } else if (action === 'delete') {
-                    // remove role
-                    const deletedRole = this.roleList.splice(rowId, 1)[0];
-                    deleteRole(deletedRole.id)
-                        .catch(() => {
-                            // if request fails, restore
-                                this.roleList.splice(rowId, 0, deletedRole);
-                            }
-                        )
-                }
+
+            edit(rowId) {
+                this.$router.push({
+                    name: 'permissions-roles-edit',
+                    params: {id: this.roleList[rowId].id},
+                });
             },
+
+            remove(rowId) {
+                // remove role
+                const deletedRole = this.roleList.splice(rowId, 1)[0];
+                deleteRole(deletedRole.id)
+                    .catch(() => {
+                            // if request fails, restore
+                            this.roleList.splice(rowId, 0, deletedRole);
+                        }
+                    )
+            },
+
             loadRoleList() {
                 getRoles()
                     .then((response) => {

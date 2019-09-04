@@ -21,7 +21,7 @@
             >
                 <template slot="communicationCode" slot-scope="props">
                     <div class="tt-capitalize">
-                        <span class="nameLink"  @click="action('edit', props.rowIndex)">
+                        <span class="nameLink"  @click="edit(props.rowIndex)">
                         {{communicationsList[props.rowIndex].code}}
                         </span>
                     </div>
@@ -42,10 +42,10 @@
                 <template slot="actions" slot-scope="props">
                     <div class="vuetable-actions">
                         <i class="vuetable-action icon-icon_edit"
-                           @click="action('edit', props.rowIndex)"
+                           @click="edit(props.rowIndex)"
                         ></i>
                         <i class="vuetable-action icon-icon_delete"
-                           @click="action('delete', props.rowIndex)"
+                           @click="remove(props.rowIndex)"
                         ></i>
                     </div>
                 </template>
@@ -90,16 +90,15 @@
                 this.$router.push('/lookups/communications/new');
             },
 
-            action(action, rowId) {
-                if (action === 'edit') {
-                    this.$router.push({
-                        name: 'communications-lookup-edit',
-                        params: {id: this.communicationsList[rowId].id},
-                    });
-                } else if (action === 'delete') {
-                    // remove skill
-                    const deletedCommunications = this.communicationsList.splice(rowId, 1)[0];
-                }
+            edit(rowId) {
+                this.$router.push({
+                    name: 'communications-lookup-edit',
+                    params: {id: this.communicationsList[rowId].id},
+                });
+            },
+
+            remove(rowId) {
+                const deletedCommunications = this.communicationsList.splice(rowId, 1)[0];
             },
 
             loadComunicationsList() {

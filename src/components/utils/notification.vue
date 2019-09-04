@@ -15,8 +15,7 @@
                 {{message.info || message.error}}
             </div>
             <i
-                    class="icon-icon_close icon-action"
-                    @click="close(message.info || message.error)"
+                    class="icon-icon_close icon-action" @click="close(message.info || message.error)"
             ></i>
         </div>
     </aside>

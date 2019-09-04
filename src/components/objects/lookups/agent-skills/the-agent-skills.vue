@@ -21,7 +21,7 @@
             >
                 <template slot="skillName" slot-scope="props">
                     <div class="tt-capitalize">
-                        <span class="nameLink"  @click="action('edit', props.rowIndex)">
+                        <span class="nameLink" @click="edit(props.rowIndex)">
                         {{skillsList[props.rowIndex].name}}
                         </span>
                     </div>
@@ -36,10 +36,10 @@
                 <template slot="actions" slot-scope="props">
                     <div class="vuetable-actions">
                         <i class="vuetable-action icon-icon_edit"
-                           @click="action('edit', props.rowIndex)"
+                           @click="edit(props.rowIndex)"
                         ></i>
                         <i class="vuetable-action icon-icon_delete"
-                           @click="action('delete', props.rowIndex)"
+                           @click="remove(props.rowIndex)"
                         ></i>
                     </div>
                 </template>
@@ -83,20 +83,19 @@
                 this.$router.push('/lookups/lead-status/new');
             },
 
-            action(action, rowId) {
-                if (action === 'edit') {
-                    this.$router.push({
-                        name: 'skills-lookup-edit',
-                        params: {id: this.skillsList[rowId].id},
-                    });
-                } else if (action === 'delete') {
-                    // remove skill
-                    const deletedSkill = this.skillsList.splice(rowId, 1)[0];
-                }
+            edit(rowId) {
+                this.$router.push({
+                    name: 'skills-lookup-edit',
+                    params: {id: this.skillsList[rowId].id},
+                });
+            },
+
+            remove(rowId) {
+                const deletedSkill = this.skillsList.splice(rowId, 1)[0];
             },
 
             loadSkillsList() {
-                for(let i = 0; i < 10; i++) {
+                for (let i = 0; i < 10; i++) {
                     this.skillsList.push({
                         name: 'Skill name ' + i,
                         description: 'Description',
