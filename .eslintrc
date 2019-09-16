@@ -1,0 +1,29 @@
+{
+  "root": true,
+  "env": {
+    "node": true
+  },
+  "extends": [
+    "plugin:vue/essential",
+    "eslint:recommended",
+    "airbnb-base"
+  ],
+  "plugins": [],
+  "rules": {
+    "import/no-cycle": 0,
+    "no-plusplus": "off"
+  },
+  "parserOptions": {
+    "parser": "babel-eslint"
+  },
+  "overrides": [
+    {
+      "files": [
+        "**/__tests__/*.{j,t}s?(x)"
+      ],
+      "env": {
+        "jest": true
+      }
+    }
+  ]
+}

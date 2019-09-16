@@ -54,7 +54,7 @@
 
 
     export default {
-        name: 'the-permissions',
+        name: 'the-roles',
         components: {
             'object-header': objectHeader,
             vuetable,
