@@ -105,7 +105,7 @@
             },
 
             loadRoleList() {
-                getRoles()
+                return getRoles()
                     .then((response) => {
                         this.roleList = [...response];
                     });
