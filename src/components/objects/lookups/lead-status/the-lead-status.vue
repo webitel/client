@@ -4,32 +4,32 @@
         <object-header
                 :primaryAction="create"
         >
-            {{$t('objects.permissions.permissions')}} |
-            {{$tc('objects.permissions.permissionsRole', 2)}}
+            {{$t('objects.lookups.lookups')}} |
+            {{$t('objects.lookups.leadStatus.leadStatus')}}
         </object-header>
 
         <section class="object-content">
             <header class="content-header page-header">
-                <h3 class="content-title">{{$t('objects.permissions.allRoles')}}</h3>
+                <h3 class="content-title">{{$t('objects.lookups.leadStatus.allStatuses')}}</h3>
             </header>
 
             <vuetable
                     class="permissions-table"
                     :api-mode="false"
                     :fields="fields"
-                    :data="roleList"
+                    :data="leadStatusList"
             >
-                <template slot="roleName" slot-scope="props">
+                <template slot="leadStatusName" slot-scope="props">
                     <div class="tt-capitalize">
-                        <span class="nameLink" @click="edit(props.rowIndex)">
-                        {{roleList[props.rowIndex].role}}
+                        <span class="nameLink"  @click="action('edit', props.rowIndex)">
+                        {{leadStatusList[props.rowIndex].name}}
                         </span>
                     </div>
                 </template>
 
-                <template slot="roleDescription" slot-scope="props">
+                <template slot="leadStatusDescription" slot-scope="props">
                     <div>
-                        {{roleList[props.rowIndex].description || 'DESCRIPTION IS EMPTY'}}
+                        {{leadStatusList[props.rowIndex].description || 'DESCRIPTION IS EMPTY'}}
                     </div>
                 </template>
 
@@ -52,22 +52,19 @@
     import vuetable from 'vuetable-2/src/components/Vuetable';
     import objectHeader from '@/components/objects/object-header';
 
-    import {deleteRole, getRoles} from '@/api/objects/permissions/roles';
-
-
     export default {
-        name: 'the-roles',
+        name: "the-lead-status",
         components: {
             'object-header': objectHeader,
             vuetable,
         },
         data() {
             return {
-                roleList: [],
+                leadStatusList: [],
                 // vuetable prop
                 fields: [
-                    {name: 'roleName', title: this.$t('objects.name')},
-                    {name: 'roleDescription', title: this.$t('objects.description')},
+                    {name: 'leadStatusName', title: this.$t('objects.name')},
+                    {name: 'leadStatusDescription', title: this.$t('objects.description')},
                     {
                         name: 'actions',
                         title: '',
@@ -79,41 +76,37 @@
             };
         },
         mounted() {
-            this.loadRoleList();
+            this.loadLeadStatusList();
         },
         methods: {
             create() {
-                this.$router.push('/permissions/roles/new');
+                this.$router.push('/lookups/skills/new');
             },
 
             edit(rowId) {
                 this.$router.push({
-                    name: 'permissions-roles-edit',
-                    params: {id: this.roleList[rowId].id},
+                    name: 'lead-status-lookup-edit',
+                    params: {id: this.leadStatusList[rowId].id},
                 });
             },
 
             remove(rowId) {
-                // remove role
-                const deletedRole = this.roleList.splice(rowId, 1)[0];
-                deleteRole(deletedRole.id)
-                    .catch(() => {
-                            // if request fails, restore
-                            this.roleList.splice(rowId, 0, deletedRole);
-                        }
-                    )
+                const deletedLeadStatus = this.leadStatusList.splice(rowId, 1)[0];
             },
 
-            loadRoleList() {
-                getRoles()
-                    .then((response) => {
-                        this.roleList = [...response];
+            loadLeadStatusList() {
+                for(let i = 0; i < 10; i++) {
+                    this.leadStatusList.push({
+                        name: 'Lead status name ' + i,
+                        description: 'Description',
+                        id: i
                     });
+                }
             }
         }
-    };
+    }
 </script>
 
-<style lang="scss" scoped>
+<style scoped>
 
 </style>

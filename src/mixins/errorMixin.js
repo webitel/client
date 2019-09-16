@@ -1,5 +1,9 @@
 import eventBus from '../utils/eventBus';
 
+// NOW MIXIN ISN'T IN USE BECAUSE ALL SHOWN NOTIFICATIONS
+// ARE RELATED TO REQUEST ERRORS AND ARE TRIGGERED BY
+// API INSTANCE ITSELF
+
 export default {
     methods: {
         _showInfo(info = 'an info occured!') {

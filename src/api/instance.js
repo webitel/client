@@ -9,8 +9,8 @@ const instance = axios.create({
   baseURL: process.env.VUE_APP_API_URL,
   headers: {
     // 'X-Webitel-Access': localStorage.getItem('access-token') || '',
-    // 'X-Webitel-Access': 'USER_TOKEN',
-    'X-Webitel-Access': 'ITS_TOKEN',
+    'X-Webitel-Access': 'USER_TOKEN',
+    // 'X-Webitel-Access': 'ITS_TOKEN',
   },
 });
 
@@ -21,7 +21,7 @@ instance.interceptors.response.use(undefined, (error) => {
   if (error.response && error.response.status === 401 && !isRefresh) {
     Vue.$log.info('intercepted 401');
     isRefresh = true;
-    refreshToken();
+    refreshToken().then();
   }
   // if error isn't 401, returns it
   eventBus.$emit('notificationError', error);

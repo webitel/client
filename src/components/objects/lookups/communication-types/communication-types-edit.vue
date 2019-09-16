@@ -2,10 +2,10 @@
     <div class="content-wrap">
         <object-header
                 :primaryText="$t('objects.save')"
-                :primaryAction="submit.bind(this, 'roleInstance', 'initialRole')"
+                :primaryAction="submit.bind(this, 'communicationInstance', 'initialCommunication')"
                 :secondaryAction="close"
         >
-            {{$tc('objects.permissions.permissionsRole')}} | {{computeTitle}}
+            <span>{{$tc('objects.lookups.communications.communications', 1)}}</span> | {{computeTitle}}
         </object-header>
         <section class="object-content module-new permissions-new">
             <header class="content-header page-header">
@@ -22,21 +22,22 @@
 
                 <form-input
                         class="form__input"
-                        v-model.trim="$v.roleInstance.role.$model"
-                        :v="$v.roleInstance.role"
-                        :label="$t('objects.name')"
-                        :placeholder="$t('objects.name')"
+                        v-model.trim="$v.communicationInstance.code.$model"
+                        :v="$v.communicationInstance.code"
+                        :label="$t('objects.lookups.communications.code')"
+                        :placeholder="$t('objects.lookups.communications.code')"
                         required
                 ></form-input>
 
                 <form-input
                         class="form__input"
-                        v-model="roleInstance.name"
+                        v-model.trim="$v.communicationInstance.name.$model"
+                        :v="$v.communicationInstance.name"
                         :label="$t('objects.name')"
                         :placeholder="$t('objects.name')"
+                        required
                 ></form-input>
 
-                <!--                v-model="role.description"-->
                 <form-input
                         class="form__input"
                         :height="164"
@@ -52,68 +53,53 @@
 
 <script>
     import editComponentMixin from '@/mixins/editComponentMixin';
+
     import {required} from 'vuelidate/lib/validators';
 
-    import {addRole, getRole, updateRole} from "@/api/objects/permissions/roles";
-
     export default {
-        name: 'permissions-new',
+        name: "communications-type-edit",
         mixins: [editComponentMixin],
-
         data() {
             return {
-                roleInstance: {
-                    role: 'front-role',
-                    name: '',
+                communicationInstance: {
+                    code: 'A1',
+                    name: 'skill name',
                     // description: '',
                 },
-                initialRole: {},
+                initialCommunication: {
+                    code: 'A1',
+                    name: 'skill name',
+                    // description: '',
+                },
             };
         },
 
         // by vuelidate
         validations: {
-            roleInstance: {
-                role: {
+            communicationInstance: {
+                code: {
+                    required
+                },
+                name: {
                     required
                 }
-            }
-        },
-
-        mounted() {
-            if (this.id) {
-                this.loadRole(this.id);
             }
         },
 
         methods: {
             save() {
                 if (this.id) {
-                    updateRole(this.id, this.roleInstance)
-                        .then(() => {
-                            this.close();
-                        });
+                    //    update
                 } else {
-                    addRole(this.roleInstance)
-                        .then(() => {
-                            this.close();
-                        });
+                    //    create
                 }
-            },
 
-            // load current role from backend
-            loadRole(id) {
-                getRole(id)
-                    .then(response => {
-                        this.roleInstance = response.role;
-                        this.initialRole = JSON.parse(JSON.stringify(response.role));
-                    });
+                this.close();
             }
-        },
-    };
+        }
+    }
 </script>
 
-
-<style lang="scss" scoped>
+<style scoped>
 
 </style>

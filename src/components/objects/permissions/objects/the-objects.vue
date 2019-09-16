@@ -19,7 +19,11 @@
             >
 
                 <template slot="objectName" slot-scope="props">
-                    <div>{{objectList[props.rowIndex].class}}</div>
+                    <div class="tt-capitalize">
+                        <span class="nameLink"  @click="edit(props.rowIndex)">
+                            {{objectList[props.rowIndex].class}}
+                        </span>
+                    </div>
                 </template>
 
                 <template slot="obac" slot-scope="props">
@@ -50,11 +54,11 @@
 
 <script>
     import vuetable from 'vuetable-2/src/components/Vuetable';
-    import objectHeader from '../../object-header';
-    import switcher from '../../../utils/switcher';
+    import objectHeader from '@/components/objects/object-header';
+    import switcher from '@/components/utils/switcher';
 
-    import {getObjects} from '../../../../api/objects/permissions/objects';
-    import {updateObject} from '../../../../api/objects/permissions/objects';
+    import {getObjects} from '@/api/objects/permissions/objects';
+    import {updateObject} from '@/api/objects/permissions/objects';
 
     export default {
         name: "permissions-object",
@@ -82,12 +86,7 @@
             };
         },
         mounted() {
-
-            getObjects().then(
-                response => {
-                    this.objectList = [...response];
-                }
-            );
+            this.loadObjectList();
         },
         methods: {
             edit(rowId) {
@@ -109,6 +108,14 @@
                         // if request throws error, move changes back
                             this.objectList[id][property] = !this.objectList[id][property];
                         });
+            },
+
+            loadObjectList() {
+                getObjects().then(
+                    response => {
+                        this.objectList = [...response];
+                    }
+                );
             }
         },
     }

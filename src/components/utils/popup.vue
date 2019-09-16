@@ -19,8 +19,8 @@
 </template>
 
 <script>
-    import btn from './btn';
-    import divider from './divider';
+    import btn from '@/components/utils/btn';
+    import divider from '@/components/utils/divider';
 
     export default {
         name: "popup",

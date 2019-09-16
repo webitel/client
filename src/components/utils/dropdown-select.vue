@@ -49,7 +49,7 @@
 </template>
 
 <script>
-    import clickaway from '../../directives/clickaway';
+    import clickaway from '@/directives/clickaway';
 
     export default {
         name: "dropdown-select",
@@ -229,6 +229,7 @@
 
             .select-options {
                 width: 196px;  // filter dropdown width
+                word-break: break-word;
             }
         }
 

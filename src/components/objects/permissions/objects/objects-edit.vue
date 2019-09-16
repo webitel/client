@@ -4,7 +4,7 @@
                 :primaryText="$t('objects.save')"
                 :primaryAction="save"
                 :secondaryAction="close"
-        >{{objectTitle}} |
+        ><span class="tt-capitalize">{{objectTitle}}</span> |
             {{$t('objects.edit')}}
         </object-header>
 
@@ -22,7 +22,7 @@
             >
 
                 <template slot="grantee" slot-scope="props">
-                    <div v-if="!permissionsList[props.rowIndex].new">
+                    <div v-if="!permissionsList[props.rowIndex].new" class="tt-capitalize">
                         {{permissionsList[props.rowIndex].grantee.role}}
                     </div>
 
@@ -74,12 +74,12 @@
 
 <script>
     import vuetable from 'vuetable-2/src/components/Vuetable';
-    import objectHeader from '../../object-header';
-    import tableCheckbox from '../../../utils/checkbox';
-    import dropdownSelect from '../../../utils/dropdown-select';
+    import objectHeader from '@/components/objects/object-header';
+    import tableCheckbox from '@/components/utils/checkbox';
+    import dropdownSelect from '@/components/utils/dropdown-select';
 
-    import {getObject, updateObjectPermissions, getObjectPermissions} from "../../../../api/objects/permissions/objects";
-    import {getRoles} from "../../../../api/objects/permissions/roles";
+    import {getObject, updateObjectPermissions, getObjectPermissions} from "@/api/objects/permissions/objects";
+    import {getRoles} from "@/api/objects/permissions/roles";
 
     export default {
         name: "permissions-object",
@@ -112,33 +112,18 @@
         mounted() {
 
             // get object title to show on page header
-            getObject(this.id).then(
-                (response) => {
-                    this.objectTitle = response;
-                }
-            );
+            this.loadObject(this.id);
 
             // get all roles to choose which to add
-            getRoles().then(
-                (response) => {
-                    this.roleList = [...response];
-                }
-            );
+           this.loadRoleList();
 
             // get object permissions
-            getObjectPermissions(this.id).then(
-                (response) => {
-                    if (response) {
-                        this.permissionsList = [...response];
-                        this.initialPermissionsList = JSON.parse(JSON.stringify(response));
-                    }
-                }
-            );
+            this.loadObjectPermissions(this.id);
         },
 
         methods: {
             addGrantee() {
-                this.permissionsList.push({
+                this.permissionsList.unshift({
                     grantee: {
                         role: '',
                     },
@@ -252,6 +237,36 @@
 
             close() {
                 this.$router.go(-1);
+            },
+
+            // get object title to show on page header
+            loadObject(id) {
+                getObject(id).then(
+                    (response) => {
+                        this.objectTitle = response;
+                    }
+                );
+            },
+
+            // get all roles to choose which to add
+            loadRoleList() {
+                getRoles().then(
+                    (response) => {
+                        this.roleList = [...response];
+                    }
+                );
+            },
+
+            // get object permissions
+            loadObjectPermissions(id) {
+                getObjectPermissions(id).then(
+                    (response) => {
+                        if (response) {
+                            this.permissionsList = [...response];
+                            this.initialPermissionsList = JSON.parse(JSON.stringify(response));
+                        }
+                    }
+                );
             }
         },
         computed: {

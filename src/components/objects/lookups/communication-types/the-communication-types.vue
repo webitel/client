@@ -4,32 +4,38 @@
         <object-header
                 :primaryAction="create"
         >
-            {{$t('objects.permissions.permissions')}} |
-            {{$tc('objects.permissions.permissionsRole', 2)}}
+            {{$t('objects.lookups.lookups')}} |
+            {{$tc('objects.lookups.communications.communications', 2)}}
         </object-header>
 
         <section class="object-content">
             <header class="content-header page-header">
-                <h3 class="content-title">{{$t('objects.permissions.allRoles')}}</h3>
+                <h3 class="content-title">{{$t('objects.lookups.communications.allCommunications')}}</h3>
             </header>
 
             <vuetable
                     class="permissions-table"
                     :api-mode="false"
                     :fields="fields"
-                    :data="roleList"
+                    :data="communicationsList"
             >
-                <template slot="roleName" slot-scope="props">
+                <template slot="communicationCode" slot-scope="props">
                     <div class="tt-capitalize">
-                        <span class="nameLink" @click="edit(props.rowIndex)">
-                        {{roleList[props.rowIndex].role}}
+                        <span class="nameLink"  @click="edit(props.rowIndex)">
+                        {{communicationsList[props.rowIndex].code}}
                         </span>
                     </div>
                 </template>
 
-                <template slot="roleDescription" slot-scope="props">
+                <template slot="communicationName" slot-scope="props">
                     <div>
-                        {{roleList[props.rowIndex].description || 'DESCRIPTION IS EMPTY'}}
+                        {{communicationsList[props.rowIndex].name}}
+                    </div>
+                </template>
+
+                <template slot="communicationDescription" slot-scope="props">
+                    <div>
+                        {{communicationsList[props.rowIndex].description || 'DESCRIPTION IS EMPTY'}}
                     </div>
                 </template>
 
@@ -52,22 +58,20 @@
     import vuetable from 'vuetable-2/src/components/Vuetable';
     import objectHeader from '@/components/objects/object-header';
 
-    import {deleteRole, getRoles} from '@/api/objects/permissions/roles';
-
-
     export default {
-        name: 'the-roles',
+        name: "the-communication-types",
         components: {
             'object-header': objectHeader,
             vuetable,
         },
         data() {
             return {
-                roleList: [],
+                communicationsList: [],
                 // vuetable prop
                 fields: [
-                    {name: 'roleName', title: this.$t('objects.name')},
-                    {name: 'roleDescription', title: this.$t('objects.description')},
+                    {name: 'communicationCode', title: this.$t('objects.lookups.communications.code')},
+                    {name: 'communicationName', title: this.$t('objects.name')},
+                    {name: 'communicationDescription', title: this.$t('objects.description')},
                     {
                         name: 'actions',
                         title: '',
@@ -79,41 +83,38 @@
             };
         },
         mounted() {
-            this.loadRoleList();
+            this.loadComunicationsList();
         },
         methods: {
             create() {
-                this.$router.push('/permissions/roles/new');
+                this.$router.push('/lookups/communications/new');
             },
 
             edit(rowId) {
                 this.$router.push({
-                    name: 'permissions-roles-edit',
-                    params: {id: this.roleList[rowId].id},
+                    name: 'communications-lookup-edit',
+                    params: {id: this.communicationsList[rowId].id},
                 });
             },
 
             remove(rowId) {
-                // remove role
-                const deletedRole = this.roleList.splice(rowId, 1)[0];
-                deleteRole(deletedRole.id)
-                    .catch(() => {
-                            // if request fails, restore
-                            this.roleList.splice(rowId, 0, deletedRole);
-                        }
-                    )
+                const deletedCommunications = this.communicationsList.splice(rowId, 1)[0];
             },
 
-            loadRoleList() {
-                getRoles()
-                    .then((response) => {
-                        this.roleList = [...response];
+            loadComunicationsList() {
+                for (let i = 0; i < 10; i++) {
+                    this.communicationsList.push({
+                        code: 'A' + i,
+                        name: 'Communication ' + i,
+                        description: 'Description',
+                        id: i
                     });
+                }
             }
         }
-    };
+    }
 </script>
 
-<style lang="scss" scoped>
+<style scoped>
 
 </style>

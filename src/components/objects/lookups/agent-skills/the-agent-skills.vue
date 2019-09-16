@@ -4,32 +4,32 @@
         <object-header
                 :primaryAction="create"
         >
-            {{$t('objects.permissions.permissions')}} |
-            {{$tc('objects.permissions.permissionsRole', 2)}}
+            {{$t('objects.lookups.lookups')}} |
+            {{$tc('objects.lookups.skills.skills', 2)}}
         </object-header>
 
         <section class="object-content">
             <header class="content-header page-header">
-                <h3 class="content-title">{{$t('objects.permissions.allRoles')}}</h3>
+                <h3 class="content-title">{{$t('objects.lookups.skills.allSkills')}}</h3>
             </header>
 
             <vuetable
                     class="permissions-table"
                     :api-mode="false"
                     :fields="fields"
-                    :data="roleList"
+                    :data="skillsList"
             >
-                <template slot="roleName" slot-scope="props">
+                <template slot="skillName" slot-scope="props">
                     <div class="tt-capitalize">
                         <span class="nameLink" @click="edit(props.rowIndex)">
-                        {{roleList[props.rowIndex].role}}
+                        {{skillsList[props.rowIndex].name}}
                         </span>
                     </div>
                 </template>
 
-                <template slot="roleDescription" slot-scope="props">
+                <template slot="skillDescription" slot-scope="props">
                     <div>
-                        {{roleList[props.rowIndex].description || 'DESCRIPTION IS EMPTY'}}
+                        {{skillsList[props.rowIndex].description || 'DESCRIPTION IS EMPTY'}}
                     </div>
                 </template>
 
@@ -52,22 +52,19 @@
     import vuetable from 'vuetable-2/src/components/Vuetable';
     import objectHeader from '@/components/objects/object-header';
 
-    import {deleteRole, getRoles} from '@/api/objects/permissions/roles';
-
-
     export default {
-        name: 'the-roles',
+        name: "the-agent-skills",
         components: {
             'object-header': objectHeader,
             vuetable,
         },
         data() {
             return {
-                roleList: [],
+                skillsList: [],
                 // vuetable prop
                 fields: [
-                    {name: 'roleName', title: this.$t('objects.name')},
-                    {name: 'roleDescription', title: this.$t('objects.description')},
+                    {name: 'skillName', title: this.$t('objects.name')},
+                    {name: 'skillDescription', title: this.$t('objects.description')},
                     {
                         name: 'actions',
                         title: '',
@@ -79,41 +76,37 @@
             };
         },
         mounted() {
-            this.loadRoleList();
+            this.loadSkillsList();
         },
         methods: {
             create() {
-                this.$router.push('/permissions/roles/new');
+                this.$router.push('/lookups/lead-status/new');
             },
 
             edit(rowId) {
                 this.$router.push({
-                    name: 'permissions-roles-edit',
-                    params: {id: this.roleList[rowId].id},
+                    name: 'skills-lookup-edit',
+                    params: {id: this.skillsList[rowId].id},
                 });
             },
 
             remove(rowId) {
-                // remove role
-                const deletedRole = this.roleList.splice(rowId, 1)[0];
-                deleteRole(deletedRole.id)
-                    .catch(() => {
-                            // if request fails, restore
-                            this.roleList.splice(rowId, 0, deletedRole);
-                        }
-                    )
+                const deletedSkill = this.skillsList.splice(rowId, 1)[0];
             },
 
-            loadRoleList() {
-                getRoles()
-                    .then((response) => {
-                        this.roleList = [...response];
+            loadSkillsList() {
+                for (let i = 0; i < 10; i++) {
+                    this.skillsList.push({
+                        name: 'Skill name ' + i,
+                        description: 'Description',
+                        id: i
                     });
+                }
             }
         }
-    };
+    }
 </script>
 
-<style lang="scss" scoped>
+<style scoped>
 
 </style>

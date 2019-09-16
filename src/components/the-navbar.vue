@@ -124,9 +124,9 @@
                         <li
                                 class="subnav-item"
                                 :class="{
-                                    'nav-item__current': currentRouteItem.agentSkills
+                                    'nav-item__current': currentRouteItem.skills
                                  }"
-                                @click="navigate"
+                                @click="navigate('/lookups/skills')"
                         >
                             <i class="subnav-icon icon-icon_deny"></i>
                             <span class="subnav-text">Agent skills</span>
@@ -136,7 +136,7 @@
                                 :class="{
                                     'nav-item__current': currentRouteItem.calendars
                                  }"
-                                @click="navigate"
+                                @click="navigate('/lookups/calendars')"
                         >
                             <i class="subnav-icon icon-icon_deny"></i>
                             <span class="subnav-text">Calendars</span>
@@ -146,7 +146,7 @@
                                 :class="{
                                     'nav-item__current': currentRouteItem.communications
                                  }"
-                                @click="navigate"
+                                @click="navigate('/lookups/communications')"
                         >
                             <i class="subnav-icon icon-icon_deny"></i>
                             <span class="subnav-text">Communications</span>
@@ -154,9 +154,9 @@
                         <li
                                 class="subnav-item"
                                 :class="{
-                                    'nav-item__current': currentRouteItem.contactType
+                                    'nav-item__current': currentRouteItem['contact-type']
                                  }"
-                                @click="navigate"
+                                @click="navigate('/lookups/contact-type')"
                         >
                             <i class="subnav-icon icon-icon_deny"></i>
                             <span class="subnav-text">Contact type</span>
@@ -164,9 +164,9 @@
                         <li
                                 class="subnav-item"
                                 :class="{
-                                    'nav-item__current': currentRouteItem.leadSource
+                                    'nav-item__current': currentRouteItem['lead-source']
                                  }"
-                                @click="navigate"
+                                @click="navigate('/lookups/lead-source')"
                         >
                             <i class="subnav-icon icon-icon_deny"></i>
                             <span class="subnav-text">Lead source</span>
@@ -174,9 +174,9 @@
                         <li
                                 class="subnav-item"
                                 :class="{
-                                    'nav-item__current': currentRouteItem.leadStatus
+                                    'nav-item__current': currentRouteItem['lead-status']
                                  }"
-                                @click="navigate"
+                                @click="navigate('/lookups/lead-status')"
                         >
                             <i class="subnav-icon icon-icon_deny"></i>
                             <span class="subnav-text">Lead status</span>
@@ -477,12 +477,12 @@
                     chatplan: false,
 
                     // Lookups
-                    agentSkills: false,
+                    skills: false,     // agent skills
                     calendars: false,
                     communications: false,
-                    contactType: false,
-                    leadSource: false,
-                    leadStatus: false,
+                    'contact-type': false,
+                    'lead-source': false,
+                    'lead-status': false,
 
                     // Contact Center
                     dashboard: false,
@@ -553,7 +553,6 @@
         computed: {
             computeNavExpansion() {
                 return !Object.values(this.expanded).every(section => {
-                    console.log(section);
                     return !section;
                 });
             }

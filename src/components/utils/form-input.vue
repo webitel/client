@@ -45,7 +45,7 @@
 </template>
 
 <script>
-    import eventBus from '../../utils/eventBus';
+    import eventBus from '@/utils/eventBus';
 
     export default {
         name: 'login-input',
@@ -185,6 +185,18 @@
             border-color: transparent;
 
             &::placeholder {
+                color: rgba(255, 255, 255, 0.4);
+            }
+            &::-webkit-input-placeholder { /* Chrome/Opera/Safari */
+                color: rgba(255, 255, 255, 0.4);
+             }
+            &::-moz-placeholder { /* Firefox 19+ */
+                color: rgba(255, 255, 255, 0.4);
+            }
+            &:-ms-input-placeholder { /* IE 10+ */
+                color: rgba(255, 255, 255, 0.4);
+            }
+            &:-moz-placeholder { /* Firefox 18- */
                 color: rgba(255, 255, 255, 0.4);
             }
         }

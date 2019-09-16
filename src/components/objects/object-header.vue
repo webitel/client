@@ -1,7 +1,7 @@
 <template>
     <section class="header-wrap">
         <header class="object-header">
-            <h2 class="object__title tt-capitalize">
+            <h2 class="object__title">
                 <slot></slot>
             </h2>
             <div class="btn-controls">
@@ -26,8 +26,8 @@
 </template>
 
 <script>
-import btn from '../utils/btn';
-import divider from '../utils/divider';
+import btn from '@/components/utils/btn';
+import divider from '@/components/utils/divider';
 
 export default {
   name: 'page-header',
@@ -67,5 +67,9 @@ export default {
 
         margin: 0;
         letter-spacing: 0.15px;
+
+        span {
+            @extend .typo-heading-lg;
+        }
     }
 </style>

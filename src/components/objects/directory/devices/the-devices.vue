@@ -37,7 +37,7 @@
                             >
                         </div>
                         <table-filter
-                            :filterObjects="filterObjects"
+                                :filterObjects="filterObjects"
                         ></table-filter>
                     </div>
                 </div>
@@ -52,7 +52,7 @@
 
                 <template slot="presence" slot-scope="props">
 
-<!--                    presence classes are specified in table-status component-->
+                    <!--                    presence classes are specified in table-status component-->
                     <status
                             class="presence"
                             :class="computePresenceClass(props.rowIndex)"
@@ -65,10 +65,10 @@
                 <template slot="actions" slot-scope="props">
                     <div class="vuetable-actions">
                         <i class="vuetable-action icon-icon_edit"
-                           @click="action('edit')"
+                           @click="edit(props.rowIndex)"
                         ></i>
                         <i class="vuetable-action icon-icon_delete"
-                           @click="action('delete')"
+                           @click="this.remove(props.rowIndex)"
                         ></i>
                     </div>
                 </template>
@@ -213,11 +213,15 @@
             create() {
                 this.$router.push('/directory/devices/new');
             },
-            action(action) {
-                if (action === 'edit') {
-                    this.$router.push({path: '/directory/devices/new', query: {edit: 'true'}});
-                }
+
+            edit(rowId) {
+                this.$router.push({path: '/directory/devices/new', query: {edit: 'true'}});
             },
+
+            remove(rowId) {
+
+            },
+
             processCSV(event) {
                 const file = event.target.files[0];
                 if (file) {

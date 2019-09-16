@@ -120,6 +120,30 @@ export default {
             variables: 'Variables',
             varKey: 'Key',
             varVal: 'Value'
+        },
+        lookups: {
+            lookups: 'Lookups',
+            skills: {
+                skills: 'Agent skill | Agent skills',
+                allSkills: 'All skills'
+            },
+            communications: {
+                communications: 'Communication type | Comunication types',
+                allCommunications: 'All communiction types',
+                code: 'Code'
+            },
+            contactType: {
+                contactType: 'Contact type | Contact types',
+                allContactTypes: 'All contact types'
+            },
+            leadSource: {
+                leadSource: 'Lead source | Lead sources',
+                allSources: 'All sources'
+            },
+            leadStatus: {
+                leadStatus: 'Lead status',
+                allStatuses: 'All statuses'
+            },
         }
     },
 };

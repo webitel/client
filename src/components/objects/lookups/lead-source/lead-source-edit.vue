@@ -2,10 +2,10 @@
     <div class="content-wrap">
         <object-header
                 :primaryText="$t('objects.save')"
-                :primaryAction="submit.bind(this, 'roleInstance', 'initialRole')"
+                :primaryAction="submit.bind(this, 'leadSourceInstance', 'initialLeadSource')"
                 :secondaryAction="close"
         >
-            {{$tc('objects.permissions.permissionsRole')}} | {{computeTitle}}
+            <span>{{$tc('objects.lookups.leadSource.leadSource', 1)}}</span> | {{computeTitle}}
         </object-header>
         <section class="object-content module-new permissions-new">
             <header class="content-header page-header">
@@ -22,21 +22,13 @@
 
                 <form-input
                         class="form__input"
-                        v-model.trim="$v.roleInstance.role.$model"
-                        :v="$v.roleInstance.role"
+                        v-model.trim="$v.leadSourceInstance.name.$model"
+                        :v="$v.leadSourceInstance.name"
                         :label="$t('objects.name')"
                         :placeholder="$t('objects.name')"
                         required
                 ></form-input>
 
-                <form-input
-                        class="form__input"
-                        v-model="roleInstance.name"
-                        :label="$t('objects.name')"
-                        :placeholder="$t('objects.name')"
-                ></form-input>
-
-                <!--                v-model="role.description"-->
                 <form-input
                         class="form__input"
                         :height="164"
@@ -52,68 +44,48 @@
 
 <script>
     import editComponentMixin from '@/mixins/editComponentMixin';
+
     import {required} from 'vuelidate/lib/validators';
 
-    import {addRole, getRole, updateRole} from "@/api/objects/permissions/roles";
-
     export default {
-        name: 'permissions-new',
+        name: "lead-source-edit",
         mixins: [editComponentMixin],
-
         data() {
             return {
-                roleInstance: {
-                    role: 'front-role',
-                    name: '',
+                leadSourceInstance: {
+                    name: 'skill name',
                     // description: '',
                 },
-                initialRole: {},
+                initialLeadSource: {
+                    name: 'skill name',
+                    // description: '',
+                },
             };
         },
 
         // by vuelidate
         validations: {
-            roleInstance: {
-                role: {
+            leadSourceInstance: {
+                name: {
                     required
                 }
-            }
-        },
-
-        mounted() {
-            if (this.id) {
-                this.loadRole(this.id);
             }
         },
 
         methods: {
             save() {
                 if (this.id) {
-                    updateRole(this.id, this.roleInstance)
-                        .then(() => {
-                            this.close();
-                        });
+                    //    update
                 } else {
-                    addRole(this.roleInstance)
-                        .then(() => {
-                            this.close();
-                        });
+                    //    create
                 }
-            },
 
-            // load current role from backend
-            loadRole(id) {
-                getRole(id)
-                    .then(response => {
-                        this.roleInstance = response.role;
-                        this.initialRole = JSON.parse(JSON.stringify(response.role));
-                    });
+                this.close();
             }
-        },
-    };
+        }
+    }
 </script>
 
-
-<style lang="scss" scoped>
+<style scoped>
 
 </style>

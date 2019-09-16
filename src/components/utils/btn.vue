@@ -11,7 +11,7 @@
 
 <script>
     import Vue from 'vue';
-    import Ripple from '../../assets/lib/ripple/ripple';
+    import Ripple from '@/assets/lib/ripple/ripple';
 
     Vue.directive('ripple', Ripple);
 

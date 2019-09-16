@@ -24,7 +24,7 @@
 
 // inner content section
 .object-content {
-  padding: 38px 28px 140px 44px;
+  padding: 38px 28px 40px 44px;
 }
 
 // SECTION HEADING
@@ -237,4 +237,19 @@
 
 .module-new .object-input-grid .select-preview {
   margin-bottom: 20px;
+}
+
+.module-new {
+  .page-header {
+    justify-content: start;
+  }
+
+
+  .form_w50 {
+    width: 50%;
+
+    .form-input {
+      margin: 10px 0;
+    }
+  }
 }
