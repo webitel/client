@@ -96,7 +96,7 @@
             remove(rowId) {
                 // remove role
                 const deletedRole = this.roleList.splice(rowId, 1)[0];
-                deleteRole(deletedRole.id)
+                return deleteRole(deletedRole.id)
                     .catch(() => {
                             // if request fails, restore
                             this.roleList.splice(rowId, 0, deletedRole);

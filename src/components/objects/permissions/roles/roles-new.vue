@@ -82,19 +82,19 @@
 
         mounted() {
             if (this.id) {
-                this.loadRole(this.id);
+                this.loadRole();
             }
         },
 
         methods: {
             save() {
                 if (this.id) {
-                    updateRole(this.id, this.roleInstance)
+                    return updateRole(this.id, this.roleInstance)
                         .then(() => {
                             this.close();
                         });
                 } else {
-                    addRole(this.roleInstance)
+                    return addRole(this.roleInstance)
                         .then(() => {
                             this.close();
                         });
@@ -102,8 +102,8 @@
             },
 
             // load current role from backend
-            loadRole(id) {
-                getRole(id)
+            loadRole() {
+                return getRole(this.id)
                     .then(response => {
                         this.roleInstance = response.role;
                         this.initialRole = JSON.parse(JSON.stringify(response.role));
