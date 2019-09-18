@@ -17,7 +17,7 @@ localVue.use(Vuelidate);
 const router = new VueRouter();
 
 describe('roles-new.vue', () => {
-    const wrapper = shallowMount(newRole, {
+    const wrapper = mount(newRole, {
         mocks: {$t, $tc},
         localVue,
         router,
@@ -25,27 +25,43 @@ describe('roles-new.vue', () => {
     });
 
     it('creates new role', async (done) => {
-        const initialRoles = await getRoles();
+        const roleList = await getRoles(); // get initial roles
+
+        // set new role data
         wrapper.setData({
             roleInstance: {
                 role: 'jest-role',
-                name: 'Jest role',
             },
         });
-        // wrapper.find('.object-header .primary-btn').trigger('click');
-        await wrapper.vm.save();
-        const newRoles = await getRoles();
-        expect(newRoles.length).toBe(initialRoles.length + 1);
-        done();
+
+        // trigger 'save' button
+        wrapper.find('.primary-btn').trigger('click');
+
+        // wait promise response
+        await setTimeout(async () => {
+            const newRoleList = await getRoles(); // get new roles
+            expect(newRoleList.length).toBe(roleList.length + 1); // compare roles number with initial
+            done();
+        }, 100);
     });
 
     it('updates existing role', async (done) => {
-        const roleList = await getRoles();
+        const roleList = await getRoles(); // load all roles
+        // to find created role id
         const createdRole = roleList.find(role => {
             return role.role === 'jest-role'
         });
+
+        // emulate route path by setting id
         wrapper.setData({id: createdRole.id});
+
+        // load role by its id
         await wrapper.vm.loadRole();
+
+        // check if initial role was set correctly
+        expect(wrapper.vm.initialRole).toEqual(createdRole);
+
+        // set updated role data
         const newRoleInstance = {
             roleInstance: {
                 role: 'updated-jest-role',
@@ -53,17 +69,24 @@ describe('roles-new.vue', () => {
         };
         wrapper.setData(newRoleInstance);
 
-        expect(wrapper.vm.initialRole).not.toEqual(wrapper.vm.roleInstance);
-        expect(wrapper.vm.initialRole).toEqual(createdRole);
-        await wrapper.vm.save();
+        // trigger 'save' button
+        wrapper.find('.primary-btn').trigger('click');
 
-        const newRoleList = await getRoles();
-        const newRole = newRoleList.find(role => {
-            return role.role === 'updated-jest-role'
-        });
+        // wait promise response
+        await setTimeout(async () => {
+            // load new list and find updated role
+            const newRoleList = await getRoles();
+            const newRole = newRoleList.find(role => {
+                return role.role === 'updated-jest-role'
+            });
 
-        expect(newRole.role).toEqual(newRoleInstance.roleInstance.role);
-        done();
+            // test if there's a role
+            expect(typeof newRole).toBe('object');
+
+            // check if backend role is equal to updated role
+            expect(newRole.role).toEqual(newRoleInstance.roleInstance.role);
+            done();
+        }, 100);
     });
 });
 
@@ -104,13 +127,17 @@ describe('the-roles.vue', () => {
         // test if there's initially a role
         expect(typeof createdRole).toBe('object');
 
-        await wrapper.vm.remove(createdRoleIndex);
+        // find all delete icons and choose tested role by index
+        wrapper.findAll('.vuetable-action.icon-icon_delete').at(createdRoleIndex).trigger('click');
 
-        // remove role and check if it removed from list
-        expect(wrapper.vm.roleList).not.toContain(createdRole);
+        // wait for async response
+        await setTimeout(async () => {
+            // remove role and check if it removed from list
+            expect(wrapper.vm.roleList).not.toContain(createdRole);
 
-        // check if it removed from database
-        expect(await getRoles()).not.toContain(createdRole);
-        done();
+            // check if it removed from database
+            expect(await getRoles()).not.toContain(createdRole);
+            done();
+        }, 100);
     });
 });

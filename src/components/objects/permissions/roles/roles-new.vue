@@ -57,7 +57,7 @@
     import {addRole, getRole, updateRole} from "@/api/objects/permissions/roles";
 
     export default {
-        name: 'permissions-new',
+        name: 'roles-new',
         mixins: [editComponentMixin],
 
         data() {
@@ -87,17 +87,13 @@
         },
 
         methods: {
-            save() {
+            async save() {
                 if (this.id) {
-                    return updateRole(this.id, this.roleInstance)
-                        .then(() => {
-                            this.close();
-                        });
+                    return updateRole(this.id, this.roleInstance);
+                    this.close();
                 } else {
-                    return addRole(this.roleInstance)
-                        .then(() => {
-                            this.close();
-                        });
+                    return addRole(this.roleInstance);
+                    this.close();
                 }
             },
 

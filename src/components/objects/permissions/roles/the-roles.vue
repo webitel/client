@@ -107,7 +107,7 @@
             loadRoleList() {
                 return getRoles()
                     .then((response) => {
-                        this.roleList = [...response];
+                        this.roleList = [...response].reverse();
                     });
             }
         }
