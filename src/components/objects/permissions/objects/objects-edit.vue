@@ -22,7 +22,7 @@
             >
 
                 <template slot="grantee" slot-scope="props">
-                    <div v-if="!permissionsList[props.rowIndex].new" class="tt-capitalize">
+                    <div v-if="!permissionsList[props.rowIndex].new" class="">
                         {{permissionsList[props.rowIndex].grantee.role}}
                     </div>
 
@@ -37,6 +37,7 @@
 
                 <template slot="create" slot-scope="props">
                     <checkbox
+                            class="role-permissions-checkbox c"
                             :value="permissionsList[props.rowIndex].access.c"
                             :label="$t('objects.allow')"
                             @toggleCheckbox="changeAccess($event, 'c', props.rowIndex)"
@@ -45,6 +46,7 @@
 
                 <template slot="read" slot-scope="props">
                     <checkbox
+                            class="role-permissions-checkbox r"
                             :value="permissionsList[props.rowIndex].access.r"
                             :label="$t('objects.allow')"
                             @toggleCheckbox="changeAccess($event, 'r', props.rowIndex)"
@@ -53,6 +55,7 @@
 
                 <template slot="edit" slot-scope="props">
                     <checkbox
+                            class="role-permissions-checkbox u"
                             :value="permissionsList[props.rowIndex].access.u"
                             :label="$t('objects.allow')"
                             @toggleCheckbox="changeAccess($event, 'u', props.rowIndex)"
@@ -61,6 +64,7 @@
 
                 <template slot="delete" slot-scope="props">
                     <checkbox
+                            class="role-permissions-checkbox d"
                             :value="permissionsList[props.rowIndex].access.d"
                             :label="$t('objects.allow')"
                             @toggleCheckbox="changeAccess($event, 'd', props.rowIndex)"
@@ -115,7 +119,7 @@
             this.loadObject(this.id);
 
             // get all roles to choose which to add
-           this.loadRoleList();
+            this.loadRoleList();
 
             // get object permissions
             this.loadObjectPermissions(this.id);
@@ -225,7 +229,7 @@
 
                     // and send the array with changes
                     // catch statement prevents close()
-                    updateObjectPermissions(this.id, granteesToSend)
+                    return updateObjectPermissions(this.id, granteesToSend)
                         .then(() => {
                             this.close();
                         });
@@ -241,7 +245,7 @@
 
             // get object title to show on page header
             loadObject(id) {
-                getObject(id).then(
+                return getObject(id).then(
                     (response) => {
                         this.objectTitle = response;
                     }
@@ -250,7 +254,7 @@
 
             // get all roles to choose which to add
             loadRoleList() {
-                getRoles().then(
+                return getRoles().then(
                     (response) => {
                         this.roleList = [...response];
                     }
@@ -259,7 +263,7 @@
 
             // get object permissions
             loadObjectPermissions(id) {
-                getObjectPermissions(id).then(
+                return getObjectPermissions(id).then(
                     (response) => {
                         if (response) {
                             this.permissionsList = [...response];

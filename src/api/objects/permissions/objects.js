@@ -26,11 +26,11 @@ export async function getObjects() {
 }
 
 export async function getObject(id) {
-    Vue.$log.info('get Permissions Object (1)', 'started');
+    // Vue.$log.info('get Permissions Object (1)', 'started');
     const url = BASE_URL + '/' + id;
     try {
         const response = await instance.get(url);
-        Vue.$log.info('get Permissions Object (1)', 'response', response);
+        // Vue.$log.info('get Permissions Object (1)', 'response', response);
         return response.data.class.class;
     } catch (error) {
         throw error;
@@ -38,7 +38,7 @@ export async function getObject(id) {
 }
 
 export async function updateObject(id, permissions) {
-    Vue.$log.info('update permissions Objects', 'started');
+    // Vue.$log.info('update permissions Objects', 'started');
     const url = BASE_URL + '/' + id;
     const updatedObject = {
         class: {
@@ -49,20 +49,20 @@ export async function updateObject(id, permissions) {
 
     try {
         const response = await instance.put(url, updatedObject);
-        Vue.$log.info('put Object', 'response', response);
+        // Vue.$log.info('put Object', 'response', response);
     } catch (error) {
         throw error;
     }
 }
 
 export async function getObjectPermissions(id) {
-    Vue.$log.info('getObjectPermissions', 'started');
+    // Vue.$log.info('getObjectPermissions', 'started');
     const url = BASE_URL + '/' + id + '/acl';
     let formattedResponse = [];
 
     try {
         const response = await instance.get(url);
-        Vue.$log.info('getObjectPermissions', 'response', response);
+        // Vue.$log.info('getObjectPermissions', 'response', response);
 
         if (response.data.list) {
             // format response before assignment
@@ -90,7 +90,7 @@ export async function getObjectPermissions(id) {
 
 export async function updateObjectPermissions(id, granteesToSend) {
     // granteesToSend -- array
-    Vue.$log.info('updateObjectPermissions', 'started');
+    // Vue.$log.info('updateObjectPermissions', 'started');
     const url = BASE_URL + '/' + id + '/acl';
 
     const changes = {
@@ -99,7 +99,7 @@ export async function updateObjectPermissions(id, granteesToSend) {
 
     try {
         const response = await instance.patch(url, changes);
-        Vue.$log.info('updateObjectPermissions response', response);
+        // Vue.$log.info('updateObjectPermissions response', response);
     } catch (error) {
         throw error;
     }

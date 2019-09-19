@@ -13,7 +13,7 @@
                     {{$t('objects.close')}}
                 </btn>
                 <btn
-                        class="btn"
+                        class="btn primary-btn"
                         v-if="primaryAction"
                         @click.native="primaryAction"
                 >

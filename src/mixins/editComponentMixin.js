@@ -15,11 +15,15 @@ export default {
     },
 
     mounted() {
-        if (this.$route.params.id !== 'new') this.id = this.$route.params.id;
+        this.setId(); // if there is an edit case, set id from route
 
     },
 
     methods: {
+        setId() {
+            if (this.$route.params.id !== 'new') this.id = this.$route.params.id;
+        },
+
         submit(validatedInstance, initialInstance) {
             // check if some fields was changed
             const isEqualToInitial = Object.keys(this[validatedInstance]).every(newProperty => {

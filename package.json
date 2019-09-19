@@ -5,7 +5,8 @@
   "scripts": {
     "serve": "vue-cli-service serve --hot",
     "build": "vue-cli-service build",
-    "lint": "vue-cli-service lint"
+    "lint": "vue-cli-service lint",
+    "test:unit": "vue-cli-service test:unit"
   },
   "dependencies": {
     "@johmun/vue-tags-input": "^2.1.0",
@@ -13,7 +14,6 @@
     "core-js": "^2.6.5",
     "css-loader": "^3.2.0",
     "file-loader": "^4.1.0",
-    "node-sass": "^4.12.0",
     "vue": "^2.6.10",
     "vue-i18n": "^8.12.0",
     "vue-router": "^3.1.1",
@@ -21,40 +21,26 @@
     "vuejs-logger": "^1.5.3",
     "vuelidate": "^0.7.4",
     "vuetable-2": "^2.0.0-beta.4",
-    "vuex": "^3.0.1",
-    "webpack": "^4.39.1"
+    "vuex": "^3.0.1"
   },
   "devDependencies": {
     "@vue/cli-plugin-babel": "^3.10.0",
     "@vue/cli-plugin-eslint": "^3.10.0",
+    "@vue/cli-plugin-unit-jest": "^3.11.0",
     "@vue/cli-service": "^3.10.0",
+    "@vue/test-utils": "1.0.0-beta.29",
+    "babel-core": "7.0.0-bridge.0",
     "babel-eslint": "^10.0.1",
+    "babel-jest": "^23.6.0",
     "eslint": "^5.16.0",
     "eslint-config-airbnb-base": "^13.2.0",
     "eslint-plugin-import": "^2.18.2",
     "eslint-plugin-vue": "^5.0.0",
     "sass-loader": "^7.1.0",
     "vue-template-compiler": "^2.6.10",
-    "webpack-cli": "^3.3.6"
-  },
-  "eslintConfig": {
-    "root": true,
-    "env": {
-      "node": true
-    },
-    "extends": [
-      "plugin:vue/essential",
-      "eslint:recommended",
-      "airbnb-base"
-    ],
-    "plugins": [],
-    "rules": {
-      "import/no-cycle": 0,
-      "no-plusplus": "off"
-    },
-    "parserOptions": {
-      "parser": "babel-eslint"
-    }
+    "webpack-cli": "^3.3.6",
+    "webpack": "^4.39.1",
+    "node-sass": "^4.12.0"
   },
   "postcss": {
     "plugins": {

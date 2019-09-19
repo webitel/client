@@ -28,6 +28,7 @@
 
                 <template slot="obac" slot-scope="props">
                     <switcher
+                            class="object-switcher obac"
                             :value="objectList[props.rowIndex].obac"
                             @toggleSwitch="toggleObjectPermissions('obac', props.rowIndex)"
                     ></switcher>
@@ -35,6 +36,7 @@
 
                 <template slot="rbac" slot-scope="props">
                     <switcher
+                            class="object-switcher rbac"
                             :value="objectList[props.rowIndex].rbac"
                             @toggleSwitch="toggleObjectPermissions('rbac', props.rowIndex)"
                     ></switcher>
@@ -103,7 +105,7 @@
             toggleObjectPermissions(property, id) {
                 // first, change UI, then send request
                 this.objectList[id][property] = !this.objectList[id][property];
-                updateObject(this.objectList[id].id, this.objectList[id])
+                return updateObject(this.objectList[id].id, this.objectList[id])
                     .catch(() => {
                         // if request throws error, move changes back
                             this.objectList[id][property] = !this.objectList[id][property];
@@ -111,7 +113,7 @@
             },
 
             loadObjectList() {
-                getObjects().then(
+                return getObjects().then(
                     response => {
                         this.objectList = [...response];
                     }

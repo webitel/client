@@ -57,7 +57,7 @@
     import {addRole, getRole, updateRole} from "@/api/objects/permissions/roles";
 
     export default {
-        name: 'permissions-new',
+        name: 'roles-new',
         mixins: [editComponentMixin],
 
         data() {
@@ -82,28 +82,24 @@
 
         mounted() {
             if (this.id) {
-                this.loadRole(this.id);
+                this.loadRole();
             }
         },
 
         methods: {
-            save() {
+            async save() {
                 if (this.id) {
-                    updateRole(this.id, this.roleInstance)
-                        .then(() => {
-                            this.close();
-                        });
+                    return updateRole(this.id, this.roleInstance);
+                    this.close();
                 } else {
-                    addRole(this.roleInstance)
-                        .then(() => {
-                            this.close();
-                        });
+                    return addRole(this.roleInstance);
+                    this.close();
                 }
             },
 
             // load current role from backend
-            loadRole(id) {
-                getRole(id)
+            loadRole() {
+                return getRole(this.id)
                     .then(response => {
                         this.roleInstance = response.role;
                         this.initialRole = JSON.parse(JSON.stringify(response.role));
