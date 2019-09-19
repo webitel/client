@@ -96,7 +96,7 @@ export async function updateObjectPermissions(id, granteesToSend) {
     const changes = {
         changes: granteesToSend
     };
-    console.log(url);
+
     try {
         const response = await instance.patch(url, changes);
         // Vue.$log.info('updateObjectPermissions response', response);

@@ -40,9 +40,9 @@ describe('roles-new.vue', () => {
         // wait promise response
         await setTimeout(async () => {
             const newRoleList = await getRoles(); // get new roles
-            expect(newRoleList.length).toBe(roleList.length + 1); // compare roles number with initial
+            expect(newRoleList).toHaveLength(roleList.length + 1); // compare roles number with initial
             done();
-        }, 100);
+        }, 300);
     });
 
     it('updates existing role', async (done) => {
@@ -81,7 +81,7 @@ describe('roles-new.vue', () => {
             });
 
             // test if there's a role
-            expect(typeof newRole).toBe('object');
+            expect(newRole).toBeTruthy();
 
             // check if backend role is equal to updated role
             expect(newRole.role).toEqual(newRoleInstance.roleInstance.role);
@@ -119,15 +119,16 @@ describe('the-roles.vue', () => {
     });
 
     it('draws table with roleList', () => {
-        expect(wrapper.findAll('tr').length).toEqual(wrapper.vm.roleList.length + 1);
+        expect(wrapper.findAll('tr')).toHaveLength(wrapper.vm.roleList.length + 1);
     });
 
     it('removes role from list', async (done) => {
         // test if there's initially a role
-        expect(typeof createdRole).toBe('object');
+        expect(createdRole).toBeTruthy();;
 
         // find all delete icons and choose tested role by index
-        wrapper.findAll('.vuetable-action.icon-icon_delete').at(createdRoleIndex).trigger('click');
+        wrapper.findAll('.vuetable-action.icon-icon_delete').at(createdRoleIndex)
+            .trigger('click');
 
         // wait for async response
         await setTimeout(async () => {

@@ -229,7 +229,7 @@
 
                     // and send the array with changes
                     // catch statement prevents close()
-                    updateObjectPermissions(this.id, granteesToSend)
+                    return updateObjectPermissions(this.id, granteesToSend)
                         .then(() => {
                             this.close();
                         });
