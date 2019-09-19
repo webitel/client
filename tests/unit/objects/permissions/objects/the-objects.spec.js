@@ -6,8 +6,10 @@ import VueRouter from 'vue-router';
 import Vuelidate from 'vuelidate';
 import i18n from 'vue-i18n';
 
-const $t = () => {};
-const $tc = () => {};
+const $t = () => {
+};
+const $tc = () => {
+};
 
 const localVue = createLocalVue();
 localVue.use(VueRouter);
@@ -94,76 +96,108 @@ describe('the-objects.vue', () => {
     });
 });
 
-// describe('roles-new.vue', () => {
-//     const wrapper = mount(newRole, {
-//         mocks: {$t, $tc},
-//         localVue,
-//         router,
-//         i18n
-//     });
-//
-//     it('creates new role', async (done) => {
-//         const roleList = await getRoles(); // get initial roles
-//
-//         // set new role data
-//         wrapper.setData({
-//             roleInstance: {
-//                 role: 'jest-role',
-//             },
-//         });
-//
-//         // trigger 'save' button
-//         wrapper.find('.primary-btn').trigger('click');
-//
-//         // wait promise response
-//         await setTimeout(async () => {
-//             const newRoleList = await getRoles(); // get new roles
-//             expect(newRoleList.length).toBe(roleList.length + 1); // compare roles number with initial
-//             done();
-//         }, 100);
-//     });
-//
-//     it('updates existing role', async (done) => {
-//         const roleList = await getRoles(); // load all roles
-//         // to find created role id
-//         const createdRole = roleList.find(role => {
-//             return role.role === 'jest-role'
-//         });
-//
-//         // emulate route path by setting id
-//         wrapper.setData({id: createdRole.id});
-//
-//         // load role by its id
-//         await wrapper.vm.loadRole();
-//
-//         // check if initial role was set correctly
-//         expect(wrapper.vm.initialRole).toEqual(createdRole);
-//
-//         // set updated role data
-//         const newRoleInstance = {
-//             roleInstance: {
-//                 role: 'updated-jest-role',
-//             }
-//         };
-//         wrapper.setData(newRoleInstance);
-//
-//         // trigger 'save' button
-//         wrapper.find('.primary-btn').trigger('click');
-//
-//         // wait promise response
-//         await setTimeout(async () => {
-//             // load new list and find updated role
-//             const newRoleList = await getRoles();
-//             const newRole = newRoleList.find(role => {
-//                 return role.role === 'updated-jest-role'
-//             });
-//
-//             // test if there's a role
-//             expect(typeof newRole).toBe('object');
-//
-//             // check if backend role is equal to updated role
-//             expect(newRole.role).toEqual(newRoleInstance.roleInstance.role);
-//             done();
-//         }, 100);
-//     });
-// });
+describe('objects-edit.vue', () => {
+    const wrapper = mount(editObject, {
+        mocks: {$t, $tc},
+        localVue,
+        router,
+        i18n
+    });
+
+    let testedObject;
+    let initialPermissions;
+    beforeAll(async () => {
+        // initially load all roles
+        await wrapper.vm.loadRoleList();
+
+        // find tested object
+        const objectList = await getObjects();
+        testedObject = objectList.find(object => {
+            return object.class === 'users'
+        });
+        await wrapper.vm.loadObjectPermissions(testedObject.id);
+    });
+
+    it('fills permissionsList with data', () => {
+        expect(wrapper.vm.permissionsList.length).toBeGreaterThan(0);
+    });
+
+    it('fills roleList with data', () => {
+        expect(wrapper.vm.roleList.length).toBeGreaterThan(0);
+    });
+
+    it('changes existing role permissions', () => {
+        const testedRole = wrapper.vm.permissionsList.find(grantee => {
+            return grantee.grantee.role === 'ioio';
+        });
+        const testedRoleIndex = wrapper.vm.permissionsList.indexOf(testedRole);
+
+        initialPermissions = !!wrapper.vm.permissionsList[testedRoleIndex].access.c;
+
+        wrapper.findAll('.role-permissions-checkbox.c').at(testedRoleIndex)
+            .vm.$emit('toggleCheckbox', !initialPermissions);
+
+        expect(wrapper.vm.permissionsList[testedRoleIndex].access.c).toBe(!initialPermissions);
+        expect(wrapper.vm.changeAccessList.indexOf(testedRole.grantee.id)).not.toBe(-1);
+    });
+
+    it('adds permissions to new role', () => {
+        const newRole = wrapper.vm.computeAvailableGrantees.find(role => {
+            return role === 'obac-test-jest';
+        });
+
+        expect(typeof newRole).toBe('string');
+
+        wrapper.findAll('.page-header .icon-icon_plus').trigger('click');
+
+        expect(wrapper.findAll('.dropdown-select').length).toBe(1);
+
+        wrapper.find('.dropdown-select').vm.$emit('input', newRole);
+
+        const newRoleId = wrapper.vm.roleList.find(grantee => {
+            return grantee.role === newRole
+        }).id;
+
+        const isRoleInAccessChanges = wrapper.vm.changeAccessList.includes(newRoleId);
+
+        expect(isRoleInAccessChanges).toBe(true);
+    });
+
+    it('removes read permissions from role', () => {
+        const testedRole = wrapper.vm.permissionsList.find(grantee => {
+            return grantee.grantee.role === 'obac-test-jest';
+        });
+
+        const testedRoleIndex = wrapper.vm.permissionsList.indexOf(testedRole);
+
+        expect(wrapper.vm.permissionsList[testedRoleIndex].access.r).toBe(true);
+
+        wrapper.findAll('.role-permissions-checkbox.r').at(testedRoleIndex)
+            .vm.$emit('toggleCheckbox', false);
+
+        const allActionsFalse = Object.values(wrapper.vm.permissionsList[testedRoleIndex].access)
+            .every(action => {
+                return !action;
+            });
+        expect(allActionsFalse).toBe(true);
+        expect(wrapper.vm.changeAccessList.indexOf(testedRole.grantee.id)).not.toBe(-1);
+    });
+
+    it('saves [remove read]changes to database', async (done) => {
+        wrapper.setData({id: testedObject.id});
+        wrapper.find('.object-header .primary-btn').trigger('click');
+
+        setTimeout(async () => {
+            await wrapper.vm.loadObjectPermissions(testedObject.id);
+            const testedUpdatedRole = wrapper.vm.permissionsList.find(grantee => {
+                return grantee.grantee.role === 'ioio';
+            });
+            const testedRemovedRole = wrapper.vm.permissionsList.find(grantee => {
+                return grantee.grantee.role === 'obac-test-jest';
+            });
+            expect(testedUpdatedRole.access.c).toBe(!initialPermissions);
+            expect(typeof testedRemovedRole).toBe('undefined');
+            done();
+        }, 100);
+    });
+});

@@ -114,9 +114,8 @@ describe('the-roles.vue', () => {
     });
 
 
-    it('fills roleList with data', async (done) => {
+    it('fills roleList with data', () => {
         expect(wrapper.vm.roleList.length).toBeGreaterThan(0);
-        done();
     });
 
     it('draws table with roleList', () => {

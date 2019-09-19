@@ -56,13 +56,13 @@ export async function updateObject(id, permissions) {
 }
 
 export async function getObjectPermissions(id) {
-    Vue.$log.info('getObjectPermissions', 'started');
+    // Vue.$log.info('getObjectPermissions', 'started');
     const url = BASE_URL + '/' + id + '/acl';
     let formattedResponse = [];
 
     try {
         const response = await instance.get(url);
-        Vue.$log.info('getObjectPermissions', 'response', response);
+        // Vue.$log.info('getObjectPermissions', 'response', response);
 
         if (response.data.list) {
             // format response before assignment
@@ -90,16 +90,16 @@ export async function getObjectPermissions(id) {
 
 export async function updateObjectPermissions(id, granteesToSend) {
     // granteesToSend -- array
-    Vue.$log.info('updateObjectPermissions', 'started');
+    // Vue.$log.info('updateObjectPermissions', 'started');
     const url = BASE_URL + '/' + id + '/acl';
 
     const changes = {
         changes: granteesToSend
     };
-
+    console.log(url);
     try {
         const response = await instance.patch(url, changes);
-        Vue.$log.info('updateObjectPermissions response', response);
+        // Vue.$log.info('updateObjectPermissions response', response);
     } catch (error) {
         throw error;
     }

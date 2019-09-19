@@ -2,6 +2,7 @@
 node_modules
 unused
 /dist
+/coverage
 .eslintignore
 
 # local env files
