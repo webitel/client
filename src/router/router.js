@@ -18,6 +18,8 @@ import usersNew from '@/components/objects/directory/users/users-new';
 import customers from '@/components/objects/administration/license/the-customers';
 import agentSkills from '@/components/objects/lookups/agent-skills/the-agent-skills';
 import agentSkillsEdit from '@/components/objects/lookups/agent-skills/agent-skills-edit';
+import calendars from '@/components/objects/lookups/calendars/the-calendars';
+import calendarsEdit from '@/components/objects/lookups/calendars/calendars-edit';
 import leadStatus from '@/components/objects/lookups/lead-status/the-lead-status';
 import leadStatusEdit from '@/components/objects/lookups/lead-status/lead-status-edit';
 import leadSource from '@/components/objects/lookups/lead-source/the-lead-source';
@@ -94,6 +96,22 @@ const router = new Router({
                     path:'/lookups/skills/:id',
                     name: 'skills-lookup-edit',
                     component: agentSkillsEdit
+                },
+
+                {
+                    path:'/lookups/calendars',
+                    name: 'calendars-lookup',
+                    component: calendars
+                },
+                {
+                    path:'/lookups/calendars/new',
+                    name: 'calendars-new',
+                    component: calendarsEdit
+                },
+                {
+                    path:'/lookups/calendars/:id',
+                    name: 'calendars-edit',
+                    component: calendarsEdit
                 },
 
                 {

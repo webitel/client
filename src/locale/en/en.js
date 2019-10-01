@@ -127,6 +127,19 @@ export default {
                 skills: 'Agent skill | Agent skills',
                 allSkills: 'All skills'
             },
+            calendars: {
+                calendars: 'Calendar | Calendars',
+                allCalendars: 'All calendars',
+                searchPlaceholder: 'Name, description...',
+                timezone: 'Timezone',
+                start: 'Start',
+                end: 'End',
+                workWeek: 'Work week',
+                holidays: 'Holidays',
+                enabled: 'Enabled',
+                date: 'Date',
+                repeat: 'Repeat'
+            },
             communications: {
                 communications: 'Communication type | Comunication types',
                 allCommunications: 'All communiction types',

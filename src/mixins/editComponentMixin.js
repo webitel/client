@@ -1,10 +1,16 @@
 import objectHeader from '@/components/objects/object-header';
 import formInput from '@/components/utils/form-input';
+import expansionPanel from '@/components/utils/expansion-panel';
+import dropdownSelect from '@/components/utils/dropdown-select';
+import switcher from '@/components/utils/switcher';
 
 export default {
     components: {
         'object-header': objectHeader,
         'form-input': formInput,
+        'expansion-panel': expansionPanel,
+        'dropdown-select': dropdownSelect,
+        switcher
     },
 
 
