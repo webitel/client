@@ -7,7 +7,7 @@
         >
             <span>{{$tc('objects.lookups.calendars.calendars', 1)}}</span> | {{computeTitle}}
         </object-header>
-        <section class="object-content module-new permissions-new">
+        <section class="object-content module-new calendars-new">
 
 
             <expansion-panel opened>
@@ -75,41 +75,37 @@
                     <vuetable
                             :api-mode="false"
                             :fields="workWeekFields"
-                            :data="workWeek"
+                            :data="computeWorkWeekRepresentation"
+                            :row-class="computeWorkdayEnd"
                     >
 
                         <template slot="start" slot-scope="props">
-                            <div v-for="range in workWeek[props.rowIndex].ranges">
-                                <div class="calendar-workweek__item">{{range.start}}</div>
+                            <div class="calendar-workweek__item">
+                                {{computeWorkWeekRepresentation[props.rowIndex].start}}
                             </div>
                         </template>
 
                         <template slot="to" slot-scope="props">
-                            <div v-for="range in workWeek[props.rowIndex].ranges">
-                                <span class="calendars__to-separator">to</span>
-                            </div>
+                            <span class="calendars__to-separator">to</span>
                         </template>
 
                         <template slot="end" slot-scope="props">
-                            <div v-for="range in workWeek[props.rowIndex].ranges">
-                                <div class="calendar-workweek__item">{{range.end}}</div>
+                            <div class="calendar-workweek__item">
+                                {{computeWorkWeekRepresentation[props.rowIndex].end}}
                             </div>
                         </template>
 
                         <template slot="status" slot-scope="props">
                             <switcher
-                                    :value="workWeek[props.rowIndex].enabled"
-                                    @toggleSwitcher="workWeek[props.rowIndex].status = $event"
+                                    :value="computeWorkWeekRepresentation[props.rowIndex].enabled"
+                                    @toggleSwitcher="computeWorkWeekRepresentation[props.rowIndex].status = $event"
                             ></switcher>
                         </template>
 
                         <template slot="actions" slot-scope="props">
-                            <div
-                                    class="vuetable-actions"
-                                    v-for="(range, index) in workWeek[props.rowIndex].ranges"
-                            >
+                            <div class="vuetable-actions">
                                 <i class="vuetable-action icon-icon_plus"
-                                   v-if="index === 0"
+                                   v-if="computeWorkWeekRepresentation[props.rowIndex].origin"
                                    @click="edit(props.rowIndex)"
                                 ></i>
                                 <i class="vuetable-action icon-icon_delete calendar-workweek__item"
@@ -185,38 +181,72 @@
                     // description: '',
                 },
                 isCalendarExpiration: false,
-                workWeek: [
-                    {
-                        name: 'Monday',
-                        enabled: true,
-                        ranges: [
-                            {
-                                start: '20.20.02',
-                                end: '10.10.01',
-                            },
-                            {
-                                start: '20.20.02',
-                                end: '10.10.01',
-                            }
-                        ]
-
-                    },
-                    {
-                        name: 'Tuesday',
-                        enabled: false,
-                        ranges: [
-                            {
-                                start: '20.20.02',
-                                end: '10.10.01',
-                            },
-                            {
-                                start: '20.20.02',
-                                end: '10.10.01',
-                            }
-                        ]
-
-                    },
-                ],
+                workWeek: {
+                    monday: [
+                        {
+                            enabled: true,
+                            start: '10.10.10',
+                            end: '20.20.20',
+                            origin: true
+                        },
+                        {
+                            enabled: false,
+                            start: '10.10.10',
+                            end: '20.20.20'
+                        }
+                    ],
+                    tuesday: [
+                        {
+                            enabled: true,
+                            start: '10.10.10',
+                            end: '20.20.20',
+                            origin: true
+                        },
+                    ]
+                },
+                // workWeek: [
+                //     {
+                //         name: 'Monday',
+                //         enabled: true,
+                //         ranges: [
+                //             {
+                //                 start: '20.20.02',
+                //                 end: '10.10.01',
+                //             },
+                //             // {
+                //             //     start: '20.20.02',
+                //             //     end: '10.10.01',
+                //             // }
+                //         ]
+                //
+                //     },
+                //     {
+                //         name: 'Monday',
+                //         enabled: true,
+                //         ranges: [
+                //             {
+                //                 start: '20.20.02',
+                //                 end: '10.10.01',
+                //             }
+                //         ]
+                //
+                //     },
+                //     {
+                //         name: 'Tuesday',
+                //         enabled: false,
+                //         ranges: [
+                //             {
+                //                 start: '20.20.02',
+                //                 end: '10.10.01',
+                //             },
+                //             // {
+                //             //     start: '20.20.02',
+                //             //     end: '10.10.01',
+                //             // }
+                //         ]
+                //
+                //     },
+                // ],
                 workWeekFields: [
                     {name: 'name', title: this.$t('objects.name')},
                     {name: 'start', title: this.$t('objects.lookups.calendars.start')},
@@ -262,9 +292,28 @@
             }
         },
 
-        computed: {},
+        computed: {
+            computeWorkWeekRepresentation() {
+                const workWeek = [];
+                Object.values(this.workWeek).map((workDay, dayIndex) => {
+                    workDay.forEach((range, rangeIndex) => {
+                        workWeek.push({
+                            name: rangeIndex === 0 ? Object.keys(this.workWeek)[dayIndex] : '',
+                            start: range.start,
+                            end: range.end,
+                            enabled: range.enabled,
+                            origin: !!range.origin
+                        })
+                    });
+                });
+                return workWeek;
+            },
+        },
 
         methods: {
+            computeWorkdayEnd(dataItem, index) {
+                return dataItem.name !== '' ? 'day-start' : ''
+            },
             save() {
                 if (this.id) {
                     //    update
@@ -285,10 +334,10 @@
 
     .calendars__dates {
         display: flex;
-        padding: 25px 0 20px;   /*FIXME: BALANCE GRID*/
+        padding: 25px 0 20px; /*FIXME: BALANCE GRID*/
 
         .calendars__date-wrap {
-            width: calc(50%  - 23px*2 - 19px - 43px - 40px); // all width - "to" margins - "to" - switch margin - switch
+            width: calc(50% - 23px * 2 - 19px - 43px - 40px); // all width - "to" margins - "to" - switch margin - switch
         }
 
         .calendars__to-separator {
