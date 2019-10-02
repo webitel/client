@@ -48,6 +48,7 @@
                                     :format="'d MMMM yyyy'"
                                     :calendar-button-icon="'icon-icon_arrow-down'"
                                     :maximum-view="'day'"
+                                    :disabled="!isCalendarExpiration"
                                     monday-first
                                     calendar-button
                             ></datepicker>
@@ -59,12 +60,14 @@
                                     :format="'d MMMM yyyy'"
                                     :calendar-button-icon="'icon-icon_arrow-down'"
                                     :maximum-view="'day'"
+                                    :disabled="!isCalendarExpiration"
                                     monday-first
                                     calendar-button
                             ></datepicker>
                         </div>
                         <switcher
                                 :value="isCalendarExpiration"
+                                @toggleSwitch="isCalendarExpiration = $event"
                         ></switcher>
                     </div>
 
@@ -116,11 +119,12 @@
                             <div class="vuetable-actions">
                                 <i class="vuetable-action icon-icon_plus"
                                    v-if="computeWorkWeekRepresentation[props.rowIndex].origin"
-                                   @click="edit(props.rowIndex)"
+                                   @click="addWorkRange(computeWorkWeekRepresentation[props.rowIndex].name)"
                                 ></i>
                                 <i class="vuetable-action icon-icon_delete calendar-workweek__item"
                                    v-else
-                                   @click="this.remove(props.rowIndex)"
+                                   @click="removeWorkRange(computeWorkWeekRepresentation[props.rowIndex].tag,
+                                    props.rowIndex)"
                                 ></i>
                             </div>
                         </template>
@@ -277,7 +281,8 @@
                             start: range.start,
                             end: range.end,
                             enabled: range.enabled,
-                            origin: !!range.origin
+                            origin: !!range.origin,
+                            tag:  Object.keys(this.workWeek)[dayIndex]
                         })
                     });
                 });
@@ -286,9 +291,18 @@
         },
 
         methods: {
-            computeWorkdayEnd(dataItem, index) {
-                return dataItem.name !== '' ? 'day-start' : ''
+            addWorkRange(day) {
+                this.workWeek[day].push({
+                    enabled: true,
+                    start: '10:10',
+                    end: '20:20',
+                });
             },
+
+            removeWorkRange(day, rowIndex) {
+                this.workWeek[day].splice(rowIndex, 1);
+            },
+
             initHourList() {
                 for (let i = 0; i < 24; i++) {
                     let hour;
@@ -310,7 +324,10 @@
                 }
 
                 this.close();
-            }
+            },
+            computeWorkdayEnd(dataItem, index) {
+                return dataItem.name !== '' ? 'day-start' : ''
+            },
         }
     }
 </script>
