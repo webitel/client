@@ -26,8 +26,12 @@
                     ></form-input>
 
                     <dropdown-select
+                            :v="$v.calendarInstance.timezone"
                             :label="$t('objects.lookups.calendars.timezone')"
-                            :placeholder="$t('objects.lookups.calendars.timezone')"
+                            :placeholder="$v.calendarInstance.timezone.$model ||
+                             $t('objects.lookups.calendars.timezone')"
+                            @input="calendarInstance.timezone = $event"
+                            required
                     ></dropdown-select>
 
                     <form-input
@@ -67,7 +71,7 @@
                 </template>
             </expansion-panel>
 
-            <expansion-panel class="grid-w100">
+            <expansion-panel class="grid-w100" opened>
                 <template slot="expansion-header">
                     <h3 class="content-title">{{$t('objects.lookups.calendars.workWeek')}}</h3>
                 </template>
@@ -80,19 +84,25 @@
                     >
 
                         <template slot="start" slot-scope="props">
-                            <div class="calendar-workweek__item">
-                                {{computeWorkWeekRepresentation[props.rowIndex].start}}
-                            </div>
+                            <dropdown-select
+                                    class="inline-dropdown options-align-right"
+                                    :placeholder="computeWorkWeekRepresentation[props.rowIndex].start"
+                                    :options="hourList"
+                                    @input="computeWorkWeekRepresentation[props.rowIndex].start = $event"
+                            ></dropdown-select>
                         </template>
 
                         <template slot="to" slot-scope="props">
-                            <span class="calendars__to-separator">to</span>
+                            <span class="calendars__to-separator calendars__to-separator__grid">to</span>
                         </template>
 
                         <template slot="end" slot-scope="props">
-                            <div class="calendar-workweek__item">
-                                {{computeWorkWeekRepresentation[props.rowIndex].end}}
-                            </div>
+                            <dropdown-select
+                                    class="inline-dropdown options-align-right"
+                                    :placeholder="computeWorkWeekRepresentation[props.rowIndex].end"
+                                    :options="hourList"
+                                    @input="computeWorkWeekRepresentation[props.rowIndex].end = $event"
+                            ></dropdown-select>
                         </template>
 
                         <template slot="status" slot-scope="props">
@@ -185,68 +195,25 @@
                     monday: [
                         {
                             enabled: true,
-                            start: '10.10.10',
-                            end: '20.20.20',
+                            start: '10:10',
+                            end: '20:20',
                             origin: true
                         },
                         {
                             enabled: false,
-                            start: '10.10.10',
-                            end: '20.20.20'
+                            start: '10:10',
+                            end: '20:20'
                         }
                     ],
                     tuesday: [
                         {
                             enabled: true,
-                            start: '10.10.10',
-                            end: '20.20.20',
+                            start: '10:10',
+                            end: '20:20',
                             origin: true
                         },
                     ]
                 },
-                // workWeek: [
-                //     {
-                //         name: 'Monday',
-                //         enabled: true,
-                //         ranges: [
-                //             {
-                //                 start: '20.20.02',
-                //                 end: '10.10.01',
-                //             },
-                //             // {
-                //             //     start: '20.20.02',
-                //             //     end: '10.10.01',
-                //             // }
-                //         ]
-                //
-                //     },
-                //     {
-                //         name: 'Monday',
-                //         enabled: true,
-                //         ranges: [
-                //             {
-                //                 start: '20.20.02',
-                //                 end: '10.10.01',
-                //             }
-                //         ]
-                //
-                //     },
-                //     {
-                //         name: 'Tuesday',
-                //         enabled: false,
-                //         ranges: [
-                //             {
-                //                 start: '20.20.02',
-                //                 end: '10.10.01',
-                //             },
-                //             // {
-                //             //     start: '20.20.02',
-                //             //     end: '10.10.01',
-                //             // }
-                //         ]
-                //
-                //     },
-                // ],
                 workWeekFields: [
                     {name: 'name', title: this.$t('objects.name')},
                     {name: 'start', title: this.$t('objects.lookups.calendars.start')},
@@ -280,6 +247,7 @@
                         width: '120px'
                     },
                 ],
+                hourList: []
             };
         },
 
@@ -288,8 +256,15 @@
             calendarInstance: {
                 name: {
                     required
+                },
+                timezone: {
+                    required
                 }
             }
+        },
+
+        mounted() {
+            this.initHourList();
         },
 
         computed: {
@@ -314,6 +289,19 @@
             computeWorkdayEnd(dataItem, index) {
                 return dataItem.name !== '' ? 'day-start' : ''
             },
+            initHourList() {
+                for (let i = 0; i < 24; i++) {
+                    let hour;
+                    if (i < 10) {
+                        hour = '0' + i;
+                    } else {
+                        hour = i + '';
+                    }
+                    hour += ':00';
+                    this.hourList.push(hour);
+                }
+                this.hourList.push('23:59');
+            },
             save() {
                 if (this.id) {
                     //    update
@@ -330,6 +318,11 @@
 <style lang="scss" scoped>
     .calendars__to-separator {
         color: $icon-color;
+
+        &.calendars__to-separator__grid {
+            /*display: block;*/
+            /*text-align: center;*/
+        }
     }
 
     .calendars__dates {
@@ -337,7 +330,8 @@
         padding: 25px 0 20px; /*FIXME: BALANCE GRID*/
 
         .calendars__date-wrap {
-            width: calc(50% - 23px * 2 - 19px - 43px - 40px); // all width - "to" margins - "to" - switch margin - switch
+            // all width - "to" margins - "to" - switch margin - switch
+            width: calc(50% - (23px * 2 + 19px + 43px + 40px) / 2);
         }
 
         .calendars__to-separator {

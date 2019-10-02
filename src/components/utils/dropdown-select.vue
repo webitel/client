@@ -1,6 +1,6 @@
 <template>
     <div class="dropdown-select">
-        <div class="label">{{this.label}}
+        <div class="label" :class="{'invalid': this.v.$error}">{{computeRequiredLabel}}
             <div class="hint" v-show="this.hintText">
                 <i
                         class="hint__img tooltip-activator icon-icon_question"
@@ -16,8 +16,9 @@
                     @click.stop="toggleSelect"
             >
                 <input
-                        v-model="selected"
+                        v-model="validation"
                         type="text"
+                        @input="$emit('input, $event.target.value')"
                         :placeholder="this.placeholder || this.selected"
                         :disabled="disabled"
                 >
@@ -81,6 +82,20 @@
             disabled: {
                 type: Boolean
             },
+
+            required: {
+                type: Boolean
+            },
+
+            // validation rules
+            v: {
+                type: Object,
+                default: () => ({
+                    $error: null,
+                    $touch: () => {
+                    },
+                }),
+            },
         },
         data() {
             return {
@@ -110,7 +125,20 @@
             filterOptions() {
                 if(!this.selected) return this.options;
                 return this.options.filter((item) => item.toLowerCase().includes(this.selected.toLowerCase()));
-            }
+            },
+            computeRequiredLabel() {
+                return this.required ? this.label+ '*' : this.label;
+            },
+
+            validation: {
+                get() {
+                    return this.value;
+                },
+                set(value) {
+                    this.v.$touch();
+                    this.selectItem(value);
+                },
+            },
         }
     }
 </script>
