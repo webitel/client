@@ -1,0 +1,76 @@
+@import "../../../../../node_modules/vue-select/src/scss/vue-select";
+
+.v-select {
+
+  .vs__dropdown-toggle {
+    height: 48px;
+    margin-top: 25px;
+    border-color: $input;
+    border-radius: $border-radius;
+  }
+
+  .vs__selected-options {
+    /*padding for arrow icon*/
+    padding-right: 40px;
+    border-radius: $border-radius;
+
+    input {
+      border-radius: $border-radius;
+      transition: $transition;
+
+      &::placeholder {
+        color: #000;
+      }
+    }
+
+    &:hover .icon-icon_arrow-down {
+      color: #000;
+    }
+
+    &.opened {
+      @extend .default-input:hover;
+    }
+
+    &.disabled {
+      @extend .default-input:disabled;
+
+      input {
+        background: transparent;
+      }
+
+      &:hover, &.empty:hover {
+        border-color: $input;
+        cursor: auto;
+      }
+    }
+
+  }
+
+
+  .vs__actions {
+    position: relative;
+
+    &:before {
+      position: absolute;
+      top: 50%;
+      right: 16px;
+      font-family: 'icomoon';
+      font-size: 24px;
+      content: '\e004';
+      transform: translate(0, -50%);
+    }
+
+    .vs__open-indicator {
+      position: relative;
+      opacity: 0;
+    }
+  }
+
+  .vs__dropdown-menu {
+    @extend .box-shadow;
+
+    top: calc(100% + 8px);
+    border: none;
+    border-radius: 0;
+  }
+}
