@@ -4,7 +4,6 @@
 
   .vs__dropdown-toggle {
     height: 48px;
-    margin-top: 25px;
     border-color: $input;
     border-radius: $border-radius;
   }
@@ -68,9 +67,24 @@
 
   .vs__dropdown-menu {
     @extend .box-shadow;
+    @extend .scrollbar;
 
     top: calc(100% + 8px);
+    padding: 8px 0;
+    margin-top: 8px;
+    background: #fff;
     border: none;
     border-radius: 0;
+
+    .vs__dropdown-option {
+      @extend .typo-body-md;
+
+        padding: 12px 16px 11px;
+
+      &.vs__dropdown-option--selected, &:hover {
+        color: #000;
+        background: rgba(0, 0, 0, 0.05);
+      }
+    }
   }
 }

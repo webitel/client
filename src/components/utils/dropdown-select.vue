@@ -8,59 +8,38 @@
                 <div class="tooltip-left">{{this.hintText}}</div>
             </div>
         </div>
-        <div class="select">
-            <div
-                    class="select-preview"
-                    :class="{'opened': isOpened, 'empty': !selected, 'disabled': disabled}"
-                    ref="select-preview"
-                    @click.stop="toggleSelect"
-            >
-                <input
-                        v-model="validation"
-                        type="text"
-                        @input="$emit('input, $event.target.value')"
-                        :placeholder="this.placeholder || this.selected"
-                        :disabled="disabled"
-                >
-                <i
-                        class="icon-icon_arrow-down"
-                ></i>
-            </div>
-            <div
-                    class="select-options"
-                    :class="{'opened': isOpened}"
-                    v-clickaway="closeSelect"
-            >
-                <ul>
-                    <li
-                            class="select-option"
-                            v-for="(option, key) in filterOptions"
-                            :key="key"
-                            @click="selectItem(option)"
-                    >
-                        <div>{{option}}</div>
-                    </li>
-                    <li class="select-option select-option__empty" v-if="filterOptions.length === 0">
-                        <div>No items available</div>
-                    </li>
-                </ul>
-            </div>
-        </div>
+
+        <v-select
+            :value="value"
+            :options="options"
+            :label="displayProperty"
+            :placeholder="placeholder"
+            :clearable="false"
+            :disabled="disabled"
+            :required="required"
+            @input="setOption"
+        ></v-select>
     </div>
 </template>
 
 <script>
-    import clickaway from '@/directives/clickaway';
+    import vSelect from 'vue-select';
 
     export default {
         name: "dropdown-select",
-        directives: {clickaway},
+        components: {
+            'v-select': vSelect,
+        },
         props: {
             // options to select
             options: {
-                type: Array,
+                type: Array || Object,
                 // required: true,
-                default: () => ['opt1', 'opt2', 'opt3', 'opt2', 'opt3', 'opt2', 'opt3', 'opt2', 'opt3', 'opt2', 'opt3', 'opt2', 'opt3', 'opt2', 'opt3', 'opt2', 'opt3', 'opt2', 'opt3', 'opt2', 'opt3', 'opt2', 'opt3', 'opt2', 'opt3', 'opt2', 'opt3', 'opt2', 'opt3', 'opt2', 'opt3', 'opt2', 'opt3', 'opt2', 'opt3', 'opt2', 'opt3', 'opt2', 'opt3', 'opt2', 'opt3', 'opt2', 'opt3', 'opt2', 'opt3', 'opt2', 'opt3', 'opt2', 'opt3', 'opt2', 'opt3', 'opt2', 'opt3', 'opt2', 'opt3', 'opt2', 'opt3', 'opt2', 'opt3', 'opt2', 'opt3', 'opt2', 'opt3', 'opt2', 'opt3', 'opt2', 'opt3', 'opt2', 'opt3', 'opt2', 'opt3', 'opt2', 'opt3', 'opt2', 'opt3']
+                default: () => []
+             },
+
+            displayProperty: {
+                type: String
             },
 
             // label above select itself
@@ -68,9 +47,13 @@
                 type: String,
             },
 
-            // select placeholder
             placeholder: {
-                type: String,
+                type: String
+            },
+
+            // select value
+            value: {
+                default: null
             },
 
             // "?" hint text. Also controls "?" display
@@ -97,137 +80,22 @@
                 }),
             },
         },
-        data() {
-            return {
-                selected: '',
-                isOpened: false
+        methods: {
+            setOption(option) {
+                this.v.$touch();
+                this.$emit('input', option);
             }
         },
-        methods: {
-            toggleSelect() {
-                if (!this.disabled) {
-                    this.isOpened = !this.isOpened;
-                }
-            },
-            closeSelect(event) {
-                const preview = this.$refs['select-preview'];
-                if (event.target !== preview || !preview.contains(event.target)) {
-                    this.isOpened = false;
-                }
-            },
-            selectItem(option) {
-                this.$emit('input', option, this.placeholder);
-                this.selected = '';
-                this.isOpened = false;
-            },
-        },
         computed: {
-            filterOptions() {
-                if(!this.selected) return this.options;
-                return this.options.filter((item) => item.toLowerCase().includes(this.selected.toLowerCase()));
-            },
             computeRequiredLabel() {
                 return this.required ? this.label+ '*' : this.label;
-            },
-
-            validation: {
-                get() {
-                    return this.value;
-                },
-                set(value) {
-                    this.v.$touch();
-                    this.selectItem(value);
-                },
             },
         }
     }
 </script>
 
 <style lang="scss" scoped>
-    .select {
-        position: relative;
-
-        .select-preview {
-            height: 48px;
-            position: relative;
-            /*padding for arrow icon*/
-            padding-right: 40px;
-            margin-bottom: 20px;
-            border: 1px solid $input;
-            border-radius: $border-radius;
-            cursor: pointer;
-
-            input {
-                @extend .default-input;
-
-                height: 46px;
-                background: transparent;
-                border: none;
-
-                &::placeholder {
-                    color: #000;
-                }
-            }
-
-            .icon-icon_arrow-down {
-                position: absolute;
-                top: 50%;
-                right: 16px;
-                color: #000;
-                transform: translate(0, -50%);
-            }
-
-            &:hover .icon-icon_arrow-down {
-                color: #000;
-            }
-
-            &.opened {
-                @extend .default-input:hover;
-            }
-
-            &.disabled {
-                @extend .default-input:disabled;
-
-                input {
-                    background: transparent;
-                }
-
-                &:hover, &.empty:hover {
-                    border-color: $input;
-                    cursor: auto;
-                }
-
-
-                .icon-icon_arrow-down {
-                    color: $icon-color;
-
-                    .icon-icon_arrow-down {
-                        color: $icon-color;
-                    }
-
-                }
-            }
-
-        }
-
-        .select-options {
-            position: absolute;
-            top: 48px;
-            opacity: 0;
-            pointer-events: none;
-
-            &.opened {
-                opacity: 1;
-                pointer-events: auto;
-            }
-
-            .select-option__empty {
-                background: #fff;
-                cursor: auto;
-            }
-        }
-
-    }
+    @import "../../assets/css/objects/lib-custom-styling/v-select";
 
     // inline edit (in-grid) styling
     .inline-dropdown {

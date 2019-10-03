@@ -26,18 +26,14 @@
                     ></form-input>
 
                     <dropdown-select
+                            :options="timezoneList"
+                            :displayProperty="'name'"
                             :label="$t('objects.lookups.calendars.timezone')"
-                            :placeholder="$v.calendarInstance.timezone.$model ||
-                             $t('objects.lookups.calendars.timezone')"
+                            :placeholder="$t('objects.lookups.calendars.timezone')"
+                            :value="$v.calendarInstance.timezone.$model"
+                            @input="calendarInstance.timezone = $event"
                             required
                     ></dropdown-select>
-
-
-                    <div>
-                        <v-select
-
-                        ></v-select>
-                    </div>
 
                     <form-input
                             class="form__input"
@@ -180,7 +176,6 @@
     import editComponentMixin from '@/mixins/editComponentMixin';
     import datepicker from 'vuejs-datepicker';
     import vuetable from 'vuetable-2/src/components/Vuetable';
-    import vSelect from 'vue-select';
     import btn from '@/components/utils/btn';
 
     import {required} from 'vuelidate/lib/validators';
@@ -189,7 +184,6 @@
     export default {
         name: "calendars-new",
         components: {
-            'v-select': vSelect,
             vuetable,
             datepicker,
             btn

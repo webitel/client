@@ -69,6 +69,7 @@
     export default {
         name: "the-calendars",
         components: {
+            'object-header': objectHeader,
             vuetable,
         },
         data() {
