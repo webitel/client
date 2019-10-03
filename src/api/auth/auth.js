@@ -15,6 +15,7 @@ export async function getSession() {
             const response = await instance.get(url);
             Vue.$log.info('get session response', response);
             store.dispatch('setUser', response.data.session.username);
+            store.dispatch('setDomainId', response.data.session.dc);
         } catch (error) {
             throw error;
         }
