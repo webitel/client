@@ -26,12 +26,12 @@
                     ></form-input>
 
                     <dropdown-select
-                            :v="$v.calendarInstance.timezone.name"
-                            :options="computeTimezoneRepresentation"
+                            :options="timezoneList"
+                            :displayProperty="'name'"
                             :label="$t('objects.lookups.calendars.timezone')"
-                            :placeholder="$v.calendarInstance.timezone.name.$model ||
-                             $t('objects.lookups.calendars.timezone')"
-                            @input="calendarInstance.timezone.name = $event"
+                            :placeholder="$t('objects.lookups.calendars.timezone')"
+                            :value="$v.calendarInstance.timezone.$model"
+                            @input="calendarInstance.timezone = $event"
                             required
                     ></dropdown-select>
 
