@@ -64,7 +64,7 @@
     import vuetable from 'vuetable-2/src/components/Vuetable';
     import objectHeader from '@/components/objects/object-header';
 
-    import {getCalendars} from "../../../../api/objects/lookups/calendars";
+    import {getCalendarList} from "../../../../api/objects/lookups/calendars";
 
     export default {
         name: "the-calendars",
@@ -117,7 +117,7 @@
                 //         id: i
                 //     });
                 // }
-                this.calendarsList = await getCalendars();
+                this.calendarsList = await getCalendarList();
             }
         }
     }

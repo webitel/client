@@ -26,12 +26,12 @@
                     ></form-input>
 
                     <dropdown-select
-                            :v="$v.calendarInstance.timezone"
+                            :v="$v.calendarInstance.timezone.name"
                             :options="computeTimezoneRepresentation"
                             :label="$t('objects.lookups.calendars.timezone')"
-                            :placeholder="$v.calendarInstance.timezone.$model ||
+                            :placeholder="$v.calendarInstance.timezone.name.$model ||
                              $t('objects.lookups.calendars.timezone')"
-                            @input="calendarInstance.timezone = $event"
+                            @input="calendarInstance.timezone.name = $event"
                             required
                     ></dropdown-select>
 
@@ -179,7 +179,7 @@
     import btn from '@/components/utils/btn';
 
     import {required} from 'vuelidate/lib/validators';
-    import {addCalendar, getCalendarTimezones} from "../../../../api/objects/lookups/calendars";
+    import {addCalendar, getCalendar, getCalendarTimezones} from "../../../../api/objects/lookups/calendars";
 
     export default {
         name: "calendars-new",
@@ -193,14 +193,14 @@
             return {
                 calendarInstance: {
                     name: '',
-                    timezone: '',
+                    timezone: {},
                     description: '',
                     startDate: '',
                     endDate: ''
                 },
                 initialCalendar: {
                     name: '',
-                    timezone: '',
+                    timezone: {},
                     description: '',
                     startDate: Date.now(),
                     endDate: Date.now()
@@ -265,11 +265,12 @@
         },
 
         mounted() {
-            this.loadWorkWeek();
-            this.loadTimezones();
             if (this.id) {
+                this.loadCalendar();
                 this.loadHolidays();
             }
+            this.loadWorkWeek();
+            this.loadTimezones();
         },
 
         computed: {
@@ -321,6 +322,12 @@
         },
 
         methods: {
+            async loadCalendar() {
+                const response = await getCalendar(this.id);
+                this.calendarInstance = response;
+                this.initialCalendar = JSON.parse(JSON.stringify(response));
+            },
+
             async sendCalendar() {
                 const timezone = this.timezoneList.find(timezone => {
                     return timezone.name = this.calendarInstance.timezone.split(',')[0].trim();
@@ -386,6 +393,7 @@
 
                 this.close();
             },
+
             computeWorkdayEnd(dataItem) {
                 return dataItem.name !== '' ? 'day-start' : ''
             },
@@ -396,11 +404,6 @@
 <style lang="scss" scoped>
     .calendars__to-separator {
         color: $icon-color;
-
-        &.calendars__to-separator__grid {
-            /*display: block;*/
-            /*text-align: center;*/
-        }
     }
 
     .calendars__dates {
