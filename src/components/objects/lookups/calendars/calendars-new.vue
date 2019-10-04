@@ -77,12 +77,12 @@
                 </template>
             </expansion-panel>
 
-            <expansion-panel class="grid-w100" opened>
+            <expansion-panel class="grid-w100">
                 <template slot="expansion-header">
                     <h3 class="content-title">{{$t('objects.lookups.calendars.workWeek')}}</h3>
                 </template>
                 <template slot="expansion-content">
-                    <work-week></work-week>
+                    <work-week/>
                 </template>
             </expansion-panel>
 
@@ -91,30 +91,7 @@
                     <h3 class="content-title">{{$t('objects.lookups.calendars.holidays')}}</h3>
                 </template>
                 <template slot="expansion-content">
-                    <vuetable
-                            :api-mode="false"
-                            :fields="holidaysFields"
-                            :data="holidays"
-                    >
-
-                        <template slot="date" slot-scope="props">
-                            <span>{{holidays[props.rowIndex].date}}</span>
-                        </template>
-
-                        <template slot="repeat" slot-scope="props">
-                            <span>{{holidays[props.rowIndex].repeat}}</span>
-                        </template>
-
-                        <template slot="actions" slot-scope="props">
-                            <i class="vuetable-action icon-icon_edit"
-                               @click="edit(props.rowIndex)"
-                            ></i>
-                            <i class="vuetable-action icon-icon_delete"
-                               @click="this.remove(props.rowIndex)"
-                            ></i>
-                        </template>
-                    </vuetable>
-                    <i class="icon-action icon-icon_plus" @click=""></i>
+                    <holidays/>
                 </template>
             </expansion-panel>
         </section>
@@ -123,9 +100,9 @@
 
 <script>
     import calendarsWorkWeek from './calendars-work-week';
+    import calendarsHolidays from './calendars-holidays';
     import editComponentMixin from '@/mixins/editComponentMixin';
     import datepicker from 'vuejs-datepicker';
-    import vuetable from 'vuetable-2/src/components/Vuetable';
     import btn from '@/components/utils/btn';
 
     import {required} from 'vuelidate/lib/validators';
@@ -140,7 +117,7 @@
         name: "calendars-new",
         components: {
             'work-week': calendarsWorkWeek,
-            vuetable,
+            'holidays': calendarsHolidays,
             datepicker,
             btn
         },
@@ -158,30 +135,10 @@
                     name: '',
                     timezone: {},
                     description: '',
-                    startDate: Date.now(),
-                    endDate: Date.now()
+                    startDate: '',
+                    endDate: ''
                 },
                 isCalendarExpiration: false,
-
-                holidays: [
-                    {
-                        name: 'New Year',
-                        date: '01.01',
-                        repeat: 'yep'
-                    }
-                ],
-                holidaysFields: [
-                    {name: 'name', title: this.$t('objects.name')},
-                    {name: 'date', title: this.$t('objects.lookups.calendars.date')},
-                    {name: 'repeat', title: this.$t('objects.lookups.calendars.repeat')},
-                    {
-                        name: 'actions',
-                        title: '',
-                        titleClass: 'vuetable-td-actions',
-                        dataClass: 'vuetable-td-actions',
-                        width: '120px'
-                    },
-                ],
                 timezoneList: []
             };
         },
@@ -276,9 +233,5 @@
         .switcher {
             margin: auto 0 auto 43px;
         }
-    }
-
-    .calendar-workweek__item {
-        /*height: 52px;*/
     }
 </style>
