@@ -64,7 +64,7 @@
     import vuetable from 'vuetable-2/src/components/Vuetable';
     import objectHeader from '@/components/objects/object-header';
 
-    import {getCalendarList} from "../../../../api/objects/lookups/calendars";
+    import {deleteCalendar, getCalendarList} from "../../../../api/objects/lookups/calendars";
 
     export default {
         name: "the-calendars",
@@ -105,18 +105,16 @@
                 });
             },
 
-            remove(rowId) {
+            async remove(rowId) {
                 const deletedCalendar = this.calendarsList.splice(rowId, 1)[0];
+                try {
+                    await deleteCalendar(deletedCalendar.id)
+                } catch (err) {
+                    this.calendarsList.splice(rowId, 0, deletedCalendar);
+                }
             },
 
             async loadCalendarsList() {
-                // for (let i = 0; i < 10; i++) {
-                //     this.calendarsList.push({
-                //         name: 'Calendar name ' + i,
-                //         description: 'Description',
-                //         id: i
-                //     });
-                // }
                 this.calendarsList = await getCalendarList();
             }
         }

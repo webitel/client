@@ -80,7 +80,7 @@
 
       padding: 12px 16px 11px;
 
-      &.vs__dropdown-option--selected, &:hover {
+      &.vs__dropdown-option--selected, &.vs__dropdown-option--highlight, &:hover {
         color: #000;
         background: rgba(0, 0, 0, 0.05);
       }

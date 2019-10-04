@@ -82,58 +82,7 @@
                     <h3 class="content-title">{{$t('objects.lookups.calendars.workWeek')}}</h3>
                 </template>
                 <template slot="expansion-content">
-                    <vuetable
-                            :api-mode="false"
-                            :fields="workWeekFields"
-                            :data="computeWWeekRepresentation"
-                            :row-class="computeWorkdayEnd"
-                    >
-
-                        <template slot="start" slot-scope="props">
-                            <dropdown-select
-                                    class="inline-dropdown options-align-right"
-                                    :placeholder="computeWWeekRepresentation[props.rowIndex].start"
-                                    :options="initHourList"
-                                    @input="setWorkWeekTime(computeWWeekRepresentation[props.rowIndex].
-                                    tag, props.rowIndex, 'start', $event)"
-                            ></dropdown-select>
-                        </template>
-
-                        <template slot="to" slot-scope="props">
-                            <span class="calendars__to-separator calendars__to-separator__grid">to</span>
-                        </template>
-
-                        <template slot="end" slot-scope="props">
-                            <dropdown-select
-                                    class="inline-dropdown options-align-right"
-                                    :placeholder="computeWWeekRepresentation[props.rowIndex].end"
-                                    :options="initHourList"
-                                    @input="setWorkWeekTime(computeWWeekRepresentation[props.rowIndex].
-                                    tag, props.rowIndex, 'end', $event)"
-                            ></dropdown-select>
-                        </template>
-
-                        <template slot="status" slot-scope="props">
-                            <switcher
-                                    :value="computeWWeekRepresentation[props.rowIndex].enabled"
-                                    @toggleSwitcher="computeWWeekRepresentation[props.rowIndex].status = $event"
-                            ></switcher>
-                        </template>
-
-                        <template slot="actions" slot-scope="props">
-                            <div class="vuetable-actions">
-                                <i class="vuetable-action icon-icon_plus"
-                                   v-if="computeWWeekRepresentation[props.rowIndex].origin"
-                                   @click="addWorkRange(computeWWeekRepresentation[props.rowIndex].name)"
-                                ></i>
-                                <i class="vuetable-action icon-icon_delete calendar-workweek__item"
-                                   v-else
-                                   @click="removeWorkRange(computeWWeekRepresentation[props.rowIndex].tag,
-                                    props.rowIndex)"
-                                ></i>
-                            </div>
-                        </template>
-                    </vuetable>
+                    <work-week></work-week>
                 </template>
             </expansion-panel>
 
@@ -173,17 +122,24 @@
 </template>
 
 <script>
+    import calendarsWorkWeek from './calendars-work-week';
     import editComponentMixin from '@/mixins/editComponentMixin';
     import datepicker from 'vuejs-datepicker';
     import vuetable from 'vuetable-2/src/components/Vuetable';
     import btn from '@/components/utils/btn';
 
     import {required} from 'vuelidate/lib/validators';
-    import {addCalendar, getCalendar, getCalendarTimezones} from "../../../../api/objects/lookups/calendars";
+    import {
+        addCalendar,
+        getCalendar,
+        getCalendarTimezones,
+        updateCalendar,
+    } from "../../../../api/objects/lookups/calendars";
 
     export default {
         name: "calendars-new",
         components: {
+            'work-week': calendarsWorkWeek,
             vuetable,
             datepicker,
             btn
@@ -206,29 +162,7 @@
                     endDate: Date.now()
                 },
                 isCalendarExpiration: false,
-                workWeek: {
-                    Monday: [],
-                    Tuesday: [],
-                    Wednesday: [],
-                    Thursday: [],
-                    Friday: [],
-                    Saturday: [],
-                    Sunday: []
-                },
-                workWeekFields: [
-                    {name: 'name', title: this.$t('objects.name')},
-                    {name: 'start', title: this.$t('objects.lookups.calendars.start')},
-                    {name: 'to', title: ''},
-                    {name: 'end', title: this.$t('objects.lookups.calendars.end')},
-                    {name: 'status', title: this.$t('objects.lookups.calendars.enabled')},
-                    {
-                        name: 'actions',
-                        title: '',
-                        titleClass: 'vuetable-td-actions',
-                        dataClass: 'vuetable-td-actions',
-                        width: '60px'
-                    },
-                ],
+
                 holidays: [
                     {
                         name: 'New Year',
@@ -267,59 +201,11 @@
         mounted() {
             if (this.id) {
                 this.loadCalendar();
-                this.loadHolidays();
             }
-            this.loadWorkWeek();
             this.loadTimezones();
         },
 
-        computed: {
-            computeWWeekRepresentation() {
-                const workWeek = [];
-                Object.values(this.workWeek).map((workDay, dayIndex) => {
-                    workDay.forEach((range, rangeIndex) => {
-                        workWeek.push({
-                            name: rangeIndex === 0 ? Object.keys(this.workWeek)[dayIndex] : '',
-                            start: range.start,
-                            end: range.end,
-                            enabled: range.enabled,
-                            origin: !!range.origin,
-                            tag: Object.keys(this.workWeek)[dayIndex]
-                        })
-                    });
-                });
-                return workWeek;
-            },
-
-            initHourList() {
-                const hourList = [];
-                for (let i = 0; i < 24; i++) {
-                    let hour;
-                    if (i < 10) {
-                        hour = '0' + i;
-                    } else {
-                        hour = i + '';
-                    }
-                    hour += ':00';
-                    hourList.push(hour);
-                }
-                hourList.push('23:59');
-                return hourList;
-            },
-
-            computeTimezoneRepresentation() {
-                return this.timezoneList.map(timezone => {
-                    let timezoneOffset;
-
-                    if (timezone.offset[0] === '-') {
-                        timezoneOffset = timezone.offset.slice(0, 6);
-                    } else {
-                        timezoneOffset = timezone.offset.slice(0, 5);
-                    }
-                    return timezone.name + ', ' + timezoneOffset;
-                })
-            }
-        },
+        computed: {},
 
         methods: {
             async loadCalendar() {
@@ -329,59 +215,31 @@
             },
 
             async sendCalendar() {
-                const timezone = this.timezoneList.find(timezone => {
-                    return timezone.name = this.calendarInstance.timezone.split(',')[0].trim();
-                });
-
-                let calendarToSend = {
-                    name: this.calendarInstance.name,
-                    timezone: {
-                        id: timezone.id,
-                        name: timezone.name
-                    },
-                    description: this.calendarInstance.name
-                };
-                await addCalendar(calendarToSend);
-            },
-
-            async loadWorkWeek() {
                 if (this.id) {
-                    // this.workWeek = await getWorkWeek();
+                    let calendarToSend = {
+                        id: this.calendarInstance.id,
+                        name: this.calendarInstance.name,
+                        timezone: {
+                            id: this.calendarInstance.timezone.id,
+                        },
+                        description: this.calendarInstance.name
+                    };
+                    await updateCalendar(calendarToSend);
                 } else {
-                    const weekdays = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
-                    weekdays.forEach(day => {
-                        this.workWeek[day] = [{
-                            enabled: true,
-                            start: '9:00',
-                            end: '20:00',
-                            origin: true
-                        }]
-                    });
+                    let calendarToSend = {
+                        name: this.calendarInstance.name,
+                        timezone: {
+                            id: this.calendarInstance.timezone.id,
+                        },
+                        description: this.calendarInstance.name
+                    };
+                    await addCalendar(calendarToSend);
                 }
             },
 
             async loadTimezones() {
-                this.timezoneList = await getCalendarTimezones();
-            },
-
-            loadHolidays() {
-
-            },
-
-            addWorkRange(day) {
-                this.workWeek[day].push({
-                    enabled: true,
-                    start: '10:10',
-                    end: '20:20',
-                });
-            },
-
-            setWorkWeekTime(day, rowIndex, time, newValue) {
-                this.workWeek[day][rowIndex][time] = newValue;
-            },
-
-            removeWorkRange(day, rowIndex) {
-                this.workWeek[day].splice(rowIndex, 1);
+                const response = await getCalendarTimezones();
+                this.timezoneList = response.items;
             },
 
             save() {
@@ -392,10 +250,6 @@
                 }
 
                 this.close();
-            },
-
-            computeWorkdayEnd(dataItem) {
-                return dataItem.name !== '' ? 'day-start' : ''
             },
         }
     }

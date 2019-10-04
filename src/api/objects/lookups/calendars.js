@@ -19,7 +19,7 @@ export async function addCalendar(calendarToSend) {
 
 export async function getCalendarTimezones() {
     const response = await calendarService.searchTimezones(20);
-    return response.data.items;
+    return response.data;
 }
 
 export async function getCalendar(id) {
@@ -37,12 +37,12 @@ export async function getCalendar(id) {
 }
 
 export async function updateCalendar(calendarToSend) {
-    const response = await calendarService.updateCalendar(calendarToSend.id, calendarToSend);
+    const response = await calendarService.updateCalendar(calendarToSend, calendarToSend.id);
     return response.data;
 }
 
 export async function deleteCalendar(id) {
-    const response = await calendarService.deleteCalendar(domainId, id);
+    const response = await calendarService.deleteCalendar(id, domainId);
     return response.data;
 }
 
@@ -56,8 +56,9 @@ export async function getWorkday(calendarId, workdayId) {
     return response.data;
 }
 
-export async function addWorkday(calendarId, workday) {
-    const response = await calendarService.createAcceptOfDay(calendarId, workday);
+export async function addWorkday(workday, calendarId) {
+    console.log(workday);
+    const response = await calendarService.createAcceptOfDay(workday, calendarId);
     return response.data;
 }
 
