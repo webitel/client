@@ -1,6 +1,5 @@
 <template>
-    <div class="content-wrap">
-
+    <div>
         <object-header
                 :primaryAction="create"
         >
@@ -14,22 +13,21 @@
             </header>
 
             <vuetable
-                    class="permissions-table"
                     :api-mode="false"
                     :fields="fields"
-                    :data="roleList"
+                    :data="dataList"
             >
-                <template slot="roleName" slot-scope="props">
+                <template slot="name" slot-scope="props">
                     <div class="tt-capitalize">
                         <span class="nameLink" @click="edit(props.rowIndex)">
-                        {{roleList[props.rowIndex].role}}
+                        {{dataList[props.rowIndex].role}}
                         </span>
                     </div>
                 </template>
 
-                <template slot="roleDescription" slot-scope="props">
+                <template slot="description" slot-scope="props">
                     <div>
-                        {{roleList[props.rowIndex].description || 'DESCRIPTION IS EMPTY'}}
+                        {{dataList[props.rowIndex].description}}
                     </div>
                 </template>
 
@@ -63,11 +61,11 @@
         },
         data() {
             return {
-                roleList: [],
+                dataList: [],
                 // vuetable prop
                 fields: [
-                    {name: 'roleName', title: this.$t('objects.name')},
-                    {name: 'roleDescription', title: this.$t('objects.description')},
+                    {name: 'name', title: this.$t('objects.name')},
+                    {name: 'description', title: this.$t('objects.description')},
                     {
                         name: 'actions',
                         title: '',
@@ -79,7 +77,7 @@
             };
         },
         mounted() {
-            this.loadRoleList();
+            this.loadDataList();
         },
         methods: {
             create() {
@@ -89,26 +87,24 @@
             edit(rowId) {
                 this.$router.push({
                     name: 'permissions-roles-edit',
-                    params: {id: this.roleList[rowId].id},
+                    params: {id: this.dataList[rowId].id},
                 });
             },
 
-            remove(rowId) {
+            async remove(rowId) {
                 // remove role
-                const deletedRole = this.roleList.splice(rowId, 1)[0];
-                return deleteRole(deletedRole.id)
-                    .catch(() => {
-                            // if request fails, restore
-                            this.roleList.splice(rowId, 0, deletedRole);
-                        }
-                    )
+                const deletedObject = this.dataList.splice(rowId, 1)[0];
+                try {
+                    await deleteRole(deletedObject.id);
+                } catch (err) {
+                    // if request fails, restore
+                    this.dataList.splice(rowId, 0, deletedObject);
+                }
             },
 
-            loadRoleList() {
-                return getRoles()
-                    .then((response) => {
-                        this.roleList = [...response].reverse();
-                    });
+            async loadDataList() {
+                const response = await getRoles();
+                this.dataList = [...response].reverse();
             }
         }
     };

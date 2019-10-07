@@ -4,6 +4,7 @@ import expansionPanel from '@/components/utils/expansion-panel';
 import dropdownSelect from '@/components/utils/dropdown-select';
 import switcher from '@/components/utils/switcher';
 import tableCheckbox from '@/components/utils/checkbox';
+import hint from '@/components/utils/hint';
 
 export default {
     components: {
@@ -12,7 +13,8 @@ export default {
         'expansion-panel': expansionPanel,
         'dropdown-select': dropdownSelect,
         checkbox: tableCheckbox,
-        switcher
+        switcher,
+        hint
     },
 
 
@@ -32,7 +34,8 @@ export default {
             if (this.$route.params.id !== 'new') this.id = this.$route.params.id;
         },
 
-        submit(validatedInstance, initialInstance) {
+        submit(event, validatedInstance = 'itemInstance', initialInstance = 'initialItem') {
+            
             // check if some fields was changed
             const isEqualToInitial = Object.keys(this[validatedInstance]).every(newProperty => {
                 return Object.keys(this[initialInstance]).some(oldProperty => {

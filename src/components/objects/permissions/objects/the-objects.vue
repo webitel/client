@@ -1,5 +1,5 @@
 <template>
-    <main>
+    <div>
         <object-header>
             {{$t('objects.permissions.permissions')}} |
             {{$t('objects.permissions.object.object')}}
@@ -51,7 +51,7 @@
                 </template>
             </vuetable>
         </section>
-    </main>
+    </div>
 </template>
 
 <script>

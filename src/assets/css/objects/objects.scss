@@ -122,23 +122,6 @@
   }
 }
 
-// "?" HINT STYLING
-.hint {
-  display: inline-block;
-  position: relative;
-
-  .hint__img {
-    vertical-align: middle;
-    color: rgba(0, 0, 0, 0.3);
-    transition: $transition;
-    cursor: pointer;
-
-    &:hover {
-      color: #000;
-    }
-  }
-}
-
 // GRID TEMPLATE FOR MODULE INPUTS
 .object-input-grid {
   display: grid;
@@ -243,7 +226,7 @@
   }
 
 
-  .form_w50 {
+  .new_w50 {
     width: 50%;
 
     .form-input {

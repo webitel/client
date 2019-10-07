@@ -18,7 +18,7 @@
                 </div>
             </header>
 
-            <form class="form_w50">
+            <form class="new_w50">
 
                 <form-input
                         class="form__input"

@@ -1,51 +1,43 @@
 <template>
-    <div class="content-wrap">
+    <div>
         <object-header
                 :primaryText="$t('objects.save')"
-                :primaryAction="submit.bind(this, 'roleInstance', 'initialRole')"
+                :primaryAction="submit"
                 :secondaryAction="close"
         >
             {{$tc('objects.permissions.permissionsRole')}} | {{computeTitle}}
         </object-header>
-        <section class="object-content module-new permissions-new">
+        <section class="object-content module-new">
             <header class="content-header">
                 <h3 class="content-title">{{$t('objects.generalInfo')}}</h3>
-                <div class="hint">
-                    <i
-                            class="hint__img tooltip-activator icon-icon_question"
-                    ></i>
-                    <div class="tooltip-left">lorem ipsum</div>
-                </div>
+                <hint/>
             </header>
 
-            <form class="form_w50">
+            <section class="new_w50">
 
                 <form-input
-                        class="form__input"
-                        v-model.trim="$v.roleInstance.role.$model"
-                        :v="$v.roleInstance.role"
+                        v-model.trim="$v.itemInstance.role.$model"
+                        :v="$v.itemInstance.role"
                         :label="$t('objects.name')"
                         :placeholder="$t('objects.name')"
                         required
                 ></form-input>
 
                 <form-input
-                        class="form__input"
-                        v-model="roleInstance.name"
+                        v-model="itemInstance.name"
                         :label="$t('objects.name')"
                         :placeholder="$t('objects.name')"
                 ></form-input>
 
                 <!--                v-model="role.description"-->
                 <form-input
-                        class="form__input"
                         :height="164"
                         :label="$t('objects.description')"
                         :placeholder="$t('objects.description')"
                         textarea
                 ></form-input>
 
-            </form>
+            </section>
         </section>
     </div>
 </template>
@@ -62,18 +54,18 @@
 
         data() {
             return {
-                roleInstance: {
+                itemInstance: {
                     role: 'front-role',
                     name: '',
                     // description: '',
                 },
-                initialRole: {},
+                initialItem: {},
             };
         },
 
         // by vuelidate
         validations: {
-            roleInstance: {
+            itemInstance: {
                 role: {
                     required
                 }
@@ -82,28 +74,25 @@
 
         mounted() {
             if (this.id) {
-                this.loadRole();
+                this.loadItem();
             }
         },
 
         methods: {
             async save() {
                 if (this.id) {
-                    return updateRole(this.id, this.roleInstance);
-                    this.close();
+                    await updateRole(this.id, this.itemInstance);
                 } else {
-                    return addRole(this.roleInstance);
-                    this.close();
+                    await addRole(this.itemInstance);
                 }
+                this.close();
             },
 
             // load current role from backend
-            loadRole() {
-                return getRole(this.id)
-                    .then(response => {
-                        this.roleInstance = response.role;
-                        this.initialRole = JSON.parse(JSON.stringify(response.role));
-                    });
+            async loadItem() {
+                const response = await getRole(this.id);
+                this.itemInstance = response.role;
+                this.initialItem = JSON.parse(JSON.stringify(response.role));
             }
         },
     };

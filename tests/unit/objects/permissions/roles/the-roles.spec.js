@@ -29,7 +29,7 @@ describe('roles-new.vue', () => {
 
         // set new role data
         wrapper.setData({
-            roleInstance: {
+            itemInstance: {
                 role: 'jest-role',
             },
         });
@@ -56,14 +56,14 @@ describe('roles-new.vue', () => {
         wrapper.setData({id: createdRole.id});
 
         // load role by its id
-        await wrapper.vm.loadRole();
+        await wrapper.vm.loadItem();
 
         // check if initial role was set correctly
-        expect(wrapper.vm.initialRole).toEqual(createdRole);
+        expect(wrapper.vm.initialItem).toEqual(createdRole);
 
         // set updated role data
         const newRoleInstance = {
-            roleInstance: {
+            itemInstance: {
                 role: 'updated-jest-role',
             }
         };
@@ -84,7 +84,7 @@ describe('roles-new.vue', () => {
             expect(newRole).toBeTruthy();
 
             // check if backend role is equal to updated role
-            expect(newRole.role).toEqual(newRoleInstance.roleInstance.role);
+            expect(newRole.role).toEqual(newRoleInstance.itemInstance.role);
             done();
         }, 100);
     });
@@ -102,24 +102,24 @@ describe('the-roles.vue', () => {
     let createdRoleIndex;
     // initially load all roles
     beforeAll(async () => {
-        await wrapper.vm.loadRoleList();
+        await wrapper.vm.loadDataList();
 
         // find tested role
-        createdRole = wrapper.vm.roleList.find(role => {
+        createdRole = wrapper.vm.dataList.find(role => {
             return role.role === 'updated-jest-role'
         });
 
         // and its index
-        createdRoleIndex = wrapper.vm.roleList.indexOf(createdRole);
+        createdRoleIndex = wrapper.vm.dataList.indexOf(createdRole);
     });
 
 
     it('fills roleList with data', () => {
-        expect(wrapper.vm.roleList.length).toBeGreaterThan(0);
+        expect(wrapper.vm.dataList.length).toBeGreaterThan(0);
     });
 
     it('draws table with roleList', () => {
-        expect(wrapper.findAll('tr')).toHaveLength(wrapper.vm.roleList.length + 1);
+        expect(wrapper.findAll('tr')).toHaveLength(wrapper.vm.dataList.length + 1);
     });
 
     it('removes role from list', async (done) => {
@@ -133,7 +133,7 @@ describe('the-roles.vue', () => {
         // wait for async response
         await setTimeout(async () => {
             // remove role and check if it removed from list
-            expect(wrapper.vm.roleList).not.toContain(createdRole);
+            expect(wrapper.vm.dataList).not.toContain(createdRole);
 
             // check if it removed from database
             expect(await getRoles()).not.toContain(createdRole);

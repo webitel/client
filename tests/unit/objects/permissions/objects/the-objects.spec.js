@@ -168,7 +168,7 @@ describe('objects-edit.vue', () => {
         newRole = wrapper.vm.computeAvailableGrantees.find(role => {
             return role === 'obac-test-jest';
         });
-
+        console.log(wrapper.vm.computeAvailableGrantees)
         expect(newRole).toBeTruthy();
     });
 
@@ -176,6 +176,7 @@ describe('objects-edit.vue', () => {
         wrapper.find('.inline-dropdown').vm.$emit('input', newRole);
 
         const newRoleId = findRoleInPermissionsList(newRole).grantee.id;
+        console.log(newRole, newRoleId);
         expect(wrapper.vm.changeAccessList).toContain(newRoleId);
     });
 

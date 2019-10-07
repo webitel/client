@@ -1,5 +1,5 @@
 <template>
-    <main>
+    <div>
         <object-header
                 :primaryText="$t('objects.save')"
                 :primaryAction="save"
@@ -73,7 +73,7 @@
                 </template>
             </vuetable>
         </section>
-    </main>
+    </div>
 </template>
 
 
