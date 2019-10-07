@@ -3,6 +3,7 @@ import formInput from '@/components/utils/form-input';
 import expansionPanel from '@/components/utils/expansion-panel';
 import dropdownSelect from '@/components/utils/dropdown-select';
 import switcher from '@/components/utils/switcher';
+import tableCheckbox from '@/components/utils/checkbox';
 
 export default {
     components: {
@@ -10,6 +11,7 @@ export default {
         'form-input': formInput,
         'expansion-panel': expansionPanel,
         'dropdown-select': dropdownSelect,
+        checkbox: tableCheckbox,
         switcher
     },
 

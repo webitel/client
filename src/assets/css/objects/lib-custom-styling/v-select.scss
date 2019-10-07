@@ -118,11 +118,11 @@
     }
   }
 
-  &.options-align-right .vs__dropdown-menu {
+  &.inline-dropdown__options-right .vs__dropdown-menu {
     right: 16px; // 40px right padding - 24px arrow
   }
 
-  &.options-align-left .vs__dropdown-menu {
+  &.inline-dropdown__options-left .vs__dropdown-menu {
     left: 0;
   }
 }

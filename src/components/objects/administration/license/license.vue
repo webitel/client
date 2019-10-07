@@ -11,7 +11,7 @@
 
         <section class="object-content">
 
-            <header class="content-header page-header">
+            <header class="content-header">
                 <h3 class="content-title">
                     {{$t('objects.license.allLicenses')}}
                 </h3>

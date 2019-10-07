@@ -8,7 +8,7 @@
             <span>{{$tc('objects.lookups.skills.skills', 1)}}</span> | {{computeTitle}}
         </object-header>
         <section class="object-content module-new permissions-new">
-            <header class="content-header page-header">
+            <header class="content-header">
                 <h3 class="content-title">{{$t('objects.generalInfo')}}</h3>
                 <div class="hint">
                     <i

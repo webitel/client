@@ -36,25 +36,25 @@ describe('the-objects.vue', () => {
 
     beforeAll(async () => {
         // initially load all objects
-        await wrapper.vm.loadObjectList();
+        await wrapper.vm.loadDataList();
 
         // find tested object
-        testedObject = wrapper.vm.objectList.find(object => {
+        testedObject = wrapper.vm.dataList.find(object => {
             return object.class === 'users'
         });
 
         // and its index
-        testedObjectIndex = wrapper.vm.objectList.indexOf(testedObject);
+        testedObjectIndex = wrapper.vm.dataList.indexOf(testedObject);
     });
 
 
     it('fills objectList with data', () => {
-        expect(wrapper.vm.objectList.length).toBeGreaterThan(0);
+        expect(wrapper.vm.dataList.length).toBeGreaterThan(0);
     });
 
     it('draws table with roleList', () => {
         // check if all data rows were drawn (+1 header row)
-        expect(wrapper.findAll('tr')).toHaveLength(wrapper.vm.objectList.length + 1);
+        expect(wrapper.findAll('tr')).toHaveLength(wrapper.vm.dataList.length + 1);
     });
 
     it('toggles object ObAC', async (done) => {
@@ -62,11 +62,11 @@ describe('the-objects.vue', () => {
         const initialObACState = !!testedObject.obac;
 
         // find all obac switchers and click on tested object's switcher
-        wrapper.findAll('.object-switcher.obac').at(testedObjectIndex)
+        wrapper.findAll('.test__object-switcher__obac').at(testedObjectIndex)
             .vm.$emit('toggleSwitch');
 
         // check if local data have changed
-        expect(wrapper.vm.objectList[testedObjectIndex].obac).not.toEqual(initialObACState);
+        expect(wrapper.vm.dataList[testedObjectIndex].obac).not.toEqual(initialObACState);
 
         // wait for async response
         await setTimeout(async () => {
@@ -81,11 +81,11 @@ describe('the-objects.vue', () => {
         const initialRbACState = !!testedObject.rbac;
 
         // find all rbac switchers and click on tested object's switcher
-        wrapper.findAll('.object-switcher.rbac').at(testedObjectIndex)
+        wrapper.findAll('.test__object-switcher__rbac').at(testedObjectIndex)
             .vm.$emit('toggleSwitch');
 
         // check if local data have changed
-        expect(wrapper.vm.objectList[testedObjectIndex].rbac).not.toEqual(initialRbACState);
+        expect(wrapper.vm.dataList[testedObjectIndex].rbac).not.toEqual(initialRbACState);
 
         // wait for async response
         await setTimeout(async () => {
@@ -113,7 +113,7 @@ describe('objects-edit.vue', () => {
     let initialPermissions;
 
     const findRoleInPermissionsList = (role) => {
-        return wrapper.vm.permissionsList.find(grantee => {
+        return wrapper.vm.dataList.find(grantee => {
             return grantee.grantee.role === role;
         });
     };
@@ -125,15 +125,15 @@ describe('objects-edit.vue', () => {
         testedObject = await getTestedObject();
 
         // load permissions
-        await wrapper.vm.loadObjectPermissions(await testedObject.id);
+        await wrapper.vm.loadDataList(await testedObject.id);
     });
 
     it('fills permissionsList with data', () => {
-        expect(wrapper.vm.permissionsList.length).toBeGreaterThan(0);
+        expect(wrapper.vm.dataList.length).toBeGreaterThan(0);
     });
 
     it('fills roleList with data', () => {
-        expect(wrapper.vm.roleList.length).toBeGreaterThan(0);
+        expect(wrapper.vm.dataList.length).toBeGreaterThan(0);
     });
 
     it('changes existing role permissions', () => {
@@ -141,17 +141,17 @@ describe('objects-edit.vue', () => {
         const testedRole = findRoleInPermissionsList('ioio');
 
         // find it's index in list
-        const testedRoleIndex = wrapper.vm.permissionsList.indexOf(testedRole);
+        const testedRoleIndex = wrapper.vm.dataList.indexOf(testedRole);
 
         // prevent initial value from reactive changes
-        initialPermissions = !!wrapper.vm.permissionsList[testedRoleIndex].access.c;
+        initialPermissions = !!wrapper.vm.dataList[testedRoleIndex].access.c;
 
         // change permissions
-        wrapper.findAll('.role-permissions-checkbox.c').at(testedRoleIndex)
+        wrapper.findAll('.test__permissions-checkbox__c').at(testedRoleIndex)
             .vm.$emit('toggleCheckbox', !initialPermissions);
 
         // check if data have changed
-        expect(wrapper.vm.permissionsList[testedRoleIndex].access.c).not.toEqual(initialPermissions);
+        expect(wrapper.vm.dataList[testedRoleIndex].access.c).not.toEqual(initialPermissions);
 
         // check if grantee id was recoded to change list
         expect(wrapper.vm.changeAccessList).toContain(testedRole.grantee.id);
@@ -159,7 +159,7 @@ describe('objects-edit.vue', () => {
 
     it('adds new role dropdown select', () => {
         // check if on + press dropdown select appears
-        wrapper.findAll('.page-header .icon-icon_plus').trigger('click');
+        wrapper.findAll('.object-content .icon-icon_plus').trigger('click');
         expect(wrapper.find('.dropdown-select')).toBeTruthy();
     });
 
@@ -173,24 +173,23 @@ describe('objects-edit.vue', () => {
     });
 
     it('adds permissions to new role', () => {
-        wrapper.find('.dropdown-select').vm.$emit('input', newRole);
+        wrapper.find('.inline-dropdown').vm.$emit('input', newRole);
 
-        const newRoleId = findRoleInPermissionsList(newRole).id;
-
-        // expect(wrapper.vm.changeAccessList).toContain(newRoleId);
+        const newRoleId = findRoleInPermissionsList(newRole).grantee.id;
+        expect(wrapper.vm.changeAccessList).toContain(newRoleId);
     });
 
     it('removes read permissions from role', () => {
         const testedRole = findRoleInPermissionsList('obac-test-jest');
 
-        const testedRoleIndex = wrapper.vm.permissionsList.indexOf(testedRole);
+        const testedRoleIndex = wrapper.vm.dataList.indexOf(testedRole);
 
         // remove read permissions
-        wrapper.findAll('.role-permissions-checkbox.r').at(testedRoleIndex)
+        wrapper.findAll('.test__permissions-checkbox__r').at(testedRoleIndex)
             .vm.$emit('toggleCheckbox', false);
 
         // and check if all other permissions were removed
-        const allActionsFalse = Object.values(wrapper.vm.permissionsList[testedRoleIndex].access)
+        const allActionsFalse = Object.values(wrapper.vm.dataList[testedRoleIndex].access)
             .every(action => {
                 return !action;
             });
@@ -205,7 +204,7 @@ describe('objects-edit.vue', () => {
         wrapper.find('.object-header .primary-btn').trigger('click');
 
         setTimeout(async () => {
-            await wrapper.vm.loadObjectPermissions(testedObject.id);
+            await wrapper.vm.loadDataList(testedObject.id);
 
             const updatedRole = findRoleInPermissionsList('ioio');
             const removedRole = findRoleInPermissionsList('obac-test-jest');

@@ -9,7 +9,7 @@
         </object-header>
 
         <section class="object-content">
-            <header class="content-header page-header">
+            <header class="content-header">
                 <h3 class="content-title">{{$t('objects.lookups.leadStatus.allStatuses')}}</h3>
             </header>
 
@@ -34,7 +34,7 @@
                 </template>
 
                 <template slot="actions" slot-scope="props">
-                    <div class="vuetable-actions">
+                    <div class="vuetable-actions__wrap">
                         <i class="vuetable-action icon-icon_edit"
                            @click="edit(props.rowIndex)"
                         ></i>

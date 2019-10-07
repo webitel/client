@@ -1,49 +1,49 @@
 <template>
-    <div class="content-wrap">
-        <object-header>{{$t('objects.permissions.permissions')}} |
+    <main>
+        <object-header>
+            {{$t('objects.permissions.permissions')}} |
             {{$t('objects.permissions.object.object')}}
         </object-header>
 
         <section class="object-content">
-            <header class="content-header page-header">
+            <header class="content-header">
                 <h3 class="content-title">
                     {{$t('objects.permissions.object.allObjects')}}
                 </h3>
             </header>
 
             <vuetable
-                    class="permissions-table"
                     :api-mode="false"
                     :fields="fields"
-                    :data="objectList"
+                    :data="dataList"
             >
 
-                <template slot="objectName" slot-scope="props">
+                <template slot="name" slot-scope="props">
                     <div class="tt-capitalize">
-                        <span class="nameLink"  @click="edit(props.rowIndex)">
-                            {{objectList[props.rowIndex].class}}
+                        <span class="nameLink" @click="edit(props.rowIndex)">
+                            {{dataList[props.rowIndex].class}}
                         </span>
                     </div>
                 </template>
 
                 <template slot="obac" slot-scope="props">
                     <switcher
-                            class="object-switcher obac"
-                            :value="objectList[props.rowIndex].obac"
-                            @toggleSwitch="toggleObjectPermissions('obac', props.rowIndex)"
+                            class="test__object-switcher__obac"
+                            :value="dataList[props.rowIndex].obac"
+                            @toggleSwitch="toggleDataProperty('obac', props.rowIndex)"
                     ></switcher>
                 </template>
 
                 <template slot="rbac" slot-scope="props">
                     <switcher
-                            class="object-switcher rbac"
-                            :value="objectList[props.rowIndex].rbac"
-                            @toggleSwitch="toggleObjectPermissions('rbac', props.rowIndex)"
+                            class="test__object-switcher__rbac"
+                            :value="dataList[props.rowIndex].rbac"
+                            @toggleSwitch="toggleDataProperty('rbac', props.rowIndex)"
                     ></switcher>
                 </template>
 
                 <template slot="actions" slot-scope="props">
-                    <div class="vuetable-actions">
+                    <div class="vuetable-actions__wrap">
                         <i class="vuetable-action icon-icon_edit"
                            @click="edit(props.rowIndex)"
                         ></i>
@@ -51,7 +51,7 @@
                 </template>
             </vuetable>
         </section>
-    </div>
+    </main>
 </template>
 
 <script>
@@ -59,8 +59,7 @@
     import objectHeader from '@/components/objects/object-header';
     import switcher from '@/components/utils/switcher';
 
-    import {getObjects} from '@/api/objects/permissions/objects';
-    import {updateObject} from '@/api/objects/permissions/objects';
+    import {getObjects, updateObject} from '@/api/objects/permissions/objects';
 
     export default {
         name: "permissions-object",
@@ -71,9 +70,11 @@
         },
         data() {
             return {
+                dataList: [], // list of all objects to show
+
                 // vuetable prop
                 fields: [
-                    {name: 'objectName', title: this.$t('objects.name')},
+                    {name: 'name', title: this.$t('objects.name')},
                     {name: 'obac', title: this.$t('objects.permissions.object.ObAC')},
                     {name: 'rbac', title: this.$t('objects.permissions.object.RbAC')},
                     {
@@ -84,40 +85,35 @@
                         width: '60px'
                     },
                 ],
-                objectList: [], // list of all objects to show
             };
         },
         mounted() {
-            this.loadObjectList();
+            this.loadDataList();
         },
         methods: {
             edit(rowId) {
                 this.$router.push({
                     name: 'permissions-objects-edit',
-                    params: {id: this.objectList[rowId].id},
+                    params: {id: this.dataList[rowId].id},
                 });
             },
 
-            computeStatusText(state) {
-                return state ? this.$t('objects.on') : this.$t('objects.off');
-            },
-
-            toggleObjectPermissions(property, id) {
+            // toggle object permissions
+            async toggleDataProperty(property, id) {
                 // first, change UI, then send request
-                this.objectList[id][property] = !this.objectList[id][property];
-                return updateObject(this.objectList[id].id, this.objectList[id])
-                    .catch(() => {
-                        // if request throws error, move changes back
-                            this.objectList[id][property] = !this.objectList[id][property];
-                        });
+                this.dataList[id][property] = !this.dataList[id][property];
+
+                try {
+                    await updateObject(this.dataList[id].id, this.dataList[id]);
+                } catch (err) {
+                    // if request throws error, move changes back
+                    this.dataList[id][property] = !this.dataList[id][property];
+                }
             },
 
-            loadObjectList() {
-                return getObjects().then(
-                    response => {
-                        this.objectList = [...response];
-                    }
-                );
+            async loadDataList() {
+                const response = await getObjects();
+                this.dataList = [...response];
             }
         },
     }

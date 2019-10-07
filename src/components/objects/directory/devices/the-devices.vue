@@ -10,7 +10,7 @@
         <upload-popup v-if="isPopupOpened" @close="closeCSVpopup"></upload-popup>
 
         <section class="object-content">
-            <header class="content-header page-header">
+            <header class="content-header">
                 <h3 class="content-title">
                     {{$t('objects.devices.allDevices')}}
                 </h3>
@@ -63,7 +63,7 @@
                 </template>
 
                 <template slot="actions" slot-scope="props">
-                    <div class="vuetable-actions">
+                    <div class="vuetable-actions__wrap">
                         <i class="vuetable-action icon-icon_edit"
                            @click="edit(props.rowIndex)"
                         ></i>
@@ -84,8 +84,6 @@
     import uploadPopup from '../../utils/upload-popup';
     import status from '../../../utils/status';
 
-    import clickaway from '../../../../directives/clickaway';
-
     export default {
         name: 'the-devices',
         components: {
@@ -94,10 +92,6 @@
             vuetable,
             'table-filter': tableFilter,
             status,
-        },
-
-        directives: {
-            clickaway
         },
 
         data() {
