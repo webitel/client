@@ -4,7 +4,7 @@ import Router from 'vue-router';
 import login from '../components/auth/the-login';
 import register from '../components/auth/the-register';
 
-import moduleWrap from '@/components/objects/module-wrap';
+import moduleWrap from '@/components/objects/object-wrap';
 import home from '@/components/objects/home/the-home';
 import notFound from '@/components/utils/the-not-found-component';
 import permissionsRoles from '@/components/objects/permissions/roles/the-roles';

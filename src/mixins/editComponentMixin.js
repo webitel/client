@@ -35,7 +35,7 @@ export default {
         },
 
         submit(event, validatedInstance = 'itemInstance', initialInstance = 'initialItem') {
-            
+
             // check if some fields was changed
             const isEqualToInitial = Object.keys(this[validatedInstance]).every(newProperty => {
                 return Object.keys(this[initialInstance]).some(oldProperty => {

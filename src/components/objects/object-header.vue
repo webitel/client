@@ -1,7 +1,7 @@
 <template>
-    <section class="header-wrap">
+    <section>
         <header class="object-header">
-            <h2 class="object__title">
+            <h2 class="object-title">
                 <slot></slot>
             </h2>
             <div class="btn-controls">
@@ -62,7 +62,7 @@ export default {
         padding: 0 28px 0 44px;
     }
 
-    .object__title {
+    .object-title {
         @extend .typo-heading-lg;
 
         margin: 0;
