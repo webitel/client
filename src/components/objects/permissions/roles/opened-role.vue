@@ -49,7 +49,7 @@
     import {addRole, getRole, updateRole} from "@/api/objects/permissions/roles";
 
     export default {
-        name: 'roles-new',
+        name: 'opened-role',
         mixins: [editComponentMixin],
 
         data() {

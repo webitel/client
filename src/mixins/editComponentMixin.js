@@ -1,4 +1,4 @@
-import objectHeader from '@/components/objects/object-header';
+import objectHeader from '@/components/objects/the-object-header';
 import formInput from '@/components/utils/form-input';
 import expansionPanel from '@/components/utils/expansion-panel';
 import dropdownSelect from '@/components/utils/dropdown-select';

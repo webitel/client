@@ -56,13 +56,13 @@
 
 <script>
     import vuetable from 'vuetable-2/src/components/Vuetable';
-    import objectHeader from '@/components/objects/object-header';
+    import objectHeader from '@/components/objects/the-object-header';
     import switcher from '@/components/utils/switcher';
 
     import {getObjects, updateObject} from '@/api/objects/permissions/objects';
 
     export default {
-        name: "permissions-object",
+        name: "the-objects-permissions",
         components: {
             'object-header': objectHeader,
             switcher,

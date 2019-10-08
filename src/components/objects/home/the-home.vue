@@ -3,7 +3,7 @@
 </template>
 
 <script>
-    import objectHeader from '../object-header';
+    import objectHeader from '../the-object-header';
 
     export default {
         name: 'the-home',

@@ -57,7 +57,7 @@
     import {required} from 'vuelidate/lib/validators';
 
     export default {
-        name: "communications-type-edit",
+        name: "opened-communications-type",
         mixins: [editComponentMixin],
         data() {
             return {

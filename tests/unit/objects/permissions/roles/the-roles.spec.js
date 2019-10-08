@@ -1,6 +1,6 @@
 import {shallowMount, mount, createLocalVue} from '@vue/test-utils'
 import theRoles from '../../../../../src/components/objects/permissions/roles/the-roles';
-import newRole from '../../../../../src/components/objects/permissions/roles/roles-new';
+import newRole from '../../../../../src/components/objects/permissions/roles/opened-role';
 import {getRoles} from "../../../../../src/api/objects/permissions/roles";
 import VueRouter from 'vue-router';
 import Vuelidate from 'vuelidate';

@@ -45,8 +45,8 @@
 
 <script>
     import vuetable from 'vuetable-2/src/components/Vuetable';
-    import objectHeader from '../../object-header';
-    import license from './license';
+    import objectHeader from '../../the-object-header';
+    import license from './opened-license';
 
     export default {
         name: "the-customers",

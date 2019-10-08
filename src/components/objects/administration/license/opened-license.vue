@@ -71,12 +71,12 @@
 
 <script>
     import vuetable from 'vuetable-2/src/components/Vuetable';
-    import objectHeader from '../../object-header';
+    import objectHeader from '../../the-object-header';
     import tableFilter from '../../utils/table-filter';
     import licensePopup from './license-popup';
 
     export default {
-        name: "license",
+        name: "opened-license",
         components: {
             'object-header': objectHeader,
             'license-popup': licensePopup,

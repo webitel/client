@@ -172,7 +172,7 @@
 </template>
 
 <script>
-    import objectHeader from '../../object-header';
+    import objectHeader from '../../the-object-header';
     import formInput from '../../../utils/form-input';
     import expansionPanel from '../../../utils/expansion-panel';
     import eventBus from '../../../../utils/eventBus';
@@ -183,7 +183,7 @@
     import dropdownSelect from '../../../utils/dropdown-select';
 
     export default {
-        name: 'devices-new',
+        name: 'opened-device',
         components: {
             'object-header': objectHeader,
             'form-input': formInput,

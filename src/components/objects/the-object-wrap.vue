@@ -11,9 +11,9 @@
 </template>
 
 <script>
-    import theHeader from '@/components/the-header';
-    import theNavbar from '@/components/the-navbar';
-    import notification from '@/components/utils/notification';
+    import theHeader from '../the-header';
+    import theNavbar from '../the-navbar';
+    import notification from '../utils/notification';
 
     export default {
         name: "module-wrap",

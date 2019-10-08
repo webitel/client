@@ -92,7 +92,7 @@
 
 <script>
     import vuetable from 'vuetable-2/src/components/Vuetable';
-    import objectHeader from '../../object-header';
+    import objectHeader from '../../the-object-header';
     import tableFilter from '../../utils/table-filter';
     import switcher from '../../../utils/switcher';
     import uploadPopup from '../../utils/upload-popup';
@@ -100,7 +100,7 @@
     import dropdownSelect from '../../../utils/dropdown-select';
 
     export default {
-        name: "the-users",
+        name: "opened-user",
         components: {
             'object-header': objectHeader,
             'upload-popup': uploadPopup,

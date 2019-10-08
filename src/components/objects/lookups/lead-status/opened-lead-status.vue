@@ -2,13 +2,13 @@
     <div class="content-wrap">
         <object-header
                 :primaryText="$t('objects.save')"
-                :primaryAction="submit.bind(this, 'contactTypeInstance', 'initialContactType')"
+                :primaryAction="submit.bind(this, 'leadStatusInstance', 'initialLeadStatus')"
                 :secondaryAction="close"
         >
-            <span>{{$tc('objects.lookups.contactType.contactType', 1)}}</span> | {{computeTitle}}
+            <span>{{$t('objects.lookups.leadStatus.leadStatus')}}</span> | {{computeTitle}}
         </object-header>
         <section class="object-content module-new permissions-new">
-            <header class="content-header page-header">
+            <header class="content-header">
                 <h3 class="content-title">{{$t('objects.generalInfo')}}</h3>
                 <div class="hint">
                     <i
@@ -22,8 +22,8 @@
 
                 <form-input
                         class="form__input"
-                        v-model.trim="$v.contactTypeInstance.name.$model"
-                        :v="$v.contactTypeInstance.name"
+                        v-model.trim="$v.leadStatusInstance.name.$model"
+                        :v="$v.leadStatusInstance.name"
                         :label="$t('objects.name')"
                         :placeholder="$t('objects.name')"
                         required
@@ -48,15 +48,15 @@
     import {required} from 'vuelidate/lib/validators';
 
     export default {
-        name: "contact-type-edit",
+        name: "opened-lead-status",
         mixins: [editComponentMixin],
         data() {
             return {
-                contactTypeInstance: {
+                leadStatusInstance: {
                     name: 'skill name',
                     // description: '',
                 },
-                initialContactType: {
+                initialLeadStatus: {
                     name: 'skill name',
                     // description: '',
                 },
@@ -65,7 +65,7 @@
 
         // by vuelidate
         validations: {
-            contactTypeInstance: {
+            leadStatusInstance: {
                 name: {
                     required
                 }

@@ -86,7 +86,7 @@
     import editComponentMixin from '@/mixins/editComponentMixin';
 
     export default {
-        name: "permissions-object",
+        name: "opened-object-permissions",
         components: {
             vuetable,
         },

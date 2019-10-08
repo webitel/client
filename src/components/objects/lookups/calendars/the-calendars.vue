@@ -62,7 +62,7 @@
 
 <script>
     import vuetable from 'vuetable-2/src/components/Vuetable';
-    import objectHeader from '@/components/objects/object-header';
+    import objectHeader from '@/components/objects/the-object-header';
 
     import {deleteCalendar, getCalendarList} from "../../../../api/objects/lookups/calendars";
 

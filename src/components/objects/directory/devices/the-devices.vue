@@ -79,7 +79,7 @@
 
 <script>
     import vuetable from 'vuetable-2/src/components/Vuetable';
-    import objectHeader from '../../object-header';
+    import objectHeader from '../../the-object-header';
     import tableFilter from '../../utils/table-filter';
     import uploadPopup from '../../utils/upload-popup';
     import status from '../../../utils/status';

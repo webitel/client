@@ -48,7 +48,7 @@
     import {required} from 'vuelidate/lib/validators';
 
     export default {
-        name: "agent-skills-edit",
+        name: "opened-agent-skill",
         mixins: [editComponentMixin],
         data() {
             return {

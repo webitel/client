@@ -114,7 +114,7 @@
     } from "../../../../api/objects/lookups/calendars";
 
     export default {
-        name: "calendars-new",
+        name: "opened-calendar",
         components: {
             'work-week': calendarsWorkWeek,
             'holidays': calendarsHolidays,
