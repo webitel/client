@@ -198,40 +198,17 @@
             },
 
             filterChanges(granteesToSend) {
-                const operations = ['c', 'r', 'u', 'd']; // array for future iteration
-
                 // for each change
                 this.changeAccessList.forEach(changedGranteeId => {
 
                     // find changed grantee (by id)
-                    const newGrantee = this.dataList.find(currentGrantee => {
-                        return currentGrantee.grantee.id === changedGranteeId;
-                    });
+                    const newGrantee = this.findGrateeById(changedGranteeId);
 
                     // find initial grantee (by id)
-                    const oldGrantee = this.initialDataList.find(oldGrantee => {
-                        return oldGrantee.grantee.id === changedGranteeId;
-                    });
+                    const oldGrantee = this.findInitialGranteeById(changedGranteeId);
 
                     // collect really changed operations (operation can be changed twice)
-                    const changedOperations = [];
-
-                    // if there's old grantee
-                    if (oldGrantee) {
-                        operations.forEach(operation => {
-                            if (oldGrantee.access[operation] !== newGrantee.access[operation]) {
-                                changedOperations.push(operation);
-                            }
-                        });
-                        // if there's new grantee,
-                        // and he wasn't changed
-                    } else if (newGrantee) {
-                        operations.forEach(operation => {
-                            if (newGrantee.access[operation]) {
-                                changedOperations.push(operation);
-                            }
-                        });
-                    }
+                    const changedOperations = this.collectChangedOperations(newGrantee, oldGrantee);
 
                     // if there are any changes -- push them to array
                     if (changedOperations.length > 0) {
@@ -241,6 +218,42 @@
                         });
                     }
                 });
+            },
+
+            findGrateeById(granteeId) {
+                return this.dataList.find(currentGrantee => {
+                    return currentGrantee.grantee.id === granteeId;
+                });
+            },
+
+            findInitialGranteeById(granteeId) {
+                return this.initialDataList.find(oldGrantee => {
+                    return oldGrantee.grantee.id === granteeId;
+                });
+            },
+
+            collectChangedOperations(newGrantee, oldGrantee) {
+                const operations = ['c', 'r', 'u', 'd']; // array for operations iterations iteration
+
+                const changedOperations = [];
+
+                // if there's old grantee
+                if (oldGrantee) {
+                    operations.forEach(operation => {
+                        if (oldGrantee.access[operation] !== newGrantee.access[operation]) {
+                            changedOperations.push(operation);
+                        }
+                    });
+                    // if there's new grantee,
+                    // and he wasn't changed
+                } else if (newGrantee) {
+                    operations.forEach(operation => {
+                        if (newGrantee.access[operation]) {
+                            changedOperations.push(operation);
+                        }
+                    });
+                }
+                return changedOperations;
             },
 
             close() {

@@ -26,31 +26,31 @@
 </template>
 
 <script>
-import btn from '@/components/utils/btn';
-import divider from '@/components/utils/divider';
+    import btn from '@/components/utils/btn';
+    import divider from '@/components/utils/divider';
 
-export default {
-  name: 'page-header',
-  components: {
-    btn,
-    divider,
-  },
-  props: {
-    primaryText: {
-      type: String,
-      default: 'Add new',
-    },
-    primaryAction: {
-      type: Function
-    },
-    secondaryText: {
-      type: String,
-    },
-    secondaryAction: {
-      type: Function,
-    },
-  },
-};
+    export default {
+        name: 'page-header',
+        components: {
+            btn,
+            divider,
+        },
+        props: {
+            primaryText: {
+                type: String,
+                default: 'Add new',
+            },
+            primaryAction: {
+                type: Function
+            },
+            secondaryText: {
+                type: String,
+            },
+            secondaryAction: {
+                type: Function,
+            },
+        },
+    };
 </script>
 
 <style lang="scss" scoped>
