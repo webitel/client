@@ -8,27 +8,28 @@ import moduleWrap from '../components/objects/the-object-wrap';
 import home from '../components/objects/home/the-home';
 import notFound from '../components/utils/the-not-found-component';
 import permissionsRoles from '../components/objects/permissions/roles/the-roles';
-import permissionsRolesNew from '../components/objects/permissions/roles/opened-role';
+import openedPermissionsRoles from '../components/objects/permissions/roles/opened-role';
 import permissionsObjects from '../components/objects/permissions/objects/the-objects-permissions';
-import permissionsObjectsEdit from '../components/objects/permissions/objects/opened-object-permissions';
+import openedPermissionsObjects from '../components/objects/permissions/objects/opened-object-permissions';
 import devices from '../components/objects/directory/devices/the-devices';
-import devicesNew from '../components/objects/directory/devices/opened-device';
+import openedDevice from '../components/objects/directory/devices/opened-device';
 import users from '../components/objects/directory/users/the-users';
-import usersNew from '../components/objects/directory/users/opened-user';
+import openedUser from '../components/objects/directory/users/opened-user';
 import customers from '../components/objects/administration/license/the-customers';
 import agentSkills from '../components/objects/lookups/agent-skills/the-agent-skills';
-import agentSkillsEdit from '../components/objects/lookups/agent-skills/opened-agent-skill';
+import openedAgentSkill from '../components/objects/lookups/agent-skills/opened-agent-skill';
 import calendars from '../components/objects/lookups/calendars/the-calendars';
-import calendarsNew from '../components/objects/lookups/calendars/opened-calendar';
+import openedCalendar from '../components/objects/lookups/calendars/opened-calendar';
 import leadStatus from '../components/objects/lookups/lead-status/the-lead-status';
-import leadStatusEdit from '../components/objects/lookups/lead-status/opened-lead-status';
+import openedLeadStatus from '../components/objects/lookups/lead-status/opened-lead-status';
 import leadSource from '../components/objects/lookups/lead-source/the-lead-source';
-import leadSourceEdit from '../components/objects/lookups/lead-source/opened-lead-source';
+import openedLeadSource from '../components/objects/lookups/lead-source/opened-lead-source';
 import communicationTypes from '../components/objects/lookups/communication-types/the-communication-types';
-import communicationTypesEdit from '../components/objects/lookups/communication-types/opened-communication-type';
+import openedCommunicationType from '../components/objects/lookups/communication-types/opened-communication-type';
 import contactType from '../components/objects/lookups/contact-type/the-contact-type';
-import contactTypeEdit from '../components/objects/lookups/contact-type/opened-contact-type';
+import openedContactType from '../components/objects/lookups/contact-type/opened-contact-type';
 import sipGateways from '../components/objects/routing/sip-gateways/the-sip-gateways';
+import openedGateway from '../components/objects/routing/sip-gateways/opened-sip-gateway';
 
 Vue.use(Router);
 
@@ -68,7 +69,7 @@ const router = new Router({
                 {
                     path:'/directory/devices/new',
                     name: 'directory-devices-new',
-                    component: devicesNew
+                    component: openedDevice
                 },
                 {
                     path: '/directory/users',
@@ -78,7 +79,7 @@ const router = new Router({
                 {
                     path:'/directory/users/new',
                     name: 'directory-users-new',
-                    component: usersNew
+                    component: openedUser
                 },
                 // ----------DIRECTORY END------------
 
@@ -92,12 +93,12 @@ const router = new Router({
                 {
                     path:'/routing/gateways/new',
                     name: 'gateway-new',
-                    component: agentSkillsEdit
+                    component: openedGateway
                 },
                 {
                     path:'/routing/gateways/:id',
                     name: 'gateway-edit',
-                    component: agentSkillsEdit
+                    component: openedGateway
                 },
                 // ----------ROUTING END------------
 
@@ -111,12 +112,12 @@ const router = new Router({
                 {
                     path:'/lookups/skills/new',
                     name: 'skills-lookup-new',
-                    component: agentSkillsEdit
+                    component: openedAgentSkill
                 },
                 {
                     path:'/lookups/skills/:id',
                     name: 'skills-lookup-edit',
-                    component: agentSkillsEdit
+                    component: openedAgentSkill
                 },
 
                 {
@@ -127,12 +128,12 @@ const router = new Router({
                 {
                     path:'/lookups/calendars/new',
                     name: 'calendars-new',
-                    component: calendarsNew
+                    component: openedCalendar
                 },
                 {
                     path:'/lookups/calendars/:id',
                     name: 'calendars-edit',
-                    component: calendarsNew
+                    component: openedCalendar
                 },
 
                 {
@@ -143,12 +144,12 @@ const router = new Router({
                 {
                     path:'/lookups/communications/new',
                     name: 'communications-lookup-new',
-                    component: communicationTypesEdit
+                    component: openedCommunicationType
                 },
                 {
                     path:'/lookups/communications/:id',
                     name: 'communications-lookup-edit',
-                    component: communicationTypesEdit
+                    component: openedCommunicationType
                 },
 
                 {
@@ -159,12 +160,12 @@ const router = new Router({
                 {
                     path:'/lookups/contact-type/new',
                     name: 'contact-type-lookup-new',
-                    component: contactTypeEdit
+                    component: openedContactType
                 },
                 {
                     path:'/lookups/contact-type/:id',
                     name: 'contact-type-lookup-edit',
-                    component: contactTypeEdit
+                    component: openedContactType
                 },
 
                 {
@@ -175,12 +176,12 @@ const router = new Router({
                 {
                     path:'/lookups/lead-source/new',
                     name: 'lead-source-lookup-new',
-                    component: leadSourceEdit
+                    component: openedLeadSource
                 },
                 {
                     path:'/lookups/lead-source/:id',
                     name: 'lead-source-lookup-edit',
-                    component: leadSourceEdit
+                    component: openedLeadSource
                 },
 
                 {
@@ -191,12 +192,12 @@ const router = new Router({
                 {
                     path:'/lookups/lead-status/new',
                     name: 'lead-status-lookup-new',
-                    component: leadStatusEdit
+                    component: openedLeadStatus
                 },
                 {
                     path:'/lookups/lead-status/:id',
                     name: 'lead-status-lookup-edit',
-                    component: leadStatusEdit
+                    component: openedLeadStatus
                 },
                 // ----------LOOKUPS END------------
 
@@ -217,12 +218,12 @@ const router = new Router({
                 {
                     path: '/permissions/roles/:id',
                     name: 'permissions-roles-edit',
-                    component: permissionsRolesNew
+                    component: openedPermissionsRoles
                 },
                 {
                     path: '/permissions/roles/new',
                     name: 'permissions-roles-new',
-                    component: permissionsRolesNew
+                    component: openedPermissionsRoles
                 },
                 {
                     path: '/permissions/objects',
@@ -232,7 +233,7 @@ const router = new Router({
                 {
                     path: '/permissions/objects/:id',
                     name: 'permissions-objects-edit',
-                    component: permissionsObjectsEdit,
+                    component: openedPermissionsObjects,
                 },
                 // ----------PERMISSIONS END-----------------
             ]
