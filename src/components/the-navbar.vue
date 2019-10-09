@@ -67,9 +67,9 @@
                         <li
                                 class="subnav-item"
                                 :class="{
-                                    'nav-item__current': currentRouteItem.sipEndpoints
+                                    'nav-item__current': currentRouteItem.gateways
                                  }"
-                                @click="navigate"
+                                @click="navigate('/routing/gateways')"
                         >
                             <i class="subnav-icon icon-icon_deny"></i>
                             <span class="subnav-text">SIP Endpoints</span>
@@ -471,7 +471,7 @@
                     // Contacts
 
                     // Routing
-                    sipEndpoints: false,
+                    gateways: false,
                     flowsManager: false,
                     dialplan: false,
                     chatplan: false,

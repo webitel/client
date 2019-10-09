@@ -47,6 +47,9 @@ export default {
         offline: 'Offline',
         on: 'On',
         off: 'Off',
+        enabled: 'Enabled',
+        status: 'Status',
+
         CSV: {
             skipHeaders: 'Skip headers',
             charSet: 'Char set',
@@ -157,6 +160,16 @@ export default {
                 leadStatus: 'Lead status',
                 allStatuses: 'All statuses'
             },
+        },
+        routing: {
+            routing: 'Routing',
+
+            gateways: {
+                gateways: 'Gateways',
+                allGateways: 'All gateways',
+                proxy: 'Proxy',
+                searchPlaceholder: 'gateway search...'
+            }
         }
     },
 };

@@ -28,6 +28,7 @@ import communicationTypes from '../components/objects/lookups/communication-type
 import communicationTypesEdit from '../components/objects/lookups/communication-types/opened-communication-type';
 import contactType from '../components/objects/lookups/contact-type/the-contact-type';
 import contactTypeEdit from '../components/objects/lookups/contact-type/opened-contact-type';
+import sipGateways from '../components/objects/routing/sip-gateways/the-sip-gateways';
 
 Vue.use(Router);
 
@@ -80,6 +81,26 @@ const router = new Router({
                     component: usersNew
                 },
                 // ----------DIRECTORY END------------
+
+
+                // ----------ROUTING------------
+                {
+                    path:'/routing/gateways',
+                    name: 'sip-gateways',
+                    component: sipGateways
+                },
+                {
+                    path:'/routing/gateways/new',
+                    name: 'gateway-new',
+                    component: agentSkillsEdit
+                },
+                {
+                    path:'/routing/gateways/:id',
+                    name: 'gateway-edit',
+                    component: agentSkillsEdit
+                },
+                // ----------ROUTING END------------
+
 
                 // ----------LOOKUPS------------
                 {
