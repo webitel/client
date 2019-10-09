@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <div class="gateways">
         <object-header>
             {{$t('objects.routing.routing')}} |
             {{$t('objects.routing.gateways.gateways')}}
@@ -28,27 +28,27 @@
             <vuetable
                     :api-mode="false"
                     :fields="fields"
-                    :data="dataList"
+                    :data="filteredDataList"
             >
 
                 <template slot="name" slot-scope="props">
                     <div class="tt-capitalize">
                         <span class="nameLink" @click="edit(props.rowIndex)">
-                            {{dataList[props.rowIndex].name}}
+                            {{filteredDataList[props.rowIndex].name}}
                         </span>
                     </div>
                 </template>
 
                 <template slot="proxy" slot-scope="props">
                     <span>
-                        {{dataList[props.rowIndex].proxy}}
+                        {{filteredDataList[props.rowIndex].proxy}}
                     </span>
                 </template>
 
                 <template slot="enabled" slot-scope="props">
                     <switcher
-                            :value="dataList[props.rowIndex].enabled"
-                            @toggleSwitch="toggleDataProperty('enabled', props.rowIndex)"
+                            :value="filteredDataList[props.rowIndex].enable"
+                            @toggleSwitch="toggleDataProperty('enable', props.rowIndex)"
                     ></switcher>
                 </template>
 
@@ -56,7 +56,7 @@
                     <status
                             class="status"
                             :class="computeStatusClass(props.rowIndex)"
-                            :text="dataList[props.rowIndex].status"
+                            :text="computeStatusText(props.rowIndex)"
                     ></status>
                 </template>
 
@@ -80,6 +80,7 @@
     import objectHeader from '@/components/objects/the-object-header';
     import switcher from '@/components/utils/switcher';
     import status from '@/components/utils/status';
+    import {getGatewayList} from "../../../../api/objects/routing/gateways";
 
 
     export default {
@@ -117,7 +118,10 @@
         },
         methods: {
             filterData() {
-
+                this.filteredDataList = this.dataList.filter(dataItem => {
+                    return dataItem.name.trim().toLowerCase().includes(this.search.trim().toLowerCase())
+                        || dataItem.proxy.trim().toLowerCase().includes(this.search.trim().toLowerCase());
+                });
             },
 
             edit(rowId) {
@@ -127,8 +131,34 @@
                 });
             },
 
+            computeStatusText(rowIndex) {
+                const stateCode = this.dataList[rowIndex].r_state || -1;
+                if (stateCode === 0) {
+                    return 'Not registered'
+                } else if (stateCode === 3) {
+                    return 'Success';
+                } else if (stateCode > 3 && stateCode < 8) {
+                    return 'Failed';
+                } else if (stateCode > 7 && stateCode < 2) {
+                    return 'In progress';
+                } else {
+                    return 'unknown'
+                }
+            },
+
             computeStatusClass(rowIndex) {
-                return ''
+                const stateCode = this.dataList[rowIndex].r_state || -1;
+                if (stateCode === 0) {
+                    return 'not-registered'
+                } else if (stateCode === 3) {
+                    return 'status__true';
+                } else if (stateCode > 3 && stateCode < 8) {
+                    return 'status__false';
+                } else if (stateCode > 7 && stateCode < 2) {
+                    return 'status__info';
+                } else {
+                    return 'unknown'
+                }
             },
 
             // toggle object permissions
@@ -145,22 +175,10 @@
             },
 
             async loadDataList() {
-                const response = [
-                    {
-                        name: 'sip gateway name',
-                        proxy: 'sip-proxy@sip.proxy:1010',
-                        enabled: true,
-                        status: true
-                    },
-                    {
-                        name: 'sip gateway name2',
-                        proxy: 'sip-proxy@sip.proxy:2020',
-                        enabled: false,
-                        status: false
-                    },
-                ];
-                // const response = await getObjects();
+                const response = await getGatewayList();
+
                 this.dataList = [...response];
+                this.filterData();
             }
         },
 

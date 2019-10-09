@@ -1,7 +1,7 @@
 import {shallowMount, mount, createLocalVue} from '@vue/test-utils'
 import theObjects from '../../../../../src/components/objects/permissions/objects/the-objects-permissions';
 import editObject from '../../../../../src/components/objects/permissions/objects/opened-object-permissions';
-import {getObjects} from '../../../../../src/api/objects/permissions/objects';
+import {getObjectList} from '../../../../../src/api/objects/permissions/objects';
 import VueRouter from 'vue-router';
 import Vuelidate from 'vuelidate';
 import i18n from 'vue-i18n';
@@ -17,7 +17,7 @@ localVue.use(Vuelidate);
 const router = new VueRouter();
 
 const getTestedObject = async () => {
-    const newObjectList = await getObjects();
+    const newObjectList = await getObjectList();
     return newObjectList.find(object => {
         return object.class === 'users'
     });

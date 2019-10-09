@@ -3,7 +3,7 @@ import instance from '@/api/instance';
 
 const BASE_URL = '/objects';
 
-export async function getObjects() {
+export async function getObjectList() {
     // Vue.$log.info('get Permissions Objects', 'started');
 
     const defaultObject = {  // default object prototype, to merge response with it to get all fields

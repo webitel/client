@@ -59,7 +59,7 @@
     import objectHeader from '@/components/objects/the-object-header';
     import switcher from '@/components/utils/switcher';
 
-    import {getObjects, updateObject} from '@/api/objects/permissions/objects';
+    import {getObjectList, updateObject} from '@/api/objects/permissions/objects';
 
     export default {
         name: "the-objects-permissions",
@@ -112,7 +112,7 @@
             },
 
             async loadDataList() {
-                const response = await getObjects();
+                const response = await getObjectList();
                 this.dataList = [...response];
             }
         },

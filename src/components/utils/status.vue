@@ -58,6 +58,10 @@
         background: $false-color;
     }
 
+    .status__info .table-status__icon {
+        background: $info-color;
+    }
+
     .presence {
         &.available .table-status__icon {
             background: $true-color;
@@ -75,4 +79,5 @@
             background: #FFEA00;
         }
     }
+
 </style>
