@@ -191,7 +191,7 @@
                 <template slot="expansion-content">
                     <div class="variables">
                         <div
-                                class="variable-pair"
+                                class="value-pair"
                                 v-for="(variable, key) in variables"
                         >
                             <form-input
@@ -355,7 +355,7 @@
         }
     }
 
-    .variable-pair {
+    .value-pair {
         @extend .object-input-grid;
 
         align-items: center;

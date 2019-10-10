@@ -29,7 +29,8 @@ import openedCommunicationType from '../components/objects/lookups/communication
 import contactType from '../components/objects/lookups/contact-type/the-contact-type';
 import openedContactType from '../components/objects/lookups/contact-type/opened-contact-type';
 import sipGateways from '../components/objects/routing/sip-gateways/the-sip-gateways';
-import openedGateway from '../components/objects/routing/sip-gateways/opened-sip-gateway';
+import openedRegGateway from '../components/objects/routing/sip-gateways/opened-register-sip-gateway';
+import openedTrunkGateway from '../components/objects/routing/sip-gateways/opened-trunking-sip-gateway';
 
 Vue.use(Router);
 
@@ -91,14 +92,24 @@ const router = new Router({
                     component: sipGateways
                 },
                 {
-                    path:'/routing/gateways/new',
-                    name: 'gateway-new',
-                    component: openedGateway
+                    path:'/routing/gateways/register/new',
+                    name: 'reg-gateway-new',
+                    component: openedRegGateway
                 },
                 {
-                    path:'/routing/gateways/:id',
-                    name: 'gateway-edit',
-                    component: openedGateway
+                    path:'/routing/gateways/register/:id',
+                    name: 'reg-gateway-edit',
+                    component: openedRegGateway
+                },
+                {
+                    path:'/routing/gateways/trunking/new',
+                    name: 'trunk-gateway-new',
+                    component: openedTrunkGateway
+                },
+                {
+                    path:'/routing/gateways/trunking/:id',
+                    name: 'trunk-gateway-edit',
+                    component: openedTrunkGateway
                 },
                 // ----------ROUTING END------------
 

@@ -52,7 +52,6 @@
         props: {
             // value -- w-model from outer component
             value: {
-                type: String,
                 default: '',
             },
 

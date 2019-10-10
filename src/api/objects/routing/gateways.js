@@ -13,7 +13,7 @@ export async function getGatewayList() {
 
     try {
         let response = await instance.get(BASE_URL);
-        if(!response.data.items) response.data.items = [];
+        if (!response.data.items) response.data.items = [];
 
         return response.data.items.map(item => {
             return Object.assign({}, defaultObject, item);
@@ -38,9 +38,7 @@ export async function getGateway(id) {
         let response = await instance.get(url);
         console.log(response);
 
-        return response.data.items.map(item => {
-            return Object.assign({}, defaultObject, item);
-        });
+        return Object.assign({}, defaultObject, response.data.item);
     } catch (error) {
         throw error;
     }

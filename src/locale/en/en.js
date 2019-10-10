@@ -165,7 +165,7 @@ export default {
             routing: 'Routing',
 
             gateways: {
-                gateways: 'Gateways',
+                gateways: 'Gateway | Gateways',
                 allGateways: 'All gateways',
                 proxy: 'Proxy',
                 searchPlaceholder: 'gateway search...'

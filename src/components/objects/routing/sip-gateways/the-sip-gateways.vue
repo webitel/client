@@ -2,7 +2,7 @@
     <div class="gateways">
         <object-header>
             {{$t('objects.routing.routing')}} |
-            {{$t('objects.routing.gateways.gateways')}}
+            {{$t('objects.routing.gateways.gateways', 2)}}
         </object-header>
 
         <section class="object-content">
