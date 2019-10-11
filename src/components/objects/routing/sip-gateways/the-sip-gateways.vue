@@ -1,9 +1,17 @@
 <template>
     <div class="gateways">
-        <object-header>
+        <object-header
+                :primaryAction="openPopup"
+        >
             {{$t('objects.routing.routing')}} |
-            {{$t('objects.routing.gateways.gateways', 2)}}
+            {{$t('objectsrouting.gateways.gateways', 2)}}
         </object-header>
+
+        <gateway-popup
+                v-if="popupTriggerIf"
+                @close="popupTriggerIf = false"
+        >
+        </gateway-popup>
 
         <section class="object-content">
             <header class="content-header">
@@ -76,6 +84,7 @@
 </template>
 
 <script>
+    import createGatewayPopup from './create-gateway-popup';
     import vuetable from 'vuetable-2/src/components/Vuetable';
     import objectHeader from '@/components/objects/the-object-header';
     import switcher from '@/components/utils/switcher';
@@ -86,6 +95,7 @@
     export default {
         name: "the-sip-gateways",
         components: {
+            'gateway-popup': createGatewayPopup,
             'object-header': objectHeader,
             switcher,
             vuetable,
@@ -111,12 +121,17 @@
                     },
                 ],
                 search: '',
+                popupTriggerIf: false,
             };
         },
         mounted() {
             this.loadDataList();
         },
         methods: {
+            openPopup() {
+                this.popupTriggerIf = true;
+            },
+
             filterData() {
                 this.filteredDataList = this.dataList.filter(dataItem => {
                     return dataItem.name.trim().toLowerCase().includes(this.search.trim().toLowerCase())

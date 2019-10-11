@@ -33,7 +33,6 @@
 
 <style lang="scss" scoped>
     .license-popup-content {
-        padding: 0 44px;
         margin: 38px 0 18px;
     }
 </style>

@@ -7,13 +7,20 @@
             <h3 class="content-title">{{title}}</h3>
         </header>
 
-        <slot></slot>
+        <section
+                class="content-body"
+                :class="{'no-gutters': noGutters}"
+        >
+            <slot></slot>
+        </section>
 
         <divider/>
 
         <div class="btn-controls">
             <btn class="secondary-btn"@click.native="close">close</btn>
-            <btn @click.native="close">save</btn>
+            <btn
+                    :disabled="!disableAction"
+                    @click.native="primaryBtnAction">{{primaryBtnText}}</btn>
         </div>
     </aside>
 </template>
@@ -32,6 +39,26 @@
             title: {
                 type: String,
                 default: 'Upload..'
+            },
+
+            noGutters: {
+                type: Boolean,
+                default: false
+            },
+
+            primaryBtnText: {
+                type: String,
+                default: 'save'
+            },
+
+            primaryBtnAction: {
+                type: Function,
+                default: () => this.close()
+            },
+
+            disableAction: {
+                type: Boolean,
+                default: true
             }
         },
         methods: {
@@ -63,6 +90,14 @@
     .content-header {
         padding: 0 44px;
         margin: 0 0 38px;
+    }
+
+    .content-body {
+        padding: 0 44px;
+
+        &.no-gutters {
+            padding: 0;
+        }
     }
 
     .btn-controls {
