@@ -43,7 +43,7 @@ export default {
                 })
             });
 
-            // console.log(isEqualToInitial, this[validatedInstance], this[initialInstance]);
+            console.log(isEqualToInitial, this[validatedInstance], this[initialInstance]);
 
             if (isEqualToInitial) {
                 this.close();
@@ -51,7 +51,11 @@ export default {
             } else {
                 this.$v[validatedInstance].$touch();
                 // if its still pending or an error is returned do not submit
-                if (this.$v[validatedInstance].$pending || this.$v[validatedInstance].$error) return;
+                if (this.$v[validatedInstance].$pending ||
+                    this.$v[validatedInstance].$error) {
+                    // console.log(this.$v[validatedInstance].$pending, this.$v[validatedInstance].$error);
+                    return;
+                }
             }
             this.save();
         },

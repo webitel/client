@@ -54,6 +54,10 @@
         margin-bottom: 15px;
         cursor: pointer;
 
+        .content-header {
+            margin: 0;
+        }
+
         .content-title {
             margin: 0;
         }

@@ -58,8 +58,7 @@
         display: flex;
         justify-content: space-between;
         align-items: center;
-        height: 101px;
-        padding: 0 28px 0 44px;
+        padding: 26px 28px 26px 44px;
     }
 
     .object-title {

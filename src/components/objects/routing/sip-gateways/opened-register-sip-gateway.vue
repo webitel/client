@@ -17,24 +17,22 @@
                 </template>
                 <template slot="expansion-content">
                     <form-input
-                            v-model.trim="$v.itemInstance.name.$model"
-                            :v="$v.itemInstance.name"
+                            v-model.trim="itemInstance.name"
                             :label="$t('objects.name')"
                             :placeholder="$t('objects.name')"
+                    ></form-input>
+
+                    <form-input
+                            v-model.trim="$v.itemInstance.registrar.$model"
+                            :v="$v.itemInstance.registrar"
+                            :label="$t('objects.routing.gateways.registrarProxy')"
+                            :placeholder="$t('objects.routing.gateways.registrarProxy')"
                             required
                     ></form-input>
 
                     <form-input
-                            v-model.trim="itemInstance.proxy.$model"
-                            :v="$v.itemInstance.proxy"
-                            :label="$t('objects.routing.gateways.proxy')"
-                            :placeholder="$t('objects.routing.gateways.proxy')"
-                            required
-                    ></form-input>
-
-                    <form-input
-                            v-model.trim="$v.itemInstance.expire.$model"
-                            :v="$v.itemInstance.expire"
+                            v-model.trim="$v.itemInstance.expires.$model"
+                            :v="$v.itemInstance.expires"
                             :label="$t('objects.routing.gateways.expire')"
                             :placeholder="$t('objects.routing.gateways.expire')"
                             required
@@ -75,28 +73,22 @@
                     ></form-input>
 
                     <dropdown-select
-                            :value="'Where should I get this value?'"
+                            :value="'Empty'"
                             :label="$tc('objects.routing.callflow.callflow', 1)"
                             :options="callflowList"
                     >
                     </dropdown-select>
 
                     <form-input
-                            v-model.trim="itemInstance.domain"
-                            :label="$t('objects.routing.gateways.domain')"
-                            :placeholder="$t('objects.routing.gateways.domain')"
+                            v-model.trim="itemInstance.accountName"
+                            :label="$t('objects.routing.gateways.accountName')"
+                            :placeholder="$t('objects.routing.gateways.accountName')"
                     ></form-input>
+
                     <form-input
-                            v-model.trim="$v.itemInstance.authUsername.$model"
-                            :v="$v.itemInstance.authUsername"
-                            :label="$t('objects.routing.gateways.authUsername')"
-                            :placeholder="$t('objects.routing.gateways.authUsername')"
-                            required
-                    ></form-input>
-                    <form-input
-                            v-model.trim="itemInstance.registrarProxy"
-                            :label="$t('objects.routing.gateways.registrarProxy')"
-                            :placeholder="$t('objects.routing.gateways.registrarProxy')"
+                            v-model.trim="itemInstance.proxy"
+                            :label="$t('objects.routing.gateways.proxy')"
+                            :placeholder="$t('objects.routing.gateways.proxy')"
                     ></form-input>
                 </template>
             </expansion-panel>
@@ -106,7 +98,7 @@
 
 <script>
     import editComponentMixin from '@/mixins/editComponentMixin';
-    import {required} from 'vuelidate/lib/validators';
+    import {required, minValue, maxValue} from 'vuelidate/lib/validators';
 
     import {getGateway} from "@/api/objects/routing/gateways";
 
@@ -124,19 +116,26 @@
                     name: '',
                     proxy: '',
                     description: '',
+                    username: '',
+                    password: '',
+                    expires: 600,
+                    account: '',
                     id: 0,
-                    authUsername: '',
-                    registrarProxy: '',
+                    registrar: '',
+                    accountName: '',
                 },
                 initialItem: {
                     name: '',
                     proxy: '',
                     description: '',
+                    username: '',
+                    password: '',
+                    expires: 600,
+                    account: '',
                     id: 0,
                     authUsername: '',
                     registrarProxy: '',
                 },
-                gatewayTypeOptions: ['SIP Registration', 'SIP Tranking'],
                 callflowList: [],
             };
         },
@@ -150,18 +149,17 @@
                 username: {
                     required
                 },
-                proxy: {
-                    required
-                },
-                expire: {
+                expires: {
+                    minValue: minValue(32),
+                    maxValue: maxValue(3600),
                     required
                 },
                 password: {
                     required
                 },
-                authUsername: {
+                registrar: {
                     required
-                }
+                },
             }
         },
 
@@ -190,8 +188,8 @@
             // load current role from backend
             async loadItem() {
                 const response = await getGateway(this.id);
-                // this.itemInstance = response.role;
-                // this.initialItem = JSON.parse(JSON.stringify(response.role));
+                this.itemInstance = response;
+                this.initialItem = JSON.parse(JSON.stringify(response));
             }
         },
     };

@@ -32,14 +32,40 @@
                 :disabled="disabled"
         ></textarea>
 
-        <div class="invalid form-input__details" v-show="v.email===false && v.$error">
-            {{$t('validation.email')}}
-        </div>
-        <div class="invalid form-input__details" v-show="v.required===false && v.$error">
+        <div
+                class="invalid form-input__details"
+                v-if="v.required !== undefined"
+                v-show="v.required===false && v.$error"
+        >
             {{$t('validation.required')}}
         </div>
-        <div class="invalid form-input__details" v-show="v.sameAs===false && v.$error">
+        <div
+                class="invalid form-input__details"
+                v-if="v.email !== undefined"
+                v-show="v.email===false && v.$error"
+        >
+            {{$t('validation.email')}}
+        </div>
+        <div
+                class="invalid form-input__details"
+                v-if="v.sameAs !== undefined"
+                v-show="v.sameAs===false && v.$error"
+        >
             {{$t('validation.confirmPassword')}}
+        </div>
+        <div
+                class="invalid form-input__details"
+                v-if="v.minValue !== undefined"
+                v-show="v.minValue===false && v.$error"
+        >
+            {{$t('validation.atLeast') + ' ' + v.$params.minValue.min}}
+        </div>
+        <div
+                class="invalid form-input__details"
+                v-if="v.maxValue !== undefined"
+                v-show="v.maxValue===false && v.$error"
+        >
+            {{$t('validation.notMuch') + ' ' + v.$params.maxValue.max}}
         </div>
     </div>
 </template>
@@ -101,8 +127,8 @@
 
             // '*' sign property
             required: {
-              type: Boolean,
-              default: false
+                type: Boolean,
+                default: false
             },
 
             // validation rules
@@ -140,7 +166,7 @@
                 },
             },
             computeRequiredLabel() {
-                return this.required ? this.label+ '*' : this.label;
+                return this.required ? this.label + '*' : this.label;
             }
         },
     };
@@ -186,15 +212,19 @@
             &::placeholder {
                 color: rgba(255, 255, 255, 0.4);
             }
+
             &::-webkit-input-placeholder { /* Chrome/Opera/Safari */
                 color: rgba(255, 255, 255, 0.4);
-             }
+            }
+
             &::-moz-placeholder { /* Firefox 19+ */
                 color: rgba(255, 255, 255, 0.4);
             }
+
             &:-ms-input-placeholder { /* IE 10+ */
                 color: rgba(255, 255, 255, 0.4);
             }
+
             &:-moz-placeholder { /* Firefox 18- */
                 color: rgba(255, 255, 255, 0.4);
             }

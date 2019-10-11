@@ -140,8 +140,15 @@
             },
 
             edit(rowId) {
+                let name;
+                if (this.dataList[rowId].register) {
+                    name = 'reg-gateway-edit';
+                } else {
+                    name = 'trunk-gateway-edit';
+                }
+
                 this.$router.push({
-                    name: 'gateway-edit',
+                    name:  name,
                     params: {id: this.dataList[rowId].id},
                 });
             },
