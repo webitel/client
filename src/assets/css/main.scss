@@ -151,3 +151,23 @@ i {
   opacity: 0;
   pointer-events: none;
 }
+
+.value-pair-wrap {
+  position: relative;
+}
+
+.value-pair {
+  @extend .object-input-grid;
+
+  align-items: center;
+  grid-template-columns: 1fr 1fr 24px;
+
+  .icon-icon_delete {
+    margin-bottom: 10px;
+    cursor: pointer;
+
+    &:hover {
+      color: #000;
+    }
+  }
+}

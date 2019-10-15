@@ -3,15 +3,19 @@
         <span class="label">{{label}}</span>
         <div
                 class="value-pair"
-                v-for="pair in pairs"
+                v-for="(pair, key) in pairs"
         >
             <form-input
-                    v-for="(v, posIndex) in pair"
-                    v-model="pair[posIndex]"
-                    :placeholder="placeholders[v]"
+                    v-for="(v, prop, i) in pair"
+                    v-model="pair[prop]"
+                    :placeholder="placeholders[i]"
             ></form-input>
 
-            <i class="icon-icon_delete icon-action" @click="deleteValuePair(key)"></i>
+            <i
+                    class="icon-icon_delete icon-action"
+                    v-if="!(required && key === 0)"
+                    @click="deleteValuePair(key)"
+            ></i>
         </div>
         <i class="icon-icon_plus icon-action" @click="addValuePair"></i>
     </section>
@@ -42,10 +46,15 @@
                 default: () => ['Key', 'Value']
             },
 
+            required: {
+              type: Boolean,
+              default: false
+            },
+
             addValuePair: {
                 type: Function,
                 required: true
-            }
+            },
         },
 
         methods: {
@@ -57,29 +66,5 @@
 </script>
 
 <style lang="scss" scoped>
-    .value-pair-wrap {
-        position: relative;
-    }
 
-    .value-pair {
-        @extend .object-input-grid;
-
-        align-items: center;
-        grid-template-columns: 1fr 1fr 24px;
-
-        .label {
-            position: absolute;
-            top: 0;
-            //@extend .label;
-        }
-
-        .icon-icon_delete {
-            margin-bottom: 10px;
-            cursor: pointer;
-
-            &:hover {
-                color: #000;
-            }
-        }
-    }
 </style>

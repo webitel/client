@@ -7,9 +7,9 @@
         >
             {{$tc('objects.routing.gateways.gateways', 1)}} | {{computeTitle}}
         </object-header>
-        <section class="object-content module-new">
+        <section class="object-content module-new gateways">
 
-            <expansion-panel>
+            <expansion-panel opened>
                 <template slot="expansion-header">
                     <header class="content-header">
                         <h3 class="content-title">{{$t('objects.generalInfo')}}</h3>
@@ -17,9 +17,11 @@
                 </template>
                 <template slot="expansion-content">
                     <form-input
-                            v-model.trim="itemInstance.name"
+                            v-model.trim="$v.itemInstance.name.$model"
+                            :v="$v.itemInstance.name"
                             :label="$t('objects.name')"
                             :placeholder="$t('objects.name')"
+                            required
                     ></form-input>
 
                     <dropdown-select
@@ -29,7 +31,7 @@
                     ></dropdown-select>
 
                     <form-input
-                            v-model.trim="itemInstance.proxy.$model"
+                            v-model.trim="$v.itemInstance.proxy.$model"
                             :v="$v.itemInstance.proxy"
                             :label="$t('objects.routing.gateways.proxy')"
                             :placeholder="$t('objects.routing.gateways.proxy')"
@@ -37,9 +39,11 @@
                     ></form-input>
 
                     <form-input
-                            v-model.trim="itemInstance.host"
+                            v-model.trim="$v.itemInstance.host.$model"
+                            :v="$v.itemInstance.host"
                             :label="$t('objects.routing.gateways.host')"
                             :placeholder="$t('objects.routing.gateways.host')"
+                            required
                     ></form-input>
 
                     <form-input
@@ -55,17 +59,44 @@
             <expansion-panel>
                 <template slot="expansion-header">
                     <header class="content-header">
-                        <h3 class="content-title">{{$t('objects.generalInfo')}}</h3>
+                        <h3 class="content-title">{{$t('objects.routing.gateways.trunkingACLTitle')}}</h3>
                     </header>
                 </template>
 
                 <template slot="expansion-content">
-                    <value-pair
-                            :pairs="itemInstance.ipacl"
-                            :label="$t('objects.routing.gateways.trunkingACL')"
-                            :addValuePair="addValuePair"
-                            required
-                    ></value-pair>
+                    <section class="value-pair-wrap">
+                        <div class="label">{{$t('objects.routing.gateways.trunkingACL')}}</div>
+                        <div class="value-pair" v-for="(ipacl, key) in $v.itemInstance.ipacl.$each.$iter">
+                            <dropdown-select
+                                    :label="$t('objects.routing.protocol')"
+                                    :value="ipacl.$model.proto"
+                                    :options="protocolList"
+                                    @input="ipacl.$model.proto = $event"
+                            >
+                            </dropdown-select>
+
+                            <form-input
+                                    v-model="ipacl.$model.ip"
+                                    :v="ipacl.ip"
+                                    :label="$t('objects.routing.ip')"
+                                    :placeholder="$t('objects.routing.ip')"
+                                    required
+                            ></form-input>
+
+                            <form-input
+                                    v-model="ipacl.$model.port"
+                                    :label="$t('objects.routing.port')"
+                                    :placeholder="$t('objects.routing.port')"
+                            ></form-input>
+
+                            <i
+                                    class="icon-icon_delete icon-action"
+                                    v-if="key !== 0"
+                                    @click="deleteValuePair(key)"
+                            ></i>
+                        </div>
+                        <i class="icon-icon_plus icon-action" @click="addValuePair"></i>
+                    </section>
                 </template>
             </expansion-panel>
         </section>
@@ -73,20 +104,31 @@
 </template>
 
 <script>
-    import valuePair from '@/components/utils/key-value-pair';
-
     import editComponentMixin from '@/mixins/editComponentMixin';
     import {required} from 'vuelidate/lib/validators';
 
     import {getGateway, addGateway, updateGateway} from "@/api/objects/routing/gateways";
 
+    const gatewayHostValidator = (value) => {
+        if (typeof value === 'undefined' || value === null || value === '') {
+            return true
+        }
+        return /^(([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\.){3}([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])$/
+            .test(value) || /^(?=.{1,254}$)((?=[a-z0-9-]{1,63}\.)(xn--+)?[a-z0-9]+(-[a-z0-9]+)*\.)+[a-z]{2,63}/i
+            .test(value);
+    };
+
+    const ipValidator = (value) => {
+        if (typeof value === 'undefined' || value === null || value === '') {
+            return true
+        }
+        return /^(([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\.){3}([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])$/
+            .test(value);
+    };
+
     export default {
         name: 'opened-trinking-sip-gateway',
         mixins: [editComponentMixin],
-
-        components: {
-            'value-pair': valuePair,
-        },
 
         data() {
             return {
@@ -98,11 +140,19 @@
                     host: '',
                     ipacl: [{
                         ip: 'ip',
-                        proto: 'proto'
+                        proto: 'any',
+                        port: ''
                     }],
                 },
                 gatewayTypeOptions: ['SIP Registration', 'SIP Tranking'],
                 callflowList: [],
+                // protocolList: [
+                //     {name: 'Any', value: ''},
+                //     {name: 'UDP', value: 'udp'},
+                //     {name: 'TCP', value: 'tcp'}
+                // ],
+                protocolList: ['any', 'udp', 'tcp'],
+
             };
         },
 
@@ -112,17 +162,21 @@
                 name: {
                     required
                 },
-                username: {
+                host: {
+                    gatewayHostValidator,
                     required
                 },
                 proxy: {
-                    required
+                    gatewayHostValidator,
+                    required,
                 },
-                expire: {
-                    required
-                },
-                password: {
-                    required
+                ipacl: {
+                    $each: {
+                        ip: {
+                            ipValidator,
+                            required
+                        },
+                    }
                 }
             }
         },
@@ -143,8 +197,13 @@
             addValuePair() {
                 this.itemInstance.ipacl.push({
                     ip: '',
-                    proto: ''
+                    proto: 'any',
+                    port: ''
                 });
+            },
+
+            deleteValuePair(valuePairId) {
+                this.itemInstance.ipacl.splice([valuePairId], 1);
             },
 
             async save() {
@@ -156,16 +215,20 @@
                 this.close();
             },
 
-            // load current role from backend
+            // load current gateway from backend
             async loadItem() {
+                const defaultIPacl = {
+                    ip: '',
+                    proto: 'any',
+                    port: '',
+                };
                 const response = await getGateway(this.id);
-                response.ipacl.forEach(acl => {
-                    acl.ip += acl.port || '';
-                    acl.proto = acl.proto || '';
-                    delete acl.port;
+
+                response.ipacl.forEach((acl, index) => {
+                    response.ipacl[index] = Object.assign({}, defaultIPacl, acl);
                 });
 
-                if(response.register) this.$router.push('/routing/gateways/register/'+this.id);
+                if (response.register) this.$router.push('/routing/gateways/register/' + this.id);
                 this.itemInstance = response;
                 this.initialItem = JSON.parse(JSON.stringify(response));
             }
@@ -175,5 +238,11 @@
 
 
 <style lang="scss" scoped>
+    .gateways .value-pair {
+        grid-template-columns: 1fr 4fr 1fr 24px;
 
+        .dropdown-select {
+            padding-bottom: 20px;
+        }
+    }
 </style>

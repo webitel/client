@@ -1,5 +1,9 @@
 @import "../../../../../node_modules/vue-select/src/scss/vue-select";
 
+.dropdown-select {
+  position: relative;
+}
+
 .v-select {
   .vs__dropdown-toggle {
     height: 48px;

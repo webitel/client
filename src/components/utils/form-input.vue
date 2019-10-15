@@ -67,6 +67,20 @@
         >
             {{$t('validation.notMuch') + ' ' + v.$params.maxValue.max}}
         </div>
+        <div
+                class="invalid form-input__details"
+                v-if="v.gatewayHostValidator !== undefined"
+                v-show="v.gatewayHostValidator===false && v.$error"
+        >
+            {{$t('validation.ipOrFQDN')}}
+        </div>
+        <div
+                class="invalid form-input__details"
+                v-if="v.ipValidator !== undefined"
+                v-show="v.ipValidator===false && v.$error"
+        >
+            {{$t('validation.ip')}}
+        </div>
     </div>
 </template>
 

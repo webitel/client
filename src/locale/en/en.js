@@ -18,6 +18,8 @@ export default {
         email: 'Should look email-like',
         required: 'This field is required',
         confirmPassword: 'Incorrect password',
+        ipOrFQDN: 'Should look like IPv4 or FQDN',
+        ip: 'Should look like IPv4',
     },
 
     objects: {
@@ -163,12 +165,22 @@ export default {
         },
         routing: {
             routing: 'Routing',
+            ip: 'IP',
+            protocol: 'Protocol',
+            port: 'Port',
 
             gateways: {
                 gateways: 'Gateway | Gateways',
                 allGateways: 'All gateways',
                 proxy: 'Proxy',
-                searchPlaceholder: 'gateway search...'
+                searchPlaceholder: 'gateway search...',
+                host: 'Host',
+                trunkingACLTitle: 'Access Control',
+                trunkingACL: 'Trunking access control list',
+            },
+
+            callflow: {
+                callflow: 'Callflow'
             }
         }
     },
