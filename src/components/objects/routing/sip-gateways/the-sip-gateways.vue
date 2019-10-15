@@ -192,7 +192,7 @@
                     // await updateObject(this.dataList[id].id, this.dataList[id]);
                 } catch (err) {
                     // if request throws error, move changes back
-                    // this.dataList[id][property] = !this.dataList[id][property];
+                    this.dataList[id][property] = !this.dataList[id][property];
                 }
             },
 

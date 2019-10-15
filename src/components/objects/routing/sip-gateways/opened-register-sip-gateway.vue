@@ -9,7 +9,7 @@
         </object-header>
         <section class="object-content module-new">
 
-            <expansion-panel>
+            <expansion-panel opened>
                 <template slot="expansion-header">
                     <header class="content-header">
                         <h3 class="content-title">{{$t('objects.generalInfo')}}</h3>
@@ -100,7 +100,7 @@
     import editComponentMixin from '@/mixins/editComponentMixin';
     import {required, minValue, maxValue} from 'vuelidate/lib/validators';
 
-    import {getGateway} from "@/api/objects/routing/gateways";
+    import {getGateway, addGateway, updateGateway} from "@/api/objects/routing/gateways";
 
     export default {
         name: 'opened-register-sip-gateway',
@@ -108,11 +108,8 @@
 
         data() {
             return {
-                itemType: {
-                    register: true,
-                    scheme: {}
-                },
                 itemInstance: {
+                    register: true,
                     name: '',
                     proxy: '',
                     description: '',
@@ -123,18 +120,6 @@
                     id: 0,
                     registrar: '',
                     accountName: '',
-                },
-                initialItem: {
-                    name: '',
-                    proxy: '',
-                    description: '',
-                    username: '',
-                    password: '',
-                    expires: 600,
-                    account: '',
-                    id: 0,
-                    authUsername: '',
-                    registrarProxy: '',
                 },
                 callflowList: [],
             };
@@ -178,9 +163,9 @@
         methods: {
             async save() {
                 if (this.id) {
-                    // await updateRole(this.id, this.itemInstance);
+                    await updateGateway(this.id, this.itemInstance);
                 } else {
-                    // await addRole(this.itemInstance);
+                    await addGateway(this.itemInstance);
                 }
                 this.close();
             },
@@ -188,6 +173,7 @@
             // load current role from backend
             async loadItem() {
                 const response = await getGateway(this.id);
+                if(!response.register) this.$router.push('/routing/gateways/trunking/'+this.id);
                 this.itemInstance = response;
                 this.initialItem = JSON.parse(JSON.stringify(response));
             }

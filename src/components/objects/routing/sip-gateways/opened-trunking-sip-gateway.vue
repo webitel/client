@@ -17,15 +17,13 @@
                 </template>
                 <template slot="expansion-content">
                     <form-input
-                            v-model.trim="$v.itemInstance.name.$model"
-                            :v="$v.itemInstance.name"
+                            v-model.trim="itemInstance.name"
                             :label="$t('objects.name')"
                             :placeholder="$t('objects.name')"
-                            required
                     ></form-input>
 
                     <dropdown-select
-                            :value="'Where should I get this value?'"
+                            :value="'Empty'"
                             :label="$tc('objects.routing.callflow.callflow', 1)"
                             :options="callflowList"
                     ></dropdown-select>
@@ -66,6 +64,7 @@
                             :pairs="itemInstance.ipacl"
                             :label="$t('objects.routing.gateways.trunkingACL')"
                             :addValuePair="addValuePair"
+                            required
                     ></value-pair>
                 </template>
             </expansion-panel>
@@ -79,7 +78,7 @@
     import editComponentMixin from '@/mixins/editComponentMixin';
     import {required} from 'vuelidate/lib/validators';
 
-    import {getGateway} from "@/api/objects/routing/gateways";
+    import {getGateway, addGateway, updateGateway} from "@/api/objects/routing/gateways";
 
     export default {
         name: 'opened-trinking-sip-gateway',
@@ -91,10 +90,6 @@
 
         data() {
             return {
-                itemType: {
-                    register: true,
-                    scheme: {}
-                },
                 itemInstance: {
                     name: '',
                     proxy: '',
@@ -104,17 +99,6 @@
                     ipacl: [{
                         ip: 'ip',
                         proto: 'proto'
-                    }],
-                },
-                initialItem: {
-                    name: '',
-                    proxy: '',
-                    description: '',
-                    id: 0,
-                    host: '',
-                    ipacl: [{
-                        ip: '',
-                        proto: ''
                     }],
                 },
                 gatewayTypeOptions: ['SIP Registration', 'SIP Tranking'],
@@ -157,7 +141,7 @@
 
         methods: {
             addValuePair() {
-                this.itemInstance.ipacl.unshift({
+                this.itemInstance.ipacl.push({
                     ip: '',
                     proto: ''
                 });
@@ -165,9 +149,9 @@
 
             async save() {
                 if (this.id) {
-                    // await updateRole(this.id, this.itemInstance);
+                    await updateGateway(this.id, this.itemInstance);
                 } else {
-                    // await addRole(this.itemInstance);
+                    await addGateway(this.itemInstance);
                 }
                 this.close();
             },
@@ -175,8 +159,15 @@
             // load current role from backend
             async loadItem() {
                 const response = await getGateway(this.id);
-                // this.itemInstance = response.role;
-                // this.initialItem = JSON.parse(JSON.stringify(response.role));
+                response.ipacl.forEach(acl => {
+                    acl.ip += acl.port || '';
+                    acl.proto = acl.proto || '';
+                    delete acl.port;
+                });
+
+                if(response.register) this.$router.push('/routing/gateways/register/'+this.id);
+                this.itemInstance = response;
+                this.initialItem = JSON.parse(JSON.stringify(response));
             }
         },
     };

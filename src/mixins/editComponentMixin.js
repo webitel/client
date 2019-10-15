@@ -20,12 +20,15 @@ export default {
 
     data() {
         return {
-            id: null // id of currently opened component
+            id: null, // id of currently opened component
+            initialItem: {}
         };
     },
 
     mounted() {
         this.setId(); // if there is an edit case, set id from route
+
+        if(!this.id) this.setInitialItem();
 
     },
 
@@ -58,6 +61,10 @@ export default {
                 }
             }
             this.save();
+        },
+
+        setInitialItem() {
+          this.initialItem = JSON.parse(JSON.stringify(this.itemInstance));
         },
 
         close() {
