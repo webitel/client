@@ -50,7 +50,7 @@
     import vuetable from 'vuetable-2/src/components/Vuetable';
     import objectHeader from '@/components/objects/the-object-header';
 
-    import {deleteRole, getRoles} from '@/api/objects/permissions/roles';
+    import {deleteRole, getRoleList} from '@/api/objects/permissions/roles';
 
 
     export default {
@@ -103,7 +103,7 @@
             },
 
             async loadDataList() {
-                const response = await getRoles();
+                const response = await getRoleList();
                 this.dataList = [...response].reverse();
             }
         }

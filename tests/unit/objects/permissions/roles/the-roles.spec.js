@@ -1,7 +1,7 @@
 import {shallowMount, mount, createLocalVue} from '@vue/test-utils'
-import theRoles from '../../../../../src/components/objects/permissions/roles/the-roles';
-import newRole from '../../../../../src/components/objects/permissions/roles/opened-role';
-import {getRoles} from "../../../../../src/api/objects/permissions/roles";
+import theRoles from '@/components/objects/permissions/roles/the-roles';
+import newRole from '@/src/components/objects/permissions/roles/opened-role';
+import {getRoleList} from '@/src/api/objects/permissions/roles';
 import VueRouter from 'vue-router';
 import Vuelidate from 'vuelidate';
 import i18n from 'vue-i18n';
@@ -25,7 +25,7 @@ describe('roles-new.vue', () => {
     });
 
     it('creates new role', async (done) => {
-        const roleList = await getRoles(); // get initial roles
+        const roleList = await getRoleList(); // get initial roles
 
         // set new role data
         wrapper.setData({
@@ -39,14 +39,14 @@ describe('roles-new.vue', () => {
 
         // wait promise response
         await setTimeout(async () => {
-            const newRoleList = await getRoles(); // get new roles
+            const newRoleList = await getRoleList(); // get new roles
             expect(newRoleList).toHaveLength(roleList.length + 1); // compare roles number with initial
             done();
         }, 300);
     });
 
     it('updates existing role', async (done) => {
-        const roleList = await getRoles(); // load all roles
+        const roleList = await getRoleList(); // load all roles
         // to find created role id
         const createdRole = roleList.find(role => {
             return role.role === 'jest-role'
@@ -75,7 +75,7 @@ describe('roles-new.vue', () => {
         // wait promise response
         await setTimeout(async () => {
             // load new list and find updated role
-            const newRoleList = await getRoles();
+            const newRoleList = await getRoleList();
             const newRole = newRoleList.find(role => {
                 return role.role === 'updated-jest-role'
             });
@@ -136,7 +136,7 @@ describe('the-roles.vue', () => {
             expect(wrapper.vm.dataList).not.toContain(createdRole);
 
             // check if it removed from database
-            expect(await getRoles()).not.toContain(createdRole);
+            expect(await getRoleList()).not.toContain(createdRole);
             done();
         }, 100);
     });

@@ -3,7 +3,7 @@ import instance from '../../instance';
 
 const BASE_URL = '/roles';
 
-export async function getRoles() {
+export async function getRoleList() {
     // Vue.$log.info('get Roles', 'started');
     try {
         const response = await instance.get(BASE_URL);

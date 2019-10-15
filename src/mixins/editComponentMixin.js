@@ -21,6 +21,7 @@ export default {
     data() {
         return {
             id: null, // id of currently opened component
+            itemInstance: {},
             initialItem: {}
         };
     },
@@ -46,7 +47,7 @@ export default {
                 })
             });
 
-            console.log(isEqualToInitial, this[validatedInstance], this[initialInstance]);
+            // console.log(isEqualToInitial, this[validatedInstance], this[initialInstance]);
 
             if (isEqualToInitial) {
                 this.close();

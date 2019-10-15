@@ -81,7 +81,7 @@
     import vuetable from 'vuetable-2/src/components/Vuetable';
 
     import {getObject, updateObjectPermissions, getObjectPermissions} from "@/api/objects/permissions/objects";
-    import {getRoles} from "@/api/objects/permissions/roles";
+    import {getRoleList} from "@/api/objects/permissions/roles";
 
     import editComponentMixin from '@/mixins/editComponentMixin';
 
@@ -267,7 +267,7 @@
 
             // get all roles to choose which to add
             async loadRoleList() {
-                const response = await getRoles();
+                const response = await getRoleList();
                 this.roleList = [...response];
             },
 
