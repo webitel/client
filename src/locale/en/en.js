@@ -23,6 +23,7 @@ export default {
         atLeast: 'Value shoud be at least',
         notMuch: 'Value shoud be not much',
         between: 'Value shoud be between',
+        numeric: 'Should be numberic'
 
     },
 

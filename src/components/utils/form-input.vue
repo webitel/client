@@ -34,50 +34,56 @@
 
         <div
                 class="invalid form-input__details"
-                v-if="v.required !== undefined"
-                v-show="v.required===false && v.$error"
+                v-if="v.required===false"
         >
             {{$t('validation.required')}}
         </div>
+
         <div
                 class="invalid form-input__details"
-                v-if="v.email !== undefined"
-                v-show="v.email===false && v.$error"
+                v-else-if="v.numeric===false"
+        >
+            {{$t('validation.numeric')}}
+        </div>
+
+        <div
+                class="invalid form-input__details"
+                v-else-if="v.email===false"
         >
             {{$t('validation.email')}}
         </div>
+
         <div
                 class="invalid form-input__details"
-                v-if="v.sameAs !== undefined"
-                v-show="v.sameAs===false && v.$error"
+                v-else-if="v.sameAs===false"
         >
             {{$t('validation.confirmPassword')}}
         </div>
+
         <div
                 class="invalid form-input__details"
-                v-if="v.minValue !== undefined"
-                v-show="v.minValue===false && v.$error"
+                v-else-if="v.minValue===false"
         >
             {{$t('validation.atLeast') + ' ' + v.$params.minValue.min}}
         </div>
+
         <div
                 class="invalid form-input__details"
-                v-if="v.maxValue !== undefined"
-                v-show="v.maxValue===false && v.$error"
+                v-else-if="v.maxValue===false"
         >
             {{$t('validation.notMuch') + ' ' + v.$params.maxValue.max}}
         </div>
+
         <div
                 class="invalid form-input__details"
-                v-if="v.gatewayHostValidator !== undefined"
-                v-show="v.gatewayHostValidator===false && v.$error"
+                v-else-if="v.gatewayHostValidator===false"
         >
             {{$t('validation.ipOrFQDN')}}
         </div>
+
         <div
                 class="invalid form-input__details"
-                v-if="v.ipValidator !== undefined"
-                v-show="v.ipValidator===false && v.$error"
+                v-if="v.ipValidator===false"
         >
             {{$t('validation.ip')}}
         </div>
@@ -131,7 +137,7 @@
             // specify height easily. Used for textarea
             height: {
                 type: Number,
-                default: 48,
+                default: 128,
             },
 
             // disables input
@@ -158,7 +164,7 @@
         mounted() {
             eventBus.$on('copyToClipboard', this.copyToClipboard);
 
-            this.$refs.input.style.height = `${this.height}px`;
+            if(this.textarea) this.$refs.input.style.height = `${this.height}px`;
         },
         methods: {
             // pass copyTarget to be sure that selected text will be copied
@@ -189,8 +195,8 @@
 <style lang="scss" scoped>
     .form-input {
         position: relative;
-        /* for form-input__details bottom 0 */
-        padding-bottom: 20px;
+
+        padding-bottom: 18px;
     }
 
     .input {
@@ -199,11 +205,11 @@
     }
 
     .form-input__details {
-        @extend .typo-body-md;
-
         position: absolute;
         bottom: 0;
         left: 0;
+
+        @extend .typo-body-md;
     }
 
     .invalid {
