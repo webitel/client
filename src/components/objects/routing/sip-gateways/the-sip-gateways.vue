@@ -89,7 +89,7 @@
     import objectHeader from '@/components/objects/the-object-header';
     import switcher from '@/components/utils/switcher';
     import status from '@/components/utils/status';
-    import {getGatewayList} from "../../../../api/objects/routing/gateways";
+    import {getGatewayList, deleteGateway} from "../../../../api/objects/routing/gateways";
 
 
     export default {
@@ -153,8 +153,24 @@
                 });
             },
 
+
+
+            async remove(rowId) {
+                // remove item
+                const deletedItem = this.dataList.splice(rowId, 1)[0];
+                this.filterData();
+
+                try {
+                    await deleteGateway(deletedItem.id);
+                } catch (err) {
+                    // if request fails, restore
+                    this.dataList.splice(rowId, 0, deletedItem);
+                    this.filterData();
+                }
+            },
+
             computeStatusText(rowIndex) {
-                const stateCode = this.dataList[rowIndex].r_state || -1;
+                const stateCode = this.filteredDataList[rowIndex].r_state || -1;
                 if (stateCode === 0) {
                     return 'Not registered'
                 } else if (stateCode === 3) {
@@ -169,7 +185,7 @@
             },
 
             computeStatusClass(rowIndex) {
-                const stateCode = this.dataList[rowIndex].r_state || -1;
+                const stateCode = this.filteredDataList[rowIndex].r_state || -1;
                 if (stateCode === 0) {
                     return 'not-registered'
                 } else if (stateCode === 3) {
