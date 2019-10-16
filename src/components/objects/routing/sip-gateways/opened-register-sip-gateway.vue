@@ -108,8 +108,8 @@
 
 <script>
     import editComponentMixin from '@/mixins/editComponentMixin';
-    import {ipValidator, gatewayHostValidator} from '@/utils/validators';
-    import {required, minValue, maxValue} from 'vuelidate/lib/validators';
+    import {gatewayHostValidator} from '@/utils/validators';
+    import {required, minValue, maxValue, numeric} from 'vuelidate/lib/validators';
 
     import {getGateway, addGateway, updateGateway} from "@/api/objects/routing/gateways";
 
@@ -156,6 +156,7 @@
                     required
                 },
                 expires: {
+                    numeric,
                     minValue: minValue(32),
                     maxValue: maxValue(3600),
                     required
