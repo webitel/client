@@ -1,9 +1,9 @@
 import {shallowMount, mount, createLocalVue} from '@vue/test-utils'
-import theGateways from '@/components/objects/routing/gateways/the-sip-gateways';
-import gatewaysPopup from '@/src/components/objects/routing/gateways/create-gateway-popup';
-import registerGateway from '@/src/components/objects/routing/gateways/opened-register-sip-gateway';
-import trunkingGateway from '@/src/components/objects/routing/gateways/opened-trunking-sip-gateway';
-import {getGatewayList} from '@/src/api/objects/routing/gateways';
+// import theGateways from '@/components/objects/routing/gateways/the-sip-gateways';
+// import gatewaysPopup from '@/src/components/objects/routing/gateways/create-gateway-popup';
+import registerGateway from '../../../src/components/objects/routing/sip-gateways/opened-register-sip-gateway';
+import trunkingGateway from '../../../src/components/objects/routing/sip-gateways/opened-trunking-sip-gateway';
+import {getGatewayList} from '../../../src/api/objects/routing/gateways';
 import VueRouter from 'vue-router';
 import Vuelidate from 'vuelidate';
 import i18n from 'vue-i18n';
@@ -32,7 +32,16 @@ describe('opened-register-gateway.vue', () => {
         // set new register gateway data
         wrapper.setData({
             itemInstance: {
-                // role: 'jest-role',
+                register: true,
+                name: 'jest-name',
+                registrar: 'jest.registrar',
+                expires: 1200,
+                password: 'jest-pass',
+                description: 'jest-descr',
+                username: 'jest-auth-id',
+                accountName: 'jest-account',
+                proxy: 'jest.proxy',
+                domain: 'jest.domain',
             },
         });
 
@@ -51,22 +60,27 @@ describe('opened-register-gateway.vue', () => {
         const dataList = await getGatewayList(); // load all items
         // to find created item id
         const createdRegGateway = dataList.find(item => {
-            // return role.role === 'jest-role'
+            return item.name === 'jest-name'
         });
-
         // emulate item path by setting id
         wrapper.setData({id: createdRegGateway.id});
 
         // load item by its id
         await wrapper.vm.loadItem();
 
-        // check if initial item was set correctly
-        expect(wrapper.vm.initialItem).toEqual(createdRegGateway);
-
         // set updated item data
         const newItemInstance = {
             itemInstance: {
-                // role: 'updated-jest-role',
+                register: true,
+                name: 'upd-jest-name',
+                registrar: 'upd-jest.registrar',
+                expires: 2300,
+                password: 'upd-jest-pass',
+                description: 'upd-jest-descr',
+                username: 'upd-jest-auth-id',
+                accountName: 'jest-account',
+                proxy: 'upd-jest.proxy',
+                domain: 'upd-jest.domain',
             }
         };
         wrapper.setData(newItemInstance);
@@ -78,15 +92,16 @@ describe('opened-register-gateway.vue', () => {
         await setTimeout(async () => {
             // load new list and find updated role
             const newDataList = await getGatewayList();
+            // console.log('CREATED TEST', createdRegGateway);
             const newItem = newDataList.find(item => {
-                // return role.role === 'updated-jest-role'
+                return item.name = 'upd-jest-name';
             });
 
             // test if there's a role
             expect(newItem).toBeTruthy();
 
             // check if backend role is equal to updated role
-            expect(newItem.prop).toEqual(newItemInstance.itemInstance.prop);
+            expect(newItem.name).toEqual(newItemInstance.itemInstance.name);
             done();
         }, 100);
     });
@@ -102,10 +117,94 @@ describe('opened-trunking-gateway.vue', () => {
     });
 
     it('creates new trunking gateway', async (done) => {
+        const dataList = await getGatewayList(); // get initial items
 
+        // set new item data
+        wrapper.setData({
+            itemInstance: {
+                name: 'jest-trunking-name',
+                proxy: 'jest-trunking-proxy.jest',
+                description: 'jest-trunking-descr',
+                host: 'jest-trunking-host.jest',
+                ipacl: [
+                    {
+                        ip: '12.21.23.43',
+                        proto: 'any',
+                        port: 1
+                    },
+                    {
+                        ip: '35.55.23.12',
+                        proto: 'udp',
+                        port: 0
+                    },
+                ],
+            },
+        });
+
+        // trigger 'save' button
+        wrapper.find('.primary-btn').trigger('click');
+
+        // wait promise response
+        await setTimeout(async () => {
+            const newDataList = await getGatewayList(); // get new gateways
+            expect(newDataList).toHaveLength(dataList.length + 1); // compare gateways number with initial
+            done();
+        }, 300);
     });
 
     it('updates this trunking gateway', async (done) => {
+        const dataList = await getGatewayList(); // load all items
+        // to find created item id
+        const createdItem = dataList.find(item => {
+            return item.name === 'jest-trunking-name'
+        });
+        // emulate item path by setting id
+        wrapper.setData({id: createdItem.id});
 
+        // load item by its id
+        await wrapper.vm.loadItem();
+
+        // set updated item data
+        const newItemInstance = {
+            itemInstance: {
+                name: 'upd-jest-trunking-name',
+                proxy: 'upd-jest-trunking-proxy.jest',
+                description: 'upd-jest-trunking-descr',
+                host: 'upd-jest-trunking-host.jest',
+                ipacl: [
+                    {
+                        ip: '12.21.23.43',
+                        proto: 'udp',
+                        port: 0
+                    },
+                    {
+                        ip: '35.15.23.12',
+                        proto: 'tcp',
+                        port: 100
+                    },
+                ],
+            },
+        };
+        wrapper.setData(newItemInstance);
+
+        // trigger 'save' button
+        wrapper.find('.primary-btn').trigger('click');
+
+        // wait promise response
+        await setTimeout(async () => {
+            // load new list and find updated role
+            const newDataList = await getGatewayList();
+            // console.log('CREATED TEST', createdRegGateway);
+            const newItem = newDataList.find(item => {
+                return item.name = 'upd-jest-trunking-name';
+            });
+
+            // test if there's a role
+            expect(newItem).toBeTruthy();
+
+            // check if backend item is equal to updated item
+            expect(newItem.name).toEqual(newItemInstance.itemInstance.name);
+            done();
+        }, 100);
     });
 });

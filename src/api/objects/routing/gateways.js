@@ -27,7 +27,7 @@ export async function getGateway(id) {
 
     try {
         let response = await instance.get(url);
-        console.log(response);
+        // console.log(response);
         if(response.data.item.register) {
             return coerceRegisterResponse(response);
         } else {
@@ -39,12 +39,13 @@ export async function getGateway(id) {
 }
 
 export async function addGateway(item) {
-    // const item = {item};
+
     Object.keys(item).forEach(key => {
         if(!item[key]) delete item[key];
     });
     item.account = item.username;
     delete item.username;
+    delete item.description;
 
     try {
         const response = await instance.post(BASE_URL, {item});
@@ -53,17 +54,20 @@ export async function addGateway(item) {
     }
 }
 
-export async function updateGateway(id, gatewayToSend) {
+export async function updateGateway(id, changes) {
     const url = BASE_URL + '/' + id;
-    delete gatewayToSend.status;
-    gatewayToSend.ipacl.forEach(acl => {
-        if(!acl.port) delete acl.port
-    });
+
+    if(!changes.register) {
+        changes.ipacl.forEach(acl => {
+            if(!acl.port) delete acl.port
+        });
+    }
+
+    delete changes.description;
 
     try {
-        const response = await instance.put(url, {changes: gatewayToSend});
+        const response = await instance.put(url, {changes});
     } catch (err) {
-        // console.log(err);
         throw err;
     }
 }
@@ -110,6 +114,9 @@ function coerceRegisterResponse(response) {
     };
 
     let result = Object.assign({}, defaultObject, response.data.item);
+
+    result.account = result.account.replace('sip:', '');
+    result.registrar = result.registrar.replace('sip:', '');
 
     const account = result.account.split('@');
     result.accountName = account[0];

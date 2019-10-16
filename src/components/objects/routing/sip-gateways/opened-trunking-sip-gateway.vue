@@ -125,7 +125,7 @@
                     ipacl: [{
                         ip: '',
                         proto: '',
-                        port: ''
+                        port: null
                     }],
                 },
                 gatewayTypeOptions: ['SIP Registration', 'SIP Tranking'],
@@ -182,7 +182,7 @@
                 this.itemInstance.ipacl.push({
                     ip: '',
                     proto: 'any',
-                    port: ''
+                    port: null
                 });
             },
 
@@ -204,7 +204,7 @@
                 const defaultIPacl = {
                     ip: '',
                     proto: 'any',
-                    port: '',
+                    port: null,
                 };
                 const response = await getGateway(this.id);
 
