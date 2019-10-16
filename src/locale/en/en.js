@@ -20,6 +20,10 @@ export default {
         confirmPassword: 'Incorrect password',
         ipOrFQDN: 'Should look like IPv4 or FQDN',
         ip: 'Should look like IPv4',
+        atLeast: 'Value shoud be at least',
+        notMuch: 'Value shoud be not much',
+        between: 'Value shoud be between',
+
     },
 
     objects: {
@@ -177,6 +181,13 @@ export default {
                 host: 'Host',
                 trunkingACLTitle: 'Access Control',
                 trunkingACL: 'Trunking access control list',
+                hostnameTrunking: 'Server/Gateway Hostname or IP',
+                hostnameRegister: 'Registrar/Server/Gateway Hostname or IP',
+                expire: 'Expire',
+                authID: 'Authentication ID',
+                accountNumber: 'Account number',
+                outboundProxy: 'Outbound Proxy Hostname or IP',
+                domain: 'Domain/Realm',
             },
 
             callflow: {

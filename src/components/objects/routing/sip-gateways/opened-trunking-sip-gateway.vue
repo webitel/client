@@ -31,10 +31,10 @@
                     ></dropdown-select>
 
                     <form-input
-                            v-model.trim="$v.itemInstance.proxy.$model"
-                            :v="$v.itemInstance.proxy"
-                            :label="$t('objects.routing.gateways.proxy')"
-                            :placeholder="$t('objects.routing.gateways.proxy')"
+                            v-model.trim="$v.itemInstance.hostname.$model"
+                            :v="$v.itemInstance.hostname"
+                            :label="$t('objects.routing.gateways.hostnameTrunking')"
+                            :placeholder="$t('objects.routing.gateways.hostnameTrunking')"
                             required
                     ></form-input>
 
@@ -105,26 +105,10 @@
 
 <script>
     import editComponentMixin from '@/mixins/editComponentMixin';
+    import {ipValidator, gatewayHostValidator} from '@/utils/validators';
     import {required} from 'vuelidate/lib/validators';
 
     import {getGateway, addGateway, updateGateway} from "@/api/objects/routing/gateways";
-
-    const gatewayHostValidator = (value) => {
-        if (typeof value === 'undefined' || value === null || value === '') {
-            return true
-        }
-        return /^(([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\.){3}([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])$/
-            .test(value) || /^(?=.{1,254}$)((?=[a-z0-9-]{1,63}\.)(xn--+)?[a-z0-9]+(-[a-z0-9]+)*\.)+[a-z]{2,63}/i
-            .test(value);
-    };
-
-    const ipValidator = (value) => {
-        if (typeof value === 'undefined' || value === null || value === '') {
-            return true
-        }
-        return /^(([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\.){3}([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])$/
-            .test(value);
-    };
 
     export default {
         name: 'opened-trinking-sip-gateway',
@@ -134,7 +118,7 @@
             return {
                 itemInstance: {
                     name: '',
-                    proxy: '',
+                    hostname: '',
                     description: '',
                     id: 0,
                     host: '',
@@ -166,7 +150,7 @@
                     gatewayHostValidator,
                     required
                 },
-                proxy: {
+                hostname: {
                     gatewayHostValidator,
                     required,
                 },

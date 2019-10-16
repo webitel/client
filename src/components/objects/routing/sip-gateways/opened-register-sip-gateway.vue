@@ -17,16 +17,18 @@
                 </template>
                 <template slot="expansion-content">
                     <form-input
-                            v-model.trim="itemInstance.name"
+                            v-model.trim="$v.itemInstance.name.$model"
+                            :v="$v.itemInstance.name"
                             :label="$t('objects.name')"
                             :placeholder="$t('objects.name')"
+                            required
                     ></form-input>
 
                     <form-input
-                            v-model.trim="$v.itemInstance.registrar.$model"
-                            :v="$v.itemInstance.registrar"
-                            :label="$t('objects.routing.gateways.registrarProxy')"
-                            :placeholder="$t('objects.routing.gateways.registrarProxy')"
+                            v-model.trim="$v.itemInstance.hostname.$model"
+                            :v="$v.itemInstance.hostname"
+                            :label="$t('objects.routing.gateways.hostnameRegister')"
+                            :placeholder="$t('objects.routing.gateways.hostnameRegister')"
                             required
                     ></form-input>
 
@@ -65,11 +67,9 @@
 
                 <template slot="expansion-content">
                     <form-input
-                            v-model.trim="$v.itemInstance.username.$model"
-                            :v="$v.itemInstance.username"
-                            :label="$t('objects.username')"
-                            :placeholder="$t('objects.username')"
-                            required
+                            v-model.trim="itemInstance.username"
+                            :label="$t('objects.routing.gateways.authID')"
+                            :placeholder="$t('objects.routing.gateways.authID')"
                     ></form-input>
 
                     <dropdown-select
@@ -80,15 +80,27 @@
                     </dropdown-select>
 
                     <form-input
-                            v-model.trim="itemInstance.accountName"
-                            :label="$t('objects.routing.gateways.accountName')"
-                            :placeholder="$t('objects.routing.gateways.accountName')"
+                            v-model.trim="$v.itemInstance.accountName.$model"
+                            :v="$v.itemInstance.accountName"
+                            :label="$t('objects.routing.gateways.accountNumber')"
+                            :placeholder="$t('objects.routing.gateways.accountNumber')"
+                            required
                     ></form-input>
 
                     <form-input
-                            v-model.trim="itemInstance.proxy"
-                            :label="$t('objects.routing.gateways.proxy')"
-                            :placeholder="$t('objects.routing.gateways.proxy')"
+                            v-model.trim="$v.itemInstance.proxy.$model"
+                            :v="$v.itemInstance.proxy"
+                            :label="$t('objects.routing.gateways.outboundProxy')"
+                            :placeholder="$t('objects.routing.gateways.outboundProxy')"
+                            required
+                    ></form-input>
+
+                    <form-input
+                            v-model.trim="$v.itemInstance.domain.$model"
+                            :v="$v.itemInstance.domain"
+                            :label="$t('objects.routing.gateways.domain')"
+                            :placeholder="$t('objects.routing.gateways.domain')"
+                            required
                     ></form-input>
                 </template>
             </expansion-panel>
@@ -98,6 +110,7 @@
 
 <script>
     import editComponentMixin from '@/mixins/editComponentMixin';
+    import {ipValidator, gatewayHostValidator} from '@/utils/validators';
     import {required, minValue, maxValue} from 'vuelidate/lib/validators';
 
     import {getGateway, addGateway, updateGateway} from "@/api/objects/routing/gateways";
@@ -111,15 +124,15 @@
                 itemInstance: {
                     register: true,
                     name: '',
-                    proxy: '',
+                    hostname: '',
+                    expires: 600,
+                    password: '',
                     description: '',
                     username: '',
-                    password: '',
-                    expires: 600,
-                    account: '',
-                    id: 0,
-                    registrar: '',
                     accountName: '',
+                    proxy: '',
+                    domain: '',
+                    id: 0,
                 },
                 callflowList: [],
             };
@@ -131,7 +144,17 @@
                 name: {
                     required
                 },
-                username: {
+                hostname: {
+                    gatewayHostValidator,
+                    required
+                },
+                domain: {
+                    gatewayHostValidator
+                },
+                proxy: {
+                    gatewayHostValidator
+                },
+                accountName: {
                     required
                 },
                 expires: {
@@ -140,9 +163,6 @@
                     required
                 },
                 password: {
-                    required
-                },
-                registrar: {
                     required
                 },
             }
@@ -173,7 +193,7 @@
             // load current role from backend
             async loadItem() {
                 const response = await getGateway(this.id);
-                if(!response.register) this.$router.push('/routing/gateways/trunking/'+this.id);
+                if (!response.register) this.$router.push('/routing/gateways/trunking/' + this.id);
                 this.itemInstance = response;
                 this.initialItem = JSON.parse(JSON.stringify(response));
             }
