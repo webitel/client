@@ -31,8 +31,8 @@
                     ></dropdown-select>
 
                     <form-input
-                            v-model.trim="$v.itemInstance.hostname.$model"
-                            :v="$v.itemInstance.hostname"
+                            v-model.trim="$v.itemInstance.proxy.$model"
+                            :v="$v.itemInstance.proxy"
                             :label="$t('objects.routing.gateways.hostnameTrunking')"
                             :placeholder="$t('objects.routing.gateways.hostnameTrunking')"
                             required
@@ -118,13 +118,13 @@
             return {
                 itemInstance: {
                     name: '',
-                    hostname: '',
+                    proxy: '',
                     description: '',
                     id: 0,
                     host: '',
                     ipacl: [{
-                        ip: 'ip',
-                        proto: 'any',
+                        ip: '',
+                        proto: '',
                         port: ''
                     }],
                 },
@@ -150,7 +150,7 @@
                     gatewayHostValidator,
                     required
                 },
-                hostname: {
+                proxy: {
                     gatewayHostValidator,
                     required,
                 },

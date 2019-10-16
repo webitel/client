@@ -4,7 +4,7 @@
                 :primaryAction="openPopup"
         >
             {{$t('objects.routing.routing')}} |
-            {{$t('objectsrouting.gateways.gateways', 2)}}
+            {{$tc('objects.routing.gateways.gateways', 2)}}
         </object-header>
 
         <gateway-popup
@@ -148,11 +148,10 @@
                 }
 
                 this.$router.push({
-                    name:  name,
+                    name: name,
                     params: {id: this.dataList[rowId].id},
                 });
             },
-
 
 
             async remove(rowId) {
@@ -170,32 +169,28 @@
             },
 
             computeStatusText(rowIndex) {
-                const stateCode = this.filteredDataList[rowIndex].r_state || -1;
-                if (stateCode === 0) {
-                    return 'Not registered'
-                } else if (stateCode === 3) {
+                const stateCode = this.filteredDataList[rowIndex].r_state;
+                if (stateCode === 3) {
                     return 'Success';
                 } else if (stateCode > 3 && stateCode < 8) {
                     return 'Failed';
                 } else if (stateCode > 7 && stateCode < 2) {
                     return 'In progress';
                 } else {
-                    return 'unknown'
+                    return 'Not registered'
                 }
             },
 
             computeStatusClass(rowIndex) {
-                const stateCode = this.filteredDataList[rowIndex].r_state || -1;
-                if (stateCode === 0) {
-                    return 'not-registered'
-                } else if (stateCode === 3) {
+                const stateCode = this.filteredDataList[rowIndex].r_state;
+                if (stateCode === 3) {
                     return 'status__true';
                 } else if (stateCode > 3 && stateCode < 8) {
                     return 'status__false';
                 } else if (stateCode > 7 && stateCode < 2) {
                     return 'status__info';
                 } else {
-                    return 'unknown'
+                    return 'not-registered'
                 }
             },
 

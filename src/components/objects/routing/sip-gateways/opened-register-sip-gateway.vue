@@ -25,8 +25,8 @@
                     ></form-input>
 
                     <form-input
-                            v-model.trim="$v.itemInstance.hostname.$model"
-                            :v="$v.itemInstance.hostname"
+                            v-model.trim="$v.itemInstance.registrar.$model"
+                            :v="$v.itemInstance.registrar"
                             :label="$t('objects.routing.gateways.hostnameRegister')"
                             :placeholder="$t('objects.routing.gateways.hostnameRegister')"
                             required
@@ -92,7 +92,6 @@
                             :v="$v.itemInstance.proxy"
                             :label="$t('objects.routing.gateways.outboundProxy')"
                             :placeholder="$t('objects.routing.gateways.outboundProxy')"
-                            required
                     ></form-input>
 
                     <form-input
@@ -100,7 +99,6 @@
                             :v="$v.itemInstance.domain"
                             :label="$t('objects.routing.gateways.domain')"
                             :placeholder="$t('objects.routing.gateways.domain')"
-                            required
                     ></form-input>
                 </template>
             </expansion-panel>
@@ -124,7 +122,7 @@
                 itemInstance: {
                     register: true,
                     name: '',
-                    hostname: '',
+                    registrar: '',
                     expires: 600,
                     password: '',
                     description: '',
@@ -144,7 +142,7 @@
                 name: {
                     required
                 },
-                hostname: {
+                registrar: {
                     gatewayHostValidator,
                     required
                 },
@@ -182,10 +180,16 @@
 
         methods: {
             async save() {
+                let itemInstance = this.itemInstance;
+                itemInstance.account = itemInstance.accountName+'@'+itemInstance.domain;
+                delete itemInstance.accountName;
+                delete itemInstance.domain;
+                delete itemInstance.description;
+
                 if (this.id) {
-                    await updateGateway(this.id, this.itemInstance);
+                    await updateGateway(this.id, itemInstance);
                 } else {
-                    await addGateway(this.itemInstance);
+                    await addGateway(itemInstance);
                 }
                 this.close();
             },

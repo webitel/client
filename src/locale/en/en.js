@@ -188,6 +188,13 @@ export default {
                 accountNumber: 'Account number',
                 outboundProxy: 'Outbound Proxy Hostname or IP',
                 domain: 'Domain/Realm',
+                newGateway: 'New gateway',
+                newGatewayDescription: 'New gateway description',
+                SIPregistrations: 'SIP Registration',
+                SIPregistrationsDescription: 'SIP registration description',
+                SIPtrunking: 'SIP Trunking',
+                SIPtrunkingDescription: 'SIP trunking description',
+
             },
 
             callflow: {

@@ -7,7 +7,6 @@ export async function getGatewayList() {
         name: '',
         proxy: '',
         enable: false,
-        status: 'unknown',
         id: 0
     };
 
@@ -26,19 +25,14 @@ export async function getGatewayList() {
 export async function getGateway(id) {
     const url = BASE_URL + '/' + id;
 
-    const defaultObject = {  // default object prototype, to merge response with it to get all fields
-        name: '',
-        proxy: '',
-        enable: false,
-        status: 'unknown',
-        id: 0
-    };
-
     try {
         let response = await instance.get(url);
         console.log(response);
-
-        return Object.assign({}, defaultObject, response.data.item);
+        if(response.data.item.register) {
+            return coerceRegisterResponse(response);
+        } else {
+            return coerceTrunkingResponse(response);
+        }
     } catch (error) {
         throw error;
     }
@@ -82,4 +76,47 @@ export async function deleteGateway(id) {
     } catch (err) {
         throw err;
     }
+}
+
+function coerceTrunkingResponse(response) {
+    const defaultObject = {
+        name: '',
+        proxy: '',
+        description: '',
+        id: 0,
+        host: '',
+        ipacl: [{
+            ip: '',
+            proto: '',
+            port: ''
+        }],
+    };
+
+    return Object.assign({}, defaultObject, response.data.item);
+}
+
+function coerceRegisterResponse(response) {
+    const defaultObject = {  // default object prototype, to merge response with it to get all fields
+        name: '',
+        registrar: '',
+        expires: 600,
+        password: '',
+        description: '',
+        username: '',
+        accountName: '',
+        proxy: '',
+        domain: '',
+        id: 0,
+    };
+
+    let result = Object.assign({}, defaultObject, response.data.item);
+
+    const account = result.account.split('@');
+    result.accountName = account[0];
+    result.domain = account[1];
+    delete result.account;
+
+    if(!result.proxy) result.proxy = result.registrar;
+
+    return result;
 }
