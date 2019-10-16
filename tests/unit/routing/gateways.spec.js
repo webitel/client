@@ -1,12 +1,12 @@
 import {shallowMount, mount, createLocalVue} from '@vue/test-utils'
-// import theGateways from '@/components/objects/routing/gateways/the-sip-gateways';
-// import gatewaysPopup from '@/src/components/objects/routing/gateways/create-gateway-popup';
+import theGateways from '../../../src/components/objects/routing/sip-gateways/the-sip-gateways';
 import registerGateway from '../../../src/components/objects/routing/sip-gateways/opened-register-sip-gateway';
 import trunkingGateway from '../../../src/components/objects/routing/sip-gateways/opened-trunking-sip-gateway';
 import {getGatewayList} from '../../../src/api/objects/routing/gateways';
 import VueRouter from 'vue-router';
 import Vuelidate from 'vuelidate';
 import i18n from 'vue-i18n';
+import {getRoleList} from "../../../src/api/objects/permissions/roles";
 
 const $t = () => {
 };
@@ -107,7 +107,6 @@ describe('opened-register-gateway.vue', () => {
     });
 });
 
-
 describe('opened-trunking-gateway.vue', () => {
     const wrapper = mount(trunkingGateway, {
         mocks: {$t, $tc},
@@ -204,6 +203,81 @@ describe('opened-trunking-gateway.vue', () => {
 
             // check if backend item is equal to updated item
             expect(newItem.name).toEqual(newItemInstance.itemInstance.name);
+            done();
+        }, 100);
+    });
+});
+
+describe('the-gateways.vue', () => {
+    const wrapper = mount(theGateways, {
+        mocks: {$t, $tc},
+        localVue,
+        router,
+        i18n
+    });
+
+    // let createdItem;
+    // let createdItemIndex;
+
+    it('fills dataList with data', () => {
+        expect(wrapper.vm.dataList.length).toBeGreaterThan(0);
+    });
+
+    it('draws table with dataList', () => {
+        expect(wrapper.findAll('tr')).toHaveLength(wrapper.vm.dataList.length + 1);
+    });
+
+    it('removes register item from list', async (done) => {
+        await wrapper.vm.loadDataList();
+        // find tested role
+        const createdItem = wrapper.vm.dataList.find(item => {
+            return item.name === 'upd-jest-name'
+        });
+        // and its index
+        const createdItemIndex = wrapper.vm.dataList.indexOf(createdItem);
+
+        // test if there's initially an item
+        expect(createdItem).toBeTruthy();
+
+        // find all delete icons and choose tested role by index
+        wrapper.findAll('.vuetable-action.icon-icon_delete').at(createdItemIndex)
+            .trigger('click');
+
+        // wait for async response
+        await setTimeout(async () => {
+            // remove role and check if it removed from list
+            expect(wrapper.vm.dataList).not.toContain(createdItem);
+
+            // check if it removed from database
+            expect(await getRoleList()).not.toContain(createdItem);
+            done();
+        }, 100);
+    });
+
+    it('removes trunking item from list', async (done) => {
+
+        await wrapper.vm.loadDataList();
+        // find tested role
+        const createdItem = wrapper.vm.dataList.find(item => {
+            return item.name === 'upd-jest-trunking-name'
+        });
+        // and its index
+        const createdItemIndex = wrapper.vm.dataList.indexOf(createdItem);
+
+        // test if there's initially an item
+        expect(createdItem).toBeTruthy();
+
+        // find all delete icons and choose tested role by index
+        wrapper.findAll('.vuetable-action.icon-icon_delete').at(createdItemIndex)
+            .trigger('click');
+
+        // wait for async response
+        await setTimeout(async () => {
+            // remove role and check if it removed from list
+            expect(wrapper.vm.dataList).not.toContain(createdItem);
+
+            // check if it removed from database
+            expect(await getRoleList()).not.toContain(createdItem);
             done();
         }, 100);
     });
