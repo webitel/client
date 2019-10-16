@@ -22,28 +22,29 @@
   .vue-tags-input {
     width: 100%;
     max-width: 100%;
-    min-height: 48px;
+    min-height: 40px;
 
 
     .ti-input {
-      padding: 10px 16px;
+      padding: 6px 16px;
 
       .ti-new-tag-input-wrapper {
         padding-left: 0;
       }
 
+      .ti-new-tag-input {
+        @extend .typo-input-label;
+      }
 
       .ti-tag {
         @extend .typo-input-label;
 
         color: #000;
-        background: #F1F4FF;
-        padding: 5px 7px !important;
+        background: $tag-background;
+        padding: 5px 6px !important;
         margin: 0 8px 0 0;
 
-        input {
-          @extend .typo-input-label;
-        }
+
 
         &.ti-deletion-mark {
           background-color: rgba(0, 0, 0, 0.05) !important;

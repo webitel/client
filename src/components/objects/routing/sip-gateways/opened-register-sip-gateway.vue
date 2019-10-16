@@ -52,7 +52,6 @@
                             v-model.trim="itemInstance.description"
                             :label="$t('objects.description')"
                             :placeholder="$t('objects.description')"
-                            :height="164"
                             textarea
                     ></form-input>
                 </template>

@@ -31,7 +31,6 @@
 
                 <!--                v-model="role.description"-->
                 <form-input
-                        :height="164"
                         :label="$t('objects.description')"
                         :placeholder="$t('objects.description')"
                         textarea
