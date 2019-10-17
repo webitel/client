@@ -34,56 +34,56 @@
 
         <div
                 class="invalid form-input__details"
-                v-if="v.required===false"
+                v-if="v.required===false && v.$dirty"
         >
             {{$t('validation.required')}}
         </div>
 
         <div
                 class="invalid form-input__details"
-                v-else-if="v.numeric===false"
+                v-else-if="v.numeric===false && v.$dirty"
         >
             {{$t('validation.numeric')}}
         </div>
 
         <div
                 class="invalid form-input__details"
-                v-else-if="v.email===false"
+                v-else-if="v.email===false && v.$dirty"
         >
             {{$t('validation.email')}}
         </div>
 
         <div
                 class="invalid form-input__details"
-                v-else-if="v.sameAs===false"
+                v-else-if="v.sameAs===false && v.$dirty"
         >
             {{$t('validation.confirmPassword')}}
         </div>
 
         <div
                 class="invalid form-input__details"
-                v-else-if="v.minValue===false"
+                v-else-if="v.minValue===false && v.$dirty"
         >
             {{$t('validation.atLeast') + ' ' + v.$params.minValue.min}}
         </div>
 
         <div
                 class="invalid form-input__details"
-                v-else-if="v.maxValue===false"
+                v-else-if="v.maxValue===false && v.$dirty"
         >
             {{$t('validation.notMuch') + ' ' + v.$params.maxValue.max}}
         </div>
 
         <div
                 class="invalid form-input__details"
-                v-else-if="v.gatewayHostValidator===false"
+                v-else-if="v.gatewayHostValidator===false && v.dirty"
         >
             {{$t('validation.ipOrFQDN')}}
         </div>
 
         <div
                 class="invalid form-input__details"
-                v-if="v.ipValidator===false"
+                v-if="v.ipValidator===false && v.$dirty"
         >
             {{$t('validation.ip')}}
         </div>
