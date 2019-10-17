@@ -31,6 +31,8 @@ import openedContactType from '../components/objects/lookups/contact-type/opened
 import sipGateways from '../components/objects/routing/sip-gateways/the-sip-gateways';
 import openedRegGateway from '../components/objects/routing/sip-gateways/opened-register-sip-gateway';
 import openedTrunkGateway from '../components/objects/routing/sip-gateways/opened-trunking-sip-gateway';
+import resourceGroups from '../components/objects/contact-center/resource-groups/the-resource-groups'
+import openedResourceGroup from '../components/objects/contact-center/resource-groups/opened-resource-group'
 
 Vue.use(Router);
 
@@ -212,6 +214,8 @@ const router = new Router({
                 },
                 // ----------LOOKUPS END------------
 
+
+
                 // --------------ADMINISTRATION-------------
                 {
                     path:'/administration/license',
@@ -219,6 +223,28 @@ const router = new Router({
                     component: customers
                 },
                 // --------------ADMINISTRATION END-------------
+
+
+
+                // --------------CONTACT CENTER-------------
+                {
+                    path:'/contact-center/resource-groups',
+                    name: 'cc-resource-groups',
+                    component: resourceGroups
+                },
+                {
+                    path:'/contact-center/resource-groups/new',
+                    name: 'cc-resource-group-new',
+                    component: openedResourceGroup
+                },
+                {
+                    path:'/contact-center/resource-groups/:id',
+                    name: 'cc-resource-group-edit',
+                    component: openedResourceGroup
+                },
+                // --------------CONTACT CENTER END-------------
+
+
 
                 // ----------PERMISSIONS-----------------
                 {

@@ -201,6 +201,16 @@ export default {
             callflow: {
                 callflow: 'Callflow'
             }
+        },
+
+        ccenter: {
+            ccenter: 'Contact center',
+
+            resGroups: {
+                resGroups: 'Resource group | Resource groups',
+                allResGroups: 'All resource groups',
+                searchPlaceholder: 'res group name..',
+            }
         }
     },
 };

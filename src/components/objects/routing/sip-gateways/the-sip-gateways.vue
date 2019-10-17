@@ -194,7 +194,6 @@
                 }
             },
 
-            // toggle object permissions
             async toggleDataProperty(property, id) {
                 // first, change UI, then send request
                 this.dataList[id][property] = !this.dataList[id][property];

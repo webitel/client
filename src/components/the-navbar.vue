@@ -187,21 +187,21 @@
                 <li
                         class="nav-item-wrap"
                         :class="{
-                        'nav-item__expanded': expanded.contactCenter,
-                         'nav-item__current': currentRoute.contactCenter
+                        'nav-item__expanded': expanded['contact-center'],
+                         'nav-item__current': currentRoute['contact-center']
                          }"
-                        @click="expandItem('contactCenter')"
+                        @click="expandItem('contact-center')"
                 >
                     <div class="nav-item">
                         <i class="nav-icon-arrow icon-icon_arrow-down"></i>
                         <i class="nav-icon icon-icon_approve"></i>
                         <span class="nav-text">Contact center</span>
                     </div>
-                    <ul class="subnav-items" v-show="this.expanded.contactCenter">
+                    <ul class="subnav-items" v-show="this.expanded['contact-center']">
                         <li
                                 class="subnav-item"
                                 :class="{
-                                    'nav-item__current': currentRouteItem.dashboard
+                                    'nav-item__current': currentRouteItem['contact-center']
                                  }"
                                 @click="navigate"
                         >
@@ -227,6 +227,16 @@
                         >
                             <i class="subnav-icon icon-icon_deny"></i>
                             <span class="subnav-text">Resourses</span>
+                        </li>
+                        <li
+                                class="subnav-item"
+                                :class="{
+                                    'nav-item__current': currentRouteItem['resource-groups']
+                                 }"
+                                @click="navigate('/contact-center/resource-groups')"
+                        >
+                            <i class="subnav-icon icon-icon_deny"></i>
+                            <span class="subnav-text">Resourse groups</span>
                         </li>
                         <li
                                 class="subnav-item"
@@ -447,7 +457,7 @@
                     directory: false,
                     routing: false,
                     lookups: false,
-                    contactCenter: false,
+                    'contact-center': false,
                     integrations: false,
                     administration: false,
                     permissions: false
@@ -457,7 +467,7 @@
                     contacts: false,
                     routing: false,
                     lookups: false,
-                    contactCenter: false,
+                    'contact-center': false,
                     kibana: false,
                     integrations: false,
                     administration: false,
@@ -488,6 +498,7 @@
                     dashboard: false,
                     agents: false,
                     resources: false,
+                    'resource-groups': false,
                     queues: false,
 
                     // Kibana
