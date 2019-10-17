@@ -10,25 +10,33 @@
         </div>
 
         <v-select
-            :value="value"
-            :options="options"
-            :label="displayProperty"
-            :placeholder="placeholder"
-            :clearable="false"
-            :disabled="disabled"
-            :required="required"
-            @input="setOption"
+                :value="value"
+                :options="options"
+                :label="displayProperty"
+                :placeholder="placeholder"
+                :clearable="false"
+                :disabled="disabled"
+                :required="required"
+                @input="setOption"
         ></v-select>
+
+        <validation-message
+                :v="v"
+        />
     </div>
 </template>
 
 <script>
     import vSelect from 'vue-select';
+    import requiredLabelMixin from '@/mixins/requiredLabelMixin';
+    import validationMessage from './validation-message';
 
     export default {
         name: "dropdown-select",
+        mixins: [requiredLabelMixin],
         components: {
             'v-select': vSelect,
+            'validation-message': validationMessage
         },
         props: {
             // options to select
@@ -36,7 +44,7 @@
                 type: Array || Object,
                 // required: true,
                 default: () => []
-             },
+            },
 
             displayProperty: {
                 type: String
@@ -86,11 +94,6 @@
                 this.$emit('input', option);
             }
         },
-        computed: {
-            computeRequiredLabel() {
-                return this.required ? this.label+ '*' : this.label;
-            },
-        }
     }
 </script>
 

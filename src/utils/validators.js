@@ -15,3 +15,7 @@ export const gatewayHostValidator = (value) => {
         .test(value) || /^(?=.{1,254}$)((?=[a-z0-9-]{1,63}\.)(xn--+)?[a-z0-9]+(-[a-z0-9]+)*\.)+[a-z]{2,63}/i
         .test(value);
 };
+
+export const requiredArrayValue = (array) => {
+    return array.some(value => value);
+};

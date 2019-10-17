@@ -5,6 +5,7 @@ import dropdownSelect from '@/components/utils/dropdown-select';
 import switcher from '@/components/utils/switcher';
 import tableCheckbox from '@/components/utils/checkbox';
 import hint from '@/components/utils/hint';
+import validationMessage from '@/components/utils/validation-message';
 
 export default {
     components: {
@@ -12,6 +13,7 @@ export default {
         'form-input': formInput,
         'expansion-panel': expansionPanel,
         'dropdown-select': dropdownSelect,
+        'validation-message': validationMessage,
         checkbox: tableCheckbox,
         switcher,
         hint

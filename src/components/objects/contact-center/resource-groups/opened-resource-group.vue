@@ -63,12 +63,17 @@
                         ></dropdown-select>
 
                         <section class="value-pair-wrap">
-                            <div class="label">{{$tc('objects.ccenter.res.res', 2)}}</div>
+                            <div
+                                    class="label"
+                                    :class="{'invalid': $v.itemInstance.resList.$error}"
+                            >
+                                {{$tc('objects.ccenter.res.res', 2)}}*</div>
                             <div
                                     class="value-pair"
                                     v-for="(res, key) in itemInstance.resList"
                             >
                                 <form-input
+                                        v-model="itemInstance.resList[key]"
                                         :placeholder="$tc('objects.ccenter.res.res', 1)"
                                 ></form-input>
 
@@ -79,6 +84,11 @@
                                 ></i>
                             </div>
                             <i class="icon-icon_plus icon-action" @click="addValuePair"></i>
+
+                            <validation-message
+                                    :v="$v.itemInstance.resList">
+                            </validation-message>
+
                         </section>
                     </div>
                 </template>
@@ -91,24 +101,7 @@
                     </header>
                 </template>
                 <template slot="expansion-content">
-<!--                        <section class="value-pair-wrap">-->
-<!--                            <div class="label">{{$tc('objects.ccenter.res.res', 2)}}</div>-->
-<!--                            <div-->
-<!--                                    class="value-pair"-->
-<!--                                    v-for="(res, key) in itemInstance.resList"-->
-<!--                            >-->
-<!--                                <form-input-->
-<!--                                        :placeholder="$tc('objects.ccenter.res.res', 1)"-->
-<!--                                ></form-input>-->
 
-<!--                                <i-->
-<!--                                        class="icon-icon_delete icon-action"-->
-<!--                                        v-if="key !== 0"-->
-<!--                                        @click="deleteValuePair(key)"-->
-<!--                                ></i>-->
-<!--                            </div>-->
-<!--                            <i class="icon-icon_plus icon-action" @click="addValuePair"></i>-->
-<!--                        </section>-->
                 </template>
             </expansion-panel>
         </section>
@@ -118,6 +111,7 @@
 <script>
     import editComponentMixin from '@/mixins/editComponentMixin';
     import {required} from 'vuelidate/lib/validators';
+    import {requiredArrayValue} from "@/utils/validators";
 
     import {addRole, getRole, updateRole} from "@/api/objects/permissions/roles";
     import DropdownSelect from "../../../utils/dropdown-select";
@@ -151,9 +145,9 @@
                 strategy: {
                     required
                 },
-                // resList: {
-                //     required
-                // }
+                resList: {
+                    requiredArrayValue
+                }
             }
         },
 
@@ -194,10 +188,10 @@
 
 <style lang="scss" scoped>
     .value-pair-wrap {
-        margin-top: 28px;
+        margin-top: 8px;
     }
 
     .value-pair {
-        grid-template-columns: 1fr 24px !important;
+        grid-template-columns: 1fr 24px;
     }
 </style>
