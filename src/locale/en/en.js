@@ -206,7 +206,10 @@ export default {
             ccenter: 'Contact center',
 
             res: {
-                res: 'Resource | Resources'
+                res: 'Resource | Resources',
+                allRes: 'All resources',
+                reserve: 'Reserve',
+                searchPlaceholder: 'name, gateway..'
             },
             resGroups: {
                 resGroups: 'Resource group | Resource groups',
