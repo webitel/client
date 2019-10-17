@@ -235,12 +235,12 @@ const router = new Router({
                     component: theResources
                 },
                 {
-                    path:'/contact-center/resources/new',
+                    path:'/contact-center/resource/new',
                     name: 'cc-resource-new',
                     component: openedResource
                 },
                 {
-                    path:'/contact-center/resources/:id',
+                    path:'/contact-center/resource/:id',
                     name: 'cc-resource-edit',
                     component: openedResource
                 },

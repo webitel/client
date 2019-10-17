@@ -209,8 +209,16 @@ export default {
                 res: 'Resource | Resources',
                 allRes: 'All resources',
                 reserve: 'Reserve',
-                searchPlaceholder: 'name, gateway..'
+                searchPlaceholder: 'name, gateway..',
+                cps: 'CPS',
+                limit: 'Limit',
+                numbers: 'Number | Numbers',
+                displayNumbers: 'Display numbers',
+                failure: 'Failure',
+                maxErrors: 'Maximum failure responses',
+                errorCodes: 'Request Failure Responses',
             },
+
             resGroups: {
                 resGroups: 'Resource group | Resource groups',
                 allResGroups: 'All resource groups',
