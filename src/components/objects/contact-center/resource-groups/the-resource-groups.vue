@@ -1,6 +1,8 @@
 <template>
     <div class="gateways">
-        <object-header>
+        <object-header
+            :primaryAction="create"
+        >
             {{$t('objects.ccenter.ccenter')}} |
             {{$tc('objects.ccenter.resGroups.resGroups', 2)}}
         </object-header>
@@ -99,6 +101,10 @@
                 this.filteredDataList = this.dataList.filter(dataItem => {
                     return dataItem.name.trim().toLowerCase().includes(this.search.trim().toLowerCase())
                 });
+            },
+
+            create() {
+                this.$router.push('/contact-center/resource-groups/new');
             },
 
             edit(rowId) {

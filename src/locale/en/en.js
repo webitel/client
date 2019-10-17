@@ -206,11 +206,16 @@ export default {
         ccenter: {
             ccenter: 'Contact center',
 
+            res: {
+                res: 'Resource | Resources'
+            },
             resGroups: {
                 resGroups: 'Resource group | Resource groups',
                 allResGroups: 'All resource groups',
                 searchPlaceholder: 'res group name..',
-            }
+                strategy: 'Strategy',
+                timerange: 'Time range'
+            },
         }
     },
 };
