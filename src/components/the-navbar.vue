@@ -223,7 +223,7 @@
                                 :class="{
                                     'nav-item__current': currentRouteItem.resources
                                  }"
-                                @click="navigate"
+                                @click="navigate('/contact-center/resources')"
                         >
                             <i class="subnav-icon icon-icon_deny"></i>
                             <span class="subnav-text">Resourses</span>
