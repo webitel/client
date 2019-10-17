@@ -17,14 +17,13 @@ export default {
     validation: {
         email: 'Should look email-like',
         required: 'This field is required',
-        confirmPassword: 'Incorrect password',
-        ipOrFQDN: 'Should look like IPv4 or FQDN',
-        ip: 'Should look like IPv4',
-        atLeast: 'Value shoud be at least',
-        notMuch: 'Value shoud be not much',
-        between: 'Value shoud be between',
-        numeric: 'Should be numberic'
-
+        sameAs: 'Incorrect password',
+        gatewayHostValidator: 'Should look like IPv4 or FQDN',
+        ipValidator: 'Should look like IPv4',
+        minValue: 'Value shoud be at least',
+        maxValue: 'Value shoud be not much',
+        numeric: 'Should be numberic',
+        requiredArrayValue: 'Array should not be empty',
     },
 
     objects: {

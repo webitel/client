@@ -133,6 +133,11 @@ i {
   }
 }
 
+.invalid {
+  color: $false-color;
+  border-color: $false-color;
+}
+
 .scrollbar {
   // scrollbar itself
   &::-webkit-scrollbar {

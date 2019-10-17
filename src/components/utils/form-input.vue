@@ -1,12 +1,12 @@
 <template>
     <div class="form-input">
         <div class="label" :class="{'invalid': this.v.$error}">{{computeRequiredLabel}}
-            <div class="hint" v-show="this.hintText">
-                <i
-                        class="hint__img tooltip-activator icon-icon_question"
-                ></i>
-                <div class="tooltip-left">{{this.hintText}}</div>
-            </div>
+<!--            <div class="hint" v-show="this.hintText">-->
+<!--                <i-->
+<!--                        class="hint__img tooltip-activator icon-icon_question"-->
+<!--                ></i>-->
+<!--                <div class="tooltip-left">{{this.hintText}}</div>-->
+<!--            </div>-->
         </div>
 
         <input
@@ -32,69 +32,23 @@
                 :disabled="disabled"
         ></textarea>
 
-        <div
-                class="invalid form-input__details"
-                v-if="v.required===false && v.$dirty"
-        >
-            {{$t('validation.required')}}
-        </div>
-
-        <div
-                class="invalid form-input__details"
-                v-else-if="v.numeric===false && v.$dirty"
-        >
-            {{$t('validation.numeric')}}
-        </div>
-
-        <div
-                class="invalid form-input__details"
-                v-else-if="v.email===false && v.$dirty"
-        >
-            {{$t('validation.email')}}
-        </div>
-
-        <div
-                class="invalid form-input__details"
-                v-else-if="v.sameAs===false && v.$dirty"
-        >
-            {{$t('validation.confirmPassword')}}
-        </div>
-
-        <div
-                class="invalid form-input__details"
-                v-else-if="v.minValue===false && v.$dirty"
-        >
-            {{$t('validation.atLeast') + ' ' + v.$params.minValue.min}}
-        </div>
-
-        <div
-                class="invalid form-input__details"
-                v-else-if="v.maxValue===false && v.$dirty"
-        >
-            {{$t('validation.notMuch') + ' ' + v.$params.maxValue.max}}
-        </div>
-
-        <div
-                class="invalid form-input__details"
-                v-else-if="v.gatewayHostValidator===false && v.dirty"
-        >
-            {{$t('validation.ipOrFQDN')}}
-        </div>
-
-        <div
-                class="invalid form-input__details"
-                v-if="v.ipValidator===false && v.$dirty"
-        >
-            {{$t('validation.ip')}}
-        </div>
+        <validation-message
+                :v="v"
+        />
     </div>
 </template>
 
 <script>
     import eventBus from '@/utils/eventBus';
+    import requiredLabelMixin from '@/mixins/requiredLabelMixin';
+    import validationMessage from './validation-message';
 
     export default {
         name: 'login-input',
+        mixins: [requiredLabelMixin],
+        components: {
+            'validation-message': validationMessage
+        },
         props: {
             // value -- w-model from outer component
             value: {
@@ -166,15 +120,6 @@
 
             if(this.textarea) this.$refs.input.style.height = `${this.height}px`;
         },
-        methods: {
-            // pass copyTarget to be sure that selected text will be copied
-            copyToClipboard(copyTarget) {
-                if (this.value === copyTarget && this.value) {
-                    this.$refs.input.select();
-                    document.execCommand('copy');
-                }
-            }
-        },
         computed: {
             validation: {
                 get() {
@@ -185,8 +130,14 @@
                     this.$emit('input', value);
                 },
             },
-            computeRequiredLabel() {
-                return this.required ? this.label + '*' : this.label;
+        },
+        methods: {
+            // pass copyTarget to be sure that selected text will be copied
+            copyToClipboard(copyTarget) {
+                if (this.value === copyTarget && this.value) {
+                    this.$refs.input.select();
+                    document.execCommand('copy');
+                }
             }
         },
     };
@@ -195,26 +146,11 @@
 <style lang="scss" scoped>
     .form-input {
         position: relative;
-
-        padding-bottom: 18px;
     }
 
     .input {
         @extend .typo-input-text;
         @extend .default-input;
-    }
-
-    .form-input__details {
-        position: absolute;
-        bottom: 0;
-        left: 0;
-
-        @extend .typo-body-md;
-    }
-
-    .invalid {
-        color: $false-color;
-        border-color: $false-color;
     }
 
     textarea {
