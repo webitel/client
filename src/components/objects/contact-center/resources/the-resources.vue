@@ -127,12 +127,12 @@
             },
 
             create() {
-                this.$router.push('/contact-center/resources/new');
+                this.$router.push('/contact-center/resource/new');
             },
 
             edit(rowId) {
                 this.$router.push({
-                    name: 'cc-resources-edit',
+                    name: 'cc-resource-edit',
                     params: {id: this.dataList[rowId].id},
                 });
             },
