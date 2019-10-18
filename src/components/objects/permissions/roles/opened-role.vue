@@ -3,30 +3,23 @@
         <object-header
                 :primaryText="$t('objects.save')"
                 :primaryAction="submit"
-                :secondaryAction="close"
+                close
         >
             {{$tc('objects.permissions.permissionsRole')}} | {{computeTitle}}
         </object-header>
+
         <section class="object-content module-new">
             <header class="content-header">
                 <h3 class="content-title">{{$t('objects.generalInfo')}}</h3>
-                <hint/>
             </header>
 
             <section class="new_w50">
-
                 <form-input
                         v-model.trim="$v.itemInstance.role.$model"
                         :v="$v.itemInstance.role"
                         :label="$t('objects.name')"
                         :placeholder="$t('objects.name')"
                         required
-                ></form-input>
-
-                <form-input
-                        v-model="itemInstance.name"
-                        :label="$t('objects.name')"
-                        :placeholder="$t('objects.name')"
                 ></form-input>
 
                 <!--                v-model="role.description"-->
@@ -55,7 +48,6 @@
             return {
                 itemInstance: {
                     role: 'front-role',
-                    name: '',
                     // description: '',
                 },
             };

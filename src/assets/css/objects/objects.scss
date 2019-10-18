@@ -25,7 +25,10 @@
 
 // inner content section
 .object-content {
-  padding: 38px 28px 40px 44px;
+  min-height: 65vh;
+  padding: 38px 58px;
+  background: #fff;
+  border-radius: $border-radius;
 }
 
 // SECTION HEADING
@@ -34,11 +37,10 @@
   justify-content: space-between;
   align-items: baseline;
   position: relative;
-  margin: 0 25px 12px 0;
+  margin-bottom: 25px;
 
   .content-title {
     @extend .typo-heading-md;
-
     margin: 0;
 
     + .hint {
@@ -225,7 +227,7 @@
     width: 50%;
 
     .form-input {
-      margin: 10px 0;
+      margin: 8px 0;
     }
   }
 }

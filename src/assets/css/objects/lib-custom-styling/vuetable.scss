@@ -47,30 +47,18 @@
   // vuetable class is to override default style priority
   &.vuetable .vuetable-td-actions {
     text-align: right;
-    padding-right: 0;
-    margin-right: 30px;
-
-    // div icons wrap
-    .vuetable-actions__wrap {
-      width: 100%;
-    }
+    padding: 0;
 
     // icon
     .vuetable-action {
+      @extend .icon-action;
+
       vertical-align: middle; //aligns not icon but container
       display: inline-block;
-      margin-right: 25px;
+      margin-right: 18px;
       color: $icon-color;
       transition: $transition;
       cursor: pointer;
-
-      &:hover {
-        color: #000;
-      }
-
-      &:last-child {
-        margin-right: 30px;
-      }
     }
   }
 }

@@ -34,7 +34,7 @@
 
 <style lang="scss" scoped>
     .the-header {
-        height: 63px;
+        height: 54px;
         background: #e8e8e8;
         color: #000;
     }
