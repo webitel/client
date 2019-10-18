@@ -6,17 +6,19 @@
 
 .v-select {
   .vs__dropdown-toggle {
-    height: 48px;
+    padding: $input-padding;
     border-color: $input;
     border-radius: $border-radius;
   }
 
   .vs__selected-options {
-    /*padding for arrow icon*/
-    padding-right: 40px;
     border-radius: $border-radius;
 
     input {
+      @extend .typo-input-text;
+
+      padding: 0;
+      margin: 0;
       border-radius: $border-radius;
       transition: $transition;
 
