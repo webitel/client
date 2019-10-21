@@ -69,7 +69,7 @@
 
         .tab__item {
             display: inline-block;
-            margin: 0 48px 0 0;
+            margin: 0 48px 0  0;
             padding: 10px 0 8px;
             text-decoration: none;
             color: #94979B;

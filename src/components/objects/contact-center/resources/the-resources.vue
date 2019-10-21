@@ -24,6 +24,11 @@
                                 @keyup="filterData"
                         >
                     </div>
+                    <i
+                            class="icon-icon_delete icon-action"
+                            :class="{'hidden': anySelected}"
+                            @click="deleteSelected"
+                    ></i>
                 </div>
             </header>
 
@@ -101,6 +106,12 @@
 
                 // vuetable prop
                 fields: [
+                    {
+                        name: '__table-checkbox',
+                        titleClass: 'vuetable-td-checkbox',
+                        dataClass: 'vuetable-td-checkbox',
+                        width: '55px'
+                    },
                     {name: 'name', title: this.$t('objects.name')},
                     {name: 'gateway', title: this.$tc('objects.routing.gateways.gateways', 1)},
                     {name: 'enabled', title: this.$t('objects.enabled')},
@@ -154,18 +165,7 @@
             },
 
             async loadDataList() {
-                const response = await getResourceList();
-
-                // const response = [];
-                //
-                // for (let i = 0; i < 10; i++) {
-                //     response.push({
-                //         name: 'res group ' + i,
-                //         description: 'res group descr ' + i,
-                //         id: i
-                //     });
-                // }
-
+                const response = await getResourceList(this.rowsPerPage);
                 this.dataList = [...response];
                 this.filterData();
             }
