@@ -64,16 +64,16 @@
                 </template>
 
                 <template slot="actions" slot-scope="props">
-                    <div class="vuetable-actions__wrap">
                         <i class="vuetable-action icon-icon_edit"
                            @click="edit(props.rowIndex)"
                         ></i>
                         <i class="vuetable-action icon-icon_delete"
                            @click="remove(props.rowIndex)"
                         ></i>
-                    </div>
                 </template>
             </vuetable>
+
+            <pagination/>
         </section>
     </div>
 </template>
@@ -83,11 +83,12 @@
     import switcher from '@/components/utils/switcher';
     import objectHeader from '@/components/objects/the-object-header';
     import {getResourceList} from '@/api/objects/contact-center/resources';
-    // import
+    import tableComponentMixin from '@/mixins/tableComponentMixin';
 
 
     export default {
         name: "the-resources",
+        mixins: [tableComponentMixin],
         components: {
             'object-header': objectHeader,
             switcher,

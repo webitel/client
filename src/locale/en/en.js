@@ -31,6 +31,7 @@ export default {
         directory: 'Directory',
         administration: 'Administration',
 
+        general: 'General',
         new: 'New',
         create: 'Create',
         read: 'Read',

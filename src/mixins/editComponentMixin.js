@@ -5,6 +5,7 @@ import dropdownSelect from '@/components/utils/dropdown-select';
 import switcher from '@/components/utils/switcher';
 import tableCheckbox from '@/components/utils/checkbox';
 import hint from '@/components/utils/hint';
+import tabs from '@/components/utils/tabs';
 import validationMessage from '@/components/utils/validation-message';
 
 export default {
@@ -16,7 +17,8 @@ export default {
         'validation-message': validationMessage,
         checkbox: tableCheckbox,
         switcher,
-        hint
+        hint,
+        tabs,
     },
 
 

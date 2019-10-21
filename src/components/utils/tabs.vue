@@ -5,16 +5,20 @@
                 :class="{'active': tab.value === currentTab}"
                 v-for="tab in tabs"
                 type="button"
-                @click="handleClick"
+                :value="tab.text"
+                @click="handleClick(tab)"
         >
             {{tab.text}}
         </button>
 
-        <div
-                class="tabs__underline"
-                :style="{ width: `${activeLineWidth}px`,
+
+        <div class="tabs__underline">
+            <div
+                    class="tabs__underline__highlight"
+                    :style="{ width: `${activeLineWidth}px`,
                 transform: `translateX(${activeLineOffset}px)` }"
-        ></div>
+            ></div>
+        </div>
     </nav>
 </template>
 
@@ -23,7 +27,7 @@
         name: "tabs",
         props: {
             currentTab: {
-                type: String,
+                type: Object,
                 required: true,
             },
             tabs: {
@@ -58,50 +62,61 @@
 
 <style lang="scss" scoped>
     .tabs {
+        display: block;
         position: relative;
-        margin: 0 auto;
+        margin: 0 0 28px;
+        padding: 0 58px;
+
         .tab__item {
             display: inline-block;
-            margin: 0 5px;
-            padding: 10px;
-            padding-bottom: 8px;
-            font-size: 16px;
-            letter-spacing: 0.8px;
-            color: gray;
+            margin: 0 48px 0 0;
+            padding: 10px 0 8px;
             text-decoration: none;
+            color: #94979B;
             border: none;
             background-color: transparent;
             border-bottom: 2px solid transparent;
             cursor: pointer;
-            transition: all 0.25s;
+            transition: $transition;
+
             &.active {
-                color: black;
+                font-family: 'AvantGardeDemi';
+                color: #000;
             }
+
             &:hover {
-                border-bottom: 2px solid gray;
-                color: black;
+                font-family: 'AvantGardeDemi';
+                border-bottom: 2px solid $accent-color;
+                color: #000;
             }
+
             &:focus {
+                font-family: 'AvantGardeDemi';
                 outline: none;
-                border-bottom: 2px solid gray;
-                color: black;
+                border-bottom: 2px solid $accent-color;
+                color: #000;
             }
-            &:first-child {
-                margin-left: 0;
-            }
-            &:last-child {
-                margin-right: 0;
+
+            // disables bold font resize on hover
+            &:after {
+                display: block;
+                content: attr(value);
+                font-family: 'AvantGardeDemi';
+                height: 0;
+                overflow: hidden;
+                visibility: hidden;
             }
         }
 
 
         .tabs__underline {
             position: absolute;
-            bottom: 0;
             left: 0;
-            height: 2px;
-            background-color: black;
-            transition: transform 0.4s ease, width 0.4s ease;
+            right: 0;
+            bottom: 0;
+            height: 1px;
+            background: #EAE9E9;
+            z-index: 0;
         }
     }
 </style>

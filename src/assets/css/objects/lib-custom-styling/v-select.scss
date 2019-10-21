@@ -53,15 +53,17 @@
 
   .vs__actions {
     position: relative;
+    padding: 0;
 
     &:before {
       position: absolute;
       top: 50%;
-      right: 16px;
+      right: 0;
       font-family: 'icomoon';
       font-size: 24px;
       content: '\e004';
       transform: translate(0, -50%);
+      pointer-events: none;
     }
 
     .vs__open-indicator {
