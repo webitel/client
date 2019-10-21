@@ -2,7 +2,7 @@
     <nav class="tabs">
         <button
                 class="tab__item"
-                :class="{'active': tab.value === currentTab}"
+                :class="{'active': tab.value === currentTab.value}"
                 v-for="tab in tabs"
                 type="button"
                 :value="tab.text"
@@ -74,25 +74,14 @@
             text-decoration: none;
             color: #94979B;
             border: none;
+            outline: none;
             background-color: transparent;
             border-bottom: 2px solid transparent;
             cursor: pointer;
             transition: $transition;
 
-            &.active {
+            &.active, &:hover, &:focus {
                 font-family: 'AvantGardeDemi';
-                color: #000;
-            }
-
-            &:hover {
-                font-family: 'AvantGardeDemi';
-                border-bottom: 2px solid $accent-color;
-                color: #000;
-            }
-
-            &:focus {
-                font-family: 'AvantGardeDemi';
-                outline: none;
                 border-bottom: 2px solid $accent-color;
                 color: #000;
             }

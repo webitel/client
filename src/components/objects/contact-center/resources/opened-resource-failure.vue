@@ -33,24 +33,14 @@
 </template>
 
 <script>
+    import openedTabComponentMixin from '@/mixins/openedTabComponentMixin';
     import tagsInput from "@johmun/vue-tags-input";
-    import editComponentMixin from '@/mixins/editComponentMixin';
 
     export default {
         name: "opened-resource-failure",
-        mixins: [editComponentMixin],
+        mixins: [openedTabComponentMixin],
         components: {
             'tags-input': tagsInput,
-        },
-        props: {
-            itemInstanceProp: {
-                type: Object,
-                required: true,
-            },
-            v: {
-                type: Object,
-                required: true
-            }
         },
 
         data() {
@@ -65,13 +55,5 @@
                 ],
             }
         },
-
-        mounted() {
-            this.itemInstance = this.itemInstanceProp;
-        },
     }
 </script>
-
-<style lang="scss" scoped>
-
-</style>

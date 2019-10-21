@@ -26,14 +26,18 @@ export default {
         return {
             id: null, // id of currently opened component
             itemInstance: {},
-            initialItem: {}
+            initialItem: {},
+            currentTab: {value: 'general'},
         };
     },
 
     mounted() {
         this.setId(); // if there is an edit case, set id from route
 
-        if(!this.id) this.setInitialItem();
+        if (!this.id) this.setInitialItem();
+        if (this.id) {
+            this.loadItem();
+        }
 
     },
 
@@ -69,7 +73,7 @@ export default {
         },
 
         setInitialItem() {
-          this.initialItem = JSON.parse(JSON.stringify(this.itemInstance));
+            this.initialItem = JSON.parse(JSON.stringify(this.itemInstance));
         },
 
         close() {
@@ -80,5 +84,9 @@ export default {
         computeTitle() {
             return this.id ? this.$t('objects.edit') : this.$t('objects.new');
         },
+
+        computeCurrentTab() {
+            return this.$options.name + '-' + this.currentTab.value;
+        }
     },
 }

@@ -57,7 +57,6 @@
                     maxErrors: null,
                     errorCodeList: [],
                 },
-                currentTab: {value: 'general'},
                 tabs: [
                     {
                         text: this.$t('objects.general'),
@@ -93,18 +92,6 @@
                 numberList: {
                     requiredArrayValue
                 }
-            }
-        },
-
-        mounted() {
-            if (this.id) {
-                this.loadItem();
-            }
-        },
-
-        computed: {
-            computeCurrentTab() {
-                return 'opened-resource-' + this.currentTab.value;
             }
         },
 

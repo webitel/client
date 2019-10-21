@@ -24,6 +24,11 @@
                                 @keyup="filterData"
                         >
                     </div>
+                    <i
+                            class="icon-icon_delete icon-action"
+                            :class="{'hidden': anySelected}"
+                            @click="deleteSelected"
+                    ></i>
                 </div>
             </header>
 
@@ -48,16 +53,16 @@
                 </template>
 
                 <template slot="actions" slot-scope="props">
-                    <div class="vuetable-actions__wrap">
                         <i class="vuetable-action icon-icon_edit"
                            @click="edit(props.rowIndex)"
                         ></i>
                         <i class="vuetable-action icon-icon_delete"
                            @click="remove(props.rowIndex)"
                         ></i>
-                    </div>
                 </template>
             </vuetable>
+
+            <pagination/>
         </section>
     </div>
 </template>
@@ -65,10 +70,12 @@
 <script>
     import vuetable from 'vuetable-2/src/components/Vuetable';
     import objectHeader from '@/components/objects/the-object-header';
+    import tableComponentMixin from '@/mixins/tableComponentMixin';
 
 
     export default {
         name: "the-resource-groups",
+        mixins: [tableComponentMixin],
         components: {
             'object-header': objectHeader,
             vuetable,
@@ -80,8 +87,14 @@
 
                 // vuetable prop
                 fields: [
+                    {
+                        name: '__table-checkbox',
+                        titleClass: 'vuetable-td-checkbox',
+                        dataClass: 'vuetable-td-checkbox',
+                        width: '55px'
+                    },
                     {name: 'name', title: this.$t('objects.name')},
-                    {name: 'description', title: this.$t('objects.description')},
+                    {name: 'communication', title: this.$t('objects.description')},
                     {
                         name: 'actions',
                         title: '',
@@ -136,8 +149,9 @@
 
                 for (let i = 0; i < 10; i++) {
                     response.push({
+                        isSelected: false,
                         name: 'res group ' + i,
-                        description: 'res group descr ' + i,
+                        communication: 'res group communication ' + i,
                         id: i
                     });
                 }

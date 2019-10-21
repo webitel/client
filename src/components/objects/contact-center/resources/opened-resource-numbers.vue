@@ -37,25 +37,11 @@
 </template>
 
 <script>
-    import editComponentMixin from '@/mixins/editComponentMixin';
+    import openedTabComponentMixin from '@/mixins/openedTabComponentMixin';
 
     export default {
         name: "opened-resource-number",
-        mixins: [editComponentMixin],
-        props: {
-            itemInstanceProp: {
-                type: Object,
-                required: true,
-            },
-            v: {
-                type: Object,
-                required: true
-            }
-        },
-
-        mounted() {
-            this.itemInstance = this.itemInstanceProp;
-        },
+        mixins: [openedTabComponentMixin],
 
         methods: {
             addValuePair() {
@@ -68,7 +54,3 @@
         }
     }
 </script>
-
-<style lang="scss" scoped>
-
-</style>

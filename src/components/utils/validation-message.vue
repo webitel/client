@@ -26,7 +26,7 @@
                         return this.$t('validation.sameAs');
                     } else if (this.v.minValue === false) {
                         return this.$t('validation.minValue');
-                    } else if (this.v.requiredArrayValue=== false) {
+                    } else if (this.v.requiredArrayValue === false) {
                         return this.$t('validation.requiredArrayValue');
                     } else if (this.v.maxValue === false) {
                         return this.$t('validation.maxValue');

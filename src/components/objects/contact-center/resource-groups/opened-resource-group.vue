@@ -3,112 +3,33 @@
         <object-header
                 :primaryText="$t('objects.save')"
                 :primaryAction="submit"
-                :secondaryAction="close"
+                close
         >
             {{$tc('objects.ccenter.resGroups.resGroups', 1)}} | {{computeTitle}}
         </object-header>
-        <section class="object-content module-new">
 
-            <expansion-panel opened>
-                <template slot="expansion-header">
-                    <header class="content-header">
-                        <h3 class="content-title">{{$t('objects.generalInfo')}}</h3>
-                    </header>
-                </template>
-                <template slot="expansion-content">
-                    <form-input
-                            v-model.trim="$v.itemInstance.name.$model"
-                            :v="$v.itemInstance.name"
-                            :label="$t('objects.name')"
-                            :placeholder="$t('objects.name')"
-                            required
-                    ></form-input>
 
-                    <dropdown-select
-                            :value="$v.itemInstance.communication"
-                            :v="$v.itemInstance.communication"
-                            :options="[]"
-                            :label="$tc('objects.lookups.communications.communications', 1)"
-                            :placeholder="$tc('objects.lookups.communications.communications', 1)"
-                            @input="$v.itemInstance.communication = $event"
-                            required
-                    ></dropdown-select>
-
-                    <form-input
-                            v-model="itemInstance.description"
-                            :label="$t('objects.description')"
-                            :placeholder="$t('objects.description')"
-                            textarea
-                    ></form-input>
-
-                </template>
-            </expansion-panel>
-
-            <expansion-panel>
-                <template slot="expansion-header">
-                    <header class="content-header">
-                        <h3 class="content-title">{{$t('objects.generalInfo')}}</h3>
-                    </header>
-                </template>
-                <template slot="expansion-content">
-                    <div>
-                        <dropdown-select
-                                :value="itemInstance.strategy"
-                                :v="$v.itemInstance.strategy"
-                                :options="[]"
-                                :label="$t('objects.ccenter.resGroups.strategy')"
-                                :placeholder="$t('objects.ccenter.resGroups.strategy')"
-                                @input="$v.itemInstance.strategy = $event"
-                                required
-                        ></dropdown-select>
-
-                        <section class="value-pair-wrap">
-                            <div
-                                    class="label"
-                                    :class="{'invalid': $v.itemInstance.resList.$error}"
-                            >
-                                {{$tc('objects.ccenter.res.res', 2)}}*</div>
-                            <div
-                                    class="value-pair"
-                                    v-for="(res, key) in itemInstance.resList"
-                            >
-                                <form-input
-                                        v-model="itemInstance.resList[key]"
-                                        :placeholder="$tc('objects.ccenter.res.res', 1)"
-                                ></form-input>
-
-                                <i
-                                        class="icon-icon_delete icon-action"
-                                        v-if="key !== 0"
-                                        @click="deleteValuePair(key)"
-                                ></i>
-                            </div>
-                            <i class="icon-icon_plus icon-action" @click="addValuePair"></i>
-
-                            <validation-message
-                                    :v="$v.itemInstance.resList">
-                            </validation-message>
-
-                        </section>
-                    </div>
-                </template>
-            </expansion-panel>
-
-            <expansion-panel>
-                <template slot="expansion-header">
-                    <header class="content-header">
-                        <h3 class="content-title">{{$t('objects.ccenter.resGroups.timerange')}}</h3>
-                    </header>
-                </template>
-                <template slot="expansion-content">
-
-                </template>
-            </expansion-panel>
+        <section class="object-content module-new object-with-tabs">
+            <tabs
+                    :currentTab="currentTab"
+                    :tabs="tabs"
+                    @change="currentTab = $event"
+            ></tabs>
+            <component
+                    class="tabs-inner-component"
+                    :is="computeCurrentTab"
+                    :itemInstanceProp="itemInstance"
+                    :v="$v"
+            ></component>
         </section>
     </div>
 </template>
 
 <script>
+    import openedResourceGroupGeneral from './opened-resource-group-general';
+    import openedResourceGroupResources from './opened-resource-group-resources';
+    import openedResourceGroupTimerange from './opened-resource-group-timerange';
+
     import editComponentMixin from '@/mixins/editComponentMixin';
     import {required} from 'vuelidate/lib/validators';
     import {requiredArrayValue} from "@/utils/validators";
@@ -118,8 +39,13 @@
 
     export default {
         name: 'opened-resource-group',
-        components: {DropdownSelect},
         mixins: [editComponentMixin],
+        components: {
+            openedResourceGroupGeneral,
+            openedResourceGroupResources,
+            openedResourceGroupTimerange,
+            DropdownSelect,
+        },
 
         data() {
             return {
@@ -130,6 +56,20 @@
                     strategy: '',
                     resList: ['', '']
                 },
+                tabs: [
+                    {
+                        text: this.$t('objects.general'),
+                        value: 'general',
+                    },
+                    {
+                        text: this.$tc('objects.ccenter.res.res', 2),
+                        value: 'resources',
+                    },
+                    {
+                        text: this.$t('objects.ccenter.resGroups.timerange'),
+                        value: 'timerange',
+                    }
+                ],
             };
         },
 
@@ -151,20 +91,7 @@
             }
         },
 
-        mounted() {
-            if (this.id) {
-                this.loadItem();
-            }
-        },
-
         methods: {
-            addValuePair() {
-                this.itemInstance.resList.push('');
-            },
-
-            deleteValuePair(valuePairId) {
-                this.itemInstance.resList.splice([valuePairId], 1);
-            },
 
             async save() {
                 if (this.id) {
