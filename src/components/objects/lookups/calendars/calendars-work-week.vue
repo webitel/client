@@ -39,7 +39,6 @@
             </template>
 
             <template slot="actions" slot-scope="props">
-                <div class="vuetable-actions__wrap">
                     <i class="vuetable-action icon-icon_plus"
                        v-if="computeWWeekRepresentation[props.rowIndex].origin"
                        @click="addWorkRange(computeWWeekRepresentation[props.rowIndex].name)"

@@ -10,7 +10,7 @@
         </div>
 
         <v-select
-                :value="value"
+                :value="computeEmptyValue"
                 :options="options"
                 :label="displayProperty"
                 :placeholder="placeholder"
@@ -94,6 +94,13 @@
                 }),
             },
         },
+
+        computed: {
+            computeEmptyValue() {
+                return Object.values(this.value).length !== 0 ? this.value : null;
+            }
+        },
+
         methods: {
             setOption(option) {
                 this.v.$touch();

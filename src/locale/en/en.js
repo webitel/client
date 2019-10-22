@@ -150,7 +150,8 @@ export default {
                 holidays: 'Holidays',
                 enabled: 'Enabled',
                 date: 'Date',
-                repeat: 'Repeat'
+                repeat: 'Repeat',
+                fulltime: 'Full-time',
             },
             communications: {
                 communications: 'Communication type | Comunication types',

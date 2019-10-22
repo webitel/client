@@ -10,6 +10,15 @@
     padding: $input-padding;
     border-color: $input;
     border-radius: $border-radius;
+    transition: $transition;
+
+    &:hover:not(:disabled) {
+      border-color: #000;
+
+      input::placeholder {
+        color: #000;
+      }
+    }
   }
 
   .vs__selected-options {
@@ -29,7 +38,7 @@
       transition: $transition;
 
       &::placeholder {
-        color: #000;
+        color: $input;
       }
     }
 
