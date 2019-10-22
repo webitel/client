@@ -39,7 +39,7 @@ export async function getGateway(id) {
     }
 }
 
-export async function addGateway(item) {
+export const addGateway = async (item) => {
 
     Object.keys(item).forEach(key => {
         if(!item[key]) delete item[key];
@@ -55,7 +55,7 @@ export async function addGateway(item) {
     }
 }
 
-export async function updateGateway(id, changes) {
+export const updateGateway = async (id, changes) => {
     const url = BASE_URL + '/' + id;
 
     if(!changes.register) {
@@ -73,7 +73,7 @@ export async function updateGateway(id, changes) {
     }
 }
 
-export async function deleteGateway(id) {
+export const deleteGateway = async (id) => {
     const url = BASE_URL + '/' + id;
 
     try {
@@ -83,7 +83,7 @@ export async function deleteGateway(id) {
     }
 }
 
-function coerceTrunkingResponse(response) {
+const coerceTrunkingResponse = (response) => {
     const defaultObject = {
         name: '',
         proxy: '',
@@ -100,7 +100,7 @@ function coerceTrunkingResponse(response) {
     return Object.assign({}, defaultObject, response.data.item);
 }
 
-function coerceRegisterResponse(response) {
+const coerceRegisterResponse = (response) => {
     const defaultObject = {  // default object prototype, to merge response with it to get all fields
         name: '',
         registrar: '',
@@ -127,4 +127,4 @@ function coerceRegisterResponse(response) {
     if(!result.proxy) result.proxy = result.registrar;
 
     return result;
-}
+};

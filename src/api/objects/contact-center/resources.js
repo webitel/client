@@ -8,7 +8,7 @@ const resService = new OutboundResourceServiceApiFactory
 
 const domainId = store.getters.getDomainId || undefined;
 
-export async function getResourceList(size = 10) {
+export const getResourceList = async (size = 10) => {
     const defaultObject = {
         isSelected: false,
         name: '',
@@ -33,7 +33,7 @@ export async function getResourceList(size = 10) {
     }
 }
 
-export async function getResource(id) {
+export const getResource = async (id) => {
     try {
         const response = await resService.readOutboundResource(id, domainId);
 
