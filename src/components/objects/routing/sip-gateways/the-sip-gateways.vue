@@ -91,11 +91,8 @@
 <script>
     import tableComponentMixin from '@/mixins/tableComponentMixin';
     import createGatewayPopup from './create-gateway-popup';
-    import vuetable from 'vuetable-2/src/components/Vuetable';
-    import objectHeader from '@/components/objects/the-object-header';
-    import switcher from '@/components/utils/switcher';
-    import status from '@/components/utils/status';
     import {getGatewayList, deleteGateway} from "../../../../api/objects/routing/gateways";
+    import {_checkboxTableField, _actionsTableField_2} from "@/utils/tableFieldPresets";
 
 
     export default {
@@ -103,55 +100,22 @@
         mixins: [tableComponentMixin],
         components: {
             'gateway-popup': createGatewayPopup,
-            'object-header': objectHeader,
-            switcher,
-            vuetable,
-            status,
         },
         data() {
             return {
-                dataList: [], // list of all objects to show
-                filteredDataList: [],
-
-                // vuetable prop
                 fields: [
-                    {
-                        name: '__table-checkbox',
-                        titleClass: 'vuetable-td-checkbox',
-                        dataClass: 'vuetable-td-checkbox',
-                        width: '55px'
-                    },
+                    _checkboxTableField,
                     {name: 'name', title: this.$t('objects.name')},
                     {name: 'proxy', title: this.$t('objects.routing.gateways.proxy')},
                     {name: 'enabled', title: this.$t('objects.enabled')},
                     {name: 'status', title: this.$t('objects.status')},
-                    {
-                        name: 'actions',
-                        title: '',
-                        titleClass: 'vuetable-td-actions',
-                        dataClass: 'vuetable-td-actions',
-                        width: '120px'
-                    },
+                    _actionsTableField_2,
                 ],
-                search: '',
-                popupTriggerIf: false,
+                filterProperties: ['name', 'proxy'],
             };
         },
-        mounted() {
-            this.loadDataList();
-        },
+
         methods: {
-            openPopup() {
-                this.popupTriggerIf = true;
-            },
-
-            filterData() {
-                this.filteredDataList = this.dataList.filter(dataItem => {
-                    return dataItem.name.trim().toLowerCase().includes(this.search.trim().toLowerCase())
-                        || dataItem.proxy.trim().toLowerCase().includes(this.search.trim().toLowerCase());
-                });
-            },
-
             edit(rowId) {
                 let name;
                 if (this.dataList[rowId].register) {
@@ -209,13 +173,13 @@
 
             async toggleDataProperty(property, id) {
                 // first, change UI, then send request
-                this.dataList[id][property] = !this.dataList[id][property];
+                this.filteredDataList[id][property] = !this.filteredDataList[id][property];
 
                 try {
                     // await updateObject(this.dataList[id].id, this.dataList[id]);
                 } catch (err) {
                     // if request throws error, move changes back
-                    this.dataList[id][property] = !this.dataList[id][property];
+                    this.filteredDataList[id][property] = !this.filteredDataList[id][property];
                 }
             },
 
@@ -229,7 +193,3 @@
 
     }
 </script>
-
-<style lang="scss" scoped>
-
-</style>

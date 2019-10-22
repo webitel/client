@@ -76,14 +76,12 @@
 
 
                 <template slot="actions" slot-scope="props">
-                    <div class="vuetable-actions__wrap">
                         <i class="vuetable-action icon-icon_edit"
                            @click="action('edit')"
                         ></i>
                         <i class="vuetable-action icon-icon_delete"
                            @click="action('delete')"
                         ></i>
-                    </div>
                 </template>
             </vuetable>
         </section>
@@ -97,15 +95,16 @@
     import switcher from '../../../utils/switcher';
     import uploadPopup from '../../utils/upload-popup';
     import status from '../../../utils/status';
+    import {_checkboxTableField, _actionsTableField_2} from "@/utils/tableFieldPresets";
     import dropdownSelect from '../../../utils/dropdown-select';
 
     export default {
         name: "opened-user",
         components: {
-            'object-header': objectHeader,
-            'upload-popup': uploadPopup,
-            'table-filter': tableFilter,
-            'dropdown-select': dropdownSelect,
+            objectHeader,
+            uploadPopup,
+            tableFilter,
+            dropdownSelect,
             vuetable,
             switcher,
             status
@@ -114,25 +113,14 @@
             return {
                 // vuetable prop
                 fields: [
-                    {
-                        name: '__table-checkbox',
-                        titleClass: 'vuetable-td-checkbox',
-                        dataClass: 'vuetable-td-checkbox',
-                        width: '55px'
-                    },
+                    _checkboxTableField,
                     {name: 'name', title: this.$t('objects.name')},
                     {name: 'login', title: this.$t('objects.usersObject.login')},
                     {name: 'extensions', title: this.$t('objects.usersObject.extentions')},
                     {name: 'state', title: this.$t('objects.usersObject.state')},
                     {name: 'DnD', title: this.$t('objects.usersObject.DnD')},
                     {name: 'status', title: this.$t('objects.usersObject.status')},
-                    {
-                        name: 'actions',
-                        title: '',
-                        titleClass: 'vuetable-td-actions',
-                        dataClass: 'vuetable-td-actions',
-                        width: '120px'
-                    },
+                    _actionsTableField_2,
                 ],
                 test: [],
                 filtered: [],

@@ -10,11 +10,11 @@ import validationMessage from '@/components/utils/validation-message';
 
 export default {
     components: {
-        'object-header': objectHeader,
-        'form-input': formInput,
-        'expansion-panel': expansionPanel,
-        'dropdown-select': dropdownSelect,
-        'validation-message': validationMessage,
+        objectHeader,
+        formInput,
+        expansionPanel,
+        dropdownSelect,
+        validationMessage,
         checkbox: tableCheckbox,
         switcher,
         hint,

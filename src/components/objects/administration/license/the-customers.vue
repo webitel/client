@@ -32,11 +32,9 @@
 
 
                 <template slot="actions" slot-scope="props">
-                    <div class="vuetable-actions__wrap">
                         <i class="vuetable-action icon-icon_edit"
                            @click="openLicense"
                         ></i>
-                    </div>
                 </template>
             </vuetable>
         </section>
@@ -47,6 +45,8 @@
     import vuetable from 'vuetable-2/src/components/Vuetable';
     import objectHeader from '../../the-object-header';
     import license from './opened-license';
+    import {_actionsTableField_1} from "@/utils/tableFieldPresets";
+
 
     export default {
         name: "the-customers",
@@ -65,13 +65,7 @@
                     {name: 'competitive', title: this.$t('objects.license.competitive')},
                     {name: 'used', title: this.$t('objects.license.used')},
                     {name: 'limit', title: this.$t('objects.license.limit')},
-                    {
-                        name: 'actions',
-                        title: '',
-                        titleClass: 'vuetable-td-actions',
-                        dataClass: 'vuetable-td-actions',
-                        width: '60px'
-                    },
+                    _actionsTableField_1,
                 ],
                 test: [],
                 isPopupOpened: false,

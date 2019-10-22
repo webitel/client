@@ -84,60 +84,29 @@
 </template>
 
 <script>
-    import vuetable from 'vuetable-2/src/components/Vuetable';
-    import switcher from '@/components/utils/switcher';
-    import objectHeader from '@/components/objects/the-object-header';
     import {getResourceList} from '@/api/objects/contact-center/resources';
     import tableComponentMixin from '@/mixins/tableComponentMixin';
+    import {_checkboxTableField, _actionsTableField_2} from "@/utils/tableFieldPresets";
 
 
     export default {
         name: "the-resources",
         mixins: [tableComponentMixin],
-        components: {
-            'object-header': objectHeader,
-            switcher,
-            vuetable,
-        },
         data() {
             return {
-                dataList: [], // list of all objects to show
-                filteredDataList: [],
-
-                // vuetable prop
                 fields: [
-                    {
-                        name: '__table-checkbox',
-                        titleClass: 'vuetable-td-checkbox',
-                        dataClass: 'vuetable-td-checkbox',
-                        width: '55px'
-                    },
+                    _checkboxTableField,
                     {name: 'name', title: this.$t('objects.name')},
                     {name: 'gateway', title: this.$tc('objects.routing.gateways.gateways', 1)},
                     {name: 'enabled', title: this.$t('objects.enabled')},
                     {name: 'reserve', title: this.$t('objects.ccenter.res.reserve')},
-                    {
-                        name: 'actions',
-                        title: '',
-                        titleClass: 'vuetable-td-actions',
-                        dataClass: 'vuetable-td-actions',
-                        width: '120px'
-                    },
+                    _actionsTableField_2,
                 ],
-                search: '',
+                filterProperties: ['name'],
             };
         },
-        mounted() {
-            this.loadDataList();
-        },
-        methods: {
-            filterData() {
-                this.filteredDataList = this.dataList.filter(dataItem => {
-                    return dataItem.name.trim().toLowerCase().includes(this.search.trim().toLowerCase())
-                    || dataItem.gateway.name.trim().toLowerCase().includes(this.search.trim().toLowerCase())
-                });
-            },
 
+        methods: {
             create() {
                 this.$router.push('/contact-center/resource/new');
             },
@@ -148,7 +117,6 @@
                     params: {id: this.dataList[rowId].id},
                 });
             },
-
 
             async remove(rowId) {
                 // remove item
@@ -173,7 +141,3 @@
 
     }
 </script>
-
-<style lang="scss" scoped>
-
-</style>

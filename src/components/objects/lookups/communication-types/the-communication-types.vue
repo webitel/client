@@ -40,14 +40,12 @@
                 </template>
 
                 <template slot="actions" slot-scope="props">
-                    <div class="vuetable-actions__wrap">
                         <i class="vuetable-action icon-icon_edit"
                            @click="edit(props.rowIndex)"
                         ></i>
                         <i class="vuetable-action icon-icon_delete"
                            @click="remove(props.rowIndex)"
                         ></i>
-                    </div>
                 </template>
             </vuetable>
         </section>
@@ -57,11 +55,12 @@
 <script>
     import vuetable from 'vuetable-2/src/components/Vuetable';
     import objectHeader from '@/components/objects/the-object-header';
+    import {_checkboxTableField, _actionsTableField_2} from "@/utils/tableFieldPresets";
 
     export default {
         name: "the-communication-types",
         components: {
-            'object-header': objectHeader,
+            objectHeader,
             vuetable,
         },
         data() {
@@ -72,13 +71,7 @@
                     {name: 'communicationCode', title: this.$t('objects.lookups.communications.code')},
                     {name: 'communicationName', title: this.$t('objects.name')},
                     {name: 'communicationDescription', title: this.$t('objects.description')},
-                    {
-                        name: 'actions',
-                        title: '',
-                        titleClass: 'vuetable-td-actions',
-                        dataClass: 'vuetable-td-actions',
-                        width: '120px'
-                    },
+                    _actionsTableField_2,
                 ],
             };
         },

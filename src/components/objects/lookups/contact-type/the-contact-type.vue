@@ -34,14 +34,12 @@
                 </template>
 
                 <template slot="actions" slot-scope="props">
-                    <div class="vuetable-actions__wrap">
                         <i class="vuetable-action icon-icon_edit"
                            @click="edit(props.rowIndex)"
                         ></i>
                         <i class="vuetable-action icon-icon_delete"
                            @click="remove(props.rowIndex)"
                         ></i>
-                    </div>
                 </template>
             </vuetable>
         </section>
@@ -51,11 +49,12 @@
 <script>
     import vuetable from 'vuetable-2/src/components/Vuetable';
     import objectHeader from '@/components/objects/the-object-header';
+    import {_actionsTableField_2} from "@/utils/tableFieldPresets";
 
     export default {
         name: "the-contact-type",
         components: {
-            'object-header': objectHeader,
+            objectHeader,
             vuetable,
         },
         data() {
@@ -65,13 +64,7 @@
                 fields: [
                     {name: 'contactTypeName', title: this.$t('objects.name')},
                     {name: 'contactTypeDescription', title: this.$t('objects.description')},
-                    {
-                        name: 'actions',
-                        title: '',
-                        titleClass: 'vuetable-td-actions',
-                        dataClass: 'vuetable-td-actions',
-                        width: '120px'
-                    },
+                    _actionsTableField_2,
                 ],
             };
         },

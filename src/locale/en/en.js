@@ -70,12 +70,14 @@ export default {
             permissions: 'Permissions',
             permissionsRole: 'Role | Roles',
             allRoles: 'All roles',
+            searchPlaceholder: 'role ..',
             object: {
                 object: 'Objects',
                 allObjects: 'All objects',
                 ObAC: 'Managed by operations',
                 RbAC: 'Managed by records',
-                operations: 'Operations'
+                operations: 'Operations',
+                searchPlaceholder: 'object ..',
             }
         },
         devices: {

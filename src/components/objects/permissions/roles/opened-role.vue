@@ -62,12 +62,6 @@
             }
         },
 
-        mounted() {
-            if (this.id) {
-                this.loadItem();
-            }
-        },
-
         methods: {
             async save() {
                 if (this.id) {

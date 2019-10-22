@@ -3,7 +3,7 @@
         <object-header
                 :primaryText="$t('objects.save')"
                 :primaryAction="save"
-                :secondaryAction="close"
+                close
         >
             <span class="tt-capitalize">{{headerTitle}}</span>
             | {{$t('objects.edit')}}
@@ -32,7 +32,7 @@
                             class="inline-dropdown inline-dropdown__options-left"
                             :placeholder="dataList[props.rowIndex].grantee.role || 'Role'"
                             :options="computeAvailableGrantees"
-                            @input="selectNewGrantee($event, props.rowIndex)"
+                            @inp ut="selectNewGrantee($event, props.rowIndex)"
                     ></dropdown-select>
                 </template>
 

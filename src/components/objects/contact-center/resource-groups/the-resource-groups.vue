@@ -68,54 +68,26 @@
 </template>
 
 <script>
-    import vuetable from 'vuetable-2/src/components/Vuetable';
-    import objectHeader from '@/components/objects/the-object-header';
     import tableComponentMixin from '@/mixins/tableComponentMixin';
+    import {_checkboxTableField, _actionsTableField_2} from "@/utils/tableFieldPresets";
 
 
     export default {
         name: "the-resource-groups",
         mixins: [tableComponentMixin],
-        components: {
-            'object-header': objectHeader,
-            vuetable,
-        },
+
         data() {
             return {
-                dataList: [], // list of all objects to show
-                filteredDataList: [],
-
-                // vuetable prop
                 fields: [
-                    {
-                        name: '__table-checkbox',
-                        titleClass: 'vuetable-td-checkbox',
-                        dataClass: 'vuetable-td-checkbox',
-                        width: '55px'
-                    },
+                    _checkboxTableField,
                     {name: 'name', title: this.$t('objects.name')},
                     {name: 'communication', title: this.$t('objects.description')},
-                    {
-                        name: 'actions',
-                        title: '',
-                        titleClass: 'vuetable-td-actions',
-                        dataClass: 'vuetable-td-actions',
-                        width: '120px'
-                    },
+                    _actionsTableField_2,
                 ],
-                search: '',
+                filterProperties: ['name'],
             };
         },
-        mounted() {
-            this.loadDataList();
-        },
         methods: {
-            filterData() {
-                this.filteredDataList = this.dataList.filter(dataItem => {
-                    return dataItem.name.trim().toLowerCase().includes(this.search.trim().toLowerCase())
-                });
-            },
-
             create() {
                 this.$router.push('/contact-center/resource-groups/new');
             },
@@ -130,14 +102,14 @@
 
             async remove(rowId) {
                 // remove item
-                const deletedItem = this.dataList.splice(rowId, 1)[0];
+                const deletedItem = this.filteredDataList.splice(rowId, 1)[0];
                 this.filterData();
 
                 try {
                     // await deleteGateway(deletedItem.id);
                 } catch (err) {
                     // if request fails, restore
-                    this.dataList.splice(rowId, 0, deletedItem);
+                    this.filteredDataList.splice(rowId, 0, deletedItem);
                     this.filterData();
                 }
             },
@@ -163,7 +135,3 @@
 
     }
 </script>
-
-<style lang="scss" scoped>
-
-</style>
