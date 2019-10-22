@@ -17,6 +17,7 @@
                 :clearable="false"
                 :disabled="disabled"
                 :required="required"
+                :taggable="taggable"
                 @input="setOption"
         ></v-select>
 
@@ -76,6 +77,11 @@
 
             required: {
                 type: Boolean
+            },
+
+            taggable: {
+                type: Boolean,
+                default: false
             },
 
             // validation rules

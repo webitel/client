@@ -2,8 +2,9 @@ import instance from '@/api/instance';
 
 const BASE_URL = '/sip/gateways';
 
-export async function getGatewayList() {
+export async function getGatewayList(size) {
     const defaultObject = {  // default object prototype, to merge response with it to get all fields
+        isSelected: false,
         name: '',
         proxy: '',
         enable: false,
@@ -11,7 +12,7 @@ export async function getGatewayList() {
     };
 
     try {
-        let response = await instance.get(BASE_URL+'?size=20');
+        let response = await instance.get(BASE_URL+`?size=${size}`);
         if (!response.data.items) response.data.items = [];
 
         return response.data.items.map(item => {

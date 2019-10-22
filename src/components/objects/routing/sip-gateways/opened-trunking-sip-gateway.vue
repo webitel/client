@@ -3,106 +3,31 @@
         <object-header
                 :primaryText="$t('objects.save')"
                 :primaryAction="submit"
-                :secondaryAction="close"
+                close
         >
-            {{$tc('objects.routing.gateways.gateways', 1)}} | {{computeTitle}}
+            {{$t('objects.routing.gateways.trunkingGateway')}} | {{computeTitle}}
         </object-header>
-        <section class="object-content module-new gateways">
 
-            <expansion-panel opened>
-                <template slot="expansion-header">
-                    <header class="content-header">
-                        <h3 class="content-title">{{$t('objects.generalInfo')}}</h3>
-                    </header>
-                </template>
-                <template slot="expansion-content">
-                    <form-input
-                            v-model.trim="$v.itemInstance.name.$model"
-                            :v="$v.itemInstance.name"
-                            :label="$t('objects.name')"
-                            :placeholder="$t('objects.name')"
-                            required
-                    ></form-input>
-
-                    <dropdown-select
-                            :value="'Empty'"
-                            :label="$tc('objects.routing.callflow.callflow', 1)"
-                            :options="callflowList"
-                    ></dropdown-select>
-
-                    <form-input
-                            v-model.trim="$v.itemInstance.proxy.$model"
-                            :v="$v.itemInstance.proxy"
-                            :label="$t('objects.routing.gateways.hostnameTrunking')"
-                            :placeholder="$t('objects.routing.gateways.hostnameTrunking')"
-                            required
-                    ></form-input>
-
-                    <form-input
-                            v-model.trim="$v.itemInstance.host.$model"
-                            :v="$v.itemInstance.host"
-                            :label="$t('objects.routing.gateways.host')"
-                            :placeholder="$t('objects.routing.gateways.host')"
-                            required
-                    ></form-input>
-
-                    <form-input
-                            v-model.trim="itemInstance.description"
-                            :label="$t('objects.description')"
-                            :placeholder="$t('objects.description')"
-                            textarea
-                    ></form-input>
-                </template>
-            </expansion-panel>
-
-            <expansion-panel>
-                <template slot="expansion-header">
-                    <header class="content-header">
-                        <h3 class="content-title">{{$t('objects.routing.gateways.trunkingACLTitle')}}</h3>
-                    </header>
-                </template>
-
-                <template slot="expansion-content">
-                    <section class="value-pair-wrap">
-                        <div class="label">{{$t('objects.routing.gateways.trunkingACL')}}</div>
-                        <div class="value-pair" v-for="(ipacl, key) in $v.itemInstance.ipacl.$each.$iter">
-                            <dropdown-select
-                                    :label="$t('objects.routing.protocol')"
-                                    :value="ipacl.$model.proto"
-                                    :options="protocolList"
-                                    @input="ipacl.$model.proto = $event"
-                            >
-                            </dropdown-select>
-
-                            <form-input
-                                    v-model="ipacl.$model.ip"
-                                    :v="ipacl.ip"
-                                    :label="$t('objects.routing.ip')"
-                                    :placeholder="$t('objects.routing.ip')"
-                                    required
-                            ></form-input>
-
-                            <form-input
-                                    v-model="ipacl.$model.port"
-                                    :label="$t('objects.routing.port')"
-                                    :placeholder="$t('objects.routing.port')"
-                            ></form-input>
-
-                            <i
-                                    class="icon-icon_delete icon-action"
-                                    v-if="key !== 0"
-                                    @click="deleteValuePair(key)"
-                            ></i>
-                        </div>
-                        <i class="icon-icon_plus icon-action" @click="addValuePair"></i>
-                    </section>
-                </template>
-            </expansion-panel>
+        <section class="object-content module-new gateways object-with-tabs">
+            <tabs
+                    :currentTab="currentTab"
+                    :tabs="tabs"
+                    @change="currentTab = $event"
+            ></tabs>
+            <component
+                    class="tabs-inner-component"
+                    :is="computeCurrentTab"
+                    :itemInstanceProp="itemInstance"
+                    :v="$v"
+            ></component>
         </section>
     </div>
 </template>
 
 <script>
+    import openedTrunkingSipGatewayGeneral from './opened-trunking-sip-gateway-general';
+    import openedTrunkingSipGatewayConfiguration from './opened-trunking-sip-gateway-configuration';
+
     import editComponentMixin from '@/mixins/editComponentMixin';
     import {ipValidator, gatewayHostValidator} from '@/utils/validators';
     import {required} from 'vuelidate/lib/validators';
@@ -110,8 +35,12 @@
     import {getGateway, addGateway, updateGateway} from "@/api/objects/routing/gateways";
 
     export default {
-        name: 'opened-trinking-sip-gateway',
+        name: 'opened-trunking-sip-gateway',
         mixins: [editComponentMixin],
+        components: {
+            openedTrunkingSipGatewayGeneral,
+            openedTrunkingSipGatewayConfiguration
+        },
 
         data() {
             return {
@@ -123,18 +52,21 @@
                     host: '',
                     ipacl: [{
                         ip: '',
-                        proto: '',
+                        proto: 'any',
                         port: null
                     }],
                 },
-                gatewayTypeOptions: ['SIP Registration', 'SIP Tranking'],
-                callflowList: [],
-                // protocolList: [
-                //     {name: 'Any', value: ''},
-                //     {name: 'UDP', value: 'udp'},
-                //     {name: 'TCP', value: 'tcp'}
-                // ],
-                protocolList: ['any', 'udp', 'tcp'],
+
+                tabs: [
+                    {
+                        text: this.$t('objects.general'),
+                        value: 'general',
+                    },
+                    {
+                        text: this.$tc('objects.routing.configuration'),
+                        value: 'configuration',
+                    },
+                ],
 
             };
         },
@@ -164,12 +96,6 @@
             }
         },
 
-        mounted() {
-            if (this.id) {
-                this.loadItem();
-            }
-        },
-
         computed: {
             computeGatewayTypeComponent() {
                 return 'register-gateway'
@@ -177,18 +103,6 @@
         },
 
         methods: {
-            addValuePair() {
-                this.itemInstance.ipacl.push({
-                    ip: '',
-                    proto: 'any',
-                    port: null
-                });
-            },
-
-            deleteValuePair(valuePairId) {
-                this.itemInstance.ipacl.splice([valuePairId], 1);
-            },
-
             async save() {
                 if (this.id) {
                     await updateGateway(this.id, this.itemInstance);
@@ -218,14 +132,3 @@
         },
     };
 </script>
-
-
-<style lang="scss" scoped>
-    .gateways .value-pair {
-        grid-template-columns: 1fr 4fr 1fr 24px;
-
-        .dropdown-select {
-            padding-bottom: 20px;
-        }
-    }
-</style>

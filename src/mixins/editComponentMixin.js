@@ -79,6 +79,8 @@ export default {
         close() {
             this.$router.go(-1);
         },
+
+        loadItem() {},
     },
     computed: {
         computeTitle() {

@@ -175,12 +175,7 @@ $srollbar-thumb-color: rgba(0, 0, 0, 0.3);
   align-items: center;
   grid-template-columns: 1fr 1fr 24px;
 
-  .icon-icon_delete {
-    margin-bottom: 10px;
-    cursor: pointer;
-
-    &:hover {
-      color: #000;
-    }
+  i {
+    @extend .icon-action;
   }
 }

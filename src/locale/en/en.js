@@ -173,10 +173,13 @@ export default {
             ip: 'IP',
             protocol: 'Protocol',
             port: 'Port',
+            configuration: 'Configuration',
 
             gateways: {
                 gateways: 'Gateway | Gateways',
                 allGateways: 'All gateways',
+                trunkingGateway: 'Trunking gateway',
+                registerGateway: 'Register gateway',
                 proxy: 'Proxy',
                 searchPlaceholder: 'gateway search...',
                 host: 'Host',

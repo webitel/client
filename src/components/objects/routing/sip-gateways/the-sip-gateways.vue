@@ -30,6 +30,11 @@
                                 @keyup="filterData"
                         >
                     </div>
+                    <i
+                            class="icon-icon_delete icon-action"
+                            :class="{'hidden': anySelected}"
+                            @click="deleteSelected"
+                    ></i>
                 </div>
             </header>
 
@@ -69,21 +74,22 @@
                 </template>
 
                 <template slot="actions" slot-scope="props">
-                    <div class="vuetable-actions__wrap">
                         <i class="vuetable-action icon-icon_edit"
                            @click="edit(props.rowIndex)"
                         ></i>
                         <i class="vuetable-action icon-icon_delete"
                            @click="remove(props.rowIndex)"
                         ></i>
-                    </div>
                 </template>
             </vuetable>
+
+            <pagination/>
         </section>
     </div>
 </template>
 
 <script>
+    import tableComponentMixin from '@/mixins/tableComponentMixin';
     import createGatewayPopup from './create-gateway-popup';
     import vuetable from 'vuetable-2/src/components/Vuetable';
     import objectHeader from '@/components/objects/the-object-header';
@@ -94,6 +100,7 @@
 
     export default {
         name: "the-sip-gateways",
+        mixins: [tableComponentMixin],
         components: {
             'gateway-popup': createGatewayPopup,
             'object-header': objectHeader,
@@ -108,6 +115,12 @@
 
                 // vuetable prop
                 fields: [
+                    {
+                        name: '__table-checkbox',
+                        titleClass: 'vuetable-td-checkbox',
+                        dataClass: 'vuetable-td-checkbox',
+                        width: '55px'
+                    },
                     {name: 'name', title: this.$t('objects.name')},
                     {name: 'proxy', title: this.$t('objects.routing.gateways.proxy')},
                     {name: 'enabled', title: this.$t('objects.enabled')},
@@ -207,7 +220,7 @@
             },
 
             async loadDataList() {
-                const response = await getGatewayList();
+                const response = await getGatewayList(this.rowsPerPage);
 
                 this.dataList = [...response];
                 this.filterData();
