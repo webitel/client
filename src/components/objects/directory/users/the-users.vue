@@ -60,7 +60,7 @@
                 <template slot="DnD" slot-scope="props">
                     <switcher
                             :value="filtered[props.rowIndex].DnD"
-                            @toggleSwitch="toggleSwitch($event, props.rowIndex)"
+                            @input="toggleSwitch($event, props.rowIndex)"
                     ></switcher>
                 </template>
 

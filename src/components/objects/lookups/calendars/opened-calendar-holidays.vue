@@ -1,17 +1,23 @@
 <template>
     <section>
+        <header class="content-header">
+            <h3 class="content-title">{{$t('objects.lookups.calendars.holidays')}}</h3>
+            <i class="icon-action icon-icon_plus" @click=""></i>
+        </header>
         <vuetable
                 :api-mode="false"
                 :fields="holidaysFields"
-                :data="holidayList"
+                :data="itemInstance.holidays"
         >
 
             <template slot="date" slot-scope="props">
-                <span>{{holidayList[props.rowIndex].date}}</span>
+                <span>{{itemInstance.holidays[props.rowIndex].date}}</span>
             </template>
 
             <template slot="repeat" slot-scope="props">
-                <span>{{holidayList[props.rowIndex].repeat}}</span>
+                <switcher
+                    v-model="itemInstance.holidays[props.rowIndex].repeat"
+                ></switcher>
             </template>
 
             <template slot="actions" slot-scope="props">
@@ -23,51 +29,37 @@
                 ></i>
             </template>
         </vuetable>
-        <i class="icon-action icon-icon_plus" @click=""></i>
-        <btn @click.native="sendHolidays">send</btn>
     </section>
 </template>
 
 <script>
     import vuetable from 'vuetable-2/src/components/Vuetable';
-    import editComponentMixin from '@/mixins/editComponentMixin';
-    import btn from '@/components/utils/btn';
-    import {addHoliday, deleteHoliday, getHolidayList} from "../../../../api/objects/lookups/calendars";
+    import openedTabComponentMixin from '@/mixins/openedTabComponentMixin';
+    import {addHoliday, deleteHoliday, getHolidayList} from "@/api/objects/lookups/calendars";
+    import {_actionsTableField_2} from "@/utils/tableFieldPresets";
 
     export default {
-        name: "calendars-holidays",
+        name: "opened-calendar-holidays",
         components: {
             vuetable,
-            btn
         },
-        mixins: [editComponentMixin],
+        mixins: [openedTabComponentMixin],
         data() {
             return {
-                holidayList: [],
                 holidaysFields: [
                     {name: 'name', title: this.$t('objects.name')},
                     {name: 'date', title: this.$t('objects.lookups.calendars.date')},
                     {name: 'repeat', title: this.$t('objects.lookups.calendars.repeat')},
-                    {
-                        name: 'actions',
-                        title: '',
-                        titleClass: 'vuetable-td-actions',
-                        dataClass: 'vuetable-td-actions',
-                        width: '120px'
-                    },
+                    _actionsTableField_2,
                 ],
             }
         },
 
-        mounted() {
-            this.loadHolidayList();
-        },
-
         methods: {
             async loadHolidayList() {
-                if (this.id) {
-                    const holidayList = await getHolidayList(this.id);
-                    this.holidayList = [...holidayList.items];
+                // if (this.id) {
+                //     const holidayList = await getHolidayList(this.id);
+                //     this.holidayList = [...holidayList.items];
                     // this.workWeek = workWeek.items.map(workday => {
                     //     return {
                     //         name: this.weekdays[workday.week_day],
@@ -79,26 +71,22 @@
                     //     }
                     // });
                 // } else {
-                    this.holidayList.push({
-                        name: 'New Year',
-                        date: (new Date('10.10.120').getTime()+'').slice(0, 10),
-                        repeat: 1
-                    });
-                }
+
+                // }
             },
 
             async remove(rowId) {
-                const deletedHoliday = this.holidayList.splice(rowId, 1)[0];
+                // const deletedHoliday = this.holidayList.splice(rowId, 1)[0];
 
                 try {
-                    await deleteHoliday(this.id, deletedHoliday.id)
+                    // await deleteHoliday(this.id, deletedHoliday.id)
                 } catch (err) {
-                    this.holidayList.splice(rowId, 0, deletedHoliday);
+                    // this.holidayList.splice(rowId, 0, deletedHoliday);
                 }
             },
 
             async sendHolidays() {
-                await addHoliday(this.holidayList[0], this.id);
+                // await addHoliday(this.holidayList[0], this.id);
             },
         }
     }

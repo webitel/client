@@ -45,8 +45,8 @@ export const getCalendar = async (id) => {
             name: '',
             timezone: '',
             description: '',
-            startDate: '',
-            endDate: ''
+            start: '',
+            finish: ''
         };
 
         return Object.assign({}, defaultCalendar, response.data);
@@ -76,11 +76,21 @@ export const deleteCalendar = async (id) => {
 export const getWorkdayList = async (calendarId) => {
     try {
         const response = await calendarService.searchAcceptOfDay(calendarId, domainId);
-        return response.data;
+        return response.data.items.map(workday => {
+            return {
+                name: this.weekdays[workday.week_day],
+                id: workday.id,
+                enabled: !workday.disabled,
+                start: this.convertSecToHours(workday.start_time_of_day),
+                end: this.convertSecToHours(workday.end_time_of_day),
+                origin: true
+            }
+        });
+
     } catch (err) {
         throw err;
     }
-}
+};
 
 export const getWorkday = async (calendarId, workdayId) => {
     try {

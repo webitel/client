@@ -1,12 +1,12 @@
 <template>
     <section>
-        <template slot="expansion-header">
+        <header class="content-header">
             <h3 class="content-title">{{$t('objects.generalInfo')}}</h3>
-        </template>
+        </header>
         <form class="object-input-grid">
             <form-input
-                    v-model.trim="v.itemInstance.name.$model"
-                    :v="v.itemInstance.name"
+                    v-model.trim="v.itemInstance.calendar.name.$model"
+                    :v="v.itemInstance.calendar.name"
                     :label="$t('objects.name')"
                     :placeholder="$t('objects.name')"
                     required
@@ -17,14 +17,14 @@
                     :displayProperty="'name'"
                     :label="$t('objects.lookups.calendars.timezone')"
                     :placeholder="$t('objects.lookups.calendars.timezone')"
-                    :value="v.itemInstance.timezone.$model"
-                    @input="itemInstance.timezone = $event"
+                    :value="v.itemInstance.calendar.timezone.$model"
+                    @input="itemInstance.calendar.timezone = $event"
                     required
             ></dropdown-select>
 
             <form-input
                     class="form__input"
-                    v-model.trim="itemInstance.description"
+                    v-model.trim="itemInstance.calendar.description"
                     :label="$t('objects.description')"
                     :placeholder="$t('objects.description')"
                     textarea
@@ -33,31 +33,30 @@
             <div class="calendars__dates">
                 <div class="calendars__date-wrap">
                     <datepicker
-                            v-model="itemInstance.startDate"
+                            v-model="itemInstance.calendar.start"
                             :label="$t('objects.lookups.calendars.start')"
                             :format="'d MMMM yyyy'"
                             :calendar-button-icon="'icon-icon_arrow-down'"
                             :maximum-view="'day'"
-                            :disabled="isCalendarExpiration"
+                            :disabled="!itemInstance.calendar.expires"
                             monday-first
                             calendar-button
                     ></datepicker>
                     <span class="calendars__to-separator">to</span>
                     <datepicker
-                            v-model="itemInstance.endDate"
+                            v-model="itemInstance.calendar.finish"
                             :label="$t('objects.lookups.calendars.end')"
                             :format="'d MMMM yyyy'"
                             :calendar-button-icon="'icon-icon_arrow-down'"
                             :maximum-view="'day'"
-                            :disabled="isCalendarExpiration"
+                            :disabled="!itemInstance.calendar.expires"
                             monday-first
                             calendar-button
                     ></datepicker>
                     <div class="switcher-label-wrap">
                         <div class="label">{{$t('objects.lookups.calendars.fulltime')}}</div>
                         <switcher
-                                :value="isCalendarExpiration"
-                                @toggleSwitch="isCalendarExpiration = $event"
+                                v-model="itemInstance.calendar.expires"
                         ></switcher>
                     </div>
                 </div>
@@ -80,7 +79,6 @@
 
         data() {
             return {
-                isCalendarExpiration: false,
                 timezoneList: []
             }
         },

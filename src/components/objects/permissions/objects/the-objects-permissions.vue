@@ -42,7 +42,7 @@
                     <switcher
                             class="test__object-switcher__obac"
                             :value="filteredDataList[props.rowIndex].obac"
-                            @toggleSwitch="toggleDataProperty('obac', props.rowIndex)"
+                            @input="toggleDataProperty('obac', props.rowIndex)"
                     ></switcher>
                 </template>
 
@@ -50,7 +50,7 @@
                     <switcher
                             class="test__object-switcher__rbac"
                             :value="filteredDataList[props.rowIndex].rbac"
-                            @toggleSwitch="toggleDataProperty('rbac', props.rowIndex)"
+                            @input="toggleDataProperty('rbac', props.rowIndex)"
                     ></switcher>
                 </template>
 

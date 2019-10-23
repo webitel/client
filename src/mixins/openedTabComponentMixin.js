@@ -13,7 +13,7 @@ export default {
         }
     },
 
-    mounted() {
+    created() {
         this.itemInstance = this.itemInstanceProp;
     },
 }

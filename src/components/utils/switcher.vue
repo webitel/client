@@ -20,7 +20,7 @@
         },
         methods: {
             toggleSwitch() {
-                this.$emit('toggleSwitch', !this.value);
+                this.$emit('input', !this.value);
             }
         }
     }

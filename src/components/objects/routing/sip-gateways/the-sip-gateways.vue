@@ -61,7 +61,7 @@
                 <template slot="enabled" slot-scope="props">
                     <switcher
                             :value="filteredDataList[props.rowIndex].enable"
-                            @toggleSwitch="toggleDataProperty('enable', props.rowIndex)"
+                            @input="toggleDataProperty('enable', props.rowIndex)"
                     ></switcher>
                 </template>
 
