@@ -105,12 +105,12 @@
             },
 
             async loadCalendar() {
-                if(this.id) {
+                if (this.id) {
                     this.itemInstance.calendar = await getCalendar(this.id);
                 }
             },
             async loadWorkWeek() {
-                if(this.id) {
+                if (this.id) {
                     this.itemInstance.workWeek = await getWorkdayList(this.id);
                 } else {
                     const weekdays = ['monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday', 'sunday'];
@@ -118,21 +118,21 @@
 
                     weekdays.forEach((day, index) => {
                         this.itemInstance.workWeek.push({
-                                name: weekdays[index],
-                                enabled: index < 5,
-                                start: '9:00',
-                                end: '20:00',
-                            });
+                            name: weekdays[index],
+                            enabled: index < 5,
+                            start: 9*60,
+                            end: 20*60,
+                        });
                     });
                 }
             },
             async loadHolidays() {
-                if(this.id) {
+                if (this.id) {
                     this.itemInstance.holidays = await getHolidayList(this.id);
                 } else {
                     this.itemInstance.holidays.push({
                         name: 'New Year',
-                        date: (new Date('10.10.120').getTime()+'').slice(0, 10),
+                        date: (new Date('10.10.120').getTime() + '').slice(0, 10),
                         repeat: true
                     });
                 }

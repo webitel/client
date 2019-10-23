@@ -81,8 +81,8 @@ export const getWorkdayList = async (calendarId) => {
                 name: this.weekdays[workday.week_day],
                 id: workday.id,
                 enabled: !workday.disabled,
-                start: this.convertSecToHours(workday.start_time_of_day),
-                end: this.convertSecToHours(workday.end_time_of_day),
+                start: this.convertMinToHours(workday.start_time_of_day),
+                end: this.convertMinToHours(workday.end_time_of_day),
                 origin: true
             }
         });

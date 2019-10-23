@@ -18,21 +18,17 @@
             </template>
 
             <template slot="start" slot-scope="props">
-                <dropdown-select
-                        class="inline-dropdown options-align-right"
-                        :value="itemInstance.workWeek[props.rowIndex].start"
-                        :options="initHourList"
-                        @input="itemInstance.workWeek[props.rowIndex].start = $event"
-                ></dropdown-select>
+                <timepicker
+                        v-model="itemInstance.workWeek[props.rowIndex].start"
+                >
+                </timepicker>
             </template>
 
             <template slot="end" slot-scope="props">
-                <dropdown-select
-                        class="inline-dropdown options-align-right"
-                        :value="itemInstance.workWeek[props.rowIndex].end"
-                        :options="initHourList"
-                        @input="itemInstance.workWeek[props.rowIndex].end = $event"
-                ></dropdown-select>
+                <timepicker
+                        v-model="itemInstance.workWeek[props.rowIndex].end"
+                >
+                </timepicker>
             </template>
 
             <template slot="status" slot-scope="props">
@@ -57,18 +53,16 @@
 </template>
 
 <script>
+    import timepicker from '@/components/utils/timepicker';
     import vuetable from 'vuetable-2/src/components/Vuetable';
     import openedTabComponentMixin from '@/mixins/openedTabComponentMixin';
-    import {
-        getWorkdayList,
-        addWorkday
-    } from "../../../../api/objects/lookups/calendars";
     import {_actionsTableField_1} from "@/utils/tableFieldPresets";
 
     export default {
         name: "opened-calendar-work-week",
         components: {
             vuetable,
+            timepicker,
         },
         mixins: [openedTabComponentMixin],
         data() {
@@ -133,15 +127,14 @@
             addWorkRange(day) {
                 const dayRangeIndex = this.itemInstance.workWeek
                     .findIndex((workday, index, array) => {
-                        console.log(array[index].name, array[index + 1].name);
                         return workday.name === day && array[index + 1].name !== day
                     });
 
                 this.itemInstance.workWeek.splice(dayRangeIndex + 1, 0, {
                     name: day,
                     enabled: true,
-                    start: '9:00',
-                    end: '20:00'
+                    start: 9*60,
+                    end: 20*60,
                 });
             },
 
@@ -161,16 +154,6 @@
                 });
 
                 return minSum;
-            },
-
-            convertSecToHours(minNum) {
-                const minInHour = 60;
-
-                let hours = Math.floor(minNum / minInHour);
-                let minutes = Math.floor(minNum % minInHour);
-
-                if (minutes < 10) minutes += '0';
-                return hours + ':' + minutes;
             },
 
             computeWorkdayEnd(dataItem, rowIndex) {

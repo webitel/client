@@ -18,6 +18,7 @@
                 :disabled="disabled"
                 :required="required"
                 :taggable="taggable"
+                :width="21"
                 @input="setOption"
         ></v-select>
 
