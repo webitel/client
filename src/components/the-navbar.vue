@@ -1,440 +1,36 @@
 <template>
     <aside class="the-nav__wrap">
-        <nav class="the-nav" :class="{'expanded-nav': computeNavExpansion}" @mouseleave="expandItem">
-            <div class="logo" @click="$router.push('/')">
-                <img class="logo-sm__img" src="../assets/img/logo-sm.svg" alt="logo">
-                <img class="logo__img" src="../assets/img/logo.svg" alt="logo">
-            </div>
+        <header class="nav__header">
+            <i class="icon-icon_delete icon-icon_menu"></i>
+            <img class="logo__img" src="../assets/img/logo.svg" alt="logo">
+        </header>
+        <nav class="the-nav expanded-nav">
             <ul class="nav-items">
                 <li
                         class="nav-item-wrap"
-                        :class="{
-                        'nav-item__expanded': expanded.directory,
-                         'nav-item__current': currentRoute.directory
-                         }"
-                        @click="expandItem('directory')"
+                        v-for="item in nav"
+                        @click="navigate(item)"
                 >
-                    <div class="nav-item">
-                        <i class="nav-icon-arrow icon-icon_arrow-down"></i>
-                        <i class="nav-icon icon-icon_approve"></i>
-                        <span class="nav-text">Directory</span>
+                    <div
+                            class="nav-item"
+                            :class="{'nav-item__expanded': item.expanded,
+                             'nav-item__current': item.current}"
+                            @click="expandItem(item)">
+                        <i class="nav-icon" :class="item.iconClass"></i>
+                        <span class="nav-text">{{item.displayName}}</span>
+                        <i class="nav-icon-arrow icon-icon_arrow-down" v-if="item.subnav"></i>
                     </div>
-                    <ul class="subnav-items" v-show="this.expanded.directory">
+                    <ul class="subnav-items"
+                        v-if="item.subnav"
+                        v-show="item.expanded"
+                    >
                         <li
                                 class="subnav-item"
-                                :class="{
-                                    'nav-item__current': currentRouteItem.users
-                                 }"
-                                @click="navigate('/directory/users')"
+                                v-for="subitem in item.subnav"
+                                :class="{'nav-item__current': subitem.current}"
+                                @click="navigate(subitem)"
                         >
-                            <i class="subnav-icon icon-icon_deny"></i>
-                            <span class="subnav-text">Users</span>
-                        </li>
-                        <li
-                                class="subnav-item"
-                                :class="{
-                                    'nav-item__current': currentRouteItem.devices
-                                 }"
-                                @click="navigate('/directory/devices')"
-                        >
-                            <i class="subnav-icon icon-icon_deny"></i>
-                            <span class="subnav-text">Devices</span>
-                        </li>
-                    </ul>
-                </li>
-
-                <li class="nav-item-wrap">
-                    <div class="nav-item" @click="navigate">
-                        <i class="nav-icon icon-icon_approve"></i>
-                        <span class="nav-text">Contacts</span>
-                    </div>
-                </li>
-
-                <li
-                        class="nav-item-wrap"
-                        :class="{
-                        'nav-item__expanded': expanded.routing,
-                         'nav-item__current': currentRoute.routing
-                         }"
-                        @click="expandItem('routing')"
-                >
-                    <div class="nav-item">
-                        <i class="nav-icon-arrow icon-icon_arrow-down"></i>
-                        <i class="nav-icon icon-icon_approve"></i>
-                        <span class="nav-text">Routing</span>
-                    </div>
-                    <ul class="subnav-items" v-show="this.expanded.routing">
-                        <li
-                                class="subnav-item"
-                                :class="{
-                                    'nav-item__current': currentRouteItem.gateways
-                                 }"
-                                @click="navigate('/routing/gateways')"
-                        >
-                            <i class="subnav-icon icon-icon_deny"></i>
-                            <span class="subnav-text">SIP Endpoints</span>
-                        </li>
-                        <li
-                                class="subnav-item"
-                                :class="{
-                                    'nav-item__current': currentRouteItem.flowsManager
-                                 }"
-                                @click="navigate"
-                        >
-                            <i class="subnav-icon icon-icon_deny"></i>
-                            <span class="subnav-text">Flows manager</span>
-                        </li>
-                        <li
-                                class="subnav-item"
-                                :class="{
-                                    'nav-item__current': currentRouteItem.dialplan
-                                 }"
-                                @click="navigate"
-                        >
-                            <i class="subnav-icon icon-icon_deny"></i>
-                            <span class="subnav-text">Dialplan</span>
-                        </li>
-                        <li
-                                class="subnav-item"
-                                :class="{
-                                    'nav-item__current': currentRouteItem.chatplan
-                                 }"
-                                @click="navigate"
-                        >
-                            <i class="subnav-icon icon-icon_deny"></i>
-                            <span class="subnav-text">Chatplan</span>
-                        </li>
-                    </ul>
-                </li>
-
-                <li
-                        class="nav-item-wrap"
-                        :class="{
-                        'nav-item__expanded': expanded.lookups,
-                         'nav-item__current': currentRoute.lookups
-                         }"
-                        @click="expandItem('lookups')"
-                >
-                    <div class="nav-item">
-                        <i class="nav-icon-arrow icon-icon_arrow-down"></i>
-                        <i class="nav-icon icon-icon_approve"></i>
-                        <span class="nav-text">Lookups</span>
-                    </div>
-                    <ul class="subnav-items" v-show="this.expanded.lookups">
-                        <li
-                                class="subnav-item"
-                                :class="{
-                                    'nav-item__current': currentRouteItem.skills
-                                 }"
-                                @click="navigate('/lookups/skills')"
-                        >
-                            <i class="subnav-icon icon-icon_deny"></i>
-                            <span class="subnav-text">Agent skills</span>
-                        </li>
-                        <li
-                                class="subnav-item"
-                                :class="{
-                                    'nav-item__current': currentRouteItem.calendars
-                                 }"
-                                @click="navigate('/lookups/calendars')"
-                        >
-                            <i class="subnav-icon icon-icon_deny"></i>
-                            <span class="subnav-text">Calendars</span>
-                        </li>
-                        <li
-                                class="subnav-item"
-                                :class="{
-                                    'nav-item__current': currentRouteItem.communications
-                                 }"
-                                @click="navigate('/lookups/communications')"
-                        >
-                            <i class="subnav-icon icon-icon_deny"></i>
-                            <span class="subnav-text">Communications</span>
-                        </li>
-                        <li
-                                class="subnav-item"
-                                :class="{
-                                    'nav-item__current': currentRouteItem['contact-type']
-                                 }"
-                                @click="navigate('/lookups/contact-type')"
-                        >
-                            <i class="subnav-icon icon-icon_deny"></i>
-                            <span class="subnav-text">Contact type</span>
-                        </li>
-                        <li
-                                class="subnav-item"
-                                :class="{
-                                    'nav-item__current': currentRouteItem['lead-source']
-                                 }"
-                                @click="navigate('/lookups/lead-source')"
-                        >
-                            <i class="subnav-icon icon-icon_deny"></i>
-                            <span class="subnav-text">Lead source</span>
-                        </li>
-                        <li
-                                class="subnav-item"
-                                :class="{
-                                    'nav-item__current': currentRouteItem['lead-status']
-                                 }"
-                                @click="navigate('/lookups/lead-status')"
-                        >
-                            <i class="subnav-icon icon-icon_deny"></i>
-                            <span class="subnav-text">Lead status</span>
-                        </li>
-                    </ul>
-                </li>
-
-                <li
-                        class="nav-item-wrap"
-                        :class="{
-                        'nav-item__expanded': expanded['contact-center'],
-                         'nav-item__current': currentRoute['contact-center']
-                         }"
-                        @click="expandItem('contact-center')"
-                >
-                    <div class="nav-item">
-                        <i class="nav-icon-arrow icon-icon_arrow-down"></i>
-                        <i class="nav-icon icon-icon_approve"></i>
-                        <span class="nav-text">Contact center</span>
-                    </div>
-                    <ul class="subnav-items" v-show="this.expanded['contact-center']">
-                        <li
-                                class="subnav-item"
-                                :class="{
-                                    'nav-item__current': currentRouteItem['contact-center']
-                                 }"
-                                @click="navigate"
-                        >
-                            <i class="subnav-icon icon-icon_deny"></i>
-                            <span class="subnav-text">Dashboard</span>
-                        </li>
-                        <li
-                                class="subnav-item"
-                                :class="{
-                                    'nav-item__current': currentRouteItem.agents
-                                 }"
-                                @click="navigate"
-                        >
-                            <i class="subnav-icon icon-icon_deny"></i>
-                            <span class="subnav-text">Agents</span>
-                        </li>
-                        <li
-                                class="subnav-item"
-                                :class="{
-                                    'nav-item__current': currentRouteItem.resources
-                                 }"
-                                @click="navigate('/contact-center/resources')"
-                        >
-                            <i class="subnav-icon icon-icon_deny"></i>
-                            <span class="subnav-text">Resourses</span>
-                        </li>
-                        <li
-                                class="subnav-item"
-                                :class="{
-                                    'nav-item__current': currentRouteItem['resource-groups']
-                                 }"
-                                @click="navigate('/contact-center/resource-groups')"
-                        >
-                            <i class="subnav-icon icon-icon_deny"></i>
-                            <span class="subnav-text">Resourse groups</span>
-                        </li>
-                        <li
-                                class="subnav-item"
-                                :class="{
-                                    'nav-item__current': currentRouteItem.queues
-                                 }"
-                                @click="navigate"
-                        >
-                            <i class="subnav-icon icon-icon_deny"></i>
-                            <span class="subnav-text">Queues</span>
-                        </li>
-                    </ul>
-                </li>
-
-                <li class="nav-item-wrap">
-                    <div class="nav-item" @click="navigate">
-                        <i class="nav-icon icon-icon_approve"></i>
-                        <span class="nav-text">Kibana</span>
-                    </div>
-                </li>
-
-                <li
-                        class="nav-item-wrap"
-                        :class="{
-                        'nav-item__expanded': expanded.integrations,
-                         'nav-item__current': currentRoute.integrations
-                         }"
-                        @click="expandItem('integrations')"
-                >
-                    <div class="nav-item">
-                        <i class="nav-icon-arrow icon-icon_arrow-down"></i>
-                        <i class="nav-icon icon-icon_approve"></i>
-                        <span class="nav-text">Integrations</span>
-                    </div>
-                    <ul class="subnav-items" v-show="this.expanded.integrations">
-                        <li
-                                class="subnav-item"
-                                :class="{
-                                    'nav-item__current': currentRouteItem.apiTokens
-                                 }"
-                                @click="navigate"
-                        >
-                            <i class="subnav-icon icon-icon_deny"></i>
-                            <span class="subnav-text">API tokens</span>
-                        </li>
-                        <li
-                                class="subnav-item"
-                                :class="{
-                                    'nav-item__current': currentRouteItem.accounts
-                                 }"
-                                @click="navigate"
-                        >
-                            <i class="subnav-icon icon-icon_deny"></i>
-                            <span class="subnav-text">Accounts</span>
-                        </li>
-                        <li
-                                class="subnav-item"
-                                :class="{
-                                    'nav-item__current': currentRouteItem.webhooks
-                                 }"
-                                @click="navigate"
-                        >
-                            <i class="subnav-icon icon-icon_deny"></i>
-                            <span class="subnav-text">Webhooks</span>
-                        </li>
-                        <li
-                                class="subnav-item"
-                                :class="{
-                                    'nav-item__current': currentRouteItem.siteWidgets
-                                 }"
-                                @click="navigate"
-                        >
-                            <i class="subnav-icon icon-icon_deny"></i>
-                            <span class="subnav-text">Site Wigets</span>
-                        </li>
-                        <li
-                                class="subnav-item"
-                                :class="{
-                                    'nav-item__current': currentRouteItem.callTracking
-                                 }"
-                                @click="navigate"
-                        >
-                            <i class="subnav-icon icon-icon_deny"></i>
-                            <span class="subnav-text">Call tracking</span>
-                        </li>
-                    </ul>
-                </li>
-
-                <li
-                        class="nav-item-wrap"
-                        :class="{
-                        'nav-item__expanded': expanded.administration,
-                         'nav-item__current': currentRoute.administration
-                         }"
-                        @click="expandItem('administration')"
-                >
-                    <div class="nav-item">
-                        <i class="nav-icon-arrow icon-icon_arrow-down"></i>
-                        <i class="nav-icon icon-icon_approve"></i>
-                        <span class="nav-text">Administration</span>
-                    </div>
-                    <ul class="subnav-items" v-show="this.expanded.administration">
-                        <li
-                                class="subnav-item"
-                                :class="{
-                                    'nav-item__current': currentRouteItem.license
-                                 }"
-                                @click="navigate('/administration/license')"
-                        >
-                            <i class="subnav-icon icon-icon_deny"></i>
-                            <span class="subnav-text">License</span>
-                        </li>
-                        <li
-                                class="subnav-item"
-                                :class="{
-                                    'nav-item__current': currentRouteItem.storage
-                                 }"
-                                @click="navigate"
-                        >
-                            <i class="subnav-icon icon-icon_deny"></i>
-                            <span class="subnav-text">Storage</span>
-                        </li>
-                        <li
-                                class="subnav-item"
-                                :class="{
-                                    'nav-item__current': currentRouteItem.mediaFiles
-                                 }"
-                                @click="navigate"
-                        >
-                            <i class="subnav-icon icon-icon_deny"></i>
-                            <span class="subnav-text">Media files</span>
-                        </li>
-                        <li
-                                class="subnav-item"
-                                :class="{
-                                    'nav-item__current': currentRouteItem.blacklists
-                                 }"
-                                @click="navigate"
-                        >
-                            <i class="subnav-icon icon-icon_deny"></i>
-                            <span class="subnav-text">Blacklists</span>
-                        </li>
-                        <li
-                                class="subnav-item"
-                                :class="{
-                                    'nav-item__current': currentRouteItem.ADFS
-                                 }"
-                                @click="navigate"
-                        >
-                            <i class="subnav-icon icon-icon_deny"></i>
-                            <span class="subnav-text">ADFS OAuth2</span>
-                        </li>
-                    </ul>
-                </li>
-
-                <li
-                        class="nav-item-wrap"
-                        :class="{
-                        'nav-item__expanded': expanded.permissions,
-                         'nav-item__current': currentRoute.permissions
-                         }"
-                        @click="expandItem('permissions')"
-                >
-                    <div class="nav-item">
-                        <i class="nav-icon-arrow icon-icon_arrow-down"></i>
-                        <i class="nav-icon icon-icon_approve"></i>
-                        <span class="nav-text">Permissions</span>
-                    </div>
-                    <ul class="subnav-items" v-show="this.expanded.permissions">
-                        <li
-                                class="subnav-item"
-                                :class="{
-                                    'nav-item__current': currentRouteItem.roles
-                                 }"
-                                @click="navigate('/permissions/roles')"
-                        >
-                            <i class="subnav-icon icon-icon_deny"></i>
-                            <span class="subnav-text">Roles</span>
-                        </li>
-                        <li
-                                class="subnav-item"
-                                :class="{
-                                    'nav-item__current': currentRouteItem.objects
-                                 }"
-                                @click="navigate('/permissions/objects')"
-                        >
-                            <i class="subnav-icon icon-icon_deny"></i>
-                            <span class="subnav-text">Objects</span>
-                        </li>
-                        <li
-                                class="subnav-item"
-                                :class="{
-                                    'nav-item__current': currentRouteItem.operations
-                                 }"
-                                @click="navigate"
-                        >
-                            <i class="subnav-icon icon-icon_deny"></i>
-                            <span class="subnav-text">Operations</span>
+                            <span class="subnav-text">{{subitem.displayName}}</span>
                         </li>
                     </ul>
                 </li>
@@ -453,275 +49,427 @@
         },
         data() {
             return {
-                expanded: {
-                    directory: false,
-                    routing: false,
-                    lookups: false,
-                    'contact-center': false,
-                    integrations: false,
-                    administration: false,
-                    permissions: false
-                },
-                currentRoute: {
-                    directory: false,
-                    contacts: false,
-                    routing: false,
-                    lookups: false,
-                    'contact-center': false,
-                    kibana: false,
-                    integrations: false,
-                    administration: false,
-                    permissions: false
-                },
-                currentRouteItem: {
-                    // Directory
-                    users: false,
-                    devices: false,
-
-                    // Contacts
-
-                    // Routing
-                    gateways: false,
-                    flowsManager: false,
-                    dialplan: false,
-                    chatplan: false,
-
-                    // Lookups
-                    skills: false,     // agent skills
-                    calendars: false,
-                    communications: false,
-                    'contact-type': false,
-                    'lead-source': false,
-                    'lead-status': false,
-
-                    // Contact Center
-                    dashboard: false,
-                    agents: false,
-                    resources: false,
-                    'resource-groups': false,
-                    queues: false,
-
-                    // Kibana
-
-                    // Integrations
-                    apiTokens: false,
-                    accounts: false,
-                    webhooks: false,
-                    siteWidgets: false,
-                    callTracking: false,
-
-                    // Administration
-                    license: false,
-                    storage: false,
-                    mediaFiles: false,
-                    blacklists: false,
-                    ADFS: false,
-
-                    // Permissions
-                    roles: false,
-                    objects: false,
-                    operations: false,
-                }
+                nav: [
+                    {
+                        name: 'directory',
+                        displayName: this.$t('nav.directory.directory'),
+                        route: '/directory',
+                        iconClass: 'icon-icon_deny',
+                        expanded: false,
+                        subnav: [
+                            {
+                                name: 'users',
+                                displayName: this.$t('nav.directory.users'),
+                                route: '/directory/users',
+                                current: false,
+                            },
+                            {
+                                name: 'devices',
+                                displayName: this.$t('nav.directory.devices'),
+                                route: '/directory/devices',
+                                current: false,
+                            },
+                        ]
+                    },
+                    {
+                        name: 'contacts',
+                        displayName: this.$t('nav.contacts'),
+                        route: '/contacts',
+                        iconClass: 'icon-icon_deny',
+                        expanded: false,
+                        subnav: false,
+                    },
+                    {
+                        name: 'routing',
+                        displayName: this.$t('nav.routing.routing'),
+                        route: '/routing',
+                        iconClass: 'icon-icon_deny',
+                        expanded: false,
+                        subnav: [
+                            {
+                                name: 'flow',
+                                displayName: this.$t('nav.routing.flow'),
+                                route: '/routing/flow',
+                                current: false,
+                            },
+                            {
+                                name: 'dialplan',
+                                displayName: this.$t('nav.routing.dialplan'),
+                                route: '/routing/dialplan',
+                                current: false,
+                            },
+                            {
+                                name: 'chatplan',
+                                displayName: this.$t('nav.routing.chatplan'),
+                                route: '/routing/chatplan',
+                                current: false,
+                            },
+                            {
+                                name: 'gateways',
+                                displayName: this.$t('nav.routing.gateways'),
+                                route: '/routing/gateways',
+                                current: false,
+                            },
+                        ]
+                    },
+                    {
+                        name: 'lookups',
+                        displayName: this.$t('nav.lookups.lookups'),
+                        route: '/lookups',
+                        iconClass: 'icon-icon_deny',
+                        expanded: false,
+                        subnav: [
+                            {
+                                name: 'agent-skills',
+                                displayName: this.$t('nav.lookups.agentSkills'),
+                                route: '/lookups/agent-skills',
+                                current: false,
+                            },
+                            {
+                                name: 'calendars',
+                                displayName: this.$t('nav.lookups.calendars'),
+                                route: '/lookups/calendars',
+                                current: false,
+                            },
+                            {
+                                name: 'communications',
+                                displayName: this.$t('nav.lookups.communications'),
+                                route: '/lookups/communications',
+                                current: false,
+                            },
+                            {
+                                name: 'contact-types',
+                                displayName: this.$t('nav.lookups.contactTypes'),
+                                route: '/lookups/contact-types',
+                                current: false,
+                            },
+                            {
+                                name: 'lead-sources',
+                                displayName: this.$t('nav.lookups.leadSources'),
+                                route: '/lookups/lead-sources',
+                                current: false,
+                            },
+                            {
+                                name: 'lead-status',
+                                displayName: this.$t('nav.lookups.leadStatus'),
+                                route: '/lookups/lead-status',
+                                current: false,
+                            },
+                        ]
+                    },
+                    {
+                        name: 'ccenter',
+                        displayName: this.$t('nav.ccenter.ccenter'),
+                        route: '/contact-center',
+                        iconClass: 'icon-icon_deny',
+                        expanded: false,
+                        subnav: [
+                            {
+                                name: 'agents',
+                                displayName: this.$t('nav.ccenter.agents'),
+                                route: '/contact-center/agents',
+                                current: false,
+                            },
+                            {
+                                name: 'teams',
+                                displayName: this.$t('nav.ccenter.teams'),
+                                route: '/contact-center/teams',
+                                current: false,
+                            },
+                            {
+                                name: 'resources',
+                                displayName: this.$t('nav.ccenter.res'),
+                                route: '/contact-center/resources',
+                                current: false,
+                            },
+                            {
+                                name: 'resource-groups',
+                                displayName: this.$t('nav.ccenter.resGroups'),
+                                route: '/contact-center/resource-groups',
+                                current: false,
+                            },
+                            {
+                                name: 'queues',
+                                displayName: this.$t('nav.ccenter.queues'),
+                                route: '/contact-center/queues',
+                                current: false,
+                            },
+                        ]
+                    },
+                    {
+                        name: 'kibana',
+                        displayName: this.$t('nav.kibana'),
+                        route: '/kibana',
+                        iconClass: 'icon-icon_deny',
+                        expanded: false,
+                        subnav: false,
+                    },
+                    {
+                        name: 'integrations',
+                        displayName: this.$t('nav.integrations.integrations'),
+                        route: '/integrations',
+                        iconClass: 'icon-icon_deny',
+                        expanded: false,
+                        subnav: [
+                            {
+                                name: 'tokens',
+                                displayName: this.$t('nav.integrations.tokens'),
+                                route: '/integrations/tokens',
+                                current: false,
+                            },
+                            {
+                                name: 'accounts',
+                                displayName: this.$t('nav.integrations.accounts'),
+                                route: '/integrations/accounts',
+                                current: false,
+                            },
+                            {
+                                name: 'webhooks',
+                                displayName: this.$t('nav.integrations.webhooks'),
+                                route: '/integrations/webhooks',
+                                current: false,
+                            },
+                            {
+                                name: 'widgets',
+                                displayName: this.$t('nav.integrations.widgets'),
+                                route: '/integrations/widgets',
+                                current: false,
+                            },
+                            {
+                                name: 'call-tracking',
+                                displayName: this.$t('nav.integrations.callTracking'),
+                                route: '/integrations/call-tracking',
+                                current: false,
+                            },
+                        ]
+                    },
+                    {
+                        name: 'administration',
+                        displayName: this.$t('nav.administration.administration'),
+                        route: '/administration',
+                        iconClass: 'icon-icon_deny',
+                        expanded: false,
+                        subnav: [
+                            {
+                                name: 'license',
+                                displayName: this.$t('nav.administration.license'),
+                                route: '/administration/license',
+                                current: false,
+                            },
+                            {
+                                name: 'storage',
+                                displayName: this.$t('nav.administration.storage'),
+                                route: '/administration/storage',
+                                current: false,
+                            },
+                            {
+                                name: 'media',
+                                displayName: this.$t('nav.administration.media'),
+                                route: '/administration/media',
+                                current: false,
+                            },
+                            {
+                                name: 'blacklists',
+                                displayName: this.$t('nav.administration.blacklists'),
+                                route: '/administration/blacklists',
+                                current: false,
+                            },
+                            {
+                                name: 'adfs',
+                                displayName: '',
+                                route: '/administration/adfs',
+                                current: false,
+                            },
+                        ]
+                    },
+                    {
+                        name: 'permissions',
+                        displayName: this.$t('nav.permissions.permissions'),
+                        route: '/permissions',
+                        iconClass: 'icon-icon_deny',
+                        expanded: false,
+                        subnav: [
+                            {
+                                name: 'roles',
+                                displayName: this.$t('nav.permissions.roles'),
+                                route: '/permissions/roles',
+                                current: false,
+                            },
+                            {
+                                name: 'objects',
+                                displayName: this.$t('nav.permissions.objects'),
+                                route: '/permissions/objects',
+                                current: false,
+                            },
+                            {
+                                name: 'operations',
+                                displayName: this.$t('nav.permissions.operations'),
+                                route: '/permissions/operations',
+                                current: false,
+                            },
+                        ]
+                    },
+                ]
             };
         },
         mounted() {
             this.expandCurrentRoute();
         },
         methods: {
-            navigate(route) {
-                if(route && route !== this.$router.currentRoute.fullPath) {
-                    this.$router.push(route);
+            navigate(item) {
+                if (!item.subnav && item.route !== this.$router.currentRoute.fullPath) {
+                    this.$router.push(item.route);
                     this.$emit('re-renderNav');
                 }
             },
 
             expandCurrentRoute() {
-                const currentRoute = this.$router.currentRoute.fullPath.split('/');
-                // [1] -- object, [2] -- page inself
-                this.highlightCurrent(currentRoute[1], currentRoute[2]);
+                const currentObject = this.$router.currentRoute.fullPath.split('/')[1];
+
+                let currentItem = this.nav.find(currItem => {
+                    return currItem.route.includes(currentObject);
+                });
+                this.expandItem(currentItem);
+
+                let currentSubitem = currentItem.subnav.find(currSubitem => {
+                    return currSubitem.route === this.$router.currentRoute.fullPath+'';
+                });
+                currentSubitem.current = true;
             },
 
             // watches only 1 item to be opened
             expandItem(expandItem) {
-                if(this.expanded[expandItem]) {
-                    this.expanded[expandItem] = false;
-                    return;
-                }
-                Object.keys(this.expanded).forEach(item => {
-                    this.expanded[item] = item === expandItem && !expandItem[item];
+                this.nav.forEach(item => {
+                    item.expanded = item === expandItem && !expandItem.expanded;
                 });
             },
-            highlightCurrent(currentObject, currentItem) {
-                this.expandItem(currentObject);
-                Object.keys(this.currentRoute).forEach(item => {
-                    this.currentRoute[item] = item === currentObject && !this.currentRoute[item];
-                });
-                Object.keys(this.currentRouteItem).forEach(item => {
-                    this.currentRouteItem[item] = item === currentItem && !this.currentRouteItem[item];
-                });
-            }
+
+            // highlightCurrent(currentObject, currentItem) {
+                // this.expandItem(currentObject);
+                // Object.keys(this.currentRoute).forEach(item => {
+                //     this.currentRoute[item] = item === currentObject && !this.currentRoute[item];
+                // });
+                // Object.keys(this.currentRouteItem).forEach(item => {
+                //     this.currentRouteItem[item] = item === currentItem && !this.currentRouteItem[item];
+                // });
+            // }
         },
-        computed: {
-            computeNavExpansion() {
-                return !Object.values(this.expanded).every(section => {
-                    return !section;
-                });
-            }
-        }
+        // computed: {
+        //     computeNavExpansion() {
+        //         return !Object.values(this.expanded).every(section => {
+        //             return !section;
+        //         });
+        //     }
+        // }
     };
 </script>
 
 <style lang="scss" scoped>
+    $nav-paddings: 8px 38px 8px 20px;
+
     .the-nav__wrap {
+        @extend .box-shadow;
+
         position: relative;
-        min-width: 74px;
-        width: 74px;
+        min-width:  260px;
+        width: 260px;
         min-height: 100vh;
-        z-index: 101;
-    }
-
-    .the-nav {
-        position: fixed;
-        width: 74px;
-        height: 100%;
-        color: $nav-icon-color;
         background: #171A2A;
-        transition: $transition;
+        z-index: 101;
 
-        i {
-            color: $nav-icon-color;
-        }
-    }
+        .nav__header {
+            width: 100%;
+            height: 20px; // reserving a place for absolute positioned img's
+            padding: $nav-paddings;
+            margin: 21px auto 42px;
 
-    .logo {
-        width: 100%;
-        height: 20px; // reserving a place for absolute positioned img's
-        margin: 21px auto 42px;
-        cursor: pointer;
-
-        img {
-            position: absolute;
-            left: 50%;
-            transform: translateX(-50%);
-            transition: $transition;
-            pointer-events: none;
-        }
-
-        .logo__img {
-            opacity: 0;
-        }
-    }
-
-    .nav-item-wrap {
-        .nav-item {
-            display: flex;
-            align-items: center;
-            position: relative;
-            height: 24px;
-            padding: 8px 0;
-            box-sizing: content-box;
-            cursor: pointer;
-
-            .nav-icon-arrow {
-                position: absolute;
-                left: 6px;
-                transform: rotate(-90deg);
-                transition: $transition;
-                opacity: 0;
-            }
-
-            .nav-icon {
-                text-align: center;
-                flex: 0 0 74px;
-                transition: $transition;
-            }
-
-            .nav-text {
-                transition: $transition;
-                opacity: 0;
-                pointer-events: none;
-            }
-        }
-
-
-        .subnav-items {
-            position: absolute;
-            margin: 20px 11px 20px 0;
-            transition: $transition;
-            opacity: 0;
-            pointer-events: none;
-
-            .subnav-item {
-                display: flex;
-                align-items: center;
-                height: 24px;
-                padding: 8px 0 8px 61px;
-                box-sizing: content-box;
-                border-radius: $border-radius;
-                transform: translateX(-4px);
+            .icon-icon_menu {
+                margin-right: 23px;
+                color: #fff;
                 cursor: pointer;
+            }
+        }
 
-                &:hover, &.nav-item__current {
-                    background: rgba(0, 0, 0, 0.1);
+        .the-nav {
+            position: fixed;
+            /*width: 74px;*/
+            width: 260px;
+            height: 100%;
+            color: $nav-icon-color;
+            transition: $transition;
 
-                    .subnav-text, .subnav-icon {
+            i {
+                color: $nav-icon-color;
+            }
+
+
+            .nav-item-wrap {
+                .nav-item {
+                    @extend .typo-nav-item;
+
+                    display: flex;
+                    justify-content: start;
+                    align-items: center;
+                    width: 100%;
+                    padding: 7px 38px 7px 20px;
+                    cursor: pointer;
+
+                    .nav-icon-arrow {
+                        margin-left: auto;
+                        transform: rotate(-90deg);
+                        transition: $transition;
+                    }
+
+                    .nav-icon {
+                        margin-right: 18px;
+                        transition: $transition;
+                    }
+
+                    .nav-text {
+                        transition: $transition;
+                    }
+                }
+
+
+                .subnav-items {
+                    .subnav-item {
+                        @extend .typo-nav-item;
+
+                        display: flex;
+                        justify-content: start;
+                        align-items: center;
+                        width: 100%;
+                        padding: 12px 38px 12px 62px;
+                        cursor: pointer;
+
+                        &:hover, &.nav-item__current {
+                            background: rgba(0, 0, 0, 0.1);
+
+                            .subnav-text, .subnav-icon {
+                                color: $accent-color;
+                            }
+                        }
+                    }
+                }
+
+                &:hover, .nav-item__expanded, .nav-item__current {
+                    .nav-icon-arrow, .nav-icon, .nav-text {
                         color: $accent-color;
+                    }
+
+                    .nav-icon-arrow {
+                        transform: rotate(0);
                     }
                 }
             }
-
-            .subnav-icon {
-                margin-right: 16px;
-            }
-        }
-
-        &:hover, &.nav-item__expanded, &.nav-item__current {
-            .nav-icon-arrow, .nav-icon, .nav-text {
-                color: $accent-color;
-            }
-
-            .nav-icon-arrow {
-                transform: rotate(0);
-            }
         }
     }
 
-    .expanded-nav .nav-item__current:not(.nav-item__expanded) {
-        .nav-icon-arrow, .nav-icon, .nav-text {
-            color: $nav-icon-color ;
-        }
-    }
 
-    .the-nav:hover {
-        /*.the-nav {*/
-        @extend .box-shadow;
-
-        width: 260px;
-
-        .logo-sm__img {
-            opacity: 0;
-        }
-
-        .logo__img {
-            opacity: 1;
-        }
-
-        .nav-item {
-            .nav-icon-arrow, .nav-text {
-                opacity: 1;
-                pointer-events: auto;
-            }
-
-            .nav-icon {
-                transform: translateX(6px);
-            }
-        }
-
-        .subnav-items {
-            position: static;
-            opacity: 1;
-            pointer-events: auto;
-        }
-    }
+    /*.expanded-nav .nav-item__current:not(.nav-item__expanded) {*/
+    /*    .nav-icon-arrow, .nav-icon, .nav-text {*/
+         //   color: $nav-icon-color;
+        /*}*/
+    /*}*/
 
 </style>

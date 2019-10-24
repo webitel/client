@@ -26,8 +26,63 @@ export default {
         requiredArrayValue: 'Array should not be empty',
     },
 
-    objects: {
+    nav: {
+        directory: {
+            directory: 'Directory',
+            users: 'Users',
+            devices: 'Devices',
+        },
+        contacts: 'Contacts',
+        routing: {
+            routing: 'Routing',
+            flow: 'Flow',
+            dialplan: 'Dialplan',
+            chatplan: 'Chatplan',
+            gateways: 'SIP endpoints',
+        },
+        lookups: {
+            lookups: 'Lookups',
+            agentSkills: 'Agent skills',
+            calendars: 'Caneldars',
+            communications: 'Communication types',
+            contactTypes: 'Contact types',
+            leadSources: 'Lead sources',
+            leadStatus: 'Lead status',
+        },
+        ccenter: {
+            ccenter: 'Contact center',
+            agents: 'Agents',
+            teams: 'Teams',
+            res: 'Resources',
+            resGroups: 'Resource groups',
+            queues: 'Queues',
+        },
+        kibana: 'Kibana',
+        integrations: {
+            integrations: 'Integrations',
+            tokens: 'API tokens',
+            accounts: 'Accounts',
+            webhooks: 'Webhooks',
+            widgets: 'Widgets',
+            callTracking: 'Call tracking',
+        },
+        administration: {
+            administration: 'Administration',
+            license: 'License',
+            storage: 'Storage',
+            media: 'Media',
+            blacklists: 'Blacklists',
+            adfs: 'ADFS OAuth2',
+        },
+        permissions: {
+            permissions: 'Permissions',
+            roles: 'Roles',
+            objects: 'Objects',
+            operations: 'Operations',
+        }
+    },
 
+    objects: {
         directory: 'Directory',
         administration: 'Administration',
 
