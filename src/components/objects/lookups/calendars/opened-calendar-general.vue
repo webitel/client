@@ -42,7 +42,6 @@
                             monday-first
                             calendar-button
                     ></datepicker>
-                    <span class="calendars__to-separator">to</span>
                     <datepicker
                             v-model="itemInstance.calendar.finish"
                             :label="$t('objects.lookups.calendars.end')"
@@ -107,16 +106,13 @@
         align-items: center;
 
         .datepicker {
-            // all width - "to" margins - "to" - switch margin - switch wrap
-            width: calc(50% - (23px * 2 + 19px + 43px + 48px) / 2);
-        }
-
-        .calendars__to-separator {
-            margin: auto 23px;
+            // all width - switch margin - switch wrap
+            width: calc(50% - (43px + 48px + 40px) / 2);
+            margin-right: 28px;
         }
 
         .switcher-label-wrap {
-            margin: 0 0 auto 43px;
+            margin: 0 0 auto;
             .switcher {
                 margin-top: 7px;
             }

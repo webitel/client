@@ -71,7 +71,7 @@
                     {name: 'name', title: this.$t('objects.name')},
                     {name: 'start', title: this.$t('objects.lookups.calendars.start')},
                     {name: 'end', title: this.$t('objects.lookups.calendars.end')},
-                    {name: 'status', title: this.$t('objects.lookups.calendars.enabled')},
+                    {name: 'status', title: this.$t('objects.lookups.calendars.enabled'), width: '10%'},
                     _actionsTableField_1,
                 ],
                 weekdays: ['monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday', 'sunday'],
@@ -121,7 +121,7 @@
 
             computeDayStart(rowIndex) {
                 return this.itemInstance.workWeek[rowIndex].name !==
-                    (this.itemInstance.workWeek[rowIndex-1] || {}).name;
+                    (this.itemInstance.workWeek[rowIndex - 1] || {}).name;
             },
 
             addWorkRange(day) {
@@ -133,8 +133,8 @@
                 this.itemInstance.workWeek.splice(dayRangeIndex + 1, 0, {
                     name: day,
                     enabled: true,
-                    start: 9*60,
-                    end: 20*60,
+                    start: 9 * 60,
+                    end: 20 * 60,
                 });
             },
 
@@ -158,13 +158,16 @@
 
             computeWorkdayEnd(dataItem, rowIndex) {
                 return this.itemInstance.workWeek[rowIndex].name !==
-                (this.itemInstance.workWeek[rowIndex-1] || {}).name
+                (this.itemInstance.workWeek[rowIndex - 1] || {}).name
                     ? 'day-start' : ''
             },
         }
     }
 </script>
 
-<style scoped>
-
+<style lang="scss" scoped>
+    .timepicker {
+        position: relative;
+        left: -16px;
+    }
 </style>

@@ -42,6 +42,7 @@
                     :api-mode="false"
                     :fields="fields"
                     :data="filteredDataList"
+                    no-data-template="Empty data message"
             >
 
                 <template slot="name" slot-scope="props">

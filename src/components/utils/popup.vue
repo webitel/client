@@ -109,7 +109,7 @@
     }
 
     .content-header {
-        margin: 0 0 38px;
+        margin: 0 0 28px;
     }
 
     .content-body {

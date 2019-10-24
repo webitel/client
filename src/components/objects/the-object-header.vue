@@ -59,7 +59,7 @@
         display: flex;
         justify-content: space-between;
         align-items: center;
-        padding: 20px 28px;
+        padding: 15px 28px;
         margin-bottom: 28px;
 
         background: #fff;

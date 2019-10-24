@@ -80,9 +80,14 @@
             cursor: pointer;
             transition: $transition;
 
-            &.active, &:hover, &:focus {
+            &.active, &:focus {
                 font-family: 'AvantGardeDemi';
                 border-bottom: 2px solid $accent-color;
+                color: #000;
+            }
+
+            &:hover {
+                font-family: 'AvantGardeDemi';
                 color: #000;
             }
 

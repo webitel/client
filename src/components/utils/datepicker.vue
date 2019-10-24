@@ -73,7 +73,6 @@
             @extend .default-input;
             @extend .typo-input-label;
 
-            min-width: 173px;
             padding: $input-padding;
 
         }

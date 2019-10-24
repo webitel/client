@@ -1,12 +1,12 @@
 <template>
     <div class="dropdown-select">
         <div class="label" :class="{'invalid': this.v.$error}">{{computeRequiredLabel}}
-            <div class="hint" v-show="this.hintText">
-                <i
-                        class="hint__img tooltip-activator icon-icon_question"
-                ></i>
-                <div class="tooltip-left">{{this.hintText}}</div>
-            </div>
+<!--            <div class="hint" v-show="this.hintText">-->
+<!--                <i-->
+<!--                        class="hint__img tooltip-activator icon-icon_question"-->
+<!--                ></i>-->
+<!--                <div class="tooltip-left">{{this.hintText}}</div>-->
+<!--            </div>-->
         </div>
 
         <v-select
@@ -63,7 +63,7 @@
 
             // select value
             value: {
-                default: null
+                required: true
             },
 
             // "?" hint text. Also controls "?" display
@@ -98,7 +98,8 @@
 
         computed: {
             computeEmptyValue() {
-                return Object.values(this.value).length !== 0 ? this.value : null;
+                console.log(this.value)
+                return Object.values(this.value).length !== 0 ? this.value : '';
             }
         },
 

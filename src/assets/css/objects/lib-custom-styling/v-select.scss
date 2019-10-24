@@ -15,8 +15,8 @@
     &:hover:not(:disabled) {
       border-color: #000;
 
-      input::placeholder {
-        color: #000;
+      input:focus::placeholder {
+        color: transparent;
       }
     }
   }

@@ -1,7 +1,4 @@
 
-.ti-input {
-  @extend .default-input;
-}
 
 .tags-input-wrap {
   position: relative;
@@ -24,9 +21,11 @@
     max-width: 100%;
     min-height: 40px;
 
-
     .ti-input {
-      padding: 6px 16px;
+      @extend .default-input;
+
+      padding: 2px 16px !important;
+      border: 1px solid $input;
 
       .ti-new-tag-input-wrapper {
         padding-left: 0;
@@ -42,9 +41,7 @@
         color: #000;
         background: $tag-background;
         padding: 5px 6px !important;
-        margin: 0 8px 0 0;
-
-
+        margin: 4px 8px 4px 0;
 
         &.ti-deletion-mark {
           background-color: rgba(0, 0, 0, 0.05) !important;

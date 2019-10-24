@@ -1,27 +1,34 @@
 <template>
     <div class="timepicker">
-        <div class="label">{{label}}</div>
-        <dropdown-select
-                :value="hour"
-                :options="hourOptions || initHourList"
-                taggable
-                @input="setHour"
-        ></dropdown-select>
-        <span class="delimiter">:</span>
-        <dropdown-select
-                :value="min"
-                :options="minOptions"
-                taggable
-                @input="setMin"
-        ></dropdown-select>
+        <div class="label" :class="{'invalid': this.v.$error}">{{computeRequiredLabel}}</div>
+        <form class="timepicker__form">
+            <dropdown-select
+                    :value="hour"
+                    :options="hourOptions || initHourList"
+                    taggable
+                    @input="setHour"
+            ></dropdown-select>
+            <span class="delimiter">:</span>
+            <dropdown-select
+                    :value="min"
+                    :options="minOptions"
+                    taggable
+                    @input="setMin"
+            ></dropdown-select>
+        </form>
+        <validation-message
+                :v="v"
+        />
     </div>
 </template>
 
 <script>
+    import requiredLabelMixin from '@/mixins/requiredLabelMixin';
     import dropdownSelect from './dropdown-select';
 
     export default {
         name: "timepicker",
+        mixins: [requiredLabelMixin],
         components: {
             dropdownSelect,
         },
@@ -39,7 +46,15 @@
             minOptions: {
                 type: Array,
                 default: () => ['00', '15', '30', '45']
-            }
+            },
+            v: {
+                type: Object,
+                default: () => ({
+                    $error: null,
+                    $touch: () => {
+                    },
+                }),
+            },
         },
 
         data() {
@@ -90,7 +105,6 @@
                 this.hour = Math.floor(this.value / minInHour)+'';
                 this.min = Math.floor(this.value % minInHour)+'';
 
-                console.log(this.hour, this.min);
                 if (this.hour-0 < 10) {
                     this.hour = '0' + this.hour;
                 }
@@ -107,9 +121,12 @@
 
 <style lang="scss">
     .timepicker {
+        overflow: visible !important;
+    }
+
+    .timepicker__form {
         display: flex;
         align-items: center;
-        overflow: visible !important;
 
         .delimiter {
             margin: 0 7px;
