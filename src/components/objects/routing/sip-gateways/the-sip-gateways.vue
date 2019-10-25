@@ -93,8 +93,7 @@
     import tableComponentMixin from '@/mixins/tableComponentMixin';
     import createGatewayPopup from './create-gateway-popup';
     import {getGatewayList, deleteGateway} from "../../../../api/objects/routing/gateways";
-    import {_checkboxTableField, _actionsTableField_2} from "@/utils/tableFieldPresets";
-
+    import {_checkboxTableField, _actionsTableField_2, _switcherWidth} from "@/utils/tableFieldPresets";
 
     export default {
         name: "the-sip-gateways",
@@ -108,7 +107,7 @@
                     _checkboxTableField,
                     {name: 'name', title: this.$t('objects.name')},
                     {name: 'proxy', title: this.$t('objects.routing.gateways.proxy')},
-                    {name: 'enabled', title: this.$t('objects.enabled')},
+                    {name: 'enabled', title: this.$t('objects.enabled'), width: _switcherWidth},
                     {name: 'status', title: this.$t('objects.status')},
                     _actionsTableField_2,
                 ],

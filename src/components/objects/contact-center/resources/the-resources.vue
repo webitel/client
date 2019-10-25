@@ -87,6 +87,7 @@
     import {getResourceList} from '@/api/objects/contact-center/resources';
     import tableComponentMixin from '@/mixins/tableComponentMixin';
     import {_checkboxTableField, _actionsTableField_2} from "@/utils/tableFieldPresets";
+    import {_switcherWidth} from "../../../../utils/tableFieldPresets";
 
 
     export default {
@@ -98,8 +99,8 @@
                     _checkboxTableField,
                     {name: 'name', title: this.$t('objects.name')},
                     {name: 'gateway', title: this.$tc('objects.routing.gateways.gateways', 1)},
-                    {name: 'enabled', title: this.$t('objects.enabled')},
-                    {name: 'reserve', title: this.$t('objects.ccenter.res.reserve')},
+                    {name: 'enabled', title: this.$t('objects.enabled'), width: _switcherWidth},
+                    {name: 'reserve', title: this.$t('objects.ccenter.res.reserve'), width: _switcherWidth},
                     _actionsTableField_2,
                 ],
                 filterProperties: ['name'],

@@ -17,7 +17,7 @@ export const getCalendarList = async () => {
     } catch (err) {
         throw err;
     }
-}
+};
 
 export const addCalendar = async (calendarToSend) => {
     calendarToSend.domain_id = domainId;

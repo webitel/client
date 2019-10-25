@@ -513,10 +513,12 @@
                     }
 
                     .subnav-items {
+
                         .subnav-item {
                             min-width: calc(220px - 64px);
                             padding: 12px 38px 12px 10px;
                             margin-left: 64px;
+                            background: $nav-bg-color;
                         }
                     }
 

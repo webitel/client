@@ -18,6 +18,7 @@ export default {
         return {
             dataList: [], // list of all objects to show
             filteredDataList: [],
+            filterProperties: ['name'],
 
             search: '', // search filter
             popupTriggerIf: false,

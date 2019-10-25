@@ -57,6 +57,7 @@
     import vuetable from 'vuetable-2/src/components/Vuetable';
     import openedTabComponentMixin from '@/mixins/openedTabComponentMixin';
     import {_actionsTableField_1} from "@/utils/tableFieldPresets";
+    import {_switcherWidth} from "../../../../utils/tableFieldPresets";
 
     export default {
         name: "opened-calendar-work-week",
@@ -71,7 +72,7 @@
                     {name: 'name', title: this.$t('objects.name')},
                     {name: 'start', title: this.$t('objects.lookups.calendars.start')},
                     {name: 'end', title: this.$t('objects.lookups.calendars.end')},
-                    {name: 'status', title: this.$t('objects.lookups.calendars.enabled'), width: '10%'},
+                    {name: 'status', title: this.$t('objects.lookups.calendars.enabled'), width:_switcherWidth},
                     _actionsTableField_1,
                 ],
                 weekdays: ['monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday', 'sunday'],
