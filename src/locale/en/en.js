@@ -286,7 +286,9 @@ export default {
                 allResGroups: 'All resource groups',
                 searchPlaceholder: 'res group name..',
                 strategy: 'Strategy',
-                timerange: 'Time range'
+                timerange: 'Time range',
+                timerangeFrom: 'From',
+                timerangeTo: 'To'
             },
         }
     },

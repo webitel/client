@@ -13,12 +13,10 @@
             ></form-input>
 
             <dropdown-select
-                    :value="v.itemInstance.communication"
+                    v-model="itemInstance.communication"
                     :v="v.itemInstance.communication"
-                    :options="[]"
                     :label="$tc('objects.lookups.communications.communications', 1)"
                     :placeholder="$tc('objects.lookups.communications.communications', 1)"
-                    @input="v.itemInstance.communication = $event"
                     required
             ></dropdown-select>
 

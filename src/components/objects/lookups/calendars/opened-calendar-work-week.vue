@@ -169,5 +169,9 @@
     .timepicker {
         position: relative;
         left: -16px;
+
+        .vs__dropdown-toggle {
+            border-color: transparent;
+        }
     }
 </style>

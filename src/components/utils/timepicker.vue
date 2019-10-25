@@ -25,20 +25,23 @@
 <script>
     import requiredLabelMixin from '@/mixins/requiredLabelMixin';
     import dropdownSelect from './dropdown-select';
+    import validationMessage from './validation-message';
 
     export default {
         name: "timepicker",
         mixins: [requiredLabelMixin],
         components: {
             dropdownSelect,
+            validationMessage
         },
 
         props: {
             label: {
-                type: Number,
+                type: String,
             },
             value: {
-                reuqired: true
+                type: [Number, Object],
+                required: true
             },
             hourOptions: {
                 type: Array,
@@ -46,6 +49,10 @@
             minOptions: {
                 type: Array,
                 default: () => ['00', '15', '30', '45']
+            },
+            required: {
+                type: Boolean,
+                default: false
             },
             v: {
                 type: Object,
@@ -135,10 +142,6 @@
         .dropdown-select {
             min-width: 90px;
             width: 90px;
-
-            .vs__dropdown-toggle {
-                border-color: transparent;
-            }
 
             .label, .input__details {
                 display: none;

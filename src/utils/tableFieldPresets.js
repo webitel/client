@@ -20,3 +20,5 @@ export const _actionsTableField_2 = {
     dataClass: 'vuetable-td-actions',
     width: '120px'
 };
+
+export const _switcherWidth = '10%';

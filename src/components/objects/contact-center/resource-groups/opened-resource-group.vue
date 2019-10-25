@@ -54,7 +54,14 @@
                     communication: '',
                     description: '',
                     strategy: '',
-                    resList: ['', '']
+                    resList: ['', ''],
+                    timerange: [
+                        {
+                            start: 540,
+                            finish: 1200,
+                            limit: 10,
+                        }
+                    ],
                 },
                 tabs: [
                     {
@@ -86,6 +93,9 @@
                     required
                 },
                 resList: {
+                    requiredArrayValue
+                },
+                range: {
                     requiredArrayValue
                 }
             }
