@@ -10,7 +10,7 @@
         </div>
 
         <v-select
-                :value="computeEmptyValue"
+                :value="computeDisplayValue"
                 :options="options"
                 :label="displayProperty"
                 :placeholder="placeholder"
@@ -49,7 +49,8 @@
             },
 
             displayProperty: {
-                type: String
+                type: String,
+                default: 'name'
             },
 
             // label above select itself
@@ -63,7 +64,7 @@
 
             // select value
             value: {
-                required: true
+                // required: true
             },
 
             // "?" hint text. Also controls "?" display
@@ -97,9 +98,9 @@
         },
 
         computed: {
-            computeEmptyValue() {
-                console.log(this.value)
-                return Object.values(this.value).length !== 0 ? this.value : '';
+            computeDisplayValue() {
+                if(typeof this.value === 'string') return this.value;
+                return this.value[this.displayProperty] || '';
             }
         },
 
