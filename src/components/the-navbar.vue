@@ -1,8 +1,12 @@
 <template>
-    <aside class="the-nav__wrap">
+    <aside
+            class="the-nav__wrap"
+            :class="{'collapsed': collapsed}"
+            v-clickaway="closeAllExpands"
+    >
         <header class="nav__header">
-            <i class="icon-icon_delete icon-icon_menu"></i>
-            <img class="logo__img" src="../assets/img/logo.svg" alt="logo">
+            <i class="icon-icon_delete icon-icon_menu" @click="toggleCollapse"></i>
+            <img class="logo" src="../assets/img/logo.svg" alt="logo">
         </header>
         <nav class="the-nav expanded-nav">
             <ul class="nav-items">
@@ -40,8 +44,11 @@
 </template>
 
 <script>
+    import clickaway from '../directives/clickaway';
+
     export default {
         name: 'the-nav',
+        directives: {clickaway},
         watch: {
             '$route': function () {
                 this.expandCurrentRoute();
@@ -49,6 +56,8 @@
         },
         data() {
             return {
+                collapsed: false,
+
                 nav: [
                     {
                         name: 'directory',
@@ -316,25 +325,41 @@
             this.expandCurrentRoute();
         },
         methods: {
+            toggleCollapse() {
+                this.collapsed = !this.collapsed;
+                this.closeAllExpands();
+            },
+
             navigate(item) {
                 if (!item.subnav && item.route !== this.$router.currentRoute.fullPath) {
                     this.$router.push(item.route);
-                    this.$emit('re-renderNav');
+                    // this.$emit('re-renderNav');
                 }
             },
 
             expandCurrentRoute() {
                 const currentObject = this.$router.currentRoute.fullPath.split('/')[1];
-
-                let currentItem = this.nav.find(currItem => {
+                const currentItem = this.nav.find(currItem => {
                     return currItem.route.includes(currentObject);
                 });
-                this.expandItem(currentItem);
-
-                let currentSubitem = currentItem.subnav.find(currSubitem => {
-                    return currSubitem.route === this.$router.currentRoute.fullPath+'';
+                const currentSubitem = currentItem.subnav.find(currSubitem => {
+                    return currSubitem.route === this.$router.currentRoute.fullPath + '';
                 });
-                currentSubitem.current = true;
+                this.setCurrent(currentItem, currentSubitem);
+            },
+
+            setCurrent(currItem, currSubitem) {
+                this.nav.forEach(item => {
+                    item.current = item === currItem;
+
+                    if (item.subnav) {
+                        item.subnav.forEach(subitem => {
+                            subitem.current = subitem === currSubitem;
+                        });
+                    }
+                });
+
+                // this.expandItem(currItem);
             },
 
             // watches only 1 item to be opened
@@ -344,44 +369,35 @@
                 });
             },
 
-            // highlightCurrent(currentObject, currentItem) {
-                // this.expandItem(currentObject);
-                // Object.keys(this.currentRoute).forEach(item => {
-                //     this.currentRoute[item] = item === currentObject && !this.currentRoute[item];
-                // });
-                // Object.keys(this.currentRouteItem).forEach(item => {
-                //     this.currentRouteItem[item] = item === currentItem && !this.currentRouteItem[item];
-                // });
-            // }
+            closeAllExpands() {
+                if (this.collapsed) {
+                    this.nav.forEach(item => {
+                        item.expanded = false;
+                    });
+                }
+            },
         },
-        // computed: {
-        //     computeNavExpansion() {
-        //         return !Object.values(this.expanded).every(section => {
-        //             return !section;
-        //         });
-        //     }
-        // }
     };
 </script>
 
 <style lang="scss" scoped>
-    $nav-paddings: 8px 38px 8px 20px;
+    $nav-bg-color: #171A2A;
+    $nav-paddings: 0 38px 0 20px;
 
     .the-nav__wrap {
         @extend .box-shadow;
 
         position: relative;
-        min-width:  260px;
-        width: 260px;
+        min-width: 272px;
+        width: 272px;
         min-height: 100vh;
-        background: #171A2A;
+        background: $nav-bg-color;
         z-index: 101;
 
         .nav__header {
             width: 100%;
-            height: 20px; // reserving a place for absolute positioned img's
             padding: $nav-paddings;
-            margin: 21px auto 42px;
+            margin: 20px auto 44px;
 
             .icon-icon_menu {
                 margin-right: 23px;
@@ -392,11 +408,9 @@
 
         .the-nav {
             position: fixed;
-            /*width: 74px;*/
-            width: 260px;
+            width: 272px;
             height: 100%;
             color: $nav-icon-color;
-            transition: $transition;
 
             i {
                 color: $nav-icon-color;
@@ -408,10 +422,10 @@
                     @extend .typo-nav-item;
 
                     display: flex;
-                    justify-content: start;
+                    justify-content: flex-start;
                     align-items: center;
                     width: 100%;
-                    padding: 7px 38px 7px 20px;
+                    padding: 6px 38px 6px 20px;
                     cursor: pointer;
 
                     .nav-icon-arrow {
@@ -436,10 +450,9 @@
                         @extend .typo-nav-item;
 
                         display: flex;
-                        justify-content: start;
-                        align-items: center;
+                        justify-content: flex-start;
                         width: 100%;
-                        padding: 12px 38px 12px 62px;
+                        padding: 11px 38px 11px 62px;
                         cursor: pointer;
 
                         &:hover, &.nav-item__current {
@@ -456,20 +469,73 @@
                     .nav-icon-arrow, .nav-icon, .nav-text {
                         color: $accent-color;
                     }
+                }
 
-                    .nav-icon-arrow {
-                        transform: rotate(0);
-                    }
+            .nav-item__expanded {
+                .nav-icon-arrow {
+                    transform: rotate(0);
+                }
+            }
+
+                .nav-item__expanded {
+                    background: rgba(0, 0, 0, 0.35);
                 }
             }
         }
+
+        &.collapsed {
+            min-width: 64px;
+            width: 64px;
+
+            .nav__header {
+                .logo {
+                    display: none;
+                }
+            }
+
+            .the-nav {
+                width: 64px;
+
+                .nav-item-wrap {
+                    .nav-item {
+                        .nav-icon {
+                            margin-right: 28px;
+                        }
+
+                        .nav-icon-arrow {
+                            display: none;
+                        }
+
+                        .nav-text {
+                            opacity: 0;
+                            pointer-events: none;
+                        }
+                    }
+
+                    .subnav-items {
+                        .subnav-item {
+                            min-width: calc(220px - 64px);
+                            padding: 12px 38px 12px 10px;
+                            margin-left: 64px;
+                        }
+                    }
+
+                    .nav-item__expanded {
+                        background: $nav-bg-color;
+
+                        &.nav-item {
+                            width: 220px;
+                        }
+
+                        .nav-text {
+                            opacity: 1;
+                            pointer-events: auto;
+                        }
+                    }
+                }
+            }
+
+        }
     }
-
-
-    /*.expanded-nav .nav-item__current:not(.nav-item__expanded) {*/
-    /*    .nav-icon-arrow, .nav-icon, .nav-text {*/
-         //   color: $nav-icon-color;
-        /*}*/
-    /*}*/
 
 </style>

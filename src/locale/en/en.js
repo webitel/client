@@ -43,7 +43,7 @@ export default {
         lookups: {
             lookups: 'Lookups',
             agentSkills: 'Agent skills',
-            calendars: 'Caneldars',
+            calendars: 'Calendars',
             communications: 'Communication types',
             contactTypes: 'Contact types',
             leadSources: 'Lead sources',
