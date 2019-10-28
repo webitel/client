@@ -1,12 +1,12 @@
 import {shallowMount, mount, createLocalVue} from '@vue/test-utils'
-import theGateways from '../../../src/components/objects/routing/sip-gateways/the-sip-gateways';
-import registerGateway from '../../../src/components/objects/routing/sip-gateways/opened-register-sip-gateway';
-import trunkingGateway from '../../../src/components/objects/routing/sip-gateways/opened-trunking-sip-gateway';
-import {getGatewayList} from '../../../src/api/objects/routing/gateways';
+import theGateways from '../../../../src/components/objects/routing/sip-gateways/the-sip-gateways';
+import registerGateway from '../../../../src/components/objects/routing/sip-gateways/opened-register-sip-gateway';
+import trunkingGateway from '../../../../src/components/objects/routing/sip-gateways/opened-trunking-sip-gateway';
+import {getGatewayList} from '../../../../src/api/objects/routing/gateways';
 import VueRouter from 'vue-router';
 import Vuelidate from 'vuelidate';
 import i18n from 'vue-i18n';
-import {getRoleList} from "../../../src/api/objects/permissions/roles";
+import {getRoleList} from "../../../../src/api/objects/permissions/roles";
 
 const $t = () => {
 };
