@@ -75,9 +75,7 @@
                 filterProperties: ['role'],
             };
         },
-        mounted() {
-            this.loadDataList();
-        },
+
         methods: {
             create() {
                 this.$router.push('/permissions/roles/new');

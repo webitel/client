@@ -26,7 +26,7 @@ export const addCalendar = async (calendarToSend) => {
     } catch (err) {
         throw err;
     }
-}
+};
 
 export const getCalendarTimezones = async () => {
     try {
@@ -35,7 +35,7 @@ export const getCalendarTimezones = async () => {
     } catch (err) {
         throw err;
     }
-}
+};
 
 export const getCalendar = async (id) => {
     try {
@@ -53,7 +53,7 @@ export const getCalendar = async (id) => {
     } catch (err) {
         throw err;
     }
-}
+};
 
 export const updateCalendar = async (calendarToSend) => {
     try {

@@ -13,7 +13,7 @@
                 <h3 class="content-title">{{$t('objects.generalInfo')}}</h3>
             </header>
 
-            <section class="new_w50">
+            <form class="new_w50">
                 <form-input
                         v-model.trim="$v.itemInstance.role.$model"
                         :v="$v.itemInstance.role"
@@ -29,7 +29,7 @@
                         textarea
                 ></form-input>
 
-            </section>
+            </form>
         </section>
     </div>
 </template>

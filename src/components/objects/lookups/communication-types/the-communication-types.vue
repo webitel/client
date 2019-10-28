@@ -11,41 +11,51 @@
         <section class="object-content">
             <header class="content-header">
                 <h3 class="content-title">{{$t('objects.lookups.communications.allCommunications')}}</h3>
+                <div class="content-header__actions-wrap">
+                    <search
+                            @filterData="filterData"
+                    ></search>
+                    <i
+                            class="icon-icon_delete icon-action"
+                            :class="{'hidden': anySelected}"
+                            @click="deleteSelected"
+                    ></i>
+                </div>
             </header>
 
             <vuetable
                     class="permissions-table"
                     :api-mode="false"
                     :fields="fields"
-                    :data="communicationsList"
+                    :data="filteredDataList"
             >
                 <template slot="communicationCode" slot-scope="props">
                     <div class="tt-capitalize">
-                        <span class="nameLink"  @click="edit(props.rowIndex)">
-                        {{communicationsList[props.rowIndex].code}}
+                        <span class="nameLink" @click="edit(props.rowIndex)">
+                        {{filteredDataList[props.rowIndex].code}}
                         </span>
                     </div>
                 </template>
 
                 <template slot="communicationName" slot-scope="props">
                     <div>
-                        {{communicationsList[props.rowIndex].name}}
+                        {{filteredDataList[props.rowIndex].name}}
                     </div>
                 </template>
 
                 <template slot="communicationDescription" slot-scope="props">
                     <div>
-                        {{communicationsList[props.rowIndex].description || 'DESCRIPTION IS EMPTY'}}
+                        {{filteredDataList[props.rowIndex].description || 'DESCRIPTION IS EMPTY'}}
                     </div>
                 </template>
 
                 <template slot="actions" slot-scope="props">
-                        <i class="vuetable-action icon-icon_edit"
-                           @click="edit(props.rowIndex)"
-                        ></i>
-                        <i class="vuetable-action icon-icon_delete"
-                           @click="remove(props.rowIndex)"
-                        ></i>
+                    <i class="vuetable-action icon-icon_edit"
+                       @click="edit(props.rowIndex)"
+                    ></i>
+                    <i class="vuetable-action icon-icon_delete"
+                       @click="remove(props.rowIndex)"
+                    ></i>
                 </template>
             </vuetable>
         </section>
@@ -53,21 +63,17 @@
 </template>
 
 <script>
-    import vuetable from 'vuetable-2/src/components/Vuetable';
-    import objectHeader from '@/components/objects/the-object-header';
+    import tableComponentMixin from '@/mixins/tableComponentMixin';
     import {_checkboxTableField, _actionsTableField_2} from "@/utils/tableFieldPresets";
+    import {deleteCommunication, getCommunicationsList} from "../../../../api/objects/lookups/communications";
 
     export default {
         name: "the-communication-types",
-        components: {
-            objectHeader,
-            vuetable,
-        },
+        mixins: [tableComponentMixin],
         data() {
             return {
-                communicationsList: [],
-                // vuetable prop
                 fields: [
+                    _checkboxTableField,
                     {name: 'communicationCode', title: this.$t('objects.lookups.communications.code')},
                     {name: 'communicationName', title: this.$t('objects.name')},
                     {name: 'communicationDescription', title: this.$t('objects.description')},
@@ -75,9 +81,7 @@
                 ],
             };
         },
-        mounted() {
-            this.loadComunicationsList();
-        },
+
         methods: {
             create() {
                 this.$router.push('/lookups/communications/new');
@@ -86,23 +90,26 @@
             edit(rowId) {
                 this.$router.push({
                     name: 'communications-lookup-edit',
-                    params: {id: this.communicationsList[rowId].id},
+                    params: {id: this.filteredDataList[rowId].id},
                 });
             },
 
-            remove(rowId) {
-                const deletedCommunications = this.communicationsList.splice(rowId, 1)[0];
+            async remove(item) {
+                const rowIndex = this.dataList.indexOf(item);
+                const deletedItem = this.dataList.splice(rowIndex, 1)[0];
+                this.filterData();
+                try {
+                    await deleteCommunication(deletedItem.id);
+                } catch (err) {
+                    // if request fails, restore
+                    this.dataList.splice(rowIndex, 0, deletedItem);
+                    this.filterData();
+                }
             },
 
-            loadComunicationsList() {
-                for (let i = 0; i < 10; i++) {
-                    this.communicationsList.push({
-                        code: 'A' + i,
-                        name: 'Communication ' + i,
-                        description: 'Description',
-                        id: i
-                    });
-                }
+            async loadDataList() {
+                this.dataList = await getCommunicationsList();
+                this.filterData();
             }
         }
     }

@@ -2,44 +2,35 @@
     <div class="content-wrap">
         <object-header
                 :primaryText="$t('objects.save')"
-                :primaryAction="submit.bind(this, 'communicationInstance', 'initialCommunication')"
-                :secondaryAction="close"
+                :primaryAction="submit"
+                close
         >
             <span>{{$tc('objects.lookups.communications.communications', 1)}}</span> | {{computeTitle}}
         </object-header>
         <section class="object-content module-new permissions-new">
             <header class="content-header">
                 <h3 class="content-title">{{$t('objects.generalInfo')}}</h3>
-                <div class="hint">
-                    <i
-                            class="hint__img tooltip-activator icon-icon_question"
-                    ></i>
-                    <div class="tooltip-left">lorem ipsum</div>
-                </div>
             </header>
 
             <form class="new_w50">
-
                 <form-input
-                        class="form__input"
-                        v-model.trim="$v.communicationInstance.code.$model"
-                        :v="$v.communicationInstance.code"
+                        v-model.trim="$v.itemInstance.code.$model"
+                        :v="$v.itemInstance.code"
                         :label="$t('objects.lookups.communications.code')"
                         :placeholder="$t('objects.lookups.communications.code')"
                         required
                 ></form-input>
 
                 <form-input
-                        class="form__input"
-                        v-model.trim="$v.communicationInstance.name.$model"
-                        :v="$v.communicationInstance.name"
+                        v-model.trim="$v.itemInstance.name.$model"
+                        :v="$v.itemInstance.name"
                         :label="$t('objects.name')"
                         :placeholder="$t('objects.name')"
                         required
                 ></form-input>
 
                 <form-input
-                        class="form__input"
+                        v-model="itemInstance.description"
                         :label="$t('objects.description')"
                         :placeholder="$t('objects.description')"
                         textarea
@@ -54,28 +45,28 @@
     import editComponentMixin from '@/mixins/editComponentMixin';
 
     import {required} from 'vuelidate/lib/validators';
+    import {
+        addCommunication,
+        getCommunication,
+        updateCommunication
+    } from "../../../../api/objects/lookups/communications";
 
     export default {
         name: "opened-communications-type",
         mixins: [editComponentMixin],
         data() {
             return {
-                communicationInstance: {
-                    code: 'A1',
-                    name: 'skill name',
-                    // description: '',
-                },
-                initialCommunication: {
-                    code: 'A1',
-                    name: 'skill name',
-                    // description: '',
-                },
+                itemInstance: {
+                    name: '',
+                    code: '',
+                    description: '',
+                }
             };
         },
 
         // by vuelidate
         validations: {
-            communicationInstance: {
+            itemInstance: {
                 code: {
                     required
                 },
@@ -86,14 +77,19 @@
         },
 
         methods: {
-            save() {
+            async save() {
                 if (this.id) {
-                    //    update
+                    await updateCommunication(this.itemInstance);
                 } else {
-                    //    create
+                    await addCommunication(this.itemInstance);
                 }
-
                 this.close();
+            },
+
+            async loadItem() {
+                const response = await getCommunication(this.id);
+                this.itemInstance = response;
+                this.initialItem = JSON.parse(JSON.stringify(response));
             }
         }
     }

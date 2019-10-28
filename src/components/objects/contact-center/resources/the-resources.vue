@@ -111,16 +111,13 @@
                 });
             },
 
-            async remove(rowId) {
-                // remove item
-                const deletedItem = this.dataList.splice(rowId, 1)[0];
-                this.filterData();
-
+            async remove(item) {
+                const rowIndex = this.dataList.indexOf(item);
+                const deletedObject = this.dataList.splice(rowIndex, 1)[0];
                 try {
                     // await deleteGateway(deletedItem.id);
                 } catch (err) {
-                    // if request fails, restore
-                    this.dataList.splice(rowId, 0, deletedItem);
+                    this.dataList.splice(rowIndex, 0, deletedObject);
                     this.filterData();
                 }
             },
