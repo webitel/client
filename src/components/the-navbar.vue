@@ -338,12 +338,11 @@
             },
 
             expandCurrentRoute() {
-                const currentObject = this.$router.currentRoute.fullPath.split('/')[1];
                 const currentItem = this.nav.find(currItem => {
-                    return currItem.route.includes(currentObject);
+                    return this.$router.currentRoute.fullPath.includes(currItem.route);
                 });
                 const currentSubitem = currentItem.subnav.find(currSubitem => {
-                    return currSubitem.route === this.$router.currentRoute.fullPath + '';
+                    return this.$router.currentRoute.fullPath.includes(currSubitem.route);
                 });
                 this.setCurrent(currentItem, currentSubitem);
             },

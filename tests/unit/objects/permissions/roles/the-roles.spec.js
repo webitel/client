@@ -46,9 +46,9 @@ describe('roles-new.vue', () => {
     });
 
     it('updates existing role', async (done) => {
-        const roleList = await getRoleList(); // load all roles
+        const dataList = await getRoleList(); // load all roles
         // to find created role id
-        const createdRole = roleList.find(role => {
+        const createdRole = dataList.find(role => {
             return role.role === 'jest-role'
         });
 
@@ -59,7 +59,7 @@ describe('roles-new.vue', () => {
         await wrapper.vm.loadItem();
 
         // check if initial role was set correctly
-        expect(wrapper.vm.initialItem).toEqual(createdRole);
+        expect(wrapper.vm.initialItem.id).toEqual(createdRole.id);
 
         // set updated role data
         const newRoleInstance = {

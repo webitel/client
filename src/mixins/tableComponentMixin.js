@@ -3,7 +3,7 @@ import vuetable from 'vuetable-2/src/components/Vuetable';
 import objectHeader from '@/components/objects/the-object-header';
 import switcher from '@/components/utils/switcher';
 import status from '@/components/utils/status';
-
+import search from '@/components/utils/search';
 
 export default {
     mixins: [paginationMixin],
@@ -12,6 +12,7 @@ export default {
         vuetable,
         switcher,
         status,
+        search,
     },
 
     data() {
@@ -37,11 +38,11 @@ export default {
     },
 
     methods: {
-        filterData() {
+        filterData(search = '') {
             this.filteredDataList = this.dataList.filter(dataItem => {
                 return this.filterProperties.some(filterProp => {
                     return dataItem[filterProp].trim().toLowerCase().
-                    includes(this.search.trim().toLowerCase());
+                    includes(search.trim().toLowerCase());
                 });
             });
         },
@@ -49,7 +50,7 @@ export default {
         deleteSelected() {
             this.filteredDataList.filter(item => item.isSelected)
                 .forEach(async selectedItem => {
-                    await this.remove(selectedItem.id);
+                    await this.remove(selectedItem);
                 });
         },
 

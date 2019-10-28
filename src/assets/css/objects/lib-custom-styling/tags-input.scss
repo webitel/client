@@ -33,6 +33,11 @@
 
       .ti-new-tag-input {
         @extend .typo-input-label;
+        min-height: 24px; // prevents too small height with no tags
+
+        &::placeholder {
+          color: $input;
+        }
       }
 
       .ti-tag {

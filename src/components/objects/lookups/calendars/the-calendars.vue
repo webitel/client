@@ -12,21 +12,14 @@
             <header class="content-header page-header">
                 <h3 class="content-title">{{$t('objects.lookups.calendars.allCalendars')}}</h3>
                 <div class="content-header__actions-wrap">
-                    <div class="search-form">
-                        <i class="icon-icon_search"></i>
-                        <input
-                                class="search-input"
-                                type="text"
-                                :placeholder="$t('objects.lookups.calendars.searchPlaceholder')"
-                                v-model="search"
-                                @keyup="filterData"
-                        >
-                        <i
-                                class="icon-icon_delete icon-action"
-                                :class="{'hidden': anySelected}"
-                                @click="deleteSelected"
-                        ></i>
-                    </div>
+                    <search
+                            @filterData="filterData"
+                    ></search>
+                    <i
+                            class="icon-icon_delete icon-action"
+                            :class="{'hidden': anySelected}"
+                            @click="deleteSelected"
+                    ></i>
                 </div>
             </header>
 
@@ -95,7 +88,7 @@
             },
 
             async remove(rowId) {
-                const deletedCalendar = this.filteredDataList.splice(rowId, 1)[0];
+
                 try {
                     await deleteCalendar(deletedCalendar.id)
                 } catch (err) {

@@ -20,16 +20,9 @@
                 </h3>
 
                 <div class="content-header__actions-wrap">
-                    <div class="search-form">
-                        <i class="icon-icon_search"></i>
-                        <input
-                                class="search-input"
-                                type="text"
-                                :placeholder="$t('objects.routing.gateways.searchPlaceholder')"
-                                v-model="search"
-                                @keyup="filterData"
-                        >
-                    </div>
+                    <search
+                            @filterData="filterData"
+                    ></search>
                     <i
                             class="icon-icon_delete icon-action"
                             :class="{'hidden': anySelected}"

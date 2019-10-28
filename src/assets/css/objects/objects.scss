@@ -56,32 +56,13 @@
   // WRAP FOR SEARCH INPUT
   .content-header__actions-wrap {
     display: flex;
-
-    .search-form {
-      display: flex;
-      align-items: center;
-      width: 254px;
-
-      .search-input {
-        @extend .typo-input-text;
-
-        flex: 1;
-        padding: 0;
-        margin-left: 8px;
-        border: none;
-        outline: none;
-
-        &::placeholder {
-          color: $icon-color;
-        }
-      }
-
-      .icon-icon_search {
-        height: 24px;
-      }
-    }
+    align-items: center;
 
     // ACTIONS
+    .icon-action {
+      margin-left: 30px;
+    }
+
     .table-action__actions {
       display: flex;
       align-items: center;

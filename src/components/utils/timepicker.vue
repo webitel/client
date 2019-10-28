@@ -1,6 +1,11 @@
 <template>
     <div class="timepicker">
-        <div class="label" :class="{'invalid': this.v.$error}">{{computeRequiredLabel}}</div>
+        <div class="label"
+             v-if="label"
+             :class="{'invalid': v && v.$error}
+        ">
+            {{computeRequiredLabel}}
+        </div>
         <form class="timepicker__form">
             <dropdown-select
                     :value="hour"
@@ -17,6 +22,7 @@
             ></dropdown-select>
         </form>
         <validation-message
+                v-if="v"
                 :v="v"
         />
     </div>
@@ -56,11 +62,11 @@
             },
             v: {
                 type: Object,
-                default: () => ({
-                    $error: null,
-                    $touch: () => {
-                    },
-                }),
+                // default: () => ({
+                //     $error: null,
+                //     $touch: () => {
+                //     },
+                // }),
             },
         },
 
@@ -102,20 +108,20 @@
             },
 
             convertHoursToMin() {
-                const value = this.hour*60 + this.min;
+                const value = this.hour * 60 + this.min;
                 this.$emit('input', value);
             },
 
             convertMinToHours() {
                 const minInHour = 60;
 
-                this.hour = Math.floor(this.value / minInHour)+'';
-                this.min = Math.floor(this.value % minInHour)+'';
+                this.hour = Math.floor(this.value / minInHour) + '';
+                this.min = Math.floor(this.value % minInHour) + '';
 
-                if (this.hour-0 < 10) {
+                if (this.hour - 0 < 10) {
                     this.hour = '0' + this.hour;
                 }
-                if (this.min-0 < 10) {
+                if (this.min - 0 < 10) {
                     this.min = '0' + this.min;
                 }
 

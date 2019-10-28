@@ -45,11 +45,8 @@
                     <datepicker
                             v-model="itemInstance.calendar.finish"
                             :label="$t('objects.lookups.calendars.end')"
-                            :format="'d MMMM yyyy'"
                             :calendar-button-icon="'icon-icon_arrow-down'"
-                            :maximum-view="'day'"
                             :disabled="!itemInstance.calendar.expires"
-                            monday-first
                             calendar-button
                     ></datepicker>
                     <div class="switcher-label-wrap">

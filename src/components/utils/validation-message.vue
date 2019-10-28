@@ -9,13 +9,13 @@
         name: "validation-message",
         props: {
             v: {
-                type: Object,
-                required: true
+                // type: Object,
+                // required: true
             }
         },
         computed: {
             computeErrorText() {
-                if (this.v.$dirty) {
+                if (this.v && this.v.$dirty) {
                     if (this.v.required === false) {
                         return this.$t('validation.required');
                     } else if (this.v.numeric === false) {

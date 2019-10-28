@@ -1,5 +1,5 @@
 <template>
-    <section>
+    <section class="opened-calendar-work-week">
         <header class="content-header">
             <h3 class="content-title">{{$t('objects.lookups.calendars.workWeek')}}</h3>
         </header>
@@ -72,7 +72,7 @@
                     {name: 'name', title: this.$t('objects.name')},
                     {name: 'start', title: this.$t('objects.lookups.calendars.start')},
                     {name: 'end', title: this.$t('objects.lookups.calendars.end')},
-                    {name: 'status', title: this.$t('objects.lookups.calendars.enabled'), width:_switcherWidth},
+                    {name: 'status', title: this.$t('objects.lookups.calendars.enabled'), width: _switcherWidth},
                     _actionsTableField_1,
                 ],
                 weekdays: ['monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday', 'sunday'],
@@ -166,13 +166,15 @@
     }
 </script>
 
-<style lang="scss" scoped>
-    .timepicker {
-        position: relative;
-        left: -16px;
+<style lang="scss">
+    .opened-calendar-work-week {
+        .timepicker {
+            position: relative;
+            left: -16px;
 
-        .vs__dropdown-toggle {
-            border-color: transparent;
+            .vs__dropdown-toggle {
+                border-color: transparent;
+            }
         }
     }
 </style>

@@ -11,16 +11,9 @@
             <header class="content-header">
                 <h3 class="content-title">{{$t('objects.permissions.allRoles')}}</h3>
                 <div class="content-header__actions-wrap">
-                    <div class="search-form">
-                        <i class="icon-icon_search"></i>
-                        <input
-                                class="search-input"
-                                type="text"
-                                :placeholder="$t('objects.permissions.searchPlaceholder')"
-                                v-model="search"
-                                @keyup="filterData"
-                        >
-                    </div>
+                    <search
+                        @filterData="filterData"
+                    ></search>
                     <i
                             class="icon-icon_delete icon-action"
                             :class="{'hidden': anySelected}"
@@ -79,7 +72,7 @@
                     {name: 'description', title: this.$t('objects.description')},
                     _actionsTableField_2,
                 ],
-                filterProperties: ['role', 'name'],
+                filterProperties: ['role'],
             };
         },
         mounted() {
@@ -97,15 +90,15 @@
                 });
             },
 
-            async remove(rowId) {
-                // remove role
-                const deletedObject = this.filteredDataList.splice(rowId, 1)[0];
+            async remove(item) {
+                const rowIndex = this.dataList.indexOf(item);
+                const deletedObject = this.dataList.splice(rowIndex, 1)[0];
                 this.filterData();
                 try {
                     await deleteRole(deletedObject.id);
                 } catch (err) {
                     // if request fails, restore
-                    this.filteredDataList.splice(rowId, 0, deletedObject);
+                    this.dataList.splice(rowIndex, 0, deletedObject);
                     this.filterData();
                 }
             },

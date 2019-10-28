@@ -14,10 +14,10 @@
                     {{$t('objects.usersObject.allUsers')}}
                 </h3>
                 <div class="content-header__actions-wrap">
-                    <div class="search-form">
+                    <div class="search">
                         <i class="icon-icon_search"></i>
                         <input
-                                class="search-input"
+                                class="search__input"
                                 type="text"
                                 :placeholder="$t('objects.usersObject.searchPlaceholder')"
                                 v-model="search"

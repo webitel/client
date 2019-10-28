@@ -207,6 +207,8 @@ export default {
                 date: 'Date',
                 repeat: 'Repeat',
                 fulltime: 'Full-time',
+                everyYear: 'Repeat every year',
+                newHoliday: 'New holiday',
             },
             communications: {
                 communications: 'Communication type | Comunication types',

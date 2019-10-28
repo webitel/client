@@ -29,10 +29,9 @@
                             :label="$t('objects.routing.port')"
                             :placeholder="$t('objects.routing.port')"
                     ></form-input>
-
                     <i
                             class="icon-icon_delete icon-action"
-                            v-if="key !== 0"
+                            v-if="key !== '0'"
                             @click="deleteValuePair(key)"
                     ></i>
                 </div>

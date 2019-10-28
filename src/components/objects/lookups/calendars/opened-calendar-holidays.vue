@@ -2,8 +2,9 @@
     <section>
         <header class="content-header">
             <h3 class="content-title">{{$t('objects.lookups.calendars.holidays')}}</h3>
-            <i class="icon-action icon-icon_plus" @click=""></i>
+            <i class="icon-action icon-icon_plus" @click="popupTriggerIf = true"></i>
         </header>
+        <holiday-popup v-if="popupTriggerIf" @close="popupTriggerIf = false"></holiday-popup>
         <vuetable
                 :api-mode="false"
                 :fields="holidaysFields"
@@ -33,6 +34,7 @@
 </template>
 
 <script>
+    import holidayPopup from './opened-calendar-holiday-popup';
     import vuetable from 'vuetable-2/src/components/Vuetable';
     import openedTabComponentMixin from '@/mixins/openedTabComponentMixin';
     import {addHoliday, deleteHoliday, getHolidayList} from "@/api/objects/lookups/calendars";
@@ -41,6 +43,7 @@
     export default {
         name: "opened-calendar-holidays",
         components: {
+            holidayPopup,
             vuetable,
         },
         mixins: [openedTabComponentMixin],
@@ -52,6 +55,7 @@
                     {name: 'repeat', title: this.$t('objects.lookups.calendars.repeat')},
                     _actionsTableField_2,
                 ],
+                popupTriggerIf: false,
             }
         },
 

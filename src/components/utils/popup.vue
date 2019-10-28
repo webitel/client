@@ -104,7 +104,7 @@
         background: #fff;
         transform: translate(-50%, -50%);
         border-radius: $border-radius;
-        overflow-y: auto;
+        /*overflow-y: auto;*/
         z-index: 10;
     }
 

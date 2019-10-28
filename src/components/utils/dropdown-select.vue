@@ -1,6 +1,6 @@
 <template>
     <div class="dropdown-select">
-        <div class="label" :class="{'invalid': this.v.$error}">{{computeRequiredLabel}}
+        <div class="label" :class="{'invalid': v && v.$error}">{{computeRequiredLabel}}
 <!--            <div class="hint" v-show="this.hintText">-->
 <!--                <i-->
 <!--                        class="hint__img tooltip-activator icon-icon_question"-->
@@ -89,11 +89,6 @@
             // validation rules
             v: {
                 type: Object,
-                default: () => ({
-                    $error: null,
-                    $touch: () => {
-                    },
-                }),
             },
         },
 
@@ -106,7 +101,7 @@
 
         methods: {
             setOption(option) {
-                this.v.$touch();
+                if(this.v) this.v.$touch();
                 this.$emit('input', option);
             }
         },

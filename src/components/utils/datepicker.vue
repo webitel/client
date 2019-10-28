@@ -55,6 +55,7 @@
             },
             maximumView: {
                 type: String,
+                default: 'day'
             },
             disabled: {
                 type: Boolean,
@@ -67,6 +68,13 @@
 </script>
 
 <style lang="scss">
+
+    .datepicker__to-right {
+        .vdp-datepicker__calendar {
+            right: auto;
+            left: 0;
+        }
+    }
 
     .vdp-datepicker {
         > div input {

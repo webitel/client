@@ -14,16 +14,9 @@
                 </h3>
 
                 <div class="content-header__actions-wrap">
-                    <div class="search-form">
-                        <i class="icon-icon_search"></i>
-                        <input
-                                class="search-input"
-                                type="text"
-                                :placeholder="$t('objects.ccenter.res.searchPlaceholder')"
-                                v-model="search"
-                                @keyup="filterData"
-                        >
-                    </div>
+                    <search
+                            @filterData="filterData"
+                    ></search>
                     <i
                             class="icon-icon_delete icon-action"
                             :class="{'hidden': anySelected}"
@@ -103,7 +96,6 @@
                     {name: 'reserve', title: this.$t('objects.ccenter.res.reserve'), width: _switcherWidth},
                     _actionsTableField_2,
                 ],
-                filterProperties: ['name'],
             };
         },
 
