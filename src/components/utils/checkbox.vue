@@ -44,6 +44,8 @@
 </script>
 
 <style lang="scss" scoped>
+    $checkbox-color: rgba(0, 0, 0, 0.3);
+
     .checkbox-label {
         position: relative;
         padding-left: 29px;
@@ -67,7 +69,7 @@
             width: 18px;
             height: 18px;
             background: #fff;
-            border: 2px solid $input;
+            border: 2px solid $checkbox-color;
             border-radius: 2px;
         }
 

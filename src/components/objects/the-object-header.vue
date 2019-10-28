@@ -1,39 +1,36 @@
 <template>
-    <section>
-        <header class="object-header">
+    <header class="object-header">
+        <div class="object-header__title-wrap">
+            <i
+                    class="object-back icon-icon_arrow-left icon-action"
+                    v-if="close"
+                    @click="back"
+            ></i>
+
             <h2 class="object-title">
                 <slot></slot>
             </h2>
-            <div class="btn-controls">
-                <btn
-                        class="btn secondary-btn"
-                        v-if="secondaryAction"
-                        @click.native="secondaryAction"
-                >
-                    {{$t('objects.close')}}
-                </btn>
-                <btn
-                        class="btn primary-btn"
-                        v-if="primaryAction"
-                        @click.native="primaryAction"
-                >
-                    {{this.primaryText}}
-                </btn>
-            </div>
-        </header>
-        <divider/>
-    </section>
+        </div>
+
+        <div class="btn-controls">
+            <btn
+                    class="btn primary-btn"
+                    v-if="primaryAction"
+                    @click.native="primaryAction"
+            >
+                {{this.primaryText}}
+            </btn>
+        </div>
+    </header>
 </template>
 
 <script>
     import btn from '../../components/utils/btn';
-    import divider from '../../components/utils/divider';
 
     export default {
         name: 'page-header',
         components: {
             btn,
-            divider,
         },
         props: {
             primaryText: {
@@ -43,13 +40,17 @@
             primaryAction: {
                 type: Function
             },
-            secondaryText: {
-                type: String,
-            },
-            secondaryAction: {
-                type: Function,
-            },
+            close: {
+                type: Boolean,
+                default: false,
+            }
         },
+
+        methods: {
+            back() {
+                this.$router.go(-1);
+            }
+        }
     };
 </script>
 
@@ -58,7 +59,20 @@
         display: flex;
         justify-content: space-between;
         align-items: center;
-        padding: 26px 28px 26px 44px;
+        padding: 15px 28px;
+        margin-bottom: 28px;
+
+        background: #fff;
+        border-radius: $border-radius;
+    }
+
+    .object-header__title-wrap {
+        display: flex;
+
+        .object-back {
+            margin-right: 20px;
+            color: #000;
+        }
     }
 
     .object-title {

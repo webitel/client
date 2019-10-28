@@ -34,14 +34,12 @@
                 </template>
 
                 <template slot="actions" slot-scope="props">
-                    <div class="vuetable-actions__wrap">
                         <i class="vuetable-action icon-icon_edit"
                            @click="edit(props.rowIndex)"
                         ></i>
                         <i class="vuetable-action icon-icon_delete"
                            @click="remove(props.rowIndex)"
                         ></i>
-                    </div>
                 </template>
             </vuetable>
         </section>

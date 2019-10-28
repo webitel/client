@@ -15,10 +15,10 @@
                     {{$t('objects.devices.allDevices')}}
                 </h3>
                 <div class="content-header__actions-wrap">
-                    <div class="search-form">
+                    <div class="search">
                         <i class="icon-icon_search"></i>
                         <input
-                                class="search-input"
+                                class="search__input"
                                 type="text"
                                 :placeholder="$t('objects.devices.searchPlaceholder')"
                                 v-model="search"
@@ -63,14 +63,12 @@
                 </template>
 
                 <template slot="actions" slot-scope="props">
-                    <div class="vuetable-actions__wrap">
                         <i class="vuetable-action icon-icon_edit"
                            @click="edit(props.rowIndex)"
                         ></i>
                         <i class="vuetable-action icon-icon_delete"
                            @click="this.remove(props.rowIndex)"
                         ></i>
-                    </div>
                 </template>
             </vuetable>
         </section>
@@ -83,14 +81,15 @@
     import tableFilter from '../../utils/table-filter';
     import uploadPopup from '../../utils/upload-popup';
     import status from '../../../utils/status';
+    import {_checkboxTableField, _actionsTableField_2} from "@/utils/tableFieldPresets";
 
     export default {
         name: 'the-devices',
         components: {
-            'object-header': objectHeader,
-            'upload-popup': uploadPopup,
+            objectHeader,
+            uploadPopup,
             vuetable,
-            'table-filter': tableFilter,
+            tableFilter,
             status,
         },
 
@@ -98,23 +97,12 @@
             return {
                 // vuetable prop
                 fields: [
-                    {
-                        name: '__table-checkbox',
-                        titleClass: 'vuetable-td-checkbox',
-                        dataClass: 'vuetable-td-checkbox',
-                        width: '55px'
-                    },
+                    _checkboxTableField,
                     {name: 'name', title: this.$t('objects.name')},
                     {name: 'authId', title: this.$t('objects.devices.authId')},
                     {name: 'user', title: this.$t('objects.user')},
                     {name: 'presence', title: this.$t('objects.devices.presence')},
-                    {
-                        name: 'actions',
-                        title: '',
-                        titleClass: 'vuetable-td-actions',
-                        dataClass: 'vuetable-td-actions',
-                        width: '120px'
-                    },
+                    _actionsTableField_2,
                 ],
                 test: [],
                 filtered: [],
@@ -255,12 +243,6 @@
                 this.isPopupOpened = false;
             }
         },
-        computed: {
-            // shows delete table action if some items are selected
-            anySelected() {
-                return !this.filtered.some((item) => item.isSelected);
-            }
-        }
     };
 </script>
 

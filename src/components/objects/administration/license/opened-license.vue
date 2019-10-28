@@ -1,6 +1,8 @@
 <template>
     <div class="content-wrap">
-        <object-header>
+        <object-header
+            close
+        >
             {{$t('objects.administration')}} | {{$t('objects.license.license')}}
         </object-header>
 
@@ -16,10 +18,10 @@
                     {{$t('objects.license.allLicenses')}}
                 </h3>
                 <div class="content-header__actions-wrap">
-                    <div class="search-form">
+                    <div class="search">
                         <i class="icon-icon_search"></i>
                         <input
-                                class="search-input"
+                                class="search__input"
                                 type="text"
                                 :placeholder="$t('objects.license.searchPlaceholder')"
                                 v-model="search"
@@ -47,12 +49,24 @@
                     :data="filtered"
             >
 
+                <template slot="product" slot-scope="props">
+                    <div>{{filtered[props.rowIndex].product}}</div>
+                </template>
+
                 <template slot="valid-from" slot-scope="props">
                     <div>{{filtered[props.rowIndex].validFrom.toLocaleDateString('ru-RU')}}</div>
                 </template>
 
                 <template slot="valid-till" slot-scope="props">
                     <div>{{filtered[props.rowIndex].validTill.toLocaleDateString('ru-RU')}}</div>
+                </template>
+
+                <template slot="used" slot-scope="props">
+                    <div>{{filtered[props.rowIndex].used}}</div>
+                </template>
+
+                <template slot="limit" slot-scope="props">
+                    <div>{{filtered[props.rowIndex].limit}}</div>
                 </template>
 
                 <template slot="status" slot-scope="props">
@@ -87,7 +101,6 @@
             return {
                 // vuetable prop
                 fields: [
-                    {name: 'serial', title: this.$t('objects.license.serial')},
                     {name: 'product', title: this.$t('objects.license.product')},
                     {name: 'valid-from', title: this.$t('objects.license.validFrom')},
                     {name: 'valid-till', title: this.$t('objects.license.validTill')},

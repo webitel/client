@@ -12,16 +12,14 @@
             <header class="content-header page-header">
                 <h3 class="content-title">{{$t('objects.lookups.calendars.allCalendars')}}</h3>
                 <div class="content-header__actions-wrap">
-                    <div class="search-form">
-                        <i class="icon-icon_search"></i>
-                        <input
-                                class="search-input"
-                                type="text"
-                                :placeholder="$t('objects.lookups.calendars.searchPlaceholder')"
-                                v-model="search"
-                                @keyup=""
-                        >
-                    </div>
+                    <search
+                            @filterData="filterData"
+                    ></search>
+                    <i
+                            class="icon-icon_delete icon-action"
+                            :class="{'hidden': anySelected}"
+                            @click="deleteSelected"
+                    ></i>
                 </div>
             </header>
 
@@ -29,31 +27,29 @@
                     class="permissions-table"
                     :api-mode="false"
                     :fields="fields"
-                    :data="calendarsList"
+                    :data="filteredDataList"
             >
-                <template slot="calendarName" slot-scope="props">
+                <template slot="name" slot-scope="props">
                     <div class="tt-capitalize">
                         <span class="nameLink" @click="edit(props.rowIndex)">
-                        {{calendarsList[props.rowIndex].name}}
+                        {{filteredDataList[props.rowIndex].name}}
                         </span>
                     </div>
                 </template>
 
-                <template slot="calendarDescription" slot-scope="props">
+                <template slot="description" slot-scope="props">
                     <div>
-                        {{calendarsList[props.rowIndex].description || 'DESCRIPTION IS EMPTY'}}
+                        {{filteredDataList[props.rowIndex].description || 'DESCRIPTION IS EMPTY'}}
                     </div>
                 </template>
 
                 <template slot="actions" slot-scope="props">
-                    <div class="vuetable-actions__wrap">
                         <i class="vuetable-action icon-icon_edit"
                            @click="edit(props.rowIndex)"
                         ></i>
                         <i class="vuetable-action icon-icon_delete"
                            @click="remove(props.rowIndex)"
                         ></i>
-                    </div>
                 </template>
             </vuetable>
         </section>
@@ -61,37 +57,23 @@
 </template>
 
 <script>
-    import vuetable from 'vuetable-2/src/components/Vuetable';
-    import objectHeader from '@/components/objects/the-object-header';
-
     import {deleteCalendar, getCalendarList} from "../../../../api/objects/lookups/calendars";
+    import tableComponentMixin from '@/mixins/tableComponentMixin';
+    import {_checkboxTableField, _actionsTableField_2} from "@/utils/tableFieldPresets";
 
     export default {
         name: "the-calendars",
-        components: {
-            'object-header': objectHeader,
-            vuetable,
-        },
+        mixins: [tableComponentMixin],
+
         data() {
             return {
-                calendarsList: [],
-                search: '',
-                // vuetable prop
                 fields: [
-                    {name: 'calendarName', title: this.$t('objects.name')},
-                    {name: 'calendarDescription', title: this.$t('objects.description')},
-                    {
-                        name: 'actions',
-                        title: '',
-                        titleClass: 'vuetable-td-actions',
-                        dataClass: 'vuetable-td-actions',
-                        width: '120px'
-                    },
+                    _checkboxTableField,
+                    {name: 'name', title: this.$t('objects.name')},
+                    {name: 'description', title: this.$t('objects.description')},
+                    _actionsTableField_2,
                 ],
             };
-        },
-        mounted() {
-            this.loadCalendarsList();
         },
         methods: {
             create() {
@@ -101,26 +83,23 @@
             edit(rowId) {
                 this.$router.push({
                     name: 'calendars-edit',
-                    params: {id: this.calendarsList[rowId].id},
+                    params: {id: this.filteredDataList[rowId].id},
                 });
             },
 
             async remove(rowId) {
-                const deletedCalendar = this.calendarsList.splice(rowId, 1)[0];
+
                 try {
                     await deleteCalendar(deletedCalendar.id)
                 } catch (err) {
-                    this.calendarsList.splice(rowId, 0, deletedCalendar);
+                    this.filteredDataList.splice(rowId, 0, deletedCalendar);
                 }
             },
 
-            async loadCalendarsList() {
-                this.calendarsList = await getCalendarList();
-            }
+            async loadDataList() {
+                this.dataList = await getCalendarList();
+                this.filterData();
+            },
         }
     }
 </script>
-
-<style lang="scss" scoped>
-
-</style>

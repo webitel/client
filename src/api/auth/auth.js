@@ -6,7 +6,7 @@ import store from '../../store/store';
 
 // gets user by token from localstorage
 // stores response username in vuex
-export async function getSession() {
+export const getSession = async () => {
     const tokenCheck = localStorage.getItem('access-token');
     if (typeof tokenCheck === 'string') { // if there is no token, localStorage returns object
         Vue.$log.info('get session started');
@@ -27,7 +27,7 @@ export async function getSession() {
 // stores tokens in localstorage
 // and updates global instance access-token header
 // if succeeded, calls getSession function
-export async function login(credentials) {
+export const  login = async (credentials) => {
     Vue.$log.info('login started');
     const url = '/login';
 
@@ -46,7 +46,7 @@ export async function login(credentials) {
 
 // tries to refresh access token, if have expired
 // if refresh have expired too, router throws user to auth page
-export async function refreshToken() {
+export const refreshToken = async () => {
     Vue.$log.info('refresh token started');
 
     const url = '/auth/oauth2/token';
@@ -81,7 +81,7 @@ export async function refreshToken() {
     }
 }
 
-export async function logout() {
+export const logout = async () => {
     Vue.$log.info('logout started');
     const url = '/logout';
 
@@ -97,5 +97,5 @@ export async function logout() {
     } catch (error) {
         throw error;
     }
-}
+};
 

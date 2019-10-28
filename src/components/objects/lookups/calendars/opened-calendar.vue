@@ -2,208 +2,162 @@
     <div class="content-wrap">
         <object-header
                 :primaryText="$t('objects.save')"
-                :primaryAction="submit.bind(this, 'calendarInstance', 'initialCalendar')"
-                :secondaryAction="close"
+                :primaryAction="submit"
+                close
         >
             <span>{{$tc('objects.lookups.calendars.calendars', 1)}}</span> | {{computeTitle}}
         </object-header>
-        <section class="object-content module-new calendars-new">
-
-
-            <expansion-panel opened>
-                <template slot="expansion-header">
-                    <h3 class="content-title">{{$t('objects.generalInfo')}}</h3>
-                </template>
-
-                <template slot="expansion-content">
-                    <form-input
-                            class="form__input"
-                            v-model.trim="$v.calendarInstance.name.$model"
-                            :v="$v.calendarInstance.name"
-                            :label="$t('objects.name')"
-                            :placeholder="$t('objects.name')"
-                            required
-                    ></form-input>
-
-                    <dropdown-select
-                            :options="timezoneList"
-                            :displayProperty="'name'"
-                            :label="$t('objects.lookups.calendars.timezone')"
-                            :placeholder="$t('objects.lookups.calendars.timezone')"
-                            :value="$v.calendarInstance.timezone.$model"
-                            @input="calendarInstance.timezone = $event"
-                            required
-                    ></dropdown-select>
-
-                    <form-input
-                            class="form__input"
-                            v-model.trim="calendarInstance.description"
-                            :label="$t('objects.description')"
-                            :placeholder="$t('objects.description')"
-                    ></form-input>
-
-                    <div class="calendars__dates">
-                        <div class="calendars__date-wrap">
-                            <datepicker
-                                    v-model="calendarInstance.startDate"
-                                    :format="'d MMMM yyyy'"
-                                    :calendar-button-icon="'icon-icon_arrow-down'"
-                                    :maximum-view="'day'"
-                                    :disabled="!isCalendarExpiration"
-                                    monday-first
-                                    calendar-button
-                            ></datepicker>
-                        </div>
-                        <span class="calendars__to-separator">to</span>
-                        <div class="calendars__date-wrap">
-                            <datepicker
-                                    v-model="calendarInstance.endDate"
-                                    :format="'d MMMM yyyy'"
-                                    :calendar-button-icon="'icon-icon_arrow-down'"
-                                    :maximum-view="'day'"
-                                    :disabled="!isCalendarExpiration"
-                                    monday-first
-                                    calendar-button
-                            ></datepicker>
-                        </div>
-                        <switcher
-                                :value="isCalendarExpiration"
-                                @toggleSwitch="isCalendarExpiration = $event"
-                        ></switcher>
-                    </div>
-
-
-                    <btn @click.native="sendCalendar">send</btn>
-                </template>
-            </expansion-panel>
-
-            <expansion-panel class="grid-w100">
-                <template slot="expansion-header">
-                    <h3 class="content-title">{{$t('objects.lookups.calendars.workWeek')}}</h3>
-                </template>
-                <template slot="expansion-content">
-                    <work-week/>
-                </template>
-            </expansion-panel>
-
-            <expansion-panel class="grid-w100">
-                <template slot="expansion-header">
-                    <h3 class="content-title">{{$t('objects.lookups.calendars.holidays')}}</h3>
-                </template>
-                <template slot="expansion-content">
-                    <holidays/>
-                </template>
-            </expansion-panel>
+        <section class="object-content module-new calendars-new object-with-tabs">
+            <tabs
+                    :currentTab="currentTab"
+                    :tabs="tabs"
+                    @change="currentTab = $event"
+            ></tabs>
+            <component
+                    class="tabs-inner-component"
+                    :is="computeCurrentTab"
+                    :itemInstanceProp="itemInstance"
+                    :v="$v"
+            ></component>
         </section>
     </div>
 </template>
 
 <script>
-    import calendarsWorkWeek from './calendars-work-week';
-    import calendarsHolidays from './calendars-holidays';
+    import openedCalendarGeneral from './opened-calendar-general';
+    import openedCalendarWorkWeek from './opened-calendar-work-week';
+    import openedCalendarHolidays from './opened-calendar-holidays';
     import editComponentMixin from '@/mixins/editComponentMixin';
-    import datepicker from 'vuejs-datepicker';
-    import btn from '@/components/utils/btn';
 
     import {required} from 'vuelidate/lib/validators';
     import {
         addCalendar,
         getCalendar,
-        getCalendarTimezones,
         updateCalendar,
+        getWorkdayList,
+        getHolidayList,
     } from "../../../../api/objects/lookups/calendars";
 
     export default {
         name: "opened-calendar",
-        components: {
-            'work-week': calendarsWorkWeek,
-            'holidays': calendarsHolidays,
-            datepicker,
-            btn
-        },
         mixins: [editComponentMixin],
+        components: {
+            openedCalendarWorkWeek,
+            openedCalendarHolidays,
+            openedCalendarGeneral,
+        },
         data() {
             return {
-                calendarInstance: {
-                    name: '',
-                    timezone: {},
-                    description: '',
-                    startDate: '',
-                    endDate: ''
+                itemInstance: {
+                    calendar: {
+                        name: '',
+                        timezone: {},
+                        description: '',
+                        start: Date.now(),
+                        finish: Date.now(),
+                        expires: false,
+                    },
+                    workWeek: [],
+                    holidays: []
                 },
-                initialCalendar: {
-                    name: '',
-                    timezone: {},
-                    description: '',
-                    startDate: '',
-                    endDate: ''
-                },
-                isCalendarExpiration: false,
-                timezoneList: []
+                tabs: [
+                    {
+                        text: this.$t('objects.general'),
+                        value: 'general',
+                    },
+                    {
+                        text: this.$t('objects.lookups.calendars.workWeek'),
+                        value: 'work-week',
+                    },
+                    {
+                        text: this.$t('objects.lookups.calendars.holidays'),
+                        value: 'holidays',
+                    }
+                ],
             };
         },
 
         // by vuelidate
         validations: {
-            calendarInstance: {
-                name: {
-                    required
-                },
-                timezone: {
-                    required
+            itemInstance: {
+                calendar: {
+                    name: {
+                        required
+                    },
+                    timezone: {
+                        required
+                    }
                 }
             }
         },
 
         mounted() {
-            if (this.id) {
-                this.loadCalendar();
-            }
-            this.loadTimezones();
+            this.loadItem();
         },
 
-        computed: {},
-
         methods: {
-            async loadCalendar() {
-                const response = await getCalendar(this.id);
-                this.calendarInstance = response;
-                this.initialCalendar = JSON.parse(JSON.stringify(response));
+            async loadItem() {
+                await this.loadCalendar();
+                await this.loadWorkWeek();
+                await this.loadHolidays();
+
+                this.initialItem = JSON.parse(JSON.stringify(this.itemInstance));
             },
 
-            async sendCalendar() {
+            async loadCalendar() {
                 if (this.id) {
-                    let calendarToSend = {
-                        id: this.calendarInstance.id,
-                        name: this.calendarInstance.name,
-                        timezone: {
-                            id: this.calendarInstance.timezone.id,
-                        },
-                        description: this.calendarInstance.name
-                    };
-                    await updateCalendar(calendarToSend);
+                    this.itemInstance.calendar = await getCalendar(this.id);
+                }
+            },
+            async loadWorkWeek() {
+                if (this.id) {
+                    this.itemInstance.workWeek = await getWorkdayList(this.id);
                 } else {
-                    let calendarToSend = {
-                        name: this.calendarInstance.name,
-                        timezone: {
-                            id: this.calendarInstance.timezone.id,
-                        },
-                        description: this.calendarInstance.name
-                    };
-                    await addCalendar(calendarToSend);
+                    const weekdays = ['monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday', 'sunday'];
+
+
+                    weekdays.forEach((day, index) => {
+                        this.itemInstance.workWeek.push({
+                            name: weekdays[index],
+                            enabled: index < 5,
+                            start: 9*60,
+                            end: 20*60,
+                        });
+                    });
+                }
+            },
+            async loadHolidays() {
+                if (this.id) {
+                    this.itemInstance.holidays = await getHolidayList(this.id);
+                } else {
+                    this.itemInstance.holidays.push({
+                        name: 'New Year',
+                        date: (new Date('10.10.120').getTime() + '').slice(0, 10),
+                        repeat: true
+                    });
                 }
             },
 
-            async loadTimezones() {
-                const response = await getCalendarTimezones();
-                this.timezoneList = response.items;
-            },
-
-            save() {
+            async save() {
                 if (this.id) {
-                    //    update
+                    // let calendarToSend = {
+                    //     id: this.itemInstance.id,
+                    //     name: this.itemInstance.name,
+                    //     timezone: {
+                    //         id: this.itemInstance.timezone.id,
+                    //     },
+                    //     description: this.itemInstance.name
+                    // };
+                    // await updateCalendar(calendarToSend);
                 } else {
-                    //    create
+                    // let calendarToSend = {
+                    //     name: this.itemInstance.name,
+                    //     timezone: {
+                    //         id: this.itemInstance.timezone.id,
+                    //     },
+                    //     description: this.itemInstance.name
+                    // };
+                    // await addCalendar(calendarToSend);
                 }
 
                 this.close();
@@ -213,25 +167,5 @@
 </script>
 
 <style lang="scss" scoped>
-    .calendars__to-separator {
-        color: $icon-color;
-    }
 
-    .calendars__dates {
-        display: flex;
-        padding: 25px 0 20px; /*FIXME: BALANCE GRID*/
-
-        .calendars__date-wrap {
-            // all width - "to" margins - "to" - switch margin - switch
-            width: calc(50% - (23px * 2 + 19px + 43px + 40px) / 2);
-        }
-
-        .calendars__to-separator {
-            margin: auto 23px;
-        }
-
-        .switcher {
-            margin: auto 0 auto 43px;
-        }
-    }
 </style>

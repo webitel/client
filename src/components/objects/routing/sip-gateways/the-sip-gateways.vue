@@ -20,16 +20,14 @@
                 </h3>
 
                 <div class="content-header__actions-wrap">
-                    <div class="search-form">
-                        <i class="icon-icon_search"></i>
-                        <input
-                                class="search-input"
-                                type="text"
-                                :placeholder="$t('objects.routing.gateways.searchPlaceholder')"
-                                v-model="search"
-                                @keyup="filterData"
-                        >
-                    </div>
+                    <search
+                            @filterData="filterData"
+                    ></search>
+                    <i
+                            class="icon-icon_delete icon-action"
+                            :class="{'hidden': anySelected}"
+                            @click="deleteSelected"
+                    ></i>
                 </div>
             </header>
 
@@ -37,6 +35,7 @@
                     :api-mode="false"
                     :fields="fields"
                     :data="filteredDataList"
+                    no-data-template="Empty data message"
             >
 
                 <template slot="name" slot-scope="props">
@@ -56,7 +55,7 @@
                 <template slot="enabled" slot-scope="props">
                     <switcher
                             :value="filteredDataList[props.rowIndex].enable"
-                            @toggleSwitch="toggleDataProperty('enable', props.rowIndex)"
+                            @input="toggleDataProperty('enable', props.rowIndex)"
                     ></switcher>
                 </template>
 
@@ -69,76 +68,47 @@
                 </template>
 
                 <template slot="actions" slot-scope="props">
-                    <div class="vuetable-actions__wrap">
                         <i class="vuetable-action icon-icon_edit"
                            @click="edit(props.rowIndex)"
                         ></i>
                         <i class="vuetable-action icon-icon_delete"
                            @click="remove(props.rowIndex)"
                         ></i>
-                    </div>
                 </template>
             </vuetable>
+
+            <pagination/>
         </section>
     </div>
 </template>
 
 <script>
+    import tableComponentMixin from '@/mixins/tableComponentMixin';
     import createGatewayPopup from './create-gateway-popup';
-    import vuetable from 'vuetable-2/src/components/Vuetable';
-    import objectHeader from '@/components/objects/the-object-header';
-    import switcher from '@/components/utils/switcher';
-    import status from '@/components/utils/status';
     import {getGatewayList, deleteGateway} from "../../../../api/objects/routing/gateways";
-
+    import {_checkboxTableField, _actionsTableField_2, _switcherWidth} from "@/utils/tableFieldPresets";
 
     export default {
         name: "the-sip-gateways",
+        mixins: [tableComponentMixin],
         components: {
             'gateway-popup': createGatewayPopup,
-            'object-header': objectHeader,
-            switcher,
-            vuetable,
-            status,
         },
         data() {
             return {
-                dataList: [], // list of all objects to show
-                filteredDataList: [],
-
-                // vuetable prop
                 fields: [
+                    _checkboxTableField,
                     {name: 'name', title: this.$t('objects.name')},
                     {name: 'proxy', title: this.$t('objects.routing.gateways.proxy')},
-                    {name: 'enabled', title: this.$t('objects.enabled')},
+                    {name: 'enabled', title: this.$t('objects.enabled'), width: _switcherWidth},
                     {name: 'status', title: this.$t('objects.status')},
-                    {
-                        name: 'actions',
-                        title: '',
-                        titleClass: 'vuetable-td-actions',
-                        dataClass: 'vuetable-td-actions',
-                        width: '120px'
-                    },
+                    _actionsTableField_2,
                 ],
-                search: '',
-                popupTriggerIf: false,
+                filterProperties: ['name', 'proxy'],
             };
         },
-        mounted() {
-            this.loadDataList();
-        },
+
         methods: {
-            openPopup() {
-                this.popupTriggerIf = true;
-            },
-
-            filterData() {
-                this.filteredDataList = this.dataList.filter(dataItem => {
-                    return dataItem.name.trim().toLowerCase().includes(this.search.trim().toLowerCase())
-                        || dataItem.proxy.trim().toLowerCase().includes(this.search.trim().toLowerCase());
-                });
-            },
-
             edit(rowId) {
                 let name;
                 if (this.dataList[rowId].register) {
@@ -196,18 +166,18 @@
 
             async toggleDataProperty(property, id) {
                 // first, change UI, then send request
-                this.dataList[id][property] = !this.dataList[id][property];
+                this.filteredDataList[id][property] = !this.filteredDataList[id][property];
 
                 try {
                     // await updateObject(this.dataList[id].id, this.dataList[id]);
                 } catch (err) {
                     // if request throws error, move changes back
-                    this.dataList[id][property] = !this.dataList[id][property];
+                    this.filteredDataList[id][property] = !this.filteredDataList[id][property];
                 }
             },
 
             async loadDataList() {
-                const response = await getGatewayList();
+                const response = await getGatewayList(this.rowsPerPage);
 
                 this.dataList = [...response];
                 this.filterData();
@@ -216,7 +186,3 @@
 
     }
 </script>
-
-<style lang="scss" scoped>
-
-</style>

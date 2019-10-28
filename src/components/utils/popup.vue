@@ -100,22 +100,19 @@
         left: 50%;
         width: 738px;
         max-height: 80vh;
-        padding: 27px 0;
+        padding: 27px 44px;
         background: #fff;
         transform: translate(-50%, -50%);
         border-radius: $border-radius;
-        overflow-y: auto;
+        /*overflow-y: auto;*/
         z-index: 10;
     }
 
     .content-header {
-        padding: 0 44px;
-        margin: 0 0 38px;
+        margin: 0 0 28px;
     }
 
     .content-body {
-        padding: 0 44px;
-
         &.no-gutters {
             padding: 0;
         }
@@ -123,6 +120,6 @@
 
     .btn-controls {
         text-align: right;
-        margin: 26px 44px 0;
+        margin: 26px 0 0;
     }
 </style>

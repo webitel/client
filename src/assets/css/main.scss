@@ -6,7 +6,7 @@ $header-color: #EAEAEA;       // header
 $content-bg-color: #FFF;    // content
 
 // ACCENT COLORS:
-$nav-icon-color: rgba(255, 255, 255, 0.4);    //nav icon color
+$nav-icon-color: rgba(255, 255, 255, 1);    //nav icon color
 $icon-color: rgba(0, 0, 0, 0.3);    //icon color
 $accent-color: #FFC107;       // links, icons, buttons
 
@@ -16,12 +16,15 @@ $false-color: #FF4444;
 $info-color: $accent-color;
 
 // NEUTRAL COLORS:
-$input: rgba(0, 0, 0, 0.2);
+//$label-color: rgba(0, 0, 0, 0.45);
+$label-color: #000;
+$input: #EAE9E9;
 $input-disabled: rgba(0, 0, 0, 0.05);
 $divider-color: rgba(0, 0, 0, 0.1);
+$tag-background: rgba(255, 230, 156, 0.5);
 
 // OTHER
-$input-padding: 15px 16px 11px;
+$input-padding: 11px 16px 7px;
 $border-radius: 4px;
 $transition: 0.2s;
 
@@ -88,7 +91,8 @@ i {
 
   position: relative;
   display: block;
-  margin-bottom: 9px;
+  margin-bottom: 10px;
+  color: $label-color;
   transition: $transition;
 
   .hint {
@@ -115,15 +119,14 @@ i {
 
   &:hover:not(:disabled) {
     border-color: #000;
-
-    &::placeholder {
-      color: #000;
-    }
-  ;
   }
 
   &:focus {
     border-color: #000;
+
+    &::placeholder {
+      color: transparent;
+    }
   }
 
   &:disabled {
@@ -137,18 +140,22 @@ i {
   border-color: $false-color;
 }
 
+$srollbar-color: rgba(0, 0, 0, 0.1);
+$srollbar-thumb-color: rgba(0, 0, 0, 0.3);
+
 .scrollbar {
   // scrollbar itself
   &::-webkit-scrollbar {
     width: 10px;
-    background-color: rgba(0, 0, 0, 0.2);
+    //background-color: $srollbar-color;
     cursor: pointer;
   }
 
   // scrollable element
   &::-webkit-scrollbar-thumb {
     width: 10px;
-    background-color: rgba(0, 0, 0, 0.3);
+    background-color: $srollbar-thumb-color;
+    border-radius: $border-radius;
   }
 }
 
@@ -167,12 +174,7 @@ i {
   align-items: center;
   grid-template-columns: 1fr 1fr 24px;
 
-  .icon-icon_delete {
-    margin-bottom: 10px;
-    cursor: pointer;
-
-    &:hover {
-      color: #000;
-    }
+  i {
+    @extend .icon-action;
   }
 }

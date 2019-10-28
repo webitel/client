@@ -1,6 +1,6 @@
 
 .typo-heading-lg {
-  font: 24px 'AvantGardeDemi';
+  font: 22px 'AvantGardeDemi';
   line-height: 26px;
 }
 
@@ -9,10 +9,10 @@
   line-height: 22px;
 }
 
-.typo-heading-sm {
-  font: 12px 'AvantGardeBook';
-  line-height: 14px;
-}
+//.typo-heading-sm {
+//  font: 12px 'AvantGardeBook';
+//  line-height: 14px;
+//}
 
 .typo-body-lg {
   font: 18px 'AvantGardeBook';
@@ -35,16 +35,21 @@
 }
 
 .typo-input-label {
-  font: 14px 'AvantGardeBook';
+  font: 12px 'AvantGardeBook';
   line-height: 16px;
 }
 
 .typo-input-text {
   font: 14px 'AvantGardeBook';
-  line-height: 24px;
+  line-height: 20px;
 }
 
 .typo-notification-text {
   font: 16px 'AvantGardeBook';
   line-height: 18px;
+}
+
+.typo-nav-item {
+  font: 14px 'AvantGardeBook';
+  line-height: 16px;
 }

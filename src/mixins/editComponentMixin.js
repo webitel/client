@@ -5,18 +5,20 @@ import dropdownSelect from '@/components/utils/dropdown-select';
 import switcher from '@/components/utils/switcher';
 import tableCheckbox from '@/components/utils/checkbox';
 import hint from '@/components/utils/hint';
+import tabs from '@/components/utils/tabs';
 import validationMessage from '@/components/utils/validation-message';
 
 export default {
     components: {
-        'object-header': objectHeader,
-        'form-input': formInput,
-        'expansion-panel': expansionPanel,
-        'dropdown-select': dropdownSelect,
-        'validation-message': validationMessage,
+        objectHeader,
+        formInput,
+        expansionPanel,
+        dropdownSelect,
+        validationMessage,
         checkbox: tableCheckbox,
         switcher,
-        hint
+        hint,
+        tabs,
     },
 
 
@@ -24,14 +26,18 @@ export default {
         return {
             id: null, // id of currently opened component
             itemInstance: {},
-            initialItem: {}
+            initialItem: {},
+            currentTab: {value: 'general'},
         };
     },
 
     mounted() {
         this.setId(); // if there is an edit case, set id from route
 
-        if(!this.id) this.setInitialItem();
+        if (!this.id) this.setInitialItem();
+        if (this.id) {
+            this.loadItem();
+        }
 
     },
 
@@ -67,16 +73,22 @@ export default {
         },
 
         setInitialItem() {
-          this.initialItem = JSON.parse(JSON.stringify(this.itemInstance));
+            this.initialItem = JSON.parse(JSON.stringify(this.itemInstance));
         },
 
         close() {
             this.$router.go(-1);
         },
+
+        loadItem() {},
     },
     computed: {
         computeTitle() {
             return this.id ? this.$t('objects.edit') : this.$t('objects.new');
         },
+
+        computeCurrentTab() {
+            return this.$options.name + '-' + this.currentTab.value;
+        }
     },
 }

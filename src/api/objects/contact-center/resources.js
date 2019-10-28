@@ -8,8 +8,9 @@ const resService = new OutboundResourceServiceApiFactory
 
 const domainId = store.getters.getDomainId || undefined;
 
-export async function getResourceList() {
+export const getResourceList = async (size = 10) => {
     const defaultObject = {
+        isSelected: false,
         name: '',
         gateway: {
             name: 'gateway default name',
@@ -21,7 +22,7 @@ export async function getResourceList() {
     };
 
     try {
-        const response = await resService.searchOutboundResource(domainId, 20);
+        const response = await resService.searchOutboundResource(domainId, size);
 
         return response.data.items.map(item => {
             return Object.assign({}, defaultObject, item);
@@ -32,7 +33,7 @@ export async function getResourceList() {
     }
 }
 
-export async function getResource(id) {
+export const getResource = async (id) => {
     try {
         const response = await resService.readOutboundResource(id, domainId);
 

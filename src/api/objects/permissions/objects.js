@@ -3,7 +3,7 @@ import instance from '@/api/instance';
 
 const BASE_URL = '/objects';
 
-export async function getObjectList() {
+export const getObjectList = async () => {
     // Vue.$log.info('get Permissions Objects', 'started');
 
     const defaultObject = {  // default object prototype, to merge response with it to get all fields
@@ -25,7 +25,7 @@ export async function getObjectList() {
     }
 }
 
-export async function getObject(id) {
+export const getObject = async (id) => {
     // Vue.$log.info('get Permissions Object (1)', 'started');
     const url = BASE_URL + '/' + id;
     try {
@@ -37,7 +37,7 @@ export async function getObject(id) {
     }
 }
 
-export async function updateObject(id, permissions) {
+export const updateObject = async (id, permissions) => {
     // Vue.$log.info('update permissions Objects', 'started');
     const url = BASE_URL + '/' + id;
     const updatedObject = {
@@ -55,7 +55,7 @@ export async function updateObject(id, permissions) {
     }
 }
 
-export async function getObjectPermissions(id) {
+export const getObjectPermissions = async (id) => {
     // Vue.$log.info('getObjectPermissions', 'started');
     const url = BASE_URL + '/' + id + '/acl';
     let formattedResponse = [];
@@ -88,7 +88,7 @@ export async function getObjectPermissions(id) {
     }
 }
 
-export async function updateObjectPermissions(id, granteesToSend) {
+export const updateObjectPermissions = async (id, granteesToSend) => {
     // granteesToSend -- array
     // Vue.$log.info('updateObjectPermissions', 'started');
     const url = BASE_URL + '/' + id + '/acl';

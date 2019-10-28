@@ -33,13 +33,12 @@
     $secondary-btn-color: rgba(0, 0, 0, 0.7);
     $secondary-btn-color_active: #000;
 
-    $btn-color_disabled: rgba(0, 0, 0, 0.3);
+    $btn-color_disabled: #94979B;
 
     .btn {
         @extend .typo-btn;
 
-        height: 38px;
-        padding: 13px 37px 11px 27px;
+        padding: 12px 32px 8px;
         letter-spacing: 0.5px;
         text-transform: uppercase;
         font-family: 'AvantGardeDemi', sans-serif;

@@ -1,22 +1,24 @@
 <template>
     <div class="dropdown-select">
-        <div class="label" :class="{'invalid': this.v.$error}">{{computeRequiredLabel}}
-            <div class="hint" v-show="this.hintText">
-                <i
-                        class="hint__img tooltip-activator icon-icon_question"
-                ></i>
-                <div class="tooltip-left">{{this.hintText}}</div>
-            </div>
+        <div class="label" :class="{'invalid': v && v.$error}">{{computeRequiredLabel}}
+<!--            <div class="hint" v-show="this.hintText">-->
+<!--                <i-->
+<!--                        class="hint__img tooltip-activator icon-icon_question"-->
+<!--                ></i>-->
+<!--                <div class="tooltip-left">{{this.hintText}}</div>-->
+<!--            </div>-->
         </div>
 
         <v-select
-                :value="value"
+                :value="computeDisplayValue"
                 :options="options"
                 :label="displayProperty"
                 :placeholder="placeholder"
                 :clearable="false"
                 :disabled="disabled"
                 :required="required"
+                :taggable="taggable"
+                :width="21"
                 @input="setOption"
         ></v-select>
 
@@ -47,7 +49,8 @@
             },
 
             displayProperty: {
-                type: String
+                type: String,
+                default: 'name'
             },
 
             // label above select itself
@@ -61,7 +64,7 @@
 
             // select value
             value: {
-                default: null
+                // required: true
             },
 
             // "?" hint text. Also controls "?" display
@@ -78,19 +81,27 @@
                 type: Boolean
             },
 
+            taggable: {
+                type: Boolean,
+                default: false
+            },
+
             // validation rules
             v: {
                 type: Object,
-                default: () => ({
-                    $error: null,
-                    $touch: () => {
-                    },
-                }),
             },
         },
+
+        computed: {
+            computeDisplayValue() {
+                if(typeof this.value === 'string') return this.value;
+                return this.value[this.displayProperty] || '';
+            }
+        },
+
         methods: {
             setOption(option) {
-                this.v.$touch();
+                if(this.v) this.v.$touch();
                 this.$emit('input', option);
             }
         },

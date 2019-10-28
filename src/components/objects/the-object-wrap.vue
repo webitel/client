@@ -5,7 +5,9 @@
             <notification></notification>
             <app-header></app-header>
 
-            <router-view></router-view>
+           <div class="object-content-wrap">
+               <router-view></router-view>
+           </div>
         </main>
     </div>
 </template>
@@ -36,5 +38,13 @@
 </script>
 
 <style lang="scss" scoped>
+    $bg-color: #F9F9F9;
 
+    .object {
+        background: $bg-color;
+    }
+
+    .object-content-wrap {
+        padding: 28px 58px;
+    }
 </style>

@@ -14,16 +14,14 @@
                 </h3>
 
                 <div class="content-header__actions-wrap">
-                    <div class="search-form">
-                        <i class="icon-icon_search"></i>
-                        <input
-                                class="search-input"
-                                type="text"
-                                :placeholder="$t('objects.ccenter.res.searchPlaceholder')"
-                                v-model="search"
-                                @keyup="filterData"
-                        >
-                    </div>
+                    <search
+                            @filterData="filterData"
+                    ></search>
+                    <i
+                            class="icon-icon_delete icon-action"
+                            :class="{'hidden': anySelected}"
+                            @click="deleteSelected"
+                    ></i>
                 </div>
             </header>
 
@@ -64,68 +62,44 @@
                 </template>
 
                 <template slot="actions" slot-scope="props">
-                    <div class="vuetable-actions__wrap">
                         <i class="vuetable-action icon-icon_edit"
                            @click="edit(props.rowIndex)"
                         ></i>
                         <i class="vuetable-action icon-icon_delete"
                            @click="remove(props.rowIndex)"
                         ></i>
-                    </div>
                 </template>
             </vuetable>
+
+            <pagination/>
         </section>
     </div>
 </template>
 
 <script>
-    import vuetable from 'vuetable-2/src/components/Vuetable';
-    import switcher from '@/components/utils/switcher';
-    import objectHeader from '@/components/objects/the-object-header';
     import {getResourceList} from '@/api/objects/contact-center/resources';
-    // import
+    import tableComponentMixin from '@/mixins/tableComponentMixin';
+    import {_checkboxTableField, _actionsTableField_2} from "@/utils/tableFieldPresets";
+    import {_switcherWidth} from "../../../../utils/tableFieldPresets";
 
 
     export default {
         name: "the-resources",
-        components: {
-            'object-header': objectHeader,
-            switcher,
-            vuetable,
-        },
+        mixins: [tableComponentMixin],
         data() {
             return {
-                dataList: [], // list of all objects to show
-                filteredDataList: [],
-
-                // vuetable prop
                 fields: [
+                    _checkboxTableField,
                     {name: 'name', title: this.$t('objects.name')},
                     {name: 'gateway', title: this.$tc('objects.routing.gateways.gateways', 1)},
-                    {name: 'enabled', title: this.$t('objects.enabled')},
-                    {name: 'reserve', title: this.$t('objects.ccenter.res.reserve')},
-                    {
-                        name: 'actions',
-                        title: '',
-                        titleClass: 'vuetable-td-actions',
-                        dataClass: 'vuetable-td-actions',
-                        width: '120px'
-                    },
+                    {name: 'enabled', title: this.$t('objects.enabled'), width: _switcherWidth},
+                    {name: 'reserve', title: this.$t('objects.ccenter.res.reserve'), width: _switcherWidth},
+                    _actionsTableField_2,
                 ],
-                search: '',
             };
         },
-        mounted() {
-            this.loadDataList();
-        },
-        methods: {
-            filterData() {
-                this.filteredDataList = this.dataList.filter(dataItem => {
-                    return dataItem.name.trim().toLowerCase().includes(this.search.trim().toLowerCase())
-                    || dataItem.gateway.name.trim().toLowerCase().includes(this.search.trim().toLowerCase())
-                });
-            },
 
+        methods: {
             create() {
                 this.$router.push('/contact-center/resource/new');
             },
@@ -136,7 +110,6 @@
                     params: {id: this.dataList[rowId].id},
                 });
             },
-
 
             async remove(rowId) {
                 // remove item
@@ -153,18 +126,7 @@
             },
 
             async loadDataList() {
-                const response = await getResourceList();
-
-                // const response = [];
-                //
-                // for (let i = 0; i < 10; i++) {
-                //     response.push({
-                //         name: 'res group ' + i,
-                //         description: 'res group descr ' + i,
-                //         id: i
-                //     });
-                // }
-
+                const response = await getResourceList(this.rowsPerPage);
                 this.dataList = [...response];
                 this.filterData();
             }
@@ -172,7 +134,3 @@
 
     }
 </script>
-
-<style lang="scss" scoped>
-
-</style>

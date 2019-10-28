@@ -3,11 +3,10 @@ import instance from '../../instance';
 
 const BASE_URL = '/roles';
 
-export async function getRoleList() {
-    // Vue.$log.info('get Roles', 'started');
+export const getRoleList = async () => {
     try {
         const response = await instance.get(BASE_URL);
-        // Vue.$log.info('get Roles', 'response', response);
+        response.data.results.forEach(res => res.isSelected = false);
         return response.data.results;
 
     } catch (error) {
@@ -15,7 +14,7 @@ export async function getRoleList() {
     }
 }
 
-export async function getRole(id) {
+export const getRole = async (id) => {
     // Vue.$log.info('get Role (1)', 'started');
     const url = BASE_URL + '/' + id;
 
@@ -28,7 +27,7 @@ export async function getRole(id) {
     }
 }
 
-export async function addRole(roleToSend) {
+export const addRole = async (roleToSend) => {
     // Vue.$log.info('add role', 'started');
     const newRole = {
         role: roleToSend
@@ -42,7 +41,7 @@ export async function addRole(roleToSend) {
     }
 }
 
-export async function updateRole(id, roleToSend) {
+export const updateRole = async (id, roleToSend) => {
     // Vue.$log.info('update role', 'started');
     const updatedRole = {
         role: roleToSend
@@ -57,7 +56,7 @@ export async function updateRole(id, roleToSend) {
     }
 }
 
-export async function deleteRole(id) {
+export const deleteRole = async (id) => {
     // Vue.$log.info('delete role', 'started');
     const url = BASE_URL + '/' + id;
 

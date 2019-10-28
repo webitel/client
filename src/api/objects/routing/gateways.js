@@ -2,8 +2,9 @@ import instance from '@/api/instance';
 
 const BASE_URL = '/sip/gateways';
 
-export async function getGatewayList() {
+export async function getGatewayList(size = 10) {
     const defaultObject = {  // default object prototype, to merge response with it to get all fields
+        isSelected: false,
         name: '',
         proxy: '',
         enable: false,
@@ -11,7 +12,7 @@ export async function getGatewayList() {
     };
 
     try {
-        let response = await instance.get(BASE_URL+'?size=20');
+        let response = await instance.get(BASE_URL+`?size=${size}`);
         if (!response.data.items) response.data.items = [];
 
         return response.data.items.map(item => {
@@ -38,7 +39,7 @@ export async function getGateway(id) {
     }
 }
 
-export async function addGateway(item) {
+export const addGateway = async (item) => {
 
     Object.keys(item).forEach(key => {
         if(!item[key]) delete item[key];
@@ -54,7 +55,7 @@ export async function addGateway(item) {
     }
 }
 
-export async function updateGateway(id, changes) {
+export const updateGateway = async (id, changes) => {
     const url = BASE_URL + '/' + id;
 
     if(!changes.register) {
@@ -72,7 +73,7 @@ export async function updateGateway(id, changes) {
     }
 }
 
-export async function deleteGateway(id) {
+export const deleteGateway = async (id) => {
     const url = BASE_URL + '/' + id;
 
     try {
@@ -82,7 +83,7 @@ export async function deleteGateway(id) {
     }
 }
 
-function coerceTrunkingResponse(response) {
+const coerceTrunkingResponse = (response) => {
     const defaultObject = {
         name: '',
         proxy: '',
@@ -99,7 +100,7 @@ function coerceTrunkingResponse(response) {
     return Object.assign({}, defaultObject, response.data.item);
 }
 
-function coerceRegisterResponse(response) {
+const coerceRegisterResponse = (response) => {
     const defaultObject = {  // default object prototype, to merge response with it to get all fields
         name: '',
         registrar: '',
@@ -126,4 +127,4 @@ function coerceRegisterResponse(response) {
     if(!result.proxy) result.proxy = result.registrar;
 
     return result;
-}
+};

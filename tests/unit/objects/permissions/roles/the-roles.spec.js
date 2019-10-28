@@ -46,9 +46,9 @@ describe('roles-new.vue', () => {
     });
 
     it('updates existing role', async (done) => {
-        const roleList = await getRoleList(); // load all roles
+        const dataList = await getRoleList(); // load all roles
         // to find created role id
-        const createdRole = roleList.find(role => {
+        const createdRole = dataList.find(role => {
             return role.role === 'jest-role'
         });
 
@@ -59,7 +59,7 @@ describe('roles-new.vue', () => {
         await wrapper.vm.loadItem();
 
         // check if initial role was set correctly
-        expect(wrapper.vm.initialItem).toEqual(createdRole);
+        expect(wrapper.vm.initialItem.id).toEqual(createdRole.id);
 
         // set updated role data
         const newRoleInstance = {
@@ -124,7 +124,7 @@ describe('the-roles.vue', () => {
 
     it('removes role from list', async (done) => {
         // test if there's initially a role
-        expect(createdRole).toBeTruthy();;
+        expect(createdRole).toBeTruthy();
 
         // find all delete icons and choose tested role by index
         wrapper.findAll('.vuetable-action.icon-icon_delete').at(createdRoleIndex)

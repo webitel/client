@@ -14,16 +14,14 @@
                 </h3>
 
                 <div class="content-header__actions-wrap">
-                    <div class="search-form">
-                        <i class="icon-icon_search"></i>
-                        <input
-                                class="search-input"
-                                type="text"
-                                :placeholder="$t('objects.ccenter.resGroups.searchPlaceholder')"
-                                v-model="search"
-                                @keyup="filterData"
-                        >
-                    </div>
+                    <search
+                            @filterData="filterData"
+                    ></search>
+                    <i
+                            class="icon-icon_delete icon-action"
+                            :class="{'hidden': anySelected}"
+                            @click="deleteSelected"
+                    ></i>
                 </div>
             </header>
 
@@ -48,59 +46,42 @@
                 </template>
 
                 <template slot="actions" slot-scope="props">
-                    <div class="vuetable-actions__wrap">
                         <i class="vuetable-action icon-icon_edit"
                            @click="edit(props.rowIndex)"
                         ></i>
                         <i class="vuetable-action icon-icon_delete"
                            @click="remove(props.rowIndex)"
                         ></i>
-                    </div>
                 </template>
             </vuetable>
+
+            <pagination/>
         </section>
     </div>
 </template>
 
 <script>
-    import vuetable from 'vuetable-2/src/components/Vuetable';
-    import objectHeader from '@/components/objects/the-object-header';
+    import tableComponentMixin from '@/mixins/tableComponentMixin';
+    import {_checkboxTableField, _actionsTableField_2} from "@/utils/tableFieldPresets";
 
 
     export default {
         name: "the-resource-groups",
-        components: {
-            'object-header': objectHeader,
-            vuetable,
-        },
+        mixins: [tableComponentMixin],
+
         data() {
             return {
-                dataList: [], // list of all objects to show
-                filteredDataList: [],
-
-                // vuetable prop
                 fields: [
+                    _checkboxTableField,
                     {name: 'name', title: this.$t('objects.name')},
-                    {name: 'description', title: this.$t('objects.description')},
-                    {
-                        name: 'actions',
-                        title: '',
-                        titleClass: 'vuetable-td-actions',
-                        dataClass: 'vuetable-td-actions',
-                        width: '120px'
-                    },
+                    {name: 'communication', title: this.$t('objects.description')},
+                    _actionsTableField_2,
                 ],
-                search: '',
             };
         },
-        mounted() {
-            this.loadDataList();
-        },
         methods: {
-            filterData() {
-                this.filteredDataList = this.dataList.filter(dataItem => {
-                    return dataItem.name.trim().toLowerCase().includes(this.search.trim().toLowerCase())
-                });
+            create() {
+                this.$router.push('/contact-center/resource-groups/new');
             },
 
             create() {
@@ -117,14 +98,14 @@
 
             async remove(rowId) {
                 // remove item
-                const deletedItem = this.dataList.splice(rowId, 1)[0];
+                const deletedItem = this.filteredDataList.splice(rowId, 1)[0];
                 this.filterData();
 
                 try {
                     // await deleteGateway(deletedItem.id);
                 } catch (err) {
                     // if request fails, restore
-                    this.dataList.splice(rowId, 0, deletedItem);
+                    this.filteredDataList.splice(rowId, 0, deletedItem);
                     this.filterData();
                 }
             },
@@ -136,8 +117,9 @@
 
                 for (let i = 0; i < 10; i++) {
                     response.push({
+                        isSelected: false,
                         name: 'res group ' + i,
-                        description: 'res group descr ' + i,
+                        communication: 'res group communication ' + i,
                         id: i
                     });
                 }
@@ -149,7 +131,3 @@
 
     }
 </script>
-
-<style lang="scss" scoped>
-
-</style>

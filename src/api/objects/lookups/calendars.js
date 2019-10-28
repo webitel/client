@@ -8,16 +8,18 @@ const calendarService  = new CalendarServiceApiFactory
 
 const domainId = store.getters.getDomainId || undefined;
 
-export async function getCalendarList() {
+export const getCalendarList = async () => {
     try {
         const response = await calendarService.searchCalendar(domainId, 20);
+        if(!response.data.items) response.data.items = [];
+        response.data.items.forEach(item => item.isSelected = false);
         return response.data.items;
     } catch (err) {
         throw err;
     }
-}
+};
 
-export async function addCalendar(calendarToSend) {
+export const addCalendar = async (calendarToSend) => {
     calendarToSend.domain_id = domainId;
     try {
         const response = await calendarService.createCalendar(calendarToSend);
@@ -26,7 +28,7 @@ export async function addCalendar(calendarToSend) {
     }
 }
 
-export async function getCalendarTimezones() {
+export const getCalendarTimezones = async () => {
     try {
         const response = await calendarService.searchTimezones(20);
         return response.data;
@@ -35,7 +37,7 @@ export async function getCalendarTimezones() {
     }
 }
 
-export async function getCalendar(id) {
+export const getCalendar = async (id) => {
     try {
         const response = await calendarService.readCalendar(id, domainId);
 
@@ -43,8 +45,8 @@ export async function getCalendar(id) {
             name: '',
             timezone: '',
             description: '',
-            startDate: '',
-            endDate: ''
+            start: '',
+            finish: ''
         };
 
         return Object.assign({}, defaultCalendar, response.data);
@@ -53,7 +55,7 @@ export async function getCalendar(id) {
     }
 }
 
-export async function updateCalendar(calendarToSend) {
+export const updateCalendar = async (calendarToSend) => {
     try {
         const response = await calendarService.updateCalendar(calendarToSend, calendarToSend.id);
         return response.data;
@@ -62,7 +64,7 @@ export async function updateCalendar(calendarToSend) {
     }
 }
 
-export async function deleteCalendar(id) {
+export const deleteCalendar = async (id) => {
     try {
         const response = await calendarService.deleteCalendar(id, domainId);
         return response.data;
@@ -71,16 +73,26 @@ export async function deleteCalendar(id) {
     }
 }
 
-export async function getWorkdayList(calendarId) {
+export const getWorkdayList = async (calendarId) => {
     try {
         const response = await calendarService.searchAcceptOfDay(calendarId, domainId);
-        return response.data;
+        return response.data.items.map(workday => {
+            return {
+                name: this.weekdays[workday.week_day],
+                id: workday.id,
+                enabled: !workday.disabled,
+                start: this.convertMinToHours(workday.start_time_of_day),
+                end: this.convertMinToHours(workday.end_time_of_day),
+                origin: true
+            }
+        });
+
     } catch (err) {
         throw err;
     }
-}
+};
 
-export async function getWorkday(calendarId, workdayId) {
+export const getWorkday = async (calendarId, workdayId) => {
     try {
         const response = await calendarService.searchAcceptOfDay(calendarId, workdayId, domainId);
         return response.data;
@@ -89,7 +101,7 @@ export async function getWorkday(calendarId, workdayId) {
     }
 }
 
-export async function addWorkday(workday, calendarId) {
+export const addWorkday = async (workday, calendarId) => {
     try {
         const response = await calendarService.createAcceptOfDay(workday, calendarId);
         return response.data;
@@ -98,7 +110,7 @@ export async function addWorkday(workday, calendarId) {
     }
 }
 
-export async function deleteWorkday(calendarId, workdayId) {
+export const deleteWorkday = async (calendarId, workdayId) => {
     try {
         const response = await calendarService.deleteAcceptOfDay(calendarId, workdayId, domainId);
         return response.data;
@@ -107,7 +119,7 @@ export async function deleteWorkday(calendarId, workdayId) {
     }
 }
 
-export async function updateWorkday(calendarId, workday) {
+export const updateWorkday = async (calendarId, workday) => {
     try {
         const response = await calendarService.deleteAcceptOfDay(calendarId, workday.id, workday);
         return response.data;
@@ -116,7 +128,7 @@ export async function updateWorkday(calendarId, workday) {
     }
 }
 
-export async function getHolidayList(calendarId) {
+export const getHolidayList = async (calendarId) => {
     try {
         const response = await calendarService.searchExceptDate(calendarId, domainId);
         return response.data;
@@ -125,7 +137,7 @@ export async function getHolidayList(calendarId) {
     }
 }
 
-export async function getHoliday(calendarId, holidayId) {
+export const getHoliday = async (calendarId, holidayId) => {
     try {
         const response = await calendarService.searchExceptDate(calendarId, holidayId, domainId);
         return response.data;
@@ -134,7 +146,7 @@ export async function getHoliday(calendarId, holidayId) {
     }
 }
 
-export async function addHoliday(calendarId, holiday) {
+export const addHoliday = async (calendarId, holiday) => {
     try {
         const response = await calendarService.createExceptDate(calendarId, holiday);
         return response.data;
@@ -143,7 +155,7 @@ export async function addHoliday(calendarId, holiday) {
     }
 }
 
-export async function deleteHoliday(calendarId, holidayId) {
+export const deleteHoliday = async (calendarId, holidayId) => {
     try {
         const response = await calendarService.deleteExceptDate(calendarId, holidayId, domainId);
         return response.data;
@@ -152,7 +164,7 @@ export async function deleteHoliday(calendarId, holidayId) {
     }
 }
 
-export async function updateHoliday(calendarId, holiday) {
+export const updateHoliday = async (calendarId, holiday) => {
     try {
         const response = await calendarService.updateExceptDate(calendarId, holiday.id, holiday);
         return response.data;

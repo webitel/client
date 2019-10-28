@@ -26,11 +26,67 @@ export default {
         requiredArrayValue: 'Array should not be empty',
     },
 
-    objects: {
+    nav: {
+        directory: {
+            directory: 'Directory',
+            users: 'Users',
+            devices: 'Devices',
+        },
+        contacts: 'Contacts',
+        routing: {
+            routing: 'Routing',
+            flow: 'Flow',
+            dialplan: 'Dialplan',
+            chatplan: 'Chatplan',
+            gateways: 'SIP endpoints',
+        },
+        lookups: {
+            lookups: 'Lookups',
+            agentSkills: 'Agent skills',
+            calendars: 'Calendars',
+            communications: 'Communication types',
+            contactTypes: 'Contact types',
+            leadSources: 'Lead sources',
+            leadStatus: 'Lead status',
+        },
+        ccenter: {
+            ccenter: 'Contact center',
+            agents: 'Agents',
+            teams: 'Teams',
+            res: 'Resources',
+            resGroups: 'Resource groups',
+            queues: 'Queues',
+        },
+        kibana: 'Kibana',
+        integrations: {
+            integrations: 'Integrations',
+            tokens: 'API tokens',
+            accounts: 'Accounts',
+            webhooks: 'Webhooks',
+            widgets: 'Widgets',
+            callTracking: 'Call tracking',
+        },
+        administration: {
+            administration: 'Administration',
+            license: 'License',
+            storage: 'Storage',
+            media: 'Media',
+            blacklists: 'Blacklists',
+            adfs: 'ADFS OAuth2',
+        },
+        permissions: {
+            permissions: 'Permissions',
+            roles: 'Roles',
+            objects: 'Objects',
+            operations: 'Operations',
+        }
+    },
 
+    objects: {
         directory: 'Directory',
         administration: 'Administration',
 
+        general: 'General',
         new: 'New',
         create: 'Create',
         read: 'Read',
@@ -69,12 +125,14 @@ export default {
             permissions: 'Permissions',
             permissionsRole: 'Role | Roles',
             allRoles: 'All roles',
+            searchPlaceholder: 'role ..',
             object: {
                 object: 'Objects',
                 allObjects: 'All objects',
                 ObAC: 'Managed by operations',
                 RbAC: 'Managed by records',
-                operations: 'Operations'
+                operations: 'Operations',
+                searchPlaceholder: 'object ..',
             }
         },
         devices: {
@@ -147,7 +205,10 @@ export default {
                 holidays: 'Holidays',
                 enabled: 'Enabled',
                 date: 'Date',
-                repeat: 'Repeat'
+                repeat: 'Repeat',
+                fulltime: 'Full-time',
+                everyYear: 'Repeat every year',
+                newHoliday: 'New holiday',
             },
             communications: {
                 communications: 'Communication type | Comunication types',
@@ -172,10 +233,13 @@ export default {
             ip: 'IP',
             protocol: 'Protocol',
             port: 'Port',
+            configuration: 'Configuration',
 
             gateways: {
                 gateways: 'Gateway | Gateways',
                 allGateways: 'All gateways',
+                trunkingGateway: 'Trunking gateway',
+                registerGateway: 'Register gateway',
                 proxy: 'Proxy',
                 searchPlaceholder: 'gateway search...',
                 host: 'Host',
@@ -224,7 +288,9 @@ export default {
                 allResGroups: 'All resource groups',
                 searchPlaceholder: 'res group name..',
                 strategy: 'Strategy',
-                timerange: 'Time range'
+                timerange: 'Time range',
+                timerangeFrom: 'From',
+                timerangeTo: 'To'
             },
         }
     },

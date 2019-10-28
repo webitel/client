@@ -134,7 +134,6 @@
         min-height: 67vh;
 
         .upload-popup__info {
-            padding: 0 44px;
 
             .upload-popup__info-headers {
                 @extend .typo-body-md;
@@ -155,9 +154,8 @@
                 @extend .object-input-grid;
                 @extend .typo-body-md;
 
-                padding: 0 44px;
                 margin-top: 27px;
-                color: $input;
+                color: $label-color;
 
                 div {
                     align-self: center;
@@ -165,12 +163,13 @@
             }
 
             .column-rows {
-                padding: 24px 44px 18px;
+                padding: 24px 0 18px;
 
                 li {
                     @extend .object-input-grid;
-                    grid-row-gap: 0; // (28px - 9px label + 20px bottom error)
-
+                    /*grid-row-gap: 28px; // (28px - 9px label + 20px bottom error)*/
+                    margin-bottom: 18px;
+                    /*FIXME: MARGIN TOP INSTEAD OF GRID GAPS*/
                     div {
                         @extend .typo-body-md;
                         align-self: center;

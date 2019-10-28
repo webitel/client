@@ -21,10 +21,10 @@
                     <p class="popup-options__item-text">
                         {{$t('objects.routing.gateways.SIPregistrationsDescription')}}
                     </p>
-                    <i
-                            class="popup-options__item-icon icon-icon_allow"
-                            v-show="computeChosenOption('register')"
-                    ></i>
+<!--                    <i-->
+<!--                            class="popup-options__item-icon icon-icon_allow"-->
+<!--                            v-show="computeChosenOption('register')"-->
+<!--                    ></i>-->
                 </li>
                 <li
                         class="popup-options__item-wrap"
@@ -37,10 +37,10 @@
                     <p class="popup-options__item-text">
                         {{$t('objects.routing.gateways.SIPtrunkingDescription')}}
                     </p>
-                    <i
-                            class="popup-options__item-icon icon-icon_allow"
-                            v-show="computeChosenOption('trunking')"
-                    ></i>
+<!--                    <i-->
+<!--                            class="popup-options__item-icon icon-icon_allow"-->
+<!--                            v-show="computeChosenOption('trunking')"-->
+<!--                    ></i>-->
                 </li>
             </ul>
         </section>
@@ -83,18 +83,18 @@
 <style lang="scss" scoped>
     .popup-subheading {
         @extend .typo-input-label;
-        margin: 0 0 24px;
+        margin: 0 0 28px;
     }
 
     .popup-options {
+        margin-bottom: 28px;
 
         .popup-options__item-wrap {
             position: relative;
-            padding: 26px 50px 26px 26px;
-            margin-bottom: 28px;
-            border: 1px solid $input;
+            padding: 28px 50px 28px 28px;
+            margin-bottom: 18px;
+            border: 2px solid $input;
             border-radius: $border-radius;
-            transition: $transition;
             cursor: pointer;
 
             &:hover, &.active {
@@ -104,14 +104,14 @@
 
         .popup-options__item-header {
             @extend .typo-btn;
-            margin: 0 0 11px*1.2;
-            font-size: 1em;
+            margin: 0 0 11px;
+            /*font-size: 1em;*/
         }
 
         .popup-options__item-text {
             @extend .typo-body-md;
             margin: 0;
-            font-size: 0.9em;
+            /*font-size: 0.9em;*/
         }
 
         .popup-options__item-icon {

@@ -3,7 +3,7 @@
         <object-header
                 :primaryText="$t('objects.save')"
                 :primaryAction="save"
-                :secondaryAction="close"
+                close
         >
             <span class="tt-capitalize">{{headerTitle}}</span>
             | {{$t('objects.edit')}}
@@ -30,9 +30,11 @@
                     <dropdown-select
                             v-else
                             class="inline-dropdown inline-dropdown__options-left"
-                            :placeholder="dataList[props.rowIndex].grantee.role || 'Role'"
+                           :value="dataList[props.rowIndex].grantee"
+                            :placeholder="$tc('objects.permissions.permissionsRole', 1)"
                             :options="computeAvailableGrantees"
-                            @input="selectNewGrantee($event, props.rowIndex)"
+                            :displayProperty="'role'"
+                            @input="setNewGrantee($event, props.rowIndex)"
                     ></dropdown-select>
                 </template>
 
@@ -79,10 +81,8 @@
 
 <script>
     import vuetable from 'vuetable-2/src/components/Vuetable';
-
     import {getObject, updateObjectPermissions, getObjectPermissions} from "@/api/objects/permissions/objects";
     import {getRoleList} from "@/api/objects/permissions/roles";
-
     import editComponentMixin from '@/mixins/editComponentMixin';
 
     export default {
@@ -103,7 +103,6 @@
                 ],
                 dataList: [], // list with all table data, contains user changes
                 initialDataList: [],  // list of initial table data, used for user changes segregation
-                id: this.$route.params.id, // object id
                 headerTitle: '', // header title. retieves from object GET request
 
                 changeAccessList: [], // contains id's of grantee`s changed permissions
@@ -123,6 +122,11 @@
         },
 
         methods: {
+            setNewGrantee(newGrantee, rowIndex) {
+                this.dataList[rowIndex].grantee = newGrantee;
+                this.changeAccessList.push(newGrantee.id);
+            },
+
             addTableItem() {
                 this.dataList.unshift({
                     grantee: {
@@ -136,22 +140,6 @@
                     },
                     new: true
                 });
-            },
-
-            selectNewGrantee(granteeRole, rowId) {
-                // find grantee id in role list by role name
-                const granteeId = this.roleList.find(grantee => {
-                    return grantee.role === granteeRole
-                }).id;
-
-                // change an object
-                this.dataList[rowId].grantee = {
-                    role: granteeRole,
-                    id: granteeId
-                };
-
-                // push id to changes
-                this.changeAccessList.push(granteeId);
             },
 
             toggleDataProperty(newValue, operation, rowId) {
@@ -187,10 +175,11 @@
 
                     // and send the array with changes
                     // catch statement prevents close()
-                    await updateObjectPermissions(this.id, granteesToSend)
-                        .then(() => {
-                            this.close();
-                        });
+                    try {
+                        await updateObjectPermissions(this.id, granteesToSend);
+                        this.close();
+                    } catch (e) {}
+
                 } else {
                     this.close();
                 }
@@ -282,15 +271,10 @@
         computed: {
             computeAvailableGrantees() {
                 // filter available grantees:
-                const availableGrantees = this.roleList.filter(grantee => {
+                return this.roleList.filter(grantee => {
                     return !this.dataList.some(usedGrantee => {
                         return grantee.id === usedGrantee.grantee.id;
                     });
-                });
-
-                // return array of string names
-                return availableGrantees.map(item => {
-                    return item.role;
                 });
             }
         }
@@ -299,4 +283,7 @@
 
 <style lang="scss" scoped>
 
+    .vs__dropdown-toggle {
+        padding-left: 0 !important;
+    }
 </style> 

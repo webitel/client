@@ -3,110 +3,30 @@
         <object-header
                 :primaryText="$t('objects.save')"
                 :primaryAction="submit"
-                :secondaryAction="close"
-        >
-            {{$tc('objects.routing.gateways.gateways', 1)}} | {{computeTitle}}
+                close
+        > {{$t('objects.routing.gateways.registerGateway')}} | {{computeTitle}}
         </object-header>
-        <section class="object-content module-new">
 
-            <expansion-panel opened>
-                <template slot="expansion-header">
-                    <header class="content-header">
-                        <h3 class="content-title">{{$t('objects.generalInfo')}}</h3>
-                    </header>
-                </template>
-                <template slot="expansion-content">
-                    <form-input
-                            v-model.trim="$v.itemInstance.name.$model"
-                            :v="$v.itemInstance.name"
-                            :label="$t('objects.name')"
-                            :placeholder="$t('objects.name')"
-                            required
-                    ></form-input>
-
-                    <form-input
-                            v-model.trim="$v.itemInstance.registrar.$model"
-                            :v="$v.itemInstance.registrar"
-                            :label="$t('objects.routing.gateways.hostnameRegister')"
-                            :placeholder="$t('objects.routing.gateways.hostnameRegister')"
-                            required
-                    ></form-input>
-
-                    <form-input
-                            v-model.trim="$v.itemInstance.expires.$model"
-                            :v="$v.itemInstance.expires"
-                            :label="$t('objects.routing.gateways.expire')"
-                            :placeholder="$t('objects.routing.gateways.expire')"
-                            required
-                    ></form-input>
-
-                    <form-input
-                            v-model.trim="$v.itemInstance.password.$model"
-                            :v="$v.itemInstance.password"
-                            :label="$t('objects.password')"
-                            :placeholder="$t('objects.password')"
-                            required
-                    ></form-input>
-
-                    <form-input
-                            v-model.trim="itemInstance.description"
-                            :label="$t('objects.description')"
-                            :placeholder="$t('objects.description')"
-                            :height="164"
-                            textarea
-                    ></form-input>
-                </template>
-            </expansion-panel>
-
-            <expansion-panel>
-                <template slot="expansion-header">
-                    <header class="content-header">
-                        <h3 class="content-title">{{$t('objects.generalInfo')}}</h3>
-                    </header>
-                </template>
-
-                <template slot="expansion-content">
-                    <form-input
-                            v-model.trim="itemInstance.username"
-                            :label="$t('objects.routing.gateways.authID')"
-                            :placeholder="$t('objects.routing.gateways.authID')"
-                    ></form-input>
-
-                    <dropdown-select
-                            :value="'Empty'"
-                            :label="$tc('objects.routing.callflow.callflow', 1)"
-                            :options="callflowList"
-                    >
-                    </dropdown-select>
-
-                    <form-input
-                            v-model.trim="$v.itemInstance.accountName.$model"
-                            :v="$v.itemInstance.accountName"
-                            :label="$t('objects.routing.gateways.accountNumber')"
-                            :placeholder="$t('objects.routing.gateways.accountNumber')"
-                            required
-                    ></form-input>
-
-                    <form-input
-                            v-model.trim="$v.itemInstance.proxy.$model"
-                            :v="$v.itemInstance.proxy"
-                            :label="$t('objects.routing.gateways.outboundProxy')"
-                            :placeholder="$t('objects.routing.gateways.outboundProxy')"
-                    ></form-input>
-
-                    <form-input
-                            v-model.trim="$v.itemInstance.domain.$model"
-                            :v="$v.itemInstance.domain"
-                            :label="$t('objects.routing.gateways.domain')"
-                            :placeholder="$t('objects.routing.gateways.domain')"
-                    ></form-input>
-                </template>
-            </expansion-panel>
+        <section class="object-content module-new object-with-tabs">
+            <tabs
+                    :currentTab="currentTab"
+                    :tabs="tabs"
+                    @change="currentTab = $event"
+            ></tabs>
+            <component
+                    class="tabs-inner-component"
+                    :is="computeCurrentTab"
+                    :itemInstanceProp="itemInstance"
+                    :v="$v"
+            ></component>
         </section>
     </div>
 </template>
 
 <script>
+    import openedRegisterSipGatewayGeneral from './opened-register-sip-gateway-general';
+    import openedRegisterSipGatewayConfiguration from './opened-register-sip-gateway-configuration';
+
     import editComponentMixin from '@/mixins/editComponentMixin';
     import {gatewayHostValidator} from '@/utils/validators';
     import {required, minValue, maxValue, numeric} from 'vuelidate/lib/validators';
@@ -116,7 +36,10 @@
     export default {
         name: 'opened-register-sip-gateway',
         mixins: [editComponentMixin],
-
+        components: {
+            openedRegisterSipGatewayGeneral,
+            openedRegisterSipGatewayConfiguration
+        },
         data() {
             return {
                 itemInstance: {
@@ -132,7 +55,17 @@
                     domain: '',
                     id: 0,
                 },
-                callflowList: [],
+
+                tabs: [
+                    {
+                        text: this.$t('objects.general'),
+                        value: 'general',
+                    },
+                    {
+                        text: this.$tc('objects.routing.configuration'),
+                        value: 'configuration',
+                    },
+                ],
             };
         },
 
@@ -167,12 +100,6 @@
             }
         },
 
-        mounted() {
-            if (this.id) {
-                this.loadItem();
-            }
-        },
-
         computed: {
             computeGatewayTypeComponent() {
                 return 'register-gateway'
@@ -204,11 +131,4 @@
             }
         },
     };
-
-
 </script>
-
-
-<style lang="scss" scoped>
-
-</style>

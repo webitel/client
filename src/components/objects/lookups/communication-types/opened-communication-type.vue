@@ -40,7 +40,6 @@
 
                 <form-input
                         class="form__input"
-                        :height="164"
                         :label="$t('objects.description')"
                         :placeholder="$t('objects.description')"
                         textarea
