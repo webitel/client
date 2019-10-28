@@ -63,7 +63,7 @@ describe('the-objects.vue', () => {
 
         // find all obac switchers and click on tested object's switcher
         wrapper.findAll('.test__object-switcher__obac').at(testedObjectIndex)
-            .vm.$emit('toggleSwitch');
+            .vm.$emit('input');
 
         // check if local data have changed
         expect(wrapper.vm.dataList[testedObjectIndex].obac).not.toEqual(initialObACState);
@@ -82,7 +82,7 @@ describe('the-objects.vue', () => {
 
         // find all rbac switchers and click on tested object's switcher
         wrapper.findAll('.test__object-switcher__rbac').at(testedObjectIndex)
-            .vm.$emit('toggleSwitch');
+            .vm.$emit('input');
 
         // check if local data have changed
         expect(wrapper.vm.dataList[testedObjectIndex].rbac).not.toEqual(initialRbACState);
@@ -165,24 +165,22 @@ describe('objects-edit.vue', () => {
 
     it('find role to select from available', () => {
         // check if chosen role has no permissions
-        newRole = wrapper.vm.computeAvailableGrantees.find(role => {
-            return role === 'obac-test-jest';
+        newRole = wrapper.vm.computeAvailableGrantees.find(item => {
+            return item.role === 'obac-test-jest';
         });
         // console.log(wrapper.vm.computeAvailableGrantees)
         expect(newRole).toBeTruthy();
     });
 
     it('adds permissions to new role', () => {
+        console.log(wrapper.vm.changeAccessList, newRole.id);
         wrapper.find('.inline-dropdown').vm.$emit('input', newRole);
 
-        const newRoleId = findRoleInPermissionsList(newRole).grantee.id;
-        console.log(newRole, newRoleId);
-        expect(wrapper.vm.changeAccessList).toContain(newRoleId);
+        expect(wrapper.vm.changeAccessList).toContain(newRole.id);
     });
 
     it('removes read permissions from role', () => {
         const testedRole = findRoleInPermissionsList('obac-test-jest');
-
         const testedRoleIndex = wrapper.vm.dataList.indexOf(testedRole);
 
         // remove read permissions

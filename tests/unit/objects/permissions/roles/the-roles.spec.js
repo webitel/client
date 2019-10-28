@@ -124,7 +124,7 @@ describe('the-roles.vue', () => {
 
     it('removes role from list', async (done) => {
         // test if there's initially a role
-        expect(createdRole).toBeTruthy();;
+        expect(createdRole).toBeTruthy();
 
         // find all delete icons and choose tested role by index
         wrapper.findAll('.vuetable-action.icon-icon_delete').at(createdRoleIndex)

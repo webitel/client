@@ -42,6 +42,7 @@ describe('opened-register-gateway.vue', () => {
                 accountName: 'jest-account',
                 proxy: 'jest.proxy',
                 domain: 'jest.domain',
+                id: 0,
             },
         });
 

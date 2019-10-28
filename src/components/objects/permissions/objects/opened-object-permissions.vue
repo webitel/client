@@ -30,10 +30,11 @@
                     <dropdown-select
                             v-else
                             class="inline-dropdown inline-dropdown__options-left"
-                            v-model="dataList[props.rowIndex].grantee"
+                           :value="dataList[props.rowIndex].grantee"
                             :placeholder="$tc('objects.permissions.permissionsRole', 1)"
                             :options="computeAvailableGrantees"
                             :displayProperty="'role'"
+                            @input="setNewGrantee($event, props.rowIndex)"
                     ></dropdown-select>
                 </template>
 
@@ -121,6 +122,11 @@
         },
 
         methods: {
+            setNewGrantee(newGrantee, rowIndex) {
+                this.dataList[rowIndex].grantee = newGrantee;
+                this.changeAccessList.push(newGrantee.id);
+            },
+
             addTableItem() {
                 this.dataList.unshift({
                     grantee: {

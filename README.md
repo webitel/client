@@ -1,4 +1,4 @@
-<<<<<<< HEAD
+
 # web-client
 
 ## Project setup

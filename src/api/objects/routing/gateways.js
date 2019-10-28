@@ -2,7 +2,7 @@ import instance from '@/api/instance';
 
 const BASE_URL = '/sip/gateways';
 
-export async function getGatewayList(size) {
+export async function getGatewayList(size = 10) {
     const defaultObject = {  // default object prototype, to merge response with it to get all fields
         isSelected: false,
         name: '',
