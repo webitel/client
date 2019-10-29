@@ -94,17 +94,8 @@
                 });
             },
 
-            async remove(item) {
-                const rowIndex = this.dataList.indexOf(item);
-                const deletedItem = this.dataList.splice(rowIndex, 1)[0];
-                this.filterData();
-                try {
-                    await deleteCommunication(deletedItem.id);
-                } catch (err) {
-                    // if request fails, restore
-                    this.dataList.splice(rowIndex, 0, deletedItem);
-                    this.filterData();
-                }
+            async deleteItem(item) {
+                await deleteCommunication(item.id);
             },
 
             async loadDataList() {

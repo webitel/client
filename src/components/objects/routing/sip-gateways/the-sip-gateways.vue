@@ -123,19 +123,8 @@
                 });
             },
 
-
-            async remove(rowId) {
-                // remove item
-                const deletedItem = this.dataList.splice(rowId, 1)[0];
-                this.filterData();
-
-                try {
-                    await deleteGateway(deletedItem.id);
-                } catch (err) {
-                    // if request fails, restore
-                    this.dataList.splice(rowId, 0, deletedItem);
-                    this.filterData();
-                }
+            async deleteItem(item) {
+                await deleteGateway(item.id);
             },
 
             computeStatusText(rowIndex) {

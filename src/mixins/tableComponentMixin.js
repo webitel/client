@@ -54,6 +54,18 @@ export default {
                 });
         },
 
+        async remove(item) {
+            const rowIndex = this.dataList.indexOf(item);
+            const deletedItem = this.dataList.splice(rowIndex, 1)[0];
+            this.filterData();
+            try {
+                this.deleteItem(deletedItem);
+            } catch (err) {
+                this.dataList.splice(rowIndex, 0, deletedItem);
+                this.filterData();
+            }
+        },
+
         openPopup() {
             this.popupTriggerIf = true;
         },
