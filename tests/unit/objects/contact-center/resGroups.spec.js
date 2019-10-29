@@ -1,10 +1,10 @@
 import {shallowMount, mount, createLocalVue} from '@vue/test-utils'
-import theRes from '@/components/objects/contact-center/resources/the-resources';
-import openedRes from '@/components/objects/contact-center/resources/opened-resource';
+import theResGroups from '@/components/objects/contact-center/resource-groups/the-resource-groups';
+import openedResGroup from '@/components/objects/contact-center/resource-groups/opened-resource-group';
 import VueRouter from 'vue-router';
 import Vuelidate from 'vuelidate';
 import i18n from 'vue-i18n';
-import {getResourceList} from "../../../../src/api/objects/contact-center/resources";
+import {getResGroupList} from "../../../../src/api/objects/contact-center/resourceGroups";
 
 const $t = () => {
 };
@@ -16,28 +16,32 @@ localVue.use(VueRouter);
 localVue.use(Vuelidate);
 const router = new VueRouter();
 
-describe('opened res', () => {
-    const wrapper = mount(openedRes, {
+describe('opened res group', () => {
+    const wrapper = mount(openedResGroup, {
         mocks: {$t, $tc},
         localVue,
         router,
         i18n
     });
 
-    it('creates new res', async (done) => {
-        const dataList = await getResourceList();
+    it('creates new res group', async (done) => {
+        const dataList = await getResGroupList();
 
         // set new item data
         wrapper.setData({
             itemInstance: {
-                name: 'jest-res',
-                gateway: {id: 1},
-                cps: 110,
-                limit: 110,
-                description: 'jest-res',
-                numberList: ['1', '2'],
-                maxErrors: 2,
-                errorIds: [{text: '23x'}],
+                name: 'jest-res-gr',
+                communication: {id: 1},
+                description: 'jest-res-gr',
+                strategy: 'jest-str',
+                resList: ['jest', ''],
+                timerange: [
+                    {
+                        start: 540,
+                        finish: 1200,
+                        limit: 10,
+                    }
+                ],
             },
         });
 
@@ -46,18 +50,18 @@ describe('opened res', () => {
 
         // wait promise response
         await setTimeout(async () => {
-            const newDataList = await getResourceList();
+            const newDataList = await getResGroupList();
             expect(newDataList).toHaveLength(dataList.length + 1);
             done();
         }, 300);
     });
 
-    it('updates existing res', async (done) => {
-        const dataList = await getResourceList();
+    it('updates existing res group', async (done) => {
+        const dataList = await getResGroupList();
 
         // to find created item id
         const createdItem = dataList.find(item => {
-            return item.name === 'jest-res'
+            return item.name === 'jest-res-gr'
         });
 
         // emulate route path by setting id
@@ -72,14 +76,18 @@ describe('opened res', () => {
         // set updated item data
         const newItemInstance = {
             itemInstance: {
-                name: 'upd-jest-res',
-                gateway: {id: 1},
-                cps: 113,
-                limit: 113,
-                description: 'upd-jest-res',
-                numberList: ['1', '2'],
-                maxErrors: 20,
-                errorIds: [{text: '553x'}],
+                name: 'upd-jest-res-gr',
+                communication: {id: 1},
+                description: 'upd-jest',
+                strategy: 'upd-jest',
+                resList: ['upd', ''],
+                timerange: [
+                    {
+                        start: 540,
+                        finish: 1200,
+                        limit: 9,
+                    }
+                ],
             },
         };
         wrapper.setData(newItemInstance);
@@ -90,9 +98,9 @@ describe('opened res', () => {
         // wait promise response
         await setTimeout(async () => {
             // load new list and find updated item
-            const newDataList = await getResourceList();
+            const newDataList = await getResGroupList();
             const newItem = newDataList.find(item => {
-                return item.name === 'upd-jest-res'
+                return item.name === 'upd-jest-res-gr'
             });
 
             expect(newItem).toBeTruthy();
@@ -104,8 +112,8 @@ describe('opened res', () => {
     });
 });
 
-describe('the res', () => {
-    const wrapper = mount(theRes, {
+describe('the res groups', () => {
+    const wrapper = mount(theResGroups, {
         mocks: {$t, $tc},
         localVue,
         router,
@@ -120,7 +128,7 @@ describe('the res', () => {
 
         // find tested item
         createdItem = wrapper.vm.dataList.find(item => {
-            return item.name === 'upd-jest-res'
+            return item.name === 'upd-jest-res-gr'
         });
 
         // and its index
@@ -128,15 +136,15 @@ describe('the res', () => {
     });
 
 
-    it('fills resList with data', () => {
+    it('fills resGrList with data', () => {
         expect(wrapper.vm.dataList.length).toBeGreaterThan(0);
     });
 
-    it('draws table with resList', () => {
+    it('draws table with resGrList', () => {
         expect(wrapper.findAll('tr')).toHaveLength(wrapper.vm.dataList.length + 1);
     });
 
-    it('removes res from list', async (done) => {
+    it('removes res group from list', async (done) => {
         // test if there's initially a item
         expect(createdItem).toBeTruthy();
 
@@ -150,7 +158,7 @@ describe('the res', () => {
             expect(wrapper.vm.dataList).not.toContain(createdItem);
 
             // check if it removed from database
-            expect(await getResourceList()).not.toContain(createdItem);
+            expect(await getResGroupList()).not.toContain(createdItem);
             done();
         }, 100);
     });
