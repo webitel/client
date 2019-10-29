@@ -86,7 +86,6 @@ export const getWorkdayList = async (calendarId) => {
                 origin: true
             }
         });
-
     } catch (err) {
         throw err;
     }
