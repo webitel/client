@@ -18,11 +18,11 @@
 
                 <tags-input
                         v-model="errorCodeTag"
-                        :tags="itemInstance.errorCodeList"
+                        :tags="itemInstance.errorIds"
                         :autocomplete-items="errorCodeTags"
                         :autocomplete-min-length="0"
                         :placeholder="$tc('objects.ccenter.res.errorCodes')"
-                        @tags-changed="newTags => this.itemInstance.errorCodeList = newTags"
+                        @tags-changed="newTags => this.itemInstance.errorIds = newTags"
                         autocomplete-filter-duplicates
                 >
 

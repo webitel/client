@@ -1,12 +1,16 @@
 import instance from '@/api/instance';
 import store from '@/store/store';
 import configuration from '@/api/openAPIConfig';
-import {CalendarServiceApi, OutboundResourceServiceApiFactory} from 'webitel-sdk';
+import sanitizer from '@/api/sanitizer';
+import {OutboundResourceServiceApiFactory} from 'webitel-sdk';
 
 const resService = new OutboundResourceServiceApiFactory
 (configuration, process.env.VUE_APP_API_URL, instance);
 
 const domainId = store.getters.getDomainId || undefined;
+const fieldsToSend = ['domain_id', 'limit', 'enabled',
+                'rps', 'reserve', 'max_successively_errors',
+                'name', 'error_ids'];
 
 export const getResourceList = async (size = 10) => {
     const defaultObject = {
@@ -22,11 +26,14 @@ export const getResourceList = async (size = 10) => {
     };
 
     try {
-        const response = await resService.searchOutboundResource(domainId, size);
+        const response = await resService.searchOutboundResource(size, undefined, domainId);
+        if (Array.isArray(response.data.items)) {
+            return response.data.items.map(item => {
+                return Object.assign({}, defaultObject, item);
+            });
+        }
+        return [];
 
-        return response.data.items.map(item => {
-            return Object.assign({}, defaultObject, item);
-        });
 
     } catch (err) {
         throw err;
@@ -39,55 +46,60 @@ export const getResource = async (id) => {
 
         const defaultObject = {
             name: '',
-            gateway: {},
-            cps: '',
-            limit: '',
+            gateway: {id: 1},
+            cps: 0,
+            limit: 0,
             description: '',
             numberList: ['1', '2'],
             maxErrors: null,
-            errorCodeList: [],
+            errorIds: [],
             id: 0
         };
 
         response.data.cps = response.data.rps;
-        delete response.data.rps;
         response.data.maxErrors = response.data.max_successively_errors;
-        delete response.data.max_successively_errors;
         response.data.error_ids = response.data.error_ids || [];
-        response.data.errorCodeList = response.data.error_ids.map(errCode => {
+        response.data.errorIds = response.data.error_ids.map(errCode => {
             return {text: errCode}
         });
-        delete response.data.error_ids;
 
         return Object.assign({}, defaultObject, response.data);
     } catch (err) {
         throw err;
     }
+};
+
+export async function addResource(item) {
+    item.domain_id = domainId;
+    item.error_ids = Object.values(...item.errorIds);
+    item.rps = item.cps;
+    item.max_successively_errors = item.maxErrors;
+
+    sanitizer(item, fieldsToSend);
+    try {
+        await resService.createOutboundResource(item);
+    } catch (err) {
+        throw err;
+    }
 }
 
-// export async function addResource(calendarToSend) {
-//     calendarToSend.domain_id = domainId;
-//     try {
-//         const response = await calendarService.createCalendar(calendarToSend);
-//     } catch (err) {
-//         throw err;
-//     }
-// }
+export async function updateResource(id, item) {
+    item.error_ids = Object.values(...item.errorIds);
+    item.rps = item.cps;
+    item.max_successively_errors = item.maxErrors;
 
-// export async function updateResource(calendarToSend) {
-//     try {
-//         const response = await calendarService.updateCalendar(calendarToSend, calendarToSend.id);
-//         return response.data;
-//     } catch (err) {
-//         throw err;
-//     }
-// }
+    sanitizer(item, fieldsToSend);
+    try {
+        await resService.updateOutboundResource(id, item);
+    } catch (err) {
+        throw err;
+    }
+}
 
-// export async function deleteResource(id) {
-//     try {
-//         const response = await calendarService.deleteCalendar(id, domainId);
-//         return response.data;
-//     } catch (err) {
-//         throw err;
-//     }
-// }
+export async function deleteResource(id) {
+    try {
+        await resService.deleteOutboundResource(id, domainId);
+    } catch (err) {
+        throw err;
+    }
+}

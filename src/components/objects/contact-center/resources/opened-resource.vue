@@ -8,7 +8,6 @@
             {{$tc('objects.ccenter.res.res', 1)}} | {{computeTitle}}
         </object-header>
 
-
         <section class="object-content module-new object-with-tabs">
             <tabs
                     :currentTab="currentTab"
@@ -33,7 +32,7 @@
     import editComponentMixin from '@/mixins/editComponentMixin';
     import {required} from 'vuelidate/lib/validators';
     import {requiredArrayValue} from "@/utils/validators";
-    import {getResource} from "../../../../api/objects/contact-center/resources";
+    import {getResource, addResource, updateResource} from "../../../../api/objects/contact-center/resources";
 
 
     export default {
@@ -48,14 +47,14 @@
         data() {
             return {
                 itemInstance: {
-                    name: '',
-                    gateway: {},
-                    cps: '',
-                    limit: '',
-                    description: '',
+                    name: 'test',
+                    gateway: {id: 1},
+                    cps: 10,
+                    limit: 10,
+                    description: 'test',
                     numberList: ['1', '2'],
-                    maxErrors: null,
-                    errorCodeList: [],
+                    maxErrors: 2,
+                    errorIds: [{text: '2xx'}],
                 },
                 tabs: [
                     {
@@ -96,12 +95,11 @@
         },
 
         methods: {
-
             async save() {
                 if (this.id) {
-                    // await updateRole(this.id, this.itemInstance);
+                    await updateResource(this.id, this.itemInstance);
                 } else {
-                    // await addRole(this.itemInstance);
+                    await addResource(this.itemInstance);
                 }
                 this.close();
             },

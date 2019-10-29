@@ -77,7 +77,7 @@
 </template>
 
 <script>
-    import {getResourceList} from '@/api/objects/contact-center/resources';
+    import {getResourceList, deleteResource} from '@/api/objects/contact-center/resources';
     import tableComponentMixin from '@/mixins/tableComponentMixin';
     import {_checkboxTableField, _actionsTableField_2} from "@/utils/tableFieldPresets";
     import {_switcherWidth} from "../../../../utils/tableFieldPresets";
@@ -112,7 +112,7 @@
             },
 
             async deleteItem(deletedItem) {
-                // await deleteGateway(deletedItem.id);
+                await deleteResource(deletedItem.id);
             },
 
             async loadDataList() {
