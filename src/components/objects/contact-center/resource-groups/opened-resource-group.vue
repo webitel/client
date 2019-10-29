@@ -8,7 +8,6 @@
             {{$tc('objects.ccenter.resGroups.resGroups', 1)}} | {{computeTitle}}
         </object-header>
 
-
         <section class="object-content module-new object-with-tabs">
             <tabs
                     :currentTab="currentTab"
@@ -33,9 +32,7 @@
     import editComponentMixin from '@/mixins/editComponentMixin';
     import {required} from 'vuelidate/lib/validators';
     import {requiredArrayValue} from "@/utils/validators";
-
-    import {addRole, getRole, updateRole} from "@/api/objects/permissions/roles";
-    import DropdownSelect from "../../../utils/dropdown-select";
+    import {getResGroup} from "../../../../api/objects/contact-center/resourceGroups";
 
     export default {
         name: 'opened-resource-group',
@@ -44,14 +41,13 @@
             openedResourceGroupGeneral,
             openedResourceGroupResources,
             openedResourceGroupTimerange,
-            DropdownSelect,
         },
 
         data() {
             return {
                 itemInstance: {
                     name: '',
-                    communication: '',
+                    communication: {},
                     description: '',
                     strategy: '',
                     resList: ['', ''],
@@ -112,11 +108,10 @@
                 this.close();
             },
 
-            // load current role from backend
             async loadItem() {
-                const response = await getRole(this.id);
-                // this.itemInstance = response.role;
-                // this.initialItem = JSON.parse(JSON.stringify(response.role));
+                const response = await getResGroup(this.id);
+                this.itemInstance = response;
+                this.initialItem = JSON.parse(JSON.stringify(response));
             }
         },
     };

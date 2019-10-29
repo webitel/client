@@ -63,6 +63,7 @@
 <script>
     import tableComponentMixin from '@/mixins/tableComponentMixin';
     import {_checkboxTableField, _actionsTableField_2} from "@/utils/tableFieldPresets";
+    import {getResGroupList} from "../../../../api/objects/contact-center/resourceGroups";
 
 
     export default {
@@ -84,10 +85,6 @@
                 this.$router.push('/contact-center/resource-groups/new');
             },
 
-            create() {
-                this.$router.push('/contact-center/resource-groups/new');
-            },
-
             edit(rowId) {
                 this.$router.push({
                     name: 'cc-resource-group-edit',
@@ -95,35 +92,12 @@
                 });
             },
 
-
-            async remove(rowId) {
-                // remove item
-                const deletedItem = this.filteredDataList.splice(rowId, 1)[0];
-                this.filterData();
-
-                try {
-                    // await deleteGateway(deletedItem.id);
-                } catch (err) {
-                    // if request fails, restore
-                    this.filteredDataList.splice(rowId, 0, deletedItem);
-                    this.filterData();
-                }
+            async deleteItem(item) {
+                // await delete();
             },
 
             async loadDataList() {
-                // const response = await getGatewayList();
-
-                const response = [];
-
-                for (let i = 0; i < 10; i++) {
-                    response.push({
-                        isSelected: false,
-                        name: 'res group ' + i,
-                        communication: 'res group communication ' + i,
-                        id: i
-                    });
-                }
-
+                const response = await getResGroupList();
                 this.dataList = [...response];
                 this.filterData();
             }
