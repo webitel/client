@@ -63,7 +63,7 @@
 <script>
     import tableComponentMixin from '@/mixins/tableComponentMixin';
     import {_checkboxTableField, _actionsTableField_2} from "@/utils/tableFieldPresets";
-    import {getResGroupList} from "../../../../api/objects/contact-center/resourceGroups";
+    import {deleteResGroup, getResGroupList} from "../../../../api/objects/contact-center/resourceGroups";
 
 
     export default {
@@ -93,7 +93,7 @@
             },
 
             async deleteItem(item) {
-                // await delete();
+                await deleteResGroup(item.id);
             },
 
             async loadDataList() {

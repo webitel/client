@@ -32,7 +32,7 @@
     import editComponentMixin from '@/mixins/editComponentMixin';
     import {required} from 'vuelidate/lib/validators';
     import {requiredArrayValue} from "@/utils/validators";
-    import {getResGroup} from "../../../../api/objects/contact-center/resourceGroups";
+    import {addResGroup, getResGroup, updateResGroup} from "../../../../api/objects/contact-center/resourceGroups";
 
     export default {
         name: 'opened-resource-group',
@@ -46,11 +46,11 @@
         data() {
             return {
                 itemInstance: {
-                    name: '',
-                    communication: {},
-                    description: '',
-                    strategy: '',
-                    resList: ['', ''],
+                    name: 'res gr',
+                    communication: {id: 1},
+                    description: 'res gr descr',
+                    strategy: 'str',
+                    resList: ['12', ''],
                     timerange: [
                         {
                             start: 540,
@@ -82,7 +82,7 @@
                 name: {
                     required
                 },
-                comunication: {
+                communication: {
                     required
                 },
                 strategy: {
@@ -91,7 +91,7 @@
                 resList: {
                     requiredArrayValue
                 },
-                range: {
+                timerange: {
                     requiredArrayValue
                 }
             }
@@ -101,9 +101,9 @@
 
             async save() {
                 if (this.id) {
-                    // await updateRole(this.id, this.itemInstance);
+                    await updateResGroup(this.id, this.itemInstance);
                 } else {
-                    // await addRole(this.itemInstance);
+                    await addResGroup(this.itemInstance);
                 }
                 this.close();
             },

@@ -8,11 +8,9 @@ const resGrService = new OutboundResourceGroupServiceApiFactory
 (configuration, process.env.VUE_APP_API_URL, instance);
 
 const domainId = store.getters.getDomainId || undefined;
-const fieldsToSend = ['domain_id', 'limit', 'enabled',
-    'rps', 'reserve', 'max_successively_errors',
-    'name', 'error_ids'];
+const fieldsToSend = ['domain_id', 'name', 'description', 'strategy', 'communication'];
 
-export const getResGroupList = async (size = 10) => {
+export const getResGroupList = async (size = 100) => {
     const defaultObject = {
         isSelected: false,
         name: '',
@@ -45,7 +43,7 @@ export const getResGroup = async (id) => {
             strategy: '',
             description: '',
             communication: {id: 0},
-            resList: ['', ''],
+            resList: ['21', ''],
             timerange: [
                 {
                     start: 540,
@@ -71,23 +69,16 @@ export const getResGroup = async (id) => {
 
 export async function addResGroup(item) {
     item.domain_id = domainId;
-    item.error_ids = Object.values(...item.errorIds);
-    item.rps = item.cps;
-    item.max_successively_errors = item.maxErrors;
 
     sanitizer(item, fieldsToSend);
     try {
-        await resService.createOutboundResource(item);
+        await resGrService.createOutboundResourceGroup(item);
     } catch (err) {
         throw err;
     }
 }
 
 export async function updateResGroup(id, item) {
-    item.error_ids = Object.values(...item.errorIds);
-    item.rps = item.cps;
-    item.max_successively_errors = item.maxErrors;
-
     sanitizer(item, fieldsToSend);
     try {
         await resGrService.updateOutboundResourceGroup(id, item);

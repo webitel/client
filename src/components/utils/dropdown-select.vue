@@ -20,6 +20,7 @@
                 :taggable="taggable"
                 :width="21"
                 @input="setOption"
+                @search="$emit('search', $event)"
         ></v-select>
 
         <validation-message
