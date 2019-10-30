@@ -54,12 +54,14 @@ export default {
                 });
         },
 
-        async remove(item) {
-            const rowIndex = this.dataList.indexOf(item);
+        async remove(filteredRowIndex) {
+            const rowIndex = this.dataList.indexOf(this.filteredDataList[filteredRowIndex]);
             const deletedItem = this.dataList.splice(rowIndex, 1)[0];
+
             this.filterData();
             try {
-                this.deleteItem(deletedItem);
+                await this.deleteItem(deletedItem);
+                this.loadDataList();
             } catch (err) {
                 this.dataList.splice(rowIndex, 0, deletedItem);
                 this.filterData();

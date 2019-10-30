@@ -19,11 +19,11 @@
                     :placeholder="$t('objects.lookups.calendars.timezone')"
                     :value="v.itemInstance.calendar.timezone.$model"
                     @input="itemInstance.calendar.timezone = $event"
+                    @search="searchOptions"
                     required
             ></dropdown-select>
 
             <form-input
-                    class="form__input"
                     v-model.trim="itemInstance.calendar.description"
                     :label="$t('objects.description')"
                     :placeholder="$t('objects.description')"
@@ -84,6 +84,11 @@
         },
 
         methods: {
+            async searchOptions(search) {
+                this.timezoneList = [];
+                await this.loadTimezones();
+            },
+
             async loadTimezones() {
                 const response = await getCalendarTimezones();
                 this.timezoneList = response.items;

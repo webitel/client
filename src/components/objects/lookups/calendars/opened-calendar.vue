@@ -35,7 +35,7 @@
         getCalendar,
         updateCalendar,
         getWorkdayList,
-        getHolidayList,
+        getHolidayList, addWorkday, addHoliday,
     } from "../../../../api/objects/lookups/calendars";
 
     export default {
@@ -50,9 +50,9 @@
             return {
                 itemInstance: {
                     calendar: {
-                        name: '',
+                        name: '11calendar',
                         timezone: {},
-                        description: '',
+                        description: '11calendar',
                         start: Date.now(),
                         finish: Date.now(),
                         expires: false,
@@ -97,11 +97,11 @@
 
         methods: {
             async loadItem() {
-                await this.loadCalendar();
-                await this.loadWorkWeek();
-                await this.loadHolidays();
+                 this.loadCalendar();
+                 this.loadWorkWeek();
+                 this.loadHolidays();
 
-                this.initialItem = JSON.parse(JSON.stringify(this.itemInstance));
+                // this.initialItem = JSON.parse(JSON.stringify(this.itemInstance));
             },
 
             async loadCalendar() {
@@ -113,26 +113,25 @@
                 if (this.id) {
                     this.itemInstance.workWeek = await getWorkdayList(this.id);
                 } else {
-                    const weekdays = ['monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday', 'sunday'];
-
-
-                    weekdays.forEach((day, index) => {
+                   for(let i = 0; i < 7; i++) {
                         this.itemInstance.workWeek.push({
-                            name: weekdays[index],
-                            enabled: index < 5,
-                            start: 9*60,
-                            end: 20*60,
+                            day: i,
+                            enabled: i < 5,
+                            start: 9 * 60,
+                            end: 20 * 60,
                         });
-                    });
+                    }
                 }
             },
             async loadHolidays() {
                 if (this.id) {
-                    this.itemInstance.holidays = await getHolidayList(this.id);
+                    const response = await getHolidayList(this.id);
+                    console.log(response);
+                    this.itemInstance.holidays = [...response];
                 } else {
                     this.itemInstance.holidays.push({
                         name: 'New Year',
-                        date: (new Date('10.10.120').getTime() + '').slice(0, 10),
+                        date: +((new Date('01.01.2020').getTime() + '').slice(0, 10)),
                         repeat: true
                     });
                 }
@@ -140,27 +139,25 @@
 
             async save() {
                 if (this.id) {
-                    // let calendarToSend = {
-                    //     id: this.itemInstance.id,
-                    //     name: this.itemInstance.name,
-                    //     timezone: {
-                    //         id: this.itemInstance.timezone.id,
-                    //     },
-                    //     description: this.itemInstance.name
-                    // };
-                    // await updateCalendar(calendarToSend);
-                } else {
-                    // let calendarToSend = {
-                    //     name: this.itemInstance.name,
-                    //     timezone: {
-                    //         id: this.itemInstance.timezone.id,
-                    //     },
-                    //     description: this.itemInstance.name
-                    // };
-                    // await addCalendar(calendarToSend);
-                }
+                    try {
 
-                this.close();
+                    } catch (err) {
+
+                    }
+                } else {
+                    try {
+                        const calendarId = await addCalendar(this.itemInstance.calendar);
+                        await this.itemInstance.workWeek.forEach(async workday => {
+                            await addWorkday(calendarId, workday);
+                        });
+                        await this.itemInstance.holidays.forEach(async holiday => {
+                            addHoliday(calendarId, holiday);
+                        });
+                        this.close();
+                    } catch (err) {
+
+                    }
+                }
             },
         }
     }

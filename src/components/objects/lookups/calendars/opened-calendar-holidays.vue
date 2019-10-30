@@ -12,7 +12,7 @@
         >
 
             <template slot="date" slot-scope="props">
-                <span>{{itemInstance.holidays[props.rowIndex].date}}</span>
+                <span>{{new Date(itemInstance.holidays[props.rowIndex].date*1000).toLocaleDateString('ru-RU')}}</span>
             </template>
 
             <template slot="repeat" slot-scope="props">
