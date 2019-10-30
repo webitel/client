@@ -87,12 +87,11 @@
                 });
             },
 
-            async remove(rowId) {
-
+            async deleteItem(item) {
                 try {
-                    await deleteCalendar(deletedCalendar.id)
+                    await deleteCalendar(item.id);
                 } catch (err) {
-                    this.filteredDataList.splice(rowId, 0, deletedCalendar);
+                    throw err;
                 }
             },
 

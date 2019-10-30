@@ -1,37 +1,22 @@
 import instance from '@/api/instance';
 import store from '@/store/store';
 import configuration from '@/api/openAPIConfig';
-import {CalendarServiceApi, CalendarServiceApiFactory} from 'webitel-sdk';
+import {CalendarServiceApiFactory} from 'webitel-sdk';
+import sanitizer from "../../sanitizer";
 
-const calendarService  = new CalendarServiceApiFactory
-                (configuration, process.env.VUE_APP_API_URL, instance);
+const calendarService = new CalendarServiceApiFactory
+(configuration, process.env.VUE_APP_API_URL, instance);
 
 const domainId = store.getters.getDomainId || undefined;
+const fieldsToSend = ['domain_id', 'name', 'description', 'timezone', 'start', 'finish', 'week_day',
+    'start_time_of_day', 'end_time_of_day', 'disabled', 'date', 'repeat'];
 
-export const getCalendarList = async () => {
+export const getCalendarList = async (size = 20) => {
     try {
-        const response = await calendarService.searchCalendar(domainId, 20);
-        if(!response.data.items) response.data.items = [];
+        const response = await calendarService.searchCalendar(domainId, size);
+        if (!response.data.items) response.data.items = [];
         response.data.items.forEach(item => item.isSelected = false);
         return response.data.items;
-    } catch (err) {
-        throw err;
-    }
-};
-
-export const addCalendar = async (calendarToSend) => {
-    calendarToSend.domain_id = domainId;
-    try {
-        const response = await calendarService.createCalendar(calendarToSend);
-    } catch (err) {
-        throw err;
-    }
-};
-
-export const getCalendarTimezones = async () => {
-    try {
-        const response = await calendarService.searchTimezones(20);
-        return response.data;
     } catch (err) {
         throw err;
     }
@@ -43,13 +28,42 @@ export const getCalendar = async (id) => {
 
         const defaultCalendar = {
             name: '',
-            timezone: '',
+            timezone: {},
             description: '',
-            start: '',
-            finish: ''
+            start: Date.now(),
+            finish: Date.now(),
+            expires: false,
         };
 
         return Object.assign({}, defaultCalendar, response.data);
+    } catch (err) {
+        throw err;
+    }
+};
+
+export const getCalendarTimezones = async (page = 0, size = 20) => {
+    try {
+        const response = await calendarService.searchTimezones(page, size);
+        return response.data;
+    } catch (err) {
+        throw err;
+    }
+};
+
+export const addCalendar = async (item) => {
+    item.domain_id = domainId;
+    //FIXME: DELETE OFFSET FROM TIMEZONE RESPONSE
+    delete item.timezone.offset;
+    if (!item.expires) {
+        delete item.start;
+        delete item.finish;
+    }
+
+    sanitizer(item, fieldsToSend);
+    try {
+        const response = await calendarService.createCalendar(item);
+        console.log(response, response.data.id);
+        return response.data.id;
     } catch (err) {
         throw err;
     }
@@ -62,7 +76,7 @@ export const updateCalendar = async (calendarToSend) => {
     } catch (err) {
         throw err;
     }
-}
+};
 
 export const deleteCalendar = async (id) => {
     try {
@@ -71,21 +85,23 @@ export const deleteCalendar = async (id) => {
     } catch (err) {
         throw err;
     }
-}
+};
 
 export const getWorkdayList = async (calendarId) => {
     try {
         const response = await calendarService.searchAcceptOfDay(calendarId, domainId);
-        return response.data.items.map(workday => {
-            return {
-                name: this.weekdays[workday.week_day],
-                id: workday.id,
-                enabled: !workday.disabled,
-                start: this.convertMinToHours(workday.start_time_of_day),
-                end: this.convertMinToHours(workday.end_time_of_day),
-                origin: true
-            }
-        });
+        if (Array.isArray(response.data.items)) {
+            return response.data.items.map(workday => {
+                return {
+                    day: workday.week_day || 0,
+                    id: workday.id,
+                    enabled: !workday.disabled,
+                    start: workday.start_time_of_day || 0,
+                    end: workday.end_time_of_day || 1440,
+                }
+            });
+        }
+        return [];
     } catch (err) {
         throw err;
     }
@@ -94,29 +110,28 @@ export const getWorkdayList = async (calendarId) => {
 export const getWorkday = async (calendarId, workdayId) => {
     try {
         const response = await calendarService.searchAcceptOfDay(calendarId, workdayId, domainId);
-        return response.data;
+        return Array.isArray(response.data.items) ? response.data.items : [];
     } catch (err) {
         throw err;
     }
-}
+};
 
-export const addWorkday = async (workday, calendarId) => {
-    try {
-        const response = await calendarService.createAcceptOfDay(workday, calendarId);
-        return response.data;
-    } catch (err) {
-        throw err;
-    }
-}
+export const addWorkday = async (calendarId, item) => {
+    item.week_day = item.day;
+    item.start_time_of_day = item.start;
+    item.end_time_of_day = item.end;
 
-export const deleteWorkday = async (calendarId, workdayId) => {
+    sanitizer(item, fieldsToSend);
+    item.calendar_id = calendarId;
+    delete item.start;
+    delete item.finish;
     try {
-        const response = await calendarService.deleteAcceptOfDay(calendarId, workdayId, domainId);
+        const response = await calendarService.createAcceptOfDay(calendarId, item);
         return response.data;
     } catch (err) {
         throw err;
     }
-}
+};
 
 export const updateWorkday = async (calendarId, workday) => {
     try {
@@ -125,16 +140,25 @@ export const updateWorkday = async (calendarId, workday) => {
     } catch (err) {
         throw err;
     }
-}
+};
 
-export const getHolidayList = async (calendarId) => {
+export const deleteWorkday = async (calendarId, workdayId) => {
     try {
-        const response = await calendarService.searchExceptDate(calendarId, domainId);
+        const response = await calendarService.deleteAcceptOfDay(calendarId, workdayId, domainId);
         return response.data;
     } catch (err) {
         throw err;
     }
-}
+};
+
+export const getHolidayList = async (calendarId) => {
+    try {
+        const response = await calendarService.searchExceptDate(calendarId, domainId);
+        return Array.isArray(response.data.items) ? response.data.items : [];
+    } catch (err) {
+        throw err;
+    }
+};
 
 export const getHoliday = async (calendarId, holidayId) => {
     try {
@@ -143,12 +167,20 @@ export const getHoliday = async (calendarId, holidayId) => {
     } catch (err) {
         throw err;
     }
-}
+};
 
 export const addHoliday = async (calendarId, holiday) => {
+    holiday.repeat = holiday.repeat ? 1 : 0;
     try {
-        const response = await calendarService.createExceptDate(calendarId, holiday);
-        return response.data;
+        await calendarService.createExceptDate(calendarId, holiday);
+    } catch (err) {
+        throw err;
+    }
+};
+
+export const updateHoliday = async (calendarId, holiday) => {
+    try {
+        await calendarService.updateExceptDate(calendarId, holiday.id, holiday);
     } catch (err) {
         throw err;
     }
@@ -161,13 +193,4 @@ export const deleteHoliday = async (calendarId, holidayId) => {
     } catch (err) {
         throw err;
     }
-}
-
-export const updateHoliday = async (calendarId, holiday) => {
-    try {
-        const response = await calendarService.updateExceptDate(calendarId, holiday.id, holiday);
-        return response.data;
-    } catch (err) {
-        throw err;
-    }
-}
+};
