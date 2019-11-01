@@ -19,3 +19,25 @@ export const gatewayHostValidator = (value) => {
 export const requiredArrayValue = (array) => {
     return array.some(value => value);
 };
+
+export const timerangeStartLessThanEnd = (object) => {
+    return object.start < object.end;
+};
+
+export const timerangeNotIntersect = (array) => {
+    let isIntersecting = true;
+    let ranges = [];
+    array.reduce((prev, curr, index, arr) => {
+        if(prev.day !== curr.day) {
+            ranges = [{start: curr.start, end: curr.end}];
+            return prev;
+        }
+        ranges.forEach(range => {
+           if(curr.start > curr.end || curr.end < range.start) isIntersecting = false;
+        });
+        ranges.push({start: curr.start, end: curr.end});
+        return prev;
+    });
+
+    return isIntersecting;
+};

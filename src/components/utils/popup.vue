@@ -2,7 +2,6 @@
 <template>
     <div class="popup-wrap">
         <aside class="popup">
-
             <header class="content-header">
                 <h3 class="content-title">{{title}}</h3>
             </header>

@@ -7,6 +7,7 @@ import tableCheckbox from '@/components/utils/checkbox';
 import hint from '@/components/utils/hint';
 import tabs from '@/components/utils/tabs';
 import validationMessage from '@/components/utils/validation-message';
+import deepEqual from 'deep-equal';
 
 export default {
     components: {
@@ -38,7 +39,6 @@ export default {
         if (this.id) {
             this.loadItem();
         }
-
     },
 
     methods: {
@@ -47,29 +47,22 @@ export default {
         },
 
         submit(event, validatedInstance = 'itemInstance', initialInstance = 'initialItem') {
-
-            // check if some fields was changed
-            const isEqualToInitial = Object.keys(this[validatedInstance]).every(newProperty => {
-                return Object.keys(this[initialInstance]).some(oldProperty => {
-                    return this[validatedInstance][newProperty] === this[initialInstance][oldProperty];
-                })
-            });
-
-            console.log(isEqualToInitial, this[validatedInstance], this[initialInstance]);
-
-            if (isEqualToInitial) {
-                this.close();
-                return;
-            } else {
-                this.$v[validatedInstance].$touch();
-                // if its still pending or an error is returned do not submit
-                if (this.$v[validatedInstance].$pending ||
-                    this.$v[validatedInstance].$error) {
-                    console.log(this.$v[validatedInstance].$pending, this.$v[validatedInstance].$error);
-                    return;
+            const isEqualToInitial = deepEqual(this[validatedInstance], this[initialInstance]);
+            if (!isEqualToInitial) {
+                const validations = this.checkValidations(validatedInstance);
+                if (!validations) {
+                    this.save();
                 }
+            } else {
+                this.close();
             }
-            this.save();
+        },
+
+        checkValidations(validatedInstance) {
+            this.$v[validatedInstance].$touch();
+            // if its still pending or an error is returned do not submit
+            return this.$v[validatedInstance].$pending ||
+                this.$v[validatedInstance].$error;
         },
 
         setInitialItem() {
@@ -80,7 +73,8 @@ export default {
             this.$router.go(-1);
         },
 
-        loadItem() {},
+        loadItem() {
+        },
     },
     computed: {
         computeTitle() {

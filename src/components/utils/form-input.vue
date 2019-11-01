@@ -1,12 +1,12 @@
 <template>
     <div class="form-input">
         <div class="label" :class="{'invalid': v && v.$error}">{{computeRequiredLabel}}
-<!--            <div class="hint" v-show="this.hintText">-->
-<!--                <i-->
-<!--                        class="hint__img tooltip-activator icon-icon_question"-->
-<!--                ></i>-->
-<!--                <div class="tooltip-left">{{this.hintText}}</div>-->
-<!--            </div>-->
+            <!--            <div class="hint" v-show="this.hintText">-->
+            <!--                <i-->
+            <!--                        class="hint__img tooltip-activator icon-icon_question"-->
+            <!--                ></i>-->
+            <!--                <div class="tooltip-left">{{this.hintText}}</div>-->
+            <!--            </div>-->
         </div>
 
         <input
@@ -106,14 +106,12 @@
             },
 
             // validation rules
-            v: {
-
-            },
+            v: {},
         },
         mounted() {
             eventBus.$on('copyToClipboard', this.copyToClipboard);
 
-            if(this.textarea) this.$refs.input.style.height = `${this.height}px`;
+            if (this.textarea) this.$refs.input.style.height = `${this.height}px`;
         },
         computed: {
             validation: {
@@ -121,7 +119,7 @@
                     return this.value;
                 },
                 set(value) {
-                    if(this.v) this.v.$touch();
+                    if (this.v) this.v.$touch();
                     this.$emit('input', value);
                 },
             },

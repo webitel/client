@@ -58,6 +58,7 @@
     import openedTabComponentMixin from '@/mixins/openedTabComponentMixin';
     import {_actionsTableField_1} from "@/utils/tableFieldPresets";
     import {_switcherWidth} from "../../../../utils/tableFieldPresets";
+    import {deleteWorkday} from "../../../../api/objects/lookups/calendars";
 
     export default {
         name: "opened-calendar-work-week",
@@ -75,32 +76,19 @@
                     {name: 'status', title: this.$t('objects.lookups.calendars.enabled'), width: _switcherWidth},
                     _actionsTableField_1,
                 ],
-                weekdays: ['monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday', 'sunday'],
+                weekdays: [
+                    this.$t('objects.lookups.calendars.mon'),
+                    this.$t('objects.lookups.calendars.tue'),
+                    this.$t('objects.lookups.calendars.wed'),
+                    this.$t('objects.lookups.calendars.thu'),
+                    this.$t('objects.lookups.calendars.fri'),
+                    this.$t('objects.lookups.calendars.sat'),
+                    this.$t('objects.lookups.calendars.sun'),
+                ],
             };
         },
 
         methods: {
-            // async sendWorkWeek() {
-            //     if (this.id) {
-            //
-            //         // } else {
-            //         Object.values(this.itemInstance.workWeek).forEach((weekday, index) => {
-            //             weekday.forEach(async range => {
-            //                 await addWorkday({
-            //                     week_day: index,
-            //                     start_time_of_day: this.convertHoursToSec(range.start),
-            //                     end_time_of_day: this.convertHoursToSec(range.end),
-            //                     disabled: !range.enabled
-            //                 }, this.id);
-            //             });
-            //         });
-            //     }
-            // },
-
-            // setWorkWeekTime(day, rowIndex, time, newValue) {
-            //     this.itemInstance.workWeek[rowIndex][time] = newValue;
-            // },
-
             computeDayStart(rowIndex) {
                 return this.itemInstance.workWeek[rowIndex].day !==
                     (this.itemInstance.workWeek[rowIndex - 1] || {}).day;
@@ -120,28 +108,20 @@
                 });
             },
 
-            removeWorkRange(rowIndex) {
-                this.itemInstance.workWeek.splice(rowIndex, 1);
+            remove(rowIndex) {
+                const deletedItem = this.itemInstance.workWeek.splice(rowIndex, 1)[0];
+                if(deletedItem.id) {
+                    const calendarId = this.$route.params.id;
+                    try {
+                        deleteWorkday(calendarId, deletedItem.id);
+                    } catch {
+                        this.itemInstance.workWeek.splice(rowIndex, 0, deletedItem);
+                    }
+                }
             },
 
-            // convertHoursToSec(hoursStr) {
-            //     let minSum = 0;
-            //     const minInHour = 60;
-            //     hoursStr.split(':').forEach((timeDigits, index) => {
-            //         if (index === 0) {
-            //             minSum += Math.floor(timeDigits * minInHour);
-            //         } else {
-            //             minSum += Math.floor(timeDigits % minInHour);
-            //         }
-            //     });
-            //
-            //     return minSum;
-            // },
-
-            computeWorkdayEnd(dataItem, rowIndex) {
-                return this.itemInstance.workWeek[rowIndex].day !==
-                (this.itemInstance.workWeek[rowIndex - 1] || {}).day
-                    ? 'day-start' : ''
+            computeWorkdayEnd(item, rowIndex) {
+                return this.computeDayStart(rowIndex) ? 'day-start' : ''
             },
         }
     }

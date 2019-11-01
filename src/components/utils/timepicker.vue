@@ -8,17 +8,17 @@
         </div>
         <form class="timepicker__form">
             <dropdown-select
-                    :value="hour"
+                    :value="computeHours"
                     :options="hourOptions || initHourList"
                     taggable
-                    @input="setHour"
+                    @input="setHours"
             ></dropdown-select>
             <span class="delimiter">:</span>
             <dropdown-select
-                    :value="min"
+                    :value="computeMins"
                     :options="minOptions"
                     taggable
-                    @input="setMin"
+                    @input="setMins"
             ></dropdown-select>
         </form>
         <validation-message
@@ -62,26 +62,38 @@
             },
             v: {
                 type: Object,
-                // default: () => ({
-                //     $error: null,
-                //     $touch: () => {
-                //     },
-                // }),
             },
         },
 
         data() {
             return {
                 hour: 0,
-                min: 0,
+                min: 0
             }
         },
 
         mounted() {
-            this.convertMinToHours();
+            this.hour = Math.floor(this.value / 60);
+            this.min = Math.floor(this.value % 60) ;
         },
 
         computed: {
+            computeHours() {
+                let hours = Math.floor(this.value / 60) + '';
+                if (hours - 0 < 10) {
+                    hours = '0' + hours;
+                }
+                return hours;
+            },
+
+            computeMins() {
+                let mins = Math.floor(this.value % 60) + '';
+                if (mins - 0 < 10) {
+                    mins = '0' + mins;
+                }
+                return mins;
+            },
+
             initHourList() {
                 const hourList = [];
                 for (let i = 0; i < 24; i++) {
@@ -99,35 +111,18 @@
         },
 
         methods: {
-            setHour(value) {
-                this.hour = value;
+            setHours(value) {
+                this.hour = value*60;
+                const newVal = this.hour + this.min;
+                this.$emit('input', newVal);
             },
 
-            setMin(value) {
-                this.min = value;
+            setMins(value) {
+                this.min = +value;
+                const newVal = this.hour + this.min;
+                this.$emit('input', newVal);
             },
 
-            convertHoursToMin() {
-                const value = this.hour * 60 + this.min;
-                this.$emit('input', value);
-            },
-
-            convertMinToHours() {
-                const minInHour = 60;
-
-                this.hour = Math.floor(this.value / minInHour) + '';
-                this.min = Math.floor(this.value % minInHour) + '';
-
-                if (this.hour - 0 < 10) {
-                    this.hour = '0' + this.hour;
-                }
-                if (this.min - 0 < 10) {
-                    this.min = '0' + this.min;
-                }
-
-                // if (minutes < 10) minutes += '0';
-                // return hours + ':' + minutes;
-            },
         }
     }
 </script>
