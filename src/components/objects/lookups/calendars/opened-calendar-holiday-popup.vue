@@ -1,12 +1,15 @@
 <template>
     <popup
             :title="$t('objects.lookups.calendars.newHoliday')"
+            :primaryBtnAction="addHoliday"
             @close="$emit('close')">
         <form>
             <form-input
-                v-model="itemInstance.name"
-                :label="$t('objects.name')"
-                :placeholder="$t('objects.lookups.calendars.date')"
+                    v-model.trim="$v.itemInstance.name.$model"
+                    :label="$t('objects.name')"
+                    :placeholder="$t('objects.lookups.calendars.date')"
+                    :v="$v.itemInstance.name"
+                    required
             ></form-input>
             <div class="date">
                 <datepicker
@@ -15,6 +18,8 @@
                         :label="$t('objects.lookups.calendars.date')"
                         :calendar-button-icon="'icon-icon_arrow-down'"
                         calendar-button
+                        :v="$v.itemInstance.date"
+                        required
                 ></datepicker>
                 <div class="switcher-label-wrap">
                     <div class="label">{{$t('objects.lookups.calendars.everyYear')}}</div>
@@ -31,6 +36,7 @@
     import popup from '@/components/utils/popup';
     import datepicker from '@/components/utils/datepicker';
     import editComponentMixin from '@/mixins/editComponentMixin';
+    import {required} from 'vuelidate/lib/validators';
 
     export default {
         name: "opened-calendar-holiday-popup",
@@ -39,6 +45,11 @@
             popup,
             datepicker,
         },
+        props: {
+            value: {
+                type: Object,
+            },
+        },
         data() {
             return {
                 itemInstance: {
@@ -46,6 +57,27 @@
                     date: Date.now(),
                     repeat: true,
                 }
+            }
+        },
+
+        validations: {
+            itemInstance: {
+                name: {
+                    required,
+                },
+                date: {
+                    required,
+                }
+            }
+        },
+
+        mounted() {
+            if (this.value) this.itemInstance = this.value;
+        },
+
+        methods: {
+            addHoliday() {
+                this.$emit('addItem', this.itemInstance);
             }
         }
     }

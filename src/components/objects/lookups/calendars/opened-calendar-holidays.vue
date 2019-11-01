@@ -4,7 +4,13 @@
             <h3 class="content-title">{{$t('objects.lookups.calendars.holidays')}}</h3>
             <i class="icon-action icon-icon_plus" @click="popupTriggerIf = true"></i>
         </header>
-        <holiday-popup v-if="popupTriggerIf" @close="popupTriggerIf = false"></holiday-popup>
+        <holiday-popup
+                v-if="popupTriggerIf"
+                :value="itemInstance.holidays[editedIndex]"
+                :v="v"
+                @addItem="addHoliday"
+                @close="popupTriggerIf = false"
+        ></holiday-popup>
         <vuetable
                 :api-mode="false"
                 :fields="holidaysFields"
@@ -12,7 +18,7 @@
         >
 
             <template slot="date" slot-scope="props">
-                <span>{{new Date(itemInstance.holidays[props.rowIndex].date*1000).toLocaleDateString('ru-RU')}}</span>
+                <span>{{new Date(itemInstance.holidays[props.rowIndex].date).toLocaleDateString()}}</span>
             </template>
 
             <template slot="repeat" slot-scope="props">
@@ -37,7 +43,7 @@
     import holidayPopup from './opened-calendar-holiday-popup';
     import vuetable from 'vuetable-2/src/components/Vuetable';
     import openedTabComponentMixin from '@/mixins/openedTabComponentMixin';
-    import {addHoliday, deleteHoliday, getHolidayList} from "@/api/objects/lookups/calendars";
+    import {deleteHoliday} from "@/api/objects/lookups/calendars";
     import {_actionsTableField_2} from "@/utils/tableFieldPresets";
 
     export default {
@@ -56,41 +62,33 @@
                     _actionsTableField_2,
                 ],
                 popupTriggerIf: false,
+                editedIndex: null,
             }
         },
 
         methods: {
-            async loadHolidayList() {
-                // if (this.id) {
-                //     const holidayList = await getHolidayList(this.id);
-                //     this.holidayList = [...holidayList.items];
-                    // this.workWeek = workWeek.items.map(workday => {
-                    //     return {
-                    //         name: this.weekdays[workday.week_day],
-                    //         id: workday.id,
-                    //         enabled: !workday.disabled,
-                    //         start: this.convertSecToHours(workday.start_time_of_day),
-                    //         end: this.convertSecToHours(workday.end_time_of_day),
-                    //         origin: true
-                    //     }
-                    // });
-                // } else {
-
-                // }
+            edit(rowIndex) {
+                this.editedIndex = rowIndex;
+                this.popupTriggerIf = true;
             },
 
-            async remove(rowId) {
-                // const deletedHoliday = this.holidayList.splice(rowId, 1)[0];
-
-                try {
-                    // await deleteHoliday(this.id, deletedHoliday.id)
-                } catch (err) {
-                    // this.holidayList.splice(rowId, 0, deletedHoliday);
+            remove(rowIndex) {
+                const deletedItem = this.itemInstance.holidays.splice(rowIndex, 1[0]);
+                if(deletedItem.id) {
+                    const calendarId = this.$route.params.id;
+                    try {
+                        deleteHoliday(calendarId, deletedItem.id);
+                    } catch {
+                        this.itemInstance.holidays.splice(rowIndex, 0, deletedItem);
+                    }
                 }
             },
 
-            async sendHolidays() {
-                // await addHoliday(this.holidayList[0], this.id);
+            addHoliday(item) {
+                console.log(this.editedIndex);
+                if(this.editedIndex === null) this.itemInstance.holidays.push(item);
+                this.popupTriggerIf = false;
+                this.editedIndex = null;
             },
         }
     }

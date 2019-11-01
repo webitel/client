@@ -3,7 +3,7 @@
         <div class="label" :class="{'invalid': this.v.$error}">{{computeRequiredLabel}}
         </div>
         <v-datepicker
-                :value="value"
+                :value="+value"
                 :format="format"
                 :calendar-button-icon="calendarButtonIcon"
                 :maximum-view="maximumView"
@@ -63,6 +63,9 @@
             calendarButton: {
                 type: Boolean
             },
+            required: {
+                type: Boolean,
+            }
         }
     }
 </script>

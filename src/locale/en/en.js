@@ -209,6 +209,13 @@ export default {
                 fulltime: 'Full-time',
                 everyYear: 'Repeat every year',
                 newHoliday: 'New holiday',
+                mon: 'Monday',
+                tue: 'Tuesday',
+                wed: 'Wednesday',
+                thu: 'Thursday',
+                fri: 'Friday',
+                sat: 'Saturday',
+                sun: 'Sunday',
             },
             communications: {
                 communications: 'Communication type | Comunication types',
