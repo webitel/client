@@ -26,7 +26,7 @@ export const getCalendar = async (id) => {
     try {
         const response = await calendarService.readCalendar(id, domainId);
 
-        const defaultCalendar = {
+        const defaultObject = {
             name: '',
             timezone: {},
             description: '',
@@ -35,7 +35,7 @@ export const getCalendar = async (id) => {
             expires: !!(response.data.start || response.data.finish),
         };
 
-        return Object.assign({}, defaultCalendar, response.data);
+        return Object.assign({}, defaultObject, response.data);
     } catch (err) {
         throw err;
     }
@@ -139,7 +139,6 @@ export const addWorkday = async (calendarId, item) => {
 };
 
 export const updateWorkday = async (calendarId, itemId, item) => {
-    console.log(item.enabled);
     item.week_day = item.day;
     item.start_time_of_day = item.start;
     item.end_time_of_day = item.end;
@@ -158,7 +157,6 @@ export const updateWorkday = async (calendarId, itemId, item) => {
 };
 
 export const deleteWorkday = async (calendarId, workdayId) => {
-    console.log('del')
     try {
         await calendarService.deleteAcceptOfDay(calendarId, workdayId, domainId);
     } catch (err) {
@@ -169,7 +167,13 @@ export const deleteWorkday = async (calendarId, workdayId) => {
 export const getHolidayList = async (calendarId) => {
     try {
         const response = await calendarService.searchExceptDate(calendarId, domainId);
-        return Array.isArray(response.data.items) ? response.data.items : [];
+        if(response.data.items) {
+            response.data.items.forEach(item => {
+                item.repeat = !!item.repeat;
+            });
+            return response.data.items;
+        }
+        return [];
     } catch (err) {
         throw err;
     }
@@ -178,29 +182,31 @@ export const getHolidayList = async (calendarId) => {
 export const getHoliday = async (calendarId, holidayId) => {
     try {
         const response = await calendarService.readExceptDate(calendarId, holidayId, domainId);
+        response.data.repeat = !!response.data.repeat;
         return response.data;
     } catch (err) {
         throw err;
     }
 };
 
-export const addHoliday = async (calendarId, holiday) => {
-    holiday.repeat = holiday.repeat ? 1 : 0;
+export const addHoliday = async (calendarId, item) => {
+    item.repeat = item.repeat ? 1 : 0;
     try {
-        await calendarService.createExceptDate(calendarId, holiday);
+        await calendarService.createExceptDate(calendarId, item);
     } catch (err) {
         throw err;
     }
 };
 
 export const updateHoliday = async (calendarId, itemId, item) => {
+    item.repeat = item.repeat ? 1 : 0;
     sanitizer(item, fieldsToSend);
     try {
         await calendarService.updateExceptDate(calendarId, itemId, item);
     } catch (err) {
         throw err;
     }
-}
+};
 
 export const deleteHoliday = async (calendarId, holidayId) => {
     try {

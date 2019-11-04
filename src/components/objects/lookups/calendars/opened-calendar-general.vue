@@ -31,15 +31,18 @@
             ></form-input>
 
             <div class="calendars__dates">
+                <div class="switcher-label-wrap">
+                    <div class="label">{{$t('objects.lookups.calendars.fulltime')}}</div>
+                    <switcher
+                            v-model="itemInstance.calendar.expires"
+                    ></switcher>
+                </div>
                 <div class="calendars__date-wrap">
                     <datepicker
                             v-model="itemInstance.calendar.start"
                             :label="$t('objects.lookups.calendars.start')"
-                            :format="'d MMMM yyyy'"
                             :calendar-button-icon="'icon-icon_arrow-down'"
-                            :maximum-view="'day'"
                             :disabled="!itemInstance.calendar.expires"
-                            monday-first
                             calendar-button
                     ></datepicker>
                     <datepicker
@@ -49,12 +52,6 @@
                             :disabled="!itemInstance.calendar.expires"
                             calendar-button
                     ></datepicker>
-                    <div class="switcher-label-wrap">
-                        <div class="label">{{$t('objects.lookups.calendars.fulltime')}}</div>
-                        <switcher
-                                v-model="itemInstance.calendar.expires"
-                        ></switcher>
-                    </div>
                 </div>
             </div>
         </form>
@@ -98,26 +95,19 @@
 </script>
 
 <style lang="scss" scoped>
-
-    .calendars__to-separator {
-        color: $icon-color;
+    .switcher-label-wrap {
+        margin: 0 0 28px;
+        .switcher {
+            margin-top: 7px;
+        }
     }
 
     .calendars__date-wrap {
         display: flex;
         align-items: center;
 
-        .datepicker {
-            // all width - switch margin - switch wrap
-            width: calc(50% - (43px + 48px + 40px) / 2);
+        .datepicker:first-child {
             margin-right: 28px;
-        }
-
-        .switcher-label-wrap {
-            margin: 0 0 auto;
-            .switcher {
-                margin-top: 7px;
-            }
         }
     }
 </style>

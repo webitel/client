@@ -172,14 +172,12 @@
                 // await this.itemInstance.workWeek.forEach(async workday => {
                 //     console.log(workday)
                 for (const workday of this.itemInstance.workWeek) {
-                    console.log(workday);
                     if (workday.id) {
                         const initIndex = this.initialItem.workWeek.findIndex(initialWeekday => {
                             return deepEqual(workday, initialWeekday);
                         });
                         if (initIndex === -1) {
                             try {
-                                console.log('before send', workday);
                                 await updateWorkday(this.id, workday.id, workday);
                             } catch (err) {
                                 throw err;

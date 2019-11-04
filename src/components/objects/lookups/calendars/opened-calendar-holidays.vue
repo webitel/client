@@ -18,7 +18,7 @@
         >
 
             <template slot="date" slot-scope="props">
-                <span>{{new Date(itemInstance.holidays[props.rowIndex].date).toLocaleDateString()}}</span>
+                <span>{{new Date(+itemInstance.holidays[props.rowIndex].date).toLocaleDateString()}}</span>
             </template>
 
             <template slot="repeat" slot-scope="props">
@@ -73,11 +73,10 @@
             },
 
             remove(rowIndex) {
-                const deletedItem = this.itemInstance.holidays.splice(rowIndex, 1[0]);
+                const deletedItem = this.itemInstance.holidays.splice(rowIndex, 1)[0];
                 if(deletedItem.id) {
-                    const calendarId = this.$route.params.id;
                     try {
-                        deleteHoliday(calendarId, deletedItem.id);
+                        deleteHoliday(this.id, deletedItem.id);
                     } catch {
                         this.itemInstance.holidays.splice(rowIndex, 0, deletedItem);
                     }
