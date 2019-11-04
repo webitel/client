@@ -46,7 +46,7 @@
                             calendar-button
                     ></datepicker>
                     <datepicker
-                            v-model="itemInstance.calendar.finish"
+                            v-model="itemInstance.calendar.end"
                             :label="$t('objects.lookups.calendars.end')"
                             :calendar-button-icon="'icon-icon_arrow-down'"
                             :disabled="!itemInstance.calendar.expires"
