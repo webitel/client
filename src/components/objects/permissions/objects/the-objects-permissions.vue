@@ -88,15 +88,14 @@
             },
 
             // toggle object permissions
-            async toggleDataProperty(property, id) {
+            async toggleDataProperty(property, rowIndex) {
                 // first, change UI, then send request
-                this.filteredDataList[id][property] = !this.filteredDataList[id][property];
-
+                this.filteredDataList[rowIndex][property] = !this.filteredDataList[rowIndex][property];
                 try {
-                    await updateObject(this.filteredDataList[id].id, this.filteredDataList[id]);
+                    await updateObject(this.filteredDataList[rowIndex].id, this.filteredDataList[rowIndex]);
                 } catch (err) {
                     // if request throws error, move changes back
-                    this.filteredDataList[id][property] = !this.filteredDataList[id][property];
+                    this.filteredDataList[rowIndex][property] = !this.filteredDataList[rowIndex][property];
                 }
             },
 

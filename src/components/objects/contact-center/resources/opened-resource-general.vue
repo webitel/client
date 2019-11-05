@@ -15,7 +15,7 @@
             <dropdown-select
                     :value="v.itemInstance.gateway"
                     :v="v.itemInstance.gateway"
-                    :options="[]"
+                    :options="gatewayList"
                     :label="$tc('objects.routing.gateways.gateways', 1)"
                     :placeholder="$tc('objects.routing.gateways.gateways', 1)"
                     @input="v.itemInstance.gateway = $event"
@@ -50,9 +50,25 @@
 
 <script>
     import openedTabComponentMixin from '@/mixins/openedTabComponentMixin';
+    import {getGatewayNameIdPair} from "../../../../api/objects/contact-center/resources";
 
     export default {
         name: "opened-resource-general",
         mixins: [openedTabComponentMixin],
+        data() {
+            return {
+                gatewayList: []
+            }
+        },
+
+        mounted() {
+            this.loadGatewayList();
+        },
+
+        methods: {
+            async loadGatewayList() {
+               this.gatewayList = await getGatewayNameIdPair();
+            }
+        }
     }
 </script>

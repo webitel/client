@@ -25,7 +25,6 @@
                         @tags-changed="newTags => this.itemInstance.errorIds = newTags"
                         autocomplete-filter-duplicates
                 >
-
                 </tags-input>
             </div>
         </form>
@@ -34,13 +33,13 @@
 
 <script>
     import openedTabComponentMixin from '@/mixins/openedTabComponentMixin';
-    import tagsInput from "@johmun/vue-tags-input";
+    import TagsInput from "@johmun/vue-tags-input";
 
     export default {
         name: "opened-resource-failure",
         mixins: [openedTabComponentMixin],
         components: {
-            'tags-input': tagsInput,
+            TagsInput,
         },
 
         data() {
