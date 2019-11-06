@@ -75,7 +75,7 @@
                 fields: [
                     _checkboxTableField,
                     {name: 'name', title: this.$t('objects.name')},
-                    {name: 'communication', title: this.$t('objects.description')},
+                    {name: 'description', title: this.$t('objects.description')},
                     _actionsTableField_2,
                 ],
             };

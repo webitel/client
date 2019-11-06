@@ -111,13 +111,13 @@
             async submit() {
                 const isEqualToInitial = deepEqual(this.itemInstance, this.initialItem);
                 if (!isEqualToInitial) {
-                    const validations = this.checkValidations('itemInstance');
+                    const validations = this.checkValidations();
                     if (!validations) {
                         try {
                             await this.saveResGroup();
                             await this.saveResGroupResources();
                             this.close();
-                        } catch (err) {
+                        } catch {
                             this.loadItem();
                         }
                     }
@@ -127,8 +127,8 @@
             },
 
             async saveResGroup() {
-                const itemChanged = !deepEqual(this.itemInstance.resGroup, this.initialItem.resGroup);
-                if (itemChanged) {
+                const isItemChanged = !deepEqual(this.itemInstance.resGroup, this.initialItem.resGroup);
+                if (isItemChanged) {
                     if (this.id) {
                         await updateResGroup(this.itemInstance.resGroup.id, this.itemInstance.resGroup);
                     } else {
@@ -139,8 +139,6 @@
 
             async saveResGroupResources() {
                 await this.addResList();
-                // await this.updateResList();
-                await this.deleteResList();
             },
 
             async addResList() {
@@ -149,38 +147,6 @@
                     for (const res of newRes) {
                         try {
                             await addResInGroup(this.id, res);
-                        } catch (err) {
-                            throw err;
-                        }
-                    }
-                }
-            },
-
-            async updateResList() {
-                for (const res of this.itemInstance.resList) {
-                    if (res.id) {
-                        const initIndex = this.initialItem.resList.findIndex(initialRes => {
-                            return deepEqual(res, initialRes);
-                        });
-                        if (initIndex === -1) {
-                            try {
-                                await updateResInGroup(this.id, res.id, res);
-                            } catch (err) {
-                                throw err;
-                            }
-                        }
-                    }
-                }
-            },
-
-            async deleteResList() {
-                for (const initRes of this.initialItem.resList) {
-                    const currentIndex = this.itemInstance.resList.findIndex(res => {
-                        return initRes.id === res.id;
-                    });
-                    if (currentIndex === -1) {
-                        try {
-                            await deleteResInGroup(this.id, initRes.id);
                         } catch (err) {
                             throw err;
                         }

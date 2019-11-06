@@ -15,6 +15,7 @@
                         :autocomplete-items="resList"
                         :autocomplete-min-length="0"
                         :placeholder="$tc('objects.ccenter.res.res', 2)"
+                        @before-deleting-tag="deleteRes"
                         @tags-changed="newTags => this.itemInstance.resList = newTags"
                         autocomplete-filter-duplicates
                 >
@@ -27,6 +28,7 @@
 <script>
     import openedTabComponentMixin from '@/mixins/openedTabComponentMixin';
     import {getResourceList} from "../../../../api/objects/contact-center/resources";
+    import {deleteResInGroup} from "../../../../api/objects/contact-center/resourceGroups";
     import TagsInput from "@johmun/vue-tags-input";
 
     export default {
@@ -47,6 +49,13 @@
         },
 
         methods: {
+            async deleteRes({index, tag, deleteTag}) {
+                try {
+                    await deleteResInGroup(this.id, tag.id);
+                    deleteTag();
+                } catch {}
+            },
+
             async loadRes() {
                 const response = await getResourceList();
                 this.resList = response.map(item => {
