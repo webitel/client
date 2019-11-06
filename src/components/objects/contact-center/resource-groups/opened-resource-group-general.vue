@@ -36,6 +36,7 @@
 <script>
     import openedTabComponentMixin from '@/mixins/openedTabComponentMixin';
     import {getCommunicationsList} from "../../../../api/objects/lookups/communications";
+    import debounce from "../../../../utils/debounce";
 
     export default {
         name: "opened-resource-group-general",
@@ -43,6 +44,7 @@
         data() {
             return {
                 commList: [],
+                searchValue: '',
             }
         },
 
@@ -50,10 +52,17 @@
             this.loadCommList();
         },
 
+        computed: {
+            debounceSearch() {
+                return debounce(this.loadCommList);
+            }
+        },
+
         methods: {
             searchList(value) {
+                this.searchValue = value;
                 this.commList = [];
-                this.loadCommList();
+                return this.debounceSearch();
             },
 
             async loadCommList() {

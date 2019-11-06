@@ -19,7 +19,7 @@
                     :placeholder="$t('objects.lookups.calendars.timezone')"
                     :value="v.itemInstance.calendar.timezone.$model"
                     @input="itemInstance.calendar.timezone = $event"
-                    @search="searchOptions"
+                    @search="searchList"
                     required
             ></dropdown-select>
 
@@ -61,7 +61,8 @@
 <script>
     import datepicker from '@/components/utils/datepicker';
     import openedTabComponentMixin from '@/mixins/openedTabComponentMixin';
-    import { getCalendarTimezones } from "../../../../api/objects/lookups/calendars";
+    import {getCalendarTimezones} from "../../../../api/objects/lookups/calendars";
+    import debounce from "../../../../utils/debounce";
 
     export default {
         name: "opened-calendar-general",
@@ -72,7 +73,8 @@
 
         data() {
             return {
-                timezoneList: []
+                timezoneList: [],
+                searchValue: '',
             }
         },
 
@@ -80,10 +82,17 @@
             this.loadTimezones();
         },
 
+        computed: {
+            debounceSearch() {
+                return debounce(this.loadTimezones);
+            }
+        },
+
         methods: {
-            async searchOptions(search) {
+            searchList(value) {
+                this.searchValue = value;
                 this.timezoneList = [];
-                await this.loadTimezones();
+                return this.debounceSearch();
             },
 
             async loadTimezones() {
@@ -97,6 +106,7 @@
 <style lang="scss" scoped>
     .switcher-label-wrap {
         margin: 0 0 28px;
+
         .switcher {
             margin-top: 7px;
         }

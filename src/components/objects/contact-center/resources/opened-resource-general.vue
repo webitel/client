@@ -56,7 +56,8 @@
         mixins: [openedTabComponentMixin],
         data() {
             return {
-                gatewayList: []
+                gatewayList: [],
+                throttle: searchThrottle
             }
         },
 
@@ -65,11 +66,6 @@
         },
 
         methods: {
-            setGateway(e) {
-                console.log(e);
-                this.itemInstance.res.gateway = e;
-            },
-
             async loadGatewayList() {
                this.gatewayList = await getGatewayNameIdPair();
             }
