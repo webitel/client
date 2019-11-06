@@ -28,12 +28,16 @@
     import openedResourceGeneral from './opened-resource-general';
     import openedResourceNumbers from './opened-resource-numbers';
     import openedResourceFailure from './opened-resource-failure';
-
+    import deepEqual from 'deep-equal';
     import editComponentMixin from '@/mixins/editComponentMixin';
     import {required} from 'vuelidate/lib/validators';
     import {requiredArrayValue} from "@/utils/validators";
-    import {getResource, addResource, updateResource} from "../../../../api/objects/contact-center/resources";
-
+    import {
+        getResource,
+        addResource,
+        updateResource,
+        getResDisplayList, updateResDisplay, addResDisplay
+    } from "../../../../api/objects/contact-center/resources";
 
     export default {
         name: 'opened-resource',
@@ -47,14 +51,16 @@
         data() {
             return {
                 itemInstance: {
-                    name: 'test',
-                    gateway: {id: 1},
-                    cps: 10,
-                    limit: 10,
-                    description: 'test',
-                    numberList: ['1', '2'],
-                    maxErrors: 2,
-                    errorIds: [{text: '2xx'}],
+                    res: {
+                        name: 'test',
+                        gateway: {id: 1},
+                        cps: 10,
+                        limit: 10,
+                        description: 'test',
+                        maxErrors: 2,
+                        errorIds: [{text: '2xx'}],
+                    },
+                    numberList: [{display: '1'}, {display: '2'}],
                 },
                 tabs: [
                     {
@@ -76,17 +82,19 @@
         // by vuelidate
         validations: {
             itemInstance: {
-                name: {
-                    required
-                },
-                gateway: {
-                    required
-                },
-                cps: {
-                    required
-                },
-                limit: {
-                    required
+                res: {
+                    name: {
+                        required
+                    },
+                    gateway: {
+                        required
+                    },
+                    cps: {
+                        required
+                    },
+                    limit: {
+                        required
+                    },
                 },
                 numberList: {
                     requiredArrayValue
@@ -95,21 +103,85 @@
         },
 
         methods: {
-            async save() {
-                if (this.id) {
-                    await updateResource(this.id, this.itemInstance);
+            async submit() {
+                const isItemChanged = !deepEqual(this.itemInstance, this.initialItem);
+                if (isItemChanged) {
+                    const validations = this.checkValidations();
+                    if (!validations) {
+                        try {
+                            await this.saveResource();
+                            await this.saveResNumbers();
+                            this.close();
+                        } catch {
+                            this.loadItem();
+                        }
+                    }
                 } else {
-                    await addResource(this.itemInstance);
+                    this.close();
                 }
-                this.close();
+            },
+
+            async saveResource() {
+                const isItemChanged = !deepEqual(this.itemInstance.res, this.initialItem.res);
+                if (isItemChanged) {
+                    if (this.id) {
+                        await updateResource(this.id, this.itemInstance.res);
+                    } else {
+                        this.id = await addResource(this.itemInstance.res);
+                    }
+                }
+            },
+
+            async saveResNumbers() {
+                await this.addNumbersList();
+                await this.updateNumbersList();
+            },
+
+            async addNumbersList() {
+                const newNumber = this.itemInstance.numberList.filter(num => !num.id && num.display);
+                if (newNumber.length) {
+                    for (const num of newNumber) {
+                        try {
+                            await addResDisplay(this.id, num);
+                        } catch (err) {
+                            throw err;
+                        }
+                    }
+                }
+            },
+
+            async updateNumbersList() {
+                for (const num of this.itemInstance.numberList) {
+                    if (num.id) {
+                        const initIndex = this.initialItem.numberList.findIndex(initialNum => {
+                            return deepEqual(num, initialNum);
+                        });
+                        if (initIndex === -1) {
+                            try {
+                                await updateResDisplay(this.id, num.id, num);
+                            } catch (err) {
+                                throw err;
+                            }
+                        }
+                    }
+                }
             },
 
             // load current item from backend
             async loadItem() {
-                const response = await getResource(this.id);
-                this.itemInstance = response;
-                this.initialItem = JSON.parse(JSON.stringify(response));
-            }
+                await this.loadResource();
+                await this.loadNumbers();
+                this.initialItem = JSON.parse(JSON.stringify(this.itemInstance));
+            },
+
+            async loadResource() {
+                this.itemInstance.res = await getResource(this.id);
+            },
+
+            async loadNumbers() {
+                const response = await getResDisplayList(this.id);
+                this.itemInstance.numberList = [...response];
+            },
         },
     };
 </script>

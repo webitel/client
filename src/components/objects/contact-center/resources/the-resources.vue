@@ -48,7 +48,7 @@
                 <template slot="enabled" slot-scope="props">
                     <switcher
                             :value="filteredDataList[props.rowIndex].enabled"
-                            @input="filteredDataList[props.rowIndex].enabled = $event"
+                            @input="toggleDataProperty('enabled', props.rowIndex)"
                     >
                     </switcher>
                 </template>
@@ -56,18 +56,18 @@
                 <template slot="reserve" slot-scope="props">
                     <switcher
                             :value="filteredDataList[props.rowIndex].reserve"
-                            @input="filteredDataList[props.rowIndex].reserve = $event"
+                            @input="toggleDataProperty('reserve', props.rowIndex)"
                     >
                     </switcher>
                 </template>
 
                 <template slot="actions" slot-scope="props">
-                        <i class="vuetable-action icon-icon_edit"
-                           @click="edit(props.rowIndex)"
-                        ></i>
-                        <i class="vuetable-action icon-icon_delete"
-                           @click="remove(props.rowIndex)"
-                        ></i>
+                    <i class="vuetable-action icon-icon_edit"
+                       @click="edit(props.rowIndex)"
+                    ></i>
+                    <i class="vuetable-action icon-icon_delete"
+                       @click="remove(props.rowIndex)"
+                    ></i>
                 </template>
             </vuetable>
 
@@ -81,6 +81,7 @@
     import tableComponentMixin from '@/mixins/tableComponentMixin';
     import {_checkboxTableField, _actionsTableField_2} from "@/utils/tableFieldPresets";
     import {_switcherWidth} from "../../../../utils/tableFieldPresets";
+    import {patchResource} from "../../../../api/objects/contact-center/resources";
 
 
     export default {
@@ -109,6 +110,19 @@
                     name: 'cc-resource-edit',
                     params: {id: this.dataList[rowId].id},
                 });
+            },
+
+            async toggleDataProperty(property, rowIndex) {
+                // first, change UI, then send request
+                this.filteredDataList[rowIndex][property] = !this.filteredDataList[rowIndex][property];
+                try {
+                    let changes = {};
+                    changes[property] = this.filteredDataList[rowIndex][property];
+                    await patchResource(this.filteredDataList[rowIndex].id, changes);
+                } catch (err) {
+                    // if request throws error, move changes back
+                    this.filteredDataList[rowIndex][property] = !this.filteredDataList[rowIndex][property];
+                }
             },
 
             async deleteItem(deletedItem) {

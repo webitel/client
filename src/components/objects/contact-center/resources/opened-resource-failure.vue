@@ -6,7 +6,7 @@
 
         <form class="object-input-grid grid-w50">
             <form-input
-                    v-model.trim="itemInstance.maxErrors"
+                    v-model.trim="itemInstance.res.maxErrors"
                     :label="$t('objects.ccenter.res.maxErrors')"
                     :placeholder="$t('objects.ccenter.res.maxErrors')"
             ></form-input>
@@ -18,11 +18,11 @@
 
                 <tags-input
                         v-model="errorCodeTag"
-                        :tags="itemInstance.errorIds"
+                        :tags="itemInstance.res.errorIds"
                         :autocomplete-items="errorCodeTags"
                         :autocomplete-min-length="0"
                         :placeholder="$tc('objects.ccenter.res.errorCodes')"
-                        @tags-changed="newTags => this.itemInstance.errorIds = newTags"
+                        @tags-changed="newTags => this.itemInstance.res.errorIds = newTags"
                         autocomplete-filter-duplicates
                 >
                 </tags-input>
