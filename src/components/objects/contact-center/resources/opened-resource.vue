@@ -112,7 +112,8 @@
                             await this.saveResource();
                             await this.saveResNumbers();
                             this.close();
-                        } catch {
+                        } catch (err) {
+                            console.log(err)
                             this.loadItem();
                         }
                     }
@@ -125,6 +126,7 @@
                 const isItemChanged = !deepEqual(this.itemInstance.res, this.initialItem.res);
                 if (isItemChanged) {
                     if (this.id) {
+                        console.log(this.itemInstance.res);
                         await updateResource(this.id, this.itemInstance.res);
                     } else {
                         this.id = await addResource(this.itemInstance.res);

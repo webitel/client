@@ -55,7 +55,6 @@
                         name: 'res gr',
                         communication: {id: 1},
                         description: 'res gr descr',
-                        strategy: 'str',
                         time: [
                             {
                                 start: 540,

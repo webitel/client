@@ -52,12 +52,6 @@ export const getResGroup = async (id) => {
             id: 0,
         };
 
-        response.data.cps = response.data.rps;
-        response.data.maxErrors = response.data.max_successively_errors;
-        response.data.error_ids = response.data.error_ids || [];
-        response.data.errorIds = response.data.error_ids.map(errCode => {
-            return {text: errCode}
-        });
         response.data.time = response.data.time.map(range => {
             return {
                 start: range.start_time_of_day || 0,
