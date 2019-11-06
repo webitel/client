@@ -81,9 +81,9 @@ export const addResource = async (item) => {
 };
 
 export const updateResource = async (id, item) => {
-    item = objCamelToSnake(item);
     item.errorIds = Object.values(...item.errorIds);
     item.rps = item.cps;
+    item = objCamelToSnake(item);
 
     sanitizer(item, fieldsToSend);
     try {

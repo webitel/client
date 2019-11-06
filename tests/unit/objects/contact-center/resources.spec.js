@@ -30,14 +30,16 @@ describe('opened res', () => {
         // set new item data
         wrapper.setData({
             itemInstance: {
-                name: 'jest-res',
-                gateway: {id: 1},
-                cps: 110,
-                limit: 110,
-                description: 'jest-res',
-                numberList: ['1', '2'],
-                maxErrors: 2,
-                errorIds: [{text: '23x'}],
+                res: {
+                    name: 'jest-res',
+                    gateway: {name: "itemInstance", id: "104"},
+                    cps: 110,
+                    limit: 110,
+                    description: 'jest-res',
+                    maxErrors: 2,
+                    errorIds: [{text: '23x'}],
+                },
+                numberList: [{display: '1'}, {display: '2'}],
             },
         });
 
@@ -67,21 +69,23 @@ describe('opened res', () => {
         await wrapper.vm.loadItem();
 
         // check if initial item was set correctly
-        expect(wrapper.vm.initialItem.id).toEqual(createdItem.id);
-
-        // set updated item data
+        expect(wrapper.vm.initialItem.res.id).toEqual(createdItem.id);
         const newItemInstance = {
             itemInstance: {
-                name: 'upd-jest-res',
-                gateway: {id: 1},
-                cps: 113,
-                limit: 113,
-                description: 'upd-jest-res',
-                numberList: ['1', '2'],
-                maxErrors: 20,
-                errorIds: [{text: '553x'}],
+                res: {
+                    name: 'upd-jest-res',
+                    gateway: {name: "itemInstance", id: "104"},
+                    cps: 110,
+                    limit: 110,
+                    description: 'upd-jest-res',
+                    maxErrors: 2,
+                    errorIds: [{text: '223x'}],
+                },
+                numberList: [{display: '21'}, {display: 'upd-2'}],
             },
         };
+
+        // set updated item data
         wrapper.setData(newItemInstance);
 
         // trigger 'save' button
@@ -98,7 +102,7 @@ describe('opened res', () => {
             expect(newItem).toBeTruthy();
 
             // check if backend item is equal to updated
-            expect(newItem.name).toEqual(newItemInstance.itemInstance.name);
+            expect(newItem.name).toEqual(newItemInstance.itemInstance.res.name);
             done();
         }, 100);
     });
@@ -120,7 +124,7 @@ describe('the res', () => {
 
         // find tested item
         createdItem = wrapper.vm.dataList.find(item => {
-            return item.name === 'upd-jest-res'
+            return item.name === 'upd-jest-res' || 'jest-res'
         });
 
         // and its index
@@ -134,6 +138,52 @@ describe('the res', () => {
 
     it('draws table with resList', () => {
         expect(wrapper.findAll('tr')).toHaveLength(wrapper.vm.dataList.length + 1);
+    });
+
+    it('updates resource enable switchers', async (done) =>{
+        // copy initial value and prevent it from reactive changing
+        const initialEnableState = !!createdItem.enabled;
+
+        // find all switchers and click on tested object's switcher
+        wrapper.findAll('.test__resources__enable-switcher').at(createdItemIndex)
+            .vm.$emit('input');
+
+        // check if local data have changed
+        expect(wrapper.vm.dataList[createdItemIndex].enabled).not.toEqual(initialEnableState);
+
+        // wait for async response
+        await setTimeout(async () => {
+            // check if db data have changed
+            const newDataList = await getResourceList();
+            const newItem = newDataList.find(item => {
+                return item.name === 'upd-jest-res' || 'jest-res'
+            });
+            expect(await newItem.enabled).not.toEqual(initialEnableState);
+            done();
+        }, 100);
+    });
+
+    it('updates resource reserve switchers', async (done) =>{
+        // copy initial value and prevent it from reactive changing
+        const initialReserveState = !!createdItem.reserve;
+
+        // find all switchers and click on tested object's switcher
+        wrapper.findAll('.test__resources__reserve-switcher').at(createdItemIndex)
+            .vm.$emit('input');
+
+        // check if local data have changed
+        expect(wrapper.vm.dataList[createdItemIndex].reserve).not.toEqual(initialReserveState);
+
+        // wait for async response
+        await setTimeout(async () => {
+            // check if db data have changed
+            const newDataList = await getResourceList();
+            const newItem = newDataList.find(item => {
+                return item.name === 'upd-jest-res' || 'jest-res'
+            });
+            expect(await newItem.reserve).not.toEqual(initialReserveState);
+            done();
+        }, 100);
     });
 
     it('removes res from list', async (done) => {
@@ -154,4 +204,5 @@ describe('the res', () => {
             done();
         }, 100);
     });
-});
+})
+;

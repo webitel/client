@@ -57,7 +57,6 @@
         data() {
             return {
                 gatewayList: [],
-                throttle: searchThrottle
             }
         },
 

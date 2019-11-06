@@ -47,6 +47,7 @@
 
                 <template slot="enabled" slot-scope="props">
                     <switcher
+                            class="test__resources__enable-switcher"
                             :value="filteredDataList[props.rowIndex].enabled"
                             @input="toggleDataProperty('enabled', props.rowIndex)"
                     >
@@ -55,6 +56,7 @@
 
                 <template slot="reserve" slot-scope="props">
                     <switcher
+                            class="test__resources__reserve-switcher"
                             :value="filteredDataList[props.rowIndex].reserve"
                             @input="toggleDataProperty('reserve', props.rowIndex)"
                     >
