@@ -62,7 +62,7 @@ describe('opened calendar', () => {
             const newDataList = await getCalendarList();
             expect(newDataList).toHaveLength(dataList.length + 1);
             done();
-        }, 300);
+        }, 500);
     });
 
     it('creates new temporary calendar', async (done) => {
@@ -136,7 +136,7 @@ describe('opened calendar', () => {
             // check if backend item is equal to updated
             expect(newItem.name).toEqual(newItemInstance.itemInstance.calendar.name);
             done();
-        }, 300);
+        }, 500);
     });
 
     it('updates calendar existing workday, and adds a new one', async (done) => {
@@ -187,7 +187,7 @@ describe('opened calendar', () => {
             expect(newWorkdayItem).toBeTruthy();
             expect(updatedWorkdayItem).toBeTruthy();
             done();
-        }, 100);
+        }, 300);
     });
 
     it('updates calendar existing holiday, and adds a new one', async (done) => {
@@ -236,7 +236,7 @@ describe('opened calendar', () => {
             expect(newHolidayItem).toBeTruthy();
             expect(updatedHolidayItem).toBeTruthy();
             done();
-        }, 300);
+        }, 500);
     });
 });
 
@@ -279,7 +279,7 @@ describe('opened calendar work week', () => {
             // check if it removed from database
             expect(await getWorkdayList(wrapper.vm.id)).toHaveLength(1);
             done();
-        }, 100);
+        }, 300);
     });
 });
 
@@ -329,7 +329,7 @@ describe('opened calendar holidays', () => {
             // check if it removed from database
             expect(await getHolidayList(wrapper.vm.id)).toHaveLength(1);
             done();
-        }, 100);
+        }, 300);
     });
 });
 
@@ -349,7 +349,7 @@ describe('the calendars', () => {
 
         // find tested item
         createdItem = wrapper.vm.dataList.find(item => {
-            return item.name === 'upd-jest-calendar'
+            return item.name === 'upd-jest-calendar' || item.name === 'jest-calendar'
         });
 
         // and its index
@@ -381,6 +381,6 @@ describe('the calendars', () => {
             // check if it removed from database
             expect(await getCalendarList()).not.toContain(createdItem);
             done();
-        }, 100);
+        }, 300);
     });
 });

@@ -110,7 +110,7 @@ describe('the communications', () => {
 
         // find tested item
         createdItem = wrapper.vm.dataList.find(item => {
-            return item.code === 'upd-jest'
+            return item.code === 'upd-jest' || item.code === 'jest'
         });
 
         // and its index

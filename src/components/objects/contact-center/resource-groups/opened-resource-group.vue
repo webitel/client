@@ -92,9 +92,6 @@
                     communication: {
                         required
                     },
-                    strategy: {
-                        required
-                    },
                     time: {
                         requiredArrayValue,
                         timerangeNotIntersect,

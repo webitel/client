@@ -194,9 +194,8 @@ describe('opened-trunking-gateway.vue', () => {
         await setTimeout(async () => {
             // load new list and find updated role
             const newDataList = await getGatewayList();
-            // console.log('CREATED TEST', createdRegGateway);
             const newItem = newDataList.find(item => {
-                return item.name = 'upd-jest-trunking-name';
+                return item.name === 'upd-jest-trunking-name';
             });
 
             // test if there's a role
@@ -205,7 +204,7 @@ describe('opened-trunking-gateway.vue', () => {
             // check if backend item is equal to updated item
             expect(newItem.name).toEqual(newItemInstance.itemInstance.name);
             done();
-        }, 100);
+        }, 300);
     });
 });
 
@@ -261,6 +260,7 @@ describe('the-gateways.vue', () => {
         // find tested role
         const createdItem = wrapper.vm.dataList.find(item => {
             return item.name === 'upd-jest-trunking-name'
+                || item.name === 'jest-trunking-name'
         });
         // and its index
         const createdItemIndex = wrapper.vm.dataList.indexOf(createdItem);

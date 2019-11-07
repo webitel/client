@@ -77,7 +77,7 @@ describe('roles-new.vue', () => {
             // load new list and find updated role
             const newRoleList = await getRoleList();
             const newRole = newRoleList.find(role => {
-                return role.role === 'updated-jest-role'
+                return role.role === 'updated-jest-role' || role.role === 'jest-role'
             });
 
             // test if there's a role
