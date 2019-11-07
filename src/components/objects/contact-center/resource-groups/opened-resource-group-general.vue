@@ -15,7 +15,7 @@
             <dropdown-select
                     v-model="itemInstance.resGroup.communication"
                     :v="v.itemInstance.resGroup.communication"
-                    :options="commList"
+                    :options="dropdownOptionsList"
                     :displayProperty="'name'"
                     :label="$tc('objects.lookups.communications.communications', 1)"
                     :placeholder="$tc('objects.lookups.communications.communications', 1)"
@@ -36,38 +36,18 @@
 <script>
     import openedTabComponentMixin from '@/mixins/openedTabComponentMixin';
     import {getCommunicationsList} from "../../../../api/objects/lookups/communications";
-    import debounce from "../../../../utils/debounce";
 
     export default {
         name: "opened-resource-group-general",
         mixins: [openedTabComponentMixin],
         data() {
-            return {
-                commList: [],
-                searchValue: '',
-            }
-        },
-
-        mounted() {
-            this.loadCommList();
-        },
-
-        computed: {
-            debounceSearch() {
-                return debounce(this.loadCommList);
-            }
+            return {}
         },
 
         methods: {
-            searchList(value) {
-                this.searchValue = value;
-                this.commList = [];
-                return this.debounceSearch();
-            },
-
-            async loadCommList() {
+            async loadDropdownOptionsList() {
                 const response = await getCommunicationsList();
-                this.commList = response.map(comm => {
+                this.dropdownOptionsList = response.map(comm => {
                     return {
                         name: comm.name,
                         id: comm.id
