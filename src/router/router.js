@@ -82,6 +82,11 @@ const router = new Router({
                     component: users
                 },
                 {
+                    path:'/directory/users/:id',
+                    name: 'directory-users-edit',
+                    component: openedUser
+                },
+                {
                     path:'/directory/users/new',
                     name: 'directory-users-new',
                     component: openedUser
