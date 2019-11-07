@@ -3,12 +3,13 @@ import store from '@/store/store';
 import configuration from '@/api/openAPIConfig';
 import {CalendarServiceApiFactory} from 'webitel-sdk';
 import sanitizer from "../../sanitizer";
+import {objSnakeToCamel, objCamelToSnake} from "../../caseConverters";
 
 const calendarService = new CalendarServiceApiFactory
 (configuration, process.env.VUE_APP_API_URL, instance);
 
 const domainId = store.getters.getDomainId || undefined;
-const fieldsToSend = ['domain_id', 'name', 'description', 'timezone', 'start', 'finish', 'week_day',
+const fieldsToSend = ['domain_id', 'name', 'description', 'timezone', 'start', 'end', 'day',
     'start_time_of_day', 'end_time_of_day', 'disabled', 'date', 'repeat'];
 
 export const getCalendarList = async (size = 20) => {
@@ -26,16 +27,16 @@ export const getCalendar = async (id) => {
     try {
         const response = await calendarService.readCalendar(id, domainId);
 
-        const defaultCalendar = {
+        const defaultObject = {
             name: '',
             timezone: {},
             description: '',
             start: Date.now(),
-            finish: Date.now(),
-            expires: !!(response.data.start || response.data.finish),
+            end: Date.now(),
+            expires: !!(response.data.start || response.data.end),
         };
 
-        return Object.assign({}, defaultCalendar, response.data);
+        return Object.assign({}, defaultObject, response.data);
     } catch (err) {
         throw err;
     }
@@ -56,7 +57,7 @@ export const addCalendar = async (item) => {
     delete item.timezone.offset;
     if (!item.expires) {
         delete item.start;
-        delete item.finish;
+        delete item.end;
     }
 
     sanitizer(item, fieldsToSend);
@@ -71,7 +72,7 @@ export const addCalendar = async (item) => {
 export const updateCalendar = async (itemId, item) => {
     if (!item.expires) {
         delete item.start;
-        delete item.finish;
+        delete item.end;
     }
 
     sanitizer(item, fieldsToSend);
@@ -97,7 +98,7 @@ export const getWorkdayList = async (calendarId) => {
         if (Array.isArray(response.data.items)) {
             return response.data.items.map(workday => {
                 return {
-                    day: workday.week_day || 0,
+                    day: workday.day || 0,
                     id: workday.id,
                     enabled: !workday.disabled,
                     start: workday.start_time_of_day || 0,
@@ -121,7 +122,6 @@ export const getWorkday = async (calendarId, workdayId) => {
 };
 
 export const addWorkday = async (calendarId, item) => {
-    item.week_day = item.day;
     item.start_time_of_day = item.start;
     item.end_time_of_day = item.end;
     item.disabled = !item.enabled;
@@ -129,7 +129,7 @@ export const addWorkday = async (calendarId, item) => {
     sanitizer(item, fieldsToSend);
     item.calendar_id = calendarId;
     delete item.start;
-    delete item.finish;
+    delete item.end;
     try {
         const response = await calendarService.createAcceptOfDay(calendarId, item);
         return response.data;
@@ -139,8 +139,6 @@ export const addWorkday = async (calendarId, item) => {
 };
 
 export const updateWorkday = async (calendarId, itemId, item) => {
-    console.log(item.enabled);
-    item.week_day = item.day;
     item.start_time_of_day = item.start;
     item.end_time_of_day = item.end;
     item.disabled = !item.enabled;
@@ -148,7 +146,7 @@ export const updateWorkday = async (calendarId, itemId, item) => {
     sanitizer(item, fieldsToSend);
     item.calendar_id = calendarId;
     delete item.start;
-    delete item.finish;
+    delete item.end;
     try {
         const response = await calendarService.updateAcceptOfDay(calendarId, itemId, item);
         return response.data;
@@ -158,7 +156,6 @@ export const updateWorkday = async (calendarId, itemId, item) => {
 };
 
 export const deleteWorkday = async (calendarId, workdayId) => {
-    console.log('del')
     try {
         await calendarService.deleteAcceptOfDay(calendarId, workdayId, domainId);
     } catch (err) {
@@ -169,7 +166,7 @@ export const deleteWorkday = async (calendarId, workdayId) => {
 export const getHolidayList = async (calendarId) => {
     try {
         const response = await calendarService.searchExceptDate(calendarId, domainId);
-        return Array.isArray(response.data.items) ? response.data.items : [];
+        return response.data.items ? response.data.items : [];
     } catch (err) {
         throw err;
     }
@@ -184,10 +181,9 @@ export const getHoliday = async (calendarId, holidayId) => {
     }
 };
 
-export const addHoliday = async (calendarId, holiday) => {
-    holiday.repeat = holiday.repeat ? 1 : 0;
+export const addHoliday = async (calendarId, item) => {
     try {
-        await calendarService.createExceptDate(calendarId, holiday);
+        await calendarService.createExceptDate(calendarId, item);
     } catch (err) {
         throw err;
     }
@@ -200,7 +196,7 @@ export const updateHoliday = async (calendarId, itemId, item) => {
     } catch (err) {
         throw err;
     }
-}
+};
 
 export const deleteHoliday = async (calendarId, holidayId) => {
     try {

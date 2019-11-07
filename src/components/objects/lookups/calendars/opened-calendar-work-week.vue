@@ -33,8 +33,7 @@
 
             <template slot="status" slot-scope="props">
                 <switcher
-                        :value="itemInstance.workWeek[props.rowIndex].enabled"
-                        @input="itemInstance.workWeek[props.rowIndex].status = $event"
+                        v-model="itemInstance.workWeek[props.rowIndex].enabled"
                 ></switcher>
             </template>
 
@@ -45,7 +44,7 @@
                 ></i>
                 <i class="vuetable-action icon-icon_delete calendar-workweek__item"
                    v-else
-                   @click="removeWorkRange(props.rowIndex)"
+                   @click="remove(props.rowIndex)"
                 ></i>
             </template>
         </vuetable>
@@ -97,7 +96,7 @@
             addWorkRange(day) {
                 const dayRangeIndex = this.itemInstance.workWeek
                     .findIndex((workday, index, array) => {
-                        return workday.day === day && array[index + 1].day !== day
+                        return workday.day === day && (array[index + 1] || {}).day !== day
                     });
 
                 this.itemInstance.workWeek.splice(dayRangeIndex + 1, 0, {
@@ -108,12 +107,11 @@
                 });
             },
 
-            remove(rowIndex) {
+            async remove(rowIndex) {
                 const deletedItem = this.itemInstance.workWeek.splice(rowIndex, 1)[0];
                 if(deletedItem.id) {
-                    const calendarId = this.$route.params.id;
                     try {
-                        deleteWorkday(calendarId, deletedItem.id);
+                        await deleteWorkday(this.id, deletedItem.id);
                     } catch {
                         this.itemInstance.workWeek.splice(rowIndex, 0, deletedItem);
                     }

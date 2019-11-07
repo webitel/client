@@ -79,6 +79,7 @@
 
     .ti-autocomplete {
       @extend .select-options;
+      border: none;
 
       .ti-item {
         @extend .select-option;

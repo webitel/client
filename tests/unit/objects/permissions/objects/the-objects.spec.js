@@ -173,7 +173,6 @@ describe('objects-edit.vue', () => {
     });
 
     it('adds permissions to new role', () => {
-        console.log(wrapper.vm.changeAccessList, newRole.id);
         wrapper.find('.inline-dropdown').vm.$emit('input', newRole);
 
         expect(wrapper.vm.changeAccessList).toContain(newRole.id);

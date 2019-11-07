@@ -5,16 +5,16 @@
         </header>
         <form class="object-input-grid">
             <form-input
-                    v-model.trim="v.itemInstance.name.$model"
-                    :v="v.itemInstance.name"
+                    v-model.trim="v.itemInstance.resGroup.name.$model"
+                    :v="v.itemInstance.resGroup.name"
                     :label="$t('objects.name')"
                     :placeholder="$t('objects.name')"
                     required
             ></form-input>
 
             <dropdown-select
-                    v-model="itemInstance.communication"
-                    :v="v.itemInstance.communication"
+                    v-model="itemInstance.resGroup.communication"
+                    :v="v.itemInstance.resGroup.communication"
                     :options="commList"
                     :displayProperty="'name'"
                     :label="$tc('objects.lookups.communications.communications', 1)"
@@ -24,7 +24,7 @@
             ></dropdown-select>
 
             <form-input
-                    v-model="itemInstance.description"
+                    v-model="itemInstance.resGroup.description"
                     :label="$t('objects.description')"
                     :placeholder="$t('objects.description')"
                     textarea
@@ -36,6 +36,7 @@
 <script>
     import openedTabComponentMixin from '@/mixins/openedTabComponentMixin';
     import {getCommunicationsList} from "../../../../api/objects/lookups/communications";
+    import debounce from "../../../../utils/debounce";
 
     export default {
         name: "opened-resource-group-general",
@@ -43,6 +44,7 @@
         data() {
             return {
                 commList: [],
+                searchValue: '',
             }
         },
 
@@ -50,15 +52,21 @@
             this.loadCommList();
         },
 
+        computed: {
+            debounceSearch() {
+                return debounce(this.loadCommList);
+            }
+        },
+
         methods: {
             searchList(value) {
+                this.searchValue = value;
                 this.commList = [];
-                this.loadCommList();
+                return this.debounceSearch();
             },
 
             async loadCommList() {
                 const response = await getCommunicationsList();
-                console.log(response);
                 this.commList = response.map(comm => {
                     return {
                         name: comm.name,

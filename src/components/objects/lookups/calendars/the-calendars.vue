@@ -23,35 +23,35 @@
                 </div>
             </header>
 
-            <vuetable
-                    class="permissions-table"
-                    :api-mode="false"
-                    :fields="fields"
-                    :data="filteredDataList"
-            >
-                <template slot="name" slot-scope="props">
-                    <div class="tt-capitalize">
+                <vuetable
+                        class="permissions-table"
+                        :api-mode="false"
+                        :fields="fields"
+                        :data="filteredDataList"
+                >
+                    <template slot="name" slot-scope="props">
+                        <div class="tt-capitalize">
                         <span class="nameLink" @click="edit(props.rowIndex)">
                         {{filteredDataList[props.rowIndex].name}}
                         </span>
-                    </div>
-                </template>
+                        </div>
+                    </template>
 
-                <template slot="description" slot-scope="props">
-                    <div>
-                        {{filteredDataList[props.rowIndex].description || 'DESCRIPTION IS EMPTY'}}
-                    </div>
-                </template>
+                    <template slot="description" slot-scope="props">
+                        <div>
+                            {{filteredDataList[props.rowIndex].description || 'DESCRIPTION IS EMPTY'}}
+                        </div>
+                    </template>
 
-                <template slot="actions" slot-scope="props">
+                    <template slot="actions" slot-scope="props">
                         <i class="vuetable-action icon-icon_edit"
                            @click="edit(props.rowIndex)"
                         ></i>
                         <i class="vuetable-action icon-icon_delete"
                            @click="remove(props.rowIndex)"
                         ></i>
-                </template>
-            </vuetable>
+                    </template>
+                </vuetable>
         </section>
     </div>
 </template>

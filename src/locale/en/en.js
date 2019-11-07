@@ -206,7 +206,7 @@ export default {
                 enabled: 'Enabled',
                 date: 'Date',
                 repeat: 'Repeat',
-                fulltime: 'Full-time',
+                fulltime: 'Temporary',
                 everyYear: 'Repeat every year',
                 newHoliday: 'New holiday',
                 mon: 'Monday',

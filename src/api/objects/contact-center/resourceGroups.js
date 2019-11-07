@@ -8,9 +8,9 @@ const resGrService = new OutboundResourceGroupServiceApiFactory
 (configuration, process.env.VUE_APP_API_URL, instance);
 
 const domainId = store.getters.getDomainId || undefined;
-const fieldsToSend = ['domain_id', 'name', 'description', 'strategy', 'communication'];
+const fieldsToSend = ['domain_id', 'name', 'description', 'strategy', 'communication', 'time'];
 
-export const getResGroupList = async (size = 100) => {
+export const getResGroupList = async (size = 20) => {
     const defaultObject = {
         isSelected: false,
         name: '',
@@ -43,22 +43,20 @@ export const getResGroup = async (id) => {
             strategy: '',
             description: '',
             communication: {id: 0},
-            resList: ['21', ''],
-            timerange: [
+            time: [
                 {
-                    start: 540,
-                    finish: 1200,
-                    limit: 10,
+                    start: 0,
+                    finish: 0,
                 }
             ],
             id: 0,
         };
 
-        response.data.cps = response.data.rps;
-        response.data.maxErrors = response.data.max_successively_errors;
-        response.data.error_ids = response.data.error_ids || [];
-        response.data.errorIds = response.data.error_ids.map(errCode => {
-            return {text: errCode}
+        response.data.time = response.data.time.map(range => {
+            return {
+                start: range.start_time_of_day || 0,
+                end: range.end_time_of_day || 0,
+            }
         });
 
         return Object.assign({}, defaultObject, response.data);
@@ -69,16 +67,28 @@ export const getResGroup = async (id) => {
 
 export async function addResGroup(item) {
     item.domain_id = domainId;
-
+    item.time = item.time.map(range => {
+        return {
+            start_time_of_day: range.start,
+            end_time_of_day: range.end,
+        }
+    });
     sanitizer(item, fieldsToSend);
     try {
-        await resGrService.createOutboundResourceGroup(item);
+        const response = await resGrService.createOutboundResourceGroup(item);
+        return response.data.id;
     } catch (err) {
         throw err;
     }
 }
 
 export async function updateResGroup(id, item) {
+    item.time = item.time.map(range => {
+        return {
+            start_time_of_day: range.start,
+            end_time_of_day: range.end,
+        }
+    });
     sanitizer(item, fieldsToSend);
     try {
         await resGrService.updateOutboundResourceGroup(id, item);
@@ -94,3 +104,61 @@ export async function deleteResGroup(id) {
         throw err;
     }
 }
+
+export const getResInGroup = async (resGroupId, page = 0, size = 10) => {
+    try {
+        const response = await resGrService.searchOutboundResourceInGroup(resGroupId, page, size);
+        if (response.data.items) {
+            return response.data.items.map(item => {
+                return {
+                    text: item.resource.name,
+                    resId: item.resource.id,
+                    group_id: item.group_id,
+                    id: item.id,
+                }
+            });
+        }
+        return [];
+    } catch (err) {
+        throw err;
+    }
+};
+
+export const addResInGroup = async (resGroupId, item) => {
+    item = {
+        group_id: resGroupId,
+        resource: {
+            name: item.text,
+            id: item.resId
+        }
+    };
+    try {
+        await resGrService.createOutboundResourceInGroup(resGroupId, item);
+    } catch (err) {
+        throw err;
+    }
+};
+
+export const updateResInGroup = async (resGroupId, id, item) => {
+    item = {
+        id: item.id,
+        group_id: resGroupId,
+        resource: {
+            name: item.text,
+            id: item.resId
+        }
+    };
+    try {
+        await resGrService.updateOutboundResourceInGroup(resGroupId, id, item);
+    } catch (err) {
+        throw err;
+    }
+};
+
+export const deleteResInGroup = async (resGroupId, id) => {
+    try {
+        await resGrService.deleteOutboundResourceInGroup(resGroupId, id);
+    } catch (err) {
+        throw err;
+    }
+};

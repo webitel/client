@@ -45,8 +45,11 @@
     border-radius: $border-radius;
 
     .vs__selected {
+      display: inline-block;
+      max-height: 100%;
       margin: 0;
-      overflow-x: hidden;
+      word-break: break-all;
+      overflow: hidden;
     }
 
     input {

@@ -1,11 +1,18 @@
 @import "../../main";
 
+.vuetable-body-wrapper {
+  //overflow: hidden;
+  overflow-x: auto;
+  //display: none;
+}
+
 .vuetable {
   @extend .typo-body-md;
-
   table-layout: fixed;
   text-align: left;
+  max-width: 100%;
   width: 100%;
+  min-width: 776px;
   margin-bottom: 28px;
 
   thead {

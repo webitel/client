@@ -28,11 +28,16 @@
     import openedResourceGroupGeneral from './opened-resource-group-general';
     import openedResourceGroupResources from './opened-resource-group-resources';
     import openedResourceGroupTimerange from './opened-resource-group-timerange';
-
+    import deepEqual from 'deep-equal';
     import editComponentMixin from '@/mixins/editComponentMixin';
     import {required} from 'vuelidate/lib/validators';
-    import {requiredArrayValue} from "@/utils/validators";
-    import {addResGroup, getResGroup, updateResGroup} from "../../../../api/objects/contact-center/resourceGroups";
+    import {requiredArrayValue, timerangeNotIntersect} from "@/utils/validators";
+    import {
+        addResGroup, addResInGroup,
+        deleteResInGroup,
+        getResGroup, getResInGroup,
+        updateResGroup, updateResInGroup
+    } from "../../../../api/objects/contact-center/resourceGroups";
 
     export default {
         name: 'opened-resource-group',
@@ -46,19 +51,20 @@
         data() {
             return {
                 itemInstance: {
-                    name: 'res gr',
-                    communication: {id: 1},
-                    description: 'res gr descr',
-                    strategy: 'str',
-                    resList: ['12', ''],
-                    timerange: [
-                        {
-                            start: 540,
-                            finish: 1200,
-                            limit: 10,
-                        }
-                    ],
+                    resGroup: {
+                        name: 'res gr',
+                        communication: {id: 1},
+                        description: 'res gr descr',
+                        time: [
+                            {
+                                start: 540,
+                                end: 1200,
+                            }
+                        ],
+                    },
+                    resList: [],
                 },
+
                 tabs: [
                     {
                         text: this.$t('objects.general'),
@@ -79,39 +85,87 @@
         // by vuelidate
         validations: {
             itemInstance: {
-                name: {
-                    required
-                },
-                communication: {
-                    required
-                },
-                strategy: {
-                    required
+                resGroup: {
+                    name: {
+                        required
+                    },
+                    communication: {
+                        required
+                    },
+                    strategy: {
+                        required
+                    },
+                    time: {
+                        requiredArrayValue,
+                        timerangeNotIntersect,
+                    }
                 },
                 resList: {
                     requiredArrayValue
                 },
-                timerange: {
-                    requiredArrayValue
-                }
             }
         },
 
         methods: {
-
-            async save() {
-                if (this.id) {
-                    await updateResGroup(this.id, this.itemInstance);
+            async submit() {
+                const isEqualToInitial = deepEqual(this.itemInstance, this.initialItem);
+                if (!isEqualToInitial) {
+                    const validations = this.checkValidations();
+                    if (!validations) {
+                        try {
+                            await this.saveResGroup();
+                            await this.saveResGroupResources();
+                            this.close();
+                        } catch {
+                            this.loadItem();
+                        }
+                    }
                 } else {
-                    await addResGroup(this.itemInstance);
+                    this.close();
                 }
-                this.close();
+            },
+
+            async saveResGroup() {
+                const isItemChanged = !deepEqual(this.itemInstance.resGroup, this.initialItem.resGroup);
+                if (isItemChanged) {
+                    if (this.id) {
+                        await updateResGroup(this.itemInstance.resGroup.id, this.itemInstance.resGroup);
+                    } else {
+                        this.id = await addResGroup(this.itemInstance.resGroup);
+                    }
+                }
+            },
+
+            async saveResGroupResources() {
+                await this.addResList();
+            },
+
+            async addResList() {
+                const newRes = this.itemInstance.resList.filter(res => !res.id);
+                if (newRes.length) {
+                    for (const res of newRes) {
+                        try {
+                            await addResInGroup(this.id, res);
+                        } catch (err) {
+                            throw err;
+                        }
+                    }
+                }
             },
 
             async loadItem() {
-                const response = await getResGroup(this.id);
-                this.itemInstance = response;
-                this.initialItem = JSON.parse(JSON.stringify(response));
+                await this.loadResGroup();
+                await this.loadResList();
+                this.initialItem = JSON.parse(JSON.stringify(this.itemInstance));
+            },
+
+            async loadResGroup() {
+                this.itemInstance.resGroup = await getResGroup(this.id);
+            },
+
+            async loadResList() {
+                const resList = await getResInGroup(this.id);
+                this.itemInstance.resList = [...resList];
             }
         },
     };

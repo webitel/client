@@ -10,7 +10,7 @@
                 :disabled="disabled"
                 :calendar-button="calendarButton"
                 monday-first
-                @input="$emit('input', $event)"
+                @input="$emit('input', $event.getTime())"
         ></v-datepicker>
 
         <validation-message

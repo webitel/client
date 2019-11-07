@@ -30,18 +30,19 @@ describe('opened res group', () => {
         // set new item data
         wrapper.setData({
             itemInstance: {
-                name: 'jest-res-gr',
-                communication: {id: 1},
-                description: 'jest-res-gr',
-                strategy: 'jest-str',
-                resList: ['jest', ''],
-                timerange: [
-                    {
-                        start: 540,
-                        finish: 1200,
-                        limit: 10,
-                    }
-                ],
+                resGroup: {
+                    name: 'jest-res-gr',
+                    communication: {id: 1},
+                    description: 'jest-res-gr',
+                    strategy: 'jest-str',
+                    time: [
+                        {
+                            start: 540,
+                            end: 1200,
+                        }
+                    ],
+                },
+                resList: [{text: 'jest', id: 1}],
             },
         });
 
@@ -71,23 +72,24 @@ describe('opened res group', () => {
         await wrapper.vm.loadItem();
 
         // check if initial item was set correctly
-        expect(wrapper.vm.initialItem.id).toEqual(createdItem.id);
+        expect(wrapper.vm.initialItem.resGroup.id).toEqual(createdItem.id);
 
         // set updated item data
         const newItemInstance = {
             itemInstance: {
-                name: 'upd-jest-res-gr',
-                communication: {id: 1},
-                description: 'upd-jest',
-                strategy: 'upd-jest',
-                resList: ['upd', ''],
-                timerange: [
-                    {
-                        start: 540,
-                        finish: 1200,
-                        limit: 9,
-                    }
-                ],
+                resGroup: {
+                    name: 'upd-jest-res-gr',
+                    communication: {id: 1},
+                    description: 'upd-jest-res-gr',
+                    strategy: 'upd-jest-str',
+                    time: [
+                        {
+                            start: 240,
+                            end: 1240,
+                        }
+                    ],
+                },
+                resList: [{text: 'upd-jest', id: 1}],
             },
         };
         wrapper.setData(newItemInstance);

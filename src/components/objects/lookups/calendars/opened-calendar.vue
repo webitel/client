@@ -55,7 +55,7 @@
                         timezone: {},
                         description: '11calendar',
                         start: Date.now(),
-                        finish: Date.now(),
+                        end: Date.now(),
                         expires: false,
                     },
                     workWeek: [],
@@ -112,9 +112,9 @@
                             await this.saveCalendar();
                             await this.saveWorkWeek();
                             await this.saveHolidays();
-                            // this.close();
+                            this.close();
                         } catch (err) {
-                            // this.loadItem();
+                            this.loadItem();
                         }
                     }
                 } else {
@@ -134,13 +134,13 @@
             },
 
             async saveWorkWeek() {
-                this.addWorkWeek();
-                this.updateWorkWeek();
+                await this.addWorkWeek();
+                await this.updateWorkWeek();
             },
 
             async saveHolidays() {
-                this.addHolidays();
-                this.updateHolidays();
+                await this.addHolidays();
+                await this.updateHolidays();
             },
 
             async addWorkWeek() {
@@ -168,18 +168,13 @@
                 }
             },
             async updateWorkWeek() {
-                // console.log(this.itemInstance.workWeek);
-                // await this.itemInstance.workWeek.forEach(async workday => {
-                //     console.log(workday)
                 for (const workday of this.itemInstance.workWeek) {
-                    console.log(workday);
                     if (workday.id) {
                         const initIndex = this.initialItem.workWeek.findIndex(initialWeekday => {
                             return deepEqual(workday, initialWeekday);
                         });
                         if (initIndex === -1) {
                             try {
-                                console.log('before send', workday);
                                 await updateWorkday(this.id, workday.id, workday);
                             } catch (err) {
                                 throw err;

@@ -6,7 +6,7 @@
         </header>
         <form class="object-input-grid">
             <div>
-                <div class="range" v-for="range in itemInstance.timerange">
+                <div class="range" v-for="(range, key) in itemInstance.resGroup.time">
                     <timepicker
                             v-model="range.start"
                             :label="$t('objects.ccenter.resGroups.timerangeFrom')"
@@ -15,12 +15,17 @@
                     >
                     </timepicker>
                     <timepicker
-                            v-model="range.finish"
+                            v-model="range.end"
                             :label="$t('objects.ccenter.resGroups.timerangeTo')"
                             :v="v.itemInstance.range"
                             required
                     >
                     </timepicker>
+                    <i
+                            class="icon-icon_delete icon-action"
+                            v-if="key !== 0"
+                            @click="deleteValuePair(key)"
+                    ></i>
                 </div>
             </div>
         </form>
@@ -40,12 +45,15 @@
 
         methods: {
             addValuePair() {
-                this.itemInstance.timerange.push({
+                this.itemInstance.resGroup.time.push({
                     start: 540,
-                    finish: 1200,
-                    limit: 10,
+                    end: 1200,
                 });
-            }
+            },
+
+            deleteValuePair(rowIndex) {
+                this.itemInstance.resGroup.time.splice(rowIndex, 1);
+            },
         }
     }
 </script>
@@ -53,8 +61,15 @@
 <style lang="scss" scoped>
     .range {
         display: flex;
+        align-items: center;
+        margin-top: 18px;
+
         .timepicker {
             margin-right: 18px;
+        }
+
+        .icon-action {
+            margin-top: 26px; // timepicker label height
         }
     }
 </style>

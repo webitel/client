@@ -58,7 +58,7 @@ export default {
             }
         },
 
-        checkValidations(validatedInstance) {
+        checkValidations(validatedInstance = 'itemInstance') {
             this.$v[validatedInstance].$touch();
             // if its still pending or an error is returned do not submit
             return this.$v[validatedInstance].$pending ||

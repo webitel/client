@@ -8,32 +8,47 @@
 .object-wrap {
   display: flex;
   width: 100vw;
-  overflow-x: hidden;
-}
-
-.btn-controls {
-  .btn {
-    margin-left: 28px;
-  }
+  //overflow-x: hidden;
 }
 
 // main content itself, without nav but with main header
 .object {
-  flex-grow: 1;
+  flex: 1 0 auto;
+  width: 200px;
+  //padding: 40px;
+  //width: calc(100vw - 272px);
+}
+
+.the-nav__wrap {
+  flex: 0 0 272px;
+  //min-width: 272px;
+  //width: 272px;
+}
+
+.object-content-wrap {
+  //width: 100%;
+  //max-width: 100%;
+  //min-width: 100%;
 }
 
 // inner content section
 .object-content {
   display: flex;
   flex-direction: column;
+  width: 100%;
   min-height: 65vh;
   padding: 38px 58px;
   background: #fff;
   border-radius: $border-radius;
 
-
   .pagination {
     margin: auto 0 0 auto;
+  }
+}
+
+.btn-controls {
+  .btn {
+    margin-left: 28px;
   }
 }
 

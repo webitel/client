@@ -17,14 +17,14 @@
                         v-for="(num, key) in itemInstance.numberList"
                 >
                     <form-input
-                            v-model="itemInstance.numberList[key]"
+                            v-model="num.display"
                             :placeholder="$tc('objects.ccenter.res.numbers', 1)"
                     ></form-input>
 
                     <i
                             class="icon-icon_delete icon-action"
                             v-if="key !== 0"
-                            @click="deleteValuePair(key)"
+                            @click="deleteValuePair(num, key)"
                     ></i>
                 </div>
 
@@ -38,6 +38,7 @@
 
 <script>
     import openedTabComponentMixin from '@/mixins/openedTabComponentMixin';
+    import {deleteResDisplay} from "../../../../api/objects/contact-center/resources";
 
     export default {
         name: "opened-resource-number",
@@ -45,10 +46,11 @@
 
         methods: {
             addValuePair() {
-                this.itemInstance.numberList.push('');
+                this.itemInstance.numberList.push({display: ''});
             },
 
-            deleteValuePair(valuePairId) {
+            async deleteValuePair(value, valuePairId) {
+                await deleteResDisplay(this.id, value.id);
                 this.itemInstance.numberList.splice([valuePairId], 1);
             },
         }

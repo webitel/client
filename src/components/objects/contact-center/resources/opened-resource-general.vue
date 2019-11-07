@@ -5,41 +5,40 @@
         </header>
         <form class="object-input-grid">
             <form-input
-                    v-model.trim="v.itemInstance.name.$model"
-                    :v="v.itemInstance.name"
+                    v-model.trim="v.itemInstance.res.name.$model"
+                    :v="v.itemInstance.res.name"
                     :label="$t('objects.name')"
                     :placeholder="$t('objects.name')"
                     required
             ></form-input>
 
             <dropdown-select
-                    :value="v.itemInstance.gateway"
-                    :v="v.itemInstance.gateway"
-                    :options="[]"
+                    v-model="itemInstance.res.gateway"
+                    :v="v.itemInstance.res.gateway"
+                    :options="gatewayList"
                     :label="$tc('objects.routing.gateways.gateways', 1)"
                     :placeholder="$tc('objects.routing.gateways.gateways', 1)"
-                    @input="v.itemInstance.gateway = $event"
                     required
             ></dropdown-select>
 
             <form-input
-                    v-model.trim="v.itemInstance.cps.$model"
-                    :v="v.itemInstance.cps"
+                    v-model.trim="v.itemInstance.res.cps.$model"
+                    :v="v.itemInstance.res.cps"
                     :label="$t('objects.ccenter.res.cps')"
                     :placeholder="$t('objects.ccenter.res.cps')"
                     required
             ></form-input>
 
             <form-input
-                    v-model.trim="v.itemInstance.limit.$model"
-                    :v="v.itemInstance.limit"
+                    v-model.trim="v.itemInstance.res.limit.$model"
+                    :v="v.itemInstance.res.limit"
                     :label="$t('objects.ccenter.res.limit')"
                     :placeholder="$t('objects.ccenter.res.limit')"
                     required
             ></form-input>
 
             <form-input
-                    v-model="itemInstance.description"
+                    v-model="itemInstance.res.description"
                     :label="$t('objects.description')"
                     :placeholder="$t('objects.description')"
                     textarea
@@ -50,9 +49,25 @@
 
 <script>
     import openedTabComponentMixin from '@/mixins/openedTabComponentMixin';
+    import {getGatewayNameIdPair} from "../../../../api/objects/contact-center/resources";
 
     export default {
         name: "opened-resource-general",
         mixins: [openedTabComponentMixin],
+        data() {
+            return {
+                gatewayList: [],
+            }
+        },
+
+        mounted() {
+            this.loadGatewayList();
+        },
+
+        methods: {
+            async loadGatewayList() {
+               this.gatewayList = await getGatewayNameIdPair();
+            }
+        }
     }
 </script>

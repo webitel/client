@@ -4,11 +4,11 @@
             :class="{'collapsed': collapsed}"
             v-clickaway="closeAllExpands"
     >
-        <header class="nav__header">
-            <i class="icon-icon_delete icon-icon_menu" @click="toggleCollapse"></i>
-            <img class="logo" src="../assets/img/logo.svg" alt="logo">
-        </header>
         <nav class="the-nav expanded-nav">
+            <header class="nav__header">
+                <i class="icon-icon_delete icon-icon_menu" @click="toggleCollapse"></i>
+                <img class="logo" src="../assets/img/logo.svg" alt="logo">
+            </header>
             <ul class="nav-items">
                 <li
                         class="nav-item-wrap"
@@ -57,7 +57,6 @@
         data() {
             return {
                 collapsed: false,
-
                 nav: [
                     {
                         name: 'directory',
@@ -385,10 +384,10 @@
 
     .the-nav__wrap {
         @extend .box-shadow;
-
+        /*flex-basis: 272px;*/
         position: relative;
-        min-width: 272px;
-        width: 272px;
+        /*min-width: 272px;*/
+        /*width: 272px;*/
         min-height: 100vh;
         background: $nav-bg-color;
         z-index: 101;
@@ -483,8 +482,9 @@
         }
 
         &.collapsed {
-            min-width: 64px;
-            width: 64px;
+            flex-basis: 64px;
+            /*min-width: 64px;*/
+            /*width: 64px;*/
 
             .nav__header {
                 .logo {
