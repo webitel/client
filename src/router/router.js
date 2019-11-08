@@ -72,6 +72,11 @@ const router = new Router({
                     component: devices
                 },
                 {
+                    path:'/directory/devices/:id',
+                    name: 'directory-devices-edit',
+                    component: openedDevice
+                },
+                {
                     path:'/directory/devices/new',
                     name: 'directory-devices-new',
                     component: openedDevice
