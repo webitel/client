@@ -4,19 +4,23 @@
             <h3 class="content-title">{{$t('objects.license.license')}}</h3>
         </header>
         <form class="object-input-grid">
-            <ul class="checkbox-list">
-                <li
-                        class="checkbox-list__item"
-                        v-for="item in licenseProducts"
+            <div class="tags-input-wrap">
+                <div class="tags-input__label">
+                    {{$t('objects.directory.users.roleAdmin')}}
+                </div>
 
+                <tags-input
+                        v-model="licenseTag"
+                        :tags="itemInstance.license"
+                        :autocomplete-items="licenseOptions"
+                        :autocomplete-min-length="0"
+                        :placeholder="$t('objects.license.license')"
+                        @tags-changed="newTags => this.itemInstance.license = newTags"
+                        add-only-from-autocomplete
+                        autocomplete-filter-duplicates
                 >
-                    <checkbox
-                            :value="item.allowed"
-                            :label="item.text"
-                            @toggleCheckbox="item.allowed = $event"
-                    ></checkbox>
-                </li>
-            </ul>
+                </tags-input>
+            </div>
         </form>
     </section>
 </template>
@@ -29,7 +33,8 @@
         mixins: [openedTabComponentMixin],
         data() {
             return {
-                licenseProducts: [
+                licenseTag: '',
+                licenseOptions: [
                     {text: 'Product 1', allowed: false},
                     {text: 'Product 2', allowed: false},
                     {text: 'Product 3', allowed: false},

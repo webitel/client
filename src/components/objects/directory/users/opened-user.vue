@@ -5,7 +5,7 @@
                 :primaryAction="submit"
                 close
         >
-            <span>{{$t('objects.usersObject.users')}}</span>
+            <span>{{$tc('objects.directory.users.users', 1)}}</span>
             | {{computeTitle}}
         </object-header>
         <section class="object-content module-new object-with-tabs">
@@ -53,6 +53,7 @@
                     extension: '',
                     roleTags: [{text: 'Admin', isAdmin: false}],
                     roleAdmin: [],
+                    license: [],
                     deviceTags: [{text: 'Dev1', isAdmin: false}],
                     variables: [
                         {key: '', value: ''}

@@ -25,7 +25,7 @@
 
                 <div class="tags-input-wrap">
                     <div class="tags-input__label">
-                        {{$t('objects.usersObject.roleAdmin')}}
+                        {{$t('objects.directory.users.roleAdmin')}}
                     </div>
 
                     <tags-input
@@ -33,7 +33,7 @@
                             :tags="itemInstance.roleAdmin"
                             :autocomplete-items="itemInstance.roleTags"
                             :autocomplete-min-length="0"
-                            :placeholder="$t('objects.usersObject.roleAdmin')"
+                            :placeholder="$t('objects.directory.users.roleAdmin')"
                             @tags-changed="newTags => this.itemInstance.admin = newTags"
                             add-only-from-autocomplete
                             autocomplete-filter-duplicates
@@ -71,7 +71,7 @@
                 const response = await getRoleList();
                 this.dropdownOptionsList = response.map(item => {
                     return {
-                        text: item.role,
+                        text: item.name,
                         id: item.id,
                     }
                 });

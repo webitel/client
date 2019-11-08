@@ -3,14 +3,14 @@
         <object-header
                 :primary-action="create"
         >
-            {{$t('objects.directory')}} | {{$t('objects.usersObject.users')}}
+            {{$t('objects.directory.directory')}} | {{$tc('objects.directory.users.users', 2)}}
         </object-header>
 
-        <upload-popup v-if="popupTriggerIf" @close="closeCSVpopup"></upload-popup>
+        <upload-popup v-if="popupTriggerIf" @close="popupTriggerIf = false"></upload-popup>
 
         <section class="object-content">
             <header class="content-header">
-                <h3 class="content-title">{{$t('objects.usersObject.allUsers')}}</h3>
+                <h3 class="content-title">{{$t('objects.directory.users.allUsers')}}</h3>
                 <div class="content-header__actions-wrap">
                     <search
                             @filterData="filterData"
@@ -121,11 +121,11 @@
                 fields: [
                     _checkboxTableField,
                     {name: 'name', title: this.$t('objects.name')},
-                    {name: 'login', title: this.$t('objects.usersObject.login')},
-                    {name: 'extensions', title: this.$t('objects.usersObject.extentions')},
-                    {name: 'state', title: this.$t('objects.usersObject.state')},
-                    {name: 'DnD', title: this.$t('objects.usersObject.DnD')},
-                    {name: 'status', title: this.$t('objects.usersObject.status')},
+                    {name: 'login', title: this.$t('objects.directory.users.login')},
+                    {name: 'extensions', title: this.$t('objects.directory.users.extensions')},
+                    {name: 'state', title: this.$t('objects.directory.users.state')},
+                    {name: 'DnD', title: this.$t('objects.directory.users.DnD')},
+                    {name: 'status', title: this.$t('objects.directory.users.status')},
                     _actionsTableField_2,
                 ],
                 propertiesToSearch: ['head', 'login', 'extensions', 'status'],
@@ -185,7 +185,7 @@
             processCSV(event) {
                 const file = event.target.files[0];
                 if (file) {
-                    this.isPopupOpened = true;
+                    this.popupTriggerIf = true;
                 }
             },
 

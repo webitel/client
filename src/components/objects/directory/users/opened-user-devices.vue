@@ -1,41 +1,31 @@
 <template>
     <section>
         <header class="content-header">
-            <h3 class="content-title">{{$t('objects.devices.devices')}}</h3>
+            <h3 class="content-title">{{$t('objects.directory.devices.devices')}}</h3>
         </header>
         <form class="object-input-grid">
             <div class="tags-input-wrap">
                 <div class="tags-input__label">
-                    {{$t('objects.devices.devices')}}
-                    <div class="hint">
-                        <i
-                                class="hint__img tooltip-activator icon-icon_question"
-                        ></i>
-                        <div class="tooltip-left">lorem ipsum</div>
-                    </div>
+                    {{$t('objects.directory.devices.devices')}}
                 </div>
 
                 <tags-input
                         v-model="deviceTag"
-                        :tags="deviceTags"
+                        :tags="itemInstance.deviceTags"
                         :autocomplete-items="deviceList"
                         :autocomplete-min-length="0"
-                        :placeholder="$t('objects.devices.devices')"
-                        @tags-changed="newTags => this.deviceTags = newTags"
+                        :placeholder="$t('objects.directory.devices.devices')"
+                        @tags-changed="newTags => this.itemInstance.deviceTags = newTags"
                         add-only-from-autocomplete
                         autocomplete-filter-duplicates
                 >
-
                 </tags-input>
 
                 <div class="hint-link__wrap">
-                    <router-link class="hint-link__link" to="/directory/devices/new">{{$t('objects.usersObject.deviceNotFound')}}</router-link>
-                    <div class="hint">
-                        <i
-                                class="hint__img tooltip-activator icon-icon_question"
-                        ></i>
-                        <div class="tooltip-left">lorem ipsum</div>
-                    </div>
+                    <span>{{$t('objects.directory.users.deviceNotFound')}}</span>
+                    <router-link class="hint-link__link" to="/directory/devices/new">
+                        {{$t('objects.directory.users.createNewDevice')}}
+                    </router-link>
                 </div>
             </div>
         </form>
@@ -62,6 +52,11 @@
     }
 </script>
 
-<style scoped>
+<style lang="scss" scoped>
+    .hint-link__wrap {
+        @extend .typo-body-md;
 
+        margin-top: 8px;
+        color: $label-color;
+    }
 </style>
