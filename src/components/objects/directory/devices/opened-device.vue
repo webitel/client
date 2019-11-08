@@ -18,28 +18,6 @@
                     :itemInstanceProp="itemInstance"
                     :v="$v"
             ></component>
-            <!--                    <header class="content-header">-->
-            <!--                        <h3 class="content-title">{{$t('objects.devices.deviceHistory')}}</h3>-->
-            <!--                        <div class="content-header__actions-wrap">-->
-            <!--                            <datepicker-->
-            <!--                                    v-model="historyDate"-->
-            <!--                                    :format="'d MMMM yyyy'"-->
-            <!--                                    :calendar-button-icon="'icon-icon_arrow-down'"-->
-            <!--                                    :maximum-view="'day'"-->
-            <!--                                    monday-first-->
-            <!--                                    full-month-name-->
-            <!--                                    calendar-button-->
-            <!--                            ></datepicker>-->
-            <!--                        </div>-->
-            <!--                    </header>-->
-            <!--                    <vuetable-->
-            <!--                            class="devices-history-table"-->
-            <!--                            :api-mode="false"-->
-            <!--                            :fields="fields"-->
-            <!--                            :data="history"-->
-            <!--                    >-->
-
-            <!--                    </vuetable>-->
         </section>
     </div>
 </template>
@@ -92,15 +70,6 @@
                         value: 'phoneInfo',
                     },
                 ],
-
-                // history: [],
-                // historyDate: new Date,
-                // vuetable prop
-                // fields: [
-                //     {name: 'login', title: this.$t('objects.devices.loggedIn')},
-                //     {name: 'logout', title: this.$t('objects.devices.loggedOut')},
-                //     {name: 'user', title: this.$t('objects.user')},
-                // ],
             }
         },
 
@@ -116,16 +85,6 @@
                     required,
                 },
             },
-        },
-        mounted() {
-            // for (let i = 0; i < 7; i++) {
-            //     this.history.push({
-            //         login: '5 August 2019, 10:16 AM',
-            //         logout: '5 August 2019, 10:16 AM',
-            //         user: `User ${i}`,
-            //         id: i,
-            //     });
-            // }
         },
     }
 </script>

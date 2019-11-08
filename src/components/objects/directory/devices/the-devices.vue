@@ -4,9 +4,10 @@
         <object-header
                 :primaryAction="create"
         >
-            {{$t('objects.directory.directory')}} | {{$t('objects.directory.devices.devices')}}
+            {{$t('objects.directory.directory')}} | {{$tc('objects.directory.devices.devices', 2)}}
         </object-header>
 
+        <history-popup v-if="historyPopupTriggerIf" @close="historyPopupTriggerIf = false"></history-popup>
         <upload-popup v-if="popupTriggerIf" @close="popupTriggerIf = false"></upload-popup>
 
         <section class="object-content">
@@ -77,6 +78,9 @@
                 </template>
 
                 <template slot="actions" slot-scope="props">
+                    <i class="vuetable-action icon-icon_generate"
+                       @click="read(props.rowIndex)"
+                    ></i>
                     <i class="vuetable-action icon-icon_edit"
                        @click="edit(props.rowIndex)"
                     ></i>
@@ -90,14 +94,16 @@
 </template>
 
 <script>
+    import historyPopup from './device-history-popup';
     import tableFilter from '../../utils/table-filter';
     import uploadPopup from '../../utils/upload-popup';
-    import {_checkboxTableField, _actionsTableField_2} from "@/utils/tableFieldPresets";
+    import {_checkboxTableField, _actionsTableField_3} from "@/utils/tableFieldPresets";
     import tableComponentMixin from '@/mixins/tableComponentMixin';
 
     export default {
         name: 'the-devices',
         components: {
+            historyPopup,
             uploadPopup,
             tableFilter,
         },
@@ -112,7 +118,7 @@
                     {name: 'authId', title: this.$t('objects.directory.devices.authId')},
                     {name: 'user', title: this.$t('objects.user')},
                     {name: 'presence', title: this.$t('objects.directory.devices.presence')},
-                    _actionsTableField_2,
+                    _actionsTableField_3,
                 ],
 
                 propertiesToSearch: ['head', 'authId', 'user'],
@@ -123,9 +129,14 @@
                     }
                 },
 
+                historyPopupTriggerIf: false,
                 isFilterOpenedClassTrigger: false,
                 csvFile: null
             };
+        },
+
+        mounted() {
+            this.handleHistoryPopup();
         },
 
         methods: {
@@ -133,11 +144,24 @@
                 this.$router.push('/directory/devices/new');
             },
 
+            read(rowIndex) {
+                this.$router.push({
+                    name: 'directory-devices',
+                    query: {history: this.filteredDataList[rowIndex].id},
+                });
+            },
+
             edit(rowId) {
                 this.$router.push({
                     name: 'directory-devices-edit',
                     params: {id: this.filteredDataList[rowId].id},
                 });
+            },
+
+            handleHistoryPopup() {
+                if(this.$route.query.history) {
+                    this.historyPopupTriggerIf = true;
+                }
             },
 
             processCSV(event) {

@@ -158,6 +158,7 @@ export default {
                 deviceHistory: 'Device history',
                 loggedIn: 'Logged In',
                 loggedOut: 'Logged Out',
+                ok: 'Ok',
             },
         },
         permissions: {
