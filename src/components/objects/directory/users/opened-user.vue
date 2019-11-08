@@ -9,7 +9,6 @@
             | {{computeTitle}}
         </object-header>
         <section class="object-content module-new object-with-tabs">
-
             <tabs
                     :currentTab="currentTab"
                     :tabs="tabs"

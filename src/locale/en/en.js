@@ -142,7 +142,7 @@ export default {
               varVal: 'Value',
           },
             devices: {
-                devices: 'Devices',
+                devices: 'Device | Devices',
                 allDevices: 'All devices',
                 searchPlaceholder: 'Name, user, auth ID & desk ID',
                 authId: 'Auth ID',
@@ -153,6 +153,8 @@ export default {
                 phone: 'Phone',
                 vendor: 'Vendor',
                 model: 'Model',
+                ipv4: 'IPv4',
+                mac: 'MAC',
                 deviceHistory: 'Device history',
                 loggedIn: 'Logged In',
                 loggedOut: 'Logged Out',
