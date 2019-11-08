@@ -30,7 +30,7 @@
                 <template slot="name" slot-scope="props">
                     <div class="tt-capitalize">
                         <span class="nameLink" @click="edit(props.rowIndex)">
-                        {{filteredDataList[props.rowIndex].role}}
+                        {{filteredDataList[props.rowIndex].name}}
                         </span>
                     </div>
                 </template>
@@ -72,7 +72,6 @@
                     {name: 'description', title: this.$t('objects.description')},
                     _actionsTableField_2,
                 ],
-                filterProperties: ['role'],
             };
         },
 
@@ -92,8 +91,8 @@
                 await deleteRole(item.id);
             },
 
-            async loadDataList() {
-                const response = await getRoleList();
+            async loadDataList(searchPattern = '') {
+                const response = await getRoleList(searchPattern);
                 this.dataList = [...response].reverse();
                 this.filterData();
             }

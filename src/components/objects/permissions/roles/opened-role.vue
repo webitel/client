@@ -15,8 +15,8 @@
 
             <form class="new_w50">
                 <form-input
-                        v-model.trim="$v.itemInstance.role.$model"
-                        :v="$v.itemInstance.role"
+                        v-model.trim="$v.itemInstance.name.$model"
+                        :v="$v.itemInstance.name"
                         :label="$t('objects.name')"
                         :placeholder="$t('objects.name')"
                         required
@@ -37,7 +37,6 @@
 <script>
     import editComponentMixin from '@/mixins/editComponentMixin';
     import {required} from 'vuelidate/lib/validators';
-
     import {addRole, getRole, updateRole} from "@/api/objects/permissions/roles";
 
     export default {
@@ -47,16 +46,15 @@
         data() {
             return {
                 itemInstance: {
-                    role: 'front-role',
+                    name: 'front-role',
                     // description: '',
                 },
             };
         },
 
-        // by vuelidate
         validations: {
             itemInstance: {
-                role: {
+                name: {
                     required
                 }
             }
@@ -72,11 +70,9 @@
                 this.close();
             },
 
-            // load current role from backend
             async loadItem() {
-                const response = await getRole(this.id);
-                this.itemInstance = response.role;
-                this.initialItem = JSON.parse(JSON.stringify(response.role));
+                this.itemInstance = await getRole(this.id);
+                this.initialItem = JSON.parse(JSON.stringify(this.itemInstance));
             }
         },
     };
