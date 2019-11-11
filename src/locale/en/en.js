@@ -241,6 +241,13 @@ export default {
             protocol: 'Protocol',
             port: 'Port',
             configuration: 'Configuration',
+            schema: 'Flow schema',
+
+            dialplan: {
+                dialplan: 'Dialplan',
+                dialplanRules: 'Dialplan rules',
+                pattern: 'Destination number',
+            },
 
             gateways: {
                 gateways: 'Gateway | Gateways',
