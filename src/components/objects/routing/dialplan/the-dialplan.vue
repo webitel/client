@@ -24,7 +24,7 @@
             </header>
 
             <vuetable
-                    class="permissions-table"
+                    ref="vuetable"
                     :api-mode="false"
                     :fields="fields"
                     :data="filteredDataList"
@@ -51,7 +51,7 @@
 
                 <template slot="enabled" slot-scope="props">
                     <switcher
-                        v-model="filteredDataList[props.rowIndex].enabled"
+                            v-model="filteredDataList[props.rowIndex].enabled"
                     >
 
                     </switcher>
@@ -76,10 +76,11 @@
 <script>
     import tableComponentMixin from '@/mixins/tableComponentMixin';
     import {_checkboxTableField, _actionsTableField_3, _switcherWidth} from "@/utils/tableFieldPresets";
+    import tableDragnDropMixin from "../../../../mixins/tableDragnDropMixin";
 
     export default {
         name: "the-dialplan",
-        mixins: [tableComponentMixin],
+        mixins: [tableComponentMixin, tableDragnDropMixin],
         data() {
             return {
                 fields: [
@@ -111,9 +112,9 @@
 
             async loadDataList() {
                 // this.dataList = await getCommunicationsList();
-                for(let i = 0; i < 10; i++) {
+                for (let i = 0; i < 10; i++) {
                     this.dataList.push({
-                        name: 'dialplan '+i,
+                        name: 'dialplan ' + i,
                         pattern: '^\\+?(7|8)?(\\d{10,11})$',
                         schema: {name: 'schema name'},
                         enabled: !!Math.round(Math.random()),
@@ -127,6 +128,10 @@
     }
 </script>
 
-<style lang="scss" scoped>
-
+<style lang="scss">
+    .curr-dragged {
+        background: transparent;
+        color: transparent !important;
+        border: 1px solid #4ca1af;
+    }
 </style>
