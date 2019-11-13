@@ -59,6 +59,7 @@
 
                 <template slot="actions" slot-scope="props">
                     <i class="vuetable-action icon-icon_check"
+                       @click="moveRowTop(props.rowIndex)"
                     ></i>
                     <i class="vuetable-action icon-icon_edit"
                        @click="edit(props.rowIndex)"
@@ -76,11 +77,10 @@
 <script>
     import tableComponentMixin from '@/mixins/tableComponentMixin';
     import {_checkboxTableField, _actionsTableField_3, _switcherWidth} from "@/utils/tableFieldPresets";
-    import tableDragnDropMixin from "../../../../mixins/tableDragnDropMixin";
 
     export default {
         name: "the-dialplan",
-        mixins: [tableComponentMixin, tableDragnDropMixin],
+        mixins: [tableComponentMixin],
         data() {
             return {
                 fields: [
@@ -95,6 +95,13 @@
         },
 
         methods: {
+            moveRowTop(rowIndex) {
+                const tmp = this.dataList[rowIndex];
+                this.dataList[rowIndex] = this.dataList[rowIndex-1];
+                this.dataList[rowIndex-1] = tmp;
+                this.filterData();
+            },
+
             create() {
                 this.$router.push('/routing/dialplan/new');
             },
@@ -128,10 +135,6 @@
     }
 </script>
 
-<style lang="scss">
-    .curr-dragged {
-        background: transparent;
-        color: transparent !important;
-        border: 1px solid #4ca1af;
-    }
+<style lang="scss" scoped>
+
 </style>
