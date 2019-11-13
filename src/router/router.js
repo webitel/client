@@ -32,6 +32,7 @@ import sipGateways from '../components/objects/routing/sip-gateways/the-sip-gate
 import openedRegGateway from '../components/objects/routing/sip-gateways/opened-register-sip-gateway';
 import openedTrunkGateway from '../components/objects/routing/sip-gateways/opened-trunking-sip-gateway';
 import dialplan from '../components/objects/routing/dialplan/the-dialplan';
+import openedDialplan from '../components/objects/routing/dialplan/opened-dialplan';
 import theResources from '../components/objects/contact-center/resources/the-resources';
 import openedResource from '../components/objects/contact-center/resources/opened-resource';
 import resourceGroups from '../components/objects/contact-center/resource-groups/the-resource-groups';
@@ -95,6 +96,16 @@ const router = new Router({
                     path: '/routing/dialplan',
                     name: 'dialplan',
                     component: dialplan,
+                },
+                {
+                    path: '/routing/dialplan/new',
+                    name: 'dialplan-new',
+                    component: openedDialplan,
+                },
+                {
+                    path: '/routing/dialplan/:id',
+                    name: 'dialplan-edit',
+                    component: openedDialplan,
                 },
                 {
                     path:'/routing/gateways',

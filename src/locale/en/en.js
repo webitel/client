@@ -247,6 +247,7 @@ export default {
                 dialplan: 'Dialplan',
                 dialplanRules: 'Dialplan rules',
                 pattern: 'Destination number',
+                dialplanRule: 'Dialplan rule',
             },
 
             gateways: {
