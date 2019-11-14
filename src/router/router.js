@@ -31,6 +31,8 @@ import openedContactType from '../components/objects/lookups/contact-type/opened
 import sipGateways from '../components/objects/routing/sip-gateways/the-sip-gateways';
 import openedRegGateway from '../components/objects/routing/sip-gateways/opened-register-sip-gateway';
 import openedTrunkGateway from '../components/objects/routing/sip-gateways/opened-trunking-sip-gateway';
+import flow from '../components/objects/routing/flow/the-flow';
+import openedFlow from '../components/objects/routing/flow/opened-flow';
 import dialplan from '../components/objects/routing/dialplan/the-dialplan';
 import openedDialplan from '../components/objects/routing/dialplan/opened-dialplan';
 import theResources from '../components/objects/contact-center/resources/the-resources';
@@ -92,6 +94,21 @@ const router = new Router({
 
 
                 // ----------ROUTING------------
+                {
+                    path: '/routing/flow',
+                    name: 'flow',
+                    component: flow,
+                },
+                {
+                    path: '/routing/flow/new',
+                    name: 'flow-new',
+                    component: openedFlow,
+                },
+                {
+                    path: '/routing/flow/:id',
+                    name: 'flow-edit',
+                    component: openedFlow,
+                },
                 {
                     path: '/routing/dialplan',
                     name: 'dialplan',

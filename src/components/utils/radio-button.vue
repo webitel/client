@@ -5,7 +5,7 @@
     >
         <input
                 type="checkbox"
-                :checked="value"
+                :checked="value === option"
         >
         <span class="radio-button"></span>
         {{computeLabel}}
@@ -17,18 +17,20 @@
         name: "radio-button",
         props: {
             value: {
-                type: Boolean,
+                type: String,
                 required: true
+            },
+
+            option: {
+                type: String,
+                required: true,
             },
             // may be a string, or object with true/false values
             label: {},
         },
         methods: {
             changeValue() {
-                // =============================== ATTENTION!!!!!============================================
-                // WE PASS INVERTED CHECKBOX VALUE
-                // BECAUSE CLICK EVENT FIRES BEFORE CHECKBOX CHANGE
-                this.$emit('input', !this.value);
+                this.$emit('input', this.option);
             }
         },
         computed: {
@@ -51,9 +53,8 @@
         display: block;
         position: relative;
         height: 24px;
-        width: 24px;
-        padding-left: 35px;
-        margin-bottom: 12px;
+        min-width: 24px;
+        padding-left: 32px;
         cursor: pointer;
         user-select: none;
     }
@@ -70,12 +71,11 @@
     /* Create a custom radio button */
     .radio-button {
         position: absolute;
-        top: 50%;
-        left: 50%;
+        //bottom: -2px;
+        left: 0;
         height: 18px;
         width: 18px;
         border: 2px solid $radio-button-color;
-        transform: translate(-50%, -50%);
         background-color: #fff;
         border-radius: 50%;
         transition: $transition;

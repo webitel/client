@@ -242,6 +242,24 @@ export default {
             port: 'Port',
             configuration: 'Configuration',
             schema: 'Flow schema',
+            json: 'JSON',
+
+            flow: {
+                flow: 'Flow',
+                allFlowSchemas: 'All flow schemas',
+                newFlow: 'New schema',
+                type: 'Type',
+                debug: 'Debug',
+                newFlowDescription: 'Choose a template to get going, or start from scratch with a blank canvas',
+                generalFlow: 'General schema',
+                generalFlowDescription: 'lorem ipsum',
+                visual: 'Visual schema',
+                json: 'JSON schema',
+                callFlow: 'Callflow schema',
+                callFlowDescription: 'lorem ipsum',
+                visualDescription: 'lorem ipsum',
+                jsonDescription: 'lorem ipsum',
+            },
 
             dialplan: {
                 dialplan: 'Dialplan',

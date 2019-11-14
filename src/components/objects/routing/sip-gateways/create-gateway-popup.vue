@@ -3,7 +3,7 @@
         :title="$t('objects.routing.gateways.newGateway')"
         :primaryBtnText="$t('objects.create')"
         :primaryBtnAction="createItemInstance"
-        :disableAction="!!this.chosenOption"
+        :disableAction="!!this.selectedOption"
         @close="$emit('close')"
     >
         <section>
@@ -58,22 +58,22 @@
 
         data() {
             return {
-                chosenOption: ''
+                selectedOption: ''
             }
         },
 
 
         methods: {
-            choosePopupOption(option) {
+            selectPopupOption(option) {
                 this.chosenOption = option;
             },
 
             createItemInstance() {
-                if(this.chosenOption) this.$router.push('/routing/gateways/'+this.chosenOption+'/new');
+                if(this.selectedOption) this.$router.push('/routing/gateways/'+this.selectedOption+'/new');
             },
 
-            computeChosenOption(option) {
-                return option === this.chosenOption;
+            computeSelectedOption(option) {
+                return option === this.selectedOption;
             },
         },
 
