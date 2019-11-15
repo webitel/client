@@ -128,6 +128,12 @@
                         expanded: false,
                         subnav: [
                             {
+                                name: 'blacklist',
+                                displayName: this.$t('nav.lookups.blacklists'),
+                                route: '/lookups/blacklist',
+                                current: false,
+                            },
+                            {
                                 name: 'agent-skills',
                                 displayName: this.$t('nav.lookups.agentSkills'),
                                 route: '/lookups/agent-skills',

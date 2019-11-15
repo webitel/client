@@ -42,6 +42,7 @@ export default {
         },
         lookups: {
             lookups: 'Lookups',
+            blacklists: 'Blacklist',
             agentSkills: 'Agent skills',
             calendars: 'Calendars',
             communications: 'Communication types',
@@ -190,6 +191,11 @@ export default {
         },
         lookups: {
             lookups: 'Lookups',
+            blacklist: {
+                blacklist: 'Blacklist | Blacklists',
+                allBlacklists: 'All blacklists',
+                numbersCount: 'Numbers',
+            },
             skills: {
                 skills: 'Agent skill | Agent skills',
                 allSkills: 'All skills'

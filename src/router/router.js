@@ -18,6 +18,8 @@ import openedUser from '../components/objects/directory/users/opened-user';
 import customers from '../components/objects/administration/license/the-customers';
 import agentSkills from '../components/objects/lookups/agent-skills/the-agent-skills';
 import openedAgentSkill from '../components/objects/lookups/agent-skills/opened-agent-skill';
+import blacklists from '../components/objects/lookups/blacklists/the-blacklists';
+import openedBlacklist from '../components/objects/lookups/blacklists/opened-blacklist';
 import calendars from '../components/objects/lookups/calendars/the-calendars';
 import openedCalendar from '../components/objects/lookups/calendars/opened-calendar';
 import leadStatus from '../components/objects/lookups/lead-status/the-lead-status';
@@ -153,6 +155,21 @@ const router = new Router({
 
 
                 // ----------LOOKUPS------------
+                {
+                    path:'/lookups/blacklist',
+                    name: 'blacklists',
+                    component: blacklists
+                },
+                {
+                    path:'/lookups/blacklist/new',
+                    name: 'blacklist-new',
+                    component: openedBlacklist
+                },
+                {
+                    path:'/lookups/blacklist/:id',
+                    name: 'blacklist-edit',
+                    component: openedBlacklist
+                },
                 {
                     path:'/lookups/skills',
                     name: 'skills-lookup',

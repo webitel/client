@@ -24,7 +24,6 @@
             </header>
 
             <vuetable
-                    class="permissions-table"
                     :api-mode="false"
                     :fields="fields"
                     :data="filteredDataList"
