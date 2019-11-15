@@ -84,7 +84,6 @@
             },
 
             addHoliday(item) {
-                console.log(this.editedIndex);
                 if(this.editedIndex === null) this.itemInstance.holidays.push(item);
                 this.popupTriggerIf = false;
                 this.editedIndex = null;

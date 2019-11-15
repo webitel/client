@@ -1,5 +1,12 @@
 <template>
-    <section class="">
+    <section>
+        <number-popup
+                v-if="popupTriggerIf"
+                :value="dataList[editedIndex]"
+                @addItem="addItem"
+                @close="popupTriggerIf = false"
+        ></number-popup>
+
         <header class="content-header">
             <h3 class="content-title">{{$t('objects.lookups.blacklist.allBlacklists')}}</h3>
             <div class="content-header__actions-wrap">
@@ -12,7 +19,7 @@
                         @click="deleteSelected"
                 ></i>
                 <i class="icon-action icon-icon_upload"></i>
-                <i class="icon-action icon-icon_plus"></i>
+                <i class="icon-action icon-icon_plus" @click="create"></i>
             </div>
         </header>
 
@@ -50,13 +57,18 @@
     import openedTabComponentMixin from '@/mixins/openedTabComponentMixin';
     import tableComponentMixin from '@/mixins/tableComponentMixin';
     import {_checkboxTableField, _actionsTableField_3} from "@/utils/tableFieldPresets";
+    import numberPopup from './opened-blacklist-number-popup';
 
     export default {
         name: "opened-blacklist-numbers",
         mixins: [openedTabComponentMixin, tableComponentMixin],
+        components: {
+            numberPopup
+        },
         data() {
             return {
                 filterProperties: ['number'],
+                editedIndex: null,
                 fields: [
                     _checkboxTableField,
                     {name: 'number', title: this.$tc('objects.lookups.blacklist.number', 1)},
@@ -68,17 +80,26 @@
 
         methods: {
             create() {
-                // this.$router.push('/lookups/blacklist/new');
+                this.popupTriggerIf = true;
             },
 
-            edit(rowId) {
-                // this.$router.push({
-                //     name: 'blacklist-edit',
-                //     params: {id: this.filteredDataList[rowId].id},
-                // });
+            edit(rowIndex) {
+                this.editedIndex = rowIndex;
+                console.log(this.dataList[this.editedIndex])
+                this.popupTriggerIf = true;
             },
 
-            async deleteItem(item) {
+            addItem(item) {
+                item.isSelected = false;
+                if(this.editedIndex === null) this.dataList.push(item);
+                this.popupTriggerIf = false;
+                this.editedIndex = null;
+                this.filterData();
+            },
+
+            async deleteItem(delItem) {
+                const index = this.dataList.findIndex(item => item === delItem);
+                this.dataList.splice(index, 1);
                 // await deleteCommunication(item.id);
             },
 

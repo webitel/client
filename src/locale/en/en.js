@@ -204,6 +204,7 @@ export default {
                 blacklist: 'Blacklist | Blacklists',
                 allBlacklists: 'All blacklists',
                 number: 'Number | Numbers',
+                newNumber: 'New number',
                 numbersCount: 'Numbers',
             },
             skills: {
