@@ -13,7 +13,7 @@
             ></form-input>
 
             <dropdown-select
-                    :options="timezoneList"
+                    :options="dropdownOptionsList"
                     :displayProperty="'name'"
                     :label="$t('objects.lookups.calendars.timezone')"
                     :placeholder="$t('objects.lookups.calendars.timezone')"
@@ -62,7 +62,6 @@
     import datepicker from '@/components/utils/datepicker';
     import openedTabComponentMixin from '@/mixins/openedTabComponentMixin';
     import {getCalendarTimezones} from "../../../../api/objects/lookups/calendars";
-    import debounce from "../../../../utils/debounce";
 
     export default {
         name: "opened-calendar-general",
@@ -72,32 +71,13 @@
         },
 
         data() {
-            return {
-                timezoneList: [],
-                searchValue: '',
-            }
-        },
-
-        mounted() {
-            this.loadTimezones();
-        },
-
-        computed: {
-            debounceSearch() {
-                return debounce(this.loadTimezones);
-            }
+            return {}
         },
 
         methods: {
-            searchList(value) {
-                this.searchValue = value;
-                this.timezoneList = [];
-                return this.debounceSearch();
-            },
-
-            async loadTimezones() {
+            async loadDropdownOptionsList() {
                 const response = await getCalendarTimezones();
-                this.timezoneList = response.items;
+                this.dropdownOptionsList = response.items;
             },
         }
     }

@@ -5,7 +5,6 @@
             @close="close"
     >
         <section class="upload-popup__info">
-
             <checkbox
                     class="upload-popup__info-headers"
                     :value="isHeadersSkip"
@@ -14,14 +13,13 @@
             ></checkbox>
             <form>
                 <dropdown-select
-                        class="form__input"
+                        :value="''"
                         :label="$t('objects.CSV.charSet')"
                         :placeholder="$t('objects.CSV.charSet')"
                 >
                 </dropdown-select>
 
                 <form-input
-                        class="form__input"
                         v-model="separator"
                         :label="$t('objects.CSV.separator')"
                         :placeholder="$t('objects.CSV.separator')"
@@ -30,62 +28,83 @@
             </form>
         </section>
 
-        <divider/>
-
         <section class="CSV-column-match">
             <header class="column-headers">
                 <div>{{$t('objects.CSV.CSVColumn')}}</div>
                 <div>{{$t('objects.CSV.testRailField')}}</div>
             </header>
             <div class="column-rows">
-
                 <ul>
                     <li>
                         <div>ID</div>
                         <dropdown-select
+                                :value="''"
                                 :placeholder="'ID'"
+                                hide-label
+                                hide-details
                         ></dropdown-select>
                     </li>
                     <li>
                         <div>Title</div>
                         <dropdown-select
+                                :value="''"
                                 :placeholder="'Title'"
+                                hide-label
+                                hide-details
                         ></dropdown-select>
                     </li>
                     <li>
                         <div>Type</div>
                         <dropdown-select
+                                :value="''"
                                 :placeholder="'Type'"
+                                hide-label
+                                hide-details
                         ></dropdown-select>
                     </li>
                     <li>
                         <div>Priority</div>
                         <dropdown-select
+                                :value="''"
                                 :placeholder="'Priority'"
+                                hide-label
+                                hide-details
                         ></dropdown-select>
                     </li>
                     <li>
                         <div>ID</div>
                         <dropdown-select
+                                :value="''"
                                 :placeholder="'ID'"
+                                hide-label
+                                hide-details
                         ></dropdown-select>
                     </li>
                     <li>
                         <div>Title</div>
                         <dropdown-select
+                                :value="''"
                                 :placeholder="'Title'"
+                                hide-label
+                                hide-details
                         ></dropdown-select>
                     </li>
                     <li>
                         <div>Type</div>
                         <dropdown-select
+                                :value="''"
                                 :placeholder="'Type'"
+                                hide-label
+                                hide-details
                         ></dropdown-select>
                     </li>
                     <li>
                         <div>Priority</div>
                         <dropdown-select
+                                :value="''"
                                 :placeholder="'Priority'"
+                                hide-label
+                                hide-details
                         ></dropdown-select>
                     </li>
                 </ul>
@@ -105,8 +124,8 @@
     export default {
         name: "upload-popup",
         components: {
-            'form-input': formInput,
-            'dropdown-select': dropdownSelect,
+            formInput,
+            dropdownSelect,
             checkbox,
             divider,
             popup
@@ -131,30 +150,22 @@
 
 <style lang="scss" scoped>
     .upload-popup {
-        min-height: 67vh;
-
         .upload-popup__info {
-
             .upload-popup__info-headers {
                 @extend .typo-body-md;
             }
 
             form {
                 @extend .object-input-grid;
-
-                .form__input {
-                    margin: 27px 0 21px; // bottom 41 - 20 hint
-                }
+                margin: 18px 0 18px;
             }
         }
 
         .CSV-column-match {
-
             .column-headers {
                 @extend .object-input-grid;
                 @extend .typo-body-md;
 
-                margin-top: 27px;
                 color: $label-color;
 
                 div {

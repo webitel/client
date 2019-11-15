@@ -1,12 +1,7 @@
 <template>
     <div class="form-input">
-        <div class="label" :class="{'invalid': v && v.$error}">{{computeRequiredLabel}}
-            <!--            <div class="hint" v-show="this.hintText">-->
-            <!--                <i-->
-            <!--                        class="hint__img tooltip-activator icon-icon_question"-->
-            <!--                ></i>-->
-            <!--                <div class="tooltip-left">{{this.hintText}}</div>-->
-            <!--            </div>-->
+        <div v-if="!hideLabel" class="label" :class="{'invalid': v && v.$error}">
+            {{computeRequiredLabel}}
         </div>
 
         <input
@@ -33,6 +28,7 @@
         ></textarea>
 
         <validation-message
+                v-if="!hideDetails"
                 :v="v"
         />
     </div>
@@ -105,6 +101,16 @@
                 default: false
             },
 
+            hideLabel: {
+                type: Boolean,
+                default: false
+            },
+
+            hideDetails: {
+                type: Boolean,
+                default: false
+            },
+
             // validation rules
             v: {},
         },
@@ -149,7 +155,6 @@
     textarea {
         resize: none;
     }
-
 
     .auth .input {
         background: rgba(255, 255, 255, 0.04);

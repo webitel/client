@@ -7,6 +7,7 @@ import tableCheckbox from '@/components/utils/checkbox';
 import hint from '@/components/utils/hint';
 import tabs from '@/components/utils/tabs';
 import validationMessage from '@/components/utils/validation-message';
+import tagsInput from '@johmun/vue-tags-input';
 import deepEqual from 'deep-equal';
 
 export default {
@@ -20,6 +21,7 @@ export default {
         switcher,
         hint,
         tabs,
+        tagsInput,
     },
 
 

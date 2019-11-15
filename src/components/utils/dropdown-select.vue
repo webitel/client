@@ -1,12 +1,7 @@
 <template>
     <div class="dropdown-select">
-        <div class="label" :class="{'invalid': v && v.$error}">{{computeRequiredLabel}}
-<!--            <div class="hint" v-show="this.hintText">-->
-<!--                <i-->
-<!--                        class="hint__img tooltip-activator icon-icon_question"-->
-<!--                ></i>-->
-<!--                <div class="tooltip-left">{{this.hintText}}</div>-->
-<!--            </div>-->
+        <div v-if="!hideLabel" class="label" :class="{'invalid': v && v.$error}">
+            {{computeRequiredLabel}}
         </div>
 
         <v-select
@@ -24,6 +19,7 @@
         ></v-select>
 
         <validation-message
+                v-if="!hideDetails"
                 :v="v"
         />
     </div>
@@ -82,6 +78,16 @@
                 type: Boolean
             },
 
+            hideLabel: {
+                type: Boolean,
+                default: false
+            },
+
+            hideDetails: {
+                type: Boolean,
+                default: false
+            },
+
             taggable: {
                 type: Boolean,
                 default: false
@@ -95,14 +101,14 @@
 
         computed: {
             computeDisplayValue() {
-                if(typeof this.value === 'string') return this.value;
+                if (typeof this.value === 'string') return this.value;
                 return this.value[this.displayProperty] || '';
             }
         },
 
         methods: {
             setOption(option) {
-                if(this.v) this.v.$touch();
+                if (this.v) this.v.$touch();
                 this.$emit('input', option);
             }
         },

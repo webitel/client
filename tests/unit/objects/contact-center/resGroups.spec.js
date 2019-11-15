@@ -34,7 +34,6 @@ describe('opened res group', () => {
                     name: 'jest-res-gr',
                     communication: {id: 1},
                     description: 'jest-res-gr',
-                    strategy: 'jest-str',
                     time: [
                         {
                             start: 540,
@@ -81,12 +80,15 @@ describe('opened res group', () => {
                     name: 'upd-jest-res-gr',
                     communication: {id: 1},
                     description: 'upd-jest-res-gr',
-                    strategy: 'upd-jest-str',
                     time: [
                         {
-                            start: 240,
-                            end: 1240,
-                        }
+                            start: 40,
+                            end: 200,
+                        },
+                        {
+                            start: 210,
+                            end: 400,
+                        },
                     ],
                 },
                 resList: [{text: 'upd-jest', id: 1}],
@@ -108,7 +110,7 @@ describe('opened res group', () => {
             expect(newItem).toBeTruthy();
 
             // check if backend item is equal to updated
-            expect(newItem.name).toEqual(newItemInstance.itemInstance.name);
+            expect(newItem.name).toEqual(newItemInstance.itemInstance.resGroup.name);
             done();
         }, 100);
     });
@@ -130,7 +132,7 @@ describe('the res groups', () => {
 
         // find tested item
         createdItem = wrapper.vm.dataList.find(item => {
-            return item.name === 'upd-jest-res-gr'
+            return item.name === 'upd-jest-res-gr' || 'jest-res-gr'
         });
 
         // and its index

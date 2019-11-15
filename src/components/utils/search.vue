@@ -59,6 +59,7 @@
 
         .icon-icon_search {
             height: 24px;
+            margin-left: 0;
         }
     }
 </style>

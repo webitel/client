@@ -112,9 +112,9 @@ describe('objects-edit.vue', () => {
     // used to compare with backend value
     let initialPermissions;
 
-    const findRoleInPermissionsList = (role) => {
-        return wrapper.vm.dataList.find(grantee => {
-            return grantee.grantee.role === role;
+    const findRoleInPermissionsList = (name) => {
+        return wrapper.vm.dataList.find(item => {
+            return item.name === name;
         });
     };
 
@@ -154,7 +154,7 @@ describe('objects-edit.vue', () => {
         expect(wrapper.vm.dataList[testedRoleIndex].access.c).not.toEqual(initialPermissions);
 
         // check if grantee id was recoded to change list
-        expect(wrapper.vm.changeAccessList).toContain(testedRole.grantee.id);
+        expect(wrapper.vm.changeAccessList).toContain(testedRole.id);
     });
 
     it('adds new role dropdown select', () => {
@@ -166,7 +166,7 @@ describe('objects-edit.vue', () => {
     it('find role to select from available', () => {
         // check if chosen role has no permissions
         newRole = wrapper.vm.computeAvailableGrantees.find(item => {
-            return item.role === 'obac-test-jest';
+            return item.name === 'obac-test-jest';
         });
         // console.log(wrapper.vm.computeAvailableGrantees)
         expect(newRole).toBeTruthy();
@@ -193,7 +193,7 @@ describe('objects-edit.vue', () => {
             });
 
         expect(allActionsFalse).toBeTruthy();
-        expect(wrapper.vm.changeAccessList).toContain(testedRole.grantee.id);
+        expect(wrapper.vm.changeAccessList).toContain(testedRole.id);
     });
 
     it('saves []changes to database', async (done) => {

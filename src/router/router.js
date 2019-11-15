@@ -78,6 +78,11 @@ const router = new Router({
                     component: devices
                 },
                 {
+                    path:'/directory/devices/:id',
+                    name: 'directory-devices-edit',
+                    component: openedDevice
+                },
+                {
                     path:'/directory/devices/new',
                     name: 'directory-devices-new',
                     component: openedDevice
@@ -86,6 +91,11 @@ const router = new Router({
                     path: '/directory/users',
                     name: 'directory-users',
                     component: users
+                },
+                {
+                    path:'/directory/users/:id',
+                    name: 'directory-users-edit',
+                    component: openedUser
                 },
                 {
                     path:'/directory/users/new',

@@ -7,7 +7,7 @@
         >
             <span>{{$tc('objects.lookups.communications.communications', 1)}}</span> | {{computeTitle}}
         </object-header>
-        <section class="object-content module-new permissions-new">
+        <section class="object-content module-new">
             <header class="content-header">
                 <h3 class="content-title">{{$t('objects.generalInfo')}}</h3>
             </header>
