@@ -1,17 +1,23 @@
 <template>
-    <div class="editor" ref="editor"></div>
+    <div class="editor-wrap">
+        <div class="label">{{label}}</div>
+        <div class="editor" ref="editor"></div>
+    </div>
 </template>
 
 <script>
     import {editor} from 'monaco-editor';
-//https://microsoft.github.io/monaco-editor/api/interfaces/monaco.editor.ieditorconstructionoptions.html
+    //https://microsoft.github.io/monaco-editor/api/interfaces/monaco.editor.ieditorconstructionoptions.html
     const config = {
         language: 'json',
         theme: 'vs',
-        wordWrap: 'on',
-        lineHeight: '28px',
+        wordWrap: 'off',
+        // lineHeight: '28px',
         autoClosingQuotes: true,
         autoClosingBrackets: true,
+        automaticLayout: true,
+        autoIndent: true,
+        horizontal: 'scroll',
     };
 
     export default {
@@ -22,6 +28,10 @@
                 required: true
             },
             options: Object,
+            label: {
+                type: String,
+                default: ''
+            }
         },
 
         model: {
@@ -35,14 +45,32 @@
             }
         },
 
+        watch: {
+            value: function (newVal) {
+                if (this.editor) {
+                    if (newVal !== this.editor.getValue()) {
+                        this.editor.setValue(newVal);
+
+                    }
+                }
+            },
+        },
+
         mounted() {
             this.config.value = this.value || '{}';
             this.editor = editor.create(this.$refs.editor, config);
+
+            this.editor.onDidChangeModelContent(event => {
+                const value = this.editor.getValue();
+                if (this.value !== value) {
+                    this.$emit('change', value, event);
+                }
+            });
         },
 
         beforeDestroy() {
             this.editor && this.editor.dispose();
-        }
+        },
     }
 </script>
 
@@ -63,7 +91,6 @@
                 // line number
                 .line-numbers {
                     text-align: center;
-                    line-height: 28px;
                     color: #000;
                 }
 
@@ -76,21 +103,13 @@
                 .cldr {
                     height: 16px !important;
                     left: 34px !important;
-                    margin-top: 6px;
                 }
             }
         }
 
         .view-overlays .current-line {
-            padding: 0 6px;
             background: $line-current;
             border: none !important;
-        }
-
-        // text code cursor
-        .cursor {
-            height: 16px !important;
-            margin-top: 6px;
         }
 
         // text code itself
@@ -103,13 +122,42 @@
             display: none;
         }
 
-        // scrollbar
-        .slider {
-            width: 10px !important;
+        .minimap {
             left: auto !important;
-            right: 0;
+            right: 10px;
+        }
+
+        .slider {
             background-color: $srollbar-thumb-color;
             border-radius: $border-radius;
+        }
+
+        // scrollbar
+        .vertical {
+            background: #fff;
+            &.fade {
+                opacity: 1;
+                visibility: visible !important;
+
+                .slider {
+                    opacity: 0;
+                }
+            }
+
+            .slider {
+                width: 10px !important;
+                left: auto !important;
+                right: 0;
+            }
+        }
+
+        // scrollbar
+        .horizontal {
+            background: #fff;
+            opacity: 1;
+            .slider {
+                height: 10px !important;
+            }
         }
     }
 </style>1
