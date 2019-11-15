@@ -203,6 +203,7 @@ export default {
             blacklist: {
                 blacklist: 'Blacklist | Blacklists',
                 allBlacklists: 'All blacklists',
+                number: 'Number | Numbers',
                 numbersCount: 'Numbers',
             },
             skills: {

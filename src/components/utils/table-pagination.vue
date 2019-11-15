@@ -28,6 +28,8 @@
 <style lang="scss" scoped>
     .pagination {
         display: flex;
+        width: fit-content;
+        margin-left: auto;
 
         .rows-per-page {
             display: flex;
