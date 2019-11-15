@@ -5,7 +5,7 @@
                 :primaryAction="submit"
                 close
         >
-            <span>{{$t('objects.routing.dialplan.dialplanRule')}}</span> | {{computeTitle}}
+            <span>{{$t('objects.routing.flow.flowSchema')}}</span> | {{computeTitle}}
         </object-header>
         <section class="object-content module-new">
             <header class="content-header">
@@ -19,57 +19,35 @@
                         :placeholder="$t('objects.name')"
                         required
                 ></form-input>
-
-                <dropdown-select
-                    v-model="itemInstance.callflow"
-                    :v="$v.itemInstance.callflow"
-                    :label="$tc('objects.routing.callflow.callflow', 1)"
-                    :placeholder="$tc('objects.routing.callflow.callflow', 1)"
-                    :options="callflowList"
-                    required
-                ></dropdown-select>
-
-<!--                1 col container-->
-                <div>
-                    <form-input
-                            v-model.trim="$v.itemInstance.pattern.$model"
-                            :v="$v.itemInstance.pattern"
-                            :label="$t('objects.routing.dialplan.pattern')"
-                            :placeholder="$t('objects.routing.dialplan.pattern')"
-                            required
-                    ></form-input>
-
-                    <form-input
-                            v-model="itemInstance.description"
-                            :label="$t('objects.description')"
-                            :placeholder="$t('objects.description')"
-                            textarea
-                    ></form-input>
-                </div>
             </form>
+            <code-editor
+                v-model="itemInstance.schema"
+                :label="$t('objects.routing.flow.callflow')"
+            ></code-editor>
         </section>
     </div>
 </template>
 
 <script>
     import editComponentMixin from '@/mixins/editComponentMixin';
-
+    import codeEditor from '@/components/utils/code-editor';
     import {required} from 'vuelidate/lib/validators';
 
     export default {
-        name: "opened-dialplan",
+        name: "opened-flow",
         mixins: [editComponentMixin],
+        components: {
+            codeEditor
+        },
         data() {
             return {
                 itemInstance: {
                     name: '',
-                    callflow: {},
-                    pattern: '',
-                    description: '',
+                    schema: ''
                 },
-                callflowList: [
-                    {name: 'Callflow 1'}, {name: 'Callflow 2'}
-                ]
+                options: {
+                    autoClosingBrackets: false
+                }
             };
         },
 
@@ -79,13 +57,11 @@
                 name: {
                     required
                 },
-                callflow: {
-                    required
-                },
-                pattern: {
-                    required
-                }
             }
+        },
+
+        mounted() {
+            this.loadItem();
         },
 
         methods: {
@@ -93,12 +69,24 @@
                 if (this.id) {
                     // upd
                 } else {
-                        //add
+                    //add
                 }
                 this.close();
             },
 
             async loadItem() {
+                this.itemInstance.schema = 	JSON.stringify({
+                    "recordSession": {
+                        "action": "start",
+                        "type": "mp3",
+                        "stereo": true,
+                        "followTransfer": true,
+                        "bridged": true,
+                        "minSec": 2,
+                        "email": []
+                    },
+                    "_id": "eeedda1e-8ebe-46ee-a264-40c0af337146"
+                }, null, 4);
                 // const response = await getCommunication(this.id);
                 // this.itemInstance = response;
                 // this.initialItem = JSON.parse(JSON.stringify(response));
@@ -107,6 +95,8 @@
     }
 </script>
 
-<style scoped>
-
+<style lang="scss" scoped>
+    .editor-wrap {
+        margin-top: 8px;
+    }
 </style>
