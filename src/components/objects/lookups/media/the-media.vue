@@ -8,7 +8,7 @@
 
         <textToSpeechPopup v-if="popupTriggerIf" @close="popupTriggerIf = false"></textToSpeechPopup>
 
-        <section class="object-content">
+        <section class="object-content" ref="object-content">
             <header class="content-header">
                 <h3 class="content-title">{{$t('objects.lookups.media.allMediaFiles')}}</h3>
                 <div class="content-header__actions-wrap">
@@ -38,6 +38,7 @@
                     </div>
                 </div>
             </vue-dropzone>
+
             <vuetable
                     :api-mode="false"
                     :fields="fields"
@@ -80,11 +81,15 @@
             </vuetable>
             <pagination></pagination>
         </section>
+        <audioPlayer
+                file="https://mn1.sunproxy.net/file/eS95REZYZFVJZW5kRjJJdzdzQVdjNFNwLzJlak5NUXJsRXJNYzNKeG9OUHp2NmxicVd1WG01T2FaaFdPeDlxK1dlZ0hBMlU2cGNVL1ppamFmS2ErZlZiYWgwcDNZaTYwUkd6MFAyNWFUYk09/Akvalazy_-_Koldunya_Syntypop_Remix_(mp3.mn).mp3"
+        ></audioPlayer>
     </div>
 </template>
 
 <script>
     import vueDropzone from 'vue2-dropzone';
+    import audioPlayer from '@/components/utils/audio-player'
     import textToSpeechPopup from './media-text-to-speech-popup';
     import tableComponentMixin from '@/mixins/tableComponentMixin';
     import {_checkboxTableField, _actionsTableField_3} from "@/utils/tableFieldPresets";
@@ -94,6 +99,7 @@
         mixins: [tableComponentMixin],
         components: {
             vueDropzone,
+            audioPlayer,
             textToSpeechPopup
         },
         data() {
@@ -140,7 +146,7 @@
 
             async loadDataList() {
                 // this.dataList = await getCommunicationsList();
-                for (let i = 0; i < 4; i++) {
+                for (let i = 0; i < 40; i++) {
                     this.dataList.push({
                         id: i,
                         name: 'media name ' + i,
