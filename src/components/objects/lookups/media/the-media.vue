@@ -25,11 +25,24 @@
                     <i class="icon-action icon-icon_upload" @click="openPopup"></i>
                 </div>
             </header>
-
+            <vue-dropzone
+                    id="dropzone"
+                    :options="dropzoneOptions"
+                    useCustomSlot
+                    @vdropzone-total-upload-progress="uploadProgress"
+            >
+                <div class="dz-custom-message">
+                    <i class="icon-icon_upload"></i>
+                    <div class="dz-message-text">
+                        <span class="dz-message-text__accent">Drag and drop files</span> here.
+                    </div>
+                </div>
+            </vue-dropzone>
             <vuetable
                     :api-mode="false"
                     :fields="fields"
                     :data="filteredDataList"
+                    :row-class="computeNewFiles"
             >
                 <template slot="name" slot-scope="props">
                     <div>
@@ -71,6 +84,7 @@
 </template>
 
 <script>
+    import vueDropzone from 'vue2-dropzone';
     import textToSpeechPopup from './media-text-to-speech-popup';
     import tableComponentMixin from '@/mixins/tableComponentMixin';
     import {_checkboxTableField, _actionsTableField_3} from "@/utils/tableFieldPresets";
@@ -79,10 +93,16 @@
         name: "the-media",
         mixins: [tableComponentMixin],
         components: {
+            vueDropzone,
             textToSpeechPopup
         },
         data() {
             return {
+                dropzoneOptions: {
+                    url: 'https://httpbin.org/post',
+                    thumbnailWidth: 150,
+                    maxFilesize: 0.5,
+                },
                 fields: [
                     _checkboxTableField,
                     {name: 'name', title: this.$t('objects.name')},
@@ -95,6 +115,21 @@
         },
 
         methods: {
+            uploadProgress() {
+                this.dataList.unshift({
+                    name: 'new media name',
+                    createdAt: (Math.random() * Date.now()).toLocaleString(),
+                    format: '.wav',
+                    size: Math.round(Math.random() * 100, 2) + ' Kb',
+                    isSelected: false,
+                });
+                this.filterData();
+            },
+
+            computeNewFiles(row) {
+                return row.id === undefined ? 'new-file' : '';
+            },
+
             openPopup() {
                 this.popupTriggerIf = true;
             },
@@ -105,12 +140,13 @@
 
             async loadDataList() {
                 // this.dataList = await getCommunicationsList();
-                for(let i = 0; i < 4; i++) {
+                for (let i = 0; i < 4; i++) {
                     this.dataList.push({
-                        name: 'media name '+i,
-                        createdAt: (Math.random()*Date.now()).toLocaleString(),
+                        id: i,
+                        name: 'media name ' + i,
+                        createdAt: (Math.random() * Date.now()).toLocaleString(),
                         format: '.wav',
-                        size: Math.round(Math.random()*100, 2)+' Kb',
+                        size: Math.round(Math.random() * 100, 2) + ' Kb',
                         isSelected: false,
                     });
                 }
@@ -120,6 +156,8 @@
     }
 </script>
 
-<style lang="scss" scoped>
-
+<style lang="scss">
+    .new-file {
+        background: rgba(255, 193, 7, 0.1);
+    }
 </style>

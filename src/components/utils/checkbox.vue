@@ -47,7 +47,9 @@
     $checkbox-color: rgba(0, 0, 0, 0.3);
 
     .checkbox-label {
+        display: block;
         position: relative;
+        min-height: 24px;
         padding-left: 29px;
         cursor: pointer;
         user-select: none;
@@ -68,6 +70,7 @@
             left: 0;
             width: 18px;
             height: 18px;
+            margin: 3px;
             background: #fff;
             border: 2px solid $checkbox-color;
             border-radius: 2px;
