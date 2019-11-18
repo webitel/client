@@ -42,6 +42,7 @@ export default {
         },
         lookups: {
             lookups: 'Lookups',
+            media: 'Media files',
             blacklists: 'Blacklist',
             agentSkills: 'Agent skills',
             calendars: 'Calendars',
@@ -206,6 +207,20 @@ export default {
                 number: 'Number | Numbers',
                 newNumber: 'New number',
                 numbersCount: 'Numbers',
+            },
+            media: {
+                mediaFiles: 'Media file | Media files',
+                allMediaFiles: 'All media files',
+                createdAt: 'Created at',
+                format: 'Format',
+                size: 'Size',
+                textToSpeech: 'Text to speech',
+                popupSettings: 'Settings',
+                provider: 'Provider',
+                lang: 'Language',
+                voice: 'Voice',
+                token: 'Token',
+                key: 'Key',
             },
             skills: {
                 skills: 'Agent skill | Agent skills',

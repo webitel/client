@@ -134,6 +134,12 @@
                                 current: false,
                             },
                             {
+                                name: 'media',
+                                displayName: this.$t('nav.lookups.media'),
+                                route: '/lookups/media',
+                                current: false,
+                            },
+                            {
                                 name: 'agent-skills',
                                 displayName: this.$t('nav.lookups.agentSkills'),
                                 route: '/lookups/agent-skills',
