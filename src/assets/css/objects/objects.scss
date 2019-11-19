@@ -15,9 +15,10 @@
 // main content itself, without nav but with main header
 .object {
   flex: 1 0 auto;
-  width: 200px;
+  width: 1px;
   //padding: 40px;
   //width: calc(100vw - 272px);
+  //overflow: auto;
 }
 
 .the-nav__wrap {

@@ -404,28 +404,28 @@
         background: $nav-bg-color;
         z-index: 101;
 
-        .nav__header {
-            width: 100%;
-            padding: $nav-paddings;
-            margin: 20px auto 44px;
-
-            .icon-icon_menu {
-                margin-right: 23px;
-                color: #fff;
-                cursor: pointer;
-            }
-        }
-
         .the-nav {
-            position: fixed;
+            position: sticky;
+            top: 0;
             width: 272px;
-            height: 100%;
+            padding-top: 20px;
             color: $nav-icon-color;
 
             i {
                 color: $nav-icon-color;
             }
 
+            .nav__header {
+                width: 100%;
+                padding: $nav-paddings;
+                margin: 0 auto 44px;
+
+                .icon-icon_menu {
+                    margin-right: 23px;
+                    color: #fff;
+                    cursor: pointer;
+                }
+            }
 
             .nav-item-wrap {
                 .nav-item {
