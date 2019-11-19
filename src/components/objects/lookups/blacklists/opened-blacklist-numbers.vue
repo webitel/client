@@ -8,7 +8,7 @@
         ></number-popup>
 
         <header class="content-header">
-            <h3 class="content-title">{{$t('objects.lookups.blacklist.allBlacklists')}}</h3>
+            <h3 class="content-title">{{$tc('objects.lookups.blacklist.number', 2)}}</h3>
             <div class="content-header__actions-wrap">
                 <search
                         @filterData="filterData"

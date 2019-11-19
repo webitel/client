@@ -89,7 +89,7 @@
 
 <script>
     import vueDropzone from 'vue2-dropzone';
-    import audioPlayer from '@/components/utils/audio-player'
+    import audioPlayer from '@/components/utils/audio-player';
     import textToSpeechPopup from './media-text-to-speech-popup';
     import tableComponentMixin from '@/mixins/tableComponentMixin';
     import {_checkboxTableField, _actionsTableField_3} from "@/utils/tableFieldPresets";

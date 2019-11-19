@@ -1,31 +1,28 @@
 <template>
     <aside class="player">
         <div class="player-controls">
-            <div>
-                <a @click.prevent="stop" title="Stop" href="#">
-                    <i class="icon-icon_close"></i>
-                </a>
+            <div @click.prevent="stop" title="Stop">
+                <i class="icon-icon_close"></i>
             </div>
-            <div>
-                <a @click.prevent="playing = !playing" title="Play/Pause" href="#">
-                    <i class="icon-icon_notification" v-if="!playing"></i>
-                    <i class="icon-icon_approve" v-else></i>
-                </a>
+            <div @click.prevent="playing = !playing" title="Play/Pause">
+                <i class="icon-icon_notification" v-if="!playing"></i>
+                <i class="icon-icon_approve" v-else></i>
+            </div>
+            <div class="player-time">
+                <div class="player-time-current">{{convertTimeHHMMSS}}</div>
+                <!--                <div class="player-time-total">{{''}}</div>-->
             </div>
             <div @click="seek" class="player-progress" title="Time played : Total time">
                 <div
                         class="player-seeker"
                         :style="{width: this.percentComplete+'%'}"
                 ></div>
-                <div class="player-time">
-                    <div class="player-time-current">{{''}}</div>
-                    <div class="player-time-total">{{''}}</div>
-                </div>
             </div>
-            <div>
-                <a @click.prevent="stop" title="Stop" href="#">
-                    <i class="icon-icon_filter"></i>
-                </a>
+            <div class="range-wrap" :class="{'hidden': !showVolume}">
+                <range v-model="volume"></range>
+            </div>
+            <div @click.prevent="showVolume = !showVolume" title="Stop">
+                <i class="icon-icon_filter"></i>
             </div>
         </div>
         <audio
@@ -39,8 +36,13 @@
 </template>
 
 <script>
+    import range from '@/components/utils/range';
+
     export default {
         name: "audio-player",
+        components: {
+            range,
+        },
         props: {
             file: {
                 type: String,
@@ -60,8 +62,8 @@
             durationSeconds: 0,
             loaded: false,
             playing: false,
-            previousVolume: 35,
             volume: 50,
+            showVolume: false,
         }),
 
         computed: {
@@ -71,11 +73,8 @@
             muted() {
                 return this.value / 100 === 0;
             },
-        },
-
-        filters: {
-            convertTimeHHMMSS(val) {
-                const time = new Date(val * 1000).toISOString().substr(11, 8);
+            convertTimeHHMMSS() {
+                const time = new Date(this.currentSeconds * 1000).toISOString().substr(11, 8);
                 return time.includes('00:0') ? time.substr(3) : time;
             }
         },
@@ -117,8 +116,9 @@
             },
 
             seek(event) {
-                if (!this.playing || event.target.tagName === 'SPAN') return;
+                // if (!this.playing || event.target.tagName === 'SPAN') return;
 
+                this.playing = true;
                 const el = event.target.getBoundingClientRect();
                 const seekPos = (event.clientX - el.left) / el.width;
                 this.audio.currentTime = parseInt(this.audio.duration * seekPos);
@@ -137,80 +137,86 @@
 </script>
 
 <style lang="scss" scoped>
-    .audio {
-        display: none;
-    }
 
-    $player-bg: #fff;
+    $player-bg: rgba(0, 0, 0, 0.6);
     $player-border-color: darken($player-bg, 12%);
     $player-link-color: darken($player-bg, 75%);
     $player-progress-color: $player-border-color;
-    $player-seeker-color: $player-link-color;
-    $player-text-color: $player-link-color;
+    $player-seeker-color: $accent-color;
+    //$player-text-color: $player-link-color;
 
     .player {
         position: sticky;
         bottom: 66px;
-        width: 100%;
-        right: 58px;
+        /*width: 100%;*/
+        padding: 7px 16px;
+        margin: 0 20px;
         background-color: $player-bg;
-        border: 1px solid $player-border-color;
-        box-shadow: 0 5px 8px rgba(0, 0, 0, 0.15);
-        color: $player-text-color;
+        box-shadow: $box-shadow;
+        border-radius: $border-radius;
         z-index: 10000;
     }
 
     .player-controls {
         display: flex;
+        align-items: center;
 
-        > div {
-            border-right: 1px solid $player-border-color;
+        > div:first-child {
+            margin-right: 18px;
+        }
 
-            &:last-child {
-                border-right: none;
-            }
-
-            a {
-                color: $player-link-color;
-                display: block;
-                line-height: 0;
-                padding: 1em;
-                text-decoration: none;
-            }
+        i {
+            color: #fff;
         }
     }
 
     .player-progress {
-        background-color: $player-progress-color;
-        cursor: pointer;
+        position: relative;
         height: 3px;
         flex-grow: 1;
-        /*min-width: 100%;*/
-        /*width: 100%;*/
-        position: relative;
-        margin: auto 20px;
+        margin: auto 78px;
+        background-color: $player-progress-color;
+        cursor: pointer;
 
         .player-seeker {
-            background-color: $player-seeker-color;
+            position: absolute;
             bottom: 0;
             left: 0;
-            position: absolute;
             top: 0;
+            background-color: $player-seeker-color;
+            border-radius: $border-radius;
         }
     }
 
     .player-time {
         display: flex;
         justify-content: space-between;
+        margin-left: 33px;
+        color: #fff;
 
         .player-time-current {
-            font-weight: 700;
-            padding-left: 5px;
+            @extend .typo-nav-item;
+            /*font-weight: 700;*/
+            /*padding-left: 5px;*/
         }
 
-        .player-time-total {
-            opacity: 0.5;
-            padding-right: 5px;
-        }
+        /*.player-time-total {*/
+        /*    opacity: 0.5;*/
+        /*    padding-right: 5px;*/
+        /*}*/
+    }
+
+
+    .range-wrap {
+        position: absolute;
+        bottom: 56px;
+        right: 0;
+        padding: 8px 16px 11px;
+        background: $player-bg;
+        border-radius: $border-radius;
+    }
+
+    .audio {
+        display: none;
     }
 </style>
