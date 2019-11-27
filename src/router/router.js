@@ -42,6 +42,9 @@ import theResources from '../components/objects/contact-center/resources/the-res
 import openedResource from '../components/objects/contact-center/resources/opened-resource';
 import resourceGroups from '../components/objects/contact-center/resource-groups/the-resource-groups';
 import openedResourceGroup from '../components/objects/contact-center/resource-groups/opened-resource-group';
+import agents from '../components/objects/contact-center/agents/the-agents';
+import openedAgent from '../components/objects/contact-center/agents/the-agents';
+
 
 Vue.use(Router);
 
@@ -296,6 +299,21 @@ const router = new Router({
 
 
                 // --------------CONTACT CENTER-------------
+                {
+                    path:'/contact-center/agents',
+                    name: 'cc-agents',
+                    component: agents
+                },
+                {
+                    path:'/contact-center/agents/new',
+                    name: 'cc-agent-new',
+                    component: openedAgent
+                },
+                {
+                    path:'/contact-center/agents/:id',
+                    name: 'cc-agent-edit',
+                    component: openedAgent
+                },
                 {
                     path:'/contact-center/resources',
                     name: 'cc-resources',

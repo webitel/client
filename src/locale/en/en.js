@@ -336,6 +336,13 @@ export default {
         ccenter: {
             ccenter: 'Contact center',
 
+            agents: {
+                agents: 'Agent | Agents',
+                allAgents: 'All agents',
+                state: 'State',
+                stateTime: 'State time',
+            },
+
             res: {
                 res: 'Resource | Resources',
                 allRes: 'All resources',
@@ -359,6 +366,10 @@ export default {
                 timerangeFrom: 'From',
                 timerangeTo: 'To'
             },
+        },
+
+        pagination: {
+            rowsPerPage: 'Rows per page'
         }
     },
 };

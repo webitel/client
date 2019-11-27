@@ -39,12 +39,15 @@ export default {
 
     methods: {
         filterData(search = '') {
-            this.filteredDataList = this.dataList.filter(dataItem => {
-                return this.filterProperties.some(filterProp => {
-                    return dataItem[filterProp].trim().toLowerCase().
-                    includes(search.trim().toLowerCase());
+            if(this.filterProperties.length) {
+                this.filteredDataList = this.dataList.filter(dataItem => {
+                    return this.filterProperties.some(filterProp => {
+                        return dataItem[filterProp].trim().toLowerCase().
+                        includes(search.trim().toLowerCase());
+                    });
                 });
-            });
+            }
+            this.filteredDataList = [...this.dataList];
         },
 
         deleteSelected() {
