@@ -124,25 +124,25 @@ export default {
         objectHeader: {},
         directory: {
             directory: 'Directory',
-          users: {
-              users: 'User | Users',
-              allUsers: 'All users',
-              searchPlaceholder: 'Name, login, extensions, status',
-              login: 'Login',
-              extensions: 'Extensions',
-              state: 'State',
-              DnD: 'DnD',
-              status: 'Status',
-              roles: 'Roles',
-              roleAdmin: 'Admin',
-              license: 'License',
-              devices: 'Devices',
-              deviceNotFound: "Didn't find the device?",
-              createNewDevice: 'Add new',
-              variables: 'Variables',
-              varKey: 'Key',
-              varVal: 'Value',
-          },
+            users: {
+                users: 'User | Users',
+                allUsers: 'All users',
+                searchPlaceholder: 'Name, login, extensions, status',
+                login: 'Login',
+                extensions: 'Extensions',
+                state: 'State',
+                DnD: 'DnD',
+                status: 'Status',
+                roles: 'Roles',
+                roleAdmin: 'Admin',
+                license: 'License',
+                devices: 'Devices',
+                deviceNotFound: "Didn't find the device?",
+                createNewDevice: 'Add new',
+                variables: 'Variables',
+                varKey: 'Key',
+                varVal: 'Value',
+            },
             devices: {
                 devices: 'Device | Devices',
                 allDevices: 'All devices',
@@ -341,6 +341,19 @@ export default {
                 allAgents: 'All agents',
                 state: 'State',
                 stateTime: 'State time',
+                skillCapacity: 'Capacity',
+            },
+
+            teams: {
+                teams: 'Team | Teams'
+            },
+
+            queues: {
+                queues: 'Queue | Queues'
+            },
+
+            skills: {
+                skills: 'Skill | Skills'
             },
 
             res: {

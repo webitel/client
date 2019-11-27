@@ -43,7 +43,7 @@ import openedResource from '../components/objects/contact-center/resources/opene
 import resourceGroups from '../components/objects/contact-center/resource-groups/the-resource-groups';
 import openedResourceGroup from '../components/objects/contact-center/resource-groups/opened-resource-group';
 import agents from '../components/objects/contact-center/agents/the-agents';
-import openedAgent from '../components/objects/contact-center/agents/the-agents';
+import openedAgent from '../components/objects/contact-center/agents/opened-agent';
 
 
 Vue.use(Router);
