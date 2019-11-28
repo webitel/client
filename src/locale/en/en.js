@@ -110,6 +110,7 @@ export default {
         offline: 'Offline',
         on: 'On',
         off: 'Off',
+        ok: 'Ok',
         enabled: 'Enabled',
         status: 'Status',
 
@@ -345,7 +346,14 @@ export default {
             },
 
             teams: {
-                teams: 'Team | Teams'
+                teams: 'Team | Teams',
+                allTeams: 'All teams',
+                strategy: 'Strategy',
+                statusHistory: 'Status history',
+                historyState: 'State',
+                historyFrom: 'From',
+                historyTo: 'To',
+                historyDuration: 'Duration',
             },
 
             queues: {

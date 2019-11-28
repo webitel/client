@@ -44,7 +44,10 @@ import resourceGroups from '../components/objects/contact-center/resource-groups
 import openedResourceGroup from '../components/objects/contact-center/resource-groups/opened-resource-group';
 import agents from '../components/objects/contact-center/agents/the-agents';
 import openedAgent from '../components/objects/contact-center/agents/opened-agent';
-
+import teams from '../components/objects/contact-center/teams/the-teams';
+import openedTeam from '../components/objects/contact-center/teams/the-teams';
+import skills from '../components/objects/contact-center/teams/the-teams';
+import openedSkill from '../components/objects/contact-center/teams/the-teams';
 
 Vue.use(Router);
 
@@ -313,6 +316,36 @@ const router = new Router({
                     path:'/contact-center/agents/:id',
                     name: 'cc-agent-edit',
                     component: openedAgent
+                },
+                {
+                    path:'/contact-center/skills',
+                    name: 'cc-skills',
+                    component: skills
+                },
+                {
+                    path:'/contact-center/skills/new',
+                    name: 'cc-skill-new',
+                    component: openedSkill
+                },
+                {
+                    path:'/contact-center/skills/:id',
+                    name: 'cc-skill-edit',
+                    component: openedSkill
+                },
+                {
+                    path:'/contact-center/teams',
+                    name: 'cc-teams',
+                    component: teams
+                },
+                {
+                    path:'/contact-center/teams/new',
+                    name: 'cc-team-new',
+                    component: openedTeam
+                },
+                {
+                    path:'/contact-center/teams/:id',
+                    name: 'cc-team-edit',
+                    component: openedTeam
                 },
                 {
                     path:'/contact-center/resources',
