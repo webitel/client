@@ -7,7 +7,12 @@
             {{$t('objects.directory.directory')}} | {{$tc('objects.directory.devices.devices', 2)}}
         </object-header>
 
-        <history-popup v-if="historyPopupTriggerIf" @close="historyPopupTriggerIf = false"></history-popup>
+        <history-popup
+                v-if="historyPopupTriggerIf"
+                :itemId="1"
+                @close="historyPopupTriggerIf = false"
+        ></history-popup>
+
         <upload-popup v-if="popupTriggerIf" @close="popupTriggerIf = false"></upload-popup>
 
         <section class="object-content">

@@ -82,7 +82,7 @@
             <pagination></pagination>
         </section>
         <audioPlayer
-                file="https://mn1.sunproxy.net/file/eS95REZYZFVJZW5kRjJJdzdzQVdjNFNwLzJlak5NUXJsRXJNYzNKeG9OUHp2NmxicVd1WG01T2FaaFdPeDlxK1dlZ0hBMlU2cGNVL1ppamFmS2ErZlZiYWgwcDNZaTYwUkd6MFAyNWFUYk09/Akvalazy_-_Koldunya_Syntypop_Remix_(mp3.mn).mp3"
+                file="https://mn1.sunproxy.net/file/aXI1cUJHZE14Y3o5dHpsRXBDRVNQNERPcUtJQ3Rud0ZMNnMyMlN1VG1vWDliOS85TVptT0VJRHRZNTd1RUsyeDlnZTlrODFWQjU5bjBkQUdCaDNXWjFUNW1HSU1pZEZoelBpL3JrQjhwSkk9/Pskovskoe_-_Post_punk_version_(mp3.mn).mp3"
         ></audioPlayer>
     </div>
 </template>

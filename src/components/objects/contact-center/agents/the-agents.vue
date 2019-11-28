@@ -77,7 +77,6 @@
     import tableComponentMixin from '@/mixins/tableComponentMixin';
     import {_checkboxTableField, _actionsTableField_3} from "@/utils/tableFieldPresets";
 
-
     export default {
         name: "the-agents",
         mixins: [tableComponentMixin],

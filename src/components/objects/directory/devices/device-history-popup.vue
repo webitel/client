@@ -40,6 +40,12 @@
             vuetable,
             popup
         },
+        props: {
+            itemId: {
+                type: Number,
+                // required: true
+            }
+        },
         data() {
             return {
                 date: Date.now(),
@@ -79,7 +85,7 @@
             max-width: 220px;
         }
 
-        .devices-history-table table {
+        .history-table table {
             min-width: auto;
         }
 

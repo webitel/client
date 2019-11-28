@@ -22,7 +22,7 @@
                 <range v-model="volume"></range>
             </div>
             <div @click.prevent="showVolume = !showVolume" title="Stop">
-                <i class="icon-icon_filter"></i>
+                <i class="volume-icon icon-icon_filter"></i>
             </div>
         </div>
         <audio
@@ -85,7 +85,7 @@
             },
 
             volume(value) {
-                this.showVolume = false;
+                // this.showVolume = false;
                 this.audio.volume = this.volume / 100;
             },
         },
@@ -214,6 +214,10 @@
         padding: 8px 16px 11px;
         background: $player-bg;
         border-radius: $border-radius;
+    }
+
+    .volume-icon {
+        cursor: pointer;
     }
 
     .audio {
