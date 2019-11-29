@@ -44,7 +44,6 @@ export default {
             lookups: 'Lookups',
             media: 'Media files',
             blacklists: 'Blacklist',
-            agentSkills: 'Agent skills',
             calendars: 'Calendars',
             communications: 'Communication types',
             contactTypes: 'Contact types',
@@ -53,11 +52,13 @@ export default {
         },
         ccenter: {
             ccenter: 'Contact center',
+            agentSkills: 'Agent skills',
             agents: 'Agents',
             teams: 'Teams',
             res: 'Resources',
             resGroups: 'Resource groups',
             queues: 'Queues',
+            buckets: 'Buckets'
         },
         kibana: 'Kibana',
         integrations: {
@@ -225,10 +226,6 @@ export default {
                 token: 'Token',
                 key: 'Key',
             },
-            skills: {
-                skills: 'Agent skill | Agent skills',
-                allSkills: 'All skills'
-            },
             calendars: {
                 calendars: 'Calendar | Calendars',
                 allCalendars: 'All calendars',
@@ -339,6 +336,13 @@ export default {
         ccenter: {
             ccenter: 'Contact center',
 
+            skills: {
+                skills: 'Skill | Skills',
+                capacity: 'Capacity',
+                agentSkills: 'Agent skill | Agent skills',
+                allSkills: 'All skills'
+            },
+
             agents: {
                 agents: 'Agent | Agents',
                 allAgents: 'All agents',
@@ -368,11 +372,6 @@ export default {
 
             queues: {
                 queues: 'Queue | Queues',
-            },
-
-            skills: {
-                skills: 'Skill | Skills',
-                capacity: 'Capacity',
             },
 
             buckets: {

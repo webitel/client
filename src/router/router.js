@@ -16,8 +16,6 @@ import openedDevice from '../components/objects/directory/devices/opened-device'
 import users from '../components/objects/directory/users/the-users';
 import openedUser from '../components/objects/directory/users/opened-user';
 import customers from '../components/objects/administration/license/the-customers';
-import agentSkills from '../components/objects/lookups/agent-skills/the-agent-skills';
-import openedAgentSkill from '../components/objects/lookups/agent-skills/opened-agent-skill';
 import blacklists from '../components/objects/lookups/blacklists/the-blacklists';
 import media from '../components/objects/lookups/media/the-media';
 import openedBlacklist from '../components/objects/lookups/blacklists/opened-blacklist';
@@ -46,8 +44,10 @@ import agents from '../components/objects/contact-center/agents/the-agents';
 import openedAgent from '../components/objects/contact-center/agents/opened-agent';
 import teams from '../components/objects/contact-center/teams/the-teams';
 import openedTeam from '../components/objects/contact-center/teams/opened-team';
-import skills from '../components/objects/contact-center/teams/the-teams';
-import openedSkill from '../components/objects/contact-center/teams/the-teams';
+import agentSkills from '../components/objects/contact-center/agent-skills/the-agent-skills';
+import openedAgentSkill from '../components/objects/contact-center/agent-skills/opened-agent-skill';
+import buckets from '../components/objects/contact-center/teams/the-teams';
+import openedBucket from '../components/objects/contact-center/teams/the-teams';
 
 Vue.use(Router);
 
@@ -192,21 +192,6 @@ const router = new Router({
                     name: 'media',
                     component: media
                 },
-                {
-                    path:'/lookups/skills',
-                    name: 'skills-lookup',
-                    component: agentSkills
-                },
-                {
-                    path:'/lookups/skills/new',
-                    name: 'skills-lookup-new',
-                    component: openedAgentSkill
-                },
-                {
-                    path:'/lookups/skills/:id',
-                    name: 'skills-lookup-edit',
-                    component: openedAgentSkill
-                },
 
                 {
                     path:'/lookups/calendars',
@@ -303,6 +288,21 @@ const router = new Router({
 
                 // --------------CONTACT CENTER-------------
                 {
+                    path:'/contact-center/skills',
+                    name: 'cc-skills',
+                    component: agentSkills
+                },
+                {
+                    path:'/contact-center/skills/new',
+                    name: 'cc-skill-new',
+                    component: openedAgentSkill
+                },
+                {
+                    path:'/contact-center/skills/:id',
+                    name: 'cc-skill-edit',
+                    component: openedAgentSkill
+                },
+                {
                     path:'/contact-center/agents',
                     name: 'cc-agents',
                     component: agents
@@ -316,21 +316,6 @@ const router = new Router({
                     path:'/contact-center/agents/:id',
                     name: 'cc-agent-edit',
                     component: openedAgent
-                },
-                {
-                    path:'/contact-center/skills',
-                    name: 'cc-skills',
-                    component: skills
-                },
-                {
-                    path:'/contact-center/skills/new',
-                    name: 'cc-skill-new',
-                    component: openedSkill
-                },
-                {
-                    path:'/contact-center/skills/:id',
-                    name: 'cc-skill-edit',
-                    component: openedSkill
                 },
                 {
                     path:'/contact-center/teams',
@@ -376,6 +361,21 @@ const router = new Router({
                     path:'/contact-center/resource-groups/:id',
                     name: 'cc-resource-group-edit',
                     component: openedResourceGroup
+                },
+                {
+                    path:'/contact-center/buckets',
+                    name: 'cc-buckets',
+                    component: buckets
+                },
+                {
+                    path:'/contact-center/buckets/new',
+                    name: 'cc-bucket-new',
+                    component: openedBucket
+                },
+                {
+                    path:'/contact-center/bucket/:id',
+                    name: 'cc-bucket-edit',
+                    component: openedBucket
                 },
                 // --------------CONTACT CENTER END-------------
 

@@ -4,32 +4,31 @@
         <object-header
                 :primaryAction="create"
         >
-            {{$t('objects.lookups.lookups')}} |
-            {{$tc('objects.lookups.skills.skills', 2)}}
+            {{$t('objects.ccenter.ccenter')}} |
+            {{$tc('objects.ccenter.skills.agentSkills', 2)}}
         </object-header>
 
         <section class="object-content">
             <header class="content-header">
-                <h3 class="content-title">{{$t('objects.lookups.skills.allSkills')}}</h3>
+                <h3 class="content-title">{{$t('objects.ccenter.skills.allSkills')}}</h3>
             </header>
 
             <vuetable
-                    class="permissions-table"
                     :api-mode="false"
                     :fields="fields"
-                    :data="skillsList"
+                    :data="dataList"
             >
-                <template slot="skillName" slot-scope="props">
+                <template slot="name" slot-scope="props">
                     <div class="tt-capitalize">
                         <span class="nameLink" @click="edit(props.rowIndex)">
-                        {{skillsList[props.rowIndex].name}}
+                        {{dataList[props.rowIndex].name}}
                         </span>
                     </div>
                 </template>
 
-                <template slot="skillDescription" slot-scope="props">
+                <template slot="description" slot-scope="props">
                     <div>
-                        {{skillsList[props.rowIndex].description || 'DESCRIPTION IS EMPTY'}}
+                        {{dataList[props.rowIndex].description || 'DESCRIPTION IS EMPTY'}}
                     </div>
                 </template>
 
@@ -47,54 +46,43 @@
 </template>
 
 <script>
-    import vuetable from 'vuetable-2/src/components/Vuetable';
-    import objectHeader from '@/components/objects/the-object-header';
+    import tableComponentMixin from '@/mixins/tableComponentMixin';
+    import {_actionsTableField_2} from "../../../../utils/tableFieldPresets";
 
     export default {
         name: "the-agent-skills",
-        components: {
-            'object-header': objectHeader,
-            vuetable,
-        },
+        mixins: [tableComponentMixin],
         data() {
             return {
-                skillsList: [],
+                dataList: [],
                 // vuetable prop
                 fields: [
-                    {name: 'skillName', title: this.$t('objects.name')},
-                    {name: 'skillDescription', title: this.$t('objects.description')},
-                    {
-                        name: 'actions',
-                        title: '',
-                        titleClass: 'vuetable-td-actions',
-                        dataClass: 'vuetable-td-actions',
-                        width: '120px'
-                    },
+                    {name: 'name', title: this.$t('objects.name')},
+                    {name: 'description', title: this.$t('objects.description')},
+                    _actionsTableField_2
                 ],
             };
         },
-        mounted() {
-            this.loadSkillsList();
-        },
+
         methods: {
             create() {
-                this.$router.push('/lookups/lead-status/new');
+                this.$router.push('/contact-center/skills/new');
             },
 
             edit(rowId) {
                 this.$router.push({
-                    name: 'skills-lookup-edit',
-                    params: {id: this.skillsList[rowId].id},
+                    name: 'cc-skills-edit',
+                    params: {id: this.dataList[rowId].id},
                 });
             },
 
             remove(rowId) {
-                const deletedSkill = this.skillsList.splice(rowId, 1)[0];
+                this.dataList.splice(rowId, 1);
             },
 
-            loadSkillsList() {
+            loadDataList() {
                 for (let i = 0; i < 10; i++) {
-                    this.skillsList.push({
+                    this.dataList.push({
                         name: 'Skill name ' + i,
                         description: 'Description',
                         id: i

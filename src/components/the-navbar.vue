@@ -140,12 +140,6 @@
                                 current: false,
                             },
                             {
-                                name: 'agent-skills',
-                                displayName: this.$t('nav.lookups.agentSkills'),
-                                route: '/lookups/agent-skills',
-                                current: false,
-                            },
-                            {
                                 name: 'calendars',
                                 displayName: this.$t('nav.lookups.calendars'),
                                 route: '/lookups/calendars',
@@ -185,6 +179,12 @@
                         expanded: false,
                         subnav: [
                             {
+                                name: 'agent-skills',
+                                displayName: this.$t('nav.ccenter.agentSkills'),
+                                route: '/contact-center/skills',
+                                current: false,
+                            },
+                            {
                                 name: 'agents',
                                 displayName: this.$t('nav.ccenter.agents'),
                                 route: '/contact-center/agents',
@@ -212,6 +212,12 @@
                                 name: 'queues',
                                 displayName: this.$t('nav.ccenter.queues'),
                                 route: '/contact-center/queues',
+                                current: false,
+                            },
+                            {
+                                name: 'buckets',
+                                displayName: this.$t('nav.ccenter.buckets'),
+                                route: '/contact-center/buckets',
                                 current: false,
                             },
                         ]
