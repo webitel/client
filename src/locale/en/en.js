@@ -376,6 +376,7 @@ export default {
 
             buckets: {
                 buckets: 'Bucket | Buckets',
+                allBuckets: 'All buckets',
             },
 
             res: {

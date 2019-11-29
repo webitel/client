@@ -46,8 +46,8 @@ import teams from '../components/objects/contact-center/teams/the-teams';
 import openedTeam from '../components/objects/contact-center/teams/opened-team';
 import agentSkills from '../components/objects/contact-center/agent-skills/the-agent-skills';
 import openedAgentSkill from '../components/objects/contact-center/agent-skills/opened-agent-skill';
-import buckets from '../components/objects/contact-center/teams/the-teams';
-import openedBucket from '../components/objects/contact-center/teams/the-teams';
+import buckets from '../components/objects/contact-center/buckets/the-buckets';
+import openedBucket from '../components/objects/contact-center/buckets/opened-bucket';
 
 Vue.use(Router);
 
