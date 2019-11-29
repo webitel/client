@@ -1,15 +1,15 @@
 <template>
     <section>
         <header class="content-header">
-            <h3 class="content-title">{{$t('objects.generalInfo')}}</h3>
+            <h3 class="content-title">{{$tc('objects.ccenter.skills.skills', 2)}}</h3>
             <i class="icon-action icon-icon_plus" @click="popupTriggerIf = true"></i>
         </header>
 
         <skill-popup
-            v-if="popupTriggerIf"
-            :value="dataList[editedIndex]"
-            @addItem="addItem"
-            @close="closePopup"
+                v-if="popupTriggerIf"
+                :value="dataList[editedIndex]"
+                @addItem="addItem"
+                @close="closePopup"
         >
 
         </skill-popup>
@@ -27,7 +27,19 @@
 
             <template slot="capacity" slot-scope="props">
                 <div>
-                    {{dataList[props.rowIndex].capacity}}
+                    {{dataList[props.rowIndex].capacity[0]}} - {{dataList[props.rowIndex].capacity[1]}}
+                </div>
+            </template>
+
+            <template slot="level" slot-scope="props">
+                <div>
+                    {{dataList[props.rowIndex].level}}
+                </div>
+            </template>
+
+            <template slot="bucket" slot-scope="props">
+                <div>
+                    {{dataList[props.rowIndex].bucket.name}}
                 </div>
             </template>
 
@@ -40,26 +52,29 @@
                 ></i>
             </template>
         </vuetable>
+        <pagination/>
     </section>
 </template>
 
 <script>
-    import openedAgentSkillsPopup from './opened-agent-skills-popup';
+    import openedTeamSkillsPopup from './opened-team-skills-popup';
     import tableComponentMixin from '@/mixins/tableComponentMixin';
     import openedTabComponentMixin from '@/mixins/openedTabComponentMixin';
     import {_actionsTableField_2} from "@/utils/tableFieldPresets";
 
     export default {
-        name: "opened-agent-skills",
+        name: "opened-team-skills",
         components: {
-            'skill-popup': openedAgentSkillsPopup
+            'skill-popup': openedTeamSkillsPopup
         },
         mixins: [openedTabComponentMixin, tableComponentMixin],
         data() {
             return {
                 fields: [
-                    {name: 'name', title: this.$tc('objects.ccenter.skills.skills', 2)},
+                    {name: 'name', title: this.$t('objects.name')},
                     {name: 'capacity', title: this.$t('objects.ccenter.skills.capacity')},
+                    {name: 'level', title: this.$t('objects.ccenter.teams.level')},
+                    {name: 'bucket', title: this.$tc('objects.ccenter.buckets.buckets', 1)},
                     _actionsTableField_2,
                 ],
                 editedIndex: null,
@@ -83,13 +98,15 @@
             },
 
             loadDataList() {
-                for(let i = 0; i < 10; i++) {
+                for (let i = 0; i < 10; i++) {
                     this.dataList.push({
                         skill: {
                             id: i,
-                            name: 'skillname '+i,
+                            name: 'skillname ' + i,
                         },
-                        capacity:Math.random()*10*i
+                        capacity: [i, i**i],
+                        level: i + 1,
+                        bucket: {name: 'Bucket name'}
                     });
                 }
             }

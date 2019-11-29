@@ -60,6 +60,7 @@
 
                 <template slot="actions" slot-scope="props">
                     <i class="vuetable-action icon-icon_edit"
+                       @click="historyPopupTriggerIf = true"
                     ></i>
                     <i class="vuetable-action icon-icon_edit"
                        @click="edit(props.rowIndex)"

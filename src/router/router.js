@@ -45,7 +45,7 @@ import openedResourceGroup from '../components/objects/contact-center/resource-g
 import agents from '../components/objects/contact-center/agents/the-agents';
 import openedAgent from '../components/objects/contact-center/agents/opened-agent';
 import teams from '../components/objects/contact-center/teams/the-teams';
-import openedTeam from '../components/objects/contact-center/teams/the-teams';
+import openedTeam from '../components/objects/contact-center/teams/opened-team';
 import skills from '../components/objects/contact-center/teams/the-teams';
 import openedSkill from '../components/objects/contact-center/teams/the-teams';
 

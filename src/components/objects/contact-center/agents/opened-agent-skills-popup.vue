@@ -14,12 +14,37 @@
             ></dropdown-select>
 
             <form-input
-                    v-model.trim="$v.itemInstance.capacity.$model"
-                    :label="$t('objects.ccenter.agents.skillCapacity')"
-                    :placeholder="$t('objects.ccenter.agents.skillCapacity')"
-                    :v="$v.itemInstance.capacity"
+                    v-model.trim="$v.itemInstance.capacity.from.$model"
+                    :label="$t('objects.ccenter.skills.capacity')"
+                    :placeholder="$t('objects.ccenter.skills.capacity')"
+                    :v="$v.itemInstance.capacity.from"
                     required
             ></form-input>
+
+            <form-input
+                    v-model.trim="$v.itemInstance.capacity.to.$model"
+                    :label="$t('objects.ccenter.skills.capacity')"
+                    :placeholder="$t('objects.ccenter.skills.capacity')"
+                    :v="$v.itemInstance.capacity.to"
+                    required
+            ></form-input>
+
+            <form-input
+                    v-model.trim="$v.itemInstance.level.$model"
+                    :label="$t('objects.ccenter.skills.capacity')"
+                    :placeholder="$t('objects.ccenter.skills.capacity')"
+                    :v="$v.itemInstance.level"
+                    required
+            ></form-input>
+
+            <dropdown-select
+                    v-model="itemInstance.bucket"
+                    :v="$v.itemInstance.bucket"
+                    :options="[]"
+                    :label="$t('objects.ccenter.teams.bucket')"
+                    :placeholder="$t('objects.ccenter.teams.bucket')"
+                    required
+            ></dropdown-select>
         </form>
     </popup>
 </template>
@@ -46,7 +71,13 @@
                     skill: {
                         name: 'Skillname'
                     },
-                    capacity: 10
+                    capacity: {
+                        from: 10,
+                        to: 12,
+                    },
+                    bucket: {
+                        name: 'Bucket name'
+                    }
                 }
             }
         },
@@ -57,10 +88,18 @@
                     required,
                 },
                 capacity: {
-                    numeric,
-                    minValue: minValue(0),
-                    maxValue: maxValue(100),
-                    required
+                    from: {
+                        numeric,
+                        minValue: minValue(0),
+                        maxValue: maxValue(100),
+                        required
+                    },
+                    to: {
+                        numeric,
+                        minValue: minValue(0),
+                        maxValue: maxValue(100),
+                        required
+                    },
                 }
             }
         },

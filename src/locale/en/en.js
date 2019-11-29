@@ -113,6 +113,8 @@ export default {
         ok: 'Ok',
         enabled: 'Enabled',
         status: 'Status',
+        from: 'From',
+        to: 'To',
 
         CSV: {
             skipHeaders: 'Skip headers',
@@ -342,7 +344,6 @@ export default {
                 allAgents: 'All agents',
                 state: 'State',
                 stateTime: 'State time',
-                skillCapacity: 'Capacity',
             },
 
             teams: {
@@ -354,14 +355,28 @@ export default {
                 historyFrom: 'From',
                 historyTo: 'To',
                 historyDuration: 'Duration',
+                supervisors: 'Supervisor | Supervisors',
+                level: 'Level',
+                timing: 'Timing',
+                maxNoAnswer: 'Max no answer',
+                callTimeout: 'Call timeout',
+                wrapUpTime: 'Wrap up time',
+                busyDelayTime: 'Busy delay time',
+                rejectDelayTime: 'Reject delay time',
+                noAnswerDelayTime: 'No answer delay time',
             },
 
             queues: {
-                queues: 'Queue | Queues'
+                queues: 'Queue | Queues',
             },
 
             skills: {
-                skills: 'Skill | Skills'
+                skills: 'Skill | Skills',
+                capacity: 'Capacity',
+            },
+
+            buckets: {
+                buckets: 'Bucket | Buckets',
             },
 
             res: {
