@@ -46,8 +46,9 @@ export default {
                         includes(search.trim().toLowerCase());
                     });
                 });
+            } else {
+                this.filteredDataList = [...this.dataList];
             }
-            this.filteredDataList = [...this.dataList];
         },
 
         deleteSelected() {

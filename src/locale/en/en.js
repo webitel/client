@@ -372,6 +372,14 @@ export default {
 
             queues: {
                 queues: 'Queue | Queues',
+                allQueues: 'All queues',
+                type: 'Type',
+                state: 'State',
+                active: 'Active',
+                notActive: 'Not active',
+                activeCalls: 'Active calls',
+                waiting: 'Waiting',
+                priority: 'Priority',
             },
 
             buckets: {

@@ -48,6 +48,8 @@ import agentSkills from '../components/objects/contact-center/agent-skills/the-a
 import openedAgentSkill from '../components/objects/contact-center/agent-skills/opened-agent-skill';
 import buckets from '../components/objects/contact-center/buckets/the-buckets';
 import openedBucket from '../components/objects/contact-center/buckets/opened-bucket';
+import queues from '../components/objects/contact-center/queues/the-queues';
+import openedQueue from '../components/objects/contact-center/queues/the-queues';
 
 Vue.use(Router);
 
@@ -376,6 +378,21 @@ const router = new Router({
                     path:'/contact-center/bucket/:id',
                     name: 'cc-bucket-edit',
                     component: openedBucket
+                },
+                {
+                    path:'/contact-center/queues',
+                    name: 'cc-queues',
+                    component: queues
+                },
+                {
+                    path:'/contact-center/queues/new',
+                    name: 'cc-queue-new',
+                    component: openedQueue
+                },
+                {
+                    path:'/contact-center/queues/:id',
+                    name: 'cc-queues-edit',
+                    component: openedQueue
                 },
                 // --------------CONTACT CENTER END-------------
 
