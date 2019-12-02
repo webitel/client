@@ -1,11 +1,13 @@
 <template>
     <div>
         <object-header
-                :primaryAction="create"
+                :primaryAction="() => {this.popupTriggerIf = true}"
         >
             {{$t('objects.ccenter.ccenter')}} |
             {{$tc('objects.ccenter.queues.queues', 2)}}
         </object-header>
+
+        <queue-popup v-if="popupTriggerIf" @close="popupTriggerIf = false"></queue-popup>
 
         <section class="object-content">
             <header class="content-header">
@@ -87,12 +89,14 @@
 </template>
 
 <script>
+    import queuePopup from './create-queue-popup';
     import tableComponentMixin from '@/mixins/tableComponentMixin';
     import {_checkboxTableField, _actionsTableField_2} from "@/utils/tableFieldPresets";
 
     export default {
         name: "the-queues",
         mixins: [tableComponentMixin],
+        components: {queuePopup},
         data() {
             return {
                 fields: [

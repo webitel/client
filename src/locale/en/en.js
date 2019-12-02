@@ -380,6 +380,19 @@ export default {
                 activeCalls: 'Active calls',
                 waiting: 'Waiting',
                 priority: 'Priority',
+                newQueue: 'New queue',
+                newQueueDescription: 'lorem ipsum dolor sit amet',
+                outboundIVR: 'Outbound IVP',
+                outboundIVRDescription: 'An Outbound IVR allows an organization to automatically engage customers through multiple channels such as automated voice calls, SMS messages, email or social media posts using personalized notifications.',
+                inboundQueue: 'Inbound queue',
+                inboundQueueDescription: 'An Inbound queue is that it’s where callers are placed on hold, in a queue, while they wait to speak with a live agent.',
+                offlineQueue: 'Offline queue',
+                offlineQueueDescription: 'An Offline queue gives callers the option to stop waiting on hold, input their phone number and receive a callback as soon as it’s their turn.',
+                previewDialer: 'Preview dialer',
+                previewDialerDescription: 'Preview the contact before auto dialing them.',
+                predictiveDialer: 'Progressive dialer',
+                predictiveDialerDescription: 'Progressive dialing minimizes wasted time between calls by automatically dialing a number from a call list as soon as an agent becomes available.',
+
             },
 
             buckets: {
