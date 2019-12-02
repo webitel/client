@@ -51,6 +51,7 @@
         position: relative;
         min-height: 24px;
         padding-left: 29px;
+        line-height: 24px;
         cursor: pointer;
         user-select: none;
 
@@ -66,7 +67,6 @@
         /* Create a custom checkbox */
         .checkbox {
             position: absolute;
-            bottom: -2px;
             left: 0;
             width: 18px;
             height: 18px;

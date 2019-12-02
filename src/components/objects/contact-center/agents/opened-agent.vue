@@ -65,8 +65,8 @@
                         value: 'general',
                     },
                     {
-                        text: this.$t('objects.ccenter.agents.permissions'),
-                        value: 'permissions',
+                        text: this.$tc('objects.permissions.permissions'),
+                        value: 'permissions-tab',
                     },
                     {
                         text: this.$tc('objects.ccenter.teams.teams', 2),

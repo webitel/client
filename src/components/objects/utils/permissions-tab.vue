@@ -1,108 +1,85 @@
 <template>
-    <div>
-        <object-header
-                :primaryText="$t('objects.save')"
-                :primaryAction="save"
-                close
+    <section class="object-content">
+        <header class="content-header">
+            <h3 class="content-title">{{$t('objects.permissions.object.operations')}}</h3>
+            <i class="icon-icon_plus icon-action" @click="addTableItem"></i>
+        </header>
+
+        <vuetable
+                :api-mode="false"
+                :fields="fields"
+                :data="dataList"
         >
-            <span class="tt-capitalize">{{headerTitle}}</span>
-            | {{$t('objects.edit')}}
-        </object-header>
 
-        <section class="object-content">
-            <header class="content-header">
-                <h3 class="content-title">{{$t('objects.permissions.object.operations')}}</h3>
-                <i class="icon-icon_plus icon-action" @click="addTableItem"></i>
-            </header>
+            <template slot="grantee" slot-scope="props">
+                <!--                    if not new-->
+                <div v-if="!dataList[props.rowIndex].new">
+                    {{dataList[props.rowIndex].grantee.role}}
+                </div>
 
-            <vuetable
-                    :api-mode="false"
-                    :fields="fields"
-                    :data="dataList"
-            >
+                <dropdown-select
+                        v-else
+                        class="inline-dropdown inline-dropdown__options-left"
+                        :value="dataList[props.rowIndex].grantee"
+                        :placeholder="$tc('objects.permissions.permissionsRole', 1)"
+                        :options="computeAvailableGrantees"
+                        @input="setNewGrantee($event, props.rowIndex)"
+                ></dropdown-select>
+            </template>
 
-                <template slot="grantee" slot-scope="props">
-                    <!--                    if not new-->
-                    <div v-if="!dataList[props.rowIndex].new">
-                        {{dataList[props.rowIndex].grantee.role}}
-                    </div>
+            <template slot="read" slot-scope="props">
+                <checkbox
+                        class="test__permissions-checkbox__r"
+                        :value="dataList[props.rowIndex].access.r"
+                        :label="$t('objects.allow')"
+                        @toggleCheckbox="toggleDataProperty($event, 'r', props.rowIndex)"
+                ></checkbox>
+            </template>
 
-                    <dropdown-select
-                            v-else
-                            class="inline-dropdown inline-dropdown__options-left"
-                           :value="dataList[props.rowIndex].grantee"
-                            :placeholder="$tc('objects.permissions.permissionsRole', 1)"
-                            :options="computeAvailableGrantees"
-                            @input="setNewGrantee($event, props.rowIndex)"
-                    ></dropdown-select>
-                </template>
+            <template slot="edit" slot-scope="props">
+                <checkbox
+                        class="test__permissions-checkbox__u"
+                        :value="dataList[props.rowIndex].access.u"
+                        :label="$t('objects.allow')"
+                        @toggleCheckbox="toggleDataProperty($event, 'u', props.rowIndex)"
+                ></checkbox>
+            </template>
 
-                <template slot="create" slot-scope="props">
-                    <checkbox
-                            class="test__permissions-checkbox__c"
-                            :value="dataList[props.rowIndex].access.c"
-                            :label="$t('objects.allow')"
-                            @toggleCheckbox="toggleDataProperty($event, 'c', props.rowIndex)"
-                    ></checkbox>
-                </template>
-
-                <template slot="read" slot-scope="props">
-                    <checkbox
-                            class="test__permissions-checkbox__r"
-                            :value="dataList[props.rowIndex].access.r"
-                            :label="$t('objects.allow')"
-                            @toggleCheckbox="toggleDataProperty($event, 'r', props.rowIndex)"
-                    ></checkbox>
-                </template>
-
-                <template slot="edit" slot-scope="props">
-                    <checkbox
-                            class="test__permissions-checkbox__u"
-                            :value="dataList[props.rowIndex].access.u"
-                            :label="$t('objects.allow')"
-                            @toggleCheckbox="toggleDataProperty($event, 'u', props.rowIndex)"
-                    ></checkbox>
-                </template>
-
-                <template slot="delete" slot-scope="props">
-                    <checkbox
-                            class="test__permissions-checkbox__d"
-                            :value="dataList[props.rowIndex].access.d"
-                            :label="$t('objects.allow')"
-                            @toggleCheckbox="toggleDataProperty($event, 'd', props.rowIndex)"
-                    ></checkbox>
-                </template>
-            </vuetable>
-        </section>
-    </div>
+            <template slot="delete" slot-scope="props">
+                <checkbox
+                        class="test__permissions-checkbox__d"
+                        :value="dataList[props.rowIndex].access.d"
+                        :label="$t('objects.allow')"
+                        @toggleCheckbox="toggleDataProperty($event, 'd', props.rowIndex)"
+                ></checkbox>
+            </template>
+        </vuetable>
+    </section>
 </template>
 
-
 <script>
+    import checkbox from '@/components/utils/checkbox';
+    // import openedTabComponentMixin from '@/mixins/openedTabComponentMixin';
     import vuetable from 'vuetable-2/src/components/Vuetable';
     import {getObject, updateObjectPermissions, getObjectPermissions} from "@/api/objects/permissions/objects";
     import {getRoleList} from "@/api/objects/permissions/roles";
-    import editComponentMixin from '@/mixins/editComponentMixin';
+    import dropdownSelect from '@/components/utils/dropdown-select';
 
     export default {
-        name: "opened-object-permissions",
-        components: {
-            vuetable,
-        },
-        mixins: [editComponentMixin],
+        name: "permissions-tab",
+        // mixins: [openedTabComponentMixin],
+        components: {vuetable, checkbox, dropdownSelect},
         data() {
             return {
                 // vuetable prop
                 fields: [
                     {name: 'grantee', title: this.$t('objects.name')},
-                    {name: 'create', title: this.$t('objects.create')},
                     {name: 'read', title: this.$t('objects.read')},
                     {name: 'edit', title: this.$t('objects.edit')},
                     {name: 'delete', title: this.$t('objects.delete')},
                 ],
                 dataList: [], // list with all table data, contains user changes
                 initialDataList: [],  // list of initial table data, used for user changes segregation
-                headerTitle: '', // header title. retieves from object GET request
 
                 changeAccessList: [], // contains id's of grantee`s changed permissions
                 roleList: [] // list of all roles to add new. retrieves from roles GET request
@@ -112,9 +89,6 @@
         mounted() {
             // get object permissions
             this.loadDataList(this.id);
-
-            // get object title to show on page header
-            this.loadHeaderTitle(this.id);
 
             // get all roles to choose which to add
             this.loadRoleList();
@@ -177,7 +151,8 @@
                     try {
                         await updateObjectPermissions(this.id, granteesToSend);
                         this.close();
-                    } catch (e) {}
+                    } catch (e) {
+                    }
 
                 } else {
                     this.close();
@@ -244,15 +219,6 @@
                 return changedOperations;
             },
 
-            close() {
-                this.$router.go(-1);
-            },
-
-            // get object title to show on page header
-            async loadHeaderTitle(id) {
-                this.headerTitle = await getObject(id);
-            },
-
             // get all roles to choose which to add
             async loadRoleList() {
                 const response = await getRoleList();
@@ -260,7 +226,7 @@
             },
 
             // get object permissions
-            async loadDataList(id) {
+            async loadDataList(id = 10055) {
                 const response = await getObjectPermissions(id);
                 this.dataList = [...response];
                 this.initialDataList = JSON.parse(JSON.stringify(response));
@@ -285,4 +251,4 @@
     .vs__dropdown-toggle {
         padding-left: 0 !important;
     }
-</style> 
+</style>
