@@ -25,7 +25,6 @@
                     class="form__input"
                     v-model.trim="$v.form.username.$model"
                     :label="$t('auth.user')"
-                    :placeholder="$t('auth.user')"
                     :v="$v.form.username"
                     :autofocus="true"
             ></form-input>
@@ -44,7 +43,6 @@
                     class="form__input"
                     v-model.trim="$v.form.confirmPassword.$model"
                     :label="$t('auth.confirmPassword')"
-                    :placeholder="$t('auth.confirmPassword')"
                     :v="$v.form.confirmPassword"
                     :type="'password'"
             ></form-input>
@@ -53,7 +51,6 @@
                     class="form__input"
                     v-model.trim="$v.form.certificate.$model"
                     :label="$t('auth.key')"
-                    :placeholder="$t('auth.key')"
                     :v="$v.form.certificate"
             ></form-input>
 

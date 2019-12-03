@@ -8,7 +8,6 @@
                     v-model.trim="v.itemInstance.calendar.name.$model"
                     :v="v.itemInstance.calendar.name"
                     :label="$t('objects.name')"
-                    :placeholder="$t('objects.name')"
                     required
             ></form-input>
 
@@ -16,7 +15,6 @@
                     :options="dropdownOptionsList"
                     :displayProperty="'name'"
                     :label="$t('objects.lookups.calendars.timezone')"
-                    :placeholder="$t('objects.lookups.calendars.timezone')"
                     :value="v.itemInstance.calendar.timezone.$model"
                     @input="itemInstance.calendar.timezone = $event"
                     @search="searchList"
@@ -26,7 +24,6 @@
             <form-input
                     v-model.trim="itemInstance.calendar.description"
                     :label="$t('objects.description')"
-                    :placeholder="$t('objects.description')"
                     textarea
             ></form-input>
 

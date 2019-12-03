@@ -17,7 +17,6 @@
                         v-model.trim="$v.itemInstance.code.$model"
                         :v="$v.itemInstance.code"
                         :label="$t('objects.lookups.communications.code')"
-                        :placeholder="$t('objects.lookups.communications.code')"
                         required
                 ></form-input>
 
@@ -25,14 +24,12 @@
                         v-model.trim="$v.itemInstance.name.$model"
                         :v="$v.itemInstance.name"
                         :label="$t('objects.name')"
-                        :placeholder="$t('objects.name')"
                         required
                 ></form-input>
 
                 <form-input
                         v-model="itemInstance.description"
                         :label="$t('objects.description')"
-                        :placeholder="$t('objects.description')"
                         textarea
                 ></form-input>
 

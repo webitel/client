@@ -25,7 +25,6 @@
                     class="form__input"
                     v-model.trim="$v.form.username.$model"
                     :label="$t('auth.user')"
-                    :placeholder="$t('auth.user')"
                     :v="$v.form.username"
                     :autofocus="true"
             ></form-input>
@@ -34,7 +33,6 @@
                     class="form__input"
                     v-model.trim="$v.form.password.$model"
                     :label="$t('auth.password')"
-                    :placeholder="$t('auth.password')"
                     :v="$v.form.password"
                     :type="'password'"
             ></form-input>

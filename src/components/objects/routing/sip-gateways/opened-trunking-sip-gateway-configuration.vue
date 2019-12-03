@@ -20,14 +20,12 @@
                             v-model="ipacl.$model.ip"
                             :v="ipacl.ip"
                             :label="$t('objects.routing.ip')"
-                            :placeholder="$t('objects.routing.ip')"
                             required
                     ></form-input>
 
                     <form-input
                             v-model="ipacl.$model.port"
                             :label="$t('objects.routing.port')"
-                            :placeholder="$t('objects.routing.port')"
                     ></form-input>
                     <i
                             class="icon-icon_delete icon-action"

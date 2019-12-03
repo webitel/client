@@ -8,7 +8,7 @@
                 :value="computeDisplayValue"
                 :options="options"
                 :label="displayProperty"
-                :placeholder="placeholder"
+                :placeholder="placeholder || label"
                 :clearable="false"
                 :disabled="disabled"
                 :required="required"

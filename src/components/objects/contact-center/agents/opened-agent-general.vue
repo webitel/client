@@ -9,14 +9,12 @@
                     :v="v.itemInstance.agent.user"
                     :options="userList"
                     :label="$tc('objects.directory.users.users', 1)"
-                    :placeholder="$tc('objects.directory.users.users', 1)"
                     required
             ></dropdown-select>
 
             <form-input
                     v-model="itemInstance.agent.description"
                     :label="$t('objects.description')"
-                    :placeholder="$t('objects.description')"
                     textarea
             ></form-input>
         </form>

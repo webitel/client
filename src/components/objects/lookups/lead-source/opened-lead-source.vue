@@ -25,14 +25,12 @@
                         v-model.trim="$v.leadSourceInstance.name.$model"
                         :v="$v.leadSourceInstance.name"
                         :label="$t('objects.name')"
-                        :placeholder="$t('objects.name')"
                         required
                 ></form-input>
 
                 <form-input
                         class="form__input"
                         :label="$t('objects.description')"
-                        :placeholder="$t('objects.description')"
                         textarea
                 ></form-input>
 

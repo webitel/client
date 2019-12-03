@@ -15,14 +15,12 @@
                 <dropdown-select
                         :value="''"
                         :label="$t('objects.CSV.charSet')"
-                        :placeholder="$t('objects.CSV.charSet')"
                 >
                 </dropdown-select>
 
                 <form-input
                         v-model="separator"
                         :label="$t('objects.CSV.separator')"
-                        :placeholder="$t('objects.CSV.separator')"
                 >
                 </form-input>
             </form>

@@ -11,7 +11,7 @@
                 v-model="validation"
                 @input="$emit('input, $event.target.value')"
                 :type="type"
-                :placeholder="placeholder"
+                :placeholder="placeholder || label"
                 :autofocus="autofocus"
                 :disabled="disabled"
         />
@@ -22,7 +22,7 @@
                 v-if="textarea"
                 v-model="validation"
                 @input="$emit('input, $event.target.value')"
-                :placeholder="placeholder"
+                :placeholder="placeholder || label"
                 :autofocus="autofocus"
                 :disabled="disabled"
         ></textarea>
@@ -116,7 +116,6 @@
         },
         mounted() {
             eventBus.$on('copyToClipboard', this.copyToClipboard);
-
             if (this.textarea) this.$refs.input.style.height = `${this.height}px`;
         },
         computed: {

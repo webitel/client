@@ -8,7 +8,6 @@
                     v-model.trim="v.itemInstance.name.$model"
                     :v="v.itemInstance.name"
                     :label="$t('objects.name')"
-                    :placeholder="$t('objects.name')"
                     :hintText="'lorem ipsum'"
                     required
             ></form-input>
@@ -16,7 +15,6 @@
                     v-model.trim="v.itemInstance.account.$model"
                     :v="v.itemInstance.account"
                     :label="$t('objects.directory.devices.authId')"
-                    :placeholder="$t('objects.directory.devices.authId')"
                     :hintText="'lorem ipsum'"
                     required
             ></form-input>
@@ -27,7 +25,6 @@
                         v-model.trim="v.itemInstance.password.$model"
                         :v="v.itemInstance.password"
                         :label="$t('objects.password')"
-                        :placeholder="$t('objects.password')"
                         required
                 ></form-input>
 
@@ -50,7 +47,6 @@
             <dropdown-select
                     v-model="itemInstance.user"
                     :label="$t('objects.user')"
-                    :placeholder="$t('objects.user')"
             ></dropdown-select>
         </form>
     </section>

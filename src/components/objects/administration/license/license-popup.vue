@@ -7,7 +7,6 @@
         <section class="license-popup-content">
             <form-input
                     :label="$t('objects.license.licenseKey')"
-                    :placeholder="$t('objects.license.licenseKey')"
             ></form-input>
         </section>
     </popup>

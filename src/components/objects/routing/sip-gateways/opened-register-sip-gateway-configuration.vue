@@ -7,7 +7,6 @@
             <form-input
                     v-model.trim="itemInstance.username"
                     :label="$t('objects.routing.gateways.authID')"
-                    :placeholder="$t('objects.routing.gateways.authID')"
             ></form-input>
 
             <dropdown-select
@@ -21,7 +20,6 @@
                     v-model.trim="v.itemInstance.accountName.$model"
                     :v="v.itemInstance.accountName"
                     :label="$t('objects.routing.gateways.accountNumber')"
-                    :placeholder="$t('objects.routing.gateways.accountNumber')"
                     required
             ></form-input>
 
@@ -29,14 +27,12 @@
                     v-model.trim="v.itemInstance.proxy.$model"
                     :v="v.itemInstance.proxy"
                     :label="$t('objects.routing.gateways.outboundProxy')"
-                    :placeholder="$t('objects.routing.gateways.outboundProxy')"
             ></form-input>
 
             <form-input
                     v-model.trim="v.itemInstance.domain.$model"
                     :v="v.itemInstance.domain"
                     :label="$t('objects.routing.gateways.domain')"
-                    :placeholder="$t('objects.routing.gateways.domain')"
             ></form-input>
         </form>
     </section>

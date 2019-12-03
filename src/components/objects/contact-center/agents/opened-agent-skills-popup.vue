@@ -9,14 +9,12 @@
                     :v="$v.itemInstance.skill.name"
                     :options="[]"
                     :label="$tc('objects.ccenter.skills.skills', 1)"
-                    :placeholder="$tc('objects.ccenter.skills.skills', 1)"
                     required
             ></dropdown-select>
 
             <form-input
                     v-model.trim="$v.itemInstance.capacity.from.$model"
                     :label="$t('objects.ccenter.skills.capacity')"
-                    :placeholder="$t('objects.ccenter.skills.capacity')"
                     :v="$v.itemInstance.capacity.from"
                     required
             ></form-input>
@@ -24,7 +22,6 @@
             <form-input
                     v-model.trim="$v.itemInstance.capacity.to.$model"
                     :label="$t('objects.ccenter.skills.capacity')"
-                    :placeholder="$t('objects.ccenter.skills.capacity')"
                     :v="$v.itemInstance.capacity.to"
                     required
             ></form-input>
@@ -32,7 +29,6 @@
             <form-input
                     v-model.trim="$v.itemInstance.level.$model"
                     :label="$t('objects.ccenter.skills.capacity')"
-                    :placeholder="$t('objects.ccenter.skills.capacity')"
                     :v="$v.itemInstance.level"
                     required
             ></form-input>
@@ -42,7 +38,6 @@
                     :v="$v.itemInstance.bucket"
                     :options="[]"
                     :label="$t('objects.ccenter.teams.bucket')"
-                    :placeholder="$t('objects.ccenter.teams.bucket')"
                     required
             ></dropdown-select>
         </form>
