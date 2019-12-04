@@ -8,6 +8,7 @@
         </div>
         <form class="timepicker__form">
             <dropdown-select
+                    v-if="timeVisibility.hour"
                     :value="computeHours"
                     :options="hourOptions || initHourList"
                     taggable
@@ -15,10 +16,19 @@
             ></dropdown-select>
             <span class="delimiter">:</span>
             <dropdown-select
+                    v-if="timeVisibility.min"
                     :value="computeMins"
                     :options="minOptions"
                     taggable
                     @input="setMins"
+            ></dropdown-select>
+            <span class="delimiter">:</span>
+            <dropdown-select
+                    v-if="timeVisibility.sec"
+                    :value="computeSecs"
+                    :options="secOptions"
+                    taggable
+                    @input="setSecs"
             ></dropdown-select>
         </form>
         <validation-message
@@ -42,6 +52,10 @@
         },
 
         props: {
+            format: {
+                type: String,
+                default: 'hh:mm:ss'
+            },
             label: {
                 type: String,
             },
@@ -56,6 +70,10 @@
                 type: Array,
                 default: () => ['00', '15', '30', '45']
             },
+            secOptions: {
+                type: Array,
+                default: () => ['00', '15', '30', '45']
+            },
             required: {
                 type: Boolean,
                 default: false
@@ -67,68 +85,106 @@
 
         data() {
             return {
-                hour: 0,
-                min: 0
+                time: {
+                    hour: 0,
+                    min: 0,
+                    sec: 0,
+                },
+                timeVisibility: {
+                    hour: false,
+                    min: false,
+                    sec: false,
+                }
+            }
+        },
+
+        watch: {
+            value: function () {
+                this.updateComponentTime();
             }
         },
 
         mounted() {
-            this.hour = Math.floor(this.value / 60);
-            this.min = Math.floor(this.value % 60) ;
+            this.setVisibleFormat();
+            this.updateComponentTime();
         },
 
         computed: {
             computeHours() {
-                let hours = Math.floor(this.value / 60) + '';
-                if (hours - 0 < 10) {
-                    hours = '0' + hours;
-                }
-                return hours;
+                return this.addZero(this.time.hour);
             },
 
             computeMins() {
-                let mins = Math.floor(this.value % 60) + '';
-                if (mins - 0 < 10) {
-                    mins = '0' + mins;
-                }
-                return mins;
+                return this.addZero(this.time.min);
+            },
+
+            computeSecs() {
+                return this.addZero(this.time.sec);
             },
 
             initHourList() {
                 const hourList = [];
                 for (let i = 0; i < 24; i++) {
-                    let hour;
-                    if (i < 10) {
-                        hour = '0' + i;
-                    } else {
-                        hour = i + '';
-                    }
-                    hourList.push(hour);
+                    hourList.push(this.addZero(i));
                 }
-                hourList.push('23:59');
                 return hourList;
             },
         },
 
         methods: {
+            updateComponentTime() {
+                let value = this.value;
+                if (!this.timeVisibility.sec) value = value * 60;
+                if (!this.timeVisibility.min) value = value * 60;
+                this.time.sec = value % 60;
+                this.time.min = Math.floor(value / 60 % 60);
+                this.time.hour = Math.floor(value / 3600);
+            },
+
+            setTime() {
+                let value = this.time.hour*3600 + this.time.min*60 + this.time.sec;
+                if (!this.format.includes('s')) value = value / 60;
+                if (!this.format.includes('m')) value = value / 60;
+                this.$emit('input', value);
+            },
+
             setHours(value) {
-                this.hour = value*60;
-                const newVal = this.hour + this.min;
-                this.$emit('input', newVal);
+                this.time.hour = +value;
+                this.setTime();
             },
 
             setMins(value) {
-                this.min = +value;
-                const newVal = this.hour + this.min;
-                this.$emit('input', newVal);
+                this.time.min = +value;
+                this.setTime();
             },
 
+            setSecs(value) {
+                this.time.sec = +value;
+                this.setTime();
+            },
+
+            setVisibleFormat() {
+                if (this.format.includes('h')) {
+                    this.timeVisibility.hour = true;
+                }
+                if (this.format.includes('m')) {
+                    this.timeVisibility.min = true;
+                }
+                if (this.format.includes('s')) {
+                    this.timeVisibility.sec = true;
+                }
+            },
+
+            addZero(value) {
+                return (value - 0 < 10) ? '0' + value : value + '';
+            },
         }
     }
 </script>
 
 <style lang="scss">
     .timepicker {
+        @extend .typo-input-label;
         overflow: visible !important;
     }
 
