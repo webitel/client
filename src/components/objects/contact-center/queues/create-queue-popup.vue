@@ -13,8 +13,8 @@
 
                 <li
                         class="popup-options__item-wrap"
-                        :class="{'active': computeSelectedOption('inbound-ivr')}"
-                        @click="selectPopupOption('inbound-ivr')"
+                        :class="{'active': computeSelectedOption('outbound-ivr')}"
+                        @click="selectPopupOption('outbound-ivr')"
                 >
                     <h4 class="popup-options__item-header">
                         {{$t('objects.ccenter.queues.outboundIVR')}}

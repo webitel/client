@@ -33,7 +33,11 @@ export default {
     computed: {
         // shows delete table action if some items are selected
         anySelected() {
-            return !this.filteredDataList.some((item) => item.isSelected);
+            if(this.filteredDataList.length) {
+                return !this.filteredDataList.some((item) => item.isSelected);
+            } else {
+                return !this.dataList.some((item) => item.isSelected);
+            }
         }
     },
 

@@ -49,7 +49,7 @@ import openedAgentSkill from '../components/objects/contact-center/agent-skills/
 import buckets from '../components/objects/contact-center/buckets/the-buckets';
 import openedBucket from '../components/objects/contact-center/buckets/opened-bucket';
 import queues from '../components/objects/contact-center/queues/the-queues';
-import openedQueue from '../components/objects/contact-center/queues/the-queues';
+import openedQueueOutboundIVR from '../components/objects/contact-center/queues/outboundIVRQueue/opened-queue-outbound-ivr';
 
 Vue.use(Router);
 
@@ -385,14 +385,54 @@ const router = new Router({
                     component: queues
                 },
                 {
-                    path:'/contact-center/queues/new',
-                    name: 'cc-queue-new',
-                    component: openedQueue
+                    path:'/contact-center/queues/outbound-ivr/new',
+                    name: 'cc-queue-outbound-ivr-new',
+                    component: openedQueueOutboundIVR
                 },
                 {
-                    path:'/contact-center/queues/:id',
-                    name: 'cc-queues-edit',
-                    component: openedQueue
+                    path:'/contact-center/queues/outbound-ivr/:id',
+                    name: 'cc-queue-outbound-ivr-edit',
+                    component: openedQueueOutboundIVR
+                },
+                {
+                    path:'/contact-center/queues/inbound-queue/new',
+                    name: 'cc-queue-inbound-queue-new',
+                    component: openedQueueOutboundIVR
+                },
+                {
+                    path:'/contact-center/queues/inbound-queue/:id',
+                    name: 'cc-queue-inbound-queue-edit',
+                    component: openedQueueOutboundIVR
+                },
+                {
+                    path:'/contact-center/queues/offline-queue/new',
+                    name: 'cc-queue-offline-queue-new',
+                    component: openedQueueOutboundIVR
+                },
+                {
+                    path:'/contact-center/queues/offline-queue/:id',
+                    name: 'cc-queue-offline-queue-edit',
+                    component: openedQueueOutboundIVR
+                },
+                {
+                    path:'/contact-center/queues/preview-dialer/new',
+                    name: 'cc-queue-preview-dialer-new',
+                    component: openedQueueOutboundIVR
+                },
+                {
+                    path:'/contact-center/queues/preview-dialer/:id',
+                    name: 'cc-queue-preview-dialer-edit',
+                    component: openedQueueOutboundIVR
+                },
+                {
+                    path:'/contact-center/queues/predictive-dialer/new',
+                    name: 'cc-queue-predictive-dialer-new',
+                    component: openedQueueOutboundIVR
+                },
+                {
+                    path:'/contact-center/queues/predictive-dialer/:id',
+                    name: 'cc-queue-predictive-dialer-edit',
+                    component: openedQueueOutboundIVR
                 },
                 // --------------CONTACT CENTER END-------------
 
