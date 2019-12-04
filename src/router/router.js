@@ -50,6 +50,7 @@ import buckets from '../components/objects/contact-center/buckets/the-buckets';
 import openedBucket from '../components/objects/contact-center/buckets/opened-bucket';
 import queues from '../components/objects/contact-center/queues/the-queues';
 import openedQueueOutboundIVR from '../components/objects/contact-center/queues/outboundIVRQueue/opened-queue-outbound-ivr';
+import openedQueueInbound from '../components/objects/contact-center/queues/inboundQueue/opened-queue-inbound-queue';
 
 Vue.use(Router);
 
