@@ -5,7 +5,7 @@
                 :primaryAction="submit"
                 close
         >
-            {{$t('objects.ccenter.queues.outboundIVRQueue')}} | {{computeTitle}}
+            {{$t('objects.ccenter.queues.inboundQueue')}} | {{computeTitle}}
         </object-header>
 
         <section class="object-content module-new object-with-tabs">
@@ -74,7 +74,12 @@
         // by vuelidate
         validations: {
             itemInstance: {
-
+                name: {
+                    required
+                },
+                calendar: {
+                    required
+                },
             }
         },
 

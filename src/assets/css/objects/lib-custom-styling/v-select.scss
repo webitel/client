@@ -1,6 +1,7 @@
 @import "../../../../../node_modules/vue-select/src/scss/vue-select";
 
 .dropdown-select {
+  @extend .typo-input-text;
   position: relative;
 }
 

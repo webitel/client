@@ -49,8 +49,8 @@ import openedAgentSkill from '../components/objects/contact-center/agent-skills/
 import buckets from '../components/objects/contact-center/buckets/the-buckets';
 import openedBucket from '../components/objects/contact-center/buckets/opened-bucket';
 import queues from '../components/objects/contact-center/queues/the-queues';
-import openedQueueOutboundIVR from '../components/objects/contact-center/queues/outboundIVRQueue/opened-queue-outbound-ivr';
-import openedQueueInbound from '../components/objects/contact-center/queues/inboundQueue/opened-queue-inbound-queue';
+import openedQueueOutboundIVR from '../components/objects/contact-center/queues/outbound-ivr-queue/opened-queue-outbound-ivr';
+import openedQueueInbound from '../components/objects/contact-center/queues/inbound-queue/opened-queue-inbound-queue';
 
 Vue.use(Router);
 
@@ -398,7 +398,7 @@ const router = new Router({
                 {
                     path:'/contact-center/queues/inbound-queue/new',
                     name: 'cc-queue-inbound-queue-new',
-                    component: openedQueueOutboundIVR
+                    component: openedQueueInbound
                 },
                 {
                     path:'/contact-center/queues/inbound-queue/:id',

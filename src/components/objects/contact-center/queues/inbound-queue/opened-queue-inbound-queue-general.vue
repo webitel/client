@@ -20,33 +20,15 @@
             ></dropdown-select>
 
             <dropdown-select
-                    v-model="itemInstance.strategy"
-                    :v="v.itemInstance.strategy"
+                    v-model="itemInstance.blacklist"
                     :options="[]"
-                    :label="$t('objects.ccenter.queues.strategy')"
-                    required
-            ></dropdown-select>
-
-            <dropdown-select
-                    v-model="itemInstance.timezone"
-                    :v="v.itemInstance.timezone"
-                    :options="[]"
-                    :label="$t('objects.ccenter.queues.timezone')"
-                    required
+                    :label="$tc('objects.lookups.blacklist.blacklist', 1)"
             ></dropdown-select>
 
             <dropdown-select
                     v-model="itemInstance.priority"
-                    :v="v.itemInstance.priority"
                     :options="[]"
                     :label="$t('objects.ccenter.queues.priority')"
-                    required
-            ></dropdown-select>
-
-            <dropdown-select
-                    v-model="itemInstance.blacklist"
-                    :options="[]"
-                    :label="$tc('objects.lookups.blacklist.blacklist', 1)"
             ></dropdown-select>
 
             <dropdown-select
@@ -57,10 +39,13 @@
                     required
             ></dropdown-select>
 
-            <form-input
-                    v-model="itemInstance.callLimit"
-                    :label="$t('objects.ccenter.queues.callLimit')"
-            ></form-input>
+            <dropdown-select
+                    v-model="itemInstance.team"
+                    :v="v.itemInstance.team"
+                    :options="[]"
+                    :label="$tc('objects.ccenter.teams.teams', 1)"
+                    required
+            ></dropdown-select>
 
             <form-input
                     v-model="itemInstance.description"
