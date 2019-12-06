@@ -70,7 +70,7 @@
     }
 </script>
 
-<style lang="scss" scoped>
+<style lang="scss">
     .popup-wrap {
         position: fixed;
         top: 0;
@@ -105,21 +105,21 @@
         border-radius: $border-radius;
         overflow-y: auto;
         z-index: 10;
-    }
 
-    .content-header {
-        margin: 0 44px 28px;
-    }
-
-    .content-body {
-        padding: 0 44px;
-        &.no-gutters {
-            padding: 0;
+        .content-header {
+            margin: 0 44px 28px;
         }
-    }
 
-    .btn-controls {
-        text-align: right;
-        margin: 26px 44px 0;
+        .content-body {
+            padding: 0 44px;
+            &.no-gutters {
+                padding: 0;
+            }
+        }
+
+        .btn-controls {
+            text-align: right;
+            margin: 26px 44px 0;
+        }
     }
 </style>

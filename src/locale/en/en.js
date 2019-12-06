@@ -447,6 +447,14 @@ export default {
         integrations: {
             integrations: 'Intergations',
 
+            tokens: {
+                tokens: 'Token | Tokens',
+                allTokens: 'All tokens',
+                expires: 'Expires on',
+                popupMessage: 'Download your key file now or copy it. If you do not download the key file now, you will not be able to retrieve your token key again. To help protect your security, store your token key securely and do not share it.',
+                tokenCreated: 'Your token has been successfully created!',
+            },
+
             triggers: {
                 triggers: 'Trigger | Triggers',
                 allTriggers: 'All triggers',

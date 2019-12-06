@@ -58,6 +58,8 @@ import openedQueuePredictiveDialer from '../components/objects/contact-center/qu
 import triggers from '../components/objects/integrations/triggers/the-triggers';
 import openedTriggerOnEvent from '../components/objects/integrations/triggers/opened-trigger-on-event';
 import openedTriggerAtTime from '../components/objects/integrations/triggers/opened-trigger-at-time';
+import tokens from '../components/objects/integrations/tokens/the-tokens';
+import openedToken from '../components/objects/integrations/tokens/opened-token';
 
 
 Vue.use(Router);
@@ -513,6 +515,16 @@ const router = new Router({
                     path: '/permissions/objects/:id',
                     name: 'permissions-objects-edit',
                     component: openedPermissionsObjects,
+                },
+                {
+                    path: '/integrations/tokens',
+                    name: 'tokens',
+                    component: tokens,
+                },
+                {
+                    path: '/integrations/tokens/new',
+                    name: 'token-new',
+                    component: openedToken
                 },
                 // ----------PERMISSIONS END-----------------
             ]
