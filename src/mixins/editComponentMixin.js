@@ -10,6 +10,7 @@ import validationMessage from '@/components/utils/validation-message';
 import tagsInput from '@johmun/vue-tags-input';
 import deepEqual from 'deep-equal';
 import permissionsTab from '../components/objects/utils/permissions-tab';
+import tabsComponent from '@/components/utils/tabs-component';
 
 export default {
     components: {
@@ -24,6 +25,7 @@ export default {
         tabs,
         tagsInput,
         permissionsTab,
+        tabsComponent,
     },
 
     data() {
@@ -31,7 +33,6 @@ export default {
             id: null, // id of currently opened component
             itemInstance: {},
             initialItem: {},
-            currentTab: {value: 'general'},
         };
     },
 
@@ -83,13 +84,5 @@ export default {
         computeTitle() {
             return this.id ? this.$t('objects.edit') : this.$t('objects.new');
         },
-
-        computeCurrentTab() {
-            if(this.currentTab.value.includes('tab')) {
-                console.log(this.currentTab.value);
-               return this.currentTab.value;
-            }
-            return this.$options.name + '-' + this.currentTab.value;
-        }
     },
 }

@@ -51,6 +51,10 @@ import openedBucket from '../components/objects/contact-center/buckets/opened-bu
 import queues from '../components/objects/contact-center/queues/the-queues';
 import openedQueueOutboundIVR from '../components/objects/contact-center/queues/outbound-ivr-queue/opened-queue-outbound-ivr';
 import openedQueueInbound from '../components/objects/contact-center/queues/inbound-queue/opened-queue-inbound-queue';
+import openedQueueOfflineQueue from '../components/objects/contact-center/queues/offline-queue/opened-queue-offline-queue';
+import openedQueuePreviewDialer from '../components/objects/contact-center/queues/preview-dialer/opened-queue-preview-dialer';
+import openedQueueProgressiveDialer from '../components/objects/contact-center/queues/progressive-dialer/opened-queue-progressive-dialer';
+import openedQueuePredictiveDialer from '../components/objects/contact-center/queues/predictive-dialer/opened-queue-predictive-dialer';
 
 Vue.use(Router);
 
@@ -403,37 +407,47 @@ const router = new Router({
                 {
                     path:'/contact-center/queues/inbound-queue/:id',
                     name: 'cc-queue-inbound-queue-edit',
-                    component: openedQueueOutboundIVR
+                    component: openedQueueInbound
                 },
                 {
                     path:'/contact-center/queues/offline-queue/new',
                     name: 'cc-queue-offline-queue-new',
-                    component: openedQueueOutboundIVR
+                    component: openedQueueOfflineQueue
                 },
                 {
                     path:'/contact-center/queues/offline-queue/:id',
                     name: 'cc-queue-offline-queue-edit',
-                    component: openedQueueOutboundIVR
+                    component: openedQueueOfflineQueue
                 },
                 {
                     path:'/contact-center/queues/preview-dialer/new',
                     name: 'cc-queue-preview-dialer-new',
-                    component: openedQueueOutboundIVR
+                    component: openedQueuePreviewDialer
                 },
                 {
                     path:'/contact-center/queues/preview-dialer/:id',
                     name: 'cc-queue-preview-dialer-edit',
-                    component: openedQueueOutboundIVR
+                    component: openedQueuePreviewDialer
+                },
+                {
+                    path:'/contact-center/queues/progressive-dialer/new',
+                    name: 'cc-queue-progressive-dialer-new',
+                    component: openedQueueProgressiveDialer
+                },
+                {
+                    path:'/contact-center/queues/progressive-dialer/:id',
+                    name: 'cc-queue-progressive-dialer-edit',
+                    component: openedQueueProgressiveDialer
                 },
                 {
                     path:'/contact-center/queues/predictive-dialer/new',
                     name: 'cc-queue-predictive-dialer-new',
-                    component: openedQueueOutboundIVR
+                    component: openedQueuePredictiveDialer
                 },
                 {
                     path:'/contact-center/queues/predictive-dialer/:id',
                     name: 'cc-queue-predictive-dialer-edit',
-                    component: openedQueueOutboundIVR
+                    component: openedQueuePredictiveDialer
                 },
                 // --------------CONTACT CENTER END-------------
 

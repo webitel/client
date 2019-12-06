@@ -65,6 +65,19 @@
 
                 <li
                         class="popup-options__item-wrap"
+                        :class="{'active': computeSelectedOption('progressive-dialer')}"
+                        @click="selectPopupOption('progressive-dialer')"
+                >
+                    <h4 class="popup-options__item-header">
+                        {{$t('objects.ccenter.queues.progressiveDialer')}}
+                    </h4>
+                    <p class="popup-options__item-text">
+                        {{$t('objects.ccenter.queues.progressiveDialerDescription')}}
+                    </p>
+                </li>
+
+                <li
+                        class="popup-options__item-wrap"
                         :class="{'active': computeSelectedOption('predictive-dialer')}"
                         @click="selectPopupOption('predictive-dialer')"
                 >
