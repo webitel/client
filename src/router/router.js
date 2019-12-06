@@ -55,6 +55,10 @@ import openedQueueOfflineQueue from '../components/objects/contact-center/queues
 import openedQueuePreviewDialer from '../components/objects/contact-center/queues/preview-dialer/opened-queue-preview-dialer';
 import openedQueueProgressiveDialer from '../components/objects/contact-center/queues/progressive-dialer/opened-queue-progressive-dialer';
 import openedQueuePredictiveDialer from '../components/objects/contact-center/queues/predictive-dialer/opened-queue-predictive-dialer';
+import triggers from '../components/objects/integrations/triggers/the-triggers';
+import openedTriggerOnEvent from '../components/objects/integrations/triggers/opened-trigger-on-event';
+import openedTriggerAtTime from '../components/objects/integrations/triggers/opened-trigger-at-time';
+
 
 Vue.use(Router);
 
@@ -450,6 +454,37 @@ const router = new Router({
                     component: openedQueuePredictiveDialer
                 },
                 // --------------CONTACT CENTER END-------------
+
+
+
+                // ----------INTEGRATIONS-----------------
+                {
+                    path: '/integrations/triggers',
+                    name: 'triggers',
+                    component: triggers,
+                },
+                {
+                    path: '/integrations/triggers/on-event/new',
+                    name: 'trigger-on-event-new',
+                    component: openedTriggerOnEvent
+                },
+                {
+                    path: '/integrations/triggers/on-event/:id',
+                    name: 'trigger-on-event-edit',
+                    component: openedTriggerOnEvent
+                },
+                {
+                    path: '/integrations/triggers/at-time/new',
+                    name: 'trigger-at-time-new',
+                    component: openedTriggerAtTime
+                },
+                {
+                    path: '/integrations/triggers/at-time/:id',
+                    name: 'trigger-at-time-edit',
+                    component: openedTriggerAtTime
+                },
+
+                // --------------INTEGRATIONS END-------------
 
 
 

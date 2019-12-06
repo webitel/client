@@ -65,7 +65,7 @@ export default {
             integrations: 'Integrations',
             tokens: 'API tokens',
             accounts: 'Accounts',
-            webhooks: 'Webhooks',
+            triggers: 'Triggers',
             widgets: 'Widgets',
             callTracking: 'Call tracking',
         },
@@ -442,6 +442,24 @@ export default {
                 timerangeFrom: 'From',
                 timerangeTo: 'To'
             },
+        },
+
+        integrations: {
+            integrations: 'Intergations',
+
+            triggers: {
+                triggers: 'Trigger | Triggers',
+                allTriggers: 'All triggers',
+                type: 'Type',
+                schema: 'Schema',
+                newTrigger: 'New trigger',
+                newTriggerDescription: 'Choose a template to get going or start from scratch with a blank canvas',
+                onEvent: 'On event',
+                onEventDescription: 'An event-based JSON Schema scheduler',
+                atTime: 'At time',
+                atTimeDescription: 'A time-based JSON Schema scheduler',
+                event: 'Event',
+            }
         },
 
         pagination: {

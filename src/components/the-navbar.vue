@@ -250,9 +250,9 @@
                                 current: false,
                             },
                             {
-                                name: 'webhooks',
-                                displayName: this.$t('nav.integrations.webhooks'),
-                                route: '/integrations/webhooks',
+                                name: 'triggers',
+                                displayName: this.$t('nav.integrations.triggers'),
+                                route: '/integrations/triggers',
                                 current: false,
                             },
                             {
