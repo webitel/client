@@ -39,33 +39,33 @@
             <vuetable
                     :api-mode="false"
                     :fields="fields"
-                    :data="filteredDataList"
+                    :data="dataList"
             >
 
                 <template slot="name" slot-scope="props">
                     <div class="tt-capitalize">
                         <span class="nameLink" @click="edit(props.rowIndex)">
-                            {{filteredDataList[props.rowIndex].name}}
+                            {{dataList[props.rowIndex].name}}
                         </span>
                     </div>
                 </template>
 
                 <template slot="username" slot-scope="props">
                     <div>
-                        {{filteredDataList[props.rowIndex].username}}
+                        {{dataList[props.rowIndex].username}}
                     </div>
                 </template>
 
                 <template slot="extensions" slot-scope="props">
                     <div>
-                        {{filteredDataList[props.rowIndex].extensions}}
+                        {{dataList[props.rowIndex].extensions}}
                     </div>
                 </template>
 
                 <template slot="state" slot-scope="props">
                     <status
-                            :class="{'status__true': filteredDataList[props.rowIndex].state}"
-                            :text=computeOnlineText(filteredDataList[props.rowIndex].state)
+                            :class="{'status__true': dataList[props.rowIndex].state}"
+                            :text=computeOnlineText(dataList[props.rowIndex].state)
                     >
                     </status>
                 </template>
@@ -73,7 +73,7 @@
 
                 <template slot="DnD" slot-scope="props">
                     <switcher
-                            :value="filteredDataList[props.rowIndex].dnd"
+                            :value="dataList[props.rowIndex].dnd"
                             @input="toggleSwitchProperty('dnd', props.rowIndex)"
                     ></switcher>
                 </template>
@@ -82,7 +82,7 @@
                 <template slot="status" slot-scope="props">
                     <dropdown-select
                             class="inline-dropdown inline-dropdown__options-right"
-                            :value="filteredDataList[props.rowIndex].status"
+                            :value="dataList[props.rowIndex].status"
                             :placeholder="$t('objects.directory.users.status')"
                             :options="statusOptions"
                             @input="changeStatus($event, props.rowIndex)"
@@ -110,7 +110,6 @@
     import {_checkboxTableField, _actionsTableField_2} from "@/utils/tableFieldPresets";
     import tableComponentMixin from '@/mixins/tableComponentMixin';
     import {deleteUser, getUsersList, patchUser} from "../../../../api/objects/directory/users";
-    import debounce from "../../../../utils/debounce";
 
     export default {
         name: "the-users",
@@ -133,7 +132,6 @@
                     {name: 'status', title: this.$t('objects.directory.users.status')},
                     _actionsTableField_2,
                 ],
-                propertiesToSearch: ['head', 'login', 'extensions', 'status'],
                 statusOptions: ['On break', 'Available', 'Chatting'],
                 filterObjects: {
                     state: {
@@ -183,30 +181,29 @@
             edit(rowId) {
                 this.$router.push({
                     name: 'directory-users-edit',
-                    params: {id: this.filteredDataList[rowId].id},
+                    params: {id: this.dataList[rowId].id},
                 });
             },
 
-            async changeStatus(value, rowIndex) {
-                const oldVal = this.filteredDataList[rowIndex].status;
-                this.filteredDataList[rowIndex].status = value;
-                let user = {};
-                user.status = this.filteredDataList[rowIndex].status;
+            async changeStatus(status, rowIndex) {
+                this.dataList[rowIndex].status = status;
+                let user = {status};
+
                 try {
-                    await patchUser(this.filteredDataList[rowIndex].id, user);
+                    await patchUser(this.dataList[rowIndex].id, user);
                 } catch (e) {
-                    this.filteredDataList[rowIndex].status = oldVal;
+                    this.loadDataList();
                 }
             },
 
             async toggleSwitchProperty(prop, rowIndex) {
-                this.filteredDataList[rowIndex][prop] = !this.filteredDataList[rowIndex][prop];
+                this.dataList[rowIndex][prop] = !this.dataList[rowIndex][prop];
                 let user = {};
-                user[prop] = this.filteredDataList[rowIndex][prop];
+                user[prop] = this.dataList[rowIndex][prop];
                 try {
-                    await patchUser(this.filteredDataList[rowIndex].id, user);
+                    await patchUser(this.dataList[rowIndex].id, user);
                 } catch (e) {
-                    this.filteredDataList[rowIndex][prop] = !this.filteredDataList[rowIndex][prop];
+                    this.loadDataList();
                 }
             },
 
@@ -225,9 +222,8 @@
                 return state ? this.$t('objects.online') : this.$t('objects.offline');
             },
 
-            async loadDataList(search) {
+            async loadDataList() {
                 this.dataList = await getUsersList(this.size, this.search, this.filter);
-                this.filterData();
             },
         },
     }

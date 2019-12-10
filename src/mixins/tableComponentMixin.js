@@ -4,7 +4,6 @@ import objectHeader from '@/components/objects/the-object-header';
 import switcher from '@/components/utils/switcher';
 import status from '@/components/utils/status';
 import search from '@/components/utils/search';
-import debounce from '../utils/debounce';
 
 export default {
     mixins: [paginationMixin],
@@ -19,7 +18,6 @@ export default {
     data() {
         return {
             dataList: [], // list of all objects to show
-            filteredDataList: [],
             filterProperties: ['name'],
 
             search: '', // search filter
@@ -34,39 +32,21 @@ export default {
     computed: {
         // shows delete table action if some items are selected
         anySelected() {
-            if(this.filteredDataList.length) {
-                return !this.filteredDataList.some((item) => item.isSelected);
-            } else {
-                return !this.dataList.some((item) => item.isSelected);
-            }
+            return !this.dataList.some((item) => item.isSelected);
         }
     },
 
     methods: {
-        filterData(search = '') {
-            if(this.filterProperties.length) {
-                this.filteredDataList = this.dataList.filter(dataItem => {
-                    return this.filterProperties.some(filterProp => {
-                        return dataItem[filterProp].trim().toLowerCase().
-                        includes(search.trim().toLowerCase());
-                    });
-                });
-            } else {
-                this.filteredDataList = [...this.dataList];
-            }
-        },
-
         deleteSelected() {
-            const selectedItems = this.filteredDataList.filter(item => item.isSelected);
+            const selectedItems = this.dataList.filter(item => item.isSelected);
             this.remove(selectedItems);
 
         },
 
         async remove(items) {
-            if(items.length) {
+            if (items.length) {
                 await items.forEach(async item => {
                     this.removeItem(item);
-                    this.filterData();
                 });
             } else {
                 this.removeItem(items);
@@ -74,8 +54,7 @@ export default {
             this.loadDataList();
         },
 
-        async removeItem(item) {
-            const rowIndex = this.dataList.indexOf(this.filteredDataList[item]);
+        async removeItem(rowIndex) {
             const deletedItem = this.dataList.splice(rowIndex, 1)[0];
             try {
                 await this.deleteItem(deletedItem);
