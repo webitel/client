@@ -2,7 +2,7 @@ import instance from '@/api/instance';
 
 const BASE_URL = '/users';
 
-export async function getUsersList(size = 100) {
+export async function getUsersList(size = 100, search) {
     const defaultObject = {  // default object prototype, to merge response with it to get all fields
         isSelected: false,
         name: 'Username undefined',
@@ -13,8 +13,11 @@ export async function getUsersList(size = 100) {
         id: 0
     };
 
+    let url = BASE_URL + `?size=${size}`;
+    if(search) url += `&name=${search}*`;
+
     try {
-        let response = await instance.get(BASE_URL+`?size=${size}`);
+        let response = await instance.get(url);
         if (!response.data.users) response.data.users = [];
 
         return response.data.users.map(item => {
@@ -39,13 +42,13 @@ export async function getUser(id) {
 export const addUser = async (item) => {
     item = {
         "user": {
-            "name":      "Caller-ID Display Name",
-            "email":     "userN@invalid.example.com"+Math.random(),
-            "username":  "upd-userN"+Math.random(),
-            "password":  "{cleartext}",
+            "name": "Caller-ID Display Name",
+            "email": "userN@invalid.example.com" + Math.random(),
+            "username": "upd-userN" + Math.random(),
+            "password": "{cleartext}",
             // "extension": "1007"+Math.random(),
-            "status":    "Doing something !.. :P",
-            "dnd":        false,
+            "status": "Doing something !.. :P",
+            "dnd": false,
             "roles": {
                 "1011963": "ioio",
                 "1011964": "role.4b759299ca729c61e52d514e9d4aea46",
@@ -53,7 +56,7 @@ export const addUser = async (item) => {
                 "1011966": "role.315c9cdfe74c20bc0857056a9154fea2",
                 "1011967": "role.b34b3014ebb356977d5a36afdeeb45ae"
             },
-            "license":    null,
+            "license": null,
             "devices": null,
             "profile": {
                 "integration_id": "user@external.app",
@@ -83,13 +86,13 @@ export const updateUser = async (id, changes) => {
 
     changes = {
         "user": {
-            "name":      "upd-Caller-ID Display Name",
-            "email":     "userN@invalid.example.com",
-            "username":  "upd-userN"+Math.random(),
-            "password":  "{cleartext}",
+            "name": "upd-Caller-ID Display Name",
+            "email": "userN@invalid.example.com",
+            "username": "upd-userN" + Math.random(),
+            "password": "{cleartext}",
             "extension": "1007",
-            "status":    "Doing something !.. :P",
-            "dnd":        false,
+            "status": "Doing something !.. :P",
+            "dnd": false,
             "roles": {
                 "1011963": "ioio",
                 "1011964": "role.4b759299ca729c61e52d514e9d4aea46",
@@ -97,7 +100,7 @@ export const updateUser = async (id, changes) => {
                 "1011966": "role.315c9cdfe74c20bc0857056a9154fea2",
                 "1011967": "role.b34b3014ebb356977d5a36afdeeb45ae"
             },
-            "license":    null,
+            "license": null,
             "devices": null,
             "profile": {
                 "integration_id": "user@external.app",
@@ -109,6 +112,16 @@ export const updateUser = async (id, changes) => {
 
     try {
         const response = await instance.put(url, changes);
+    } catch (err) {
+        throw err;
+    }
+};
+
+export const patchUser = async (id, user) => {
+    const url = BASE_URL + '/' + id;
+
+    try {
+        await instance.patch(url, {user});
     } catch (err) {
         throw err;
     }

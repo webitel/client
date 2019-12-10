@@ -6,12 +6,14 @@
                 type="text"
                 :placeholder="placeholder || $t('objects.name')"
                 v-model="search"
-                @keyup="filterData"
+                @input="$emit('input')"
         >
     </form>
 </template>
 
 <script>
+    import debounce from "../../utils/debounce";
+
     export default {
         name: "search",
         props: {
@@ -26,10 +28,22 @@
             }
         },
 
+        watch: {
+          search: function () {
+              this.debouncer.call(this);
+          }
+        },
+
+        created() {
+            this.debouncer = debounce(this.debouncer);
+        },
+
         methods: {
-            filterData() {
+            debouncer() {
+                this.$emit('input', this.search);
                 this.$emit('filterData', this.search);
             },
+
         }
     }
 </script>

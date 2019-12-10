@@ -13,7 +13,8 @@
                 <h3 class="content-title">{{$t('objects.directory.users.allUsers')}}</h3>
                 <div class="content-header__actions-wrap">
                     <search
-                            @filterData="filterData"
+                            v-model="search"
+                            @filterData="loadDataList"
                     ></search>
                     <i
                             class="icon-icon_delete icon-action"
@@ -72,7 +73,8 @@
 
                 <template slot="DnD" slot-scope="props">
                     <switcher
-                            v-model="filteredDataList[props.rowIndex].dnd"
+                            :value="filteredDataList[props.rowIndex].dnd"
+                            @input="toggleSwitchProperty('dnd', props.rowIndex)"
                     ></switcher>
                 </template>
 
@@ -80,9 +82,10 @@
                 <template slot="status" slot-scope="props">
                     <dropdown-select
                             class="inline-dropdown inline-dropdown__options-right"
-                            v-model="filteredDataList[props.rowIndex].status"
+                            :value="filteredDataList[props.rowIndex].status"
                             :placeholder="$t('objects.directory.users.status')"
                             :options="statusOptions"
+                            @input="changeStatus($event, props.rowIndex)"
                     ></dropdown-select>
                 </template>
 
@@ -106,11 +109,11 @@
     import uploadPopup from '../../utils/upload-popup';
     import {_checkboxTableField, _actionsTableField_2} from "@/utils/tableFieldPresets";
     import tableComponentMixin from '@/mixins/tableComponentMixin';
-    import {deleteUser, getUsersList} from "../../../../api/objects/directory/users";
+    import {deleteUser, getUsersList, patchUser} from "../../../../api/objects/directory/users";
     import debounce from "../../../../utils/debounce";
 
     export default {
-        name: "opened-user",
+        name: "the-users",
         components: {
             uploadPopup,
             tableFilter,
@@ -184,6 +187,29 @@
                 });
             },
 
+            async changeStatus(value, rowIndex) {
+                const oldVal = this.filteredDataList[rowIndex].status;
+                this.filteredDataList[rowIndex].status = value;
+                let user = {};
+                user.status = this.filteredDataList[rowIndex].status;
+                try {
+                    await patchUser(this.filteredDataList[rowIndex].id, user);
+                } catch (e) {
+                    this.filteredDataList[rowIndex].status = oldVal;
+                }
+            },
+
+            async toggleSwitchProperty(prop, rowIndex) {
+                this.filteredDataList[rowIndex][prop] = !this.filteredDataList[rowIndex][prop];
+                let user = {};
+                user[prop] = this.filteredDataList[rowIndex][prop];
+                try {
+                    await patchUser(this.filteredDataList[rowIndex].id, user);
+                } catch (e) {
+                    this.filteredDataList[rowIndex][prop] = !this.filteredDataList[rowIndex][prop];
+                }
+            },
+
             async deleteItem(item) {
                 await deleteUser(item.id);
             },
@@ -199,10 +225,10 @@
                 return state ? this.$t('objects.online') : this.$t('objects.offline');
             },
 
-            async loadDataList() {
-                this.dataList = await getUsersList();
+            async loadDataList(search) {
+                this.dataList = await getUsersList(this.size, this.search, this.filter);
                 this.filterData();
-            }
+            },
         },
     }
 </script>
