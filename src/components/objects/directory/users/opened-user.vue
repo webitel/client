@@ -8,19 +8,21 @@
             <span>{{$tc('objects.directory.users.users', 1)}}</span>
             | {{computeTitle}}
         </object-header>
-        <section class="object-content module-new object-with-tabs">
-            <tabs
-                    :currentTab="currentTab"
-                    :tabs="tabs"
-                    @change="currentTab = $event"
-            ></tabs>
-            <component
-                    class="tabs-inner-component"
-                    :is="computeCurrentTab"
-                    :itemInstanceProp="itemInstance"
-                    :v="$v"
-            ></component>
-        </section>
+        <tabs-component
+                :tabs="tabs"
+                :itemInstance="itemInstance"
+                :v="$v"
+                :root="$options.name"
+        >
+            <template slot="component" slot-scope="props">
+                <component
+                        class="tabs-inner-component"
+                        :is="props.currentTab"
+                        :itemInstanceProp="itemInstance"
+                        :v="$v"
+                ></component>
+            </template>
+        </tabs-component>
     </div>
 </template>
 
@@ -32,6 +34,7 @@
     import openedUserVariables from './opened-user-variables';
     import {required} from 'vuelidate/lib/validators';
     import editComponentMixin from '@/mixins/editComponentMixin';
+    import {addUser, getUser, updateUser} from "../../../../api/objects/directory/users";
 
     export default {
         name: "opened-user",
@@ -46,14 +49,14 @@
         data() {
             return {
                 itemInstance: {
-                    name: '',
-                    login: '',
+                    name: 'user name',
+                    username: 'user login',
                     password: '',
-                    extension: '',
-                    roleTags: [{text: 'Admin', isAdmin: false}],
+                    extension: '1007',
+                    roles: [{text: 'Admin', isAdmin: false}],
                     roleAdmin: [],
                     license: [],
-                    deviceTags: [{text: 'Dev1', isAdmin: false}],
+                    devices: [{text: 'Dev1', isAdmin: false}],
                     variables: [
                         {key: '', value: ''}
                     ],
@@ -87,19 +90,30 @@
         // by vuelidate
         validations: {
             itemInstance: {
-                name: {
-                    required,
-                },
-                login: {
+                username: {
                     required
-                },
-                password: {
-                    required,
                 },
             },
         },
 
-        methods: {},
+        methods: {
+            async save() {
+                let itemInstance = this.itemInstance;
+
+                if (this.id) {
+                    await updateUser(this.id, itemInstance);
+                } else {
+                    await addUser(itemInstance);
+                }
+                this.close();
+            },
+
+            async loadItem() {
+                const response = await getUser(this.id);
+                this.itemInstance = response;
+                this.initialItem = JSON.parse(JSON.stringify(response));
+            }
+        },
     }
 </script>
 

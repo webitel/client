@@ -5,15 +5,13 @@
         </header>
         <form class="object-input-grid">
             <form-input
-                    v-model.trim="v.itemInstance.name.$model"
-                    :v="v.itemInstance.name"
+                    v-model.trim="itemInstance.name"
                     :label="$t('objects.name')"
                     :placeholder="$t('objects.name')"
-                    required
             ></form-input>
             <form-input
-                    v-model.trim="v.itemInstance.login.$model"
-                    :v="v.itemInstance.login"
+                    v-model.trim="v.itemInstance.username.$model"
+                    :v="v.itemInstance.username"
                     :label="$t('objects.directory.users.login')"
                     :placeholder="$t('objects.directory.users.login')"
                     required
@@ -22,11 +20,9 @@
             <div class="input-extension-wrap">
                 <form-input
                         ref="input-password"
-                        v-model.trim="v.itemInstance.password.$model"
-                        :v="v.itemInstance.password"
+                        v-model.trim="itemInstance.password"
                         :label="$t('objects.password')"
                         :placeholder="$t('objects.password')"
-                        required
                 ></form-input>
 
                 <div class="input-extension">

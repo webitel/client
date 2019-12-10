@@ -4,6 +4,7 @@ import objectHeader from '@/components/objects/the-object-header';
 import switcher from '@/components/utils/switcher';
 import status from '@/components/utils/status';
 import search from '@/components/utils/search';
+import debounce from '../utils/debounce';
 
 export default {
     mixins: [paginationMixin],
@@ -62,17 +63,32 @@ export default {
                 });
         },
 
-        async remove(filteredRowIndex) {
-            const rowIndex = this.dataList.indexOf(this.filteredDataList[filteredRowIndex]);
-            const deletedItem = this.dataList.splice(rowIndex, 1)[0];
-
-            this.filterData();
-            try {
-                await this.deleteItem(deletedItem);
+        async remove(items) {
+            if(items.length) {
+                await items.forEach(async item => {
+                    const rowIndex = this.dataList.indexOf(this.filteredDataList[item]);
+                    const deletedItem = this.dataList.splice(rowIndex, 1)[0];
+                    this.filterData();
+                    try {
+                        await this.deleteItem(deletedItem);
+                    } catch (err) {
+                        this.dataList.splice(rowIndex, 0, deletedItem);
+                        this.filterData();
+                    }
+                });
                 this.loadDataList();
-            } catch (err) {
-                this.dataList.splice(rowIndex, 0, deletedItem);
+            } else {
+                const rowIndex = this.dataList.indexOf(this.filteredDataList[items]);
+                const deletedItem = this.dataList.splice(rowIndex, 1)[0];
+
                 this.filterData();
+                try {
+                    await this.deleteItem(deletedItem);
+                    this.loadDataList();
+                } catch (err) {
+                    this.dataList.splice(rowIndex, 0, deletedItem);
+                    this.filterData();
+                }
             }
         },
 

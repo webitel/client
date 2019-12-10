@@ -49,9 +49,9 @@
                     </div>
                 </template>
 
-                <template slot="login" slot-scope="props">
+                <template slot="username" slot-scope="props">
                     <div>
-                        {{filteredDataList[props.rowIndex].login}}
+                        {{filteredDataList[props.rowIndex].username}}
                     </div>
                 </template>
 
@@ -72,7 +72,7 @@
 
                 <template slot="DnD" slot-scope="props">
                     <switcher
-                            v-model="filteredDataList[props.rowIndex].DnD"
+                            v-model="filteredDataList[props.rowIndex].dnd"
                     ></switcher>
                 </template>
 
@@ -106,6 +106,8 @@
     import uploadPopup from '../../utils/upload-popup';
     import {_checkboxTableField, _actionsTableField_2} from "@/utils/tableFieldPresets";
     import tableComponentMixin from '@/mixins/tableComponentMixin';
+    import {deleteUser, getUsersList} from "../../../../api/objects/directory/users";
+    import debounce from "../../../../utils/debounce";
 
     export default {
         name: "opened-user",
@@ -121,7 +123,7 @@
                 fields: [
                     _checkboxTableField,
                     {name: 'name', title: this.$t('objects.name')},
-                    {name: 'login', title: this.$t('objects.directory.users.login')},
+                    {name: 'username', title: this.$t('objects.directory.users.login')},
                     {name: 'extensions', title: this.$t('objects.directory.users.extensions')},
                     {name: 'state', title: this.$t('objects.directory.users.state')},
                     {name: 'DnD', title: this.$t('objects.directory.users.DnD')},
@@ -129,7 +131,7 @@
                     _actionsTableField_2,
                 ],
                 propertiesToSearch: ['head', 'login', 'extensions', 'status'],
-                statusOptions: [{text: 'On break'}, {text: 'Available'}, {text: 'Chatting'}],
+                statusOptions: ['On break', 'Available', 'Chatting'],
                 filterObjects: {
                     state: {
                         name: 'State',
@@ -182,6 +184,10 @@
                 });
             },
 
+            async deleteItem(item) {
+                await deleteUser(item.id);
+            },
+
             processCSV(event) {
                 const file = event.target.files[0];
                 if (file) {
@@ -193,20 +199,8 @@
                 return state ? this.$t('objects.online') : this.$t('objects.offline');
             },
 
-            loadDataList() {
-                for (let i = 0; i < 4; i++) {
-                    this.dataList.push({
-                        isSelected: false,
-                        name: `head${i}`,
-                        login: 'login' + (10 - i),
-                        extensions: '' + i + i + i,
-                        state: true,
-                        DnD: true,
-                        status: 'status',
-                        role: 'Admin',
-                        id: i,
-                    });
-                }
+            async loadDataList() {
+                this.dataList = await getUsersList();
                 this.filterData();
             }
         },
