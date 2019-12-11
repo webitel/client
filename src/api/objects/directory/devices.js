@@ -57,13 +57,12 @@ export const addDevice = async (device) => {
     }
 };
 
-export const updateDevice = async (id, changes) => {
+export const updateDevice = async (id, device) => {
     const url = BASE_URL + '/' + id;
-
-    changes = {};
+    sanitizer(device, fieldsToSend);
 
     try {
-        const response = await instance.put(url, changes);
+        await instance.put(url, {device});
     } catch (err) {
         throw err;
     }

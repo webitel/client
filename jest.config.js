@@ -29,7 +29,8 @@ module.exports = {
         "/node_modules/(?!vuetable-2)"
     ],
     moduleNameMapper: {
-        "^@/(.*)$": "<rootDir>/src/$1"
+        "^@/(.*)$": "<rootDir>/src/$1",
+        "monaco-editor": "<rootDir>/node_modules/monaco-editor-webpack-plugin"
     },
     snapshotSerializers: [
         "jest-serializer-vue"

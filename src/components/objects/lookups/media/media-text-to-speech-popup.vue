@@ -43,7 +43,7 @@
     import editComponentMixin from '@/mixins/editComponentMixin';
     import btn from '@/components/utils/btn';
     import divider from '@/components/utils/divider';
-    import required from "vuelidate/src/validators/required";
+    import {required} from 'vuelidate/lib/validators';
 
     export default {
         name: "media-text-to-speech-popup",
