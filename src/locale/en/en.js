@@ -165,7 +165,14 @@ export default {
                 deviceHistory: 'Device history',
                 loggedIn: 'Logged In',
                 loggedOut: 'Logged Out',
-                ok: 'Ok',
+                state: {
+                    nonreg: 'Not registered',
+                    reged: 'Registered',
+                    ringing: 'Ringing',
+                    dialing: 'Dialing',
+                    dialog: 'Dialog',
+                    onhold: 'On hold',
+                }
             },
         },
         permissions: {

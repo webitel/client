@@ -62,20 +62,28 @@
         background: $info-color;
     }
 
-    .presence {
-        &.available .table-status__icon {
+    .device-state {
+        &.state__nonreg .table-status__icon {
+            background: black;
+        }
+
+        &.state__reged .table-status__icon {
             background: $true-color;
         }
 
-        &.ringing .table-status__icon {
+        &.state__ringing .table-status__icon {
             background: #FF9C07;
         }
 
-        &.on-a-call .table-status__icon {
+        &.state__dialing .table-status__icon {
+            background: black;
+        }
+
+        &.state__dialog .table-status__icon {
             background: $false-color;
         }
 
-        &.on-hold .table-status__icon {
+        &.state__onhold .table-status__icon {
             background: #FFEA00;
         }
     }

@@ -8,9 +8,9 @@
         </object-header>
 
         <history-popup
-                v-if="historyPopupTriggerIf"
-                :itemId="1"
-                @close="historyPopupTriggerIf = false"
+                v-if="historyId"
+                :itemId="historyId"
+                @close="historyId = null"
         ></history-popup>
 
         <upload-popup v-if="popupTriggerIf" @close="popupTriggerIf = false"></upload-popup>
@@ -22,7 +22,8 @@
                 </h3>
                 <div class="content-header__actions-wrap">
                     <search
-                            @filterData="filterData"
+                            v-model="search"
+                            @filterData="loadDataList"
                     ></search>
                     <i
                             class="icon-icon_delete icon-action"
@@ -45,40 +46,38 @@
             </header>
 
             <vuetable
-                    class="devices-table"
                     :api-mode="false"
                     :fields="fields"
-                    :data="filteredDataList"
+                    :data="dataList"
             >
 
                 <template slot="name" slot-scope="props">
                     <div class="tt-capitalize">
                         <span class="nameLink" @click="edit(props.rowIndex)">
-                            {{filteredDataList[props.rowIndex].name}}
+                            {{dataList[props.rowIndex].name}}
                         </span>
                     </div>
                 </template>
 
-                <template slot="authId" slot-scope="props">
+                <template slot="account" slot-scope="props">
                     <div>
-                        {{filteredDataList[props.rowIndex].authId}}
+                        {{dataList[props.rowIndex].account}}
                     </div>
                 </template>
 
                 <template slot="user" slot-scope="props">
                     <div>
-                        {{filteredDataList[props.rowIndex].user}}
+                        {{dataList[props.rowIndex].user.name}}
                     </div>
                 </template>
 
-                <!--presence classes are specified in table-status component-->
-                <template slot="presence" slot-scope="props">
+                <!--state classes are specified in table-status component-->
+                <template slot="state" slot-scope="props">
                     <status
-                            class="presence"
-                            :class="computePresenceClass(props.rowIndex)"
-                            :text="filteredDataList[props.rowIndex].presence"
+                            class="device-state"
+                            :class="computeStateClass(dataList[props.rowIndex].state)"
+                            :text="computeStateText(dataList[props.rowIndex].state)"
                     >
-
                     </status>
                 </template>
 
@@ -104,6 +103,7 @@
     import uploadPopup from '../../utils/upload-popup';
     import {_checkboxTableField, _actionsTableField_3} from "@/utils/tableFieldPresets";
     import tableComponentMixin from '@/mixins/tableComponentMixin';
+    import {getDeviceList} from "../../../../api/objects/directory/devices";
 
     export default {
         name: 'the-devices',
@@ -120,20 +120,20 @@
                 fields: [
                     _checkboxTableField,
                     {name: 'name', title: this.$t('objects.name')},
-                    {name: 'authId', title: this.$t('objects.directory.devices.authId')},
+                    {name: 'account', title: this.$t('objects.directory.devices.authId')},
                     {name: 'user', title: this.$t('objects.user')},
-                    {name: 'presence', title: this.$t('objects.directory.devices.presence')},
+                    {name: 'state', title: this.$t('objects.directory.devices.presence')},
                     _actionsTableField_3,
                 ],
 
-                propertiesToSearch: ['head', 'authId', 'user'],
                 filterObjects: {
-                    presence: {
+                    state: {
                         name: 'Presence',
                         fields: []
                     }
                 },
 
+                historyId: null,
                 historyPopupTriggerIf: false,
                 isFilterOpenedClassTrigger: false,
                 csvFile: null
@@ -141,7 +141,7 @@
         },
 
         mounted() {
-            this.handleHistoryPopup();
+
         },
 
         methods: {
@@ -150,23 +150,14 @@
             },
 
             read(rowIndex) {
-                this.$router.push({
-                    name: 'directory-devices',
-                    query: {history: this.filteredDataList[rowIndex].id},
-                });
+                this.historyId = this.dataList[rowIndex].id;
             },
 
             edit(rowId) {
                 this.$router.push({
                     name: 'directory-devices-edit',
-                    params: {id: this.filteredDataList[rowId].id},
+                    params: {id: this.dataList[rowId].id},
                 });
-            },
-
-            handleHistoryPopup() {
-                if(this.$route.query.history) {
-                    this.historyPopupTriggerIf = true;
-                }
             },
 
             processCSV(event) {
@@ -176,78 +167,43 @@
                 }
             },
 
-            // computes dynamic class name for presence icon colorizing
-            computePresenceClass(rowIndex) {
-                return this.filteredDataList[rowIndex].presence.toLowerCase().split(' ').join('-');
+            // computes dynamic class name for state icon colorizing
+            computeStateClass(state) {
+                switch (state) {
+                    case 0:
+                        return 'state__nonreg';
+                    case 1:
+                        return 'state__reged';
+                    case 2:
+                        return 'state__ringing';
+                    case 3:
+                        return 'state__dialing';
+                    case 4:
+                        return 'state__dialog';
+                    case 5:
+                        return 'state__onhold';
+                }
             },
 
-            loadDataList() {
-                this.dataList.push({
-                    isSelected: true,
-                    name: 'head0',
-                    authId: 0 + '',
-                    user: 'user ' + Math.round(Math.random() * 10),
-                    presence: 'Offline',
-                    id: 0,
-                });
+            computeStateText(state) {
+                switch (state) {
+                    case 0:
+                        return this.$t('objects.directory.devices.state.nonreg');
+                    case 1:
+                        return this.$t('objects.directory.devices.state.reged');
+                    case 2:
+                        return this.$t('objects.directory.devices.state.ringing');
+                    case 3:
+                        return this.$t('objects.directory.devices.state.dialing');
+                    case 4:
+                        return this.$t('objects.directory.devices.state.dialog');
+                    case 5:
+                        return this.$t('objects.directory.devices.state.onhold');
+                }
+            },
 
-                this.dataList.push({
-                    isSelected: false,
-                    name: 'head1',
-                    authId: (Math.round(Math.random() * 10)) + '',
-                    user: 'user ' + Math.round(Math.random() * 10),
-                    presence: 'Available',
-                    id: 1,
-                });
-
-                this.dataList.push({
-                    isSelected: false,
-                    name: 'head2',
-                    authId: (2 * Math.round(Math.random() * 10)) + '',
-                    user: 'user ' + Math.round(Math.random() * 10),
-                    presence: 'Ringing',
-                    id: 2,
-                });
-
-                this.dataList.push({
-                    isSelected: false,
-                    name: 'head3',
-                    authId: (3 * Math.round(Math.random() * 10)) + '',
-                    user: 'user ' + Math.round(Math.random() * 10),
-                    presence: 'On a call',
-                    id: 3,
-                });
-
-                this.dataList.push({
-                    isSelected: false,
-                    name: 'head4',
-                    authId: (4 * Math.round(Math.random() * 10)) + '',
-                    user: 'user ' + Math.round(Math.random() * 10),
-                    presence: 'On hold',
-                    id: 4,
-                });
-
-                this.dataList.push({
-                    isSelected: false,
-                    name: 'head4',
-                    authId: (4 * Math.round(Math.random() * 10)) + '',
-                    user: 'user ' + Math.round(Math.random() * 10),
-                    presence: 'On hold',
-                    id: 4,
-                });
-
-
-                this.dataList.forEach((item) => {
-                    // if statement is emulating Set for an array
-                    if (!this.filterObjects.presence.fields.some(element => element.name === item.presence)) {
-                        this.filterObjects.presence.fields.push({
-                            name: item.presence,
-                            value: true
-                        });
-                    }
-                });
-
-                this.filterData();
+            async loadDataList() {
+                this.dataList = await getDeviceList(this.size, this.search);
             }
         },
     };

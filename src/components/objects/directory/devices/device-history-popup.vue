@@ -1,7 +1,7 @@
 <template>
     <popup
             :title="$t('objects.directory.devices.deviceHistory')"
-            :primaryBtnText="$t('objects.directory.devices.ok')"
+            :primaryBtnText="$t('objects.ok')"
             :primaryBtnAction="() => $emit('close')"
             @close="$emit('close')"
     >
@@ -15,11 +15,20 @@
                     calendar-button
             ></datepicker>
             <vuetable
-                    class="devices-history-table"
+                    class="popup-table"
                     :api-mode="false"
                     :fields="fields"
                     :data="dataList"
             >
+                <template slot="loggedIn" slot-scope="props">
+                    <div>{{computeTime(dataList[props.rowIndex].loggedIn)}}</div>
+                </template>
+                <template slot="loggedOut" slot-scope="props">
+                    <div>{{computeTime(dataList[props.rowIndex].loggedOut)}}</div>
+                </template>
+                <template slot="user" slot-scope="props">
+                    <div>{{dataList[props.rowIndex].user.name}}</div>
+                </template>
             </vuetable>
             <pagination></pagination>
         </section>
@@ -28,50 +37,49 @@
 
 <script>
     import popup from '@/components/utils/popup';
-    import pagination from '@/components/utils/table-pagination';
     import datepicker from '@/components/utils/datepicker';
-    import vuetable from 'vuetable-2';
+    import tableComponentMixin from '@/mixins/tableComponentMixin';
+    import {getDeviceHistory} from "../../../../api/objects/directory/devices";
 
     export default {
         name: "device-history-popup",
         components: {
-            pagination,
             datepicker,
-            vuetable,
             popup
         },
+        mixins: [tableComponentMixin],
         props: {
             itemId: {
-                type: Number,
-                // required: true
+                type: [String, Number],
+                required: true
             }
         },
+
+        watch: {
+          itemId: function() {
+              this.loadDataList();
+          }
+        },
+
         data() {
             return {
                 date: Date.now(),
-                dataList: [],
                 fields: [
-                    {name: 'login', title: this.$t('objects.directory.devices.loggedIn')},
-                    {name: 'logout', title: this.$t('objects.directory.devices.loggedOut')},
+                    {name: 'loggedIn', title: this.$t('objects.directory.devices.loggedIn')},
+                    {name: 'loggedOut', title: this.$t('objects.directory.devices.loggedOut')},
                     {name: 'user', title: this.$tc('objects.directory.users.users', 1)},
                 ],
             }
         },
 
-        mounted() {
-            this.loadDataList();
-        },
-
         methods: {
-            loadDataList() {
-                for (let i = 0; i < 7; i++) {
-                    this.dataList.push({
-                        login: '5 August 2019, 10:16 AM',
-                        logout: '5 August 2019, 10:16 AM',
-                        user: `User ${i}`,
-                        id: i,
-                    });
-                }
+            computeTime(time) {
+                if(isNaN(parseInt(time))) return time;
+                return new Date(+time).toString().split(' ')[4];
+            },
+
+            async loadDataList() {
+                this.dataList = await getDeviceHistory(this.itemId, this.date);
             }
         }
     }
