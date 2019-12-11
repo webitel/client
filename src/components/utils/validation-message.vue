@@ -34,6 +34,8 @@
                         return this.$t('validation.gatewayHostValidator');
                     } else if (this.v.ipValidator === false) {
                         return this.$t('validation.ipValidator');
+                    } else if (this.v.macValidator === false) {
+                        return this.$t('validation.macValidator');
                     }
                 }
                 return ''

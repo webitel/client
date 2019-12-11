@@ -2,23 +2,26 @@
     <div class="content-wrap">
         <object-header
                 :primaryText="$t('objects.save')"
+                :primaryAction="submit"
                 close
         >
             <span>{{$tc('objects.directory.devices.devices', 1)}}</span> | {{computeTitle}}
         </object-header>
-        <section class="object-content module-new devices-new object-with-tabs">
-            <tabs
-                    :currentTab="currentTab"
-                    :tabs="tabs"
-                    @change="currentTab = $event"
-            ></tabs>
-            <component
-                    class="tabs-inner-component"
-                    :is="computeCurrentTab"
-                    :itemInstanceProp="itemInstance"
-                    :v="$v"
-            ></component>
-        </section>
+        <tabs-component
+                :tabs="tabs"
+                :itemInstance="itemInstance"
+                :v="$v"
+                :root="$options.name"
+        >
+            <template slot="component" slot-scope="props">
+                <component
+                        class="tabs-inner-component"
+                        :is="props.currentTab"
+                        :itemInstanceProp="itemInstance"
+                        :v="$v"
+                ></component>
+            </template>
+        </tabs-component>
     </div>
 </template>
 
@@ -29,6 +32,8 @@
     import {required} from 'vuelidate/lib/validators';
     import datepicker from 'vuejs-datepicker';
     import editComponentMixin from '@/mixins/editComponentMixin';
+    import {addDevice, getDevice, updateDevice} from "../../../../api/objects/directory/devices";
+    import {ipValidator, macValidator} from "../../../../utils/validators";
 
     export default {
         name: 'opened-device',
@@ -38,21 +43,24 @@
             openedDevicePhoneInfo,
             datepicker,
         },
+
         mixins: [editComponentMixin],
+
         data() {
             return {
                 itemInstance: {
-                    name: '',
-                    account: '',
-                    password: '',
+                    name: 'device name',
+                    account: '1002',
+                    password: 'pass',
                     user: {},
-                    phone: '',
-                    ip: '',
+                    phone: '8 800 555 3535',
+                    ip: '10.10.10.117',
 
-                    vendor: '',
-                    model: '',
-                    mac: '',
-                    hotdesk: [{text: 'Tag1'}, {text: 'Tag2'}],
+                    vendor: 'vendor name',
+                    model: 'model name',
+                    mac: '80-5E-C0-3C-84-44',
+                    hotdesk: [],
+                    // hotdesk: [{text: 'Tag1'}, {text: 'Tag2'}],
                     vars: [],
                 },
 
@@ -84,8 +92,31 @@
                 password: {
                     required,
                 },
+                mac: {
+                    macValidator
+                },
+                ip: {
+                    ipValidator
+                }
             },
         },
+
+        methods: {
+            async save() {
+                if (this.id) {
+                    await updateDevice(this.id, this.itemInstance);
+                } else {
+                    await addDevice(this.itemInstance);
+                }
+                this.close();
+            },
+
+            async loadItem() {
+                const response = await getDevice(this.id);
+                this.itemInstance = response;
+                this.initialItem = JSON.parse(JSON.stringify(response));
+            }
+        }
     }
 </script>
 

@@ -103,7 +103,7 @@
     import uploadPopup from '../../utils/upload-popup';
     import {_checkboxTableField, _actionsTableField_3} from "@/utils/tableFieldPresets";
     import tableComponentMixin from '@/mixins/tableComponentMixin';
-    import {getDeviceList} from "../../../../api/objects/directory/devices";
+    import {deleteDevice, getDeviceList} from "../../../../api/objects/directory/devices";
 
     export default {
         name: 'the-devices',
@@ -158,6 +158,10 @@
                     name: 'directory-devices-edit',
                     params: {id: this.dataList[rowId].id},
                 });
+            },
+
+            async deleteItem(item) {
+                await deleteDevice(item.id);
             },
 
             processCSV(event) {

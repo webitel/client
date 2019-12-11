@@ -1,3 +1,10 @@
+export const macValidator = (value) => {
+    if (typeof value === 'undefined' || value === null || value === '') {
+        return true
+    }
+    return /^([0-9A-F]{2}[:-]){5}([0-9A-F]{2})$/
+        .test(value);
+};
 
 export const ipValidator = (value) => {
     if (typeof value === 'undefined' || value === null || value === '') {

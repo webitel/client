@@ -39,17 +39,18 @@ export default {
     methods: {
         deleteSelected() {
             const selectedItems = this.dataList.filter(item => item.isSelected);
-            this.remove(selectedItems);
+            this.remove(null, selectedItems);
 
         },
 
-        async remove(items) {
-            if (items.length) {
+        async remove(rowIndex, items) {
+            if (items) {
                 await items.forEach(async item => {
-                    this.removeItem(item);
+                    const initialIndex = this.dataList.indexOf(item);
+                    this.removeItem(initialIndex);
                 });
             } else {
-                this.removeItem(items);
+                this.removeItem(rowIndex);
             }
             this.loadDataList();
         },

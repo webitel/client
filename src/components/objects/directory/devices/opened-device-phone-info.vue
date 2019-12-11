@@ -9,7 +9,8 @@
                     :label="$t('objects.directory.devices.phone')"
             ></form-input>
             <form-input
-                    v-model="itemInstance.ip"
+                    v-model="v.itemInstance.ip.$model"
+                    :v="v.itemInstance.ip"
                     :label="$t('objects.directory.devices.ipv4')"
                     :hintText="'lorem ipsum'"
             ></form-input>
@@ -22,7 +23,8 @@
                     :label="$t('objects.directory.devices.model')"
             ></dropdown-select>
             <form-input
-                    v-model="itemInstance.mac"
+                    v-model="v.itemInstance.mac.$model"
+                    :v="v.itemInstance.mac"
                     :label="$t('objects.directory.devices.mac')"
             ></form-input>
         </form>

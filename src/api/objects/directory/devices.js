@@ -1,7 +1,9 @@
 import instance from '@/api/instance';
 import {objSnakeToCamel} from "../../caseConverters";
+import sanitizer from "../../sanitizer";
 
 const BASE_URL = '/devices';
+const fieldsToSend = ['name', 'account', 'password', 'mac', 'ip', 'vendor', 'model'];
 
 export async function getDeviceList(size = 100, search) {
     const defaultObject = {  // default object prototype, to merge response with it to get all fields
@@ -31,27 +33,25 @@ export async function getDeviceList(size = 100, search) {
 export async function getDevice(id) {
     const url = BASE_URL + '/' + id;
 
+    const defaultObject = {  // default object prototype, to merge response with it to get all fields
+        name: 'name undefined',
+        account: 'auth id undefined',
+        user: {name: 'user undefined'},
+        state: 0,
+        id: 0
+    };
     try {
         let response = await instance.get(url);
-        console.log(response);
+        return Object.assign({}, defaultObject, response.data.device);
     } catch (error) {
         throw error;
     }
 }
 
-export const addDevice = async (item) => {
-    item = {};
-
-
-    // Object.keys(item).forEach(key => {
-    //     if(!item[key]) delete item[key];
-    // });
-    // item.account = item.username;
-    // delete item.username;
-    // delete item.description;
-
+export const addDevice = async (device) => {
+    sanitizer(device, fieldsToSend);
     try {
-        const response = await instance.post(BASE_URL, item);
+        await instance.post(BASE_URL, {device});
     } catch (err) {
         throw err;
     }
