@@ -25,14 +25,12 @@ describe('opened res group', () => {
     });
 
     it('creates new res group', async (done) => {
-        const dataList = await getResGroupList();
-
         // set new item data
         wrapper.setData({
             itemInstance: {
                 resGroup: {
                     name: 'jest-res-gr',
-                    communication: {id: 1},
+                    communication: {id: "25", name: "jst-tst-comm"},
                     description: 'jest-res-gr',
                     time: [
                         {
@@ -41,7 +39,7 @@ describe('opened res group', () => {
                         }
                     ],
                 },
-                resList: [{text: 'jest', id: 1}],
+                resList: [{text: 'jest', id: 65}],
             },
         });
 
@@ -50,18 +48,17 @@ describe('opened res group', () => {
 
         // wait promise response
         await setTimeout(async () => {
-            const newDataList = await getResGroupList();
-            expect(newDataList).toHaveLength(dataList.length + 1);
+            const dataList = await getResGroupList(10, 'jest');
+            expect(dataList.findIndex(item => item.name.includes('jest'))).not.toBe(-1);
             done();
         }, 300);
     });
 
     it('updates existing res group', async (done) => {
-        const dataList = await getResGroupList();
-
+        const dataList = await getResGroupList(10, 'jest');
         // to find created item id
         const createdItem = dataList.find(item => {
-            return item.name === 'jest-res-gr'
+            return item.name.includes('jest');
         });
 
         // emulate route path by setting id
@@ -78,20 +75,16 @@ describe('opened res group', () => {
             itemInstance: {
                 resGroup: {
                     name: 'upd-jest-res-gr',
-                    communication: {id: 1},
+                    communication: {id: "25", name: "jst-tst-comm"},
                     description: 'upd-jest-res-gr',
                     time: [
                         {
-                            start: 40,
-                            end: 200,
-                        },
-                        {
-                            start: 210,
-                            end: 400,
-                        },
+                            start: 540,
+                            end: 1200,
+                        }
                     ],
                 },
-                resList: [{text: 'upd-jest', id: 1}],
+                resList: [{text: 'jest', id: 65}],
             },
         };
         wrapper.setData(newItemInstance);
@@ -102,15 +95,11 @@ describe('opened res group', () => {
         // wait promise response
         await setTimeout(async () => {
             // load new list and find updated item
-            const newDataList = await getResGroupList();
+            const newDataList = await getResGroupList(10, '*jest');
             const newItem = newDataList.find(item => {
-                return item.name === 'upd-jest-res-gr'
+                return item.name.includes('upd-jest');
             });
-
             expect(newItem).toBeTruthy();
-
-            // check if backend item is equal to updated
-            expect(newItem.name).toEqual(newItemInstance.itemInstance.resGroup.name);
             done();
         }, 100);
     });

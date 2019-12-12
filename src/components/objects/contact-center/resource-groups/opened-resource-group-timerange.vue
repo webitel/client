@@ -11,6 +11,7 @@
                             v-model="range.start"
                             :label="$t('objects.ccenter.resGroups.timerangeFrom')"
                             :v="v.itemInstance.range"
+                            :format="'mm:ss'"
                             required
                     >
                     </timepicker>
@@ -18,6 +19,7 @@
                             v-model="range.end"
                             :label="$t('objects.ccenter.resGroups.timerangeTo')"
                             :v="v.itemInstance.range"
+                            :format="'mm:ss'"
                             required
                     >
                     </timepicker>

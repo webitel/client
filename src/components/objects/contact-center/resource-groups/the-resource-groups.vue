@@ -15,7 +15,8 @@
 
                 <div class="content-header__actions-wrap">
                     <search
-                            @filterData="filterData"
+                            v-model="search"
+                            @filterData="loadDataList"
                     ></search>
                     <i
                             class="icon-icon_delete icon-action"
@@ -28,21 +29,21 @@
             <vuetable
                     :api-mode="false"
                     :fields="fields"
-                    :data="filteredDataList"
+                    :data="dataList"
             >
 
                 <template slot="name" slot-scope="props">
                     <div class="tt-capitalize">
                         <span class="nameLink" @click="edit(props.rowIndex)">
-                            {{filteredDataList[props.rowIndex].name}}
+                            {{dataList[props.rowIndex].name}}
                         </span>
                     </div>
                 </template>
 
                 <template slot="description" slot-scope="props">
-                    <span>
-                        {{filteredDataList[props.rowIndex].description}}
-                    </span>
+                    <div>
+                        {{dataList[props.rowIndex].description}}
+                    </div>
                 </template>
 
                 <template slot="actions" slot-scope="props">
@@ -97,9 +98,8 @@
             },
 
             async loadDataList() {
-                const response = await getResGroupList();
+                const response = await getResGroupList(this.size, this.search);
                 this.dataList = [...response];
-                this.filterData();
             }
         },
 

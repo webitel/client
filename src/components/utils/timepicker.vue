@@ -14,7 +14,10 @@
                     taggable
                     @input="setHours"
             ></dropdown-select>
-            <span class="delimiter">:</span>
+            <span
+                    class="delimiter"
+                    v-if="timeVisibility.hour"
+            >:</span>
             <dropdown-select
                     v-if="timeVisibility.min"
                     :value="computeMins"
@@ -22,7 +25,10 @@
                     taggable
                     @input="setMins"
             ></dropdown-select>
-            <span class="delimiter">:</span>
+            <span
+                    class="delimiter"
+                    v-if="timeVisibility.min"
+            >:</span>
             <dropdown-select
                     v-if="timeVisibility.sec"
                     :value="computeSecs"
