@@ -79,7 +79,7 @@ export const patchDevice = async (id, user) => {
 };
 
 export const deleteDevice = async (id) => {
-    const url = BASE_URL + '/' + id;
+    const url = BASE_URL + '/' + id + '?permanent=true';
 
     try {
         await instance.delete(url);

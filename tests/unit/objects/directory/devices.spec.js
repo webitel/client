@@ -97,7 +97,7 @@ describe('opened device', () => {
         // wait promise response
         await setTimeout(async () => {
             // load new list and find updated item
-            const newDataList = await getDeviceList(10, 'jest');
+            const newDataList = await getDeviceList(10, '*jest');
             const newItem = newDataList.find(item => {
                 return item.name.includes('upd-jest');
             });
