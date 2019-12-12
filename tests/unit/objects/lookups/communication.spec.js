@@ -25,8 +25,6 @@ describe('opened communication', () => {
     });
 
     it('creates new communication', async (done) => {
-        const dataList = await getCommunicationsList();
-
         // set new item data
         wrapper.setData({
             itemInstance: {
@@ -41,18 +39,18 @@ describe('opened communication', () => {
 
         // wait promise response
         await setTimeout(async () => {
-            const newDataList = await getCommunicationsList();
-            expect(newDataList).toHaveLength(dataList.length + 1);
+            const dataList = await getCommunicationsList(10, 'jest');
+            expect(dataList.findIndex(item => item.name.includes('jest'))).not.toBe(-1);
             done();
         }, 300);
     });
 
     it('updates existing communication', async (done) => {
-        const dataList = await getCommunicationsList();
+        const dataList = await getCommunicationsList(10, 'jest');
 
         // to find created item id
         const createdItem = dataList.find(item => {
-            return item.code === 'jest'
+            return item.name.includes('jest');
         });
 
         // emulate route path by setting id
@@ -79,16 +77,11 @@ describe('opened communication', () => {
 
         // wait promise response
         await setTimeout(async () => {
-            // load new list and find updated item
-            const newDataList = await getCommunicationsList();
+            const newDataList = await getCommunicationsList(10, '*jest');
             const newItem = newDataList.find(item => {
-                return item.code === 'upd-jest'
+                return item.name.includes('upd-jest');
             });
-
             expect(newItem).toBeTruthy();
-
-            // check if backend item is equal to updated
-            expect(newItem.code).toEqual(newItemInstance.itemInstance.code);
             done();
         }, 100);
     });

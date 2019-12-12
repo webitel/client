@@ -13,7 +13,8 @@
                 <h3 class="content-title">{{$t('objects.lookups.communications.allCommunications')}}</h3>
                 <div class="content-header__actions-wrap">
                     <search
-                            @filterData="filterData"
+                            v-model="search"
+                            @filterData="loadDataList"
                     ></search>
                     <i
                             class="icon-icon_delete icon-action"
@@ -26,25 +27,25 @@
             <vuetable
                     :api-mode="false"
                     :fields="fields"
-                    :data="filteredDataList"
+                    :data="dataList"
             >
-                <template slot="communicationCode" slot-scope="props">
+                <template slot="code" slot-scope="props">
                     <div class="tt-capitalize">
                         <span class="nameLink" @click="edit(props.rowIndex)">
-                        {{filteredDataList[props.rowIndex].code}}
+                        {{dataList[props.rowIndex].code}}
                         </span>
                     </div>
                 </template>
 
-                <template slot="communicationName" slot-scope="props">
+                <template slot="name" slot-scope="props">
                     <div>
-                        {{filteredDataList[props.rowIndex].name}}
+                        {{dataList[props.rowIndex].name}}
                     </div>
                 </template>
 
-                <template slot="communicationDescription" slot-scope="props">
+                <template slot="description" slot-scope="props">
                     <div>
-                        {{filteredDataList[props.rowIndex].description || 'DESCRIPTION IS EMPTY'}}
+                        {{dataList[props.rowIndex].description || 'DESCRIPTION IS EMPTY'}}
                     </div>
                 </template>
 
@@ -73,9 +74,9 @@
             return {
                 fields: [
                     _checkboxTableField,
-                    {name: 'communicationCode', title: this.$t('objects.lookups.communications.code')},
-                    {name: 'communicationName', title: this.$t('objects.name')},
-                    {name: 'communicationDescription', title: this.$t('objects.description')},
+                    {name: 'code', title: this.$t('objects.lookups.communications.code')},
+                    {name: 'name', title: this.$t('objects.name')},
+                    {name: 'description', title: this.$t('objects.description')},
                     _actionsTableField_2,
                 ],
             };
@@ -89,7 +90,7 @@
             edit(rowId) {
                 this.$router.push({
                     name: 'communications-lookup-edit',
-                    params: {id: this.filteredDataList[rowId].id},
+                    params: {id: this.dataList[rowId].id},
                 });
             },
 
@@ -99,7 +100,6 @@
 
             async loadDataList() {
                 this.dataList = await getCommunicationsList();
-                this.filterData();
             }
         }
     }
