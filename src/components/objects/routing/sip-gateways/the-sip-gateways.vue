@@ -21,7 +21,8 @@
 
                 <div class="content-header__actions-wrap">
                     <search
-                            @filterData="filterData"
+                            v-model="search"
+                            @filterData="loadDataList"
                     ></search>
                     <i
                             class="icon-icon_delete icon-action"
@@ -34,27 +35,27 @@
             <vuetable
                     :api-mode="false"
                     :fields="fields"
-                    :data="filteredDataList"
+                    :data="dataList"
                     no-data-template="Empty data message"
             >
 
                 <template slot="name" slot-scope="props">
                     <div class="tt-capitalize">
                         <span class="nameLink" @click="edit(props.rowIndex)">
-                            {{filteredDataList[props.rowIndex].name}}
+                            {{dataList[props.rowIndex].name}}
                         </span>
                     </div>
                 </template>
 
                 <template slot="proxy" slot-scope="props">
                     <span>
-                        {{filteredDataList[props.rowIndex].proxy}}
+                        {{dataList[props.rowIndex].proxy}}
                     </span>
                 </template>
 
                 <template slot="enabled" slot-scope="props">
                     <switcher
-                            :value="filteredDataList[props.rowIndex].enable"
+                            :value="dataList[props.rowIndex].enable"
                             @input="toggleDataProperty('enable', props.rowIndex)"
                     ></switcher>
                 </template>
@@ -62,18 +63,18 @@
                 <template slot="status" slot-scope="props">
                     <status
                             class="status"
-                            :class="computeStatusClass(props.rowIndex)"
-                            :text="computeStatusText(props.rowIndex)"
+                            :class="computeStatusClass(dataList[props.rowIndex].rState)"
+                            :text="computeStatusText(dataList[props.rowIndex].rState)"
                     ></status>
                 </template>
 
                 <template slot="actions" slot-scope="props">
-                        <i class="vuetable-action icon-icon_edit"
-                           @click="edit(props.rowIndex)"
-                        ></i>
-                        <i class="vuetable-action icon-icon_delete"
-                           @click="remove(props.rowIndex)"
-                        ></i>
+                    <i class="vuetable-action icon-icon_edit"
+                       @click="edit(props.rowIndex)"
+                    ></i>
+                    <i class="vuetable-action icon-icon_delete"
+                       @click="remove(props.rowIndex)"
+                    ></i>
                 </template>
             </vuetable>
 
@@ -104,7 +105,6 @@
                     {name: 'status', title: this.$t('objects.status')},
                     _actionsTableField_2,
                 ],
-                filterProperties: ['name', 'proxy'],
             };
         },
 
@@ -127,8 +127,7 @@
                 await deleteGateway(item.id);
             },
 
-            computeStatusText(rowIndex) {
-                const stateCode = this.filteredDataList[rowIndex].r_state;
+            computeStatusText(stateCode) {
                 if (stateCode === 3) {
                     return 'Success';
                 } else if (stateCode > 3 && stateCode < 8) {
@@ -140,8 +139,7 @@
                 }
             },
 
-            computeStatusClass(rowIndex) {
-                const stateCode = this.filteredDataList[rowIndex].r_state;
+            computeStatusClass(stateCode) {
                 if (stateCode === 3) {
                     return 'status__true';
                 } else if (stateCode > 3 && stateCode < 8) {
@@ -155,21 +153,18 @@
 
             async toggleDataProperty(property, id) {
                 // first, change UI, then send request
-                this.filteredDataList[id][property] = !this.filteredDataList[id][property];
+                this.dataList[id][property] = !this.dataList[id][property];
 
                 try {
                     // await updateObject(this.dataList[id].id, this.dataList[id]);
                 } catch (err) {
-                    // if request throws error, move changes back
-                    this.filteredDataList[id][property] = !this.filteredDataList[id][property];
+                    this.loadDataList();
                 }
             },
 
             async loadDataList() {
-                const response = await getGatewayList(this.rowsPerPage);
-
+                const response = await getGatewayList(this.size, this.search);
                 this.dataList = [...response];
-                this.filterData();
             }
         },
 

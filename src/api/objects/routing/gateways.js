@@ -1,8 +1,9 @@
 import instance from '@/api/instance';
+import {objSnakeToCamel} from "../../caseConverters";
 
 const BASE_URL = '/sip/gateways';
 
-export async function getGatewayList(size = 10) {
+export async function getGatewayList(size = 10, search) {
     const defaultObject = {  // default object prototype, to merge response with it to get all fields
         isSelected: false,
         name: '',
@@ -11,8 +12,12 @@ export async function getGatewayList(size = 10) {
         id: 0
     };
 
+    let url = BASE_URL + `?size=${size}`;
+    if (search) url += `&name=${search}*`;
+
     try {
-        let response = await instance.get(BASE_URL+`?size=${size}`);
+        let response = await instance.get(url);
+        response.data = objSnakeToCamel(response.data);
         if (!response.data.items) response.data.items = [];
 
         return response.data.items.map(item => {

@@ -73,7 +73,7 @@
 </script>
 
 <style lang="scss" scoped>
-    .gateways .value-pair {
+    .value-pair-wrap .value-pair {
         grid-template-columns: 117px 4fr 1fr 24px;
     }
 </style>

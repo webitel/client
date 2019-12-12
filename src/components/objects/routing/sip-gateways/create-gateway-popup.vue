@@ -12,8 +12,8 @@
             <ul class="popup-options">
                 <li
                         class="popup-options__item-wrap"
-                        :class="{'active': computeChosenOption('register')}"
-                        @click="choosePopupOption('register')"
+                        :class="{'active': computeSelectedOption('register')}"
+                        @click="selectPopupOption('register')"
                 >
                     <h4 class="popup-options__item-header">
                         {{$t('objects.routing.gateways.SIPregistrations')}}
@@ -21,15 +21,11 @@
                     <p class="popup-options__item-text">
                         {{$t('objects.routing.gateways.SIPregistrationsDescription')}}
                     </p>
-<!--                    <i-->
-<!--                            class="popup-options__item-icon icon-icon_allow"-->
-<!--                            v-show="computeChosenOption('register')"-->
-<!--                    ></i>-->
                 </li>
                 <li
                         class="popup-options__item-wrap"
-                        :class="{'active': computeChosenOption('trunking')}"
-                        @click="choosePopupOption('trunking')"
+                        :class="{'active': computeSelectedOption('trunking')}"
+                        @click="selectPopupOption('trunking')"
                 >
                     <h4 class="popup-options__item-header">
                         {{$t('objects.routing.gateways.SIPtrunking')}}
@@ -37,10 +33,6 @@
                     <p class="popup-options__item-text">
                         {{$t('objects.routing.gateways.SIPtrunkingDescription')}}
                     </p>
-<!--                    <i-->
-<!--                            class="popup-options__item-icon icon-icon_allow"-->
-<!--                            v-show="computeChosenOption('trunking')"-->
-<!--                    ></i>-->
                 </li>
             </ul>
         </section>
@@ -65,7 +57,7 @@
 
         methods: {
             selectPopupOption(option) {
-                this.chosenOption = option;
+                this.selectedOption = option;
             },
 
             createItemInstance() {

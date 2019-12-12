@@ -7,19 +7,21 @@
         > {{$t('objects.routing.gateways.registerGateway')}} | {{computeTitle}}
         </object-header>
 
-        <section class="object-content module-new object-with-tabs">
-            <tabs
-                    :currentTab="currentTab"
-                    :tabs="tabs"
-                    @change="currentTab = $event"
-            ></tabs>
-            <component
-                    class="tabs-inner-component"
-                    :is="computeCurrentTab"
-                    :itemInstanceProp="itemInstance"
-                    :v="$v"
-            ></component>
-        </section>
+        <tabs-component
+                :tabs="tabs"
+                :itemInstance="itemInstance"
+                :v="$v"
+                :root="$options.name"
+        >
+            <template slot="component" slot-scope="props">
+                <component
+                        class="tabs-inner-component"
+                        :is="props.currentTab"
+                        :itemInstanceProp="itemInstance"
+                        :v="$v"
+                ></component>
+            </template>
+        </tabs-component>
     </div>
 </template>
 
