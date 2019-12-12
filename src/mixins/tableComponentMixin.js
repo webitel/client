@@ -45,12 +45,12 @@ export default {
 
         async remove(rowIndex, items) {
             if (items) {
-                await items.forEach(async item => {
+                for(const item of items) {
                     const initialIndex = this.dataList.indexOf(item);
-                    this.removeItem(initialIndex);
-                });
+                    await this.removeItem(initialIndex);
+                }
             } else {
-                this.removeItem(rowIndex);
+                await this.removeItem(rowIndex);
             }
             this.loadDataList();
         },

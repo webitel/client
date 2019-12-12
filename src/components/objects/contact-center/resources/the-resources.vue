@@ -15,7 +15,8 @@
 
                 <div class="content-header__actions-wrap">
                     <search
-                            @filterData="filterData"
+                            v-model="search"
+                            @filterData="loadDataList"
                     ></search>
                     <i
                             class="icon-icon_delete icon-action"
@@ -28,27 +29,27 @@
             <vuetable
                     :api-mode="false"
                     :fields="fields"
-                    :data="filteredDataList"
+                    :data="dataList"
             >
 
                 <template slot="name" slot-scope="props">
                     <div class="tt-capitalize">
                         <span class="nameLink" @click="edit(props.rowIndex)">
-                            {{filteredDataList[props.rowIndex].name}}
+                            {{dataList[props.rowIndex].name}}
                         </span>
                     </div>
                 </template>
 
                 <template slot="gateway" slot-scope="props">
-                    <span>
-                        {{filteredDataList[props.rowIndex].gateway.name}}
-                    </span>
+                    <div>
+                        {{dataList[props.rowIndex].gateway.name}}
+                    </div>
                 </template>
 
                 <template slot="enabled" slot-scope="props">
                     <switcher
                             class="test__resources__enable-switcher"
-                            :value="filteredDataList[props.rowIndex].enabled"
+                            :value="dataList[props.rowIndex].enabled"
                             @input="toggleDataProperty('enabled', props.rowIndex)"
                     >
                     </switcher>
@@ -57,7 +58,7 @@
                 <template slot="reserve" slot-scope="props">
                     <switcher
                             class="test__resources__reserve-switcher"
-                            :value="filteredDataList[props.rowIndex].reserve"
+                            :value="dataList[props.rowIndex].reserve"
                             @input="toggleDataProperty('reserve', props.rowIndex)"
                     >
                     </switcher>
@@ -81,8 +82,7 @@
 <script>
     import {getResourceList, deleteResource} from '@/api/objects/contact-center/resources';
     import tableComponentMixin from '@/mixins/tableComponentMixin';
-    import {_checkboxTableField, _actionsTableField_2} from "@/utils/tableFieldPresets";
-    import {_switcherWidth} from "../../../../utils/tableFieldPresets";
+    import {_checkboxTableField, _actionsTableField_2, _switcherWidth} from "../../../../utils/tableFieldPresets";
     import {patchResource} from "../../../../api/objects/contact-center/resources";
 
 
@@ -116,15 +116,14 @@
 
             async toggleDataProperty(property, rowIndex) {
                 // first, change UI, then send request
-                this.filteredDataList[rowIndex][property] = !this.filteredDataList[rowIndex][property];
+                this.dataList[rowIndex][property] = !this.dataList[rowIndex][property];
                 try {
                     let changes = {};
-                    changes[property] = this.filteredDataList[rowIndex][property];
-                    await patchResource(this.filteredDataList[rowIndex].id, changes);
+                    changes[property] = this.dataList[rowIndex][property];
+                    await patchResource(this.dataList[rowIndex].id, changes);
                 } catch (err) {
-                    // if request throws error, move changes back
-                    this.filteredDataList[rowIndex][property] = !this.filteredDataList[rowIndex][property];
-                }
+                    this.loadDataList();
+               }
             },
 
             async deleteItem(deletedItem) {
@@ -134,7 +133,6 @@
             async loadDataList() {
                 const response = await getResourceList(this.rowsPerPage);
                 this.dataList = [...response];
-                this.filterData();
             }
         },
 

@@ -5,6 +5,8 @@ import VueRouter from 'vue-router';
 import Vuelidate from 'vuelidate';
 import i18n from 'vue-i18n';
 import {getResourceList} from "../../../../src/api/objects/contact-center/resources";
+import {getResGroupList} from "../../../../src/api/objects/contact-center/resourceGroups";
+import {getDeviceList} from "../../../../src/api/objects/directory/devices";
 
 const $t = () => {
 };
@@ -25,8 +27,6 @@ describe('opened res', () => {
     });
 
     it('creates new res', async (done) => {
-        const dataList = await getResourceList();
-
         // set new item data
         wrapper.setData({
             itemInstance: {
@@ -48,18 +48,18 @@ describe('opened res', () => {
 
         // wait promise response
         await setTimeout(async () => {
-            const newDataList = await getResourceList();
-            expect(newDataList).toHaveLength(dataList.length + 1);
+            const dataList = await getResourceList(10, 'jest');
+            expect(dataList.findIndex(item => item.name.includes('jest'))).not.toBe(-1);
             done();
         }, 300);
     });
 
     it('updates existing res', async (done) => {
-        const dataList = await getResourceList();
+        const dataList = await getResourceList(10, 'jest');
 
         // to find created item id
         const createdItem = dataList.find(item => {
-            return item.name === 'jest-res'
+            return item.name.includes('jest');
         });
 
         // emulate route path by setting id
@@ -94,15 +94,11 @@ describe('opened res', () => {
         // wait promise response
         await setTimeout(async () => {
             // load new list and find updated item
-            const newDataList = await getResourceList();
+            const newDataList = await getResourceList(10, '*jest');
             const newItem = newDataList.find(item => {
-                return item.name === 'upd-jest-res'
+                return item.name.includes('upd-jest');
             });
-
             expect(newItem).toBeTruthy();
-
-            // check if backend item is equal to updated
-            expect(newItem.name).toEqual(newItemInstance.itemInstance.res.name);
             done();
         }, 100);
     });

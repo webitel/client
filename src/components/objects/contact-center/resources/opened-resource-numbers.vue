@@ -19,6 +19,8 @@
                     <form-input
                             v-model="num.display"
                             :placeholder="$tc('objects.ccenter.res.numbers', 1)"
+                            hideLabel
+                            hideDetails
                     ></form-input>
 
                     <i
@@ -56,3 +58,9 @@
         }
     }
 </script>
+
+<style lang="scss" scoped>
+    .value-pair {
+        margin-bottom: 28px;
+    }
+</style>
