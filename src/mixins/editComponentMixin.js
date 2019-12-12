@@ -62,6 +62,30 @@ export default {
             }
         },
 
+        async saveObject(name, createMethod, updateMethod) {
+            const isItemChanged = !deepEqual(this.itemInstance[name], this.initialItem[name]);
+            if (isItemChanged) {
+                if (this.id) {
+                    await updateMethod(this.itemInstance[name].id, this.itemInstance[name]);
+                } else {
+                    this.id = await createMethod(this.itemInstance[name]);
+                }
+            }
+        },
+
+        async saveArray(name, createMethod, updateMethod) {
+            const newItems = this.itemInstance[name].filter(item => !item.id);
+            if (newItems.length) {
+                for (const item of newItems) {
+                    try {
+                        await createMethod(this.id, item);
+                    } catch (err) {
+                        throw err;
+                    }
+                }
+            }
+        },
+
         checkValidations(validatedInstance = 'itemInstance') {
             this.$v[validatedInstance].$touch();
             // if its still pending or an error is returned do not submit

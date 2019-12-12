@@ -29,13 +29,11 @@
     import openedResourceGroupGeneral from './opened-resource-group-general';
     import openedResourceGroupResources from './opened-resource-group-resources';
     import openedResourceGroupTimerange from './opened-resource-group-timerange';
-    import deepEqual from 'deep-equal';
     import editComponentMixin from '@/mixins/editComponentMixin';
     import {required} from 'vuelidate/lib/validators';
     import {requiredArrayValue, timerangeNotIntersect} from "@/utils/validators";
     import {
         addResGroup, addResInGroup,
-        deleteResInGroup,
         getResGroup, getResInGroup,
         updateResGroup, updateResInGroup
     } from "../../../../api/objects/contact-center/resourceGroups";
@@ -67,18 +65,9 @@
                 },
 
                 tabs: [
-                    {
-                        text: this.$t('objects.general'),
-                        value: 'general',
-                    },
-                    {
-                        text: this.$tc('objects.ccenter.res.res', 2),
-                        value: 'resources',
-                    },
-                    {
-                        text: this.$t('objects.ccenter.resGroups.timerange'),
-                        value: 'timerange',
-                    }
+                    {text: this.$t('objects.general'), value: 'general',},
+                    {value: 'resources', text: this.$tc('objects.ccenter.res.res', 2),},
+                    {value: 'timerange', text: this.$t('objects.ccenter.resGroups.timerange'),}
                 ],
             };
         },
@@ -106,48 +95,12 @@
 
         methods: {
             async submit() {
-                const isEqualToInitial = deepEqual(this.itemInstance, this.initialItem);
-                if (!isEqualToInitial) {
-                    const validations = this.checkValidations();
-                    if (!validations) {
-                        try {
-                            await this.saveResGroup();
-                            await this.saveResGroupResources();
-                            this.close();
-                        } catch {
-                            if(this.id) this.loadItem();
-                        }
-                    }
-                } else {
+                try {
+                    await this.saveObject('resGroup', addResGroup, updateResGroup);
+                    await this.saveArray('resList', addResInGroup, updateResInGroup);
                     this.close();
-                }
-            },
-
-            async saveResGroup() {
-                const isItemChanged = !deepEqual(this.itemInstance.resGroup, this.initialItem.resGroup);
-                if (isItemChanged) {
-                    if (this.id) {
-                        await updateResGroup(this.itemInstance.resGroup.id, this.itemInstance.resGroup);
-                    } else {
-                        this.id = await addResGroup(this.itemInstance.resGroup);
-                    }
-                }
-            },
-
-            async saveResGroupResources() {
-                await this.addResList();
-            },
-
-            async addResList() {
-                const newRes = this.itemInstance.resList.filter(res => !res.id);
-                if (newRes.length) {
-                    for (const res of newRes) {
-                        try {
-                            await addResInGroup(this.id, res);
-                        } catch (err) {
-                            throw err;
-                        }
-                    }
+                } catch {
+                    if (this.id) this.loadItem();
                 }
             },
 
@@ -162,8 +115,7 @@
             },
 
             async loadResList() {
-                const resList = await getResInGroup(this.id);
-                this.itemInstance.resList = [...resList];
+                this.itemInstance.resList = await getResInGroup(this.id);
             }
         },
     };
