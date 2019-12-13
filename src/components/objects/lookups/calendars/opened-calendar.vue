@@ -7,19 +7,21 @@
         >
             <span>{{$tc('objects.lookups.calendars.calendars', 1)}}</span> | {{computeTitle}}
         </object-header>
-        <section class="object-content module-new calendars-new object-with-tabs">
-            <tabs
-                    :currentTab="currentTab"
-                    :tabs="tabs"
-                    @change="currentTab = $event"
-            ></tabs>
-            <component
-                    class="tabs-inner-component"
-                    :is="computeCurrentTab"
-                    :itemInstanceProp="itemInstance"
-                    :v="$v"
-            ></component>
-        </section>
+        <tabs-component
+                :tabs="tabs"
+                :itemInstance="itemInstance"
+                :v="$v"
+                :root="$options.name"
+        >
+            <template slot="component" slot-scope="props">
+                <component
+                        class="tabs-inner-component"
+                        :is="props.currentTab"
+                        :itemInstanceProp="itemInstance"
+                        :v="$v"
+                ></component>
+            </template>
+        </tabs-component>
     </div>
 </template>
 
@@ -28,7 +30,6 @@
     import openedCalendarWorkWeek from './opened-calendar-work-week';
     import openedCalendarHolidays from './opened-calendar-holidays';
     import editComponentMixin from '@/mixins/editComponentMixin';
-    import deepEqual from 'deep-equal';
     import {required} from 'vuelidate/lib/validators';
     import {timerangeNotIntersect, timerangeStartLessThanEnd} from '@/utils/validators';
     import {
@@ -62,18 +63,9 @@
                     holidays: []
                 },
                 tabs: [
-                    {
-                        text: this.$t('objects.general'),
-                        value: 'general',
-                    },
-                    {
-                        text: this.$t('objects.lookups.calendars.workWeek'),
-                        value: 'work-week',
-                    },
-                    {
-                        text: this.$t('objects.lookups.calendars.holidays'),
-                        value: 'holidays',
-                    }
+                    {value: 'general', text: this.$t('objects.general'),},
+                    {value: 'work-week', text: this.$t('objects.lookups.calendars.workWeek'),},
+                    {value: 'holidays', text: this.$t('objects.lookups.calendars.holidays'),}
                 ],
             };
         },
@@ -103,100 +95,16 @@
         },
 
         methods: {
-            async submit() {
-                const isEqualToInitial = deepEqual(this.itemInstance, this.initialItem);
-                if (!isEqualToInitial) {
-                    const validations = this.checkValidations('itemInstance');
-                    if (!validations) {
-                        try {
-                            await this.saveCalendar();
-                            await this.saveWorkWeek();
-                            await this.saveHolidays();
-                            this.close();
-                        } catch (err) {
-                            this.loadItem();
-                        }
-                    }
-                } else {
+            async save() {
+                try {
+                    this.id = await this.saveObject('calendar', addCalendar, updateCalendar);
+                    await this.saveArray('workWeek', addWorkday);
+                    await this.updateArray('workWeek', updateWorkday);
+                    await this.saveArray('holidays', addHoliday);
+                    await this.updateArray('holidays', updateHoliday);
                     this.close();
-                }
-            },
-
-            async saveCalendar() {
-                const calendarChanged = !deepEqual(this.itemInstance.calendar, this.initialItem.calendar);
-                if (calendarChanged) {
-                    if (this.id) {
-                        await updateCalendar(this.itemInstance.calendar.id, this.itemInstance.calendar);
-                    } else {
-                        this.id = await addCalendar(this.itemInstance.calendar);
-                    }
-                }
-            },
-
-            async saveWorkWeek() {
-                await this.addWorkWeek();
-                await this.updateWorkWeek();
-            },
-
-            async saveHolidays() {
-                await this.addHolidays();
-                await this.updateHolidays();
-            },
-
-            async addWorkWeek() {
-                const newWorkdays = this.itemInstance.workWeek.filter(workday => !workday.id);
-                if (newWorkdays.length) {
-                    for (const workday of newWorkdays) {
-                        try {
-                            await addWorkday(this.id, workday);
-                        } catch (err) {
-                            throw err;
-                        }
-                    }
-                }
-            },
-            async addHolidays() {
-                const newHolidays = this.itemInstance.holidays.filter(holiday => !holiday.id);
-                if (newHolidays.length) {
-                    for (const holiday of newHolidays) {
-                        try {
-                            await addHoliday(this.id, holiday);
-                        } catch (err) {
-                            throw err;
-                        }
-                    }
-                }
-            },
-            async updateWorkWeek() {
-                for (const workday of this.itemInstance.workWeek) {
-                    if (workday.id) {
-                        const initIndex = this.initialItem.workWeek.findIndex(initialWeekday => {
-                            return deepEqual(workday, initialWeekday);
-                        });
-                        if (initIndex === -1) {
-                            try {
-                                await updateWorkday(this.id, workday.id, workday);
-                            } catch (err) {
-                                throw err;
-                            }
-                        }
-                    }
-                }
-            },
-            async updateHolidays() {
-                for (const holiday of this.itemInstance.holidays) {
-                    if (holiday.id) {
-                        const initIndex = this.initialItem.holidays.findIndex(initialHoliday => {
-                            return deepEqual(holiday, initialHoliday);
-                        });
-                        if (initIndex === -1) {
-                            try {
-                                await updateHoliday(this.id, holiday.id, holiday);
-                            } catch (err) {
-                                throw err;
-                            }
-                        }
-                    }
+                } catch (err) {
+                    this.loadItem();
                 }
             },
 

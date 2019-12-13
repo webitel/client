@@ -96,7 +96,7 @@
         methods: {
             async submit() {
                 try {
-                    await this.saveObject('resGroup', addResGroup, updateResGroup);
+                    this.id = await this.saveObject('resGroup', addResGroup, updateResGroup);
                     await this.saveArray('resList', addResInGroup, updateResInGroup);
                     this.close();
                 } catch {

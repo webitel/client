@@ -13,7 +13,8 @@
                 <h3 class="content-title">{{$t('objects.lookups.calendars.allCalendars')}}</h3>
                 <div class="content-header__actions-wrap">
                     <search
-                            @filterData="filterData"
+                            v-model="search"
+                            @filterData="loadDataList"
                     ></search>
                     <i
                             class="icon-icon_delete icon-action"
@@ -24,22 +25,21 @@
             </header>
 
                 <vuetable
-                        class="permissions-table"
                         :api-mode="false"
                         :fields="fields"
-                        :data="filteredDataList"
+                        :data="dataList"
                 >
                     <template slot="name" slot-scope="props">
                         <div class="tt-capitalize">
                         <span class="nameLink" @click="edit(props.rowIndex)">
-                        {{filteredDataList[props.rowIndex].name}}
+                        {{dataList[props.rowIndex].name}}
                         </span>
                         </div>
                     </template>
 
                     <template slot="description" slot-scope="props">
                         <div>
-                            {{filteredDataList[props.rowIndex].description || 'DESCRIPTION IS EMPTY'}}
+                            {{dataList[props.rowIndex].description || 'DESCRIPTION IS EMPTY'}}
                         </div>
                     </template>
 
@@ -83,7 +83,7 @@
             edit(rowId) {
                 this.$router.push({
                     name: 'calendars-edit',
-                    params: {id: this.filteredDataList[rowId].id},
+                    params: {id: this.dataList[rowId].id},
                 });
             },
 
@@ -96,8 +96,7 @@
             },
 
             async loadDataList() {
-                this.dataList = await getCalendarList();
-                this.filterData();
+                this.dataList = await getCalendarList(this.size, this.search);
             },
         }
     }

@@ -68,12 +68,12 @@ export default {
                 if (this.id) {
                     await updateMethod(this.itemInstance[name].id, this.itemInstance[name]);
                 } else {
-                    this.id = await createMethod(this.itemInstance[name]);
+                    return await createMethod(this.itemInstance[name]);
                 }
             }
         },
 
-        async saveArray(name, createMethod, updateMethod) {
+        async saveArray(name, createMethod) {
             const newItems = this.itemInstance[name].filter(item => !item.id);
             if (newItems.length) {
                 for (const item of newItems) {
@@ -81,6 +81,23 @@ export default {
                         await createMethod(this.id, item);
                     } catch (err) {
                         throw err;
+                    }
+                }
+            }
+        },
+
+        async updateArray(name, updateMethod) {
+            for (const item of this.itemInstance[name]) {
+                if (item.id) {
+                    const initIndex = this.initialItem.workWeek.findIndex(initItem => {
+                        return deepEqual(item, initItem);
+                    });
+                    if (initIndex === -1) {
+                        try {
+                            await updateMethod(this.id, item.id, item);
+                        } catch (err) {
+                            throw err;
+                        }
                     }
                 }
             }

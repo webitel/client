@@ -94,6 +94,7 @@ export const deleteCalendar = async (id) => {
 
 export const getWorkdayList = async (calendarId) => {
     try {
+        console.log(calendarId);
         const response = await calendarService.searchAcceptOfDay(calendarId, domainId);
         if (Array.isArray(response.data.items)) {
             return response.data.items.map(workday => {

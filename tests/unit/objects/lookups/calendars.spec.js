@@ -149,7 +149,7 @@ describe('opened calendar', () => {
 
         // emulate route path by setting id
         wrapper.setData({id: createdItem.id});
-
+        console.log(createdItem.id)
         // load item by its id
         await wrapper.vm.loadItem();
 
