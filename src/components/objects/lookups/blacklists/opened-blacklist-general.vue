@@ -5,15 +5,15 @@
         </header>
         <form class="w-50">
             <form-input
-                    v-model.trim="v.itemInstance.name.$model"
-                    :v="v.itemInstance.name"
+                    v-model.trim="v.itemInstance.blacklist.name.$model"
+                    :v="v.itemInstance.blacklist.name"
                     :label="$t('objects.name')"
                     :placeholder="$t('objects.name')"
                     required
             ></form-input>
 
             <form-input
-                    v-model="itemInstance.description"
+                    v-model="itemInstance.blacklist.description"
                     :label="$t('objects.description')"
                     :placeholder="$t('objects.description')"
                     textarea

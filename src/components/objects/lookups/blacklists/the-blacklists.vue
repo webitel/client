@@ -12,7 +12,8 @@
                 <h3 class="content-title">{{$t('objects.lookups.blacklist.allBlacklists')}}</h3>
                 <div class="content-header__actions-wrap">
                     <search
-                            @filterData="filterData"
+                            v-model="search"
+                            @filterData="loadDataList"
                     ></search>
                     <i
                             class="icon-icon_delete icon-action"
@@ -27,19 +28,19 @@
             <vuetable
                     :api-mode="false"
                     :fields="fields"
-                    :data="filteredDataList"
+                    :data="dataList"
             >
                 <template slot="name" slot-scope="props">
                     <div class="tt-capitalize">
                         <span class="nameLink" @click="edit(props.rowIndex)">
-                        {{filteredDataList[props.rowIndex].name}}
+                          {{dataList[props.rowIndex].name}}
                         </span>
                     </div>
                 </template>
 
                 <template slot="numbers" slot-scope="props">
                     <div>
-                        {{filteredDataList[props.rowIndex].numbers}}
+                        {{dataList[props.rowIndex].numbers || 'number count is undefined'}}
                     </div>
                 </template>
 
@@ -62,6 +63,7 @@
 <script>
     import tableComponentMixin from '@/mixins/tableComponentMixin';
     import {_checkboxTableField, _actionsTableField_3} from "@/utils/tableFieldPresets";
+    import {deleteBlacklist, getBlacklistList} from "../../../../api/objects/lookups/blacklists";
 
     export default {
         name: "the-blacklists",
@@ -85,24 +87,16 @@
             edit(rowId) {
                 this.$router.push({
                     name: 'blacklist-edit',
-                    params: {id: this.filteredDataList[rowId].id},
+                    params: {id: this.dataList[rowId].id},
                 });
             },
 
             async deleteItem(item) {
-                // await deleteCommunication(item.id);
+                await deleteBlacklist(item.id);
             },
 
             async loadDataList() {
-                // this.dataList = await getCommunicationsList();
-                for(let i = 0; i < 10; i++) {
-                    this.dataList.push({
-                        name: 'blacklist '+i,
-                        numbers: Math.random()*100,
-                        isSelected: false,
-                    });
-                }
-                this.filterData();
+                this.dataList = await getBlacklistList(this.size, this.search);
             }
         }
     }

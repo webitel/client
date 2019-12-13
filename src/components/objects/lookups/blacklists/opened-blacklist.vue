@@ -7,30 +7,36 @@
         >
             {{$tc('objects.lookups.blacklist.blacklist', 1)}} | {{computeTitle}}
         </object-header>
-
-        <section class="object-content module-new object-with-tabs">
-            <tabs
-                    :currentTab="currentTab"
-                    :tabs="tabs"
-                    @change="currentTab = $event"
-            ></tabs>
-            <component
-                    class="tabs-inner-component"
-                    :is="computeCurrentTab"
-                    :itemInstanceProp="itemInstance"
-                    :v="$v"
-            ></component>
-        </section>
+        <tabs-component
+                :tabs="tabs"
+                :itemInstance="itemInstance"
+                :v="$v"
+                :root="$options.name"
+        >
+            <template slot="component" slot-scope="props">
+                <component
+                        class="tabs-inner-component"
+                        :is="props.currentTab"
+                        :itemInstanceProp="itemInstance"
+                        :v="$v"
+                ></component>
+            </template>
+        </tabs-component>
     </div>
 </template>
 
 <script>
     import openedBlacklistGeneral from './opened-blacklist-general';
     import openedBlacklistNumbers from './opened-blacklist-numbers';
-    import deepEqual from 'deep-equal';
     import editComponentMixin from '@/mixins/editComponentMixin';
     import {required} from 'vuelidate/lib/validators';
     import {requiredArrayValue} from "@/utils/validators";
+    import {
+        addBlacklist,
+        addBlacklistCommunication,
+        getBlacklist,
+        updateBlacklist, updateBlacklistCommunication
+    } from "../../../../api/objects/lookups/blacklists";
 
     export default {
         name: 'opened-blacklist',
@@ -43,9 +49,11 @@
         data() {
             return {
                 itemInstance: {
-                    name: 'test',
-                    description: 'test',
-                    numberList: [{name: '+8 800 555 3535', id: 1}, {name: '+8 800 555 3535', id: 2}],
+                    blacklist: {
+                        name: 'test',
+                        description: 'test',
+                    },
+                    numberList: [],
                 },
                 tabs: [
                     {
@@ -63,8 +71,10 @@
         // by vuelidate
         validations: {
             itemInstance: {
-                name: {
-                    required
+                blacklist: {
+                    name: {
+                        required
+                    },
                 },
                 numberList: {
                     requiredArrayValue
@@ -73,8 +83,21 @@
         },
 
         methods: {
+            async save() {
+                try {
+                    const id = await this.saveObject('blacklist', addBlacklist, updateBlacklist);
+                    if(!this.id) this.id = id;
+                    await this.saveArray('numberList', addBlacklistCommunication);
+                    await this.updateArray('numberList', updateBlacklistCommunication);
+                    this.close();
+                } catch (e) {
+                    this.loadItem();
+                }
+            },
+
             // load current item from backend
             async loadItem() {
+                if (this.id) this.itemInstance.blacklist = await getBlacklist(this.id);
                 this.initialItem = JSON.parse(JSON.stringify(this.itemInstance));
             },
         },

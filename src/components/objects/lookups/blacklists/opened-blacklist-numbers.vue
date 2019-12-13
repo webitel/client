@@ -11,7 +11,8 @@
             <h3 class="content-title">{{$tc('objects.lookups.blacklist.number', 2)}}</h3>
             <div class="content-header__actions-wrap">
                 <search
-                        @filterData="filterData"
+                        v-model="search"
+                        @filterData="loadDataList"
                 ></search>
                 <i
                         class="icon-icon_delete icon-action"
@@ -26,17 +27,17 @@
         <vuetable
                 :api-mode="false"
                 :fields="fields"
-                :data="filteredDataList"
+                :data="dataList"
         >
             <template slot="number" slot-scope="props">
                 <div>
-                    {{filteredDataList[props.rowIndex].number}}
+                    {{dataList[props.rowIndex].number}}
                 </div>
             </template>
 
             <template slot="description" slot-scope="props">
                 <div>
-                    {{filteredDataList[props.rowIndex].description}}
+                    {{dataList[props.rowIndex].description}}
                 </div>
             </template>
 
@@ -58,6 +59,10 @@
     import tableComponentMixin from '@/mixins/tableComponentMixin';
     import {_checkboxTableField, _actionsTableField_3} from "@/utils/tableFieldPresets";
     import numberPopup from './opened-blacklist-number-popup';
+    import {
+        deleteBlacklistCommunication,
+        getBlacklistCommunicationList
+    } from "../../../../api/objects/lookups/blacklists";
 
     export default {
         name: "opened-blacklist-numbers",
@@ -67,7 +72,6 @@
         },
         data() {
             return {
-                filterProperties: ['number'],
                 editedIndex: null,
                 fields: [
                     _checkboxTableField,
@@ -85,7 +89,6 @@
 
             edit(rowIndex) {
                 this.editedIndex = rowIndex;
-                console.log(this.dataList[this.editedIndex])
                 this.popupTriggerIf = true;
             },
 
@@ -94,25 +97,17 @@
                 if(this.editedIndex === null) this.dataList.push(item);
                 this.popupTriggerIf = false;
                 this.editedIndex = null;
-                this.filterData();
             },
 
-            async deleteItem(delItem) {
-                const index = this.dataList.findIndex(item => item === delItem);
-                this.dataList.splice(index, 1);
-                // await deleteCommunication(item.id);
+            async deleteItem(item) {
+                if(item.id) await deleteBlacklistCommunication(this.id, item.id);
             },
 
             async loadDataList() {
-                // this.dataList = await getCommunicationsList();
-                for (let i = 0; i < 10; i++) {
-                    this.dataList.push({
-                        number: (Math.random() + i) * 8 * 10 ** 7 + '',
-                        description: 'Math.random() * 100',
-                        isSelected: false,
-                    });
+                if(this.id) {
+                    this.dataList = await getBlacklistCommunicationList(this.id, this.size, this.search);
                 }
-                this.filterData();
+                this.itemInstance.numberList = this.dataList;
             }
         }
     }

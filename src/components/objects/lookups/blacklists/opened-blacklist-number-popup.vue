@@ -56,7 +56,6 @@
 
         mounted() {
             if (this.value) {
-                console.log(this.value);
                 this.itemInstance = this.value;
             }
         },

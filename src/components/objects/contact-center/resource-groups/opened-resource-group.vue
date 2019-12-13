@@ -94,19 +94,21 @@
         },
 
         methods: {
-            async submit() {
+            async save() {
                 try {
                     this.id = await this.saveObject('resGroup', addResGroup, updateResGroup);
                     await this.saveArray('resList', addResInGroup, updateResInGroup);
                     this.close();
                 } catch {
-                    if (this.id) this.loadItem();
+                    this.loadItem();
                 }
             },
 
             async loadItem() {
-                await this.loadResGroup();
-                await this.loadResList();
+                if(this.id) {
+                    await this.loadResGroup();
+                    await this.loadResList();
+                }
                 this.initialItem = JSON.parse(JSON.stringify(this.itemInstance));
             },
 
