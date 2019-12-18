@@ -1,20 +1,18 @@
 <template>
     <popup
             :title="$t('objects.lookups.blacklist.newNumber')"
-            :primaryBtnAction="addBlacklist"
+            :primaryBtnAction="save"
             @close="$emit('close')">
         <form class="popup-form">
             <form-input
-                    v-model.trim="$v.itemInstance.number.$model"
-                    :label="$tc('objects.lookups.blacklist.number', 1)"
-                    :placeholder="$tc('objects.lookups.blacklist.number', 1)"
+                    v-model.trim="number"
                     :v="$v.itemInstance.number"
+                    :label="$tc('objects.lookups.blacklist.number', 1)"
                     required
             ></form-input>
             <form-input
-                    v-model.trim="itemInstance.description"
+                    v-model.trim="description"
                     :label="$t('objects.description')"
-                    :placeholder="$t('objects.description')"
                     textarea
             ></form-input>
         </form>
@@ -25,6 +23,7 @@
     import popup from '@/components/utils/popup';
     import editComponentMixin from '@/mixins/editComponentMixin';
     import {required} from 'vuelidate/lib/validators';
+    import {mapActions, mapState} from "vuex";
 
     export default {
         name: "opened-blacklist-number-popup",
@@ -32,38 +31,57 @@
         components: {
             popup,
         },
-        props: {
-            value: {
-                type: Object,
-            },
-        },
+
         data() {
             return {
-                itemInstance: {
-                    number: '',
-                    description: ''
-                }
+
             }
         },
 
         validations: {
             itemInstance: {
                 number: {
-                    required,
+                    required
                 },
             }
         },
 
         mounted() {
-            if (this.value) {
-                this.itemInstance = this.value;
-            }
+            this.loadItem();
+        },
+
+        computed: {
+            ...mapState('lookups/blacklists', {
+                id: state => state.numberItemId,
+                itemInstance: state => state.numberItemInstance
+            }),
+            number: {
+                get() {return this.$store.state.lookups.blacklists.numberItemInstance.number},
+                set(value) {this.setItemProp({prop: 'number', value})}
+            },
+            description: {
+                get() {return this.$store.state.lookups.blacklists.numberItemInstance.description},
+                set(value) {this.setItemProp({prop: 'description', value})}
+            },
         },
 
         methods: {
-            addBlacklist() {
-                this.$emit('addItem', this.itemInstance);
-            }
+            async save() {
+                const invalid = this.checkValidations();
+                if(!invalid) {
+                try {
+                    !this.id ? await this.addItem() : await this.updateItem();
+                    this.$emit('close');
+                } catch {}
+                }
+            },
+
+            ...mapActions('lookups/blacklists', {
+                setItemProp: 'SET_NUMBER_ITEM_PROPERTY',
+                addItem: 'ADD_NUMBER_ITEM',
+                updateItem: 'UPDATE_NUMBER_ITEM',
+                loadItem: 'LOAD_NUMBER_ITEM',
+            }),
         }
     }
 </script>

@@ -1,4 +1,4 @@
-process.env.VUE_APP_API_URL = process.env.NODE_ENV === 'production' ? '/api' : 'http://192.168.177.199/api';
+process.env.VUE_APP_API_URL = process.env.NODE_ENV === 'production' ? '/api' : 'http://dev.webitel.com/api';
 // http://192.168.177.199/api
 // http://10.10.10.8:1907
 const MonacoWebpackPlugin = require('monaco-editor-webpack-plugin');

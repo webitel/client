@@ -5,8 +5,8 @@
                 class="search__input"
                 type="text"
                 :placeholder="placeholder || $t('objects.name')"
-                v-model="search"
-                @input="$emit('input')"
+                :value="value"
+                @input="$emit('input', $event.target.value)"
         >
     </form>
 </template>
@@ -17,19 +17,17 @@
     export default {
         name: "search",
         props: {
+            value: {
+                type: String,
+                required: true
+            },
             placeholder: {
                 type: String,
             },
         },
 
-        data() {
-            return {
-                search: '',
-            }
-        },
-
         watch: {
-          search: function () {
+            value: function () {
               this.debouncer.call(this);
           }
         },
@@ -40,10 +38,8 @@
 
         methods: {
             debouncer() {
-                this.$emit('input', this.search);
-                this.$emit('filterData', this.search);
+                this.$emit('filterData', this.value);
             },
-
         }
     }
 </script>

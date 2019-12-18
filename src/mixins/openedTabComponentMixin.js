@@ -4,17 +4,9 @@ import editComponentMixin from './editComponentMixin';
 export default {
     mixins: [editComponentMixin, dropdownSearchMixin],
     props: {
-        itemInstanceProp: {
-            type: Object,
-            required: true,
-        },
         v: {
             type: Object,
-            required: true
+            // required: true
         }
-    },
-
-    created() {
-        this.itemInstance = this.itemInstanceProp;
     },
 }

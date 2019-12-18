@@ -28,7 +28,7 @@
                 // =============================== ATTENTION!!!!!============================================
                 // WE PASS INVERTED CHECKBOX VALUE
                 // BECAUSE CLICK EVENT FIRES BEFORE CHECKBOX CHANGE
-                this.$emit('toggleCheckbox', !this.value);
+                this.$emit('input', !this.value);
             }
         },
         computed: {

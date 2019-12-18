@@ -2,8 +2,6 @@
     <section>
         <number-popup
                 v-if="popupTriggerIf"
-                :value="dataList[editedIndex]"
-                @addItem="addItem"
                 @close="popupTriggerIf = false"
         ></number-popup>
 
@@ -50,7 +48,12 @@
                 ></i>
             </template>
         </vuetable>
-        <pagination></pagination>
+        <pagination
+                v-model="size"
+                @loadDataList="loadDataList"
+                @next="nextPage"
+                @prev="prevPage"
+        ></pagination>
     </section>
 </template>
 
@@ -63,6 +66,7 @@
         deleteBlacklistCommunication,
         getBlacklistCommunicationList
     } from "../../../../api/objects/lookups/blacklists";
+    import {mapActions, mapMutations, mapState} from "vuex";
 
     export default {
         name: "opened-blacklist-numbers",
@@ -82,33 +86,41 @@
             }
         },
 
+        computed: {
+            ...mapState('lookups/blacklists', {
+                dataList: state => state.numberDataList,
+            }),
+
+            size: {
+                get() {return this.$store.state.lookups.blacklists.numberSize},
+                set(value) {this.setSize(value)}
+            },
+
+            search: {
+                get() {return this.$store.state.lookups.blacklists.numberSearch},
+                set(value) {this.setSearch(value)}
+            }
+    },
+
         methods: {
             create() {
                 this.popupTriggerIf = true;
             },
 
             edit(rowIndex) {
-                this.editedIndex = rowIndex;
+                this.setId(this.dataList[rowIndex].id);
                 this.popupTriggerIf = true;
             },
 
-            addItem(item) {
-                item.isSelected = false;
-                if(this.editedIndex === null) this.dataList.push(item);
-                this.popupTriggerIf = false;
-                this.editedIndex = null;
-            },
-
-            async deleteItem(item) {
-                if(item.id) await deleteBlacklistCommunication(this.id, item.id);
-            },
-
-            async loadDataList() {
-                if(this.id) {
-                    this.dataList = await getBlacklistCommunicationList(this.id, this.size, this.search);
-                }
-                this.itemInstance.numberList = this.dataList;
-            }
+            ...mapActions('lookups/blacklists', {
+                setId: 'SET_NUMBER_ITEM_ID',
+                loadDataList: 'LOAD_NUMBER_DATA_LIST',
+                setSize: 'SET_NUMBER_SIZE',
+                setSearch: 'SET_NUMBER_SEARCH',
+                nextPage: '',
+                prevPage: '',
+                removeItem: 'REMOVE_NUMBER_ITEM',
+            }),
         }
     }
 </script>

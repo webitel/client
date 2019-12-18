@@ -7,6 +7,7 @@ import VueRouter from 'vue-router';
 import Vuelidate from 'vuelidate';
 import i18n from 'vue-i18n';
 import {getCalendarList, getHolidayList, getWorkdayList} from "../../../../src/api/objects/lookups/calendars";
+import {getCommunicationsList} from "../../../../src/api/objects/lookups/communications";
 
 const $t = () => {
 };
@@ -27,8 +28,6 @@ describe('opened calendar', () => {
     });
 
     it('creates new calendar', async (done) => {
-        const dataList = await getCalendarList();
-
         // set new item data
         wrapper.setData({
             itemInstance: {
@@ -59,15 +58,13 @@ describe('opened calendar', () => {
 
         // wait promise response
         await setTimeout(async () => {
-            const newDataList = await getCalendarList();
-            expect(newDataList).toHaveLength(dataList.length + 1);
+            const dataList = await getCalendarList(10, 'jest');
+            expect(dataList.findIndex(item => item.name.includes('jest'))).not.toBe(-1);
             done();
         }, 500);
     });
 
     it('creates new temporary calendar', async (done) => {
-        const dataList = await getCalendarList();
-
         // set new item data
         wrapper.setData({
             itemInstance: {
@@ -87,10 +84,10 @@ describe('opened calendar', () => {
 
         // wait promise response
         await setTimeout(async () => {
-            const newDataList = await getCalendarList();
-            // expect(newDataList).toHaveLength(dataList.length + 1);
+            const dataList = await getCalendarList(10, 'jest');
+            expect(dataList.findIndex(item => item.name.includes('jest-temp'))).not.toBe(-1);
             done();
-        }, 300);
+        }, 500);
     });
 
     it('updates calendar general info', async (done) => {
@@ -98,7 +95,7 @@ describe('opened calendar', () => {
 
         // to find created item id
         const createdItem = dataList.find(item => {
-            return item.name === 'jest-calendar'
+            return item.name.includes('jest-calendar');
         });
 
         // emulate route path by setting id
@@ -127,16 +124,13 @@ describe('opened calendar', () => {
 
         // wait promise response
         await setTimeout(async () => {
-            // load new list and find updated item
-            const newDataList = await getCalendarList();
+            const newDataList = await getCalendarList(10, '*jest');
             const newItem = newDataList.find(item => {
-                return item.name === 'upd-jest-calendar'
+                return item.name.includes('upd-jest-calendar');
             });
-
-            // check if backend item is equal to updated
-            expect(newItem.name).toEqual(newItemInstance.itemInstance.calendar.name);
+            expect(newItem).toBeTruthy();
             done();
-        }, 500);
+        }, 100);
     });
 
     it('updates calendar existing workday, and adds a new one', async (done) => {
@@ -144,12 +138,11 @@ describe('opened calendar', () => {
 
         // to find created item id
         const createdItem = dataList.find(item => {
-            return item.name === 'upd-jest-calendar'
+            return item.name.includes('upd-jest-calendar');
         });
 
         // emulate route path by setting id
         wrapper.setData({id: createdItem.id});
-        console.log(createdItem.id)
         // load item by its id
         await wrapper.vm.loadItem();
 
@@ -172,12 +165,15 @@ describe('opened calendar', () => {
             }
         });
 
+        console.log('1', wrapper.vm.id);
         // trigger 'save' button
         wrapper.find('.primary-btn').trigger('click');
-
+        console.log('1', wrapper.vm.id);
+        const id = wrapper.vm.id;
         // wait promise response
         await setTimeout(async () => {
-            const newWorkWeek = await getWorkdayList(wrapper.vm.id);
+            console.log('1', id);
+            const newWorkWeek = await getWorkdayList(id);
             const newWorkdayItem = newWorkWeek.find(workday => {
                 return workday.day == 0 && workday.start === 1 * 60;
             });
@@ -223,7 +219,6 @@ describe('opened calendar', () => {
 
         // wait promise response
         await setTimeout(async () => {
-            console.log(wrapper.vm.id);
             const newHolidays = await getHolidayList(wrapper.vm.id);
             const newHolidayItem = newHolidays.find(holiday => {
                 return holiday.name === 'new jest year';

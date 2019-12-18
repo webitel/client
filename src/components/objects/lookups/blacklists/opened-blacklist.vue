@@ -2,22 +2,19 @@
     <div>
         <object-header
                 :primaryText="$t('objects.save')"
-                :primaryAction="submit"
+                :primaryAction="save"
                 close
         >
             {{$tc('objects.lookups.blacklist.blacklist', 1)}} | {{computeTitle}}
         </object-header>
         <tabs-component
                 :tabs="tabs"
-                :itemInstance="itemInstance"
-                :v="$v"
                 :root="$options.name"
         >
             <template slot="component" slot-scope="props">
                 <component
                         class="tabs-inner-component"
                         :is="props.currentTab"
-                        :itemInstanceProp="itemInstance"
                         :v="$v"
                 ></component>
             </template>
@@ -31,12 +28,7 @@
     import editComponentMixin from '@/mixins/editComponentMixin';
     import {required} from 'vuelidate/lib/validators';
     import {requiredArrayValue} from "@/utils/validators";
-    import {
-        addBlacklist,
-        addBlacklistCommunication,
-        getBlacklist,
-        updateBlacklist, updateBlacklistCommunication
-    } from "../../../../api/objects/lookups/blacklists";
+    import {mapActions, mapState} from "vuex";
 
     export default {
         name: 'opened-blacklist',
@@ -48,13 +40,6 @@
 
         data() {
             return {
-                itemInstance: {
-                    blacklist: {
-                        name: 'test',
-                        description: 'test',
-                    },
-                    numberList: [],
-                },
                 tabs: [
                     {
                         text: this.$t('objects.general'),
@@ -66,40 +51,46 @@
                     },
                 ],
             };
+
         },
 
-        // by vuelidate
         validations: {
             itemInstance: {
-                blacklist: {
-                    name: {
-                        required
-                    },
+                name: {
+                    required
                 },
-                numberList: {
-                    requiredArrayValue
-                }
+            }
+        },
+
+        mounted() {
+            this.id = this.$route.params.id;
+            this.loadItem();
+        },
+
+        computed: {
+            ...mapState('lookups/blacklists', {
+                itemInstance: state => state.itemInstance,
+            }),
+            id: {
+                get() {return this.$store.state.lookups.blacklists.itemId},
+                set(value) {this.setId(value)}
             }
         },
 
         methods: {
-            async save() {
-                try {
-                    const id = await this.saveObject('blacklist', addBlacklist, updateBlacklist);
-                    if(!this.id) this.id = id;
-                    await this.saveArray('numberList', addBlacklistCommunication);
-                    await this.updateArray('numberList', updateBlacklistCommunication);
-                    this.close();
-                } catch (e) {
-                    this.loadItem();
+            save() {
+                const invalid = this.checkValidations();
+                if(!invalid) {
+                    !this.id ? this.addItem() : this.updateItem();
                 }
             },
 
-            // load current item from backend
-            async loadItem() {
-                if (this.id) this.itemInstance.blacklist = await getBlacklist(this.id);
-                this.initialItem = JSON.parse(JSON.stringify(this.itemInstance));
-            },
+            ...mapActions('lookups/blacklists', {
+                setId: 'SET_ITEM_ID',
+                loadItem: 'LOAD_ITEM',
+                addItem: 'ADD_ITEM',
+                updateItem: 'UPDATE_ITEM',
+            }),
         },
     };
 </script>

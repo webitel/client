@@ -1,21 +1,19 @@
 import instance from '@/api/instance';
-import store from '@/store/store';
 import configuration from '@/api/openAPIConfig';
 import {ListServiceApiFactory} from 'webitel-sdk';
 import sanitizer from "../../sanitizer";
-import logger from "vuex/dist/logger";
 
 const listService = new ListServiceApiFactory
 (configuration, process.env.VUE_APP_API_URL, instance);
 
-const domainId = store.getters.getDomainId || undefined;
+const domainId = undefined;
 const fieldsToSend = ['name', 'description', 'number'];
 
-export const getBlacklistList = async (size = 10) => {
+export const getBlacklistList = async (size) => {
     try {
         const response = await listService.searchList(domainId, size);
         if (!response.data.items) response.data.items = [];
-        response.data.items.forEach(item => item.isSelected = false);
+        response.data.items.forEach(item => item._isSelected = false);
         return response.data.items;
     } catch (err) {
         throw err;
@@ -39,6 +37,7 @@ export const getBlacklist = async (id) => {
 };
 
 export const addBlacklist = async (item) => {
+    sanitizer(item, fieldsToSend);
     item.domain_id = domainId;
     try {
         const response = await listService.createList(item);
@@ -48,9 +47,10 @@ export const addBlacklist = async (item) => {
     }
 };
 
-export const updateBlacklist = async (changes) => {
+export const updateBlacklist = async (id, changes) => {
+    sanitizer(changes, fieldsToSend);
     try {
-        await listService.updateList(changes.id, changes);
+        await listService.updateList(id, changes);
     } catch (err) {
         throw err;
     }
@@ -64,51 +64,49 @@ export const deleteBlacklist = async (id) => {
     }
 };
 
-export const getBlacklistCommunicationList = async (listId, size = 10) => {
+export const getBlacklistCommunicationList = async (id, size) => {
     try {
-        const response = await listService.searchListCommunication(listId, 0, size);
+        const response = await listService.searchListCommunication(id, 0, size);
         if (!response.data.items) response.data.items = [];
-        response.data.items.forEach(item => item.isSelected = false);
+        response.data.items.forEach(item => item._isSelected = false);
         return response.data.items;
     } catch (err) {
         throw err;
     }
 };
 
-export const getBlacklistCommunication = async (listId, id) => {
+export const getBlacklistCommunication = async (id, numberId) => {
     try {
-        const response = await listService.readListCommunication(listId, id, domainId);
+        const response = await listService.readListCommunication(id, numberId, domainId);
         return response.data;
     } catch (err) {
         throw err;
     }
 };
 
-export const addBlacklistCommunication = async (listId, item) => {
+export const addBlacklistCommunication = async (id, item) => {
     sanitizer(item, fieldsToSend);
     item.domain_id = domainId;
     delete item.description;
     try {
-        const response = await listService.createListCommunication(listId, item);
+        const response = await listService.createListCommunication(id, item);
     } catch (err) {
-        console.log(err)
         throw err;
     }
 };
 
-export const updateBlacklistCommunication = async (listId, changes) => {
-    console.log(listId, changes);
+export const updateBlacklistCommunication = async (id, numberId, changes) => {
+    sanitizer(changes, fieldsToSend);
     try {
-        await listService.updateListCommunication(listId, changes.id, changes);
+        await listService.updateListCommunication(id, numberId, changes);
     } catch (err) {
-        console.log(err)
         throw err;
     }
 };
 
-export const deleteBlacklistCommunication = async (listId, id) => {
+export const deleteBlacklistCommunication = async (id, numberId) => {
     try {
-        await listService.deleteList(listId, id, domainId);
+        await listService.deleteListCommunication(id, numberId, domainId);
     } catch (err) {
         throw err;
     }

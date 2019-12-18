@@ -3,17 +3,14 @@
     >
         <checkbox
                 :value="isAllItemsInCurrentPageSelected"
-                @toggleCheckbox="checkAllCheckboxes"
+                @input="checkAllCheckboxes"
         ></checkbox>
     </th>
     <td v-else
-
     >
         <checkbox
-                :value="rowData.isSelected"
-                @toggleCheckbox="toggleCheckbox"
-        >
-        </checkbox>
+                v-model="rowData._isSelected"
+        ></checkbox>
     </td>
 </template>
 
@@ -28,13 +25,10 @@
             checkbox
         },
         methods: {
-            toggleCheckbox() {
-                this.rowData.isSelected = !this.rowData.isSelected;
-            },
             checkAllCheckboxes() {
                 const selectionState = !this.isAllItemsInCurrentPageSelected;
                 this.vuetable.tableData.forEach((item) => {
-                    item.isSelected = selectionState;
+                    item._isSelected = selectionState;
                 });
             }
         },
@@ -43,7 +37,7 @@
                 if (!this.vuetable.tableData || this.vuetable.tableData.length === 0) return false;
 
                 return this.vuetable.tableData.every((item) => {
-                    return item.isSelected;
+                    return item._isSelected;
                 });
             }
         }

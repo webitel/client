@@ -5,17 +5,15 @@
         </header>
         <form class="w-50">
             <form-input
-                    v-model.trim="v.itemInstance.blacklist.name.$model"
-                    :v="v.itemInstance.blacklist.name"
+                    v-model.trim="name"
+                    :v="v.itemInstance.name"
                     :label="$t('objects.name')"
-                    :placeholder="$t('objects.name')"
                     required
             ></form-input>
 
             <form-input
-                    v-model="itemInstance.blacklist.description"
+                    v-model="description"
                     :label="$t('objects.description')"
-                    :placeholder="$t('objects.description')"
                     textarea
             ></form-input>
         </form>
@@ -24,9 +22,27 @@
 
 <script>
     import openedTabComponentMixin from '@/mixins/openedTabComponentMixin';
+    import {mapActions} from "vuex";
 
     export default {
         name: "opened-blacklist-general",
         mixins: [openedTabComponentMixin],
+
+        computed: {
+            name: {
+                get() {return this.$store.state.lookups.blacklists.itemInstance.name},
+                set(value) {this.setItemProp({prop: 'name', value})}
+            },
+            description: {
+                get() {return this.$store.state.lookups.blacklists.itemInstance.description},
+                set(value) {this.setItemProp({prop: 'description', value})}
+            },
+        },
+
+        methods: {
+            ...mapActions('lookups/blacklists', {
+                setItemProp: 'SET_ITEM_PROPERTY',
+            }),
+        }
     }
 </script>

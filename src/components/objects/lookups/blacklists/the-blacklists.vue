@@ -55,7 +55,12 @@
                     ></i>
                 </template>
             </vuetable>
-            <pagination></pagination>
+            <pagination
+                v-model="size"
+                @loadDataList="loadDataList"
+                @next="nextPage"
+                @prev="prevPage"
+            ></pagination>
         </section>
     </div>
 </template>
@@ -63,7 +68,7 @@
 <script>
     import tableComponentMixin from '@/mixins/tableComponentMixin';
     import {_checkboxTableField, _actionsTableField_3} from "@/utils/tableFieldPresets";
-    import {deleteBlacklist, getBlacklistList} from "../../../../api/objects/lookups/blacklists";
+    import {mapActions, mapState} from "vuex";
 
     export default {
         name: "the-blacklists",
@@ -79,6 +84,22 @@
             };
         },
 
+        computed: {
+            ...mapState('lookups/blacklists', {
+                dataList: state => state.dataList,
+            }),
+
+            size: {
+                get() {return this.$store.state.lookups.blacklists.size},
+                set(value) {this.setSize(value)}
+            },
+
+            search: {
+                get() {return this.$store.state.lookups.blacklists.search},
+                set(value) {this.setSearch(value)}
+            }
+        },
+
         methods: {
             create() {
                 this.$router.push('/lookups/blacklist/new');
@@ -91,13 +112,14 @@
                 });
             },
 
-            async deleteItem(item) {
-                await deleteBlacklist(item.id);
-            },
-
-            async loadDataList() {
-                this.dataList = await getBlacklistList(this.size, this.search);
-            }
+            ...mapActions('lookups/blacklists', {
+                loadDataList: 'LOAD_DATA_LIST',
+                setSize: 'SET_SIZE',
+                setSearch: 'SET_SEARCH',
+                nextPage: '',
+                prevPage: '',
+                removeItem: 'REMOVE_ITEM',
+            }),
         }
     }
 </script>

@@ -20,16 +20,6 @@
                 required: true,
             },
 
-            itemInstance: {
-                type: Object,
-                required: true,
-            },
-
-            v: {
-                type: Object,
-                required: true
-            },
-
             root: {
                 type: String,
                 required: true,

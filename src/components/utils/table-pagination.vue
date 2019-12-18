@@ -1,12 +1,12 @@
 <template>
     <footer class="pagination">
         <div class="rows-per-page">
-            <div class="rows-per-page__text">{{$t('objects.pagination.rowsPerPage')}}: </div>
+            <div class="rows-per-page__text">{{$t('objects.pagination.rowsPerPage')}}:</div>
             <input
                     class="rows-per-page__input"
                     ref="input"
-                    :value="10"
-                    @input="$emit('input, $event.target.value')"
+                    :value="value"
+                    @input="$emit('input', $event.target.value)"
                     type="text"
                     :placeholder="'10'"
             />
@@ -22,10 +22,32 @@
 </template>
 
 <script>
+    import debounce from "../../utils/debounce";
 
     export default {
         name: "table-pagination",
-        components: {},
+        props: {
+            value: {
+                type:  String,
+                required: true,
+            }
+        },
+
+        watch: {
+            value: function() {
+                this.debouncer.call(this);
+            },
+        },
+
+        created() {
+            this.debouncer = debounce(this.debouncer);
+        },
+
+        methods: {
+            debouncer() {
+                this.$emit('loadDataList', this.value);
+            },
+        }
     }
 </script>
 
