@@ -5,24 +5,21 @@
         </header>
         <form class="object-input-grid">
             <form-input
-                    v-model.trim="itemInstance.name"
+                    v-model.trim="name"
                     :label="$t('objects.name')"
-                    :placeholder="$t('objects.name')"
             ></form-input>
             <form-input
-                    v-model.trim="v.itemInstance.username.$model"
+                    v-model.trim="username"
                     :v="v.itemInstance.username"
                     :label="$t('objects.directory.users.login')"
-                    :placeholder="$t('objects.directory.users.login')"
                     required
             ></form-input>
 
             <div class="input-extension-wrap">
                 <form-input
                         ref="input-password"
-                        v-model.trim="itemInstance.password"
+                        v-model.trim="password"
                         :label="$t('objects.password')"
-                        :placeholder="$t('objects.password')"
                 ></form-input>
 
                 <div class="input-extension">
@@ -41,9 +38,8 @@
             </div>
 
             <form-input
-                    v-model="itemInstance.extension"
+                    v-model="extension"
                     :label="$t('objects.directory.users.extensions')"
-                    :placeholder="$t('objects.directory.users.extensions')"
             ></form-input>
         </form>
     </section>
@@ -52,6 +48,7 @@
 <script>
     import openedTabComponentMixin from '@/mixins/openedTabComponentMixin';
     import eventBus from '@/utils/eventBus';
+    import {mapActions} from "vuex";
 
     export default {
         name: "opened-user-general",
@@ -62,6 +59,25 @@
             }
         },
 
+        computed: {
+            name: {
+                get() {return this.$store.state.directory.users.itemInstance.name},
+                set(value) {this.setItemProp({prop: 'name', value})}
+            },
+            username: {
+                get() {return this.$store.state.directory.users.itemInstance.username},
+                set(value) {this.setItemProp({prop: 'username', value})}
+            },
+            password: {
+                get() {return this.$store.state.directory.users.itemInstance.password},
+                set(value) {this.setItemProp({prop: 'password', value})}
+            },
+            extension: {
+                get() {return this.$store.state.directory.users.itemInstance.extension},
+                set(value) {this.setItemProp({prop: 'extension', value})}
+            },
+        },
+
         methods: {
             generatePassword() {
                 const length = 12;
@@ -70,16 +86,20 @@
                 for (let i = 0; i < length; i++) {
                     result += charset.charAt(Math.floor(Math.random() * charset.length));
                 }
-                this.itemInstance.password = result;
+               this.password = result;
             },
 
             copyToClipboard() {
-                if (this.itemInstance.password) {
-                    eventBus.$emit('copyToClipboard', this.itemInstance.password);
+                if (this.password) {
+                    eventBus.$emit('copyToClipboard', this.password);
                     this.copyMessage = this.$t('objects.copied');
                     setTimeout(() => this.copyMessage = '', 2000);
                 }
             },
+
+            ...mapActions('directory/users', {
+                setItemProp: 'SET_ITEM_PROPERTY',
+            }),
         }
     }
 </script>

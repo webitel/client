@@ -13,7 +13,7 @@ export default {
     },
 
     computed: {
-        debounceSearch() {
+        debounceSearch(value) {
             return debounce(this.loadDropdownOptionsList);
         },
     },
@@ -22,7 +22,7 @@ export default {
         searchList(value) {
             this.searchValue = value;
             this.dropdownOptionsList = [];
-            return this.debounceSearch();
+            return this.debounceSearch(value);
         },
 
         loadDropdownOptionsList() {

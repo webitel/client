@@ -1,25 +1,16 @@
 <template>
     <section>
         <header class="content-header">
-            <h3 class="content-title">{{$t('objects.directory.devices.devices')}}</h3>
+            <h3 class="content-title">{{$tc('objects.directory.devices.devices', 2)}}</h3>
         </header>
         <form class="object-input-grid">
-            <div class="tags-input-wrap">
-                <div class="tags-input__label">
-                    {{$t('objects.directory.devices.devices')}}
-                </div>
-
+            <div>
                 <tags-input
-                        v-model="deviceTag"
-                        :tags="itemInstance.deviceTags"
-                        :autocomplete-items="deviceList"
-                        :autocomplete-min-length="0"
-                        :placeholder="$t('objects.directory.devices.devices')"
-                        @tags-changed="newTags => this.itemInstance.deviceTags = newTags"
-                        add-only-from-autocomplete
-                        autocomplete-filter-duplicates
-                >
-                </tags-input>
+                        v-model="devices"
+                        :options="dropdownOptionsList"
+                        :label="$tc('objects.directory.devices.devices', 2)"
+                        @searchOptions="searchList"
+                ></tags-input>
 
                 <div class="hint-link__wrap">
                     <span>{{$t('objects.directory.users.deviceNotFound')}}</span>
@@ -34,21 +25,39 @@
 
 <script>
     import openedTabComponentMixin from '@/mixins/openedTabComponentMixin';
+    import {mapActions} from "vuex";
+    import {getDeviceList} from "../../../../api/objects/directory/devices";
 
     export default {
         name: "opened-user-devices",
         mixins: [openedTabComponentMixin],
-        data() {
-            return {
-                deviceTag: '',
-                deviceList: [
-                    {text: 'Dev1', isAdmin: false},
-                    {text: 'Dev2', isAdmin: false},
-                    {text: 'Dev3', isAdmin: false},
-                    {text: 'Dev5', isAdmin: false}
-                ],
-            }
-        }
+
+        computed: {
+            devices: {
+                get() {
+                    return this.$store.state.directory.users.itemInstance.devices
+                },
+                set(value) {
+                    this.setItemProp({prop: 'devices', value})
+                }
+            },
+        },
+
+        methods: {
+            async loadDropdownOptionsList(search) {
+                const response = await getDeviceList(10, search);
+                this.dropdownOptionsList = response.map(item => {
+                    return {
+                        name: item.name,
+                        id: item.id,
+                    }
+                });
+            },
+
+            ...mapActions('directory/users', {
+                setItemProp: 'SET_ITEM_PROPERTY',
+            })
+        },
     }
 </script>
 

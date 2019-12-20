@@ -2,10 +2,10 @@ import instance from '../../instance';
 
 const BASE_URL = '/roles';
 
-export const getRoleList = async (searchPattern = '') => {
-    let url = BASE_URL;
-    if(searchPattern) {
-        url += '?name='+searchPattern;
+export const getRoleList = async (size, search) => {
+    let url = BASE_URL+'?size='+size;
+    if(search) {
+        url += 'name='+search;
     }
     try {
         const response = await instance.get(url);

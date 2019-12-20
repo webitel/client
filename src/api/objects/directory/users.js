@@ -1,10 +1,13 @@
 import instance from '@/api/instance';
+import sanitizer from "../../sanitizer";
 
 const BASE_URL = '/users';
+const fieldsToSend = ['name', 'username', 'password', 'extension', 'status', 'dnd', 'roles', 'license', 'devices',
+    'profile'];
 
 export async function getUsersList(size = 100, search) {
     const defaultObject = {  // default object prototype, to merge response with it to get all fields
-        isSelected: false,
+        _isSelected: false,
         name: 'Username undefined',
         username: 'Username undefined',
         status: 'Status is undefined',
@@ -30,88 +33,57 @@ export async function getUsersList(size = 100, search) {
 
 export async function getUser(id) {
     const url = BASE_URL + '/' + id;
-
+    const defaultObject = {
+        name: '',
+        username: '',
+        password: '',
+        extension: '',
+        roles: [],
+        roleAdmin: [],
+        license: null,
+        devices: [],
+        variables: [
+            {key: '', value: ''}
+        ],
+    };
     try {
-        let response = await instance.get(url);
-        console.log(response);
+        const response = await instance.get(url);
+        let user = {...defaultObject, ...response.data.user};
+        if (user.variables && user.variables.length) {
+            user.variables = user.variables.map(item => {
+                 return {
+                    key: Object.keys(item)[0],
+                    value: Object.values(item)[0],
+                }
+            });
+        } else {
+            user.variables = [{key: '', value: ''}];
+        }
+        return user;
     } catch (error) {
         throw error;
     }
 }
 
 export const addUser = async (item) => {
-    item = {
-        "user": {
-            "name": "Caller-ID Display Name",
-            "email": "userN@invalid.example.com" + Math.random(),
-            "username": "upd-userN" + Math.random(),
-            "password": "{cleartext}",
-            // "extension": "1007"+Math.random(),
-            "status": "Doing something !.. :P",
-            "dnd": false,
-            "roles": {
-                "1011963": "ioio",
-                "1011964": "role.4b759299ca729c61e52d514e9d4aea46",
-                "1011965": "role.a12ed0b17f4cba946d1a1c0ecfa51b83",
-                "1011966": "role.315c9cdfe74c20bc0857056a9154fea2",
-                "1011967": "role.b34b3014ebb356977d5a36afdeeb45ae"
-            },
-            "license": null,
-            "devices": null,
-            "profile": {
-                "integration_id": "user@external.app",
-                "my-var": "my-val",
-                "int": "7256726877"
-            }
-        }
-    };
-
-
-    // Object.keys(item).forEach(key => {
-    //     if(!item[key]) delete item[key];
-    // });
-    // item.account = item.username;
-    // delete item.username;
-    // delete item.description;
+    sanitizer(item, fieldsToSend);
+    item.roles.forEach(item => delete item.text);
+    item.devices.forEach(item => delete item.text);
 
     try {
-        const response = await instance.post(BASE_URL, item);
+        await instance.post(BASE_URL, {user: item});
     } catch (err) {
         throw err;
     }
 };
 
-export const updateUser = async (id, changes) => {
+export const updateUser = async (id, item) => {
     const url = BASE_URL + '/' + id;
-
-    changes = {
-        "user": {
-            "name": "upd-Caller-ID Display Name",
-            "email": "userN@invalid.example.com",
-            "username": "upd-userN" + Math.random(),
-            "password": "{cleartext}",
-            "extension": "1007",
-            "status": "Doing something !.. :P",
-            "dnd": false,
-            "roles": {
-                "1011963": "ioio",
-                "1011964": "role.4b759299ca729c61e52d514e9d4aea46",
-                "1011965": "role.a12ed0b17f4cba946d1a1c0ecfa51b83",
-                "1011966": "role.315c9cdfe74c20bc0857056a9154fea2",
-                "1011967": "role.b34b3014ebb356977d5a36afdeeb45ae"
-            },
-            "license": null,
-            "devices": null,
-            "profile": {
-                "integration_id": "user@external.app",
-                "my-var": "my-val",
-                "int": "7256726877"
-            }
-        }
-    };
-
+    sanitizer(item, fieldsToSend);
+    item.roles.forEach(item => delete item.text);
+    item.devices.forEach(item => delete item.text);
     try {
-        const response = await instance.put(url, changes);
+        await instance.put(url, {user: item});
     } catch (err) {
         throw err;
     }
@@ -119,7 +91,6 @@ export const updateUser = async (id, changes) => {
 
 export const patchUser = async (id, user) => {
     const url = BASE_URL + '/' + id;
-
     try {
         await instance.patch(url, {user});
     } catch (err) {
@@ -129,9 +100,8 @@ export const patchUser = async (id, user) => {
 
 export const deleteUser = async (id) => {
     const url = BASE_URL + '/' + id;
-
     try {
-        const response = await instance.delete(url);
+        await instance.delete(url);
     } catch (err) {
         throw err;
     }

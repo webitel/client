@@ -3,7 +3,8 @@
         <object-header
                 :primary-action="create"
         >
-            {{$t('objects.directory.directory')}} | {{$tc('objects.directory.users.users', 2)}}
+            {{$t('objects.directory.directory')}} |
+            {{$tc('objects.directory.users.users', 2)}}
         </object-header>
 
         <upload-popup v-if="popupTriggerIf" @close="popupTriggerIf = false"></upload-popup>
@@ -74,7 +75,7 @@
                 <template slot="DnD" slot-scope="props">
                     <switcher
                             :value="dataList[props.rowIndex].dnd"
-                            @input="toggleSwitchProperty('dnd', props.rowIndex)"
+                            @input="toggleSwitchProperty(props.rowIndex)"
                     ></switcher>
                 </template>
 
@@ -85,7 +86,7 @@
                             :value="dataList[props.rowIndex].status"
                             :placeholder="$t('objects.directory.users.status')"
                             :options="statusOptions"
-                            @input="changeStatus($event, props.rowIndex)"
+                            @input="changeStatus({value: $event, index: props.rowIndex})"
                     ></dropdown-select>
                 </template>
 
@@ -99,6 +100,12 @@
                     ></i>
                 </template>
             </vuetable>
+            <pagination
+                    v-model="size"
+                    @loadDataList="loadDataList"
+                    @next="nextPage"
+                    @prev="prevPage"
+            ></pagination>
         </section>
     </div>
 </template>
@@ -110,6 +117,7 @@
     import {_checkboxTableField, _actionsTableField_2} from "@/utils/tableFieldPresets";
     import tableComponentMixin from '@/mixins/tableComponentMixin';
     import {deleteUser, getUsersList, patchUser} from "../../../../api/objects/directory/users";
+    import {mapActions, mapState} from "vuex";
 
     export default {
         name: "the-users",
@@ -121,7 +129,6 @@
         mixins: [tableComponentMixin],
         data() {
             return {
-                // vuetable prop
                 fields: [
                     _checkboxTableField,
                     {name: 'name', title: this.$t('objects.name')},
@@ -173,6 +180,22 @@
             };
         },
 
+        computed: {
+            ...mapState('directory/users', {
+                dataList: state => state.dataList,
+            }),
+
+            size: {
+                get() {return this.$store.state.directory.users.size},
+                set(value) {this.setSize(value)}
+            },
+
+            search: {
+                get() {return this.$store.state.directory.users.search},
+                set(value) {this.setSearch(value)}
+            }
+        },
+
         methods: {
             create() {
                 this.$router.push('/directory/users/new');
@@ -183,32 +206,6 @@
                     name: 'directory-users-edit',
                     params: {id: this.dataList[rowId].id},
                 });
-            },
-
-            async changeStatus(status, rowIndex) {
-                this.dataList[rowIndex].status = status;
-                let user = {status};
-
-                try {
-                    await patchUser(this.dataList[rowIndex].id, user);
-                } catch (e) {
-                    this.loadDataList();
-                }
-            },
-
-            async toggleSwitchProperty(prop, rowIndex) {
-                this.dataList[rowIndex][prop] = !this.dataList[rowIndex][prop];
-                let user = {};
-                user[prop] = this.dataList[rowIndex][prop];
-                try {
-                    await patchUser(this.dataList[rowIndex].id, user);
-                } catch (e) {
-                    this.loadDataList();
-                }
-            },
-
-            async deleteItem(item) {
-                await deleteUser(item.id);
             },
 
             processCSV(event) {
@@ -222,9 +219,16 @@
                 return state ? this.$t('objects.online') : this.$t('objects.offline');
             },
 
-            async loadDataList() {
-                this.dataList = await getUsersList(this.size, this.search, this.filter);
-            },
+            ...mapActions('directory/users', {
+                loadDataList: 'LOAD_DATA_LIST',
+                setSize: 'SET_SIZE',
+                setSearch: 'SET_SEARCH',
+                changeStatus: 'PATCH_ITEM_PEROPERTY',
+                toggleSwitchProperty: 'TOGGLE_ITEM_PROPERTY',
+                nextPage: '',
+                prevPage: '',
+                removeItem: 'REMOVE_ITEM',
+            }),
         },
     }
 </script>

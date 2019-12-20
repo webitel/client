@@ -2,23 +2,19 @@
     <div class="content-wrap">
         <object-header
                 :primaryText="$t('objects.save')"
-                :primaryAction="submit"
+                :primaryAction="save"
                 close
         >
-            <span>{{$tc('objects.directory.users.users', 1)}}</span>
-            | {{computeTitle}}
+            {{$tc('objects.directory.users.users', 1)}} | {{computeTitle}}
         </object-header>
         <tabs-component
                 :tabs="tabs"
-                :itemInstance="itemInstance"
-                :v="$v"
                 :root="$options.name"
         >
             <template slot="component" slot-scope="props">
                 <component
                         class="tabs-inner-component"
                         :is="props.currentTab"
-                        :itemInstanceProp="itemInstance"
                         :v="$v"
                 ></component>
             </template>
@@ -34,7 +30,7 @@
     import openedUserVariables from './opened-user-variables';
     import {required} from 'vuelidate/lib/validators';
     import editComponentMixin from '@/mixins/editComponentMixin';
-    import {addUser, getUser, updateUser} from "../../../../api/objects/directory/users";
+    import {mapActions, mapState} from "vuex";
 
     export default {
         name: "opened-user",
@@ -48,20 +44,6 @@
         },
         data() {
             return {
-                itemInstance: {
-                    name: 'user name',
-                    username: 'user login',
-                    password: '',
-                    extension: '1007',
-                    roles: [{text: 'Admin', isAdmin: false}],
-                    roleAdmin: [],
-                    license: [],
-                    devices: [{text: 'Dev1', isAdmin: false}],
-                    variables: [
-                        {key: '', value: ''}
-                    ],
-                },
-
                 tabs: [
                     {
                         text: this.$t('objects.general'),
@@ -87,7 +69,6 @@
             }
         },
 
-        // by vuelidate
         validations: {
             itemInstance: {
                 username: {
@@ -96,23 +77,28 @@
             },
         },
 
-        methods: {
-            async save() {
-                let itemInstance = this.itemInstance;
+        mounted() {
+            this.id = this.$route.params.id;
+            this.loadItem();
+        },
 
-                if (this.id) {
-                    await updateUser(this.id, itemInstance);
-                } else {
-                    await addUser(itemInstance);
-                }
-                this.close();
-            },
-
-            async loadItem() {
-                const response = await getUser(this.id);
-                this.itemInstance = response;
-                this.initialItem = JSON.parse(JSON.stringify(response));
+        computed: {
+            ...mapState('directory/users', {
+                itemInstance: state => state.itemInstance,
+            }),
+            id: {
+                get() {return this.$store.state.directory.users.itemId},
+                set(value) {this.setId(value)}
             }
+        },
+
+        methods: {
+            ...mapActions('directory/users', {
+                setId: 'SET_ITEM_ID',
+                loadItem: 'LOAD_ITEM',
+                addItem: 'ADD_ITEM',
+                updateItem: 'UPDATE_ITEM',
+            }),
         },
     }
 </script>

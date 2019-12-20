@@ -7,9 +7,9 @@ import tableCheckbox from '@/components/utils/checkbox';
 import hint from '@/components/utils/hint';
 import tabs from '@/components/utils/tabs';
 import validationMessage from '@/components/utils/validation-message';
-import tagsInput from '@johmun/vue-tags-input';
 import permissionsTab from '../components/objects/utils/permissions-tab';
 import tabsComponent from '@/components/utils/tabs-component';
+import tagsInput from '@/components/utils/tags-input';
 
 export default {
     components: {
@@ -28,6 +28,13 @@ export default {
     },
 
     methods: {
+        save() {
+            const invalid = this.checkValidations();
+            if(!invalid) {
+                !this.id ? this.addItem() : this.updateItem();
+            }
+        },
+
         checkValidations(validatedInstance = 'itemInstance') {
             this.$v[validatedInstance].$touch();
             // if its still pending or an error is returned do not submit

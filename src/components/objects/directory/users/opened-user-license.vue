@@ -4,29 +4,18 @@
             <h3 class="content-title">{{$t('objects.license.license')}}</h3>
         </header>
         <form class="object-input-grid">
-            <div class="tags-input-wrap">
-                <div class="tags-input__label">
-                    {{$t('objects.directory.users.roleAdmin')}}
-                </div>
-
-                <tags-input
-                        v-model="licenseTag"
-                        :tags="itemInstance.license"
-                        :autocomplete-items="licenseOptions"
-                        :autocomplete-min-length="0"
-                        :placeholder="$t('objects.license.license')"
-                        @tags-changed="newTags => this.itemInstance.license = newTags"
-                        add-only-from-autocomplete
-                        autocomplete-filter-duplicates
-                >
-                </tags-input>
-            </div>
+            <tags-input
+                    :value="license || []"
+                    :options="licenseOptions"
+                    :label="$t('objects.license.license')"
+            ></tags-input>
         </form>
     </section>
 </template>
 
 <script>
     import openedTabComponentMixin from '@/mixins/openedTabComponentMixin';
+    import {mapActions} from "vuex";
 
     export default {
         name: "opened-user-license",
@@ -41,7 +30,22 @@
                     {text: 'Product 4', allowed: false}
                 ],
             }
-        }
+        },
+
+        computed: {
+            license: {
+                get() {
+                    return this.$store.state.directory.users.itemInstance.license
+                },
+                set(value) {
+                    this.setItemProp({prop: 'license', value})
+                }
+            },
+        },
+
+        methods: mapActions('directory/users', {
+            setItemProp: 'SET_ITEM_PROPERTY',
+        }),
     }
 </script>
 
