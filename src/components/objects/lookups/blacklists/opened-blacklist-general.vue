@@ -12,7 +12,7 @@
             ></form-input>
 
             <form-input
-                    v-model="description"
+                    v-model.trim="description"
                     :label="$t('objects.description')"
                     textarea
             ></form-input>

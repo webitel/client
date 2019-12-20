@@ -27,7 +27,6 @@
     import openedBlacklistNumbers from './opened-blacklist-numbers';
     import editComponentMixin from '@/mixins/editComponentMixin';
     import {required} from 'vuelidate/lib/validators';
-    import {requiredArrayValue} from "@/utils/validators";
     import {mapActions, mapState} from "vuex";
 
     export default {
@@ -78,13 +77,6 @@
         },
 
         methods: {
-            save() {
-                const invalid = this.checkValidations();
-                if(!invalid) {
-                    !this.id ? this.addItem() : this.updateItem();
-                }
-            },
-
             ...mapActions('lookups/blacklists', {
                 setId: 'SET_ITEM_ID',
                 loadItem: 'LOAD_ITEM',

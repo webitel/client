@@ -5,24 +5,25 @@ import {
     getBlacklistCommunicationList,
     getBlacklistList, updateBlacklist, updateBlacklistCommunication
 } from "../../../../api/objects/lookups/blacklists";
+import proxy from '../../../../utils/editProxy';
 
-const proxy = (item) => new Proxy(item, {
-    set(obj, prop, value) {
-        obj._dirty = true;
-        obj[prop] = value;
-        return obj;
-    }
-});
+const defaultItem = {
+    name: 'default',
+    description: 'default',
+};
+
+const defaultNumberItem = {
+    number: '000',
+    description: 'default',
+};
+
 
 const state = {
     dataList: [],
     size: '10',
     search: '',
     itemId: 0,
-    itemInstance: {
-        name: 'default',
-        description: 'default',
-    },
+    itemInstance: {},
     numberDataList: [],
     numberSize: '10',
     numberSearch: '',
@@ -59,10 +60,7 @@ const actions = {
             item = await getBlacklist(state.itemId);
             item = proxy(item);
         } else {
-            item = {
-                name: 'default',
-                description: 'default',
-            };
+            item = defaultItem;
         }
         context.commit('SET_ITEM', item);
     },
@@ -77,7 +75,7 @@ const actions = {
     },
 
     UPDATE_ITEM: async () => {
-        if(state.itemInstance._dirty) {
+        if (state.itemInstance._dirty) {
             await updateBlacklist(state.itemId, state.itemInstance);
         }
     },
@@ -87,7 +85,8 @@ const actions = {
         context.commit('REMOVE_ITEM', index);
         try {
             await deleteBlacklist(id);
-        } catch {}
+        } catch {
+        }
     },
 
     SET_NUMBER_ITEM_ID: (context, id) => {
@@ -95,7 +94,7 @@ const actions = {
     },
 
     LOAD_NUMBER_DATA_LIST: async (context) => {
-        if(state.itemId) {
+        if (state.itemId) {
             const response = await getBlacklistCommunicationList(state.itemId, state.numberSize, state.numberSearch);
             context.commit('SET_NUMBER_DATA_LIST', response);
         } else {
@@ -118,10 +117,7 @@ const actions = {
             item = await getBlacklistCommunication(state.itemId, state.numberItemId);
             item = proxy(item);
         } else {
-            item = {
-                number: '000',
-                description: 'default',
-            };
+            item = defaultNumberItem;
         }
         context.commit('SET_NUMBER_ITEM', item);
     },
@@ -145,7 +141,8 @@ const actions = {
         context.commit('REMOVE_NUMBER_ITEM', index);
         try {
             await deleteBlacklistCommunication(state.itemId, id);
-        } catch {}
+        } catch {
+        }
     },
 };
 
