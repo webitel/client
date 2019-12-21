@@ -30,7 +30,12 @@
                     <div>{{dataList[props.rowIndex].user.name}}</div>
                 </template>
             </vuetable>
-            <pagination></pagination>
+            <pagination
+                    v-model="size"
+                    @loadDataList="loadDataList"
+                    @next="nextPage"
+                    @prev="prevPage"
+            ></pagination>
         </section>
     </popup>
 </template>
@@ -40,6 +45,7 @@
     import datepicker from '@/components/utils/datepicker';
     import tableComponentMixin from '@/mixins/tableComponentMixin';
     import {getDeviceHistory} from "../../../../api/objects/directory/devices";
+    import {mapActions, mapState} from "vuex";
 
     export default {
         name: "device-history-popup",
@@ -48,22 +54,8 @@
             popup
         },
         mixins: [tableComponentMixin],
-        props: {
-            itemId: {
-                type: [String, Number],
-                required: true
-            }
-        },
-
-        watch: {
-          itemId: function() {
-              this.loadDataList();
-          }
-        },
-
         data() {
             return {
-                date: Date.now(),
                 fields: [
                     {name: 'loggedIn', title: this.$t('objects.directory.devices.loggedIn')},
                     {name: 'loggedOut', title: this.$t('objects.directory.devices.loggedOut')},
@@ -72,15 +64,48 @@
             }
         },
 
+        watch: {
+            date: function () {
+                this.loadDataList();
+            }
+        },
+
+        computed: {
+            ...mapState('directory/devices', {
+                dataList: state => state.historyDataList,
+                date: state => state.historyDate,
+            }),
+
+            size: {
+                get() {return this.$store.state.directory.devices.historySize},
+                set(value) {this.setSize(value)}
+            },
+
+            search: {
+                get() {return this.$store.state.directory.devices.historySearch},
+                set(value) {this.setSearch(value)}
+            },
+
+            date: {
+                get() {return this.$store.state.directory.devices.historyDate},
+                set(value) {this.setHistoryDate(value)}
+            },
+        },
+
         methods: {
             computeTime(time) {
                 if(isNaN(parseInt(time))) return time;
                 return new Date(+time).toString().split(' ')[4];
             },
 
-            async loadDataList() {
-                this.dataList = await getDeviceHistory(this.itemId, this.date);
-            }
+            ...mapActions('directory/devices', {
+                loadDataList: 'LOAD_HISTORY_DATA_LIST',
+                setSize: 'SET_HISTORY_SIZE',
+                setSearch: 'SET_HISTORY_SEARCH',
+                setHistoryDate: 'SET_HISTORY_DATE',
+                nextPage: '',
+                prevPage: '',
+            }),
         }
     }
 </script>

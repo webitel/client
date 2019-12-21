@@ -7,7 +7,7 @@ const fieldsToSend = ['name', 'account', 'password', 'mac', 'ip', 'vendor', 'mod
 
 export async function getDeviceList(size = 100, search) {
     const defaultObject = {  // default object prototype, to merge response with it to get all fields
-        isSelected: false,
+        _isSelected: false,
         name: 'name undefined',
         account: 'auth id undefined',
         user: {name: 'user undefined'},

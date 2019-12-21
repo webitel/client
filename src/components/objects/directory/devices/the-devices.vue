@@ -4,12 +4,12 @@
         <object-header
                 :primaryAction="create"
         >
-            {{$t('objects.directory.directory')}} | {{$tc('objects.directory.devices.devices', 2)}}
+            {{$t('objects.directory.directory')}} |
+            {{$tc('objects.directory.devices.devices', 2)}}
         </object-header>
 
         <history-popup
-                v-if="historyId"
-                :itemId="historyId"
+                 v-if="historyId"
                 @close="historyId = null"
         ></history-popup>
 
@@ -83,7 +83,7 @@
 
                 <template slot="actions" slot-scope="props">
                     <i class="vuetable-action icon-icon_generate"
-                       @click="read(props.rowIndex)"
+                       @click="read(dataList[props.rowIndex].id)"
                     ></i>
                     <i class="vuetable-action icon-icon_edit"
                        @click="edit(props.rowIndex)"
@@ -93,6 +93,12 @@
                     ></i>
                 </template>
             </vuetable>
+            <pagination
+                    v-model="size"
+                    @loadDataList="loadDataList"
+                    @next="nextPage"
+                    @prev="prevPage"
+            ></pagination>
         </section>
     </div>
 </template>
@@ -104,6 +110,7 @@
     import {_checkboxTableField, _actionsTableField_3} from "@/utils/tableFieldPresets";
     import tableComponentMixin from '@/mixins/tableComponentMixin';
     import {deleteDevice, getDeviceList} from "../../../../api/objects/directory/devices";
+    import {mapActions, mapState} from "vuex";
 
     export default {
         name: 'the-devices',
@@ -116,7 +123,6 @@
 
         data() {
             return {
-                // vuetable prop
                 fields: [
                     _checkboxTableField,
                     {name: 'name', title: this.$t('objects.name')},
@@ -133,15 +139,31 @@
                     }
                 },
 
-                historyId: null,
-                historyPopupTriggerIf: false,
                 isFilterOpenedClassTrigger: false,
                 csvFile: null
             };
         },
 
-        mounted() {
+        computed: {
+            ...mapState('directory/devices', {
+                dataList: state => state.dataList,
+                historyId: state => state.itemId
+            }),
 
+            size: {
+                get() {return this.$store.state.directory.devices.size},
+                set(value) {this.setSize(value)}
+            },
+
+            search: {
+                get() {return this.$store.state.directory.devices.search},
+                set(value) {this.setSearch(value)}
+            },
+
+            historyId: {
+                get() {return this.$store.state.directory.devices.itemId},
+                set(value) {this.read(value)}
+            },
         },
 
         methods: {
@@ -149,19 +171,11 @@
                 this.$router.push('/directory/devices/new');
             },
 
-            read(rowIndex) {
-                this.historyId = this.dataList[rowIndex].id;
-            },
-
             edit(rowId) {
                 this.$router.push({
                     name: 'directory-devices-edit',
                     params: {id: this.dataList[rowId].id},
                 });
-            },
-
-            async deleteItem(item) {
-                await deleteDevice(item.id);
             },
 
             processCSV(event) {
@@ -206,9 +220,15 @@
                 }
             },
 
-            async loadDataList() {
-                this.dataList = await getDeviceList(this.size, this.search);
-            }
+            ...mapActions('directory/devices', {
+                loadDataList: 'LOAD_DATA_LIST',
+                setSize: 'SET_SIZE',
+                setSearch: 'SET_SEARCH',
+                read: 'SET_ITEM_ID',
+                nextPage: '',
+                prevPage: '',
+                removeItem: 'REMOVE_ITEM',
+            }),
         },
     };
 </script>

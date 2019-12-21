@@ -2,22 +2,19 @@
     <div class="content-wrap">
         <object-header
                 :primaryText="$t('objects.save')"
-                :primaryAction="submit"
+                :primaryAction="save"
                 close
         >
             <span>{{$tc('objects.directory.devices.devices', 1)}}</span> | {{computeTitle}}
         </object-header>
         <tabs-component
                 :tabs="tabs"
-                :itemInstance="itemInstance"
-                :v="$v"
                 :root="$options.name"
         >
             <template slot="component" slot-scope="props">
                 <component
                         class="tabs-inner-component"
                         :is="props.currentTab"
-                        :itemInstanceProp="itemInstance"
                         :v="$v"
                 ></component>
             </template>
@@ -32,11 +29,12 @@
     import {required} from 'vuelidate/lib/validators';
     import datepicker from 'vuejs-datepicker';
     import editComponentMixin from '@/mixins/editComponentMixin';
-    import {addDevice, getDevice, updateDevice} from "../../../../api/objects/directory/devices";
     import {ipValidator, macValidator} from "../../../../utils/validators";
+    import {mapActions, mapState} from "vuex";
 
     export default {
         name: 'opened-device',
+        mixins: [editComponentMixin],
         components: {
             openedDeviceGeneral,
             openedDeviceHotdesking,
@@ -44,26 +42,8 @@
             datepicker,
         },
 
-        mixins: [editComponentMixin],
-
         data() {
             return {
-                itemInstance: {
-                    name: 'device name',
-                    account: '1002',
-                    password: 'pass',
-                    user: {},
-                    phone: '8 800 555 3535',
-                    ip: '10.10.10.117',
-
-                    vendor: 'vendor name',
-                    model: 'model name',
-                    mac: '80-5E-C0-3C-84-44',
-                    hotdesk: [],
-                    // hotdesk: [{text: 'Tag1'}, {text: 'Tag2'}],
-                    vars: [],
-                },
-
                 tabs: [
                     {
                         text: this.$t('objects.general'),
@@ -101,22 +81,29 @@
             },
         },
 
-        methods: {
-            async save() {
-                if (this.id) {
-                    await updateDevice(this.id, this.itemInstance);
-                } else {
-                    await addDevice(this.itemInstance);
-                }
-                this.close();
-            },
+        mounted() {
+            this.id = this.$route.params.id;
+            this.loadItem();
+        },
 
-            async loadItem() {
-                const response = await getDevice(this.id);
-                this.itemInstance = response;
-                this.initialItem = JSON.parse(JSON.stringify(response));
+        computed: {
+            ...mapState('directory/devices', {
+                itemInstance: state => state.itemInstance,
+            }),
+            id: {
+                get() {return this.$store.state.directory.devices.itemId},
+                set(value) {this.setId(value)}
             }
-        }
+        },
+
+        methods: {
+            ...mapActions('directory/devices', {
+                setId: 'SET_ITEM_ID',
+                loadItem: 'LOAD_ITEM',
+                addItem: 'ADD_ITEM',
+                updateItem: 'UPDATE_ITEM',
+            }),
+        },
     }
 </script>
 
