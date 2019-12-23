@@ -1,8 +1,9 @@
 <template>
     <div>
         <object-header
-                :primaryText="$t('objects.save')"
+                :primaryText="computePrimaryText"
                 :primaryAction="save"
+                :primaryDisabled="computeDisabled"
                 close
         >
             {{$tc('objects.lookups.blacklist.blacklist', 1)}} | {{computeTitle}}

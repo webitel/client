@@ -7,14 +7,22 @@ import {
 } from "../../../../api/objects/lookups/blacklists";
 import proxy from '../../../../utils/editProxy';
 
-const defaultItem = {
-    name: 'default',
-    description: 'default',
-};
-
-const defaultNumberItem = {
-    number: '000',
-    description: 'default',
+const defaultState = () => {
+    return {
+        itemId: 0,
+        itemInstance: {
+            name: 'default',
+            description: 'default',
+        },
+        numberDataList: [],
+        numberSize: '10',
+        numberSearch: '',
+        numberItemId: 0,
+        numberItemInstance: {
+            number: '000',
+            description: 'default',
+        }
+    }
 };
 
 
@@ -22,16 +30,7 @@ const state = {
     dataList: [],
     size: '10',
     search: '',
-    itemId: 0,
-    itemInstance: {},
-    numberDataList: [],
-    numberSize: '10',
-    numberSearch: '',
-    numberItemId: 0,
-    numberItemInstance: {
-        number: '',
-        description: ''
-    },
+    ...defaultState()
 };
 
 const getters = {};
@@ -43,6 +42,7 @@ const actions = {
 
     LOAD_DATA_LIST: async (context) => {
         const response = await getBlacklistList(state.size, state.search);
+        context.commit('RESET_ITEM_STATE');
         context.commit('SET_DATA_LIST', response);
     },
 
@@ -55,14 +55,10 @@ const actions = {
     },
 
     LOAD_ITEM: async (context) => {
-        let item;
         if (state.itemId) {
-            item = await getBlacklist(state.itemId);
-            item = proxy(item);
-        } else {
-            item = defaultItem;
+            const item = await getBlacklist(state.itemId);
+            context.commit('SET_ITEM', proxy(item));
         }
-        context.commit('SET_ITEM', item);
     },
 
     SET_ITEM_PROPERTY: (context, payload) => {
@@ -70,13 +66,17 @@ const actions = {
     },
 
     ADD_ITEM: async (context) => {
-        const id = await addBlacklist(state.itemInstance);
-        context.dispatch('SET_ITEM_ID', id);
+        if (!state.itemId) {
+            const id = await addBlacklist(state.itemInstance);
+            context.dispatch('SET_ITEM_ID', id);
+            context.dispatch('LOAD_ITEM');
+        }
     },
 
-    UPDATE_ITEM: async () => {
+    UPDATE_ITEM: async (context) => {
         if (state.itemInstance._dirty) {
             await updateBlacklist(state.itemId, state.itemInstance);
+            context.dispatch('LOAD_ITEM');
         }
     },
 
@@ -112,14 +112,12 @@ const actions = {
     },
 
     LOAD_NUMBER_ITEM: async (context) => {
-        let item;
         if (state.numberItemId) {
-            item = await getBlacklistCommunication(state.itemId, state.numberItemId);
-            item = proxy(item);
+            const item = await getBlacklistCommunication(state.itemId, state.numberItemId);
+            context.commit('SET_NUMBER_ITEM', proxy(item));
         } else {
-            item = defaultNumberItem;
+            context.commit('SET_NUMBER_ITEM', {number: '000', description: '0101'});
         }
-        context.commit('SET_NUMBER_ITEM', item);
     },
 
     SET_NUMBER_ITEM_PROPERTY: (context, payload) => {
@@ -141,8 +139,11 @@ const actions = {
         context.commit('REMOVE_NUMBER_ITEM', index);
         try {
             await deleteBlacklistCommunication(state.itemId, id);
-        } catch {
-        }
+        } catch {}
+    },
+
+    RESET_ITEM_STATE: async (context) => {
+        context.commit('RESET_ITEM_STATE');
     },
 };
 
@@ -173,7 +174,6 @@ const mutations = {
 
     REMOVE_ITEM: (state, index) => {
         state.dataList.splice(index, 1);
-
     },
 
     SET_NUMBER_DATA_LIST: (state, list) => {
@@ -202,6 +202,10 @@ const mutations = {
 
     REMOVE_NUMBER_ITEM: (state, index) => {
         state.dataList.splice(index, 1);
+    },
+
+    RESET_ITEM_STATE: (state) => {
+        Object.assign(state, defaultState());
     },
 };
 

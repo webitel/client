@@ -16,10 +16,14 @@
             <divider/>
 
             <div class="btn-controls">
-                <btn class="secondary-btn"@click.native="close">close</btn>
+                <btn class="secondary-btn" @click.native="close">close</btn>
                 <btn
-                        :disabled="!disableAction"
-                        @click.native="primaryBtnAction">{{primaryBtnText}}</btn>
+                        class="btn primary-btn"
+                        :disabled="primaryDisabled"
+                        @click.native="primaryAction"
+                >
+                    {{this.primaryText}}
+                </btn>
             </div>
         </aside>
         <div class="popup-bg"></div>
@@ -47,14 +51,18 @@
                 default: false
             },
 
-            primaryBtnText: {
+            primaryText: {
                 type: String,
-                default: 'save'
+                default: 'Add new',
             },
 
-            primaryBtnAction: {
-                type: Function,
-                default: () => this.close()
+            primaryAction: {
+                type: Function
+            },
+
+            primaryDisabled: {
+                type: Boolean,
+                default: false,
             },
 
             disableAction: {
@@ -77,7 +85,7 @@
         right: 0;
         bottom: 0;
         left: 0;
-        z-index: 1000;
+        z-index: 900;
     }
 
     .popup-bg {
@@ -112,6 +120,7 @@
 
         .content-body {
             padding: 0 44px;
+
             &.no-gutters {
                 padding: 0;
             }

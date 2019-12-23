@@ -1,7 +1,9 @@
 <template>
     <popup
             :title="$t('objects.lookups.blacklist.newNumber')"
-            :primaryBtnAction="save"
+            :primaryAction="save"
+            :primaryText="computePrimaryText"
+            :primaryDisabled="computeDisabled"
             @close="$emit('close')">
         <form class="popup-form">
             <form-input

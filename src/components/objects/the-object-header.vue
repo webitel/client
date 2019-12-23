@@ -1,12 +1,6 @@
 <template>
     <header class="object-header">
         <div class="object-header__title-wrap">
-            <i
-                    class="object-back icon-icon_arrow-left icon-action"
-                    v-if="close"
-                    @click="back"
-            ></i>
-
             <h2 class="object-title">
                 <slot></slot>
             </h2>
@@ -14,8 +8,15 @@
 
         <div class="btn-controls">
             <btn
+                    class="btn secondary-btn"
+                    v-if="close"
+                    @click.native="back"
+            >
+                {{this.secondaryText}}
+            </btn>
+            <btn
                     class="btn primary-btn"
-                    v-if="primaryAction"
+                    :disabled="primaryDisabled"
                     @click.native="primaryAction"
             >
                 {{this.primaryText}}
@@ -39,6 +40,14 @@
             },
             primaryAction: {
                 type: Function
+            },
+            primaryDisabled: {
+                type: Boolean,
+                default: false,
+            },
+            secondaryText: {
+                type: String,
+                default: 'Close',
             },
             close: {
                 type: Boolean,
@@ -68,11 +77,6 @@
 
     .object-header__title-wrap {
         display: flex;
-
-        .object-back {
-            margin-right: 20px;
-            color: #000;
-        }
     }
 
     .object-title {

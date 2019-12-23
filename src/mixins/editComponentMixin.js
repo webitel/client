@@ -30,25 +30,40 @@ export default {
     methods: {
         save() {
             const invalid = this.checkValidations();
-            if(!invalid) {
+            if (!invalid) {
                 !this.id ? this.addItem() : this.updateItem();
             }
         },
 
         checkValidations(validatedInstance = 'itemInstance') {
-            this.$v[validatedInstance].$touch();
+            const v = this.$v ? this.$v : this.v;
+            v[validatedInstance].$touch();
             // if its still pending or an error is returned do not submit
-            return this.$v[validatedInstance].$pending ||
-                this.$v[validatedInstance].$error;
+            return v[validatedInstance].$pending ||
+                v[validatedInstance].$error;
         },
 
         close() {
             this.$router.go(-1);
         },
     },
+
     computed: {
+        computePrimaryText() {
+            // if it's a new item
+            // OR any fields have changed
+            return !this.id || this.itemInstance._dirty ?
+                this.$t('objects.save') : this.$t('objects.saved');
+        },
+
+        computeDisabled() {
+            // if there's a validation problem
+            // OR it's edit and any fields haven't changed
+            return this.checkValidations() || (!this.itemInstance._dirty && !!this.id);
+        },
+
         computeTitle() {
-            return this.id ? this.$t('objects.edit') : this.$t('objects.new');
+            return this.$route.params.id ? this.$t('objects.edit') : this.$t('objects.new');
         },
     },
 }

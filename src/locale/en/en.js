@@ -96,6 +96,7 @@ export default {
         edit: 'Edit',
         delete: 'Delete',
         save: 'Save',
+        saved: 'Saved',
         close: 'Close',
         name: 'Name',
         description: 'Description',

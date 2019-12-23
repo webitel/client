@@ -2,6 +2,7 @@ import instance from '@/api/instance';
 import configuration from '@/api/openAPIConfig';
 import {ListServiceApiFactory} from 'webitel-sdk';
 import sanitizer from "../../sanitizer";
+import eventBus from "../../../utils/eventBus";
 
 const listService = new ListServiceApiFactory
 (configuration, process.env.VUE_APP_API_URL, instance);
@@ -23,13 +24,9 @@ export const getBlacklistList = async (size) => {
 export const getBlacklist = async (id) => {
     try {
         const response = await listService.readList(id, domainId);
-
         const defaultObject = {
-            // name: '',
-            // code: '',
-            // description: '',
+            _dirty: false,
         };
-
         return Object.assign({}, defaultObject, response.data);
     } catch (err) {
         throw err;
@@ -41,6 +38,7 @@ export const addBlacklist = async (item) => {
     item.domain_id = domainId;
     try {
         const response = await listService.createList(item);
+        eventBus.$emit('notificationInfo', 'Sucessfully added');
         return response.data.id;
     } catch (err) {
         throw err;
@@ -51,6 +49,7 @@ export const updateBlacklist = async (id, changes) => {
     sanitizer(changes, fieldsToSend);
     try {
         await listService.updateList(id, changes);
+        eventBus.$emit('notificationInfo', 'Sucessfully updated');
     } catch (err) {
         throw err;
     }
@@ -78,7 +77,10 @@ export const getBlacklistCommunicationList = async (id, size) => {
 export const getBlacklistCommunication = async (id, numberId) => {
     try {
         const response = await listService.readListCommunication(id, numberId, domainId);
-        return response.data;
+        const defaultObject = {
+            _dirty: false,
+        };
+        return {...defaultObject, ...response.data};
     } catch (err) {
         throw err;
     }
@@ -90,6 +92,7 @@ export const addBlacklistCommunication = async (id, item) => {
     delete item.description;
     try {
         const response = await listService.createListCommunication(id, item);
+        eventBus.$emit('notificationInfo', 'Sucessfully added');
     } catch (err) {
         throw err;
     }
@@ -99,6 +102,7 @@ export const updateBlacklistCommunication = async (id, numberId, changes) => {
     sanitizer(changes, fieldsToSend);
     try {
         await listService.updateListCommunication(id, numberId, changes);
+        eventBus.$emit('notificationInfo', 'Sucessfully updated');
     } catch (err) {
         throw err;
     }

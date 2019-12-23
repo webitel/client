@@ -62,11 +62,8 @@
     import tableComponentMixin from '@/mixins/tableComponentMixin';
     import {_checkboxTableField, _actionsTableField_3} from "@/utils/tableFieldPresets";
     import numberPopup from './opened-blacklist-number-popup';
-    import {
-        deleteBlacklistCommunication,
-        getBlacklistCommunicationList
-    } from "../../../../api/objects/lookups/blacklists";
-    import {mapActions, mapMutations, mapState} from "vuex";
+    import {mapActions, mapState} from "vuex";
+    import eventBus from "../../../../utils/eventBus";
 
     export default {
         name: "opened-blacklist-numbers",
@@ -92,19 +89,32 @@
             }),
 
             size: {
-                get() {return this.$store.state.lookups.blacklists.numberSize},
-                set(value) {this.setSize(value)}
+                get() {
+                    return this.$store.state.lookups.blacklists.numberSize
+                },
+                set(value) {
+                    this.setSize(value)
+                }
             },
 
             search: {
-                get() {return this.$store.state.lookups.blacklists.numberSearch},
-                set(value) {this.setSearch(value)}
+                get() {
+                    return this.$store.state.lookups.blacklists.numberSearch
+                },
+                set(value) {
+                    this.setSearch(value)
+                }
             }
-    },
+        },
 
         methods: {
-            create() {
-                this.popupTriggerIf = true;
+            async create() {
+                if (!this.checkValidations()) {
+                    if (!this.id) await this.addParentItem();
+                    this.popupTriggerIf = true;
+                } else {
+                    eventBus.$emit('notificationError', 'Check your validations!');
+                }
             },
 
             edit(rowIndex) {
@@ -120,6 +130,7 @@
                 nextPage: '',
                 prevPage: '',
                 removeItem: 'REMOVE_NUMBER_ITEM',
+                addParentItem: 'ADD_ITEM',
             }),
         }
     }
