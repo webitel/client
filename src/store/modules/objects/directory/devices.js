@@ -7,43 +7,35 @@ import {
     getDeviceList, updateDevice
 } from "../../../../api/objects/directory/devices";
 
-const defaultItem = {
-    name: 'device name',
-    account: '1002',
-    password: 'pass',
-    user: '',
-    phone: '8 800 555 3535',
-    ip: '10.10.10.117',
+const defaultState = () => {
+    return {
+        itemId: 0,
+        historyDate: Date.now(),
+        itemInstance: {
+            name: 'device name',
+            account: '1002',
+            password: 'pass',
+            user: '',
+            phone: '8 800 555 3535',
+            ip: '10.10.10.117',
 
-    vendor: 'vendor name',
-    model: 'model name',
-    mac: '80-5E-C0-3C-84-44',
-    hotdesk: [],
-    vars: [],
+            vendor: 'vendor name',
+            model: 'model name',
+            mac: '80-5E-C0-3C-84-44',
+            hotdesk: [],
+            vars: [],
+        },
+    };
 };
 
 const state = {
     dataList: [],
     size: '10',
     search: '',
-    itemId: 0,
-    historyDate: Date.now(),
     historyDataList: [],
-    historySize: '0',
-    historySearch: '0',
-    itemInstance: {
-        name: '',
-        account: '',
-        password: '',
-        user: '',
-        phone: '',
-        ip: '',
-        vendor: '',
-        model: '',
-        mac: '',
-        hotdesk: [],
-        vars: [],
-    },
+    historySize: '10',
+    historySearch: '',
+    ...defaultState()
 };
 
 const getters = {};
@@ -55,6 +47,7 @@ const actions = {
 
     LOAD_DATA_LIST: async (context) => {
         const response = await getDeviceList(state.size, state.search);
+        context.commit('RESET_ITEM_STATE');
         context.commit('SET_DATA_LIST', response);
     },
 
@@ -84,14 +77,10 @@ const actions = {
     },
 
     LOAD_ITEM: async (context) => {
-        let item;
         if (state.itemId) {
-            item = await getDevice(state.itemId);
-            item = proxy(item);
-        } else {
-            item = defaultItem;
+            const item = await getDevice(state.itemId);
+            context.commit('SET_ITEM', proxy(item));
         }
-        context.commit('SET_ITEM', item);
     },
 
     SET_ITEM_PROPERTY: (context, payload) => {
@@ -99,13 +88,17 @@ const actions = {
     },
 
     ADD_ITEM: async (context) => {
-        const id = await addDevice(state.itemInstance);
-        context.dispatch('SET_ITEM_ID', id);
+        if(!state.itemId) {
+            const id = await addDevice(state.itemInstance);
+            context.dispatch('SET_ITEM_ID', id);
+            context.dispatch('LOAD_ITEM');
+        }
     },
 
-    UPDATE_ITEM: async () => {
+    UPDATE_ITEM: async (context) => {
         if (state.itemInstance._dirty) {
             await updateDevice(state.itemId, state.itemInstance);
+            context.dispatch('LOAD_ITEM');
         }
     },
 
@@ -116,6 +109,10 @@ const actions = {
             await deleteDevice(id);
         } catch {
         }
+    },
+
+    RESET_ITEM_STATE: async (context) => {
+        context.commit('RESET_ITEM_STATE');
     },
 };
 
@@ -156,33 +153,16 @@ const mutations = {
         state.itemInstance[prop] = value;
     },
 
-    ADD_VARIABLE_PAIR: (state, pair) => {
-        state.itemInstance.variables.unshift(pair);
-    },
-
-    SET_VARIABLE_PROP: (state, {index, prop, value}) => {
-        state.itemInstance.variables[index][prop] = value;
-    },
-
-    DELETE_VARIABLE_PAIR: (state, index) => {
-        state.itemInstance.variables.splice(index, 1);
-    },
-
-    PATCH_ITEM_PEROPERTY: (state, {value, index}) => {
-        state.dataList[index].status = value;
-    },
-
-    TOGGLE_ITEM_PROPERTY: (state, index) => {
-        state.dataList[index].dnd = !state.dataList[index].dnd;
-    },
-
     SET_ITEM: (state, item) => {
         state.itemInstance = item;
     },
 
     REMOVE_ITEM: (state, index) => {
         state.dataList.splice(index, 1);
+    },
 
+    RESET_ITEM_STATE: (state) => {
+        Object.assign(state, defaultState());
     },
 };
 

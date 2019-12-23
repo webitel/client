@@ -63,7 +63,6 @@ export default {
         },
 
         computeTitle() {
-            console.log(this.$route.params.id);
             return this.$route.params.id &&  this.$route.params.id !== 'new'
                 ? this.$t('objects.edit') : this.$t('objects.new');
         },

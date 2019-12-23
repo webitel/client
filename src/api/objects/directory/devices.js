@@ -1,6 +1,7 @@
 import instance from '@/api/instance';
 import {objSnakeToCamel} from "../../caseConverters";
 import sanitizer from "../../sanitizer";
+import eventBus from "../../../utils/eventBus";
 
 const BASE_URL = '/devices';
 const fieldsToSend = ['name', 'account', 'password', 'mac', 'ip', 'vendor', 'model'];
@@ -38,10 +39,12 @@ export async function getDevice(id) {
         account: 'auth id undefined',
         user: {name: 'user undefined'},
         state: 0,
-        id: 0
+        id: 0,
+        _dirty: false,
     };
     try {
         let response = await instance.get(url);
+        response.data.device.mac = response.data.device.mac.toUpperCase();
         return Object.assign({}, defaultObject, response.data.device);
     } catch (error) {
         throw error;
@@ -51,7 +54,9 @@ export async function getDevice(id) {
 export const addDevice = async (device) => {
     sanitizer(device, fieldsToSend);
     try {
-        await instance.post(BASE_URL, {device});
+        const response = await instance.post(BASE_URL, {device});
+        eventBus.$emit('notificationInfo', 'Sucessfully added');
+        return response.data.device.id;
     } catch (err) {
         throw err;
     }
@@ -62,7 +67,9 @@ export const updateDevice = async (id, device) => {
     sanitizer(device, fieldsToSend);
 
     try {
-        await instance.put(url, {device});
+        const response = await instance.put(url, {device});
+        eventBus.$emit('notificationInfo', 'Sucessfully updated');
+        return response.data.device.id;
     } catch (err) {
         throw err;
     }
