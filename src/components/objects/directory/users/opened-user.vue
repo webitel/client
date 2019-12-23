@@ -1,8 +1,9 @@
 <template>
     <div class="content-wrap">
         <object-header
-                :primaryText="$t('objects.save')"
+                :primaryText="computePrimaryText"
                 :primaryAction="save"
+                :primaryDisabled="computeDisabled"
                 close
         >
             {{$tc('objects.directory.users.users', 1)}} | {{computeTitle}}

@@ -1,9 +1,10 @@
 import instance from '@/api/instance';
 import sanitizer from "../../sanitizer";
+import eventBus from "../../../utils/eventBus";
 
 const BASE_URL = '/users';
 const fieldsToSend = ['name', 'username', 'password', 'extension', 'status', 'dnd', 'roles', 'license', 'devices',
-    'profile'];
+    'profile', 'profile'];
 
 export async function getUsersList(size = 100, search) {
     const defaultObject = {  // default object prototype, to merge response with it to get all fields
@@ -17,7 +18,7 @@ export async function getUsersList(size = 100, search) {
     };
 
     let url = BASE_URL + `?size=${size}`;
-    if(search) url += `&name=${search}*`;
+    if (search) url += `&name=${search}*`;
 
     try {
         let response = await instance.get(url);
@@ -45,15 +46,16 @@ export async function getUser(id) {
         variables: [
             {key: '', value: ''}
         ],
+        _dirty: false,
     };
     try {
         const response = await instance.get(url);
         let user = {...defaultObject, ...response.data.user};
-        if (user.variables && user.variables.length) {
-            user.variables = user.variables.map(item => {
-                 return {
-                    key: Object.keys(item)[0],
-                    value: Object.values(item)[0],
+        if (user.profile) {
+            user.variables = Object.keys(user.profile).map(key => {
+                return {
+                    key,
+                    value: user.profile[key],
                 }
             });
         } else {
@@ -66,24 +68,34 @@ export async function getUser(id) {
 }
 
 export const addUser = async (item) => {
-    sanitizer(item, fieldsToSend);
     item.roles.forEach(item => delete item.text);
     item.devices.forEach(item => delete item.text);
-
+    item.profile = {};
+    item.variables.forEach(variable => {
+        item.profile[variable.key] = variable.value;
+    });
+    sanitizer(item, fieldsToSend);
     try {
-        await instance.post(BASE_URL, {user: item});
+        const response = await instance.post(BASE_URL, {user: item});
+        eventBus.$emit('notificationInfo', 'Sucessfully added');
+        return response.data.user.id;
     } catch (err) {
         throw err;
     }
 };
 
-export const updateUser = async (id, item) => {
+export const updateUser = async (id, {...item}) => {
     const url = BASE_URL + '/' + id;
-    sanitizer(item, fieldsToSend);
     item.roles.forEach(item => delete item.text);
     item.devices.forEach(item => delete item.text);
+    item.profile = {};
+    item.variables.forEach(variable => {
+        item.profile[variable.key] = variable.value;
+    });
+    sanitizer(item, fieldsToSend);
     try {
         await instance.put(url, {user: item});
+        eventBus.$emit('notificationInfo', 'Sucessfully updated');
     } catch (err) {
         throw err;
     }

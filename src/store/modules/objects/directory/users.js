@@ -8,26 +8,30 @@ import {
     updateUser
 } from "../../../../api/objects/directory/users";
 
-const defaultItem = {
-    name: 'default user name' + Math.random(),
-    username: 'defaultuserlogin' + Math.random(),
-    password: '',
-    extension: '1007',
-    roles: [{name: 'ioio', id: '1011963'}],
-    roleAdmin: [],
-    license: null,
-    devices: [],
-    variables: [
-        {key: 'integration_id', value: 'user@external.app'}
-    ],
+const defaultState = () => {
+    return {
+        itemId: 0,
+        itemInstance: {
+            name: 'default user name' + Math.random(),
+            username: 'defaultuserlogin' + Math.random(),
+            password: '',
+            extension: '1007',
+            roles: [{name: 'ioio', id: '1011963'}],
+            roleAdmin: [],
+            license: null,
+            devices: [],
+            variables: [
+                {key: 'integration_id', value: 'user@external.app'}
+            ],
+        },
+    }
 };
 
 const state = {
     dataList: [],
     size: '10',
     search: '',
-    itemId: 0,
-    itemInstance: {},
+    ...defaultState()
 };
 
 const getters = {};
@@ -39,7 +43,7 @@ const actions = {
 
     LOAD_DATA_LIST: async (context) => {
         const response = await getUsersList(state.size, state.search);
-        context.dispatch('SET_ITEM_ID', 0);
+        context.commit('RESET_ITEM_STATE');
         context.commit('SET_DATA_LIST', response);
     },
 
@@ -72,14 +76,10 @@ const actions = {
     },
 
     LOAD_ITEM: async (context) => {
-        let item;
         if (state.itemId) {
-            item = await getUser(state.itemId);
-            item = proxy(item);
-        } else {
-            item = defaultItem;
+            const item = await getUser(state.itemId);
+            context.commit('SET_ITEM', proxy(item));
         }
-        context.commit('SET_ITEM', item);
     },
 
     SET_ITEM_PROPERTY: (context, payload) => {
@@ -89,24 +89,31 @@ const actions = {
     ADD_VARIABLE_PAIR: (context) => {
         const pair = {key: '', value: ''};
         context.commit('ADD_VARIABLE_PAIR', pair);
+        context.commit('SET_ITEM_PROPERTY', {prop: '_dirty', value: true});
     },
 
     SET_VARIABLE_PROP: (context, {index, prop, value}) => {
         context.commit('SET_VARIABLE_PROP', {index, prop, value});
+        context.commit('SET_ITEM_PROPERTY', {prop: '_dirty', value: true});
     },
 
     DELETE_VARIABLE_PAIR: (context, index) => {
         context.commit('DELETE_VARIABLE_PAIR', index);
+        context.commit('SET_ITEM_PROPERTY', {prop: '_dirty', value: true});
     },
 
     ADD_ITEM: async (context) => {
-        const id = await addUser(state.itemInstance);
-        context.dispatch('SET_ITEM_ID', id);
+        if(!state.itemId) {
+            const id = await addUser(state.itemInstance);
+            context.dispatch('SET_ITEM_ID', id);
+            context.dispatch('LOAD_ITEM');
+        }
     },
 
-    UPDATE_ITEM: async () => {
+    UPDATE_ITEM: async (context) => {
         if (state.itemInstance._dirty) {
             await updateUser(state.itemId, state.itemInstance);
+            context.dispatch('LOAD_ITEM');
         }
     },
 
@@ -117,6 +124,10 @@ const actions = {
             await deleteUser(id);
         } catch {
         }
+    },
+
+    RESET_ITEM_STATE: async (context) => {
+        context.commit('RESET_ITEM_STATE');
     },
 };
 
@@ -167,7 +178,10 @@ const mutations = {
 
     REMOVE_ITEM: (state, index) => {
         state.dataList.splice(index, 1);
+    },
 
+    RESET_ITEM_STATE: (state) => {
+        Object.assign(state, defaultState());
     },
 };
 

@@ -46,13 +46,6 @@
         },
 
         methods: {
-            addVariable() {
-                this.variables.push({
-                    key: '',
-                    value: ''
-                });
-            },
-
             ...mapActions('directory/users', {
                 setItemProp: 'SET_ITEM_PROPERTY',
                 addVariable: 'ADD_VARIABLE_PAIR',
