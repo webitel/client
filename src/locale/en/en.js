@@ -91,6 +91,7 @@ export default {
 
         general: 'General',
         new: 'New',
+        add: 'Add',
         create: 'Create',
         read: 'Read',
         edit: 'Edit',
@@ -189,6 +190,7 @@ export default {
                 RbAC: 'Managed by records',
                 operations: 'Operations',
                 searchPlaceholder: 'object ..',
+                newPermissionRole: 'New grantee',
             }
         },
         license: {

@@ -5,7 +5,7 @@ import sanitizer from "../../sanitizer";
 const BASE_URL = '/roles';
 const fieldsToSend = ['name'];
 
-export const getRoleList = async (size, search) => {
+export const getRoleList = async (size = 10, search) => {
     let url = BASE_URL+'?size='+size;
     if(search) {
         url += 'name='+search;

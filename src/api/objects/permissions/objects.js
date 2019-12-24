@@ -1,11 +1,9 @@
-import Vue from 'vue';
 import instance from '@/api/instance';
+import eventBus from "../../../utils/eventBus";
 
 const BASE_URL = '/objects';
 
-export const getObjectList = async () => {
-    // Vue.$log.info('get Permissions Objects', 'started');
-
+export const getObjectList = async (search) => {
     const defaultObject = {  // default object prototype, to merge response with it to get all fields
         class: '',
         obac: false,
@@ -13,94 +11,86 @@ export const getObjectList = async () => {
         id: 0
     };
 
-    try {
-        const response = await instance.get(BASE_URL);
-        // Vue.$log.info('get Permissions Objects', 'response', response);
+    let url = BASE_URL;
+    if(search) url+='?name='+search;
 
+    try {
+        const response = await instance.get(url);
         return response.data.classes.map(item => {
-            return Object.assign({}, defaultObject, item);
+            return {...defaultObject, ...item};
         });
     } catch (error) {
         throw error;
     }
-}
+};
+
+export const updateObject = async (id, item) => {
+    const url = BASE_URL + '/' + id;
+    const updatedItem = {
+        class: {
+            obac: item.obac,
+            rbac: item.rbac
+        }
+    };
+
+    try {
+        await instance.put(url, updatedItem);
+        eventBus.$emit('notificationInfo', 'Sucessfully updated');
+    } catch (error) {
+        throw error;
+    }
+};
 
 export const getObject = async (id) => {
-    // Vue.$log.info('get Permissions Object (1)', 'started');
     const url = BASE_URL + '/' + id;
     try {
         const response = await instance.get(url);
-        // Vue.$log.info('get Permissions Object (1)', 'response', response);
         return response.data.class.class;
     } catch (error) {
         throw error;
     }
-}
-
-export const updateObject = async (id, permissions) => {
-    // Vue.$log.info('update permissions Objects', 'started');
-    const url = BASE_URL + '/' + id;
-    const updatedObject = {
-        class: {
-            obac: permissions.obac,
-            rbac: permissions.rbac
-        }
-    };
-
-    try {
-        const response = await instance.put(url, updatedObject);
-        // Vue.$log.info('put Object', 'response', response);
-    } catch (error) {
-        throw error;
-    }
-}
+};
 
 export const getObjectPermissions = async (id) => {
-    // Vue.$log.info('getObjectPermissions', 'started');
     const url = BASE_URL + '/' + id + '/acl';
-    let formattedResponse = [];
 
     try {
         const response = await instance.get(url);
-        // Vue.$log.info('getObjectPermissions', 'response', response);
-
-        if (response.data.list) {
-            // format response before assignment
-            formattedResponse = response.data.list.map(item => {
-                return {
-                    grantee: {
-                        id: item.grantee.id,
-                        role: item.grantee.role
-                    },
-                    access: {
-                        c: item.privileges.includes('CREATE'),
-                        r: item.privileges.includes('SELECT'),
-                        u: item.privileges.includes('UPDATE'),
-                        d: item.privileges.includes('DELETE'),
-                    }
-                }
-            });
-        }
-
-        return formattedResponse;
+        return coerceObjectPermissionsResponse(response);
     } catch (error) {
         throw error;
     }
-}
+};
 
-export const updateObjectPermissions = async (id, granteesToSend) => {
-    // granteesToSend -- array
-    // Vue.$log.info('updateObjectPermissions', 'started');
+export const patchObjectPermissions = async (id, item) => {
     const url = BASE_URL + '/' + id + '/acl';
 
-    const changes = {
-        changes: granteesToSend
-    };
-
     try {
-        const response = await instance.patch(url, changes);
-        // Vue.$log.info('updateObjectPermissions response', response);
+        await instance.patch(url, {changes: item});
+        eventBus.$emit('notificationInfo', 'Sucessfully updated');
     } catch (error) {
         throw error;
     }
-}
+};
+
+const coerceObjectPermissionsResponse = (response) => {
+    let formattedResponse = [];
+    if (response.data.list) {
+        // format response before assignment
+        formattedResponse = response.data.list.map(item => {
+            return {
+                grantee: {
+                    id: item.grantee.id,
+                    name: item.grantee.name
+                },
+                access: {
+                    c: item.privileges.includes('CREATE'),
+                    r: item.privileges.includes('SELECT'),
+                    u: item.privileges.includes('UPDATE'),
+                    d: item.privileges.includes('DELETE'),
+                }
+            }
+        });
+    }
+    return formattedResponse;
+};

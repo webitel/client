@@ -1,6 +1,8 @@
 <template>
     <div>
-        <object-header>
+        <object-header
+                hide-primary-action
+        >
             {{$t('objects.permissions.permissions')}} |
             {{$t('objects.permissions.object.object')}}
         </object-header>
@@ -12,7 +14,8 @@
                 </h3>
                 <div class="content-header__actions-wrap">
                     <search
-                            @filterData="filterData"
+                            v-model="search"
+                            @filterData="loadDataList"
                     ></search>
                 </div>
             </header>
@@ -20,13 +23,13 @@
             <vuetable
                     :api-mode="false"
                     :fields="fields"
-                    :data="filteredDataList"
+                    :data="dataList"
             >
 
                 <template slot="name" slot-scope="props">
                     <div class="tt-capitalize">
                         <span class="nameLink" @click="edit(props.rowIndex)">
-                            {{filteredDataList[props.rowIndex].class}}
+                            {{dataList[props.rowIndex].class}}
                         </span>
                     </div>
                 </template>
@@ -34,16 +37,16 @@
                 <template slot="obac" slot-scope="props">
                     <switcher
                             class="test__object-switcher__obac"
-                            :value="filteredDataList[props.rowIndex].obac"
-                            @input="toggleDataProperty('obac', props.rowIndex)"
+                            :value="dataList[props.rowIndex].obac"
+                            @input="toggleItemProperty({prop: 'obac', index: props.rowIndex})"
                     ></switcher>
                 </template>
 
                 <template slot="rbac" slot-scope="props">
                     <switcher
                             class="test__object-switcher__rbac"
-                            :value="filteredDataList[props.rowIndex].rbac"
-                            @input="toggleDataProperty('rbac', props.rowIndex)"
+                            :value="dataList[props.rowIndex].rbac"
+                            @input="toggleItemProperty({prop: 'rbac', index: props.rowIndex})"
                     ></switcher>
                 </template>
 
@@ -59,9 +62,8 @@
 
 <script>
     import tableComponentMixin from '@/mixins/tableComponentMixin';
-
     import {_actionsTableField_1} from "@/utils/tableFieldPresets";
-    import {getObjectList, updateObject} from '@/api/objects/permissions/objects';
+    import {mapActions, mapState} from "vuex";
 
     export default {
         name: "the-objects-permissions",
@@ -75,10 +77,20 @@
                     {name: 'rbac', title: this.$t('objects.permissions.object.RbAC')},
                     _actionsTableField_1,
                 ],
-
-                filterProperties: ['class'],
             };
         },
+
+        computed: {
+            ...mapState('permissions/objects', {
+                dataList: state => state.dataList,
+            }),
+
+            search: {
+                get() {return this.$store.state.permissions.objects.search},
+                set(value) {this.setSearch(value)}
+            }
+        },
+
         methods: {
             edit(rowId) {
                 this.$router.push({
@@ -87,23 +99,11 @@
                 });
             },
 
-            // toggle object permissions
-            async toggleDataProperty(property, rowIndex) {
-                // first, change UI, then send request
-                this.filteredDataList[rowIndex][property] = !this.filteredDataList[rowIndex][property];
-                try {
-                    await updateObject(this.filteredDataList[rowIndex].id, this.filteredDataList[rowIndex]);
-                } catch (err) {
-                    // if request throws error, move changes back
-                    this.filteredDataList[rowIndex][property] = !this.filteredDataList[rowIndex][property];
-                }
-            },
-
-            async loadDataList() {
-                const response = await getObjectList();
-                this.dataList = [...response];
-                this.filterData();
-            }
+            ...mapActions('permissions/objects', {
+                loadDataList: 'LOAD_DATA_LIST',
+                setSearch: 'SET_SEARCH',
+                toggleItemProperty: 'TOGGLE_ITEM_PROPERTY'
+            }),
         },
     }
 </script>

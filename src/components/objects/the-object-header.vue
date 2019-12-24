@@ -16,6 +16,7 @@
             </btn>
             <btn
                     class="btn primary-btn"
+                    v-if="!hidePrimaryAction"
                     :disabled="primaryDisabled"
                     @click.native="primaryAction"
             >
@@ -52,7 +53,11 @@
             close: {
                 type: Boolean,
                 default: false,
-            }
+            },
+            hidePrimaryAction: {
+                type: Boolean,
+                default: false,
+            },
         },
 
         methods: {
