@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <div class="content-wrap">
         <object-header
                 :primaryAction="create"
         >
@@ -12,7 +12,8 @@
                 <h3 class="content-title">{{$t('objects.permissions.allRoles')}}</h3>
                 <div class="content-header__actions-wrap">
                     <search
-                        @filterData="filterData"
+                            v-model="search"
+                            @filterData="loadDataList"
                     ></search>
                     <i
                             class="icon-icon_delete icon-action"
@@ -25,19 +26,19 @@
             <vuetable
                     :api-mode="false"
                     :fields="fields"
-                    :data="filteredDataList"
+                    :data="dataList"
             >
                 <template slot="name" slot-scope="props">
                     <div class="tt-capitalize">
                         <span class="nameLink" @click="edit(props.rowIndex)">
-                        {{filteredDataList[props.rowIndex].name}}
+                        {{dataList[props.rowIndex].name}}
                         </span>
                     </div>
                 </template>
 
                 <template slot="description" slot-scope="props">
                     <div>
-                        {{filteredDataList[props.rowIndex].description}}
+                        {{dataList[props.rowIndex].description}}
                     </div>
                 </template>
 
@@ -50,15 +51,20 @@
                     ></i>
                 </template>
             </vuetable>
+            <pagination
+                    v-model="size"
+                    @loadDataList="loadDataList"
+                    @next="nextPage"
+                    @prev="prevPage"
+            ></pagination>
         </section>
     </div>
 </template>
 
 <script>
     import tableComponentMixin from '@/mixins/tableComponentMixin';
-
     import {_checkboxTableField, _actionsTableField_2} from "@/utils/tableFieldPresets";
-    import {deleteRole, getRoleList} from '@/api/objects/permissions/roles';
+    import {mapActions, mapState} from "vuex";
 
     export default {
         name: 'the-roles',
@@ -75,6 +81,22 @@
             };
         },
 
+        computed: {
+            ...mapState('permissions/roles', {
+                dataList: state => state.dataList,
+            }),
+
+            size: {
+                get() {return this.$store.state.permissions.roles.size},
+                set(value) {this.setSize(value)}
+            },
+
+            search: {
+                get() {return this.$store.state.permissions.roles.search},
+                set(value) {this.setSearch(value)}
+            }
+        },
+
         methods: {
             create() {
                 this.$router.push('/permissions/roles/new');
@@ -87,15 +109,14 @@
                 });
             },
 
-            async deleteItem(item) {
-                await deleteRole(item.id);
-            },
-
-            async loadDataList(searchPattern = '') {
-                const response = await getRoleList(searchPattern);
-                this.dataList = [...response].reverse();
-                this.filterData();
-            }
+            ...mapActions('permissions/roles', {
+                loadDataList: 'LOAD_DATA_LIST',
+                setSize: 'SET_SIZE',
+                setSearch: 'SET_SEARCH',
+                nextPage: '',
+                prevPage: '',
+                removeItem: 'REMOVE_ITEM',
+            }),
         }
     };
 </script>

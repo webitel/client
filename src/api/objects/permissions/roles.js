@@ -1,6 +1,9 @@
 import instance from '../../instance';
+import eventBus from "../../../utils/eventBus";
+import sanitizer from "../../sanitizer";
 
 const BASE_URL = '/roles';
+const fieldsToSend = ['name'];
 
 export const getRoleList = async (size, search) => {
     let url = BASE_URL+'?size='+size;
@@ -9,7 +12,7 @@ export const getRoleList = async (size, search) => {
     }
     try {
         const response = await instance.get(url);
-        response.data.results.forEach(res => res.isSelected = false);
+        response.data.results.forEach(res => res._isSelected = false);
         return response.data.results;
 
     } catch (error) {
@@ -19,21 +22,25 @@ export const getRoleList = async (size, search) => {
 
 export const getRole = async (id) => {
     const url = BASE_URL + '/' + id;
-
+    const defaultObject = {  // default object prototype, to merge response with it to get all fields
+        name: 'name undefined',
+        id: 0,
+        _dirty: false,
+    };
     try {
         const response = await instance.get(url);
-        return response.data.role;
+        return {...defaultObject, ...response.data.role};
     } catch (error) {
         throw error;
     }
 };
 
 export const addRole = async (item) => {
-    const newRole = {
-        role: item
-    };
+    sanitizer(item, fieldsToSend);
     try {
-        const response = await instance.post(BASE_URL, newRole);
+        const response = await instance.post(BASE_URL, {role: item});
+        eventBus.$emit('notificationInfo', 'Sucessfully added');
+        return response.data.role.id;
     } catch (error) {
         throw error;
     }
@@ -44,6 +51,8 @@ export const updateRole = async (id, item) => {
 
     try {
         const response = await instance.put(url, item);
+        eventBus.$emit('notificationInfo', 'Sucessfully updated');
+        return response.data.role.id;
     } catch (error) {
         throw error;
     }

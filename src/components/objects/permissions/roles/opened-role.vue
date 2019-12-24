@@ -1,8 +1,9 @@
 <template>
     <div>
         <object-header
-                :primaryText="$t('objects.save')"
-                :primaryAction="submit"
+                :primaryText="computePrimaryText"
+                :primaryAction="save"
+                :primaryDisabled="computeDisabled"
                 close
         >
             {{$tc('objects.permissions.permissionsRole')}} | {{computeTitle}}
@@ -15,14 +16,14 @@
 
             <form class="new_w50">
                 <form-input
-                        v-model.trim="$v.itemInstance.name.$model"
+                        v-model.trim="name"
                         :v="$v.itemInstance.name"
                         :label="$t('objects.name')"
                         required
                 ></form-input>
 
-                <!--                v-model="role.description"-->
                 <form-input
+                        v-model.trim="description"
                         :label="$t('objects.description')"
                         textarea
                 ></form-input>
@@ -35,7 +36,7 @@
 <script>
     import editComponentMixin from '@/mixins/editComponentMixin';
     import {required} from 'vuelidate/lib/validators';
-    import {addRole, getRole, updateRole} from "@/api/objects/permissions/roles";
+    import {mapActions, mapState} from "vuex";
 
     export default {
         name: 'opened-role',
@@ -43,10 +44,7 @@
 
         data() {
             return {
-                itemInstance: {
-                    name: 'front-role',
-                    // description: '',
-                },
+
             };
         },
 
@@ -58,20 +56,37 @@
             }
         },
 
-        methods: {
-            async save() {
-                if (this.id) {
-                    await updateRole(this.id, this.itemInstance);
-                } else {
-                    await addRole(this.itemInstance);
-                }
-                this.close();
-            },
+        mounted() {
+            this.id = this.$route.params.id;
+            this.loadItem();
+        },
 
-            async loadItem() {
-                this.itemInstance = await getRole(this.id);
-                this.initialItem = JSON.parse(JSON.stringify(this.itemInstance));
-            }
+        computed: {
+            ...mapState('permissions/roles', {
+                itemInstance: state => state.itemInstance,
+            }),
+            id: {
+                get() {return this.$store.state.permissions.roles.itemId},
+                set(value) {this.setId(value)}
+            },
+            name: {
+                get() {return this.$store.state.permissions.roles.itemInstance.name},
+                set(value) {this.setItemProp(value)}
+            },
+            description: {
+                get() {return this.$store.state.permissions.roles.itemInstance.description},
+                set(value) {this.setItemProp(value)}
+            },
+        },
+
+        methods: {
+            ...mapActions('permissions/roles', {
+                setId: 'SET_ITEM_ID',
+                setItemProp: 'SET_ITEM_PROPERTY',
+                loadItem: 'LOAD_ITEM',
+                addItem: 'ADD_ITEM',
+                updateItem: 'UPDATE_ITEM',
+            }),
         },
     };
 </script>
