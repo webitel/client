@@ -1,24 +1,23 @@
 <template>
     <div>
         <object-header
-                :primaryText="$t('objects.save')"
-                :primaryAction="submit"
+                :primaryText="computePrimaryText"
+                :primaryAction="save"
+                :primaryDisabled="computeDisabled"
                 close
         >
-            {{$t('objects.routing.gateways.trunkingGateway')}} | {{computeTitle}}
+            {{$t('objects.routing.gateways.trunkingGateway')}} |
+            {{computeTitle}}
         </object-header>
 
         <tabs-component
                 :tabs="tabs"
-                :itemInstance="itemInstance"
-                :v="$v"
                 :root="$options.name"
         >
             <template slot="component" slot-scope="props">
                 <component
                         class="tabs-inner-component"
                         :is="props.currentTab"
-                        :itemInstanceProp="itemInstance"
                         :v="$v"
                 ></component>
             </template>
@@ -35,6 +34,7 @@
     import {required} from 'vuelidate/lib/validators';
 
     import {getGateway, addGateway, updateGateway} from "@/api/objects/routing/gateways";
+    import {mapActions, mapState} from "vuex";
 
     export default {
         name: 'opened-trunking-sip-gateway',
@@ -46,30 +46,14 @@
 
         data() {
             return {
-                itemInstance: {
-                    name: '',
-                    proxy: '',
-                    description: '',
-                    id: 0,
-                    host: '',
-                    ipacl: [{
-                        ip: '',
-                        proto: 'any',
-                        port: null
-                    }],
-                },
-
-                tabs: [
-                    {
+                tabs: [{
                         text: this.$t('objects.general'),
                         value: 'general',
                     },
                     {
                         text: this.$tc('objects.routing.configuration'),
                         value: 'configuration',
-                    },
-                ],
-
+                    }],
             };
         },
 
@@ -98,39 +82,28 @@
             }
         },
 
+        mounted() {
+            this.id = this.$route.params.id;
+            this.loadItem();
+        },
+
         computed: {
-            computeGatewayTypeComponent() {
-                return 'register-gateway'
+            ...mapState('routing/gateways', {
+                itemInstance: state => state.itemInstance,
+            }),
+            id: {
+                get() {return this.$store.state.routing.gateways.itemId},
+                set(value) {this.setId(value)}
             }
         },
 
         methods: {
-            async save() {
-                if (this.id) {
-                    await updateGateway(this.id, this.itemInstance);
-                } else {
-                    await addGateway(this.itemInstance);
-                }
-                this.close();
-            },
-
-            // load current gateway from backend
-            async loadItem() {
-                const defaultIPacl = {
-                    ip: '',
-                    proto: 'any',
-                    port: null,
-                };
-                const response = await getGateway(this.id);
-
-                response.ipacl.forEach((acl, index) => {
-                    response.ipacl[index] = Object.assign({}, defaultIPacl, acl);
-                });
-
-                if (response.register) this.$router.push('/routing/gateways/register/' + this.id);
-                this.itemInstance = response;
-                this.initialItem = JSON.parse(JSON.stringify(response));
-            }
+            ...mapActions('routing/gateways', {
+                setId: 'SET_ITEM_ID',
+                loadItem: 'LOAD_TRUNKING_ITEM',
+                addItem: 'ADD_ITEM',
+                updateItem: 'UPDATE_ITEM',
+            }),
         },
     };
 </script>

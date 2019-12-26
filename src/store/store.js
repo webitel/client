@@ -2,6 +2,7 @@ import Vue from 'vue';
 import Vuex from 'vuex';
 import auth from './modules/auth/auth';
 import directory from "./modules/objects/directory/directory";
+import routing from "./modules/objects/routing/routing";
 import lookups from "./modules/objects/lookups/lookups";
 import permissions from './modules/objects/permissions/permissions';
 
@@ -11,6 +12,7 @@ export default new Vuex.Store({
     modules: {
         auth,
         directory,
+        routing,
         lookups,
         permissions
     },

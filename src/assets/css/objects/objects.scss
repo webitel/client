@@ -152,6 +152,12 @@
   }
 }
 
+.value-pair {
+  align-items: center;
+  grid-template-columns: 1fr 1fr 24px;
+  margin-bottom: 28px;
+}
+
 // used both in tags input and select dropdowns
 .select-options {
   @extend .box-shadow;

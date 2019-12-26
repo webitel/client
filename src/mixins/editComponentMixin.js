@@ -10,8 +10,10 @@ import validationMessage from '@/components/utils/validation-message';
 import permissionsTab from '../components/objects/utils/permissions-tab';
 import tabsComponent from '@/components/utils/tabs-component';
 import tagsInput from '@/components/utils/tags-input';
+import dropdownSearchMixin from './dropdownSearchMixin';
 
 export default {
+    mixins: [dropdownSearchMixin],
     components: {
         objectHeader,
         formInput,

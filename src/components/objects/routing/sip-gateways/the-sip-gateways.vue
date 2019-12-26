@@ -56,7 +56,7 @@
                 <template slot="enabled" slot-scope="props">
                     <switcher
                             :value="dataList[props.rowIndex].enable"
-                            @input="toggleDataProperty('enable', props.rowIndex)"
+                            @input="toggleSwitchProperty(props.rowIndex)"
                     ></switcher>
                 </template>
 
@@ -77,8 +77,12 @@
                     ></i>
                 </template>
             </vuetable>
-
-            <pagination/>
+            <pagination
+                    v-model="size"
+                    @loadDataList="loadDataList"
+                    @next="nextPage"
+                    @prev="prevPage"
+            ></pagination>
         </section>
     </div>
 </template>
@@ -88,6 +92,7 @@
     import createGatewayPopup from './create-gateway-popup';
     import {getGatewayList, deleteGateway} from "../../../../api/objects/routing/gateways";
     import {_checkboxTableField, _actionsTableField_2, _switcherWidth} from "@/utils/tableFieldPresets";
+    import {mapActions, mapState} from "vuex";
 
     export default {
         name: "the-sip-gateways",
@@ -108,34 +113,42 @@
             };
         },
 
+        computed: {
+            ...mapState('routing/gateways', {
+                dataList: state => state.dataList,
+            }),
+
+            size: {
+                get() {return this.$store.state.routing.gateways.size},
+                set(value) {this.setSize(value)}
+            },
+
+            search: {
+                get() {return this.$store.state.routing.gateways.search},
+                set(value) {this.setSearch(value)}
+            }
+        },
+
         methods: {
             edit(rowId) {
-                let name;
-                if (this.dataList[rowId].register) {
-                    name = 'reg-gateway-edit';
-                } else {
-                    name = 'trunk-gateway-edit';
-                }
+                const name = this.dataList[rowId].register ?
+                    'reg-gateway-edit' : 'trunk-gateway-edit';
 
                 this.$router.push({
-                    name: name,
+                    name,
                     params: {id: this.dataList[rowId].id},
                 });
             },
 
-            async deleteItem(item) {
-                await deleteGateway(item.id);
-            },
-
             computeStatusText(stateCode) {
                 if (stateCode === 3) {
-                    return 'Success';
+                    return this.$t('objects.routing.gateways.stateSuccess');
                 } else if (stateCode > 3 && stateCode < 8) {
-                    return 'Failed';
+                    return this.$t('objects.routing.gateways.stateFailed');
                 } else if (stateCode > 7 && stateCode < 2) {
-                    return 'In progress';
+                    return this.$t('objects.routing.gateways.stateProgress');
                 } else {
-                    return 'Not registered'
+                    return this.$t('objects.routing.gateways.stateNonreg');
                 }
             },
 
@@ -151,21 +164,15 @@
                 }
             },
 
-            async toggleDataProperty(property, id) {
-                // first, change UI, then send request
-                this.dataList[id][property] = !this.dataList[id][property];
-
-                try {
-                    // await updateObject(this.dataList[id].id, this.dataList[id]);
-                } catch (err) {
-                    this.loadDataList();
-                }
-            },
-
-            async loadDataList() {
-                const response = await getGatewayList(this.size, this.search);
-                this.dataList = [...response];
-            }
+            ...mapActions('routing/gateways', {
+                loadDataList: 'LOAD_DATA_LIST',
+                setSize: 'SET_SIZE',
+                setSearch: 'SET_SEARCH',
+                toggleSwitchProperty: 'TOGGLE_ITEM_PROPERTY',
+                nextPage: '',
+                prevPage: '',
+                removeItem: 'REMOVE_ITEM',
+            }),
         },
 
     }
