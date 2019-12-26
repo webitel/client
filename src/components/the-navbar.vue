@@ -295,14 +295,8 @@
                                 current: false,
                             },
                             {
-                                name: 'blacklists',
-                                displayName: this.$t('nav.administration.blacklists'),
-                                route: '/administration/blacklists',
-                                current: false,
-                            },
-                            {
                                 name: 'adfs',
-                                displayName: '',
+                                displayName: this.$t('nav.administration.adfs'),
                                 route: '/administration/adfs',
                                 current: false,
                             },

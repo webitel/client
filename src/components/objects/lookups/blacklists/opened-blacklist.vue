@@ -49,6 +49,10 @@
                         text: this.$tc('objects.lookups.blacklist.number', 2),
                         value: 'numbers',
                     },
+                    {
+                        text: this.$tc('objects.permissions.permissions', 2),
+                        value: 'permissions',
+                    },
                 ],
             };
 
