@@ -1,6 +1,5 @@
 <template>
     <div class="content-wrap">
-
         <object-header
                 :primaryAction="create"
         >
@@ -19,7 +18,8 @@
                 <h3 class="content-title">{{$t('objects.routing.flow.allFlowSchemas')}}</h3>
                 <div class="content-header__actions-wrap">
                     <search
-                            @filterData="filterData"
+                            v-model="search"
+                            @filterData="loadDataList"
                     ></search>
                     <i
                             class="icon-icon_delete icon-action"
@@ -33,25 +33,25 @@
                     ref="vuetable"
                     :api-mode="false"
                     :fields="fields"
-                    :data="filteredDataList"
+                    :data="dataList"
             >
                 <template slot="name" slot-scope="props">
                     <div class="tt-capitalize">
                         <span class="nameLink" @click="edit(props.rowIndex)">
-                        {{filteredDataList[props.rowIndex].name}}
+                        {{dataList[props.rowIndex].name}}
                         </span>
                     </div>
                 </template>
 
                 <template slot="type" slot-scope="props">
                     <div>
-                        {{filteredDataList[props.rowIndex].type}}
+                        {{dataList[props.rowIndex].type}}
                     </div>
                 </template>
 
                 <template slot="debug" slot-scope="props">
                     <switcher
-                            v-model="filteredDataList[props.rowIndex].debug"
+                            v-model="dataList[props.rowIndex].debug"
                     ></switcher>
                 </template>
 
@@ -66,7 +66,12 @@
                     ></i>
                 </template>
             </vuetable>
-            <pagination></pagination>
+            <pagination
+                    v-model="size"
+                    @loadDataList="loadDataList"
+                    @next="nextPage"
+                    @prev="prevPage"
+            ></pagination>
         </section>
     </div>
 </template>
@@ -75,9 +80,10 @@
     import tableComponentMixin from '@/mixins/tableComponentMixin';
     import {_checkboxTableField, _actionsTableField_3, _switcherWidth} from "@/utils/tableFieldPresets";
     import flowPopup from './create-flow-popup';
+    import {mapActions, mapState} from "vuex";
 
     export default {
-        name: "the-dialplan",
+        name: "the-flow",
         mixins: [tableComponentMixin],
         components: {
             flowPopup
@@ -94,6 +100,22 @@
             };
         },
 
+        computed: {
+            ...mapState('routing/flow', {
+                dataList: state => state.dataList,
+            }),
+
+            size: {
+                get() {return this.$store.state.routing.flow.size},
+                set(value) {this.setSize(value)}
+            },
+
+            search: {
+                get() {return this.$store.state.routing.flow.search},
+                set(value) {this.setSearch(value)}
+            }
+        },
+
         methods: {
             create() {
                 this.popupTriggerIf = true;
@@ -101,28 +123,20 @@
 
             edit(rowId) {
                 this.$router.push({
-                    name: 'rounting-dialplan-edit',
-                    params: {id: this.filteredDataList[rowId].id},
+                    name: 'flow-edit',
+                    params: {id: this.dataList[rowId].id},
                 });
             },
 
-            async deleteItem(item) {
-                // await deleteCommunication(item.id);
-            },
-
-            async loadDataList() {
-                // this.dataList = await getCommunicationsList();
-                for (let i = 0; i < 10; i++) {
-                    this.dataList.push({
-                        name: 'flow ' + i,
-                        type: 'Schema type',
-                        debug: !!Math.round(Math.random()),
-                        isSelected: false,
-                    });
-                }
-
-                this.filterData();
-            }
+            ...mapActions('routing/flow', {
+                loadDataList: 'LOAD_DATA_LIST',
+                setSize: 'SET_SIZE',
+                setSearch: 'SET_SEARCH',
+                toggleSwitchProperty: 'TOGGLE_ITEM_PROPERTY',
+                nextPage: '',
+                prevPage: '',
+                removeItem: 'REMOVE_ITEM',
+            }),
         }
     }
 </script>

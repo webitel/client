@@ -1,8 +1,8 @@
 <template>
     <popup
             :title="$t('objects.routing.flow.newFlow')"
-            :primaryBtnText="$t('objects.create')"
-            :primaryBtnAction="createItemInstance"
+            :primaryText="$t('objects.create')"
+            :primaryAction="createItemInstance"
             :disableAction="!!selectedOption"
             @close="$emit('close')"
     >
