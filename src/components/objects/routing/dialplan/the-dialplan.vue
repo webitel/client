@@ -13,7 +13,8 @@
                 <h3 class="content-title">{{$t('objects.routing.dialplan.dialplanRules')}}</h3>
                 <div class="content-header__actions-wrap">
                     <search
-                            @filterData="filterData"
+                            v-model="search"
+                            @filterData="loadDataList"
                     ></search>
                     <i
                             class="icon-icon_delete icon-action"
@@ -27,34 +28,32 @@
                     ref="vuetable"
                     :api-mode="false"
                     :fields="fields"
-                    :data="filteredDataList"
+                    :data="dataList"
             >
                 <template slot="name" slot-scope="props">
                     <div class="tt-capitalize">
                         <span class="nameLink" @click="edit(props.rowIndex)">
-                        {{filteredDataList[props.rowIndex].name}}
+                        {{dataList[props.rowIndex].name}}
                         </span>
                     </div>
                 </template>
 
                 <template slot="pattern" slot-scope="props">
                     <div>
-                        {{filteredDataList[props.rowIndex].pattern}}
+                        {{dataList[props.rowIndex].pattern}}
                     </div>
                 </template>
 
                 <template slot="schema" slot-scope="props">
                     <div>
-                        {{filteredDataList[props.rowIndex].schema.name || 'schema IS EMPTY'}}
+                        {{dataList[props.rowIndex].schema.name || 'schema IS EMPTY'}}
                     </div>
                 </template>
 
                 <template slot="enabled" slot-scope="props">
                     <switcher
-                            v-model="filteredDataList[props.rowIndex].enabled"
-                    >
-
-                    </switcher>
+                            v-model="dataList[props.rowIndex].enabled"
+                    ></switcher>
                 </template>
 
                 <template slot="actions" slot-scope="props">
@@ -69,7 +68,12 @@
                     ></i>
                 </template>
             </vuetable>
-            <pagination></pagination>
+            <pagination
+                    v-model="size"
+                    @loadDataList="loadDataList"
+                    @next="nextPage"
+                    @prev="prevPage"
+            ></pagination>
         </section>
     </div>
 </template>
@@ -77,6 +81,7 @@
 <script>
     import tableComponentMixin from '@/mixins/tableComponentMixin';
     import {_checkboxTableField, _actionsTableField_3, _switcherWidth} from "@/utils/tableFieldPresets";
+    import {mapActions, mapState} from "vuex";
 
     export default {
         name: "the-dialplan",
@@ -94,12 +99,27 @@
             };
         },
 
+        computed: {
+            ...mapState('routing/dialplan', {
+                dataList: state => state.dataList,
+            }),
+
+            size: {
+                get() {return this.$store.state.routing.dialplan.size},
+                set(value) {this.setSize(value)}
+            },
+
+            search: {
+                get() {return this.$store.state.routing.dialplan.search},
+                set(value) {this.setSearch(value)}
+            }
+        },
+
         methods: {
             moveRowTop(rowIndex) {
                 const tmp = this.dataList[rowIndex];
                 this.dataList[rowIndex] = this.dataList[rowIndex-1];
                 this.dataList[rowIndex-1] = tmp;
-                this.filterData();
             },
 
             create() {
@@ -108,29 +128,21 @@
 
             edit(rowId) {
                 this.$router.push({
-                    name: 'rounting-dialplan-edit',
-                    params: {id: this.filteredDataList[rowId].id},
+                    name: 'dialplan-edit',
+                    params: {id: this.dataList[rowId].id},
                 });
             },
 
-            async deleteItem(item) {
-                // await deleteCommunication(item.id);
-            },
-
-            async loadDataList() {
-                // this.dataList = await getCommunicationsList();
-                for (let i = 0; i < 10; i++) {
-                    this.dataList.push({
-                        name: 'dialplan ' + i,
-                        pattern: '^\\+?(7|8)?(\\d{10,11})$',
-                        schema: {name: 'schema name'},
-                        enabled: !!Math.round(Math.random()),
-                        isSelected: false,
-                    });
-                }
-
-                this.filterData();
-            }
+            ...mapActions('routing/dialplan', {
+                loadDataList: 'LOAD_DATA_LIST',
+                setSize: 'SET_SIZE',
+                setSearch: 'SET_SEARCH',
+                toggleSwitchProperty: 'TOGGLE_ITEM_PROPERTY',
+                moveRowTop: 'MOVE_ROW_TOP',
+                nextPage: '',
+                prevPage: '',
+                removeItem: 'REMOVE_ITEM',
+            }),
         }
     }
 </script>

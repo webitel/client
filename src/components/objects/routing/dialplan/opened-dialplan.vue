@@ -1,8 +1,9 @@
 <template>
     <div class="content-wrap">
         <object-header
-                :primaryText="$t('objects.save')"
-                :primaryAction="submit"
+                :primaryText="computePrimaryText"
+                :primaryAction="save"
+                :primaryDisabled="computeDisabled"
                 close
         >
             <span>{{$t('objects.routing.dialplan.dialplanRule')}}</span> | {{computeTitle}}
@@ -13,36 +14,33 @@
             </header>
             <form class="object-input-grid">
                 <form-input
-                        v-model.trim="$v.itemInstance.name.$model"
+                        v-model.trim="name"
                         :v="$v.itemInstance.name"
                         :label="$t('objects.name')"
-                        :placeholder="$t('objects.name')"
                         required
                 ></form-input>
 
                 <dropdown-select
-                    v-model="itemInstance.callflow"
-                    :v="$v.itemInstance.callflow"
-                    :label="$tc('objects.routing.callflow.callflow', 1)"
-                    :placeholder="$tc('objects.routing.callflow.callflow', 1)"
-                    :options="callflowList"
+                    v-model="schema"
+                    :v="$v.itemInstance.schema"
+                    :label="$tc('objects.routing.schema', 1)"
+                    :options="dropdownOptionsList"
+                    @search="searchList"
                     required
                 ></dropdown-select>
 
 <!--                1 col container-->
                 <div>
                     <form-input
-                            v-model.trim="$v.itemInstance.pattern.$model"
+                            v-model.trim="pattern"
                             :v="$v.itemInstance.pattern"
                             :label="$t('objects.routing.dialplan.pattern')"
-                            :placeholder="$t('objects.routing.dialplan.pattern')"
                             required
                     ></form-input>
 
                     <form-input
-                            v-model="itemInstance.description"
+                            v-model="description"
                             :label="$t('objects.description')"
-                            :placeholder="$t('objects.description')"
                             textarea
                     ></form-input>
                 </div>
@@ -55,21 +53,15 @@
     import editComponentMixin from '@/mixins/editComponentMixin';
 
     import {required} from 'vuelidate/lib/validators';
+    import {mapActions, mapState} from "vuex";
+    import {getFlowList} from "../../../../api/objects/routing/flow";
 
     export default {
         name: "opened-dialplan",
         mixins: [editComponentMixin],
         data() {
             return {
-                itemInstance: {
-                    name: '',
-                    callflow: {},
-                    pattern: '',
-                    description: '',
-                },
-                callflowList: [
-                    {name: 'Callflow 1'}, {name: 'Callflow 2'}
-                ]
+
             };
         },
 
@@ -79,7 +71,7 @@
                 name: {
                     required
                 },
-                callflow: {
+                schema: {
                     required
                 },
                 pattern: {
@@ -88,21 +80,55 @@
             }
         },
 
+        mounted() {
+            this.id = this.$route.params.id;
+            this.loadItem();
+        },
+
+        computed: {
+            ...mapState('routing/dialplan', {
+                itemInstance: state => state.itemInstance,
+            }),
+            id: {
+                get() {return this.$store.state.routing.dialplan.itemId},
+                set(value) {this.setId(value)}
+            },
+            name: {
+                get() {return this.$store.state.routing.dialplan.itemInstance.name},
+                set(value) {this.setItemProp({prop: 'name', value})}
+            },
+            schema: {
+                get() {return this.$store.state.routing.dialplan.itemInstance.schema},
+                set(value) {this.setItemProp({prop: 'schema', value})}
+            },
+            pattern: {
+                get() {return this.$store.state.routing.dialplan.itemInstance.pattern},
+                set(value) {this.setItemProp({prop: 'pattern', value})}
+            },
+            description: {
+                get() {return this.$store.state.routing.dialplan.itemInstance.description},
+                set(value) {this.setItemProp({prop: 'description', value})}
+            },
+        },
+
         methods: {
-            async save() {
-                if (this.id) {
-                    // upd
-                } else {
-                        //add
-                }
-                this.close();
+            async loadDropdownOptionsList(search) {
+                const response = await getFlowList(10, search);
+                this.dropdownOptionsList = response.map(item => {
+                    return {
+                        name: item.name,
+                        id: item.id
+                    };
+                });
             },
 
-            async loadItem() {
-                // const response = await getCommunication(this.id);
-                // this.itemInstance = response;
-                // this.initialItem = JSON.parse(JSON.stringify(response));
-            }
+            ...mapActions('routing/dialplan', {
+                setId: 'SET_ITEM_ID',
+                loadItem: 'LOAD_ITEM',
+                addItem: 'ADD_ITEM',
+                updateItem: 'UPDATE_ITEM',
+                setItemProp: 'SET_ITEM_PROPERTY',
+            }),
         }
     }
 </script>
