@@ -13,18 +13,22 @@
                     <form-input
                             :value="variable.key"
                             :placeholder="$t('objects.directory.users.varKey')"
-                            @input="setVariableProp({index :key, prop: 'key', value: $event})"
+                            @input="setVariableProp({index: key, prop: 'key', value: $event})"
                             hide-label
                             hide-details
                     ></form-input>
                     <form-input
                             :value="variable.value"
                             :placeholder="$t('objects.directory.users.varVal')"
-                            @input="setVariableProp({index :key, prop: 'value', value: $event})"
+                            @input="setVariableProp({index: key, prop: 'value', value: $event})"
                             hide-label
                             hide-details
                     ></form-input>
-                    <i class="icon-action icon-icon_delete" @click="deleteVariable(key)"></i>
+                    <i
+                            class="icon-action icon-icon_delete"
+                            v-if="key !== 0"
+                            @click="deleteVariable(key)"
+                    ></i>
                 </div>
             </div>
         </form>
@@ -57,9 +61,5 @@
 </script>
 
 <style lang="scss" scoped>
-    .value-pair {
-        align-items: center;
-        grid-template-columns: 1fr 1fr 24px;
-        margin-bottom: 28px;
-    }
+
 </style>

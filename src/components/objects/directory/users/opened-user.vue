@@ -6,7 +6,8 @@
                 :primaryDisabled="computeDisabled"
                 close
         >
-            {{$tc('objects.directory.users.users', 1)}} | {{computeTitle}}
+            {{$tc('objects.directory.users.users', 1)}} |
+            {{computeTitle}}
         </object-header>
         <tabs-component
                 :tabs="tabs"

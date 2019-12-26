@@ -153,7 +153,7 @@ const mutations = {
     },
 
     ADD_VARIABLE_PAIR: (state, pair) => {
-        state.itemInstance.variables.unshift(pair);
+        state.itemInstance.variables.push(pair);
     },
 
     SET_VARIABLE_PROP: (state, {index, prop, value}) => {
