@@ -5,26 +5,23 @@
         </header>
         <form class="object-input-grid">
             <form-input
-                    v-model.trim="v.itemInstance.name.$model"
+                    v-model.trim="name"
                     :v="v.itemInstance.name"
                     :label="$t('objects.name')"
-                    :placeholder="$t('objects.name')"
                     required
             ></form-input>
 
             <dropdown-select
-                    v-model="itemInstance.strategy"
+                    v-model="strategy"
                     :v="v.itemInstance.strategy"
                     :options="[]"
                     :label="$t('objects.ccenter.teams.strategy')"
-                    :placeholder="$t('objects.ccenter.teams.strategy')"
                     required
             ></dropdown-select>
 
             <form-input
-                    v-model.trim="itemInstance.description"
+                    v-model.trim="description"
                     :label="$t('objects.description')"
-                    :placeholder="$t('objects.description')"
                     textarea
             ></form-input>
         </form>
@@ -33,15 +30,32 @@
 
 <script>
     import openedTabComponentMixin from '@/mixins/openedTabComponentMixin';
+    import {mapActions} from "vuex";
 
     export default {
         name: "opened-team-general",
         mixins: [openedTabComponentMixin],
-        data() {
-            return {
 
-            }
-        }
+        computed: {
+            name: {
+                get() {return this.$store.state.ccenter.teams.itemInstance.name},
+                set(value) {this.setItemProp({prop: 'name', value})}
+            },
+            strategy: {
+                get() {return this.$store.state.ccenter.teams.itemInstance.strategy},
+                set(value) {this.setItemProp({prop: 'strategy', value})}
+            },
+            description: {
+                get() {return this.$store.state.ccenter.teams.itemInstance.description},
+                set(value) {this.setItemProp({prop: 'description', value})}
+            },
+        },
+
+        methods: {
+            ...mapActions('ccenter/teams', {
+                setItemProp: 'SET_ITEM_PROPERTY',
+            }),
+        },
     }
 </script>
 

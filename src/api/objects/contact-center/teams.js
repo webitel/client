@@ -1,26 +1,28 @@
 import instance from '@/api/instance';
 import configuration from '@/api/openAPIConfig';
 import sanitizer from '../../../api/sanitizer';
-import {SkillServiceApiFactory} from 'webitel-sdk';
+import {AgentTeamServiceApiFactory} from 'webitel-sdk';
 import eventBus from "../../../utils/eventBus";
+import {objCamelToSnake, objSnakeToCamel} from "../../caseConverters";
 
-const skillService = new SkillServiceApiFactory
+const teamService = new AgentTeamServiceApiFactory
 (configuration, process.env.VUE_APP_API_URL, instance);
 
 const domainId = undefined;
-const fieldsToSend = ['domain_id', 'name', 'description'];
+const fieldsToSend = ['domain_id', 'name', 'description', 'strategy', 'maxNoAnswer', 'wrapUpTime', 'rejectDelayTime',
+'busyDelayTime', 'noAnswerDelayTime', 'callTimeout',];
 
-export const getSkillsList = async (size = 10) => {
+export const getTeamsList = async (size = 10) => {
     const defaultObject = {
         _isSelected: false,
         name: '',
     };
 
     try {
-        const response = await skillService.searchSkill(domainId, size);
+        const response = await teamService.searchAgentTeam(domainId, size);
         if (Array.isArray(response.data.items)) {
             return response.data.items.map(item => {
-                return Object.assign({}, defaultObject, item);
+                return {...defaultObject, ...item};
             });
         }
         return [];
@@ -29,25 +31,26 @@ export const getSkillsList = async (size = 10) => {
     }
 };
 
-export const getSkill = async (id) => {
+export const getTeam = async (id) => {
     try {
-        const response = await skillService.readSkill(id, domainId);
+        let response = await teamService.readAgentTeam(id, domainId);
         const defaultObject = {
             name: '',
             id: 0,
             _dirty: false,
         };
-
-        return {...defaultObject, ...response.data};
+        // response = ;
+        return {...defaultObject, ...objSnakeToCamel(response.data)};
     } catch (err) {
         throw err;
     }
 };
 
-export const addSkill = async (item) => {
+export const addTeam = async (item) => {
     sanitizer(item, fieldsToSend);
+    item = objCamelToSnake(item);
     try {
-        const response = await skillService.createSkill(item);
+        const response = await teamService.createAgentTeam(item);
         eventBus.$emit('notificationInfo', 'Sucessfully added');
         return response.data.id;
     } catch (err) {
@@ -55,19 +58,20 @@ export const addSkill = async (item) => {
     }
 };
 
-export const updateSkill = async (id, item) => {
+export const updateTeam = async (id, item) => {
     sanitizer(item, fieldsToSend);
+    item = objCamelToSnake(item);
     try {
-        await skillService.updateSkill(id, item);
+        await teamService.updateAgentTeam(id, item);
         eventBus.$emit('notificationInfo', 'Sucessfully updated');
     } catch (err) {
         throw err;
     }
 };
 
-export const deleteSkill = async (id) => {
+export const deleteTeam = async (id) => {
     try {
-        await skillService.deleteSkill(id, domainId);
+        await teamService.deleteAgentTeam(id, domainId);
     } catch (err) {
         throw err;
     }

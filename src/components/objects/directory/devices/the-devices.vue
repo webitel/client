@@ -114,12 +114,12 @@
 
     export default {
         name: 'the-devices',
+        mixins: [tableComponentMixin],
         components: {
             historyPopup,
             uploadPopup,
             tableFilter,
         },
-        mixins: [tableComponentMixin],
 
         data() {
             return {

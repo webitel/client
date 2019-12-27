@@ -5,45 +5,39 @@
         </header>
         <form class="object-input-grid">
             <form-input
-                    v-model.trim="v.itemInstance.maxNoAnswer.$model"
+                    v-model.trim="maxNoAnswer"
                     :v="v.itemInstance.maxNoAnswer"
                     :label="$t('objects.ccenter.teams.maxNoAnswer')"
-                    :placeholder="$t('objects.ccenter.teams.maxNoAnswer')"
                     required
             ></form-input>
             <form-input
-                    v-model.trim="v.itemInstance.callTimeout.$model"
+                    v-model.trim="callTimeout"
                     :v="v.itemInstance.callTimeout"
                     :label="$t('objects.ccenter.teams.callTimeout')"
-                    :placeholder="$t('objects.ccenter.teams.callTimeout')"
                     required
             ></form-input>
             <form-input
-                    v-model.trim="v.itemInstance.wrapUpTime.$model"
+                    v-model.trim="wrapUpTime"
                     :v="v.itemInstance.wrapUpTime"
                     :label="$t('objects.ccenter.teams.wrapUpTime')"
-                    :placeholder="$t('objects.ccenter.teams.wrapUpTime')"
                     required
             ></form-input>
             <form-input
-                    v-model.trim="v.itemInstance.busyDelayTime.$model"
+                    v-model.trim="busyDelayTime"
                     :v="v.itemInstance.busyDelayTime"
                     :label="$t('objects.ccenter.teams.busyDelayTime')"
-                    :placeholder="$t('objects.ccenter.teams.busyDelayTime')"
                     required
             ></form-input>
             <form-input
-                    v-model.trim="v.itemInstance.rejectDelayTime.$model"
+                    v-model.trim="rejectDelayTime"
                     :v="v.itemInstance.rejectDelayTime"
                     :label="$t('objects.ccenter.teams.rejectDelayTime')"
-                    :placeholder="$t('objects.ccenter.teams.rejectDelayTime')"
                     required
             ></form-input>
             <form-input
-                    v-model.trim="v.itemInstance.noAnswerDelayTime.$model"
+                    v-model.trim="noAnswerDelayTime"
                     :v="v.itemInstance.noAnswerDelayTime"
                     :label="$t('objects.ccenter.teams.noAnswerDelayTime')"
-                    :placeholder="$t('objects.ccenter.teams.noAnswerDelayTime')"
                     required
             ></form-input>
         </form>
@@ -52,15 +46,44 @@
 
 <script>
     import openedTabComponentMixin from '@/mixins/openedTabComponentMixin';
+    import {mapActions} from "vuex";
 
     export default {
         name: "opened-team-timing",
         mixins: [openedTabComponentMixin],
-        data() {
-            return {
 
-            }
-        }
+        computed: {
+            maxNoAnswer: {
+                get() {return this.$store.state.ccenter.teams.itemInstance.maxNoAnswer},
+                set(value) {this.setItemProp({prop: 'maxNoAnswer', value})}
+            },
+            callTimeout: {
+                get() {return this.$store.state.ccenter.teams.itemInstance.callTimeout},
+                set(value) {this.setItemProp({prop: 'callTimeout', value})}
+            },
+            wrapUpTime: {
+                get() {return this.$store.state.ccenter.teams.itemInstance.wrapUpTime},
+                set(value) {this.setItemProp({prop: 'wrapUpTime', value})}
+            },
+            busyDelayTime: {
+                get() {return this.$store.state.ccenter.teams.itemInstance.busyDelayTime},
+                set(value) {this.setItemProp({prop: 'busyDelayTime', value})}
+            },
+            rejectDelayTime: {
+                get() {return this.$store.state.ccenter.teams.itemInstance.rejectDelayTime},
+                set(value) {this.setItemProp({prop: 'rejectDelayTime', value})}
+            },
+            noAnswerDelayTime: {
+                get() {return this.$store.state.ccenter.teams.itemInstance.noAnswerDelayTime},
+                set(value) {this.setItemProp({prop: 'noAnswerDelayTime', value})}
+            },
+        },
+
+        methods: {
+            ...mapActions('ccenter/teams', {
+                setItemProp: 'SET_ITEM_PROPERTY',
+            }),
+        },
     }
 </script>
 
