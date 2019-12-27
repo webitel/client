@@ -12,10 +12,10 @@
                 <h3 class="content-title">
                     {{$t('objects.ccenter.agents.allAgents')}}
                 </h3>
-
                 <div class="content-header__actions-wrap">
                     <search
-                            @filterData="filterData"
+                            v-model="search"
+                            @filterData="loadDataList"
                     ></search>
                     <i
                             class="icon-icon_delete icon-action"
@@ -30,28 +30,28 @@
             <vuetable
                     :api-mode="false"
                     :fields="fields"
-                    :data="filteredDataList"
+                    :data="dataList"
             >
 
                 <template slot="user" slot-scope="props">
                     <div class="tt-capitalize">
                         <span class="nameLink" @click="edit(props.rowIndex)">
-                            {{filteredDataList[props.rowIndex].user.name}}
+                            {{dataList[props.rowIndex].user.name}}
                         </span>
                     </div>
                 </template>
 
                 <template slot="state" slot-scope="props">
                     <status
-                            :class="{'status__true': filteredDataList[props.rowIndex].state}"
-                            :text=computeOnlineText(filteredDataList[props.rowIndex].state)
+                            :class="{'status__true': dataList[props.rowIndex].state}"
+                            :text=computeOnlineText(dataList[props.rowIndex].state)
                     >
                     </status>
                 </template>
 
                 <template slot="time" slot-scope="props">
                     <div>
-                        {{filteredDataList[props.rowIndex].stateTime}}
+                        {{dataList[props.rowIndex].stateTime}}
                     </div>
                 </template>
 
@@ -67,8 +67,12 @@
                     ></i>
                 </template>
             </vuetable>
-
-            <pagination/>
+            <pagination
+                    v-model="size"
+                    @loadDataList="loadDataList"
+                    @next="nextPage"
+                    @prev="prevPage"
+            ></pagination>
         </section>
     </div>
 </template>
@@ -76,6 +80,7 @@
 <script>
     import tableComponentMixin from '@/mixins/tableComponentMixin';
     import {_checkboxTableField, _actionsTableField_3} from "@/utils/tableFieldPresets";
+    import {mapActions, mapState} from "vuex";
 
     export default {
         name: "the-agents",
@@ -89,8 +94,23 @@
                     {name: 'time', title: this.$t('objects.ccenter.agents.stateTime')},
                     _actionsTableField_3,
                 ],
-                filterProperties: [],
             };
+        },
+
+        computed: {
+            ...mapState('ccenter/agents', {
+                dataList: state => state.dataList,
+            }),
+
+            size: {
+                get() {return this.$store.state.ccenter.agents.size},
+                set(value) {this.setSize(value)}
+            },
+
+            search: {
+                get() {return this.$store.state.ccenter.agents.search},
+                set(value) {this.setSearch(value)}
+            },
         },
 
         methods: {
@@ -109,23 +129,14 @@
                 });
             },
 
-            async deleteItem(deletedItem) {
-
-            },
-
-            async loadDataList() {
-                // const response = await getResourceList(this.rowsPerPage);
-                // this.dataList = [...response];
-                for (let i = 0; i < 10; i++) {
-                    this.dataList.push({
-                        user: {name: 'userr'},
-                        state: !!(i % 2),
-                        stateTime: i * 60 + 'h ' + i + 'm',
-                        isSelected: false,
-                    });
-                }
-                this.filterData();
-            }
+            ...mapActions('ccenter/agents', {
+                loadDataList: 'LOAD_DATA_LIST',
+                setSize: 'SET_SIZE',
+                setSearch: 'SET_SEARCH',
+                nextPage: '',
+                prevPage: '',
+                removeItem: 'REMOVE_ITEM',
+            }),
         },
 
     }

@@ -1,11 +1,13 @@
 <template>
     <div class="content-wrap">
         <object-header
-                :primaryText="$t('objects.save')"
-                :primaryAction="submit"
+                :primaryText="computePrimaryText"
+                :primaryAction="save"
+                :primaryDisabled="computeDisabled"
                 close
         >
-            <span>{{$tc('objects.ccenter.skills.agentSkills', 1)}}</span> | {{computeTitle}}
+            {{$tc('objects.ccenter.skills.agentSkills', 1)}} |
+            {{computeTitle}}
         </object-header>
         <section class="object-content module-new">
             <header class="content-header">
@@ -14,17 +16,15 @@
 
             <form class="new_w50">
                 <form-input
-                        v-model.trim="$v.itemInstance.name.$model"
+                        v-model.trim="name"
                         :v="$v.itemInstance.name"
                         :label="$t('objects.name')"
-                        :placeholder="$t('objects.name')"
                         required
                 ></form-input>
 
                 <form-input
-                        v-model.trim="itemInstance.description"
+                        v-model.trim="description"
                         :label="$t('objects.description')"
-                        :placeholder="$t('objects.description')"
                         textarea
                 ></form-input>
 
@@ -36,20 +36,16 @@
 <script>
     import editComponentMixin from '@/mixins/editComponentMixin';
     import {required} from 'vuelidate/lib/validators';
+    import {mapActions, mapState} from "vuex";
 
     export default {
         name: "opened-agent-skill",
         mixins: [editComponentMixin],
         data() {
             return {
-                itemInstance: {
-                    name: 'skill name',
-                    // description: '',
-                },
             };
         },
 
-        // by vuelidate
         validations: {
             itemInstance: {
                 name: {
@@ -58,17 +54,38 @@
             }
         },
 
-        methods: {
-            save() {
-                if (this.id) {
-                    //    update
-                } else {
-                    //    create
-                }
+        mounted() {
+            this.id = this.$route.params.id;
+            this.loadItem();
+        },
 
-                this.close();
-            }
-        }
+        computed: {
+            ...mapState('ccenter/skills', {
+                itemInstance: state => state.itemInstance,
+            }),
+            id: {
+                get() {return this.$store.state.ccenter.skills.itemId},
+                set(value) {this.setId(value)}
+            },
+            name: {
+                get() {return this.$store.state.ccenter.skills.itemInstance.name},
+                set(value) {this.setItemProp({prop: 'name', value})}
+            },
+            description: {
+                get() {return this.$store.state.ccenter.skills.itemInstance.description},
+                set(value) {this.setItemProp({prop: 'description', value})}
+            },
+        },
+
+        methods: {
+            ...mapActions('ccenter/skills', {
+                setId: 'SET_ITEM_ID',
+                loadItem: 'LOAD_ITEM',
+                addItem: 'ADD_ITEM',
+                updateItem: 'UPDATE_ITEM',
+                setItemProp: 'SET_ITEM_PROPERTY',
+            }),
+        },
     }
 </script>
 
