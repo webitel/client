@@ -1,8 +1,8 @@
 <template>
     <popup
             :title="$t('objects.ccenter.teams.statusHistory')"
-            :primaryBtnText="$t('objects.ok')"
-            :primaryBtnAction="() => $emit('close')"
+            :primaryText="$t('objects.ok')"
+            :primaryAction="() => $emit('close')"
             @close="$emit('close')"
     >
         <section class="history-popup">
@@ -15,7 +15,7 @@
                     calendar-button
             ></datepicker>
             <vuetable
-                    class="history-table"
+                    class="popup-table"
                     :api-mode="false"
                     :fields="fields"
                     :data="dataList"
@@ -24,29 +24,33 @@
                     <status
                             :class="{'status__true': dataList[props.rowIndex].state}"
                             :text=computeOnlineText(dataList[props.rowIndex].state)
-                    >
-                    </status>
+                    ></status>
                 </template>
 
                 <template slot="from" slot-scope="props">
                     <div>
-                        {{dataList[props.rowIndex].from}}
+                        {{computeTime(dataList[props.rowIndex].loggedIn)}}
                     </div>
                 </template>
 
                 <template slot="to" slot-scope="props">
                     <div>
-                        {{dataList[props.rowIndex].to}}
+                        {{computeTime(dataList[props.rowIndex].loggedOut)}}
                     </div>
                 </template>
 
                 <template slot="duration" slot-scope="props">
                     <div>
-                        {{computeDuration(dataList[props.rowIndex])}}
+                        {{computeDuration(props.rowIndex)}}
                     </div>
                 </template>
             </vuetable>
-            <pagination></pagination>
+            <pagination
+                    v-model="size"
+                    @loadDataList="loadDataList"
+                    @next="nextPage"
+                    @prev="prevPage"
+            ></pagination>
         </section>
     </popup>
 </template>
@@ -56,6 +60,7 @@
     import tableComponentMixin from '@/mixins/tableComponentMixin';
     import datepicker from '@/components/utils/datepicker';
     import status from '../../../utils/status';
+    import {mapActions, mapState} from "vuex";
 
     export default {
         name: "team-history-popup",
@@ -63,17 +68,9 @@
         components: {
             datepicker,
             popup,
-            status,
-        },
-        props: {
-            itemId: {
-                type: Number,
-                // required: true
-            }
         },
         data() {
             return {
-                date: Date.now(),
                 fields: [
                     {name: 'state', title: this.$t('objects.ccenter.teams.historyState')},
                     {name: 'from', title: this.$t('objects.ccenter.teams.historyFrom')},
@@ -83,25 +80,57 @@
             }
         },
 
+        watch: {
+            date: function () {
+                this.loadDataList();
+            }
+        },
+
+        computed: {
+            ...mapState('ccenter/teams', {
+                dataList: state => state.historyDataList,
+                date: state => state.historyDate,
+            }),
+
+            size: {
+                get() {return this.$store.state.ccenter.teams.historySize},
+                set(value) {this.setSize(value)}
+            },
+
+            search: {
+                get() {return this.$store.state.ccenter.teams.historySearch},
+                set(value) {this.setSearch(value)}
+            },
+
+            date: {
+                get() {return this.$store.state.ccenter.teams.historyDate},
+                set(value) {this.setHistoryDate(value)}
+            },
+        },
+
         methods: {
             computeOnlineText(state) {
                 return state ? this.$t('objects.online') : this.$t('objects.offline');
             },
 
-            computeDuration(item) {
-                return '10h 21m'
+            computeTime(time) {
+                if(isNaN(parseInt(time))) return time;
+                return new Date(+time).toString().split(' ')[4];
             },
 
-            loadDataList() {
-                for (let i = 0; i < 6; i++) {
-                    this.dataList.push({
-                        state: !!(i%2),
-                        from: '5 August 2019, 10:16 AM',
-                        to: '5 August 2019, 10:16 AM',
-                        id: i,
-                    });
-                }
-            }
+            computeDuration(rowIndex) {
+                const range = this.dataList[rowIndex].loggedIn - this.dataList[rowIndex].loggedOut;
+                return new Date(range).toISOString().slice(11, 19);
+            },
+
+            ...mapActions('ccenter/teams', {
+                loadDataList: 'LOAD_HISTORY_DATA_LIST',
+                setSize: 'SET_HISTORY_SIZE',
+                setSearch: 'SET_HISTORY_SEARCH',
+                setHistoryDate: 'SET_HISTORY_DATE',
+                nextPage: '',
+                prevPage: '',
+            }),
         },
     }
 </script>

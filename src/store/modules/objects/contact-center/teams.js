@@ -1,9 +1,11 @@
 import proxy from '../../../../utils/editProxy';
 import {addTeam, deleteTeam, getTeam, getTeamsList, updateTeam} from "../../../../api/objects/contact-center/teams";
+import {getDeviceHistory} from "../../../../api/objects/directory/devices";
 
 const defaultState = () => {
     return {
         itemId: 0,
+        historyDate: Date.now(),
         itemInstance: {
             name: 'name',
             description: 'descr',
@@ -22,6 +24,9 @@ const state = {
     dataList: [],
     size: '10',
     search: '',
+    historyDataList: [],
+    historySize: '10',
+    historySearch: '',
     ...defaultState()
 };
 
@@ -44,6 +49,23 @@ const actions = {
 
     SET_SEARCH: (context, search) => {
         context.commit('SET_SEARCH', search);
+    },
+
+    LOAD_HISTORY_DATA_LIST: async (context) => {
+        const response = await getDeviceHistory(state.itemId, state.historyDate);
+        context.commit('LOAD_HISTORY_DATA_LIST', response);
+    },
+
+    SET_HISTORY_SIZE: (context, size) => {
+        context.commit('SET_HISTORY_SIZE', size);
+    },
+
+    SET_HISTORY_SEARCH: (context, search) => {
+        context.commit('SET_HISTORY_SEARCH', search);
+    },
+
+    SET_HISTORY_DATE: (context, date) => {
+        context.commit('SET_HISTORY_DATE', date)
     },
 
     LOAD_ITEM: async (context) => {
@@ -101,6 +123,22 @@ const mutations = {
 
     SET_SEARCH: (state, search) => {
         state.search = search;
+    },
+
+    LOAD_HISTORY_DATA_LIST: (state, list) => {
+        state.historyDataList = list;
+    },
+
+    SET_HISTORY_SIZE: (state, size) => {
+        state.historySize = size;
+    },
+
+    SET_HISTORY_SEARCH: (state, search) => {
+        state.historySearch = search;
+    },
+
+    SET_HISTORY_DATE: (state, date) => {
+        state.historyDate = date;
     },
 
     SET_ITEM_PROPERTY: (state, {prop, value}) => {
