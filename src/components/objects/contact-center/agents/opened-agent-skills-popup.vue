@@ -1,45 +1,27 @@
 <template>
     <popup
             :title="$t('objects.ccenter.agents.addSkill')"
-            :primaryBtnAction="addSkill"
-            @close="$emit('close')">
+            :primaryAction="save"
+            :primaryText="computePrimaryText"
+            :primaryDisabled="computeDisabled"
+            @close="$emit('close')"
+    >
         <form>
             <dropdown-select
-                    v-model="itemInstance.skill.name"
-                    :v="$v.itemInstance.skill.name"
-                    :options="[]"
+                    v-model="skill"
+                    :v="$v.itemInstance.skill"
+                    :options="dropdownOptionsList"
                     :label="$tc('objects.ccenter.skills.skills', 1)"
+                    @search="searchList"
                     required
             ></dropdown-select>
 
             <form-input
-                    v-model.trim="$v.itemInstance.capacity.from.$model"
+                    v-model.trim="capacity"
                     :label="$t('objects.ccenter.skills.capacity')"
-                    :v="$v.itemInstance.capacity.from"
+                    :v="$v.itemInstance.capacity"
                     required
             ></form-input>
-
-            <form-input
-                    v-model.trim="$v.itemInstance.capacity.to.$model"
-                    :label="$t('objects.ccenter.skills.capacity')"
-                    :v="$v.itemInstance.capacity.to"
-                    required
-            ></form-input>
-
-            <form-input
-                    v-model.trim="$v.itemInstance.level.$model"
-                    :label="$t('objects.ccenter.skills.capacity')"
-                    :v="$v.itemInstance.level"
-                    required
-            ></form-input>
-
-            <dropdown-select
-                    v-model="itemInstance.bucket"
-                    :v="$v.itemInstance.bucket"
-                    :options="[]"
-                    :label="$t('objects.ccenter.teams.bucket')"
-                    required
-            ></dropdown-select>
         </form>
     </popup>
 </template>
@@ -48,6 +30,9 @@
     import popup from '@/components/utils/popup';
     import editComponentMixin from '@/mixins/editComponentMixin';
     import {required, numeric, minValue, maxValue} from 'vuelidate/lib/validators';
+    import {mapActions, mapState} from "vuex";
+    import {getSkillsList} from "../../../../api/objects/contact-center/agentSkills";
+    import {getUsersList} from "../../../../api/objects/directory/users";
 
     export default {
         name: "opened-agent-skills-popup",
@@ -55,26 +40,8 @@
         components: {
             popup,
         },
-        props: {
-            value: {
-                type: Object,
-            },
-        },
         data() {
-            return {
-                itemInstance: {
-                    skill: {
-                        name: 'Skillname'
-                    },
-                    capacity: {
-                        from: 10,
-                        to: 12,
-                    },
-                    bucket: {
-                        name: 'Bucket name'
-                    }
-                }
-            }
+            return {}
         },
 
         validations: {
@@ -83,30 +50,69 @@
                     required,
                 },
                 capacity: {
-                    from: {
-                        numeric,
-                        minValue: minValue(0),
-                        maxValue: maxValue(100),
-                        required
-                    },
-                    to: {
-                        numeric,
-                        minValue: minValue(0),
-                        maxValue: maxValue(100),
-                        required
-                    },
+                    numeric,
+                    minValue: minValue(0),
+                    maxValue: maxValue(100),
+                    required
                 }
             }
         },
 
         mounted() {
-            if (this.value) this.itemInstance = this.value;
+            this.loadItem();
+        },
+
+        computed: {
+            ...mapState('ccenter/agents', {
+                id: state => state.skillItemId,
+                itemInstance: state => state.skillItemInstance
+            }),
+            skill: {
+                get() {
+                    return this.$store.state.ccenter.agents.skillItemInstance.skill
+                },
+                set(value) {
+                    this.setItemProp({prop: 'skill', value})
+                }
+            },
+            capacity: {
+                get() {
+                    return this.$store.state.ccenter.agents.skillItemInstance.capacity
+                },
+                set(value) {
+                    this.setItemProp({prop: 'capacity', value})
+                }
+            },
         },
 
         methods: {
-            addSkill() {
-                this.$emit('addItem', this.itemInstance);
-            }
+            async save() {
+                const invalid = this.checkValidations();
+                if (!invalid) {
+                    try {
+                        !this.id ? await this.addItem() : await this.updateItem();
+                        this.$emit('close');
+                    } catch {
+                    }
+                }
+            },
+
+            async loadDropdownOptionsList(search) {
+                const response = await getSkillsList(10, search);
+                this.dropdownOptionsList = response.map(item => {
+                    return {
+                        name: item.name,
+                        id: item.id,
+                    }
+                });
+            },
+
+            ...mapActions('ccenter/agents', {
+                setItemProp: 'SET_SKILL_ITEM_PROPERTY',
+                addItem: 'ADD_SKILL_ITEM',
+                updateItem: 'UPDATE_SKILL_ITEM',
+                loadItem: 'LOAD_SKILL_ITEM',
+            }),
         }
     }
 </script>

@@ -356,7 +356,7 @@ export default {
                 skills: 'Skill | Skills',
                 capacity: 'Capacity',
                 agentSkills: 'Agent skill | Agent skills',
-                allSkills: 'All skills'
+                allSkills: 'All skills',
             },
 
             agents: {
@@ -364,6 +364,7 @@ export default {
                 allAgents: 'All agents',
                 state: 'State',
                 stateTime: 'State time',
+                addSkill: 'Add skill',
             },
 
             teams: {

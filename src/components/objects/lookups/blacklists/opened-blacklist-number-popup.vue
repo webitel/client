@@ -4,7 +4,8 @@
             :primaryAction="save"
             :primaryText="computePrimaryText"
             :primaryDisabled="computeDisabled"
-            @close="$emit('close')">
+            @close="$emit('close')"
+    >
         <form class="popup-form">
             <form-input
                     v-model.trim="number"

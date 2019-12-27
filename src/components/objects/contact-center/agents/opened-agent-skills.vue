@@ -1,18 +1,25 @@
 <template>
     <section>
+        <skill-popup
+                v-if="popupTriggerIf"
+                @close="popupTriggerIf = false"
+        ></skill-popup>
+
         <header class="content-header">
             <h3 class="content-title">{{$t('objects.generalInfo')}}</h3>
-            <i class="icon-action icon-icon_plus" @click="popupTriggerIf = true"></i>
+            <div class="content-header__actions-wrap">
+                <search
+                        v-model="search"
+                        @filterData="loadDataList"
+                ></search>
+                <i
+                        class="icon-icon_delete icon-action"
+                        :class="{'hidden': anySelected}"
+                        @click="deleteSelected"
+                ></i>
+                <i class="icon-action icon-icon_plus" @click="create"></i>
+            </div>
         </header>
-
-        <skill-popup
-            v-if="popupTriggerIf"
-            :value="dataList[editedIndex]"
-            @addItem="addItem"
-            @close="closePopup"
-        >
-
-        </skill-popup>
 
         <vuetable
                 :api-mode="false"
@@ -40,6 +47,12 @@
                 ></i>
             </template>
         </vuetable>
+        <pagination
+                v-model="size"
+                @loadDataList="loadDataList"
+                @next="nextPage"
+                @prev="prevPage"
+        ></pagination>
     </section>
 </template>
 
@@ -48,13 +61,15 @@
     import tableComponentMixin from '@/mixins/tableComponentMixin';
     import openedTabComponentMixin from '@/mixins/openedTabComponentMixin';
     import {_actionsTableField_2} from "@/utils/tableFieldPresets";
+    import {mapActions, mapState} from "vuex";
+    import eventBus from "../../../../utils/eventBus";
 
     export default {
         name: "opened-agent-skills",
+        mixins: [openedTabComponentMixin, tableComponentMixin],
         components: {
             'skill-popup': openedAgentSkillsPopup
         },
-        mixins: [openedTabComponentMixin, tableComponentMixin],
         data() {
             return {
                 fields: [
@@ -62,37 +77,50 @@
                     {name: 'capacity', title: this.$t('objects.ccenter.skills.capacity')},
                     _actionsTableField_2,
                 ],
-                editedIndex: null,
+            }
+        },
+
+        computed: {
+            ...mapState('ccenter/agents', {
+                dataList: state => state.skillDataList,
+            }),
+
+            size: {
+                get() {return this.$store.state.ccenter.agents.skillSize},
+                set(value) {this.setSize(value)}
+            },
+
+            search: {
+                get() {return this.$store.state.ccenter.agents.skillSearch},
+                set(value) {this.setSearch(value)}
             }
         },
 
         methods: {
-            closePopup() {
-                this.popupTriggerIf = false;
-                this.editedIndex = null;
-            },
-
-            addItem(item) {
-                this.dataList.push(item);
-                this.popupTriggerIf = false;
+            async create() {
+                if (!this.checkValidations()) {
+                    if (!this.id) await this.addParentItem();
+                    this.popupTriggerIf = true;
+                } else {
+                    eventBus.$emit('notificationError', 'Check your validations!');
+                }
             },
 
             edit(rowIndex) {
-                this.editedIndex = rowIndex;
+                this.setId(this.dataList[rowIndex].id);
                 this.popupTriggerIf = true;
             },
 
-            loadDataList() {
-                for(let i = 0; i < 10; i++) {
-                    this.dataList.push({
-                        skill: {
-                            id: i,
-                            name: 'skillname '+i,
-                        },
-                        capacity:Math.random()*10*i
-                    });
-                }
-            }
+            ...mapActions('ccenter/agents', {
+                setId: 'SET_SKILL_ITEM_ID',
+                loadDataList: 'LOAD_SKILL_DATA_LIST',
+                setSize: 'SET_SKILL_SIZE',
+                setSearch: 'SET_SKILL_SEARCH',
+                nextPage: '',
+                prevPage: '',
+                removeItem: 'REMOVE_SKILL_ITEM',
+                addParentItem: 'ADD_ITEM',
+            }),
         }
     }
 </script>

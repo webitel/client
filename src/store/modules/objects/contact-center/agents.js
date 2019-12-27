@@ -1,10 +1,10 @@
 import proxy from '../../../../utils/editProxy';
 import {
-    addAgent,
-    deleteAgent,
-    getAgent,
+    addAgent, addAgentSkill,
+    deleteAgent, deleteAgentSkill,
+    getAgent, getAgentSkill, getAgentSkillsList,
     getAgentsList,
-    updateAgent
+    updateAgent, updateAgentSkill
 } from "../../../../api/objects/contact-center/agents";
 
 const defaultState = () => {
@@ -14,6 +14,15 @@ const defaultState = () => {
             user: '',
             description: '',
         },
+        skillDataList: [],
+        skillSize: '10',
+        skillSearch: '',
+        skillItemId: 0,
+        skillItemInstance: {
+            skill: '',
+            capacity: 10,
+            id: 0,
+        }
     };
 };
 
@@ -80,6 +89,59 @@ const actions = {
         }
     },
 
+    SET_SKILL_ITEM_ID: (context, id) => {
+        context.commit('SET_SKILL_ITEM_ID', id);
+    },
+
+    LOAD_SKILL_DATA_LIST: async (context) => {
+        if (state.itemId) {
+            const response = await getAgentSkillsList(state.itemId, state.skillSize, state.skillSearch);
+            context.commit('SET_SKILL_DATA_LIST', response);
+        } else {
+            context.commit('SET_SKILL_DATA_LIST', []);
+        }
+        context.dispatch('SET_SKILL_ITEM_ID', 0);
+    },
+
+    SET_SKILL_SIZE: (context, size) => {
+        context.commit('SET_SKILL_SIZE', size);
+    },
+
+    SET_SKILL_SEARCH: (context, search) => {
+        context.commit('SET_SKILL_SEARCH', search);
+    },
+
+    LOAD_SKILL_ITEM: async (context) => {
+        if (state.skillItemId) {
+            const item = await getAgentSkill(state.itemId, state.skillItemId);
+            context.commit('SET_SKILL_ITEM', proxy(item));
+        } else {
+            context.commit('SET_SKILL_ITEM', {skill: '', capacity: 10});
+        }
+    },
+
+    SET_SKILL_ITEM_PROPERTY: (context, payload) => {
+        context.commit('SET_SKILL_ITEM_PROPERTY', payload);
+    },
+
+    ADD_SKILL_ITEM: async (context) => {
+        await addAgentSkill(state.itemId, state.skillItemInstance);
+        context.dispatch('LOAD_SKILL_DATA_LIST', state.itemId);
+    },
+
+    UPDATE_SKILL_ITEM: async (context) => {
+        await updateAgentSkill(state.itemId, state.skillItemId, state.skillItemInstance);
+        context.dispatch('LOAD_SKILL_DATA_LIST', state.itemId);
+    },
+
+    REMOVE_SKILL_ITEM: async (context, index) => {
+        const id = state.skillDataList[index].id;
+        context.commit('REMOVE_SKILL_ITEM', index);
+        try {
+            await deleteAgentSkill(state.itemId, id);
+        } catch {}
+    },
+
     RESET_ITEM_STATE: async (context) => {
         context.commit('RESET_ITEM_STATE');
     },
@@ -111,6 +173,34 @@ const mutations = {
     },
 
     REMOVE_ITEM: (state, index) => {
+        state.dataList.splice(index, 1);
+    },
+
+    SET_SKILL_DATA_LIST: (state, list) => {
+        state.skillDataList = list;
+    },
+
+    SET_SKILL_SIZE: (context, size) => {
+        state.skillSize = size;
+    },
+
+    SET_SKILL_SEARCH: (context, search) => {
+        state.skillSearch = search;
+    },
+
+    SET_SKILL_ITEM_ID: (state, id) => {
+        state.skillItemId = id;
+    },
+
+    SET_SKILL_ITEM: (state, item) => {
+        state.skillItemInstance = item;
+    },
+
+    SET_SKILL_ITEM_PROPERTY: (state, {prop, value}) => {
+        state.skillItemInstance[prop] = value;
+    },
+
+    REMOVE_SKILL_ITEM: (state, index) => {
         state.dataList.splice(index, 1);
     },
 

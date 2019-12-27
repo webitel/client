@@ -53,8 +53,8 @@
                         value: 'general',
                     },
                     {
-                        text: this.$tc('objects.permissions.permissions'),
-                        value: 'permissions-tab',
+                        text: this.$tc('objects.ccenter.skills.skills', 2),
+                        value: 'skills',
                     },
                     {
                         text: this.$tc('objects.ccenter.teams.teams', 2),
@@ -65,9 +65,9 @@
                         value: 'queues',
                     },
                     {
-                        text: this.$tc('objects.ccenter.skills.skills', 2),
-                        value: 'skills',
-                    }
+                        text: this.$tc('objects.permissions.permissions'),
+                        value: 'permissions-tab',
+                    },
                 ],
             };
         },
