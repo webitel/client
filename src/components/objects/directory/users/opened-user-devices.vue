@@ -9,7 +9,7 @@
                         v-model="devices"
                         :options="dropdownOptionsList"
                         :label="$tc('objects.directory.devices.devices', 2)"
-                        @searchOptions="searchList"
+                        @search="loadDropdownOptionsList"
                 ></tags-input>
 
                 <div class="hint-link__wrap">
@@ -31,6 +31,10 @@
     export default {
         name: "opened-user-devices",
         mixins: [openedTabComponentMixin],
+
+        mounted() {
+            this.loadDropdownOptionsList();
+        },
 
         computed: {
             devices: {

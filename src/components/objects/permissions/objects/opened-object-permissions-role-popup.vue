@@ -10,7 +10,7 @@
                 v-model="newGrantee"
                 :options="computeAvailableGrantees"
                 :placeholder="$tc('objects.permissions.permissionsRole', 1)"
-                @search="searchList"
+                @search="loadDropdownOptionsList"
             ></dropdown-select>
         </section>
     </popup>
@@ -19,19 +19,21 @@
 <script>
     import popup from '../../../utils/popup';
     import dropdownSelect from '../../../utils/dropdown-select';
-    import dropdownSearchMixin from '../../../../mixins/dropdownSearchMixin';
     import {getRoleList} from "../../../../api/objects/permissions/roles";
     import {mapActions, mapState} from "vuex";
 
     export default {
         name: "opened-object-permissions-role-popup",
-        mixins: [dropdownSearchMixin],
         components: {popup, dropdownSelect},
         data() {
             return {
                 newGrantee: '',
                 optionsList: [], // list of all roles to add new. retrieves from roles GET request
             }
+        },
+
+        mounted() {
+            this.loadDropdownOptionsList();
         },
 
         computed: {

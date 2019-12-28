@@ -12,7 +12,7 @@
                     :v="$v.itemInstance.skill"
                     :options="dropdownOptionsList"
                     :label="$tc('objects.ccenter.skills.skills', 1)"
-                    @search="searchList"
+                    @search="loadDropdownOptionsList"
                     required
             ></dropdown-select>
 
@@ -60,6 +60,7 @@
 
         mounted() {
             this.loadItem();
+            this.loadDropdownOptionsList();
         },
 
         computed: {

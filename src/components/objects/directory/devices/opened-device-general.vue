@@ -46,7 +46,7 @@
                     v-model="user"
                     :options="dropdownOptionsList"
                     :label="$t('objects.user')"
-                    @search="searchList"
+                    @search="loadDropdownOptionsList"
             ></dropdown-select>
         </form>
     </section>
@@ -65,6 +65,10 @@
             return {
                 copyMessage: '',
             }
+        },
+
+        mounted() {
+            this.loadDropdownOptionsList();
         },
 
         computed: {

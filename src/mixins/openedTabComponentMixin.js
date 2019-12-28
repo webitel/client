@@ -1,8 +1,7 @@
-import dropdownSearchMixin from '@/mixins/dropdownSearchMixin';
 import editComponentMixin from './editComponentMixin';
 
 export default {
-    mixins: [editComponentMixin, dropdownSearchMixin],
+    mixins: [editComponentMixin],
     props: {
         v: {
             type: Object,

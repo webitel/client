@@ -8,7 +8,7 @@
                     v-model="hotdesk"
                     :options="[]"
                     :label="$t('objects.directory.devices.hostName')"
-                    @searchOptions="searchList"
+                    @search="loadDropdownOptionsList"
             ></tags-input>
         </form>
     </section>

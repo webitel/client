@@ -25,7 +25,7 @@
                     :v="$v.itemInstance.schema"
                     :label="$tc('objects.routing.schema', 1)"
                     :options="dropdownOptionsList"
-                    @search="searchList"
+                    @search="loadDropdownOptionsList"
                     required
                 ></dropdown-select>
 
@@ -83,6 +83,7 @@
         mounted() {
             this.id = this.$route.params.id;
             this.loadItem();
+            this.loadDropdownOptionsList();
         },
 
         computed: {

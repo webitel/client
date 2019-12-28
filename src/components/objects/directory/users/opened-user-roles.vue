@@ -9,7 +9,7 @@
                     v-model="roles"
                     :options="dropdownOptionsList"
                     :label="$tc('objects.permissions.permissionsRole')"
-                    @searchOptions="searchList"
+                    @search="loadDropdownOptionsList"
                 ></tags-input>
 
                 <tags-input
@@ -30,6 +30,10 @@
     export default {
         name: "opened-user-roles",
         mixins: [openedTabComponentMixin],
+
+        mounted() {
+            this.loadDropdownOptionsList();
+        },
 
         computed: {
             roles: {

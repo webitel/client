@@ -17,7 +17,7 @@
                     :label="$t('objects.lookups.calendars.timezone')"
                     :value="v.itemInstance.calendar.timezone.$model"
                     @input="itemInstance.calendar.timezone = $event"
-                    @search="searchList"
+                    @search="loadDropdownOptionsList"
                     required
             ></dropdown-select>
 

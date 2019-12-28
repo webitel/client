@@ -15,7 +15,7 @@
                     :value="schema"
                     :label="$tc('objects.routing.callflow.callflow', 1)"
                     :options="dropdownOptionsList"
-                    @search="searchList"
+                    @search="loadDropdownOptionsList"
             ></dropdown-select>
 
             <form-input

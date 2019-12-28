@@ -19,7 +19,7 @@
                     :displayProperty="'name'"
                     :label="$tc('objects.lookups.communications.communications', 1)"
                     :placeholder="$tc('objects.lookups.communications.communications', 1)"
-                    @search="searchList"
+                    @search="loadDropdownOptionsList"
                     required
             ></dropdown-select>
 

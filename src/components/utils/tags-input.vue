@@ -10,7 +10,7 @@
                 :autocomplete-items="computeOptions"
                 :autocomplete-min-length="autocompleteMinLength"
                 :placeholder="placeholder || label"
-                @input="$emit('searchOptions', $event)"
+                @input="debouncer.call(this)"
                 @tags-changed="newTags => changeTags(newTags)"
                 :add-only-from-autocomplete="addOnlyFromAutocomplete"
                 :autocomplete-filter-duplicates="autocompleteFilterDuplicates"
@@ -21,6 +21,7 @@
 
 <script>
     import vueTagsInput from '@johmun/vue-tags-input';
+    import debounce from "../../utils/debounce";
     export default {
         name: "tags-input",
         components: {vueTagsInput},
@@ -57,10 +58,15 @@
                 type: String
             }
         },
+
         data() {
             return {
                 tagDraft: '',
             }
+        },
+
+        created() {
+            this.debouncer = debounce(this.debouncer);
         },
 
         computed: {
@@ -80,6 +86,10 @@
         },
 
         methods: {
+            debouncer() {
+                this.$emit('search', this.tagDraft);
+            },
+
             changeTags(tags) {
                 const res = tags.map(i => {
                     return {

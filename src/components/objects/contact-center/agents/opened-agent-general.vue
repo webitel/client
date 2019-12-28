@@ -9,7 +9,7 @@
                     :v="v.itemInstance.user"
                     :options="dropdownOptionsList"
                     :label="$tc('objects.directory.users.users', 1)"
-                    @search="searchList"
+                    @search="loadDropdownOptionsList"
                     required
             ></dropdown-select>
 
@@ -30,10 +30,9 @@
     export default {
         name: "opened-agent-general",
         mixins: [openedTabComponentMixin],
-        data() {
-            return {
 
-            }
+        mounted() {
+            this.loadDropdownOptionsList();
         },
 
         computed: {
