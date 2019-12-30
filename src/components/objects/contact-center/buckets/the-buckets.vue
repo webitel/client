@@ -41,6 +41,12 @@
                         ></i>
                 </template>
             </vuetable>
+            <pagination
+                    v-model="size"
+                    @loadDataList="loadDataList"
+                    @next="nextPage"
+                    @prev="prevPage"
+            ></pagination>
         </section>
     </div>
 </template>
@@ -48,20 +54,35 @@
 <script>
     import tableComponentMixin from '@/mixins/tableComponentMixin';
     import {_actionsTableField_2} from "../../../../utils/tableFieldPresets";
+    import {mapActions, mapState} from "vuex";
 
     export default {
         name: "the-agent-buckets",
         mixins: [tableComponentMixin],
         data() {
             return {
-                dataList: [],
-                // vuetable prop
                 fields: [
                     {name: 'name', title: this.$t('objects.name')},
                     {name: 'description', title: this.$t('objects.description')},
                     _actionsTableField_2
                 ],
             };
+        },
+
+        computed: {
+            ...mapState('ccenter/buckets', {
+                dataList: state => state.dataList,
+            }),
+
+            size: {
+                get() {return this.$store.state.ccenter.buckets.size},
+                set(value) {this.setSize(value)}
+            },
+
+            search: {
+                get() {return this.$store.state.ccenter.buckets.search},
+                set(value) {this.setSearch(value)}
+            },
         },
 
         methods: {
@@ -76,19 +97,14 @@
                 });
             },
 
-            remove(rowId) {
-                this.dataList.splice(rowId, 1);
-            },
-
-            loadDataList() {
-                for (let i = 0; i < 10; i++) {
-                    this.dataList.push({
-                        name: 'bucket name ' + i,
-                        description: 'Description',
-                        id: i
-                    });
-                }
-            }
+            ...mapActions('ccenter/buckets', {
+                loadDataList: 'LOAD_DATA_LIST',
+                setSize: 'SET_SIZE',
+                setSearch: 'SET_SEARCH',
+                nextPage: '',
+                prevPage: '',
+                removeItem: 'REMOVE_ITEM',
+            }),
         }
     }
 </script>
