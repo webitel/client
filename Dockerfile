@@ -9,4 +9,4 @@ COPY . /usr/src/app
 RUN npm run build
 
 FROM linuxserver/letsencrypt
-COPY --from=ui-builder /usr/src/app/dist /config/www
+COPY --from=ui-builder /usr/src/app/dist /www
