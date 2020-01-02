@@ -1,14 +1,14 @@
 import instance from '@/api/instance';
 import configuration from '@/api/openAPIConfig';
-import {RoutingSchemeServiceApiFactory} from 'webitel-sdk';
+import {RoutingSchemaServiceApiFactory} from 'webitel-sdk';
 import eventBus from "../../../utils/eventBus";
 import sanitizer from "../../sanitizer";
 
-const flowService = new RoutingSchemeServiceApiFactory
+const flowService = new RoutingSchemaServiceApiFactory
 (configuration, process.env.VUE_APP_API_URL, instance);
 
 const domainId = undefined;
-const fieldsToSend = ['name', 'scheme', 'payload'];
+const fieldsToSend = ['name', 'schema', 'payload'];
 
 export const getFlowList = async (size = 10) => {
     const defaultObject = {
@@ -17,7 +17,7 @@ export const getFlowList = async (size = 10) => {
         type: 'Type is undefined',
     };
     try {
-        const response = await flowService.searchRoutingScheme(domainId, size);
+        const response = await flowService.searchRoutingSchema(domainId, size);
         if (!response.data.items) response.data.items = [];
         return response.data.items.map(item => {return {...item, ...defaultObject}});
     } catch (err) {
@@ -31,24 +31,19 @@ export const getFlow = async (id) => {
         _dirty: false,
     };
     try {
-        let response = await flowService.readRoutingScheme(id, domainId);
-        response = response.data;
-        response.schema = JSON.stringify(response.scheme, null, 4);
-        delete response.scheme;
-        return {...response, ...defaultObject};
+        const response = await flowService.readRoutingSchema(id, domainId);
+        return {...response.data, ...defaultObject};
     } catch (err) {
         throw err;
     }
 };
 
 export const addFlow = async (item) => {
-    item.domain_id = domainId;
-    item.scheme = JSON.parse(item.schema);
     item.payload = {};
     sanitizer(item, fieldsToSend);
 
     try {
-        const response = await flowService.createRoutingScheme(item);
+        const response = await flowService.createRoutingSchema(item);
         eventBus.$emit('notificationInfo', 'Sucessfully added');
         return response.data.id;
     } catch (err) {
@@ -57,10 +52,9 @@ export const addFlow = async (item) => {
 };
 
 export const updateFlow = async (id, item) => {
-    item.scheme = JSON.parse(item.schema);
     sanitizer(item, fieldsToSend);
     try {
-        await flowService.updateRoutingScheme(id, item);
+        await flowService.updateRoutingSchema(id, item);
         eventBus.$emit('notificationInfo', 'Sucessfully updated');
     } catch (err) {
         throw err;
@@ -69,7 +63,7 @@ export const updateFlow = async (id, item) => {
 
 export const deleteFlow = async (id) => {
     try {
-        await flowService.deleteRoutingScheme(id, domainId);
+        await flowService.deleteRoutingSchema(id, domainId);
     } catch (err) {
         throw err;
     }
