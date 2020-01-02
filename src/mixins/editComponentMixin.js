@@ -1,4 +1,4 @@
-import objectHeader from '@/components/objects/the-object-header';
+import objectHeader from '../../src/components/object-utils/the-object-header';
 import formInput from '@/components/utils/form-input';
 import expansionPanel from '@/components/utils/expansion-panel';
 import dropdownSelect from '@/components/utils/dropdown-select';
@@ -7,7 +7,7 @@ import tableCheckbox from '@/components/utils/checkbox';
 import hint from '@/components/utils/hint';
 import tabs from '@/components/utils/tabs';
 import validationMessage from '@/components/utils/validation-message';
-import permissionsTab from '../components/objects/utils/permissions-tab';
+import permissionsTab from '../components/object-utils/utils/permissions-tab';
 import tabsComponent from '@/components/utils/tabs-component';
 import tagsInput from '@/components/utils/tags-input';
 

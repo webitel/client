@@ -6,8 +6,8 @@ import openedCalendarHolidays from '@/components/objects/lookups/calendars/opene
 import VueRouter from 'vue-router';
 import Vuelidate from 'vuelidate';
 import i18n from 'vue-i18n';
-import {getCalendarList, getHolidayList, getWorkdayList} from "../../../../src/api/objects/lookups/calendars";
-import {getCommunicationsList} from "../../../../src/api/objects/lookups/communications";
+import {getCalendarList, getHolidayList, getWorkdayList} from "../../../../src/api/lookups/calendars";
+import {getCommunicationsList} from "../../../../src/api/lookups/communications";
 
 const $t = () => {
 };

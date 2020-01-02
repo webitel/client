@@ -1,11 +1,11 @@
 import Vue from 'vue';
 import Vuex from 'vuex';
 import auth from './modules/auth/auth';
-import directory from "./modules/objects/directory/directory";
-import routing from "./modules/objects/routing/routing";
-import lookups from "./modules/objects/lookups/lookups";
-import ccenter from "./modules/objects/contact-center/ccenter";
-import permissions from './modules/objects/permissions/permissions';
+import directory from "./modules/directory/directory";
+import routing from "./modules/routing/routing";
+import lookups from "./modules/lookups/lookups";
+import ccenter from "./modules/contact-center/ccenter";
+import permissions from './modules/permissions/permissions';
 
 Vue.use(Vuex);
 export default new Vuex.Store({

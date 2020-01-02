@@ -1,5 +1,5 @@
 import vuetable from 'vuetable-2/src/components/Vuetable';
-import objectHeader from '@/components/objects/the-object-header';
+import objectHeader from '../../src/components/object-utils/the-object-header';
 import pagination from '../components/utils/table-pagination';
 import switcher from '@/components/utils/switcher';
 import status from '@/components/utils/status';

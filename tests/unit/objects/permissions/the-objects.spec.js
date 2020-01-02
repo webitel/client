@@ -1,7 +1,7 @@
 import {shallowMount, mount, createLocalVue} from '@vue/test-utils'
 import theObjects from '@/components/objects/permissions/objects/the-objects-permissions';
 import editObject from '@/components/objects/permissions/objects/opened-object-permissions';
-import {getObjectList} from '@/api/objects/permissions/objects';
+import {getObjectList} from '../../../../src/api/permissions/objects';
 import VueRouter from 'vue-router';
 import Vuelidate from 'vuelidate';
 import i18n from 'vue-i18n';

@@ -4,9 +4,9 @@ import openedRes from '@/components/objects/contact-center/resources/opened-reso
 import VueRouter from 'vue-router';
 import Vuelidate from 'vuelidate';
 import i18n from 'vue-i18n';
-import {getResourceList} from "../../../../src/api/objects/contact-center/resources";
-import {getResGroupList} from "../../../../src/api/objects/contact-center/resourceGroups";
-import {getDeviceList} from "../../../../src/api/objects/directory/devices";
+import {getResourceList} from "../../../../src/api/contact-center/resources";
+import {getResGroupList} from "../../../../src/api/contact-center/resourceGroups";
+import {getDeviceList} from "../../../../src/api/directory/devices";
 
 const $t = () => {
 };

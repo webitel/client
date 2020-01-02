@@ -1,7 +1,7 @@
 <!--THIS IS AN ABSTRACT COMPONENT TO EXTEND-->
 <template>
     <div class="popup-wrap">
-        <aside class="popup">
+        <aside class="popup" :class="{'overflow': overflow}">
             <header class="content-header">
                 <h3 class="content-title">{{title}}</h3>
             </header>
@@ -44,6 +44,11 @@
             title: {
                 type: String,
                 default: 'Upload..'
+            },
+
+            overflow: {
+                type: Boolean,
+                default: false,
             },
 
             noGutters: {
@@ -113,6 +118,10 @@
         border-radius: $border-radius;
         overflow-y: auto;
         z-index: 10;
+
+        &.overflow {
+            overflow: visible;
+        }
 
         .content-header {
             margin: 0 44px 28px;
