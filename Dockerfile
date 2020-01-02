@@ -10,4 +10,3 @@ RUN npm run build
 
 FROM linuxserver/letsencrypt
 COPY --from=ui-builder /usr/src/app/dist /webitel/client
-COPY nginx/default.conf /config/nginx/site-confs/default
