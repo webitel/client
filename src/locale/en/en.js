@@ -31,6 +31,7 @@ export default {
         directory: {
             directory: 'Directory',
             users: 'Users',
+            license: 'License',
             devices: 'Devices',
         },
         contacts: 'Contacts',
@@ -72,7 +73,6 @@ export default {
         },
         administration: {
             administration: 'Administration',
-            license: 'License',
             storage: 'Storage',
             media: 'Media',
             blacklists: 'Blacklists',

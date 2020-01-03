@@ -66,6 +66,12 @@
                         expanded: false,
                         subnav: [
                             {
+                                name: 'license',
+                                displayName: this.$t('nav.directory.license'),
+                                route: '/directory/license',
+                                current: false,
+                            },
+                            {
                                 name: 'users',
                                 displayName: this.$t('nav.directory.users'),
                                 route: '/directory/users',
@@ -78,14 +84,6 @@
                                 current: false,
                             },
                         ]
-                    },
-                    {
-                        name: 'contacts',
-                        displayName: this.$t('nav.contacts'),
-                        route: '/contacts',
-                        iconClass: 'icon-icon_deny',
-                        expanded: false,
-                        subnav: false,
                     },
                     {
                         name: 'routing',
@@ -108,7 +106,7 @@
                             },
                             {
                                 name: 'chatplan',
-                                displayName: this.$t('nav.routing.chatplan'),
+                                displayName: this.$t('nav.routing.chatplan')+' (coming soon)',
                                 route: '/routing/chatplan',
                                 current: false,
                             },
@@ -152,23 +150,29 @@
                                 current: false,
                             },
                             {
-                                name: 'contact-types',
-                                displayName: this.$t('nav.lookups.contactTypes'),
-                                route: '/lookups/contact-types',
+                                name: 'media',
+                                displayName: this.$t('nav.lookups.media'),
+                                route: '/lookups/media',
                                 current: false,
                             },
-                            {
-                                name: 'lead-sources',
-                                displayName: this.$t('nav.lookups.leadSources'),
-                                route: '/lookups/lead-sources',
-                                current: false,
-                            },
-                            {
-                                name: 'lead-status',
-                                displayName: this.$t('nav.lookups.leadStatus'),
-                                route: '/lookups/lead-status',
-                                current: false,
-                            },
+                            // {
+                            //     name: 'contact-types',
+                            //     displayName: this.$t('nav.lookups.contactTypes'),
+                            //     route: '/lookups/contact-types',
+                            //     current: false,
+                            // },
+                            // {
+                            //     name: 'lead-sources',
+                            //     displayName: this.$t('nav.lookups.leadSources'),
+                            //     route: '/lookups/lead-sources',
+                            //     current: false,
+                            // },
+                            // {
+                            //     name: 'lead-status',
+                            //     displayName: this.$t('nav.lookups.leadStatus'),
+                            //     route: '/lookups/lead-status',
+                            //     current: false,
+                            // },
                         ]
                     },
                     {
@@ -222,14 +226,14 @@
                             },
                         ]
                     },
-                    {
-                        name: 'kibana',
-                        displayName: this.$t('nav.kibana'),
-                        route: '/kibana',
-                        iconClass: 'icon-icon_deny',
-                        expanded: false,
-                        subnav: false,
-                    },
+                    // {
+                    //     name: 'kibana',
+                    //     displayName: this.$t('nav.kibana'),
+                    //     route: '/kibana',
+                    //     iconClass: 'icon-icon_deny',
+                    //     expanded: false,
+                    //     subnav: false,
+                    // },
                     {
                         name: 'integrations',
                         displayName: this.$t('nav.integrations.integrations'),
@@ -244,9 +248,9 @@
                                 current: false,
                             },
                             {
-                                name: 'accounts',
-                                displayName: this.$t('nav.integrations.accounts'),
-                                route: '/integrations/accounts',
+                                name: 'storage',
+                                displayName: this.$t('nav.administration.storage'),
+                                route: '/integrations/storage',
                                 current: false,
                             },
                             {
@@ -256,48 +260,21 @@
                                 current: false,
                             },
                             {
+                                name: 'adfs',
+                                displayName: this.$t('nav.administration.adfs')+' (coming soon)',
+                                route: '/integrations/adfs',
+                                current: false,
+                            },
+                            {
                                 name: 'widgets',
-                                displayName: this.$t('nav.integrations.widgets'),
+                                displayName: this.$t('nav.integrations.widgets')+' (coming soon)',
                                 route: '/integrations/widgets',
                                 current: false,
                             },
                             {
                                 name: 'call-tracking',
-                                displayName: this.$t('nav.integrations.callTracking'),
+                                displayName: this.$t('nav.integrations.callTracking')+' (coming soon)',
                                 route: '/integrations/call-tracking',
-                                current: false,
-                            },
-                        ]
-                    },
-                    {
-                        name: 'administration',
-                        displayName: this.$t('nav.administration.administration'),
-                        route: '/administration',
-                        iconClass: 'icon-icon_deny',
-                        expanded: false,
-                        subnav: [
-                            {
-                                name: 'license',
-                                displayName: this.$t('nav.administration.license'),
-                                route: '/administration/license',
-                                current: false,
-                            },
-                            {
-                                name: 'storage',
-                                displayName: this.$t('nav.administration.storage'),
-                                route: '/administration/storage',
-                                current: false,
-                            },
-                            {
-                                name: 'media',
-                                displayName: this.$t('nav.administration.media'),
-                                route: '/administration/media',
-                                current: false,
-                            },
-                            {
-                                name: 'adfs',
-                                displayName: this.$t('nav.administration.adfs'),
-                                route: '/administration/adfs',
                                 current: false,
                             },
                         ]
