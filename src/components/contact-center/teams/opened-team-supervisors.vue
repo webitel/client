@@ -1,83 +1,118 @@
-<template><section>
-    <header class="content-header">
-        <h3 class="content-title">{{$tc('objects.ccenter.teams.supervisors', 2)}}</h3>
-        <i class="icon-action icon-icon_plus" @click="addItem"></i>
-    </header>
+<template>
+    <section>
+        <supervisor-popup
+                v-if="popupTriggerIf"
+                @close="popupTriggerIf = false"
+        ></supervisor-popup>
 
-    <vuetable
-            :api-mode="false"
-            :fields="fields"
-            :data="dataList"
-    >
-        <template slot="name" slot-scope="props">
-            <div v-if="dataList[props.rowIndex].supervisor.id ||
-                 dataList[props.rowIndex].supervisor.id === 0">
-                {{dataList[props.rowIndex].supervisor.name}}
+        <header class="content-header">
+            <h3 class="content-title">{{$tc('objects.ccenter.teams.supervisors', 2)}}</h3>
+            <div class="content-header__actions-wrap">
+                <search
+                        v-model="search"
+                        @filterData="loadDataList"
+                ></search>
+                <i
+                        class="icon-icon_delete icon-action"
+                        :class="{'hidden': anySelected}"
+                        @click="deleteSelected"
+                ></i>
+                <i class="icon-action icon-icon_plus" @click="create"></i>
             </div>
+        </header>
 
-            <dropdown-select
-                    v-else
-                    class="inline-dropdown inline-dropdown__options-left"
-                    v-model="dataList[props.rowIndex].supervisor"
-                    :placeholder="$tc('objects.ccenter.teams.supervisors', 1)"
-                    :options="[]"
-            ></dropdown-select>
-        </template>
+        <vuetable
+                :api-mode="false"
+                :fields="fields"
+                :data="dataList"
+        >
+            <template slot="name" slot-scope="props">
+                <div>
+                    {{dataList[props.rowIndex].agent.name}}
+                </div>
+            </template>
 
-        <template slot="actions" slot-scope="props">
-            <i class="vuetable-action icon-icon_delete"
-               @click="remove(props.rowIndex)"
-            ></i>
-        </template>
-    </vuetable>
-    <pagination/>
-</section>
+            <template slot="actions" slot-scope="props">
+                <i class="vuetable-action icon-icon_edit"
+                   @click="edit(props.rowIndex)"
+                ></i>
+                <i class="vuetable-action icon-icon_delete"
+                   @click="remove(props.rowIndex)"
+                ></i>
+            </template>
+        </vuetable>
+        <pagination
+                v-model="size"
+                @loadDataList="loadDataList"
+                @next="nextPage"
+                @prev="prevPage"
+        ></pagination>
+    </section>
 </template>
 
 <script>
+    import supervisorPopup from './opened-team-supervisors-popup';
+    import eventBus from '@/utils/eventBus';
     import tableComponentMixin from '@/mixins/tableComponentMixin';
     import openedTabComponentMixin from '@/mixins/openedTabComponentMixin';
-    import {_actionsTableField_1} from "@/utils/tableFieldPresets";
+    import {_checkboxTableField,_actionsTableField_2} from "@/utils/tableFieldPresets";
+    import {mapActions, mapState} from "vuex";
 
     export default {
         name: "opened-team-supervisors",
         mixins: [openedTabComponentMixin, tableComponentMixin],
+        components: {supervisorPopup},
         data() {
             return {
                 fields: [
+                    _checkboxTableField,
                     {name: 'name', title: this.$tc('objects.ccenter.teams.supervisors', 2)},
-                    _actionsTableField_1,
+                    _actionsTableField_2,
                 ],
             }
         },
 
-        mounted() {
+        computed: {
+            ...mapState('ccenter/teams', {
+                dataList: state => state.supervisorDataList,
+            }),
 
+            size: {
+                get() {return this.$store.state.ccenter.teams.supervisorSize},
+                set(value) {this.setSize(value)}
+            },
+
+            search: {
+                get() {return this.$store.state.ccenter.teams.supervisorSearch},
+                set(value) {this.setSearch(value)}
+            }
         },
 
         methods: {
-            addItem() {
-                this.dataList.unshift({
-                    supervisor: {
-                        name: 'empty'
-                    }
-                });
-            },
-
-            remove(rowIndex) {
-                this.dataList.splice(rowIndex, 1);
-            },
-
-            loadDataList() {
-                for(let i = 0; i < 10; i++) {
-                    this.dataList.push({
-                        supervisor: {
-                            id: i,
-                            name: 'team name '+i
-                        }
-                    });
+            async create() {
+                if (!this.checkValidations()) {
+                    if (!this.id) await this.addParentItem();
+                    this.popupTriggerIf = true;
+                } else {
+                    eventBus.$emit('notificationError', 'Check your validations!');
                 }
-            }
+            },
+
+            edit(rowIndex) {
+                this.setId(this.dataList[rowIndex].id);
+                this.popupTriggerIf = true;
+            },
+
+            ...mapActions('ccenter/teams', {
+                setId: 'SET_SUPERVISOR_ITEM_ID',
+                loadDataList: 'LOAD_SUPERVISOR_DATA_LIST',
+                setSize: 'SET_SUPERVISOR_SIZE',
+                setSearch: 'SET_SUPERVISOR_SEARCH',
+                nextPage: '',
+                prevPage: '',
+                removeItem: 'REMOVE_SUPERVISOR_ITEM',
+                addParentItem: 'ADD_ITEM',
+            }),
         },
     }
 </script>

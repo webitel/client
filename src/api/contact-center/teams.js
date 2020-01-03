@@ -83,6 +83,67 @@ export const deleteTeam = async (id) => {
     }
 };
 
+export const getTeamSupervisorsList = async (teamId, size = 10) => {
+    const defaultObject = {
+        _isSelected: false,
+    };
+
+    try {
+        const response = await teamSupervisorService.searchSupervisorInTeam(teamId, domainId, size);
+        if (Array.isArray(response.data.items)) {
+            return response.data.items.map(item => {
+                return {...defaultObject, ...item};
+            });
+        }
+        return [];
+    } catch (err) {
+        throw err;
+    }
+};
+
+export const getTeamSupervisor = async (teamId, id) => {
+    try {
+        let response = await teamSupervisorService.readSupervisorInTeam(teamId, id, domainId);
+        const defaultObject = {
+            _dirty: false,
+        };
+        return {...defaultObject, ...objSnakeToCamel(response.data)};
+    } catch (err) {
+        throw err;
+    }
+};
+
+export const addTeamSupervisor = async (teamId, item) => {
+    sanitizer(item, fieldsToSend);
+    item = objCamelToSnake(item);
+    try {
+        const response = await teamSupervisorService.createSupervisorInTeam(teamId, item);
+        eventBus.$emit('notificationInfo', 'Sucessfully added');
+        return response.data.id;
+    } catch (err) {
+        throw err;
+    }
+};
+
+export const updateTeamSupervisor = async (teamId, id, item) => {
+    sanitizer(item, fieldsToSend);
+    item = objCamelToSnake(item);
+    try {
+        await teamSupervisorService.updateSupervisorInTeam(teamId, id, item);
+        eventBus.$emit('notificationInfo', 'Sucessfully updated');
+    } catch (err) {
+        throw err;
+    }
+};
+
+export const deleteTeamSupervisor = async (teamId, id) => {
+    try {
+        await teamSupervisorService.deleteSupervisorInTeam(teamId, id, domainId);
+    } catch (err) {
+        throw err;
+    }
+};
+
 export const getTeamAgentsList = async (teamId, size = 10) => {
     const defaultObject = {
         _isSelected: false,
@@ -105,6 +166,9 @@ export const getTeamAgent = async (teamId, id) => {
     try {
         let response = await teamResService.readResourceTeamAgent(teamId, id, domainId);
         const defaultObject = {
+            agent: '',
+            minCapacity: 0,
+            maxCapacity: 0,
             lvl: 0,
             _dirty: false,
         };
@@ -116,8 +180,6 @@ export const getTeamAgent = async (teamId, id) => {
 
 export const addTeamAgent = async (teamId, item) => {
     sanitizer(item, fieldsToSend);
-    item.minCapacity = 0;
-    item.maxCapacity = 20;
     item = objCamelToSnake(item);
     try {
         const response = await teamResService.createResourceTeamAgent(teamId, item);
@@ -166,13 +228,11 @@ export const getTeamSkillsList = async (teamId, size = 10) => {
 };
 
 export const getTeamSkill = async (teamId, id) => {
-    console.log(teamId, id);
     try {
         let response = await teamResService.readResourceTeamSkill(teamId, id, domainId);
         const defaultObject = {
             _dirty: false,
         };
-        console.log(response.data);
         return {...defaultObject, ...objSnakeToCamel(response.data)};
     } catch (err) {
         throw err;
@@ -205,68 +265,6 @@ export const updateTeamSkill = async (teamId, id, item) => {
 export const deleteTeamSkill = async (teamId, id) => {
     try {
         await teamResService.deleteResourceTeamSkill(teamId, id, domainId);
-    } catch (err) {
-        throw err;
-    }
-};
-
-export const getTeamSupervisorsList = async (teamId, size = 10) => {
-    const defaultObject = {
-        _isSelected: false,
-    };
-
-    try {
-        const response = await teamSupervisorService.searchSupervisorInTeam(teamId, domainId, size);
-        if (Array.isArray(response.data.items)) {
-            return response.data.items.map(item => {
-                return {...defaultObject, ...item};
-            });
-        }
-        return [];
-    } catch (err) {
-        throw err;
-    }
-};
-
-export const getTeamSupervisor = async (teamId, id) => {
-    try {
-        let response = await teamSupervisorService.readSupervisorInTeam(teamId, id, domainId);
-        const defaultObject = {
-            lvl: 0,
-            _dirty: false,
-        };
-        return {...defaultObject, ...objSnakeToCamel(response.data)};
-    } catch (err) {
-        throw err;
-    }
-};
-
-export const addTeamSupervisor = async (teamId, item) => {
-    sanitizer(item, fieldsToSend);
-    item = objCamelToSnake(item);
-    try {
-        const response = await teamSupervisorService.createSupervisorInTeam(teamId, item);
-        eventBus.$emit('notificationInfo', 'Sucessfully added');
-        return response.data.id;
-    } catch (err) {
-        throw err;
-    }
-};
-
-export const updateTeamSupervisor = async (teamId, id, item) => {
-    sanitizer(item, fieldsToSend);
-    item = objCamelToSnake(item);
-    try {
-        await teamSupervisorService.updateSupervisorInTeam(teamId, id, item);
-        eventBus.$emit('notificationInfo', 'Sucessfully updated');
-    } catch (err) {
-        throw err;
-    }
-};
-
-export const deleteTeamSupervisor = async (teamId, id) => {
-    try {
-        await teamSupervisorService.deleteSupervisorInTeam(teamId, id, domainId);
     } catch (err) {
         throw err;
     }

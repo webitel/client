@@ -17,6 +17,13 @@
                     required
             ></dropdown-select>
 
+            <form-input
+                    v-model.trim="lvl"
+                    :v="$v.itemInstance.lvl"
+                    :label="$t('objects.ccenter.teams.lvl')"
+                    required
+            ></form-input>
+
             <div class="label">{{$t('objects.ccenter.skills.capacity')}}*</div>
             <div class="input-row-wrap">
                 <form-input
@@ -66,6 +73,9 @@
                 skill: {
                     required,
                 },
+                lvl: {
+                    required,
+                },
             }
         },
 
@@ -76,21 +86,29 @@
         },
 
         computed: {
-            ...mapState('ccenter/teams/skills', {
-                id: state => state.itemId,
-                itemInstance: state => state.itemInstance
+            ...mapState('ccenter/teams', {
+                id: state => state.skillItemId,
+                itemInstance: state => state.skillItemInstance
             }),
             skill: {
                 get() {
-                    return this.$store.state.ccenter.teams.skills.itemInstance.skill
+                    return this.$store.state.ccenter.teams.skillItemInstance.skill
                 },
                 set(value) {
                     this.setItemProp({prop: 'skill', value})
                 }
             },
+            lvl: {
+                get() {
+                    return this.$store.state.ccenter.teams.skillItemInstance.lvl
+                },
+                set(value) {
+                    this.setItemProp({prop: 'lvl', value})
+                }
+            },
             minCapacity: {
                 get() {
-                    return this.$store.state.ccenter.teams.skills.itemInstance.minCapacity
+                    return this.$store.state.ccenter.teams.skillItemInstance.minCapacity
                 },
                 set(value) {
                     this.setItemProp({prop: 'minCapacity', value})
@@ -98,7 +116,7 @@
             },
             maxCapacity: {
                 get() {
-                    return this.$store.state.ccenter.teams.skills.itemInstance.maxCapacity
+                    return this.$store.state.ccenter.teams.skillItemInstance.maxCapacity
                 },
                 set(value) {
                     this.setItemProp({prop: 'maxCapacity', value})
@@ -106,7 +124,7 @@
             },
             bucket: {
                 get() {
-                    return this.$store.state.ccenter.teams.skills.itemInstance.bucket
+                    return this.$store.state.ccenter.teams.skillItemInstance.bucket
                 },
                 set(value) {
                     this.setItemProp({prop: 'bucket', value})
@@ -145,11 +163,11 @@
                 });
             },
 
-            ...mapActions('ccenter/teams/skills', {
-                setItemProp: 'SET_ITEM_PROPERTY',
-                addItem: 'ADD_ITEM',
-                updateItem: 'UPDATE_ITEM',
-                loadItem: 'LOAD_ITEM',
+            ...mapActions('ccenter/teams', {
+                setItemProp: 'SET_SKILL_ITEM_PROPERTY',
+                addItem: 'ADD_SKILL_ITEM',
+                updateItem: 'UPDATE_SKILL_ITEM',
+                loadItem: 'LOAD_SKILL_ITEM',
             }),
         }
     }

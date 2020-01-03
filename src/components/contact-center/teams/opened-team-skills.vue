@@ -88,41 +88,19 @@
             }
         },
 
-        watch: {
-            id: function (value) {
-                this.setParentId(value);
-            }
-        },
-
-        mounted() {
-            this.setParentId(this.id);
-            this.loadDataList();
-        },
-
         computed: {
             ...mapState('ccenter/teams', {
-                id: state => state.itemId,
-            }),
-            ...mapState('ccenter/teams/skills', {
-                dataList: state => state.dataList,
+                dataList: state => state.skillDataList,
             }),
 
             size: {
-                get() {
-                    return this.$store.state.ccenter.teams.skills.size
-                },
-                set(value) {
-                    this.setSize(value)
-                }
+                get() {return this.$store.state.ccenter.teams.skillSize},
+                set(value) {this.setSize(value)}
             },
 
             search: {
-                get() {
-                    return this.$store.state.ccenter.teams.skills.search
-                },
-                set(value) {
-                    this.setSearch(value)
-                }
+                get() {return this.$store.state.ccenter.teams.skillSearch},
+                set(value) {this.setSearch(value)}
             }
         },
 
@@ -142,21 +120,16 @@
             },
 
             ...mapActions('ccenter/teams', {
-                addParentItem: 'ADD_ITEM',
-            }),
-
-            ...mapActions('ccenter/teams/skills', {
-                setParentId: 'SET_PARENT_ITEM_ID',
-                setId: 'SET_ITEM_ID',
-                loadDataList: 'LOAD_DATA_LIST',
-                setSize: 'SET_SIZE',
-                setSearch: 'SET_SEARCH',
+                setId: 'SET_SKILL_ITEM_ID',
+                loadDataList: 'LOAD_SKILL_DATA_LIST',
+                setSize: 'SET_SKILL_SIZE',
+                setSearch: 'SET_SKILL_SEARCH',
                 nextPage: '',
                 prevPage: '',
-                removeItem: 'REMOVE_ITEM',
+                removeItem: 'REMOVE_SKILL_ITEM',
                 addParentItem: 'ADD_ITEM',
             }),
-        }
+        },
     }
 </script>
 

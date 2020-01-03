@@ -28,7 +28,7 @@
         >
             <template slot="name" slot-scope="props">
                 <div>
-                    {{dataList[props.rowIndex].agent}}
+                    {{dataList[props.rowIndex].agent.name}}
                 </div>
             </template>
 
@@ -40,7 +40,7 @@
 
             <template slot="bucket" slot-scope="props">
                 <div>
-                    {{dataList[props.rowIndex].bucket}}
+                    {{dataList[props.rowIndex].bucket.name}}
                 </div>
             </template>
 
@@ -66,7 +66,7 @@
     import openedTeamAgentsPopup from './opened-team-agents-popup';
     import tableComponentMixin from '@/mixins/tableComponentMixin';
     import openedTabComponentMixin from '@/mixins/openedTabComponentMixin';
-    import {_actionsTableField_2} from "@/utils/tableFieldPresets";
+    import {_checkboxTableField, _actionsTableField_2} from "@/utils/tableFieldPresets";
     import {mapActions, mapState} from "vuex";
     import eventBus from '@/utils/eventBus';
 
@@ -79,6 +79,7 @@
         data() {
             return {
                 fields: [
+                    _checkboxTableField,
                     {name: 'name', title: this.$t('objects.name')},
                     {name: 'lvl', title: this.$t('objects.ccenter.teams.lvl')},
                     {name: 'bucket', title: this.$tc('objects.ccenter.buckets.buckets', 1)},
@@ -87,34 +88,18 @@
             }
         },
 
-        watch: {
-            id: function (value) {
-                this.setParentId(value);
-            }
-        },
-
-        mounted() {
-            if(this.id) {
-                this.setParentId(this.id);
-                this.loadDataList();
-            }
-        },
-
         computed: {
             ...mapState('ccenter/teams', {
-                id: state => state.itemId,
-            }),
-            ...mapState('ccenter/teams/agents', {
-                dataList: state => state.dataList,
+                dataList: state => state.agentDataList,
             }),
 
             size: {
-                get() {return this.$store.state.ccenter.teams.agents.size},
+                get() {return this.$store.state.ccenter.teams.agentSize},
                 set(value) {this.setSize(value)}
             },
 
             search: {
-                get() {return this.$store.state.ccenter.teams.agents.search},
+                get() {return this.$store.state.ccenter.teams.agentSearch},
                 set(value) {this.setSearch(value)}
             }
         },
@@ -135,18 +120,13 @@
             },
 
             ...mapActions('ccenter/teams', {
-                addParentItem: 'ADD_ITEM',
-            }),
-
-            ...mapActions('ccenter/teams/agents', {
-                setParentId: 'SET_PARENT_ITEM_ID',
-                setId: 'SET_ITEM_ID',
-                loadDataList: 'LOAD_DATA_LIST',
-                setSize: 'SET_SIZE',
-                setSearch: 'SET_SEARCH',
+                setId: 'SET_AGENT_ITEM_ID',
+                loadDataList: 'LOAD_AGENT_DATA_LIST',
+                setSize: 'SET_AGENT_SIZE',
+                setSearch: 'SET_AGENT_SEARCH',
                 nextPage: '',
                 prevPage: '',
-                removeItem: 'REMOVE_ITEM',
+                removeItem: 'REMOVE_AGENT_ITEM',
                 addParentItem: 'ADD_ITEM',
             }),
         }
