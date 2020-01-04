@@ -7,10 +7,8 @@ RUN npm install
 RUN npm install -g @vue/cli
 COPY . /usr/src/app
 RUN npm run build
+RUN chown -R 1000:1000 /usr/src/app/dist
 
-FROM nginx
-COPY --from=ui-builder /usr/src/app/dist /webitel/client
-COPY nginx/nginx.conf /etc/nginx/nginx.conf
-COPY nginx/default.conf /etc/nginx/conf.d/default.conf
-EXPOSE 80 443
-CMD ["nginx", "-g", "daemon off;"]
+FROM linuxserver/letsencrypt
+COPY --from=ui-builder /usr/src/app/dist /www
+COPY nginx/default /config/nginx/site-confs/default
