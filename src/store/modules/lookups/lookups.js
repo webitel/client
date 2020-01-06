@@ -1,4 +1,4 @@
-import blacklists from './blacklists';
+import blacklists from './blacklists/blacklists';
 
 const modules = {
     blacklists

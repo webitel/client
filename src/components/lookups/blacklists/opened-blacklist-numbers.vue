@@ -2,7 +2,7 @@
     <section>
         <number-popup
                 v-if="popupTriggerIf"
-                @close="popupTriggerIf = false"
+                @close="closePopup"
         ></number-popup>
 
         <header class="content-header">
@@ -83,14 +83,22 @@
             }
         },
 
+        mounted() {
+            this.setParentId(this.parentId);
+            this.loadDataList();
+        },
+
         computed: {
             ...mapState('lookups/blacklists', {
-                dataList: state => state.numberDataList,
+                parentId: state => state.itemId,
+            }),
+            ...mapState('lookups/blacklists/numbers', {
+                dataList: state => state.dataList,
             }),
 
             size: {
                 get() {
-                    return this.$store.state.lookups.blacklists.numberSize
+                    return this.$store.state.lookups.blacklists.numbers.size
                 },
                 set(value) {
                     this.setSize(value)
@@ -99,7 +107,7 @@
 
             search: {
                 get() {
-                    return this.$store.state.lookups.blacklists.numberSearch
+                    return this.$store.state.lookups.blacklists.numbers.search
                 },
                 set(value) {
                     this.setSearch(value)
@@ -122,15 +130,24 @@
                 this.popupTriggerIf = true;
             },
 
+            closePopup() {
+                this.popupTriggerIf = false;
+                this.loadDataList();
+            },
+
             ...mapActions('lookups/blacklists', {
-                setId: 'SET_NUMBER_ITEM_ID',
-                loadDataList: 'LOAD_NUMBER_DATA_LIST',
-                setSize: 'SET_NUMBER_SIZE',
-                setSearch: 'SET_NUMBER_SEARCH',
+                addParentItem: 'ADD_ITEM',
+            }),
+
+            ...mapActions('lookups/blacklists/numbers', {
+                setParentId: 'SET_PARENT_ITEM_ID',
+                setId: 'SET_ITEM_ID',
+                loadDataList: 'LOAD_DATA_LIST',
+                setSize: 'SET_SIZE',
+                setSearch: 'SET_SEARCH',
                 nextPage: '',
                 prevPage: '',
-                removeItem: 'REMOVE_NUMBER_ITEM',
-                addParentItem: 'ADD_ITEM',
+                removeItem: 'REMOVE_ITEM',
             }),
         }
     }

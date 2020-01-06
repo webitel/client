@@ -54,16 +54,16 @@
         },
 
         computed: {
-            ...mapState('lookups/blacklists', {
-                id: state => state.numberItemId,
-                itemInstance: state => state.numberItemInstance
+            ...mapState('lookups/blacklists/numbers', {
+                id: state => state.itemId,
+                itemInstance: state => state.itemInstance
             }),
             number: {
-                get() {return this.$store.state.lookups.blacklists.numberItemInstance.number},
+                get() {return this.$store.state.lookups.blacklists.numbers.itemInstance.number},
                 set(value) {this.setItemProp({prop: 'number', value})}
             },
             description: {
-                get() {return this.$store.state.lookups.blacklists.numberItemInstance.description},
+                get() {return this.$store.state.lookups.blacklists.numbers.itemInstance.description},
                 set(value) {this.setItemProp({prop: 'description', value})}
             },
         },
@@ -79,11 +79,11 @@
                 }
             },
 
-            ...mapActions('lookups/blacklists', {
-                setItemProp: 'SET_NUMBER_ITEM_PROPERTY',
-                addItem: 'ADD_NUMBER_ITEM',
-                updateItem: 'UPDATE_NUMBER_ITEM',
-                loadItem: 'LOAD_NUMBER_ITEM',
+            ...mapActions('lookups/blacklists/numbers', {
+                setItemProp: 'SET_ITEM_PROPERTY',
+                addItem: 'ADD_ITEM',
+                updateItem: 'UPDATE_ITEM',
+                loadItem: 'LOAD_ITEM',
             }),
         }
     }
