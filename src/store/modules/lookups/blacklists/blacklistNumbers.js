@@ -4,7 +4,7 @@ import {
     getBlacklistCommunication,
     getBlacklistCommunicationList,
     updateBlacklistCommunication
-} from "../../../../api/lookups/blacklists";
+} from "../../../../api/lookups/blacklists/blacklistNumbers";
 import proxy from "../../../../utils/editProxy";
 
 const defaultState = () => {

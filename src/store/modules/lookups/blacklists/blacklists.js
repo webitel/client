@@ -1,7 +1,7 @@
 import {
     addBlacklist, deleteBlacklist, getBlacklist,
     getBlacklistList, updateBlacklist
-} from "../../../../api/lookups/blacklists";
+} from "../../../../api/lookups/blacklists/blacklists";
 import numbers from './blacklistNumbers';
 import proxy from "../../../../utils/editProxy";
 
