@@ -10,9 +10,9 @@ const listService = new ListServiceApiFactory
 const domainId = undefined;
 const fieldsToSend = ['name', 'description', 'number'];
 
-export const getBlacklistList = async (size) => {
+export const getBlacklistList = async (page, size, search) => {
     try {
-        const response = await listService.searchList(domainId, size);
+        const response = await listService.searchList(page, size);
         if (!response.data.items) response.data.items = [];
         response.data.items.forEach(item => item._isSelected = false);
         return response.data.items;
@@ -63,9 +63,9 @@ export const deleteBlacklist = async (id) => {
     }
 };
 
-export const getBlacklistCommunicationList = async (id, size) => {
+export const getBlacklistCommunicationList = async (parentId, page = 0, size = 10) => {
     try {
-        const response = await listService.searchListCommunication(id, 0, size);
+        const response = await listService.searchListCommunication(parentId, page, size);
         if (!response.data.items) response.data.items = [];
         response.data.items.forEach(item => item._isSelected = false);
         return response.data.items;

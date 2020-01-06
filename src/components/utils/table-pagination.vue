@@ -14,8 +14,16 @@
         <div class="page-controls">
             <span class="current items">1-10 of 100</span>
             <div class="controls">
-                <i class="icon-action icon-icon_arrow-left"></i>
-                <i class="icon-action icon-icon_arrow-down"></i>
+                <i
+                        class="icon-action icon-icon_arrow-left"
+                        :class="{'disabled': !isPrev}"
+                        @click="prev"
+                ></i>
+                <i
+                        class="icon-action icon-icon_arrow-left"
+                        :class="{'disabled': !isNext}"
+                        @click="next"
+                ></i>
             </div>
         </div>
     </footer>
@@ -28,13 +36,21 @@
         name: "table-pagination",
         props: {
             value: {
-                type:  String,
+                type: String,
                 required: true,
-            }
+            },
+            isNext: {
+                type: Boolean,
+                required: true,
+            },
+            isPrev: {
+                type: Boolean,
+                required: true,
+            },
         },
 
         watch: {
-            value: function() {
+            value: function () {
                 this.debouncer.call(this);
             },
         },
@@ -44,6 +60,17 @@
         },
 
         methods: {
+            next() {
+                if (this.isNext) {
+                    this.$emit('next');
+                }
+            },
+            prev() {
+                if (this.isPrev) {
+                    this.$emit('prev');
+                }
+            },
+
             debouncer() {
                 this.$emit('loadDataList', this.value);
             },
@@ -89,6 +116,10 @@
 
                 i {
                     color: #000;
+
+                    &.disabled {
+                        color: red;
+                    }
                 }
             }
         }

@@ -19,10 +19,12 @@ const defaultState = () => {
 
 
 const state = {
+    parentId: 0,
     dataList: [],
     size: '10',
     search: '',
-    parentId: 0,
+    page: 0,
+    isNextPage: true,
     ...defaultState()
 };
 
@@ -30,7 +32,7 @@ const getters = {};
 
 const actions = {
     GET_LIST: async () => {
-        return await getBlacklistCommunicationList(state.parentId, state.size, state.search);
+        return await getBlacklistCommunicationList(state.parentId, state.page, state.size, state.search);
     },
 
     GET_ITEM: async () => {
@@ -69,6 +71,20 @@ const actions = {
 
     SET_SEARCH: (context, search) => {
         context.commit('SET_SEARCH', search);
+    },
+
+    NEXT_PAGE: (context) => {
+        if(state.isNextPage) {
+            context.commit('INCREMENT_PAGE');
+            context.dispatch('LOAD_DATA_LIST');
+        }
+    },
+
+    PREV_PAGE: (context) => {
+        if(state.page) {
+            context.commit('DECREMENT_PAGE');
+            context.dispatch('LOAD_DATA_LIST');
+        }
     },
 
     LOAD_ITEM: async (context) => {
@@ -130,6 +146,14 @@ const mutations = {
 
     SET_SEARCH: (context, search) => {
         state.search = search;
+    },
+
+    INCREMENT_PAGE: (state) => {
+        state.page++;
+    },
+
+    DECREMENT_PAGE: (state) => {
+        state.page--;
     },
 
     SET_ITEM_PROPERTY: (state, {prop, value}) => {
