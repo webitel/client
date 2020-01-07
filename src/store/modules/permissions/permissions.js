@@ -1,5 +1,5 @@
-import objects from './objects';
-import roles from './roles';
+import objects from './objects/objects';
+import roles from './roles/roles';
 
 const modules = {
     roles,

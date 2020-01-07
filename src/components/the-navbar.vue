@@ -132,12 +132,6 @@
                                 current: false,
                             },
                             {
-                                name: 'media',
-                                displayName: this.$t('nav.lookups.media'),
-                                route: '/lookups/media',
-                                current: false,
-                            },
-                            {
                                 name: 'calendars',
                                 displayName: this.$t('nav.lookups.calendars'),
                                 route: '/lookups/calendars',
@@ -255,7 +249,7 @@
                             },
                             {
                                 name: 'triggers',
-                                displayName: this.$t('nav.integrations.triggers'),
+                                displayName: this.$t('nav.integrations.triggers')+' (coming soon)',
                                 route: '/integrations/triggers',
                                 current: false,
                             },
@@ -298,12 +292,12 @@
                                 route: '/permissions/objects',
                                 current: false,
                             },
-                            {
-                                name: 'operations',
-                                displayName: this.$t('nav.permissions.operations'),
-                                route: '/permissions/operations',
-                                current: false,
-                            },
+                            // {
+                            //     name: 'operations',
+                            //     displayName: this.$t('nav.permissions.operations'),
+                            //     route: '/permissions/operations',
+                            //     current: false,
+                            // },
                         ]
                     },
                 ]

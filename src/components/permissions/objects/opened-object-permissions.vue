@@ -77,7 +77,7 @@
     import tableComponentMixin from '@/mixins/tableComponentMixin';
     import editComponentMixin from '@/mixins/editComponentMixin';
     import {mapActions, mapState} from "vuex";
-    import {getObject} from "../../../api/permissions/objects";
+    import {getObject} from "../../../api/permissions/objects/objects";
 
     export default {
         name: "opened-object-permissions",
@@ -135,8 +135,6 @@
     }
 </script>
 
-<style lang="scss">
-    .opened-object-permissions .popup {
-        overflow-y: visible;
-    }
+<style lang="scss" scoped>
+
 </style> 

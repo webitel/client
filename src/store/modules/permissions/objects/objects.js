@@ -3,7 +3,7 @@ import {
     getObjectPermissions,
     patchObjectPermissions,
     updateObject
-} from "../../../api/permissions/objects";
+} from "../../../../api/permissions/objects/objects";
 
 const defaultState = () => {
     return {

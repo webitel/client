@@ -1,15 +1,14 @@
-import instance from '../instance';
-import eventBus from "../../utils/eventBus";
-import sanitizer from "../utils/sanitizer";
+import instance from '../../instance';
+import eventBus from "../../../utils/eventBus";
+import sanitizer from "../../utils/sanitizer";
 
 const BASE_URL = '/roles';
 const fieldsToSend = ['name'];
 
-export const getRoleList = async (size = 10, search) => {
-    let url = BASE_URL+'?size='+size;
-    if(search) {
-        url += 'name='+search;
-    }
+export const getRoleList = async (page = 0, size = 10, search) => {
+    // let url = `${BASE_URL}?page=${page}size=${size}`;
+    let url = `${BASE_URL}?size=${size}`;
+    if(search) url += `name='${search}*`;
     try {
         const response = await instance.get(url);
         response.data.results.forEach(res => res._isSelected = false);

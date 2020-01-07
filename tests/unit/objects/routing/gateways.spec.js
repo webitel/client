@@ -6,7 +6,7 @@ import {getGatewayList} from '../../../../src/api/routing/gateways';
 import VueRouter from 'vue-router';
 import Vuelidate from 'vuelidate';
 import i18n from 'vue-i18n';
-import {getRoleList} from "../../../../src/api/permissions/roles";
+import {getRoleList} from "../../../../src/api/permissions/roles/roles";
 
 const $t = () => {
 };

@@ -1,5 +1,5 @@
 import instance from '@/api/instance';
-import eventBus from "../../utils/eventBus";
+import eventBus from "../../../utils/eventBus";
 
 const BASE_URL = '/objects';
 
@@ -12,7 +12,7 @@ export const getObjectList = async (search) => {
     };
 
     let url = BASE_URL;
-    if(search) url+='?name='+search;
+    if(search) url += `name='${search}*`;
 
     try {
         const response = await instance.get(url);

@@ -61,8 +61,8 @@
     import checkbox from '@/components/utils/checkbox';
     // import openedTabComponentMixin from '@/mixins/openedTabComponentMixin';
     import vuetable from 'vuetable-2/src/components/Vuetable';
-    import {getObject, updateObjectPermissions, getObjectPermissions} from "../../../api/permissions/objects";
-    import {getRoleList} from "../../../api/permissions/roles";
+    import {getObject, updateObjectPermissions, getObjectPermissions} from "../../../api/permissions/objects/objects";
+    import {getRoleList} from "../../../api/permissions/roles/roles";
     import dropdownSelect from '@/components/utils/dropdown-select';
 
     export default {

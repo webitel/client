@@ -24,7 +24,7 @@
 
 <script>
     import openedTabComponentMixin from '@/mixins/openedTabComponentMixin';
-    import {getRoleList} from "../../../api/permissions/roles";
+    import {getRoleList} from "../../../api/permissions/roles/roles";
     import {mapActions} from "vuex";
 
     export default {

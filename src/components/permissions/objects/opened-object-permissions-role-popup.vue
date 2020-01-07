@@ -4,6 +4,7 @@
             :primaryText="$t('objects.add')"
             :primaryAction="save"
             @close="$emit('close')"
+            overflow
     >
         <section>
             <dropdown-select
@@ -19,7 +20,7 @@
 <script>
     import popup from '../../utils/popup';
     import dropdownSelect from '../../utils/dropdown-select';
-    import {getRoleList} from "../../../api/permissions/roles";
+    import {getRoleList} from "../../../api/permissions/roles/roles";
     import {mapActions, mapState} from "vuex";
 
     export default {
@@ -28,7 +29,7 @@
         data() {
             return {
                 newGrantee: '',
-                optionsList: [], // list of all roles to add new. retrieves from roles GET request
+                dropdownOptionsList: [], // list of all roles to add new. retrieves from roles GET request
             }
         },
 
@@ -61,7 +62,7 @@
 
             // get all roles to choose which to add
             async loadDropdownOptionsList(search) {
-                const response = await getRoleList(null, search);
+                const response = await getRoleList(10, search);
                 this.dropdownOptionsList = [...response];
             },
 

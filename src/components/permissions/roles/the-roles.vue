@@ -56,6 +56,8 @@
                     @loadDataList="loadDataList"
                     @next="nextPage"
                     @prev="prevPage"
+                    :isNext="isNextPage"
+                    :isPrev="!!page"
             ></pagination>
         </section>
     </div>
@@ -84,6 +86,8 @@
         computed: {
             ...mapState('permissions/roles', {
                 dataList: state => state.dataList,
+                page: state => state.page, // acts like a boolean: if page is 0, there's no back page
+                isNextPage: state => state.isNextPage,
             }),
 
             size: {
@@ -113,8 +117,8 @@
                 loadDataList: 'LOAD_DATA_LIST',
                 setSize: 'SET_SIZE',
                 setSearch: 'SET_SEARCH',
-                nextPage: '',
-                prevPage: '',
+                nextPage: 'NEXT_PAGE',
+                prevPage: 'PREV_PAGE',
                 removeItem: 'REMOVE_ITEM',
             }),
         }
