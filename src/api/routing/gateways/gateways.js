@@ -1,13 +1,13 @@
 import instance from '@/api/instance';
-import {objSnakeToCamel} from "../utils/caseConverters";
-import sanitizer from "../utils/sanitizer";
-import eventBus from "../../utils/eventBus";
+import {objSnakeToCamel} from "../../utils/caseConverters";
+import sanitizer from "../../utils/sanitizer";
+import eventBus from "../../../utils/eventBus";
 
 const BASE_URL = '/sip/gateways';
 const fieldsToSend = ['name', 'proxy', 'id', 'host', 'ipacl', 'account', 'account', 'username', 'expires',
     'account', 'registrar', 'register', 'password'];
 
-export async function getGatewayList(size = 10, search) {
+export async function getGatewayList(page = 0, size = 10, search) {
     const defaultObject = {  // default object prototype, to merge response with it to get all fields
         _isSelected: false,
         name: '',
@@ -16,7 +16,8 @@ export async function getGatewayList(size = 10, search) {
         id: 0
     };
 
-    let url = BASE_URL + `?size=${size}`;
+    // let url = `${BASE_URL}?page=${page}size=${size}`;
+    let url = `${BASE_URL}?size=${size}`;
     if (search) url += `&name=${search}*`;
 
     try {

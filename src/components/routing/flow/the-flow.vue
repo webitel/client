@@ -10,8 +10,7 @@
         <flow-popup
                 v-if="popupTriggerIf"
                 @close="popupTriggerIf = false"
-        >
-        </flow-popup>
+        ></flow-popup>
 
         <section class="object-content">
             <header class="content-header">
@@ -30,7 +29,6 @@
             </header>
 
             <vuetable
-                    ref="vuetable"
                     :api-mode="false"
                     :fields="fields"
                     :data="dataList"
@@ -52,6 +50,7 @@
                 <template slot="debug" slot-scope="props">
                     <switcher
                             v-model="dataList[props.rowIndex].debug"
+                            disabled
                     ></switcher>
                 </template>
 
@@ -71,6 +70,8 @@
                     @loadDataList="loadDataList"
                     @next="nextPage"
                     @prev="prevPage"
+                    :isNext="isNextPage"
+                    :isPrev="!!page"
             ></pagination>
         </section>
     </div>
@@ -85,9 +86,7 @@
     export default {
         name: "the-flow",
         mixins: [tableComponentMixin],
-        components: {
-            flowPopup
-        },
+        components: {flowPopup},
         data() {
             return {
                 fields: [
@@ -103,6 +102,8 @@
         computed: {
             ...mapState('routing/flow', {
                 dataList: state => state.dataList,
+                page: state => state.page, // acts like a boolean: if page is 0, there's no back page
+                isNextPage: state => state.isNextPage,
             }),
 
             size: {
@@ -133,8 +134,8 @@
                 setSize: 'SET_SIZE',
                 setSearch: 'SET_SEARCH',
                 toggleSwitchProperty: 'TOGGLE_ITEM_PROPERTY',
-                nextPage: '',
-                prevPage: '',
+                nextPage: 'NEXT_PAGE',
+                prevPage: 'PREV_PAGE',
                 removeItem: 'REMOVE_ITEM',
             }),
         }

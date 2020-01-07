@@ -1,22 +1,23 @@
 import instance from '@/api/instance';
 import configuration from '@/api/openAPIConfig';
-import {RoutingOutboundCallServiceApiFactory} from 'webitel-sdk';
-import eventBus from "../../utils/eventBus";
-import sanitizer from "../utils/sanitizer";
+import {RoutingSchemaServiceApiFactory} from 'webitel-sdk';
+import eventBus from "../../../utils/eventBus";
+import sanitizer from "../../utils/sanitizer";
 
-const dialplanService = new RoutingOutboundCallServiceApiFactory
+const flowService = new RoutingSchemaServiceApiFactory
 (configuration, process.env.VUE_APP_API_URL, instance);
 
 const domainId = undefined;
-const fieldsToSend = ['name', 'schema', 'pattern', 'description'];
+const fieldsToSend = ['name', 'schema', 'payload'];
 
-export const getDialplanList = async (size = 10) => {
+export const getFlowList = async (page = 0, size = 10) => {
     const defaultObject = {
         _isSelected: false,
-        enabled: false,
+        debug: false,
+        type: 'Type is undefined',
     };
     try {
-        const response = await dialplanService.searchRoutingOutboundCall(domainId, size);
+        const response = await flowService.searchRoutingSchema(domainId, size, page);
         if (!response.data.items) response.data.items = [];
         return response.data.items.map(item => {return {...item, ...defaultObject}});
     } catch (err) {
@@ -24,23 +25,26 @@ export const getDialplanList = async (size = 10) => {
     }
 };
 
-export const getDialplan = async (id) => {
+export const getFlow = async (id) => {
     const defaultObject = {
         _dirty: false,
     };
     try {
-        let response = await dialplanService.readRoutingOutboundCall(id, domainId);
+        let response = await flowService.readRoutingSchema(id, domainId);
         return {...response.data, ...defaultObject};
+
     } catch (err) {
         throw err;
     }
 };
 
-export const addDialplan = async (item) => {
+export const addFlow = async (item) => {
+    item.domain_id = domainId;
+    item.payload = {};
     sanitizer(item, fieldsToSend);
 
     try {
-        const response = await dialplanService.createRoutingOutboundCall(item);
+        const response = await flowService.createRoutingSchema(item);
         eventBus.$emit('notificationInfo', 'Sucessfully added');
         return response.data.id;
     } catch (err) {
@@ -48,19 +52,19 @@ export const addDialplan = async (item) => {
     }
 };
 
-export const updateDialplan = async (id, item) => {
+export const updateFlow = async (id, item) => {
     sanitizer(item, fieldsToSend);
     try {
-        await dialplanService.updateRoutingOutboundCall(id, item);
+        await flowService.updateRoutingSchema(id, item);
         eventBus.$emit('notificationInfo', 'Sucessfully updated');
     } catch (err) {
         throw err;
     }
 };
 
-export const deleteDialplan = async (id) => {
+export const deleteFlow = async (id) => {
     try {
-        await dialplanService.deleteRoutingOutboundCall(id, domainId);
+        await flowService.deleteRoutingSchema(id, domainId);
     } catch (err) {
         throw err;
     }

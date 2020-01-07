@@ -1,12 +1,9 @@
 import router from '@/router/router';
-import proxy from '../../../utils/editProxy';
+import proxy from '../../../../utils/editProxy';
 import {
-    addGateway,
-    deleteGateway,
-    getGateway,
-    getGatewayList,
-    updateGateway
-} from "../../../api/routing/gateways";
+    addGateway, deleteGateway,
+    getGateway, getGatewayList, updateGateway
+} from "../../../../api/routing/gateways/gateways";
 
 const defaultState = () => {
     return {
@@ -57,18 +54,44 @@ const state = {
     dataList: [],
     size: '10',
     search: '',
+    page: 0,
+    isNextPage: true,
     ...defaultState()
 };
 
 const getters = {};
 
 const actions = {
+    GET_LIST: async () => {
+        return await getGatewayList(state.page, state.size, state.search);
+    },
+
+    GET_ITEM: async () => {
+        return await getGateway(state.itemId);
+    },
+
+    POST_ITEM: async () => {
+        return await addGateway(state.itemInstance);
+    },
+
+    PATCH_ITEM: async (context, {id, changes}) => {
+
+    },
+
+    UPD_ITEM: async () => {
+        await updateGateway(state.itemId, state.itemInstance);
+    },
+
+    DELETE_ITEM: async (context, id) => {
+        await deleteGateway(id);
+    },
+
     SET_ITEM_ID: (context, id) => {
         if (id !== 'new') context.commit('SET_ITEM_ID', id);
     },
 
     LOAD_DATA_LIST: async (context) => {
-        const response = await getGatewayList(state.size, state.search);
+        const response = await context.dispatch('GET_LIST');
         context.commit('RESET_ITEM_STATE');
         context.commit('SET_DATA_LIST', response);
     },
@@ -81,11 +104,25 @@ const actions = {
         context.commit('SET_SEARCH', search);
     },
 
+    NEXT_PAGE: (context) => {
+        if(state.isNextPage) {
+            context.commit('INCREMENT_PAGE');
+            context.dispatch('LOAD_DATA_LIST');
+        }
+    },
+
+    PREV_PAGE: (context) => {
+        if(state.page) {
+            context.commit('DECREMENT_PAGE');
+            context.dispatch('LOAD_DATA_LIST');
+        }
+    },
+
     TOGGLE_ITEM_PROPERTY: async (context, index) => {
         await context.commit('TOGGLE_ITEM_PROPERTY', index);
-        // let user = {dnd: state.dataList[index].enable};
+        let changes = {dnd: state.dataList[index].enable};
         try {
-            // await patchGate(state.dataList[index].id, user);
+            context.dispatch('PATCH_ITEM', {id: state.dataList[index].id, changes});
         } catch {
             context.dispatch('LOAD_DATA_LIST');
         }
@@ -93,7 +130,7 @@ const actions = {
 
     LOAD_REGISTER_ITEM: async (context) => {
         if (state.itemId) {
-            const item = await getGateway(state.itemId);
+            const item = await context.dispatch('GET_ITEM');
             if (!item.register) {
                 router.replace('/routing/gateways/trunking/' + item.id);
                 return;
@@ -106,7 +143,7 @@ const actions = {
 
     LOAD_TRUNKING_ITEM: async (context) => {
         if (state.itemId) {
-            const item = await getGateway(state.itemId);
+            const item = await context.dispatch('GET_ITEM');
             if (item.register) {
                 router.replace('/routing/gateways/register/' + item.id);
                 return;
@@ -139,7 +176,7 @@ const actions = {
 
     ADD_ITEM: async (context) => {
         if(!state.itemId) {
-            const id = await addGateway(state.itemInstance);
+            const id = await context.dispatch('POST_ITEM');
             await context.dispatch('SET_ITEM_ID', id);
             state.itemInstance.register ?
                 context.dispatch('LOAD_REGISTER_ITEM') :
@@ -149,7 +186,7 @@ const actions = {
 
     UPDATE_ITEM: async (context) => {
         if (state.itemInstance._dirty) {
-            await updateGateway(state.itemId, state.itemInstance);
+            await context.dispatch('UPD_ITEM');
             state.itemInstance.register ?
                 context.dispatch('LOAD_REGISTER_ITEM') :
                 context.dispatch('LOAD_TRUNKING_ITEM');
@@ -160,7 +197,7 @@ const actions = {
         const id = state.dataList[index].id;
         context.commit('REMOVE_ITEM', index);
         try {
-            await deleteGateway(id);
+            await context.dispatch('DELETE_ITEM', id);
         } catch {
         }
     },
@@ -185,6 +222,14 @@ const mutations = {
 
     SET_SEARCH: (state, search) => {
         state.search = search;
+    },
+
+    INCREMENT_PAGE: (state) => {
+        state.page++;
+    },
+
+    DECREMENT_PAGE: (state) => {
+        state.page--;
     },
 
     SET_ITEM_PROPERTY: (state, {prop, value}) => {

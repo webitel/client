@@ -1,7 +1,7 @@
 <template>
     <div class="gateways">
         <object-header
-                :primaryAction="openPopup"
+                :primaryAction="create"
         >
             {{$t('objects.routing.routing')}} |
             {{$tc('objects.routing.gateways.gateways', 2)}}
@@ -82,6 +82,8 @@
                     @loadDataList="loadDataList"
                     @next="nextPage"
                     @prev="prevPage"
+                    :isNext="isNextPage"
+                    :isPrev="!!page"
             ></pagination>
         </section>
     </div>
@@ -89,17 +91,14 @@
 
 <script>
     import tableComponentMixin from '@/mixins/tableComponentMixin';
-    import createGatewayPopup from './create-gateway-popup';
-    import {getGatewayList, deleteGateway} from "../../../api/routing/gateways";
+    import gatewayPopup from './create-gateway-popup';
     import {_checkboxTableField, _actionsTableField_2, _switcherWidth} from "@/utils/tableFieldPresets";
     import {mapActions, mapState} from "vuex";
 
     export default {
         name: "the-sip-gateways",
         mixins: [tableComponentMixin],
-        components: {
-            'gateway-popup': createGatewayPopup,
-        },
+        components: {gatewayPopup},
         data() {
             return {
                 fields: [
@@ -116,6 +115,8 @@
         computed: {
             ...mapState('routing/gateways', {
                 dataList: state => state.dataList,
+                page: state => state.page, // acts like a boolean: if page is 0, there's no back page
+                isNextPage: state => state.isNextPage,
             }),
 
             size: {
@@ -130,6 +131,10 @@
         },
 
         methods: {
+            create() {
+                this.popupTriggerIf = true;
+            },
+
             edit(rowId) {
                 const name = this.dataList[rowId].register ?
                     'reg-gateway-edit' : 'trunk-gateway-edit';
@@ -169,8 +174,8 @@
                 setSize: 'SET_SIZE',
                 setSearch: 'SET_SEARCH',
                 toggleSwitchProperty: 'TOGGLE_ITEM_PROPERTY',
-                nextPage: '',
-                prevPage: '',
+                nextPage: 'NEXT_PAGE',
+                prevPage: 'PREV_PAGE',
                 removeItem: 'REMOVE_ITEM',
             }),
         },

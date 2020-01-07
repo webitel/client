@@ -5,7 +5,7 @@ import sanitizer from '../utils/sanitizer';
 import {objCamelToSnake, objSnakeToCamel} from '../utils/caseConverters';
 
 import {OutboundResourceServiceApiFactory} from 'webitel-sdk';
-import {getGatewayList} from "../routing/gateways";
+import {getGatewayList} from "../routing/gateways/gateways";
 
 const resService = new OutboundResourceServiceApiFactory
 (configuration, process.env.VUE_APP_API_URL, instance);

@@ -54,7 +54,7 @@
 
     import {required} from 'vuelidate/lib/validators';
     import {mapActions, mapState} from "vuex";
-    import {getFlowList} from "../../../api/routing/flow";
+    import {getFlowList} from "../../../api/routing/flow/flow";
 
     export default {
         name: "opened-dialplan",

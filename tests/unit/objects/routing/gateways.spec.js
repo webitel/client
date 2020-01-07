@@ -2,7 +2,7 @@ import {shallowMount, mount, createLocalVue} from '@vue/test-utils'
 import theGateways from '../../../../src/components/routing/sip-gateways/the-sip-gateways';
 import registerGateway from '../../../../src/components/routing/sip-gateways/opened-register-sip-gateway';
 import trunkingGateway from '../../../../src/components/routing/sip-gateways/opened-trunking-sip-gateway';
-import {getGatewayList} from '../../../../src/api/routing/gateways';
+import {getGatewayList} from '../../../../src/api/routing/gateways/gateways';
 import VueRouter from 'vue-router';
 import Vuelidate from 'vuelidate';
 import i18n from 'vue-i18n';

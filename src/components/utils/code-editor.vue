@@ -24,7 +24,7 @@
         name: "code-editor",
         props: {
             value: {
-                type: String,
+                type: [Array, Object, String],
                 required: true
             },
             options: Object,
@@ -46,10 +46,10 @@
         },
 
         watch: {
-            value: function (newVal) {
+            value: function (value) {
                 if (this.editor) {
-                    if (newVal !== this.editor.getValue()) {
-                        this.editor.setValue(newVal);
+                    if (value !== this.editor.getValue()) {
+                        this.editor.setValue(value);
 
                     }
                 }

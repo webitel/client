@@ -1,6 +1,5 @@
 <template>
     <div class="content-wrap">
-
         <object-header
                 :primaryAction="create"
         >
@@ -53,6 +52,7 @@
                 <template slot="enabled" slot-scope="props">
                     <switcher
                             v-model="dataList[props.rowIndex].enabled"
+                            disabled
                     ></switcher>
                 </template>
 
@@ -73,6 +73,8 @@
                     @loadDataList="loadDataList"
                     @next="nextPage"
                     @prev="prevPage"
+                    :isNext="isNextPage"
+                    :isPrev="!!page"
             ></pagination>
         </section>
     </div>
@@ -102,6 +104,8 @@
         computed: {
             ...mapState('routing/dialplan', {
                 dataList: state => state.dataList,
+                page: state => state.page, // acts like a boolean: if page is 0, there's no back page
+                isNextPage: state => state.isNextPage,
             }),
 
             size: {
@@ -139,8 +143,8 @@
                 setSearch: 'SET_SEARCH',
                 toggleSwitchProperty: 'TOGGLE_ITEM_PROPERTY',
                 moveRowTop: 'MOVE_ROW_TOP',
-                nextPage: '',
-                prevPage: '',
+                nextPage: 'NEXT_PAGE',
+                prevPage: 'PREV_PAGE',
                 removeItem: 'REMOVE_ITEM',
             }),
         }
