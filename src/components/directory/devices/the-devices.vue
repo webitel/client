@@ -98,6 +98,8 @@
                     @loadDataList="loadDataList"
                     @next="nextPage"
                     @prev="prevPage"
+                    :isNext="isNextPage"
+                    :isPrev="!!page"
             ></pagination>
         </section>
     </div>
@@ -146,7 +148,8 @@
         computed: {
             ...mapState('directory/devices', {
                 dataList: state => state.dataList,
-                historyId: state => state.itemId
+                page: state => state.page, // acts like a boolean: if page is 0, there's no back page
+                isNextPage: state => state.isNextPage,
             }),
 
             size: {
@@ -160,7 +163,7 @@
             },
 
             historyId: {
-                get() {return this.$store.state.directory.devices.itemId},
+                get() {return this.$store.state.directory.devices.history.itemId},
                 set(value) {this.read(value)}
             },
         },
@@ -223,9 +226,9 @@
                 loadDataList: 'LOAD_DATA_LIST',
                 setSize: 'SET_SIZE',
                 setSearch: 'SET_SEARCH',
-                read: 'SET_ITEM_ID',
-                nextPage: '',
-                prevPage: '',
+                read: 'SET_HISTORY_ITEM_ID',
+                nextPage: 'NEXT_PAGE',
+                prevPage: 'PREV_PAGE',
                 removeItem: 'REMOVE_ITEM',
             }),
         },

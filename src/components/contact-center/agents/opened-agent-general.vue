@@ -24,7 +24,7 @@
 
 <script>
     import openedTabComponentMixin from '@/mixins/openedTabComponentMixin';
-    import {getUsersList} from "../../../api/directory/users";
+    import {getUsersList} from "../../../api/directory/users/users";
     import {mapActions} from "vuex";
 
     export default {

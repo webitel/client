@@ -1,8 +1,8 @@
 <template>
     <popup
             :title="$t('objects.directory.devices.deviceHistory')"
-            :primaryBtnText="$t('objects.ok')"
-            :primaryBtnAction="() => $emit('close')"
+            :primaryText="$t('objects.ok')"
+            :primaryAction="() => $emit('close')"
             @close="$emit('close')"
     >
         <section class="history-popup">
@@ -35,6 +35,8 @@
                     @loadDataList="loadDataList"
                     @next="nextPage"
                     @prev="prevPage"
+                    :isNext="isNextPage"
+                    :isPrev="!!page"
             ></pagination>
         </section>
     </popup>
@@ -44,7 +46,7 @@
     import popup from '@/components/utils/popup';
     import datepicker from '@/components/utils/datepicker';
     import tableComponentMixin from '@/mixins/tableComponentMixin';
-    import {getDeviceHistory} from "../../../api/directory/devices";
+    import {getDeviceHistory} from "../../../api/directory/devices/devices";
     import {mapActions, mapState} from "vuex";
 
     export default {
@@ -72,22 +74,24 @@
 
         computed: {
             ...mapState('directory/devices', {
-                dataList: state => state.historyDataList,
-                date: state => state.historyDate,
+                dataList: state => state.history.dataList,
+                date: state => state.history.date,
+                page: state => state.page, // acts like a boolean: if page is 0, there's no back page
+                isNextPage: state => state.isNextPage,
             }),
 
             size: {
-                get() {return this.$store.state.directory.devices.historySize},
+                get() {return this.$store.state.directory.devices.history.size},
                 set(value) {this.setSize(value)}
             },
 
             search: {
-                get() {return this.$store.state.directory.devices.historySearch},
+                get() {return this.$store.state.directory.devices.history.search},
                 set(value) {this.setSearch(value)}
             },
 
             date: {
-                get() {return this.$store.state.directory.devices.historyDate},
+                get() {return this.$store.state.directory.devices.history.date},
                 set(value) {this.setHistoryDate(value)}
             },
         },
@@ -103,8 +107,8 @@
                 setSize: 'SET_HISTORY_SIZE',
                 setSearch: 'SET_HISTORY_SEARCH',
                 setHistoryDate: 'SET_HISTORY_DATE',
-                nextPage: '',
-                prevPage: '',
+                nextPage: 'NEXT_HISTORY_PAGE',
+                prevPage: 'PREV_HISTORY_PAGE',
             }),
         }
     }

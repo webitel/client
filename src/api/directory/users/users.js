@@ -1,12 +1,12 @@
 import instance from '@/api/instance';
-import sanitizer from "../utils/sanitizer";
-import eventBus from "../../utils/eventBus";
+import sanitizer from "../../utils/sanitizer";
+import eventBus from "../../../utils/eventBus";
 
 const BASE_URL = '/users';
 const fieldsToSend = ['name', 'username', 'password', 'extension', 'status', 'dnd', 'roles', 'license', 'devices',
     'profile', 'profile'];
 
-export async function getUsersList(size = 100, search) {
+export async function getUsersList(page = 0, size = 100, search) {
     const defaultObject = {  // default object prototype, to merge response with it to get all fields
         _isSelected: false,
         name: 'Username undefined',
@@ -17,6 +17,7 @@ export async function getUsersList(size = 100, search) {
         id: 0
     };
 
+    // let url = BASE_URL + `?page=${page}size=${size}`;
     let url = BASE_URL + `?size=${size}`;
     if (search) url += `&name=${search}*`;
 

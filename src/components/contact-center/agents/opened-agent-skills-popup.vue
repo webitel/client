@@ -32,7 +32,7 @@
     import {required, numeric, minValue, maxValue} from 'vuelidate/lib/validators';
     import {mapActions, mapState} from "vuex";
     import {getSkillsList} from "../../../api/contact-center/agentSkills";
-    import {getUsersList} from "../../../api/directory/users";
+    import {getUsersList} from "../../../api/directory/users/users";
 
     export default {
         name: "opened-agent-skills-popup",

@@ -6,7 +6,7 @@ import {
     getTeamSupervisorsList, updateTeam, updateTeamAgent, updateTeamSkill,
     updateTeamSupervisor
 } from "../../../api/contact-center/teams";
-import {getDeviceHistory} from "../../../api/directory/devices";
+import {getDeviceHistory} from "../../../api/directory/devices/devices";
 
 const defaultState = () => {
     return {

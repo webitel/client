@@ -56,7 +56,7 @@
 
         methods: {
             async loadDropdownOptionsList(search) {
-                const response = await getRoleList(10, search);
+                const response = await getRoleList(0, 10, search);
                 this.dropdownOptionsList = response.map(item => {
                     return {
                         name: item.name,

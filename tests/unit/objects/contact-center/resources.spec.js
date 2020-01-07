@@ -6,7 +6,7 @@ import Vuelidate from 'vuelidate';
 import i18n from 'vue-i18n';
 import {getResourceList} from "../../../../src/api/contact-center/resources";
 import {getResGroupList} from "../../../../src/api/contact-center/resourceGroups";
-import {getDeviceList} from "../../../../src/api/directory/devices";
+import {getDeviceList} from "../../../../src/api/directory/devices/devices";
 
 const $t = () => {
 };

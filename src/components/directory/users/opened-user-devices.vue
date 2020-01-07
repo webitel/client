@@ -26,7 +26,7 @@
 <script>
     import openedTabComponentMixin from '@/mixins/openedTabComponentMixin';
     import {mapActions} from "vuex";
-    import {getDeviceList} from "../../../api/directory/devices";
+    import {getDeviceList} from "../../../api/directory/devices/devices";
 
     export default {
         name: "opened-user-devices",
@@ -49,7 +49,7 @@
 
         methods: {
             async loadDropdownOptionsList(search) {
-                const response = await getDeviceList(10, search);
+                const response = await getDeviceList(0, 10, search);
                 this.dropdownOptionsList = response.map(item => {
                     return {
                         name: item.name,

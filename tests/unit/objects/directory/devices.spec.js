@@ -5,7 +5,7 @@ import deviceHistoryPopup from '../../../../src/components/directory/devices/dev
 import VueRouter from 'vue-router';
 import Vuelidate from 'vuelidate';
 import i18n from 'vue-i18n';
-import {getDeviceList} from "../../../../src/api/directory/devices";
+import {getDeviceList} from "../../../../src/api/directory/devices/devices";
 
 const $t = () => {
 };

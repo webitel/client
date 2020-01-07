@@ -1,5 +1,5 @@
-import users from './users';
-import devices from './devices';
+import users from './users/users';
+import devices from './devices/devices';
 
 const modules = {
     users,

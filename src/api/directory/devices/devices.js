@@ -1,12 +1,12 @@
 import instance from '@/api/instance';
-import {objSnakeToCamel} from "../utils/caseConverters";
-import sanitizer from "../utils/sanitizer";
-import eventBus from "../../utils/eventBus";
+import {objSnakeToCamel} from "../../utils/caseConverters";
+import sanitizer from "../../utils/sanitizer";
+import eventBus from "../../../utils/eventBus";
 
 const BASE_URL = '/devices';
 const fieldsToSend = ['name', 'account', 'password', 'mac', 'ip', 'vendor', 'model'];
 
-export async function getDeviceList(size = 100, search) {
+export async function getDeviceList(page = 0, size = 100, search) {
     const defaultObject = {  // default object prototype, to merge response with it to get all fields
         _isSelected: false,
         name: 'name undefined',
@@ -16,6 +16,7 @@ export async function getDeviceList(size = 100, search) {
         id: 0
     };
 
+    // let url = BASE_URL + `?page=${page}size=${size}`;
     let url = BASE_URL + `?size=${size}`;
     if (search) url += `&name=${search}*`;
 
@@ -95,8 +96,8 @@ export const deleteDevice = async (id) => {
     }
 };
 
-export const getDeviceHistory = async (id, date) => {
-    const url = BASE_URL + '/' + id + '/users/audit?time_from=' + date;
+export const getDeviceHistory = async (id, date, page = 0) => {
+    const url = `${BASE_URL}/${id}/users/audit?time_from=${date}`;
     const defaultObject = {
         loggedIn: 'unknown',
         loggedOut: 'currently active',
