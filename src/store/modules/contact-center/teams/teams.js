@@ -1,12 +1,12 @@
-import proxy from '../../../utils/editProxy';
+import proxy from '../../../../utils/editProxy';
 import {
     addTeam, addTeamAgent, addTeamSkill, addTeamSupervisor,
     deleteTeam, deleteTeamAgent, deleteTeamSkill, deleteTeamSupervisor,
     getTeam, getTeamAgent, getTeamAgentsList, getTeamSkill, getTeamSkillsList, getTeamsList, getTeamSupervisor,
     getTeamSupervisorsList, updateTeam, updateTeamAgent, updateTeamSkill,
     updateTeamSupervisor
-} from "../../../api/contact-center/teams";
-import {getDeviceHistory} from "../../../api/directory/devices/devices";
+} from "../../../../api/contact-center/teams/teams";
+import {getDeviceHistory} from "../../../../api/directory/devices/devices";
 
 const defaultState = () => {
     return {

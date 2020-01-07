@@ -36,7 +36,7 @@
         addResGroup, addResInGroup,
         getResGroup, getResInGroup,
         updateResGroup, updateResInGroup
-    } from "../../../api/contact-center/resourceGroups";
+    } from "../../../api/contact-center/resourceGroups/resourceGroups";
 
     export default {
         name: 'opened-resource-group',

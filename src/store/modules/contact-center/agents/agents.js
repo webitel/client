@@ -1,11 +1,11 @@
-import proxy from '../../../utils/editProxy';
+import proxy from '../../../../utils/editProxy';
 import {
     addAgent, addAgentSkill,
     deleteAgent, deleteAgentSkill,
     getAgent, getAgentSkill, getAgentSkillsList,
     getAgentsList,
     updateAgent, updateAgentSkill
-} from "../../../api/contact-center/agents";
+} from "../../../../api/contact-center/agents/agents";
 
 const defaultState = () => {
     return {

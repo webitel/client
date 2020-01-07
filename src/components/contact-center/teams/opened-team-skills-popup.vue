@@ -51,8 +51,8 @@
     import editComponentMixin from '@/mixins/editComponentMixin';
     import {required, numeric, minValue, maxValue} from 'vuelidate/lib/validators';
     import {mapActions, mapState} from "vuex";
-    import {getBucketsList} from "../../../api/contact-center/buckets";
-    import {getSkillsList} from "../../../api/contact-center/agentSkills";
+    import {getBucketsList} from "../../../api/contact-center/buckets/buckets";
+    import {getSkillsList} from "../../../api/contact-center/agentSkills/agentSkills";
 
     export default {
         name: "opened-team-skills-popup",

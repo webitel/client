@@ -31,7 +31,7 @@
     import editComponentMixin from '@/mixins/editComponentMixin';
     import {required, numeric, minValue, maxValue} from 'vuelidate/lib/validators';
     import {mapActions, mapState} from "vuex";
-    import {getSkillsList} from "../../../api/contact-center/agentSkills";
+    import {getSkillsList} from "../../../api/contact-center/agentSkills/agentSkills";
     import {getUsersList} from "../../../api/directory/users/users";
 
     export default {

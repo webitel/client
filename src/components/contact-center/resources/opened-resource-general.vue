@@ -49,7 +49,7 @@
 
 <script>
     import openedTabComponentMixin from '@/mixins/openedTabComponentMixin';
-    import {getGatewayNameIdPair} from "../../../api/contact-center/resources";
+    import {getGatewayNameIdPair} from "../../../api/contact-center/resources/resources";
 
     export default {
         name: "opened-resource-general",

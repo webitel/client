@@ -1,8 +1,8 @@
 import instance from '@/api/instance';
 import configuration from '@/api/openAPIConfig';
 import {AgentServiceApiFactory, AgentSkillServiceApiFactory} from 'webitel-sdk';
-import eventBus from "../../utils/eventBus";
-import sanitizer from "../utils/sanitizer";
+import eventBus from "../../../utils/eventBus";
+import sanitizer from "../../utils/sanitizer";
 
 const agentService = new AgentServiceApiFactory
 (configuration, process.env.VUE_APP_API_URL, instance);

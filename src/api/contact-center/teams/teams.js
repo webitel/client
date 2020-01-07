@@ -1,10 +1,10 @@
 import instance from '@/api/instance';
 import configuration from '@/api/openAPIConfig';
-import sanitizer from '../utils/sanitizer';
+import sanitizer from '../../utils/sanitizer';
 import {AgentTeamServiceApiFactory, ResourceTeamServiceApiFactory,
     SupervisorInTeamServiceApiFactory} from 'webitel-sdk';
-import eventBus from "../../utils/eventBus";
-import {objCamelToSnake, objSnakeToCamel} from "../utils/caseConverters";
+import eventBus from "../../../utils/eventBus";
+import {objCamelToSnake, objSnakeToCamel} from "../../utils/caseConverters";
 
 const teamService = new AgentTeamServiceApiFactory
 (configuration, process.env.VUE_APP_API_URL, instance);

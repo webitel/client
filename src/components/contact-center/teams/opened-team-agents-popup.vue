@@ -39,8 +39,8 @@
     import editComponentMixin from '@/mixins/editComponentMixin';
     import {required, numeric, minValue, maxValue} from 'vuelidate/lib/validators';
     import {mapActions, mapState} from "vuex";
-    import {getAgentsList} from "../../../api/contact-center/agents";
-    import {getBucketsList} from "../../../api/contact-center/buckets";
+    import {getAgentsList} from "../../../api/contact-center/agents/agents";
+    import {getBucketsList} from "../../../api/contact-center/buckets/buckets";
 
     export default {
         name: "opened-team-agents-popup",

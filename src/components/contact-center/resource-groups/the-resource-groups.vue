@@ -64,7 +64,7 @@
 <script>
     import tableComponentMixin from '@/mixins/tableComponentMixin';
     import {_checkboxTableField, _actionsTableField_2} from "@/utils/tableFieldPresets";
-    import {deleteResGroup, getResGroupList} from "../../../api/contact-center/resourceGroups";
+    import {deleteResGroup, getResGroupList} from "../../../api/contact-center/resourceGroups/resourceGroups";
 
 
     export default {

@@ -1,8 +1,8 @@
 import instance from '@/api/instance';
 import configuration from '@/api/openAPIConfig';
-import sanitizer from '../utils/sanitizer';
+import sanitizer from '../../utils/sanitizer';
 import {SkillServiceApiFactory} from 'webitel-sdk';
-import eventBus from "../../utils/eventBus";
+import eventBus from "../../../utils/eventBus";
 
 const skillService = new SkillServiceApiFactory
 (configuration, process.env.VUE_APP_API_URL, instance);
@@ -10,14 +10,14 @@ const skillService = new SkillServiceApiFactory
 const domainId = undefined;
 const fieldsToSend = ['domain_id', 'name', 'description'];
 
-export const getSkillsList = async (size = 10) => {
+export const getSkillsList = async (page = 0, size = 10, search) => {
     const defaultObject = {
         _isSelected: false,
         name: '',
     };
 
     try {
-        const response = await skillService.searchSkill(domainId, size);
+        const response = await skillService.searchSkill(domainId, size, page);
         if (Array.isArray(response.data.items)) {
             return response.data.items.map(item => {
                 return Object.assign({}, defaultObject, item);

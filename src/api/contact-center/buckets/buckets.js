@@ -1,8 +1,8 @@
 import instance from '@/api/instance';
 import configuration from '@/api/openAPIConfig';
-import sanitizer from '../utils/sanitizer';
+import sanitizer from '../../utils/sanitizer';
 import {BucketServiceApiFactory} from 'webitel-sdk';
-import eventBus from "../../utils/eventBus";
+import eventBus from "../../../utils/eventBus";
 
 const bucketService = new BucketServiceApiFactory
 (configuration, process.env.VUE_APP_API_URL, instance);
@@ -10,13 +10,13 @@ const bucketService = new BucketServiceApiFactory
 const domainId = undefined;
 const fieldsToSend = ['domain_id', 'name', 'description'];
 
-export const getBucketsList = async (size = 10) => {
+export const getBucketsList = async (page = 0, size = 10) => {
     const defaultObject = {
         _isSelected: false,
     };
 
     try {
-        const response = await bucketService.searchBucket(0, size);
+        const response = await bucketService.searchBucket(page, size);
         if (Array.isArray(response.data.items)) {
             return response.data.items.map(item => {
                 return {...defaultObject, ...item};

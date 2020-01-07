@@ -38,7 +38,7 @@
         addResource,
         updateResource,
         getResDisplayList, updateResDisplay, addResDisplay
-    } from "../../../api/contact-center/resources";
+    } from "../../../api/contact-center/resources/resources";
 
     export default {
         name: 'opened-resource',

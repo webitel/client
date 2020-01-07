@@ -80,10 +80,10 @@
 </template>
 
 <script>
-    import {getResourceList, deleteResource} from '../../../api/contact-center/resources';
+    import {getResourceList, deleteResource} from '../../../api/contact-center/resources/resources';
     import tableComponentMixin from '@/mixins/tableComponentMixin';
     import {_checkboxTableField, _actionsTableField_2, _switcherWidth} from "../../../utils/tableFieldPresets";
-    import {patchResource} from "../../../api/contact-center/resources";
+    import {patchResource} from "../../../api/contact-center/resources/resources";
 
 
     export default {

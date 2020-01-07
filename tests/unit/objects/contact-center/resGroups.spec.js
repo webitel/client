@@ -4,7 +4,7 @@ import openedResGroup from '@/components/objects/contact-center/resource-groups/
 import VueRouter from 'vue-router';
 import Vuelidate from 'vuelidate';
 import i18n from 'vue-i18n';
-import {getResGroupList} from "../../../../src/api/contact-center/resourceGroups";
+import {getResGroupList} from "../../../../src/api/contact-center/resourceGroups/resourceGroups";
 
 const $t = () => {
 };

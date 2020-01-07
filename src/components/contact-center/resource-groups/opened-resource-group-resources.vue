@@ -27,8 +27,8 @@
 
 <script>
     import openedTabComponentMixin from '@/mixins/openedTabComponentMixin';
-    import {getResourceList} from "../../../api/contact-center/resources";
-    import {deleteResInGroup} from "../../../api/contact-center/resourceGroups";
+    import {getResourceList} from "../../../api/contact-center/resources/resources";
+    import {deleteResInGroup} from "../../../api/contact-center/resourceGroups/resourceGroups";
     import TagsInput from "@johmun/vue-tags-input";
 
     export default {

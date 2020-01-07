@@ -40,7 +40,7 @@
 
 <script>
     import openedTabComponentMixin from '@/mixins/openedTabComponentMixin';
-    import {deleteResDisplay} from "../../../api/contact-center/resources";
+    import {deleteResDisplay} from "../../../api/contact-center/resources/resources";
 
     export default {
         name: "opened-resource-number",
