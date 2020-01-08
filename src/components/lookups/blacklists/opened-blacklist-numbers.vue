@@ -53,6 +53,8 @@
                 @loadDataList="loadDataList"
                 @next="nextPage"
                 @prev="prevPage"
+                :isNext="isNextPage"
+                :isPrev="!!page"
         ></pagination>
     </section>
 </template>
@@ -68,12 +70,9 @@
     export default {
         name: "opened-blacklist-numbers",
         mixins: [openedTabComponentMixin, tableComponentMixin],
-        components: {
-            numberPopup
-        },
+        components: {numberPopup},
         data() {
             return {
-                editedIndex: null,
                 fields: [
                     _checkboxTableField,
                     {name: 'number', title: this.$tc('objects.lookups.blacklist.number', 1)},
@@ -94,6 +93,8 @@
             }),
             ...mapState('lookups/blacklists/numbers', {
                 dataList: state => state.dataList,
+                page: state => state.page,
+                isNextPage: state => state.isNextPage,
             }),
 
             size: {
@@ -130,11 +131,6 @@
                 this.popupTriggerIf = true;
             },
 
-            closePopup() {
-                this.popupTriggerIf = false;
-                this.loadDataList();
-            },
-
             ...mapActions('lookups/blacklists', {
                 addParentItem: 'ADD_ITEM',
             }),
@@ -145,8 +141,8 @@
                 loadDataList: 'LOAD_DATA_LIST',
                 setSize: 'SET_SIZE',
                 setSearch: 'SET_SEARCH',
-                nextPage: '',
-                prevPage: '',
+                nextPage: 'NEXT_PAGE',
+                prevPage: 'PREV_PAGE',
                 removeItem: 'REMOVE_ITEM',
             }),
         }

@@ -21,21 +21,24 @@
                     :data="dataList"
             >
                 <template slot="state" slot-scope="props">
-                    <status
-                            :class="{'status__true': dataList[props.rowIndex].state}"
-                            :text=computeOnlineText(dataList[props.rowIndex].state)
-                    ></status>
+<!--                    <status-->
+<!--                            :class="{'status__true': dataList[props.rowIndex].state}"-->
+<!--                            :text=computeOnlineText(dataList[props.rowIndex].state)-->
+<!--                    ></status>-->
+                    <div>
+                        {{dataList[props.rowIndex].state.toUpperCase()}}
+                    </div>
                 </template>
 
                 <template slot="from" slot-scope="props">
                     <div>
-                        {{computeTime(dataList[props.rowIndex].loggedIn)}}
+                        {{computeTime(dataList[props.rowIndex].joinedAt)}}
                     </div>
                 </template>
 
                 <template slot="to" slot-scope="props">
                     <div>
-                        {{computeTime(dataList[props.rowIndex].loggedOut)}}
+                        {{computeTime(dataList[props.rowIndex].loggedOut) || 'Now'}}
                     </div>
                 </template>
 
@@ -50,6 +53,8 @@
                     @loadDataList="loadDataList"
                     @next="nextPage"
                     @prev="prevPage"
+                    :isNext="isNextPage"
+                    :isPrev="!!page"
             ></pagination>
         </section>
     </popup>
@@ -88,22 +93,23 @@
 
         computed: {
             ...mapState('ccenter/agents', {
-                dataList: state => state.historyDataList,
-                date: state => state.historyDate,
+                dataList: state => state.history.dataList,
+                page: state => state.history.page, // acts like a boolean: if page is 0, there's no back page
+                isNextPage: state => state.history.isNextPage,
             }),
 
             size: {
-                get() {return this.$store.state.ccenter.agents.historySize},
+                get() {return this.$store.state.ccenter.agents.history.size},
                 set(value) {this.setSize(value)}
             },
 
             search: {
-                get() {return this.$store.state.ccenter.agents.historySearch},
+                get() {return this.$store.state.ccenter.agents.history.search},
                 set(value) {this.setSearch(value)}
             },
 
             date: {
-                get() {return this.$store.state.ccenter.agents.historyDate},
+                get() {return this.$store.state.ccenter.agents.history.date},
                 set(value) {this.setHistoryDate(value)}
             },
         },
@@ -119,7 +125,7 @@
             },
 
             computeDuration(rowIndex) {
-                const range = this.dataList[rowIndex].loggedIn - this.dataList[rowIndex].loggedOut;
+                const range = (this.dataList[rowIndex].loggedOut || Date.now()) - this.dataList[rowIndex].joinedAt;
                 return new Date(range).toISOString().slice(11, 19);
             },
 
@@ -128,8 +134,8 @@
                 setSize: 'SET_HISTORY_SIZE',
                 setSearch: 'SET_HISTORY_SEARCH',
                 setHistoryDate: 'SET_HISTORY_DATE',
-                nextPage: '',
-                prevPage: '',
+                nextPage: 'NEXT_HISTORY_PAGE',
+                prevPage: 'PREV_HISTORY_PAGE',
             }),
         },
     }

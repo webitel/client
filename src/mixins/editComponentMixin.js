@@ -52,6 +52,11 @@ export default {
         close() {
             this.$router.go(-1);
         },
+
+        closePopup() {
+            this.popupTriggerIf = false;
+            this.loadDataList();
+        },
     },
 
     computed: {

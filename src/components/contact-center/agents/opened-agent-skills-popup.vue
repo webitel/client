@@ -64,13 +64,13 @@
         },
 
         computed: {
-            ...mapState('ccenter/agents', {
-                id: state => state.skillItemId,
-                itemInstance: state => state.skillItemInstance
+            ...mapState('ccenter/agents/skills', {
+                id: state => state.itemId,
+                itemInstance: state => state.itemInstance
             }),
             skill: {
                 get() {
-                    return this.$store.state.ccenter.agents.skillItemInstance.skill
+                    return this.$store.state.ccenter.agents.skills.itemInstance.skill
                 },
                 set(value) {
                     this.setItemProp({prop: 'skill', value})
@@ -78,7 +78,7 @@
             },
             capacity: {
                 get() {
-                    return this.$store.state.ccenter.agents.skillItemInstance.capacity
+                    return this.$store.state.ccenter.agents.skills.itemInstance.capacity
                 },
                 set(value) {
                     this.setItemProp({prop: 'capacity', value})
@@ -99,7 +99,7 @@
             },
 
             async loadDropdownOptionsList(search) {
-                const response = await getSkillsList(10, search);
+                const response = await getSkillsList(0, 10, search);
                 this.dropdownOptionsList = response.map(item => {
                     return {
                         name: item.name,
@@ -108,11 +108,11 @@
                 });
             },
 
-            ...mapActions('ccenter/agents', {
-                setItemProp: 'SET_SKILL_ITEM_PROPERTY',
-                addItem: 'ADD_SKILL_ITEM',
-                updateItem: 'UPDATE_SKILL_ITEM',
-                loadItem: 'LOAD_SKILL_ITEM',
+            ...mapActions('ccenter/agents/skills', {
+                setItemProp: 'SET_ITEM_PROPERTY',
+                addItem: 'ADD_ITEM',
+                updateItem: 'UPDATE_ITEM',
+                loadItem: 'LOAD_ITEM',
             }),
         }
     }

@@ -2,7 +2,7 @@
     <section>
         <skill-popup
                 v-if="popupTriggerIf"
-                @close="popupTriggerIf = false"
+                @close="closePopup"
         ></skill-popup>
 
         <header class="content-header">
@@ -52,6 +52,8 @@
                 @loadDataList="loadDataList"
                 @next="nextPage"
                 @prev="prevPage"
+                :isNext="isNextPage"
+                :isPrev="!!page"
         ></pagination>
     </section>
 </template>
@@ -80,18 +82,28 @@
             }
         },
 
+        mounted() {
+            this.setParentId(this.parentId);
+            this.loadDataList();
+        },
+
         computed: {
             ...mapState('ccenter/agents', {
-                dataList: state => state.skillDataList,
+                parentId: state => state.itemId,
+            }),
+            ...mapState('ccenter/agents/skills', {
+                dataList: state => state.dataList,
+                page: state => state.page,
+                isNextPage: state => state.isNextPage,
             }),
 
             size: {
-                get() {return this.$store.state.ccenter.agents.skillSize},
+                get() {return this.$store.state.ccenter.agents.skills.size},
                 set(value) {this.setSize(value)}
             },
 
             search: {
-                get() {return this.$store.state.ccenter.agents.skillSearch},
+                get() {return this.$store.state.ccenter.agents.skills.search},
                 set(value) {this.setSearch(value)}
             }
         },
@@ -112,14 +124,18 @@
             },
 
             ...mapActions('ccenter/agents', {
-                setId: 'SET_SKILL_ITEM_ID',
-                loadDataList: 'LOAD_SKILL_DATA_LIST',
-                setSize: 'SET_SKILL_SIZE',
-                setSearch: 'SET_SKILL_SEARCH',
-                nextPage: '',
-                prevPage: '',
-                removeItem: 'REMOVE_SKILL_ITEM',
                 addParentItem: 'ADD_ITEM',
+            }),
+
+            ...mapActions('ccenter/agents/skills', {
+                setParentId: 'SET_PARENT_ITEM_ID',
+                setId: 'SET_ITEM_ID',
+                loadDataList: 'LOAD_DATA_LIST',
+                setSize: 'SET_SIZE',
+                setSearch: 'SET_SEARCH',
+                nextPage: 'NEXT_PAGE',
+                prevPage: 'PREV_PAGE',
+                removeItem: 'REMOVE_ITEM',
             }),
         }
     }

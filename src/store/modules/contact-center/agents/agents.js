@@ -1,10 +1,9 @@
 import proxy from '../../../../utils/editProxy';
+import skills from './agent-skills';
+import history from './history';
 import {
-    addAgent, addAgentSkill,
-    deleteAgent, deleteAgentSkill,
-    getAgent, getAgentSkill, getAgentSkillsList,
-    getAgentsList,
-    updateAgent, updateAgentSkill
+    addAgent, deleteAgent,
+    getAgent, getAgentsList, updateAgent,
 } from "../../../../api/contact-center/agents/agents";
 
 const defaultState = () => {
@@ -14,15 +13,6 @@ const defaultState = () => {
             user: '',
             description: '',
         },
-        skillDataList: [],
-        skillSize: '10',
-        skillSearch: '',
-        skillItemId: 0,
-        skillItemInstance: {
-            skill: '',
-            capacity: 10,
-            id: 0,
-        }
     };
 };
 
@@ -30,18 +20,40 @@ const state = {
     dataList: [],
     size: '10',
     search: '',
+    page: 0,
+    isNextPage: true,
     ...defaultState()
 };
 
 const getters = {};
 
 const actions = {
+    GET_LIST: async () => {
+        return await getAgentsList(state.page, state.size, state.search);
+    },
+
+    GET_ITEM: async () => {
+        return await getAgent(state.itemId);
+    },
+
+    POST_ITEM: async () => {
+        return await addAgent(state.itemInstance);
+    },
+
+    UPD_ITEM: async () => {
+        await updateAgent(state.itemId, state.itemInstance);
+    },
+
+    DELETE_ITEM: async (context, id) => {
+        await deleteAgent(id);
+    },
+
     SET_ITEM_ID: (context, id) => {
         if (id !== 'new') context.commit('SET_ITEM_ID', id);
     },
 
     LOAD_DATA_LIST: async (context) => {
-        const response = await getAgentsList(state.size, state.search);
+        const response = await context.dispatch('GET_LIST');
         context.commit('RESET_ITEM_STATE');
         context.commit('SET_DATA_LIST', response);
     },
@@ -54,9 +66,23 @@ const actions = {
         context.commit('SET_SEARCH', search);
     },
 
+    NEXT_PAGE: (context) => {
+        if(state.isNextPage) {
+            context.commit('INCREMENT_PAGE');
+            context.dispatch('LOAD_DATA_LIST');
+        }
+    },
+
+    PREV_PAGE: (context) => {
+        if(state.page) {
+            context.commit('DECREMENT_PAGE');
+            context.dispatch('LOAD_DATA_LIST');
+        }
+    },
+
     LOAD_ITEM: async (context) => {
         if (state.itemId) {
-            const item = await getAgent(state.itemId);
+            const item = await context.dispatch('GET_ITEM');
             context.commit('SET_ITEM', proxy(item));
         }
     },
@@ -66,8 +92,8 @@ const actions = {
     },
 
     ADD_ITEM: async (context) => {
-        if(!state.itemId) {
-            const id = await addAgent(state.itemInstance);
+        if (!state.itemId) {
+            const id = await context.dispatch('POST_ITEM');
             context.dispatch('SET_ITEM_ID', id);
             context.dispatch('LOAD_ITEM');
         }
@@ -75,7 +101,7 @@ const actions = {
 
     UPDATE_ITEM: async (context) => {
         if (state.itemInstance._dirty) {
-            await updateAgent(state.itemId, state.itemInstance);
+            await context.dispatch('UPD_ITEM');
             context.dispatch('LOAD_ITEM');
         }
     },
@@ -84,62 +110,9 @@ const actions = {
         const id = state.dataList[index].id;
         context.commit('REMOVE_ITEM', index);
         try {
-            await deleteAgent(id);
+            await context.dispatch('DELETE_ITEM', id);
         } catch {
         }
-    },
-
-    SET_SKILL_ITEM_ID: (context, id) => {
-        context.commit('SET_SKILL_ITEM_ID', id);
-    },
-
-    LOAD_SKILL_DATA_LIST: async (context) => {
-        if (state.itemId) {
-            const response = await getAgentSkillsList(state.itemId, state.skillSize, state.skillSearch);
-            context.commit('SET_SKILL_DATA_LIST', response);
-        } else {
-            context.commit('SET_SKILL_DATA_LIST', []);
-        }
-        context.dispatch('SET_SKILL_ITEM_ID', 0);
-    },
-
-    SET_SKILL_SIZE: (context, size) => {
-        context.commit('SET_SKILL_SIZE', size);
-    },
-
-    SET_SKILL_SEARCH: (context, search) => {
-        context.commit('SET_SKILL_SEARCH', search);
-    },
-
-    LOAD_SKILL_ITEM: async (context) => {
-        if (state.skillItemId) {
-            const item = await getAgentSkill(state.itemId, state.skillItemId);
-            context.commit('SET_SKILL_ITEM', proxy(item));
-        } else {
-            context.commit('SET_SKILL_ITEM', {skill: '', capacity: 10});
-        }
-    },
-
-    SET_SKILL_ITEM_PROPERTY: (context, payload) => {
-        context.commit('SET_SKILL_ITEM_PROPERTY', payload);
-    },
-
-    ADD_SKILL_ITEM: async (context) => {
-        await addAgentSkill(state.itemId, state.skillItemInstance);
-        context.dispatch('LOAD_SKILL_DATA_LIST', state.itemId);
-    },
-
-    UPDATE_SKILL_ITEM: async (context) => {
-        await updateAgentSkill(state.itemId, state.skillItemId, state.skillItemInstance);
-        context.dispatch('LOAD_SKILL_DATA_LIST', state.itemId);
-    },
-
-    REMOVE_SKILL_ITEM: async (context, index) => {
-        const id = state.skillDataList[index].id;
-        context.commit('REMOVE_SKILL_ITEM', index);
-        try {
-            await deleteAgentSkill(state.itemId, id);
-        } catch {}
     },
 
     RESET_ITEM_STATE: async (context) => {
@@ -164,6 +137,14 @@ const mutations = {
         state.search = search;
     },
 
+    INCREMENT_PAGE: (state) => {
+        state.page++;
+    },
+
+    DECREMENT_PAGE: (state) => {
+        state.page--;
+    },
+
     SET_ITEM_PROPERTY: (state, {prop, value}) => {
         state.itemInstance[prop] = value;
     },
@@ -173,34 +154,6 @@ const mutations = {
     },
 
     REMOVE_ITEM: (state, index) => {
-        state.dataList.splice(index, 1);
-    },
-
-    SET_SKILL_DATA_LIST: (state, list) => {
-        state.skillDataList = list;
-    },
-
-    SET_SKILL_SIZE: (context, size) => {
-        state.skillSize = size;
-    },
-
-    SET_SKILL_SEARCH: (context, search) => {
-        state.skillSearch = search;
-    },
-
-    SET_SKILL_ITEM_ID: (state, id) => {
-        state.skillItemId = id;
-    },
-
-    SET_SKILL_ITEM: (state, item) => {
-        state.skillItemInstance = item;
-    },
-
-    SET_SKILL_ITEM_PROPERTY: (state, {prop, value}) => {
-        state.skillItemInstance[prop] = value;
-    },
-
-    REMOVE_SKILL_ITEM: (state, index) => {
         state.dataList.splice(index, 1);
     },
 
@@ -215,4 +168,5 @@ export default {
     getters,
     actions,
     mutations,
+    modules: {history, skills}
 };

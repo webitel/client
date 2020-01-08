@@ -1,22 +1,20 @@
+import proxy from '../../../../utils/editProxy';
 import {
-    addBlacklistCommunication,
-    deleteBlacklistCommunication,
-    getBlacklistCommunication,
-    getBlacklistCommunicationList,
-    updateBlacklistCommunication
-} from "../../../../api/lookups/blacklists/blacklistNumbers";
-import proxy from "../../../../utils/editProxy";
+    addAgentSkill, deleteAgentSkill,
+    getAgentSkill, getAgentSkillsList,
+    updateAgentSkill
+} from "../../../../api/contact-center/agents/agentSkills";
 
 const defaultState = () => {
     return {
         itemId: 0,
         itemInstance: {
-            number: '000',
-            description: 'default',
-        }
-    }
+            skill: '',
+            capacity: 10,
+            id: 0,
+        },
+    };
 };
-
 
 const state = {
     parentId: 0,
@@ -32,23 +30,23 @@ const getters = {};
 
 const actions = {
     GET_LIST: async () => {
-        return await getBlacklistCommunicationList(state.parentId, state.page, state.size, state.search);
+        return await getAgentSkillsList(state.parentId, state.page, state.size, state.search);
     },
 
     GET_ITEM: async () => {
-        return await getBlacklistCommunication(state.parentId, state.itemId);
+        return await getAgentSkill(state.parentId, state.itemId);
     },
 
     POST_ITEM: async () => {
-        return await addBlacklistCommunication(state.parentId, state.itemInstance);
+        return await addAgentSkill(state.parentId, state.itemInstance);
     },
 
     UPD_ITEM: async () => {
-        await updateBlacklistCommunication(state.parentId, state.itemId, state.itemInstance);
+        await updateAgentSkill(state.parentId, state.itemId, state.itemInstance);
     },
 
     DELETE_ITEM: async (context, id) => {
-        await deleteBlacklistCommunication(state.parentId, id);
+        await deleteAgentSkill(state.parentId, id);
     },
 
     SET_PARENT_ITEM_ID: (context, id) => {
@@ -140,11 +138,11 @@ const mutations = {
         state.dataList = list;
     },
 
-    SET_SIZE: (context, size) => {
+    SET_SIZE: (state, size) => {
         state.size = size;
     },
 
-    SET_SEARCH: (context, search) => {
+    SET_SEARCH: (state, search) => {
         state.search = search;
     },
 
