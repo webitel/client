@@ -2,7 +2,7 @@
     <section>
         <agent-popup
                 v-if="popupTriggerIf"
-                @close="popupTriggerIf = false"
+                @close="closePopup"
         ></agent-popup>
 
         <header class="content-header">
@@ -58,12 +58,14 @@
                 @loadDataList="loadDataList"
                 @next="nextPage"
                 @prev="prevPage"
+                :isNext="isNextPage"
+                :isPrev="!!page"
         ></pagination>
     </section>
 </template>
 
 <script>
-    import openedTeamAgentsPopup from './opened-team-agents-popup';
+    import agentPopup from './opened-team-agents-popup';
     import tableComponentMixin from '@/mixins/tableComponentMixin';
     import openedTabComponentMixin from '@/mixins/openedTabComponentMixin';
     import {_checkboxTableField, _actionsTableField_2} from "@/utils/tableFieldPresets";
@@ -73,9 +75,7 @@
     export default {
         name: "opened-team-agents",
         mixins: [openedTabComponentMixin, tableComponentMixin],
-        components: {
-            'agent-popup': openedTeamAgentsPopup
-        },
+        components: {agentPopup},
         data() {
             return {
                 fields: [
@@ -88,18 +88,28 @@
             }
         },
 
+        mounted() {
+            this.setParentId(this.parentId);
+            this.loadDataList();
+        },
+
         computed: {
             ...mapState('ccenter/teams', {
-                dataList: state => state.agentDataList,
+                parentId: state => state.itemId,
+            }),
+            ...mapState('ccenter/teams/agents', {
+                dataList: state => state.dataList,
+                page: state => state.page,
+                isNextPage: state => state.isNextPage,
             }),
 
             size: {
-                get() {return this.$store.state.ccenter.teams.agentSize},
+                get() {return this.$store.state.ccenter.teams.agents.size},
                 set(value) {this.setSize(value)}
             },
 
             search: {
-                get() {return this.$store.state.ccenter.teams.agentSearch},
+                get() {return this.$store.state.ccenter.teams.agents.search},
                 set(value) {this.setSearch(value)}
             }
         },
@@ -120,14 +130,18 @@
             },
 
             ...mapActions('ccenter/teams', {
-                setId: 'SET_AGENT_ITEM_ID',
-                loadDataList: 'LOAD_AGENT_DATA_LIST',
-                setSize: 'SET_AGENT_SIZE',
-                setSearch: 'SET_AGENT_SEARCH',
-                nextPage: '',
-                prevPage: '',
-                removeItem: 'REMOVE_AGENT_ITEM',
                 addParentItem: 'ADD_ITEM',
+            }),
+
+            ...mapActions('ccenter/teams/agents', {
+                setParentId: 'SET_PARENT_ITEM_ID',
+                setId: 'SET_ITEM_ID',
+                loadDataList: 'LOAD_DATA_LIST',
+                setSize: 'SET_SIZE',
+                setSearch: 'SET_SEARCH',
+                nextPage: 'NEXT_PAGE',
+                prevPage: 'PREV_PAGE',
+                removeItem: 'REMOVE_ITEM',
             }),
         }
     }

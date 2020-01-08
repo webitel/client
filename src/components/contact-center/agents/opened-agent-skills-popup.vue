@@ -5,6 +5,7 @@
             :primaryText="computePrimaryText"
             :primaryDisabled="computeDisabled"
             @close="$emit('close')"
+            overflow
     >
         <form>
             <dropdown-select

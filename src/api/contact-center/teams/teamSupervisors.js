@@ -1,25 +1,24 @@
 import instance from '@/api/instance';
 import configuration from '@/api/openAPIConfig';
 import sanitizer from '../../utils/sanitizer';
-import {AgentTeamServiceApiFactory} from 'webitel-sdk';
+import {SupervisorInTeamServiceApiFactory} from 'webitel-sdk';
 import eventBus from "../../../utils/eventBus";
 import {objCamelToSnake, objSnakeToCamel} from "../../utils/caseConverters";
 
-const teamService = new AgentTeamServiceApiFactory
+const teamSupervisorService = new SupervisorInTeamServiceApiFactory
 (configuration, process.env.VUE_APP_API_URL, instance);
 
 const domainId = undefined;
-const fieldsToSend = ['domain_id', 'name', 'description', 'strategy', 'maxNoAnswer', 'wrapUpTime',
-    'rejectDelayTime', 'busyDelayTime', 'noAnswerDelayTime', 'callTimeout'];
+const fieldsToSend = ['agent'];
 
-export const getTeamsList = async (page = 0, size = 10, search) => {
+export const getTeamSupervisorsList = async (teamId, page = 0, size = 10) => {
     const defaultObject = {
+        agent: {},
         _isSelected: false,
-        name: '',
     };
 
     try {
-        const response = await teamService.searchAgentTeam(domainId, size, page);
+        const response = await teamSupervisorService.searchSupervisorInTeam(teamId, domainId, size, page);
         if (Array.isArray(response.data.items)) {
             return response.data.items.map(item => {
                 return {...defaultObject, ...item};
@@ -31,26 +30,24 @@ export const getTeamsList = async (page = 0, size = 10, search) => {
     }
 };
 
-export const getTeam = async (id) => {
+export const getTeamSupervisor = async (teamId, id) => {
     try {
-        let response = await teamService.readAgentTeam(id, domainId);
+        let response = await teamSupervisorService.readSupervisorInTeam(teamId, id, domainId);
         const defaultObject = {
-            name: '',
-            id: 0,
+            agent: {},
             _dirty: false,
         };
-        // response = ;
         return {...defaultObject, ...objSnakeToCamel(response.data)};
     } catch (err) {
         throw err;
     }
 };
 
-export const addTeam = async (item) => {
+export const addTeamSupervisor = async (teamId, item) => {
     sanitizer(item, fieldsToSend);
     item = objCamelToSnake(item);
     try {
-        const response = await teamService.createAgentTeam(item);
+        const response = await teamSupervisorService.createSupervisorInTeam(teamId, item);
         eventBus.$emit('notificationInfo', 'Sucessfully added');
         return response.data.id;
     } catch (err) {
@@ -58,20 +55,20 @@ export const addTeam = async (item) => {
     }
 };
 
-export const updateTeam = async (id, item) => {
+export const updateTeamSupervisor = async (teamId, id, item) => {
     sanitizer(item, fieldsToSend);
     item = objCamelToSnake(item);
     try {
-        await teamService.updateAgentTeam(id, item);
+        await teamSupervisorService.updateSupervisorInTeam(teamId, id, item);
         eventBus.$emit('notificationInfo', 'Sucessfully updated');
     } catch (err) {
         throw err;
     }
 };
 
-export const deleteTeam = async (id) => {
+export const deleteTeamSupervisor = async (teamId, id) => {
     try {
-        await teamService.deleteAgentTeam(id, domainId);
+        await teamSupervisorService.deleteSupervisorInTeam(teamId, id, domainId);
     } catch (err) {
         throw err;
     }

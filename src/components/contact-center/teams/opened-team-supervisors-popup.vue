@@ -55,13 +55,13 @@
         },
 
         computed: {
-            ...mapState('ccenter/teams', {
-                id: state => state.supervisorItemId,
-                itemInstance: state => state.supervisorItemInstance
+            ...mapState('ccenter/teams/supervisors', {
+                id: state => state.itemId,
+                itemInstance: state => state.itemInstance
             }),
             agent: {
                 get() {
-                    return this.$store.state.ccenter.teams.supervisorItemInstance.agent
+                    return this.$store.state.ccenter.teams.supervisors.itemInstance.agent
                 },
                 set(value) {
                     this.setItemProp({prop: 'agent', value})
@@ -81,7 +81,7 @@
             },
 
             async loadAgentsOptions(search) {
-                const response = await getAgentsList(10, search);
+                const response = await getAgentsList(0, 10, search);
                 this.dropdownAgentsList = response.map(item => {
                     return {
                         name: item.user.name,
@@ -90,11 +90,11 @@
                 });
             },
 
-            ...mapActions('ccenter/teams', {
-                setItemProp: 'SET_SUPERVISOR_ITEM_PROPERTY',
-                addItem: 'ADD_SUPERVISOR_ITEM',
-                updateItem: 'UPDATE_SUPERVISOR_ITEM',
-                loadItem: 'LOAD_SUPERVISOR_ITEM',
+            ...mapActions('ccenter/teams/supervisors', {
+                setItemProp: 'SET_ITEM_PROPERTY',
+                addItem: 'ADD_ITEM',
+                updateItem: 'UPDATE_ITEM',
+                loadItem: 'LOAD_ITEM',
             }),
         }
     }

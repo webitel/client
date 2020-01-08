@@ -2,7 +2,7 @@
     <section>
         <skill-popup
                 v-if="popupTriggerIf"
-                @close="popupTriggerIf = false"
+                @close="closePopup"
         ></skill-popup>
 
         <header class="content-header">
@@ -58,12 +58,14 @@
                 @loadDataList="loadDataList"
                 @next="nextPage"
                 @prev="prevPage"
+                :isNext="isNextPage"
+                :isPrev="!!page"
         ></pagination>
     </section>
 </template>
 
 <script>
-    import openedTeamSkillsPopup from './opened-team-skills-popup';
+    import skillPopup from './opened-team-skills-popup';
     import tableComponentMixin from '@/mixins/tableComponentMixin';
     import openedTabComponentMixin from '@/mixins/openedTabComponentMixin';
     import {_checkboxTableField, _actionsTableField_2} from "@/utils/tableFieldPresets";
@@ -73,9 +75,7 @@
     export default {
         name: "opened-team-skills",
         mixins: [openedTabComponentMixin, tableComponentMixin],
-        components: {
-            'skill-popup': openedTeamSkillsPopup
-        },
+        components: {skillPopup},
         data() {
             return {
                 fields: [
@@ -88,18 +88,28 @@
             }
         },
 
+        mounted() {
+            this.setParentId(this.parentId);
+            this.loadDataList();
+        },
+
         computed: {
             ...mapState('ccenter/teams', {
-                dataList: state => state.skillDataList,
+                parentId: state => state.itemId,
+            }),
+            ...mapState('ccenter/teams/skills', {
+                dataList: state => state.dataList,
+                page: state => state.page,
+                isNextPage: state => state.isNextPage,
             }),
 
             size: {
-                get() {return this.$store.state.ccenter.teams.skillSize},
+                get() {return this.$store.state.ccenter.teams.skills.size},
                 set(value) {this.setSize(value)}
             },
 
             search: {
-                get() {return this.$store.state.ccenter.teams.skillSearch},
+                get() {return this.$store.state.ccenter.teams.skills.search},
                 set(value) {this.setSearch(value)}
             }
         },
@@ -120,14 +130,18 @@
             },
 
             ...mapActions('ccenter/teams', {
-                setId: 'SET_SKILL_ITEM_ID',
-                loadDataList: 'LOAD_SKILL_DATA_LIST',
-                setSize: 'SET_SKILL_SIZE',
-                setSearch: 'SET_SKILL_SEARCH',
-                nextPage: '',
-                prevPage: '',
-                removeItem: 'REMOVE_SKILL_ITEM',
                 addParentItem: 'ADD_ITEM',
+            }),
+
+            ...mapActions('ccenter/teams/skills', {
+                setParentId: 'SET_PARENT_ITEM_ID',
+                setId: 'SET_ITEM_ID',
+                loadDataList: 'LOAD_DATA_LIST',
+                setSize: 'SET_SIZE',
+                setSearch: 'SET_SEARCH',
+                nextPage: 'NEXT_PAGE',
+                prevPage: 'PREV_PAGE',
+                removeItem: 'REMOVE_ITEM',
             }),
         },
     }

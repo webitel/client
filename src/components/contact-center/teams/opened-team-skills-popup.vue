@@ -86,13 +86,13 @@
         },
 
         computed: {
-            ...mapState('ccenter/teams', {
-                id: state => state.skillItemId,
-                itemInstance: state => state.skillItemInstance
+            ...mapState('ccenter/teams/skills', {
+                id: state => state.itemId,
+                itemInstance: state => state.itemInstance
             }),
             skill: {
                 get() {
-                    return this.$store.state.ccenter.teams.skillItemInstance.skill
+                    return this.$store.state.ccenter.teams.skills.itemInstance.skill
                 },
                 set(value) {
                     this.setItemProp({prop: 'skill', value})
@@ -100,7 +100,7 @@
             },
             lvl: {
                 get() {
-                    return this.$store.state.ccenter.teams.skillItemInstance.lvl
+                    return this.$store.state.ccenter.teams.skills.itemInstance.lvl
                 },
                 set(value) {
                     this.setItemProp({prop: 'lvl', value})
@@ -108,7 +108,7 @@
             },
             minCapacity: {
                 get() {
-                    return this.$store.state.ccenter.teams.skillItemInstance.minCapacity
+                    return this.$store.state.ccenter.teams.skills.itemInstance.minCapacity
                 },
                 set(value) {
                     this.setItemProp({prop: 'minCapacity', value})
@@ -116,7 +116,7 @@
             },
             maxCapacity: {
                 get() {
-                    return this.$store.state.ccenter.teams.skillItemInstance.maxCapacity
+                    return this.$store.state.ccenter.teams.skills.itemInstance.maxCapacity
                 },
                 set(value) {
                     this.setItemProp({prop: 'maxCapacity', value})
@@ -124,7 +124,7 @@
             },
             bucket: {
                 get() {
-                    return this.$store.state.ccenter.teams.skillItemInstance.bucket
+                    return this.$store.state.ccenter.teams.skills.itemInstance.bucket
                 },
                 set(value) {
                     this.setItemProp({prop: 'bucket', value})
@@ -144,7 +144,7 @@
             },
 
             async loadSkillsOptions(search) {
-                const response = await getSkillsList(10, search);
+                const response = await getSkillsList(0, 10, search);
                 this.dropdownSkillsList = response.map(item => {
                     return {
                         name: item.name,
@@ -154,7 +154,7 @@
             },
 
             async loadBucketsOptions(search) {
-                const response = await getBucketsList(10, search);
+                const response = await getBucketsList(0, 10, search);
                 this.dropdownBucketsList = response.map(item => {
                     return {
                         name: item.name,
@@ -163,11 +163,11 @@
                 });
             },
 
-            ...mapActions('ccenter/teams', {
-                setItemProp: 'SET_SKILL_ITEM_PROPERTY',
-                addItem: 'ADD_SKILL_ITEM',
-                updateItem: 'UPDATE_SKILL_ITEM',
-                loadItem: 'LOAD_SKILL_ITEM',
+            ...mapActions('ccenter/teams/skills', {
+                setItemProp: 'SET_ITEM_PROPERTY',
+                addItem: 'ADD_ITEM',
+                updateItem: 'UPDATE_ITEM',
+                loadItem: 'LOAD_ITEM',
             }),
         }
     }

@@ -2,7 +2,7 @@
     <section>
         <supervisor-popup
                 v-if="popupTriggerIf"
-                @close="popupTriggerIf = false"
+                @close="closePopup"
         ></supervisor-popup>
 
         <header class="content-header">
@@ -46,6 +46,8 @@
                 @loadDataList="loadDataList"
                 @next="nextPage"
                 @prev="prevPage"
+                :isNext="isNextPage"
+                :isPrev="!!page"
         ></pagination>
     </section>
 </template>
@@ -72,18 +74,28 @@
             }
         },
 
+        mounted() {
+            this.setParentId(this.parentId);
+            this.loadDataList();
+        },
+
         computed: {
             ...mapState('ccenter/teams', {
-                dataList: state => state.supervisorDataList,
+                parentId: state => state.itemId,
+            }),
+            ...mapState('ccenter/teams/supervisors', {
+                dataList: state => state.dataList,
+                page: state => state.page,
+                isNextPage: state => state.isNextPage,
             }),
 
             size: {
-                get() {return this.$store.state.ccenter.teams.supervisorSize},
+                get() {return this.$store.state.ccenter.teams.supervisors.size},
                 set(value) {this.setSize(value)}
             },
 
             search: {
-                get() {return this.$store.state.ccenter.teams.supervisorSearch},
+                get() {return this.$store.state.ccenter.teams.supervisors.search},
                 set(value) {this.setSearch(value)}
             }
         },
@@ -104,14 +116,18 @@
             },
 
             ...mapActions('ccenter/teams', {
-                setId: 'SET_SUPERVISOR_ITEM_ID',
-                loadDataList: 'LOAD_SUPERVISOR_DATA_LIST',
-                setSize: 'SET_SUPERVISOR_SIZE',
-                setSearch: 'SET_SUPERVISOR_SEARCH',
-                nextPage: '',
-                prevPage: '',
-                removeItem: 'REMOVE_SUPERVISOR_ITEM',
                 addParentItem: 'ADD_ITEM',
+            }),
+
+            ...mapActions('ccenter/teams/supervisors', {
+                setParentId: 'SET_PARENT_ITEM_ID',
+                setId: 'SET_ITEM_ID',
+                loadDataList: 'LOAD_DATA_LIST',
+                setSize: 'SET_SIZE',
+                setSearch: 'SET_SEARCH',
+                nextPage: 'NEXT_PAGE',
+                prevPage: 'PREV_PAGE',
+                removeItem: 'REMOVE_ITEM',
             }),
         },
     }

@@ -74,14 +74,14 @@
         },
 
         computed: {
-            ...mapState('ccenter/teams', {
-                id: state => state.agentItemId,
-                itemInstance: state => state.agentItemInstance
+            ...mapState('ccenter/teams/agents', {
+                id: state => state.itemId,
+                itemInstance: state => state.itemInstance
             }),
 
             agent: {
                 get() {
-                    return this.$store.state.ccenter.teams.agentItemInstance.agent
+                    return this.$store.state.ccenter.teams.agents.itemInstance.agent
                 },
                 set(value) {
                     this.setItemProp({prop: 'agent', value})
@@ -89,7 +89,7 @@
             },
             lvl: {
                 get() {
-                    return this.$store.state.ccenter.teams.agentItemInstance.lvl
+                    return this.$store.state.ccenter.teams.agents.itemInstance.lvl
                 },
                 set(value) {
                     this.setItemProp({prop: 'lvl', value})
@@ -97,7 +97,7 @@
             },
             bucket: {
                 get() {
-                    return this.$store.state.ccenter.teams.agentItemInstance.bucket
+                    return this.$store.state.ccenter.teams.agents.itemInstance.bucket
                 },
                 set(value) {
                     this.setItemProp({prop: 'bucket', value})
@@ -117,7 +117,7 @@
             },
 
             async loadAgentsOptions(search) {
-                const response = await getAgentsList(10, search);
+                const response = await getAgentsList(0, 10, search);
                 this.dropdownAgentsList = response.map(item => {
                     return {
                         name: item.user.name,
@@ -127,7 +127,7 @@
             },
 
             async loadBucketsOptions(search) {
-                const response = await getBucketsList(10, search);
+                const response = await getBucketsList(0, 10, search);
                 this.dropdownBucketsList = response.map(item => {
                     return {
                         name: item.name,
@@ -136,11 +136,11 @@
                 });
             },
 
-            ...mapActions('ccenter/teams', {
-                setItemProp: 'SET_AGENT_ITEM_PROPERTY',
-                addItem: 'ADD_AGENT_ITEM',
-                updateItem: 'UPDATE_AGENT_ITEM',
-                loadItem: 'LOAD_AGENT_ITEM',
+            ...mapActions('ccenter/teams/agents', {
+                setItemProp: 'SET_ITEM_PROPERTY',
+                addItem: 'ADD_ITEM',
+                updateItem: 'UPDATE_ITEM',
+                loadItem: 'LOAD_ITEM',
             }),
         }
     }

@@ -1,37 +1,24 @@
 import proxy from '../../../../utils/editProxy';
-import supervisors from './team-supervisors';
-import agents from './team-agents';
-import skills from './team-skills';
 import {
-    addTeam, deleteTeam,
-    getTeam,  getTeamsList, updateTeam,
-} from "../../../../api/contact-center/teams/teams";
-import {
-    addBucket,
-    deleteBucket,
-    getBucket,
-    getBucketsList,
-    updateBucket
-} from "../../../../api/contact-center/buckets/buckets";
+    getTeamSkillsList, getTeamSkill, addTeamSkill,
+    updateTeamSkill, deleteTeamSkill
+} from "../../../../api/contact-center/teams/teamSkills";
 
 const defaultState = () => {
     return {
         itemId: 0,
         itemInstance: {
-            name: 'name',
-            description: 'descr',
-            strategy: 'strategy',
-            maxNoAnswer: 10,
-            wrapUpTime: 10,
-            rejectDelayTime: 10,
-            busyDelayTime: 10,
-            noAnswerDelayTime: 10,
-            callTimeout: 10,
+            skill: {},
+            lvl: 0,
+            minCapacity: 0,
+            maxCapacity: 10,
+            bucket: {},
         },
     };
 };
 
 const state = {
+    parentId: 0,
     dataList: [],
     size: '10',
     search: '',
@@ -44,23 +31,27 @@ const getters = {};
 
 const actions = {
     GET_LIST: async () => {
-        return await getTeamsList(state.page, state.size, state.search);
+        return await getTeamSkillsList(state.parentId, state.page, state.size, state.search);
     },
 
     GET_ITEM: async () => {
-        return await getTeam(state.itemId);
+        return await getTeamSkill(state.parentId, state.itemId);
     },
 
     POST_ITEM: async () => {
-        return await addTeam(state.itemInstance);
+        return await addTeamSkill(state.parentId, state.itemInstance);
     },
 
     UPD_ITEM: async () => {
-        await updateTeam(state.itemId, state.itemInstance);
+        await updateTeamSkill(state.parentId, state.itemId, state.itemInstance);
     },
 
     DELETE_ITEM: async (context, id) => {
-        await deleteTeam(id);
+        await deleteTeamSkill(state.parentId, id);
+    },
+
+    SET_PARENT_ITEM_ID: (context, id) => {
+        context.commit('SET_PARENT_ITEM_ID', id);
     },
 
     SET_ITEM_ID: (context, id) => {
@@ -68,9 +59,11 @@ const actions = {
     },
 
     LOAD_DATA_LIST: async (context) => {
-        const response = await context.dispatch('GET_LIST');
-        context.commit('RESET_ITEM_STATE');
-        context.commit('SET_DATA_LIST', response);
+        if (state.parentId) {
+            const response = await context.dispatch('GET_LIST');
+            context.commit('RESET_ITEM_STATE');
+            context.commit('SET_DATA_LIST', response);
+        }
     },
 
     SET_SIZE: (context, size) => {
@@ -82,14 +75,14 @@ const actions = {
     },
 
     NEXT_PAGE: (context) => {
-        if(state.isNextPage) {
+        if (state.isNextPage) {
             context.commit('INCREMENT_PAGE');
             context.dispatch('LOAD_DATA_LIST');
         }
     },
 
     PREV_PAGE: (context) => {
-        if(state.page) {
+        if (state.page) {
             context.commit('DECREMENT_PAGE');
             context.dispatch('LOAD_DATA_LIST');
         }
@@ -110,14 +103,12 @@ const actions = {
         if (!state.itemId) {
             const id = await context.dispatch('POST_ITEM');
             context.dispatch('SET_ITEM_ID', id);
-            context.dispatch('LOAD_ITEM');
         }
     },
 
     UPDATE_ITEM: async (context) => {
         if (state.itemInstance._dirty) {
             await context.dispatch('UPD_ITEM');
-            context.dispatch('LOAD_ITEM');
         }
     },
 
@@ -136,6 +127,10 @@ const actions = {
 };
 
 const mutations = {
+    SET_PARENT_ITEM_ID: (state, id) => {
+        state.parentId = id;
+    },
+
     SET_ITEM_ID: (state, id) => {
         state.itemId = id;
     },
@@ -144,11 +139,11 @@ const mutations = {
         state.dataList = list;
     },
 
-    SET_SIZE: (context, size) => {
+    SET_SIZE: (state, size) => {
         state.size = size;
     },
 
-    SET_SEARCH: (context, search) => {
+    SET_SEARCH: (state, search) => {
         state.search = search;
     },
 
@@ -183,5 +178,4 @@ export default {
     getters,
     actions,
     mutations,
-    modules: {supervisors, agents, skills},
 };
