@@ -27,7 +27,7 @@
             ></dropdown-select>
             <span
                     class="delimiter"
-                    v-if="timeVisibility.min"
+                    v-if="timeVisibility.min && timeVisibility.sec"
             >:</span>
             <dropdown-select
                     v-if="timeVisibility.sec"

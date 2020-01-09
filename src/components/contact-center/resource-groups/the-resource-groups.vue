@@ -1,5 +1,5 @@
 <template>
-    <div class="gateways">
+    <div>
         <object-header
             :primaryAction="create"
         >
@@ -55,8 +55,14 @@
                         ></i>
                 </template>
             </vuetable>
-
-            <pagination/>
+            <pagination
+                    v-model="size"
+                    @loadDataList="loadDataList"
+                    @next="nextPage"
+                    @prev="prevPage"
+                    :isNext="isNextPage"
+                    :isPrev="!!page"
+            ></pagination>
         </section>
     </div>
 </template>
@@ -65,12 +71,11 @@
     import tableComponentMixin from '@/mixins/tableComponentMixin';
     import {_checkboxTableField, _actionsTableField_2} from "@/utils/tableFieldPresets";
     import {deleteResGroup, getResGroupList} from "../../../api/contact-center/resourceGroups/resourceGroups";
-
+    import {mapActions, mapState} from "vuex";
 
     export default {
         name: "the-resource-groups",
         mixins: [tableComponentMixin],
-
         data() {
             return {
                 fields: [
@@ -81,6 +86,25 @@
                 ],
             };
         },
+
+        computed: {
+            ...mapState('ccenter/resGroups', {
+                dataList: state => state.dataList,
+                page: state => state.page, // acts like a boolean: if page is 0, there's no back page
+                isNextPage: state => state.isNextPage,
+            }),
+
+            size: {
+                get() {return this.$store.state.ccenter.resGroups.size},
+                set(value) {this.setSize(value)}
+            },
+
+            search: {
+                get() {return this.$store.state.ccenter.resGroups.search},
+                set(value) {this.setSearch(value)}
+            },
+        },
+
         methods: {
             create() {
                 this.$router.push('/contact-center/resource-groups/new');
@@ -93,14 +117,14 @@
                 });
             },
 
-            async deleteItem(item) {
-                await deleteResGroup(item.id);
-            },
-
-            async loadDataList() {
-                const response = await getResGroupList(this.size, this.search);
-                this.dataList = [...response];
-            }
+            ...mapActions('ccenter/resGroups', {
+                loadDataList: 'LOAD_DATA_LIST',
+                setSize: 'SET_SIZE',
+                setSearch: 'SET_SEARCH',
+                nextPage: 'NEXT_PAGE',
+                prevPage: 'PREV_PAGE',
+                removeItem: 'REMOVE_ITEM',
+            }),
         },
 
     }

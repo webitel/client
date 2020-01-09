@@ -1,28 +1,23 @@
-import res from './res-in-group';
-import proxy from '../../../../utils/editProxy';
+import proxy from "../../../../utils/editProxy";
 import {
-    addResGroup, deleteResGroup,
-    getResGroup, getResGroupList, updateResGroup
-} from "../../../../api/contact-center/resourceGroups/resourceGroups";
+    addResInGroup,
+    deleteResInGroup,
+    getResInGroup, getResInGroupList,
+    updateResInGroup
+} from "../../../../api/contact-center/resourceGroups/resInGroup";
 
 const defaultState = () => {
     return {
         itemId: 0,
         itemInstance: {
-            name: 'res gr',
-            communication: {id: 1},
-            description: 'res gr descr',
-            time: [
-                {
-                    start: 540,
-                    end: 1200,
-                }
-            ],
-        },
-    };
+            resource: {}
+            },
+    }
 };
 
+
 const state = {
+    parentId: 0,
     dataList: [],
     size: '10',
     search: '',
@@ -35,23 +30,27 @@ const getters = {};
 
 const actions = {
     GET_LIST: async () => {
-        return await getResGroupList(state.page, state.size, state.search);
+        return await getResInGroupList(state.parentId, state.page, state.size, state.search);
     },
 
     GET_ITEM: async () => {
-        return await getResGroup(state.itemId);
+        return await getResInGroup(state.parentId, state.itemId);
     },
 
     POST_ITEM: async () => {
-        return await addResGroup(state.itemInstance);
+        return await addResInGroup(state.parentId, state.itemInstance);
     },
 
     UPD_ITEM: async () => {
-        await updateResGroup(state.itemId, state.itemInstance);
+        await updateResInGroup(state.parentId, state.itemId, state.itemInstance);
     },
 
     DELETE_ITEM: async (context, id) => {
-        await deleteResGroup(id);
+        await deleteResInGroup(state.parentId, id);
+    },
+
+    SET_PARENT_ITEM_ID: (context, id) => {
+        context.commit('SET_PARENT_ITEM_ID', id);
     },
 
     SET_ITEM_ID: (context, id) => {
@@ -59,9 +58,11 @@ const actions = {
     },
 
     LOAD_DATA_LIST: async (context) => {
-        const response = await context.dispatch('GET_LIST');
-        context.commit('RESET_ITEM_STATE');
-        context.commit('SET_DATA_LIST', response);
+        if(state.parentId) {
+            const response = await context.dispatch('GET_LIST');
+            context.commit('RESET_ITEM_STATE');
+            context.commit('SET_DATA_LIST', response);
+        }
     },
 
     SET_SIZE: (context, size) => {
@@ -101,14 +102,12 @@ const actions = {
         if (!state.itemId) {
             const id = await context.dispatch('POST_ITEM');
             context.dispatch('SET_ITEM_ID', id);
-            context.dispatch('LOAD_ITEM');
         }
     },
 
     UPDATE_ITEM: async (context) => {
         if (state.itemInstance._dirty) {
             await context.dispatch('UPD_ITEM');
-            context.dispatch('LOAD_ITEM');
         }
     },
 
@@ -121,28 +120,16 @@ const actions = {
         }
     },
 
-    ADD_VARIABLE_PAIR: (context) => {
-        const pair = {start: 540, end: 1200};
-        context.commit('ADD_VARIABLE_PAIR', pair);
-        context.commit('SET_ITEM_PROPERTY', {prop: '_dirty', value: true});
-    },
-
-    SET_VARIABLE_PROP: (context, {index, prop, value}) => {
-        context.commit('SET_VARIABLE_PROP', {index, prop, value});
-        context.commit('SET_ITEM_PROPERTY', {prop: '_dirty', value: true});
-    },
-
-    DELETE_VARIABLE_PAIR: (context, index) => {
-        context.commit('DELETE_VARIABLE_PAIR', index);
-        context.commit('SET_ITEM_PROPERTY', {prop: '_dirty', value: true});
-    },
-
     RESET_ITEM_STATE: async (context) => {
         context.commit('RESET_ITEM_STATE');
     },
 };
 
 const mutations = {
+    SET_PARENT_ITEM_ID: (state, id) => {
+        state.parentId = id;
+    },
+
     SET_ITEM_ID: (state, id) => {
         state.itemId = id;
     },
@@ -179,18 +166,6 @@ const mutations = {
         state.dataList.splice(index, 1);
     },
 
-    ADD_VARIABLE_PAIR: (state, pair) => {
-        state.itemInstance.time.push(pair);
-    },
-
-    SET_VARIABLE_PROP: (state, {index, prop, value}) => {
-        state.itemInstance.time[index][prop] = value;
-    },
-
-    DELETE_VARIABLE_PAIR: (state, index) => {
-        state.itemInstance.time.splice(index, 1);
-    },
-
     RESET_ITEM_STATE: (state) => {
         Object.assign(state, defaultState());
     },
@@ -202,5 +177,4 @@ export default {
     getters,
     actions,
     mutations,
-    modules: {res}
 };

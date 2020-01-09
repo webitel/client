@@ -6,20 +6,22 @@
         </header>
         <form class="object-input-grid">
             <div>
-                <div class="range" v-for="(range, key) in itemInstance.resGroup.time">
+                <div class="range" v-for="(range, key) in time">
                     <timepicker
-                            v-model="range.start"
+                            :value="range.start"
                             :label="$t('objects.ccenter.resGroups.timerangeFrom')"
                             :v="v.itemInstance.range"
-                            :format="'mm:ss'"
+                            :format="'hh:mm'"
+                            @input="setVariableProp({index: key, prop: 'start', value: $event})"
                             required
                     >
                     </timepicker>
                     <timepicker
-                            v-model="range.end"
+                            :value="range.end"
                             :label="$t('objects.ccenter.resGroups.timerangeTo')"
                             :v="v.itemInstance.range"
-                            :format="'mm:ss'"
+                            :format="'hh:mm'"
+                            @input="setVariableProp({index: key, prop: 'end', value: $event})"
                             required
                     >
                     </timepicker>
@@ -37,6 +39,7 @@
 <script>
     import timepicker from '@/components/utils/timepicker';
     import openedTabComponentMixin from '@/mixins/openedTabComponentMixin';
+    import {mapActions, mapState} from "vuex";
 
     export default {
         name: "opened-resource-group-timerange",
@@ -45,17 +48,19 @@
             timepicker
         },
 
-        methods: {
-            addValuePair() {
-                this.itemInstance.resGroup.time.push({
-                    start: 540,
-                    end: 1200,
-                });
-            },
+        computed: {
+            ...mapState('ccenter/resGroups', {
+                time: state => state.itemInstance.time
+            }),
+        },
 
-            deleteValuePair(rowIndex) {
-                this.itemInstance.resGroup.time.splice(rowIndex, 1);
-            },
+        methods: {
+            ...mapActions('ccenter/resGroups', {
+                setItemProp: 'SET_ITEM_PROPERTY',
+                addValuePair: 'ADD_VARIABLE_PAIR',
+                setVariableProp: 'SET_VARIABLE_PROP',
+                deleteValuePair: 'DELETE_VARIABLE_PAIR',
+            }),
         }
     }
 </script>

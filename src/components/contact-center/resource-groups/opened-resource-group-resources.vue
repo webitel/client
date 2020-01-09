@@ -1,83 +1,146 @@
 <template>
     <section>
+        <res-popup
+                v-if="popupTriggerIf"
+                @close="closePopup"
+        ></res-popup>
+
         <header class="content-header">
             <h3 class="content-title">{{$tc('objects.ccenter.res.res', 2)}}</h3>
-        </header>
-        <form class="object-input-grid">
-            <div class="tags-input-wrap">
-                <div class="tags-input__label">
-                    {{$tc('objects.ccenter.res.res', 2)}}*
-                </div>
-
-                <tags-input
-                        v-model="resTag"
-                        :tags="itemInstance.resList"
-                        :autocomplete-items="resList"
-                        :autocomplete-min-length="0"
-                        :placeholder="$tc('objects.ccenter.res.res', 2)"
-                        @before-deleting-tag="deleteRes"
-                        @tags-changed="newTags => this.itemInstance.resList = newTags"
-                        autocomplete-filter-duplicates
-                >
-                </tags-input>
+            <div class="content-header__actions-wrap">
+                <search
+                        v-model="search"
+                        @filterData="loadDataList"
+                ></search>
+                <i
+                        class="icon-icon_delete icon-action"
+                        :class="{'hidden': anySelected}"
+                        @click="deleteSelected"
+                ></i>
+                <i class="icon-action icon-icon_plus" @click="create"></i>
             </div>
-        </form>
+        </header>
+
+        <vuetable
+                :api-mode="false"
+                :fields="fields"
+                :data="dataList"
+        >
+            <template slot="name" slot-scope="props">
+                <div>
+                    {{dataList[props.rowIndex].resource.name}}
+                </div>
+            </template>
+
+            <template slot="actions" slot-scope="props">
+                <i class="vuetable-action icon-icon_edit"
+                   @click="edit(props.rowIndex)"
+                ></i>
+                <i class="vuetable-action icon-icon_delete"
+                   @click="remove(props.rowIndex)"
+                ></i>
+            </template>
+        </vuetable>
+        <pagination
+                v-model="size"
+                @loadDataList="loadDataList"
+                @next="nextPage"
+                @prev="prevPage"
+                :isNext="isNextPage"
+                :isPrev="!!page"
+        ></pagination>
     </section>
 </template>
 
 <script>
+    import resPopup from './opened-resource-group-resource-popup';
+    import tableComponentMixin from '@/mixins/tableComponentMixin';
     import openedTabComponentMixin from '@/mixins/openedTabComponentMixin';
-    import {getResourceList} from "../../../api/contact-center/resources/resources";
-    import {deleteResInGroup} from "../../../api/contact-center/resourceGroups/resourceGroups";
-    import TagsInput from "@johmun/vue-tags-input";
+    import {_checkboxTableField, _actionsTableField_2} from "@/utils/tableFieldPresets";
+    import eventBus from "../../../utils/eventBus";
+    import {mapActions, mapState} from "vuex";
 
     export default {
         name: "opened-resource-group-resources",
-        mixins: [openedTabComponentMixin],
-        components: {
-            TagsInput,
-        },
+        mixins: [openedTabComponentMixin, tableComponentMixin],
+        components: {resPopup},
         data() {
             return {
-                resTag: '',
-                resList: []
+                fields: [
+                    _checkboxTableField,
+                    {name: 'name', title: this.$tc('objects.ccenter.res.numbers', 2)},
+                    _actionsTableField_2,
+                ],
             }
         },
 
         mounted() {
-            this.loadRes();
+            this.setParentId(this.parentId);
+            this.loadDataList();
+        },
+
+        computed: {
+            ...mapState('ccenter/resGroups', {
+                parentId: state => state.itemId,
+            }),
+            ...mapState('ccenter/resGroups/res', {
+                dataList: state => state.dataList,
+                page: state => state.page,
+                isNextPage: state => state.isNextPage,
+            }),
+
+            size: {
+                get() {
+                    return this.$store.state.ccenter.resGroups.res.size
+                },
+                set(value) {
+                    this.setSize(value)
+                }
+            },
+
+            search: {
+                get() {
+                    return this.$store.state.ccenter.resGroups.res.search
+                },
+                set(value) {
+                    this.setSearch(value)
+                }
+            }
         },
 
         methods: {
-            async deleteRes({index, tag, deleteTag}) {
-                try {
-                    await deleteResInGroup(this.id, tag.id);
-                    deleteTag();
-                } catch {}
+            async create() {
+                if (!this.checkValidations()) {
+                    if (!this.id) await this.addParentItem();
+                    this.popupTriggerIf = true;
+                } else {
+                    eventBus.$emit('notificationError', 'Check your validations!');
+                }
             },
 
-            async loadRes() {
-                const response = await getResourceList();
-                this.resList = response.map(item => {
-                    return {
-                        text: item.name,
-                        resId: item.id,
-                    }
-                });
-            }
-        }
+            edit(rowIndex) {
+                this.setId(this.dataList[rowIndex].id);
+                this.popupTriggerIf = true;
+            },
+
+            ...mapActions('ccenter/resGroups', {
+                addParentItem: 'ADD_ITEM',
+            }),
+
+            ...mapActions('ccenter/resGroups/res', {
+                setParentId: 'SET_PARENT_ITEM_ID',
+                setId: 'SET_ITEM_ID',
+                loadDataList: 'LOAD_DATA_LIST',
+                setSize: 'SET_SIZE',
+                setSearch: 'SET_SEARCH',
+                nextPage: 'NEXT_PAGE',
+                prevPage: 'PREV_PAGE',
+                removeItem: 'REMOVE_ITEM',
+            }),
+        },
     }
 </script>
 
 <style lang="scss" scoped>
 
-    .value-pair-wrap > .label {
-        margin-bottom: 0;
-    }
-
-    .value-pair {
-        i {
-            margin-bottom: 10px;
-        }
-    }
 </style>

@@ -1,18 +1,18 @@
 import instance from '@/api/instance';
-import store from '@/store/store';
 import configuration from '@/api/openAPIConfig';
 import sanitizer from '@/api/utils/sanitizer';
 import {OutboundResourceGroupServiceApiFactory} from 'webitel-sdk';
+import eventBus from "../../../utils/eventBus";
 
 const resGrService = new OutboundResourceGroupServiceApiFactory
 (configuration, process.env.VUE_APP_API_URL, instance);
 
-const domainId = store.getters.getDomainId || undefined;
+const domainId = undefined;
 const fieldsToSend = ['domain_id', 'name', 'description', 'strategy', 'communication', 'time'];
 
 export const getResGroupList = async (page = 0, size = 10) => {
     const defaultObject = {
-        isSelected: false,
+        _isSelected: false,
         name: '',
         strategy: '',
         description: '',
@@ -24,7 +24,7 @@ export const getResGroupList = async (page = 0, size = 10) => {
         const response = await resGrService.searchOutboundResourceGroup(page, size, domainId);
         if (Array.isArray(response.data.items)) {
             return response.data.items.map(item => {
-                return Object.assign({}, defaultObject, item);
+                return {...defaultObject, ...item};
             });
         }
         return [];
@@ -38,7 +38,6 @@ export const getResGroup = async (id) => {
         const response = await resGrService.readOutboundResourceGroup(id, domainId);
 
         const defaultObject = {
-            isSelected: false,
             name: '',
             strategy: '',
             description: '',
@@ -50,6 +49,7 @@ export const getResGroup = async (id) => {
                 }
             ],
             id: 0,
+            _dirty: false,
         };
 
         response.data.time = response.data.time.map(range => {
@@ -59,23 +59,25 @@ export const getResGroup = async (id) => {
             }
         });
 
-        return Object.assign({}, defaultObject, response.data);
+        return {...defaultObject, ...response.data};
     } catch (err) {
         throw err;
     }
 };
 
 export async function addResGroup(item) {
-    item.domain_id = domainId;
-    item.time = item.time.map(range => {
+    let itemCopy = {...item};
+    itemCopy.domain_id = domainId;
+    itemCopy.time = itemCopy.time.map(range => {
         return {
             start_time_of_day: range.start,
             end_time_of_day: range.end,
         }
     });
-    sanitizer(item, fieldsToSend);
+    sanitizer(itemCopy, fieldsToSend);
     try {
-        const response = await resGrService.createOutboundResourceGroup(item);
+        const response = await resGrService.createOutboundResourceGroup(itemCopy);
+        eventBus.$emit('notificationInfo', 'Sucessfully added');
         return response.data.id;
     } catch (err) {
         throw err;
@@ -83,15 +85,17 @@ export async function addResGroup(item) {
 }
 
 export async function updateResGroup(id, item) {
-    item.time = item.time.map(range => {
+    let itemCopy = {...item};
+    itemCopy.time = itemCopy.time.map(range => {
         return {
             start_time_of_day: range.start,
             end_time_of_day: range.end,
         }
     });
-    sanitizer(item, fieldsToSend);
+    sanitizer(itemCopy, fieldsToSend);
     try {
-        await resGrService.updateOutboundResourceGroup(id, item);
+        await resGrService.updateOutboundResourceGroup(id, itemCopy);
+        eventBus.$emit('notificationInfo', 'Sucessfully updated');
     } catch (err) {
         throw err;
     }
@@ -104,61 +108,3 @@ export async function deleteResGroup(id) {
         throw err;
     }
 }
-
-export const getResInGroup = async (resGroupId, page = 0, size = 10) => {
-    try {
-        const response = await resGrService.searchOutboundResourceInGroup(resGroupId, page, size);
-        if (response.data.items) {
-            return response.data.items.map(item => {
-                return {
-                    text: item.resource.name,
-                    resId: item.resource.id,
-                    group_id: item.group_id,
-                    id: item.id,
-                }
-            });
-        }
-        return [];
-    } catch (err) {
-        throw err;
-    }
-};
-
-export const addResInGroup = async (resGroupId, item) => {
-    item = {
-        group_id: resGroupId,
-        resource: {
-            name: item.text,
-            id: item.resId
-        }
-    };
-    try {
-        await resGrService.createOutboundResourceInGroup(resGroupId, item);
-    } catch (err) {
-        throw err;
-    }
-};
-
-export const updateResInGroup = async (resGroupId, id, item) => {
-    item = {
-        id: item.id,
-        group_id: resGroupId,
-        resource: {
-            name: item.text,
-            id: item.resId
-        }
-    };
-    try {
-        await resGrService.updateOutboundResourceInGroup(resGroupId, id, item);
-    } catch (err) {
-        throw err;
-    }
-};
-
-export const deleteResInGroup = async (resGroupId, id) => {
-    try {
-        await resGrService.deleteOutboundResourceInGroup(resGroupId, id);
-    } catch (err) {
-        throw err;
-    }
-};

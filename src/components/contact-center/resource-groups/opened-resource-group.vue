@@ -1,11 +1,13 @@
 <template>
     <div>
         <object-header
-                :primaryText="$t('objects.save')"
-                :primaryAction="submit"
+                :primaryText="computePrimaryText"
+                :primaryAction="save"
+                :primaryDisabled="computeDisabled"
                 close
         >
-            {{$tc('objects.ccenter.resGroups.resGroups', 1)}} | {{computeTitle}}
+            {{$tc('objects.ccenter.resGroups.resGroups', 1)}} |
+            {{computeTitle}}
         </object-header>
         <tabs-component
                 :tabs="tabs"
@@ -37,6 +39,7 @@
         getResGroup, getResInGroup,
         updateResGroup, updateResInGroup
     } from "../../../api/contact-center/resourceGroups/resourceGroups";
+    import {mapActions, mapState} from "vuex";
 
     export default {
         name: 'opened-resource-group',
@@ -49,21 +52,6 @@
 
         data() {
             return {
-                itemInstance: {
-                    resGroup: {
-                        name: 'res gr',
-                        communication: {id: 1},
-                        description: 'res gr descr',
-                        time: [
-                            {
-                                start: 540,
-                                end: 1200,
-                            }
-                        ],
-                    },
-                    resList: [],
-                },
-
                 tabs: [
                     {text: this.$t('objects.general'), value: 'general',},
                     {value: 'resources', text: this.$tc('objects.ccenter.res.res', 2),},
@@ -75,51 +63,46 @@
         // by vuelidate
         validations: {
             itemInstance: {
-                resGroup: {
-                    name: {
-                        required
-                    },
-                    communication: {
-                        required
-                    },
-                    time: {
-                        requiredArrayValue,
-                        timerangeNotIntersect,
-                    }
+                name: {
+                    required
                 },
-                resList: {
-                    requiredArrayValue
+                communication: {
+                    required
                 },
+                time: {
+                    requiredArrayValue,
+                    timerangeNotIntersect,
+                }
+                // resList: {
+                //     requiredArrayValue
+                // },
+            }
+        },
+
+        mounted() {
+            this.id = this.$route.params.id;
+            this.loadItem();
+        },
+
+        computed: {
+            ...mapState('ccenter/resGroups', {
+                itemInstance: state => state.itemInstance,
+            }),
+            id: {
+                get() {return this.$store.state.ccenter.resGroups.itemId},
+                set(value) {this.setId(value)}
             }
         },
 
         methods: {
-            async save() {
-                try {
-                    this.id = await this.saveObject('resGroup', addResGroup, updateResGroup);
-                    await this.saveArray('resList', addResInGroup, updateResInGroup);
-                    this.close();
-                } catch {
-                    this.loadItem();
-                }
-            },
-
-            async loadItem() {
-                if(this.id) {
-                    await this.loadResGroup();
-                    await this.loadResList();
-                }
-                this.initialItem = JSON.parse(JSON.stringify(this.itemInstance));
-            },
-
-            async loadResGroup() {
-                this.itemInstance.resGroup = await getResGroup(this.id);
-            },
-
-            async loadResList() {
-                this.itemInstance.resList = await getResInGroup(this.id);
-            }
+            ...mapActions('ccenter/resGroups', {
+                setId: 'SET_ITEM_ID',
+                loadItem: 'LOAD_ITEM',
+                addItem: 'ADD_ITEM',
+                updateItem: 'UPDATE_ITEM',
+            }),
         },
+
     };
 </script>
 
