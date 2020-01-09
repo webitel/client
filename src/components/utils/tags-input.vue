@@ -93,7 +93,7 @@
             changeTags(tags) {
                 const res = tags.map(i => {
                     return {
-                        name: i.name,
+                        name: i.name || i.text,
                         id: i.id
                     }
                 });

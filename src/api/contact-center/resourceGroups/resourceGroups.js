@@ -10,7 +10,7 @@ const resGrService = new OutboundResourceGroupServiceApiFactory
 const domainId = store.getters.getDomainId || undefined;
 const fieldsToSend = ['domain_id', 'name', 'description', 'strategy', 'communication', 'time'];
 
-export const getResGroupList = async (size = 20) => {
+export const getResGroupList = async (page = 0, size = 10) => {
     const defaultObject = {
         isSelected: false,
         name: '',
@@ -21,7 +21,7 @@ export const getResGroupList = async (size = 20) => {
     };
 
     try {
-        const response = await resGrService.searchOutboundResourceGroup(0, size, domainId);
+        const response = await resGrService.searchOutboundResourceGroup(page, size, domainId);
         if (Array.isArray(response.data.items)) {
             return response.data.items.map(item => {
                 return Object.assign({}, defaultObject, item);

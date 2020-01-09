@@ -12,7 +12,6 @@
                 <h3 class="content-title">
                     {{$t('objects.ccenter.res.allRes')}}
                 </h3>
-
                 <div class="content-header__actions-wrap">
                     <search
                             v-model="search"
@@ -50,7 +49,7 @@
                     <switcher
                             class="test__resources__enable-switcher"
                             :value="dataList[props.rowIndex].enabled"
-                            @input="toggleDataProperty('enabled', props.rowIndex)"
+                            @input="toggleDataProperty({index: props.rowIndex, prop: 'enabled'})"
                     >
                     </switcher>
                 </template>
@@ -59,7 +58,7 @@
                     <switcher
                             class="test__resources__reserve-switcher"
                             :value="dataList[props.rowIndex].reserve"
-                            @input="toggleDataProperty('reserve', props.rowIndex)"
+                            @input="toggleDataProperty({index: props.rowIndex, prop: 'reserve'})"
                     >
                     </switcher>
                 </template>
@@ -73,18 +72,22 @@
                     ></i>
                 </template>
             </vuetable>
-
-            <pagination/>
+            <pagination
+                    v-model="size"
+                    @loadDataList="loadDataList"
+                    @next="nextPage"
+                    @prev="prevPage"
+                    :isNext="isNextPage"
+                    :isPrev="!!page"
+            ></pagination>
         </section>
     </div>
 </template>
 
 <script>
-    import {getResourceList, deleteResource} from '../../../api/contact-center/resources/resources';
     import tableComponentMixin from '@/mixins/tableComponentMixin';
     import {_checkboxTableField, _actionsTableField_2, _switcherWidth} from "../../../utils/tableFieldPresets";
-    import {patchResource} from "../../../api/contact-center/resources/resources";
-
+    import {mapActions, mapState} from "vuex";
 
     export default {
         name: "the-resources",
@@ -102,6 +105,24 @@
             };
         },
 
+        computed: {
+            ...mapState('ccenter/res', {
+                dataList: state => state.dataList,
+                page: state => state.page, // acts like a boolean: if page is 0, there's no back page
+                isNextPage: state => state.isNextPage,
+            }),
+
+            size: {
+                get() {return this.$store.state.ccenter.res.size},
+                set(value) {this.setSize(value)}
+            },
+
+            search: {
+                get() {return this.$store.state.ccenter.res.search},
+                set(value) {this.setSearch(value)}
+            },
+        },
+
         methods: {
             create() {
                 this.$router.push('/contact-center/resource/new');
@@ -114,26 +135,15 @@
                 });
             },
 
-            async toggleDataProperty(property, rowIndex) {
-                // first, change UI, then send request
-                this.dataList[rowIndex][property] = !this.dataList[rowIndex][property];
-                try {
-                    let changes = {};
-                    changes[property] = this.dataList[rowIndex][property];
-                    await patchResource(this.dataList[rowIndex].id, changes);
-                } catch (err) {
-                    this.loadDataList();
-               }
-            },
-
-            async deleteItem(deletedItem) {
-                await deleteResource(deletedItem.id);
-            },
-
-            async loadDataList() {
-                const response = await getResourceList(this.rowsPerPage);
-                this.dataList = [...response];
-            }
+            ...mapActions('ccenter/res', {
+                loadDataList: 'LOAD_DATA_LIST',
+                setSize: 'SET_SIZE',
+                setSearch: 'SET_SEARCH',
+                nextPage: 'NEXT_PAGE',
+                prevPage: 'PREV_PAGE',
+                toggleDataProperty: 'TOGGLE_ITEM_PROPERTY',
+                removeItem: 'REMOVE_ITEM',
+            }),
         },
 
     }

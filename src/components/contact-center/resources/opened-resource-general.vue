@@ -5,42 +5,38 @@
         </header>
         <form class="object-input-grid">
             <form-input
-                    v-model.trim="v.itemInstance.res.name.$model"
-                    :v="v.itemInstance.res.name"
+                    v-model.trim="name"
+                    :v="v.itemInstance.name"
                     :label="$t('objects.name')"
-                    :placeholder="$t('objects.name')"
                     required
             ></form-input>
 
             <dropdown-select
-                    v-model="itemInstance.res.gateway"
-                    :v="v.itemInstance.res.gateway"
-                    :options="gatewayList"
+                    v-model="gateway"
+                    :v="v.itemInstance.gateway"
+                    :options="dropdownOptionsList"
                     :label="$tc('objects.routing.gateways.gateways', 1)"
-                    :placeholder="$tc('objects.routing.gateways.gateways', 1)"
+                    @search="loadDropdownOptionsList"
                     required
             ></dropdown-select>
 
             <form-input
-                    v-model.trim="v.itemInstance.res.cps.$model"
-                    :v="v.itemInstance.res.cps"
+                    v-model.trim="cps"
+                    :v="v.itemInstance.cps"
                     :label="$t('objects.ccenter.res.cps')"
-                    :placeholder="$t('objects.ccenter.res.cps')"
                     required
             ></form-input>
 
             <form-input
-                    v-model.trim="v.itemInstance.res.limit.$model"
-                    :v="v.itemInstance.res.limit"
+                    v-model.trim="limit"
+                    :v="v.itemInstance.limit"
                     :label="$t('objects.ccenter.res.limit')"
-                    :placeholder="$t('objects.ccenter.res.limit')"
                     required
             ></form-input>
 
             <form-input
-                    v-model="itemInstance.res.description"
+                    v-model="description"
                     :label="$t('objects.description')"
-                    :placeholder="$t('objects.description')"
                     textarea
             ></form-input>
         </form>
@@ -50,24 +46,59 @@
 <script>
     import openedTabComponentMixin from '@/mixins/openedTabComponentMixin';
     import {getGatewayNameIdPair} from "../../../api/contact-center/resources/resources";
+    import {getGatewayList} from "../../../api/routing/gateways/gateways";
+    import {mapActions} from "vuex";
 
     export default {
         name: "opened-resource-general",
         mixins: [openedTabComponentMixin],
         data() {
             return {
-                gatewayList: [],
+                dropdownOptionsList: [],
             }
         },
 
         mounted() {
-            this.loadGatewayList();
+            this.loadDropdownOptionsList();
+        },
+
+        computed: {
+            name: {
+                get() {return this.$store.state.ccenter.res.itemInstance.name},
+                set(value) {this.setItemProp({prop: 'name', value})}
+            },
+            gateway: {
+                get() {return this.$store.state.ccenter.res.itemInstance.gateway},
+                set(value) {this.setItemProp({prop: 'gateway', value})}
+            },
+            cps: {
+                get() {return this.$store.state.ccenter.res.itemInstance.cps},
+                set(value) {this.setItemProp({prop: 'cps', value})}
+            },
+            limit: {
+                get() {return this.$store.state.ccenter.res.itemInstance.limit},
+                set(value) {this.setItemProp({prop: 'limit', value})}
+            },
+            description: {
+                get() {return this.$store.state.ccenter.res.itemInstance.description},
+                set(value) {this.setItemProp({prop: 'description', value})}
+            },
         },
 
         methods: {
-            async loadGatewayList() {
-               this.gatewayList = await getGatewayNameIdPair();
-            }
+            async loadDropdownOptionsList(search) {
+                const response = await getGatewayList(0, 10, search);
+                this.dropdownOptionsList = response.map(item => {
+                    return {
+                        name: item.name,
+                        id: item.id,
+                    }
+                });
+            },
+
+            ...mapActions('ccenter/res', {
+                setItemProp: 'SET_ITEM_PROPERTY',
+            }),
         }
     }
 </script>

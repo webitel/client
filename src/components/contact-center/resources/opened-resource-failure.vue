@@ -6,53 +6,55 @@
 
         <form class="object-input-grid grid-w50">
             <form-input
-                    v-model.trim="itemInstance.res.maxErrors"
+                    v-model.trim="maxErrors"
                     :label="$t('objects.ccenter.res.maxErrors')"
-                    :placeholder="$t('objects.ccenter.res.maxErrors')"
             ></form-input>
 
-            <div class="tags-input-wrap">
-                <div class="tags-input__label">
-                    {{$tc('objects.ccenter.res.errorCodes')}}
-                </div>
-
-                <tags-input
-                        v-model="errorCodeTag"
-                        :tags="itemInstance.res.errorIds"
-                        :autocomplete-items="errorCodeTags"
-                        :autocomplete-min-length="0"
-                        :placeholder="$tc('objects.ccenter.res.errorCodes')"
-                        @tags-changed="newTags => this.itemInstance.res.errorIds = newTags"
-                        autocomplete-filter-duplicates
-                >
-                </tags-input>
-            </div>
+            <tags-input
+                    v-model="errorIds"
+                    :options="dropdownOptionsList"
+                    :label="$tc('objects.directory.devices.devices', 2)"
+                    :addOnlyFromAutocomplete="false"
+            ></tags-input>
         </form>
     </section>
 </template>
 
 <script>
     import openedTabComponentMixin from '@/mixins/openedTabComponentMixin';
-    import TagsInput from "@johmun/vue-tags-input";
+    import {mapActions} from "vuex";
 
     export default {
         name: "opened-resource-failure",
         mixins: [openedTabComponentMixin],
-        components: {
-            TagsInput,
-        },
 
         data() {
             return {
-                errorCodeTag: '',
-                errorCodeTags: [
-                    {text: '1xx'},
-                    {text: '2xx'},
-                    {text: '3xx'},
-                    {text: '4xx'},
-                    {text: '5xx'}
+                dropdownOptionsList: [
+                    {name: '1xx'},
+                    {name: '2xx'},
+                    {name: '3xx'},
+                    {name: '4xx'},
+                    {name: '5xx'}
                 ],
             }
         },
+
+        computed: {
+            maxErrors: {
+                get() {return this.$store.state.ccenter.res.itemInstance.maxErrors},
+                set(value) {this.setItemProp({prop: 'maxErrors', value})}
+            },
+            errorIds: {
+                get() {return this.$store.state.ccenter.res.itemInstance.errorIds},
+                set(value) {this.setItemProp({prop: 'errorIds', value})}
+            },
+        },
+
+        methods: {
+            ...mapActions('ccenter/res', {
+                setItemProp: 'SET_ITEM_PROPERTY',
+            }),
+        }
     }
 </script>

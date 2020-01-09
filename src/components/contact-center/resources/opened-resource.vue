@@ -1,11 +1,13 @@
 <template>
     <div>
         <object-header
-                :primaryText="$t('objects.save')"
-                :primaryAction="submit"
+                :primaryText="computePrimaryText"
+                :primaryAction="save"
+                :primaryDisabled="computeDisabled"
                 close
         >
-            {{$tc('objects.ccenter.res.res', 1)}} | {{computeTitle}}
+            {{$tc('objects.ccenter.res.res', 1)}} |
+            {{computeTitle}}
         </object-header>
         <tabs-component
                 :tabs="tabs"
@@ -39,30 +41,19 @@
         updateResource,
         getResDisplayList, updateResDisplay, addResDisplay
     } from "../../../api/contact-center/resources/resources";
+    import {mapActions, mapState} from "vuex";
 
     export default {
         name: 'opened-resource',
+        mixins: [editComponentMixin],
         components: {
             openedResourceGeneral,
             openedResourceNumbers,
             openedResourceFailure
         },
-        mixins: [editComponentMixin],
 
         data() {
             return {
-                itemInstance: {
-                    res: {
-                        name: 'test',
-                        gateway: {id: 1},
-                        cps: 10,
-                        limit: 10,
-                        description: 'test',
-                        maxErrors: 2,
-                        errorIds: [{text: '2xx'}],
-                    },
-                    numberList: [{display: '1'}, {display: '2'}],
-                },
                 tabs: [
                     {
                         text: this.$t('objects.general'),
@@ -83,7 +74,6 @@
         // by vuelidate
         validations: {
             itemInstance: {
-                res: {
                     name: {
                         required
                     },
@@ -96,106 +86,39 @@
                     limit: {
                         required
                     },
-                },
-                numberList: {
-                    requiredArrayValue
-                }
+                // numberList: {
+                //     requiredArrayValue
+                // }
+            }
+        },
+
+        mounted() {
+            this.id = this.$route.params.id;
+            this.loadItem();
+        },
+
+        computed: {
+            ...mapState('ccenter/res', {
+                itemInstance: state => state.itemInstance,
+            }),
+            id: {
+                get() {return this.$store.state.ccenter.res.itemId},
+                set(value) {this.setId(value)}
             }
         },
 
         methods: {
-            async submit() {
-                const isItemChanged = !deepEqual(this.itemInstance, this.initialItem);
-                if (isItemChanged) {
-                    const validations = this.checkValidations();
-                    if (!validations) {
-                        try {
-                            await this.saveResource();
-                            await this.saveResNumbers();
-                            this.close();
-                        } catch (err) {
-                            console.log(err)
-                            this.loadItem();
-                        }
-                    }
-                } else {
-                    this.close();
-                }
-            },
-
-            async saveResource() {
-                const isItemChanged = !deepEqual(this.itemInstance.res, this.initialItem.res);
-                if (isItemChanged) {
-                    if (this.id) {
-                        console.log(this.itemInstance.res);
-                        await updateResource(this.id, this.itemInstance.res);
-                    } else {
-                        this.id = await addResource(this.itemInstance.res);
-                    }
-                }
-            },
-
-            async saveResNumbers() {
-                await this.addNumbersList();
-                await this.updateNumbersList();
-            },
-
-            async addNumbersList() {
-                const newNumber = this.itemInstance.numberList.filter(num => !num.id && num.display);
-                if (newNumber.length) {
-                    for (const num of newNumber) {
-                        try {
-                            await addResDisplay(this.id, num);
-                        } catch (err) {
-                            throw err;
-                        }
-                    }
-                }
-            },
-
-            async updateNumbersList() {
-                for (const num of this.itemInstance.numberList) {
-                    if (num.id) {
-                        const initIndex = this.initialItem.numberList.findIndex(initialNum => {
-                            return deepEqual(num, initialNum);
-                        });
-                        if (initIndex === -1) {
-                            try {
-                                await updateResDisplay(this.id, num.id, num);
-                            } catch (err) {
-                                throw err;
-                            }
-                        }
-                    }
-                }
-            },
-
-            // load current item from backend
-            async loadItem() {
-                await this.loadResource();
-                await this.loadNumbers();
-                this.initialItem = JSON.parse(JSON.stringify(this.itemInstance));
-            },
-
-            async loadResource() {
-                this.itemInstance.res = await getResource(this.id);
-            },
-
-            async loadNumbers() {
-                const response = await getResDisplayList(this.id);
-                this.itemInstance.numberList = [...response];
-            },
+            ...mapActions('ccenter/res', {
+                setId: 'SET_ITEM_ID',
+                loadItem: 'LOAD_ITEM',
+                addItem: 'ADD_ITEM',
+                updateItem: 'UPDATE_ITEM',
+            }),
         },
     };
 </script>
 
 
 <style lang="scss" scoped>
-    .value-pair-wrap {
-        margin-top: 8px;
-    }
 
-    .value-pair {
-        grid-template-columns: 1fr 24px;
-    }
 </style>

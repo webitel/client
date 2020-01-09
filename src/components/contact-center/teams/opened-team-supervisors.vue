@@ -57,7 +57,7 @@
     import eventBus from '@/utils/eventBus';
     import tableComponentMixin from '@/mixins/tableComponentMixin';
     import openedTabComponentMixin from '@/mixins/openedTabComponentMixin';
-    import {_checkboxTableField,_actionsTableField_2} from "@/utils/tableFieldPresets";
+    import {_checkboxTableField, _actionsTableField_2} from "@/utils/tableFieldPresets";
     import {mapActions, mapState} from "vuex";
 
     export default {
@@ -90,13 +90,21 @@
             }),
 
             size: {
-                get() {return this.$store.state.ccenter.teams.supervisors.size},
-                set(value) {this.setSize(value)}
+                get() {
+                    return this.$store.state.ccenter.teams.supervisors.size
+                },
+                set(value) {
+                    this.setSize(value)
+                }
             },
 
             search: {
-                get() {return this.$store.state.ccenter.teams.supervisors.search},
-                set(value) {this.setSearch(value)}
+                get() {
+                    return this.$store.state.ccenter.teams.supervisors.search
+                },
+                set(value) {
+                    this.setSearch(value)
+                }
             }
         },
 
