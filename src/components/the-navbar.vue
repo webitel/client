@@ -62,7 +62,7 @@
                         name: 'directory',
                         displayName: this.$t('nav.directory.directory'),
                         route: '/directory',
-                        iconClass: 'icon-icon_deny',
+                        iconClass: 'icon-icon_nav-directory',
                         expanded: false,
                         subnav: [
                             {
@@ -89,7 +89,7 @@
                         name: 'routing',
                         displayName: this.$t('nav.routing.routing'),
                         route: '/routing',
-                        iconClass: 'icon-icon_deny',
+                        iconClass: 'icon-icon_nav-routing',
                         expanded: false,
                         subnav: [
                             {
@@ -122,7 +122,7 @@
                         name: 'lookups',
                         displayName: this.$t('nav.lookups.lookups'),
                         route: '/lookups',
-                        iconClass: 'icon-icon_deny',
+                        iconClass: 'icon-icon_nav-lookups',
                         expanded: false,
                         subnav: [
                             {
@@ -173,7 +173,7 @@
                         name: 'ccenter',
                         displayName: this.$t('nav.ccenter.ccenter'),
                         route: '/contact-center',
-                        iconClass: 'icon-icon_deny',
+                        iconClass: 'icon-icon_nav-ccenter',
                         expanded: false,
                         subnav: [
                             {
@@ -232,7 +232,7 @@
                         name: 'integrations',
                         displayName: this.$t('nav.integrations.integrations'),
                         route: '/integrations',
-                        iconClass: 'icon-icon_deny',
+                        iconClass: 'icon-icon_nav-integrations',
                         expanded: false,
                         subnav: [
                             {
@@ -277,7 +277,7 @@
                         name: 'permissions',
                         displayName: this.$t('nav.permissions.permissions'),
                         route: '/permissions',
-                        iconClass: 'icon-icon_deny',
+                        iconClass: 'icon-icon_nav-permissions',
                         expanded: false,
                         subnav: [
                             {
@@ -382,7 +382,7 @@
             padding-top: 20px;
             color: $nav-icon-color;
 
-            i {
+            i:before {
                 color: $nav-icon-color;
             }
 
@@ -447,7 +447,7 @@
                 }
 
                 &:hover, .nav-item__expanded, .nav-item__current {
-                    .nav-icon-arrow, .nav-icon, .nav-text {
+                    .nav-icon-arrow:before, .nav-icon:before, .nav-text {
                         color: $accent-color;
                     }
                 }

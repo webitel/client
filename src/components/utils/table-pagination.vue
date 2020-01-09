@@ -15,12 +15,12 @@
             <span class="current items">1-10 of 100</span>
             <div class="controls">
                 <i
-                        class="icon-action icon-icon_arrow-left"
+                        class="icon-action icon-icon_arrow-down"
                         :class="{'disabled': !isPrev}"
                         @click="prev"
                 ></i>
                 <i
-                        class="icon-action icon-icon_arrow-left"
+                        class="icon-action icon-icon_arrow-down"
                         :class="{'disabled': !isNext}"
                         @click="next"
                 ></i>
@@ -114,8 +114,13 @@
             .controls {
                 margin-left: 28px;
 
-                i {
+                i:before {
                     color: #000;
+                    transform: rotate(90deg);
+
+                    &:first-child {
+                        transform: rotate(-90deg);
+                    }
 
                     &.disabled {
                         color: red;
