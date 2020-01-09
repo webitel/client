@@ -2,17 +2,20 @@ import instance from '@/api/instance';
 import store from '@/store/store';
 import configuration from '@/api/openAPIConfig';
 import {CommunicationTypeServiceApiFactory} from 'webitel-sdk';
+import eventBus from "../../../utils/eventBus";
+import sanitizer from "../../utils/sanitizer";
 
 const communicationService = new CommunicationTypeServiceApiFactory
 (configuration, process.env.VUE_APP_API_URL, instance);
 
-const domainId = store.getters.getDomainId || undefined;
+const domainId = undefined;
+const fieldsToSend = ['code', 'name', 'description'];
 
-export const getCommunicationsList = async (size = 10) => {
+export const getCommunicationsList = async (page = 0, size = 10) => {
     try {
-        const response = await communicationService.searchCommunicationType(domainId, size);
+        const response = await communicationService.searchCommunicationType(page, size);
         if (!response.data.items) response.data.items = [];
-        response.data.items.forEach(item => item.isSelected = false);
+        response.data.items.forEach(item => item._isSelected = false);
         return response.data.items;
     } catch (err) {
         throw err;
@@ -27,9 +30,10 @@ export const getCommunication = async (id) => {
             name: '',
             code: '',
             description: '',
+            _dirty: false,
         };
 
-        return Object.assign({}, defaultObject, response.data);
+        return {...defaultObject, ...response.data};
     } catch (err) {
         throw err;
     }
@@ -38,15 +42,19 @@ export const getCommunication = async (id) => {
 export const addCommunication = async (item) => {
     item.domain_id = domainId;
     try {
-        await communicationService.createCommunicationType(item);
+        const response = await communicationService.createCommunicationType(item);
+        eventBus.$emit('notificationInfo', 'Sucessfully added');
+        return response.data.id;
     } catch (err) {
         throw err;
     }
 };
 
-export const updateCommunication = async (changes) => {
+export const updateCommunication = async (id, item) => {
+    sanitizer(item, fieldsToSend);
     try {
-        await communicationService.updateCommunicationType(changes.id, changes);
+        await communicationService.updateCommunicationType(id, item);
+        eventBus.$emit('notificationInfo', 'Sucessfully updated');
     } catch (err) {
         throw err;
     }

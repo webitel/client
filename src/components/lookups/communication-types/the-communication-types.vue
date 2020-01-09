@@ -58,6 +58,14 @@
                     ></i>
                 </template>
             </vuetable>
+            <pagination
+                    v-model="size"
+                    @loadDataList="loadDataList"
+                    @next="nextPage"
+                    @prev="prevPage"
+                    :isNext="isNextPage"
+                    :isPrev="!!page"
+            ></pagination>
         </section>
     </div>
 </template>
@@ -65,7 +73,8 @@
 <script>
     import tableComponentMixin from '@/mixins/tableComponentMixin';
     import {_checkboxTableField, _actionsTableField_2} from "@/utils/tableFieldPresets";
-    import {deleteCommunication, getCommunicationsList} from "../../../api/lookups/communications";
+    import {deleteCommunication, getCommunicationsList} from "../../../api/lookups/communications/communications";
+    import {mapActions, mapState} from "vuex";
 
     export default {
         name: "the-communication-types",
@@ -82,6 +91,24 @@
             };
         },
 
+        computed: {
+            ...mapState('lookups/communications', {
+                dataList: state => state.dataList,
+                page: state => state.page, // acts like a boolean: if page is 0, there's no back page
+                isNextPage: state => state.isNextPage,
+            }),
+
+            size: {
+                get() {return this.$store.state.lookups.communications.size},
+                set(value) {this.setSize(value)}
+            },
+
+            search: {
+                get() {return this.$store.state.lookups.communications.search},
+                set(value) {this.setSearch(value)}
+            },
+        },
+
         methods: {
             create() {
                 this.$router.push('/lookups/communications/new');
@@ -94,13 +121,14 @@
                 });
             },
 
-            async deleteItem(item) {
-                await deleteCommunication(item.id);
-            },
-
-            async loadDataList() {
-                this.dataList = await getCommunicationsList();
-            }
+            ...mapActions('lookups/communications', {
+                loadDataList: 'LOAD_DATA_LIST',
+                setSize: 'SET_SIZE',
+                setSearch: 'SET_SEARCH',
+                nextPage: 'NEXT_PAGE',
+                prevPage: 'PREV_PAGE',
+                removeItem: 'REMOVE_ITEM',
+            }),
         }
     }
 </script>

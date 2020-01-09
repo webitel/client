@@ -1,11 +1,13 @@
 <template>
     <div class="content-wrap">
         <object-header
-                :primaryText="$t('objects.save')"
-                :primaryAction="submit"
+                :primaryText="computePrimaryText"
+                :primaryAction="save"
+                :primaryDisabled="computeDisabled"
                 close
         >
-            <span>{{$tc('objects.lookups.communications.communications', 1)}}</span> | {{computeTitle}}
+            {{$tc('objects.lookups.communications.communications', 1)}} |
+            {{computeTitle}}
         </object-header>
         <section class="object-content module-new">
             <header class="content-header">
@@ -14,21 +16,21 @@
 
             <form class="new_w50">
                 <form-input
-                        v-model.trim="$v.itemInstance.code.$model"
+                        v-model.trim="code"
                         :v="$v.itemInstance.code"
                         :label="$t('objects.lookups.communications.code')"
                         required
                 ></form-input>
 
                 <form-input
-                        v-model.trim="$v.itemInstance.name.$model"
+                        v-model.trim="name"
                         :v="$v.itemInstance.name"
                         :label="$t('objects.name')"
                         required
                 ></form-input>
 
                 <form-input
-                        v-model="itemInstance.description"
+                        v-model="description"
                         :label="$t('objects.description')"
                         textarea
                 ></form-input>
@@ -46,18 +48,15 @@
         addCommunication,
         getCommunication,
         updateCommunication
-    } from "../../../api/lookups/communications";
+    } from "../../../api/lookups/communications/communications";
+    import {mapActions, mapState} from "vuex";
 
     export default {
         name: "opened-communications-type",
         mixins: [editComponentMixin],
         data() {
             return {
-                itemInstance: {
-                    name: '',
-                    code: '',
-                    description: '',
-                }
+
             };
         },
 
@@ -73,22 +72,42 @@
             }
         },
 
-        methods: {
-            async save() {
-                if (this.id) {
-                    await updateCommunication(this.itemInstance);
-                } else {
-                    await addCommunication(this.itemInstance);
-                }
-                this.close();
-            },
+        mounted() {
+            this.id = this.$route.params.id;
+            this.loadItem();
+        },
 
-            async loadItem() {
-                const response = await getCommunication(this.id);
-                this.itemInstance = response;
-                this.initialItem = JSON.parse(JSON.stringify(response));
-            }
-        }
+        computed: {
+            ...mapState('lookups/communications', {
+                itemInstance: state => state.itemInstance,
+            }),
+            id: {
+                get() {return this.$store.state.lookups.communications.itemId},
+                set(value) {this.setId(value)}
+            },
+            code: {
+                get() {return this.$store.state.lookups.communications.itemInstance.code},
+                set(value) {this.setItemProp({prop: 'code', value})}
+            },
+            name: {
+                get() {return this.$store.state.lookups.communications.itemInstance.name},
+                set(value) {this.setItemProp({prop: 'name', value})}
+            },
+            description: {
+                get() {return this.$store.state.lookups.communications.itemInstance.description},
+                set(value) {this.setItemProp({prop: 'description', value})}
+            },
+        },
+
+        methods: {
+            ...mapActions('lookups/communications', {
+                setId: 'SET_ITEM_ID',
+                loadItem: 'LOAD_ITEM',
+                addItem: 'ADD_ITEM',
+                updateItem: 'UPDATE_ITEM',
+                setItemProp: 'SET_ITEM_PROPERTY',
+            }),
+        },
     }
 </script>
 

@@ -1,7 +1,9 @@
 import blacklists from './blacklists/blacklists';
+import communications from './communications/communications';
 
 const modules = {
-    blacklists
+    blacklists,
+    communications
 };
 
 export default {

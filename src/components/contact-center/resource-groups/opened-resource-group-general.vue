@@ -35,7 +35,7 @@
 
 <script>
     import openedTabComponentMixin from '@/mixins/openedTabComponentMixin';
-    import {getCommunicationsList} from "../../../api/lookups/communications";
+    import {getCommunicationsList} from "../../../api/lookups/communications/communications";
 
     export default {
         name: "opened-resource-group-general",
