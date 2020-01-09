@@ -82,7 +82,7 @@
                 </template>
 
                 <template slot="actions" slot-scope="props">
-                    <i class="vuetable-action icon-icon_generate"
+                    <i class="vuetable-action icon-icon_read"
                        @click="read(dataList[props.rowIndex].id)"
                     ></i>
                     <i class="vuetable-action icon-icon_edit"

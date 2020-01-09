@@ -97,6 +97,16 @@
 
             i {
                 color: #000;
+
+                &:before {
+                    position: absolute;
+                    top: 50%;
+                    right: 16px;
+                    font-family: 'icomoon';
+                    font-size: 24px;
+                    content: '\e019';
+                    transform: translate(50%, -50%);
+                }
             }
         }
 

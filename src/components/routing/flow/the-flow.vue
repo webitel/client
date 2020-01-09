@@ -25,6 +25,8 @@
                             :class="{'hidden': anySelected}"
                             @click="deleteSelected"
                     ></i>
+                    <i class="vuetable-action icon-icon_upload"
+                    ></i>
                 </div>
             </header>
 
@@ -55,7 +57,7 @@
                 </template>
 
                 <template slot="actions" slot-scope="props">
-                    <i class="vuetable-action icon-icon_notification"
+                    <i class="vuetable-action icon-icon_upload"
                     ></i>
                     <i class="vuetable-action icon-icon_edit"
                        @click="edit(props.rowIndex)"
@@ -119,7 +121,8 @@
 
         methods: {
             create() {
-                this.popupTriggerIf = true;
+                // this.popupTriggerIf = true;
+                this.$router.push('/routing/flow/new');
             },
 
             edit(rowId) {

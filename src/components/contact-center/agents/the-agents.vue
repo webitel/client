@@ -27,8 +27,8 @@
                             :class="{'hidden': anySelected}"
                             @click="deleteSelected"
                     ></i>
-                    <i class="icon-action icon-icon_upload"></i>
-                    <i class="icon-action icon-icon_upload"></i>
+                    <i class="icon-action icon-icon_download"></i>
+                    <i class="icon-action icon-icon_filter"></i>
                 </div>
             </header>
 
@@ -61,7 +61,7 @@
                 </template>
 
                 <template slot="actions" slot-scope="props">
-                    <i class="vuetable-action icon-icon_edit"
+                    <i class="vuetable-action icon-icon_read"
                        @click="read(dataList[props.rowIndex].id)"
                     ></i>
                     <i class="vuetable-action icon-icon_edit"

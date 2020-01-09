@@ -6,7 +6,7 @@
     >
         <nav class="the-nav expanded-nav">
             <header class="nav__header">
-                <i class="icon-icon_delete icon-icon_menu" @click="toggleCollapse"></i>
+                <i class="icon-icon_menu-burger" @click="toggleCollapse"></i>
                 <img class="logo" src="../assets/img/logo.svg" alt="logo">
             </header>
             <ul class="nav-items">
@@ -391,7 +391,7 @@
                 padding: $nav-paddings;
                 margin: 0 auto 44px;
 
-                .icon-icon_menu {
+                .icon-icon_menu-burger {
                     margin-right: 23px;
                     color: #fff;
                     cursor: pointer;

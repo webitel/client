@@ -20,7 +20,7 @@
                             :class="{'hidden': anySelected}"
                             @click="deleteSelected"
                     ></i>
-                    <i class="icon-action icon-icon_upload"></i>
+                    <i class="icon-action icon-icon_download"></i>
                     <i class="icon-action icon-icon_upload"></i>
                 </div>
             </header>
@@ -45,7 +45,7 @@
                 </template>
 
                 <template slot="actions" slot-scope="props">
-                    <i class="vuetable-action icon-icon_check"
+                    <i class="vuetable-action icon-icon_download"
                     ></i>
                     <i class="vuetable-action icon-icon_edit"
                        @click="edit(props.rowIndex)"
