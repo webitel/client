@@ -1,23 +1,22 @@
 <template>
     <div>
         <object-header
-                :primaryText="$t('objects.save')"
-                :primaryAction="submit"
+                :primaryText="computePrimaryText"
+                :primaryAction="save"
+                :primaryDisabled="computeDisabled"
                 close
         >
-            {{$t('objects.ccenter.queues.outboundIVRQueue')}} | {{computeTitle}}
+            {{$t('objects.ccenter.queues.outboundIVRQueue')}} |
+            {{computeTitle}}
         </object-header>
         <tabs-component
                 :tabs="tabs"
-                :itemInstance="itemInstance"
-                :v="$v"
                 :root="$options.name"
         >
             <template slot="component" slot-scope="props">
                 <component
                         class="tabs-inner-component"
                         :is="props.currentTab"
-                        :itemInstanceProp="itemInstance"
                         :v="$v"
                 ></component>
             </template>
@@ -36,6 +35,7 @@
     import editComponentMixin from '@/mixins/editComponentMixin';
     import {required} from 'vuelidate/lib/validators';
     import {requiredArrayValue} from "@/utils/validators";
+    import {mapActions, mapState} from "vuex";
 
     export default {
         name: 'opened-queue-outbound-ivr',
@@ -51,25 +51,6 @@
 
         data() {
             return {
-                itemInstance: {
-                    name: '',
-                    calendar: {name: 'Calendar name', id: 0},
-                    strategy: {name: 'Strategy name', id: 0},
-                    timezone: {name: 'Timezone name', id: 0},
-                    priority: {name: 'High', value: 1},
-                    blacklist: {name: 'Blacklist name', id: 0},
-                    schema: {name: 'Schema name', id: 0},
-                    callLimit: 10,
-                    description: 'lorem ipsum',
-                    resources: [],
-                    variables: [],
-                    originateTimeout: 15,
-                    waitBetweenRetries: 30*3600, //30h
-                    timeout: 10,
-                    maxNumberOfRetry: 10,
-                    buckets: [{key: {name: 'Bucket name as key'}, value: 'Value'},
-                        {key: {name: 'Bucket name as key'}, value: 'Value'}]
-                },
                 tabs: [
                     {
                         text: this.$t('objects.general'),
@@ -111,40 +92,34 @@
                 strategy: {
                     required
                 },
-                timezone: {
-                    required
-                },
                 schema: {
                     required
                 },
             }
         },
 
+        mounted() {
+            this.id = this.$route.params.id;
+            this.loadItem();
+        },
+
+        computed: {
+            ...mapState('ccenter/queues', {
+                itemInstance: state => state.itemInstance,
+            }),
+            id: {
+                get() {return this.$store.state.ccenter.queues.itemId},
+                set(value) {this.setId(value)}
+            }
+        },
+
         methods: {
-            async submit() {
-                const isItemChanged = !deepEqual(this.itemInstance, this.initialItem);
-                if (isItemChanged) {
-                    const validations = this.checkValidations();
-                    if (!validations) {
-                        try {
-                            this.close();
-                        } catch (err) {
-                            this.loadItem();
-                        }
-                    }
-                } else {
-                    this.close();
-                }
-            },
-
-            // load current item from backend
-            async loadItem() {
-                // await this.loadResource();
-                // await this.loadNumbers();
-
-
-                this.initialItem = JSON.parse(JSON.stringify(this.itemInstance));
-            },
+            ...mapActions('ccenter/queues', {
+                setId: 'SET_ITEM_ID',
+                loadItem: 'LOAD_ITEM',
+                addItem: 'ADD_ITEM',
+                updateItem: 'UPDATE_ITEM',
+            }),
         },
     };
 </script>

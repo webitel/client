@@ -15,7 +15,8 @@ const defaultState = () => {
         //     blacklist: {},
         //     description: '',
         // },
-        ...defaultInboundQueueState()
+        // ...defaultInboundQueueState()
+        ...defaultOutboundIVRQueueState()
     };
 };
 
@@ -33,6 +34,33 @@ const defaultInboundQueueState = () => {
             variables: [{key: 'var key', value: 'value'}],
             strategy: 'STRATEGY NAME',
             description: 'DESCRIPTION',
+        },
+    }
+};
+
+const defaultOutboundIVRQueueState = () => {
+    return {
+        itemId: 0,
+        itemInstance: {
+            name: 'OUTBOUND IVR QUEUE',
+            calendar: {},
+            priority: '0',
+            dncList: {}, // blacklist
+            schema: {},
+            variables: [{key: 'var key', value: 'value'}],
+            strategy: 'STRATEGY NAME',
+            description: 'DESCRIPTION',
+
+            secBetweenRetries: 30*3600, //30h
+            timeout: 10,
+            maxOfRetry: 10,
+            payload: {
+                originateTimeout: 15,
+                maxCalls: 10,
+            },
+
+            // resources: [],
+            buckets: [],
         },
     }
 };
@@ -112,6 +140,10 @@ const actions = {
         context.commit('SET_ITEM_PROPERTY', payload);
     },
 
+    SET_PAYLOAD_ITEM_PROPERTY: (context, payload) => {
+        context.commit('SET_PAYLOAD_ITEM_PROPERTY', payload);
+    },
+
     ADD_ITEM: async (context) => {
         if (!state.itemId) {
             const id = await context.dispatch('POST_ITEM');
@@ -184,6 +216,10 @@ const mutations = {
 
     SET_ITEM_PROPERTY: (state, {prop, value}) => {
         state.itemInstance[prop] = value;
+    },
+
+    SET_PAYLOAD_ITEM_PROPERTY: (state, {prop, value}) => {
+        state.itemInstance.payload[prop] = value;
     },
 
     SET_ITEM: (state, item) => {

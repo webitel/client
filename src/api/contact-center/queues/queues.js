@@ -10,7 +10,7 @@ const queueService = new QueueServiceApiFactory
 
 const domainId = undefined;
 const fieldsToSend = ['domain_id', 'name', 'strategy', 'team', 'priority', 'dncList',
-    'variables', 'calendar'];
+    'payload', 'maxOfRetry', 'timeout', 'secBetweenRetries', 'variables', 'calendar'];
 
 export const getQueuesList = async (page = 0, size = 10) => {
     const defaultObject = {
