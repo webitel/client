@@ -1,13 +1,16 @@
 <template>
     <div>
         <object-header
-                :primaryAction="() => {this.popupTriggerIf = true}"
+                :primaryAction="create"
         >
             {{$t('objects.ccenter.ccenter')}} |
             {{$tc('objects.ccenter.queues.queues', 2)}}
         </object-header>
 
-        <queue-popup v-if="popupTriggerIf" @close="popupTriggerIf = false"></queue-popup>
+        <queue-popup
+                v-if="popupTriggerIf"
+                @close="popupTriggerIf = false"
+        ></queue-popup>
 
         <section class="object-content">
             <header class="content-header">
@@ -17,7 +20,8 @@
 
                 <div class="content-header__actions-wrap">
                     <search
-                            @filterData="filterData"
+                            v-model="search"
+                            @filterData="loadDataList"
                     ></search>
                     <i
                             class="icon-icon_delete icon-action"
@@ -30,46 +34,46 @@
             <vuetable
                     :api-mode="false"
                     :fields="fields"
-                    :data="filteredDataList"
+                    :data="dataList"
             >
 
                 <template slot="name" slot-scope="props">
                     <div class="tt-capitalize">
                         <span class="nameLink" @click="edit(props.rowIndex)">
-                            {{filteredDataList[props.rowIndex].name}}
+                            {{dataList[props.rowIndex].name}}
                         </span>
                     </div>
                 </template>
 
                 <template slot="type" slot-scope="props">
                     <div>
-                        {{computeQueueType(filteredDataList[props.rowIndex].type)}}
+                        {{computeQueueType(dataList[props.rowIndex].type)}}
                     </div>
                 </template>
 
                 <template slot="state" slot-scope="props">
                     <status
-                            :class="{'status__true': filteredDataList[props.rowIndex].state}"
-                            :text=computeOnlineText(filteredDataList[props.rowIndex].state)
+                            :class="{'status__true': dataList[props.rowIndex].state}"
+                            :text=computeOnlineText(dataList[props.rowIndex].state)
                     >
                     </status>
                 </template>
 
                 <template slot="activeCalls" slot-scope="props">
                     <div>
-                        {{filteredDataList[props.rowIndex].activeCalls}}
+                        {{dataList[props.rowIndex].activeCalls}}
                     </div>
                 </template>
 
                 <template slot="waiting" slot-scope="props">
                     <div>
-                        {{filteredDataList[props.rowIndex].waiting}}
+                        {{dataList[props.rowIndex].waiting}}
                     </div>
                 </template>
 
                 <template slot="priority" slot-scope="props">
                     <div>
-                        {{filteredDataList[props.rowIndex].priority}}
+                        {{dataList[props.rowIndex].priority}}
                     </div>
                 </template>
 
@@ -82,8 +86,14 @@
                     ></i>
                 </template>
             </vuetable>
-
-            <pagination/>
+            <pagination
+                    v-model="size"
+                    @loadDataList="loadDataList"
+                    @next="nextPage"
+                    @prev="prevPage"
+                    :isNext="isNextPage"
+                    :isPrev="!!page"
+            ></pagination>
         </section>
     </div>
 </template>
@@ -92,6 +102,7 @@
     import queuePopup from './create-queue-popup';
     import tableComponentMixin from '@/mixins/tableComponentMixin';
     import {_checkboxTableField, _actionsTableField_2} from "@/utils/tableFieldPresets";
+    import {mapActions, mapState} from "vuex";
 
     export default {
         name: "the-queues",
@@ -112,6 +123,24 @@
             };
         },
 
+        computed: {
+            ...mapState('ccenter/queues', {
+                dataList: state => state.dataList,
+                page: state => state.page, // acts like a boolean: if page is 0, there's no back page
+                isNextPage: state => state.isNextPage,
+            }),
+
+            size: {
+                get() {return this.$store.state.ccenter.queues.size},
+                set(value) {this.setSize(value)}
+            },
+
+            search: {
+                get() {return this.$store.state.ccenter.queues.search},
+                set(value) {this.setSearch(value)}
+            },
+        },
+
         methods: {
             computeQueueType(type) {
                 return 'Outbound IVR'
@@ -123,36 +152,24 @@
             },
 
             create() {
-                this.$router.push('/contact-center/queues/new');
+                this.popupTriggerIf = true;
             },
 
             edit(rowId) {
                 this.$router.push({
-                    name: 'cc-queue-edit',
+                    name: 'cc-queue-inbound-queue-edit',
                     params: {id: this.dataList[rowId].id},
                 });
             },
 
-            async deleteItem(deletedItem) {
-
-            },
-
-            async loadDataList() {
-                // const response = await getResourceList(this.rowsPerPage);
-                // this.dataList = [...response];
-                for (let i = 0; i < 10; i++) {
-                    this.dataList.push({
-                        name: 'queue name',
-                        type: 0,
-                        state: !!(i % 2),
-                        activeCalls: i * 3,
-                        waiting: i*33,
-                        priority: 'High',
-                        isSelected: false,
-                    });
-                }
-                this.filterData();
-            }
+            ...mapActions('ccenter/queues', {
+                loadDataList: 'LOAD_DATA_LIST',
+                setSize: 'SET_SIZE',
+                setSearch: 'SET_SEARCH',
+                nextPage: 'NEXT_PAGE',
+                prevPage: 'PREV_PAGE',
+                removeItem: 'REMOVE_ITEM',
+            }),
         },
 
     }

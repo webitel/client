@@ -12,9 +12,9 @@ const domainId = store.getters.getDomainId || undefined;
 const fieldsToSend = ['domain_id', 'name', 'description', 'timezone', 'start', 'end', 'day',
     'start_time_of_day', 'end_time_of_day', 'disabled', 'date', 'repeat'];
 
-export const getCalendarList = async (size = 20) => {
+export const getCalendarList = async (page = 0, size = 20) => {
     try {
-        const response = await calendarService.searchCalendar(domainId, size);
+        const response = await calendarService.searchCalendar(page, size);
         if (!response.data.items) response.data.items = [];
         response.data.items.forEach(item => item.isSelected = false);
         return response.data.items;

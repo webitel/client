@@ -1,8 +1,8 @@
 <template>
     <popup
         :title="$t('objects.ccenter.queues.newQueue')"
-        :primaryBtnText="$t('objects.create')"
-        :primaryBtnAction="createItemInstance"
+        :primaryText="$t('objects.create')"
+        :primaryAction="createItemInstance"
         :disableAction="!!this.selectedOption"
         @close="$emit('close')"
     >

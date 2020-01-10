@@ -8,21 +8,27 @@
             <div class="variables">
                 <div
                         class="value-pair"
-                        v-for="(variable, key) in itemInstance.variables"
+                        v-for="(variable, key) in variables"
                 >
                     <form-input
-                            v-model="variable.key"
+                            :value="variable.key"
                             :placeholder="$t('objects.ccenter.queues.varKey')"
+                            @input="setVariableProp({index: key, prop: 'key', value: $event})"
                             hide-label
                             hide-details
                     ></form-input>
                     <form-input
-                            v-model="variable.value"
+                            :value="variable.value"
                             :placeholder="$t('objects.ccenter.queues.varVal')"
+                            @input="setVariableProp({index: key, prop: 'value', value: $event})"
                             hide-label
                             hide-details
                     ></form-input>
-                    <i class="icon-action icon-icon_delete" @click="deleteVariable(key)"></i>
+                    <i
+                            class="icon-action icon-icon_delete"
+                            v-if="key !== 0"
+                            @click="deleteVariable(key)"
+                    ></i>
                 </div>
             </div>
         </form>
@@ -31,34 +37,25 @@
 
 <script>
     import openedTabComponentMixin from '@/mixins/openedTabComponentMixin';
+    import {mapActions, mapState} from "vuex";
 
     export default {
         name: "opened-queue-outbound-ivr-variables",
         mixins: [openedTabComponentMixin],
-        mounted() {
-            this.loadDataList();
+
+        computed: {
+            ...mapState('ccenter/queues', {
+                variables: state => state.itemInstance.variables
+            }),
         },
+
         methods: {
-            addVariable() {
-                this.itemInstance.variables.unshift({
-                    key: '',
-                    value: ''
-                });
-            },
-
-            deleteVariable(rowIndex) {
-                this.itemInstance.variables.splice(rowIndex, 1);
-            },
-
-            loadDataList() {
-                for(let i = 0; i < 4; i++) {
-                    this.itemInstance.variables.push({
-                        key: 'Key',
-                        value: 'Value'
-                    });
-                }
-
-            }
+            ...mapActions('ccenter/queues', {
+                setItemProp: 'SET_ITEM_PROPERTY',
+                addVariable: 'ADD_VARIABLE_PAIR',
+                setVariableProp: 'SET_VARIABLE_PROP',
+                deleteVariable: 'DELETE_VARIABLE_PAIR',
+            }),
         }
     }
 </script>
