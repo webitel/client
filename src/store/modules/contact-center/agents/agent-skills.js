@@ -7,6 +7,12 @@ import {
 
 const defaultState = () => {
     return {
+        parentId: 0,
+        dataList: [],
+        size: '10',
+        search: '',
+        page: 0,
+        isNextPage: true,
         itemId: 0,
         itemInstance: {
             skill: '',
@@ -17,12 +23,6 @@ const defaultState = () => {
 };
 
 const state = {
-    parentId: 0,
-    dataList: [],
-    size: '10',
-    search: '',
-    page: 0,
-    isNextPage: true,
     ...defaultState()
 };
 
@@ -60,7 +60,7 @@ const actions = {
     LOAD_DATA_LIST: async (context) => {
         if(state.parentId) {
             const response = await context.dispatch('GET_LIST');
-            context.commit('RESET_ITEM_STATE');
+            context.dispatch('RESET_ITEM_STATE');
             context.commit('SET_DATA_LIST', response);
         }
     },

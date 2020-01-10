@@ -27,7 +27,7 @@ const actions = {
 
     LOAD_DATA_LIST: async (context) => {
         const response = await getObjectList(state.search);
-        context.commit('RESET_ITEM_STATE');
+        context.dispatch('RESET_ITEM_STATE');
         context.commit('SET_DATA_LIST', response);
     },
 

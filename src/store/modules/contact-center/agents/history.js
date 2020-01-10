@@ -13,6 +13,7 @@ const state = {
     page: 0,
     isNextPage: true,
     itemId: 0,
+    ...defaultState()
 };
 
 const getters = {};
@@ -24,6 +25,7 @@ const actions = {
 
     LOAD_HISTORY_DATA_LIST: async (context) => {
         const response = await getAgentHistory(state.itemId, state.date, state.page, state.size);
+        context.dispatch('RESET_ITEM_STATE', response);
         context.commit('LOAD_HISTORY_DATA_LIST', response);
     },
 

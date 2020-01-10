@@ -54,7 +54,7 @@ const actions = {
 
     LOAD_DATA_LIST: async (context) => {
         const response = await context.dispatch('GET_LIST');
-        context.commit('RESET_ITEM_STATE');
+        context.dispatch('RESET_ITEM_STATE');
         context.commit('SET_DATA_LIST', response);
     },
 
@@ -117,6 +117,7 @@ const actions = {
 
     RESET_ITEM_STATE: async (context) => {
         context.commit('RESET_ITEM_STATE');
+        context.dispatch('ccenter/agents/skills/RESET_ITEM_STATE', {}, {root: true});
     },
 };
 

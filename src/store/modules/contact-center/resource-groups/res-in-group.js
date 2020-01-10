@@ -60,7 +60,7 @@ const actions = {
     LOAD_DATA_LIST: async (context) => {
         if(state.parentId) {
             const response = await context.dispatch('GET_LIST');
-            context.commit('RESET_ITEM_STATE');
+            context.dispatch('RESET_ITEM_STATE');
             context.commit('SET_DATA_LIST', response);
         }
     },
