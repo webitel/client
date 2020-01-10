@@ -31,6 +31,7 @@ export default {
         directory: {
             directory: 'Directory',
             users: 'Users',
+            license: 'License',
             devices: 'Devices',
         },
         contacts: 'Contacts',
@@ -72,7 +73,6 @@ export default {
         },
         administration: {
             administration: 'Administration',
-            license: 'License',
             storage: 'Storage',
             media: 'Media',
             blacklists: 'Blacklists',
@@ -91,11 +91,13 @@ export default {
 
         general: 'General',
         new: 'New',
+        add: 'Add',
         create: 'Create',
         read: 'Read',
         edit: 'Edit',
         delete: 'Delete',
         save: 'Save',
+        saved: 'Saved',
         close: 'Close',
         name: 'Name',
         description: 'Description',
@@ -188,6 +190,7 @@ export default {
                 RbAC: 'Managed by records',
                 operations: 'Operations',
                 searchPlaceholder: 'object ..',
+                newPermissionRole: 'New grantee',
             }
         },
         license: {
@@ -316,6 +319,10 @@ export default {
                 allGateways: 'All gateways',
                 trunkingGateway: 'Trunking gateway',
                 registerGateway: 'Register gateway',
+                stateSuccess: 'Success',
+                stateFailed: 'Failed',
+                stateProgress: 'In progress',
+                stateNonreg: 'Not registered',
                 proxy: 'Proxy',
                 searchPlaceholder: 'gateway search...',
                 host: 'Host',
@@ -349,7 +356,7 @@ export default {
                 skills: 'Skill | Skills',
                 capacity: 'Capacity',
                 agentSkills: 'Agent skill | Agent skills',
-                allSkills: 'All skills'
+                allSkills: 'All skills',
             },
 
             agents: {
@@ -357,19 +364,20 @@ export default {
                 allAgents: 'All agents',
                 state: 'State',
                 stateTime: 'State time',
+                addSkill: 'Add skill',
+                statusHistory: 'Status history',
+                historyState: 'State',
+                historyFrom: 'From',
+                historyTo: 'To',
+                historyDuration: 'Duration',
             },
 
             teams: {
                 teams: 'Team | Teams',
                 allTeams: 'All teams',
                 strategy: 'Strategy',
-                statusHistory: 'Status history',
-                historyState: 'State',
-                historyFrom: 'From',
-                historyTo: 'To',
-                historyDuration: 'Duration',
                 supervisors: 'Supervisor | Supervisors',
-                level: 'Level',
+                lvl: 'Level',
                 timing: 'Timing',
                 maxNoAnswer: 'Max no answer',
                 callTimeout: 'Call timeout',

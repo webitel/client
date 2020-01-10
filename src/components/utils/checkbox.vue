@@ -28,7 +28,7 @@
                 // =============================== ATTENTION!!!!!============================================
                 // WE PASS INVERTED CHECKBOX VALUE
                 // BECAUSE CLICK EVENT FIRES BEFORE CHECKBOX CHANGE
-                this.$emit('toggleCheckbox', !this.value);
+                this.$emit('input', !this.value);
             }
         },
         computed: {
@@ -47,7 +47,8 @@
     $checkbox-color: rgba(0, 0, 0, 0.3);
 
     .checkbox-label {
-        display: block;
+        display: inline-block;
+        /*display: block;*/
         position: relative;
         min-height: 24px;
         padding-left: 29px;

@@ -1,15 +1,15 @@
-import paginationMixin from './paginationMixin';
 import vuetable from 'vuetable-2/src/components/Vuetable';
-import objectHeader from '@/components/objects/the-object-header';
+import objectHeader from '../../src/components/object-utils/the-object-header';
+import pagination from '../components/utils/table-pagination';
 import switcher from '@/components/utils/switcher';
 import status from '@/components/utils/status';
 import search from '@/components/utils/search';
 
 export default {
-    mixins: [paginationMixin],
     components: {
         objectHeader,
         vuetable,
+        pagination,
         switcher,
         status,
         search,
@@ -17,10 +17,6 @@ export default {
 
     data() {
         return {
-            dataList: [], // list of all objects to show
-            filterProperties: ['name'],
-
-            search: '', // search filter
             popupTriggerIf: false,
         }
     },
@@ -32,15 +28,14 @@ export default {
     computed: {
         // shows delete table action if some items are selected
         anySelected() {
-            return !this.dataList.some((item) => item.isSelected);
+            return !this.dataList.some((item) => item._isSelected);
         }
     },
 
     methods: {
         deleteSelected() {
-            const selectedItems = this.dataList.filter(item => item.isSelected);
+            const selectedItems = this.dataList.filter(item => item._isSelected);
             this.remove(null, selectedItems);
-
         },
 
         async remove(rowIndex, items) {
@@ -53,15 +48,6 @@ export default {
                 await this.removeItem(rowIndex);
             }
             this.loadDataList();
-        },
-
-        async removeItem(rowIndex) {
-            const deletedItem = this.dataList.splice(rowIndex, 1)[0];
-            try {
-                await this.deleteItem(deletedItem);
-            } catch (err) {
-                this.dataList.splice(rowIndex, 0, deletedItem);
-            }
         },
 
         openPopup() {

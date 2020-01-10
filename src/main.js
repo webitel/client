@@ -12,7 +12,7 @@ import './assets/css/objects/lib-custom-styling/vuetable.scss';
 import './assets/css/fonts.scss';
 import './assets/css/main.scss';
 
-import tableCheckboxColumn from './components/objects/utils/table-checkbox-column';
+import tableCheckboxColumn from './components/object-utils/utils/table-checkbox-column';
 import errorMixin from './mixins/errorMixin';
 
 

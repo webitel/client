@@ -1,11 +1,11 @@
 import {shallowMount, mount, createLocalVue} from '@vue/test-utils'
-import theDevices from '../../../../src/components/objects/directory/devices/the-devices';
-import openedDevice from '../../../../src/components/objects/directory/devices/opened-device';
-import deviceHistoryPopup from '../../../../src/components/objects/directory/devices/device-history-popup';
+import theDevices from '../../../../src/components/directory/devices/the-devices';
+import openedDevice from '../../../../src/components/directory/devices/opened-device';
+import deviceHistoryPopup from '../../../../src/components/directory/devices/device-history-popup';
 import VueRouter from 'vue-router';
 import Vuelidate from 'vuelidate';
 import i18n from 'vue-i18n';
-import {getDeviceList} from "../../../../src/api/objects/directory/devices";
+import {getDeviceList} from "../../../../src/api/directory/devices/devices";
 
 const $t = () => {
 };

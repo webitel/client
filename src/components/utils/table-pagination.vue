@@ -1,31 +1,79 @@
 <template>
     <footer class="pagination">
         <div class="rows-per-page">
-            <div class="rows-per-page__text">{{$t('objects.pagination.rowsPerPage')}}: </div>
+            <div class="rows-per-page__text">{{$t('objects.pagination.rowsPerPage')}}:</div>
             <input
                     class="rows-per-page__input"
                     ref="input"
-                    :value="10"
-                    @input="$emit('input, $event.target.value')"
+                    :value="value"
+                    @input="$emit('input', $event.target.value)"
                     type="text"
                     :placeholder="'10'"
             />
         </div>
         <div class="page-controls">
-            <span class="current items">1-10 of 100</span>
             <div class="controls">
-                <i class="icon-action icon-icon_arrow-left"></i>
-                <i class="icon-action icon-icon_arrow-down"></i>
+                <i
+                        class="icon-action icon-icon_arrow-left"
+                        :class="{'disabled': !isPrev}"
+                        @click="prev"
+                ></i>
+                <i
+                        class="icon-action icon-icon_arrow-right"
+                        :class="{'disabled': !isNext}"
+                        @click="next"
+                ></i>
             </div>
         </div>
     </footer>
 </template>
 
 <script>
+    import debounce from "../../utils/debounce";
 
     export default {
         name: "table-pagination",
-        components: {},
+        props: {
+            value: {
+                type: String,
+                required: true,
+            },
+            isNext: {
+                type: Boolean,
+                required: true,
+            },
+            isPrev: {
+                type: Boolean,
+                required: true,
+            },
+        },
+
+        watch: {
+            value: function () {
+                this.debouncer.call(this);
+            },
+        },
+
+        created() {
+            this.debouncer = debounce(this.debouncer);
+        },
+
+        methods: {
+            next() {
+                if (this.isNext) {
+                    this.$emit('next');
+                }
+            },
+            prev() {
+                if (this.isPrev) {
+                    this.$emit('prev');
+                }
+            },
+
+            debouncer() {
+                this.$emit('loadDataList', this.value);
+            },
+        }
     }
 </script>
 
@@ -63,10 +111,14 @@
             align-items: center;
 
             .controls {
-                margin-left: 28px;
+                margin-left: 14px;
 
-                i {
+                i:before {
                     color: #000;
+
+                    &.disabled {
+                        color: red;
+                    }
                 }
             }
         }

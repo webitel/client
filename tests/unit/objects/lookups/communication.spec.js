@@ -4,7 +4,7 @@ import openedCommunication from '@/components/objects/lookups/communication-type
 import VueRouter from 'vue-router';
 import Vuelidate from 'vuelidate';
 import i18n from 'vue-i18n';
-import {getCommunicationsList} from "../../../../src/api/objects/lookups/communications";
+import {getCommunicationsList} from "../../../../src/api/lookups/communications/communications";
 
 const $t = () => {
 };

@@ -2,6 +2,7 @@
     <aside class="alert-wrap">
         <div class="alert"
              v-for="message in messages"
+             @click="close(message.info || message.error)"
         >
             <i
                     class="icon-icon_approve"
@@ -89,6 +90,7 @@
         color: #000;
         background: #fff;
         border-radius: $border-radius;
+        cursor: pointer;
         z-index: 100;
 
         .icon-icon_approve {

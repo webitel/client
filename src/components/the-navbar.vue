@@ -6,7 +6,7 @@
     >
         <nav class="the-nav expanded-nav">
             <header class="nav__header">
-                <i class="icon-icon_delete icon-icon_menu" @click="toggleCollapse"></i>
+                <i class="icon-icon_menu-burger" @click="toggleCollapse"></i>
                 <img class="logo" src="../assets/img/logo.svg" alt="logo">
             </header>
             <ul class="nav-items">
@@ -62,9 +62,15 @@
                         name: 'directory',
                         displayName: this.$t('nav.directory.directory'),
                         route: '/directory',
-                        iconClass: 'icon-icon_deny',
+                        iconClass: 'icon-icon_nav-directory',
                         expanded: false,
                         subnav: [
+                            {
+                                name: 'license',
+                                displayName: this.$t('nav.directory.license'),
+                                route: '/directory/license',
+                                current: false,
+                            },
                             {
                                 name: 'users',
                                 displayName: this.$t('nav.directory.users'),
@@ -80,18 +86,10 @@
                         ]
                     },
                     {
-                        name: 'contacts',
-                        displayName: this.$t('nav.contacts'),
-                        route: '/contacts',
-                        iconClass: 'icon-icon_deny',
-                        expanded: false,
-                        subnav: false,
-                    },
-                    {
                         name: 'routing',
                         displayName: this.$t('nav.routing.routing'),
                         route: '/routing',
-                        iconClass: 'icon-icon_deny',
+                        iconClass: 'icon-icon_nav-routing',
                         expanded: false,
                         subnav: [
                             {
@@ -108,7 +106,7 @@
                             },
                             {
                                 name: 'chatplan',
-                                displayName: this.$t('nav.routing.chatplan'),
+                                displayName: this.$t('nav.routing.chatplan')+' (coming soon)',
                                 route: '/routing/chatplan',
                                 current: false,
                             },
@@ -124,19 +122,13 @@
                         name: 'lookups',
                         displayName: this.$t('nav.lookups.lookups'),
                         route: '/lookups',
-                        iconClass: 'icon-icon_deny',
+                        iconClass: 'icon-icon_nav-lookups',
                         expanded: false,
                         subnav: [
                             {
                                 name: 'blacklist',
                                 displayName: this.$t('nav.lookups.blacklists'),
                                 route: '/lookups/blacklist',
-                                current: false,
-                            },
-                            {
-                                name: 'media',
-                                displayName: this.$t('nav.lookups.media'),
-                                route: '/lookups/media',
                                 current: false,
                             },
                             {
@@ -152,30 +144,36 @@
                                 current: false,
                             },
                             {
-                                name: 'contact-types',
-                                displayName: this.$t('nav.lookups.contactTypes'),
-                                route: '/lookups/contact-types',
+                                name: 'media',
+                                displayName: this.$t('nav.lookups.media'),
+                                route: '/lookups/media',
                                 current: false,
                             },
-                            {
-                                name: 'lead-sources',
-                                displayName: this.$t('nav.lookups.leadSources'),
-                                route: '/lookups/lead-sources',
-                                current: false,
-                            },
-                            {
-                                name: 'lead-status',
-                                displayName: this.$t('nav.lookups.leadStatus'),
-                                route: '/lookups/lead-status',
-                                current: false,
-                            },
+                            // {
+                            //     name: 'contact-types',
+                            //     displayName: this.$t('nav.lookups.contactTypes'),
+                            //     route: '/lookups/contact-types',
+                            //     current: false,
+                            // },
+                            // {
+                            //     name: 'lead-sources',
+                            //     displayName: this.$t('nav.lookups.leadSources'),
+                            //     route: '/lookups/lead-sources',
+                            //     current: false,
+                            // },
+                            // {
+                            //     name: 'lead-status',
+                            //     displayName: this.$t('nav.lookups.leadStatus'),
+                            //     route: '/lookups/lead-status',
+                            //     current: false,
+                            // },
                         ]
                     },
                     {
                         name: 'ccenter',
                         displayName: this.$t('nav.ccenter.ccenter'),
                         route: '/contact-center',
-                        iconClass: 'icon-icon_deny',
+                        iconClass: 'icon-icon_nav-ccenter',
                         expanded: false,
                         subnav: [
                             {
@@ -222,19 +220,19 @@
                             },
                         ]
                     },
-                    {
-                        name: 'kibana',
-                        displayName: this.$t('nav.kibana'),
-                        route: '/kibana',
-                        iconClass: 'icon-icon_deny',
-                        expanded: false,
-                        subnav: false,
-                    },
+                    // {
+                    //     name: 'kibana',
+                    //     displayName: this.$t('nav.kibana'),
+                    //     route: '/kibana',
+                    //     iconClass: 'icon-icon_deny',
+                    //     expanded: false,
+                    //     subnav: false,
+                    // },
                     {
                         name: 'integrations',
                         displayName: this.$t('nav.integrations.integrations'),
                         route: '/integrations',
-                        iconClass: 'icon-icon_deny',
+                        iconClass: 'icon-icon_nav-integrations',
                         expanded: false,
                         subnav: [
                             {
@@ -244,66 +242,33 @@
                                 current: false,
                             },
                             {
-                                name: 'accounts',
-                                displayName: this.$t('nav.integrations.accounts'),
-                                route: '/integrations/accounts',
+                                name: 'storage',
+                                displayName: this.$t('nav.administration.storage'),
+                                route: '/integrations/storage',
                                 current: false,
                             },
                             {
                                 name: 'triggers',
-                                displayName: this.$t('nav.integrations.triggers'),
+                                displayName: this.$t('nav.integrations.triggers')+' (coming soon)',
                                 route: '/integrations/triggers',
                                 current: false,
                             },
                             {
+                                name: 'adfs',
+                                displayName: this.$t('nav.administration.adfs')+' (coming soon)',
+                                route: '/integrations/adfs',
+                                current: false,
+                            },
+                            {
                                 name: 'widgets',
-                                displayName: this.$t('nav.integrations.widgets'),
+                                displayName: this.$t('nav.integrations.widgets')+' (coming soon)',
                                 route: '/integrations/widgets',
                                 current: false,
                             },
                             {
                                 name: 'call-tracking',
-                                displayName: this.$t('nav.integrations.callTracking'),
+                                displayName: this.$t('nav.integrations.callTracking')+' (coming soon)',
                                 route: '/integrations/call-tracking',
-                                current: false,
-                            },
-                        ]
-                    },
-                    {
-                        name: 'administration',
-                        displayName: this.$t('nav.administration.administration'),
-                        route: '/administration',
-                        iconClass: 'icon-icon_deny',
-                        expanded: false,
-                        subnav: [
-                            {
-                                name: 'license',
-                                displayName: this.$t('nav.administration.license'),
-                                route: '/administration/license',
-                                current: false,
-                            },
-                            {
-                                name: 'storage',
-                                displayName: this.$t('nav.administration.storage'),
-                                route: '/administration/storage',
-                                current: false,
-                            },
-                            {
-                                name: 'media',
-                                displayName: this.$t('nav.administration.media'),
-                                route: '/administration/media',
-                                current: false,
-                            },
-                            {
-                                name: 'blacklists',
-                                displayName: this.$t('nav.administration.blacklists'),
-                                route: '/administration/blacklists',
-                                current: false,
-                            },
-                            {
-                                name: 'adfs',
-                                displayName: '',
-                                route: '/administration/adfs',
                                 current: false,
                             },
                         ]
@@ -312,7 +277,7 @@
                         name: 'permissions',
                         displayName: this.$t('nav.permissions.permissions'),
                         route: '/permissions',
-                        iconClass: 'icon-icon_deny',
+                        iconClass: 'icon-icon_nav-permissions',
                         expanded: false,
                         subnav: [
                             {
@@ -327,12 +292,12 @@
                                 route: '/permissions/objects',
                                 current: false,
                             },
-                            {
-                                name: 'operations',
-                                displayName: this.$t('nav.permissions.operations'),
-                                route: '/permissions/operations',
-                                current: false,
-                            },
+                            // {
+                            //     name: 'operations',
+                            //     displayName: this.$t('nav.permissions.operations'),
+                            //     route: '/permissions/operations',
+                            //     current: false,
+                            // },
                         ]
                     },
                 ]
@@ -417,7 +382,7 @@
             padding-top: 20px;
             color: $nav-icon-color;
 
-            i {
+            i:before {
                 color: $nav-icon-color;
             }
 
@@ -426,7 +391,7 @@
                 padding: $nav-paddings;
                 margin: 0 auto 44px;
 
-                .icon-icon_menu {
+                .icon-icon_menu-burger {
                     margin-right: 23px;
                     color: #fff;
                     cursor: pointer;
@@ -482,7 +447,7 @@
                 }
 
                 &:hover, .nav-item__expanded, .nav-item__current {
-                    .nav-icon-arrow, .nav-icon, .nav-text {
+                    .nav-icon-arrow:before, .nav-icon:before, .nav-text {
                         color: $accent-color;
                     }
                 }

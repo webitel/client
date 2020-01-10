@@ -15,7 +15,7 @@
                 :taggable="taggable"
                 :width="21"
                 @input="setOption"
-                @search="$emit('search', $event)"
+                @search="debouncer.call(this)"
         ></v-select>
 
         <validation-message
@@ -29,6 +29,7 @@
     import vSelect from 'vue-select';
     import requiredLabelMixin from '@/mixins/requiredLabelMixin';
     import validationMessage from './validation-message';
+    import debounce from "../../utils/debounce";
 
     export default {
         name: "dropdown-select",
@@ -99,6 +100,10 @@
             },
         },
 
+        created() {
+            this.debouncer = debounce(this.debouncer);
+        },
+
         computed: {
             computeDisplayValue() {
                 if (typeof this.value === 'string') return this.value;
@@ -110,7 +115,11 @@
             setOption(option) {
                 if (this.v) this.v.$touch();
                 this.$emit('input', option);
-            }
+            },
+
+            debouncer() {
+                this.$emit('search', this.value);
+            },
         },
     }
 </script>
