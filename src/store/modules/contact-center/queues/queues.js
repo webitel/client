@@ -16,7 +16,8 @@ const defaultState = () => {
         //     description: '',
         // },
         // ...defaultInboundQueueState()
-        ...defaultOutboundIVRQueueState()
+        // ...defaultOutboundIVRQueueState()
+        ...defaultOfflineQueueState()
     };
 };
 
@@ -57,6 +58,34 @@ const defaultOutboundIVRQueueState = () => {
             payload: {
                 originateTimeout: 15,
                 maxCalls: 10,
+            },
+
+            // resources: [],
+            buckets: [],
+        },
+    }
+};
+
+const defaultOfflineQueueState = () => {
+    return {
+        itemId: 0,
+        itemInstance: {
+            name: 'OUTBOUND IVR QUEUE',
+            calendar: {},
+            priority: '0',
+            dncList: {}, // blacklist
+            schema: {},
+            team: {},
+            variables: [{key: 'var key', value: 'value'}],
+            strategy: 'STRATEGY NAME',
+            description: 'DESCRIPTION',
+
+            secBetweenRetries: 30*3600, //30h
+            timeout: 10,
+            maxOfRetry: 10,
+            payload: {
+                originateTimeout: 15,
+                waitForResultStatus: true,
             },
 
             // resources: [],
