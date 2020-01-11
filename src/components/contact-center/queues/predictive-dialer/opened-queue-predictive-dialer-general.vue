@@ -5,111 +5,217 @@
         </header>
         <form class="object-input-grid">
             <form-input
-                    v-model="v.itemInstance.name.$model"
+                    v-model="name"
                     :v="v.itemInstance.name"
                     :label="$t('objects.name')"
                     required
             ></form-input>
 
             <dropdown-select
-                    v-model="itemInstance.calendar"
+                    v-model="calendar"
                     :v="v.itemInstance.calendar"
-                    :options="[]"
+                    :options="dropdownOptionsCalendarList"
                     :label="$tc('objects.lookups.calendars.calendars', 1)"
+                    @search="loadDropdownOptionsCalendarList"
                     required
             ></dropdown-select>
 
             <dropdown-select
-                    v-model="itemInstance.strategy"
+                    v-model="strategy"
                     :v="v.itemInstance.strategy"
-                    :options="[]"
+                    :options="dropdownOptionsStrategyList"
                     :label="$t('objects.ccenter.queues.strategy')"
                     required
             ></dropdown-select>
 
             <dropdown-select
-                    v-model="itemInstance.timezone"
-                    :v="v.itemInstance.timezone"
-                    :options="[]"
-                    :label="$t('objects.ccenter.queues.timezone')"
-                    required
-            ></dropdown-select>
-
-            <dropdown-select
-                    v-model="itemInstance.blacklist"
-                    :options="[]"
+                    v-model="dncList"
+                    :options="dropdownOptionsBlacklistList"
                     :label="$tc('objects.lookups.blacklist.blacklist', 1)"
+                    @search="loadDropdownOptionsBlacklistList"
             ></dropdown-select>
 
             <dropdown-select
-                    v-model="itemInstance.priority"
-                    :options="[]"
+                    v-model="priority"
+                    :options="dropdownOptionsPriorityList"
                     :label="$t('objects.ccenter.queues.priority')"
             ></dropdown-select>
 
             <dropdown-select
-                    v-model="itemInstance.schema"
+                    v-model="schema"
                     :v="v.itemInstance.schema"
-                    :options="[]"
+                    :options="dropdownOptionsSchemaList"
                     :label="$t('objects.routing.schema')"
+                    @search="loadDropdownOptionsSchemaList"
                     required
             ></dropdown-select>
 
-            <div class="tags-input-wrap">
-                <div class="tags-input__label">
-                    {{$tc('objects.ccenter.res.res', 2)}}
-                </div>
-                <tags-input
-                        v-model="resTagModel"
-                        :tags="itemInstance.resources"
-                        :autocomplete-items="[]"
-                        :autocomplete-min-length="0"
-                        :placeholder="$tc('objects.ccenter.res.res', 1)"
-                        @tags-changed="newTags => this.itemInstance.resources = newTags"
-                        add-only-from-autocomplete
-                        autocomplete-filter-duplicates
-                >
-                </tags-input>
-            </div>
+            <dropdown-select
+                    v-model="team"
+                    :v="v.itemInstance.team"
+                    :options="dropdownOptionsTeamList"
+                    :label="$tc('objects.ccenter.teams.teams', 1)"
+                    @search="loadDropdownOptionsTeamList"
+                    required
+            ></dropdown-select>
 
             <form-input
-                    v-model="itemInstance.description"
+                    v-model="description"
                     :label="$t('objects.description')"
                     textarea
             ></form-input>
-
-            <div class="tags-input-wrap">
-                <div class="tags-input__label">
-                    {{$tc('objects.ccenter.teams.teams', 2)}}
-                </div>
-                <tags-input
-                        v-model="teamsTagModel"
-                        :tags="itemInstance.teams"
-                        :autocomplete-items="[]"
-                        :autocomplete-min-length="0"
-                        :placeholder="$tc('objects.ccenter.teams.teams', 1)"
-                        @tags-changed="newTags => this.itemInstance.teams = newTags"
-                        add-only-from-autocomplete
-                        autocomplete-filter-duplicates
-                >
-                </tags-input>
-            </div>
         </form>
     </section>
 </template>
 
 <script>
     import openedTabComponentMixin from '@/mixins/openedTabComponentMixin';
+    import {getCalendarList} from "../../../../api/lookups/calendars";
+    import {getBlacklistList} from "../../../../api/lookups/blacklists/blacklists";
+    import {getFlowList} from "../../../../api/routing/flow/flow";
+    import {getTeamsList} from "../../../../api/contact-center/teams/teams";
+    import {mapActions} from "vuex";
 
     export default {
         name: "opened-queue-offline-queue-general",
         mixins: [openedTabComponentMixin],
         data() {
             return {
-                resTagModel: '',
-                teamsTagModel: ''
+                dropdownOptionsCalendarList: [],
+                dropdownOptionsBlacklistList: [],
+                dropdownOptionsStrategyList: ['STRATEGY 1', 'STRATEGY 2', 'STRATEGY 3'],
+                dropdownOptionsPriorityList: ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10'],
+                dropdownOptionsSchemaList: [],
+                dropdownOptionsTeamList: [],
             }
-        }
+        },
+
+        mounted() {
+            this.loadDropdownOptionsCalendarList();
+            this.loadDropdownOptionsBlacklistList();
+            this.loadDropdownOptionsSchemaList();
+            this.loadDropdownOptionsTeamList();
+        },
+
+        computed: {
+            name: {
+                get() {
+                    return this.$store.state.ccenter.queues.itemInstance.name
+                },
+                set(value) {
+                    this.setItemProp({prop: 'name', value})
+                }
+            },
+
+            calendar: {
+                get() {
+                    return this.$store.state.ccenter.queues.itemInstance.calendar
+                },
+                set(value) {
+                    this.setItemProp({prop: 'calendar', value})
+                }
+            },
+
+            dncList: {
+                get() {
+                    return this.$store.state.ccenter.queues.itemInstance.dncList
+                },
+                set(value) {
+                    this.setItemProp({prop: 'dncList', value})
+                }
+            },
+
+            strategy: {
+                get() {
+                    return this.$store.state.ccenter.queues.itemInstance.strategy
+                },
+                set(value) {
+                    this.setItemProp({prop: 'strategy', value})
+                }
+            },
+
+            priority: {
+                get() {
+                    return this.$store.state.ccenter.queues.itemInstance.priority
+                },
+                set(value) {
+                    this.setItemProp({prop: 'priority', value})
+                }
+            },
+
+            schema: {
+                get() {
+                    return this.$store.state.ccenter.queues.itemInstance.schema
+                },
+                set(value) {
+                    this.setItemProp({prop: 'schema', value})
+                }
+            },
+
+            team: {
+                get() {
+                    return this.$store.state.ccenter.queues.itemInstance.team
+                },
+                set(value) {
+                    this.setItemProp({prop: 'team', value})
+                }
+            },
+
+            description: {
+                get() {
+                    return this.$store.state.ccenter.queues.itemInstance.description
+                },
+                set(value) {
+                    this.setItemProp({prop: 'description', value})
+                }
+            },
+        },
+
+        methods: {
+            async loadDropdownOptionsCalendarList(search) {
+                const response = await getCalendarList(0, 10, search);
+                this.dropdownOptionsCalendarList = response.map(item => {
+                    return {
+                        name: item.name,
+                        id: item.id,
+                    }
+                });
+            },
+
+            async loadDropdownOptionsBlacklistList(search) {
+                const response = await getBlacklistList(0, 10, search);
+                this.dropdownOptionsBlacklistList = response.map(item => {
+                    return {
+                        name: item.name,
+                        id: item.id,
+                    }
+                });
+            },
+
+            async loadDropdownOptionsSchemaList(search) {
+                const response = await getFlowList(0, 10, search);
+                this.dropdownOptionsSchemaList = response.map(item => {
+                    return {
+                        name: item.name,
+                        id: item.id,
+                    }
+                });
+            },
+
+            async loadDropdownOptionsTeamList(search) {
+                const response = await getTeamsList(0, 10, search);
+                this.dropdownOptionsTeamList = response.map(item => {
+                    return {
+                        name: item.name,
+                        id: item.id,
+                    }
+                });
+            },
+
+            ...mapActions('ccenter/queues', {
+                setItemProp: 'SET_ITEM_PROPERTY',
+            }),
+        },
     }
 </script>
 

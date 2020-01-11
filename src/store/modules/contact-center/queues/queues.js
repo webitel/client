@@ -70,7 +70,91 @@ const defaultOfflineQueueState = () => {
     return {
         itemId: 0,
         itemInstance: {
-            name: 'OUTBOUND IVR QUEUE',
+            name: 'OFFLINE QUEUE',
+            calendar: {},
+            priority: '0',
+            dncList: {}, // blacklist
+            schema: {},
+            team: {},
+            variables: [{key: 'var key', value: 'value'}],
+            strategy: 'STRATEGY NAME',
+            description: 'DESCRIPTION',
+
+            secBetweenRetries: 30*3600, //30h
+            timeout: 10,
+            maxOfRetry: 10,
+            payload: {
+                originateTimeout: 15,
+                waitForResultStatus: true,
+            },
+
+            // resources: [],
+            buckets: [],
+        },
+    }
+};
+
+const defaultPredictiveDialerState = () => {
+    return {
+        itemId: 0,
+        itemInstance: {
+            name: 'OFFLINE QUEUE',
+            calendar: {},
+            priority: '0',
+            dncList: {}, // blacklist
+            schema: {},
+            team: {},
+            variables: [{key: 'var key', value: 'value'}],
+            strategy: 'STRATEGY NAME',
+            description: 'DESCRIPTION',
+
+            secBetweenRetries: 30*3600, //30h
+            timeout: 10,
+            maxOfRetry: 10,
+            payload: {
+                originateTimeout: 15,
+                waitForResultStatus: true,
+            },
+
+            // resources: [],
+            buckets: [],
+        },
+    }
+};
+
+const defaultPreviewDialerState = () => {
+    return {
+        itemId: 0,
+        itemInstance: {
+            name: 'OFFLINE QUEUE',
+            calendar: {},
+            priority: '0',
+            dncList: {}, // blacklist
+            schema: {},
+            team: {},
+            variables: [{key: 'var key', value: 'value'}],
+            strategy: 'STRATEGY NAME',
+            description: 'DESCRIPTION',
+
+            secBetweenRetries: 30*3600, //30h
+            timeout: 10,
+            maxOfRetry: 10,
+            payload: {
+                originateTimeout: 15,
+                waitForResultStatus: true,
+            },
+
+            // resources: [],
+            buckets: [],
+        },
+    }
+};
+
+const defaultProgressiveDialerState = () => {
+    return {
+        itemId: 0,
+        itemInstance: {
+            name: 'OFFLINE QUEUE',
             calendar: {},
             priority: '0',
             dncList: {}, // blacklist
