@@ -78,6 +78,9 @@
                 </template>
 
                 <template slot="actions" slot-scope="props">
+                    <i class="vuetable-action icon-icon_nav-directory"
+                       @click="openMembers(props.rowIndex)"
+                    ></i>
                     <i class="vuetable-action icon-icon_edit"
                        @click="edit(props.rowIndex)"
                     ></i>
@@ -101,7 +104,7 @@
 <script>
     import queuePopup from './create-queue-popup';
     import tableComponentMixin from '@/mixins/tableComponentMixin';
-    import {_checkboxTableField, _actionsTableField_2} from "@/utils/tableFieldPresets";
+    import {_checkboxTableField, _actionsTableField_3} from "@/utils/tableFieldPresets";
     import {mapActions, mapState} from "vuex";
 
     export default {
@@ -118,7 +121,7 @@
                     {name: 'activeCalls', title: this.$t('objects.ccenter.queues.activeCalls')},
                     {name: 'waiting', title: this.$t('objects.ccenter.queues.waiting')},
                     {name: 'priority', title: this.$t('objects.ccenter.queues.priority')},
-                    _actionsTableField_2,
+                    _actionsTableField_3,
                 ],
             };
         },
@@ -142,6 +145,13 @@
         },
 
         methods: {
+            openMembers(rowId) {
+                this.$router.push({
+                    name: 'cc-queue-members',
+                    params: {queueId: this.dataList[rowId].id},
+                });
+            },
+
             computeQueueType(type) {
                 return 'Outbound IVR'
             },

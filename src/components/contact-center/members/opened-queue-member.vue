@@ -6,7 +6,7 @@
                 :primaryDisabled="computeDisabled"
                 close
         >
-            {{$t('objects.ccenter.queues.inboundQueue')}} |
+            {{$tc('objects.ccenter.members.members', 1)}} |
             {{computeTitle}}
         </object-header>
         <tabs-component
@@ -25,20 +25,20 @@
 </template>
 
 <script>
-    import openedQueueInboundQueueGeneral from './opened-queue-inbound-queue-general';
-    import openedQueueInboundQueueVariables from '../opened-queue-variables';
+    import openedQueueMemberGeneral from './opened-queue-member-general';
+    import openedQueueMemberCommunication from './opened-queue-member-communication';
+    import openedQueueMemberVariables from './opened-queue-member-variables';
     import editComponentMixin from '@/mixins/editComponentMixin';
-    import {required} from 'vuelidate/lib/validators';
-    import {requiredArrayValue} from "@/utils/validators";
     import {mapActions, mapState} from "vuex";
 
     export default {
-        name: 'opened-queue-inbound-queue',
-        components: {
-            openedQueueInboundQueueGeneral,
-            openedQueueInboundQueueVariables,
-        },
+        name: "opened-queue-member",
         mixins: [editComponentMixin],
+        components: {
+            openedQueueMemberGeneral,
+            openedQueueMemberCommunication,
+            openedQueueMemberVariables,
+        },
 
         data() {
             return {
@@ -48,23 +48,19 @@
                         value: 'general',
                     },
                     {
+                        text: this.$tc('objects.lookups.communications.communications', 1),
+                        value: 'communication',
+                    },
+                    {
                         text: this.$tc('objects.ccenter.queues.variables', 2),
                         value: 'variables',
                     },
                 ],
-            };
+            }
         },
 
-        // by vuelidate
         validations: {
-            itemInstance: {
-                name: {
-                    required
-                },
-                calendar: {
-                    required
-                },
-            }
+            itemInstance: {}
         },
 
         mounted() {
@@ -73,33 +69,26 @@
         },
 
         computed: {
-            ...mapState('ccenter/queues', {
+            ...mapState('ccenter/queues/members', {
                 itemInstance: state => state.itemInstance,
             }),
             id: {
-                get() {return this.$store.state.ccenter.queues.itemId},
+                get() {return this.$store.state.ccenter.queues.members.itemId},
                 set(value) {this.setId(value)}
             }
         },
 
         methods: {
-            ...mapActions('ccenter/queues', {
+            ...mapActions('ccenter/queues/members', {
                 setId: 'SET_ITEM_ID',
                 loadItem: 'LOAD_ITEM',
                 addItem: 'ADD_ITEM',
                 updateItem: 'UPDATE_ITEM',
             }),
         },
-    };
+    }
 </script>
 
+<style scoped>
 
-<style lang="scss" scoped>
-    .value-pair-wrap {
-        margin-top: 8px;
-    }
-
-    .value-pair {
-        grid-template-columns: 1fr 24px;
-    }
 </style>

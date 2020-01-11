@@ -28,10 +28,8 @@
     import openedQueuePreviewDialerGeneral from './opened-queue-preview-dialer-general';
     import openedQueuePreviewDialerResources from '../opened-queue-resources';
     import openedQueuePreviewDialerVariables from '../opened-queue-variables';
-    import openedQueuePreviewDialerMembers from '../opened-queue-members';
     import openedQueuePreviewDialerTiming from './opened-queue-preview-dialer-timing';
     import openedQueuePreviewDialerBuckets from '../opened-queue-buckets';
-    import deepEqual from 'deep-equal';
     import editComponentMixin from '@/mixins/editComponentMixin';
     import {required} from 'vuelidate/lib/validators';
     import {requiredArrayValue} from "@/utils/validators";
@@ -43,7 +41,6 @@
             openedQueuePreviewDialerGeneral,
             openedQueuePreviewDialerResources,
             openedQueuePreviewDialerVariables,
-            openedQueuePreviewDialerMembers,
             openedQueuePreviewDialerTiming,
             openedQueuePreviewDialerBuckets,
         },
@@ -59,10 +56,6 @@
                     {
                         text: this.$tc('objects.ccenter.queues.variables', 2),
                         value: 'variables',
-                    },
-                    {
-                        text: this.$tc('objects.ccenter.queues.members', 2),
-                        value: 'members',
                     },
                     {
                         text: this.$t('objects.ccenter.queues.timing'),

@@ -29,10 +29,8 @@
     import openedQueuePredictiveDialerGeneral from './opened-queue-predictive-dialer-general';
     import openedQueuePredictiveDialerResources from '../opened-queue-resources';
     import openedQueuePredictiveDialerVariables from '../opened-queue-variables';
-    import openedQueuePredictiveDialerMembers from '../opened-queue-members';
     import openedQueuePredictiveDialerTiming from './opened-queue-predictive-dialer-timing';
     import openedQueuePredictiveDialerBuckets from '../opened-queue-buckets';
-    import deepEqual from 'deep-equal';
     import editComponentMixin from '@/mixins/editComponentMixin';
     import {required} from 'vuelidate/lib/validators';
     import {requiredArrayValue} from "@/utils/validators";
@@ -44,7 +42,6 @@
             openedQueuePredictiveDialerGeneral,
             openedQueuePredictiveDialerResources,
             openedQueuePredictiveDialerVariables,
-            openedQueuePredictiveDialerMembers,
             openedQueuePredictiveDialerTiming,
             openedQueuePredictiveDialerBuckets,
         },
@@ -60,10 +57,6 @@
                     {
                         text: this.$tc('objects.ccenter.queues.variables', 2),
                         value: 'variables',
-                    },
-                    {
-                        text: this.$tc('objects.ccenter.queues.members', 2),
-                        value: 'members',
                     },
                     {
                         text: this.$t('objects.ccenter.queues.timing'),

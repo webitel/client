@@ -28,10 +28,8 @@
     import openedQueueProgressiveDialerGeneral from './opened-queue-progressive-dialer-general';
     import openedQueueProgressiveDialerResources from '../opened-queue-resources';
     import openedQueueProgressiveDialerVariables from '../opened-queue-variables';
-    import openedQueueProgressiveDialerMembers from '../opened-queue-members';
     import openedQueueProgressiveDialerTiming from './opened-queue-progressive-dialer-timing';
     import openedQueueProgressiveDialerBuckets from '../opened-queue-buckets';
-    import deepEqual from 'deep-equal';
     import editComponentMixin from '@/mixins/editComponentMixin';
     import {required} from 'vuelidate/lib/validators';
     import {requiredArrayValue} from "@/utils/validators";
@@ -43,7 +41,6 @@
             openedQueueProgressiveDialerGeneral,
             openedQueueProgressiveDialerResources,
             openedQueueProgressiveDialerVariables,
-            openedQueueProgressiveDialerMembers,
             openedQueueProgressiveDialerTiming,
             openedQueueProgressiveDialerBuckets,
         },
@@ -59,10 +56,6 @@
                     {
                         text: this.$tc('objects.ccenter.queues.variables', 2),
                         value: 'variables',
-                    },
-                    {
-                        text: this.$tc('objects.ccenter.queues.members', 2),
-                        value: 'members',
                     },
                     {
                         text: this.$t('objects.ccenter.queues.timing'),

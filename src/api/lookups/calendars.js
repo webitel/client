@@ -45,7 +45,7 @@ export const getCalendar = async (id) => {
 export const getCalendarTimezones = async (page = 0, size = 20) => {
     try {
         const response = await calendarService.searchTimezones(page, size);
-        return response.data;
+        return response.data.items;
     } catch (err) {
         throw err;
     }

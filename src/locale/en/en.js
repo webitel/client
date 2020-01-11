@@ -387,6 +387,12 @@ export default {
                 noAnswerDelayTime: 'No answer delay time',
             },
 
+            members: {
+              members: 'Member | Members',
+              allMembers: 'All members',
+              addMember: 'Add member',
+            },
+
             queues: {
                 queues: 'Queue | Queues',
                 allQueues: 'All queues',

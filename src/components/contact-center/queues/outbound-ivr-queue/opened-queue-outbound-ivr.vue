@@ -28,10 +28,8 @@
     import openedQueueOutboundIvrGeneral from './opened-queue-outbound-ivr-general';
     import openedQueueOutboundIvrResources from '../opened-queue-resources';
     import openedQueueOutboundIvrVariables from '../opened-queue-variables';
-    import openedQueueOutboundIvrMembers from '../opened-queue-members';
     import openedQueueOutboundIvrTiming from './opened-queue-outbound-ivr-timing';
     import openedQueueOutboundIvrBuckets from '../opened-queue-buckets';
-    import deepEqual from 'deep-equal';
     import editComponentMixin from '@/mixins/editComponentMixin';
     import {required} from 'vuelidate/lib/validators';
     import {requiredArrayValue} from "@/utils/validators";
@@ -43,7 +41,6 @@
             openedQueueOutboundIvrGeneral,
             openedQueueOutboundIvrResources,
             openedQueueOutboundIvrVariables,
-            openedQueueOutboundIvrMembers,
             openedQueueOutboundIvrTiming,
             openedQueueOutboundIvrBuckets,
         },
@@ -63,10 +60,6 @@
                     {
                         text: this.$tc('objects.ccenter.queues.variables', 2),
                         value: 'variables',
-                    },
-                    {
-                        text: this.$tc('objects.ccenter.queues.members', 2),
-                        value: 'members',
                     },
                     {
                         text: this.$t('objects.ccenter.queues.timing'),

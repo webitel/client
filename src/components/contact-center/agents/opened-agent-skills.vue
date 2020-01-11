@@ -62,7 +62,7 @@
     import openedAgentSkillsPopup from './opened-agent-skills-popup';
     import tableComponentMixin from '@/mixins/tableComponentMixin';
     import openedTabComponentMixin from '@/mixins/openedTabComponentMixin';
-    import {_actionsTableField_2} from "@/utils/tableFieldPresets";
+    import {_checkboxTableField, _actionsTableField_2} from "@/utils/tableFieldPresets";
     import {mapActions, mapState} from "vuex";
     import eventBus from "../../../utils/eventBus";
 
@@ -75,6 +75,7 @@
         data() {
             return {
                 fields: [
+                    _checkboxTableField,
                     {name: 'name', title: this.$tc('objects.ccenter.skills.skills', 2)},
                     {name: 'capacity', title: this.$t('objects.ccenter.skills.capacity')},
                     _actionsTableField_2,

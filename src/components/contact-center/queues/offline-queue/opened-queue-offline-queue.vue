@@ -27,10 +27,8 @@
     import openedQueueOfflineQueueGeneral from './opened-queue-offline-queue-general';
     import openedQueueOfflineQueueResources from '../opened-queue-resources';
     import openedQueueOfflineQueueVariables from '../opened-queue-variables';
-    import openedQueueOfflineQueueMembers from '../opened-queue-members';
     import openedQueueOfflineQueueTiming from './opened-queue-offline-queue-timing';
     import openedQueueOfflineQueueBuckets from '../opened-queue-buckets';
-    import deepEqual from 'deep-equal';
     import editComponentMixin from '@/mixins/editComponentMixin';
     import {required} from 'vuelidate/lib/validators';
     import {requiredArrayValue} from "@/utils/validators";
@@ -42,7 +40,6 @@
             openedQueueOfflineQueueGeneral,
             openedQueueOfflineQueueResources,
             openedQueueOfflineQueueVariables,
-            openedQueueOfflineQueueMembers,
             openedQueueOfflineQueueTiming,
             openedQueueOfflineQueueBuckets,
         },
@@ -58,10 +55,6 @@
                     {
                         text: this.$tc('objects.ccenter.queues.variables', 2),
                         value: 'variables',
-                    },
-                    {
-                        text: this.$tc('objects.ccenter.queues.members', 2),
-                        value: 'members',
                     },
                     {
                         text: this.$t('objects.ccenter.queues.timing'),

@@ -49,6 +49,8 @@ import openedAgentSkill from '../components/contact-center/agent-skills/opened-a
 import buckets from '../components/contact-center/buckets/the-buckets';
 import openedBucket from '../components/contact-center/buckets/opened-bucket';
 import queues from '../components/contact-center/queues/the-queues';
+import members from '../components/contact-center/members/the-queue-members';
+import openedMember from '../components/contact-center/members/opened-queue-member';
 import openedQueueOutboundIVR from '../components/contact-center/queues/outbound-ivr-queue/opened-queue-outbound-ivr';
 import openedQueueInbound from '../components/contact-center/queues/inbound-queue/opened-queue-inbound-queue';
 import openedQueueOfflineQueue from '../components/contact-center/queues/offline-queue/opened-queue-offline-queue';
@@ -394,6 +396,21 @@ const router = new Router({
                     path:'/contact-center/queues',
                     name: 'cc-queues',
                     component: queues
+                },
+                {
+                    path:'/contact-center/queues/:queueId/members',
+                    name: 'cc-queue-members',
+                    component: members
+                },
+                {
+                    path:'/contact-center/queues/:queueId/members/new',
+                    name: 'cc-queue-member-new',
+                    component: openedMember
+                },
+                {
+                    path:'/contact-center/queues/:queueId/members/:id',
+                    name: 'cc-queue-member-edit',
+                    component: openedMember
                 },
                 {
                     path:'/contact-center/queues/outbound-ivr/new',
