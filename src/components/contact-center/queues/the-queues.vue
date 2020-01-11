@@ -157,7 +157,7 @@
 
             edit(rowId) {
                 this.$router.push({
-                    name: 'cc-queue-inbound-queue-edit',
+                    name: 'cc-queue-outbound-ivr-edit',
                     params: {id: this.dataList[rowId].id},
                 });
             },

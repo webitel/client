@@ -1,4 +1,5 @@
 import proxy from '../../../../utils/editProxy';
+import buckets from './queue-buckets';
 import {
     addQueue, deleteQueue,
     getQueue, getQueuesList, updateQueue
@@ -299,6 +300,7 @@ const actions = {
 
     RESET_ITEM_STATE: async (context) => {
         context.commit('RESET_ITEM_STATE');
+        context.dispatch('ccenter/queues/buckets/RESET_ITEM_STATE', {}, {root: true});
     },
 };
 
@@ -366,4 +368,5 @@ export default {
     getters,
     actions,
     mutations,
+    modules: {buckets}
 };

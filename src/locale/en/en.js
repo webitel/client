@@ -428,11 +428,13 @@ export default {
                 timeout: 'Timeout',
                 maxNumberOfRetry: 'Max number of retry',
                 waitForResultStatus: 'Wait for result status',
+                bucketRatio: 'Ratio',
             },
 
             buckets: {
                 buckets: 'Bucket | Buckets',
                 allBuckets: 'All buckets',
+                addBucket: 'Add bucket',
             },
 
             res: {

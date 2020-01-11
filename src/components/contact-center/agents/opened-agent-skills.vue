@@ -6,7 +6,7 @@
         ></skill-popup>
 
         <header class="content-header">
-            <h3 class="content-title">{{$t('objects.generalInfo')}}</h3>
+            <h3 class="content-title">{{$tc('objects.ccenter.skills.skills', 2)}}</h3>
             <div class="content-header__actions-wrap">
                 <search
                         v-model="search"
