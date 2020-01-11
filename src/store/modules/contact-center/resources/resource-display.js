@@ -7,6 +7,11 @@ import {
 const defaultState = () => {
     return {
         itemId: 0,
+        dataList: [],
+        size: '10',
+        search: '',
+        page: 0,
+        isNextPage: true,
         itemInstance: {display: '2'},
     }
 };
@@ -14,11 +19,6 @@ const defaultState = () => {
 
 const state = {
     parentId: 0,
-    dataList: [],
-    size: '10',
-    search: '',
-    page: 0,
-    isNextPage: true,
     ...defaultState()
 };
 

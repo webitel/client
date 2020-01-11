@@ -8,6 +8,11 @@ import {
 
 const defaultState = () => {
     return {
+        dataList: [],
+        size: '10',
+        search: '',
+        page: 0,
+        isNextPage: true,
         itemId: 0,
         itemInstance: {
             resource: {}
@@ -18,11 +23,6 @@ const defaultState = () => {
 
 const state = {
     parentId: 0,
-    dataList: [],
-    size: '10',
-    search: '',
-    page: 0,
-    isNextPage: true,
     ...defaultState()
 };
 

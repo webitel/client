@@ -9,6 +9,11 @@ import proxy from "../../../../utils/editProxy";
 
 const defaultState = () => {
     return {
+        dataList: [],
+        size: '10',
+        search: '',
+        page: 0,
+        isNextPage: true,
         itemId: 0,
         itemInstance: {
             number: '000',
@@ -20,11 +25,6 @@ const defaultState = () => {
 
 const state = {
     parentId: 0,
-    dataList: [],
-    size: '10',
-    search: '',
-    page: 0,
-    isNextPage: true,
     ...defaultState()
 };
 

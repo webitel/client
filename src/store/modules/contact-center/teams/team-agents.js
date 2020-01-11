@@ -6,6 +6,11 @@ import {
 
 const defaultState = () => {
     return {
+        dataList: [],
+        size: '10',
+        search: '',
+        page: 0,
+        isNextPage: true,
         itemId: 0,
         itemInstance: {
             agent: {},
@@ -16,11 +21,7 @@ const defaultState = () => {
 };
 
 const state = {
-    dataList: [],
-    size: '10',
-    search: '',
-    page: 0,
-    isNextPage: true,
+    parentId: 0,
     ...defaultState()
 };
 

@@ -7,7 +7,6 @@ import {
 
 const defaultState = () => {
     return {
-        parentId: 0,
         dataList: [],
         size: '10',
         search: '',
@@ -23,6 +22,7 @@ const defaultState = () => {
 };
 
 const state = {
+    parentId: 0,
     ...defaultState()
 };
 
