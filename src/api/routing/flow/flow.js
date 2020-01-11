@@ -17,7 +17,7 @@ export const getFlowList = async (page = 0, size = 10) => {
         type: 'Type is undefined',
     };
     try {
-        const response = await flowService.searchRoutingSchema(domainId, size, page);
+        const response = await flowService.searchRoutingSchema(page, size);
         if (!response.data.items) response.data.items = [];
         return response.data.items.map(item => {return {...item, ...defaultObject}});
     } catch (err) {

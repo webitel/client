@@ -18,7 +18,7 @@ export const getTeamSupervisorsList = async (teamId, page = 0, size = 10) => {
     };
 
     try {
-        const response = await teamSupervisorService.searchSupervisorInTeam(teamId, domainId, size, page);
+        const response = await teamSupervisorService.searchSupervisorInTeam(teamId, page, size);
         if (Array.isArray(response.data.items)) {
             return response.data.items.map(item => {
                 return {...defaultObject, ...item};

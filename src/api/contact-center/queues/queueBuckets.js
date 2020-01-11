@@ -17,7 +17,7 @@ export const getQueueBucketsList = async (queueId, page = 0, size = 10) => {
     };
 
     try {
-        const response = await queueBucketsService.searchQueueBucket(queueId, size, page);
+        const response = await queueBucketsService.searchQueueBucket(queueId, page, size);
         if (Array.isArray(response.data.items)) {
             return response.data.items.map(item => {
                 return {...defaultObject, ...item};

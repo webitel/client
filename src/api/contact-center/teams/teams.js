@@ -19,7 +19,7 @@ export const getTeamsList = async (page = 0, size = 10, search) => {
     };
 
     try {
-        const response = await teamService.searchAgentTeam(domainId, size, page);
+        const response = await teamService.searchAgentTeam(page, size);
         if (Array.isArray(response.data.items)) {
             return response.data.items.map(item => {
                 return {...defaultObject, ...item};

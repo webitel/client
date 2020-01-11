@@ -17,7 +17,7 @@ export const getDialplanList = async (page = 0, size = 10, search) => {
     };
 
     try {
-        const response = await dialplanService.searchRoutingOutboundCall(domainId, size, page);
+        const response = await dialplanService.searchRoutingOutboundCall(page, size);
         if (!response.data.items) response.data.items = [];
         return response.data.items.map(item => {return {...item, ...defaultObject}});
     } catch (err) {
