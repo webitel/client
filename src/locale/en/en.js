@@ -264,6 +264,7 @@ export default {
             communications: {
                 communications: 'Communication type | Comunication types',
                 allCommunications: 'All communiction types',
+                addCommunication: 'Add communication',
                 code: 'Code'
             },
             contactType: {
@@ -388,9 +389,12 @@ export default {
             },
 
             members: {
-              members: 'Member | Members',
-              allMembers: 'All members',
-              addMember: 'Add member',
+                members: 'Member | Members',
+                allMembers: 'All members',
+                addMember: 'Add member',
+                destination: 'Destination',
+                display: 'Display number',
+                priority: 'Priority',
             },
 
             queues: {

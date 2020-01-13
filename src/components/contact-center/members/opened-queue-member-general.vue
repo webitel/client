@@ -6,7 +6,9 @@
         <form class="object-input-grid">
             <form-input
                     v-model="name"
+                    :v="v.itemInstance.name"
                     :label="$t('objects.name')"
+                    required
             ></form-input>
 
             <dropdown-select
@@ -16,7 +18,7 @@
             ></dropdown-select>
 
             <datepicker
-                    v-model="expire"
+                    v-model="expireAt"
                     :label="$t('objects.ccenter.queues.expire')"
             ></datepicker>
 
@@ -69,9 +71,9 @@
                 get() {return this.$store.state.ccenter.queues.members.itemInstance.priority},
                 set(value) {this.setItemProp({prop: 'priority', value})}
             },
-            expire: {
-                get() {return this.$store.state.ccenter.queues.members.itemInstance.expire},
-                set(value) {this.setItemProp({prop: 'expire', value})}
+            expireAt: {
+                get() {return this.$store.state.ccenter.queues.members.itemInstance.expireAt},
+                set(value) {this.setItemProp({prop: 'expireAt', value})}
             },
             bucket: {
                 get() {return this.$store.state.ccenter.queues.members.itemInstance.bucket},

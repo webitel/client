@@ -10,7 +10,9 @@ const memberService = new MemberServiceApiFactory
 
 const domainId = undefined;
 const fieldsToSend = ['name', 'priority', 'bucket', 'timezone', 'communications',
-    'variables'];
+    'variables', 'expirieAt'];
+
+const communicationsFieldsToSend = ['destination', 'display', 'priority', 'type', 'resource', 'description'];
 
 export const getMembersList = async (queueId, page = 0, size = 10) => {
     const defaultObject = {
@@ -34,16 +36,20 @@ export const getMember = async (queueId, id) => {
     try {
         let response = await memberService.readMember(queueId, id);
         const defaultObject = {
+            destination: '',
+            display: '',
+            priority: '0',
+            type: {},
+            resource: {},
             _dirty: false,
         };
         response = response.data;
         if (response.variables) {
             response.variables = Object.keys(response.variables).map(key => {
-                return {key, value: response.profile[key],}
+                return {key, value: response.variables[key],}
             });
-        } else {
-            response.variables = [{key: '', value: ''}];
-        }
+        } else {response.variables = [{key: '', value: ''}]}
+        if(response.priority) response.priority+='';
         return {...defaultObject, ...objSnakeToCamel(response)};
     } catch (err) {
         throw err;
@@ -53,6 +59,7 @@ export const getMember = async (queueId, id) => {
 export const addMember = async (queueId, item) => {
     let itemCopy = {...item, variables: {}};
     sanitizer(itemCopy, fieldsToSend);
+    itemCopy.communications.forEach(item => sanitizer(item, communicationsFieldsToSend));
     itemCopy = objCamelToSnake(itemCopy);
     item.variables.forEach(variable => {
         itemCopy.variables[variable.key] = variable.value;
@@ -69,6 +76,7 @@ export const addMember = async (queueId, item) => {
 export const updateMember = async (queueId, id, item) => {
     let itemCopy = {...item, variables: {}};
     sanitizer(itemCopy, fieldsToSend);
+    itemCopy.communications.forEach(item => sanitizer(item, communicationsFieldsToSend));
     itemCopy = objCamelToSnake(itemCopy);
     item.variables.forEach(variable => {
         itemCopy.variables[variable.key] = variable.value;

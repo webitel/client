@@ -1,6 +1,6 @@
 <template>
     <popup
-            :title="$t('objects.ccenter.communications.addCommunication')"
+            :title="$t('objects.lookups.communications.addCommunication')"
             :primaryAction="save"
             :primaryText="computePrimaryText"
             :primaryDisabled="computeDisabled"
@@ -18,19 +18,18 @@
             <form-input
                     v-model="display"
                     :label="$t('objects.ccenter.members.display')"
-                    required
             ></form-input>
 
             <form-input
                     v-model="priority"
                     :label="$t('objects.ccenter.members.priority')"
-                    required
             ></form-input>
 
             <dropdown-select
                     v-model.trim="type"
+                    :v="$v.itemInstance.type"
                     :options="dropdownOptionsTypeList"
-                    :label="$t('objects.ccenter.skills.capacity')"
+                    :label="$tc('objects.lookups.communications.communications', 1)"
                     @search="loadDropdownOptionsTypeList"
                     required
             ></dropdown-select>
@@ -38,9 +37,8 @@
             <dropdown-select
                     v-model.trim="resource"
                     :options="dropdownOptionsResList"
-                    :label="$t('objects.ccenter.skills.capacity')"
+                    :label="$tc('objects.ccenter.res.res', 1)"
                     @search="loadDropdownOptionsResList"
-                    required
             ></dropdown-select>
 
             <form-input
@@ -68,22 +66,20 @@
         },
         data() {
             return {
-                itemInstance: {
-                    destination: '8 800 555 3535',
-                    display: '5656',
-                    priority: 0,
-                    type: {},
-                    resource: {},
-                    description: '',
-                },
-
                 dropdownOptionsTypeList: [],
                 dropdownOptionsResList: [],
             }
         },
 
         validations: {
-            itemInstance: {}
+            itemInstance: {
+                destination: {
+                    required
+                },
+                type: {
+                    required
+                },
+            }
         },
 
         mounted() {
@@ -93,74 +89,81 @@
         },
 
         computed: {
-            ...mapState('ccenter/queues/members', {
-                editedIndex: state => state.editedIndex,
-                itemInstance: state => state.itemInstance.communications[this.editedIndex]
+            ...mapState('ccenter/queues/members/communications', {
+                id: state => state.itemId,
+                itemInstance: state => state.itemInstance
             }),
             destination: {
                 get() {
-                    return this.$store.state.ccenter.queues.members.itemInstance.skill
+                    return this.$store.state.ccenter.queues.members.communications.itemInstance.destination
                 },
                 set(value) {
-                    this.setItemProp({prop: 'skill', value})
+                    this.setItemProp({prop: 'destination', value})
                 }
             },
-            destination: {
+            display: {
                 get() {
-                    return this.$store.state.ccenter.queues.members.itemInstance.skill
+                    return this.$store.state.ccenter.queues.members.communications.itemInstance.display
                 },
                 set(value) {
-                    this.setItemProp({prop: 'skill', value})
+                    this.setItemProp({prop: 'display', value})
                 }
             },
-            destination: {
+            priority: {
                 get() {
-                    return this.$store.state.ccenter.queues.members.itemInstance.skill
+                    return this.$store.state.ccenter.queues.members.communications.itemInstance.priority
                 },
                 set(value) {
-                    this.setItemProp({prop: 'skill', value})
+                    this.setItemProp({prop: 'priority', value})
                 }
             },
-            destination: {
+            type: {
                 get() {
-                    return this.$store.state.ccenter.queues.members.itemInstance.skill
+                    return this.$store.state.ccenter.queues.members.communications.itemInstance.type
                 },
                 set(value) {
-                    this.setItemProp({prop: 'skill', value})
+                    this.setItemProp({prop: 'type', value})
                 }
             },
-            destination: {
+            resource: {
                 get() {
-                    return this.$store.state.ccenter.queues.members.itemInstance.skill
+                    return this.$store.state.ccenter.queues.members.communications.itemInstance.resource
                 },
                 set(value) {
-                    this.setItemProp({prop: 'skill', value})
+                    this.setItemProp({prop: 'resource', value})
                 }
             },
-            destination: {
+            description: {
                 get() {
-                    return this.$store.state.ccenter.queues.members.itemInstance.skill
+                    return this.$store.state.ccenter.queues.members.communications.itemInstance.description
                 },
                 set(value) {
-                    this.setItemProp({prop: 'skill', value})
+                    this.setItemProp({prop: 'description', value})
                 }
             },
-            destination: {
-                get() {
-                    return this.$store.state.ccenter.queues.members.itemInstance.skill
+
+                computePrimaryText() {
+                    // if it's a new item
+                    // OR any fields have changed
+                    return !(typeof this.id === 'number') || this.itemInstance._dirty ?
+                        this.$t('objects.save') : this.$t('objects.saved');
                 },
-                set(value) {
-                    this.setItemProp({prop: 'skill', value})
-                }
-            },
+
+                computeDisabled() {
+                    // if there's a validation problem
+                    // OR it's edit and any fields haven't changed
+                    return this.checkValidations() ||
+                        (!this.itemInstance._dirty && (typeof this.id === 'number'));
+                },
         },
 
         methods: {
             async save() {
                 const invalid = this.checkValidations();
+                // console.log(!invalid, !(typeof this.id === 'number'));
                 if (!invalid) {
                     try {
-                        !this.id ? await this.addItem() : await this.updateItem();
+                        !(typeof this.id === 'number') ? await this.addItem() : await this.updateItem();
                         this.$emit('close');
                     } catch {
                     }
@@ -187,7 +190,7 @@
                 });
             },
 
-            ...mapActions('ccenter/agents/skills', {
+            ...mapActions('ccenter/queues/members/communications', {
                 setItemProp: 'SET_ITEM_PROPERTY',
                 addItem: 'ADD_ITEM',
                 updateItem: 'UPDATE_ITEM',

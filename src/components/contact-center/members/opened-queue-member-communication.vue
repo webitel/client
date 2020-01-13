@@ -6,7 +6,9 @@
         ></communication-popup>
 
         <header class="content-header">
-            <h3 class="content-title">{{$tc('objects.lookups.communications.communications', 2)}}</h3>
+            <h3 class="content-title"
+                :class="{'invalid': v.itemInstance.communications.$error}"
+            >{{$tc('objects.lookups.communications.communications', 2)}}</h3>
             <div class="content-header__actions-wrap">
                 <i
                         class="icon-icon_delete icon-action"
@@ -42,7 +44,7 @@
 
             <template slot="type" slot-scope="props">
                 <div>
-                    {{dataList[props.rowIndex].type}}
+                    {{dataList[props.rowIndex].type.name}}
                 </div>
             </template>
 
@@ -88,37 +90,36 @@
             };
         },
 
+        mounted() {
+
+        },
+
         computed: {
-            ...mapState('ccenter/queues/members', {
-                dataList: state => state.itemInstance.communications,
+            ...mapState('ccenter/queues/members/communications', {
+                dataList: state => state.dataList,
             }),
         },
 
         methods: {
             async create() {
-                if (!this.checkValidations()) {
-                    this.popupTriggerIf = true;
-                } else {
-                    eventBus.$emit('notificationError', 'Check your validations!');
-                }
+                this.popupTriggerIf = true;
             },
 
             closePopup() {
-                this.setEditedIndex(0);
+                this.setId(null);
                 this.popupTriggerIf = false;
             },
 
             edit(rowIndex) {
-                this.setEditedIndex(rowIndex);
+                this.setId(rowIndex);
                 this.popupTriggerIf = true;
             },
 
-            ...mapActions('ccenter/queues/members', {
-                setEditedIndex: 'SET_EDITED_COMMUNICATION_INDEX',
-                removeItem: 'REMOVE_COMMUNICATION_ITEM',
+            ...mapActions('ccenter/queues/members/communications', {
+                setId: 'SET_ITEM_ID',
+                loadDataList: 'LOAD_DATA_LIST',
+                removeItem: 'REMOVE_ITEM',
             }),
-
-            loadDataList() {},
         }
     }
 </script>

@@ -30,6 +30,8 @@
     import openedQueueMemberVariables from './opened-queue-member-variables';
     import editComponentMixin from '@/mixins/editComponentMixin';
     import {mapActions, mapState} from "vuex";
+    import {requiredArrayValue} from "../../../utils/validators";
+    import required from "vuelidate/src/validators/required";
 
     export default {
         name: "opened-queue-member",
@@ -60,10 +62,18 @@
         },
 
         validations: {
-            itemInstance: {}
+            itemInstance: {
+                name: {
+                    required
+                },
+                communications: {
+                    requiredArrayValue
+                }
+            }
         },
 
         mounted() {
+            this.setParentId(this.$route.params.queueId);
             this.id = this.$route.params.id;
             this.loadItem();
         },
@@ -75,11 +85,12 @@
             id: {
                 get() {return this.$store.state.ccenter.queues.members.itemId},
                 set(value) {this.setId(value)}
-            }
+            },
         },
 
         methods: {
             ...mapActions('ccenter/queues/members', {
+                setParentId: 'SET_PARENT_ITEM_ID',
                 setId: 'SET_ITEM_ID',
                 loadItem: 'LOAD_ITEM',
                 addItem: 'ADD_ITEM',

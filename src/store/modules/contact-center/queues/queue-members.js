@@ -1,9 +1,9 @@
 import proxy from '../../../../utils/editProxy';
+import communications from './queue-member-communications';
 import {
     addMember, deleteMember,
     getMember, getMembersList, updateMember
 } from "../../../../api/contact-center/queues/queueMembers";
-
 
 const defaultState = () => {
     return {
@@ -16,14 +16,13 @@ const defaultState = () => {
         itemInstance: {
             name: 'memberr',
             priority: '0',
-            expire: Date.now(),
+            expireAt: Date.now(),
             bucket: {},
             timezone: {},
             communications: [],
             // skills: [{text: 'skill1'}, {text: 'skill2'}],
             variables: [{key: 'Ke1y', value: 'Valu2e'}, {key: 'K3ey', value: 'Va4lue'},],
         },
-        editedIndex: 0,
     };
 };
 
@@ -64,7 +63,7 @@ const actions = {
     },
 
     LOAD_DATA_LIST: async (context) => {
-        if(state.parentId) {
+        if (state.parentId) {
             const response = await context.dispatch('GET_LIST');
             context.dispatch('RESET_ITEM_STATE');
             context.commit('SET_DATA_LIST', response);
@@ -80,14 +79,14 @@ const actions = {
     },
 
     NEXT_PAGE: (context) => {
-        if(state.isNextPage) {
+        if (state.isNextPage) {
             context.commit('INCREMENT_PAGE');
             context.dispatch('LOAD_DATA_LIST');
         }
     },
 
     PREV_PAGE: (context) => {
-        if(state.page) {
+        if (state.page) {
             context.commit('DECREMENT_PAGE');
             context.dispatch('LOAD_DATA_LIST');
         }
@@ -108,12 +107,14 @@ const actions = {
         if (!state.itemId) {
             const id = await context.dispatch('POST_ITEM');
             context.dispatch('SET_ITEM_ID', id);
+            context.dispatch('LOAD_ITEM');
         }
     },
 
     UPDATE_ITEM: async (context) => {
         if (state.itemInstance._dirty) {
             await context.dispatch('UPD_ITEM');
+            context.dispatch('LOAD_ITEM');
         }
     },
 
@@ -126,12 +127,19 @@ const actions = {
         }
     },
 
-    SET_EDITED_COMMUNICATION_INDEX: (context, id) => {
-        context.commit('SET_EDITED_COMMUNICATION_INDEX', id);
+    ADD_COMMUNICATION_ITEM: (context, item) => {
+        context.commit('ADD_COMMUNICATION_ITEM', item);
+        context.commit('SET_ITEM_PROPERTY', {prop: '_dirty', value: true});
+    },
+
+    UPDATE_COMMUNICATION_ITEM: (context, {index, item}) => {
+        context.commit('UPDATE_COMMUNICATION_ITEM', {index, item});
+        context.commit('SET_ITEM_PROPERTY', {prop: '_dirty', value: true});
     },
 
     REMOVE_COMMUNICATION_ITEM: async (context, index) => {
         context.commit('REMOVE_COMMUNICATION_ITEM', index);
+        context.commit('SET_ITEM_PROPERTY', {prop: '_dirty', value: true});
     },
 
     ADD_VARIABLE_PAIR: (context) => {
@@ -196,8 +204,12 @@ const mutations = {
         state.dataList.splice(index, 1);
     },
 
-    SET_EDITED_COMMUNICATION_INDEX: (state, id) => {
-        state.editedIndex = id;
+    ADD_COMMUNICATION_ITEM: (state, item) => {
+        state.itemInstance.communications.push(item);
+    },
+
+    UPDATE_COMMUNICATION_ITEM: (state, {index, item}) => {
+        state.itemInstance.communications[index] = item;
     },
 
     REMOVE_COMMUNICATION_ITEM: (state, index) => {
@@ -227,4 +239,5 @@ export default {
     getters,
     actions,
     mutations,
+    modules: {communications}
 };
