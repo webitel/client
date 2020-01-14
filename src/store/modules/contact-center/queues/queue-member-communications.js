@@ -11,8 +11,6 @@ const defaultState = () => {
             type: {},
             resource: {},
             description: '',
-            // _isSelected: false,
-            // _dirty: false,
         },
     };
 };
@@ -87,7 +85,6 @@ const actions = {
     },
 
     UPDATE_ITEM: async (context) => {
-        console.log('before upd', state.itemInstance, state.itemInstance._dirty);
         if (state.itemInstance._dirty) {
             await context.dispatch('UPD_ITEM');
         }

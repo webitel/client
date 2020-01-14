@@ -7,11 +7,7 @@ import {
 
 const defaultState = () => {
     return {
-        dataList: [],
-        size: '10',
-        search: '',
-        page: 0,
-        isNextPage: true,
+        destinationId: 0,
         itemId: 0,
         itemInstance: {
             name: 'memberr',
@@ -28,10 +24,20 @@ const defaultState = () => {
 
 const state = {
     parentId: 0,
+    dataList: [],
+    size: '10',
+    search: '',
+    page: 0,
+    isNextPage: true,
     ...defaultState()
 };
 
-const getters = {};
+const getters = {
+    GET_ITEM_DESTINATIONS: (state) => {
+        const item = state.dataList.filter(item => item.id === state.destinationId)[0];
+        return item.communications;
+    },
+};
 
 const actions = {
     GET_LIST: async () => {
@@ -127,6 +133,10 @@ const actions = {
         }
     },
 
+    SET_DESTINATION_ID: async (context, id) => {
+        context.commit('SET_DESTINATION_ID', id);
+    },
+
     ADD_COMMUNICATION_ITEM: (context, item) => {
         context.commit('ADD_COMMUNICATION_ITEM', item);
         context.commit('SET_ITEM_PROPERTY', {prop: '_dirty', value: true});
@@ -202,6 +212,10 @@ const mutations = {
 
     REMOVE_ITEM: (state, index) => {
         state.dataList.splice(index, 1);
+    },
+
+    SET_DESTINATION_ID: (state, id) => {
+        state.destinationId = id;
     },
 
     ADD_COMMUNICATION_ITEM: (state, item) => {

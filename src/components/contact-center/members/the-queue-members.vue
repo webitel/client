@@ -8,11 +8,10 @@
             {{$tc('objects.ccenter.members.members', 2)}}
         </object-header>
 
-<!--        <destinations-popup-->
-<!--                v-show="destinationsPopupData"-->
-<!--                :destinations="destinationsPopupData"-->
-<!--                @close="closeDestinationsPopup"-->
-<!--        ></destinations-popup>-->
+        <destinations-popup
+                v-if="popupTriggerIf"
+                @close="closePopup"
+        ></destinations-popup>
 
         <section class="object-content">
             <header class="content-header">
@@ -50,7 +49,7 @@
                 </template>
                 <template slot="priority" slot-scope="props">
                     <div>
-                        {{computePriority(dataList[props.rowIndex].priority)}}
+                        {{dataList[props.rowIndex].priority}}
                     </div>
                 </template>
                 <template slot="endCause" slot-scope="props">
@@ -59,11 +58,11 @@
                     </div>
                 </template>
                 <template slot="destination" slot-scope="props">
-                    <div>
-                        {{dataList[props.rowIndex].destination}}
+                    <div class="d-flex justify-content-between">
+                        {{dataList[props.rowIndex].communications[0].destination}}
                         <span class="hidden-num"
-                              @click="openDestinationsPopup(props.rowIndex)"
-                        >+11</span>
+                              @click="readDestinations(props.rowIndex)"
+                        >+{{dataList[props.rowIndex].communications.length-1}}</span>
                     </div>
                 </template>
                 <template slot="type" slot-scope="props">
@@ -94,7 +93,7 @@
 </template>
 
 <script>
-    import destinationsPopup from '../queues/opened-queue-destinations-popup';
+    import destinationsPopup from './opened-queue-member-destinations-popup';
     import tableComponentMixin from '@/mixins/tableComponentMixin';
     import {_checkboxTableField, _actionsTableField_2} from "@/utils/tableFieldPresets";
     import {mapActions, mapState} from "vuex";
@@ -112,8 +111,7 @@
                     {name: 'name', title: this.$t('objects.name')},
                     {name: 'priority', title: this.$t('objects.ccenter.queues.priority')},
                     {name: 'endCause', title: this.$t('objects.ccenter.queues.endCause')},
-                    {name: 'destination', title: this.$tc('objects.ccenter.queues.destination', 1)},
-                    {name: 'type', title: this.$t('objects.ccenter.queues.type')},
+                    {name: 'destination', title: this.$tc('objects.ccenter.queues.destination', 1), width: '160px'},
                     _actionsTableField_2,
                 ],
             };
@@ -144,15 +142,13 @@
         },
 
         methods: {
-            openDestinationsPopup(rowIndex) {
-            //     this.destinationsPopupData = this.dataList[rowIndex].destination;
+            readDestinations(rowIndex) {
+                this.setDestinationId(this.dataList[rowIndex].id);
+                this.popupTriggerIf = true;
             },
-            // closeDestinationsPopup(rowIndex) {
-            //     this.destinationsPopupData = null;
-            // },
-            //
-            computePriority(priority) {
-                return 'High'
+
+            closePopup() {
+                this.popupTriggerIf = false;
             },
 
             create() {
@@ -170,6 +166,7 @@
             },
 
             ...mapActions('ccenter/queues/members', {
+                setDestinationId: 'SET_DESTINATION_ID',
                 setParentId: 'SET_PARENT_ITEM_ID',
                 setId: 'SET_ITEM_ID',
                 loadDataList: 'LOAD_DATA_LIST',

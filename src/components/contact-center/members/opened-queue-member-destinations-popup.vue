@@ -1,13 +1,13 @@
 <template>
     <popup
             :title="$tc('objects.ccenter.queues.destination', 2)"
-            :primaryBtnText="$t('objects.directory.devices.ok')"
-            :primaryBtnAction="() => $emit('close')"
-            @close="$emit('close')">
+            :primaryText="$t('objects.ok')"
+            :primaryAction="() => $emit('close')"
+            @close="$emit('close')"
+    >
         <section class="destinations-popup">
             <vuetable
                     class="popup-table"
-                    ref="vuetable"
                     :api-mode="false"
                     :fields="fields"
                     :data="dataList"
@@ -20,7 +20,7 @@
 
                 <template slot="type" slot-scope="props">
                     <div>
-                        {{dataList[props.rowIndex].type}}
+                        {{dataList[props.rowIndex].type.name}}
                     </div>
                 </template>
 
@@ -30,7 +30,6 @@
                     </div>
                 </template>
             </vuetable>
-            <pagination></pagination>
         </section>
     </popup>
 </template>
@@ -38,17 +37,13 @@
 <script>
     import popup from '@/components/utils/popup';
     import tableComponentMixin from '@/mixins/tableComponentMixin';
+    import {mapGetters} from "vuex";
 
     export default {
-        name: "opened-queue-destinations-popup",
+        name: "opened-queue-member-destinations-popup",
         mixins: [tableComponentMixin],
         components: {
             popup,
-        },
-        props: {
-            value: {
-                type: Object,
-            },
         },
 
         data() {
@@ -61,15 +56,18 @@
             }
         },
 
+        computed: {
+            ...mapGetters('ccenter/queues/members', {
+                dataList: 'GET_ITEM_DESTINATIONS',
+            }),
+
+            // dataList() {
+            //     return this.$store.getters.ccenter.queues.members['GET_ITEM_DESTINATIONS'];
+            // }
+        },
+
         methods: {
             loadDataList() {
-                for(let i = 0; i < 10; i++) {
-                    this.dataList.push({
-                        destination: '8 800 555 3535',
-                        type: 'comm type',
-                        priority: 'High'
-                    });
-                }
             }
         }
     }

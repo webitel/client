@@ -10,20 +10,34 @@ const memberService = new MemberServiceApiFactory
 
 const domainId = undefined;
 const fieldsToSend = ['name', 'priority', 'bucket', 'timezone', 'communications',
-    'variables', 'expirieAt'];
+    'variables', 'expireAt'];
 
 const communicationsFieldsToSend = ['destination', 'display', 'priority', 'type', 'resource', 'description'];
 
 export const getMembersList = async (queueId, page = 0, size = 10) => {
     const defaultObject = {
+        createdAt: 'unknown',
+        priority: '0',
         _isSelected: false,
+    };
+
+    const defaultObjectCommunication = {
+        destination: '',
+        display: '',
+        priority: 0,
+        type: {},
+        resource: {},
+        description: '',
     };
 
     try {
         const response = await memberService.searchMember(queueId, page, size);
         if (Array.isArray(response.data.items)) {
             return response.data.items.map(item => {
-                return {...defaultObject, ...item};
+                item.communications = item.communications.map(comm => {
+                    return {...defaultObjectCommunication, ...comm}
+                });
+                return {...defaultObject, ...objSnakeToCamel(item)};
             });
         }
         return [];
