@@ -1,5 +1,6 @@
 import proxy from '../../../../utils/editProxy';
 import buckets from './queue-buckets';
+import resGroups from './queue-res-groups';
 import members from './queue-members';
 import {
     addQueue, deleteQueue,
@@ -370,5 +371,5 @@ export default {
     getters,
     actions,
     mutations,
-    modules: {buckets, members}
+    modules: {buckets, resGroups, members}
 };

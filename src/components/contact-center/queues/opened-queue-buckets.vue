@@ -68,8 +68,8 @@
 
     export default {
         name: "opened-queue-outbound-ivr-buckets",
-        components: {bucketPopup},
         mixins: [tableComponentMixin, openedTabComponentMixin],
+        components: {bucketPopup},
 
         data() {
             return {

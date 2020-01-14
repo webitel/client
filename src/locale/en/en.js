@@ -465,6 +465,7 @@ export default {
                 resGroups: 'Resource group | Resource groups',
                 allResGroups: 'All resource groups',
                 searchPlaceholder: 'res group name..',
+                addResGroup: 'Add resource group',
                 strategy: 'Strategy',
                 timerange: 'Time range',
                 timerangeFrom: 'From',

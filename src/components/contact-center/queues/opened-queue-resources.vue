@@ -1,59 +1,70 @@
 <template>
     <section>
+        <resource-popup
+                v-if="popupTriggerIf"
+                @close="closePopup"
+        ></resource-popup>
+
         <header class="content-header">
             <h3 class="content-title">{{$tc('objects.ccenter.res.res', 2)}}</h3>
             <div class="content-header__actions-wrap">
+                <search
+                        v-model="search"
+                        @filterData="loadDataList"
+                ></search>
                 <i
                         class="icon-icon_delete icon-action"
                         :class="{'hidden': anySelected}"
                         @click="deleteSelected"
                 ></i>
-                <i class="icon-action icon-icon_plus" @click="addItem"></i>
+                <i class="icon-action icon-icon_plus" @click="create"></i>
             </div>
         </header>
 
         <vuetable
-                ref="vuetable"
                 :api-mode="false"
                 :fields="fields"
                 :data="dataList"
         >
             <template slot="name" slot-scope="props">
-                <div v-if="dataList[props.rowIndex].resource.id ||
-                 dataList[props.rowIndex].resource.id === 0">
-                    {{dataList[props.rowIndex].resource.name}}
+                <div>
+                    {{dataList[props.rowIndex].resourceGroup.name}}
                 </div>
-
-                <dropdown-select
-                        v-else
-                        class="inline-dropdown inline-dropdown__options-left"
-                        v-model="dataList[props.rowIndex].resource"
-                        :placeholder="$tc('objects.ccenter.resorces.resorces', 1)"
-                        :options="[]"
-                ></dropdown-select>
             </template>
 
             <template slot="actions" slot-scope="props">
-                <i class="vuetable-action icon-icon_check"
-                   @click="moveRowTop(props.rowIndex)"
+                <i class="vuetable-action icon-icon_edit"
+                   @click="edit(props.rowIndex)"
                 ></i>
                 <i class="vuetable-action icon-icon_delete"
                    @click="remove(props.rowIndex)"
                 ></i>
             </template>
         </vuetable>
-        <pagination></pagination>
+        <pagination
+                v-model="size"
+                @loadDataList="loadDataList"
+                @next="nextPage"
+                @prev="prevPage"
+                :isNext="isNextPage"
+                :isPrev="!!page"
+        ></pagination>
     </section>
 </template>
 
 <script>
+    import resourcePopup from './opened-queue-resources-popup';
     import tableComponentMixin from '@/mixins/tableComponentMixin';
     import {_checkboxTableField, _actionsTableField_2} from "@/utils/tableFieldPresets";
     import openedTabComponentMixin from '@/mixins/openedTabComponentMixin';
+    import eventBus from "../../../utils/eventBus";
+    import {mapActions, mapState} from "vuex";
 
     export default {
         name: "opened-queue-resources",
         mixins: [tableComponentMixin, openedTabComponentMixin],
+        components: {resourcePopup},
+
         data() {
             return {
                 fields: [
@@ -64,41 +75,61 @@
             };
         },
 
-        methods: {
-            moveRowTop(rowIndex) {
-                if(rowIndex !== 0) {
-                    const tmp = this.dataList[rowIndex];
-                    this.dataList[rowIndex] = this.dataList[rowIndex - 1];
-                    this.dataList[rowIndex - 1] = tmp;
-                   this.dataList = [...this.dataList] // updates view
-                    // this.filterData();
-                }
+        mounted() {
+            this.setParentId(this.parentId);
+            this.loadDataList();
+        },
+
+        computed: {
+            ...mapState('ccenter/queues', {
+                parentId: state => state.itemId,
+            }),
+            ...mapState('ccenter/queues/resGroups', {
+                dataList: state => state.dataList,
+                page: state => state.page,
+                isNextPage: state => state.isNextPage,
+            }),
+
+            size: {
+                get() {return this.$store.state.ccenter.queues.resGroups.size},
+                set(value) {this.setSize(value)}
             },
 
-            addItem() {
-                this.dataList.unshift({
-                    resource: {
-                        name: 'empty',
-                    },
-                    isSelected: false,
-                });
-            },
-
-            remove(rowIndex) {
-                this.dataList.splice(rowIndex, 1);
-            },
-
-            loadDataList() {
-                for (let i = 0; i < 10; i++) {
-                    this.dataList.push({
-                        resource: {
-                            id: i,
-                            name: 'resource ' + i,
-                        },
-                        isSelected: false,
-                    });
-                }
+            search: {
+                get() {return this.$store.state.ccenter.queues.resGroups.search},
+                set(value) {this.setSearch(value)}
             }
+        },
+
+        methods: {
+            async create() {
+                if (!this.checkValidations()) {
+                    if (!this.id) await this.addParentItem();
+                    this.popupTriggerIf = true;
+                } else {
+                    eventBus.$emit('notificationError', 'Check your validations!');
+                }
+            },
+
+            edit(rowIndex) {
+                this.setId(this.dataList[rowIndex].id);
+                this.popupTriggerIf = true;
+            },
+
+            ...mapActions('ccenter/queues', {
+                addParentItem: 'ADD_ITEM',
+            }),
+
+            ...mapActions('ccenter/queues/resGroups', {
+                setParentId: 'SET_PARENT_ITEM_ID',
+                setId: 'SET_ITEM_ID',
+                loadDataList: 'LOAD_DATA_LIST',
+                setSize: 'SET_SIZE',
+                setSearch: 'SET_SEARCH',
+                nextPage: 'NEXT_PAGE',
+                prevPage: 'PREV_PAGE',
+                removeItem: 'REMOVE_ITEM',
+            }),
         }
     }
 </script>
