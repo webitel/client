@@ -50,6 +50,7 @@ const actions = {
     },
 
     SET_PARENT_ITEM_ID: (context, id) => {
+        console.log('set parent id', id);
         context.commit('SET_PARENT_ITEM_ID', id);
     },
 

@@ -13,7 +13,7 @@ const fieldsToSend = ['skill', 'capacity'];
 
 export const getAgentSkillsList = async (agentId, page = 0, size = 10) => {
     try {
-        const response = await agentSkillService.searchAgentSkill(agentId, size, page);
+        const response = await agentSkillService.searchAgentSkill(agentId, page, size);
         if (!response.data.items) response.data.items = [];
         response.data.items.forEach(item => item._isSelected = false);
         return response.data.items;

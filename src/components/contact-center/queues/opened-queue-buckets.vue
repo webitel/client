@@ -81,6 +81,12 @@
             }
         },
 
+        watch: {
+            parentId: function (value) {
+                this.setParentId(value);
+            }
+        },
+
         mounted() {
             this.setParentId(this.parentId);
             this.loadDataList();

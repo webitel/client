@@ -13,7 +13,7 @@ const fieldsToSend = ['user', 'description'];
 
 export const getAgentsList = async (page = 0, size = 10) => {
     try {
-        const response = await agentService.searchAgent(size, page);
+        const response = await agentService.searchAgent(page, size);
         if (!response.data.items) response.data.items = [];
         response.data.items.forEach(item => item._isSelected = false);
         return response.data.items;
