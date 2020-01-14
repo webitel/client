@@ -14,6 +14,11 @@ const fieldsToSend = ['domain_id', 'name', 'strategy', 'team', 'priority', 'dncL
 
 export const getQueuesList = async (page = 0, size = 10) => {
     const defaultObject = {
+        type: 0,
+        enabled: false,
+        activeCalls: 'undefined',
+        waiting: 'undefined',
+        priority: '0',
         _isSelected: false,
     };
 
@@ -55,7 +60,6 @@ export const getQueue = async (id) => {
         } else {
             response.variables = [{key: '', value: ''}];
         }
-        response.priority += '';
         return {...defaultObject, ...objSnakeToCamel(response)};
     } catch (err) {
         throw err;
@@ -73,6 +77,15 @@ export const addQueue = async (item) => {
         const response = await queueService.createQueue(itemCopy);
         eventBus.$emit('notificationInfo', 'Sucessfully added');
         return response.data.id;
+    } catch (err) {
+        throw err;
+    }
+};
+
+export const patchQueue = async (id, item) => {
+    try {
+        await queueService.patchQueue(id, item);
+        eventBus.$emit('notificationInfo', 'Sucessfully updated');
     } catch (err) {
         throw err;
     }

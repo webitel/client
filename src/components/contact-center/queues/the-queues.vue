@@ -51,14 +51,6 @@
                     </div>
                 </template>
 
-                <template slot="state" slot-scope="props">
-                    <status
-                            :class="{'status__true': dataList[props.rowIndex].state}"
-                            :text=computeOnlineText(dataList[props.rowIndex].state)
-                    >
-                    </status>
-                </template>
-
                 <template slot="activeCalls" slot-scope="props">
                     <div>
                         {{dataList[props.rowIndex].activeCalls}}
@@ -75,6 +67,13 @@
                     <div>
                         {{dataList[props.rowIndex].priority}}
                     </div>
+                </template>
+
+                <template slot="state" slot-scope="props">
+                    <switcher
+                            :value="dataList[props.rowIndex].enabled"
+                            @input="toggleSwitchProperty({index: props.rowIndex, prop: 'enabled'})"
+                    ></switcher>
                 </template>
 
                 <template slot="actions" slot-scope="props">
@@ -104,7 +103,7 @@
 <script>
     import queuePopup from './create-queue-popup';
     import tableComponentMixin from '@/mixins/tableComponentMixin';
-    import {_checkboxTableField, _actionsTableField_3} from "@/utils/tableFieldPresets";
+    import {_checkboxTableField, _actionsTableField_3, _switcherWidth} from "@/utils/tableFieldPresets";
     import {mapActions, mapState} from "vuex";
 
     export default {
@@ -117,10 +116,10 @@
                     _checkboxTableField,
                     {name: 'name', title: this.$t('objects.name')},
                     {name: 'type', title: this.$t('objects.ccenter.queues.type')},
-                    {name: 'state', title: this.$t('objects.ccenter.queues.state')},
                     {name: 'activeCalls', title: this.$t('objects.ccenter.queues.activeCalls')},
                     {name: 'waiting', title: this.$t('objects.ccenter.queues.waiting')},
                     {name: 'priority', title: this.$t('objects.ccenter.queues.priority')},
+                    {name: 'state', title: this.$t('objects.ccenter.queues.state'), _switcherWidth},
                     _actionsTableField_3,
                 ],
             };
@@ -134,13 +133,21 @@
             }),
 
             size: {
-                get() {return this.$store.state.ccenter.queues.size},
-                set(value) {this.setSize(value)}
+                get() {
+                    return this.$store.state.ccenter.queues.size
+                },
+                set(value) {
+                    this.setSize(value)
+                }
             },
 
             search: {
-                get() {return this.$store.state.ccenter.queues.search},
-                set(value) {this.setSearch(value)}
+                get() {
+                    return this.$store.state.ccenter.queues.search
+                },
+                set(value) {
+                    this.setSearch(value)
+                }
             },
         },
 
@@ -153,7 +160,22 @@
             },
 
             computeQueueType(type) {
-                return 'Outbound IVR'
+                switch (type) {
+                    case 0:
+                        return 'Offline Queue';
+                    case 1:
+                        return 'Inbound Queue';
+                    case 2:
+                        return 'Outbound IVR Queue';
+                    case 3:
+                        return 'Preview Dialer';
+                    case 4:
+                        return 'Progressive Dialer';
+                    case 5:
+                        return 'Predictive Dialer';
+                    default:
+                        return 'Unknown';
+                }
             },
 
             computeOnlineText(state) {
@@ -166,8 +188,31 @@
             },
 
             edit(rowId) {
+                let type;
+                switch (this.dataList[rowId].type) {
+                    case 0:
+                        type = 'offline-queue';
+                        break;
+                    case 1:
+                        type = 'inbound-queue';
+                        break;
+                    case 2:
+                        type = 'outbound-ivr';
+                        break;
+                    case 3:
+                        type = 'preview-dialer';
+                        break;
+                    case 4:
+                        type = 'progressive-dialer';
+                        break;
+                    case 5:
+                        type = 'predictive-dialer';
+                        break;
+                    default:
+                        return 'Unknown';
+                }
                 this.$router.push({
-                    name: 'cc-queue-outbound-ivr-edit',
+                    name: `cc-queue-${type}-edit`,
                     params: {id: this.dataList[rowId].id},
                 });
             },
@@ -178,6 +223,7 @@
                 setSearch: 'SET_SEARCH',
                 nextPage: 'NEXT_PAGE',
                 prevPage: 'PREV_PAGE',
+                toggleSwitchProperty: 'TOGGLE_ITEM_PROPERTY',
                 removeItem: 'REMOVE_ITEM',
             }),
         },

@@ -3,7 +3,7 @@ import buckets from './queue-buckets';
 import resGroups from './queue-res-groups';
 import members from './queue-members';
 import {
-    addQueue, deleteQueue,
+    addQueue, deleteQueue, patchQueue,
     getQueue, getQueuesList, updateQueue
 } from "../../../../api/contact-center/queues/queues";
 
@@ -205,6 +205,10 @@ const actions = {
         return await addQueue(state.itemInstance);
     },
 
+    PATCH_ITEM: async (context, {id, changes}) => {
+        return await patchQueue(id, changes);
+    },
+
     UPD_ITEM: async () => {
         await updateQueue(state.itemId, state.itemInstance);
     },
@@ -265,6 +269,17 @@ const actions = {
             const id = await context.dispatch('POST_ITEM');
             context.dispatch('SET_ITEM_ID', id);
             context.dispatch('LOAD_ITEM');
+        }
+    },
+
+    TOGGLE_ITEM_PROPERTY: async (context, {index, prop}) => {
+        await context.commit('TOGGLE_ITEM_PROPERTY', {index, prop});
+        let changes = {};
+        changes[prop] = state.dataList[index][prop];
+        try {
+            await context.dispatch('PATCH_ITEM', {id: state.dataList[index].id, changes});
+        } catch  {
+            context.dispatch('LOAD_DATA_LIST');
         }
     },
 
@@ -338,6 +353,10 @@ const mutations = {
 
     SET_PAYLOAD_ITEM_PROPERTY: (state, {prop, value}) => {
         state.itemInstance.payload[prop] = value;
+    },
+
+    TOGGLE_ITEM_PROPERTY: (state, {index, prop}) => {
+        state.dataList[index][prop] = !state.dataList[index][prop];
     },
 
     SET_ITEM: (state, item) => {
