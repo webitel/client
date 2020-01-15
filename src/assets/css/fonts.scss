@@ -48,7 +48,7 @@
     -moz-osx-font-smoothing: grayscale;
 }
 
-.icon-icon_cancel:before {
+.icon-icon_cancel:before, .icon-icon_close:before {
     content: "\e905";
     color: #808080;
 }

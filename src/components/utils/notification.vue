@@ -5,11 +5,11 @@
              @click="close(message.info || message.error)"
         >
             <i
-                    class="icon-icon_approve"
+                    class="icon-icon_notification notification-info"
                     v-if="message.info"
             ></i>
             <i
-                    class="icon-icon_notification icon-icon_warning"
+                    class="icon-icon_notification notification-error"
                     v-if="message.error"
             ></i>
             <div class="alert__text">
@@ -93,11 +93,11 @@
         cursor: pointer;
         z-index: 100;
 
-        .icon-icon_approve {
+        .notification-info:before {
             color: $true-color;
         }
 
-        .icon-icon_warning {
+        .notification-error:before {
             color: $false-color;
         }
 
