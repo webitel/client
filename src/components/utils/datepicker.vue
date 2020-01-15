@@ -5,10 +5,10 @@
         <v-datepicker
                 :value="+value"
                 :format="format"
-                :calendar-button-icon="calendarButtonIcon"
+                :calendar-button-icon="'icon-icon_calendar'"
                 :maximum-view="maximumView"
                 :disabled="disabled"
-                :calendar-button="calendarButton"
+                calendar-button
                 monday-first
                 @input="$emit('input', $event.getTime())"
         ></v-datepicker>
@@ -50,18 +50,12 @@
             format: {
                 type: String,
             },
-            calendarButtonIcon: {
-                type: String,
-            },
             maximumView: {
                 type: String,
                 default: 'day'
             },
             disabled: {
                 type: Boolean,
-            },
-            calendarButton: {
-                type: Boolean
             },
             required: {
                 type: Boolean,
@@ -95,18 +89,15 @@
             right: 16px;
             transform: translate(0, -50%);
 
-            i {
-                color: #000;
-
-                &:before {
-                    position: absolute;
-                    top: 50%;
-                    right: 16px;
-                    font-family: 'icomoon';
-                    font-size: 24px;
-                    content: '\e019';
-                    transform: translate(50%, -50%);
-                }
+            i:before {
+                position: absolute;
+                top: 50%;
+                right: 16px;
+                font-family: 'icomoon';
+                font-size: 24px;
+                content: '\e019';
+                transform: translate(50%, -50%);
+                color: $icon-color;
             }
         }
 
@@ -146,7 +137,7 @@
                     }
 
                     &:after {
-                        content: '\e005';
+                        content: '\e903';
                         position: absolute;
                         font-size: 24px;
                         font-family: 'icomoon', sans-serif;

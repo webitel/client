@@ -17,10 +17,10 @@
                     :label="$t('objects.ccenter.queues.priority')"
             ></dropdown-select>
 
-            <datepicker
+            <datetime-picker
                     v-model="expireAt"
                     :label="$t('objects.ccenter.queues.expire')"
-            ></datepicker>
+            ></datetime-picker>
 
             <dropdown-select
                     v-model="bucket"
@@ -39,6 +39,7 @@
 
 <script>
     import datepicker from '@/components/utils/datepicker';
+    import datetimePicker from '../../utils/datetimepicker';
     import openedTabComponentMixin from '@/mixins/openedTabComponentMixin';
     import {mapActions} from "vuex";
     import {getBucketsList} from "../../../api/contact-center/buckets/buckets";
@@ -47,7 +48,7 @@
     export default {
         name: "opened-queue-member-general",
         mixins: [openedTabComponentMixin],
-        components: {datepicker},
+        components: {datetimePicker},
 
         data() {
             return {
