@@ -9,7 +9,7 @@ const queueService = new QueueServiceApiFactory
 (configuration, process.env.VUE_APP_API_URL, instance);
 
 const domainId = undefined;
-const fieldsToSend = ['domain_id', 'name', 'strategy', 'team', 'priority', 'dncList',
+const fieldsToSend = ['domain_id', 'name', 'type', 'strategy', 'team', 'priority', 'dncList',
     'payload', 'maxOfRetry', 'timeout', 'secBetweenRetries', 'variables', 'calendar'];
 
 export const getQueuesList = async (page = 0, size = 10) => {
@@ -55,11 +55,12 @@ export const getQueue = async (id) => {
         response = response.data;
         if (response.variables) {
             response.variables = Object.keys(response.variables).map(key => {
-                return {key, value: response.profile[key],}
+                return {key, value: response.variables[key],}
             });
         } else {
             response.variables = [{key: '', value: ''}];
         }
+        if(response.priority) response.priority += '';
         return {...defaultObject, ...objSnakeToCamel(response)};
     } catch (err) {
         throw err;

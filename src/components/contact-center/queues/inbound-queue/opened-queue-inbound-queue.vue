@@ -69,7 +69,7 @@
 
         mounted() {
             this.id = this.$route.params.id;
-            this.loadItem();
+            this.loadItem('inbound-queue');
         },
 
         computed: {

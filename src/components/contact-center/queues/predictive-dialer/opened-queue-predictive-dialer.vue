@@ -90,7 +90,7 @@
 
         mounted() {
             this.id = this.$route.params.id;
-            this.loadItem();
+            this.loadItem('predictive-dialer');
         },
 
         computed: {

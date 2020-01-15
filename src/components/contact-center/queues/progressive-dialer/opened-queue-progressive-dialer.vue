@@ -89,7 +89,7 @@
 
         mounted() {
             this.id = this.$route.params.id;
-            this.loadItem();
+            this.loadItem('progressive-dialer');
         },
 
         computed: {

@@ -51,19 +51,19 @@
 
             secBetweenRetries: {
                 get() {
-                    return this.$store.state.ccenter.queues.itemInstance.secBetweenRetries
+                    return this.$store.state.ccenter.queues.itemInstance.payload.secBetweenRetries
                 },
                 set(value) {
-                    this.setItemProp({prop: 'secBetweenRetries', value})
+                    this.setPayloadItemProp({prop: 'secBetweenRetries', value})
                 }
             },
 
             maxOfRetry: {
                 get() {
-                    return this.$store.state.ccenter.queues.itemInstance.maxOfRetry
+                    return this.$store.state.ccenter.queues.itemInstance.payload.maxOfRetry
                 },
                 set(value) {
-                    this.setItemProp({prop: 'maxOfRetry', value})
+                    this.setPayloadItemProp({prop: 'maxOfRetry', value})
                 }
             },
 

@@ -9,174 +9,145 @@ import {
 
 const defaultState = () => {
     return {
-        // itemId: 0,
-        // itemInstance: {
-        //     name: '',
-        //     payload: {},
-        //     calendar: {},
-        //     priority: 0,
-        //     blacklist: {},
-        //     description: '',
-        // },
-        // ...defaultInboundQueueState()
-        // ...defaultOutboundIVRQueueState()
-        ...defaultOfflineQueueState()
+        itemId: 0,
+        itemInstance: {
+            name: '',
+            payload: {},
+            calendar: {},
+            priority: 0,
+            dncList: {},
+            description: '',
+            schema: {},
+            team: {},
+            strategy: '',
+        },
     };
 };
 
 const defaultInboundQueueState = () => {
     return {
-        itemId: 0,
-        itemInstance: {
-            name: 'INBOUND QUEUE',
-            payload: {},
-            calendar: {},
-            priority: '0',
-            dncList: {}, // blacklist
-            schema: {},
-            team: {},
-            variables: [{key: 'var key', value: 'value'}],
-            strategy: 'STRATEGY NAME',
-            description: 'DESCRIPTION',
-        },
+        name: 'INBOUND QUEUE',
+        type: 1,
+        payload: {},
+        calendar: {},
+        priority: '0',
+        dncList: {}, // blacklist
+        schema: {},
+        team: {},
+        variables: [{key: 'var key', value: 'value'}],
+        strategy: 'STRATEGY NAME',
+        description: 'DESCRIPTION',
     }
 };
 
 const defaultOutboundIVRQueueState = () => {
     return {
-        itemId: 0,
-        itemInstance: {
-            name: 'OUTBOUND IVR QUEUE',
-            calendar: {},
-            priority: '0',
-            dncList: {}, // blacklist
-            schema: {},
-            variables: [{key: 'var key', value: 'value'}],
-            strategy: 'STRATEGY NAME',
-            description: 'DESCRIPTION',
-
-            secBetweenRetries: 30*3600, //30h
-            timeout: 10,
+        name: 'OUTBOUND IVR QUEUE',
+        type: 2,
+        calendar: {},
+        priority: '0',
+        dncList: {}, // blacklist
+        schema: {},
+        variables: [{key: 'var key', value: 'value'}],
+        strategy: 'STRATEGY NAME',
+        description: 'DESCRIPTION',
+        timeout: 10,
+        payload: {
+            secBetweenRetries: 30 * 3600, //30h
+            originateTimeout: 15,
+            maxCalls: 10,
             maxOfRetry: 10,
-            payload: {
-                originateTimeout: 15,
-                maxCalls: 10,
-            },
-
-            // resources: [],
-            buckets: [],
         },
     }
 };
 
 const defaultOfflineQueueState = () => {
     return {
-        itemId: 0,
-        itemInstance: {
-            name: 'OFFLINE QUEUE',
-            calendar: {},
-            priority: '0',
-            dncList: {}, // blacklist
-            schema: {},
-            team: {},
-            variables: [{key: 'var key', value: 'value'}],
-            strategy: 'STRATEGY NAME',
-            description: 'DESCRIPTION',
-
-            secBetweenRetries: 30*3600, //30h
-            timeout: 10,
+        name: 'OFFLINE QUEUE',
+        type: 0,
+        calendar: {},
+        priority: '0',
+        dncList: {}, // blacklist
+        schema: {},
+        team: {},
+        variables: [{key: 'var key', value: 'value'}],
+        strategy: 'STRATEGY NAME',
+        description: 'DESCRIPTION',
+        timeout: 10,
+        payload: {
+            secBetweenRetries: 30 * 3600, //30h
+            originateTimeout: 15,
+            waitForResultStatus: true,
             maxOfRetry: 10,
-            payload: {
-                originateTimeout: 15,
-                waitForResultStatus: true,
-            },
-
-            // resources: [],
-            buckets: [],
         },
     }
 };
 
 const defaultPredictiveDialerState = () => {
     return {
-        itemId: 0,
-        itemInstance: {
-            name: 'OFFLINE QUEUE',
-            calendar: {},
-            priority: '0',
-            dncList: {}, // blacklist
-            schema: {},
-            team: {},
-            variables: [{key: 'var key', value: 'value'}],
-            strategy: 'STRATEGY NAME',
-            description: 'DESCRIPTION',
+        name: 'PREDICTIVE DIALER',
+        type: 5,
+        calendar: {},
+        priority: '0',
+        dncList: {}, // blacklist
+        schema: {},
+        team: {},
+        variables: [{key: 'var key', value: 'value'}],
+        strategy: 'STRATEGY NAME',
+        description: 'DESCRIPTION',
 
-            secBetweenRetries: 30*3600, //30h
-            timeout: 10,
+        timeout: 10,
+        payload: {
+            secBetweenRetries: 30 * 3600, //30h
+            originateTimeout: 15,
+            waitForResultStatus: true,
             maxOfRetry: 10,
-            payload: {
-                originateTimeout: 15,
-                waitForResultStatus: true,
-            },
-
-            // resources: [],
-            buckets: [],
         },
     }
 };
 
 const defaultPreviewDialerState = () => {
     return {
-        itemId: 0,
-        itemInstance: {
-            name: 'OFFLINE QUEUE',
-            calendar: {},
-            priority: '0',
-            dncList: {}, // blacklist
-            schema: {},
-            team: {},
-            variables: [{key: 'var key', value: 'value'}],
-            strategy: 'STRATEGY NAME',
-            description: 'DESCRIPTION',
+        name: 'PREVIEW DIALER',
+        type: 3,
+        calendar: {},
+        priority: '0',
+        dncList: {}, // blacklist
+        schema: {},
+        team: {},
+        variables: [{key: 'var key', value: 'value'}],
+        strategy: 'STRATEGY NAME',
+        description: 'DESCRIPTION',
 
-            secBetweenRetries: 30*3600, //30h
-            timeout: 10,
+        timeout: 10,
+        payload: {
+            secBetweenRetries: 30 * 3600, //30h
+            originateTimeout: 15,
+            waitForResultStatus: true,
             maxOfRetry: 10,
-            payload: {
-                originateTimeout: 15,
-                waitForResultStatus: true,
-            },
-
-            // resources: [],
-            buckets: [],
         },
     }
 };
 
 const defaultProgressiveDialerState = () => {
     return {
-        itemId: 0,
-        itemInstance: {
-            name: 'OFFLINE QUEUE',
-            calendar: {},
-            priority: '0',
-            dncList: {}, // blacklist
-            schema: {},
-            team: {},
-            variables: [{key: 'var key', value: 'value'}],
-            strategy: 'STRATEGY NAME',
-            description: 'DESCRIPTION',
+        name: 'PROGRESSIVE DIALER',
+        type: 4,
+        calendar: {},
+        priority: '0',
+        dncList: {}, // blacklist
+        schema: {},
+        team: {},
+        variables: [{key: 'var key', value: 'value'}],
+        strategy: 'STRATEGY NAME',
+        description: 'DESCRIPTION',
 
-            secBetweenRetries: 30*3600, //30h
-            timeout: 10,
+        timeout: 10,
+        payload: {
+            secBetweenRetries: 30 * 3600, //30h
+            originateTimeout: 15,
+            waitForResultStatus: true,
             maxOfRetry: 10,
-            payload: {
-                originateTimeout: 15,
-                waitForResultStatus: true,
-            },
-
-            // resources: [],
-            buckets: [],
         },
     }
 };
@@ -236,24 +207,51 @@ const actions = {
     },
 
     NEXT_PAGE: (context) => {
-        if(state.isNextPage) {
+        if (state.isNextPage) {
             context.commit('INCREMENT_PAGE');
             context.dispatch('LOAD_DATA_LIST');
         }
     },
 
     PREV_PAGE: (context) => {
-        if(state.page) {
+        if (state.page) {
             context.commit('DECREMENT_PAGE');
             context.dispatch('LOAD_DATA_LIST');
         }
     },
 
-    LOAD_ITEM: async (context) => {
+    LOAD_ITEM: async (context, type) => {
         if (state.itemId) {
             const item = await context.dispatch('GET_ITEM');
             context.commit('SET_ITEM', proxy(item));
+        } else {
+            context.dispatch('SET_ITEM_BY_TYPE', type);
         }
+    },
+
+    SET_ITEM_BY_TYPE: (context, type) => {
+        let item = {};
+        switch (type) {
+            case 'inbound-queue':
+                item = defaultInboundQueueState();
+                break;
+            case 'outbound-ivr':
+                item = defaultOutboundIVRQueueState();
+                break;
+            case 'offline-queue':
+                item = defaultOfflineQueueState();
+                break;
+            case 'preview-dialer':
+                item = defaultPreviewDialerState();
+                break;
+            case 'predictive-dialer':
+                item = defaultPredictiveDialerState();
+                break;
+            case 'progressive-dialer':
+                item = defaultProgressiveDialerState();
+                break;
+        }
+        context.commit('SET_ITEM', item);
     },
 
     SET_ITEM_PROPERTY: (context, payload) => {
@@ -278,7 +276,7 @@ const actions = {
         changes[prop] = state.dataList[index][prop];
         try {
             await context.dispatch('PATCH_ITEM', {id: state.dataList[index].id, changes});
-        } catch  {
+        } catch {
             context.dispatch('LOAD_DATA_LIST');
         }
     },
