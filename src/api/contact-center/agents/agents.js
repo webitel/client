@@ -73,3 +73,23 @@ export const getAgentHistory = async (id, date, page = 0, size = 10) => {
         throw err;
     }
 };
+
+export const getAgentTeamsList = async (id, page = 0, size = 10) => {
+    try {
+        const response = await agentService.searchAgentInTeam(id, page, size, undefined);
+        if (!response.data.items) response.data.items = [];
+        return objSnakeToCamel(response.data.items);
+    } catch (err) {
+        throw err;
+    }
+};
+
+export const getAgentQueuesList = async (id, page = 0, size = 10) => {
+    try {
+        const response = await agentService.searchAgentInQueue(id, page, size, undefined);
+        if (!response.data.items) response.data.items = [];
+        return objSnakeToCamel(response.data.items);
+    } catch (err) {
+        throw err;
+    }
+};

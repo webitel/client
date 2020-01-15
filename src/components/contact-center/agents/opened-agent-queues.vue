@@ -1,11 +1,12 @@
 <template><section>
     <header class="content-header">
         <h3 class="content-title">{{$tc('objects.ccenter.queues.queues', 2)}}</h3>
-        <i
-                class="icon-icon_nav-integrations icon-action"
-                @click="loadDataList"
-        ></i>
-        <i class="icon-action icon-icon_plus" @click="addItem"></i>
+        <div class="content-header__actions-wrap">
+            <i
+                    class="icon-icon_nav-integrations icon-action"
+                    @click="loadDataList"
+            ></i>
+        </div>
     </header>
 
     <vuetable
@@ -14,33 +15,26 @@
             :data="dataList"
     >
         <template slot="name" slot-scope="props">
-            <div v-if="dataList[props.rowIndex].queue.id ||
-                 dataList[props.rowIndex].queue.id === 0">
+            <div>
                 {{dataList[props.rowIndex].queue.name}}
             </div>
-
-            <dropdown-select
-                    v-else
-                    class="inline-dropdown inline-dropdown__options-left"
-                    v-model="dataList[props.rowIndex].queue"
-                    :placeholder="$tc('objects.ccenter.teams.teams', 1)"
-                    :options="[]"
-            ></dropdown-select>
-        </template>
-
-        <template slot="actions" slot-scope="props">
-            <i class="vuetable-action icon-icon_delete"
-               @click="remove(props.rowIndex)"
-            ></i>
         </template>
     </vuetable>
+    <pagination
+            v-model="size"
+            @loadDataList="loadDataList"
+            @next="nextPage"
+            @prev="prevPage"
+            :isNext="isNextPage"
+            :isPrev="!!page"
+    ></pagination>
 </section>
 </template>
 
 <script>
     import tableComponentMixin from '@/mixins/tableComponentMixin';
     import openedTabComponentMixin from '@/mixins/openedTabComponentMixin';
-    import {_actionsTableField_1} from "@/utils/tableFieldPresets";
+    import {mapActions, mapState} from "vuex";
 
     export default {
         name: "opened-agent-queues",
@@ -49,39 +43,56 @@
             return {
                 fields: [
                     {name: 'name', title: this.$tc('objects.ccenter.queues.queues', 2)},
-                    _actionsTableField_1,
                 ],
             }
         },
 
-        mounted() {
+        watch: {
+            parentId: function (value) {
+                this.setParentId(value);
+            }
+        },
 
+        mounted() {
+            this.setParentId(this.parentId);
+            this.loadDataList();
+        },
+
+        computed: {
+            ...mapState('ccenter/agents', {
+                parentId: state => state.itemId,
+            }),
+            ...mapState('ccenter/agents/queues', {
+                dataList: state => state.dataList,
+                page: state => state.page,
+                isNextPage: state => state.isNextPage,
+            }),
+
+            size: {
+                get() {return this.$store.state.ccenter.agents.skills.size},
+                set(value) {this.setSize(value)}
+            },
+
+            search: {
+                get() {return this.$store.state.ccenter.agents.skills.search},
+                set(value) {this.setSearch(value)}
+            }
         },
 
         methods: {
-            addItem() {
-                this.dataList.unshift({
-                    queue: {
-                        name: 'empty'
-                    }
-                });
-            },
+            ...mapActions('ccenter/agents', {
+                addParentItem: 'ADD_ITEM',
+            }),
 
-            remove(rowIndex) {
-                this.dataList.splice(rowIndex, 1);
-            },
-
-            loadDataList() {
-                for(let i = 0; i < 10; i++) {
-                    this.dataList.push({
-                        queue: {
-                            id: i,
-                            name: 'team name '+i
-                        }
-                    });
-                }
-            }
-        },
+            ...mapActions('ccenter/agents/queues', {
+                setParentId: 'SET_PARENT_ITEM_ID',
+                loadDataList: 'LOAD_DATA_LIST',
+                setSize: 'SET_SIZE',
+                setSearch: 'SET_SEARCH',
+                nextPage: 'NEXT_PAGE',
+                prevPage: 'PREV_PAGE',
+            }),
+        }
     }
 </script>
 

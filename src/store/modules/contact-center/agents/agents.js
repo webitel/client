@@ -1,6 +1,8 @@
 import proxy from '../../../../utils/editProxy';
 import skills from './agent-skills';
 import history from './history';
+import teams from './agent-teams';
+import queues from './agent-queues';
 import {
     addAgent, deleteAgent,
     getAgent, getAgentsList, updateAgent,
@@ -169,5 +171,5 @@ export default {
     getters,
     actions,
     mutations,
-    modules: {history, skills}
+    modules: {history, skills, teams, queues}
 };
