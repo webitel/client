@@ -1,12 +1,12 @@
 <template>
     <popup
             class="license-popup"
-            :title="$t('objects.license.importLicense')"
+            :title="$t('objects.directory.license.importLicense')"
             @close="close"
     >
         <section class="license-popup-content">
             <form-input
-                    :label="$t('objects.license.licenseKey')"
+                    :label="$t('objects.directory.license.licenseKey')"
             ></form-input>
         </section>
     </popup>

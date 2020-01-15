@@ -15,7 +15,7 @@ import devices from '../components/directory/devices/the-devices';
 import openedDevice from '../components/directory/devices/opened-device';
 import users from '../components/directory/users/the-users';
 import openedUser from '../components/directory/users/opened-user';
-import customers from '../components/administration/license/the-customers';
+import license from '../components/directory/license/the-license';
 import blacklists from '../components/lookups/blacklists/the-blacklists';
 import media from '../components/lookups/media/the-media';
 import openedBlacklist from '../components/lookups/blacklists/opened-blacklist';
@@ -108,6 +108,11 @@ const router = new Router({
                     path:'/directory/devices/new',
                     name: 'directory-devices-new',
                     component: openedDevice
+                },
+                {
+                    path:'/directory/license',
+                    name: 'license',
+                    component: license
                 },
                 {
                     path: '/directory/users',
@@ -288,17 +293,6 @@ const router = new Router({
                     component: openedLeadStatus
                 },
                 // ----------LOOKUPS END------------
-
-
-
-                // --------------ADMINISTRATION-------------
-                {
-                    path:'/administration/license',
-                    name: 'administration-customers',
-                    component: customers
-                },
-                // --------------ADMINISTRATION END-------------
-
 
 
                 // --------------CONTACT CENTER-------------

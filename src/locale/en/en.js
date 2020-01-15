@@ -151,6 +151,28 @@ export default {
                 varKey: 'Key',
                 varVal: 'Value',
             },
+            license: {
+                customers: 'Customers',
+                license: 'License',
+                allCustomers: 'All customers',
+                allLicenses: 'All licenses',
+                serial: 'Serial',
+                product: 'Product',
+                validFrom: 'Valid from',
+                validTill: 'Valid till',
+                used: 'Used',
+                limit: 'Limit',
+                status: 'Status',
+                competitive: 'Competitive',
+                searchPlaceholder: 'Serial, product',
+                daysToExpire: {
+                    0: 'Expired',
+                    30: '30 or less',
+                    90: '90 or less'
+                },
+                importLicense: 'Import license',
+                licenseKey: 'License key'
+            },
             devices: {
                 devices: 'Device | Devices',
                 allDevices: 'All devices',
@@ -192,28 +214,6 @@ export default {
                 searchPlaceholder: 'object ..',
                 newPermissionRole: 'New grantee',
             }
-        },
-        license: {
-            customers: 'Customers',
-            license: 'License',
-            allCustomers: 'All customers',
-            allLicenses: 'All licenses',
-            serial: 'Serial',
-            product: 'Product',
-            validFrom: 'Valid from',
-            validTill: 'Valid till',
-            used: 'Used',
-            limit: 'Limit',
-            status: 'Status',
-            competitive: 'Competitive',
-            searchPlaceholder: 'Serial, product',
-            daysToExpire: {
-                0: 'Expired',
-                30: '30 or less',
-                90: '90 or less'
-            },
-            importLicense: 'Import license',
-            licenseKey: 'License key'
         },
         lookups: {
             lookups: 'Lookups',
