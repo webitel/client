@@ -24,6 +24,10 @@
                             @click="deleteSelected"
                     ></i>
                     <i
+                            class="icon-icon_nav-integrations icon-action"
+                            @click="loadDataList"
+                    ></i>
+                    <i
                             class="icon-icon_approve icon-action"
                     ></i>
                 </div>

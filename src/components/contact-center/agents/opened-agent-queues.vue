@@ -1,6 +1,10 @@
 <template><section>
     <header class="content-header">
         <h3 class="content-title">{{$tc('objects.ccenter.queues.queues', 2)}}</h3>
+        <i
+                class="icon-icon_nav-integrations icon-action"
+                @click="loadDataList"
+        ></i>
         <i class="icon-action icon-icon_plus" @click="addItem"></i>
     </header>
 

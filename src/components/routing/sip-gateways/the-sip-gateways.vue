@@ -29,6 +29,10 @@
                             :class="{'hidden': anySelected}"
                             @click="deleteSelected"
                     ></i>
+                    <i
+                            class="icon-icon_nav-integrations icon-action"
+                            @click="loadDataList"
+                    ></i>
                 </div>
             </header>
 

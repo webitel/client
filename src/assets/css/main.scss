@@ -64,10 +64,13 @@ i {
 }
 
 .icon-action {
-  transition: $transition;
   cursor: pointer;
 
-  &:hover {
+  &:before {
+    transition: $transition;
+  }
+
+  &:hover:before {
     color: #000;
   }
 }

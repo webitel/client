@@ -22,6 +22,10 @@
                             :class="{'hidden': anySelected}"
                             @click="deleteSelected"
                     ></i>
+                    <i
+                            class="icon-icon_nav-integrations icon-action"
+                            @click="loadDataList"
+                    ></i>
                     <div class="upload-csv">
                         <i class="icon-icon_upload"></i>
                         <input

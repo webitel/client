@@ -17,6 +17,10 @@
                             v-model="search"
                             @filterData="loadDataList"
                     ></search>
+                    <i
+                            class="icon-icon_nav-integrations icon-action"
+                            @click="loadDataList"
+                    ></i>
                 </div>
             </header>
 

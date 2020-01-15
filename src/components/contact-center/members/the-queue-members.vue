@@ -39,7 +39,7 @@
             >
                 <template slot="createdAt" slot-scope="props">
                     <div>
-                        {{dataList[props.rowIndex].createdAt}}
+                        {{computeCreatedDate(dataList[props.rowIndex].createdAt)}}
                     </div>
                 </template>
                 <template slot="name" slot-scope="props">
@@ -142,6 +142,10 @@
         },
 
         methods: {
+            computeCreatedDate(createdAt) {
+                return new Date(+createdAt).toLocaleDateString();
+            },
+
             readDestinations(rowIndex) {
                 this.setDestinationId(this.dataList[rowIndex].id);
                 this.popupTriggerIf = true;

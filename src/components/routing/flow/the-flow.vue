@@ -27,6 +27,10 @@
                     ></i>
                     <i class="vuetable-action icon-icon_upload"
                     ></i>
+                    <i
+                            class="icon-icon_nav-integrations icon-action"
+                            @click="loadDataList"
+                    ></i>
                 </div>
             </header>
 
