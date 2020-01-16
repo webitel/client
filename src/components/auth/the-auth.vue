@@ -24,11 +24,19 @@
             </div>
         </section>
         <section class="auth-info">
-            <div class="swiper-wrap">
-                <swiper :options="swiperOpts">
-                    <swiper-slide
-                            v-for="(item, key) in swiperItems"
-                            :key="key"
+            <div class="carousel-wrap">
+                <agile
+                        :nav-buttons="false"
+                        :autoplay-speed="5000"
+                        :speed="500"
+                        pause-on-hover
+                        pause-on-dots-hover
+                        infinite
+                        autoplay
+                >
+                    <div class="slide"
+                         v-for="(item, key) in carouselItems"
+                         :key="key"
                     >
                         <div class="item-wrap">
                             <h3 class="item-header">
@@ -38,9 +46,9 @@
                                 {{item.text}}
                             </p>
                         </div>
-                    </swiper-slide>
-                    <div class="swiper-pagination swiper-pagination-bullets" slot="pagination"></div>
-                </swiper>
+                    </div>
+                </agile>
+
             </div>
         </section>
     </main>
@@ -52,44 +60,7 @@
     import tabsComponent from '../utils/tabs-component';
     import {required, email} from 'vuelidate/lib/validators';
     import {mapState} from "vuex";
-
-    import {swiper, swiperSlide} from 'vue-awesome-swiper';
-    import 'swiper/dist/css/swiper.css';
-
-    const swiperOpts = {
-        pagination: {
-            el: '.swiper-pagination',
-            spaceBatween: 180,
-            clickable: true,
-            loop: true,
-            autoplay: {
-                delay: 2500,
-                disableOnInteraction: false
-            },
-            renderBullet(index, className) {
-                return `<span class="${className} swiper-pagination-bullet-custom"></span>`
-            }
-        }
-    };
-
-    const swiperItems = [
-        {
-            title: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
-            text: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur non dolor erat. Quisque vitae enim ac tortor commodo sollicitudin.'
-        },
-        {
-            title: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
-            text: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur non dolor erat. Quisque vitae enim ac tortor commodo sollicitudin.'
-        },
-        {
-            title: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
-            text: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur non dolor erat. Quisque vitae enim ac tortor commodo sollicitudin.'
-        },
-        {
-            title: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
-            text: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur non dolor erat. Quisque vitae enim ac tortor commodo sollicitudin.'
-        },
-    ];
+    import {VueAgile} from 'vue-agile';
 
     export default {
         name: 'auth',
@@ -97,13 +68,10 @@
             authLogin,
             authRegister,
             tabsComponent,
-            swiper,
-            swiperSlide
+            agile: VueAgile,
         },
         data() {
             return {
-                swiperOpts,
-                swiperItems,
                 currentTab: {value: 'login'},
                 tabs: [
                     {
@@ -114,6 +82,28 @@
                         text: this.$t('auth.register'),
                         value: 'register',
                     },
+                ],
+                carouselItems: [
+                    {
+                        title: this.$t('auth.carousel.title1'),
+                        text: this.$t('auth.carousel.text1'),
+                    },
+                    {
+                        title: this.$t('auth.carousel.title2'),
+                        text: this.$t('auth.carousel.text2'),
+                    },
+                    {
+                        title: this.$t('auth.carousel.title3'),
+                        text: this.$t('auth.carousel.text3'),},
+                    {
+                        title: this.$t('auth.carousel.title4'),
+                        text: this.$t('auth.carousel.text4'),},
+                    {
+                        title: this.$t('auth.carousel.title5'),
+                        text: this.$t('auth.carousel.text5'),},
+                    {
+                        title: this.$t('auth.carousel.title6'),
+                        text: this.$t('auth.carousel.text6'),},
                 ],
             };
         },
@@ -130,6 +120,10 @@
             certificate: {
                 required,
             },
+        },
+
+        mounted() {
+
         },
 
         computed: {
@@ -168,42 +162,46 @@
         margin: 0 0 38px;
     }
 
-    .swiper-wrap {
+    .carousel-wrap {
         position: relative;
         height: 340px;
         width: 540px;
         padding: 20px 40px;
         margin: 20% auto 0;
 
-        .swiper-container {
-            width: 100%;
-            height: 100%;
-
-            .item-wrap {
-                .item-header {
-                    @extend .typo-heading-lg;
-                    margin-bottom: 44px;
-                }
-
-                .item-text {
-                    @extend .typo-body-lg;
-                    height: 200px;
-                }
+        .item-wrap {
+            .item-header {
+                @extend .typo-heading-lg;
+                margin-bottom: 44px;
             }
 
-            .swiper-pagination {
-                text-align: left;
+            .item-text {
+                @extend .typo-body-lg;
+                height: 200px;
             }
+        }
 
-            .swiper-pagination-bullet-custom {
+        .agile__dot {
+            margin: 0 6px;
+
+            button {
                 width: 10px;
                 height: 10px;
-                margin: 0 6px;
                 background: #fff;
+                border: none;
+                border-radius: 50%;
+                cursor: pointer;
+                display: block;
+                font-size: 0;
+                line-height: 0;
+                margin: 0;
+                padding: 0;
+                transition-duration: .3s;
             }
 
-            .swiper-pagination-bullet-custom.swiper-pagination-bullet-active {
+            &--current button, &:hover button {
                 background: $accent-color;
+
             }
         }
     }

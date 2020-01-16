@@ -12,6 +12,25 @@ export default {
         registerSubmit: 'Register',
         resetSubmit: 'Reset',
         loginSubmit: 'Log in',
+        carousel: {
+            title1: '11Lorem ipsum dolor sit amet, consectetur adipiscing elit',
+            text1: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur non dolor erat. Quisque vitae enim ac tortor commodo sollicitudin.',
+
+            title2: '11Lorem ipsum dolor sit amet, consectetur adipiscing elit',
+            text2: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur non dolor erat. Quisque vitae enim ac tortor commodo sollicitudin.',
+
+            title3: '11Lorem ipsum dolor sit amet, consectetur adipiscing elit',
+            text3: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur non dolor erat. Quisque vitae enim ac tortor commodo sollicitudin.',
+
+            title4: '11Lorem ipsum dolor sit amet, consectetur adipiscing elit',
+            text4: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur non dolor erat. Quisque vitae enim ac tortor commodo sollicitudin.',
+
+            title5: '11Lorem ipsum dolor sit amet, consectetur adipiscing elit',
+            text5: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur non dolor erat. Quisque vitae enim ac tortor commodo sollicitudin.',
+
+            title6: '11Lorem ipsum dolor sit amet, consectetur adipiscing elit',
+            text6: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur non dolor erat. Quisque vitae enim ac tortor commodo sollicitudin.',
+        }
     },
 
     validation: {
