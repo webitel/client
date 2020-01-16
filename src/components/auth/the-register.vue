@@ -34,6 +34,7 @@
         <btn
                 class="btn form__button"
                 type="submit"
+                :disabled="computeDisabled"
         >
             {{computeButton}}
         </btn>
@@ -71,6 +72,10 @@
             },
         },
 
+        mounted() {
+            this.resetState();
+        },
+
         computed: {
             username: {
                 get() {
@@ -103,20 +108,30 @@
             computeButton() {
                 return this.$route.query.reset ? this.$t('auth.resetSubmit') : this.$t('auth.registerSubmit');
             },
+            computeDisabled() {
+                return this.checkValidations();
+            }
         },
 
         methods: {
-            submit() {
-                this.$v.form.$touch();
+            checkValidations() {
+                this.$v.$touch();
+                this.v.$touch();
                 // if its still pending or an error is returned do not submit
-                if (this.$v.form.$pending || this.$v.form.$error) return;
+                return this.$v.$pending || this.$v.$error ||
+                    this.v.$pending || this.v.$error;
+            },
 
-                this.login();
+            submit() {
+                const invalid = this.checkValidations();
+                if(!invalid) this.register();
+
             },
 
             ...mapActions('auth', {
-                login: 'REGISTER',
+                register: 'REGISTER',
                 setProp: 'SET_PROPERTY',
+                resetState: 'RESET_STATE',
             }),
         },
     };

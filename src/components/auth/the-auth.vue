@@ -148,60 +148,63 @@
 <style lang="scss">
     @import "../../assets/css/auth/auth";
 
-    .logo {
-        margin-bottom: 68px;
-    }
+    .auth {
 
-    .auth__title {
-        @extend .typo-heading-lg;
-        margin: 0 0 14px;
-    }
-
-    .auth__subtitle {
-        @extend .typo-body-lg;
-        margin: 0 0 38px;
-    }
-
-    .carousel-wrap {
-        position: relative;
-        height: 340px;
-        width: 540px;
-        padding: 20px 40px;
-        margin: 20% auto 0;
-
-        .item-wrap {
-            .item-header {
-                @extend .typo-heading-lg;
-                margin-bottom: 44px;
-            }
-
-            .item-text {
-                @extend .typo-body-lg;
-                height: 200px;
-            }
+        .logo {
+            margin-bottom: 68px;
         }
 
-        .agile__dot {
-            margin: 0 6px;
+        .auth__title {
+            @extend .typo-heading-lg;
+            margin: 0 0 14px;
+        }
 
-            button {
-                width: 10px;
-                height: 10px;
-                background: #fff;
-                border: none;
-                border-radius: 50%;
-                cursor: pointer;
-                display: block;
-                font-size: 0;
-                line-height: 0;
-                margin: 0;
-                padding: 0;
-                transition-duration: .3s;
+        .auth__subtitle {
+            @extend .typo-body-lg;
+            margin: 0 0 38px;
+        }
+
+        .carousel-wrap {
+            position: relative;
+            height: 340px;
+            width: 540px;
+            padding: 20px 40px;
+            margin: 20% auto 0;
+
+            .item-wrap {
+                .item-header {
+                    @extend .typo-heading-lg;
+                    margin-bottom: 44px;
+                }
+
+                .item-text {
+                    @extend .typo-body-lg;
+                    height: 200px;
+                }
             }
 
-            &--current button, &:hover button {
-                background: $accent-color;
+            .agile__dot {
+                margin: 0 6px;
 
+                button {
+                    width: 10px;
+                    height: 10px;
+                    background: #fff;
+                    border: none;
+                    border-radius: 50%;
+                    cursor: pointer;
+                    display: block;
+                    font-size: 0;
+                    line-height: 0;
+                    margin: 0;
+                    padding: 0;
+                    transition-duration: .3s;
+                }
+
+                &--current button, &:hover button {
+                    background: $accent-color;
+
+                }
             }
         }
     }

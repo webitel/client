@@ -1,35 +1,36 @@
 <template>
-        <form
-                class="auth__form"
-                @submit.prevent="submit"
+    <form
+            class="auth__form"
+            @submit.prevent="submit"
+    >
+        <form-input
+                v-model.trim="username"
+                :label="$t('auth.user')"
+                :v="v.username"
+                :autofocus="true"
+        ></form-input>
+
+        <form-input
+                v-model.trim="password"
+                :label="$t('auth.password')"
+                :v="v.password"
+                :type="'password'"
+        ></form-input>
+
+        <router-link
+                class="form__reset-password"
+                :to="{ path: '/auth', query: { reset: true }}">
+            {{$t('auth.resetPasswordLink')}}
+        </router-link>
+
+        <btn
+                class="btn form__button"
+                type="submit"
+                :disabled="computeDisabled"
         >
-            <form-input
-                    v-model.trim="username"
-                    :label="$t('auth.user')"
-                    :v="v.username"
-                    :autofocus="true"
-            ></form-input>
-
-            <form-input
-                    v-model.trim="password"
-                    :label="$t('auth.password')"
-                    :v="v.password"
-                    :type="'password'"
-            ></form-input>
-
-            <router-link
-                    class="form__reset-password"
-                    :to="{ path: '/auth', query: { reset: true }}">
-                {{$t('auth.resetPasswordLink')}}
-            </router-link>
-
-            <btn
-                    class="btn form__button"
-                    type="submit"
-            >
-                {{$t('auth.loginSubmit')}}
-            </btn>
-        </form>
+            {{$t('auth.loginSubmit')}}
+        </btn>
+    </form>
 </template>
 
 <script>
@@ -53,34 +54,53 @@
         },
 
         data() {
-            return {
+            return {};
+        },
 
-            };
+        mounted() {
+            this.resetState();
         },
 
         computed: {
-                username: {
-                    get() {return this.$store.state.auth.username},
-                    set(value) {this.setProp({prop: 'username', value})}
+            username: {
+                get() {
+                    return this.$store.state.auth.username
                 },
-                password: {
-                    get() {return this.$store.state.auth.password},
-                    set(value) {this.setProp({prop: 'password', value})}
+                set(value) {
+                    this.setProp({prop: 'username', value})
+                }
+            },
+            password: {
+                get() {
+                    return this.$store.state.auth.password
                 },
+                set(value) {
+                    this.setProp({prop: 'password', value})
+                }
+            },
+            computeDisabled() {
+                return this.checkValidations();
+            }
         },
 
         methods: {
-            submit() {
-                this.$v.form.$touch();
+            checkValidations() {
+                this.v.$touch();
                 // if its still pending or an error is returned do not submit
-                if (this.$v.form.$pending || this.$v.form.$error) return;
+                return this.v.$pending ||
+                    this.v.$error;
+            },
 
-                this.login();
+            submit() {
+                const invalid = this.checkValidations();
+                if (!invalid) this.login();
+
             },
 
             ...mapActions('auth', {
                 login: 'LOGIN',
                 setProp: 'SET_PROPERTY',
+                resetState: 'RESET_STATE',
             }),
         },
     };
