@@ -1,46 +1,27 @@
 <template>
-    <main class="auth login">
-        <!--        ANIMATION CANVAS-->
-        <canvas ref="auth-canvas" class="canvas"></canvas>
-        <!--        TODO: alert component-->
-
-        <header class="auth__header">
-            <div class="logo"><img src="../../assets/img/logo.svg" alt=""></div>
-            <router-link
-                    class="auth__link"
-                    to="/register"
-            >
-                {{$t('auth.register')}}</router-link>
-        </header>
-
         <form
                 class="auth__form"
-                ref="login"
                 @submit.prevent="submit"
         >
-            <h2 class="auth__title">{{$t('auth.login')}}</h2>
-            <p class="auth__subtitle">{{$t('auth.detailsSubtitle')}}</p>
-
             <form-input
-                    class="form__input"
-                    v-model.trim="$v.form.username.$model"
+                    v-model.trim="username"
                     :label="$t('auth.user')"
-                    :v="$v.form.username"
+                    :v="v.username"
                     :autofocus="true"
             ></form-input>
 
             <form-input
-                    class="form__input"
-                    v-model.trim="$v.form.password.$model"
+                    v-model.trim="password"
                     :label="$t('auth.password')"
-                    :v="$v.form.password"
+                    :v="v.password"
                     :type="'password'"
             ></form-input>
 
             <router-link
                     class="form__reset-password"
-                    :to="{ path: '/register', query: { reset: true }}">
-                {{$t('auth.resetPasswordLink')}}</router-link>
+                    :to="{ path: '/auth', query: { reset: true }}">
+                {{$t('auth.resetPasswordLink')}}
+            </router-link>
 
             <btn
                     class="btn form__button"
@@ -49,68 +30,60 @@
                 {{$t('auth.loginSubmit')}}
             </btn>
         </form>
-    </main>
 </template>
 
 <script>
-import { required, email } from 'vuelidate/lib/validators';
-import formInput from '../utils/form-input';
-import btn from '../utils/btn';
+    import formInput from '../utils/form-input';
+    import btn from '../utils/btn';
 
-import { login, logout } from '../../api/auth/auth';
-import errorMixin from '../../mixins/errorMixin';
-import loginAnimation from '../../assets/js/loginAnimation';
+    import {login} from '../../api/auth/auth';
+    import {mapActions, mapState} from "vuex";
 
-export default {
-  name: 'the-login',
-  components: {
-    'form-input': formInput,
-    btn,
-  },
-  mixins: [errorMixin],
-  data() {
-    return {
-      form: {
-        username: 'srgdemon@webitel.lo',
-        password: '12qwaszx',
-      },
-      animationInstance: null,
+    export default {
+        name: 'the-login',
+        components: {
+            formInput,
+            btn,
+        },
+
+        props: {
+            v: {
+                type: Object,
+            }
+        },
+
+        data() {
+            return {
+
+            };
+        },
+
+        computed: {
+                username: {
+                    get() {return this.$store.state.auth.username},
+                    set(value) {this.setProp({prop: 'username', value})}
+                },
+                password: {
+                    get() {return this.$store.state.auth.password},
+                    set(value) {this.setProp({prop: 'password', value})}
+                },
+        },
+
+        methods: {
+            submit() {
+                this.$v.form.$touch();
+                // if its still pending or an error is returned do not submit
+                if (this.$v.form.$pending || this.$v.form.$error) return;
+
+                this.login();
+            },
+
+            ...mapActions('auth', {
+                login: 'LOGIN',
+                setProp: 'SET_PROPERTY',
+            }),
+        },
     };
-  },
-
-  // by vuelidate
-  validations: {
-    form: {
-      username: {
-        required,
-        email,
-      },
-      password: {
-        required,
-      },
-    },
-  },
-  mounted() {
-    // form is sent to calc dynamic animation border
-    this.animationInstance = loginAnimation;
-    this.animationInstance.start(this.$refs['auth-canvas'], this.$refs.login);
-  },
-  destroyed() {
-    this.animationInstance.end();
-  },
-  methods: {
-    submit() {
-      this.$v.form.$touch();
-      // if its still pending or an error is returned do not submit
-      if (this.$v.form.$pending || this.$v.form.$error) return;
-
-      login(this.form)
-        .catch((error) => {
-          this.showError(error); // from Mixin
-        });
-    },
-  },
-};
 </script>
 
 <style lang="scss" scoped>
@@ -119,10 +92,10 @@ export default {
     .form__reset-password {
         @extend .typo-input-label;
 
-        position: absolute;
-        bottom: 146px;
-        right: 20px;
+        display: block;
+        text-align: right;
+        margin: 14px 0 28px;
+        color: #000;
         text-decoration: none;
-        color: rgba(255, 255, 255, 0.3);
     }
 </style>

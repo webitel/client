@@ -1,8 +1,7 @@
 import Vue from 'vue';
 import store from '../store/store';
 import Router from 'vue-router';
-import login from '../components/auth/the-login';
-import register from '../components/auth/the-register';
+import auth from '../components/auth/the-auth';
 
 import moduleWrap from '../components/object-utils/the-object-wrap';
 import home from '../components/home/the-home';
@@ -74,14 +73,9 @@ const router = new Router({
     },
     routes: [
         {
-            path: '/login',
-            name: 'login',
-            component: login,
-        },
-        {
-            path: '/register',
-            name: 'register',
-            component: register
+            path: '/auth',
+            name: 'auth',
+            component: auth,
         },
         {
             path: '/',

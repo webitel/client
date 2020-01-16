@@ -3,7 +3,7 @@
         <tabs
                 :currentTab="currentTab"
                 :tabs="tabs"
-                @change="currentTab = $event"
+                @change="changeTab"
         ></tabs>
         <slot name="component" :currentTab="computeCurrentTab"></slot>
     </section>
@@ -24,12 +24,27 @@
                 type: String,
                 required: true,
             },
+
+            initialTab: {
+                type: String,
+                default: 'general'
+            }
         },
 
         data() {
             return {
-                currentTab: {value: 'general'},
+                currentTab: {value: ''},
             }
+        },
+
+        watch: {
+            initialTab: function(value) {
+                this.currentTab.value = value;
+            }
+        },
+
+        created() {
+            this.currentTab.value = this.initialTab;
         },
 
         computed: {
@@ -38,6 +53,13 @@
                     return this.currentTab.value;
                 }
                 return this.root + '-' + this.currentTab.value;
+            }
+        },
+
+        methods: {
+            changeTab(value) {
+                this.currentTab = value;
+                this.$emit('change', value);
             }
         }
     }
