@@ -69,11 +69,6 @@
                 type: Boolean,
                 default: false,
             },
-
-            disableAction: {
-                type: Boolean,
-                default: true
-            }
         },
         methods: {
             close() {

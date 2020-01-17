@@ -8,7 +8,7 @@
                 :checked="value"
         >
         <span class="checkbox"></span>
-        {{computeLabel}}
+        <span class="label">{{computeLabel}}</span>
     </label>
 </template>
 
@@ -47,14 +47,18 @@
     $checkbox-color: rgba(0, 0, 0, 0.3);
 
     .checkbox-label {
-        display: inline-block;
-        /*display: block;*/
+        display: flex;
+        align-items: center;
         position: relative;
-        min-height: 24px;
+        height: 24px;
         padding-left: 29px;
         line-height: 24px;
         cursor: pointer;
         user-select: none;
+
+        .label {
+            margin-bottom: 0;
+        }
 
         /* Hide the browser's default checkbox */
         input {
@@ -71,7 +75,6 @@
             left: 0;
             width: 18px;
             height: 18px;
-            margin: 3px;
             background: #fff;
             border: 2px solid $checkbox-color;
             border-radius: 2px;

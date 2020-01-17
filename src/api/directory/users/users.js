@@ -4,7 +4,7 @@ import eventBus from "../../../utils/eventBus";
 
 const BASE_URL = '/users';
 const fieldsToSend = ['name', 'username', 'password', 'extension', 'status', 'dnd', 'roles', 'license', 'devices',
-    'profile', 'profile'];
+    'profile', 'profile', 'email'];
 
 export async function getUsersList(page = 0, size = 100, search) {
     const defaultObject = {  // default object prototype, to merge response with it to get all fields
@@ -69,12 +69,14 @@ export async function getUser(id) {
 }
 
 export const addUser = async (item) => {
-    item.roles.forEach(item => delete item.text);
-    item.devices.forEach(item => delete item.text);
+    if (item.roles) item.roles.forEach(item => delete item.text);
+    if (item.devices) item.devices.forEach(item => delete item.text);
     item.profile = {};
-    item.variables.forEach(variable => {
-        item.profile[variable.key] = variable.value;
-    });
+    if (item.variables) {
+        item.variables.forEach(variable => {
+            item.profile[variable.key] = variable.value;
+        });
+    }
     sanitizer(item, fieldsToSend);
     try {
         const response = await instance.post(BASE_URL, {user: item});
@@ -112,7 +114,7 @@ export const patchUser = async (id, user) => {
 };
 
 export const deleteUser = async (id) => {
-    const url = BASE_URL + '/' + id;
+    const url = BASE_URL + '/' + id + '?permanent=true';
     try {
         await instance.delete(url);
     } catch (err) {

@@ -73,6 +73,7 @@
         display: flex;
         justify-content: space-between;
         align-items: center;
+        min-height: 68px;
         padding: 15px 28px;
         margin-bottom: 28px;
 

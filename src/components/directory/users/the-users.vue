@@ -7,7 +7,11 @@
             {{$tc('objects.directory.users.users', 2)}}
         </object-header>
 
-        <upload-popup v-if="popupTriggerIf" @close="popupTriggerIf = false"></upload-popup>
+        <upload-popup
+                v-if="popupTriggerIf"
+                :file="csvFile"
+                @close="closeCSVPopup"
+        ></upload-popup>
 
         <section class="object-content">
             <header class="content-header">
@@ -29,6 +33,7 @@
                     <div class="upload-csv">
                         <i class="icon-icon_upload"></i>
                         <input
+                                ref="file-input"
                                 class="upload-csv__input"
                                 type="file"
                                 @change="processCSV($event)"
@@ -63,7 +68,7 @@
 
                 <template slot="extensions" slot-scope="props">
                     <div>
-                        {{dataList[props.rowIndex].extensions}}
+                        {{dataList[props.rowIndex].extension}}
                     </div>
                 </template>
 
@@ -119,7 +124,7 @@
 <script>
     import tableFilter from '../../object-utils/utils/table-filter';
     import dropdownSelect from '../../utils/dropdown-select';
-    import uploadPopup from '../../object-utils/utils/upload-popup';
+    import uploadPopup from './upload-users-popup';
     import {_checkboxTableField, _actionsTableField_2} from "@/utils/tableFieldPresets";
     import tableComponentMixin from '@/mixins/tableComponentMixin';
     import {mapActions, mapState} from "vuex";
@@ -193,13 +198,21 @@
             }),
 
             size: {
-                get() {return this.$store.state.directory.users.size},
-                set(value) {this.setSize(value)}
+                get() {
+                    return this.$store.state.directory.users.size
+                },
+                set(value) {
+                    this.setSize(value)
+                }
             },
 
             search: {
-                get() {return this.$store.state.directory.users.search},
-                set(value) {this.setSearch(value)}
+                get() {
+                    return this.$store.state.directory.users.search
+                },
+                set(value) {
+                    this.setSearch(value)
+                }
             }
         },
 
@@ -218,8 +231,15 @@
             processCSV(event) {
                 const file = event.target.files[0];
                 if (file) {
+                    this.csvFile = file;
                     this.popupTriggerIf = true;
                 }
+            },
+
+            closeCSVPopup() {
+                this.loadDataList();
+                this.popupTriggerIf = false;
+                this.$refs['file-input'].value = null;
             },
 
             computeOnlineText(state) {

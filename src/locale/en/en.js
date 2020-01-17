@@ -145,7 +145,7 @@ export default {
             charSet: 'Char set',
             separator: 'Separator',
             CSVColumn: 'CSV column',
-            testRailField: 'Test rail field'
+            fieldName: 'Field name',
         },
         generalInfo: 'General info',
         objectHeader: {},
