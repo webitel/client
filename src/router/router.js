@@ -61,6 +61,8 @@ import openedTriggerOnEvent from '../components/integrations/triggers/opened-tri
 import openedTriggerAtTime from '../components/integrations/triggers/opened-trigger-at-time';
 import tokens from '../components/integrations/tokens/the-tokens';
 import openedToken from '../components/integrations/tokens/opened-token';
+import storage from '../components/integrations/storage/the-storage';
+import openedStorage from '../components/integrations/storage/opened-storage';
 
 
 Vue.use(Router);
@@ -465,6 +467,21 @@ const router = new Router({
 
 
                 // ----------INTEGRATIONS-----------------
+                {
+                    path: '/integrations/storage',
+                    name: 'storage',
+                    component: storage,
+                },
+                {
+                    path: '/integrations/storage/:type/new',
+                    name: 'storage-new',
+                    component: openedStorage
+                },
+                {
+                    path: '/integrations/storage/:type/:id',
+                    name: 'storage-edit',
+                    component: openedStorage
+                },
                 {
                     path: '/integrations/triggers',
                     name: 'triggers',
