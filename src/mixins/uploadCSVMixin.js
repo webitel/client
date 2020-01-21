@@ -35,7 +35,7 @@ export default {
 
     computed: {
         computeHeaders() {
-            this.mappingFields.forEach(field => field.csv = {}); // reset previously selected values
+            this.mappingFields.forEach(field => field.tags ? field.csvArr = [] : field.csv = {}); // reset previously selected values
             let headers = [];
             if (this.skipHeaders) {
                 for (let i = 0; i < this.csvArr[0].length; i++) {

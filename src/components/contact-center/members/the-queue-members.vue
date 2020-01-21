@@ -9,9 +9,15 @@
         </object-header>
 
         <destinations-popup
-                v-if="popupTriggerIf"
+                v-if="destinationsPopupTriggerIf"
                 @close="closePopup"
         ></destinations-popup>
+
+        <upload-popup
+                v-if="popupTriggerIf"
+                :file="csvFile"
+                @close="closeCSVPopup"
+        ></upload-popup>
 
         <section class="object-content">
             <header class="content-header">
@@ -29,6 +35,16 @@
                             :class="{'hidden': anySelected}"
                             @click="deleteSelected"
                     ></i>
+                    <div class="upload-csv">
+                        <i class="icon-icon_upload"></i>
+                        <input
+                                ref="file-input"
+                                class="upload-csv__input"
+                                type="file"
+                                @change="processCSV($event)"
+                                accept=".csv"
+                        >
+                    </div>
                 </div>
             </header>
 
@@ -93,6 +109,7 @@
 </template>
 
 <script>
+    import uploadPopup from './upload-members-popup';
     import destinationsPopup from './opened-queue-member-destinations-popup';
     import tableComponentMixin from '@/mixins/tableComponentMixin';
     import {_checkboxTableField, _actionsTableField_2} from "@/utils/tableFieldPresets";
@@ -101,10 +118,10 @@
     export default {
         name: "the-queue-members",
         mixins: [tableComponentMixin],
-        components: {destinationsPopup},
+        components: {uploadPopup, destinationsPopup},
         data() {
             return {
-                destinationsPopupData: null,
+                destinationsPopupTriggerIf: null,
                 fields: [
                     _checkboxTableField,
                     {name: 'createdAt', title: this.$t('objects.createdAt')},
@@ -114,6 +131,7 @@
                     {name: 'destination', title: this.$tc('objects.ccenter.queues.destination', 1), width: '160px'},
                     _actionsTableField_2,
                 ],
+                csvFile: null
             };
         },
 
@@ -152,7 +170,21 @@
             },
 
             closePopup() {
+                this.destinationsPopupTriggerIf = false;
+            },
+
+            processCSV(event) {
+                const file = event.target.files[0];
+                if (file) {
+                    this.csvFile = file;
+                    this.popupTriggerIf = true;
+                }
+            },
+
+            closeCSVPopup() {
+                this.loadDataList();
                 this.popupTriggerIf = false;
+                this.$refs['file-input'].value = null;
             },
 
             create() {

@@ -1,6 +1,6 @@
 <template>
-    <div class="tags-input tags-input-wrap">
-        <div class="label tags-input__label">
+    <div class="tags-input tags-input-wrap" :class="{'mb-0': hideDetails}">
+        <div v-if="!hideLabel" class="label tags-input__label">
             {{label}}
         </div>
 
@@ -56,7 +56,17 @@
 
             placeholder: {
                 type: String
-            }
+            },
+
+            hideLabel: {
+                type: Boolean,
+                default: false
+            },
+
+            hideDetails: {
+                type: Boolean,
+                default: false
+            },
         },
 
         data() {

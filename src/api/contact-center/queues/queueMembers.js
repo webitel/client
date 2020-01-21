@@ -62,8 +62,10 @@ export const getMember = async (queueId, id) => {
             response.variables = Object.keys(response.variables).map(key => {
                 return {key, value: response.variables[key],}
             });
-        } else {response.variables = [{key: '', value: ''}]}
-        if(response.priority) response.priority+='';
+        } else {
+            response.variables = [{key: '', value: ''}]
+        }
+        if (response.priority) response.priority += '';
         return {...defaultObject, ...objSnakeToCamel(response)};
     } catch (err) {
         throw err;
@@ -106,6 +108,19 @@ export const updateMember = async (queueId, id, item) => {
 export const deleteMember = async (queueId, id) => {
     try {
         await memberService.deleteMember(queueId, id);
+    } catch (err) {
+        throw err;
+    }
+};
+
+export const addMembersList = async (queueId, items) => {
+    let body = {
+        queue_id: queueId,
+        items: objSnakeToCamel(items)
+    };
+    try {
+        await memberService.createMemberBulk(queueId, body);
+        eventBus.$emit('notificationInfo', 'Sucessfully added');
     } catch (err) {
         throw err;
     }
