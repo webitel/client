@@ -5,7 +5,6 @@
             :primaryAction="save"
             :primaryDisabled="computeDisabledSave"
             @close="$emit('close')"
-            overflow
     >
         <section class="upload-popup__info">
             <checkbox
@@ -46,6 +45,7 @@
                                 hide-label
                                 hide-details
                         ></dropdown-select>
+                        <div class="upload-tooltip" v-if="field.tooltip">{{field.tooltip}}</div>
                     </li>
                 </ul>
 
@@ -56,16 +56,16 @@
 
 <script>
     import uploadCSVMixin from '../../../mixins/uploadCSVMixin';
-    import {addUser} from "../../../api/directory/users/users";
+    import {addDevice} from "../../../api/directory/devices/devices";
 
     export default {
-        name: "upload-users-popup",
+        name: "upload-devices-popup",
         mixins: [uploadCSVMixin],
         data() {
             return {
                 mappingFields: [
                     {
-                        name: 'username',
+                        name: 'account',
                         required: true,
                         csv: {}
                     },
@@ -75,22 +75,39 @@
                         csv: {}
                     },
                     {
-                        name: 'extension',
+                        name: 'vendor',
                         required: false,
                         csv: {}
                     },
                     {
-                        name: 'email',
+                        name: 'model',
                         required: false,
                         csv: {}
                     },
+                    {
+                        name: 'mac',
+                        required: false,
+                        csv: {}
+                    },
+                    {
+                        name: 'ip',
+                        required: false,
+                        csv: {}
+                    },
+                    {
+                        name: 'password',
+                        required: false,
+                        csv: {},
+                        tooltip: this.$t('objects.directory.devices.passwordSetFromAccount'),
+                    }
                 ],
             }
         },
 
         methods: {
             async addItem(item) {
-                await addUser(item);
+                if(!item.password) item.password = item.account;
+                await addDevice(item);
             }
         }
     }
@@ -136,5 +153,10 @@
                 }
             }
         }
+    }
+
+    .upload-tooltip {
+        @extend .typo-body-sm;
+        color: $icon-color;
     }
 </style>

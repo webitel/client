@@ -216,7 +216,8 @@ export default {
                     dialing: 'Dialing',
                     dialog: 'Dialog',
                     onhold: 'On hold',
-                }
+                },
+                passwordSetFromAccount: "If you won't set password, it would be the same as account"
             },
         },
         permissions: {

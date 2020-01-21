@@ -13,7 +13,11 @@
                 @close="historyId = null"
         ></history-popup>
 
-        <upload-popup v-if="popupTriggerIf" @close="popupTriggerIf = false"></upload-popup>
+        <upload-popup
+                v-if="popupTriggerIf"
+                :file="csvFile"
+                @close="closeCSVPopup"
+        ></upload-popup>
 
         <section class="object-content">
             <header class="content-header">
@@ -37,6 +41,7 @@
                     <div class="upload-csv">
                         <i class="icon-icon_upload"></i>
                         <input
+                                ref="file-input"
                                 class="upload-csv__input"
                                 type="file"
                                 @change="processCSV($event)"
@@ -112,7 +117,7 @@
 <script>
     import historyPopup from './device-history-popup';
     import tableFilter from '../../object-utils/utils/table-filter';
-    import uploadPopup from '../../object-utils/utils/upload-popup';
+    import uploadPopup from './upload-devices-popup';
     import {_checkboxTableField, _actionsTableField_3} from "@/utils/tableFieldPresets";
     import tableComponentMixin from '@/mixins/tableComponentMixin';
     import {mapActions, mapState} from "vuex";
@@ -187,8 +192,15 @@
             processCSV(event) {
                 const file = event.target.files[0];
                 if (file) {
+                    this.csvFile = file;
                     this.popupTriggerIf = true;
                 }
+            },
+
+            closeCSVPopup() {
+                this.loadDataList();
+                this.popupTriggerIf = false;
+                this.$refs['file-input'].value = null;
             },
 
             // computes dynamic class name for state icon colorizing
