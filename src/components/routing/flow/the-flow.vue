@@ -7,10 +7,16 @@
             {{$tc('objects.routing.flow.flow', 2)}}
         </object-header>
 
-        <flow-popup
+        <upload-popup
                 v-if="popupTriggerIf"
-                @close="popupTriggerIf = false"
-        ></flow-popup>
+                :file="jsonFile"
+                @close="closeUploadPopup"
+        ></upload-popup>
+
+<!--        <flow-popup-->
+<!--                v-if="popupTriggerIf"-->
+<!--                @close="popupTriggerIf = false"-->
+<!--        ></flow-popup>-->
 
         <section class="object-content">
             <header class="content-header">
@@ -25,8 +31,16 @@
                             :class="{'hidden': anySelected}"
                             @click="deleteSelected"
                     ></i>
-                    <i class="vuetable-action icon-icon_upload"
-                    ></i>
+                    <div class="upload-csv">
+                        <i class="icon-icon_upload"></i>
+                        <input
+                                ref="file-input"
+                                class="upload-csv__input"
+                                type="file"
+                                @change="processJSON($event)"
+                                accept=".json"
+                        >
+                    </div>
                     <i
                             class="icon-icon_nav-integrations icon-action"
                             @click="loadDataList"
@@ -61,7 +75,8 @@
                 </template>
 
                 <template slot="actions" slot-scope="props">
-                    <i class="vuetable-action icon-icon_upload"
+                    <i class="vuetable-action icon-icon_download"
+                       @click="download(props.rowIndex)"
                     ></i>
                     <i class="vuetable-action icon-icon_edit"
                        @click="edit(props.rowIndex)"
@@ -86,13 +101,16 @@
 <script>
     import tableComponentMixin from '@/mixins/tableComponentMixin';
     import {_checkboxTableField, _actionsTableField_3, _switcherWidth} from "@/utils/tableFieldPresets";
+    import uploadPopup from './upload-flow-popup';
     import flowPopup from './create-flow-popup';
     import {mapActions, mapState} from "vuex";
+    import {getFlow} from "../../../api/routing/flow/flow";
+    import {downloadAsJSON} from "../../../utils/download";
 
     export default {
         name: "the-flow",
         mixins: [tableComponentMixin],
-        components: {flowPopup},
+        components: {uploadPopup, flowPopup},
         data() {
             return {
                 fields: [
@@ -102,6 +120,7 @@
                     {name: 'debug', title: this.$t('objects.routing.flow.debug'), width: _switcherWidth},
                     _actionsTableField_3,
                 ],
+                jsonFile: null,
             };
         },
 
@@ -134,6 +153,26 @@
                     name: 'flow-edit',
                     params: {id: this.dataList[rowId].id},
                 });
+            },
+
+            processJSON(event) {
+                const file = event.target.files[0];
+                if (file) {
+                    this.jsonFile = file;
+                    this.popupTriggerIf = true;
+                }
+            },
+
+            closeUploadPopup() {
+                this.loadDataList();
+                this.popupTriggerIf = false;
+                this.$refs['file-input'].value = null;
+            },
+
+            async download(rowId) {
+                const flowId = this.dataList[rowId].id;
+                const flow = await getFlow(flowId);
+                downloadAsJSON(flow, flow.name);
             },
 
             ...mapActions('routing/flow', {

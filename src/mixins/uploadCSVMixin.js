@@ -63,12 +63,10 @@ export default {
         async save() {
             try {
                 // entries() need to get index of iteration
-                console.log(this.csvArr);
                 for (const [index, row] of this.csvArr.entries()) {
                     // skip 0 index if it is headers
                     if (!this.skipHeaders || (this.skipHeaders && index)) {
                         let item = this.setFields(row, this.mappingFields);
-                        console.log('item', item);
                         await this.addItem(item);
                     }
                 }

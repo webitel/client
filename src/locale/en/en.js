@@ -139,6 +139,7 @@ export default {
         status: 'Status',
         from: 'From',
         to: 'To',
+        importJSON: 'Import JSON',
 
         CSV: {
             skipHeaders: 'Skip headers',
@@ -326,6 +327,7 @@ export default {
                 callFlowDescription: 'lorem ipsum',
                 visualDescription: 'lorem ipsum',
                 jsonDescription: 'lorem ipsum',
+                createNew: 'Create new schema',
             },
 
             dialplan: {
