@@ -4,10 +4,12 @@ import sanitizer from '../../utils/sanitizer';
 import {AgentTeamServiceApiFactory} from 'webitel-sdk';
 import eventBus from "../../../utils/eventBus";
 import {objCamelToSnake, objSnakeToCamel} from "../../utils/caseConverters";
+import {coerceObjectPermissionsResponse} from "../../permissions/objects/objects";
 
 const teamService = new AgentTeamServiceApiFactory
 (configuration, process.env.VUE_APP_API_URL, instance);
 
+const BASE_URL = '/call_center/teams';
 const domainId = undefined;
 const fieldsToSend = ['domain_id', 'name', 'description', 'strategy', 'maxNoAnswer', 'wrapUpTime',
     'rejectDelayTime', 'busyDelayTime', 'noAnswerDelayTime', 'callTimeout'];
@@ -74,5 +76,28 @@ export const deleteTeam = async (id) => {
         await teamService.deleteAgentTeam(id, domainId);
     } catch (err) {
         throw err;
+    }
+};
+
+export const getTeamPermissions = async (id, page = 0, size = 10, search) => {
+    // let url = BASE_URL + `?page=${page}size=${size}`;
+    let url = BASE_URL + '/' + id + '/acl' + `?size=${size}`;
+    if (search) url += `&name=${search}*`;
+    try {
+        const response = await instance.get(url);
+        return coerceObjectPermissionsResponse(response);
+    } catch (error) {
+        throw error;
+    }
+};
+
+export const patchTeamPermissions = async (id, item) => {
+    const url = BASE_URL + '/' + id + '/acl';
+
+    try {
+        await instance.patch(url, {changes: item});
+        eventBus.$emit('notificationInfo', 'Sucessfully updated');
+    } catch (error) {
+        throw error;
     }
 };

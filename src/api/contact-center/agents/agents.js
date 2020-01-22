@@ -4,10 +4,12 @@ import {AgentServiceApiFactory} from 'webitel-sdk';
 import eventBus from "../../../utils/eventBus";
 import sanitizer from "../../utils/sanitizer";
 import {objSnakeToCamel} from "../../utils/caseConverters";
+import {coerceObjectPermissionsResponse} from "../../permissions/objects/objects";
 
 const agentService = new AgentServiceApiFactory
 (configuration, process.env.VUE_APP_API_URL, instance);
 
+const BASE_URL = '/call_center/agents';
 const domainId = undefined;
 const fieldsToSend = ['user', 'description'];
 
@@ -91,5 +93,28 @@ export const getAgentQueuesList = async (id, page = 0, size = 10) => {
         return objSnakeToCamel(response.data.items);
     } catch (err) {
         throw err;
+    }
+};
+
+export const getAgentPermissions = async (id, page = 0, size = 10, search) => {
+    // let url = BASE_URL + `?page=${page}size=${size}`;
+    let url = BASE_URL + '/' + id + '/acl' + `?size=${size}`;
+    if (search) url += `&name=${search}*`;
+    try {
+        const response = await instance.get(url);
+        return coerceObjectPermissionsResponse(response);
+    } catch (error) {
+        throw error;
+    }
+};
+
+export const patchAgentPermissions = async (id, item) => {
+    const url = BASE_URL + '/' + id + '/acl';
+
+    try {
+        await instance.patch(url, {changes: item});
+        eventBus.$emit('notificationInfo', 'Sucessfully updated');
+    } catch (error) {
+        throw error;
     }
 };

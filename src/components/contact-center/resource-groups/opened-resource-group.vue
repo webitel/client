@@ -31,14 +31,10 @@
     import openedResourceGroupGeneral from './opened-resource-group-general';
     import openedResourceGroupResources from './opened-resource-group-resources';
     import openedResourceGroupTimerange from './opened-resource-group-timerange';
+    import openedResourceGroupPermissions from './opened-resource-group-permissions';
     import editComponentMixin from '@/mixins/editComponentMixin';
     import {required} from 'vuelidate/lib/validators';
     import {requiredArrayValue, timerangeNotIntersect} from "@/utils/validators";
-    import {
-        addResGroup, addResInGroup,
-        getResGroup, getResInGroup,
-        updateResGroup, updateResInGroup
-    } from "../../../api/contact-center/resourceGroups/resourceGroups";
     import {mapActions, mapState} from "vuex";
 
     export default {
@@ -48,16 +44,11 @@
             openedResourceGroupGeneral,
             openedResourceGroupResources,
             openedResourceGroupTimerange,
+            openedResourceGroupPermissions,
         },
 
         data() {
-            return {
-                tabs: [
-                    {text: this.$t('objects.general'), value: 'general',},
-                    {value: 'resources', text: this.$tc('objects.ccenter.res.res', 2),},
-                    {value: 'timerange', text: this.$t('objects.ccenter.resGroups.timerange'),}
-                ],
-            };
+            return { };
         },
 
         // by vuelidate
@@ -91,6 +82,21 @@
             id: {
                 get() {return this.$store.state.ccenter.resGroups.itemId},
                 set(value) {this.setId(value)}
+            },
+
+            tabs() {
+                const tabs = [{text: this.$t('objects.general'), value: 'general',},
+                    {value: 'resources', text: this.$tc('objects.ccenter.res.res', 2),},
+                    {value: 'timerange', text: this.$t('objects.ccenter.resGroups.timerange'),}
+                ];
+
+                const permissions = {
+                    text: this.$tc('objects.permissions.permissions', 2),
+                    value: 'permissions',
+                };
+
+                if (this.id) tabs.push(permissions);
+                return tabs;
             }
         },
 

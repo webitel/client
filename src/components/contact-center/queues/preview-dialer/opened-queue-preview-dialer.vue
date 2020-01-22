@@ -30,6 +30,7 @@
     import openedQueuePreviewDialerVariables from '../opened-queue-variables';
     import openedQueuePreviewDialerTiming from './opened-queue-preview-dialer-timing';
     import openedQueuePreviewDialerBuckets from '../opened-queue-buckets';
+    import openedQueuePreviewDialerPermissions from '../opened-queue-permissions';
     import editComponentMixin from '@/mixins/editComponentMixin';
     import {required} from 'vuelidate/lib/validators';
     import {requiredArrayValue} from "@/utils/validators";
@@ -43,30 +44,12 @@
             openedQueuePreviewDialerVariables,
             openedQueuePreviewDialerTiming,
             openedQueuePreviewDialerBuckets,
+            openedQueuePreviewDialerPermissions,
         },
         mixins: [editComponentMixin],
 
         data() {
-            return {
-                tabs: [
-                    {
-                        text: this.$t('objects.general'),
-                        value: 'general',
-                    },
-                    {
-                        text: this.$tc('objects.ccenter.queues.variables', 2),
-                        value: 'variables',
-                    },
-                    {
-                        text: this.$t('objects.ccenter.queues.timing'),
-                        value: 'timing',
-                    },
-                    {
-                        text: this.$tc('objects.ccenter.buckets.buckets', 2),
-                        value: 'buckets',
-                    }
-                ],
-            };
+            return {};
         },
 
         // by vuelidate
@@ -99,7 +82,31 @@
             id: {
                 get() {return this.$store.state.ccenter.queues.itemId},
                 set(value) {this.setId(value)}
-            }
+            },
+
+            tabs() {
+                const tabs = [{
+                    text: this.$t('objects.general'),
+                    value: 'general',
+                }, {
+                    text: this.$tc('objects.ccenter.queues.variables', 2),
+                    value: 'variables',
+                }, {
+                    text: this.$t('objects.ccenter.queues.timing'),
+                    value: 'timing',
+                }, {
+                    text: this.$tc('objects.ccenter.buckets.buckets', 2),
+                    value: 'buckets',
+                }];
+
+                const permissions = {
+                    text: this.$tc('objects.permissions.permissions', 2),
+                    value: 'permissions',
+                };
+
+                if (this.id) tabs.push(permissions);
+                return tabs;
+            },
         },
 
         methods: {

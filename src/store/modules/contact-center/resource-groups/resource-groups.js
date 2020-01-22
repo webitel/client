@@ -1,4 +1,5 @@
 import res from './res-in-group';
+import permissions from './permissions';
 import proxy from '../../../../utils/editProxy';
 import {
     addResGroup, deleteResGroup,
@@ -203,5 +204,5 @@ export default {
     getters,
     actions,
     mutations,
-    modules: {res}
+    modules: {res, permissions}
 };

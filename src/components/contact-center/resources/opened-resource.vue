@@ -31,16 +31,10 @@
     import openedResourceGeneral from './opened-resource-general';
     import openedResourceNumbers from './opened-resource-numbers';
     import openedResourceFailure from './opened-resource-failure';
-    import deepEqual from 'deep-equal';
+    import openedResourcePermissions from './opened-resource-permissions';
     import editComponentMixin from '@/mixins/editComponentMixin';
     import {required} from 'vuelidate/lib/validators';
     import {requiredArrayValue} from "@/utils/validators";
-    import {
-        getResource,
-        addResource,
-        updateResource,
-        getResDisplayList, updateResDisplay, addResDisplay
-    } from "../../../api/contact-center/resources/resources";
     import {mapActions, mapState} from "vuex";
 
     export default {
@@ -49,26 +43,12 @@
         components: {
             openedResourceGeneral,
             openedResourceNumbers,
-            openedResourceFailure
+            openedResourceFailure,
+            openedResourcePermissions,
         },
 
         data() {
-            return {
-                tabs: [
-                    {
-                        text: this.$t('objects.general'),
-                        value: 'general',
-                    },
-                    {
-                        text: this.$tc('objects.ccenter.res.numbers', 2),
-                        value: 'numbers',
-                    },
-                    {
-                        text: this.$t('objects.ccenter.res.failure'),
-                        value: 'failure',
-                    }
-                ],
-            };
+            return {};
         },
 
         // by vuelidate
@@ -104,6 +84,27 @@
             id: {
                 get() {return this.$store.state.ccenter.res.itemId},
                 set(value) {this.setId(value)}
+            },
+
+            tabs() {
+                const tabs = [{
+                        text: this.$t('objects.general'),
+                        value: 'general',
+                    }, {
+                        text: this.$tc('objects.ccenter.res.numbers', 2),
+                        value: 'numbers',
+                    }, {
+                        text: this.$t('objects.ccenter.res.failure'),
+                        value: 'failure',
+                    }];
+
+                const permissions = {
+                    text: this.$tc('objects.permissions.permissions', 2),
+                    value: 'permissions',
+                };
+
+                if (this.id) tabs.push(permissions);
+                return tabs;
             }
         },
 

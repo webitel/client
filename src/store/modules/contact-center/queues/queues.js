@@ -2,6 +2,7 @@ import proxy from '../../../../utils/editProxy';
 import buckets from './queue-buckets';
 import resGroups from './queue-res-groups';
 import members from './queue-members';
+import permissions from './permissions';
 import {
     addQueue, deleteQueue, patchQueue,
     getQueue, getQueuesList, updateQueue
@@ -388,5 +389,5 @@ export default {
     getters,
     actions,
     mutations,
-    modules: {buckets, resGroups, members}
+    modules: {buckets, resGroups, members, permissions}
 };

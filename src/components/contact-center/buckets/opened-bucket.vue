@@ -26,6 +26,7 @@
 
 <script>
     import openedBucketGeneral from './opened-bucket-general';
+    import openedBucketPermissions from './opened-bucket-permissions';
     import editComponentMixin from '@/mixins/editComponentMixin';
     import {required} from 'vuelidate/lib/validators';
     import {mapActions, mapState} from "vuex";
@@ -33,7 +34,7 @@
     export default {
         name: "opened-bucket",
         mixins: [editComponentMixin],
-        components: {openedBucketGeneral},
+        components: {openedBucketGeneral, openedBucketPermissions},
 
         data() {
             return {};

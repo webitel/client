@@ -2,6 +2,7 @@ import proxy from '../../../../utils/editProxy';
 import supervisors from './team-supervisors';
 import agents from './team-agents';
 import skills from './team-skills';
+import permissions from './permissions';
 import {
     addTeam, deleteTeam,
     getTeam,  getTeamsList, updateTeam,
@@ -179,5 +180,5 @@ export default {
     getters,
     actions,
     mutations,
-    modules: {supervisors, agents, skills},
+    modules: {supervisors, agents, skills, permissions},
 };

@@ -1,5 +1,6 @@
 import proxy from '../../../../utils/editProxy';
 import numbers from './resource-display';
+import permissions from './permissions';
 import {
     getResourceList, getResource,
     addResource, updateResource, deleteResource, patchResource
@@ -192,5 +193,5 @@ export default {
     getters,
     actions,
     mutations,
-    modules: {numbers}
+    modules: {numbers, permissions}
 };
