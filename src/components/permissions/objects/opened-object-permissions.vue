@@ -16,11 +16,13 @@
         <section class="object-content">
             <header class="content-header">
                 <h3 class="content-title">{{$t('objects.permissions.object.operations')}}</h3>
-                <i
-                        class="icon-icon_nav-integrations icon-action"
-                        @click="loadDataList"
-                ></i>
-                <i class="icon-icon_plus icon-action" @click="popupTriggerIf = true"></i>
+                <div class="content-header__actions-wrap">
+                    <i
+                            class="icon-icon_nav-integrations icon-action"
+                            @click="loadDataList"
+                    ></i>
+                    <i class="icon-icon_plus icon-action" @click="popupTriggerIf = true"></i>
+                </div>
             </header>
 
             <vuetable

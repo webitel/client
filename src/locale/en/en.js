@@ -188,7 +188,8 @@ export default {
                 daysToExpire: {
                     0: 'Expired',
                     30: '30 or less',
-                    90: '90 or less'
+                    90: '90 or less',
+                    days: ' days',
                 },
                 importLicense: 'Import license',
                 licenseKey: 'License key'

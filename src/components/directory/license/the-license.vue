@@ -1,15 +1,15 @@
 <template>
     <div class="content-wrap">
         <object-header
-            close
+                hide-primary-action
         >
             {{$t('objects.directory.directory')}} |
             {{$t('objects.directory.license.license')}}
         </object-header>
 
         <license-popup
-            v-if="popupTriggerIf"
-            @close="popupTriggerIf = false"
+                v-if="popupTriggerIf"
+                @close="popupTriggerIf = false"
         ></license-popup>
 
         <section class="object-content">
@@ -44,15 +44,15 @@
                 </template>
 
                 <template slot="valid-from" slot-scope="props">
-                    <div>{{dataList[props.rowIndex].validFrom.toLocaleDateString('ru-RU')}}</div>
+                    <div>{{computeDate(dataList[props.rowIndex].notBefore)}}</div>
                 </template>
 
                 <template slot="valid-till" slot-scope="props">
-                    <div>{{dataList[props.rowIndex].validTill.toLocaleDateString('ru-RU')}}</div>
+                    <div>{{computeDate(dataList[props.rowIndex].notAfter)}}</div>
                 </template>
 
                 <template slot="used" slot-scope="props">
-                    <div>{{dataList[props.rowIndex].used}}</div>
+                    <div>{{dataList[props.rowIndex].limit - dataList[props.rowIndex].remain}}</div>
                 </template>
 
                 <template slot="limit" slot-scope="props">
@@ -62,9 +62,9 @@
                 <template slot="status" slot-scope="props">
                     <div
                             class="license-status"
-                            :class="computeStatusClass(dataList[props.rowIndex].validTill)"
+                            :class="computeStatusClass(dataList[props.rowIndex].notAfter)"
                     >
-                        {{computeStatusText(dataList[props.rowIndex].validTill)}}
+                        {{computeStatusText(dataList[props.rowIndex].notAfter)}}
                     </div>
                 </template>
             </vuetable>
@@ -102,8 +102,9 @@
                     {name: 'status', title: this.$t('objects.directory.license.status')},
 
                 ],
-              };
-        },computed: {
+            };
+        },
+        computed: {
             ...mapState('directory/license', {
                 dataList: state => state.dataList,
                 page: state => state.page, // acts like a boolean: if page is 0, there's no back page
@@ -111,38 +112,53 @@
             }),
 
             size: {
-                get() {return this.$store.state.ccenter.skills.size},
-                set(value) {this.setSize(value)}
+                get() {
+                    return this.$store.state.ccenter.skills.size
+                },
+                set(value) {
+                    this.setSize(value)
+                }
             },
 
             search: {
-                get() {return this.$store.state.ccenter.skills.search},
-                set(value) {this.setSearch(value)}
+                get() {
+                    return this.$store.state.ccenter.skills.search
+                },
+                set(value) {
+                    this.setSearch(value)
+                }
             },
         },
 
         methods: {
-            computeStatusText(endDate) {
-                const daysLeft = Math.floor(((new Date(endDate)- Date.now())/1000/60/60/24));
+            computeDate(date) {
+                return new Date(+date).toLocaleDateString();
+            },
 
+            computeStatusText(endDate) {
+                const daysLeft = Math.floor((endDate - Date.now()) / 1000 / 60 / 60 / 24);
                 if (daysLeft <= 0) {
                     return this.$t('objects.directory.license.daysToExpire.0');
-                } else if(daysLeft < 30) {
+                } else if (daysLeft < 30) {
                     return this.$t('objects.directory.license.daysToExpire.30');
-                } else if(daysLeft < 90) {
+                } else if (daysLeft < 90) {
                     return this.$t('objects.directory.license.daysToExpire.90');
+                } else {
+                    return daysLeft + this.$t('objects.directory.license.daysToExpire.days');
                 }
             },
 
             computeStatusClass(endDate) {
-                const daysLeft = Math.floor(((new Date(endDate)- Date.now())/1000/60/60/24));
+                const daysLeft = Math.floor((endDate - Date.now()) / 1000 / 60 / 60 / 24);
 
                 if (daysLeft <= 0) {
                     return 'days0';
-                } else if(daysLeft < 30) {
+                } else if (daysLeft < 30) {
                     return 'days30';
-                } else if(daysLeft < 90) {
+                } else if (daysLeft < 90) {
                     return 'days90';
+                } else {
+                    return 'valid'
                 }
             },
 
@@ -169,6 +185,10 @@
         width: 93px;
         padding: 5px 8px 3px;
         border-radius: $border-radius;
+
+        &.valid {
+            background: $true-color;
+        }
 
         &.days90 {
             background: $license-90;
