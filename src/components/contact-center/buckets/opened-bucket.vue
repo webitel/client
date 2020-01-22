@@ -36,18 +36,7 @@
         components: {openedBucketGeneral},
 
         data() {
-            return {
-                tabs: [
-                    {
-                        text: this.$t('objects.general'),
-                        value: 'general',
-                    },
-                    {
-                        text: this.$tc('objects.permissions.permissions'),
-                        value: 'permissions-tab',
-                    },
-                ],
-            };
+            return {};
         },
 
         validations: {
@@ -65,6 +54,21 @@
             id: {
                 get() {return this.$store.state.ccenter.buckets.itemId},
                 set(value) {this.setId(value)}
+            },
+
+            tabs() {
+                const tabs = [{
+                    text: this.$t('objects.general'),
+                    value: 'general',
+                }];
+
+                const permissions = {
+                    text: this.$tc('objects.permissions.permissions', 2),
+                    value: 'permissions',
+                };
+
+                if (this.id) tabs.push(permissions);
+                return tabs;
             }
         },
 

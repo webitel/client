@@ -1,4 +1,5 @@
 import proxy from '../../../../utils/editProxy';
+import permissions from './permissions';
 import {
     addBucket, deleteBucket,
     getBucket, getBucketsList, updateBucket
@@ -166,4 +167,5 @@ export default {
     getters,
     actions,
     mutations,
+    modules: {permissions}
 };
