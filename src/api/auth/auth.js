@@ -29,16 +29,17 @@ export const getSession = async () => {
 // if succeeded, calls getSession function
 export const  login = async (credentials) => {
     Vue.$log.info('login started');
-    const url = '/login';
+    const url = 'users/login';
 
     try {
         const response = await instance.post(url, credentials);
+        // return response.data;
         localStorage.setItem('access-token', response.data.authorization.access_token);
         localStorage.setItem('refresh-token', response.data.authorization.refresh_token);
 
         instance.defaults.headers['X-Webitel-Access'] = localStorage.getItem('access-token');
         getSession().then();
-        router.replace('/');
+        // router.replace('/');
     } catch (error) {
         throw error;
     }

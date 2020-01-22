@@ -3,6 +3,7 @@ import {
     getBlacklistList, updateBlacklist
 } from "../../../../api/lookups/blacklists/blacklists";
 import numbers from './blacklistNumbers';
+import permissions from './permissions';
 import proxy from "../../../../utils/editProxy";
 
 const defaultState = () => {
@@ -168,5 +169,5 @@ export default {
     getters,
     actions,
     mutations,
-    modules: {numbers}
+    modules: {numbers, permissions}
 };

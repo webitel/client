@@ -26,6 +26,7 @@
 <script>
     import openedBlacklistGeneral from './opened-blacklist-general';
     import openedBlacklistNumbers from './opened-blacklist-numbers';
+    import openedBlacklistPermissions from './opened-blacklist-permissions';
     import editComponentMixin from '@/mixins/editComponentMixin';
     import {required} from 'vuelidate/lib/validators';
     import {mapActions, mapState} from "vuex";
@@ -34,28 +35,13 @@
         name: 'opened-blacklist',
         components: {
             openedBlacklistGeneral,
-            openedBlacklistNumbers
+            openedBlacklistNumbers,
+            openedBlacklistPermissions,
         },
         mixins: [editComponentMixin],
 
         data() {
-            return {
-                tabs: [
-                    {
-                        text: this.$t('objects.general'),
-                        value: 'general',
-                    },
-                    {
-                        text: this.$tc('objects.lookups.blacklist.number', 2),
-                        value: 'numbers',
-                    },
-                    {
-                        text: this.$tc('objects.permissions.permissions', 2),
-                        value: 'permissions',
-                    },
-                ],
-            };
-
+            return {};
         },
 
         validations: {
@@ -76,8 +62,30 @@
                 itemInstance: state => state.itemInstance,
             }),
             id: {
-                get() {return this.$store.state.lookups.blacklists.itemId},
-                set(value) {this.setId(value)}
+                get() {
+                    return this.$store.state.lookups.blacklists.itemId
+                },
+                set(value) {
+                    this.setId(value)
+                }
+            },
+
+            tabs() {
+                const tabs = [{
+                        text: this.$t('objects.general'),
+                        value: 'general',
+                    }, {
+                        text: this.$tc('objects.lookups.blacklist.number', 2),
+                        value: 'numbers',
+                    }];
+
+                const permissions = {
+                    text: this.$tc('objects.permissions.permissions', 2),
+                    value: 'permissions',
+                };
+
+                if (this.id) tabs.push(permissions);
+                return tabs;
             }
         },
 
@@ -91,7 +99,6 @@
         },
     };
 </script>
-
 
 <style lang="scss" scoped>
 

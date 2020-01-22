@@ -73,7 +73,7 @@ export const patchObjectPermissions = async (id, item) => {
     }
 };
 
-const coerceObjectPermissionsResponse = (response) => {
+export const coerceObjectPermissionsResponse = (response) => {
     let formattedResponse = [];
     if (response.data.list) {
         // format response before assignment

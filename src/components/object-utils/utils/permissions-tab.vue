@@ -14,7 +14,7 @@
             <template slot="grantee" slot-scope="props">
                 <!--                    if not new-->
                 <div v-if="!dataList[props.rowIndex].new">
-                    {{dataList[props.rowIndex].grantee.role}}
+                    {{dataList[props.rowIndex].grantee.name}}
                 </div>
 
                 <dropdown-select
