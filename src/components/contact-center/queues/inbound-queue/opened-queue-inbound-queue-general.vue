@@ -63,7 +63,7 @@
 <script>
     import openedTabComponentMixin from '@/mixins/openedTabComponentMixin';
     import {mapActions} from "vuex";
-    import {getCalendarList} from "../../../../api/lookups/calendars";
+    import {getCalendarList} from "../../../../api/lookups/calendars/calendars";
     import {getTeamsList} from "../../../../api/contact-center/teams/teams";
     import {getFlowList} from "../../../../api/routing/flow/flow";
     import {getBlacklistList} from "../../../../api/lookups/blacklists/blacklists";

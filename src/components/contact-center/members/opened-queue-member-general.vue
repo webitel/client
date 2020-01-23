@@ -43,7 +43,7 @@
     import openedTabComponentMixin from '@/mixins/openedTabComponentMixin';
     import {mapActions} from "vuex";
     import {getBucketsList} from "../../../api/contact-center/buckets/buckets";
-    import {getCalendarTimezones} from "../../../api/lookups/calendars";
+    import {getCalendarTimezones} from "../../../api/lookups/calendars/calendars";
 
     export default {
         name: "opened-queue-member-general",

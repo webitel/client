@@ -1,29 +1,29 @@
 <template>
     <section>
+        <holiday-popup
+                v-if="popupTriggerIf"
+                @close="closePopup"
+        ></holiday-popup>
+
         <header class="content-header">
             <h3 class="content-title">{{$t('objects.lookups.calendars.holidays')}}</h3>
             <i class="icon-action icon-icon_plus" @click="popupTriggerIf = true"></i>
         </header>
-        <holiday-popup
-                v-if="popupTriggerIf"
-                :value="itemInstance.holidays[editedIndex]"
-                :v="v"
-                @addItem="addHoliday"
-                @close="popupTriggerIf = false"
-        ></holiday-popup>
+
         <vuetable
                 :api-mode="false"
-                :fields="holidaysFields"
-                :data="itemInstance.holidays"
+                :fields="fields"
+                :data="dataList"
         >
 
             <template slot="date" slot-scope="props">
-                <span>{{new Date(+itemInstance.holidays[props.rowIndex].date).toLocaleDateString()}}</span>
+                <span>{{new Date(+dataList[props.rowIndex].date).toLocaleDateString()}}</span>
             </template>
 
             <template slot="repeat" slot-scope="props">
                 <switcher
-                    v-model="itemInstance.holidays[props.rowIndex].repeat"
+                    :value="dataList[props.rowIndex].repeat"
+                    @input="toggleItemProperty(props.rowIndex)"
                 ></switcher>
             </template>
 
@@ -41,53 +41,54 @@
 
 <script>
     import holidayPopup from './opened-calendar-holiday-popup';
-    import vuetable from 'vuetable-2/src/components/Vuetable';
+    import tableComponentMixin from '@/mixins/tableComponentMixin';
     import openedTabComponentMixin from '@/mixins/openedTabComponentMixin';
-    import {deleteHoliday} from "../../../api/lookups/calendars";
-    import {_actionsTableField_2} from "@/utils/tableFieldPresets";
+    import {_checkboxTableField, _actionsTableField_2} from "@/utils/tableFieldPresets";
+    import {mapActions, mapState} from "vuex";
 
     export default {
         name: "opened-calendar-holidays",
-        components: {
-            holidayPopup,
-            vuetable,
-        },
-        mixins: [openedTabComponentMixin],
+        mixins: [tableComponentMixin, openedTabComponentMixin],
+        components: {holidayPopup},
         data() {
             return {
-                holidaysFields: [
+                fields: [
+                    _checkboxTableField,
                     {name: 'name', title: this.$t('objects.name')},
                     {name: 'date', title: this.$t('objects.lookups.calendars.date')},
                     {name: 'repeat', title: this.$t('objects.lookups.calendars.repeat')},
                     _actionsTableField_2,
                 ],
-                popupTriggerIf: false,
-                editedIndex: null,
             }
         },
 
+        computed: {
+            ...mapState('lookups/calendars/holidays', {
+                dataList: state => state.dataList,
+            }),
+        },
+
         methods: {
-            edit(rowIndex) {
-                this.editedIndex = rowIndex;
+            async create() {
                 this.popupTriggerIf = true;
             },
 
-            remove(rowIndex) {
-                const deletedItem = this.itemInstance.holidays.splice(rowIndex, 1)[0];
-                if(deletedItem.id) {
-                    try {
-                        deleteHoliday(this.id, deletedItem.id);
-                    } catch {
-                        this.itemInstance.holidays.splice(rowIndex, 0, deletedItem);
-                    }
-                }
+            closePopup() {
+                this.setId(null);
+                this.popupTriggerIf = false;
             },
 
-            addHoliday(item) {
-                if(this.editedIndex === null) this.itemInstance.holidays.push(item);
-                this.popupTriggerIf = false;
-                this.editedIndex = null;
+            edit(rowIndex) {
+                this.setId(rowIndex);
+                this.popupTriggerIf = true;
             },
+
+            ...mapActions('lookups/calendars/holidays', {
+                setId: 'SET_ITEM_ID',
+                loadDataList: 'LOAD_DATA_LIST',
+                toggleItemProperty: 'TOGGLE_ITEM_PROPERTY',
+                removeItem: 'REMOVE_ITEM',
+            }),
         }
     }
 </script>

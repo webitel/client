@@ -32,19 +32,22 @@ export const timerangeStartLessThanEnd = (object) => {
 };
 
 export const timerangeNotIntersect = (array) => {
-    let isIntersecting = true;
-    let ranges = [];
-    array.reduce((prev, curr, index, arr) => {
+    let isIntersecting = false;
+    let ranges = [{start: array[0].start, end: array[0].end}];
+    array.reduce((prev, curr, index) => {
         if(prev.day !== curr.day) {
             ranges = [{start: curr.start, end: curr.end}];
-            return prev;
+            return curr;
         }
         ranges.forEach(range => {
-           if(curr.start > curr.end || curr.end < range.start) isIntersecting = false;
+           if((curr.start >= range.start && curr.end <= range.end) ||      // if [..{--}..]
+               (curr.start <= range.start && curr.end >= range.start) ||  // or {--[--}....]
+               (curr.start <= range.end && curr.end >= range.end)) {     // or [....{--]-}
+               isIntersecting = true;
+           }
         });
         ranges.push({start: curr.start, end: curr.end});
-        return prev;
+        return curr;
     });
-
-    return isIntersecting;
+    return !isIntersecting;
 };

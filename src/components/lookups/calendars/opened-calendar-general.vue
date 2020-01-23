@@ -5,24 +5,22 @@
         </header>
         <form class="object-input-grid">
             <form-input
-                    v-model.trim="v.itemInstance.calendar.name.$model"
-                    :v="v.itemInstance.calendar.name"
+                    v-model.trim="name"
+                    :v="v.itemInstance.name"
                     :label="$t('objects.name')"
                     required
             ></form-input>
 
             <dropdown-select
+                    v-model="timezone"
                     :options="dropdownOptionsList"
-                    :displayProperty="'name'"
                     :label="$t('objects.lookups.calendars.timezone')"
-                    :value="v.itemInstance.calendar.timezone.$model"
-                    @input="itemInstance.calendar.timezone = $event"
                     @search="loadDropdownOptionsList"
                     required
             ></dropdown-select>
 
             <form-input
-                    v-model.trim="itemInstance.calendar.description"
+                    v-model.trim="description"
                     :label="$t('objects.description')"
                     textarea
             ></form-input>
@@ -31,23 +29,19 @@
                 <div class="switcher-label-wrap">
                     <div class="label">{{$t('objects.lookups.calendars.fulltime')}}</div>
                     <switcher
-                            v-model="itemInstance.calendar.expires"
+                            v-model="expires"
                     ></switcher>
                 </div>
                 <div class="calendars__date-wrap">
                     <datepicker
-                            v-model="itemInstance.calendar.start"
+                            v-model="startAt"
                             :label="$t('objects.lookups.calendars.start')"
-                            :calendar-button-icon="'icon-icon_arrow-down'"
-                            :disabled="!itemInstance.calendar.expires"
-                            calendar-button
+                            :disabled="!expires"
                     ></datepicker>
                     <datepicker
-                            v-model="itemInstance.calendar.end"
+                            v-model="endAt"
                             :label="$t('objects.lookups.calendars.end')"
-                            :calendar-button-icon="'icon-icon_arrow-down'"
-                            :disabled="!itemInstance.calendar.expires"
-                            calendar-button
+                            :disabled="!expires"
                     ></datepicker>
                 </div>
             </div>
@@ -58,7 +52,8 @@
 <script>
     import datepicker from '@/components/utils/datepicker';
     import openedTabComponentMixin from '@/mixins/openedTabComponentMixin';
-    import {getCalendarTimezones} from "../../../api/lookups/calendars";
+    import {getCalendarTimezones} from "../../../api/lookups/calendars/calendars";
+    import {mapActions} from "vuex";
 
     export default {
         name: "opened-calendar-general",
@@ -68,14 +63,50 @@
         },
 
         data() {
-            return {}
+            return {
+                dropdownOptionsList: [],
+            }
+        },
+
+        mounted() {
+            this.loadDropdownOptionsList();
+        },
+
+        computed: {
+            name: {
+                get() {return this.$store.state.lookups.calendars.itemInstance.name},
+                set(value) {this.setItemProp({prop: 'name', value})}
+            },
+            timezone: {
+                get() {return this.$store.state.lookups.calendars.itemInstance.timezone},
+                set(value) {this.setItemProp({prop: 'timezone', value})}
+            },
+            description: {
+                get() {return this.$store.state.lookups.calendars.itemInstance.description},
+                set(value) {this.setItemProp({prop: 'description', value})}
+            },
+            expires: {
+                get() {return this.$store.state.lookups.calendars.itemInstance.expires},
+                set(value) {this.setItemProp({prop: 'expires', value})}
+            },
+            startAt: {
+                get() {return this.$store.state.lookups.calendars.itemInstance.startAt},
+                set(value) {this.setItemProp({prop: 'startAt', value})}
+            },
+            endAt: {
+                get() {return this.$store.state.lookups.calendars.itemInstance.endAt},
+                set(value) {this.setItemProp({prop: 'endAt', value})}
+            },
         },
 
         methods: {
-            async loadDropdownOptionsList() {
-                const response = await getCalendarTimezones();
-                this.dropdownOptionsList = response.items;
+            async loadDropdownOptionsList(search) {
+                this.dropdownOptionsList = await getCalendarTimezones(0, 10, search);
             },
+
+            ...mapActions('lookups/calendars', {
+                setItemProp: 'SET_ITEM_PROPERTY',
+            }),
         }
     }
 </script>

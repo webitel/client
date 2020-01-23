@@ -21,45 +21,58 @@
                             :class="{'hidden': anySelected}"
                             @click="deleteSelected"
                     ></i>
+                    <i
+                            class="icon-icon_nav-integrations icon-action"
+                            @click="loadDataList"
+                    ></i>
                 </div>
             </header>
 
-                <vuetable
-                        :api-mode="false"
-                        :fields="fields"
-                        :data="dataList"
-                >
-                    <template slot="name" slot-scope="props">
-                        <div class="tt-capitalize">
+            <vuetable
+                    :api-mode="false"
+                    :fields="fields"
+                    :data="dataList"
+            >
+                <template slot="name" slot-scope="props">
+                    <div class="tt-capitalize">
                         <span class="nameLink" @click="edit(props.rowIndex)">
                         {{dataList[props.rowIndex].name}}
                         </span>
-                        </div>
-                    </template>
+                    </div>
+                </template>
 
-                    <template slot="description" slot-scope="props">
-                        <div>
-                            {{dataList[props.rowIndex].description || 'DESCRIPTION IS EMPTY'}}
-                        </div>
-                    </template>
+                <template slot="description" slot-scope="props">
+                    <div>
+                        {{dataList[props.rowIndex].description || 'DESCRIPTION IS EMPTY'}}
+                    </div>
+                </template>
 
-                    <template slot="actions" slot-scope="props">
-                        <i class="vuetable-action icon-icon_edit"
-                           @click="edit(props.rowIndex)"
-                        ></i>
-                        <i class="vuetable-action icon-icon_delete"
-                           @click="remove(props.rowIndex)"
-                        ></i>
-                    </template>
-                </vuetable>
+                <template slot="actions" slot-scope="props">
+                    <i class="vuetable-action icon-icon_edit"
+                       @click="edit(props.rowIndex)"
+                    ></i>
+                    <i class="vuetable-action icon-icon_delete"
+                       @click="remove(props.rowIndex)"
+                    ></i>
+                </template>
+            </vuetable>
+            <pagination
+                    v-model="size"
+                    @loadDataList="loadDataList"
+                    @next="nextPage"
+                    @prev="prevPage"
+                    :isNext="isNextPage"
+                    :isPrev="!!page"
+            ></pagination>
         </section>
     </div>
 </template>
 
 <script>
-    import {deleteCalendar, getCalendarList} from "../../../api/lookups/calendars";
+    import {deleteCalendar, getCalendarList} from "../../../api/lookups/calendars/calendars";
     import tableComponentMixin from '@/mixins/tableComponentMixin';
     import {_checkboxTableField, _actionsTableField_2} from "@/utils/tableFieldPresets";
+    import {mapActions, mapState} from "vuex";
 
     export default {
         name: "the-calendars",
@@ -75,6 +88,25 @@
                 ],
             };
         },
+
+        computed: {
+            ...mapState('lookups/calendars', {
+                dataList: state => state.dataList,
+                page: state => state.page, // acts like a boolean: if page is 0, there's no back page
+                isNextPage: state => state.isNextPage,
+            }),
+
+            size: {
+                get() {return this.$store.state.lookups.calendars.size},
+                set(value) {this.setSize(value)}
+            },
+
+            search: {
+                get() {return this.$store.state.lookups.calendars.search},
+                set(value) {this.setSearch(value)}
+            },
+        },
+
         methods: {
             create() {
                 this.$router.push('/lookups/calendars/new');
@@ -87,17 +119,14 @@
                 });
             },
 
-            async deleteItem(item) {
-                try {
-                    await deleteCalendar(item.id);
-                } catch (err) {
-                    throw err;
-                }
-            },
-
-            async loadDataList() {
-                this.dataList = await getCalendarList(this.size, this.search);
-            },
+            ...mapActions('lookups/calendars', {
+                loadDataList: 'LOAD_DATA_LIST',
+                setSize: 'SET_SIZE',
+                setSearch: 'SET_SEARCH',
+                nextPage: 'NEXT_PAGE',
+                prevPage: 'PREV_PAGE',
+                removeItem: 'REMOVE_ITEM',
+            }),
         }
     }
 </script>
