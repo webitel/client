@@ -3,7 +3,7 @@
         <h3 class="content-title">{{$tc('objects.ccenter.queues.queues', 2)}}</h3>
         <div class="content-header__actions-wrap">
             <i
-                    class="icon-icon_nav-integrations icon-action"
+                    class="icon-icon_reload icon-action"
                     @click="loadDataList"
             ></i>
         </div>

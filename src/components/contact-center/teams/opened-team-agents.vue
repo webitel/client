@@ -18,7 +18,7 @@
                         @click="deleteSelected"
                 ></i>
                 <i
-                        class="icon-icon_nav-integrations icon-action"
+                        class="icon-icon_reload icon-action"
                         @click="loadDataList"
                 ></i>
                 <i class="icon-action icon-icon_plus" @click="create"></i>

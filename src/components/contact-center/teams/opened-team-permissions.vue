@@ -10,7 +10,7 @@
             <h3 class="content-title">{{$t('objects.permissions.object.operations')}}</h3>
             <div class="content-header__actions-wrap">
                 <i
-                        class="icon-icon_nav-integrations icon-action"
+                        class="icon-icon_reload icon-action"
                         @click="loadDataList"
                 ></i>
                 <i class="icon-icon_plus icon-action" @click="popupTriggerIf = true"></i>

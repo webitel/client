@@ -27,7 +27,7 @@
                             @click="popupTriggerIf = true"
                     ></i>
                     <i
-                            class="icon-icon_nav-integrations icon-action"
+                            class="icon-icon_reload icon-action"
                             @click="loadDataList"
                     ></i>
                 </div>

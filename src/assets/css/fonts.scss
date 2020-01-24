@@ -48,7 +48,11 @@
     -moz-osx-font-smoothing: grayscale;
 }
 
-.icon-icon_cancel:before, .icon-icon_close:before {
+.icon-icon_reload:before {
+    content: "\e907";
+    color: #727272;
+}
+.icon-icon_close:before {
     content: "\e905";
     color: #808080;
 }
@@ -61,11 +65,11 @@
     color: #808080;
 }
 .icon-icon_menu-burger:before {
-    content: "\e900";
+    content: "\e9a0";
     color: #808080;
 }
 .icon-icon_arrow-right:before {
-    content: "\e901";
+    content: "\e921";
     color: #808080;
 }
 .icon-icon_arrow-up:before {
@@ -159,7 +163,7 @@
     content: "\e015";
     color: #808080;
 }
-.icon-icon_add:before, .icon-icon_plus:before {
+.icon-icon_add:before {
     content: "\e016";
     color: #808080;
 }
