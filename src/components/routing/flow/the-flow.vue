@@ -61,18 +61,12 @@
                     </div>
                 </template>
 
-                <template slot="type" slot-scope="props">
-                    <div>
-                        {{dataList[props.rowIndex].type}}
-                    </div>
-                </template>
-
-                <template slot="debug" slot-scope="props">
-                    <switcher
-                            v-model="dataList[props.rowIndex].debug"
-                            disabled
-                    ></switcher>
-                </template>
+<!--                <template slot="debug" slot-scope="props">-->
+<!--                    <switcher-->
+<!--                            v-model="dataList[props.rowIndex].debug"-->
+<!--                            disabled-->
+<!--                    ></switcher>-->
+<!--                </template>-->
 
                 <template slot="actions" slot-scope="props">
                     <i class="vuetable-action icon-icon_download"
@@ -116,8 +110,7 @@
                 fields: [
                     _checkboxTableField,
                     {name: 'name', title: this.$t('objects.name')},
-                    {name: 'type', title: this.$t('objects.routing.flow.type')},
-                    {name: 'debug', title: this.$t('objects.routing.flow.debug'), width: _switcherWidth},
+                    // {name: 'debug', title: this.$t('objects.routing.flow.debug'), width: _switcherWidth},
                     _actionsTableField_3,
                 ],
                 jsonFile: null,

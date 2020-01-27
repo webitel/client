@@ -48,9 +48,6 @@
                                 accept=".csv"
                         >
                     </div>
-                    <table-filter
-                            :filterObjects="filterObjects"
-                    ></table-filter>
                 </div>
             </header>
 
@@ -141,15 +138,6 @@
                     {name: 'state', title: this.$t('objects.directory.devices.presence')},
                     _actionsTableField_3,
                 ],
-
-                filterObjects: {
-                    state: {
-                        name: 'Presence',
-                        fields: []
-                    }
-                },
-
-                isFilterOpenedClassTrigger: false,
                 csvFile: null
             };
         },

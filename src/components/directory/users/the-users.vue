@@ -71,15 +71,6 @@
                     </div>
                 </template>
 
-                <template slot="state" slot-scope="props">
-                    <status
-                            :class="{'status__true': dataList[props.rowIndex].state}"
-                            :text=computeOnlineText(dataList[props.rowIndex].state)
-                    >
-                    </status>
-                </template>
-
-
                 <template slot="DnD" slot-scope="props">
                     <switcher
                             :value="dataList[props.rowIndex].dnd"
@@ -87,17 +78,16 @@
                     ></switcher>
                 </template>
 
-
                 <template slot="status" slot-scope="props">
                     <dropdown-select
                             class="inline-dropdown inline-dropdown__options-right"
                             :value="dataList[props.rowIndex].status"
                             :placeholder="$t('objects.directory.users.status')"
                             :options="statusOptions"
+                            taggable
                             @input="changeStatus({value: $event, index: props.rowIndex})"
                     ></dropdown-select>
                 </template>
-
 
                 <template slot="actions" slot-scope="props">
                     <i class="vuetable-action icon-icon_edit"
@@ -144,7 +134,6 @@
                     {name: 'name', title: this.$t('objects.name')},
                     {name: 'username', title: this.$t('objects.directory.users.login')},
                     {name: 'extensions', title: this.$t('objects.directory.users.extensions')},
-                    {name: 'state', title: this.$t('objects.directory.users.state')},
                     {name: 'DnD', title: this.$t('objects.directory.users.DnD')},
                     {name: 'status', title: this.$t('objects.directory.users.status')},
                     _actionsTableField_2,
@@ -204,10 +193,6 @@
                 this.loadDataList();
                 this.popupTriggerIf = false;
                 this.$refs['file-input'].value = null;
-            },
-
-            computeOnlineText(state) {
-                return state ? this.$t('objects.online') : this.$t('objects.offline');
             },
 
             ...mapActions('directory/users', {

@@ -14,6 +14,15 @@ const domainId = undefined;
 const fieldsToSend = ['domain_id', 'name', 'description', 'strategy', 'maxNoAnswer', 'wrapUpTime',
     'rejectDelayTime', 'busyDelayTime', 'noAnswerDelayTime', 'callTimeout'];
 
+export const strategiesList = {
+    'random': 'Random',
+    'fewest-calls': 'Agent with fewest calls',
+    'least-talk-time': 'Agent with least talk time',
+    'top-down': 'Top-Down',
+    'round-robin': 'Round robbin',
+    'longest-idle-time': 'Longest idle Agent',
+};
+
 export const getTeamsList = async (page = 0, size = 10, search) => {
     const defaultObject = {
         _isSelected: false,
@@ -41,18 +50,24 @@ export const getTeam = async (id) => {
             id: 0,
             _dirty: false,
         };
-        // response = ;
-        return {...defaultObject, ...objSnakeToCamel(response.data)};
+        response = objSnakeToCamel(response.data);
+        response.strategy = {
+            name: strategiesList[response.strategy],
+            value: response.strategy,
+        };
+        return {...defaultObject, ...response};
     } catch (err) {
         throw err;
     }
 };
 
 export const addTeam = async (item) => {
-    sanitizer(item, fieldsToSend);
-    item = objCamelToSnake(item);
+    let itemCopy = {...item};
+    itemCopy.strategy = itemCopy.strategy.value;
+    sanitizer(itemCopy, fieldsToSend);
+    itemCopy = objCamelToSnake(itemCopy);
     try {
-        const response = await teamService.createAgentTeam(item);
+        const response = await teamService.createAgentTeam(itemCopy);
         eventBus.$emit('notificationInfo', 'Sucessfully added');
         return response.data.id;
     } catch (err) {
@@ -61,10 +76,12 @@ export const addTeam = async (item) => {
 };
 
 export const updateTeam = async (id, item) => {
-    sanitizer(item, fieldsToSend);
-    item = objCamelToSnake(item);
+    let itemCopy = {...item};
+    itemCopy.strategy = itemCopy.strategy.value;
+    sanitizer(itemCopy, fieldsToSend);
+    itemCopy = objCamelToSnake(itemCopy);
     try {
-        await teamService.updateAgentTeam(id, item);
+        await teamService.updateAgentTeam(id, itemCopy);
         eventBus.$emit('notificationInfo', 'Sucessfully updated');
     } catch (err) {
         throw err;

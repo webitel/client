@@ -3,6 +3,8 @@
         <datepicker
                 :value="computeDateValue"
                 :label="label"
+                :hide-label="hideLabel"
+                :hide-details="hideDetails"
                 @input="setValue('date', $event)"
         ></datepicker>
         <timepicker
@@ -28,7 +30,15 @@
             },
             label: {
                 type: String
-            }
+            },
+            hideLabel: {
+                type: Boolean,
+                default: false,
+            },
+            hideDetails: {
+                type: Boolean,
+                default: false,
+            },
         },
         computed: {
             computeDateValue() {
@@ -56,5 +66,11 @@
 <style lang="scss" scoped>
     .datetimepicker {
         /*display: flex;*/
+
+        &.history-popup__datetimepicker {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
     }
 </style>

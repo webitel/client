@@ -120,7 +120,7 @@ const actions = {
 
     TOGGLE_ITEM_PROPERTY: async (context, index) => {
         await context.commit('TOGGLE_ITEM_PROPERTY', index);
-        let changes = {dnd: state.dataList[index].enable};
+        let changes = {enable: state.dataList[index].enable};
         try {
             context.dispatch('PATCH_ITEM', {id: state.dataList[index].id, changes});
         } catch {
@@ -237,7 +237,7 @@ const mutations = {
     },
 
     TOGGLE_ITEM_PROPERTY: (state, index) => {
-        state.dataList[index].dnd = !state.dataList[index].dnd;
+        state.dataList[index].enable = !state.dataList[index].enable;
     },
 
     SET_REGISTER_ITEM: (state, item) => {

@@ -67,8 +67,7 @@ export const deleteAgent = async (id) => {
 
 export const getAgentHistory = async (id, date, page = 0, size = 10) => {
     try {
-        const response = await agentService.searchAgentStateHistory(id, page, size, undefined,
-            date, Date.now());
+        const response = await agentService.searchAgentStateHistory(id, page, size, date, Date.now());
         if (!response.data.items) response.data.items = [];
         return objSnakeToCamel(response.data.items);
     } catch (err) {

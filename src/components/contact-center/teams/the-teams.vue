@@ -27,9 +27,6 @@
                             class="icon-icon_reload icon-action"
                             @click="loadDataList"
                     ></i>
-                    <i
-                            class="icon-icon_approve icon-action"
-                    ></i>
                 </div>
             </header>
 
@@ -49,7 +46,7 @@
 
                 <template slot="strategy" slot-scope="props">
                     <span>
-                        {{dataList[props.rowIndex].strategy}}
+                        {{computeStrategyDisplay(dataList[props.rowIndex].strategy)}}
                     </span>
                 </template>
 
@@ -75,10 +72,10 @@
 </template>
 
 <script>
+    import {strategiesList} from "../../../api/contact-center/teams/teams";
     import tableComponentMixin from '@/mixins/tableComponentMixin';
     import {_checkboxTableField, _actionsTableField_2} from "@/utils/tableFieldPresets";
     import {mapActions, mapState} from "vuex";
-
 
     export default {
         name: "the-teams",
@@ -122,6 +119,10 @@
                     name: 'cc-team-edit',
                     params: {id: this.dataList[rowId].id},
                 });
+            },
+
+            computeStrategyDisplay(name) {
+                return strategiesList[name] || name;
             },
 
             ...mapActions('ccenter/teams', {

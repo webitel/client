@@ -4,7 +4,9 @@ import sanitizer from "../../utils/sanitizer";
 import eventBus from "../../../utils/eventBus";
 
 const BASE_URL = '/devices';
-const fieldsToSend = ['name', 'account', 'password', 'mac', 'ip', 'vendor', 'model'];
+const fieldsToSend = ['name', 'account', 'password', 'user',
+    // 'mac', 'ip', 'vendor', 'model'
+];
 
 export async function getDeviceList(page = 0, size = 100, search) {
     const defaultObject = {  // default object prototype, to merge response with it to get all fields

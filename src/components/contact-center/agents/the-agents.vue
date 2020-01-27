@@ -27,8 +27,6 @@
                             :class="{'hidden': anySelected}"
                             @click="deleteSelected"
                     ></i>
-                    <i class="icon-action icon-icon_download"></i>
-                    <i class="icon-action icon-icon_filter"></i>
                     <i
                             class="icon-icon_reload icon-action"
                             @click="loadDataList"
@@ -60,7 +58,7 @@
 
                 <template slot="time" slot-scope="props">
                     <div>
-                        {{dataList[props.rowIndex].stateTime}}
+                        {{dataList[props.rowIndex].lastStateChange || 'Now'}}
                     </div>
                 </template>
 

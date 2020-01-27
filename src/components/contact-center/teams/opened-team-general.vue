@@ -14,7 +14,7 @@
             <dropdown-select
                     v-model="strategy"
                     :v="v.itemInstance.strategy"
-                    :options="[]"
+                    :options="dropdownOptionsStrategyList"
                     :label="$t('objects.ccenter.teams.strategy')"
                     required
             ></dropdown-select>
@@ -35,6 +35,19 @@
     export default {
         name: "opened-team-general",
         mixins: [openedTabComponentMixin],
+        data() {
+            return {
+                dropdownOptionsStrategyList: [
+                    {name: 'Random', value: 'random'},
+                    // {name: '', value: 'sequentially-by-agent-level'},
+                    {name: 'Agent with fewest calls', value: 'fewest-calls'},
+                    {name: 'Agent with least talk time', value: 'least-talk-time'},
+                    {name: 'Top-Down', value: 'top-down'},
+                    {name: 'Round robbin', value: 'round-robin'},
+                    {name: 'Longest idle Agent', value: 'longest-idle-time'},
+                ]
+            }
+        },
 
         computed: {
             name: {

@@ -24,17 +24,18 @@ const actions = {
     },
 
     LOAD_HISTORY_DATA_LIST: async (context) => {
-        const response = await getAgentHistory(state.itemId, state.date, state.page, state.size);
-        context.dispatch('RESET_ITEM_STATE', response);
-        context.commit('LOAD_HISTORY_DATA_LIST', response);
+        const response = await getAgentHistory(state.itemId, state.date, state.page);
+        context.commit('SET_HISTORY_DATA_LIST', response);
     },
 
     SET_HISTORY_SIZE: (context, size) => {
         context.commit('SET_HISTORY_SIZE', size);
+        context.dispatch('LOAD_HISTORY_DATA_LIST');
     },
 
     SET_HISTORY_SEARCH: (context, search) => {
         context.commit('SET_HISTORY_SEARCH', search);
+        context.dispatch('LOAD_HISTORY_DATA_LIST');
     },
 
     NEXT_HISTORY_PAGE: (context) => {
@@ -53,6 +54,7 @@ const actions = {
 
     SET_HISTORY_DATE: (context, date) => {
         context.commit('SET_HISTORY_DATE', date)
+        context.dispatch('LOAD_HISTORY_DATA_LIST');
     },
 
     RESET_ITEM_STATE: async (context) => {
@@ -65,7 +67,7 @@ const mutations = {
         state.itemId = id;
     },
 
-    LOAD_HISTORY_DATA_LIST: (state, list) => {
+    SET_HISTORY_DATA_LIST: (state, list) => {
         state.dataList = list;
     },
 

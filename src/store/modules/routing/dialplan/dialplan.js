@@ -3,7 +3,7 @@ import {
     addDialplan,
     deleteDialplan,
     getDialplan,
-    getDialplanList,
+    getDialplanList, patchDialplan,
     updateDialplan
 } from "../../../../api/routing/dialplan/dialplan";
 
@@ -43,6 +43,10 @@ const actions = {
         return await addDialplan(state.itemInstance);
     },
 
+    PATCH_ITEM: async (context, {id, changes}) => {
+        return await patchDialplan(id, changes);
+    },
+
     UPD_ITEM: async () => {
         await updateDialplan(state.itemId, state.itemInstance);
     },
@@ -79,6 +83,16 @@ const actions = {
     PREV_PAGE: (context) => {
         if(state.page) {
             context.commit('DECREMENT_PAGE');
+            context.dispatch('LOAD_DATA_LIST');
+        }
+    },
+
+    TOGGLE_ITEM_PROPERTY: async (context, index) => {
+        await context.commit('TOGGLE_ITEM_PROPERTY', index);
+        let changes = {enabled: state.dataList[index].enabled};
+        try {
+            context.dispatch('PATCH_ITEM', {id: state.dataList[index].id, changes});
+        } catch {
             context.dispatch('LOAD_DATA_LIST');
         }
     },
@@ -146,6 +160,10 @@ const mutations = {
 
     DECREMENT_PAGE: (state) => {
         state.page--;
+    },
+
+    TOGGLE_ITEM_PROPERTY: (state, index) => {
+        state.dataList[index].enabled = !state.dataList[index].enabled;
     },
 
     SET_ITEM_PROPERTY: (state, {prop, value}) => {

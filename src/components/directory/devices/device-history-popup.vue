@@ -4,18 +4,16 @@
             :primaryText="$t('objects.ok')"
             :primaryAction="() => $emit('close')"
             @close="$emit('close')"
+            overflow
     >
         <section class="history-popup">
-            <datepicker
-                    class="history-popup__datepicker datepicker__to-right"
+            <datetime-picker
+                    class="history-popup__datetimepicker datepicker__to-right"
                     v-model="date"
-                    :calendar-button-icon="'icon-icon_arrow-down'"
-                    :maximum-view="'day'"
-                    full-month-name
-                    calendar-button
-            ></datepicker>
+                    hide-label
+                    hide-details
+            ></datetime-picker>
             <vuetable
-                    class="popup-table"
                     :api-mode="false"
                     :fields="fields"
                     :data="dataList"
@@ -43,19 +41,18 @@
 </template>
 
 <script>
-    import popup from '@/components/utils/popup';
-    import datepicker from '@/components/utils/datepicker';
+    import popup from '../../utils/popup';
+    import datetimePicker from '../../utils/datetimepicker';
     import tableComponentMixin from '@/mixins/tableComponentMixin';
-    import {getDeviceHistory} from "../../../api/directory/devices/devices";
     import {mapActions, mapState} from "vuex";
 
     export default {
         name: "device-history-popup",
+        mixins: [tableComponentMixin],
         components: {
-            datepicker,
+            datetimePicker,
             popup
         },
-        mixins: [tableComponentMixin],
         data() {
             return {
                 fields: [
@@ -63,12 +60,6 @@
                     {name: 'loggedOut', title: this.$t('objects.directory.devices.loggedOut')},
                     {name: 'user', title: this.$tc('objects.directory.users.users', 1)},
                 ],
-            }
-        },
-
-        watch: {
-            date: function () {
-                this.loadDataList();
             }
         },
 
@@ -81,24 +72,36 @@
             }),
 
             size: {
-                get() {return this.$store.state.directory.devices.history.size},
-                set(value) {this.setSize(value)}
+                get() {
+                    return this.$store.state.directory.devices.history.size
+                },
+                set(value) {
+                    this.setSize(value)
+                }
             },
 
             search: {
-                get() {return this.$store.state.directory.devices.history.search},
-                set(value) {this.setSearch(value)}
+                get() {
+                    return this.$store.state.directory.devices.history.search
+                },
+                set(value) {
+                    this.setSearch(value)
+                }
             },
 
             date: {
-                get() {return this.$store.state.directory.devices.history.date},
-                set(value) {this.setHistoryDate(value)}
+                get() {
+                    return this.$store.state.directory.devices.history.date
+                },
+                set(value) {
+                    this.setHistoryDate(value)
+                }
             },
         },
 
         methods: {
             computeTime(time) {
-                if(isNaN(parseInt(time))) return time;
+                if (isNaN(parseInt(time))) return time;
                 return new Date(+time).toString().split(' ')[4];
             },
 
@@ -118,11 +121,7 @@
     .history-popup {
         padding-bottom: 28px;
 
-        .history-popup__datepicker {
-            max-width: 220px;
-        }
-
-        .history-table table {
+        table {
             min-width: auto;
         }
 

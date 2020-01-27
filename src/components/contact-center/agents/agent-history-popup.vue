@@ -4,18 +4,16 @@
             :primaryText="$t('objects.ok')"
             :primaryAction="() => $emit('close')"
             @close="$emit('close')"
+            overflow
     >
         <section class="history-popup">
-            <datepicker
-                    class="history-popup__datepicker datepicker__to-right"
+            <datetime-picker
+                    class="history-popup__datetimepicker datepicker__to-right"
                     v-model="date"
-                    :calendar-button-icon="'icon-icon_arrow-down'"
-                    :maximum-view="'day'"
-                    full-month-name
-                    calendar-button
-            ></datepicker>
+                    hide-label
+                    hide-details
+            ></datetime-picker>
             <vuetable
-                    class="popup-table"
                     :api-mode="false"
                     :fields="fields"
                     :data="dataList"
@@ -61,17 +59,16 @@
 </template>
 
 <script>
-    import popup from '@/components/utils/popup';
-    import tableComponentMixin from '@/mixins/tableComponentMixin';
-    import datepicker from '@/components/utils/datepicker';
-    import status from '../../utils/status';
+    import popup from '../../utils/popup';
+    import tableComponentMixin from '../../../mixins/tableComponentMixin';
     import {mapActions, mapState} from "vuex";
+    import datetimePicker from "../../utils/datetimepicker";
 
     export default {
         name: "agent-history-popup",
         mixins: [tableComponentMixin],
         components: {
-            datepicker,
+            datetimePicker,
             popup,
         },
         data() {
@@ -82,12 +79,6 @@
                     {name: 'to', title: this.$t('objects.ccenter.agents.historyTo')},
                     {name: 'duration', title: this.$t('objects.ccenter.agents.historyDuration')},
                 ],
-            }
-        },
-
-        watch: {
-            date: function () {
-                this.loadDataList();
             }
         },
 

@@ -24,6 +24,7 @@
             <code-editor
                     v-model="schema"
                     :label="$t('objects.routing.flow.callflow')"
+                    @errorListener="isSyntaxError = $event"
             ></code-editor>
         </section>
     </div>
@@ -45,7 +46,8 @@
             return {
                 options: {
                     autoClosingBrackets: false
-                }
+                },
+                isSyntaxError: true
             };
         },
 
@@ -55,7 +57,7 @@
                 name: {
                     required
                 },
-            }
+            },
         },
 
         mounted() {
@@ -82,6 +84,17 @@
         },
 
         methods: {
+            // override validations check to compute disabled SAVE properly
+            // can't just add isSyntaxError to validations because checkValidation checks
+            // only itemInstance props
+            checkValidations(validatedInstance = 'itemInstance') {
+                const v = this.$v ? this.$v : this.v;
+                v[validatedInstance].$touch();
+                // if its still pending or an error is returned do not submit
+                return v[validatedInstance].$pending ||
+                    v[validatedInstance].$error || this.isSyntaxError;
+            },
+
             ...mapActions('routing/flow', {
                 setId: 'SET_ITEM_ID',
                 loadItem: 'LOAD_ITEM',
@@ -89,20 +102,6 @@
                 updateItem: 'UPDATE_ITEM',
                 setItemProp: 'SET_ITEM_PROPERTY',
             }),
-            // async loadItem() {
-                // this.itemInstance.schema = JSON.stringify({
-                //     "recordSession": {
-                //         "action": "start",
-                //         "type": "mp3",
-                //         "stereo": true,
-                //         "followTransfer": true,
-                //         "bridged": true,
-                //         "minSec": 2,
-                //         "email": []
-                //     },
-                //     "_id": "eeedda1e-8ebe-46ee-a264-40c0af337146"
-                // }, null, 4);
-           // }
         }
     }
 </script>

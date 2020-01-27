@@ -1,6 +1,7 @@
 <template>
     <div class="datepicker">
-        <div class="label" :class="{'invalid': this.v.$error}">{{computeRequiredLabel}}
+        <div v-if="!hideLabel" class="label" :class="{'invalid': v && v.$error}">
+            {{computeRequiredLabel}}
         </div>
         <v-datepicker
                 :value="+value"
@@ -14,6 +15,7 @@
         ></v-datepicker>
 
         <validation-message
+                v-if="!hideDetails"
                 :v="v"
         />
     </div>
@@ -38,6 +40,14 @@
             label: {
                 type: String,
             },
+            hideLabel: {
+                type: Boolean,
+                default: false,
+            },
+            hideDetails: {
+                type: Boolean,
+                default: false,
+            },
             // validation rules
             v: {
                 type: Object,
@@ -59,7 +69,7 @@
             },
             required: {
                 type: Boolean,
-            }
+            },
         }
     }
 </script>

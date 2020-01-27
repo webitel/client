@@ -41,7 +41,7 @@
         data() {
             return {
                 editor: '',
-                config: config
+                config
             }
         },
 
@@ -50,14 +50,13 @@
                 if (this.editor) {
                     if (value !== this.editor.getValue()) {
                         this.editor.setValue(value);
-
                     }
                 }
             },
         },
 
         mounted() {
-            this.config.value = this.value || '{}';
+            this.config.value = this.value || '[]';
             this.editor = editor.create(this.$refs.editor, config);
 
             this.editor.onDidChangeModelContent(event => {
@@ -66,6 +65,17 @@
                     this.$emit('change', value, event);
                 }
             });
+
+            this.editor.onDidChangeModelDecorations(event => {
+                this.checkSyntaxError();
+            });
+        },
+
+        methods: {
+            checkSyntaxError() {
+                const errors = editor.getModelMarkers();
+                this.$emit('errorListener', !!errors.length);
+            },
         },
 
         beforeDestroy() {
@@ -135,6 +145,7 @@
         // scrollbar
         .vertical {
             background: #fff;
+
             &.fade {
                 opacity: 1;
                 visibility: visible !important;
@@ -155,6 +166,7 @@
         .horizontal {
             background: #fff;
             opacity: 1;
+
             .slider {
                 height: 10px !important;
             }

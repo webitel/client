@@ -7,19 +7,20 @@ import sanitizer from "../../utils/sanitizer";
 const flowService = new RoutingSchemaServiceApiFactory
 (configuration, process.env.VUE_APP_API_URL, instance);
 
-const domainId = undefined;
 const fieldsToSend = ['name', 'schema', 'payload'];
 
 export const getFlowList = async (page = 0, size = 10) => {
     const defaultObject = {
         _isSelected: false,
-        debug: false,
-        type: 'Type is undefined',
+        // debug: false,
+        // type: 'Type is undefined',
     };
     try {
         const response = await flowService.searchRoutingSchema(page, size);
         if (!response.data.items) response.data.items = [];
-        return response.data.items.map(item => {return {...item, ...defaultObject}});
+        return response.data.items.map(item => {
+            return {...item, ...defaultObject}
+        });
     } catch (err) {
         throw err;
     }
@@ -30,8 +31,12 @@ export const getFlow = async (id) => {
         _dirty: false,
     };
     try {
-        let response = await flowService.readRoutingSchema(id, domainId);
-        return {...response.data, ...defaultObject};
+        let response = await flowService.readRoutingSchema(id);
+        return {
+            ...response.data,
+            schema: JSON.stringify(response.data.schema, null, 4),
+            ...defaultObject
+        };
 
     } catch (err) {
         throw err;
@@ -39,12 +44,12 @@ export const getFlow = async (id) => {
 };
 
 export const addFlow = async (item) => {
-    item.domain_id = domainId;
-    item.payload = {};
-    sanitizer(item, fieldsToSend);
+    let itemCopy = {...item, payload: {}};
+    itemCopy.schema = JSON.parse(itemCopy.schema);
+    sanitizer(itemCopy, fieldsToSend);
 
     try {
-        const response = await flowService.createRoutingSchema(item);
+        const response = await flowService.createRoutingSchema(itemCopy);
         eventBus.$emit('notificationInfo', 'Sucessfully added');
         return response.data.id;
     } catch (err) {
@@ -53,9 +58,11 @@ export const addFlow = async (item) => {
 };
 
 export const updateFlow = async (id, item) => {
-    sanitizer(item, fieldsToSend);
+    let itemCopy = {...item};
+    itemCopy.schema = JSON.parse(itemCopy.schema);
+    sanitizer(itemCopy, fieldsToSend);
     try {
-        await flowService.updateRoutingSchema(id, item);
+        await flowService.updateRoutingSchema(id, itemCopy);
         eventBus.$emit('notificationInfo', 'Sucessfully updated');
     } catch (err) {
         throw err;
@@ -64,7 +71,7 @@ export const updateFlow = async (id, item) => {
 
 export const deleteFlow = async (id) => {
     try {
-        await flowService.deleteRoutingSchema(id, domainId);
+        await flowService.deleteRoutingSchema(id);
     } catch (err) {
         throw err;
     }

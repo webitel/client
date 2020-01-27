@@ -49,6 +49,15 @@ export const addDialplan = async (item) => {
     }
 };
 
+export const patchDialplan = async (id, changes) => {
+    try {
+        await dialplanService.patchRoutingOutboundCall(id, changes);
+        eventBus.$emit('notificationInfo', 'Sucessfully updated');
+    } catch (err) {
+        throw err;
+    }
+};
+
 export const updateDialplan = async (id, item) => {
     sanitizer(item, fieldsToSend);
     try {

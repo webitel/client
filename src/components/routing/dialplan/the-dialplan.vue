@@ -55,8 +55,8 @@
 
                 <template slot="enabled" slot-scope="props">
                     <switcher
-                            v-model="dataList[props.rowIndex].enabled"
-                            disabled
+                            :value="dataList[props.rowIndex].enabled"
+                            @input="toggleSwitchProperty(props.rowIndex)"
                     ></switcher>
                 </template>
 
