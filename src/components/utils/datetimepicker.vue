@@ -18,7 +18,7 @@
     import datepicker from './datepicker';
     import timepicker from './timepicker';
 
-    const msInDay = 24 * 60 * 60 * 10**3;
+    const msInDay = 24 * 60 * 60;
 
     export default {
         name: "datetimepicker",
@@ -46,16 +46,16 @@
             },
 
             computeTimeValue() {
-                return Math.round(this.value % msInDay/10**3);
+                return this.value % msInDay;
             }
         },
         methods: {
             setValue(period, value) {
                 let datetime;
                 if (period === 'date') {
-                    datetime = value + this.computeTimeValue*10**3;
-                } else if(period === 'time') {
-                    datetime = this.computeDateValue + value*10**3;
+                    datetime = (value - value % msInDay) + this.computeTimeValue;
+                } else if (period === 'time') {
+                    datetime = this.computeDateValue + value;
                 }
                 this.$emit('input', datetime);
             }

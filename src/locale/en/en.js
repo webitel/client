@@ -418,6 +418,16 @@ export default {
                 destination: 'Destination',
                 display: 'Display number',
                 priority: 'Priority',
+                endCause: {
+                    sysShutdown: 'System shutdown1',
+                    dbError: 'Database error',
+                    abandoned: 'Abandoned',
+                    timeout: 'Timeout',
+                    cancel: 'Cancel',
+                    successful: 'Successful',
+                    queueNotImplement: 'Queue not implemented',
+                    unknown: 'Unknown',
+                },
             },
 
             queues: {

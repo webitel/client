@@ -1,5 +1,5 @@
 <template>
-    <label class="switcher">
+    <label class="switcher" :class="{'disabled': disabled}">
         <input
                 type="checkbox"
                 :checked="value"
@@ -16,7 +16,11 @@
             value: {
                 type: Boolean,
                 required: true
-            }
+            },
+            disabled: {
+                type: Boolean,
+                default: false,
+            },
         },
         methods: {
             toggleSwitch() {
@@ -69,6 +73,22 @@
 
         input:checked + .slider:before {
             transform: translateX(17px);
+        }
+
+        &.disabled {
+            pointer-events: none;
+
+            .slider {
+                background: $icon-color*0.2;
+
+                &:before {
+                    background: #fff*0.9;
+                }
+            }
+
+            input:checked + .slider {
+                /*background: rgba(255, 193, 7, 0.8);*/
+            }
         }
     }
 </style>

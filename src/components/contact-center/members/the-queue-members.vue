@@ -70,7 +70,7 @@
                 </template>
                 <template slot="endCause" slot-scope="props">
                     <div>
-                        {{dataList[props.rowIndex].endCause}}
+                        {{computeStopCause(dataList[props.rowIndex].stopCause)}}
                     </div>
                 </template>
                 <template slot="destination" slot-scope="props">
@@ -160,13 +160,26 @@
         },
 
         methods: {
+            computeStopCause(cause) {
+                switch (cause) {
+                    case 'SYSTEM_SHUTDOWN': return this.$t('objects.ccenter.members.endCause.sysShutdown');
+                    case 'DATABASE_ERROR': return this.$t('objects.ccenter.members.endCause.dbError');
+                    case 'ABANDONED': return this.$t('objects.ccenter.members.endCause.abandoned');
+                    case 'TIMEOUT': return this.$t('objects.ccenter.members.endCause.timeout');
+                    case 'CANCEL': return this.$t('objects.ccenter.members.endCause.cancel');
+                    case 'SUCCESSFUL': return this.$t('objects.ccenter.members.endCause.successful');
+                    case 'QUEUE_NOT_IMPLEMENT': return this.$t('objects.ccenter.members.endCause.queueNotImplement');
+                    default: return this.$t('objects.ccenter.members.endCause.unknown');
+                }
+            },
+
             computeCreatedDate(createdAt) {
                 return new Date(+createdAt).toLocaleDateString();
             },
 
             readDestinations(rowIndex) {
                 this.setDestinationId(this.dataList[rowIndex].id);
-                this.popupTriggerIf = true;
+                this.destinationsPopupTriggerIf = true;
             },
 
             closePopup() {

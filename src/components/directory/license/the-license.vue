@@ -33,6 +33,9 @@
                 </div>
             </header>
 
+            <section class="license-expire">
+                license expire
+            </section>
 
             <vuetable
                     :api-mode="false"
@@ -179,6 +182,15 @@
     $license-90: rgba(255, 234, 0, 0.3);
     $license-30: rgba(255, 68, 68, 0.3);
     $license-0: rgba(0, 0, 0, 0.1);
+
+    .license-expire {
+        @extend .typo-body-md;
+
+        text-align: center;
+        padding: 14px;
+        border: 2px solid $license-30;
+        border-radius: $border-radius;
+    }
 
     .license-status {
         text-align: center;
