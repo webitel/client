@@ -5,7 +5,7 @@
         </header>
         <form class="object-input-grid">
             <form-input
-                    v-model="folder"
+                    v-model="directory"
                     :label="$t('objects.integrations.storage.localFolder')"
             ></form-input>
         </form>
@@ -21,15 +21,15 @@
         mixins: [openedTabComponentMixin],
 
         computed: {
-            folder: {
-                get() {return this.$store.state.integrations.storage.itemInstance.folder},
-                set(value) {this.setItemProp({prop: 'folder', value})}
+            directory: {
+                get() {return this.$store.state.integrations.storage.itemInstance.properties.directory},
+                set(value) {this.setItemProp({prop: 'directory', value})}
             },
         },
 
         methods: {
             ...mapActions('integrations/storage', {
-                setItemProp: 'SET_ITEM_PROPERTY',
+                setItemProp: 'SET_ITEM_PROPERTIES_PROPERTY',
             }),
         },
     }

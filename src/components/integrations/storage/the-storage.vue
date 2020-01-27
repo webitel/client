@@ -47,26 +47,26 @@
 
                 <template slot="type" slot-scope="props">
                     <div>
-                        {{dataList[props.rowIndex].type}}
+                        {{dataList[props.rowIndex].type.name}}
                     </div>
                 </template>
 
-                <template slot="space" slot-scope="props">
+                <template slot="maxSize" slot-scope="props">
                     <div>
-                        {{dataList[props.rowIndex].space}}
+                        {{dataList[props.rowIndex].maxSize}}
                     </div>
                 </template>
 
-                <template slot="lifetime" slot-scope="props">
+                <template slot="expireDays" slot-scope="props">
                     <div>
-                        {{dataList[props.rowIndex].lifetime}}
+                        {{dataList[props.rowIndex].expireDays}}
                     </div>
                 </template>
 
                 <template slot="enabled" slot-scope="props">
                     <switcher
-                            :value="dataList[props.rowIndex].enabled"
-                            @input="toggleItemProperty"
+                            :value="!dataList[props.rowIndex].disabled"
+                            @input="toggleItemProperty(props.rowIndex)"
                     ></switcher>
                 </template>
 
@@ -107,8 +107,8 @@
                     _checkboxTableField,
                     {name: 'name', title: this.$t('objects.name')},
                     {name: 'type', title: this.$t('objects.integrations.storage.type')},
-                    {name: 'space', title: this.$t('objects.integrations.storage.space')},
-                    {name: 'lifetime', title: this.$t('objects.integrations.storage.lifetime')},
+                    {name: 'maxSize', title: this.$t('objects.integrations.storage.maxSize')},
+                    {name: 'expireDays', title: this.$t('objects.integrations.storage.expireDays')},
                     {name: 'enabled', title: this.$t('objects.enabled'), width: _switcherWidth},
                     _actionsTableField_2
                 ],
@@ -150,7 +150,7 @@
                 this.$router.push({
                     name: 'storage-edit',
                     params: {
-                        type: this.dataList[rowId].type,
+                        type: this.dataList[rowId].type.name,
                         id: this.dataList[rowId].id
                     },
                 });
@@ -158,7 +158,7 @@
 
             ...mapActions('integrations/storage', {
                 loadDataList: 'LOAD_DATA_LIST',
-                toggleItemProperty: '',
+                toggleItemProperty: 'TOGGLE_ITEM_PROPERTY',
                 setSize: 'SET_SIZE',
                 setSearch: 'SET_SEARCH',
                 nextPage: 'NEXT_PAGE',

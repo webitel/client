@@ -11,12 +11,12 @@
                     required
             ></form-input>
             <form-input
-                    v-model.trim="space"
-                    :label="$t('objects.integrations.storage.space')"
+                    v-model.trim="maxSize"
+                    :label="$t('objects.integrations.storage.maxSize')"
             ></form-input>
             <form-input
-                    v-model.trim="lifetime"
-                    :label="$t('objects.integrations.storage.lifetime')"
+                    v-model.trim="expireDays"
+                    :label="$t('objects.integrations.storage.expireDays')"
             ></form-input>
         </form>
     </section>
@@ -35,13 +35,13 @@
                 get() {return this.$store.state.integrations.storage.itemInstance.name},
                 set(value) {this.setItemProp({prop: 'name', value})}
             },
-            space: {
-                get() {return this.$store.state.integrations.storage.itemInstance.space},
-                set(value) {this.setItemProp({prop: 'space', value})}
+            maxSize: {
+                get() {return this.$store.state.integrations.storage.itemInstance.maxSize},
+                set(value) {this.setItemProp({prop: 'maxSize', value})}
             },
-            lifetime: {
-                get() {return this.$store.state.integrations.storage.itemInstance.lifetime},
-                set(value) {this.setItemProp({prop: 'lifetime', value})}
+            expireDays: {
+                get() {return this.$store.state.integrations.storage.itemInstance.expireDays},
+                set(value) {this.setItemProp({prop: 'expireDays', value})}
             },
         },
 

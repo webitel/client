@@ -1,12 +1,19 @@
 import proxy from '../../../../utils/editProxy';
+import {
+    addStorage,
+    deleteStorage,
+    getStorage,
+    getStorageList, patchStorage,
+    updateStorage
+} from "../../../../api/integrations/storage";
 
 const defaultState = () => {
     return {
         itemId: 0,
         itemInstance: {
             name: '',
-            space: 10,
-            lifetime: 12,
+            maxSize: 10,
+            expireDays: 12,
             key: '',
             access: '',
             bucket: '',
@@ -16,19 +23,20 @@ const defaultState = () => {
 
 const defaultLocalState = () => {
     return {
-        name: '',
-        space: 10,
-        lifetime: 12,
-        type: 'local',
-        folder: '',
+        name: 'LOCAL NAME',
+        maxSize: 10,
+        expireDays: 12,
+        priority: 0,
+        type: {name: 'local', id: 1},
+        properties: {directory: '/path/to/local/dir'}
     };
 };
 
 const defaultAWSState = () => {
     return {
         name: '',
-        space: 10,
-        lifetime: 12,
+        maxSize: 10,
+        expireDays: 12,
         type: 'aws',
         key: '',
         access: '',
@@ -40,8 +48,8 @@ const defaultAWSState = () => {
 const defaultDigitalOceanState = () => {
     return {
         name: '',
-        space: 10,
-        lifetime: 12,
+        maxSize: 10,
+        expireDays: 12,
         type: 'digitalOcean',
         key: '',
         access: '',
@@ -53,8 +61,8 @@ const defaultDigitalOceanState = () => {
 const defaultBackblazeState = () => {
     return {
         name: '',
-        space: 10,
-        lifetime: 12,
+        maxSize: 10,
+        expireDays: 12,
         type: 'backblaze',
         account: '',
         key: '',
@@ -66,8 +74,8 @@ const defaultBackblazeState = () => {
 const defaultDropboxState = () => {
     return {
         name: '',
-        space: 10,
-        lifetime: 12,
+        maxSize: 10,
+        expireDays: 12,
         type: 'dropbox',
         key: '',
     };
@@ -76,8 +84,8 @@ const defaultDropboxState = () => {
 const defaultDriveState = () => {
     return {
         name: '',
-        space: 10,
-        lifetime: 12,
+        maxSize: 10,
+        expireDays: 12,
         type: 'drive',
         folder: '',
         email: '',
@@ -98,35 +106,27 @@ const getters = {};
 
 const actions = {
     GET_LIST: async () => {
-        return [{
-            name: 'Name',
-            type: 'Type',
-            space: '1GB',
-            lifetime: '2 days',
-            enabled: true,
-            _isSelected: false,
-        }]
-        // return await getSkillsList(state.page, state.size, state.search);
+        return await getStorageList(state.page, state.size, state.search);
     },
 
     GET_ITEM: async () => {
-        // return await getSkill(state.itemId);
+        return await getStorage(state.itemId);
     },
 
     POST_ITEM: async () => {
-        // return await addSkill(state.itemInstance);
+        return await addStorage(state.itemInstance);
     },
 
-    PATCH_ITEM: async () => {
-
+    PATCH_ITEM: async (context, {id, changes}) => {
+        await patchStorage(id, changes);
     },
 
     UPD_ITEM: async () => {
-        // await updateSkill(state.itemId, state.itemInstance);
+        await updateStorage(state.itemId, state.itemInstance);
     },
 
     DELETE_ITEM: async (context, id) => {
-        // await deleteSkill(id);
+        await deleteStorage(id);
     },
 
     SET_ITEM_ID: (context, id) => {
@@ -199,11 +199,26 @@ const actions = {
         context.commit('SET_ITEM_PROPERTY', payload);
     },
 
+    SET_ITEM_PROPERTIES_PROPERTY: (context, payload) => {
+        context.commit('SET_ITEM_PROPERTIES_PROPERTY', payload);
+        context.dispatch('SET_ITEM_PROPERTY', {prop: '_dirty', value: true});
+    },
+
     ADD_ITEM: async (context) => {
         if (!state.itemId) {
             const id = await context.dispatch('POST_ITEM');
             context.dispatch('SET_ITEM_ID', id);
             context.dispatch('LOAD_ITEM');
+        }
+    },
+
+    TOGGLE_ITEM_PROPERTY: async (context, index) => {
+        await context.commit('TOGGLE_ITEM_PROPERTY', index);
+        let changes = {disabled: state.dataList[index].disabled};
+        try {
+            context.dispatch('PATCH_ITEM', {id: state.dataList[index].id, changes});
+        } catch {
+            context.dispatch('LOAD_DATA_LIST');
         }
     },
 
@@ -255,6 +270,14 @@ const mutations = {
 
     SET_ITEM_PROPERTY: (state, {prop, value}) => {
         state.itemInstance[prop] = value;
+    },
+
+    SET_ITEM_PROPERTIES_PROPERTY: (state, {prop, value}) => {
+        state.itemInstance.properties[prop] = value;
+    },
+
+    TOGGLE_ITEM_PROPERTY: (state, index) => {
+        state.dataList[index].disabled = !state.dataList[index].disabled;
     },
 
     SET_ITEM: (state, item) => {

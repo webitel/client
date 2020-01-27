@@ -406,6 +406,7 @@
                     justify-content: flex-start;
                     align-items: center;
                     width: 100%;
+                    max-height: 36px;
                     padding: 6px 38px 6px 20px;
                     cursor: pointer;
 
