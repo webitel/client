@@ -12,11 +12,11 @@
                     @search="loadDropdownOptionsList"
                 ></tags-input>
 
-                <tags-input
-                    v-model="roleAdmin"
-                    :options="roles"
-                    :label="$t('objects.directory.users.roleAdmin')"
-                ></tags-input>
+<!--                <tags-input-->
+<!--                    v-model="roleAdmin"-->
+<!--                    :options="roles"-->
+<!--                    :label="$t('objects.directory.users.roleAdmin')"-->
+<!--                ></tags-input>-->
             </div>
         </form>
     </section>
@@ -44,14 +44,14 @@
                     this.setItemProp({prop: 'roles', value})
                 }
             },
-            roleAdmin: {
-                get() {
-                    return this.$store.state.directory.users.itemInstance.roleAdmin
-                },
-                set(value) {
-                    this.setItemProp({prop: 'roleAdmin', value})
-                }
-            },
+            // roleAdmin: {
+            //     get() {
+            //         return this.$store.state.directory.users.itemInstance.roleAdmin
+            //     },
+            //     set(value) {
+            //         this.setItemProp({prop: 'roleAdmin', value})
+            //     }
+            // },
         },
 
         methods: {

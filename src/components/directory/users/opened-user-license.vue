@@ -1,13 +1,14 @@
 <template>
     <section>
         <header class="content-header">
-            <h3 class="content-title">{{$t('objects.license.license')}}</h3>
+            <h3 class="content-title">{{$t('objects.directory.license.license')}}</h3>
         </header>
         <form class="object-input-grid">
             <tags-input
-                    :value="license || []"
-                    :options="licenseOptions"
-                    :label="$t('objects.license.license')"
+                    v-model="license"
+                    :options="dropdownOptionsList"
+                    :label="$t('objects.directory.license.license')"
+                    @search="loadDropdownOptionsList"
             ></tags-input>
         </form>
     </section>
@@ -16,20 +17,14 @@
 <script>
     import openedTabComponentMixin from '@/mixins/openedTabComponentMixin';
     import {mapActions} from "vuex";
+    import {getLicenseList} from "../../../api/directory/license/license";
 
     export default {
         name: "opened-user-license",
         mixins: [openedTabComponentMixin],
-        data() {
-            return {
-                licenseTag: '',
-                licenseOptions: [
-                    {text: 'Product 1', allowed: false},
-                    {text: 'Product 2', allowed: false},
-                    {text: 'Product 3', allowed: false},
-                    {text: 'Product 4', allowed: false}
-                ],
-            }
+
+        mounted() {
+            this.loadDropdownOptionsList();
         },
 
         computed: {
@@ -43,9 +38,20 @@
             },
         },
 
-        methods: mapActions('directory/users', {
-            setItemProp: 'SET_ITEM_PROPERTY',
-        }),
+        methods: {
+            async loadDropdownOptionsList(search) {
+                const response = await getLicenseList(0, 10, search);
+                this.dropdownOptionsList = response.map(item => {
+                    return {
+                        name: item.product,
+                        id: item.id,
+                    }
+                });
+            },
+            ...mapActions('directory/users', {
+                setItemProp: 'SET_ITEM_PROPERTY',
+            }),
+        }
     }
 </script>
 

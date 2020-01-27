@@ -40,18 +40,17 @@
                                 accept=".csv"
                         >
                     </div>
-                    <table-filter
-                            :filterObjects="filterObjects"
-                    ></table-filter>
                 </div>
             </header>
 
+            <loader v-show="!isLoaded"></loader>
+
             <vuetable
+                    v-show="isLoaded"
                     :api-mode="false"
                     :fields="fields"
                     :data="dataList"
             >
-
                 <template slot="name" slot-scope="props">
                     <div class="tt-capitalize">
                         <span class="nameLink" @click="edit(props.rowIndex)">
@@ -110,6 +109,7 @@
                 </template>
             </vuetable>
             <pagination
+                    v-show="isLoaded"
                     v-model="size"
                     @loadDataList="loadDataList"
                     @next="nextPage"
@@ -150,42 +150,6 @@
                     _actionsTableField_2,
                 ],
                 statusOptions: ['On break', 'Available', 'Chatting'],
-                filterObjects: {
-                    state: {
-                        name: 'State',
-                        fields:
-                            [
-                                {
-                                    name: 'Online',
-                                    value: true
-                                },
-                                {
-                                    name: 'Offline',
-                                    value: true
-                                }
-                            ]
-                    },
-                    DnD: {
-                        name: 'DnD',
-                        fields:
-                            [
-                                {
-                                    name: 'On',
-                                    value: true
-                                },
-                                {
-                                    name: 'Off',
-                                    value: true
-                                }]
-                    },
-                    roles: {
-                        name: 'Roles',
-                        fields:
-                            []
-                    }
-                },
-
-                isFilterOpenedClassTrigger: false,
                 csvFile: null
             };
         },
@@ -247,7 +211,8 @@
             },
 
             ...mapActions('directory/users', {
-                loadDataList: 'LOAD_DATA_LIST',
+                // loadDataList: 'LOAD_DATA_LIST',
+                loadData: 'LOAD_DATA_LIST',
                 setSize: 'SET_SIZE',
                 setSearch: 'SET_SEARCH',
                 changeStatus: 'PATCH_ITEM_PEROPERTY',

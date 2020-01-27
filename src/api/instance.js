@@ -1,6 +1,5 @@
 import axios from 'axios';
-import Vue from 'vue';
-import { logout, refreshToken } from './auth/auth';
+import {refreshToken} from './auth/auth';
 import eventBus from "../utils/eventBus";
 
 // global API configuration
@@ -19,7 +18,7 @@ let isRefresh = false; // prevents infinite loop refresh 401 intercepts and call
 // catches 401 error across all api and tries to refresh token
 instance.interceptors.response.use(undefined, (error) => {
   if (error.response && error.response.status === 401 && !isRefresh) {
-    Vue.$log.info('intercepted 401');
+    console.warn('intercepted 401');
     isRefresh = true;
     refreshToken().then();
   }

@@ -41,8 +41,7 @@ export async function getUser(id) {
         password: '',
         extension: '',
         roles: [],
-        roleAdmin: [],
-        license: null,
+        license: [],
         devices: [],
         variables: [
             {key: '', value: ''}
@@ -52,6 +51,7 @@ export async function getUser(id) {
     try {
         const response = await instance.get(url);
         let user = {...defaultObject, ...response.data.user};
+        if(user.license) user.license.forEach(item => {item.name = item.product});
         if (user.profile) {
             user.variables = Object.keys(user.profile).map(key => {
                 return {
@@ -69,17 +69,23 @@ export async function getUser(id) {
 }
 
 export const addUser = async (item) => {
-    if (item.roles) item.roles.forEach(item => delete item.text);
-    if (item.devices) item.devices.forEach(item => delete item.text);
-    item.profile = {};
-    if (item.variables) {
-        item.variables.forEach(variable => {
-            item.profile[variable.key] = variable.value;
+    let itemCopy = {...item};
+    if (itemCopy.roles) itemCopy.roles.forEach(item => delete item.text);
+    if (itemCopy.devices) itemCopy.devices.forEach(item => delete item.text);
+    if (itemCopy.license) itemCopy.license.forEach(item => {
+        // item.product = item.name;
+        delete item.text;
+        // delete item.name;
+    });
+    itemCopy.profile = {};
+    if (itemCopy.variables) {
+        itemCopy.variables.forEach(variable => {
+            itemCopy.profile[variable.key] = variable.value;
         });
     }
-    sanitizer(item, fieldsToSend);
+    sanitizer(itemCopy, fieldsToSend);
     try {
-        const response = await instance.post(BASE_URL, {user: item});
+        const response = await instance.post(BASE_URL, {user: itemCopy});
         eventBus.$emit('notificationInfo', 'Sucessfully added');
         return response.data.user.id;
     } catch (err) {
@@ -87,17 +93,23 @@ export const addUser = async (item) => {
     }
 };
 
-export const updateUser = async (id, {...item}) => {
+export const updateUser = async (id, item) => {
+    let itemCopy = {...item};
     const url = BASE_URL + '/' + id;
-    item.roles.forEach(item => delete item.text);
-    item.devices.forEach(item => delete item.text);
-    item.profile = {};
-    item.variables.forEach(variable => {
-        item.profile[variable.key] = variable.value;
+    itemCopy.roles.forEach(item => delete item.text);
+    itemCopy.devices.forEach(item => delete item.text);
+    if (itemCopy.license) itemCopy.license.forEach(item => {
+        item.product = item.name;
+        delete item.text;
+        delete item.name;
     });
-    sanitizer(item, fieldsToSend);
+    itemCopy.profile = {};
+    itemCopy.variables.forEach(variable => {
+        itemCopy.profile[variable.key] = variable.value;
+    });
+    sanitizer(itemCopy, fieldsToSend);
     try {
-        await instance.put(url, {user: item});
+        await instance.put(url, {user: itemCopy});
         eventBus.$emit('notificationInfo', 'Sucessfully updated');
     } catch (err) {
         throw err;
@@ -108,6 +120,7 @@ export const patchUser = async (id, user) => {
     const url = BASE_URL + '/' + id;
     try {
         await instance.patch(url, {user});
+        eventBus.$emit('notificationInfo', 'Sucessfully updated');
     } catch (err) {
         throw err;
     }

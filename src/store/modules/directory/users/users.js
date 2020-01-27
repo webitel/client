@@ -13,8 +13,8 @@ const defaultState = () => {
             password: '',
             extension: '1007',
             roles: [{name: 'ioio', id: '1011963'}],
-            roleAdmin: [],
-            license: null,
+            // roleAdmin: [],
+            license: [],
             devices: [],
             variables: [
                 {key: 'integration_id', value: 'user@external.app'}

@@ -4,6 +4,20 @@
   //overflow: hidden;
   overflow-x: auto;
   //display: none;
+
+  // scrollbar itself
+  &::-webkit-scrollbar {
+    height: 10px;
+    //background-color: $srollbar-color;
+    cursor: pointer;
+  }
+
+  // scrollable element
+  &::-webkit-scrollbar-thumb {
+    height: 10px;
+    background-color: $srollbar-thumb-color;
+    border-radius: $border-radius;
+  }
 }
 
 .vuetable {
@@ -13,23 +27,32 @@
   max-width: 100%;
   width: 100%;
   min-width: 776px;
-  margin-bottom: 28px;
+  margin-bottom: 10px;
 
   thead {
     color: rgba(0, 0, 0, 0.4);
 
     th {
+      padding-right: 10px;
+      padding-left: 10px;
       font-weight: normal;
     }
   }
 
+  tbody tr:nth-child(2n + 1) {
+    background: rgba(234, 233, 233, 0.3);
+
+  }
+;
+
   tr {
     min-height: 52px;
     height: 52px;
-    border-bottom: 1px solid $divider-color;
+    //border-bottom: 1px solid $divider-color;
 
     td {
-      padding-right: 20px;
+      padding-right: 10px;
+      padding-left: 10px;
       letter-spacing: 0.4px;
 
       > div {
@@ -45,7 +68,7 @@
 
   .nameLink {
     cursor: pointer;
-    
+
     &:hover {
       text-decoration: underline;
     }

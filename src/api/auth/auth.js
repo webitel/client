@@ -77,7 +77,7 @@ export const refreshToken = async () => {
         localStorage.removeItem('refresh-token');
         instance.defaults.headers['X-Webitel-Access'] = '';
         // and throw user to auth page
-        router.replace('/login');
+        router.replace('/auth');
         throw error;
     }
 }
@@ -94,7 +94,7 @@ export const logout = async () => {
         localStorage.removeItem('refresh-token');
         instance.defaults.headers['X-Webitel-Access'] = '';
         // and throw user to auth page
-        router.replace('/login');
+        router.replace('/auth');
     } catch (error) {
         throw error;
     }

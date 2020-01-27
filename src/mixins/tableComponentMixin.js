@@ -1,9 +1,10 @@
 import vuetable from 'vuetable-2/src/components/Vuetable';
 import objectHeader from '../../src/components/object-utils/the-object-header';
 import pagination from '../components/utils/table-pagination';
-import switcher from '@/components/utils/switcher';
-import status from '@/components/utils/status';
-import search from '@/components/utils/search';
+import switcher from '../components/utils/switcher';
+import status from '../components/utils/status';
+import search from '../components/utils/search';
+import loader from '../components/utils/loader';
 
 export default {
     components: {
@@ -13,10 +14,12 @@ export default {
         switcher,
         status,
         search,
+        loader,
     },
 
     data() {
         return {
+            isLoaded: false,
             popupTriggerIf: false,
         }
     },
@@ -33,6 +36,12 @@ export default {
     },
 
     methods: {
+        async loadDataList() {
+            this.isLoaded = false;
+            await this.loadData();
+            this.isLoaded = true;
+        },
+
         deleteSelected() {
             const selectedItems = this.dataList.filter(item => item._isSelected);
             this.remove(null, selectedItems);

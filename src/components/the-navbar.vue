@@ -237,7 +237,7 @@
                         subnav: [
                             {
                                 name: 'tokens',
-                                displayName: this.$t('nav.integrations.tokens'),
+                                displayName: this.$t('nav.integrations.tokens')+' (coming soon)',
                                 route: '/integrations/tokens',
                                 current: false,
                             },

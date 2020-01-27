@@ -240,54 +240,6 @@ const router = new Router({
                     name: 'communications-lookup-edit',
                     component: openedCommunicationType
                 },
-
-                {
-                    path:'/lookups/contact-type',
-                    name: 'contact-type-lookup',
-                    component: contactType
-                },
-                {
-                    path:'/lookups/contact-type/new',
-                    name: 'contact-type-lookup-new',
-                    component: openedContactType
-                },
-                {
-                    path:'/lookups/contact-type/:id',
-                    name: 'contact-type-lookup-edit',
-                    component: openedContactType
-                },
-
-                {
-                    path:'/lookups/lead-source',
-                    name: 'lead-source-lookup',
-                    component: leadSource
-                },
-                {
-                    path:'/lookups/lead-source/new',
-                    name: 'lead-source-lookup-new',
-                    component: openedLeadSource
-                },
-                {
-                    path:'/lookups/lead-source/:id',
-                    name: 'lead-source-lookup-edit',
-                    component: openedLeadSource
-                },
-
-                {
-                    path:'/lookups/lead-status',
-                    name: 'lead-status-lookup',
-                    component: leadStatus
-                },
-                {
-                    path:'/lookups/lead-status/new',
-                    name: 'lead-status-lookup-new',
-                    component: openedLeadStatus
-                },
-                {
-                    path:'/lookups/lead-status/:id',
-                    name: 'lead-status-lookup-edit',
-                    component: openedLeadStatus
-                },
                 // ----------LOOKUPS END------------
 
 
@@ -482,32 +434,6 @@ const router = new Router({
                     name: 'storage-edit',
                     component: openedStorage
                 },
-                {
-                    path: '/integrations/triggers',
-                    name: 'triggers',
-                    component: triggers,
-                },
-                {
-                    path: '/integrations/triggers/on-event/new',
-                    name: 'trigger-on-event-new',
-                    component: openedTriggerOnEvent
-                },
-                {
-                    path: '/integrations/triggers/on-event/:id',
-                    name: 'trigger-on-event-edit',
-                    component: openedTriggerOnEvent
-                },
-                {
-                    path: '/integrations/triggers/at-time/new',
-                    name: 'trigger-at-time-new',
-                    component: openedTriggerAtTime
-                },
-                {
-                    path: '/integrations/triggers/at-time/:id',
-                    name: 'trigger-at-time-edit',
-                    component: openedTriggerAtTime
-                },
-
                 // --------------INTEGRATIONS END-------------
 
 
@@ -537,16 +463,6 @@ const router = new Router({
                     path: '/permissions/objects/:id',
                     name: 'permissions-objects-edit',
                     component: openedPermissionsObjects,
-                },
-                {
-                    path: '/integrations/tokens',
-                    name: 'tokens',
-                    component: tokens,
-                },
-                {
-                    path: '/integrations/tokens/new',
-                    name: 'token-new',
-                    component: openedToken
                 },
                 // ----------PERMISSIONS END-----------------
             ]
