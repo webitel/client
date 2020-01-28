@@ -1,11 +1,11 @@
 
-.typo-heading-lg {
-  font: 22px 'AvantGardeDemi';
+.en .typo-heading-lg {
+  font: 22px 'EN-AvantGardeDemi', 'RU-AvantGardeDemi';
   line-height: 26px;
 }
 
-.typo-heading-md {
-  font: 20px 'AvantGardeDemi';
+.en .typo-heading-md {
+  font: 20px 'EN-AvantGardeDemi', 'RU-AvantGardeDemi';
   line-height: 22px;
 }
 
@@ -14,47 +14,108 @@
 //  line-height: 14px;
 //}
 
-.typo-body-lg {
-  font: 18px 'AvantGardeBook';
+.en .typo-body-lg {
+  font: 18px 'EN-AvantGardeBook', 'RU-AvantGardeBook';
   line-height: 20px;
 }
 
-.typo-body-md {
-  font: 12px 'AvantGardeBook';
+.en .typo-body-md {
+  font: 12px 'EN-AvantGardeBook', 'RU-AvantGardeBook';
   line-height: 14px;
 }
 
-.typo-body-sm {
-  font: 11px 'AvantGardeBook';
+.en .typo-body-sm {
+  font: 11px 'EN-AvantGardeBook', 'RU-AvantGardeBook';
   line-height: 13px;
 }
 
-.typo-btn {
-  font: 14px 'AvantGardeDemi';
+.en .typo-btn {
+  font: 14px 'EN-AvantGardeDemi', 'RU-AvantGardeDemi';
   line-height: 16px;
 }
 
-.typo-input-label {
-  font: 12px 'AvantGardeBook';
+.en .typo-input-label {
+  font: 12px 'EN-AvantGardeBook', 'RU-AvantGardeBook';
   line-height: 16px;
 }
 
-.typo-input-text {
-  font: 14px 'AvantGardeBook';
+.en .typo-input-text {
+  font: 14px 'EN-AvantGardeBook', 'RU-AvantGardeBook';
   line-height: 20px;
 }
 
-.typo-notification-text {
-  font: 16px 'AvantGardeBook';
+.en .typo-notification-text {
+  font: 16px 'EN-AvantGardeBook', 'RU-AvantGardeBook';
   line-height: 18px;
 }
 
-.typo-nav-item {
-  font: 14px 'AvantGardeBook';
+.en .typo-nav-item {
+  font: 14px 'EN-AvantGardeBook', 'RU-AvantGardeBook';
   line-height: 16px;
 }
 
-.typo-tab {
-  font: 16px 'AvantGardeBook';
+.en .typo-tab {
+  font: 16px 'EN-AvantGardeBook', 'RU-AvantGardeBook';
+  line-height: 22px;
+}
+
+// RU RU RU RU RU
+.ru .typo-heading-lg {
+  font: 22px 'RU-AvantGardeDemi', 'EN-AvantGardeDemi';
+  line-height: 26px;
+}
+
+.ru .typo-heading-md {
+  font: 20px 'RU-AvantGardeDemi', 'EN-AvantGardeDemi';
+  line-height: 22px;
+}
+
+//.typo-heading-sm {
+//  font: 12px 'AvantGardeBook';
+//  line-height: 14px;
+//}
+
+.ru .typo-body-lg {
+  font: 18px 'RU-AvantGardeBook', 'EN-AvantGardeBook';
+  line-height: 20px;
+}
+
+.ru .typo-body-md {
+  font: 12px 'RU-AvantGardeBook', 'EN-AvantGardeBook';
+  line-height: 14px;
+}
+
+.ru .typo-body-sm {
+  font: 11px 'RU-AvantGardeBook', 'EN-AvantGardeBook';
+  line-height: 13px;
+}
+
+.ru .typo-btn {
+  font: 14px 'RU-AvantGardeDemi', 'EN-AvantGardeDemi';
+  line-height: 16px;
+}
+
+.ru .typo-input-label {
+  font: 12px 'RU-AvantGardeBook', 'EN-AvantGardeBook';
+  line-height: 16px;
+}
+
+.ru .typo-input-text {
+  font: 14px 'RU-AvantGardeBook', 'EN-AvantGardeBook';
+  line-height: 20px;
+}
+
+.ru .typo-notification-text {
+  font: 16px 'RU-AvantGardeBook', 'EN-AvantGardeBook';
+  line-height: 18px;
+}
+
+.ru .typo-nav-item {
+  font: 14px 'RU-AvantGardeBook', 'EN-AvantGardeBook';
+  line-height: 16px;
+}
+
+.ru .typo-tab {
+  font: 16px 'RU-AvantGardeBook', 'EN-AvantGardeBook';
   line-height: 22px;
 }
