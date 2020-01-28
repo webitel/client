@@ -7,7 +7,6 @@ import eventBus from "../../../utils/eventBus";
 const listService = new ListServiceApiFactory
 (configuration, process.env.VUE_APP_API_URL, instance);
 
-const domainId = undefined;
 const fieldsToSend = ['description', 'number'];
 
 export const getBlacklistCommunicationList = async (parentId, page = 0, size = 10) => {
@@ -23,7 +22,7 @@ export const getBlacklistCommunicationList = async (parentId, page = 0, size = 1
 
 export const getBlacklistCommunication = async (id, numberId) => {
     try {
-        const response = await listService.readListCommunication(id, numberId, domainId);
+        const response = await listService.readListCommunication(id, numberId);
         const defaultObject = {
             _dirty: false,
         };
@@ -35,8 +34,6 @@ export const getBlacklistCommunication = async (id, numberId) => {
 
 export const addBlacklistCommunication = async (id, item) => {
     sanitizer(item, fieldsToSend);
-    item.domain_id = domainId;
-    delete item.description;
     try {
         const response = await listService.createListCommunication(id, item);
         eventBus.$emit('notificationInfo', 'Sucessfully added');
@@ -57,7 +54,7 @@ export const updateBlacklistCommunication = async (id, numberId, changes) => {
 
 export const deleteBlacklistCommunication = async (id, numberId) => {
     try {
-        await listService.deleteListCommunication(id, numberId, domainId);
+        await listService.deleteListCommunication(id, numberId);
     } catch (err) {
         throw err;
     }

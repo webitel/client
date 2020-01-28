@@ -20,7 +20,6 @@
                             :class="{'hidden': anySelected}"
                             @click="deleteSelected"
                     ></i>
-                    <i class="icon-action icon-icon_download"></i>
                     <i class="icon-action icon-icon_upload"></i>
                     <i
                             class="icon-icon_reload icon-action"
@@ -50,6 +49,7 @@
 
                 <template slot="actions" slot-scope="props">
                     <i class="vuetable-action icon-icon_download"
+                       @click="download(props.rowIndex)"
                     ></i>
                     <i class="vuetable-action icon-icon_edit"
                        @click="edit(props.rowIndex)"
@@ -60,12 +60,12 @@
                 </template>
             </vuetable>
             <pagination
-                v-model="size"
-                @loadDataList="loadDataList"
-                @next="nextPage"
-                @prev="prevPage"
-                :isNext="isNextPage"
-                :isPrev="!!page"
+                    v-model="size"
+                    @loadDataList="loadDataList"
+                    @next="nextPage"
+                    @prev="prevPage"
+                    :isNext="isNextPage"
+                    :isPrev="!!page"
             ></pagination>
         </section>
     </div>
@@ -75,6 +75,8 @@
     import tableComponentMixin from '@/mixins/tableComponentMixin';
     import {_checkboxTableField, _actionsTableField_3} from "@/utils/tableFieldPresets";
     import {mapActions, mapState} from "vuex";
+    import {downloadAsCSV, downloadAsJSON} from "../../../utils/download";
+    import {getBlacklistCommunicationList} from "../../../api/lookups/blacklists/blacklistNumbers";
 
     export default {
         name: "the-blacklists",
@@ -98,13 +100,21 @@
             }),
 
             size: {
-                get() {return this.$store.state.lookups.blacklists.size},
-                set(value) {this.setSize(value)}
+                get() {
+                    return this.$store.state.lookups.blacklists.size
+                },
+                set(value) {
+                    this.setSize(value)
+                }
             },
 
             search: {
-                get() {return this.$store.state.lookups.blacklists.search},
-                set(value) {this.setSearch(value)}
+                get() {
+                    return this.$store.state.lookups.blacklists.search
+                },
+                set(value) {
+                    this.setSearch(value)
+                }
             },
         },
 
@@ -118,6 +128,20 @@
                     name: 'blacklist-edit',
                     params: {id: this.dataList[rowId].id},
                 });
+            },
+
+            async download(rowId) {
+                const list = this.dataList[rowId];
+                const listNumbers = await getBlacklistCommunicationList(list.id, 0, 100);
+
+                let dataStr = "data:text/csv;charset=utf-8,";
+                dataStr += 'number,description\n';
+                listNumbers.forEach(item => {
+                    dataStr += encodeURIComponent(
+                        item.number + ',' + (item.description || 'aa') + '\n'
+                    )
+                });
+                downloadAsCSV(dataStr, list.name + '-numbers.csv');
             },
 
             ...mapActions('lookups/blacklists', {

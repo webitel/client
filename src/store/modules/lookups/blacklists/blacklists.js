@@ -117,7 +117,7 @@ const actions = {
 
     RESET_ITEM_STATE: async (context) => {
         context.commit('RESET_ITEM_STATE');
-        context.dispatch('ccenter/lookups/numbers/RESET_ITEM_STATE', {}, {root: true});
+        context.dispatch('lookups/blacklists/numbers/RESET_ITEM_STATE', {}, {root: true});
     },
 };
 
