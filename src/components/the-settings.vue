@@ -37,6 +37,7 @@
                 </header>
                 <form class="object-input-grid">
                     <dropdown-select
+                        class="language-list"
                         :value="language"
                         :options="languageOptions"
                         :label="$t('settings.language')"
@@ -103,5 +104,9 @@
             display: block;
             margin: 3px 0 0 auto;
         }
+    }
+
+    .language-list {
+        font-family: 'EN-AvantGardeBook', 'RU-AvantGardeBook', sans-serif;
     }
 </style>
