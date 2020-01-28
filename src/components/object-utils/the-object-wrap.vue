@@ -3,8 +3,7 @@
         <app-nav @re-renderNav="updateNav" :key="reloadNavKey"></app-nav>
         <main class="object">
             <notification></notification>
-<!--            <app-header></app-header>-->
-
+            <app-header></app-header>
            <div class="object-content-wrap">
                <router-view></router-view>
            </div>

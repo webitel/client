@@ -33,6 +33,16 @@ export default {
         }
     },
 
+    header: {
+        logout: 'Log out',
+    },
+
+    settings: {
+        settings: 'Settings',
+        changePassword: 'Change password',
+        language: 'Language',
+    },
+
     validation: {
         email: 'Should look email-like',
         required: 'This field is required',

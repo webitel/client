@@ -323,10 +323,12 @@
                 const currentItem = this.nav.find(currItem => {
                     return this.$router.currentRoute.fullPath.includes(currItem.route);
                 });
-                const currentSubitem = currentItem.subnav.find(currSubitem => {
-                    return this.$router.currentRoute.fullPath.includes(currSubitem.route);
-                });
-                this.setCurrent(currentItem, currentSubitem);
+                if(currentItem) {
+                    const currentSubitem = currentItem.subnav.find(currSubitem => {
+                        return this.$router.currentRoute.fullPath.includes(currSubitem.route);
+                    });
+                    this.setCurrent(currentItem, currentSubitem);
+                }
             },
 
             setCurrent(currItem, currSubitem) {

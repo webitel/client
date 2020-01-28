@@ -5,6 +5,7 @@ import auth from '../components/auth/the-auth';
 
 import moduleWrap from '../components/object-utils/the-object-wrap';
 import home from '../components/home/the-home';
+import settings from '../components/the-settings';
 import notFound from '../components/utils/the-not-found-component';
 import permissionsRoles from '../components/permissions/roles/the-roles';
 import openedPermissionsRoles from '../components/permissions/roles/opened-role';
@@ -87,6 +88,11 @@ const router = new Router({
                     path: '/',
                     name: 'home',
                     component: home
+                },
+                {
+                    path: '/settings',
+                    name: 'settings',
+                    component: settings
                 },
 
                 // ----------DIRECTORY------------
