@@ -8,6 +8,10 @@ import {
 const defaultState = () => {
     return {
         itemId: 0,
+        itemSize: '10',
+        itemSearch: '',
+        itemPage: 0,
+        isItemNextPage: true,
         itemPermissionsDataList: [],
     };
 };
@@ -44,9 +48,31 @@ const actions = {
         }
     },
 
+    SET_ITEM_PERMISSIONS_SIZE: (context, size) => {
+        context.commit('SET_ITEM_PERMISSIONS_SIZE', size);
+    },
+
+    SET_ITEM_PERMISSIONS_SEARCH: (context, search) => {
+        context.commit('SET_ITEM_PERMISSIONS_SEARCH', search);
+    },
+
+    NEXT_ITEM_PERMISSIONS_PAGE: (context) => {
+        if(state.isNextPage) {
+            context.commit('INCREMENT_ITEM_PERMISSIONS_PAGE');
+            context.dispatch('LOAD_ITEM_PERMISSIONS_DATA_LIST');
+        }
+    },
+
+    PREV_ITEM_PERMISSIONS_PAGE: (context) => {
+        if(state.page) {
+            context.commit('DECREMENT_ITEM_PERMISSIONS_PAGE');
+            context.dispatch('LOAD_ITEM_PERMISSIONS_DATA_LIST');
+        }
+    },
+
     LOAD_ITEM_PERMISSIONS_DATA_lIST: async (context) => {
         if (state.itemId) {
-            const item = await getObjectPermissions(state.itemId);
+            const item = await getObjectPermissions(state.itemId, state.itemPage, state.itemSize, state.itemSearch);
             context.commit('SET_ITEM_PERMISSIONS_DATA_lIST', item);
         }
     },
@@ -99,6 +125,22 @@ const mutations = {
 
     TOGGLE_ITEM_PROPERTY: (state, {prop, index}) => {
         state.dataList[index][prop] = !state.dataList[index][prop];
+    },
+
+    SET_SIZE: (context, size) => {
+        state.itemSize = size;
+    },
+
+    SET_ITEM_PERMISSIONS_SEARCH: (context, search) => {
+        state.itemSearch = search;
+    },
+
+    INCREMENT_ITEM_PERMISSIONS_PAGE: (state) => {
+        state.itemPage++;
+    },
+
+    DECREMENT_ITEM_PERMISSIONS_PAGE: (state) => {
+        state.itemPage--;
     },
 
     SET_ITEM_PERMISSIONS_DATA_lIST: (state, item) => {

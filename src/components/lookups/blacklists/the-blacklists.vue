@@ -13,22 +13,24 @@
                 <div class="content-header__actions-wrap">
                     <search
                             v-model="search"
-                            @filterData="loadDataList"
+                            @filterData="loadList"
                     ></search>
                     <i
                             class="icon-icon_delete icon-action"
                             :class="{'hidden': anySelected}"
                             @click="deleteSelected"
                     ></i>
-                    <i class="icon-action icon-icon_upload"></i>
                     <i
                             class="icon-icon_reload icon-action"
-                            @click="loadDataList"
+                            @click="loadList"
                     ></i>
                 </div>
             </header>
 
+            <loader v-show="!isLoaded"></loader>
+
             <vuetable
+                    v-show="isLoaded"
                     :api-mode="false"
                     :fields="fields"
                     :data="dataList"
@@ -60,8 +62,9 @@
                 </template>
             </vuetable>
             <pagination
+                    v-show="isLoaded"
                     v-model="size"
-                    @loadDataList="loadDataList"
+                    @loadDataList="loadList"
                     @next="nextPage"
                     @prev="prevPage"
                     :isNext="isNextPage"
@@ -75,7 +78,7 @@
     import tableComponentMixin from '@/mixins/tableComponentMixin';
     import {_checkboxTableField, _actionsTableField_3} from "@/utils/tableFieldPresets";
     import {mapActions, mapState} from "vuex";
-    import {downloadAsCSV, downloadAsJSON} from "../../../utils/download";
+    import {downloadAsCSV} from "../../../utils/download";
     import {getBlacklistCommunicationList} from "../../../api/lookups/blacklists/blacklistNumbers";
 
     export default {

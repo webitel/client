@@ -19,7 +19,7 @@
                 <div class="content-header__actions-wrap">
                     <search
                             v-model="search"
-                            @filterData="loadDataList"
+                            @filterData="loadList"
                     ></search>
                     <i
                             class="icon-icon_delete icon-action"
@@ -28,7 +28,7 @@
                     ></i>
                     <i
                             class="icon-icon_reload icon-action"
-                            @click="loadDataList"
+                            @click="loadList"
                     ></i>
                     <div class="upload-csv">
                         <i class="icon-icon_upload"></i>
@@ -101,7 +101,7 @@
             <pagination
                     v-show="isLoaded"
                     v-model="size"
-                    @loadDataList="loadDataList"
+                    @loadDataList="loadList"
                     @next="nextPage"
                     @prev="prevPage"
                     :isNext="isNextPage"
@@ -190,14 +190,13 @@
             },
 
             closeCSVPopup() {
-                this.loadDataList();
+                this.loadList();
                 this.popupTriggerIf = false;
                 this.$refs['file-input'].value = null;
             },
 
             ...mapActions('directory/users', {
-                // loadDataList: 'LOAD_DATA_LIST',
-                loadData: 'LOAD_DATA_LIST',
+                loadDataList: 'LOAD_DATA_LIST',
                 setSize: 'SET_SIZE',
                 setSearch: 'SET_SEARCH',
                 changeStatus: 'PATCH_ITEM_PEROPERTY',

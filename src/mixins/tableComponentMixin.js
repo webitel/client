@@ -25,7 +25,7 @@ export default {
     },
 
     mounted() {
-        this.loadDataList();
+        this.loadList();
     },
 
     computed: {
@@ -36,9 +36,9 @@ export default {
     },
 
     methods: {
-        async loadDataList() {
+        async loadList() {
             this.isLoaded = false;
-            await this.loadData();
+            await this.loadDataList();
             this.isLoaded = true;
         },
 
@@ -56,7 +56,7 @@ export default {
             } else {
                 await this.removeItem(rowIndex);
             }
-            this.loadDataList();
+            this.loadList();
         },
 
         openPopup() {

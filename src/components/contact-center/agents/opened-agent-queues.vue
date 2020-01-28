@@ -4,12 +4,15 @@
         <div class="content-header__actions-wrap">
             <i
                     class="icon-icon_reload icon-action"
-                    @click="loadDataList"
+                    @click="loadList"
             ></i>
         </div>
     </header>
 
+    <loader v-show="!isLoaded"></loader>
+
     <vuetable
+            v-show="isLoaded"
             :api-mode="false"
             :fields="fields"
             :data="dataList"
@@ -21,8 +24,9 @@
         </template>
     </vuetable>
     <pagination
+            v-show="isLoaded"
             v-model="size"
-            @loadDataList="loadDataList"
+            @loadDataList="loadList"
             @next="nextPage"
             @prev="prevPage"
             :isNext="isNextPage"
@@ -55,7 +59,7 @@
 
         mounted() {
             this.setParentId(this.parentId);
-            this.loadDataList();
+            this.loadList();
         },
 
         computed: {

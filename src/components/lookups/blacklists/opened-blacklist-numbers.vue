@@ -5,28 +5,46 @@
                 @close="closePopup"
         ></number-popup>
 
+        <upload-popup
+                v-if="uploadPopupTriggerIf"
+                :file="csvFile"
+                @close="closeCSVPopup"
+        ></upload-popup>
+
         <header class="content-header">
             <h3 class="content-title">{{$tc('objects.lookups.blacklist.number', 2)}}</h3>
             <div class="content-header__actions-wrap">
                 <search
                         v-model="search"
-                        @filterData="loadDataList"
+                        @filterData="loadList"
                 ></search>
                 <i
                         class="icon-icon_delete icon-action"
                         :class="{'hidden': anySelected}"
                         @click="deleteSelected"
                 ></i>
-                <i class="icon-action icon-icon_upload"></i>
+                <div class="upload-csv">
+                    <i class="icon-icon_upload"></i>
+                    <input
+                            ref="file-input"
+                            class="upload-csv__input"
+                            type="file"
+                            @change="processCSV($event)"
+                            accept=".csv"
+                    >
+                </div>
                 <i
                         class="icon-icon_reload icon-action"
-                        @click="loadDataList"
+                        @click="loadList"
                 ></i>
                 <i class="icon-action icon-icon_plus" @click="create"></i>
             </div>
         </header>
 
+        <loader v-show="!isLoaded"></loader>
+
         <vuetable
+                v-show="isLoaded"
                 :api-mode="false"
                 :fields="fields"
                 :data="dataList"
@@ -53,8 +71,9 @@
             </template>
         </vuetable>
         <pagination
+                v-show="isLoaded"
                 v-model="size"
-                @loadDataList="loadDataList"
+                @loadDataList="loadList"
                 @next="nextPage"
                 @prev="prevPage"
                 :isNext="isNextPage"
@@ -64,6 +83,7 @@
 </template>
 
 <script>
+    import uploadPopup from './upload-blacklist-numbers-popup';
     import openedTabComponentMixin from '@/mixins/openedTabComponentMixin';
     import tableComponentMixin from '@/mixins/tableComponentMixin';
     import {_checkboxTableField, _actionsTableField_3} from "@/utils/tableFieldPresets";
@@ -74,7 +94,7 @@
     export default {
         name: "opened-blacklist-numbers",
         mixins: [openedTabComponentMixin, tableComponentMixin],
-        components: {numberPopup},
+        components: {numberPopup, uploadPopup},
         data() {
             return {
                 fields: [
@@ -83,6 +103,8 @@
                     {name: 'description', title: this.$t('objects.description')},
                     _actionsTableField_3,
                 ],
+                uploadPopupTriggerIf: false,
+                csvFile: null
             }
         },
 
@@ -94,7 +116,7 @@
 
         mounted() {
             this.setParentId(this.parentId);
-            this.loadDataList();
+            this.loadList();
         },
 
         computed: {
@@ -139,6 +161,20 @@
             edit(rowIndex) {
                 this.setId(this.dataList[rowIndex].id);
                 this.popupTriggerIf = true;
+            },
+
+            processCSV(event) {
+                const file = event.target.files[0];
+                if (file) {
+                    this.csvFile = file;
+                    this.uploadPopupTriggerIf = true;
+                }
+            },
+
+            closeCSVPopup() {
+                this.loadDataList();
+                this.uploadPopupTriggerIf = false;
+                this.$refs['file-input'].value = null;
             },
 
             ...mapActions('lookups/blacklists', {

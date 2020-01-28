@@ -78,7 +78,8 @@
 
         methods: {
             async addItem(item) {
-                await addUser(item);
+                console.log(item);
+                // await addUser(item);
             }
         }
     }

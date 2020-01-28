@@ -27,16 +27,12 @@
                 <div class="content-header__actions-wrap">
                     <search
                             v-model="search"
-                            @filterData="loadDataList"
+                            @filterData="loadList"
                     ></search>
                     <i
                             class="icon-icon_delete icon-action"
                             :class="{'hidden': anySelected}"
                             @click="deleteSelected"
-                    ></i>
-                    <i
-                            class="icon-icon_reload icon-action"
-                            @click="loadDataList"
                     ></i>
                     <div class="upload-csv">
                         <i class="icon-icon_upload"></i>
@@ -48,10 +44,17 @@
                                 accept=".csv"
                         >
                     </div>
+                    <i
+                            class="icon-icon_reload icon-action"
+                            @click="loadList"
+                    ></i>
                 </div>
             </header>
 
+            <loader v-show="!isLoaded"></loader>
+
             <vuetable
+                    v-show="isLoaded"
                     :api-mode="false"
                     :fields="fields"
                     :data="dataList"
@@ -100,8 +103,9 @@
                 </template>
             </vuetable>
             <pagination
+                    v-show="isLoaded"
                     v-model="size"
-                    @loadDataList="loadDataList"
+                    @loadDataList="loadList"
                     @next="nextPage"
                     @prev="prevPage"
                     :isNext="isNextPage"
@@ -186,7 +190,7 @@
             },
 
             closeCSVPopup() {
-                this.loadDataList();
+                this.loadList();
                 this.popupTriggerIf = false;
                 this.$refs['file-input'].value = null;
             },

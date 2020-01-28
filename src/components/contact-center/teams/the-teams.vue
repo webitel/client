@@ -16,7 +16,7 @@
                 <div class="content-header__actions-wrap">
                     <search
                             v-model="search"
-                            @filterData="loadDataList"
+                            @filterData="loadList"
                     ></search>
                     <i
                             class="icon-icon_delete icon-action"
@@ -25,17 +25,19 @@
                     ></i>
                     <i
                             class="icon-icon_reload icon-action"
-                            @click="loadDataList"
+                            @click="loadList"
                     ></i>
                 </div>
             </header>
 
+            <loader v-show="!isLoaded"></loader>
+
             <vuetable
+                    v-show="isLoaded"
                     :api-mode="false"
                     :fields="fields"
                     :data="dataList"
             >
-
                 <template slot="name" slot-scope="props">
                     <div class="tt-capitalize">
                         <span class="nameLink" @click="edit(props.rowIndex)">
@@ -60,8 +62,9 @@
                 </template>
             </vuetable>
             <pagination
+                    v-show="isLoaded"
                     v-model="size"
-                    @loadDataList="loadDataList"
+                    @loadDataList="loadList"
                     @next="nextPage"
                     @prev="prevPage"
                     :isNext="isNextPage"

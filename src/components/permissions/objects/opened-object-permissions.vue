@@ -17,15 +17,22 @@
             <header class="content-header">
                 <h3 class="content-title">{{$t('objects.permissions.object.operations')}}</h3>
                 <div class="content-header__actions-wrap">
+                    <search
+                            v-model="search"
+                            @filterData="loadList"
+                    ></search>
                     <i
                             class="icon-icon_reload icon-action"
-                            @click="loadDataList"
+                            @click="loadList"
                     ></i>
                     <i class="icon-icon_plus icon-action" @click="popupTriggerIf = true"></i>
                 </div>
             </header>
 
+            <loader v-show="!isLoaded"></loader>
+
             <vuetable
+                    v-show="isLoaded"
                     :api-mode="false"
                     :fields="fields"
                     :data="dataList"
@@ -73,6 +80,15 @@
                     ></checkbox>
                 </template>
             </vuetable>
+            <pagination
+                    v-show="isLoaded"
+                    v-model="size"
+                    @loadDataList="loadList"
+                    @next="nextPage"
+                    @prev="prevPage"
+                    :isNext="isNextPage"
+                    :isPrev="!!page"
+            ></pagination>
         </section>
     </div>
 </template>
@@ -106,7 +122,7 @@
 
         mounted() {
             this.id = this.$route.params.id;
-            this.loadDataList();
+            this.loadList();
             // get object title to show on page header
             this.loadHeaderTitle(this.id);
         },
@@ -114,6 +130,8 @@
         computed: {
             ...mapState('permissions/objects', {
                 dataList: state => state.itemPermissionsDataList,
+                page: state => state.itemPage, // acts like a boolean: if page is 0, there's no back page
+                isNextPage: state => state.isItemNextPage,
             }),
             id: {
                 get() {
@@ -123,6 +141,16 @@
                     this.setId(value)
                 }
             },
+
+            size: {
+                get() {return this.$store.state.permissions.objects.itemSize},
+                set(value) {this.setSize(value)}
+            },
+
+            search: {
+                get() {return this.$store.state.permissions.objects.itemSearch},
+                set(value) {this.setSearch(value)}
+            },
         },
 
         methods: {
@@ -131,6 +159,10 @@
                 setItemProp: 'SET_ITEM_PROPERTY',
                 loadDataList: 'LOAD_ITEM_PERMISSIONS_DATA_lIST',
                 patchItem: 'PATCH_ITEM_PERMISSIONS',
+                setSize: 'SET_ITEM_PERMISSIONS_SIZE',
+                setSearch: 'SET_ITEM_PERMISSIONS_SEARCH',
+                nextPage: 'NEXT_ITEM_PERMISSIONS_PAGE',
+                prevPage: 'PREV_ITEM_PERMISSIONS_PAGE',
             }),
 
             // get object title to show on page header
