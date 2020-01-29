@@ -68,6 +68,10 @@ server {
             rewrite ^/api/storage/media(.*) /storage/media$1 break;
             proxy_pass http://httpapi;
         }
+        if ($request_method = OPTIONS ) {
+            rewrite ^/api/storage/media(.*) /storage/media$1 break;
+            proxy_pass http://httpapi;
+        }
    }
 
     location ~ ^/api(/?)(.*) {
