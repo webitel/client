@@ -269,6 +269,9 @@ export default {
                 voice: 'Voice',
                 token: 'Token',
                 key: 'Key',
+                dragPlaceholder: 'Drag and drop files',
+                dragPlaceholderHere: 'here.',
+
             },
             calendars: {
                 calendars: 'Calendar | Calendars',
@@ -575,6 +578,12 @@ export default {
 
         pagination: {
             rowsPerPage: 'Rows per page'
-        }
+        },
     },
+
+    page404: {
+        title404: "Looks like you're lost",
+        text404: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit.',
+        btn404: 'Go back',
+    }
 };

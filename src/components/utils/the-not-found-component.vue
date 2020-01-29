@@ -1,28 +1,82 @@
 <template>
-    <section class="not-found">
-        <h2 class="not-found__title">404 not found</h2>
-        <router-link class="not-found__escape-button" to="/">back to home page</router-link>
-    </section>
+    <div class="not-found">
+        <section class="not-found-content">
+            <img class="not-found__img" src="../../assets/img/travolta-404.png" alt="404-img">
+            <h2 class="not-found__title typo-404-title">{{$t('page404.title404')}}</h2>
+            <p class="not-found__text typo-404-text">{{$t('page404.text404')}}</p>
+            <btn class="not-found__btn" @click.native="$router.go(-1)">{{$t('page404.btn404')}}</btn>
+        </section>
+    </div>
 </template>
 
 <script>
-export default {
-  name: 'the-not-found-component',
-};
+    import btn from './btn';
+
+    export default {
+        name: 'the-not-found-component',
+        components: {btn},
+    };
 </script>
 
-<style scoped>
+<style lang="scss" scoped>
+    $bg-color: #171A2A;
+
+    .en .typo-404-title {
+        font-family: 'EN-AvantGardeDemi', 'RU-AvantGardeDemi';
+        font-size: 37px;
+        line-height: 44px;
+    }
+    .en .typo-404-text {
+        font-family: 'EN-AvantGardeBook', 'RU-AvantGardeBook';
+        font-size: 26px;
+        line-height: 32px;
+    }
+
+    .ru .typo-404-title {
+        font-family: 'RU-AvantGardeDemi', 'EN-AvantGardeDemi';
+        font-size: 37px;
+        line-height: 44px;
+    }
+    .ru .typo-404-text {
+        font-family: 'RU-AvantGardeBook', 'EN-AvantGardeBook';
+        font-size: 26px;
+        line-height: 32px;
+    }
+
     .not-found {
-        margin: 90px auto 0;
-        font-family: 'AvantGardeGothicMedium', sans-serif;
-    }
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        min-width: 100vw;
+        min-height: 100vh;
+        padding: 90px;
+        background: $bg-color;
 
-    .not-found__title {
-        margin-bottom: 30px;
-        font-size: 6em;
-    }
+        .not-found-content {
+            text-align: center;
+            color: #fff;
 
-    .not-found__escape-button {
-        font-size: 1.6em;
+            .not-found__img {
+                max-width: 65vw;
+                width: 778px;
+                user-select: none;
+            }
+            
+            .not-found__title {
+                text-transform: uppercase;
+                margin-top: 69px;
+            }
+
+            .not-found__text {
+                margin-top: 21px;
+            }
+
+            .not-found__btn {
+                height: 60px;
+                min-width: 160px;
+                margin-top: 40px;
+                font-size: 21px;
+            }
+        }
     }
 </style>
