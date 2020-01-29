@@ -65,7 +65,7 @@ server {
             proxy_pass http://storage:10023;
         }
         if ($request_method = GET ) {
-            rewrite ^/api/storage/media(.*) /api/storage/media$1 break;
+            rewrite ^/api/storage/media(.*) /storage/media$1 break;
             proxy_pass http://httpapi;
         }
    }
