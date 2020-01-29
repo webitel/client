@@ -56,7 +56,7 @@
       letter-spacing: 0.4px;
 
       > div {
-
+        white-space: nowrap;
 
         &:not(.dropdown-select) {
           overflow: hidden;

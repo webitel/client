@@ -5,8 +5,8 @@
                 <i class="icon-icon_close"></i>
             </div>
             <div @click.prevent="playing = !playing" title="Play/Pause">
-                <i class="icon-icon_notification" v-if="!playing"></i>
-                <i class="icon-icon_approve" v-else></i>
+<!--                <i class="icon-icon_" v-if="!playing"></i>-->
+                <i class="icon-icon_pause"></i>
             </div>
             <div class="player-time">
                 <div class="player-time-current">{{convertTimeHHMMSS}}</div>
@@ -22,7 +22,7 @@
                 <range v-model="volume"></range>
             </div>
             <div @click.prevent="showVolume = !showVolume" title="Stop">
-                <i class="volume-icon icon-icon_filter"></i>
+                <i class="volume-icon icon-icon_"></i>
             </div>
         </div>
         <audio
@@ -161,18 +161,28 @@
         display: flex;
         align-items: center;
 
-        > div:first-child {
-            margin-right: 18px;
+        > div {
+            display: flex;
+            align-items: center;
+
+            &:first-child {
+                margin-right: 18px;
+            }
         }
 
         i {
-            color: #fff;
+            cursor: pointer;
+
+            &:before {
+                color: #fff;
+            }
         }
     }
 
     .player-progress {
         position: relative;
-        height: 3px;
+        height: 5px;
+        /*height: 3px;*/
         flex-grow: 1;
         margin: auto 78px;
         background-color: $player-progress-color;

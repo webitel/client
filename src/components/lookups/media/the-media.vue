@@ -1,89 +1,121 @@
 <template>
     <div class="content-wrap">
         <object-header
+                no-primary-action
         >
             {{$t('objects.lookups.lookups')}} |
             {{$tc('objects.lookups.media.mediaFiles', 2)}}
         </object-header>
 
-        <textToSpeechPopup v-if="popupTriggerIf" @close="popupTriggerIf = false"></textToSpeechPopup>
+        <textToSpeechPopup
+                v-if="popupTriggerIf"
+                @close="popupTriggerIf = false"
+        ></textToSpeechPopup>
 
         <section class="object-content" ref="object-content">
             <header class="content-header">
                 <h3 class="content-title">{{$t('objects.lookups.media.allMediaFiles')}}</h3>
                 <div class="content-header__actions-wrap">
                     <search
-                            @filterData="filterData"
+                            v-model="search"
+                            @filterData="loadList"
                     ></search>
                     <i
                             class="icon-icon_delete icon-action"
                             :class="{'hidden': anySelected}"
                             @click="deleteSelected"
                     ></i>
-                    <i class="icon-action icon-icon_upload"></i>
-                    <i class="icon-action icon-icon_upload"></i>
-                    <i class="icon-action icon-icon_upload" @click="openPopup"></i>
+                    <i class="icon-action icon-icon_download"></i>
+                    <i class="icon-action icon-icon_text-to-speech" @click="openPopup"></i>
+                    <i
+                            class="icon-icon_reload icon-action"
+                            @click="loadList"
+                    ></i>
                 </div>
             </header>
             <vue-dropzone
                     id="dropzone"
                     :options="dropzoneOptions"
-                    useCustomSlot
-                    @vdropzone-total-upload-progress="uploadProgress"
+                    :destroy-dropzone="false"
+                    use-custom-slot
+                    duplicate-check
+                    @vdropzone-files-added="onFilesAdded"
+                    @vdropzone-complete="onFileComplete"
+                    @vdropzone-queue-complete="onComplete"
             >
-                <div class="dz-custom-message">
+                <div v-show="isLoadingFiles">
+                    <div class="progress-count">
+                        <span>{{loadedCount}}</span>/<span>{{allLoadingCount}}</span>
+                    </div>
+                </div>
+                <div v-show="!isLoadingFiles" class="dz-custom-message">
                     <i class="icon-icon_upload"></i>
                     <div class="dz-message-text">
-                        <span class="dz-message-text__accent">Drag and drop files</span> here.
+                        <span class="dz-message-text__accent">
+                            {{$t('objects.lookups.media.dragPlaceholder')}}
+                        </span>
+                        {{$t('objects.lookups.media.dragPlaceholderHere')}}
                     </div>
                 </div>
             </vue-dropzone>
 
+            <loader v-show="!isLoaded"></loader>
+
             <vuetable
+                    v-show="isLoaded"
                     :api-mode="false"
                     :fields="fields"
-                    :data="filteredDataList"
-                    :row-class="computeNewFiles"
+                    :data="dataList"
             >
                 <template slot="name" slot-scope="props">
                     <div>
-                        {{filteredDataList[props.rowIndex].name}}
+                        {{dataList[props.rowIndex].name}}
                     </div>
                 </template>
 
                 <template slot="createdAt" slot-scope="props">
                     <div>
-                        {{filteredDataList[props.rowIndex].createdAt}}
+                        {{computeDate(dataList[props.rowIndex].createdAt)}}
                     </div>
                 </template>
 
                 <template slot="format" slot-scope="props">
                     <div>
-                        {{filteredDataList[props.rowIndex].format}}
+                        {{dataList[props.rowIndex].mimeType}}
                     </div>
                 </template>
 
                 <template slot="size" slot-scope="props">
                     <div>
-                        {{filteredDataList[props.rowIndex].size}}
+                        {{computeSize(dataList[props.rowIndex].size)}}
                     </div>
                 </template>
 
                 <template slot="actions" slot-scope="props">
-                    <i class="vuetable-action icon-icon_check"
+                    <i class="vuetable-action icon-icon_download"
+                       @click="download(props.rowIndex)"
                     ></i>
-                    <i class="vuetable-action icon-icon_edit"
+                    <i class="vuetable-action icon-icon_play"
+                       @click="play(props.rowIndex)"
                     ></i>
                     <i class="vuetable-action icon-icon_delete"
                        @click="remove(props.rowIndex)"
                     ></i>
                 </template>
             </vuetable>
-            <pagination></pagination>
+            <pagination
+                    v-show="isLoaded"
+                    v-model="size"
+                    @loadDataList="loadList"
+                    @next="nextPage"
+                    @prev="prevPage"
+                    :isNext="isNextPage"
+                    :isPrev="!!page"
+            ></pagination>
         </section>
-        <audioPlayer
-                file="https://mn1.sunproxy.net/file/aXI1cUJHZE14Y3o5dHpsRXBDRVNQNERPcUtJQ3Rud0ZMNnMyMlN1VG1vWDliOS85TVptT0VJRHRZNTd1RUsyeDlnZTlrODFWQjU5bjBkQUdCaDNXWjFUNW1HSU1pZEZoelBpL3JrQjhwSkk9/Pskovskoe_-_Post_punk_version_(mp3.mn).mp3"
-        ></audioPlayer>
+        <audio-player
+                :file="audioLink"
+        ></audio-player>
     </div>
 </template>
 
@@ -93,6 +125,7 @@
     import textToSpeechPopup from './media-text-to-speech-popup';
     import tableComponentMixin from '@/mixins/tableComponentMixin';
     import {_checkboxTableField, _actionsTableField_3} from "@/utils/tableFieldPresets";
+    import {mapActions, mapState} from "vuex";
 
     export default {
         name: "the-media",
@@ -104,10 +137,17 @@
         },
         data() {
             return {
+                isLoadingFiles: false,
+                loadedCount: 0,
+                allLoadingCount: 0,
+                audioLink: 'https://mn1.sunproxy.net/file/WjdlSU1UMjBsQWszeGtDSWdCcWxHUlVJQ3FQbVVzSkY3OHF6WENtbUl4clF4UnVxNjhxUWF0ajY3WGR5bEVUQlJSeXpSa1JEQjEzZzBmVlFUclFnZlZQTEdlVFdKS2wwSUszUHFsUlZ2cWM9/Pskovskoe_-_Post_punk_version_(mp3.mn).mp3',
+
                 dropzoneOptions: {
-                    url: 'https://httpbin.org/post',
+                    url: 'https://dev.webitel.com/api/storage/media?access_token=IGORDEV_TOKEN',
                     thumbnailWidth: 150,
-                    maxFilesize: 0.5,
+                    // maxFilesize: 0.5,
+                    acceptedFiles: '.mp3, .wav, .mpeg',
+                    uploadMultiple: true,
                 },
                 fields: [
                     _checkboxTableField,
@@ -120,49 +160,108 @@
             };
         },
 
-        methods: {
-            uploadProgress() {
-                this.dataList.unshift({
-                    name: 'new media name',
-                    createdAt: (Math.random() * Date.now()).toLocaleString(),
-                    format: '.wav',
-                    size: Math.round(Math.random() * 100, 2) + ' Kb',
-                    isSelected: false,
-                });
-                this.filterData();
-            },
+        computed: {
+            ...mapState('lookups/media', {
+                dataList: state => state.dataList,
+                page: state => state.page, // acts like a boolean: if page is 0, there's no back page
+                isNextPage: state => state.isNextPage,
+            }),
 
-            computeNewFiles(row) {
-                return row.id === undefined ? 'new-file' : '';
-            },
-
-            openPopup() {
-                this.popupTriggerIf = true;
-            },
-
-            async deleteItem(item) {
-                // await deleteCommunication(item.id);
-            },
-
-            async loadDataList() {
-                // this.dataList = await getCommunicationsList();
-                for (let i = 0; i < 40; i++) {
-                    this.dataList.push({
-                        id: i,
-                        name: 'media name ' + i,
-                        createdAt: (Math.random() * Date.now()).toLocaleString(),
-                        format: '.wav',
-                        size: Math.round(Math.random() * 100, 2) + ' Kb',
-                        isSelected: false,
-                    });
+            size: {
+                get() {
+                    return this.$store.state.lookups.media.size
+                },
+                set(value) {
+                    this.setSize(value)
                 }
-                this.filterData();
-            }
-        }
+            },
+
+            search: {
+                get() {
+                    return this.$store.state.lookups.media.search
+                },
+                set(value) {
+                    this.setSearch(value)
+                }
+            },
+        },
+
+        methods: {
+            onFilesAdded(files) {
+                this.isLoadingFiles = true;
+                this.loadedCount = 0;
+                this.allLoadingCount = files.length;
+            },
+
+            onFileComplete() {
+                this.loadedCount++;
+            },
+
+            onComplete() {
+                this.isLoadingFiles = false;
+                this.loadList();
+            },
+
+            async play(rowId) {
+                const id = this.dataList[rowId].id;
+                const token = 'IGORDEV_TOKEN';
+                this.audioLink = `https://dev.webitel.com/api/storage/media/${id}/stream?access_token=${token}`;
+            },
+
+            computeDate(date) {
+                return new Date(+date).toLocaleDateString();
+            },
+
+            computeSize(size, nospace, one) {
+                const sizes = ['Bytes', 'kB', 'MB', 'GB', 'TB', 'PB', 'EB'];
+                let resultSize, f;
+
+                sizes.forEach((f, id) => {
+                    if (one) {
+                        f = f.slice(0, 1);
+                    }
+                    let s = Math.pow(1024, id), fixed;
+                    if (size >= s) {
+                        fixed = String((size / s).toFixed(1));
+                        if (fixed.indexOf('.0') === fixed.length - 2) {
+                            fixed = fixed.slice(0, -2);
+                        }
+                        resultSize = fixed + (nospace ? '' : ' ') + f;
+                    }
+                });
+
+                // zero handling
+                // always prints in Bytes
+                if (!resultSize) {
+                    f = (one ? sizes[0].slice(0, 1) : sizes[0]);
+                    resultSize = '0' + (nospace ? '' : ' ') + f;
+                }
+
+                return resultSize;
+        },
+
+        openPopup() {
+            this.popupTriggerIf = true;
+        },
+
+        ...mapActions('lookups/media', {
+            loadDataList: 'LOAD_DATA_LIST',
+            loadItem: 'GET_ITEM',
+            setSize: 'SET_SIZE',
+            setSearch: 'SET_SEARCH',
+            nextPage: 'NEXT_PAGE',
+            prevPage: 'PREV_PAGE',
+            removeItem: 'REMOVE_ITEM',
+        }),
+    }
     }
 </script>
 
 <style lang="scss">
+    .dz-custom-message i:before {
+        color: $accent-color;
+    }
+
     .new-file {
         background: rgba(255, 193, 7, 0.1);
     }
