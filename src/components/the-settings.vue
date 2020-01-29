@@ -35,7 +35,7 @@
                 <header class="content-header">
                     <h3 class="content-title">{{$t('settings.language')}}</h3>
                 </header>
-                <form class="object-input-grid">
+                <form class="object-input-grid grid-w50">
                     <dropdown-select
                         class="language-list"
                         :value="language"
