@@ -41,30 +41,33 @@ server {
         expires 1d;
     }
 
-    location ~ ^/api/storage/media(/?)(.*) {
-        limit_except POST {
-            deny all;
-        }
-        rewrite ^/api/storage/media(/?)(.*) /$2 break;
-        proxy_set_header Host $host;
-        proxy_set_header X-Real-IP  $remote_addr;
-        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
-        proxy_pass http://storage:10023/api/v2/media;
-        proxy_send_timeout 300s;
-        proxy_read_timeout 300s;
-   }
-
-    location ~ ^/api/storage/media/(.*/stream/.*) {
+    location ~ ^/api/storage/media/(.*/stream.*) {
         limit_except GET {
             deny all;
         }
-        rewrite ^/api/storage/media/(.*) /$1 break;
         proxy_set_header Host $host;
         proxy_set_header X-Real-IP  $remote_addr;
         proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
-        proxy_pass http://storage:10023/api/v2/media;
-        proxy_send_timeout 300s;
-        proxy_read_timeout 300s;
+        proxy_send_timeout 3600s;
+        proxy_read_timeout 3600s;
+        rewrite ^/api/storage/media/(.*) /api/v2/media/$1 break;
+        proxy_pass http://storage:10023;
+   }
+
+    location ~ ^/api/storage/media(.*) {
+        proxy_set_header Host $host;
+        proxy_set_header X-Real-IP  $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_send_timeout 3600s;
+        proxy_read_timeout 3600s;
+        if ($request_method = POST ) {
+            rewrite ^/api/storage/media(.*) /api/v2/media$1 break;
+            proxy_pass http://storage:10023;
+        }
+        if ($request_method = GET ) {
+            rewrite ^/api/storage/media(.*) /api/storage/media$1 break;
+            proxy_pass http://httpapi;
+        }
    }
 
     location ~ ^/api(/?)(.*) {
