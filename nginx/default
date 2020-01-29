@@ -12,6 +12,16 @@ map $http_upgrade $connection_upgrade {
     ''      close;
 }
 
+map $request_method     $api_backend {
+     default "httpapi";
+     POST    "storage:10023";
+}
+
+map $request_method     $api_url_backend {
+     default /storage/media$1;
+     POST    /api/v2/media$1;
+}
+
 # main server block
 server {
 	listen 443 ssl http2 default_server;
@@ -42,7 +52,7 @@ server {
     }
 
     location ~ ^/api/storage/media/(.*/stream.*) {
-        limit_except GET {
+        limit_except GET OPTIONS {
             deny all;
         }
         proxy_set_header Host $host;
@@ -60,14 +70,8 @@ server {
         proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
         proxy_send_timeout 3600s;
         proxy_read_timeout 3600s;
-        if ($request_method = POST ) {
-            rewrite ^/api/storage/media(.*) /api/v2/media$1 break;
-            proxy_pass http://storage:10023;
-        }
-        if ($request_method = GET ) {
-            rewrite ^/api/storage/media(.*) /api/storage/media$1 break;
-            proxy_pass http://httpapi;
-        }
+        rewrite ^/api/storage/media(.*) $api_url_backend break;
+        proxy_pass http://$api_backend;
    }
 
     location ~ ^/api(/?)(.*) {
