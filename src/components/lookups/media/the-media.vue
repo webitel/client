@@ -1,16 +1,16 @@
 <template>
     <div class="content-wrap">
         <object-header
-                no-primary-action
+                hide-primary-action
         >
             {{$t('objects.lookups.lookups')}} |
             {{$tc('objects.lookups.media.mediaFiles', 2)}}
         </object-header>
 
-        <textToSpeechPopup
-                v-if="popupTriggerIf"
-                @close="popupTriggerIf = false"
-        ></textToSpeechPopup>
+        <!--        <textToSpeechPopup-->
+        <!--                v-if="popupTriggerIf"-->
+        <!--                @close="popupTriggerIf = false"-->
+        <!--        ></textToSpeechPopup>-->
 
         <section class="object-content" ref="object-content">
             <header class="content-header">
@@ -25,8 +25,8 @@
                             :class="{'hidden': anySelected}"
                             @click="deleteSelected"
                     ></i>
-                    <i class="icon-action icon-icon_download"></i>
-                    <i class="icon-action icon-icon_text-to-speech" @click="openPopup"></i>
+                    <i class="icon-action icon-icon_download" @click="downloadAll"></i>
+                    <!--                    <i class="icon-action icon-icon_text-to-speech" @click="openPopup"></i>-->
                     <i
                             class="icon-icon_reload icon-action"
                             @click="loadList"
@@ -40,7 +40,8 @@
                     use-custom-slot
                     duplicate-check
                     @vdropzone-files-added="onFilesAdded"
-                    @vdropzone-complete="onFileComplete"
+                    @vdropzone-success="onFileSuccess"
+                    @vdropzone-error="onFileError"
                     @vdropzone-queue-complete="onComplete"
             >
                 <div v-show="isLoadingFiles">
@@ -81,7 +82,7 @@
 
                 <template slot="format" slot-scope="props">
                     <div>
-                        {{dataList[props.rowIndex].mimeType}}
+                        {{computeFormat(dataList[props.rowIndex].mimeType)}}
                     </div>
                 </template>
 
@@ -93,7 +94,7 @@
 
                 <template slot="actions" slot-scope="props">
                     <i class="vuetable-action icon-icon_download"
-                       @click="download(props.rowIndex)"
+                       @click="downloadFile(props.rowIndex)"
                     ></i>
                     <i class="vuetable-action icon-icon_play"
                        @click="play(props.rowIndex)"
@@ -120,12 +121,17 @@
 </template>
 
 <script>
+    import jszip from 'jszip';
+    import jszipUtils from 'jszip-utils';
+    import {saveAs} from 'file-saver';
     import vueDropzone from 'vue2-dropzone';
     import audioPlayer from '@/components/utils/audio-player';
     import textToSpeechPopup from './media-text-to-speech-popup';
     import tableComponentMixin from '@/mixins/tableComponentMixin';
     import {_checkboxTableField, _actionsTableField_3} from "@/utils/tableFieldPresets";
+    import eventBus from "../../../utils/eventBus";
     import {mapActions, mapState} from "vuex";
+    import {download} from "../../../utils/download";
 
     export default {
         name: "the-media",
@@ -187,16 +193,58 @@
         },
 
         methods: {
+            async downloadFile(rowId) {
+                const item = this.dataList[rowId];
+                const id = item.id;
+                const token = 'IGORDEV_TOKEN';
+                const url = `https://dev.webitel.com/api/storage/media/${id}/download?access_token=${token}`;
+                download(url, item.name);
+            },
+
+            async downloadAll() {
+                const zip = new jszip();
+                for (const item of this.dataList) {
+                    const id = item.id;
+                    const token = 'IGORDEV_TOKEN';
+                    const url = `https://dev.webitel.com/api/storage/media/${id}/stream?access_token=${token}`;
+                    await new Promise((resolve, reject) => jszipUtils.getBinaryContent(url, (err, data) => {
+                        console.log('utils');
+                        if (err) {
+                            reject();
+                        } else {
+                            zip.file(item.name, data);
+                            resolve();
+                        }
+                    }));
+                }
+                console.log(zip);
+                const file = await zip.generateAsync({type: 'blob'});
+                saveAs(file, 'z.zip')
+            },
+
+            // dropzone event on loading start
+            // used for computing files number for UI and animation start
             onFilesAdded(files) {
                 this.isLoadingFiles = true;
                 this.loadedCount = 0;
                 this.allLoadingCount = files.length;
             },
 
-            onFileComplete() {
+            // dropzone event firing on ech file loaded successfully
+            // used for updating loaded files number on UI
+            onFileSuccess(file, res) {
                 this.loadedCount++;
             },
 
+            // dropzone event firing on ech file load
+            // used for updating loaded files number on UI
+            onFileError(file, message) {
+                this.loadedCount++;
+                eventBus.$emit('notificationError', message.message);
+            },
+
+            // dropzone event firing on all files loaded and sended
+            // used for animation end and list update
             onComplete() {
                 this.isLoadingFiles = false;
                 this.loadList();
@@ -210,6 +258,10 @@
 
             computeDate(date) {
                 return new Date(+date).toLocaleDateString();
+            },
+
+            computeFormat(format) {
+                return format.split('/').pop();
             },
 
             computeSize(size, nospace, one) {
@@ -238,22 +290,18 @@
                 }
 
                 return resultSize;
-        },
+            },
 
-        openPopup() {
-            this.popupTriggerIf = true;
-        },
-
-        ...mapActions('lookups/media', {
-            loadDataList: 'LOAD_DATA_LIST',
-            loadItem: 'GET_ITEM',
-            setSize: 'SET_SIZE',
-            setSearch: 'SET_SEARCH',
-            nextPage: 'NEXT_PAGE',
-            prevPage: 'PREV_PAGE',
-            removeItem: 'REMOVE_ITEM',
-        }),
-    }
+            ...mapActions('lookups/media', {
+                loadDataList: 'LOAD_DATA_LIST',
+                loadItem: 'GET_ITEM',
+                setSize: 'SET_SIZE',
+                setSearch: 'SET_SEARCH',
+                nextPage: 'NEXT_PAGE',
+                prevPage: 'PREV_PAGE',
+                removeItem: 'REMOVE_ITEM',
+            }),
+        }
     }
 </script>
 

@@ -7,7 +7,7 @@ export const downloadAsCSV = (dataStr, name) => {
     download(dataStr, name);
 };
 
-const download = (dataStr, name) => {
+export const download = (dataStr, name) => {
     const downloadAnchorNode = document.createElement('a');
     downloadAnchorNode.setAttribute('href', dataStr);
     downloadAnchorNode.setAttribute('download', name);

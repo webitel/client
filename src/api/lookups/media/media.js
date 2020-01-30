@@ -34,6 +34,17 @@ export const getMedia = async (id) => {
     }
 };
 
+export const downloadMedia = async (id) => {
+    const token = 'IGORDEV_TOKEN';
+    const url = `https://dev.webitel.com/api/storage/media/${id}/download?access_token=${token}`;
+    try {
+        const response = await instance.get(url);
+        return response.data;
+    } catch (err) {
+        throw err;
+    }
+};
+
 export const addMedia = async (file) => {
     const token = 'IGORDEV_TOKEN';
     const url = `https://dev.webitel.com/api/storage/media?access_token=${token}`;
