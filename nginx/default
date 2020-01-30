@@ -51,7 +51,7 @@ server {
         expires 1d;
     }
 
-    location ~ ^/api/storage/media/(.*/stream.*) {
+    location ~ ^/api/storage/media/(.*/(stream|download).*) {
         limit_except GET OPTIONS {
             deny all;
         }
