@@ -50,7 +50,7 @@
 
                 <template slot="type" slot-scope="props">
                     <div>
-                        {{dataList[props.rowIndex].type.name}}
+                        {{computeType(dataList[props.rowIndex].type)}}
                     </div>
                 </template>
 
@@ -154,10 +154,21 @@
                 this.$router.push({
                     name: 'storage-edit',
                     params: {
-                        type: this.dataList[rowId].type.name,
+                        type: this.dataList[rowId].type,
                         id: this.dataList[rowId].id
                     },
                 });
+            },
+
+            computeType(type) {
+                switch (type) {
+                    case 'local': return 'Local';
+                    case 'aws': return 'AWS S3';
+                    case 'digitalOcean': return 'Digital Ocean';
+                    case 'backblaze': return 'Backblaze';
+                    case 'dropbox': return 'Dropbox';
+                    case 'drive': return 'Google Drive';
+                }
             },
 
             ...mapActions('integrations/storage', {

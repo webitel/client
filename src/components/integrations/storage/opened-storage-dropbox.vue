@@ -5,8 +5,8 @@
         </header>
         <form class="object-input-grid">
             <form-input
-                    v-model="key"
-                    :v="v.itemInstance.key"
+                    v-model="token"
+                    :v="v.itemInstance.properties.token"
                     :label="$t('objects.integrations.storage.dropboxKey')"
                     required
             ></form-input>
@@ -23,15 +23,15 @@
         mixins: [openedTabComponentMixin],
 
         computed: {
-            key: {
-                get() {return this.$store.state.integrations.storage.itemInstance.key},
-                set(value) {this.setItemProp({prop: 'key', value})}
+            token: {
+                get() {return this.$store.state.integrations.storage.itemInstance.properties.token},
+                set(value) {this.setItemProp({prop: 'token', value})}
             },
         },
 
         methods: {
             ...mapActions('integrations/storage', {
-                setItemProp: 'SET_ITEM_PROPERTY',
+                setItemProp: 'SET_ITEM_PROPERTIES_PROPERTY',
             }),
         },
     }

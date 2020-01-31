@@ -5,20 +5,20 @@
         </header>
         <form class="object-input-grid">
             <form-input
-                    v-model="folder"
-                    :v="v.itemInstance.folder"
+                    v-model="directory"
+                    :v="v.itemInstance.properties.directory"
                     :label="$t('objects.integrations.storage.driveFolder')"
                     required
             ></form-input>
             <form-input
                     v-model="email"
-                    :v="v.itemInstance.email"
+                    :v="v.itemInstance.properties.email"
                     :label="$t('objects.integrations.storage.driveEmail')"
                     required
             ></form-input>
             <form-input
-                    v-model="key"
-                    :v="v.itemInstance.key"
+                    v-model="privateKey"
+                    :v="v.itemInstance.properties.privateKey"
                     :label="$t('objects.integrations.storage.driveKey')"
                     required
             ></form-input>
@@ -35,23 +35,23 @@
         mixins: [openedTabComponentMixin],
 
         computed: {
-            folder: {
-                get() {return this.$store.state.integrations.storage.itemInstance.folder},
-                set(value) {this.setItemProp({prop: 'folder', value})}
+            directory: {
+                get() {return this.$store.state.integrations.storage.itemInstance.properties.directory},
+                set(value) {this.setItemProp({prop: 'directory', value})}
             },
             email: {
-                get() {return this.$store.state.integrations.storage.itemInstance.email},
+                get() {return this.$store.state.integrations.storage.itemInstance.properties.email},
                 set(value) {this.setItemProp({prop: 'email', value})}
             },
-            key: {
-                get() {return this.$store.state.integrations.storage.itemInstance.key},
-                set(value) {this.setItemProp({prop: 'key', value})}
+            privateKey: {
+                get() {return this.$store.state.integrations.storage.itemInstance.properties.privateKey},
+                set(value) {this.setItemProp({prop: 'privateKey', value})}
             },
         },
 
         methods: {
             ...mapActions('integrations/storage', {
-                setItemProp: 'SET_ITEM_PROPERTY',
+                setItemProp: 'SET_ITEM_PROPERTIES_PROPERTY',
             }),
         },
     }

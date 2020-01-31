@@ -64,20 +64,24 @@
                     return {
                         itemInstance: {
                             name: {required},
-                            key: {required},
-                            access: {required},
-                            bucket: {required},
-                            region: {required},
+                            properties: {
+                                keyId: {required},
+                                accessKey: {required},
+                                bucketName: {required},
+                                region: {required},
+                            },
                         }
                     };
-                case 'digital-ocean':
+                case 'digitalOcean':
                     return {
                         itemInstance: {
                             name: {required},
-                            key: {required},
-                            access: {required},
-                            bucket: {required},
-                            region: {required},
+                            properties: {
+                                keyId: {required},
+                                accessKey: {required},
+                                bucketName: {required},
+                                region: {required},
+                            },
                         }
                     };
                 case 'backblaze':
@@ -94,16 +98,20 @@
                     return {
                         itemInstance: {
                             name: {required},
-                            key: {required}
+                            properties: {
+                                token: {required},
+                            },
                         }
                     };
                 case 'drive':
                     return {
                         itemInstance: {
                             name: {required},
-                            folder: {required},
-                            email: {required, email},
-                            key: {required},
+                            properties: {
+                                directory: {required},
+                                privateKey: {required},
+                                email: {required},
+                            },
                         }
                     };
             }
@@ -135,7 +143,7 @@
                     case 'aws':
                         tabs.push({text: this.$t('objects.integrations.storage.configuration'), value: 'aws'});
                         break;
-                    case 'digital-ocean':
+                    case 'digitalOcean':
                         tabs.push({text: this.$t('objects.integrations.storage.configuration'), value: 'digitalOcean'});
                         break;
                     case 'backblaze':

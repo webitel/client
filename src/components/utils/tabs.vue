@@ -82,13 +82,13 @@
             transition: $transition;
 
             &.active, &:focus {
-                font-family: 'AvantGardeDemi';
+                font-family: 'EN-AvantGardeDemi', 'RU-AvantGardeDemi';
                 border-bottom: 2px solid $accent-color;
                 color: #000;
             }
 
             &:hover {
-                font-family: 'AvantGardeDemi';
+                font-family: 'EN-AvantGardeDemi', 'RU-AvantGardeDemi';
                 color: #000;
             }
 
@@ -96,7 +96,7 @@
             &:after {
                 display: block;
                 content: attr(value);
-                font-family: 'AvantGardeDemi';
+                font-family: 'EN-AvantGardeDemi', 'RU-AvantGardeDemi';
                 height: 0;
                 overflow: hidden;
                 visibility: hidden;

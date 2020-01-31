@@ -5,27 +5,27 @@
         </header>
         <form class="object-input-grid">
             <form-input
-                    v-model="key"
-                    :v="v.itemInstance.key"
+                    v-model="keyId"
+                    :v="v.itemInstance.properties.keyId"
                     :label="$t('objects.integrations.storage.awsKey')"
                     required
             ></form-input>
             <form-input
-                    v-model="access"
-                    :v="v.itemInstance.access"
+                    v-model="accessKey"
+                    :v="v.itemInstance.properties.accessKey"
                     :label="$t('objects.integrations.storage.awsAccess')"
                     required
             ></form-input>
             <form-input
-                    v-model="bucket"
-                    :v="v.itemInstance.bucket"
+                    v-model="bucketName"
+                    :v="v.itemInstance.properties.bucketName"
                     :label="$t('objects.integrations.storage.bucket')"
                     required
             ></form-input>
             <dropdown-select
                     v-model="region"
-                    :v="v.itemInstance.region"
-                    :options="dropdownAWSRegionOptionsList"
+                    :v="v.itemInstance.properties.region"
+                    :options="AWSRegions"
                     :label="$t('objects.integrations.storage.region')"
                     required
             ></dropdown-select>
@@ -35,65 +35,42 @@
 
 <script>
     import openedTabComponentMixin from '@/mixins/openedTabComponentMixin';
-    import {getUsersList} from "../../../api/directory/users/users";
     import {mapActions} from "vuex";
     import DropdownSelect from "../../utils/dropdown-select";
+    import {AWSRegions} from "../../../api/integrations/storage";
 
-    export default {
+        export default {
         name: "opened-storage-aws",
         components: {DropdownSelect},
         mixins: [openedTabComponentMixin],
         data() {
             return {
-                dropdownAWSRegionOptionsList: [
-                    {name: 'EU (Frankfurt)', value: 'eu-central-1'},
-                    {name: 'EU (Ireland)', value: 'eu-west-1'},
-                    {name: 'EU (London)', value: 'eu-west-2'},
-                    {name: 'EU (Paris)', value: 'eu-west-3'},
-                    {name: 'EU (Stockholm)', value: 'eu-north-1'},
-                    {name: 'Asia Pacific (Hong Kong)', value: 'ap-east-1'},
-                    {name: 'Asia Pacific (Mumbai)', value: 'ap-south-1'},
-                    {name: 'Asia Pacific (Osaka-Local)', value: 'ap-northeast-3'},
-                    {name: 'Asia Pacific (Seoul)', value: 'ap-northeast-2'},
-                    {name: 'Asia Pacific (Singapore)', value: 'ap-southeast-1'},
-                    {name: 'Asia Pacific (Sydney)', value: 'ap-southeast-2'},
-                    {name: 'Asia Pacific (Tokyo)', value: 'ap-northeast-1'},
-                    {name: 'US East (Ohio)', value: 'us-east-2'},
-                    {name: 'US East (N. Virginia)', value: 'us-east-1'},
-                    {name: 'US West (N. California)', value: 'us-west-1'},
-                    {name: 'US West (Oregon)', value: 'us-west-2'},
-                    {name: 'Canada (Central)', value: 'cn-north-1'},
-                    {name: 'China (Ningxia)', value: 'cn-northwest-1'},
-                    {name: 'Middle East (Bahrain)', value: 'me-south-1'},
-                    {name: 'South America (Sao Paulo)', value: 'sa-east-1'},
-                    {name: 'AWS GovCloud (US-East)', value: 'us-gov-east-1'},
-                    {name: 'AWS GovCloud (US-West)', value: 'us-gov-west-1'},
-                    ],
+                AWSRegions,
             }
         },
 
         computed: {
-            key: {
-                get() {return this.$store.state.integrations.storage.itemInstance.key},
-                set(value) {this.setItemProp({prop: 'key', value})}
+            keyId: {
+                get() {return this.$store.state.integrations.storage.itemInstance.properties.keyId},
+                set(value) {this.setItemProp({prop: 'keyId', value})}
             },
-            access: {
-                get() {return this.$store.state.integrations.storage.itemInstance.access},
-                set(value) {this.setItemProp({prop: 'access', value})}
+            accessKey: {
+                get() {return this.$store.state.integrations.storage.itemInstance.properties.accessKey},
+                set(value) {this.setItemProp({prop: 'accessKey', value})}
             },
-            bucket: {
-                get() {return this.$store.state.integrations.storage.itemInstance.bucket},
-                set(value) {this.setItemProp({prop: 'bucket', value})}
+            bucketName: {
+                get() {return this.$store.state.integrations.storage.itemInstance.properties.bucketName},
+                set(value) {this.setItemProp({prop: 'bucketName', value})}
             },
             region: {
-                get() {return this.$store.state.integrations.storage.itemInstance.region},
+                get() {return this.$store.state.integrations.storage.itemInstance.properties.region},
                 set(value) {this.setItemProp({prop: 'region', value})}
             },
         },
 
         methods: {
             ...mapActions('integrations/storage', {
-                setItemProp: 'SET_ITEM_PROPERTY',
+                setItemProp: 'SET_ITEM_PROPERTIES_PROPERTY',
             }),
         },
     }

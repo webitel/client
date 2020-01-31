@@ -528,6 +528,7 @@ export default {
                 type: 'Type',
                 maxSize: 'Storage space (GB)',
                 expireDays: 'Lifetime',
+                priority: 'priority',
                 newStorage: 'New storage',
                 newStorageDescription: 'New Storage description',
                 local: 'Local',

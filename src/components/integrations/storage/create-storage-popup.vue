@@ -9,15 +9,15 @@
         <section>
             <p class="popup-subheading">{{$t('objects.integrations.storage.newStorageDescription')}}</p>
             <ul class="popup-options">
-                <li
-                        class="popup-options__item-wrap"
-                        :class="{'active': computeSelectedOption('local')}"
-                        @click="selectPopupOption('local')"
-                >
-                    <h4 class="popup-options__item-header">
-                        {{$t('objects.integrations.storage.local')}}
-                    </h4>
-                </li>
+<!--                <li-->
+<!--                        class="popup-options__item-wrap"-->
+<!--                        :class="{'active': computeSelectedOption('local')}"-->
+<!--                        @click="selectPopupOption('local')"-->
+<!--                >-->
+<!--                    <h4 class="popup-options__item-header">-->
+<!--                        {{$t('objects.integrations.storage.local')}}-->
+<!--                    </h4>-->
+<!--                </li>-->
                 <li
                         class="popup-options__item-wrap"
                         :class="{'active': computeSelectedOption('aws')}"
@@ -36,15 +36,15 @@
                         {{$t('objects.integrations.storage.digitalOcean')}}
                     </h4>
                 </li>
-                <li
-                        class="popup-options__item-wrap"
-                        :class="{'active': computeSelectedOption('backblaze')}"
-                        @click="selectPopupOption('backblaze')"
-                >
-                    <h4 class="popup-options__item-header">
-                        {{$t('objects.integrations.storage.backblaze')}}
-                    </h4>
-                </li>
+<!--                <li-->
+<!--                        class="popup-options__item-wrap"-->
+<!--                        :class="{'active': computeSelectedOption('backblaze')}"-->
+<!--                        @click="selectPopupOption('backblaze')"-->
+<!--                >-->
+<!--                    <h4 class="popup-options__item-header">-->
+<!--                        {{$t('objects.integrations.storage.backblaze')}}-->
+<!--                    </h4>-->
+<!--                </li>-->
                 <li
                         class="popup-options__item-wrap"
                         :class="{'active': computeSelectedOption('dropbox')}"
