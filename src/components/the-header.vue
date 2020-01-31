@@ -20,7 +20,7 @@
                         </span>
                     </li>
                     <li class="the-header__user-action-item the-header__user-action-item__logout">
-                        <span @click="logout">
+                        <span @click="logoutUser">
                             {{$t('header.logout')}}
                         </span>
                     </li>
@@ -31,6 +31,7 @@
 </template>
 
 <script>
+    import {logout} from "../api/auth/auth";
     import {mapState} from "vuex";
 
     export default {
@@ -40,7 +41,7 @@
         }),
 
         computed: {
-            ...mapState('auth', {
+            ...mapState('userinfo', {
                 username: state => state.username,
             })
         },
@@ -51,9 +52,8 @@
                 this.$router.push('/settings');
             },
 
-            logout() {
-                this.userActionsTriggerShow = false;
-                this.$router.push('/auth');
+            async logoutUser() {
+                await logout();
             },
         }
     };

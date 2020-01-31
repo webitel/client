@@ -481,15 +481,14 @@ const router = new Router({
     ],
 });
 
-// router.beforeEach((to, from, next) => {
-//     if(!(to.fullPath === '/login' || to.fullPath === '/register')) {
-//         if (!localStorage.getItem('access-token')) {
-//             console.log('if');
-//             next('/login');
-//         }
-//     }
-//     next();
-// });
+router.beforeEach((to, from, next) => {
+    if(!(to.fullPath === '/auth')) {
+        if (!localStorage.getItem('access-token')) {
+            next('/auth');
+        }
+    }
+    next();
+});
 
 
 export default router;

@@ -45,6 +45,7 @@
 
 <script>
     import clickaway from '../directives/clickaway';
+    import {mapState} from "vuex";
 
     export default {
         name: 'the-nav',
@@ -52,12 +53,14 @@
         watch: {
             '$route': function () {
                 this.expandCurrentRoute();
+            },
+            scope() {
+                this.computeNav();
             }
         },
         data() {
             return {
-                collapsed: false,
-                nav: [
+                fullNav: [
                     {
                         name: 'directory',
                         displayName: this.$t('nav.directory.directory'),
@@ -106,7 +109,7 @@
                             },
                             {
                                 name: 'chatplan',
-                                displayName: this.$t('nav.routing.chatplan')+' (coming soon)',
+                                displayName: this.$t('nav.routing.chatplan') + ' (coming soon)',
                                 route: '/routing/chatplan',
                                 current: false,
                             },
@@ -237,7 +240,7 @@
                         subnav: [
                             {
                                 name: 'tokens',
-                                displayName: this.$t('nav.integrations.tokens')+' (coming soon)',
+                                displayName: this.$t('nav.integrations.tokens') + ' (coming soon)',
                                 route: '/integrations/tokens',
                                 current: false,
                             },
@@ -249,25 +252,25 @@
                             },
                             {
                                 name: 'triggers',
-                                displayName: this.$t('nav.integrations.triggers')+' (coming soon)',
+                                displayName: this.$t('nav.integrations.triggers') + ' (coming soon)',
                                 route: '/integrations/triggers',
                                 current: false,
                             },
                             {
                                 name: 'adfs',
-                                displayName: this.$t('nav.administration.adfs')+' (coming soon)',
+                                displayName: this.$t('nav.administration.adfs') + ' (coming soon)',
                                 route: '/integrations/adfs',
                                 current: false,
                             },
                             {
                                 name: 'widgets',
-                                displayName: this.$t('nav.integrations.widgets')+' (coming soon)',
+                                displayName: this.$t('nav.integrations.widgets') + ' (coming soon)',
                                 route: '/integrations/widgets',
                                 current: false,
                             },
                             {
                                 name: 'call-tracking',
-                                displayName: this.$t('nav.integrations.callTracking')+' (coming soon)',
+                                displayName: this.$t('nav.integrations.callTracking') + ' (coming soon)',
                                 route: '/integrations/call-tracking',
                                 current: false,
                             },
@@ -300,13 +303,45 @@
                             // },
                         ]
                     },
-                ]
+                ],
+                nav: [],
+                collapsed: false,
             };
         },
+
         mounted() {
-            this.expandCurrentRoute();
+            this.computeNav();
         },
+
+        computed: {
+            ...mapState('userinfo', {
+                scope: state => state.scope
+            }),
+        },
+
         methods: {
+            computeNav() {
+                let nav = this.fullNav.filter(navItem => {
+                    return this.scope.some(scopeItem => {
+                        return navItem.subnav.some(subnavItem => {
+                            return subnavItem.name === scopeItem.class;
+                        });
+                    });
+                });
+
+                this.nav = nav.map(navItem => {
+                    return {
+                        ...navItem,
+                        subnav: navItem.subnav.filter(subnavItem => {
+                            return this.scope.some(scopeItem => {
+                                return subnavItem.name === scopeItem.class;
+                            });
+                        }),
+                    }});
+
+                this.expandCurrentRoute();
+            },
+
             toggleCollapse() {
                 this.collapsed = !this.collapsed;
                 this.closeAllExpands();
@@ -323,7 +358,7 @@
                 const currentItem = this.nav.find(currItem => {
                     return this.$router.currentRoute.fullPath.includes(currItem.route);
                 });
-                if(currentItem) {
+                if (currentItem) {
                     const currentSubitem = currentItem.subnav.find(currSubitem => {
                         return this.$router.currentRoute.fullPath.includes(currSubitem.route);
                     });
@@ -455,11 +490,11 @@
                     }
                 }
 
-            .nav-item__expanded {
-                .nav-icon-arrow {
-                    transform: rotate(0);
+                .nav-item__expanded {
+                    .nav-icon-arrow {
+                        transform: rotate(0);
+                    }
                 }
-            }
 
                 .nav-item__expanded {
                     background: rgba(0, 0, 0, 0.35);

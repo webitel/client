@@ -78,6 +78,12 @@
             },
         },
 
+        mounted() {
+            const lang = localStorage.getItem('lang'); // get default lang
+            // if there's a previously set lang, set it
+            if(lang) this.language = this.languageOptions.find(item => item.id === lang);
+        },
+
         computed: {
             computeDisabled() {
                 this.$v.$touch();
@@ -89,6 +95,7 @@
             changePassword() {},
 
             changeLanguage(value) {
+                localStorage.setItem('lang', value.id);
                 this.language = value;
                 this.$i18n.locale = value.id;
             }
