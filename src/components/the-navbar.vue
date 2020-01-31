@@ -339,6 +339,7 @@
                         }),
                     }});
 
+                this.nav = this.fullNav;
                 this.expandCurrentRoute();
             },
 

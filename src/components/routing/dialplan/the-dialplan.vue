@@ -58,20 +58,35 @@
 
                 <template slot="enabled" slot-scope="props">
                     <switcher
-                            :value="dataList[props.rowIndex].enabled"
+                            :value="!dataList[props.rowIndex].disabled"
                             @input="toggleSwitchProperty(props.rowIndex)"
                     ></switcher>
                 </template>
 
                 <template slot="actions" slot-scope="props">
+                    <div class="vuetable-action move-arrows">
+                        <div class="move-arrow-wrap">
+                            <img
+                                    v-show="props.rowIndex !== 0"
+                                    src="../../../assets/img/arrow-top.svg"
+                                    alt="top"
+                                    @click="moveRowTop(props.rowIndex)"
+                            >
+                        </div>
+                        <div class="move-arrow-wrap">
+                            <img
+                                    v-show="props.rowIndex !== (dataList.length-1)"
+                                    src="../../../assets/img/arrow-bottom.svg"
+                                    alt="bottom"
+                                    @click="moveRowBottom(props.rowIndex)"
+                            >
+                        </div>
+                    </div>
                     <i class="vuetable-action icon-icon_edit"
                        @click="edit(props.rowIndex)"
                     ></i>
                     <i class="vuetable-action icon-icon_delete"
                        @click="remove(props.rowIndex)"
-                    ></i>
-                    <i class="vuetable-action icon-icon_pull"
-                       @click="moveRowTop(props.rowIndex)"
                     ></i>
                 </template>
             </vuetable>
@@ -151,6 +166,7 @@
                 setSearch: 'SET_SEARCH',
                 toggleSwitchProperty: 'TOGGLE_ITEM_PROPERTY',
                 moveRowTop: 'MOVE_ROW_TOP',
+                moveRowBottom: 'MOVE_ROW_BOTTOM',
                 nextPage: 'NEXT_PAGE',
                 prevPage: 'PREV_PAGE',
                 removeItem: 'REMOVE_ITEM',
@@ -160,5 +176,16 @@
 </script>
 
 <style lang="scss" scoped>
+    .move-arrows {
+        width: 24px;
+        height: 24px;
 
+        .move-arrow-wrap {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 12px;
+            height: 12px;
+        }
+    }
 </style>

@@ -301,12 +301,12 @@ const router = new Router({
                     component: theResources
                 },
                 {
-                    path:'/contact-center/resource/new',
+                    path:'/contact-center/resources/new',
                     name: 'cc-resource-new',
                     component: openedResource
                 },
                 {
-                    path:'/contact-center/resource/:id',
+                    path:'/contact-center/resources/:id',
                     name: 'cc-resource-edit',
                     component: openedResource
                 },

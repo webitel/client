@@ -44,10 +44,19 @@
 <script>
     import openedTabComponentMixin from '@/mixins/openedTabComponentMixin';
     import {mapActions} from "vuex";
+    import {getFlowList} from "../../../api/routing/flow/flow";
 
     export default {
         name: "opened-trunking-sip-gateway-general",
         mixins: [openedTabComponentMixin],
+
+        data: () => ({
+            dropdownOptionsList: []
+        }),
+
+        mounted() {
+            this.loadDropdownOptionsList();
+        },
 
         computed: {
             name: {
@@ -73,10 +82,15 @@
         },
 
         methods: {
-            loadDropdownOptionsList() {
-                return []
+            async loadDropdownOptionsList(search) {
+                const response = await getFlowList(0, 10, search);
+                this.dropdownOptionsList = response.map(item => {
+                    return {
+                        name: item.name,
+                        id: item.id,
+                    }
+                });
             },
-
             ...mapActions('routing/gateways', {
                 setItemProp: 'SET_ITEM_PROPERTY',
             }),
