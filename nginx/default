@@ -51,7 +51,7 @@ server {
         expires 1d;
     }
 
-    location ~ ^/api/storage/media/(.*/(stream|download).*) {
+    location ~ ^/api/storage/(media|recordings)/.*/(stream|download).* {
         limit_except GET OPTIONS {
             deny all;
         }
@@ -60,7 +60,7 @@ server {
         proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
         proxy_send_timeout 3600s;
         proxy_read_timeout 3600s;
-        rewrite ^/api/storage/media/(.*) /api/v2/media/$1 break;
+        rewrite ^/api/storage/(.*) /api/v2/$1 break;
         proxy_pass http://storage:10023;
    }
 
