@@ -12,7 +12,7 @@ const defaultState = () => {
             name: 'device name',
             account: '1002',
             password: 'pass',
-            user: '',
+            user: {},
             phone: '8 800 555 3535',
             ip: '10.10.10.117',
 

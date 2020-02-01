@@ -18,6 +18,10 @@
                     v-model.trim="expireDays"
                     :label="$t('objects.integrations.storage.expireDays')"
             ></form-input>
+            <form-input
+                    v-model.trim="priority"
+                    :label="$t('objects.integrations.storage.priority')"
+            ></form-input>
         </form>
     </section>
 </template>
@@ -42,6 +46,10 @@
             expireDays: {
                 get() {return this.$store.state.integrations.storage.itemInstance.expireDays},
                 set(value) {this.setItemProp({prop: 'expireDays', value})}
+            },
+            priority: {
+                get() {return this.$store.state.integrations.storage.itemInstance.priority},
+                set(value) {this.setItemProp({prop: 'priority', value})}
             },
         },
 

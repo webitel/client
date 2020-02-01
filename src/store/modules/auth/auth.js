@@ -1,21 +1,18 @@
-import {login} from "../../../api/auth/auth";
+import {login, register} from "../../../api/auth/auth";
 
 const defaultState = () => ({
-    domainId: null,
-    username: 'srgdemon@webitel.lo',
+    username: 'superior@dev.example.com',
     password: '12qwaszx',
-    certificate: 'wcBMA1HFhJxxpGedAQgAvvdbsaGIkAQI65HLXV2iHOqhxWFft836GzyG3nVk1qvZjxFrk8TPj9BnpLffBM/jluMcP3+NjIEtJiMbgpc/cGq9Vg9Y1d9ENVCGS6rXxkWcy00P/G3344wER1E31/fEGD0WMf7RZpVo+LOcUH8I4LclHbHefFN/HdnV87D1fyUyCdXYDsNULgMj67j9m9zK9yD9XaYW3pewoxrYZqCERzPbkMD2/eQ+EwItjAFmXRqi0x2p5XIeCMzna0HQq0bmuzH5OV1i8YS/ImObxD6s6xfLUFtSbiNrB1NgSqE95tHFbg/DHlp/b5j7x5WwXy8unq2vJ+JXAAi0hbuduLHMaNLgAeNj9afzTVm3xeH0ZOEYyeNKJoCBJYEnzeIhErCd4HrgYeB04Xdf4M7lSYHzVzzWFVK/MoEyMFyPmQqTcS8lYCtRm0y+5R8T23Tg/eJiRkpO4Pvi/PD3+eC/5/0pEgnZKn2AyQRZDTJq6C7jLdId4RXvy4ep1osAOfvgdzYAAgmDG5tXj4P/OfScuHuRab7c9tCiZV35skEbju3D/eAq5BOdzUI54Tm6Tm/ZFXSR81+OUSn29eNBa/qHg8Ed7RGzGVuv/3krqWI38qa+pOBMx1vc335xqzx4jg7z4Pfk0xWx+Fqq9uQKa79KF3Wae+DP4geANDTgSuFbquCz4L/gcuEWJODA5Nuxf9BU5uHBLCuE0tkaezvjlz/2d6z9lpbicfdTyeEeO+Gk0+FKieg9Jlo95voP3A/dJ9Cvw3K5vx26LFEmFPK5Tmp1RdK40tJ+79fA3icUJ6LaB5JppfFGhNwxJX24OQbJyxM6yOjZM6Q+9PWUX2BSpag6sO+SgE3HVMSrpABENUSYunb88NoqNTTueVWFByJI1SsVTo/hsiFHl1IjRHBo1GNaayWxOuStv3YHiF1NFSOfIgYTRLNch2Nf9AWAV/Ps3c2/8JwGuau2hu3EN87z2AM0nSayFGL7SsV3DOjE719GMRRY3bQHYLhyx4e9CyKqnnbutE3l2b0EgSlqY40izK3Z04VdWDBgvYspHjHK2f76fDMcCtdPNmaCnWS57VmHBuEt+yKa5OSgX7xHqqdJvZKbcib9N3niWNSZ2eFAmwA=',
+    certificate: '' +
+        'wcBMA1HFhJxxpGedAQgAv043lk3UG6PTFgHI/g25GQVe60f6B3gq3lHaRI3WQFEhDhMEdD9eiYUrTKd6NAitrPkdGOLKJLCk6YjilEFq8/tTEZZwMYbRAtodoUs6lVX76t6BDFSbpc1RlcH9w+nWDORbdcW9S+o3iVo0TP4+4rwyMkQS9rdpEPlJkip8sm5vyu1KQVbXogA+diruKoCc3jt1VqSa0jAjPibuiVFbPI9jNmSYcDqAQbdVcVKm7Px0eLMkbKw49K+RMur52vhsYfgVeLa3aO16So92CeCfGkZNBFi+GdBu/81svwMYj+rgSCjYYAueRgFApMqratsz4RhK0kCbtsDgKK8ZWlYWNtLgAeNcNuCVDbL2w+E7quHq7+OUaGGyv5HUkeJfRFXA4L7gPuB44Td34CrldBT5Zd3RIub/MjOD7qp34XWVDdUJM1WmVYjoCsyYrj/g5+Lolm0k4Pzi8oASiOCM55+WsEhhu/oZr+C7qiy3d38dCqOc+uI2Q1B+Mqw/fCnXja1aXkrHNXEHB9Wg9aQ8a/fnlheD66NsQHTBa7CuB0PEp1vGeGnc9eRYUra8lCw4enxzKejvnrQ/wiJYQic9u0ptBG/+siteaCmK2duJZNx9n+oYuWpLBl2YCSAcy5H04MnkRvv0oCqaG6ElV4fQWeCBJOAr450cULGim2dF4LLiHlD9+uAR4bmH4MLk6Toldgb8sGatJrOYHZK27+N6WwyaNtznxOImRnIr4QAD4aZY4f/t6PeEBRr0TD7E3ufgQo9SLElv/YnN5wuK6PAEcAFOtqrO2TFO5LLhdXg9oIYBfd7H/uHeOFzblVJLAzM2dMbW5ISJdbfxaK4un9gDknjJYKJg+WGJWPOE4x0+NGIuOONAJi8UAF2UtsE+3nQX7vgAJvMeygzjptTDQEqooMDNQFjpmfZhWmOXdcVFRhxQzoduJmrmp4ICB9sWf0zlbjOi372fb+Ho+z42crgR/PmQF2iV0OqLjH/fJutL+V3x2XBUk4yiwAzhKLokIWhqOnb6gAg1rwlXmEqKrKR9Ll2x6tUVBOt14RzCrgatkz5VzxwPUGP0OVaESogc9fHIY29d3gbkoX7KsoAeKcMaDcAUNs4ZJeIDrN9p4U2FAA=='
+        + '',
 });
 
 const state = {
     ...defaultState()
 };
 
-const getters = {
-    isAuthenticated(state) {
-        return state.username || false;
-    },
-};
+const getters = {};
 
 const actions = {
     SET_DOMAIN_ID: (context, domainId) => {
@@ -34,7 +31,7 @@ const actions = {
     },
 
     REGISTER: async (context) => {
-        await login({
+        await register({
             username: state.username,
             password: state.password,
             certificate: state.certificate

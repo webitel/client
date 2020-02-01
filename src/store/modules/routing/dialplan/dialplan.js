@@ -3,7 +3,7 @@ import {
     addDialplan,
     deleteDialplan,
     getDialplan,
-    getDialplanList, patchDialplan,
+    getDialplanList, moveDialplan, patchDialplan,
     updateDialplan
 } from "../../../../api/routing/dialplan/dialplan";
 
@@ -74,14 +74,14 @@ const actions = {
     },
 
     NEXT_PAGE: (context) => {
-        if(state.isNextPage) {
+        if (state.isNextPage) {
             context.commit('INCREMENT_PAGE');
             context.dispatch('LOAD_DATA_LIST');
         }
     },
 
     PREV_PAGE: (context) => {
-        if(state.page) {
+        if (state.page) {
             context.commit('DECREMENT_PAGE');
             context.dispatch('LOAD_DATA_LIST');
         }
@@ -89,9 +89,33 @@ const actions = {
 
     TOGGLE_ITEM_PROPERTY: async (context, index) => {
         await context.commit('TOGGLE_ITEM_PROPERTY', index);
-        let changes = {enabled: state.dataList[index].enabled};
+        let changes = {disabled: state.dataList[index].disabled};
         try {
             context.dispatch('PATCH_ITEM', {id: state.dataList[index].id, changes});
+        } catch {
+            context.dispatch('LOAD_DATA_LIST');
+        }
+    },
+
+    MOVE_ROW_TOP: async (context, index) => {
+        console.log('top', index);
+        const fromId = state.dataList[index].id;
+        const toId = state.dataList[index - 1].id;
+        await context.commit('SWAP_ROWS', {fromId, toId});
+        try {
+            await moveDialplan(fromId, toId);
+        } catch {
+            context.dispatch('LOAD_DATA_LIST');
+        }
+    },
+
+    MOVE_ROW_BOTTOM: async (context, index) => {
+        console.log('bottom', index);
+        const fromId = state.dataList[index].id;
+        const toId = state.dataList[index + 1].id;
+        await context.commit('SWAP_ROWS', {fromId, toId});
+        try {
+            await moveDialplan(fromId, toId);
         } catch {
             context.dispatch('LOAD_DATA_LIST');
         }
@@ -163,7 +187,15 @@ const mutations = {
     },
 
     TOGGLE_ITEM_PROPERTY: (state, index) => {
-        state.dataList[index].enabled = !state.dataList[index].enabled;
+        state.dataList[index].disabled = !state.dataList[index].disabled;
+    },
+
+    SWAP_ROWS: (state, {fromId, toId}) => {
+        const fromIndex = state.dataList.findIndex(item => item.id === fromId);
+        const toIndex = state.dataList.findIndex(item => item.id === toId);
+        const buffer =  state.dataList[fromIndex];
+        state.dataList.splice(fromIndex, 1, state.dataList[toIndex]);
+        state.dataList.splice(toIndex, 1, buffer);
     },
 
     SET_ITEM_PROPERTY: (state, {prop, value}) => {

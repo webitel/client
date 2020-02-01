@@ -5,27 +5,27 @@
         </header>
         <form class="object-input-grid">
             <form-input
-                    v-model="key"
-                    :v="v.itemInstance.key"
+                    v-model="keyId"
+                    :v="v.itemInstance.properties.keyId"
                     :label="$t('objects.integrations.storage.oceanKey')"
                     required
             ></form-input>
             <form-input
-                    v-model="access"
-                    :v="v.itemInstance.access"
+                    v-model="accessKey"
+                    :v="v.itemInstance.properties.accessKey"
                     :label="$t('objects.integrations.storage.oceanAccess')"
                     required
             ></form-input>
             <form-input
-                    v-model="bucket"
-                    :v="v.itemInstance.bucket"
+                    v-model="bucketName"
+                    :v="v.itemInstance.properties.bucketName"
                     :label="$t('objects.integrations.storage.bucket')"
                     required
             ></form-input>
             <dropdown-select
                     v-model="region"
-                    :v="v.itemInstance.region"
-                    :options="dropdownDORegionsList"
+                    :v="v.itemInstance.properties.region"
+                    :options="DigitalOceanRegions"
                     :label="$t('objects.integrations.storage.region')"
                     required
             ></dropdown-select>
@@ -37,6 +37,7 @@
     import openedTabComponentMixin from '@/mixins/openedTabComponentMixin';
     import {mapActions} from "vuex";
     import DropdownSelect from "../../utils/dropdown-select";
+    import {DigitalOceanRegions} from "../../../api/integrations/storage";
 
     export default {
         name: "opened-storage-digital-ocean",
@@ -44,45 +45,32 @@
         mixins: [openedTabComponentMixin],
         data() {
             return {
-                dropdownDORegionsList: [
-                    {name: 'New York City, United States (NYC1)', value: 'NYC1'},
-                    {name: 'New York City, United States (NYC2)', value: 'NYC2'},
-                    {name: 'New York City, United States (NYC3)', value: 'NYC3'},
-                    {name: 'Amsterdam, the Netherlands 9 (AMS1)', value: 'AMS1'},
-                    {name: 'Amsterdam, the Netherlands 9 (AMS2)', value: 'AMS2'},
-                    {name: 'San Francisco, United States (SFO1)', value: 'SFO1'},
-                    {name: 'San Francisco, United States (SFO2)', value: 'SFO2'},
-                    {name: 'Singapore (SGP1)', value: 'SGP1'},
-                    {name: 'London, United Kingdom (LON1)', value: 'LON1'},
-                    {name: 'Frankfurt, Germany (FRA1)', value: 'FRA1'},
-                    {name: 'Toronto, Canada (TOR1)', value: 'TOR1'},
-                    {name: 'Bangalore, India (BLR1)', value: 'BLR1'},
-                    ]
+                DigitalOceanRegions,
             }
         },
 
         computed: {
-            key: {
-                get() {return this.$store.state.integrations.storage.itemInstance.key},
-                set(value) {this.setItemProp({prop: 'key', value})}
+            keyId: {
+                get() {return this.$store.state.integrations.storage.itemInstance.properties.keyId},
+                set(value) {this.setItemProp({prop: 'keyId', value})}
             },
-            access: {
-                get() {return this.$store.state.integrations.storage.itemInstance.access},
-                set(value) {this.setItemProp({prop: 'access', value})}
+            accessKey: {
+                get() {return this.$store.state.integrations.storage.itemInstance.properties.accessKey},
+                set(value) {this.setItemProp({prop: 'accessKey', value})}
             },
-            bucket: {
-                get() {return this.$store.state.integrations.storage.itemInstance.bucket},
-                set(value) {this.setItemProp({prop: 'bucket', value})}
+            bucketName: {
+                get() {return this.$store.state.integrations.storage.itemInstance.properties.bucketName},
+                set(value) {this.setItemProp({prop: 'bucketName', value})}
             },
             region: {
-                get() {return this.$store.state.integrations.storage.itemInstance.region},
+                get() {return this.$store.state.integrations.storage.itemInstance.properties.region},
                 set(value) {this.setItemProp({prop: 'region', value})}
             },
         },
 
         methods: {
             ...mapActions('integrations/storage', {
-                setItemProp: 'SET_ITEM_PROPERTY',
+                setItemProp: 'SET_ITEM_PROPERTIES_PROPERTY',
             }),
         },
     }

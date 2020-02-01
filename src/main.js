@@ -1,4 +1,3 @@
-import VueLogger from 'vuejs-logger';
 import Vue from 'vue';
 import Vuelidate from 'vuelidate';
 import App from './app.vue';
@@ -21,19 +20,6 @@ Vue.config.productionTip = false;
 Vue.component('vuetable-field-table-checkbox', tableCheckboxColumn);
 Vue.use(Vuelidate);
 Vue.mixin(errorMixin);
-
-Vue.use(VueLogger, {
-  isEnabled: true,
-  // logLevel: isProduction ? 'error' : 'debug',
-  stringifyArguments: false, // If true, all input will go through JSON.stringify().
-  // Useful when printing reactive properties.
-  showLogLevel: true,
-  showMethodName: true, // If true, the method name of
-  // the parent function will be shown in the console.
-  separator: ' | ',
-  showConsoleColors: false, // If true, enables console.warn,
-  // console.fatal, console.error for corresponding loglevels.
-});
 
 new Vue({
   router,

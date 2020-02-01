@@ -1,0 +1,30 @@
+import instance from "../instance";
+import store from "../../store/store";
+import {objSnakeToCamel} from "../utils/caseConverters";
+
+// gets user by token from localstorage
+// stores response username in vuex
+export const getSession = async () => {
+    const defaultObject = {
+        domainId: 0,
+        username: '',
+        userId: 0,
+        scope: [],
+        roles: [],
+        license: [],
+    };
+
+    const tokenCheck = localStorage.getItem('access-token');
+    if (typeof tokenCheck === 'string') { // if there is no token, localStorage returns object
+        const url = '/userinfo';
+        try {
+            const response = await instance.get(url);
+            store.dispatch('userinfo/SET_SESSION', {
+                ...defaultObject,
+                ...objSnakeToCamel(response.data)
+            });
+        } catch (error) {
+            throw error;
+        }
+    }
+};

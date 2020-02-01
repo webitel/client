@@ -133,7 +133,7 @@
 
         methods: {
             create() {
-                this.$router.push('/contact-center/resource/new');
+                this.$router.push('/contact-center/resources/new');
             },
 
             edit(rowId) {

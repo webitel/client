@@ -22,7 +22,7 @@
                 <range v-model="volume"></range>
             </div>
             <div @click.prevent="showVolume = !showVolume" title="Stop">
-                <i class="volume-icon icon-icon_"></i>
+                <i class="volume-icon icon-icon_close"></i>
             </div>
         </div>
         <audio
@@ -50,7 +50,7 @@
             },
             autoPlay: {
                 type: Boolean,
-                default: false
+                default: true
             },
             loop: {
                 type: Boolean,
@@ -64,6 +64,7 @@
             playing: false,
             volume: 50,
             showVolume: false,
+            isFirstLoad: true,
         }),
 
         computed: {
@@ -80,8 +81,12 @@
         },
 
         watch: {
-            playing(val) {
-                return val ? this.audio.play() : this.audio.pause();
+            file(value) {
+                this.playing = true;
+            },
+
+            playing(value) {
+                return value ? this.audio.play() : this.audio.pause();
             },
 
             volume(value) {
@@ -110,9 +115,12 @@
                 if (this.audio.readyState >= 2) {
                     this.loaded = true;
                     this.durationSeconds = parseInt(this.audio.duration);
-                    return this.playing = this.autoPlay;
+                    this.playing = (this.autoPlay && !this.isFirstLoad);
+                    if(this.playing) this.audio.play();
+                    this.isFirstLoad = false;
+                } else {
+                    throw new Error('Failed to load sound file.');
                 }
-                throw new Error('Failed to load sound file.');
             },
 
             seek(event) {

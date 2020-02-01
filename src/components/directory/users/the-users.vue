@@ -26,10 +26,6 @@
                             :class="{'hidden': anySelected}"
                             @click="deleteSelected"
                     ></i>
-                    <i
-                            class="icon-icon_reload icon-action"
-                            @click="loadList"
-                    ></i>
                     <div class="upload-csv">
                         <i class="icon-icon_upload"></i>
                         <input
@@ -40,6 +36,10 @@
                                 accept=".csv"
                         >
                     </div>
+                    <i
+                            class="icon-icon_reload icon-action"
+                            @click="loadList"
+                    ></i>
                 </div>
             </header>
 

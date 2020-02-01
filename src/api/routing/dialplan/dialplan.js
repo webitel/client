@@ -12,14 +12,14 @@ const fieldsToSend = ['name', 'schema', 'pattern', 'description'];
 
 export const getDialplanList = async (page = 0, size = 10, search) => {
     const defaultObject = {
+        disabled: false,
         _isSelected: false,
-        enabled: false,
     };
 
     try {
         const response = await dialplanService.searchRoutingOutboundCall(page, size);
         if (!response.data.items) response.data.items = [];
-        return response.data.items.map(item => {return {...item, ...defaultObject}});
+        return response.data.items.map(item => {return {...defaultObject, ...item}});
     } catch (err) {
         throw err;
     }
@@ -31,7 +31,7 @@ export const getDialplan = async (id) => {
     };
     try {
         let response = await dialplanService.readRoutingOutboundCall(id, domainId);
-        return {...response.data, ...defaultObject};
+        return {...defaultObject, ...response.data};
     } catch (err) {
         throw err;
     }
@@ -52,6 +52,15 @@ export const addDialplan = async (item) => {
 export const patchDialplan = async (id, changes) => {
     try {
         await dialplanService.patchRoutingOutboundCall(id, changes);
+        eventBus.$emit('notificationInfo', 'Sucessfully updated');
+    } catch (err) {
+        throw err;
+    }
+};
+
+export const moveDialplan = async (fromId, toId) => {
+    try {
+        await dialplanService.movePositionRoutingOutboundCall(fromId, toId, {});
         eventBus.$emit('notificationInfo', 'Sucessfully updated');
     } catch (err) {
         throw err;

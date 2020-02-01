@@ -14,9 +14,6 @@ const defaultState = () => {
             name: '',
             maxSize: 10,
             expireDays: 12,
-            key: '',
-            access: '',
-            bucket: '',
         },
     };
 };
@@ -27,34 +24,41 @@ const defaultLocalState = () => {
         maxSize: 10,
         expireDays: 12,
         priority: 0,
-        type: {name: 'local', id: 1},
+        type: 'local',
         properties: {directory: '/path/to/local/dir'}
     };
 };
 
 const defaultAWSState = () => {
     return {
-        name: '',
+        name: 'AWS Storage',
         maxSize: 10,
         expireDays: 12,
+        priority: 0,
         type: 'aws',
-        key: '',
-        access: '',
-        bucket: '',
-        region: {name: 'US East (Ohio)', value: 'us-east-2'},
+        properties: {
+            keyId: '1010',
+            accessKey: '2020',
+            bucketName: '4040',
+            region: {name: 'US East (Ohio)', value: 'us-east-2'},
+
+        },
     };
 };
 
 const defaultDigitalOceanState = () => {
     return {
-        name: '',
+        name: 'Digital Ocean Storage',
         maxSize: 10,
         expireDays: 12,
+        priority: 0,
         type: 'digitalOcean',
-        key: '',
-        access: '',
-        bucket: '',
-        region: {name: 'New York City, United States (NYC1)', value: 'NYC1'},
+        properties: {
+            keyId: '1010',
+            accessKey: '2020',
+            bucketName: '4040',
+            region: {name: 'New York City, United States (NYC1)', value: 'NYC1'},
+        },
     };
 };
 
@@ -64,32 +68,38 @@ const defaultBackblazeState = () => {
         maxSize: 10,
         expireDays: 12,
         type: 'backblaze',
-        account: '',
-        key: '',
-        bucket: '',
-        bucketId: '',
+        // account: '',
+        // key: '',
+        // bucket: '',
+        // bucketId: '',
     };
 };
 
 const defaultDropboxState = () => {
     return {
-        name: '',
+        name: 'Dropbox Storage',
         maxSize: 10,
         expireDays: 12,
+        priority: 0,
         type: 'dropbox',
-        key: '',
+        properties: {
+            token: '10102020',
+        },
     };
 };
 
 const defaultDriveState = () => {
     return {
-        name: '',
+        name: 'Drive Storage',
         maxSize: 10,
         expireDays: 12,
+        priority: 0,
         type: 'drive',
-        folder: '',
-        email: '',
-        key: '',
+        properties: {
+            directory: 'dir_name',
+            email: 'email@gmail.com',
+            privateKey: '80feoiufewqrewr4t4t43uriot54ut2hrkjt43jk32r',
+        },
     };
 };
 

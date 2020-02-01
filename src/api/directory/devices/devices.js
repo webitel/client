@@ -47,7 +47,7 @@ export async function getDevice(id) {
     };
     try {
         let response = await instance.get(url);
-        response.data.device.mac = response.data.device.mac.toUpperCase();
+        // response.data.device.mac = response.data.device.mac.toUpperCase();
         return Object.assign({}, defaultObject, response.data.device);
     } catch (error) {
         throw error;
