@@ -18,12 +18,14 @@
             <div class="input-extension-wrap">
                 <form-input
                         ref="input-password"
-                        v-model.trim="password"
+                        :value="computePasswordRepresentation"
                         :label="$t('objects.password')"
+                        :type="'password'"
+                        @input="password = $event"
                 ></form-input>
 
                 <div class="input-extension">
-                    <div class="input-extension__copy" @click="copyToClipboard">
+                    <div class="input-extension__copy" v-show="copyTriggerShow" @click="copyToClipboard">
                         <span>{{$t('objects.copy')}}</span>
 
                         <div class="hint" v-if="copyMessage">
@@ -48,7 +50,7 @@
 <script>
     import openedTabComponentMixin from '@/mixins/openedTabComponentMixin';
     import eventBus from '@/utils/eventBus';
-    import {mapActions} from "vuex";
+    import {mapActions, mapState} from "vuex";
 
     export default {
         name: "opened-user-general",
@@ -56,10 +58,14 @@
         data() {
             return {
                 copyMessage: '',
+                copyTriggerShow: false,
             }
         },
 
         computed: {
+            ...mapState('directory/users', {
+                id: state => state.itemId,
+            }),
             name: {
                 get() {return this.$store.state.directory.users.itemInstance.name},
                 set(value) {this.setItemProp({prop: 'name', value})}
@@ -76,6 +82,10 @@
                 get() {return this.$store.state.directory.users.itemInstance.extension},
                 set(value) {this.setItemProp({prop: 'extension', value})}
             },
+
+            computePasswordRepresentation() {
+                return this.password.length === 12 ? this.password : this.password.slice(0, 12);
+            }
         },
 
         methods: {
@@ -87,6 +97,7 @@
                     result += charset.charAt(Math.floor(Math.random() * charset.length));
                 }
                this.password = result;
+                this.copyTriggerShow = true;
             },
 
             copyToClipboard() {

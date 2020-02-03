@@ -38,7 +38,7 @@
     .btn {
         @extend .typo-btn;
 
-        padding: 12px 32px 8px;
+        padding: 10px 32px;
         letter-spacing: 0.5px;
         text-transform: uppercase;
         font-family: 'AvantGardeDemi', sans-serif;

@@ -27,7 +27,7 @@
                             @click="deleteSelected"
                     ></i>
                     <div class="upload-csv">
-                        <i class="icon-icon_upload"></i>
+                        <i class="icon-action icon-icon_upload"></i>
                         <input
                                 ref="file-input"
                                 class="upload-csv__input"
@@ -37,7 +37,7 @@
                         >
                     </div>
                     <i
-                            class="icon-icon_reload icon-action"
+                            class="icon-action icon-icon_reload"
                             @click="loadList"
                     ></i>
                 </div>

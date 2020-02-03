@@ -3,7 +3,7 @@ import eventBus from "../../../utils/eventBus";
 import sanitizer from "../../utils/sanitizer";
 
 const BASE_URL = '/roles';
-const fieldsToSend = ['name'];
+const fieldsToSend = ['name', 'description'];
 
 export const getRoleList = async (page = 0, size = 10, search) => {
     // let url = `${BASE_URL}?page=${page}size=${size}`;
@@ -40,7 +40,7 @@ export const addRole = async (item) => {
     try {
         const response = await instance.post(BASE_URL, {role: item});
         eventBus.$emit('notificationInfo', 'Sucessfully added');
-        return response.data.role.id;
+        return response.data.created.id;
     } catch (error) {
         throw error;
     }
@@ -48,11 +48,10 @@ export const addRole = async (item) => {
 
 export const updateRole = async (id, item) => {
     const url = BASE_URL + '/' + id;
-
+    sanitizer(item, fieldsToSend);
     try {
-        const response = await instance.put(url, item);
+        await instance.put(url, {role: item});
         eventBus.$emit('notificationInfo', 'Sucessfully updated');
-        return response.data.role.id;
     } catch (error) {
         throw error;
     }
@@ -62,7 +61,7 @@ export const deleteRole = async (id) => {
     const url = BASE_URL + '/' + id;
 
     try {
-        const response = await instance.delete(url);
+        await instance.delete(url);
     } catch (error) {
         throw error;
     }

@@ -89,6 +89,7 @@ const actions = {
   ADD_ITEM: async (context) => {
     if (!state.itemId) {
       const id = await context.dispatch('POST_ITEM');
+      console.log(id);
       context.dispatch('SET_ITEM_ID', id);
       context.dispatch('LOAD_ITEM');
     }

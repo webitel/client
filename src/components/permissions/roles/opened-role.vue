@@ -71,11 +71,11 @@
             },
             name: {
                 get() {return this.$store.state.permissions.roles.itemInstance.name},
-                set(value) {this.setItemProp(value)}
+                set(value) {this.setItemProp({prop: 'name', value})}
             },
             description: {
                 get() {return this.$store.state.permissions.roles.itemInstance.description},
-                set(value) {this.setItemProp(value)}
+                set(value) {this.setItemProp({prop: 'description', value})}
             },
         },
 

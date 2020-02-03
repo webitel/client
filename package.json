@@ -31,7 +31,7 @@
     "vuelidate": "^0.7.4",
     "vuetable-2": "^2.0.0-beta.4",
     "vuex": "^3.0.1",
-    "webitel-sdk": ">=0.0.31"
+    "webitel-sdk": ">=0.0.32"
   },
   "devDependencies": {
     "@vue/cli-plugin-babel": "^3.10.0",
