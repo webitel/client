@@ -4,15 +4,18 @@ import sanitizer from '@/api/utils/sanitizer';
 import {OutboundResourceGroupServiceApiFactory} from 'webitel-sdk';
 import eventBus from "../../../utils/eventBus";
 import {coerceObjectPermissionsResponse} from "../../permissions/objects/objects";
+import deepCopy from 'deep-copy';
+import store from '../../../store/store';
+import {objCamelToSnake} from "../../utils/caseConverters";
 
 const resGrService = new OutboundResourceGroupServiceApiFactory
 (configuration, '', instance);
 
 const BASE_URL = '/call_center/resource_group';
-const domainId = undefined;
-const fieldsToSend = ['domain_id', 'name', 'description', 'strategy', 'communication', 'time'];
+const fieldsToSend = ['domainId', 'name', 'description', 'strategy', 'communication', 'time'];
 
-export const getResGroupList = async (page = 0, size = 10) => {
+export const getResGroupList = async (page = 0, size = 10, search) => {
+    const domainId = store.state.userinfo.domainId || undefined;
     const defaultObject = {
         _isSelected: false,
         name: '',
@@ -21,9 +24,10 @@ export const getResGroupList = async (page = 0, size = 10) => {
         communication: {id: 0},
         id: 0,
     };
+    if(search.length && search.slice(-1) !== '*') search += '*';
 
     try {
-        const response = await resGrService.searchOutboundResourceGroup(page, size, domainId);
+        const response = await resGrService.searchOutboundResourceGroup(page, size, search, domainId);
         if (Array.isArray(response.data.items)) {
             return response.data.items.map(item => {
                 return {...defaultObject, ...item};
@@ -36,24 +40,23 @@ export const getResGroupList = async (page = 0, size = 10) => {
 };
 
 export const getResGroup = async (id) => {
+    const domainId = store.state.userinfo.domainId || undefined;
+    const defaultObject = {
+        name: '',
+        strategy: '',
+        description: '',
+        communication: {id: 0},
+        time: [
+            {
+                start: 0,
+                finish: 0,
+            }
+        ],
+        id: 0,
+        _dirty: false,
+    };
     try {
         const response = await resGrService.readOutboundResourceGroup(id, domainId);
-
-        const defaultObject = {
-            name: '',
-            strategy: '',
-            description: '',
-            communication: {id: 0},
-            time: [
-                {
-                    start: 0,
-                    finish: 0,
-                }
-            ],
-            id: 0,
-            _dirty: false,
-        };
-
         response.data.time = response.data.time.map(range => {
             return {
                 start: range.start_time_of_day || 0,
@@ -68,8 +71,9 @@ export const getResGroup = async (id) => {
 };
 
 export async function addResGroup(item) {
-    let itemCopy = {...item};
-    itemCopy.domain_id = domainId;
+    const domainId = store.state.userinfo.domainId || undefined;
+    let itemCopy = deepCopy(item);
+    itemCopy.domainId = domainId;
     itemCopy.time = itemCopy.time.map(range => {
         return {
             start_time_of_day: range.start,
@@ -87,7 +91,9 @@ export async function addResGroup(item) {
 }
 
 export async function updateResGroup(id, item) {
-    let itemCopy = {...item};
+    const domainId = store.state.userinfo.domainId || undefined;
+    let itemCopy = deepCopy(item);
+    itemCopy.domainId = domainId;
     itemCopy.time = itemCopy.time.map(range => {
         return {
             start_time_of_day: range.start,
@@ -104,6 +110,7 @@ export async function updateResGroup(id, item) {
 }
 
 export async function deleteResGroup(id) {
+    const domainId = store.state.userinfo.domainId || undefined;
     try {
         await resGrService.deleteOutboundResourceGroup(id, domainId);
     } catch (err) {

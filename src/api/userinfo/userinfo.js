@@ -19,9 +19,10 @@ export const getSession = async () => {
         const url = '/userinfo';
         try {
             const response = await instance.get(url);
+            localStorage.setItem('domain', response.dc);
             store.dispatch('userinfo/SET_SESSION', {
                 ...defaultObject,
-                ...objSnakeToCamel(response.data)
+                ...objSnakeToCamel(response)
             });
         } catch (error) {
             throw error;

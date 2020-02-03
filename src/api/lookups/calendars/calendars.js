@@ -5,18 +5,21 @@ import sanitizer from "../../utils/sanitizer";
 import {objSnakeToCamel, objCamelToSnake} from "../../utils/caseConverters";
 import {coerceObjectPermissionsResponse} from "../../permissions/objects/objects";
 import eventBus from "../../../utils/eventBus";
+import deepCopy from 'deep-copy';
+import store from '../../../store/store';
 
 const calendarService = new CalendarServiceApiFactory
 (configuration, '', instance);
 
 const BASE_URL = '/calendars';
-const domainId = undefined;
-const fieldsToSend = ['domain_id', 'name', 'description', 'timezone', 'startAt', 'endAt', 'day',
+const fieldsToSend = ['domainId', 'name', 'description', 'timezone', 'startAt', 'endAt', 'day',
     'accepts', 'excepts', 'startTimeOfDay', 'endTimeOfDay', 'disabled', 'date', 'repeat'];
 
-export const getCalendarList = async (page = 0, size = 20) => {
+export const getCalendarList = async (page = 0, size = 10, search) => {
+    const domainId = store.state.userinfo.domainId || undefined;
+    if(search.length && search.slice(-1) !== '*') search += '*';
     try {
-        const response = await calendarService.searchCalendar(page, size);
+        const response = await calendarService.searchCalendar(page, size, search, domainId);
         if (!response.data.items) response.data.items = [];
         response.data.items.forEach(item => item._isSelected = false);
         return response.data.items;
@@ -26,20 +29,19 @@ export const getCalendarList = async (page = 0, size = 20) => {
 };
 
 export const getCalendar = async (id) => {
+    const domainId = store.state.userinfo.domainId || undefined;
+    const defaultObject = {
+        name: '',
+        timezone: {},
+        description: '',
+        startAt: 1010,
+        endAt: 1010,
+        expires: !!(response.data.start_at || response.data.end_at),
+        _dirty: false,
+    };
 
     try {
         let response = await calendarService.readCalendar(id, domainId);
-
-        const defaultObject = {
-            name: '',
-            timezone: {},
-            description: '',
-            startAt: 1010,
-            endAt: 1010,
-            expires: !!(response.data.start_at || response.data.end_at),
-            _dirty: false,
-        };
-
         response.data.accepts = response.data.accepts.map(accept => {
             return {
                 day: accept.day || 0,
@@ -65,7 +67,10 @@ export const getCalendarTimezones = async (page = 0, size = 20) => {
 };
 
 export const addCalendar = async (item) => {
-    let itemCopy = {...item};
+    const domainId = store.state.userinfo.domainId || undefined;
+    let itemCopy = deepCopy(item);
+    itemCopy.domainId = domainId;
+
     delete itemCopy.timezone.offset;
     if (!itemCopy.expires) {
         delete itemCopy.startAt;
@@ -81,8 +86,9 @@ export const addCalendar = async (item) => {
         }
     });
     sanitizer(itemCopy, fieldsToSend);
+    itemCopy = objCamelToSnake(itemCopy);
     try {
-        const response = await calendarService.createCalendar(objCamelToSnake(itemCopy));
+        const response = await calendarService.createCalendar(itemCopy);
         return response.data.id;
     } catch (err) {
         throw err;
@@ -90,7 +96,10 @@ export const addCalendar = async (item) => {
 };
 
 export const updateCalendar = async (itemId, item) => {
-    let itemCopy = {...item};
+    const domainId = store.state.userinfo.domainId || undefined;
+    let itemCopy = deepCopy(item);
+    itemCopy.domainId = domainId;
+
     delete itemCopy.timezone.offset;
     if (!itemCopy.expires) {
         delete itemCopy.startAt;
@@ -106,14 +115,16 @@ export const updateCalendar = async (itemId, item) => {
         }
     });
     sanitizer(itemCopy, fieldsToSend);
+    itemCopy = objCamelToSnake(itemCopy);
     try {
-        await calendarService.updateCalendar(itemId, objCamelToSnake(itemCopy));
+        await calendarService.updateCalendar(itemId, itemCopy);
     } catch (err) {
         throw err;
     }
 };
 
 export const deleteCalendar = async (id) => {
+    const domainId = store.state.userinfo.domainId || undefined;
     try {
         const response = await calendarService.deleteCalendar(id, domainId);
         return response.data;

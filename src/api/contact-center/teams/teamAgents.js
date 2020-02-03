@@ -9,7 +9,7 @@ const teamResService = new ResourceTeamServiceApiFactory
 (configuration, '', instance);
 
 const domainId = undefined;
-const fieldsToSend = ['domain_id', 'agent', 'maxCapacity',
+const fieldsToSend = ['domainId', 'agent', 'maxCapacity',
     'minCapacity', 'teamId', 'lvl', 'bucket',];
 
 

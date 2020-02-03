@@ -10,13 +10,19 @@
         name: 'app',
         created() {
             getSession();
+            this.setDomain();
             this.setLanguage();
         },
         methods: {
+            setDomain() {
+                const domain = localStorage.getItem('domain');
+                if(domain) this.$store.dispatch('userinfo/SET_DOMAIN_ID', domain);
+            },
+
             setLanguage() {
                 const lang = localStorage.getItem('lang');
                 if(lang) this.$i18n.locale = lang;
-            }
+            },
         }
     };
 </script>

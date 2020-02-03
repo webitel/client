@@ -1,26 +1,29 @@
-import instance from '@/api/instance';
-import configuration from '@/api/openAPIConfig';
+import instance from '../../instance';
+import configuration from '../../openAPIConfig';
 import sanitizer from '../../utils/sanitizer';
 import {SkillServiceApiFactory} from 'webitel-sdk';
 import eventBus from "../../../utils/eventBus";
+import deepCopy from 'deep-copy';
+import store from '../../../store/store';
 
 const skillService = new SkillServiceApiFactory
 (configuration, '', instance);
 
-const domainId = undefined;
-const fieldsToSend = ['domain_id', 'name', 'description'];
+const fieldsToSend = ['domainId', 'name', 'description'];
 
 export const getSkillsList = async (page = 0, size = 10, search) => {
+    const domainId = store.state.userinfo.domainId || undefined;
     const defaultObject = {
-        _isSelected: false,
         name: '',
+        _isSelected: false,
     };
+    if (search.length && search.slice(-1) !== '*') search += '*';
 
     try {
-        const response = await skillService.searchSkill(domainId, size, page);
-        if (Array.isArray(response.data.items)) {
-            return response.data.items.map(item => {
-                return Object.assign({}, defaultObject, item);
+        const response = await skillService.searchSkill(page, size, search, domainId);
+        if (response.items) {
+            return response.items.map(item => {
+                return {...defaultObject, ...item};
             });
         }
         return [];
@@ -30,35 +33,40 @@ export const getSkillsList = async (page = 0, size = 10, search) => {
 };
 
 export const getSkill = async (id) => {
+    const domainId = store.state.userinfo.domainId || undefined;
+    const defaultObject = {
+        name: '',
+        id: 0,
+        _dirty: false,
+    };
+
     try {
         const response = await skillService.readSkill(id, domainId);
-        const defaultObject = {
-            name: '',
-            id: 0,
-            _dirty: false,
-        };
-
-        return {...defaultObject, ...response.data};
+        return {...defaultObject, ...response};
     } catch (err) {
         throw err;
     }
 };
 
 export const addSkill = async (item) => {
-    sanitizer(item, fieldsToSend);
+    let itemCopy = deepCopy(item);
+    itemCopy.domainId = store.state.userinfo.domainId || undefined;
+    sanitizer(itemCopy, fieldsToSend);
     try {
-        const response = await skillService.createSkill(item);
+        const response = await skillService.createSkill(itemCopy);
         eventBus.$emit('notificationInfo', 'Sucessfully added');
-        return response.data.id;
+        return response.id;
     } catch (err) {
         throw err;
     }
 };
 
 export const updateSkill = async (id, item) => {
-    sanitizer(item, fieldsToSend);
+    let itemCopy = deepCopy(item);
+    itemCopy.domainId = store.state.userinfo.domainId || undefined;
+    sanitizer(itemCopy, fieldsToSend);
     try {
-        await skillService.updateSkill(id, item);
+        await skillService.updateSkill(id, itemCopy);
         eventBus.$emit('notificationInfo', 'Sucessfully updated');
     } catch (err) {
         throw err;
@@ -66,6 +74,7 @@ export const updateSkill = async (id, item) => {
 };
 
 export const deleteSkill = async (id) => {
+    const domainId = store.state.userinfo.domainId || undefined;
     try {
         await skillService.deleteSkill(id, domainId);
     } catch (err) {

@@ -4,15 +4,16 @@ import configuration from '@/api/openAPIConfig';
 import {MediaFileServiceApiFactory} from 'webitel-sdk';
 import eventBus from "../../../utils/eventBus";
 import {objSnakeToCamel} from "../../utils/caseConverters";
+import store from "../../../store/store";
 
 const mediaService = new MediaFileServiceApiFactory
 (configuration, '', instance);
-
-const fieldsToSend = [];
-
 export const getMediaList = async (page = 0, size = 10, search) => {
+    const domainId = store.state.userinfo.domainId || undefined;
+    if(search.length && search.slice(-1) !== '*') search += '*';
+
     try {
-        let response = await mediaService.searchMediaFile(page, size);
+        let response = await mediaService.searchMediaFile(page, size, search, domainId);
         if (!response.data.items) response.data.items = [];
         response = response.data.items.map(item => {
             return {...objSnakeToCamel(item), _isSelected: false}
@@ -26,8 +27,9 @@ export const getMediaList = async (page = 0, size = 10, search) => {
 export const getMedia = async (id) => {
     const token = 'IGORDEV_TOKEN';
     const url = `https://dev.webitel.com/api/storage/media/${id}/stream?access_token=${token}`;
+    const domainId = store.state.userinfo.domainId || undefined;
     try {
-        const response = await instance.get(url);
+        const response = await instance.get(url, domainId);
         return response.data;
     } catch (err) {
         throw err;
@@ -65,8 +67,9 @@ export const addMedia = async (file) => {
 };
 
 export const deleteMedia = async (id) => {
+    const domainId = store.state.userinfo.domainId || undefined;
     try {
-        await mediaService.deleteMediaFile(id);
+        await mediaService.deleteMediaFile(id, domainId);
     } catch (err) {
         throw err;
     }

@@ -40,6 +40,7 @@ export const logout = async () => {
         await instance.post(url, {});
         // remove tokens
         localStorage.removeItem('access-token');
+        localStorage.removeItem('domain');
         instance.defaults.headers['X-Webitel-Access'] = '';
         // and throw user to auth page
         return router.replace('/auth');

@@ -8,7 +8,7 @@ const resGrService = new OutboundResourceGroupServiceApiFactory
 (configuration, '', instance);
 
 const domainId = undefined;
-const fieldsToSend = ['domain_id', 'name', 'description', 'resource'];
+const fieldsToSend = ['domainId', 'name', 'description', 'resource'];
 
 
 export const getResInGroupList = async (resGroupId, page = 0, size = 10) => {

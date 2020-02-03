@@ -9,7 +9,7 @@ const teamResService = new ResourceTeamServiceApiFactory
 (configuration, '', instance);
 
 const domainId = undefined;
-const fieldsToSend = ['domain_id', 'maxCapacity',
+const fieldsToSend = ['domainId', 'maxCapacity',
     'minCapacity', 'teamId', 'lvl', 'bucket', 'skill'];
 
 export const getTeamSkillsList = async (teamId, page = 0, size = 10) => {

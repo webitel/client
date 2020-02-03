@@ -22,6 +22,10 @@ const actions = {
         context.commit('SET_SESSION', session);
     },
 
+    SET_DOMAIN_ID: (context, domainId) => {
+        context.commit('SET_DOMAIN_ID', domainId);
+    },
+
     RESET_STATE: (context) => {
         context.commit('RESET_STATE');
     },
@@ -35,6 +39,10 @@ const mutations = {
         state.scope = session.scope;
         state.userId = session.userId;
         state.license = session.license;
+    },
+
+    SET_DOMAIN_ID: (state, domainId) => {
+        state.domainId = domainId;
     },
 
     RESET_STATE: (state) => {

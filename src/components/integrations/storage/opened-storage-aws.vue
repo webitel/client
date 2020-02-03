@@ -37,7 +37,7 @@
     import openedTabComponentMixin from '@/mixins/openedTabComponentMixin';
     import {mapActions} from "vuex";
     import DropdownSelect from "../../utils/dropdown-select";
-    import {AWSRegions} from "../../../api/integrations/storage";
+    import {AWSRegions} from "../../../api/integrations/storage/storage";
 
         export default {
         name: "opened-storage-aws",

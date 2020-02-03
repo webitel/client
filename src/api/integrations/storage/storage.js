@@ -1,9 +1,11 @@
 import instance from '@/api/instance';
 import configuration from '@/api/openAPIConfig';
 import {BackendProfileServiceApiFactory} from 'webitel-sdk';
-import eventBus from "../../utils/eventBus";
-import sanitizer from "../utils/sanitizer";
-import {objCamelToSnake, objSnakeToCamel} from "../utils/caseConverters";
+import eventBus from "../../../utils/eventBus";
+import sanitizer from "../../utils/sanitizer";
+import {objCamelToSnake, objSnakeToCamel} from "../../utils/caseConverters";
+import deepCopy from 'deep-copy';
+import store from '../../../store/store';
 
 const storageService = new BackendProfileServiceApiFactory
 (configuration, '', instance);
@@ -50,13 +52,15 @@ export const DigitalOceanRegions = [
 ];
 
 export const getStorageList = async (page = 0, size = 10, search) => {
+    const domainId = store.state.userinfo.domainId || undefined;
     const defaultObject = {
         _isSelected: false,
         enabled: false,
     };
+    if(search.length && search.slice(-1) !== '*') search += '*';
 
     try {
-        const response = await storageService.searchBackendProfile(page, size);
+        const response = await storageService.searchBackendProfile(page, size, search, domainId);
         if (!response.data.items) response.data.items = [];
         return response.data.items.map(item => {
             return {
@@ -71,12 +75,13 @@ export const getStorageList = async (page = 0, size = 10, search) => {
 };
 
 export const getStorage = async (id) => {
+    const domainId = store.state.userinfo.domainId || undefined;
     const defaultObject = {
         priority: 0,
         _dirty: false,
     };
     try {
-        let response = await storageService.readBackendProfile(id);
+        let response = await storageService.readBackendProfile(id, domainId);
         response = objSnakeToCamel(response.data);
         if (response.properties.region) {
             if (response.type === 's3') {
@@ -96,7 +101,9 @@ export const getStorage = async (id) => {
 };
 
 export const addStorage = async (item) => {
-    let itemCopy = JSON.parse(JSON.stringify(item));
+    const domainId = store.state.userinfo.domainId || undefined;
+    let itemCopy = deepCopy(item);
+    itemCopy.domainId = domainId;
     if (itemCopy.properties.region) itemCopy.properties.region = itemCopy.properties.region.value;
     sanitizer(itemCopy, fieldsToSend);
     itemCopy = objCamelToSnake(itemCopy);
@@ -110,9 +117,12 @@ export const addStorage = async (item) => {
     }
 };
 
-export const patchStorage = async (id, changes) => {
+export const patchStorage = async (id, item) => {
+    const domainId = store.state.userinfo.domainId || undefined;
+    let itemCopy = deepCopy(item);
+    itemCopy.domainId = domainId;
     try {
-        await storageService.patchBackendProfile(id, changes);
+        await storageService.patchBackendProfile(id, itemCopy);
         eventBus.$emit('notificationInfo', 'Sucessfully updated');
     } catch (err) {
         throw err;
@@ -120,7 +130,9 @@ export const patchStorage = async (id, changes) => {
 };
 
 export const updateStorage = async (id, item) => {
-    let itemCopy = JSON.parse(JSON.stringify(item));
+    const domainId = store.state.userinfo.domainId || undefined;
+    let itemCopy = deepCopy(item);
+    itemCopy.domainId = domainId;
     if (itemCopy.properties.region) itemCopy.properties.region = item.properties.region.value;
     delete itemCopy.type;
     sanitizer(itemCopy, fieldsToSend);
@@ -135,8 +147,9 @@ export const updateStorage = async (id, item) => {
 };
 
 export const deleteStorage = async (id) => {
+    const domainId = store.state.userinfo.domainId || undefined;
     try {
-        await storageService.deleteBackendProfile(id);
+        await storageService.deleteBackendProfile(id, domainId);
     } catch (err) {
         throw err;
     }

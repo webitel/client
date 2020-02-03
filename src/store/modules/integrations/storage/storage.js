@@ -5,7 +5,7 @@ import {
     getStorage,
     getStorageList, patchStorage,
     updateStorage
-} from "../../../../api/integrations/storage";
+} from "../../../../api/integrations/storage/storage";
 
 const defaultState = () => {
     return {

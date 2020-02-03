@@ -1,6 +1,7 @@
-import instance from '@/api/instance';
+import instance from '../../instance';
 import sanitizer from "../../utils/sanitizer";
 import eventBus from "../../../utils/eventBus";
+import deepCopy from "deep-copy";
 
 const BASE_URL = '/users';
 const fieldsToSend = ['name', 'username', 'password', 'extension', 'status', 'dnd', 'roles', 'license', 'devices',
@@ -23,11 +24,12 @@ export async function getUsersList(page = 0, size = 100, search) {
 
     try {
         let response = await instance.get(url);
-        if (!response.data.users) response.data.users = [];
-
-        return response.data.users.map(item => {
-            return Object.assign({}, defaultObject, item);
-        });
+        if (!response.users) {
+            return response.users.map(item => {
+                return {...defaultObject, ...item};
+            });
+        }
+        return [];
     } catch (error) {
         throw error;
     }
@@ -50,8 +52,10 @@ export async function getUser(id) {
     };
     try {
         const response = await instance.get(url);
-        let user = {...defaultObject, ...response.data.user};
-        if(user.license) user.license.forEach(item => {item.name = item.product});
+        let user = {...defaultObject, ...response.user};
+        if (user.license) user.license.forEach(item => {
+            item.name = item.product
+        });
         if (user.profile) {
             user.variables = Object.keys(user.profile).map(key => {
                 return {
@@ -69,7 +73,7 @@ export async function getUser(id) {
 }
 
 export const addUser = async (item) => {
-    let itemCopy = {...item};
+    let itemCopy = deepCopy(item);
     if (itemCopy.roles) itemCopy.roles.forEach(item => delete item.text);
     if (itemCopy.devices) itemCopy.devices.forEach(item => delete item.text);
     if (itemCopy.license) itemCopy.license.forEach(item => {
@@ -87,14 +91,14 @@ export const addUser = async (item) => {
     try {
         const response = await instance.post(BASE_URL, {user: itemCopy});
         eventBus.$emit('notificationInfo', 'Sucessfully added');
-        return response.data.user.id;
+        return response.user.id;
     } catch (err) {
         throw err;
     }
 };
 
 export const updateUser = async (id, item) => {
-    let itemCopy = {...item};
+    let itemCopy = deepCopy(item);
     const url = BASE_URL + '/' + id;
     itemCopy.roles.forEach(item => delete item.text);
     itemCopy.devices.forEach(item => delete item.text);

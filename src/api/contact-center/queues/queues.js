@@ -1,20 +1,21 @@
-import instance from '@/api/instance';
-import configuration from '@/api/openAPIConfig';
+import instance from '../../instance';
+import configuration from '../../openAPIConfig';
 import sanitizer from '../../utils/sanitizer';
 import {QueueServiceApiFactory} from 'webitel-sdk';
 import eventBus from "../../../utils/eventBus";
-import {objCamelToSnake, objSnakeToCamel} from "../../utils/caseConverters";
 import {coerceObjectPermissionsResponse} from "../../permissions/objects/objects";
+import deepCopy from 'deep-copy';
+import store from '../../../store/store';
 
 const queueService = new QueueServiceApiFactory
 (configuration, '', instance);
 
 const BASE_URL = '/call_center/queues';
-const domainId = undefined;
-const fieldsToSend = ['domain_id', 'name', 'type', 'strategy', 'team', 'priority', 'dncList',
+const fieldsToSend = ['domainId', 'name', 'type', 'strategy', 'team', 'priority', 'dncList',
     'payload', 'maxOfRetry', 'timeout', 'secBetweenRetries', 'variables', 'calendar'];
 
-export const getQueuesList = async (page = 0, size = 10) => {
+export const getQueuesList = async (page = 0, size = 10, search) => {
+    const domainId = store.state.userinfo.domainId || undefined;
     const defaultObject = {
         type: 0,
         enabled: false,
@@ -23,71 +24,74 @@ export const getQueuesList = async (page = 0, size = 10) => {
         priority: '0',
         _isSelected: false,
     };
+    if(search.length && search.slice(-1) !== '*') search += '*';
 
     try {
-        const response = await queueService.searchQueue(page, size);
-        if (Array.isArray(response.data.items)) {
-            return response.data.items.map(item => {
+        const response = await queueService.searchQueue(page, size, search, domainId);
+        if (response.items) {
+            return response.items.map(item => {
                 return {...defaultObject, ...item};
             });
         }
-        return [];
+        return []
     } catch (err) {
         throw err;
     }
 };
 
 export const getQueue = async (id) => {
+    const domainId = store.state.userinfo.domainId || undefined;
+    const defaultObject = {
+        name: '',
+        id: 0,
+        payload: {},
+        calendar: {},
+        priority: '0',
+        dncList: {}, // blacklist
+        schema: {},
+        team: {},
+        strategy: 'STRATEGY NAME',
+        description: 'DESCRIPTION',
+        variables: [{key: '', value: ''}],
+        _dirty: false,
+    };
+
     try {
         let response = await queueService.readQueue(id, domainId);
-        const defaultObject = {
-            name: '',
-            id: 0,
-            payload: {},
-            calendar: {},
-            priority: '0',
-            dncList: {}, // blacklist
-            schema: {},
-            team: {},
-            strategy: 'STRATEGY NAME',
-            description: 'DESCRIPTION',
-            variables: [],
-            _dirty: false,
-        };
-        response = response.data;
         if (response.variables) {
             response.variables = Object.keys(response.variables).map(key => {
-                return {key, value: response.variables[key],}
+                return {key, value: response.variables[key]}
             });
-        } else {
-            response.variables = [{key: '', value: ''}];
         }
         if(response.priority) response.priority += '';
-        return {...defaultObject, ...objSnakeToCamel(response)};
+        return {...defaultObject, ...response};
     } catch (err) {
         throw err;
     }
 };
 
 export const addQueue = async (item) => {
-    let itemCopy = {...item, variables: {}};
+    let itemCopy = deepCopy(item);
+    itemCopy.domainId = store.state.userinfo.domainId || undefined;
     sanitizer(itemCopy, fieldsToSend);
-    itemCopy = objCamelToSnake(itemCopy);
+    itemCopy.variables = {};
     item.variables.forEach(variable => {
         itemCopy.variables[variable.key] = variable.value;
     });
     try {
         const response = await queueService.createQueue(itemCopy);
         eventBus.$emit('notificationInfo', 'Sucessfully added');
-        return response.data.id;
+        return response.id;
     } catch (err) {
         throw err;
     }
 };
 
 export const patchQueue = async (id, item) => {
+    let itemCopy = deepCopy(item);
+    itemCopy.domainId = store.state.userinfo.domainId || undefined;
     try {
-        await queueService.patchQueue(id, item);
+        await queueService.patchQueue(id, itemCopy);
         eventBus.$emit('notificationInfo', 'Sucessfully updated');
     } catch (err) {
         throw err;
@@ -95,9 +99,10 @@ export const patchQueue = async (id, item) => {
 };
 
 export const updateQueue = async (id, item) => {
-    let itemCopy = {...item, variables: {}};
+    let itemCopy = deepCopy(item);
+    itemCopy.domainId = store.state.userinfo.domainId || undefined;
     sanitizer(itemCopy, fieldsToSend);
-    itemCopy = objCamelToSnake(itemCopy);
+    itemCopy.variables = {};
     item.variables.forEach(variable => {
         itemCopy.variables[variable.key] = variable.value;
     });
@@ -110,6 +115,7 @@ export const updateQueue = async (id, item) => {
 };
 
 export const deleteQueue = async (id) => {
+    const domainId = store.state.userinfo.domainId || undefined;
     try {
         await queueService.deleteQueue(id, domainId);
     } catch (err) {

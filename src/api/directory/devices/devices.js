@@ -1,7 +1,7 @@
-import instance from '@/api/instance';
-import {objSnakeToCamel} from "../../utils/caseConverters";
+import instance from '../../instance';
 import sanitizer from "../../utils/sanitizer";
 import eventBus from "../../../utils/eventBus";
+import deepCopy from "deep-copy";
 
 const BASE_URL = '/devices';
 const fieldsToSend = ['name', 'account', 'password', 'user',
@@ -24,11 +24,12 @@ export async function getDeviceList(page = 0, size = 100, search) {
 
     try {
         let response = await instance.get(url);
-        if (!response.data.devices) response.data.devices = [];
-
-        return response.data.devices.map(item => {
-            return Object.assign({}, defaultObject, item);
-        });
+        if (response.devices) {
+            return response.devices.map(item => {
+                return {...defaultObject, ...item};
+            });
+        }
+        return [];
     } catch (error) {
         throw error;
     }
@@ -48,41 +49,32 @@ export async function getDevice(id) {
     try {
         let response = await instance.get(url);
         // response.data.device.mac = response.data.device.mac.toUpperCase();
-        return Object.assign({}, defaultObject, response.data.device);
+        return {...defaultObject, ...response.device};
     } catch (error) {
         throw error;
     }
 }
 
-export const addDevice = async (device) => {
-    sanitizer(device, fieldsToSend);
+export const addDevice = async (item) => {
+    let itemCopy = deepCopy(item);
+    sanitizer(itemCopy, fieldsToSend);
     try {
-        const response = await instance.post(BASE_URL, {device});
+        const response = await instance.post(BASE_URL, {item: itemCopy});
         eventBus.$emit('notificationInfo', 'Sucessfully added');
-        return response.data.device.id;
+        return response.device.id;
     } catch (err) {
         throw err;
     }
 };
 
-export const updateDevice = async (id, device) => {
+export const updateDevice = async (id, item) => {
     const url = BASE_URL + '/' + id;
-    sanitizer(device, fieldsToSend);
+    let itemCopy = deepCopy(item);
+    sanitizer(itemCopy, fieldsToSend);
 
     try {
-        const response = await instance.put(url, {device});
+        await instance.put(url, {item: itemCopy});
         eventBus.$emit('notificationInfo', 'Sucessfully updated');
-        return response.data.device.id;
-    } catch (err) {
-        throw err;
-    }
-};
-
-export const patchDevice = async (id, user) => {
-    const url = BASE_URL + '/' + id;
-
-    try {
-        await instance.patch(url, {user});
     } catch (err) {
         throw err;
     }
@@ -106,17 +98,14 @@ export const getDeviceHistory = async (id, date, page = 0) => {
         user: {name: 'unknown user'}
     };
 
-
     try {
         let response = await instance.get(url);
-        response.data = objSnakeToCamel(response.data);
-        if (!response.data.auditLogs) {
-            response.data.auditLogs = [];
+        if (response.auditLogs) {
+            return response.auditLogs.map(item => {
+                return {...defaultObject, ...item};
+            });
         }
-
-        return response.data.auditLogs.map(item => {
-            return Object.assign({}, defaultObject, item);
-        });
+        return [];
     } catch (err) {
         throw err;
     }

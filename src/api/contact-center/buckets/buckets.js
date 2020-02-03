@@ -1,26 +1,29 @@
-import instance from '@/api/instance';
-import configuration from '@/api/openAPIConfig';
+import instance from '../../instance';
+import configuration from '../../openAPIConfig';
 import sanitizer from '../../utils/sanitizer';
 import {BucketServiceApiFactory} from 'webitel-sdk';
 import eventBus from "../../../utils/eventBus";
 import {coerceObjectPermissionsResponse} from "../../permissions/objects/objects";
+import deepCopy from 'deep-copy';
+import store from '../../../store/store';
 
 const bucketService = new BucketServiceApiFactory
 (configuration, '', instance);
 
 const BASE_URL = '/call_center/buckets';
-const domainId = undefined;
-const fieldsToSend = ['domain_id', 'name', 'description'];
+const fieldsToSend = ['domainId', 'name', 'description'];
 
-export const getBucketsList = async (page = 0, size = 10) => {
+export const getBucketsList = async (page = 0, size = 10, search) => {
+    const domainId = store.state.userinfo.domainId || undefined;
     const defaultObject = {
         _isSelected: false,
     };
+    if(search.length && search.slice(-1) !== '*') search += '*';
 
     try {
-        const response = await bucketService.searchBucket(page, size);
-        if (Array.isArray(response.data.items)) {
-            return response.data.items.map(item => {
+        const response = await bucketService.searchBucket(page, size, search, domainId);
+        if (response.items) {
+            return response.items.map(item => {
                 return {...defaultObject, ...item};
             });
         }
@@ -31,35 +34,39 @@ export const getBucketsList = async (page = 0, size = 10) => {
 };
 
 export const getBucket = async (id) => {
+    const domainId = store.state.userinfo.domainId || undefined;
+    const defaultObject = {
+        name: '',
+        _dirty: false,
+    };
+
     try {
         const response = await bucketService.readBucket(id, domainId);
-        const defaultObject = {
-            name: '',
-            id: 0,
-            _dirty: false,
-        };
-
-        return {...defaultObject, ...response.data};
+        return {...defaultObject, ...response};
     } catch (err) {
         throw err;
     }
 };
 
 export const addBucket = async (item) => {
-    sanitizer(item, fieldsToSend);
+    let itemCopy = deepCopy(item);
+    itemCopy.domainId = store.state.userinfo.domainId || undefined;
+    sanitizer(itemCopy, fieldsToSend);
     try {
-        const response = await bucketService.createBucket(item);
+        const response = await bucketService.createBucket(itemCopy);
         eventBus.$emit('notificationInfo', 'Sucessfully added');
-        return response.data.id;
+        return response.id;
     } catch (err) {
         throw err;
     }
 };
 
 export const updateBucket = async (id, item) => {
-    sanitizer(item, fieldsToSend);
+    let itemCopy = deepCopy(item);
+    itemCopy.domainId = store.state.userinfo.domainId || undefined;
+    sanitizer(itemCopy, fieldsToSend);
     try {
-        await bucketService.updateBucket(id, item);
+        await bucketService.updateBucket(id, itemCopy);
         eventBus.$emit('notificationInfo', 'Sucessfully updated');
     } catch (err) {
         throw err;
@@ -67,6 +74,7 @@ export const updateBucket = async (id, item) => {
 };
 
 export const deleteBucket = async (id) => {
+    const domainId = store.state.userinfo.domainId || undefined;
     try {
         await bucketService.deleteBucket(id, domainId);
     } catch (err) {
