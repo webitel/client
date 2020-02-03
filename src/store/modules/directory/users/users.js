@@ -12,7 +12,7 @@ const defaultState = () => {
             username: 'defaultuserlogin' + Math.random(),
             password: '',
             extension: '1007',
-            roles: [{name: 'ioio', id: '1011963'}],
+            roles: [],
             // roleAdmin: [],
             license: [],
             devices: [],

@@ -7,7 +7,9 @@
         <nav class="the-nav expanded-nav">
             <header class="nav__header">
                 <i class="icon-icon_menu-burger" @click="toggleCollapse"></i>
-                <img class="logo" src="../assets/img/logo.svg" alt="logo">
+                <div class="logo-wrap" @click="$router.push('/')">
+                    <img class="logo" src="../assets/img/logo.svg" alt="logo">
+                </div>
             </header>
             <ul class="nav-items">
                 <li
@@ -425,6 +427,7 @@
             }
 
             .nav__header {
+                display: flex;
                 width: 100%;
                 padding: $nav-paddings;
                 margin: 0 auto 44px;
@@ -432,6 +435,10 @@
                 .icon-icon_menu-burger {
                     margin-right: 23px;
                     color: #fff;
+                    cursor: pointer;
+                }
+
+                .logo-wrap {
                     cursor: pointer;
                 }
             }

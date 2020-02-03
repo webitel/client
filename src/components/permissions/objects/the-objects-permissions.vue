@@ -54,7 +54,6 @@
                             class="test__object-switcher__rbac"
                             :value="dataList[props.rowIndex].rbac"
                             @input="toggleItemProperty({prop: 'rbac', index: props.rowIndex})"
-                            disabled
                     ></switcher>
                 </template>
 

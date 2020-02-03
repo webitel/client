@@ -115,6 +115,11 @@ export default {
         }
     },
 
+    home: {
+      dashboard: 'Dashboard',
+      rssLink: 'Link',
+    },
+
     objects: {
         administration: 'Administration',
 

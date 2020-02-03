@@ -10,7 +10,8 @@ export const getRoleList = async (page = 0, size = 10, search) => {
     let url = `${BASE_URL}?size=${size}`;
     if(search) url += `name='${search}*`;
     try {
-        const response = await instance.get(url);
+        let response = await instance.get(url);
+        if(!response.data.results) response.data.results = [];
         response.data.results.forEach(res => res._isSelected = false);
         return response.data.results;
 
