@@ -6,7 +6,7 @@ import eventBus from "../../../utils/eventBus";
 import {objCamelToSnake, objSnakeToCamel} from "../../utils/caseConverters";
 
 const queueResService = new QueueResourcesServiceApiFactory
-(configuration, process.env.VUE_APP_API_URL, instance);
+(configuration, '', instance);
 
 const domainId = undefined;
 const fieldsToSend = ['resourceGroup', 'queue_id'];

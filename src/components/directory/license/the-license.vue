@@ -35,12 +35,12 @@
 
             <loader v-show="!isLoaded"></loader>
 
-            <section
-                    class="license-expire"
-                    v-show="isLoaded"
-            >
-                license expire
-            </section>
+<!--            <section-->
+<!--                    class="license-expire"-->
+<!--                    v-show="isLoaded"-->
+<!--            >-->
+<!--                license expire-->
+<!--            </section>-->
 
             <vuetable
                     v-show="isLoaded"

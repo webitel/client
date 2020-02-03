@@ -7,7 +7,7 @@ import {objCamelToSnake, objSnakeToCamel} from "../../utils/caseConverters";
 import {coerceObjectPermissionsResponse} from "../../permissions/objects/objects";
 
 const queueService = new QueueServiceApiFactory
-(configuration, process.env.VUE_APP_API_URL, instance);
+(configuration, '', instance);
 
 const BASE_URL = '/call_center/queues';
 const domainId = undefined;

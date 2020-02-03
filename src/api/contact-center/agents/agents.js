@@ -7,7 +7,7 @@ import {objSnakeToCamel} from "../../utils/caseConverters";
 import {coerceObjectPermissionsResponse} from "../../permissions/objects/objects";
 
 const agentService = new AgentServiceApiFactory
-(configuration, process.env.VUE_APP_API_URL, instance);
+(configuration, '', instance);
 
 const BASE_URL = '/call_center/agents';
 const domainId = undefined;

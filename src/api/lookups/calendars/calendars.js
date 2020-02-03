@@ -7,7 +7,7 @@ import {coerceObjectPermissionsResponse} from "../../permissions/objects/objects
 import eventBus from "../../../utils/eventBus";
 
 const calendarService = new CalendarServiceApiFactory
-(configuration, process.env.VUE_APP_API_URL, instance);
+(configuration, '', instance);
 
 const BASE_URL = '/calendars';
 const domainId = undefined;

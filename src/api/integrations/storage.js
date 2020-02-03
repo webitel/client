@@ -6,7 +6,7 @@ import sanitizer from "../utils/sanitizer";
 import {objCamelToSnake, objSnakeToCamel} from "../utils/caseConverters";
 
 const storageService = new BackendProfileServiceApiFactory
-(configuration, process.env.VUE_APP_API_URL, instance);
+(configuration, '', instance);
 
 const fieldsToSend = ['name', 'maxSize', 'priority', 'properties', 'expireDays', 'type',];
 const storageTypes = {local: 'local', s3: 'aws', do: 'digitalOcean', g_drive: 'drive', drop_box: 'dropbox',};

@@ -6,7 +6,7 @@ import eventBus from "../../../utils/eventBus";
 import {objSnakeToCamel} from "../../utils/caseConverters";
 
 const mediaService = new MediaFileServiceApiFactory
-(configuration, process.env.VUE_APP_API_URL, instance);
+(configuration, '', instance);
 
 const fieldsToSend = [];
 

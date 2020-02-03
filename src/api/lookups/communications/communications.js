@@ -6,7 +6,7 @@ import eventBus from "../../../utils/eventBus";
 import sanitizer from "../../utils/sanitizer";
 
 const communicationService = new CommunicationTypeServiceApiFactory
-(configuration, process.env.VUE_APP_API_URL, instance);
+(configuration, '', instance);
 
 const domainId = undefined;
 const fieldsToSend = ['code', 'name', 'description'];

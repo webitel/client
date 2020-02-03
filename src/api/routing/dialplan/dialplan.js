@@ -5,7 +5,7 @@ import eventBus from "../../../utils/eventBus";
 import sanitizer from "../../utils/sanitizer";
 
 const dialplanService = new RoutingOutboundCallServiceApiFactory
-(configuration, process.env.VUE_APP_API_URL, instance);
+(configuration, '', instance);
 
 const domainId = undefined;
 const fieldsToSend = ['name', 'schema', 'pattern', 'description'];

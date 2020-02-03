@@ -4,7 +4,7 @@ import sanitizer from '../../utils/sanitizer';
 import {OutboundResourceServiceApiFactory} from 'webitel-sdk';
 
 const resService = new OutboundResourceServiceApiFactory
-(configuration, process.env.VUE_APP_API_URL, instance);
+(configuration, '', instance);
 
 const domainId = undefined;
 const fieldsToSend = ['display', 'resource_id'];

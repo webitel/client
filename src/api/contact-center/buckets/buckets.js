@@ -6,7 +6,7 @@ import eventBus from "../../../utils/eventBus";
 import {coerceObjectPermissionsResponse} from "../../permissions/objects/objects";
 
 const bucketService = new BucketServiceApiFactory
-(configuration, process.env.VUE_APP_API_URL, instance);
+(configuration, '', instance);
 
 const BASE_URL = '/call_center/buckets';
 const domainId = undefined;

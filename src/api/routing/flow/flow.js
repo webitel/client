@@ -5,7 +5,7 @@ import eventBus from "../../../utils/eventBus";
 import sanitizer from "../../utils/sanitizer";
 
 const flowService = new RoutingSchemaServiceApiFactory
-(configuration, process.env.VUE_APP_API_URL, instance);
+(configuration, '', instance);
 
 const fieldsToSend = ['name', 'schema', 'payload'];
 

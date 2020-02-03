@@ -6,7 +6,7 @@ import eventBus from "../../../utils/eventBus";
 import {objCamelToSnake, objSnakeToCamel} from "../../utils/caseConverters";
 
 const memberService = new MemberServiceApiFactory
-(configuration, process.env.VUE_APP_API_URL, instance);
+(configuration, '', instance);
 
 const domainId = undefined;
 const fieldsToSend = ['name', 'priority', 'bucket', 'timezone', 'communications',

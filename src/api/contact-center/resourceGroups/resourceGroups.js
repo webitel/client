@@ -6,7 +6,7 @@ import eventBus from "../../../utils/eventBus";
 import {coerceObjectPermissionsResponse} from "../../permissions/objects/objects";
 
 const resGrService = new OutboundResourceGroupServiceApiFactory
-(configuration, process.env.VUE_APP_API_URL, instance);
+(configuration, '', instance);
 
 const BASE_URL = '/call_center/resource_group';
 const domainId = undefined;

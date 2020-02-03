@@ -5,7 +5,7 @@ import {SkillServiceApiFactory} from 'webitel-sdk';
 import eventBus from "../../../utils/eventBus";
 
 const skillService = new SkillServiceApiFactory
-(configuration, process.env.VUE_APP_API_URL, instance);
+(configuration, '', instance);
 
 const domainId = undefined;
 const fieldsToSend = ['domain_id', 'name', 'description'];

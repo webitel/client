@@ -5,7 +5,7 @@ import sanitizer from "../../utils/sanitizer";
 import eventBus from "../../../utils/eventBus";
 
 const listService = new ListServiceApiFactory
-(configuration, process.env.VUE_APP_API_URL, instance);
+(configuration, '', instance);
 
 const fieldsToSend = ['description', 'number'];
 
