@@ -1,27 +1,34 @@
-import instance from '@/api/instance';
-import configuration from '@/api/openAPIConfig';
+import instance from '../../instance';
+import configuration from '../../openAPIConfig';
 import {ListServiceApiFactory} from 'webitel-sdk';
 import sanitizer from "../../utils/sanitizer";
 import eventBus from "../../../utils/eventBus";
 import {coerceObjectPermissionsResponse} from "../../permissions/objects/objects";
 import deepCopy from 'deep-copy';
 import store from '../../../store/store';
-import {objCamelToSnake} from "../../utils/caseConverters";
 
 const listService = new ListServiceApiFactory
 (configuration, '', instance);
 
 const BASE_URL = '/call_center/list';
-const fieldsToSend = ['name', 'description'];
+const fieldsToSend = ['domainId', 'name', 'description'];
 
 export const getBlacklistList = async (page, size, search) => {
     const domainId = store.state.userinfo.domainId || undefined;
     if(search.length && search.slice(-1) !== '*') search += '*';
+    const defaultObject = {
+        name: '',
+        _isSelected: false,
+    };
+
     try {
         const response = await listService.searchList(page, size, search, domainId);
-        if (!response.data.items) response.data.items = [];
-        response.data.items.forEach(item => item._isSelected = false);
-        return response.data.items;
+        if (response.items) {
+            return response.items.map(item => {
+                return {...defaultObject, ...item};
+            });
+        }
+        return [];
     } catch (err) {
         throw err;
     }
@@ -35,32 +42,28 @@ export const getBlacklist = async (id) => {
 
     try {
         const response = await listService.readList(id, domainId);
-        return {...defaultObject, ...response.data};
+        return {...defaultObject, ...response};
     } catch (err) {
         throw err;
     }
 };
 
 export const addBlacklist = async (item) => {
-    const domainId = store.state.userinfo.domainId || undefined;
     let itemCopy = deepCopy(item);
-    itemCopy.domainId = domainId;
-    itemCopy = objCamelToSnake(itemCopy);
+    itemCopy.domainId = store.state.userinfo.domainId || undefined;
     sanitizer(itemCopy, fieldsToSend);
     try {
         const response = await listService.createList(itemCopy);
         eventBus.$emit('notificationInfo', 'Sucessfully added');
-        return response.data.id;
+        return response.id;
     } catch (err) {
         throw err;
     }
 };
 
 export const updateBlacklist = async (id, item) => {
-    const domainId = store.state.userinfo.domainId || undefined;
     let itemCopy = deepCopy(item);
-    itemCopy.domainId = domainId;
-    itemCopy = objCamelToSnake(itemCopy);
+    itemCopy.domainId = store.state.userinfo.domainId || undefined;
     sanitizer(itemCopy, fieldsToSend);
     try {
         await listService.updateList(id, itemCopy);

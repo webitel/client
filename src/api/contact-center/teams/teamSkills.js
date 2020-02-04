@@ -1,9 +1,10 @@
-import instance from '@/api/instance';
-import configuration from '@/api/openAPIConfig';
+import instance from '../../instance';
+import configuration from '../../openAPIConfig';
 import sanitizer from '../../utils/sanitizer';
 import {ResourceTeamServiceApiFactory} from 'webitel-sdk';
 import eventBus from "../../../utils/eventBus";
-import {objCamelToSnake, objSnakeToCamel} from "../../utils/caseConverters";
+import store from "../../../store/store";
+import deepCopy from "deep-copy";
 
 const teamResService = new ResourceTeamServiceApiFactory
 (configuration, '', instance);
@@ -12,7 +13,9 @@ const domainId = undefined;
 const fieldsToSend = ['domainId', 'maxCapacity',
     'minCapacity', 'teamId', 'lvl', 'bucket', 'skill'];
 
-export const getTeamSkillsList = async (teamId, page = 0, size = 10) => {
+export const getTeamSkillsList = async (teamId, page = 0, size = 10, search) => {
+    const domainId = store.state.userinfo.domainId || undefined;
+    if (search.length && search.slice(-1) !== '*') search += '*';
     const defaultObject = {
         agent: {},
         minCapacity: 0,
@@ -23,10 +26,10 @@ export const getTeamSkillsList = async (teamId, page = 0, size = 10) => {
     };
 
     try {
-        let response = await teamResService.searchResourceTeamSkill(teamId, page, size);
-        if (Array.isArray(response.data.items)) {
-            return response.data.items.map(item => {
-                return {...defaultObject, ...objSnakeToCamel(item)};
+        let response = await teamResService.searchResourceTeamSkill(teamId, page, size, domainId);
+        if (response.items) {
+            return response.items.map(item => {
+                return {...defaultObject, ...item};
             });
         }
         return [];
@@ -36,27 +39,31 @@ export const getTeamSkillsList = async (teamId, page = 0, size = 10) => {
 };
 
 export const getTeamSkill = async (teamId, id) => {
+    const domainId = store.state.userinfo.domainId || undefined;
+    const defaultObject = {
+        agent: {},
+        minCapacity: 0,
+        maxCapacity: 0,
+        bucket: {},
+        lvl: 0,
+        _dirty: false,
+    };
+
     try {
         let response = await teamResService.readResourceTeamSkill(teamId, id, domainId);
-        const defaultObject = {
-            agent: {},
-            minCapacity: 0,
-            maxCapacity: 0,
-            bucket: {},
-            lvl: 0,
-            _dirty: false,
-        };
-        return {...defaultObject, ...objSnakeToCamel(response.data)};
+        return {...defaultObject, ...response};
     } catch (err) {
         throw err;
     }
 };
 
 export const addTeamSkill = async (teamId, item) => {
-    sanitizer(item, fieldsToSend);
-    item = objCamelToSnake(item);
+    let itemCopy = deepCopy(item);
+    itemCopy.domainId = store.state.userinfo.domainId || undefined;
+    itemCopy.teamId = teamId;
+    sanitizer(itemCopy, fieldsToSend);
     try {
-        const response = await teamResService.createResourceTeamSkill(teamId, item);
+        const response = await teamResService.createResourceTeamSkill(teamId, itemCopy);
         eventBus.$emit('notificationInfo', 'Sucessfully added');
         return response.data.id;
     } catch (err) {
@@ -65,10 +72,12 @@ export const addTeamSkill = async (teamId, item) => {
 };
 
 export const updateTeamSkill = async (teamId, id, item) => {
-    sanitizer(item, fieldsToSend);
-    item = objCamelToSnake(item);
+    let itemCopy = deepCopy(item);
+    itemCopy.domainId = store.state.userinfo.domainId || undefined;
+    itemCopy.teamId = teamId;
+    sanitizer(itemCopy, fieldsToSend);
     try {
-        await teamResService.updateResourceTeamSkill(teamId, id, item);
+        await teamResService.updateResourceTeamSkill(teamId, id, itemCopy);
         eventBus.$emit('notificationInfo', 'Sucessfully updated');
     } catch (err) {
         throw err;
@@ -76,6 +85,7 @@ export const updateTeamSkill = async (teamId, id, item) => {
 };
 
 export const deleteTeamSkill = async (teamId, id) => {
+    const domainId = store.state.userinfo.domainId || undefined;
     try {
         await teamResService.deleteResourceTeamSkill(teamId, id, domainId);
     } catch (err) {

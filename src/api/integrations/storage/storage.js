@@ -1,16 +1,15 @@
-import instance from '@/api/instance';
-import configuration from '@/api/openAPIConfig';
+import instance from '../../instance';
+import configuration from '../../openAPIConfig';
 import {BackendProfileServiceApiFactory} from 'webitel-sdk';
 import eventBus from "../../../utils/eventBus";
 import sanitizer from "../../utils/sanitizer";
-import {objCamelToSnake, objSnakeToCamel} from "../../utils/caseConverters";
 import deepCopy from 'deep-copy';
 import store from '../../../store/store';
 
 const storageService = new BackendProfileServiceApiFactory
 (configuration, '', instance);
 
-const fieldsToSend = ['name', 'maxSize', 'priority', 'properties', 'expireDays', 'type',];
+const fieldsToSend = ['domainId', 'name', 'maxSize', 'priority', 'properties', 'expireDays', 'type',];
 const storageTypes = {local: 'local', s3: 'aws', do: 'digitalOcean', g_drive: 'drive', drop_box: 'dropbox',};
 export const AWSRegions = [
     {name: 'EU (Frankfurt)', value: 'eu-central-1'},
@@ -53,22 +52,24 @@ export const DigitalOceanRegions = [
 
 export const getStorageList = async (page = 0, size = 10, search) => {
     const domainId = store.state.userinfo.domainId || undefined;
+    if (search.length && search.slice(-1) !== '*') search += '*';
     const defaultObject = {
         _isSelected: false,
         enabled: false,
     };
-    if(search.length && search.slice(-1) !== '*') search += '*';
 
     try {
         const response = await storageService.searchBackendProfile(page, size, search, domainId);
-        if (!response.data.items) response.data.items = [];
-        return response.data.items.map(item => {
-            return {
-                ...defaultObject,
-                ...objSnakeToCamel(item),
-                type: storageTypes[item.type],
-            }
-        });
+        if (response.items) {
+            return response.items.map(item => {
+                return {
+                    ...defaultObject,
+                    ...item,
+                    type: storageTypes[item.type],
+                }
+            });
+        }
+        return [];
     } catch (err) {
         throw err;
     }
@@ -82,7 +83,6 @@ export const getStorage = async (id) => {
     };
     try {
         let response = await storageService.readBackendProfile(id, domainId);
-        response = objSnakeToCamel(response.data);
         if (response.properties.region) {
             if (response.type === 's3') {
                 response.properties.region = AWSRegions.find(item => item.value === response.properties.region);
@@ -101,26 +101,24 @@ export const getStorage = async (id) => {
 };
 
 export const addStorage = async (item) => {
-    const domainId = store.state.userinfo.domainId || undefined;
     let itemCopy = deepCopy(item);
-    itemCopy.domainId = domainId;
+    itemCopy.domainId = store.state.userinfo.domainId || undefined;
     if (itemCopy.properties.region) itemCopy.properties.region = itemCopy.properties.region.value;
-    sanitizer(itemCopy, fieldsToSend);
-    itemCopy = objCamelToSnake(itemCopy);
     itemCopy.type = Object.keys(storageTypes).find(key => storageTypes[key] === itemCopy.type);
+    sanitizer(itemCopy, fieldsToSend);
     try {
         const response = await storageService.createBackendProfile(itemCopy);
         eventBus.$emit('notificationInfo', 'Sucessfully added');
-        return response.data.id;
+        return response.id;
     } catch (err) {
         throw err;
     }
 };
 
 export const patchStorage = async (id, item) => {
-    const domainId = store.state.userinfo.domainId || undefined;
     let itemCopy = deepCopy(item);
-    itemCopy.domainId = domainId;
+    itemCopy.domainId = store.state.userinfo.domainId || undefined;
+    sanitizer(itemCopy, fieldsToSend);
     try {
         await storageService.patchBackendProfile(id, itemCopy);
         eventBus.$emit('notificationInfo', 'Sucessfully updated');
@@ -130,13 +128,11 @@ export const patchStorage = async (id, item) => {
 };
 
 export const updateStorage = async (id, item) => {
-    const domainId = store.state.userinfo.domainId || undefined;
     let itemCopy = deepCopy(item);
-    itemCopy.domainId = domainId;
+    itemCopy.domainId = store.state.userinfo.domainId || undefined;
     if (itemCopy.properties.region) itemCopy.properties.region = item.properties.region.value;
     delete itemCopy.type;
     sanitizer(itemCopy, fieldsToSend);
-    itemCopy = objCamelToSnake(itemCopy);
 
     try {
         await storageService.updateBackendProfile(id, itemCopy);

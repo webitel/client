@@ -1,60 +1,79 @@
-import instance from '@/api/instance';
-import configuration from '@/api/openAPIConfig';
+import instance from '../../instance';
+import configuration from '../../openAPIConfig';
 import {ListServiceApiFactory} from 'webitel-sdk';
 import sanitizer from "../../utils/sanitizer";
 import eventBus from "../../../utils/eventBus";
+import store from "../../../store/store";
+import deepCopy from 'deep-copy';
 
 const listService = new ListServiceApiFactory
 (configuration, '', instance);
 
-const fieldsToSend = ['description', 'number'];
+const fieldsToSend = ['domainId', 'listId', 'description', 'number'];
 
-export const getBlacklistCommunicationList = async (parentId, page = 0, size = 10) => {
+export const getBlacklistCommunicationList = async (listId, page = 0, size = 10, search) => {
+    const domainId = store.state.userinfo.domainId || undefined;
+    if (search.length && search.slice(-1) !== '*') search += '*';
+    const defaultObject = {
+        name: '',
+        _isSelected: false,
+    };
     try {
-        const response = await listService.searchListCommunication(parentId, page, size);
-        if (!response.data.items) response.data.items = [];
-        response.data.items.forEach(item => item._isSelected = false);
-        return response.data.items;
+        const response = await listService.searchListCommunication(listId, page, size, domainId);
+        if (response.items) {
+            return response.items.map(item => {
+                return {...defaultObject, ...item};
+            });
+        }
+        return [];
     } catch (err) {
         throw err;
     }
 };
 
-export const getBlacklistCommunication = async (id, numberId) => {
+export const getBlacklistCommunication = async (listId, id) => {
+    const domainId = store.state.userinfo.domainId || undefined;
+    const defaultObject = {
+        _dirty: false,
+    };
     try {
-        const response = await listService.readListCommunication(id, numberId);
-        const defaultObject = {
-            _dirty: false,
-        };
-        return {...defaultObject, ...response.data};
+        const response = await listService.readListCommunication(listId, id, domainId);
+        return {...defaultObject, ...response};
     } catch (err) {
         throw err;
     }
 };
 
-export const addBlacklistCommunication = async (id, item) => {
+export const addBlacklistCommunication = async (listId, item) => {
+    let itemCopy = deepCopy(item);
+    itemCopy.domainId = store.state.userinfo.domainId || undefined;
+    itemCopy.listId = listId;
     sanitizer(item, fieldsToSend);
     try {
-        const response = await listService.createListCommunication(id, item);
+        const response = await listService.createListCommunication(listId, itemCopy);
         eventBus.$emit('notificationInfo', 'Sucessfully added');
     } catch (err) {
         throw err;
     }
 };
 
-export const updateBlacklistCommunication = async (id, numberId, changes) => {
-    sanitizer(changes, fieldsToSend);
+export const updateBlacklistCommunication = async (listId, id, item) => {
+    let itemCopy = deepCopy(item);
+    itemCopy.domainId = store.state.userinfo.domainId || undefined;
+    itemCopy.listId = listId;
+    sanitizer(item, fieldsToSend);
     try {
-        await listService.updateListCommunication(id, numberId, changes);
+        await listService.updateListCommunication(listId, id, itemCopy);
         eventBus.$emit('notificationInfo', 'Sucessfully updated');
     } catch (err) {
         throw err;
     }
 };
 
-export const deleteBlacklistCommunication = async (id, numberId) => {
+export const deleteBlacklistCommunication = async (listId, id) => {
+    const domainId = store.state.userinfo.domainId || undefined;
     try {
-        await listService.deleteListCommunication(id, numberId);
+        await listService.deleteListCommunication(listId, id, domainId);
     } catch (err) {
         throw err;
     }

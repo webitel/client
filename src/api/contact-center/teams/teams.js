@@ -1,9 +1,8 @@
-import instance from '@/api/instance';
-import configuration from '@/api/openAPIConfig';
+import instance from '../../instance';
+import configuration from '../../openAPIConfig';
 import sanitizer from '../../utils/sanitizer';
 import {AgentTeamServiceApiFactory} from 'webitel-sdk';
 import eventBus from "../../../utils/eventBus";
-import {objCamelToSnake, objSnakeToCamel} from "../../utils/caseConverters";
 import {coerceObjectPermissionsResponse} from "../../permissions/objects/objects";
 import deepCopy from 'deep-copy';
 import store from '../../../store/store';
@@ -12,7 +11,6 @@ const teamService = new AgentTeamServiceApiFactory
 (configuration, '', instance);
 
 const BASE_URL = '/call_center/teams';
-const domainId = undefined;
 const fieldsToSend = ['domainId', 'name', 'description', 'strategy', 'maxNoAnswer', 'wrapUpTime',
     'rejectDelayTime', 'busyDelayTime', 'noAnswerDelayTime', 'callTimeout'];
 
@@ -27,16 +25,16 @@ export const strategiesList = {
 
 export const getTeamsList = async (page = 0, size = 10, search) => {
     const domainId = store.state.userinfo.domainId || undefined;
+    if(search.length && search.slice(-1) !== '*') search += '*';
     const defaultObject = {
         _isSelected: false,
         name: '',
     };
-    if(search.length && search.slice(-1) !== '*') search += '*';
 
     try {
         const response = await teamService.searchAgentTeam(page, size, search, domainId);
-        if (Array.isArray(response.data.items)) {
-            return response.data.items.map(item => {
+        if (response.items) {
+            return response.items.map(item => {
                 return {...defaultObject, ...item};
             });
         }
@@ -55,7 +53,6 @@ export const getTeam = async (id) => {
     };
     try {
         let response = await teamService.readAgentTeam(id, domainId);
-        response = objSnakeToCamel(response.data);
         response.strategy = {
             name: strategiesList[response.strategy],
             value: response.strategy,
@@ -67,28 +64,24 @@ export const getTeam = async (id) => {
 };
 
 export const addTeam = async (item) => {
-    const domainId = store.state.userinfo.domainId || undefined;
     let itemCopy = deepCopy(item);
-    itemCopy.domainId = domainId;
+    itemCopy.domainId = store.state.userinfo.domainId || undefined;
     itemCopy.strategy = itemCopy.strategy.value;
     sanitizer(itemCopy, fieldsToSend);
-    itemCopy = objCamelToSnake(itemCopy);
     try {
         const response = await teamService.createAgentTeam(itemCopy);
         eventBus.$emit('notificationInfo', 'Sucessfully added');
-        return response.data.id;
+        return response.id;
     } catch (err) {
         throw err;
     }
 };
 
 export const updateTeam = async (id, item) => {
-    const domainId = store.state.userinfo.domainId || undefined;
     let itemCopy = deepCopy(item);
-    itemCopy.domainId = domainId;
+    itemCopy.domainId = store.state.userinfo.domainId || undefined;
     itemCopy.strategy = itemCopy.strategy.value;
     sanitizer(itemCopy, fieldsToSend);
-    itemCopy = objCamelToSnake(itemCopy);
     try {
         await teamService.updateAgentTeam(id, itemCopy);
         eventBus.$emit('notificationInfo', 'Sucessfully updated');

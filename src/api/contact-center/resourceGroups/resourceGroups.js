@@ -1,12 +1,11 @@
-import instance from '@/api/instance';
-import configuration from '@/api/openAPIConfig';
-import sanitizer from '@/api/utils/sanitizer';
+import instance from '../../instance';
+import configuration from '../../openAPIConfig';
+import sanitizer from '../../utils/sanitizer';
 import {OutboundResourceGroupServiceApiFactory} from 'webitel-sdk';
 import eventBus from "../../../utils/eventBus";
 import {coerceObjectPermissionsResponse} from "../../permissions/objects/objects";
 import deepCopy from 'deep-copy';
 import store from '../../../store/store';
-import {objCamelToSnake} from "../../utils/caseConverters";
 
 const resGrService = new OutboundResourceGroupServiceApiFactory
 (configuration, '', instance);
@@ -28,8 +27,8 @@ export const getResGroupList = async (page = 0, size = 10, search) => {
 
     try {
         const response = await resGrService.searchOutboundResourceGroup(page, size, search, domainId);
-        if (Array.isArray(response.data.items)) {
-            return response.data.items.map(item => {
+        if (response.items) {
+            return response.items.map(item => {
                 return {...defaultObject, ...item};
             });
         }
@@ -57,23 +56,22 @@ export const getResGroup = async (id) => {
     };
     try {
         const response = await resGrService.readOutboundResourceGroup(id, domainId);
-        response.data.time = response.data.time.map(range => {
+        response.time = response.time.map(range => {
             return {
                 start: range.start_time_of_day || 0,
                 end: range.end_time_of_day || 0,
             }
         });
 
-        return {...defaultObject, ...response.data};
+        return {...defaultObject, ...response};
     } catch (err) {
         throw err;
     }
 };
 
 export async function addResGroup(item) {
-    const domainId = store.state.userinfo.domainId || undefined;
     let itemCopy = deepCopy(item);
-    itemCopy.domainId = domainId;
+    itemCopy.domainId = store.state.userinfo.domainId || undefined;
     itemCopy.time = itemCopy.time.map(range => {
         return {
             start_time_of_day: range.start,
@@ -84,16 +82,15 @@ export async function addResGroup(item) {
     try {
         const response = await resGrService.createOutboundResourceGroup(itemCopy);
         eventBus.$emit('notificationInfo', 'Sucessfully added');
-        return response.data.id;
+        return response.id;
     } catch (err) {
         throw err;
     }
 }
 
 export async function updateResGroup(id, item) {
-    const domainId = store.state.userinfo.domainId || undefined;
     let itemCopy = deepCopy(item);
-    itemCopy.domainId = domainId;
+    itemCopy.domainId = store.state.userinfo.domainId || undefined;
     itemCopy.time = itemCopy.time.map(range => {
         return {
             start_time_of_day: range.start,

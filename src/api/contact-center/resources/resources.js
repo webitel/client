@@ -1,7 +1,6 @@
-import instance from '@/api/instance';
-import configuration from '@/api/openAPIConfig';
+import instance from '../../instance';
+import configuration from '../../openAPIConfig';
 import sanitizer from '../../utils/sanitizer';
-import {objCamelToSnake, objSnakeToCamel} from '../../utils/caseConverters';
 import {OutboundResourceServiceApiFactory} from 'webitel-sdk';
 import eventBus from "../../../utils/eventBus";
 import {coerceObjectPermissionsResponse} from "../../permissions/objects/objects";
@@ -12,7 +11,6 @@ const resService = new OutboundResourceServiceApiFactory
 (configuration, '', instance);
 
 const BASE_URL = '/call_center/resources';
-const domainId =  undefined;
 const fieldsToSend = ['domainId', 'limit', 'enabled',
     'rps', 'reserve', 'max_successively_errors',
     'name', 'error_ids', 'display', 'resource_id', 'gateway'];
@@ -27,13 +25,13 @@ export const getResourceList = async (page, size = 10, search) => {
         reserve: false,
         id: 0,
     };
-    if(search.length && search.slice(-1) !== '*') search += '*';
+    if (search.length && search.slice(-1) !== '*') search += '*';
 
     try {
         const response = await resService.searchOutboundResource(page, size, search, domainId);
-        if (Array.isArray(response.data.items)) {
-            return response.data.items.map(item => {
-                return Object.assign({}, defaultObject, item);
+        if (response.items) {
+            return response.items.map(item => {
+                return {...defaultObject, ...item};
             });
         }
         return [];
@@ -58,44 +56,39 @@ export const getResource = async (id) => {
 
     try {
         const response = await resService.readOutboundResource(id, domainId);
-        response.data.maxErrors = response.data.max_successively_errors;
-        response.data.cps = response.data.rps;
-        response.data = objSnakeToCamel(response.data);
-        response.data.errorIds = response.data.errorIds.map(item => {
-            return {name: item,}
+        response.maxErrors = response.max_successively_errors;
+        response.cps = response.rps;
+        response.errorIds = response.errorIds.map(item => {
+            return {name: item}
         });
-        return {...defaultObject, ...response.data};
+        return {...defaultObject, ...response};
     } catch (err) {
         throw err;
     }
 };
 
 export const addResource = async (item) => {
-    const domainId = store.state.userinfo.domainId || undefined;
     let itemCopy = deepCopy(item);
-    itemCopy.domainId = domainId;
+    itemCopy.domainId = store.state.userinfo.domainId || undefined;
     itemCopy.errorIds = itemCopy.errorIds.map(item => item.name || item.text);
     itemCopy.max_successively_errors = item.maxErrors;
     itemCopy.rps = item.cps;
-    itemCopy = objCamelToSnake(itemCopy);
     sanitizer(itemCopy, fieldsToSend);
     try {
         const response = await resService.createOutboundResource(itemCopy);
         eventBus.$emit('notificationInfo', 'Sucessfully added');
-        return response.data.id;
+        return response.id;
     } catch (err) {
         throw err;
     }
 };
 
 export const updateResource = async (id, item) => {
-    const domainId = store.state.userinfo.domainId || undefined;
     let itemCopy = deepCopy(item);
-    itemCopy.domainId = domainId;
+    itemCopy.domainId = store.state.userinfo.domainId || undefined;
     itemCopy.errorIds = itemCopy.errorIds.map(item => item.name || item.text);
     itemCopy.max_successively_errors = item.maxErrors;
     itemCopy.rps = item.cps;
-    itemCopy = objCamelToSnake(itemCopy);
     sanitizer(itemCopy, fieldsToSend);
     try {
         await resService.updateOutboundResource(id, itemCopy);
@@ -106,9 +99,8 @@ export const updateResource = async (id, item) => {
 };
 
 export const patchResource = async (id, item) => {
-    const domainId = store.state.userinfo.domainId || undefined;
     let itemCopy = deepCopy(item);
-    itemCopy.domainId = domainId;
+    itemCopy.domainId = store.state.userinfo.domainId || undefined;
     try {
         await resService.patchOutboundResource(id, itemCopy);
         eventBus.$emit('notificationInfo', 'Sucessfully updated');

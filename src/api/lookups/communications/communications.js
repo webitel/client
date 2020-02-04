@@ -15,11 +15,17 @@ const fieldsToSend = ['domainId', 'code', 'name', 'description'];
 export const getCommunicationsList = async (page = 0, size = 10, search) => {
     const domainId = store.state.userinfo.domainId || undefined;
     if (search.length && search.slice(-1) !== '*') search += '*';
+    const defaultObject = {
+        _isSelected: false,
+    };
     try {
         const response = await communicationService.searchCommunicationType(page, size, search, domainId);
-        if (!response.data.items) response.data.items = [];
-        response.data.items.forEach(item => item._isSelected = false);
-        return response.data.items;
+        if (response.items) {
+            return response.items.map(item => {
+                return {...defaultObject, ...item};
+            });
+        }
+        return [];
     } catch (err) {
         throw err;
     }
@@ -36,33 +42,29 @@ export const getCommunication = async (id) => {
 
     try {
         const response = await communicationService.readCommunicationType(id, domainId);
-        return {...defaultObject, ...response.data};
+        return {...defaultObject, ...response};
     } catch (err) {
         throw err;
     }
 };
 
 export const addCommunication = async (item) => {
-    const domainId = store.state.userinfo.domainId || undefined;
     let itemCopy = deepCopy(item);
-    itemCopy.domainId = domainId;
+    itemCopy.domainId = store.state.userinfo.domainId || undefined;
     sanitizer(itemCopy, fieldsToSend);
-    itemCopy = objCamelToSnake(itemCopy);
     try {
         const response = await communicationService.createCommunicationType(itemCopy);
         eventBus.$emit('notificationInfo', 'Sucessfully added');
-        return response.data.id;
+        return response.id;
     } catch (err) {
         throw err;
     }
 };
 
 export const updateCommunication = async (id, item) => {
-    const domainId = store.state.userinfo.domainId || undefined;
     let itemCopy = deepCopy(item);
-    itemCopy.domainId = domainId;
+    itemCopy.domainId = store.state.userinfo.domainId || undefined;
     sanitizer(itemCopy, fieldsToSend);
-    itemCopy = objCamelToSnake(itemCopy);
     try {
         await communicationService.updateCommunicationType(id, itemCopy);
         eventBus.$emit('notificationInfo', 'Sucessfully updated');

@@ -1,6 +1,6 @@
-import instance from '@/api/instance';
+import instance from '../../instance';
 import axios from 'axios';
-import configuration from '@/api/openAPIConfig';
+import configuration from '../../openAPIConfig';
 import {MediaFileServiceApiFactory} from 'webitel-sdk';
 import eventBus from "../../../utils/eventBus";
 import {objSnakeToCamel} from "../../utils/caseConverters";
@@ -8,17 +8,23 @@ import store from "../../../store/store";
 
 const mediaService = new MediaFileServiceApiFactory
 (configuration, '', instance);
+
 export const getMediaList = async (page = 0, size = 10, search) => {
     const domainId = store.state.userinfo.domainId || undefined;
     if(search.length && search.slice(-1) !== '*') search += '*';
+    const defaultObject = {
+        name: '',
+        _isSelected: false,
+    };
 
     try {
         let response = await mediaService.searchMediaFile(page, size, search, domainId);
-        if (!response.data.items) response.data.items = [];
-        response = response.data.items.map(item => {
-            return {...objSnakeToCamel(item), _isSelected: false}
-        });
-        return response;
+        if (response.items) {
+            return response.items.map(item => {
+                return {...defaultObject, ...item};
+            });
+        }
+        return [];
     } catch (err) {
         throw err;
     }
@@ -29,8 +35,7 @@ export const getMedia = async (id) => {
     const url = `https://dev.webitel.com/api/storage/media/${id}/stream?access_token=${token}`;
     const domainId = store.state.userinfo.domainId || undefined;
     try {
-        const response = await instance.get(url, domainId);
-        return response.data;
+        return await instance.get(url, domainId);
     } catch (err) {
         throw err;
     }
@@ -40,8 +45,7 @@ export const downloadMedia = async (id) => {
     const token = 'IGORDEV_TOKEN';
     const url = `https://dev.webitel.com/api/storage/media/${id}/download?access_token=${token}`;
     try {
-        const response = await instance.get(url);
-        return response.data;
+        return await instance.get(url);
     } catch (err) {
         throw err;
     }
@@ -60,7 +64,7 @@ export const addMedia = async (file) => {
     try {
         const response = await axios.post(url, formData, config);
         eventBus.$emit('notificationInfo', 'Sucessfully added');
-        return response.data.id;
+        return response.id;
     } catch (err) {
         throw err;
     }

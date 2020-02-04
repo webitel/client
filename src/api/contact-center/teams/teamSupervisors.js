@@ -1,26 +1,28 @@
-import instance from '@/api/instance';
-import configuration from '@/api/openAPIConfig';
+import instance from '../../instance';
+import configuration from '../../openAPIConfig';
 import sanitizer from '../../utils/sanitizer';
 import {SupervisorInTeamServiceApiFactory} from 'webitel-sdk';
 import eventBus from "../../../utils/eventBus";
-import {objCamelToSnake, objSnakeToCamel} from "../../utils/caseConverters";
+import deepCopy from 'deep-copy';
+import store from '../../../store/store';
 
 const teamSupervisorService = new SupervisorInTeamServiceApiFactory
 (configuration, '', instance);
 
-const domainId = undefined;
-const fieldsToSend = ['agent'];
+const fieldsToSend = ['domainId', 'teamId', 'agent'];
 
-export const getTeamSupervisorsList = async (teamId, page = 0, size = 10) => {
+export const getTeamSupervisorsList = async (teamId, page = 0, size = 10, search) => {
+    const domainId = store.state.userinfo.domainId || undefined;
+    if (search.length && search.slice(-1) !== '*') search += '*';
     const defaultObject = {
         agent: {},
         _isSelected: false,
     };
 
     try {
-        const response = await teamSupervisorService.searchSupervisorInTeam(teamId, page, size);
-        if (Array.isArray(response.data.items)) {
-            return response.data.items.map(item => {
+        const response = await teamSupervisorService.searchSupervisorInTeam(teamId, page, size, domainId);
+        if (response.items) {
+            return response.items.map(item => {
                 return {...defaultObject, ...item};
             });
         }
@@ -31,35 +33,40 @@ export const getTeamSupervisorsList = async (teamId, page = 0, size = 10) => {
 };
 
 export const getTeamSupervisor = async (teamId, id) => {
+    const domainId = store.state.userinfo.domainId || undefined;
     try {
         let response = await teamSupervisorService.readSupervisorInTeam(teamId, id, domainId);
         const defaultObject = {
             agent: {},
             _dirty: false,
         };
-        return {...defaultObject, ...objSnakeToCamel(response.data)};
+        return {...defaultObject, ...response};
     } catch (err) {
         throw err;
     }
 };
 
 export const addTeamSupervisor = async (teamId, item) => {
-    sanitizer(item, fieldsToSend);
-    item = objCamelToSnake(item);
+    let itemCopy = deepCopy(item);
+    itemCopy.domainId = store.state.userinfo.domainId || undefined;
+    itemCopy.teamId = teamId;
+    sanitizer(itemCopy, fieldsToSend);
     try {
-        const response = await teamSupervisorService.createSupervisorInTeam(teamId, item);
+        const response = await teamSupervisorService.createSupervisorInTeam(teamId, itemCopy);
         eventBus.$emit('notificationInfo', 'Sucessfully added');
-        return response.data.id;
+        return response.id;
     } catch (err) {
         throw err;
     }
 };
 
 export const updateTeamSupervisor = async (teamId, id, item) => {
-    sanitizer(item, fieldsToSend);
-    item = objCamelToSnake(item);
+    let itemCopy = deepCopy(item);
+    itemCopy.domainId = store.state.userinfo.domainId || undefined;
+    itemCopy.teamId = teamId;
+    sanitizer(itemCopy, fieldsToSend);
     try {
-        await teamSupervisorService.updateSupervisorInTeam(teamId, id, item);
+        await teamSupervisorService.updateSupervisorInTeam(teamId, id, itemCopy);
         eventBus.$emit('notificationInfo', 'Sucessfully updated');
     } catch (err) {
         throw err;
@@ -67,6 +74,7 @@ export const updateTeamSupervisor = async (teamId, id, item) => {
 };
 
 export const deleteTeamSupervisor = async (teamId, id) => {
+    const domainId = store.state.userinfo.domainId || undefined;
     try {
         await teamSupervisorService.deleteSupervisorInTeam(teamId, id, domainId);
     } catch (err) {

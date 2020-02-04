@@ -13,11 +13,11 @@ const fieldsToSend = ['domainId', 'name', 'description'];
 
 export const getSkillsList = async (page = 0, size = 10, search) => {
     const domainId = store.state.userinfo.domainId || undefined;
+    if (search.length && search.slice(-1) !== '*') search += '*';
     const defaultObject = {
         name: '',
         _isSelected: false,
     };
-    if (search.length && search.slice(-1) !== '*') search += '*';
 
     try {
         const response = await skillService.searchSkill(page, size, search, domainId);

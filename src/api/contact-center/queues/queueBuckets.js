@@ -1,25 +1,27 @@
-import instance from '@/api/instance';
-import configuration from '@/api/openAPIConfig';
+import instance from '../../instance';
+import configuration from '../../openAPIConfig';
 import sanitizer from '../../utils/sanitizer';
 import {QueueBucketServiceApiFactory} from 'webitel-sdk';
 import eventBus from "../../../utils/eventBus";
-import {objCamelToSnake, objSnakeToCamel} from "../../utils/caseConverters";
+import deepCopy from 'deep-copy';
+import store from '../../../store/store';
 
 const queueBucketsService = new QueueBucketServiceApiFactory
 (configuration, '', instance);
 
-const domainId = undefined;
-const fieldsToSend = ['bucket', 'ratio', 'queue_id'];
+const fieldsToSend = ['bucket', 'ratio', 'queueId'];
 
-export const getQueueBucketsList = async (queueId, page = 0, size = 10) => {
+export const getQueueBucketsList = async (queueId, page = 0, size = 10, search) => {
+    const domainId = store.state.userinfo.domainId || undefined;
     const defaultObject = {
         _isSelected: false,
     };
+    if (search.length && search.slice(-1) !== '*') search += '*';
 
     try {
-        const response = await queueBucketsService.searchQueueBucket(queueId, page, size);
-        if (Array.isArray(response.data.items)) {
-            return response.data.items.map(item => {
+        const response = await queueBucketsService.searchQueueBucket(queueId, page, size, domainId);
+        if (response.items) {
+            return response.items.map(item => {
                 return {...defaultObject, ...item};
             });
         }
@@ -30,32 +32,37 @@ export const getQueueBucketsList = async (queueId, page = 0, size = 10) => {
 };
 
 export const getQueueBucket = async (queueId, id) => {
+    const domainId = store.state.userinfo.domainId || undefined;
+    const defaultObject = {
+        _dirty: false,
+    };
     try {
-        let response = await queueBucketsService.readQueueBucket(queueId, id);
-        const defaultObject = {
-            _dirty: false,
-        };
-
-        return {...defaultObject, ...objSnakeToCamel(response.data)};
+        let response = await queueBucketsService.readQueueBucket(queueId, id, domainId);
+        return {...defaultObject, ...response};
     } catch (err) {
         throw err;
     }
 };
 
 export const addQueueBucket = async (queueId, item) => {
-    let itemCopy = {...item, queue_id: queueId};
+    let itemCopy = deepCopy(item);
+    itemCopy.domainId = store.state.userinfo.domainId || undefined;
+    itemCopy.queueId = queueId;
+
     sanitizer(itemCopy, fieldsToSend);
     try {
         const response = await queueBucketsService.createQueueBucket(queueId, itemCopy);
         eventBus.$emit('notificationInfo', 'Sucessfully added');
-        return response.data.id;
+        return response.id;
     } catch (err) {
         throw err;
     }
 };
 
 export const updateQueueBucket = async (queueId, id, item) => {
-    let itemCopy = {...item, queue_id: queueId};
+    let itemCopy = deepCopy(item);
+    itemCopy.domainId = store.state.userinfo.domainId || undefined;
+    itemCopy.queueId = queueId;
     sanitizer(itemCopy, fieldsToSend);
     try {
         await queueBucketsService.updateQueueBucket(queueId, id, itemCopy);
@@ -66,8 +73,9 @@ export const updateQueueBucket = async (queueId, id, item) => {
 };
 
 export const deleteQueueBucket = async (queueId, id) => {
+    const domainId = store.state.userinfo.domainId || undefined;
     try {
-        await queueBucketsService.deleteQueueBucket(queueId, id);
+        await queueBucketsService.deleteQueueBucket(queueId, id, domainId);
     } catch (err) {
         throw err;
     }
