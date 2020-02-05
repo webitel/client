@@ -96,11 +96,6 @@
             }
         },
 
-        mounted() {
-            this.setParentId(this.parentId);
-            this.loadList();
-        },
-
         computed: {
             ...mapState('lookups/blacklists', {
                 parentId: state => state.itemId,

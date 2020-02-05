@@ -1,4 +1,4 @@
-import instance from '@/api/instance';
+import instance from '../../instance';
 import eventBus from "../../../utils/eventBus";
 
 const BASE_URL = '/objects';
@@ -16,7 +16,7 @@ export const getObjectList = async (search) => {
 
     try {
         const response = await instance.get(url);
-        return response.data.classes.map(item => {
+        return response.classes.map(item => {
             return {...defaultObject, ...item};
         });
     } catch (error) {
@@ -45,7 +45,7 @@ export const getObject = async (id) => {
     const url = BASE_URL + '/' + id;
     try {
         const response = await instance.get(url);
-        return response.data.class.class;
+        return response.class.class;
     } catch (error) {
         throw error;
     }
@@ -75,9 +75,9 @@ export const patchObjectPermissions = async (id, item) => {
 
 export const coerceObjectPermissionsResponse = (response) => {
     let formattedResponse = [];
-    if (response.data.list) {
+    if (response.list) {
         // format response before assignment
-        formattedResponse = response.data.list.map(item => {
+        formattedResponse = response.list.map(item => {
             return {
                 grantee: {
                     id: item.grantee.id,

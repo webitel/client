@@ -2,7 +2,7 @@
 
 .vuetable-body-wrapper {
   //overflow: hidden;
-  overflow-x: auto;
+  //overflow-x: auto;
   //display: none;
 
   // scrollbar itself
@@ -26,7 +26,8 @@
   text-align: left;
   max-width: 100%;
   width: 100%;
-  min-width: 776px;
+  //min-width: 776px;
+  min-width: 480px;
   margin-bottom: 10px;
 
   thead {

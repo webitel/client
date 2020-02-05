@@ -48,7 +48,9 @@ const actions = {
     },
 
     SET_PARENT_ITEM_ID: (context, id) => {
+        console.log('set parent id', id, state.parentId);
         context.commit('SET_PARENT_ITEM_ID', id);
+        console.log('set parent id', state.parentId);
     },
 
     SET_ITEM_ID: (context, id) => {
@@ -60,6 +62,9 @@ const actions = {
             const response = await context.dispatch('GET_LIST');
             context.dispatch('RESET_ITEM_STATE');
             context.commit('SET_DATA_LIST', response);
+        } else {
+            context.dispatch('RESET_ITEM_STATE');
+            context.commit('SET_DATA_LIST', []);
         }
     },
 

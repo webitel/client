@@ -10,8 +10,8 @@
             ></form-input>
 
             <dropdown-select
-                    :value="schema"
-                    :label="$tc('objects.routing.callflow.callflow', 1)"
+                    v-model="schema"
+                    :label="$tc('objects.routing.flow.flow', 1)"
                     :options="dropdownOptionsList"
                     @search="loadDropdownOptionsList"
             >
@@ -42,10 +42,15 @@
 <script>
     import openedTabComponentMixin from '@/mixins/openedTabComponentMixin';
     import {mapActions} from "vuex";
+    import {getFlowList} from "../../../api/routing/flow/flow";
 
     export default {
         name: "opened-register-sip-gateway-configuration",
         mixins: [openedTabComponentMixin],
+
+        data: () => ({
+            dropdownOptionsList: []
+        }),
 
         computed: {
             username: {
@@ -70,9 +75,19 @@
             },
         },
 
+        mounted() {
+            this.loadDropdownOptionsList();
+        },
+
         methods: {
-            loadDropdownOptionsList() {
-                return []
+            async loadDropdownOptionsList(search) {
+                const response = await getFlowList(0, 10, search);
+                this.dropdownOptionsList = response.map(item => {
+                    return {
+                        name: item.name,
+                        id: item.id,
+                    }
+                });
             },
 
             ...mapActions('routing/gateways', {

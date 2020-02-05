@@ -59,7 +59,7 @@ export const addDevice = async (item) => {
     let itemCopy = deepCopy(item);
     sanitizer(itemCopy, fieldsToSend);
     try {
-        const response = await instance.post(BASE_URL, {item: itemCopy});
+        const response = await instance.post(BASE_URL, {device: itemCopy});
         eventBus.$emit('notificationInfo', 'Sucessfully added');
         return response.device.id;
     } catch (err) {
@@ -73,7 +73,7 @@ export const updateDevice = async (id, item) => {
     sanitizer(itemCopy, fieldsToSend);
 
     try {
-        await instance.put(url, {item: itemCopy});
+        await instance.put(url, {device: itemCopy});
         eventBus.$emit('notificationInfo', 'Sucessfully updated');
     } catch (err) {
         throw err;

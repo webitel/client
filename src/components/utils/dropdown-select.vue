@@ -15,7 +15,7 @@
                 :taggable="taggable"
                 :width="21"
                 @input="setOption"
-                @search="debouncer.call(this)"
+                @search="debouncer.call(this, $event)"
         ></v-select>
 
         <validation-message
@@ -117,8 +117,8 @@
                 this.$emit('input', option);
             },
 
-            debouncer() {
-                this.$emit('search', this.value);
+            debouncer(value) {
+                this.$emit('search', value);
             },
         },
     }

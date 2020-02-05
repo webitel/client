@@ -84,7 +84,7 @@
             },
 
             computePasswordRepresentation() {
-                return this.password.length === 12 ? this.password : this.password.slice(0, 12);
+                return this.password.length <= 12 ? this.password : this.password.slice(0, 12);
             }
         },
 

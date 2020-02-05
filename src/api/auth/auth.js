@@ -12,7 +12,7 @@ export const login = async (credentials) => {
 
     try {
         const response = await instance.post(url, credentials);
-        localStorage.setItem('access-token', response.authorization.access_token);
+        localStorage.setItem('access-token', response.authorization.accessToken);
         instance.defaults.headers['X-Webitel-Access'] = localStorage.getItem('access-token');
         await getSession();
         return router.replace('/');

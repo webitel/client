@@ -75,7 +75,7 @@ const actions = {
     },
 
     PATCH_ITEM: async (context, {id, changes}) => {
-
+        // FIXME: ADD PATCH TO SWITCHER
     },
 
     UPD_ITEM: async () => {

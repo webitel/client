@@ -13,13 +13,13 @@ const fieldsToSend = ['domainId', 'listId', 'description', 'number'];
 
 export const getBlacklistCommunicationList = async (listId, page = 0, size = 10, search) => {
     const domainId = store.state.userinfo.domainId || undefined;
-    if (search.length && search.slice(-1) !== '*') search += '*';
+    if (search && search.slice(-1) !== '*') search += '*';
     const defaultObject = {
         name: '',
         _isSelected: false,
     };
     try {
-        const response = await listService.searchListCommunication(listId, page, size, domainId);
+        const response = await listService.searchListCommunication(listId, page, size, search, domainId);
         if (response.items) {
             return response.items.map(item => {
                 return {...defaultObject, ...item};
@@ -52,6 +52,7 @@ export const addBlacklistCommunication = async (listId, item) => {
     try {
         const response = await listService.createListCommunication(listId, itemCopy);
         eventBus.$emit('notificationInfo', 'Sucessfully added');
+        return response.id;
     } catch (err) {
         throw err;
     }
@@ -61,7 +62,7 @@ export const updateBlacklistCommunication = async (listId, id, item) => {
     let itemCopy = deepCopy(item);
     itemCopy.domainId = store.state.userinfo.domainId || undefined;
     itemCopy.listId = listId;
-    sanitizer(item, fieldsToSend);
+    sanitizer(itemCopy, fieldsToSend);
     try {
         await listService.updateListCommunication(listId, id, itemCopy);
         eventBus.$emit('notificationInfo', 'Sucessfully updated');

@@ -11,7 +11,7 @@ const defaultState = () => {
         itemId: 0,
         itemInstance: {
             name: 'test',
-            gateway: {id: 1},
+            gateway: {},
             cps: 10,
             limit: 10,
             description: 'test',

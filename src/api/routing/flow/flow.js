@@ -1,16 +1,15 @@
-import instance from '@/api/instance';
-import configuration from '@/api/openAPIConfig';
+import instance from '../../instance';
+import configuration from '../../openAPIConfig';
 import {RoutingSchemaServiceApiFactory} from 'webitel-sdk';
 import eventBus from "../../../utils/eventBus";
 import sanitizer from "../../utils/sanitizer";
 import deepCopy from 'deep-copy';
 import store from '../../../store/store';
-import {objCamelToSnake} from "../../utils/caseConverters";
 
 const flowService = new RoutingSchemaServiceApiFactory
 (configuration, '', instance);
 
-const fieldsToSend = ['name', 'schema', 'payload'];
+const fieldsToSend = ['domainId', 'name', 'schema', 'payload'];
 
 export const getFlowList = async (page = 0, size = 10, search) => {
     const domainId = store.state.userinfo.domainId || undefined;
@@ -19,13 +18,15 @@ export const getFlowList = async (page = 0, size = 10, search) => {
         // debug: false,
         // type: 'Type is undefined',
     };
-    if(search.length && search.slice(-1) !== '*') search += '*';
+    if(search && search.slice(-1) !== '*') search += '*';
     try {
         const response = await flowService.searchRoutingSchema(page, size, search, domainId);
-        if (!response.data.items) response.data.items = [];
-        return response.data.items.map(item => {
-            return {...item, ...defaultObject}
-        });
+        if (response.items) {
+            return response.items.map(item => {
+                return {...defaultObject, ...item};
+            });
+        }
+        return [];
     } catch (err) {
         throw err;
     }
@@ -39,8 +40,8 @@ export const getFlow = async (id) => {
     try {
         let response = await flowService.readRoutingSchema(id, domainId);
         return {
-            ...response.data,
-            schema: JSON.stringify(response.data.schema, null, 4),
+            ...response,
+            schema: JSON.stringify(response.schema, null, 4),
             ...defaultObject
         };
 
@@ -50,29 +51,27 @@ export const getFlow = async (id) => {
 };
 
 export const addFlow = async (item) => {
-    const domainId = store.state.userinfo.domainId || undefined;
     let itemCopy = deepCopy(item);
-    itemCopy.domainId = domainId;
+    itemCopy.domainId = store.state.userinfo.domainId || undefined;
     itemCopy.schema = JSON.parse(itemCopy.schema);
+    itemCopy.payload = {};
     sanitizer(itemCopy, fieldsToSend);
-    itemCopy = objCamelToSnake(itemCopy);
 
     try {
         const response = await flowService.createRoutingSchema(itemCopy);
         eventBus.$emit('notificationInfo', 'Sucessfully added');
-        return response.data.id;
+        return response.id;
     } catch (err) {
         throw err;
     }
 };
 
 export const updateFlow = async (id, item) => {
-    const domainId = store.state.userinfo.domainId || undefined;
     let itemCopy = deepCopy(item);
-    itemCopy.domainId = domainId;
+    itemCopy.domainId = store.state.userinfo.domainId || undefined;
     itemCopy.schema = JSON.parse(itemCopy.schema);
+    itemCopy.payload = {};
     sanitizer(itemCopy, fieldsToSend);
-    itemCopy = objCamelToSnake(itemCopy);
 
     try {
         await flowService.updateRoutingSchema(id, itemCopy);

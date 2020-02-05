@@ -24,7 +24,7 @@ export const getQueuesList = async (page = 0, size = 10, search) => {
         priority: '0',
         _isSelected: false,
     };
-    if(search.length && search.slice(-1) !== '*') search += '*';
+    if(search && search.slice(-1) !== '*') search += '*';
 
     try {
         const response = await queueService.searchQueue(page, size, search, domainId);

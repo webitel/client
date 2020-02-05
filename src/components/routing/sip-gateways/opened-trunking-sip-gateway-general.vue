@@ -12,8 +12,8 @@
             ></form-input>
 
             <dropdown-select
-                    :value="schema"
-                    :label="$tc('objects.routing.callflow.callflow', 1)"
+                    v-model="schema"
+                    :label="$tc('objects.routing.flow.flow', 1)"
                     :options="dropdownOptionsList"
                     @search="loadDropdownOptionsList"
             ></dropdown-select>

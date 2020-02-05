@@ -14,7 +14,7 @@ const fieldsToSend = ['domainId', 'agent', 'maxCapacity',
 
 export const getTeamAgentsList = async (teamId, page = 0, size = 10, search) => {
     const domainId = store.state.userinfo.domainId || undefined;
-    if (search.length && search.slice(-1) !== '*') search += '*';
+    if (search && search.slice(-1) !== '*') search += '*';
     const defaultObject = {
         agent: {},
         minCapacity: 0,
@@ -39,9 +39,8 @@ export const getTeamAgentsList = async (teamId, page = 0, size = 10, search) => 
 export const getTeamAgent = async (teamId, id) => {
     const domainId = store.state.userinfo.domainId || undefined;
     const defaultObject = {
-        agent: '',
-        minCapacity: 0,
-        maxCapacity: 0,
+        agent: {},
+        bucket: {},
         _dirty: false,
     };
     try {

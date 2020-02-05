@@ -9,12 +9,19 @@ export const getRoleList = async (page = 0, size = 10, search) => {
     // let url = `${BASE_URL}?page=${page}size=${size}`;
     let url = `${BASE_URL}?size=${size}`;
     if(search) url += `name='${search}*`;
+    const defaultObject = {
+        name: '',
+        _isSelected: false,
+    };
+
     try {
         let response = await instance.get(url);
-        if(!response.data.results) response.data.results = [];
-        response.data.results.forEach(res => res._isSelected = false);
-        return response.data.results;
-
+        if (response.results) {
+            return response.results.map(item => {
+                return {...defaultObject, ...item};
+            });
+        }
+        return [];
     } catch (error) {
         throw error;
     }
@@ -29,7 +36,7 @@ export const getRole = async (id) => {
     };
     try {
         const response = await instance.get(url);
-        return {...defaultObject, ...response.data.role};
+        return {...defaultObject, ...response.role};
     } catch (error) {
         throw error;
     }
@@ -40,7 +47,7 @@ export const addRole = async (item) => {
     try {
         const response = await instance.post(BASE_URL, {role: item});
         eventBus.$emit('notificationInfo', 'Sucessfully added');
-        return response.data.created.id;
+        return response.created.id;
     } catch (error) {
         throw error;
     }

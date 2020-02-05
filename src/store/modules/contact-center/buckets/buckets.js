@@ -32,7 +32,9 @@ const actions = {
     },
 
     GET_ITEM: async () => {
+        console.log('get');
         return await getBucket(state.itemId);
+        console.log(' after get');
     },
 
     POST_ITEM: async () => {

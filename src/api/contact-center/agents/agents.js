@@ -18,7 +18,7 @@ export const getAgentsList = async (page = 0, size = 10, search) => {
     const defaultObject = {
         _isSelected: false,
     };
-    if (search.length && search.slice(-1) !== '*') search += '*';
+    if (search && search.slice(-1) !== '*') search += '*';
 
     try {
         const response = await agentService.searchAgent(page, size, search, domainId);

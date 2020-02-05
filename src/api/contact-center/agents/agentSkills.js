@@ -13,12 +13,10 @@ const fieldsToSend = ['skill', 'capacity'];
 
 export const getAgentSkillsList = async (agentId, page = 0, size = 10, search) => {
     const domainId = store.state.userinfo.domainId || undefined;
-    if (response.items) {
-        return response.items.map(item => {
-            return {...defaultObject, ...item};
-        });
-    }
-    if (search.length && search.slice(-1) !== '*') search += '*';
+    if (search && search.slice(-1) !== '*') search += '*';
+    const defaultObject = {
+        _isSelected: false,
+    };
 
     try {
         const response = await agentSkillService.searchAgentSkill(agentId, page, size, domainId);

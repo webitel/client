@@ -15,7 +15,7 @@ const fieldsToSend = ['domainId', 'maxCapacity',
 
 export const getTeamSkillsList = async (teamId, page = 0, size = 10, search) => {
     const domainId = store.state.userinfo.domainId || undefined;
-    if (search.length && search.slice(-1) !== '*') search += '*';
+    if (search && search.slice(-1) !== '*') search += '*';
     const defaultObject = {
         agent: {},
         minCapacity: 0,
@@ -65,7 +65,7 @@ export const addTeamSkill = async (teamId, item) => {
     try {
         const response = await teamResService.createResourceTeamSkill(teamId, itemCopy);
         eventBus.$emit('notificationInfo', 'Sucessfully added');
-        return response.data.id;
+        return response.id;
     } catch (err) {
         throw err;
     }

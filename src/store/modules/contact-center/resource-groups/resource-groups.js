@@ -11,7 +11,7 @@ const defaultState = () => {
         itemId: 0,
         itemInstance: {
             name: 'res gr',
-            communication: {id: 1},
+            communication: {},
             description: 'res gr descr',
             time: [
                 {

@@ -12,8 +12,8 @@ const resService = new OutboundResourceServiceApiFactory
 
 const BASE_URL = '/call_center/resources';
 const fieldsToSend = ['domainId', 'limit', 'enabled',
-    'rps', 'reserve', 'max_successively_errors',
-    'name', 'error_ids', 'display', 'resource_id', 'gateway'];
+    'rps', 'reserve', 'maxSuccessivelyErrors',
+    'name', 'errorIds', 'display', 'resourceId', 'gateway'];
 
 export const getResourceList = async (page, size = 10, search) => {
     const domainId = store.state.userinfo.domainId || undefined;
@@ -25,7 +25,7 @@ export const getResourceList = async (page, size = 10, search) => {
         reserve: false,
         id: 0,
     };
-    if (search.length && search.slice(-1) !== '*') search += '*';
+    if (search && search.slice(-1) !== '*') search += '*';
 
     try {
         const response = await resService.searchOutboundResource(page, size, search, domainId);
@@ -44,11 +44,11 @@ export const getResource = async (id) => {
     const domainId = store.state.userinfo.domainId || undefined;
     const defaultObject = {
         name: '',
-        gateway: null,
+        gateway: {},
         cps: 0,
         limit: 0,
         description: '',
-        maxErrors: null,
+        maxErrors: 0,
         errorIds: [],
         id: 0,
         _dirty: false,
@@ -56,7 +56,7 @@ export const getResource = async (id) => {
 
     try {
         const response = await resService.readOutboundResource(id, domainId);
-        response.maxErrors = response.max_successively_errors;
+        response.maxErrors = response.maxSuccessivelyErrors;
         response.cps = response.rps;
         response.errorIds = response.errorIds.map(item => {
             return {name: item}
@@ -71,7 +71,7 @@ export const addResource = async (item) => {
     let itemCopy = deepCopy(item);
     itemCopy.domainId = store.state.userinfo.domainId || undefined;
     itemCopy.errorIds = itemCopy.errorIds.map(item => item.name || item.text);
-    itemCopy.max_successively_errors = item.maxErrors;
+    itemCopy.maxSuccessivelyErrors = item.maxErrors;
     itemCopy.rps = item.cps;
     sanitizer(itemCopy, fieldsToSend);
     try {
@@ -87,7 +87,7 @@ export const updateResource = async (id, item) => {
     let itemCopy = deepCopy(item);
     itemCopy.domainId = store.state.userinfo.domainId || undefined;
     itemCopy.errorIds = itemCopy.errorIds.map(item => item.name || item.text);
-    itemCopy.max_successively_errors = item.maxErrors;
+    itemCopy.maxSuccessivelyErrors = item.maxErrors;
     itemCopy.rps = item.cps;
     sanitizer(itemCopy, fieldsToSend);
     try {

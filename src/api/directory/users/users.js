@@ -24,7 +24,7 @@ export async function getUsersList(page = 0, size = 100, search) {
 
     try {
         let response = await instance.get(url);
-        if (!response.users) {
+        if (response.users) {
             return response.users.map(item => {
                 return {...defaultObject, ...item};
             });
@@ -53,9 +53,7 @@ export async function getUser(id) {
     try {
         const response = await instance.get(url);
         let user = {...defaultObject, ...response.user};
-        if (user.license) user.license.forEach(item => {
-            item.name = item.product
-        });
+        if (user.license) user.license.forEach(item => {item.name = item.prod});
         if (user.profile) {
             user.variables = Object.keys(user.profile).map(key => {
                 return {
@@ -76,10 +74,8 @@ export const addUser = async (item) => {
     let itemCopy = deepCopy(item);
     if (itemCopy.roles) itemCopy.roles.forEach(item => delete item.text);
     if (itemCopy.devices) itemCopy.devices.forEach(item => delete item.text);
-    if (itemCopy.license) itemCopy.license.forEach(item => {
-        // item.product = item.name;
-        delete item.text;
-        // delete item.name;
+    if (itemCopy.license) itemCopy.license = itemCopy.license.map(item => {
+        return {id: item.id}
     });
     itemCopy.profile = {};
     if (itemCopy.variables) {
@@ -102,10 +98,8 @@ export const updateUser = async (id, item) => {
     const url = BASE_URL + '/' + id;
     itemCopy.roles.forEach(item => delete item.text);
     itemCopy.devices.forEach(item => delete item.text);
-    if (itemCopy.license) itemCopy.license.forEach(item => {
-        item.product = item.name;
-        delete item.text;
-        delete item.name;
+    itemCopy.license = itemCopy.license.map(item => {
+        return {id: item.id}
     });
     itemCopy.profile = {};
     itemCopy.variables.forEach(variable => {

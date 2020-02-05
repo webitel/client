@@ -92,11 +92,6 @@
             }
         },
 
-        mounted() {
-            this.setParentId(this.parentId);
-            this.loadDataList();
-        },
-
         computed: {
             ...mapState('lookups/calendars', {
                 parentId: state => state.itemId,

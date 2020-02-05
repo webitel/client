@@ -95,11 +95,6 @@
             }
         },
 
-        mounted() {
-            this.setParentId(this.parentId);
-            this.loadList();
-        },
-
         computed: {
             ...mapState('ccenter/queues', {
                 parentId: state => state.itemId,

@@ -16,7 +16,7 @@ const fieldsToSend = ['domainId', 'name', 'description', 'timezone', 'startAt', 
 
 export const getCalendarList = async (page = 0, size = 10, search) => {
     const domainId = store.state.userinfo.domainId || undefined;
-    if(search.length && search.slice(-1) !== '*') search += '*';
+    if (search && search.slice(-1) !== '*') search += '*';
     const defaultObject = {
         _isSelected: false,
     };
@@ -36,24 +36,24 @@ export const getCalendarList = async (page = 0, size = 10, search) => {
 
 export const getCalendar = async (id) => {
     const domainId = store.state.userinfo.domainId || undefined;
-    const defaultObject = {
-        name: '',
-        timezone: {},
-        description: '',
-        startAt: 1010,
-        endAt: 1010,
-        expires: !!(response.data.start_at || response.data.end_at),
-        _dirty: false,
-    };
 
     try {
         let response = await calendarService.readCalendar(id, domainId);
+        const defaultObject = {
+            name: '',
+            timezone: {},
+            description: '',
+            startAt: Date.now(),
+            endAt: Date.now(),
+            expires: !!(response.startAt || response.endAt),
+            _dirty: false,
+        };
         response.accepts = response.accepts.map(accept => {
             return {
                 day: accept.day || 0,
                 disabled: accept.disabled || false,
-                start: accept.start_time_of_day || 0,
-                end: accept.end_time_of_day || 0
+                start: accept.startTimeOfDay || 0,
+                end: accept.endTimeOfDay || 0
             }
         });
         return {...defaultObject, ...response};
@@ -63,7 +63,8 @@ export const getCalendar = async (id) => {
 };
 
 export const getCalendarTimezones = async (page = 0, size = 20, search) => {
-    if(search.length && search.slice(-1) !== '*') search += '*';
+    if (search && search.slice(-1) !== '*') search += '*';
+    if (search && search.slice(0) !== '*') search = '*' + search;
     try {
         const response = await calendarService.searchTimezones(page, size, search);
         return response.items;
@@ -85,8 +86,8 @@ export const addCalendar = async (item) => {
         return {
             day: accept.day,
             disabled: accept.disabled,
-            start_time_of_day: accept.start,
-            end_time_of_day: accept.end
+            startTimeOfDay: accept.start,
+            endTimeOfDay: accept.end
         }
     });
     sanitizer(itemCopy, fieldsToSend);
@@ -111,8 +112,8 @@ export const updateCalendar = async (itemId, item) => {
         return {
             day: accept.day,
             disabled: accept.disabled,
-            start_time_of_day: accept.start,
-            end_time_of_day: accept.end
+            startTimeOfDay: accept.start,
+            endTimeOfDay: accept.end
         }
     });
     sanitizer(itemCopy, fieldsToSend);

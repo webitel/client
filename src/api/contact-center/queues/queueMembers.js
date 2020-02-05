@@ -9,14 +9,14 @@ import store from '../../../store/store';
 const memberService = new MemberServiceApiFactory
 (configuration, '', instance);
 
-const fieldsToSend = ['queueId', 'name', 'priority', 'bucket', 'timezone', 'communications',
+const fieldsToSend = ['domainId', 'queueId', 'name', 'priority', 'bucket', 'timezone', 'communications',
     'variables', 'expireAt'];
 
 const communicationsFieldsToSend = ['destination', 'display', 'priority', 'type', 'resource', 'description'];
 
 export const getMembersList = async (queueId, page = 0, size = 10, search) => {
     const domainId = store.state.userinfo.domainId || undefined;
-    if (search.length && search.slice(-1) !== '*') search += '*';
+    if (search && search.slice(-1) !== '*') search += '*';
     const defaultObject = {
         createdAt: 'unknown',
         priority: '0',
@@ -50,14 +50,21 @@ export const getMembersList = async (queueId, page = 0, size = 10, search) => {
 
 export const getMember = async (queueId, id) => {
     const domainId = store.state.userinfo.domainId || undefined;
+
     const defaultObject = {
+        createdAt: 'unknown',
+        priority: '0',
+        _isSelected: false,
+        _dirty: false,
+    };
+
+    const defaultObjectCommunication = {
         destination: '',
         display: '',
-        priority: '0',
+        priority: 0,
         type: {},
         resource: {},
-        variables: [{key: '', value: ''}],
-        _dirty: false,
+        description: '',
     };
 
     try {
@@ -68,6 +75,9 @@ export const getMember = async (queueId, id) => {
             });
         }
         if (response.priority) response.priority += '';
+        response.communications = response.communications.map(comm => {
+            return {...defaultObjectCommunication, ...comm}
+        });
         return {...defaultObject, ...response};
     } catch (err) {
         throw err;
@@ -96,6 +106,7 @@ export const updateMember = async (queueId, id, item) => {
     let itemCopy = deepCopy(item);
     itemCopy.domainId = store.state.userinfo.domainId || undefined;
     itemCopy.variables = {};
+    sanitizer(itemCopy, fieldsToSend);
     itemCopy.communications.forEach(item => sanitizer(item, communicationsFieldsToSend));
     item.variables.forEach(variable => {
         itemCopy.variables[variable.key] = variable.value;

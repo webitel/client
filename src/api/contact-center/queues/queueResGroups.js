@@ -13,7 +13,7 @@ const fieldsToSend = ['domainId', 'resourceGroup', 'queueId'];
 
 export const getQueueResGroupList = async (queueId, page = 0, size = 10, search) => {
     const domainId = store.state.userinfo.domainId || undefined;
-    if (search.length && search.slice(-1) !== '*') search += '*';
+    if (search && search.slice(-1) !== '*') search += '*';
     const defaultObject = {
         _isSelected: false,
     };
@@ -50,9 +50,9 @@ export const addQueueResGroup = async (queueId, item) => {
     itemCopy.queuId = queueId;
     sanitizer(itemCopy, fieldsToSend);
     try {
-        const response = await queueResService.createQueueResourceGroup(queueId, objCamelToSnake(itemCopy));
+        const response = await queueResService.createQueueResourceGroup(queueId, itemCopy);
         eventBus.$emit('notificationInfo', 'Sucessfully added');
-        return response.data.id;
+        return response.id;
     } catch (err) {
         throw err;
     }

@@ -54,18 +54,21 @@
         // by vuelidate
         validations: {
             itemInstance: {
-                    name: {
-                        required
-                    },
-                    gateway: {
-                        required
-                    },
-                    cps: {
-                        required
-                    },
-                    limit: {
-                        required
-                    },
+                name: {
+                    required
+                },
+                gateway: {
+                    required
+                },
+                cps: {
+                    required
+                },
+                limit: {
+                    required
+                },
+                maxErrors: {
+                    required
+                }
                 // numberList: {
                 //     requiredArrayValue
                 // }
@@ -82,21 +85,25 @@
                 itemInstance: state => state.itemInstance,
             }),
             id: {
-                get() {return this.$store.state.ccenter.res.itemId},
-                set(value) {this.setId(value)}
+                get() {
+                    return this.$store.state.ccenter.res.itemId
+                },
+                set(value) {
+                    this.setId(value)
+                }
             },
 
             tabs() {
                 const tabs = [{
-                        text: this.$t('objects.general'),
-                        value: 'general',
-                    }, {
-                        text: this.$tc('objects.ccenter.res.numbers', 2),
-                        value: 'numbers',
-                    }, {
-                        text: this.$t('objects.ccenter.res.failure'),
-                        value: 'failure',
-                    }];
+                    text: this.$t('objects.general'),
+                    value: 'general',
+                }, {
+                    text: this.$tc('objects.ccenter.res.numbers', 2),
+                    value: 'numbers',
+                }, {
+                    text: this.$t('objects.ccenter.res.failure'),
+                    value: 'failure',
+                }];
 
                 const permissions = {
                     text: this.$tc('objects.permissions.permissions', 2),

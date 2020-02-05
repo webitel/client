@@ -20,15 +20,14 @@
             <div class="input-extension-wrap">
                 <form-input
                         ref="input-password"
-                        v-model.trim="password"
-                        :v="v.itemInstance.password"
+                        :value="computePasswordRepresentation"
                         :label="$t('objects.password')"
-                        required
+                        :type="'password'"
+                        @input="password = $event"
                 ></form-input>
 
                 <div class="input-extension">
-
-                    <div class="input-extension__copy" @click="copyToClipboard">
+                    <div class="input-extension__copy" v-show="copyTriggerShow" @click="copyToClipboard">
                         <span>{{$t('objects.copy')}}</span>
 
                         <div class="hint" v-if="copyMessage">
@@ -64,6 +63,7 @@
         data() {
             return {
                 copyMessage: '',
+                copyTriggerShow: false,
             }
         },
 
@@ -88,6 +88,10 @@
                 get() {return this.$store.state.directory.devices.itemInstance.user},
                 set(value) {this.setItemProp({prop: 'user', value})}
             },
+
+            computePasswordRepresentation() {
+                return this.password.length <= 12 ? this.password : this.password.slice(0, 12);
+            }
         },
 
         methods: {

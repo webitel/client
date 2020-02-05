@@ -14,7 +14,7 @@ const fieldsToSend = ['domainId', 'groupId', 'name', 'description', 'resource'];
 
 export const getResInGroupList = async (resGroupId, page = 0, size = 10, search) => {
     const domainId = store.state.userinfo.domainId || undefined;
-    if (search.length && search.slice(-1) !== '*') search += '*';
+    if (search && search.slice(-1) !== '*') search += '*';
     const defaultObject = {
         resource: {},
         _isSelected: false,
@@ -56,7 +56,7 @@ export const addResInGroup = async (resGroupId, item) => {
     try {
         const response = await resGrService.createOutboundResourceInGroup(resGroupId, itemCopy);
         eventBus.$emit('notificationInfo', 'Sucessfully added');
-        return response.data.id;
+        return response.id;
     } catch (err) {
         throw err;
     }

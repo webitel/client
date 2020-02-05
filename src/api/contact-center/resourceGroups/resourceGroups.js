@@ -23,7 +23,7 @@ export const getResGroupList = async (page = 0, size = 10, search) => {
         communication: {id: 0},
         id: 0,
     };
-    if(search.length && search.slice(-1) !== '*') search += '*';
+    if(search && search.slice(-1) !== '*') search += '*';
 
     try {
         const response = await resGrService.searchOutboundResourceGroup(page, size, search, domainId);

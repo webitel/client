@@ -18,7 +18,7 @@ export const getBucketsList = async (page = 0, size = 10, search) => {
     const defaultObject = {
         _isSelected: false,
     };
-    if(search.length && search.slice(-1) !== '*') search += '*';
+    if(search && search.slice(-1) !== '*') search += '*';
 
     try {
         const response = await bucketService.searchBucket(page, size, search, domainId);

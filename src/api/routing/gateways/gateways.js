@@ -1,7 +1,8 @@
-import instance from '@/api/instance';
+import instance from '../../instance';
 import {objSnakeToCamel} from "../../utils/caseConverters";
 import sanitizer from "../../utils/sanitizer";
 import eventBus from "../../../utils/eventBus";
+import deepCopy from 'deep-copy';
 
 const BASE_URL = '/sip/gateways';
 const fieldsToSend = ['name', 'proxy', 'id', 'host', 'ipacl', 'account', 'account', 'username', 'expires',
@@ -22,12 +23,12 @@ export async function getGatewayList(page = 0, size = 10, search) {
 
     try {
         let response = await instance.get(url);
-        response.data = objSnakeToCamel(response.data);
-        if (!response.data.items) response.data.items = [];
-
-        return response.data.items.map(item => {
-            return {...defaultObject, ...item};
-        });
+        if (response.items) {
+            return response.items.map(item => {
+                return {...defaultObject, ...item};
+            });
+        }
+        return [];
     } catch (error) {
         throw error;
     }
@@ -38,7 +39,7 @@ export async function getGateway(id) {
 
     try {
         let response = await instance.get(url);
-        if (response.data.item.register) {
+        if (response.item.register) {
             return coerceRegisterResponse(response);
         } else {
             return coerceTrunkingResponse(response);
@@ -49,16 +50,17 @@ export async function getGateway(id) {
 };
 
 export const addGateway = async (item) => {
-    if (item.register) item.account = item.accountName + '@' + (item.domain || item.registrar);
-    sanitizer(item, fieldsToSend);
-    Object.keys(item).forEach(key => {
-        if (!item[key]) delete item[key];
+    let itemCopy = deepCopy(item);
+    if (itemCopy.register) itemCopy.account = itemCopy.accountName + '@' + (item.domain || item.registrar);
+    sanitizer(itemCopy, fieldsToSend);
+    Object.keys(itemCopy).forEach(key => {
+        if (!itemCopy[key]) delete itemCopy[key];
     });
 
     try {
-        const response = await instance.post(BASE_URL, {item});
+        const response = await instance.post(BASE_URL, {item: itemCopy});
         eventBus.$emit('notificationInfo', 'Sucessfully added');
-        return response.data.id;
+        return response.id;
     } catch (err) {
         throw err;
     }
@@ -66,19 +68,20 @@ export const addGateway = async (item) => {
 
 export const updateGateway = async (id, item) => {
     const url = BASE_URL + '/' + id;
+    let itemCopy = deepCopy(item);
 
-    if (!item.register) {
-        item.ipacl.forEach(acl => {
+    if (!itemCopy.register) {
+        itemCopy.ipacl.forEach(acl => {
             if (!acl.port) delete acl.port
         });
     }
 
-    sanitizer(item, fieldsToSend);
+    sanitizer(itemCopy, fieldsToSend);
 
     try {
-        const response = await instance.put(url, {changes: item});
+        const response = await instance.put(url, {changes: itemCopy});
         eventBus.$emit('notificationInfo', 'Sucessfully updated');
-        return response.data.id;
+        return response.id;
     } catch (err) {
         throw err;
     }
@@ -88,7 +91,7 @@ export const deleteGateway = async (id) => {
     const url = BASE_URL + '/' + id;
 
     try {
-        const response = await instance.delete(url);
+        await instance.delete(url);
     } catch (err) {
         throw err;
     }
@@ -111,7 +114,7 @@ const coerceTrunkingResponse = (response) => {
         port: null,
     };
 
-    response = {...defaultObject, ...response.data.item};
+    response = {...defaultObject, ...response.item};
     response.ipacl.forEach((acl, index) => {
         response.ipacl[index] = {...defaultIPacl, ...acl};
     });
@@ -135,7 +138,7 @@ const coerceRegisterResponse = (response) => {
         _dirty: false,
     };
 
-    let result = Object.assign({}, defaultObject, response.data.item);
+    let result = {...defaultObject, ...response.item};
 
     result.account = result.account.replace('sip:', '');
     result.registrar = result.registrar.replace('sip:', '');

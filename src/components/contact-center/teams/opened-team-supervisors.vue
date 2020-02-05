@@ -88,11 +88,6 @@
             }
         },
 
-        mounted() {
-            this.setParentId(this.parentId);
-            this.loadList();
-        },
-
         computed: {
             ...mapState('ccenter/teams', {
                 parentId: state => state.itemId,

@@ -1,11 +1,10 @@
-import instance from '@/api/instance';
-import configuration from '@/api/openAPIConfig';
+import instance from '../../instance';
+import configuration from '../../openAPIConfig';
 import {RoutingOutboundCallServiceApiFactory} from 'webitel-sdk';
 import eventBus from "../../../utils/eventBus";
 import sanitizer from "../../utils/sanitizer";
 import deepCopy from 'deep-copy';
 import store from '../../../store/store';
-import {objCamelToSnake} from "../../utils/caseConverters";
 
 const dialplanService = new RoutingOutboundCallServiceApiFactory
 (configuration, '', instance);
@@ -18,12 +17,16 @@ export const getDialplanList = async (page = 0, size = 10, search) => {
         disabled: false,
         _isSelected: false,
     };
-    if(search.length && search.slice(-1) !== '*') search += '*';
+    if(search && search.slice(-1) !== '*') search += '*';
 
     try {
         const response = await dialplanService.searchRoutingOutboundCall(page, size, search, domainId);
-        if (!response.data.items) response.data.items = [];
-        return response.data.items.map(item => {return {...defaultObject, ...item}});
+        if (response.items) {
+            return response.items.map(item => {
+                return {...defaultObject, ...item};
+            });
+        }
+        return [];
     } catch (err) {
         throw err;
     }
@@ -36,33 +39,29 @@ export const getDialplan = async (id) => {
     };
     try {
         let response = await dialplanService.readRoutingOutboundCall(id, domainId);
-        return {...defaultObject, ...response.data};
+        return {...defaultObject, ...response};
     } catch (err) {
         throw err;
     }
 };
 
 export const addDialplan = async (item) => {
-    const domainId = store.state.userinfo.domainId || undefined;
     let itemCopy = deepCopy(item);
-    itemCopy.domainId = domainId;
+    itemCopy.domainId = store.state.userinfo.domainId || undefined;
     sanitizer(itemCopy, fieldsToSend);
-    itemCopy = objCamelToSnake(itemCopy);
     try {
         const response = await dialplanService.createRoutingOutboundCall(itemCopy);
         eventBus.$emit('notificationInfo', 'Sucessfully added');
-        return response.data.id;
+        return response.id;
     } catch (err) {
         throw err;
     }
 };
 
 export const patchDialplan = async (id, item) => {
-    const domainId = store.state.userinfo.domainId || undefined;
     let itemCopy = deepCopy(item);
-    itemCopy.domainId = domainId;
+    itemCopy.domainId = store.state.userinfo.domainId || undefined;
     sanitizer(itemCopy, fieldsToSend);
-    itemCopy = objCamelToSnake(itemCopy);
     try {
         await dialplanService.patchRoutingOutboundCall(id, itemCopy);
         eventBus.$emit('notificationInfo', 'Sucessfully updated');
@@ -72,8 +71,9 @@ export const patchDialplan = async (id, item) => {
 };
 
 export const moveDialplan = async (fromId, toId) => {
+    const domain_id = store.state.userinfo.domainId || undefined;
     try {
-        await dialplanService.movePositionRoutingOutboundCall(fromId, toId, {});
+        await dialplanService.movePositionRoutingOutboundCall(fromId, toId, {domain_id});
         eventBus.$emit('notificationInfo', 'Sucessfully updated');
     } catch (err) {
         throw err;
@@ -81,11 +81,9 @@ export const moveDialplan = async (fromId, toId) => {
 };
 
 export const updateDialplan = async (id, item) => {
-    const domainId = store.state.userinfo.domainId || undefined;
     let itemCopy = deepCopy(item);
-    itemCopy.domainId = domainId;
+    itemCopy.domainId = store.state.userinfo.domainId || undefined;
     sanitizer(itemCopy, fieldsToSend);
-    itemCopy = objCamelToSnake(itemCopy);
     try {
         await dialplanService.updateRoutingOutboundCall(id, itemCopy);
         eventBus.$emit('notificationInfo', 'Sucessfully updated');

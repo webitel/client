@@ -25,6 +25,7 @@ export default {
     },
 
     mounted() {
+        if(this.setParentId) this.setParentId(this.parentId);
         this.loadList();
     },
 

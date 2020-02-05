@@ -58,11 +58,6 @@
             }
         },
 
-        mounted() {
-            this.setParentId(this.parentId);
-            this.loadList();
-        },
-
         computed: {
             ...mapState('ccenter/agents', {
                 parentId: state => state.itemId,

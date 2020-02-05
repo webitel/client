@@ -138,6 +138,7 @@
                 if (!invalid) {
                     try {
                         !this.id ? await this.addItem() : await this.updateItem();
+                        console.log('closing?');
                         this.$emit('close');
                     } catch {}
                 }

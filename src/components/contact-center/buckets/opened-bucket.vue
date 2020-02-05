@@ -48,6 +48,11 @@
             }
         },
 
+        mounted() {
+            this.id = this.$route.params.id;
+            this.loadItem();
+        },
+
         computed: {
             ...mapState('ccenter/buckets', {
                 itemInstance: state => state.itemInstance,

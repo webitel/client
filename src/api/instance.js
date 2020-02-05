@@ -19,7 +19,11 @@ instance.interceptors.request.use(
         if (request.method === 'post' ||
             request.method === 'put' ||
             request.method === 'patch') {
-            return objCamelToSnake(request);
+            if(typeof request.data === 'string') {
+                request.data = JSON.stringify(objCamelToSnake(JSON.parse(request.data)));
+            } else {
+                request.data = objCamelToSnake(request.data);
+            }
         }
         return request;
     }

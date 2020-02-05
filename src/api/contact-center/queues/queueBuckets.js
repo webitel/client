@@ -14,9 +14,10 @@ const fieldsToSend = ['bucket', 'ratio', 'queueId'];
 export const getQueueBucketsList = async (queueId, page = 0, size = 10, search) => {
     const domainId = store.state.userinfo.domainId || undefined;
     const defaultObject = {
+        ratio: 0,
         _isSelected: false,
     };
-    if (search.length && search.slice(-1) !== '*') search += '*';
+    if (search && search.slice(-1) !== '*') search += '*';
 
     try {
         const response = await queueBucketsService.searchQueueBucket(queueId, page, size, domainId);
@@ -34,6 +35,7 @@ export const getQueueBucketsList = async (queueId, page = 0, size = 10, search) 
 export const getQueueBucket = async (queueId, id) => {
     const domainId = store.state.userinfo.domainId || undefined;
     const defaultObject = {
+        ratio: 0,
         _dirty: false,
     };
     try {
