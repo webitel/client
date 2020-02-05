@@ -23,7 +23,7 @@
             <template slot="repeat" slot-scope="props">
                 <switcher
                     :value="dataList[props.rowIndex].repeat"
-                    @input="toggleItemProperty(props.rowIndex)"
+                    @input="toggleItemProp(props.rowIndex)"
                 ></switcher>
             </template>
 
@@ -83,10 +83,13 @@
                 this.popupTriggerIf = true;
             },
 
+            ...mapActions('lookups/calendars', {
+                toggleItemProp: 'TOGGLE_EXCEPT_ITEM_PROPERTY',
+            }),
+
             ...mapActions('lookups/calendars/holidays', {
                 setId: 'SET_ITEM_ID',
                 loadDataList: 'LOAD_DATA_LIST',
-                toggleItemProperty: 'TOGGLE_ITEM_PROPERTY',
                 removeItem: 'REMOVE_ITEM',
             }),
         }

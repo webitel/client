@@ -14,6 +14,14 @@ const BASE_URL = '/call_center/queues';
 const fieldsToSend = ['domainId', 'name', 'type', 'strategy', 'team', 'priority', 'dncList',
     'payload', 'maxOfRetry', 'timeout', 'secBetweenRetries', 'variables', 'calendar'];
 
+export const strategiesList = {
+    'random': 'Random',
+    'strict-circuit': 'Strict circuit',
+    'next-try-circuit': 'Next try circuit',
+    'by-buckets': 'By buckets',
+    'by-skills': 'By skills',
+};
+
 export const getQueuesList = async (page = 0, size = 10, search) => {
     const domainId = store.state.userinfo.domainId || undefined;
     const defaultObject = {
@@ -24,7 +32,7 @@ export const getQueuesList = async (page = 0, size = 10, search) => {
         priority: '0',
         _isSelected: false,
     };
-    if(search && search.slice(-1) !== '*') search += '*';
+    if (search && search.slice(-1) !== '*') search += '*';
 
     try {
         const response = await queueService.searchQueue(page, size, search, domainId);
@@ -50,7 +58,7 @@ export const getQueue = async (id) => {
         dncList: {}, // blacklist
         schema: {},
         team: {},
-        strategy: 'STRATEGY NAME',
+        strategy: {},
         description: 'DESCRIPTION',
         variables: [{key: '', value: ''}],
         _dirty: false,
@@ -63,7 +71,11 @@ export const getQueue = async (id) => {
                 return {key, value: response.variables[key]}
             });
         }
-        if(response.priority) response.priority += '';
+        if (response.priority) response.priority += '';
+        response.strategy = {
+            name: strategiesList[response.strategy],
+            value: response.strategy,
+        };
         return {...defaultObject, ...response};
     } catch (err) {
         throw err;
@@ -73,6 +85,7 @@ export const getQueue = async (id) => {
 export const addQueue = async (item) => {
     let itemCopy = deepCopy(item);
     itemCopy.domainId = store.state.userinfo.domainId || undefined;
+    itemCopy.strategy = itemCopy.strategy.value;
     sanitizer(itemCopy, fieldsToSend);
     itemCopy.variables = {};
     item.variables.forEach(variable => {
@@ -101,6 +114,7 @@ export const patchQueue = async (id, item) => {
 export const updateQueue = async (id, item) => {
     let itemCopy = deepCopy(item);
     itemCopy.domainId = store.state.userinfo.domainId || undefined;
+    itemCopy.strategy = itemCopy.strategy.value;
     sanitizer(itemCopy, fieldsToSend);
     itemCopy.variables = {};
     item.variables.forEach(variable => {

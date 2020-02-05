@@ -1,5 +1,6 @@
 <template>
     <main class="auth">
+        <notification/>
         <section class="auth-form">
             <div class="logo"><img src="../../assets/img/logo-dark.svg" alt="logo"></div>
             <header class="">
@@ -61,10 +62,12 @@
     import {required, email} from 'vuelidate/lib/validators';
     import {mapState} from "vuex";
     import {VueAgile} from 'vue-agile';
+    import Notification from "../utils/notification";
 
     export default {
         name: 'auth',
         components: {
+            Notification,
             authLogin,
             authRegister,
             tabsComponent,

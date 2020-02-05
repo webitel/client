@@ -170,6 +170,11 @@ const actions = {
         context.commit('SET_ITEM_PROPERTY', {prop: '_dirty', value: true});
     },
 
+    TOGGLE_EXCEPT_ITEM_PROPERTY: (context, index) => {
+        context.commit('TOGGLE_EXCEPT_ITEM_PROPERTY', index);
+        context.commit('SET_ITEM_PROPERTY', {prop: '_dirty', value: true});
+    },
+
     REMOVE_EXCEPT_ITEM: async (context, index) => {
         context.commit('REMOVE_EXCEPT_ITEM', index);
         context.commit('SET_ITEM_PROPERTY', {prop: '_dirty', value: true});
@@ -235,6 +240,10 @@ const mutations = {
 
     UPDATE_EXCEPT_ITEM: (state, {index, item}) => {
         state.itemInstance.excepts[index] = item;
+    },
+
+    TOGGLE_EXCEPT_ITEM_PROPERTY: (state, index) => {
+        state.itemInstance.excepts[index].repeat = !state.itemInstance.excepts[index].repeat;
     },
 
     REMOVE_EXCEPT_ITEM: (state, index) => {

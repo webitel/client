@@ -21,6 +21,14 @@
             ></dropdown-select>
 
             <dropdown-select
+                    v-model="strategy"
+                    :v="v.itemInstance.strategy"
+                    :options="dropdownOptionsStrategyList"
+                    :label="$t('objects.ccenter.queues.strategy')"
+                    required
+            ></dropdown-select>
+
+            <dropdown-select
                     v-model="dncList"
                     :options="dropdownOptionsBlacklistList"
                     :label="$tc('objects.lookups.blacklist.blacklist', 1)"
@@ -76,6 +84,13 @@
             return {
                 dropdownOptionsCalendarList: [],
                 dropdownOptionsBlacklistList: [],
+                dropdownOptionsStrategyList: [
+                    {name: 'Random', value: 'random'},
+                    {name: 'Strict circuit', value: 'strict-circuit'},
+                    {name: 'Next try circuit', value: 'next-try-circuit'},
+                    {name: 'By buckets', value: 'by-buckets'},
+                    {name: 'By skills', value: 'by-skills'},
+                ],
                 dropdownOptionsPriorityList: ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10'],
                 dropdownOptionsSchemaList: [],
                 dropdownOptionsTeamList: [],
@@ -105,6 +120,15 @@
                 },
                 set(value) {
                     this.setItemProp({prop: 'calendar', value})
+                }
+            },
+
+            strategy: {
+                get() {
+                    return this.$store.state.ccenter.queues.itemInstance.strategy
+                },
+                set(value) {
+                    this.setItemProp({prop: 'strategy', value})
                 }
             },
 

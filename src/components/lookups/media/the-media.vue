@@ -133,6 +133,9 @@
     import {mapActions, mapState} from "vuex";
     import {download} from "../../../utils/download";
 
+
+    const token = localStorage.getItem('access-token');
+
     export default {
         name: "the-media",
         mixins: [tableComponentMixin],
@@ -149,7 +152,7 @@
                 audioLink: 'https://mn1.sunproxy.net/file/WjdlSU1UMjBsQWszeGtDSWdCcWxHUlVJQ3FQbVVzSkY3OHF6WENtbUl4clF4UnVxNjhxUWF0ajY3WGR5bEVUQlJSeXpSa1JEQjEzZzBmVlFUclFnZlZQTEdlVFdKS2wwSUszUHFsUlZ2cWM9/Pskovskoe_-_Post_punk_version_(mp3.mn).mp3',
 
                 dropzoneOptions: {
-                    url: 'https://dev.webitel.com/api/storage/media?access_token=IGORDEV_TOKEN',
+                    url: `https://dev.webitel.com/api/storage/media?access_token=${token}`,
                     thumbnailWidth: 150,
                     // maxFilesize: 0.5,
                     acceptedFiles: '.mp3, .wav, .mpeg',
@@ -196,7 +199,6 @@
             async downloadFile(rowId) {
                 const item = this.dataList[rowId];
                 const id = item.id;
-                const token = 'IGORDEV_TOKEN';
                 const url = `https://dev.webitel.com/api/storage/media/${id}/download?access_token=${token}`;
                 download(url, item.name);
             },
@@ -205,10 +207,8 @@
                 const zip = new jszip();
                 for (const item of this.dataList) {
                     const id = item.id;
-                    const token = 'IGORDEV_TOKEN';
                     const url = `https://dev.webitel.com/api/storage/media/${id}/stream?access_token=${token}`;
                     await new Promise((resolve, reject) => jszipUtils.getBinaryContent(url, (err, data) => {
-                        console.log('utils');
                         if (err) {
                             reject();
                         } else {
@@ -217,9 +217,8 @@
                         }
                     }));
                 }
-                console.log(zip);
                 const file = await zip.generateAsync({type: 'blob'});
-                saveAs(file, 'z.zip')
+                saveAs(file, 'z.zip');
             },
 
             // dropzone event on loading start
@@ -252,7 +251,6 @@
 
             async play(rowId) {
                 const id = this.dataList[rowId].id;
-                const token = 'IGORDEV_TOKEN';
                 this.audioLink = `https://dev.webitel.com/api/storage/media/${id}/stream?access_token=${token}`;
             },
 
@@ -263,6 +261,16 @@
             computeFormat(format) {
                 return format.split('/').pop();
             },
+
+            ...mapActions('lookups/media', {
+                loadDataList: 'LOAD_DATA_LIST',
+                loadItem: 'GET_ITEM',
+                setSize: 'SET_SIZE',
+                setSearch: 'SET_SEARCH',
+                nextPage: 'NEXT_PAGE',
+                prevPage: 'PREV_PAGE',
+                removeItem: 'REMOVE_ITEM',
+            }),
 
             computeSize(size, nospace, one) {
                 const sizes = ['Bytes', 'kB', 'MB', 'GB', 'TB', 'PB', 'EB'];
@@ -291,16 +299,6 @@
 
                 return resultSize;
             },
-
-            ...mapActions('lookups/media', {
-                loadDataList: 'LOAD_DATA_LIST',
-                loadItem: 'GET_ITEM',
-                setSize: 'SET_SIZE',
-                setSearch: 'SET_SEARCH',
-                nextPage: 'NEXT_PAGE',
-                prevPage: 'PREV_PAGE',
-                removeItem: 'REMOVE_ITEM',
-            }),
         }
     }
 </script>

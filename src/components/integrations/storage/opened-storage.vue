@@ -27,8 +27,7 @@
 <script>
     import openedStorageGeneral from './opened-storage-general';
     import openedStorageLocal from './opened-storage-local';
-    import openedStorageAws from './opened-storage-aws';
-    import openedStorageDigitalOcean from './opened-storage-digital-ocean';
+    import openedStorageS3 from './opened-storage-s3';
     import openedStorageBackblaze from './opened-storage-backblaze';
     import openedStorageDropbox from './opened-storage-dropbox';
     import openedStorageDrive from './opened-storage-drive';
@@ -42,8 +41,7 @@
         components: {
             openedStorageGeneral,
             openedStorageLocal,
-            openedStorageAws,
-            openedStorageDigitalOcean,
+            openedStorageS3,
             openedStorageBackblaze,
             openedStorageDropbox,
             openedStorageDrive,
@@ -60,7 +58,7 @@
                             name: {required},
                         }
                     };
-                case 'aws':
+                case 's3':
                     return {
                         itemInstance: {
                             name: {required},
@@ -69,18 +67,7 @@
                                 accessKey: {required},
                                 bucketName: {required},
                                 region: {required},
-                            },
-                        }
-                    };
-                case 'digitalOcean':
-                    return {
-                        itemInstance: {
-                            name: {required},
-                            properties: {
-                                keyId: {required},
-                                accessKey: {required},
-                                bucketName: {required},
-                                region: {required},
+                                endpoint: {required}
                             },
                         }
                     };
@@ -140,11 +127,8 @@
                     case 'local':
                         tabs.push({text: this.$t('objects.integrations.storage.configuration'), value: 'local'});
                         break;
-                    case 'aws':
-                        tabs.push({text: this.$t('objects.integrations.storage.configuration'), value: 'aws'});
-                        break;
-                    case 'digitalOcean':
-                        tabs.push({text: this.$t('objects.integrations.storage.configuration'), value: 'digitalOcean'});
+                    case 's3':
+                        tabs.push({text: this.$t('objects.integrations.storage.configuration'), value: 's3'});
                         break;
                     case 'backblaze':
                         tabs.push({text: this.$t('objects.integrations.storage.configuration'), value: 'backblaze'});

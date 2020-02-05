@@ -29,19 +29,19 @@ const defaultLocalState = () => {
     };
 };
 
-const defaultAWSState = () => {
+const defaultS3State = () => {
     return {
-        name: 'AWS Storage',
+        name: 'S3 Storage',
         maxSize: 10,
         expireDays: 12,
         priority: 0,
-        type: 'aws',
+        type: 's3',
         properties: {
             keyId: '1010',
             accessKey: '2020',
             bucketName: '4040',
-            region: {name: 'US East (Ohio)', value: 'us-east-2'},
-
+            region: {},
+            endpoint: '',
         },
     };
 };
@@ -186,11 +186,8 @@ const actions = {
             case 'local':
                 item = defaultLocalState();
                 break;
-            case 'aws':
-                item = defaultAWSState();
-                break;
-            case 'digital-ocean':
-                item = defaultDigitalOceanState();
+            case 's3':
+                item = defaultS3State();
                 break;
             case 'backblaze':
                 item = defaultBackblazeState();

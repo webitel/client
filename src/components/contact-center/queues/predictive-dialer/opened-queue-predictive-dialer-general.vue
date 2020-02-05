@@ -83,7 +83,13 @@
             return {
                 dropdownOptionsCalendarList: [],
                 dropdownOptionsBlacklistList: [],
-                dropdownOptionsStrategyList: ['STRATEGY 1', 'STRATEGY 2', 'STRATEGY 3'],
+                dropdownOptionsStrategyList: [
+                    {name: 'Random', value: 'random'},
+                    {name: 'Strict circuit', value: 'strict-circuit'},
+                    {name: 'Next try circuit', value: 'next-try-circuit'},
+                    {name: 'By buckets', value: 'by-buckets'},
+                    {name: 'By skills', value: 'by-skills'},
+                ],
                 dropdownOptionsPriorityList: ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10'],
                 dropdownOptionsSchemaList: [],
                 dropdownOptionsTeamList: [],

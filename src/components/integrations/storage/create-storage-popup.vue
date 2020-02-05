@@ -20,20 +20,11 @@
 <!--                </li>-->
                 <li
                         class="popup-options__item-wrap"
-                        :class="{'active': computeSelectedOption('aws')}"
-                        @click="selectPopupOption('aws')"
+                        :class="{'active': computeSelectedOption('s3')}"
+                        @click="selectPopupOption('s3')"
                 >
                     <h4 class="popup-options__item-header">
-                        {{$t('objects.integrations.storage.aws')}}
-                    </h4>
-                </li>
-                <li
-                        class="popup-options__item-wrap"
-                        :class="{'active': computeSelectedOption('digital-ocean')}"
-                        @click="selectPopupOption('digital-ocean')"
-                >
-                    <h4 class="popup-options__item-header">
-                        {{$t('objects.integrations.storage.digitalOcean')}}
+                        {{$t('objects.integrations.storage.s3')}}
                     </h4>
                 </li>
 <!--                <li-->

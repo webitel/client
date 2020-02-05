@@ -10,7 +10,7 @@ const storageService = new BackendProfileServiceApiFactory
 (configuration, '', instance);
 
 const fieldsToSend = ['domainId', 'name', 'maxSize', 'priority', 'properties', 'expireDays', 'type',];
-const storageTypes = {local: 'local', s3: 'aws', do: 'digitalOcean', g_drive: 'drive', drop_box: 'dropbox',};
+const storageTypes = {local: 'local', s3: 's3', g_drive: 'drive', drop_box: 'dropbox',};
 export const AWSRegions = [
     {name: 'EU (Frankfurt)', value: 'eu-central-1'},
     {name: 'EU (Ireland)', value: 'eu-west-1'},
@@ -84,9 +84,9 @@ export const getStorage = async (id) => {
     try {
         let response = await storageService.readBackendProfile(id, domainId);
         if (response.properties.region) {
-            if (response.type === 's3') {
+            if (response.endpoint === 'amazonaws.com') {
                 response.properties.region = AWSRegions.find(item => item.value === response.properties.region);
-            } else if (response.type === 'do') {
+            } else if (response.endpoint === 'digitaloceanspaces.com') {
                 response.properties.region = DigitalOceanRegions.find(item => item.value === response.properties.region);
             }
         }
@@ -103,7 +103,9 @@ export const getStorage = async (id) => {
 export const addStorage = async (item) => {
     let itemCopy = deepCopy(item);
     itemCopy.domainId = store.state.userinfo.domainId || undefined;
-    if (itemCopy.properties.region) itemCopy.properties.region = itemCopy.properties.region.value;
+    if (itemCopy.properties.region && itemCopy.properties.region.value) {
+        itemCopy.properties.region = itemCopy.properties.region.value;
+    }
     itemCopy.type = Object.keys(storageTypes).find(key => storageTypes[key] === itemCopy.type);
     sanitizer(itemCopy, fieldsToSend);
     try {
@@ -130,7 +132,9 @@ export const patchStorage = async (id, item) => {
 export const updateStorage = async (id, item) => {
     let itemCopy = deepCopy(item);
     itemCopy.domainId = store.state.userinfo.domainId || undefined;
-    if (itemCopy.properties.region) itemCopy.properties.region = item.properties.region.value;
+    if (itemCopy.properties.region && itemCopy.properties.region.value) {
+        itemCopy.properties.region = itemCopy.properties.region.value;
+    }
     delete itemCopy.type;
     sanitizer(itemCopy, fieldsToSend);
 

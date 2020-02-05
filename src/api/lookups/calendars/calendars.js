@@ -46,6 +46,8 @@ export const getCalendar = async (id) => {
             startAt: Date.now(),
             endAt: Date.now(),
             expires: !!(response.startAt || response.endAt),
+            accepts: [],
+            excepts: [],
             _dirty: false,
         };
         response.accepts = response.accepts.map(accept => {

@@ -81,10 +81,6 @@ const actions = {
         context.dispatch('LOAD_DATA_LIST');
     },
 
-    TOGGLE_ITEM_PROPERTY: (context, index) => {
-        context.commit('TOGGLE_ITEM_PROPERTY', index);
-    },
-
     UPDATE_ITEM: async (context) => {
         if (state.itemInstance._dirty) {
             await context.dispatch('UPD_ITEM');
@@ -113,10 +109,6 @@ const mutations = {
 
     SET_DATA_LIST: (state, list) => {
         state.dataList = list;
-    },
-
-    TOGGLE_ITEM_PROPERTY: (state, index) => {
-        state.dataList[index].repeat = !state.dataList[index].repeat;
     },
 
     SET_ITEM_PROPERTY: (state, {prop, value}) => {

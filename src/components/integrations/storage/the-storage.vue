@@ -163,8 +163,7 @@
             computeType(type) {
                 switch (type) {
                     case 'local': return 'Local';
-                    case 'aws': return 'AWS S3';
-                    case 'digitalOcean': return 'Digital Ocean';
+                    case 's3': return 'S3 Bucket';
                     case 'backblaze': return 'Backblaze';
                     case 'dropbox': return 'Dropbox';
                     case 'drive': return 'Google Drive';

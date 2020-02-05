@@ -3,11 +3,12 @@ import axios from 'axios';
 import configuration from '../../openAPIConfig';
 import {MediaFileServiceApiFactory} from 'webitel-sdk';
 import eventBus from "../../../utils/eventBus";
-import {objSnakeToCamel} from "../../utils/caseConverters";
 import store from "../../../store/store";
 
 const mediaService = new MediaFileServiceApiFactory
 (configuration, '', instance);
+
+const token = localStorage.getItem('access-token');
 
 export const getMediaList = async (page = 0, size = 10, search) => {
     const domainId = store.state.userinfo.domainId || undefined;
@@ -31,7 +32,6 @@ export const getMediaList = async (page = 0, size = 10, search) => {
 };
 
 export const getMedia = async (id) => {
-    const token = 'IGORDEV_TOKEN';
     const url = `https://dev.webitel.com/api/storage/media/${id}/stream?access_token=${token}`;
     const domainId = store.state.userinfo.domainId || undefined;
     try {
@@ -42,7 +42,6 @@ export const getMedia = async (id) => {
 };
 
 export const downloadMedia = async (id) => {
-    const token = 'IGORDEV_TOKEN';
     const url = `https://dev.webitel.com/api/storage/media/${id}/download?access_token=${token}`;
     try {
         return await instance.get(url);
@@ -52,7 +51,6 @@ export const downloadMedia = async (id) => {
 };
 
 export const addMedia = async (file) => {
-    const token = 'IGORDEV_TOKEN';
     const url = `https://dev.webitel.com/api/storage/media?access_token=${token}`;
     const config = {
         headers: {
