@@ -17,11 +17,11 @@
                 :type="'password'"
         ></form-input>
 
-        <router-link
-                class="form__reset-password"
-                :to="{ path: '/auth', query: { reset: true }}">
-            {{$t('auth.resetPasswordLink')}}
-        </router-link>
+<!--        <router-link-->
+<!--                class="form__reset-password"-->
+<!--                :to="{ path: '/auth', query: { reset: true }}">-->
+<!--            {{$t('auth.resetPasswordLink')}}-->
+<!--        </router-link>-->
 
         <btn
                 class="btn form__button"
