@@ -9,6 +9,7 @@ const mediaService = new MediaFileServiceApiFactory
 (configuration, '', instance);
 
 const token = localStorage.getItem('access-token');
+const BASE_URL = process.env.VUE_APP_API_URL;
 
 export const getMediaList = async (page = 0, size = 10, search) => {
     const domainId = store.state.userinfo.domainId || undefined;
@@ -32,7 +33,7 @@ export const getMediaList = async (page = 0, size = 10, search) => {
 };
 
 export const getMedia = async (id) => {
-    const url = `https://dev.webitel.com/api/storage/media/${id}/stream?access_token=${token}`;
+    const url = `${BASE_URL}/storage/media/${id}/stream?access_token=${token}`;
     const domainId = store.state.userinfo.domainId || undefined;
     try {
         return await instance.get(url, domainId);
@@ -42,7 +43,7 @@ export const getMedia = async (id) => {
 };
 
 export const downloadMedia = async (id) => {
-    const url = `https://dev.webitel.com/api/storage/media/${id}/download?access_token=${token}`;
+    const url = `${BASE_URL}/storage/media/${id}/download?access_token=${token}`;
     try {
         return await instance.get(url);
     } catch (err) {
@@ -51,7 +52,7 @@ export const downloadMedia = async (id) => {
 };
 
 export const addMedia = async (file) => {
-    const url = `https://dev.webitel.com/api/storage/media?access_token=${token}`;
+    const url = `${BASE_URL}/storage/media?access_token=${token}`;
     const config = {
         headers: {
             'content-type': 'multipart/form-data'

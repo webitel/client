@@ -135,6 +135,7 @@
 
 
     const token = localStorage.getItem('access-token');
+    const BASE_URL = process.env.VUE_APP_API_URL;
 
     export default {
         name: "the-media",
@@ -152,7 +153,7 @@
                 audioLink: 'https://mn1.sunproxy.net/file/WjdlSU1UMjBsQWszeGtDSWdCcWxHUlVJQ3FQbVVzSkY3OHF6WENtbUl4clF4UnVxNjhxUWF0ajY3WGR5bEVUQlJSeXpSa1JEQjEzZzBmVlFUclFnZlZQTEdlVFdKS2wwSUszUHFsUlZ2cWM9/Pskovskoe_-_Post_punk_version_(mp3.mn).mp3',
 
                 dropzoneOptions: {
-                    url: `https://dev.webitel.com/api/storage/media?access_token=${token}`,
+                    url: `${BASE_URL}/storage/media?access_token=${token}`,
                     thumbnailWidth: 150,
                     // maxFilesize: 0.5,
                     acceptedFiles: '.mp3, .wav, .mpeg',
@@ -199,7 +200,7 @@
             async downloadFile(rowId) {
                 const item = this.dataList[rowId];
                 const id = item.id;
-                const url = `https://dev.webitel.com/api/storage/media/${id}/download?access_token=${token}`;
+                const url = `${BASE_URL}/storage/media/${id}/download?access_token=${token}`;
                 download(url, item.name);
             },
 
@@ -207,7 +208,7 @@
                 const zip = new jszip();
                 for (const item of this.dataList) {
                     const id = item.id;
-                    const url = `https://dev.webitel.com/api/storage/media/${id}/stream?access_token=${token}`;
+                    const url = `${BASE_URL}/storage/media/${id}/stream?access_token=${token}`;
                     await new Promise((resolve, reject) => jszipUtils.getBinaryContent(url, (err, data) => {
                         if (err) {
                             reject();
@@ -251,7 +252,7 @@
 
             async play(rowId) {
                 const id = this.dataList[rowId].id;
-                this.audioLink = `https://dev.webitel.com/api/storage/media/${id}/stream?access_token=${token}`;
+                this.audioLink = `${BASE_URL}/storage/media/${id}/stream?access_token=${token}`;
             },
 
             computeDate(date) {

@@ -69,7 +69,7 @@ export default {
             flow: 'Flow',
             dialplan: 'Dialplan',
             chatplan: 'Chatplan',
-            gateways: 'SIP endpoints',
+            gateways: 'gateways',
         },
         lookups: {
             lookups: 'Lookups',
