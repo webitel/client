@@ -85,7 +85,7 @@ export const getQueue = async (id) => {
 export const addQueue = async (item) => {
     let itemCopy = deepCopy(item);
     itemCopy.domainId = store.state.userinfo.domainId || undefined;
-    itemCopy.strategy = itemCopy.strategy.value;
+    if(itemCopy.strategy) itemCopy.strategy = itemCopy.strategy.value;
     sanitizer(itemCopy, fieldsToSend);
     itemCopy.variables = {};
     item.variables.forEach(variable => {

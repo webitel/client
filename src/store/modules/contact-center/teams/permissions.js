@@ -1,4 +1,4 @@
-import {getQueuePermissions, patchQueuePermissions} from "../../../../api/contact-center/queues/queues";
+import {getTeamPermissions, patchTeamPermissions} from "../../../../api/contact-center/teams/teams";
 
 const defaultState = () => {
     return {
@@ -24,7 +24,7 @@ const actions = {
 
     LOAD_DATA_LIST: async (context) => {
         if (state.parentId) {
-            const dataList = await getQueuePermissions(state.parentId, state.page, state.size, state.search);
+            const dataList = await getTeamPermissions(state.parentId, state.page, state.size, state.search);
             context.dispatch('RESET_ITEM_STATE');
             context.commit('SET_DATA_LIST', dataList);
         }
@@ -61,7 +61,7 @@ const actions = {
         }];
         if (!readState) item[0].access += 'r';
         try {
-            await patchQueuePermissions(state.parentId, item);
+            await patchTeamPermissions(state.parentId, item);
         } catch {
             context.dispatch('LOAD_DATA_LIST');
         }
