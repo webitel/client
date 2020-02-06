@@ -9,12 +9,16 @@ export const objSnakeToCamel = (obj) => {
         });
     } else {
         Object.keys(obj).forEach(oldKey => {
-            const newKey = snakeToCamel(oldKey);
-            let value = obj[oldKey];
-            if (Array.isArray(value) || (value !== null && value.constructor === Object)) {
-                value = objSnakeToCamel(value);
+            if(oldKey === 'schema') {
+                newObj[oldKey] = obj[oldKey];
+            } else {
+                const newKey = snakeToCamel(oldKey);
+                let value = obj[oldKey];
+                if (Array.isArray(value) || (value !== null && value.constructor === Object)) {
+                    value = objSnakeToCamel(value);
+                }
+                newObj[newKey] = value;
             }
-            newObj[newKey] = value;
         });
     }
     return newObj;
@@ -32,12 +36,16 @@ export const objCamelToSnake = (obj) => {
         });
     } else {
         Object.keys(obj).forEach(oldKey => {
-            const newKey = camelToSnake(oldKey);
-            let value = obj[oldKey];
-            if (Array.isArray(value) || (value !== null && value.constructor === Object)) {
-                value = objCamelToSnake(value);
+            if(oldKey === 'schema') {
+                newObj[oldKey] = obj[oldKey];
+            } else {
+                const newKey = camelToSnake(oldKey);
+                let value = obj[oldKey];
+                if (Array.isArray(value) || (value !== null && value.constructor === Object)) {
+                    value = objCamelToSnake(value);
+                }
+                newObj[newKey] = value;
             }
-            newObj[newKey] = value;
         });
     }
     return newObj;
