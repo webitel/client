@@ -84,9 +84,9 @@ export const getStorage = async (id) => {
     try {
         let response = await storageService.readBackendProfile(id, domainId);
         if (response.properties.region) {
-            if (response.endpoint === 'amazonaws.com') {
+            if (response.properties.endpoint.includes('aws')) {
                 response.properties.region = AWSRegions.find(item => item.value === response.properties.region);
-            } else if (response.endpoint === 'digitaloceanspaces.com') {
+            } else if (response.properties.endpoint.includes('digitalocean')) {
                 response.properties.region = DigitalOceanRegions.find(item => item.value === response.properties.region);
             }
         }

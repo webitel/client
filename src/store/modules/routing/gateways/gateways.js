@@ -1,4 +1,4 @@
-import router from '@/router/router';
+import router from '../../../../router/router';
 import proxy from '../../../../utils/editProxy';
 import {
     addGateway, deleteGateway,
@@ -19,7 +19,7 @@ const defaultTrunkingItem = () => {
             name: '01trunking-test',
             proxy: '10.12.13.14',
             description: '',
-            schema: '',
+            schema: {},
             id: 0,
             host: '10.12.13.14',
             ipacl: [{
@@ -27,6 +27,7 @@ const defaultTrunkingItem = () => {
                 proto: 'any',
                 port: null
             }],
+            enable: true,
         },
     }
 };
@@ -44,7 +45,8 @@ const defaultRegisterItem = () => {
             accountName: 'wetel',
             proxy: '',
             domain: '',
-            schema: '',
+            schema: {},
+            enable: true,
             id: 0,
         },
     }

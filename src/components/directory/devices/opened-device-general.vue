@@ -113,6 +113,7 @@
                     result += charset.charAt(Math.floor(Math.random() * charset.length));
                 }
                 this.password = result;
+                this.copyTriggerShow = true;
             },
 
             copyToClipboard() {

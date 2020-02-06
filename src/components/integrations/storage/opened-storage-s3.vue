@@ -128,9 +128,9 @@
             },
 
             computeRegionOptions() {
-                if (this.service.value === 'aws') {
+                if (this.endpoint.includes('aws')) {
                     return this.AWSRegions;
-                } else if (this.service.value === 'do') {
+                } else if (this.endpoint.includes('digitalocean')) {
                     return this.DigitalOceanRegions;
                 }
                 return []

@@ -12,7 +12,7 @@ const queueService = new QueueServiceApiFactory
 
 const BASE_URL = '/call_center/queues';
 const fieldsToSend = ['domainId', 'name', 'type', 'strategy', 'team', 'priority', 'dncList',
-    'payload', 'maxOfRetry', 'timeout', 'secBetweenRetries', 'variables', 'calendar'];
+    'payload', 'maxOfRetry', 'timeout', 'secBetweenRetries', 'variables', 'calendar', 'description'];
 
 export const strategiesList = {
     'random': 'Random',
