@@ -115,7 +115,9 @@
             ></pagination>
         </section>
         <audio-player
+                v-show="playerTriggerShow"
                 :file="audioLink"
+                @close="playerTriggerShow = false"
         ></audio-player>
     </div>
 </template>
@@ -125,10 +127,10 @@
     import jszipUtils from 'jszip-utils';
     import {saveAs} from 'file-saver';
     import vueDropzone from 'vue2-dropzone';
-    import audioPlayer from '@/components/utils/audio-player';
+    import audioPlayer from '../../utils/audio-player';
     import textToSpeechPopup from './media-text-to-speech-popup';
-    import tableComponentMixin from '@/mixins/tableComponentMixin';
-    import {_checkboxTableField, _actionsTableField_3} from "@/utils/tableFieldPresets";
+    import tableComponentMixin from '../../../mixins/tableComponentMixin';
+    import {_checkboxTableField, _actionsTableField_3} from "../../../utils/tableFieldPresets";
     import eventBus from "../../../utils/eventBus";
     import {mapActions, mapState} from "vuex";
     import {download} from "../../../utils/download";
@@ -150,7 +152,9 @@
                 isLoadingFiles: false,
                 loadedCount: 0,
                 allLoadingCount: 0,
-                audioLink: 'https://mn1.sunproxy.net/file/WjdlSU1UMjBsQWszeGtDSWdCcWxHUlVJQ3FQbVVzSkY3OHF6WENtbUl4clF4UnVxNjhxUWF0ajY3WGR5bEVUQlJSeXpSa1JEQjEzZzBmVlFUclFnZlZQTEdlVFdKS2wwSUszUHFsUlZ2cWM9/Pskovskoe_-_Post_punk_version_(mp3.mn).mp3',
+                // audioLink: 'https://mn1.sunproxy.net/file/WjdlSU1UMjBsQWszeGtDSWdCcWxHUlVJQ3FQbVVzSkY3OHF6WENtbUl4clF4UnVxNjhxUWF0ajY3WGR5bEVUQlJSeXpSa1JEQjEzZzBmVlFUclFnZlZQTEdlVFdKS2wwSUszUHFsUlZ2cWM9/Pskovskoe_-_Post_punk_version_(mp3.mn).mp3',
+                audioLink: '',
+                playerTriggerShow: false,
 
                 dropzoneOptions: {
                     url: `${BASE_URL}/storage/media?access_token=${token}`,
@@ -252,6 +256,7 @@
 
             async play(rowId) {
                 const id = this.dataList[rowId].id;
+                this.playerTriggerShow = true;
                 this.audioLink = `${BASE_URL}/storage/media/${id}/stream?access_token=${token}`;
             },
 

@@ -58,8 +58,8 @@ export const getResGroup = async (id) => {
         const response = await resGrService.readOutboundResourceGroup(id, domainId);
         response.time = response.time.map(range => {
             return {
-                start: range.start_time_of_day || 0,
-                end: range.end_time_of_day || 0,
+                start: range.startTimeOfDay || 0,
+                end: range.endTimeOfDay || 0,
             }
         });
 
@@ -74,8 +74,8 @@ export async function addResGroup(item) {
     itemCopy.domainId = store.state.userinfo.domainId || undefined;
     itemCopy.time = itemCopy.time.map(range => {
         return {
-            start_time_of_day: range.start,
-            end_time_of_day: range.end,
+            startTimeOfDay: range.start,
+            endTimeOfDay: range.end,
         }
     });
     sanitizer(itemCopy, fieldsToSend);
@@ -93,8 +93,8 @@ export async function updateResGroup(id, item) {
     itemCopy.domainId = store.state.userinfo.domainId || undefined;
     itemCopy.time = itemCopy.time.map(range => {
         return {
-            start_time_of_day: range.start,
-            end_time_of_day: range.end,
+            startTimeOfDay: range.start,
+            endTimeOfDay: range.end,
         }
     });
     sanitizer(itemCopy, fieldsToSend);

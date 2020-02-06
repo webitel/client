@@ -5,7 +5,7 @@
                     class="the-header__user-info-wrap"
                     @click="userActionsTriggerShow = !userActionsTriggerShow"
             >
-                <img src="../assets/img/login/people-callcenter.svg" alt="">
+                <img src="../assets/img/user.svg" alt="">
                 <span class="the-header__username">{{username}}</span>
                 <i class="icon-icon_arrow-down"></i>
             </div>
@@ -33,12 +33,15 @@
 <script>
     import {logout} from "../api/auth/auth";
     import {mapState} from "vuex";
+    import clickaway from '../directives/clickaway';
 
     export default {
         name: 'the-header',
         data: () => ({
             userActionsTriggerShow: false,
         }),
+
+        // directives: {clickaway},
 
         computed: {
             ...mapState('userinfo', {

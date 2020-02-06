@@ -7,7 +7,7 @@
             {{$t('objects.routing.dialplan.dialplan')}}
         </object-header>
 
-        <section class="object-content">
+        <section class="object-content dialplan">
             <header class="content-header">
                 <h3 class="content-title">{{$t('objects.routing.dialplan.dialplanRules')}}</h3>
                 <div class="content-header__actions-wrap">
@@ -64,23 +64,19 @@
                 </template>
 
                 <template slot="actions" slot-scope="props">
-                    <div class="vuetable-action move-arrows">
-                        <div class="move-arrow-wrap">
-                            <img
-                                    v-show="props.rowIndex !== 0"
-                                    src="../../../assets/img/arrow-top.svg"
-                                    alt="top"
-                                    @click="moveRowTop(props.rowIndex)"
-                            >
-                        </div>
-                        <div class="move-arrow-wrap">
-                            <img
-                                    v-show="props.rowIndex !== (dataList.length-1)"
-                                    src="../../../assets/img/arrow-bottom.svg"
-                                    alt="bottom"
-                                    @click="moveRowBottom(props.rowIndex)"
-                            >
-                        </div>
+                    <div
+                            class="vuetable-action dialplan-arrow-wrap"
+                            v-show="props.rowIndex !== 0"
+                            @click="moveRowTop(props.rowIndex)"
+                    >
+                        <i class="dialplan-arrow icon-icon_dialplan-arrow-up"></i>
+                    </div>
+                    <div
+                            class="vuetable-action dialplan-arrow-wrap"
+                            v-show="props.rowIndex !== dataList.length-1"
+                            @click="moveRowBottom(props.rowIndex)"
+                    >
+                        <i class="dialplan-arrow icon-icon_dialplan-arrow-down"></i>
                     </div>
                     <i class="vuetable-action icon-icon_edit"
                        @click="edit(props.rowIndex)"
@@ -104,8 +100,8 @@
 </template>
 
 <script>
-    import tableComponentMixin from '@/mixins/tableComponentMixin';
-    import {_checkboxTableField, _actionsTableField_3, _switcherWidth} from "@/utils/tableFieldPresets";
+    import tableComponentMixin from '../../../mixins/tableComponentMixin';
+    import {_checkboxTableField, _actionsTableField_4, _switcherWidth} from "../../../utils/tableFieldPresets";
     import {mapActions, mapState} from "vuex";
 
     export default {
@@ -119,7 +115,7 @@
                     {name: 'pattern', title: this.$t('objects.routing.dialplan.pattern')},
                     {name: 'schema', title: this.$tc('objects.routing.schema', 1)},
                     {name: 'enabled', title: this.$t('objects.enabled'), width: _switcherWidth},
-                    _actionsTableField_3,
+                    _actionsTableField_4,
                 ],
             };
         },
@@ -132,21 +128,29 @@
             }),
 
             size: {
-                get() {return this.$store.state.routing.dialplan.size},
-                set(value) {this.setSize(value)}
+                get() {
+                    return this.$store.state.routing.dialplan.size
+                },
+                set(value) {
+                    this.setSize(value)
+                }
             },
 
             search: {
-                get() {return this.$store.state.routing.dialplan.search},
-                set(value) {this.setSearch(value)}
+                get() {
+                    return this.$store.state.routing.dialplan.search
+                },
+                set(value) {
+                    this.setSearch(value)
+                }
             }
         },
 
         methods: {
             moveRowTop(rowIndex) {
                 const tmp = this.dataList[rowIndex];
-                this.dataList[rowIndex] = this.dataList[rowIndex-1];
-                this.dataList[rowIndex-1] = tmp;
+                this.dataList[rowIndex] = this.dataList[rowIndex - 1];
+                this.dataList[rowIndex - 1] = tmp;
             },
 
             create() {
@@ -176,16 +180,25 @@
 </script>
 
 <style lang="scss" scoped>
-    .move-arrows {
+    .dialplan .vuetable .vuetable-action.dialplan-arrow-wrap {
         width: 24px;
         height: 24px;
+        background: transparent;
+        border-radius: 50%;
+        transition: $transition;
+        margin-right: 0;
 
-        .move-arrow-wrap {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            width: 12px;
-            height: 12px;
+
+        &:hover {
+            background: $accent-color;
+
+            i:before {
+                color: #fff;
+            }
         }
+    }
+
+    .icon-icon_edit {
+        margin-left: 25px;
     }
 </style>

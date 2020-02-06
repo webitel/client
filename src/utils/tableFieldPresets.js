@@ -29,4 +29,12 @@ export const _actionsTableField_3 = {
     width: '180px'
 };
 
+export const _actionsTableField_4 = {
+    name: 'actions',
+    title: '',
+    titleClass: 'vuetable-td-actions',
+    dataClass: 'vuetable-td-actions',
+    width: '240px'
+};
+
 export const _switcherWidth = '10%';

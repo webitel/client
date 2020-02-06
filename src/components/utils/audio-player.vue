@@ -2,11 +2,11 @@
     <aside class="player">
         <div class="player-controls">
             <div @click.prevent="stop" title="Stop">
-                <i class="icon-icon_close"></i>
+                <i class="icon-icon_stop"></i>
             </div>
             <div @click.prevent="playing = !playing" title="Play/Pause">
-<!--                <i class="icon-icon_" v-if="!playing"></i>-->
-                <i class="icon-icon_pause"></i>
+                <i class="icon-icon_play" v-if="!playing"></i>
+                <i class="icon-icon_pause" v-else></i>
             </div>
             <div class="player-time">
                 <div class="player-time-current">{{convertTimeHHMMSS}}</div>
@@ -22,8 +22,10 @@
                 <range v-model="volume"></range>
             </div>
             <div @click.prevent="showVolume = !showVolume" title="Stop">
-                <i class="volume-icon icon-icon_close"></i>
+                <i class="volume-icon icon-icon_volume"></i>
             </div>
+            <i class="icon-icon_close" @click="$emit('close')"></i>
+
         </div>
         <audio
                 class="audio"
@@ -36,7 +38,7 @@
 </template>
 
 <script>
-    import range from '@/components/utils/range';
+    import range from './range';
 
     export default {
         name: "audio-player",
@@ -192,7 +194,7 @@
         height: 5px;
         /*height: 3px;*/
         flex-grow: 1;
-        margin: auto 78px;
+        margin: auto 21px auto 78px;
         background-color: $player-progress-color;
         cursor: pointer;
 
@@ -235,6 +237,7 @@
     }
 
     .volume-icon {
+        margin-right: 33px;
         cursor: pointer;
     }
 
