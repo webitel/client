@@ -1,4 +1,7 @@
-import {getBucketPermissions, patchBucketPermissions} from "../../../../api/contact-center/buckets/buckets";
+import {
+    getResGroupPermissions,
+    patchResGroupPermissions
+} from "../../../../api/contact-center/resourceGroups/resourceGroups";
 
 const defaultState = () => {
     return {
@@ -24,7 +27,7 @@ const actions = {
 
     LOAD_DATA_LIST: async (context) => {
         if (state.parentId) {
-            const dataList = await getBucketPermissions(state.parentId, state.page, state.size, state.search);
+            const dataList = await getResGroupPermissions(state.parentId, state.page, state.size, state.search);
             context.dispatch('RESET_ITEM_STATE');
             context.commit('SET_DATA_LIST', dataList);
         }
@@ -61,7 +64,7 @@ const actions = {
         }];
         if (!readState) item[0].access += 'r';
         try {
-            await patchBucketPermissions(state.parentId, item);
+            await patchResGroupPermissions(state.parentId, item);
         } catch {
             context.dispatch('LOAD_DATA_LIST');
         }

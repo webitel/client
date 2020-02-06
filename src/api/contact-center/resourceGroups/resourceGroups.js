@@ -115,7 +115,7 @@ export async function deleteResGroup(id) {
     }
 }
 
-export const getBucketPermissions = async (id, page = 0, size = 10, search) => {
+export const getResGroupPermissions = async (id, page = 0, size = 10, search) => {
     // let url = BASE_URL + `?page=${page}size=${size}`;
     let url = BASE_URL + '/' + id + '/acl' + `?size=${size}`;
     if (search) url += `&name=${search}*`;
@@ -127,7 +127,7 @@ export const getBucketPermissions = async (id, page = 0, size = 10, search) => {
     }
 };
 
-export const patchBucketPermissions = async (id, item) => {
+export const patchResGroupPermissions = async (id, item) => {
     const url = BASE_URL + '/' + id + '/acl';
 
     try {

@@ -13,9 +13,14 @@
                         </div>
                     </header>
                     <p class="dashboard__info-text">
-                        Lorem ipsum dolor sit amet, consectetur adipisicing elit. Laudantium nesciunt porro ullam. Fugit
-                        labore nemo obcaecati quos ratione? Aliquam aspernatur et facere laborum magni molestiae
-                        nesciunt perferendis reprehenderit temporibus unde!
+<!--                        {{$t('home.welcomeText')}}-->
+                        <b>Cloud vs On-Site: </b>Security policy does not allow to store data and use cloud services? With Webitel, you can build a contact center on your site!
+                        <br><br><b>Multichannel vs Omni-Channel: </b>Be always and everywhere in touch with your customers! IVR-menu of any complexity, outbound, inbound interaction campaigns or message on social networks - now it's easier than ever!
+                        <br><br><b>Fault-tolerant infrastructure: </b>No more unplanned downtime. Fast scaling and fault-tolerant architecture allows you to simultaneously serve more than 1000 customer calls per minute from different communication channels.
+                        <br><br><b>Design: </b>The new minimalistic interface with the most user-friendly admin panel that allows you to have quick access to all the necessary functions. Less clicks - more features.
+                        <br><br><b>New agent group work module: </b>The most efficient call distribution. An agent can have several skills at once for participating in different campaigns. The client is served only by professionals.
+                        <br><br><b>Setting Permissions: </b>New permissions management module - new opportunities for control. Users can make changes only to sections, as well as to actions.
+
                     </p>
                 </div>
                 <aside class="dashboard__rss-wrap">
@@ -54,7 +59,7 @@
         },
 
         data: () => ({
-            rssTitle: '',
+            rssTitle: 'NEWS',
             rssFeed: [],
         }),
 
@@ -66,7 +71,7 @@
             loadRSS() {
                 parser.parseURL(CORS_PROXY + 'https://www.reddit.com/.rss', (err, feed) => {
                     if (err) throw err;
-                    this.rssTitle = feed.title;
+                    // this.rssTitle = feed.title;
                     this.rssFeed = [...feed.items];
                 });
             }

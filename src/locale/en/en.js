@@ -116,8 +116,9 @@ export default {
     },
 
     home: {
-      dashboard: 'Dashboard',
-      rssLink: 'Link',
+        dashboard: 'Dashboard',
+        welcomeText: '',
+        rssLink: 'Link',
     },
 
     objects: {
