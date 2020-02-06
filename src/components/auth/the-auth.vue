@@ -28,7 +28,7 @@
             <div class="carousel-wrap">
                 <agile
                         :nav-buttons="false"
-                        :autoplay-speed="5000"
+                        :autoplay-speed="60000"
                         :speed="500"
                         pause-on-hover
                         pause-on-dots-hover
@@ -40,16 +40,22 @@
                          :key="key"
                     >
                         <div class="item-wrap">
-                            <h3 class="item-header">
-                                {{item.title}}
-                            </h3>
-                            <p class="item-text">
-                                {{item.text}}
-                            </p>
+                            <div class="item">
+                                <h3 class="item-header">
+                                    {{item.titleStart}}
+                                    <strong class="item-header__strong">
+                                        {{item.titleStrong}}
+                                    </strong>
+                                    {{item.titleEnd}}
+                                </h3>
+                                <p class="item-text">
+                                    {{item.text}}
+                                </p>
+                            </div>
+                            <img class="item-bg" src="../../assets/img/auth/bg1.svg" alt="pic">
                         </div>
                     </div>
                 </agile>
-
             </div>
         </section>
     </main>
@@ -88,25 +94,46 @@
                 ],
                 carouselItems: [
                     {
-                        title: this.$t('auth.carousel.title1'),
-                        text: this.$t('auth.carousel.text1'),
+                        titleStart: 'New agent',
+                        titleStrong: 'group ',
+                        titleEnd: 'work module',
+                        text: 'The most efficient call distribution. An agent can have several skills at once for participating in different campaigns. The client is served only by professionals.',
                     },
                     {
-                        title: this.$t('auth.carousel.title2'),
-                        text: this.$t('auth.carousel.text2'),
+                        titleStart: 'New agent',
+                        titleStrong: 'group ',
+                        titleEnd: 'work module',
+                        text: 'The most efficient call distribution. An agent can have several skills at once for participating in different campaigns. The client is served only by professionals.',
                     },
                     {
-                        title: this.$t('auth.carousel.title3'),
-                        text: this.$t('auth.carousel.text3'),},
+                        titleStart: 'New agent',
+                        titleStrong: 'group ',
+                        titleEnd: 'work module',
+                        text: 'The most efficient call distribution. An agent can have several skills at once for participating in different campaigns. The client is served only by professionals.',
+                    },
                     {
-                        title: this.$t('auth.carousel.title4'),
-                        text: this.$t('auth.carousel.text4'),},
-                    {
-                        title: this.$t('auth.carousel.title5'),
-                        text: this.$t('auth.carousel.text5'),},
-                    {
-                        title: this.$t('auth.carousel.title6'),
-                        text: this.$t('auth.carousel.text6'),},
+                        titleStart: 'New agent',
+                        titleStrong: 'group ',
+                        titleEnd: 'work module',
+                        text: 'The most efficient call distribution. An agent can have several skills at once for participating in different campaigns. The client is served only by professionals.',
+                    },
+                    // {
+                    //     title: this.$t('auth.carousel.title2'),
+                    //     text: this.$t('auth.carousel.text2'),
+                    // },
+                    // {
+                    //     title: this.$t('auth.carousel.title3'),
+                    //     text: this.$t('auth.carousel.text3'),},
+                    // {
+                    //     title: this.$t('auth.carousel.title4'),
+                    //     text: this.$t('auth.carousel.text4'),},
+                    // {
+                    //     title: this.$t('auth.carousel.title5'),
+                    //     text: this.$t('auth.carousel.text5'),},
+                    // {
+                    //     title: this.$t('auth.carousel.title6'),
+                    //     text: this.$t('auth.carousel.text6'),
+                    // },
                 ],
             };
         },
@@ -169,20 +196,99 @@
 
         .carousel-wrap {
             position: relative;
-            height: 340px;
-            width: 540px;
-            padding: 20px 40px;
-            margin: 20% auto 0;
+            height: 100%;
+            width: calc(100vw - 673px);
+            /*padding: 60px 92px;*/
+
+            .agile {
+                display: flex;
+                flex-direction: column;
+                justify-content: flex-end;
+                height: 100%;
+
+                &__list {
+                    height: 100%;
+
+                    .agile__track, .slide {
+                        height: 100%;
+                    }
+                }
+
+                &__actions {
+                    position: absolute;
+                    bottom: 60px;
+                    left: 50%;
+                    transform: translateX(-50%);
+                    /*margin: 150px auto 0;*/
+                    /*display: block;*/
+                }
+            }
 
             .item-wrap {
+                position: relative;
+                display: flex;
+                flex-direction: column-reverse;
+                height: 100%;
+                width: 100%;
+
+                .item {
+                    display: flex;
+                    margin: 0 0 228px 93px;
+                }
+
                 .item-header {
                     @extend .typo-heading-lg;
-                    margin-bottom: 44px;
+
+                    text-align: right;
+                    width: min-content;
+                    width: -moz-min-content;
+                    margin: 0 46px 0 0;
+                    font-family: 'EN-AvantGardeDemi', 'RU-AvantGardeDemi', sans-serif;
+                    font-size: 50px;
+                    line-height: 1;
+                    text-transform: uppercase;
+                    color: $accent-color;
+                    /*margin-bottom: 44px;*/
+
+                    &__strong {
+                        display: inline-block;
+                        position: relative;
+                        color: #000;
+
+                        &:before {
+                            content: '';
+                            position: absolute;
+                            top: -20px;
+                            right: -15px;
+                            left: -15px;
+                            bottom: -5px;
+                            background: #EB5757;
+                            z-index: -1;
+                        }
+                    }
+
                 }
 
                 .item-text {
                     @extend .typo-body-lg;
-                    height: 200px;
+                    min-width: 250px;
+                    width: 300px;
+                    max-width: 500px;
+                    max-height: 200px;
+                    margin: 0;
+                    font-family: 'EN-AvantGardeBook', 'RU-AvantGardeDemi', sans-serif;
+                    font-size: 18px;
+                    line-height: 1.8;
+                }
+
+                .item-bg {
+                    position: absolute;
+                    top: 0;
+                    bottom: 0;
+                    right: 0;
+                    left: 0;
+                    width: 100%;
+                    height: 100%;
                 }
             }
 
