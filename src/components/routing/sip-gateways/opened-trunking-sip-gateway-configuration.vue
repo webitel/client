@@ -2,7 +2,11 @@
     <section>
         <header class="content-header">
             <h3 class="content-title">{{$t('objects.routing.gateways.trunkingACLTitle')}}</h3>
-            <i class="icon-icon_plus icon-action" @click="addVariable"></i>
+            <i
+                    class="icon-icon_plus icon-action"
+                    :title="$t('iconHints.add')"
+                    @click="addVariable"
+            ></i>
         </header>
         <form class="object-input-grid grid-w50">
             <section class="value-pair-wrap">
@@ -38,6 +42,7 @@
                     ></form-input>
                     <i
                             class="icon-icon_delete icon-action"
+                            :title="$t('iconHints.delete')"
                             v-if="key !== 0"
                             @click="deleteVariable(key)"
                     ></i>

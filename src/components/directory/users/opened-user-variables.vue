@@ -2,7 +2,11 @@
     <section>
         <header class="content-header">
             <h3 class="content-title">{{$t('objects.directory.users.variables')}}</h3>
-            <i class="icon-action icon-icon_plus" @click="addVariable"></i>
+            <i
+                    class="icon-action icon-icon_plus"
+                    :title="$t('iconHints.add')"
+                    @click="addVariable"
+            ></i>
         </header>
         <form class="object-input-grid">
             <div class="variables">
@@ -27,6 +31,7 @@
                     <i
                             class="icon-action icon-icon_delete"
                             v-if="key !== 0"
+                            :title="$t('iconHints.delete')"
                             @click="deleteVariable(key)"
                     ></i>
                 </div>

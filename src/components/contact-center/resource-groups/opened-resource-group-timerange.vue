@@ -2,7 +2,11 @@
     <section>
         <header class="content-header">
             <h3 class="content-title">{{$t('objects.ccenter.resGroups.timerange')}}</h3>
-            <i class="icon-icon_plus icon-action" @click="addValuePair"></i>
+            <i
+                    class="icon-icon_plus icon-action"
+                    :title="$t('iconHints.add')"
+                    @click="addValuePair"
+            ></i>
         </header>
         <form class="object-input-grid">
             <div>
@@ -27,6 +31,7 @@
                     </timepicker>
                     <i
                             class="icon-icon_delete icon-action"
+                            :title="$t('iconHints.delete')"
                             v-if="key !== 0"
                             @click="deleteValuePair(key)"
                     ></i>

@@ -13,10 +13,10 @@
                 @close="closeUploadPopup"
         ></upload-popup>
 
-<!--        <flow-popup-->
-<!--                v-if="popupTriggerIf"-->
-<!--                @close="popupTriggerIf = false"-->
-<!--        ></flow-popup>-->
+        <!--        <flow-popup-->
+        <!--                v-if="popupTriggerIf"-->
+        <!--                @close="popupTriggerIf = false"-->
+        <!--        ></flow-popup>-->
 
         <section class="object-content">
             <header class="content-header">
@@ -29,10 +29,16 @@
                     <i
                             class="icon-icon_delete icon-action"
                             :class="{'hidden': anySelected}"
+                            :title="$t('iconHints.deleteSelected')"
                             @click="deleteSelected"
                     ></i>
-                    <div class="upload-csv">
-                        <i class="icon-icon_upload"></i>
+                    <div
+                            class="upload-csv"
+                            :title="$t('iconHints.upload')"
+                    >
+                        <i
+                                class="icon-icon_upload"
+                        ></i>
                         <input
                                 ref="file-input"
                                 class="upload-csv__input"
@@ -43,6 +49,7 @@
                     </div>
                     <i
                             class="icon-icon_reload icon-action"
+                            :title="$t('iconHints.reload')"
                             @click="loadList"
                     ></i>
                 </div>
@@ -64,22 +71,28 @@
                     </div>
                 </template>
 
-<!--                <template slot="debug" slot-scope="props">-->
-<!--                    <switcher-->
-<!--                            v-model="dataList[props.rowIndex].debug"-->
-<!--                            disabled-->
-<!--                    ></switcher>-->
-<!--                </template>-->
+                <!--                <template slot="debug" slot-scope="props">-->
+                <!--                    <switcher-->
+                <!--                            v-model="dataList[props.rowIndex].debug"-->
+                <!--                            disabled-->
+                <!--                    ></switcher>-->
+                <!--                </template>-->
 
                 <template slot="actions" slot-scope="props">
-                    <i class="vuetable-action icon-icon_download"
-                       @click="download(props.rowIndex)"
+                    <i
+                            class="vuetable-action icon-icon_download"
+                            :title="$t('iconHints.download')"
+                            @click="download(props.rowIndex)"
                     ></i>
-                    <i class="vuetable-action icon-icon_edit"
-                       @click="edit(props.rowIndex)"
+                    <i
+                            class="vuetable-action icon-icon_edit"
+                            :title="$t('iconHints.edit')"
+                            @click="edit(props.rowIndex)"
                     ></i>
-                    <i class="vuetable-action icon-icon_delete"
-                       @click="remove(props.rowIndex)"
+                    <i
+                            class="vuetable-action icon-icon_delete"
+                            :title="$t('iconHints.delete')"
+                            @click="remove(props.rowIndex)"
                     ></i>
                 </template>
             </vuetable>
@@ -129,13 +142,21 @@
             }),
 
             size: {
-                get() {return this.$store.state.routing.flow.size},
-                set(value) {this.setSize(value)}
+                get() {
+                    return this.$store.state.routing.flow.size
+                },
+                set(value) {
+                    this.setSize(value)
+                }
             },
 
             search: {
-                get() {return this.$store.state.routing.flow.search},
-                set(value) {this.setSearch(value)}
+                get() {
+                    return this.$store.state.routing.flow.search
+                },
+                set(value) {
+                    this.setSearch(value)
+                }
             }
         },
 

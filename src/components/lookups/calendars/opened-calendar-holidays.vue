@@ -7,7 +7,11 @@
 
         <header class="content-header">
             <h3 class="content-title">{{$t('objects.lookups.calendars.holidays')}}</h3>
-            <i class="icon-action icon-icon_plus" @click="popupTriggerIf = true"></i>
+            <i
+                    class="icon-action icon-icon_plus"
+                    :title="$t('iconHints.add')"
+                    @click="popupTriggerIf = true"
+            ></i>
         </header>
 
         <vuetable
@@ -29,9 +33,11 @@
 
             <template slot="actions" slot-scope="props">
                 <i class="vuetable-action icon-icon_edit"
+                   :title="$t('iconHints.edit')"
                    @click="edit(props.rowIndex)"
                 ></i>
                 <i class="vuetable-action icon-icon_delete"
+                   :title="$t('iconHints.delete')"
                    @click="remove(props.rowIndex)"
                 ></i>
             </template>

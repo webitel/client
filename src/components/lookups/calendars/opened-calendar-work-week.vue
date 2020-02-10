@@ -43,10 +43,12 @@
             <template slot="actions" slot-scope="props">
                 <i class="vuetable-action icon-icon_plus"
                    v-if="isDayStart(props.rowIndex)"
+                   :title="$t('iconHints.add')"
                    @click="addWorkRange(dataList[props.rowIndex].day)"
                 ></i>
                 <i class="vuetable-action icon-icon_delete calendar-workweek__item"
                    v-else
+                   :title="$t('iconHints.delete')"
                    @click="remove(props.rowIndex)"
                 ></i>
             </template>

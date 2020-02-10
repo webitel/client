@@ -23,9 +23,14 @@
                     ></search>
                     <i
                             class="icon-icon_reload icon-action"
+                            :title="$t('iconHints.reload')"
                             @click="loadList"
                     ></i>
-                    <i class="icon-icon_plus icon-action" @click="popupTriggerIf = true"></i>
+                    <i
+                            class="icon-icon_plus icon-action"
+                            :title="$t('iconHints.add')"
+                            @click="popupTriggerIf = true"
+                    ></i>
                 </div>
             </header>
 

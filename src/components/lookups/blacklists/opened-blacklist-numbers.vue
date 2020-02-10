@@ -21,10 +21,16 @@
                 <i
                         class="icon-icon_delete icon-action"
                         :class="{'hidden': anySelected}"
+                        :title="$t('iconHints.deleteSelected')"
                         @click="deleteSelected"
                 ></i>
-                <div class="upload-csv">
-                    <i class="icon-icon_upload"></i>
+                <div
+                        class="upload-csv"
+                        :title="$t('iconHints.upload')"
+                >
+                    <i
+                            class="icon-icon_upload"
+                    ></i>
                     <input
                             ref="file-input"
                             class="upload-csv__input"
@@ -35,9 +41,14 @@
                 </div>
                 <i
                         class="icon-icon_reload icon-action"
+                        :title="$t('iconHints.reload')"
                         @click="loadList"
                 ></i>
-                <i class="icon-action icon-icon_plus" @click="create"></i>
+                <i
+                        class="icon-action icon-icon_plus"
+                        :title="$t('iconHints.add')"
+                        @click="create"
+                ></i>
             </div>
         </header>
 
@@ -63,9 +74,11 @@
 
             <template slot="actions" slot-scope="props">
                 <i class="vuetable-action icon-icon_edit"
+                   :title="$t('iconHints.edit')"
                    @click="edit(props.rowIndex)"
                 ></i>
                 <i class="vuetable-action icon-icon_delete"
+                   :title="$t('iconHints.delete')"
                    @click="remove(props.rowIndex)"
                 ></i>
             </template>

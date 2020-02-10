@@ -30,12 +30,16 @@
 
                         <div class="hint" v-if="copyMessage">
                             <div class="tooltip-top active">
-                                <i class="icon-icon_approve"></i>
+<!--                                <i class="icon-icon_approve"></i>-->
                                 <span>{{this.copyMessage}}</span>
                             </div>
                         </div>
                     </div>
-                    <i class="input-extension__generate icon-icon_generate" @click="generatePassword"></i>
+                    <i
+                            class="input-extension__generate icon-icon_generate"
+                            :title="$t('iconHints.generate')"
+                            @click="generatePassword"
+                    ></i>
                 </div>
             </div>
 

@@ -2,11 +2,22 @@
     <aside class="player">
         <div class="player-controls">
             <div @click.prevent="stop" title="Stop">
-                <i class="icon-icon_stop"></i>
+                <i
+                        class="icon-icon_stop"
+                        :title="$t('iconHints.stop')"
+                ></i>
             </div>
             <div @click.prevent="playing = !playing" title="Play/Pause">
-                <i class="icon-icon_play" v-if="!playing"></i>
-                <i class="icon-icon_pause" v-else></i>
+                <i
+                        class="icon-icon_play"
+                        v-if="!playing"
+                        :title="$t('iconHints.play')"
+                ></i>
+                <i
+                        class="icon-icon_pause"
+                        v-else
+                        :title="$t('iconHints.pause')"
+                ></i>
             </div>
             <div class="player-time">
                 <div class="player-time-current">{{convertTimeHHMMSS}}</div>
@@ -22,9 +33,16 @@
                 <range v-model="volume"></range>
             </div>
             <div @click.prevent="showVolume = !showVolume" title="Stop">
-                <i class="volume-icon icon-icon_volume"></i>
+                <i
+                        class="volume-icon icon-icon_volume"
+                        :title="$t('iconHints.volume')"
+                ></i>
             </div>
-            <i class="icon-icon_close" @click="$emit('close')"></i>
+            <i
+                    class="icon-icon_close"
+                    :title="$t('iconHints.close')"
+                    @click="$emit('close')"
+            ></i>
 
         </div>
         <audio

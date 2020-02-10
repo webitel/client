@@ -19,6 +19,7 @@
                     ></search>
                     <i
                             class="icon-icon_reload icon-action"
+                            :title="$t('iconHints.reload')"
                             @click="loadList"
                     ></i>
                 </div>
@@ -59,6 +60,7 @@
 
                 <template slot="actions" slot-scope="props">
                     <i class="vuetable-action icon-icon_edit"
+                       :title="$t('iconHints.edit')"
                        @click="edit(props.rowIndex)"
                     ></i>
                 </template>

@@ -35,6 +35,7 @@ export default {
 
     header: {
         logout: 'Log out',
+        docs: 'Docs',
     },
 
     settings: {
@@ -303,7 +304,7 @@ export default {
                 sun: 'Sunday',
             },
             communications: {
-                communications: 'Communication type | Comunication types',
+                communications: 'Communication type | Communication types',
                 allCommunications: 'All communiction types',
                 addCommunication: 'Add communication',
                 code: 'Code'
@@ -594,5 +595,29 @@ export default {
         title404: "Looks like you're lost",
         text404: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit.',
         btn404: 'Go back',
+    },
+
+    iconHints: {
+        upload: 'Upload',
+        reload: 'Refresh table',
+        edit: 'Edit',
+        delete: 'Delete',
+        deleteSelected: 'Delete selected',
+        generate: 'Generate',
+        add: 'Add',
+        history: 'History',
+        download: 'Download',
+        downloadAll: 'Download all',
+        play: 'Play',
+        pause: 'Pause',
+        resume: 'Resume',
+        close: 'Close',
+        volume: 'Volume',
+        stop: 'Stop',
+        members: 'Members',
+        moveUp: 'Move up',
+        moveDown: 'Move down',
+        nextPage: 'Next page',
+        prevPage: 'Previous page',
     }
 };

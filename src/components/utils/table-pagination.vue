@@ -16,11 +16,13 @@
                 <i
                         class="icon-action icon-icon_arrow-left"
                         :class="{'disabled': !isPrev}"
+                        :title="$t('iconHints.prevPage')"
                         @click="prev"
                 ></i>
                 <i
                         class="icon-action icon-icon_arrow-right"
                         :class="{'disabled': !isNext}"
+                        :title="$t('iconHints.nextPage')"
                         @click="next"
                 ></i>
             </div>

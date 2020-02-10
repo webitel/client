@@ -23,12 +23,18 @@
                     <i
                             class="icon-icon_delete icon-action"
                             :class="{'hidden': anySelected}"
+                            :title="$t('iconHints.deleteSelected')"
                             @click="deleteSelected"
                     ></i>
-                    <i class="icon-action icon-icon_download" @click="downloadAll"></i>
+                    <i
+                            class="icon-action icon-icon_download"
+                            :title="$t('iconHints.downloadAll')"
+                            @click="downloadAll"
+                    ></i>
                     <!--                    <i class="icon-action icon-icon_text-to-speech" @click="openPopup"></i>-->
                     <i
                             class="icon-icon_reload icon-action"
+                            :title="$t('iconHints.reload')"
                             @click="loadList"
                     ></i>
                 </div>
@@ -49,8 +55,14 @@
                         <span>{{loadedCount}}</span>/<span>{{allLoadingCount}}</span>
                     </div>
                 </div>
-                <div v-show="!isLoadingFiles" class="dz-custom-message">
-                    <i class="icon-icon_upload"></i>
+                <div
+                        v-show="!isLoadingFiles"
+                        class="dz-custom-message"
+                        :title="$t('iconHints.upload')"
+                >
+                    <i
+                            class="icon-icon_upload"
+                    ></i>
                     <div class="dz-message-text">
                         <span class="dz-message-text__accent">
                             {{$t('objects.lookups.media.dragPlaceholder')}}
@@ -94,12 +106,15 @@
 
                 <template slot="actions" slot-scope="props">
                     <i class="vuetable-action icon-icon_download"
+                       :title="$t('iconHints.download')"
                        @click="downloadFile(props.rowIndex)"
                     ></i>
                     <i class="vuetable-action icon-icon_play"
+                       :title="$t('iconHints.edit')"
                        @click="play(props.rowIndex)"
                     ></i>
                     <i class="vuetable-action icon-icon_delete"
+                       :title="$t('iconHints.delete')"
                        @click="remove(props.rowIndex)"
                     ></i>
                 </template>

@@ -13,13 +13,19 @@
                 <i
                         class="icon-icon_delete icon-action"
                         :class="{'hidden': anySelected}"
+                        :title="$t('iconHints.deleteSelected')"
                         @click="deleteSelected"
                 ></i>
                 <i
                         class="icon-icon_reload icon-action"
+                        :title="$t('iconHints.reload')"
                         @click="loadDataList"
                 ></i>
-                <i class="icon-action icon-icon_plus" @click="create"></i>
+                <i
+                        class="icon-action icon-icon_plus"
+                        :title="$t('iconHints.add')"
+                        @click="create"
+                ></i>
             </div>
         </header>
 

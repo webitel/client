@@ -4,6 +4,7 @@
         <div class="content-header__actions-wrap">
             <i
                     class="icon-icon_reload icon-action"
+                    :title="$t('iconHints.reload')"
                     @click="loadList"
             ></i>
         </div>

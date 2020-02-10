@@ -2,7 +2,11 @@
     <section>
         <header class="content-header">
             <h3 class="content-title">{{$t('objects.ccenter.queues.variables')}}</h3>
-            <i class="icon-action icon-icon_plus" @click="addVariable"></i>
+            <i
+                    class="icon-action icon-icon_plus"
+                    :title="$t('iconHints.add')"
+                    @click="addVariable"
+            ></i>
         </header>
         <form class="object-input-grid">
             <div class="variables">
@@ -26,6 +30,7 @@
                     ></form-input>
                     <i
                             class="icon-action icon-icon_delete"
+                            :title="$t('iconHints.delete')"
                             v-if="key !== 0"
                             @click="deleteVariable(key)"
                     ></i>
