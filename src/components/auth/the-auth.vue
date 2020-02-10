@@ -276,7 +276,7 @@
                     max-width: 500px;
                     max-height: 200px;
                     margin: 0;
-                    font-family: 'EN-AvantGardeBook', 'RU-AvantGardeDemi', sans-serif;
+                    font-family: 'Montserrat Medium', monospace;
                     font-size: 18px;
                     line-height: 1.8;
                 }

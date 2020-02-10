@@ -1,121 +1,77 @@
 
-.en .typo-heading-lg {
-  font: 22px 'EN-AvantGardeDemi', 'RU-AvantGardeDemi';
+.typo-heading-lg {
+  font-family: 'Montserrat Bold', monospace;
+  font-size: 22px;
   line-height: 26px;
 }
 
-.en .typo-heading-md {
-  font: 20px 'EN-AvantGardeDemi', 'RU-AvantGardeDemi';
+.typo-heading-md {
+  font-family: 'Montserrat Bold', monospace;
+  font-size: 20px;
   line-height: 22px;
 }
 
-//.typo-heading-sm {
-//  font: 12px 'AvantGardeBook';
-//  line-height: 14px;
-//}
-
-.en .typo-body-lg {
-  font: 18px 'EN-AvantGardeBook', 'RU-AvantGardeBook';
+.typo-body-lg {
+  font-family: 'Montserrat Medium', monospace;
+  font-size: 18px;
   line-height: 20px;
 }
 
-.en .typo-body-md {
-  font: 12px 'EN-AvantGardeBook', 'RU-AvantGardeBook';
+.typo-body-md {
+  font-family: 'Montserrat Medium', monospace;
+  font-size: 12px;
   line-height: 14px;
 }
 
-.en .typo-body-sm {
-  font: 11px 'EN-AvantGardeBook', 'RU-AvantGardeBook';
+.typo-body-sm {
+  font-family: 'Montserrat Medium', monospace;
+  font-size: 11px;
   line-height: 13px;
 }
 
-.en .typo-btn {
-  font: 14px 'EN-AvantGardeDemi', 'RU-AvantGardeDemi';
+.typo-btn {
+  font-family: 'Montserrat Bold', monospace;
+  font-size: 14px;
   line-height: 16px;
 }
 
-.en .typo-input-label {
-  font: 12px 'EN-AvantGardeBook', 'RU-AvantGardeBook';
+.typo-input-label {
+  font-family: 'Montserrat Medium', monospace;
+  font-size: 12px;
   line-height: 16px;
 }
 
-.en .typo-input-text {
-  font: 14px 'EN-AvantGardeBook', 'RU-AvantGardeBook';
+.typo-input-text {
+  font-family: 'Montserrat Medium', monospace;
+  font-size: 14px;
   line-height: 20px;
 }
 
-.en .typo-notification-text {
-  font: 16px 'EN-AvantGardeBook', 'RU-AvantGardeBook';
+.typo-notification-text {
+  font-family: 'Montserrat Medium', monospace;
+  font-size: 16px;
   line-height: 18px;
 }
 
-.en .typo-nav-item {
-  font: 14px 'EN-AvantGardeBook', 'RU-AvantGardeBook';
+.typo-nav-item {
+  font-family: 'Montserrat Medium', monospace;
+  font-size: 14px;
   line-height: 16px;
 }
 
-.en .typo-tab {
-  font: 16px 'EN-AvantGardeBook', 'RU-AvantGardeBook';
+.typo-tab {
+  font-family: 'Montserrat Medium', monospace;
+  font-size: 16px;
   line-height: 22px;
 }
 
-// RU RU RU RU RU
-.ru .typo-heading-lg {
-  font: 22px 'RU-AvantGardeDemi', 'EN-AvantGardeDemi';
-  line-height: 26px;
+.typo-404-title {
+  font-family: 'Montserrat ExtraBold', monospace;
+  font-size: 37px;
+  line-height: 44px;
 }
-
-.ru .typo-heading-md {
-  font: 20px 'RU-AvantGardeDemi', 'EN-AvantGardeDemi';
-  line-height: 22px;
-}
-
-//.typo-heading-sm {
-//  font: 12px 'AvantGardeBook';
-//  line-height: 14px;
-//}
-
-.ru .typo-body-lg {
-  font: 18px 'RU-AvantGardeBook', 'EN-AvantGardeBook';
-  line-height: 20px;
-}
-
-.ru .typo-body-md {
-  font: 12px 'RU-AvantGardeBook', 'EN-AvantGardeBook';
-  line-height: 14px;
-}
-
-.ru .typo-body-sm {
-  font: 11px 'RU-AvantGardeBook', 'EN-AvantGardeBook';
-  line-height: 13px;
-}
-
-.ru .typo-btn {
-  font: 14px 'RU-AvantGardeDemi', 'EN-AvantGardeDemi';
-  line-height: 16px;
-}
-
-.ru .typo-input-label {
-  font: 12px 'RU-AvantGardeBook', 'EN-AvantGardeBook';
-  line-height: 16px;
-}
-
-.ru .typo-input-text {
-  font: 14px 'RU-AvantGardeBook', 'EN-AvantGardeBook';
-  line-height: 20px;
-}
-
-.ru .typo-notification-text {
-  font: 16px 'RU-AvantGardeBook', 'EN-AvantGardeBook';
-  line-height: 18px;
-}
-
-.ru .typo-nav-item {
-  font: 14px 'RU-AvantGardeBook', 'EN-AvantGardeBook';
-  line-height: 16px;
-}
-
-.ru .typo-tab {
-  font: 16px 'RU-AvantGardeBook', 'EN-AvantGardeBook';
-  line-height: 22px;
+.typo-404-text {
+  font-family: 'Montserrat Medium', monospace;
+  font-size: 26px;
+  line-height: 32px;
 }

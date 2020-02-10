@@ -21,28 +21,6 @@
 <style lang="scss" scoped>
     $bg-color: #171A2A;
 
-    .en .typo-404-title {
-        font-family: 'EN-AvantGardeDemi', 'RU-AvantGardeDemi';
-        font-size: 37px;
-        line-height: 44px;
-    }
-    .en .typo-404-text {
-        font-family: 'EN-AvantGardeBook', 'RU-AvantGardeBook';
-        font-size: 26px;
-        line-height: 32px;
-    }
-
-    .ru .typo-404-title {
-        font-family: 'RU-AvantGardeDemi', 'EN-AvantGardeDemi';
-        font-size: 37px;
-        line-height: 44px;
-    }
-    .ru .typo-404-text {
-        font-family: 'RU-AvantGardeBook', 'EN-AvantGardeBook';
-        font-size: 26px;
-        line-height: 32px;
-    }
-
     .not-found {
         display: flex;
         align-items: center;

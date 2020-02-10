@@ -112,8 +112,4 @@
             margin: 3px 0 0 auto;
         }
     }
-
-    .language-list {
-        font-family: 'EN-AvantGardeBook', 'RU-AvantGardeBook', sans-serif;
-    }
 </style>
