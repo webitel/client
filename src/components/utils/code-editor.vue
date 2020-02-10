@@ -6,6 +6,9 @@
 </template>
 
 <script>
+    import {Monaco} from '../../utils/monacoSingleton';
+    const monaco = Monaco.getInstance();
+
     import {editor} from 'monaco-editor';
     //https://microsoft.github.io/monaco-editor/api/interfaces/monaco.editor.ieditorconstructionoptions.html
     const config = {
@@ -57,8 +60,6 @@
         },
 
         mounted() {
-            if (this.proposals) this.registerProposals();
-
             this.config.value = this.value || '[]';
             this.editor = editor.create(this.$refs.editor, config);
 
@@ -75,23 +76,6 @@
         },
 
         methods: {
-            registerProposals() {
-                monaco.languages.registerCompletionItemProvider('json', {
-                    provideCompletionItems: (model, position, context, token) => {
-                        const word = model.getWordUntilPosition(position);
-                        const range = {
-                            startLineNumber: position.lineNumber,
-                            startColumn: word.startColumn,
-                            endLineNumber: position.lineNumber,
-                            endColumn: word.endColumn,
-                        };
-                        return {
-                            suggestions: this.proposals(range),
-                        }
-                    }
-                });
-            },
-
             checkSyntaxError() {
                 const errors = editor.getModelMarkers();
                 this.$emit('errorListener', !!errors.length);
