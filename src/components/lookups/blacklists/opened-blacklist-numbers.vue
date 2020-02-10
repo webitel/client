@@ -29,7 +29,7 @@
                         :title="$t('iconHints.upload')"
                 >
                     <i
-                            class="icon-icon_upload"
+                            class="icon-icon_upload icon-action"
                     ></i>
                     <input
                             ref="file-input"

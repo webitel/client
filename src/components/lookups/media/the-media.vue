@@ -60,9 +60,7 @@
                         class="dz-custom-message"
                         :title="$t('iconHints.upload')"
                 >
-                    <i
-                            class="icon-icon_upload"
-                    ></i>
+                    <i class="icon-icon_upload"></i>
                     <div class="dz-message-text">
                         <span class="dz-message-text__accent">
                             {{$t('objects.lookups.media.dragPlaceholder')}}
@@ -110,7 +108,7 @@
                        @click="downloadFile(props.rowIndex)"
                     ></i>
                     <i class="vuetable-action icon-icon_play"
-                       :title="$t('iconHints.edit')"
+                       :title="$t('iconHints.play')"
                        @click="play(props.rowIndex)"
                     ></i>
                     <i class="vuetable-action icon-icon_delete"
