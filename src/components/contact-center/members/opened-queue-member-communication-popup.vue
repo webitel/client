@@ -7,7 +7,7 @@
             @close="$emit('close')"
             overflow
     >
-        <form>
+        <form class="object-input-grid">
             <form-input
                     v-model="destination"
                     :v="$v.itemInstance.destination"
