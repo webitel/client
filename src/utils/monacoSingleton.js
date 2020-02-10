@@ -810,7 +810,6 @@ export const Monaco = (() => {
     return {
         getInstance() {
             if(!instance) {
-                console.log('creating new instance...');
                 instance = createInstance();
                 registerCompletion(instance);
             }

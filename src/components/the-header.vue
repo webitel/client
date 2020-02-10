@@ -4,6 +4,7 @@
             <div
                     class="the-header__user-info-wrap"
                     @click="userActionsTriggerShow = !userActionsTriggerShow"
+                    v-clickaway="close"
             >
                 <img src="../assets/img/user.svg" alt="">
                 <span class="the-header__username">{{username}}</span>
@@ -14,13 +15,21 @@
                     v-show="userActionsTriggerShow"
             >
                 <ul class="the-header__user-actions">
+                    <li class="the-header__user-action-item the-header__user-action-item__docs">
+                        <i class="icon-icon_doc"></i>
+                        <span class="the-header__user-action-text" @click="openDocs">
+                            {{$t('header.docs')}}
+                        </span>
+                    </li>
                     <li class="the-header__user-action-item the-header__user-action-item__profile">
-                        <span @click="settings">
+                        <i class="icon-icon_settings"></i>
+                        <span class="the-header__user-action-text" @click="openSettings">
                             {{$t('settings.settings')}}
                         </span>
                     </li>
                     <li class="the-header__user-action-item the-header__user-action-item__logout">
-                        <span @click="logoutUser">
+                        <i class="icon-icon_logout"></i>
+                        <span class="the-header__user-action-text" @click="logoutUser">
                             {{$t('header.logout')}}
                         </span>
                     </li>
@@ -41,7 +50,7 @@
             userActionsTriggerShow: false,
         }),
 
-        // directives: {clickaway},
+        directives: {clickaway},
 
         computed: {
             ...mapState('userinfo', {
@@ -50,7 +59,16 @@
         },
 
         methods: {
-            settings() {
+            close() {
+                this.userActionsTriggerShow = false;
+            },
+
+            openDocs() {
+                this.userActionsTriggerShow = false;
+                window.open('https://docs.webitel.com', '_blank');
+            },
+
+            openSettings() {
                 this.userActionsTriggerShow = false;
                 this.$router.push('/settings');
             },
@@ -86,9 +104,11 @@
 
             .the-header__username {
                 @extend .typo-body-md;
+                margin: 0 15px 0 20px;
+            }
 
-                margin: 0 8px;
-                user-select: none;
+            .icon-icon_arrow-down:before {
+                color: #000;
             }
         }
 
@@ -99,27 +119,35 @@
             position: absolute;
             top: 20px; //icon height
             right: 0;
-            min-width: 120px;
-            padding: 13px 16px 19px;
+            left: 44px; // 0 + icon and icon margin
             margin-top: 8px; //margin to icon
             color: #000;
             background: #fff;
+            border-radius: $border-radius;
+            box-shadow: $box-shadow;
 
             .the-header__user-actions {
-                /*display: flex;*/
-                /*justify-content: space-A;*/
+
             }
 
             .the-header__user-action-item {
+                display: flex;
+                align-items: center;
+                padding: 11px 13px;
+                transition: $transition;
                 cursor: pointer;
 
-                &__profile {
-                    text-decoration: underline;
-                    margin-bottom: 8px;
+                .the-header__user-action-text {
+                    @extend .typo-body-sm;
+                    margin-left: 8px;
                 }
 
-                &__logout {
+                &__logout, .icon-icon_logout:before {
                     color: $false-color;
+                }
+
+                &:hover {
+                    background: $table-hover;
                 }
             }
         }
