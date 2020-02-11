@@ -1,14 +1,14 @@
 @import "./styleguide/typography";
 
 // PRIMARY COLORS:
-$sidebar-color: #171A2A;   // sidebar panel
-$header-color: #EAEAEA;       // header
-$content-bg-color: #FFF;    // content
+$sidebar-color: #171A2A; // sidebar panel
+$header-color: #EAEAEA; // header
+$content-bg-color: #FFF; // content
 
 // ACCENT COLORS:
-$nav-icon-color: rgba(255, 255, 255, 1);    //nav icon color
-$icon-color: rgba(0, 0, 0, 0.3);    //icon color
-$accent-color: #FFC107;       // links, icons, buttons
+$nav-icon-color: rgba(255, 255, 255, 1); //nav icon color
+$icon-color: rgba(0, 0, 0, 0.3); //icon color
+$accent-color: #FFC107; // links, icons, buttons
 
 // SEMANTIC COLORS:
 $true-color: #4CAF50;
@@ -43,6 +43,11 @@ ul {
   padding: 0;
   margin: 0;
   list-style-type: none;
+}
+
+iframe {
+  border: none;
+  outline: none;
 }
 
 i {

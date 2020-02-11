@@ -136,6 +136,7 @@
             },
 
             playing(value) {
+                value ? this.$emit('play') : this.$emit('pause');
                 return value ? this.audio.play() : this.audio.pause();
             },
 

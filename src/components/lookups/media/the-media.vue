@@ -103,17 +103,27 @@
                 </template>
 
                 <template slot="actions" slot-scope="props">
-                    <i class="vuetable-action icon-icon_download"
-                       :title="$t('iconHints.download')"
-                       @click="downloadFile(props.rowIndex)"
+                    <i
+                            class="vuetable-action icon-icon_download"
+                            :title="$t('iconHints.download')"
+                            @click="downloadFile(props.rowIndex)"
                     ></i>
-                    <i class="vuetable-action icon-icon_play"
-                       :title="$t('iconHints.play')"
-                       @click="play(props.rowIndex)"
-                    ></i>
-                    <i class="vuetable-action icon-icon_delete"
-                       :title="$t('iconHints.delete')"
-                       @click="remove(props.rowIndex)"
+                    <div class="vuetable-action iframe-wrap">
+                        <i
+                                class="icon-icon_play"
+                                v-show="props.rowIndex !== playingIndex || !currentlyPlaying"
+                                :title="$t('iconHints.play')"
+                                @click="play(props.rowIndex)"
+                        ></i>
+                        <iframe
+                                v-show="props.rowIndex === playingIndex && currentlyPlaying"
+                                :src="`${baseUrl}animations/equalizer/eq.html`"
+                        ></iframe>
+                    </div>
+                    <i
+                            class="vuetable-action icon-icon_delete"
+                            :title="$t('iconHints.delete')"
+                            @click="remove(props.rowIndex)"
                     ></i>
                 </template>
             </vuetable>
@@ -130,6 +140,8 @@
         <audio-player
                 v-show="playerTriggerShow"
                 :file="audioLink"
+                @play="currentlyPlaying = true"
+                @pause="currentlyPlaying = false"
                 @close="playerTriggerShow = false"
         ></audio-player>
     </div>
@@ -148,7 +160,6 @@
     import {mapActions, mapState} from "vuex";
     import {download} from "../../../utils/download";
 
-
     const token = localStorage.getItem('access-token');
     const BASE_URL = process.env.VUE_APP_API_URL;
 
@@ -162,12 +173,15 @@
         },
         data() {
             return {
+                baseUrl: process.env.BASE_URL, // to resolve iframe equalizer path after build
+
                 isLoadingFiles: false,
                 loadedCount: 0,
                 allLoadingCount: 0,
-                // audioLink: 'https://mn1.sunproxy.net/file/WjdlSU1UMjBsQWszeGtDSWdCcWxHUlVJQ3FQbVVzSkY3OHF6WENtbUl4clF4UnVxNjhxUWF0ajY3WGR5bEVUQlJSeXpSa1JEQjEzZzBmVlFUclFnZlZQTEdlVFdKS2wwSUszUHFsUlZ2cWM9/Pskovskoe_-_Post_punk_version_(mp3.mn).mp3',
                 audioLink: '',
                 playerTriggerShow: false,
+                playingIndex: null,
+                currentlyPlaying: true,
 
                 dropzoneOptions: {
                     url: `${BASE_URL}/storage/media?access_token=${token}`,
@@ -270,6 +284,7 @@
             async play(rowId) {
                 const id = this.dataList[rowId].id;
                 this.playerTriggerShow = true;
+                this.playingIndex = rowId;
                 this.audioLink = `${BASE_URL}/storage/media/${id}/stream?access_token=${token}`;
             },
 
