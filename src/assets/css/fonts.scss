@@ -40,7 +40,10 @@
   -moz-osx-font-smoothing: grayscale;
 }
 
-
+.icon-icon_draggable:before {
+  content: "\e91a";
+  color: #808080;
+}
 .icon-icon_stop:before {
   content: "\e90a";
   color: #808080;
@@ -67,14 +70,6 @@
 }
 .icon-icon_doc:before {
   content: "\e90d";
-  color: #808080;
-}
-.icon-icon_dialplan-arrow-down:before {
-  content: "\e90e";
-  color: #808080;
-}
-.icon-icon_dialplan-arrow-up:before {
-  content: "\e90f";
   color: #808080;
 }
 .icon-icon_reload:before {
