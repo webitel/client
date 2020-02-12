@@ -73,6 +73,8 @@ export const updateGateway = async (id, item) => {
         itemCopy.ipacl.forEach(acl => {
             if (!acl.port) delete acl.port
         });
+    } else {
+        itemCopy.account = itemCopy.accountName + '@' + (item.domain || item.registrar);
     }
 
     sanitizer(itemCopy, fieldsToSend);
