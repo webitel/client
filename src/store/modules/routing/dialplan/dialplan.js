@@ -97,23 +97,11 @@ const actions = {
         }
     },
 
-    MOVE_ROW_TOP: async (context, index) => {
-        console.log('top', index);
-        const fromId = state.dataList[index].id;
-        const toId = state.dataList[index - 1].id;
-        await context.commit('SWAP_ROWS', {fromId, toId});
-        try {
-            await moveDialplan(fromId, toId);
-        } catch {
-            context.dispatch('LOAD_DATA_LIST');
-        }
-    },
-
-    MOVE_ROW_BOTTOM: async (context, index) => {
-        console.log('bottom', index);
-        const fromId = state.dataList[index].id;
-        const toId = state.dataList[index + 1].id;
-        await context.commit('SWAP_ROWS', {fromId, toId});
+    SWAP_ROWS: async (context, {fromId, toId}) => {
+        // on-frontend swap commented
+        // because sortable reinitialization triggers on each dataList change
+        // but UI changes anyway
+        // await context.commit('SWAP_ROWS', {fromId, toId});
         try {
             await moveDialplan(fromId, toId);
         } catch {

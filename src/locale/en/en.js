@@ -608,6 +608,7 @@ export default {
         history: 'History',
         download: 'Download',
         downloadAll: 'Download all',
+        draggable: 'Draggable',
         play: 'Play',
         pause: 'Pause',
         resume: 'Resume',

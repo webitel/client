@@ -40,7 +40,10 @@
   -moz-osx-font-smoothing: grayscale;
 }
 
-
+.icon-icon_draggable:before {
+  content: "\e91a";
+  color: #808080;
+}
 .icon-icon_stop:before {
   content: "\e90a";
   color: #808080;
