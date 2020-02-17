@@ -56,22 +56,23 @@
                     control. Users can make changes only to sections, as well as to actions.
                 </p>
             </article>
-            <aside class="dashboard-rss">
-                <h3 class="dashboard-rss__title">{{rssTitle}}</h3>
-                <ul class="dashboard-rss__list">
+            <aside class="dashboard-news">
+                <h3 class="dashboard-news__title">{{$t('home.news')}}</h3>
+                <ul class="dashboard-news__list">
                     <li
-                            class="dashboard-rss__list-item"
-                            v-for="(item, key) of rssFeed"
+                            class="dashboard-news__list-item"
+                            v-for="(item, key) of newsFeed"
                             :key="key"
                     >
-                        {{item.title}}:
-                        <a
-                                class="dashboard-rss__list-item-link"
-                                :href="item.link"
-                                target="_blank"
-                        >
-                            {{$t('home.rssLink')}}
-                        </a>
+                        <header class="dashboard-news__item-header">
+                            <a
+                                    class="dashboard-news__item-title-link"
+                                    :href="item.link"
+                                    target="_blank"
+                            >{{item.title}}</a>
+                            <span class="dashboard-news__item-date">{{item.date}}</span>
+                        </header>
+                        <p class="dashboard-news__item-text">{{item.text}}</p>
                     </li>
                 </ul>
             </aside>
@@ -80,13 +81,10 @@
 </template>
 
 <script>
-    import RSSParser from 'rss-parser';
     import ObjectHeader from '../object-utils/the-object-header';
     import DoughnutChart from './charts/doughnut-chart';
     import BarChart from './charts/bar-chart';
-
-    const parser = new RSSParser();
-    const CORS_PROXY = "https://cors-anywhere.herokuapp.com/";
+    import {getNews} from "../../api/dashboard/dashboard";
 
     const userStatusData = {
         labels: ['Ready', 'Idle', 'DnD', 'Offline', 'Dialing',],
@@ -181,21 +179,21 @@
             gatewayStatusData,
             gatewayStatusOptions,
 
-            rssTitle: 'NEWS',
-            rssFeed: [],
+            newsFeed: []
         }),
 
         mounted() {
-            this.loadRSS();
+            this.loadNews();
         },
 
         methods: {
-            loadRSS() {
-                parser.parseURL(CORS_PROXY + 'https://www.reddit.com/.rss', (err, feed) => {
-                    if (err) throw err;
-                    // this.rssTitle = feed.title;
-                    this.rssFeed = [...feed.items];
-                });
+            async loadNews() {
+                const lang = localStorage.getItem('lang') || 'en';
+                const news = await getNews(lang);
+                this.newsFeed = news.map(item => ({
+                    ...item,
+                    title: item.title || 'Webitel Telegram',
+                }));
             }
         }
     };
@@ -233,19 +231,19 @@
             border-radius: $border-radius;
         }
 
-        .dashboard-rss {
+        .dashboard-news {
             position: relative;
             min-height: 400px;
             padding: 32px 41px;
             background: #fff;
             border-radius: $border-radius;
 
-            .dashboard-rss__title {
+            .dashboard-news__title {
                 @extend .typo-heading-md;
                 margin: 0 0 28px;
             }
 
-            .dashboard-rss__list {
+            .dashboard-news__list {
                 @extend .typo-body-md;
                 position: absolute;
                 top: calc(32px + 22px + 28px); // top padding + h3 line height + h3 margin-bottom
@@ -270,10 +268,26 @@
                 }
 
                 &-item {
-                    margin-bottom: 14px;
+                    margin-bottom: 44px;
+                    
+                   .dashboard-news__item-title-link {
+                       @extend .typo-heading-sm;
+                       margin-right: 10px;
+                       text-decoration: none;
+                       color: #000;
 
-                    &-link {
-                        color: #000;
+                       &:hover {
+                           text-decoration: underline;
+                           cursor: pointer;
+                       }
+                   }
+
+                    .dashboard-news__item-date {
+                        color: $icon-color;
+                    }
+
+                    .dashboard-news__item-text {
+                        margin: 18px 0 0;
                     }
                 }
             }
