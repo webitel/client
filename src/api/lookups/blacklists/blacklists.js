@@ -6,6 +6,12 @@ import eventBus from "../../../utils/eventBus";
 import {coerceObjectPermissionsResponse} from "../../permissions/objects/objects";
 import deepCopy from 'deep-copy';
 import store from '../../../store/store';
+import {
+    WebitelSDKItemCreator, WebitelSDKItemDeleter,
+    WebitelSDKItemGetter,
+    WebitelSDKItemUpdater,
+    WebitelSDKListGetter
+} from "../../utils/apiControllers";
 
 const listService = new ListServiceApiFactory
 (configuration, '', instance);
@@ -13,73 +19,42 @@ const listService = new ListServiceApiFactory
 const BASE_URL = '/call_center/list';
 const fieldsToSend = ['domainId', 'name', 'description'];
 
-export const getBlacklistList = async (page, size, search) => {
-    const domainId = store.state.userinfo.domainId || undefined;
-    if(search && search.slice(-1) !== '*') search += '*';
-    const defaultObject = {
-        name: '',
-        _isSelected: false,
-    };
+const defaultItemObject = {
+    _dirty: false,
+};
+const defaultListObject = {
+    name: '',
+    _isSelected: false,
+};
 
-    try {
-        const response = await listService.searchList(page, size, search, domainId);
-        if (response.items) {
-            return response.items.map(item => {
-                return {...defaultObject, ...item};
-            });
-        }
-        return [];
-    } catch (err) {
-        throw err;
-    }
+const listGetter = new WebitelSDKListGetter(listService.searchList, defaultListObject);
+
+const itemGetter = new WebitelSDKItemGetter(listService.readList, defaultItemObject);
+
+const itemCreator = new WebitelSDKItemCreator(listService.createList, fieldsToSend);
+
+const itemUpdater = new WebitelSDKItemUpdater(listService.updateList, fieldsToSend);
+
+const itemDeleter = new WebitelSDKItemDeleter(listService.deleteList);
+
+export const getBlacklistList = async (page, size, search) => {
+    return await listGetter.getList({page, size, search});
 };
 
 export const getBlacklist = async (id) => {
-    const domainId = store.state.userinfo.domainId || undefined;
-    const defaultObject = {
-        _dirty: false,
-    };
-
-    try {
-        const response = await listService.readList(id, domainId);
-        return {...defaultObject, ...response};
-    } catch (err) {
-        throw err;
-    }
+    return await itemGetter.getItem(id);
 };
 
 export const addBlacklist = async (item) => {
-    let itemCopy = deepCopy(item);
-    itemCopy.domainId = store.state.userinfo.domainId || undefined;
-    sanitizer(itemCopy, fieldsToSend);
-    try {
-        const response = await listService.createList(itemCopy);
-        eventBus.$emit('notificationInfo', 'Sucessfully added');
-        return response.id;
-    } catch (err) {
-        throw err;
-    }
+    return await itemCreator.createItem(item);
 };
 
 export const updateBlacklist = async (id, item) => {
-    let itemCopy = deepCopy(item);
-    itemCopy.domainId = store.state.userinfo.domainId || undefined;
-    sanitizer(itemCopy, fieldsToSend);
-    try {
-        await listService.updateList(id, itemCopy);
-        eventBus.$emit('notificationInfo', 'Sucessfully updated');
-    } catch (err) {
-        throw err;
-    }
+    return await itemUpdater.updateItem(id, item);
 };
 
 export const deleteBlacklist = async (id) => {
-    const domainId = store.state.userinfo.domainId || undefined;
-    try {
-        await listService.deleteList(id, domainId);
-    } catch (err) {
-        throw err;
-    }
+    return await itemDeleter.deleteItem(id);
 };
 
 export const getBlacklistPermissions = async (id, page = 0, size = 10, search) => {

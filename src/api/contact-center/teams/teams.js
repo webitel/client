@@ -6,6 +6,12 @@ import eventBus from "../../../utils/eventBus";
 import {coerceObjectPermissionsResponse} from "../../permissions/objects/objects";
 import deepCopy from 'deep-copy';
 import store from '../../../store/store';
+import {
+    WebitelSDKItemCreator, WebitelSDKItemDeleter,
+    WebitelSDKItemGetter,
+    WebitelSDKItemUpdater,
+    WebitelSDKListGetter
+} from "../../utils/apiControllers";
 
 const teamService = new AgentTeamServiceApiFactory
 (configuration, '', instance);
@@ -23,80 +29,59 @@ export const strategiesList = {
     'longest-idle-time': 'Longest idle Agent',
 };
 
-export const getTeamsList = async (page = 0, size = 10, search) => {
-    const domainId = store.state.userinfo.domainId || undefined;
-    if(search && search.slice(-1) !== '*') search += '*';
-    const defaultObject = {
-        _isSelected: false,
-        name: '',
-    };
-
-    try {
-        const response = await teamService.searchAgentTeam(page, size, search, domainId);
-        if (response.items) {
-            return response.items.map(item => {
-                return {...defaultObject, ...item};
-            });
-        }
-        return [];
-    } catch (err) {
-        throw err;
-    }
+const defaultListObject = {
+    _isSelected: false,
+    name: '',
 };
 
-export const getTeam = async (id) => {
-    const domainId = store.state.userinfo.domainId || undefined;
-    const defaultObject = {
-        name: '',
-        id: 0,
-        _dirty: false,
-    };
+const defaultItemObject = {
+    name: '',
+    id: 0,
+    _dirty: false,
+};
+
+const listGetter = new WebitelSDKListGetter(teamService.searchAgentTeam, defaultListObject);
+const itemGetter = new WebitelSDKItemGetter(teamService.readAgentTeam, defaultItemObject);
+const itemCreator = new WebitelSDKItemCreator(teamService.createAgentTeam, fieldsToSend);
+const itemUpdater = new WebitelSDKItemUpdater(teamService.updateAgentTeam, fieldsToSend);
+const itemDeleter = new WebitelSDKItemDeleter(teamService.deleteAgentTeam);
+
+itemGetter.responseHandler = (response) => {
     try {
-        let response = await teamService.readAgentTeam(id, domainId);
         response.strategy = {
             name: strategiesList[response.strategy],
             value: response.strategy,
         };
-        return {...defaultObject, ...response};
+        return {...defaultItemObject, ...response};
     } catch (err) {
         throw err;
     }
 };
 
+export const getTeamsList = async (page = 0, size = 10, search) => {
+    return await listGetter.getList({page, size, search});
+};
+
+export const getTeam = async (id) => {
+    return await itemGetter.getItem(id);
+};
+
 export const addTeam = async (item) => {
     let itemCopy = deepCopy(item);
-    itemCopy.domainId = store.state.userinfo.domainId || undefined;
+    itemCopy.domainId = store.state.userinfo.domainId;
     itemCopy.strategy = itemCopy.strategy.value;
-    sanitizer(itemCopy, fieldsToSend);
-    try {
-        const response = await teamService.createAgentTeam(itemCopy);
-        eventBus.$emit('notificationInfo', 'Sucessfully added');
-        return response.id;
-    } catch (err) {
-        throw err;
-    }
+    return await itemCreator.createItem(itemCopy);
 };
 
 export const updateTeam = async (id, item) => {
     let itemCopy = deepCopy(item);
     itemCopy.domainId = store.state.userinfo.domainId || undefined;
     itemCopy.strategy = itemCopy.strategy.value;
-    sanitizer(itemCopy, fieldsToSend);
-    try {
-        await teamService.updateAgentTeam(id, itemCopy);
-        eventBus.$emit('notificationInfo', 'Sucessfully updated');
-    } catch (err) {
-        throw err;
-    }
+    return await itemUpdater.updateItem(id, itemCopy);
 };
 
 export const deleteTeam = async (id) => {
-    const domainId = store.state.userinfo.domainId || undefined;
-    try {
-        await teamService.deleteAgentTeam(id, domainId);
-    } catch (err) {
-        throw err;
-    }
+    return await itemDeleter.deleteItem(id);
 };
 
 export const getTeamPermissions = async (id, page = 0, size = 10, search) => {

@@ -6,6 +6,12 @@ import eventBus from "../../../utils/eventBus";
 import {coerceObjectPermissionsResponse} from "../../permissions/objects/objects";
 import deepCopy from 'deep-copy';
 import store from '../../../store/store';
+import {
+    WebitelSDKItemCreator, WebitelSDKItemDeleter,
+    WebitelSDKItemGetter,
+    WebitelSDKItemUpdater,
+    WebitelSDKListGetter
+} from "../../utils/apiControllers";
 
 const queueService = new QueueServiceApiFactory
 (configuration, '', instance);
@@ -22,50 +28,38 @@ export const strategiesList = {
     'by-skills': 'By skills',
 };
 
-export const getQueuesList = async (page = 0, size = 10, search) => {
-    const domainId = store.state.userinfo.domainId || undefined;
-    const defaultObject = {
-        type: 0,
-        enabled: false,
-        activeCalls: 'undefined',
-        waiting: 'undefined',
-        priority: '0',
-        _isSelected: false,
-    };
-    if (search && search.slice(-1) !== '*') search += '*';
-
-    try {
-        const response = await queueService.searchQueue(page, size, search, domainId);
-        if (response.items) {
-            return response.items.map(item => {
-                return {...defaultObject, ...item};
-            });
-        }
-        return []
-    } catch (err) {
-        throw err;
-    }
+const defaultListObject = {
+    type: 0,
+    enabled: false,
+    activeCalls: 'undefined',
+    waiting: 'undefined',
+    priority: '0',
+    _isSelected: false,
 };
 
-export const getQueue = async (id) => {
-    const domainId = store.state.userinfo.domainId || undefined;
-    const defaultObject = {
-        name: '',
-        id: 0,
-        payload: {},
-        calendar: {},
-        priority: '0',
-        dncList: {}, // blacklist
-        schema: {},
-        team: {},
-        strategy: {},
-        description: 'DESCRIPTION',
-        variables: [{key: '', value: ''}],
-        _dirty: false,
-    };
+const defaultItemObject = {
+    name: '',
+    id: 0,
+    payload: {},
+    calendar: {},
+    priority: '0',
+    dncList: {}, // blacklist
+    schema: {},
+    team: {},
+    strategy: {},
+    description: 'DESCRIPTION',
+    variables: [{key: '', value: ''}],
+    _dirty: false,
+};
 
+const listGetter = new WebitelSDKListGetter(queueService.searchQueue, defaultListObject);
+const itemGetter = new WebitelSDKItemGetter(queueService.readQueue, defaultItemObject);
+const itemCreator = new WebitelSDKItemCreator(queueService.createQueue, fieldsToSend);
+const itemUpdater = new WebitelSDKItemUpdater(queueService.updateQueue, fieldsToSend);
+const itemDeleter = new WebitelSDKItemDeleter(queueService.deleteQueue);
+
+itemGetter.responseHandler = (response) => {
     try {
-        let response = await queueService.readQueue(id, domainId);
         if (response.variables) {
             response.variables = Object.keys(response.variables).map(key => {
                 return {key, value: response.variables[key]}
@@ -76,28 +70,29 @@ export const getQueue = async (id) => {
             name: strategiesList[response.strategy],
             value: response.strategy,
         };
-        return {...defaultObject, ...response};
+        return {...defaultItemObject, ...response};
     } catch (err) {
         throw err;
     }
+};
+
+export const getQueuesList = async (page = 0, size = 10, search) => {
+    return await listGetter.getList({page, size, search});
+};
+
+export const getQueue = async (id) => {
+    return await itemGetter.getItem(id);
 };
 
 export const addQueue = async (item) => {
     let itemCopy = deepCopy(item);
     itemCopy.domainId = store.state.userinfo.domainId || undefined;
     if(itemCopy.strategy) itemCopy.strategy = itemCopy.strategy.value;
-    sanitizer(itemCopy, fieldsToSend);
     itemCopy.variables = {};
     item.variables.forEach(variable => {
         itemCopy.variables[variable.key] = variable.value;
     });
-    try {
-        const response = await queueService.createQueue(itemCopy);
-        eventBus.$emit('notificationInfo', 'Sucessfully added');
-        return response.id;
-    } catch (err) {
-        throw err;
-    }
+    return await itemCreator.createItem(itemCopy);
 };
 
 export const patchQueue = async (id, item) => {
@@ -115,26 +110,15 @@ export const updateQueue = async (id, item) => {
     let itemCopy = deepCopy(item);
     itemCopy.domainId = store.state.userinfo.domainId || undefined;
     itemCopy.strategy = itemCopy.strategy.value;
-    sanitizer(itemCopy, fieldsToSend);
     itemCopy.variables = {};
     item.variables.forEach(variable => {
         itemCopy.variables[variable.key] = variable.value;
     });
-    try {
-        await queueService.updateQueue(id, itemCopy);
-        eventBus.$emit('notificationInfo', 'Sucessfully updated');
-    } catch (err) {
-        throw err;
-    }
+    return await itemUpdater.updateItem(id, itemCopy);
 };
 
 export const deleteQueue = async (id) => {
-    const domainId = store.state.userinfo.domainId || undefined;
-    try {
-        await queueService.deleteQueue(id, domainId);
-    } catch (err) {
-        throw err;
-    }
+    return await itemDeleter.deleteItem(id);
 };
 
 export const getQueuePermissions = async (id, page = 0, size = 10, search) => {

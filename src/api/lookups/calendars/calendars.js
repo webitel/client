@@ -6,6 +6,12 @@ import {coerceObjectPermissionsResponse} from "../../permissions/objects/objects
 import eventBus from "../../../utils/eventBus";
 import deepCopy from 'deep-copy';
 import store from '../../../store/store';
+import {
+    WebitelSDKItemCreator, WebitelSDKItemDeleter,
+    WebitelSDKItemGetter,
+    WebitelSDKItemUpdater,
+    WebitelSDKListGetter
+} from "../../utils/apiControllers";
 
 const calendarService = new CalendarServiceApiFactory
 (configuration, '', instance);
@@ -14,70 +20,62 @@ const BASE_URL = '/calendars';
 const fieldsToSend = ['domainId', 'name', 'description', 'timezone', 'startAt', 'endAt', 'day',
     'accepts', 'excepts', 'startTimeOfDay', 'endTimeOfDay', 'disabled', 'date', 'repeat'];
 
-export const getCalendarList = async (page = 0, size = 10, search) => {
-    const domainId = store.state.userinfo.domainId || undefined;
-    if (search && search.slice(-1) !== '*') search += '*';
-    const defaultObject = {
-        _isSelected: false,
-    };
+const listGetter = new WebitelSDKListGetter(calendarService.searchCalendar);
+const itemGetter = new WebitelSDKItemGetter(calendarService.readCalendar);
+const timezoneGetter = new WebitelSDKListGetter(calendarService.searchTimezones);
+const itemCreator = new WebitelSDKItemCreator(calendarService.createCalendar, fieldsToSend);
+const itemUpdater = new WebitelSDKItemUpdater(calendarService.updateCalendar, fieldsToSend);
+const itemDeleter = new WebitelSDKItemDeleter(calendarService.deleteCalendar);
 
-    try {
-        const response = await calendarService.searchCalendar(page, size, search, domainId);
-        if (response.items) {
-            return response.items.map(item => {
-                return {...defaultObject, ...item};
-            });
+itemGetter.responseHandler = (response) => {
+    const defaultObject = {
+        name: '',
+        timezone: {},
+        description: '',
+        startAt: Date.now(),
+        endAt: Date.now(),
+        expires: !!(response.startAt || response.endAt),
+        accepts: [],
+        excepts: [],
+        _dirty: false,
+    };
+    response.accepts = response.accepts.map(accept => {
+        return {
+            day: accept.day || 0,
+            disabled: accept.disabled || false,
+            start: accept.startTimeOfDay || 0,
+            end: accept.endTimeOfDay || 0
         }
-        return [];
-    } catch (err) {
-        throw err;
+    });
+    return {...defaultObject, ...response};
+};
+
+timezoneGetter.responseHandler = (response) => {
+    if (response.items) {
+        return {
+            list: response.items,
+            next: response.next || false,
+        };
     }
+    return [];
+};
+
+export const getCalendarList = async (page = 0, size = 10, search) => {
+    return await listGetter.getList({page, size, search});
 };
 
 export const getCalendar = async (id) => {
-    const domainId = store.state.userinfo.domainId || undefined;
-
-    try {
-        let response = await calendarService.readCalendar(id, domainId);
-        const defaultObject = {
-            name: '',
-            timezone: {},
-            description: '',
-            startAt: Date.now(),
-            endAt: Date.now(),
-            expires: !!(response.startAt || response.endAt),
-            accepts: [],
-            excepts: [],
-            _dirty: false,
-        };
-        response.accepts = response.accepts.map(accept => {
-            return {
-                day: accept.day || 0,
-                disabled: accept.disabled || false,
-                start: accept.startTimeOfDay || 0,
-                end: accept.endTimeOfDay || 0
-            }
-        });
-        return {...defaultObject, ...response};
-    } catch (err) {
-        throw err;
-    }
+    return await itemGetter.getItem(id);
 };
 
 export const getCalendarTimezones = async (page = 0, size = 20, search) => {
-    if (search && search.slice(-1) !== '*') search += '*';
-    if (search && search.slice(0) !== '*') search = '*' + search;
-    try {
-        const response = await calendarService.searchTimezones(page, size, search);
-        return response.items;
-    } catch (err) {
-        throw err;
-    }
+    let response = await timezoneGetter.getList({page, size, search});
+    return response.list;
 };
 
 export const addCalendar = async (item) => {
     let itemCopy = deepCopy(item);
-    itemCopy.domainId = store.state.userinfo.domainId || undefined;
+    itemCopy.domainId = store.state.userinfo.domainId;
     delete itemCopy.timezone.offset;
     if (!itemCopy.expires) {
         delete itemCopy.startAt;
@@ -92,18 +90,13 @@ export const addCalendar = async (item) => {
             endTimeOfDay: accept.end
         }
     });
-    sanitizer(itemCopy, fieldsToSend);
-    try {
-        const response = await calendarService.createCalendar(itemCopy);
-        return response.id;
-    } catch (err) {
-        throw err;
-    }
+    return await itemCreator.createItem(itemCopy);
 };
+
 
 export const updateCalendar = async (itemId, item) => {
     let itemCopy = deepCopy(item);
-    itemCopy.domainId = store.state.userinfo.domainId || undefined;
+    itemCopy.domainId = store.state.userinfo.domainId;
     delete itemCopy.timezone.offset;
     if (!itemCopy.expires) {
         delete itemCopy.startAt;
@@ -118,21 +111,11 @@ export const updateCalendar = async (itemId, item) => {
             endTimeOfDay: accept.end
         }
     });
-    sanitizer(itemCopy, fieldsToSend);
-    try {
-        await calendarService.updateCalendar(itemId, itemCopy);
-    } catch (err) {
-        throw err;
-    }
+    return await itemUpdater.updateItem(itemId, itemCopy);
 };
 
 export const deleteCalendar = async (id) => {
-    const domainId = store.state.userinfo.domainId || undefined;
-    try {
-        await calendarService.deleteCalendar(id, domainId);
-    } catch (err) {
-        throw err;
-    }
+    return await itemDeleter.deleteItem(id);
 };
 
 export const getCalendarPermissions = async (id, page = 0, size = 10, search) => {

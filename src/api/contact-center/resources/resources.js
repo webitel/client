@@ -6,6 +6,12 @@ import eventBus from "../../../utils/eventBus";
 import {coerceObjectPermissionsResponse} from "../../permissions/objects/objects";
 import store from "../../../store/store";
 import deepCopy from "deep-copy";
+import {
+    WebitelSDKItemCreator, WebitelSDKItemDeleter,
+    WebitelSDKItemGetter, WebitelSDKItemPatcher,
+    WebitelSDKItemUpdater,
+    WebitelSDKListGetter
+} from "../../utils/apiControllers";
 
 const resService = new OutboundResourceServiceApiFactory
 (configuration, '', instance);
@@ -15,56 +21,53 @@ const fieldsToSend = ['domainId', 'limit', 'enabled',
     'rps', 'reserve', 'maxSuccessivelyErrors',
     'name', 'errorIds', 'display', 'resourceId', 'gateway'];
 
-export const getResourceList = async (page, size = 10, search) => {
-    const domainId = store.state.userinfo.domainId || undefined;
-    const defaultObject = {
-        _isSelected: false,
-        name: '',
-        gateway: null,
-        enabled: false,
-        reserve: false,
-        id: 0,
-    };
-    if (search && search.slice(-1) !== '*') search += '*';
-
-    try {
-        const response = await resService.searchOutboundResource(page, size, search, domainId);
-        if (response.items) {
-            return response.items.map(item => {
-                return {...defaultObject, ...item};
-            });
-        }
-        return [];
-    } catch (err) {
-        throw err;
-    }
+const defaultListObject = {
+    _isSelected: false,
+    name: '',
+    gateway: null,
+    enabled: false,
+    reserve: false,
+    id: 0,
 };
 
-export const getResource = async (id) => {
-    const domainId = store.state.userinfo.domainId || undefined;
-    const defaultObject = {
-        name: '',
-        gateway: {},
-        cps: 0,
-        limit: 0,
-        description: '',
-        maxErrors: 0,
-        errorIds: [],
-        id: 0,
-        _dirty: false,
-    };
+const defaultItemObject = {
+    name: '',
+    gateway: {},
+    cps: 0,
+    limit: 0,
+    description: '',
+    maxErrors: 0,
+    errorIds: [],
+    id: 0,
+    _dirty: false,
+};
 
+const listGetter = new WebitelSDKListGetter(resService.searchOutboundResource, defaultListObject);
+const itemGetter = new WebitelSDKItemGetter(resService.readOutboundResource, defaultItemObject);
+const itemCreator = new WebitelSDKItemCreator(resService.createOutboundResource, fieldsToSend);
+const itemUpdater = new WebitelSDKItemUpdater(resService.updateOutboundResource, fieldsToSend);
+const itemPatcher = new WebitelSDKItemPatcher(resService.patchOutboundResource, fieldsToSend);
+const itemDeleter = new WebitelSDKItemDeleter(resService.deleteOutboundResource);
+
+itemGetter.responseHandler = (response) => {
     try {
-        const response = await resService.readOutboundResource(id, domainId);
         response.maxErrors = response.maxSuccessivelyErrors;
         response.cps = response.rps;
         response.errorIds = response.errorIds.map(item => {
             return {name: item}
         });
-        return {...defaultObject, ...response};
+        return {...defaultItemObject, ...response};
     } catch (err) {
         throw err;
     }
+};
+
+export const getResourceList = async (page, size = 10, search) => {
+    return await listGetter.getList({page, size, search});
+};
+
+export const getResource = async (id) => {
+    return await itemGetter.getItem(id);
 };
 
 export const addResource = async (item) => {
@@ -73,14 +76,7 @@ export const addResource = async (item) => {
     itemCopy.errorIds = itemCopy.errorIds.map(item => item.name || item.text);
     itemCopy.maxSuccessivelyErrors = item.maxErrors;
     itemCopy.rps = item.cps;
-    sanitizer(itemCopy, fieldsToSend);
-    try {
-        const response = await resService.createOutboundResource(itemCopy);
-        eventBus.$emit('notificationInfo', 'Sucessfully added');
-        return response.id;
-    } catch (err) {
-        throw err;
-    }
+    return await itemCreator.createItem(itemCopy);
 };
 
 export const updateResource = async (id, item) => {
@@ -89,33 +85,15 @@ export const updateResource = async (id, item) => {
     itemCopy.errorIds = itemCopy.errorIds.map(item => item.name || item.text);
     itemCopy.maxSuccessivelyErrors = item.maxErrors;
     itemCopy.rps = item.cps;
-    sanitizer(itemCopy, fieldsToSend);
-    try {
-        await resService.updateOutboundResource(id, itemCopy);
-        eventBus.$emit('notificationInfo', 'Sucessfully updated');
-    } catch (err) {
-        throw err;
-    }
+    return await itemUpdater.updateItem(id, itemCopy);
 };
 
 export const patchResource = async (id, item) => {
-    let itemCopy = deepCopy(item);
-    itemCopy.domainId = store.state.userinfo.domainId || undefined;
-    try {
-        await resService.patchOutboundResource(id, itemCopy);
-        eventBus.$emit('notificationInfo', 'Sucessfully updated');
-    } catch (err) {
-        throw err;
-    }
+    return await itemPatcher.patchItem(id, item);
 };
 
 export const deleteResource = async (id) => {
-    const domainId = store.state.userinfo.domainId || undefined;
-    try {
-        await resService.deleteOutboundResource(id, domainId);
-    } catch (err) {
-        throw err;
-    }
+    return await itemDeleter.deleteItem(id);
 };
 
 export const getResPermissions = async (id, page = 0, size = 10, search) => {

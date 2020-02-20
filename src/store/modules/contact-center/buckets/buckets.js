@@ -32,9 +32,7 @@ const actions = {
     },
 
     GET_ITEM: async () => {
-        console.log('get');
         return await getBucket(state.itemId);
-        console.log(' after get');
     },
 
     POST_ITEM: async () => {
@@ -56,7 +54,7 @@ const actions = {
     LOAD_DATA_LIST: async (context) => {
         const response = await context.dispatch('GET_LIST');
         context.dispatch('RESET_ITEM_STATE');
-        context.commit('SET_DATA_LIST', response);
+        context.commit('SET_DATA_LIST', response.list);
     },
 
     SET_SIZE: (context, size) => {

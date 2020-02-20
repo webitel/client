@@ -24,8 +24,8 @@
 
 <script>
     import openedTabComponentMixin from '@/mixins/openedTabComponentMixin';
-    import {getUsersList} from "../../../api/directory/users/users";
     import {mapActions} from "vuex";
+    import {getAgentUsersOptions} from "../../../api/contact-center/agents/agents";
 
     export default {
         name: "opened-agent-general",
@@ -48,7 +48,7 @@
 
         methods: {
             async loadDropdownOptionsList(search) {
-                const response = await getUsersList(0, 10, search);
+                const response = await getAgentUsersOptions(0, 10, search);
                 this.dropdownOptionsList = response.map(item => {
                     return {
                         name: item.name,

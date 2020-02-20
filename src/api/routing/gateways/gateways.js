@@ -2,71 +2,60 @@ import instance from '../../instance';
 import sanitizer from "../../utils/sanitizer";
 import eventBus from "../../../utils/eventBus";
 import deepCopy from 'deep-copy';
+import {
+    WebitelAPIItemCreator, WebitelAPIItemDeleter,
+    WebitelAPIItemGetter,
+    WebitelAPIItemUpdater,
+    WebitelAPIListGetter
+} from "../../utils/apiControllers";
 
 const BASE_URL = '/sip/gateways';
 const fieldsToSend = ['name', 'proxy', 'id', 'host', 'ipacl', 'account', 'account', 'username', 'expires',
     'account', 'registrar', 'register', 'password', 'schema', 'enable'];
 
-export async function getGatewayList(page = 0, size = 10, search) {
-    const defaultObject = {  // default object prototype, to merge response with it to get all fields
-        _isSelected: false,
-        name: '',
-        proxy: '',
-        enable: false,
-        id: 0
-    };
+const defaultListItem = {  // default object prototype, to merge response with it to get all fields
+    _isSelected: false,
+    name: '',
+    proxy: '',
+    enable: false,
+    id: 0
+};
 
-    // let url = `${BASE_URL}?page=${page}size=${size}`;
-    let url = `${BASE_URL}?size=${size}`;
-    if (search) url += `&name=${search}*`;
+const listGetter = new WebitelAPIListGetter(BASE_URL, defaultListItem);
+const itemGetter = new WebitelAPIItemGetter(BASE_URL);
+const itemCreator = new WebitelAPIItemCreator(BASE_URL, fieldsToSend);
+const itemUpdater = new WebitelAPIItemUpdater(BASE_URL, fieldsToSend);
+const itemDeleter = new WebitelAPIItemDeleter(BASE_URL);
 
-    try {
-        let response = await instance.get(url);
-        if (response.items) {
-            return response.items.map(item => {
-                return {...defaultObject, ...item};
-            });
-        }
-        return [];
-    } catch (error) {
-        throw error;
+itemGetter.responseHandler = (response) => {
+    if (response.item.register) {
+        return coerceRegisterResponse(response);
+    } else {
+        return coerceTrunkingResponse(response);
     }
 };
 
-export async function getGateway(id) {
-    const url = BASE_URL + '/' + id;
+export async function getGatewayList(page = 0, size = 10, search) {
+    return await listGetter.getList({page, size, search});
+};
 
-    try {
-        let response = await instance.get(url);
-        if (response.item.register) {
-            return coerceRegisterResponse(response);
-        } else {
-            return coerceTrunkingResponse(response);
-        }
-    } catch (error) {
-        throw error;
-    }
+export async function getGateway(id) {
+    return await itemGetter.getItem(id);
 };
 
 export const addGateway = async (item) => {
     let itemCopy = deepCopy(item);
-    if (itemCopy.register) itemCopy.account = itemCopy.accountName + '@' + (item.domain || item.registrar);
-    sanitizer(itemCopy, fieldsToSend);
+    if (itemCopy.register)
+    {
+        itemCopy.account = itemCopy.accountName + '@' + (item.domain || item.registrar);
+    }
     Object.keys(itemCopy).forEach(key => {
         if (!itemCopy[key]) delete itemCopy[key];
     });
-
-    try {
-        const response = await instance.post(BASE_URL, {item: itemCopy});
-        eventBus.$emit('notificationInfo', 'Sucessfully added');
-        return response.id;
-    } catch (err) {
-        throw err;
-    }
+    return await itemCreator.createItem(itemCopy);
 };
 
 export const updateGateway = async (id, item) => {
-    const url = BASE_URL + '/' + id;
     let itemCopy = deepCopy(item);
 
     if (!itemCopy.register) {
@@ -76,26 +65,11 @@ export const updateGateway = async (id, item) => {
     } else {
         itemCopy.account = itemCopy.accountName + '@' + (item.domain || item.registrar);
     }
-
-    sanitizer(itemCopy, fieldsToSend);
-
-    try {
-        const response = await instance.put(url, {changes: itemCopy});
-        eventBus.$emit('notificationInfo', 'Sucessfully updated');
-        return response.id;
-    } catch (err) {
-        throw err;
-    }
+    return await itemUpdater.updateItem(id, itemCopy);
 };
 
 export const deleteGateway = async (id) => {
-    const url = BASE_URL + '/' + id;
-
-    try {
-        await instance.delete(url);
-    } catch (err) {
-        throw err;
-    }
+    return await itemDeleter.deleteItem(id);
 };
 
 const coerceTrunkingResponse = (response) => {

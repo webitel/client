@@ -19,7 +19,7 @@ export const getAgentSkillsList = async (agentId, page = 0, size = 10, search) =
     };
 
     try {
-        const response = await agentSkillService.searchAgentSkill(agentId, page, size, domainId);
+        const response = await agentSkillService.searchAgentSkill(agentId, page, size, search, domainId);
         if (response.items) {
             return response.items.map(item => {
                 return {...defaultObject, ...item};

@@ -1,81 +1,71 @@
 import instance from '../../instance';
 import configuration from '../../openAPIConfig';
-import {AgentServiceApiFactory} from 'webitel-sdk';
+import {AgentServiceApiFactory, AgentSkillServiceApiFactory} from 'webitel-sdk';
 import eventBus from "../../../utils/eventBus";
 import sanitizer from "../../utils/sanitizer";
 import {coerceObjectPermissionsResponse} from "../../permissions/objects/objects";
 import store from "../../../store/store";
 import deepCopy from "deep-copy";
+import {
+    WebitelSDKItemCreator, WebitelSDKItemDeleter,
+    WebitelSDKItemGetter,
+    WebitelSDKItemUpdater,
+    WebitelSDKListGetter
+} from "../../utils/apiControllers";
 
 const agentService = new AgentServiceApiFactory
+(configuration, '', instance);
+
+const agentSkillsService = new AgentSkillServiceApiFactory
 (configuration, '', instance);
 
 const BASE_URL = '/call_center/agents';
 const fieldsToSend = ['domainId', 'user', 'description'];
 
-export const getAgentsList = async (page = 0, size = 10, search) => {
-    const domainId = store.state.userinfo.domainId || undefined;
-    const defaultObject = {
-        _isSelected: false,
-    };
-    if (search && search.slice(-1) !== '*') search += '*';
+const defaultItemObject = {
+    _dirty: false
+};
 
-    try {
-        const response = await agentService.searchAgent(page, size, search, domainId);
-        if (response.items) {
-            return response.items.map(item => {
-                return {...defaultObject, ...item};
-            });
-        }
-        return []
-    } catch (err) {
-        throw err;
-    }
+const listGetter = new WebitelSDKListGetter(agentService.searchAgent);
+const itemGetter = new WebitelSDKItemGetter(agentService.readAgent, defaultItemObject);
+const itemCreator = new WebitelSDKItemCreator(agentService.createAgent, fieldsToSend);
+const itemUpdater = new WebitelSDKItemUpdater(agentService.updateAgent, fieldsToSend);
+const itemDeleter = new WebitelSDKItemDeleter(agentService.deleteAgent);
+
+
+
+export const getAgentsList = async (page = 0, size = 10, search) => {
+    return await listGetter.getList({page, size, search});
 };
 
 export const getAgent = async (id) => {
-    const domainId = store.state.userinfo.domainId || undefined;
-    const defaultObject = {
-        _dirty: false
-    };
-    try {
-        const response = await agentService.readAgent(id, domainId);
-        return {...defaultObject, ...response};
-    } catch (err) {
-        throw err;
-    }
+    return await itemGetter.getItem(id);
 };
 
 export const addAgent = async (item) => {
-    let itemCopy = deepCopy(item);
-    itemCopy.domainId = store.state.userinfo.domainId || undefined;
-    sanitizer(itemCopy, fieldsToSend);
-    try {
-        const response = await agentService.createAgent(itemCopy);
-        eventBus.$emit('notificationInfo', 'Sucessfully added');
-        return response.id;
-    } catch (err) {
-        throw err;
-    }
+    return await itemCreator.createItem(item);
 };
 
 export const updateAgent = async (id, item) => {
-    let itemCopy = deepCopy(item);
-    itemCopy.domainId = store.state.userinfo.domainId || undefined;
-    sanitizer(itemCopy, fieldsToSend);
-    try {
-        await agentService.updateAgent(id, itemCopy);
-        eventBus.$emit('notificationInfo', 'Sucessfully updated');
-    } catch (err) {
-        throw err;
-    }
+    return await itemUpdater.updateItem(id, item);
 };
 
 export const deleteAgent = async (id) => {
-    const domainId = store.state.userinfo.domainId || undefined;
+    return await itemDeleter.deleteItem(id);
+};
+
+export const getAgentUsersOptions = async (page = 0, size = 10, search) => {
+    const domainId = store.state.userinfo.domainId;
+    const response = await agentService.searchLookupUsersAgentNotExists(page, size, search, domainId);
+    return response.items ? response.items : [];
+};
+
+export const getAgentSkills = async (id, page = 0, size = 10, search) => {
+    const domainId = store.state.userinfo.domainId;
     try {
-        await agentService.deleteAgent(id, domainId);
-    } catch (err) {
+        const response = await agentSkillsService.searchLookupAgentNotExistsSkill(id, page, size, search, domainId);
+        return response.items ? response.items : [];
+    } catch(err) {
         throw err;
     }
 };

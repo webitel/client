@@ -4,6 +4,7 @@ import configuration from '../../openAPIConfig';
 import {MediaFileServiceApiFactory} from 'webitel-sdk';
 import eventBus from "../../../utils/eventBus";
 import store from "../../../store/store";
+import {WebitelSDKItemDeleter, WebitelSDKListGetter} from "../../utils/apiControllers";
 
 const mediaService = new MediaFileServiceApiFactory
 (configuration, '', instance);
@@ -11,25 +12,16 @@ const mediaService = new MediaFileServiceApiFactory
 const token = localStorage.getItem('access-token');
 const BASE_URL = process.env.VUE_APP_API_URL;
 
-export const getMediaList = async (page = 0, size = 10, search) => {
-    const domainId = store.state.userinfo.domainId || undefined;
-    if(search && search.slice(-1) !== '*') search += '*';
-    const defaultObject = {
-        name: '',
-        _isSelected: false,
-    };
+const defaultListObject = {
+    name: '',
+    _isSelected: false,
+};
 
-    try {
-        let response = await mediaService.searchMediaFile(page, size, search, domainId);
-        if (response.items) {
-            return response.items.map(item => {
-                return {...defaultObject, ...item};
-            });
-        }
-        return [];
-    } catch (err) {
-        throw err;
-    }
+const listGetter = new WebitelSDKListGetter(mediaService.searchMediaFile, defaultListObject);
+const itemDeleter = new WebitelSDKItemDeleter(mediaService.deleteMediaFile);
+
+export const getMediaList = async (page = 0, size = 10, search) => {
+    return await listGetter.getList({page, size, search});
 };
 
 export const getMedia = async (id) => {
@@ -70,10 +62,5 @@ export const addMedia = async (file) => {
 };
 
 export const deleteMedia = async (id) => {
-    const domainId = store.state.userinfo.domainId || undefined;
-    try {
-        await mediaService.deleteMediaFile(id, domainId);
-    } catch (err) {
-        throw err;
-    }
+    return await itemDeleter.deleteItem(id);
 };
