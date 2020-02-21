@@ -1,6 +1,4 @@
 import instance from '../../instance';
-import sanitizer from "../../utils/sanitizer";
-import eventBus from "../../../utils/eventBus";
 import deepCopy from "deep-copy";
 import {
     WebitelAPIItemCreator, WebitelAPIItemDeleter,
@@ -8,7 +6,6 @@ import {
     WebitelAPIItemUpdater,
     WebitelAPIListGetter
 } from "../../utils/apiControllers";
-
 
 const BASE_URL = '/devices';
 const fieldsToSend = ['name', 'account', 'password', 'user',
@@ -41,14 +38,6 @@ const itemDeleter = new WebitelAPIItemDeleter(BASE_URL);
 
 export async function getDeviceList(page, size, search) {
     return await listGetter.getList({page, size, search});
-
-    let url = BASE_URL + `?size=${size}`;
-    if (response.devices) {
-        return response.devices.map(item => {
-            return {...defaultObject, ...item};
-        });
-    }
-
 }
 
 export async function getDevice(id) {

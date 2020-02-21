@@ -3,6 +3,7 @@ import deepCopy from "deep-copy";
 import sanitizer from "./sanitizer";
 import eventBus from "../../utils/eventBus";
 import instance from "../instance";
+import {coerceObjectPermissionsResponse} from "../permissions/objects/objects";
 
 
 class BaseListGetter {
@@ -38,9 +39,10 @@ class BaseItemGetter {
 }
 
 class BaseItemCreator {
-    constructor(method, fieldsToSend) {
+    constructor(method, fieldsToSend, preRequestHandler) {
         this.method = method;
         this.fieldsToSend = fieldsToSend;
+        this.preRequestHandler = preRequestHandler;
     }
 
     responseHandler = (response) => {
@@ -51,9 +53,10 @@ class BaseItemCreator {
 }
 
 class BaseItemUpdater {
-    constructor(method, fieldsToSend) {
+    constructor(method, fieldsToSend, preRequestHandler) {
         this.method = method;
         this.fieldsToSend = fieldsToSend;
+        this.preRequestHandler = preRequestHandler;
     }
 }
 
@@ -70,6 +73,15 @@ class BaseItemDeleter {
     }
 }
 
+class BasePermissionsListGetter {
+    constructor() {}
+}
+
+class BasePermissionsListPatcher {
+    constructor(method) {
+        this.method = method;
+    }
+}
 
 export class WebitelSDKListGetter extends BaseListGetter {
     constructor() {
@@ -115,6 +127,7 @@ export class WebitelSDKItemCreator extends BaseItemCreator {
     async createItem(item) {
         let itemCopy = deepCopy(item);
         itemCopy.domainId = store.state.userinfo.domainId;
+        if(this.preRequestHandler) this.preRequestHandler(itemCopy);
         sanitizer(itemCopy, this.fieldsToSend);
         try {
             const response = await this.method(itemCopy);
@@ -134,6 +147,7 @@ export class WebitelSDKItemUpdater extends BaseItemUpdater {
     async updateItem(id, item) {
         let itemCopy = deepCopy(item);
         itemCopy.domainId = store.state.userinfo.domainId;
+        if(this.preRequestHandler) this.preRequestHandler(itemCopy);
         sanitizer(itemCopy, this.fieldsToSend);
         try {
             await this.method(id, itemCopy);
@@ -225,6 +239,8 @@ export class WebitelAPIItemCreator extends BaseItemCreator {
 
     async createItem(item) {
         let itemCopy = deepCopy(item);
+        itemCopy.domainId = store.state.userinfo.domainId;
+        if(this.preRequestHandler) this.preRequestHandler(itemCopy);
         sanitizer(itemCopy, this.fieldsToSend);
         try {
             const response = await instance.post(this.url, {item: itemCopy});
@@ -245,9 +261,30 @@ export class WebitelAPIItemUpdater extends BaseItemUpdater {
     async updateItem(id, item) {
         const updUrl = this.url + '/' + id;
         let itemCopy = deepCopy(item);
+        itemCopy.domainId = store.state.userinfo.domainId;
+        if(this.preRequestHandler) this.preRequestHandler(itemCopy);
         sanitizer(itemCopy, this.fieldsToSend);
         try {
             const response = await instance.put(updUrl, {item: itemCopy});
+            eventBus.$emit('notificationInfo', 'Successfully updated');
+        } catch (err) {
+            throw err;
+        }
+    }
+}
+
+export class WebitelAPIItemPatcher extends BaseItemPatcher {
+    constructor(url, fieldsToSend) {
+        super(null, fieldsToSend);
+        this.url = url;
+    }
+
+    async patchItem(id, item) {
+        const updUrl = this.url + '/' + id;
+        let itemCopy = deepCopy(item);
+        sanitizer(itemCopy, this.fieldsToSend);
+        try {
+            const response = await instance.patch(updUrl, {item: itemCopy});
             eventBus.$emit('notificationInfo', 'Successfully updated');
         } catch (err) {
             throw err;
@@ -265,7 +302,45 @@ export class WebitelAPIItemDeleter extends BaseItemDeleter {
         const delUrl = this.url + '/' + id + "?permanent=true";
         try {
             await instance.delete(delUrl);
-            //eventBus.$emit('notificationInfo', 'Sucessfully delted');
+            //eventBus.$emit('notificationInfo', 'Successfully delted');
+        } catch (err) {
+            throw err;
+        }
+    }
+}
+
+export class WebitelAPIPermissionsGetter extends BasePermissionsListGetter {
+    constructor(url) {
+        super(null);
+        this.url = url;
+    }
+
+    async getList(id, size, search) {
+        let getUrl = this.url + '/' + id + '/acl';
+        if (size) getUrl += `?size=${size}`;
+        if (search && search.slice(-1) !== '*') search += '*';
+        if (search) getUrl += `&name=${search}`;
+
+        try {
+            const response = await instance.get(getUrl);
+            return coerceObjectPermissionsResponse(response);
+        } catch (err) {
+            throw err;
+        }
+    }
+}
+
+export class WebitelAPIPermissionsPatcher extends BasePermissionsListPatcher {
+    constructor(url) {
+        super(null);
+        this.url = url;
+    }
+
+    async patchItem(id, item) {
+        let getUrl = this.url + '/' + id + '/acl';
+
+        try {
+            const response = await instance.patch(getUrl, {changes: item});
         } catch (err) {
             throw err;
         }

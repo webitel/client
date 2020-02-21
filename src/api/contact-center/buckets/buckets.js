@@ -1,13 +1,10 @@
 import instance from '../../instance';
 import configuration from '../../openAPIConfig';
-import sanitizer from '../../utils/sanitizer';
 import {BucketServiceApiFactory} from 'webitel-sdk';
-import eventBus from "../../../utils/eventBus";
-import {coerceObjectPermissionsResponse} from "../../permissions/objects/objects";
-import deepCopy from 'deep-copy';
-import store from '../../../store/store';
 import {
-    WebitelSDKItemCreator, WebitelSDKItemDeleter,
+    WebitelAPIPermissionsGetter, WebitelAPIPermissionsPatcher,
+    WebitelSDKItemCreator,
+    WebitelSDKItemDeleter,
     WebitelSDKItemGetter,
     WebitelSDKItemUpdater,
     WebitelSDKListGetter
@@ -19,16 +16,13 @@ const bucketService = new BucketServiceApiFactory
 const BASE_URL = '/call_center/buckets';
 const fieldsToSend = ['domainId', 'name', 'description'];
 
-const defaultItemObject = {
-    name: '',
-    _dirty: false,
-};
-
 const listGetter = new WebitelSDKListGetter(bucketService.searchBucket);
-const itemGetter = new WebitelSDKItemGetter(bucketService.readBucket, defaultItemObject);
+const itemGetter = new WebitelSDKItemGetter(bucketService.readBucket);
 const itemCreator = new WebitelSDKItemCreator(bucketService.createBucket, fieldsToSend);
 const itemUpdater = new WebitelSDKItemUpdater(bucketService.updateBucket, fieldsToSend);
 const itemDeleter = new WebitelSDKItemDeleter(bucketService.deleteBucket);
+const permissionsGetter = new WebitelAPIPermissionsGetter(BASE_URL);
+const permissionsPatcher = new WebitelAPIPermissionsPatcher(BASE_URL);
 
 export const getBucketsList = async (page = 0, size = 10, search) => {
     return await listGetter.getList({page, size, search});
@@ -51,24 +45,9 @@ export const deleteBucket = async (id) => {
 };
 
 export const getBucketPermissions = async (id, page = 0, size = 10, search) => {
-        // let url = BASE_URL + `?page=${page}size=${size}`;
-    let url = BASE_URL + '/' + id + '/acl' + `?size=${size}`;
-    if (search) url += `&name=${search}*`;
-    try {
-        const response = await instance.get(url);
-        return coerceObjectPermissionsResponse(response);
-    } catch (error) {
-        throw error;
-    }
+    return await permissionsGetter.getList(id, size, search);
 };
 
 export const patchBucketPermissions = async (id, item) => {
-    const url = BASE_URL + '/' + id + '/acl';
-
-    try {
-        await instance.patch(url, {changes: item});
-        eventBus.$emit('notificationInfo', 'Sucessfully updated');
-    } catch (error) {
-        throw error;
-    }
+    return await permissionsPatcher.patchItem(id, item);
 };

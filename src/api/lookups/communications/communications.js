@@ -1,11 +1,6 @@
 import instance from '../../instance';
 import configuration from '../../openAPIConfig';
 import {CommunicationTypeServiceApiFactory} from 'webitel-sdk';
-import eventBus from "../../../utils/eventBus";
-import sanitizer from "../../utils/sanitizer";
-import deepCopy from 'deep-copy';
-import store from '../../../store/store';
-import {objCamelToSnake} from "../../utils/caseConverters";
 import {
     WebitelSDKItemCreator, WebitelSDKItemDeleter,
     WebitelSDKItemGetter,
@@ -18,10 +13,6 @@ const communicationService = new CommunicationTypeServiceApiFactory
 
 const fieldsToSend = ['domainId', 'code', 'name', 'description'];
 
-const defaultListObject = {
-    _isSelected: false,
-};
-
 const defaultItemObject = {
     name: '',
     code: '',
@@ -29,12 +20,11 @@ const defaultItemObject = {
     _dirty: false,
 };
 
-const listGetter = new WebitelSDKListGetter(communicationService.searchCommunicationType, defaultListObject);
+const listGetter = new WebitelSDKListGetter(communicationService.searchCommunicationType);
 const itemGetter = new WebitelSDKItemGetter(communicationService.readCommunicationType, defaultItemObject);
 const itemCreator = new WebitelSDKItemCreator(communicationService.createCommunicationType, fieldsToSend);
 const itemUpdater = new WebitelSDKItemUpdater(communicationService.updateCommunicationType, fieldsToSend);
 const itemDeleter = new WebitelSDKItemDeleter(communicationService.deleteCommunicationType);
-
 
 export const getCommunicationsList = async (page = 0, size = 10, search) => {
     return await listGetter.getList({page, size, search});

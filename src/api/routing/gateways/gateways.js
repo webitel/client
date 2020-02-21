@@ -1,7 +1,3 @@
-import instance from '../../instance';
-import sanitizer from "../../utils/sanitizer";
-import eventBus from "../../../utils/eventBus";
-import deepCopy from 'deep-copy';
 import {
     WebitelAPIItemCreator, WebitelAPIItemDeleter,
     WebitelAPIItemGetter,
@@ -21,10 +17,21 @@ const defaultListItem = {  // default object prototype, to merge response with i
     id: 0
 };
 
+const preRequestHandler = (item) => {
+    if (item.register)
+    {
+        item.account = item.accountName + '@' + (item.domain || item.registrar);
+    }
+    Object.keys(item).forEach(key => {
+        if (!item[key]) delete item[key];
+    });
+    return item;
+};
+
 const listGetter = new WebitelAPIListGetter(BASE_URL, defaultListItem);
 const itemGetter = new WebitelAPIItemGetter(BASE_URL);
-const itemCreator = new WebitelAPIItemCreator(BASE_URL, fieldsToSend);
-const itemUpdater = new WebitelAPIItemUpdater(BASE_URL, fieldsToSend);
+const itemCreator = new WebitelAPIItemCreator(BASE_URL, fieldsToSend, preRequestHandler);
+const itemUpdater = new WebitelAPIItemUpdater(BASE_URL, fieldsToSend, preRequestHandler);
 const itemDeleter = new WebitelAPIItemDeleter(BASE_URL);
 
 itemGetter.responseHandler = (response) => {
@@ -44,28 +51,11 @@ export async function getGateway(id) {
 };
 
 export const addGateway = async (item) => {
-    let itemCopy = deepCopy(item);
-    if (itemCopy.register)
-    {
-        itemCopy.account = itemCopy.accountName + '@' + (item.domain || item.registrar);
-    }
-    Object.keys(itemCopy).forEach(key => {
-        if (!itemCopy[key]) delete itemCopy[key];
-    });
-    return await itemCreator.createItem(itemCopy);
+    return await itemCreator.createItem(item);
 };
 
 export const updateGateway = async (id, item) => {
-    let itemCopy = deepCopy(item);
-
-    if (!itemCopy.register) {
-        itemCopy.ipacl.forEach(acl => {
-            if (!acl.port) delete acl.port
-        });
-    } else {
-        itemCopy.account = itemCopy.accountName + '@' + (item.domain || item.registrar);
-    }
-    return await itemUpdater.updateItem(id, itemCopy);
+    return await itemUpdater.updateItem(id, item);
 };
 
 export const deleteGateway = async (id) => {

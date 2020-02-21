@@ -1,10 +1,6 @@
 import instance from '../../instance';
 import configuration from '../../openAPIConfig';
 import {RoutingSchemaServiceApiFactory} from 'webitel-sdk';
-import eventBus from "../../../utils/eventBus";
-import sanitizer from "../../utils/sanitizer";
-import deepCopy from 'deep-copy';
-import store from '../../../store/store';
 import {
     WebitelSDKItemCreator, WebitelSDKItemDeleter,
     WebitelSDKItemGetter,
@@ -17,20 +13,22 @@ const flowService = new RoutingSchemaServiceApiFactory
 
 const fieldsToSend = ['domainId', 'name', 'schema', 'payload'];
 
-const defaultObject = {
-    _dirty: false,
+const preRequestHandler = (item) => {
+    item.schema = JSON.parse(item.schema);
+    item.payload = {};
+    return item;
 };
 
 const listGetter = new WebitelSDKListGetter(flowService.searchRoutingSchema);
-
 const itemGetter = new WebitelSDKItemGetter(flowService.readRoutingSchema);
-
-const itemCreator = new WebitelSDKItemCreator(flowService.createRoutingSchema, fieldsToSend);
-
-const itemUpdater = new WebitelSDKItemUpdater(flowService.updateRoutingSchema, fieldsToSend);
-
+const itemCreator = new WebitelSDKItemCreator(flowService.createRoutingSchema, fieldsToSend, preRequestHandler);
+const itemUpdater = new WebitelSDKItemUpdater(flowService.updateRoutingSchema, fieldsToSend, preRequestHandler);
 const itemDeleter = new WebitelSDKItemDeleter(flowService.deleteRoutingSchema);
+
 itemGetter.responseHandler = (response) => {
+    let defaultObject = {
+        _dirty: false,
+    };
     return {
         ...response,
         schema: JSON.stringify(response.schema, null, 4),
@@ -47,16 +45,10 @@ export const getFlow = async (id) => {
 };
 
 export const addFlow = async (item) => {
-    let itemCopy = deepCopy(item);
-    itemCopy.schema = JSON.parse(itemCopy.schema);
-    itemCopy.payload = {};
-    return await itemCreator.createItem(itemCopy);
+    return await itemCreator.createItem(item);
 };
 
 export const updateFlow = async (id, item) => {
-    let itemCopy = deepCopy(item);
-    itemCopy.schema = JSON.parse(itemCopy.schema);
-    itemCopy.payload = {};
     return await itemUpdater.updateItem(id, item);
 };
 

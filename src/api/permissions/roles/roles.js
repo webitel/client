@@ -1,6 +1,3 @@
-import instance from '../../instance';
-import eventBus from "../../../utils/eventBus";
-import sanitizer from "../../utils/sanitizer";
 import {
     WebitelAPIItemCreator, WebitelAPIItemDeleter,
     WebitelAPIItemGetter,
@@ -11,24 +8,18 @@ import {
 const BASE_URL = '/roles';
 const fieldsToSend = ['name', 'description'];
 
-const defaultListItem = {
-    name: '',
-    _isSelected: false,
-}
-
-const defaultItem = {
-    name: 'name undefined',
-    id: 0,
-    _dirty: false,
-};
-
-const listGetter = new WebitelAPIListGetter(BASE_URL, defaultListItem);
-const itemGetter = new WebitelAPIItemGetter(BASE_URL, defaultItem);
+const listGetter = new WebitelAPIListGetter(BASE_URL);
+const itemGetter = new WebitelAPIItemGetter(BASE_URL);
 const itemCreator = new WebitelAPIItemCreator(BASE_URL, fieldsToSend);
 const itemUpdater = new WebitelAPIItemUpdater(BASE_URL, fieldsToSend);
 const itemDeleter = new WebitelAPIItemDeleter(BASE_URL);
 
 itemGetter.responseHandler = (response) => {
+    let defaultItem = {
+        name: 'name undefined',
+        id: 0,
+        _dirty: false,
+    };
     try {
         return {...defaultItem, ...response.role};
     } catch (error) {

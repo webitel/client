@@ -1,13 +1,10 @@
 import instance from '../../instance';
 import configuration from '../../openAPIConfig';
-import sanitizer from '../../utils/sanitizer';
 import {OutboundResourceGroupServiceApiFactory} from 'webitel-sdk';
-import eventBus from "../../../utils/eventBus";
-import {coerceObjectPermissionsResponse} from "../../permissions/objects/objects";
-import deepCopy from 'deep-copy';
-import store from '../../../store/store';
 import {
-    WebitelSDKItemCreator, WebitelSDKItemDeleter,
+    WebitelAPIPermissionsGetter, WebitelAPIPermissionsPatcher,
+    WebitelSDKItemCreator,
+    WebitelSDKItemDeleter,
     WebitelSDKItemGetter,
     WebitelSDKItemUpdater,
     WebitelSDKListGetter
@@ -43,11 +40,23 @@ const defaultItemObject = {
     _dirty: false,
 };
 
+const preRequestHandler = (item) => {
+    item.time = item.time.map(range => {
+        return {
+            startTimeOfDay: range.start,
+            endTimeOfDay: range.end,
+        }
+    });
+    return item;
+};
+
 const listGetter = new WebitelSDKListGetter(resGrService.searchOutboundResourceGroup, defaultListObject);
 const itemGetter = new WebitelSDKItemGetter(resGrService.readOutboundResourceGroup);
-const itemCreator = new WebitelSDKItemCreator(resGrService.createOutboundResourceGroup, fieldsToSend);
-const itemUpdater = new WebitelSDKItemUpdater(resGrService.updateOutboundResourceGroup, fieldsToSend);
+const itemCreator = new WebitelSDKItemCreator(resGrService.createOutboundResourceGroup, fieldsToSend, preRequestHandler);
+const itemUpdater = new WebitelSDKItemUpdater(resGrService.updateOutboundResourceGroup, fieldsToSend, preRequestHandler);
 const itemDeleter = new WebitelSDKItemDeleter(resGrService.deleteOutboundResourceGroup);
+const permissionsGetter = new WebitelAPIPermissionsGetter(BASE_URL);
+const permissionsPatcher = new WebitelAPIPermissionsPatcher(BASE_URL);
 
 itemGetter.responseHandler = (response) => {
     try {
@@ -73,27 +82,11 @@ export const getResGroup = async (id) => {
 };
 
 export async function addResGroup(item) {
-    let itemCopy = deepCopy(item);
-    itemCopy.domainId = store.state.userinfo.domainId || undefined;
-    itemCopy.time = itemCopy.time.map(range => {
-        return {
-            startTimeOfDay: range.start,
-            endTimeOfDay: range.end,
-        }
-    });
-    return await itemCreator.createItem(itemCopy);
+    return await itemCreator.createItem(item);
 }
 
 export async function updateResGroup(id, item) {
-    let itemCopy = deepCopy(item);
-    itemCopy.domainId = store.state.userinfo.domainId || undefined;
-    itemCopy.time = itemCopy.time.map(range => {
-        return {
-            startTimeOfDay: range.start,
-            endTimeOfDay: range.end,
-        }
-    });
-    return await itemUpdater.updateItem(id, itemCopy);
+    return await itemUpdater.updateItem(id, item);
 }
 
 export async function deleteResGroup(id) {
@@ -101,24 +94,9 @@ export async function deleteResGroup(id) {
 }
 
 export const getResGroupPermissions = async (id, page = 0, size = 10, search) => {
-    // let url = BASE_URL + `?page=${page}size=${size}`;
-    let url = BASE_URL + '/' + id + '/acl' + `?size=${size}`;
-    if (search) url += `&name=${search}*`;
-    try {
-        const response = await instance.get(url);
-        return coerceObjectPermissionsResponse(response);
-    } catch (error) {
-        throw error;
-    }
+    return await permissionsGetter.getList(id, size, search);
 };
 
 export const patchResGroupPermissions = async (id, item) => {
-    const url = BASE_URL + '/' + id + '/acl';
-
-    try {
-        await instance.patch(url, {changes: item});
-        eventBus.$emit('notificationInfo', 'Sucessfully updated');
-    } catch (error) {
-        throw error;
-    }
+    return await permissionsPatcher.patchItem(id, item);
 };

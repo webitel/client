@@ -15,7 +15,7 @@ const fieldsToSend = ['domainId', 'queueId', 'name', 'priority', 'bucket', 'time
 const communicationsFieldsToSend = ['destination', 'display', 'priority', 'type', 'resource', 'description'];
 
 export const getMembersList = async (queueId, page = 0, size = 10, search) => {
-    const domainId = store.state.userinfo.domainId || undefined;
+    const domainId = store.state.userinfo.domainId;
     if (search && search.slice(-1) !== '*') search += '*';
     const defaultObject = {
         createdAt: 'unknown',
@@ -49,7 +49,7 @@ export const getMembersList = async (queueId, page = 0, size = 10, search) => {
 };
 
 export const getMember = async (queueId, id) => {
-    const domainId = store.state.userinfo.domainId || undefined;
+    const domainId = store.state.userinfo.domainId;
 
     const defaultObject = {
         createdAt: 'unknown',
@@ -86,7 +86,7 @@ export const getMember = async (queueId, id) => {
 
 export const addMember = async (queueId, item) => {
     let itemCopy = deepCopy(item);
-    itemCopy.domainId = store.state.userinfo.domainId || undefined;
+    itemCopy.domainId = store.state.userinfo.domainId;
     itemCopy.variables = {};
     sanitizer(itemCopy, fieldsToSend);
     itemCopy.communications.forEach(item => sanitizer(item, communicationsFieldsToSend));
@@ -95,7 +95,7 @@ export const addMember = async (queueId, item) => {
     });
     try {
         const response = await memberService.createMember(queueId, itemCopy);
-        eventBus.$emit('notificationInfo', 'Sucessfully added');
+        eventBus.$emit('notificationInfo', 'Successfully added');
         return response.id;
     } catch (err) {
         throw err;
@@ -104,7 +104,7 @@ export const addMember = async (queueId, item) => {
 
 export const updateMember = async (queueId, id, item) => {
     let itemCopy = deepCopy(item);
-    itemCopy.domainId = store.state.userinfo.domainId || undefined;
+    itemCopy.domainId = store.state.userinfo.domainId;
     itemCopy.variables = {};
     sanitizer(itemCopy, fieldsToSend);
     itemCopy.communications.forEach(item => sanitizer(item, communicationsFieldsToSend));
@@ -113,14 +113,14 @@ export const updateMember = async (queueId, id, item) => {
     });
     try {
         await memberService.updateMember(queueId, id, itemCopy);
-        eventBus.$emit('notificationInfo', 'Sucessfully updated');
+        eventBus.$emit('notificationInfo', 'Successfully updated');
     } catch (err) {
         throw err;
     }
 };
 
 export const deleteMember = async (queueId, id) => {
-    const domainId = store.state.userinfo.domainId || undefined;
+    const domainId = store.state.userinfo.domainId;
     try {
         await memberService.deleteMember(queueId, id, domainId);
     } catch (err) {
@@ -129,12 +129,12 @@ export const deleteMember = async (queueId, id) => {
 };
 
 export const addMembersList = async (queueId, items) => {
-    const domainId = store.state.userinfo.domainId || undefined;
+    const domainId = store.state.userinfo.domainId;
     let itemsCopy = deepCopy(items);
     let body = {queueId, items: itemsCopy, domainId};
     try {
         await memberService.createMemberBulk(queueId, body);
-        eventBus.$emit('notificationInfo', 'Sucessfully added');
+        eventBus.$emit('notificationInfo', 'Successfully added');
     } catch (err) {
         throw err;
     }

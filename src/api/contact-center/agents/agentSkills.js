@@ -12,7 +12,7 @@ const agentSkillService = new AgentSkillServiceApiFactory
 const fieldsToSend = ['skill', 'capacity'];
 
 export const getAgentSkillsList = async (agentId, page = 0, size = 10, search) => {
-    const domainId = store.state.userinfo.domainId || undefined;
+    const domainId = store.state.userinfo.domainId;
     if (search && search.slice(-1) !== '*') search += '*';
     const defaultObject = {
         _isSelected: false,
@@ -32,7 +32,7 @@ export const getAgentSkillsList = async (agentId, page = 0, size = 10, search) =
 };
 
 export const getAgentSkill = async (agentId, id) => {
-    const domainId = store.state.userinfo.domainId || undefined;
+    const domainId = store.state.userinfo.domainId;
     const defaultObject = {
         _dirty: false
     };
@@ -46,11 +46,11 @@ export const getAgentSkill = async (agentId, id) => {
 
 export const addAgentSkill = async (agentId, item) => {
     let itemCopy = deepCopy(item);
-    itemCopy.domainId = store.state.userinfo.domainId || undefined;
+    itemCopy.domainId = store.state.userinfo.domainId;
     sanitizer(itemCopy, fieldsToSend);
     try {
         const response = await agentSkillService.createAgentSkill(agentId, itemCopy);
-        eventBus.$emit('notificationInfo', 'Sucessfully added');
+        eventBus.$emit('notificationInfo', 'Successfully added');
         return response.id;
     } catch (err) {
         throw err;
@@ -59,21 +59,31 @@ export const addAgentSkill = async (agentId, item) => {
 
 export const updateAgentSkill = async (agentId, id, item) => {
     let itemCopy = deepCopy(item);
-    itemCopy.domainId = store.state.userinfo.domainId || undefined;
+    itemCopy.domainId = store.state.userinfo.domainId;
     sanitizer(itemCopy, fieldsToSend);
     try {
         await agentSkillService.updateAgentSkill(agentId, id, itemCopy);
-        eventBus.$emit('notificationInfo', 'Sucessfully updated');
+        eventBus.$emit('notificationInfo', 'Successfully updated');
     } catch (err) {
         throw err;
     }
 };
 
 export const deleteAgentSkill = async (agentId, id) => {
-    const domainId = store.state.userinfo.domainId || undefined;
+    const domainId = store.state.userinfo.domainId;
     try {
         await agentSkillService.deleteAgentSkill(agentId, id, domainId);
     } catch (err) {
+        throw err;
+    }
+};
+
+export const getAgentSkills = async (id, page = 0, size = 10, search) => {
+    const domainId = store.state.userinfo.domainId;
+    try {
+        const response = await agentSkillService.searchLookupAgentNotExistsSkill(id, page, size, search, domainId);
+        return response.items ? response.items : [];
+    } catch(err) {
         throw err;
     }
 };

@@ -1,12 +1,8 @@
 import instance from '../../instance';
 import configuration from '../../openAPIConfig';
 import {ListServiceApiFactory} from 'webitel-sdk';
-import sanitizer from "../../utils/sanitizer";
-import eventBus from "../../../utils/eventBus";
-import {coerceObjectPermissionsResponse} from "../../permissions/objects/objects";
-import deepCopy from 'deep-copy';
-import store from '../../../store/store';
 import {
+    WebitelAPIPermissionsGetter, WebitelAPIPermissionsPatcher,
     WebitelSDKItemCreator, WebitelSDKItemDeleter,
     WebitelSDKItemGetter,
     WebitelSDKItemUpdater,
@@ -19,23 +15,13 @@ const listService = new ListServiceApiFactory
 const BASE_URL = '/call_center/list';
 const fieldsToSend = ['domainId', 'name', 'description'];
 
-const defaultItemObject = {
-    _dirty: false,
-};
-const defaultListObject = {
-    name: '',
-    _isSelected: false,
-};
-
-const listGetter = new WebitelSDKListGetter(listService.searchList, defaultListObject);
-
-const itemGetter = new WebitelSDKItemGetter(listService.readList, defaultItemObject);
-
+const listGetter = new WebitelSDKListGetter(listService.searchList);
+const itemGetter = new WebitelSDKItemGetter(listService.readList);
 const itemCreator = new WebitelSDKItemCreator(listService.createList, fieldsToSend);
-
 const itemUpdater = new WebitelSDKItemUpdater(listService.updateList, fieldsToSend);
-
 const itemDeleter = new WebitelSDKItemDeleter(listService.deleteList);
+const permissionsGetter = new WebitelAPIPermissionsGetter(BASE_URL);
+const permissionsPatcher = new WebitelAPIPermissionsPatcher(BASE_URL);
 
 export const getBlacklistList = async (page, size, search) => {
     return await listGetter.getList({page, size, search});
@@ -58,24 +44,9 @@ export const deleteBlacklist = async (id) => {
 };
 
 export const getBlacklistPermissions = async (id, page = 0, size = 10, search) => {
-    // let url = BASE_URL + `?page=${page}size=${size}`;
-    let url = BASE_URL + '/' + id + '/acl' + `?size=${size}`;
-    if (search) url += `&name=${search}*`;
-    try {
-        const response = await instance.get(url);
-        return coerceObjectPermissionsResponse(response);
-    } catch (error) {
-        throw error;
-    }
+    return await permissionsGetter.getList(id, size, search);
 };
 
 export const patchBlacklistPermissions = async (id, item) => {
-    const url = BASE_URL + '/' + id + '/acl';
-
-    try {
-        await instance.patch(url, {changes: item});
-        eventBus.$emit('notificationInfo', 'Sucessfully updated');
-    } catch (error) {
-        throw error;
-    }
+    return await permissionsPatcher.patchItem(id, item);
 };

@@ -1,12 +1,8 @@
 import instance from '../../instance';
 import configuration from '../../openAPIConfig';
 import {CalendarServiceApiFactory} from 'webitel-sdk';
-import sanitizer from "../../utils/sanitizer";
-import {coerceObjectPermissionsResponse} from "../../permissions/objects/objects";
-import eventBus from "../../../utils/eventBus";
-import deepCopy from 'deep-copy';
-import store from '../../../store/store';
 import {
+    WebitelAPIPermissionsGetter, WebitelAPIPermissionsPatcher,
     WebitelSDKItemCreator, WebitelSDKItemDeleter,
     WebitelSDKItemGetter,
     WebitelSDKItemUpdater,
@@ -20,12 +16,32 @@ const BASE_URL = '/calendars';
 const fieldsToSend = ['domainId', 'name', 'description', 'timezone', 'startAt', 'endAt', 'day',
     'accepts', 'excepts', 'startTimeOfDay', 'endTimeOfDay', 'disabled', 'date', 'repeat'];
 
+const preRequestHandler = (item) => {
+    delete item.timezone.offset;
+    if (!item.expires) {
+        delete item.startAt;
+        delete item.endAt;
+    }
+
+    item.accepts = item.accepts.map(accept => {
+        return {
+            day: accept.day,
+            disabled: accept.disabled,
+            startTimeOfDay: accept.start,
+            endTimeOfDay: accept.end
+        }
+    });
+    return item;
+};
+
 const listGetter = new WebitelSDKListGetter(calendarService.searchCalendar);
 const itemGetter = new WebitelSDKItemGetter(calendarService.readCalendar);
 const timezoneGetter = new WebitelSDKListGetter(calendarService.searchTimezones);
-const itemCreator = new WebitelSDKItemCreator(calendarService.createCalendar, fieldsToSend);
-const itemUpdater = new WebitelSDKItemUpdater(calendarService.updateCalendar, fieldsToSend);
+const itemCreator = new WebitelSDKItemCreator(calendarService.createCalendar, fieldsToSend, preRequestHandler);
+const itemUpdater = new WebitelSDKItemUpdater(calendarService.updateCalendar, fieldsToSend, preRequestHandler);
 const itemDeleter = new WebitelSDKItemDeleter(calendarService.deleteCalendar);
+const permissionsGetter = new WebitelAPIPermissionsGetter(BASE_URL);
+const permissionsPatcher = new WebitelAPIPermissionsPatcher(BASE_URL);
 
 itemGetter.responseHandler = (response) => {
     const defaultObject = {
@@ -53,8 +69,7 @@ itemGetter.responseHandler = (response) => {
 timezoneGetter.responseHandler = (response) => {
     if (response.items) {
         return {
-            list: response.items,
-            next: response.next || false,
+            list: response.items
         };
     }
     return [];
@@ -74,44 +89,11 @@ export const getCalendarTimezones = async (page = 0, size = 20, search) => {
 };
 
 export const addCalendar = async (item) => {
-    let itemCopy = deepCopy(item);
-    itemCopy.domainId = store.state.userinfo.domainId;
-    delete itemCopy.timezone.offset;
-    if (!itemCopy.expires) {
-        delete itemCopy.startAt;
-        delete itemCopy.endAt;
-    }
-
-    itemCopy.accepts = itemCopy.accepts.map(accept => {
-        return {
-            day: accept.day,
-            disabled: accept.disabled,
-            startTimeOfDay: accept.start,
-            endTimeOfDay: accept.end
-        }
-    });
-    return await itemCreator.createItem(itemCopy);
+    return await itemCreator.createItem(item);
 };
 
-
 export const updateCalendar = async (itemId, item) => {
-    let itemCopy = deepCopy(item);
-    itemCopy.domainId = store.state.userinfo.domainId;
-    delete itemCopy.timezone.offset;
-    if (!itemCopy.expires) {
-        delete itemCopy.startAt;
-        delete itemCopy.endAt;
-    }
-
-    itemCopy.accepts = itemCopy.accepts.map(accept => {
-        return {
-            day: accept.day,
-            disabled: accept.disabled,
-            startTimeOfDay: accept.start,
-            endTimeOfDay: accept.end
-        }
-    });
-    return await itemUpdater.updateItem(itemId, itemCopy);
+    return await itemUpdater.updateItem(itemId, item);
 };
 
 export const deleteCalendar = async (id) => {
@@ -119,24 +101,9 @@ export const deleteCalendar = async (id) => {
 };
 
 export const getCalendarPermissions = async (id, page = 0, size = 10, search) => {
-    // let url = BASE_URL + `?page=${page}size=${size}`;
-    let url = BASE_URL + '/' + id + '/acl' + `?size=${size}`;
-    if (search) url += `&name=${search}*`;
-    try {
-        const response = await instance.get(url);
-        return coerceObjectPermissionsResponse(response);
-    } catch (error) {
-        throw error;
-    }
+    return await permissionsGetter.getList(id, size, search);
 };
 
 export const patchCalendarPermissions = async (id, item) => {
-    const url = BASE_URL + '/' + id + '/acl';
-
-    try {
-        await instance.patch(url, {changes: item});
-        eventBus.$emit('notificationInfo', 'Sucessfully updated');
-    } catch (error) {
-        throw error;
-    }
+    return await permissionsPatcher.patchItem(id, item);
 };

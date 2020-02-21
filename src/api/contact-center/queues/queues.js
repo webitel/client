@@ -1,14 +1,11 @@
 import instance from '../../instance';
 import configuration from '../../openAPIConfig';
-import sanitizer from '../../utils/sanitizer';
 import {QueueServiceApiFactory} from 'webitel-sdk';
-import eventBus from "../../../utils/eventBus";
-import {coerceObjectPermissionsResponse} from "../../permissions/objects/objects";
-import deepCopy from 'deep-copy';
 import store from '../../../store/store';
 import {
+    WebitelAPIPermissionsGetter, WebitelAPIPermissionsPatcher,
     WebitelSDKItemCreator, WebitelSDKItemDeleter,
-    WebitelSDKItemGetter,
+    WebitelSDKItemGetter, WebitelSDKItemPatcher,
     WebitelSDKItemUpdater,
     WebitelSDKListGetter
 } from "../../utils/apiControllers";
@@ -52,11 +49,24 @@ const defaultItemObject = {
     _dirty: false,
 };
 
+const preRequestHandler = (item) => {
+    item.domainId = store.state.userinfo.domainId;
+    if(item.strategy) item.strategy = item.strategy.value;
+    item.variables = {};
+    item.variables.forEach(variable => {
+        item.variables[variable.key] = variable.value;
+    });
+    return item;
+};
+
 const listGetter = new WebitelSDKListGetter(queueService.searchQueue, defaultListObject);
 const itemGetter = new WebitelSDKItemGetter(queueService.readQueue, defaultItemObject);
-const itemCreator = new WebitelSDKItemCreator(queueService.createQueue, fieldsToSend);
-const itemUpdater = new WebitelSDKItemUpdater(queueService.updateQueue, fieldsToSend);
+const itemCreator = new WebitelSDKItemCreator(queueService.createQueue, fieldsToSend, preRequestHandler);
+const itemUpdater = new WebitelSDKItemUpdater(queueService.updateQueue, fieldsToSend, preRequestHandler);
+const itemPatcher = new WebitelSDKItemPatcher(queueService.patchQueue, fieldsToSend);
 const itemDeleter = new WebitelSDKItemDeleter(queueService.deleteQueue);
+const permissionsGetter = new WebitelAPIPermissionsGetter(BASE_URL);
+const permissionsPatcher = new WebitelAPIPermissionsPatcher(BASE_URL);
 
 itemGetter.responseHandler = (response) => {
     try {
@@ -85,36 +95,15 @@ export const getQueue = async (id) => {
 };
 
 export const addQueue = async (item) => {
-    let itemCopy = deepCopy(item);
-    itemCopy.domainId = store.state.userinfo.domainId || undefined;
-    if(itemCopy.strategy) itemCopy.strategy = itemCopy.strategy.value;
-    itemCopy.variables = {};
-    item.variables.forEach(variable => {
-        itemCopy.variables[variable.key] = variable.value;
-    });
-    return await itemCreator.createItem(itemCopy);
-};
-
-export const patchQueue = async (id, item) => {
-    let itemCopy = deepCopy(item);
-    itemCopy.domainId = store.state.userinfo.domainId || undefined;
-    try {
-        await queueService.patchQueue(id, itemCopy);
-        eventBus.$emit('notificationInfo', 'Sucessfully updated');
-    } catch (err) {
-        throw err;
-    }
+    return await itemCreator.createItem(item);
 };
 
 export const updateQueue = async (id, item) => {
-    let itemCopy = deepCopy(item);
-    itemCopy.domainId = store.state.userinfo.domainId || undefined;
-    itemCopy.strategy = itemCopy.strategy.value;
-    itemCopy.variables = {};
-    item.variables.forEach(variable => {
-        itemCopy.variables[variable.key] = variable.value;
-    });
-    return await itemUpdater.updateItem(id, itemCopy);
+    return await itemUpdater.updateItem(id, item);
+};
+
+export const patchQueue = async (id, item) => {
+    return await itemPatcher.patchItem(id, item);
 };
 
 export const deleteQueue = async (id) => {
@@ -122,24 +111,9 @@ export const deleteQueue = async (id) => {
 };
 
 export const getQueuePermissions = async (id, page = 0, size = 10, search) => {
-    // let url = BASE_URL + `?page=${page}size=${size}`;
-    let url = BASE_URL + '/' + id + '/acl' + `?size=${size}`;
-    if (search) url += `&name=${search}*`;
-    try {
-        const response = await instance.get(url);
-        return coerceObjectPermissionsResponse(response);
-    } catch (error) {
-        throw error;
-    }
+    return await permissionsGetter.getList(id, size, search);
 };
 
 export const patchQueuePermissions = async (id, item) => {
-    const url = BASE_URL + '/' + id + '/acl';
-
-    try {
-        await instance.patch(url, {changes: item});
-        eventBus.$emit('notificationInfo', 'Sucessfully updated');
-    } catch (error) {
-        throw error;
-    }
+    return await permissionsPatcher.patchItem(id, item);
 };

@@ -1,12 +1,8 @@
 import instance from '../../instance';
 import configuration from '../../openAPIConfig';
-import sanitizer from '../../utils/sanitizer';
 import {AgentTeamServiceApiFactory} from 'webitel-sdk';
-import eventBus from "../../../utils/eventBus";
-import {coerceObjectPermissionsResponse} from "../../permissions/objects/objects";
-import deepCopy from 'deep-copy';
-import store from '../../../store/store';
 import {
+    WebitelAPIPermissionsGetter, WebitelAPIPermissionsPatcher,
     WebitelSDKItemCreator, WebitelSDKItemDeleter,
     WebitelSDKItemGetter,
     WebitelSDKItemUpdater,
@@ -29,24 +25,23 @@ export const strategiesList = {
     'longest-idle-time': 'Longest idle Agent',
 };
 
-const defaultListObject = {
-    _isSelected: false,
-    name: '',
+const preRequestHandler = (item) => {
+    item.strategy = item.strategy.value;
+    return item;
 };
 
-const defaultItemObject = {
-    name: '',
-    id: 0,
-    _dirty: false,
-};
-
-const listGetter = new WebitelSDKListGetter(teamService.searchAgentTeam, defaultListObject);
-const itemGetter = new WebitelSDKItemGetter(teamService.readAgentTeam, defaultItemObject);
-const itemCreator = new WebitelSDKItemCreator(teamService.createAgentTeam, fieldsToSend);
-const itemUpdater = new WebitelSDKItemUpdater(teamService.updateAgentTeam, fieldsToSend);
+const listGetter = new WebitelSDKListGetter(teamService.searchAgentTeam);
+const itemGetter = new WebitelSDKItemGetter(teamService.readAgentTeam);
+const itemCreator = new WebitelSDKItemCreator(teamService.createAgentTeam, fieldsToSend, preRequestHandler);
+const itemUpdater = new WebitelSDKItemUpdater(teamService.updateAgentTeam, fieldsToSend, preRequestHandler);
 const itemDeleter = new WebitelSDKItemDeleter(teamService.deleteAgentTeam);
+const permissionsGetter = new WebitelAPIPermissionsGetter(BASE_URL);
+const permissionsPatcher = new WebitelAPIPermissionsPatcher(BASE_URL);
 
 itemGetter.responseHandler = (response) => {
+    let defaultItemObject = {
+        _dirty: false
+    };
     try {
         response.strategy = {
             name: strategiesList[response.strategy],
@@ -67,17 +62,11 @@ export const getTeam = async (id) => {
 };
 
 export const addTeam = async (item) => {
-    let itemCopy = deepCopy(item);
-    itemCopy.domainId = store.state.userinfo.domainId;
-    itemCopy.strategy = itemCopy.strategy.value;
-    return await itemCreator.createItem(itemCopy);
+    return await itemCreator.createItem(item);
 };
 
 export const updateTeam = async (id, item) => {
-    let itemCopy = deepCopy(item);
-    itemCopy.domainId = store.state.userinfo.domainId || undefined;
-    itemCopy.strategy = itemCopy.strategy.value;
-    return await itemUpdater.updateItem(id, itemCopy);
+    return await itemUpdater.updateItem(id, item);
 };
 
 export const deleteTeam = async (id) => {
@@ -85,24 +74,9 @@ export const deleteTeam = async (id) => {
 };
 
 export const getTeamPermissions = async (id, page = 0, size = 10, search) => {
-    // let url = BASE_URL + `?page=${page}size=${size}`;
-    let url = BASE_URL + '/' + id + '/acl' + `?size=${size}`;
-    if (search) url += `&name=${search}*`;
-    try {
-        const response = await instance.get(url);
-        return coerceObjectPermissionsResponse(response);
-    } catch (error) {
-        throw error;
-    }
+    return await permissionsGetter.getList(id, size, search);
 };
 
 export const patchTeamPermissions = async (id, item) => {
-    const url = BASE_URL + '/' + id + '/acl';
-
-    try {
-        await instance.patch(url, {changes: item});
-        eventBus.$emit('notificationInfo', 'Sucessfully updated');
-    } catch (error) {
-        throw error;
-    }
+    return await permissionsPatcher.patchItem(id, item);
 };

@@ -1,12 +1,9 @@
 import instance from '../../instance';
 import configuration from '../../openAPIConfig';
 import {AgentServiceApiFactory, AgentSkillServiceApiFactory} from 'webitel-sdk';
-import eventBus from "../../../utils/eventBus";
-import sanitizer from "../../utils/sanitizer";
-import {coerceObjectPermissionsResponse} from "../../permissions/objects/objects";
 import store from "../../../store/store";
-import deepCopy from "deep-copy";
 import {
+    WebitelAPIPermissionsGetter, WebitelAPIPermissionsPatcher,
     WebitelSDKItemCreator, WebitelSDKItemDeleter,
     WebitelSDKItemGetter,
     WebitelSDKItemUpdater,
@@ -22,17 +19,13 @@ const agentSkillsService = new AgentSkillServiceApiFactory
 const BASE_URL = '/call_center/agents';
 const fieldsToSend = ['domainId', 'user', 'description'];
 
-const defaultItemObject = {
-    _dirty: false
-};
-
 const listGetter = new WebitelSDKListGetter(agentService.searchAgent);
-const itemGetter = new WebitelSDKItemGetter(agentService.readAgent, defaultItemObject);
+const itemGetter = new WebitelSDKItemGetter(agentService.readAgent);
 const itemCreator = new WebitelSDKItemCreator(agentService.createAgent, fieldsToSend);
 const itemUpdater = new WebitelSDKItemUpdater(agentService.updateAgent, fieldsToSend);
 const itemDeleter = new WebitelSDKItemDeleter(agentService.deleteAgent);
-
-
+const permissionsGetter = new WebitelAPIPermissionsGetter(BASE_URL);
+const permissionsPatcher = new WebitelAPIPermissionsPatcher(BASE_URL);
 
 export const getAgentsList = async (page = 0, size = 10, search) => {
     return await listGetter.getList({page, size, search});
@@ -60,18 +53,8 @@ export const getAgentUsersOptions = async (page = 0, size = 10, search) => {
     return response.items ? response.items : [];
 };
 
-export const getAgentSkills = async (id, page = 0, size = 10, search) => {
-    const domainId = store.state.userinfo.domainId;
-    try {
-        const response = await agentSkillsService.searchLookupAgentNotExistsSkill(id, page, size, search, domainId);
-        return response.items ? response.items : [];
-    } catch(err) {
-        throw err;
-    }
-};
-
 export const getAgentHistory = async (id, date, page = 0, size = 10) => {
-    const domainId = store.state.userinfo.domainId || undefined;
+    const domainId = store.state.userinfo.domainId;
     try {
         const response = await agentService.searchAgentStateHistory(id, page, size, date, Date.now(), domainId);
         return response.items ? response.items : [];
@@ -81,7 +64,7 @@ export const getAgentHistory = async (id, date, page = 0, size = 10) => {
 };
 
 export const getAgentTeamsList = async (id, page = 0, size = 10) => {
-    const domainId = store.state.userinfo.domainId || undefined;
+    const domainId = store.state.userinfo.domainId;
     try {
         const response = await agentService.searchAgentInTeam(id, page, size, domainId);
         return response.items ? response.items : [];
@@ -91,7 +74,7 @@ export const getAgentTeamsList = async (id, page = 0, size = 10) => {
 };
 
 export const getAgentQueuesList = async (id, page = 0, size = 10) => {
-    const domainId = store.state.userinfo.domainId || undefined;
+    const domainId = store.state.userinfo.domainId;
     try {
         const response = await agentService.searchAgentInQueue(id, page, size, domainId);
         return response.items ? response.items : [];
@@ -101,24 +84,9 @@ export const getAgentQueuesList = async (id, page = 0, size = 10) => {
 };
 
 export const getAgentPermissions = async (id, page = 0, size = 10, search) => {
-    // let url = BASE_URL + `?page=${page}size=${size}`;
-    let url = BASE_URL + '/' + id + '/acl' + `?size=${size}`;
-    if (search) url += `&name=${search}*`;
-    try {
-        const response = await instance.get(url);
-        return coerceObjectPermissionsResponse(response);
-    } catch (error) {
-        throw error;
-    }
+    return await permissionsGetter.getList(id, size, search);
 };
 
 export const patchAgentPermissions = async (id, item) => {
-    const url = BASE_URL + '/' + id + '/acl';
-
-    try {
-        await instance.patch(url, {changes: item});
-        eventBus.$emit('notificationInfo', 'Sucessfully updated');
-    } catch (error) {
-        throw error;
-    }
+    return await permissionsPatcher.patchItem(id, item);
 };

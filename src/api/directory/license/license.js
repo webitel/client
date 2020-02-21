@@ -30,7 +30,7 @@ export const updateLicense = async (certificate) => {
     const url = '/customer';
     try {
         await instance.put(url, {certificate});
-        eventBus.$emit('notificationInfo', 'Sucessfully updated');
+        eventBus.$emit('notificationInfo', 'Successfully updated');
     } catch (err) {
         throw err;
     }

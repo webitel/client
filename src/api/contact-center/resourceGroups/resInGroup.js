@@ -13,7 +13,7 @@ const fieldsToSend = ['domainId', 'groupId', 'name', 'description', 'resource'];
 
 
 export const getResInGroupList = async (resGroupId, page = 0, size = 10, search) => {
-    const domainId = store.state.userinfo.domainId || undefined;
+    const domainId = store.state.userinfo.domainId;
     if (search && search.slice(-1) !== '*') search += '*';
     const defaultObject = {
         resource: {},
@@ -33,7 +33,7 @@ export const getResInGroupList = async (resGroupId, page = 0, size = 10, search)
 };
 
 export const getResInGroup = async (resGrId, id) => {
-    const domainId = store.state.userinfo.domainId || undefined;
+    const domainId = store.state.userinfo.domainId;
     const defaultObject = {
         display: '',
         id: 0,
@@ -50,12 +50,12 @@ export const getResInGroup = async (resGrId, id) => {
 
 export const addResInGroup = async (resGroupId, item) => {
     let itemCopy = deepCopy(item);
-    itemCopy.domainId = store.state.userinfo.domainId || undefined;
+    itemCopy.domainId = store.state.userinfo.domainId;
     itemCopy.groupId = resGroupId;
     sanitizer(itemCopy, fieldsToSend);
     try {
         const response = await resGrService.createOutboundResourceInGroup(resGroupId, itemCopy);
-        eventBus.$emit('notificationInfo', 'Sucessfully added');
+        eventBus.$emit('notificationInfo', 'Successfully added');
         return response.id;
     } catch (err) {
         throw err;
@@ -64,19 +64,19 @@ export const addResInGroup = async (resGroupId, item) => {
 
 export const updateResInGroup = async (resGroupId, id, item) => {
     let itemCopy = deepCopy(item);
-    itemCopy.domainId = store.state.userinfo.domainId || undefined;
+    itemCopy.domainId = store.state.userinfo.domainId;
     itemCopy.groupId = resGroupId;
     sanitizer(itemCopy, fieldsToSend);
     try {
         await resGrService.updateOutboundResourceInGroup(resGroupId, id, itemCopy);
-        eventBus.$emit('notificationInfo', 'Sucessfully updated');
+        eventBus.$emit('notificationInfo', 'Successfully updated');
     } catch (err) {
         throw err;
     }
 };
 
 export const deleteResInGroup = async (resGroupId, id) => {
-    const domainId = store.state.userinfo.domainId || undefined;
+    const domainId = store.state.userinfo.domainId;
     try {
         await resGrService.deleteOutboundResourceInGroup(resGroupId, id, domainId);
     } catch (err) {

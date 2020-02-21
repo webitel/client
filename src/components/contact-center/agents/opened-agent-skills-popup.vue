@@ -32,9 +32,7 @@
     import editComponentMixin from '@/mixins/editComponentMixin';
     import {required, numeric, minValue, maxValue} from 'vuelidate/lib/validators';
     import {mapActions, mapState} from "vuex";
-    import {getSkillsList} from "../../../api/contact-center/agentSkills/agentSkills";
-    import {getUsersList} from "../../../api/directory/users/users";
-    import {getAgentSkills, getAgentUsers} from "../../../api/contact-center/agents/agents";
+    import {getAgentSkills} from "../../../api/contact-center/agents/agentSkills";
 
     export default {
         name: "opened-agent-skills-popup",

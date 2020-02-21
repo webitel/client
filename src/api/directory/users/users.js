@@ -1,14 +1,9 @@
-import instance from '../../instance';
-import sanitizer from "../../utils/sanitizer";
-import eventBus from "../../../utils/eventBus";
-import deepCopy from "deep-copy";
 import {
     WebitelAPIItemCreator, WebitelAPIItemDeleter,
-    WebitelAPIItemGetter,
+    WebitelAPIItemGetter, WebitelAPIItemPatcher,
     WebitelAPIItemUpdater,
     WebitelAPIListGetter
 } from "../../utils/apiControllers";
-import {ur} from "vuejs-datepicker/dist/locale";
 
 const BASE_URL = '/users';
 const fieldsToSend = ['name', 'username', 'password', 'extension', 'status', 'dnd', 'roles', 'license', 'devices',
@@ -36,10 +31,26 @@ const defaultItem = {
     _dirty: false,
 };
 
+const preRequestHandler = (item) => {
+    if (item.roles) item.roles.forEach(item => delete item.text);
+    if (item.devices) item.devices.forEach(item => delete item.text);
+    if (item.license) item.license = item.license.map(item => {
+        return {id: item.id}
+    });
+    item.profile = {};
+    if (item.variables) {
+        item.variables.forEach(variable => {
+            item.profile[variable.key] = variable.value;
+        });
+    }
+    return item;
+};
+
 const listGetter = new WebitelAPIListGetter(BASE_URL, defaultListItem);
 const itemGetter = new WebitelAPIItemGetter(BASE_URL, defaultItem);
-const itemCreator = new WebitelAPIItemCreator(BASE_URL, fieldsToSend);
-const itemUpdater = new WebitelAPIItemUpdater(BASE_URL, fieldsToSend);
+const itemCreator = new WebitelAPIItemCreator(BASE_URL, fieldsToSend, preRequestHandler);
+const itemUpdater = new WebitelAPIItemUpdater(BASE_URL, fieldsToSend, preRequestHandler);
+const itemPatcher = new WebitelAPIItemPatcher(BASE_URL, fieldsToSend);
 const itemDeleter = new WebitelAPIItemDeleter(BASE_URL);
 
 itemGetter.responseHandler = (response) => {
@@ -69,43 +80,15 @@ export async function getUser(id) {
 }
 
 export const addUser = async (item) => {
-    let itemCopy = deepCopy(item);
-    if (itemCopy.roles) itemCopy.roles.forEach(item => delete item.text);
-    if (itemCopy.devices) itemCopy.devices.forEach(item => delete item.text);
-    if (itemCopy.license) itemCopy.license = itemCopy.license.map(item => {
-        return {id: item.id}
-    });
-    itemCopy.profile = {};
-    if (itemCopy.variables) {
-        itemCopy.variables.forEach(variable => {
-            itemCopy.profile[variable.key] = variable.value;
-        });
-    }
-    return await itemCreator.createItem(itemCopy);
+    return await itemCreator.createItem(item);
 };
 
 export const updateUser = async (id, item) => {
-    let itemCopy = deepCopy(item);
-    itemCopy.roles.forEach(item => delete item.text);
-    itemCopy.devices.forEach(item => delete item.text);
-    itemCopy.license = itemCopy.license.map(item => {
-        return {id: item.id}
-    });
-    itemCopy.profile = {};
-    itemCopy.variables.forEach(variable => {
-        itemCopy.profile[variable.key] = variable.value;
-    });
-    return await itemUpdater.updateItem(id, itemCopy);
+    return await itemUpdater.updateItem(id, item);
 };
 
-export const patchUser = async (id, user) => {
-    const url = BASE_URL + '/' + id;
-    try {
-        await instance.patch(url, {user});
-        eventBus.$emit('notificationInfo', 'Successfully updated');
-    } catch (err) {
-        throw err;
-    }
+export const patchUser = async (id, item) => {
+    return await itemPatcher.patchItem(id, item);
 };
 
 export const deleteUser = async (id) => {

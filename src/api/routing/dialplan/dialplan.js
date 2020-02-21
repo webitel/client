@@ -2,8 +2,6 @@ import instance from '../../instance';
 import configuration from '../../openAPIConfig';
 import {RoutingOutboundCallServiceApiFactory} from 'webitel-sdk';
 import eventBus from "../../../utils/eventBus";
-import sanitizer from "../../utils/sanitizer";
-import deepCopy from 'deep-copy';
 import store from '../../../store/store';
 
 import {
@@ -16,23 +14,13 @@ import {
 const dialplanService = new RoutingOutboundCallServiceApiFactory
 (configuration, '', instance);
 
-const defaultListObject = {
-    disabled: false,
-    _isSelected: false,
-};
-
 const fieldsToSend = ['domainId', 'name', 'schema', 'pattern', 'description'];
 
 const listGetter = new WebitelSDKListGetter(dialplanService.searchRoutingOutboundCall);
-
 const itemGetter = new WebitelSDKItemGetter(dialplanService.readRoutingOutboundCall);
-
 const itemCreator = new WebitelSDKItemCreator(dialplanService.createRoutingOutboundCall, fieldsToSend);
-
 const itemUpdater = new WebitelSDKItemUpdater(dialplanService.updateRoutingOutboundCall, fieldsToSend);
-
 const itemPatcher = new WebitelSDKItemPatcher(dialplanService.patchRoutingOutboundCall, fieldsToSend);
-
 const itemDeleter = new WebitelSDKItemDeleter(dialplanService.deleteRoutingOutboundCall);
 
 export const getDialplanList = async (page = 0, size = 10, search) => {
@@ -51,6 +39,14 @@ export const patchDialplan = async (id, item) => {
     return await itemPatcher.patchItem(id, item);
 };
 
+export const updateDialplan = async (id, item) => {
+    return await itemUpdater.updateItem(id, item);
+};
+
+export const deleteDialplan = async (id) => {
+    return await itemDeleter.deleteItem(id);
+};
+
 export const moveDialplan = async (fromId, toId) => {
     const domain_id = store.state.userinfo.domainId;
     try {
@@ -59,12 +55,4 @@ export const moveDialplan = async (fromId, toId) => {
     } catch (err) {
         throw err;
     }
-};
-
-export const updateDialplan = async (id, item) => {
-    return await itemUpdater.updateItem(id, item);
-};
-
-export const deleteDialplan = async (id) => {
-    return await itemDeleter.deleteItem(id);
 };
