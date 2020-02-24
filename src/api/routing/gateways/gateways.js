@@ -1,101 +1,65 @@
-import instance from '../../instance';
-import sanitizer from "../../utils/sanitizer";
-import eventBus from "../../../utils/eventBus";
-import deepCopy from 'deep-copy';
+import {WebitelAPIItemDeleter} from "../../utils/ApiControllers/Deleter/ApiDeleter";
+import {WebitelAPIItemUpdater} from "../../utils/ApiControllers/Updater/ApiUpdater";
+import {WebitelAPIItemCreator} from "../../utils/ApiControllers/Creator/ApiCreator";
+import {WebitelAPIItemGetter} from "../../utils/ApiControllers/Getter/ApiGetter";
+import {WebitelAPIListGetter} from "../../utils/ApiControllers/ListGetter/ApiListGetter";
+
 
 const BASE_URL = '/sip/gateways';
 const fieldsToSend = ['name', 'proxy', 'id', 'host', 'ipacl', 'account', 'account', 'username', 'expires',
     'account', 'registrar', 'register', 'password', 'schema', 'enable'];
 
-export async function getGatewayList(page = 0, size = 10, search) {
-    const defaultObject = {  // default object prototype, to merge response with it to get all fields
-        _isSelected: false,
-        name: '',
-        proxy: '',
-        enable: false,
-        id: 0
-    };
+const defaultListItem = {  // default object prototype, to merge response with it to get all fields
+    _isSelected: false,
+    name: '',
+    proxy: '',
+    enable: false,
+    id: 0
+};
 
-    // let url = `${BASE_URL}?page=${page}size=${size}`;
-    let url = `${BASE_URL}?size=${size}`;
-    if (search) url += `&name=${search}*`;
-
-    try {
-        let response = await instance.get(url);
-        if (response.items) {
-            return response.items.map(item => {
-                return {...defaultObject, ...item};
-            });
-        }
-        return [];
-    } catch (error) {
-        throw error;
+const preRequestHandler = (item) => {
+    if (item.register)
+    {
+        item.account = item.accountName + '@' + (item.domain || item.registrar);
     }
+    Object.keys(item).forEach(key => {
+        if (!item[key]) delete item[key];
+    });
+    return item;
+};
+
+const listGetter = new WebitelAPIListGetter(BASE_URL, defaultListItem);
+const itemGetter = new WebitelAPIItemGetter(BASE_URL);
+const itemCreator = new WebitelAPIItemCreator(BASE_URL, fieldsToSend, preRequestHandler);
+const itemUpdater = new WebitelAPIItemUpdater(BASE_URL, fieldsToSend, preRequestHandler);
+const itemDeleter = new WebitelAPIItemDeleter(BASE_URL);
+
+itemGetter.responseHandler = (response) => {
+    if (response.item.register) {
+        return coerceRegisterResponse(response);
+    } else {
+        return coerceTrunkingResponse(response);
+    }
+};
+
+export async function getGatewayList(page = 0, size = 10, search) {
+    return await listGetter.getList({page, size, search});
 };
 
 export async function getGateway(id) {
-    const url = BASE_URL + '/' + id;
-
-    try {
-        let response = await instance.get(url);
-        if (response.item.register) {
-            return coerceRegisterResponse(response);
-        } else {
-            return coerceTrunkingResponse(response);
-        }
-    } catch (error) {
-        throw error;
-    }
+    return await itemGetter.getItem(id);
 };
 
 export const addGateway = async (item) => {
-    let itemCopy = deepCopy(item);
-    if (itemCopy.register) itemCopy.account = itemCopy.accountName + '@' + (item.domain || item.registrar);
-    sanitizer(itemCopy, fieldsToSend);
-    Object.keys(itemCopy).forEach(key => {
-        if (!itemCopy[key]) delete itemCopy[key];
-    });
-
-    try {
-        const response = await instance.post(BASE_URL, {item: itemCopy});
-        eventBus.$emit('notificationInfo', 'Sucessfully added');
-        return response.id;
-    } catch (err) {
-        throw err;
-    }
+    return await itemCreator.createItem(item);
 };
 
 export const updateGateway = async (id, item) => {
-    const url = BASE_URL + '/' + id;
-    let itemCopy = deepCopy(item);
-
-    if (!itemCopy.register) {
-        itemCopy.ipacl.forEach(acl => {
-            if (!acl.port) delete acl.port
-        });
-    } else {
-        itemCopy.account = itemCopy.accountName + '@' + (item.domain || item.registrar);
-    }
-
-    sanitizer(itemCopy, fieldsToSend);
-
-    try {
-        const response = await instance.put(url, {changes: itemCopy});
-        eventBus.$emit('notificationInfo', 'Sucessfully updated');
-        return response.id;
-    } catch (err) {
-        throw err;
-    }
+    return await itemUpdater.updateItem(id, item);
 };
 
 export const deleteGateway = async (id) => {
-    const url = BASE_URL + '/' + id;
-
-    try {
-        await instance.delete(url);
-    } catch (err) {
-        throw err;
-    }
+    return await itemDeleter.deleteItem(id);
 };
 
 const coerceTrunkingResponse = (response) => {

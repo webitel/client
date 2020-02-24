@@ -77,7 +77,7 @@
 
 <script>
     import tableComponentMixin from '@/mixins/tableComponentMixin';
-    import {_actionsTableField_2} from "../../../utils/tableFieldPresets";
+    import {_actionsTableField_2, _checkboxTableField} from "../../../utils/tableFieldPresets";
     import {mapActions, mapState} from "vuex";
 
     export default {
@@ -86,6 +86,7 @@
         data() {
             return {
                 fields: [
+                    _checkboxTableField,
                     {name: 'name', title: this.$t('objects.name')},
                     {name: 'description', title: this.$t('objects.description')},
                     _actionsTableField_2
