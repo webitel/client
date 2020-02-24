@@ -1,6 +1,10 @@
 import instance from '../../instance';
 import eventBus from "../../../utils/eventBus";
-import {WebitelAPIPermissionsGetter, WebitelAPIPermissionsPatcher} from "../../utils/apiControllers";
+import {
+    WebitelAPIPermissionsGetter,
+    WebitelAPIPermissionsPatcher
+} from "../../utils/ApiControllers/Permissions/PermissionsController";
+
 
 const BASE_URL = '/objects';
 

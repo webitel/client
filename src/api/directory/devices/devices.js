@@ -1,11 +1,11 @@
 import instance from '../../instance';
 import deepCopy from "deep-copy";
-import {
-    WebitelAPIItemCreator, WebitelAPIItemDeleter,
-    WebitelAPIItemGetter,
-    WebitelAPIItemUpdater,
-    WebitelAPIListGetter
-} from "../../utils/apiControllers";
+import {WebitelAPIItemDeleter} from "../../utils/ApiControllers/Deleter/ApiDeleter";
+import {WebitelAPIItemUpdater} from "../../utils/ApiControllers/Updater/ApiUpdater";
+import {WebitelAPIItemCreator} from "../../utils/ApiControllers/Creator/ApiCreator";
+import {WebitelAPIItemGetter} from "../../utils/ApiControllers/Getter/ApiGetter";
+import {WebitelAPIListGetter} from "../../utils/ApiControllers/ListGetter/ApiListGetter";
+
 
 const BASE_URL = '/devices';
 const fieldsToSend = ['name', 'account', 'password', 'user',

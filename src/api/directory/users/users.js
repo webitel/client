@@ -1,9 +1,9 @@
-import {
-    WebitelAPIItemCreator, WebitelAPIItemDeleter,
-    WebitelAPIItemGetter, WebitelAPIItemPatcher,
-    WebitelAPIItemUpdater,
-    WebitelAPIListGetter
-} from "../../utils/apiControllers";
+import {WebitelAPIItemDeleter} from "../../utils/ApiControllers/Deleter/ApiDeleter";
+import {WebitelAPIItemPatcher} from "../../utils/ApiControllers/Patcher/ApiPatcher";
+import {WebitelAPIItemUpdater} from "../../utils/ApiControllers/Updater/ApiUpdater";
+import {WebitelAPIItemCreator} from "../../utils/ApiControllers/Creator/ApiCreator";
+import {WebitelAPIItemGetter} from "../../utils/ApiControllers/Getter/ApiGetter";
+import {WebitelAPIListGetter} from "../../utils/ApiControllers/ListGetter/ApiListGetter";
 
 const BASE_URL = '/users';
 const fieldsToSend = ['name', 'username', 'password', 'extension', 'status', 'dnd', 'roles', 'license', 'devices',

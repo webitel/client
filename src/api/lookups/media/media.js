@@ -4,7 +4,8 @@ import configuration from '../../openAPIConfig';
 import {MediaFileServiceApiFactory} from 'webitel-sdk';
 import eventBus from "../../../utils/eventBus";
 import store from "../../../store/store";
-import {WebitelSDKItemDeleter, WebitelSDKListGetter} from "../../utils/apiControllers";
+import {WebitelSDKItemDeleter} from "../../utils/ApiControllers/Deleter/SDKDeleter";
+import {WebitelSDKListGetter} from "../../utils/ApiControllers/ListGetter/SDKListGetter";
 
 const mediaService = new MediaFileServiceApiFactory
 (configuration, '', instance);

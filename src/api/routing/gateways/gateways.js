@@ -1,9 +1,9 @@
-import {
-    WebitelAPIItemCreator, WebitelAPIItemDeleter,
-    WebitelAPIItemGetter,
-    WebitelAPIItemUpdater,
-    WebitelAPIListGetter
-} from "../../utils/apiControllers";
+import {WebitelAPIItemDeleter} from "../../utils/ApiControllers/Deleter/ApiDeleter";
+import {WebitelAPIItemUpdater} from "../../utils/ApiControllers/Updater/ApiUpdater";
+import {WebitelAPIItemCreator} from "../../utils/ApiControllers/Creator/ApiCreator";
+import {WebitelAPIItemGetter} from "../../utils/ApiControllers/Getter/ApiGetter";
+import {WebitelAPIListGetter} from "../../utils/ApiControllers/ListGetter/ApiListGetter";
+
 
 const BASE_URL = '/sip/gateways';
 const fieldsToSend = ['name', 'proxy', 'id', 'host', 'ipacl', 'account', 'account', 'username', 'expires',

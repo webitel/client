@@ -3,13 +3,13 @@ import configuration from '../../openAPIConfig';
 import {RoutingOutboundCallServiceApiFactory} from 'webitel-sdk';
 import eventBus from "../../../utils/eventBus";
 import store from '../../../store/store';
+import {WebitelSDKItemDeleter} from "../../utils/ApiControllers/Deleter/SDKDeleter";
+import {WebitelSDKItemPatcher} from "../../utils/ApiControllers/Patcher/SDKPatcher";
+import {WebitelSDKItemUpdater} from "../../utils/ApiControllers/Updater/SDKUpdater";
+import {WebitelSDKItemCreator} from "../../utils/ApiControllers/Creator/SDKCreator";
+import {WebitelSDKItemGetter} from "../../utils/ApiControllers/Getter/SDKGetter";
+import {WebitelSDKListGetter} from "../../utils/ApiControllers/ListGetter/SDKListGetter";
 
-import {
-    WebitelSDKItemCreator, WebitelSDKItemDeleter,
-    WebitelSDKItemGetter, WebitelSDKItemPatcher,
-    WebitelSDKItemUpdater,
-    WebitelSDKListGetter
-} from "../../utils/apiControllers";
 
 const dialplanService = new RoutingOutboundCallServiceApiFactory
 (configuration, '', instance);

@@ -2,13 +2,15 @@ import instance from '../../instance';
 import configuration from '../../openAPIConfig';
 import {BucketServiceApiFactory} from 'webitel-sdk';
 import {
-    WebitelAPIPermissionsGetter, WebitelAPIPermissionsPatcher,
-    WebitelSDKItemCreator,
-    WebitelSDKItemDeleter,
-    WebitelSDKItemGetter,
-    WebitelSDKItemUpdater,
-    WebitelSDKListGetter
-} from "../../utils/apiControllers";
+    WebitelAPIPermissionsGetter,
+    WebitelAPIPermissionsPatcher
+} from "../../utils/ApiControllers/Permissions/PermissionsController";
+import {WebitelSDKItemDeleter} from "../../utils/ApiControllers/Deleter/SDKDeleter";
+import {WebitelSDKItemUpdater} from "../../utils/ApiControllers/Updater/SDKUpdater";
+import {WebitelSDKItemCreator} from "../../utils/ApiControllers/Creator/SDKCreator";
+import {WebitelSDKItemGetter} from "../../utils/ApiControllers/Getter/SDKGetter";
+import {WebitelSDKListGetter} from "../../utils/ApiControllers/ListGetter/SDKListGetter";
+
 
 const bucketService = new BucketServiceApiFactory
 (configuration, '', instance);

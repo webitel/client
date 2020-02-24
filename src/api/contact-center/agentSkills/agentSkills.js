@@ -1,12 +1,12 @@
 import instance from '../../instance';
 import configuration from '../../openAPIConfig';
 import {SkillServiceApiFactory} from 'webitel-sdk';
-import {
-    WebitelSDKItemCreator, WebitelSDKItemDeleter,
-    WebitelSDKItemGetter,
-    WebitelSDKItemUpdater,
-    WebitelSDKListGetter
-} from "../../utils/apiControllers";
+import {WebitelSDKItemDeleter} from "../../utils/ApiControllers/Deleter/SDKDeleter";
+import {WebitelSDKItemUpdater} from "../../utils/ApiControllers/Updater/SDKUpdater";
+import {WebitelSDKItemCreator} from "../../utils/ApiControllers/Creator/SDKCreator";
+import {WebitelSDKItemGetter} from "../../utils/ApiControllers/Getter/SDKGetter";
+import {WebitelSDKListGetter} from "../../utils/ApiControllers/ListGetter/SDKListGetter";
+
 
 const skillService = new SkillServiceApiFactory
 (configuration, '', instance);

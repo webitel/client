@@ -1,12 +1,11 @@
 import instance from '../../instance';
 import configuration from '../../openAPIConfig';
 import {RoutingSchemaServiceApiFactory} from 'webitel-sdk';
-import {
-    WebitelSDKItemCreator, WebitelSDKItemDeleter,
-    WebitelSDKItemGetter,
-    WebitelSDKItemUpdater,
-    WebitelSDKListGetter
-} from "../../utils/apiControllers";
+import {WebitelSDKItemDeleter} from "../../utils/ApiControllers/Deleter/SDKDeleter";
+import {WebitelSDKItemUpdater} from "../../utils/ApiControllers/Updater/SDKUpdater";
+import {WebitelSDKItemCreator} from "../../utils/ApiControllers/Creator/SDKCreator";
+import {WebitelSDKItemGetter} from "../../utils/ApiControllers/Getter/SDKGetter";
+import {WebitelSDKListGetter} from "../../utils/ApiControllers/ListGetter/SDKListGetter";
 
 const flowService = new RoutingSchemaServiceApiFactory
 (configuration, '', instance);
@@ -26,13 +25,10 @@ const itemUpdater = new WebitelSDKItemUpdater(flowService.updateRoutingSchema, f
 const itemDeleter = new WebitelSDKItemDeleter(flowService.deleteRoutingSchema);
 
 itemGetter.responseHandler = (response) => {
-    let defaultObject = {
-        _dirty: false,
-    };
     return {
         ...response,
-        schema: JSON.stringify(response.schema, null, 4),
-        ...defaultObject
+        schema: JSON.stringify(response.schema, null, 4)
+
     };
 };
 

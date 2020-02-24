@@ -1,9 +1,9 @@
-import {
-    WebitelAPIItemCreator, WebitelAPIItemDeleter,
-    WebitelAPIItemGetter,
-    WebitelAPIItemUpdater,
-    WebitelAPIListGetter
-} from "../../utils/apiControllers";
+import {WebitelAPIListGetter} from "../../utils/ApiControllers/ListGetter/ApiListGetter";
+import {WebitelAPIItemDeleter} from "../../utils/ApiControllers/Deleter/ApiDeleter";
+import {WebitelAPIItemUpdater} from "../../utils/ApiControllers/Updater/ApiUpdater";
+import {WebitelAPIItemCreator} from "../../utils/ApiControllers/Creator/ApiCreator";
+import {WebitelAPIItemGetter} from "../../utils/ApiControllers/Getter/ApiGetter";
+
 
 const BASE_URL = '/roles';
 const fieldsToSend = ['name', 'description'];
@@ -15,13 +15,9 @@ const itemUpdater = new WebitelAPIItemUpdater(BASE_URL, fieldsToSend);
 const itemDeleter = new WebitelAPIItemDeleter(BASE_URL);
 
 itemGetter.responseHandler = (response) => {
-    let defaultItem = {
-        name: 'name undefined',
-        id: 0,
-        _dirty: false,
-    };
+
     try {
-        return {...defaultItem, ...response.role};
+        return response.role
     } catch (error) {
         throw error;
     }

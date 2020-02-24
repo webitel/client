@@ -3,12 +3,16 @@ import configuration from '../../openAPIConfig';
 import {QueueServiceApiFactory} from 'webitel-sdk';
 import store from '../../../store/store';
 import {
-    WebitelAPIPermissionsGetter, WebitelAPIPermissionsPatcher,
-    WebitelSDKItemCreator, WebitelSDKItemDeleter,
-    WebitelSDKItemGetter, WebitelSDKItemPatcher,
-    WebitelSDKItemUpdater,
-    WebitelSDKListGetter
-} from "../../utils/apiControllers";
+    WebitelAPIPermissionsGetter,
+    WebitelAPIPermissionsPatcher
+} from "../../utils/ApiControllers/Permissions/PermissionsController";
+import {WebitelSDKItemDeleter} from "../../utils/ApiControllers/Deleter/SDKDeleter";
+import {WebitelSDKItemPatcher} from "../../utils/ApiControllers/Patcher/SDKPatcher";
+import {WebitelSDKItemUpdater} from "../../utils/ApiControllers/Updater/SDKUpdater";
+import {WebitelSDKItemCreator} from "../../utils/ApiControllers/Creator/SDKCreator";
+import {WebitelSDKItemGetter} from "../../utils/ApiControllers/Getter/SDKGetter";
+import {WebitelSDKListGetter} from "../../utils/ApiControllers/ListGetter/SDKListGetter";
+
 
 const queueService = new QueueServiceApiFactory
 (configuration, '', instance);
