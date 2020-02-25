@@ -2,100 +2,56 @@ import instance from '../../instance';
 import configuration from '../../openAPIConfig';
 import {RoutingOutboundCallServiceApiFactory} from 'webitel-sdk';
 import eventBus from "../../../utils/eventBus";
-import sanitizer from "../../utils/sanitizer";
-import deepCopy from 'deep-copy';
 import store from '../../../store/store';
+import {WebitelSDKItemDeleter} from "../../utils/ApiControllers/Deleter/SDKDeleter";
+import {WebitelSDKItemPatcher} from "../../utils/ApiControllers/Patcher/SDKPatcher";
+import {WebitelSDKItemUpdater} from "../../utils/ApiControllers/Updater/SDKUpdater";
+import {WebitelSDKItemCreator} from "../../utils/ApiControllers/Creator/SDKCreator";
+import {WebitelSDKItemGetter} from "../../utils/ApiControllers/Getter/SDKGetter";
+import {WebitelSDKListGetter} from "../../utils/ApiControllers/ListGetter/SDKListGetter";
+
 
 const dialplanService = new RoutingOutboundCallServiceApiFactory
 (configuration, '', instance);
 
 const fieldsToSend = ['domainId', 'name', 'schema', 'pattern', 'description'];
 
-export const getDialplanList = async (page = 0, size = 10, search) => {
-    const domainId = store.state.userinfo.domainId || undefined;
-    const defaultObject = {
-        disabled: false,
-        _isSelected: false,
-    };
-    if(search && search.slice(-1) !== '*') search += '*';
+const listGetter = new WebitelSDKListGetter(dialplanService.searchRoutingOutboundCall);
+const itemGetter = new WebitelSDKItemGetter(dialplanService.readRoutingOutboundCall);
+const itemCreator = new WebitelSDKItemCreator(dialplanService.createRoutingOutboundCall, fieldsToSend);
+const itemUpdater = new WebitelSDKItemUpdater(dialplanService.updateRoutingOutboundCall, fieldsToSend);
+const itemPatcher = new WebitelSDKItemPatcher(dialplanService.patchRoutingOutboundCall, fieldsToSend);
+const itemDeleter = new WebitelSDKItemDeleter(dialplanService.deleteRoutingOutboundCall);
 
-    try {
-        const response = await dialplanService.searchRoutingOutboundCall(page, size, search, domainId);
-        if (response.items) {
-            return response.items.map(item => {
-                return {...defaultObject, ...item};
-            });
-        }
-        return [];
-    } catch (err) {
-        throw err;
-    }
+export const getDialplanList = async (page = 0, size = 10, search) => {
+    return await listGetter.getList({page, size, search});
 };
 
 export const getDialplan = async (id) => {
-    const domainId = store.state.userinfo.domainId || undefined;
-    const defaultObject = {
-        _dirty: false,
-    };
-    try {
-        let response = await dialplanService.readRoutingOutboundCall(id, domainId);
-        return {...defaultObject, ...response};
-    } catch (err) {
-        throw err;
-    }
+    return await itemGetter.getItem(id);
 };
 
 export const addDialplan = async (item) => {
-    let itemCopy = deepCopy(item);
-    itemCopy.domainId = store.state.userinfo.domainId || undefined;
-    sanitizer(itemCopy, fieldsToSend);
-    try {
-        const response = await dialplanService.createRoutingOutboundCall(itemCopy);
-        eventBus.$emit('notificationInfo', 'Sucessfully added');
-        return response.id;
-    } catch (err) {
-        throw err;
-    }
+    return await itemCreator.createItem(item);
 };
 
 export const patchDialplan = async (id, item) => {
-    let itemCopy = deepCopy(item);
-    itemCopy.domainId = store.state.userinfo.domainId || undefined;
-    sanitizer(itemCopy, fieldsToSend);
-    try {
-        await dialplanService.patchRoutingOutboundCall(id, itemCopy);
-        eventBus.$emit('notificationInfo', 'Sucessfully updated');
-    } catch (err) {
-        throw err;
-    }
-};
-
-export const moveDialplan = async (fromId, toId) => {
-    const domain_id = store.state.userinfo.domainId || undefined;
-    try {
-        await dialplanService.movePositionRoutingOutboundCall(fromId, toId, {domain_id});
-        eventBus.$emit('notificationInfo', 'Sucessfully updated');
-    } catch (err) {
-        throw err;
-    }
+    return await itemPatcher.patchItem(id, item);
 };
 
 export const updateDialplan = async (id, item) => {
-    let itemCopy = deepCopy(item);
-    itemCopy.domainId = store.state.userinfo.domainId || undefined;
-    sanitizer(itemCopy, fieldsToSend);
-    try {
-        await dialplanService.updateRoutingOutboundCall(id, itemCopy);
-        eventBus.$emit('notificationInfo', 'Sucessfully updated');
-    } catch (err) {
-        throw err;
-    }
+    return await itemUpdater.updateItem(id, item);
 };
 
 export const deleteDialplan = async (id) => {
-    const domainId = store.state.userinfo.domainId || undefined;
+    return await itemDeleter.deleteItem(id);
+};
+
+export const moveDialplan = async (fromId, toId) => {
+    const domain_id = store.state.userinfo.domainId;
     try {
-        await dialplanService.deleteRoutingOutboundCall(id, domainId);
+        await dialplanService.movePositionRoutingOutboundCall(fromId, toId, {domain_id});
+        eventBus.$emit('notificationInfo', 'Successfully updated');
     } catch (err) {
         throw err;
     }

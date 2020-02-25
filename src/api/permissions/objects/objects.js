@@ -1,7 +1,15 @@
 import instance from '../../instance';
 import eventBus from "../../../utils/eventBus";
+import {
+    WebitelAPIPermissionsGetter,
+    WebitelAPIPermissionsPatcher
+} from "../../utils/ApiControllers/Permissions/PermissionsController";
+
 
 const BASE_URL = '/objects';
+
+const permissionsGetter = new WebitelAPIPermissionsGetter(BASE_URL);
+const permissionsPatcher = new WebitelAPIPermissionsPatcher(BASE_URL);
 
 export const getObjectList = async (search) => {
     const defaultObject = {  // default object prototype, to merge response with it to get all fields
@@ -35,7 +43,7 @@ export const updateObject = async (id, item) => {
 
     try {
         await instance.put(url, updatedItem);
-        eventBus.$emit('notificationInfo', 'Sucessfully updated');
+        eventBus.$emit('notificationInfo', 'Successfully updated');
     } catch (error) {
         throw error;
     }
@@ -52,25 +60,11 @@ export const getObject = async (id) => {
 };
 
 export const getObjectPermissions = async (id) => {
-    const url = BASE_URL + '/' + id + '/acl';
-
-    try {
-        const response = await instance.get(url);
-        return coerceObjectPermissionsResponse(response);
-    } catch (error) {
-        throw error;
-    }
+    return await permissionsGetter.getList(id);
 };
 
 export const patchObjectPermissions = async (id, item) => {
-    const url = BASE_URL + '/' + id + '/acl';
-
-    try {
-        await instance.patch(url, {changes: item});
-        eventBus.$emit('notificationInfo', 'Sucessfully updated');
-    } catch (error) {
-        throw error;
-    }
+    return await permissionsPatcher.patchItem(id, item);
 };
 
 export const coerceObjectPermissionsResponse = (response) => {

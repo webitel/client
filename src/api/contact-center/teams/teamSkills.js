@@ -14,7 +14,7 @@ const fieldsToSend = ['domainId', 'maxCapacity',
     'minCapacity', 'teamId', 'lvl', 'bucket', 'skill'];
 
 export const getTeamSkillsList = async (teamId, page = 0, size = 10, search) => {
-    const domainId = store.state.userinfo.domainId || undefined;
+    const domainId = store.state.userinfo.domainId;
     if (search && search.slice(-1) !== '*') search += '*';
     const defaultObject = {
         agent: {},
@@ -39,7 +39,7 @@ export const getTeamSkillsList = async (teamId, page = 0, size = 10, search) => 
 };
 
 export const getTeamSkill = async (teamId, id) => {
-    const domainId = store.state.userinfo.domainId || undefined;
+    const domainId = store.state.userinfo.domainId;
     const defaultObject = {
         agent: {},
         minCapacity: 0,
@@ -59,12 +59,12 @@ export const getTeamSkill = async (teamId, id) => {
 
 export const addTeamSkill = async (teamId, item) => {
     let itemCopy = deepCopy(item);
-    itemCopy.domainId = store.state.userinfo.domainId || undefined;
+    itemCopy.domainId = store.state.userinfo.domainId;
     itemCopy.teamId = teamId;
     sanitizer(itemCopy, fieldsToSend);
     try {
         const response = await teamResService.createResourceTeamSkill(teamId, itemCopy);
-        eventBus.$emit('notificationInfo', 'Sucessfully added');
+        eventBus.$emit('notificationInfo', 'Successfully added');
         return response.id;
     } catch (err) {
         throw err;
@@ -73,19 +73,19 @@ export const addTeamSkill = async (teamId, item) => {
 
 export const updateTeamSkill = async (teamId, id, item) => {
     let itemCopy = deepCopy(item);
-    itemCopy.domainId = store.state.userinfo.domainId || undefined;
+    itemCopy.domainId = store.state.userinfo.domainId;
     itemCopy.teamId = teamId;
     sanitizer(itemCopy, fieldsToSend);
     try {
         await teamResService.updateResourceTeamSkill(teamId, id, itemCopy);
-        eventBus.$emit('notificationInfo', 'Sucessfully updated');
+        eventBus.$emit('notificationInfo', 'Successfully updated');
     } catch (err) {
         throw err;
     }
 };
 
 export const deleteTeamSkill = async (teamId, id) => {
-    const domainId = store.state.userinfo.domainId || undefined;
+    const domainId = store.state.userinfo.domainId;
     try {
         await teamResService.deleteResourceTeamSkill(teamId, id, domainId);
     } catch (err) {

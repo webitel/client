@@ -12,7 +12,7 @@ const listService = new ListServiceApiFactory
 const fieldsToSend = ['domainId', 'listId', 'description', 'number'];
 
 export const getBlacklistCommunicationList = async (listId, page = 0, size = 10, search) => {
-    const domainId = store.state.userinfo.domainId || undefined;
+    const domainId = store.state.userinfo.domainId;
     if (search && search.slice(-1) !== '*') search += '*';
     const defaultObject = {
         name: '',
@@ -32,7 +32,7 @@ export const getBlacklistCommunicationList = async (listId, page = 0, size = 10,
 };
 
 export const getBlacklistCommunication = async (listId, id) => {
-    const domainId = store.state.userinfo.domainId || undefined;
+    const domainId = store.state.userinfo.domainId;
     const defaultObject = {
         _dirty: false,
     };
@@ -46,12 +46,12 @@ export const getBlacklistCommunication = async (listId, id) => {
 
 export const addBlacklistCommunication = async (listId, item) => {
     let itemCopy = deepCopy(item);
-    itemCopy.domainId = store.state.userinfo.domainId || undefined;
+    itemCopy.domainId = store.state.userinfo.domainId;
     itemCopy.listId = listId;
     sanitizer(item, fieldsToSend);
     try {
         const response = await listService.createListCommunication(listId, itemCopy);
-        eventBus.$emit('notificationInfo', 'Sucessfully added');
+        eventBus.$emit('notificationInfo', 'Successfully added');
         return response.id;
     } catch (err) {
         throw err;
@@ -60,19 +60,19 @@ export const addBlacklistCommunication = async (listId, item) => {
 
 export const updateBlacklistCommunication = async (listId, id, item) => {
     let itemCopy = deepCopy(item);
-    itemCopy.domainId = store.state.userinfo.domainId || undefined;
+    itemCopy.domainId = store.state.userinfo.domainId;
     itemCopy.listId = listId;
     sanitizer(itemCopy, fieldsToSend);
     try {
         await listService.updateListCommunication(listId, id, itemCopy);
-        eventBus.$emit('notificationInfo', 'Sucessfully updated');
+        eventBus.$emit('notificationInfo', 'Successfully updated');
     } catch (err) {
         throw err;
     }
 };
 
 export const deleteBlacklistCommunication = async (listId, id) => {
-    const domainId = store.state.userinfo.domainId || undefined;
+    const domainId = store.state.userinfo.domainId;
     try {
         await listService.deleteListCommunication(listId, id, domainId);
     } catch (err) {

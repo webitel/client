@@ -12,7 +12,7 @@ const teamSupervisorService = new SupervisorInTeamServiceApiFactory
 const fieldsToSend = ['domainId', 'teamId', 'agent'];
 
 export const getTeamSupervisorsList = async (teamId, page = 0, size = 10, search) => {
-    const domainId = store.state.userinfo.domainId || undefined;
+    const domainId = store.state.userinfo.domainId;
     if (search && search.slice(-1) !== '*') search += '*';
     const defaultObject = {
         agent: {},
@@ -33,7 +33,7 @@ export const getTeamSupervisorsList = async (teamId, page = 0, size = 10, search
 };
 
 export const getTeamSupervisor = async (teamId, id) => {
-    const domainId = store.state.userinfo.domainId || undefined;
+    const domainId = store.state.userinfo.domainId;
     try {
         let response = await teamSupervisorService.readSupervisorInTeam(teamId, id, domainId);
         const defaultObject = {
@@ -48,12 +48,12 @@ export const getTeamSupervisor = async (teamId, id) => {
 
 export const addTeamSupervisor = async (teamId, item) => {
     let itemCopy = deepCopy(item);
-    itemCopy.domainId = store.state.userinfo.domainId || undefined;
+    itemCopy.domainId = store.state.userinfo.domainId;
     itemCopy.teamId = teamId;
     sanitizer(itemCopy, fieldsToSend);
     try {
         const response = await teamSupervisorService.createSupervisorInTeam(teamId, itemCopy);
-        eventBus.$emit('notificationInfo', 'Sucessfully added');
+        eventBus.$emit('notificationInfo', 'Successfully added');
         return response.id;
     } catch (err) {
         throw err;
@@ -62,19 +62,19 @@ export const addTeamSupervisor = async (teamId, item) => {
 
 export const updateTeamSupervisor = async (teamId, id, item) => {
     let itemCopy = deepCopy(item);
-    itemCopy.domainId = store.state.userinfo.domainId || undefined;
+    itemCopy.domainId = store.state.userinfo.domainId;
     itemCopy.teamId = teamId;
     sanitizer(itemCopy, fieldsToSend);
     try {
         await teamSupervisorService.updateSupervisorInTeam(teamId, id, itemCopy);
-        eventBus.$emit('notificationInfo', 'Sucessfully updated');
+        eventBus.$emit('notificationInfo', 'Successfully updated');
     } catch (err) {
         throw err;
     }
 };
 
 export const deleteTeamSupervisor = async (teamId, id) => {
-    const domainId = store.state.userinfo.domainId || undefined;
+    const domainId = store.state.userinfo.domainId;
     try {
         await teamSupervisorService.deleteSupervisorInTeam(teamId, id, domainId);
     } catch (err) {

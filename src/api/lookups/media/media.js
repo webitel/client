@@ -4,6 +4,8 @@ import configuration from '../../openAPIConfig';
 import {MediaFileServiceApiFactory} from 'webitel-sdk';
 import eventBus from "../../../utils/eventBus";
 import store from "../../../store/store";
+import {WebitelSDKItemDeleter} from "../../utils/ApiControllers/Deleter/SDKDeleter";
+import {WebitelSDKListGetter} from "../../utils/ApiControllers/ListGetter/SDKListGetter";
 
 const mediaService = new MediaFileServiceApiFactory
 (configuration, '', instance);
@@ -11,30 +13,16 @@ const mediaService = new MediaFileServiceApiFactory
 const token = localStorage.getItem('access-token');
 const BASE_URL = process.env.VUE_APP_API_URL;
 
-export const getMediaList = async (page = 0, size = 10, search) => {
-    const domainId = store.state.userinfo.domainId || undefined;
-    if(search && search.slice(-1) !== '*') search += '*';
-    const defaultObject = {
-        name: '',
-        _isSelected: false,
-    };
+const listGetter = new WebitelSDKListGetter(mediaService.searchMediaFile);
+const itemDeleter = new WebitelSDKItemDeleter(mediaService.deleteMediaFile);
 
-    try {
-        let response = await mediaService.searchMediaFile(page, size, search, domainId);
-        if (response.items) {
-            return response.items.map(item => {
-                return {...defaultObject, ...item};
-            });
-        }
-        return [];
-    } catch (err) {
-        throw err;
-    }
+export const getMediaList = async (page = 0, size = 10, search) => {
+    return await listGetter.getList({page, size, search});
 };
 
 export const getMedia = async (id) => {
     const url = `${BASE_URL}/storage/media/${id}/stream?access_token=${token}`;
-    const domainId = store.state.userinfo.domainId || undefined;
+    const domainId = store.state.userinfo.domainId;
     try {
         return await instance.get(url, domainId);
     } catch (err) {
@@ -62,7 +50,7 @@ export const addMedia = async (file) => {
     formData.append('file', file);
     try {
         const response = await axios.post(url, formData, config);
-        eventBus.$emit('notificationInfo', 'Sucessfully added');
+        eventBus.$emit('notificationInfo', 'Successfully added');
         return response.id;
     } catch (err) {
         throw err;
@@ -70,10 +58,5 @@ export const addMedia = async (file) => {
 };
 
 export const deleteMedia = async (id) => {
-    const domainId = store.state.userinfo.domainId || undefined;
-    try {
-        await mediaService.deleteMediaFile(id, domainId);
-    } catch (err) {
-        throw err;
-    }
+    return await itemDeleter.deleteItem(id);
 };

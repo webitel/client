@@ -1,93 +1,61 @@
 import instance from '../../instance';
-import sanitizer from "../../utils/sanitizer";
-import eventBus from "../../../utils/eventBus";
 import deepCopy from "deep-copy";
+import {WebitelAPIItemDeleter} from "../../utils/ApiControllers/Deleter/ApiDeleter";
+import {WebitelAPIItemUpdater} from "../../utils/ApiControllers/Updater/ApiUpdater";
+import {WebitelAPIItemCreator} from "../../utils/ApiControllers/Creator/ApiCreator";
+import {WebitelAPIItemGetter} from "../../utils/ApiControllers/Getter/ApiGetter";
+import {WebitelAPIListGetter} from "../../utils/ApiControllers/ListGetter/ApiListGetter";
+
 
 const BASE_URL = '/devices';
 const fieldsToSend = ['name', 'account', 'password', 'user',
     // 'mac', 'ip', 'vendor', 'model'
 ];
 
-export async function getDeviceList(page = 0, size = 100, search) {
-    const defaultObject = {  // default object prototype, to merge response with it to get all fields
-        _isSelected: false,
-        name: 'name undefined',
-        account: 'auth id undefined',
-        user: {name: 'user undefined'},
-        state: 0,
-        id: 0
-    };
+const defaultListItem = {  // default object prototype, to merge response with it to get all fields
+    _isSelected: false,
+    name: 'name undefined',
+    account: 'auth id undefined',
+    user: {name: 'user undefined'},
+    state: 0,
+    id: 0
+};
 
-    // let url = BASE_URL + `?page=${page}size=${size}`;
-    let url = BASE_URL + `?size=${size}`;
-    if (search) url += `&name=${search}*`;
+const defaultItem = {  // default object prototype, to merge response with it to get all fields
+    name: 'name undefined',
+    account: 'auth id undefined',
+    user: {name: 'user undefined'},
+    state: 0,
+    id: 0,
+    _dirty: false,
+};
 
-    try {
-        let response = await instance.get(url);
-        if (response.devices) {
-            return response.devices.map(item => {
-                return {...defaultObject, ...item};
-            });
-        }
-        return [];
-    } catch (error) {
-        throw error;
-    }
+const listGetter = new WebitelAPIListGetter(BASE_URL, defaultListItem);
+const itemGetter = new WebitelAPIItemGetter(BASE_URL, defaultItem);
+const itemCreator = new WebitelAPIItemCreator(BASE_URL, fieldsToSend);
+const itemUpdater = new WebitelAPIItemUpdater(BASE_URL, fieldsToSend);
+const itemDeleter = new WebitelAPIItemDeleter(BASE_URL);
+
+export async function getDeviceList(page, size, search) {
+    return await listGetter.getList({page, size, search});
 }
 
 export async function getDevice(id) {
-    const url = BASE_URL + '/' + id;
-
-    const defaultObject = {  // default object prototype, to merge response with it to get all fields
-        name: 'name undefined',
-        account: 'auth id undefined',
-        user: {name: 'user undefined'},
-        state: 0,
-        id: 0,
-        _dirty: false,
-    };
-    try {
-        let response = await instance.get(url);
-        // response.data.device.mac = response.data.device.mac.toUpperCase();
-        return {...defaultObject, ...response.device};
-    } catch (error) {
-        throw error;
-    }
+    return await itemGetter.getItem(id);
 }
 
 export const addDevice = async (item) => {
     let itemCopy = deepCopy(item);
-    sanitizer(itemCopy, fieldsToSend);
-    try {
-        const response = await instance.post(BASE_URL, {device: itemCopy});
-        eventBus.$emit('notificationInfo', 'Sucessfully added');
-        return response.device.id;
-    } catch (err) {
-        throw err;
-    }
+    return await itemCreator.createItem(itemCopy);
 };
 
 export const updateDevice = async (id, item) => {
-    const url = BASE_URL + '/' + id;
     let itemCopy = deepCopy(item);
-    sanitizer(itemCopy, fieldsToSend);
-
-    try {
-        await instance.put(url, {device: itemCopy});
-        eventBus.$emit('notificationInfo', 'Sucessfully updated');
-    } catch (err) {
-        throw err;
-    }
+    return await itemUpdater.updateItem(id, itemCopy);
 };
 
 export const deleteDevice = async (id) => {
-    const url = BASE_URL + '/' + id + '?permanent=true';
-
-    try {
-        await instance.delete(url);
-    } catch (err) {
-        throw err;
-    }
+    return await itemDeleter.deleteItem(id);
 };
 
 export const getDeviceHistory = async (id, date, page = 0) => {
