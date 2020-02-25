@@ -119,7 +119,7 @@ export default {
     home: {
         dashboard: 'Dashboard',
         welcomeText: '',
-        rssLink: 'Link',
+        news: 'News',
     },
 
     objects: {
