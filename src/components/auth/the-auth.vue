@@ -15,8 +15,9 @@
 
 <script>
     import loader from '../utils/loader';
-    import instance from '../../api/instance';
-    import {getSession} from "../../api/userinfo/userinfo";
+    import {handleToken} from "../../api/auth/auth";
+
+    const authURL = process.env.VUE_APP_AUTH_MODULE_URL;
 
     export default {
         name: 'auth',
@@ -25,8 +26,8 @@
         },
 
         data: () => ({
+            authURL,
             isLoaded: false,
-            authURL: process.env.VUE_APP_AUTH_MODULE_URL,
         }),
 
         mounted() {
@@ -38,14 +39,7 @@
 
         methods: {
             async authMessageHandler(event) {
-                console.warn('message: ', event);
-                if (event.data.accessToken) {
-                    const token = event.data.accessToken;
-                    localStorage.setItem('access-token', token);
-                    instance.defaults.headers['X-Webitel-Access'] = localStorage.getItem('access-token');
-                    await getSession();
-                    return this.$router.replace('/');
-                }
+                if (event.data.accessToken) await handleToken(event.data.accessToken);
             },
         },
     };
