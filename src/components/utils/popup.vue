@@ -16,13 +16,13 @@
             <divider/>
 
             <div class="btn-controls">
-                <btn class="secondary-btn" @click.native="close">close</btn>
+                <btn class="secondary-btn" @click.native="close">{{$t('objects.close')}}</btn>
                 <btn
                         class="btn primary-btn"
                         :disabled="primaryDisabled"
                         @click.native="primaryAction"
                 >
-                    {{this.primaryText}}
+                    {{primaryText || $t('objects.addNew')}}
                 </btn>
             </div>
         </aside>
@@ -58,7 +58,6 @@
 
             primaryText: {
                 type: String,
-                default: 'Add new',
             },
 
             primaryAction: {

@@ -157,6 +157,7 @@ export default {
         from: 'From',
         to: 'To',
         importJSON: 'Import JSON',
+        addNew: 'Add new',
 
         CSV: {
             skipHeaders: 'Skip headers',
