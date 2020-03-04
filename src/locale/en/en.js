@@ -119,7 +119,7 @@ export default {
     home: {
         dashboard: 'Dashboard',
         welcomeText: '',
-        rssLink: 'Link',
+        news: 'News',
     },
 
     objects: {
@@ -157,6 +157,7 @@ export default {
         from: 'From',
         to: 'To',
         importJSON: 'Import JSON',
+        addNew: 'Add new',
 
         CSV: {
             skipHeaders: 'Skip headers',

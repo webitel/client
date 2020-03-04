@@ -40,7 +40,7 @@
 </template>
 
 <script>
-    import popup from '@/components/utils/popup';
+    import popup from '../../utils/popup';
 
     export default {
         name: "create-gateway-popup",
