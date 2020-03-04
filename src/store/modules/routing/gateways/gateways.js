@@ -4,6 +4,7 @@ import {
     addGateway, deleteGateway,
     getGateway, getGatewayList, updateGateway
 } from "../../../../api/routing/gateways/gateways";
+import {DefaultModule} from "../../defaults/DefaultModule";
 
 const defaultState = () => {
     return {
@@ -52,13 +53,10 @@ const defaultRegisterItem = () => {
     }
 };
 
+const defaultModule = new DefaultModule(defaultState);
+
 const state = {
-    dataList: [],
-    size: '10',
-    search: '',
-    page: 0,
-    isNextPage: true,
-    ...defaultState()
+    ...defaultModule.state,
 };
 
 const getters = {};
@@ -86,38 +84,6 @@ const actions = {
 
     DELETE_ITEM: async (context, id) => {
         await deleteGateway(id);
-    },
-
-    SET_ITEM_ID: (context, id) => {
-        if (id !== 'new') context.commit('SET_ITEM_ID', id);
-    },
-
-    LOAD_DATA_LIST: async (context) => {
-        const response = await context.dispatch('GET_LIST');
-        context.dispatch('RESET_ITEM_STATE');
-        context.commit('SET_DATA_LIST', response.list);
-    },
-
-    SET_SIZE: (context, size) => {
-        context.commit('SET_SIZE', size);
-    },
-
-    SET_SEARCH: (context, search) => {
-        context.commit('SET_SEARCH', search);
-    },
-
-    NEXT_PAGE: (context) => {
-        if(state.isNextPage) {
-            context.commit('INCREMENT_PAGE');
-            context.dispatch('LOAD_DATA_LIST');
-        }
-    },
-
-    PREV_PAGE: (context) => {
-        if(state.page) {
-            context.commit('DECREMENT_PAGE');
-            context.dispatch('LOAD_DATA_LIST');
-        }
     },
 
     TOGGLE_ITEM_PROPERTY: async (context, index) => {
@@ -156,10 +122,6 @@ const actions = {
         }
     },
 
-    SET_ITEM_PROPERTY: (context, payload) => {
-        context.commit('SET_ITEM_PROPERTY', payload);
-    },
-
     ADD_VARIABLE_PAIR: (context) => {
         const pair = {ip: '', proto: 'any', port: null};
         context.commit('ADD_VARIABLE_PAIR', pair);
@@ -176,68 +138,10 @@ const actions = {
         context.commit('SET_ITEM_PROPERTY', {prop: '_dirty', value: true});
     },
 
-    ADD_ITEM: async (context) => {
-        if(!state.itemId) {
-            const id = await context.dispatch('POST_ITEM');
-            await context.dispatch('SET_ITEM_ID', id);
-            state.itemInstance.register ?
-                context.dispatch('LOAD_REGISTER_ITEM') :
-                context.dispatch('LOAD_TRUNKING_ITEM');
-        }
-    },
-
-    UPDATE_ITEM: async (context) => {
-        if (state.itemInstance._dirty) {
-            await context.dispatch('UPD_ITEM');
-            state.itemInstance.register ?
-                context.dispatch('LOAD_REGISTER_ITEM') :
-                context.dispatch('LOAD_TRUNKING_ITEM');
-        }
-    },
-
-    REMOVE_ITEM: async (context, index) => {
-        const id = state.dataList[index].id;
-        context.commit('REMOVE_ITEM', index);
-        try {
-            await context.dispatch('DELETE_ITEM', id);
-        } catch {
-        }
-    },
-
-    RESET_ITEM_STATE: async (context) => {
-        context.commit('RESET_ITEM_STATE');
-    },
+    ...defaultModule.actions,
 };
 
 const mutations = {
-    SET_ITEM_ID: (state, id) => {
-        state.itemId = id;
-    },
-
-    SET_DATA_LIST: (state, list) => {
-        state.dataList = list;
-    },
-
-    SET_SIZE: (state, size) => {
-        state.size = size;
-    },
-
-    SET_SEARCH: (state, search) => {
-        state.search = search;
-    },
-
-    INCREMENT_PAGE: (state) => {
-        state.page++;
-    },
-
-    DECREMENT_PAGE: (state) => {
-        state.page--;
-    },
-
-    SET_ITEM_PROPERTY: (state, {prop, value}) => {
-        state.itemInstance[prop] = value;
-    },
-
     TOGGLE_ITEM_PROPERTY: (state, index) => {
         state.dataList[index].enable = !state.dataList[index].enable;
     },
@@ -270,13 +174,7 @@ const mutations = {
         state.itemInstance.ipacl.splice(index, 1);
     },
 
-    REMOVE_ITEM: (state, index) => {
-        state.dataList.splice(index, 1);
-    },
-
-    RESET_ITEM_STATE: (state) => {
-        Object.assign(state, defaultState());
-    },
+    ...defaultModule.mutations,
 };
 
 export default {
