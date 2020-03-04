@@ -21,7 +21,6 @@
     "jszip": "^3.2.2",
     "jszip-utils": "^0.1.0",
     "monaco-editor": "^0.18.1",
-    "rss-parser": "^3.7.4",
     "sortablejs": "^1.10.2",
     "vue": "^2.6.10",
     "vue-agile": "^1.0.11",
