@@ -197,7 +197,6 @@
                 loadDataList: 'LOAD_DATA_LIST',
                 setSize: 'SET_SIZE',
                 setSearch: 'SET_SEARCH',
-                toggleSwitchProperty: 'TOGGLE_ITEM_PROPERTY',
                 nextPage: 'NEXT_PAGE',
                 prevPage: 'PREV_PAGE',
                 removeItem: 'REMOVE_ITEM',

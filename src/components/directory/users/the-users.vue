@@ -81,7 +81,7 @@
                 <template slot="DnD" slot-scope="props">
                     <switcher
                             :value="dataList[props.rowIndex].dnd"
-                            @input="toggleSwitchProperty(props.rowIndex)"
+                            @input="patchProperty({index: props.rowIndex, prop: 'dnd', value: $event})"
                     ></switcher>
                 </template>
 
@@ -92,7 +92,7 @@
                             :placeholder="$t('objects.directory.users.status')"
                             :options="statusOptions"
                             taggable
-                            @input="changeStatus({value: $event, index: props.rowIndex})"
+                            @input="patchProperty({index: props.rowIndex, prop: 'status', value: $event})"
                     ></dropdown-select>
                 </template>
 
@@ -210,8 +210,7 @@
                 loadDataList: 'LOAD_DATA_LIST',
                 setSize: 'SET_SIZE',
                 setSearch: 'SET_SEARCH',
-                changeStatus: 'PATCH_ITEM_PEROPERTY',
-                toggleSwitchProperty: 'TOGGLE_ITEM_PROPERTY',
+                patchProperty: 'PATCH_ITEM_PROPERTY',
                 nextPage: 'NEXT_PAGE',
                 prevPage: 'PREV_PAGE',
                 removeItem: 'REMOVE_ITEM',

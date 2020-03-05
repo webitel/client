@@ -7,6 +7,7 @@ import {
     addQueue, deleteQueue, patchQueue,
     getQueue, getQueuesList, updateQueue
 } from "../../../../api/contact-center/queues/queues";
+import {DefaultModule} from "../../defaults/DefaultModule";
 
 const defaultState = () => {
     return {
@@ -152,13 +153,10 @@ const defaultProgressiveDialerState = () => {
     }
 };
 
+const defaultModule = new DefaultModule(defaultState);
+
 const state = {
-    dataList: [],
-    size: '10',
-    search: '',
-    page: 0,
-    isNextPage: true,
-    ...defaultState()
+    ...defaultModule.state,
 };
 
 const getters = {};
@@ -188,47 +186,6 @@ const actions = {
         await deleteQueue(id);
     },
 
-    SET_ITEM_ID: (context, id) => {
-        if (id !== 'new') context.commit('SET_ITEM_ID', id);
-    },
-
-    LOAD_DATA_LIST: async (context) => {
-        const response = await context.dispatch('GET_LIST');
-        context.dispatch('RESET_ITEM_STATE');
-        context.commit('SET_DATA_LIST', response.list);
-    },
-
-    SET_SIZE: (context, size) => {
-        context.commit('SET_SIZE', size);
-    },
-
-    SET_SEARCH: (context, search) => {
-        context.commit('SET_SEARCH', search);
-    },
-
-    NEXT_PAGE: (context) => {
-        if (state.isNextPage) {
-            context.commit('INCREMENT_PAGE');
-            context.dispatch('LOAD_DATA_LIST');
-        }
-    },
-
-    PREV_PAGE: (context) => {
-        if (state.page) {
-            context.commit('DECREMENT_PAGE');
-            context.dispatch('LOAD_DATA_LIST');
-        }
-    },
-
-    LOAD_ITEM: async (context, type) => {
-        if (state.itemId) {
-            const item = await context.dispatch('GET_ITEM');
-            context.commit('SET_ITEM', proxy(item));
-        } else {
-            context.dispatch('SET_ITEM_BY_TYPE', type);
-        }
-    },
-
     SET_ITEM_BY_TYPE: (context, type) => {
         let item = {};
         switch (type) {
@@ -254,47 +211,8 @@ const actions = {
         context.commit('SET_ITEM', item);
     },
 
-    SET_ITEM_PROPERTY: (context, payload) => {
-        context.commit('SET_ITEM_PROPERTY', payload);
-    },
-
     SET_PAYLOAD_ITEM_PROPERTY: (context, payload) => {
         context.commit('SET_PAYLOAD_ITEM_PROPERTY', payload);
-    },
-
-    ADD_ITEM: async (context) => {
-        if (!state.itemId) {
-            const id = await context.dispatch('POST_ITEM');
-            context.dispatch('SET_ITEM_ID', id);
-            context.dispatch('LOAD_ITEM');
-        }
-    },
-
-    TOGGLE_ITEM_PROPERTY: async (context, {index, prop}) => {
-        await context.commit('TOGGLE_ITEM_PROPERTY', {index, prop});
-        let changes = {};
-        changes[prop] = state.dataList[index][prop];
-        try {
-            await context.dispatch('PATCH_ITEM', {id: state.dataList[index].id, changes});
-        } catch {
-            context.dispatch('LOAD_DATA_LIST');
-        }
-    },
-
-    UPDATE_ITEM: async (context) => {
-        if (state.itemInstance._dirty) {
-            await context.dispatch('UPD_ITEM');
-            context.dispatch('LOAD_ITEM');
-        }
-    },
-
-    REMOVE_ITEM: async (context, index) => {
-        const id = state.dataList[index].id;
-        context.commit('REMOVE_ITEM', index);
-        try {
-            await context.dispatch('DELETE_ITEM', id);
-        } catch {
-        }
     },
 
     ADD_VARIABLE_PAIR: (context) => {
@@ -319,51 +237,14 @@ const actions = {
         context.dispatch('ccenter/queues/resGroups/RESET_ITEM_STATE', {}, {root: true});
         context.dispatch('ccenter/queues/members/RESET_ITEM_STATE', {}, {root: true});
     },
+
+    ...defaultModule.actions,
 };
 
 const mutations = {
-    SET_ITEM_ID: (state, id) => {
-        state.itemId = id;
-    },
-
-    SET_DATA_LIST: (state, list) => {
-        state.dataList = list;
-    },
-
-    SET_SIZE: (context, size) => {
-        state.size = size;
-    },
-
-    SET_SEARCH: (context, search) => {
-        state.search = search;
-    },
-
-    INCREMENT_PAGE: (state) => {
-        state.page++;
-    },
-
-    DECREMENT_PAGE: (state) => {
-        state.page--;
-    },
-
-    SET_ITEM_PROPERTY: (state, {prop, value}) => {
-        state.itemInstance[prop] = value;
-    },
 
     SET_PAYLOAD_ITEM_PROPERTY: (state, {prop, value}) => {
         state.itemInstance.payload[prop] = value;
-    },
-
-    TOGGLE_ITEM_PROPERTY: (state, {index, prop}) => {
-        state.dataList[index][prop] = !state.dataList[index][prop];
-    },
-
-    SET_ITEM: (state, item) => {
-        state.itemInstance = item;
-    },
-
-    REMOVE_ITEM: (state, index) => {
-        state.dataList.splice(index, 1);
     },
 
     ADD_VARIABLE_PAIR: (state, pair) => {
@@ -378,9 +259,7 @@ const mutations = {
         state.itemInstance.variables.splice(index, 1);
     },
 
-    RESET_ITEM_STATE: (state) => {
-        Object.assign(state, defaultState());
-    },
+    ...defaultModule.mutations,
 };
 
 export default {

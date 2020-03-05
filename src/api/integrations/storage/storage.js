@@ -55,7 +55,7 @@ export const getStorageList = async (page = 0, size = 10, search) => {
     if (search && search.slice(-1) !== '*') search += '*';
     const defaultObject = {
         _isSelected: false,
-        enabled: false,
+        disabled: false,
     };
 
     try {

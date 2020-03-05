@@ -14,9 +14,11 @@ import {WebitelSDKListGetter} from "../../utils/ApiControllers/ListGetter/SDKLis
 const dialplanService = new RoutingOutboundCallServiceApiFactory
 (configuration, '', instance);
 
-const fieldsToSend = ['domainId', 'name', 'schema', 'pattern', 'description'];
+const fieldsToSend = ['domainId', 'name', 'schema', 'pattern', 'description', 'disabled'];
 
-const listGetter = new WebitelSDKListGetter(dialplanService.searchRoutingOutboundCall);
+const defaultListItem = {_isSelected: false, disabled: false };
+
+const listGetter = new WebitelSDKListGetter(dialplanService.searchRoutingOutboundCall, defaultListItem);
 const itemGetter = new WebitelSDKItemGetter(dialplanService.readRoutingOutboundCall);
 const itemCreator = new WebitelSDKItemCreator(dialplanService.createRoutingOutboundCall, fieldsToSend);
 const itemUpdater = new WebitelSDKItemUpdater(dialplanService.updateRoutingOutboundCall, fieldsToSend);

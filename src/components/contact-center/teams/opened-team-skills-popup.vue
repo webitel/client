@@ -138,7 +138,6 @@
                 if (!invalid) {
                     try {
                         !this.id ? await this.addItem() : await this.updateItem();
-                        console.log('closing?');
                         this.$emit('close');
                     } catch {}
                 }
@@ -146,7 +145,7 @@
 
             async loadSkillsOptions(search) {
                 const response = await getSkillsList(0, 10, search);
-                this.dropdownSkillsList = response.map(item => {
+                this.dropdownSkillsList = response.list.map(item => {
                     return {
                         name: item.name,
                         id: item.id,
@@ -156,7 +155,7 @@
 
             async loadBucketsOptions(search) {
                 const response = await getBucketsList(0, 10, search);
-                this.dropdownBucketsList = response.map(item => {
+                this.dropdownBucketsList = response.list.map(item => {
                     return {
                         name: item.name,
                         id: item.id,

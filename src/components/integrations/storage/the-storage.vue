@@ -71,7 +71,7 @@
                 <template slot="enabled" slot-scope="props">
                     <switcher
                             :value="!dataList[props.rowIndex].disabled"
-                            @input="toggleItemProperty(props.rowIndex)"
+                            @input="patchProperty({index: props.rowIndex, prop: 'disabled', value: !$event})"
                     ></switcher>
                 </template>
 
@@ -176,7 +176,7 @@
 
             ...mapActions('integrations/storage', {
                 loadDataList: 'LOAD_DATA_LIST',
-                toggleItemProperty: 'TOGGLE_ITEM_PROPERTY',
+                patchProperty: 'PATCH_ITEM_PROPERTY',
                 setSize: 'SET_SIZE',
                 setSearch: 'SET_SEARCH',
                 nextPage: 'NEXT_PAGE',

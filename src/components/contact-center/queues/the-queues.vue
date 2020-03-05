@@ -81,7 +81,7 @@
                 <template slot="state" slot-scope="props">
                     <switcher
                             :value="dataList[props.rowIndex].enabled"
-                            @input="toggleSwitchProperty({index: props.rowIndex, prop: 'enabled'})"
+                            @input="patchProperty({index: props.rowIndex, prop: 'enabled', value: $event})"
                     ></switcher>
                 </template>
 
@@ -236,7 +236,7 @@
                 setSearch: 'SET_SEARCH',
                 nextPage: 'NEXT_PAGE',
                 prevPage: 'PREV_PAGE',
-                toggleSwitchProperty: 'TOGGLE_ITEM_PROPERTY',
+                patchProperty: 'PATCH_ITEM_PROPERTY',
                 removeItem: 'REMOVE_ITEM',
             }),
         },
