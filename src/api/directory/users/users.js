@@ -54,7 +54,7 @@ const itemPatcher = new WebitelAPIItemPatcher(BASE_URL, fieldsToSend);
 const itemDeleter = new WebitelAPIItemDeleter(BASE_URL);
 
 itemGetter.responseHandler = (response) => {
-    let user = {...defaultItem, ...response.user};
+    let user = {...defaultItem, ...response};
     if (user.license) user.license.forEach(item => {
         item.name = item.prod
     });

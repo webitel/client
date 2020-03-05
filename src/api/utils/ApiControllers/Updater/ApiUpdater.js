@@ -18,7 +18,7 @@ export class WebitelAPIItemUpdater extends BaseItemUpdater {
         if(this.preRequestHandler) this.preRequestHandler(itemCopy);
         sanitizer(itemCopy, this.fieldsToSend);
         try {
-            const response = await instance.put(updUrl, {item: itemCopy});
+            const response = await instance.put(updUrl,  itemCopy);
             eventBus.$emit('notificationInfo', 'Successfully updated');
         } catch (err) {
             throw err;

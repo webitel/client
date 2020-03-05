@@ -24,7 +24,7 @@ export const getTeamAgentsList = async (teamId, page = 0, size = 10, search) => 
     };
 
     try {
-        const response = await teamResService.searchResourceTeamAgent(teamId, page, size, domainId);
+        const response = await teamResService.searchResourceTeamAgent(teamId, page, size, search, domainId);
         if (response.items) {
             return response.items.map(item => {
                 return {...defaultObject, ...item};

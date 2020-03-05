@@ -15,7 +15,7 @@ export class WebitelAPIItemPatcher extends BaseItemPatcher {
         let itemCopy = deepCopy(item);
         sanitizer(itemCopy, this.fieldsToSend);
         try {
-            const response = await instance.patch(updUrl, {item: itemCopy});
+            const response = await instance.patch(updUrl,  itemCopy);
             eventBus.$emit('notificationInfo', 'Successfully updated');
         } catch (err) {
             throw err;
