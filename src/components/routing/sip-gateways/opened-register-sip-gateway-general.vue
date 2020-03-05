@@ -19,9 +19,9 @@
             ></form-input>
 
             <form-input
-                    v-model.trim="expires"
-                    :v="v.itemInstance.expires"
-                    :label="$t('objects.routing.gateways.expire')"
+                    v-model.trim="accountName"
+                    :v="v.itemInstance.accountName"
+                    :label="$t('objects.routing.gateways.accountNumber')"
                     required
             ></form-input>
 
@@ -29,6 +29,13 @@
                     v-model.trim="password"
                     :v="v.itemInstance.password"
                     :label="$t('objects.password')"
+                    required
+            ></form-input>
+
+            <form-input
+                    v-model.trim="expires"
+                    :v="v.itemInstance.expires"
+                    :label="$t('objects.routing.gateways.expire')"
                     required
             ></form-input>
 
@@ -69,6 +76,10 @@
             description: {
                 get() {return this.$store.state.routing.gateways.itemInstance.description},
                 set(value) {this.setItemProp({prop: 'description', value})}
+            },
+            accountName: {
+                get() {return this.$store.state.routing.gateways.itemInstance.accountName},
+                set(value) {this.setItemProp({prop: 'accountName', value})}
             },
         },
 

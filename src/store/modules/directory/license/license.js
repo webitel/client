@@ -1,4 +1,5 @@
 import {getLicenseList, updateLicense} from "../../../../api/directory/license/license";
+import {DefaultModule} from "../../defaults/DefaultModule";
 
 const defaultState = () => {
     return {
@@ -6,13 +7,10 @@ const defaultState = () => {
     };
 };
 
+const defaultModule = new DefaultModule(defaultState);
+
 const state = {
-    dataList: [],
-    size: '10',
-    search: '',
-    page: 0,
-    isNextPage: true,
-    ...defaultState()
+    ...defaultModule.state,
 };
 
 const getters = {};
@@ -69,25 +67,7 @@ const actions = {
 };
 
 const mutations = {
-    SET_DATA_LIST: (state, list) => {
-        state.dataList = list;
-    },
-
-    SET_SIZE: (context, size) => {
-        state.size = size;
-    },
-
-    SET_SEARCH: (context, search) => {
-        state.search = search;
-    },
-
-    SET_KEY_PROPERTY: (state, value) => {
-        state.key = value;
-    },
-
-    RESET_ITEM_STATE: (state) => {
-        Object.assign(state, defaultState());
-    },
+    ...defaultModule.mutations,
 };
 
 export default {

@@ -12,7 +12,7 @@ const queueBucketsService = new QueueBucketServiceApiFactory
 const fieldsToSend = ['bucket', 'ratio', 'queueId'];
 
 export const getQueueBucketsList = async (queueId, page = 0, size = 10, search) => {
-    const domainId = store.state.userinfo.domainId || undefined;
+    const domainId = store.state.userinfo.domainId;
     const defaultObject = {
         ratio: 0,
         _isSelected: false,
@@ -33,7 +33,7 @@ export const getQueueBucketsList = async (queueId, page = 0, size = 10, search) 
 };
 
 export const getQueueBucket = async (queueId, id) => {
-    const domainId = store.state.userinfo.domainId || undefined;
+    const domainId = store.state.userinfo.domainId;
     const defaultObject = {
         ratio: 0,
         _dirty: false,
@@ -48,13 +48,13 @@ export const getQueueBucket = async (queueId, id) => {
 
 export const addQueueBucket = async (queueId, item) => {
     let itemCopy = deepCopy(item);
-    itemCopy.domainId = store.state.userinfo.domainId || undefined;
+    itemCopy.domainId = store.state.userinfo.domainId;
     itemCopy.queueId = queueId;
 
     sanitizer(itemCopy, fieldsToSend);
     try {
         const response = await queueBucketsService.createQueueBucket(queueId, itemCopy);
-        eventBus.$emit('notificationInfo', 'Sucessfully added');
+        eventBus.$emit('notificationInfo', 'Successfully added');
         return response.id;
     } catch (err) {
         throw err;
@@ -63,19 +63,19 @@ export const addQueueBucket = async (queueId, item) => {
 
 export const updateQueueBucket = async (queueId, id, item) => {
     let itemCopy = deepCopy(item);
-    itemCopy.domainId = store.state.userinfo.domainId || undefined;
+    itemCopy.domainId = store.state.userinfo.domainId;
     itemCopy.queueId = queueId;
     sanitizer(itemCopy, fieldsToSend);
     try {
         await queueBucketsService.updateQueueBucket(queueId, id, itemCopy);
-        eventBus.$emit('notificationInfo', 'Sucessfully updated');
+        eventBus.$emit('notificationInfo', 'Successfully updated');
     } catch (err) {
         throw err;
     }
 };
 
 export const deleteQueueBucket = async (queueId, id) => {
-    const domainId = store.state.userinfo.domainId || undefined;
+    const domainId = store.state.userinfo.domainId;
     try {
         await queueBucketsService.deleteQueueBucket(queueId, id, domainId);
     } catch (err) {

@@ -12,7 +12,7 @@ const queueResService = new QueueResourcesServiceApiFactory
 const fieldsToSend = ['domainId', 'resourceGroup', 'queueId'];
 
 export const getQueueResGroupList = async (queueId, page = 0, size = 10, search) => {
-    const domainId = store.state.userinfo.domainId || undefined;
+    const domainId = store.state.userinfo.domainId;
     if (search && search.slice(-1) !== '*') search += '*';
     const defaultObject = {
         _isSelected: false,
@@ -32,7 +32,7 @@ export const getQueueResGroupList = async (queueId, page = 0, size = 10, search)
 };
 
 export const getQueueResGroup = async (queueId, id) => {
-    const domainId = store.state.userinfo.domainId || undefined;
+    const domainId = store.state.userinfo.domainId;
     const defaultObject = {
         _dirty: false,
     };
@@ -46,12 +46,12 @@ export const getQueueResGroup = async (queueId, id) => {
 
 export const addQueueResGroup = async (queueId, item) => {
     let itemCopy = deepCopy(item);
-    itemCopy.domainId = store.state.userinfo.domainId || undefined;
+    itemCopy.domainId = store.state.userinfo.domainId;
     itemCopy.queuId = queueId;
     sanitizer(itemCopy, fieldsToSend);
     try {
         const response = await queueResService.createQueueResourceGroup(queueId, itemCopy);
-        eventBus.$emit('notificationInfo', 'Sucessfully added');
+        eventBus.$emit('notificationInfo', 'Successfully added');
         return response.id;
     } catch (err) {
         throw err;
@@ -60,19 +60,19 @@ export const addQueueResGroup = async (queueId, item) => {
 
 export const updateQueueResGroup = async (queueId, id, item) => {
     let itemCopy = deepCopy(item);
-    itemCopy.domainId = store.state.userinfo.domainId || undefined;
+    itemCopy.domainId = store.state.userinfo.domainId;
     itemCopy.queuId = queueId;
     sanitizer(itemCopy, fieldsToSend);
     try {
         await queueResService.updateQueueResourceGroup(queueId, id, itemCopy);
-        eventBus.$emit('notificationInfo', 'Sucessfully updated');
+        eventBus.$emit('notificationInfo', 'Successfully updated');
     } catch (err) {
         throw err;
     }
 };
 
 export const deleteQueueResGroup = async (queueId, id) => {
-    const domainId = store.state.userinfo.domainId || undefined;
+    const domainId = store.state.userinfo.domainId;
     try {
         await queueResService.deleteQueueResourceGroup(queueId, id, domainId);
     } catch (err) {

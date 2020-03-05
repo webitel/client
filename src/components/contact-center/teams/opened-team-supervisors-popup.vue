@@ -82,7 +82,7 @@
 
             async loadAgentsOptions(search) {
                 const response = await getAgentsList(0, 10, search);
-                this.dropdownAgentsList = response.map(item => {
+                this.dropdownAgentsList = response.list.map(item => {
                     return {
                         name: item.user.name,
                         id: item.id,

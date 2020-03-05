@@ -180,7 +180,7 @@
         methods: {
             async loadDropdownOptionsCalendarList(search) {
                 const response = await getCalendarList(0, 10, search);
-                this.dropdownOptionsCalendarList = response.map(item => {
+                this.dropdownOptionsCalendarList = response.list.map(item => {
                     return {
                         name: item.name,
                         id: item.id,
@@ -190,7 +190,7 @@
 
             async loadDropdownOptionsBlacklistList(search) {
                 const response = await getBlacklistList(0, 10, search);
-                this.dropdownOptionsBlacklistList = response.map(item => {
+                this.dropdownOptionsBlacklistList = response.list.map(item => {
                     return {
                         name: item.name,
                         id: item.id,
@@ -200,7 +200,7 @@
 
             async loadDropdownOptionsSchemaList(search) {
                 const response = await getFlowList(0, 10, search);
-                this.dropdownOptionsSchemaList = response.map(item => {
+                this.dropdownOptionsSchemaList = response.list.map(item => {
                     return {
                         name: item.name,
                         id: item.id,
@@ -210,7 +210,7 @@
 
             async loadDropdownOptionsTeamList(search) {
                 const response = await getTeamsList(0, 10, search);
-                this.dropdownOptionsTeamList = response.map(item => {
+                this.dropdownOptionsTeamList = response.list.map(item => {
                     return {
                         name: item.name,
                         id: item.id,

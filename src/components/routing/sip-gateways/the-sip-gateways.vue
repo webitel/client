@@ -65,7 +65,7 @@
                 <template slot="enabled" slot-scope="props">
                     <switcher
                             :value="dataList[props.rowIndex].enable"
-                            @input="toggleSwitchProperty(props.rowIndex)"
+                            @input="patchProperty({index: props.rowIndex, prop: 'enable', value: $event})"
                     ></switcher>
                 </template>
 
@@ -185,7 +185,7 @@
                 loadDataList: 'LOAD_DATA_LIST',
                 setSize: 'SET_SIZE',
                 setSearch: 'SET_SEARCH',
-                toggleSwitchProperty: 'TOGGLE_ITEM_PROPERTY',
+                patchProperty: 'PATCH_ITEM_PROPERTY',
                 nextPage: 'NEXT_PAGE',
                 prevPage: 'PREV_PAGE',
                 removeItem: 'REMOVE_ITEM',

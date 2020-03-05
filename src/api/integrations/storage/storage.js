@@ -51,11 +51,11 @@ export const DigitalOceanRegions = [
 ];
 
 export const getStorageList = async (page = 0, size = 10, search) => {
-    const domainId = store.state.userinfo.domainId || undefined;
+    const domainId = store.state.userinfo.domainId;
     if (search && search.slice(-1) !== '*') search += '*';
     const defaultObject = {
         _isSelected: false,
-        enabled: false,
+        disabled: false,
     };
 
     try {
@@ -76,7 +76,7 @@ export const getStorageList = async (page = 0, size = 10, search) => {
 };
 
 export const getStorage = async (id) => {
-    const domainId = store.state.userinfo.domainId || undefined;
+    const domainId = store.state.userinfo.domainId;
     const defaultObject = {
         priority: 0,
         _dirty: false,
@@ -102,7 +102,7 @@ export const getStorage = async (id) => {
 
 export const addStorage = async (item) => {
     let itemCopy = deepCopy(item);
-    itemCopy.domainId = store.state.userinfo.domainId || undefined;
+    itemCopy.domainId = store.state.userinfo.domainId;
     if (itemCopy.properties.region && itemCopy.properties.region.value) {
         itemCopy.properties.region = itemCopy.properties.region.value;
     }
@@ -110,7 +110,7 @@ export const addStorage = async (item) => {
     sanitizer(itemCopy, fieldsToSend);
     try {
         const response = await storageService.createBackendProfile(itemCopy);
-        eventBus.$emit('notificationInfo', 'Sucessfully added');
+        eventBus.$emit('notificationInfo', 'Successfully added');
         return response.id;
     } catch (err) {
         throw err;
@@ -119,11 +119,11 @@ export const addStorage = async (item) => {
 
 export const patchStorage = async (id, item) => {
     let itemCopy = deepCopy(item);
-    itemCopy.domainId = store.state.userinfo.domainId || undefined;
+    itemCopy.domainId = store.state.userinfo.domainId;
     sanitizer(itemCopy, fieldsToSend);
     try {
         await storageService.patchBackendProfile(id, itemCopy);
-        eventBus.$emit('notificationInfo', 'Sucessfully updated');
+        eventBus.$emit('notificationInfo', 'Successfully updated');
     } catch (err) {
         throw err;
     }
@@ -131,7 +131,7 @@ export const patchStorage = async (id, item) => {
 
 export const updateStorage = async (id, item) => {
     let itemCopy = deepCopy(item);
-    itemCopy.domainId = store.state.userinfo.domainId || undefined;
+    itemCopy.domainId = store.state.userinfo.domainId;
     if (itemCopy.properties.region && itemCopy.properties.region.value) {
         itemCopy.properties.region = itemCopy.properties.region.value;
     }
@@ -140,14 +140,14 @@ export const updateStorage = async (id, item) => {
 
     try {
         await storageService.updateBackendProfile(id, itemCopy);
-        eventBus.$emit('notificationInfo', 'Sucessfully updated');
+        eventBus.$emit('notificationInfo', 'Successfully updated');
     } catch (err) {
         throw err;
     }
 };
 
 export const deleteStorage = async (id) => {
-    const domainId = store.state.userinfo.domainId || undefined;
+    const domainId = store.state.userinfo.domainId;
     try {
         await storageService.deleteBackendProfile(id, domainId);
     } catch (err) {

@@ -100,6 +100,7 @@
                 @extend .typo-body-md;
                 @extend .default-input;
 
+                text-align: center;
                 width: 41px;
                 height: 38px;
                 margin-left: 8px;

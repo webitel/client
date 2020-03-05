@@ -1,134 +1,96 @@
-import instance from '../../instance';
-import sanitizer from "../../utils/sanitizer";
-import eventBus from "../../../utils/eventBus";
-import deepCopy from "deep-copy";
+import {WebitelAPIItemDeleter} from "../../utils/ApiControllers/Deleter/ApiDeleter";
+import {WebitelAPIItemPatcher} from "../../utils/ApiControllers/Patcher/ApiPatcher";
+import {WebitelAPIItemUpdater} from "../../utils/ApiControllers/Updater/ApiUpdater";
+import {WebitelAPIItemCreator} from "../../utils/ApiControllers/Creator/ApiCreator";
+import {WebitelAPIItemGetter} from "../../utils/ApiControllers/Getter/ApiGetter";
+import {WebitelAPIListGetter} from "../../utils/ApiControllers/ListGetter/ApiListGetter";
 
 const BASE_URL = '/users';
 const fieldsToSend = ['name', 'username', 'password', 'extension', 'status', 'dnd', 'roles', 'license', 'devices',
     'profile', 'profile', 'email'];
 
-export async function getUsersList(page = 0, size = 100, search) {
-    const defaultObject = {  // default object prototype, to merge response with it to get all fields
-        _isSelected: false,
-        name: 'Username undefined',
-        username: 'Username undefined',
-        status: 'Status is undefined',
-        state: true,
-        dnd: false,
-        id: 0
-    };
+const defaultListItem = {
+    _isSelected: false,
+    name: 'Username undefined',
+    status: 'Status is undefined',
+    state: true,
+    dnd: false,
+};
 
-    // let url = BASE_URL + `?page=${page}size=${size}`;
-    let url = BASE_URL + `?size=${size}`;
-    if (search) url += `&name=${search}*`;
+const defaultItem = {
+    name: '',
+    username: '',
+    password: '',
+    extension: '',
+    roles: [],
+    license: [],
+    devices: [],
+    variables: [
+        {key: '', value: ''}
+    ],
+    _dirty: false,
+};
 
-    try {
-        let response = await instance.get(url);
-        if (response.users) {
-            return response.users.map(item => {
-                return {...defaultObject, ...item};
-            });
-        }
-        return [];
-    } catch (error) {
-        throw error;
+const preRequestHandler = (item) => {
+    if (item.roles) item.roles.forEach(item => delete item.text);
+    if (item.devices) item.devices.forEach(item => delete item.text);
+    if (item.license) item.license = item.license.map(item => {
+        return {id: item.id}
+    });
+    item.profile = {};
+    if (item.variables) {
+        item.variables.forEach(variable => {
+            item.profile[variable.key] = variable.value;
+        });
     }
+    return item;
+};
+
+const listGetter = new WebitelAPIListGetter(BASE_URL, defaultListItem);
+const itemGetter = new WebitelAPIItemGetter(BASE_URL, defaultItem);
+const itemCreator = new WebitelAPIItemCreator(BASE_URL, fieldsToSend, preRequestHandler);
+const itemUpdater = new WebitelAPIItemUpdater(BASE_URL, fieldsToSend, preRequestHandler);
+const itemPatcher = new WebitelAPIItemPatcher(BASE_URL, fieldsToSend);
+const itemDeleter = new WebitelAPIItemDeleter(BASE_URL);
+
+itemGetter.responseHandler = (response) => {
+    let user = {...defaultItem, ...response};
+    if (user.license) user.license.forEach(item => {
+        item.name = item.prod
+    });
+    if (user.profile) {
+        user.variables = Object.keys(user.profile).map(key => {
+            return {
+                key,
+                value: user.profile[key],
+            }
+        });
+    } else {
+        user.variables = [{key: '', value: ''}];
+    }
+    return user;
+};
+
+export async function getUsersList(page, size, search) {
+    return await listGetter.getList({page, size, search});
 }
 
 export async function getUser(id) {
-    const url = BASE_URL + '/' + id;
-    const defaultObject = {
-        name: '',
-        username: '',
-        password: '',
-        extension: '',
-        roles: [],
-        license: [],
-        devices: [],
-        variables: [
-            {key: '', value: ''}
-        ],
-        _dirty: false,
-    };
-    try {
-        const response = await instance.get(url);
-        let user = {...defaultObject, ...response.user};
-        if (user.license) user.license.forEach(item => {item.name = item.prod});
-        if (user.profile) {
-            user.variables = Object.keys(user.profile).map(key => {
-                return {
-                    key,
-                    value: user.profile[key],
-                }
-            });
-        } else {
-            user.variables = [{key: '', value: ''}];
-        }
-        return user;
-    } catch (error) {
-        throw error;
-    }
+    return await itemGetter.getItem(id);
 }
 
 export const addUser = async (item) => {
-    let itemCopy = deepCopy(item);
-    if (itemCopy.roles) itemCopy.roles.forEach(item => delete item.text);
-    if (itemCopy.devices) itemCopy.devices.forEach(item => delete item.text);
-    if (itemCopy.license) itemCopy.license = itemCopy.license.map(item => {
-        return {id: item.id}
-    });
-    itemCopy.profile = {};
-    if (itemCopy.variables) {
-        itemCopy.variables.forEach(variable => {
-            itemCopy.profile[variable.key] = variable.value;
-        });
-    }
-    sanitizer(itemCopy, fieldsToSend);
-    try {
-        const response = await instance.post(BASE_URL, {user: itemCopy});
-        eventBus.$emit('notificationInfo', 'Sucessfully added');
-        return response.user.id;
-    } catch (err) {
-        throw err;
-    }
+    return await itemCreator.createItem(item);
 };
 
 export const updateUser = async (id, item) => {
-    let itemCopy = deepCopy(item);
-    const url = BASE_URL + '/' + id;
-    itemCopy.roles.forEach(item => delete item.text);
-    itemCopy.devices.forEach(item => delete item.text);
-    itemCopy.license = itemCopy.license.map(item => {
-        return {id: item.id}
-    });
-    itemCopy.profile = {};
-    itemCopy.variables.forEach(variable => {
-        itemCopy.profile[variable.key] = variable.value;
-    });
-    sanitizer(itemCopy, fieldsToSend);
-    try {
-        await instance.put(url, {user: itemCopy});
-        eventBus.$emit('notificationInfo', 'Sucessfully updated');
-    } catch (err) {
-        throw err;
-    }
+    return await itemUpdater.updateItem(id, item);
 };
 
-export const patchUser = async (id, user) => {
-    const url = BASE_URL + '/' + id;
-    try {
-        await instance.patch(url, {user});
-        eventBus.$emit('notificationInfo', 'Sucessfully updated');
-    } catch (err) {
-        throw err;
-    }
+export const patchUser = async (id, item) => {
+    return await itemPatcher.patchItem(id, item);
 };
 
 export const deleteUser = async (id) => {
-    const url = BASE_URL + '/' + id + '?permanent=true';
-    try {
-        await instance.delete(url);
-    } catch (err) {
-        throw err;
-    }
+    return await itemDeleter.deleteItem(id);
 };

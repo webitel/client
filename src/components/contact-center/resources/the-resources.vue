@@ -58,7 +58,7 @@
                     <switcher
                             class="test__resources__enable-switcher"
                             :value="dataList[props.rowIndex].enabled"
-                            @input="toggleDataProperty({index: props.rowIndex, prop: 'enabled'})"
+                            @input="patchProperty({index: props.rowIndex, prop: 'enabled', value: $event})"
                     >
                     </switcher>
                 </template>
@@ -67,7 +67,7 @@
                     <switcher
                             class="test__resources__reserve-switcher"
                             :value="dataList[props.rowIndex].reserve"
-                            @input="toggleDataProperty({index: props.rowIndex, prop: 'reserve'})"
+                            @input="patchProperty({index: props.rowIndex, prop: 'reserve', value: $event})"
                     >
                     </switcher>
                 </template>
@@ -153,7 +153,7 @@
                 setSearch: 'SET_SEARCH',
                 nextPage: 'NEXT_PAGE',
                 prevPage: 'PREV_PAGE',
-                toggleDataProperty: 'TOGGLE_ITEM_PROPERTY',
+                patchProperty: 'PATCH_ITEM_PROPERTY',
                 removeItem: 'REMOVE_ITEM',
             }),
         },

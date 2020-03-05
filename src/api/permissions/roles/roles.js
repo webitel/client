@@ -1,76 +1,53 @@
-import instance from '../../instance';
-import eventBus from "../../../utils/eventBus";
-import sanitizer from "../../utils/sanitizer";
+import {WebitelAPIListGetter} from "../../utils/ApiControllers/ListGetter/ApiListGetter";
+import {WebitelAPIItemDeleter} from "../../utils/ApiControllers/Deleter/ApiDeleter";
+import {WebitelAPIItemUpdater} from "../../utils/ApiControllers/Updater/ApiUpdater";
+import {WebitelAPIItemCreator} from "../../utils/ApiControllers/Creator/ApiCreator";
+import {WebitelAPIItemGetter} from "../../utils/ApiControllers/Getter/ApiGetter";
+
 
 const BASE_URL = '/roles';
 const fieldsToSend = ['name', 'description'];
 
-export const getRoleList = async (page = 0, size = 10, search) => {
-    // let url = `${BASE_URL}?page=${page}size=${size}`;
-    let url = `${BASE_URL}?size=${size}`;
-    if(search) url += `name='${search}*`;
-    const defaultObject = {
-        name: '',
-        _isSelected: false,
-    };
+const listGetter = new WebitelAPIListGetter(BASE_URL);
+const itemGetter = new WebitelAPIItemGetter(BASE_URL);
+const itemCreator = new WebitelAPIItemCreator(BASE_URL, fieldsToSend);
+const itemUpdater = new WebitelAPIItemUpdater(BASE_URL, fieldsToSend);
+const itemDeleter = new WebitelAPIItemDeleter(BASE_URL);
+
+itemGetter.responseHandler = (response) => {
 
     try {
-        let response = await instance.get(url);
-        if (response.results) {
-            return response.results.map(item => {
-                return {...defaultObject, ...item};
-            });
-        }
-        return [];
+        return response.role
     } catch (error) {
         throw error;
     }
 };
 
-export const getRole = async (id) => {
-    const url = BASE_URL + '/' + id;
-    const defaultObject = {  // default object prototype, to merge response with it to get all fields
-        name: 'name undefined',
-        id: 0,
-        _dirty: false,
-    };
+itemCreator.responseHandler =(response) => {
     try {
-        const response = await instance.get(url);
-        return {...defaultObject, ...response.role};
-    } catch (error) {
-        throw error;
-    }
-};
-
-export const addRole = async (item) => {
-    sanitizer(item, fieldsToSend);
-    try {
-        const response = await instance.post(BASE_URL, {role: item});
-        eventBus.$emit('notificationInfo', 'Sucessfully added');
         return response.created.id;
     } catch (error) {
         throw error;
     }
 };
 
+export const getRoleList = async (page = 0, size = 10, search) => {
+    return await listGetter.getList({page, size, search});
+};
+
+export const getRole = async (id) => {
+    return await itemGetter.getItem(id);
+};
+
+export const addRole = async (item) => {
+    return await itemCreator.createItem(item);
+};
+
 export const updateRole = async (id, item) => {
-    const url = BASE_URL + '/' + id;
-    sanitizer(item, fieldsToSend);
-    try {
-        await instance.put(url, {role: item});
-        eventBus.$emit('notificationInfo', 'Sucessfully updated');
-    } catch (error) {
-        throw error;
-    }
+    return await itemUpdater.updateItem(id, item);
 };
 
 export const deleteRole = async (id) => {
-    const url = BASE_URL + '/' + id;
-
-    try {
-        await instance.delete(url);
-    } catch (error) {
-        throw error;
-    }
+    return await itemDeleter.deleteItem(id);
 };
 

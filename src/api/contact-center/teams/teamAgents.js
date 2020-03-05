@@ -13,7 +13,7 @@ const fieldsToSend = ['domainId', 'agent', 'maxCapacity',
     'minCapacity', 'teamId', 'lvl', 'bucket',];
 
 export const getTeamAgentsList = async (teamId, page = 0, size = 10, search) => {
-    const domainId = store.state.userinfo.domainId || undefined;
+    const domainId = store.state.userinfo.domainId;
     if (search && search.slice(-1) !== '*') search += '*';
     const defaultObject = {
         agent: {},
@@ -24,7 +24,7 @@ export const getTeamAgentsList = async (teamId, page = 0, size = 10, search) => 
     };
 
     try {
-        const response = await teamResService.searchResourceTeamAgent(teamId, page, size, domainId);
+        const response = await teamResService.searchResourceTeamAgent(teamId, page, size, search, domainId);
         if (response.items) {
             return response.items.map(item => {
                 return {...defaultObject, ...item};
@@ -37,7 +37,7 @@ export const getTeamAgentsList = async (teamId, page = 0, size = 10, search) => 
 };
 
 export const getTeamAgent = async (teamId, id) => {
-    const domainId = store.state.userinfo.domainId || undefined;
+    const domainId = store.state.userinfo.domainId;
     const defaultObject = {
         agent: {},
         bucket: {},
@@ -53,12 +53,12 @@ export const getTeamAgent = async (teamId, id) => {
 
 export const addTeamAgent = async (teamId, item) => {
     let itemCopy = deepCopy(item);
-    itemCopy.domainId = store.state.userinfo.domainId || undefined;
+    itemCopy.domainId = store.state.userinfo.domainId;
     itemCopy.teamId = teamId;
     sanitizer(itemCopy, fieldsToSend);
     try {
         const response = await teamResService.createResourceTeamAgent(teamId, itemCopy);
-        eventBus.$emit('notificationInfo', 'Sucessfully added');
+        eventBus.$emit('notificationInfo', 'Successfully added');
         return response.id;
     } catch (err) {
         throw err;
@@ -67,19 +67,19 @@ export const addTeamAgent = async (teamId, item) => {
 
 export const updateTeamAgent = async (teamId, id, item) => {
     let itemCopy = deepCopy(item);
-    itemCopy.domainId = store.state.userinfo.domainId || undefined;
+    itemCopy.domainId = store.state.userinfo.domainId;
     itemCopy.teamId = teamId;
     sanitizer(itemCopy, fieldsToSend);
     try {
         await teamResService.updateResourceTeamAgent(teamId, id, itemCopy);
-        eventBus.$emit('notificationInfo', 'Sucessfully updated');
+        eventBus.$emit('notificationInfo', 'Successfully updated');
     } catch (err) {
         throw err;
     }
 };
 
 export const deleteTeamAgent = async (teamId, id) => {
-    const domainId = store.state.userinfo.domainId || undefined;
+    const domainId = store.state.userinfo.domainId;
     try {
         await teamResService.deleteResourceTeamAgent(teamId, id, domainId);
     } catch (err) {

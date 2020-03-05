@@ -1,11 +1,15 @@
 import instance from '../../instance';
 import configuration from '../../openAPIConfig';
-import sanitizer from '../../utils/sanitizer';
 import {AgentTeamServiceApiFactory} from 'webitel-sdk';
-import eventBus from "../../../utils/eventBus";
-import {coerceObjectPermissionsResponse} from "../../permissions/objects/objects";
-import deepCopy from 'deep-copy';
-import store from '../../../store/store';
+import {
+    WebitelAPIPermissionsGetter,
+    WebitelAPIPermissionsPatcher
+} from "../../utils/ApiControllers/Permissions/PermissionsController";
+import {WebitelSDKItemDeleter} from "../../utils/ApiControllers/Deleter/SDKDeleter";
+import {WebitelSDKItemUpdater} from "../../utils/ApiControllers/Updater/SDKUpdater";
+import {WebitelSDKItemCreator} from "../../utils/ApiControllers/Creator/SDKCreator";
+import {WebitelSDKItemGetter} from "../../utils/ApiControllers/Getter/SDKGetter";
+import {WebitelSDKListGetter} from "../../utils/ApiControllers/ListGetter/SDKListGetter";
 
 const teamService = new AgentTeamServiceApiFactory
 (configuration, '', instance);
@@ -23,101 +27,58 @@ export const strategiesList = {
     'longest-idle-time': 'Longest idle Agent',
 };
 
-export const getTeamsList = async (page = 0, size = 10, search) => {
-    const domainId = store.state.userinfo.domainId || undefined;
-    if(search && search.slice(-1) !== '*') search += '*';
-    const defaultObject = {
-        _isSelected: false,
-        name: '',
-    };
-
-    try {
-        const response = await teamService.searchAgentTeam(page, size, search, domainId);
-        if (response.items) {
-            return response.items.map(item => {
-                return {...defaultObject, ...item};
-            });
-        }
-        return [];
-    } catch (err) {
-        throw err;
-    }
+const preRequestHandler = (item) => {
+    item.strategy = item.strategy.value;
+    return item;
 };
 
-export const getTeam = async (id) => {
-    const domainId = store.state.userinfo.domainId || undefined;
-    const defaultObject = {
-        name: '',
-        id: 0,
-        _dirty: false,
+const listGetter = new WebitelSDKListGetter(teamService.searchAgentTeam);
+const itemGetter = new WebitelSDKItemGetter(teamService.readAgentTeam);
+const itemCreator = new WebitelSDKItemCreator(teamService.createAgentTeam, fieldsToSend, preRequestHandler);
+const itemUpdater = new WebitelSDKItemUpdater(teamService.updateAgentTeam, fieldsToSend, preRequestHandler);
+const itemDeleter = new WebitelSDKItemDeleter(teamService.deleteAgentTeam);
+const permissionsGetter = new WebitelAPIPermissionsGetter(BASE_URL);
+const permissionsPatcher = new WebitelAPIPermissionsPatcher(BASE_URL);
+
+itemGetter.responseHandler = (response) => {
+    let defaultItemObject = {
+        _dirty: false
     };
     try {
-        let response = await teamService.readAgentTeam(id, domainId);
         response.strategy = {
             name: strategiesList[response.strategy],
             value: response.strategy,
         };
-        return {...defaultObject, ...response};
+        return {...defaultItemObject, ...response};
     } catch (err) {
         throw err;
     }
+};
+
+export const getTeamsList = async (page = 0, size = 10, search) => {
+    return await listGetter.getList({page, size, search});
+};
+
+export const getTeam = async (id) => {
+    return await itemGetter.getItem(id);
 };
 
 export const addTeam = async (item) => {
-    let itemCopy = deepCopy(item);
-    itemCopy.domainId = store.state.userinfo.domainId || undefined;
-    itemCopy.strategy = itemCopy.strategy.value;
-    sanitizer(itemCopy, fieldsToSend);
-    try {
-        const response = await teamService.createAgentTeam(itemCopy);
-        eventBus.$emit('notificationInfo', 'Sucessfully added');
-        return response.id;
-    } catch (err) {
-        throw err;
-    }
+    return await itemCreator.createItem(item);
 };
 
 export const updateTeam = async (id, item) => {
-    let itemCopy = deepCopy(item);
-    itemCopy.domainId = store.state.userinfo.domainId || undefined;
-    itemCopy.strategy = itemCopy.strategy.value;
-    sanitizer(itemCopy, fieldsToSend);
-    try {
-        await teamService.updateAgentTeam(id, itemCopy);
-        eventBus.$emit('notificationInfo', 'Sucessfully updated');
-    } catch (err) {
-        throw err;
-    }
+    return await itemUpdater.updateItem(id, item);
 };
 
 export const deleteTeam = async (id) => {
-    const domainId = store.state.userinfo.domainId || undefined;
-    try {
-        await teamService.deleteAgentTeam(id, domainId);
-    } catch (err) {
-        throw err;
-    }
+    return await itemDeleter.deleteItem(id);
 };
 
 export const getTeamPermissions = async (id, page = 0, size = 10, search) => {
-    // let url = BASE_URL + `?page=${page}size=${size}`;
-    let url = BASE_URL + '/' + id + '/acl' + `?size=${size}`;
-    if (search) url += `&name=${search}*`;
-    try {
-        const response = await instance.get(url);
-        return coerceObjectPermissionsResponse(response);
-    } catch (error) {
-        throw error;
-    }
+    return await permissionsGetter.getList(id, size, search);
 };
 
 export const patchTeamPermissions = async (id, item) => {
-    const url = BASE_URL + '/' + id + '/acl';
-
-    try {
-        await instance.patch(url, {changes: item});
-        eventBus.$emit('notificationInfo', 'Sucessfully updated');
-    } catch (error) {
-        throw error;
-    }
+    return await permissionsPatcher.patchItem(id, item);
 };

@@ -32,8 +32,7 @@
     import editComponentMixin from '@/mixins/editComponentMixin';
     import {required, numeric, minValue, maxValue} from 'vuelidate/lib/validators';
     import {mapActions, mapState} from "vuex";
-    import {getSkillsList} from "../../../api/contact-center/agentSkills/agentSkills";
-    import {getUsersList} from "../../../api/directory/users/users";
+    import {getAgentSkills} from "../../../api/contact-center/agents/agentSkills";
 
     export default {
         name: "opened-agent-skills-popup",
@@ -67,6 +66,7 @@
         computed: {
             ...mapState('ccenter/agents/skills', {
                 id: state => state.itemId,
+                parentId: state => state.parentId,
                 itemInstance: state => state.itemInstance
             }),
             skill: {
@@ -100,7 +100,7 @@
             },
 
             async loadDropdownOptionsList(search) {
-                const response = await getSkillsList(0, 10, search);
+                const response = await getAgentSkills(this.parentId, 0, 10, search);
                 this.dropdownOptionsList = response.map(item => {
                     return {
                         name: item.name,

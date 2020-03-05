@@ -18,13 +18,6 @@
             </dropdown-select>
 
             <form-input
-                    v-model.trim="accountName"
-                    :v="v.itemInstance.accountName"
-                    :label="$t('objects.routing.gateways.accountNumber')"
-                    required
-            ></form-input>
-
-            <form-input
                     v-model.trim="proxy"
                     :v="v.itemInstance.proxy"
                     :label="$t('objects.routing.gateways.outboundProxy')"
@@ -60,10 +53,6 @@
             schema: {
                 get() {return this.$store.state.routing.gateways.itemInstance.schema},
                 set(value) {this.setItemProp({prop: 'schema', value})}
-            },
-            accountName: {
-                get() {return this.$store.state.routing.gateways.itemInstance.accountName},
-                set(value) {this.setItemProp({prop: 'accountName', value})}
             },
             proxy: {
                 get() {return this.$store.state.routing.gateways.itemInstance.proxy},
