@@ -24,7 +24,7 @@ export const getObjectList = async (search) => {
 
     try {
         const response = await instance.get(url);
-        return response.classes.map(item => {
+        return response.items.map(item => {
             return {...defaultObject, ...item};
         });
     } catch (error) {
@@ -35,10 +35,8 @@ export const getObjectList = async (search) => {
 export const updateObject = async (id, item) => {
     const url = BASE_URL + '/' + id;
     const updatedItem = {
-        class: {
-            obac: item.obac,
-            rbac: item.rbac
-        }
+        obac: item.obac,
+        rbac: item.rbac
     };
 
     try {

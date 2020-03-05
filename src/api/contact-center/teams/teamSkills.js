@@ -26,7 +26,7 @@ export const getTeamSkillsList = async (teamId, page = 0, size = 10, search) => 
     };
 
     try {
-        let response = await teamResService.searchResourceTeamSkill(teamId, page, size, domainId);
+        let response = await teamResService.searchResourceTeamSkill(teamId, page, size, search, domainId);
         if (response.items) {
             return response.items.map(item => {
                 return {...defaultObject, ...item};

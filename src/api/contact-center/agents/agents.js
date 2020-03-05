@@ -16,9 +16,6 @@ import {WebitelSDKItemGetter} from "../../utils/ApiControllers/Getter/SDKGetter"
 const agentService = new AgentServiceApiFactory
 (configuration, '', instance);
 
-const agentSkillsService = new AgentSkillServiceApiFactory
-(configuration, '', instance);
-
 const BASE_URL = '/call_center/agents';
 const fieldsToSend = ['domainId', 'user', 'description'];
 
@@ -66,20 +63,20 @@ export const getAgentHistory = async (id, date, page = 0, size = 10) => {
     }
 };
 
-export const getAgentTeamsList = async (id, page = 0, size = 10) => {
+export const getAgentTeamsList = async (id, page = 0, size = 10, search = '') => {
     const domainId = store.state.userinfo.domainId;
     try {
-        const response = await agentService.searchAgentInTeam(id, page, size, domainId);
+        const response = await agentService.searchAgentInTeam(id, page, size, search, domainId);
         return response.items ? response.items : [];
     } catch (err) {
         throw err;
     }
 };
 
-export const getAgentQueuesList = async (id, page = 0, size = 10) => {
+export const getAgentQueuesList = async (id, page = 0, size = 10, search = '') => {
     const domainId = store.state.userinfo.domainId;
     try {
-        const response = await agentService.searchAgentInQueue(id, page, size, domainId);
+        const response = await agentService.searchAgentInQueue(id, page, size, search, domainId);
         return response.items ? response.items : [];
     } catch (err) {
         throw err;
