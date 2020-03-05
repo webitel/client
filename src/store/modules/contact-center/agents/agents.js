@@ -8,7 +8,6 @@ import {
     getAgent, getAgentsList, updateAgent,
 } from "../../../../api/contact-center/agents/agents";
 import {DefaultModule} from "../../defaults/DefaultModule";
-import proxy from "../../../../utils/editProxy";
 
 const defaultState = () => {
     return {

@@ -1,4 +1,3 @@
-import proxy from '../../../../utils/editProxy';
 import numbers from './resource-display';
 import permissions from './permissions';
 import {
@@ -55,17 +54,6 @@ const actions = {
         await deleteResource(id);
     },
 
-    TOGGLE_ITEM_PROPERTY: async (context, {index, prop}) => {
-        await context.commit('TOGGLE_ITEM_PROPERTY', {index, prop});
-        let changes = {};
-        changes[prop] = state.dataList[index][prop];
-        try {
-            await context.dispatch('PATCH_ITEM', {id: state.dataList[index].id, changes});
-        } catch  {
-            context.dispatch('LOAD_DATA_LIST');
-        }
-    },
-
     RESET_ITEM_STATE: async (context) => {
         context.commit('RESET_ITEM_STATE');
         context.dispatch('ccenter/res/numbers/RESET_ITEM_STATE', {}, {root: true});
@@ -75,11 +63,6 @@ const actions = {
 };
 
 const mutations = {
-
-    TOGGLE_ITEM_PROPERTY: (state, {index, prop}) => {
-        state.dataList[index][prop] = !state.dataList[index][prop];
-    },
-
     ...defaultModule.mutations,
 };
 

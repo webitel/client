@@ -1,4 +1,3 @@
-import proxy from '../../../../utils/editProxy';
 import {
     addDialplan,
     deleteDialplan,
@@ -53,16 +52,6 @@ const actions = {
         await deleteDialplan(id);
     },
 
-    TOGGLE_ITEM_PROPERTY: async (context, index) => {
-        await context.commit('TOGGLE_ITEM_PROPERTY', index);
-        let changes = {disabled: state.dataList[index].disabled};
-        try {
-            context.dispatch('PATCH_ITEM', {id: state.dataList[index].id, changes});
-        } catch {
-            context.dispatch('LOAD_DATA_LIST');
-        }
-    },
-
     SWAP_ROWS: async (context, {fromId, toId}) => {
         // on-frontend swap commented
         // because sortable reinitialization triggers on each dataList change
@@ -79,10 +68,6 @@ const actions = {
 };
 
 const mutations = {
-
-    TOGGLE_ITEM_PROPERTY: (state, index) => {
-        state.dataList[index].disabled = !state.dataList[index].disabled;
-    },
 
     SWAP_ROWS: (state, {fromId, toId}) => {
         const fromIndex = state.dataList.findIndex(item => item.id === fromId);

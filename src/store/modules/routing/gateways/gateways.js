@@ -86,16 +86,6 @@ const actions = {
         await deleteGateway(id);
     },
 
-    TOGGLE_ITEM_PROPERTY: async (context, index) => {
-        await context.commit('TOGGLE_ITEM_PROPERTY', index);
-        let changes = {enable: state.dataList[index].enable};
-        try {
-            context.dispatch('PATCH_ITEM', {id: state.dataList[index].id, changes});
-        } catch {
-            context.dispatch('LOAD_DATA_LIST');
-        }
-    },
-
     LOAD_REGISTER_ITEM: async (context) => {
         if (state.itemId) {
             const item = await context.dispatch('GET_ITEM');
@@ -142,9 +132,6 @@ const actions = {
 };
 
 const mutations = {
-    TOGGLE_ITEM_PROPERTY: (state, index) => {
-        state.dataList[index].enable = !state.dataList[index].enable;
-    },
 
     SET_REGISTER_ITEM: (state, item) => {
         if(item) {

@@ -55,6 +55,18 @@ export class DefaultModule {
                 context.commit('SET_ITEM_PROPERTY', payload);
             },
 
+            PATCH_ITEM_PROPERTY: async (context, {index, prop, value}) => {
+                await context.commit('PATCH_ITEM_PROPERTY', {index, prop, value});
+                const id = context.state.dataList[index].id;
+                const changes = {};
+                changes[prop] = value;
+                try {
+                    await context.dispatch('PATCH_ITEM', {id, changes});
+                } catch {
+                    context.dispatch('LOAD_DATA_LIST');
+                }
+            },
+
             ADD_ITEM: async (context) => {
                 if (!context.state.itemId) {
                     const id = await context.dispatch('POST_ITEM');
@@ -94,11 +106,11 @@ export class DefaultModule {
             },
 
             SET_SIZE: (context, size) => {
-                state.size = size;
+                context.state.size = size;
             },
 
             SET_SEARCH: (context, search) => {
-                state.search = search;
+                context.state.search = search;
             },
 
             INCREMENT_PAGE: (state) => {
@@ -115,6 +127,10 @@ export class DefaultModule {
 
             SET_ITEM: (state, item) => {
                 state.itemInstance = item;
+            },
+
+            PATCH_ITEM_PROPERTY: (state, {index, prop, value}) => {
+                state.dataList[index][prop] = value;
             },
 
             REMOVE_ITEM: (state, index) => {
