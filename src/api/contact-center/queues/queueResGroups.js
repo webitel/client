@@ -19,7 +19,7 @@ export const getQueueResGroupList = async (queueId, page = 0, size = 10, search)
     };
 
     try {
-        const response = await queueResService.searchQueueResourceGroup(queueId, page, size, domainId);
+        const response = await queueResService.searchQueueResourceGroup(queueId, page, size, search, domainId);
         if (response.items) {
             return response.items.map(item => {
                 return {...defaultObject, ...item};

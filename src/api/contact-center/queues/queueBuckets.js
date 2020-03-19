@@ -20,7 +20,7 @@ export const getQueueBucketsList = async (queueId, page = 0, size = 10, search) 
     if (search && search.slice(-1) !== '*') search += '*';
 
     try {
-        const response = await queueBucketsService.searchQueueBucket(queueId, page, size, domainId);
+        const response = await queueBucketsService.searchQueueBucket(queueId, page, size, search, domainId);
         if (response.items) {
             return response.items.map(item => {
                 return {...defaultObject, ...item};
