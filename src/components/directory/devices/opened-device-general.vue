@@ -101,7 +101,7 @@
         methods: {
             async loadDropdownOptionsList(search) {
                 const response = await getUsersList(0, 10, search);
-                this.dropdownOptionsList = response.map(item => {
+                this.dropdownOptionsList = response.list.map(item => {
                     return {
                         name: item.name,
                         id: item.id,

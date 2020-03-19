@@ -6,7 +6,7 @@ import {WebitelAPIItemGetter} from "../../utils/ApiControllers/Getter/ApiGetter"
 import {WebitelAPIListGetter} from "../../utils/ApiControllers/ListGetter/ApiListGetter";
 
 const BASE_URL = '/users';
-const fieldsToSend = ['name', 'username', 'password', 'extension', 'status', 'dnd', 'roles', 'license', 'devices',
+const fieldsToSend = ['name', 'username', 'password', 'extension', 'status', 'dnd', 'roles', 'license', 'devices', 'device',
     'profile', 'profile', 'email'];
 
 const defaultListItem = {
@@ -25,6 +25,7 @@ const defaultItem = {
     roles: [],
     license: [],
     devices: [],
+    device: {},
     variables: [
         {key: '', value: ''}
     ],
