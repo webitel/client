@@ -23,6 +23,31 @@
                 {{dataList[props.rowIndex].queue.name}}
             </div>
         </template>
+
+        <template slot="type" slot-scope="props">
+            <div>
+                {{computeQueueType(dataList[props.rowIndex].type)}}
+            </div>
+        </template>
+
+        <template slot="count" slot-scope="props">
+            <div>
+                {{computeCount(dataList[props.rowIndex].countMember)}}
+            </div>
+        </template>
+
+        <template slot="waiting" slot-scope="props">
+            <div>
+                {{computeCount(dataList[props.rowIndex].waitingMember)}}
+            </div>
+        </template>
+
+        <template slot="strategy" slot-scope="props">
+            <div>
+                {{computeStrategy(dataList[props.rowIndex].strategy)}}
+            </div>
+        </template>
+
     </vuetable>
     <pagination
             v-show="isLoaded"
@@ -48,6 +73,10 @@
             return {
                 fields: [
                     {name: 'name', title: this.$tc('objects.ccenter.queues.queues', 2)},
+                    {name: 'type', title: this.$t('objects.ccenter.queues.type')},
+                    {name: 'count', title: this.$tc('objects.ccenter.queues.members', 2)},
+                    {name: 'waiting', title: this.$t('objects.ccenter.queues.waiting')},
+                    {name: 'strategy', title: this.$t('objects.ccenter.queues.strategy')},
                 ],
             }
         },
@@ -80,6 +109,46 @@
         },
 
         methods: {
+            computeCount(item) {
+                return item ? item : 0;
+            },
+
+            computeQueueType(type) {
+                switch (type) {
+                    case 0:
+                        return 'Offline Queue';
+                    case 1:
+                        return 'Inbound Queue';
+                    case 2:
+                        return 'Outbound IVR Queue';
+                    case 3:
+                        return 'Preview Dialer';
+                    case 4:
+                        return 'Progressive Dialer';
+                    case 5:
+                        return 'Predictive Dialer';
+                    default:
+                        return 'Unknown';
+                }
+            },
+
+            computeStrategy(strategy) {
+                switch (strategy) {
+                    case 'random':
+                        return 'Random';
+                    case 'strict-circuit':
+                        return 'Strict circuit';
+                    case 'next-try-circuit':
+                        return 'Next try circuit';
+                    case 'by-buckets':
+                        return 'By buckets';
+                    case 'by-skills':
+                        return 'By skills';
+                    default:
+                        return 'Unknown';
+                }
+            },
+
             ...mapActions('ccenter/agents', {
                 addParentItem: 'ADD_ITEM',
             }),

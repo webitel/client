@@ -54,7 +54,15 @@
 
                 <template slot="state" slot-scope="props">
                     <status
-                            :class="{'status__true': dataList[props.rowIndex].state}"
+                            :class="{'status__true': dataList[props.rowIndex].state === 'waiting',
+                            'status__false': dataList[props.rowIndex].state === 'offering'
+                            || dataList[props.rowIndex].state === 'ringing'
+                            || dataList[props.rowIndex].state === 'talking'
+                            || dataList[props.rowIndex].state === 'reporting'
+                            || dataList[props.rowIndex].state === 'fine'
+                            || dataList[props.rowIndex].state === 'ringing',
+                            'status__info': dataList[props.rowIndex].state === 'pause'
+                            || dataList[props.rowIndex].state === 'break'}"
                             :text=computeOnlineText(dataList[props.rowIndex].state)
                     >
                     </status>
@@ -62,7 +70,7 @@
 
                 <template slot="time" slot-scope="props">
                     <div>
-                        {{dataList[props.rowIndex].lastStateChange || 'Now'}}
+                        {{msToTime(dataList[props.rowIndex].lastStateChange) || 'Now'}}
                     </div>
                 </template>
 
@@ -140,8 +148,62 @@
         },
 
         methods: {
+            // computeOnlineText(state) {
+            //     return state ? this.$t('objects.online') : this.$t('objects.offline');
+            // },
+
+            msToTime(s) {
+                if(s === undefined)
+                    return false;
+                s = Date.now() - s;
+                function pad(n, z) {
+                    z = z || 2;
+                    return ('00' + n).slice(-z);
+                }
+
+                let ms = s % 1000;
+                s = (s - ms) / 1000;
+                let secs = s % 60;
+                s = (s - secs) / 60;
+                let mins = s % 60;
+                let hrs = (s - mins) / 60;
+
+                return pad(hrs) + ':' + pad(mins);
+            },
+
             computeOnlineText(state) {
-                return state ? this.$t('objects.online') : this.$t('objects.offline');
+                switch (state) {
+                    case 'waiting':
+                        return 'Waiting';
+                        break;
+                    case 'online':
+                        return 'Online';
+                        break;
+                    case 'offering':
+                        return 'Offering';
+                        break;
+                    case 'ringing':
+                        return 'Ringing';
+                        break;
+                    case 'talking':
+                        return 'Talking';
+                        break;
+                    case 'reporting':
+                        return 'Reporting';
+                        break;
+                    case 'break':
+                        return 'Break';
+                        break;
+                    case 'fine':
+                        return 'Fine';
+                        break;
+                    case 'pause':
+                        return 'Pause';
+                        break;
+                    default:
+                        return 'Offline';
+                        break;
+                }
             },
 
             create() {
@@ -165,6 +227,5 @@
                 removeItem: 'REMOVE_ITEM',
             }),
         },
-
     }
 </script>

@@ -24,6 +24,12 @@
                     {{dataList[props.rowIndex].team.name}}
                 </div>
             </template>
+
+            <template slot="strategy" slot-scope="props">
+                <div>
+                    {{computeStrategy(dataList[props.rowIndex].strategy)}}
+                </div>
+            </template>
         </vuetable>
         <pagination
                 v-show="isLoaded"
@@ -49,6 +55,7 @@
             return {
                 fields: [
                     {name: 'name', title: this.$tc('objects.ccenter.teams.teams', 2)},
+                    {name: 'strategy', title: this.$t('objects.ccenter.teams.strategy')},
                 ],
             }
         },
@@ -89,6 +96,25 @@
         },
 
         methods: {
+            computeStrategy(strategy) {
+                switch (strategy) {
+                    case 'random':
+                        return 'Random';
+                    case 'fewest-calls':
+                        return 'Agent with fewest calls';
+                    case 'least-talk-time':
+                        return 'Agent with least talk time';
+                    case 'top-down':
+                        return 'Top-Down';
+                    case 'round-robin':
+                        return 'Round robbin';
+                    case 'longest-idle-time':
+                        return 'Longest idle Agent';
+                    default:
+                        return 'Unknown';
+                }
+            },
+
             ...mapActions('ccenter/agents/teams', {
                 setParentId: 'SET_PARENT_ITEM_ID',
                 loadDataList: 'LOAD_DATA_LIST',
