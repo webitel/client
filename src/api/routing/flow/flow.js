@@ -18,6 +18,8 @@ const preRequestHandler = (item) => {
     return item;
 };
 
+const baseItem = {_dirty: false};
+
 const listGetter = new WebitelSDKListGetter(flowService.searchRoutingSchema);
 const itemGetter = new WebitelSDKItemGetter(flowService.readRoutingSchema);
 const itemCreator = new WebitelSDKItemCreator(flowService.createRoutingSchema, fieldsToSend, preRequestHandler);
@@ -26,6 +28,7 @@ const itemDeleter = new WebitelSDKItemDeleter(flowService.deleteRoutingSchema);
 
 itemGetter.responseHandler = (response) => {
     return {
+        ...baseItem,
         ...response,
         schema: JSON.stringify(response.schema, null, 4)
 

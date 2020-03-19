@@ -23,7 +23,7 @@
             </form>
             <code-editor
                     v-model="schema"
-                    :label="$t('objects.routing.flow.callflow')"
+                    :label="$t('objects.routing.flow.callFlow')"
                     @errorListener="isSyntaxError = $event"
             ></code-editor>
         </section>
@@ -31,8 +31,8 @@
 </template>
 
 <script>
-    import editComponentMixin from '@/mixins/editComponentMixin';
-    import codeEditor from '@/components/utils/code-editor';
+    import editComponentMixin from '../../../mixins/editComponentMixin';
+    import codeEditor from "../../../components/utils/code-editor";
     import {required} from 'vuelidate/lib/validators';
     import {mapActions, mapState} from "vuex";
 
@@ -57,6 +57,9 @@
                 name: {
                     required
                 },
+                schema: {
+                    required
+                }
             },
         },
 
