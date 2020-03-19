@@ -5,6 +5,14 @@
         </header>
         <form class="object-input-grid">
             <div>
+                <dropdown-select
+                        v-model="device"
+                        :label="$t('objects.directory.users.defaultDevice')"
+                        :options="dropdownOptionsList"
+                        @search="loadDropdownOptionsList"
+                        required
+                ></dropdown-select>
+
                 <tags-input
                         v-model="devices"
                         :options="dropdownOptionsList"
@@ -45,12 +53,21 @@
                     this.setItemProp({prop: 'devices', value})
                 }
             },
+
+            device: {
+                get() {
+                    return this.$store.state.directory.users.itemInstance.device
+                },
+                set(value) {
+                    this.setItemProp({prop: 'device', value})
+                }
+            },
         },
 
         methods: {
             async loadDropdownOptionsList(search) {
                 const response = await getDeviceList(0, 10, search);
-                this.dropdownOptionsList = response.map(item => {
+                this.dropdownOptionsList = response.list.map(item => {
                     return {
                         name: item.name,
                         id: item.id,
