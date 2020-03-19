@@ -2,6 +2,7 @@ import instance from '../../instance';
 import configuration from '../../openAPIConfig';
 import {QueueServiceApiFactory} from 'webitel-sdk';
 import store from '../../../store/store';
+import deepCopy from 'deep-copy';
 import {
     WebitelAPIPermissionsGetter,
     WebitelAPIPermissionsPatcher
@@ -32,8 +33,8 @@ export const strategiesList = {
 const defaultListObject = {
     type: 0,
     enabled: false,
-    activeCalls: 'undefined',
-    waiting: 'undefined',
+    activeCalls: 0,
+    waiting: 0,
     priority: '0',
     _isSelected: false,
 };
@@ -54,10 +55,11 @@ const defaultItemObject = {
 };
 
 const preRequestHandler = (item) => {
+    let itemCopy = deepCopy(item);
     item.domainId = store.state.userinfo.domainId;
     if(item.strategy) item.strategy = item.strategy.value;
     item.variables = {};
-    item.variables.forEach(variable => {
+    itemCopy.variables.forEach(variable => {
         item.variables[variable.key] = variable.value;
     });
     return item;

@@ -1,4 +1,3 @@
-import proxy from '../../../../utils/editProxy';
 import buckets from './queue-buckets';
 import resGroups from './queue-res-groups';
 import members from './queue-members';

@@ -93,7 +93,7 @@
         methods: {
             async loadDropdownOptionsBucketsList(search) {
                 const response = await getBucketsList(0, 10, search);
-                this.dropdownOptionsBucketsList = response.map(item => {
+                this.dropdownOptionsBucketsList = response.list.map(item => {
                     return {
                         name: item.name,
                         id: item.id,
