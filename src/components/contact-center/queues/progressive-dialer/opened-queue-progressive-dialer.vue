@@ -89,6 +89,9 @@
                     text: this.$t('objects.general'),
                     value: 'general',
                 }, {
+                    text: this.$tc('objects.ccenter.res.res', 2),
+                    value: 'resources',
+                },{
                     text: this.$tc('objects.ccenter.queues.variables', 2),
                     value: 'variables',
                 }, {
