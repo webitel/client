@@ -106,11 +106,11 @@ export class DefaultModule {
             },
 
             SET_SIZE: (context, size) => {
-                context.state.size = size;
+                context.size = size;
             },
 
             SET_SEARCH: (context, search) => {
-                context.state.search = search;
+                context.search = search;
             },
 
             INCREMENT_PAGE: (state) => {

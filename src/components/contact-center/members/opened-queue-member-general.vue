@@ -32,6 +32,7 @@
                     v-model="timezone"
                     :options="dropdownOptionsTimezoneList"
                     :label="$t('objects.ccenter.queues.timezone')"
+                    @search="loadDropdownOptionsTimezoneList"
             ></dropdown-select>
         </form>
     </section>

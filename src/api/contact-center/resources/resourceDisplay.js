@@ -18,7 +18,7 @@ export const getResDisplayList = async (resId, page = 0, size = 10, search) => {
         _isSelected: false,
     };
     try {
-        const response = await resService.searchOutboundResourceDisplay(resId, page, size, domainId);
+        const response = await resService.searchOutboundResourceDisplay(resId, page, size, search, domainId);
         if (response.items) {
             return response.items.map(item => {
                 return {...defaultObject, ...item};
