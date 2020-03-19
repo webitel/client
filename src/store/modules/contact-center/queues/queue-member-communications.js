@@ -24,6 +24,8 @@ const state = {
 const getters = {};
 
 const actions = {
+    ...defaultModule.actions,
+
     GET_LIST: async () => {
         const defaultObject = {
             _isSelected: false,
@@ -57,7 +59,12 @@ const actions = {
             id, {root: true});
     },
 
-    ...defaultModule.actions,
+    LOAD_DATA_LIST: async (context) => {
+        const response = await context.dispatch('GET_LIST');
+        context.dispatch('RESET_ITEM_STATE');
+        context.commit('SET_DATA_LIST', response);
+    },
+
 };
 
 const mutations = {

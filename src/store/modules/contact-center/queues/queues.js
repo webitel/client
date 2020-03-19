@@ -7,6 +7,7 @@ import {
     getQueue, getQueuesList, updateQueue
 } from "../../../../api/contact-center/queues/queues";
 import {DefaultModule} from "../../defaults/DefaultModule";
+import proxy from "../../../../utils/editProxy";
 
 const defaultState = () => {
     return {
@@ -161,6 +162,8 @@ const state = {
 const getters = {};
 
 const actions = {
+    ...defaultModule.actions,
+
     GET_LIST: async () => {
         return await getQueuesList(state.page, state.size, state.search);
     },
@@ -183,6 +186,15 @@ const actions = {
 
     DELETE_ITEM: async (context, id) => {
         await deleteQueue(id);
+    },
+
+    LOAD_ITEM: async (context, type) => {
+        if (state.itemId) {
+            const item = await context.dispatch('GET_ITEM');
+            context.commit('SET_ITEM', proxy(item));
+        } else {
+            context.dispatch('SET_ITEM_BY_TYPE', type);
+        }
     },
 
     SET_ITEM_BY_TYPE: (context, type) => {
@@ -236,8 +248,6 @@ const actions = {
         context.dispatch('ccenter/queues/resGroups/RESET_ITEM_STATE', {}, {root: true});
         context.dispatch('ccenter/queues/members/RESET_ITEM_STATE', {}, {root: true});
     },
-
-    ...defaultModule.actions,
 };
 
 const mutations = {
