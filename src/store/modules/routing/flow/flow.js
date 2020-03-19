@@ -1,4 +1,3 @@
-import proxy from '../../../../utils/editProxy';
 import {addFlow, deleteFlow, getFlow, getFlowList, updateFlow} from "../../../../api/routing/flow/flow";
 import {DefaultModule} from "../../defaults/DefaultModule";
 
