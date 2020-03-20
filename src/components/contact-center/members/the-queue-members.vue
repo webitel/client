@@ -166,12 +166,12 @@
             }),
 
             size: {
-                get() {return this.$store.state.ccenter.queues.members.size},
+                get() {return this.$store.state.ccenter.queues.members.size || '10'},
                 set(value) {this.setSize(value)}
             },
 
             search: {
-                get() {return this.$store.state.ccenter.queues.members.search},
+                get() {return this.$store.state.ccenter.queues.members.search || ''},
                 set(value) {this.setSearch(value)}
             },
         },

@@ -20,7 +20,7 @@ export const getResInGroupList = async (resGroupId, page = 0, size = 10, search)
         _isSelected: false,
     };
     try {
-        const response = await resGrService.searchOutboundResourceInGroup(resGroupId, page, size, domainId);
+        const response = await resGrService.searchOutboundResourceInGroup(resGroupId, page, size, search, domainId);
         if (response.items) {
             return response.items.map(item => {
                 return {...defaultObject, ...item};

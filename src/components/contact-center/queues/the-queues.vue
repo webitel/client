@@ -62,7 +62,7 @@
 
                 <template slot="activeCalls" slot-scope="props">
                     <div>
-                        {{dataList[props.rowIndex].activeCalls}}
+                        {{dataList[props.rowIndex].active}}
                     </div>
                 </template>
 

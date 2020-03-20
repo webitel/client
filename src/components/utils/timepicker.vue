@@ -139,7 +139,7 @@
 
         methods: {
             updateComponentTime() {
-                let value = this.value;
+                let value = this.value !== undefined ? this.value : 0;
                 if (!this.timeVisibility.sec) value = value * 60;
                 if (!this.timeVisibility.min) value = value * 60;
                 this.time.sec = value % 60;

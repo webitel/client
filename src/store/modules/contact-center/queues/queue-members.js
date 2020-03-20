@@ -36,6 +36,9 @@ const getters = {
 };
 
 const actions = {
+
+    ...defaultModule.actions,
+
     GET_LIST: async () => {
         return await getMembersList(state.parentId, state.page, state.size, state.search);
     },
@@ -54,6 +57,12 @@ const actions = {
 
     DELETE_ITEM: async (context, id) => {
         await deleteMember(state.parentId, id);
+    },
+
+    LOAD_DATA_LIST: async (context) => {
+        const response = await context.dispatch('GET_LIST');
+        context.dispatch('RESET_ITEM_STATE');
+        context.commit('SET_DATA_LIST', response);
     },
 
     SET_DESTINATION_ID: async (context, id) => {
@@ -91,7 +100,6 @@ const actions = {
         context.commit('SET_ITEM_PROPERTY', {prop: '_dirty', value: true});
     },
 
-    ...defaultModule.actions,
 };
 
 const mutations = {

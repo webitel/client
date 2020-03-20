@@ -55,6 +55,12 @@
                     </div>
                 </template>
 
+                <template slot="communication" slot-scope="props">
+                    <div>
+                        {{dataList[props.rowIndex].communication.name}}
+                    </div>
+                </template>
+
                 <template slot="actions" slot-scope="props">
                         <i class="vuetable-action icon-icon_edit"
                            :title="$t('iconHints.edit')"
@@ -94,6 +100,7 @@
                     _checkboxTableField,
                     {name: 'name', title: this.$t('objects.name')},
                     {name: 'description', title: this.$t('objects.description')},
+                    {name: 'communication', title: this.$tc('objects.lookups.communications.communications', 1)},
                     _actionsTableField_2,
                 ],
             };

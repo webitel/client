@@ -33,7 +33,7 @@ export const getMembersList = async (queueId, page = 0, size = 10, search) => {
     };
 
     try {
-        const response = await memberService.searchMember(queueId, page, size, domainId);
+        const response = await memberService.searchMemberInQueue(queueId, page, size, domainId);
         if (response.items) {
             return response.items.map(item => {
                 item.communications = item.communications.map(comm => {

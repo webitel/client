@@ -42,16 +42,16 @@
         computed: {
             originateTimeout: {
                 get() {
-                    return this.$store.state.ccenter.queues.itemInstance.payload.originateTimeout
+                    return this.$store.state.ccenter.queues.itemInstance.payload.originateTimeout || 0
                 },
                 set(value) {
-                    this.setPayloadItemProp({prop: 'name', value})
+                    this.setPayloadItemProp({prop: 'originateTimeout', value})
                 }
             },
 
             secBetweenRetries: {
                 get() {
-                    return this.$store.state.ccenter.queues.itemInstance.payload.secBetweenRetries
+                    return this.$store.state.ccenter.queues.itemInstance.payload.secBetweenRetries || 0
                 },
                 set(value) {
                     this.setPayloadItemProp({prop: 'secBetweenRetries', value})
@@ -60,7 +60,7 @@
 
             maxOfRetry: {
                 get() {
-                    return this.$store.state.ccenter.queues.itemInstance.payload.maxOfRetry
+                    return this.$store.state.ccenter.queues.itemInstance.payload.maxOfRetry || 0
                 },
                 set(value) {
                     this.setPayloadItemProp({prop: 'maxOfRetry', value})
@@ -69,7 +69,7 @@
 
             timeout: {
                 get() {
-                    return this.$store.state.ccenter.queues.itemInstance.timeout
+                    return this.$store.state.ccenter.queues.itemInstance.timeout || 0
                 },
                 set(value) {
                     this.setItemProp({prop: 'timeout', value})
