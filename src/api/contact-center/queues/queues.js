@@ -33,7 +33,7 @@ export const strategiesList = {
 const defaultListObject = {
     type: 0,
     enabled: false,
-    activeCalls: 0,
+    active: 0,
     waiting: 0,
     priority: '0',
     _isSelected: false,
