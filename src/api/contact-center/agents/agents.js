@@ -53,10 +53,10 @@ export const getAgentUsersOptions = async (page = 0, size = 10, search) => {
     return response.items ? response.items : [];
 };
 
-export const getAgentHistory = async (id, date, page = 0, size = 10) => {
+export const getAgentHistory = async (id, date, page = 0, size = 10, search) => {
     const domainId = store.state.userinfo.domainId;
     try {
-        const response = await agentService.searchAgentStateHistory(id, page, size, date, Date.now(), domainId);
+        const response = await agentService.searchAgentStateHistory(id, page, size, date, Date.now(), search, domainId);
         return response.items ? response.items : [];
     } catch (err) {
         throw err;
