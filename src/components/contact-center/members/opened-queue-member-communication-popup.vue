@@ -172,7 +172,7 @@
 
             async loadDropdownOptionsTypeList(search) {
                 const response = await getCommunicationsList(0, 10, search);
-                this.dropdownOptionsTypeList = response.map(item => {
+                this.dropdownOptionsTypeList = response.list.map(item => {
                     return {
                         name: item.name,
                         id: item.id,
@@ -182,7 +182,7 @@
 
             async loadDropdownOptionsResList(search) {
                 const response = await getResourceList(0, 10, search);
-                this.dropdownOptionsResList = response.map(item => {
+                this.dropdownOptionsResList = response.list.map(item => {
                     return {
                         name: item.name,
                         id: item.id,

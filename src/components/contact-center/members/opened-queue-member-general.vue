@@ -26,6 +26,7 @@
                     v-model="bucket"
                     :options="dropdownOptionsBucketsList"
                     :label="$tc('objects.ccenter.buckets.buckets', 1)"
+                    @search="loadDropdownOptionsBucketsList"
             ></dropdown-select>
 
             <dropdown-select
