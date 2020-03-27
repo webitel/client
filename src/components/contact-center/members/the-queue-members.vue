@@ -28,7 +28,7 @@
                 <div class="content-header__actions-wrap">
                     <search
                             v-model="search"
-                            @filterData="loadList"
+                            @filterData="loadDataList"
                     ></search>
                     <i
                             class="icon-icon_delete icon-action"
@@ -54,7 +54,7 @@
                     <i
                             class="icon-icon_reload icon-action"
                             :title="$t('iconHints.reload')"
-                            @click="loadList"
+                            @click="loadDataList"
                     ></i>
                 </div>
             </header>
@@ -115,7 +115,7 @@
             <pagination
                     v-show="isLoaded"
                     v-model="size"
-                    @loadDataList="loadList"
+                    @loadDataList="loadDataList"
                     @next="nextPage"
                     @prev="prevPage"
                     :isNext=true
