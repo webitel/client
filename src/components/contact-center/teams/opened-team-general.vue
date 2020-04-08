@@ -24,6 +24,20 @@
                     :label="$t('objects.description')"
                     textarea
             ></form-input>
+
+            <div>
+                <div class="switcher-label-wrap">
+                    <div class="label">{{$t('objects.ccenter.teams.postProcessing')}}</div>
+                    <switcher
+                            v-model="post_processing"
+                    ></switcher>
+                </div class = 'teams__time-wrap'>
+                    <form-input
+                            v-model="post_processing_timeout"
+                            :label="$t('objects.ccenter.teams.wrapUpTime')"
+                            :disabled="!post_processing"
+                    ></form-input>
+            </div>
         </form>
     </section>
 </template>
@@ -62,6 +76,15 @@
                 get() {return this.$store.state.ccenter.teams.itemInstance.description},
                 set(value) {this.setItemProp({prop: 'description', value})}
             },
+            post_processing: {
+                get() {return this.$store.state.ccenter.teams.itemInstance.postProcessing},
+                set(value) {this.setItemProp({prop: 'post_processing', value})}
+            },
+            post_processing_timeout: {
+                get() {return this.$store.state.ccenter.teams.itemInstance. postProcessingTimeout || 20},
+                set(value) {this.setItemProp({prop: 'post_processing', value})}
+            },
+
         },
 
         methods: {
@@ -73,5 +96,16 @@
 </script>
 
 <style lang="scss" scoped>
+    .switcher-label-wrap {
+        margin: 0 0 28px;
 
+        .switcher {
+            margin-top: 7px;
+        }
+    }
+
+    .teams__time-wrap {
+        display: flex;
+        align-items: center;
+    }
 </style>
