@@ -12,12 +12,13 @@ const defaultState = () => {
         search: '',
         page: 0,
         isNextPage: true,
+        bucketId: 0,
         itemInstance: {
             skill: {},
             lvl: 0,
             minCapacity: 0,
             maxCapacity: 10,
-            bucket: {},
+            bucket: [],
         },
     };
 };
@@ -28,7 +29,12 @@ const state = {
     ...defaultNestedModule.state,
 };
 
-const getters = {};
+const getters = {
+    GET_ITEM_BUCKETS: (state) => {
+        const item = state.dataList.filter(item => item.id === state.bucketId)[0];
+        return item.buckets;
+    },
+};
 
 const actions = {
     GET_LIST: async () => {
@@ -51,11 +57,20 @@ const actions = {
         await deleteTeamSkill(state.parentId, id);
     },
 
+    SET_BUCKETS_ID: async (context, id) => {
+        context.commit('SET_BUCKETS_ID', id);
+    },
+
     ...defaultNestedModule.actions,
 };
 
 const mutations = {
     ...defaultNestedModule.mutations,
+
+    SET_BUCKETS_ID: (state, id) => {
+        state.bucketId = id;
+    },
+
 };
 
 export default {

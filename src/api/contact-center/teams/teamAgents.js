@@ -10,7 +10,7 @@ const teamResService = new ResourceTeamServiceApiFactory
 (configuration, '', instance);
 
 const fieldsToSend = ['domainId', 'agent', 'maxCapacity',
-    'minCapacity', 'teamId', 'lvl', 'bucket',];
+    'minCapacity', 'teamId', 'lvl', 'buckets',];
 
 export const getTeamAgentsList = async (teamId, page = 0, size = 10, search) => {
     const domainId = store.state.userinfo.domainId;
@@ -19,7 +19,7 @@ export const getTeamAgentsList = async (teamId, page = 0, size = 10, search) => 
         agent: {},
         minCapacity: 0,
         maxCapacity: 0,
-        bucket: {},
+        buckets: [],
         _isSelected: false,
     };
 
@@ -40,7 +40,7 @@ export const getTeamAgent = async (teamId, id) => {
     const domainId = store.state.userinfo.domainId;
     const defaultObject = {
         agent: {},
-        bucket: {},
+        buckets: [],
         _dirty: false,
     };
     try {

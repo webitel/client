@@ -1,4 +1,3 @@
-import proxy from '../../../../utils/editProxy';
 import {
     getTeamAgentsList, getTeamAgent, addTeamAgent,
     updateTeamAgent, deleteTeamAgent
@@ -13,10 +12,11 @@ const defaultState = () => {
         page: 0,
         isNextPage: true,
         itemId: 0,
+        bucketId: 0,
         itemInstance: {
             agent: {},
             lvl: 12,
-            bucket: {},
+            buckets: [],
         },
     };
 };
@@ -27,7 +27,12 @@ const state = {
     ...defaultNestedModule.state,
 };
 
-const getters = {};
+const getters = {
+    GET_ITEM_BUCKETS: (state) => {
+        const item = state.dataList.filter(item => item.id === state.bucketId)[0];
+        return item.buckets;
+    },
+};
 
 const actions = {
     GET_LIST: async () => {
@@ -50,11 +55,19 @@ const actions = {
         await deleteTeamAgent(state.parentId, id);
     },
 
+    SET_BUCKETS_ID: async (context, id) => {
+        context.commit('SET_BUCKETS_ID', id);
+    },
+
     ...defaultNestedModule.actions,
 };
 
 const mutations = {
     ...defaultNestedModule.mutations,
+
+    SET_BUCKETS_ID: (state, id) => {
+        state.bucketId = id;
+    },
 };
 
 export default {

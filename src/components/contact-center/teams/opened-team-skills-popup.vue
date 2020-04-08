@@ -36,12 +36,12 @@
                 ></form-input>
             </div>
 
-            <dropdown-select
-                    v-model="bucket"
+            <tags-input
+                    v-model="buckets"
                     :options="dropdownBucketsList"
                     :label="$tc('objects.ccenter.buckets.buckets', 1)"
                     @search="loadBucketsOptions"
-            ></dropdown-select>
+            ></tags-input>
         </form>
     </popup>
 </template>
@@ -122,12 +122,12 @@
                     this.setItemProp({prop: 'maxCapacity', value})
                 }
             },
-            bucket: {
+            buckets: {
                 get() {
-                    return this.$store.state.ccenter.teams.skills.itemInstance.bucket
+                    return this.$store.state.ccenter.teams.skills.itemInstance.buckets || []
                 },
                 set(value) {
-                    this.setItemProp({prop: 'bucket', value})
+                    this.setItemProp({prop: 'buckets', value})
                 }
             },
         },
