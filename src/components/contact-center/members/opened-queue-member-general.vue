@@ -30,6 +30,13 @@
             ></dropdown-select>
 
             <dropdown-select
+                    v-model="skill"
+                    :options="dropdownOptionsSkillsList"
+                    :label="$tc('objects.ccenter.skills.skills', 1)"
+                    @search="loadDropdownOptionsSkillsList"
+            ></dropdown-select>
+
+            <dropdown-select
                     v-model="timezone"
                     :options="dropdownOptionsTimezoneList"
                     :label="$t('objects.ccenter.queues.timezone')"
@@ -46,6 +53,7 @@
     import {mapActions} from "vuex";
     import {getBucketsList} from "../../../api/contact-center/buckets/buckets";
     import {getCalendarTimezones} from "../../../api/lookups/calendars/calendars";
+    import {getSkillsList} from "../../../api/contact-center/agentSkills/agentSkills";
 
     export default {
         name: "opened-queue-member-general",
@@ -56,12 +64,14 @@
             return {
                 dropdownOptionsPriorityList: ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9', '10'],
                 dropdownOptionsBucketsList: [],
+                dropdownOptionsSkillsList: [],
                 dropdownOptionsTimezoneList: [],
             }
         },
 
         mounted() {
             this.loadDropdownOptionsBucketsList();
+            this.loadDropdownOptionsSkillsList();
             this.loadDropdownOptionsTimezoneList();
         },
 
@@ -79,8 +89,12 @@
                 set(value) {this.setItemProp({prop: 'expireAt', value})}
             },
             bucket: {
-                get() {return this.$store.state.ccenter.queues.members.itemInstance.bucket},
+                get() {return this.$store.state.ccenter.queues.members.itemInstance.bucket || ''},
                 set(value) {this.setItemProp({prop: 'bucket', value})}
+            },
+            skill: {
+                get() {return this.$store.state.ccenter.queues.members.itemInstance.skill || ''},
+                set(value) {this.setItemProp({prop: 'skill', value})}
             },
             timezone: {
                 get() {return this.$store.state.ccenter.queues.members.itemInstance.timezone},
@@ -96,6 +110,15 @@
             async loadDropdownOptionsBucketsList(search) {
                 const response = await getBucketsList(0, 10, search);
                 this.dropdownOptionsBucketsList = response.list.map(item => {
+                    return {
+                        name: item.name,
+                        id: item.id,
+                    }
+                });
+            },
+            async loadDropdownOptionsSkillsList(search) {
+                const response = await getSkillsList(0, 10, search);
+                this.dropdownOptionsSkillsList = response.list.map(item => {
                     return {
                         name: item.name,
                         id: item.id,

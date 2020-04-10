@@ -9,7 +9,7 @@ import store from '../../../store/store';
 const memberService = new MemberServiceApiFactory
 (configuration, '', instance);
 
-const fieldsToSend = ['domainId', 'queueId', 'name', 'priority', 'bucket', 'timezone', 'communications',
+const fieldsToSend = ['domainId', 'queueId', 'name', 'priority', 'bucket', 'skill', 'timezone', 'communications',
     'variables', 'expireAt'];
 
 const communicationsFieldsToSend = ['destination', 'display', 'priority', 'type', 'resource', 'description'];

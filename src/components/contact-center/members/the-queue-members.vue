@@ -28,7 +28,7 @@
                 <div class="content-header__actions-wrap">
                     <search
                             v-model="search"
-                            @filterData="loadDataList"
+                            @filterData="loadList"
                     ></search>
                     <i
                             class="icon-icon_delete icon-action"
@@ -54,7 +54,7 @@
                     <i
                             class="icon-icon_reload icon-action"
                             :title="$t('iconHints.reload')"
-                            @click="loadDataList"
+                            @click="loadList"
                     ></i>
                 </div>
             </header>
@@ -92,7 +92,7 @@
                         {{dataList[props.rowIndex].communications[0].destination}}
                         <span class="hidden-num"
                               @click="readDestinations(props.rowIndex)"
-                        >+{{dataList[props.rowIndex].communications.length-1}}</span>
+                        >+{{dataList[props.rowIndex].communications.length}}</span>
                     </div>
                 </template>
                 <template slot="type" slot-scope="props">
@@ -115,7 +115,7 @@
             <pagination
                     v-show="isLoaded"
                     v-model="size"
-                    @loadDataList="loadDataList"
+                    @loadDataList="loadList"
                     @next="nextPage"
                     @prev="prevPage"
                     :isNext=true
@@ -128,7 +128,7 @@
 <script>
     import uploadPopup from './upload-members-popup';
     import destinationsPopup from './opened-queue-member-destinations-popup';
-    import tableComponentMixin from '@/mixins/tableComponentMixin';
+    import tableComponentMixin from '../../../mixins/tableComponentMixin';
     import {_checkboxTableField, _actionsTableField_2} from "@/utils/tableFieldPresets";
     import {mapActions, mapState} from "vuex";
 
