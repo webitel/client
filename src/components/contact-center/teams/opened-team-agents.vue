@@ -3,6 +3,7 @@
 
         <agent-buckets-popup
                 v-if="bucketsPopupTriggerIf"
+                :itemId="this.agentId"
                 @close="closeBucketsPopup"
         ></agent-buckets-popup>
 
@@ -58,10 +59,11 @@
             </template>
 
             <template slot="buckets" slot-scope="props">
-                <div>
+                <div>{{dataList[props.rowIndex].buckets[0].name}}
                     <span class="hidden-num"
                           @click="readBuckets(props.rowIndex)"
-                    >+{{dataList[props.rowIndex].buckets.length}}</span>
+                          v-if="dataList[props.rowIndex].buckets.length > 1"
+                    >+{{dataList[props.rowIndex].buckets.length-1}}</span>
                 </div>
             </template>
 
@@ -104,6 +106,7 @@
         data() {
             return {
                 bucketsPopupTriggerIf: false,
+                agentId: 0,
                 fields: [
                     _checkboxTableField,
                     {name: 'name', title: this.$t('objects.name')},
@@ -158,7 +161,7 @@
 
 
             readBuckets(rowIndex) {
-                this.setBucketsId(this.dataList[rowIndex].id);
+                this.agentId = this.dataList[rowIndex].id;
                 this.bucketsPopupTriggerIf = true;
             },
 
@@ -175,7 +178,6 @@
             }),
 
             ...mapActions('ccenter/teams/agents', {
-                setBucketsId: 'SET_BUCKETS_ID',
                 setParentId: 'SET_PARENT_ITEM_ID',
                 setId: 'SET_ITEM_ID',
                 loadDataList: 'LOAD_DATA_LIST',

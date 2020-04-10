@@ -2,7 +2,8 @@
     <section>
         <skill-buckets-popup
                 v-if="bucketsPopupTriggerIf"
-                @close="closePopup"
+                :itemId="this.agentId"
+                @close="closeBucketsPopup"
         ></skill-buckets-popup>
 
         <skill-popup
@@ -57,10 +58,11 @@
             </template>
 
             <template slot="buckets" slot-scope="props">
-                <div>
+                <div>{{readBucketName(dataList[props.rowIndex].buckets)}}
                     <span class="hidden-num"
                           @click="readBuckets(props.rowIndex)"
-                    >+{{dataList[props.rowIndex].buckets.length}}</span>
+                          v-if="dataList[props.rowIndex].buckets.length > 1"
+                    >+{{dataList[props.rowIndex].buckets.length-1}}</span>
                 </div>
             </template>
 
@@ -101,6 +103,7 @@
         data() {
             return {
                 bucketsPopupTriggerIf: null,
+                agentId: 0,
                 fields: [
                     _checkboxTableField,
                     {name: 'name', title: this.$t('objects.name')},
@@ -153,7 +156,7 @@
             },
 
             readBuckets(rowIndex) {
-                this.setBucketsId(this.dataList[rowIndex].id);
+                this.agentId = this.dataList[rowIndex].id;
                 this.bucketsPopupTriggerIf = true;
             },
 
@@ -165,12 +168,18 @@
                 this.bucketsPopupTriggerIf = false;
             },
 
+            readBucketName(buckets) {
+              if(buckets.length > 0)
+              {
+                  return buckets[0].name;
+              }
+            },
+
             ...mapActions('ccenter/teams', {
                 addParentItem: 'ADD_ITEM',
             }),
 
             ...mapActions('ccenter/teams/skills', {
-                setBucketsId: 'SET_BUCKETS_ID',
                 setParentId: 'SET_PARENT_ITEM_ID',
                 setId: 'SET_ITEM_ID',
                 loadDataList: 'LOAD_DATA_LIST',

@@ -10,11 +10,11 @@
                     class="popup-table"
                     :api-mode="false"
                     :fields="fields"
-                    :data="dataList"
+                    :data="getBuckets"
             >
                 <template slot="bucket" slot-scope="props">
                     <div>
-                        {{dataList[props.rowIndex].name}}
+                        {{getBuckets[props.rowIndex].name}}
                     </div>
                 </template>
 
@@ -34,7 +34,7 @@
         components: {
             popup,
         },
-
+        props: ['itemId'],
         data() {
             return {
                 fields: [
@@ -44,10 +44,13 @@
         },
 
         computed: {
-            ...mapGetters('ccenter/teams/skills', {
-                dataList: 'GET_ITEM_BUCKETS',
-            }),
+            ...mapGetters('ccenter/teams/skills', [
+                'GET_ITEM_BUCKETS'
+            ]),
 
+            getBuckets() {
+                return this.GET_ITEM_BUCKETS(this.itemId);
+            }
         },
 
         methods: {
