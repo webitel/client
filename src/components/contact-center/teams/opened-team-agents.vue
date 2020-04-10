@@ -59,7 +59,7 @@
             </template>
 
             <template slot="buckets" slot-scope="props">
-                <div>{{dataList[props.rowIndex].buckets[0].name}}
+                <div>{{getFirstBucket(dataList[props.rowIndex].buckets)}}
                     <span class="hidden-num"
                           @click="readBuckets(props.rowIndex)"
                           v-if="dataList[props.rowIndex].buckets.length > 1"
@@ -141,7 +141,8 @@
             search: {
                 get() {return this.$store.state.ccenter.teams.agents.search},
                 set(value) {this.setSearch(value)}
-            }
+            },
+
         },
 
         methods: {
@@ -159,6 +160,12 @@
                 this.popupTriggerIf = true;
             },
 
+            getFirstBucket(buckets) {
+                if(buckets.length > 0)
+                {
+                    return buckets[0].name;
+                }
+            },
 
             readBuckets(rowIndex) {
                 this.agentId = this.dataList[rowIndex].id;
