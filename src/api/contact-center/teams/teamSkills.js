@@ -11,7 +11,7 @@ const teamResService = new ResourceTeamServiceApiFactory
 
 const domainId = undefined;
 const fieldsToSend = ['domainId', 'maxCapacity',
-    'minCapacity', 'teamId', 'lvl', 'bucket', 'skill'];
+    'minCapacity', 'teamId', 'lvl', 'buckets', 'skill'];
 
 export const getTeamSkillsList = async (teamId, page = 0, size = 10, search) => {
     const domainId = store.state.userinfo.domainId;
@@ -20,7 +20,7 @@ export const getTeamSkillsList = async (teamId, page = 0, size = 10, search) => 
         agent: {},
         minCapacity: 0,
         maxCapacity: 0,
-        bucket: {},
+        buckets: [],
         lvl: 0,
         _isSelected: false,
     };
@@ -44,7 +44,7 @@ export const getTeamSkill = async (teamId, id) => {
         agent: {},
         minCapacity: 0,
         maxCapacity: 0,
-        bucket: {},
+        buckets: [],
         lvl: 0,
         _dirty: false,
     };

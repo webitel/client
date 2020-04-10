@@ -17,7 +17,7 @@ const defaultState = () => {
             lvl: 0,
             minCapacity: 0,
             maxCapacity: 10,
-            bucket: {},
+            buckets: [],
         },
     };
 };
@@ -28,7 +28,12 @@ const state = {
     ...defaultNestedModule.state,
 };
 
-const getters = {};
+const getters = {
+    GET_ITEM_BUCKETS: (state) => (id) => {
+        const item = state.dataList.filter(item => item.id === id)[0];
+        return item.buckets;
+    },
+};
 
 const actions = {
     GET_LIST: async () => {
@@ -56,6 +61,7 @@ const actions = {
 
 const mutations = {
     ...defaultNestedModule.mutations,
+
 };
 
 export default {

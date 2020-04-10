@@ -67,6 +67,7 @@ export class DefaultNestedModule {
             UPDATE_ITEM: async (context) => {
                 if (context.state.itemInstance._dirty) {
                     await context.dispatch('UPD_ITEM');
+                    await context.dispatch('LOAD_DATA_LIST');
                 }
             },
 

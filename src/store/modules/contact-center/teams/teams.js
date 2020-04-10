@@ -22,6 +22,8 @@ const defaultState = () => {
             busyDelayTime: 10,
             noAnswerDelayTime: 10,
             callTimeout: 10,
+            post_processing: false,
+            post_processing_timeout: 20
         },
     };
 };

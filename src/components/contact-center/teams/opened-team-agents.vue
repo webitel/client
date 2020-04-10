@@ -1,5 +1,12 @@
 <template>
     <section>
+
+        <agent-buckets-popup
+                v-if="bucketsPopupTriggerIf"
+                :itemId="this.agentId"
+                @close="closeBucketsPopup"
+        ></agent-buckets-popup>
+
         <agent-popup
                 v-if="popupTriggerIf"
                 @close="closePopup"
@@ -51,9 +58,12 @@
                 </div>
             </template>
 
-            <template slot="bucket" slot-scope="props">
-                <div>
-                    {{dataList[props.rowIndex].bucket.name}}
+            <template slot="buckets" slot-scope="props">
+                <div>{{getFirstBucket(dataList[props.rowIndex].buckets)}}
+                    <span class="hidden-num"
+                          @click="readBuckets(props.rowIndex)"
+                          v-if="dataList[props.rowIndex].buckets.length > 1"
+                    >+{{dataList[props.rowIndex].buckets.length-1}}</span>
                 </div>
             </template>
 
@@ -82,6 +92,7 @@
 
 <script>
     import agentPopup from './opened-team-agents-popup';
+    import agentBucketsPopup from './opened-team-agents-buckets-popup';
     import tableComponentMixin from '@/mixins/tableComponentMixin';
     import openedTabComponentMixin from '@/mixins/openedTabComponentMixin';
     import {_checkboxTableField, _actionsTableField_2} from "@/utils/tableFieldPresets";
@@ -91,14 +102,16 @@
     export default {
         name: "opened-team-agents",
         mixins: [openedTabComponentMixin, tableComponentMixin],
-        components: {agentPopup},
+        components: {agentPopup, agentBucketsPopup},
         data() {
             return {
+                bucketsPopupTriggerIf: false,
+                agentId: 0,
                 fields: [
                     _checkboxTableField,
                     {name: 'name', title: this.$t('objects.name')},
                     {name: 'lvl', title: this.$t('objects.ccenter.teams.lvl')},
-                    {name: 'bucket', title: this.$tc('objects.ccenter.buckets.buckets', 1)},
+                    {name: 'buckets', title: this.$tc('objects.ccenter.buckets.buckets', 1), width: '160px'},
                     _actionsTableField_2,
                 ],
             }
@@ -128,7 +141,8 @@
             search: {
                 get() {return this.$store.state.ccenter.teams.agents.search},
                 set(value) {this.setSearch(value)}
-            }
+            },
+
         },
 
         methods: {
@@ -144,6 +158,26 @@
             edit(rowIndex) {
                 this.setId(this.dataList[rowIndex].id);
                 this.popupTriggerIf = true;
+            },
+
+            getFirstBucket(buckets) {
+                if(buckets.length > 0)
+                {
+                    return buckets[0].name;
+                }
+            },
+
+            readBuckets(rowIndex) {
+                this.agentId = this.dataList[rowIndex].id;
+                this.bucketsPopupTriggerIf = true;
+            },
+
+            closePopup() {
+                this.popupTriggerIf = false;
+            },
+
+            closeBucketsPopup() {
+                this.bucketsPopupTriggerIf = false;
             },
 
             ...mapActions('ccenter/teams', {
@@ -165,4 +199,11 @@
 </script>
 
 <style lang="scss" scoped>
+    .hidden-num {
+        @extend .typo-body-md;
+
+        margin-left: 33px;
+        text-decoration: underline;
+        cursor: pointer;
+    }
 </style>

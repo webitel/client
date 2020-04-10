@@ -1,4 +1,3 @@
-import proxy from '../../../../utils/editProxy';
 import {
     getTeamAgentsList, getTeamAgent, addTeamAgent,
     updateTeamAgent, deleteTeamAgent
@@ -16,7 +15,7 @@ const defaultState = () => {
         itemInstance: {
             agent: {},
             lvl: 12,
-            bucket: {},
+            buckets: [],
         },
     };
 };
@@ -27,7 +26,12 @@ const state = {
     ...defaultNestedModule.state,
 };
 
-const getters = {};
+const getters = {
+    GET_ITEM_BUCKETS: (state) => (id) => {
+        const item = state.dataList.filter(item => item.id === id)[0];
+        return item.buckets;
+    },
+};
 
 const actions = {
     GET_LIST: async () => {
