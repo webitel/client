@@ -24,12 +24,12 @@
                     required
             ></form-input>
 
-            <dropdown-select
-                    v-model="bucket"
+            <tags-input
+                    v-model="buckets"
                     :options="dropdownBucketsList"
                     :label="$tc('objects.ccenter.buckets.buckets', 1)"
                     @search="loadBucketsOptions"
-            ></dropdown-select>
+            ></tags-input>
         </form>
     </popup>
 </template>
@@ -95,12 +95,12 @@
                     this.setItemProp({prop: 'lvl', value})
                 }
             },
-            bucket: {
+            buckets: {
                 get() {
-                    return this.$store.state.ccenter.teams.agents.itemInstance.bucket
+                    return this.$store.state.ccenter.teams.agents.itemInstance.buckets || []
                 },
                 set(value) {
-                    this.setItemProp({prop: 'bucket', value})
+                    this.setItemProp({prop: 'buckets', value})
                 }
             },
         },
