@@ -55,6 +55,13 @@ export const getMember = async (queueId, id) => {
     const defaultObject = {
         createdAt: 'unknown',
         priority: '0',
+        name: 'member',
+        expireAt: 0,
+        skill: {},
+        bucket: {},
+        timezone: {},
+        communications: [],
+        variables: [],
         _isSelected: false,
         _dirty: false,
     };

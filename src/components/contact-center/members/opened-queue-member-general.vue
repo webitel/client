@@ -85,7 +85,7 @@
                 set(value) {this.setItemProp({prop: 'priority', value})}
             },
             expireAt: {
-                get() {return this.$store.state.ccenter.queues.members.itemInstance.expireAt || 0},
+                get() {return this.$store.state.ccenter.queues.members.itemInstance.expireAt},
                 set(value) {this.setItemProp({prop: 'expireAt', value})}
             },
             bucket: {
@@ -97,7 +97,7 @@
                 set(value) {this.setItemProp({prop: 'timezone', value})}
             },
             skill: {
-                get() {return this.$store.state.ccenter.queues.members.itemInstance.skill || ''},
+                get() {return this.$store.state.ccenter.queues.members.itemInstance.skill},
                 set(value) {this.setItemProp({prop: 'skill', value})}
             },
             description: {

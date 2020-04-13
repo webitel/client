@@ -92,7 +92,8 @@
                         {{dataList[props.rowIndex].communications[0].destination}}
                         <span class="hidden-num"
                               @click="readDestinations(props.rowIndex)"
-                        >+{{dataList[props.rowIndex].communications.length-1}}</span>
+                              v-if="dataList[props.rowIndex].communications.length > 1"
+                        >+{{countDestinations(dataList[props.rowIndex].communications.length)}}</span>
                     </div>
                 </template>
                 <template slot="type" slot-scope="props">
@@ -153,8 +154,6 @@
         },
 
         mounted() {
-            this.setParentId(this.$route.params.queueId);
-            this.loadList();
         },
 
         computed: {
@@ -173,6 +172,11 @@
             search: {
                 get() {return this.$store.state.ccenter.queues.members.search || ''},
                 set(value) {this.setSearch(value)}
+            },
+
+            parentId: {
+                get() {return this.$route.params.queueId},
+                set() {}
             },
         },
 
@@ -231,6 +235,14 @@
                 });
             },
 
+            countDestinations(value) {
+              if(value >= 2)
+              {
+                  return value-1;
+              }
+              return undefined;
+            },
+
             ...mapActions('ccenter/queues/members', {
                 setDestinationId: 'SET_DESTINATION_ID',
                 setParentId: 'SET_PARENT_ITEM_ID',
@@ -251,6 +263,7 @@
     .hidden-num {
         @extend .typo-body-md;
 
+        margin-right: 10px;
         margin-left: 33px;
         text-decoration: underline;
         cursor: pointer;
