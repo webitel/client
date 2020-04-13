@@ -8,6 +8,7 @@ import {DefaultNestedModule} from "../../defaults/DefaultNestedModule";
 
 const defaultState = () => {
     return {
+        dataList:[],
         destinationId: 0,
         itemId: 0,
         itemInstance: {
@@ -26,7 +27,6 @@ const defaultState = () => {
 const defaultModule = new DefaultNestedModule(defaultState);
 
 const state = {
-    dataList:[],
     ...defaultModule.state,
 };
 
