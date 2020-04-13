@@ -1,3 +1,4 @@
+import proxy from '../../../../utils/editProxy';
 import communications from './queue-member-communications';
 import {
     addMember, deleteMember,
@@ -7,16 +8,17 @@ import {DefaultNestedModule} from "../../defaults/DefaultNestedModule";
 
 const defaultState = () => {
     return {
+        dataList:[],
         destinationId: 0,
         itemId: 0,
         itemInstance: {
             name: 'memberr',
             priority: '0',
-            expireAt: Date.now(),
+            expireAt: 0,
+            skill: {},
             bucket: {},
             timezone: {},
             communications: [],
-            // skills: [{text: 'skill1'}, {text: 'skill2'}],
             variables: [{key: 'Ke1y', value: 'Valu2e'}, {key: 'K3ey', value: 'Va4lue'},],
         },
     };
@@ -59,12 +61,6 @@ const actions = {
         await deleteMember(state.parentId, id);
     },
 
-    LOAD_DATA_LIST: async (context) => {
-        const response = await context.dispatch('GET_LIST');
-        context.dispatch('RESET_ITEM_STATE');
-        context.commit('SET_DATA_LIST', response);
-    },
-
     SET_DESTINATION_ID: async (context, id) => {
         context.commit('SET_DESTINATION_ID', id);
     },
@@ -104,6 +100,8 @@ const actions = {
 
 const mutations = {
 
+    ...defaultModule.mutations,
+
     SET_DESTINATION_ID: (state, id) => {
         state.destinationId = id;
     },
@@ -131,8 +129,6 @@ const mutations = {
     DELETE_VARIABLE_PAIR: (state, index) => {
         state.itemInstance.variables.splice(index, 1);
     },
-
-    ...defaultModule.mutations,
 };
 
 export default {

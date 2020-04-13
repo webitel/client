@@ -91,6 +91,7 @@
                     <div class="d-flex justify-content-between">
                         {{dataList[props.rowIndex].communications[0].destination}}
                         <span class="hidden-num"
+                              v-if="dataList[props.rowIndex].communications.length > 1"
                               @click="readDestinations(props.rowIndex)"
                         >+{{dataList[props.rowIndex].communications.length-1}}</span>
                     </div>
@@ -153,8 +154,6 @@
         },
 
         mounted() {
-            this.setParentId(this.$route.params.queueId);
-            this.loadList();
         },
 
         computed: {
@@ -174,6 +173,8 @@
                 get() {return this.$store.state.ccenter.queues.members.search || ''},
                 set(value) {this.setSearch(value)}
             },
+
+            parentId() {return this.$route.params.queueId}
         },
 
         methods: {

@@ -101,7 +101,7 @@
         },
 
         mounted() {
-
+            this.loadDataList();
         },
 
         computed: {

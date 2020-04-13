@@ -30,21 +30,29 @@
             ></dropdown-select>
 
             <dropdown-select
+                    v-model="skill"
+                    :options="dropdownOptionsSkillsList"
+                    :label="$tc('objects.ccenter.skills.skills', 1)"
+                    @search="loadDropdownOptionsSkillsList"
+            ></dropdown-select>
+
+            <dropdown-select
                     v-model="timezone"
                     :options="dropdownOptionsTimezoneList"
                     :label="$t('objects.ccenter.queues.timezone')"
                     @search="loadDropdownOptionsTimezoneList"
             ></dropdown-select>
+
         </form>
     </section>
 </template>
 
 <script>
-    import datepicker from '@/components/utils/datepicker';
     import datetimePicker from '../../utils/datetimepicker';
     import openedTabComponentMixin from '@/mixins/openedTabComponentMixin';
     import {mapActions} from "vuex";
     import {getBucketsList} from "../../../api/contact-center/buckets/buckets";
+    import {getSkillsList} from "../../../api/contact-center/agentSkills/agentSkills";
     import {getCalendarTimezones} from "../../../api/lookups/calendars/calendars";
 
     export default {
@@ -56,12 +64,14 @@
             return {
                 dropdownOptionsPriorityList: ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9', '10'],
                 dropdownOptionsBucketsList: [],
+                dropdownOptionsSkillsList: [],
                 dropdownOptionsTimezoneList: [],
             }
         },
 
         mounted() {
             this.loadDropdownOptionsBucketsList();
+            this.loadDropdownOptionsSkillsList();
             this.loadDropdownOptionsTimezoneList();
         },
 
@@ -86,6 +96,10 @@
                 get() {return this.$store.state.ccenter.queues.members.itemInstance.timezone},
                 set(value) {this.setItemProp({prop: 'timezone', value})}
             },
+            skill: {
+                get() {return this.$store.state.ccenter.queues.members.itemInstance.skill},
+                set(value) {this.setItemProp({prop: 'skill', value})}
+            },
             description: {
                 get() {return this.$store.state.ccenter.queues.members.itemInstance.description},
                 set(value) {this.setItemProp({prop: 'description', value})}
@@ -102,6 +116,17 @@
                     }
                 });
             },
+
+            async loadDropdownOptionsSkillsList(search) {
+                const response = await getSkillsList(0, 10, search);
+                this.dropdownOptionsSkillsList = response.list.map(item => {
+                    return {
+                        name: item.name,
+                        id: item.id,
+                    }
+                });
+            },
+
             async loadDropdownOptionsTimezoneList(search) {
                 const response = await getCalendarTimezones(0, 10, search);
                 this.dropdownOptionsTimezoneList = response.map(item => {
