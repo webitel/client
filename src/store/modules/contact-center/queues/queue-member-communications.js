@@ -3,7 +3,7 @@ import {DefaultNestedModule} from "../../defaults/DefaultNestedModule";
 
 const defaultState = () => {
     return {
-        dataList: [],
+
         itemId: null,
         itemInstance: {
             destination: '555 3535',
@@ -19,6 +19,7 @@ const defaultState = () => {
 const defaultModule = new DefaultNestedModule(defaultState);
 
 const state = {
+    dataList: [],
     ...defaultModule.state,
 };
 
@@ -68,6 +69,13 @@ const actions = {
         const response = await context.dispatch('GET_LIST');
         context.commit('SET_DATA_LIST', response);
         context.dispatch('RESET_ITEM_STATE');
+    },
+
+    ADD_ITEM: async (context) => {
+        if (typeof state.itemId !== 'number') {
+            await context.dispatch('POST_ITEM');
+        }
+        context.dispatch('LOAD_DATA_LIST');
     },
 
 };
