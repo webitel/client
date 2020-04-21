@@ -1,10 +1,8 @@
 import store from '../../../store';
-import {DefaultNestedModule} from "../../defaults/DefaultNestedModule";
+import {DefaultNestedListModule} from "../../defaults/DefaultNestedListModule";
 
 const defaultState = () => {
     return {
-
-        itemId: null,
         itemInstance: {
             destination: '555 3535',
             display: '5656',
@@ -16,10 +14,9 @@ const defaultState = () => {
     };
 };
 
-const defaultModule = new DefaultNestedModule(defaultState);
+const defaultModule = new DefaultNestedListModule(defaultState);
 
 const state = {
-    dataList: [],
     ...defaultModule.state,
 };
 
@@ -59,23 +56,6 @@ const actions = {
     DELETE_ITEM: async (context, id) => {
         await context.dispatch('ccenter/queues/members/REMOVE_COMMUNICATION_ITEM',
             id, {root: true});
-    },
-
-    SET_ITEM_ID: (context, id) => {
-        if (id !== 'new') context.commit('SET_ITEM_ID', id);
-    },
-
-    LOAD_DATA_LIST: async (context) => {
-        const response = await context.dispatch('GET_LIST');
-        context.commit('SET_DATA_LIST', response);
-        context.dispatch('RESET_ITEM_STATE');
-    },
-
-    ADD_ITEM: async (context) => {
-        if (typeof state.itemId !== 'number') {
-            await context.dispatch('POST_ITEM');
-        }
-        context.dispatch('LOAD_DATA_LIST');
     },
 
 };
