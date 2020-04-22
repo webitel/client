@@ -16,7 +16,7 @@ const teamService = new AgentTeamServiceApiFactory
 
 const BASE_URL = '/call_center/teams';
 const fieldsToSend = ['domainId', 'name', 'description', 'strategy', 'maxNoAnswer', 'wrapUpTime',
-    'rejectDelayTime', 'busyDelayTime', 'noAnswerDelayTime', 'callTimeout'];
+    'rejectDelayTime', 'busyDelayTime', 'noAnswerDelayTime', 'callTimeout', 'postProcessing', 'postProcessingTimeout'];
 
 export const strategiesList = {
     'random': 'Random',
@@ -42,13 +42,15 @@ const permissionsPatcher = new WebitelAPIPermissionsPatcher(BASE_URL);
 
 itemGetter.responseHandler = (response) => {
     let defaultItemObject = {
-        _dirty: false
+        _dirty: false,
+        postProcessing: false
     };
     try {
         response.strategy = {
             name: strategiesList[response.strategy],
             value: response.strategy,
         };
+        console.log({...defaultItemObject, ...response});
         return {...defaultItemObject, ...response};
     } catch (err) {
         throw err;
