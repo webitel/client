@@ -114,6 +114,9 @@ const state = {
 const getters = {};
 
 const actions = {
+
+    ...defaultModule.actions,
+
     GET_LIST: async () => {
         return await getStorageList(state.page, state.size, state.search);
     },
@@ -165,7 +168,11 @@ const actions = {
         context.dispatch('SET_ITEM_PROPERTY', {prop: '_dirty', value: true});
     },
 
-    ...defaultModule.actions,
+    LOAD_DATA_LIST: async (context) => {
+        const response = await context.dispatch('GET_LIST');
+        context.dispatch('RESET_ITEM_STATE');
+        context.commit('SET_DATA_LIST', response);
+    },
 };
 
 const mutations = {

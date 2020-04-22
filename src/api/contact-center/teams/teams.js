@@ -43,7 +43,8 @@ const permissionsPatcher = new WebitelAPIPermissionsPatcher(BASE_URL);
 itemGetter.responseHandler = (response) => {
     let defaultItemObject = {
         _dirty: false,
-        postProcessing: false
+        postProcessing: false,
+        wrapUpTime: 0
     };
     try {
         response.strategy = {
