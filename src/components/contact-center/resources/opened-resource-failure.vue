@@ -13,7 +13,7 @@
             <tags-input
                     v-model="errorIds"
                     :options="dropdownOptionsList"
-                    :label="$tc('objects.directory.devices.devices', 2)"
+                    :label="$t('objects.ccenter.res.errorCodes')"
                     :addOnlyFromAutocomplete="false"
             ></tags-input>
         </form>

@@ -62,9 +62,11 @@ itemGetter.responseHandler = (response) => {
     try {
         response.maxErrors = response.maxSuccessivelyErrors;
         response.cps = response.rps;
-        response.errorIds = response.errorIds.map(item => {
-            return {name: item}
-        });
+        if(response.errorIds) {
+            response.errorIds = response.errorIds.map(item => {
+                return {name: item}
+            });
+        }
         return {...defaultItemObject, ...response};
     } catch (err) {
         throw err;

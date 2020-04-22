@@ -53,8 +53,10 @@
                 </template>
 
                 <template slot="schema" slot-scope="props">
-                    <div>
+                    <div class="tt-capitalize">
+                        <span class="nameLink" @click="openFlow(dataList[props.rowIndex].schema.id)">
                         {{dataList[props.rowIndex].schema.name || 'schema IS EMPTY'}}
+                        </span>
                     </div>
                 </template>
 
@@ -169,6 +171,14 @@
         },
 
         methods: {
+
+            openFlow(value) {
+                this.$router.push({
+                    name: 'flow-edit',
+                    params: {id: value},
+                });
+            },
+
             initSortable() {
                 if (this.sortableInstance) this.sortableInstance.destroy();
 

@@ -1,6 +1,5 @@
-import {patchBlacklistPermissions} from "../../../../api/lookups/blacklists/blacklists";
+import {getBlacklistPermissions, patchBlacklistPermissions} from "../../../../api/lookups/blacklists/blacklists";
 import {DefaultPermissionsModule} from "../../defaults/DefaultPermissionsModule";
-import {getAgentPermissions, patchAgentPermissions} from "../../../../api/contact-center/agents/agents";
 
 const defaultState = () => {
     return {
