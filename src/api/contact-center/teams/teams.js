@@ -50,7 +50,6 @@ itemGetter.responseHandler = (response) => {
             name: strategiesList[response.strategy],
             value: response.strategy,
         };
-        console.log({...defaultItemObject, ...response});
         return {...defaultItemObject, ...response};
     } catch (err) {
         throw err;
