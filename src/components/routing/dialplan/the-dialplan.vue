@@ -53,7 +53,7 @@
                 </template>
 
                 <template slot="schema" slot-scope="props">
-                    <div class="tt-capitalize">
+                    <div>
                         <span class="nameLink" @click="openFlow(dataList[props.rowIndex].schema.id)">
                         {{dataList[props.rowIndex].schema.name || 'schema IS EMPTY'}}
                         </span>
