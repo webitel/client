@@ -31,7 +31,7 @@
                     <switcher
                             v-model="postProcessing"
                     ></switcher>
-                </div class = 'teams__time-wrap'>
+                </div>
                     <form-input
                             v-model="postProcessingTimeout"
                             :label="$t('objects.ccenter.teams.wrapUpTime')"
@@ -77,12 +77,12 @@
                 set(value) {this.setItemProp({prop: 'description', value})}
             },
             postProcessing: {
-                get() {return this.$store.state.ccenter.teams.itemInstance.post_processing},
-                set(value) {this.setItemProp({prop: 'post_processing', value})}
+                get() {return this.$store.state.ccenter.teams.itemInstance.postProcessing},
+                set(value) {this.setItemProp({prop: 'postProcessing', value})}
             },
             postProcessingTimeout: {
-                get() {return this.$store.state.ccenter.teams.itemInstance.post_processing_timeout},
-                set(value) {this.setItemProp({prop: 'post_processing_timeout', value})}
+                get() {return this.$store.state.ccenter.teams.itemInstance.postProcessingTimeout},
+                set(value) {this.setItemProp({prop: 'postProcessingTimeout', value})}
             },
 
         },
