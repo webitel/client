@@ -15,7 +15,7 @@ const defaultState = () => {
             password: '',
             user: {},
             phone: '',
-            ip: '1',
+            ip: '',
 
             vendor: '',
             model: '',
