@@ -11,9 +11,9 @@ const defaultState = () => {
     return {
         itemId: 0,
         itemInstance: {
-            name: 'res gr',
+            name: '',
             communication: {},
-            description: 'res gr descr',
+            description: '',
             time: [
                 {
                     start: 540,

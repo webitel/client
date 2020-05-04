@@ -26,9 +26,9 @@ const defaultState = () => {
     return {
         itemId: 0,
         itemInstance: {
-            name: '11calendar',
+            name: '',
             timezone: {},
-            description: '11calendar',
+            description: '',
             startAt: Date.now(),
             endAt: Date.now(),
             expires: false,

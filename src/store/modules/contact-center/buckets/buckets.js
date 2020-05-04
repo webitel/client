@@ -10,7 +10,7 @@ const defaultState = () => {
     return {
         itemId: 0,
         itemInstance: {
-            name: 'bucket name',
+            name: '',
             description: '',
         },
     };

@@ -11,10 +11,10 @@ const defaultState = () => {
     return {
         itemId: 0,
         itemInstance: {
-            name: 'dialplan name',
+            name: '',
             schema: {},
-            pattern: '{*}?',
-            description: 'description',
+            pattern: '',
+            description: '',
         },
     }
 };

@@ -16,8 +16,8 @@ const defaultState = () => {
         isNextPage: true,
         itemId: 0,
         itemInstance: {
-            number: '000',
-            description: 'default',
+            number: '',
+            description: '',
         }
     }
 };

@@ -10,13 +10,13 @@ const defaultState = () => {
     return {
         itemId: 0,
         itemInstance: {
-            name: 'test',
+            name: '',
             gateway: {},
             cps: 10,
             limit: 10,
-            description: 'test',
+            description: '',
             maxErrors: 2,
-            errorIds: [{name: '2xx'}],
+            errorIds: [],
         },
     };
 };

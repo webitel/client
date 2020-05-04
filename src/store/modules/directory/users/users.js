@@ -9,17 +9,15 @@ const defaultState = () => {
     return {
         itemId: 0,
         itemInstance: {
-            name: 'default user name' + Math.random(),
-            username: 'defaultuserlogin' + Math.random(),
+            name: '',
+            username: '',
             password: '',
-            extension: '1007',
+            extension: '',
             roles: [],
             // roleAdmin: [],
             license: [],
             devices: [],
-            variables: [
-                {key: 'integration_id', value: 'user@external.app'}
-            ],
+            variables: [],
         },
     }
 };
@@ -71,6 +69,26 @@ const actions = {
     DELETE_VARIABLE_PAIR: (context, index) => {
         context.commit('DELETE_VARIABLE_PAIR', index);
         context.commit('SET_ITEM_PROPERTY', {prop: '_dirty', value: true});
+    },
+
+    PATCH_ITEM_PEROPERTY: async (context, {value, index}) => {
+        await context.commit('PATCH_ITEM_PEROPERTY', {value, index});
+        let changes = {status: value};
+        try {
+            await context.dispatch('PATCH_ITEM', {id: state.dataList[index].id, changes});
+        } catch  {
+            context.dispatch('LOAD_DATA_LIST');
+        }
+    },
+
+    TOGGLE_ITEM_PROPERTY: async (context, index) => {
+        await context.commit('TOGGLE_ITEM_PROPERTY', index);
+        let changes = {dnd: state.dataList[index].dnd};
+        try {
+            await context.dispatch('PATCH_ITEM', {id: state.dataList[index].id, changes});
+        } catch {
+            context.dispatch('LOAD_DATA_LIST');
+        }
     },
 
     ...defaultModule.actions,
