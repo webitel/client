@@ -10,8 +10,8 @@ const defaultState = () => {
     return {
         itemId: 0,
         itemInstance: {
-            name: 'comm1',
-            code: 'a1',
+            name: '',
+            code: '',
             description: '',
         },
     };

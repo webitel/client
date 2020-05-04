@@ -3,7 +3,6 @@ import {
     patchResGroupPermissions
 } from "../../../../api/contact-center/resourceGroups/resourceGroups";
 import {DefaultPermissionsModule} from "../../defaults/DefaultPermissionsModule";
-import {getAgentPermissions, patchAgentPermissions} from "../../../../api/contact-center/agents/agents";
 
 const defaultState = () => {
     return {

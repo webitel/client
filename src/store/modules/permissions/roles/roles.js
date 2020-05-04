@@ -6,8 +6,8 @@ const defaultState = () => {
   return {
     itemId: 0,
     itemInstance: {
-      name: 'role name',
-      description: 'descr',
+      name: '',
+      description: '',
     },
   };
 };

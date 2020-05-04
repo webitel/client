@@ -13,8 +13,8 @@ const defaultState = () => {
         itemId: 0,
         itemInstance: {
             name: '',
-            maxSize: 10,
-            expireDays: 12,
+            maxSize: 0,
+            expireDays: 0,
         },
     };
 };

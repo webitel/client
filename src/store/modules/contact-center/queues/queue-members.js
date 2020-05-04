@@ -12,14 +12,14 @@ const defaultState = () => {
         destinationId: 0,
         itemId: 0,
         itemInstance: {
-            name: 'memberr',
+            name: '',
             priority: '0',
             expireAt: 0,
             skill: {},
             bucket: {},
             timezone: {},
             communications: [],
-            variables: [{key: 'Ke1y', value: 'Valu2e'}, {key: 'K3ey', value: 'Va4lue'},],
+            variables: [],
         },
     };
 };

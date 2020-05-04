@@ -17,14 +17,14 @@ const defaultState = () => {
 const defaultTrunkingItem = () => {
     return {
         itemInstance: {
-            name: '01trunking-test',
-            proxy: '10.12.13.14',
+            name: '',
+            proxy: '',
             description: '',
             schema: {},
             id: 0,
-            host: '10.12.13.14',
+            host: '',
             ipacl: [{
-                ip: '10.12.13.14',
+                ip: '',
                 proto: 'any',
                 port: null
             }],
@@ -37,13 +37,13 @@ const defaultRegisterItem = () => {
     return {
         itemInstance: {
             register: true,
-            name: '01reg-test',
-            registrar: '10.12.13.14',
+            name: '',
+            registrar: '',
             expires: 600,
-            password: 'fizzbuzz',
+            password: '',
             description: '',
             username: '',
-            accountName: 'wetel',
+            accountName: '',
             proxy: '',
             domain: '',
             schema: {},

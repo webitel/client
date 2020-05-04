@@ -4,8 +4,8 @@ import {DefaultNestedListModule} from "../../defaults/DefaultNestedListModule";
 const defaultState = () => {
     return {
         itemInstance: {
-            destination: '555 3535',
-            display: '5656',
+            destination: '',
+            display: '',
             priority: 0,
             type: {},
             resource: {},

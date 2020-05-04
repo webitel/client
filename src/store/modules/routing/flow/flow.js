@@ -5,7 +5,7 @@ const defaultState = () => {
     return {
         itemId: 0,
         itemInstance: {
-            name: 'test-schema-name',
+            name: '',
             schema: '[]'
         },
     }

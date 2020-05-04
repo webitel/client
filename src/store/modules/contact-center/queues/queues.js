@@ -36,7 +36,7 @@ const defaultInboundQueueState = () => {
         dncList: {}, // blacklist
         schema: {},
         team: {},
-        variables: [{key: 'var key', value: 'value'}],
+        variables: [],
         description: 'DESCRIPTION',
     }
 };
@@ -49,7 +49,7 @@ const defaultOutboundIVRQueueState = () => {
         priority: '0',
         dncList: {}, // blacklist
         schema: {},
-        variables: [{key: 'var key', value: 'value'}],
+        variables: [],
         strategy: {},
         description: 'DESCRIPTION',
         timeout: 10,
@@ -71,7 +71,7 @@ const defaultOfflineQueueState = () => {
         dncList: {}, // blacklist
         schema: {},
         team: {},
-        variables: [{key: 'var key', value: 'value'}],
+        variables: [],
         strategy: {},
         description: 'DESCRIPTION',
         timeout: 10,
@@ -93,7 +93,7 @@ const defaultPredictiveDialerState = () => {
         dncList: {}, // blacklist
         schema: {},
         team: {},
-        variables: [{key: 'var key', value: 'value'}],
+        variables: [],
         strategy: {},
         description: 'DESCRIPTION',
 
@@ -116,7 +116,7 @@ const defaultPreviewDialerState = () => {
         dncList: {}, // blacklist
         schema: {},
         team: {},
-        variables: [{key: 'var key', value: 'value'}],
+        variables: [],
         strategy: {},
         description: 'DESCRIPTION',
 
@@ -139,7 +139,7 @@ const defaultProgressiveDialerState = () => {
         dncList: {}, // blacklist
         schema: {},
         team: {},
-        variables: [{key: 'var key', value: 'value'}],
+        variables: [],
         strategy: {},
         description: 'DESCRIPTION',
 

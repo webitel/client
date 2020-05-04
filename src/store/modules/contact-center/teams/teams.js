@@ -13,9 +13,9 @@ const defaultState = () => {
     return {
         itemId: 0,
         itemInstance: {
-            name: 'name',
-            description: 'descr',
-            strategy: {name: 'Random', value: 'random'},
+            name: '',
+            description: '',
+            strategy: {},
             maxNoAnswer: 10,
             wrapUpTime: 10,
             rejectDelayTime: 10,
