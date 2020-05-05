@@ -11,7 +11,7 @@ export class WebitelAPIItemPatcher extends BaseItemPatcher {
     }
 
     async patchItem(id, item) {
-        const updUrl = this.url + '/' + id;
+        const updUrl = this.url + '/' + id + '/presence';
         let itemCopy = deepCopy(item);
         sanitizer(itemCopy, this.fieldsToSend);
         try {
