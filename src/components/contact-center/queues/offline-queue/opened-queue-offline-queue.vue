@@ -29,10 +29,10 @@
     import openedQueueOfflineQueueVariables from '../opened-queue-variables';
     import openedQueueOfflineQueueTiming from './opened-queue-offline-queue-timing';
     import openedQueueOfflineQueueBuckets from '../opened-queue-buckets';
+    import openedQueueOfflineQueueLogs from '../opened-queue-logs';
     import openedQueueOfflineQueuePermissions from '../opened-queue-permissions';
     import editComponentMixin from '@/mixins/editComponentMixin';
     import {required} from 'vuelidate/lib/validators';
-    import {requiredArrayValue} from "@/utils/validators";
     import {mapActions, mapState} from "vuex";
 
     export default {
@@ -43,6 +43,7 @@
             openedQueueOfflineQueueVariables,
             openedQueueOfflineQueueTiming,
             openedQueueOfflineQueueBuckets,
+            openedQueueOfflineQueueLogs,
             openedQueueOfflineQueuePermissions,
         },
         mixins: [editComponentMixin],
@@ -103,6 +104,9 @@
                 }, {
                     text: this.$tc('objects.ccenter.buckets.buckets', 2),
                     value: 'buckets',
+                }, {
+                    text: 'Log',
+                    value: 'logs',
                 }];
 
                 const permissions = {
