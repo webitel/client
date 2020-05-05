@@ -32,15 +32,23 @@ export default {
     computed: {
         // shows delete table action if some items are selected
         anySelected() {
-            return !this.dataList.some((item) => item._isSelected);
+            if(this.dataList) {
+                return !this.dataList.some((item) => item._isSelected);
+            }
+            return false;
         }
     },
 
     methods: {
         async loadList() {
             this.isLoaded = false;
-            await this.loadDataList();
-            this.isLoaded = true;
+            try {
+                await this.loadDataList();
+            } catch (e) {
+            }
+            finally {
+                this.isLoaded = true;
+            }
         },
 
         deleteSelected() {
