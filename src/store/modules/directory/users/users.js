@@ -1,4 +1,3 @@
-import proxy from '../../../../utils/editProxy';
 import {
     addUser, deleteUser, getUser,
     getUsersList, patchUser, updateUser
@@ -17,6 +16,10 @@ const defaultState = () => {
             // roleAdmin: [],
             license: [],
             devices: [],
+            presence: {
+                status: '',
+                note: ''
+            },
             variables: [],
         },
     }
@@ -72,22 +75,19 @@ const actions = {
     },
 
     PATCH_ITEM_PEROPERTY: async (context, {value, index}) => {
-        await context.commit('PATCH_ITEM_PEROPERTY', {value, index});
-        let changes = {status: value};
-        try {
-            await context.dispatch('PATCH_ITEM', {id: state.dataList[index].id, changes});
-        } catch  {
-            context.dispatch('LOAD_DATA_LIST');
-        }
+        context.commit('PATCH_ITEM_PROPERTY', {value, index});
+        let changes = {note: value};
+        await context.dispatch('PATCH_ITEM', {id: state.dataList[index].id, changes});
+        await context.dispatch('LOAD_DATA_LIST');
     },
 
     TOGGLE_ITEM_PROPERTY: async (context, index) => {
-        await context.commit('TOGGLE_ITEM_PROPERTY', index);
-        let changes = {dnd: state.dataList[index].dnd};
+        let dnd = index.value ? 'dnd' : '';
+        let changes = {status: dnd};
         try {
-            await context.dispatch('PATCH_ITEM', {id: state.dataList[index].id, changes});
-        } catch {
-            context.dispatch('LOAD_DATA_LIST');
+            await context.dispatch('PATCH_ITEM', {id: state.dataList[index.index].id, changes});
+        } catch(e) {
+            await context.dispatch('LOAD_DATA_LIST');
         }
     },
 
@@ -105,6 +105,10 @@ const mutations = {
 
     DELETE_VARIABLE_PAIR: (state, index) => {
         state.itemInstance.variables.splice(index, 1);
+    },
+
+    PATCH_ITEM_PROPERTY: (state, {value, index}) => {
+        state.dataList[index].presence.note = value;
     },
 
     ...defaultModule.mutations,
