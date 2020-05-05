@@ -5,6 +5,7 @@ import queues from './queues/queues';
 import res from './resources/resources';
 import resGroups from './resource-groups/resource-groups';
 import buckets from './buckets/buckets';
+import callLog from './queues/queue-callLogs';
 
 const modules = {
     agents,
@@ -14,6 +15,7 @@ const modules = {
     res,
     resGroups,
     buckets,
+    callLog,
 };
 
 export default {
