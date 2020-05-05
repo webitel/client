@@ -80,19 +80,19 @@
 
                 <template slot="DnD" slot-scope="props">
                     <switcher
-                            :value="dataList[props.rowIndex].dnd"
-                            @input="patchProperty({index: props.rowIndex, prop: 'dnd', value: $event})"
+                            :value="getDND(dataList[props.rowIndex].presence)"
+                            @input="toggleSwitchProperty({index: props.rowIndex, prop: 'dnd', value: $event})"
                     ></switcher>
                 </template>
 
                 <template slot="status" slot-scope="props">
                     <dropdown-select
                             class="inline-dropdown inline-dropdown__options-right"
-                            :value="dataList[props.rowIndex].status"
+                            :value="getStatus(dataList[props.rowIndex].presence)"
                             :placeholder="$t('objects.directory.users.status')"
                             :options="statusOptions"
                             taggable
-                            @input="patchProperty({index: props.rowIndex, prop: 'status', value: $event})"
+                            @input="changeStatus({index: props.rowIndex, prop: 'status', value: $event})"
                     ></dropdown-select>
                 </template>
 
@@ -117,6 +117,7 @@
                     @prev="prevPage"
                     :isNext="isNextPage"
                     :isPrev="!!page"
+                    :page="page"
             ></pagination>
         </section>
     </div>
@@ -185,6 +186,20 @@
                 this.$router.push('/directory/users/new');
             },
 
+            getDND(value) {
+                if(value && value.status) {
+                    return value.status.includes('dnd');
+                }
+                return false;
+            },
+
+            getStatus(value) {
+                if (value && value.note) {
+                    return value.note;
+                }
+                return 'Status undefined';
+            },
+
             edit(rowId) {
                 this.$router.push({
                     name: 'directory-users-edit',
@@ -211,6 +226,8 @@
                 setSize: 'SET_SIZE',
                 setSearch: 'SET_SEARCH',
                 patchProperty: 'PATCH_ITEM_PROPERTY',
+                changeStatus: 'PATCH_ITEM_PEROPERTY',
+                toggleSwitchProperty: 'TOGGLE_ITEM_PROPERTY',
                 nextPage: 'NEXT_PAGE',
                 prevPage: 'PREV_PAGE',
                 removeItem: 'REMOVE_ITEM',
