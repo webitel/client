@@ -495,6 +495,11 @@ export default {
                 maxNumberOfRetry: 'Max number of retry',
                 waitForResultStatus: 'Wait for result status',
                 bucketRatio: 'Ratio',
+
+            },
+
+            logs: {
+                logs: 'Log | Logs',
             },
 
             buckets: {

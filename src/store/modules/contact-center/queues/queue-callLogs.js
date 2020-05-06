@@ -5,7 +5,7 @@ const defaultState = () => {
     return {
         dataList: [],
         size: '10',
-        page: 0,
+        page: 1,
         sortOrder: '+joined_at',
         isNextPage: true,
         itemId: 0,

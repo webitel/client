@@ -1,9 +1,9 @@
 import instance from '../../instance';
 import configuration from '../../openAPIConfig';
-import {MemberServiceApi} from 'webitel-sdk';
+import {MemberServiceApiFactory} from 'webitel-sdk';
 import store from '../../../store/store';
 
-const queueMemberAttemptsService = new MemberServiceApi
+const queueMemberAttemptsService = new MemberServiceApiFactory
 (configuration, '', instance);
 export const getQueueCallLogList = async (queueId, page = 0, size = 10, sort) => {
     const domainId = store.state.userinfo.domainId;
@@ -14,7 +14,7 @@ export const getQueueCallLogList = async (queueId, page = 0, size = 10, sort) =>
             0,
             Date.now() * 1000,
             undefined,
-            undefined,
+            queueId,
             undefined,
             undefined,
             undefined,

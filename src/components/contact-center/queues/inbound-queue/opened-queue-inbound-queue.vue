@@ -27,10 +27,10 @@
 <script>
     import openedQueueInboundQueueGeneral from './opened-queue-inbound-queue-general';
     import openedQueueInboundQueueVariables from '../opened-queue-variables';
+    import openedQueueInboundQueueLogs from "../opened-queue-logs";
     import openedQueueInboundQueuePermissions from '../opened-queue-permissions';
     import editComponentMixin from '@/mixins/editComponentMixin';
     import {required} from 'vuelidate/lib/validators';
-    import {requiredArrayValue} from "@/utils/validators";
     import {mapActions, mapState} from "vuex";
 
     export default {
@@ -38,13 +38,13 @@
         components: {
             openedQueueInboundQueueGeneral,
             openedQueueInboundQueueVariables,
+            openedQueueInboundQueueLogs,
             openedQueueInboundQueuePermissions
         },
         mixins: [editComponentMixin],
 
         data() {
-            return {
-            };
+            return {};
         },
 
         // by vuelidate
@@ -80,6 +80,9 @@
                     }, {
                         text: this.$tc('objects.ccenter.queues.variables', 2),
                         value: 'variables',
+                    }, {
+                        text: this.$tc('objects.ccenter.logs.logs', 2),
+                        value: 'logs',
                     }];
 
                 const permissions = {
@@ -89,7 +92,7 @@
 
                 if (this.id) tabs.push(permissions);
                 return tabs;
-            }
+            },
         },
 
         methods: {

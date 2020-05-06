@@ -493,6 +493,10 @@ export default {
                 bucketRatio: 'Соотношение',
             },
 
+            logs: {
+                logs: 'Лог | Логи',
+            },
+
             buckets: {
                 buckets: 'Корзина | Корзины',
                 allBuckets: 'все корзины',

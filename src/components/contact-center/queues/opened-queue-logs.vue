@@ -1,7 +1,7 @@
 <template>
     <section>
         <header class="content-header">
-            <h3 class="content-title">Log</h3>
+            <h3 class="content-title">{{$tc('objects.ccenter.logs.logs', 1)}}</h3>
         </header>
 
         <loader v-show="!isLoaded"></loader>
@@ -31,15 +31,15 @@
                 </div>
             </template>
 
-            <template slot="end" slot-scope="props">
-                <div>
-                    {{formatDate(dataList[props.rowIndex].leavingAt)}}
-                </div>
-            </template>
-
             <template slot="offering" slot-scope="props">
                 <div>
                     {{getDuration(props.rowIndex)}}
+                </div>
+            </template>
+
+            <template slot="end" slot-scope="props">
+                <div>
+                    {{formatDate(dataList[props.rowIndex].leavingAt)}}
                 </div>
             </template>
 
@@ -111,7 +111,6 @@
                     {name: 'result', title: 'Call result', sortField: 'result'},
 
                 ]
-
             };
         },
 
@@ -123,7 +122,6 @@
 
         mounted() {
             this.$refs.vuetable.setData(this.dataList);
-            this.loadDataList();
         },
 
         computed: {
@@ -150,6 +148,7 @@
 
             getDuration(rowId) {
                 let millis = this.dataList[rowId].offeringAt-this.dataList[rowId].joinedAt;
+                millis = millis >=0 ? millis : 0;
                 let stringTime = this.msToTime(millis);
                 return stringTime;
             },
@@ -203,7 +202,7 @@
         height: 24px;
         Top: 50%;
         left: 5px;
-        background: url('../../../assets/img/nav/accent/arrow.svg');
+        background: url("../../../assets/img/nav/accent/arrow.svg");
         background-size: contain;
         transform: translateY(-50%);
     }

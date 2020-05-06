@@ -80,12 +80,8 @@
                 itemInstance: state => state.itemInstance,
             }),
             id: {
-                get() {
-                    return this.$store.state.ccenter.queues.itemId
-                },
-                set(value) {
-                    this.setId(value)
-                }
+                get() {return this.$store.state.ccenter.queues.itemId},
+                set(value) {this.setId(value)}
             },
 
             tabs() {
@@ -105,7 +101,7 @@
                     text: this.$tc('objects.ccenter.buckets.buckets', 2),
                     value: 'buckets',
                 }, {
-                    text: 'Log',
+                    text: this.$tc('objects.ccenter.logs.logs', 2),
                     value: 'logs',
                 }];
 
