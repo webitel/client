@@ -33,8 +33,8 @@
     import openedQueuePreviewDialerPermissions from '../opened-queue-permissions';
     import editComponentMixin from '@/mixins/editComponentMixin';
     import {required} from 'vuelidate/lib/validators';
-    import {requiredArrayValue} from "@/utils/validators";
     import {mapActions, mapState} from "vuex";
+    import openedQueuePreviewDialerLogs from "../opened-queue-logs";
 
     export default {
         name: 'opened-queue-preview-dialer',
@@ -44,6 +44,7 @@
             openedQueuePreviewDialerVariables,
             openedQueuePreviewDialerTiming,
             openedQueuePreviewDialerBuckets,
+            openedQueuePreviewDialerLogs,
             openedQueuePreviewDialerPermissions,
         },
         mixins: [editComponentMixin],
@@ -52,7 +53,6 @@
             return {};
         },
 
-        // by vuelidate
         validations: {
             itemInstance: {
                 name: {
@@ -100,6 +100,9 @@
                 }, {
                     text: this.$tc('objects.ccenter.buckets.buckets', 2),
                     value: 'buckets',
+                }, {
+                    text: this.$tc('objects.ccenter.logs.logs', 1),
+                    value: 'logs',
                 }];
 
                 const permissions = {

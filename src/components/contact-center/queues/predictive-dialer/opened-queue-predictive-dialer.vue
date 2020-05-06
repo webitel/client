@@ -34,8 +34,8 @@
     import openedQueuePredictiveDialerPermissions from '../opened-queue-permissions';
     import editComponentMixin from '@/mixins/editComponentMixin';
     import {required} from 'vuelidate/lib/validators';
-    import {requiredArrayValue} from "@/utils/validators";
     import {mapActions, mapState} from "vuex";
+    import openedQueuePredictiveDialerLogs from "../opened-queue-logs";
 
     export default {
         name: 'opened-queue-predictive-dialer',
@@ -45,6 +45,7 @@
             openedQueuePredictiveDialerVariables,
             openedQueuePredictiveDialerTiming,
             openedQueuePredictiveDialerBuckets,
+            openedQueuePredictiveDialerLogs,
             openedQueuePredictiveDialerPermissions,
         },
         mixins: [editComponentMixin],
@@ -105,6 +106,9 @@
                 }, {
                     text: this.$tc('objects.ccenter.buckets.buckets', 2),
                     value: 'buckets',
+                }, {
+                    text: this.$tc('objects.ccenter.logs.logs', 1),
+                    value: 'logs',
                 }];
 
                 const permissions = {
