@@ -6,9 +6,10 @@ import eventBus from "../../../../utils/eventBus";
 import {BaseItemUpdater} from "./BaseItemUpdater";
 
 export class WebitelAPIItemUpdater extends BaseItemUpdater {
-    constructor(url, fieldsToSend) {
+    constructor(url, fieldsToSend, preRequest) {
         super(null, fieldsToSend);
         this.url = url;
+        this.preRequestHandler = preRequest;
     }
 
     async updateItem(id, item) {

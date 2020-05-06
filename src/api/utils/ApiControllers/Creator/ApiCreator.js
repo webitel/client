@@ -6,9 +6,10 @@ import eventBus from "../../../../utils/eventBus";
 import {BaseItemCreator} from "./BaseItemCreator";
 
 export class WebitelAPIItemCreator extends BaseItemCreator {
-    constructor(url, fieldsToSend) {
+    constructor(url, fieldsToSend, preRequest) {
         super(null, fieldsToSend);
         this.url = url;
+        this.preRequestHandler = preRequest;
     }
 
     async createItem(item) {
