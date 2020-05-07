@@ -2,13 +2,16 @@ export const macValidator = (value) => {
     if (typeof value === 'undefined' || value === null || value === '') {
         return true
     }
-    return /^([0-9A-F]{2}[:-]){5}([0-9A-F]{2})$/
+    return /^([0-9A-Fa-f]{2}[:-]){5}([0-9A-Fa-f]{2})$/
         .test(value);
 };
 
 export const ipValidator = (value) => {
     if (typeof value === 'undefined' || value === null || value === '') {
         return true
+    }
+    if(value === '127.0.0.1' || value === '0.0.0.0') {
+        return false;
     }
     return /^(([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\.){3}([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])$/
         .test(value);

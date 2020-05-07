@@ -66,6 +66,7 @@
         mixins: [openedTabComponentMixin],
         data() {
             return {
+                defaultPassword: '12345678',
                 copyMessage: '',
                 copyTriggerShow: false,
             }
@@ -85,7 +86,11 @@
                 set(value) {this.setItemProp({prop: 'account', value})}
             },
             password: {
-                get() {return this.$store.state.directory.devices.itemInstance.password},
+                get() {
+                    return this.$store.state.directory.devices.itemInstance.password
+                    ? this.$store.state.directory.devices.itemInstance.password
+                    : this.defaultPassword
+                },
                 set(value) {this.setItemProp({prop: 'password', value})}
             },
             user: {

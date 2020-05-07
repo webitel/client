@@ -70,9 +70,6 @@
                 account: {
                     required
                 },
-                password: {
-                    required,
-                },
                 mac: {
                     macValidator
                 },
