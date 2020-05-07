@@ -1,4 +1,3 @@
-import proxy from '../../../../utils/editProxy';
 import history from './history';
 import {
     addDevice, deleteDevice,
@@ -12,15 +11,16 @@ const defaultState = () => {
         itemInstance: {
             name: '',
             account: '',
-            password: '',
+            password: '1234',
             user: {},
-            phone: '',
+            phone: {},
             ip: '',
 
-            vendor: '',
+            brand: '',
             model: '',
             mac: '',
-            hotdesk: [],
+            hotdesks: [],
+            hotdesk: false,
             vars: [],
         },
     };

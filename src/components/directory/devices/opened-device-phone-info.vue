@@ -4,23 +4,25 @@
             <h3 class="content-title">{{$t('objects.directory.devices.phoneInfo')}}</h3>
         </header>
         <form class="object-input-grid">
-            <form-input
+            <dropdown-select
                     v-model="phone"
                     :label="$t('objects.directory.devices.phone')"
-            ></form-input>
+                    :options="dropdownOptionsList"
+                    @search="loadDropdownOptionsList"
+            ></dropdown-select>
             <form-input
                     v-model="ip"
                     :v="v.itemInstance.ip"
                     :label="$t('objects.directory.devices.ipv4')"
             ></form-input>
-            <dropdown-select
-                    v-model="vendor"
+           <form-input
+                    v-model="brand"
                     :label="$t('objects.directory.devices.vendor')"
-            ></dropdown-select>
-            <dropdown-select
+            ></form-input>
+            <form-input
                     v-model="model"
                     :label="$t('objects.directory.devices.model')"
-            ></dropdown-select>
+            ></form-input>
             <form-input
                     v-model="mac"
                     :v="v.itemInstance.mac"
@@ -38,13 +40,17 @@
         name: "opened-device-phone-info",
         mixins: [openedTabComponentMixin],
 
+        mounted() {
+            this.loadDropdownOptionsList();
+        },
+
         computed: {
             phone: {
                 get() {
                     return this.$store.state.directory.devices.itemInstance.phone
                 },
                 set(value) {
-                    this.setItemProp({prop: 'phone', value})
+                    this.setDevice(value);
                 }
             },
             ip: {
@@ -55,12 +61,12 @@
                     this.setItemProp({prop: 'ip', value})
                 }
             },
-            vendor: {
+            brand: {
                 get() {
-                    return this.$store.state.directory.devices.itemInstance.vendor
+                    return this.$store.state.directory.devices.itemInstance.brand
                 },
                 set(value) {
-                    this.setItemProp({prop: 'vendor', value})
+                    this.setItemProp({prop: 'brand', value})
                 }
             },
             model: {
@@ -82,6 +88,36 @@
         },
 
         methods: {
+
+            setDevice(value) {
+                this.brand = value.brand;
+                this.model = value.model;
+            },
+
+            async loadDropdownOptionsList(search) {
+                const response = [
+                    {
+                        name: 'Cisco IP Phone 7821',
+                        id: 1,
+                        brand: "cisco",
+                        model: "7821"
+                    },
+                    {
+                        name: 'Yealink SIP-T21P E2',
+                        id: 2,
+                        brand:"yealink",
+                        model:"T21"
+                    }
+                ];
+                this.dropdownOptionsList = response.map(item => {
+                    return {
+                        name: item.name,
+                        id: item.id,
+                        brand: item.brand,
+                        model: item.model
+                    }
+                });
+            },
             ...mapActions('directory/devices', {
                 setItemProp: 'SET_ITEM_PROPERTY',
             }),

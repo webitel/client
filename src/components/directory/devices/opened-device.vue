@@ -50,14 +50,14 @@
                         text: this.$t('objects.general'),
                         value: 'general',
                     },
-                    // {
-                    //     text: this.$t('objects.directory.devices.hotDesking'),
-                    //     value: 'hotdesking',
-                    // },
-                    // {
-                    //     text: this.$t('objects.directory.devices.phoneInfo'),
-                    //     value: 'phoneInfo',
-                    // },
+                    {
+                        text: this.$t('objects.directory.devices.hotDesking'),
+                        value: 'hotdesking',
+                    },
+                    {
+                        text: this.$t('objects.directory.devices.phoneInfo'),
+                        value: 'phoneInfo',
+                    },
                 ],
             }
         },

@@ -9,7 +9,7 @@ import {WebitelAPIListGetter} from "../../utils/ApiControllers/ListGetter/ApiLis
 
 const BASE_URL = '/devices';
 const fieldsToSend = ['name', 'account', 'password', 'user',
-    // 'mac', 'ip', 'vendor', 'model'
+     'mac', 'ip', 'brand', 'model', 'hotdesks', 'hotdesk'
 ];
 
 const defaultListItem = {  // default object prototype, to merge response with it to get all fields
@@ -24,17 +24,41 @@ const defaultListItem = {  // default object prototype, to merge response with i
 const defaultItem = {  // default object prototype, to merge response with it to get all fields
     name: 'name undefined',
     account: 'auth id undefined',
+    password: '1234',
     user: {name: 'user undefined'},
     state: 0,
     id: 0,
+    hotdesks: [],
+    hotdesk: false,
+    phone: {},
+    brand: '',
+    model: '',
     _dirty: false,
+};
+
+const preRequestHandler = (item) => {
+    item.hotdesks = item.hotdesks.map(item => item.name || item.text);
+    return item;
 };
 
 const listGetter = new WebitelAPIListGetter(BASE_URL, defaultListItem);
 const itemGetter = new WebitelAPIItemGetter(BASE_URL, defaultItem);
-const itemCreator = new WebitelAPIItemCreator(BASE_URL, fieldsToSend);
-const itemUpdater = new WebitelAPIItemUpdater(BASE_URL, fieldsToSend);
+const itemCreator = new WebitelAPIItemCreator(BASE_URL, fieldsToSend, preRequestHandler);
+const itemUpdater = new WebitelAPIItemUpdater(BASE_URL, fieldsToSend, preRequestHandler);
 const itemDeleter = new WebitelAPIItemDeleter(BASE_URL);
+
+itemGetter.responseHandler = (response) => {
+    try {
+        if(response.hotdesks) {
+            response.hotdesks = response.hotdesks.map(item => {
+                return {name: item}
+            });
+        }
+        return {...defaultItem, ...response};
+    } catch (err) {
+        throw err;
+    }
+};
 
 export async function getDeviceList(page, size, search) {
     return await listGetter.getList({page, size, search});
@@ -61,15 +85,15 @@ export const deleteDevice = async (id) => {
 export const getDeviceHistory = async (id, date, page = 0) => {
     const url = `${BASE_URL}/${id}/users/audit?time_from=${date}`;
     const defaultObject = {
-        loggedIn: 'unknown',
-        loggedOut: 'currently active',
-        user: {name: 'unknown user'}
+        loggedIn: '0',
+        loggedOut: '0',
+        user: {}
     };
 
     try {
         let response = await instance.get(url);
-        if (response.auditLogs) {
-            return response.auditLogs.map(item => {
+        if (response.items) {
+            return response.items.map(item => {
                 return {...defaultObject, ...item};
             });
         }
