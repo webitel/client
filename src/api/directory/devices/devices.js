@@ -14,18 +14,17 @@ const fieldsToSend = ['name', 'account', 'password', 'user',
 
 const defaultListItem = {  // default object prototype, to merge response with it to get all fields
     _isSelected: false,
-    name: 'name undefined',
-    account: 'auth id undefined',
-    user: {name: 'user undefined'},
+    name: '',
+    account: '',
+    user: {name: ''},
     state: 0,
     id: 0
 };
 
 const defaultItem = {  // default object prototype, to merge response with it to get all fields
-    name: 'name undefined',
-    account: 'auth id undefined',
-    password: '1234',
-    user: {name: 'user undefined'},
+    name: '',
+    account: '',
+    user: {name: ''},
     state: 0,
     id: 0,
     hotdesks: [],
@@ -38,6 +37,7 @@ const defaultItem = {  // default object prototype, to merge response with it to
 
 const preRequestHandler = (item) => {
     item.hotdesks = item.hotdesks.map(item => item.name || item.text);
+    if(!item.password) delete item.password;
     return item;
 };
 

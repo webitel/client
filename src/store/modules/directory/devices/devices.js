@@ -11,7 +11,7 @@ const defaultState = () => {
         itemInstance: {
             name: '',
             account: '',
-            password: '1234',
+            password: '',
             user: {},
             phone: {},
             ip: '',
