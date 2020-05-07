@@ -11,8 +11,8 @@
         </div>
         <form class="object-input-grid">
             <tags-input
-                    :disabled="!hotdesk"
                     v-model="hotdesks"
+                    :disabled="!hotdesk"
                     :options="[]"
                     :label="$t('objects.directory.devices.hostName')"
                     :addOnlyFromAutocomplete="false"

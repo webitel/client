@@ -85,15 +85,15 @@ export const deleteDevice = async (id) => {
 export const getDeviceHistory = async (id, date, page = 0) => {
     const url = `${BASE_URL}/${id}/users/audit?time_from=${date}`;
     const defaultObject = {
-        loggedIn: 'unknown',
-        loggedOut: 'currently active',
-        user: {name: 'unknown user'}
+        loggedIn: '0',
+        loggedOut: '0',
+        user: {}
     };
 
     try {
         let response = await instance.get(url);
-        if (response.auditLogs) {
-            return response.auditLogs.map(item => {
+        if (response.items) {
+            return response.items.map(item => {
                 return {...defaultObject, ...item};
             });
         }
