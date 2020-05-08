@@ -91,7 +91,10 @@
                     ? this.$store.state.directory.devices.itemInstance.password
                     : this.defaultPassword
                 },
-                set(value) {this.setItemProp({prop: 'password', value})}
+                set(value) {
+                    this.defaultPassword = '';
+                    this.setItemProp({prop: 'password', value})
+                }
             },
             user: {
                 get() {return this.$store.state.directory.devices.itemInstance.user},

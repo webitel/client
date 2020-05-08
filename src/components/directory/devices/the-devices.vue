@@ -19,6 +19,12 @@
                 @close="closeCSVPopup"
         ></upload-popup>
 
+        <device-popup
+                v-if="devicePopupTrigger"
+                @close="devicePopupTrigger = false"
+        >
+        </device-popup>
+
         <section class="object-content">
             <header class="content-header">
                 <h3 class="content-title">
@@ -123,6 +129,7 @@
                     @prev="prevPage"
                     :isNext="isNextPage"
                     :isPrev="!!page"
+                    :page="page"
             ></pagination>
         </section>
     </div>
@@ -132,6 +139,7 @@
     import historyPopup from './device-history-popup';
     import tableFilter from '../../object-utils/utils/table-filter';
     import uploadPopup from './upload-devices-popup';
+    import devicePopup from './create-device-popup';
     import {_checkboxTableField, _actionsTableField_3} from "@/utils/tableFieldPresets";
     import tableComponentMixin from '@/mixins/tableComponentMixin';
     import {mapActions, mapState} from "vuex";
@@ -143,6 +151,7 @@
             historyPopup,
             uploadPopup,
             tableFilter,
+            devicePopup
         },
 
         data() {
@@ -155,7 +164,8 @@
                     {name: 'state', title: this.$t('objects.directory.devices.presence')},
                     _actionsTableField_3,
                 ],
-                csvFile: null
+                csvFile: null,
+                devicePopupTrigger: false
             };
         },
 
@@ -196,12 +206,15 @@
 
         methods: {
             create() {
-                this.$router.push('/directory/devices/new');
+                this.devicePopupTrigger = true;
             },
 
             edit(rowId) {
+                const name = this.dataList[rowId].hotdesk ?
+                    'hotdesk-devices-edit' : 'directory-devices-edit';
+
                 this.$router.push({
-                    name: 'directory-devices-edit',
+                    name,
                     params: {id: this.dataList[rowId].id},
                 });
             },

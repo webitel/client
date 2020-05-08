@@ -24,20 +24,23 @@
 </template>
 
 <script>
-    import openedDeviceGeneral from './opened-device-general';
-    import openedDevicePhoneInfo from './opened-device-phone-info';
+    import openedHotdeskDeviceGeneral from './opened-device-general';
+    import openedHotdeskDeviceHotdesking from './opened-hotdesk-device-hotdesking';
+    import openedHotdeskDevicePhoneInfo from './opened-device-phone-info';
     import {required} from 'vuelidate/lib/validators';
     import datepicker from 'vuejs-datepicker';
     import editComponentMixin from '@/mixins/editComponentMixin';
     import {ipValidator, macValidator} from "../../../utils/validators";
     import {mapActions, mapState} from "vuex";
 
+
     export default {
-        name: 'opened-device',
+        name: 'opened-hotdesk-device',
         mixins: [editComponentMixin],
         components: {
-            openedDeviceGeneral,
-            openedDevicePhoneInfo,
+            openedHotdeskDeviceGeneral,
+            openedHotdeskDeviceHotdesking,
+            openedHotdeskDevicePhoneInfo,
             datepicker,
         },
 
@@ -47,6 +50,10 @@
                     {
                         text: this.$t('objects.general'),
                         value: 'general',
+                    },
+                    {
+                        text: this.$t('objects.directory.devices.hotDesking'),
+                        value: 'hotdesking',
                     },
                     {
                         text: this.$t('objects.directory.devices.phoneInfo'),
@@ -91,7 +98,7 @@
         methods: {
             ...mapActions('directory/devices', {
                 setId: 'SET_ITEM_ID',
-                loadItem: 'LOAD_SINGLE_ITEM',
+                loadItem: 'LOAD_HOTDESK_ITEM',
                 addItem: 'ADD_ITEM',
                 updateItem: 'UPDATE_ITEM',
             }),
