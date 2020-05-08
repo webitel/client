@@ -29,6 +29,7 @@ const defaultItem = {  // default object prototype, to merge response with it to
     id: 0,
     hotdesks: [],
     hotdesk: false,
+    password: '',
     phone: {},
     brand: '',
     model: '',
@@ -36,7 +37,9 @@ const defaultItem = {  // default object prototype, to merge response with it to
 };
 
 const preRequestHandler = (item) => {
-    item.hotdesks = item.hotdesks.map(item => item.name || item.text);
+    if(item.hotdesks) {
+        item.hotdesks = item.hotdesks.map(item => item.name || item.text);
+    }
     if(!item.password) delete item.password;
     return item;
 };

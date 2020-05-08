@@ -91,7 +91,7 @@
         methods: {
             ...mapActions('directory/devices', {
                 setId: 'SET_ITEM_ID',
-                loadItem: 'LOAD_DEFAULT_ITEM',
+                loadItem: 'LOAD_SINGLE_ITEM',
                 addItem: 'ADD_ITEM',
                 updateItem: 'UPDATE_ITEM',
             }),

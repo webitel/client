@@ -95,16 +95,16 @@ const actions = {
         }
     },
 
-    LOAD_DEFAULT_ITEM: async (context) => {
+    LOAD_SINGLE_ITEM: async (context) => {
         if (state.itemId) {
             const item = await context.dispatch('GET_ITEM');
             if (item.hotdesk) {
                 router.replace('/directory/devices/hotdesk/' + item.id);
                 return;
             }
-            context.commit('SET_DEFAULT_ITEM', proxy(item));
+            context.commit('SET_SINGLE_ITEM', proxy(item));
         } else {
-            context.commit('SET_DEFAULT_ITEM');
+            context.commit('SET_SINGLE_ITEM');
         }
     },
 
@@ -113,7 +113,7 @@ const actions = {
 
 const mutations = {
 
-    SET_DEFAULT_ITEM: (state, item) => {
+    SET_SINGLE_ITEM: (state, item) => {
         if(item) {
             state.itemInstance = item;
         } else {

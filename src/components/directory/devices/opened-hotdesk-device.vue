@@ -24,14 +24,15 @@
 </template>
 
 <script>
-    import openedHotdeskDeviceGeneral from './opened-hotdesk-device-general';
+    import openedHotdeskDeviceGeneral from './opened-device-general';
     import openedHotdeskDeviceHotdesking from './opened-hotdesk-device-hotdesking';
-    import openedHotdeskDevicePhoneInfo from './opened-hotdesk-device-phone-info';
+    import openedHotdeskDevicePhoneInfo from './opened-device-phone-info';
     import {required} from 'vuelidate/lib/validators';
     import datepicker from 'vuejs-datepicker';
     import editComponentMixin from '@/mixins/editComponentMixin';
     import {ipValidator, macValidator} from "../../../utils/validators";
     import {mapActions, mapState} from "vuex";
+
 
     export default {
         name: 'opened-hotdesk-device',
