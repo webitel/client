@@ -13,6 +13,7 @@ import permissionsObjects from '../components/permissions/objects/the-objects-pe
 import openedPermissionsObjects from '../components/permissions/objects/opened-object-permissions';
 import devices from '../components/directory/devices/the-devices';
 import openedDevice from '../components/directory/devices/opened-device';
+import openedDeviceHotdesk from '../components/directory/devices/opened-hotdesk-device';
 import users from '../components/directory/users/the-users';
 import openedUser from '../components/directory/users/opened-user';
 import license from '../components/directory/license/the-license';
@@ -110,6 +111,16 @@ const router = new Router({
                     path:'/directory/devices/new',
                     name: 'directory-devices-new',
                     component: openedDevice
+                },
+                {
+                    path:'/directory/devices/hotdesk/:id',
+                    name: 'hotdesk-devices-edit',
+                    component: openedDeviceHotdesk
+                },
+                {
+                    path:'/directory/devices/hotdesk/new',
+                    name: 'hotdesk-devices-new',
+                    component: openedDeviceHotdesk
                 },
                 {
                     path:'/directory/license',

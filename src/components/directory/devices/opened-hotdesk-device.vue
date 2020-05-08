@@ -24,8 +24,9 @@
 </template>
 
 <script>
-    import openedDeviceGeneral from './opened-device-general';
-    import openedDevicePhoneInfo from './opened-device-phone-info';
+    import openedHotdeskDeviceGeneral from './opened-hotdesk-device-general';
+    import openedHotdeskDeviceHotdesking from './opened-hotdesk-device-hotdesking';
+    import openedHotdeskDevicePhoneInfo from './opened-hotdesk-device-phone-info';
     import {required} from 'vuelidate/lib/validators';
     import datepicker from 'vuejs-datepicker';
     import editComponentMixin from '@/mixins/editComponentMixin';
@@ -33,11 +34,12 @@
     import {mapActions, mapState} from "vuex";
 
     export default {
-        name: 'opened-device',
+        name: 'opened-hotdesk-device',
         mixins: [editComponentMixin],
         components: {
-            openedDeviceGeneral,
-            openedDevicePhoneInfo,
+            openedHotdeskDeviceGeneral,
+            openedHotdeskDeviceHotdesking,
+            openedHotdeskDevicePhoneInfo,
             datepicker,
         },
 
@@ -47,6 +49,10 @@
                     {
                         text: this.$t('objects.general'),
                         value: 'general',
+                    },
+                    {
+                        text: this.$t('objects.directory.devices.hotDesking'),
+                        value: 'hotdesking',
                     },
                     {
                         text: this.$t('objects.directory.devices.phoneInfo'),
@@ -91,7 +97,7 @@
         methods: {
             ...mapActions('directory/devices', {
                 setId: 'SET_ITEM_ID',
-                loadItem: 'LOAD_DEFAULT_ITEM',
+                loadItem: 'LOAD_HOTDESK_ITEM',
                 addItem: 'ADD_ITEM',
                 updateItem: 'UPDATE_ITEM',
             }),
