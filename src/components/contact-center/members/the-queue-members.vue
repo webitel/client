@@ -119,8 +119,9 @@
                     @loadDataList="loadDataList"
                     @next="nextPage"
                     @prev="prevPage"
-                    :isNext=true
+                    :isNext="!!isNextPage"
                     :isPrev="!!page"
+                    :page="page"
             ></pagination>
         </section>
     </div>

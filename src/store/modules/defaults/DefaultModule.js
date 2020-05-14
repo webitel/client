@@ -6,8 +6,8 @@ export class DefaultModule {
             dataList: [],
             size: '10',
             search: '',
-            page: 0,
-            isNextPage: true,
+            page: 1,
+            isNextPage: false,
             ...defaultState()
         };
 
@@ -20,6 +20,7 @@ export class DefaultModule {
                 const response = await context.dispatch('GET_LIST');
                 context.dispatch('RESET_ITEM_STATE');
                 context.commit('SET_DATA_LIST', response.list);
+                context.commit('SET_IS_NEXT', response.next);
             },
 
             SET_SIZE: (context, size) => {
@@ -119,6 +120,10 @@ export class DefaultModule {
 
             DECREMENT_PAGE: (state) => {
                 state.page--;
+            },
+
+            SET_IS_NEXT: (state, next) => {
+                state.isNextPage = next;
             },
 
             SET_ITEM_PROPERTY: (state, {prop, value}) => {
