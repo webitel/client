@@ -47,7 +47,7 @@
 
                 <template slot="numbers" slot-scope="props">
                     <div>
-                        {{dataList[props.rowIndex].numbers || 'number count is undefined'}}
+                        {{dataList[props.rowIndex].count || '0'}}
                     </div>
                 </template>
 
@@ -74,6 +74,7 @@
                     @prev="prevPage"
                     :isNext="isNextPage"
                     :isPrev="!!page"
+                    :page="page"
             ></pagination>
         </section>
     </div>

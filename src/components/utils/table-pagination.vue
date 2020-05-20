@@ -11,21 +11,20 @@
                     :placeholder="'10'"
             />
         </div>
-        <div class="page-controls">
-            <div class="controls">
-                <i
-                        class="icon-action icon-icon_arrow-left"
-                        :class="{'disabled': !isPrev}"
-                        :title="$t('iconHints.prevPage')"
-                        @click="prev"
-                ></i>
-                <i
-                        class="icon-action icon-icon_arrow-right"
-                        :class="{'disabled': !isNext}"
-                        :title="$t('iconHints.nextPage')"
-                        @click="next"
-                ></i>
-            </div>
+        <div class="controls">
+            <i
+                    class="icon-action icon-icon_arrow-left"
+                    :class="{'disabled': !isPrev}"
+                    :title="$t('iconHints.prevPage')"
+                    @click="prev"
+            ></i>
+            <span>{{page}}</span>
+            <i
+                    class="icon-action icon-icon_arrow-right"
+                    :class="{'disabled': !isNext}"
+                    :title="$t('iconHints.nextPage')"
+                    @click="next"
+            ></i>
         </div>
     </footer>
 </template>
@@ -44,8 +43,8 @@
                 type: Boolean,
                 required: true,
             },
-            isPrev: {
-                type: Boolean,
+            page: {
+                type: Number,
                 required: true,
             },
         },
@@ -58,6 +57,12 @@
 
         created() {
             this.debouncer = debounce(this.debouncer);
+        },
+
+        computed: {
+            isPrev() {
+                return this.page > 1;
+            }
         },
 
         methods: {
@@ -109,20 +114,18 @@
             }
         }
 
-        .page-controls {
+        .controls {
             display: flex;
             align-items: center;
+            margin-left: 14px;
 
-            .controls {
-                margin-left: 14px;
+            i:before {
+                color: #000;
+            }
 
-                i:before {
-                    color: #000;
-
-                    &.disabled {
-                        color: red;
-                    }
-                }
+            .disabled:before {
+                color: #EAE9E9;
+                pointer-events: none;
             }
         }
     }

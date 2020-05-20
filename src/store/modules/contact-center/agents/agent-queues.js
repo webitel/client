@@ -6,8 +6,8 @@ const defaultState = () => {
         dataList: [],
         size: '10',
         search: '',
-        page: 0,
-        isNextPage: true,
+        page: 1,
+        isNextPage: false,
     };
 };
 const defaultModule = new DefaultNestedModule(defaultState);

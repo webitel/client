@@ -54,7 +54,7 @@
 
                 <template slot="description" slot-scope="props">
                     <div>
-                        {{dataList[props.rowIndex].description || 'DESCRIPTION IS EMPTY'}}
+                        {{dataList[props.rowIndex].description || ''}}
                     </div>
                 </template>
 
@@ -77,6 +77,7 @@
                     @prev="prevPage"
                     :isNext="isNextPage"
                     :isPrev="!!page"
+                    :page="page"
             ></pagination>
         </section>
     </div>

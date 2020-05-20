@@ -10,7 +10,7 @@ const defaultState = () => {
         dataList: [],
         size: '10',
         search: '',
-        page: 0,
+        page: 1,
         isNextPage: true,
         itemInstance: {
             skill: {},

@@ -108,6 +108,7 @@
                     @prev="prevPage"
                     :isNext="isNextPage"
                     :isPrev="!!page"
+                    :page="page"
             ></pagination>
         </section>
     </div>
