@@ -34,7 +34,7 @@
     "vuetable-2": "^2.0.0-beta.4",
     "vuex": "^3.0.1",
     "lodash": "latest",
-    "webitel-sdk": "^0.0.72"
+    "webitel-sdk": "^0.0.75"
   },
   "devDependencies": {
     "@vue/cli-plugin-babel": "^3.10.0",

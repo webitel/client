@@ -469,7 +469,7 @@ export default {
                 waiting: 'Waiting',
                 priority: 'Priority',
                 newQueue: 'New queue',
-                newQueueDescription: 'lorem ipsum dolor sit amet',
+                newQueueDescription: 'New queue descriotion',
                 outboundIVRQueue: 'Outbound IVR queue',
                 outboundIVR: 'Outbound IVR',
                 outboundIVRDescription: 'An Outbound IVR allows an organization to automatically engage customers through multiple channels such as automated voice calls, SMS messages, email or social media posts using personalized notifications.',
@@ -606,7 +606,7 @@ export default {
 
     page404: {
         title404: "Looks like you're lost",
-        text404: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit.',
+        text404: 'Sorry, we can\'t find the page you want.',
         btn404: 'Go back',
     },
 

@@ -117,11 +117,11 @@
         watch: {
             parentId: function (value) {
                 this.setParentId(value);
-            }
-        },
+            },
 
-        mounted() {
-            this.$refs.vuetable.setData(this.dataList);
+            dataList: function () {
+                this.$refs.vuetable.setData(this.dataList);
+            },
         },
 
         computed: {

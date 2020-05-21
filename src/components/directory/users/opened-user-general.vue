@@ -20,7 +20,7 @@
                         ref="input-password"
                         :value="computePasswordRepresentation"
                         :label="$t('objects.password')"
-                        :type="'password'"
+                        :type="type"
                         @input="password = $event"
                 ></form-input>
 
@@ -63,6 +63,7 @@
             return {
                 copyMessage: '',
                 copyTriggerShow: false,
+                type: 'password'
             }
         },
 
@@ -102,6 +103,7 @@
                 }
                this.password = result;
                 this.copyTriggerShow = true;
+                this.type = 'text';
             },
 
             copyToClipboard() {
@@ -110,6 +112,7 @@
                     this.copyMessage = this.$t('objects.copied');
                     setTimeout(() => this.copyMessage = '', 2000);
                 }
+                this.type = 'password';
             },
 
             ...mapActions('directory/users', {

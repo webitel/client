@@ -1,4 +1,3 @@
-import proxy from '../../../../utils/editProxy';
 import {
     addStorage,
     deleteStorage,
@@ -7,10 +6,12 @@ import {
     updateStorage
 } from "../../../../api/integrations/storage/storage";
 import {DefaultModule} from "../../defaults/DefaultModule";
+import proxy from "../../../../utils/editProxy";
 
 const defaultState = () => {
     return {
         itemId: 0,
+        page: 0,
         itemInstance: {
             name: '',
             maxSize: 0,
@@ -33,14 +34,14 @@ const defaultLocalState = () => {
 const defaultS3State = () => {
     return {
         name: 'S3 Storage',
-        maxSize: 10,
-        expireDays: 12,
+        maxSize: 0,
+        expireDays: 0,
         priority: 0,
         type: 's3',
         properties: {
-            keyId: '1010',
-            accessKey: '2020',
-            bucketName: '4040',
+            keyId: '',
+            accessKey: '',
+            bucketName: '',
             region: {},
             endpoint: '',
         },
@@ -141,6 +142,15 @@ const actions = {
         await deleteStorage(id);
     },
 
+    LOAD_ITEM: async (context, type) => {
+        if (state.itemId) {
+            const item = await context.dispatch('GET_ITEM');
+            context.commit('SET_ITEM', proxy(item));
+        } else {
+            context.dispatch('SET_ITEM_BY_TYPE', type);
+        }
+    },
+
     SET_ITEM_BY_TYPE: (context, type) => {
         let item = {};
         switch (type) {
@@ -166,12 +176,6 @@ const actions = {
     SET_ITEM_PROPERTIES_PROPERTY: (context, payload) => {
         context.commit('SET_ITEM_PROPERTIES_PROPERTY', payload);
         context.dispatch('SET_ITEM_PROPERTY', {prop: '_dirty', value: true});
-    },
-
-    LOAD_DATA_LIST: async (context) => {
-        const response = await context.dispatch('GET_LIST');
-        context.dispatch('RESET_ITEM_STATE');
-        context.commit('SET_DATA_LIST', response);
     },
 };
 
