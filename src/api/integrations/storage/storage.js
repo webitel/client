@@ -61,13 +61,14 @@ export const getStorageList = async (page = 0, size = 10, search) => {
     try {
         const response = await storageService.searchBackendProfile(page, size, search, domainId);
         if (response.items) {
-            return response.items.map(item => {
-                return {
-                    ...defaultObject,
-                    ...item,
-                    type: storageTypes[item.type],
-                }
-            });
+            return {
+                list: response.items.map(item => ({
+                        ...defaultObject,
+                        ...item,
+                        type: storageTypes[item.type]
+                })),
+                next: response.next || false,
+            };
         }
         return [];
     } catch (err) {

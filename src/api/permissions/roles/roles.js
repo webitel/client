@@ -17,7 +17,7 @@ const itemDeleter = new WebitelAPIItemDeleter(BASE_URL);
 itemGetter.responseHandler = (response) => {
 
     try {
-        return response.role
+        return response
     } catch (error) {
         throw error;
     }

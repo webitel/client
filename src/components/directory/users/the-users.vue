@@ -197,7 +197,7 @@
                 if (value && value.note) {
                     return value.note;
                 }
-                return 'Status undefined';
+                return '';
             },
 
             edit(rowId) {

@@ -11,8 +11,8 @@ const fieldsToSend = ['name', 'username', 'password', 'extension', 'status', 'no
 
 const defaultListItem = {
     _isSelected: false,
-    name: 'Username undefined',
-    status: 'Status is undefined',
+    name: '',
+    status: '',
     state: true,
     dnd: false,
 };
@@ -33,6 +33,7 @@ const defaultItem = {
 };
 
 const preRequestHandler = (item) => {
+    if(item.device && !item.device.id) delete item.device;
     if (item.roles) item.roles.forEach(item => delete item.text);
     if (item.devices) item.devices.forEach(item => delete item.text);
     if (item.license) item.license = item.license.map(item => {

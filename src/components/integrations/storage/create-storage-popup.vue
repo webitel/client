@@ -36,7 +36,7 @@
 <!--                        {{$t('objects.integrations.storage.backblaze')}}-->
 <!--                    </h4>-->
 <!--                </li>-->
-                <li
+               <!-- <li
                         class="popup-options__item-wrap"
                         :class="{'active': computeSelectedOption('dropbox')}"
                         @click="selectPopupOption('dropbox')"
@@ -53,7 +53,7 @@
                     <h4 class="popup-options__item-header">
                         {{$t('objects.integrations.storage.drive')}}
                     </h4>
-                </li>
+                </li>-->
             </ul>
         </section>
     </popup>

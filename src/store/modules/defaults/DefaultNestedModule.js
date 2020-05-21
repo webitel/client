@@ -61,6 +61,7 @@ export class DefaultNestedModule {
                 if (!context.state.itemId) {
                     const id = await context.dispatch('POST_ITEM');
                     context.dispatch('SET_ITEM_ID', id);
+                    await context.dispatch('LOAD_DATA_LIST');
                 }
             },
 

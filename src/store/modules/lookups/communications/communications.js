@@ -1,4 +1,3 @@
-import proxy from '../../../../utils/editProxy';
 import {
     addCommunication, deleteCommunication,
     getCommunication,
