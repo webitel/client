@@ -34,11 +34,20 @@ export default {
     },
 
     header: {
-        logout: 'Log out',
+        logout: 'Logout',
         docs: 'Docs',
     },
 
     applicationHub: {
+        admin: 'Admin',
+        agent: 'Agent Workspace',
+        supervisor: 'Supervisor Workspace',
+        audit: 'Audit',
+        history: 'Call History',
+    },
+
+    appNavigator: {
+        title: 'Webitel applications',
         admin: 'Admin',
         agent: 'Agent Workspace',
         supervisor: 'Supervisor Workspace',

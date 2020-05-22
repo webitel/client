@@ -1,28 +1,5 @@
-@import "./styleguide/typography";
-
-// PRIMARY COLORS:
-$sidebar-color: #171A2A; // sidebar panel
-$header-color: #EAEAEA; // header
-$content-bg-color: #FFF; // content
-
-// ACCENT COLORS:
-$nav-icon-color: rgba(255, 255, 255, 1); //nav icon color
-$icon-color: rgba(0, 0, 0, 0.3); //icon color
-$accent-color: #FFC107; // links, icons, buttons
-
-// SEMANTIC COLORS:
-$true-color: #4CAF50;
-$false-color: #FF4444;
-$info-color: $accent-color;
-
-// NEUTRAL COLORS:
-//$label-color: rgba(0, 0, 0, 0.45);
-$label-color: #000;
-$input: #EAE9E9;
-$input-disabled: rgba(0, 0, 0, 0.05);
-$divider-color: rgba(0, 0, 0, 0.1);
-$tag-background: rgba(255, 230, 156, 0.5);
-$table-hover: #F9F9F9;
+@import "./styleguide/styleguide";
+@import "./utils/helper-classes";
 
 // OTHER
 $input-padding: 11px 16px 7px;
@@ -48,6 +25,10 @@ ul {
 iframe {
   border: none;
   outline: none;
+}
+
+h1, h2, h3, h4, h5, h6, p {
+  margin: 0;
 }
 
 a {
@@ -158,22 +139,25 @@ i {
   border-color: $false-color;
 }
 
-$srollbar-color: rgba(0, 0, 0, 0.1);
-$srollbar-thumb-color: rgba(0, 0, 0, 0.3);
+$scrollbar-bg-color: #EAEAEA;
+$srollbar-thumb-color: $accent-color;
+$srollbar-border-radius: 4px;
 
 .scrollbar {
   // scrollbar itself
   &::-webkit-scrollbar {
-    width: 10px;
-    //background-color: $srollbar-color;
+    width: 4px;
+    height: 6px;
+    background-color: $scrollbar-bg-color;
     cursor: pointer;
   }
 
   // scrollable element
   &::-webkit-scrollbar-thumb {
-    width: 10px;
+    width: 4px;
+    height: 6px;
     background-color: $srollbar-thumb-color;
-    border-radius: $border-radius;
+    border-radius: $srollbar-border-radius;
   }
 }
 

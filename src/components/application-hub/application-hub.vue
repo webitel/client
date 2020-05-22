@@ -1,4 +1,6 @@
 <template>
+<div class="application-hub-wrap">
+    <cc-header/>
     <nav class="application-hub">
         <ul class="application-hub__list">
             <li
@@ -43,9 +45,12 @@
             </li>
         </ul>
     </nav>
+</div>
 </template>
 
 <script>
+    import CcHeader from '../cc-header/cc-header.vue';
+
     const picAdminDark = require('../../assets/img/application-hub/dark/admin-pic--dark.svg');
     const picAdminLight = require('../../assets/img/application-hub/light/admin-pic--light.svg');
     const picAgentDark = require('../../assets/img/application-hub/dark/agent-pic--dark.svg');
@@ -70,6 +75,7 @@
 
     export default {
         name: 'the-application-hub',
+        components: { CcHeader },
         data: () => ({}),
 
         computed: {
@@ -159,15 +165,24 @@
         line-height: (15px);
     }
 
-    .application-hub {
-        position: relative;
+    .application-hub-wrap {
         width: 100%;
         min-height: 100vh;
-        /*height: 100vh;*/
+        display: flex;
+        flex-direction: column;
+
+        .cc-header {
+            flex: 0 0 54px;
+        }
+    }
+
+    .application-hub {
+        flex-grow: 1;
+        width: 100%;
         display: flex;
         align-items: center;
         justify-content: center;
-        padding: 90px 0;
+        padding: 30px 0;
         background: $application-hub-bg-color;
     }
 
@@ -266,7 +281,8 @@
         }
     }
 
-    @media screen and (max-width: 1280px) {
+    // 1280 still has desired grid template
+    @media screen and (max-width: 1279px) {
         .application-hub__list {
             display: grid;
             grid-template-columns: 570px;
@@ -274,7 +290,7 @@
     }
 
     @media screen and (max-height: 610px) {
-        .application-hub {
+        .application-hub-wrap {
             min-height: 610px;
         }
     }
