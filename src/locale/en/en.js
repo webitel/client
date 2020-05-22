@@ -632,6 +632,7 @@ export default {
         logout: 'Logout',
         account: 'Account',
         appNavigator: 'App navigator',
+        settings: 'Settings',
     },
 
     iconHints: {

@@ -1,82 +1,90 @@
 <template>
-<div class="application-hub-wrap">
-    <cc-header/>
-    <nav class="application-hub">
-        <ul class="application-hub__list">
-            <li
-                    class="application-hub__card"
-                    v-for="(app, key) of apps"
-                    :key="key"
-            >
-                <a
-                        class="application-link"
-                        :href="app.href"
-                        :title="app.title"
-                        target="_blank"
+    <div class="application-hub-wrap">
+        <cc-header/>
+        <nav class="application-hub">
+            <ul class="application-hub__list">
+                <li
+                        class="application-hub__card"
+                        v-for="(app, key) of apps"
+                        :key="key"
                 >
-                    <div class="application-link__pic">
-                        <img
-                                class="application-link__pic__img application-link__pic__img__dark"
-                                :src="app.pic.dark"
-                                :alt="`${app.name}-pic`"
-                        >
-                        <img
-                                class="application-link__pic__img application-link__pic__img__light"
-                                :src="app.pic.light"
-                                :alt="`${app.name}-pic`"
-                        >
-                    </div>
-                    <div class="application-link__text-wrap">
-                        <div class="application-link__title-pic">
+                    <a
+                            class="application-link"
+                            :href="app.href"
+                            :title="app.title"
+                            target="_blank"
+                    >
+                        <div class="application-link__pic">
                             <img
-                                    class="application-link__title-pic__img application-link__title-pic__img__dark"
-                                    :src="app.titlePic.dark"
-                                    :alt="`${app.name}`"
+                                    class="application-link__pic__img application-link__pic__img__dark"
+                                    :src="app.pic.picDark"
+                                    :alt="`${app.name}-pic`"
                             >
                             <img
-                                    class="application-link__title-pic__img application-link__title-pic__img__light"
-                                    :src="app.titlePic.light"
-                                    :alt="`${app.name}`"
+                                    class="application-link__pic__img application-link__pic__img__light"
+                                    :src="app.pic.picLight"
+                                    :alt="`${app.name}-pic`"
                             >
                         </div>
-                        <h1 class="application-link__title">{{app.title}}</h1>
-                    </div>
-                </a>
-            </li>
-        </ul>
-    </nav>
-</div>
+                        <div class="application-link__text-wrap">
+                            <div class="application-link__title-pic">
+                                <img
+                                        class="application-link__title-pic__img application-link__title-pic__img__dark"
+                                        :src="app.pic.titleDark"
+                                        :alt="`${app.name}`"
+                                >
+                                <img
+                                        class="application-link__title-pic__img application-link__title-pic__img__light"
+                                        :src="app.pic.titleLight"
+                                        :alt="`${app.name}`"
+                                >
+                            </div>
+                            <h1 class="application-link__title">{{app.title}}</h1>
+                        </div>
+                    </a>
+                </li>
+            </ul>
+        </nav>
+    </div>
 </template>
 
 <script>
     import CcHeader from '../cc-header/cc-header.vue';
 
-    const picAdminDark = require('../../assets/img/application-hub/dark/admin-pic--dark.svg');
-    const picAdminLight = require('../../assets/img/application-hub/light/admin-pic--light.svg');
-    const picAgentDark = require('../../assets/img/application-hub/dark/agent-pic--dark.svg');
-    const picAgentLight = require('../../assets/img/application-hub/light/agent-pic--light.svg');
-    const picAuditDark = require('../../assets/img/application-hub/dark/audit-pic--dark.svg');
-    const picAuditLight = require('../../assets/img/application-hub/light/audit-pic--light.svg');
-    const picHistoryDark = require('../../assets/img/application-hub/dark/history-pic--dark.svg');
-    const picHistoryLight = require('../../assets/img/application-hub/light/history-pic--light.svg');
-    const picSupervisorDark = require('../../assets/img/application-hub/dark/supervisor-pic--dark.svg');
-    const picSupervisorLight = require('../../assets/img/application-hub/light/supervisor-pic--light.svg');
-
-    const titleAdminDark = require('../../assets/img/application-hub/dark/admin-title--dark.svg');
-    const titleAdminLight = require('../../assets/img/application-hub/light/admin-title--light.svg');
-    const titleAgentDark = require('../../assets/img/application-hub/dark/agent-title--dark.svg');
-    const titleAgentLight = require('../../assets/img/application-hub/light/agent-title--light.svg');
-    const titleAuditDark = require('../../assets/img/application-hub/dark/audit-title--dark.svg');
-    const titleAuditLight = require('../../assets/img/application-hub/light/audit-title--light.svg');
-    const titleHistoryDark = require('../../assets/img/application-hub/dark/history-title--dark.svg');
-    const titleHistoryLight = require('../../assets/img/application-hub/light/history-title--light.svg');
-    const titleSupervisorDark = require('../../assets/img/application-hub/dark/supervisor-title--dark.svg');
-    const titleSupervisorLight = require('../../assets/img/application-hub/light/supervisor-title--light.svg');
+    const picAdmin = {
+        picDark: require('../../assets/img/application-hub/dark/admin-pic--dark.svg'),
+        picLight: require('../../assets/img/application-hub/light/admin-pic--light.svg'),
+        titleDark: require('../../assets/img/application-hub/dark/admin-title--dark.svg'),
+        titleLight: require('../../assets/img/application-hub/light/admin-title--light.svg'),
+    };
+    const picAgent = {
+        picDark: require('../../assets/img/application-hub/dark/agent-pic--dark.svg'),
+        picLight: require('../../assets/img/application-hub/light/agent-pic--light.svg'),
+        titleDark: require('../../assets/img/application-hub/dark/agent-title--dark.svg'),
+        titleLight: require('../../assets/img/application-hub/light/agent-title--light.svg'),
+    };
+    const picAudit = {
+        picDark: require('../../assets/img/application-hub/dark/audit-pic--dark.svg'),
+        picLight: require('../../assets/img/application-hub/light/audit-pic--light.svg'),
+        titleDark: require('../../assets/img/application-hub/dark/audit-title--dark.svg'),
+        titleLight: require('../../assets/img/application-hub/light/audit-title--light.svg'),
+    };
+    const picHistory = {
+        picDark: require('../../assets/img/application-hub/dark/history-pic--dark.svg'),
+        picLight: require('../../assets/img/application-hub/light/history-pic--light.svg'),
+        titleDark: require('../../assets/img/application-hub/dark/history-title--dark.svg'),
+        titleLight: require('../../assets/img/application-hub/light/history-title--light.svg'),
+    };
+    const picSupervisor = {
+        picDark: require('../../assets/img/application-hub/dark/supervisor-pic--dark.svg'),
+        picLight: require('../../assets/img/application-hub/light/supervisor-pic--light.svg'),
+        titleDark: require('../../assets/img/application-hub/dark/supervisor-title--dark.svg'),
+        titleLight: require('../../assets/img/application-hub/light/supervisor-title--light.svg'),
+    };
 
     export default {
         name: 'the-application-hub',
         components: { CcHeader },
-        data: () => ({}),
 
         computed: {
             apps() {
@@ -85,72 +93,35 @@
                         name: 'agent',
                         title: this.$t('applicationHub.agent'),
                         href: process.env.VUE_APP_AGENT_URL,
-                        pic: {
-                            dark: picAgentDark,
-                            light: picAgentLight,
-                        },
-                        titlePic: {
-                            dark: titleAgentDark,
-                            light: titleAgentLight,
-                        },
+                        pic: picAgent,
                     },
                     {
                         name: 'supervisor',
                         title: this.$t('applicationHub.supervisor'),
                         href: process.env.VUE_APP_SUPERVISOR_URL,
-                        pic: {
-                            dark: picSupervisorDark,
-                            light: picSupervisorLight,
-                        },
-                        titlePic: {
-                            dark: titleSupervisorDark,
-                            light: titleSupervisorLight,
-                        },
+                        pic: picSupervisor,
                     },
                     {
                         name: 'history',
                         title: this.$t('applicationHub.history'),
                         href: process.env.VUE_APP_HISTORY_URL,
-                        pic: {
-                            dark: picHistoryDark,
-                            light: picHistoryLight,
-                        },
-                        titlePic: {
-                            dark: titleHistoryDark,
-                            light: titleHistoryLight,
-                        },
+                        pic: picHistory,
                     },
                     {
                         name: 'audit',
                         title: this.$t('applicationHub.audit'),
                         href: process.env.VUE_APP_AUDIT_URL,
-                        pic: {
-                            dark: picAuditDark,
-                            light: picAuditLight,
-                        },
-                        titlePic: {
-                            dark: titleAuditDark,
-                            light: titleAuditLight,
-                        },
+                        pic: picAudit,
                     },
                     {
                         name: 'admin',
                         title: this.$t('applicationHub.admin'),
                         href: process.env.VUE_APP_ADMIN_URL,
-                        pic: {
-                            dark: picAdminDark,
-                            light: picAdminLight,
-                        },
-                        titlePic: {
-                            dark: titleAdminDark,
-                            light: titleAdminLight,
-                        },
+                        pic: picAdmin,
                     },
                 ];
             },
         },
-
-        methods: {},
     };
 </script>
 
@@ -165,6 +136,7 @@
         line-height: (15px);
     }
 
+    // main wrapper, with header and nav
     .application-hub-wrap {
         width: 100%;
         min-height: 100vh;
@@ -186,14 +158,15 @@
         background: $application-hub-bg-color;
     }
 
+    // ul
     .application-hub__list {
         display: grid;
         grid-template-columns: 570px 570px;
         grid-column-gap: 20px;
         grid-row-gap: 1px;
-        /*max-width: 1160px;*/
     }
 
+    // ul > li's
     .application-hub__card {
         width: 570px;
         height: 163px;
@@ -212,6 +185,7 @@
         color: #fff;
     }
 
+    // notebook pic wrap, with 2 abs positioned img's
     .application-link__pic {
         position: relative;
         width: 230px;
@@ -223,10 +197,12 @@
         }
     }
 
+    // text pic + heading
     .application-link__text-wrap {
         margin-left: 14px;
     }
 
+    // title pic wrap, with 2 abs positioned img's
     .application-link__title-pic {
         position: relative;
         width: 100%;
@@ -238,11 +214,13 @@
         }
     }
 
+    // title text
     .application-link__title {
         @extend .typo-application-hub;
         margin: 16px 0 0 10px;
     }
 
+    // specific @hover toggled styles (default)
     .application-hub__card {
         .application-link__pic__img__dark,
         .application-link__title-pic__img__dark {
@@ -261,6 +239,7 @@
         }
     }
 
+    // specific @hover toggled styles (hovered)
     .application-hub__card:hover {
         background: $card-bg--hover;
 
@@ -289,6 +268,7 @@
         }
     }
 
+    // minimum height
     @media screen and (max-height: 610px) {
         .application-hub-wrap {
             min-height: 610px;
