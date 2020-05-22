@@ -25,7 +25,7 @@
 
 <style lang="scss" scoped>
   .cc-header {
-    padding: (10px) (77px);
+    padding: (15px) (77px);
     background: $header-bg-color;
   }
 

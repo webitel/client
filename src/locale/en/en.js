@@ -627,6 +627,13 @@ export default {
         btn404: 'Go back',
     },
 
+    icon: {
+        docs: 'Docs',
+        logout: 'Logout',
+        account: 'Account',
+        appNavigator: 'App navigator',
+    },
+
     iconHints: {
         upload: 'Upload',
         reload: 'Refresh table',
