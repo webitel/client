@@ -50,6 +50,11 @@ iframe {
   outline: none;
 }
 
+a {
+  color: #000;
+  text-decoration: none;
+}
+
 i {
   color: $icon-color;
   transition: $transition;

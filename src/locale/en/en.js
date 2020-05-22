@@ -30,12 +30,20 @@ export default {
 
             title6: 'Setting Permissions',
             text6: 'New permissions management module - new opportunities for control. Users can make changes only to sections, as well as to actions.',
-        }
+        },
     },
 
     header: {
         logout: 'Log out',
         docs: 'Docs',
+    },
+
+    applicationHub: {
+        admin: 'Admin',
+        agent: 'Agent Workspace',
+        supervisor: 'Supervisor Workspace',
+        audit: 'Audit',
+        history: 'Call History',
     },
 
     settings: {
@@ -90,7 +98,7 @@ export default {
             res: 'Resources',
             resGroups: 'Resource groups',
             queues: 'Queues',
-            buckets: 'Buckets'
+            buckets: 'Buckets',
         },
         kibana: 'Kibana',
         integrations: {
@@ -113,7 +121,7 @@ export default {
             roles: 'Roles',
             objects: 'Objects',
             operations: 'Operations',
-        }
+        },
     },
 
     home: {
@@ -211,7 +219,7 @@ export default {
                     days: ' days',
                 },
                 importLicense: 'Import license',
-                licenseKey: 'License key'
+                licenseKey: 'License key',
             },
             devices: {
                 devices: 'Device | Devices',
@@ -243,7 +251,7 @@ export default {
                     dialog: 'Dialog',
                     onhold: 'On hold',
                 },
-                passwordSetFromAccount: "If you won't set password, it would be the same as account"
+                passwordSetFromAccount: "If you won't set password, it would be the same as account",
             },
         },
         permissions: {
@@ -259,7 +267,7 @@ export default {
                 operations: 'Operations',
                 searchPlaceholder: 'object ..',
                 newPermissionRole: 'New grantee',
-            }
+            },
         },
         lookups: {
             lookups: 'Lookups',
@@ -314,19 +322,19 @@ export default {
                 communications: 'Communication type | Communication types',
                 allCommunications: 'All communiction types',
                 addCommunication: 'Add communication',
-                code: 'Code'
+                code: 'Code',
             },
             contactType: {
                 contactType: 'Contact type | Contact types',
-                allContactTypes: 'All contact types'
+                allContactTypes: 'All contact types',
             },
             leadSource: {
                 leadSource: 'Lead source | Lead sources',
-                allSources: 'All sources'
+                allSources: 'All sources',
             },
             leadStatus: {
                 leadStatus: 'Lead status',
-                allStatuses: 'All statuses'
+                allStatuses: 'All statuses',
             },
         },
         routing: {
@@ -396,8 +404,8 @@ export default {
             },
 
             callflow: {
-                callflow: 'Callflow'
-            }
+                callflow: 'Callflow',
+            },
         },
 
         ccenter: {
@@ -535,7 +543,7 @@ export default {
                 strategy: 'Strategy',
                 timerange: 'Time range',
                 timerangeFrom: 'From',
-                timerangeTo: 'To'
+                timerangeTo: 'To',
             },
         },
 
@@ -596,11 +604,11 @@ export default {
                 atTime: 'At time',
                 atTimeDescription: 'A time-based JSON Schema scheduler',
                 event: 'Event',
-            }
+            },
         },
 
         pagination: {
-            rowsPerPage: 'Rows per page'
+            rowsPerPage: 'Rows per page',
         },
     },
 
@@ -633,5 +641,5 @@ export default {
         moveDown: 'Move down',
         nextPage: 'Next page',
         prevPage: 'Previous page',
-    }
+    },
 };
