@@ -11,31 +11,32 @@ const MonacoWebpackPlugin = require('monaco-editor-webpack-plugin');
 
 
 module.exports = {
-  // publicPath: '',
-  lintOnSave: false,
-  css: {
-    loaderOptions: {
-      sass: {
-        data: `
-          @import "@/assets/css/main.scss";
-          @import "@/assets/css/objects/objects.scss";
-          @import "@/assets/css/media.scss";
-        `,
-      },
+    // publicPath: '',
+    lintOnSave: true,
+    css: {
+        loaderOptions: {
+            sass: {
+                data: `
+                      @import "@/assets/css/main.scss";
+                      @import "@/assets/css/objects/objects.scss";
+                      @import "@/assets/css/media.scss";
+                    `,
+            },
+        },
     },
-  },
-  configureWebpack: (config) => {
-    // config.module.rules = [
-    //     ...config.module.rules,
-    // ];
-    config.devtool = 'source-map';
-    config.plugins.push(new MonacoWebpackPlugin({
-      output: '', // папка, куда собирать скрипты воркеров
-      languages: ['json'], // массив строк с названиями языков, для которых нужна подсветка
-      features: ['bracketMatching', 'colorDetector', 'fontZoom',
-        'wordHighlighter',
-      ], // массив строк с нужными фичами
-      // https://github.com/Microsoft/monaco-editor-webpack-plugin#options
-    }));
-  },
+    chainWebpack: (config) => {
+        config.module
+            .rule('eslint')
+            .use('eslint-loader')
+            .tap((opts) => ({ ...opts, emitWarning: true }));
+        config.devtool('source-map');
+        config.plugin('monaco-editor-webpack-plugin').use(MonacoWebpackPlugin, [{
+            output: '', // папка, куда собирать скрипты воркеров
+            languages: ['json'], // массив строк с названиями языков, для которых нужна подсветка
+            features: ['bracketMatching', 'colorDetector', 'fontZoom',
+                'wordHighlighter',
+            ], // массив строк с нужными фичами
+            // https://github.com/Microsoft/monaco-editor-webpack-plugin#options
+        }]);
+    },
 };
