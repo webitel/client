@@ -12,7 +12,6 @@
                             class="application-link"
                             :href="app.href"
                             :title="app.title"
-                            target="_blank"
                     >
                         <div class="application-link__pic">
                             <img
