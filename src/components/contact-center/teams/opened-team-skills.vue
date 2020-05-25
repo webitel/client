@@ -89,55 +89,55 @@
 </template>
 
 <script>
-    import skillPopup from './opened-team-skills-popup';
-    import skillBucketsPopup from './opened-team-skills-buckets-popup';
     import tableComponentMixin from '@/mixins/tableComponentMixin';
     import openedTabComponentMixin from '@/mixins/openedTabComponentMixin';
-    import {_checkboxTableField, _actionsTableField_2} from "@/utils/tableFieldPresets";
-    import {mapActions, mapState} from "vuex";
+    import { _checkboxTableField, _actionsTableField_2 } from '@/utils/tableFieldPresets';
+    import { mapActions, mapState } from 'vuex';
     import eventBus from '@/utils/eventBus';
+    import skillBucketsPopup from './opened-team-skills-buckets-popup';
+    import skillPopup from './opened-team-skills-popup';
 
     export default {
-        name: "opened-team-skills",
+        name: 'opened-team-skills',
         mixins: [openedTabComponentMixin, tableComponentMixin],
-        components: {skillPopup, skillBucketsPopup},
+        components: { skillPopup, skillBucketsPopup },
         data() {
             return {
                 bucketsPopupTriggerIf: null,
                 agentId: 0,
                 fields: [
                     _checkboxTableField,
-                    {name: 'name', title: this.$t('objects.name')},
-                    {name: 'capacity', title: this.$t('objects.ccenter.skills.capacity')},
-                    {name: 'buckets', title: this.$tc('objects.ccenter.buckets.buckets', 1)},
+                    { name: 'name', title: this.$t('objects.name') },
+                    { name: 'capacity', title: this.$t('objects.ccenter.skills.capacity') },
+                    { name: 'buckets', title: this.$tc('objects.ccenter.buckets.buckets', 1) },
                     _actionsTableField_2,
                 ],
-            }
+            };
         },
 
         watch: {
-            parentId: function (value) {
+            parentId(value) {
                 this.setParentId(value);
-            }
+            },
         },
         computed: {
             ...mapState('ccenter/teams', {
-                parentId: state => state.itemId,
+                parentId: (state) => state.itemId,
             }),
             ...mapState('ccenter/teams/skills', {
-                dataList: state => state.dataList,
-                page: state => state.page,
-                isNextPage: state => state.isNextPage,
+                dataList: (state) => state.dataList,
+                page: (state) => state.page,
+                isNextPage: (state) => state.isNextPage,
             }),
 
             size: {
-                get() {return this.$store.state.ccenter.teams.skills.size},
-                set(value) {this.setSize(value)}
+                get() { return this.$store.state.ccenter.teams.skills.size; },
+                set(value) { this.setSize(value); },
             },
 
             search: {
-                get() {return this.$store.state.ccenter.teams.skills.search},
-                set(value) {this.setSearch(value)}
+                get() { return this.$store.state.ccenter.teams.skills.search; },
+                set(value) { this.setSearch(value); },
             },
 
         },
@@ -157,9 +157,8 @@
                 this.popupTriggerIf = true;
             },
 
-            getFirstBucket (buckets) {
-                if(buckets.length > 0)
-                {
+            getFirstBucket(buckets) {
+                if (buckets.length > 0) {
                     return buckets[0].name;
                 }
             },
@@ -192,7 +191,7 @@
                 removeItem: 'REMOVE_ITEM',
             }),
         },
-    }
+    };
 </script>
 
 <style lang="scss" scoped>

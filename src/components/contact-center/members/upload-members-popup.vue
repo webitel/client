@@ -63,15 +63,15 @@
 </template>
 
 <script>
+    import { mapState } from 'vuex';
     import tagsInput from '../../utils/tags-input';
     import uploadCSVMixin from '../../../mixins/uploadCSVMixin';
-    import {addMember, addMembersList} from "../../../api/contact-center/queues/queueMembers";
-    import {mapState} from "vuex";
+    import { addMember, addMembersList } from '../../../api/contact-center/queues/queueMembers';
 
     export default {
-        name: "upload-members-popup",
+        name: 'upload-members-popup',
         mixins: [uploadCSVMixin],
-        components: {tagsInput},
+        components: { tagsInput },
         data() {
             return {
                 bulk: [],
@@ -79,79 +79,77 @@
                     {
                         name: 'name',
                         required: true,
-                        csv: {}
+                        csv: {},
                     },
                     {
                         name: 'timezoneId',
                         required: true,
-                        csv: {}
+                        csv: {},
                     },
                     {
                         name: 'priority',
                         required: false,
-                        csv: {}
+                        csv: {},
                     },
                     {
                         text: 'Expire',
                         name: 'expireAt',
                         required: false,
-                        csv: {}
+                        csv: {},
                     },
                     {
                         name: 'bucketId',
                         required: false,
-                        csv: {}
+                        csv: {},
                     },
                     {
                         name: 'variables',
                         required: false,
                         tags: true,
-                        csvArr: []
+                        csvArr: [],
                     },
                     {
                         text: 'Communication destination',
                         name: 'destination',
                         required: true,
                         tags: true,
-                        csvArr: []
+                        csvArr: [],
                     },
                     {
                         text: 'Communication priority',
                         name: 'priority',
                         required: false,
                         tags: true,
-                        csvArr: []
+                        csvArr: [],
                     },
                     {
                         text: 'Communication typeId',
                         name: 'typeId',
                         required: true,
                         tags: true,
-                        csvArr: []
+                        csvArr: [],
                     },
                     {
                         text: 'Communication description',
                         name: 'description',
                         required: false,
                         tags: true,
-                        csvArr: []
+                        csvArr: [],
                     },
                 ],
-            }
+            };
         },
 
         computed: {
             ...mapState('ccenter/queues/members', {
-                parentId: state => state.parentId,
+                parentId: (state) => state.parentId,
             }),
 
             computeDisabledSave() {
                 // find all required fields
-                let required = this.mappingFields.filter(field => field.required);
+                const required = this.mappingFields.filter((field) => field.required);
                 // check if some of them are empty
-                return required.some(item => {
-                    return item.tags ? !item.csvArr.length : !Object.entries(item.csv).length;
-                });
+                return required.some((item) => (item.tags ? !item.csvArr.length : !Object.entries(item.csv).length));
             },
         },
 
@@ -162,7 +160,7 @@
                     for (const [index, row] of this.csvArr.entries()) {
                         // skip 0 index if it is headers
                         if (!this.skipHeaders || (this.skipHeaders && index)) {
-                            let item = this.setFields(row, this.mappingFields);
+                            const item = this.setFields(row, this.mappingFields);
                             this.bulk.push(item);
                         }
                     }
@@ -173,29 +171,29 @@
             },
 
             setFields(row, mappingFields) {
-                let item = {variables: {}, communications: []};
-                mappingFields.forEach(field => {
+                const item = { variables: {}, communications: [] };
+                mappingFields.forEach((field) => {
                     if (field.csv && Object.entries(field.csv).length) {
-                        let name = field.name;
+                        let { name } = field;
                         if (name.includes('Id')) {
                             name = name.slice(0, -2);
-                            item[name] = {id: row[field.csv.id]};
+                            item[name] = { id: row[field.csv.id] };
                         } else {
                             item[name] = row[field.csv.id];
                         }
                     }
                 });
-                let communications = mappingFields.filter(field => field.tags);
-                communications.forEach(field => {
+                const communications = mappingFields.filter((field) => field.tags);
+                communications.forEach((field) => {
                     field.csvArr.forEach((csvItem, index) => {
-                        let name = field.name;
+                        let { name } = field;
                         if (name === 'variables') {
                             item.variables[csvItem.name] = row[csvItem.id];
                         } else {
                             item.communications[index] = item.communications[index] || {};
                             if (name.includes('Id')) {
                                 name = name.slice(0, -2);
-                                item.communications[index][name] = {id: row[csvItem.id]};
+                                item.communications[index][name] = { id: row[csvItem.id] };
                             } else {
                                 item.communications[index][name] = row[csvItem.id];
                             }
@@ -204,8 +202,8 @@
                 });
                 return item;
             },
-        }
-    }
+        },
+    };
 </script>
 
 <style lang="scss" scoped>

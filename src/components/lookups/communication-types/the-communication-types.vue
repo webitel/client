@@ -85,20 +85,20 @@
 
 <script>
     import tableComponentMixin from '@/mixins/tableComponentMixin';
-    import {_checkboxTableField, _actionsTableField_2} from "@/utils/tableFieldPresets";
-    import {deleteCommunication, getCommunicationsList} from "../../../api/lookups/communications/communications";
-    import {mapActions, mapState} from "vuex";
+    import { _checkboxTableField, _actionsTableField_2 } from '@/utils/tableFieldPresets';
+    import { mapActions, mapState } from 'vuex';
+    import { deleteCommunication, getCommunicationsList } from '../../../api/lookups/communications/communications';
 
     export default {
-        name: "the-communication-types",
+        name: 'the-communication-types',
         mixins: [tableComponentMixin],
         data() {
             return {
                 fields: [
                     _checkboxTableField,
-                    {name: 'code', title: this.$t('objects.lookups.communications.code')},
-                    {name: 'name', title: this.$t('objects.name')},
-                    {name: 'description', title: this.$t('objects.description')},
+                    { name: 'code', title: this.$t('objects.lookups.communications.code') },
+                    { name: 'name', title: this.$t('objects.name') },
+                    { name: 'description', title: this.$t('objects.description') },
                     _actionsTableField_2,
                 ],
             };
@@ -106,19 +106,19 @@
 
         computed: {
             ...mapState('lookups/communications', {
-                dataList: state => state.dataList,
-                page: state => state.page, // acts like a boolean: if page is 0, there's no back page
-                isNextPage: state => state.isNextPage,
+                dataList: (state) => state.dataList,
+                page: (state) => state.page, // acts like a boolean: if page is 0, there's no back page
+                isNextPage: (state) => state.isNextPage,
             }),
 
             size: {
-                get() {return this.$store.state.lookups.communications.size},
-                set(value) {this.setSize(value)}
+                get() { return this.$store.state.lookups.communications.size; },
+                set(value) { this.setSize(value); },
             },
 
             search: {
-                get() {return this.$store.state.lookups.communications.search},
-                set(value) {this.setSearch(value)}
+                get() { return this.$store.state.lookups.communications.search; },
+                set(value) { this.setSearch(value); },
             },
         },
 
@@ -130,7 +130,7 @@
             edit(rowId) {
                 this.$router.push({
                     name: 'communications-lookup-edit',
-                    params: {id: this.dataList[rowId].id},
+                    params: { id: this.dataList[rowId].id },
                 });
             },
 
@@ -142,8 +142,8 @@
                 prevPage: 'PREV_PAGE',
                 removeItem: 'REMOVE_ITEM',
             }),
-        }
-    }
+        },
+    };
 </script>
 
 <style scoped>

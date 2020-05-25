@@ -22,32 +22,32 @@
 
 <script>
     import openedTabComponentMixin from '@/mixins/openedTabComponentMixin';
-    import {mapActions} from "vuex";
+    import { mapActions } from 'vuex';
 
     export default {
-        name: "opened-resource-failure",
+        name: 'opened-resource-failure',
         mixins: [openedTabComponentMixin],
 
         data() {
             return {
                 dropdownOptionsList: [
-                    {name: '1xx'},
-                    {name: '2xx'},
-                    {name: '3xx'},
-                    {name: '4xx'},
-                    {name: '5xx'}
+                    { name: '1xx' },
+                    { name: '2xx' },
+                    { name: '3xx' },
+                    { name: '4xx' },
+                    { name: '5xx' },
                 ],
-            }
+            };
         },
 
         computed: {
             maxErrors: {
-                get() {return this.$store.state.ccenter.res.itemInstance.maxErrors},
-                set(value) {this.setItemProp({prop: 'maxErrors', value})}
+                get() { return this.$store.state.ccenter.res.itemInstance.maxErrors; },
+                set(value) { this.setItemProp({ prop: 'maxErrors', value }); },
             },
             errorIds: {
-                get() {return this.$store.state.ccenter.res.itemInstance.errorIds},
-                set(value) {this.setItemProp({prop: 'errorIds', value})}
+                get() { return this.$store.state.ccenter.res.itemInstance.errorIds; },
+                set(value) { this.setItemProp({ prop: 'errorIds', value }); },
             },
         },
 
@@ -55,6 +55,6 @@
             ...mapActions('ccenter/res', {
                 setItemProp: 'SET_ITEM_PROPERTY',
             }),
-        }
-    }
+        },
+    };
 </script>

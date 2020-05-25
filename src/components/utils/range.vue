@@ -18,25 +18,25 @@
 
 <script>
     export default {
-        name: "range",
+        name: 'range',
         props: {
             value: {
                 type: Number,
-                required: true
+                required: true,
             },
 
             minRange: {
                 type: Number,
-                default: 1
+                default: 1,
             },
 
             maxRange: {
                 type: Number,
-                default: 100
+                default: 100,
             },
 
             label: {
-                type: String
+                type: String,
             },
         },
 
@@ -54,13 +54,13 @@
             drawSeekProgress(seekslider) {
                 const v = this.value;
 
-                seekslider.style.background = "-moz-linear-gradient(left,  #FFC107 0%, #FFC107 "+ v +"%, #171A2A "+ v +"%, #171A2A 100%)";
-                seekslider.style.background = "-webkit-gradient(linear, left top, right top, color-stop(0%,#FFC107), color-stop("+ v +"%,#FFC107), color-stop("+ v +"%,#171A2A), color-stop(100%,#171A2A))";
-                seekslider.style.background = "-webkit-linear-gradient(left,  #FFC107 0%,#FFC107 "+ v +"%,#191919 "+ v +"%,#171A2A 100%)";
-                seekslider.style.background = "-o-linear-gradient(left,  #FFC107 0%,#FFC107 "+ v +"%,#171A2A "+ v +"%,#171A2A 100%)";
-                seekslider.style.background = "-ms-linear-gradient(left,  #FFC107 0%,#FFC107 "+ v +"%,#171A2A "+ v +"%,#171A2A 100%)";
-                seekslider.style.background = "linear-gradient(to right,  #FFC107 0%,#FFC107 "+ v +"%,#171A2A "+ v +"%,#171A2A 100%)";
-            }
+                seekslider.style.background = `-moz-linear-gradient(left,  #FFC107 0%, #FFC107 ${v}%, #171A2A ${v}%, #171A2A 100%)`;
+                seekslider.style.background = `-webkit-gradient(linear, left top, right top, color-stop(0%,#FFC107), color-stop(${v}%,#FFC107), color-stop(${v}%,#171A2A), color-stop(100%,#171A2A))`;
+                seekslider.style.background = `-webkit-linear-gradient(left,  #FFC107 0%,#FFC107 ${v}%,#191919 ${v}%,#171A2A 100%)`;
+                seekslider.style.background = `-o-linear-gradient(left,  #FFC107 0%,#FFC107 ${v}%,#171A2A ${v}%,#171A2A 100%)`;
+                seekslider.style.background = `-ms-linear-gradient(left,  #FFC107 0%,#FFC107 ${v}%,#171A2A ${v}%,#171A2A 100%)`;
+                seekslider.style.background = `linear-gradient(to right,  #FFC107 0%,#FFC107 ${v}%,#171A2A ${v}%,#171A2A 100%)`;
+            },
         },
 
         computed: {
@@ -68,10 +68,10 @@
                 if (this.label) {
                     return this.label[this.value] || this.label;
                 }
-                return ''
-            }
-        }
-    }
+                return '';
+            },
+        },
+    };
 </script>
 
 <style lang="scss" scoped>

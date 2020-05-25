@@ -20,27 +20,27 @@
     import divider from '@/components/utils/divider';
 
     export default {
-        name: "expansion-panel",
+        name: 'expansion-panel',
         components: {
-            divider
+            divider,
         },
         props: {
             opened: {
                 type: Boolean,
-                default: false
-            }
+                default: false,
+            },
         },
         data() {
             return {
                 isExpanded: this.opened,
-            }
+            };
         },
         methods: {
             expand() {
                 this.isExpanded = !this.isExpanded;
-            }
-        }
-    }
+            },
+        },
+    };
 </script>
 
 <style lang="scss" scoped>

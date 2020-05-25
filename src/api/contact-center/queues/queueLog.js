@@ -1,12 +1,11 @@
+import { MemberServiceApiFactory } from 'webitel-sdk';
 import instance from '../../instance';
 import configuration from '../../openAPIConfig';
-import {MemberServiceApiFactory} from 'webitel-sdk';
 import store from '../../../store/store';
 
-const queueMemberAttemptsService = new MemberServiceApiFactory
-(configuration, '', instance);
+const queueMemberAttemptsService = new MemberServiceApiFactory(configuration, '', instance);
 export const getQueueCallLogList = async (queueId, page = 0, size = 10, sort) => {
-    const domainId = store.state.userinfo.domainId;
+    const { domainId } = store.state.userinfo;
     try {
        const response = await queueMemberAttemptsService.searchAttemptsHistory(
             page,
@@ -21,8 +20,8 @@ export const getQueueCallLogList = async (queueId, page = 0, size = 10, sort) =>
             undefined,
             undefined,
             sort,
-            domainId
-        )
+            domainId,
+        );
         if (response.items) {
             return response.items;
         }

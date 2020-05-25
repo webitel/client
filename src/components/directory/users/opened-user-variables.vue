@@ -42,15 +42,15 @@
 
 <script>
     import openedTabComponentMixin from '@/mixins/openedTabComponentMixin';
-    import {mapActions, mapState} from "vuex";
+    import { mapActions, mapState } from 'vuex';
 
     export default {
-        name: "opened-user-variables",
+        name: 'opened-user-variables',
         mixins: [openedTabComponentMixin],
 
         computed: {
             ...mapState('directory/users', {
-                variables: state => state.itemInstance.variables
+                variables: (state) => state.itemInstance.variables,
             }),
         },
 
@@ -61,8 +61,8 @@
                 setVariableProp: 'SET_VARIABLE_PROP',
                 deleteVariable: 'DELETE_VARIABLE_PAIR',
             }),
-        }
-    }
+        },
+    };
 </script>
 
 <style lang="scss" scoped>

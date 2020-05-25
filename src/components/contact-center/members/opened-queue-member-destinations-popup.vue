@@ -37,10 +37,10 @@
 <script>
     import popup from '@/components/utils/popup';
     import tableComponentMixin from '@/mixins/tableComponentMixin';
-    import {mapGetters} from "vuex";
+    import { mapGetters } from 'vuex';
 
     export default {
-        name: "opened-queue-member-destinations-popup",
+        name: 'opened-queue-member-destinations-popup',
         mixins: [tableComponentMixin],
         components: {
             popup,
@@ -49,11 +49,11 @@
         data() {
             return {
                 fields: [
-                    {name: 'destination', title: this.$tc('objects.ccenter.queues.destination', 1)},
-                    {name: 'type', title: this.$t('objects.ccenter.queues.type')},
-                    {name: 'priority', title: this.$t('objects.ccenter.queues.priority')},
+                    { name: 'destination', title: this.$tc('objects.ccenter.queues.destination', 1) },
+                    { name: 'type', title: this.$t('objects.ccenter.queues.type') },
+                    { name: 'priority', title: this.$t('objects.ccenter.queues.priority') },
                 ],
-            }
+            };
         },
 
         computed: {
@@ -68,9 +68,9 @@
 
         methods: {
             loadDataList() {
-            }
-        }
-    }
+            },
+        },
+    };
 </script>
 
 <style lang="scss" scoped>

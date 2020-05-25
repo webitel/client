@@ -1,15 +1,15 @@
 export const objSnakeToCamel = (obj) => {
-    let newObj = {};
+    const newObj = {};
     if (Array.isArray(obj)) {
-        return obj.map(value => {
+        return obj.map((value) => {
             if (typeof value === 'object') {
                 return objSnakeToCamel(value);
             }
             return value;
         });
-    } else {
-        Object.keys(obj).forEach(oldKey => {
-            if(oldKey === 'schema') {
+    }
+        Object.keys(obj).forEach((oldKey) => {
+            if (oldKey === 'schema') {
                 newObj[oldKey] = obj[oldKey];
             } else {
                 const newKey = snakeToCamel(oldKey);
@@ -20,23 +20,22 @@ export const objSnakeToCamel = (obj) => {
                 newObj[newKey] = value;
             }
         });
-    }
+
     return newObj;
 };
 
 export const objCamelToSnake = (obj) => {
-    let newObj = {};
+    const newObj = {};
     if (Array.isArray(obj)) {
-        return obj.map(value => {
+        return obj.map((value) => {
             if (typeof value === 'object') {
                 return objCamelToSnake(value);
-            } else {
-                return value;
             }
+                return value;
         });
-    } else {
-        Object.keys(obj).forEach(oldKey => {
-            if(oldKey === 'schema') {
+    }
+        Object.keys(obj).forEach((oldKey) => {
+            if (oldKey === 'schema') {
                 newObj[oldKey] = obj[oldKey];
             } else {
                 const newKey = camelToSnake(oldKey);
@@ -47,7 +46,7 @@ export const objCamelToSnake = (obj) => {
                 newObj[newKey] = value;
             }
         });
-    }
+
     return newObj;
 };
 
@@ -55,11 +54,11 @@ const snakeToCamel = (str) => str.replace(
     /([-_][a-z])/g,
     (group) => group.toUpperCase()
         .replace('-', '')
-        .replace('_', '')
+        .replace('_', ''),
 );
 
 const camelToSnake = (str) => str.replace(
     /([A-Z])/g,
     (group) => group.toLowerCase()
-        .replace('', '_')
+        .replace('', '_'),
 );

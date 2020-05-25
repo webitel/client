@@ -25,13 +25,13 @@
 </template>
 
 <script>
+    import editComponentMixin from '@/mixins/editComponentMixin';
+    import { required } from 'vuelidate/lib/validators';
+    import { mapActions, mapState } from 'vuex';
     import openedQueueInboundQueueGeneral from './opened-queue-inbound-queue-general';
     import openedQueueInboundQueueVariables from '../opened-queue-variables';
-    import openedQueueInboundQueueLogs from "../opened-queue-logs";
+    import openedQueueInboundQueueLogs from '../opened-queue-logs';
     import openedQueueInboundQueuePermissions from '../opened-queue-permissions';
-    import editComponentMixin from '@/mixins/editComponentMixin';
-    import {required} from 'vuelidate/lib/validators';
-    import {mapActions, mapState} from "vuex";
 
     export default {
         name: 'opened-queue-inbound-queue',
@@ -39,7 +39,7 @@
             openedQueueInboundQueueGeneral,
             openedQueueInboundQueueVariables,
             openedQueueInboundQueueLogs,
-            openedQueueInboundQueuePermissions
+            openedQueueInboundQueuePermissions,
         },
         mixins: [editComponentMixin],
 
@@ -51,12 +51,12 @@
         validations: {
             itemInstance: {
                 name: {
-                    required
+                    required,
                 },
                 calendar: {
-                    required
+                    required,
                 },
-            }
+            },
         },
 
         mounted() {
@@ -66,11 +66,11 @@
 
         computed: {
             ...mapState('ccenter/queues', {
-                itemInstance: state => state.itemInstance,
+                itemInstance: (state) => state.itemInstance,
             }),
             id: {
-                get() {return this.$store.state.ccenter.queues.itemId},
-                set(value) {this.setId(value)}
+                get() { return this.$store.state.ccenter.queues.itemId; },
+                set(value) { this.setId(value); },
             },
 
             tabs() {

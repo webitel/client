@@ -35,8 +35,8 @@
 
 <script>
     import editComponentMixin from '@/mixins/editComponentMixin';
-    import {required} from 'vuelidate/lib/validators';
-    import {mapActions, mapState} from "vuex";
+    import { required } from 'vuelidate/lib/validators';
+    import { mapActions, mapState } from 'vuex';
 
     export default {
         name: 'opened-role',
@@ -51,9 +51,9 @@
         validations: {
             itemInstance: {
                 name: {
-                    required
-                }
-            }
+                    required,
+                },
+            },
         },
 
         mounted() {
@@ -63,19 +63,19 @@
 
         computed: {
             ...mapState('permissions/roles', {
-                itemInstance: state => state.itemInstance,
+                itemInstance: (state) => state.itemInstance,
             }),
             id: {
-                get() {return this.$store.state.permissions.roles.itemId},
-                set(value) {this.setId(value)}
+                get() { return this.$store.state.permissions.roles.itemId; },
+                set(value) { this.setId(value); },
             },
             name: {
-                get() {return this.$store.state.permissions.roles.itemInstance.name},
-                set(value) {this.setItemProp({prop: 'name', value})}
+                get() { return this.$store.state.permissions.roles.itemInstance.name; },
+                set(value) { this.setItemProp({ prop: 'name', value }); },
             },
             description: {
-                get() {return this.$store.state.permissions.roles.itemInstance.description},
-                set(value) {this.setItemProp({prop: 'description', value})}
+                get() { return this.$store.state.permissions.roles.itemInstance.description; },
+                set(value) { this.setItemProp({ prop: 'description', value }); },
             },
         },
 

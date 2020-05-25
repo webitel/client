@@ -48,11 +48,11 @@
 
 <script>
     import vuetable from 'vuetable-2/src/components/Vuetable';
+    import { _actionsTableField_2 } from '@/utils/tableFieldPresets';
     import objectHeader from '../../object-utils/the-object-header';
-    import {_actionsTableField_2} from "@/utils/tableFieldPresets";
 
     export default {
-        name: "the-contact-type",
+        name: 'the-contact-type',
         components: {
             objectHeader,
             vuetable,
@@ -62,8 +62,8 @@
                 contactTypeList: [],
                 // vuetable prop
                 fields: [
-                    {name: 'contactTypeName', title: this.$t('objects.name')},
-                    {name: 'contactTypeDescription', title: this.$t('objects.description')},
+                    { name: 'contactTypeName', title: this.$t('objects.name') },
+                    { name: 'contactTypeDescription', title: this.$t('objects.description') },
                     _actionsTableField_2,
                 ],
             };
@@ -79,7 +79,7 @@
             edit(rowId) {
                 this.$router.push({
                     name: 'contact-type-lookup-edit',
-                    params: {id: this.contactTypeList[rowId].id},
+                    params: { id: this.contactTypeList[rowId].id },
                 });
             },
 
@@ -90,14 +90,14 @@
             loadContactTypeList() {
                 for (let i = 0; i < 10; i++) {
                     this.contactTypeList.push({
-                        name: 'contact  Type ' + i,
+                        name: `contact  Type ${i}`,
                         description: 'Description',
-                        id: i
+                        id: i,
                     });
                 }
-            }
-        }
-    }
+            },
+        },
+    };
 </script>
 
 <style scoped>

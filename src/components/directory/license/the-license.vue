@@ -94,12 +94,12 @@
 </template>
 
 <script>
-    import licensePopup from './license-popup';
     import tableComponentMixin from '@/mixins/tableComponentMixin';
-    import {mapActions, mapState} from "vuex";
+    import { mapActions, mapState } from 'vuex';
+    import licensePopup from './license-popup';
 
     export default {
-        name: "the-license",
+        name: 'the-license',
         mixins: [tableComponentMixin],
         components: {
             licensePopup,
@@ -107,39 +107,39 @@
         data() {
             return {
                 fields: [
-                    {name: 'product', title: this.$t('objects.directory.license.product')},
-                    {name: 'valid-from', title: this.$t('objects.directory.license.validFrom')},
-                    {name: 'valid-till', title: this.$t('objects.directory.license.validTill')},
-                    {name: 'used', title: this.$t('objects.directory.license.used')},
-                    {name: 'limit', title: this.$t('objects.directory.license.limit')},
-                    {name: 'status', title: this.$t('objects.directory.license.status')},
+                    { name: 'product', title: this.$t('objects.directory.license.product') },
+                    { name: 'valid-from', title: this.$t('objects.directory.license.validFrom') },
+                    { name: 'valid-till', title: this.$t('objects.directory.license.validTill') },
+                    { name: 'used', title: this.$t('objects.directory.license.used') },
+                    { name: 'limit', title: this.$t('objects.directory.license.limit') },
+                    { name: 'status', title: this.$t('objects.directory.license.status') },
 
                 ],
             };
         },
         computed: {
             ...mapState('directory/license', {
-                dataList: state => state.dataList,
-                page: state => state.page, // acts like a boolean: if page is 0, there's no back page
-                isNextPage: state => state.isNextPage,
+                dataList: (state) => state.dataList,
+                page: (state) => state.page, // acts like a boolean: if page is 0, there's no back page
+                isNextPage: (state) => state.isNextPage,
             }),
 
             size: {
                 get() {
-                    return this.$store.state.ccenter.skills.size
+                    return this.$store.state.ccenter.skills.size;
                 },
                 set(value) {
-                    this.setSize(value)
-                }
+                    this.setSize(value);
+                },
             },
 
             search: {
                 get() {
-                    return this.$store.state.ccenter.skills.search
+                    return this.$store.state.ccenter.skills.search;
                 },
                 set(value) {
-                    this.setSearch(value)
-                }
+                    this.setSearch(value);
+                },
             },
         },
 
@@ -152,13 +152,12 @@
                 const daysLeft = Math.floor((endDate - Date.now()) / 1000 / 60 / 60 / 24);
                 if (daysLeft <= 0) {
                     return this.$t('objects.directory.license.daysToExpire.0');
-                } else if (daysLeft < 30) {
+                } if (daysLeft < 30) {
                     return this.$t('objects.directory.license.daysToExpire.30');
-                } else if (daysLeft < 90) {
+                } if (daysLeft < 90) {
                     return this.$t('objects.directory.license.daysToExpire.90');
-                } else {
-                    return daysLeft + this.$t('objects.directory.license.daysToExpire.days');
                 }
+                    return daysLeft + this.$t('objects.directory.license.daysToExpire.days');
             },
 
             computeStatusClass(endDate) {
@@ -166,13 +165,12 @@
 
                 if (daysLeft <= 0) {
                     return 'days0';
-                } else if (daysLeft < 30) {
+                } if (daysLeft < 30) {
                     return 'days30';
-                } else if (daysLeft < 90) {
+                } if (daysLeft < 90) {
                     return 'days90';
-                } else {
-                    return 'valid'
                 }
+                    return 'valid';
             },
 
 
@@ -185,7 +183,7 @@
             }),
         },
 
-    }
+    };
 </script>
 
 <style lang="scss" scoped>

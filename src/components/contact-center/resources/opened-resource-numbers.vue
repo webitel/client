@@ -69,60 +69,60 @@
 </template>
 
 <script>
-    import numberPopup from './opened-resource-numbers-popup';
     import eventBus from '@/utils/eventBus';
     import tableComponentMixin from '@/mixins/tableComponentMixin';
     import openedTabComponentMixin from '@/mixins/openedTabComponentMixin';
-    import {_checkboxTableField, _actionsTableField_2} from "@/utils/tableFieldPresets";
-    import {mapActions, mapState} from "vuex";
+    import { _checkboxTableField, _actionsTableField_2 } from '@/utils/tableFieldPresets';
+    import { mapActions, mapState } from 'vuex';
+    import numberPopup from './opened-resource-numbers-popup';
 
     export default {
-        name: "opened-resource-number",
+        name: 'opened-resource-number',
         mixins: [openedTabComponentMixin, tableComponentMixin],
-        components: {numberPopup},
+        components: { numberPopup },
         data() {
             return {
                 fields: [
                     _checkboxTableField,
-                    {name: 'name', title: this.$tc('objects.ccenter.res.numbers', 2)},
+                    { name: 'name', title: this.$tc('objects.ccenter.res.numbers', 2) },
                     _actionsTableField_2,
                 ],
-            }
+            };
         },
 
         watch: {
-            parentId: function (value) {
+            parentId(value) {
                 this.setParentId(value);
-            }
+            },
         },
 
         computed: {
             ...mapState('ccenter/res', {
-                parentId: state => state.itemId,
+                parentId: (state) => state.itemId,
             }),
             ...mapState('ccenter/res/numbers', {
-                dataList: state => state.dataList,
-                page: state => state.page,
-                isNextPage: state => state.isNextPage,
+                dataList: (state) => state.dataList,
+                page: (state) => state.page,
+                isNextPage: (state) => state.isNextPage,
             }),
 
             size: {
                 get() {
-                    return this.$store.state.ccenter.res.numbers.size
+                    return this.$store.state.ccenter.res.numbers.size;
                 },
                 set(value) {
-                    this.setSize(value)
-                }
+                    this.setSize(value);
+                },
             },
 
             search: {
                 get() {
-                    return this.$store.state.ccenter.res.numbers.search
+                    return this.$store.state.ccenter.res.numbers.search;
                 },
                 set(value) {
-                    this.setSearch(value)
-                }
-            }
+                    this.setSearch(value);
+                },
+            },
         },
 
         methods: {
@@ -155,7 +155,7 @@
                 removeItem: 'REMOVE_ITEM',
             }),
         },
-    }
+    };
 </script>
 
 <style lang="scss" scoped>

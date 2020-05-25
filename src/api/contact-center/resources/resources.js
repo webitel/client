@@ -1,20 +1,19 @@
+import { OutboundResourceServiceApiFactory } from 'webitel-sdk';
 import instance from '../../instance';
 import configuration from '../../openAPIConfig';
-import {OutboundResourceServiceApiFactory} from 'webitel-sdk';
 import {
     WebitelAPIPermissionsGetter,
-    WebitelAPIPermissionsPatcher
-} from "../../utils/ApiControllers/Permissions/PermissionsController";
-import {WebitelSDKItemDeleter} from "../../utils/ApiControllers/Deleter/SDKDeleter";
-import {WebitelSDKItemPatcher} from "../../utils/ApiControllers/Patcher/SDKPatcher";
-import {WebitelSDKItemUpdater} from "../../utils/ApiControllers/Updater/SDKUpdater";
-import {WebitelSDKItemCreator} from "../../utils/ApiControllers/Creator/SDKCreator";
-import {WebitelSDKItemGetter} from "../../utils/ApiControllers/Getter/SDKGetter";
-import {WebitelSDKListGetter} from "../../utils/ApiControllers/ListGetter/SDKListGetter";
+    WebitelAPIPermissionsPatcher,
+} from '../../utils/ApiControllers/Permissions/PermissionsController';
+import { WebitelSDKItemDeleter } from '../../utils/ApiControllers/Deleter/SDKDeleter';
+import { WebitelSDKItemPatcher } from '../../utils/ApiControllers/Patcher/SDKPatcher';
+import { WebitelSDKItemUpdater } from '../../utils/ApiControllers/Updater/SDKUpdater';
+import { WebitelSDKItemCreator } from '../../utils/ApiControllers/Creator/SDKCreator';
+import { WebitelSDKItemGetter } from '../../utils/ApiControllers/Getter/SDKGetter';
+import { WebitelSDKListGetter } from '../../utils/ApiControllers/ListGetter/SDKListGetter';
 
 
-const resService = new OutboundResourceServiceApiFactory
-(configuration, '', instance);
+const resService = new OutboundResourceServiceApiFactory(configuration, '', instance);
 
 const BASE_URL = '/call_center/resources';
 const fieldsToSend = ['domainId', 'limit', 'enabled',
@@ -43,7 +42,7 @@ const defaultItemObject = {
 };
 
 const preRequestHandler = (item) => {
-    item.errorIds = item.errorIds.map(item => item.name || item.text);
+    item.errorIds = item.errorIds.map((item) => item.name || item.text);
     item.maxSuccessivelyErrors = item.maxErrors;
     item.rps = item.cps;
     return item;
@@ -62,45 +61,27 @@ itemGetter.responseHandler = (response) => {
     try {
         response.maxErrors = response.maxSuccessivelyErrors;
         response.cps = response.rps;
-        if(response.errorIds) {
-            response.errorIds = response.errorIds.map(item => {
-                return {name: item}
-            });
+        if (response.errorIds) {
+            response.errorIds = response.errorIds.map((item) => ({ name: item }));
         }
-        return {...defaultItemObject, ...response};
+        return { ...defaultItemObject, ...response };
     } catch (err) {
         throw err;
     }
 };
 
-export const getResourceList = async (page, size = 10, search) => {
-    return await listGetter.getList({page, size, search});
-};
+export const getResourceList = async (page, size = 10, search) => await listGetter.getList({ page, size, search });
 
-export const getResource = async (id) => {
-    return await itemGetter.getItem(id);
-};
+export const getResource = async (id) => await itemGetter.getItem(id);
 
-export const addResource = async (item) => {
-    return await itemCreator.createItem(item);
-};
+export const addResource = async (item) => await itemCreator.createItem(item);
 
-export const updateResource = async (id, item) => {
-    return await itemUpdater.updateItem(id, item);
-};
+export const updateResource = async (id, item) => await itemUpdater.updateItem(id, item);
 
-export const patchResource = async (id, item) => {
-    return await itemPatcher.patchItem(id, item);
-};
+export const patchResource = async (id, item) => await itemPatcher.patchItem(id, item);
 
-export const deleteResource = async (id) => {
-    return await itemDeleter.deleteItem(id);
-};
+export const deleteResource = async (id) => await itemDeleter.deleteItem(id);
 
-export const getResPermissions = async (id, page = 0, size = 10, search) => {
-    return await permissionsGetter.getList(id, size, search);
-};
+export const getResPermissions = async (id, page = 0, size = 10, search) => await permissionsGetter.getList(id, size, search);
 
-export const patchResPermissions = async (id, item) => {
-    return await permissionsPatcher.patchItem(id, item);
-};
+export const patchResPermissions = async (id, item) => await permissionsPatcher.patchItem(id, item);

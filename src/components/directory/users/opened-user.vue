@@ -25,17 +25,17 @@
 </template>
 
 <script>
+    import { required } from 'vuelidate/lib/validators';
+    import editComponentMixin from '@/mixins/editComponentMixin';
+    import { mapActions, mapState } from 'vuex';
     import openedUserGeneral from './opened-user-general';
     import openedUserRoles from './opened-user-roles';
     import openedUserLicense from './opened-user-license';
     import openedUserDevices from './opened-user-devices';
     import openedUserVariables from './opened-user-variables';
-    import {required} from 'vuelidate/lib/validators';
-    import editComponentMixin from '@/mixins/editComponentMixin';
-    import {mapActions, mapState} from "vuex";
 
     export default {
-        name: "opened-user",
+        name: 'opened-user',
         mixins: [editComponentMixin],
         components: {
             openedUserGeneral,
@@ -66,15 +66,15 @@
                     {
                         text: this.$t('objects.directory.users.variables'),
                         value: 'variables',
-                    }
+                    },
                 ],
-            }
+            };
         },
 
         validations: {
             itemInstance: {
                 username: {
-                    required
+                    required,
                 },
             },
         },
@@ -86,12 +86,12 @@
 
         computed: {
             ...mapState('directory/users', {
-                itemInstance: state => state.itemInstance,
+                itemInstance: (state) => state.itemInstance,
             }),
             id: {
-                get() {return this.$store.state.directory.users.itemId},
-                set(value) {this.setId(value)}
-            }
+                get() { return this.$store.state.directory.users.itemId; },
+                set(value) { this.setId(value); },
+            },
         },
 
         methods: {
@@ -102,7 +102,7 @@
                 updateItem: 'UPDATE_ITEM',
             }),
         },
-    }
+    };
 </script>
 
 <style lang="scss" scoped>

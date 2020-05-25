@@ -22,7 +22,7 @@
         name: 'vuetable-field-table-checkbox',
         mixins: [VuetableFieldMixin],
         components: {
-            checkbox
+            checkbox,
         },
         methods: {
             checkAllCheckboxes() {
@@ -30,16 +30,14 @@
                 this.vuetable.tableData.forEach((item) => {
                     item._isSelected = selectionState;
                 });
-            }
+            },
         },
         computed: {
             isAllItemsInCurrentPageSelected() {
                 if (!this.vuetable.tableData || this.vuetable.tableData.length === 0) return false;
 
-                return this.vuetable.tableData.every((item) => {
-                    return item._isSelected;
-                });
-            }
-        }
-    }
+                return this.vuetable.tableData.every((item) => item._isSelected);
+            },
+        },
+    };
 </script>

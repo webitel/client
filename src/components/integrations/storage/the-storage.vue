@@ -101,52 +101,52 @@
 </template>
 
 <script>
-    import storagePopup from './create-storage-popup';
     import tableComponentMixin from '@/mixins/tableComponentMixin';
-    import {_checkboxTableField, _actionsTableField_2, _switcherWidth} from "../../../utils/tableFieldPresets";
-    import {mapActions, mapState} from "vuex";
+    import { mapActions, mapState } from 'vuex';
+    import storagePopup from './create-storage-popup';
+    import { _checkboxTableField, _actionsTableField_2, _switcherWidth } from '../../../utils/tableFieldPresets';
 
     export default {
-        name: "the-storage",
+        name: 'the-storage',
         mixins: [tableComponentMixin],
-        components: {storagePopup},
+        components: { storagePopup },
         data() {
             return {
                 fields: [
                     _checkboxTableField,
-                    {name: 'name', title: this.$t('objects.name')},
-                    {name: 'type', title: this.$t('objects.integrations.storage.type')},
-                    {name: 'maxSize', title: this.$t('objects.integrations.storage.maxSize')},
-                    {name: 'expireDays', title: this.$t('objects.integrations.storage.expireDays')},
-                    {name: 'enabled', title: this.$t('objects.enabled'), width: _switcherWidth},
-                    _actionsTableField_2
+                    { name: 'name', title: this.$t('objects.name') },
+                    { name: 'type', title: this.$t('objects.integrations.storage.type') },
+                    { name: 'maxSize', title: this.$t('objects.integrations.storage.maxSize') },
+                    { name: 'expireDays', title: this.$t('objects.integrations.storage.expireDays') },
+                    { name: 'enabled', title: this.$t('objects.enabled'), width: _switcherWidth },
+                    _actionsTableField_2,
                 ],
             };
         },
 
         computed: {
             ...mapState('integrations/storage', {
-                dataList: state => state.dataList,
-                page: state => state.page, // acts like a boolean: if page is 0, there's no back page
-                isNextPage: state => state.isNextPage,
+                dataList: (state) => state.dataList,
+                page: (state) => state.page, // acts like a boolean: if page is 0, there's no back page
+                isNextPage: (state) => state.isNextPage,
             }),
 
             size: {
                 get() {
-                    return this.$store.state.integrations.storage.size
+                    return this.$store.state.integrations.storage.size;
                 },
                 set(value) {
-                    this.setSize(value)
-                }
+                    this.setSize(value);
+                },
             },
 
             search: {
                 get() {
-                    return this.$store.state.integrations.storage.search
+                    return this.$store.state.integrations.storage.search;
                 },
                 set(value) {
-                    this.setSearch(value)
-                }
+                    this.setSearch(value);
+                },
             },
         },
 
@@ -160,7 +160,7 @@
                     name: 'storage-edit',
                     params: {
                         type: this.dataList[rowId].type,
-                        id: this.dataList[rowId].id
+                        id: this.dataList[rowId].id,
                     },
                 });
             },
@@ -184,8 +184,8 @@
                 prevPage: 'PREV_PAGE',
                 removeItem: 'REMOVE_ITEM',
             }),
-        }
-    }
+        },
+    };
 </script>
 
 <style lang="scss" scoped>

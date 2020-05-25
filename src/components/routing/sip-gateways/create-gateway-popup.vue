@@ -43,15 +43,15 @@
     import popup from '../../utils/popup';
 
     export default {
-        name: "create-gateway-popup",
+        name: 'create-gateway-popup',
         components: {
-            popup
+            popup,
         },
 
         data() {
             return {
-                selectedOption: ''
-            }
+                selectedOption: '',
+            };
         },
 
 
@@ -61,7 +61,7 @@
             },
 
             createItemInstance() {
-                if(this.selectedOption) this.$router.push('/routing/gateways/'+this.selectedOption+'/new');
+                if (this.selectedOption) this.$router.push(`/routing/gateways/${this.selectedOption}/new`);
             },
 
             computeSelectedOption(option) {
@@ -69,7 +69,7 @@
             },
         },
 
-    }
+    };
 </script>
 
 <style lang="scss" scoped>

@@ -38,25 +38,25 @@
     import openedTabComponentMixin from '@/mixins/openedTabComponentMixin';
 
     export default {
-        name: "media-text-to-speech-popup-settings",
+        name: 'media-text-to-speech-popup-settings',
         mixins: [openedTabComponentMixin],
         data() {
             return {
                 providerOptions: [
-                    {name: 'ES6 (ES-2016)'},
-                    {name: 'ES5 (ES-2015)'},
+                    { name: 'ES6 (ES-2016)' },
+                    { name: 'ES5 (ES-2015)' },
                 ],
                 langOptions: [
-                    {name: 'ES6 (ES-2016)'},
-                    {name: 'ES5 (ES-2015)'},
+                    { name: 'ES6 (ES-2016)' },
+                    { name: 'ES5 (ES-2015)' },
                 ],
                 voiceOptions: [
-                    {name: 'ES6 (ES-2016)'},
-                    {name: 'ES5 (ES-2015)'},
+                    { name: 'ES6 (ES-2016)' },
+                    { name: 'ES5 (ES-2015)' },
                 ],
-            }
-        }
-    }
+            };
+        },
+    };
 </script>
 
 <style lang="scss" scoped>

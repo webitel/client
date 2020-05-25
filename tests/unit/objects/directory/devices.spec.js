@@ -1,11 +1,11 @@
-import {shallowMount, mount, createLocalVue} from '@vue/test-utils'
-import theDevices from '../../../../src/components/directory/devices/the-devices';
-import openedDevice from '../../../../src/components/directory/devices/opened-device';
-import deviceHistoryPopup from '../../../../src/components/directory/devices/device-history-popup';
+import { shallowMount, mount, createLocalVue } from '@vue/test-utils';
 import VueRouter from 'vue-router';
 import Vuelidate from 'vuelidate';
 import i18n from 'vue-i18n';
-import {getDeviceList} from "../../../../src/api/directory/devices/devices";
+import theDevices from '../../../../src/components/directory/devices/the-devices';
+import openedDevice from '../../../../src/components/directory/devices/opened-device';
+import deviceHistoryPopup from '../../../../src/components/directory/devices/device-history-popup';
+import { getDeviceList } from '../../../../src/api/directory/devices/devices';
 
 const $t = () => {
 };
@@ -19,10 +19,10 @@ const router = new VueRouter();
 
 describe('opened device', () => {
     const wrapper = mount(openedDevice, {
-        mocks: {$t, $tc},
+        mocks: { $t, $tc },
         localVue,
         router,
-        i18n
+        i18n,
     });
 
     it('creates new device', async (done) => {
@@ -50,7 +50,7 @@ describe('opened device', () => {
         // wait promise response
         await setTimeout(async () => {
             const dataList = await getDeviceList(10, 'jest');
-            expect(dataList.findIndex(item => item.name.includes('jest'))).not.toBe(-1);
+            expect(dataList.findIndex((item) => item.name.includes('jest'))).not.toBe(-1);
             done();
         }, 300);
     });
@@ -59,12 +59,10 @@ describe('opened device', () => {
         const dataList = await getDeviceList(10, 'jest');
 
         // to find created item id
-        const createdItem = dataList.find(item => {
-            return item.name.includes('jest');
-        });
+        const createdItem = dataList.find((item) => item.name.includes('jest'));
 
         // emulate route path by setting id
-        wrapper.setData({id: createdItem.id});
+        wrapper.setData({ id: createdItem.id });
 
         // load item by its id
         await wrapper.vm.loadItem();
@@ -98,9 +96,7 @@ describe('opened device', () => {
         await setTimeout(async () => {
             // load new list and find updated item
             const newDataList = await getDeviceList(10, '*jest');
-            const newItem = newDataList.find(item => {
-                return item.name.includes('upd-jest');
-            });
+            const newItem = newDataList.find((item) => item.name.includes('upd-jest'));
             expect(newItem).toBeTruthy();
             done();
         }, 100);
@@ -109,10 +105,10 @@ describe('opened device', () => {
 
 describe('the devices', () => {
     const wrapper = mount(theDevices, {
-        mocks: {$t, $tc},
+        mocks: { $t, $tc },
         localVue,
         router,
-        i18n
+        i18n,
     });
 
     let createdItem;
@@ -122,9 +118,7 @@ describe('the devices', () => {
         await wrapper.vm.loadDataList();
 
         // find tested item
-        createdItem = wrapper.vm.dataList.find(item => {
-            return item.name.includes('jest')
-        });
+        createdItem = wrapper.vm.dataList.find((item) => item.name.includes('jest'));
 
         // and its index
         createdItemIndex = wrapper.vm.dataList.indexOf(createdItem);

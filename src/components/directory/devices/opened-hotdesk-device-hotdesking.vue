@@ -16,18 +16,18 @@
 
 <script>
     import openedTabComponentMixin from '@/mixins/openedTabComponentMixin';
-    import {mapActions} from "vuex";
-    import Switcher from "../../utils/switcher";
+    import { mapActions } from 'vuex';
+    import Switcher from '../../utils/switcher';
 
     export default {
-        name: "opened-device-hot-desking",
-        components: {Switcher},
+        name: 'opened-device-hot-desking',
+        components: { Switcher },
         mixins: [openedTabComponentMixin],
 
         computed: {
             hotdesks: {
-                get() {return this.$store.state.directory.devices.itemInstance.hotdesks},
-                set(value) {this.setItemProp({prop: 'hotdesks',  value})                }
+                get() { return this.$store.state.directory.devices.itemInstance.hotdesks; },
+                set(value) { this.setItemProp({ prop: 'hotdesks', value }); },
             },
         },
 
@@ -35,8 +35,8 @@
             ...mapActions('directory/devices', {
                 setItemProp: 'SET_ITEM_PROPERTY',
             }),
-        }
-    }
+        },
+    };
 </script>
 
 <style lang="scss" scoped>

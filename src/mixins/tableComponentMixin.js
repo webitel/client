@@ -1,5 +1,5 @@
 import vuetable from 'vuetable-2/src/components/Vuetable';
-import objectHeader from '../../src/components/object-utils/the-object-header';
+import objectHeader from '../components/object-utils/the-object-header';
 import pagination from '../components/utils/table-pagination';
 import switcher from '../components/utils/switcher';
 import status from '../components/utils/status';
@@ -21,22 +21,22 @@ export default {
         return {
             isLoaded: false,
             popupTriggerIf: false,
-        }
+        };
     },
 
     mounted() {
-        if(this.setParentId) this.setParentId(this.parentId);
+        if (this.setParentId) this.setParentId(this.parentId);
         this.loadList();
     },
 
     computed: {
         // shows delete table action if some items are selected
         anySelected() {
-            if(this.dataList) {
+            if (this.dataList) {
                 return !this.dataList.some((item) => item._isSelected);
             }
             return false;
-        }
+        },
     },
 
     methods: {
@@ -45,20 +45,19 @@ export default {
             try {
                 await this.loadDataList();
             } catch (e) {
-            }
-            finally {
+            } finally {
                 this.isLoaded = true;
             }
         },
 
         deleteSelected() {
-            const selectedItems = this.dataList.filter(item => item._isSelected);
+            const selectedItems = this.dataList.filter((item) => item._isSelected);
             this.remove(null, selectedItems);
         },
 
         async remove(rowIndex, items) {
             if (items) {
-                for(const item of items) {
+                for (const item of items) {
                     const initialIndex = this.dataList.indexOf(item);
                     await this.removeItem(initialIndex);
                 }
@@ -71,5 +70,5 @@ export default {
         openPopup() {
             this.popupTriggerIf = true;
         },
-    }
-}
+    },
+};

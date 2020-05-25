@@ -1,20 +1,19 @@
+import { AgentServiceApiFactory, AgentSkillServiceApiFactory } from 'webitel-sdk';
 import instance from '../../instance';
 import configuration from '../../openAPIConfig';
-import {AgentServiceApiFactory, AgentSkillServiceApiFactory} from 'webitel-sdk';
-import store from "../../../store/store";
-import {WebitelSDKListGetter} from "../../utils/ApiControllers/ListGetter/SDKListGetter";
+import store from '../../../store/store';
+import { WebitelSDKListGetter } from '../../utils/ApiControllers/ListGetter/SDKListGetter';
 import {
     WebitelAPIPermissionsGetter,
-    WebitelAPIPermissionsPatcher
-} from "../../utils/ApiControllers/Permissions/PermissionsController";
-import {WebitelSDKItemDeleter} from "../../utils/ApiControllers/Deleter/SDKDeleter";
-import {WebitelSDKItemUpdater} from "../../utils/ApiControllers/Updater/SDKUpdater";
-import {WebitelSDKItemCreator} from "../../utils/ApiControllers/Creator/SDKCreator";
-import {WebitelSDKItemGetter} from "../../utils/ApiControllers/Getter/SDKGetter";
+    WebitelAPIPermissionsPatcher,
+} from '../../utils/ApiControllers/Permissions/PermissionsController';
+import { WebitelSDKItemDeleter } from '../../utils/ApiControllers/Deleter/SDKDeleter';
+import { WebitelSDKItemUpdater } from '../../utils/ApiControllers/Updater/SDKUpdater';
+import { WebitelSDKItemCreator } from '../../utils/ApiControllers/Creator/SDKCreator';
+import { WebitelSDKItemGetter } from '../../utils/ApiControllers/Getter/SDKGetter';
 
 
-const agentService = new AgentServiceApiFactory
-(configuration, '', instance);
+const agentService = new AgentServiceApiFactory(configuration, '', instance);
 
 const BASE_URL = '/call_center/agents';
 const fieldsToSend = ['domainId', 'user', 'description'];
@@ -27,34 +26,24 @@ const itemDeleter = new WebitelSDKItemDeleter(agentService.deleteAgent);
 const permissionsGetter = new WebitelAPIPermissionsGetter(BASE_URL);
 const permissionsPatcher = new WebitelAPIPermissionsPatcher(BASE_URL);
 
-export const getAgentsList = async (page = 0, size = 10, search) => {
-    return await listGetter.getList({page, size, search});
-};
+export const getAgentsList = async (page = 0, size = 10, search) => await listGetter.getList({ page, size, search });
 
-export const getAgent = async (id) => {
-    return await itemGetter.getItem(id);
-};
+export const getAgent = async (id) => await itemGetter.getItem(id);
 
-export const addAgent = async (item) => {
-    return await itemCreator.createItem(item);
-};
+export const addAgent = async (item) => await itemCreator.createItem(item);
 
-export const updateAgent = async (id, item) => {
-    return await itemUpdater.updateItem(id, item);
-};
+export const updateAgent = async (id, item) => await itemUpdater.updateItem(id, item);
 
-export const deleteAgent = async (id) => {
-    return await itemDeleter.deleteItem(id);
-};
+export const deleteAgent = async (id) => await itemDeleter.deleteItem(id);
 
 export const getAgentUsersOptions = async (page = 0, size = 10, search) => {
-    const domainId = store.state.userinfo.domainId;
+    const { domainId } = store.state.userinfo;
     const response = await agentService.searchLookupUsersAgentNotExists(page, size, search, domainId);
     return response.items ? response.items : [];
 };
 
 export const getAgentHistory = async (id, date, page = 0, size = 10, search) => {
-    const domainId = store.state.userinfo.domainId;
+    const { domainId } = store.state.userinfo;
     try {
         const response = await agentService.searchAgentStateHistory(id, page, size, date, Date.now(), search, domainId);
         return response.items ? response.items : [];
@@ -64,7 +53,7 @@ export const getAgentHistory = async (id, date, page = 0, size = 10, search) => 
 };
 
 export const getAgentTeamsList = async (id, page = 0, size = 10, search = '') => {
-    const domainId = store.state.userinfo.domainId;
+    const { domainId } = store.state.userinfo;
     try {
         const response = await agentService.searchAgentInTeam(id, page, size, search, domainId);
         return response.items ? response.items : [];
@@ -74,7 +63,7 @@ export const getAgentTeamsList = async (id, page = 0, size = 10, search = '') =>
 };
 
 export const getAgentQueuesList = async (id, page = 0, size = 10, search = '') => {
-    const domainId = store.state.userinfo.domainId;
+    const { domainId } = store.state.userinfo;
     try {
         const response = await agentService.searchAgentInQueue(id, page, size, search, domainId);
         return response.items ? response.items : [];
@@ -83,10 +72,6 @@ export const getAgentQueuesList = async (id, page = 0, size = 10, search = '') =
     }
 };
 
-export const getAgentPermissions = async (id, page = 0, size = 10, search) => {
-    return await permissionsGetter.getList(id, size, search);
-};
+export const getAgentPermissions = async (id, page = 0, size = 10, search) => await permissionsGetter.getList(id, size, search);
 
-export const patchAgentPermissions = async (id, item) => {
-    return await permissionsPatcher.patchItem(id, item);
-};
+export const patchAgentPermissions = async (id, item) => await permissionsPatcher.patchItem(id, item);

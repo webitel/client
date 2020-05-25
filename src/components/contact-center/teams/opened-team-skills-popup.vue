@@ -49,13 +49,15 @@
 <script>
     import popup from '@/components/utils/popup';
     import editComponentMixin from '@/mixins/editComponentMixin';
-    import {required, numeric, minValue, maxValue} from 'vuelidate/lib/validators';
-    import {mapActions, mapState} from "vuex";
-    import {getBucketsList} from "../../../api/contact-center/buckets/buckets";
-    import {getSkillsList} from "../../../api/contact-center/agentSkills/agentSkills";
+    import {
+ required, numeric, minValue, maxValue,
+} from 'vuelidate/lib/validators';
+    import { mapActions, mapState } from 'vuex';
+    import { getBucketsList } from '../../../api/contact-center/buckets/buckets';
+    import { getSkillsList } from '../../../api/contact-center/agentSkills/agentSkills';
 
     export default {
-        name: "opened-team-skills-popup",
+        name: 'opened-team-skills-popup',
         mixins: [editComponentMixin],
         components: {
             popup,
@@ -65,7 +67,7 @@
             return {
                 dropdownSkillsList: [],
                 dropdownBucketsList: [],
-            }
+            };
         },
 
         validations: {
@@ -76,7 +78,7 @@
                 lvl: {
                     required,
                 },
-            }
+            },
         },
 
         mounted() {
@@ -87,48 +89,48 @@
 
         computed: {
             ...mapState('ccenter/teams/skills', {
-                id: state => state.itemId,
-                itemInstance: state => state.itemInstance
+                id: (state) => state.itemId,
+                itemInstance: (state) => state.itemInstance,
             }),
             skill: {
                 get() {
-                    return this.$store.state.ccenter.teams.skills.itemInstance.skill
+                    return this.$store.state.ccenter.teams.skills.itemInstance.skill;
                 },
                 set(value) {
-                    this.setItemProp({prop: 'skill', value})
-                }
+                    this.setItemProp({ prop: 'skill', value });
+                },
             },
             lvl: {
                 get() {
-                    return this.$store.state.ccenter.teams.skills.itemInstance.lvl
+                    return this.$store.state.ccenter.teams.skills.itemInstance.lvl;
                 },
                 set(value) {
-                    this.setItemProp({prop: 'lvl', value})
-                }
+                    this.setItemProp({ prop: 'lvl', value });
+                },
             },
             minCapacity: {
                 get() {
-                    return this.$store.state.ccenter.teams.skills.itemInstance.minCapacity
+                    return this.$store.state.ccenter.teams.skills.itemInstance.minCapacity;
                 },
                 set(value) {
-                    this.setItemProp({prop: 'minCapacity', value})
-                }
+                    this.setItemProp({ prop: 'minCapacity', value });
+                },
             },
             maxCapacity: {
                 get() {
-                    return this.$store.state.ccenter.teams.skills.itemInstance.maxCapacity
+                    return this.$store.state.ccenter.teams.skills.itemInstance.maxCapacity;
                 },
                 set(value) {
-                    this.setItemProp({prop: 'maxCapacity', value})
-                }
+                    this.setItemProp({ prop: 'maxCapacity', value });
+                },
             },
             buckets: {
                 get() {
-                    return this.$store.state.ccenter.teams.skills.itemInstance.buckets
+                    return this.$store.state.ccenter.teams.skills.itemInstance.buckets;
                 },
                 set(value) {
-                    this.setItemProp({prop: 'buckets', value})
-                }
+                    this.setItemProp({ prop: 'buckets', value });
+                },
             },
         },
 
@@ -145,22 +147,18 @@
 
             async loadSkillsOptions(search) {
                 const response = await getSkillsList(0, 10, search);
-                this.dropdownSkillsList = response.list.map(item => {
-                    return {
+                this.dropdownSkillsList = response.list.map((item) => ({
                         name: item.name,
                         id: item.id,
-                    }
-                });
+                    }));
             },
 
             async loadBucketsOptions(search) {
                 const response = await getBucketsList(0, 10, search);
-                this.dropdownBucketsList = response.list.map(item => {
-                    return {
+                this.dropdownBucketsList = response.list.map((item) => ({
                         name: item.name,
                         id: item.id,
-                    }
-                });
+                    }));
             },
 
             ...mapActions('ccenter/teams/skills', {
@@ -169,8 +167,8 @@
                 updateItem: 'UPDATE_ITEM',
                 loadItem: 'LOAD_ITEM',
             }),
-        }
-    }
+        },
+    };
 </script>
 
 <style lang="scss" scoped>

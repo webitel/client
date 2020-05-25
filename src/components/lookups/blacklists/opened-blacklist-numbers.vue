@@ -97,64 +97,64 @@
 </template>
 
 <script>
-    import uploadPopup from './upload-blacklist-numbers-popup';
     import openedTabComponentMixin from '@/mixins/openedTabComponentMixin';
     import tableComponentMixin from '@/mixins/tableComponentMixin';
-    import {_checkboxTableField, _actionsTableField_3} from "@/utils/tableFieldPresets";
+    import { _checkboxTableField, _actionsTableField_3 } from '@/utils/tableFieldPresets';
+    import { mapActions, mapState } from 'vuex';
     import numberPopup from './opened-blacklist-number-popup';
-    import {mapActions, mapState} from "vuex";
-    import eventBus from "../../../utils/eventBus";
+    import uploadPopup from './upload-blacklist-numbers-popup';
+    import eventBus from '../../../utils/eventBus';
 
     export default {
-        name: "opened-blacklist-numbers",
+        name: 'opened-blacklist-numbers',
         mixins: [openedTabComponentMixin, tableComponentMixin],
-        components: {numberPopup, uploadPopup},
+        components: { numberPopup, uploadPopup },
         data() {
             return {
                 fields: [
                     _checkboxTableField,
-                    {name: 'number', title: this.$tc('objects.lookups.blacklist.number', 1)},
-                    {name: 'description', title: this.$t('objects.description')},
+                    { name: 'number', title: this.$tc('objects.lookups.blacklist.number', 1) },
+                    { name: 'description', title: this.$t('objects.description') },
                     _actionsTableField_3,
                 ],
                 uploadPopupTriggerIf: false,
-                csvFile: null
-            }
+                csvFile: null,
+            };
         },
 
         watch: {
-            parentId: function (value) {
+            parentId(value) {
                 this.setParentId(value);
-            }
+            },
         },
 
         computed: {
             ...mapState('lookups/blacklists', {
-                parentId: state => state.itemId,
+                parentId: (state) => state.itemId,
             }),
             ...mapState('lookups/blacklists/numbers', {
-                dataList: state => state.dataList,
-                page: state => state.page,
-                isNextPage: state => state.isNextPage,
+                dataList: (state) => state.dataList,
+                page: (state) => state.page,
+                isNextPage: (state) => state.isNextPage,
             }),
 
             size: {
                 get() {
-                    return this.$store.state.lookups.blacklists.numbers.size
+                    return this.$store.state.lookups.blacklists.numbers.size;
                 },
                 set(value) {
-                    this.setSize(value)
-                }
+                    this.setSize(value);
+                },
             },
 
             search: {
                 get() {
-                    return this.$store.state.lookups.blacklists.numbers.search
+                    return this.$store.state.lookups.blacklists.numbers.search;
                 },
                 set(value) {
-                    this.setSearch(value)
-                }
-            }
+                    this.setSearch(value);
+                },
+            },
         },
 
         methods: {
@@ -200,8 +200,8 @@
                 prevPage: 'PREV_PAGE',
                 removeItem: 'REMOVE_ITEM',
             }),
-        }
-    }
+        },
+    };
 </script>
 
 <style lang="scss" scoped>

@@ -45,17 +45,17 @@
 
 <script>
     import openedTabComponentMixin from '@/mixins/openedTabComponentMixin';
-    import {getGatewayNameIdPair} from "../../../api/contact-center/resources/resources";
-    import {getGatewayList} from "../../../api/routing/gateways/gateways";
-    import {mapActions} from "vuex";
+    import { mapActions } from 'vuex';
+    import { getGatewayNameIdPair } from '../../../api/contact-center/resources/resources';
+    import { getGatewayList } from '../../../api/routing/gateways/gateways';
 
     export default {
-        name: "opened-resource-general",
+        name: 'opened-resource-general',
         mixins: [openedTabComponentMixin],
         data() {
             return {
                 dropdownOptionsList: [],
-            }
+            };
         },
 
         mounted() {
@@ -64,41 +64,39 @@
 
         computed: {
             name: {
-                get() {return this.$store.state.ccenter.res.itemInstance.name},
-                set(value) {this.setItemProp({prop: 'name', value})}
+                get() { return this.$store.state.ccenter.res.itemInstance.name; },
+                set(value) { this.setItemProp({ prop: 'name', value }); },
             },
             gateway: {
-                get() {return this.$store.state.ccenter.res.itemInstance.gateway},
-                set(value) {this.setItemProp({prop: 'gateway', value})}
+                get() { return this.$store.state.ccenter.res.itemInstance.gateway; },
+                set(value) { this.setItemProp({ prop: 'gateway', value }); },
             },
             cps: {
-                get() {return this.$store.state.ccenter.res.itemInstance.cps},
-                set(value) {this.setItemProp({prop: 'cps', value})}
+                get() { return this.$store.state.ccenter.res.itemInstance.cps; },
+                set(value) { this.setItemProp({ prop: 'cps', value }); },
             },
             limit: {
-                get() {return this.$store.state.ccenter.res.itemInstance.limit},
-                set(value) {this.setItemProp({prop: 'limit', value})}
+                get() { return this.$store.state.ccenter.res.itemInstance.limit; },
+                set(value) { this.setItemProp({ prop: 'limit', value }); },
             },
             description: {
-                get() {return this.$store.state.ccenter.res.itemInstance.description},
-                set(value) {this.setItemProp({prop: 'description', value})}
+                get() { return this.$store.state.ccenter.res.itemInstance.description; },
+                set(value) { this.setItemProp({ prop: 'description', value }); },
             },
         },
 
         methods: {
             async loadDropdownOptionsList(search) {
                 const response = await getGatewayList(0, 10, search);
-                this.dropdownOptionsList = response.list.map(item => {
-                    return {
+                this.dropdownOptionsList = response.list.map((item) => ({
                         name: item.name,
                         id: item.id,
-                    }
-                });
+                    }));
             },
 
             ...mapActions('ccenter/res', {
                 setItemProp: 'SET_ITEM_PROPERTY',
             }),
-        }
-    }
+        },
+    };
 </script>

@@ -15,7 +15,7 @@
 
 <script>
     import loader from '../utils/loader';
-    import {handleToken} from "../../api/auth/auth";
+    import { handleToken } from '../../api/auth/auth';
 
     const authURL = process.env.VUE_APP_AUTH_MODULE_URL;
 

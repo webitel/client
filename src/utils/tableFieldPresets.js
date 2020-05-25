@@ -2,7 +2,7 @@ export const _checkboxTableField = {
     name: '__table-checkbox',
     titleClass: 'vuetable-td-checkbox',
     dataClass: 'vuetable-td-checkbox',
-    width: '42px'
+    width: '42px',
 };
 
 export const _actionsTableField_1 = {
@@ -10,7 +10,7 @@ export const _actionsTableField_1 = {
     title: '',
     titleClass: 'vuetable-td-actions',
     dataClass: 'vuetable-td-actions',
-    width: '60px'
+    width: '60px',
 };
 
 export const _actionsTableField_2 = {
@@ -18,7 +18,7 @@ export const _actionsTableField_2 = {
     title: '',
     titleClass: 'vuetable-td-actions',
     dataClass: 'vuetable-td-actions',
-    width: '120px'
+    width: '120px',
 };
 
 export const _actionsTableField_3 = {
@@ -26,7 +26,7 @@ export const _actionsTableField_3 = {
     title: '',
     titleClass: 'vuetable-td-actions',
     dataClass: 'vuetable-td-actions',
-    width: '180px'
+    width: '180px',
 };
 
 export const _actionsTableField_4 = {
@@ -34,7 +34,7 @@ export const _actionsTableField_4 = {
     title: '',
     titleClass: 'vuetable-td-actions',
     dataClass: 'vuetable-td-actions',
-    width: '240px'
+    width: '240px',
 };
 
 export const _switcherWidth = '10%';

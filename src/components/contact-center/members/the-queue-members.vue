@@ -128,29 +128,29 @@
 </template>
 
 <script>
-    import uploadPopup from './upload-members-popup';
-    import destinationsPopup from './opened-queue-member-destinations-popup';
     import tableComponentMixin from '@/mixins/tableComponentMixin';
-    import {_checkboxTableField, _actionsTableField_2} from "@/utils/tableFieldPresets";
-    import {mapActions, mapState} from "vuex";
+    import { _checkboxTableField, _actionsTableField_2 } from '@/utils/tableFieldPresets';
+    import { mapActions, mapState } from 'vuex';
+    import destinationsPopup from './opened-queue-member-destinations-popup';
+    import uploadPopup from './upload-members-popup';
 
     export default {
-        name: "the-queue-members",
+        name: 'the-queue-members',
         mixins: [tableComponentMixin],
-        components: {uploadPopup, destinationsPopup},
+        components: { uploadPopup, destinationsPopup },
         data() {
             return {
                 destinationsPopupTriggerIf: null,
                 fields: [
                     _checkboxTableField,
-                    {name: 'createdAt', title: this.$t('objects.createdAt')},
-                    {name: 'name', title: this.$t('objects.name')},
-                    {name: 'priority', title: this.$t('objects.ccenter.queues.priority')},
-                    {name: 'endCause', title: this.$t('objects.ccenter.queues.endCause')},
-                    {name: 'destination', title: this.$tc('objects.ccenter.queues.destination', 1), width: '160px'},
+                    { name: 'createdAt', title: this.$t('objects.createdAt') },
+                    { name: 'name', title: this.$t('objects.name') },
+                    { name: 'priority', title: this.$t('objects.ccenter.queues.priority') },
+                    { name: 'endCause', title: this.$t('objects.ccenter.queues.endCause') },
+                    { name: 'destination', title: this.$tc('objects.ccenter.queues.destination', 1), width: '160px' },
                     _actionsTableField_2,
                 ],
-                csvFile: null
+                csvFile: null,
             };
         },
 
@@ -159,23 +159,23 @@
 
         computed: {
             ...mapState('ccenter/queues/members', {
-                parentId: state => state.parentId,
-                dataList: state => state.dataList,
-                page: state => state.page, // acts like a boolean: if page is 0, there's no back page
-                isNextPage: state => state.isNextPage,
+                parentId: (state) => state.parentId,
+                dataList: (state) => state.dataList,
+                page: (state) => state.page, // acts like a boolean: if page is 0, there's no back page
+                isNextPage: (state) => state.isNextPage,
             }),
 
             size: {
-                get() {return this.$store.state.ccenter.queues.members.size || '10'},
-                set(value) {this.setSize(value)}
+                get() { return this.$store.state.ccenter.queues.members.size || '10'; },
+                set(value) { this.setSize(value); },
             },
 
             search: {
-                get() {return this.$store.state.ccenter.queues.members.search || ''},
-                set(value) {this.setSearch(value)}
+                get() { return this.$store.state.ccenter.queues.members.search || ''; },
+                set(value) { this.setSearch(value); },
             },
 
-            parentId() {return this.$route.params.queueId}
+            parentId() { return this.$route.params.queueId; },
         },
 
         methods: {
@@ -222,14 +222,14 @@
             create() {
                 this.$router.push({
                     name: 'cc-queue-member-new',
-                    params: {queueId: this.parentId},
+                    params: { queueId: this.parentId },
                 });
             },
 
             edit(rowId) {
                 this.$router.push({
                     name: 'cc-queue-member-edit',
-                    params: {queueId: this.parentId, id: this.dataList[rowId].id},
+                    params: { queueId: this.parentId, id: this.dataList[rowId].id },
                 });
             },
 
@@ -245,8 +245,8 @@
                 removeItem: 'REMOVE_ITEM',
             }),
 
-        }
-    }
+        },
+    };
 </script>
 
 <style lang="scss" scoped>

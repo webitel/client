@@ -1,10 +1,10 @@
-import {shallowMount, mount, createLocalVue} from '@vue/test-utils'
+import { shallowMount, mount, createLocalVue } from '@vue/test-utils';
 import theResGroups from '@/components/objects/contact-center/resource-groups/the-resource-groups';
 import openedResGroup from '@/components/objects/contact-center/resource-groups/opened-resource-group';
 import VueRouter from 'vue-router';
 import Vuelidate from 'vuelidate';
 import i18n from 'vue-i18n';
-import {getResGroupList} from "../../../../src/api/contact-center/resourceGroups/resourceGroups";
+import { getResGroupList } from '../../../../src/api/contact-center/resourceGroups/resourceGroups';
 
 const $t = () => {
 };
@@ -18,10 +18,10 @@ const router = new VueRouter();
 
 describe('opened res group', () => {
     const wrapper = mount(openedResGroup, {
-        mocks: {$t, $tc},
+        mocks: { $t, $tc },
         localVue,
         router,
-        i18n
+        i18n,
     });
 
     it('creates new res group', async (done) => {
@@ -30,16 +30,16 @@ describe('opened res group', () => {
             itemInstance: {
                 resGroup: {
                     name: 'jest-res-gr',
-                    communication: {id: "25", name: "jst-tst-comm"},
+                    communication: { id: '25', name: 'jst-tst-comm' },
                     description: 'jest-res-gr',
                     time: [
                         {
                             start: 540,
                             end: 1200,
-                        }
+                        },
                     ],
                 },
-                resList: [{text: 'jest', id: 65}],
+                resList: [{ text: 'jest', id: 65 }],
             },
         });
 
@@ -49,7 +49,7 @@ describe('opened res group', () => {
         // wait promise response
         await setTimeout(async () => {
             const dataList = await getResGroupList(10, 'jest');
-            expect(dataList.findIndex(item => item.name.includes('jest'))).not.toBe(-1);
+            expect(dataList.findIndex((item) => item.name.includes('jest'))).not.toBe(-1);
             done();
         }, 300);
     });
@@ -57,12 +57,10 @@ describe('opened res group', () => {
     it('updates existing res group', async (done) => {
         const dataList = await getResGroupList(10, 'jest');
         // to find created item id
-        const createdItem = dataList.find(item => {
-            return item.name.includes('jest');
-        });
+        const createdItem = dataList.find((item) => item.name.includes('jest'));
 
         // emulate route path by setting id
-        wrapper.setData({id: createdItem.id});
+        wrapper.setData({ id: createdItem.id });
 
         // load item by its id
         await wrapper.vm.loadItem();
@@ -75,16 +73,16 @@ describe('opened res group', () => {
             itemInstance: {
                 resGroup: {
                     name: 'upd-jest-res-gr',
-                    communication: {id: "25", name: "jst-tst-comm"},
+                    communication: { id: '25', name: 'jst-tst-comm' },
                     description: 'upd-jest-res-gr',
                     time: [
                         {
                             start: 540,
                             end: 1200,
-                        }
+                        },
                     ],
                 },
-                resList: [{text: 'jest', id: 65}],
+                resList: [{ text: 'jest', id: 65 }],
             },
         };
         wrapper.setData(newItemInstance);
@@ -96,9 +94,7 @@ describe('opened res group', () => {
         await setTimeout(async () => {
             // load new list and find updated item
             const newDataList = await getResGroupList(10, '*jest');
-            const newItem = newDataList.find(item => {
-                return item.name.includes('upd-jest');
-            });
+            const newItem = newDataList.find((item) => item.name.includes('upd-jest'));
             expect(newItem).toBeTruthy();
             done();
         }, 100);
@@ -107,10 +103,10 @@ describe('opened res group', () => {
 
 describe('the res groups', () => {
     const wrapper = mount(theResGroups, {
-        mocks: {$t, $tc},
+        mocks: { $t, $tc },
         localVue,
         router,
-        i18n
+        i18n,
     });
 
     let createdItem;
@@ -120,9 +116,7 @@ describe('the res groups', () => {
         await wrapper.vm.loadDataList();
 
         // find tested item
-        createdItem = wrapper.vm.dataList.find(item => {
-            return item.name === 'upd-jest-res-gr' || 'jest-res-gr'
-        });
+        createdItem = wrapper.vm.dataList.find((item) => item.name === 'upd-jest-res-gr' || 'jest-res-gr');
 
         // and its index
         createdItemIndex = wrapper.vm.dataList.indexOf(createdItem);

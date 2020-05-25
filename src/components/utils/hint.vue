@@ -9,14 +9,14 @@
 
 <script>
     export default {
-        name: "hint",
+        name: 'hint',
         props: {
             text: {
                 type: String,
-                default: 'lorem ipsum'
-            }
-        }
-    }
+                default: 'lorem ipsum',
+            },
+        },
+    };
 </script>
 
 <style lang="scss">

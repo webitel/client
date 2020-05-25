@@ -11,9 +11,10 @@
 
 <script>
     import tabs from './tabs';
+
     export default {
-        name: "tabs-component",
-        components: {tabs},
+        name: 'tabs-component',
+        components: { tabs },
         props: {
             tabs: {
                 type: Array,
@@ -27,20 +28,20 @@
 
             initialTab: {
                 type: String,
-                default: 'general'
-            }
+                default: 'general',
+            },
         },
 
         data() {
             return {
-                currentTab: {value: ''},
-            }
+                currentTab: { value: '' },
+            };
         },
 
         watch: {
-            initialTab: function(value) {
+            initialTab(value) {
                 this.currentTab.value = value;
-            }
+            },
         },
 
         created() {
@@ -49,20 +50,20 @@
 
         computed: {
             computeCurrentTab() {
-                if(this.currentTab.value.includes('tab')) {
+                if (this.currentTab.value.includes('tab')) {
                     return this.currentTab.value;
                 }
-                return this.root + '-' + this.currentTab.value;
-            }
+                return `${this.root}-${this.currentTab.value}`;
+            },
         },
 
         methods: {
             changeTab(value) {
                 this.currentTab = value;
                 this.$emit('change', value);
-            }
-        }
-    }
+            },
+        },
+    };
 </script>
 
 <style scoped>

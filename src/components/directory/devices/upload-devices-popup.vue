@@ -56,10 +56,10 @@
 
 <script>
     import uploadCSVMixin from '../../../mixins/uploadCSVMixin';
-    import {addDevice} from "../../../api/directory/devices/devices";
+    import { addDevice } from '../../../api/directory/devices/devices';
 
     export default {
-        name: "upload-devices-popup",
+        name: 'upload-devices-popup',
         mixins: [uploadCSVMixin],
         data() {
             return {
@@ -67,50 +67,50 @@
                     {
                         name: 'account',
                         required: true,
-                        csv: {}
+                        csv: {},
                     },
                     {
                         name: 'name',
                         required: false,
-                        csv: {}
+                        csv: {},
                     },
                     {
                         name: 'vendor',
                         required: false,
-                        csv: {}
+                        csv: {},
                     },
                     {
                         name: 'model',
                         required: false,
-                        csv: {}
+                        csv: {},
                     },
                     {
                         name: 'mac',
                         required: false,
-                        csv: {}
+                        csv: {},
                     },
                     {
                         name: 'ip',
                         required: false,
-                        csv: {}
+                        csv: {},
                     },
                     {
                         name: 'password',
                         required: false,
                         csv: {},
                         tooltip: this.$t('objects.directory.devices.passwordSetFromAccount'),
-                    }
+                    },
                 ],
-            }
+            };
         },
 
         methods: {
             async addItem(item) {
-                if(!item.password) item.password = item.account;
+                if (!item.password) item.password = item.account;
                 await addDevice(item);
-            }
-        }
-    }
+            },
+        },
+    };
 </script>
 
 <style lang="scss" scoped>

@@ -12,14 +12,14 @@
 </template>
 
 <script>
-    import debounce from "../../utils/debounce";
+    import debounce from '../../utils/debounce';
 
     export default {
-        name: "search",
+        name: 'search',
         props: {
             value: {
                 type: String,
-                required: true
+                required: true,
             },
             placeholder: {
                 type: String,
@@ -27,9 +27,9 @@
         },
 
         watch: {
-            value: function () {
+            value() {
               this.debouncer.call(this);
-          }
+          },
         },
 
         created() {
@@ -40,8 +40,8 @@
             debouncer() {
                 this.$emit('filterData', this.value);
             },
-        }
-    }
+        },
+    };
 </script>
 
 <style lang="scss" scoped>

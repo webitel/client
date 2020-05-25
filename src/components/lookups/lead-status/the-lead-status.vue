@@ -48,10 +48,10 @@
 
 <script>
     import vuetable from 'vuetable-2/src/components/Vuetable';
-    import objectHeader from '../../../components/object-utils/the-object-header';
+    import objectHeader from '../../object-utils/the-object-header';
 
     export default {
-        name: "the-lead-status",
+        name: 'the-lead-status',
         components: {
             'object-header': objectHeader,
             vuetable,
@@ -61,14 +61,14 @@
                 leadStatusList: [],
                 // vuetable prop
                 fields: [
-                    {name: 'leadStatusName', title: this.$t('objects.name')},
-                    {name: 'leadStatusDescription', title: this.$t('objects.description')},
+                    { name: 'leadStatusName', title: this.$t('objects.name') },
+                    { name: 'leadStatusDescription', title: this.$t('objects.description') },
                     {
                         name: 'actions',
                         title: '',
                         titleClass: 'vuetable-td-actions',
                         dataClass: 'vuetable-td-actions',
-                        width: '120px'
+                        width: '120px',
                     },
                 ],
             };
@@ -84,7 +84,7 @@
             edit(rowId) {
                 this.$router.push({
                     name: 'lead-status-lookup-edit',
-                    params: {id: this.leadStatusList[rowId].id},
+                    params: { id: this.leadStatusList[rowId].id },
                 });
             },
 
@@ -93,16 +93,16 @@
             },
 
             loadLeadStatusList() {
-                for(let i = 0; i < 10; i++) {
+                for (let i = 0; i < 10; i++) {
                     this.leadStatusList.push({
-                        name: 'Lead status name ' + i,
+                        name: `Lead status name ${i}`,
                         description: 'Description',
-                        id: i
+                        id: i,
                     });
                 }
-            }
-        }
-    }
+            },
+        },
+    };
 </script>
 
 <style scoped>

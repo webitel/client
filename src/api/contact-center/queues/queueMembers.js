@@ -1,13 +1,12 @@
+import { MemberServiceApiFactory } from 'webitel-sdk';
+import deepCopy from 'deep-copy';
 import instance from '../../instance';
 import configuration from '../../openAPIConfig';
 import sanitizer from '../../utils/sanitizer';
-import {MemberServiceApiFactory} from 'webitel-sdk';
-import eventBus from "../../../utils/eventBus";
-import deepCopy from 'deep-copy';
+import eventBus from '../../../utils/eventBus';
 import store from '../../../store/store';
 
-const memberService = new MemberServiceApiFactory
-(configuration, '', instance);
+const memberService = new MemberServiceApiFactory(configuration, '', instance);
 
 const fieldsToSend = ['domainId', 'queueId', 'name', 'priority', 'bucket', 'skill', 'timezone', 'communications',
     'variables', 'expireAt'];
@@ -16,7 +15,7 @@ const fieldsToSend = ['domainId', 'queueId', 'name', 'priority', 'bucket', 'skil
 const communicationsFieldsToSend = ['destination', 'display', 'priority', 'type', 'resource', 'description'];
 
 export const getMembersList = async (queueId, page = 0, size = 10, search) => {
-    const domainId = store.state.userinfo.domainId;
+    const { domainId } = store.state.userinfo;
     if (search && search.slice(-1) !== '*') search += '*';
     const defaultObject = {
         createdAt: 'unknown',
@@ -36,11 +35,9 @@ export const getMembersList = async (queueId, page = 0, size = 10, search) => {
     try {
         const response = await memberService.searchMemberInQueue(queueId, page, size, domainId);
         if (response.items) {
-            return response.items.map(item => {
-                item.communications = item.communications.map(comm => {
-                    return {...defaultObjectCommunication, ...comm}
-                });
-                return {...defaultObject, ...item};
+            return response.items.map((item) => {
+                item.communications = item.communications.map((comm) => ({ ...defaultObjectCommunication, ...comm }));
+                return { ...defaultObject, ...item };
             });
         }
         return [];
@@ -50,7 +47,7 @@ export const getMembersList = async (queueId, page = 0, size = 10, search) => {
 };
 
 export const getMember = async (queueId, id) => {
-    const domainId = store.state.userinfo.domainId;
+    const { domainId } = store.state.userinfo;
 
     const defaultObject = {
         createdAt: 'unknown',
@@ -76,29 +73,25 @@ export const getMember = async (queueId, id) => {
     };
 
     try {
-        let response = await memberService.readMember(queueId, id, domainId);
+        const response = await memberService.readMember(queueId, id, domainId);
         if (response.variables) {
-            response.variables = Object.keys(response.variables).map(key => {
-                return {key, value: response.variables[key],}
-            });
+            response.variables = Object.keys(response.variables).map((key) => ({ key, value: response.variables[key] }));
         }
         if (response.priority) response.priority += '';
-        response.communications = response.communications.map(comm => {
-            return {...defaultObjectCommunication, ...comm}
-        });
-        return {...defaultObject, ...response};
+        response.communications = response.communications.map((comm) => ({ ...defaultObjectCommunication, ...comm }));
+        return { ...defaultObject, ...response };
     } catch (err) {
         throw err;
     }
 };
 
 export const addMember = async (queueId, item) => {
-    let itemCopy = deepCopy(item);
+    const itemCopy = deepCopy(item);
     itemCopy.domainId = store.state.userinfo.domainId;
     itemCopy.variables = {};
     sanitizer(itemCopy, fieldsToSend);
-    itemCopy.communications.forEach(item => sanitizer(item, communicationsFieldsToSend));
-    item.variables.forEach(variable => {
+    itemCopy.communications.forEach((item) => sanitizer(item, communicationsFieldsToSend));
+    item.variables.forEach((variable) => {
         itemCopy.variables[variable.key] = variable.value;
     });
     try {
@@ -111,12 +104,12 @@ export const addMember = async (queueId, item) => {
 };
 
 export const updateMember = async (queueId, id, item) => {
-    let itemCopy = deepCopy(item);
+    const itemCopy = deepCopy(item);
     itemCopy.domainId = store.state.userinfo.domainId;
     itemCopy.variables = {};
     sanitizer(itemCopy, fieldsToSend);
-    itemCopy.communications.forEach(item => sanitizer(item, communicationsFieldsToSend));
-    item.variables.forEach(variable => {
+    itemCopy.communications.forEach((item) => sanitizer(item, communicationsFieldsToSend));
+    item.variables.forEach((variable) => {
         itemCopy.variables[variable.key] = variable.value;
     });
     try {
@@ -128,7 +121,7 @@ export const updateMember = async (queueId, id, item) => {
 };
 
 export const deleteMember = async (queueId, id) => {
-    const domainId = store.state.userinfo.domainId;
+    const { domainId } = store.state.userinfo;
     try {
         await memberService.deleteMember(queueId, id, domainId);
     } catch (err) {
@@ -137,9 +130,9 @@ export const deleteMember = async (queueId, id) => {
 };
 
 export const addMembersList = async (queueId, items) => {
-    const domainId = store.state.userinfo.domainId;
-    let itemsCopy = deepCopy(items);
-    let body = {queueId, items: itemsCopy, domainId};
+    const { domainId } = store.state.userinfo;
+    const itemsCopy = deepCopy(items);
+    const body = { queueId, items: itemsCopy, domainId };
     try {
         await memberService.createMemberBulk(queueId, body);
         eventBus.$emit('notificationInfo', 'Successfully added');

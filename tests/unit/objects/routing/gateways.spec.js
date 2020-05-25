@@ -1,12 +1,12 @@
-import {shallowMount, mount, createLocalVue} from '@vue/test-utils'
-import theGateways from '../../../../src/components/routing/sip-gateways/the-sip-gateways';
-import registerGateway from '../../../../src/components/routing/sip-gateways/opened-register-sip-gateway';
-import trunkingGateway from '../../../../src/components/routing/sip-gateways/opened-trunking-sip-gateway';
-import {getGatewayList} from '../../../../src/api/routing/gateways/gateways';
+import { shallowMount, mount, createLocalVue } from '@vue/test-utils';
 import VueRouter from 'vue-router';
 import Vuelidate from 'vuelidate';
 import i18n from 'vue-i18n';
-import {getRoleList} from "../../../../src/api/permissions/roles/roles";
+import theGateways from '../../../../src/components/routing/sip-gateways/the-sip-gateways';
+import registerGateway from '../../../../src/components/routing/sip-gateways/opened-register-sip-gateway';
+import trunkingGateway from '../../../../src/components/routing/sip-gateways/opened-trunking-sip-gateway';
+import { getGatewayList } from '../../../../src/api/routing/gateways/gateways';
+import { getRoleList } from '../../../../src/api/permissions/roles/roles';
 
 const $t = () => {
 };
@@ -20,10 +20,10 @@ const router = new VueRouter();
 
 describe('opened-register-gateway.vue', () => {
     const wrapper = mount(registerGateway, {
-        mocks: {$t, $tc},
+        mocks: { $t, $tc },
         localVue,
         router,
-        i18n
+        i18n,
     });
 
     it('creates new register gateway', async (done) => {
@@ -60,11 +60,9 @@ describe('opened-register-gateway.vue', () => {
     it('updates this register gateway', async (done) => {
         const dataList = await getGatewayList(); // load all items
         // to find created item id
-        const createdRegGateway = dataList.find(item => {
-            return item.name === 'jest-name'
-        });
+        const createdRegGateway = dataList.find((item) => item.name === 'jest-name');
         // emulate item path by setting id
-        wrapper.setData({id: createdRegGateway.id});
+        wrapper.setData({ id: createdRegGateway.id });
 
         // load item by its id
         await wrapper.vm.loadItem();
@@ -82,7 +80,7 @@ describe('opened-register-gateway.vue', () => {
                 accountName: 'jest-account',
                 proxy: 'upd-jest.proxy',
                 domain: 'upd-jest.domain',
-            }
+            },
         };
         wrapper.setData(newItemInstance);
 
@@ -94,9 +92,7 @@ describe('opened-register-gateway.vue', () => {
             // load new list and find updated role
             const newDataList = await getGatewayList();
             // console.log('CREATED TEST', createdRegGateway);
-            const newItem = newDataList.find(item => {
-                return item.name = 'upd-jest-name';
-            });
+            const newItem = newDataList.find((item) => item.name = 'upd-jest-name');
 
             // test if there's a role
             expect(newItem).toBeTruthy();
@@ -110,10 +106,10 @@ describe('opened-register-gateway.vue', () => {
 
 describe('opened-trunking-gateway.vue', () => {
     const wrapper = mount(trunkingGateway, {
-        mocks: {$t, $tc},
+        mocks: { $t, $tc },
         localVue,
         router,
-        i18n
+        i18n,
     });
 
     it('creates new trunking gateway', async (done) => {
@@ -130,12 +126,12 @@ describe('opened-trunking-gateway.vue', () => {
                     {
                         ip: '12.21.23.43',
                         proto: 'any',
-                        port: 1
+                        port: 1,
                     },
                     {
                         ip: '35.55.23.12',
                         proto: 'udp',
-                        port: 0
+                        port: 0,
                     },
                 ],
             },
@@ -155,11 +151,9 @@ describe('opened-trunking-gateway.vue', () => {
     it('updates this trunking gateway', async (done) => {
         const dataList = await getGatewayList(); // load all items
         // to find created item id
-        const createdItem = dataList.find(item => {
-            return item.name === 'jest-trunking-name'
-        });
+        const createdItem = dataList.find((item) => item.name === 'jest-trunking-name');
         // emulate item path by setting id
-        wrapper.setData({id: createdItem.id});
+        wrapper.setData({ id: createdItem.id });
 
         // load item by its id
         await wrapper.vm.loadItem();
@@ -175,12 +169,12 @@ describe('opened-trunking-gateway.vue', () => {
                     {
                         ip: '12.21.23.43',
                         proto: 'udp',
-                        port: 0
+                        port: 0,
                     },
                     {
                         ip: '35.15.23.12',
                         proto: 'tcp',
-                        port: 100
+                        port: 100,
                     },
                 ],
             },
@@ -194,9 +188,7 @@ describe('opened-trunking-gateway.vue', () => {
         await setTimeout(async () => {
             // load new list and find updated role
             const newDataList = await getGatewayList();
-            const newItem = newDataList.find(item => {
-                return item.name === 'upd-jest-trunking-name';
-            });
+            const newItem = newDataList.find((item) => item.name === 'upd-jest-trunking-name');
 
             // test if there's a role
             expect(newItem).toBeTruthy();
@@ -210,10 +202,10 @@ describe('opened-trunking-gateway.vue', () => {
 
 describe('the-gateways.vue', () => {
     const wrapper = mount(theGateways, {
-        mocks: {$t, $tc},
+        mocks: { $t, $tc },
         localVue,
         router,
-        i18n
+        i18n,
     });
 
     // let createdItem;
@@ -230,9 +222,7 @@ describe('the-gateways.vue', () => {
     it('removes register item from list', async (done) => {
         await wrapper.vm.loadDataList();
         // find tested role
-        const createdItem = wrapper.vm.dataList.find(item => {
-            return item.name === 'upd-jest-name'
-        });
+        const createdItem = wrapper.vm.dataList.find((item) => item.name === 'upd-jest-name');
         // and its index
         const createdItemIndex = wrapper.vm.dataList.indexOf(createdItem);
 
@@ -255,13 +245,10 @@ describe('the-gateways.vue', () => {
     });
 
     it('removes trunking item from list', async (done) => {
-
         await wrapper.vm.loadDataList();
         // find tested role
-        const createdItem = wrapper.vm.dataList.find(item => {
-            return item.name === 'upd-jest-trunking-name'
-                || item.name === 'jest-trunking-name'
-        });
+        const createdItem = wrapper.vm.dataList.find((item) => item.name === 'upd-jest-trunking-name'
+                || item.name === 'jest-trunking-name');
         // and its index
         const createdItemIndex = wrapper.vm.dataList.indexOf(createdItem);
 

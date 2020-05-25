@@ -68,60 +68,60 @@
 </template>
 
 <script>
-    import supervisorPopup from './opened-team-supervisors-popup';
     import eventBus from '@/utils/eventBus';
     import tableComponentMixin from '@/mixins/tableComponentMixin';
     import openedTabComponentMixin from '@/mixins/openedTabComponentMixin';
-    import {_checkboxTableField, _actionsTableField_2} from "@/utils/tableFieldPresets";
-    import {mapActions, mapState} from "vuex";
+    import { _checkboxTableField, _actionsTableField_2 } from '@/utils/tableFieldPresets';
+    import { mapActions, mapState } from 'vuex';
+    import supervisorPopup from './opened-team-supervisors-popup';
 
     export default {
-        name: "opened-team-supervisors",
+        name: 'opened-team-supervisors',
         mixins: [openedTabComponentMixin, tableComponentMixin],
-        components: {supervisorPopup},
+        components: { supervisorPopup },
         data() {
             return {
                 fields: [
                     _checkboxTableField,
-                    {name: 'name', title: this.$tc('objects.ccenter.teams.supervisors', 2)},
+                    { name: 'name', title: this.$tc('objects.ccenter.teams.supervisors', 2) },
                     _actionsTableField_2,
                 ],
-            }
+            };
         },
 
         watch: {
-            parentId: function (value) {
+            parentId(value) {
                 this.setParentId(value);
-            }
+            },
         },
 
         computed: {
             ...mapState('ccenter/teams', {
-                parentId: state => state.itemId,
+                parentId: (state) => state.itemId,
             }),
             ...mapState('ccenter/teams/supervisors', {
-                dataList: state => state.dataList,
-                page: state => state.page,
-                isNextPage: state => state.isNextPage,
+                dataList: (state) => state.dataList,
+                page: (state) => state.page,
+                isNextPage: (state) => state.isNextPage,
             }),
 
             size: {
                 get() {
-                    return this.$store.state.ccenter.teams.supervisors.size
+                    return this.$store.state.ccenter.teams.supervisors.size;
                 },
                 set(value) {
-                    this.setSize(value)
-                }
+                    this.setSize(value);
+                },
             },
 
             search: {
                 get() {
-                    return this.$store.state.ccenter.teams.supervisors.search
+                    return this.$store.state.ccenter.teams.supervisors.search;
                 },
                 set(value) {
-                    this.setSearch(value)
-                }
-            }
+                    this.setSearch(value);
+                },
+            },
         },
 
         methods: {
@@ -154,7 +154,7 @@
                 removeItem: 'REMOVE_ITEM',
             }),
         },
-    }
+    };
 </script>
 
 <style lang="scss" scoped>

@@ -1,18 +1,17 @@
+import { AgentSkillServiceApiFactory } from 'webitel-sdk';
+import deepCopy from 'deep-copy';
 import instance from '../../instance';
 import configuration from '../../openAPIConfig';
-import {AgentSkillServiceApiFactory} from 'webitel-sdk';
-import eventBus from "../../../utils/eventBus";
-import sanitizer from "../../utils/sanitizer";
-import store from "../../../store/store";
-import deepCopy from "deep-copy";
+import eventBus from '../../../utils/eventBus';
+import sanitizer from '../../utils/sanitizer';
+import store from '../../../store/store';
 
-const agentSkillService = new AgentSkillServiceApiFactory
-(configuration, '', instance);
+const agentSkillService = new AgentSkillServiceApiFactory(configuration, '', instance);
 
 const fieldsToSend = ['skill', 'capacity'];
 
 export const getAgentSkillsList = async (agentId, page = 0, size = 10, search) => {
-    const domainId = store.state.userinfo.domainId;
+    const { domainId } = store.state.userinfo;
     if (search && search.slice(-1) !== '*') search += '*';
     const defaultObject = {
         _isSelected: false,
@@ -21,31 +20,29 @@ export const getAgentSkillsList = async (agentId, page = 0, size = 10, search) =
     try {
         const response = await agentSkillService.searchAgentSkill(agentId, page, size, search, domainId);
         if (response.items) {
-            return response.items.map(item => {
-                return {...defaultObject, ...item};
-            });
+            return response.items.map((item) => ({ ...defaultObject, ...item }));
         }
-        return []
+        return [];
     } catch (err) {
         throw err;
     }
 };
 
 export const getAgentSkill = async (agentId, id) => {
-    const domainId = store.state.userinfo.domainId;
+    const { domainId } = store.state.userinfo;
     const defaultObject = {
-        _dirty: false
+        _dirty: false,
     };
     try {
         const response = await agentSkillService.readAgentSkill(agentId, id, domainId);
-        return {...defaultObject, ...response};
+        return { ...defaultObject, ...response };
     } catch (err) {
         throw err;
     }
 };
 
 export const addAgentSkill = async (agentId, item) => {
-    let itemCopy = deepCopy(item);
+    const itemCopy = deepCopy(item);
     itemCopy.domainId = store.state.userinfo.domainId;
     sanitizer(itemCopy, fieldsToSend);
     try {
@@ -58,7 +55,7 @@ export const addAgentSkill = async (agentId, item) => {
 };
 
 export const updateAgentSkill = async (agentId, id, item) => {
-    let itemCopy = deepCopy(item);
+    const itemCopy = deepCopy(item);
     itemCopy.domainId = store.state.userinfo.domainId;
     sanitizer(itemCopy, fieldsToSend);
     try {
@@ -70,7 +67,7 @@ export const updateAgentSkill = async (agentId, id, item) => {
 };
 
 export const deleteAgentSkill = async (agentId, id) => {
-    const domainId = store.state.userinfo.domainId;
+    const { domainId } = store.state.userinfo;
     try {
         await agentSkillService.deleteAgentSkill(agentId, id, domainId);
     } catch (err) {
@@ -79,11 +76,11 @@ export const deleteAgentSkill = async (agentId, id) => {
 };
 
 export const getAgentSkills = async (id, page = 0, size = 10, search) => {
-    const domainId = store.state.userinfo.domainId;
+    const { domainId } = store.state.userinfo;
     try {
         const response = await agentSkillService.searchLookupAgentNotExistsSkill(id, page, size, search, domainId);
         return response.items ? response.items : [];
-    } catch(err) {
+    } catch (err) {
         throw err;
     }
 };

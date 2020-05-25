@@ -35,7 +35,7 @@
     import divider from '@/components/utils/divider';
 
     export default {
-        name: "copy-token-popup",
+        name: 'copy-token-popup',
         components: {
             divider,
             btn,
@@ -43,8 +43,8 @@
 
         data() {
             return {
-                value: 'Hoho-haha!'
-            }
+                value: 'Hoho-haha!',
+            };
         },
 
 
@@ -57,10 +57,10 @@
 
             close() {
                 this.$emit('close');
-            }
+            },
         },
 
-    }
+    };
 </script>
 
 <style lang="scss" scoped>
@@ -80,7 +80,7 @@
 
     .popup-body {
         margin: 0 44px 26px;
-        
+
         .copy-input {
             display: block;
             position: absolute;

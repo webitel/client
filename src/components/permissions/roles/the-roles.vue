@@ -80,8 +80,8 @@
 
 <script>
     import tableComponentMixin from '@/mixins/tableComponentMixin';
-    import {_checkboxTableField, _actionsTableField_2} from "@/utils/tableFieldPresets";
-    import {mapActions, mapState} from "vuex";
+    import { _checkboxTableField, _actionsTableField_2 } from '@/utils/tableFieldPresets';
+    import { mapActions, mapState } from 'vuex';
 
     export default {
         name: 'the-roles',
@@ -91,8 +91,8 @@
             return {
                 fields: [
                     _checkboxTableField,
-                    {name: 'name', title: this.$t('objects.name')},
-                    {name: 'description', title: this.$t('objects.description')},
+                    { name: 'name', title: this.$t('objects.name') },
+                    { name: 'description', title: this.$t('objects.description') },
                     _actionsTableField_2,
                 ],
             };
@@ -100,28 +100,28 @@
 
         computed: {
             ...mapState('permissions/roles', {
-                dataList: state => state.dataList,
-                page: state => state.page, // acts like a boolean: if page is 0, there's no back page
-                isNextPage: state => state.isNextPage,
+                dataList: (state) => state.dataList,
+                page: (state) => state.page, // acts like a boolean: if page is 0, there's no back page
+                isNextPage: (state) => state.isNextPage,
             }),
 
             size: {
                 get() {
-                    return this.$store.state.permissions.roles.size
+                    return this.$store.state.permissions.roles.size;
                 },
                 set(value) {
-                    this.setSize(value)
-                }
+                    this.setSize(value);
+                },
             },
 
             search: {
                 get() {
-                    return this.$store.state.permissions.roles.search
+                    return this.$store.state.permissions.roles.search;
                 },
                 set(value) {
-                    this.setSearch(value)
-                }
-            }
+                    this.setSearch(value);
+                },
+            },
         },
 
         methods: {
@@ -132,7 +132,7 @@
             edit(rowId) {
                 this.$router.push({
                     name: 'permissions-roles-edit',
-                    params: {id: this.dataList[rowId].id},
+                    params: { id: this.dataList[rowId].id },
                 });
             },
 
@@ -144,7 +144,7 @@
                 prevPage: 'PREV_PAGE',
                 removeItem: 'REMOVE_ITEM',
             }),
-        }
+        },
     };
 </script>
 

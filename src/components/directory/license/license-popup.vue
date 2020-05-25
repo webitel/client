@@ -15,26 +15,26 @@
 </template>
 
 <script>
+    import { mapActions } from 'vuex';
     import popup from '../../utils/popup';
     import formInput from '../../utils/form-input';
-    import {mapActions} from "vuex";
 
     export default {
-        name: "license-popup",
+        name: 'license-popup',
         components: {
             formInput,
-            popup
+            popup,
         },
 
         computed: {
             key: {
                 get() {
-                    return this.$store.state.directory.license.key
+                    return this.$store.state.directory.license.key;
                 },
                 set(value) {
-                    this.setKey(value)
-                }
-            }
+                    this.setKey(value);
+                },
+            },
         },
 
         methods: {
@@ -51,8 +51,8 @@
                 setKey: 'SET_KEY_PROPERTY',
                 updateItem: 'UPDATE_ITEM',
             }),
-        }
-    }
+        },
+    };
 </script>
 
 <style lang="scss" scoped>

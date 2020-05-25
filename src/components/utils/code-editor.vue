@@ -6,11 +6,12 @@
 </template>
 
 <script>
-    import {Monaco} from '../../utils/monacoSingleton';
-    const monaco = Monaco.getInstance();
+    import { editor } from 'monaco-editor';
+    import { Monaco } from '../../utils/monacoSingleton';
 
-    import {editor} from 'monaco-editor';
-    //https://microsoft.github.io/monaco-editor/api/interfaces/monaco.editor.ieditorconstructionoptions.html
+
+    const monaco = Monaco.getInstance();
+    // https://microsoft.github.io/monaco-editor/api/interfaces/monaco.editor.ieditorconstructionoptions.html
     const config = {
         language: 'json',
         theme: 'vs',
@@ -24,33 +25,33 @@
     };
 
     export default {
-        name: "code-editor",
+        name: 'code-editor',
         props: {
             value: {
                 type: [Array, Object, String],
-                required: true
+                required: true,
             },
             options: Object,
             label: {
                 type: String,
-                default: ''
+                default: '',
             },
             proposals: Function,
         },
 
         model: {
-            event: 'change'
+            event: 'change',
         },
 
         data() {
             return {
                 editor: '',
-                config
-            }
+                config,
+            };
         },
 
         watch: {
-            value: function (value) {
+            value(value) {
                 if (this.editor) {
                     if (value !== this.editor.getValue()) {
                         this.editor.setValue(value);
@@ -63,14 +64,14 @@
             this.config.value = this.value || '[]';
             this.editor = editor.create(this.$refs.editor, config);
 
-            this.editor.onDidChangeModelContent(event => {
+            this.editor.onDidChangeModelContent((event) => {
                 const value = this.editor.getValue();
                 if (this.value !== value) {
                     this.$emit('change', value, event);
                 }
             });
 
-            this.editor.onDidChangeModelDecorations(event => {
+            this.editor.onDidChangeModelDecorations((event) => {
                 this.checkSyntaxError();
             });
         },
@@ -85,7 +86,7 @@
         beforeDestroy() {
             this.editor && this.editor.dispose();
         },
-    }
+    };
 </script>
 
 <style lang="scss">

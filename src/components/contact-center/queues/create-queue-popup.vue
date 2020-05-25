@@ -97,15 +97,15 @@
     import popup from '@/components/utils/popup';
 
     export default {
-        name: "create-queue-popup",
+        name: 'create-queue-popup',
         components: {
-            popup
+            popup,
         },
 
         data() {
             return {
-                selectedOption: ''
-            }
+                selectedOption: '',
+            };
         },
 
 
@@ -115,8 +115,8 @@
             },
 
             createItemInstance() {
-                if(this.selectedOption) {
-                    this.$router.push('/contact-center/queues/'+this.selectedOption+'/new');
+                if (this.selectedOption) {
+                    this.$router.push(`/contact-center/queues/${this.selectedOption}/new`);
                 }
             },
 
@@ -125,7 +125,7 @@
             },
         },
 
-    }
+    };
 </script>
 
 <style lang="scss" scoped>

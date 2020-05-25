@@ -8,8 +8,8 @@
 
 <script>
     export default {
-        name: "loader"
-    }
+        name: 'loader',
+    };
 </script>
 
 <style lang="scss" scoped>

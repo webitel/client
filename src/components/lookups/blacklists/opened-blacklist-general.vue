@@ -22,20 +22,20 @@
 
 <script>
     import openedTabComponentMixin from '@/mixins/openedTabComponentMixin';
-    import {mapActions} from "vuex";
+    import { mapActions } from 'vuex';
 
     export default {
-        name: "opened-blacklist-general",
+        name: 'opened-blacklist-general',
         mixins: [openedTabComponentMixin],
 
         computed: {
             name: {
-                get() {return this.$store.state.lookups.blacklists.itemInstance.name},
-                set(value) {this.setItemProp({prop: 'name', value})}
+                get() { return this.$store.state.lookups.blacklists.itemInstance.name; },
+                set(value) { this.setItemProp({ prop: 'name', value }); },
             },
             description: {
-                get() {return this.$store.state.lookups.blacklists.itemInstance.description},
-                set(value) {this.setItemProp({prop: 'description', value})}
+                get() { return this.$store.state.lookups.blacklists.itemInstance.description; },
+                set(value) { this.setItemProp({ prop: 'description', value }); },
             },
         },
 
@@ -43,6 +43,6 @@
             ...mapActions('lookups/blacklists', {
                 setItemProp: 'SET_ITEM_PROPERTY',
             }),
-        }
-    }
+        },
+    };
 </script>

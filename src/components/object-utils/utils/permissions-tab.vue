@@ -61,28 +61,28 @@
     import checkbox from '@/components/utils/checkbox';
     // import openedTabComponentMixin from '@/mixins/openedTabComponentMixin';
     import vuetable from 'vuetable-2/src/components/Vuetable';
-    import {getObject, updateObjectPermissions, getObjectPermissions} from "../../../api/permissions/objects/objects";
-    import {getRoleList} from "../../../api/permissions/roles/roles";
     import dropdownSelect from '@/components/utils/dropdown-select';
+    import { getObject, updateObjectPermissions, getObjectPermissions } from '../../../api/permissions/objects/objects';
+    import { getRoleList } from '../../../api/permissions/roles/roles';
 
     export default {
-        name: "permissions-tab",
+        name: 'permissions-tab',
         // mixins: [openedTabComponentMixin],
-        components: {vuetable, checkbox, dropdownSelect},
+        components: { vuetable, checkbox, dropdownSelect },
         data() {
             return {
                 // vuetable prop
                 fields: [
-                    {name: 'grantee', title: this.$t('objects.name')},
-                    {name: 'read', title: this.$t('objects.read')},
-                    {name: 'edit', title: this.$t('objects.edit')},
-                    {name: 'delete', title: this.$t('objects.delete')},
+                    { name: 'grantee', title: this.$t('objects.name') },
+                    { name: 'read', title: this.$t('objects.read') },
+                    { name: 'edit', title: this.$t('objects.edit') },
+                    { name: 'delete', title: this.$t('objects.delete') },
                 ],
                 dataList: [], // list with all table data, contains user changes
-                initialDataList: [],  // list of initial table data, used for user changes segregation
+                initialDataList: [], // list of initial table data, used for user changes segregation
 
                 changeAccessList: [], // contains id's of grantee`s changed permissions
-                roleList: [] // list of all roles to add new. retrieves from roles GET request
+                roleList: [], // list of all roles to add new. retrieves from roles GET request
 
             };
         },
@@ -111,7 +111,7 @@
                         u: false,
                         d: false,
                     },
-                    new: true
+                    new: true,
                 });
             },
 
@@ -125,8 +125,8 @@
 
                 // if 'read' checkbox switches to false, make all operations false
                 if (operation === 'r' && this.dataList[rowId].access.r) {
-                    Object.keys(this.dataList[rowId].access).map(item => {
-                        this.dataList[rowId].access[item] = false
+                    Object.keys(this.dataList[rowId].access).map((item) => {
+                        this.dataList[rowId].access[item] = false;
                     });
                     // else if another operation switches to true with unactive 'read', activate 'read' too
                 } else if (!this.dataList[rowId].access.r) {
@@ -141,7 +141,6 @@
                 // if there are changes, process them
                 // if there aren't, or patch completed successfully, close page
                 if (this.changeAccessList.length !== 0) {
-
                     const granteesToSend = []; // object with changes to patch
 
                     this.filterChanges(granteesToSend);
@@ -153,17 +152,14 @@
                         this.close();
                     } catch (e) {
                     }
-
                 } else {
                     this.close();
                 }
-
             },
 
             filterChanges(granteesToSend) {
                 // for each change
-                this.changeAccessList.forEach(changedGranteeId => {
-
+                this.changeAccessList.forEach((changedGranteeId) => {
                     // find changed grantee (by id)
                     const newGrantee = this.findGrateeById(changedGranteeId);
 
@@ -177,22 +173,18 @@
                     if (changedOperations.length > 0) {
                         granteesToSend.push({
                             grantee_id: changedGranteeId,
-                            access: changedOperations.join('')
+                            access: changedOperations.join(''),
                         });
                     }
                 });
             },
 
             findGrateeById(granteeId) {
-                return this.dataList.find(currentGrantee => {
-                    return currentGrantee.grantee.id === granteeId;
-                });
+                return this.dataList.find((currentGrantee) => currentGrantee.grantee.id === granteeId);
             },
 
             findInitialGranteeById(granteeId) {
-                return this.initialDataList.find(oldGrantee => {
-                    return oldGrantee.grantee.id === granteeId;
-                });
+                return this.initialDataList.find((oldGrantee) => oldGrantee.grantee.id === granteeId);
             },
 
             collectChangedOperations(newGrantee, oldGrantee) {
@@ -202,7 +194,7 @@
 
                 // if there's old grantee
                 if (oldGrantee) {
-                    operations.forEach(operation => {
+                    operations.forEach((operation) => {
                         if (oldGrantee.access[operation] !== newGrantee.access[operation]) {
                             changedOperations.push(operation);
                         }
@@ -210,7 +202,7 @@
                     // if there's new grantee,
                     // and he wasn't changed
                 } else if (newGrantee) {
-                    operations.forEach(operation => {
+                    operations.forEach((operation) => {
                         if (newGrantee.access[operation]) {
                             changedOperations.push(operation);
                         }
@@ -230,20 +222,16 @@
                 const response = await getObjectPermissions(id);
                 this.dataList = [...response];
                 this.initialDataList = JSON.parse(JSON.stringify(response));
-            }
+            },
         },
 
         computed: {
             computeAvailableGrantees() {
                 // filter available grantees:
-                return this.roleList.filter(grantee => {
-                    return !this.dataList.some(usedGrantee => {
-                        return grantee.id === usedGrantee.grantee.id;
-                    });
-                });
-            }
-        }
-    }
+                return this.roleList.filter((grantee) => !this.dataList.some((usedGrantee) => grantee.id === usedGrantee.grantee.id));
+            },
+        },
+    };
 </script>
 
 <style lang="scss" scoped>

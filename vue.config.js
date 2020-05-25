@@ -1,5 +1,5 @@
 process.env.VUE_APP_API_URL = process.env.NODE_ENV === 'production' ? '/api' : 'https://dev.webitel.com/api';
-process.env.VUE_APP_AUTH_MODULE_URL = process.env.NODE_ENV === 'production' ? '/app/auth' :'http://dev.webitel.com/app/auth';
+process.env.VUE_APP_AUTH_MODULE_URL = process.env.NODE_ENV === 'production' ? '/app/auth' : 'http://dev.webitel.com/app/auth';
 
 process.env.VUE_APP_ADMIN_URL = process.env.NODE_ENV === 'production' ? '/' : 'https://dev.webitel.com/admin';
 process.env.VUE_APP_AGENT_URL = process.env.NODE_ENV === 'production' ? '/workspace' : 'https://dev.webitel.com/workspace';
@@ -20,9 +20,9 @@ module.exports = {
           @import "@/assets/css/main.scss";
           @import "@/assets/css/objects/objects.scss";
           @import "@/assets/css/media.scss";
-        `
-      }
-    }
+        `,
+      },
+    },
   },
   configureWebpack: (config) => {
     // config.module.rules = [
@@ -34,7 +34,7 @@ module.exports = {
       languages: ['json'], // массив строк с названиями языков, для которых нужна подсветка
       features: ['bracketMatching', 'colorDetector', 'fontZoom',
         'wordHighlighter',
-      ] // массив строк с нужными фичами
+      ], // массив строк с нужными фичами
       // https://github.com/Microsoft/monaco-editor-webpack-plugin#options
     }));
   },

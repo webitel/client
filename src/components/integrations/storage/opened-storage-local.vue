@@ -14,16 +14,16 @@
 
 <script>
     import openedTabComponentMixin from '@/mixins/openedTabComponentMixin';
-    import {mapActions} from "vuex";
+    import { mapActions } from 'vuex';
 
     export default {
-        name: "opened-storage-local",
+        name: 'opened-storage-local',
         mixins: [openedTabComponentMixin],
 
         computed: {
             directory: {
-                get() {return this.$store.state.integrations.storage.itemInstance.properties.directory},
-                set(value) {this.setItemProp({prop: 'directory', value})}
+                get() { return this.$store.state.integrations.storage.itemInstance.properties.directory; },
+                set(value) { this.setItemProp({ prop: 'directory', value }); },
             },
         },
 
@@ -32,7 +32,7 @@
                 setItemProp: 'SET_ITEM_PROPERTIES_PROPERTY',
             }),
         },
-    }
+    };
 </script>
 
 <style lang="scss" scoped>

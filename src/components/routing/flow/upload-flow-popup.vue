@@ -24,39 +24,39 @@
 </template>
 
 <script>
+    import required from 'vuelidate/src/validators/required';
     import checkbox from '../../utils/checkbox';
     import formInput from '../../utils/form-input';
     import divider from '../../utils/divider';
     import popup from '../../utils/popup';
-    import required from "vuelidate/src/validators/required";
-    import {addFlow, updateFlow} from "../../../api/routing/flow/flow";
+    import { addFlow, updateFlow } from '../../../api/routing/flow/flow';
 
     export default {
-        name: "upload-flow-popup",
+        name: 'upload-flow-popup',
         components: {
             formInput,
             checkbox,
             divider,
-            popup
+            popup,
         },
         props: {
             file: {
                 required: true,
-            }
+            },
         },
         data() {
             return {
                 create: true,
-                flow: {name: 'file.name'},
-            }
+                flow: { name: 'file.name' },
+            };
         },
 
         validations: {
             flow: {
                 name: {
-                    required
-                }
-            }
+                    required,
+                },
+            },
         },
 
         mounted() {
@@ -67,9 +67,9 @@
             computeDisabledSave() {
                 this.$v.$touch();
                 // if its still pending or an error is returned do not submit
-                return this.$v.$pending ||
-                    this.$v.$error;
-            }
+                return this.$v.$pending
+                    || this.$v.$error;
+            },
         },
 
         methods: {
@@ -95,15 +95,14 @@
                 reader.addEventListener('load', (e) => {
                         const file = e.target.result;
                         if (file) this.flow = JSON.parse(file);
-                    }
-                );
+                    });
                 reader.readAsText(this.file);
             },
 
             async addItem(item) {
-            }
-        }
-    }
+            },
+        },
+    };
 </script>
 
 <style lang="scss" scoped>

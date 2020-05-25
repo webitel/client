@@ -43,7 +43,7 @@
         name: 'login-input',
         mixins: [requiredLabelMixin],
         components: {
-            'validation-message': validationMessage
+            'validation-message': validationMessage,
         },
         props: {
             // value -- w-model from outer component
@@ -92,23 +92,23 @@
 
             // disables input
             disabled: {
-                type: Boolean
+                type: Boolean,
             },
 
             // '*' sign property
             required: {
                 type: Boolean,
-                default: false
+                default: false,
             },
 
             hideLabel: {
                 type: Boolean,
-                default: false
+                default: false,
             },
 
             hideDetails: {
                 type: Boolean,
-                default: false
+                default: false,
             },
 
             // validation rules
@@ -136,7 +136,7 @@
                     this.$refs.input.select();
                     document.execCommand('copy');
                 }
-            }
+            },
         },
     };
 </script>

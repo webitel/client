@@ -52,12 +52,12 @@
 <script>
     import editComponentMixin from '@/mixins/editComponentMixin';
 
-    import {required} from 'vuelidate/lib/validators';
-    import {mapActions, mapState} from "vuex";
-    import {getFlowList} from "../../../api/routing/flow/flow";
+    import { required } from 'vuelidate/lib/validators';
+    import { mapActions, mapState } from 'vuex';
+    import { getFlowList } from '../../../api/routing/flow/flow';
 
     export default {
-        name: "opened-dialplan",
+        name: 'opened-dialplan',
         mixins: [editComponentMixin],
         data() {
             return {
@@ -69,15 +69,15 @@
         validations: {
             itemInstance: {
                 name: {
-                    required
+                    required,
                 },
                 schema: {
-                    required
+                    required,
                 },
                 pattern: {
-                    required
-                }
-            }
+                    required,
+                },
+            },
         },
 
         mounted() {
@@ -88,39 +88,37 @@
 
         computed: {
             ...mapState('routing/dialplan', {
-                itemInstance: state => state.itemInstance,
+                itemInstance: (state) => state.itemInstance,
             }),
             id: {
-                get() {return this.$store.state.routing.dialplan.itemId},
-                set(value) {this.setId(value)}
+                get() { return this.$store.state.routing.dialplan.itemId; },
+                set(value) { this.setId(value); },
             },
             name: {
-                get() {return this.$store.state.routing.dialplan.itemInstance.name},
-                set(value) {this.setItemProp({prop: 'name', value})}
+                get() { return this.$store.state.routing.dialplan.itemInstance.name; },
+                set(value) { this.setItemProp({ prop: 'name', value }); },
             },
             schema: {
-                get() {return this.$store.state.routing.dialplan.itemInstance.schema},
-                set(value) {this.setItemProp({prop: 'schema', value})}
+                get() { return this.$store.state.routing.dialplan.itemInstance.schema; },
+                set(value) { this.setItemProp({ prop: 'schema', value }); },
             },
             pattern: {
-                get() {return this.$store.state.routing.dialplan.itemInstance.pattern},
-                set(value) {this.setItemProp({prop: 'pattern', value})}
+                get() { return this.$store.state.routing.dialplan.itemInstance.pattern; },
+                set(value) { this.setItemProp({ prop: 'pattern', value }); },
             },
             description: {
-                get() {return this.$store.state.routing.dialplan.itemInstance.description},
-                set(value) {this.setItemProp({prop: 'description', value})}
+                get() { return this.$store.state.routing.dialplan.itemInstance.description; },
+                set(value) { this.setItemProp({ prop: 'description', value }); },
             },
         },
 
         methods: {
             async loadDropdownOptionsList(search) {
                 const response = await getFlowList(0, 10, search);
-                this.dropdownOptionsList = response.list.map(item => {
-                    return {
+                this.dropdownOptionsList = response.list.map((item) => ({
                         name: item.name,
-                        id: item.id
-                    };
-                });
+                        id: item.id,
+                    }));
             },
 
             ...mapActions('routing/dialplan', {
@@ -130,8 +128,8 @@
                 updateItem: 'UPDATE_ITEM',
                 setItemProp: 'SET_ITEM_PROPERTY',
             }),
-        }
-    }
+        },
+    };
 </script>
 
 <style scoped>

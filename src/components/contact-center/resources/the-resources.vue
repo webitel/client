@@ -99,20 +99,20 @@
 
 <script>
     import tableComponentMixin from '@/mixins/tableComponentMixin';
-    import {_checkboxTableField, _actionsTableField_2, _switcherWidth} from "../../../utils/tableFieldPresets";
-    import {mapActions, mapState} from "vuex";
+    import { mapActions, mapState } from 'vuex';
+    import { _checkboxTableField, _actionsTableField_2, _switcherWidth } from '../../../utils/tableFieldPresets';
 
     export default {
-        name: "the-resources",
+        name: 'the-resources',
         mixins: [tableComponentMixin],
         data() {
             return {
                 fields: [
                     _checkboxTableField,
-                    {name: 'name', title: this.$t('objects.name')},
-                    {name: 'gateway', title: this.$tc('objects.routing.gateways.gateways', 1)},
-                    {name: 'enabled', title: this.$t('objects.enabled'), width: _switcherWidth},
-                    {name: 'reserve', title: this.$t('objects.ccenter.res.reserve'), width: _switcherWidth},
+                    { name: 'name', title: this.$t('objects.name') },
+                    { name: 'gateway', title: this.$tc('objects.routing.gateways.gateways', 1) },
+                    { name: 'enabled', title: this.$t('objects.enabled'), width: _switcherWidth },
+                    { name: 'reserve', title: this.$t('objects.ccenter.res.reserve'), width: _switcherWidth },
                     _actionsTableField_2,
                 ],
             };
@@ -120,19 +120,19 @@
 
         computed: {
             ...mapState('ccenter/res', {
-                dataList: state => state.dataList,
-                page: state => state.page, // acts like a boolean: if page is 0, there's no back page
-                isNextPage: state => state.isNextPage,
+                dataList: (state) => state.dataList,
+                page: (state) => state.page, // acts like a boolean: if page is 0, there's no back page
+                isNextPage: (state) => state.isNextPage,
             }),
 
             size: {
-                get() {return this.$store.state.ccenter.res.size},
-                set(value) {this.setSize(value)}
+                get() { return this.$store.state.ccenter.res.size; },
+                set(value) { this.setSize(value); },
             },
 
             search: {
-                get() {return this.$store.state.ccenter.res.search},
-                set(value) {this.setSearch(value)}
+                get() { return this.$store.state.ccenter.res.search; },
+                set(value) { this.setSearch(value); },
             },
         },
 
@@ -144,7 +144,7 @@
             edit(rowId) {
                 this.$router.push({
                     name: 'cc-resource-edit',
-                    params: {id: this.dataList[rowId].id},
+                    params: { id: this.dataList[rowId].id },
                 });
             },
 
@@ -159,5 +159,5 @@
             }),
         },
 
-    }
+    };
 </script>

@@ -29,51 +29,51 @@
 <script>
     import timepicker from '@/components/utils/timepicker';
     import openedTabComponentMixin from '@/mixins/openedTabComponentMixin';
-    import {mapActions} from "vuex";
+    import { mapActions } from 'vuex';
 
     export default {
-        name: "opened-queue-outbound-ivr-timing",
+        name: 'opened-queue-outbound-ivr-timing',
         mixins: [openedTabComponentMixin],
-        components: {timepicker},
+        components: { timepicker },
         data() {
-            return {}
+            return {};
         },
 
         computed: {
             originateTimeout: {
                 get() {
-                    return this.$store.state.ccenter.queues.itemInstance.payload.originateTimeout || 0
+                    return this.$store.state.ccenter.queues.itemInstance.payload.originateTimeout || 0;
                 },
                 set(value) {
-                    this.setPayloadItemProp({prop: 'originateTimeout', value})
-                }
+                    this.setPayloadItemProp({ prop: 'originateTimeout', value });
+                },
             },
 
             secBetweenRetries: {
                 get() {
-                    return this.$store.state.ccenter.queues.itemInstance.payload.secBetweenRetries || 0
+                    return this.$store.state.ccenter.queues.itemInstance.payload.secBetweenRetries || 0;
                 },
                 set(value) {
-                    this.setPayloadItemProp({prop: 'secBetweenRetries', value})
-                }
+                    this.setPayloadItemProp({ prop: 'secBetweenRetries', value });
+                },
             },
 
             maxOfRetry: {
                 get() {
-                    return this.$store.state.ccenter.queues.itemInstance.payload.maxOfRetry || 0
+                    return this.$store.state.ccenter.queues.itemInstance.payload.maxOfRetry || 0;
                 },
                 set(value) {
-                    this.setPayloadItemProp({prop: 'maxOfRetry', value})
-                }
+                    this.setPayloadItemProp({ prop: 'maxOfRetry', value });
+                },
             },
 
             timeout: {
                 get() {
-                    return this.$store.state.ccenter.queues.itemInstance.timeout || 0
+                    return this.$store.state.ccenter.queues.itemInstance.timeout || 0;
                 },
                 set(value) {
-                    this.setItemProp({prop: 'timeout', value})
-                }
+                    this.setItemProp({ prop: 'timeout', value });
+                },
             },
         },
 
@@ -83,7 +83,7 @@
                 setPayloadItemProp: 'SET_PAYLOAD_ITEM_PROPERTY',
             }),
         },
-    }
+    };
 </script>
 
 <style lang="scss" scoped>

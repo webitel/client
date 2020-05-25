@@ -76,53 +76,53 @@
 </template>
 
 <script>
-    import bucketPopup from './opened-queue-buckets-popup'
     import openedTabComponentMixin from '@/mixins/openedTabComponentMixin';
     import tableComponentMixin from '@/mixins/tableComponentMixin';
-    import {_actionsTableField_2} from "@/utils/tableFieldPresets";
-    import {mapActions, mapState} from "vuex";
-    import eventBus from "../../../utils/eventBus";
+    import { _actionsTableField_2 } from '@/utils/tableFieldPresets';
+    import { mapActions, mapState } from 'vuex';
+    import bucketPopup from './opened-queue-buckets-popup';
+    import eventBus from '../../../utils/eventBus';
 
     export default {
-        name: "opened-queue-outbound-ivr-buckets",
+        name: 'opened-queue-outbound-ivr-buckets',
         mixins: [tableComponentMixin, openedTabComponentMixin],
-        components: {bucketPopup},
+        components: { bucketPopup },
 
         data() {
             return {
                 fields: [
-                    {name: 'name', title: this.$tc('objects.ccenter.skills.skills', 2)},
-                    {name: 'ratio', title: this.$t('objects.ccenter.queues.bucketRatio')},
+                    { name: 'name', title: this.$tc('objects.ccenter.skills.skills', 2) },
+                    { name: 'ratio', title: this.$t('objects.ccenter.queues.bucketRatio') },
                     _actionsTableField_2,
                 ],
-            }
+            };
         },
 
         watch: {
-            parentId: function (value) {
+            parentId(value) {
                 this.setParentId(value);
-            }
+            },
         },
 
         computed: {
             ...mapState('ccenter/queues', {
-                parentId: state => state.itemId,
+                parentId: (state) => state.itemId,
             }),
             ...mapState('ccenter/queues/buckets', {
-                dataList: state => state.dataList,
-                page: state => state.page,
-                isNextPage: state => state.isNextPage,
+                dataList: (state) => state.dataList,
+                page: (state) => state.page,
+                isNextPage: (state) => state.isNextPage,
             }),
 
             size: {
-                get() {return this.$store.state.ccenter.queues.buckets.size},
-                set(value) {this.setSize(value)}
+                get() { return this.$store.state.ccenter.queues.buckets.size; },
+                set(value) { this.setSize(value); },
             },
 
             search: {
-                get() {return this.$store.state.ccenter.queues.buckets.search},
-                set(value) {this.setSearch(value)}
-            }
+                get() { return this.$store.state.ccenter.queues.buckets.search; },
+                set(value) { this.setSearch(value); },
+            },
         },
 
         methods: {
@@ -154,8 +154,8 @@
                 prevPage: 'PREV_PAGE',
                 removeItem: 'REMOVE_ITEM',
             }),
-        }
-    }
+        },
+    };
 </script>
 
 <style lang="scss" scoped>

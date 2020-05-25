@@ -124,15 +124,15 @@
 </template>
 
 <script>
+    import { _checkboxTableField, _actionsTableField_2 } from '@/utils/tableFieldPresets';
+    import tableComponentMixin from '@/mixins/tableComponentMixin';
+    import { mapActions, mapState } from 'vuex';
     import tableFilter from '../../object-utils/utils/table-filter';
     import dropdownSelect from '../../utils/dropdown-select';
     import uploadPopup from './upload-users-popup';
-    import {_checkboxTableField, _actionsTableField_2} from "@/utils/tableFieldPresets";
-    import tableComponentMixin from '@/mixins/tableComponentMixin';
-    import {mapActions, mapState} from "vuex";
 
     export default {
-        name: "the-users",
+        name: 'the-users',
         components: {
             uploadPopup,
             tableFilter,
@@ -143,42 +143,42 @@
             return {
                 fields: [
                     _checkboxTableField,
-                    {name: 'name', title: this.$t('objects.name')},
-                    {name: 'username', title: this.$t('objects.directory.users.login')},
-                    {name: 'extensions', title: this.$t('objects.directory.users.extensions')},
-                    {name: 'DnD', title: this.$t('objects.directory.users.DnD')},
-                    {name: 'status', title: this.$t('objects.directory.users.status')},
+                    { name: 'name', title: this.$t('objects.name') },
+                    { name: 'username', title: this.$t('objects.directory.users.login') },
+                    { name: 'extensions', title: this.$t('objects.directory.users.extensions') },
+                    { name: 'DnD', title: this.$t('objects.directory.users.DnD') },
+                    { name: 'status', title: this.$t('objects.directory.users.status') },
                     _actionsTableField_2,
                 ],
                 statusOptions: ['On break', 'Available', 'Chatting'],
-                csvFile: null
+                csvFile: null,
             };
         },
 
         computed: {
             ...mapState('directory/users', {
-                dataList: state => state.dataList,
-                page: state => state.page, // acts like a boolean: if page is 0, there's no back page
-                isNextPage: state => state.isNextPage,
+                dataList: (state) => state.dataList,
+                page: (state) => state.page, // acts like a boolean: if page is 0, there's no back page
+                isNextPage: (state) => state.isNextPage,
             }),
 
             size: {
                 get() {
-                    return this.$store.state.directory.users.size
+                    return this.$store.state.directory.users.size;
                 },
                 set(value) {
-                    this.setSize(value)
-                }
+                    this.setSize(value);
+                },
             },
 
             search: {
                 get() {
-                    return this.$store.state.directory.users.search
+                    return this.$store.state.directory.users.search;
                 },
                 set(value) {
-                    this.setSearch(value)
-                }
-            }
+                    this.setSearch(value);
+                },
+            },
         },
 
         methods: {
@@ -187,7 +187,7 @@
             },
 
             getDND(value) {
-                if(value && value.status) {
+                if (value && value.status) {
                     return value.status.includes('dnd');
                 }
                 return false;
@@ -203,7 +203,7 @@
             edit(rowId) {
                 this.$router.push({
                     name: 'directory-users-edit',
-                    params: {id: this.dataList[rowId].id},
+                    params: { id: this.dataList[rowId].id },
                 });
             },
 
@@ -233,7 +233,7 @@
                 removeItem: 'REMOVE_ITEM',
             }),
         },
-    }
+    };
 </script>
 
 <style lang="scss" scoped>

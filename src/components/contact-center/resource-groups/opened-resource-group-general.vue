@@ -31,16 +31,16 @@
 
 <script>
     import openedTabComponentMixin from '@/mixins/openedTabComponentMixin';
-    import {getCommunicationsList} from "../../../api/lookups/communications/communications";
-    import {mapActions} from "vuex";
+    import { mapActions } from 'vuex';
+    import { getCommunicationsList } from '../../../api/lookups/communications/communications';
 
     export default {
-        name: "opened-resource-group-general",
+        name: 'opened-resource-group-general',
         mixins: [openedTabComponentMixin],
         data() {
             return {
                 dropdownOptionsList: [],
-            }
+            };
         },
 
         mounted() {
@@ -49,33 +49,31 @@
 
         computed: {
             name: {
-                get() {return this.$store.state.ccenter.resGroups.itemInstance.name},
-                set(value) {this.setItemProp({prop: 'name', value})}
+                get() { return this.$store.state.ccenter.resGroups.itemInstance.name; },
+                set(value) { this.setItemProp({ prop: 'name', value }); },
             },
             communication: {
-                get() {return this.$store.state.ccenter.resGroups.itemInstance.communication},
-                set(value) {this.setItemProp({prop: 'communication', value})}
+                get() { return this.$store.state.ccenter.resGroups.itemInstance.communication; },
+                set(value) { this.setItemProp({ prop: 'communication', value }); },
             },
             description: {
-                get() {return this.$store.state.ccenter.resGroups.itemInstance.description},
-                set(value) {this.setItemProp({prop: 'description', value})}
+                get() { return this.$store.state.ccenter.resGroups.itemInstance.description; },
+                set(value) { this.setItemProp({ prop: 'description', value }); },
             },
         },
 
         methods: {
             async loadDropdownOptionsList(search) {
                 const response = await getCommunicationsList(0, 10, search);
-                this.dropdownOptionsList = response.list.map(comm => {
-                    return {
+                this.dropdownOptionsList = response.list.map((comm) => ({
                         name: comm.name,
-                        id: comm.id
-                    };
-                });
+                        id: comm.id,
+                    }));
             },
 
             ...mapActions('ccenter/resGroups', {
                 setItemProp: 'SET_ITEM_PROPERTY',
             }),
-        }
-    }
+        },
+    };
 </script>

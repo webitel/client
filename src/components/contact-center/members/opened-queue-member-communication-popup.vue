@@ -53,13 +53,15 @@
 <script>
     import popup from '@/components/utils/popup';
     import editComponentMixin from '@/mixins/editComponentMixin';
-    import {required, numeric, minValue, maxValue} from 'vuelidate/lib/validators';
-    import {mapActions, mapState} from "vuex";
-    import {getResourceList} from "../../../api/contact-center/resources/resources";
-    import {getCommunicationsList} from "../../../api/lookups/communications/communications";
+    import {
+ required, numeric, minValue, maxValue,
+} from 'vuelidate/lib/validators';
+    import { mapActions, mapState } from 'vuex';
+    import { getResourceList } from '../../../api/contact-center/resources/resources';
+    import { getCommunicationsList } from '../../../api/lookups/communications/communications';
 
     export default {
-        name: "opened-agent-skills-popup",
+        name: 'opened-agent-skills-popup',
         mixins: [editComponentMixin],
         components: {
             popup,
@@ -68,18 +70,18 @@
             return {
                 dropdownOptionsTypeList: [],
                 dropdownOptionsResList: [],
-            }
+            };
         },
 
         validations: {
             itemInstance: {
                 destination: {
-                    required
+                    required,
                 },
                 type: {
-                    required
+                    required,
                 },
-            }
+            },
         },
 
         mounted() {
@@ -90,70 +92,70 @@
 
         computed: {
             ...mapState('ccenter/queues/members/communications', {
-                id: state => state.itemId,
-                itemInstance: state => state.itemInstance
+                id: (state) => state.itemId,
+                itemInstance: (state) => state.itemInstance,
             }),
             destination: {
                 get() {
-                    return this.$store.state.ccenter.queues.members.communications.itemInstance.destination
+                    return this.$store.state.ccenter.queues.members.communications.itemInstance.destination;
                 },
                 set(value) {
-                    this.setItemProp({prop: 'destination', value})
-                }
+                    this.setItemProp({ prop: 'destination', value });
+                },
             },
             display: {
                 get() {
-                    return this.$store.state.ccenter.queues.members.communications.itemInstance.display
+                    return this.$store.state.ccenter.queues.members.communications.itemInstance.display;
                 },
                 set(value) {
-                    this.setItemProp({prop: 'display', value})
-                }
+                    this.setItemProp({ prop: 'display', value });
+                },
             },
             priority: {
                 get() {
-                    return this.$store.state.ccenter.queues.members.communications.itemInstance.priority
+                    return this.$store.state.ccenter.queues.members.communications.itemInstance.priority;
                 },
                 set(value) {
-                    this.setItemProp({prop: 'priority', value})
-                }
+                    this.setItemProp({ prop: 'priority', value });
+                },
             },
             type: {
                 get() {
-                    return this.$store.state.ccenter.queues.members.communications.itemInstance.type
+                    return this.$store.state.ccenter.queues.members.communications.itemInstance.type;
                 },
                 set(value) {
-                    this.setItemProp({prop: 'type', value})
-                }
+                    this.setItemProp({ prop: 'type', value });
+                },
             },
             resource: {
                 get() {
-                    return this.$store.state.ccenter.queues.members.communications.itemInstance.resource
+                    return this.$store.state.ccenter.queues.members.communications.itemInstance.resource;
                 },
                 set(value) {
-                    this.setItemProp({prop: 'resource', value})
-                }
+                    this.setItemProp({ prop: 'resource', value });
+                },
             },
             description: {
                 get() {
-                    return this.$store.state.ccenter.queues.members.communications.itemInstance.description
+                    return this.$store.state.ccenter.queues.members.communications.itemInstance.description;
                 },
                 set(value) {
-                    this.setItemProp({prop: 'description', value})
-                }
+                    this.setItemProp({ prop: 'description', value });
+                },
             },
 
                 computePrimaryText() {
                     // if it's a new item
                     // OR any fields have changed
-                    return !(typeof this.id === 'number') || this.itemInstance._dirty ?
-                        this.$t('objects.save') : this.$t('objects.saved');
+                    return !(typeof this.id === 'number') || this.itemInstance._dirty
+                        ? this.$t('objects.save') : this.$t('objects.saved');
                 },
 
                 computeDisabled() {
                     // if there's a validation problem
                     // OR it's edit and any fields haven't changed
-                    return this.checkValidations() ||
-                        (!this.itemInstance._dirty && (typeof this.id === 'number'));
+                    return this.checkValidations()
+                        || (!this.itemInstance._dirty && (typeof this.id === 'number'));
                 },
         },
 
@@ -172,22 +174,18 @@
 
             async loadDropdownOptionsTypeList(search) {
                 const response = await getCommunicationsList(0, 10, search);
-                this.dropdownOptionsTypeList = response.list.map(item => {
-                    return {
+                this.dropdownOptionsTypeList = response.list.map((item) => ({
                         name: item.name,
                         id: item.id,
-                    }
-                });
+                    }));
             },
 
             async loadDropdownOptionsResList(search) {
                 const response = await getResourceList(0, 10, search);
-                this.dropdownOptionsResList = response.list.map(item => {
-                    return {
+                this.dropdownOptionsResList = response.list.map((item) => ({
                         name: item.name,
                         id: item.id,
-                    }
-                });
+                    }));
             },
 
             ...mapActions('ccenter/queues/members/communications', {
@@ -196,8 +194,8 @@
                 updateItem: 'UPDATE_ITEM',
                 loadItem: 'LOAD_ITEM',
             }),
-        }
-    }
+        },
+    };
 </script>
 
 <style scoped>

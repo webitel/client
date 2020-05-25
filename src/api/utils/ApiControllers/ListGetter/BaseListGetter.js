@@ -1,5 +1,5 @@
 export class BaseListGetter {
-    default = {_isSelected: false};
+    default = { _isSelected: false };
 
     constructor(method, defaultItem) {
         this.method = method;
@@ -9,7 +9,7 @@ export class BaseListGetter {
     responseHandler = (response) => {
         if (response.items) {
             return {
-                list: response.items.map(item => ({...this.default, ...item})),
+                list: response.items.map((item) => ({ ...this.default, ...item })),
                 next: response.next || false,
             };
         }

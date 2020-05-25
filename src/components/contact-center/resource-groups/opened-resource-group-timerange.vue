@@ -44,18 +44,18 @@
 <script>
     import timepicker from '@/components/utils/timepicker';
     import openedTabComponentMixin from '@/mixins/openedTabComponentMixin';
-    import {mapActions, mapState} from "vuex";
+    import { mapActions, mapState } from 'vuex';
 
     export default {
-        name: "opened-resource-group-timerange",
+        name: 'opened-resource-group-timerange',
         mixins: [openedTabComponentMixin],
         components: {
-            timepicker
+            timepicker,
         },
 
         computed: {
             ...mapState('ccenter/resGroups', {
-                time: state => state.itemInstance.time
+                time: (state) => state.itemInstance.time,
             }),
         },
 
@@ -66,8 +66,8 @@
                 setVariableProp: 'SET_VARIABLE_PROP',
                 deleteValuePair: 'DELETE_VARIABLE_PAIR',
             }),
-        }
-    }
+        },
+    };
 </script>
 
 <style lang="scss" scoped>

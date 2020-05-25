@@ -70,30 +70,30 @@
 
 <script>
     import openedTabComponentMixin from '@/mixins/openedTabComponentMixin';
-    import {getCalendarList} from "../../../../api/lookups/calendars/calendars";
-    import {getBlacklistList} from "../../../../api/lookups/blacklists/blacklists";
-    import {getFlowList} from "../../../../api/routing/flow/flow";
-    import {getTeamsList} from "../../../../api/contact-center/teams/teams";
-    import {mapActions} from "vuex";
+    import { mapActions } from 'vuex';
+    import { getCalendarList } from '../../../../api/lookups/calendars/calendars';
+    import { getBlacklistList } from '../../../../api/lookups/blacklists/blacklists';
+    import { getFlowList } from '../../../../api/routing/flow/flow';
+    import { getTeamsList } from '../../../../api/contact-center/teams/teams';
 
     export default {
-        name: "opened-queue-preview-dialer-general",
+        name: 'opened-queue-preview-dialer-general',
         mixins: [openedTabComponentMixin],
         data() {
             return {
                 dropdownOptionsCalendarList: [],
                 dropdownOptionsBlacklistList: [],
                 dropdownOptionsStrategyList: [
-                    {name: 'Random', value: 'random'},
-                    {name: 'Strict circuit', value: 'strict-circuit'},
-                    {name: 'Next try circuit', value: 'next-try-circuit'},
-                    {name: 'By buckets', value: 'by-buckets'},
-                    {name: 'By skills', value: 'by-skills'},
+                    { name: 'Random', value: 'random' },
+                    { name: 'Strict circuit', value: 'strict-circuit' },
+                    { name: 'Next try circuit', value: 'next-try-circuit' },
+                    { name: 'By buckets', value: 'by-buckets' },
+                    { name: 'By skills', value: 'by-skills' },
                 ],
                 dropdownOptionsPriorityList: ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10'],
                 dropdownOptionsSchemaList: [],
                 dropdownOptionsTeamList: [],
-            }
+            };
         },
 
         mounted() {
@@ -106,123 +106,115 @@
         computed: {
             name: {
                 get() {
-                    return this.$store.state.ccenter.queues.itemInstance.name
+                    return this.$store.state.ccenter.queues.itemInstance.name;
                 },
                 set(value) {
-                    this.setItemProp({prop: 'name', value})
-                }
+                    this.setItemProp({ prop: 'name', value });
+                },
             },
 
             calendar: {
                 get() {
-                    return this.$store.state.ccenter.queues.itemInstance.calendar
+                    return this.$store.state.ccenter.queues.itemInstance.calendar;
                 },
                 set(value) {
-                    this.setItemProp({prop: 'calendar', value})
-                }
+                    this.setItemProp({ prop: 'calendar', value });
+                },
             },
 
             dncList: {
                 get() {
-                    return this.$store.state.ccenter.queues.itemInstance.dncList
+                    return this.$store.state.ccenter.queues.itemInstance.dncList;
                 },
                 set(value) {
-                    this.setItemProp({prop: 'dncList', value})
-                }
+                    this.setItemProp({ prop: 'dncList', value });
+                },
             },
 
             strategy: {
                 get() {
-                    return this.$store.state.ccenter.queues.itemInstance.strategy
+                    return this.$store.state.ccenter.queues.itemInstance.strategy;
                 },
                 set(value) {
-                    this.setItemProp({prop: 'strategy', value})
-                }
+                    this.setItemProp({ prop: 'strategy', value });
+                },
             },
 
             priority: {
                 get() {
-                    return this.$store.state.ccenter.queues.itemInstance.priority
+                    return this.$store.state.ccenter.queues.itemInstance.priority;
                 },
                 set(value) {
-                    this.setItemProp({prop: 'priority', value})
-                }
+                    this.setItemProp({ prop: 'priority', value });
+                },
             },
 
             schema: {
                 get() {
-                    return this.$store.state.ccenter.queues.itemInstance.schema
+                    return this.$store.state.ccenter.queues.itemInstance.schema;
                 },
                 set(value) {
-                    this.setItemProp({prop: 'schema', value})
-                }
+                    this.setItemProp({ prop: 'schema', value });
+                },
             },
 
             team: {
                 get() {
-                    return this.$store.state.ccenter.queues.itemInstance.team
+                    return this.$store.state.ccenter.queues.itemInstance.team;
                 },
                 set(value) {
-                    this.setItemProp({prop: 'team', value})
-                }
+                    this.setItemProp({ prop: 'team', value });
+                },
             },
 
             description: {
                 get() {
-                    return this.$store.state.ccenter.queues.itemInstance.description
+                    return this.$store.state.ccenter.queues.itemInstance.description;
                 },
                 set(value) {
-                    this.setItemProp({prop: 'description', value})
-                }
+                    this.setItemProp({ prop: 'description', value });
+                },
             },
         },
 
         methods: {
             async loadDropdownOptionsCalendarList(search) {
                 const response = await getCalendarList(0, 10, search);
-                this.dropdownOptionsCalendarList = response.list.map(item => {
-                    return {
+                this.dropdownOptionsCalendarList = response.list.map((item) => ({
                         name: item.name,
                         id: item.id,
-                    }
-                });
+                    }));
             },
 
             async loadDropdownOptionsBlacklistList(search) {
                 const response = await getBlacklistList(0, 10, search);
-                this.dropdownOptionsBlacklistList = response.list.map(item => {
-                    return {
+                this.dropdownOptionsBlacklistList = response.list.map((item) => ({
                         name: item.name,
                         id: item.id,
-                    }
-                });
+                    }));
             },
 
             async loadDropdownOptionsSchemaList(search) {
                 const response = await getFlowList(0, 10, search);
-                this.dropdownOptionsSchemaList = response.list.map(item => {
-                    return {
+                this.dropdownOptionsSchemaList = response.list.map((item) => ({
                         name: item.name,
                         id: item.id,
-                    }
-                });
+                    }));
             },
 
             async loadDropdownOptionsTeamList(search) {
                 const response = await getTeamsList(0, 10, search);
-                this.dropdownOptionsTeamList = response.list.map(item => {
-                    return {
+                this.dropdownOptionsTeamList = response.list.map((item) => ({
                         name: item.name,
                         id: item.id,
-                    }
-                });
+                    }));
             },
 
             ...mapActions('ccenter/queues', {
                 setItemProp: 'SET_ITEM_PROPERTY',
             }),
         },
-    }
+    };
 </script>
 
 <style lang="scss" scoped>

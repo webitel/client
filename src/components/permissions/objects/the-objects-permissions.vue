@@ -71,19 +71,19 @@
 
 <script>
     import tableComponentMixin from '@/mixins/tableComponentMixin';
-    import {_actionsTableField_1} from "@/utils/tableFieldPresets";
-    import {mapActions, mapState} from "vuex";
+    import { _actionsTableField_1 } from '@/utils/tableFieldPresets';
+    import { mapActions, mapState } from 'vuex';
 
     export default {
-        name: "the-objects-permissions",
+        name: 'the-objects-permissions',
         mixins: [tableComponentMixin],
 
         data() {
             return {
                 fields: [
-                    {name: 'name', title: this.$t('objects.name')},
-                    {name: 'obac', title: this.$t('objects.permissions.object.ObAC')},
-                    {name: 'rbac', title: this.$t('objects.permissions.object.RbAC')},
+                    { name: 'name', title: this.$t('objects.name') },
+                    { name: 'obac', title: this.$t('objects.permissions.object.ObAC') },
+                    { name: 'rbac', title: this.$t('objects.permissions.object.RbAC') },
                     _actionsTableField_1,
                 ],
             };
@@ -91,30 +91,30 @@
 
         computed: {
             ...mapState('permissions/objects', {
-                dataList: state => state.dataList,
+                dataList: (state) => state.dataList,
             }),
 
             search: {
-                get() {return this.$store.state.permissions.objects.search},
-                set(value) {this.setSearch(value)}
-            }
+                get() { return this.$store.state.permissions.objects.search; },
+                set(value) { this.setSearch(value); },
+            },
         },
 
         methods: {
             edit(rowId) {
                 this.$router.push({
                     name: 'permissions-objects-edit',
-                    params: {id: this.dataList[rowId].id},
+                    params: { id: this.dataList[rowId].id },
                 });
             },
 
             ...mapActions('permissions/objects', {
                 loadDataList: 'LOAD_DATA_LIST',
                 setSearch: 'SET_SEARCH',
-                toggleItemProperty: 'TOGGLE_ITEM_PROPERTY'
+                toggleItemProperty: 'TOGGLE_ITEM_PROPERTY',
             }),
         },
-    }
+    };
 </script>
 
 <style lang="scss" scoped>

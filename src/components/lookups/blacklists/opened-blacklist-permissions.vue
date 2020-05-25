@@ -75,60 +75,60 @@
 </template>
 
 <script>
-    import rolePopup from './opened-blacklist-permissions-role-popup';
     import tableComponentMixin from '@/mixins/tableComponentMixin';
     import editComponentMixin from '@/mixins/editComponentMixin';
-    import {mapActions, mapState} from "vuex";
+    import { mapActions, mapState } from 'vuex';
+    import rolePopup from './opened-blacklist-permissions-role-popup';
 
     export default {
-        name: "opened-blacklist-permissions",
+        name: 'opened-blacklist-permissions',
         mixins: [tableComponentMixin, editComponentMixin],
-        components: {rolePopup},
+        components: { rolePopup },
         data() {
             return {
                 // vuetable prop
                 fields: [
-                    {name: 'grantee', title: this.$t('objects.name')},
-                    {name: 'read', title: this.$t('objects.read')},
-                    {name: 'edit', title: this.$t('objects.edit')},
-                    {name: 'delete', title: this.$t('objects.delete')},
+                    { name: 'grantee', title: this.$t('objects.name') },
+                    { name: 'read', title: this.$t('objects.read') },
+                    { name: 'edit', title: this.$t('objects.edit') },
+                    { name: 'delete', title: this.$t('objects.delete') },
                 ],
             };
         },
 
         watch: {
-            parentId: function (value) {
+            parentId(value) {
                 this.setParentId(value);
-            }
+            },
         },
 
         computed: {
             ...mapState('lookups/blacklists', {
-                parentId: state => state.itemId,
+                parentId: (state) => state.itemId,
             }),
             ...mapState('lookups/blacklists/permissions', {
-                dataList: state => state.dataList,
-                page: state => state.page,
-                isNextPage: state => state.isNextPage,
+                dataList: (state) => state.dataList,
+                page: (state) => state.page,
+                isNextPage: (state) => state.isNextPage,
             }),
 
             size: {
                 get() {
-                    return this.$store.state.lookups.blacklists.permissions.size
+                    return this.$store.state.lookups.blacklists.permissions.size;
                 },
                 set(value) {
-                    this.setSize(value)
-                }
+                    this.setSize(value);
+                },
             },
 
             search: {
                 get() {
-                    return this.$store.state.lookups.blacklists.permissions.search
+                    return this.$store.state.lookups.blacklists.permissions.search;
                 },
                 set(value) {
-                    this.setSearch(value)
-                }
-            }
+                    this.setSearch(value);
+                },
+            },
         },
 
         methods: {
@@ -142,7 +142,7 @@
                 patchItem: 'PATCH_ITEM_PERMISSIONS',
             }),
         },
-    }
+    };
 </script>
 
 <style lang="scss" scoped>

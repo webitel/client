@@ -17,7 +17,7 @@
     import Notification from '../utils/notification';
 
     export default {
-        name: "module-wrap",
+        name: 'module-wrap',
         components: {
             AppHeader,
             AppNav,

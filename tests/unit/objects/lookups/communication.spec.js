@@ -1,10 +1,10 @@
-import {shallowMount, mount, createLocalVue} from '@vue/test-utils'
+import { shallowMount, mount, createLocalVue } from '@vue/test-utils';
 import theCommunications from '@/components/objects/lookups/communication-types/the-communication-types';
 import openedCommunication from '@/components/objects/lookups/communication-types/opened-communication-type';
 import VueRouter from 'vue-router';
 import Vuelidate from 'vuelidate';
 import i18n from 'vue-i18n';
-import {getCommunicationsList} from "../../../../src/api/lookups/communications/communications";
+import { getCommunicationsList } from '../../../../src/api/lookups/communications/communications';
 
 const $t = () => {
 };
@@ -18,10 +18,10 @@ const router = new VueRouter();
 
 describe('opened communication', () => {
     const wrapper = mount(openedCommunication, {
-        mocks: {$t, $tc},
+        mocks: { $t, $tc },
         localVue,
         router,
-        i18n
+        i18n,
     });
 
     it('creates new communication', async (done) => {
@@ -31,7 +31,7 @@ describe('opened communication', () => {
                 name: 'jest-comm-name',
                 code: 'jest',
                 description: 'jest tests',
-            }
+            },
         });
 
         // trigger 'save' button
@@ -40,7 +40,7 @@ describe('opened communication', () => {
         // wait promise response
         await setTimeout(async () => {
             const dataList = await getCommunicationsList(10, 'jest');
-            expect(dataList.findIndex(item => item.name.includes('jest'))).not.toBe(-1);
+            expect(dataList.findIndex((item) => item.name.includes('jest'))).not.toBe(-1);
             done();
         }, 300);
     });
@@ -49,12 +49,10 @@ describe('opened communication', () => {
         const dataList = await getCommunicationsList(10, 'jest');
 
         // to find created item id
-        const createdItem = dataList.find(item => {
-            return item.name.includes('jest');
-        });
+        const createdItem = dataList.find((item) => item.name.includes('jest'));
 
         // emulate route path by setting id
-        wrapper.setData({id: createdItem.id});
+        wrapper.setData({ id: createdItem.id });
 
         // load item by its id
         await wrapper.vm.loadItem();
@@ -68,7 +66,7 @@ describe('opened communication', () => {
                 name: 'upd-jest-comm-name',
                 code: 'upd-jest',
                 description: 'jest tests',
-            }
+            },
         };
         wrapper.setData(newItemInstance);
 
@@ -78,9 +76,7 @@ describe('opened communication', () => {
         // wait promise response
         await setTimeout(async () => {
             const newDataList = await getCommunicationsList(10, '*jest');
-            const newItem = newDataList.find(item => {
-                return item.name.includes('upd-jest');
-            });
+            const newItem = newDataList.find((item) => item.name.includes('upd-jest'));
             expect(newItem).toBeTruthy();
             done();
         }, 100);
@@ -89,10 +85,10 @@ describe('opened communication', () => {
 
 describe('the communications', () => {
     const wrapper = mount(theCommunications, {
-        mocks: {$t, $tc},
+        mocks: { $t, $tc },
         localVue,
         router,
-        i18n
+        i18n,
     });
 
     let createdItem;
@@ -102,9 +98,7 @@ describe('the communications', () => {
         await wrapper.vm.loadDataList();
 
         // find tested item
-        createdItem = wrapper.vm.dataList.find(item => {
-            return item.code === 'upd-jest' || item.code === 'jest'
-        });
+        createdItem = wrapper.vm.dataList.find((item) => item.code === 'upd-jest' || item.code === 'jest');
 
         // and its index
         createdItemIndex = wrapper.vm.dataList.indexOf(createdItem);

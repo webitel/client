@@ -78,38 +78,38 @@
 
 <script>
     import tableComponentMixin from '@/mixins/tableComponentMixin';
-    import {_actionsTableField_2, _checkboxTableField} from "../../../utils/tableFieldPresets";
-    import {mapActions, mapState} from "vuex";
+    import { mapActions, mapState } from 'vuex';
+    import { _actionsTableField_2, _checkboxTableField } from '../../../utils/tableFieldPresets';
 
     export default {
-        name: "the-agent-skills",
+        name: 'the-agent-skills',
         mixins: [tableComponentMixin],
         data() {
             return {
                 fields: [
                     _checkboxTableField,
-                    {name: 'name', title: this.$t('objects.name')},
-                    {name: 'description', title: this.$t('objects.description')},
-                    _actionsTableField_2
+                    { name: 'name', title: this.$t('objects.name') },
+                    { name: 'description', title: this.$t('objects.description') },
+                    _actionsTableField_2,
                 ],
             };
         },
 
         computed: {
             ...mapState('ccenter/skills', {
-                dataList: state => state.dataList,
-                page: state => state.page, // acts like a boolean: if page is 0, there's no back page
-                isNextPage: state => state.isNextPage,
+                dataList: (state) => state.dataList,
+                page: (state) => state.page, // acts like a boolean: if page is 0, there's no back page
+                isNextPage: (state) => state.isNextPage,
             }),
 
             size: {
-                get() {return this.$store.state.ccenter.skills.size},
-                set(value) {this.setSize(value)}
+                get() { return this.$store.state.ccenter.skills.size; },
+                set(value) { this.setSize(value); },
             },
 
             search: {
-                get() {return this.$store.state.ccenter.skills.search},
-                set(value) {this.setSearch(value)}
+                get() { return this.$store.state.ccenter.skills.search; },
+                set(value) { this.setSearch(value); },
             },
         },
 
@@ -121,7 +121,7 @@
             edit(rowId) {
                 this.$router.push({
                     name: 'cc-skill-edit',
-                    params: {id: this.dataList[rowId].id},
+                    params: { id: this.dataList[rowId].id },
                 });
             },
 
@@ -133,8 +133,8 @@
                 prevPage: 'PREV_PAGE',
                 removeItem: 'REMOVE_ITEM',
             }),
-        }
-    }
+        },
+    };
 </script>
 
 <style scoped>

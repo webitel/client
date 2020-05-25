@@ -38,60 +38,60 @@
 <script>
     import timepicker from '@/components/utils/timepicker';
     import openedTabComponentMixin from '@/mixins/openedTabComponentMixin';
-    import {mapActions} from "vuex";
+    import { mapActions } from 'vuex';
 
     export default {
-        name: "opened-queue-outbound-ivr-timing",
+        name: 'opened-queue-outbound-ivr-timing',
         mixins: [openedTabComponentMixin],
-        components: {timepicker},
+        components: { timepicker },
         data() {
-            return {}
+            return {};
         },
 
         computed: {
             originateTimeout: {
                 get() {
-                    return this.$store.state.ccenter.queues.itemInstance.payload.originateTimeout
+                    return this.$store.state.ccenter.queues.itemInstance.payload.originateTimeout;
                 },
                 set(value) {
-                    this.setPayloadItemProp({prop: 'name', value})
-                }
+                    this.setPayloadItemProp({ prop: 'name', value });
+                },
             },
 
             secBetweenRetries: {
                 get() {
-                    return this.$store.state.ccenter.queues.itemInstance.payload.secBetweenRetries
+                    return this.$store.state.ccenter.queues.itemInstance.payload.secBetweenRetries;
                 },
                 set(value) {
-                    this.setPayloadItemProp({prop: 'secBetweenRetries', value})
-                }
+                    this.setPayloadItemProp({ prop: 'secBetweenRetries', value });
+                },
             },
 
             maxOfRetry: {
                 get() {
-                    return this.$store.state.ccenter.queues.itemInstance.payload.maxOfRetry
+                    return this.$store.state.ccenter.queues.itemInstance.payload.maxOfRetry;
                 },
                 set(value) {
-                    this.setPayloadItemProp({prop: 'maxOfRetry', value})
-                }
+                    this.setPayloadItemProp({ prop: 'maxOfRetry', value });
+                },
             },
 
             timeout: {
                 get() {
-                    return this.$store.state.ccenter.queues.itemInstance.timeout
+                    return this.$store.state.ccenter.queues.itemInstance.timeout;
                 },
                 set(value) {
-                    this.setItemProp({prop: 'timeout', value})
-                }
+                    this.setItemProp({ prop: 'timeout', value });
+                },
             },
 
             waitForResultStatus: {
                 get() {
-                    return this.$store.state.ccenter.queues.itemInstance.payload.waitForResultStatus
+                    return this.$store.state.ccenter.queues.itemInstance.payload.waitForResultStatus;
                 },
                 set(value) {
-                    this.setPayloadItemProp({prop: 'waitForResultStatus', value})
-                }
+                    this.setPayloadItemProp({ prop: 'waitForResultStatus', value });
+                },
             },
         },
 
@@ -101,7 +101,7 @@
                 setPayloadItemProp: 'SET_PAYLOAD_ITEM_PROPERTY',
             }),
         },
-    }
+    };
 </script>
 
 <style lang="scss" scoped>

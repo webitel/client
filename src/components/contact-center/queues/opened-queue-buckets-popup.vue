@@ -30,18 +30,18 @@
 <script>
     import popup from '@/components/utils/popup';
     import editComponentMixin from '@/mixins/editComponentMixin';
-    import {required, numeric, minValue} from 'vuelidate/lib/validators';
-    import {mapActions, mapState} from "vuex";
-    import {getBucketsList} from "../../../api/contact-center/buckets/buckets";
+    import { required, numeric, minValue } from 'vuelidate/lib/validators';
+    import { mapActions, mapState } from 'vuex';
+    import { getBucketsList } from '../../../api/contact-center/buckets/buckets';
 
     export default {
-        name: "opened-queue-buckets-popup",
+        name: 'opened-queue-buckets-popup',
         mixins: [editComponentMixin],
         components: {
             popup,
         },
         data() {
-            return {}
+            return {};
         },
 
         validations: {
@@ -52,9 +52,9 @@
                 ratio: {
                     numeric,
                     minValue: minValue(0),
-                    required
-                }
-            }
+                    required,
+                },
+            },
         },
 
         mounted() {
@@ -64,24 +64,24 @@
 
         computed: {
             ...mapState('ccenter/queues/buckets', {
-                id: state => state.itemId,
-                itemInstance: state => state.itemInstance
+                id: (state) => state.itemId,
+                itemInstance: (state) => state.itemInstance,
             }),
             bucket: {
                 get() {
-                    return this.$store.state.ccenter.queues.buckets.itemInstance.bucket
+                    return this.$store.state.ccenter.queues.buckets.itemInstance.bucket;
                 },
                 set(value) {
-                    this.setItemProp({prop: 'bucket', value})
-                }
+                    this.setItemProp({ prop: 'bucket', value });
+                },
             },
             ratio: {
                 get() {
-                    return this.$store.state.ccenter.queues.buckets.itemInstance.ratio
+                    return this.$store.state.ccenter.queues.buckets.itemInstance.ratio;
                 },
                 set(value) {
-                    this.setItemProp({prop: 'ratio', value})
-                }
+                    this.setItemProp({ prop: 'ratio', value });
+                },
             },
         },
 
@@ -99,12 +99,10 @@
 
             async loadDropdownOptionsList(search) {
                 const response = await getBucketsList(0, 10, search);
-                this.dropdownOptionsList = response.list.map(item => {
-                    return {
+                this.dropdownOptionsList = response.list.map((item) => ({
                         name: item.name,
                         id: item.id,
-                    }
-                });
+                    }));
             },
 
             ...mapActions('ccenter/queues/buckets', {
@@ -113,8 +111,8 @@
                 updateItem: 'UPDATE_ITEM',
                 loadItem: 'LOAD_ITEM',
             }),
-        }
-    }
+        },
+    };
 </script>
 
 <style scoped>

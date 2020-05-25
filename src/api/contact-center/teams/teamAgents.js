@@ -1,19 +1,18 @@
+import { ResourceTeamServiceApiFactory } from 'webitel-sdk';
+import deepCopy from 'deep-copy';
 import instance from '../../instance';
 import configuration from '../../openAPIConfig';
 import sanitizer from '../../utils/sanitizer';
-import {ResourceTeamServiceApiFactory} from 'webitel-sdk';
-import eventBus from "../../../utils/eventBus";
-import store from "../../../store/store";
-import deepCopy from 'deep-copy';
+import eventBus from '../../../utils/eventBus';
+import store from '../../../store/store';
 
-const teamResService = new ResourceTeamServiceApiFactory
-(configuration, '', instance);
+const teamResService = new ResourceTeamServiceApiFactory(configuration, '', instance);
 
 const fieldsToSend = ['domainId', 'agent', 'maxCapacity',
-    'minCapacity', 'teamId', 'lvl', 'buckets',];
+    'minCapacity', 'teamId', 'lvl', 'buckets'];
 
 export const getTeamAgentsList = async (teamId, page = 0, size = 10, search) => {
-    const domainId = store.state.userinfo.domainId;
+    const { domainId } = store.state.userinfo;
     if (search && search.slice(-1) !== '*') search += '*';
     const defaultObject = {
         agent: {},
@@ -26,9 +25,7 @@ export const getTeamAgentsList = async (teamId, page = 0, size = 10, search) => 
     try {
         const response = await teamResService.searchResourceTeamAgent(teamId, page, size, search, domainId);
         if (response.items) {
-            return response.items.map(item => {
-                return {...defaultObject, ...item};
-            });
+            return response.items.map((item) => ({ ...defaultObject, ...item }));
         }
         return [];
     } catch (err) {
@@ -37,22 +34,22 @@ export const getTeamAgentsList = async (teamId, page = 0, size = 10, search) => 
 };
 
 export const getTeamAgent = async (teamId, id) => {
-    const domainId = store.state.userinfo.domainId;
+    const { domainId } = store.state.userinfo;
     const defaultObject = {
         agent: {},
         buckets: [],
         _dirty: false,
     };
     try {
-        let response = await teamResService.readResourceTeamAgent(teamId, id, domainId);
-         return {...defaultObject, ...response};
+        const response = await teamResService.readResourceTeamAgent(teamId, id, domainId);
+         return { ...defaultObject, ...response };
     } catch (err) {
         throw err;
     }
 };
 
 export const addTeamAgent = async (teamId, item) => {
-    let itemCopy = deepCopy(item);
+    const itemCopy = deepCopy(item);
     itemCopy.domainId = store.state.userinfo.domainId;
     itemCopy.teamId = teamId;
     sanitizer(itemCopy, fieldsToSend);
@@ -66,7 +63,7 @@ export const addTeamAgent = async (teamId, item) => {
 };
 
 export const updateTeamAgent = async (teamId, id, item) => {
-    let itemCopy = deepCopy(item);
+    const itemCopy = deepCopy(item);
     itemCopy.domainId = store.state.userinfo.domainId;
     itemCopy.teamId = teamId;
     sanitizer(itemCopy, fieldsToSend);
@@ -79,7 +76,7 @@ export const updateTeamAgent = async (teamId, id, item) => {
 };
 
 export const deleteTeamAgent = async (teamId, id) => {
-    const domainId = store.state.userinfo.domainId;
+    const { domainId } = store.state.userinfo;
     try {
         await teamResService.deleteResourceTeamAgent(teamId, id, domainId);
     } catch (err) {

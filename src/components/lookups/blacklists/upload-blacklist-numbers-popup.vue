@@ -57,7 +57,7 @@
     import uploadCSVMixin from '../../../mixins/uploadCSVMixin';
 
     export default {
-        name: "upload-users-popup",
+        name: 'upload-users-popup',
         mixins: [uploadCSVMixin],
         data() {
             return {
@@ -65,24 +65,24 @@
                     {
                         name: 'number',
                         required: true,
-                        csv: {}
+                        csv: {},
                     },
                     {
                         name: 'description',
                         required: false,
-                        csv: {}
+                        csv: {},
                     },
                 ],
-            }
+            };
         },
 
         methods: {
             async addItem(item) {
                 console.log(item);
                 // await addUser(item);
-            }
-        }
-    }
+            },
+        },
+    };
 </script>
 
 <style lang="scss" scoped>

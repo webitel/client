@@ -50,39 +50,39 @@
     import validationMessage from './validation-message';
 
     export default {
-        name: "timepicker",
+        name: 'timepicker',
         mixins: [requiredLabelMixin],
         components: {
             dropdownSelect,
-            validationMessage
+            validationMessage,
         },
 
         props: {
             format: {
                 type: String,
-                default: 'hh:mm:ss'
+                default: 'hh:mm:ss',
             },
             label: {
                 type: String,
             },
             value: {
                 type: [Number, Object],
-                required: true
+                required: true,
             },
             hourOptions: {
                 type: Array,
             },
             minOptions: {
                 type: Array,
-                default: () => ['00', '15', '30', '45']
+                default: () => ['00', '15', '30', '45'],
             },
             secOptions: {
                 type: Array,
-                default: () => ['00', '15', '30', '45']
+                default: () => ['00', '15', '30', '45'],
             },
             required: {
                 type: Boolean,
-                default: false
+                default: false,
             },
             v: {
                 type: Object,
@@ -100,14 +100,14 @@
                     hour: false,
                     min: false,
                     sec: false,
-                }
-            }
+                },
+            };
         },
 
         watch: {
-            value: function () {
+            value() {
                 this.updateComponentTime();
-            }
+            },
         },
 
         mounted() {
@@ -140,17 +140,17 @@
         methods: {
             updateComponentTime() {
                 let value = this.value !== undefined ? this.value : 0;
-                if (!this.timeVisibility.sec) value = value * 60;
-                if (!this.timeVisibility.min) value = value * 60;
+                if (!this.timeVisibility.sec) value *= 60;
+                if (!this.timeVisibility.min) value *= 60;
                 this.time.sec = value % 60;
                 this.time.min = Math.floor(value / 60 % 60);
                 this.time.hour = Math.floor(value / 3600);
             },
 
             setTime() {
-                let value = this.time.hour*3600 + this.time.min*60 + this.time.sec;
-                if (!this.format.includes('s')) value = value / 60;
-                if (!this.format.includes('m')) value = value / 60;
+                let value = this.time.hour * 3600 + this.time.min * 60 + this.time.sec;
+                if (!this.format.includes('s')) value /= 60;
+                if (!this.format.includes('m')) value /= 60;
                 this.$emit('input', value);
             },
 
@@ -182,10 +182,10 @@
             },
 
             addZero(value) {
-                return (value - 0 < 10) ? '0' + value : value + '';
+                return (value - 0 < 10) ? `0${value}` : `${value}`;
             },
-        }
-    }
+        },
+    };
 </script>
 
 <style lang="scss">

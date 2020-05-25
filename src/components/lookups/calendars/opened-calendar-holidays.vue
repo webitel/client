@@ -46,31 +46,31 @@
 </template>
 
 <script>
-    import holidayPopup from './opened-calendar-holiday-popup';
     import tableComponentMixin from '@/mixins/tableComponentMixin';
     import openedTabComponentMixin from '@/mixins/openedTabComponentMixin';
-    import {_checkboxTableField, _actionsTableField_2} from "@/utils/tableFieldPresets";
-    import {mapActions, mapState} from "vuex";
+    import { _checkboxTableField, _actionsTableField_2 } from '@/utils/tableFieldPresets';
+    import { mapActions, mapState } from 'vuex';
+    import holidayPopup from './opened-calendar-holiday-popup';
 
     export default {
-        name: "opened-calendar-holidays",
+        name: 'opened-calendar-holidays',
         mixins: [tableComponentMixin, openedTabComponentMixin],
-        components: {holidayPopup},
+        components: { holidayPopup },
         data() {
             return {
                 fields: [
                     _checkboxTableField,
-                    {name: 'name', title: this.$t('objects.name')},
-                    {name: 'date', title: this.$t('objects.lookups.calendars.date')},
-                    {name: 'repeat', title: this.$t('objects.lookups.calendars.repeat')},
+                    { name: 'name', title: this.$t('objects.name') },
+                    { name: 'date', title: this.$t('objects.lookups.calendars.date') },
+                    { name: 'repeat', title: this.$t('objects.lookups.calendars.repeat') },
                     _actionsTableField_2,
                 ],
-            }
+            };
         },
 
         computed: {
             ...mapState('lookups/calendars/holidays', {
-                dataList: state => state.dataList,
+                dataList: (state) => state.dataList,
             }),
         },
 
@@ -98,8 +98,8 @@
                 loadDataList: 'LOAD_DATA_LIST',
                 removeItem: 'REMOVE_ITEM',
             }),
-        }
-    }
+        },
+    };
 </script>
 
 <style scoped>

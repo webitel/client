@@ -22,7 +22,7 @@
                 type: String,
                 default: 'button',
             },
-        }
+        },
     };
 </script>
 

@@ -151,26 +151,26 @@
 <script>
     import jszip from 'jszip';
     import jszipUtils from 'jszip-utils';
-    import {saveAs} from 'file-saver';
+    import { saveAs } from 'file-saver';
     import vueDropzone from 'vue2-dropzone';
+    import { mapActions, mapState } from 'vuex';
     import audioPlayer from '../../utils/audio-player';
     import textToSpeechPopup from './media-text-to-speech-popup';
     import tableComponentMixin from '../../../mixins/tableComponentMixin';
-    import {_checkboxTableField, _actionsTableField_3} from "../../../utils/tableFieldPresets";
-    import eventBus from "../../../utils/eventBus";
-    import {mapActions, mapState} from "vuex";
-    import {download} from "../../../utils/download";
+    import { _checkboxTableField, _actionsTableField_3 } from '../../../utils/tableFieldPresets';
+    import eventBus from '../../../utils/eventBus';
+    import { download } from '../../../utils/download';
 
     const token = localStorage.getItem('access-token');
     const BASE_URL = process.env.VUE_APP_API_URL;
 
     export default {
-        name: "the-media",
+        name: 'the-media',
         mixins: [tableComponentMixin],
         components: {
             vueDropzone,
             audioPlayer,
-            textToSpeechPopup
+            textToSpeechPopup,
         },
         data() {
             return {
@@ -193,10 +193,10 @@
                 },
                 fields: [
                     _checkboxTableField,
-                    {name: 'name', title: this.$t('objects.name')},
-                    {name: 'createdAt', title: this.$t('objects.lookups.media.createdAt')},
-                    {name: 'format', title: this.$t('objects.lookups.media.format')},
-                    {name: 'size', title: this.$t('objects.lookups.media.size')},
+                    { name: 'name', title: this.$t('objects.name') },
+                    { name: 'createdAt', title: this.$t('objects.lookups.media.createdAt') },
+                    { name: 'format', title: this.$t('objects.lookups.media.format') },
+                    { name: 'size', title: this.$t('objects.lookups.media.size') },
                     _actionsTableField_3,
                 ],
             };
@@ -204,34 +204,34 @@
 
         computed: {
             ...mapState('lookups/media', {
-                dataList: state => state.dataList,
-                page: state => state.page, // acts like a boolean: if page is 0, there's no back page
-                isNextPage: state => state.isNextPage,
+                dataList: (state) => state.dataList,
+                page: (state) => state.page, // acts like a boolean: if page is 0, there's no back page
+                isNextPage: (state) => state.isNextPage,
             }),
 
             size: {
                 get() {
-                    return this.$store.state.lookups.media.size
+                    return this.$store.state.lookups.media.size;
                 },
                 set(value) {
-                    this.setSize(value)
-                }
+                    this.setSize(value);
+                },
             },
 
             search: {
                 get() {
-                    return this.$store.state.lookups.media.search
+                    return this.$store.state.lookups.media.search;
                 },
                 set(value) {
-                    this.setSearch(value)
-                }
+                    this.setSearch(value);
+                },
             },
         },
 
         methods: {
             async downloadFile(rowId) {
                 const item = this.dataList[rowId];
-                const id = item.id;
+                const { id } = item;
                 const url = `${BASE_URL}/storage/media/${id}/download?access_token=${token}`;
                 download(url, item.name);
             },
@@ -239,7 +239,7 @@
             async downloadAll() {
                 const zip = new jszip();
                 for (const item of this.dataList) {
-                    const id = item.id;
+                    const { id } = item;
                     const url = `${BASE_URL}/storage/media/${id}/stream?access_token=${token}`;
                     await new Promise((resolve, reject) => jszipUtils.getBinaryContent(url, (err, data) => {
                         if (err) {
@@ -250,7 +250,7 @@
                         }
                     }));
                 }
-                const file = await zip.generateAsync({type: 'blob'});
+                const file = await zip.generateAsync({ type: 'blob' });
                 saveAs(file, 'z.zip');
             },
 
@@ -283,7 +283,7 @@
             },
 
             async play(rowId) {
-                const id = this.dataList[rowId].id;
+                const { id } = this.dataList[rowId];
                 this.playerTriggerShow = true;
                 this.playingIndex = rowId;
                 this.audioLink = `${BASE_URL}/storage/media/${id}/stream?access_token=${token}`;
@@ -309,13 +309,15 @@
 
             computeSize(size, nospace, one) {
                 const sizes = ['Bytes', 'kB', 'MB', 'GB', 'TB', 'PB', 'EB'];
-                let resultSize, f;
+                let resultSize; let
+f;
 
                 sizes.forEach((f, id) => {
                     if (one) {
                         f = f.slice(0, 1);
                     }
-                    let s = Math.pow(1024, id), fixed;
+                    const s = Math.pow(1024, id); let
+fixed;
                     if (size >= s) {
                         fixed = String((size / s).toFixed(1));
                         if (fixed.indexOf('.0') === fixed.length - 2) {
@@ -329,13 +331,13 @@
                 // always prints in Bytes
                 if (!resultSize) {
                     f = (one ? sizes[0].slice(0, 1) : sizes[0]);
-                    resultSize = '0' + (nospace ? '' : ' ') + f;
+                    resultSize = `0${nospace ? '' : ' '}${f}`;
                 }
 
                 return resultSize;
             },
-        }
-    }
+        },
+    };
 </script>
 
 <style lang="scss">

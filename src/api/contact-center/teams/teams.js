@@ -1,25 +1,24 @@
+import { AgentTeamServiceApiFactory } from 'webitel-sdk';
 import instance from '../../instance';
 import configuration from '../../openAPIConfig';
-import {AgentTeamServiceApiFactory} from 'webitel-sdk';
 import {
     WebitelAPIPermissionsGetter,
-    WebitelAPIPermissionsPatcher
-} from "../../utils/ApiControllers/Permissions/PermissionsController";
-import {WebitelSDKItemDeleter} from "../../utils/ApiControllers/Deleter/SDKDeleter";
-import {WebitelSDKItemUpdater} from "../../utils/ApiControllers/Updater/SDKUpdater";
-import {WebitelSDKItemCreator} from "../../utils/ApiControllers/Creator/SDKCreator";
-import {WebitelSDKItemGetter} from "../../utils/ApiControllers/Getter/SDKGetter";
-import {WebitelSDKListGetter} from "../../utils/ApiControllers/ListGetter/SDKListGetter";
+    WebitelAPIPermissionsPatcher,
+} from '../../utils/ApiControllers/Permissions/PermissionsController';
+import { WebitelSDKItemDeleter } from '../../utils/ApiControllers/Deleter/SDKDeleter';
+import { WebitelSDKItemUpdater } from '../../utils/ApiControllers/Updater/SDKUpdater';
+import { WebitelSDKItemCreator } from '../../utils/ApiControllers/Creator/SDKCreator';
+import { WebitelSDKItemGetter } from '../../utils/ApiControllers/Getter/SDKGetter';
+import { WebitelSDKListGetter } from '../../utils/ApiControllers/ListGetter/SDKListGetter';
 
-const teamService = new AgentTeamServiceApiFactory
-(configuration, '', instance);
+const teamService = new AgentTeamServiceApiFactory(configuration, '', instance);
 
 const BASE_URL = '/call_center/teams';
 const fieldsToSend = ['domainId', 'name', 'description', 'strategy', 'maxNoAnswer', 'wrapUpTime',
     'rejectDelayTime', 'busyDelayTime', 'noAnswerDelayTime', 'callTimeout', 'postProcessing', 'postProcessingTimeout'];
 
 export const strategiesList = {
-    'random': 'Random',
+    random: 'Random',
     'fewest-calls': 'Agent with fewest calls',
     'least-talk-time': 'Agent with least talk time',
     'top-down': 'Top-Down',
@@ -41,46 +40,32 @@ const permissionsGetter = new WebitelAPIPermissionsGetter(BASE_URL);
 const permissionsPatcher = new WebitelAPIPermissionsPatcher(BASE_URL);
 
 itemGetter.responseHandler = (response) => {
-    let defaultItemObject = {
+    const defaultItemObject = {
         _dirty: false,
         postProcessing: false,
-        wrapUpTime: 0
+        wrapUpTime: 0,
     };
     try {
         response.strategy = {
             name: strategiesList[response.strategy],
             value: response.strategy,
         };
-        return {...defaultItemObject, ...response};
+        return { ...defaultItemObject, ...response };
     } catch (err) {
         throw err;
     }
 };
 
-export const getTeamsList = async (page = 0, size = 10, search) => {
-    return await listGetter.getList({page, size, search});
-};
+export const getTeamsList = async (page = 0, size = 10, search) => await listGetter.getList({ page, size, search });
 
-export const getTeam = async (id) => {
-    return await itemGetter.getItem(id);
-};
+export const getTeam = async (id) => await itemGetter.getItem(id);
 
-export const addTeam = async (item) => {
-    return await itemCreator.createItem(item);
-};
+export const addTeam = async (item) => await itemCreator.createItem(item);
 
-export const updateTeam = async (id, item) => {
-    return await itemUpdater.updateItem(id, item);
-};
+export const updateTeam = async (id, item) => await itemUpdater.updateItem(id, item);
 
-export const deleteTeam = async (id) => {
-    return await itemDeleter.deleteItem(id);
-};
+export const deleteTeam = async (id) => await itemDeleter.deleteItem(id);
 
-export const getTeamPermissions = async (id, page = 0, size = 10, search) => {
-    return await permissionsGetter.getList(id, size, search);
-};
+export const getTeamPermissions = async (id, page = 0, size = 10, search) => await permissionsGetter.getList(id, size, search);
 
-export const patchTeamPermissions = async (id, item) => {
-    return await permissionsPatcher.patchItem(id, item);
-};
+export const patchTeamPermissions = async (id, item) => await permissionsPatcher.patchItem(id, item);

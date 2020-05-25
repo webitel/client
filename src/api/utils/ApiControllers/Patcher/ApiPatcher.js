@@ -1,8 +1,8 @@
-import deepCopy from "deep-copy";
-import sanitizer from "../../sanitizer";
-import instance from "../../../instance";
-import eventBus from "../../../../utils/eventBus";
-import {BaseItemPatcher} from "./BaseItemPatcher";
+import deepCopy from 'deep-copy';
+import sanitizer from '../../sanitizer';
+import instance from '../../../instance';
+import eventBus from '../../../../utils/eventBus';
+import { BaseItemPatcher } from './BaseItemPatcher';
 
 export class WebitelAPIItemPatcher extends BaseItemPatcher {
     constructor(url, fieldsToSend) {
@@ -11,11 +11,11 @@ export class WebitelAPIItemPatcher extends BaseItemPatcher {
     }
 
     async patchItem(id, item) {
-        const updUrl = this.url + '/' + id + '/presence';
-        let itemCopy = deepCopy(item);
+        const updUrl = `${this.url}/${id}/presence`;
+        const itemCopy = deepCopy(item);
         sanitizer(itemCopy, this.fieldsToSend);
         try {
-            const response = await instance.patch(updUrl,  itemCopy);
+            const response = await instance.patch(updUrl, itemCopy);
             eventBus.$emit('notificationInfo', 'Successfully updated');
         } catch (err) {
             throw err;
