@@ -72,8 +72,8 @@
         justify-content: space-between;
         align-items: center;
         min-height: 68px;
-        padding: 15px 28px;
-        margin-bottom: 28px;
+        padding: 15px 30px;
+        margin-bottom: 20px;
 
         background: #fff;
         border-radius: $border-radius;

@@ -44,6 +44,6 @@
     }
 
     .object-content-wrap {
-        padding: 28px 58px;
+        padding: 20px 30px;
     }
 </style>
