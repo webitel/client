@@ -4,36 +4,36 @@
         <main class="object">
             <notification></notification>
             <app-header></app-header>
-           <div class="object-content-wrap">
-               <router-view></router-view>
-           </div>
+            <div class="object-content-wrap">
+                <router-view></router-view>
+            </div>
         </main>
     </div>
 </template>
 
 <script>
-    import theHeader from '../the-header';
-    import theNavbar from '../the-navbar';
-    import notification from '../utils/notification';
+    import AppHeader from '../cc-header/cc-header.vue';
+    import AppNav from '../the-navbar';
+    import Notification from '../utils/notification';
 
     export default {
         name: "module-wrap",
         components: {
-            'app-header': theHeader,
-            'app-nav': theNavbar,
-            notification,
+            AppHeader,
+            AppNav,
+            Notification,
         },
         data() {
             return {
-                reloadNavKey: 0
-            }
+                reloadNavKey: 0,
+            };
         },
         methods: {
             updateNav() {
                 this.reloadNavKey++;
-            }
-        }
-    }
+            },
+        },
+    };
 </script>
 
 <style lang="scss" scoped>
