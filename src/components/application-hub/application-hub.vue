@@ -127,6 +127,7 @@
 <style lang="scss" scoped>
     $application-hub-bg-color: #171A2A;
     $card-bg--hover: #fff;
+    $transition: 0.6s;
 
     // helper class
     .typo-application-hub {
