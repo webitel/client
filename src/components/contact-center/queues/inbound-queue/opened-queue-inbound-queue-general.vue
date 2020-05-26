@@ -33,14 +33,6 @@
                     :label="$t('objects.ccenter.queues.priority')"
             ></dropdown-select>
 
-            <dropdown-select
-                    v-model="schema"
-                    :v="v.itemInstance.schema"
-                    :options="dropdownOptionsSchemaList"
-                    :label="$t('objects.routing.schema')"
-                    @search="loadDropdownOptionsSchemaList"
-                    required
-            ></dropdown-select>
 
             <dropdown-select
                     v-model="team"
@@ -49,6 +41,14 @@
                     :label="$tc('objects.ccenter.teams.teams', 1)"
                     @search="loadDropdownOptionsTeamList"
                     required
+            ></dropdown-select>
+
+            <dropdown-select
+                    v-model="ringtone"
+                    :v="v.itemInstance.ringtone"
+                    :options="dropdownOptionsMediaList"
+                    :label="'Ringtone'"
+                    @search="loadDropdownOptionsMediaList"
             ></dropdown-select>
 
             <form-input
@@ -62,11 +62,12 @@
 
 <script>
     import openedTabComponentMixin from '@/mixins/openedTabComponentMixin';
-    import { mapActions } from 'vuex';
-    import { getCalendarList } from '../../../../api/lookups/calendars/calendars';
-    import { getTeamsList } from '../../../../api/contact-center/teams/teams';
-    import { getFlowList } from '../../../../api/routing/flow/flow';
-    import { getBlacklistList } from '../../../../api/lookups/blacklists/blacklists';
+    import {mapActions} from "vuex";
+    import {getCalendarList} from "../../../../api/lookups/calendars/calendars";
+    import {getTeamsList} from "../../../../api/contact-center/teams/teams";
+    import {getFlowList} from "../../../../api/routing/flow/flow";
+    import {getBlacklistList} from "../../../../api/lookups/blacklists/blacklists";
+    import {getMediaList} from "../../../../api/lookups/media/media";
 
     export default {
         name: 'opened-queue-inbound-queue-general',
@@ -78,7 +79,8 @@
                 dropdownOptionsPriorityList: ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10'],
                 dropdownOptionsSchemaList: [],
                 dropdownOptionsTeamList: [],
-            };
+                dropdownOptionsMediaList: [],
+            }
         },
 
         mounted() {
@@ -86,6 +88,7 @@
             this.loadDropdownOptionsBlacklistList();
             this.loadDropdownOptionsSchemaList();
             this.loadDropdownOptionsTeamList();
+            this.loadDropdownOptionsMediaList();
         },
 
         computed: {
@@ -143,6 +146,15 @@
                 },
             },
 
+            ringtone: {
+                get() {
+                    return this.$store.state.ccenter.queues.itemInstance.ringtone
+                },
+                set(value) {
+                    this.setItemProp({prop: 'ringtone', value})
+                }
+            },
+
             description: {
                 get() {
                     return this.$store.state.ccenter.queues.itemInstance.description;
@@ -184,6 +196,16 @@
                         name: item.name,
                         id: item.id,
                     }));
+            },
+
+            async loadDropdownOptionsMediaList(search) {
+                const response = await getMediaList(0, 10, search);
+                this.dropdownOptionsMediaList = response.list.map(item => {
+                    return {
+                        name: item.name,
+                        id: item.id,
+                    }
+                });
             },
 
             ...mapActions('ccenter/queues', {
