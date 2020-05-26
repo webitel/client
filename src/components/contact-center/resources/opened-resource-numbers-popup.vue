@@ -21,13 +21,15 @@
 <script>
     import popup from '@/components/utils/popup';
     import editComponentMixin from '@/mixins/editComponentMixin';
-    import {required, numeric, minValue, maxValue} from 'vuelidate/lib/validators';
-    import {mapActions, mapState} from "vuex";
-    import {getAgentsList} from "../../../api/contact-center/agents/agents";
-    import {getBucketsList} from "../../../api/contact-center/buckets/buckets";
+    import {
+ required, numeric, minValue, maxValue,
+} from 'vuelidate/lib/validators';
+    import { mapActions, mapState } from 'vuex';
+    import { getAgentsList } from '../../../api/contact-center/agents/agents';
+    import { getBucketsList } from '../../../api/contact-center/buckets/buckets';
 
     export default {
-        name: "opened-res-numbers-popup",
+        name: 'opened-res-numbers-popup',
         mixins: [editComponentMixin],
         components: {
             popup,
@@ -38,7 +40,7 @@
                 display: {
                     required,
                 },
-            }
+            },
         },
 
         mounted() {
@@ -47,16 +49,16 @@
 
         computed: {
             ...mapState('ccenter/res/numbers', {
-                id: state => state.itemId,
-                itemInstance: state => state.itemInstance
+                id: (state) => state.itemId,
+                itemInstance: (state) => state.itemInstance,
             }),
             display: {
                 get() {
-                    return this.$store.state.ccenter.res.numbers.itemInstance.display
+                    return this.$store.state.ccenter.res.numbers.itemInstance.display;
                 },
                 set(value) {
-                    this.setItemProp({prop: 'display', value})
-                }
+                    this.setItemProp({ prop: 'display', value });
+                },
             },
         },
 
@@ -77,8 +79,8 @@
                 updateItem: 'UPDATE_ITEM',
                 loadItem: 'LOAD_ITEM',
             }),
-        }
-    }
+        },
+    };
 </script>
 
 <style scoped>

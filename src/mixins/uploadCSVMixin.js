@@ -3,7 +3,7 @@ import formInput from '../components/utils/form-input';
 import divider from '../components/utils/divider';
 import popup from '../components/utils/popup';
 import dropdownSelect from '../components/utils/dropdown-select';
-import {processCSVFile, charsetOptions} from "../utils/processCSV";
+import { processCSVFile, charsetOptions } from '../utils/processCSV';
 
 export default {
     components: {
@@ -11,22 +11,22 @@ export default {
         dropdownSelect,
         checkbox,
         divider,
-        popup
+        popup,
     },
     props: {
         file: {
             required: true,
-        }
+        },
     },
     data() {
         return {
             skipHeaders: true,
-            charset: {name: 'UTF-8', value: 'utf-8'},
+            charset: { name: 'UTF-8', value: 'utf-8' },
             separator: ',',
             csvArr: [[]],
             charsetOptions,
             mappingFields: [],
-        }
+        };
     },
 
     mounted() {
@@ -35,15 +35,15 @@ export default {
 
     computed: {
         computeHeaders() {
-            this.mappingFields.forEach(field => field.tags ? field.csvArr = [] : field.csv = {}); // reset previously selected values
-            let headers = [];
+            this.mappingFields.forEach((field) => (field.tags ? field.csvArr = [] : field.csv = {})); // reset previously selected values
+            const headers = [];
             if (this.skipHeaders) {
                 for (let i = 0; i < this.csvArr[0].length; i++) {
-                    headers.push({name: this.csvArr[0][i], id: i});
+                    headers.push({ name: this.csvArr[0][i], id: i });
                 }
             } else {
                 for (let i = 1; i <= this.csvArr[0].length; i++) {
-                    headers.push({name: `${i} row`, id: i - 1});
+                    headers.push({ name: `${i} row`, id: i - 1 });
                 }
             }
             return headers;
@@ -51,12 +51,10 @@ export default {
 
         computeDisabledSave() {
             // find all required fields
-            let required = this.mappingFields.filter(field => field.required);
+            const required = this.mappingFields.filter((field) => field.required);
             // check if some of them are empty
-            return required.some(item => {
-                return !Object.entries(item.csv).length;
-            });
-        }
+            return required.some((item) => !Object.entries(item.csv).length);
+        },
     },
 
     methods: {
@@ -66,7 +64,7 @@ export default {
                 for (const [index, row] of this.csvArr.entries()) {
                     // skip 0 index if it is headers
                     if (!this.skipHeaders || (this.skipHeaders && index)) {
-                        let item = this.setFields(row, this.mappingFields);
+                        const item = this.setFields(row, this.mappingFields);
                         await this.addItem(item);
                     }
                 }
@@ -76,8 +74,8 @@ export default {
         },
 
         setFields(row, mappingFields) {
-            let item = {};
-            mappingFields.forEach(field => {
+            const item = {};
+            mappingFields.forEach((field) => {
                 if (Object.entries(field.csv).length) {
                     item[field.name] = row[field.csv.id];
                 }
@@ -90,11 +88,10 @@ export default {
             reader.addEventListener('load', (e) => {
                     const file = e.target.result;
                     if (file) this.csvArr = processCSVFile(file, this.separator);
-                }
-            );
+                });
             reader.readAsText(this.file, this.charset.value);
         },
 
         addItem() {},
-    }
-}
+    },
+};

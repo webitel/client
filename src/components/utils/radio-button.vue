@@ -14,11 +14,11 @@
 
 <script>
     export default {
-        name: "radio-button",
+        name: 'radio-button',
         props: {
             value: {
                 type: String,
-                required: true
+                required: true,
             },
 
             option: {
@@ -31,18 +31,17 @@
         methods: {
             changeValue() {
                 this.$emit('input', this.option);
-            }
+            },
         },
         computed: {
             computeLabel() {
                 if (this.label) {
                     return this.label[this.value] || this.label;
                 }
-                return ''
-
-            }
-        }
-    }
+                return '';
+            },
+        },
+    };
 </script>
 
 <style lang="scss" scoped>

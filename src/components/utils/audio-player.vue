@@ -80,7 +80,7 @@
     import range from './range';
 
     export default {
-        name: "audio-player",
+        name: 'audio-player',
         components: {
             range,
         },
@@ -91,7 +91,7 @@
             },
             autoPlay: {
                 type: Boolean,
-                default: true
+                default: true,
             },
             loop: {
                 type: Boolean,
@@ -167,7 +167,7 @@
                     this.loaded = true;
                     this.durationSeconds = parseInt(this.audio.duration);
                     this.playing = (this.autoPlay && !this.isFirstLoad);
-                    if(this.playing) this.audio.play();
+                    if (this.playing) this.audio.play();
                     this.isFirstLoad = false;
                 } else {
                     throw new Error('Failed to load sound file.');
@@ -211,8 +211,8 @@
                 this.stop();
                 this.$emit('close');
             },
-        }
-    }
+        },
+    };
 </script>
 
 <style lang="scss" scoped>

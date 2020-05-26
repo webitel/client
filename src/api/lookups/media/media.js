@@ -1,14 +1,13 @@
-import instance from '../../instance';
 import axios from 'axios';
+import { MediaFileServiceApiFactory } from 'webitel-sdk';
+import instance from '../../instance';
 import configuration from '../../openAPIConfig';
-import {MediaFileServiceApiFactory} from 'webitel-sdk';
-import eventBus from "../../../utils/eventBus";
-import store from "../../../store/store";
-import {WebitelSDKItemDeleter} from "../../utils/ApiControllers/Deleter/SDKDeleter";
-import {WebitelSDKListGetter} from "../../utils/ApiControllers/ListGetter/SDKListGetter";
+import eventBus from '../../../utils/eventBus';
+import store from '../../../store/store';
+import { WebitelSDKItemDeleter } from '../../utils/ApiControllers/Deleter/SDKDeleter';
+import { WebitelSDKListGetter } from '../../utils/ApiControllers/ListGetter/SDKListGetter';
 
-const mediaService = new MediaFileServiceApiFactory
-(configuration, '', instance);
+const mediaService = new MediaFileServiceApiFactory(configuration, '', instance);
 
 const token = localStorage.getItem('access-token');
 const BASE_URL = process.env.VUE_APP_API_URL;
@@ -16,13 +15,11 @@ const BASE_URL = process.env.VUE_APP_API_URL;
 const listGetter = new WebitelSDKListGetter(mediaService.searchMediaFile);
 const itemDeleter = new WebitelSDKItemDeleter(mediaService.deleteMediaFile);
 
-export const getMediaList = async (page = 0, size = 10, search) => {
-    return await listGetter.getList({page, size, search});
-};
+export const getMediaList = async (page = 0, size = 10, search) => await listGetter.getList({ page, size, search });
 
 export const getMedia = async (id) => {
     const url = `${BASE_URL}/storage/media/${id}/stream?access_token=${token}`;
-    const domainId = store.state.userinfo.domainId;
+    const { domainId } = store.state.userinfo;
     try {
         return await instance.get(url, domainId);
     } catch (err) {
@@ -43,8 +40,8 @@ export const addMedia = async (file) => {
     const url = `${BASE_URL}/storage/media?access_token=${token}`;
     const config = {
         headers: {
-            'content-type': 'multipart/form-data'
-        }
+            'content-type': 'multipart/form-data',
+        },
     };
     const formData = new FormData();
     formData.append('file', file);
@@ -57,6 +54,4 @@ export const addMedia = async (file) => {
     }
 };
 
-export const deleteMedia = async (id) => {
-    return await itemDeleter.deleteItem(id);
-};
+export const deleteMedia = async (id) => await itemDeleter.deleteItem(id);

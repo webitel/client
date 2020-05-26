@@ -26,21 +26,21 @@
 </template>
 
 <script>
-    import openedTrunkingSipGatewayGeneral from './opened-trunking-sip-gateway-general';
-    import openedTrunkingSipGatewayConfiguration from './opened-trunking-sip-gateway-configuration';
 
     import editComponentMixin from '@/mixins/editComponentMixin';
-    import {ipValidator, gatewayHostValidator} from '@/utils/validators';
-    import {required} from 'vuelidate/lib/validators';
+    import { ipValidator, gatewayHostValidator } from '@/utils/validators';
+    import { required } from 'vuelidate/lib/validators';
 
-    import {mapActions, mapState} from "vuex";
+    import { mapActions, mapState } from 'vuex';
+    import openedTrunkingSipGatewayConfiguration from './opened-trunking-sip-gateway-configuration';
+    import openedTrunkingSipGatewayGeneral from './opened-trunking-sip-gateway-general';
 
     export default {
         name: 'opened-trunking-sip-gateway',
         mixins: [editComponentMixin],
         components: {
             openedTrunkingSipGatewayGeneral,
-            openedTrunkingSipGatewayConfiguration
+            openedTrunkingSipGatewayConfiguration,
         },
 
         data() {
@@ -60,11 +60,11 @@
         validations: {
             itemInstance: {
                 name: {
-                    required
+                    required,
                 },
                 host: {
                     gatewayHostValidator,
-                    required
+                    required,
                 },
                 proxy: {
                     gatewayHostValidator,
@@ -74,11 +74,11 @@
                     $each: {
                         ip: {
                             ipValidator,
-                            required
+                            required,
                         },
-                    }
-                }
-            }
+                    },
+                },
+            },
         },
 
         mounted() {
@@ -88,12 +88,12 @@
 
         computed: {
             ...mapState('routing/gateways', {
-                itemInstance: state => state.itemInstance,
+                itemInstance: (state) => state.itemInstance,
             }),
             id: {
-                get() {return this.$store.state.routing.gateways.itemId},
-                set(value) {this.setId(value)}
-            }
+                get() { return this.$store.state.routing.gateways.itemId; },
+                set(value) { this.setId(value); },
+            },
         },
 
         methods: {

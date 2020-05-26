@@ -47,53 +47,53 @@
 <script>
     import tableComponentMixin from '@/mixins/tableComponentMixin';
     import openedTabComponentMixin from '@/mixins/openedTabComponentMixin';
-    import {mapActions, mapState} from "vuex";
+    import { mapActions, mapState } from 'vuex';
 
     export default {
-        name: "opened-agent-teams",
+        name: 'opened-agent-teams',
         mixins: [openedTabComponentMixin, tableComponentMixin],
         data() {
             return {
                 fields: [
-                    {name: 'name', title: this.$tc('objects.ccenter.teams.teams', 2)},
-                    {name: 'strategy', title: this.$t('objects.ccenter.teams.strategy')},
+                    { name: 'name', title: this.$tc('objects.ccenter.teams.teams', 2) },
+                    { name: 'strategy', title: this.$t('objects.ccenter.teams.strategy') },
                 ],
-            }
+            };
         },
 
         watch: {
-            parentId: function (value) {
+            parentId(value) {
                 this.setParentId(value);
-            }
+            },
         },
 
         computed: {
             ...mapState('ccenter/agents', {
-                parentId: state => state.itemId,
+                parentId: (state) => state.itemId,
             }),
             ...mapState('ccenter/agents/teams', {
-                dataList: state => state.dataList,
-                page: state => state.page,
-                isNextPage: state => state.isNextPage,
+                dataList: (state) => state.dataList,
+                page: (state) => state.page,
+                isNextPage: (state) => state.isNextPage,
             }),
 
             size: {
                 get() {
-                    return this.$store.state.ccenter.agents.skills.size
+                    return this.$store.state.ccenter.agents.skills.size;
                 },
                 set(value) {
-                    this.setSize(value)
-                }
+                    this.setSize(value);
+                },
             },
 
             search: {
                 get() {
-                    return this.$store.state.ccenter.agents.skills.search
+                    return this.$store.state.ccenter.agents.skills.search;
                 },
                 set(value) {
-                    this.setSearch(value)
-                }
-            }
+                    this.setSearch(value);
+                },
+            },
         },
 
         methods: {
@@ -124,8 +124,8 @@
                 nextPage: 'NEXT_PAGE',
                 prevPage: 'PREV_PAGE',
             }),
-        }
-    }
+        },
+    };
 </script>
 
 <style lang="scss" scoped>

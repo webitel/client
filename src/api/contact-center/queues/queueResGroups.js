@@ -1,18 +1,17 @@
+import { QueueResourcesServiceApiFactory } from 'webitel-sdk';
+import deepCopy from 'deep-copy';
 import instance from '../../instance';
 import configuration from '../../openAPIConfig';
 import sanitizer from '../../utils/sanitizer';
-import {QueueResourcesServiceApiFactory} from 'webitel-sdk';
-import eventBus from "../../../utils/eventBus";
-import deepCopy from 'deep-copy';
+import eventBus from '../../../utils/eventBus';
 import store from '../../../store/store';
 
-const queueResService = new QueueResourcesServiceApiFactory
-(configuration, '', instance);
+const queueResService = new QueueResourcesServiceApiFactory(configuration, '', instance);
 
 const fieldsToSend = ['domainId', 'resourceGroup', 'queueId'];
 
 export const getQueueResGroupList = async (queueId, page = 0, size = 10, search) => {
-    const domainId = store.state.userinfo.domainId;
+    const { domainId } = store.state.userinfo;
     if (search && search.slice(-1) !== '*') search += '*';
     const defaultObject = {
         _isSelected: false,
@@ -21,9 +20,7 @@ export const getQueueResGroupList = async (queueId, page = 0, size = 10, search)
     try {
         const response = await queueResService.searchQueueResourceGroup(queueId, page, size, search, domainId);
         if (response.items) {
-            return response.items.map(item => {
-                return {...defaultObject, ...item};
-            });
+            return response.items.map((item) => ({ ...defaultObject, ...item }));
         }
         return [];
     } catch (err) {
@@ -32,20 +29,20 @@ export const getQueueResGroupList = async (queueId, page = 0, size = 10, search)
 };
 
 export const getQueueResGroup = async (queueId, id) => {
-    const domainId = store.state.userinfo.domainId;
+    const { domainId } = store.state.userinfo;
     const defaultObject = {
         _dirty: false,
     };
     try {
-        let response = await queueResService.readQueueResourceGroup(queueId, id, domainId);
-        return {...defaultObject, ...response};
+        const response = await queueResService.readQueueResourceGroup(queueId, id, domainId);
+        return { ...defaultObject, ...response };
     } catch (err) {
         throw err;
     }
 };
 
 export const addQueueResGroup = async (queueId, item) => {
-    let itemCopy = deepCopy(item);
+    const itemCopy = deepCopy(item);
     itemCopy.domainId = store.state.userinfo.domainId;
     itemCopy.queuId = queueId;
     sanitizer(itemCopy, fieldsToSend);
@@ -59,7 +56,7 @@ export const addQueueResGroup = async (queueId, item) => {
 };
 
 export const updateQueueResGroup = async (queueId, id, item) => {
-    let itemCopy = deepCopy(item);
+    const itemCopy = deepCopy(item);
     itemCopy.domainId = store.state.userinfo.domainId;
     itemCopy.queuId = queueId;
     sanitizer(itemCopy, fieldsToSend);
@@ -72,7 +69,7 @@ export const updateQueueResGroup = async (queueId, id, item) => {
 };
 
 export const deleteQueueResGroup = async (queueId, id) => {
-    const domainId = store.state.userinfo.domainId;
+    const { domainId } = store.state.userinfo;
     try {
         await queueResService.deleteQueueResourceGroup(queueId, id, domainId);
     } catch (err) {

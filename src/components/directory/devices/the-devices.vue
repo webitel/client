@@ -136,13 +136,13 @@
 </template>
 
 <script>
+    import { _checkboxTableField, _actionsTableField_3 } from '@/utils/tableFieldPresets';
+    import tableComponentMixin from '@/mixins/tableComponentMixin';
+    import { mapActions, mapState } from 'vuex';
     import historyPopup from './device-history-popup';
     import tableFilter from '../../object-utils/utils/table-filter';
     import uploadPopup from './upload-devices-popup';
     import devicePopup from './create-device-popup';
-    import {_checkboxTableField, _actionsTableField_3} from "@/utils/tableFieldPresets";
-    import tableComponentMixin from '@/mixins/tableComponentMixin';
-    import {mapActions, mapState} from "vuex";
 
     export default {
         name: 'the-devices',
@@ -151,56 +151,56 @@
             historyPopup,
             uploadPopup,
             tableFilter,
-            devicePopup
+            devicePopup,
         },
 
         data() {
             return {
                 fields: [
                     _checkboxTableField,
-                    {name: 'name', title: this.$t('objects.name')},
-                    {name: 'account', title: this.$t('objects.directory.devices.authId')},
-                    {name: 'user', title: this.$t('objects.user')},
-                    {name: 'state', title: this.$t('objects.directory.devices.presence')},
+                    { name: 'name', title: this.$t('objects.name') },
+                    { name: 'account', title: this.$t('objects.directory.devices.authId') },
+                    { name: 'user', title: this.$t('objects.user') },
+                    { name: 'state', title: this.$t('objects.directory.devices.presence') },
                     _actionsTableField_3,
                 ],
                 csvFile: null,
-                devicePopupTrigger: false
+                devicePopupTrigger: false,
             };
         },
 
         computed: {
             ...mapState('directory/devices', {
-                dataList: state => state.dataList,
-                page: state => state.page, // acts like a boolean: if page is 0, there's no back page
-                isNextPage: state => state.isNextPage,
+                dataList: (state) => state.dataList,
+                page: (state) => state.page, // acts like a boolean: if page is 0, there's no back page
+                isNextPage: (state) => state.isNextPage,
             }),
 
             size: {
                 get() {
-                    return this.$store.state.directory.devices.size
+                    return this.$store.state.directory.devices.size;
                 },
                 set(value) {
-                    this.setSize(value)
-                }
+                    this.setSize(value);
+                },
             },
 
             search: {
                 get() {
-                    return this.$store.state.directory.devices.search
+                    return this.$store.state.directory.devices.search;
                 },
                 set(value) {
-                    this.setSearch(value)
-                }
+                    this.setSearch(value);
+                },
             },
 
             historyId: {
                 get() {
-                    return this.$store.state.directory.devices.history.itemId
+                    return this.$store.state.directory.devices.history.itemId;
                 },
                 set(value) {
-                    this.read(value)
-                }
+                    this.read(value);
+                },
             },
         },
 
@@ -210,12 +210,12 @@
             },
 
             edit(rowId) {
-                const name = this.dataList[rowId].hotdesk ?
-                    'hotdesk-devices-edit' : 'directory-devices-edit';
+                const name = this.dataList[rowId].hotdesk
+                    ? 'hotdesk-devices-edit' : 'directory-devices-edit';
 
                 this.$router.push({
                     name,
-                    params: {id: this.dataList[rowId].id},
+                    params: { id: this.dataList[rowId].id },
                 });
             },
 

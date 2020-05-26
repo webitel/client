@@ -6,11 +6,11 @@
 
 <script>
     export default {
-        name: "fulscreen-loader",
+        name: 'fulscreen-loader',
         data() {
             // load
-        }
-    }
+        },
+    };
 </script>
 
 <style scoped>

@@ -25,16 +25,16 @@
 </template>
 
 <script>
+    import editComponentMixin from '@/mixins/editComponentMixin';
+    import { required } from 'vuelidate/lib/validators';
+    import { mapActions, mapState } from 'vuex';
     import openedQueueProgressiveDialerGeneral from './opened-queue-progressive-dialer-general';
     import openedQueueProgressiveDialerResources from '../opened-queue-resources';
     import openedQueueProgressiveDialerVariables from '../opened-queue-variables';
     import openedQueueProgressiveDialerTiming from './opened-queue-progressive-dialer-timing';
     import openedQueueProgressiveDialerBuckets from '../opened-queue-buckets';
     import openedQueueProgressiveDialerPermissions from '../opened-queue-permissions';
-    import editComponentMixin from '@/mixins/editComponentMixin';
-    import {required} from 'vuelidate/lib/validators';
-    import {mapActions, mapState} from "vuex";
-    import openedQueueProgressiveDialerLogs from "../opened-queue-logs";
+    import openedQueueProgressiveDialerLogs from '../opened-queue-logs';
 
     export default {
         name: 'opened-queue-progressive-dialer',
@@ -57,18 +57,18 @@
         validations: {
             itemInstance: {
                 name: {
-                    required
+                    required,
                 },
                 calendar: {
-                    required
+                    required,
                 },
                 strategy: {
-                    required
+                    required,
                 },
                 schema: {
-                    required
+                    required,
                 },
-            }
+            },
         },
 
         mounted() {
@@ -78,11 +78,11 @@
 
         computed: {
             ...mapState('ccenter/queues', {
-                itemInstance: state => state.itemInstance,
+                itemInstance: (state) => state.itemInstance,
             }),
             id: {
-                get() {return this.$store.state.ccenter.queues.itemId},
-                set(value) {this.setId(value)}
+                get() { return this.$store.state.ccenter.queues.itemId; },
+                set(value) { this.setId(value); },
             },
 
             tabs() {
@@ -92,7 +92,7 @@
                 }, {
                     text: this.$tc('objects.ccenter.res.res', 2),
                     value: 'resources',
-                },{
+                }, {
                     text: this.$tc('objects.ccenter.queues.variables', 2),
                     value: 'variables',
                 }, {

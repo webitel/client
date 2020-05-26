@@ -26,12 +26,12 @@
 </template>
 
 <script>
-    import openedTriggerOnEventGeneral from './opened-trigger-on-event-general';
     import editComponentMixin from '@/mixins/editComponentMixin';
-    import {required} from 'vuelidate/lib/validators';
+    import { required } from 'vuelidate/lib/validators';
+    import openedTriggerOnEventGeneral from './opened-trigger-on-event-general';
 
     export default {
-        name: "opened-trigger-on-event",
+        name: 'opened-trigger-on-event',
         mixins: [editComponentMixin],
         components: {
             openedTriggerOnEventGeneral,
@@ -40,15 +40,15 @@
             return {
                 itemInstance: {
                     name: 'Trigger name',
-                    schema: {name: 'Schema name'},
-                    event: {name: 'Event name'},
-                    description: 'lorem ipsum'
+                    schema: { name: 'Schema name' },
+                    event: { name: 'Event name' },
+                    description: 'lorem ipsum',
                 },
                 tabs: [
                     {
                         text: this.$t('objects.general'),
                         value: 'general',
-                    }]
+                    }],
             };
         },
 
@@ -56,9 +56,9 @@
         validations: {
             itemInstance: {
                 name: {
-                    required
+                    required,
                 },
-            }
+            },
         },
 
         methods: {
@@ -66,12 +66,12 @@
                 if (this.id) {
                     // upd
                 } else {
-                    //add
+                    // add
                 }
                 this.close();
             },
-        }
-    }
+        },
+    };
 </script>
 
 <style lang="scss" scoped>

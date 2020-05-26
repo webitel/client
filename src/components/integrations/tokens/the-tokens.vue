@@ -60,18 +60,18 @@
 
 <script>
     import tableComponentMixin from '@/mixins/tableComponentMixin';
-    import {_checkboxTableField, _actionsTableField_1} from "@/utils/tableFieldPresets";
+    import { _checkboxTableField, _actionsTableField_1 } from '@/utils/tableFieldPresets';
 
     export default {
-        name: "the-tokens",
+        name: 'the-tokens',
         mixins: [tableComponentMixin],
         data() {
             return {
                 fields: [
                     _checkboxTableField,
-                    {name: 'name', title: this.$t('objects.name')},
-                    {name: 'role', title: this.$tc('objects.permissions.permissionsRole', 1)},
-                    {name: 'expires', title: this.$t('objects.integrations.tokens.expires')},
+                    { name: 'name', title: this.$t('objects.name') },
+                    { name: 'role', title: this.$tc('objects.permissions.permissionsRole', 1) },
+                    { name: 'expires', title: this.$t('objects.integrations.tokens.expires') },
                     _actionsTableField_1,
                 ],
             };
@@ -88,18 +88,18 @@
 
             async loadDataList() {
                 // this.dataList = await getCommunicationsList();
-                for(let i = 0; i < 10; i++) {
+                for (let i = 0; i < 10; i++) {
                     this.dataList.push({
-                        name: 'Token name '+i,
-                        role: {name: 'Role name'},
+                        name: `Token name ${i}`,
+                        role: { name: 'Role name' },
                         expires: Date.now().toLocaleString(),
                         isSelected: false,
                     });
                 }
                 this.filterData();
-            }
-        }
-    }
+            },
+        },
+    };
 </script>
 
 <style lang="scss" scoped>

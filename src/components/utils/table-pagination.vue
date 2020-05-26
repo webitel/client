@@ -30,10 +30,10 @@
 </template>
 
 <script>
-    import debounce from "../../utils/debounce";
+    import debounce from '../../utils/debounce';
 
     export default {
-        name: "table-pagination",
+        name: 'table-pagination',
         props: {
             value: {
                 type: String,
@@ -50,7 +50,7 @@
         },
 
         watch: {
-            value: function () {
+            value() {
                 this.debouncer.call(this);
             },
         },
@@ -62,7 +62,7 @@
         computed: {
             isPrev() {
                 return this.page > 1;
-            }
+            },
         },
 
         methods: {
@@ -80,8 +80,8 @@
             debouncer() {
                 this.$emit('loadDataList', this.value);
             },
-        }
-    }
+        },
+    };
 </script>
 
 <style lang="scss" scoped>

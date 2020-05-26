@@ -43,15 +43,15 @@
     import popup from '../../utils/popup';
 
     export default {
-        name: "create-device-popup",
+        name: 'create-device-popup',
         components: {
-            popup
+            popup,
         },
 
         data() {
             return {
-                selectedOption: ''
-            }
+                selectedOption: '',
+            };
         },
 
         methods: {
@@ -60,10 +60,9 @@
             },
 
             createItemInstance() {
-                if(this.selectedOption === 'hotdesk') {
+                if (this.selectedOption === 'hotdesk') {
                     this.$router.push('/directory/devices/hotdesk/new');
-                }
-                else {
+                } else {
                     this.$router.push('/directory/devices/new');
                 }
             },
@@ -72,7 +71,7 @@
                 return option === this.selectedOption;
             },
         },
-    }
+    };
 </script>
 
 <style lang="scss" scoped>

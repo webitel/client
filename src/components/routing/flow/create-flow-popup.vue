@@ -78,22 +78,22 @@
     import radioButton from '@/components/utils/radio-button';
 
     export default {
-        name: "create-gateway-popup",
+        name: 'create-gateway-popup',
         components: {
             popup,
-            radioButton
+            radioButton,
         },
 
         data() {
             return {
                 selectedOption: '',
-            }
+            };
         },
 
 
         methods: {
             createItemInstance() {
-                this.$router.push({path: '/routing/flow/new', query: {'type': 'json'}});
+                this.$router.push({ path: '/routing/flow/new', query: { type: 'json' } });
             },
 
             computeSelectedOption(option) {
@@ -101,7 +101,7 @@
             },
         },
 
-    }
+    };
 </script>
 
 <style lang="scss" scoped>

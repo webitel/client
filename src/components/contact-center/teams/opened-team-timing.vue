@@ -46,36 +46,36 @@
 
 <script>
     import openedTabComponentMixin from '@/mixins/openedTabComponentMixin';
-    import {mapActions} from "vuex";
+    import { mapActions } from 'vuex';
 
     export default {
-        name: "opened-team-timing",
+        name: 'opened-team-timing',
         mixins: [openedTabComponentMixin],
 
         computed: {
             maxNoAnswer: {
-                get() {return this.$store.state.ccenter.teams.itemInstance.maxNoAnswer},
-                set(value) {this.setItemProp({prop: 'maxNoAnswer', value})}
+                get() { return this.$store.state.ccenter.teams.itemInstance.maxNoAnswer; },
+                set(value) { this.setItemProp({ prop: 'maxNoAnswer', value }); },
             },
             callTimeout: {
-                get() {return this.$store.state.ccenter.teams.itemInstance.callTimeout},
-                set(value) {this.setItemProp({prop: 'callTimeout', value})}
+                get() { return this.$store.state.ccenter.teams.itemInstance.callTimeout; },
+                set(value) { this.setItemProp({ prop: 'callTimeout', value }); },
             },
             wrapUpTime: {
-                get() {return this.$store.state.ccenter.teams.itemInstance.wrapUpTime},
-                set(value) {this.setItemProp({prop: 'wrapUpTime', value})}
+                get() { return this.$store.state.ccenter.teams.itemInstance.wrapUpTime; },
+                set(value) { this.setItemProp({ prop: 'wrapUpTime', value }); },
             },
             busyDelayTime: {
-                get() {return this.$store.state.ccenter.teams.itemInstance.busyDelayTime},
-                set(value) {this.setItemProp({prop: 'busyDelayTime', value})}
+                get() { return this.$store.state.ccenter.teams.itemInstance.busyDelayTime; },
+                set(value) { this.setItemProp({ prop: 'busyDelayTime', value }); },
             },
             rejectDelayTime: {
-                get() {return this.$store.state.ccenter.teams.itemInstance.rejectDelayTime},
-                set(value) {this.setItemProp({prop: 'rejectDelayTime', value})}
+                get() { return this.$store.state.ccenter.teams.itemInstance.rejectDelayTime; },
+                set(value) { this.setItemProp({ prop: 'rejectDelayTime', value }); },
             },
             noAnswerDelayTime: {
-                get() {return this.$store.state.ccenter.teams.itemInstance.noAnswerDelayTime},
-                set(value) {this.setItemProp({prop: 'noAnswerDelayTime', value})}
+                get() { return this.$store.state.ccenter.teams.itemInstance.noAnswerDelayTime; },
+                set(value) { this.setItemProp({ prop: 'noAnswerDelayTime', value }); },
             },
         },
 
@@ -84,7 +84,7 @@
                 setItemProp: 'SET_ITEM_PROPERTY',
             }),
         },
-    }
+    };
 </script>
 
 <style lang="scss" scoped>

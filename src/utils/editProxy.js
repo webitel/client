@@ -3,7 +3,7 @@ const proxy = (item) => new Proxy(item, {
         obj._dirty = true;
         obj[prop] = value;
         return obj;
-    }
+    },
 });
 
 export default proxy;

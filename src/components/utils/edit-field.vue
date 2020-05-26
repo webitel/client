@@ -33,7 +33,7 @@
     export default {
         name: 'edit-field',
         components: {
-            btn
+            btn,
         },
         data() {
             return {
@@ -53,8 +53,8 @@
             // disables not-editable fields
             disabled: {
                 type: Boolean,
-                default: false
-            }
+                default: false,
+            },
         },
         watch: {
             text(value) {
@@ -85,7 +85,7 @@
             },
             // when the div label got clicked and trigger the text box
             onLabelClick() {
-                if(!this.disabled) {
+                if (!this.disabled) {
                     this.edit = true;
                     this.label = this.text;
 

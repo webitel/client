@@ -63,15 +63,15 @@
     import popup from '@/components/utils/popup';
 
     export default {
-        name: "create-storage-popup",
+        name: 'create-storage-popup',
         components: {
-            popup
+            popup,
         },
 
         data() {
             return {
-                selectedOption: ''
-            }
+                selectedOption: '',
+            };
         },
 
 
@@ -81,10 +81,10 @@
             },
 
             createItemInstance() {
-                if(this.selectedOption) {
+                if (this.selectedOption) {
                     this.$router.push({
                         name: 'storage-new',
-                        params: {type: this.selectedOption}
+                        params: { type: this.selectedOption },
                     });
                 }
             },
@@ -94,7 +94,7 @@
             },
         },
 
-    }
+    };
 </script>
 
 <style lang="scss" scoped>

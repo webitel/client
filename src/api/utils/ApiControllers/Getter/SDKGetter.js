@@ -1,5 +1,5 @@
-import store from "../../../../store/store";
-import {BaseItemGetter} from "./BaseItemGetter";
+import store from '../../../../store/store';
+import { BaseItemGetter } from './BaseItemGetter';
 
 export class WebitelSDKItemGetter extends BaseItemGetter {
     constructor() {
@@ -7,7 +7,7 @@ export class WebitelSDKItemGetter extends BaseItemGetter {
     }
 
     async getItem(id) {
-        const domainId = store.state.userinfo.domainId;
+        const { domainId } = store.state.userinfo;
 
         try {
             const response = await this.method(id, domainId);

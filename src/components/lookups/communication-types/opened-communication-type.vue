@@ -43,16 +43,16 @@
 <script>
     import editComponentMixin from '@/mixins/editComponentMixin';
 
-    import {required} from 'vuelidate/lib/validators';
+    import { required } from 'vuelidate/lib/validators';
+    import { mapActions, mapState } from 'vuex';
     import {
         addCommunication,
         getCommunication,
-        updateCommunication
-    } from "../../../api/lookups/communications/communications";
-    import {mapActions, mapState} from "vuex";
+        updateCommunication,
+    } from '../../../api/lookups/communications/communications';
 
     export default {
-        name: "opened-communications-type",
+        name: 'opened-communications-type',
         mixins: [editComponentMixin],
         data() {
             return {
@@ -64,12 +64,12 @@
         validations: {
             itemInstance: {
                 code: {
-                    required
+                    required,
                 },
                 name: {
-                    required
-                }
-            }
+                    required,
+                },
+            },
         },
 
         mounted() {
@@ -79,23 +79,23 @@
 
         computed: {
             ...mapState('lookups/communications', {
-                itemInstance: state => state.itemInstance,
+                itemInstance: (state) => state.itemInstance,
             }),
             id: {
-                get() {return this.$store.state.lookups.communications.itemId},
-                set(value) {this.setId(value)}
+                get() { return this.$store.state.lookups.communications.itemId; },
+                set(value) { this.setId(value); },
             },
             code: {
-                get() {return this.$store.state.lookups.communications.itemInstance.code},
-                set(value) {this.setItemProp({prop: 'code', value})}
+                get() { return this.$store.state.lookups.communications.itemInstance.code; },
+                set(value) { this.setItemProp({ prop: 'code', value }); },
             },
             name: {
-                get() {return this.$store.state.lookups.communications.itemInstance.name},
-                set(value) {this.setItemProp({prop: 'name', value})}
+                get() { return this.$store.state.lookups.communications.itemInstance.name; },
+                set(value) { this.setItemProp({ prop: 'name', value }); },
             },
             description: {
-                get() {return this.$store.state.lookups.communications.itemInstance.description},
-                set(value) {this.setItemProp({prop: 'description', value})}
+                get() { return this.$store.state.lookups.communications.itemInstance.description; },
+                set(value) { this.setItemProp({ prop: 'description', value }); },
             },
         },
 
@@ -108,7 +108,7 @@
                 setItemProp: 'SET_ITEM_PROPERTY',
             }),
         },
-    }
+    };
 </script>
 
 <style scoped>

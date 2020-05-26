@@ -24,7 +24,7 @@
 
 <script>
     export default {
-        name: "tabs",
+        name: 'tabs',
         props: {
             currentTab: {
                 type: Object,
@@ -39,8 +39,8 @@
         data() {
             return {
                 activeLineWidth: 0,
-                activeLineOffset: 0
-            }
+                activeLineOffset: 0,
+            };
         },
 
         methods: {
@@ -56,8 +56,8 @@
                 this.activeLineWidth = element.clientWidth;
                 this.activeLineOffset = element.offsetLeft;
             },
-        }
-    }
+        },
+    };
 </script>
 
 <style lang="scss" scoped>

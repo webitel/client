@@ -44,10 +44,10 @@
 <script>
     import editComponentMixin from '@/mixins/editComponentMixin';
 
-    import {required} from 'vuelidate/lib/validators';
+    import { required } from 'vuelidate/lib/validators';
 
     export default {
-        name: "opened-lead-status",
+        name: 'opened-lead-status',
         mixins: [editComponentMixin],
         data() {
             return {
@@ -66,9 +66,9 @@
         validations: {
             leadStatusInstance: {
                 name: {
-                    required
-                }
-            }
+                    required,
+                },
+            },
         },
 
         methods: {
@@ -80,9 +80,9 @@
                 }
 
                 this.close();
-            }
-        }
-    }
+            },
+        },
+    };
 </script>
 
 <style scoped>

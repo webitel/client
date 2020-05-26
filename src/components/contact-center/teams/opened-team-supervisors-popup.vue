@@ -23,13 +23,15 @@
 <script>
     import popup from '@/components/utils/popup';
     import editComponentMixin from '@/mixins/editComponentMixin';
-    import {required, numeric, minValue, maxValue} from 'vuelidate/lib/validators';
-    import {mapActions, mapState} from "vuex";
-    import {getAgentsList} from "../../../api/contact-center/agents/agents";
-    import {getBucketsList} from "../../../api/contact-center/buckets/buckets";
+    import {
+ required, numeric, minValue, maxValue,
+} from 'vuelidate/lib/validators';
+    import { mapActions, mapState } from 'vuex';
+    import { getAgentsList } from '../../../api/contact-center/agents/agents';
+    import { getBucketsList } from '../../../api/contact-center/buckets/buckets';
 
     export default {
-        name: "opened-team-agents-popup",
+        name: 'opened-team-agents-popup',
         mixins: [editComponentMixin],
         components: {
             popup,
@@ -38,7 +40,7 @@
         data() {
             return {
                 dropdownAgentsList: [],
-            }
+            };
         },
 
         validations: {
@@ -46,7 +48,7 @@
                 agent: {
                     required,
                 },
-            }
+            },
         },
 
         mounted() {
@@ -56,16 +58,16 @@
 
         computed: {
             ...mapState('ccenter/teams/supervisors', {
-                id: state => state.itemId,
-                itemInstance: state => state.itemInstance
+                id: (state) => state.itemId,
+                itemInstance: (state) => state.itemInstance,
             }),
             agent: {
                 get() {
-                    return this.$store.state.ccenter.teams.supervisors.itemInstance.agent
+                    return this.$store.state.ccenter.teams.supervisors.itemInstance.agent;
                 },
                 set(value) {
-                    this.setItemProp({prop: 'agent', value})
-                }
+                    this.setItemProp({ prop: 'agent', value });
+                },
             },
         },
 
@@ -82,12 +84,10 @@
 
             async loadAgentsOptions(search) {
                 const response = await getAgentsList(0, 10, search);
-                this.dropdownAgentsList = response.list.map(item => {
-                    return {
+                this.dropdownAgentsList = response.list.map((item) => ({
                         name: item.user.name,
                         id: item.id,
-                    }
-                });
+                    }));
             },
 
             ...mapActions('ccenter/teams/supervisors', {
@@ -96,8 +96,8 @@
                 updateItem: 'UPDATE_ITEM',
                 loadItem: 'LOAD_ITEM',
             }),
-        }
-    }
+        },
+    };
 </script>
 
 <style scoped>

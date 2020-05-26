@@ -35,7 +35,7 @@
     import divider from '@/components/utils/divider';
 
     export default {
-        name: "popup",
+        name: 'popup',
         components: {
             divider,
             btn,
@@ -43,7 +43,7 @@
         props: {
             title: {
                 type: String,
-                default: 'Upload..'
+                default: 'Upload..',
             },
 
             overflow: {
@@ -53,7 +53,7 @@
 
             noGutters: {
                 type: Boolean,
-                default: false
+                default: false,
             },
 
             primaryText: {
@@ -61,7 +61,7 @@
             },
 
             primaryAction: {
-                type: Function
+                type: Function,
             },
 
             primaryDisabled: {
@@ -72,9 +72,9 @@
         methods: {
             close() {
                 this.$emit('close');
-            }
-        }
-    }
+            },
+        },
+    };
 </script>
 
 <style lang="scss">

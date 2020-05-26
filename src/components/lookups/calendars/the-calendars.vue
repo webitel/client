@@ -78,21 +78,21 @@
 </template>
 
 <script>
-    import {deleteCalendar, getCalendarList} from "../../../api/lookups/calendars/calendars";
     import tableComponentMixin from '@/mixins/tableComponentMixin';
-    import {_checkboxTableField, _actionsTableField_2} from "@/utils/tableFieldPresets";
-    import {mapActions, mapState} from "vuex";
+    import { _checkboxTableField, _actionsTableField_2 } from '@/utils/tableFieldPresets';
+    import { mapActions, mapState } from 'vuex';
+    import { deleteCalendar, getCalendarList } from '../../../api/lookups/calendars/calendars';
 
     export default {
-        name: "the-calendars",
+        name: 'the-calendars',
         mixins: [tableComponentMixin],
 
         data() {
             return {
                 fields: [
                     _checkboxTableField,
-                    {name: 'name', title: this.$t('objects.name')},
-                    {name: 'description', title: this.$t('objects.description')},
+                    { name: 'name', title: this.$t('objects.name') },
+                    { name: 'description', title: this.$t('objects.description') },
                     _actionsTableField_2,
                 ],
             };
@@ -100,19 +100,19 @@
 
         computed: {
             ...mapState('lookups/calendars', {
-                dataList: state => state.dataList,
-                page: state => state.page, // acts like a boolean: if page is 0, there's no back page
-                isNextPage: state => state.isNextPage,
+                dataList: (state) => state.dataList,
+                page: (state) => state.page, // acts like a boolean: if page is 0, there's no back page
+                isNextPage: (state) => state.isNextPage,
             }),
 
             size: {
-                get() {return this.$store.state.lookups.calendars.size},
-                set(value) {this.setSize(value)}
+                get() { return this.$store.state.lookups.calendars.size; },
+                set(value) { this.setSize(value); },
             },
 
             search: {
-                get() {return this.$store.state.lookups.calendars.search},
-                set(value) {this.setSearch(value)}
+                get() { return this.$store.state.lookups.calendars.search; },
+                set(value) { this.setSearch(value); },
             },
         },
 
@@ -124,7 +124,7 @@
             edit(rowId) {
                 this.$router.push({
                     name: 'calendars-edit',
-                    params: {id: this.dataList[rowId].id},
+                    params: { id: this.dataList[rowId].id },
                 });
             },
 
@@ -136,6 +136,6 @@
                 prevPage: 'PREV_PAGE',
                 removeItem: 'REMOVE_ITEM',
             }),
-        }
-    }
+        },
+    };
 </script>

@@ -1,4 +1,3 @@
-import objectHeader from '../../src/components/object-utils/the-object-header';
 import formInput from '@/components/utils/form-input';
 import expansionPanel from '@/components/utils/expansion-panel';
 import dropdownSelect from '@/components/utils/dropdown-select';
@@ -7,9 +6,10 @@ import tableCheckbox from '@/components/utils/checkbox';
 import hint from '@/components/utils/hint';
 import tabs from '@/components/utils/tabs';
 import validationMessage from '@/components/utils/validation-message';
-import permissionsTab from '../components/object-utils/utils/permissions-tab';
 import tabsComponent from '@/components/utils/tabs-component';
 import tagsInput from '@/components/utils/tags-input';
+import permissionsTab from '../components/object-utils/utils/permissions-tab';
+import objectHeader from '../components/object-utils/the-object-header';
 
 export default {
     components: {
@@ -30,7 +30,7 @@ export default {
     data() {
         return {
             dropdownOptionsList: [],
-        }
+        };
     },
 
     methods: {
@@ -45,8 +45,8 @@ export default {
             const v = this.$v ? this.$v : this.v;
             v[validatedInstance].$touch();
             // if its still pending or an error is returned do not submit
-            return v[validatedInstance].$pending ||
-                v[validatedInstance].$error;
+            return v[validatedInstance].$pending
+                || v[validatedInstance].$error;
         },
 
         close() {
@@ -63,8 +63,8 @@ export default {
         computePrimaryText() {
             // if it's a new item
             // OR any fields have changed
-            return !this.id || this.itemInstance._dirty ?
-                this.$t('objects.save') : this.$t('objects.saved');
+            return !this.id || this.itemInstance._dirty
+                ? this.$t('objects.save') : this.$t('objects.saved');
         },
 
         computeDisabled() {
@@ -74,8 +74,8 @@ export default {
         },
 
         computeTitle() {
-            return this.$route.params.id &&  this.$route.params.id !== 'new'
+            return this.$route.params.id && this.$route.params.id !== 'new'
                 ? this.$t('objects.edit') : this.$t('objects.new');
         },
     },
-}
+};

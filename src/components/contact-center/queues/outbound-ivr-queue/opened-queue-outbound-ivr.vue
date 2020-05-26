@@ -25,16 +25,16 @@
 </template>
 
 <script>
+    import editComponentMixin from '@/mixins/editComponentMixin';
+    import { required } from 'vuelidate/lib/validators';
+    import { mapActions, mapState } from 'vuex';
     import openedQueueOutboundIvrGeneral from './opened-queue-outbound-ivr-general';
     import openedQueueOutboundIvrResources from '../opened-queue-resources';
     import openedQueueOutboundIvrVariables from '../opened-queue-variables';
     import openedQueueOutboundIvrTiming from './opened-queue-outbound-ivr-timing';
     import openedQueueOutboundIvrBuckets from '../opened-queue-buckets';
     import openedQueueOutboundIvrPermissions from '../opened-queue-permissions';
-    import editComponentMixin from '@/mixins/editComponentMixin';
-    import {required} from 'vuelidate/lib/validators';
-    import {mapActions, mapState} from "vuex";
-    import openedQueueOutboundIvrLogs from "../opened-queue-logs";
+    import openedQueueOutboundIvrLogs from '../opened-queue-logs';
 
     export default {
         name: 'opened-queue-outbound-ivr',
@@ -57,18 +57,18 @@
         validations: {
             itemInstance: {
                 name: {
-                    required
+                    required,
                 },
                 calendar: {
-                    required
+                    required,
                 },
                 strategy: {
-                    required
+                    required,
                 },
                 schema: {
-                    required
+                    required,
                 },
-            }
+            },
         },
 
         mounted() {
@@ -78,15 +78,15 @@
 
         computed: {
             ...mapState('ccenter/queues', {
-                itemInstance: state => state.itemInstance,
+                itemInstance: (state) => state.itemInstance,
             }),
             id: {
                 get() {
-                    return this.$store.state.ccenter.queues.itemId
+                    return this.$store.state.ccenter.queues.itemId;
                 },
                 set(value) {
-                    this.setId(value)
-                }
+                    this.setId(value);
+                },
             },
 
             tabs() {

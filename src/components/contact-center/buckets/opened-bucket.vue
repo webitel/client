@@ -25,16 +25,16 @@
 </template>
 
 <script>
-    import openedBucketGeneral from './opened-bucket-general';
-    import openedBucketPermissions from './opened-bucket-permissions';
     import editComponentMixin from '@/mixins/editComponentMixin';
-    import {required} from 'vuelidate/lib/validators';
-    import {mapActions, mapState} from "vuex";
+    import { required } from 'vuelidate/lib/validators';
+    import { mapActions, mapState } from 'vuex';
+    import openedBucketPermissions from './opened-bucket-permissions';
+    import openedBucketGeneral from './opened-bucket-general';
 
     export default {
-        name: "opened-bucket",
+        name: 'opened-bucket',
         mixins: [editComponentMixin],
-        components: {openedBucketGeneral, openedBucketPermissions},
+        components: { openedBucketGeneral, openedBucketPermissions },
 
         data() {
             return {};
@@ -43,9 +43,9 @@
         validations: {
             itemInstance: {
                 name: {
-                    required
-                }
-            }
+                    required,
+                },
+            },
         },
 
         mounted() {
@@ -55,11 +55,11 @@
 
         computed: {
             ...mapState('ccenter/buckets', {
-                itemInstance: state => state.itemInstance,
+                itemInstance: (state) => state.itemInstance,
             }),
             id: {
-                get() {return this.$store.state.ccenter.buckets.itemId},
-                set(value) {this.setId(value)}
+                get() { return this.$store.state.ccenter.buckets.itemId; },
+                set(value) { this.setId(value); },
             },
 
             tabs() {
@@ -75,7 +75,7 @@
 
                 if (this.id) tabs.push(permissions);
                 return tabs;
-            }
+            },
         },
 
         methods: {
@@ -86,7 +86,7 @@
                 updateItem: 'UPDATE_ITEM',
             }),
         },
-    }
+    };
 </script>
 
 <style scoped>

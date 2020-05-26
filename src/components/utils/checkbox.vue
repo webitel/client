@@ -14,11 +14,11 @@
 
 <script>
     export default {
-        name: "table-checkbox",
+        name: 'table-checkbox',
         props: {
             value: {
                 type: Boolean,
-                required: true
+                required: true,
             },
             // may be a string, or object with true/false values
             label: {},
@@ -29,18 +29,17 @@
                 // WE PASS INVERTED CHECKBOX VALUE
                 // BECAUSE CLICK EVENT FIRES BEFORE CHECKBOX CHANGE
                 this.$emit('input', !this.value);
-            }
+            },
         },
         computed: {
             computeLabel() {
-                if(this.label) {
+                if (this.label) {
                     return this.label[this.value] || this.label;
                 }
-                return ''
-
-            }
-        }
-    }
+                return '';
+            },
+        },
+    };
 </script>
 
 <style lang="scss" scoped>

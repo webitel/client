@@ -1,28 +1,27 @@
-import {WebitelAPIItemDeleter} from "../../utils/ApiControllers/Deleter/ApiDeleter";
-import {WebitelAPIItemUpdater} from "../../utils/ApiControllers/Updater/ApiUpdater";
-import {WebitelAPIItemCreator} from "../../utils/ApiControllers/Creator/ApiCreator";
-import {WebitelAPIItemGetter} from "../../utils/ApiControllers/Getter/ApiGetter";
-import {WebitelAPIListGetter} from "../../utils/ApiControllers/ListGetter/ApiListGetter";
+import { WebitelAPIItemDeleter } from '../../utils/ApiControllers/Deleter/ApiDeleter';
+import { WebitelAPIItemUpdater } from '../../utils/ApiControllers/Updater/ApiUpdater';
+import { WebitelAPIItemCreator } from '../../utils/ApiControllers/Creator/ApiCreator';
+import { WebitelAPIItemGetter } from '../../utils/ApiControllers/Getter/ApiGetter';
+import { WebitelAPIListGetter } from '../../utils/ApiControllers/ListGetter/ApiListGetter';
 
 
 const BASE_URL = '/sip/gateways';
 const fieldsToSend = ['name', 'proxy', 'id', 'host', 'ipacl', 'account', 'account', 'username', 'expires',
     'account', 'registrar', 'register', 'password', 'schema', 'enable'];
 
-const defaultListItem = {  // default object prototype, to merge response with it to get all fields
+const defaultListItem = { // default object prototype, to merge response with it to get all fields
     _isSelected: false,
     name: '',
     proxy: '',
     enable: false,
-    id: 0
+    id: 0,
 };
 
 const preRequestHandler = (item) => {
-    if (item.register)
-    {
-        item.account = item.accountName + '@' + (item.domain || item.registrar);
+    if (item.register) {
+        item.account = `${item.accountName}@${item.domain || item.registrar}`;
     }
-    Object.keys(item).forEach(key => {
+    Object.keys(item).forEach((key) => {
         if (!item[key]) delete item[key];
     });
     return item;
@@ -37,30 +36,23 @@ const itemDeleter = new WebitelAPIItemDeleter(BASE_URL);
 itemGetter.responseHandler = (response) => {
     if (response.item.register) {
         return coerceRegisterResponse(response);
-    } else {
-        return coerceTrunkingResponse(response);
     }
+        return coerceTrunkingResponse(response);
 };
 
 export async function getGatewayList(page = 0, size = 10, search) {
-    return await listGetter.getList({page, size, search});
-};
+    return await listGetter.getList({ page, size, search });
+}
 
 export async function getGateway(id) {
     return await itemGetter.getItem(id);
-};
+}
 
-export const addGateway = async (item) => {
-    return await itemCreator.createItem(item);
-};
+export const addGateway = async (item) => await itemCreator.createItem(item);
 
-export const updateGateway = async (id, item) => {
-    return await itemUpdater.updateItem(id, item);
-};
+export const updateGateway = async (id, item) => await itemUpdater.updateItem(id, item);
 
-export const deleteGateway = async (id) => {
-    return await itemDeleter.deleteItem(id);
-};
+export const deleteGateway = async (id) => await itemDeleter.deleteItem(id);
 
 const coerceTrunkingResponse = (response) => {
     const defaultObject = {
@@ -80,16 +72,16 @@ const coerceTrunkingResponse = (response) => {
         port: null,
     };
 
-    response = {...defaultObject, ...response.item};
+    response = { ...defaultObject, ...response.item };
     response.ipacl.forEach((acl, index) => {
-        response.ipacl[index] = {...defaultIPacl, ...acl};
+        response.ipacl[index] = { ...defaultIPacl, ...acl };
     });
 
     return response;
 };
 
 const coerceRegisterResponse = (response) => {
-    const defaultObject = {  // default object prototype, to merge response with it to get all fields
+    const defaultObject = { // default object prototype, to merge response with it to get all fields
         name: '',
         registrar: '',
         expires: 600,
@@ -105,7 +97,7 @@ const coerceRegisterResponse = (response) => {
         enable: true,
     };
 
-    let result = {...defaultObject, ...response.item};
+    const result = { ...defaultObject, ...response.item };
 
     result.account = result.account.replace('sip:', '');
     result.registrar = result.registrar.replace('sip:', '');

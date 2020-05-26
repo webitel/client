@@ -24,6 +24,9 @@
 </template>
 
 <script>
+    import editComponentMixin from '@/mixins/editComponentMixin';
+    import { required } from 'vuelidate/lib/validators';
+    import { mapActions, mapState } from 'vuex';
     import openedQueueOfflineQueueGeneral from './opened-queue-offline-queue-general';
     import openedQueueOfflineQueueResources from '../opened-queue-resources';
     import openedQueueOfflineQueueVariables from '../opened-queue-variables';
@@ -31,9 +34,6 @@
     import openedQueueOfflineQueueBuckets from '../opened-queue-buckets';
     import openedQueueOfflineQueueLogs from '../opened-queue-logs';
     import openedQueueOfflineQueuePermissions from '../opened-queue-permissions';
-    import editComponentMixin from '@/mixins/editComponentMixin';
-    import {required} from 'vuelidate/lib/validators';
-    import {mapActions, mapState} from "vuex";
 
     export default {
         name: 'opened-queue-offline-queue',
@@ -56,18 +56,18 @@
         validations: {
             itemInstance: {
                 name: {
-                    required
+                    required,
                 },
                 calendar: {
-                    required
+                    required,
                 },
                 strategy: {
-                    required
+                    required,
                 },
                 schema: {
-                    required
+                    required,
                 },
-            }
+            },
         },
 
         mounted() {
@@ -77,11 +77,11 @@
 
         computed: {
             ...mapState('ccenter/queues', {
-                itemInstance: state => state.itemInstance,
+                itemInstance: (state) => state.itemInstance,
             }),
             id: {
-                get() {return this.$store.state.ccenter.queues.itemId},
-                set(value) {this.setId(value)}
+                get() { return this.$store.state.ccenter.queues.itemId; },
+                set(value) { this.setId(value); },
             },
 
             tabs() {
@@ -91,7 +91,7 @@
                 }, {
                     text: this.$tc('objects.ccenter.res.res', 2),
                     value: 'resources',
-                },{
+                }, {
                     text: this.$tc('objects.ccenter.queues.variables', 2),
                     value: 'variables',
                 }, {

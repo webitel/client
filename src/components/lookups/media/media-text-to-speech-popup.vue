@@ -38,15 +38,15 @@
 </template>
 
 <script>
-    import mediaTextToSpeechPopupGeneral from './media-text-to-speech-popup-general';
-    import mediaTextToSpeechPopupSettings from './media-text-to-speech-popup-settings';
     import editComponentMixin from '@/mixins/editComponentMixin';
     import btn from '@/components/utils/btn';
     import divider from '@/components/utils/divider';
-    import {required} from 'vuelidate/lib/validators';
+    import { required } from 'vuelidate/lib/validators';
+    import mediaTextToSpeechPopupSettings from './media-text-to-speech-popup-settings';
+    import mediaTextToSpeechPopupGeneral from './media-text-to-speech-popup-general';
 
     export default {
-        name: "media-text-to-speech-popup",
+        name: 'media-text-to-speech-popup',
         mixins: [editComponentMixin],
         components: {
             mediaTextToSpeechPopupGeneral,
@@ -57,7 +57,7 @@
         props: {
             primaryBtnAction: {
                 type: Function,
-                default: () => this.close()
+                default: () => this.close(),
             },
         },
         data() {
@@ -65,24 +65,24 @@
                 itemInstance: {
                     name: '',
                     type: {
-                        name: 'text'
+                        name: 'text',
                     },
                     text: 'lorem ipsum',
                     settings: {
                         provider: {
-                            name: 'provider name'
+                            name: 'provider name',
                         },
                         lang: {
-                            name: 'En (en-US)'
+                            name: 'En (en-US)',
                         },
                         voice: {
-                            name: 'JOey (wale)'
+                            name: 'JOey (wale)',
                         },
                         token: '',
                         key: '',
-                    }
+                    },
                 },
-                currentTab: {value: 'general'},
+                currentTab: { value: 'general' },
                 tabs: [
                     {
                         text: this.$t('objects.general'),
@@ -93,21 +93,21 @@
                         value: 'settings',
                     },
                 ],
-            }
+            };
         },
         validations: {
             itemInstance: {
                 name: {
-                    required
-                }
-            }
+                    required,
+                },
+            },
         },
         methods: {
             close() {
                 this.$emit('close');
-            }
-        }
-    }
+            },
+        },
+    };
 </script>
 
 <style lang="scss" scoped>

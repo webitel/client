@@ -14,11 +14,11 @@ function bind(el, binding, vnode) {
     // @REFERENCE: https://jakearchibald.com/2015/tasks-microtasks-queues-and-schedules/
     // @REFERENCE: https://github.com/simplesmiler/vue-clickaway/issues/8
     let initialMacrotaskEnded = false;
-    setTimeout(function() {
+    setTimeout(() => {
         initialMacrotaskEnded = true;
     }, 0);
 
-    el[HANDLER] = function(ev) {
+    el[HANDLER] = function (ev) {
         // @NOTE: this test used to be just `el.contains`, but working with path is better,
         //        because it tests whether the element was there at the time of
         //        the click, not whether it is there now, that the event has arrived
@@ -40,7 +40,7 @@ function unbind(el) {
 
 const clickaway = {
     bind,
-    update (el, binding) {
+    update(el, binding) {
         if (binding.value === binding.oldValue) return;
         bind(el, binding);
     },

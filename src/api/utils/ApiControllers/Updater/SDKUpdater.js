@@ -1,8 +1,8 @@
-import deepCopy from "deep-copy";
-import store from "../../../../store/store";
-import sanitizer from "../../sanitizer";
-import eventBus from "../../../../utils/eventBus";
-import {BaseItemUpdater} from "./BaseItemUpdater";
+import deepCopy from 'deep-copy';
+import store from '../../../../store/store';
+import sanitizer from '../../sanitizer';
+import eventBus from '../../../../utils/eventBus';
+import { BaseItemUpdater } from './BaseItemUpdater';
 
 export class WebitelSDKItemUpdater extends BaseItemUpdater {
     constructor() {
@@ -10,9 +10,9 @@ export class WebitelSDKItemUpdater extends BaseItemUpdater {
     }
 
     async updateItem(id, item) {
-        let itemCopy = deepCopy(item);
+        const itemCopy = deepCopy(item);
         itemCopy.domainId = store.state.userinfo.domainId;
-        if(this.preRequestHandler) this.preRequestHandler(itemCopy);
+        if (this.preRequestHandler) this.preRequestHandler(itemCopy);
         sanitizer(itemCopy, this.fieldsToSend);
         try {
             await this.method(id, itemCopy);

@@ -26,15 +26,15 @@
 </template>
 
 <script>
+    import editComponentMixin from '@/mixins/editComponentMixin';
+    import { required, numeric } from 'vuelidate/lib/validators';
+    import { mapActions, mapState } from 'vuex';
     import openedTeamGeneral from './opened-team-general';
     import openedTeamSupervisors from './opened-team-supervisors';
     import openedTeamAgents from './opened-team-agents';
     import openedTeamSkills from './opened-team-skills';
     import openedTeamTiming from './opened-team-timing';
     import openedTeamPermissions from './opened-team-permissions';
-    import editComponentMixin from '@/mixins/editComponentMixin';
-    import {required, numeric} from 'vuelidate/lib/validators';
-    import {mapActions, mapState} from "vuex";
 
     export default {
         name: 'opened-team',
@@ -44,7 +44,7 @@
             openedTeamAgents,
             openedTeamSkills,
             openedTeamTiming,
-            openedTeamPermissions
+            openedTeamPermissions,
         },
         mixins: [editComponentMixin],
 
@@ -56,36 +56,36 @@
         validations: {
             itemInstance: {
                 name: {
-                    required
+                    required,
                 },
                 strategy: {
-                    required
+                    required,
                 },
                 maxNoAnswer: {
                     numeric,
-                    required
+                    required,
                 },
                 wrapUpTime: {
                     numeric,
-                    required
+                    required,
                 },
                 rejectDelayTime: {
                     numeric,
-                    required
+                    required,
                 },
                 busyDelayTime: {
                     numeric,
-                    required
+                    required,
                 },
                 noAnswerDelayTime: {
                     numeric,
-                    required
+                    required,
                 },
                 callTimeout: {
                     numeric,
-                    required
+                    required,
                 },
-            }
+            },
         },
 
         mounted() {
@@ -95,15 +95,15 @@
 
         computed: {
             ...mapState('ccenter/teams', {
-                itemInstance: state => state.itemInstance,
+                itemInstance: (state) => state.itemInstance,
             }),
             id: {
                 get() {
-                    return this.$store.state.ccenter.teams.itemId
+                    return this.$store.state.ccenter.teams.itemId;
                 },
                 set(value) {
-                    this.setId(value)
-                }
+                    this.setId(value);
+                },
             },
 
             tabs() {
@@ -122,7 +122,7 @@
                 }, {
                     text: this.$tc('objects.ccenter.skills.skills', 2),
                     value: 'skills',
-                },];
+                }];
 
                 const permissions = {
                     text: this.$tc('objects.permissions.permissions', 2),
@@ -131,7 +131,7 @@
 
                 if (this.id) tabs.push(permissions);
                 return tabs;
-            }
+            },
         },
 
         methods: {

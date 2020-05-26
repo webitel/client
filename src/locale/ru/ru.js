@@ -30,7 +30,7 @@ export default {
 
             title6: 'Настройка прав доступа',
             text6: 'Новый модуль управления правами - новые возможности для контроля. Вы можете назначать права не только на разделы, но и на действия пользователей, при этом отслеживая вносимые изменения. ',
-        }
+        },
     },
 
     header: {
@@ -90,7 +90,7 @@ export default {
             res: 'Ресурсы',
             resGroups: 'Группы ресурсов',
             queues: 'Очереди',
-            buckets: 'Корзины'
+            buckets: 'Корзины',
         },
         kibana: 'Кибана',
         integrations: {
@@ -113,7 +113,7 @@ export default {
             roles: 'Роли',
             objects: 'Разделы',
             operations: 'Операции',
-        }
+        },
     },
 
     home: {
@@ -183,7 +183,7 @@ export default {
                 roleAdmin: 'Администратор',
                 license: 'Лицензия',
                 devices: 'Устройство',
-                deviceNotFound: "Не смогли найти свое устройство?",
+                deviceNotFound: 'Не смогли найти свое устройство?',
                 createNewDevice: 'Добавить новое',
                 variables: 'Переменные',
                 varKey: 'Ключ',
@@ -210,7 +210,7 @@ export default {
                     days: ' дней',
                 },
                 importLicense: 'Загрузить лицензию',
-                licenseKey: 'Лицензионный ключ'
+                licenseKey: 'Лицензионный ключ',
             },
             devices: {
                 devices: 'Устройство | Устройства',
@@ -241,7 +241,7 @@ export default {
                     dialog: 'В разговоре',
                     onhold: 'На удержании',
                 },
-                passwordSetFromAccount: "Если вы не установите пароль, он будет таким же, как аккаунт"
+                passwordSetFromAccount: 'Если вы не установите пароль, он будет таким же, как аккаунт',
             },
         },
         permissions: {
@@ -257,7 +257,7 @@ export default {
                 operations: 'Действия',
                 searchPlaceholder: 'раздел ..',
                 newPermissionRole: 'Новый владелец прав',
-            }
+            },
         },
         lookups: {
             lookups: 'Справочники',
@@ -311,19 +311,19 @@ export default {
                 communications: 'Тип связи| Типы связи',
                 allCommunications: 'Все типы связи',
                 addCommunication: 'Добавить связь',
-                code: 'Код'
+                code: 'Код',
             },
             contactType: {
                 contactType: 'Тип контакта | Типы контактов',
-                allContactTypes: 'Все типы контактов'
+                allContactTypes: 'Все типы контактов',
             },
             leadSource: {
                 leadSource: 'Lead source | Lead sources',
-                allSources: 'All sources'
+                allSources: 'All sources',
             },
             leadStatus: {
                 leadStatus: 'Lead status',
-                allStatuses: 'Все статусы'
+                allStatuses: 'Все статусы',
             },
         },
         routing: {
@@ -393,8 +393,8 @@ export default {
             },
 
             callflow: {
-                callflow: 'Конструктор звонка'
-            }
+                callflow: 'Конструктор звонка',
+            },
         },
         ccenter: {
             ccenter: 'Контакт центр',
@@ -529,7 +529,7 @@ export default {
                 strategy: 'Стратегия',
                 timerange: 'Интервал',
                 timerangeFrom: 'ОТ',
-                timerangeTo: 'До'
+                timerangeTo: 'До',
             },
         },
         integrations: {
@@ -589,15 +589,15 @@ export default {
                 atTime: 'At time',
                 atTimeDescription: 'A time-based JSON Schema scheduler',
                 event: 'Event',
-            }
+            },
         },
         pagination: {
-            rowsPerPage: 'Количество строк на странице'
-        }
+            rowsPerPage: 'Количество строк на странице',
+        },
     },
 
     page404: {
-        title404: "Похоже, вы потерялись",
+        title404: 'Похоже, вы потерялись',
         text404: 'Извините, мы не можем найти то, что вы ищете',
         btn404: 'Вернуться назад',
     },
@@ -625,5 +625,5 @@ export default {
         moveDown: 'Передвинуть вниз',
         nextPage: 'Следующая страница',
         prevPage: 'Предыдущая страница',
-      }
+      },
   };

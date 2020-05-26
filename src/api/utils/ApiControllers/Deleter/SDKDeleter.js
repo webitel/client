@@ -1,5 +1,5 @@
-import store from "../../../../store/store";
-import {BaseItemDeleter} from "./BaseItemDeleter";
+import store from '../../../../store/store';
+import { BaseItemDeleter } from './BaseItemDeleter';
 
 export class WebitelSDKItemDeleter extends BaseItemDeleter {
     constructor() {
@@ -7,7 +7,7 @@ export class WebitelSDKItemDeleter extends BaseItemDeleter {
     }
 
     async deleteItem(id) {
-        const domainId = store.state.userinfo.domainId;
+        const { domainId } = store.state.userinfo;
         try {
             await this.method(id, domainId);
         } catch (err) {

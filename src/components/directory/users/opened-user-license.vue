@@ -16,11 +16,11 @@
 
 <script>
     import openedTabComponentMixin from '@/mixins/openedTabComponentMixin';
-    import {mapActions} from "vuex";
-    import {getLicenseList} from "../../../api/directory/license/license";
+    import { mapActions } from 'vuex';
+    import { getLicenseList } from '../../../api/directory/license/license';
 
     export default {
-        name: "opened-user-license",
+        name: 'opened-user-license',
         mixins: [openedTabComponentMixin],
 
         mounted() {
@@ -30,29 +30,27 @@
         computed: {
             license: {
                 get() {
-                    return this.$store.state.directory.users.itemInstance.license
+                    return this.$store.state.directory.users.itemInstance.license;
                 },
                 set(value) {
-                    this.setItemProp({prop: 'license', value})
-                }
+                    this.setItemProp({ prop: 'license', value });
+                },
             },
         },
 
         methods: {
             async loadDropdownOptionsList(search) {
                 const response = await getLicenseList(0, 10, search);
-                this.dropdownOptionsList = response.map(item => {
-                    return {
+                this.dropdownOptionsList = response.map((item) => ({
                         name: item.product,
                         id: item.id,
-                    }
-                });
+                    }));
             },
             ...mapActions('directory/users', {
                 setItemProp: 'SET_ITEM_PROPERTY',
             }),
-        }
-    }
+        },
+    };
 </script>
 
 <style scoped>

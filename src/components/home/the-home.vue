@@ -84,47 +84,47 @@
     import ObjectHeader from '../object-utils/the-object-header';
     import DoughnutChart from './charts/doughnut-chart';
     import BarChart from './charts/bar-chart';
-    import {getNews} from "../../api/dashboard/dashboard";
+    import { getNews } from '../../api/dashboard/dashboard';
 
     const userStatusData = {
-        labels: ['Ready', 'Idle', 'DnD', 'Offline', 'Dialing',],
+        labels: ['Ready', 'Idle', 'DnD', 'Offline', 'Dialing'],
         datasets: [
             {
-                backgroundColor: ['#FF6384', '#FF9F40', '#FFCD56', '#4BC0C0', '#36A2EB',],
-                data: [10, 20, 4, 12, 8,]
+                backgroundColor: ['#FF6384', '#FF9F40', '#FFCD56', '#4BC0C0', '#36A2EB'],
+                data: [10, 20, 4, 12, 8],
             },
-        ]
+        ],
     };
     const userStatusOptions = {
         legend: {
-            labels: {fontFamily: "'Montserrat Medium', 'monospace'"},
-            position: 'right'
-        }
+            labels: { fontFamily: "'Montserrat Medium', 'monospace'" },
+            position: 'right',
+        },
     };
     const storageSpaceData = {
-        labels: ['06.02', '07.02', '08.02', '09.02', '10.02', '11.02', '12.02', '13.02',],
+        labels: ['06.02', '07.02', '08.02', '09.02', '10.02', '11.02', '12.02', '13.02'],
         datasets: [
             {
                 label: 'S3',
                 backgroundColor: '#FF6384',
-                data: [1, 2, 1 * 3, 1 * 4, 1 * 5, 1 * 6, 1 * 7, 1 * 8]
+                data: [1, 2, 1 * 3, 1 * 4, 1 * 5, 1 * 6, 1 * 7, 1 * 8],
             },
             {
                 label: 'Digital Ocean',
                 backgroundColor: '#36A2EB',
-                data: [1, 2, 1, 2, 1, 2 * 3, 1, 2 * 4, 1, 2 * 5, 1, 2 * 6, 1, 2 * 7, 1, 2 * 8]
+                data: [1, 2, 1, 2, 1, 2 * 3, 1, 2 * 4, 1, 2 * 5, 1, 2 * 6, 1, 2 * 7, 1, 2 * 8],
             },
             {
                 label: 'Dropbox',
                 backgroundColor: '#4BC0C0',
-                data: [1, 4, 1, 4, 1, 4 * 3, 1, 4 * 4, 1, 4 * 5, 1, 4 * 6, 1, 4 * 7, 1, 4 * 8]
+                data: [1, 4, 1, 4, 1, 4 * 3, 1, 4 * 4, 1, 4 * 5, 1, 4 * 6, 1, 4 * 7, 1, 4 * 8],
             },
             {
                 label: 'Google Drive',
                 backgroundColor: '#FFCD56',
-                data: [2, 4, 6, 8, 10, 12, 14, 16,]
+                data: [2, 4, 6, 8, 10, 12, 14, 16],
             },
-        ]
+        ],
     };
     const storageSpaceOptions = {
         responsive: true,
@@ -139,26 +139,26 @@
             yAxes: [{
                 scaleLabel: {
                     display: true,
-                    labelString: 'Gb'
+                    labelString: 'Gb',
                 },
                 stacked: true,
-            }]
+            }],
         },
     };
     const gatewayStatusData = {
-        labels: ['Not registered', 'Registered', 'In progress', 'Offline', 'Online',],
+        labels: ['Not registered', 'Registered', 'In progress', 'Offline', 'Online'],
         datasets: [
             {
-                backgroundColor: ['#FF6384', '#FF9F40', '#FFCD56', '#4BC0C0', '#36A2EB',],
-                data: [10, 20, 4, 12, 8,].reverse()
+                backgroundColor: ['#FF6384', '#FF9F40', '#FFCD56', '#4BC0C0', '#36A2EB'],
+                data: [10, 20, 4, 12, 8].reverse(),
             },
-        ]
+        ],
     };
     const gatewayStatusOptions = {
         legend: {
-            labels: {fontFamily: "'Montserrat Medium', 'monospace'"},
-            position: 'right'
-        }
+            labels: { fontFamily: "'Montserrat Medium', 'monospace'" },
+            position: 'right',
+        },
     };
 
     export default {
@@ -179,7 +179,7 @@
             gatewayStatusData,
             gatewayStatusOptions,
 
-            newsFeed: []
+            newsFeed: [],
         }),
 
         mounted() {
@@ -190,12 +190,12 @@
             async loadNews() {
                 const lang = localStorage.getItem('lang') || 'en';
                 const news = await getNews(lang);
-                this.newsFeed = news.map(item => ({
+                this.newsFeed = news.map((item) => ({
                     ...item,
                     title: item.title || 'Webitel Telegram',
                 }));
-            }
-        }
+            },
+        },
     };
 </script>
 
@@ -269,7 +269,7 @@
 
                 &-item {
                     margin-bottom: 44px;
-                    
+
                    .dashboard-news__item-title-link {
                        @extend .typo-heading-sm;
                        margin-right: 10px;

@@ -23,18 +23,18 @@
 <script>
     import popup from '@/components/utils/popup';
     import editComponentMixin from '@/mixins/editComponentMixin';
-    import {required} from 'vuelidate/lib/validators';
-    import {mapActions, mapState} from "vuex";
-    import {getResGroupList} from "../../../api/contact-center/resourceGroups/resourceGroups";
+    import { required } from 'vuelidate/lib/validators';
+    import { mapActions, mapState } from 'vuex';
+    import { getResGroupList } from '../../../api/contact-center/resourceGroups/resourceGroups';
 
     export default {
-        name: "opened-queue-buckets-popup",
+        name: 'opened-queue-buckets-popup',
         mixins: [editComponentMixin],
         components: {
             popup,
         },
         data() {
-            return {}
+            return {};
         },
 
         validations: {
@@ -42,7 +42,7 @@
                 resourceGroup: {
                     required,
                 },
-            }
+            },
         },
 
         mounted() {
@@ -52,16 +52,16 @@
 
         computed: {
             ...mapState('ccenter/queues/resGroups', {
-                id: state => state.itemId,
-                itemInstance: state => state.itemInstance
+                id: (state) => state.itemId,
+                itemInstance: (state) => state.itemInstance,
             }),
             resourceGroup: {
                 get() {
-                    return this.$store.state.ccenter.queues.resGroups.itemInstance.resourceGroup
+                    return this.$store.state.ccenter.queues.resGroups.itemInstance.resourceGroup;
                 },
                 set(value) {
-                    this.setItemProp({prop: 'resourceGroup', value})
-                }
+                    this.setItemProp({ prop: 'resourceGroup', value });
+                },
             },
         },
 
@@ -79,12 +79,10 @@
 
             async loadDropdownOptionsList(search) {
                 const response = await getResGroupList(0, 10, search);
-                this.dropdownOptionsList = response.list.map(item => {
-                    return {
+                this.dropdownOptionsList = response.list.map((item) => ({
                         name: item.name,
                         id: item.id,
-                    }
-                });
+                    }));
             },
 
             ...mapActions('ccenter/queues/resGroups', {
@@ -93,8 +91,8 @@
                 updateItem: 'UPDATE_ITEM',
                 loadItem: 'LOAD_ITEM',
             }),
-        }
-    }
+        },
+    };
 </script>
 
 <style scoped>

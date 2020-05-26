@@ -112,22 +112,22 @@
 
 <script>
     import tableComponentMixin from '@/mixins/tableComponentMixin';
-    import {_checkboxTableField, _actionsTableField_3, _switcherWidth} from "@/utils/tableFieldPresets";
+    import { _checkboxTableField, _actionsTableField_3, _switcherWidth } from '@/utils/tableFieldPresets';
+    import { mapActions, mapState } from 'vuex';
     import uploadPopup from './upload-flow-popup';
     import flowPopup from './create-flow-popup';
-    import {mapActions, mapState} from "vuex";
-    import {getFlow} from "../../../api/routing/flow/flow";
-    import {downloadAsJSON} from "../../../utils/download";
+    import { getFlow } from '../../../api/routing/flow/flow';
+    import { downloadAsJSON } from '../../../utils/download';
 
     export default {
-        name: "the-flow",
+        name: 'the-flow',
         mixins: [tableComponentMixin],
-        components: {uploadPopup, flowPopup},
+        components: { uploadPopup, flowPopup },
         data() {
             return {
                 fields: [
                     _checkboxTableField,
-                    {name: 'name', title: this.$t('objects.name')},
+                    { name: 'name', title: this.$t('objects.name') },
                     // {name: 'debug', title: this.$t('objects.routing.flow.debug'), width: _switcherWidth},
                     _actionsTableField_3,
                 ],
@@ -137,28 +137,28 @@
 
         computed: {
             ...mapState('routing/flow', {
-                dataList: state => state.dataList,
-                page: state => state.page, // acts like a boolean: if page is 0, there's no back page
-                isNextPage: state => state.isNextPage,
+                dataList: (state) => state.dataList,
+                page: (state) => state.page, // acts like a boolean: if page is 0, there's no back page
+                isNextPage: (state) => state.isNextPage,
             }),
 
             size: {
                 get() {
-                    return this.$store.state.routing.flow.size
+                    return this.$store.state.routing.flow.size;
                 },
                 set(value) {
-                    this.setSize(value)
-                }
+                    this.setSize(value);
+                },
             },
 
             search: {
                 get() {
-                    return this.$store.state.routing.flow.search
+                    return this.$store.state.routing.flow.search;
                 },
                 set(value) {
-                    this.setSearch(value)
-                }
-            }
+                    this.setSearch(value);
+                },
+            },
         },
 
         methods: {
@@ -170,7 +170,7 @@
             edit(rowId) {
                 this.$router.push({
                     name: 'flow-edit',
-                    params: {id: this.dataList[rowId].id},
+                    params: { id: this.dataList[rowId].id },
                 });
             },
 
@@ -202,8 +202,8 @@
                 prevPage: 'PREV_PAGE',
                 removeItem: 'REMOVE_ITEM',
             }),
-        }
-    }
+        },
+    };
 </script>
 
 <style lang="scss" scoped>

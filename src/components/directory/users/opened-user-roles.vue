@@ -24,11 +24,11 @@
 
 <script>
     import openedTabComponentMixin from '@/mixins/openedTabComponentMixin';
-    import {getRoleList} from "../../../api/permissions/roles/roles";
-    import {mapActions} from "vuex";
+    import { mapActions } from 'vuex';
+    import { getRoleList } from '../../../api/permissions/roles/roles';
 
     export default {
-        name: "opened-user-roles",
+        name: 'opened-user-roles',
         mixins: [openedTabComponentMixin],
 
         mounted() {
@@ -38,11 +38,11 @@
         computed: {
             roles: {
                 get() {
-                    return this.$store.state.directory.users.itemInstance.roles
+                    return this.$store.state.directory.users.itemInstance.roles;
                 },
                 set(value) {
-                    this.setItemProp({prop: 'roles', value})
-                }
+                    this.setItemProp({ prop: 'roles', value });
+                },
             },
             // roleAdmin: {
             //     get() {
@@ -57,17 +57,15 @@
         methods: {
             async loadDropdownOptionsList(search) {
                 const response = await getRoleList(0, 10, search);
-                this.dropdownOptionsList = response.list.map(item => {
-                    return {
+                this.dropdownOptionsList = response.list.map((item) => ({
                         name: item.name,
                         id: item.id,
-                    }
-                });
+                    }));
             },
 
             ...mapActions('directory/users', {
                 setItemProp: 'SET_ITEM_PROPERTY',
             }),
-        }
-    }
+        },
+    };
 </script>

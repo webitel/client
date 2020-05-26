@@ -35,9 +35,9 @@
     import openedTabComponentMixin from '@/mixins/openedTabComponentMixin';
 
     export default {
-        name: "opened-trigger-on-event-general",
-        mixins: [openedTabComponentMixin]
-    }
+        name: 'opened-trigger-on-event-general',
+        mixins: [openedTabComponentMixin],
+    };
 </script>
 
 <style scoped>

@@ -115,25 +115,25 @@
 </template>
 
 <script>
-    import queuePopup from './create-queue-popup';
     import tableComponentMixin from '@/mixins/tableComponentMixin';
-    import {_checkboxTableField, _actionsTableField_3, _switcherWidth} from "@/utils/tableFieldPresets";
-    import {mapActions, mapState} from "vuex";
+    import { _checkboxTableField, _actionsTableField_3, _switcherWidth } from '@/utils/tableFieldPresets';
+    import { mapActions, mapState } from 'vuex';
+    import queuePopup from './create-queue-popup';
 
     export default {
-        name: "the-queues",
+        name: 'the-queues',
         mixins: [tableComponentMixin],
-        components: {queuePopup},
+        components: { queuePopup },
         data() {
             return {
                 fields: [
                     _checkboxTableField,
-                    {name: 'name', title: this.$t('objects.name')},
-                    {name: 'type', title: this.$t('objects.ccenter.queues.type')},
-                    {name: 'activeCalls', title: this.$t('objects.ccenter.queues.activeCalls')},
-                    {name: 'waiting', title: this.$t('objects.ccenter.queues.waiting')},
-                    {name: 'priority', title: this.$t('objects.ccenter.queues.priority')},
-                    {name: 'state', title: this.$t('objects.ccenter.queues.state'), _switcherWidth},
+                    { name: 'name', title: this.$t('objects.name') },
+                    { name: 'type', title: this.$t('objects.ccenter.queues.type') },
+                    { name: 'activeCalls', title: this.$t('objects.ccenter.queues.activeCalls') },
+                    { name: 'waiting', title: this.$t('objects.ccenter.queues.waiting') },
+                    { name: 'priority', title: this.$t('objects.ccenter.queues.priority') },
+                    { name: 'state', title: this.$t('objects.ccenter.queues.state'), _switcherWidth },
                     _actionsTableField_3,
                 ],
             };
@@ -141,27 +141,27 @@
 
         computed: {
             ...mapState('ccenter/queues', {
-                dataList: state => state.dataList,
-                page: state => state.page, // acts like a boolean: if page is 0, there's no back page
-                isNextPage: state => state.isNextPage,
+                dataList: (state) => state.dataList,
+                page: (state) => state.page, // acts like a boolean: if page is 0, there's no back page
+                isNextPage: (state) => state.isNextPage,
             }),
 
             size: {
                 get() {
-                    return this.$store.state.ccenter.queues.size
+                    return this.$store.state.ccenter.queues.size;
                 },
                 set(value) {
-                    this.setSize(value)
-                }
+                    this.setSize(value);
+                },
             },
 
             search: {
                 get() {
-                    return this.$store.state.ccenter.queues.search
+                    return this.$store.state.ccenter.queues.search;
                 },
                 set(value) {
-                    this.setSearch(value)
-                }
+                    this.setSearch(value);
+                },
             },
         },
 
@@ -169,7 +169,7 @@
             openMembers(rowId) {
                 this.$router.push({
                     name: 'cc-queue-members',
-                    params: {queueId: this.dataList[rowId].id},
+                    params: { queueId: this.dataList[rowId].id },
                 });
             },
 
@@ -193,8 +193,8 @@
             },
 
             computeOnlineText(state) {
-                return state ? this.$t('objects.ccenter.queues.active') :
-                    this.$t('objects.ccenter.queues.notActive');
+                return state ? this.$t('objects.ccenter.queues.active')
+                    : this.$t('objects.ccenter.queues.notActive');
             },
 
             create() {
@@ -227,7 +227,7 @@
                 }
                 this.$router.push({
                     name: `cc-queue-${type}-edit`,
-                    params: {id: this.dataList[rowId].id},
+                    params: { id: this.dataList[rowId].id },
                 });
             },
 
@@ -242,5 +242,5 @@
             }),
         },
 
-    }
+    };
 </script>

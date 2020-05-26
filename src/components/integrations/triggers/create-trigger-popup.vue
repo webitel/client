@@ -44,15 +44,15 @@
     import popup from '@/components/utils/popup';
 
     export default {
-        name: "create-trigger-popup",
+        name: 'create-trigger-popup',
         components: {
-            popup
+            popup,
         },
 
         data() {
             return {
-                selectedOption: ''
-            }
+                selectedOption: '',
+            };
         },
 
 
@@ -63,7 +63,7 @@
 
             createItemInstance() {
                 if (this.selectedOption) {
-                    this.$router.push('/integrations/triggers/' + this.selectedOption + '/new');
+                    this.$router.push(`/integrations/triggers/${this.selectedOption}/new`);
                 }
             },
 
@@ -72,7 +72,7 @@
             },
         },
 
-    }
+    };
 </script>
 
 <style lang="scss" scoped>

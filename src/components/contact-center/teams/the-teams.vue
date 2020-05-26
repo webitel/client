@@ -80,20 +80,20 @@
 </template>
 
 <script>
-    import {strategiesList} from "../../../api/contact-center/teams/teams";
     import tableComponentMixin from '@/mixins/tableComponentMixin';
-    import {_checkboxTableField, _actionsTableField_2} from "@/utils/tableFieldPresets";
-    import {mapActions, mapState} from "vuex";
+    import { _checkboxTableField, _actionsTableField_2 } from '@/utils/tableFieldPresets';
+    import { mapActions, mapState } from 'vuex';
+    import { strategiesList } from '../../../api/contact-center/teams/teams';
 
     export default {
-        name: "the-teams",
+        name: 'the-teams',
         mixins: [tableComponentMixin],
         data() {
             return {
                 fields: [
                     _checkboxTableField,
-                    {name: 'name', title: this.$t('objects.name')},
-                    {name: 'strategy', title: this.$t('objects.ccenter.teams.strategy')},
+                    { name: 'name', title: this.$t('objects.name') },
+                    { name: 'strategy', title: this.$t('objects.ccenter.teams.strategy') },
                     _actionsTableField_2,
                 ],
             };
@@ -101,19 +101,19 @@
 
         computed: {
             ...mapState('ccenter/teams', {
-                dataList: state => state.dataList,
-                page: state => state.page, // acts like a boolean: if page is 0, there's no back page
-                isNextPage: state => state.isNextPage,
+                dataList: (state) => state.dataList,
+                page: (state) => state.page, // acts like a boolean: if page is 0, there's no back page
+                isNextPage: (state) => state.isNextPage,
             }),
 
             size: {
-                get() {return this.$store.state.ccenter.teams.size},
-                set(value) {this.setSize(value)}
+                get() { return this.$store.state.ccenter.teams.size; },
+                set(value) { this.setSize(value); },
             },
 
             search: {
-                get() {return this.$store.state.ccenter.teams.search},
-                set(value) {this.setSearch(value)}
+                get() { return this.$store.state.ccenter.teams.search; },
+                set(value) { this.setSearch(value); },
             },
         },
 
@@ -125,7 +125,7 @@
             edit(rowId) {
                 this.$router.push({
                     name: 'cc-team-edit',
-                    params: {id: this.dataList[rowId].id},
+                    params: { id: this.dataList[rowId].id },
                 });
             },
 
@@ -143,5 +143,5 @@
             }),
         },
 
-    }
+    };
 </script>

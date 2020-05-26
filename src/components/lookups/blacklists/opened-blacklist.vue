@@ -24,12 +24,12 @@
 </template>
 
 <script>
+    import editComponentMixin from '@/mixins/editComponentMixin';
+    import { required } from 'vuelidate/lib/validators';
+    import { mapActions, mapState } from 'vuex';
     import openedBlacklistGeneral from './opened-blacklist-general';
     import openedBlacklistNumbers from './opened-blacklist-numbers';
     import openedBlacklistPermissions from './opened-blacklist-permissions';
-    import editComponentMixin from '@/mixins/editComponentMixin';
-    import {required} from 'vuelidate/lib/validators';
-    import {mapActions, mapState} from "vuex";
 
     export default {
         name: 'opened-blacklist',
@@ -47,9 +47,9 @@
         validations: {
             itemInstance: {
                 name: {
-                    required
+                    required,
                 },
-            }
+            },
         },
 
         mounted() {
@@ -59,15 +59,15 @@
 
         computed: {
             ...mapState('lookups/blacklists', {
-                itemInstance: state => state.itemInstance,
+                itemInstance: (state) => state.itemInstance,
             }),
             id: {
                 get() {
-                    return this.$store.state.lookups.blacklists.itemId
+                    return this.$store.state.lookups.blacklists.itemId;
                 },
                 set(value) {
-                    this.setId(value)
-                }
+                    this.setId(value);
+                },
             },
 
             tabs() {
@@ -86,7 +86,7 @@
 
                 if (this.id) tabs.push(permissions);
                 return tabs;
-            }
+            },
         },
 
         methods: {

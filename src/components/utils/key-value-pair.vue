@@ -25,7 +25,7 @@
     import formInput from './form-input';
 
     export default {
-        name: "key-value-pair",
+        name: 'key-value-pair',
         components: {
             'form-input': formInput,
         },
@@ -33,27 +33,27 @@
         props: {
             pairs: {
                 type: Array,
-                required: true
+                required: true,
             },
 
             label: {
                 type: String,
-                default: 'Key value pair'
+                default: 'Key value pair',
             },
 
             placeholders: {
                 type: Array,
-                default: () => ['Key', 'Value']
+                default: () => ['Key', 'Value'],
             },
 
             required: {
               type: Boolean,
-              default: false
+              default: false,
             },
 
             addValuePair: {
                 type: Function,
-                required: true
+                required: true,
             },
         },
 
@@ -61,8 +61,8 @@
             deleteValuePair(valuePairId) {
                 this.pairs.splice([valuePairId], 1);
             },
-        }
-    }
+        },
+    };
 </script>
 
 <style lang="scss" scoped>

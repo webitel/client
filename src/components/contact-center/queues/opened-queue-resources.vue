@@ -70,53 +70,53 @@
 </template>
 
 <script>
-    import resourcePopup from './opened-queue-resources-popup';
     import tableComponentMixin from '@/mixins/tableComponentMixin';
-    import {_checkboxTableField, _actionsTableField_2} from "@/utils/tableFieldPresets";
+    import { _checkboxTableField, _actionsTableField_2 } from '@/utils/tableFieldPresets';
     import openedTabComponentMixin from '@/mixins/openedTabComponentMixin';
-    import eventBus from "../../../utils/eventBus";
-    import {mapActions, mapState} from "vuex";
+    import { mapActions, mapState } from 'vuex';
+    import eventBus from '../../../utils/eventBus';
+    import resourcePopup from './opened-queue-resources-popup';
 
     export default {
-        name: "opened-queue-resources",
+        name: 'opened-queue-resources',
         mixins: [tableComponentMixin, openedTabComponentMixin],
-        components: {resourcePopup},
+        components: { resourcePopup },
 
         data() {
             return {
                 fields: [
                     _checkboxTableField,
-                    {name: 'name', title: this.$t('objects.name')},
+                    { name: 'name', title: this.$t('objects.name') },
                     _actionsTableField_2,
                 ],
             };
         },
 
         watch: {
-            parentId: function (value) {
+            parentId(value) {
                 this.setParentId(value);
-            }
+            },
         },
 
         computed: {
             ...mapState('ccenter/queues', {
-                parentId: state => state.itemId,
+                parentId: (state) => state.itemId,
             }),
             ...mapState('ccenter/queues/resGroups', {
-                dataList: state => state.dataList,
-                page: state => state.page,
-                isNextPage: state => state.isNextPage,
+                dataList: (state) => state.dataList,
+                page: (state) => state.page,
+                isNextPage: (state) => state.isNextPage,
             }),
 
             size: {
-                get() {return this.$store.state.ccenter.queues.resGroups.size},
-                set(value) {this.setSize(value)}
+                get() { return this.$store.state.ccenter.queues.resGroups.size; },
+                set(value) { this.setSize(value); },
             },
 
             search: {
-                get() {return this.$store.state.ccenter.queues.resGroups.search},
-                set(value) {this.setSearch(value)}
-            }
+                get() { return this.$store.state.ccenter.queues.resGroups.search; },
+                set(value) { this.setSearch(value); },
+            },
         },
 
         methods: {
@@ -148,8 +148,8 @@
                 prevPage: 'PREV_PAGE',
                 removeItem: 'REMOVE_ITEM',
             }),
-        }
-    }
+        },
+    };
 </script>
 
 <style lang="scss" scoped>

@@ -1,10 +1,10 @@
-import {shallowMount, mount, createLocalVue} from '@vue/test-utils'
+import { shallowMount, mount, createLocalVue } from '@vue/test-utils';
 import theObjects from '@/components/objects/permissions/objects/the-objects-permissions';
 import editObject from '@/components/objects/permissions/objects/opened-object-permissions';
-import {getObjectList} from '../../../../src/api/permissions/objects/objects';
 import VueRouter from 'vue-router';
 import Vuelidate from 'vuelidate';
 import i18n from 'vue-i18n';
+import { getObjectList } from '../../../../src/api/permissions/objects/objects';
 
 const $t = () => {
 };
@@ -18,17 +18,15 @@ const router = new VueRouter();
 
 const getTestedObject = async () => {
     const newObjectList = await getObjectList();
-    return newObjectList.find(object => {
-        return object.class === 'users'
-    });
+    return newObjectList.find((object) => object.class === 'users');
 };
 
 describe('the-objects.vue', () => {
     const wrapper = mount(theObjects, {
-        mocks: {$t, $tc},
+        mocks: { $t, $tc },
         localVue,
         router,
-        i18n
+        i18n,
     });
 
     let testedObject;
@@ -39,9 +37,7 @@ describe('the-objects.vue', () => {
         await wrapper.vm.loadDataList();
 
         // find tested object
-        testedObject = wrapper.vm.dataList.find(object => {
-            return object.class === 'users'
-        });
+        testedObject = wrapper.vm.dataList.find((object) => object.class === 'users');
 
         // and its index
         testedObjectIndex = wrapper.vm.dataList.indexOf(testedObject);
@@ -98,10 +94,10 @@ describe('the-objects.vue', () => {
 
 describe('objects-edit.vue', () => {
     const wrapper = mount(editObject, {
-        mocks: {$t, $tc},
+        mocks: { $t, $tc },
         localVue,
         router,
-        i18n
+        i18n,
     });
 
     let testedObject;
@@ -112,11 +108,7 @@ describe('objects-edit.vue', () => {
     // used to compare with backend value
     let initialPermissions;
 
-    const findRoleInPermissionsList = (name) => {
-        return wrapper.vm.dataList.find(item => {
-            return item.name === name;
-        });
-    };
+    const findRoleInPermissionsList = (name) => wrapper.vm.dataList.find((item) => item.name === name);
 
     beforeAll(async () => {
         // initially load all roles
@@ -165,9 +157,7 @@ describe('objects-edit.vue', () => {
 
     it('find role to select from available', () => {
         // check if chosen role has no permissions
-        newRole = wrapper.vm.computeAvailableGrantees.find(item => {
-            return item.name === 'obac-test-jest';
-        });
+        newRole = wrapper.vm.computeAvailableGrantees.find((item) => item.name === 'obac-test-jest');
         // console.log(wrapper.vm.computeAvailableGrantees)
         expect(newRole).toBeTruthy();
     });
@@ -188,16 +178,14 @@ describe('objects-edit.vue', () => {
 
         // and check if all other permissions were removed
         const allActionsFalse = Object.values(wrapper.vm.dataList[testedRoleIndex].access)
-            .every(action => {
-                return !action;
-            });
+            .every((action) => !action);
 
         expect(allActionsFalse).toBeTruthy();
         expect(wrapper.vm.changeAccessList).toContain(testedRole.id);
     });
 
     it('saves []changes to database', async (done) => {
-        wrapper.setData({id: testedObject.id});
+        wrapper.setData({ id: testedObject.id });
 
         wrapper.find('.object-header .primary-btn').trigger('click');
 

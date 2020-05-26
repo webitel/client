@@ -30,18 +30,20 @@
 <script>
     import popup from '@/components/utils/popup';
     import editComponentMixin from '@/mixins/editComponentMixin';
-    import {required, numeric, minValue, maxValue} from 'vuelidate/lib/validators';
-    import {mapActions, mapState} from "vuex";
-    import {getAgentSkills} from "../../../api/contact-center/agents/agentSkills";
+    import {
+ required, numeric, minValue, maxValue,
+} from 'vuelidate/lib/validators';
+    import { mapActions, mapState } from 'vuex';
+    import { getAgentSkills } from '../../../api/contact-center/agents/agentSkills';
 
     export default {
-        name: "opened-agent-skills-popup",
+        name: 'opened-agent-skills-popup',
         mixins: [editComponentMixin],
         components: {
             popup,
         },
         data() {
-            return {}
+            return {};
         },
 
         validations: {
@@ -53,9 +55,9 @@
                     numeric,
                     minValue: minValue(0),
                     maxValue: maxValue(100),
-                    required
-                }
-            }
+                    required,
+                },
+            },
         },
 
         mounted() {
@@ -65,25 +67,25 @@
 
         computed: {
             ...mapState('ccenter/agents/skills', {
-                id: state => state.itemId,
-                parentId: state => state.parentId,
-                itemInstance: state => state.itemInstance
+                id: (state) => state.itemId,
+                parentId: (state) => state.parentId,
+                itemInstance: (state) => state.itemInstance,
             }),
             skill: {
                 get() {
-                    return this.$store.state.ccenter.agents.skills.itemInstance.skill
+                    return this.$store.state.ccenter.agents.skills.itemInstance.skill;
                 },
                 set(value) {
-                    this.setItemProp({prop: 'skill', value})
-                }
+                    this.setItemProp({ prop: 'skill', value });
+                },
             },
             capacity: {
                 get() {
-                    return this.$store.state.ccenter.agents.skills.itemInstance.capacity
+                    return this.$store.state.ccenter.agents.skills.itemInstance.capacity;
                 },
                 set(value) {
-                    this.setItemProp({prop: 'capacity', value})
-                }
+                    this.setItemProp({ prop: 'capacity', value });
+                },
             },
         },
 
@@ -101,12 +103,10 @@
 
             async loadDropdownOptionsList(search) {
                 const response = await getAgentSkills(this.parentId, 0, 10, search);
-                this.dropdownOptionsList = response.map(item => {
-                    return {
+                this.dropdownOptionsList = response.map((item) => ({
                         name: item.name,
                         id: item.id,
-                    }
-                });
+                    }));
             },
 
             ...mapActions('ccenter/agents/skills', {
@@ -115,8 +115,8 @@
                 updateItem: 'UPDATE_ITEM',
                 loadItem: 'LOAD_ITEM',
             }),
-        }
-    }
+        },
+    };
 </script>
 
 <style scoped>

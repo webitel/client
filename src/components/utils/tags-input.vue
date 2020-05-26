@@ -21,10 +21,11 @@
 
 <script>
     import vueTagsInput from '@johmun/vue-tags-input';
-    import debounce from "../../utils/debounce";
+    import debounce from '../../utils/debounce';
+
     export default {
-        name: "tags-input",
-        components: {vueTagsInput},
+        name: 'tags-input',
+        components: { vueTagsInput },
         props: {
             value: {
                 type: Array,
@@ -37,7 +38,7 @@
 
             autocompleteMinLength: {
                 type: Number,
-                default: 0
+                default: 0,
             },
 
             addOnlyFromAutocomplete: {
@@ -55,24 +56,24 @@
             },
 
             placeholder: {
-                type: String
+                type: String,
             },
 
             hideLabel: {
                 type: Boolean,
-                default: false
+                default: false,
             },
 
             hideDetails: {
                 type: Boolean,
-                default: false
+                default: false,
             },
         },
 
         data() {
             return {
                 tagDraft: '',
-            }
+            };
         },
 
         created() {
@@ -81,18 +82,18 @@
 
         computed: {
             computeTags() {
-                return this.value.map(item => {
+                return this.value.map((item) => {
                     item.text = item.name;
                     return item;
                 });
             },
 
             computeOptions() {
-                return this.options.map(item => {
+                return this.options.map((item) => {
                     item.text = item.name;
                     return item;
                 });
-            }
+            },
         },
 
         methods: {
@@ -101,16 +102,14 @@
             },
 
             changeTags(tags) {
-                const res = tags.map(i => {
-                    return {
+                const res = tags.map((i) => ({
                         name: i.name || i.text,
-                        id: i.id
-                    }
-                });
+                        id: i.id,
+                    }));
                 this.$emit('input', res);
-            }
-        }
-    }
+            },
+        },
+    };
 </script>
 
 <style lang="scss" scoped>

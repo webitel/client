@@ -26,10 +26,10 @@
 <script>
     import popup from '@/components/utils/popup';
     import tableComponentMixin from '@/mixins/tableComponentMixin';
-    import {mapGetters} from "vuex";
+    import { mapGetters } from 'vuex';
 
     export default {
-        name: "opened-team-agents-buckets-popup",
+        name: 'opened-team-agents-buckets-popup',
         mixins: [tableComponentMixin],
         components: {
             popup,
@@ -38,26 +38,26 @@
         data() {
             return {
                 fields: [
-                    {name: 'bucket', title: this.$tc('objects.ccenter.buckets.buckets', 1)},
+                    { name: 'bucket', title: this.$tc('objects.ccenter.buckets.buckets', 1) },
                 ],
-            }
+            };
         },
 
         computed: {
             ...mapGetters('ccenter/teams/agents', [
-                        'GET_ITEM_BUCKETS'
+                        'GET_ITEM_BUCKETS',
             ]),
 
             getBuckets() {
                 return this.GET_ITEM_BUCKETS(this.itemId);
-            }
+            },
         },
 
         methods: {
             loadDataList() {
-            }
-        }
-    }
+            },
+        },
+    };
 </script>
 
 <style lang="scss" scoped>

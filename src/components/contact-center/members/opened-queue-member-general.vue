@@ -48,17 +48,17 @@
 </template>
 
 <script>
-    import datetimePicker from '../../utils/datetimepicker';
     import openedTabComponentMixin from '@/mixins/openedTabComponentMixin';
-    import {mapActions} from "vuex";
-    import {getBucketsList} from "../../../api/contact-center/buckets/buckets";
-    import {getSkillsList} from "../../../api/contact-center/agentSkills/agentSkills";
-    import {getCalendarTimezones} from "../../../api/lookups/calendars/calendars";
+    import { mapActions } from 'vuex';
+    import datetimePicker from '../../utils/datetimepicker';
+    import { getBucketsList } from '../../../api/contact-center/buckets/buckets';
+    import { getSkillsList } from '../../../api/contact-center/agentSkills/agentSkills';
+    import { getCalendarTimezones } from '../../../api/lookups/calendars/calendars';
 
     export default {
-        name: "opened-queue-member-general",
+        name: 'opened-queue-member-general',
         mixins: [openedTabComponentMixin],
-        components: {datetimePicker},
+        components: { datetimePicker },
 
         data() {
             return {
@@ -66,7 +66,7 @@
                 dropdownOptionsBucketsList: [],
                 dropdownOptionsSkillsList: [],
                 dropdownOptionsTimezoneList: [],
-            }
+            };
         },
 
         mounted() {
@@ -77,71 +77,65 @@
 
         computed: {
             name: {
-                get() {return this.$store.state.ccenter.queues.members.itemInstance.name},
-                set(value) {this.setItemProp({prop: 'name', value})}
+                get() { return this.$store.state.ccenter.queues.members.itemInstance.name; },
+                set(value) { this.setItemProp({ prop: 'name', value }); },
             },
             priority: {
-                get() {return this.$store.state.ccenter.queues.members.itemInstance.priority},
-                set(value) {this.setItemProp({prop: 'priority', value})}
+                get() { return this.$store.state.ccenter.queues.members.itemInstance.priority; },
+                set(value) { this.setItemProp({ prop: 'priority', value }); },
             },
             expireAt: {
-                get() {return this.$store.state.ccenter.queues.members.itemInstance.expireAt},
-                set(value) {this.setItemProp({prop: 'expireAt', value})}
+                get() { return this.$store.state.ccenter.queues.members.itemInstance.expireAt; },
+                set(value) { this.setItemProp({ prop: 'expireAt', value }); },
             },
             bucket: {
-                get() {return this.$store.state.ccenter.queues.members.itemInstance.bucket},
-                set(value) {this.setItemProp({prop: 'bucket', value})}
+                get() { return this.$store.state.ccenter.queues.members.itemInstance.bucket; },
+                set(value) { this.setItemProp({ prop: 'bucket', value }); },
             },
             timezone: {
-                get() {return this.$store.state.ccenter.queues.members.itemInstance.timezone},
-                set(value) {this.setItemProp({prop: 'timezone', value})}
+                get() { return this.$store.state.ccenter.queues.members.itemInstance.timezone; },
+                set(value) { this.setItemProp({ prop: 'timezone', value }); },
             },
             skill: {
-                get() {return this.$store.state.ccenter.queues.members.itemInstance.skill},
-                set(value) {this.setItemProp({prop: 'skill', value})}
+                get() { return this.$store.state.ccenter.queues.members.itemInstance.skill; },
+                set(value) { this.setItemProp({ prop: 'skill', value }); },
             },
             description: {
-                get() {return this.$store.state.ccenter.queues.members.itemInstance.description},
-                set(value) {this.setItemProp({prop: 'description', value})}
+                get() { return this.$store.state.ccenter.queues.members.itemInstance.description; },
+                set(value) { this.setItemProp({ prop: 'description', value }); },
             },
         },
 
         methods: {
             async loadDropdownOptionsBucketsList(search) {
                 const response = await getBucketsList(0, 10, search);
-                this.dropdownOptionsBucketsList = response.list.map(item => {
-                    return {
+                this.dropdownOptionsBucketsList = response.list.map((item) => ({
                         name: item.name,
                         id: item.id,
-                    }
-                });
+                    }));
             },
 
             async loadDropdownOptionsSkillsList(search) {
                 const response = await getSkillsList(0, 10, search);
-                this.dropdownOptionsSkillsList = response.list.map(item => {
-                    return {
+                this.dropdownOptionsSkillsList = response.list.map((item) => ({
                         name: item.name,
                         id: item.id,
-                    }
-                });
+                    }));
             },
 
             async loadDropdownOptionsTimezoneList(search) {
                 const response = await getCalendarTimezones(0, 10, search);
-                this.dropdownOptionsTimezoneList = response.map(item => {
-                    return {
+                this.dropdownOptionsTimezoneList = response.map((item) => ({
                         name: item.name,
                         id: item.id,
-                    }
-                });
+                    }));
             },
 
             ...mapActions('ccenter/queues/members', {
                 setItemProp: 'SET_ITEM_PROPERTY',
             }),
         },
-    }
+    };
 </script>
 
 <style lang="scss" scoped>

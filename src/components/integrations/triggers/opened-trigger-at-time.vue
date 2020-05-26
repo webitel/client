@@ -26,12 +26,12 @@
 </template>
 
 <script>
-    import openedTriggerAtTimeGeneral from './opened-trigger-at-time-general';
     import editComponentMixin from '@/mixins/editComponentMixin';
-    import {required} from 'vuelidate/lib/validators';
+    import { required } from 'vuelidate/lib/validators';
+    import openedTriggerAtTimeGeneral from './opened-trigger-at-time-general';
 
     export default {
-        name: "opened-trigger-at-time",
+        name: 'opened-trigger-at-time',
         mixins: [editComponentMixin],
         components: {
             openedTriggerAtTimeGeneral,
@@ -40,14 +40,14 @@
             return {
                 itemInstance: {
                     name: 'Trigger name',
-                    schema: {name: 'Schema name'},
+                    schema: { name: 'Schema name' },
 
-                    description: 'lorem ipsum'
+                    description: 'lorem ipsum',
                 },
                 tabs: [{
                         text: this.$t('objects.general'),
                         value: 'general',
-                    }]
+                    }],
             };
         },
 
@@ -55,9 +55,9 @@
         validations: {
             itemInstance: {
                 name: {
-                    required
+                    required,
                 },
-            }
+            },
         },
 
         methods: {
@@ -65,12 +65,12 @@
                 if (this.id) {
                     // upd
                 } else {
-                    //add
+                    // add
                 }
                 this.close();
             },
-        }
-    }
+        },
+    };
 </script>
 
 <style lang="scss" scoped>

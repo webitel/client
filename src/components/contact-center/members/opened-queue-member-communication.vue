@@ -77,24 +77,24 @@
 </template>
 
 <script>
-    import communicationPopup from './opened-queue-member-communication-popup';
     import tableComponentMixin from '@/mixins/tableComponentMixin';
-    import {_checkboxTableField, _actionsTableField_2} from "@/utils/tableFieldPresets";
-    import eventBus from "../../../utils/eventBus";
+    import { _checkboxTableField, _actionsTableField_2 } from '@/utils/tableFieldPresets';
     import openedTabComponentMixin from '@/mixins/openedTabComponentMixin';
-    import {mapActions, mapState} from "vuex";
+    import { mapActions, mapState } from 'vuex';
+    import eventBus from '../../../utils/eventBus';
+    import communicationPopup from './opened-queue-member-communication-popup';
 
     export default {
-        name: "opened-queue-member-communication",
+        name: 'opened-queue-member-communication',
         mixins: [tableComponentMixin, openedTabComponentMixin],
-        components: {communicationPopup},
+        components: { communicationPopup },
         data() {
             return {
                 fields: [
                     _checkboxTableField,
-                    {name: 'destination', title: this.$t('objects.name')},
-                    {name: 'type', title: this.$t('objects.ccenter.queues.type')},
-                    {name: 'priority', title: this.$t('objects.ccenter.queues.priority')},
+                    { name: 'destination', title: this.$t('objects.name') },
+                    { name: 'type', title: this.$t('objects.ccenter.queues.type') },
+                    { name: 'priority', title: this.$t('objects.ccenter.queues.priority') },
                     _actionsTableField_2,
                 ],
             };
@@ -106,7 +106,7 @@
 
         computed: {
             ...mapState('ccenter/queues/members/communications', {
-                dataList: state => state.dataList,
+                dataList: (state) => state.dataList,
             }),
         },
 
@@ -130,8 +130,8 @@
                 loadDataList: 'LOAD_DATA_LIST',
                 removeItem: 'REMOVE_ITEM',
             }),
-        }
-    }
+        },
+    };
 </script>
 
 <style lang="scss" scoped>

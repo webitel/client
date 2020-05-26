@@ -28,14 +28,14 @@
 </template>
 
 <script>
+    import editComponentMixin from '@/mixins/editComponentMixin';
+    import { required } from 'vuelidate/lib/validators';
+    import { requiredArrayValue } from '@/utils/validators';
+    import { mapActions, mapState } from 'vuex';
     import openedResourceGeneral from './opened-resource-general';
     import openedResourceNumbers from './opened-resource-numbers';
     import openedResourceFailure from './opened-resource-failure';
     import openedResourcePermissions from './opened-resource-permissions';
-    import editComponentMixin from '@/mixins/editComponentMixin';
-    import {required} from 'vuelidate/lib/validators';
-    import {requiredArrayValue} from "@/utils/validators";
-    import {mapActions, mapState} from "vuex";
 
     export default {
         name: 'opened-resource',
@@ -55,24 +55,24 @@
         validations: {
             itemInstance: {
                 name: {
-                    required
+                    required,
                 },
                 gateway: {
-                    required
+                    required,
                 },
                 cps: {
-                    required
+                    required,
                 },
                 limit: {
-                    required
+                    required,
                 },
                 maxErrors: {
-                    required
-                }
+                    required,
+                },
                 // numberList: {
                 //     requiredArrayValue
                 // }
-            }
+            },
         },
 
         mounted() {
@@ -82,15 +82,15 @@
 
         computed: {
             ...mapState('ccenter/res', {
-                itemInstance: state => state.itemInstance,
+                itemInstance: (state) => state.itemInstance,
             }),
             id: {
                 get() {
-                    return this.$store.state.ccenter.res.itemId
+                    return this.$store.state.ccenter.res.itemId;
                 },
                 set(value) {
-                    this.setId(value)
-                }
+                    this.setId(value);
+                },
             },
 
             tabs() {
@@ -112,7 +112,7 @@
 
                 if (this.id) tabs.push(permissions);
                 return tabs;
-            }
+            },
         },
 
         methods: {

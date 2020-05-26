@@ -22,21 +22,21 @@
 
 <script>
     import openedTabComponentMixin from '@/mixins/openedTabComponentMixin';
-    import {mapActions} from "vuex";
+    import { mapActions } from 'vuex';
 
     export default {
-        name: "opened-bucket-general",
+        name: 'opened-bucket-general',
         mixins: [openedTabComponentMixin],
 
         computed: {
             name: {
-                get() {return this.$store.state.ccenter.buckets.itemInstance.name},
-                set(value) {this.setItemProp({prop: 'name', value})}
+                get() { return this.$store.state.ccenter.buckets.itemInstance.name; },
+                set(value) { this.setItemProp({ prop: 'name', value }); },
             },
 
             description: {
-                get() {return this.$store.state.ccenter.buckets.itemInstance.description},
-                set(value) {this.setItemProp({prop: 'description', value})}
+                get() { return this.$store.state.ccenter.buckets.itemInstance.description; },
+                set(value) { this.setItemProp({ prop: 'description', value }); },
             },
         },
 
@@ -45,7 +45,7 @@
                 setItemProp: 'SET_ITEM_PROPERTY',
             }),
         },
-    }
+    };
 </script>
 
 <style scoped>

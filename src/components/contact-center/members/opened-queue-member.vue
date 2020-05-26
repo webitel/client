@@ -25,16 +25,16 @@
 </template>
 
 <script>
+    import editComponentMixin from '@/mixins/editComponentMixin';
+    import { mapActions, mapState } from 'vuex';
+    import required from 'vuelidate/src/validators/required';
     import openedQueueMemberGeneral from './opened-queue-member-general';
     import openedQueueMemberCommunication from './opened-queue-member-communication';
     import openedQueueMemberVariables from './opened-queue-member-variables';
-    import editComponentMixin from '@/mixins/editComponentMixin';
-    import {mapActions, mapState} from "vuex";
-    import {requiredArrayValue} from "../../../utils/validators";
-    import required from "vuelidate/src/validators/required";
+    import { requiredArrayValue } from '../../../utils/validators';
 
     export default {
-        name: "opened-queue-member",
+        name: 'opened-queue-member',
         mixins: [editComponentMixin],
         components: {
             openedQueueMemberGeneral,
@@ -58,18 +58,18 @@
                         value: 'variables',
                     },
                 ],
-            }
+            };
         },
 
         validations: {
             itemInstance: {
                 name: {
-                    required
+                    required,
                 },
                 communications: {
-                    requiredArrayValue
-                }
-            }
+                    requiredArrayValue,
+                },
+            },
         },
 
         mounted() {
@@ -80,11 +80,11 @@
 
         computed: {
             ...mapState('ccenter/queues/members', {
-                itemInstance: state => state.itemInstance,
+                itemInstance: (state) => state.itemInstance,
             }),
             id: {
-                get() {return this.$store.state.ccenter.queues.members.itemId},
-                set(value) {this.setId(value)}
+                get() { return this.$store.state.ccenter.queues.members.itemId; },
+                set(value) { this.setId(value); },
             },
         },
 
@@ -97,7 +97,7 @@
                 updateItem: 'UPDATE_ITEM',
             }),
         },
-    }
+    };
 </script>
 
 <style scoped>

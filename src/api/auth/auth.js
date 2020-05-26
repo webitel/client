@@ -1,6 +1,6 @@
 import instance from '../instance';
 import router from '../../router/router';
-import {getSession} from "../userinfo/userinfo";
+import { getSession } from '../userinfo/userinfo';
 
 export const handleToken = async (token) => {
     localStorage.setItem('access-token', token);
@@ -24,4 +24,3 @@ export const logout = async () => {
         throw error;
     }
 };
-

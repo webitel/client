@@ -28,17 +28,17 @@
     import openedTabComponentMixin from '@/mixins/openedTabComponentMixin';
 
     export default {
-        name: "media-text-to-speech-popup-general",
+        name: 'media-text-to-speech-popup-general',
         mixins: [openedTabComponentMixin],
         data() {
             return {
                 typeOptions: [
-                    {name: 'opt 1'},
-                    {name: 'opt 2'},
-                ]
-            }
-        }
-    }
+                    { name: 'opt 1' },
+                    { name: 'opt 2' },
+                ],
+            };
+        },
+    };
 </script>
 
 <style lang="scss" scoped>

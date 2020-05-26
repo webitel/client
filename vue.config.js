@@ -1,5 +1,5 @@
 process.env.VUE_APP_API_URL = process.env.NODE_ENV === 'production' ? '/api' : 'https://dev.webitel.com/api';
-process.env.VUE_APP_AUTH_MODULE_URL = process.env.NODE_ENV === 'production' ? '/app/auth' :'http://dev.webitel.com/app/auth';
+process.env.VUE_APP_AUTH_MODULE_URL = process.env.NODE_ENV === 'production' ? '/app/auth' : 'http://dev.webitel.com/app/auth';
 
 process.env.VUE_APP_ADMIN_URL = process.env.NODE_ENV === 'production' ? '/' : 'https://dev.webitel.com/admin';
 process.env.VUE_APP_AGENT_URL = process.env.NODE_ENV === 'production' ? '/workspace' : 'https://dev.webitel.com/workspace';
@@ -11,31 +11,32 @@ const MonacoWebpackPlugin = require('monaco-editor-webpack-plugin');
 
 
 module.exports = {
-  // publicPath: '',
-  lintOnSave: false,
-  css: {
-    loaderOptions: {
-      sass: {
-        data: `
-          @import "@/assets/css/main.scss";
-          @import "@/assets/css/objects/objects.scss";
-          @import "@/assets/css/media.scss";
-        `
-      }
-    }
-  },
-  configureWebpack: (config) => {
-    // config.module.rules = [
-    //     ...config.module.rules,
-    // ];
-    config.devtool = 'source-map';
-    config.plugins.push(new MonacoWebpackPlugin({
-      output: '', // папка, куда собирать скрипты воркеров
-      languages: ['json'], // массив строк с названиями языков, для которых нужна подсветка
-      features: ['bracketMatching', 'colorDetector', 'fontZoom',
-        'wordHighlighter',
-      ] // массив строк с нужными фичами
-      // https://github.com/Microsoft/monaco-editor-webpack-plugin#options
-    }));
-  },
+    // publicPath: '',
+    lintOnSave: true,
+    css: {
+        loaderOptions: {
+            sass: {
+                data: `
+                      @import "@/assets/css/main.scss";
+                      @import "@/assets/css/objects/objects.scss";
+                      @import "@/assets/css/media.scss";
+                    `,
+            },
+        },
+    },
+    chainWebpack: (config) => {
+        config.module
+            .rule('eslint')
+            .use('eslint-loader')
+            .tap((opts) => ({ ...opts, emitWarning: true }));
+        config.devtool('source-map');
+        config.plugin('monaco-editor-webpack-plugin').use(MonacoWebpackPlugin, [{
+            output: '', // папка, куда собирать скрипты воркеров
+            languages: ['json'], // массив строк с названиями языков, для которых нужна подсветка
+            features: ['bracketMatching', 'colorDetector', 'fontZoom',
+                'wordHighlighter',
+            ], // массив строк с нужными фичами
+            // https://github.com/Microsoft/monaco-editor-webpack-plugin#options
+        }]);
+    },
 };

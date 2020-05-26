@@ -37,11 +37,11 @@
     import popup from '@/components/utils/popup';
     import datepicker from '@/components/utils/datepicker';
     import editComponentMixin from '@/mixins/editComponentMixin';
-    import {required} from 'vuelidate/lib/validators';
-    import {mapActions, mapState} from "vuex";
+    import { required } from 'vuelidate/lib/validators';
+    import { mapActions, mapState } from 'vuex';
 
     export default {
-        name: "opened-calendar-holiday-popup",
+        name: 'opened-calendar-holiday-popup',
         mixins: [editComponentMixin],
         components: {
             popup,
@@ -55,8 +55,8 @@
                 },
                 date: {
                     required,
-                }
-            }
+                },
+            },
         },
 
         mounted() {
@@ -65,46 +65,46 @@
 
         computed: {
             ...mapState('lookups/calendars/holidays', {
-                id: state => state.itemId,
-                itemInstance: state => state.itemInstance
+                id: (state) => state.itemId,
+                itemInstance: (state) => state.itemInstance,
             }),
             name: {
                 get() {
-                    return this.$store.state.lookups.calendars.holidays.itemInstance.name
+                    return this.$store.state.lookups.calendars.holidays.itemInstance.name;
                 },
                 set(value) {
-                    this.setItemProp({prop: 'name', value})
-                }
+                    this.setItemProp({ prop: 'name', value });
+                },
             },
             date: {
                 get() {
-                    return this.$store.state.lookups.calendars.holidays.itemInstance.date
+                    return this.$store.state.lookups.calendars.holidays.itemInstance.date;
                 },
                 set(value) {
-                    this.setItemProp({prop: 'date', value})
-                }
+                    this.setItemProp({ prop: 'date', value });
+                },
             },
             repeat: {
                 get() {
-                    return this.$store.state.lookups.calendars.holidays.itemInstance.repeat
+                    return this.$store.state.lookups.calendars.holidays.itemInstance.repeat;
                 },
                 set(value) {
-                    this.setItemProp({prop: 'repeat', value})
-                }
+                    this.setItemProp({ prop: 'repeat', value });
+                },
             },
 
             computePrimaryText() {
                 // if it's a new item
                 // OR any fields have changed
-                return !(typeof this.id === 'number') || this.itemInstance._dirty ?
-                    this.$t('objects.save') : this.$t('objects.saved');
+                return !(typeof this.id === 'number') || this.itemInstance._dirty
+                    ? this.$t('objects.save') : this.$t('objects.saved');
             },
 
             computeDisabled() {
                 // if there's a validation problem
                 // OR it's edit and any fields haven't changed
-                return this.checkValidations() ||
-                    (!this.itemInstance._dirty && (typeof this.id === 'number'));
+                return this.checkValidations()
+                    || (!this.itemInstance._dirty && (typeof this.id === 'number'));
             },
         },
 
@@ -127,8 +127,8 @@
                 updateItem: 'UPDATE_ITEM',
                 loadItem: 'LOAD_ITEM',
             }),
-        }
-    }
+        },
+    };
 </script>
 
 <style lang="scss" scoped>

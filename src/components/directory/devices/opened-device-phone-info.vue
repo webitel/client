@@ -34,10 +34,10 @@
 
 <script>
     import openedTabComponentMixin from '@/mixins/openedTabComponentMixin';
-    import {mapActions} from "vuex";
+    import { mapActions } from 'vuex';
 
     export default {
-        name: "opened-device-phone-info",
+        name: 'opened-device-phone-info',
         mixins: [openedTabComponentMixin],
 
         mounted() {
@@ -47,43 +47,43 @@
         computed: {
             phone: {
                 get() {
-                    return this.$store.state.directory.devices.itemInstance.phone
+                    return this.$store.state.directory.devices.itemInstance.phone;
                 },
                 set(value) {
                     this.setDevice(value);
-                }
+                },
             },
             ip: {
                 get() {
-                    return this.$store.state.directory.devices.itemInstance.ip
+                    return this.$store.state.directory.devices.itemInstance.ip;
                 },
                 set(value) {
-                    this.setItemProp({prop: 'ip', value})
-                }
+                    this.setItemProp({ prop: 'ip', value });
+                },
             },
             brand: {
                 get() {
-                    return this.$store.state.directory.devices.itemInstance.brand
+                    return this.$store.state.directory.devices.itemInstance.brand;
                 },
                 set(value) {
-                    this.setItemProp({prop: 'brand', value})
-                }
+                    this.setItemProp({ prop: 'brand', value });
+                },
             },
             model: {
                 get() {
-                    return this.$store.state.directory.devices.itemInstance.model
+                    return this.$store.state.directory.devices.itemInstance.model;
                 },
                 set(value) {
-                    this.setItemProp({prop: 'model', value})
-                }
+                    this.setItemProp({ prop: 'model', value });
+                },
             },
             mac: {
                 get() {
-                    return this.$store.state.directory.devices.itemInstance.mac
+                    return this.$store.state.directory.devices.itemInstance.mac;
                 },
                 set(value) {
-                    this.setItemProp({prop: 'mac', value})
-                }
+                    this.setItemProp({ prop: 'mac', value });
+                },
             },
         },
 
@@ -99,30 +99,28 @@
                     {
                         name: 'Cisco IP Phone 7821',
                         id: 1,
-                        brand: "cisco",
-                        model: "7821"
+                        brand: 'cisco',
+                        model: '7821',
                     },
                     {
                         name: 'Yealink SIP-T21P E2',
                         id: 2,
-                        brand:"yealink",
-                        model:"T21"
-                    }
+                        brand: 'yealink',
+                        model: 'T21',
+                    },
                 ];
-                this.dropdownOptionsList = response.map(item => {
-                    return {
+                this.dropdownOptionsList = response.map((item) => ({
                         name: item.name,
                         id: item.id,
                         brand: item.brand,
-                        model: item.model
-                    }
-                });
+                        model: item.model,
+                    }));
             },
             ...mapActions('directory/devices', {
                 setItemProp: 'SET_ITEM_PROPERTY',
             }),
-        }
-    }
+        },
+    };
 </script>
 
 <style lang="scss" scoped>

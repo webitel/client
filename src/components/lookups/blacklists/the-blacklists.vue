@@ -82,20 +82,20 @@
 
 <script>
     import tableComponentMixin from '@/mixins/tableComponentMixin';
-    import {_checkboxTableField, _actionsTableField_3} from "@/utils/tableFieldPresets";
-    import {mapActions, mapState} from "vuex";
-    import {downloadAsCSV} from "../../../utils/download";
-    import {getBlacklistCommunicationList} from "../../../api/lookups/blacklists/blacklistNumbers";
+    import { _checkboxTableField, _actionsTableField_3 } from '@/utils/tableFieldPresets';
+    import { mapActions, mapState } from 'vuex';
+    import { downloadAsCSV } from '../../../utils/download';
+    import { getBlacklistCommunicationList } from '../../../api/lookups/blacklists/blacklistNumbers';
 
     export default {
-        name: "the-blacklists",
+        name: 'the-blacklists',
         mixins: [tableComponentMixin],
         data() {
             return {
                 fields: [
                     _checkboxTableField,
-                    {name: 'name', title: this.$t('objects.name')},
-                    {name: 'numbers', title: this.$t('objects.lookups.blacklist.numbersCount')},
+                    { name: 'name', title: this.$t('objects.name') },
+                    { name: 'numbers', title: this.$t('objects.lookups.blacklist.numbersCount') },
                     _actionsTableField_3,
                 ],
             };
@@ -103,27 +103,27 @@
 
         computed: {
             ...mapState('lookups/blacklists', {
-                dataList: state => state.dataList,
-                page: state => state.page, // acts like a boolean: if page is 0, there's no back page
-                isNextPage: state => state.isNextPage,
+                dataList: (state) => state.dataList,
+                page: (state) => state.page, // acts like a boolean: if page is 0, there's no back page
+                isNextPage: (state) => state.isNextPage,
             }),
 
             size: {
                 get() {
-                    return this.$store.state.lookups.blacklists.size
+                    return this.$store.state.lookups.blacklists.size;
                 },
                 set(value) {
-                    this.setSize(value)
-                }
+                    this.setSize(value);
+                },
             },
 
             search: {
                 get() {
-                    return this.$store.state.lookups.blacklists.search
+                    return this.$store.state.lookups.blacklists.search;
                 },
                 set(value) {
-                    this.setSearch(value)
-                }
+                    this.setSearch(value);
+                },
             },
         },
 
@@ -135,7 +135,7 @@
             edit(rowId) {
                 this.$router.push({
                     name: 'blacklist-edit',
-                    params: {id: this.dataList[rowId].id},
+                    params: { id: this.dataList[rowId].id },
                 });
             },
 
@@ -143,14 +143,14 @@
                 const list = this.dataList[rowId];
                 const listNumbers = await getBlacklistCommunicationList(list.id, 0, 100);
 
-                let dataStr = "data:text/csv;charset=utf-8,";
+                let dataStr = 'data:text/csv;charset=utf-8,';
                 dataStr += 'number,description\n';
-                listNumbers.forEach(item => {
+                listNumbers.forEach((item) => {
                     dataStr += encodeURIComponent(
-                        item.number + ',' + (item.description || 'aa') + '\n'
-                    )
+                        `${item.number},${item.description || 'aa'}\n`,
+                    );
                 });
-                downloadAsCSV(dataStr, list.name + '-numbers.csv');
+                downloadAsCSV(dataStr, `${list.name}-numbers.csv`);
             },
 
             ...mapActions('lookups/blacklists', {
@@ -161,8 +161,8 @@
                 prevPage: 'PREV_PAGE',
                 removeItem: 'REMOVE_ITEM',
             }),
-        }
-    }
+        },
+    };
 </script>
 
 <style lang="scss" scoped>

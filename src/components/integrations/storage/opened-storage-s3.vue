@@ -57,84 +57,84 @@
 
 <script>
     import openedTabComponentMixin from '@/mixins/openedTabComponentMixin';
-    import {mapActions, mapState} from "vuex";
-    import DropdownSelect from "../../utils/dropdown-select";
-    import {AWSRegions, DigitalOceanRegions} from "../../../api/integrations/storage/storage";
+    import { mapActions, mapState } from 'vuex';
+    import DropdownSelect from '../../utils/dropdown-select';
+    import { AWSRegions, DigitalOceanRegions } from '../../../api/integrations/storage/storage';
 
     export default {
-        name: "opened-storage-aws",
-        components: {DropdownSelect},
+        name: 'opened-storage-aws',
+        components: { DropdownSelect },
         mixins: [openedTabComponentMixin],
         data() {
             return {
                 service: {},
                 serviceOptions: [
-                    {name: 'AWS S3 Bucket', value: 'S3'},
-                    {name: 'Digital Ocean Spaces', value: 'do'},
-                    {name: 'Custom', value: 'custom'}],
+                    { name: 'AWS S3 Bucket', value: 'S3' },
+                    { name: 'Digital Ocean Spaces', value: 'do' },
+                    { name: 'Custom', value: 'custom' }],
                 AWSRegions,
                 DigitalOceanRegions,
-            }
+            };
         },
 
         mounted() {
-            if(!this.id) this.setService({name: 'AWS S3 Bucket', value: 'aws'});
+            if (!this.id) this.setService({ name: 'AWS S3 Bucket', value: 'aws' });
         },
 
         computed: {
             ...mapState('integrations/storage', {
-                id: state => state.itemId,
+                id: (state) => state.itemId,
             }),
 
             keyId: {
                 get() {
-                    return this.$store.state.integrations.storage.itemInstance.properties.keyId
+                    return this.$store.state.integrations.storage.itemInstance.properties.keyId;
                 },
                 set(value) {
-                    this.setItemProp({prop: 'keyId', value})
-                }
+                    this.setItemProp({ prop: 'keyId', value });
+                },
             },
             accessKey: {
                 get() {
-                    return this.$store.state.integrations.storage.itemInstance.properties.accessKey
+                    return this.$store.state.integrations.storage.itemInstance.properties.accessKey;
                 },
                 set(value) {
-                    this.setItemProp({prop: 'accessKey', value})
-                }
+                    this.setItemProp({ prop: 'accessKey', value });
+                },
             },
             bucketName: {
                 get() {
-                    return this.$store.state.integrations.storage.itemInstance.properties.bucketName
+                    return this.$store.state.integrations.storage.itemInstance.properties.bucketName;
                 },
                 set(value) {
-                    this.setItemProp({prop: 'bucketName', value})
-                }
+                    this.setItemProp({ prop: 'bucketName', value });
+                },
             },
             endpoint: {
                 get() {
-                    return this.$store.state.integrations.storage.itemInstance.properties.endpoint
+                    return this.$store.state.integrations.storage.itemInstance.properties.endpoint;
                 },
                 set(value) {
-                    this.setItemProp({prop: 'endpoint', value})
-                }
+                    this.setItemProp({ prop: 'endpoint', value });
+                },
             },
             region: {
                 get() {
-                    return this.$store.state.integrations.storage.itemInstance.properties.region
+                    return this.$store.state.integrations.storage.itemInstance.properties.region;
                 },
                 set(value) {
-                    this.setItemProp({prop: 'region', value})
-                }
+                    this.setItemProp({ prop: 'region', value });
+                },
             },
 
             computeRegionOptions() {
                 if (this.endpoint.includes('aws')) {
                     return this.AWSRegions;
-                } else if (this.endpoint.includes('digitalocean')) {
+                } if (this.endpoint.includes('digitalocean')) {
                     return this.DigitalOceanRegions;
                 }
-                return []
-            }
+                return [];
+            },
         },
 
         methods: {
@@ -154,9 +154,9 @@
                     this.endpoint = '';
                     this.region = '';
                 }
-            }
+            },
         },
-    }
+    };
 </script>
 
 <style lang="scss" scoped>

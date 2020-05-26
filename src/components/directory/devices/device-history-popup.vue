@@ -42,61 +42,61 @@
 </template>
 
 <script>
+    import tableComponentMixin from '@/mixins/tableComponentMixin';
+    import { mapActions, mapState } from 'vuex';
     import popup from '../../utils/popup';
     import datetimePicker from '../../utils/datetimepicker';
-    import tableComponentMixin from '@/mixins/tableComponentMixin';
-    import {mapActions, mapState} from "vuex";
 
     export default {
-        name: "device-history-popup",
+        name: 'device-history-popup',
         mixins: [tableComponentMixin],
         components: {
             datetimePicker,
-            popup
+            popup,
         },
         data() {
             return {
                 fields: [
-                    {name: 'loggedIn', title: this.$t('objects.directory.devices.loggedIn')},
-                    {name: 'loggedOut', title: this.$t('objects.directory.devices.loggedOut')},
-                    {name: 'user', title: this.$tc('objects.directory.users.users', 1)},
+                    { name: 'loggedIn', title: this.$t('objects.directory.devices.loggedIn') },
+                    { name: 'loggedOut', title: this.$t('objects.directory.devices.loggedOut') },
+                    { name: 'user', title: this.$tc('objects.directory.users.users', 1) },
                 ],
-            }
+            };
         },
 
         computed: {
             ...mapState('directory/devices', {
-                dataList: state => state.history.dataList,
-                date: state => state.history.date,
-                page: state => state.page, // acts like a boolean: if page is 0, there's no back page
-                isNextPage: state => state.isNextPage,
+                dataList: (state) => state.history.dataList,
+                date: (state) => state.history.date,
+                page: (state) => state.page, // acts like a boolean: if page is 0, there's no back page
+                isNextPage: (state) => state.isNextPage,
             }),
 
             size: {
                 get() {
-                    return this.$store.state.directory.devices.history.size
+                    return this.$store.state.directory.devices.history.size;
                 },
                 set(value) {
-                    this.setSize(value)
-                }
+                    this.setSize(value);
+                },
             },
 
             search: {
                 get() {
-                    return this.$store.state.directory.devices.history.search
+                    return this.$store.state.directory.devices.history.search;
                 },
                 set(value) {
-                    this.setSearch(value)
-                }
+                    this.setSearch(value);
+                },
             },
 
             date: {
                 get() {
-                    return this.$store.state.directory.devices.history.date
+                    return this.$store.state.directory.devices.history.date;
                 },
                 set(value) {
-                    this.setHistoryDate(value)
-                }
+                    this.setHistoryDate(value);
+                },
             },
         },
 
@@ -114,8 +114,8 @@
                 nextPage: 'NEXT_HISTORY_PAGE',
                 prevPage: 'PREV_HISTORY_PAGE',
             }),
-        }
-    }
+        },
+    };
 </script>
 
 <style lang="scss">

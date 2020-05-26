@@ -1,19 +1,18 @@
+import { OutboundResourceGroupServiceApiFactory } from 'webitel-sdk';
+import deepCopy from 'deep-copy';
 import instance from '../../instance';
 import configuration from '../../openAPIConfig';
 import sanitizer from '../../utils/sanitizer';
-import {OutboundResourceGroupServiceApiFactory} from 'webitel-sdk';
-import eventBus from "../../../utils/eventBus";
-import store from "../../../store/store";
-import deepCopy from "deep-copy";
+import eventBus from '../../../utils/eventBus';
+import store from '../../../store/store';
 
-const resGrService = new OutboundResourceGroupServiceApiFactory
-(configuration, '', instance);
+const resGrService = new OutboundResourceGroupServiceApiFactory(configuration, '', instance);
 
 const fieldsToSend = ['domainId', 'groupId', 'name', 'description', 'resource'];
 
 
 export const getResInGroupList = async (resGroupId, page = 0, size = 10, search) => {
-    const domainId = store.state.userinfo.domainId;
+    const { domainId } = store.state.userinfo;
     if (search && search.slice(-1) !== '*') search += '*';
     const defaultObject = {
         resource: {},
@@ -22,9 +21,7 @@ export const getResInGroupList = async (resGroupId, page = 0, size = 10, search)
     try {
         const response = await resGrService.searchOutboundResourceInGroup(resGroupId, page, size, search, domainId);
         if (response.items) {
-            return response.items.map(item => {
-                return {...defaultObject, ...item};
-            });
+            return response.items.map((item) => ({ ...defaultObject, ...item }));
         }
         return [];
     } catch (err) {
@@ -33,7 +30,7 @@ export const getResInGroupList = async (resGroupId, page = 0, size = 10, search)
 };
 
 export const getResInGroup = async (resGrId, id) => {
-    const domainId = store.state.userinfo.domainId;
+    const { domainId } = store.state.userinfo;
     const defaultObject = {
         display: '',
         id: 0,
@@ -42,14 +39,14 @@ export const getResInGroup = async (resGrId, id) => {
 
     try {
         const response = await resGrService.readOutboundResourceInGroup(resGrId, id, domainId);
-        return {...defaultObject, ...response};
+        return { ...defaultObject, ...response };
     } catch (err) {
         throw err;
     }
 };
 
 export const addResInGroup = async (resGroupId, item) => {
-    let itemCopy = deepCopy(item);
+    const itemCopy = deepCopy(item);
     itemCopy.domainId = store.state.userinfo.domainId;
     itemCopy.groupId = resGroupId;
     sanitizer(itemCopy, fieldsToSend);
@@ -63,7 +60,7 @@ export const addResInGroup = async (resGroupId, item) => {
 };
 
 export const updateResInGroup = async (resGroupId, id, item) => {
-    let itemCopy = deepCopy(item);
+    const itemCopy = deepCopy(item);
     itemCopy.domainId = store.state.userinfo.domainId;
     itemCopy.groupId = resGroupId;
     sanitizer(itemCopy, fieldsToSend);
@@ -76,7 +73,7 @@ export const updateResInGroup = async (resGroupId, id, item) => {
 };
 
 export const deleteResInGroup = async (resGroupId, id) => {
-    const domainId = store.state.userinfo.domainId;
+    const { domainId } = store.state.userinfo;
     try {
         await resGrService.deleteOutboundResourceInGroup(resGroupId, id, domainId);
     } catch (err) {

@@ -1,9 +1,9 @@
-import {WebitelAPIItemDeleter} from "../../utils/ApiControllers/Deleter/ApiDeleter";
-import {WebitelAPIItemPatcher} from "../../utils/ApiControllers/Patcher/ApiPatcher";
-import {WebitelAPIItemUpdater} from "../../utils/ApiControllers/Updater/ApiUpdater";
-import {WebitelAPIItemCreator} from "../../utils/ApiControllers/Creator/ApiCreator";
-import {WebitelAPIItemGetter} from "../../utils/ApiControllers/Getter/ApiGetter";
-import {WebitelAPIListGetter} from "../../utils/ApiControllers/ListGetter/ApiListGetter";
+import { WebitelAPIItemDeleter } from '../../utils/ApiControllers/Deleter/ApiDeleter';
+import { WebitelAPIItemPatcher } from '../../utils/ApiControllers/Patcher/ApiPatcher';
+import { WebitelAPIItemUpdater } from '../../utils/ApiControllers/Updater/ApiUpdater';
+import { WebitelAPIItemCreator } from '../../utils/ApiControllers/Creator/ApiCreator';
+import { WebitelAPIItemGetter } from '../../utils/ApiControllers/Getter/ApiGetter';
+import { WebitelAPIListGetter } from '../../utils/ApiControllers/ListGetter/ApiListGetter';
 
 const BASE_URL = '/users';
 const fieldsToSend = ['name', 'username', 'password', 'extension', 'status', 'note', 'roles', 'license', 'devices', 'device',
@@ -27,21 +27,19 @@ const defaultItem = {
     devices: [],
     device: {},
     variables: [
-        {key: '', value: ''}
+        { key: '', value: '' },
     ],
     _dirty: false,
 };
 
 const preRequestHandler = (item) => {
-    if(item.device && !item.device.id) delete item.device;
-    if (item.roles) item.roles.forEach(item => delete item.text);
-    if (item.devices) item.devices.forEach(item => delete item.text);
-    if (item.license) item.license = item.license.map(item => {
-        return {id: item.id}
-    });
+    if (item.device && !item.device.id) delete item.device;
+    if (item.roles) item.roles.forEach((item) => delete item.text);
+    if (item.devices) item.devices.forEach((item) => delete item.text);
+    if (item.license) { item.license = item.license.map((item) => ({ id: item.id })); }
     item.profile = {};
     if (item.variables) {
-        item.variables.forEach(variable => {
+        item.variables.forEach((variable) => {
             item.profile[variable.key] = variable.value;
         });
     }
@@ -56,43 +54,35 @@ const itemPatcher = new WebitelAPIItemPatcher(BASE_URL, fieldsToSend);
 const itemDeleter = new WebitelAPIItemDeleter(BASE_URL);
 
 itemGetter.responseHandler = (response) => {
-    let user = {...defaultItem, ...response};
-    if (user.license) user.license.forEach(item => {
-        item.name = item.prod
+    const user = { ...defaultItem, ...response };
+    if (user.license) {
+ user.license.forEach((item) => {
+        item.name = item.prod;
     });
+}
     if (user.profile) {
-        user.variables = Object.keys(user.profile).map(key => {
-            return {
+        user.variables = Object.keys(user.profile).map((key) => ({
                 key,
                 value: user.profile[key],
-            }
-        });
+            }));
     } else {
-        user.variables = [{key: '', value: ''}];
+        user.variables = [{ key: '', value: '' }];
     }
     return user;
 };
 
 export async function getUsersList(page, size, search) {
-    return await listGetter.getList({page, size, search});
+    return await listGetter.getList({ page, size, search });
 }
 
 export async function getUser(id) {
     return await itemGetter.getItem(id);
 }
 
-export const addUser = async (item) => {
-    return await itemCreator.createItem(item);
-};
+export const addUser = async (item) => await itemCreator.createItem(item);
 
-export const updateUser = async (id, item) => {
-    return await itemUpdater.updateItem(id, item);
-};
+export const updateUser = async (id, item) => await itemUpdater.updateItem(id, item);
 
-export const patchUser = async (id, item) => {
-    return await itemPatcher.patchItem(id, item);
-};
+export const patchUser = async (id, item) => await itemPatcher.patchItem(id, item);
 
-export const deleteUser = async (id) => {
-    return await itemDeleter.deleteItem(id);
-};
+export const deleteUser = async (id) => await itemDeleter.deleteItem(id);

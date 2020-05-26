@@ -24,11 +24,11 @@
 
 <script>
     import openedTabComponentMixin from '@/mixins/openedTabComponentMixin';
-    import {mapActions} from "vuex";
-    import {getAgentUsersOptions} from "../../../api/contact-center/agents/agents";
+    import { mapActions } from 'vuex';
+    import { getAgentUsersOptions } from '../../../api/contact-center/agents/agents';
 
     export default {
-        name: "opened-agent-general",
+        name: 'opened-agent-general',
         mixins: [openedTabComponentMixin],
 
         mounted() {
@@ -37,31 +37,29 @@
 
         computed: {
             user: {
-                get() {return this.$store.state.ccenter.agents.itemInstance.user},
-                set(value) {this.setItemProp({prop: 'user', value})}
+                get() { return this.$store.state.ccenter.agents.itemInstance.user; },
+                set(value) { this.setItemProp({ prop: 'user', value }); },
             },
             description: {
-                get() {return this.$store.state.ccenter.agents.itemInstance.description},
-                set(value) {this.setItemProp({prop: 'description', value})}
+                get() { return this.$store.state.ccenter.agents.itemInstance.description; },
+                set(value) { this.setItemProp({ prop: 'description', value }); },
             },
         },
 
         methods: {
             async loadDropdownOptionsList(search) {
                 const response = await getAgentUsersOptions(0, 10, search);
-                this.dropdownOptionsList = response.map(item => {
-                    return {
+                this.dropdownOptionsList = response.map((item) => ({
                         name: item.name,
                         id: item.id,
-                    }
-                });
+                    }));
             },
 
             ...mapActions('ccenter/agents', {
                 setItemProp: 'SET_ITEM_PROPERTY',
             }),
         },
-    }
+    };
 </script>
 
 <style lang="scss" scoped>

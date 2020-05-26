@@ -1,5 +1,5 @@
-import instance from "../../../instance";
-import {BaseItemGetter} from "./BaseItemGetter";
+import instance from '../../../instance';
+import { BaseItemGetter } from './BaseItemGetter';
 
 export class WebitelAPIItemGetter extends BaseItemGetter {
     constructor(url, defaultItem) {
@@ -8,7 +8,7 @@ export class WebitelAPIItemGetter extends BaseItemGetter {
     }
 
     async getItem(id) {
-        const getUrl = this.url+ '/' + id;
+        const getUrl = `${this.url}/${id}`;
 
         try {
             const response = await instance.get(getUrl);

@@ -21,15 +21,15 @@
     const msInDay = 24 * 60 * 60;
 
     export default {
-        name: "datetimepicker",
-        components: {datepicker, timepicker},
+        name: 'datetimepicker',
+        components: { datepicker, timepicker },
         props: {
             value: {
                 type: [String, Number],
                 required: true,
             },
             label: {
-                type: String
+                type: String,
             },
             hideLabel: {
                 type: Boolean,
@@ -47,7 +47,7 @@
 
             computeTimeValue() {
                 return this.value % msInDay;
-            }
+            },
         },
         methods: {
             setValue(period, value) {
@@ -58,9 +58,9 @@
                     datetime = this.computeDateValue + value;
                 }
                 this.$emit('input', datetime);
-            }
-        }
-    }
+            },
+        },
+    };
 </script>
 
 <style lang="scss" scoped>

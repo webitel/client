@@ -30,7 +30,7 @@
         data() {
             return {
                 messages: [],
-            }
+            };
         },
         mounted() {
             eventBus.$on('notificationInfo', (info) => {
@@ -42,14 +42,14 @@
         },
         methods: {
             showInfo(info) {
-                this.messages.unshift({info});
+                this.messages.unshift({ info });
                 setTimeout(() => {
                     this.messages.splice(this.findMessageInArray(info), 1);
                 }, 4000);
             },
 
             showError(error) {
-                this.messages.unshift({error});
+                this.messages.unshift({ error });
                 setTimeout(() => {
                     this.messages.splice(this.findMessageInArray(error), 1);
                 }, 4000);
@@ -60,11 +60,9 @@
             },
 
             findMessageInArray(message) {
-                return this.messages.findIndex(item => {
-                    return item.message === message;
-                });
-            }
-        }
+                return this.messages.findIndex((item) => item.message === message);
+            },
+        },
     };
 </script>
 

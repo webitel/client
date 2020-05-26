@@ -55,10 +55,10 @@
 
 <script>
     import uploadCSVMixin from '../../../mixins/uploadCSVMixin';
-    import {addUser} from "../../../api/directory/users/users";
+    import { addUser } from '../../../api/directory/users/users';
 
     export default {
-        name: "upload-users-popup",
+        name: 'upload-users-popup',
         mixins: [uploadCSVMixin],
         data() {
             return {
@@ -66,33 +66,33 @@
                     {
                         name: 'username',
                         required: true,
-                        csv: {}
+                        csv: {},
                     },
                     {
                         name: 'name',
                         required: false,
-                        csv: {}
+                        csv: {},
                     },
                     {
                         name: 'extension',
                         required: false,
-                        csv: {}
+                        csv: {},
                     },
                     {
                         name: 'email',
                         required: false,
-                        csv: {}
+                        csv: {},
                     },
                 ],
-            }
+            };
         },
 
         methods: {
             async addItem(item) {
                 await addUser(item);
-            }
-        }
-    }
+            },
+        },
+    };
 </script>
 
 <style lang="scss" scoped>

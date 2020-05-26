@@ -16,16 +16,16 @@
 
 <script>
     import openedTabComponentMixin from '@/mixins/openedTabComponentMixin';
-    import {mapActions} from "vuex";
+    import { mapActions } from 'vuex';
 
     export default {
-        name: "opened-storage-general",
+        name: 'opened-storage-general',
         mixins: [openedTabComponentMixin],
 
         computed: {
             token: {
-                get() {return this.$store.state.integrations.storage.itemInstance.properties.token},
-                set(value) {this.setItemProp({prop: 'token', value})}
+                get() { return this.$store.state.integrations.storage.itemInstance.properties.token; },
+                set(value) { this.setItemProp({ prop: 'token', value }); },
             },
         },
 
@@ -34,7 +34,7 @@
                 setItemProp: 'SET_ITEM_PROPERTIES_PROPERTY',
             }),
         },
-    }
+    };
 </script>
 
 <style lang="scss" scoped>

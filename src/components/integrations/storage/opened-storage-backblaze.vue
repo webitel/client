@@ -34,28 +34,28 @@
 
 <script>
     import openedTabComponentMixin from '@/mixins/openedTabComponentMixin';
-    import {mapActions} from "vuex";
+    import { mapActions } from 'vuex';
 
     export default {
-        name: "opened-storage-backblaze",
+        name: 'opened-storage-backblaze',
         mixins: [openedTabComponentMixin],
 
         computed: {
             key: {
-                get() {return this.$store.state.integrations.storage.itemInstance.key},
-                set(value) {this.setItemProp({prop: 'key', value})}
+                get() { return this.$store.state.integrations.storage.itemInstance.key; },
+                set(value) { this.setItemProp({ prop: 'key', value }); },
             },
             access: {
-                get() {return this.$store.state.integrations.storage.itemInstance.access},
-                set(value) {this.setItemProp({prop: 'access', value})}
+                get() { return this.$store.state.integrations.storage.itemInstance.access; },
+                set(value) { this.setItemProp({ prop: 'access', value }); },
             },
             bucket: {
-                get() {return this.$store.state.integrations.storage.itemInstance.bucket},
-                set(value) {this.setItemProp({prop: 'bucket', value})}
+                get() { return this.$store.state.integrations.storage.itemInstance.bucket; },
+                set(value) { this.setItemProp({ prop: 'bucket', value }); },
             },
             region: {
-                get() {return this.$store.state.integrations.storage.itemInstance.region},
-                set(value) {this.setItemProp({prop: 'region', value})}
+                get() { return this.$store.state.integrations.storage.itemInstance.region; },
+                set(value) { this.setItemProp({ prop: 'region', value }); },
             },
         },
 
@@ -64,7 +64,7 @@
                 setItemProp: 'SET_ITEM_PROPERTY',
             }),
         },
-    }
+    };
 </script>
 
 <style lang="scss" scoped>

@@ -46,19 +46,19 @@
 </template>
 
 <script>
+    import { mapState } from 'vuex';
     import clickaway from '../directives/clickaway';
-    import {mapState} from "vuex";
 
     export default {
         name: 'the-nav',
-        directives: {clickaway},
+        directives: { clickaway },
         watch: {
-            '$route': function () {
+            $route() {
                 this.expandCurrentRoute();
             },
             scope() {
                 this.computeNav();
-            }
+            },
         },
         data() {
             return {
@@ -88,7 +88,7 @@
                                 route: '/directory/devices',
                                 current: false,
                             },
-                        ]
+                        ],
                     },
                     {
                         name: 'routing',
@@ -111,7 +111,7 @@
                             },
                             {
                                 name: 'chatplan',
-                                displayName: this.$t('nav.routing.chatplan') + ' (coming soon)',
+                                displayName: `${this.$t('nav.routing.chatplan')} (coming soon)`,
                                 route: '/routing/chatplan',
                                 current: false,
                             },
@@ -121,7 +121,7 @@
                                 route: '/routing/gateways',
                                 current: false,
                             },
-                        ]
+                        ],
                     },
                     {
                         name: 'lookups',
@@ -172,7 +172,7 @@
                             //     route: '/lookups/lead-status',
                             //     current: false,
                             // },
-                        ]
+                        ],
                     },
                     {
                         name: 'ccenter',
@@ -223,7 +223,7 @@
                                 route: '/contact-center/buckets',
                                 current: false,
                             },
-                        ]
+                        ],
                     },
                     // {
                     //     name: 'kibana',
@@ -242,7 +242,7 @@
                         subnav: [
                             {
                                 name: 'tokens',
-                                displayName: this.$t('nav.integrations.tokens') + ' (coming soon)',
+                                displayName: `${this.$t('nav.integrations.tokens')} (coming soon)`,
                                 route: '/integrations/tokens',
                                 current: false,
                             },
@@ -254,29 +254,29 @@
                             },
                             {
                                 name: 'triggers',
-                                displayName: this.$t('nav.integrations.triggers') + ' (coming soon)',
+                                displayName: `${this.$t('nav.integrations.triggers')} (coming soon)`,
                                 route: '/integrations/triggers',
                                 current: false,
                             },
                             {
                                 name: 'adfs',
-                                displayName: this.$t('nav.administration.adfs') + ' (coming soon)',
+                                displayName: `${this.$t('nav.administration.adfs')} (coming soon)`,
                                 route: '/integrations/adfs',
                                 current: false,
                             },
                             {
                                 name: 'widgets',
-                                displayName: this.$t('nav.integrations.widgets') + ' (coming soon)',
+                                displayName: `${this.$t('nav.integrations.widgets')} (coming soon)`,
                                 route: '/integrations/widgets',
                                 current: false,
                             },
                             {
                                 name: 'call-tracking',
-                                displayName: this.$t('nav.integrations.callTracking') + ' (coming soon)',
+                                displayName: `${this.$t('nav.integrations.callTracking')} (coming soon)`,
                                 route: '/integrations/call-tracking',
                                 current: false,
                             },
-                        ]
+                        ],
                     },
                     {
                         name: 'permissions',
@@ -303,7 +303,7 @@
                             //     route: '/permissions/operations',
                             //     current: false,
                             // },
-                        ]
+                        ],
                     },
                 ],
                 nav: [],
@@ -317,29 +317,18 @@
 
         computed: {
             ...mapState('userinfo', {
-                scope: state => state.scope
+                scope: (state) => state.scope,
             }),
         },
 
         methods: {
             computeNav() {
-                let nav = this.fullNav.filter(navItem => {
-                    return this.scope.some(scopeItem => {
-                        return navItem.subnav.some(subnavItem => {
-                            return subnavItem.name === scopeItem.class;
-                        });
-                    });
-                });
+                const nav = this.fullNav.filter((navItem) => this.scope.some((scopeItem) => navItem.subnav.some((subnavItem) => subnavItem.name === scopeItem.class)));
 
-                this.nav = nav.map(navItem => {
-                    return {
+                this.nav = nav.map((navItem) => ({
                         ...navItem,
-                        subnav: navItem.subnav.filter(subnavItem => {
-                            return this.scope.some(scopeItem => {
-                                return subnavItem.name === scopeItem.class;
-                            });
-                        }),
-                    }});
+                        subnav: navItem.subnav.filter((subnavItem) => this.scope.some((scopeItem) => subnavItem.name === scopeItem.class)),
+                    }));
 
                 this.nav = this.fullNav;
                 this.expandCurrentRoute();
@@ -358,23 +347,19 @@
             },
 
             expandCurrentRoute() {
-                const currentItem = this.nav.find(currItem => {
-                    return this.$router.currentRoute.fullPath.includes(currItem.route);
-                });
+                const currentItem = this.nav.find((currItem) => this.$router.currentRoute.fullPath.includes(currItem.route));
                 if (currentItem) {
-                    const currentSubitem = currentItem.subnav.find(currSubitem => {
-                        return this.$router.currentRoute.fullPath.includes(currSubitem.route);
-                    });
+                    const currentSubitem = currentItem.subnav.find((currSubitem) => this.$router.currentRoute.fullPath.includes(currSubitem.route));
                     this.setCurrent(currentItem, currentSubitem);
                 }
             },
 
             setCurrent(currItem, currSubitem) {
-                this.nav.forEach(item => {
+                this.nav.forEach((item) => {
                     item.current = item === currItem;
 
                     if (item.subnav) {
-                        item.subnav.forEach(subitem => {
+                        item.subnav.forEach((subitem) => {
                             subitem.current = subitem === currSubitem;
                         });
                     }
@@ -385,14 +370,14 @@
 
             // watches only 1 item to be opened
             expandItem(expandItem) {
-                this.nav.forEach(item => {
+                this.nav.forEach((item) => {
                     item.expanded = item === expandItem && !expandItem.expanded;
                 });
             },
 
             closeAllExpands() {
                 if (this.collapsed) {
-                    this.nav.forEach(item => {
+                    this.nav.forEach((item) => {
                         item.expanded = false;
                     });
                 }

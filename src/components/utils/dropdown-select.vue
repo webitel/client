@@ -29,26 +29,26 @@
     import vSelect from 'vue-select';
     import requiredLabelMixin from '@/mixins/requiredLabelMixin';
     import validationMessage from './validation-message';
-    import debounce from "../../utils/debounce";
+    import debounce from '../../utils/debounce';
 
     export default {
-        name: "dropdown-select",
+        name: 'dropdown-select',
         mixins: [requiredLabelMixin],
         components: {
             'v-select': vSelect,
-            'validation-message': validationMessage
+            'validation-message': validationMessage,
         },
         props: {
             // options to select
             options: {
                 type: Array || Object,
                 // required: true,
-                default: () => []
+                default: () => [],
             },
 
             displayProperty: {
                 type: String,
-                default: 'name'
+                default: 'name',
             },
 
             // label above select itself
@@ -57,7 +57,7 @@
             },
 
             placeholder: {
-                type: String
+                type: String,
             },
 
             // select value
@@ -72,26 +72,26 @@
 
             // disables selection
             disabled: {
-                type: Boolean
+                type: Boolean,
             },
 
             required: {
-                type: Boolean
+                type: Boolean,
             },
 
             hideLabel: {
                 type: Boolean,
-                default: false
+                default: false,
             },
 
             hideDetails: {
                 type: Boolean,
-                default: false
+                default: false,
             },
 
             taggable: {
                 type: Boolean,
-                default: false
+                default: false,
             },
 
             // validation rules
@@ -108,7 +108,7 @@
             computeDisplayValue() {
                 if (typeof this.value === 'string') return this.value;
                 return this.value[this.displayProperty] || '';
-            }
+            },
         },
 
         methods: {
@@ -121,7 +121,7 @@
                 this.$emit('search', value);
             },
         },
-    }
+    };
 </script>
 
 <style lang="scss" scoped>

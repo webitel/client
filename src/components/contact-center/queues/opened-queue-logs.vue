@@ -84,10 +84,10 @@
 <script>
     import tableComponentMixin from '@/mixins/tableComponentMixin';
     import openedTabComponentMixin from '@/mixins/openedTabComponentMixin';
-    import {mapActions, mapState} from "vuex";
+    import { mapActions, mapState } from 'vuex';
 
     export default {
-        name: "opened-queue-logs",
+        name: 'opened-queue-logs',
         mixins: [tableComponentMixin, openedTabComponentMixin],
 
         data() {
@@ -96,82 +96,82 @@
                         {
                             field: 'start',
                             sortField: 'joined_at',
-                            direction: 'asc'
-                        }
+                            direction: 'asc',
+                        },
                     ],
                 fields: [
-                    {name: 'number', title: 'Number', sortField: 'number'},
-                    {name: 'agent', title: this.$tc('objects.ccenter.agents.agents', 1), sortField: 'agent'},
-                    {name: 'start', title: 'Call start', sortField: 'joined_at'},
-                    {name: 'end', title: 'Call end', sortField: 'joined_at'},
-                    {name: 'offering', title: 'Offering time', sortField: 'offering'},
-                    {name: 'attempt', title: 'Attempts', sortField: 'attempt'},
-                    {name: 'duration', title: 'Duration', sortField: 'duration'},
-                    {name: 'name', title: 'View number', sortField: 'name'},
-                    {name: 'result', title: 'Call result', sortField: 'result'},
+                    { name: 'number', title: 'Number', sortField: 'number' },
+                    { name: 'agent', title: this.$tc('objects.ccenter.agents.agents', 1), sortField: 'agent' },
+                    { name: 'start', title: 'Call start', sortField: 'joined_at' },
+                    { name: 'end', title: 'Call end', sortField: 'joined_at' },
+                    { name: 'offering', title: 'Offering time', sortField: 'offering' },
+                    { name: 'attempt', title: 'Attempts', sortField: 'attempt' },
+                    { name: 'duration', title: 'Duration', sortField: 'duration' },
+                    { name: 'name', title: 'View number', sortField: 'name' },
+                    { name: 'result', title: 'Call result', sortField: 'result' },
 
-                ]
+                ],
             };
         },
 
         watch: {
-            parentId: function (value) {
+            parentId(value) {
                 this.setParentId(value);
             },
 
-            dataList: function () {
+            dataList() {
                 this.$refs.vuetable.setData(this.dataList);
             },
         },
 
         computed: {
             ...mapState('ccenter/queues', {
-                parentId: state => state.itemId,
+                parentId: (state) => state.itemId,
             }),
             ...mapState('ccenter/callLog', {
-                dataList: state => state.dataList,
-                page: state => state.page,
-                isNextPage: state => state.isNextPage,
+                dataList: (state) => state.dataList,
+                page: (state) => state.page,
+                isNextPage: (state) => state.isNextPage,
             }),
 
             size: {
-                get() {return this.$store.state.ccenter.queues.resGroups.size},
-                set(value) {this.setSize(value)}
+                get() { return this.$store.state.ccenter.queues.resGroups.size; },
+                set(value) { this.setSize(value); },
             },
         },
 
         methods: {
             formatDate(value) {
-                let time = new Date(+value).toLocaleString('en-GB');
+                const time = new Date(+value).toLocaleString('en-GB');
                 return time;
             },
 
             getDuration(rowId) {
-                let millis = this.dataList[rowId].offeringAt-this.dataList[rowId].joinedAt;
-                millis = millis >=0 ? millis : 0;
-                let stringTime = this.msToTime(millis);
+                let millis = this.dataList[rowId].offeringAt - this.dataList[rowId].joinedAt;
+                millis = millis >= 0 ? millis : 0;
+                const stringTime = this.msToTime(millis);
                 return stringTime;
             },
 
             msToTime(s) {
                 function pad(n, z) {
                     z = z || 2;
-                    return ('00' + n).slice(-z);
+                    return (`00${n}`).slice(-z);
                 }
-                let ms = s % 1000;
+                const ms = s % 1000;
                 s = (s - ms) / 1000;
-                let secs = s % 60;
+                const secs = s % 60;
                 s = (s - secs) / 60;
-                let mins = s % 60;
-                let hrs = (s - mins) / 60;
-                return pad(hrs) + ':' + pad(mins) + ':' + pad(secs);
+                const mins = s % 60;
+                const hrs = (s - mins) / 60;
+                return `${pad(hrs)}:${pad(mins)}:${pad(secs)}`;
             },
 
 
             dataManager(sortOrder) {
-                if(sortOrder[0]) {
-                    let sortDir = sortOrder[0].direction ===  'asc' ? '-' : '+';
-                    let sortStr = sortDir + sortOrder[0].sortField;
+                if (sortOrder[0]) {
+                    const sortDir = sortOrder[0].direction === 'asc' ? '-' : '+';
+                    const sortStr = sortDir + sortOrder[0].sortField;
                     this.setSort(sortStr);
                 }
             },
@@ -184,8 +184,8 @@
                 nextPage: 'NEXT_PAGE',
                 prevPage: 'PREV_PAGE',
             }),
-        }
-    }
+        },
+    };
 </script>
 
 <style lang="scss">

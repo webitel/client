@@ -11,11 +11,11 @@
 
 <script>
     export default {
-        name: "switcher",
+        name: 'switcher',
         props: {
             value: {
                 type: Boolean,
-                required: true
+                required: true,
             },
             disabled: {
                 type: Boolean,
@@ -25,9 +25,9 @@
         methods: {
             toggleSwitch() {
                 this.$emit('input', !this.value);
-            }
-        }
-    }
+            },
+        },
+    };
 </script>
 
 <style lang="scss" scoped>
@@ -37,13 +37,13 @@
         width: 40px;
         height: 22px;
         cursor: pointer;
-        
+
         input {
             width: 0;
             height: 0;
             opacity: 0;
         }
-        
+
         .slider {
             position: absolute;
             top: 0;
@@ -53,7 +53,7 @@
             background: $icon-color;
             border-radius: 24px;
             transition: $transition;
-            
+
             &:before {
                 content: '';
                 position: absolute;

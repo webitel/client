@@ -44,45 +44,45 @@
 
 <script>
     import openedTabComponentMixin from '@/mixins/openedTabComponentMixin';
-    import {mapActions} from "vuex";
+    import { mapActions } from 'vuex';
 
     export default {
-        name: "opened-team-general",
+        name: 'opened-team-general',
         mixins: [openedTabComponentMixin],
         data() {
             return {
                 dropdownOptionsStrategyList: [
-                    {name: 'Random', value: 'random'},
+                    { name: 'Random', value: 'random' },
                     // {name: '', value: 'sequentially-by-agent-level'},
-                    {name: 'Agent with fewest calls', value: 'fewest-calls'},
-                    {name: 'Agent with least talk time', value: 'least-talk-time'},
-                    {name: 'Top-Down', value: 'top-down'},
-                    {name: 'Round robbin', value: 'round-robin'},
-                    {name: 'Longest idle Agent', value: 'longest-idle-time'},
-                ]
-            }
+                    { name: 'Agent with fewest calls', value: 'fewest-calls' },
+                    { name: 'Agent with least talk time', value: 'least-talk-time' },
+                    { name: 'Top-Down', value: 'top-down' },
+                    { name: 'Round robbin', value: 'round-robin' },
+                    { name: 'Longest idle Agent', value: 'longest-idle-time' },
+                ],
+            };
         },
 
         computed: {
             name: {
-                get() {return this.$store.state.ccenter.teams.itemInstance.name},
-                set(value) {this.setItemProp({prop: 'name', value})}
+                get() { return this.$store.state.ccenter.teams.itemInstance.name; },
+                set(value) { this.setItemProp({ prop: 'name', value }); },
             },
             strategy: {
-                get() {return this.$store.state.ccenter.teams.itemInstance.strategy},
-                set(value) {this.setItemProp({prop: 'strategy', value})}
+                get() { return this.$store.state.ccenter.teams.itemInstance.strategy; },
+                set(value) { this.setItemProp({ prop: 'strategy', value }); },
             },
             description: {
-                get() {return this.$store.state.ccenter.teams.itemInstance.description},
-                set(value) {this.setItemProp({prop: 'description', value})}
+                get() { return this.$store.state.ccenter.teams.itemInstance.description; },
+                set(value) { this.setItemProp({ prop: 'description', value }); },
             },
             postProcessing: {
-                get() {return this.$store.state.ccenter.teams.itemInstance.postProcessing},
-                set(value) {this.setItemProp({prop: 'postProcessing', value})}
+                get() { return this.$store.state.ccenter.teams.itemInstance.postProcessing; },
+                set(value) { this.setItemProp({ prop: 'postProcessing', value }); },
             },
             postProcessingTimeout: {
-                get() {return this.$store.state.ccenter.teams.itemInstance.postProcessingTimeout},
-                set(value) {this.setItemProp({prop: 'postProcessingTimeout', value})}
+                get() { return this.$store.state.ccenter.teams.itemInstance.postProcessingTimeout; },
+                set(value) { this.setItemProp({ prop: 'postProcessingTimeout', value }); },
             },
 
         },
@@ -92,7 +92,7 @@
                 setItemProp: 'SET_ITEM_PROPERTY',
             }),
         },
-    }
+    };
 </script>
 
 <style lang="scss" scoped>

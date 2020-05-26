@@ -42,23 +42,23 @@
     import clickaway from '../../../directives/clickaway';
 
     export default {
-        name: "table-filter",
+        name: 'table-filter',
         components: {
             checkbox,
         },
         directives: {
-            clickaway
+            clickaway,
         },
         props: {
             filterObjects: {
                 type: Object,
-                required: true
-            }
+                required: true,
+            },
         },
         data() {
             return {
                 filterShowTrigger: false,
-            }
+            };
         },
         methods: {
             toggleFilter() {
@@ -66,9 +66,9 @@
             },
             closeFilter() {
                 this.filterShowTrigger = false;
-            }
-        }
-    }
+            },
+        },
+    };
 </script>
 
 <style lang="scss" scoped>

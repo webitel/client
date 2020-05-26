@@ -54,43 +54,43 @@
 <script>
     import openedTabComponentMixin from '@/mixins/openedTabComponentMixin';
     import eventBus from '@/utils/eventBus';
-    import {mapActions, mapState} from "vuex";
+    import { mapActions, mapState } from 'vuex';
 
     export default {
-        name: "opened-user-general",
+        name: 'opened-user-general',
         mixins: [openedTabComponentMixin],
         data() {
             return {
                 copyMessage: '',
                 copyTriggerShow: false,
-                type: 'password'
-            }
+                type: 'password',
+            };
         },
 
         computed: {
             ...mapState('directory/users', {
-                id: state => state.itemId,
+                id: (state) => state.itemId,
             }),
             name: {
-                get() {return this.$store.state.directory.users.itemInstance.name},
-                set(value) {this.setItemProp({prop: 'name', value})}
+                get() { return this.$store.state.directory.users.itemInstance.name; },
+                set(value) { this.setItemProp({ prop: 'name', value }); },
             },
             username: {
-                get() {return this.$store.state.directory.users.itemInstance.username},
-                set(value) {this.setItemProp({prop: 'username', value})}
+                get() { return this.$store.state.directory.users.itemInstance.username; },
+                set(value) { this.setItemProp({ prop: 'username', value }); },
             },
             password: {
-                get() {return this.$store.state.directory.users.itemInstance.password},
-                set(value) {this.setItemProp({prop: 'password', value})}
+                get() { return this.$store.state.directory.users.itemInstance.password; },
+                set(value) { this.setItemProp({ prop: 'password', value }); },
             },
             extension: {
-                get() {return this.$store.state.directory.users.itemInstance.extension},
-                set(value) {this.setItemProp({prop: 'extension', value})}
+                get() { return this.$store.state.directory.users.itemInstance.extension; },
+                set(value) { this.setItemProp({ prop: 'extension', value }); },
             },
 
             computePasswordRepresentation() {
                 return this.password.length <= 12 ? this.password : this.password.slice(0, 12);
-            }
+            },
         },
 
         methods: {
@@ -118,8 +118,8 @@
             ...mapActions('directory/users', {
                 setItemProp: 'SET_ITEM_PROPERTY',
             }),
-        }
-    }
+        },
+    };
 </script>
 
 <style scoped>

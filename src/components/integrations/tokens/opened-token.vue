@@ -27,13 +27,13 @@
 </template>
 
 <script>
+    import editComponentMixin from '@/mixins/editComponentMixin';
+    import { required } from 'vuelidate/lib/validators';
     import tokenPopup from './copy-token-popup';
     import openedTokenGeneral from './opened-token-general';
-    import editComponentMixin from '@/mixins/editComponentMixin';
-    import {required} from 'vuelidate/lib/validators';
 
     export default {
-        name: "opened-token",
+        name: 'opened-token',
         mixins: [editComponentMixin],
         components: {
             tokenPopup,
@@ -43,8 +43,8 @@
             return {
                 itemInstance: {
                     name: 'Trigger name',
-                    role: {name: 'Role name'},
-                    expires: Date.now().toLocaleString()
+                    role: { name: 'Role name' },
+                    expires: Date.now().toLocaleString(),
                 },
                 tabs: [{
                         text: this.$t('objects.general'),
@@ -58,9 +58,9 @@
         validations: {
             itemInstance: {
                 name: {
-                    required
+                    required,
                 },
-            }
+            },
         },
 
         methods: {
@@ -68,12 +68,12 @@
                 if (this.id) {
                     // upd
                 } else {
-                    //add
+                    // add
                 }
                 this.close();
             },
-        }
-    }
+        },
+    };
 </script>
 
 <style lang="scss" scoped>

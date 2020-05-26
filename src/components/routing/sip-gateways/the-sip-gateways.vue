@@ -104,22 +104,22 @@
 
 <script>
     import tableComponentMixin from '@/mixins/tableComponentMixin';
+    import { _checkboxTableField, _actionsTableField_2, _switcherWidth } from '@/utils/tableFieldPresets';
+    import { mapActions, mapState } from 'vuex';
     import gatewayPopup from './create-gateway-popup';
-    import {_checkboxTableField, _actionsTableField_2, _switcherWidth} from "@/utils/tableFieldPresets";
-    import {mapActions, mapState} from "vuex";
 
     export default {
-        name: "the-sip-gateways",
+        name: 'the-sip-gateways',
         mixins: [tableComponentMixin],
-        components: {gatewayPopup},
+        components: { gatewayPopup },
         data() {
             return {
                 fields: [
                     _checkboxTableField,
-                    {name: 'name', title: this.$t('objects.name')},
-                    {name: 'proxy', title: this.$t('objects.routing.gateways.proxy')},
-                    {name: 'enabled', title: this.$t('objects.enabled'), width: _switcherWidth},
-                    {name: 'status', title: this.$t('objects.status')},
+                    { name: 'name', title: this.$t('objects.name') },
+                    { name: 'proxy', title: this.$t('objects.routing.gateways.proxy') },
+                    { name: 'enabled', title: this.$t('objects.enabled'), width: _switcherWidth },
+                    { name: 'status', title: this.$t('objects.status') },
                     _actionsTableField_2,
                 ],
             };
@@ -127,20 +127,20 @@
 
         computed: {
             ...mapState('routing/gateways', {
-                dataList: state => state.dataList,
-                page: state => state.page, // acts like a boolean: if page is 0, there's no back page
-                isNextPage: state => state.isNextPage,
+                dataList: (state) => state.dataList,
+                page: (state) => state.page, // acts like a boolean: if page is 0, there's no back page
+                isNextPage: (state) => state.isNextPage,
             }),
 
             size: {
-                get() {return this.$store.state.routing.gateways.size},
-                set(value) {this.setSize(value)}
+                get() { return this.$store.state.routing.gateways.size; },
+                set(value) { this.setSize(value); },
             },
 
             search: {
-                get() {return this.$store.state.routing.gateways.search},
-                set(value) {this.setSearch(value)}
-            }
+                get() { return this.$store.state.routing.gateways.search; },
+                set(value) { this.setSearch(value); },
+            },
         },
 
         methods: {
@@ -149,37 +149,35 @@
             },
 
             edit(rowId) {
-                const name = this.dataList[rowId].register ?
-                    'reg-gateway-edit' : 'trunk-gateway-edit';
+                const name = this.dataList[rowId].register
+                    ? 'reg-gateway-edit' : 'trunk-gateway-edit';
 
                 this.$router.push({
                     name,
-                    params: {id: this.dataList[rowId].id},
+                    params: { id: this.dataList[rowId].id },
                 });
             },
 
             computeStatusText(stateCode) {
                 if (stateCode === 3) {
                     return this.$t('objects.routing.gateways.stateSuccess');
-                } else if (stateCode > 3 && stateCode < 8) {
+                } if (stateCode > 3 && stateCode < 8) {
                     return this.$t('objects.routing.gateways.stateFailed');
-                } else if (stateCode > 7 && stateCode < 2) {
+                } if (stateCode > 7 && stateCode < 2) {
                     return this.$t('objects.routing.gateways.stateProgress');
-                } else {
-                    return this.$t('objects.routing.gateways.stateNonreg');
                 }
+                    return this.$t('objects.routing.gateways.stateNonreg');
             },
 
             computeStatusClass(stateCode) {
                 if (stateCode === 3) {
                     return 'status__true';
-                } else if (stateCode > 3 && stateCode < 8) {
+                } if (stateCode > 3 && stateCode < 8) {
                     return 'status__false';
-                } else if (stateCode > 7 && stateCode < 2) {
+                } if (stateCode > 7 && stateCode < 2) {
                     return 'status__info';
-                } else {
-                    return 'not-registered'
                 }
+                    return 'not-registered';
             },
 
             ...mapActions('routing/gateways', {
@@ -193,5 +191,5 @@
             }),
         },
 
-    }
+    };
 </script>

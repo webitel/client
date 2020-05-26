@@ -6,6 +6,6 @@ export default {
         v: {
             type: Object,
             // required: true
-        }
+        },
     },
-}
+};

@@ -56,21 +56,21 @@
 </template>
 
 <script>
-    import eventBus from "../../../utils/eventBus";
     import openedTabComponentMixin from '@/mixins/openedTabComponentMixin';
-    import {getUsersList} from "../../../api/directory/users/users";
-    import {mapActions} from "vuex";
+    import { mapActions } from 'vuex';
+    import eventBus from '../../../utils/eventBus';
+    import { getUsersList } from '../../../api/directory/users/users';
 
     export default {
-        name: "opened-device-general",
+        name: 'opened-device-general',
         mixins: [openedTabComponentMixin],
         data() {
             return {
                 defaultPassword: '12345678',
                 copyMessage: '',
                 copyTriggerShow: false,
-                type: 'password'
-            }
+                type: 'password',
+            };
         },
 
         mounted() {
@@ -79,48 +79,46 @@
 
         computed: {
             name: {
-                get() {return this.$store.state.directory.devices.itemInstance.name},
-                set(value) {this.setItemProp({prop: 'name', value})}
+                get() { return this.$store.state.directory.devices.itemInstance.name; },
+                set(value) { this.setItemProp({ prop: 'name', value }); },
             },
             account: {
-                get() {return this.$store.state.directory.devices.itemInstance.account},
-                set(value) {this.setItemProp({prop: 'account', value})}
+                get() { return this.$store.state.directory.devices.itemInstance.account; },
+                set(value) { this.setItemProp({ prop: 'account', value }); },
             },
             password: {
                 get() {
                     return this.$store.state.directory.devices.itemInstance.password
                     ? this.$store.state.directory.devices.itemInstance.password
-                    : this.defaultPassword
+                    : this.defaultPassword;
                 },
                 set(value) {
                     this.defaultPassword = '';
-                    this.setItemProp({prop: 'password', value})
-                }
+                    this.setItemProp({ prop: 'password', value });
+                },
             },
             user: {
-                get() {return this.$store.state.directory.devices.itemInstance.user},
-                set(value) {this.setItemProp({prop: 'user', value})}
+                get() { return this.$store.state.directory.devices.itemInstance.user; },
+                set(value) { this.setItemProp({ prop: 'user', value }); },
             },
 
             computePasswordRepresentation() {
                 return this.password.length <= 12 ? this.password : this.password.slice(0, 12);
-            }
+            },
         },
 
         methods: {
             async loadDropdownOptionsList(search) {
                 const response = await getUsersList(0, 10, search);
-                this.dropdownOptionsList = response.list.map(item => {
-                    return {
+                this.dropdownOptionsList = response.list.map((item) => ({
                         name: item.name,
                         id: item.id,
-                    }
-                });
+                    }));
             },
 
             generatePassword() {
                 const length = 12;
-                const charset = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+                const charset = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
                 let result = '';
                 for (let i = 0; i < length; i++) {
                     result += charset.charAt(Math.floor(Math.random() * charset.length));
@@ -143,7 +141,7 @@
                 setItemProp: 'SET_ITEM_PROPERTY',
             }),
         },
-    }
+    };
 </script>
 
 <style lang="scss" scoped>

@@ -28,28 +28,28 @@
 
 <script>
     import openedTabComponentMixin from '@/mixins/openedTabComponentMixin';
-    import {mapActions} from "vuex";
+    import { mapActions } from 'vuex';
 
     export default {
-        name: "opened-storage-general",
+        name: 'opened-storage-general',
         mixins: [openedTabComponentMixin],
 
         computed: {
             name: {
-                get() {return this.$store.state.integrations.storage.itemInstance.name},
-                set(value) {this.setItemProp({prop: 'name', value})}
+                get() { return this.$store.state.integrations.storage.itemInstance.name; },
+                set(value) { this.setItemProp({ prop: 'name', value }); },
             },
             maxSize: {
-                get() {return this.$store.state.integrations.storage.itemInstance.maxSize},
-                set(value) {this.setItemProp({prop: 'maxSize', value})}
+                get() { return this.$store.state.integrations.storage.itemInstance.maxSize; },
+                set(value) { this.setItemProp({ prop: 'maxSize', value }); },
             },
             expireDays: {
-                get() {return this.$store.state.integrations.storage.itemInstance.expireDays},
-                set(value) {this.setItemProp({prop: 'expireDays', value})}
+                get() { return this.$store.state.integrations.storage.itemInstance.expireDays; },
+                set(value) { this.setItemProp({ prop: 'expireDays', value }); },
             },
             priority: {
-                get() {return this.$store.state.integrations.storage.itemInstance.priority},
-                set(value) {this.setItemProp({prop: 'priority', value})}
+                get() { return this.$store.state.integrations.storage.itemInstance.priority; },
+                set(value) { this.setItemProp({ prop: 'priority', value }); },
             },
         },
 
@@ -58,7 +58,7 @@
                 setItemProp: 'SET_ITEM_PROPERTY',
             }),
         },
-    }
+    };
 </script>
 
 <style lang="scss" scoped>

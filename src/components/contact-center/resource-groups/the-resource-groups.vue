@@ -88,20 +88,20 @@
 
 <script>
     import tableComponentMixin from '@/mixins/tableComponentMixin';
-    import {_checkboxTableField, _actionsTableField_2} from "@/utils/tableFieldPresets";
-    import {deleteResGroup, getResGroupList} from "../../../api/contact-center/resourceGroups/resourceGroups";
-    import {mapActions, mapState} from "vuex";
+    import { _checkboxTableField, _actionsTableField_2 } from '@/utils/tableFieldPresets';
+    import { mapActions, mapState } from 'vuex';
+    import { deleteResGroup, getResGroupList } from '../../../api/contact-center/resourceGroups/resourceGroups';
 
     export default {
-        name: "the-resource-groups",
+        name: 'the-resource-groups',
         mixins: [tableComponentMixin],
         data() {
             return {
                 fields: [
                     _checkboxTableField,
-                    {name: 'name', title: this.$t('objects.name')},
-                    {name: 'description', title: this.$t('objects.description')},
-                    {name: 'communication', title: this.$tc('objects.lookups.communications.communications', 1)},
+                    { name: 'name', title: this.$t('objects.name') },
+                    { name: 'description', title: this.$t('objects.description') },
+                    { name: 'communication', title: this.$tc('objects.lookups.communications.communications', 1) },
                     _actionsTableField_2,
                 ],
             };
@@ -109,19 +109,19 @@
 
         computed: {
             ...mapState('ccenter/resGroups', {
-                dataList: state => state.dataList,
-                page: state => state.page, // acts like a boolean: if page is 0, there's no back page
-                isNextPage: state => state.isNextPage,
+                dataList: (state) => state.dataList,
+                page: (state) => state.page, // acts like a boolean: if page is 0, there's no back page
+                isNextPage: (state) => state.isNextPage,
             }),
 
             size: {
-                get() {return this.$store.state.ccenter.resGroups.size},
-                set(value) {this.setSize(value)}
+                get() { return this.$store.state.ccenter.resGroups.size; },
+                set(value) { this.setSize(value); },
             },
 
             search: {
-                get() {return this.$store.state.ccenter.resGroups.search},
-                set(value) {this.setSearch(value)}
+                get() { return this.$store.state.ccenter.resGroups.search; },
+                set(value) { this.setSearch(value); },
             },
         },
 
@@ -133,7 +133,7 @@
             edit(rowId) {
                 this.$router.push({
                     name: 'cc-resource-group-edit',
-                    params: {id: this.dataList[rowId].id},
+                    params: { id: this.dataList[rowId].id },
                 });
             },
 
@@ -147,5 +147,5 @@
             }),
         },
 
-    }
+    };
 </script>

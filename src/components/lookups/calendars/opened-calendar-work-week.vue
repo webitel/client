@@ -60,13 +60,13 @@
     import timepicker from '@/components/utils/timepicker';
     import vuetable from 'vuetable-2/src/components/Vuetable';
     import openedTabComponentMixin from '@/mixins/openedTabComponentMixin';
-    import {_actionsTableField_1} from "@/utils/tableFieldPresets";
-    import {_switcherWidth} from "../../../utils/tableFieldPresets";
-    import {deleteWorkday} from "../../../api/lookups/calendars/calendars";
-    import {mapActions, mapState} from "vuex";
+    import { _actionsTableField_1, _switcherWidth } from '@/utils/tableFieldPresets';
+
+    import { mapActions, mapState } from 'vuex';
+    import { deleteWorkday } from '../../../api/lookups/calendars/calendars';
 
     export default {
-        name: "opened-calendar-work-week",
+        name: 'opened-calendar-work-week',
         components: {
             vuetable,
             timepicker,
@@ -75,10 +75,10 @@
         data() {
             return {
                 fields: [
-                    {name: 'name', title: this.$t('objects.name')},
-                    {name: 'start', title: this.$t('objects.lookups.calendars.start')},
-                    {name: 'end', title: this.$t('objects.lookups.calendars.end')},
-                    {name: 'status', title: this.$t('objects.lookups.calendars.enabled'), width: _switcherWidth},
+                    { name: 'name', title: this.$t('objects.name') },
+                    { name: 'start', title: this.$t('objects.lookups.calendars.start') },
+                    { name: 'end', title: this.$t('objects.lookups.calendars.end') },
+                    { name: 'status', title: this.$t('objects.lookups.calendars.enabled'), width: _switcherWidth },
                     _actionsTableField_1,
                 ],
                 weekdays: [
@@ -95,18 +95,18 @@
 
         computed: {
             ...mapState('lookups/calendars', {
-                dataList: state => state.itemInstance.accepts,
+                dataList: (state) => state.itemInstance.accepts,
             }),
         },
 
         methods: {
             isDayStart(rowIndex) {
-                return this.dataList[rowIndex].day !== // this day index is not equal to
-                    (this.dataList[rowIndex - 1] || {}).day; // prev day index (or empty)
+                return this.dataList[rowIndex].day // this day index is not equal to
+                    !== (this.dataList[rowIndex - 1] || {}).day; // prev day index (or empty)
             },
 
             computeWorkdayEnd(item, rowIndex) {
-                return this.isDayStart(rowIndex) ? 'day-start' : ''
+                return this.isDayStart(rowIndex) ? 'day-start' : '';
             },
 
             ...mapActions('lookups/calendars', {
@@ -115,8 +115,8 @@
                 remove: 'REMOVE_ACCEPT_ITEM',
             }),
 
-        }
-    }
+        },
+    };
 </script>
 
 <style lang="scss">

@@ -1,6 +1,6 @@
 export const downloadAsJSON = (obj, name) => {
-    const dataStr = 'data:text/json;charset=utf-8,' + encodeURIComponent(JSON.stringify(obj, null, 4));
-    download(dataStr, name + '-schema.json');
+    const dataStr = `data:text/json;charset=utf-8,${encodeURIComponent(JSON.stringify(obj, null, 4))}`;
+    download(dataStr, `${name}-schema.json`);
 };
 
 export const downloadAsCSV = (dataStr, name) => {

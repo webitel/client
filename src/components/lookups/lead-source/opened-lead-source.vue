@@ -42,10 +42,10 @@
 <script>
     import editComponentMixin from '@/mixins/editComponentMixin';
 
-    import {required} from 'vuelidate/lib/validators';
+    import { required } from 'vuelidate/lib/validators';
 
     export default {
-        name: "lead-source-edit",
+        name: 'lead-source-edit',
         mixins: [editComponentMixin],
         data() {
             return {
@@ -64,9 +64,9 @@
         validations: {
             leadSourceInstance: {
                 name: {
-                    required
-                }
-            }
+                    required,
+                },
+            },
         },
 
         methods: {
@@ -78,9 +78,9 @@
                 }
 
                 this.close();
-            }
-        }
-    }
+            },
+        },
+    };
 </script>
 
 <style scoped>

@@ -48,11 +48,11 @@
 
 <script>
     import vuetable from 'vuetable-2/src/components/Vuetable';
+    import { _actionsTableField_2 } from '@/utils/tableFieldPresets';
     import objectHeader from '../../object-utils/the-object-header';
-    import {_actionsTableField_2} from "@/utils/tableFieldPresets";
 
     export default {
-        name: "the-lead-source",
+        name: 'the-lead-source',
         components: {
             objectHeader,
             vuetable,
@@ -62,8 +62,8 @@
                 leadSourceList: [],
                 // vuetable prop
                 fields: [
-                    {name: 'leadSourceName', title: this.$t('objects.name')},
-                    {name: 'leadSourceDescription', title: this.$t('objects.description')},
+                    { name: 'leadSourceName', title: this.$t('objects.name') },
+                    { name: 'leadSourceDescription', title: this.$t('objects.description') },
                     _actionsTableField_2,
                 ],
             };
@@ -79,7 +79,7 @@
             edit(rowId) {
                 this.$router.push({
                     name: 'lead-source-lookup-edit',
-                    params: {id: this.leadSourceList[rowId].id},
+                    params: { id: this.leadSourceList[rowId].id },
                 });
             },
 
@@ -88,16 +88,16 @@
             },
 
             loadLeadSourceList() {
-                for(let i = 0; i < 10; i++) {
+                for (let i = 0; i < 10; i++) {
                     this.leadSourceList.push({
-                        name: 'Lead source ' + i,
+                        name: `Lead source ${i}`,
                         description: 'Description',
-                        id: i
+                        id: i,
                     });
                 }
-            }
-        }
-    }
+            },
+        },
+    };
 </script>
 
 <style scoped>

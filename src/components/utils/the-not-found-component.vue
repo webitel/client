@@ -14,7 +14,7 @@
 
     export default {
         name: 'the-not-found-component',
-        components: {btn},
+        components: { btn },
     };
 </script>
 
@@ -39,7 +39,7 @@
                 width: 778px;
                 user-select: none;
             }
-            
+
             .not-found__title {
                 text-transform: uppercase;
                 margin-top: 69px;

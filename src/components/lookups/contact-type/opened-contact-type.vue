@@ -42,10 +42,10 @@
 <script>
     import editComponentMixin from '@/mixins/editComponentMixin';
 
-    import {required} from 'vuelidate/lib/validators';
+    import { required } from 'vuelidate/lib/validators';
 
     export default {
-        name: "opened-contact-type",
+        name: 'opened-contact-type',
         mixins: [editComponentMixin],
         data() {
             return {
@@ -64,9 +64,9 @@
         validations: {
             contactTypeInstance: {
                 name: {
-                    required
-                }
-            }
+                    required,
+                },
+            },
         },
 
         methods: {
@@ -78,9 +78,9 @@
                 }
 
                 this.close();
-            }
-        }
-    }
+            },
+        },
+    };
 </script>
 
 <style scoped>

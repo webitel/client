@@ -74,55 +74,55 @@
 </template>
 
 <script>
-    import openedAgentSkillsPopup from './opened-agent-skills-popup';
     import tableComponentMixin from '@/mixins/tableComponentMixin';
     import openedTabComponentMixin from '@/mixins/openedTabComponentMixin';
-    import {_checkboxTableField, _actionsTableField_2} from "@/utils/tableFieldPresets";
-    import {mapActions, mapState} from "vuex";
-    import eventBus from "../../../utils/eventBus";
+    import { _checkboxTableField, _actionsTableField_2 } from '@/utils/tableFieldPresets';
+    import { mapActions, mapState } from 'vuex';
+    import openedAgentSkillsPopup from './opened-agent-skills-popup';
+    import eventBus from '../../../utils/eventBus';
 
     export default {
-        name: "opened-agent-skills",
+        name: 'opened-agent-skills',
         mixins: [openedTabComponentMixin, tableComponentMixin],
         components: {
-            'skill-popup': openedAgentSkillsPopup
+            'skill-popup': openedAgentSkillsPopup,
         },
         data() {
             return {
                 fields: [
                     _checkboxTableField,
-                    {name: 'name', title: this.$tc('objects.ccenter.skills.skills', 2)},
-                    {name: 'capacity', title: this.$t('objects.ccenter.skills.capacity')},
+                    { name: 'name', title: this.$tc('objects.ccenter.skills.skills', 2) },
+                    { name: 'capacity', title: this.$t('objects.ccenter.skills.capacity') },
                     _actionsTableField_2,
                 ],
-            }
+            };
         },
 
         watch: {
-            parentId: function (value) {
+            parentId(value) {
                 this.setParentId(value);
-            }
+            },
         },
 
         computed: {
             ...mapState('ccenter/agents', {
-                parentId: state => state.itemId,
+                parentId: (state) => state.itemId,
             }),
             ...mapState('ccenter/agents/skills', {
-                dataList: state => state.dataList,
-                page: state => state.page,
-                isNextPage: state => state.isNextPage,
+                dataList: (state) => state.dataList,
+                page: (state) => state.page,
+                isNextPage: (state) => state.isNextPage,
             }),
 
             size: {
-                get() {return this.$store.state.ccenter.agents.skills.size},
-                set(value) {this.setSize(value)}
+                get() { return this.$store.state.ccenter.agents.skills.size; },
+                set(value) { this.setSize(value); },
             },
 
             search: {
-                get() {return this.$store.state.ccenter.agents.skills.search},
-                set(value) {this.setSearch(value)}
-            }
+                get() { return this.$store.state.ccenter.agents.skills.search; },
+                set(value) { this.setSearch(value); },
+            },
         },
 
         methods: {
@@ -154,8 +154,8 @@
                 prevPage: 'PREV_PAGE',
                 removeItem: 'REMOVE_ITEM',
             }),
-        }
-    }
+        },
+    };
 </script>
 
 <style lang="scss" scoped>

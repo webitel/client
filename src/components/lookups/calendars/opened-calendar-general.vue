@@ -52,11 +52,11 @@
 <script>
     import datepicker from '@/components/utils/datepicker';
     import openedTabComponentMixin from '@/mixins/openedTabComponentMixin';
-    import {getCalendarTimezones} from "../../../api/lookups/calendars/calendars";
-    import {mapActions} from "vuex";
+    import { mapActions } from 'vuex';
+    import { getCalendarTimezones } from '../../../api/lookups/calendars/calendars';
 
     export default {
-        name: "opened-calendar-general",
+        name: 'opened-calendar-general',
         mixins: [openedTabComponentMixin],
         components: {
             datepicker,
@@ -65,7 +65,7 @@
         data() {
             return {
                 dropdownOptionsList: [],
-            }
+            };
         },
 
         mounted() {
@@ -74,28 +74,28 @@
 
         computed: {
             name: {
-                get() {return this.$store.state.lookups.calendars.itemInstance.name},
-                set(value) {this.setItemProp({prop: 'name', value})}
+                get() { return this.$store.state.lookups.calendars.itemInstance.name; },
+                set(value) { this.setItemProp({ prop: 'name', value }); },
             },
             timezone: {
-                get() {return this.$store.state.lookups.calendars.itemInstance.timezone},
-                set(value) {this.setItemProp({prop: 'timezone', value})}
+                get() { return this.$store.state.lookups.calendars.itemInstance.timezone; },
+                set(value) { this.setItemProp({ prop: 'timezone', value }); },
             },
             description: {
-                get() {return this.$store.state.lookups.calendars.itemInstance.description},
-                set(value) {this.setItemProp({prop: 'description', value})}
+                get() { return this.$store.state.lookups.calendars.itemInstance.description; },
+                set(value) { this.setItemProp({ prop: 'description', value }); },
             },
             expires: {
-                get() {return this.$store.state.lookups.calendars.itemInstance.expires},
-                set(value) {this.setItemProp({prop: 'expires', value})}
+                get() { return this.$store.state.lookups.calendars.itemInstance.expires; },
+                set(value) { this.setItemProp({ prop: 'expires', value }); },
             },
             startAt: {
-                get() {return this.$store.state.lookups.calendars.itemInstance.startAt},
-                set(value) {this.setItemProp({prop: 'startAt', value})}
+                get() { return this.$store.state.lookups.calendars.itemInstance.startAt; },
+                set(value) { this.setItemProp({ prop: 'startAt', value }); },
             },
             endAt: {
-                get() {return this.$store.state.lookups.calendars.itemInstance.endAt},
-                set(value) {this.setItemProp({prop: 'endAt', value})}
+                get() { return this.$store.state.lookups.calendars.itemInstance.endAt; },
+                set(value) { this.setItemProp({ prop: 'endAt', value }); },
             },
         },
 
@@ -107,8 +107,8 @@
             ...mapActions('lookups/calendars', {
                 setItemProp: 'SET_ITEM_PROPERTY',
             }),
-        }
-    }
+        },
+    };
 </script>
 
 <style lang="scss" scoped>

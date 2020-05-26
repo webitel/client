@@ -1,10 +1,10 @@
-import {shallowMount, mount, createLocalVue} from '@vue/test-utils'
-import theRoles from '../../../../src/components/permissions/roles/the-roles';
-import newRole from '../../../../src/components/permissions/roles/opened-role';
-import {getRoleList} from '../../../../src/api/permissions/roles/roles';
+import { shallowMount, mount, createLocalVue } from '@vue/test-utils';
 import VueRouter from 'vue-router';
 import Vuelidate from 'vuelidate';
 import i18n from 'vue-i18n';
+import theRoles from '../../../../src/components/permissions/roles/the-roles';
+import newRole from '../../../../src/components/permissions/roles/opened-role';
+import { getRoleList } from '../../../../src/api/permissions/roles/roles';
 
 const $t = () => {
 };
@@ -18,10 +18,10 @@ const router = new VueRouter();
 
 describe('roles-new.vue', () => {
     const wrapper = mount(newRole, {
-        mocks: {$t, $tc},
+        mocks: { $t, $tc },
         localVue,
         router,
-        i18n
+        i18n,
     });
 
     it('creates new role', async (done) => {
@@ -49,12 +49,10 @@ describe('roles-new.vue', () => {
         const dataList = await getRoleList('*jest-role'); // load all roles
 
         // to find created role id
-        const createdRole = dataList.find(role => {
-            return role.name === 'jest-role'
-        });
+        const createdRole = dataList.find((role) => role.name === 'jest-role');
 
         // emulate route path by setting id
-        wrapper.setData({id: createdRole.id});
+        wrapper.setData({ id: createdRole.id });
 
         // load role by its id
         await wrapper.vm.loadItem();
@@ -66,10 +64,10 @@ describe('roles-new.vue', () => {
         const newRoleInstance = {
             itemInstance: {
                 name: 'updated-jest-role',
-            }
+            },
         };
 
-        console.log(createdRole)
+        console.log(createdRole);
         // trigger 'save' button
         wrapper.find('.primary-btn').trigger('click');
 
@@ -77,9 +75,7 @@ describe('roles-new.vue', () => {
         await setTimeout(async () => {
             // load new list and find updated role
             const newRoleList = await getRoleList('updated-jest-role');
-            const newRole = newRoleList.find(role => {
-                return role.name === 'updated-jest-role'
-            });
+            const newRole = newRoleList.find((role) => role.name === 'updated-jest-role');
 
             // test if there's a role
             expect(newRole).toBeTruthy();
@@ -93,10 +89,10 @@ describe('roles-new.vue', () => {
 
 describe('the-roles.vue', () => {
     const wrapper = mount(theRoles, {
-        mocks: {$t, $tc},
+        mocks: { $t, $tc },
         localVue,
         router,
-        i18n
+        i18n,
     });
 
     let createdRole;
@@ -106,9 +102,7 @@ describe('the-roles.vue', () => {
         await wrapper.vm.loadDataList('*jest-role');
 
         // find tested role
-        createdRole = wrapper.vm.dataList.find(item => {
-            return item.name === 'updated-jest-role' || 'jest-role'
-        });
+        createdRole = wrapper.vm.dataList.find((item) => item.name === 'updated-jest-role' || 'jest-role');
 
         // and its index
         createdRoleIndex = wrapper.vm.dataList.indexOf(createdRole);

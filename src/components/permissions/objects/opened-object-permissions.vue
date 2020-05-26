@@ -101,25 +101,25 @@
 
 
 <script>
-    import rolePopup from './opened-object-permissions-role-popup';
     import tableComponentMixin from '@/mixins/tableComponentMixin';
     import editComponentMixin from '@/mixins/editComponentMixin';
-    import {mapActions, mapState} from "vuex";
-    import {getObject} from "../../../api/permissions/objects/objects";
+    import { mapActions, mapState } from 'vuex';
+    import rolePopup from './opened-object-permissions-role-popup';
+    import { getObject } from '../../../api/permissions/objects/objects';
 
     export default {
-        name: "opened-object-permissions",
+        name: 'opened-object-permissions',
         mixins: [tableComponentMixin, editComponentMixin],
-        components: {rolePopup},
+        components: { rolePopup },
         data() {
             return {
                 // vuetable prop
                 fields: [
-                    {name: 'grantee', title: this.$t('objects.name')},
-                    {name: 'create', title: this.$t('objects.create')},
-                    {name: 'read', title: this.$t('objects.read')},
-                    {name: 'edit', title: this.$t('objects.edit')},
-                    {name: 'delete', title: this.$t('objects.delete')},
+                    { name: 'grantee', title: this.$t('objects.name') },
+                    { name: 'create', title: this.$t('objects.create') },
+                    { name: 'read', title: this.$t('objects.read') },
+                    { name: 'edit', title: this.$t('objects.edit') },
+                    { name: 'delete', title: this.$t('objects.delete') },
                 ],
                 headerTitle: '', // header title. retieves from object GET request
 
@@ -135,27 +135,27 @@
 
         computed: {
             ...mapState('permissions/objects', {
-                dataList: state => state.itemPermissionsDataList,
-                page: state => state.itemPage, // acts like a boolean: if page is 0, there's no back page
-                isNextPage: state => state.isItemNextPage,
+                dataList: (state) => state.itemPermissionsDataList,
+                page: (state) => state.itemPage, // acts like a boolean: if page is 0, there's no back page
+                isNextPage: (state) => state.isItemNextPage,
             }),
             id: {
                 get() {
-                    return this.$store.state.permissions.objects.itemId
+                    return this.$store.state.permissions.objects.itemId;
                 },
                 set(value) {
-                    this.setId(value)
-                }
+                    this.setId(value);
+                },
             },
 
             size: {
-                get() {return this.$store.state.permissions.objects.itemSize},
-                set(value) {this.setSize(value)}
+                get() { return this.$store.state.permissions.objects.itemSize; },
+                set(value) { this.setSize(value); },
             },
 
             search: {
-                get() {return this.$store.state.permissions.objects.itemSearch},
-                set(value) {this.setSearch(value)}
+                get() { return this.$store.state.permissions.objects.itemSearch; },
+                set(value) { this.setSearch(value); },
             },
         },
 
@@ -176,9 +176,9 @@
                 this.headerTitle = await getObject(id);
             },
         },
-    }
+    };
 </script>
 
 <style lang="scss" scoped>
 
-</style> 
+</style>

@@ -1,6 +1,6 @@
-import instance from "../instance";
-import store from "../../store/store";
-import {objSnakeToCamel} from "../utils/caseConverters";
+import instance from '../instance';
+import store from '../../store/store';
+import { objSnakeToCamel } from '../utils/caseConverters';
 
 // gets user by token from localstorage
 // stores response username in vuex
@@ -22,7 +22,7 @@ export const getSession = async () => {
             localStorage.setItem('domain', response.dc);
             store.dispatch('userinfo/SET_SESSION', {
                 ...defaultObject,
-                ...objSnakeToCamel(response)
+                ...objSnakeToCamel(response),
             });
         } catch (error) {
             throw error;

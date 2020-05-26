@@ -75,60 +75,60 @@
 </template>
 
 <script>
-    import rolePopup from './opened-team-permissions-role-popup';
     import tableComponentMixin from '@/mixins/tableComponentMixin';
     import editComponentMixin from '@/mixins/editComponentMixin';
-    import {mapActions, mapState} from "vuex";
+    import { mapActions, mapState } from 'vuex';
+    import rolePopup from './opened-team-permissions-role-popup';
 
     export default {
-        name: "opened-team-permissions",
+        name: 'opened-team-permissions',
         mixins: [tableComponentMixin, editComponentMixin],
-        components: {rolePopup},
+        components: { rolePopup },
         data() {
             return {
                 // vuetable prop
                 fields: [
-                    {name: 'grantee', title: this.$t('objects.name')},
-                    {name: 'read', title: this.$t('objects.read')},
-                    {name: 'edit', title: this.$t('objects.edit')},
-                    {name: 'delete', title: this.$t('objects.delete')},
+                    { name: 'grantee', title: this.$t('objects.name') },
+                    { name: 'read', title: this.$t('objects.read') },
+                    { name: 'edit', title: this.$t('objects.edit') },
+                    { name: 'delete', title: this.$t('objects.delete') },
                 ],
             };
         },
 
         watch: {
-            parentId: function (value) {
+            parentId(value) {
                 this.setParentId(value);
-            }
+            },
         },
 
         computed: {
             ...mapState('ccenter/teams', {
-                parentId: state => state.itemId,
+                parentId: (state) => state.itemId,
             }),
             ...mapState('ccenter/teams/permissions', {
-                dataList: state => state.dataList,
-                page: state => state.page,
-                isNextPage: state => state.isNextPage,
+                dataList: (state) => state.dataList,
+                page: (state) => state.page,
+                isNextPage: (state) => state.isNextPage,
             }),
 
             size: {
                 get() {
-                    return this.$store.state.ccenter.teams.permissions.size
+                    return this.$store.state.ccenter.teams.permissions.size;
                 },
                 set(value) {
-                    this.setSize(value)
-                }
+                    this.setSize(value);
+                },
             },
 
             search: {
                 get() {
-                    return this.$store.state.ccenter.teams.permissions.search
+                    return this.$store.state.ccenter.teams.permissions.search;
                 },
                 set(value) {
-                    this.setSearch(value)
-                }
-            }
+                    this.setSearch(value);
+                },
+            },
         },
 
         methods: {
@@ -142,7 +142,7 @@
                 patchItem: 'PATCH_ITEM_PERMISSIONS',
             }),
         },
-    }
+    };
 </script>
 
 <style lang="scss" scoped>

@@ -6,7 +6,7 @@ const throttle = (method, delay = 1000) => {
             wait = true;
             setTimeout(() => wait = false, delay);
         }
-    }
+    };
 };
 
 export default throttle;

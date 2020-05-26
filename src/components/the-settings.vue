@@ -50,28 +50,30 @@
 </template>
 
 <script>
+    import { sameAs, required } from 'vuelidate/lib/validators';
     import objectHeader from './object-utils/the-object-header';
-    import DropdownSelect from "./utils/dropdown-select";
-    import btn from "./utils/btn";
-    import formInput from "./utils/form-input";
-    import {sameAs, required} from 'vuelidate/lib/validators';
+    import DropdownSelect from './utils/dropdown-select';
+    import btn from './utils/btn';
+    import formInput from './utils/form-input';
 
     export default {
-        name: "the-settings",
-        components: {DropdownSelect, objectHeader, btn, formInput, },
+        name: 'the-settings',
+        components: {
+ DropdownSelect, objectHeader, btn, formInput,
+},
         data: () => ({
             password: '',
             confirmPassword: '',
-            language: {name: 'English', id: 'en'},
+            language: { name: 'English', id: 'en' },
             languageOptions: [
-                {name: 'English', id: 'en'},
-                {name: 'Русский', id: 'ru'},
-            ]
+                { name: 'English', id: 'en' },
+                { name: 'Русский', id: 'ru' },
+            ],
         }),
 
         validations: {
             password: {
-                required
+                required,
             },
             confirmPassword: {
                 sameAs: sameAs('password'),
@@ -81,14 +83,14 @@
         mounted() {
             const lang = localStorage.getItem('lang'); // get default lang
             // if there's a previously set lang, set it
-            if(lang) this.language = this.languageOptions.find(item => item.id === lang);
+            if (lang) this.language = this.languageOptions.find((item) => item.id === lang);
         },
 
         computed: {
             computeDisabled() {
                 this.$v.$touch();
                 return this.$v.$pending || this.$v.$error;
-            }
+            },
         },
 
         methods: {
@@ -98,9 +100,9 @@
                 localStorage.setItem('lang', value.id);
                 this.language = value;
                 this.$i18n.locale = value.id;
-            }
-        }
-    }
+            },
+        },
+    };
 </script>
 
 <style lang="scss" scoped>

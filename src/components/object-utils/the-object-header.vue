@@ -27,7 +27,7 @@
 </template>
 
 <script>
-    import btn from '../../components/utils/btn';
+    import btn from '../utils/btn';
 
     export default {
         name: 'page-header',
@@ -39,7 +39,7 @@
                 type: String,
             },
             primaryAction: {
-                type: Function
+                type: Function,
             },
             primaryDisabled: {
                 type: Boolean,
@@ -61,8 +61,8 @@
         methods: {
             back() {
                 this.$router.go(-1);
-            }
-        }
+            },
+        },
     };
 </script>
 

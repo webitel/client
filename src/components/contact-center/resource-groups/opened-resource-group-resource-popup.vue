@@ -23,14 +23,16 @@
 <script>
     import popup from '@/components/utils/popup';
     import editComponentMixin from '@/mixins/editComponentMixin';
-    import {required, numeric, minValue, maxValue} from 'vuelidate/lib/validators';
-    import {mapActions, mapState} from "vuex";
-    import {getAgentsList} from "../../../api/contact-center/agents/agents";
-    import {getBucketsList} from "../../../api/contact-center/buckets/buckets";
-    import {getResourceList} from "../../../api/contact-center/resources/resources";
+    import {
+ required, numeric, minValue, maxValue,
+} from 'vuelidate/lib/validators';
+    import { mapActions, mapState } from 'vuex';
+    import { getAgentsList } from '../../../api/contact-center/agents/agents';
+    import { getBucketsList } from '../../../api/contact-center/buckets/buckets';
+    import { getResourceList } from '../../../api/contact-center/resources/resources';
 
     export default {
-        name: "opened-res-numbers-popup",
+        name: 'opened-res-numbers-popup',
         mixins: [editComponentMixin],
         components: {
             popup,
@@ -38,8 +40,8 @@
 
         data() {
             return {
-                dropdownOptionsList: []
-            }
+                dropdownOptionsList: [],
+            };
         },
 
         validations: {
@@ -47,7 +49,7 @@
                 resource: {
                     required,
                 },
-            }
+            },
         },
 
         mounted() {
@@ -57,16 +59,16 @@
 
         computed: {
             ...mapState('ccenter/resGroups/res', {
-                id: state => state.itemId,
-                itemInstance: state => state.itemInstance
+                id: (state) => state.itemId,
+                itemInstance: (state) => state.itemInstance,
             }),
             res: {
                 get() {
-                    return this.$store.state.ccenter.resGroups.res.itemInstance.resource
+                    return this.$store.state.ccenter.resGroups.res.itemInstance.resource;
                 },
                 set(value) {
-                    this.setItemProp({prop: 'resource', value})
-                }
+                    this.setItemProp({ prop: 'resource', value });
+                },
             },
         },
 
@@ -83,12 +85,10 @@
 
             async loadDropdownOptionsList(search) {
                 const response = await getResourceList(0, 10, search);
-                this.dropdownOptionsList = response.list.map(item => {
-                    return {
+                this.dropdownOptionsList = response.list.map((item) => ({
                         name: item.name,
                         id: item.id,
-                    }
-                });
+                    }));
             },
 
             ...mapActions('ccenter/resGroups/res', {
@@ -97,8 +97,8 @@
                 updateItem: 'UPDATE_ITEM',
                 loadItem: 'LOAD_ITEM',
             }),
-        }
-    }
+        },
+    };
 </script>
 
 <style scoped>

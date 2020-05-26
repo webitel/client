@@ -1,13 +1,13 @@
-import instance from "../../../instance";
-import {coerceObjectPermissionsResponse} from "../../../permissions/objects/objects";
+import instance from '../../../instance';
+import { coerceObjectPermissionsResponse } from '../../../permissions/objects/objects';
 
-export class WebitelAPIPermissionsGetter  {
+export class WebitelAPIPermissionsGetter {
     constructor(url) {
         this.url = url;
     }
 
     async getList(id, size, search) {
-        let url = this.url + '/' + id + '/acl';
+        let url = `${this.url}/${id}/acl`;
         if (size) url += `?size=${size}`;
         if (search && search.slice(-1) !== '*') search += '*';
         if (search) url += `&name=${search}`;
@@ -27,10 +27,10 @@ export class WebitelAPIPermissionsPatcher {
     }
 
     async patchItem(id, item) {
-        let url = this.url + '/' + id + '/acl';
+        const url = `${this.url}/${id}/acl`;
 
         try {
-            await instance.patch(url, {changes: item});
+            await instance.patch(url, { changes: item });
         } catch (err) {
             throw err;
         }

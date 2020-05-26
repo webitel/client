@@ -104,22 +104,22 @@
 </template>
 
 <script>
-    import historyPopup from './agent-history-popup';
     import tableComponentMixin from '@/mixins/tableComponentMixin';
-    import {_checkboxTableField, _actionsTableField_3} from "@/utils/tableFieldPresets";
-    import {mapActions, mapState} from "vuex";
+    import { _checkboxTableField, _actionsTableField_3 } from '@/utils/tableFieldPresets';
+    import { mapActions, mapState } from 'vuex';
+    import historyPopup from './agent-history-popup';
 
     export default {
-        name: "the-agents",
+        name: 'the-agents',
         mixins: [tableComponentMixin],
-        components: {historyPopup},
+        components: { historyPopup },
         data() {
             return {
                 fields: [
                     _checkboxTableField,
-                    {name: 'user', title: this.$tc('objects.directory.users.users', 1)},
-                    {name: 'state', title: this.$t('objects.ccenter.agents.state')},
-                    {name: 'time', title: this.$t('objects.ccenter.agents.stateTime')},
+                    { name: 'user', title: this.$tc('objects.directory.users.users', 1) },
+                    { name: 'state', title: this.$t('objects.ccenter.agents.state') },
+                    { name: 'time', title: this.$t('objects.ccenter.agents.stateTime') },
                     _actionsTableField_3,
                 ],
             };
@@ -127,24 +127,24 @@
 
         computed: {
             ...mapState('ccenter/agents', {
-                dataList: state => state.dataList,
-                page: state => state.page, // acts like a boolean: if page is 0, there's no back page
-                isNextPage: state => state.isNextPage,
+                dataList: (state) => state.dataList,
+                page: (state) => state.page, // acts like a boolean: if page is 0, there's no back page
+                isNextPage: (state) => state.isNextPage,
             }),
 
             size: {
-                get() {return this.$store.state.ccenter.agents.size},
-                set(value) {this.setSize(value)}
+                get() { return this.$store.state.ccenter.agents.size; },
+                set(value) { this.setSize(value); },
             },
 
             search: {
-                get() {return this.$store.state.ccenter.agents.search},
-                set(value) {this.setSearch(value)}
+                get() { return this.$store.state.ccenter.agents.search; },
+                set(value) { this.setSearch(value); },
             },
 
             historyId: {
-                get() {return this.$store.state.ccenter.agents.history.itemId},
-                set(value) {this.read(value)}
+                get() { return this.$store.state.ccenter.agents.history.itemId; },
+                set(value) { this.read(value); },
             },
         },
 
@@ -154,22 +154,21 @@
             // },
 
             msToTime(s) {
-                if(s === undefined)
-                    return false;
+                if (s === undefined) { return false; }
                 s = Date.now() - s;
                 function pad(n, z) {
                     z = z || 2;
-                    return ('00' + n).slice(-z);
+                    return (`00${n}`).slice(-z);
                 }
 
-                let ms = s % 1000;
+                const ms = s % 1000;
                 s = (s - ms) / 1000;
-                let secs = s % 60;
+                const secs = s % 60;
                 s = (s - secs) / 60;
-                let mins = s % 60;
-                let hrs = (s - mins) / 60;
+                const mins = s % 60;
+                const hrs = (s - mins) / 60;
 
-                return pad(hrs) + ':' + pad(mins);
+                return `${pad(hrs)}:${pad(mins)}`;
             },
 
             computeOnlineText(state) {
@@ -214,7 +213,7 @@
             edit(rowId) {
                 this.$router.push({
                     name: 'cc-agent-edit',
-                    params: {id: this.dataList[rowId].id},
+                    params: { id: this.dataList[rowId].id },
                 });
             },
 
@@ -228,5 +227,5 @@
                 removeItem: 'REMOVE_ITEM',
             }),
         },
-    }
+    };
 </script>

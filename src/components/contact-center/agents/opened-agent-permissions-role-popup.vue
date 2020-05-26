@@ -18,19 +18,19 @@
 </template>
 
 <script>
+    import { mapActions, mapState } from 'vuex';
     import popup from '../../utils/popup';
     import dropdownSelect from '../../utils/dropdown-select';
-    import {getRoleList} from "../../../api/permissions/roles/roles";
-    import {mapActions, mapState} from "vuex";
+    import { getRoleList } from '../../../api/permissions/roles/roles';
 
     export default {
-        name: "opened-agent-permissions-role-popup",
-        components: {popup, dropdownSelect},
+        name: 'opened-agent-permissions-role-popup',
+        components: { popup, dropdownSelect },
         data() {
             return {
                 newGrantee: '',
                 dropdownOptionsList: [], // list of all roles to add new. retrieves from roles GET request
-            }
+            };
         },
 
         mounted() {
@@ -39,17 +39,13 @@
 
         computed: {
             ...mapState('ccenter/agents/permissions', {
-                dataList: state => state.dataList,
+                dataList: (state) => state.dataList,
             }),
 
             computeAvailableGrantees() {
                 // filter available grantees:
-                return this.dropdownOptionsList.filter(grantee => {
-                    return !this.dataList.some(usedGrantee => {
-                        return grantee.id === usedGrantee.grantee.id;
-                    });
-                });
-            }
+                return this.dropdownOptionsList.filter((grantee) => !this.dataList.some((usedGrantee) => grantee.id === usedGrantee.grantee.id));
+            },
         },
 
         methods: {
@@ -69,8 +65,8 @@
             ...mapActions('ccenter/agents/permissions', {
                 addRole: 'ADD_ITEM_ROLE',
             }),
-        }
-    }
+        },
+    };
 </script>
 
 <style lang="scss" scoped>

@@ -4,7 +4,7 @@
 </template>
 
 <script>
-    import {getSession} from './api/userinfo/userinfo';
+    import { getSession } from './api/userinfo/userinfo';
 
     export default {
         name: 'app',
@@ -16,14 +16,14 @@
         methods: {
             setDomain() {
                 const domain = localStorage.getItem('domain');
-                if(domain) this.$store.dispatch('userinfo/SET_DOMAIN_ID', domain);
+                if (domain) this.$store.dispatch('userinfo/SET_DOMAIN_ID', domain);
             },
 
             setLanguage() {
                 const lang = localStorage.getItem('lang');
-                if(lang) this.$i18n.locale = lang;
+                if (lang) this.$i18n.locale = lang;
             },
-        }
+        },
     };
 </script>
 

@@ -27,7 +27,7 @@
     import validationMessage from './validation-message';
 
     export default {
-        name: "datepicker",
+        name: 'datepicker',
         mixins: [requiredLabelMixin],
         components: {
             'validation-message': validationMessage,
@@ -35,7 +35,7 @@
         },
         props: {
             value: {
-                required: true
+                required: true,
             },
             label: {
                 type: String,
@@ -62,7 +62,7 @@
             },
             maximumView: {
                 type: String,
-                default: 'day'
+                default: 'day',
             },
             disabled: {
                 type: Boolean,
@@ -70,8 +70,8 @@
             required: {
                 type: Boolean,
             },
-        }
-    }
+        },
+    };
 </script>
 
 <style lang="scss">

@@ -1,15 +1,14 @@
+import { SkillServiceApiFactory } from 'webitel-sdk';
 import instance from '../../instance';
 import configuration from '../../openAPIConfig';
-import {SkillServiceApiFactory} from 'webitel-sdk';
-import {WebitelSDKItemDeleter} from "../../utils/ApiControllers/Deleter/SDKDeleter";
-import {WebitelSDKItemUpdater} from "../../utils/ApiControllers/Updater/SDKUpdater";
-import {WebitelSDKItemCreator} from "../../utils/ApiControllers/Creator/SDKCreator";
-import {WebitelSDKItemGetter} from "../../utils/ApiControllers/Getter/SDKGetter";
-import {WebitelSDKListGetter} from "../../utils/ApiControllers/ListGetter/SDKListGetter";
+import { WebitelSDKItemDeleter } from '../../utils/ApiControllers/Deleter/SDKDeleter';
+import { WebitelSDKItemUpdater } from '../../utils/ApiControllers/Updater/SDKUpdater';
+import { WebitelSDKItemCreator } from '../../utils/ApiControllers/Creator/SDKCreator';
+import { WebitelSDKItemGetter } from '../../utils/ApiControllers/Getter/SDKGetter';
+import { WebitelSDKListGetter } from '../../utils/ApiControllers/ListGetter/SDKListGetter';
 
 
-const skillService = new SkillServiceApiFactory
-(configuration, '', instance);
+const skillService = new SkillServiceApiFactory(configuration, '', instance);
 
 const fieldsToSend = ['domainId', 'name', 'description'];
 
@@ -19,22 +18,12 @@ const itemCreator = new WebitelSDKItemCreator(skillService.createSkill, fieldsTo
 const itemUpdater = new WebitelSDKItemUpdater(skillService.updateSkill, fieldsToSend);
 const itemDeleter = new WebitelSDKItemDeleter(skillService.deleteSkill);
 
-export const getSkillsList = async (page, size, search) => {
-    return await listGetter.getList({page, size, search});
-};
+export const getSkillsList = async (page, size, search) => await listGetter.getList({ page, size, search });
 
-export const getSkill = async (id) => {
-    return await itemGetter.getItem(id);
-};
+export const getSkill = async (id) => await itemGetter.getItem(id);
 
-export const addSkill = async (item) => {
-    return await itemCreator.createItem(item);
-};
+export const addSkill = async (item) => await itemCreator.createItem(item);
 
-export const updateSkill = async (id, item) => {
-    return await itemUpdater.updateItem(id, item);
-};
+export const updateSkill = async (id, item) => await itemUpdater.updateItem(id, item);
 
-export const deleteSkill = async (id) => {
-    return await itemDeleter.deleteItem(id);
-};
+export const deleteSkill = async (id) => await itemDeleter.deleteItem(id);

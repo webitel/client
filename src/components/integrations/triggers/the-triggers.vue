@@ -77,23 +77,23 @@
 
 <script>
     import tableComponentMixin from '@/mixins/tableComponentMixin';
-    import {_checkboxTableField, _actionsTableField_2, _switcherWidth} from "@/utils/tableFieldPresets";
+    import { _checkboxTableField, _actionsTableField_2, _switcherWidth } from '@/utils/tableFieldPresets';
     import triggerPopup from './create-trigger-popup';
 
     export default {
-        name: "the-triggers",
+        name: 'the-triggers',
         mixins: [tableComponentMixin],
         components: {
-            triggerPopup
+            triggerPopup,
         },
         data() {
             return {
                 fields: [
                     _checkboxTableField,
-                    {name: 'name', title: this.$t('objects.name')},
-                    {name: 'type', title: this.$t('objects.integrations.triggers.type')},
-                    {name: 'enabled', title: this.$t('objects.enabled'), width: _switcherWidth},
-                    {name: 'schema', title: this.$t('objects.integrations.triggers.schema')},
+                    { name: 'name', title: this.$t('objects.name') },
+                    { name: 'type', title: this.$t('objects.integrations.triggers.type') },
+                    { name: 'enabled', title: this.$t('objects.enabled'), width: _switcherWidth },
+                    { name: 'schema', title: this.$t('objects.integrations.triggers.schema') },
                     _actionsTableField_2,
                 ],
             };
@@ -107,7 +107,7 @@
             edit(rowId) {
                 this.$router.push({
                     name: 'trigger-edit',
-                    params: {id: this.filteredDataList[rowId].id},
+                    params: { id: this.filteredDataList[rowId].id },
                 });
             },
 
@@ -119,8 +119,8 @@
                 // this.dataList = await getCommunicationsList();
                 for (let i = 0; i < 10; i++) {
                     this.dataList.push({
-                        name: 'Trigger name ' + i,
-                        type: i%2 ? 'On event' : 'At time',
+                        name: `Trigger name ${i}`,
+                        type: i % 2 ? 'On event' : 'At time',
                         enabled: !!Math.round(Math.random()),
                         schema: {
                             name: 'Schema name',
@@ -130,9 +130,9 @@
                 }
 
                 this.filterData();
-            }
-        }
-    }
+            },
+        },
+    };
 </script>
 
 <style lang="scss" scoped>

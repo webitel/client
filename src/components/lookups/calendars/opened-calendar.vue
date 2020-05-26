@@ -25,17 +25,17 @@
 </template>
 
 <script>
+    import editComponentMixin from '@/mixins/editComponentMixin';
+    import { required } from 'vuelidate/lib/validators';
+    import { mapActions, mapState } from 'vuex';
     import openedCalendarGeneral from './opened-calendar-general';
     import openedCalendarWorkWeek from './opened-calendar-work-week';
     import openedCalendarHolidays from './opened-calendar-holidays';
     import openedCalendarPermissions from './opened-calendar-permissions';
-    import editComponentMixin from '@/mixins/editComponentMixin';
-    import {required} from 'vuelidate/lib/validators';
-    import {timerangeNotIntersect, timerangeStartLessThanEnd} from '../../../utils/validators';
-    import {mapActions, mapState} from "vuex";
+    import { timerangeNotIntersect, timerangeStartLessThanEnd } from '../../../utils/validators';
 
     export default {
-        name: "opened-calendar",
+        name: 'opened-calendar',
         mixins: [editComponentMixin],
         components: {
             openedCalendarWorkWeek,
@@ -51,18 +51,18 @@
         validations: {
             itemInstance: {
                 name: {
-                    required
+                    required,
                 },
                 timezone: {
-                    required
+                    required,
                 },
                 accepts: {
                     timerangeNotIntersect,
                     $each: {
-                        timerangeStartLessThanEnd
-                    }
+                        timerangeStartLessThanEnd,
+                    },
                 },
-            }
+            },
         },
 
         mounted() {
@@ -72,22 +72,22 @@
 
         computed: {
             ...mapState('lookups/calendars', {
-                itemInstance: state => state.itemInstance,
+                itemInstance: (state) => state.itemInstance,
             }),
             id: {
                 get() {
-                    return this.$store.state.lookups.calendars.itemId
+                    return this.$store.state.lookups.calendars.itemId;
                 },
                 set(value) {
-                    this.setId(value)
-                }
+                    this.setId(value);
+                },
             },
 
             tabs() {
                 const tabs = [
-                    {value: 'general', text: this.$t('objects.general'),},
-                    {value: 'work-week', text: this.$t('objects.lookups.calendars.workWeek'),},
-                    {value: 'holidays', text: this.$t('objects.lookups.calendars.holidays'),}
+                    { value: 'general', text: this.$t('objects.general') },
+                    { value: 'work-week', text: this.$t('objects.lookups.calendars.workWeek') },
+                    { value: 'holidays', text: this.$t('objects.lookups.calendars.holidays') },
                 ];
 
                 const permissions = {
@@ -97,7 +97,7 @@
 
                 if (this.id) tabs.push(permissions);
                 return tabs;
-            }
+            },
         },
 
         methods: {
@@ -108,7 +108,7 @@
                 updateItem: 'UPDATE_ITEM',
             }),
         },
-    }
+    };
 </script>
 
 <style lang="scss" scoped>

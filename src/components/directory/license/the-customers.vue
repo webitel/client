@@ -43,33 +43,33 @@
 
 <script>
     import vuetable from 'vuetable-2/src/components/Vuetable';
+    import { _actionsTableField_1 } from '@/utils/tableFieldPresets';
     import objectHeader from '../../object-utils/the-object-header';
     import license from './opened-license';
-    import {_actionsTableField_1} from "@/utils/tableFieldPresets";
 
 
     export default {
-        name: "the-customers",
+        name: 'the-customers',
         components: {
             'object-header': objectHeader,
             vuetable,
-            license
+            license,
         },
         data() {
             return {
                 // vuetable prop
                 fields: [
-                    {name: 'serial', title: this.$t('objects.license.serial')},
-                    {name: 'valid-from', title: this.$t('objects.license.validFrom')},
-                    {name: 'valid-till', title: this.$t('objects.license.validTill')},
-                    {name: 'competitive', title: this.$t('objects.license.competitive')},
-                    {name: 'used', title: this.$t('objects.license.used')},
-                    {name: 'limit', title: this.$t('objects.license.limit')},
+                    { name: 'serial', title: this.$t('objects.license.serial') },
+                    { name: 'valid-from', title: this.$t('objects.license.validFrom') },
+                    { name: 'valid-till', title: this.$t('objects.license.validTill') },
+                    { name: 'competitive', title: this.$t('objects.license.competitive') },
+                    { name: 'used', title: this.$t('objects.license.used') },
+                    { name: 'limit', title: this.$t('objects.license.limit') },
                     _actionsTableField_1,
                 ],
                 test: [],
                 isPopupOpened: false,
-                csvFile: null
+                csvFile: null,
             };
         },
         created() {
@@ -79,9 +79,9 @@
             // FIXME: delete test data
             for (let i = 0; i < 4; i++) {
                 this.test.push({
-                    serial: '' + i + i + i,
-                    validFrom: new Date(2018, 10, Math.random()*30),
-                    validTill: new Date(2019, 7, Math.random()*30),
+                    serial: `${i}${i}${i}`,
+                    validFrom: new Date(2018, 10, Math.random() * 30),
+                    validTill: new Date(2019, 7, Math.random() * 30),
                     competitive: 'On',
                     used: '444',
                     limit: '444',
@@ -91,10 +91,10 @@
         },
         methods: {
             openLicense() {
-                this.$router.push({path: '/administration/license', query: {id: '0'}});
-            }
-        }
-    }
+                this.$router.push({ path: '/administration/license', query: { id: '0' } });
+            },
+        },
+    };
 </script>
 
 <style scoped>

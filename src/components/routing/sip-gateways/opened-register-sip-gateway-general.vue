@@ -50,47 +50,47 @@
 
 <script>
     import openedTabComponentMixin from '@/mixins/openedTabComponentMixin';
-    import {mapActions} from "vuex";
+    import { mapActions } from 'vuex';
 
     export default {
-        name: "opened-register-sip-gateway-general",
+        name: 'opened-register-sip-gateway-general',
         mixins: [openedTabComponentMixin],
 
         computed: {
             name: {
-                get() {return this.$store.state.routing.gateways.itemInstance.name},
-                set(value) {this.setItemProp({prop: 'name', value})}
+                get() { return this.$store.state.routing.gateways.itemInstance.name; },
+                set(value) { this.setItemProp({ prop: 'name', value }); },
             },
             registrar: {
-                get() {return this.$store.state.routing.gateways.itemInstance.registrar},
-                set(value) {this.setItemProp({prop: 'registrar', value})}
+                get() { return this.$store.state.routing.gateways.itemInstance.registrar; },
+                set(value) { this.setItemProp({ prop: 'registrar', value }); },
             },
             expires: {
-                get() {return this.$store.state.routing.gateways.itemInstance.expires},
-                set(value) {this.setItemProp({prop: 'expires', value})}
+                get() { return this.$store.state.routing.gateways.itemInstance.expires; },
+                set(value) { this.setItemProp({ prop: 'expires', value }); },
             },
             password: {
-                get() {return this.$store.state.routing.gateways.itemInstance.password},
-                set(value) {this.setItemProp({prop: 'password', value})}
+                get() { return this.$store.state.routing.gateways.itemInstance.password; },
+                set(value) { this.setItemProp({ prop: 'password', value }); },
             },
             description: {
-                get() {return this.$store.state.routing.gateways.itemInstance.description},
-                set(value) {this.setItemProp({prop: 'description', value})}
+                get() { return this.$store.state.routing.gateways.itemInstance.description; },
+                set(value) { this.setItemProp({ prop: 'description', value }); },
             },
             accountName: {
-                get() {return this.$store.state.routing.gateways.itemInstance.accountName},
-                set(value) {this.setItemProp({prop: 'accountName', value})}
+                get() { return this.$store.state.routing.gateways.itemInstance.accountName; },
+                set(value) { this.setItemProp({ prop: 'accountName', value }); },
             },
         },
 
         methods: {
             loadDropdownOptionsList() {
-                return []
+                return [];
             },
 
             ...mapActions('routing/gateways', {
                 setItemProp: 'SET_ITEM_PROPERTY',
             }),
-        }
-    }
+        },
+    };
 </script>

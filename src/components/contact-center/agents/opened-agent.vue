@@ -25,14 +25,14 @@
 </template>
 
 <script>
+    import editComponentMixin from '@/mixins/editComponentMixin';
+    import { required } from 'vuelidate/lib/validators';
+    import { mapActions, mapState } from 'vuex';
     import openedAgentGeneral from './opened-agent-general';
     import openedAgentTeams from './opened-agent-teams';
     import openedAgentQueues from './opened-agent-queues';
     import openedAgentSkills from './opened-agent-skills';
     import openedAgentPermissions from './opened-agent-permissions';
-    import editComponentMixin from '@/mixins/editComponentMixin';
-    import {required} from 'vuelidate/lib/validators';
-    import {mapActions, mapState} from "vuex";
 
     export default {
         name: 'opened-agent',
@@ -53,9 +53,9 @@
         validations: {
             itemInstance: {
                 user: {
-                    required
-                }
-            }
+                    required,
+                },
+            },
         },
 
         mounted() {
@@ -65,15 +65,15 @@
 
         computed: {
             ...mapState('ccenter/agents', {
-                itemInstance: state => state.itemInstance,
+                itemInstance: (state) => state.itemInstance,
             }),
             id: {
                 get() {
-                    return this.$store.state.ccenter.agents.itemId
+                    return this.$store.state.ccenter.agents.itemId;
                 },
                 set(value) {
-                    this.setId(value)
-                }
+                    this.setId(value);
+                },
             },
 
             tabs() {
@@ -89,7 +89,7 @@
                 }, {
                     text: this.$tc('objects.ccenter.queues.queues', 2),
                     value: 'queues',
-                },];
+                }];
 
                 const permissions = {
                     text: this.$tc('objects.permissions.permissions', 2),
@@ -98,7 +98,7 @@
 
                 if (this.id) tabs.push(permissions);
                 return tabs;
-            }
+            },
         },
 
         methods: {

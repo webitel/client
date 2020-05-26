@@ -1,19 +1,18 @@
+import { CalendarServiceApiFactory } from 'webitel-sdk';
 import instance from '../../instance';
 import configuration from '../../openAPIConfig';
-import {CalendarServiceApiFactory} from 'webitel-sdk';
 import {
     WebitelAPIPermissionsGetter,
-    WebitelAPIPermissionsPatcher
-} from "../../utils/ApiControllers/Permissions/PermissionsController";
-import {WebitelSDKItemDeleter} from "../../utils/ApiControllers/Deleter/SDKDeleter";
-import {WebitelSDKItemUpdater} from "../../utils/ApiControllers/Updater/SDKUpdater";
-import {WebitelSDKItemCreator} from "../../utils/ApiControllers/Creator/SDKCreator";
-import {WebitelSDKListGetter} from "../../utils/ApiControllers/ListGetter/SDKListGetter";
-import {WebitelSDKItemGetter} from "../../utils/ApiControllers/Getter/SDKGetter";
+    WebitelAPIPermissionsPatcher,
+} from '../../utils/ApiControllers/Permissions/PermissionsController';
+import { WebitelSDKItemDeleter } from '../../utils/ApiControllers/Deleter/SDKDeleter';
+import { WebitelSDKItemUpdater } from '../../utils/ApiControllers/Updater/SDKUpdater';
+import { WebitelSDKItemCreator } from '../../utils/ApiControllers/Creator/SDKCreator';
+import { WebitelSDKListGetter } from '../../utils/ApiControllers/ListGetter/SDKListGetter';
+import { WebitelSDKItemGetter } from '../../utils/ApiControllers/Getter/SDKGetter';
 
 
-const calendarService = new CalendarServiceApiFactory
-(configuration, '', instance);
+const calendarService = new CalendarServiceApiFactory(configuration, '', instance);
 
 const BASE_URL = '/calendars';
 const fieldsToSend = ['domainId', 'name', 'description', 'timezone', 'startAt', 'endAt', 'day',
@@ -26,14 +25,12 @@ const preRequestHandler = (item) => {
         delete item.endAt;
     }
 
-    item.accepts = item.accepts.map(accept => {
-        return {
+    item.accepts = item.accepts.map((accept) => ({
             day: accept.day,
             disabled: accept.disabled,
             startTimeOfDay: accept.start,
-            endTimeOfDay: accept.end
-        }
-    });
+            endTimeOfDay: accept.end,
+        }));
     return item;
 };
 
@@ -58,55 +55,39 @@ itemGetter.responseHandler = (response) => {
         excepts: [],
         _dirty: false,
     };
-    response.accepts = response.accepts.map(accept => {
-        return {
+    response.accepts = response.accepts.map((accept) => ({
             day: accept.day || 0,
             disabled: accept.disabled || false,
             start: accept.startTimeOfDay || 0,
-            end: accept.endTimeOfDay || 0
-        }
-    });
-    return {...defaultObject, ...response};
+            end: accept.endTimeOfDay || 0,
+        }));
+    return { ...defaultObject, ...response };
 };
 
 timezoneGetter.responseHandler = (response) => {
     if (response.items) {
         return {
-            list: response.items
+            list: response.items,
         };
     }
     return [];
 };
 
-export const getCalendarList = async (page = 0, size = 10, search) => {
-    return await listGetter.getList({page, size, search});
-};
+export const getCalendarList = async (page = 0, size = 10, search) => await listGetter.getList({ page, size, search });
 
-export const getCalendar = async (id) => {
-    return await itemGetter.getItem(id);
-};
+export const getCalendar = async (id) => await itemGetter.getItem(id);
 
 export const getCalendarTimezones = async (page = 0, size = 20, search) => {
-    let response = await timezoneGetter.getList({page, size, search});
+    const response = await timezoneGetter.getList({ page, size, search });
     return response.list;
 };
 
-export const addCalendar = async (item) => {
-    return await itemCreator.createItem(item);
-};
+export const addCalendar = async (item) => await itemCreator.createItem(item);
 
-export const updateCalendar = async (itemId, item) => {
-    return await itemUpdater.updateItem(itemId, item);
-};
+export const updateCalendar = async (itemId, item) => await itemUpdater.updateItem(itemId, item);
 
-export const deleteCalendar = async (id) => {
-    return await itemDeleter.deleteItem(id);
-};
+export const deleteCalendar = async (id) => await itemDeleter.deleteItem(id);
 
-export const getCalendarPermissions = async (id, page = 0, size = 10, search) => {
-    return await permissionsGetter.getList(id, size, search);
-};
+export const getCalendarPermissions = async (id, page = 0, size = 10, search) => await permissionsGetter.getList(id, size, search);
 
-export const patchCalendarPermissions = async (id, item) => {
-    return await permissionsPatcher.patchItem(id, item);
-};
+export const patchCalendarPermissions = async (id, item) => await permissionsPatcher.patchItem(id, item);

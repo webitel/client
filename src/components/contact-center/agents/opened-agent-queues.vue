@@ -65,53 +65,53 @@
 <script>
     import tableComponentMixin from '@/mixins/tableComponentMixin';
     import openedTabComponentMixin from '@/mixins/openedTabComponentMixin';
-    import {mapActions, mapState} from "vuex";
+    import { mapActions, mapState } from 'vuex';
 
     export default {
-        name: "opened-agent-queues",
+        name: 'opened-agent-queues',
         mixins: [openedTabComponentMixin, tableComponentMixin],
         data() {
             return {
                 fields: [
-                    {name: 'name', title: this.$tc('objects.ccenter.queues.queues', 2)},
-                    {name: 'type', title: this.$t('objects.ccenter.queues.type')},
-                    {name: 'count', title: this.$tc('objects.ccenter.queues.members', 2)},
-                    {name: 'waiting', title: this.$t('objects.ccenter.queues.waiting')},
-                    {name: 'strategy', title: this.$t('objects.ccenter.queues.strategy')},
+                    { name: 'name', title: this.$tc('objects.ccenter.queues.queues', 2) },
+                    { name: 'type', title: this.$t('objects.ccenter.queues.type') },
+                    { name: 'count', title: this.$tc('objects.ccenter.queues.members', 2) },
+                    { name: 'waiting', title: this.$t('objects.ccenter.queues.waiting') },
+                    { name: 'strategy', title: this.$t('objects.ccenter.queues.strategy') },
                 ],
-            }
+            };
         },
 
         watch: {
-            parentId: function (value) {
+            parentId(value) {
                 this.setParentId(value);
-            }
+            },
         },
 
         computed: {
             ...mapState('ccenter/agents', {
-                parentId: state => state.itemId,
+                parentId: (state) => state.itemId,
             }),
             ...mapState('ccenter/agents/queues', {
-                dataList: state => state.dataList,
-                page: state => state.page,
-                isNextPage: state => state.isNextPage,
+                dataList: (state) => state.dataList,
+                page: (state) => state.page,
+                isNextPage: (state) => state.isNextPage,
             }),
 
             size: {
-                get() {return this.$store.state.ccenter.agents.skills.size},
-                set(value) {this.setSize(value)}
+                get() { return this.$store.state.ccenter.agents.skills.size; },
+                set(value) { this.setSize(value); },
             },
 
             search: {
-                get() {return this.$store.state.ccenter.agents.skills.search},
-                set(value) {this.setSearch(value)}
-            }
+                get() { return this.$store.state.ccenter.agents.skills.search; },
+                set(value) { this.setSearch(value); },
+            },
         },
 
         methods: {
             computeCount(item) {
-                return item ? item : 0;
+                return item || 0;
             },
 
             computeQueueType(type) {
@@ -162,8 +162,8 @@
                 nextPage: 'NEXT_PAGE',
                 prevPage: 'PREV_PAGE',
             }),
-        }
-    }
+        },
+    };
 </script>
 
 <style lang="scss" scoped>

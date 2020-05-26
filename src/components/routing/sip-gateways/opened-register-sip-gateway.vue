@@ -25,21 +25,23 @@
 </template>
 
 <script>
-    import openedRegisterSipGatewayGeneral from './opened-register-sip-gateway-general';
-    import openedRegisterSipGatewayConfiguration from './opened-register-sip-gateway-configuration';
 
     import editComponentMixin from '@/mixins/editComponentMixin';
-    import {gatewayHostValidator} from '@/utils/validators';
-    import {required, minValue, maxValue, numeric} from 'vuelidate/lib/validators';
+    import { gatewayHostValidator } from '@/utils/validators';
+    import {
+ required, minValue, maxValue, numeric,
+} from 'vuelidate/lib/validators';
 
-    import {mapActions, mapState} from "vuex";
+    import { mapActions, mapState } from 'vuex';
+    import openedRegisterSipGatewayConfiguration from './opened-register-sip-gateway-configuration';
+    import openedRegisterSipGatewayGeneral from './opened-register-sip-gateway-general';
 
     export default {
         name: 'opened-register-sip-gateway',
         mixins: [editComponentMixin],
         components: {
             openedRegisterSipGatewayGeneral,
-            openedRegisterSipGatewayConfiguration
+            openedRegisterSipGatewayConfiguration,
         },
         data() {
             return {
@@ -60,31 +62,31 @@
         validations: {
             itemInstance: {
                 name: {
-                    required
+                    required,
                 },
                 registrar: {
                     gatewayHostValidator,
-                    required
+                    required,
                 },
                 domain: {
-                    gatewayHostValidator
+                    gatewayHostValidator,
                 },
                 proxy: {
-                    gatewayHostValidator
+                    gatewayHostValidator,
                 },
                 accountName: {
-                    required
+                    required,
                 },
                 expires: {
                     numeric,
                     minValue: minValue(32),
                     maxValue: maxValue(3600),
-                    required
+                    required,
                 },
                 password: {
-                    required
+                    required,
                 },
-            }
+            },
         },
 
         mounted() {
@@ -94,12 +96,12 @@
 
         computed: {
             ...mapState('routing/gateways', {
-                itemInstance: state => state.itemInstance,
+                itemInstance: (state) => state.itemInstance,
             }),
             id: {
-                get() {return this.$store.state.routing.gateways.itemId},
-                set(value) {this.setId(value)}
-            }
+                get() { return this.$store.state.routing.gateways.itemId; },
+                set(value) { this.setId(value); },
+            },
         },
 
         methods: {

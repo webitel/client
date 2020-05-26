@@ -60,13 +60,13 @@
 </template>
 
 <script>
+    import { mapActions, mapState } from 'vuex';
     import popup from '../../utils/popup';
     import tableComponentMixin from '../../../mixins/tableComponentMixin';
-    import {mapActions, mapState} from "vuex";
-    import datetimePicker from "../../utils/datetimepicker";
+    import datetimePicker from '../../utils/datetimepicker';
 
     export default {
-        name: "agent-history-popup",
+        name: 'agent-history-popup',
         mixins: [tableComponentMixin],
         components: {
             datetimePicker,
@@ -75,34 +75,34 @@
         data() {
             return {
                 fields: [
-                    {name: 'state', title: this.$t('objects.ccenter.agents.historyState')},
-                    {name: 'from', title: this.$t('objects.ccenter.agents.historyFrom')},
-                    {name: 'to', title: this.$t('objects.ccenter.agents.historyTo')},
-                    {name: 'duration', title: this.$t('objects.ccenter.agents.historyDuration')},
+                    { name: 'state', title: this.$t('objects.ccenter.agents.historyState') },
+                    { name: 'from', title: this.$t('objects.ccenter.agents.historyFrom') },
+                    { name: 'to', title: this.$t('objects.ccenter.agents.historyTo') },
+                    { name: 'duration', title: this.$t('objects.ccenter.agents.historyDuration') },
                 ],
-            }
+            };
         },
 
         computed: {
             ...mapState('ccenter/agents', {
-                dataList: state => state.history.dataList,
-                page: state => state.history.page, // acts like a boolean: if page is 0, there's no back page
-                isNextPage: state => state.history.isNextPage,
+                dataList: (state) => state.history.dataList,
+                page: (state) => state.history.page, // acts like a boolean: if page is 0, there's no back page
+                isNextPage: (state) => state.history.isNextPage,
             }),
 
             size: {
-                get() {return this.$store.state.ccenter.agents.history.size},
-                set(value) {this.setSize(value)}
+                get() { return this.$store.state.ccenter.agents.history.size; },
+                set(value) { this.setSize(value); },
             },
 
             search: {
-                get() {return this.$store.state.ccenter.agents.history.search},
-                set(value) {this.setSearch(value)}
+                get() { return this.$store.state.ccenter.agents.history.search; },
+                set(value) { this.setSearch(value); },
             },
 
             date: {
-                get() {return this.$store.state.ccenter.agents.history.date},
-                set(value) {this.setHistoryDate(value)}
+                get() { return this.$store.state.ccenter.agents.history.date; },
+                set(value) { this.setHistoryDate(value); },
             },
         },
 
@@ -112,7 +112,7 @@
             },
 
             computeTime(time) {
-                if(isNaN(parseInt(time))) return time;
+                if (isNaN(parseInt(time))) return time;
                 return new Date(+time).toString().split(' ')[4];
             },
 
@@ -130,7 +130,7 @@
                 prevPage: 'PREV_HISTORY_PAGE',
             }),
         },
-    }
+    };
 </script>
 
 <style lang="scss">

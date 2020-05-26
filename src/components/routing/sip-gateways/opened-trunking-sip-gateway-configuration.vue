@@ -54,21 +54,21 @@
 
 <script>
     import openedTabComponentMixin from '@/mixins/openedTabComponentMixin';
-    import {mapActions, mapState} from "vuex";
+    import { mapActions, mapState } from 'vuex';
 
     export default {
-        name: "opened-trunking-sip-gateway-configuration",
+        name: 'opened-trunking-sip-gateway-configuration',
         mixins: [openedTabComponentMixin],
 
         data() {
             return {
                 protocolList: ['any', 'udp', 'tcp'],
-            }
+            };
         },
 
         computed: {
             ...mapState('routing/gateways', {
-                ipacl: state => state.itemInstance.ipacl
+                ipacl: (state) => state.itemInstance.ipacl,
             }),
         },
 
@@ -79,8 +79,8 @@
                 setVariableProp: 'SET_VARIABLE_PROP',
                 deleteVariable: 'DELETE_VARIABLE_PAIR',
             }),
-        }
-    }
+        },
+    };
 </script>
 
 <style lang="scss" scoped>

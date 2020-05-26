@@ -25,18 +25,18 @@
 </template>
 
 <script>
+    import editComponentMixin from '@/mixins/editComponentMixin';
+    import { required, email } from 'vuelidate/lib/validators';
+    import { mapActions, mapState } from 'vuex';
     import openedStorageGeneral from './opened-storage-general';
     import openedStorageLocal from './opened-storage-local';
     import openedStorageS3 from './opened-storage-s3';
     import openedStorageBackblaze from './opened-storage-backblaze';
     import openedStorageDropbox from './opened-storage-dropbox';
     import openedStorageDrive from './opened-storage-drive';
-    import editComponentMixin from '@/mixins/editComponentMixin';
-    import {required, email} from 'vuelidate/lib/validators';
-    import {mapActions, mapState} from "vuex";
 
     export default {
-        name: "opened-storage",
+        name: 'opened-storage',
         mixins: [editComponentMixin],
         components: {
             openedStorageGeneral,
@@ -55,51 +55,51 @@
                 case 'local':
                     return {
                         itemInstance: {
-                            name: {required},
-                        }
+                            name: { required },
+                        },
                     };
                 case 's3':
                     return {
                         itemInstance: {
-                            name: {required},
+                            name: { required },
                             properties: {
-                                keyId: {required},
-                                accessKey: {required},
-                                bucketName: {required},
-                                region: {required},
-                                endpoint: {required}
+                                keyId: { required },
+                                accessKey: { required },
+                                bucketName: { required },
+                                region: { required },
+                                endpoint: { required },
                             },
-                        }
+                        },
                     };
                 case 'backblaze':
                     return {
                         itemInstance: {
-                            name: {required},
-                            account: {required},
-                            key: {required},
-                            bucket: {required},
-                            bucketId: {required},
-                        }
+                            name: { required },
+                            account: { required },
+                            key: { required },
+                            bucket: { required },
+                            bucketId: { required },
+                        },
                     };
                 case 'dropbox':
                     return {
                         itemInstance: {
-                            name: {required},
+                            name: { required },
                             properties: {
-                                token: {required},
+                                token: { required },
                             },
-                        }
+                        },
                     };
                 case 'drive':
                     return {
                         itemInstance: {
-                            name: {required},
+                            name: { required },
                             properties: {
-                                directory: {required},
-                                privateKey: {required},
-                                email: {required},
+                                directory: { required },
+                                privateKey: { required },
+                                email: { required },
                             },
-                        }
+                        },
                     };
             }
         },
@@ -111,37 +111,37 @@
 
         computed: {
             ...mapState('integrations/storage', {
-                itemInstance: state => state.itemInstance,
+                itemInstance: (state) => state.itemInstance,
             }),
             id: {
                 get() {
-                    return this.$store.state.integrations.storage.itemId
+                    return this.$store.state.integrations.storage.itemId;
                 },
                 set(value) {
-                    this.setId(value)
-                }
+                    this.setId(value);
+                },
             },
             tabs() {
-                const tabs = [{text: this.$t('objects.general'), value: 'general'}];
+                const tabs = [{ text: this.$t('objects.general'), value: 'general' }];
                 switch (this.$route.params.type) {
                     case 'local':
-                        tabs.push({text: this.$t('objects.integrations.storage.configuration'), value: 'local'});
+                        tabs.push({ text: this.$t('objects.integrations.storage.configuration'), value: 'local' });
                         break;
                     case 's3':
-                        tabs.push({text: this.$t('objects.integrations.storage.configuration'), value: 's3'});
+                        tabs.push({ text: this.$t('objects.integrations.storage.configuration'), value: 's3' });
                         break;
                     case 'backblaze':
-                        tabs.push({text: this.$t('objects.integrations.storage.configuration'), value: 'backblaze'});
+                        tabs.push({ text: this.$t('objects.integrations.storage.configuration'), value: 'backblaze' });
                         break;
                     case 'dropbox':
-                        tabs.push({text: this.$t('objects.integrations.storage.configuration'), value: 'dropbox'});
+                        tabs.push({ text: this.$t('objects.integrations.storage.configuration'), value: 'dropbox' });
                         break;
                     case 'drive':
-                        tabs.push({text: this.$t('objects.integrations.storage.configuration'), value: 'drive'});
+                        tabs.push({ text: this.$t('objects.integrations.storage.configuration'), value: 'drive' });
                         break;
                 }
                 return tabs;
-            }
+            },
         },
 
         methods: {
@@ -152,7 +152,7 @@
                 updateItem: 'UPDATE_ITEM',
             }),
         },
-    }
+    };
 </script>
 
 <style scoped>

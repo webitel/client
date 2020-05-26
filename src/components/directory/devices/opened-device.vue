@@ -24,13 +24,13 @@
 </template>
 
 <script>
-    import openedDeviceGeneral from './opened-device-general';
-    import openedDevicePhoneInfo from './opened-device-phone-info';
-    import {required} from 'vuelidate/lib/validators';
+    import { required } from 'vuelidate/lib/validators';
     import datepicker from 'vuejs-datepicker';
     import editComponentMixin from '@/mixins/editComponentMixin';
-    import {ipValidator, macValidator} from "../../../utils/validators";
-    import {mapActions, mapState} from "vuex";
+    import { mapActions, mapState } from 'vuex';
+    import { ipValidator, macValidator } from '../../../utils/validators';
+    import openedDevicePhoneInfo from './opened-device-phone-info';
+    import openedDeviceGeneral from './opened-device-general';
 
     export default {
         name: 'opened-device',
@@ -53,7 +53,7 @@
                         value: 'phoneInfo',
                     },
                 ],
-            }
+            };
         },
 
         validations: {
@@ -62,14 +62,14 @@
                     required,
                 },
                 account: {
-                    required
+                    required,
                 },
                 mac: {
-                    macValidator
+                    macValidator,
                 },
                 ip: {
-                    ipValidator
-                }
+                    ipValidator,
+                },
             },
         },
 
@@ -80,12 +80,12 @@
 
         computed: {
             ...mapState('directory/devices', {
-                itemInstance: state => state.itemInstance,
+                itemInstance: (state) => state.itemInstance,
             }),
             id: {
-                get() {return this.$store.state.directory.devices.itemId},
-                set(value) {this.setId(value)}
-            }
+                get() { return this.$store.state.directory.devices.itemId; },
+                set(value) { this.setId(value); },
+            },
         },
 
         methods: {
@@ -96,7 +96,7 @@
                 updateItem: 'UPDATE_ITEM',
             }),
         },
-    }
+    };
 </script>
 
 <style lang="scss" scoped>
