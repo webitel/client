@@ -15,6 +15,7 @@ const defaultState = () => {
         itemInstance: {
             name: '',
             payload: {},
+            ringtone: {},
             calendar: {},
             priority: 0,
             dncList: {},
@@ -31,6 +32,7 @@ const defaultInboundQueueState = () => {
         name: 'INBOUND QUEUE',
         type: 1,
         payload: {},
+        ringtone: {},
         calendar: {},
         priority: '0',
         dncList: {}, // blacklist
@@ -51,6 +53,7 @@ const defaultOutboundIVRQueueState = () => {
         schema: {},
         variables: [],
         strategy: {},
+        ringtone: {},
         description: 'DESCRIPTION',
         timeout: 10,
         payload: {
@@ -73,6 +76,7 @@ const defaultOfflineQueueState = () => {
         team: {},
         variables: [],
         strategy: {},
+        ringtone: {},
         description: 'DESCRIPTION',
         timeout: 10,
         payload: {
@@ -98,6 +102,7 @@ const defaultPredictiveDialerState = () => {
         description: 'DESCRIPTION',
 
         timeout: 10,
+        ringtone: {},
         payload: {
             secBetweenRetries: 30 * 3600, //30h
             originateTimeout: 15,
@@ -118,6 +123,7 @@ const defaultPreviewDialerState = () => {
         team: {},
         variables: [],
         strategy: {},
+        ringtone: {},
         description: 'DESCRIPTION',
 
         timeout: 10,
@@ -141,6 +147,7 @@ const defaultProgressiveDialerState = () => {
         team: {},
         variables: [],
         strategy: {},
+        ringtone: {},
         description: 'DESCRIPTION',
 
         timeout: 10,
