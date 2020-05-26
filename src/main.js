@@ -4,6 +4,7 @@ import App from './app.vue';
 import router from './router/router';
 import store from './store/store';
 import i18n from './locale/i18n';
+import Icon from './components/utils/icon-wrap.vue';
 
 import './assets/lib/normalize.scss';
 import './assets/lib/bootstrap-grid.min.css';
@@ -17,6 +18,7 @@ import errorMixin from './mixins/errorMixin';
 
 Vue.config.productionTip = false;
 
+Vue.component('icon', Icon);
 Vue.component('vuetable-field-table-checkbox', tableCheckboxColumn);
 Vue.use(Vuelidate);
 Vue.mixin(errorMixin);

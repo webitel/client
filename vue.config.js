@@ -1,8 +1,12 @@
 process.env.VUE_APP_API_URL = process.env.NODE_ENV === 'production' ? '/api' : 'https://dev.webitel.com/api';
 process.env.VUE_APP_AUTH_MODULE_URL = process.env.NODE_ENV === 'production' ? '/app/auth' :'http://dev.webitel.com/app/auth';
-// http://192.168.177.199/api
-// http://10.10.10.8:1907
-// http://10.10.10.25:1907
+
+process.env.VUE_APP_ADMIN_URL = process.env.NODE_ENV === 'production' ? '/' : 'https://dev.webitel.com/admin';
+process.env.VUE_APP_AGENT_URL = process.env.NODE_ENV === 'production' ? '/workspace' : 'https://dev.webitel.com/workspace';
+process.env.VUE_APP_SUPERVISOR_URL = process.env.NODE_ENV === 'production' ? '/supervisor' : 'https://dev.webitel.com/supervisor';
+process.env.VUE_APP_AUDIT_URL = process.env.NODE_ENV === 'production' ? '/audit' : 'https://dev.webitel.com/audit';
+process.env.VUE_APP_HISTORY_URL = process.env.NODE_ENV === 'production' ? '/history' : 'https://dev.webitel.com/history';
+
 const MonacoWebpackPlugin = require('monaco-editor-webpack-plugin');
 
 
