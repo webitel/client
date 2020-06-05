@@ -103,10 +103,10 @@ const actions = {
     },
 
     PATCH_ITEM_PROPERTY: async (context, {value, index}) => {
-        context.commit('PATCH_ITEM_PROPERTY', {value, index});
         let changes = {enable: value};
         try {
             await context.dispatch('PATCH_ITEM', {id: state.dataList[index].id, changes});
+            context.commit('PATCH_ITEM_PROPERTY', {value, index});
         } catch {
             await context.dispatch('LOAD_DATA_LIST');
         }
@@ -177,7 +177,7 @@ const mutations = {
     },
 
     PATCH_ITEM_PROPERTY: (state, {value, index}) => {
-        state.dataList[index].enabled = value;
+        state.dataList[index].enable = value;
     },
 };
 

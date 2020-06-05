@@ -26,11 +26,9 @@ const preRequestHandler = (item) => {
     if (item.register) {
         item.account = `${item.accountName}@${item.domain || item.registrar}`;
     }
-    debugger
     Object.keys(item).forEach((key) => {
         if (!item[key]) delete item[key];
     });
-    debugger
     return item;
 };
 

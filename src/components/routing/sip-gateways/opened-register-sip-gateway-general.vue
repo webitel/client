@@ -102,8 +102,7 @@
             },
 
             showPassword() {
-               if(this.type === 'password') this.type = 'text';
-                else if(this.type === 'text') this.type = 'password';
+                this.type = this.type === 'password' ? 'text' : 'password';
             },
 
             ...mapActions('routing/gateways', {
@@ -116,6 +115,5 @@
 <style lang="scss" scoped>
    .icon-icon_eye:before {
        content: url("../../../assets/img/nav/gray/eye_md.svg");
-       color: #808080;
    }
 </style>
