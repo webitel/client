@@ -1,8 +1,13 @@
+import {WebitelAPIItemPatcher} from "../../utils/ApiControllers/Patcher/ApiPatcher";
 import { WebitelAPIItemDeleter } from '../../utils/ApiControllers/Deleter/ApiDeleter';
 import { WebitelAPIItemUpdater } from '../../utils/ApiControllers/Updater/ApiUpdater';
 import { WebitelAPIItemCreator } from '../../utils/ApiControllers/Creator/ApiCreator';
 import { WebitelAPIItemGetter } from '../../utils/ApiControllers/Getter/ApiGetter';
 import { WebitelAPIListGetter } from '../../utils/ApiControllers/ListGetter/ApiListGetter';
+import deepCopy from "deep-copy";
+import sanitizer from "../../utils/sanitizer";
+import instance from "../../instance";
+import eventBus from "../../../utils/eventBus";
 
 
 const BASE_URL = '/sip/gateways';
@@ -21,9 +26,11 @@ const preRequestHandler = (item) => {
     if (item.register) {
         item.account = `${item.accountName}@${item.domain || item.registrar}`;
     }
+    debugger
     Object.keys(item).forEach((key) => {
         if (!item[key]) delete item[key];
     });
+    debugger
     return item;
 };
 
@@ -31,10 +38,11 @@ const listGetter = new WebitelAPIListGetter(BASE_URL, defaultListItem);
 const itemGetter = new WebitelAPIItemGetter(BASE_URL);
 const itemCreator = new WebitelAPIItemCreator(BASE_URL, fieldsToSend, preRequestHandler);
 const itemUpdater = new WebitelAPIItemUpdater(BASE_URL, fieldsToSend, preRequestHandler);
+const itemPatcher = new WebitelAPIItemUpdater(BASE_URL, fieldsToSend);
 const itemDeleter = new WebitelAPIItemDeleter(BASE_URL);
 
 itemGetter.responseHandler = (response) => {
-    if (response.item.register) {
+    if (response.register) {
         return coerceRegisterResponse(response);
     }
         return coerceTrunkingResponse(response);
@@ -51,6 +59,17 @@ export async function getGateway(id) {
 export const addGateway = async (item) => await itemCreator.createItem(item);
 
 export const updateGateway = async (id, item) => await itemUpdater.updateItem(id, item);
+
+export async function patchGateway(id, item) {
+    const patchUrl = BASE_URL + '/' + id;
+    try {
+        const response = await instance.patch(patchUrl, item);
+        eventBus.$emit('notificationInfo', 'Successfully updated');
+    } catch (err) {
+        throw err;
+    }
+
+}
 
 export const deleteGateway = async (id) => await itemDeleter.deleteItem(id);
 
@@ -72,7 +91,7 @@ const coerceTrunkingResponse = (response) => {
         port: null,
     };
 
-    response = { ...defaultObject, ...response.item };
+    response = { ...defaultObject, ...response };
     response.ipacl.forEach((acl, index) => {
         response.ipacl[index] = { ...defaultIPacl, ...acl };
     });
@@ -97,7 +116,7 @@ const coerceRegisterResponse = (response) => {
         enable: true,
     };
 
-    const result = { ...defaultObject, ...response.item };
+    const result = { ...defaultObject, ...response };
 
     result.account = result.account.replace('sip:', '');
     result.registrar = result.registrar.replace('sip:', '');
