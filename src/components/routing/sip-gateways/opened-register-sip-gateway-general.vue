@@ -24,14 +24,22 @@
                     :label="$t('objects.routing.gateways.accountNumber')"
                     required
             ></form-input>
-
-            <form-input
-                    v-model.trim="password"
-                    :v="v.itemInstance.password"
-                    :label="$t('objects.password')"
-                    required
-            ></form-input>
-
+            <div class="input-extension-wrap">
+                <form-input
+                        v-model.trim="password"
+                        :v="v.itemInstance.password"
+                        :label="$t('objects.password')"
+                        :type="type"
+                        required
+                ></form-input>
+                <div class="input-extension">
+                <i
+                        class="input-extension__generate icon-icon_eye"
+                        :title="$t('iconHints.generate')"
+                        @click="showPassword"
+                ></i>
+                </div>
+            </div>
             <form-input
                     v-model.trim="expires"
                     :v="v.itemInstance.expires"
@@ -55,6 +63,11 @@
     export default {
         name: 'opened-register-sip-gateway-general',
         mixins: [openedTabComponentMixin],
+        data() {
+            return {
+              type: 'password'
+            }
+        },
 
         computed: {
             name: {
@@ -88,9 +101,19 @@
                 return [];
             },
 
+            showPassword() {
+                this.type = this.type === 'password' ? 'text' : 'password';
+            },
+
             ...mapActions('routing/gateways', {
                 setItemProp: 'SET_ITEM_PROPERTY',
             }),
         },
     };
 </script>
+
+<style lang="scss" scoped>
+   .icon-icon_eye:before {
+       content: url("../../../assets/img/nav/gray/eye_md.svg");
+   }
+</style>

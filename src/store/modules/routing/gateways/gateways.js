@@ -2,7 +2,7 @@ import router from '../../../../router/router';
 import proxy from '../../../../utils/editProxy';
 import {
     addGateway, deleteGateway,
-    getGateway, getGatewayList, updateGateway
+    getGateway, getGatewayList, patchGateway, updateGateway
 } from "../../../../api/routing/gateways/gateways";
 import {DefaultModule} from "../../defaults/DefaultModule";
 
@@ -62,6 +62,9 @@ const state = {
 const getters = {};
 
 const actions = {
+
+    ...defaultModule.actions,
+
     GET_LIST: async () => {
         return await getGatewayList(state.page, state.size, state.search);
     },
@@ -75,7 +78,7 @@ const actions = {
     },
 
     PATCH_ITEM: async (context, {id, changes}) => {
-        // FIXME: ADD PATCH TO SWITCHER
+       await patchGateway(id, changes);
     },
 
     UPD_ITEM: async () => {
@@ -96,6 +99,16 @@ const actions = {
             context.commit('SET_REGISTER_ITEM', proxy(item));
         } else {
             context.commit('SET_REGISTER_ITEM');
+        }
+    },
+
+    PATCH_ITEM_PROPERTY: async (context, {value, index}) => {
+        let changes = {enable: value};
+        try {
+            await context.dispatch('PATCH_ITEM', {id: state.dataList[index].id, changes});
+            context.commit('PATCH_ITEM_PROPERTY', {value, index});
+        } catch {
+            await context.dispatch('LOAD_DATA_LIST');
         }
     },
 
@@ -128,10 +141,12 @@ const actions = {
         context.commit('SET_ITEM_PROPERTY', {prop: '_dirty', value: true});
     },
 
-    ...defaultModule.actions,
+
 };
 
 const mutations = {
+
+    ...defaultModule.mutations,
 
     SET_REGISTER_ITEM: (state, item) => {
         if(item) {
@@ -161,7 +176,9 @@ const mutations = {
         state.itemInstance.ipacl.splice(index, 1);
     },
 
-    ...defaultModule.mutations,
+    PATCH_ITEM_PROPERTY: (state, {value, index}) => {
+        state.dataList[index].enable = value;
+    },
 };
 
 export default {
