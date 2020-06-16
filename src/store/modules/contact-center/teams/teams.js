@@ -16,14 +16,11 @@ const defaultState = () => {
             name: '',
             description: '',
             strategy: {},
-            maxNoAnswer: 10,
-            wrapUpTime: 10,
-            rejectDelayTime: 10,
-            busyDelayTime: 10,
-            noAnswerDelayTime: 10,
-            callTimeout: 10,
+            maxNoAnswer: 3,
+            wrapUpTime: 30,
+            busyDelayTime: 30,
+            callTimeout: 60,
             postProcessing: false,
-            postProcessingTimeout: 10
         },
     };
 };

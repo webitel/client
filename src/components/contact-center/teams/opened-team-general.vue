@@ -24,20 +24,6 @@
                     :label="$t('objects.description')"
                     textarea
             ></form-input>
-
-            <div>
-                <div class="switcher-label-wrap">
-                    <div class="label">{{$t('objects.ccenter.teams.postProcessing')}}</div>
-                    <switcher
-                            v-model="postProcessing"
-                    ></switcher>
-                </div>
-                    <form-input
-                            v-model="postProcessingTimeout"
-                            :label="$t('objects.ccenter.teams.wrapUpTime')"
-                            :disabled="!postProcessing"
-                    ></form-input>
-            </div>
         </form>
     </section>
 </template>
@@ -52,13 +38,7 @@
         data() {
             return {
                 dropdownOptionsStrategyList: [
-                    { name: 'Random', value: 'random' },
-                    // {name: '', value: 'sequentially-by-agent-level'},
-                    { name: 'Agent with fewest calls', value: 'fewest-calls' },
                     { name: 'Agent with least talk time', value: 'least-talk-time' },
-                    { name: 'Top-Down', value: 'top-down' },
-                    { name: 'Round robbin', value: 'round-robin' },
-                    { name: 'Longest idle Agent', value: 'longest-idle-time' },
                 ],
             };
         },
@@ -76,15 +56,6 @@
                 get() { return this.$store.state.ccenter.teams.itemInstance.description; },
                 set(value) { this.setItemProp({ prop: 'description', value }); },
             },
-            postProcessing: {
-                get() { return this.$store.state.ccenter.teams.itemInstance.postProcessing; },
-                set(value) { this.setItemProp({ prop: 'postProcessing', value }); },
-            },
-            postProcessingTimeout: {
-                get() { return this.$store.state.ccenter.teams.itemInstance.postProcessingTimeout; },
-                set(value) { this.setItemProp({ prop: 'postProcessingTimeout', value }); },
-            },
-
         },
 
         methods: {

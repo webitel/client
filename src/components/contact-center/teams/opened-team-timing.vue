@@ -28,18 +28,13 @@
                     :label="$t('objects.ccenter.teams.busyDelayTime')"
                     required
             ></form-input>
-            <form-input
-                    v-model.trim="rejectDelayTime"
-                    :v="v.itemInstance.rejectDelayTime"
-                    :label="$t('objects.ccenter.teams.rejectDelayTime')"
-                    required
-            ></form-input>
-            <form-input
-                    v-model.trim="noAnswerDelayTime"
-                    :v="v.itemInstance.noAnswerDelayTime"
-                    :label="$t('objects.ccenter.teams.noAnswerDelayTime')"
-                    required
-            ></form-input>
+
+            <div class="switcher-label-wrap">
+                <div class="label">{{$t('objects.ccenter.teams.postProcessing')}}</div>
+                <switcher
+                        v-model="postProcessing"
+                ></switcher>
+            </div>
         </form>
     </section>
 </template>
@@ -69,13 +64,9 @@
                 get() { return this.$store.state.ccenter.teams.itemInstance.busyDelayTime; },
                 set(value) { this.setItemProp({ prop: 'busyDelayTime', value }); },
             },
-            rejectDelayTime: {
-                get() { return this.$store.state.ccenter.teams.itemInstance.rejectDelayTime; },
-                set(value) { this.setItemProp({ prop: 'rejectDelayTime', value }); },
-            },
-            noAnswerDelayTime: {
-                get() { return this.$store.state.ccenter.teams.itemInstance.noAnswerDelayTime; },
-                set(value) { this.setItemProp({ prop: 'noAnswerDelayTime', value }); },
+            postProcessing: {
+                get() { return this.$store.state.ccenter.teams.itemInstance.postProcessing; },
+                set(value) { this.setItemProp({ prop: 'postProcessing', value }); },
             },
         },
 

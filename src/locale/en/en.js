@@ -450,9 +450,7 @@ export default {
                 maxNoAnswer: 'Max no answer',
                 callTimeout: 'Call timeout',
                 wrapUpTime: 'Wrap up time',
-                busyDelayTime: 'Busy delay time',
-                rejectDelayTime: 'Reject delay time',
-                noAnswerDelayTime: 'No answer delay time',
+                busyDelayTime: 'No answer delay time',
                 postProcessing: 'Waiting for call result',
             },
 
