@@ -69,15 +69,7 @@
                     numeric,
                     required,
                 },
-                rejectDelayTime: {
-                    numeric,
-                    required,
-                },
                 busyDelayTime: {
-                    numeric,
-                    required,
-                },
-                noAnswerDelayTime: {
                     numeric,
                     required,
                 },

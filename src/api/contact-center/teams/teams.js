@@ -15,7 +15,7 @@ const teamService = new AgentTeamServiceApiFactory(configuration, '', instance);
 
 const BASE_URL = '/call_center/teams';
 const fieldsToSend = ['domainId', 'name', 'description', 'strategy', 'maxNoAnswer', 'wrapUpTime',
-    'rejectDelayTime', 'busyDelayTime', 'noAnswerDelayTime', 'callTimeout', 'postProcessing', 'postProcessingTimeout'];
+     'busyDelayTime', 'callTimeout', 'postProcessing'];
 
 export const strategiesList = {
     random: 'Random',
