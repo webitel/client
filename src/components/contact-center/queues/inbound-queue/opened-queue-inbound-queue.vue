@@ -30,8 +30,8 @@
     import { mapActions, mapState } from 'vuex';
     import openedQueueInboundQueueGeneral from './opened-queue-inbound-queue-general';
     import openedQueueInboundQueueVariables from '../opened-queue-variables';
-    import openedQueueInboundQueueLogs from "../opened-queue-logs";
-    import openedQueueInboundQueueTiming from "./opened-queue-inbound-queue-timing";
+    import openedQueueInboundQueueLogs from '../opened-queue-logs';
+    import openedQueueInboundQueueTiming from './opened-queue-inbound-queue-timing';
     import openedQueueInboundQueuePermissions from '../opened-queue-permissions';
 
     export default {
@@ -41,7 +41,7 @@
             openedQueueInboundQueueVariables,
             openedQueueInboundQueueLogs,
             openedQueueInboundQueuePermissions,
-            openedQueueInboundQueueTiming
+            openedQueueInboundQueueTiming,
         },
         mixins: [editComponentMixin],
 
@@ -82,7 +82,7 @@
                     }, {
                         text: this.$t('objects.ccenter.queues.timing'),
                         value: 'timing',
-                    },{
+                    }, {
                         text: this.$tc('objects.ccenter.queues.variables', 2),
                         value: 'variables',
                     }, {

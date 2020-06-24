@@ -65,8 +65,8 @@
         mixins: [openedTabComponentMixin],
         data() {
             return {
-              type: 'password'
-            }
+              type: 'password',
+            };
         },
 
         computed: {
