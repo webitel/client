@@ -38,6 +38,23 @@ export default {
         docs: 'Справка',
     },
 
+    applicationHub: {
+        admin: 'Admin',
+        agent: 'Agent Workspace',
+        supervisor: 'Supervisor Workspace',
+        audit: 'Audit',
+        history: 'Call History',
+    },
+
+    appNavigator: {
+        title: 'Приложения Webitel',
+        admin: 'Admin',
+        agent: 'Agent Workspace',
+        supervisor: 'Supervisor Workspace',
+        audit: 'Audit',
+        history: 'Call History',
+    },
+
     settings: {
         settings: 'Настройки',
         changePassword: 'Изменить пароль',
@@ -598,6 +615,14 @@ export default {
         title404: 'Похоже, вы потерялись',
         text404: 'Извините, мы не можем найти то, что вы ищете',
         btn404: 'Вернуться назад',
+    },
+
+    icon: {
+        docs: 'Документация',
+        logout: 'Выйти',
+        account: 'Аккаунт',
+        appNavigator: 'Навигатор приложений',
+        settings: 'Настройки',
     },
 
     iconHints: {
