@@ -62,12 +62,12 @@
 
 <script>
     import openedTabComponentMixin from '@/mixins/openedTabComponentMixin';
-    import {mapActions} from "vuex";
-    import {getCalendarList} from "../../../../api/lookups/calendars/calendars";
-    import {getTeamsList} from "../../../../api/contact-center/teams/teams";
-    import {getFlowList} from "../../../../api/routing/flow/flow";
-    import {getBlacklistList} from "../../../../api/lookups/blacklists/blacklists";
-    import {getMediaList} from "../../../../api/lookups/media/media";
+    import { mapActions } from 'vuex';
+    import { getCalendarList } from '../../../../api/lookups/calendars/calendars';
+    import { getTeamsList } from '../../../../api/contact-center/teams/teams';
+    import { getFlowList } from '../../../../api/routing/flow/flow';
+    import { getBlacklistList } from '../../../../api/lookups/blacklists/blacklists';
+    import { getMediaList } from '../../../../api/lookups/media/media';
 
     export default {
         name: 'opened-queue-inbound-queue-general',
@@ -80,7 +80,7 @@
                 dropdownOptionsSchemaList: [],
                 dropdownOptionsTeamList: [],
                 dropdownOptionsMediaList: [],
-            }
+            };
         },
 
         mounted() {
@@ -148,11 +148,11 @@
 
             ringtone: {
                 get() {
-                    return this.$store.state.ccenter.queues.itemInstance.ringtone
+                    return this.$store.state.ccenter.queues.itemInstance.ringtone;
                 },
                 set(value) {
-                    this.setItemProp({prop: 'ringtone', value})
-                }
+                    this.setItemProp({ prop: 'ringtone', value });
+                },
             },
 
             description: {
@@ -200,12 +200,10 @@
 
             async loadDropdownOptionsMediaList(search) {
                 const response = await getMediaList(0, 10, search);
-                this.dropdownOptionsMediaList = response.list.map(item => {
-                    return {
+                this.dropdownOptionsMediaList = response.list.map((item) => ({
                         name: item.name,
                         id: item.id,
-                    }
-                });
+                    }));
             },
 
             ...mapActions('ccenter/queues', {

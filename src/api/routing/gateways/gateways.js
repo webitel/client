@@ -1,13 +1,13 @@
-import {WebitelAPIItemPatcher} from "../../utils/ApiControllers/Patcher/ApiPatcher";
+import deepCopy from 'deep-copy';
+import { WebitelAPIItemPatcher } from '../../utils/ApiControllers/Patcher/ApiPatcher';
 import { WebitelAPIItemDeleter } from '../../utils/ApiControllers/Deleter/ApiDeleter';
 import { WebitelAPIItemUpdater } from '../../utils/ApiControllers/Updater/ApiUpdater';
 import { WebitelAPIItemCreator } from '../../utils/ApiControllers/Creator/ApiCreator';
 import { WebitelAPIItemGetter } from '../../utils/ApiControllers/Getter/ApiGetter';
 import { WebitelAPIListGetter } from '../../utils/ApiControllers/ListGetter/ApiListGetter';
-import deepCopy from "deep-copy";
-import sanitizer from "../../utils/sanitizer";
-import instance from "../../instance";
-import eventBus from "../../../utils/eventBus";
+import sanitizer from '../../utils/sanitizer';
+import instance from '../../instance';
+import eventBus from '../../../utils/eventBus';
 
 
 const BASE_URL = '/sip/gateways';
@@ -59,14 +59,13 @@ export const addGateway = async (item) => await itemCreator.createItem(item);
 export const updateGateway = async (id, item) => await itemUpdater.updateItem(id, item);
 
 export async function patchGateway(id, item) {
-    const patchUrl = BASE_URL + '/' + id;
+    const patchUrl = `${BASE_URL}/${id}`;
     try {
         const response = await instance.patch(patchUrl, item);
         eventBus.$emit('notificationInfo', 'Successfully updated');
     } catch (err) {
         throw err;
     }
-
 }
 
 export const deleteGateway = async (id) => await itemDeleter.deleteItem(id);

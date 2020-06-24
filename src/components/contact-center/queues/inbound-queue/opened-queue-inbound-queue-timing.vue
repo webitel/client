@@ -32,51 +32,51 @@
 <script>
     import timepicker from '@/components/utils/timepicker';
     import openedTabComponentMixin from '@/mixins/openedTabComponentMixin';
-    import {mapActions} from "vuex";
+    import { mapActions } from 'vuex';
 
     export default {
-        name: "opened-queue-inbound-queue-timing",
+        name: 'opened-queue-inbound-queue-timing',
         mixins: [openedTabComponentMixin],
-        components: {timepicker},
+        components: { timepicker },
         data() {
-            return {}
+            return {};
         },
 
         computed: {
             discardAbandonedAfter: {
                 get() {
-                    return this.$store.state.ccenter.queues.itemInstance.payload.discardAbandonedAfter
+                    return this.$store.state.ccenter.queues.itemInstance.payload.discardAbandonedAfter;
                 },
                 set(value) {
-                    this.setPayloadItemProp({prop: 'discardAbandonedAfter', value})
-                }
+                    this.setPayloadItemProp({ prop: 'discardAbandonedAfter', value });
+                },
             },
 
             timeoutWithNoAgents: {
                 get() {
-                    return this.$store.state.ccenter.queues.itemInstance.payload.timeoutWithNoAgents
+                    return this.$store.state.ccenter.queues.itemInstance.payload.timeoutWithNoAgents;
                 },
                 set(value) {
-                    this.setPayloadItemProp({prop: 'timeoutWithNoAgents', value})
-                }
+                    this.setPayloadItemProp({ prop: 'timeoutWithNoAgents', value });
+                },
             },
 
             timeBaseScore: {
                 get() {
-                    return this.$store.state.ccenter.queues.itemInstance.payload.timeBaseScore
+                    return this.$store.state.ccenter.queues.itemInstance.payload.timeBaseScore;
                 },
                 set(value) {
-                    this.setPayloadItemProp({prop: 'timeBaseScore', value})
-                }
+                    this.setPayloadItemProp({ prop: 'timeBaseScore', value });
+                },
             },
 
             timeout: {
                 get() {
-                    return this.$store.state.ccenter.queues.itemInstance.timeout
+                    return this.$store.state.ccenter.queues.itemInstance.timeout;
                 },
                 set(value) {
-                    this.setItemProp({prop: 'timeout', value})
-                }
+                    this.setItemProp({ prop: 'timeout', value });
+                },
             },
 
         },
@@ -87,7 +87,7 @@
                 setPayloadItemProp: 'SET_PAYLOAD_ITEM_PROPERTY',
             }),
         },
-    }
+    };
 </script>
 
 <style lang="scss" scoped>

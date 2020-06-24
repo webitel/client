@@ -12,7 +12,7 @@ import './assets/css/objects/lib-custom-styling/vuetable.scss';
 import './assets/css/fonts.scss';
 import './assets/css/main.scss';
 
-import tableCheckboxColumn from './components/object-utils/utils/table-checkbox-column';
+import tableCheckboxColumn from './components/object-utils/utils/table-checkbox-column.vue';
 import errorMixin from './mixins/errorMixin';
 
 
@@ -23,9 +23,23 @@ Vue.component('vuetable-field-table-checkbox', tableCheckboxColumn);
 Vue.use(Vuelidate);
 Vue.mixin(errorMixin);
 
-new Vue({
-  router,
-  store,
-  i18n,
-  render: (h) => h(App),
-}).$mount('#app');
+const fetchConfig = async () => {
+    const response = await fetch(`${process.env.BASE_URL}config.json`);
+    return response.json();
+};
+
+const createVueInstance = () => {
+    new Vue({
+        router,
+        store,
+        i18n,
+        render: (h) => h(App),
+    }).$mount('#app');
+};
+
+// init IIFE
+(async () => {
+    const config = await fetchConfig();
+    Vue.prototype.$config = config;
+    createVueInstance();
+})();
