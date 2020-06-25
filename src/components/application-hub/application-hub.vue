@@ -80,6 +80,12 @@
         titleDark: require('../../assets/img/application-hub/dark/supervisor-title--dark.svg'),
         titleLight: require('../../assets/img/application-hub/light/supervisor-title--light.svg'),
     };
+    const picGrafana = {
+        picDark: require('../../assets/img/application-hub/dark/grafana-pic--dark.svg'),
+        picLight: require('../../assets/img/application-hub/light/grafana-pic--light.svg'),
+        titleDark: require('../../assets/img/application-hub/dark/grafana-title--dark.svg'),
+        titleLight: require('../../assets/img/application-hub/light/grafana-title--light.svg'),
+    };
 
     export default {
         name: 'the-application-hub',
@@ -87,38 +93,49 @@
 
         computed: {
             apps() {
-                return [
-                    {
-                        name: 'agent',
-                        title: this.$t('applicationHub.agent'),
-                        href: process.env.VUE_APP_AGENT_URL,
-                        pic: picAgent,
-                    },
-                    {
-                        name: 'supervisor',
-                        title: this.$t('applicationHub.supervisor'),
-                        href: process.env.VUE_APP_SUPERVISOR_URL,
-                        pic: picSupervisor,
-                    },
-                    {
-                        name: 'history',
-                        title: this.$t('applicationHub.history'),
-                        href: process.env.VUE_APP_HISTORY_URL,
-                        pic: picHistory,
-                    },
-                    {
-                        name: 'audit',
-                        title: this.$t('applicationHub.audit'),
-                        href: process.env.VUE_APP_AUDIT_URL,
-                        pic: picAudit,
-                    },
-                    {
-                        name: 'admin',
-                        title: this.$t('applicationHub.admin'),
-                        href: process.env.VUE_APP_ADMIN_URL,
-                        pic: picAdmin,
-                    },
-                ];
+                const agentApp = {
+                    name: 'agent',
+                    title: this.$t('applicationHub.agent'),
+                    href: process.env.VUE_APP_AGENT_URL,
+                    pic: picAgent,
+                };
+                const supervisorApp = {
+                    name: 'supervisor',
+                    title: this.$t('applicationHub.supervisor'),
+                    href: process.env.VUE_APP_SUPERVISOR_URL,
+                    pic: picSupervisor,
+                };
+                const historyApp = {
+                    name: 'history',
+                    title: this.$t('applicationHub.history'),
+                    href: process.env.VUE_APP_HISTORY_URL,
+                    pic: picHistory,
+                };
+
+                const auditApp = {
+                    name: 'audit',
+                    title: this.$t('applicationHub.audit'),
+                    href: process.env.VUE_APP_AUDIT_URL,
+                    pic: picAudit,
+                };
+
+                const adminApp = {
+                    name: 'admin',
+                    title: this.$t('applicationHub.admin'),
+                    href: process.env.VUE_APP_ADMIN_URL,
+                    pic: picAdmin,
+                };
+
+                const grafanaApp = {
+                    name: 'grafana',
+                    title: this.$t('applicationHub.grafana'),
+                    href: process.env.VUE_APP_GRAFANA_URL,
+                    pic: picGrafana,
+                };
+
+                const apps = [agentApp, supervisorApp, historyApp, auditApp, adminApp];
+                if (this.$config.ON_SITE) apps.push(grafanaApp);
+                return apps;
             },
         },
     };
