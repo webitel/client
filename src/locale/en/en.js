@@ -452,7 +452,7 @@ export default {
                 maxNoAnswer: 'Max no answer',
                 callTimeout: 'Call timeout',
                 wrapUpTime: 'Wrap up time',
-                busyDelayTime: 'No answer delay time',
+                noAnswerDelayTime: 'No answer delay time',
                 postProcessing: 'Waiting for call result',
             },
 

@@ -23,9 +23,9 @@
                     required
             ></form-input>
             <form-input
-                    v-model.trim="busyDelayTime"
-                    :v="v.itemInstance.busyDelayTime"
-                    :label="$t('objects.ccenter.teams.busyDelayTime')"
+                    v-model.trim="noAnswerDelayTime"
+                    :v="v.itemInstance.noAnswerDelayTime"
+                    :label="$t('objects.ccenter.teams.noAnswerDelayTime')"
                     required
             ></form-input>
 
@@ -60,9 +60,9 @@
                 get() { return this.$store.state.ccenter.teams.itemInstance.wrapUpTime; },
                 set(value) { this.setItemProp({ prop: 'wrapUpTime', value }); },
             },
-            busyDelayTime: {
-                get() { return this.$store.state.ccenter.teams.itemInstance.busyDelayTime; },
-                set(value) { this.setItemProp({ prop: 'busyDelayTime', value }); },
+            noAnswerDelayTime: {
+                get() { return this.$store.state.ccenter.teams.itemInstance.noAnswerDelayTime; },
+                set(value) { this.setItemProp({ prop: 'noAnswerDelayTime', value }); },
             },
             postProcessing: {
                 get() { return this.$store.state.ccenter.teams.itemInstance.postProcessing; },

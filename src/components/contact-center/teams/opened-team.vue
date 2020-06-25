@@ -21,7 +21,6 @@
                 ></component>
             </template>
         </tabs-component>
-        </section>
     </div>
 </template>
 
@@ -69,7 +68,7 @@
                     numeric,
                     required,
                 },
-                busyDelayTime: {
+                noAnswerDelayTime: {
                     numeric,
                     required,
                 },
