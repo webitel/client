@@ -436,6 +436,7 @@ export default {
                 addSkill: 'Add skill',
                 statusHistory: 'Status history',
                 historyState: 'State',
+                historyChannel: 'Channel',
                 historyFrom: 'From',
                 historyTo: 'To',
                 historyDuration: 'Duration',

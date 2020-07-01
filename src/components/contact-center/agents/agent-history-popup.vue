@@ -28,6 +28,12 @@
                     </div>
                 </template>
 
+                <template slot="channel" slot-scope="props">
+                    <div>
+                        {{dataList[props.rowIndex].channel}}
+                    </div>
+                </template>
+
                 <template slot="from" slot-scope="props">
                     <div>
                         {{computeTime(dataList[props.rowIndex].joinedAt)}}
@@ -36,7 +42,7 @@
 
                 <template slot="to" slot-scope="props">
                     <div>
-                        {{ computeTime(+dataList[props.rowIndex].joinedAt + (+dataList[props.rowIndex].duration * 1000)) }}
+                        {{ dataList[props.rowIndex].duration ? computeTime(+dataList[props.rowIndex].joinedAt + (+dataList[props.rowIndex].duration * 1000)) : '' }}
                     </div>
                 </template>
 
@@ -76,6 +82,7 @@
             return {
                 fields: [
                     { name: 'state', title: this.$t('objects.ccenter.agents.historyState') },
+                    { name: 'channel', title: this.$t('objects.ccenter.agents.historyChannel') },
                     { name: 'from', title: this.$t('objects.ccenter.agents.historyFrom') },
                     { name: 'to', title: this.$t('objects.ccenter.agents.historyTo') },
                     { name: 'duration', title: this.$t('objects.ccenter.agents.historyDuration') },
@@ -118,6 +125,8 @@
 
             // FIXME add to utils
             prettySeconds(seconds) {
+                if (!seconds)
+                    return "";
                 const date = new Date(seconds * 1000);
                 let hh = date.getUTCHours();
                 let mm = date.getUTCMinutes();

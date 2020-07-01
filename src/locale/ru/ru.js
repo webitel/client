@@ -415,6 +415,7 @@ export default {
                 addSkill: 'Добавить навык',
                 statusHistory: 'История статусов',
                 historyState: 'Статус',
+                historyChannel: 'Канал',
                 historyFrom: 'С',
                 historyTo: 'До',
                 historyDuration: 'Длительность',
