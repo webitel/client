@@ -54,23 +54,16 @@
 
                 <template slot="state" slot-scope="props">
                     <status
-                            :class="{'status__true': dataList[props.rowIndex].state === 'waiting',
-                            'status__false': dataList[props.rowIndex].state === 'offering'
-                            || dataList[props.rowIndex].state === 'ringing'
-                            || dataList[props.rowIndex].state === 'talking'
-                            || dataList[props.rowIndex].state === 'reporting'
-                            || dataList[props.rowIndex].state === 'fine'
-                            || dataList[props.rowIndex].state === 'ringing',
-                            'status__info': dataList[props.rowIndex].state === 'pause'
-                            || dataList[props.rowIndex].state === 'break'}"
-                            :text=computeOnlineText(dataList[props.rowIndex].state)
+                            :class="{'status__true': dataList[props.rowIndex].status === 'online',
+                            'status__info': dataList[props.rowIndex].status === 'pause'}"
+                            :text=computeOnlineText(dataList[props.rowIndex].status)
                     >
                     </status>
                 </template>
 
                 <template slot="time" slot-scope="props">
                     <div>
-                        {{msToTime(dataList[props.rowIndex].lastStateChange) || 'Now'}}
+                        {{prettySeconds(dataList[props.rowIndex].statusDuration)}}
                     </div>
                 </template>
 
@@ -149,60 +142,26 @@
         },
 
         methods: {
-            // computeOnlineText(state) {
-            //     return state ? this.$t('objects.online') : this.$t('objects.offline');
-            // },
+            prettySeconds(seconds) {
+                const date = new Date(seconds * 1000);
+                let hh = date.getUTCHours();
+                let mm = date.getUTCMinutes();
+                let ss = date.getSeconds();
+                if (hh < 10) {hh = "0"+hh;}
+                if (mm < 10) {mm = "0"+mm;}
+                if (ss < 10) {ss = "0"+ss;}
 
-            msToTime(s) {
-                if (s === undefined) { return false; }
-                s = Date.now() - s;
-                function pad(n, z) {
-                    z = z || 2;
-                    return (`00${n}`).slice(-z);
-                }
-
-                const ms = s % 1000;
-                s = (s - ms) / 1000;
-                const secs = s % 60;
-                s = (s - secs) / 60;
-                const mins = s % 60;
-                const hrs = (s - mins) / 60;
-
-                return `${pad(hrs)}:${pad(mins)}`;
+                return hh+":"+mm+":"+ss;
             },
 
             computeOnlineText(state) {
                 switch (state) {
-                    case 'waiting':
-                        return 'Waiting';
-                        break;
                     case 'online':
                         return 'Online';
-                        break;
-                    case 'offering':
-                        return 'Offering';
-                        break;
-                    case 'ringing':
-                        return 'Ringing';
-                        break;
-                    case 'talking':
-                        return 'Talking';
-                        break;
-                    case 'reporting':
-                        return 'Reporting';
-                        break;
-                    case 'break':
-                        return 'Break';
-                        break;
-                    case 'fine':
-                        return 'Fine';
-                        break;
                     case 'pause':
                         return 'Pause';
-                        break;
                     default:
                         return 'Offline';
-                        break;
                 }
             },
 

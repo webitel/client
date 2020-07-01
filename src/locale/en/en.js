@@ -430,6 +430,7 @@ export default {
             agents: {
                 agents: 'Agent | Agents',
                 allAgents: 'All agents',
+                progressiveCount: "Progressive call count",
                 state: 'State',
                 stateTime: 'State time',
                 addSkill: 'Add skill',

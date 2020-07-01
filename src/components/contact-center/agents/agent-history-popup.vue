@@ -36,13 +36,13 @@
 
                 <template slot="to" slot-scope="props">
                     <div>
-                        {{computeTime(dataList[props.rowIndex].loggedOut) || 'Now'}}
+                        {{ computeTime(+dataList[props.rowIndex].joinedAt + (+dataList[props.rowIndex].duration * 1000)) }}
                     </div>
                 </template>
 
                 <template slot="duration" slot-scope="props">
                     <div>
-                        {{computeDuration(props.rowIndex)}}
+                        {{prettySeconds(+dataList[props.rowIndex].duration)}}
                     </div>
                 </template>
             </vuetable>
@@ -116,9 +116,17 @@
                 return new Date(+time).toString().split(' ')[4];
             },
 
-            computeDuration(rowIndex) {
-                const range = (this.dataList[rowIndex].loggedOut || Date.now()) - this.dataList[rowIndex].joinedAt;
-                return new Date(range).toISOString().slice(11, 19);
+            // FIXME add to utils
+            prettySeconds(seconds) {
+                const date = new Date(seconds * 1000);
+                let hh = date.getUTCHours();
+                let mm = date.getUTCMinutes();
+                let ss = date.getSeconds();
+                if (hh < 10) {hh = "0"+hh;}
+                if (mm < 10) {mm = "0"+mm;}
+                if (ss < 10) {ss = "0"+ss;}
+
+                return hh+":"+mm+":"+ss;
             },
 
             ...mapActions('ccenter/agents', {

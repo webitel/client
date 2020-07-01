@@ -410,6 +410,7 @@ export default {
                 agents: 'Оператор | Операторы',
                 allAgents: 'Все операторы',
                 state: 'Статус',
+                progressiveCount: "Progressive call count",
                 stateTime: 'Время статуса',
                 addSkill: 'Добавить навык',
                 statusHistory: 'История статусов',
