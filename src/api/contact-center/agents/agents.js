@@ -16,7 +16,7 @@ import { WebitelSDKItemGetter } from '../../utils/ApiControllers/Getter/SDKGette
 const agentService = new AgentServiceApiFactory(configuration, '', instance);
 
 const BASE_URL = '/call_center/agents';
-const fieldsToSend = ['domainId', 'user', 'description'];
+const fieldsToSend = ['domainId', 'user', 'description', 'progressiveCount'];
 
 const listGetter = new WebitelSDKListGetter(agentService.searchAgent);
 const itemGetter = new WebitelSDKItemGetter(agentService.readAgent);
@@ -45,7 +45,7 @@ export const getAgentUsersOptions = async (page = 0, size = 10, search) => {
 export const getAgentHistory = async (id, date, page = 0, size = 10, search) => {
     const { domainId } = store.state.userinfo;
     try {
-        const response = await agentService.searchAgentStateHistory(id, page, size, date, Date.now(), search, domainId);
+        const response = await agentService.searchAgentStateHistory(page, size, date, Date.now(), id, '-joined_at', domainId);
         return response.items ? response.items : [];
     } catch (err) {
         throw err;

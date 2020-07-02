@@ -15,6 +15,7 @@ const defaultState = () => {
         itemInstance: {
             user: {},
             description: '',
+            progressiveCount: 1,
         },
     };
 };

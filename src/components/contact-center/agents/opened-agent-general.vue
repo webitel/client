@@ -3,7 +3,7 @@
         <header class="content-header">
             <h3 class="content-title">{{$t('objects.generalInfo')}}</h3>
         </header>
-        <form class="object-input-grid grid-w50">
+        <form class="object-input-grid">
             <dropdown-select
                     v-model="user"
                     :v="v.itemInstance.user"
@@ -12,6 +12,13 @@
                     @search="loadDropdownOptionsList"
                     required
             ></dropdown-select>
+
+            <form-input
+                    v-model="progressiveCount"
+                    :v="v.itemInstance.progressiveCount"
+                    :label="$t('objects.ccenter.agents.progressiveCount')"
+                    required
+            ></form-input>
 
             <form-input
                     v-model="description"
@@ -38,11 +45,15 @@
         computed: {
             user: {
                 get() { return this.$store.state.ccenter.agents.itemInstance.user; },
-                set(value) { this.setItemProp({ prop: 'user', value }); },
+                set(value) {this.setItemProp({ prop: 'user', value }); },
             },
             description: {
                 get() { return this.$store.state.ccenter.agents.itemInstance.description; },
                 set(value) { this.setItemProp({ prop: 'description', value }); },
+            },
+            progressiveCount: {
+                get() { return this.$store.state.ccenter.agents.itemInstance.progressiveCount; },
+                set(value) { this.setItemProp({ prop: 'progressiveCount', value }); },
             },
         },
 
