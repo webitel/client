@@ -1,10 +1,8 @@
 import { AgentTeamServiceApiFactory } from 'webitel-sdk';
 import instance from '../../instance';
 import configuration from '../../openAPIConfig';
-import {
-    WebitelAPIPermissionsGetter,
-    WebitelAPIPermissionsPatcher,
-} from '../../utils/ApiControllers/Permissions/PermissionsController';
+import WebitelAPIPermissionsGetter from '../../utils/ApiControllers/Permissions/WebitelAPIPermissionsGetter';
+import WebitelAPIPermissionsPatcher from '../../utils/ApiControllers/Permissions/WebitelAPIPermissionsPatcher';
 import { WebitelSDKItemDeleter } from '../../utils/ApiControllers/Deleter/SDKDeleter';
 import { WebitelSDKItemUpdater } from '../../utils/ApiControllers/Updater/SDKUpdater';
 import { WebitelSDKItemCreator } from '../../utils/ApiControllers/Creator/SDKCreator';
@@ -27,6 +25,12 @@ export const strategiesList = {
 };
 
 const preRequestHandler = (item) => {
+    item.busyDelayTime = +item.busyDelayTime;
+    item.wrapUpTime = +item.wrapUpTime;
+    item.callTimeout = +item.callTimeout;
+    item.maxNoAnswer = +item.maxNoAnswer;
+    item.rejectDelayTime = +item.rejectDelayTime;
+    item.noAnswerDelayTime = +item.noAnswerDelayTime;
     item.strategy = item.strategy.value;
     return item;
 };
@@ -43,6 +47,11 @@ itemGetter.responseHandler = (response) => {
     const defaultItemObject = {
         _dirty: false,
         postProcessing: false,
+        busyDelayTime: 0,
+        callTimeout: 0,
+        maxNoAnswer: 0,
+        noAnswerDelayTime: 0,
+        rejectDelayTime: 0,
         wrapUpTime: 0,
     };
     try {

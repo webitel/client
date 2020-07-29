@@ -2,17 +2,21 @@ import {
     getObjectList,
     getObjectPermissions,
     patchObjectPermissions,
-    updateObject
+    updateObject,
+    fetchObjclassDefaultList,
+    toggleObjclassDefaultMode
 } from "../../../../api/permissions/objects/objects";
 
 const defaultState = () => {
     return {
         itemId: 0,
+        itemInstance: {},
         itemSize: '10',
         itemSearch: '',
-        itemPage: 0,
-        isItemNextPage: true,
+        itemPage: 1,
+        isItemNextPage: false,
         itemPermissionsDataList: [],
+        itemPermissionsDefaultList: [],
     };
 };
 
@@ -49,7 +53,7 @@ const actions = {
     },
 
     SET_ITEM_PERMISSIONS_SIZE: (context, size) => {
-        context.commit('SET_ITEM_PERMISSIONS_SIZE', size);
+        context.commit('SET_SIZE', size);
     },
 
     SET_ITEM_PERMISSIONS_SEARCH: (context, search) => {
@@ -80,13 +84,33 @@ const actions = {
     PATCH_ITEM_PERMISSIONS: async (context, {prop, index}) => {
         const readState = state.itemPermissionsDataList[index].access.r;
         await context.commit('PATCH_ITEM_PERMISSIONS', {prop, index});
-        let item = [{
-            grantee_id: state.itemPermissionsDataList[index].grantee.id,
-            access: prop
-        }];
-        if (!readState) item[0].access += 'r';
+        
+        let mode = '';
+        switch (prop) {
+        case 'c':
+        case 'x':
+            mode = 'x';
+            break;
+        case 'r':
+            mode = 'r';
+            break;
+        case 'u':
+        case 'w':
+            mode = 'w';
+            break;
+        case 'd':
+            mode = 'd';
+            break;
+        default:
+            console.log(`Cound not identify access mode {{prop}}`);
+        }
+        let rule = {
+            grantee: +(state.itemPermissionsDataList[index].grantee.id),
+            grants: mode
+        };
+        if (!readState) rule.grants += 'r'; // ADD (!)
         try {
-            await patchObjectPermissions(state.itemId, item);
+            await patchObjectPermissions(state.itemId, [rule]);
         } catch {
             context.dispatch('LOAD_ITEM_PERMISSIONS_DATA_lIST');
         }
@@ -94,8 +118,8 @@ const actions = {
 
     ADD_ITEM_ROLE: async (context, role) => {
         const item = [{
-            grantee_id: role.id,
-            access: 'r'
+            grantee: +role.id,
+            grants: 'r'
         }];
         try {
             await patchObjectPermissions(state.itemId, item);
@@ -107,6 +131,54 @@ const actions = {
 
     RESET_ITEM_STATE: async (context) => {
         context.commit('RESET_ITEM_STATE');
+    },
+
+    // [R]ecord-[b]ased [A]ccess [C]ontrol list
+    SEARCH_DEFAULT_LIST: async (context) => {
+        console.log(`[SEARCH_DEFAULT_LIST]: (${state.itemId})`)
+        if (state.itemId) {
+            const rbac = await fetchObjclassDefaultList(state.itemId, state.itemPage, state.itemSize, ''); // state.itemSearch);
+            context.commit('CACHE_DEFAULT_LIST', rbac);
+        }
+    },
+
+    TOGGLE_DEFAULT_MODE: async (context, {mode, ruleName, index}) => {
+        let have;
+        let want;
+        if(mode.id == state.itemPermissionsDefaultList[index].perm.d.id) {
+            return;
+        }
+        else {
+            const rule = state.itemPermissionsDefaultList[index];
+            if(ruleName == 'r') { have = rule.perm.r;}
+            if(ruleName == 'w') { have = rule.perm.w;}
+            if(ruleName == 'd') { have = rule.perm.d;}
+            switch (mode.id) {
+                case 1:
+                    want = ruleName;
+                    break;
+                case 2:
+                    want = have.rule || ruleName;
+                    break;
+                case 3:
+                    want = ruleName + ruleName;
+                    break;
+                default:
+                    console.log(`Cound not identify access mode '${want}'`);
+                    return;
+            }
+            await context.commit('TOGGLE_DEFAULT_MODE', {mode, ruleName, index});
+            let ctl = {
+                grants: want,
+                grantee: +(rule.grantee.id)
+            };
+            //if (!readState) ctl.grants += 'r'; // ADD (!)
+            try {
+                await toggleObjclassDefaultMode(state.itemId, +(rule.grantor.id), ctl);
+            } catch {
+                context.dispatch('SEARCH_DEFAULT_LIST');
+            }
+        }
     },
 };
 
@@ -164,6 +236,16 @@ const mutations = {
 
     RESET_ITEM_STATE: (state) => {
         Object.assign(state, defaultState());
+    },
+    // [R]ecord-[b]ased [A]ccess [C]ontrol list
+    CACHE_DEFAULT_LIST: (state, rbac) => {
+        state.itemPermissionsDefaultList = rbac;
+    },
+
+    TOGGLE_DEFAULT_MODE: (state, {mode, ruleName, index}) => {
+        if(ruleName == 'r') {  state.itemPermissionsDefaultList[index].perm.r = mode;}
+        if(ruleName == 'w') {  state.itemPermissionsDefaultList[index].perm.w = mode;}
+        if(ruleName == 'd') {  state.itemPermissionsDefaultList[index].perm.d = mode;}       
     },
 };
 

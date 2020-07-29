@@ -56,15 +56,20 @@ const actions = {
         // on-frontend swap commented
         // because sortable reinitialization triggers on each dataList change
         // but UI changes anyway
-        // await context.commit('SWAP_ROWS', {fromId, toId});
+        //await context.commit('SWAP_ROWS', {fromId, toId});
         try {
             await moveDialplan(fromId, toId);
+            await context.dispatch('LOAD_DATA_LIST');
         } catch {
             context.dispatch('LOAD_DATA_LIST');
         }
     },
 
     ...defaultModule.actions,
+
+    RESET_ITEM_STATE: async (context) => {
+        context.commit('RESET_ITEM_STATE');
+    },
 };
 
 const mutations = {
@@ -78,6 +83,12 @@ const mutations = {
     },
 
     ...defaultModule.mutations,
+
+    RESET_ITEM_STATE: (state) => {
+        state.dataList = [];
+        Object.assign(state, defaultState());
+        console.log(state.dataList);
+    },
 };
 
 export default {

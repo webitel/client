@@ -33,6 +33,8 @@
     import openedUserLicense from './opened-user-license';
     import openedUserDevices from './opened-user-devices';
     import openedUserVariables from './opened-user-variables';
+    import openedUserTokens from './opened-user-tokens';
+    import openedUserPermissions from './opened-user-permissions.vue';
 
     export default {
         name: 'opened-user',
@@ -43,32 +45,11 @@
             openedUserLicense,
             openedUserDevices,
             openedUserVariables,
+            openedUserTokens,
+            openedUserPermissions,
         },
         data() {
-            return {
-                tabs: [
-                    {
-                        text: this.$t('objects.general'),
-                        value: 'general',
-                    },
-                    {
-                        text: this.$t('objects.directory.users.roles'),
-                        value: 'roles',
-                    },
-                    {
-                        text: this.$t('objects.directory.users.license'),
-                        value: 'license',
-                    },
-                    {
-                        text: this.$t('objects.directory.users.devices'),
-                        value: 'devices',
-                    },
-                    {
-                        text: this.$t('objects.directory.users.variables'),
-                        value: 'variables',
-                    },
-                ],
-            };
+            return {};
         },
 
         validations: {
@@ -91,6 +72,41 @@
             id: {
                 get() { return this.$store.state.directory.users.itemId; },
                 set(value) { this.setId(value); },
+            },
+
+            tabs() {
+                const tabs = [{
+                        text: this.$t('objects.general'),
+                        value: 'general',
+                    },
+                    {
+                        text: this.$t('objects.directory.users.roles'),
+                        value: 'roles',
+                    },
+                    {
+                        text: this.$t('objects.directory.users.license'),
+                        value: 'license',
+                    },
+                    {
+                        text: this.$t('objects.directory.users.devices'),
+                        value: 'devices',
+                    },
+                    {
+                        text: this.$t('objects.directory.users.variables'),
+                        value: 'variables',
+                    },
+                    {
+                        text: 'Tokens',
+                        value: 'tokens',
+                    }];
+
+                const permissions = {
+                    text: this.$tc('objects.permissions.permissions', 2),
+                    value: 'permissions',
+                };
+
+                if (this.id) tabs.push(permissions);
+                return tabs;
             },
         },
 

@@ -58,8 +58,8 @@
 
             // get all roles to choose which to add
             async loadDropdownOptionsList(search) {
-                const response = await getRoleList(10, search);
-                this.dropdownOptionsList = [...response];
+                const response = await getRoleList(1, 10, search);
+                this.dropdownOptionsList = [...response.list];
             },
 
             ...mapActions('ccenter/resGroups/permissions', {

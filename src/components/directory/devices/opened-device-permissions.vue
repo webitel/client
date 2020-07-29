@@ -78,10 +78,10 @@
     import tableComponentMixin from '@/mixins/tableComponentMixin';
     import editComponentMixin from '@/mixins/editComponentMixin';
     import { mapActions, mapState } from 'vuex';
-    import rolePopup from './opened-team-permissions-role-popup';
+    import rolePopup from './opened-device-permissions-role-popup.vue';
 
     export default {
-        name: 'opened-team-permissions',
+        name: 'opened-device-permissions',
         mixins: [tableComponentMixin, editComponentMixin],
         components: { rolePopup },
         data() {
@@ -103,10 +103,10 @@
         },
 
         computed: {
-            ...mapState('ccenter/teams', {
+            ...mapState('directory/devices', {
                 parentId: (state) => state.itemId,
             }),
-            ...mapState('ccenter/teams/permissions', {
+            ...mapState('directory/devices/permissions', {
                 dataList: (state) => state.dataList,
                 page: (state) => state.page,
                 isNextPage: (state) => state.isNextPage,
@@ -114,7 +114,7 @@
 
             size: {
                 get() {
-                    return this.$store.state.ccenter.teams.permissions.size;
+                    return this.$store.state.directory.devices.permissions.size;
                 },
                 set(value) {
                     this.setSize(value);
@@ -123,7 +123,7 @@
 
             search: {
                 get() {
-                    return this.$store.state.ccenter.teams.permissions.search;
+                    return this.$store.state.directory.devices.permissions.search;
                 },
                 set(value) {
                     this.setSearch(value);
@@ -132,7 +132,7 @@
         },
 
         methods: {
-            ...mapActions('ccenter/teams/permissions', {
+            ...mapActions('directory/devices/permissions', {
                 setParentId: 'SET_PARENT_ITEM_ID',
                 loadDataList: 'LOAD_DATA_LIST',
                 setSize: 'SET_SIZE',

@@ -62,7 +62,7 @@
     // import openedTabComponentMixin from '@/mixins/openedTabComponentMixin';
     import vuetable from 'vuetable-2/src/components/Vuetable';
     import dropdownSelect from '@/components/utils/dropdown-select';
-    import { getObject, updateObjectPermissions, getObjectPermissions } from '../../../api/permissions/objects/objects';
+    import { getObject, getObjectPermissions } from '../../../api/permissions/objects/objects';
     import { getRoleList } from '../../../api/permissions/roles/roles';
 
     export default {
@@ -148,7 +148,7 @@
                     // and send the array with changes
                     // catch statement prevents close()
                     try {
-                        await updateObjectPermissions(this.id, granteesToSend);
+                        //await updateObjectPermissions(this.id, granteesToSend);
                         this.close();
                     } catch (e) {
                     }

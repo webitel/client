@@ -44,9 +44,9 @@
 
             <template slot="edit" slot-scope="props">
                 <checkbox
-                        :value="dataList[props.rowIndex].access.u"
+                        :value="dataList[props.rowIndex].access.w"
                         :label="$t('objects.allow')"
-                        @input="patchItem({prop: 'u', index: props.rowIndex})"
+                        @input="patchItem({prop: 'w', index: props.rowIndex})"
                 ></checkbox>
             </template>
 

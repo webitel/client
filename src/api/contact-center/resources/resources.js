@@ -1,10 +1,8 @@
 import { OutboundResourceServiceApiFactory } from 'webitel-sdk';
 import instance from '../../instance';
 import configuration from '../../openAPIConfig';
-import {
-    WebitelAPIPermissionsGetter,
-    WebitelAPIPermissionsPatcher,
-} from '../../utils/ApiControllers/Permissions/PermissionsController';
+import WebitelAPIPermissionsGetter from '../../utils/ApiControllers/Permissions/WebitelAPIPermissionsGetter';
+import WebitelAPIPermissionsPatcher from '../../utils/ApiControllers/Permissions/WebitelAPIPermissionsPatcher';
 import { WebitelSDKItemDeleter } from '../../utils/ApiControllers/Deleter/SDKDeleter';
 import { WebitelSDKItemPatcher } from '../../utils/ApiControllers/Patcher/SDKPatcher';
 import { WebitelSDKItemUpdater } from '../../utils/ApiControllers/Updater/SDKUpdater';

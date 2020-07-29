@@ -3,6 +3,8 @@ import {
     getUsersList, patchUser, updateUser
 } from "../../../../api/directory/users/users";
 import {DefaultModule} from "../../defaults/DefaultModule";
+import tokens from './usersTokens';
+import permissions from './permissions';
 
 const defaultState = () => {
     return {
@@ -120,4 +122,5 @@ export default {
     getters,
     actions,
     mutations,
+    modules: {tokens, permissions}
 };

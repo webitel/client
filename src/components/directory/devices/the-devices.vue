@@ -97,8 +97,8 @@
                 <template slot="state" slot-scope="props">
                     <status
                             class="device-state"
-                            :class="computeStateClass(dataList[props.rowIndex].state)"
-                            :text="computeStateText(dataList[props.rowIndex].state)"
+                            :class="computeStateClass(dataList[props.rowIndex].reged ? 1 : 0)"
+                            :text="computeStateText(dataList[props.rowIndex].reged ? 1 : 0)"
                     >
                     </status>
                 </template>

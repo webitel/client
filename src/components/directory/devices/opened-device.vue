@@ -29,8 +29,9 @@
     import editComponentMixin from '@/mixins/editComponentMixin';
     import { mapActions, mapState } from 'vuex';
     import { ipValidator, macValidator } from '../../../utils/validators';
-    import openedDevicePhoneInfo from './opened-device-phone-info';
-    import openedDeviceGeneral from './opened-device-general';
+    import openedDevicePhoneInfo from './opened-device-phone-info.vue';
+    import openedDeviceGeneral from './opened-device-general.vue';
+    import openedDevicePermissions from './opened-device-permissions.vue';
 
     export default {
         name: 'opened-device',
@@ -38,22 +39,12 @@
         components: {
             openedDeviceGeneral,
             openedDevicePhoneInfo,
+            openedDevicePermissions,
             datepicker,
         },
 
         data() {
-            return {
-                tabs: [
-                    {
-                        text: this.$t('objects.general'),
-                        value: 'general',
-                    },
-                    {
-                        text: this.$t('objects.directory.devices.phoneInfo'),
-                        value: 'phoneInfo',
-                    },
-                ],
-            };
+            return {};
         },
 
         validations: {
@@ -85,6 +76,25 @@
             id: {
                 get() { return this.$store.state.directory.devices.itemId; },
                 set(value) { this.setId(value); },
+            },
+
+            tabs() {
+                const tabs = [{
+                        text: this.$t('objects.general'),
+                        value: 'general',
+                    },
+                    {
+                        text: this.$t('objects.directory.devices.phoneInfo'),
+                        value: 'phoneInfo',
+                    }];
+
+                const permissions = {
+                    text: this.$tc('objects.permissions.permissions', 2),
+                    value: 'permissions',
+                };
+
+                if (this.id) tabs.push(permissions);
+                return tabs;
             },
         },
 

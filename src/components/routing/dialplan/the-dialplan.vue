@@ -139,6 +139,10 @@
             };
         },
 
+        mounted() {
+            this.initSortable();
+        },
+
         watch: {
             dataList() {
                 this.initSortable();
