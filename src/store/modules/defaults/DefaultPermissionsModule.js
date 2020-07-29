@@ -44,10 +44,10 @@ export class DefaultPermissionsModule {
                 const readState = context.state.dataList[index].access.r;
                 await context.commit('PATCH_ITEM_PERMISSIONS', {prop, index});
                 let item = [{
-                    grantee_id: context.state.dataList[index].grantee.id,
-                    access: prop
+                    grantee: +context.state.dataList[index].grantee.id,
+                    grants: prop
                 }];
-                if (!readState) item[0].access += 'r';
+                if (!readState) item[0].grants += 'r';
                 try {
                     await context.dispatch('PATCH_PERMISSIONS', item);
                 } catch {
@@ -57,8 +57,8 @@ export class DefaultPermissionsModule {
 
             ADD_ITEM_ROLE: async (context, role) => {
                 const item = [{
-                    grantee_id: role.id,
-                    access: 'r'
+                    grantee: +role.id,
+                    grants: 'r'
                 }];
                 try {
                     await context.dispatch('PATCH_PERMISSIONS', item);

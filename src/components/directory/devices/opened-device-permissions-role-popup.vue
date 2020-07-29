@@ -19,17 +19,17 @@
 
 <script>
     import { mapActions, mapState } from 'vuex';
-    import popup from '../../utils/popup';
-    import dropdownSelect from '../../utils/dropdown-select';
+    import popup from '../../utils/popup.vue';
+    import dropdownSelect from '../../utils/dropdown-select.vue';
     import { getRoleList } from '../../../api/permissions/roles/roles';
 
     export default {
-        name: 'opened-queue-permissions-role-popup',
+        name: 'opened-device-permissions-role-popup',
         components: { popup, dropdownSelect },
         data() {
             return {
                 newGrantee: '',
-                dropdownOptionsList: [], // list of all roles to add new. retrieves from roles GET request
+                dropdownOptionsList: [],
             };
         },
 
@@ -38,12 +38,13 @@
         },
 
         computed: {
-            ...mapState('ccenter/queues/permissions', {
+            ...mapState('directory/devices/permissions', {
                 dataList: (state) => state.dataList,
             }),
 
             computeAvailableGrantees() {
                 // filter available grantees:
+                // eslint-disable-next-line max-len
                 return this.dropdownOptionsList.filter((grantee) => !this.dataList.some((usedGrantee) => grantee.id === usedGrantee.grantee.id));
             },
         },
@@ -62,7 +63,7 @@
                 this.dropdownOptionsList = [...response.list];
             },
 
-            ...mapActions('ccenter/queues/permissions', {
+            ...mapActions('directory/devices/permissions', {
                 addRole: 'ADD_ITEM_ROLE',
             }),
         },

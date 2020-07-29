@@ -208,6 +208,7 @@ export default {
                 variables: 'Variables',
                 varKey: 'Key',
                 varVal: 'Value',
+                token: 'Token | Tokens',
             },
             license: {
                 customers: 'Customers',
@@ -278,6 +279,9 @@ export default {
                 operations: 'Operations',
                 searchPlaceholder: 'object ..',
                 newPermissionRole: 'New grantee',
+                defaultList: 'Default',
+                grantor: 'Grantor',
+                grantee: 'Grantee',
             },
         },
         lookups: {
@@ -432,7 +436,7 @@ export default {
             agents: {
                 agents: 'Agent | Agents',
                 allAgents: 'All agents',
-                progressiveCount: "Progressive call count",
+                progressiveCount: 'Progressive call count',
                 state: 'State',
                 stateTime: 'State time',
                 addSkill: 'Add skill',

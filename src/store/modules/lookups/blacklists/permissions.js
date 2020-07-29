@@ -22,7 +22,7 @@ const getters = {};
 const actions = {
     ADD_ITEM_ROLE: async (context, role) => {
         const item = [{
-            grantee_id: role.id,
+            grantee: role.id,
             access: 'r'
         }];
         try {

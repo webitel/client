@@ -3,10 +3,8 @@ import instance from '../../instance';
 import configuration from '../../openAPIConfig';
 import store from '../../../store/store';
 import { WebitelSDKListGetter } from '../../utils/ApiControllers/ListGetter/SDKListGetter';
-import {
-    WebitelAPIPermissionsGetter,
-    WebitelAPIPermissionsPatcher,
-} from '../../utils/ApiControllers/Permissions/PermissionsController';
+import WebitelAPIPermissionsGetter from '../../utils/ApiControllers/Permissions/WebitelAPIPermissionsGetter';
+import WebitelAPIPermissionsPatcher from '../../utils/ApiControllers/Permissions/WebitelAPIPermissionsPatcher';
 import { WebitelSDKItemDeleter } from '../../utils/ApiControllers/Deleter/SDKDeleter';
 import { WebitelSDKItemUpdater } from '../../utils/ApiControllers/Updater/SDKUpdater';
 import { WebitelSDKItemCreator } from '../../utils/ApiControllers/Creator/SDKCreator';

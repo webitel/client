@@ -1,15 +1,14 @@
 import instance from '../../instance';
 import eventBus from '../../../utils/eventBus';
-import {
-    WebitelAPIPermissionsGetter,
-    WebitelAPIPermissionsPatcher,
-} from '../../utils/ApiControllers/Permissions/PermissionsController';
+import WebitelAPIPermissionsGetter from '../../utils/ApiControllers/Permissions/WebitelAPIPermissionsGetter';
+import WebitelAPIPermissionsPatcher from '../../utils/ApiControllers/Permissions/WebitelAPIPermissionsPatcher';
+import WebitelAPIDefaultAccess from '../../utils/ApiControllers/Permissions/WebitelAPIDefaultAccess';
 
+const BASE_URL = '/objclass';
 
-const BASE_URL = '/objects';
-
-const permissionsGetter = new WebitelAPIPermissionsGetter(BASE_URL);
-const permissionsPatcher = new WebitelAPIPermissionsPatcher(BASE_URL);
+ const permissionsGetter = new WebitelAPIPermissionsGetter(BASE_URL);
+ const permissionsPatcher = new WebitelAPIPermissionsPatcher(BASE_URL);
+ const defaultAccessList = new WebitelAPIDefaultAccess(BASE_URL);
 
 export const getObjectList = async (search) => {
     const defaultObject = { // default object prototype, to merge response with it to get all fields
@@ -61,20 +60,63 @@ export const patchObjectPermissions = async (id, item) => await permissionsPatch
 
 export const coerceObjectPermissionsResponse = (response) => {
     let formattedResponse = [];
-    if (response.list) {
+    if (response.items) {
         // format response before assignment
-        formattedResponse = response.list.map((item) => ({
+        formattedResponse = response.items.map((item) => ({
                 grantee: {
                     id: item.grantee.id,
                     name: item.grantee.name,
                 },
                 access: {
-                    c: item.privileges.includes('CREATE'),
-                    r: item.privileges.includes('SELECT'),
-                    u: item.privileges.includes('UPDATE'),
-                    d: item.privileges.includes('DELETE'),
+                    c: item.granted.includes('x'),
+                    r: item.granted.includes('r'),
+                    w: item.granted.includes('w'),
+                    d: item.granted.includes('d'),
                 },
             }));
     }
     return formattedResponse;
 };
+
+export const fetchObjclassDefaultList = async (oid) => {
+    const getName = (value) => {
+        switch (value) {
+            case 1:
+                return 'Forbidden';
+            case 2:
+                return 'Allow';
+            case 3:
+                return 'Allow with delegation';
+            default:
+                return '';
+        }
+    };
+    const response = await defaultAccessList.searchObjclassDefaultList(oid);
+    if (Array.isArray(response)) {
+        const list = response.map((item) => ({
+            grantee: item.grantee,
+            grantor: item.grantor,
+            perm: {
+                r: {
+                    id: ((item.granted.match(/r/g) || []).length + 1),
+                    name: getName((item.granted.match(/r/g) || []).length + 1),
+                    rule: 'r'.repeat((item.granted.match(/r/g) || []).length),
+                },
+                w: {
+                    id: ((item.granted.match(/w/g) || []).length + 1),
+                    name: getName((item.granted.match(/w/g) || []).length + 1),
+                    rule: 'w'.repeat((item.granted.match(/w/g) || []).length),
+                },
+                d: {
+                    id: ((item.granted.match(/d/g) || []).length + 1),
+                    name: getName((item.granted.match(/d/g) || []).length + 1),
+                    rule: 'd'.repeat((item.granted.match(/d/g) || []).length),
+                },
+            },
+        }));
+        return list;
+    }
+    return [];
+};
+
+export const toggleObjclassDefaultMode = async (oid, grantorId, rule) => await defaultAccessList.toggleObjclassDefaultMode(oid, grantorId, rule);

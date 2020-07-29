@@ -1,9 +1,12 @@
+import WebitelAPIPermissionsGetter from '../../utils/ApiControllers/Permissions/WebitelAPIPermissionsGetter';
+import WebitelAPIPermissionsPatcher from '../../utils/ApiControllers/Permissions/WebitelAPIPermissionsPatcher';
 import { WebitelAPIItemDeleter } from '../../utils/ApiControllers/Deleter/ApiDeleter';
 import { WebitelAPIItemPatcher } from '../../utils/ApiControllers/Patcher/ApiPatcher';
 import { WebitelAPIItemUpdater } from '../../utils/ApiControllers/Updater/ApiUpdater';
 import { WebitelAPIItemCreator } from '../../utils/ApiControllers/Creator/ApiCreator';
 import { WebitelAPIItemGetter } from '../../utils/ApiControllers/Getter/ApiGetter';
 import { WebitelAPIListGetter } from '../../utils/ApiControllers/ListGetter/ApiListGetter';
+import instance from "../../instance";
 
 const BASE_URL = '/users';
 const fieldsToSend = ['name', 'username', 'password', 'extension', 'status', 'note', 'roles', 'license', 'devices', 'device',
@@ -32,6 +35,11 @@ const defaultItem = {
     _dirty: false,
 };
 
+const defaultTokensItem = {
+    token: '',
+    usage: '',
+};
+
 const preRequestHandler = (item) => {
     if (item.device && !item.device.id) delete item.device;
     if (item.roles) item.roles.forEach((item) => delete item.text);
@@ -52,6 +60,8 @@ const itemCreator = new WebitelAPIItemCreator(BASE_URL, fieldsToSend, preRequest
 const itemUpdater = new WebitelAPIItemUpdater(BASE_URL, fieldsToSend, preRequestHandler);
 const itemPatcher = new WebitelAPIItemPatcher(BASE_URL, fieldsToSend);
 const itemDeleter = new WebitelAPIItemDeleter(BASE_URL);
+const permissionsGetter = new WebitelAPIPermissionsGetter(BASE_URL);
+const permissionsPatcher = new WebitelAPIPermissionsPatcher(BASE_URL);
 
 itemGetter.responseHandler = (response) => {
     const user = { ...defaultItem, ...response };
@@ -86,3 +96,18 @@ export const updateUser = async (id, item) => await itemUpdater.updateItem(id, i
 export const patchUser = async (id, item) => await itemPatcher.patchItem(id, item);
 
 export const deleteUser = async (id) => await itemDeleter.deleteItem(id);
+
+export async function getTokens(id) {
+    let getTokensUrl = `${BASE_URL}/${id}/tokens?`;
+    try {
+        const response = await instance.get(getTokensUrl);
+        return response.items;
+    } catch (err) {
+        throw err;
+    }
+    return [];
+}
+
+export const getUserPermissions = async (id, page = 0, size = 10, search) => await permissionsGetter.getList(id, size, search);
+
+export const patchUserPermissions = async (id, item) => await permissionsPatcher.patchItem(id, item);

@@ -1,5 +1,7 @@
 import deepCopy from 'deep-copy';
 import instance from '../../instance';
+import WebitelAPIPermissionsGetter from '../../utils/ApiControllers/Permissions/WebitelAPIPermissionsGetter';
+import WebitelAPIPermissionsPatcher from '../../utils/ApiControllers/Permissions/WebitelAPIPermissionsPatcher';
 import { WebitelAPIItemDeleter } from '../../utils/ApiControllers/Deleter/ApiDeleter';
 import { WebitelAPIItemUpdater } from '../../utils/ApiControllers/Updater/ApiUpdater';
 import { WebitelAPIItemCreator } from '../../utils/ApiControllers/Creator/ApiCreator';
@@ -49,6 +51,8 @@ const itemGetter = new WebitelAPIItemGetter(BASE_URL, defaultItem);
 const itemCreator = new WebitelAPIItemCreator(BASE_URL, fieldsToSend, preRequestHandler);
 const itemUpdater = new WebitelAPIItemUpdater(BASE_URL, fieldsToSend, preRequestHandler);
 const itemDeleter = new WebitelAPIItemDeleter(BASE_URL);
+const permissionsGetter = new WebitelAPIPermissionsGetter(BASE_URL);
+const permissionsPatcher = new WebitelAPIPermissionsPatcher(BASE_URL);
 
 itemGetter.responseHandler = (response) => {
     try {
@@ -62,21 +66,21 @@ itemGetter.responseHandler = (response) => {
 };
 
 export async function getDeviceList(page, size, search) {
-    return await listGetter.getList({ page, size, search });
+    return listGetter.getList({ page, size, search });
 }
 
 export async function getDevice(id) {
-    return await itemGetter.getItem(id);
+    return itemGetter.getItem(id);
 }
 
 export const addDevice = async (item) => {
     const itemCopy = deepCopy(item);
-    return await itemCreator.createItem(itemCopy);
+    return itemCreator.createItem(itemCopy);
 };
 
 export const updateDevice = async (id, item) => {
     const itemCopy = deepCopy(item);
-    return await itemUpdater.updateItem(id, itemCopy);
+    return itemUpdater.updateItem(id, itemCopy);
 };
 
 export const deleteDevice = async (id) => await itemDeleter.deleteItem(id);
@@ -99,3 +103,7 @@ export const getDeviceHistory = async (id, date, page = 0) => {
         throw err;
     }
 };
+
+export const getDevicePermissions = async (id, page = 0, size = 10, search) => await permissionsGetter.getList(id, size, search);
+
+export const patchDevicePermissions = async (id, item) => await permissionsPatcher.patchItem(id, item);

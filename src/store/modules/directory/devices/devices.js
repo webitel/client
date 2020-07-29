@@ -1,4 +1,5 @@
 import history from './history';
+import permissions from './permissions';
 import {
     addDevice, deleteDevice,
     getDevice, getDeviceList, updateDevice
@@ -138,5 +139,5 @@ export default {
     getters,
     actions,
     mutations,
-    modules: {history}
+    modules: {history, permissions}
 };

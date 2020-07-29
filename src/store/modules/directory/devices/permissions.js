@@ -1,5 +1,5 @@
+import {getDevicePermissions, patchDevicePermissions} from "../../../../api/directory/devices/devices";
 import {DefaultPermissionsModule} from "../../defaults/DefaultPermissionsModule";
-import {getBucketPermissions, patchBucketPermissions} from "../../../../api/contact-center/buckets/buckets";
 
 const defaultState = () => {
     return {
@@ -20,15 +20,29 @@ const state = {
 const getters = {};
 
 const actions = {
+    ADD_ITEM_ROLE: async (context, role) => {
+        const item = [{
+            grantee: role.id,
+            access: 'r'
+        }];
+        try {
+            await patchDevicePermissions(state.parentId, item);
+        } catch {}
+        finally {
+            context.dispatch('LOAD_DATA_LIST');
+        }
+    },
+
     LOAD_PERMISSIONS_LIST: async (context) => {
-        return await getBucketPermissions(context.state.parentId, context.state.page, context.state.size, context.state.search);
+        return await getDevicePermissions(context.state.parentId, context.state.page, context.state.size, context.state.search);
     },
 
     PATCH_PERMISSIONS: async (context, item) => {
-        await patchBucketPermissions(context.state.parentId, item);
+        await patchDevicePermissions(context.state.parentId, item);
     },
 
     ...defaultModule.actions,
+
 };
 
 const mutations = {
@@ -40,5 +54,5 @@ export default {
     state,
     getters,
     actions,
-    mutations,
+    mutations,    
 };

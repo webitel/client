@@ -8,9 +8,8 @@
                 <dropdown-select
                         v-model="device"
                         :label="$t('objects.directory.users.defaultDevice')"
-                        :options="dropdownOptionsList"
+                        :options="devices"
                         @search="loadDropdownOptionsList"
-                        required
                 ></dropdown-select>
 
                 <tags-input
@@ -39,6 +38,12 @@
     export default {
         name: 'opened-user-devices',
         mixins: [openedTabComponentMixin],
+        data() {
+            return {
+
+            }
+
+        },
 
         mounted() {
             this.loadDropdownOptionsList();
@@ -67,10 +72,16 @@
         methods: {
             async loadDropdownOptionsList(search) {
                 const response = await getDeviceList(0, 10, search);
-                this.dropdownOptionsList = response.list.map((item) => ({
+                if(response.list) {
+                    this.dropdownOptionsList = response.list.filter(item =>
+                        !item.hotdesk).map((item) => ({
                         name: item.name,
                         id: item.id,
                     }));
+                }
+                else {
+                    this.dropdownOptionsList = [];
+                }
             },
 
             ...mapActions('directory/users', {
