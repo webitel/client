@@ -115,6 +115,10 @@ export class DefaultNestedModule {
                 state.page--;
             },
 
+            SET_IS_NEXT: (state, next) => {
+                state.isNextPage = next;
+            },
+
             SET_ITEM_PROPERTY: (state, {prop, value}) => {
                 state.itemInstance[prop] = value;
             },

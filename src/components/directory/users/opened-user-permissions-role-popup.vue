@@ -43,8 +43,6 @@
             }),
 
             computeAvailableGrantees() {
-                // filter available grantees:
-                // eslint-disable-next-line max-len
                 return this.dropdownOptionsList.filter((grantee) => !this.dataList.some((usedGrantee) => grantee.id === usedGrantee.grantee.id));
             },
         },
@@ -57,7 +55,6 @@
                 } catch {}
             },
 
-            // get all roles to choose which to add
             async loadDropdownOptionsList(search) {
                 const response = await getRoleList(1, 10, search);
                 this.dropdownOptionsList = [...response.list];

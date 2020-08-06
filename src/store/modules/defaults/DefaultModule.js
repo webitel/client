@@ -17,8 +17,11 @@ export class DefaultModule {
             },
 
             LOAD_DATA_LIST: async (context) => {
+                if(context.state.search) {
+                    context.commit('SET_FIRST_PAGE');
+                }
                 const response = await context.dispatch('GET_LIST');
-                context.dispatch('RESET_ITEM_STATE');
+                await context.dispatch('RESET_ITEM_STATE');
                 context.commit('SET_DATA_LIST', response.list);
                 context.commit('SET_IS_NEXT', response.next);
             },
@@ -120,6 +123,10 @@ export class DefaultModule {
 
             DECREMENT_PAGE: (state) => {
                 state.page--;
+            },
+
+            SET_FIRST_PAGE: (state) => {
+                state.page = 1; 
             },
 
             SET_IS_NEXT: (state, next) => {
