@@ -1,7 +1,7 @@
 <template>
     <section>
         <token-popup
-                    v-if="popupTriggerIf"
+                    v-if="isPopup"
                     @close="closePopup"
         ></token-popup>
 
@@ -129,7 +129,7 @@
             async create() {
                 if (!this.checkValidations()) {
                     if (!this.id) await this.addParentItem();
-                    this.popupTriggerIf = true;
+                    this.isPopup = true;
                 } else {
                     eventBus.$emit('notificationError', 'Check your validations!');
                 }

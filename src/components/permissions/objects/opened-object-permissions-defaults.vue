@@ -8,10 +8,19 @@
         <header ref="rbac" class="content-header">
                 <h3 class="content-title">{{$t('objects.permissions.object.defaultList')}}</h3>
                 <div class="content-header__actions-wrap">
+                    <search
+                            v-model="search"
+                            @filterData="loadList"
+                    ></search>
                     <i
                         class="icon-icon_reload icon-action"
                         :title="$t('iconHints.reload')"
                         @click="loadList"
+                    ></i>
+                     <i
+                            class="icon-icon_plus icon-action"
+                            :title="$t('iconHints.add')"
+                            @click="popupTriggerIf = true"
                     ></i>
                 </div>
             </header>
@@ -93,6 +102,7 @@
                         name: 'Forbidden',
                         id: 1,
                     },
+
                     {
                         name: 'Allow',
                         id: 2,
@@ -101,7 +111,7 @@
                         name: 'Allow with delegation',
                         id: 3,
                     },
-                ],
+                ],                
             };
         },
 
@@ -112,6 +122,12 @@
             ...mapState('permissions/objects', {
                 defaultList: (state) => state.itemPermissionsDefaultList,
             }),
+
+            search: {
+                    get() {
+                         return this.$store.state.permissions.objects.itemSearch; },
+                    set(value) { this.setSearch(value); },
+                },
         },
 
         methods: {
