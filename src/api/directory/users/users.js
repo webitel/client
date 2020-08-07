@@ -1,3 +1,4 @@
+import deepCopy from 'deep-copy';
 import WebitelAPIPermissionsGetter from '../../utils/ApiControllers/Permissions/WebitelAPIPermissionsGetter';
 import WebitelAPIPermissionsPatcher from '../../utils/ApiControllers/Permissions/WebitelAPIPermissionsPatcher';
 import { WebitelAPIItemDeleter } from '../../utils/ApiControllers/Deleter/ApiDeleter';
@@ -97,15 +98,33 @@ export const patchUser = async (id, item) => await itemPatcher.patchItem(id, ite
 
 export const deleteUser = async (id) => await itemDeleter.deleteItem(id);
 
-export async function getTokens(id) {
-    let getTokensUrl = `${BASE_URL}/${id}/tokens?`;
+export async function getTokens(id, page = 1, size = 10, search) {
+    let getTokensUrl = `${BASE_URL}/${id}/tokens`;
+    if (search && search.slice(-1) !== '*') search += '*';
+    let url = `${getTokensUrl}?size=${size}&page=${page}`;
+    if (search) url += `&name=${search}`;
+
     try {
-        const response = await instance.get(getTokensUrl);
-        return response.items;
+        const response = await instance.get(url);
+        return {
+            list: response.items || [],
+            next: response.next || false,
+        };              
     } catch (err) {
         throw err;
     }
-    return [];
+}
+
+export async function addTokens(id, item) {
+    let getTokensUrl = `${BASE_URL}/${id}/tokens`;
+    let itemCopy = deepCopy(item);
+    delete itemCopy.token;
+    try {
+        const response = await instance.post(getTokensUrl, itemCopy);
+        return response;
+    } catch (err) {
+        throw err;
+    }
 }
 
 export const getUserPermissions = async (id, page = 0, size = 10, search) => await permissionsGetter.getList(id, size, search);

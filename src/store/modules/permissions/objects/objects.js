@@ -87,14 +87,12 @@ const actions = {
         
         let mode = '';
         switch (prop) {
-        case 'c':
         case 'x':
             mode = 'x';
             break;
         case 'r':
             mode = 'r';
             break;
-        case 'u':
         case 'w':
             mode = 'w';
             break;
@@ -137,7 +135,7 @@ const actions = {
     SEARCH_DEFAULT_LIST: async (context) => {
         console.log(`[SEARCH_DEFAULT_LIST]: (${state.itemId})`)
         if (state.itemId) {
-            const rbac = await fetchObjclassDefaultList(state.itemId, state.itemPage, state.itemSize, ''); // state.itemSearch);
+            const rbac = await fetchObjclassDefaultList(state.itemId, state.itemPage, state.itemSize, state.itemSearch);
             context.commit('CACHE_DEFAULT_LIST', rbac);
         }
     },

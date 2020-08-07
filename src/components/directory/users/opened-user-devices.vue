@@ -71,7 +71,7 @@
 
         methods: {
             async loadDropdownOptionsList(search) {
-                const response = await getDeviceList(0, 10, search);
+                const response = await getDeviceList(1, 10, search);
                 if(response.list) {
                     this.dropdownOptionsList = response.list.filter(item =>
                         !item.hotdesk).map((item) => ({
