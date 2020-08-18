@@ -33,6 +33,7 @@
     import openedQueueOutboundIvrVariables from '../opened-queue-variables';
     import openedQueueOutboundIvrTiming from './opened-queue-outbound-ivr-timing';
     import openedQueueOutboundIvrBuckets from '../opened-queue-buckets';
+    import openedQueueOutboundIvrAmd from '../opened-queue-amd';
     import openedQueueOutboundIvrPermissions from '../opened-queue-permissions';
     import openedQueueOutboundIvrLogs from '../opened-queue-logs';
 
@@ -44,6 +45,7 @@
             openedQueueOutboundIvrVariables,
             openedQueueOutboundIvrTiming,
             openedQueueOutboundIvrBuckets,
+            openedQueueOutboundIvrAmd,
             openedQueueOutboundIvrLogs,
             openedQueueOutboundIvrPermissions,
         },
@@ -106,6 +108,9 @@
                     text: this.$tc('objects.ccenter.buckets.buckets', 2),
                     value: 'buckets',
                 }, {
+                    text: this.$t('objects.ccenter.queues.amd'),
+                    value: 'amd',
+                },{
                     text: this.$tc('objects.ccenter.logs.logs', 1),
                     value: 'logs',
                 }];

@@ -34,6 +34,7 @@
     import openedQueuePredictiveDialerVariables from '../opened-queue-variables';
     import openedQueuePredictiveDialerTiming from './opened-queue-predictive-dialer-timing';
     import openedQueuePredictiveDialerBuckets from '../opened-queue-buckets';
+    import openedQueuePredictiveDialerAmd from '../opened-queue-amd';
     import openedQueuePredictiveDialerPermissions from '../opened-queue-permissions';
     import openedQueuePredictiveDialerLogs from '../opened-queue-logs';
 
@@ -45,6 +46,7 @@
             openedQueuePredictiveDialerVariables,
             openedQueuePredictiveDialerTiming,
             openedQueuePredictiveDialerBuckets,
+            openedQueuePredictiveDialerAmd,
             openedQueuePredictiveDialerLogs,
             openedQueuePredictiveDialerPermissions,
         },
@@ -106,6 +108,9 @@
                 }, {
                     text: this.$tc('objects.ccenter.buckets.buckets', 2),
                     value: 'buckets',
+                }, {
+                    text: this.$t('objects.ccenter.queues.amd'),
+                    value: 'amd',
                 }, {
                     text: this.$tc('objects.ccenter.logs.logs', 1),
                     value: 'logs',

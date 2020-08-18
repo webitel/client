@@ -31,7 +31,11 @@ const defaultInboundQueueState = () => {
     return {
         name: 'INBOUND QUEUE',
         type: 1,
-        payload: {},
+        payload: {
+            timeoutWithNoAgents: '',
+            timeBaseScore: '',
+            discardAbandonedAfter: '',
+        },
         ringtone: {},
         calendar: {},
         priority: '0',
@@ -61,6 +65,19 @@ const defaultOutboundIVRQueueState = () => {
             originateTimeout: 15,
             maxCalls: 10,
             maxOfRetry: 10,
+            amd: {
+                enabled: false,
+                allowNotSure: false,
+                maxWordLength: 5000,
+                maxNumberOfWords: 3,
+                betweenWordsSilence: 50,
+                minWordLength: 100,
+                totalAnalysisTime: 5000,
+                silenceThreshold: 256,
+                afterGreetingSilence: 800,
+                greeting: 1500,
+                initialSilence: 2500
+            },
         },
     }
 };
@@ -108,6 +125,19 @@ const defaultPredictiveDialerState = () => {
             originateTimeout: 15,
             waitForResultStatus: true,
             maxOfRetry: 10,
+            amd: {
+                enabled: false,
+                allowNotSure: false,
+                maxWordLength: 5000,
+                maxNumberOfWords: 3,
+                betweenWordsSilence: 50,
+                minWordLength: 100,
+                totalAnalysisTime: 5000,
+                silenceThreshold: 256,
+                afterGreetingSilence: 800,
+                greeting: 1500,
+                initialSilence: 2500
+            },
         },
     }
 };
@@ -156,6 +186,19 @@ const defaultProgressiveDialerState = () => {
             originateTimeout: 15,
             waitForResultStatus: true,
             maxOfRetry: 10,
+            amd: {
+                enabled: false,
+                allowNotSure: false,
+                maxWordLength: 5000,
+                maxNumberOfWords: 3,
+                betweenWordsSilence: 50,
+                minWordLength: 100,
+                totalAnalysisTime: 5000,
+                silenceThreshold: 256,
+                afterGreetingSilence: 800,
+                greeting: 1500,
+                initialSilence: 2500
+            },
         },
     }
 };
@@ -231,6 +274,12 @@ const actions = {
 
     SET_PAYLOAD_ITEM_PROPERTY: (context, payload) => {
         context.commit('SET_PAYLOAD_ITEM_PROPERTY', payload);
+        context.commit('SET_ITEM_PROPERTY', {prop: '_dirty', value: true});
+    },
+
+    SET_AMD_ITEM_PROPERTY: (context, payload) => {
+        context.commit('SET_AMD_ITEM_PROPERTY', payload);
+        context.commit('SET_ITEM_PROPERTY', {prop: '_dirty', value: true});
     },
 
     ADD_VARIABLE_PAIR: (context) => {
@@ -261,6 +310,10 @@ const mutations = {
 
     SET_PAYLOAD_ITEM_PROPERTY: (state, {prop, value}) => {
         state.itemInstance.payload[prop] = value;
+    },
+
+    SET_AMD_ITEM_PROPERTY: (state, {prop, value}) => {
+        state.itemInstance.payload.amd[prop] = value;
     },
 
     ADD_VARIABLE_PAIR: (state, pair) => {
