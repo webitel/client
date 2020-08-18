@@ -523,7 +523,18 @@ export default {
                 maxNumberOfRetry: 'Max number of retry',
                 waitForResultStatus: 'Wait for result status',
                 bucketRatio: 'Ratio',
-
+                amd: 'AMD',
+                enabled: 'Use AMD',
+                allowNotSure: 'Transfer NOTSURE to an agent',
+                maxWordLength: 'Maximum word length (ms)',
+                maxNumberOfWords: 'Maximum number of words',
+                betweenWordsSilence: 'Between words silence (ms)',
+                minWordLength: 'Minimum word length (ms)',
+                totalAnalysisTime: 'Total analysis time (ms)',
+                silenceThreshold: 'Silence threshold (ms)',
+                afterGreetingSilence: 'After greeting silence (ms)',
+                greeting: 'Greeting (ms)',
+                initialSilence: 'Initial silence (ms)',
             },
 
             logs: {
