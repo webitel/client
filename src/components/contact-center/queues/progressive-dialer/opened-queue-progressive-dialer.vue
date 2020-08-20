@@ -33,6 +33,7 @@
     import openedQueueProgressiveDialerVariables from '../opened-queue-variables';
     import openedQueueProgressiveDialerTiming from './opened-queue-progressive-dialer-timing';
     import openedQueueProgressiveDialerBuckets from '../opened-queue-buckets';
+    import openedQueueProgressiveDialerAmd from '../opened-queue-amd';
     import openedQueueProgressiveDialerPermissions from '../opened-queue-permissions';
     import openedQueueProgressiveDialerLogs from '../opened-queue-logs';
 
@@ -44,6 +45,7 @@
             openedQueueProgressiveDialerVariables,
             openedQueueProgressiveDialerTiming,
             openedQueueProgressiveDialerBuckets,
+            openedQueueProgressiveDialerAmd,
             openedQueueProgressiveDialerLogs,
             openedQueueProgressiveDialerPermissions,
         },
@@ -102,6 +104,9 @@
                     text: this.$tc('objects.ccenter.buckets.buckets', 2),
                     value: 'buckets',
                 }, {
+                    text: this.$t('objects.ccenter.queues.amd'),
+                    value: 'amd',
+                },{
                     text: this.$tc('objects.ccenter.logs.logs', 1),
                     value: 'logs',
                 }];
