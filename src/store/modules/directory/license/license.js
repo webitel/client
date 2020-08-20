@@ -68,6 +68,10 @@ const actions = {
 
 const mutations = {
     ...defaultModule.mutations,
+
+    SET_KEY_PROPERTY: (state, value) => {
+        state.key = value;
+    },
 };
 
 export default {

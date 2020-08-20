@@ -4,6 +4,9 @@ export class DefaultNestedModule {
     constructor(defaultState) {
         this.state = {
             parentId: 0,
+            page: 1,
+            isNextPage: false,
+            size: '10',
             ...defaultState()
         };
 
@@ -20,7 +23,10 @@ export class DefaultNestedModule {
                 if(context.state.parentId) {
                     const response = await context.dispatch('GET_LIST');
                     context.dispatch('RESET_ITEM_STATE');
-                    context.commit('SET_DATA_LIST', response);
+                    if(response.list) {
+                        context.commit('SET_DATA_LIST', response.list);
+                        context.commit('SET_IS_NEXT', response.isNext);
+                    }
                 }
             },
 
@@ -48,7 +54,7 @@ export class DefaultNestedModule {
 
             LOAD_ITEM: async (context) => {
                 if (context.state.itemId) {
-                    const item = await context.dispatch('GET_ITEM');
+                    let item = await context.dispatch('GET_ITEM');
                     context.commit('SET_ITEM', proxy(item));
                 }
             },

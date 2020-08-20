@@ -69,7 +69,7 @@
             return {
                 service: {},
                 serviceOptions: [
-                    { name: 'AWS S3 Bucket', value: 'S3' },
+                    { name: 'AWS S3 Bucket', value: 'aws' },
                     { name: 'Digital Ocean Spaces', value: 'do' },
                     { name: 'Custom', value: 'custom' }],
                 AWSRegions,

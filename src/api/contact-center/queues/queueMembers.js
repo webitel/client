@@ -35,10 +35,14 @@ export const getMembersList = async (queueId, page = 0, size = 10, search) => {
     try {
         const response = await memberService.searchMemberInQueue(queueId, page, size, domainId);
         if (response.items) {
-            return response.items.map((item) => {
-                item.communications = item.communications.map((comm) => ({ ...defaultObjectCommunication, ...comm }));
-                return { ...defaultObject, ...item };
-            });
+            return {
+                list: response.items.map((item) => {
+                    item.communications = item.communications.map((comm) => ({ ...defaultObjectCommunication, ...comm }));
+                    return { ...defaultObject, ...item };
+                }),
+                isNext: response.next || false,
+            }
+            
         }
         return [];
     } catch (err) {

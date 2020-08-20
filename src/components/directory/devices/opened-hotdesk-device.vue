@@ -28,7 +28,7 @@
     import datepicker from 'vuejs-datepicker';
     import editComponentMixin from '@/mixins/editComponentMixin';
     import { mapActions, mapState } from 'vuex';
-    import openedHotdeskDeviceGeneral from './opened-device-general';
+    import openedHotdeskDeviceGeneral from './opened-hotdesk-device-general';
     import openedHotdeskDeviceHotdesking from './opened-hotdesk-device-hotdesking';
     import openedHotdeskDevicePhoneInfo from './opened-device-phone-info';
     import { ipValidator, macValidator } from '../../../utils/validators';
@@ -66,9 +66,6 @@
         validations: {
             itemInstance: {
                 name: {
-                    required,
-                },
-                account: {
                     required,
                 },
                 mac: {
