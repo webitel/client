@@ -4,70 +4,70 @@
 
             <div>
                 <div class="label">{{$t('objects.ccenter.queues.enabled')}}</div>
-                <switcher
+                <wt-switcher
                         v-model="enabled"
-                ></switcher>
+                ></wt-switcher>
             </div>
 
-            <form-input
+            <wt-input
                     v-model="maxWordLength"
                     type="number"
                     :label="$t('objects.ccenter.queues.maxWordLength')"                    
-            ></form-input>
+            ></wt-input>
 
-            <form-input
+            <wt-input
                     v-model="maxNumberOfWords"
                     type="number"
                     :label="$t('objects.ccenter.queues.maxNumberOfWords')"                    
-            ></form-input>
+            ></wt-input>
 
-            <form-input
+            <wt-input
                     v-model="betweenWordsSilence"
                     type="number"
                     :label="$t('objects.ccenter.queues.betweenWordsSilence')"                    
-            ></form-input>
+            ></wt-input>
 
-            <form-input
+            <wt-input
                     v-model="minWordLength"
                     type="number"
                     :label="$t('objects.ccenter.queues.minWordLength')"                    
-            ></form-input>
+            ></wt-input>
 
-            <form-input
+            <wt-input
                     v-model="totalAnalysisTime"
                     type="number"
                     :label="$t('objects.ccenter.queues.totalAnalysisTime')"                    
-            ></form-input>
+            ></wt-input>
 
-            <form-input
+            <wt-input
                     v-model="silenceThreshold"
                     type="number"
                     :label="$t('objects.ccenter.queues.silenceThreshold')"                    
-            ></form-input>
+            ></wt-input>
 
-            <form-input
+            <wt-input
                     v-model="afterGreetingSilence"
                     type="number"
                     :label="$t('objects.ccenter.queues.afterGreetingSilence')"                    
-            ></form-input>
+            ></wt-input>
 
-            <form-input
+            <wt-input
                     v-model="greeting"
                     type="number"
                     :label="$t('objects.ccenter.queues.greeting')"                    
-            ></form-input>
+            ></wt-input>
 
-            <form-input
+            <wt-input
                     v-model="initialSilence"
                     type="number"
                     :label="$t('objects.ccenter.queues.initialSilence')"                    
-            ></form-input>
+            ></wt-input>
 
             <div>
                 <div class="label">{{$t('objects.ccenter.queues.allowNotSure')}}</div>
-                <switcher
+                <wt-switcher
                         v-model="allowNotSure"
-                ></switcher>
+                ></wt-switcher>
             </div>
 
         </form>

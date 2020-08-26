@@ -1,3 +1,4 @@
+import Vue from 'vue';
 // import main file
 import WebitelUI from '@webitel/ui-sdk/dist/ui-sdk.common';
 
@@ -5,7 +6,7 @@ import WebitelUI from '@webitel/ui-sdk/dist/ui-sdk.common';
 import WebitelUIEn from '@webitel/ui-sdk/src/locale/en/en';
 import WebitelUIRu from '@webitel/ui-sdk/src/locale/ru/ru';
 import i18n from '../locale/i18n';
-import eventBus from '../scripts/eventBus';
+import eventBus from '@webitel/ui-sdk/src/scripts/eventBus';
 
 // import styles
 import '@webitel/ui-sdk/dist/ui-sdk.css';
