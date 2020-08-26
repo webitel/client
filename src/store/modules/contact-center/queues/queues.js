@@ -65,6 +65,7 @@ const defaultOutboundIVRQueueState = () => {
             originateTimeout: 15,
             maxCalls: 10,
             maxOfRetry: 10,
+            minCallDuration: 5,
             amd: {
                 enabled: false,
                 allowNotSure: false,

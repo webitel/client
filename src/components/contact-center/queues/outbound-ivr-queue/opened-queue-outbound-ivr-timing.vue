@@ -4,18 +4,23 @@
             <h3 class="content-title">{{$t('objects.ccenter.queues.timing')}}</h3>
         </header>
         <form class="object-input-grid">
-            <div class="timings">
-                <timepicker
-                        v-model="originateTimeout"
-                        :label="$t('objects.ccenter.queues.originateTimeout')"
-                ></timepicker>
-                <timepicker
-                        v-model="secBetweenRetries"
-                        :label="$t('objects.ccenter.queues.waitBetweenRetries')"
-                ></timepicker>
-            </div>
+            <form-input
+                    v-model="originateTimeout"
+                    :label="$t('objects.ccenter.queues.originateTimeout')"
+            ></form-input>
+            
             <form-input
                     v-model="maxOfRetry"
+                    :label="$t('objects.ccenter.queues.maxNumberOfRetry')"
+            ></form-input>
+
+            <form-input
+                    v-model="secBetweenRetries"
+                    :label="$t('objects.ccenter.queues.waitBetweenRetries')"
+            ></form-input>           
+            
+            <form-input
+                    v-model="minCallDuration"
                     :label="$t('objects.ccenter.queues.maxNumberOfRetry')"
             ></form-input>
         </form>
@@ -61,6 +66,16 @@
                 set(value) {
                     value = +value;
                     this.setPayloadItemProp({ prop: 'maxOfRetry', value });
+                },
+            },
+
+            minCallDuration: {
+                get() {
+                    return this.$store.state.ccenter.queues.itemInstance.payload.minCallDuration || 0;
+                },
+                set(value) {
+                    value = +value;
+                    this.setPayloadItemProp({ prop: 'minCallDuration', value });
                 },
             },
         },
