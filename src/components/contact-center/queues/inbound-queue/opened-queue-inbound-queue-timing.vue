@@ -4,7 +4,6 @@
             <h3 class="content-title">{{$t('objects.ccenter.queues.timing')}}</h3>
         </header>
         <form class="object-input-grid">
-            <div class="timings">
                 <form-input
                         v-model="discardAbandonedAfter"
                         :label="'Discard abandoned after'"
@@ -17,14 +16,13 @@
                         v-model="timeout"
                         :label="'Timeout'"
                 ></form-input>
-            </div>
-            <div>
-                <form-input
-                        v-model="timeBaseScore"
-                        :label="'Time base score'"
-                ></form-input>
 
-            </div>
+                <dropdown-select
+                        v-model="timeBaseScore"
+                        :options="dropdownOptionsScoreList"
+                        :label="'Time base score'"
+                ></dropdown-select>
+
         </form>
     </section>
 </template>
@@ -32,14 +30,17 @@
 <script>
     import timepicker from '@/components/utils/timepicker';
     import openedTabComponentMixin from '@/mixins/openedTabComponentMixin';
-    import { mapActions } from 'vuex';
+    import {mapActions} from "vuex";
+    import DropdownSelect from "../../../utils/dropdown-select";
 
     export default {
         name: 'opened-queue-inbound-queue-timing',
         mixins: [openedTabComponentMixin],
-        components: { timepicker },
+        components: {DropdownSelect, timepicker},
         data() {
-            return {};
+            return {
+                dropdownOptionsScoreList: ['score', 'system'],
+            }
         },
 
         computed: {

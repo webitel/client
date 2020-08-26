@@ -14,7 +14,7 @@ const defaultState = () => {
         itemId: 0,
         itemInstance: {
             agent: {},
-            lvl: 12,
+            lvl: 0,
             buckets: [],
         },
     };

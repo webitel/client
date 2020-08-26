@@ -1,7 +1,6 @@
-import proxy from '../../../../utils/editProxy';
 import communications from './queue-member-communications';
 import {
-    addMember, deleteMember,
+    addMember, deleteMember, deleteMembers,
     getMember, getMembersList, updateMember
 } from "../../../../api/contact-center/queues/queueMembers";
 import {DefaultNestedModule} from "../../defaults/DefaultNestedModule";
@@ -61,6 +60,10 @@ const actions = {
         await deleteMember(state.parentId, id);
     },
 
+    DELETE_ITEMS: async (context, ids) => {
+        await deleteMembers(state.parentId, ids);
+    },
+
     SET_DESTINATION_ID: async (context, id) => {
         context.commit('SET_DESTINATION_ID', id);
     },
@@ -96,6 +99,14 @@ const actions = {
         context.commit('SET_ITEM_PROPERTY', {prop: '_dirty', value: true});
     },
 
+    REMOVE_ITEMS: async (context, {indexs, ids}) => {
+        try {
+            await context.dispatch('DELETE_ITEMS', ids);
+        } catch {
+        }
+        context.commit('REMOVE_ITEMS', indexs);
+    },
+
 };
 
 const mutations = {
@@ -128,6 +139,12 @@ const mutations = {
 
     DELETE_VARIABLE_PAIR: (state, index) => {
         state.itemInstance.variables.splice(index, 1);
+    },
+
+    REMOVE_ITEMS: (state, indexs) => {
+        for(const item of indexs) {
+            state.dataList.splice(item, 1);
+        }
     },
 };
 

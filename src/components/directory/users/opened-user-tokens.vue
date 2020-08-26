@@ -86,6 +86,7 @@
                     { name: 'createdAt', title: 'Created at' },
                     { name: 'createdBy', title: 'Created by' },
                 ],
+                isPopup: false,
             };
         },
 
@@ -133,6 +134,10 @@
                 } else {
                     eventBus.$emit('notificationError', 'Check your validations!');
                 }
+            },
+
+            closePopup() {
+                 this.isPopup = false;
             },
 
             convertTimeHHMMSS(value) {

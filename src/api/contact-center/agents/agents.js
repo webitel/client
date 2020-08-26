@@ -1,4 +1,4 @@
-import { AgentServiceApiFactory, AgentSkillServiceApiFactory } from 'webitel-sdk';
+import { AgentServiceApiFactory } from 'webitel-sdk';
 import instance from '../../instance';
 import configuration from '../../openAPIConfig';
 import store from '../../../store/store';
@@ -24,15 +24,15 @@ const itemDeleter = new WebitelSDKItemDeleter(agentService.deleteAgent);
 const permissionsGetter = new WebitelAPIPermissionsGetter(BASE_URL);
 const permissionsPatcher = new WebitelAPIPermissionsPatcher(BASE_URL);
 
-export const getAgentsList = async (page = 0, size = 10, search) => await listGetter.getList({ page, size, search });
+export const getAgentsList = async (page = 0, size = 10, search) => listGetter.getList({ page, size, search });
 
-export const getAgent = async (id) => await itemGetter.getItem(id);
+export const getAgent = async (id) => itemGetter.getItem(id);
 
-export const addAgent = async (item) => await itemCreator.createItem(item);
+export const addAgent = async (item) => itemCreator.createItem(item);
 
-export const updateAgent = async (id, item) => await itemUpdater.updateItem(id, item);
+export const updateAgent = async (id, item) => itemUpdater.updateItem(id, item);
 
-export const deleteAgent = async (id) => await itemDeleter.deleteItem(id);
+export const deleteAgent = async (id) => itemDeleter.deleteItem(id);
 
 export const getAgentUsersOptions = async (page = 0, size = 10, search) => {
     const { domainId } = store.state.userinfo;
@@ -54,7 +54,13 @@ export const getAgentTeamsList = async (id, page = 0, size = 10, search = '') =>
     const { domainId } = store.state.userinfo;
     try {
         const response = await agentService.searchAgentInTeam(id, page, size, search, domainId);
-        return response.items ? response.items : [];
+        if(response.items) {
+            return {
+                list: response.items,
+                isNext: response.next || false,
+            }
+        }
+        return [];
     } catch (err) {
         throw err;
     }
@@ -64,7 +70,13 @@ export const getAgentQueuesList = async (id, page = 0, size = 10, search = '') =
     const { domainId } = store.state.userinfo;
     try {
         const response = await agentService.searchAgentInQueue(id, page, size, search, domainId);
-        return response.items ? response.items : [];
+        if(response.items) {
+            return {
+                list: response.items,
+                isNext: response.next || false,
+            }
+        }
+        return [];
     } catch (err) {
         throw err;
     }

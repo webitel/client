@@ -4,37 +4,37 @@
             <h3 class="content-title">{{$t('objects.ccenter.queues.timing')}}</h3>
         </header>
         <form class="object-input-grid">
-            <div class="timings">
-                <timepicker
-                        v-model="originateTimeout"
-                        :label="$t('objects.ccenter.queues.originateTimeout')"
-                ></timepicker>
-                <timepicker
-                        v-model="secBetweenRetries"
-                        :label="$t('objects.ccenter.queues.waitBetweenRetries')"
-                ></timepicker>
-                <timepicker
-                        v-model="timeout"
-                        :label="$t('objects.ccenter.queues.timeout')"
-                ></timepicker>
-            </div>
-            <form-input
+            <wt-input
+                    v-model="originateTimeout"
+                    :label="$t('objects.ccenter.queues.originateTimeout')"
+            ></wt-input>
+
+            <wt-input
                     v-model="maxOfRetry"
                     :label="$t('objects.ccenter.queues.maxNumberOfRetry')"
-            ></form-input>
+            ></wt-input>
+
+            <wt-input
+                    v-model="secBetweenRetries"
+                    :label="$t('objects.ccenter.queues.waitBetweenRetries')"
+            ></wt-input>           
+            
+            <wt-input
+                    v-model="minCallDuration"
+                    :label="$t('objects.ccenter.queues.minCallDuration')"
+            ></wt-input>
         </form>
     </section>
 </template>
 
 <script>
-    import timepicker from '@/components/utils/timepicker';
     import openedTabComponentMixin from '@/mixins/openedTabComponentMixin';
     import { mapActions } from 'vuex';
 
     export default {
         name: 'opened-queue-outbound-ivr-timing',
         mixins: [openedTabComponentMixin],
-        components: { timepicker },
+        components: {},
         data() {
             return {};
         },
@@ -63,16 +63,16 @@
                     return this.$store.state.ccenter.queues.itemInstance.payload.maxOfRetry || 0;
                 },
                 set(value) {
-                    this.setPayloadItemProp({ prop: 'maxOfRetry', value });
+                    this.setPayloadItemProp({ prop: 'maxOfRetry', value: +value });
                 },
             },
 
-            timeout: {
+            minCallDuration: {
                 get() {
-                    return this.$store.state.ccenter.queues.itemInstance.timeout || 0;
+                    return this.$store.state.ccenter.queues.itemInstance.payload.minCallDuration || 0;
                 },
                 set(value) {
-                    this.setItemProp({ prop: 'timeout', value });
+                    this.setPayloadItemProp({ prop: 'minCallDuration', value: +value });
                 },
             },
         },
@@ -86,8 +86,5 @@
     };
 </script>
 
-<style lang="scss" scoped>
-    .timepicker {
-        margin-bottom: 28px;
-    }
+<style lang="scss" scoped>   
 </style>

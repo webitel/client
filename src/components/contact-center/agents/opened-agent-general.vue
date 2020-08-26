@@ -45,7 +45,7 @@
         computed: {
             user: {
                 get() { return this.$store.state.ccenter.agents.itemInstance.user; },
-                set(value) {this.setItemProp({ prop: 'user', value }); },
+                set(value) { this.setItemProp({ prop: 'user', value }); },
             },
             description: {
                 get() { return this.$store.state.ccenter.agents.itemInstance.description; },
@@ -59,7 +59,7 @@
 
         methods: {
             async loadDropdownOptionsList(search) {
-                const response = await getAgentUsersOptions(0, 10, search);
+                const response = await getAgentUsersOptions(1, 10, search);
                 this.dropdownOptionsList = response.map((item) => ({
                         name: item.name,
                         id: item.id,

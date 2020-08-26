@@ -521,6 +521,7 @@ export default {
                 waitBetweenRetries: 'Wait between retries',
                 timeout: 'Timeout',
                 maxNumberOfRetry: 'Max number of retry',
+                minCallDuration: 'Minimum succeed call duration',
                 waitForResultStatus: 'Wait for result status',
                 bucketRatio: 'Ratio',
                 amd: 'AMD',

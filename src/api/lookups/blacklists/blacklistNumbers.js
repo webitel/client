@@ -20,7 +20,10 @@ export const getBlacklistCommunicationList = async (listId, page = 0, size = 10,
     try {
         const response = await listService.searchListCommunication(listId, page, size, search, domainId);
         if (response.items) {
-            return response.items.map((item) => ({ ...defaultObject, ...item }));
+            return {
+                list: response.items.map((item) => ({ ...defaultObject, ...item })),
+                isNext: response.next || false,
+            }
         }
         return [];
     } catch (err) {
