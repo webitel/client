@@ -8,7 +8,7 @@
                     v-model="originateTimeout"
                     :label="$t('objects.ccenter.queues.originateTimeout')"
             ></form-input>
-            
+
             <form-input
                     v-model="maxOfRetry"
                     :label="$t('objects.ccenter.queues.maxNumberOfRetry')"
@@ -21,7 +21,7 @@
             
             <form-input
                     v-model="minCallDuration"
-                    :label="$t('objects.ccenter.queues.maxNumberOfRetry')"
+                    :label="$t('objects.ccenter.queues.minCallDuration')"
             ></form-input>
         </form>
     </section>
