@@ -13,10 +13,6 @@
                         v-model="secBetweenRetries"
                         :label="$t('objects.ccenter.queues.waitBetweenRetries')"
                 ></timepicker>
-                <timepicker
-                        v-model="timeout"
-                        :label="$t('objects.ccenter.queues.timeout')"
-                ></timepicker>
             </div>
             <form-input
                     v-model="maxOfRetry"
@@ -63,16 +59,8 @@
                     return this.$store.state.ccenter.queues.itemInstance.payload.maxOfRetry || 0;
                 },
                 set(value) {
+                    value = +value;
                     this.setPayloadItemProp({ prop: 'maxOfRetry', value });
-                },
-            },
-
-            timeout: {
-                get() {
-                    return this.$store.state.ccenter.queues.itemInstance.timeout || 0;
-                },
-                set(value) {
-                    this.setItemProp({ prop: 'timeout', value });
                 },
             },
         },

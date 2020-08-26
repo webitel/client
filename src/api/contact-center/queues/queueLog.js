@@ -11,7 +11,7 @@ export const getQueueCallLogList = async (queueId, page = 0, size = 10, sort) =>
             page,
             size,
             0,
-            Date.now() * 1000,
+            Date.now(),
             undefined,
             queueId,
             undefined,
@@ -23,7 +23,10 @@ export const getQueueCallLogList = async (queueId, page = 0, size = 10, sort) =>
             domainId,
         );
         if (response.items) {
-            return response.items;
+            return {
+                list: response.items,
+                isNext: response.next || false,
+            }            
         }
         return [];
     } catch (err) {

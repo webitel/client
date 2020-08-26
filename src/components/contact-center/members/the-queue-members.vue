@@ -233,6 +233,21 @@
                 });
             },
 
+            async remove(rowIndex, items) {
+                if (items) {
+                    let indexs = [];
+                    let ids = []
+                    for (const item of items) {
+                        indexs.push(this.dataList.indexOf(item));
+                        ids.push(item.id);
+                    }
+                    await this.removeItems({indexs, ids}); 
+                } else {    
+                    await this.removeItem(rowIndex);               
+                }
+                this.loadList();
+            },
+
             ...mapActions('ccenter/queues/members', {
                 setDestinationId: 'SET_DESTINATION_ID',
                 setParentId: 'SET_PARENT_ITEM_ID',
@@ -243,6 +258,7 @@
                 nextPage: 'NEXT_PAGE',
                 prevPage: 'PREV_PAGE',
                 removeItem: 'REMOVE_ITEM',
+                removeItems: 'REMOVE_ITEMS',
             }),
 
         },

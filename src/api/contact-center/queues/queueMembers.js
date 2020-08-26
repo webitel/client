@@ -42,7 +42,6 @@ export const getMembersList = async (queueId, page = 0, size = 10, search) => {
                 }),
                 isNext: response.next || false,
             }
-            
         }
         return [];
     } catch (err) {
@@ -128,6 +127,15 @@ export const deleteMember = async (queueId, id) => {
     const { domainId } = store.state.userinfo;
     try {
         await memberService.deleteMember(queueId, id, domainId);
+    } catch (err) {
+        throw err;
+    }
+};
+
+export const deleteMembers = async (queueId, ids) => {
+    const { domainId } = store.state.userinfo;
+    try {
+        await memberService.deleteMembers(queueId, { ids }, domainId);
     } catch (err) {
         throw err;
     }

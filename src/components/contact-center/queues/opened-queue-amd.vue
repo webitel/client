@@ -11,46 +11,55 @@
 
             <form-input
                     v-model="maxWordLength"
+                    type="number"
                     :label="$t('objects.ccenter.queues.maxWordLength')"                    
             ></form-input>
 
             <form-input
                     v-model="maxNumberOfWords"
+                    type="number"
                     :label="$t('objects.ccenter.queues.maxNumberOfWords')"                    
             ></form-input>
 
             <form-input
                     v-model="betweenWordsSilence"
+                    type="number"
                     :label="$t('objects.ccenter.queues.betweenWordsSilence')"                    
             ></form-input>
 
             <form-input
                     v-model="minWordLength"
+                    type="number"
                     :label="$t('objects.ccenter.queues.minWordLength')"                    
             ></form-input>
 
             <form-input
                     v-model="totalAnalysisTime"
+                    type="number"
                     :label="$t('objects.ccenter.queues.totalAnalysisTime')"                    
             ></form-input>
 
             <form-input
                     v-model="silenceThreshold"
+                    type="number"
                     :label="$t('objects.ccenter.queues.silenceThreshold')"                    
             ></form-input>
 
             <form-input
                     v-model="afterGreetingSilence"
+                    type="number"
                     :label="$t('objects.ccenter.queues.afterGreetingSilence')"                    
             ></form-input>
 
             <form-input
                     v-model="greeting"
+                    type="number"
                     :label="$t('objects.ccenter.queues.greeting')"                    
             ></form-input>
 
             <form-input
                     v-model="initialSilence"
+                    type="number"
                     :label="$t('objects.ccenter.queues.initialSilence')"                    
             ></form-input>
 
