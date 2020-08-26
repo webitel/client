@@ -5,6 +5,7 @@ import router from './router/router';
 import store from './store/store';
 import i18n from './locale/i18n';
 import Icon from './components/utils/icon-wrap.vue';
+import './plugins/webitel-ui';
 
 import './assets/lib/normalize.scss';
 import './assets/lib/bootstrap-grid.min.css';
