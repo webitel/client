@@ -45,7 +45,7 @@
                     return this.$store.state.ccenter.queues.itemInstance.payload.originateTimeout || 0;
                 },
                 set(value) {
-                    this.setPayloadItemProp({ prop: 'originateTimeout', value });
+                    this.setPayloadItemProp({ prop: 'originateTimeout', value: +value });
                 },
             },
 
@@ -54,7 +54,7 @@
                     return this.$store.state.ccenter.queues.itemInstance.payload.secBetweenRetries || 0;
                 },
                 set(value) {
-                    this.setPayloadItemProp({ prop: 'secBetweenRetries', value });
+                    this.setPayloadItemProp({ prop: 'secBetweenRetries', value: +value });
                 },
             },
 
