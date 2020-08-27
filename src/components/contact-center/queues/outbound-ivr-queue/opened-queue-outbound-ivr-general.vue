@@ -52,6 +52,7 @@
 
             <form-input
                     v-model="maxCalls"
+                    type="number"
                     :label="$t('objects.ccenter.queues.callLimit')"
             ></form-input>
 
@@ -80,11 +81,8 @@
                 dropdownOptionsCalendarList: [],
                 dropdownOptionsBlacklistList: [],
                 dropdownOptionsStrategyList: [
-                    { name: 'Random', value: 'random' },
-                    { name: 'Strict circuit', value: 'strict-circuit' },
-                    { name: 'Next try circuit', value: 'next-try-circuit' },
-                    { name: 'By buckets', value: 'by-buckets' },
-                    { name: 'By skills', value: 'by-skills' },
+                    { name: 'FIFO', value: 'fifo' },
+                    { name: 'LIFO', value: 'lifo' }
                 ],
                 dropdownOptionsPriorityList: ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10'],
                 dropdownOptionsSchemaList: [],
@@ -157,7 +155,7 @@
                     return this.$store.state.ccenter.queues.itemInstance.payload.maxCalls;
                 },
                 set(value) {
-                    this.setPayloadItemProp({ prop: 'maxCalls', value });
+                    this.setPayloadItemProp({ prop: 'maxCalls', value: +value });
                 },
             },
 
