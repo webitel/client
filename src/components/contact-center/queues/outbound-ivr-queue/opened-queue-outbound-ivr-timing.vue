@@ -6,21 +6,25 @@
         <form class="object-input-grid">
             <wt-input
                     v-model="originateTimeout"
+                    type="number"
                     :label="$t('objects.ccenter.queues.originateTimeout')"
             ></wt-input>
 
             <wt-input
                     v-model="maxOfRetry"
+                    type="number"
                     :label="$t('objects.ccenter.queues.maxNumberOfRetry')"
             ></wt-input>
 
             <wt-input
                     v-model="secBetweenRetries"
+                    type="number"
                     :label="$t('objects.ccenter.queues.waitBetweenRetries')"
             ></wt-input>           
             
             <wt-input
                     v-model="minCallDuration"
+                    type="number"
                     :label="$t('objects.ccenter.queues.minCallDuration')"
             ></wt-input>
         </form>

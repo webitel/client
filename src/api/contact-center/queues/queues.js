@@ -19,12 +19,9 @@ const BASE_URL = '/call_center/queues';
 const fieldsToSend = ['domainId', 'name', 'type', 'strategy', 'team', 'priority', 'dncList', 'schema',
     'payload', 'maxOfRetry', 'timeout', 'secBetweenRetries', 'variables', 'calendar', 'description', 'enabled', 'ringtone'];
 
-export const strategiesList = {
-    random: 'Random',
-    'strict-circuit': 'Strict circuit',
-    'next-try-circuit': 'Next try circuit',
-    'by-buckets': 'By buckets',
-    'by-skills': 'By skills',
+export const strategiesList = {    
+    'fifo': 'FIFO',
+    'lifo': 'LIFO',
 };
 
 const defaultListObject = {
