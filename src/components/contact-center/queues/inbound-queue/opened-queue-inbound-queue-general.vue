@@ -47,7 +47,7 @@
                     v-model="ringtone"
                     :v="v.itemInstance.ringtone"
                     :options="dropdownOptionsMediaList"
-                    :label="'Ringtone'"
+                    :label="$t('objects.ccenter.queues.ringtone')"
                     @search="loadDropdownOptionsMediaList"
             ></dropdown-select>
 

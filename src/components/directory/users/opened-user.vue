@@ -96,7 +96,7 @@
                         value: 'variables',
                     },
                     {
-                        text: 'Tokens',
+                        text: this.$t('objects.directory.users.tokens'),
                         value: 'tokens',
                     }];
 
