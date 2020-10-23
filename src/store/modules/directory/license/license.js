@@ -16,19 +16,15 @@ const state = {
 const getters = {};
 
 const actions = {
+    ...defaultModule.actions,
+
     GET_LIST: async () => {
         return await getLicenseList(state.page, state.size, state.search);
     },
 
     UPD_ITEM: async () => {
         return await updateLicense(state.key);
-    },
-
-    LOAD_DATA_LIST: async (context) => {
-        const response = await context.dispatch('GET_LIST');
-        context.dispatch('RESET_ITEM_STATE');
-        context.commit('SET_DATA_LIST', response);
-    },
+    },    
 
     SET_SIZE: (context, size) => {
         context.commit('SET_SIZE', size);

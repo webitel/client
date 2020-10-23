@@ -3,13 +3,15 @@
         <header class="content-header">
             <h3 class="content-title">{{$t('objects.directory.license.license')}}</h3>
         </header>
-        <form class="object-input-grid">
-            <tags-input
+        <form class="object-input-grid">           
+            <wt-select
                     v-model="license"
-                    :options="dropdownOptionsList"
+                    :close-on-select="false"
                     :label="$t('objects.directory.license.license')"
-                    @search="loadDropdownOptionsList"
-            ></tags-input>
+                    :search="loadDropdownOptionsList"
+                    :internal-search="false"
+                    multiple
+                ></wt-select>
         </form>
     </section>
 </template>
@@ -22,11 +24,7 @@
     export default {
         name: 'opened-user-license',
         mixins: [openedTabComponentMixin],
-
-        mounted() {
-            this.loadDropdownOptionsList();
-        },
-
+       
         computed: {
             license: {
                 get() {
@@ -40,8 +38,8 @@
 
         methods: {
             async loadDropdownOptionsList(search) {
-                const response = await getLicenseList(0, 10, search);
-                this.dropdownOptionsList = response.map((item) => ({
+                const response = await getLicenseList(0, 10, search);                
+                return response.list.map((item) => ({
                         name: item.product,
                         id: item.id,
                     }));
