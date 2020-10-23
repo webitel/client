@@ -6,21 +6,21 @@
         <form class="object-input-grid">
                 <form-input
                         v-model="discardAbandonedAfter"
-                        :label="'Discard abandoned after'"
+                        :label="$t('objects.ccenter.queues.discardAbandonedAfter')"
                 ></form-input>
                 <form-input
                         v-model="timeoutWithNoAgents"
-                        :label="'Timeout with no agents'"
+                        :label="$t('objects.ccenter.queues.timeoutWithNoAgents')"
                 ></form-input>
                 <form-input
                         v-model="timeout"
-                        :label="'Timeout'"
+                        :label="$t('objects.ccenter.queues.timeout')"
                 ></form-input>
 
                 <dropdown-select
                         v-model="timeBaseScore"
                         :options="dropdownOptionsScoreList"
-                        :label="'Time base score'"
+                        :label="$t('objects.ccenter.queues.timeBaseScore')"
                 ></dropdown-select>
 
         </form>

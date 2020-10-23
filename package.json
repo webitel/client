@@ -35,7 +35,7 @@
     "vuex": "^3.0.1",
     "lodash": "latest",
     "webitel-sdk": "^0.0.93",
-    "@webitel/ui-sdk": "0.4.14"
+    "@webitel/ui-sdk": "0.5.4"
   },
   "devDependencies": {
     "@vue/cli-plugin-babel": "^3.10.0",

@@ -82,9 +82,9 @@
         data() {
             return {
                 fields: [
-                    { name: 'usage', title: 'Usage' },
-                    { name: 'createdAt', title: 'Created at' },
-                    { name: 'createdBy', title: 'Created by' },
+                    { name: 'usage', title: $t('objects.directory.users.usage') },
+                    { name: 'createdAt', title: $t('objects.directory.users.createdAt') },
+                    { name: 'createdBy', title: $t('objects.directory.users.createdBy') },
                 ],
                 isPopup: false,
             };
