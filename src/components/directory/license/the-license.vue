@@ -18,10 +18,10 @@
                     {{$t('objects.directory.license.allLicenses')}}
                 </h3>
                 <div class="content-header__actions-wrap">
-                    <search
-                            v-model="search"
-                            @filterData="loadList"
-                    ></search>
+                    <wt-search-bar
+                        v-model="search"
+                        @search="loadList"
+                    ></wt-search-bar>
                     <i
                             class="icon-icon_upload icon-action"
                             :title="$t('iconHints.upload')"
