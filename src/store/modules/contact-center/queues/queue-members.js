@@ -40,6 +40,21 @@ const actions = {
 
     ...defaultModule.actions,
 
+    ADD_ITEM: async (context) => {
+        if (!context.state.itemId) {
+            const id = await context.dispatch('POST_ITEM');
+            context.dispatch('SET_ITEM_ID', id);
+            await context.dispatch('LOAD_ITEM');
+        }
+    },
+
+    UPDATE_ITEM: async (context) => {
+        if (context.state.itemInstance._dirty) {
+            await context.dispatch('UPD_ITEM');
+            await context.dispatch('LOAD_ITEM');
+        }
+    },
+
     GET_LIST: async () => {
         return await getMembersList(state.parentId, state.page, state.size, state.search);
     },

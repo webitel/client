@@ -29,7 +29,7 @@ const defaultState = () => {
 
 const defaultInboundQueueState = () => {
     return {
-        name: 'INBOUND QUEUE',
+        name: '',
         type: 1,
         payload: {
             timeoutWithNoAgents: '',
@@ -43,13 +43,13 @@ const defaultInboundQueueState = () => {
         schema: {},
         team: {},
         variables: [],
-        description: 'DESCRIPTION',
+        description: '',
     }
 };
 
 const defaultOutboundIVRQueueState = () => {
     return {
-        name: 'OUTBOUND IVR QUEUE',
+        name: '',
         type: 2,
         calendar: {},
         priority: '0',
@@ -58,14 +58,14 @@ const defaultOutboundIVRQueueState = () => {
         variables: [],
         strategy: {},
         ringtone: {},
-        description: 'DESCRIPTION',
+        description: '',
         timeout: 10,
         payload: {
             secBetweenRetries: 30 * 3600, //30h
             originateTimeout: 15,
             maxCalls: 10,
-            maxOfRetry: 10,
-            minCallDuration: 5,
+            maxAttempts: 10,
+            minDuration: 5,
             amd: {
                 enabled: false,
                 allowNotSure: false,
@@ -85,7 +85,7 @@ const defaultOutboundIVRQueueState = () => {
 
 const defaultOfflineQueueState = () => {
     return {
-        name: 'OFFLINE QUEUE',
+        name: '',
         type: 0,
         calendar: {},
         priority: '0',
@@ -95,20 +95,20 @@ const defaultOfflineQueueState = () => {
         variables: [],
         strategy: {},
         ringtone: {},
-        description: 'DESCRIPTION',
+        description: '',
         timeout: 10,
         payload: {
-            secBetweenRetries: 30 * 3600, //30h
+            waitBetweenRetries: 30 * 3600, //30h
             originateTimeout: 15,
             waitForResultStatus: true,
-            maxOfRetry: 10,
+            maxAttempts: 10,
         },
     }
 };
 
 const defaultPredictiveDialerState = () => {
     return {
-        name: 'PREDICTIVE DIALER',
+        name: '',
         type: 5,
         calendar: {},
         priority: '0',
@@ -117,15 +117,15 @@ const defaultPredictiveDialerState = () => {
         team: {},
         variables: [],
         strategy: {},
-        description: 'DESCRIPTION',
+        description: '',
 
         timeout: 10,
         ringtone: {},
         payload: {
-            secBetweenRetries: 30 * 3600, //30h
+            waitBetweenRetries: 30 * 3600, //30h
             originateTimeout: 15,
             waitForResultStatus: true,
-            maxOfRetry: 10,
+            maxAttempts: 10,
             amd: {
                 enabled: false,
                 allowNotSure: false,
@@ -145,7 +145,7 @@ const defaultPredictiveDialerState = () => {
 
 const defaultPreviewDialerState = () => {
     return {
-        name: 'PREVIEW DIALER',
+        name: '',
         type: 3,
         calendar: {},
         priority: '0',
@@ -155,21 +155,21 @@ const defaultPreviewDialerState = () => {
         variables: [],
         strategy: {},
         ringtone: {},
-        description: 'DESCRIPTION',
+        description: '',
 
         timeout: 10,
         payload: {
-            secBetweenRetries: 30 * 3600, //30h
+            waitBetweenRetries: 30 * 3600, //30h
             originateTimeout: 15,
             waitForResultStatus: true,
-            maxOfRetry: 10,
+            maxAttempts: 10,
         },
     }
 };
 
 const defaultProgressiveDialerState = () => {
     return {
-        name: 'PROGRESSIVE DIALER',
+        name: '',
         type: 4,
         calendar: {},
         priority: '0',
@@ -179,17 +179,18 @@ const defaultProgressiveDialerState = () => {
         variables: [],
         strategy: {},
         ringtone: {},
-        description: 'DESCRIPTION',
+        description: '',
 
         timeout: 10,
         payload: {
-            secBetweenRetries: 30 * 3600, //30h
+            waitBetweenRetries: 30 * 3600, //30h
             originateTimeout: 15,
             waitForResultStatus: true,
-            maxOfRetry: 10,
+            maxAttempts: 10,
+            allowGreetingAgent: false,
             amd: {
                 enabled: false,
-                allowNotSure: false,
+                allowNotSure: false,                
                 maxWordLength: 5000,
                 maxNumberOfWords: 3,
                 betweenWordsSilence: 50,

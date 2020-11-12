@@ -1,34 +1,49 @@
 <template>
-    <div>
-        <object-header
-                :primaryText="computePrimaryText"
-                :primaryAction="save"
-                :primaryDisabled="computeDisabled"
-                close
-        >
-            {{$t('objects.ccenter.queues.outboundIVRQueue')}} |
-            {{computeTitle}}
-        </object-header>
-        <tabs-component
+    <wt-page-wrapper :actions-panel="currentTab.actionsPanel">
+        <template slot="header">
+            <wt-headline>
+                <template slot="title">
+                    {{$t('objects.ccenter.queues.outboundIVRQueue')}} |
+                    {{computeTitle}}
+                </template>
+                <template slot="actions">
+                    <wt-button
+                            color="secondary"
+                            @click="back"
+                    >
+                        {{$t('objects.close')}}
+                    </wt-button>
+                    <wt-button
+                            :disabled="computeDisabled"
+                            @click="save"
+                    >
+                        {{computePrimaryText || $t('objects.addNew')}}
+                    </wt-button>
+                </template>
+            </wt-headline>
+        </template>
+        
+        <template slot="main">
+            <div style="display: flex; flex-direction: column; width: 100%;">
+                <wt-tabs 
                 :tabs="tabs"
-                :root="$options.name"
-        >
-            <template slot="component" slot-scope="props">
+                v-model="currentTab"
+            >
+            </wt-tabs>
                 <component
-                        class="tabs-inner-component"
-                        :is="props.currentTab"
-                        :v="$v"
-                ></component>
-            </template>
-        </tabs-component>
-    </div>
+                    :is="$options.name + '-' + currentTab.value"
+                    :v="$v"
+                 ></component>       
+            </div>         
+        </template>
+    </wt-page-wrapper>
 </template>
 
 <script>
     import editComponentMixin from '@/mixins/editComponentMixin';
     import { required } from 'vuelidate/lib/validators';
     import { mapActions, mapState } from 'vuex';
-    import openedQueueOutboundIvrGeneral from './opened-queue-outbound-ivr-general';
+    import OpenedQueueOutboundIvrGeneral from './opened-queue-outbound-ivr-general';
     import openedQueueOutboundIvrResources from '../opened-queue-resources';
     import openedQueueOutboundIvrVariables from '../opened-queue-variables';
     import openedQueueOutboundIvrTiming from './opened-queue-outbound-ivr-timing';
@@ -40,7 +55,7 @@
     export default {
         name: 'opened-queue-outbound-ivr',
         components: {
-            openedQueueOutboundIvrGeneral,
+            OpenedQueueOutboundIvrGeneral,
             openedQueueOutboundIvrResources,
             openedQueueOutboundIvrVariables,
             openedQueueOutboundIvrTiming,
@@ -52,7 +67,12 @@
         mixins: [editComponentMixin],
 
         data() {
-            return {};
+            return {
+                currentTab: { 
+                    value: 'general',
+                    actionsPanel: false,
+                },
+            };
         },
 
         // by vuelidate
@@ -65,9 +85,6 @@
                     required,
                 },
                 strategy: {
-                    required,
-                },
-                schema: {
                     required,
                 },
             },
@@ -95,29 +112,37 @@
                 const tabs = [{
                     text: this.$t('objects.general'),
                     value: 'general',
+                    actionsPanel: false,
                 }, {
                     text: this.$tc('objects.ccenter.res.res', 2),
                     value: 'resources',
+                    actionsPanel: false,
                 }, {
                     text: this.$tc('objects.ccenter.queues.variables', 2),
                     value: 'variables',
+                    actionsPanel: false,
                 }, {
                     text: this.$t('objects.ccenter.queues.timing'),
                     value: 'timing',
+                    actionsPanel: false,
                 }, {
                     text: this.$tc('objects.ccenter.buckets.buckets', 2),
                     value: 'buckets',
+                    actionsPanel: false,
                 }, {
                     text: this.$t('objects.ccenter.queues.amd'),
                     value: 'amd',
+                    actionsPanel: false,
                 },{
                     text: this.$tc('objects.ccenter.logs.logs', 1),
                     value: 'logs',
+                    actionsPanel: true,
                 }];
 
                 const permissions = {
                     text: this.$tc('objects.permissions.permissions', 2),
                     value: 'permissions',
+                    actionsPanel: false,
                 };
 
                 if (this.id) tabs.push(permissions);
@@ -126,6 +151,10 @@
         },
 
         methods: {
+            back() {
+                this.$router.go(-1);
+            },
+
             ...mapActions('ccenter/queues', {
                 setId: 'SET_ITEM_ID',
                 loadItem: 'LOAD_ITEM',
@@ -138,6 +167,8 @@
 
 
 <style lang="scss" scoped>
+    @import '@/assets/css/objects/table-page';
+    
     .value-pair-wrap {
         margin-top: 8px;
     }

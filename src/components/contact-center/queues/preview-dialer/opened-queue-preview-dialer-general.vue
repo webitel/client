@@ -42,15 +42,6 @@
             ></dropdown-select>
 
             <dropdown-select
-                    v-model="schema"
-                    :v="v.itemInstance.schema"
-                    :options="dropdownOptionsSchemaList"
-                    :label="$t('objects.routing.schema')"
-                    @search="loadDropdownOptionsSchemaList"
-                    required
-            ></dropdown-select>
-
-            <dropdown-select
                     v-model="team"
                     :v="v.itemInstance.team"
                     :options="dropdownOptionsTeamList"
@@ -73,7 +64,6 @@
     import { mapActions } from 'vuex';
     import { getCalendarList } from '../../../../api/lookups/calendars/calendars';
     import { getBlacklistList } from '../../../../api/lookups/blacklists/blacklists';
-    import { getFlowList } from '../../../../api/routing/flow/flow';
     import { getTeamsList } from '../../../../api/contact-center/teams/teams';
 
     export default {
@@ -84,14 +74,10 @@
                 dropdownOptionsCalendarList: [],
                 dropdownOptionsBlacklistList: [],
                 dropdownOptionsStrategyList: [
-                    { name: 'Random', value: 'random' },
-                    { name: 'FIFO', value: 'fifo' },
-                    { name: 'LIFO', value: 'lifo' },
-                    // { name: 'By buckets', value: 'by-buckets' },
-                    // { name: 'By skills', value: 'by-skills' },
+                    { name: 'FIFO', id: 1, value: 'fifo' },
+                    { name: 'LIFO', id: 2, value: 'lifo' }
                 ],
                 dropdownOptionsPriorityList: ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10'],
-                dropdownOptionsSchemaList: [],
                 dropdownOptionsTeamList: [],
             };
         },
@@ -99,7 +85,6 @@
         mounted() {
             this.loadDropdownOptionsCalendarList();
             this.loadDropdownOptionsBlacklistList();
-            this.loadDropdownOptionsSchemaList();
             this.loadDropdownOptionsTeamList();
         },
 
@@ -149,14 +134,7 @@
                 },
             },
 
-            schema: {
-                get() {
-                    return this.$store.state.ccenter.queues.itemInstance.schema;
-                },
-                set(value) {
-                    this.setItemProp({ prop: 'schema', value });
-                },
-            },
+            
 
             team: {
                 get() {
@@ -192,15 +170,7 @@
                         name: item.name,
                         id: item.id,
                     }));
-            },
-
-            async loadDropdownOptionsSchemaList(search) {
-                const response = await getFlowList(0, 10, search);
-                this.dropdownOptionsSchemaList = response.list.map((item) => ({
-                        name: item.name,
-                        id: item.id,
-                    }));
-            },
+            },            
 
             async loadDropdownOptionsTeamList(search) {
                 const response = await getTeamsList(0, 10, search);

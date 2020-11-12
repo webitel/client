@@ -6,68 +6,68 @@
 
         <loader v-show="!isLoaded"></loader>
 
-        <vuetable ref="vuetable"
+        <wt-table ref="vuetable"
                 v-show="isLoaded"
-                :api-mode="false"
-                :fields="fields"
-                :data-manager="dataManager"
-                :show-sort-icons="true"
+                :headers="fields"
+                sortable
+                :data="dataList"
+                @sort="sort = getNextSort($event.sort)"
         >
-            <template slot="number" slot-scope="props">
+            <template slot="number" slot-scope="{item}">
                 <div>
-                    {{dataList[props.rowIndex].destination.destination}}
+                    {{item.destination.destination}}
                 </div>
             </template>
 
-            <template slot="agent" slot-scope="props">
-                <div v-if="dataList[props.rowIndex].agent">
-                    {{dataList[props.rowIndex].agent.name}}
+            <template slot="agent" slot-scope="{item}">
+                <div v-if="item.agent">
+                    {{item.agent.name}}
                 </div>
             </template>
 
-            <template slot="start" slot-scope="props">
+            <template slot="start" slot-scope="{item}">
                 <div>
-                    {{formatDate(dataList[props.rowIndex].joinedAt)}}
+                    {{formatDate(item.joinedAt)}}
                 </div>
             </template>
 
-            <template slot="offering" slot-scope="props">
+            <template slot="offering" slot-scope="{item}">
                 <div>
-                    {{getDuration(props.rowIndex)}}
+                    {{formatDate(item.offeringAt)}}
                 </div>
             </template>
 
-            <template slot="end" slot-scope="props">
+            <template slot="end" slot-scope="{item}">
                 <div>
-                    {{formatDate(dataList[props.rowIndex].leavingAt)}}
+                    {{formatDate(item.leavingAt)}}
                 </div>
             </template>
 
-            <template slot="attempt" slot-scope="props">
-                <div>
-                    {{"no data"}}
-                </div>
-            </template>
-
-            <template slot="duration" slot-scope="props">
+            <template slot="attempt" >
                 <div>
                     {{"no data"}}
                 </div>
             </template>
 
-            <template slot="name" slot-scope="props">
+            <template slot="duration" >
                 <div>
-                    {{dataList[props.rowIndex].destination.description}}
+                    {{"no data"}}
                 </div>
             </template>
 
-            <template slot="result" slot-scope="props">
+            <template slot="name" slot-scope="{item}">
                 <div>
-                    {{dataList[props.rowIndex].result}}
+                    {{item.destination.description}}
                 </div>
             </template>
 
-        </vuetable>
+            <template slot="result" slot-scope="{item}">
+                <div>
+                    {{item.result}}
+                </div>
+            </template>
+
+        </wt-table>
         <pagination
                 v-show="isLoaded"
                 v-model="size"
@@ -100,15 +100,15 @@
                         },
                     ],
                 fields: [
-                    { name: 'number', title: 'Number', sortField: 'number' },
-                    { name: 'agent', title: this.$tc('objects.ccenter.agents.agents', 1), sortField: 'agent' },
-                    { name: 'start', title: 'Call start', sortField: 'joined_at' },
-                    { name: 'end', title: 'Call end', sortField: 'joined_at' },
-                    { name: 'offering', title: 'Offering time', sortField: 'offering' },
-                    { name: 'attempt', title: 'Attempts', sortField: 'attempt' },
-                    { name: 'duration', title: 'Duration', sortField: 'duration' },
-                    { name: 'name', title: 'View number', sortField: 'name' },
-                    { name: 'result', title: 'Call result', sortField: 'result' },
+                    { value: 'number', text: 'Number', sortField: 'number', sort: 'asc' },
+                    { value: 'agent', text: this.$tc('objects.ccenter.agents.agents', 1), sortField: 'agent' },
+                    { value: 'start', text: 'Call start', sortField: 'joined_at' },
+                    { value: 'end', text: 'Call end', sortField: 'joined_at' },
+                    { value: 'offering', text: 'Offering time', sortField: 'offering' },
+                    { value: 'attempt', text: 'Attempts', sortField: 'attempt' },
+                    { value: 'duration', text: 'Duration', sortField: 'duration' },
+                    { value: 'name', text: 'View number', sortField: 'name' },
+                    { value: 'result', text: 'Call result', sortField: 'result' },
 
                 ],
             };
@@ -119,9 +119,9 @@
                 this.setParentId(value);
             },
 
-            dataList() {
-                this.$refs.vuetable.setData(this.dataList);
-            },
+            // dataList() {
+            //     this.$refs.vuetable.setData(this.dataList);
+            // },
         },
 
         computed: {
@@ -142,15 +142,18 @@
 
         methods: {
             formatDate(value) {
-                const time = new Date(+value).toLocaleString('en-GB');
+                let time = new Date(+value).toLocaleString('en-GB').replace(',', '\n').replace('Invalid Date', '');
                 return time;
             },
 
-            getDuration(rowId) {
-                let millis = this.dataList[rowId].offeringAt - this.dataList[rowId].joinedAt;
-                millis = millis >= 0 ? millis : 0;
-                const stringTime = this.msToTime(millis);
-                return stringTime;
+            getDuration(item) {
+                if(this.item) {
+                    let millis = this.item.offeringAt - this.item.joinedAt;
+                    millis = millis >= 0 ? millis : 0;
+                    const stringTime = this.msToTime(millis);
+                    return stringTime;
+                }
+                return '';
             },
 
             msToTime(s) {

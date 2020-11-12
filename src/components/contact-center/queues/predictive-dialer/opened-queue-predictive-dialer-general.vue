@@ -42,15 +42,6 @@
             ></dropdown-select>
 
             <dropdown-select
-                    v-model="schema"
-                    :v="v.itemInstance.schema"
-                    :options="dropdownOptionsSchemaList"
-                    :label="$t('objects.routing.schema')"
-                    @search="loadDropdownOptionsSchemaList"
-                    required
-            ></dropdown-select>
-
-            <dropdown-select
                     v-model="team"
                     :v="v.itemInstance.team"
                     :options="dropdownOptionsTeamList"
@@ -72,7 +63,6 @@
     import openedTabComponentMixin from '@/mixins/openedTabComponentMixin';
     import {getCalendarList} from "../../../../api/lookups/calendars/calendars";
     import {getBlacklistList} from "../../../../api/lookups/blacklists/blacklists";
-    import {getFlowList} from "../../../../api/routing/flow/flow";
     import {getTeamsList} from "../../../../api/contact-center/teams/teams";
     import {mapActions} from "vuex";
 
@@ -84,14 +74,10 @@
                 dropdownOptionsCalendarList: [],
                 dropdownOptionsBlacklistList: [],
                 dropdownOptionsStrategyList: [
-                    {name: 'Random', value: 'random'},
-                    {name: 'Strict circuit', value: 'strict-circuit'},
-                    {name: 'Next try circuit', value: 'next-try-circuit'},
-                    {name: 'By buckets', value: 'by-buckets'},
-                    {name: 'By skills', value: 'by-skills'},
+                    { name: 'FIFO', id: 1, value: 'fifo' },
+                    { name: 'LIFO', id: 2, value: 'lifo' }
                 ],
                 dropdownOptionsPriorityList: ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10'],
-                dropdownOptionsSchemaList: [],
                 dropdownOptionsTeamList: [],
             }
         },
@@ -99,7 +85,6 @@
         mounted() {
             this.loadDropdownOptionsCalendarList();
             this.loadDropdownOptionsBlacklistList();
-            this.loadDropdownOptionsSchemaList();
             this.loadDropdownOptionsTeamList();
         },
 
@@ -146,15 +131,6 @@
                 },
                 set(value) {
                     this.setItemProp({prop: 'priority', value})
-                }
-            },
-
-            schema: {
-                get() {
-                    return this.$store.state.ccenter.queues.itemInstance.schema
-                },
-                set(value) {
-                    this.setItemProp({prop: 'schema', value})
                 }
             },
 

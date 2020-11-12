@@ -4,63 +4,64 @@
             <h3 class="content-title">{{$t('objects.generalInfo')}}</h3>
         </header>
         <form class="object-input-grid">
-            <form-input
+            <wt-input
                     v-model="name"
                     :v="v.itemInstance.name"
                     :label="$t('objects.name')"
                     required
-            ></form-input>
+            ></wt-input>
 
-            <dropdown-select
+            <wt-select
                     v-model="calendar"
                     :v="v.itemInstance.calendar"
                     :options="dropdownOptionsCalendarList"
                     :label="$tc('objects.lookups.calendars.calendars', 1)"
                     @search="loadDropdownOptionsCalendarList"
                     required
-            ></dropdown-select>
+            ></wt-select>
 
-            <dropdown-select
+            <wt-select
                     v-model="strategy"
                     :v="v.itemInstance.strategy"
                     :options="dropdownOptionsStrategyList"
                     :label="$t('objects.ccenter.queues.strategy')"
+                    @reset="() => []"
                     required
-            ></dropdown-select>
+            ></wt-select>
 
-            <dropdown-select
+            <wt-select
                     v-model="dncList"
                     :options="dropdownOptionsBlacklistList"
                     :label="$tc('objects.lookups.blacklist.blacklist', 1)"
                     @search="loadDropdownOptionsBlacklistList"
-            ></dropdown-select>
+            ></wt-select>
 
-            <dropdown-select
+            <wt-select
                     v-model="priority"
                     :options="dropdownOptionsPriorityList"
                     :label="$t('objects.ccenter.queues.priority')"
-            ></dropdown-select>
+            ></wt-select>
 
-            <dropdown-select
+            <wt-select
                     v-model="schema"
                     :v="v.itemInstance.schema"
                     :options="dropdownOptionsSchemaList"
                     :label="$t('objects.routing.schema')"
                     @search="loadDropdownOptionsSchemaList"
                     required
-            ></dropdown-select>
+            ></wt-select>
 
-            <form-input
+            <wt-input
                     v-model="maxCalls"
                     type="number"
                     :label="$t('objects.ccenter.queues.callLimit')"
-            ></form-input>
+            ></wt-input>
 
-            <form-input
+            <wt-input
                     v-model="description"
                     :label="$t('objects.description')"
                     textarea
-            ></form-input>
+            ></wt-input>
         </form>
     </section>
 </template>
@@ -81,10 +82,21 @@
                 dropdownOptionsCalendarList: [],
                 dropdownOptionsBlacklistList: [],
                 dropdownOptionsStrategyList: [
-                    { name: 'FIFO', value: 'fifo' },
-                    { name: 'LIFO', value: 'lifo' }
+                    { name: 'FIFO', id: 1, value: 'fifo' },
+                    { name: 'LIFO', id: 2, value: 'lifo' }
                 ],
-                dropdownOptionsPriorityList: ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10'],
+                dropdownOptionsPriorityList: [
+                    { name: '1', id: 1, value: '1' },
+                    { name: '2', id: 2, value: '2' },
+                    { name: '3', id: 3, value: '3' },
+                    { name: '4', id: 4, value: '4' },
+                    { name: '5', id: 5, value: '5' },
+                    { name: '6', id: 6, value: '6' },
+                    { name: '7', id: 7, value: '7' },
+                    { name: '8', id: 8, value: '8' },
+                    { name: '8', id: 9, value: '9' },
+                    { name: '10', id: 10, value: '10' }
+                ],
                 dropdownOptionsSchemaList: [],
             };
         },
