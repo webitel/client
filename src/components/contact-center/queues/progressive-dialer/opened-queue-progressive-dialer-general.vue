@@ -42,15 +42,6 @@
             ></dropdown-select>
 
             <dropdown-select
-                    v-model="schema"
-                    :v="v.itemInstance.schema"
-                    :options="dropdownOptionsSchemaList"
-                    :label="$t('objects.routing.schema')"
-                    @search="loadDropdownOptionsSchemaList"
-                    required
-            ></dropdown-select>
-
-            <dropdown-select
                     v-model="team"
                     :v="v.itemInstance.team"
                     :options="dropdownOptionsTeamList"
@@ -64,6 +55,13 @@
                     :label="$t('objects.description')"
                     textarea
             ></form-input>
+
+            <div class="switcher-label-wrap">
+                <div class="label">{{$t('objects.ccenter.queues.allowGreetingAgent')}}</div>
+                <switcher
+                        v-model="allowGreetingAgent"
+                ></switcher>
+            </div>
         </form>
     </section>
 </template>
@@ -73,7 +71,6 @@
     import { mapActions } from 'vuex';
     import { getCalendarList } from '../../../../api/lookups/calendars/calendars';
     import { getBlacklistList } from '../../../../api/lookups/blacklists/blacklists';
-    import { getFlowList } from '../../../../api/routing/flow/flow';
     import { getTeamsList } from '../../../../api/contact-center/teams/teams';
 
     export default {
@@ -84,14 +81,10 @@
                 dropdownOptionsCalendarList: [],
                 dropdownOptionsBlacklistList: [],
                 dropdownOptionsStrategyList: [
-                    { name: 'Random', value: 'random' },
-                    { name: 'Strict circuit', value: 'strict-circuit' },
-                    { name: 'Next try circuit', value: 'next-try-circuit' },
-                    { name: 'By buckets', value: 'by-buckets' },
-                    { name: 'By skills', value: 'by-skills' },
+                    { name: 'FIFO', id: 1, value: 'fifo' },
+                    { name: 'LIFO', id: 2, value: 'lifo' }
                 ],
                 dropdownOptionsPriorityList: ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10'],
-                dropdownOptionsSchemaList: [],
                 dropdownOptionsTeamList: [],
             };
         },
@@ -99,7 +92,6 @@
         mounted() {
             this.loadDropdownOptionsCalendarList();
             this.loadDropdownOptionsBlacklistList();
-            this.loadDropdownOptionsSchemaList();
             this.loadDropdownOptionsTeamList();
         },
 
@@ -149,15 +141,6 @@
                 },
             },
 
-            schema: {
-                get() {
-                    return this.$store.state.ccenter.queues.itemInstance.schema;
-                },
-                set(value) {
-                    this.setItemProp({ prop: 'schema', value });
-                },
-            },
-
             team: {
                 get() {
                     return this.$store.state.ccenter.queues.itemInstance.team;
@@ -173,6 +156,15 @@
                 },
                 set(value) {
                     this.setItemProp({ prop: 'description', value });
+                },
+            },
+
+            allowGreetingAgent: {
+                get() {
+                    return this.$store.state.ccenter.queues.itemInstance.payload.allowGreetingAgent || false;
+                },
+                set(value) {
+                    this.setPayloadItemProp({ prop: 'allowGreetingAgent', value });
                 },
             },
         },
@@ -194,14 +186,6 @@
                     }));
             },
 
-            async loadDropdownOptionsSchemaList(search) {
-                const response = await getFlowList(0, 10, search);
-                this.dropdownOptionsSchemaList = response.list.map((item) => ({
-                        name: item.name,
-                        id: item.id,
-                    }));
-            },
-
             async loadDropdownOptionsTeamList(search) {
                 const response = await getTeamsList(0, 10, search);
                 this.dropdownOptionsTeamList = response.list.map((item) => ({
@@ -212,6 +196,7 @@
 
             ...mapActions('ccenter/queues', {
                 setItemProp: 'SET_ITEM_PROPERTY',
+                setPayloadItemProp: 'SET_PAYLOAD_ITEM_PROPERTY',
             }),
         },
     };

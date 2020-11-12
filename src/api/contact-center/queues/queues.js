@@ -42,6 +42,7 @@ const defaultItemObject = {
     dncList: {}, // blacklist
     schema: {},
     team: {},
+    ringtone: {},
     strategy: {},
     description: 'DESCRIPTION',
     variables: [{ key: '', value: '' }],
@@ -52,6 +53,7 @@ const preRequestHandler = (item) => {
     const itemCopy = deepCopy(item);
     item.domainId = store.state.userinfo.domainId;
     if (item.strategy) item.strategy = item.strategy.value;
+    if (item.priority) item.priority = +item.priority.value;
     item.variables = {};
     itemCopy.variables.forEach((variable) => {
         item.variables[variable.key] = variable.value;
@@ -73,7 +75,12 @@ itemGetter.responseHandler = (response) => {
         if (response.variables) {
             response.variables = Object.keys(response.variables).map((key) => ({ key, value: response.variables[key] }));
         }
-        if (response.priority) response.priority += '';
+        if (response.priority) {
+            response.priority = {
+                name: response.priority += '',
+                value: response.priority += '',
+            };
+        }
         response.strategy = {
             name: strategiesList[response.strategy],
             value: response.strategy,

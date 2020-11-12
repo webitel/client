@@ -68,8 +68,8 @@
                 strategy: {
                     required,
                 },
-                schema: {
-                    required,
+                team: {
+                    required
                 },
             },
         },

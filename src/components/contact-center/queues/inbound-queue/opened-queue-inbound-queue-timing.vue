@@ -12,10 +12,6 @@
                         v-model="timeoutWithNoAgents"
                         :label="$t('objects.ccenter.queues.timeoutWithNoAgents')"
                 ></form-input>
-                <form-input
-                        v-model="timeout"
-                        :label="$t('objects.ccenter.queues.timeout')"
-                ></form-input>
 
                 <dropdown-select
                         v-model="timeBaseScore"
@@ -69,16 +65,7 @@
                 set(value) {
                     this.setPayloadItemProp({ prop: 'timeBaseScore', value });
                 },
-            },
-
-            timeout: {
-                get() {
-                    return this.$store.state.ccenter.queues.itemInstance.timeout;
-                },
-                set(value) {
-                    this.setItemProp({ prop: 'timeout', value });
-                },
-            },
+            },           
 
         },
 

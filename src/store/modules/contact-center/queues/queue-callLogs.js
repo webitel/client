@@ -40,6 +40,10 @@ const mutations = {
         state.sortOrder = value;
     },
     ...defaultModule.mutations,
+
+    RESET_ITEM_STATE: (state) => {
+        Object.assign(defaultState(), state);
+    },
 };
 
 export default {

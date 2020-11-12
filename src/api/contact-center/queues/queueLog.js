@@ -10,7 +10,7 @@ export const getQueueCallLogList = async (queueId, page = 0, size = 10, sort) =>
        const response = await queueMemberAttemptsService.searchAttemptsHistory(
             page,
             size,
-            0,
+            1000000000000,
             Date.now(),
             undefined,
             queueId,

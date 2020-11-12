@@ -65,7 +65,6 @@
     import { mapActions } from 'vuex';
     import { getCalendarList } from '../../../../api/lookups/calendars/calendars';
     import { getTeamsList } from '../../../../api/contact-center/teams/teams';
-    import { getFlowList } from '../../../../api/routing/flow/flow';
     import { getBlacklistList } from '../../../../api/lookups/blacklists/blacklists';
     import { getMediaList } from '../../../../api/lookups/media/media';
 
@@ -77,7 +76,6 @@
                 dropdownOptionsCalendarList: [],
                 dropdownOptionsBlacklistList: [],
                 dropdownOptionsPriorityList: ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10'],
-                dropdownOptionsSchemaList: [],
                 dropdownOptionsTeamList: [],
                 dropdownOptionsMediaList: [],
             };
@@ -86,7 +84,6 @@
         mounted() {
             this.loadDropdownOptionsCalendarList();
             this.loadDropdownOptionsBlacklistList();
-            this.loadDropdownOptionsSchemaList();
             this.loadDropdownOptionsTeamList();
             this.loadDropdownOptionsMediaList();
         },
@@ -125,15 +122,6 @@
                 },
                 set(value) {
                     this.setItemProp({ prop: 'priority', value });
-                },
-            },
-
-            schema: {
-                get() {
-                    return this.$store.state.ccenter.queues.itemInstance.schema;
-                },
-                set(value) {
-                    this.setItemProp({ prop: 'schema', value });
                 },
             },
 
@@ -177,14 +165,6 @@
             async loadDropdownOptionsBlacklistList(search) {
                 const response = await getBlacklistList(0, 10, search);
                 this.dropdownOptionsBlacklistList = response.list.map((item) => ({
-                        name: item.name,
-                        id: item.id,
-                    }));
-            },
-
-            async loadDropdownOptionsSchemaList(search) {
-                const response = await getFlowList(0, 10, search);
-                this.dropdownOptionsSchemaList = response.list.map((item) => ({
                         name: item.name,
                         id: item.id,
                     }));

@@ -33,35 +33,31 @@
 
         <loader v-show="!isLoaded"></loader>
 
-        <vuetable
+        <wt-table
                 v-show="isLoaded"
-                :api-mode="false"
-                :fields="fields"
+                :headers="fields"
                 :data="dataList"
+                sortable
         >
-            <template slot="name" slot-scope="props">
+            <template slot="name" slot-scope="{item}">
                 <div>
-                    {{dataList[props.rowIndex].bucket.name}}
+                    {{item.bucket.name}}
                 </div>
             </template>
 
-            <template slot="capacity" slot-scope="props">
+            <template slot="capacity" slot-scope="{item}">
                 <div>
-                    {{dataList[props.rowIndex].ratio}}
+                    {{item.ratio}}
                 </div>
             </template>
 
-            <template slot="actions" slot-scope="props">
+            <template slot="actions" slot-scope="{item}">
                 <i class="vuetable-action icon-icon_edit"
                    :title="$t('iconHints.edit')"
-                   @click="edit(props.rowIndex)"
-                ></i>
-                <i class="vuetable-action icon-icon_delete"
-                   :title="$t('iconHints.delete')"
-                   @click="remove(props.rowIndex)"
+                   @click="edit(item)"
                 ></i>
             </template>
-        </vuetable>
+        </wt-table>
         <pagination
                 v-show="isLoaded"
                 v-model="size"
@@ -91,8 +87,8 @@
         data() {
             return {
                 fields: [
-                    { name: 'name', title: this.$tc('objects.ccenter.skills.skills', 2) },
-                    { name: 'ratio', title: this.$t('objects.ccenter.queues.bucketRatio') },
+                    { value: 'name', text: this.$tc('objects.ccenter.skills.skills', 2) },
+                    { value: 'ratio', text: this.$t('objects.ccenter.queues.bucketRatio') },
                     _actionsTableField_2,
                 ],
             };
@@ -135,8 +131,8 @@
                 }
             },
 
-            edit(rowIndex) {
-                this.setId(this.dataList[rowIndex].id);
+            edit(item) {
+                this.setId(item.id);
                 this.popupTriggerIf = true;
             },
 

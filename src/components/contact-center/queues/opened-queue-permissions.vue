@@ -22,45 +22,45 @@
             </div>
         </header>
 
-        <loader v-show="!isLoaded"></loader>
+        <wt-loader v-show="!isLoaded"></wt-loader>
 
-        <vuetable
+        <wt-table
                 v-show="isLoaded"
-                :api-mode="false"
-                :fields="fields"
+                :headers="fields"
                 :data="dataList"
+                :grid-actions="false"
         >
 
-            <template slot="grantee" slot-scope="props">
+            <template slot="grantee" slot-scope="{item}">
                 <div>
-                    {{dataList[props.rowIndex].grantee.name}}
+                    {{item.grantee.name}}
                 </div>
             </template>
 
-            <template slot="read" slot-scope="props">
+            <template slot="read" slot-scope="{item}">
                 <checkbox
-                        :value="dataList[props.rowIndex].access.r"
+                        :value="item.access.r"
                         :label="$t('objects.allow')"
-                        @input="patchItem({prop: 'r', index: props.rowIndex})"
+                        @input="patchItem({prop: 'r', index: item})"
                 ></checkbox>
             </template>
 
-            <template slot="edit" slot-scope="props">
+            <template slot="edit" slot-scope="{item}">
                 <checkbox
-                        :value="dataList[props.rowIndex].access.w"
+                        :value="item.access.w"
                         :label="$t('objects.allow')"
-                        @input="patchItem({prop: 'w', index: props.rowIndex})"
+                        @input="patchItem({prop: 'w', index: item})"
                 ></checkbox>
             </template>
 
-            <template slot="delete" slot-scope="props">
+            <template slot="delete" slot-scope="{ item }">
                 <checkbox
-                        :value="dataList[props.rowIndex].access.d"
+                        :value="item.access.d"
                         :label="$t('objects.allow')"
-                        @input="patchItem({prop: 'd', index: props.rowIndex})"
+                        @input="patchItem({prop: 'd', index: item})"
                 ></checkbox>
             </template>
-        </vuetable>
+        </wt-table>
         <pagination
                 v-show="isLoaded"
                 v-model="size"
@@ -88,10 +88,10 @@
             return {
                 // vuetable prop
                 fields: [
-                    { name: 'grantee', title: this.$t('objects.name') },
-                    { name: 'read', title: this.$t('objects.read') },
-                    { name: 'edit', title: this.$t('objects.edit') },
-                    { name: 'delete', title: this.$t('objects.delete') },
+                    { value: 'grantee', text: this.$t('objects.name') },
+                    { value: 'read', text: this.$t('objects.read') },
+                    { value: 'edit', text: this.$t('objects.edit') },
+                    { value: 'delete', text: this.$t('objects.delete') },
                 ],
             };
         },

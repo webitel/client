@@ -10,12 +10,8 @@
                         :label="$t('objects.ccenter.queues.originateTimeout')"
                 ></timepicker>
                 <timepicker
-                        v-model="secBetweenRetries"
+                        v-model="waitBetweenRetries"
                         :label="$t('objects.ccenter.queues.waitBetweenRetries')"
-                ></timepicker>
-                <timepicker
-                        v-model="timeout"
-                        :label="$t('objects.ccenter.queues.timeout')"
                 ></timepicker>
             </div>
             <div>
@@ -23,13 +19,6 @@
                         v-model="maxOfRetry"
                         :label="$t('objects.ccenter.queues.maxNumberOfRetry')"
                 ></form-input>
-
-                <div>
-                    <div class="label">{{$t('objects.ccenter.queues.waitForResultStatus')}}</div>
-                <switcher
-                        v-model="waitForResultStatus"
-                ></switcher>
-            </div>
             </div>
         </form>
     </section>
@@ -59,12 +48,12 @@
                 },
             },
 
-            secBetweenRetries: {
+            waitBetweenRetries: {
                 get() {
-                    return this.$store.state.ccenter.queues.itemInstance.payload.secBetweenRetries;
+                    return this.$store.state.ccenter.queues.itemInstance.payload.waitBetweenRetries;
                 },
                 set(value) {
-                    this.setPayloadItemProp({ prop: 'secBetweenRetries', value });
+                    this.setPayloadItemProp({ prop: 'waitBetweenRetries', value });
                 },
             },
 
@@ -75,25 +64,7 @@
                 set(value) {
                     this.setPayloadItemProp({ prop: 'maxOfRetry', value });
                 },
-            },
-
-            timeout: {
-                get() {
-                    return this.$store.state.ccenter.queues.itemInstance.timeout;
-                },
-                set(value) {
-                    this.setItemProp({ prop: 'timeout', value });
-                },
-            },
-
-            waitForResultStatus: {
-                get() {
-                    return this.$store.state.ccenter.queues.itemInstance.payload.waitForResultStatus;
-                },
-                set(value) {
-                    this.setPayloadItemProp({ prop: 'waitForResultStatus', value });
-                },
-            },
+            },                
         },
 
         methods: {

@@ -11,7 +11,7 @@
             ></wt-input>
 
             <wt-input
-                    v-model="maxOfRetry"
+                    v-model="maxAttempts"
                     type="number"
                     :label="$t('objects.ccenter.queues.maxNumberOfRetry')"
             ></wt-input>
@@ -23,7 +23,7 @@
             ></wt-input>           
             
             <wt-input
-                    v-model="minCallDuration"
+                    v-model="minDuration"
                     type="number"
                     :label="$t('objects.ccenter.queues.minCallDuration')"
             ></wt-input>
@@ -62,21 +62,21 @@
                 },
             },
 
-            maxOfRetry: {
+            maxAttempts: {
                 get() {
-                    return this.$store.state.ccenter.queues.itemInstance.payload.maxOfRetry || 0;
+                    return this.$store.state.ccenter.queues.itemInstance.payload.maxAttempts || 0;
                 },
                 set(value) {
-                    this.setPayloadItemProp({ prop: 'maxOfRetry', value: +value });
+                    this.setPayloadItemProp({ prop: 'maxAttempts', value: +value });
                 },
             },
 
-            minCallDuration: {
+            minDuration: {
                 get() {
-                    return this.$store.state.ccenter.queues.itemInstance.payload.minCallDuration || 0;
+                    return this.$store.state.ccenter.queues.itemInstance.payload.minDuration || 0;
                 },
                 set(value) {
-                    this.setPayloadItemProp({ prop: 'minCallDuration', value: +value });
+                    this.setPayloadItemProp({ prop: 'minDuration', value: +value });
                 },
             },
         },
