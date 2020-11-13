@@ -1,5 +1,5 @@
 import instance from '../../instance';
-import eventBus from '../../../utils/eventBus';
+import eventBus from '@webitel/ui-sdk/src/scripts/eventBus';
 
 const BASE_URL = '/license';
 

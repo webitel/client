@@ -1,4 +1,4 @@
-import eventBus from '../utils/eventBus';
+import eventBus from '@webitel/ui-sdk/src/scripts/eventBus';
 
 // NOW MIXIN ISN'T IN USE BECAUSE ALL SHOWN NOTIFICATIONS
 // ARE RELATED TO REQUEST ERRORS AND ARE TRIGGERED BY

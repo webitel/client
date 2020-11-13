@@ -1,5 +1,5 @@
 import instance from '../../instance';
-import eventBus from '../../../utils/eventBus';
+import eventBus from '@webitel/ui-sdk/src/scripts/eventBus';
 import WebitelAPIPermissionsGetter from '../../utils/ApiControllers/Permissions/WebitelAPIPermissionsGetter';
 import WebitelAPIPermissionsPatcher from '../../utils/ApiControllers/Permissions/WebitelAPIPermissionsPatcher';
 import WebitelAPIDefaultAccess from '../../utils/ApiControllers/Permissions/WebitelAPIDefaultAccess';

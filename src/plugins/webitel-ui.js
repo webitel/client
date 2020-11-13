@@ -12,6 +12,7 @@ import eventBus from '@webitel/ui-sdk/src/scripts/eventBus';
 import '@webitel/ui-sdk/dist/ui-sdk.css';
 // import scss variables and other reusables
 import '@webitel/ui-sdk/src/css/main.scss';
+import '@webitel/ui-sdk/dist/img/svg-sprites/wt-icon.svg';
 
 // init plugin
 Vue.use(WebitelUI, { eventBus });

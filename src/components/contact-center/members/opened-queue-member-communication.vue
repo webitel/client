@@ -81,7 +81,7 @@
     import { _checkboxTableField, _actionsTableField_2 } from '@/utils/tableFieldPresets';
     import openedTabComponentMixin from '@/mixins/openedTabComponentMixin';
     import { mapActions, mapState } from 'vuex';
-    import eventBus from '../../../utils/eventBus';
+    import eventBus from '@webitel/ui-sdk/src/scripts/eventBus';
     import communicationPopup from './opened-queue-member-communication-popup';
 
     export default {

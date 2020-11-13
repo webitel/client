@@ -77,7 +77,7 @@
     import { _actionsTableField_2 } from '@/utils/tableFieldPresets';
     import { mapActions, mapState } from 'vuex';
     import bucketPopup from './opened-queue-buckets-popup';
-    import eventBus from '../../../utils/eventBus';
+    import eventBus from '@webitel/ui-sdk/src/scripts/eventBus';
 
     export default {
         name: 'opened-queue-outbound-ivr-buckets',

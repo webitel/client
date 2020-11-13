@@ -3,7 +3,7 @@ import deepCopy from 'deep-copy';
 import instance from '../../instance';
 import configuration from '../../openAPIConfig';
 import sanitizer from '../../utils/sanitizer';
-import eventBus from '../../../utils/eventBus';
+import eventBus from '@webitel/ui-sdk/src/scripts/eventBus';
 import store from '../../../store/store';
 
 const queueResService = new QueueResourcesServiceApiFactory(configuration, '', instance);

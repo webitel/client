@@ -49,7 +49,7 @@
     import openedTabComponentMixin from '@/mixins/openedTabComponentMixin';
     import tableComponentMixin from '@/mixins/tableComponentMixin';
     import { mapActions, mapState } from 'vuex';
-    import eventBus from '../../../utils/eventBus';
+    import eventBus from '@webitel/ui-sdk/src/scripts/eventBus';
     import resourcePopup from './opened-queue-resources-popup';
     import tableActionsHandlerMixin from '../../../mixins/tableActionsMixin';
 

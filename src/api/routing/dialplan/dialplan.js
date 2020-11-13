@@ -1,7 +1,7 @@
 import { RoutingOutboundCallServiceApiFactory } from 'webitel-sdk';
 import instance from '../../instance';
 import configuration from '../../openAPIConfig';
-import eventBus from '../../../utils/eventBus';
+import eventBus from '@webitel/ui-sdk/src/scripts/eventBus';
 import store from '../../../store/store';
 import { WebitelSDKItemDeleter } from '../../utils/ApiControllers/Deleter/SDKDeleter';
 import { WebitelSDKItemPatcher } from '../../utils/ApiControllers/Patcher/SDKPatcher';

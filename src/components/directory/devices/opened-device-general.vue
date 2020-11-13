@@ -58,7 +58,7 @@
 <script>
     import openedTabComponentMixin from '@/mixins/openedTabComponentMixin';
     import { mapActions } from 'vuex';
-    import eventBus from '../../../utils/eventBus';
+    import eventBus from '@webitel/ui-sdk/src/scripts/eventBus';
     import { getUsersList } from '../../../api/directory/users/users';
 
     export default {

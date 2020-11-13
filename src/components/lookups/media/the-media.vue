@@ -158,7 +158,7 @@
     import textToSpeechPopup from './media-text-to-speech-popup';
     import tableComponentMixin from '../../../mixins/tableComponentMixin';
     import { _checkboxTableField, _actionsTableField_3 } from '../../../utils/tableFieldPresets';
-    import eventBus from '../../../utils/eventBus';
+    import eventBus from '@webitel/ui-sdk/src/scripts/eventBus';
     import { download } from '../../../utils/download';
 
     const token = localStorage.getItem('access-token');

@@ -74,7 +74,7 @@
     import openedTabComponentMixin from '@/mixins/openedTabComponentMixin';
     import { _checkboxTableField, _actionsTableField_2 } from '@/utils/tableFieldPresets';
     import { mapActions, mapState } from 'vuex';
-    import eventBus from '../../../utils/eventBus';
+    import eventBus from '@webitel/ui-sdk/src/scripts/eventBus';
     import resPopup from './opened-resource-group-resource-popup';
 
     export default {

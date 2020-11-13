@@ -7,7 +7,7 @@ import { WebitelAPIItemGetter } from '../../utils/ApiControllers/Getter/ApiGette
 import { WebitelAPIListGetter } from '../../utils/ApiControllers/ListGetter/ApiListGetter';
 import sanitizer from '../../utils/sanitizer';
 import instance from '../../instance';
-import eventBus from '../../../utils/eventBus';
+import eventBus from '@webitel/ui-sdk/src/scripts/eventBus';
 
 
 const BASE_URL = '/sip/gateways';

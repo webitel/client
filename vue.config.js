@@ -26,11 +26,17 @@ module.exports = {
         },
     },
     chainWebpack: (config) => {
+        // // exclude sprites default building
+        // config.module.rule('svg').exclude.add(/^(.*sprites).*\.svg/);
+        //
+        // // use svg-sprite-loader to process icons sprite
+        // config.module.rule('svg-sprite').test(/^(.*sprites).*\.svg/)
+        //     .use('svg-sprite-loader').loader('svg-sprite-loader').options({ symbolId: () => '' });
         config.module
             .rule('eslint')
             .use('eslint-loader')
             .tap((opts) => ({ ...opts, emitWarning: true }));
-        config.devtool('source-map');
+        // config.devtool('source-map');
         config.plugin('monaco-editor-webpack-plugin').use(MonacoWebpackPlugin, [{
             output: '', // папка, куда собирать скрипты воркеров
             languages: ['json'], // массив строк с названиями языков, для которых нужна подсветка

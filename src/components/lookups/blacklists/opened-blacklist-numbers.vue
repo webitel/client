@@ -103,7 +103,7 @@
     import { mapActions, mapState } from 'vuex';
     import numberPopup from './opened-blacklist-number-popup';
     import uploadPopup from './upload-blacklist-numbers-popup';
-    import eventBus from '../../../utils/eventBus';
+    import eventBus from '@webitel/ui-sdk/src/scripts/eventBus';
 
     export default {
         name: 'opened-blacklist-numbers',
