@@ -12,7 +12,7 @@ const MonacoWebpackPlugin = require('monaco-editor-webpack-plugin');
 
 
 module.exports = {
-    // publicPath: '',
+    publicPath: process.env.NODE_ENV === 'production' ? '' : '/',
     lintOnSave: true,
     css: {
         loaderOptions: {
