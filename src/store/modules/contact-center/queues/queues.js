@@ -279,8 +279,8 @@ const actions = {
         context.commit('SET_ITEM', item);
     },
 
-    SET_PAYLOAD_ITEM_PROPERTY: (context, payload) => {
-        context.commit('SET_PAYLOAD_ITEM_PROPERTY', payload);
+    SET_ITEM_PAYLOAD_PROPERTY: (context, payload) => {
+        context.commit('SET_ITEM_PAYLOAD_PROPERTY', payload);
         context.commit('SET_ITEM_PROPERTY', {prop: '_dirty', value: true});
     },
 
@@ -315,7 +315,7 @@ const actions = {
 
 const mutations = {
 
-    SET_PAYLOAD_ITEM_PROPERTY: (state, {prop, value}) => {
+    SET_ITEM_PAYLOAD_PROPERTY: (state, {prop, value}) => {
         state.itemInstance.payload[prop] = value;
     },
 

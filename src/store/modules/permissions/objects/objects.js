@@ -101,7 +101,7 @@ const actions = {
             mode = 'd';
             break;
         default:
-            console.log(`Cound not identify access mode {{prop}}`);
+            throw new Error(`Cound not identify access mode {{prop}}`);
         }
         let rule = {
             grantee: +(state.itemPermissionsDataList[index].grantee.id),
@@ -136,8 +136,7 @@ const actions = {
         }];
         try {
             await patchObjectDefaultPermissions(state.itemId, grantor.id, item);
-            context.dispatch('SEARCH_DEFAULT_LIST');
-        } catch {
+        } catch {} finally {
             context.dispatch('SEARCH_DEFAULT_LIST');
         }
     },
@@ -159,9 +158,7 @@ const actions = {
         let want;
 
         const rule = state.itemPermissionsDefaultList[index];
-        if(ruleName == 'r') { have = rule.perm.r;}
-        if(ruleName == 'w') { have = rule.perm.w;}
-        if(ruleName == 'd') { have = rule.perm.d;}
+        if(ruleName == 'r' || ruleName == 'w' || ruleName == 'd') { have = rule.perm[ruleName];}
         switch (mode.id) {
             case 1:
                 want = ruleName;
@@ -176,7 +173,7 @@ const actions = {
                 console.log(`Cound not identify access mode '${want}'`);
                 return;
         }
-        await context.commit('TOGGLE_DEFAULT_MODE', {mode, ruleName, index});
+        context.commit('TOGGLE_DEFAULT_MODE', {mode, ruleName, index});
         let ctl = {
             grants: want,
             grantee: +(rule.grantee.id)

@@ -164,7 +164,7 @@
                     return this.$store.state.ccenter.queues.itemInstance.payload.recordings || false;
                 },
                 set(value) {
-                    this.setPayloadItemProp({ prop: 'recordings', value });
+                    this.setItemPayloadProp({ prop: 'recordings', value });
                 },
             },
         },
@@ -202,7 +202,7 @@
 
             ...mapActions('ccenter/queues', {
                 setItemProp: 'SET_ITEM_PROPERTY',
-                setPayloadItemProp: 'SET_PAYLOAD_ITEM_PROPERTY',
+                setItemPayloadProp: 'SET_ITEM_PAYLOAD_PROPERTY',
             }),
         },
     }

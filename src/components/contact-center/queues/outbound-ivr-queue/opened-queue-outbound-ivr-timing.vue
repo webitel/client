@@ -49,7 +49,7 @@
                     return this.$store.state.ccenter.queues.itemInstance.payload.originateTimeout || 0;
                 },
                 set(value) {
-                    this.setPayloadItemProp({ prop: 'originateTimeout', value: +value });
+                    this.setItemPayloadProp({ prop: 'originateTimeout', value: +value });
                 },
             },
 
@@ -58,7 +58,7 @@
                     return this.$store.state.ccenter.queues.itemInstance.payload.secBetweenRetries || 0;
                 },
                 set(value) {
-                    this.setPayloadItemProp({ prop: 'secBetweenRetries', value: +value });
+                    this.setItemPayloadProp({ prop: 'secBetweenRetries', value: +value });
                 },
             },
 
@@ -67,7 +67,7 @@
                     return this.$store.state.ccenter.queues.itemInstance.payload.maxAttempts || 0;
                 },
                 set(value) {
-                    this.setPayloadItemProp({ prop: 'maxAttempts', value: +value });
+                    this.setItemPayloadProp({ prop: 'maxAttempts', value: +value });
                 },
             },
 
@@ -76,7 +76,7 @@
                     return this.$store.state.ccenter.queues.itemInstance.payload.minDuration || 0;
                 },
                 set(value) {
-                    this.setPayloadItemProp({ prop: 'minDuration', value: +value });
+                    this.setItemPayloadProp({ prop: 'minDuration', value: +value });
                 },
             },
         },
@@ -84,7 +84,7 @@
         methods: {
             ...mapActions('ccenter/queues', {
                 setItemProp: 'SET_ITEM_PROPERTY',
-                setPayloadItemProp: 'SET_PAYLOAD_ITEM_PROPERTY',
+                setItemPayloadProp: 'SET_ITEM_PAYLOAD_PROPERTY',
             }),
         },
     };
