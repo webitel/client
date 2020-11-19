@@ -4,6 +4,7 @@ import {DefaultHistoryModule} from "../../defaults/DefaultHistoryModule";
 const defaultState = () => {
     return {
         date: Date.now(),
+        size: '8',
     };
 };
 
@@ -17,7 +18,7 @@ const getters = {};
 
 const actions = {
     GET_HISTORY_LIST: async (context) => {
-        return await getAgentHistory(context.state.itemId, context.state.date, context.state.page);
+        return await getAgentHistory(context.state.itemId, context.state.date, context.state.page, context.state.size);
     },
 
     ...defaultModule.actions,

@@ -62,6 +62,13 @@
                     :label="$t('objects.description')"
                     textarea
             ></wt-input>
+
+            <div class="switcher-label-wrap">
+                <div class="label">{{$t('objects.ccenter.queues.recordings')}}</div>
+                <wt-switcher
+                        v-model="recordings"
+                ></wt-switcher>
+            </div>
         </form>
     </section>
 </template>
@@ -177,6 +184,15 @@
                 },
                 set(value) {
                     this.setItemProp({ prop: 'description', value });
+                },
+            },
+
+            recordings: {
+                get() {
+                    return this.$store.state.ccenter.queues.itemInstance.payload.recordings || false;
+                },
+                set(value) {
+                    this.setPayloadItemProp({ prop: 'recordings', value });
                 },
             },
         },

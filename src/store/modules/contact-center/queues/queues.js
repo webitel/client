@@ -66,6 +66,7 @@ const defaultOutboundIVRQueueState = () => {
             maxCalls: 10,
             maxAttempts: 10,
             minDuration: 5,
+            recordings: false,
             amd: {
                 enabled: false,
                 allowNotSure: false,
@@ -77,7 +78,7 @@ const defaultOutboundIVRQueueState = () => {
                 silenceThreshold: 256,
                 afterGreetingSilence: 800,
                 greeting: 1500,
-                initialSilence: 2500
+                initialSilence: 2500,
             },
         },
     }
@@ -102,6 +103,7 @@ const defaultOfflineQueueState = () => {
             originateTimeout: 15,
             waitForResultStatus: true,
             maxAttempts: 10,
+            recordings: false,
         },
     }
 };
@@ -126,6 +128,7 @@ const defaultPredictiveDialerState = () => {
             originateTimeout: 15,
             waitForResultStatus: true,
             maxAttempts: 10,
+            recordings: false,
             amd: {
                 enabled: false,
                 allowNotSure: false,
@@ -163,6 +166,7 @@ const defaultPreviewDialerState = () => {
             originateTimeout: 15,
             waitForResultStatus: true,
             maxAttempts: 10,
+            recordings: false,
         },
     }
 };
@@ -188,6 +192,7 @@ const defaultProgressiveDialerState = () => {
             waitForResultStatus: true,
             maxAttempts: 10,
             allowGreetingAgent: false,
+            recordings: false,
             amd: {
                 enabled: false,
                 allowNotSure: false,                

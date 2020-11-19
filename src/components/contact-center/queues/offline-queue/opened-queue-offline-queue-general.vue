@@ -55,6 +55,13 @@
                     :label="$t('objects.description')"
                     textarea
             ></form-input>
+
+            <div class="switcher-label-wrap">
+                <div class="label">{{$t('objects.ccenter.queues.recordings')}}</div>
+                <switcher
+                        v-model="recordings"
+                ></switcher>
+            </div>
         </form>
     </section>
 </template>
@@ -152,6 +159,15 @@
                     this.setItemProp({ prop: 'description', value });
                 },
             },
+
+            recordings: {
+                get() {
+                    return this.$store.state.ccenter.queues.itemInstance.payload.recordings || false;
+                },
+                set(value) {
+                    this.setPayloadItemProp({ prop: 'recordings', value });
+                },
+            },
         },
 
         methods: {
@@ -183,6 +199,7 @@
 
             ...mapActions('ccenter/queues', {
                 setItemProp: 'SET_ITEM_PROPERTY',
+                setPayloadItemProp: 'SET_PAYLOAD_ITEM_PROPERTY',
             }),
         },
     };

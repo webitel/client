@@ -36,7 +36,7 @@
             <template slot="status" slot-scope="props">
                 <switcher
                         :value="!dataList[props.rowIndex].disabled"
-                        @input="setItemProp({prop: 'disabled', index: props.rowIndex, value: $event})"
+                        @input="setItemProp({prop: 'disabled', index: props.rowIndex, value: !$event})"
                 ></switcher>
             </template>
 

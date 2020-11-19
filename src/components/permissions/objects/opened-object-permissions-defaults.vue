@@ -80,10 +80,12 @@
     import editComponentMixin from '@/mixins/editComponentMixin';
     import { mapActions, mapState } from 'vuex';
     import { getObject } from '../../../api/permissions/objects/objects';
+    import rolePopup from './opened-object-permissions-role-defaults-popup';
 
        export default {
-        name: 'opened-object-permissions-general',
+        name: 'opened-object-permissions-defaults',
         mixins: [tableComponentMixin, editComponentMixin],
+        components: {rolePopup},
         data() {
             return {
                 headerTitle: '', // header title. retieves from object GET request

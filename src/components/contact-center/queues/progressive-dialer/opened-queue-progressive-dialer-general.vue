@@ -61,7 +61,13 @@
                 <switcher
                         v-model="allowGreetingAgent"
                 ></switcher>
+
+                <div class="label">{{$t('objects.ccenter.queues.recordings')}}</div>
+                <switcher
+                        v-model="recordings"
+                ></switcher>
             </div>
+            
         </form>
     </section>
 </template>
@@ -165,6 +171,15 @@
                 },
                 set(value) {
                     this.setPayloadItemProp({ prop: 'allowGreetingAgent', value });
+                },
+            },
+
+            recordings: {
+                get() {
+                    return this.$store.state.ccenter.queues.itemInstance.payload.recordings || false;
+                },
+                set(value) {
+                    this.setPayloadItemProp({ prop: 'recordings', value });
                 },
             },
         },

@@ -2,6 +2,7 @@ import {
     getObjectList,
     getObjectPermissions,
     patchObjectPermissions,
+    patchObjectDefaultPermissions,
     updateObject,
     fetchObjclassDefaultList,
     toggleObjclassDefaultMode
@@ -127,13 +128,26 @@ const actions = {
         }
     },
 
+    ADD_DEFAULT_ITEM_ROLE: async (context, {grantee, grantor}) => {
+        const item = [{
+            grantor: +grantor.id,
+            grantee: +grantee.id,
+            granted: 'r'
+        }];
+        try {
+            await patchObjectDefaultPermissions(state.itemId, grantor.id, item);
+            context.dispatch('SEARCH_DEFAULT_LIST');
+        } catch {
+            context.dispatch('SEARCH_DEFAULT_LIST');
+        }
+    },
+
     RESET_ITEM_STATE: async (context) => {
         context.commit('RESET_ITEM_STATE');
     },
 
     // [R]ecord-[b]ased [A]ccess [C]ontrol list
     SEARCH_DEFAULT_LIST: async (context) => {
-        console.log(`[SEARCH_DEFAULT_LIST]: (${state.itemId})`)
         if (state.itemId) {
             const rbac = await fetchObjclassDefaultList(state.itemId, state.itemPage, state.itemSize, state.itemSearch);
             context.commit('CACHE_DEFAULT_LIST', rbac);
@@ -143,39 +157,35 @@ const actions = {
     TOGGLE_DEFAULT_MODE: async (context, {mode, ruleName, index}) => {
         let have;
         let want;
-        if(mode.id == state.itemPermissionsDefaultList[index].perm.d.id) {
-            return;
+
+        const rule = state.itemPermissionsDefaultList[index];
+        if(ruleName == 'r') { have = rule.perm.r;}
+        if(ruleName == 'w') { have = rule.perm.w;}
+        if(ruleName == 'd') { have = rule.perm.d;}
+        switch (mode.id) {
+            case 1:
+                want = ruleName;
+                break;
+            case 2:
+                want = have.rule || ruleName;
+                break;
+            case 3:
+                want = ruleName + ruleName;
+                break;
+            default:
+                console.log(`Cound not identify access mode '${want}'`);
+                return;
         }
-        else {
-            const rule = state.itemPermissionsDefaultList[index];
-            if(ruleName == 'r') { have = rule.perm.r;}
-            if(ruleName == 'w') { have = rule.perm.w;}
-            if(ruleName == 'd') { have = rule.perm.d;}
-            switch (mode.id) {
-                case 1:
-                    want = ruleName;
-                    break;
-                case 2:
-                    want = have.rule || ruleName;
-                    break;
-                case 3:
-                    want = ruleName + ruleName;
-                    break;
-                default:
-                    console.log(`Cound not identify access mode '${want}'`);
-                    return;
-            }
-            await context.commit('TOGGLE_DEFAULT_MODE', {mode, ruleName, index});
-            let ctl = {
-                grants: want,
-                grantee: +(rule.grantee.id)
-            };
-            //if (!readState) ctl.grants += 'r'; // ADD (!)
-            try {
-                await toggleObjclassDefaultMode(state.itemId, +(rule.grantor.id), ctl);
-            } catch {
-                context.dispatch('SEARCH_DEFAULT_LIST');
-            }
+        await context.commit('TOGGLE_DEFAULT_MODE', {mode, ruleName, index});
+        let ctl = {
+            grants: want,
+            grantee: +(rule.grantee.id)
+        };
+        //if (!readState) ctl.grants += 'r'; // ADD (!)
+        try {
+            await toggleObjclassDefaultMode(state.itemId, +(rule.grantor.id), ctl);
+        } catch {
+            context.dispatch('SEARCH_DEFAULT_LIST');
         }
     },
 };
