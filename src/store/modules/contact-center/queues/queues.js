@@ -248,10 +248,34 @@ const actions = {
     LOAD_ITEM: async (context, type) => {
         if (state.itemId) {
             const item = await context.dispatch('GET_ITEM');
-            context.commit('SET_ITEM', proxy(item));
+            context.dispatch('SET_TYPED_ITEM', {type: type, item: proxy(item)});
         } else {
             context.dispatch('SET_ITEM_BY_TYPE', type);
         }
+    },
+
+    SET_TYPED_ITEM: (context, {type, item}) => {
+        switch (type) {
+            case 'inbound-queue':
+                item = Object.assign(defaultInboundQueueState(), item);
+                break;
+            case 'outbound-ivr':
+                item = Object.assign(defaultOutboundIVRQueueState(), item);
+                break;
+            case 'offline-queue':
+                item = Object.assign(defaultOfflineQueueState(), item);
+                break;
+            case 'preview-dialer':
+                item = Object.assign(defaultPreviewDialerState(), item);
+                break;
+            case 'predictive-dialer':
+                item = Object.assign(defaultPredictiveDialerState(), item);
+                break;
+            case 'progressive-dialer':
+                item = Object.assign(defaultProgressiveDialerState(), item);
+                break;
+        }
+        context.commit('SET_ITEM', item);
     },
 
     SET_ITEM_BY_TYPE: (context, type) => {
