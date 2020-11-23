@@ -62,6 +62,13 @@
                     :label="$t('objects.description')"
                     textarea
             ></wt-input>
+
+            <div class="switcher-label-wrap">
+                <div class="label">{{$t('objects.ccenter.queues.recordings')}}</div>
+                <wt-switcher
+                        v-model="recordings"
+                ></wt-switcher>
+            </div>
         </form>
     </section>
 </template>
@@ -167,7 +174,7 @@
                     return this.$store.state.ccenter.queues.itemInstance.payload.maxCalls;
                 },
                 set(value) {
-                    this.setPayloadItemProp({ prop: 'maxCalls', value: +value });
+                    this.setItemPayloadProp({ prop: 'maxCalls', value: +value });
                 },
             },
 
@@ -177,6 +184,15 @@
                 },
                 set(value) {
                     this.setItemProp({ prop: 'description', value });
+                },
+            },
+
+            recordings: {
+                get() {
+                    return this.$store.state.ccenter.queues.itemInstance.payload.recordings || false;
+                },
+                set(value) {
+                    this.setItemPayloadProp({ prop: 'recordings', value });
                 },
             },
         },
@@ -208,7 +224,7 @@
 
             ...mapActions('ccenter/queues', {
                 setItemProp: 'SET_ITEM_PROPERTY',
-                setPayloadItemProp: 'SET_PAYLOAD_ITEM_PROPERTY',
+                setItemPayloadProp: 'SET_ITEM_PAYLOAD_PROPERTY',
             }),
         },
     };

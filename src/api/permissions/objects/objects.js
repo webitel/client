@@ -5,9 +5,11 @@ import WebitelAPIPermissionsPatcher from '../../utils/ApiControllers/Permissions
 import WebitelAPIDefaultAccess from '../../utils/ApiControllers/Permissions/WebitelAPIDefaultAccess';
 
 const BASE_URL = '/objclass';
+const BASE_DEFAULTS_URL = '/acl/objclass';
 
  const permissionsGetter = new WebitelAPIPermissionsGetter(BASE_URL);
  const permissionsPatcher = new WebitelAPIPermissionsPatcher(BASE_URL);
+ const permissionsDefaultsPatcher = new WebitelAPIDefaultAccess(BASE_URL);
  const defaultAccessList = new WebitelAPIDefaultAccess(BASE_URL);
 
 export const getObjectList = async (search) => {
@@ -57,6 +59,8 @@ export const getObject = async (id) => {
 export const getObjectPermissions = async (id) => await permissionsGetter.getList(id);
 
 export const patchObjectPermissions = async (id, item) => await permissionsPatcher.patchItem(id, item);
+
+export const patchObjectDefaultPermissions = async (id, grantorId, item) => await permissionsDefaultsPatcher.patchDefaultItem(id, grantorId, item);
 
 export const coerceObjectPermissionsResponse = (response) => {
     let formattedResponse = [];

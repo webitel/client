@@ -66,6 +66,7 @@ const defaultOutboundIVRQueueState = () => {
             maxCalls: 10,
             maxAttempts: 10,
             minDuration: 5,
+            recordings: false,
             amd: {
                 enabled: false,
                 allowNotSure: false,
@@ -77,7 +78,7 @@ const defaultOutboundIVRQueueState = () => {
                 silenceThreshold: 256,
                 afterGreetingSilence: 800,
                 greeting: 1500,
-                initialSilence: 2500
+                initialSilence: 2500,
             },
         },
     }
@@ -102,6 +103,7 @@ const defaultOfflineQueueState = () => {
             originateTimeout: 15,
             waitForResultStatus: true,
             maxAttempts: 10,
+            recordings: false,
         },
     }
 };
@@ -126,6 +128,7 @@ const defaultPredictiveDialerState = () => {
             originateTimeout: 15,
             waitForResultStatus: true,
             maxAttempts: 10,
+            recordings: false,
             amd: {
                 enabled: false,
                 allowNotSure: false,
@@ -163,6 +166,7 @@ const defaultPreviewDialerState = () => {
             originateTimeout: 15,
             waitForResultStatus: true,
             maxAttempts: 10,
+            recordings: false,
         },
     }
 };
@@ -188,6 +192,7 @@ const defaultProgressiveDialerState = () => {
             waitForResultStatus: true,
             maxAttempts: 10,
             allowGreetingAgent: false,
+            recordings: false,
             amd: {
                 enabled: false,
                 allowNotSure: false,                
@@ -243,10 +248,34 @@ const actions = {
     LOAD_ITEM: async (context, type) => {
         if (state.itemId) {
             const item = await context.dispatch('GET_ITEM');
-            context.commit('SET_ITEM', proxy(item));
+            context.dispatch('SET_TYPED_ITEM', {type: type, item: proxy(item)});
         } else {
             context.dispatch('SET_ITEM_BY_TYPE', type);
         }
+    },
+
+    SET_TYPED_ITEM: (context, {type, item}) => {
+        switch (type) {
+            case 'inbound-queue':
+                item = Object.assign(defaultInboundQueueState(), item);
+                break;
+            case 'outbound-ivr':
+                item = Object.assign(defaultOutboundIVRQueueState(), item);
+                break;
+            case 'offline-queue':
+                item = Object.assign(defaultOfflineQueueState(), item);
+                break;
+            case 'preview-dialer':
+                item = Object.assign(defaultPreviewDialerState(), item);
+                break;
+            case 'predictive-dialer':
+                item = Object.assign(defaultPredictiveDialerState(), item);
+                break;
+            case 'progressive-dialer':
+                item = Object.assign(defaultProgressiveDialerState(), item);
+                break;
+        }
+        context.commit('SET_ITEM', item);
     },
 
     SET_ITEM_BY_TYPE: (context, type) => {
@@ -274,8 +303,8 @@ const actions = {
         context.commit('SET_ITEM', item);
     },
 
-    SET_PAYLOAD_ITEM_PROPERTY: (context, payload) => {
-        context.commit('SET_PAYLOAD_ITEM_PROPERTY', payload);
+    SET_ITEM_PAYLOAD_PROPERTY: (context, payload) => {
+        context.commit('SET_ITEM_PAYLOAD_PROPERTY', payload);
         context.commit('SET_ITEM_PROPERTY', {prop: '_dirty', value: true});
     },
 
@@ -310,7 +339,7 @@ const actions = {
 
 const mutations = {
 
-    SET_PAYLOAD_ITEM_PROPERTY: (state, {prop, value}) => {
+    SET_ITEM_PAYLOAD_PROPERTY: (state, {prop, value}) => {
         state.itemInstance.payload[prop] = value;
     },
 

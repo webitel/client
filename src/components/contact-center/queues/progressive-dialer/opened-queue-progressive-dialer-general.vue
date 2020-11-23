@@ -61,7 +61,13 @@
                 <switcher
                         v-model="allowGreetingAgent"
                 ></switcher>
+
+                <div class="label">{{$t('objects.ccenter.queues.recordings')}}</div>
+                <switcher
+                        v-model="recordings"
+                ></switcher>
             </div>
+            
         </form>
     </section>
 </template>
@@ -164,7 +170,16 @@
                     return this.$store.state.ccenter.queues.itemInstance.payload.allowGreetingAgent || false;
                 },
                 set(value) {
-                    this.setPayloadItemProp({ prop: 'allowGreetingAgent', value });
+                    this.setItemPayloadProp({ prop: 'allowGreetingAgent', value });
+                },
+            },
+
+            recordings: {
+                get() {
+                    return this.$store.state.ccenter.queues.itemInstance.payload.recordings || false;
+                },
+                set(value) {
+                    this.setItemPayloadProp({ prop: 'recordings', value });
                 },
             },
         },
@@ -196,7 +211,7 @@
 
             ...mapActions('ccenter/queues', {
                 setItemProp: 'SET_ITEM_PROPERTY',
-                setPayloadItemProp: 'SET_PAYLOAD_ITEM_PROPERTY',
+                setItemPayloadProp: 'SET_ITEM_PAYLOAD_PROPERTY',
             }),
         },
     };

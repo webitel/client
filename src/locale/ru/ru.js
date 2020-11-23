@@ -528,6 +528,8 @@ export default {
                 amd: 'AMD',
                 enabled: 'Включить автоопределение',
                 allowNotSure: 'Неопределенные',
+                allowGreetingAgent: 'Разрешить приветствие',
+                recordings: "Запись",
                 maxWordLength: 'Максимальная продолжительность предложения (мс)',
                 maxNumberOfWords: 'Максимальное кол-во слов в приветствии',
                 betweenWordsSilence: 'Продолжительность тишины между словами (мс)',

@@ -45,7 +45,7 @@
                     return this.$store.state.ccenter.queues.itemInstance.payload.discardAbandonedAfter;
                 },
                 set(value) {
-                    this.setPayloadItemProp({ prop: 'discardAbandonedAfter', value });
+                    this.setItemPayloadProp({ prop: 'discardAbandonedAfter', value });
                 },
             },
 
@@ -54,7 +54,7 @@
                     return this.$store.state.ccenter.queues.itemInstance.payload.timeoutWithNoAgents;
                 },
                 set(value) {
-                    this.setPayloadItemProp({ prop: 'timeoutWithNoAgents', value });
+                    this.setItemPayloadProp({ prop: 'timeoutWithNoAgents', value });
                 },
             },
 
@@ -63,7 +63,7 @@
                     return this.$store.state.ccenter.queues.itemInstance.payload.timeBaseScore;
                 },
                 set(value) {
-                    this.setPayloadItemProp({ prop: 'timeBaseScore', value });
+                    this.setItemPayloadProp({ prop: 'timeBaseScore', value });
                 },
             },           
 
@@ -72,7 +72,7 @@
         methods: {
             ...mapActions('ccenter/queues', {
                 setItemProp: 'SET_ITEM_PROPERTY',
-                setPayloadItemProp: 'SET_PAYLOAD_ITEM_PROPERTY',
+                setItemPayloadProp: 'SET_ITEM_PAYLOAD_PROPERTY',
             }),
         },
     };

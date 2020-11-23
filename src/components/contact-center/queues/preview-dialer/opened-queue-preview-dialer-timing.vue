@@ -43,7 +43,7 @@
                     return this.$store.state.ccenter.queues.itemInstance.payload.originateTimeout;
                 },
                 set(value) {
-                    this.setPayloadItemProp({ prop: 'name', value });
+                    this.setItemPayloadProp({ prop: 'name', value });
                 },
             },
 
@@ -52,7 +52,7 @@
                     return this.$store.state.ccenter.queues.itemInstance.payload.waitBetweenRetries;
                 },
                 set(value) {
-                    this.setPayloadItemProp({ prop: 'waitBetweenRetries', value });
+                    this.setItemPayloadProp({ prop: 'waitBetweenRetries', value });
                 },
             },
 
@@ -61,7 +61,7 @@
                     return this.$store.state.ccenter.queues.itemInstance.payload.maxAttempts;
                 },
                 set(value) {
-                    this.setPayloadItemProp({ prop: 'maxAttempts', value });
+                    this.setItemPayloadProp({ prop: 'maxAttempts', value });
                 },
             },
         },
@@ -69,7 +69,7 @@
         methods: {
             ...mapActions('ccenter/queues', {
                 setItemProp: 'SET_ITEM_PROPERTY',
-                setPayloadItemProp: 'SET_PAYLOAD_ITEM_PROPERTY',
+                setItemPayloadProp: 'SET_ITEM_PAYLOAD_PROPERTY',
             }),
         },
     };
