@@ -136,7 +136,8 @@ const actions = {
         }];
         try {
             await patchObjectDefaultPermissions(state.itemId, grantor.id, item);
-        } catch {} finally {
+        } catch {            
+        } finally {
             context.dispatch('SEARCH_DEFAULT_LIST');
         }
     },

@@ -66,7 +66,7 @@
                 try {
                     await this.patchItem({grantee: this.newGrantee, grantor: this.newGrantor});
                     this.$emit('close');
-                } catch(error) { throw err; }
+                } catch(err) { throw err; }
             },
 
             // get all roles to choose which to add
