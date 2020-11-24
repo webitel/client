@@ -21,6 +21,7 @@ const defaultState = () => {
             dncList: {},
             description: '',
             schema: {},
+            doSchema:{},
             team: {},
             strategy: {},
         },
@@ -183,6 +184,7 @@ const defaultProgressiveDialerState = () => {
         variables: [],
         strategy: {},
         ringtone: {},
+        doSchema: {},
         description: '',
 
         timeout: 10,
@@ -275,7 +277,7 @@ const actions = {
                 item = Object.assign(defaultProgressiveDialerState(), item);
                 break;
         }
-        context.commit('SET_ITEM', item);
+        context.commit('SET_ITEM', proxy(item));
     },
 
     SET_ITEM_BY_TYPE: (context, type) => {

@@ -50,11 +50,12 @@
                     required
             ></dropdown-select>
 
-            <form-input
-                    v-model="description"
-                    :label="$t('objects.description')"
-                    textarea
-            ></form-input>
+            <dropdown-select
+                    v-model="preSchema"
+                    :options="dropdownOptionsSchemaList"
+                    :label="$t('objects.ccenter.queues.preSchema')"
+                    @search="loadDropdownOptionsSchemaList"
+            ></dropdown-select>            
 
             <div class="switcher-label-wrap">
                 <div class="label">{{$t('objects.ccenter.queues.allowGreetingAgent')}}</div>
@@ -67,6 +68,12 @@
                         v-model="recordings"
                 ></switcher>
             </div>
+
+            <form-input
+                    v-model="description"
+                    :label="$t('objects.description')"
+                    textarea
+            ></form-input>
             
         </form>
     </section>
@@ -78,6 +85,7 @@
     import { getCalendarList } from '../../../../api/lookups/calendars/calendars';
     import { getBlacklistList } from '../../../../api/lookups/blacklists/blacklists';
     import { getTeamsList } from '../../../../api/contact-center/teams/teams';
+    import { getFlowList } from '../../../../api/routing/flow/flow';
 
     export default {
         name: 'opened-queue-progressive-dialer-general',
@@ -92,6 +100,7 @@
                 ],
                 dropdownOptionsPriorityList: ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10'],
                 dropdownOptionsTeamList: [],
+                dropdownOptionsSchemaList: [],
             };
         },
 
@@ -99,6 +108,7 @@
             this.loadDropdownOptionsCalendarList();
             this.loadDropdownOptionsBlacklistList();
             this.loadDropdownOptionsTeamList();
+            this.loadDropdownOptionsSchemaList();
         },
 
         computed: {
@@ -156,6 +166,15 @@
                 },
             },
 
+            preSchema: {
+                get() {
+                    return this.$store.state.ccenter.queues.itemInstance.doSchema;
+                },
+                set(value) {
+                    this.setItemProp({ prop: 'doSchema', value });
+                },
+            },
+
             description: {
                 get() {
                     return this.$store.state.ccenter.queues.itemInstance.description;
@@ -204,6 +223,14 @@
             async loadDropdownOptionsTeamList(search) {
                 const response = await getTeamsList(0, 10, search);
                 this.dropdownOptionsTeamList = response.list.map((item) => ({
+                        name: item.name,
+                        id: item.id,
+                    }));
+            },
+
+            async loadDropdownOptionsSchemaList(search) {
+                const response = await getFlowList(0, 10, search);
+                this.dropdownOptionsSchemaList = response.list.map((item) => ({
                         name: item.name,
                         id: item.id,
                     }));

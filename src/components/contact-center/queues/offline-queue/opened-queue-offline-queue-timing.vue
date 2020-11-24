@@ -53,7 +53,7 @@
                     return this.$store.state.ccenter.queues.itemInstance.payload.waitBetweenRetries;
                 },
                 set(value) {
-                    this.setItemPayloadProp({ prop: 'waitBetweenRetries', value });
+                    this.setItemPayloadProp({ prop: 'waitBetweenRetries', value: +value });
                 },
             },
 
@@ -62,7 +62,7 @@
                     return this.$store.state.ccenter.queues.itemInstance.payload.maxOfRetry;
                 },
                 set(value) {
-                    this.setItemPayloadProp({ prop: 'maxOfRetry', value });
+                    this.setItemPayloadProp({ prop: 'maxOfRetry', value: +value });
                 },
             },                
         },

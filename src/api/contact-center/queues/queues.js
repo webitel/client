@@ -17,7 +17,7 @@ const queueService = new QueueServiceApiFactory(configuration, '', instance);
 
 const BASE_URL = '/call_center/queues';
 const fieldsToSend = ['domainId', 'name', 'type', 'strategy', 'team', 'priority', 'dncList', 'schema',
-    'payload', 'maxOfRetry', 'timeout', 'secBetweenRetries', 'variables', 'calendar', 'description', 'enabled', 'ringtone'];
+    'payload', 'maxOfRetry', 'timeout', 'secBetweenRetries', 'variables', 'calendar', 'description', 'enabled', 'ringtone', 'doSchema'];
 
 export const strategiesList = {    
     'fifo': 'FIFO',
@@ -41,6 +41,7 @@ const defaultItemObject = {
     priority: '0',
     dncList: {}, // blacklist
     schema: {},
+    doSchema: {},
     team: {},
     ringtone: {},
     strategy: {},

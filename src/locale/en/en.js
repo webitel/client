@@ -537,6 +537,7 @@ export default {
                 enabled: 'Use AMD',
                 allowNotSure: 'Transfer NOTSURE to an agent',
                 allowGreetingAgent: 'Allow greeting agent',
+                preSchema: "Pre-executive schema",
                 recordings: "Recording",
                 maxWordLength: 'Maximum word length (ms)',
                 maxNumberOfWords: 'Maximum number of words',

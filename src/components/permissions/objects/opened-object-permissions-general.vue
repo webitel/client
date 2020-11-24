@@ -44,9 +44,9 @@
                 <template slot="create" slot-scope="props">
                     <checkbox
                             class="test__permissions-checkbox__c"
-                            :value="dataList[props.rowIndex].access.c"
+                            :value="dataList[props.rowIndex].access.x"
                             :label="$t('objects.allow')"
-                            @input="patchItem({prop: 'c', index: props.rowIndex})"
+                            @input="patchItem({prop: 'x', index: props.rowIndex})"
                     ></checkbox>
                 </template>
 

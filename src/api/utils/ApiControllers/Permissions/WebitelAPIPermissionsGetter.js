@@ -23,7 +23,7 @@ export default class WebitelAPIPermissionsGetter{
                             name: item.grantee.name,
                         },
                         access: {
-                            c: item.granted.includes('x'),
+                            x: item.granted.includes('x'),
                             r: item.granted.includes('r'),
                             w: item.granted.includes('w'),
                             d: item.granted.includes('d'),

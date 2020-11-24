@@ -529,6 +529,7 @@ export default {
                 enabled: 'Включить автоопределение',
                 allowNotSure: 'Неопределенные',
                 allowGreetingAgent: 'Разрешить приветствие',
+                preSchema: "Схема предварительного набора",
                 recordings: "Запись",
                 maxWordLength: 'Максимальная продолжительность предложения (мс)',
                 maxNumberOfWords: 'Максимальное кол-во слов в приветствии',

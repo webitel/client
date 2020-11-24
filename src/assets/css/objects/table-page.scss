@@ -24,6 +24,10 @@
     flex: 1 1 100%;
     width: 100%;
     box-sizing: border-box;
+
+    .wt-table {
+      flex-grow: 1;
+    }
   
     .wt-pagination {
       margin-top: 20px;

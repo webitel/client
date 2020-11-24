@@ -45,7 +45,7 @@
                     return this.$store.state.ccenter.queues.itemInstance.payload.discardAbandonedAfter;
                 },
                 set(value) {
-                    this.setItemPayloadProp({ prop: 'discardAbandonedAfter', value });
+                    this.setItemPayloadProp({ prop: 'discardAbandonedAfter', value: +value });
                 },
             },
 
@@ -54,7 +54,7 @@
                     return this.$store.state.ccenter.queues.itemInstance.payload.timeoutWithNoAgents;
                 },
                 set(value) {
-                    this.setItemPayloadProp({ prop: 'timeoutWithNoAgents', value });
+                    this.setItemPayloadProp({ prop: 'timeoutWithNoAgents', value: +value });
                 },
             },
 
@@ -63,7 +63,7 @@
                     return this.$store.state.ccenter.queues.itemInstance.payload.timeBaseScore;
                 },
                 set(value) {
-                    this.setItemPayloadProp({ prop: 'timeBaseScore', value });
+                    this.setItemPayloadProp({ prop: 'timeBaseScore', value: +value });
                 },
             },           
 
