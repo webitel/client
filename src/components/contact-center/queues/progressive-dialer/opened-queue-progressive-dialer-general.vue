@@ -168,7 +168,6 @@
 
             preSchema: {
                 get() {
-                    debugger
                     return this.$store.state.ccenter.queues.itemInstance.doSchema;
                 },
                 set(value) {
