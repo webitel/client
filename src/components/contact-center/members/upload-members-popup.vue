@@ -83,7 +83,7 @@
                     },
                     {
                         name: 'timezoneId',
-                        required: true,
+                        required: false,
                         csv: {},
                     },
                     {
