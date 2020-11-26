@@ -4,25 +4,25 @@
             <h3 class="content-title">{{$t('objects.generalInfo')}}</h3>
         </header>
         <form class="object-input-grid">
-            <form-input
+            <wt-input
                     v-model.trim="name"
-                    :label="$t('objects.name')"
-            ></form-input>
-            <form-input
+                    :label="$t('objects.name')"                    
+            ></wt-input>
+            <wt-input
                     v-model.trim="username"
                     :v="v.itemInstance.username"
                     :label="$t('objects.directory.users.login')"
                     required
-            ></form-input>
+            ></wt-input>
 
             <div class="input-extension-wrap">
-                <form-input
+                <wt-input
                         ref="input-password"
                         :value="computePasswordRepresentation"
                         :label="$t('objects.password')"
                         :type="type"
                         @input="password = $event"
-                ></form-input>
+                ></wt-input>
 
                 <div class="input-extension">
                     <div class="input-extension__copy" v-show="copyTriggerShow" @click="copyToClipboard">
@@ -43,10 +43,10 @@
                 </div>
             </div>
 
-            <form-input
+            <wt-input
                     v-model="extension"
                     :label="$t('objects.directory.users.extensions')"
-            ></form-input>
+            ></wt-input>
         </form>
     </section>
 </template>

@@ -193,6 +193,7 @@ const defaultProgressiveDialerState = () => {
             originateTimeout: 15,
             waitForResultStatus: true,
             maxAttempts: 10,
+            minDuration: 5,
             allowGreetingAgent: false,
             recordings: false,
             amd: {

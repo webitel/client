@@ -3,6 +3,11 @@ export const downloadAsJSON = (obj, name) => {
     download(dataStr, `${name}-schema.json`);
 };
 
+export const downloadAsTXT = (text, name) => {
+    const dataStr = `data:text/plain;charset=utf-8,${text}`;
+    download(dataStr, `${name}-token.txt`);
+};
+
 export const downloadAsCSV = (dataStr, name) => {
     download(dataStr, name);
 };

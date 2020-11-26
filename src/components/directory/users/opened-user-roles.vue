@@ -5,18 +5,14 @@
         </header>
         <form class="object-input-grid">
             <div>
-                <tags-input
+                <wt-select
                     v-model="roles"
-                    :options="dropdownOptionsList"
+                    :close-on-select="false"
                     :label="$tc('objects.permissions.permissionsRole')"
-                    @search="loadDropdownOptionsList"
-                ></tags-input>
-
-<!--                <tags-input-->
-<!--                    v-model="roleAdmin"-->
-<!--                    :options="roles"-->
-<!--                    :label="$t('objects.directory.users.roleAdmin')"-->
-<!--                ></tags-input>-->
+                    :search="loadDropdownOptionsList"
+                    :internal-search="false"
+                    multiple
+                ></wt-select>
             </div>
         </form>
     </section>
@@ -31,10 +27,6 @@
         name: 'opened-user-roles',
         mixins: [openedTabComponentMixin],
 
-        mounted() {
-            this.loadDropdownOptionsList();
-        },
-
         computed: {
             roles: {
                 get() {
@@ -43,24 +35,19 @@
                 set(value) {
                     this.setItemProp({ prop: 'roles', value });
                 },
-            },
-            // roleAdmin: {
-            //     get() {
-            //         return this.$store.state.directory.users.itemInstance.roleAdmin
-            //     },
-            //     set(value) {
-            //         this.setItemProp({prop: 'roleAdmin', value})
-            //     }
-            // },
+            },           
         },
 
         methods: {
             async loadDropdownOptionsList(search) {
                 const response = await getRoleList(0, 10, search);
-                this.dropdownOptionsList = response.list.map((item) => ({
+                if(response.list) {
+                return response.list.map((item) => ({
                         name: item.name,
                         id: item.id,
                     }));
+                }
+                return [];
             },
 
             ...mapActions('directory/users', {

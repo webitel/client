@@ -14,26 +14,21 @@
                         class="value-pair"
                         v-for="(variable, key) in variables"
                 >
-                    <form-input
+                    <wt-input
                             :value="variable.key"
                             :placeholder="$t('objects.directory.users.varKey')"
                             @input="setVariableProp({index: key, prop: 'key', value: $event})"
-                            hide-label
-                            hide-details
-                    ></form-input>
-                    <form-input
+                    ></wt-input>
+                    <wt-input
                             :value="variable.value"
                             :placeholder="$t('objects.directory.users.varVal')"
                             @input="setVariableProp({index: key, prop: 'value', value: $event})"
-                            hide-label
-                            hide-details
-                    ></form-input>
-                    <i
-                            class="icon-action icon-icon_delete"
+                    ></wt-input>
+                    <wt-icon-btn
+                            icon="bucket"
                             v-if="key !== 0"
-                            :title="$t('iconHints.delete')"
                             @click="deleteVariable(key)"
-                    ></i>
+                    ></wt-icon-btn>
                 </div>
             </div>
         </form>
@@ -66,5 +61,8 @@
 </script>
 
 <style lang="scss" scoped>
-
+    .value-pair {
+        grid-template-columns: 1fr 1fr 24px;
+        margin-bottom: 28px;
+    }
 </style>

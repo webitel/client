@@ -40,7 +40,7 @@
             },            
 
             ...mapActions('directory/users/tokens', {
-                addToken: 'POST_ITEM',
+                addToken: 'ADD_TOKEN',
                 setItemProp: 'SET_ITEM_PROPERTY',
             }),
         },
