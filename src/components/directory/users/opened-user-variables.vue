@@ -14,20 +14,20 @@
                         class="value-pair"
                         v-for="(variable, key) in variables"
                 >
-                    <form-input
+                    <wt-input
                             :value="variable.key"
                             :placeholder="$t('objects.directory.users.varKey')"
                             @input="setVariableProp({index: key, prop: 'key', value: $event})"
                             hide-label
                             hide-details
-                    ></form-input>
-                    <form-input
+                    ></wt-input>
+                    <wt-input
                             :value="variable.value"
                             :placeholder="$t('objects.directory.users.varVal')"
                             @input="setVariableProp({index: key, prop: 'value', value: $event})"
                             hide-label
                             hide-details
-                    ></form-input>
+                    ></wt-input>
                     <i
                             class="icon-action icon-icon_delete"
                             v-if="key !== 0"
@@ -66,5 +66,8 @@
 </script>
 
 <style lang="scss" scoped>
-
+    .value-pair {
+        grid-template-columns: 1fr 1fr 24px;
+        margin-bottom: 28px;
+    }
 </style>

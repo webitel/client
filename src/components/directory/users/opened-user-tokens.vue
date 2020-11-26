@@ -1,18 +1,24 @@
 <template>
     <section>
+        
         <token-popup
                     v-if="isPopup"
                     @close="closePopup"
         ></token-popup>
 
+        <token-created-popup
+                    v-if="isTokenGenerated"
+                    @close="closeTokenPopup"
+        ></token-created-popup>
+
         <header class="content-header">
             <h3 class="content-title">{{$tc('objects.directory.users.token', 2)}}</h3>
+            
             <div class="content-header__actions-wrap">
-            <i
-                        class="icon-icon_reload icon-action"
-                        :title="$t('iconHints.reload')"
-                        @click="loadList"
-                ></i>
+            <wt-table-actions
+                :icons="['refresh']"
+                @input="tableActionsHandler"
+            ></wt-table-actions>
                 <i
                         class="icon-action icon-icon_plus"
                         :title="$t('iconHints.add')"
@@ -21,39 +27,39 @@
             </div>
         </header>
 
-        <loader v-show="!isLoaded"></loader>
+        <wt-loader v-show="!isLoaded"></wt-loader>
 
-        <vuetable
+        <wt-table
                 v-show="isLoaded"
                 :api-mode="false"
-                :fields="fields"
+                :headers="fields"
                 :data="dataList"
         >
-            <template slot="usage" slot-scope="props">
+            <template slot="usage" slot-scope="{item}">
                 <div>
-                    {{dataList[props.rowIndex].usage}}
+                    {{item.usage}}
                 </div>
             </template>
 
-            <template slot="createdBy" slot-scope="props">
+            <template slot="createdBy" slot-scope="{item}">
                 <div>
-                    {{dataList[props.rowIndex].createdBy.name}}
+                    {{item.createdBy.name}}
                 </div>
             </template>
 
-            <template slot="createdAt" slot-scope="props">
+            <template slot="createdAt" slot-scope="{item}">
                 <div>
-                    {{convertTimeHHMMSS(dataList[props.rowIndex].createdAt)}}
+                    {{convertTimeHHMMSS(item.createdAt)}}
                 </div>
             </template>
 
-            <template slot="actions" slot-scope="props">
+            <template slot="actions" slot-scope="{item}">
                 <i class="vuetable-action icon-icon_delete"
-                @click="remove(props.rowIndex)"
+                @click="remove(item)"
                 ></i>
             </template>
 
-        </vuetable>
+        </wt-table>
         <pagination
                 v-show="isLoaded"
                 v-model="size"
@@ -73,20 +79,23 @@
     import tableComponentMixin from '../../../mixins/tableComponentMixin';
     import eventBus from '@webitel/ui-sdk/src/scripts/eventBus';
     import tokenPopup from './opened-user-tokens-popup.vue';
+    import tokenCreatedPopup from './opened-user-tokens-created-popup.vue';
+    import tableActionsHandlerMixin from '../../../mixins/tableActionsMixin';
 
     export default {
         name: 'opened-user-tokens',
-        mixins: [openedTabComponentMixin, tableComponentMixin],
-        components: { tokenPopup },
+        mixins: [openedTabComponentMixin, tableComponentMixin, tableActionsHandlerMixin],
+        components: { tokenPopup,  tokenCreatedPopup},
 
         data() {
             return {
                 fields: [
-                    { name: 'usage', title: $t('objects.directory.users.usage') },
-                    { name: 'createdAt', title: $t('objects.directory.users.createdAt') },
-                    { name: 'createdBy', title: $t('objects.directory.users.createdBy') },
+                    { value: 'usage', text: this.$t('objects.directory.users.usage') },
+                    { value: 'createdAt', text: this.$t('objects.directory.users.createdAt') },
+                    { value: 'createdBy', text: this.$t('objects.directory.users.createdBy') },
                 ],
                 isPopup: false,
+                isTokenGenerated: false,
             };
         },
 
@@ -105,7 +114,7 @@
                 dataList: (state) => state.dataList,
                 page: (state) => state.page,
                 isNextPage: (state) => state.isNextPage,
-            }),
+            }),           
 
             size: {
                 get() {
@@ -136,8 +145,22 @@
                 }
             },
 
-            closePopup() {
-                 this.isPopup = false;
+            closePopup() {                
+                this.isPopup = false;
+                if(this.$store.state.directory.users.tokens.itemInstance.token !== '') {
+                   this.isTokenGenerated = true; 
+                }
+            },
+
+            closePopup() {                
+                this.isPopup = false;
+                if(this.$store.state.directory.users.tokens.itemInstance.token !== '') {
+                   this.isTokenGenerated = true; 
+                }
+            },
+
+            closeTokenPopup() {
+                this.isTokenGenerated = false; 
             },
 
             convertTimeHHMMSS(value) {
@@ -158,9 +181,8 @@
                 prevPage: 'PREV_PAGE',
             }),
         },
-    }
+    };
 </script>
 
 <style scoped>
-
 </style>

@@ -30,9 +30,21 @@ const actions = {
         return await getTokens(state.parentId, state.page, state.size, state.search);
     },
 
-    POST_ITEM: async () => {
+    POST_ITEM: async () => {        
         return await addTokens(state.parentId, state.itemInstance);
-    },    
+    },
+    
+    ADD_TOKEN: async (context) => {
+        try {
+            let resp = await context.dispatch('POST_ITEM');            
+            await context.dispatch('LOAD_DATA_LIST'); 
+            context.commit('SET_TOKEN', resp.token);      
+        }
+        catch (err) {
+            console.error(err);
+        }
+        
+    },
 
     ...defaultModule.actions,
 
@@ -43,11 +55,15 @@ const actions = {
             context.commit('SET_DATA_LIST', response.list);
             context.commit('SET_IS_NEXT', response.next);
         }
-    },
+    },    
 };
 
 const mutations = {
     ...defaultModule.mutations,
+
+    SET_TOKEN: async (state, token) => {
+        state.itemInstance.token = token;
+    },
 };
 
 export default {

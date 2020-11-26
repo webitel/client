@@ -5,19 +5,22 @@
         </header>
         <form class="object-input-grid">
             <div>
-                <dropdown-select
-                        v-model="device"
-                        :label="$t('objects.directory.users.defaultDevice')"
-                        :options="devices"
-                        @search="loadDropdownOptionsList"
-                ></dropdown-select>
-
-                <tags-input
-                        v-model="devices"
-                        :options="dropdownOptionsList"
-                        :label="$tc('objects.directory.devices.devices', 2)"
-                        @search="loadDropdownOptionsList"
-                ></tags-input>
+                <wt-select
+                    v-model="device"
+                    :options="devices"
+                    :label="$t('objects.directory.users.defaultDevice')"
+                    track-by="id"
+                    required
+                ></wt-select>
+                
+                <wt-select
+                    v-model="devices"
+                    :options="dropdownOptionsList"
+                    :close-on-select="true"
+                    :label="$tc('objects.directory.devices.devices', 2)"
+                    :search="loadDropdownOptionsList"   
+                    multiple
+                ></wt-select>
 
                 <div class="hint-link__wrap">
                     <span>{{$t('objects.directory.users.deviceNotFound')}}</span>
@@ -40,9 +43,7 @@
         mixins: [openedTabComponentMixin],
         data() {
             return {
-
             }
-
         },
 
         mounted() {

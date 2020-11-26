@@ -1,27 +1,43 @@
 <template>
-    <div class="content-wrap">
-        <object-header
-                :primaryText="computePrimaryText"
-                :primaryAction="save"
-                :primaryDisabled="computeDisabled"
-                close
-        >
-            {{$tc('objects.directory.users.users', 1)}} |
-            {{computeTitle}}
-        </object-header>
-        <tabs-component
+<wt-page-wrapper :actions-panel="false">
+        <template slot="header">
+            <wt-headline>
+                <template slot="title">
+                    {{$tc('objects.directory.users.users', 1)}} |
+                    {{computeTitle}}
+                </template>
+                <template slot="actions">
+                    <wt-button
+                            color="secondary"
+                            @click="back"
+                    >
+                        {{$t('objects.close')}}
+                    </wt-button>
+                    <wt-button
+                            :disabled="computeDisabled"
+                            @click="save"
+                    >
+                        {{computePrimaryText || $t('objects.addNew')}}
+                    </wt-button>
+                </template>
+            </wt-headline>
+        </template>
+        
+        <template slot="main">
+            <div style="display: flex; flex-direction: column; width: 100%;">
+                <wt-tabs 
                 :tabs="tabs"
-                :root="$options.name"
-        >
-            <template slot="component" slot-scope="props">
+                v-model="currentTab"
+            >
+            </wt-tabs>
                 <component
-                        class="tabs-inner-component"
-                        :is="props.currentTab"
-                        :v="$v"
-                ></component>
-            </template>
-        </tabs-component>
-    </div>
+                    :is="$options.name + '-' + currentTab.value"
+                    :v="$v"
+                 ></component>       
+            </div>         
+        </template>
+    </wt-page-wrapper>  
+        
 </template>
 
 <script>
@@ -49,7 +65,11 @@
             openedUserPermissions,
         },
         data() {
-            return {};
+            return {
+                currentTab: { 
+                    value: 'general',
+                },
+            };
         },
 
         validations: {
@@ -111,6 +131,10 @@
         },
 
         methods: {
+            back() {
+                this.$router.go(-1);
+            },
+
             ...mapActions('directory/users', {
                 setId: 'SET_ITEM_ID',
                 loadItem: 'LOAD_ITEM',
@@ -122,27 +146,13 @@
 </script>
 
 <style lang="scss" scoped>
-    .value-pair {
-        @extend .object-input-grid;
-
-        align-items: center;
-        grid-template-columns: 1fr 1fr 24px;
-
-        .icon-icon_delete {
-            margin-bottom: 10px;
-            cursor: pointer;
-
-            &:hover {
-                color: #000;
-            }
-        }
+    @import '@/assets/css/objects/table-page';
+    
+    .value-pair-wrap {
+        margin-top: 8px;
     }
 
-    .variables .icon-icon_plus {
-        cursor: pointer;
-
-        &:hover {
-            color: #000;
-        }
+    .value-pair {
+        grid-template-columns: 1fr 24px;
     }
 </style>
