@@ -44,7 +44,7 @@ export default {
         supervisor: 'Supervisor Workspace',
         audit: 'Audit',
         history: 'Call History',
-        grafana: 'On-site Visualisation Tool',
+        grafana: 'Data Visualisation Tool',
     },
 
     appNavigator: {
