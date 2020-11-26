@@ -19,6 +19,10 @@
                         v-model="maxAttempts"
                         :label="$t('objects.ccenter.queues.maxNumberOfRetry')"
                 ></form-input>
+                <form-input
+                        v-model="minDuration"
+                        :label="$t('objects.ccenter.queues.minCallDuration')"
+                ></form-input>
             </div>
         </form>
     </section>
@@ -62,6 +66,15 @@
                 },
                 set(value) {
                     this.setItemPayloadProp({ prop: 'maxAttempts', value: +value });
+                },
+            },
+
+            minDuration: {
+                get() {
+                    return this.$store.state.ccenter.queues.itemInstance.payload.minDuration || 0;
+                },
+                set(value) {
+                    this.setItemPayloadProp({ prop: 'minDuration', value: +value });
                 },
             },
         },
