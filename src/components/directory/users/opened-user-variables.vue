@@ -18,22 +18,17 @@
                             :value="variable.key"
                             :placeholder="$t('objects.directory.users.varKey')"
                             @input="setVariableProp({index: key, prop: 'key', value: $event})"
-                            hide-label
-                            hide-details
                     ></wt-input>
                     <wt-input
                             :value="variable.value"
                             :placeholder="$t('objects.directory.users.varVal')"
                             @input="setVariableProp({index: key, prop: 'value', value: $event})"
-                            hide-label
-                            hide-details
                     ></wt-input>
-                    <i
-                            class="icon-action icon-icon_delete"
+                    <wt-icon-btn
+                            icon="bucket"
                             v-if="key !== 0"
-                            :title="$t('iconHints.delete')"
                             @click="deleteVariable(key)"
-                    ></i>
+                    ></wt-icon-btn>
                 </div>
             </div>
         </form>

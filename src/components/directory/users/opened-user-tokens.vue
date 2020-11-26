@@ -31,7 +31,6 @@
 
         <wt-table
                 v-show="isLoaded"
-                :api-mode="false"
                 :headers="fields"
                 :data="dataList"
         >
@@ -54,9 +53,9 @@
             </template>
 
             <template slot="actions" slot-scope="{item}">
-                <i class="vuetable-action icon-icon_delete"
-                @click="remove(item)"
-                ></i>
+                <wt-icon-btn icon="bucket"
+                    @click="remove(item)"
+                ></wt-icon-btn>
             </template>
 
         </wt-table>
@@ -114,7 +113,7 @@
                 dataList: (state) => state.dataList,
                 page: (state) => state.page,
                 isNextPage: (state) => state.isNextPage,
-            }),           
+            }),
 
             size: {
                 get() {

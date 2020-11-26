@@ -30,7 +30,7 @@ const actions = {
         return await getTokens(state.parentId, state.page, state.size, state.search);
     },
 
-    POST_ITEM: async () => {        
+    POST_ITEM: async () => {
         return await addTokens(state.parentId, state.itemInstance);
     },
     
@@ -41,7 +41,7 @@ const actions = {
             context.commit('SET_TOKEN', resp.token);      
         }
         catch (err) {
-            console.error(err);
+            throw err;
         }
         
     },

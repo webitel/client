@@ -24,7 +24,7 @@
         </template>
         
         <template slot="main">
-            <div style="display: flex; flex-direction: column; width: 100%;">
+            <div class="main-container">
                 <wt-tabs 
                 :tabs="tabs"
                 v-model="currentTab"
@@ -154,5 +154,11 @@
 
     .value-pair {
         grid-template-columns: 1fr 24px;
+    }
+
+    .main-container {
+        display: flex; 
+        flex-direction: column; 
+        width: 100%;
     }
 </style>

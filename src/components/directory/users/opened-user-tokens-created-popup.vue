@@ -28,23 +28,18 @@
         components: {},
 
         computed: {
-            token: {
-                get() {
-                    return this.$store.state.directory.users.tokens.itemInstance.token;
-                }
-            },
+            token() {
+                return this.$store.state.directory.users.tokens.itemInstance.token;
+            },            
 
-            userName: {
-                get() {
-                    return this.$store.state.directory.users.itemInstance.name;
-                }
+            userName() {
+                return this.$store.state.directory.users.itemInstance.name;            
             },
         },
 
         methods: {
             async copy() {
                 if (this.token) {
-                    debugger
                     eventBus.$emit('copy', this.token);
                 }
             }, 
@@ -65,8 +60,8 @@
     }
 
     .popup-token-container {
-        width: 50%; margin-left: 
-        auto; margin-right: auto; 
+        width: 50%; 
+        margin: 0 auto; 
         border: 2px solid #FF4444; 
         border-radius: 5px; 
         margin-top: 10px; 

@@ -15,7 +15,7 @@ const defaultState = () => {
             password: '',
             extension: '',
             roles: [],
-            // roleAdmin: [],
+            device: {},
             license: [],
             devices: [],
             presence: {

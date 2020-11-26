@@ -6,8 +6,7 @@
         <form class="object-input-grid">
             <wt-input
                     v-model.trim="name"
-                    :label="$t('objects.name')"
-                    
+                    :label="$t('objects.name')"                    
             ></wt-input>
             <wt-input
                     v-model.trim="username"
