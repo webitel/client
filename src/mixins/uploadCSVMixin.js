@@ -22,15 +22,25 @@ export default {
         return {
             skipHeaders: true,
             charset: { name: 'UTF-8', value: 'utf-8' },
-            separator: ',',
+            separator: ';',
             csvArr: [[]],
             charsetOptions,
             mappingFields: [],
+            csvFileItself: null,
         };
     },
 
     mounted() {
-        this.processCSV();
+        // this.processCSV();
+    },
+
+    watch: {
+        separator: {
+            handler() {
+                if (this.separator) this.processCSV();
+            },
+            immediate: true,
+        },
     },
 
     computed: {
@@ -84,9 +94,13 @@ export default {
         },
 
         processCSV() {
+            if (this.csvFileItself) {
+                this.csvArr = processCSVFile(this.csvFileItself, this.separator);
+            }
             const reader = new FileReader();
             reader.addEventListener('load', (e) => {
                     const file = e.target.result;
+                    this.csvFileItself = file;
                     if (file) this.csvArr = processCSVFile(file, this.separator);
                 });
             reader.readAsText(this.file, this.charset.value);

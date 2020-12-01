@@ -1,5 +1,4 @@
 export const processCSVFile = (csv, delimiter = ',') => {
-    // console.log(csv);
     const pattern = new RegExp((
         `(\\${delimiter}|\\r?\\n|\\r|^)` // Delimiters.
         + '(?:"([^"]*(?:""[^"]*)*)"|' // Quoted fields.
