@@ -1,6 +1,8 @@
 import axios from 'axios';
 import eventBus from '@webitel/ui-sdk/src/scripts/eventBus';
-import { objCamelToSnake, objSnakeToCamel } from './utils/caseConverters';
+import { objCamelToSnake, objSnakeToCamel } from '@webitel/ui-sdk/src/scripts/caseConverters';
+
+const DO_NOT_CONVERT_KEYS = ['schema', 'variables'];
 
 // global API configuration
 // 'X-Webitel-Access' ~ 'X-Access-Token'
@@ -13,16 +15,15 @@ const instance = axios.create({
     },
 });
 
-
 instance.interceptors.request.use(
     (request) => {
         if (request.method === 'post'
             || request.method === 'put'
             || request.method === 'patch') {
             if (typeof request.data === 'string') {
-                request.data = JSON.stringify(objCamelToSnake(JSON.parse(request.data)));
+                request.data = JSON.stringify(objCamelToSnake(JSON.parse(request.data), DO_NOT_CONVERT_KEYS));
             } else {
-                request.data = objCamelToSnake(request.data);
+                request.data = objCamelToSnake(request.data, DO_NOT_CONVERT_KEYS);
             }
         }
         return request;
@@ -30,7 +31,7 @@ instance.interceptors.request.use(
 );
 
 instance.interceptors.response.use(
-    (response) => objSnakeToCamel(response.data),
+    (response) => objSnakeToCamel(response.data, DO_NOT_CONVERT_KEYS),
     (error) => { // catches 401 error across all api's
         if (error.response && error.response.status === 401) {
             console.warn('intercepted 401');
