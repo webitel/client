@@ -27,12 +27,13 @@ module.exports = {
         },
     },
     chainWebpack: (config) => {
-        // // exclude sprites default building
-        // config.module.rule('svg').exclude.add(/^(.*sprites).*\.svg/);
-        //
-        // // use svg-sprite-loader to process icons sprite
-        // config.module.rule('svg-sprite').test(/^(.*sprites).*\.svg/)
-        //     .use('svg-sprite-loader').loader('svg-sprite-loader').options({ symbolId: () => '' });
+        // exclude sprites default building
+        config.module.rule('svg').exclude.add(/^(.*sprites).*\.svg/);
+
+        // use svg-sprite-loader to process icons sprite
+        config.module.rule('svg-sprite').test(/^(.*sprites).*\.svg/)
+            .use('svg-sprite-loader').loader('svg-sprite-loader').options({ symbolId: () => '' });
+
         config.module
             .rule('eslint')
             .use('eslint-loader')

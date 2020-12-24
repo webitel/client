@@ -47,6 +47,7 @@ const actions = {
 
     DELETE_ITEM: async (context, id) => {
         await deleteQueueResGroup(state.parentId, id);
+        await context.dispatch('LOAD_DATA_LIST');
     },
 
     ...defaultModule.actions,
