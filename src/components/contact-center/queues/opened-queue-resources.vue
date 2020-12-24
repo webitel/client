@@ -28,12 +28,22 @@
       <wt-table
           :headers="headers"
           :data="dataList"
+          :selectable="false"
       >
         <template slot="name" slot-scope="{item}">
           <div>{{ item.resourceGroup.name }}</div>
         </template>
         <template slot="actions" slot-scope="{ item }">
-          <wt-icon-btn icon="bucket" @click="removeItem(item.id)"></wt-icon-btn>
+          <wt-icon-btn
+              class="table-action"
+              icon="edit"
+              @click="edit(item)"
+          ></wt-icon-btn>
+          <wt-icon-btn
+              class="table-action"
+              icon="bucket"
+              @click="removeItem(item.id)"
+          ></wt-icon-btn>
         </template>
       </wt-table>
       <wt-pagination
@@ -111,8 +121,8 @@ export default {
       }
     },
 
-    edit(rowIndex) {
-      this.setId(this.dataList[rowIndex].id);
+    edit(item) {
+      this.setId(item.id);
       this.popupTriggerIf = true;
     },
 
