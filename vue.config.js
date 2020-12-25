@@ -15,6 +15,7 @@ module.exports = {
     // publicPath: process.env.NODE_ENV === 'production' ? '' : '/',
     publicPath: '/',
     lintOnSave: true,
+    productionSourceMap: process.env.NODE_ENV !== 'production' || process.env.SOURCE_MAP,
     css: {
         loaderOptions: {
             sass: {
