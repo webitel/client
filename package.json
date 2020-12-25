@@ -10,7 +10,7 @@
   },
   "dependencies": {
     "@johmun/vue-tags-input": "^2.1.0",
-    "@webitel/ui-sdk": "^0.6.17",
+    "@webitel/ui-sdk": "^0.6.32",
     "axios": "^0.19.0",
     "chart.js": "^2.9.3",
     "core-js": "^2.6.5",
@@ -24,6 +24,7 @@
     "lodash": "latest",
     "monaco-editor": "^0.18.1",
     "sortablejs": "^1.10.2",
+    "svg-sprite-loader": "^5.2.1",
     "vue": "^2.6.10",
     "vue-agile": "^1.0.11",
     "vue-chartjs": "^3.5.0",

@@ -17,12 +17,12 @@ export default {
           default:
         }
       },
-  
+
       expandFilters() {
         this.isOpened = !this.isOpened;
       },
       refreshList() {
-        this.loadDataList();
+        this.loadList();
       },
       openColumnSelect() {
         this.isFilterFieldsOpened = true;

@@ -80,7 +80,7 @@
 
     // ACTIONS
     .icon-action {
-      margin-left: 30px;
+      margin-left: 20px;
     }
 
     //.table-action__actions {
@@ -118,7 +118,7 @@
       }
     }
 
-    i:not(.icon-icon_search) {
+    i:not(.icon-icon_search):not(.wt-icon) {
       @extend .icon-action;
       margin-left: 30px;
     }

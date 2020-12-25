@@ -47,7 +47,7 @@
                     return this.$store.state.ccenter.queues.itemInstance.payload.originateTimeout;
                 },
                 set(value) {
-                    this.setItemPayloadProp({ prop: 'name', value });
+                    this.setItemPayloadProp({ prop: 'originateTimeout', value });
                 },
             },
 
