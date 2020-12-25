@@ -45,7 +45,7 @@ const defaultItemObject = {
     team: {},
     ringtone: {},
     strategy: {},
-    description: 'DESCRIPTION',
+    description: '',
     variables: [{ key: '', value: '' }],
     _dirty: false,
 };

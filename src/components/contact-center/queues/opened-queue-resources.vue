@@ -9,17 +9,20 @@
       <h3 class="content-title">{{ $tc('objects.ccenter.res.res', 2) }}</h3>
       <div class="content-header__actions-wrap">
         <wt-search-bar
-            v-model="search"
-            @filterData="loadList"
+            :value="search"
+            debounce
+            @input="setSearch"
+            @search="loadList"
+            @enter="loadList"
         ></wt-search-bar>
         <wt-table-actions
             @input="tableActionsHandler"
         ></wt-table-actions>
-        <i
-            class="icon-action icon-icon_plus"
-            :title="$t('iconHints.add')"
+        <wt-icon-btn
+            class="icon-action"
+            icon="plus"
             @click="create"
-        ></i>
+        ></wt-icon-btn>
       </div>
     </header>
 
@@ -30,7 +33,7 @@
           :data="dataList"
           :selectable="false"
       >
-        <template slot="name" slot-scope="{item}">
+        <template slot="name" slot-scope="{ item }">
           <div>{{ item.resourceGroup.name }}</div>
         </template>
         <template slot="actions" slot-scope="{ item }">
@@ -47,9 +50,14 @@
         </template>
       </wt-table>
       <wt-pagination
-          v-model="size"
-          @loadDataList="loadList"
-          :next="isNextPage"
+          :size="size"
+          :next="isNext"
+          :prev="page > 1"
+          debounce
+          @next="nextPage"
+          @prev="prevPage"
+          @input="setSize"
+          @change="loadList"
       ></wt-pagination>
     </div>
   </section>
@@ -89,26 +97,10 @@ export default {
     ...mapState('ccenter/queues/resGroups', {
       dataList: (state) => state.dataList,
       page: (state) => state.page,
-      isNextPage: (state) => state.isNextPage,
+      size: (state) => state.size,
+      isNext: (state) => state.isNextPage,
+      search: (state) => state.search,
     }),
-
-    size: {
-      get() {
-        return this.$store.state.ccenter.queues.resGroups.size;
-      },
-      set(value) {
-        this.setSize(value);
-      },
-    },
-
-    search: {
-      get() {
-        return this.$store.state.ccenter.queues.resGroups.search;
-      },
-      set(value) {
-        this.setSearch(value);
-      },
-    },
   },
 
   methods: {

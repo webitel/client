@@ -10,7 +10,7 @@ const defaultState = () => {
         size: '10',
         search: '',
         page: 1,
-        isNextPage: true,
+        isNextPage: false,
         itemId: 0,
         itemInstance: {
             bucket: '',
@@ -46,6 +46,7 @@ const actions = {
 
     DELETE_ITEM: async (context, id) => {
         await deleteQueueBucket(state.parentId, id);
+        await context.dispatch('LOAD_DATA_LIST');
     },
 
     ...defaultModule.actions,

@@ -13,6 +13,7 @@ export class DefaultNestedModule {
         this.actions = {
             SET_PARENT_ITEM_ID: (context, id) => {
                 context.commit('SET_PARENT_ITEM_ID', id);
+                context.dispatch('RESET_ITEM_STATE'); // FIXME: MOVED HERE FROM LOAD_DATA_LIST. NOT SURE ABOUT SIDE EFFECTS :/
             },
 
             SET_ITEM_ID: (context, id) => {
@@ -22,7 +23,6 @@ export class DefaultNestedModule {
             LOAD_DATA_LIST: async (context) => {
                 if(context.state.parentId) {
                     const response = await context.dispatch('GET_LIST');
-                    context.dispatch('RESET_ITEM_STATE');
                     if(response.list) {
                         context.commit('SET_DATA_LIST', response.list);
                         context.commit('SET_IS_NEXT', response.isNext);
