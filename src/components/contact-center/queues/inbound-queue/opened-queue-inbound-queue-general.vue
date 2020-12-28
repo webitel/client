@@ -1,196 +1,149 @@
 <template>
-    <section>
-        <header class="content-header">
-            <h3 class="content-title">{{$t('objects.generalInfo')}}</h3>
-        </header>
-        <form class="object-input-grid">
-            <form-input
-                    v-model="name"
-                    :v="v.itemInstance.name"
-                    :label="$t('objects.name')"
-                    required
-            ></form-input>
+  <section>
+    <header class="content-header">
+      <h3 class="content-title">{{ $t('objects.generalInfo') }}</h3>
+    </header>
+    <form class="object-input-grid">
+      <wt-input
+          :value="name"
+          :v="v.itemInstance.name"
+          :label="$t('objects.name')"
+          @input="setItemProp({ prop: 'name', value: $event })"
+          required
+      ></wt-input>
 
-            <dropdown-select
-                    v-model="calendar"
-                    :v="v.itemInstance.calendar"
-                    :options="dropdownOptionsCalendarList"
-                    :label="$tc('objects.lookups.calendars.calendars', 1)"
-                    @search="loadDropdownOptionsCalendarList"
-                    required
-            ></dropdown-select>
+      <wt-select
+          :value="calendar"
+          :v="v.itemInstance.calendar"
+          :label="$tc('objects.lookups.calendars.calendars', 1)"
+          :search="loadDropdownOptionsCalendarList"
+          :internal-search="false"
+          :clearable="false"
+          required
+          @input="setItemProp({ prop: 'calendar', value: $event })"
+      ></wt-select>
 
-            <dropdown-select
-                    v-model="dncList"
-                    :options="dropdownOptionsBlacklistList"
-                    :label="$tc('objects.lookups.blacklist.blacklist', 1)"
-                    @search="loadDropdownOptionsBlacklistList"
-            ></dropdown-select>
+      <wt-select
+          :value="dncList"
+          :label="$tc('objects.lookups.blacklist.blacklist', 1)"
+          :search="loadDropdownOptionsBlacklistList"
+          :internal-search="false"
+          @input="setItemProp({ prop: 'dncList', value: $event })"
+      ></wt-select>
 
-            <dropdown-select
-                    v-model="priority"
-                    :options="dropdownOptionsPriorityList"
-                    :label="$t('objects.ccenter.queues.priority')"
-            ></dropdown-select>
+      <wt-select
+          :value="priority"
+          :options="dropdownOptionsPriorityList"
+          :label="$t('objects.ccenter.queues.priority')"
+          :track-by="null"
+          @input="setItemProp({ prop: 'priority', value: $event })"
+      ></wt-select>
 
 
-            <dropdown-select
-                    v-model="team"
-                    :v="v.itemInstance.team"
-                    :options="dropdownOptionsTeamList"
-                    :label="$tc('objects.ccenter.teams.teams', 1)"
-                    @search="loadDropdownOptionsTeamList"
-                    required
-            ></dropdown-select>
+      <wt-select
+          :value="team"
+          :v="v.itemInstance.team"
+          :label="$tc('objects.ccenter.teams.teams', 1)"
+          :search="loadDropdownOptionsTeamList"
+          :internal-search="false"
+          :clearable="false"
+          required
+          @input="setItemProp({ prop: 'team', value: $event })"
+      ></wt-select>
 
-            <dropdown-select
-                    v-model="ringtone"
-                    :v="v.itemInstance.ringtone"
-                    :options="dropdownOptionsMediaList"
-                    :label="$t('objects.ccenter.queues.ringtone')"
-                    @search="loadDropdownOptionsMediaList"
-            ></dropdown-select>
+      <wt-select
+          :value="ringtone"
+          :label="$t('objects.ccenter.queues.ringtone')"
+          :search="loadDropdownOptionsMediaList"
+          :internal-search="false"
+          @input="setItemProp({ prop: 'ringtone', value: $event })"
+      ></wt-select>
 
-            <form-input
-                    v-model="description"
-                    :label="$t('objects.description')"
-                    textarea
-            ></form-input>
-        </form>
-    </section>
+      <wt-textarea
+          :value="description"
+          :label="$t('objects.description')"
+          @input="setItemProp({ prop: 'description', value: $event })"
+      ></wt-textarea>
+    </form>
+  </section>
 </template>
 
 <script>
-    import openedTabComponentMixin from '@/mixins/openedTabComponentMixin';
-    import { mapActions } from 'vuex';
-    import { getCalendarList } from '../../../../api/lookups/calendars/calendars';
-    import { getTeamsList } from '../../../../api/contact-center/teams/teams';
-    import { getBlacklistList } from '../../../../api/lookups/blacklists/blacklists';
-    import { getMediaList } from '../../../../api/lookups/media/media';
+import { mapState, mapActions } from 'vuex';
+import openedTabComponentMixin from '../../../../mixins/openedTabComponentMixin';
+import { getCalendarList } from '../../../../api/lookups/calendars/calendars';
+import { getTeamsList } from '../../../../api/contact-center/teams/teams';
+import { getBlacklistList } from '../../../../api/lookups/blacklists/blacklists';
+import { getMediaList } from '../../../../api/lookups/media/media';
 
-    export default {
-        name: 'opened-queue-inbound-queue-general',
-        mixins: [openedTabComponentMixin],
-        data() {
-            return {
-                dropdownOptionsCalendarList: [],
-                dropdownOptionsBlacklistList: [],
-                dropdownOptionsPriorityList: ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10'],
-                dropdownOptionsTeamList: [],
-                dropdownOptionsMediaList: [],
-            };
-        },
+export default {
+  name: 'opened-queue-inbound-queue-general',
+  mixins: [openedTabComponentMixin],
+  data: () => ({
+      dropdownOptionsPriorityList: [
+        { name: '1', value: '1' },
+        { name: '2', value: '2' },
+        { name: '3', value: '3' },
+        { name: '4', value: '4' },
+        { name: '5', value: '5' },
+        { name: '6', value: '6' },
+        { name: '7', value: '7' },
+        { name: '8', value: '8' },
+        { name: '8', value: '9' },
+        { name: '10', value: '10' },
+      ],
+  }),
 
-        mounted() {
-            this.loadDropdownOptionsCalendarList();
-            this.loadDropdownOptionsBlacklistList();
-            this.loadDropdownOptionsTeamList();
-            this.loadDropdownOptionsMediaList();
-        },
+  computed: {
+    ...mapState('ccenter/queues', {
+      name: (state) => state.itemInstance.name,
+      calendar: (state) => state.itemInstance.calendar,
+      dncList: (state) => state.itemInstance.dncList,
+      priority: (state) => state.itemInstance.priority,
+      team: (state) => state.itemInstance.team,
+      ringtone: (state) => state.itemInstance.ringtone,
+      description: (state) => state.itemInstance.description,
+    }),
+  },
 
-        computed: {
-            name: {
-                get() {
-                    return this.$store.state.ccenter.queues.itemInstance.name;
-                },
-                set(value) {
-                    this.setItemProp({ prop: 'name', value });
-                },
-            },
+  methods: {
+    async loadDropdownOptionsCalendarList(search) {
+      const response = await getCalendarList(1, 10, search);
+      return response.list.map((item) => ({
+        name: item.name,
+        id: item.id,
+      }));
+    },
 
-            calendar: {
-                get() {
-                    return this.$store.state.ccenter.queues.itemInstance.calendar;
-                },
-                set(value) {
-                    this.setItemProp({ prop: 'calendar', value });
-                },
-            },
+    async loadDropdownOptionsBlacklistList(search) {
+      const response = await getBlacklistList(1, 10, search);
+      return response.list.map((item) => ({
+        name: item.name,
+        id: item.id,
+      }));
+    },
 
-            dncList: {
-                get() {
-                    return this.$store.state.ccenter.queues.itemInstance.dncList;
-                },
-                set(value) {
-                    this.setItemProp({ prop: 'dncList', value });
-                },
-            },
+    async loadDropdownOptionsTeamList(search) {
+      const response = await getTeamsList(1, 10, search);
+      return response.list.map((item) => ({
+        name: item.name,
+        id: item.id,
+      }));
+    },
 
-            priority: {
-                get() {
-                    return this.$store.state.ccenter.queues.itemInstance.priority;
-                },
-                set(value) {
-                    this.setItemProp({ prop: 'priority', value });
-                },
-            },
+    async loadDropdownOptionsMediaList(search) {
+      const response = await getMediaList(1, 10, search);
+      return response.list.map((item) => ({
+        name: item.name,
+        id: item.id,
+      }));
+    },
 
-            team: {
-                get() {
-                    return this.$store.state.ccenter.queues.itemInstance.team;
-                },
-                set(value) {
-                    this.setItemProp({ prop: 'team', value });
-                },
-            },
-
-            ringtone: {
-                get() {
-                    return this.$store.state.ccenter.queues.itemInstance.ringtone;
-                },
-                set(value) {
-                    this.setItemProp({ prop: 'ringtone', value });
-                },
-            },
-
-            description: {
-                get() {
-                    return this.$store.state.ccenter.queues.itemInstance.description;
-                },
-                set(value) {
-                    this.setItemProp({ prop: 'description', value });
-                },
-            },
-        },
-
-        methods: {
-            async loadDropdownOptionsCalendarList(search) {
-                const response = await getCalendarList(0, 10, search);
-                this.dropdownOptionsCalendarList = response.list.map((item) => ({
-                        name: item.name,
-                        id: item.id,
-                    }));
-            },
-
-            async loadDropdownOptionsBlacklistList(search) {
-                const response = await getBlacklistList(0, 10, search);
-                this.dropdownOptionsBlacklistList = response.list.map((item) => ({
-                        name: item.name,
-                        id: item.id,
-                    }));
-            },
-
-            async loadDropdownOptionsTeamList(search) {
-                const response = await getTeamsList(0, 10, search);
-                this.dropdownOptionsTeamList = response.list.map((item) => ({
-                        name: item.name,
-                        id: item.id,
-                    }));
-            },
-
-            async loadDropdownOptionsMediaList(search) {
-                const response = await getMediaList(0, 10, search);
-                this.dropdownOptionsMediaList = response.list.map((item) => ({
-                        name: item.name,
-                        id: item.id,
-                    }));
-            },
-
-            ...mapActions('ccenter/queues', {
-                setItemProp: 'SET_ITEM_PROPERTY',
-            }),
-        },
-    };
+    ...mapActions('ccenter/queues', {
+      setItemProp: 'SET_ITEM_PROPERTY',
+    }),
+  },
+};
 </script>
 
 <style lang="scss" scoped>
