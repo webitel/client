@@ -47,7 +47,6 @@
       <wt-select
           v-model="schema"
           :v="v.itemInstance.schema"
-          :options="dropdownOptionsSchemaList"
           :label="$t('objects.routing.schema')"
           :search="loadDropdownOptionsSchemaList"
           :internal-search="false"
@@ -75,8 +74,8 @@
 </template>
 
 <script>
-import openedTabComponentMixin from '@/mixins/openedTabComponentMixin';
 import { mapActions } from 'vuex';
+import openedTabComponentMixin from '../../../../mixins/openedTabComponentMixin';
 import { getCalendarList } from '../../../../api/lookups/calendars/calendars';
 import { getBlacklistList } from '../../../../api/lookups/blacklists/blacklists';
 import { getFlowList } from '../../../../api/routing/flow/flow';
@@ -87,8 +86,6 @@ export default {
 
   data() {
     return {
-      dropdownOptionsCalendarList: [],
-      dropdownOptionsBlacklistList: [],
       dropdownOptionsStrategyList: [
         { name: 'FIFO', value: 'fifo' },
         { name: 'LIFO', value: 'lifo' },
@@ -105,7 +102,6 @@ export default {
         { name: '8', id: 9, value: '9' },
         { name: '10', id: 10, value: '10' },
       ],
-      dropdownOptionsSchemaList: [],
     };
   },
 
