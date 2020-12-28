@@ -65,7 +65,6 @@
         @extend .typo-tab;
         display: block;
         position: relative;
-        margin: 0 0 28px;
         padding: 0 58px;
 
         .tab__item {
