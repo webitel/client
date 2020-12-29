@@ -1,225 +1,258 @@
 <template>
-    <div class="content-wrap">
-        <object-header
-                hide-primary-action
-        >
-            {{$t('objects.directory.directory')}} |
-            {{$t('objects.directory.license.license')}}
-        </object-header>
+  <div class="content-wrap">
+    <object-header
+        hide-primary-action
+    >
+      {{ $t('objects.directory.directory') }} |
+      {{ $t('objects.directory.license.license') }}
+    </object-header>
 
-        <license-popup
-                v-if="popupTriggerIf"
-                @close="popupTriggerIf = false"
-        ></license-popup>
+    <license-popup
+        v-if="popupTriggerIf"
+        @close="popupTriggerIf = false"
+    ></license-popup>
 
-        <section class="object-content">
-            <header class="content-header">
-                <h3 class="content-title">
-                    {{$t('objects.directory.license.allLicenses')}}
-                </h3>
-                <div class="content-header__actions-wrap">
-                    <wt-search-bar
-                        v-model="search"
-                        @search="loadList"
-                    ></wt-search-bar>
-                    <i
-                            class="icon-icon_upload icon-action"
-                            :title="$t('iconHints.upload')"
-                            @click="popupTriggerIf = true"
-                    ></i>
-                    <i
-                            class="icon-icon_reload icon-action"
-                            :title="$t('iconHints.reload')"
-                            @click="loadList"
-                    ></i>
-                </div>
-            </header>
+    <section class="object-content">
+      <header class="content-header">
+        <h3 class="content-title">
+          {{ $t('objects.directory.license.allLicenses') }}
+        </h3>
+        <div class="content-header__actions-wrap">
+          <wt-search-bar
+              v-model="search"
+              @search="loadList"
+          ></wt-search-bar>
+          <i
+              class="icon-icon_upload icon-action"
+              :title="$t('iconHints.upload')"
+              @click="popupTriggerIf = true"
+          ></i>
+          <i
+              class="icon-icon_reload icon-action"
+              :title="$t('iconHints.reload')"
+              @click="loadList"
+          ></i>
+        </div>
+      </header>
 
-            <loader v-show="!isLoaded"></loader>
+      <loader v-show="!isLoaded"></loader>
 
-<!--            <section-->
-<!--                    class="license-expire"-->
-<!--                    v-show="isLoaded"-->
-<!--            >-->
-<!--                license expire-->
-<!--            </section>-->
+      <!--            <section-->
+      <!--                    class="license-expire"-->
+      <!--                    v-show="isLoaded"-->
+      <!--            >-->
+      <!--                license expire-->
+      <!--            </section>-->
 
-            <vuetable
-                    v-show="isLoaded"
-                    :api-mode="false"
-                    :fields="fields"
-                    :data="dataList"
-            >
-                <template slot="product" slot-scope="props">
-                    <div>{{dataList[props.rowIndex].product}}</div>
-                </template>
+      <vuetable
+          v-show="isLoaded"
+          :api-mode="false"
+          :fields="fields"
+          :data="dataList"
+      >
+        <template slot="id" slot-scope="props">
+          <div class="license__id-column">
+            <wt-icon-btn
+                icon="bucket"
+                :tooltop="'copy'"
+                @click="copy(dataList[props.rowIndex].id)"
+            ></wt-icon-btn>
+            {{ dataList[props.rowIndex].id }}
+          </div>
+        </template>
+        <template slot="product" slot-scope="props">
+          <div>{{ dataList[props.rowIndex].product }}</div>
+        </template>
 
-                <template slot="valid-from" slot-scope="props">
-                    <div>{{computeDate(dataList[props.rowIndex].notBefore)}}</div>
-                </template>
+        <template slot="valid-from" slot-scope="props">
+          <div>{{ computeDate(dataList[props.rowIndex].notBefore) }}</div>
+        </template>
 
-                <template slot="valid-till" slot-scope="props">
-                    <div>{{computeDate(dataList[props.rowIndex].notAfter)}}</div>
-                </template>
+        <template slot="valid-till" slot-scope="props">
+          <div>{{ computeDate(dataList[props.rowIndex].notAfter) }}</div>
+        </template>
 
-                <template slot="used" slot-scope="props">
-                    <div>{{dataList[props.rowIndex].limit - dataList[props.rowIndex].remain}}</div>
-                </template>
+        <template slot="used" slot-scope="props">
+          <div>{{ dataList[props.rowIndex].limit - dataList[props.rowIndex].remain }}</div>
+        </template>
 
-                <template slot="limit" slot-scope="props">
-                    <div>{{dataList[props.rowIndex].limit}}</div>
-                </template>
+        <template slot="limit" slot-scope="props">
+          <div>{{ dataList[props.rowIndex].limit }}</div>
+        </template>
 
-                <template slot="status" slot-scope="props">
-                    <div
-                            class="license-status"
-                            :class="computeStatusClass(dataList[props.rowIndex].notAfter)"
-                    >
-                        {{computeStatusText(dataList[props.rowIndex].notAfter)}}
-                    </div>
-                </template>
-            </vuetable>
-            <pagination
-                    v-show="isLoaded"
-                    v-model="size"
-                    @loadDataList="loadList"
-                    @next="nextPage"
-                    @prev="prevPage"
-                    :isNext="isNextPage"
-                    :isPrev="!!page"
-                    :page="page"
-            ></pagination>
-        </section>
-    </div>
+        <template slot="status" slot-scope="props">
+          <div
+              class="license-status"
+              :class="computeStatusClass(dataList[props.rowIndex].notAfter)"
+          >
+            {{ computeStatusText(dataList[props.rowIndex].notAfter) }}
+          </div>
+        </template>
+      </vuetable>
+      <pagination
+          v-show="isLoaded"
+          v-model="size"
+          @loadDataList="loadList"
+          @next="nextPage"
+          @prev="prevPage"
+          :isNext="isNextPage"
+          :isPrev="!!page"
+          :page="page"
+      ></pagination>
+    </section>
+  </div>
 </template>
 
 <script>
-    import tableComponentMixin from '@/mixins/tableComponentMixin';
-    import { mapActions, mapState } from 'vuex';
-    import licensePopup from './license-popup';
+import { mapActions, mapState } from 'vuex';
+import copy from 'clipboard-copy';
+import tableComponentMixin from '../../../mixins/tableComponentMixin';
+import licensePopup from './license-popup.vue';
 
-    export default {
-        name: 'the-license',
-        mixins: [tableComponentMixin],
-        components: {
-            licensePopup,
-        },
-        data() {
-            return {
-                fields: [
-                    { name: 'product', title: this.$t('objects.directory.license.product') },
-                    { name: 'valid-from', title: this.$t('objects.directory.license.validFrom') },
-                    { name: 'valid-till', title: this.$t('objects.directory.license.validTill') },
-                    { name: 'used', title: this.$t('objects.directory.license.used') },
-                    { name: 'limit', title: this.$t('objects.directory.license.limit') },
-                    { name: 'status', title: this.$t('objects.directory.license.status') },
+export default {
+  name: 'the-license',
+  mixins: [tableComponentMixin],
+  components: {
+    licensePopup,
+  },
+  data() {
+    return {
+      fields: [
+        { name: 'id', title: this.$t('objects.directory.license.licenseId') },
+        { name: 'product', title: this.$t('objects.directory.license.product') },
+        { name: 'valid-from', title: this.$t('objects.directory.license.validFrom') },
+        { name: 'valid-till', title: this.$t('objects.directory.license.validTill') },
+        { name: 'used', title: this.$t('objects.directory.license.used') },
+        { name: 'limit', title: this.$t('objects.directory.license.limit') },
+        { name: 'status', title: this.$t('objects.directory.license.status') },
 
-                ],
-            };
-        },
-        computed: {
-            ...mapState('directory/license', {
-                dataList: (state) => state.dataList,
-                page: (state) => state.page, // acts like a boolean: if page is 0, there's no back page
-                isNextPage: (state) => state.isNextPage,
-            }),
-
-            size: {
-                get() {
-                    return this.$store.state.ccenter.skills.size;
-                },
-                set(value) {
-                    this.setSize(value);
-                },
-            },
-
-            search: {
-                get() {
-                    return this.$store.state.ccenter.skills.search;
-                },
-                set(value) {
-                    this.setSearch(value);
-                },
-            },
-        },
-
-        methods: {
-            computeDate(date) {
-                return new Date(+date).toLocaleDateString();
-            },
-
-            computeStatusText(endDate) {
-                const daysLeft = Math.floor((endDate - Date.now()) / 1000 / 60 / 60 / 24);
-                if (daysLeft <= 0) {
-                    return this.$t('objects.directory.license.daysToExpire.0');
-                } if (daysLeft < 30) {
-                    return this.$t('objects.directory.license.daysToExpire.30');
-                } if (daysLeft < 90) {
-                    return this.$t('objects.directory.license.daysToExpire.90');
-                }
-                    return daysLeft + this.$t('objects.directory.license.daysToExpire.days');
-            },
-
-            computeStatusClass(endDate) {
-                const daysLeft = Math.floor((endDate - Date.now()) / 1000 / 60 / 60 / 24);
-
-                if (daysLeft <= 0) {
-                    return 'days0';
-                } if (daysLeft < 30) {
-                    return 'days30';
-                } if (daysLeft < 90) {
-                    return 'days90';
-                }
-                    return 'valid';
-            },
-
-
-            ...mapActions('directory/license', {
-                loadDataList: 'LOAD_DATA_LIST',
-                setSize: 'SET_SIZE',
-                setSearch: 'SET_SEARCH',
-                nextPage: 'NEXT_PAGE',
-                prevPage: 'PREV_PAGE',
-            }),
-        },
-
+      ],
     };
+  },
+  computed: {
+    ...mapState('directory/license', {
+      dataList: (state) => state.dataList,
+      page: (state) => state.page, // acts like a boolean: if page is 0, there's no back page
+      isNextPage: (state) => state.isNextPage,
+    }),
+
+    size: {
+      get() {
+        return this.$store.state.ccenter.skills.size;
+      },
+      set(value) {
+        this.setSize(value);
+      },
+    },
+
+    search: {
+      get() {
+        return this.$store.state.ccenter.skills.search;
+      },
+      set(value) {
+        this.setSearch(value);
+      },
+    },
+  },
+
+  methods: {
+    async copy(value) {
+      try {
+        await copy(value);
+      } catch (err) {
+        throw err;
+      }
+    },
+
+    computeDate(date) {
+      return new Date(+date).toLocaleDateString();
+    },
+
+    computeStatusText(endDate) {
+      const daysLeft = Math.floor((endDate - Date.now()) / 1000 / 60 / 60 / 24);
+      if (daysLeft <= 0) {
+        return this.$t('objects.directory.license.daysToExpire.0');
+      }
+      if (daysLeft < 30) {
+        return this.$t('objects.directory.license.daysToExpire.30');
+      }
+      if (daysLeft < 90) {
+        return this.$t('objects.directory.license.daysToExpire.90');
+      }
+      return daysLeft + this.$t('objects.directory.license.daysToExpire.days');
+    },
+
+    computeStatusClass(endDate) {
+      const daysLeft = Math.floor((endDate - Date.now()) / 1000 / 60 / 60 / 24);
+
+      if (daysLeft <= 0) {
+        return 'days0';
+      }
+      if (daysLeft < 30) {
+        return 'days30';
+      }
+      if (daysLeft < 90) {
+        return 'days90';
+      }
+      return 'valid';
+    },
+
+
+    ...mapActions('directory/license', {
+      loadDataList: 'LOAD_DATA_LIST',
+      setSize: 'SET_SIZE',
+      setSearch: 'SET_SEARCH',
+      nextPage: 'NEXT_PAGE',
+      prevPage: 'PREV_PAGE',
+    }),
+  },
+
+};
 </script>
 
 <style lang="scss" scoped>
-    $license-90: rgba(255, 234, 0, 0.3);
-    $license-30: rgba(255, 68, 68, 0.3);
-    $license-0: rgba(0, 0, 0, 0.1);
+$license-90: rgba(255, 234, 0, 0.3);
+$license-30: rgba(255, 68, 68, 0.3);
+$license-0: rgba(0, 0, 0, 0.1);
 
-    .license-expire {
-        @extend .typo-body-md;
+.license__id-column {
+  display: flex;
+  align-items: center;
 
-        text-align: center;
-        padding: 14px;
-        border: 2px solid $license-30;
-        border-radius: $border-radius;
-    }
+  .wt-icon-btn {
+    margin-right: 10px;
+  }
+}
 
-    .license-status {
-        text-align: center;
-        width: 93px;
-        padding: 5px 8px 3px;
-        border-radius: $border-radius;
+.license-expire {
+  @extend .typo-body-md;
 
-        &.valid {
-            background: $true-color;
-        }
+  text-align: center;
+  padding: 14px;
+  border: 2px solid $license-30;
+  border-radius: $border-radius;
+}
 
-        &.days90 {
-            background: $license-90;
-        }
+.license-status {
+  text-align: center;
+  width: 93px;
+  padding: 5px 8px 3px;
+  border-radius: $border-radius;
 
-        &.days30 {
-            background: $license-30;
-        }
+  &.valid {
+    background: $true-color;
+  }
 
-        &.days0 {
-            background: $license-0;
-        }
-    }
+  &.days90 {
+    background: $license-90;
+  }
+
+  &.days30 {
+    background: $license-30;
+  }
+
+  &.days0 {
+    background: $license-0;
+  }
+}
 </style>
