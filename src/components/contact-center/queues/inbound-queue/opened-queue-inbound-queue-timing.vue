@@ -5,9 +5,9 @@
     </header>
     <form class="object-input-grid">
       <wt-timepicker
-          :value="originateTimeout"
-          :label="$t('objects.ccenter.queues.originateTimeout')"
-          @input="setItemPayloadProp({ prop: 'originateTimeout', value: $event })"
+          :value="maxWaitTime"
+          :label="$t('objects.ccenter.queues.maxWaitTime')"
+          @input="setItemPayloadProp({ prop: 'maxWaitTime', value: $event })"
       ></wt-timepicker>
       <wt-timepicker
           :value="discardAbandonedAfter"
@@ -43,7 +43,7 @@ export default {
   }),
   computed: {
     ...mapState('ccenter/queues', {
-      originateTimeout: (state) => state.itemInstance.payload.originateTimeout,
+      maxWaitTime: (state) => state.itemInstance.payload.maxWaitTime,
       timeBaseScore: (state) => state.itemInstance.payload.timeBaseScore,
     }),
     discardAbandonedAfter: {

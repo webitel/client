@@ -525,6 +525,7 @@ export default {
                 destination: 'Назначение | Назначения',
                 expire: 'Истекает',
                 originateTimeout: 'Длительность дозвона',
+                maxWaitTime: 'Максимальное время ожидания',
                 waitBetweenRetries: 'Время между попытками дозвона',
                 timeout: 'Время перерыва между звонками',
                 maxNumberOfRetry: 'Максимальное количество попыток звонков',

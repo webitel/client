@@ -33,7 +33,7 @@ const defaultInboundQueueState = () => {
         name: '',
         type: 1,
         payload: {
-            originateTimeout: 0,
+            maxWaitTime: 5 * 60,
             timeoutWithNoAgents: '',
             timeBaseScore: '',
             discardAbandonedAfter: '',
