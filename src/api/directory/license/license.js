@@ -1,14 +1,14 @@
-import instance from '../../instance';
 import eventBus from '@webitel/ui-sdk/src/scripts/eventBus';
+import instance from '../../instance';
 
 const BASE_URL = '/license';
 
-export async function getLicenseList(page = 0, size = 2, search) {
+export async function getLicenseList(page = 1, size = 10, search) {
     const defaultObject = { // default object prototype, to merge response with it to get all fields
         remain: 0,
         limit: 0,
     };
-    let url = `${BASE_URL}?size=${size}`;
+    let url = `${BASE_URL}?page=${page}&size=${size}`;
     if (search) url += `&name=${search}*`;
 
     try {

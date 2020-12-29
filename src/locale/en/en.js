@@ -221,7 +221,7 @@ export default {
             license: {
                 customers: 'Customers',
                 license: 'License',
-                licenseId: 'License Id',
+                licenseId: 'ID',
                 allCustomers: 'All customers',
                 allLicenses: 'All licenses',
                 serial: 'Serial',

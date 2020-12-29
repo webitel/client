@@ -1,131 +1,142 @@
 <template>
-  <div class="content-wrap">
-    <object-header
-        hide-primary-action
-    >
-      {{ $t('objects.directory.directory') }} |
-      {{ $t('objects.directory.license.license') }}
-    </object-header>
-
-    <license-popup
-        v-if="popupTriggerIf"
-        @close="popupTriggerIf = false"
-    ></license-popup>
-
-    <section class="object-content">
-      <header class="content-header">
-        <h3 class="content-title">
-          {{ $t('objects.directory.license.allLicenses') }}
-        </h3>
-        <div class="content-header__actions-wrap">
-          <wt-search-bar
-              v-model="search"
-              @search="loadList"
-          ></wt-search-bar>
-          <i
-              class="icon-icon_upload icon-action"
-              :title="$t('iconHints.upload')"
-              @click="popupTriggerIf = true"
-          ></i>
-          <i
-              class="icon-icon_reload icon-action"
-              :title="$t('iconHints.reload')"
-              @click="loadList"
-          ></i>
-        </div>
-      </header>
-
-      <loader v-show="!isLoaded"></loader>
-
-      <!--            <section-->
-      <!--                    class="license-expire"-->
-      <!--                    v-show="isLoaded"-->
-      <!--            >-->
-      <!--                license expire-->
-      <!--            </section>-->
-
-      <vuetable
-          v-show="isLoaded"
-          :api-mode="false"
-          :fields="fields"
-          :data="dataList"
-      >
-        <template slot="id" slot-scope="props">
-          <div class="license__id-column">
+  <wt-page-wrapper class="license" :actions-panel="false">
+    <template slot="header">
+      <wt-headline>
+        <template slot="title">
+          {{ $t('objects.directory.directory') }} |
+          {{ $t('objects.directory.license.license') }}
+        </template>
+        <template slot="actions">
+          <wt-button color="secondary" @click="$router.go(-1)">
+            {{ $t('objects.close') }}
+          </wt-button>
+        </template>
+      </wt-headline>
+    </template>
+    <template slot="main">
+      <license-popup
+          v-if="isLicensePopup"
+          @close="isLicensePopup = false"
+      ></license-popup>
+      <section class="main-section__wrapper">
+        <header class="content-header">
+          <h3 class="content-title">
+            {{ $t('objects.directory.license.allLicenses') }}
+          </h3>
+          <div class="content-header__actions-wrap">
+            <wt-search-bar
+                :value="search"
+                debounce
+                @input="setSearch"
+                @search="loadList"
+                @enter="loadList"
+            ></wt-search-bar>
+            <wt-table-actions
+                :icons="['refresh']"
+                @input="tableActionsHandler"
+            ></wt-table-actions>
             <wt-icon-btn
-                icon="bucket"
-                :tooltop="'copy'"
-                @click="copy(dataList[props.rowIndex].id)"
+                class="icon-action"
+                icon="plus"
+                :tooltip="$t('iconHints.add')"
+                @click="isLicensePopup = true"
             ></wt-icon-btn>
-            {{ dataList[props.rowIndex].id }}
           </div>
-        </template>
-        <template slot="product" slot-scope="props">
-          <div>{{ dataList[props.rowIndex].product }}</div>
-        </template>
+        </header>
 
-        <template slot="valid-from" slot-scope="props">
-          <div>{{ computeDate(dataList[props.rowIndex].notBefore) }}</div>
-        </template>
-
-        <template slot="valid-till" slot-scope="props">
-          <div>{{ computeDate(dataList[props.rowIndex].notAfter) }}</div>
-        </template>
-
-        <template slot="used" slot-scope="props">
-          <div>{{ dataList[props.rowIndex].limit - dataList[props.rowIndex].remain }}</div>
-        </template>
-
-        <template slot="limit" slot-scope="props">
-          <div>{{ dataList[props.rowIndex].limit }}</div>
-        </template>
-
-        <template slot="status" slot-scope="props">
-          <div
-              class="license-status"
-              :class="computeStatusClass(dataList[props.rowIndex].notAfter)"
+        <wt-loader v-show="!isLoaded"></wt-loader>
+        <div class="table-wrapper" v-show="isLoaded">
+          <wt-table
+              :headers="headers"
+              :data="dataList"
+              :selectable="false"
+              :grid-actions="false"
           >
-            {{ computeStatusText(dataList[props.rowIndex].notAfter) }}
-          </div>
-        </template>
-      </vuetable>
-      <pagination
-          v-show="isLoaded"
-          v-model="size"
-          @loadDataList="loadList"
-          @next="nextPage"
-          @prev="prevPage"
-          :isNext="isNextPage"
-          :isPrev="!!page"
-          :page="page"
-      ></pagination>
-    </section>
-  </div>
+            <template slot="id" slot-scope="{ item }">
+              <div class="license__id-column">
+                <wt-icon-btn
+                    v-show="copiedId !== item.id"
+                    class="license__id-column__icon-btn license__id-column__icon-btn--copy"
+                    icon="copy"
+                    :tooltip="$t('objects.copy')"
+                    @click="copy(item.id)"
+                ></wt-icon-btn>
+                <wt-icon-btn
+                    v-show="copiedId === item.id"
+                    class="license__id-column__icon-btn license__id-column__icon-btn--tick"
+                    icon="rounded-tick"
+                    color="true"
+                    :tooltip="$t('objects.copied')"
+                ></wt-icon-btn>
+              </div>
+            </template>
+            <template slot="product" slot-scope="{ item }">
+              {{ item.product }}
+            </template>
+
+            <template slot="valid-from" slot-scope="{ item }">
+              {{ prettifyDate(item.notBefore) }}
+            </template>
+
+            <template slot="valid-till" slot-scope="{ item }">
+              {{ prettifyDate(item.notAfter) }}
+            </template>
+
+            <template slot="used" slot-scope="{ item }">
+              {{ item.limit - item.remain }}
+            </template>
+
+            <template slot="limit" slot-scope="{ item }">
+              {{ item.limit }}
+            </template>
+
+            <template slot="status" slot-scope="{ item }">
+              <div class="license-status" :class="statusClass(item.notAfter)">
+                {{ statusText(item.notAfter) }}
+              </div>
+            </template>
+          </wt-table>
+          <wt-pagination
+              :size="size"
+              :next="isNext"
+              :prev="page > 1"
+              debounce
+              @next="nextPage"
+              @prev="prevPage"
+              @input="setSize"
+              @change="loadList"
+          ></wt-pagination>
+        </div>
+      </section>
+    </template>
+  </wt-page-wrapper>
 </template>
 
 <script>
 import { mapActions, mapState } from 'vuex';
 import copy from 'clipboard-copy';
-import tableComponentMixin from '../../../mixins/tableComponentMixin';
 import licensePopup from './license-popup.vue';
+import tableComponentMixin from '../../../mixins/tableComponentMixin';
+import tableActionsHandlerMixin from '../../../mixins/tableActionsMixin';
+
+let copiedIdTimeout = null;
 
 export default {
   name: 'the-license',
-  mixins: [tableComponentMixin],
-  components: {
-    licensePopup,
-  },
+  mixins: [tableComponentMixin, tableActionsHandlerMixin],
+  components: { licensePopup },
   data() {
     return {
-      fields: [
-        { name: 'id', title: this.$t('objects.directory.license.licenseId') },
-        { name: 'product', title: this.$t('objects.directory.license.product') },
-        { name: 'valid-from', title: this.$t('objects.directory.license.validFrom') },
-        { name: 'valid-till', title: this.$t('objects.directory.license.validTill') },
-        { name: 'used', title: this.$t('objects.directory.license.used') },
-        { name: 'limit', title: this.$t('objects.directory.license.limit') },
-        { name: 'status', title: this.$t('objects.directory.license.status') },
-
+      isLicensePopup: false,
+      copiedId: null,
+      headers: [
+        { value: 'id', text: this.$t('objects.directory.license.licenseId'), width: '24px' },
+        { value: 'product', text: this.$t('objects.directory.license.product') },
+        { value: 'valid-from', text: this.$t('objects.directory.license.validFrom'), width: '150px' },
+        { value: 'valid-till', text: this.$t('objects.directory.license.validTill') },
+        { value: 'used', text: this.$t('objects.directory.license.used') },
+        { value: 'limit', text: this.$t('objects.directory.license.limit') },
+        { value: 'status', text: this.$t('objects.directory.license.status'), width: '120px' },
       ],
     };
   },
@@ -133,67 +144,43 @@ export default {
     ...mapState('directory/license', {
       dataList: (state) => state.dataList,
       page: (state) => state.page, // acts like a boolean: if page is 0, there's no back page
-      isNextPage: (state) => state.isNextPage,
+      size: (state) => state.size,
+      search: (state) => state.search,
+      isNext: (state) => state.isNextPage,
     }),
-
-    size: {
-      get() {
-        return this.$store.state.ccenter.skills.size;
-      },
-      set(value) {
-        this.setSize(value);
-      },
-    },
-
-    search: {
-      get() {
-        return this.$store.state.ccenter.skills.search;
-      },
-      set(value) {
-        this.setSearch(value);
-      },
-    },
   },
 
   methods: {
-    async copy(value) {
+    async copy(id) {
       try {
-        await copy(value);
+        await copy(id);
+        this.copiedId = id;
+        if (copiedIdTimeout) window.clearTimeout(copiedIdTimeout);
+        copiedIdTimeout = setTimeout(() => {
+          this.copiedId = null;
+        }, 1500);
       } catch (err) {
         throw err;
       }
     },
 
-    computeDate(date) {
+    prettifyDate(date) {
       return new Date(+date).toLocaleDateString();
     },
 
-    computeStatusText(endDate) {
+    statusText(endDate) {
       const daysLeft = Math.floor((endDate - Date.now()) / 1000 / 60 / 60 / 24);
-      if (daysLeft <= 0) {
-        return this.$t('objects.directory.license.daysToExpire.0');
-      }
-      if (daysLeft < 30) {
-        return this.$t('objects.directory.license.daysToExpire.30');
-      }
-      if (daysLeft < 90) {
-        return this.$t('objects.directory.license.daysToExpire.90');
-      }
+      if (daysLeft <= 0) return this.$t('objects.directory.license.daysToExpire.0');
+      if (daysLeft < 30) return this.$t('objects.directory.license.daysToExpire.30');
+      if (daysLeft < 90) return this.$t('objects.directory.license.daysToExpire.90');
       return daysLeft + this.$t('objects.directory.license.daysToExpire.days');
     },
 
-    computeStatusClass(endDate) {
+    statusClass(endDate) {
       const daysLeft = Math.floor((endDate - Date.now()) / 1000 / 60 / 60 / 24);
-
-      if (daysLeft <= 0) {
-        return 'days0';
-      }
-      if (daysLeft < 30) {
-        return 'days30';
-      }
-      if (daysLeft < 90) {
-        return 'days90';
-      }
+      if (daysLeft <= 0) return 'days0';
+      if (daysLeft < 30) return 'days30';
+      if (daysLeft < 90) return 'days90';
       return 'valid';
     },
 
@@ -206,53 +193,64 @@ export default {
       prevPage: 'PREV_PAGE',
     }),
   },
-
 };
 </script>
 
 <style lang="scss" scoped>
-$license-90: rgba(255, 234, 0, 0.3);
-$license-30: rgba(255, 68, 68, 0.3);
-$license-0: rgba(0, 0, 0, 0.1);
+@import '../../../assets/css/objects/table-page';
+
+.license {
+  --license--valid: rgba(255, 234, 0, 0.3);
+  --license--90: rgba(255, 234, 0, 0.3);
+  --license--30: rgba(255, 68, 68, 0.3);
+  --license--0: rgba(0, 0, 0, 0.1);
+}
 
 .license__id-column {
   display: flex;
   align-items: center;
 
-  .wt-icon-btn {
-    margin-right: 10px;
+  .license__id-column__icon-btn {
+    ::v-deep .wt-tooltip {
+      display: block;
+      top: 0;
+      left: calc(100% + 10px);
+      right: auto;
+      overflow-wrap: normal;
+      white-space: nowrap;
+      transform: translateY(-10px);
+    }
+
+    &--tick {
+      pointer-events: none;
+      ::v-deep .wt-tooltip {
+        opacity: 1;
+      }
+    }
   }
-}
-
-.license-expire {
-  @extend .typo-body-md;
-
-  text-align: center;
-  padding: 14px;
-  border: 2px solid $license-30;
-  border-radius: $border-radius;
 }
 
 .license-status {
   text-align: center;
+  align-self: flex-end;
   width: 93px;
   padding: 5px 8px 3px;
-  border-radius: $border-radius;
+  border-radius: var(--border-radius);
 
   &.valid {
-    background: $true-color;
+    background: var(--license--valid);
   }
 
   &.days90 {
-    background: $license-90;
+    background: var(--license--90);
   }
 
   &.days30 {
-    background: $license-30;
+    background: var(--license--30);
   }
 
   &.days0 {
-    background: $license-0;
+    background: var(--license--0);
   }
 }
 </style>
