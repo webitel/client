@@ -4,7 +4,7 @@ export class DefaultModule {
     constructor(defaultState) {
         this.state = {
             dataList: [],
-            size: '10',
+            size: 10,
             search: '',
             page: 1,
             isNextPage: false,

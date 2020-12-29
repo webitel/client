@@ -16,6 +16,7 @@
             @enter="loadList"
         ></wt-search-bar>
         <wt-table-actions
+            :icons="['refresh']"
             @input="tableActionsHandler"
         ></wt-table-actions>
         <wt-icon-btn

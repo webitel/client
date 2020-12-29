@@ -219,7 +219,7 @@ export default {
             license: {
                 customers: 'Пользователи',
                 license: 'Лицензия',
-                licenseId: 'Id Лицензии',
+                licenseId: 'ID',
                 allCustomers: 'Все пользователи',
                 allLicenses: 'Все лицензии',
                 serial: 'Серия',
