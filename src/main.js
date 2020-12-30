@@ -11,7 +11,6 @@ import './assets/lib/normalize.scss';
 import './assets/lib/bootstrap-grid.min.css';
 import './assets/css/objects/lib-custom-styling/vuetable.scss';
 import './assets/css/fonts.scss';
-import './assets/css/main.scss';
 
 import tableCheckboxColumn from './components/object-utils/utils/table-checkbox-column.vue';
 import errorMixin from './mixins/errorMixin';

@@ -19,6 +19,7 @@ module.exports = {
         loaderOptions: {
             sass: {
                 data: `
+                      @import '~@webitel/ui-sdk/src/css/main.scss';
                       @import "@/assets/css/main.scss";
                       @import "@/assets/css/objects/objects.scss";
                       @import "@/assets/css/media.scss";
@@ -27,6 +28,9 @@ module.exports = {
         },
     },
     chainWebpack: (config) => {
+        config.optimization.splitChunks = {
+            chunks: 'all',
+        };
         // exclude sprites default building
         config.module.rule('svg').exclude.add(/^(.*sprites).*\.svg/);
 
