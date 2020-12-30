@@ -85,7 +85,7 @@
        export default {
         name: 'opened-object-permissions-defaults',
         mixins: [tableComponentMixin, editComponentMixin],
-        components: {rolePopup},
+        components: { rolePopup },
         data() {
             return {
                 headerTitle: '', // header title. retieves from object GET request
@@ -113,7 +113,7 @@
                         name: 'Allow with delegation',
                         id: 3,
                     },
-                ],                
+                ],
             };
         },
 
@@ -127,7 +127,8 @@
 
             search: {
                     get() {
-                         return this.$store.state.permissions.objects.itemSearch; },
+                         return this.$store.state.permissions.objects.itemSearch;
+},
                     set(value) { this.setSearch(value); },
                 },
         },

@@ -1,4 +1,5 @@
 import deepCopy from 'deep-copy';
+import eventBus from '@webitel/ui-sdk/src/scripts/eventBus';
 import { WebitelAPIItemPatcher } from '../../utils/ApiControllers/Patcher/ApiPatcher';
 import { WebitelAPIItemDeleter } from '../../utils/ApiControllers/Deleter/ApiDeleter';
 import { WebitelAPIItemUpdater } from '../../utils/ApiControllers/Updater/ApiUpdater';
@@ -7,7 +8,6 @@ import { WebitelAPIItemGetter } from '../../utils/ApiControllers/Getter/ApiGette
 import { WebitelAPIListGetter } from '../../utils/ApiControllers/ListGetter/ApiListGetter';
 import sanitizer from '../../utils/sanitizer';
 import instance from '../../instance';
-import eventBus from '@webitel/ui-sdk/src/scripts/eventBus';
 
 
 const BASE_URL = '/sip/gateways';

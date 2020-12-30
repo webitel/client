@@ -68,13 +68,13 @@
 
 <script>
     import openedTabComponentMixin from '@/mixins/openedTabComponentMixin';
-    import {getCalendarList} from "../../../../api/lookups/calendars/calendars";
-    import {getBlacklistList} from "../../../../api/lookups/blacklists/blacklists";
-    import {getTeamsList} from "../../../../api/contact-center/teams/teams";
-    import {mapActions} from "vuex";
+    import { mapActions } from 'vuex';
+    import { getCalendarList } from '../../../../api/lookups/calendars/calendars';
+    import { getBlacklistList } from '../../../../api/lookups/blacklists/blacklists';
+    import { getTeamsList } from '../../../../api/contact-center/teams/teams';
 
     export default {
-        name: "opened-queue-offline-queue-general",
+        name: 'opened-queue-offline-queue-general',
         mixins: [openedTabComponentMixin],
         data() {
             return {
@@ -82,11 +82,11 @@
                 dropdownOptionsBlacklistList: [],
                 dropdownOptionsStrategyList: [
                     { name: 'FIFO', id: 1, value: 'fifo' },
-                    { name: 'LIFO', id: 2, value: 'lifo' }
+                    { name: 'LIFO', id: 2, value: 'lifo' },
                 ],
                 dropdownOptionsPriorityList: ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10'],
                 dropdownOptionsTeamList: [],
-            }
+            };
         },
 
         mounted() {
@@ -98,65 +98,65 @@
         computed: {
             name: {
                 get() {
-                    return this.$store.state.ccenter.queues.itemInstance.name
+                    return this.$store.state.ccenter.queues.itemInstance.name;
                 },
                 set(value) {
-                    this.setItemProp({prop: 'name', value})
-                }
+                    this.setItemProp({ prop: 'name', value });
+                },
             },
 
             calendar: {
                 get() {
-                    return this.$store.state.ccenter.queues.itemInstance.calendar
+                    return this.$store.state.ccenter.queues.itemInstance.calendar;
                 },
                 set(value) {
-                    this.setItemProp({prop: 'calendar', value})
-                }
+                    this.setItemProp({ prop: 'calendar', value });
+                },
             },
 
             dncList: {
                 get() {
-                    return this.$store.state.ccenter.queues.itemInstance.dncList
+                    return this.$store.state.ccenter.queues.itemInstance.dncList;
                 },
                 set(value) {
-                    this.setItemProp({prop: 'dncList', value})
-                }
+                    this.setItemProp({ prop: 'dncList', value });
+                },
             },
 
             strategy: {
                 get() {
-                    return this.$store.state.ccenter.queues.itemInstance.strategy
+                    return this.$store.state.ccenter.queues.itemInstance.strategy;
                 },
                 set(value) {
-                    this.setItemProp({prop: 'strategy', value})
-                }
+                    this.setItemProp({ prop: 'strategy', value });
+                },
             },
 
             priority: {
                 get() {
-                    return this.$store.state.ccenter.queues.itemInstance.priority
+                    return this.$store.state.ccenter.queues.itemInstance.priority;
                 },
                 set(value) {
-                    this.setItemProp({prop: 'priority', value})
-                }
+                    this.setItemProp({ prop: 'priority', value });
+                },
             },
 
             team: {
                 get() {
-                    return this.$store.state.ccenter.queues.itemInstance.team
+                    return this.$store.state.ccenter.queues.itemInstance.team;
                 },
                 set(value) {
-                    this.setItemProp({prop: 'team', value})
-                }
+                    this.setItemProp({ prop: 'team', value });
+                },
             },
 
             description: {
                 get() {
-                    return this.$store.state.ccenter.queues.itemInstance.description
+                    return this.$store.state.ccenter.queues.itemInstance.description;
                 },
                 set(value) {
-                    this.setItemProp({prop: 'description', value})
-                }
+                    this.setItemProp({ prop: 'description', value });
+                },
             },
 
             recordings: {
@@ -172,32 +172,26 @@
         methods: {
             async loadDropdownOptionsCalendarList(search) {
                 const response = await getCalendarList(0, 10, search);
-                this.dropdownOptionsCalendarList = response.list.map(item => {
-                    return {
+                this.dropdownOptionsCalendarList = response.list.map((item) => ({
                         name: item.name,
                         id: item.id,
-                    }
-                });
+                    }));
             },
 
             async loadDropdownOptionsBlacklistList(search) {
                 const response = await getBlacklistList(0, 10, search);
-                this.dropdownOptionsBlacklistList = response.list.map(item => {
-                    return {
+                this.dropdownOptionsBlacklistList = response.list.map((item) => ({
                         name: item.name,
                         id: item.id,
-                    }
-                });
+                    }));
             },
 
             async loadDropdownOptionsTeamList(search) {
                 const response = await getTeamsList(0, 10, search);
-                this.dropdownOptionsTeamList = response.list.map(item => {
-                    return {
+                this.dropdownOptionsTeamList = response.list.map((item) => ({
                         name: item.name,
                         id: item.id,
-                    }
-                });
+                    }));
             },
 
             ...mapActions('ccenter/queues', {
@@ -205,7 +199,7 @@
                 setItemPayloadProp: 'SET_ITEM_PAYLOAD_PROPERTY',
             }),
         },
-    }
+    };
 </script>
 
 <style lang="scss" scoped>

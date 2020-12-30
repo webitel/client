@@ -54,7 +54,7 @@
                 // filter available grantees:
                 return this.dropdownOptionsList.filter((grantee) => !this.dataList.some((usedGrantee) => grantee.id === usedGrantee.grantee.id));
             },
-            
+
             computeAvailableGrantors() {
                 // filter available grantees:
                 return this.dropdownOptionsList.filter((grantor) => !this.dataList.some((usedGrantee) => grantor.id === usedGrantee.grantor.id));
@@ -64,9 +64,9 @@
         methods: {
             async save() {
                 try {
-                    await this.patchItem({grantee: this.newGrantee, grantor: this.newGrantor});
+                    await this.patchItem({ grantee: this.newGrantee, grantor: this.newGrantor });
                     this.$emit('close');
-                } catch(err) { throw err; }
+                } catch (err) { throw err; }
             },
 
             // get all roles to choose which to add

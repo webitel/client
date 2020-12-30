@@ -3,7 +3,7 @@
         <header class="content-header">
             <h3 class="content-title">{{$t('objects.directory.license.license')}}</h3>
         </header>
-        <form class="object-input-grid">           
+        <form class="object-input-grid">
             <wt-select
                     v-model="license"
                     :close-on-select="false"
@@ -24,7 +24,7 @@
     export default {
         name: 'opened-user-license',
         mixins: [openedTabComponentMixin],
-       
+
         computed: {
             license: {
                 get() {
@@ -38,7 +38,7 @@
 
         methods: {
             async loadDropdownOptionsList(search) {
-                const response = await getLicenseList(0, 10, search);                
+                const response = await getLicenseList(0, 10, search);
                 return response.list.map((item) => ({
                         name: item.product,
                         id: item.id,

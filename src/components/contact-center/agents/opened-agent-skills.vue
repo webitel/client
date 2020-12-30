@@ -78,8 +78,8 @@
     import openedTabComponentMixin from '@/mixins/openedTabComponentMixin';
     import { _checkboxTableField, _actionsTableField_2 } from '@/utils/tableFieldPresets';
     import { mapActions, mapState } from 'vuex';
-    import openedAgentSkillsPopup from './opened-agent-skills-popup';
     import eventBus from '@webitel/ui-sdk/src/scripts/eventBus';
+    import openedAgentSkillsPopup from './opened-agent-skills-popup';
 
     export default {
         name: 'opened-agent-skills',

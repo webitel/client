@@ -69,7 +69,7 @@
                     required,
                 },
                 team: {
-                    required
+                    required,
                 },
             },
         },

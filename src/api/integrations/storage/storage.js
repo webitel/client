@@ -1,8 +1,8 @@
 import { BackendProfileServiceApiFactory } from 'webitel-sdk';
 import deepCopy from 'deep-copy';
+import eventBus from '@webitel/ui-sdk/src/scripts/eventBus';
 import instance from '../../instance';
 import configuration from '../../openAPIConfig';
-import eventBus from '@webitel/ui-sdk/src/scripts/eventBus';
 import sanitizer from '../../utils/sanitizer';
 import store from '../../../store/store';
 

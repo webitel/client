@@ -7,7 +7,7 @@ import { WebitelAPIItemUpdater } from '../../utils/ApiControllers/Updater/ApiUpd
 import { WebitelAPIItemCreator } from '../../utils/ApiControllers/Creator/ApiCreator';
 import { WebitelAPIItemGetter } from '../../utils/ApiControllers/Getter/ApiGetter';
 import { WebitelAPIListGetter } from '../../utils/ApiControllers/ListGetter/ApiListGetter';
-import instance from "../../instance";
+import instance from '../../instance';
 
 const BASE_URL = '/users';
 const fieldsToSend = ['name', 'username', 'password', 'extension', 'status', 'note', 'roles', 'license', 'devices', 'device',
@@ -99,7 +99,7 @@ export const patchUser = async (id, item) => await itemPatcher.patchItem(id, ite
 export const deleteUser = async (id) => await itemDeleter.deleteItem(id);
 
 export async function getTokens(id, page = 1, size = 10, search) {
-    let getTokensUrl = `${BASE_URL}/${id}/tokens`;
+    const getTokensUrl = `${BASE_URL}/${id}/tokens`;
     if (search && search.slice(-1) !== '*') search += '*';
     let url = `${getTokensUrl}?size=${size}&page=${page}`;
     if (search) url += `&name=${search}`;
@@ -109,15 +109,15 @@ export async function getTokens(id, page = 1, size = 10, search) {
         return {
             list: response.items || [],
             next: response.next || false,
-        };              
+        };
     } catch (err) {
         throw err;
     }
 }
 
 export async function addTokens(id, item) {
-    let getTokensUrl = `${BASE_URL}/${id}/tokens`;
-    let itemCopy = deepCopy(item);
+    const getTokensUrl = `${BASE_URL}/${id}/tokens`;
+    const itemCopy = deepCopy(item);
     delete itemCopy.token;
     try {
         const response = await instance.post(getTokensUrl, itemCopy);

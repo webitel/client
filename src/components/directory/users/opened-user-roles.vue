@@ -35,13 +35,13 @@
                 set(value) {
                     this.setItemProp({ prop: 'roles', value });
                 },
-            },           
+            },
         },
 
         methods: {
             async loadDropdownOptionsList(search) {
                 const response = await getRoleList(0, 10, search);
-                if(response.list) {
+                if (response.list) {
                 return response.list.map((item) => ({
                         name: item.name,
                         id: item.id,

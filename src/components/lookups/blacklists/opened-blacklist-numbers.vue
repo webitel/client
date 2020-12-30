@@ -101,9 +101,9 @@
     import tableComponentMixin from '@/mixins/tableComponentMixin';
     import { _checkboxTableField, _actionsTableField_3 } from '@/utils/tableFieldPresets';
     import { mapActions, mapState } from 'vuex';
+    import eventBus from '@webitel/ui-sdk/src/scripts/eventBus';
     import numberPopup from './opened-blacklist-number-popup';
     import uploadPopup from './upload-blacklist-numbers-popup';
-    import eventBus from '@webitel/ui-sdk/src/scripts/eventBus';
 
     export default {
         name: 'opened-blacklist-numbers',

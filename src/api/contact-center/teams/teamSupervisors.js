@@ -1,9 +1,9 @@
 import { SupervisorInTeamServiceApiFactory } from 'webitel-sdk';
 import deepCopy from 'deep-copy';
+import eventBus from '@webitel/ui-sdk/src/scripts/eventBus';
 import instance from '../../instance';
 import configuration from '../../openAPIConfig';
 import sanitizer from '../../utils/sanitizer';
-import eventBus from '@webitel/ui-sdk/src/scripts/eventBus';
 import store from '../../../store/store';
 
 const teamSupervisorService = new SupervisorInTeamServiceApiFactory(configuration, '', instance);
@@ -24,7 +24,7 @@ export const getTeamSupervisorsList = async (teamId, page = 0, size = 10, search
             return {
                 list: response.items.map((item) => ({ ...defaultObject, ...item })),
                 isNext: response.next || false,
-            } 
+            };
         }
         return [];
     } catch (err) {

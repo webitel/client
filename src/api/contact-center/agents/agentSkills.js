@@ -1,8 +1,8 @@
 import { AgentSkillServiceApiFactory } from 'webitel-sdk';
 import deepCopy from 'deep-copy';
+import eventBus from '@webitel/ui-sdk/src/scripts/eventBus';
 import instance from '../../instance';
 import configuration from '../../openAPIConfig';
-import eventBus from '@webitel/ui-sdk/src/scripts/eventBus';
 import sanitizer from '../../utils/sanitizer';
 import store from '../../../store/store';
 
@@ -23,7 +23,7 @@ export const getAgentSkillsList = async (agentId, page = 0, size = 10, search) =
             return {
                 list: response.items.map((item) => ({ ...defaultObject, ...item })),
                 isNext: response.next || false,
-            }
+            };
         }
         return [];
     } catch (err) {

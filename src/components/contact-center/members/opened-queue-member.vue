@@ -94,7 +94,7 @@
                 if (!invalid) {
                     !this.id ? this.addItem() : this.updateItem();
                 }
-                if(!this.id) this.close();
+                if (!this.id) this.close();
             },
             ...mapActions('ccenter/queues/members', {
                 setParentId: 'SET_PARENT_ITEM_ID',

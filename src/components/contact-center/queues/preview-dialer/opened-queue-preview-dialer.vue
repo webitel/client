@@ -65,7 +65,7 @@
                     required,
                 },
                 team: {
-                    required
+                    required,
                 },
             },
         },

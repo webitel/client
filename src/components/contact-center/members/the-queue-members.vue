@@ -235,15 +235,15 @@
 
             async remove(rowIndex, items) {
                 if (items) {
-                    let indexs = [];
-                    let ids = []
+                    const indexs = [];
+                    const ids = [];
                     for (const item of items) {
                         indexs.push(this.dataList.indexOf(item));
                         ids.push(item.id);
                     }
-                    await this.removeItems({indexs, ids}); 
-                } else {    
-                    await this.removeItem(rowIndex);               
+                    await this.removeItems({ indexs, ids });
+                } else {
+                    await this.removeItem(rowIndex);
                 }
                 this.loadList();
             },

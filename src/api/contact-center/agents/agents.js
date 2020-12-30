@@ -54,11 +54,11 @@ export const getAgentTeamsList = async (id, page = 0, size = 10, search = '') =>
     const { domainId } = store.state.userinfo;
     try {
         const response = await agentService.searchAgentInTeam(id, page, size, search, domainId);
-        if(response.items) {
+        if (response.items) {
             return {
                 list: response.items,
                 isNext: response.next || false,
-            }
+            };
         }
         return [];
     } catch (err) {
@@ -70,11 +70,11 @@ export const getAgentQueuesList = async (id, page = 0, size = 10, search = '') =
     const { domainId } = store.state.userinfo;
     try {
         const response = await agentService.searchAgentInQueue(id, page, size, search, domainId);
-        if(response.items) {
+        if (response.items) {
             return {
                 list: response.items,
                 isNext: response.next || false,
-            }
+            };
         }
         return [];
     } catch (err) {

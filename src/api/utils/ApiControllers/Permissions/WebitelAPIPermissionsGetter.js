@@ -1,7 +1,7 @@
 import instance from '../../../instance';
 
 
-export default class WebitelAPIPermissionsGetter{
+export default class WebitelAPIPermissionsGetter {
     constructor(url) {
         this.url = url;
     }
@@ -13,7 +13,7 @@ export default class WebitelAPIPermissionsGetter{
         if (search) url += `&name=${search}`;
 
         try {
-            const response = await instance.get(url);            
+            const response = await instance.get(url);
             let formattedResponse = [];
             if (response.items) {
                 // format response before assignment
@@ -30,7 +30,7 @@ export default class WebitelAPIPermissionsGetter{
                         },
                     }));
             }
-            return formattedResponse;            
+            return formattedResponse;
         } catch (err) {
             throw err;
         }

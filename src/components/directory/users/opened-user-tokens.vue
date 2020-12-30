@@ -1,6 +1,6 @@
 <template>
     <section>
-        
+
         <token-popup
                     v-if="isPopup"
                     @close="closePopup"
@@ -13,7 +13,7 @@
 
         <header class="content-header">
             <h3 class="content-title">{{$tc('objects.directory.users.token', 2)}}</h3>
-            
+
             <div class="content-header__actions-wrap">
             <wt-table-actions
                 :icons="['refresh']"
@@ -74,9 +74,9 @@
 
 <script>
     import { mapActions, mapState } from 'vuex';
+    import eventBus from '@webitel/ui-sdk/src/scripts/eventBus';
     import openedTabComponentMixin from '../../../mixins/openedTabComponentMixin';
     import tableComponentMixin from '../../../mixins/tableComponentMixin';
-    import eventBus from '@webitel/ui-sdk/src/scripts/eventBus';
     import tokenPopup from './opened-user-tokens-popup.vue';
     import tokenCreatedPopup from './opened-user-tokens-created-popup.vue';
     import tableActionsHandlerMixin from '../../../mixins/tableActionsMixin';
@@ -84,7 +84,7 @@
     export default {
         name: 'opened-user-tokens',
         mixins: [openedTabComponentMixin, tableComponentMixin, tableActionsHandlerMixin],
-        components: { tokenPopup,  tokenCreatedPopup},
+        components: { tokenPopup, tokenCreatedPopup },
 
         data() {
             return {
@@ -144,22 +144,22 @@
                 }
             },
 
-            closePopup() {                
+            closePopup() {
                 this.isPopup = false;
-                if(this.$store.state.directory.users.tokens.itemInstance.token !== '') {
-                   this.isTokenGenerated = true; 
+                if (this.$store.state.directory.users.tokens.itemInstance.token !== '') {
+                   this.isTokenGenerated = true;
                 }
             },
 
-            closePopup() {                
+            closePopup() {
                 this.isPopup = false;
-                if(this.$store.state.directory.users.tokens.itemInstance.token !== '') {
-                   this.isTokenGenerated = true; 
+                if (this.$store.state.directory.users.tokens.itemInstance.token !== '') {
+                   this.isTokenGenerated = true;
                 }
             },
 
             closeTokenPopup() {
-                this.isTokenGenerated = false; 
+                this.isTokenGenerated = false;
             },
 
             convertTimeHHMMSS(value) {

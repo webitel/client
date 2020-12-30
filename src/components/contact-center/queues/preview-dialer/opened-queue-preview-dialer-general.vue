@@ -82,7 +82,7 @@
                 dropdownOptionsBlacklistList: [],
                 dropdownOptionsStrategyList: [
                     { name: 'FIFO', id: 1, value: 'fifo' },
-                    { name: 'LIFO', id: 2, value: 'lifo' }
+                    { name: 'LIFO', id: 2, value: 'lifo' },
                 ],
                 dropdownOptionsPriorityList: ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10'],
                 dropdownOptionsTeamList: [],
@@ -141,7 +141,6 @@
                 },
             },
 
-            
 
             team: {
                 get() {
@@ -186,7 +185,7 @@
                         name: item.name,
                         id: item.id,
                     }));
-            },            
+            },
 
             async loadDropdownOptionsTeamList(search) {
                 const response = await getTeamsList(0, 10, search);

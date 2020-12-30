@@ -22,10 +22,10 @@
                 </template>
             </wt-headline>
         </template>
-        
+
         <template slot="main">
             <div class="main-container">
-                <wt-tabs 
+                <wt-tabs
                 :tabs="tabs"
                 v-model="currentTab"
             >
@@ -33,11 +33,11 @@
                 <component
                     :is="$options.name + '-' + currentTab.value"
                     :v="$v"
-                 ></component>       
-            </div>         
+                 ></component>
+            </div>
         </template>
-    </wt-page-wrapper>  
-        
+    </wt-page-wrapper>
+
 </template>
 
 <script>
@@ -66,7 +66,7 @@
         },
         data() {
             return {
-                currentTab: { 
+                currentTab: {
                     value: 'general',
                 },
             };
@@ -147,7 +147,7 @@
 
 <style lang="scss" scoped>
     @import '@/assets/css/objects/table-page';
-    
+
     .value-pair-wrap {
         margin-top: 8px;
     }
@@ -157,8 +157,8 @@
     }
 
     .main-container {
-        display: flex; 
-        flex-direction: column; 
+        display: flex;
+        flex-direction: column;
         width: 100%;
     }
 </style>

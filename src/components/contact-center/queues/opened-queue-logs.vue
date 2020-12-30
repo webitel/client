@@ -100,7 +100,9 @@
                         },
                     ],
                 fields: [
-                    { value: 'number', text: 'Number', sortField: 'number', sort: 'asc' },
+                    {
+ value: 'number', text: 'Number', sortField: 'number', sort: 'asc',
+},
                     { value: 'agent', text: this.$tc('objects.ccenter.agents.agents', 1), sortField: 'agent' },
                     { value: 'start', text: 'Call start', sortField: 'joined_at' },
                     { value: 'end', text: 'Call end', sortField: 'joined_at' },
@@ -142,12 +144,12 @@
 
         methods: {
             formatDate(value) {
-                let time = new Date(+value).toLocaleString('en-GB').replace(',', '\n').replace('Invalid Date', '');
+                const time = new Date(+value).toLocaleString('en-GB').replace(',', '\n').replace('Invalid Date', '');
                 return time;
             },
 
             getDuration(item) {
-                if(this.item) {
+                if (this.item) {
                     let millis = this.item.offeringAt - this.item.joinedAt;
                     millis = millis >= 0 ? millis : 0;
                     const stringTime = this.msToTime(millis);

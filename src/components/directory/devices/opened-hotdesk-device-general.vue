@@ -102,9 +102,11 @@
                 set(value) { this.setItemProp({ prop: 'name', value }); },
             },
             account: {
-                get() { return this.$store.state.directory.devices.itemInstance.account
+                get() {
+ return this.$store.state.directory.devices.itemInstance.account
                     ? this.$store.state.directory.devices.itemInstance.account
-                    : this.defaultAccount; },
+                    : this.defaultAccount;
+},
                 set(value) { this.setItemProp({ prop: 'account', value }); },
             },
             password: {
@@ -144,7 +146,7 @@
                 for (let i = 0; i < length; i++) {
                     result += charset.charAt(Math.floor(Math.random() * charset.length));
                 }
-                this.defaultAccount = 'hot-' + result;
+                this.defaultAccount = `hot-${result}`;
             },
 
             generatePassword() {

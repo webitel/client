@@ -154,11 +154,11 @@
     import { saveAs } from 'file-saver';
     import vueDropzone from 'vue2-dropzone';
     import { mapActions, mapState } from 'vuex';
+    import eventBus from '@webitel/ui-sdk/src/scripts/eventBus';
     import audioPlayer from '../../utils/audio-player';
     import textToSpeechPopup from './media-text-to-speech-popup';
     import tableComponentMixin from '../../../mixins/tableComponentMixin';
     import { _checkboxTableField, _actionsTableField_3 } from '../../../utils/tableFieldPresets';
-    import eventBus from '@webitel/ui-sdk/src/scripts/eventBus';
     import { download } from '../../../utils/download';
 
     const token = localStorage.getItem('access-token');

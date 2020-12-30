@@ -115,7 +115,7 @@
                     _checkboxTableField,
                     { name: 'name', title: this.$t('objects.name') },
                     { name: 'capacity', title: this.$t('objects.ccenter.skills.capacity') },
-                    { name: 'lvl', title: this.$t('objects.ccenter.teams.lvl')},
+                    { name: 'lvl', title: this.$t('objects.ccenter.teams.lvl') },
                     { name: 'buckets', title: this.$tc('objects.ccenter.buckets.buckets', 1) },
                     _actionsTableField_2,
                 ],

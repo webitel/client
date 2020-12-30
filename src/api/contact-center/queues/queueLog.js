@@ -26,7 +26,7 @@ export const getQueueCallLogList = async (queueId, page = 0, size = 10, sort) =>
             return {
                 list: response.items,
                 isNext: response.next || false,
-            }            
+            };
         }
         return [];
     } catch (err) {

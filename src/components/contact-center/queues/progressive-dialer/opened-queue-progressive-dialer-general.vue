@@ -55,7 +55,7 @@
                     :options="dropdownOptionsSchemaList"
                     :label="$t('objects.ccenter.queues.preSchema')"
                     @search="loadDropdownOptionsSchemaList"
-            ></dropdown-select>            
+            ></dropdown-select>
 
             <div class="switcher-label-wrap">
                 <div class="label">{{$t('objects.ccenter.queues.allowGreetingAgent')}}</div>
@@ -74,7 +74,7 @@
                     :label="$t('objects.description')"
                     textarea
             ></form-input>
-            
+
         </form>
     </section>
 </template>
@@ -96,7 +96,7 @@
                 dropdownOptionsBlacklistList: [],
                 dropdownOptionsStrategyList: [
                     { name: 'FIFO', id: 1, value: 'fifo' },
-                    { name: 'LIFO', id: 2, value: 'lifo' }
+                    { name: 'LIFO', id: 2, value: 'lifo' },
                 ],
                 dropdownOptionsPriorityList: ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10'],
                 dropdownOptionsTeamList: [],

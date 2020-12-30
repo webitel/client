@@ -64,7 +64,7 @@
                 set(value) {
                     this.setItemPayloadProp({ prop: 'maxOfRetry', value: +value });
                 },
-            },                
+            },
         },
 
         methods: {

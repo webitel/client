@@ -83,7 +83,7 @@
                 dropdownOptionsBlacklistList: [],
                 dropdownOptionsStrategyList: [
                     { name: 'FIFO', id: 1, value: 'fifo' },
-                    { name: 'LIFO', id: 2, value: 'lifo' }
+                    { name: 'LIFO', id: 2, value: 'lifo' },
                 ],
                 dropdownOptionsPriorityList: ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10'],
                 dropdownOptionsTeamList: [],
@@ -173,7 +173,7 @@
         methods: {
             async loadDropdownOptionsCalendarList(search) {
                 const response = await getCalendarList(0, 10, search);
-                if(response && response.list) { 
+                if (response && response.list) {
                     this.dropdownOptionsCalendarList = response.list.map((item) => ({
                         name: item.name,
                         id: item.id,

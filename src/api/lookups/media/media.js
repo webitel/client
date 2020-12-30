@@ -1,8 +1,8 @@
 import axios from 'axios';
 import { MediaFileServiceApiFactory } from 'webitel-sdk';
+import eventBus from '@webitel/ui-sdk/src/scripts/eventBus';
 import instance from '../../instance';
 import configuration from '../../openAPIConfig';
-import eventBus from '@webitel/ui-sdk/src/scripts/eventBus';
 import store from '../../../store/store';
 import { WebitelSDKItemDeleter } from '../../utils/ApiControllers/Deleter/SDKDeleter';
 import { WebitelSDKListGetter } from '../../utils/ApiControllers/ListGetter/SDKListGetter';

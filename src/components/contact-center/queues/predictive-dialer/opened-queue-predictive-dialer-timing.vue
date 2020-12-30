@@ -63,7 +63,7 @@
                 set(value) {
                     this.setItemPayloadProp({ prop: 'maxAttempts', value: +value });
                 },
-            },                    
+            },
         },
 
         methods: {

@@ -41,7 +41,7 @@ export default class WebitelAPIDefaultAccess {
     }
 
     async patchDefaultItem(oid, grantorId, rules) {
-        const url = `${this.url.replace('/objclass', '/acl/objclass')}/${oid}/grantor/${grantorId}`;        
+        const url = `${this.url.replace('/objclass', '/acl/objclass')}/${oid}/grantor/${grantorId}`;
         try {
             await instance.patch(url, rules);
         } catch (err) {

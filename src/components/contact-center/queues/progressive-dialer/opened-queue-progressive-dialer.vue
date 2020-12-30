@@ -68,7 +68,7 @@
                     required,
                 },
                 team: {
-                    required
+                    required,
                 },
             },
         },
@@ -106,7 +106,7 @@
                 }, {
                     text: this.$t('objects.ccenter.queues.amd'),
                     value: 'amd',
-                },{
+                }, {
                     text: this.$tc('objects.ccenter.logs.logs', 1),
                     value: 'logs',
                 }];

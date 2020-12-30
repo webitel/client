@@ -17,15 +17,15 @@
 
 <script>
     import { mapActions, mapState } from 'vuex';
-    import popup from '../../utils/popup.vue';    
+    import popup from '../../utils/popup.vue';
     import formInput from '../../utils/form-input.vue';
 
     export default {
         name: 'opened-user-tokens-popup',
         components: { popup, formInput },
 
-        computed: {            
-            usage: {                
+        computed: {
+            usage: {
                 get() { return this.$store.state.directory.users.tokens.itemInstance.usage; },
                 set(value) { this.setItemProp({ prop: 'usage', value }); },
             },
@@ -37,7 +37,7 @@
                     await this.addToken(this.usage);
                     this.$emit('close');
                 } catch {}
-            },            
+            },
 
             ...mapActions('directory/users/tokens', {
                 addToken: 'ADD_TOKEN',

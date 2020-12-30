@@ -12,13 +12,13 @@
                     track-by="id"
                     required
                 ></wt-select>
-                
+
                 <wt-select
                     v-model="devices"
                     :options="dropdownOptionsList"
                     :close-on-select="true"
                     :label="$tc('objects.directory.devices.devices', 2)"
-                    :search="loadDropdownOptionsList"   
+                    :search="loadDropdownOptionsList"
                     multiple
                 ></wt-select>
 
@@ -43,7 +43,7 @@
         mixins: [openedTabComponentMixin],
         data() {
             return {
-            }
+            };
         },
 
         mounted() {
@@ -73,14 +73,12 @@
         methods: {
             async loadDropdownOptionsList(search) {
                 const response = await getDeviceList(1, 10, search);
-                if(response.list) {
-                    this.dropdownOptionsList = response.list.filter(item =>
-                        !item.hotdesk).map((item) => ({
+                if (response.list) {
+                    this.dropdownOptionsList = response.list.filter((item) => !item.hotdesk).map((item) => ({
                         name: item.name,
                         id: item.id,
                     }));
-                }
-                else {
+                } else {
                     this.dropdownOptionsList = [];
                 }
             },

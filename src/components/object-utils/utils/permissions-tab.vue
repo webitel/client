@@ -148,7 +148,7 @@
                     // and send the array with changes
                     // catch statement prevents close()
                     try {
-                        //await updateObjectPermissions(this.id, granteesToSend);
+                        // await updateObjectPermissions(this.id, granteesToSend);
                         this.close();
                     } catch (e) {
                     }

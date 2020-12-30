@@ -3,7 +3,7 @@
         @close="$emit('close')"
     >
         <template slot="header">
-            <h3 class='popup-header-content'>{{$t('objects.directory.users.tokenPopupHeader')}}</h3>            
+            <h3 class='popup-header-content'>{{$t('objects.directory.users.tokenPopupHeader')}}</h3>
         </template>
         <template slot="main">
             <div class='popup-token-container'>
@@ -30,10 +30,10 @@
         computed: {
             token() {
                 return this.$store.state.directory.users.tokens.itemInstance.token;
-            },            
+            },
 
             userName() {
-                return this.$store.state.directory.users.itemInstance.name;            
+                return this.$store.state.directory.users.itemInstance.name;
             },
         },
 
@@ -42,8 +42,8 @@
                 if (this.token) {
                     eventBus.$emit('copy', this.token);
                 }
-            }, 
-            
+            },
+
             async saveTxt() {
                 downloadAsTXT(this.token, this.userName);
             },
@@ -60,24 +60,24 @@
     }
 
     .popup-token-container {
-        width: 50%; 
-        margin: 0 auto; 
-        border: 2px solid #FF4444; 
-        border-radius: 5px; 
-        margin-top: 10px; 
+        width: 50%;
+        margin: 0 auto;
+        border: 2px solid #FF4444;
+        border-radius: 5px;
+        margin-top: 10px;
         margin-bottom: 20px;
     }
 
     .popup-token-label {
-        text-align: center; 
-        color: #acacac; 
-        display: block; 
-        margin-top: 20px; 
+        text-align: center;
+        color: #acacac;
+        display: block;
+        margin-top: 20px;
         margin-bottom: 20px;
     }
-    
+
     .popup-token-text {
-        margin-left: 30px; 
+        margin-left: 30px;
         margin-right: 30px;
     }
 

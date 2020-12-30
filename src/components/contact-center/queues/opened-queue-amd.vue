@@ -1,5 +1,5 @@
 <template>
-    <section>        
+    <section>
         <form class="object-input-grid">
 
             <div>
@@ -12,55 +12,55 @@
             <wt-input
                     v-model="maxWordLength"
                     type="number"
-                    :label="$t('objects.ccenter.queues.maxWordLength')"                    
+                    :label="$t('objects.ccenter.queues.maxWordLength')"
             ></wt-input>
 
             <wt-input
                     v-model="maxNumberOfWords"
                     type="number"
-                    :label="$t('objects.ccenter.queues.maxNumberOfWords')"                    
+                    :label="$t('objects.ccenter.queues.maxNumberOfWords')"
             ></wt-input>
 
             <wt-input
                     v-model="betweenWordsSilence"
                     type="number"
-                    :label="$t('objects.ccenter.queues.betweenWordsSilence')"                    
+                    :label="$t('objects.ccenter.queues.betweenWordsSilence')"
             ></wt-input>
 
             <wt-input
                     v-model="minWordLength"
                     type="number"
-                    :label="$t('objects.ccenter.queues.minWordLength')"                    
+                    :label="$t('objects.ccenter.queues.minWordLength')"
             ></wt-input>
 
             <wt-input
                     v-model="totalAnalysisTime"
                     type="number"
-                    :label="$t('objects.ccenter.queues.totalAnalysisTime')"                    
+                    :label="$t('objects.ccenter.queues.totalAnalysisTime')"
             ></wt-input>
 
             <wt-input
                     v-model="silenceThreshold"
                     type="number"
-                    :label="$t('objects.ccenter.queues.silenceThreshold')"                    
+                    :label="$t('objects.ccenter.queues.silenceThreshold')"
             ></wt-input>
 
             <wt-input
                     v-model="afterGreetingSilence"
                     type="number"
-                    :label="$t('objects.ccenter.queues.afterGreetingSilence')"                    
+                    :label="$t('objects.ccenter.queues.afterGreetingSilence')"
             ></wt-input>
 
             <wt-input
                     v-model="greeting"
                     type="number"
-                    :label="$t('objects.ccenter.queues.greeting')"                    
+                    :label="$t('objects.ccenter.queues.greeting')"
             ></wt-input>
 
             <wt-input
                     v-model="initialSilence"
                     type="number"
-                    :label="$t('objects.ccenter.queues.initialSilence')"                    
+                    :label="$t('objects.ccenter.queues.initialSilence')"
             ></wt-input>
 
             <div>
