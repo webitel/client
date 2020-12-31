@@ -45,7 +45,7 @@
                     :data="dataList"
             >
                 <template slot="user" slot-scope="props">
-                    <div class="tt-capitalize">
+                    <div>
                         <span class="nameLink" @click="edit(props.rowIndex)">
                             {{dataList[props.rowIndex].user.name}}
                         </span>

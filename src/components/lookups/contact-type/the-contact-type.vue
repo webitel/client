@@ -20,7 +20,7 @@
                     :data="contactTypeList"
             >
                 <template slot="contactTypeName" slot-scope="props">
-                    <div class="tt-capitalize">
+                    <div>
                         <span class="nameLink" @click="edit(props.rowIndex)">
                         {{contactTypeList[props.rowIndex].name}}
                         </span>
