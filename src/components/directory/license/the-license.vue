@@ -169,7 +169,7 @@ export default {
     },
 
     statusText(endDate) {
-      const daysLeft = Math.floor((endDate - Date.now()) / 1000 / 60 / 60 / 24);
+      const daysLeft = Math.ceil((endDate - Date.now()) / 1000 / 60 / 60 / 24);
       if (daysLeft <= 0) return this.$t('objects.directory.license.daysToExpire.0');
       if (daysLeft < 30) return this.$t('objects.directory.license.daysToExpire.30');
       if (daysLeft < 90) return this.$t('objects.directory.license.daysToExpire.90');
@@ -177,7 +177,7 @@ export default {
     },
 
     statusClass(endDate) {
-      const daysLeft = Math.floor((endDate - Date.now()) / 1000 / 60 / 60 / 24);
+      const daysLeft = Math.ceil((endDate - Date.now()) / 1000 / 60 / 60 / 24);
       if (daysLeft <= 0) return 'days0';
       if (daysLeft < 30) return 'days30';
       if (daysLeft < 90) return 'days90';
