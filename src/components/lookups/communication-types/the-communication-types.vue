@@ -39,7 +39,7 @@
                     :data="dataList"
             >
                 <template slot="code" slot-scope="props">
-                    <div class="tt-capitalize">
+                    <div>
                         <span class="nameLink" @click="edit(props.rowIndex)">
                         {{dataList[props.rowIndex].code}}
                         </span>

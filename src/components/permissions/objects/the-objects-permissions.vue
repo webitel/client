@@ -35,7 +35,7 @@
             >
 
                 <template slot="name" slot-scope="props">
-                    <div class="tt-capitalize">
+                    <div>
                         <span class="nameLink" @click="edit(props.rowIndex)">
                             {{dataList[props.rowIndex].class}}
                         </span>

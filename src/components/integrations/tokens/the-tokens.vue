@@ -28,7 +28,7 @@
                     :data="filteredDataList"
             >
                 <template slot="name" slot-scope="props">
-                    <div class="tt-capitalize">
+                    <div>
                         <span class="nameLink" @click="edit(props.rowIndex)">
                         {{filteredDataList[props.rowIndex].name}}
                         </span>
