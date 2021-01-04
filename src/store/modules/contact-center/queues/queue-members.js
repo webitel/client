@@ -8,7 +8,6 @@ import {DefaultNestedModule} from "../../defaults/DefaultNestedModule";
 const defaultState = () => {
     return {
         dataList:[],
-        destinationId: 0,
         itemId: 0,
         itemInstance: {
             name: '',
@@ -30,14 +29,9 @@ const state = {
 };
 
 const getters = {
-    GET_ITEM_DESTINATIONS: (state) => {
-        const item = state.dataList.filter(item => item.id === state.destinationId)[0];
-        return item.communications;
-    },
 };
 
 const actions = {
-
     ...defaultModule.actions,
 
     ADD_ITEM: async (context) => {
@@ -79,10 +73,6 @@ const actions = {
         await deleteMembers(state.parentId, ids);
     },
 
-    SET_DESTINATION_ID: async (context, id) => {
-        context.commit('SET_DESTINATION_ID', id);
-    },
-
     ADD_COMMUNICATION_ITEM: (context, item) => {
         context.commit('ADD_COMMUNICATION_ITEM', item);
         context.commit('SET_ITEM_PROPERTY', {prop: '_dirty', value: true});
@@ -114,23 +104,16 @@ const actions = {
         context.commit('SET_ITEM_PROPERTY', {prop: '_dirty', value: true});
     },
 
-    REMOVE_ITEMS: async (context, {indexs, ids}) => {
+    REMOVE_ITEMS: async (context, ids) => {
         try {
             await context.dispatch('DELETE_ITEMS', ids);
         } catch {
         }
-        context.commit('REMOVE_ITEMS', indexs);
     },
-
 };
 
 const mutations = {
-
     ...defaultModule.mutations,
-
-    SET_DESTINATION_ID: (state, id) => {
-        state.destinationId = id;
-    },
 
     ADD_COMMUNICATION_ITEM: (state, item) => {
         state.itemInstance.communications.push(item);
