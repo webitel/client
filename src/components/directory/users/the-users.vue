@@ -1,241 +1,208 @@
 <template>
-    <div class="content-wrap">
-        <object-header
-                :primary-action="create"
-        >
-            {{$t('objects.directory.directory')}} |
-            {{$tc('objects.directory.users.users', 2)}}
-        </object-header>
+  <wt-page-wrapper class="users" :actions-panel="false">
+    <template slot="header">
+      <wt-headline>
+        <template slot="title">
+          {{ $t('objects.directory.directory') }} |
+          {{ $tc('objects.directory.users.users', 2) }}
+        </template>
+        <template slot="actions">
+          <wt-button @click="create">
+            {{ $t('objects.add') }}
+          </wt-button>
+        </template>
+      </wt-headline>
+    </template>
+    <template slot="main">
+      <upload-popup
+          v-if="isUploadPopup"
+          :file="csvFile"
+          @close="closeCSVPopup"
+      ></upload-popup>
 
-        <upload-popup
-                v-if="popupTriggerIf"
-                :file="csvFile"
-                @close="closeCSVPopup"
-        ></upload-popup>
+      <section class="main-section__wrapper">
+        <header class="content-header">
+          <h3 class="content-title">{{ $t('objects.directory.users.allUsers') }}</h3>
+          <div class="content-header__actions-wrap">
+            <wt-search-bar
+                :value="search"
+                debounce
+                @input="setSearch"
+                @search="loadList"
+                @enter="loadList"
+            ></wt-search-bar>
+            <wt-icon-btn
+                class="icon-action"
+                :class="{'hidden': anySelected}"
+                icon="bucket"
+                :tooltip="$t('iconHints.deleteSelected')"
+                @click="deleteSelected"
+            ></wt-icon-btn>
+            <div class="upload-csv">
+              <wt-icon-btn
+                  icon="upload"
+                  :tooltip="$t('iconHints.upload')"
+                  @click="triggerFileInput"
+              ></wt-icon-btn>
+              <input
+                  ref="file-input"
+                  class="upload-csv__input"
+                  type="file"
+                  @change="processCSV($event)"
+                  accept=".csv"
+              >
+            </div>
+            <wt-table-actions
+                :icons="['refresh']"
+                @input="tableActionsHandler"
+            ></wt-table-actions>
+          </div>
+        </header>
 
-        <section class="object-content">
-            <header class="content-header">
-                <h3 class="content-title">{{$t('objects.directory.users.allUsers')}}</h3>
-                <div class="content-header__actions-wrap">
-                    <search
-                            v-model="search"
-                            @filterData="loadList"
-                    ></search>
-                    <i
-                            class="icon-icon_delete icon-action"
-                            :class="{'hidden': anySelected}"
-                            :title="$t('iconHints.deleteSelected')"
-                            @click="deleteSelected"
-                    ></i>
-                    <div
-                            class="upload-csv"
-                            :title="$t('iconHints.upload')"
-                    >
-                        <i
-                                class="icon-action icon-icon_upload"
-                        ></i>
-                        <input
-                                ref="file-input"
-                                class="upload-csv__input"
-                                type="file"
-                                @change="processCSV($event)"
-                                accept=".csv"
-                        >
-                    </div>
-                    <i
-                            class="icon-action icon-icon_reload"
-                            :title="$t('iconHints.reload')"
-                            @click="loadList"
-                    ></i>
-                </div>
-            </header>
+        <wt-loader v-show="!isLoaded"></wt-loader>
+        <div class="table-wrapper" v-show="isLoaded">
+          <wt-table
+              :headers="headers"
+              :data="dataList"
+          >
+            <template slot="name" slot-scope="{ item }">
+               <span class="nameLink" @click="edit(item.id)">
+                 {{ item.name }}
+               </span>
+            </template>
+            <template slot="username" slot-scope="{ item }">
+              {{ item.username }}
+            </template>
+            <template slot="extensions" slot-scope="{ item }">
+              {{ item.extension }}
+            </template>
+            <template slot="DnD" slot-scope="{ item }">
+              <wt-switcher
+                  :value="getDND(item.presence)"
+                  @change="setDND({item, value: $event})"
+              ></wt-switcher>
+            </template>
 
-            <loader v-show="!isLoaded"></loader>
-
-            <vuetable
-                    v-show="isLoaded"
-                    :api-mode="false"
-                    :fields="fields"
-                    :data="dataList"
-            >
-                <template slot="name" slot-scope="props">
-                    <div>
-                        <span class="nameLink" @click="edit(props.rowIndex)">
-                            {{dataList[props.rowIndex].name}}
-                        </span>
-                    </div>
-                </template>
-
-                <template slot="username" slot-scope="props">
-                    <div>
-                        {{dataList[props.rowIndex].username}}
-                    </div>
-                </template>
-
-                <template slot="extensions" slot-scope="props">
-                    <div>
-                        {{dataList[props.rowIndex].extension}}
-                    </div>
-                </template>
-
-                <template slot="DnD" slot-scope="props">
-                    <switcher
-                            :value="getDND(dataList[props.rowIndex].presence)"
-                            @input="toggleSwitchProperty({index: props.rowIndex, prop: 'dnd', value: $event})"
-                    ></switcher>
-                </template>
-
-                <template slot="status" slot-scope="props">
-                    <dropdown-select
-                            class="inline-dropdown inline-dropdown__options-right"
-                            :value="getStatus(dataList[props.rowIndex].presence)"
-                            :placeholder="$t('objects.directory.users.status')"
-                            :options="statusOptions"
-                            taggable
-                            @input="changeStatus({index: props.rowIndex, prop: 'status', value: $event})"
-                    ></dropdown-select>
-                </template>
-
-                <template slot="actions" slot-scope="props">
-                    <i
-                            class="vuetable-action icon-icon_edit"
-                            :title="$t('iconHints.edit')"
-                            @click="edit(props.rowIndex)"
-                    ></i>
-                    <i
-                            class="vuetable-action icon-icon_delete"
-                            :title="$t('iconHints.delete')"
-                            @click="remove(props.rowIndex)"
-                    ></i>
-                </template>
-            </vuetable>
-            <pagination
-                    v-show="isLoaded"
-                    v-model="size"
-                    @loadDataList="loadList"
-                    @next="nextPage"
-                    @prev="prevPage"
-                    :isNext="isNextPage"
-                    :isPrev="!!page"
-                    :page="page"
-            ></pagination>
-        </section>
-    </div>
+            <template slot="actions" slot-scope="{ item, index }">
+              <wt-icon-btn
+                  class="table-action"
+                  icon="edit"
+                  @click="edit(item.id)"
+              ></wt-icon-btn>
+              <wt-icon-btn
+                  class="table-action"
+                  icon="bucket"
+                  @click="remove(index)"
+              ></wt-icon-btn>
+            </template>
+          </wt-table>
+          <wt-pagination
+              :size="size"
+              :next="isNext"
+              :prev="page > 1"
+              debounce
+              @next="nextPage"
+              @prev="prevPage"
+              @input="setSize"
+              @change="loadList"
+          ></wt-pagination>
+        </div>
+      </section>
+    </template>
+  </wt-page-wrapper>
 </template>
 
 <script>
-    import { _checkboxTableField, _actionsTableField_2 } from '@/utils/tableFieldPresets';
-    import tableComponentMixin from '@/mixins/tableComponentMixin';
-    import { mapActions, mapState } from 'vuex';
-    import tableFilter from '../../object-utils/utils/table-filter';
-    import dropdownSelect from '../../utils/dropdown-select';
-    import uploadPopup from './upload-users-popup';
+import { mapActions, mapState } from 'vuex';
+import UploadPopup from './upload-users-popup.vue';
+import tableComponentMixin from '../../../mixins/tableComponentMixin';
+import tableActionsHandlerMixin from '../../../mixins/tableActionsMixin';
 
-    export default {
-        name: 'the-users',
-        components: {
-            uploadPopup,
-            tableFilter,
-            dropdownSelect,
-        },
-        mixins: [tableComponentMixin],
-        data() {
-            return {
-                fields: [
-                    _checkboxTableField,
-                    { name: 'name', title: this.$t('objects.name') },
-                    { name: 'username', title: this.$t('objects.directory.users.login') },
-                    { name: 'extensions', title: this.$t('objects.directory.users.extensions') },
-                    { name: 'DnD', title: this.$t('objects.directory.users.DnD') },
-                    { name: 'status', title: this.$t('objects.directory.users.status') },
-                    _actionsTableField_2,
-                ],
-                statusOptions: ['On break', 'Available', 'Chatting'],
-                csvFile: null,
-            };
-        },
-
-        computed: {
-            ...mapState('directory/users', {
-                dataList: (state) => state.dataList,
-                page: (state) => state.page, // acts like a boolean: if page is 0, there's no back page
-                isNextPage: (state) => state.isNextPage,
-            }),
-
-            size: {
-                get() {
-                    return this.$store.state.directory.users.size;
-                },
-                set(value) {
-                    this.setSize(value);
-                },
-            },
-
-            search: {
-                get() {
-                    return this.$store.state.directory.users.search;
-                },
-                set(value) {
-                    this.setSearch(value);
-                },
-            },
-        },
-
-        methods: {
-            create() {
-                this.$router.push('/directory/users/new');
-            },
-
-            getDND(value) {
-                if (value && value.status) {
-                    return value.status.includes('dnd');
-                }
-                return false;
-            },
-
-            getStatus(value) {
-                if (value && value.note) {
-                    return value.note;
-                }
-                return '';
-            },
-
-            edit(rowId) {
-                this.$router.push({
-                    name: 'directory-users-edit',
-                    params: { id: this.dataList[rowId].id },
-                });
-            },
-
-            processCSV(event) {
-                const file = event.target.files[0];
-                if (file) {
-                    this.csvFile = file;
-                    this.popupTriggerIf = true;
-                }
-            },
-
-            closeCSVPopup() {
-                this.loadList();
-                this.popupTriggerIf = false;
-                this.$refs['file-input'].value = null;
-            },
-
-            ...mapActions('directory/users', {
-                loadDataList: 'LOAD_DATA_LIST',
-                setSize: 'SET_SIZE',
-                setSearch: 'SET_SEARCH',
-                patchProperty: 'PATCH_ITEM_PROPERTY',
-                changeStatus: 'PATCH_ITEM_PEROPERTY',
-                toggleSwitchProperty: 'TOGGLE_ITEM_PROPERTY',
-                nextPage: 'NEXT_PAGE',
-                prevPage: 'PREV_PAGE',
-                removeItem: 'REMOVE_ITEM',
-            }),
-        },
+export default {
+  name: 'the-users',
+  components: {
+    UploadPopup,
+  },
+  mixins: [tableComponentMixin, tableActionsHandlerMixin],
+  data() {
+    return {
+      isUploadPopup: false,
+      csvFile: null,
+      headers: [
+        { value: 'name', text: this.$t('objects.name') },
+        { value: 'username', text: this.$t('objects.directory.users.login') },
+        { value: 'extensions', text: this.$t('objects.directory.users.extensions') },
+        { value: 'DnD', text: this.$t('objects.directory.users.DnD'), width: '80px' },
+      ],
     };
+  },
+
+  computed: {
+    ...mapState('directory/users', {
+      dataList: (state) => state.dataList,
+      page: (state) => state.page,
+      size: (state) => state.size,
+      search: (state) => state.search,
+      isNext: (state) => state.isNextPage,
+    }),
+  },
+
+  methods: {
+    triggerFileInput() {
+      this.$refs['file-input'].click();
+    },
+
+    create() {
+      this.$router.push('/directory/users/new');
+    },
+
+    getDND(value) {
+      if (value && value.status) {
+        return value.status.includes('dnd');
+      }
+      return false;
+    },
+
+    edit(id) {
+      this.$router.push({
+        name: 'directory-users-edit',
+        params: { id },
+      });
+    },
+
+    processCSV(event) {
+      const file = event.target.files[0];
+      if (file) {
+        this.csvFile = file;
+        this.isUploadPopup = true;
+      }
+    },
+
+    closeCSVPopup() {
+      this.loadList();
+      this.isUploadPopup = false;
+      this.$refs['file-input'].value = null;
+    },
+
+    ...mapActions('directory/users', {
+      loadDataList: 'LOAD_DATA_LIST',
+      setSize: 'SET_SIZE',
+      setSearch: 'SET_SEARCH',
+      setDND: 'SET_USER_DND',
+      nextPage: 'NEXT_PAGE',
+      prevPage: 'PREV_PAGE',
+      removeItem: 'REMOVE_ITEM',
+    }),
+  },
+};
 </script>
 
 <style lang="scss" scoped>
+@import '../../../assets/css/objects/table-page';
 
+.upload-csv {
+  .upload-csv__input {
+    visibility: hidden;
+  }
+}
 </style>
