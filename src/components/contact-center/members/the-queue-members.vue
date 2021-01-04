@@ -1,276 +1,287 @@
 <template>
-    <div>
-        <object-header
-                :primaryAction="create"
-                close
-        >
-            {{$tc('objects.ccenter.queues.queues', 1)}} |
-            {{$tc('objects.ccenter.members.members', 2)}}
-        </object-header>
+  <wt-page-wrapper class="members" :actions-panel="false">
+    <template slot="header">
+      <wt-headline>
+        <template slot="title">
+          {{ $tc('objects.ccenter.queues.queues', 1) }} |
+          {{ $tc('objects.ccenter.members.members', 2) }}
+        </template>
+        <template slot="actions">
+          <wt-button @click="create">
+            {{ $t('objects.add') }}
+          </wt-button>
+          <wt-button color="secondary" @click="$router.go(-1)">
+            {{ $t('objects.close') }}
+          </wt-button>
+        </template>
+      </wt-headline>
+    </template>
+    <template slot="main">
+      <destinations-popup
+          v-if="isDestinationsPopup"
+          :communications="communicationsOnPopup"
+          @close="closeDestinationsPopup"
+      ></destinations-popup>
 
-        <destinations-popup
-                v-if="destinationsPopupTriggerIf"
-                @close="closePopup"
-        ></destinations-popup>
+      <upload-popup
+          v-if="isUploadPopup"
+          :file="csvFile"
+          @close="closeCSVPopup"
+      ></upload-popup>
 
-        <upload-popup
-                v-if="popupTriggerIf"
-                :file="csvFile"
-                @close="closeCSVPopup"
-        ></upload-popup>
+      <section class="main-section__wrapper">
+        <header class="content-header">
+          <h3 class="content-title">{{ $t('objects.ccenter.members.allMembers') }}</h3>
+          <div class="content-header__actions-wrap">
+<!--            TODO: NO API -->
+<!--            <wt-search-bar-->
+<!--                :value="search"-->
+<!--                debounce-->
+<!--                @input="setSearch"-->
+<!--                @search="loadList"-->
+<!--                @enter="loadList"-->
+<!--            ></wt-search-bar>-->
+            <wt-icon-btn
+                class="icon-action"
+                :class="{'hidden': anySelected}"
+                icon="bucket"
+                :tooltip="$t('iconHints.deleteSelected')"
+                @click="deleteSelected"
+            ></wt-icon-btn>
+            <div class="upload-csv">
+              <wt-icon-btn
+                  icon="upload"
+                  :tooltip="$t('iconHints.upload')"
+                  @click="triggerFileInput"
+              ></wt-icon-btn>
+              <input
+                  ref="file-input"
+                  class="upload-csv__input"
+                  type="file"
+                  @change="processCSV($event)"
+                  accept=".csv"
+              >
+            </div>
+            <wt-table-actions
+                :icons="['refresh']"
+                @input="tableActionsHandler"
+            ></wt-table-actions>
+          </div>
+        </header>
 
-        <section class="object-content">
-            <header class="content-header">
-                <h3 class="content-title">
-                    {{$t('objects.ccenter.members.allMembers')}}
-                </h3>
+        <wt-loader v-show="!isLoaded"></wt-loader>
+        <div class="table-wrapper" v-show="isLoaded">
+          <wt-table
+              :headers="headers"
+              :data="dataList"
+          >
+            <template slot="createdAt" slot-scope="{ item }">
+              {{ prettifyDate(item.createdAt) }}
+            </template>
+            <template slot="name" slot-scope="{ item }">
+              {{ item.name }}
+            </template>
+            <template slot="priority" slot-scope="{ item }">
+              {{ item.priority }}
+            </template>
+            <template slot="endCause" slot-scope="{ item }">
+              {{ prettifyStopCause(item.stopCause) }}
+            </template>
+            <template slot="destination" slot-scope="{ item }">
+              <div class="members__destinations-wrapper" v-if="item.communications">
+                {{ item.communications[0].destination }}
+                <span class="members__destinations-num"
+                      v-if="item.communications.length > 1"
+                      @click="readDestinations(item)"
+                >+{{ item.communications.length - 1 }}</span>
+              </div>
+            </template>
+            <template slot="type" slot-scope="{ item }">
+              {{ item.type }}
+            </template>
 
-                <div class="content-header__actions-wrap">
-                    <search
-                            v-model="search"
-                            @filterData="loadDataList"
-                    ></search>
-                    <i
-                            class="icon-icon_delete icon-action"
-                            :class="{'hidden': anySelected}"
-                            :title="$t('iconHints.deleteSelected')"
-                            @click="deleteSelected"
-                    ></i>
-                    <div
-                            class="upload-csv"
-                            :title="$t('iconHints.upload')"
-                    >
-                        <i
-                                class="icon-icon_upload icon-action"
-                        ></i>
-                        <input
-                                ref="file-input"
-                                class="upload-csv__input"
-                                type="file"
-                                @change="processCSV($event)"
-                                accept=".csv"
-                        >
-                    </div>
-                    <i
-                            class="icon-icon_reload icon-action"
-                            :title="$t('iconHints.reload')"
-                            @click="loadDataList"
-                    ></i>
-                </div>
-            </header>
-
-            <loader v-show="!isLoaded"></loader>
-
-            <vuetable
-                    v-show="isLoaded"
-                    :api-mode="false"
-                    :fields="fields"
-                    :data="dataList"
-            >
-                <template slot="createdAt" slot-scope="props">
-                    <div>
-                        {{computeCreatedDate(dataList[props.rowIndex].createdAt)}}
-                    </div>
-                </template>
-                <template slot="name" slot-scope="props">
-                    <div>
-                        {{dataList[props.rowIndex].name}}
-                    </div>
-                </template>
-                <template slot="priority" slot-scope="props">
-                    <div>
-                        {{dataList[props.rowIndex].priority}}
-                    </div>
-                </template>
-                <template slot="endCause" slot-scope="props">
-                    <div>
-                        {{computeStopCause(dataList[props.rowIndex].stopCause)}}
-                    </div>
-                </template>
-                <template slot="destination" slot-scope="props">
-                    <div class="d-flex justify-content-between">
-                        {{dataList[props.rowIndex].communications[0].destination}}
-                        <span class="hidden-num"
-                              v-if="dataList[props.rowIndex].communications.length > 1"
-                              @click="readDestinations(props.rowIndex)"
-                        >+{{dataList[props.rowIndex].communications.length-1}}</span>
-                    </div>
-                </template>
-                <template slot="type" slot-scope="props">
-                    <div>
-                        {{dataList[props.rowIndex].type}}
-                    </div>
-                </template>
-
-                <template slot="actions" slot-scope="props">
-                    <i class="vuetable-action icon-icon_edit"
-                       :title="$t('iconHints.edit')"
-                       @click="edit(props.rowIndex)"
-                    ></i>
-                    <i class="vuetable-action icon-icon_delete"
-                       :title="$t('iconHints.delete')"
-                       @click="remove(props.rowIndex)"
-                    ></i>
-                </template>
-            </vuetable>
-            <pagination
-                    v-show="isLoaded"
-                    v-model="size"
-                    @loadDataList="loadDataList"
-                    @next="nextPage"
-                    @prev="prevPage"
-                    :isNext="!!isNextPage"
-                    :isPrev="!!page"
-                    :page="page"
-            ></pagination>
-        </section>
-    </div>
+            <template slot="actions" slot-scope="{ item, index }">
+              <wt-icon-btn
+                  class="table-action"
+                  icon="edit"
+                  @click="edit(item.id)"
+              ></wt-icon-btn>
+              <wt-icon-btn
+                  class="table-action"
+                  icon="bucket"
+                  @click="remove(index)"
+              ></wt-icon-btn>
+            </template>
+          </wt-table>
+          <wt-pagination
+              :size="size"
+              :next="isNext"
+              :prev="page > 1"
+              debounce
+              @next="nextPage"
+              @prev="prevPage"
+              @input="setSize"
+              @change="loadList"
+          ></wt-pagination>
+        </div>
+      </section>
+    </template>
+  </wt-page-wrapper>
 </template>
 
 <script>
-    import tableComponentMixin from '@/mixins/tableComponentMixin';
-    import { _checkboxTableField, _actionsTableField_2 } from '@/utils/tableFieldPresets';
-    import { mapActions, mapState } from 'vuex';
-    import destinationsPopup from './opened-queue-member-destinations-popup';
-    import uploadPopup from './upload-members-popup';
+import { mapActions, mapState } from 'vuex';
+import destinationsPopup from './opened-queue-member-destinations-popup.vue';
+import uploadPopup from './upload-members-popup.vue';
+import tableComponentMixin from '../../../mixins/tableComponentMixin';
+import tableActionsHandlerMixin from '../../../mixins/tableActionsMixin';
 
-    export default {
-        name: 'the-queue-members',
-        mixins: [tableComponentMixin],
-        components: { uploadPopup, destinationsPopup },
-        data() {
-            return {
-                destinationsPopupTriggerIf: null,
-                fields: [
-                    _checkboxTableField,
-                    { name: 'createdAt', title: this.$t('objects.createdAt') },
-                    { name: 'name', title: this.$t('objects.name') },
-                    { name: 'priority', title: this.$t('objects.ccenter.queues.priority') },
-                    { name: 'endCause', title: this.$t('objects.ccenter.queues.endCause') },
-                    { name: 'destination', title: this.$tc('objects.ccenter.queues.destination', 1), width: '160px' },
-                    _actionsTableField_2,
-                ],
-                csvFile: null,
-            };
-        },
+export default {
+  name: 'the-queue-members',
+  mixins: [tableComponentMixin, tableActionsHandlerMixin],
+  components: { uploadPopup, destinationsPopup },
+  data: () => ({
+      isUploadPopup: false,
+      communicationsOnPopup: null,
+      isDestinationsPopup: false,
+      csvFile: null,
+      headers: [
+        { value: 'createdAt', text: this.$t('objects.createdAt') },
+        { value: 'name', text: this.$t('objects.name') },
+        { value: 'priority', text: this.$t('objects.ccenter.queues.priority') },
+        { value: 'endCause', text: this.$t('objects.ccenter.queues.endCause') },
+        { value: 'destination', text: this.$tc('objects.ccenter.queues.destination', 1) },
+      ],
+  }),
 
-        mounted() {
-        },
+  computed: {
+    ...mapState('ccenter/queues/members', {
+      dataList: (state) => state.dataList,
+      page: (state) => state.page,
+      size: (state) => state.size,
+      search: (state) => state.search,
+      isNext: (state) => state.isNextPage,
+    }),
 
-        computed: {
-            ...mapState('ccenter/queues/members', {
-                parentId: (state) => state.parentId,
-                dataList: (state) => state.dataList,
-                page: (state) => state.page, // acts like a boolean: if page is 0, there's no back page
-                isNextPage: (state) => state.isNextPage,
-            }),
+    parentId() {
+      return this.$route.params.queueId;
+    },
+  },
 
-            size: {
-                get() { return this.$store.state.ccenter.queues.members.size || '10'; },
-                set(value) { this.setSize(value); },
-            },
+  methods: {
+    triggerFileInput() {
+      this.$refs['file-input'].click();
+    },
 
-            search: {
-                get() { return this.$store.state.ccenter.queues.members.search || ''; },
-                set(value) { this.setSearch(value); },
-            },
+    prettifyStopCause(cause) {
+      switch (cause) {
+        case 'SYSTEM_SHUTDOWN':
+          return this.$t('objects.ccenter.members.endCause.sysShutdown');
+        case 'DATABASE_ERROR':
+          return this.$t('objects.ccenter.members.endCause.dbError');
+        case 'ABANDONED':
+          return this.$t('objects.ccenter.members.endCause.abandoned');
+        case 'TIMEOUT':
+          return this.$t('objects.ccenter.members.endCause.timeout');
+        case 'CANCEL':
+          return this.$t('objects.ccenter.members.endCause.cancel');
+        case 'SUCCESSFUL':
+          return this.$t('objects.ccenter.members.endCause.successful');
+        case 'QUEUE_NOT_IMPLEMENT':
+          return this.$t('objects.ccenter.members.endCause.queueNotImplement');
+        default:
+          return this.$t('objects.ccenter.members.endCause.unknown');
+      }
+    },
 
-            parentId() { return this.$route.params.queueId; },
-        },
+    prettifyDate(createdAt) {
+      return new Date(+createdAt).toLocaleDateString();
+    },
 
-        methods: {
-            computeStopCause(cause) {
-                switch (cause) {
-                    case 'SYSTEM_SHUTDOWN': return this.$t('objects.ccenter.members.endCause.sysShutdown');
-                    case 'DATABASE_ERROR': return this.$t('objects.ccenter.members.endCause.dbError');
-                    case 'ABANDONED': return this.$t('objects.ccenter.members.endCause.abandoned');
-                    case 'TIMEOUT': return this.$t('objects.ccenter.members.endCause.timeout');
-                    case 'CANCEL': return this.$t('objects.ccenter.members.endCause.cancel');
-                    case 'SUCCESSFUL': return this.$t('objects.ccenter.members.endCause.successful');
-                    case 'QUEUE_NOT_IMPLEMENT': return this.$t('objects.ccenter.members.endCause.queueNotImplement');
-                    default: return this.$t('objects.ccenter.members.endCause.unknown');
-                }
-            },
+    readDestinations(item) {
+      this.communicationsOnPopup = item.communications;
+      this.isDestinationsPopup = true;
+    },
 
-            computeCreatedDate(createdAt) {
-                return new Date(+createdAt).toLocaleDateString();
-            },
+    closeDestinationsPopup() {
+      this.communicationsOnPopup = null;
+      this.isDestinationsPopup = false;
+    },
 
-            readDestinations(rowIndex) {
-                this.setDestinationId(this.dataList[rowIndex].id);
-                this.destinationsPopupTriggerIf = true;
-            },
+    processCSV(event) {
+      const file = event.target.files[0];
+      if (file) {
+        this.csvFile = file;
+        this.isUploadPopup = true;
+      }
+    },
 
-            closePopup() {
-                this.destinationsPopupTriggerIf = false;
-            },
+    closeCSVPopup() {
+      this.loadList();
+      this.isUploadPopup = false;
+      this.$refs['file-input'].value = null;
+    },
 
-            processCSV(event) {
-                const file = event.target.files[0];
-                if (file) {
-                    this.csvFile = file;
-                    this.popupTriggerIf = true;
-                }
-            },
+    create() {
+      this.$router.push({
+        name: 'cc-queue-member-new',
+        params: { queueId: this.parentId },
+      });
+    },
 
-            closeCSVPopup() {
-                this.loadList();
-                this.popupTriggerIf = false;
-                this.$refs['file-input'].value = null;
-            },
+    edit(id) {
+      this.$router.push({
+        name: 'cc-queue-member-edit',
+        params: { queueId: this.parentId, id },
+      });
+    },
 
-            create() {
-                this.$router.push({
-                    name: 'cc-queue-member-new',
-                    params: { queueId: this.parentId },
-                });
-            },
+    // override mixin "remove" for bulk delete
+    async remove(rowIndex, items) {
+      if (items) {
+        const ids = items.map((item) => item.id);
+        await this.removeItems(ids);
+      } else {
+        await this.removeItem(rowIndex);
+      }
+      this.loadList();
+    },
 
-            edit(rowId) {
-                this.$router.push({
-                    name: 'cc-queue-member-edit',
-                    params: { queueId: this.parentId, id: this.dataList[rowId].id },
-                });
-            },
+    ...mapActions('ccenter/queues/members', {
+      setDestinationId: 'SET_DESTINATION_ID',
+      setParentId: 'SET_PARENT_ITEM_ID',
+      setId: 'SET_ITEM_ID',
+      loadDataList: 'LOAD_DATA_LIST',
+      setSize: 'SET_SIZE',
+      setSearch: 'SET_SEARCH',
+      nextPage: 'NEXT_PAGE',
+      prevPage: 'PREV_PAGE',
+      removeItem: 'REMOVE_ITEM',
+      removeItems: 'REMOVE_ITEMS',
+    }),
 
-            async remove(rowIndex, items) {
-                if (items) {
-                    const indexs = [];
-                    const ids = [];
-                    for (const item of items) {
-                        indexs.push(this.dataList.indexOf(item));
-                        ids.push(item.id);
-                    }
-                    await this.removeItems({ indexs, ids });
-                } else {
-                    await this.removeItem(rowIndex);
-                }
-                this.loadList();
-            },
-
-            ...mapActions('ccenter/queues/members', {
-                setDestinationId: 'SET_DESTINATION_ID',
-                setParentId: 'SET_PARENT_ITEM_ID',
-                setId: 'SET_ITEM_ID',
-                loadDataList: 'LOAD_DATA_LIST',
-                setSize: 'SET_SIZE',
-                setSearch: 'SET_SEARCH',
-                nextPage: 'NEXT_PAGE',
-                prevPage: 'PREV_PAGE',
-                removeItem: 'REMOVE_ITEM',
-                removeItems: 'REMOVE_ITEMS',
-            }),
-
-        },
-    };
+  },
+};
 </script>
 
 <style lang="scss" scoped>
-    .hidden-num {
-        @extend .typo-body-md;
+@import '../../../assets/css/objects/table-page';
 
-        margin-left: 33px;
-        text-decoration: underline;
-        cursor: pointer;
-    }
+.upload-csv {
+  .upload-csv__input {
+    visibility: hidden;
+  }
+}
+
+.members__destinations-wrapper {
+  display: flex;
+}
+
+.members__destinations-num {
+  @extend .typo-body-md;
+
+  margin-left: 20px;
+  text-decoration: underline;
+  cursor: pointer;
+}
 </style>

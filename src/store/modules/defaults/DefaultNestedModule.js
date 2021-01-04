@@ -7,6 +7,7 @@ export class DefaultNestedModule {
             page: 1,
             isNextPage: false,
             size: '10',
+            search: '',
             ...defaultState()
         };
 

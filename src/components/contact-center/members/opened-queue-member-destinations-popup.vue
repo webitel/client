@@ -1,80 +1,72 @@
 <template>
-    <popup
-            :title="$tc('objects.ccenter.queues.destination', 2)"
-            :primaryText="$t('objects.ok')"
-            :primaryAction="() => $emit('close')"
-            @close="$emit('close')"
-    >
-        <section class="destinations-popup">
-            <vuetable
-                    class="popup-table"
-                    :api-mode="false"
-                    :fields="fields"
-                    :data="dataList"
-            >
-                <template slot="destination" slot-scope="props">
-                    <div>
-                        {{dataList[props.rowIndex].destination}}
-                    </div>
-                </template>
+  <wt-popup @close="close">
+    <template slot="title">
+      {{ $tc('objects.ccenter.queues.destination', 2) }}
+    </template>
+    <template slot="main">
+      <section class="destinations-popup">
+        <wt-table
+            class="popup-table"
+            :headers="headers"
+            :data="communications"
+            :selectable="false"
+            :grid-actions="false"
+        >
+          <template slot="destination" slot-scope="{ item }">
+            {{ item.destination }}
+          </template>
 
-                <template slot="type" slot-scope="props">
-                    <div>
-                        {{dataList[props.rowIndex].type.name}}
-                    </div>
-                </template>
+          <template slot="type" slot-scope="{ item }">
+            <div v-if="item.type">
+              {{ item.type.name }}
+            </div>
+          </template>
 
-                <template slot="priority" slot-scope="props">
-                    <div>
-                        {{dataList[props.rowIndex].priority}}
-                    </div>
-                </template>
-            </vuetable>
-        </section>
-    </popup>
+          <template slot="priority" slot-scope="{ item }">
+            {{ item.priority }}
+          </template>
+        </wt-table>
+      </section>
+    </template>
+    <template slot="actions">
+      <wt-button @click="close">{{ $t('objects.ok') }}</wt-button>
+      <wt-button color="secondary" @click="close">{{ $t('objects.close') }}</wt-button>
+    </template>
+  </wt-popup>
 </template>
 
 <script>
-    import popup from '@/components/utils/popup';
-    import tableComponentMixin from '@/mixins/tableComponentMixin';
-    import { mapGetters } from 'vuex';
+import tableComponentMixin from '../../../mixins/tableComponentMixin';
 
-    export default {
-        name: 'opened-queue-member-destinations-popup',
-        mixins: [tableComponentMixin],
-        components: {
-            popup,
-        },
+export default {
+  name: 'opened-queue-member-destinations-popup',
+  mixins: [tableComponentMixin],
+  props: {
+    communications: {
+      type: Array,
+      required: true,
+    },
+  },
 
-        data() {
-            return {
-                fields: [
-                    { name: 'destination', title: this.$tc('objects.ccenter.queues.destination', 1) },
-                    { name: 'type', title: this.$t('objects.ccenter.queues.type') },
-                    { name: 'priority', title: this.$t('objects.ccenter.queues.priority') },
-                ],
-            };
-        },
-
-        computed: {
-            ...mapGetters('ccenter/queues/members', {
-                dataList: 'GET_ITEM_DESTINATIONS',
-            }),
-
-            // dataList() {
-            //     return this.$store.getters.ccenter.queues.members['GET_ITEM_DESTINATIONS'];
-            // }
-        },
-
-        methods: {
-            loadDataList() {
-            },
-        },
+  data() {
+    return {
+      headers: [
+        { value: 'destination', text: this.$tc('objects.ccenter.queues.destination', 1) },
+        { value: 'type', text: this.$t('objects.ccenter.queues.type') },
+        { value: 'priority', text: this.$t('objects.ccenter.queues.priority') },
+      ],
     };
+  },
+
+  methods: {
+    close() {
+      this.$emit('close');
+    },
+  },
+};
 </script>
 
 <style lang="scss" scoped>
-    .destinations-popup {
-        margin-bottom: 30px;
-    }
+.destinations-popup {
+}
 </style>
