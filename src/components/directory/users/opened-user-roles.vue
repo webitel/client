@@ -1,58 +1,52 @@
 <template>
-    <section>
-        <header class="content-header">
-            <h3 class="content-title">{{$tc('objects.permissions.permissionsRole')}}</h3>
-        </header>
-        <form class="object-input-grid">
-            <div>
-                <wt-select
-                    v-model="roles"
-                    :close-on-select="false"
-                    :label="$tc('objects.permissions.permissionsRole')"
-                    :search="loadDropdownOptionsList"
-                    :internal-search="false"
-                    multiple
-                ></wt-select>
-            </div>
-        </form>
-    </section>
+  <section>
+    <header class="content-header">
+      <h3 class="content-title">{{ $tc('objects.permissions.permissionsRole') }}</h3>
+    </header>
+    <form class="object-input-grid">
+      <wt-select
+          :value="roles"
+          :label="$tc('objects.permissions.permissionsRole')"
+          :search="loadDropdownOptionsList"
+          :internal-search="false"
+          :close-on-select="false"
+          multiple
+          @input="setItemProp({ prop: 'roles', value: $event })"
+      ></wt-select>
+    </form>
+  </section>
 </template>
 
 <script>
-    import openedTabComponentMixin from '@/mixins/openedTabComponentMixin';
-    import { mapActions } from 'vuex';
-    import { getRoleList } from '../../../api/permissions/roles/roles';
+import { mapState, mapActions } from 'vuex';
+import { getRoleList } from '../../../api/permissions/roles/roles';
+import openedTabComponentMixin from '../../../mixins/openedTabComponentMixin';
 
-    export default {
-        name: 'opened-user-roles',
-        mixins: [openedTabComponentMixin],
+export default {
+  name: 'opened-user-roles',
+  mixins: [openedTabComponentMixin],
 
-        computed: {
-            roles: {
-                get() {
-                    return this.$store.state.directory.users.itemInstance.roles;
-                },
-                set(value) {
-                    this.setItemProp({ prop: 'roles', value });
-                },
-            },
-        },
+  computed: {
+    ...mapState('directory/users', {
+      roles: (state) => state.itemInstance.roles,
+    }),
+  },
 
-        methods: {
-            async loadDropdownOptionsList(search) {
-                const response = await getRoleList(0, 10, search);
-                if (response.list) {
-                return response.list.map((item) => ({
-                        name: item.name,
-                        id: item.id,
-                    }));
-                }
-                return [];
-            },
+  methods: {
+    ...mapActions('directory/users', {
+      setItemProp: 'SET_ITEM_PROPERTY',
+    }),
 
-            ...mapActions('directory/users', {
-                setItemProp: 'SET_ITEM_PROPERTY',
-            }),
-        },
-    };
+    async loadDropdownOptionsList(search) {
+      const response = await getRoleList(1, 10, search);
+      if (response.list) {
+        return response.list.map((item) => ({
+          name: item.name,
+          id: item.id,
+        }));
+      }
+      return [];
+    },
+  },
+};
 </script>

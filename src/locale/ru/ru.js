@@ -205,6 +205,7 @@ export default {
                 roleAdmin: 'Администратор',
                 license: 'Лицензия',
                 devices: 'Устройство',
+                defaultDevice: 'Устройство по умолчанию (из списка выбраных устройств)',
                 deviceNotFound: 'Не смогли найти свое устройство?',
                 createNewDevice: 'Добавить новое',
                 variables: 'Переменные',

@@ -4,12 +4,11 @@ import instance from '../../instance';
 const BASE_URL = '/license';
 
 export async function getLicenseList(page = 1, size = 10, search) {
-    const defaultObject = { // default object prototype, to merge response with it to get all fields
-        remain: 0,
-        limit: 0,
-    };
+    const defaultObject = { remain: 0, limit: 0 };
+    // eslint-disable-next-line no-param-reassign
+    if (search && search.slice(-1) !== '*') search += '*';
     let url = `${BASE_URL}?page=${page}&size=${size}`;
-    if (search) url += `&name=${search}*`;
+    if (search) url += `&name=${search}`;
 
     try {
         const response = await instance.get(url);
