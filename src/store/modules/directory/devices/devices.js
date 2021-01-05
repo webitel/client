@@ -63,20 +63,20 @@ const state = {
 const getters = {};
 
 const actions = {
-    GET_LIST: async () => {
-        return await getDeviceList(state.page, state.size, state.search);
+    GET_LIST: async (context) => {
+        return await getDeviceList(context.state.page, context.state.size, context.state.search);
     },
 
-    GET_ITEM: async () => {
-        return await getDevice(state.itemId);
+    GET_ITEM: async (context) => {
+        return await getDevice(context.state.itemId);
     },
 
-    POST_ITEM: async () => {
-        return await addDevice(state.itemInstance);
+    POST_ITEM: async (context) => {
+        return await addDevice(context.state.itemInstance);
     },
 
-    UPD_ITEM: async () => {
-        await updateDevice(state.itemId, state.itemInstance);
+    UPD_ITEM: async (context) => {
+        await updateDevice(context.state.itemId, context.state.itemInstance);
     },
 
     DELETE_ITEM: async (context, id) => {
@@ -84,7 +84,7 @@ const actions = {
     },
 
     LOAD_HOTDESK_ITEM: async (context) => {
-        if (state.itemId) {
+        if (context.state.itemId) {
             const item = await context.dispatch('GET_ITEM');
             if (!item.hotdesk) {
                 router.replace('/directory/devices/' + item.id);
@@ -97,7 +97,7 @@ const actions = {
     },
 
     LOAD_SINGLE_ITEM: async (context) => {
-        if (state.itemId) {
+        if (context.state.itemId) {
             const item = await context.dispatch('GET_ITEM');
             if (item.hotdesk) {
                 router.replace('/directory/devices/hotdesk/' + item.id);

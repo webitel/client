@@ -26,7 +26,7 @@
         ></wt-select>
 
         <div class="hint-link__wrap">
-          <span>{{ $t('objects.directory.users.deviceNotFound') }}</span>
+          <span>{{ $t('objects.directory.users.deviceNotFound') }} </span>
           <router-link class="hint-link__link" to="/directory/devices/new">
             {{ $t('objects.directory.users.createNewDevice') }}
           </router-link>
@@ -73,8 +73,12 @@ export default {
 
 <style lang="scss" scoped>
 .hint-link__wrap {
-  @extend .typo-body-md;
+  @extend %typo-body-md;
   margin-top: 8px;
-  color: $label-color;
+}
+
+.hint-link__link {
+  @extend %typo-strong-md;
+  text-decoration: underline;
 }
 </style>
