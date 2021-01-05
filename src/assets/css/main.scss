@@ -165,14 +165,3 @@ $srollbar-border-radius: 4px;
 .value-pair-wrap {
   position: relative;
 }
-
-.value-pair {
-  @extend .object-input-grid;
-
-  align-items: center;
-  grid-template-columns: 1fr 1fr 24px;
-
-  i {
-    @extend .icon-action;
-  }
-}

@@ -186,9 +186,11 @@
 }
 
 .value-pair {
+  display: grid;
   align-items: center;
   grid-template-columns: 1fr 1fr 24px;
-  margin-bottom: 28px;
+  grid-gap: 20px;
+  margin-bottom: 20px;
 }
 
 // used both in tags input and select dropdowns
