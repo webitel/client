@@ -41,7 +41,7 @@ import OpenedUserRoles from './opened-user-roles.vue';
 import OpenedUserLicense from './opened-user-license.vue';
 import OpenedUserDevices from './opened-user-devices.vue';
 import OpenedUserVariables from './opened-user-variables.vue';
-import OpenedUserTokens from './opened-user-tokens.vue';
+import OpenedUserTokens from './opened-user-token.vue';
 import OpenedUserPermissions from './opened-user-permissions.vue';
 import editComponentMixin from '../../../mixins/editComponentMixin';
 

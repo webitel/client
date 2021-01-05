@@ -115,12 +115,22 @@ export async function getTokens(id, page = 1, size = 10, search) {
     }
 }
 
-export async function addTokens(id, item) {
-    const getTokensUrl = `${BASE_URL}/${id}/tokens`;
+export async function addToken(userId, item) {
+    const url = `${BASE_URL}/${userId}/tokens`;
     const itemCopy = deepCopy(item);
     delete itemCopy.token;
     try {
-        const response = await instance.post(getTokensUrl, itemCopy);
+        const response = await instance.post(url, itemCopy);
+        return response;
+    } catch (err) {
+        throw err;
+    }
+}
+
+export async function deleteToken(userId, id) {
+    const url = `${BASE_URL}/${userId}/tokens/${id}`;
+    try {
+        const response = await instance.delete(url);
         return response;
     } catch (err) {
         throw err;

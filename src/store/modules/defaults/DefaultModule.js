@@ -92,7 +92,8 @@ export class DefaultModule {
                 context.commit('REMOVE_ITEM', index);
                 try {
                     await context.dispatch('DELETE_ITEM', id);
-                } catch {
+                } catch (err) {
+                    throw err;
                 }
             },
 
