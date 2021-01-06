@@ -143,7 +143,7 @@ export default {
   computed: {
     ...mapState('directory/license', {
       dataList: (state) => state.dataList,
-      page: (state) => state.page, // acts like a boolean: if page is 0, there's no back page
+      page: (state) => state.page,
       size: (state) => state.size,
       search: (state) => state.search,
       isNext: (state) => state.isNextPage,

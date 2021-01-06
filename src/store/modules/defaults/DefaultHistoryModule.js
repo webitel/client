@@ -22,12 +22,10 @@ export class DefaultHistoryModule {
 
             SET_HISTORY_SIZE: (context, size) => {
                 context.commit('SET_HISTORY_SIZE', size);
-                context.dispatch('LOAD_HISTORY_DATA_LIST');
             },
 
             SET_HISTORY_SEARCH: (context, search) => {
                 context.commit('SET_HISTORY_SEARCH', search);
-                context.dispatch('LOAD_HISTORY_DATA_LIST');
             },
 
             NEXT_HISTORY_PAGE: (context) => {
@@ -46,6 +44,16 @@ export class DefaultHistoryModule {
 
             SET_HISTORY_DATE: (context, date) => {
                 context.commit('SET_HISTORY_DATE', date);
+                context.dispatch('LOAD_HISTORY_DATA_LIST');
+            },
+
+            SET_HISTORY_FROM: (context, from) => {
+                context.commit('SET_HISTORY_FROM', from);
+                context.dispatch('LOAD_HISTORY_DATA_LIST');
+            },
+
+            SET_HISTORY_TO: (context, to) => {
+                context.commit('SET_HISTORY_TO', to);
                 context.dispatch('LOAD_HISTORY_DATA_LIST');
             },
 
@@ -79,8 +87,16 @@ export class DefaultHistoryModule {
                 state.page--;
             },
 
-            SET_HISTORY_DATE: (state, date) => {
+            SET_HISTORY_DATE: (state, date) => { // TODO: DELETE ME AFTER AGENT HISTORY REFACTOR/DELETE
                 state.date = date;
+            },
+
+            SET_HISTORY_FROM: (state, from) => {
+                state.from = from;
+            },
+
+            SET_HISTORY_TO: (state, to) => {
+                state.to = to;
             },
 
             RESET_ITEM_STATE: (state) => {

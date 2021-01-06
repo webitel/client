@@ -85,19 +85,11 @@ export const updateDevice = async (id, item) => {
 
 export const deleteDevice = async (id) => await itemDeleter.deleteItem(id);
 
-export const getDeviceHistory = async (id, date, page = 0) => {
-    const url = `${BASE_URL}/${id}/users/audit?time_from=${date}`;
-    const defaultObject = {
-        loggedIn: '0',
-        loggedOut: '0',
-        user: {},
-    };
-
+export const getDeviceHistory = async ({ id, from, to, page, size }) => {
+    const url = `${BASE_URL}/${id}/users/audit?time_from=${from}&time_to=${to}&page=${page}&size=${size}`;
     try {
         const response = await instance.get(url);
-        if (response.items) {
-            return response.items.map((item) => ({ ...defaultObject, ...item }));
-        }
+        if (response.items) return response.items;
         return [];
     } catch (err) {
         throw err;
