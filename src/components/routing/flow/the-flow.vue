@@ -191,7 +191,8 @@
             async download(rowId) {
                 const flowId = this.dataList[rowId].id;
                 const flow = await getFlow(flowId);
-                downloadAsJSON(flow, flow.name);
+                const filename = `${flow.name}-schema`;
+                downloadAsJSON(flow, filename);
             },
 
             ...mapActions('routing/flow', {

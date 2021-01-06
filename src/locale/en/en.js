@@ -206,7 +206,7 @@ export default {
                 roleAdmin: 'Admin',
                 license: 'License',
                 devices: 'Devices',
-                defaultDevice: 'Default device',
+                defaultDevice: 'Default device (from list of selected devices)',
                 deviceNotFound: "Didn't find the device?",
                 createNewDevice: 'Add new',
                 variables: 'Variables',

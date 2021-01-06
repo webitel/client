@@ -1,5 +1,5 @@
-import {DefaultNestedModule} from "../../defaults/DefaultNestedModule";
-import {getTokens, addTokens} from "../../../../api/directory/users/users";
+import { DefaultNestedModule } from '../../defaults/DefaultNestedModule';
+import { getTokens, addToken, deleteToken } from '../../../../api/directory/users/users';
 
 const defaultState = () => {
     return {
@@ -12,8 +12,8 @@ const defaultState = () => {
         itemInstance: {
             token: '',
             usage: '',
-        }
-    }
+        },
+    };
 };
 
 
@@ -26,36 +26,37 @@ const state = {
 const getters = {};
 
 const actions = {
-    GET_LIST: async () => {
-        return await getTokens(state.parentId, state.page, state.size, state.search);
+    GET_LIST: async (context) => {
+        return await getTokens(context.state.parentId, context.state.page, context.state.size, context.state.search);
     },
 
-    POST_ITEM: async () => {
-        return await addTokens(state.parentId, state.itemInstance);
+    POST_ITEM: async (context) => {
+        return await addToken(context.state.parentId, context.state.itemInstance);
     },
-    
+
+    DELETE_ITEM: async (context, id) => {
+        return await deleteToken(context.state.parentId, id);
+    },
+
     ADD_TOKEN: async (context) => {
         try {
-            let resp = await context.dispatch('POST_ITEM');            
-            await context.dispatch('LOAD_DATA_LIST'); 
-            context.commit('SET_TOKEN', resp.token);      
-        }
-        catch (err) {
+            let resp = await context.dispatch('POST_ITEM');
+            await context.dispatch('LOAD_DATA_LIST');
+            context.commit('SET_TOKEN', resp.token);
+        } catch (err) {
             throw err;
         }
-        
     },
 
     ...defaultModule.actions,
 
     LOAD_DATA_LIST: async (context) => {
-        if(context.state.parentId) {
+        if (context.state.parentId) {
             const response = await context.dispatch('GET_LIST');
-            context.dispatch('RESET_ITEM_STATE');
             context.commit('SET_DATA_LIST', response.list);
             context.commit('SET_IS_NEXT', response.next);
         }
-    },    
+    },
 };
 
 const mutations = {

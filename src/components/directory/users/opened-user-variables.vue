@@ -1,68 +1,66 @@
 <template>
-    <section>
-        <header class="content-header">
-            <h3 class="content-title">{{$t('objects.directory.users.variables')}}</h3>
-            <i
-                    class="icon-action icon-icon_plus"
-                    :title="$t('iconHints.add')"
-                    @click="addVariable"
-            ></i>
-        </header>
-        <form class="object-input-grid">
-            <div class="variables">
-                <div
-                        class="value-pair"
-                        v-for="(variable, key) in variables"
-                >
-                    <wt-input
-                            :value="variable.key"
-                            :placeholder="$t('objects.directory.users.varKey')"
-                            @input="setVariableProp({index: key, prop: 'key', value: $event})"
-                    ></wt-input>
-                    <wt-input
-                            :value="variable.value"
-                            :placeholder="$t('objects.directory.users.varVal')"
-                            @input="setVariableProp({index: key, prop: 'value', value: $event})"
-                    ></wt-input>
-                    <wt-icon-btn
-                            icon="bucket"
-                            v-if="key !== 0"
-                            @click="deleteVariable(key)"
-                    ></wt-icon-btn>
-                </div>
-            </div>
-        </form>
-    </section>
+  <section>
+    <header class="content-header">
+      <h3 class="content-title">{{ $t('objects.directory.users.variables') }}</h3>
+      <wt-icon-btn
+          class="icon-action"
+          icon="plus"
+          :tooltip="$t('iconHints.add')"
+          @click="addVariable"
+      ></wt-icon-btn>
+    </header>
+    <form class="object-input-grid">
+      <div class="variables">
+        <div
+            class="value-pair"
+            v-for="(variable, key) in variables"
+            :key="key"
+        >
+          <wt-input
+              :value="variable.key"
+              :placeholder="$t('objects.directory.users.varKey')"
+              @input="setVariableProp({index: key, prop: 'key', value: $event})"
+          ></wt-input>
+          <wt-input
+              :value="variable.value"
+              :placeholder="$t('objects.directory.users.varVal')"
+              @input="setVariableProp({index: key, prop: 'value', value: $event})"
+          ></wt-input>
+          <wt-icon-btn
+              icon="bucket"
+              :tooltip="$t('iconHints.delete')"
+              @click="deleteVariable(key)"
+          ></wt-icon-btn>
+        </div>
+      </div>
+    </form>
+  </section>
 </template>
 
 <script>
-    import openedTabComponentMixin from '@/mixins/openedTabComponentMixin';
-    import { mapActions, mapState } from 'vuex';
+import openedTabComponentMixin from '@/mixins/openedTabComponentMixin';
+import { mapActions, mapState } from 'vuex';
 
-    export default {
-        name: 'opened-user-variables',
-        mixins: [openedTabComponentMixin],
+export default {
+  name: 'opened-user-variables',
+  mixins: [openedTabComponentMixin],
 
-        computed: {
-            ...mapState('directory/users', {
-                variables: (state) => state.itemInstance.variables,
-            }),
-        },
+  computed: {
+    ...mapState('directory/users', {
+      variables: (state) => state.itemInstance.variables,
+    }),
+  },
 
-        methods: {
-            ...mapActions('directory/users', {
-                setItemProp: 'SET_ITEM_PROPERTY',
-                addVariable: 'ADD_VARIABLE_PAIR',
-                setVariableProp: 'SET_VARIABLE_PROP',
-                deleteVariable: 'DELETE_VARIABLE_PAIR',
-            }),
-        },
-    };
+  methods: {
+    ...mapActions('directory/users', {
+      setItemProp: 'SET_ITEM_PROPERTY',
+      addVariable: 'ADD_VARIABLE_PAIR',
+      setVariableProp: 'SET_VARIABLE_PROP',
+      deleteVariable: 'DELETE_VARIABLE_PAIR',
+    }),
+  },
+};
 </script>
 
 <style lang="scss" scoped>
-    .value-pair {
-        grid-template-columns: 1fr 1fr 24px;
-        margin-bottom: 28px;
-    }
 </style>

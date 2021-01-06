@@ -76,19 +76,14 @@ const actions = {
         context.commit('SET_ITEM_PROPERTY', {prop: '_dirty', value: true});
     },
 
-    PATCH_ITEM_PEROPERTY: async (context, {value, index}) => {
-        context.commit('PATCH_ITEM_PROPERTY', {value, index});
-        let changes = {note: value};
-        await context.dispatch('PATCH_ITEM', {id: state.dataList[index].id, changes});
-        await context.dispatch('LOAD_DATA_LIST');
-    },
-
-    TOGGLE_ITEM_PROPERTY: async (context, index) => {
-        let dnd = index.value ? 'dnd' : '';
-        let changes = {status: dnd};
+    SET_USER_DND: async (context, { item, value }) => {
+        const dnd = value ? 'dnd' : '';
+        const changes = { status: dnd };
         try {
-            await context.dispatch('PATCH_ITEM', {id: state.dataList[index.index].id, changes});
-        } catch(e) {
+            await context.dispatch('PATCH_ITEM', { id: item.id, changes });
+        } catch(err) {
+            throw err;
+        } finally {
             await context.dispatch('LOAD_DATA_LIST');
         }
     },
@@ -107,10 +102,6 @@ const mutations = {
 
     DELETE_VARIABLE_PAIR: (state, index) => {
         state.itemInstance.variables.splice(index, 1);
-    },
-
-    PATCH_ITEM_PROPERTY: (state, {value, index}) => {
-        state.dataList[index].presence.note = value;
     },
 
     ...defaultModule.mutations,

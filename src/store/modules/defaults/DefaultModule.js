@@ -14,6 +14,7 @@ export class DefaultModule {
         this.actions = {
             SET_ITEM_ID: (context, id) => {
                 if (id !== 'new') context.commit('SET_ITEM_ID', id);
+                else context.commit('SET_ITEM_ID', 0);
             },
 
             LOAD_DATA_LIST: async (context) => {
@@ -91,7 +92,8 @@ export class DefaultModule {
                 context.commit('REMOVE_ITEM', index);
                 try {
                     await context.dispatch('DELETE_ITEM', id);
-                } catch {
+                } catch (err) {
+                    throw err;
                 }
             },
 
