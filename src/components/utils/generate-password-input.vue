@@ -118,7 +118,8 @@ export default {
   position: relative;
 
   ::v-deep .wt-label {
-    margin-bottom: 4px; // change margin due to icon size in label (18px default label height -> 24px with icon)
+    // change margin due to icon size in label (18px default label height -> 24px with icon)
+    margin-bottom: 4px;
   }
 }
 

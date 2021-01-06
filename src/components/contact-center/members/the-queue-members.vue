@@ -140,7 +140,8 @@ export default {
   name: 'the-queue-members',
   mixins: [tableComponentMixin, tableActionsHandlerMixin],
   components: { uploadPopup, destinationsPopup },
-  data: () => ({
+  data() {
+    return {
       isUploadPopup: false,
       communicationsOnPopup: null,
       isDestinationsPopup: false,
@@ -152,7 +153,8 @@ export default {
         { value: 'endCause', text: this.$t('objects.ccenter.queues.endCause') },
         { value: 'destination', text: this.$tc('objects.ccenter.queues.destination', 1) },
       ],
-  }),
+    };
+  },
 
   computed: {
     ...mapState('ccenter/queues/members', {
