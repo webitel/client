@@ -13,7 +13,7 @@
           <wt-icon-btn
               icon="rounded-info"
               color="outline"
-              :tooltip="'If your password is empty, u can rewrite it!'"
+              :tooltip="$t('objects.directory.passwordInfo')"
           ></wt-icon-btn>
         </div>
       </template>

@@ -188,6 +188,7 @@ export default {
         objectHeader: {},
         directory: {
             directory: 'Каталог',
+            passwordInfo: 'Введите значение, если хотите перезаписать (или создать навый) пароль',
             users: {
                 users: 'Пользователь | Пользователи',
                 allUsers: 'Все пользователи',

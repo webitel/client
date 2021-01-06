@@ -24,7 +24,7 @@
 </template>
 
 <script>
-    import { required } from 'vuelidate/lib/validators';
+import { required, requiredUnless } from 'vuelidate/lib/validators';
     import datepicker from 'vuejs-datepicker';
     import editComponentMixin from '@/mixins/editComponentMixin';
     import { mapActions, mapState } from 'vuex';
@@ -67,6 +67,9 @@
             itemInstance: {
                 name: {
                     required,
+                },
+                password: {
+                  required: requiredUnless('id'),
                 },
                 mac: {
                     macValidator,

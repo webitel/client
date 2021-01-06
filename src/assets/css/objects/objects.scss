@@ -228,9 +228,8 @@
   .input-extension {
     display: flex;
     position: absolute;
-    top: 50%;
-    right: 0;
-    transform: translate(0, -35%);
+    top: 35px; // middle of input field
+    right: 9px; // input right padding
 
     .input-extension__copy {
       @extend .typo-input-text;
