@@ -33,33 +33,12 @@
                 </div>
             </div>
 
-            <div class="input-extension-wrap">
-                <form-input
-                        ref="input-password"
-                        :value="computePasswordRepresentation"
-                        :label="$t('objects.password')"
-                        :type="type"
-                        @input="password = $event"
-                ></form-input>
-
-                <div class="input-extension">
-                    <div class="input-extension__copy" v-show="copyTriggerShow" @click="copyToClipboard">
-                        <span>{{$t('objects.copy')}}</span>
-
-                        <div class="hint" v-if="copyMessage">
-                            <div class="tooltip-top active">
-<!--                                <i class="icon-icon_approve"></i>-->
-                                <span>{{this.copyMessage}}</span>
-                            </div>
-                        </div>
-                    </div>
-                    <i
-                            class="input-extension__generate icon-icon_generate"
-                            :title="$t('iconHints.generate')"
-                            @click="generatePassword"
-                    ></i>
-                </div>
-            </div>
+          <password-input
+              :value="password"
+              :v="v.itemInstance.password"
+              required
+              @input="setItemProp({ prop: 'password', value: $event })"
+          ></password-input>
 
             <dropdown-select
                     v-model="user"
@@ -76,18 +55,16 @@
     import { mapActions } from 'vuex';
     import eventBus from '@webitel/ui-sdk/src/scripts/eventBus';
     import { getUsersList } from '../../../api/directory/users/users';
+    import PasswordInput from '../../utils/generate-password-input.vue';
 
     export default {
         name: 'opened-hotdesk-device-general',
         mixins: [openedTabComponentMixin],
+        components: { PasswordInput },
         data() {
             return {
-                defaultPassword: '12345678',
                 defaultAccount: '',
-                copyMessage: '',
                 copyAccMessage: '',
-                copyTriggerShow: false,
-                type: 'password',
             };
         },
 
@@ -111,22 +88,15 @@
             },
             password: {
                 get() {
-                    return this.$store.state.directory.devices.itemInstance.password
-                    ? this.$store.state.directory.devices.itemInstance.password
-                    : this.defaultPassword;
+                    return this.$store.state.directory.devices.itemInstance.password;
                 },
                 set(value) {
-                    this.defaultPassword = '';
                     this.setItemProp({ prop: 'password', value });
                 },
             },
             user: {
                 get() { return this.$store.state.directory.devices.itemInstance.user; },
                 set(value) { this.setItemProp({ prop: 'user', value }); },
-            },
-
-            computePasswordRepresentation() {
-                return this.password.length <= 12 ? this.password : this.password.slice(0, 12);
             },
         },
 
@@ -149,32 +119,11 @@
                 this.defaultAccount = `hot-${result}`;
             },
 
-            generatePassword() {
-                const length = 12;
-                const charset = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
-                let result = '';
-                for (let i = 0; i < length; i++) {
-                    result += charset.charAt(Math.floor(Math.random() * charset.length));
-                }
-                this.password = result;
-                this.copyTriggerShow = true;
-                this.type = 'text';
-            },
-
             copy() {
                 this.disabled = false;
                 eventBus.$emit('copy', this.account);
                 this.copyAccMessage = this.$t('objects.copied');
                 setTimeout(() => this.copyAccMessage = '', 2000);
-            },
-
-            copyToClipboard() {
-                if (this.password) {
-                    eventBus.$emit('copyToClipboard', this.password);
-                    this.copyMessage = this.$t('objects.copied');
-                    setTimeout(() => this.copyMessage = '', 2000);
-                }
-                this.type = 'password';
             },
 
             ...mapActions('directory/devices', {

@@ -35,7 +35,7 @@
 
 <script>
 import { mapActions, mapState } from 'vuex';
-import { required } from 'vuelidate/lib/validators';
+import { required, requiredUnless } from 'vuelidate/lib/validators';
 import OpenedUserGeneral from './opened-user-general.vue';
 import OpenedUserRoles from './opened-user-roles.vue';
 import OpenedUserLicense from './opened-user-license.vue';
@@ -69,6 +69,9 @@ export default {
     itemInstance: {
       username: {
         required,
+      },
+      password: {
+        required: requiredUnless('id'),
       },
     },
   },

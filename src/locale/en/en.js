@@ -189,6 +189,7 @@ export default {
         objectHeader: {},
         directory: {
             directory: 'Directory',
+            passwordInfo: 'Enter value only if you want to edit (or create new) password',
             users: {
                 users: 'User | Users',
                 allUsers: 'All users',
