@@ -137,6 +137,6 @@ export async function deleteToken(userId, id) {
     }
 }
 
-export const getUserPermissions = async (id, page = 0, size = 10, search) => await permissionsGetter.getList(id, size, search);
+export const getUserPermissions = async (id, page = 1, size = 10, search) => await permissionsGetter.getList(id, size, search);
 
 export const patchUserPermissions = async (id, item) => await permissionsPatcher.patchItem(id, item);
