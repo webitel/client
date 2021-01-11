@@ -1,7 +1,7 @@
 <template>
     <section>
         <header class="content-header">
-            <h3 class="content-title">{{$t('objects.directory.devices.hotDesking')}}</h3>
+            <h3 class="content-title">{{$t('objects.directory.devices.hotdesk')}}</h3>
         </header>
         <form class="object-input-grid">
             <tags-input

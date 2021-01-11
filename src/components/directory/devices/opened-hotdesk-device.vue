@@ -52,7 +52,7 @@ import { required, requiredUnless } from 'vuelidate/lib/validators';
                         value: 'general',
                     },
                     {
-                        text: this.$t('objects.directory.devices.hotDesking'),
+                        text: this.$t('objects.directory.devices.hotdesk'),
                         value: 'hotdesking',
                     },
                     {
