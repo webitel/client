@@ -16,9 +16,18 @@
 .wt-headline {
   .wt-button {
     margin-left: 20px;
+
     &:first-child {
       margin-left: 0;
     }
+  }
+}
+
+.wt-page-wrapper {
+  .main-container {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
   }
 }
 

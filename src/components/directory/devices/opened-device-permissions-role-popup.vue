@@ -1,73 +1,71 @@
 <template>
-    <popup
-            :title="$t('objects.permissions.object.newPermissionRole')"
-            :primaryText="$t('objects.add')"
-            :primaryAction="save"
-            @close="$emit('close')"
-            overflow
-    >
-        <section>
-            <dropdown-select
-                v-model="newGrantee"
-                :options="computeAvailableGrantees"
-                :placeholder="$tc('objects.permissions.permissionsRole', 1)"
-                @search="loadDropdownOptionsList"
-            ></dropdown-select>
-        </section>
-    </popup>
+  <wt-popup min-width="480" overflow @close="close">
+    <template slot="title">
+      {{ $t('objects.permissions.object.newPermissionRole') }}
+    </template>
+    <template slot="main">
+      <wt-select
+          v-model="newGrantee"
+          :label="$tc('objects.permissions.permissionsRole', 1)"
+          :search="loadDropdownOptionsList"
+          :internal-search="false"
+      ></wt-select>
+    </template>
+    <template slot="actions">
+      <wt-button @click="save">{{ $t('objects.add') }}</wt-button>
+      <wt-button color="secondary" @click="close">{{ $t('objects.close') }}</wt-button>
+    </template>
+  </wt-popup>
 </template>
 
 <script>
-    import { mapActions, mapState } from 'vuex';
-    import popup from '../../utils/popup.vue';
-    import dropdownSelect from '../../utils/dropdown-select.vue';
-    import { getRoleList } from '../../../api/permissions/roles/roles';
+import { mapActions, mapState } from 'vuex';
+import { getRoleList } from '../../../api/permissions/roles/roles';
 
-    export default {
-        name: 'opened-device-permissions-role-popup',
-        components: { popup, dropdownSelect },
-        data() {
-            return {
-                newGrantee: '',
-                dropdownOptionsList: [],
-            };
-        },
-
-        mounted() {
-            this.loadDropdownOptionsList();
-        },
-
-        computed: {
-            ...mapState('directory/devices/permissions', {
-                dataList: (state) => state.dataList,
-            }),
-
-            computeAvailableGrantees() {
-                // filter available grantees:
-                // eslint-disable-next-line max-len
-                return this.dropdownOptionsList.filter((grantee) => !this.dataList.some((usedGrantee) => grantee.id === usedGrantee.grantee.id));
-            },
-        },
-
-        methods: {
-            async save() {
-                try {
-                    await this.addRole(this.newGrantee);
-                    this.$emit('close');
-                } catch {}
-            },
-
-            // get all roles to choose which to add
-            async loadDropdownOptionsList(search) {
-                const response = await getRoleList(1, 10, search);
-                this.dropdownOptionsList = [...response.list];
-            },
-
-            ...mapActions('directory/devices/permissions', {
-                addRole: 'ADD_ITEM_ROLE',
-            }),
-        },
+export default {
+  name: 'opened-device-permissions-role-popup',
+  data() {
+    return {
+      newGrantee: '',
     };
+  },
+
+  computed: {
+    ...mapState('directory/devices/permissions', {
+      dataList: (state) => state.dataList,
+    }),
+  },
+
+  methods: {
+    ...mapActions('directory/devices/permissions', {
+      addRole: 'ADD_ITEM_ROLE',
+    }),
+
+    async save() {
+      try {
+        await this.addRole(this.newGrantee);
+        this.$emit('close');
+      } catch {
+      }
+    },
+
+    close() {
+      this.$emit('close');
+    },
+
+    async loadDropdownOptionsList(search) {
+      const response = await getRoleList(1, 10, search);
+      return response.list
+          .map((item) => ({
+            name: item.name,
+            id: item.id,
+          }))
+          .filter((grantee) => (
+              !this.dataList.some((usedGrantee) => grantee.id === usedGrantee.grantee.id)),
+          );
+    },
+  },
+};
 </script>
 
 <style lang="scss" scoped>

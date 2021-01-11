@@ -78,7 +78,7 @@
           >
 
             <template slot="name" slot-scope="{ item }">
-              <span class="nameLink" @click="edit(item.id)">
+              <span class="nameLink" @click="edit(item)">
                 {{ item.name }}
               </span>
             </template>

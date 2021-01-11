@@ -1,5 +1,5 @@
 <template>
-  <wt-popup @close="close">
+  <wt-popup min-width="480" overflow @close="close">
     <template slot="title">
       {{ $t('objects.permissions.object.newPermissionRole') }}
     </template>
@@ -37,6 +37,10 @@ export default {
   },
 
   methods: {
+    ...mapActions('directory/users/permissions', {
+      addRole: 'ADD_ITEM_ROLE',
+    }),
+
     async save() {
       try {
         await this.addRole(this.newGrantee);
@@ -60,17 +64,9 @@ export default {
               !this.dataList.some((usedGrantee) => grantee.id === usedGrantee.grantee.id)),
           );
     },
-
-    ...mapActions('directory/users/permissions', {
-      addRole: 'ADD_ITEM_ROLE',
-    }),
   },
 };
 </script>
 
 <style lang="scss" scoped>
-  .wt-popup ::v-deep .wt-popup__popup {
-    min-width: 480px;
-    overflow: visible;
-  }
 </style>
