@@ -1,6 +1,6 @@
 <template>
     <div class="object-wrap">
-        <app-nav @re-renderNav="updateNav" :key="reloadNavKey"></app-nav>
+<!--        <app-nav @re-renderNav="updateNav" :key="reloadNavKey"></app-nav>-->
         <main class="object">
             <notification></notification>
             <app-header></app-header>
