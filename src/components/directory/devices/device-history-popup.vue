@@ -1,135 +1,126 @@
 <template>
-    <popup
-            :title="$t('objects.directory.devices.deviceHistory')"
-            :primaryText="$t('objects.ok')"
-            :primaryAction="() => $emit('close')"
-            @close="$emit('close')"
-            overflow
-    >
-        <section class="history-popup">
-            <datetime-picker
-                    class="history-popup__datetimepicker datepicker__to-right"
-                    v-model="date"
-                    hide-label
-                    hide-details
-            ></datetime-picker>
-            <vuetable
-                    :api-mode="false"
-                    :fields="fields"
-                    :data="dataList"
-            >
-                <template slot="loggedIn" slot-scope="props">
-                    <div>{{computeTime(dataList[props.rowIndex].loggedIn)}}</div>
-                </template>
-                <template slot="loggedOut" slot-scope="props">
-                    <div>{{computeTime(dataList[props.rowIndex].loggedOut)}}</div>
-                </template>
-                <template slot="user" slot-scope="props">
-                    <div>{{dataList[props.rowIndex].user.name}}</div>
-                </template>
-            </vuetable>
-            <pagination
-                    v-model="size"
-                    @loadDataList="loadDataList"
-                    @next="nextPage"
-                    @prev="prevPage"
-                    :isNext="isNextPage"
-                    :isPrev="!!page"
-                    :page="page"
-            ></pagination>
-        </section>
-    </popup>
+  <wt-popup overflow @close="close">
+    <template slot="title">{{ $t('objects.directory.devices.deviceHistory') }}</template>
+    <template slot="main">
+      <section class="history-popup">
+        <div class="history-popup__filters">
+          <wt-datetimepicker
+              :value="from"
+              :label="$t('objects.from')"
+              @change="setHistoryFrom"
+          ></wt-datetimepicker>
+          <wt-datetimepicker
+              :value="to"
+              :label="$t('objects.to')"
+              @change="setHistoryTo"
+          ></wt-datetimepicker>
+        </div>
+        <div class="table-wrapper">
+          <wt-table
+              :headers="headers"
+              :data="dataList"
+              :selectable="false"
+              :grid-actions="false"
+          >
+            <template slot="loggedIn" slot-scope="{ item }">
+              {{ prettifyLoggedIn(item.loggedIn) }}
+            </template>
+            <template slot="loggedOut" slot-scope="{ item }">
+              {{ prettifyLoggedOut(item.loggedOut) }}
+            </template>
+            <template slot="user" slot-scope="{ item }">
+              <div v-if="item.user">
+                {{ item.user.name }}
+              </div>
+            </template>
+          </wt-table>
+          <wt-pagination
+              :size="size"
+              :next="isNext"
+              :prev="page > 1"
+              debounce
+              @next="nextPage"
+              @prev="prevPage"
+              @input="setSize"
+              @change="loadList"
+          ></wt-pagination>
+        </div>
+      </section>
+    </template>
+    <template slot="actions">
+      <wt-button @click="close">{{ $t('objects.ok') }}</wt-button>
+      <wt-button color="secondary" @click="close"> {{ $t('objects.close') }}</wt-button>
+    </template>
+  </wt-popup>
 </template>
 
 <script>
-    import tableComponentMixin from '@/mixins/tableComponentMixin';
-    import { mapActions, mapState } from 'vuex';
-    import popup from '../../utils/popup';
-    import datetimePicker from '../../utils/datetimepicker';
+import { mapActions, mapState } from 'vuex';
+import tableComponentMixin from '../../../mixins/tableComponentMixin';
 
-    export default {
-        name: 'device-history-popup',
-        mixins: [tableComponentMixin],
-        components: {
-            datetimePicker,
-            popup,
-        },
-        data() {
-            return {
-                fields: [
-                    { name: 'loggedIn', title: this.$t('objects.directory.devices.loggedIn') },
-                    { name: 'loggedOut', title: this.$t('objects.directory.devices.loggedOut') },
-                    { name: 'user', title: this.$tc('objects.directory.users.users', 1) },
-                ],
-            };
-        },
-
-        computed: {
-            ...mapState('directory/devices', {
-                dataList: (state) => state.history.dataList,
-                date: (state) => state.history.date,
-                page: (state) => state.page, // acts like a boolean: if page is 0, there's no back page
-                isNextPage: (state) => state.isNextPage,
-            }),
-
-            size: {
-                get() {
-                    return this.$store.state.directory.devices.history.size;
-                },
-                set(value) {
-                    this.setSize(value);
-                },
-            },
-
-            search: {
-                get() {
-                    return this.$store.state.directory.devices.history.search;
-                },
-                set(value) {
-                    this.setSearch(value);
-                },
-            },
-
-            date: {
-                get() {
-                    return this.$store.state.directory.devices.history.date;
-                },
-                set(value) {
-                    this.setHistoryDate(value);
-                },
-            },
-        },
-
-        methods: {
-            computeTime(time) {
-                if (isNaN(parseInt(time))) return time;
-                return new Date(+time).toString().split(' ')[4];
-            },
-
-            ...mapActions('directory/devices', {
-                loadDataList: 'LOAD_HISTORY_DATA_LIST',
-                setSize: 'SET_HISTORY_SIZE',
-                setSearch: 'SET_HISTORY_SEARCH',
-                setHistoryDate: 'SET_HISTORY_DATE',
-                nextPage: 'NEXT_HISTORY_PAGE',
-                prevPage: 'PREV_HISTORY_PAGE',
-            }),
-        },
+export default {
+  name: 'device-history-popup',
+  mixins: [tableComponentMixin],
+  data() {
+    return {
+      headers: [
+        { value: 'user', text: this.$tc('objects.directory.users.users', 1) },
+        { value: 'loggedIn', text: this.$t('objects.directory.devices.loggedIn') },
+        { value: 'loggedOut', text: this.$t('objects.directory.devices.loggedOut') },
+      ],
     };
+  },
+
+  computed: {
+    ...mapState('directory/devices/history', {
+      dataList: (state) => state.dataList,
+      page: (state) => state.page,
+      size: (state) => state.size,
+      search: (state) => state.search,
+      from: (state) => state.from,
+      to: (state) => state.to,
+      isNext: (state) => state.isNextPage,
+    }),
+  },
+
+  methods: {
+    ...mapActions('directory/devices/history', {
+      loadDataList: 'LOAD_HISTORY_DATA_LIST',
+      setSize: 'SET_HISTORY_SIZE',
+      setSearch: 'SET_HISTORY_SEARCH',
+      setHistoryFrom: 'SET_HISTORY_FROM',
+      setHistoryTo: 'SET_HISTORY_TO',
+      nextPage: 'NEXT_HISTORY_PAGE',
+      prevPage: 'PREV_HISTORY_PAGE',
+    }),
+
+    prettifyLoggedIn(time) {
+      return new Date(+time).toLocaleString();
+    },
+
+    prettifyLoggedOut(time) {
+      if (!time) return 'none';
+      return new Date(+time).toLocaleString();
+    },
+
+    close() {
+      this.$emit('close');
+    },
+  },
+};
 </script>
 
-<style lang="scss">
-    .history-popup {
-        padding-bottom: 28px;
+<style lang="scss" scoped>
+@import '../../../assets/css/objects/table-page';
 
-        table {
-            min-width: auto;
-        }
+.history-popup__filters {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-gap: 10px;
+  margin-bottom: 20px;
+}
 
-        .pagination {
-            width: fit-content;
-            margin-top: 28px;
-            margin-left: auto;
-        }
-    }
+.wt-table {
+  max-height: 40vh;
+}
 </style>

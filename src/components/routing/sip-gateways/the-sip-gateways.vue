@@ -128,7 +128,7 @@
         computed: {
             ...mapState('routing/gateways', {
                 dataList: (state) => state.dataList,
-                page: (state) => state.page, // acts like a boolean: if page is 0, there's no back page
+                page: (state) => state.page,
                 isNextPage: (state) => state.isNextPage,
             }),
 

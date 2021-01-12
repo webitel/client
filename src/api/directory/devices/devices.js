@@ -18,7 +18,7 @@ const defaultListItem = { // default object prototype, to merge response with it
     _isSelected: false,
     name: '',
     account: '',
-    user: { name: '' },
+    user: {},
     state: 0,
     id: 0,
 };
@@ -26,7 +26,7 @@ const defaultListItem = { // default object prototype, to merge response with it
 const defaultItem = { // default object prototype, to merge response with it to get all fields
     name: '',
     account: '',
-    user: { name: '' },
+    user: {},
     state: 0,
     id: 0,
     hotdesks: [],
@@ -34,6 +34,8 @@ const defaultItem = { // default object prototype, to merge response with it to 
     password: '',
     phone: {},
     brand: '',
+    ip: '',
+    mac: '',
     model: '',
     _dirty: false,
 };
@@ -83,27 +85,19 @@ export const updateDevice = async (id, item) => {
     return itemUpdater.updateItem(id, itemCopy);
 };
 
-export const deleteDevice = async (id) => await itemDeleter.deleteItem(id);
+export const deleteDevice = (id) => itemDeleter.deleteItem(id);
 
-export const getDeviceHistory = async (id, date, page = 0) => {
-    const url = `${BASE_URL}/${id}/users/audit?time_from=${date}`;
-    const defaultObject = {
-        loggedIn: '0',
-        loggedOut: '0',
-        user: {},
-    };
-
+export const getDeviceHistory = async ({ id, from, to, page, size }) => {
+    const url = `${BASE_URL}/${id}/users/audit?time_from=${from}&time_to=${to}&page=${page}&size=${size}`;
     try {
         const response = await instance.get(url);
-        if (response.items) {
-            return response.items.map((item) => ({ ...defaultObject, ...item }));
-        }
+        if (response.items) return response.items;
         return [];
     } catch (err) {
         throw err;
     }
 };
 
-export const getDevicePermissions = async (id, page = 0, size = 10, search) => await permissionsGetter.getList(id, size, search);
+export const getDevicePermissions = async (id, page = 1, size = 10, search) => await permissionsGetter.getList(id, size, search);
 
 export const patchDevicePermissions = async (id, item) => await permissionsPatcher.patchItem(id, item);

@@ -13,7 +13,7 @@ export class DefaultPermissionsModule {
             LOAD_DATA_LIST: async (context) => {
                 if (context.state.parentId) {
                     const dataList = await context.dispatch('LOAD_PERMISSIONS_LIST');
-                    context.dispatch('RESET_ITEM_STATE');
+                    // context.dispatch('RESET_ITEM_STATE');
                     context.commit('SET_DATA_LIST', dataList);
                 }
             },
@@ -82,11 +82,11 @@ export class DefaultPermissionsModule {
                 state.dataList = list;
             },
 
-            SET_SIZE: (context, size) => {
+            SET_SIZE: (state, size) => {
                 state.size = size;
             },
 
-            SET_SEARCH: (context, search) => {
+            SET_SEARCH: (state, search) => {
                 state.search = search;
             },
 

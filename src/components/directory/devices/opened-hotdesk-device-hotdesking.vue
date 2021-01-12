@@ -1,50 +1,40 @@
 <template>
-    <section>
-        <header class="content-header">
-            <h3 class="content-title">{{$t('objects.directory.devices.hotDesking')}}</h3>
-        </header>
-        <form class="object-input-grid">
-            <tags-input
-                    v-model="hotdesks"
-                    :options="[]"
-                    :label="$t('objects.directory.devices.hostName')"
-                    :addOnlyFromAutocomplete="false"
-            ></tags-input>
-        </form>
-    </section>
+  <section>
+    <header class="content-header">
+      <h3 class="content-title">{{ $t('objects.directory.devices.hotdesk') }}</h3>
+    </header>
+    <form class="object-input-grid">
+      <wt-tags-input
+          :value="hotdesks"
+          :label="$t('objects.directory.devices.hostName')"
+          :add-only-from-autocomplete="false"
+          @input="setItemProp({ prop: 'hotdesks', value: $event })"
+      ></wt-tags-input>
+    </form>
+  </section>
 </template>
 
 <script>
-    import openedTabComponentMixin from '@/mixins/openedTabComponentMixin';
-    import { mapActions } from 'vuex';
-    import Switcher from '../../utils/switcher';
+import { mapState, mapActions } from 'vuex';
+import openedTabComponentMixin from '../../../mixins/openedTabComponentMixin';
 
-    export default {
-        name: 'opened-device-hot-desking',
-        components: { Switcher },
-        mixins: [openedTabComponentMixin],
+export default {
+  name: 'opened-device-hotdesking',
+  mixins: [openedTabComponentMixin],
 
-        computed: {
-            hotdesks: {
-                get() { return this.$store.state.directory.devices.itemInstance.hotdesks; },
-                set(value) { this.setItemProp({ prop: 'hotdesks', value }); },
-            },
-        },
+  computed: {
+    ...mapState('directory/devices', {
+      hotdesks: (state) => state.itemInstance.hotdesks,
+    }),
+  },
 
-        methods: {
-            ...mapActions('directory/devices', {
-                setItemProp: 'SET_ITEM_PROPERTY',
-            }),
-        },
-    };
+  methods: {
+    ...mapActions('directory/devices', {
+      setItemProp: 'SET_ITEM_PROPERTY',
+    }),
+  },
+};
 </script>
 
 <style lang="scss" scoped>
-    .switcher-label-wrap {
-        margin: 0 0 28px;
-
-        .switcher {
-            margin-top: 7px;
-        }
-    }
 </style>
