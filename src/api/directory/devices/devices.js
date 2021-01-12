@@ -18,7 +18,7 @@ const defaultListItem = { // default object prototype, to merge response with it
     _isSelected: false,
     name: '',
     account: '',
-    user: { name: '' },
+    user: {},
     state: 0,
     id: 0,
 };
@@ -26,7 +26,7 @@ const defaultListItem = { // default object prototype, to merge response with it
 const defaultItem = { // default object prototype, to merge response with it to get all fields
     name: '',
     account: '',
-    user: { name: '' },
+    user: {},
     state: 0,
     id: 0,
     hotdesks: [],
