@@ -59,7 +59,7 @@ export const addTeamAgent = async (teamId, item) => {
     sanitizer(itemCopy, fieldsToSend);
     try {
         const response = await teamResService.createResourceTeamAgent(teamId, itemCopy);
-        eventBus.$emit('notificationInfo', 'Successfully added');
+        eventBus.$emit('notification', { type: 'info', text: 'Successfully added' });
         return response.id;
     } catch (err) {
         throw err;
@@ -73,7 +73,7 @@ export const updateTeamAgent = async (teamId, id, item) => {
     sanitizer(itemCopy, fieldsToSend);
     try {
         await teamResService.updateResourceTeamAgent(teamId, id, itemCopy);
-        eventBus.$emit('notificationInfo', 'Successfully updated');
+        eventBus.$emit('notification', { type: 'info', text: 'Successfully updated' });
     } catch (err) {
         throw err;
     }

@@ -50,7 +50,7 @@ export const addAgentSkill = async (agentId, item) => {
     sanitizer(itemCopy, fieldsToSend);
     try {
         const response = await agentSkillService.createAgentSkill(agentId, itemCopy);
-        eventBus.$emit('notificationInfo', 'Successfully added');
+        eventBus.$emit('notification', { type: 'info', text: 'Successfully added' });
         return response.id;
     } catch (err) {
         throw err;
@@ -63,7 +63,7 @@ export const updateAgentSkill = async (agentId, id, item) => {
     sanitizer(itemCopy, fieldsToSend);
     try {
         await agentSkillService.updateAgentSkill(agentId, id, itemCopy);
-        eventBus.$emit('notificationInfo', 'Successfully updated');
+        eventBus.$emit('notification', { type: 'info', text: 'Successfully updated' });
     } catch (err) {
         throw err;
     }

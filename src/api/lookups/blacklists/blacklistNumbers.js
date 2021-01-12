@@ -51,7 +51,7 @@ export const addBlacklistCommunication = async (listId, item) => {
     sanitizer(item, fieldsToSend);
     try {
         const response = await listService.createListCommunication(listId, itemCopy);
-        eventBus.$emit('notificationInfo', 'Successfully added');
+        eventBus.$emit('notification', { type: 'info', text: 'Successfully added' });
         return response.id;
     } catch (err) {
         throw err;
@@ -65,7 +65,7 @@ export const updateBlacklistCommunication = async (listId, id, item) => {
     sanitizer(itemCopy, fieldsToSend);
     try {
         await listService.updateListCommunication(listId, id, itemCopy);
-        eventBus.$emit('notificationInfo', 'Successfully updated');
+        eventBus.$emit('notification', { type: 'info', text: 'Successfully updated' });
     } catch (err) {
         throw err;
     }

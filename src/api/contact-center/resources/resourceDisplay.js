@@ -53,7 +53,7 @@ export const addResDisplay = async (resId, item) => {
     sanitizer(item, fieldsToSend);
     try {
         await resService.createOutboundResourceDisplay(resId, item);
-        eventBus.$emit('notificationInfo', 'Successfully added');
+        eventBus.$emit('notification', { type: 'info', text: 'Successfully added' });
     } catch (err) {
         throw err;
     }
@@ -66,7 +66,7 @@ export const updateResDisplay = async (resId, id, item) => {
     sanitizer(item, fieldsToSend);
     try {
         await resService.updateOutboundResourceDisplay(resId, id, item);
-        eventBus.$emit('notificationInfo', 'Successfully added');
+        eventBus.$emit('notification', { type: 'info', text: 'Successfully added' });
     } catch (err) {
         throw err;
     }

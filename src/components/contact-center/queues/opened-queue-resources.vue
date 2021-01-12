@@ -110,7 +110,7 @@ export default {
         if (!this.id) await this.addParentItem();
         this.popupTriggerIf = true;
       } else {
-        eventBus.$emit('notificationError', 'Check your validations!');
+        eventBus.$emit('notification', { type: 'error', text: 'Check your validations!' });
       }
     },
 

@@ -55,7 +55,7 @@ export const addResInGroup = async (resGroupId, item) => {
     sanitizer(itemCopy, fieldsToSend);
     try {
         const response = await resGrService.createOutboundResourceInGroup(resGroupId, itemCopy);
-        eventBus.$emit('notificationInfo', 'Successfully added');
+        eventBus.$emit('notification', { type: 'info', text: 'Successfully added' });
         return response.id;
     } catch (err) {
         throw err;
@@ -69,7 +69,7 @@ export const updateResInGroup = async (resGroupId, id, item) => {
     sanitizer(itemCopy, fieldsToSend);
     try {
         await resGrService.updateOutboundResourceInGroup(resGroupId, id, itemCopy);
-        eventBus.$emit('notificationInfo', 'Successfully updated');
+        eventBus.$emit('notification', { type: 'info', text: 'Successfully updated' });
     } catch (err) {
         throw err;
     }

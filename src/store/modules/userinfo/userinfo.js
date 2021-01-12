@@ -1,11 +1,13 @@
 const defaultState = () => ({
     domainId: 0,
+    name: '',
     username: '',
+    account: '',
     userId: 0,
     scope: [],
     roles: [],
     license: [],
-    language: localStorage.getItem('language'),
+    language: localStorage.getItem('lang'),
 });
 
 const state = {
@@ -34,11 +36,13 @@ const actions = {
 const mutations = {
     SET_SESSION: (state, session) => {
         state.domainId = session.dc;
-        state.username = session.preferredUsername;
+        state.account = session.preferredUsername;
         state.roles = session.roles;
         state.scope = session.scope;
         state.userId = session.userId;
         state.license = session.license;
+        state.username = session.username;
+        state.name = session.name;
     },
 
     SET_DOMAIN_ID: (state, domainId) => {

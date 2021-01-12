@@ -54,7 +54,7 @@ export const addQueueBucket = async (queueId, item) => {
     sanitizer(itemCopy, fieldsToSend);
     try {
         const response = await queueBucketsService.createQueueBucket(queueId, itemCopy);
-        eventBus.$emit('notificationInfo', 'Successfully added');
+        eventBus.$emit('notification', { type: 'info', text: 'Successfully added' });
         return response.id;
     } catch (err) {
         throw err;
@@ -68,7 +68,7 @@ export const updateQueueBucket = async (queueId, id, item) => {
     sanitizer(itemCopy, fieldsToSend);
     try {
         await queueBucketsService.updateQueueBucket(queueId, id, itemCopy);
-        eventBus.$emit('notificationInfo', 'Successfully updated');
+        eventBus.$emit('notification', { type: 'info', text: 'Successfully updated' });
     } catch (err) {
         throw err;
     }

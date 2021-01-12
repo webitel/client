@@ -99,7 +99,7 @@ export const addMember = async (queueId, item) => {
     });
     try {
         const response = await memberService.createMember(queueId, itemCopy);
-        eventBus.$emit('notificationInfo', 'Successfully added');
+        eventBus.$emit('notification', { type: 'info', text: 'Successfully added' });
         return response.id;
     } catch (err) {
         throw err;
@@ -117,7 +117,7 @@ export const updateMember = async (queueId, id, item) => {
     });
     try {
         await memberService.updateMember(queueId, id, itemCopy);
-        eventBus.$emit('notificationInfo', 'Successfully updated');
+        eventBus.$emit('notification', { type: 'info', text: 'Successfully updated' });
     } catch (err) {
         throw err;
     }
@@ -147,7 +147,7 @@ export const addMembersList = async (queueId, items) => {
     const body = { queueId, items: itemsCopy, domainId };
     try {
         await memberService.createMemberBulk(queueId, body);
-        eventBus.$emit('notificationInfo', 'Successfully added');
+        eventBus.$emit('notification', { type: 'info', text: 'Successfully added' });
     } catch (err) {
         throw err;
     }

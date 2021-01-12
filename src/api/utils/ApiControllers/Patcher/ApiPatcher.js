@@ -16,7 +16,7 @@ export class WebitelAPIItemPatcher extends BaseItemPatcher {
         sanitizer(itemCopy, this.fieldsToSend);
         try {
             const response = await instance.patch(updUrl, itemCopy);
-            eventBus.$emit('notificationInfo', 'Successfully updated');
+            eventBus.$emit('notification', { type: 'info', text: 'Successfully updated' });
         } catch (err) {
             throw err;
         }

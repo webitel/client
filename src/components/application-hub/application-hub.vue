@@ -48,7 +48,7 @@
 </template>
 
 <script>
-    import CcHeader from '../cc-header/cc-header.vue';
+    import CcHeader from '../shared/app-header/app-header.vue';
 
     const picAdmin = {
         picDark: require('../../assets/img/application-hub/dark/admin-pic--dark.svg'),

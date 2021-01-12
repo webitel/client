@@ -19,7 +19,7 @@ export class WebitelAPIItemCreator extends BaseItemCreator {
         sanitizer(itemCopy, this.fieldsToSend);
         try {
             const response = await instance.post(this.url, itemCopy);
-            eventBus.$emit('notificationInfo', 'Successfully added');
+            eventBus.$emit('notification', { type: 'info', text: 'Successfully added' });
             return this.responseHandler(response);
         } catch (err) {
             throw err;
