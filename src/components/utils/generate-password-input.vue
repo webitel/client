@@ -92,7 +92,7 @@ export default {
       const length = 12;
       const charset = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
       let value = '';
-      for (let i = 0; i < length; i++) {
+      for (let i = 0; i < length; i += 1) {
         value += charset.charAt(Math.floor(Math.random() * charset.length));
       }
       this.input(value);
@@ -118,6 +118,7 @@ export default {
   position: relative;
 
   ::v-deep .wt-label {
+    @extend %typo-body-md;
     // change margin due to icon size in label (18px default label height -> 24px with icon)
     margin-bottom: 4px;
   }

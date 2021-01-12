@@ -203,7 +203,8 @@ export default {
 
     edit(item) {
       const name = item.hotdesk
-          ? 'hotdesk-devices-edit' : 'directory-devices-edit';
+          ? 'directory-devices-hotdesk-edit'
+          : 'directory-devices-edit';
 
       this.$router.push({
         name,

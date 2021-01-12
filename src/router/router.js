@@ -14,7 +14,6 @@ const permissionsObjects = () => import('../components/permissions/objects/the-o
 const openedPermissionsObjects = () => import('../components/permissions/objects/opened-object-permissions');
 const devices = () => import('../components/directory/devices/the-devices');
 const openedDevice = () => import('../components/directory/devices/opened-device');
-const openedDeviceHotdesk = () => import('../components/directory/devices/opened-hotdesk-device');
 const users = () => import('../components/directory/users/the-users');
 const openedUser = () => import('../components/directory/users/opened-user');
 const license = () => import('../components/directory/license/the-license');
@@ -122,13 +121,13 @@ const router = new Router({
                 },
                 {
                     path: '/directory/devices/hotdesk/:id',
-                    name: 'hotdesk-devices-edit',
-                    component: openedDeviceHotdesk,
+                    name: 'directory-devices-hotdesk-edit',
+                    component: openedDevice,
                 },
                 {
                     path: '/directory/devices/hotdesk/new',
-                    name: 'hotdesk-devices-new',
-                    component: openedDeviceHotdesk,
+                    name: 'directory-devices-hotdesk-new',
+                    component: openedDevice,
                 },
                 {
                     path: '/directory/license',
