@@ -1,12 +1,12 @@
 import Vue from 'vue';
 import store from '../store/store';
 import Router from 'vue-router';
-import auth from '../components/auth/the-auth';
+import auth from '../components/shared/auth/the-auth';
 
 const ApplicationHub = () => import('../components/application-hub/application-hub.vue');
 const moduleWrap = () => import('../components/object-utils/the-object-wrap');
 const home = () => import('../components/home/the-home');
-const settings = () => import('../components/the-settings');
+const settings = () => import('../components/shared/the-settings');
 const notFound = () => import('../components/utils/the-not-found-component');
 const permissionsRoles = () => import('../components/permissions/roles/the-roles');
 const openedPermissionsRoles = () => import('../components/permissions/roles/opened-role');

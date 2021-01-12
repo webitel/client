@@ -112,7 +112,7 @@ export const addStorage = async (item) => {
     sanitizer(itemCopy, fieldsToSend);
     try {
         const response = await storageService.createBackendProfile(itemCopy);
-        eventBus.$emit('notificationInfo', 'Successfully added');
+        eventBus.$emit('notification', { type: 'info', text: 'Successfully added' });
         return response.id;
     } catch (err) {
         throw err;
@@ -125,7 +125,7 @@ export const patchStorage = async (id, item) => {
     sanitizer(itemCopy, fieldsToSend);
     try {
         await storageService.patchBackendProfile(id, itemCopy);
-        eventBus.$emit('notificationInfo', 'Successfully updated');
+        eventBus.$emit('notification', { type: 'info', text: 'Successfully updated' });
     } catch (err) {
         throw err;
     }
@@ -142,7 +142,7 @@ export const updateStorage = async (id, item) => {
 
     try {
         await storageService.updateBackendProfile(id, itemCopy);
-        eventBus.$emit('notificationInfo', 'Successfully updated');
+        eventBus.$emit('notification', { type: 'info', text: 'Successfully updated' });
     } catch (err) {
         throw err;
     }

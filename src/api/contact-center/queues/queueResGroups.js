@@ -51,7 +51,7 @@ export const addQueueResGroup = async (queueId, item) => {
     sanitizer(itemCopy, fieldsToSend);
     try {
         const response = await queueResService.createQueueResourceGroup(queueId, itemCopy);
-        eventBus.$emit('notificationInfo', 'Successfully added');
+        eventBus.$emit('notification', { type: 'info', text: 'Successfully added' });
         return response.id;
     } catch (err) {
         throw err;
@@ -65,7 +65,7 @@ export const updateQueueResGroup = async (queueId, id, item) => {
     sanitizer(itemCopy, fieldsToSend);
     try {
         await queueResService.updateQueueResourceGroup(queueId, id, itemCopy);
-        eventBus.$emit('notificationInfo', 'Successfully updated');
+        eventBus.$emit('notification', { type: 'info', text: 'Successfully updated' });
     } catch (err) {
         throw err;
     }

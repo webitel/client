@@ -16,7 +16,7 @@ export class WebitelSDKItemUpdater extends BaseItemUpdater {
         sanitizer(itemCopy, this.fieldsToSend);
         try {
             await this.method(id, itemCopy);
-            eventBus.$emit('notificationInfo', 'Successfully updated');
+            eventBus.$emit('notification', { type: 'info', text: 'Successfully updated' });
         } catch (err) {
             throw err;
         }

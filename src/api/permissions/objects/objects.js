@@ -40,7 +40,7 @@ export const updateObject = async (id, item) => {
 
     try {
         await instance.put(url, updatedItem);
-        eventBus.$emit('notificationInfo', 'Successfully updated');
+        eventBus.$emit('notification', { type: 'info', text: 'Successfully updated' });
     } catch (error) {
         throw error;
     }

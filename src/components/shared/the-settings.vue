@@ -51,10 +51,10 @@
 
 <script>
     import { sameAs, required } from 'vuelidate/lib/validators';
-    import objectHeader from './object-utils/the-object-header';
-    import DropdownSelect from './utils/dropdown-select';
-    import btn from './utils/btn';
-    import formInput from './utils/form-input';
+    import objectHeader from '../object-utils/the-object-header';
+    import DropdownSelect from '../utils/dropdown-select';
+    import btn from '../utils/btn';
+    import formInput from '../utils/form-input';
 
     export default {
         name: 'the-settings',

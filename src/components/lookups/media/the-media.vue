@@ -272,7 +272,7 @@
             // used for updating loaded files number on UI
             onFileError(file, message) {
                 this.loadedCount++;
-                eventBus.$emit('notificationError', message.message);
+                 eventBus.$emit('notification', { type: 'error', text: message.message });
             },
 
             // dropzone event firing on all files loaded and sended

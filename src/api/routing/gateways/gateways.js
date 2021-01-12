@@ -62,7 +62,7 @@ export async function patchGateway(id, item) {
     const patchUrl = `${BASE_URL}/${id}`;
     try {
         const response = await instance.patch(patchUrl, item);
-        eventBus.$emit('notificationInfo', 'Successfully updated');
+        eventBus.$emit('notification', { type: 'info', text: 'Successfully updated' });
     } catch (err) {
         throw err;
     }

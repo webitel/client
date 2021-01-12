@@ -13,15 +13,12 @@ import './assets/css/objects/lib-custom-styling/vuetable.scss';
 import './assets/css/fonts.scss';
 
 import tableCheckboxColumn from './components/object-utils/utils/table-checkbox-column.vue';
-import errorMixin from './mixins/errorMixin';
-
 
 Vue.config.productionTip = false;
 
 Vue.component('icon', Icon);
 Vue.component('vuetable-field-table-checkbox', tableCheckboxColumn);
 Vue.use(Vuelidate);
-Vue.mixin(errorMixin);
 
 const fetchConfig = async () => {
     const response = await fetch(`${process.env.BASE_URL}config.json`);

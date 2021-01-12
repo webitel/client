@@ -47,7 +47,7 @@ export const addMedia = async (file) => {
     formData.append('file', file);
     try {
         const response = await axios.post(url, formData, config);
-        eventBus.$emit('notificationInfo', 'Successfully added');
+        eventBus.$emit('notification', { type: 'info', text: 'Successfully added' });
         return response.id;
     } catch (err) {
         throw err;

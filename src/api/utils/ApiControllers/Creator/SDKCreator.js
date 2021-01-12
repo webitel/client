@@ -16,7 +16,7 @@ export class WebitelSDKItemCreator extends BaseItemCreator {
         sanitizer(itemCopy, this.fieldsToSend);
         try {
             const response = await this.method(itemCopy);
-            eventBus.$emit('notificationInfo', 'Successfully added');
+            eventBus.$emit('notification', { type: 'info', text: 'Successfully added' });
             return this.responseHandler(response);
         } catch (err) {
             throw err;

@@ -1,21 +1,17 @@
 <template>
   <wt-app-header>
     <wt-navigation-bar :current-app="currentApp" :nav="nav"></wt-navigation-bar>
-    <app-navigator/>
-    <user-preferences/>
+    <wt-app-navigator :current-app="currentApp" :apps="apps"></wt-app-navigator>
+    <wt-header-actions :user="user" @settings="settings" @logout="logoutUser"/>
   </wt-app-header>
 </template>
 
 <script>
-import AppNavigator from './the-app-navigator.vue';
-import UserPreferences from './user-preferences.vue';
+import { mapState } from 'vuex';
+import { logout } from '../../../api/auth/auth';
 
 export default {
-  name: 'cc-header',
-  components: {
-    AppNavigator,
-    UserPreferences,
-  },
+  name: 'app-header',
 
   data: () => ({
     currentApp: 'admin',
@@ -29,6 +25,10 @@ export default {
     },
   }),
   computed: {
+    ...mapState('userinfo', {
+      user: (state) => state,
+    }),
+
     nav() {
       return [{
         value: 'directory',
@@ -142,6 +142,16 @@ export default {
             route: 'objects',
           }],
         }];
+    },
+  },
+
+  methods: {
+    settings() {
+      this.$router.push('/settings');
+    },
+
+    logoutUser() {
+      logout();
     },
   },
 };

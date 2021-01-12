@@ -40,7 +40,7 @@ export const moveDialplan = async (fromId, toId) => {
     const domain_id = store.state.userinfo.domainId;
     try {
         await dialplanService.movePositionRoutingOutboundCall(fromId, toId, { domain_id });
-        eventBus.$emit('notificationInfo', 'Successfully updated');
+        eventBus.$emit('notification', { type: 'info', text: 'Successfully updated' });
     } catch (err) {
         throw err;
     }
