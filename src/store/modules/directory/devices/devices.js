@@ -2,18 +2,27 @@ import history from './history';
 import permissions from './permissions';
 import {
     addDevice, deleteDevice,
-    getDevice, getDeviceList, updateDevice
+    getDevice, getDeviceList, updateDevice,
 } from "../../../../api/directory/devices/devices";
-import {DefaultModule} from "../../defaults/DefaultModule";
+import { DefaultModule } from "../../defaults/DefaultModule";
 import router from "../../../../router/router";
 import proxy from "../../../../utils/editProxy";
+
+const generateHotdeskAccount = (length = 7) => {
+    const charset = 'abcdefghijklmnopqrstuvwxyz0123456789';
+    let value = 'hot-';
+    for (let i = 0; i < length; i += 1) {
+        value += charset.charAt(Math.floor(Math.random() * charset.length));
+    }
+    return value;
+};
 
 const defaultState = () => {
     return {
         itemId: 0,
         ...defaultItem(),
         ...defaultHotdeskItem(),
-    }
+    };
 };
 
 const defaultItem = () => {
@@ -39,7 +48,7 @@ const defaultHotdeskItem = () => {
         itemId: 0,
         itemInstance: {
             name: '',
-            account: '',
+            account: generateHotdeskAccount(),
             password: '',
             user: {},
             phone: {},
@@ -113,9 +122,10 @@ const actions = {
 };
 
 const mutations = {
+    ...defaultModule.mutations,
 
     SET_SINGLE_ITEM: (state, item) => {
-        if(item) {
+        if (item) {
             state.itemInstance = item;
         } else {
             Object.assign(state, defaultState(), defaultItem());
@@ -123,14 +133,12 @@ const mutations = {
     },
 
     SET_HOTDESK_ITEM: (state, item) => {
-        if(item) {
+        if (item) {
             state.itemInstance = item;
         } else {
             Object.assign(state, defaultState(), defaultHotdeskItem());
         }
     },
-
-    ...defaultModule.mutations,
 };
 
 export default {
@@ -139,5 +147,5 @@ export default {
     getters,
     actions,
     mutations,
-    modules: {history, permissions}
+    modules: { history, permissions },
 };

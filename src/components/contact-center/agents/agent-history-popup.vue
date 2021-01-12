@@ -93,7 +93,7 @@
         computed: {
             ...mapState('ccenter/agents', {
                 dataList: (state) => state.history.dataList,
-                page: (state) => state.history.page, // acts like a boolean: if page is 0, there's no back page
+                page: (state) => state.history.page,
                 isNextPage: (state) => state.history.isNextPage,
             }),
 

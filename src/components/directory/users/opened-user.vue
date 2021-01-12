@@ -10,7 +10,7 @@
           <wt-button :disabled="computeDisabled" @click="save">
             {{ computePrimaryText || $t('objects.addNew') }}
           </wt-button>
-          <wt-button color="secondary" @click="back">
+          <wt-button color="secondary" @click="close">
             {{ $t('objects.close') }}
           </wt-button>
         </template>
@@ -20,8 +20,8 @@
     <template slot="main">
       <div class="main-container">
         <wt-tabs
-            :tabs="tabs"
             v-model="currentTab"
+            :tabs="tabs"
         >
         </wt-tabs>
         <component
@@ -124,10 +124,6 @@ export default {
   },
 
   methods: {
-    back() {
-      this.$router.go(-1);
-    },
-
     ...mapActions('directory/users', {
       setId: 'SET_ITEM_ID',
       loadItem: 'LOAD_ITEM',
@@ -139,9 +135,4 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.main-container {
-  display: flex;
-  flex-direction: column;
-  width: 100%;
-}
 </style>

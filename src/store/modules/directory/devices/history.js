@@ -1,35 +1,43 @@
 import {
     getDeviceHistory,
 } from "../../../../api/directory/devices/devices";
-import {DefaultHistoryModule} from "../../defaults/DefaultHistoryModule";
+import { DefaultHistoryModule } from "../../defaults/DefaultHistoryModule";
 
 const defaultState = () => {
     return {
-        date: Date.now(),
+        from: new Date().setHours(0, 0, 0, 0),
+        to: Date.now(),
     };
 };
 
-const defaultModule = new DefaultHistoryModule(defaultState);
+const defaultHistoryModule = new DefaultHistoryModule(defaultState);
 
 const state = {
-    ...defaultModule.state,
+    ...defaultHistoryModule.state,
 };
 
 const getters = {};
 
 const actions = {
     GET_HISTORY_LIST: async (context) => {
-        return await getDeviceHistory(context.state.itemId, context.state.date, context.state.page);
+        return await getDeviceHistory({
+            id: context.state.itemId,
+            from: context.state.from,
+            to: context.state.to,
+            page: context.state.page,
+            size: context.state.size,
+        });
     },
 
-    ...defaultModule.actions,
+    ...defaultHistoryModule.actions,
 };
 
 const mutations = {
-    ...defaultModule.mutations,
+    ...defaultHistoryModule.mutations,
 };
 
 export default {
+    namespaced: true,
     state,
     getters,
     actions,

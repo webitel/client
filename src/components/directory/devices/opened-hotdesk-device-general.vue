@@ -1,136 +1,75 @@
 <template>
-    <section>
-        <header class="content-header">
-            <h3 class="content-title">{{$t('objects.generalInfo')}}</h3>
-        </header>
-        <form class="object-input-grid">
-            <form-input
-                    v-model.trim="name"
-                    :v="v.itemInstance.name"
-                    :label="$t('objects.name')"
-                    required
-            ></form-input>
-
-            <div class="input-extension-wrap">
-                <form-input
-                        v-model.trim="account"
-                        :v="v.itemInstance.account"
-                        :label="$t('objects.directory.devices.authId')"
-                        disabled
-                ></form-input>
-
-                <div class="input-extension">
-                    <div class="input-extension__copy" @click="copy">
-                        <span>{{$t('objects.copy')}}</span>
-
-                        <div class="hint" v-if="copyAccMessage">
-                            <div class="tooltip-top active">
-
-                                <span>{{this.copyAccMessage}}</span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-          <password-input
-              :value="password"
-              :v="v.itemInstance.password"
-              required
-              @input="setItemProp({ prop: 'password', value: $event })"
-          ></password-input>
-
-            <dropdown-select
-                    v-model="user"
-                    :options="dropdownOptionsList"
-                    :label="$t('objects.user')"
-                    @search="loadDropdownOptionsList"
-            ></dropdown-select>
-        </form>
-    </section>
+  <section>
+    <header class="content-header">
+      <h3 class="content-title">{{ $t('objects.generalInfo') }}</h3>
+    </header>
+    <form class="object-input-grid">
+      <wt-input
+          :value="name"
+          :v="v.itemInstance.name"
+          :label="$t('objects.name')"
+          required
+          @input="setItemProp({ prop: 'name', value: $event })"
+      ></wt-input>
+      <copy-input
+          :value="account"
+          :v="v.itemInstance.account"
+          :label="$t('objects.directory.devices.authId')"
+          disabled
+          required
+      ></copy-input>
+      <password-input
+          :value="password"
+          :v="v.itemInstance.password"
+          required
+          @input="setItemProp({ prop: 'password', value: $event })"
+      ></password-input>
+      <wt-select
+          :value="user"
+          :label="$tc('objects.directory.users.users', 1)"
+          :search="loadDropdownOptionsList"
+          :internal-search="false"
+          @input="setItemProp({ prop: 'user', value: $event })"
+      ></wt-select>
+    </form>
+  </section>
 </template>
 
 <script>
-    import openedTabComponentMixin from '@/mixins/openedTabComponentMixin';
-    import { mapActions } from 'vuex';
-    import eventBus from '@webitel/ui-sdk/src/scripts/eventBus';
-    import { getUsersList } from '../../../api/directory/users/users';
-    import PasswordInput from '../../utils/generate-password-input.vue';
+import { mapActions, mapState } from 'vuex';
+import { getUsersList } from '../../../api/directory/users/users';
+import CopyInput from '../../utils/copy-input.vue';
+import PasswordInput from '../../utils/generate-password-input.vue';
+import openedTabComponentMixin from '../../../mixins/openedTabComponentMixin';
 
-    export default {
-        name: 'opened-hotdesk-device-general',
-        mixins: [openedTabComponentMixin],
-        components: { PasswordInput },
-        data() {
-            return {
-                defaultAccount: '',
-                copyAccMessage: '',
-            };
-        },
+export default {
+  name: 'opened-hotdesk-device-general',
+  mixins: [openedTabComponentMixin],
+  components: { CopyInput, PasswordInput },
 
-        mounted() {
-            this.loadDropdownOptionsList();
-            this.generateAccount();
-        },
+  computed: {
+    ...mapState('directory/devices', {
+      name: (state) => state.itemInstance.name,
+      account: (state) => state.itemInstance.account,
+      password: (state) => state.itemInstance.password,
+      user: (state) => state.itemInstance.user,
+    }),
+  },
 
-        computed: {
-            name: {
-                get() { return this.$store.state.directory.devices.itemInstance.name; },
-                set(value) { this.setItemProp({ prop: 'name', value }); },
-            },
-            account: {
-                get() {
- return this.$store.state.directory.devices.itemInstance.account
-                    ? this.$store.state.directory.devices.itemInstance.account
-                    : this.defaultAccount;
-},
-                set(value) { this.setItemProp({ prop: 'account', value }); },
-            },
-            password: {
-                get() {
-                    return this.$store.state.directory.devices.itemInstance.password;
-                },
-                set(value) {
-                    this.setItemProp({ prop: 'password', value });
-                },
-            },
-            user: {
-                get() { return this.$store.state.directory.devices.itemInstance.user; },
-                set(value) { this.setItemProp({ prop: 'user', value }); },
-            },
-        },
+  methods: {
+    ...mapActions('directory/devices', {
+      setItemProp: 'SET_ITEM_PROPERTY',
+    }),
 
-        methods: {
-            async loadDropdownOptionsList(search) {
-                const response = await getUsersList(0, 10, search);
-                this.dropdownOptionsList = response.list.map((item) => ({
-                        name: item.name,
-                        id: item.id,
-                    }));
-            },
-
-            generateAccount() {
-                const length = 7;
-                const charset = 'abcdefghijklmnopqrstuvwxyz0123456789';
-                let result = '';
-                for (let i = 0; i < length; i++) {
-                    result += charset.charAt(Math.floor(Math.random() * charset.length));
-                }
-                this.defaultAccount = `hot-${result}`;
-            },
-
-            copy() {
-                this.disabled = false;
-                eventBus.$emit('copy', this.account);
-                this.copyAccMessage = this.$t('objects.copied');
-                setTimeout(() => this.copyAccMessage = '', 2000);
-            },
-
-            ...mapActions('directory/devices', {
-                setItemProp: 'SET_ITEM_PROPERTY',
-            }),
-        },
-    };
+    async loadDropdownOptionsList(search) {
+      const response = await getUsersList(1, 10, search);
+      return response.list.map((item) => ({
+        name: item.name,
+        id: item.id,
+      }));
+    },
+  },
+};
 </script>
 
 <style lang="scss" scoped>
