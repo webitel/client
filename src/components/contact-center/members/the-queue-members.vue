@@ -7,7 +7,7 @@
           {{ $tc('objects.ccenter.members.members', 2) }}
         </template>
         <template slot="actions">
-          <wt-button @click="create">
+          <wt-button @click="create" v-if="isNotInboundMember">
             {{ $t('objects.add') }}
           </wt-button>
           <wt-button color="secondary" @click="$router.go(-1)">
@@ -48,7 +48,7 @@
                 :tooltip="$t('iconHints.deleteSelected')"
                 @click="deleteSelected"
             ></wt-icon-btn>
-            <div class="upload-csv">
+            <div class="upload-csv" v-if="isNotInboundMember">
               <wt-icon-btn
                   icon="upload"
                   :tooltip="$t('iconHints.upload')"
@@ -74,6 +74,8 @@
           <wt-table
               :headers="headers"
               :data="dataList"
+              :selectable="false"
+              :grid-actions="isNotInboundMember"
           >
             <template slot="createdAt" slot-scope="{ item }">
               {{ prettifyDate(item.createdAt) }}
@@ -156,9 +158,14 @@ export default {
     };
   },
 
+  created() {
+    this.loadParentQueue();
+  },
+
   computed: {
     ...mapState('ccenter/queues/members', {
       dataList: (state) => state.dataList,
+      parentQueue: (state) => state.parentQueue,
       page: (state) => state.page,
       size: (state) => state.size,
       search: (state) => state.search,
@@ -167,6 +174,11 @@ export default {
 
     parentId() {
       return this.$route.params.queueId;
+    },
+
+    // if is NOT -- member is immutable. NOT prevents actions load by default
+    isNotInboundMember() {
+      return !(this.parentQueue.type === 1);
     },
   },
 
@@ -254,6 +266,7 @@ export default {
       setParentId: 'SET_PARENT_ITEM_ID',
       setId: 'SET_ITEM_ID',
       loadDataList: 'LOAD_DATA_LIST',
+      loadParentQueue: 'LOAD_PARENT_QUEUE',
       setSize: 'SET_SIZE',
       setSearch: 'SET_SEARCH',
       nextPage: 'NEXT_PAGE',
