@@ -24,7 +24,7 @@ export default {
         };
     },
 
-    mounted() {
+    created() {
         if (this.setParentId) this.setParentId(this.parentId);
         this.loadList();
     },

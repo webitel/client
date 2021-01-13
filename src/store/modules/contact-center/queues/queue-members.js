@@ -2,13 +2,15 @@ import communications from './queue-member-communications';
 import {
     addMember, deleteMember, deleteMembers,
     getMember, getMembersList, updateMember
-} from "../../../../api/contact-center/queues/queueMembers";
-import {DefaultNestedModule} from "../../defaults/DefaultNestedModule";
+} from '../../../../api/contact-center/queues/queueMembers';
+import { getQueue } from '../../../../api/contact-center/queues/queues';
+import {DefaultNestedModule} from '../../defaults/DefaultNestedModule';
 
 const defaultState = () => {
     return {
         dataList:[],
         itemId: 0,
+        parentQueue: {},
         itemInstance: {
             name: '',
             priority: '0',
@@ -33,6 +35,15 @@ const getters = {
 
 const actions = {
     ...defaultModule.actions,
+
+    LOAD_PARENT_QUEUE: async (context) => {
+        try {
+            const queue = await getQueue(context.state.parentId);
+            context.commit('SET_PARENT_QUEUE', queue);
+        } catch (err) {
+            throw err;
+        }
+    },
 
     ADD_ITEM: async (context) => {
         if (!context.state.itemId) {
@@ -114,6 +125,10 @@ const actions = {
 
 const mutations = {
     ...defaultModule.mutations,
+
+    SET_PARENT_QUEUE: (state, queue) => {
+        state.parentQueue = queue;
+    },
 
     ADD_COMMUNICATION_ITEM: (state, item) => {
         state.itemInstance.communications.push(item);
