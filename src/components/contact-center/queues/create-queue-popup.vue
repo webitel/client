@@ -46,20 +46,20 @@ export default {
 
   computed: {
     options() {
-      const outboundIVR = {
-        value: 'outbound-ivr',
-        title: this.$t('objects.ccenter.queues.outboundIVR'),
-        description: this.$t('objects.ccenter.queues.outboundIVRDescription'),
+      const offline = {
+        value: 'offline-queue',
+        title: this.$t('objects.ccenter.queues.offlineQueue'),
+        description: this.$t('objects.ccenter.queues.offlineQueueDescription'),
       };
       const inbound = {
         value: 'inbound-queue',
         title: this.$t('objects.ccenter.queues.inboundQueue'),
         description: this.$t('objects.ccenter.queues.inboundQueueDescription'),
       };
-      const offline = {
-        value: 'offline-queue',
-        title: this.$t('objects.ccenter.queues.offlineQueue'),
-        description: this.$t('objects.ccenter.queues.offlineQueueDescription'),
+      const outboundIVR = {
+        value: 'outbound-ivr',
+        title: this.$t('objects.ccenter.queues.outboundIVR'),
+        description: this.$t('objects.ccenter.queues.outboundIVRDescription'),
       };
       const previewDialer = {
         value: 'preview-dialer',

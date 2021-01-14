@@ -31,7 +31,6 @@
                     <i
                             class="icon-action icon-icon_delete"
                             :title="$t('iconHints.delete')"
-                            v-if="key !== 0"
                             @click="deleteVariable(key)"
                     ></i>
                 </div>
@@ -48,7 +47,7 @@
         name: 'opened-queue-outbound-ivr-variables',
         mixins: [openedTabComponentMixin],
 
-        computed: {
+      computed: {
             ...mapState('ccenter/queues', {
                 variables: (state) => state.itemInstance.variables,
             }),

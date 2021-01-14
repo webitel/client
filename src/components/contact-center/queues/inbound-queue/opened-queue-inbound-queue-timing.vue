@@ -14,19 +14,19 @@
           :label="$t('objects.ccenter.queues.discardAbandonedAfter')"
           @input="setItemPayloadProp({ prop: 'discardAbandonedAfter', value: $event })"
       ></wt-timepicker>
-      <wt-timepicker
-          :value="timeoutWithNoAgents"
-          :label="$t('objects.ccenter.queues.timeoutWithNoAgents')"
-          @input="setItemPayloadProp({ prop: 'timeoutWithNoAgents', value: $event })"
-      ></wt-timepicker>
       <wt-select
           :value="timeBaseScore"
-          :options="dropdownOptionsScoreList"
+          :options="timeBaseScoreOptions"
           :label="$t('objects.ccenter.queues.timeBaseScore')"
+          :clearable="false"
           :track-by="null"
           @input="setItemPayloadProp({ prop: 'timeBaseScore', value: $event })"
       ></wt-select>
-
+      <wt-switcher
+        :value="allowGreetingAgent"
+        :label="$t('objects.ccenter.queues.allowGreetingAgent')"
+        @change="setItemPayloadProp({ prop: 'allowGreetingAgent', value: $event })"
+      ></wt-switcher>
     </form>
   </section>
 </template>
@@ -34,34 +34,23 @@
 <script>
 import { mapState, mapActions } from 'vuex';
 import openedTabComponentMixin from '../../../../mixins/openedTabComponentMixin';
+import { TimeBaseScore } from '../../../../store/modules/contact-center/queues/_internals/enums/TimeBaseScore.enum';
 
 export default {
   name: 'opened-queue-inbound-queue-timing',
   mixins: [openedTabComponentMixin],
   data: () => ({
-    dropdownOptionsScoreList: ['score', 'system'],
   }),
   computed: {
     ...mapState('ccenter/queues', {
+      discardAbandonedAfter: (state) => state.itemInstance.payload.discardAbandonedAfter,
       maxWaitTime: (state) => state.itemInstance.payload.maxWaitTime,
       timeBaseScore: (state) => state.itemInstance.payload.timeBaseScore,
+      allowGreetingAgent: (state) => state.itemInstance.payload.allowGreetingAgent,
     }),
-    discardAbandonedAfter: {
-      get() {
-        return this.$store.state.ccenter.queues.itemInstance.payload.discardAbandonedAfter;
-      },
-      set(value) {
-        this.setItemPayloadProp({ prop: 'discardAbandonedAfter', value: +value });
-      },
-    },
 
-    timeoutWithNoAgents: {
-      get() {
-        return this.$store.state.ccenter.queues.itemInstance.payload.timeoutWithNoAgents;
-      },
-      set(value) {
-        this.setItemPayloadProp({ prop: 'timeoutWithNoAgents', value: +value });
-      },
+    timeBaseScoreOptions() {
+      return Object.values(TimeBaseScore);
     },
   },
 

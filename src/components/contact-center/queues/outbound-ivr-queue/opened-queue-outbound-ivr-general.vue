@@ -5,76 +5,80 @@
     </header>
     <form class="object-input-grid">
       <wt-input
-          v-model="name"
-          :v="v.itemInstance.name"
-          :label="$t('objects.name')"
-          required
+        :value="name"
+        :v="v.itemInstance.name"
+        :label="$t('objects.name')"
+        @input="setItemProp({ prop: 'name', value: $event })"
+        required
       ></wt-input>
-
       <wt-select
-          v-model="calendar"
-          :v="v.itemInstance.calendar"
-          :label="$tc('objects.lookups.calendars.calendars', 1)"
-          :search="loadDropdownOptionsCalendarList"
-          :internal-search="false"
-          :clearable="false"
-          required
+        :value="calendar"
+        :v="v.itemInstance.calendar"
+        :label="$tc('objects.lookups.calendars.calendars', 1)"
+        :search="loadDropdownOptionsCalendarList"
+        :internal-search="false"
+        :clearable="false"
+        required
+        @input="setItemProp({ prop: 'calendar', value: $event })"
       ></wt-select>
-
       <wt-select
-          v-model="strategy"
-          :v="v.itemInstance.strategy"
-          :options="dropdownOptionsStrategyList"
-          :label="$t('objects.ccenter.queues.strategy')"
-          track-by="value"
-          :clearable="false"
-          required
+        :value="dncList"
+        :label="$tc('objects.lookups.blacklist.blacklist', 1)"
+        :search="loadDropdownOptionsBlacklistList"
+        :internal-search="false"
+        @input="setItemProp({ prop: 'dncList', value: $event })"
       ></wt-select>
-
-      <wt-select
-          v-model="dncList"
-          :label="$tc('objects.lookups.blacklist.blacklist', 1)"
-          :search="loadDropdownOptionsBlacklistList"
-          :internal-search="false"
-      ></wt-select>
-
-      <wt-select
-          v-model="priority"
-          :options="dropdownOptionsPriorityList"
-          :label="$t('objects.ccenter.queues.priority')"
-      ></wt-select>
-
-      <wt-select
-          v-model="schema"
-          :v="v.itemInstance.schema"
-          :label="$t('objects.routing.schema')"
-          :search="loadDropdownOptionsSchemaList"
-          :internal-search="false"
-          :clearable="false"
-          required
-      ></wt-select>
-
       <wt-input
-          v-model="maxCalls"
-          type="number"
-          :label="$t('objects.ccenter.queues.callLimit')"
+        :value="priority"
+        :label="$t('objects.ccenter.queues.priority')"
+        type="number"
+        @input="setItemProp({ prop: 'priority', value: +$event })"
       ></wt-input>
-
+      <wt-select
+        v-model="strategy"
+        :v="v.itemInstance.strategy"
+        :label="$t('objects.ccenter.queues.strategy')"
+        :options="dropdownOptionsStrategyList"
+        :clearable="false"
+        track-by="value"
+        required
+      ></wt-select>
+      <wt-select
+        :value="schema"
+        :v="v.itemInstance.schema"
+        :label="$t('objects.routing.schema')"
+        :search="loadDropdownOptionsSchemaList"
+        :internal-search="false"
+        :clearable="false"
+        required
+        @input="setItemProp({ prop: 'schema', value: $event })"
+      ></wt-select>
+      <wt-select
+        :value="doSchema"
+        :label="$t('objects.ccenter.queues.preSchema')"
+        :search="loadDropdownOptionsSchemaList"
+        :internal-search="false"
+        @input="setItemProp({ prop: 'doSchema', value: $event })"
+      ></wt-select>
+      <wt-select
+        :value="afterSchema"
+        :label="$t('objects.ccenter.queues.afterSchema')"
+        :search="loadDropdownOptionsSchemaList"
+        :internal-search="false"
+        @input="setItemProp({ prop: 'afterSchema', value: $event })"
+      ></wt-select>
       <wt-textarea
-          v-model="description"
-          :label="$t('objects.description')"
+        :value="description"
+        :label="$t('objects.description')"
+        @input="setItemProp({ prop: 'description', value: $event })"
       ></wt-textarea>
-
-      <wt-switcher
-          v-model="recordings"
-          :label="$t('objects.ccenter.queues.recordings')"
-      ></wt-switcher>
     </form>
   </section>
 </template>
 
 <script>
-import { mapActions } from 'vuex';
+import { mapActions, mapState } from 'vuex';
+import { StrategyList } from '../../../../store/modules/contact-center/queues/_internals/enums/Strategy.enum';
 import openedTabComponentMixin from '../../../../mixins/openedTabComponentMixin';
 import { getCalendarList } from '../../../../api/lookups/calendars/calendars';
 import { getBlacklistList } from '../../../../api/lookups/blacklists/blacklists';
@@ -83,108 +87,34 @@ import { getFlowList } from '../../../../api/routing/flow/flow';
 export default {
   name: 'opened-queue-outbound-ivr-general',
   mixins: [openedTabComponentMixin],
-
-  data() {
-    return {
-      dropdownOptionsStrategyList: [
-        { name: 'FIFO', value: 'fifo' },
-        { name: 'LIFO', value: 'lifo' },
-      ],
-      dropdownOptionsPriorityList: [
-        { name: '1', id: 1, value: '1' },
-        { name: '2', id: 2, value: '2' },
-        { name: '3', id: 3, value: '3' },
-        { name: '4', id: 4, value: '4' },
-        { name: '5', id: 5, value: '5' },
-        { name: '6', id: 6, value: '6' },
-        { name: '7', id: 7, value: '7' },
-        { name: '8', id: 8, value: '8' },
-        { name: '8', id: 9, value: '9' },
-        { name: '10', id: 10, value: '10' },
-      ],
-    };
-  },
-
   computed: {
-    name: {
-      get() {
-        return this.$store.state.ccenter.queues.itemInstance.name;
-      },
-      set(value) {
-        this.setItemProp({ prop: 'name', value });
-      },
-    },
-
-    calendar: {
-      get() {
-        return this.$store.state.ccenter.queues.itemInstance.calendar;
-      },
-      set(value) {
-        this.setItemProp({ prop: 'calendar', value });
-      },
-    },
+    ...mapState('ccenter/queues', {
+      name: (state) => state.itemInstance.name,
+      calendar: (state) => state.itemInstance.calendar,
+      dncList: (state) => state.itemInstance.dncList,
+      priority: (state) => state.itemInstance.priority,
+      description: (state) => state.itemInstance.description,
+      strategyValue: (state) => state.itemInstance.strategy,
+      schema: (state) => state.itemInstance.schema,
+      doSchema: (state) => state.itemInstance.doSchema,
+      afterSchema: (state) => state.itemInstance.afterSchema,
+    }),
 
     strategy: {
       get() {
-        return this.$store.state.ccenter.queues.itemInstance.strategy;
+        return this.dropdownOptionsStrategyList
+          .find((strategy) => strategy.value === this.strategyValue);
       },
       set(value) {
-        this.setItemProp({ prop: 'strategy', value });
+        this.setItemProp({ prop: 'strategy', value: value.value });
       },
     },
 
-    dncList: {
-      get() {
-        return this.$store.state.ccenter.queues.itemInstance.dncList;
-      },
-      set(value) {
-        this.setItemProp({ prop: 'dncList', value });
-      },
-    },
-
-    priority: {
-      get() {
-        return this.$store.state.ccenter.queues.itemInstance.priority;
-      },
-      set(value) {
-        this.setItemProp({ prop: 'priority', value });
-      },
-    },
-
-    schema: {
-      get() {
-        return this.$store.state.ccenter.queues.itemInstance.schema;
-      },
-      set(value) {
-        this.setItemProp({ prop: 'schema', value });
-      },
-    },
-
-    maxCalls: {
-      get() {
-        return this.$store.state.ccenter.queues.itemInstance.payload.maxCalls;
-      },
-      set(value) {
-        this.setItemPayloadProp({ prop: 'maxCalls', value: +value });
-      },
-    },
-
-    description: {
-      get() {
-        return this.$store.state.ccenter.queues.itemInstance.description;
-      },
-      set(value) {
-        this.setItemProp({ prop: 'description', value });
-      },
-    },
-
-    recordings: {
-      get() {
-        return this.$store.state.ccenter.queues.itemInstance.payload.recordings || false;
-      },
-      set(value) {
-        this.setItemPayloadProp({ prop: 'recordings', value });
-      },
+    dropdownOptionsStrategyList() {
+      return StrategyList.map((strategy) => ({
+        value: strategy.value,
+        name: this.$t(`objects.ccenter.queues.queueStrategy.${strategy.value}`),
+      }));
     },
   },
 

@@ -46,6 +46,7 @@ import openedQueueInboundQueueLogs from '../opened-queue-logs.vue';
 import openedQueueInboundQueueTiming from './opened-queue-inbound-queue-timing.vue';
 import openedQueueInboundQueuePermissions from '../opened-queue-permissions.vue';
 import editComponentMixin from '../../../../mixins/editComponentMixin';
+import QueueType from '../../../../store/modules/contact-center/queues/_internals/enums/QueueType.enum';
 
 export default {
   name: 'opened-queue-inbound-queue',
@@ -64,38 +65,28 @@ export default {
     },
   }),
 
-  // by vuelidate
   validations: {
     itemInstance: {
-      name: {
-        required,
-      },
-      calendar: {
-        required,
-      },
-      team: {
-        required,
+      name: { required },
+      calendar: { required },
+      team: { required },
+      payload: {
+        timeBaseScore: { required },
+        maxWaitTime: { required },
       },
     },
   },
 
   created() {
-    this.id = this.$route.params.id;
-    this.loadItem('inbound-queue');
+    this.setId(this.$route.params.id);
+    this.loadItem(QueueType.INBOUND_QUEUE);
   },
 
   computed: {
     ...mapState('ccenter/queues', {
       itemInstance: (state) => state.itemInstance,
+      id: (state) => state.itemId,
     }),
-    id: {
-      get() {
-        return this.$store.state.ccenter.queues.itemId;
-      },
-      set(value) {
-        this.setId(value);
-      },
-    },
 
     tabs() {
       const tabs = [{

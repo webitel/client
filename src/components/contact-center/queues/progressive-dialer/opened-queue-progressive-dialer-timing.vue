@@ -21,7 +21,7 @@
                 ></form-input>
                 <form-input
                         v-model="minDuration"
-                        :label="$t('objects.ccenter.queues.minCallDuration')"
+                        :label="$t('objects.ccenter.queues.minDuration')"
                 ></form-input>
             </div>
         </form>

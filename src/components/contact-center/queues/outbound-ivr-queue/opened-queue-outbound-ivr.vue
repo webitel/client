@@ -9,7 +9,7 @@
         <template slot="actions">
           <wt-button
               color="secondary"
-              @click="back"
+              @click="close"
           >
             {{ $t('objects.close') }}
           </wt-button>
@@ -40,17 +40,18 @@
 </template>
 
 <script>
-import editComponentMixin from '@/mixins/editComponentMixin';
 import { required } from 'vuelidate/lib/validators';
 import { mapActions, mapState } from 'vuex';
-import OpenedQueueOutboundIvrGeneral from './opened-queue-outbound-ivr-general';
-import openedQueueOutboundIvrResources from '../opened-queue-resources';
-import openedQueueOutboundIvrVariables from '../opened-queue-variables';
-import openedQueueOutboundIvrTiming from './opened-queue-outbound-ivr-timing';
-import openedQueueOutboundIvrBuckets from '../opened-queue-buckets';
-import openedQueueOutboundIvrAmd from '../opened-queue-amd';
-import openedQueueOutboundIvrPermissions from '../opened-queue-permissions';
-import openedQueueOutboundIvrLogs from '../opened-queue-logs';
+import OpenedQueueOutboundIvrGeneral from './opened-queue-outbound-ivr-general.vue';
+import openedQueueOutboundIvrResources from '../opened-queue-resources.vue';
+import openedQueueOutboundIvrVariables from '../opened-queue-variables.vue';
+import openedQueueOutboundIvrTiming from './opened-queue-outbound-ivr-timing.vue';
+import openedQueueOutboundIvrBuckets from '../opened-queue-buckets.vue';
+import openedQueueOutboundIvrAmd from '../opened-queue-amd.vue';
+import openedQueueOutboundIvrPermissions from '../opened-queue-permissions.vue';
+import openedQueueOutboundIvrLogs from '../opened-queue-logs.vue';
+import editComponentMixin from '../../../../mixins/editComponentMixin';
+import QueueType from '../../../../store/modules/contact-center/queues/_internals/enums/QueueType.enum';
 
 export default {
   name: 'opened-queue-outbound-ivr',
@@ -73,24 +74,22 @@ export default {
     },
   }),
 
-  // by vuelidate
   validations: {
     itemInstance: {
-      name: {
-        required,
-      },
-      calendar: {
-        required,
-      },
-      strategy: {
-        required,
+      name: { required },
+      calendar: { required },
+      strategy: { required },
+      payload: {
+        maxAttempts: { required },
+        originateTimeout: { required },
+        waitBetweenRetries: { required },
       },
     },
   },
 
   created() {
     this.id = this.$route.params.id;
-    this.loadItem('outbound-ivr');
+    this.loadItem(QueueType.OUTBOUND_IVR_QUEUE);
   },
 
   computed: {
@@ -112,16 +111,12 @@ export default {
         value: 'general',
         actionsPanel: false,
       }, {
-        text: this.$tc('objects.ccenter.res.res', 2),
-        value: 'resources',
-        actionsPanel: false,
-      }, {
-        text: this.$tc('objects.ccenter.queues.variables', 2),
-        value: 'variables',
-        actionsPanel: false,
-      }, {
         text: this.$t('objects.ccenter.queues.timing'),
         value: 'timing',
+        actionsPanel: false,
+      }, {
+        text: this.$tc('objects.ccenter.res.res', 2),
+        value: 'resources',
         actionsPanel: false,
       }, {
         text: this.$tc('objects.ccenter.buckets.buckets', 2),
@@ -130,6 +125,10 @@ export default {
       }, {
         text: this.$t('objects.ccenter.queues.amd'),
         value: 'amd',
+        actionsPanel: false,
+      }, {
+        text: this.$tc('objects.ccenter.queues.variables', 2),
+        value: 'variables',
         actionsPanel: false,
       }, {
         text: this.$tc('objects.ccenter.logs.logs', 1),
@@ -149,10 +148,6 @@ export default {
   },
 
   methods: {
-    back() {
-      this.$router.go(-1);
-    },
-
     ...mapActions('ccenter/queues', {
       setId: 'SET_ITEM_ID',
       loadItem: 'LOAD_ITEM',

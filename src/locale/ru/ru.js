@@ -532,7 +532,8 @@ export default {
                 waitBetweenRetries: 'Время между попытками дозвона',
                 timeout: 'Время перерыва между звонками',
                 maxNumberOfRetry: 'Максимальное количество попыток звонков',
-                minCallDuration: 'Минимально успешная длительность звонка',
+                minDuration: 'Минимально успешная длительность звонка',
+                maxAttempts: 'Максимальное количество попыток дозвониться',
                 waitForResultStatus: 'Ожидание результата звонка',
                 bucketRatio: 'Соотношение',
                 amd: 'AMD',
@@ -540,6 +541,7 @@ export default {
                 allowNotSure: 'Неопределенные',
                 allowGreetingAgent: 'Разрешить приветствие',
                 preSchema: 'Схема предварительного набора',
+                afterSchema: 'Схема посленабора',
                 recordings: 'Запись',
                 maxWordLength: 'Максимальная продолжительность предложения (мс)',
                 maxNumberOfWords: 'Максимальное кол-во слов в приветствии',
@@ -550,6 +552,10 @@ export default {
                 afterGreetingSilence: 'Продолжительность тишины после приветствия (мс)',
                 greeting: 'Максимальная длина приветствия (мс)',
                 initialSilence: 'Максимальная продолжительность тишины перед приветствием (мс)',
+                queueStrategy: {
+                  fifo: 'FIFO (Первый зашёл Первый вышел)',
+                  lifo: 'LIFO (Последний зашёл Первый вышел)',
+                },
             },
 
             logs: {
