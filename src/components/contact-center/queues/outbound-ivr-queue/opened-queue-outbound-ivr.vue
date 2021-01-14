@@ -8,16 +8,16 @@
         </template>
         <template slot="actions">
           <wt-button
+            :disabled="computeDisabled"
+            @click="save"
+          >
+            {{ computePrimaryText || $t('objects.addNew') }}
+          </wt-button>
+          <wt-button
               color="secondary"
               @click="close"
           >
             {{ $t('objects.close') }}
-          </wt-button>
-          <wt-button
-              :disabled="computeDisabled"
-              @click="save"
-          >
-            {{ computePrimaryText || $t('objects.addNew') }}
           </wt-button>
         </template>
       </wt-headline>
@@ -43,13 +43,13 @@
 import { required } from 'vuelidate/lib/validators';
 import { mapActions, mapState } from 'vuex';
 import OpenedQueueOutboundIvrGeneral from './opened-queue-outbound-ivr-general.vue';
-import openedQueueOutboundIvrResources from '../opened-queue-resources.vue';
-import openedQueueOutboundIvrVariables from '../opened-queue-variables.vue';
-import openedQueueOutboundIvrTiming from './opened-queue-outbound-ivr-timing.vue';
-import openedQueueOutboundIvrBuckets from '../opened-queue-buckets.vue';
-import openedQueueOutboundIvrAmd from '../opened-queue-amd.vue';
-import openedQueueOutboundIvrPermissions from '../opened-queue-permissions.vue';
-import openedQueueOutboundIvrLogs from '../opened-queue-logs.vue';
+import OpenedQueueOutboundIvrResources from '../opened-queue-resources.vue';
+import OpenedQueueOutboundIvrVariables from '../opened-queue-variables.vue';
+import OpenedQueueOutboundIvrTiming from './opened-queue-outbound-ivr-timing.vue';
+import OpenedQueueOutboundIvrBuckets from '../opened-queue-buckets.vue';
+import OpenedQueueOutboundIvrAmd from '../opened-queue-amd.vue';
+import OpenedQueueOutboundIvrPermissions from '../opened-queue-permissions.vue';
+import OpenedQueueOutboundIvrLogs from '../opened-queue-logs.vue';
 import editComponentMixin from '../../../../mixins/editComponentMixin';
 import QueueType from '../../../../store/modules/contact-center/queues/_internals/enums/QueueType.enum';
 
@@ -57,13 +57,13 @@ export default {
   name: 'opened-queue-outbound-ivr',
   components: {
     OpenedQueueOutboundIvrGeneral,
-    openedQueueOutboundIvrResources,
-    openedQueueOutboundIvrVariables,
-    openedQueueOutboundIvrTiming,
-    openedQueueOutboundIvrBuckets,
-    openedQueueOutboundIvrAmd,
-    openedQueueOutboundIvrLogs,
-    openedQueueOutboundIvrPermissions,
+    OpenedQueueOutboundIvrResources,
+    OpenedQueueOutboundIvrVariables,
+    OpenedQueueOutboundIvrTiming,
+    OpenedQueueOutboundIvrBuckets,
+    OpenedQueueOutboundIvrAmd,
+    OpenedQueueOutboundIvrLogs,
+    OpenedQueueOutboundIvrPermissions,
   },
   mixins: [editComponentMixin],
 
@@ -88,22 +88,15 @@ export default {
   },
 
   created() {
-    this.id = this.$route.params.id;
+    this.setId(this.$route.params.id);
     this.loadItem(QueueType.OUTBOUND_IVR_QUEUE);
   },
 
   computed: {
     ...mapState('ccenter/queues', {
       itemInstance: (state) => state.itemInstance,
+      itemId: (state) => state.itemId,
     }),
-    id: {
-      get() {
-        return this.$store.state.ccenter.queues.itemId;
-      },
-      set(value) {
-        this.setId(value);
-      },
-    },
 
     tabs() {
       const tabs = [{
@@ -160,5 +153,4 @@ export default {
 
 
 <style lang="scss" scoped>
-@import '../../../../assets/css/objects/table-page';
 </style>

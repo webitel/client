@@ -145,7 +145,6 @@ export default {
 
     ...mapActions('ccenter/queues', {
       setItemProp: 'SET_ITEM_PROPERTY',
-      setItemPayloadProp: 'SET_ITEM_PAYLOAD_PROPERTY',
     }),
   },
 };

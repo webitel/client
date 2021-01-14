@@ -8,16 +8,16 @@
         </template>
         <template slot="actions">
           <wt-button
+            :disabled="computeDisabled"
+            @click="save"
+          >
+            {{ computePrimaryText }}
+          </wt-button>
+          <wt-button
               color="secondary"
               @click="$router.go(-1)"
           >
             {{ $t('objects.close') }}
-          </wt-button>
-          <wt-button
-              :disabled="computeDisabled"
-              @click="save"
-          >
-            {{ computePrimaryText }}
           </wt-button>
         </template>
       </wt-headline>
