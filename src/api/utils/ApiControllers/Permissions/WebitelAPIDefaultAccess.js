@@ -5,7 +5,7 @@ export default class WebitelAPIDefaultAccess {
         this.url = url;
     }
 
-    async searchObjclassDefaultList(oid, size, search) {
+    async searchObjclassDefaultList(oid, page, size, search) {
         // let uri = new URL(this.url.replace('/objclass', '/acl/objclass') + `/${oid}`);
         const url = `${this.url.replace('/objclass', '/acl/objclass')}/${oid}`;
         const query = []; // [key, value, ...]
@@ -29,12 +29,14 @@ export default class WebitelAPIDefaultAccess {
         };
         let term = search;
         if (term && term.slice(-1) !== '*') term += '*';
-        if (term) addQuery('q', term); // url += `&q=${search}`;
+        
         if (size) addQuery('size', size);
+        if (page) addQuery('page', page);
+        if (term) addQuery('q', term); // url += `&q=${search}`;
 
         try {
             const response = await instance.get(url + queryString());
-            return response.items;
+            return response;
         } catch (err) {
             throw err;
         }

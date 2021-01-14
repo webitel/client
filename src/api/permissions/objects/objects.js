@@ -12,7 +12,7 @@ const BASE_DEFAULTS_URL = '/acl/objclass';
  const permissionsDefaultsPatcher = new WebitelAPIDefaultAccess(BASE_URL);
  const defaultAccessList = new WebitelAPIDefaultAccess(BASE_URL);
 
-export const getObjectList = async (search) => {
+export const getObjectList = async (search, page, size) => {
     const defaultObject = { // default object prototype, to merge response with it to get all fields
         class: '',
         obac: false,
@@ -21,25 +21,36 @@ export const getObjectList = async (search) => {
     };
 
     let url = BASE_URL;
-    if (search) url += `name='${search}*`;
+    
+    if (size) url += `?size=${size}`;
+    if (page) url += `&page=${page}`;
+    if (search) url += '&class=' + search + '*';
 
     try {
         const response = await instance.get(url);
-        return response.items.map((item) => ({ ...defaultObject, ...item }));
+        return { 
+            list: response.items.map((item) => ({ ...defaultObject, ...item })), 
+            next: response.next 
+        }
     } catch (error) {
         throw error;
     }
 };
 
-export const updateObject = async (id, item) => {
+export const updateObject = async (id, changes) => {
     const url = `${BASE_URL}/${id}`;
-    const updatedItem = {
-        obac: item.obac,
-        rbac: item.rbac,
-    };
-
     try {
-        await instance.put(url, updatedItem);
+        await instance.put(url, changes);
+        eventBus.$emit('notification', { type: 'info', text: 'Successfully updated' });
+    } catch (error) {
+        throw error;
+    }
+};
+
+export const updateObacObject = async (id, changes) => {
+    const url = `${BASE_URL}/${id}/acl`;
+    try {
+        await instance.put(url, changes);
         eventBus.$emit('notification', { type: 'info', text: 'Successfully updated' });
     } catch (error) {
         throw error;
@@ -56,33 +67,13 @@ export const getObject = async (id) => {
     }
 };
 
-export const getObjectPermissions = async (id) => await permissionsGetter.getList(id);
+export const getObjectPermissions = async (id, page, size, search) => await permissionsGetter.getList(id, page, size, search);
 
 export const patchObjectPermissions = async (id, item) => await permissionsPatcher.patchItem(id, item);
 
 export const patchObjectDefaultPermissions = async (id, grantorId, item) => await permissionsDefaultsPatcher.patchDefaultItem(id, grantorId, item);
 
-export const coerceObjectPermissionsResponse = (response) => {
-    let formattedResponse = [];
-    if (response.items) {
-        // format response before assignment
-        formattedResponse = response.items.map((item) => ({
-                grantee: {
-                    id: item.grantee.id,
-                    name: item.grantee.name,
-                },
-                access: {
-                    c: item.granted.includes('x'),
-                    r: item.granted.includes('r'),
-                    w: item.granted.includes('w'),
-                    d: item.granted.includes('d'),
-                },
-            }));
-    }
-    return formattedResponse;
-};
-
-export const fetchObjclassDefaultList = async (oid) => {
+export const fetchObjclassDefaultList = async (oid, page, size, search) => {
     const getName = (value) => {
         switch (value) {
             case 1:
@@ -95,9 +86,9 @@ export const fetchObjclassDefaultList = async (oid) => {
                 return '';
         }
     };
-    const response = await defaultAccessList.searchObjclassDefaultList(oid);
-    if (Array.isArray(response)) {
-        const list = response.map((item) => ({
+    const response = await defaultAccessList.searchObjclassDefaultList(oid, page, size, search);
+    if (Array.isArray(response.items)) {
+        const list = response.items.map((item) => ({
             grantee: item.grantee,
             grantor: item.grantor,
             perm: {
@@ -118,7 +109,7 @@ export const fetchObjclassDefaultList = async (oid) => {
                 },
             },
         }));
-        return list;
+        return {list: list, next: response.next};
     }
     return [];
 };

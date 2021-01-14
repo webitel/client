@@ -6,14 +6,27 @@ export default class WebitelAPIPermissionsGetter {
         this.url = url;
     }
 
-    async getList(id, size, search) {
+    async getList(id, page, size, search) {
         let url = `${this.url}/${id}/acl`;
         if (size) url += `?size=${size}`;
+        if (page) url += `&page=${page}`;
         if (search && search.slice(-1) !== '*') search += '*';
         if (search) url += `&name=${search}`;
 
         try {
-            const response = await instance.get(url);
+            const response = await instance.get(url);            
+            const getName = (value) => {
+                switch (value) {
+                    case 1:
+                        return 'Forbidden';
+                    case 2:
+                        return 'Allow';
+                    case 3:
+                        return 'Allow with delegation';
+                    default:
+                        return '';
+                }
+            };
             let formattedResponse = [];
             if (response.items) {
                 // format response before assignment
@@ -23,14 +36,31 @@ export default class WebitelAPIPermissionsGetter {
                             name: item.grantee.name,
                         },
                         access: {
-                            x: item.granted.includes('x'),
-                            r: item.granted.includes('r'),
-                            w: item.granted.includes('w'),
-                            d: item.granted.includes('d'),
-                        },
+                            c: {
+                                id: ((item.granted.match(/x/g) || []).length + 1),
+                                name: getName((item.granted.match(/x/g) || []).length + 1),
+                                rule: 'c'.repeat((item.granted.match(/x/g) || []).length),
+                            },
+                            r: {
+                                id: ((item.granted.match(/r/g) || []).length + 1),
+                                name: getName((item.granted.match(/r/g) || []).length + 1),
+                                rule: 'r'.repeat((item.granted.match(/r/g) || []).length),
+                            },
+                            w: {
+                                id: ((item.granted.match(/w/g) || []).length + 1),
+                                name: getName((item.granted.match(/w/g) || []).length + 1),
+                                rule: 'w'.repeat((item.granted.match(/w/g) || []).length),
+                            },
+                            d: {
+                                id: ((item.granted.match(/d/g) || []).length + 1),
+                                name: getName((item.granted.match(/d/g) || []).length + 1),
+                                rule: 'd'.repeat((item.granted.match(/d/g) || []).length),
+                            },
+                        },                        
                     }));
             }
-            return formattedResponse;
+            
+            return { list: formattedResponse, next: response.next};         
         } catch (err) {
             throw err;
         }

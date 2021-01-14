@@ -1,166 +1,220 @@
 <template>
-    <section>
-        <role-popup
-                v-if="popupTriggerIf"
-                @close="popupTriggerIf = false"
-        ></role-popup>
+  <section>
+    <role-popup
+      v-if="popupTriggerIf"
+      @close="popupTriggerIf = false"
+    ></role-popup>
 
-        <header class="content-header">
-            <h3 class="content-title">{{$tc('objects.permissions.object.operations', 2)}}</h3>
-             <div class="content-header__actions-wrap">
-                    <search
-                            v-model="search"
-                            @filterData="loadList"
-                    ></search>
-                    <i
-                            class="icon-icon_reload icon-action"
-                            :title="$t('iconHints.reload')"
-                            @click="loadList"
-                    ></i>
-                    <i
-                            class="icon-icon_plus icon-action"
-                            :title="$t('iconHints.add')"
-                            @click="popupTriggerIf = true"
-                    ></i>
-                </div>
-        </header>
+    <header class="content-header">
+      <h3 class="content-title">
+        {{ $tc("objects.permissions.object.operations", 2) }}
+      </h3>
+      <div class="content-header__actions-wrap">
+        <wt-icon-btn
+          class="icon-action"
+          icon="refresh"
+          :tooltip="$t('iconHints.reload')"
+          @click="loadList"
+        ></wt-icon-btn>
+        <wt-icon-btn
+          class="icon-action"
+          icon="plus"
+          :tooltip="$t('iconHints.add')"
+          @click="popupTriggerIf = true"
+        ></wt-icon-btn>
+      </div>
+    </header>
 
-        <loader v-show="!isLoaded"></loader>
+    <wt-loader v-show="!isLoaded"></wt-loader>
+    <div class="table-wrapper" v-show="isLoaded">
+    <wt-table
+        :headers="headers"
+        :data="dataList"
+        :selectable="false"
+        :grid-actions="false"
+      >
+      <template slot="grantee" slot-scope="{ item }">
+        <div>
+          {{ item.grantee.name }}
+        </div>
+      </template>
 
-       <vuetable
-                ref="obac"
-                v-show="isLoaded"
-                :api-mode="false"
-                :fields="fields"
-                :data="dataList"
-            >
+      <template slot="create" slot-scope="{ item }">
+        <wt-select
+            :value="item.access.c"
+            :options="dropdownOptionsList"
+            :clearable='false'
+            track-by="name"            
+            @input="
+              patchItem({
+                mode: $event,
+                ruleName: 'c',
+                item: item,
+              })
+            "
+          ></wt-select>
+      </template>
 
-                <template slot="grantee" slot-scope="props">
-                    <div>
-                        {{dataList[props.rowIndex].grantee.name}}
-                    </div>
-                </template>
+      <template slot="read" slot-scope="{ item }">
+        <wt-select
+            :value="item.access.r"
+            :options="dropdownOptionsList"
+            :clearable='false'
+            track-by="name"
+            @input="
+              patchItem({
+                mode: $event,
+                ruleName: 'r',
+                item: item,
+              })
+            "
+          ></wt-select>
+      </template>
 
-                <template slot="create" slot-scope="props">
-                    <checkbox
-                            class="test__permissions-checkbox__c"
-                            :value="dataList[props.rowIndex].access.x"
-                            :label="$t('objects.allow')"
-                            @input="patchItem({prop: 'x', index: props.rowIndex})"
-                    ></checkbox>
-                </template>
+      <template slot="edit" slot-scope="{ item }">
+        <wt-select
+            :value="item.access.w"
+            :options="dropdownOptionsList"
+            :clearable='false'
+            track-by="name"
+            @input="
+              patchItem({
+                mode: $event,
+                ruleName: 'w',
+                item: item,
+              })
+            "
+          ></wt-select>
+      </template>
 
-                <template slot="read" slot-scope="props">
-                    <checkbox
-                            class="test__permissions-checkbox__r"
-                            :value="dataList[props.rowIndex].access.r"
-                            :label="$t('objects.allow')"
-                            @input="patchItem({prop: 'r', index: props.rowIndex})"
-                    ></checkbox>
-                </template>
-
-                <template slot="edit" slot-scope="props">
-                    <checkbox
-                            class="test__permissions-checkbox__u"
-                            :value="dataList[props.rowIndex].access.w"
-                            :label="$t('objects.allow')"
-                            @input="patchItem({prop: 'w', index: props.rowIndex})"
-                    ></checkbox>
-                </template>
-
-                <template slot="delete" slot-scope="props">
-                    <checkbox
-                            class="test__permissions-checkbox__d"
-                            :value="dataList[props.rowIndex].access.d"
-                            :label="$t('objects.allow')"
-                            @input="patchItem({prop: 'd', index: props.rowIndex})"
-                    ></checkbox>
-                </template>
-            </vuetable>
-            <pagination
-                    v-show="isLoaded"
-                    v-model="size"
-                    @loadDataList="loadList"
-                    @next="nextPage"
-                    @prev="prevPage"
-                    :isNext="isNextPage"
-                    :isPrev="!!page"
-                    :page="page"
-            ></pagination>
-    </section>
+      <template slot="delete" slot-scope="{ item }">
+        <wt-select
+            :value="item.access.d"
+            :options="dropdownOptionsList"
+            :clearable='false'
+            track-by="name"
+            @input="
+              patchItem({
+                mode: $event,
+                ruleName: 'd',
+                item: item,
+              })
+            "
+          ></wt-select>
+      </template>
+    </wt-table>
+    <wt-pagination
+        :size="size"
+        :next="isNextPage"
+        :prev="page > 1"
+        debounce
+        @next="nextPage"
+        @prev="prevPage"
+        @input="setSize"
+        @change="loadList"
+      ></wt-pagination>
+    
+    </div>
+  </section>
 </template>
 
 <script>
-    import tableComponentMixin from '@/mixins/tableComponentMixin';
-    import editComponentMixin from '@/mixins/editComponentMixin';
-    import { mapActions, mapState } from 'vuex';
-    // eslint-disable-next-line import/extensions
-    import rolePopup from './opened-object-permissions-role-popup';
+import tableComponentMixin from "@/mixins/tableComponentMixin";
+import editComponentMixin from "@/mixins/editComponentMixin";
+import { mapActions, mapState } from "vuex";
+// eslint-disable-next-line import/extensions
+import rolePopup from "./opened-object-permissions-role-popup";
 
-       export default {
-        name: 'opened-object-permissions-general',
-        mixins: [tableComponentMixin, editComponentMixin],
-        components: { rolePopup },
-        data() {
-            return {
-                // vuetable prop
-                fields: [
-                    { name: 'grantee', title: this.$t('objects.permissions.object.grantee') },
-                    { name: 'create', title: this.$t('objects.create') },
-                    { name: 'read', title: this.$t('objects.read') },
-                    { name: 'edit', title: this.$t('objects.edit') },
-                    { name: 'delete', title: this.$t('objects.delete') },
-                ],
-                headerTitle: '',
-            };
+export default {
+  name: "opened-object-permissions-general",
+  mixins: [tableComponentMixin, editComponentMixin],
+  components: { rolePopup },
+  data() {
+    return {
+      // vuetable prop
+      headers: [
+        {
+          value: "grantee",
+          text: this.$t("objects.permissions.object.grantee"),
+        },
+        { value: "create", text: this.$t("objects.create") },
+        { value: "read", text: this.$t("objects.read") },
+        { value: "edit", text: this.$t("objects.edit") },
+        { value: "delete", text: this.$t("objects.delete") },
+      ],
+      dropdownOptionsList: [
+        {
+          name: "Forbidden",
+          id: 1,
         },
 
-        mounted() {
-            this.id = this.$route.params.id;
-            this.loadList();
+        {
+          name: "Allow",
+          id: 2,
         },
-         computed: {
-            ...mapState('permissions/objects', {
-                dataList: (state) => state.itemPermissionsDataList,
-                page: (state) => state.itemPage,
-                isNextPage: (state) => state.isItemNextPage,
-            }),
-
-            id: {
-                get() {
-                    return this.$store.state.permissions.objects.itemId;
-                },
-                set(value) {
-                    this.setId(value);
-                },
-            },
-
-            size: {
-                get() { return this.$store.state.permissions.objects.itemSize; },
-                set(value) { this.setSize(value); },
-            },
-
-            search: {
-                get() { return this.$store.state.permissions.objects.itemSearch; },
-                set(value) { this.setSearch(value); },
-            },
+        {
+          name: "Allow with delegation",
+          id: 3,
         },
-
-        methods: {
-            ...mapActions('permissions/objects', {
-                setId: 'SET_ITEM_ID',
-                setItemProp: 'SET_ITEM_PROPERTY',
-                loadDataList: 'LOAD_ITEM_PERMISSIONS_DATA_lIST',
-                patchItem: 'PATCH_ITEM_PERMISSIONS',
-                setSize: 'SET_ITEM_PERMISSIONS_SIZE',
-                setSearch: 'SET_ITEM_PERMISSIONS_SEARCH',
-                nextPage: 'NEXT_ITEM_PERMISSIONS_PAGE',
-                prevPage: 'PREV_ITEM_PERMISSIONS_PAGE',
-            }),
-        },
+      ],
+      headerTitle: "",
     };
+  },
+
+  mounted() {
+    this.id = this.$route.params.id;
+    this.loadList();
+  },
+  computed: {
+    ...mapState("permissions/objects", {
+      dataList: (state) => state.operationInstance.dataList,
+      page: (state) => state.operationInstance.page,
+      isNextPage: (state) => state.operationInstance.isItemNextPage,
+    }),
+
+    id: {
+      get() {
+        return this.$store.state.permissions.objects.itemId;
+      },
+      set(value) {
+        this.setId(value);
+      },
+    },
+
+    size: {
+      get() {
+        return this.$store.state.permissions.objects.operationInstance.size;
+      },
+      set(value) {
+        this.setSize(value);
+      },
+    },
+
+    search: {
+      get() {
+        return this.$store.state.permissions.objects.operationInstance.search;
+      },
+      set(value) {
+        this.setSearch(value);
+      },
+    },
+  },
+
+  methods: {
+    ...mapActions("permissions/objects", {
+      setId: "SET_ITEM_ID",
+      setItemProp: "SET_ITEM_PROPERTY",
+      loadDataList: "LOAD_ITEM_PERMISSIONS_DATA_lIST",
+      patchItem: "TOGGLE_GENERAL_MODE",
+      setSize: "SET_OPERATION_PERMISSIONS_SIZE",
+      setSearch: "SET_OPERATION_PERMISSIONS_SEARCH",
+      nextPage: "NEXT_OPERATION_PERMISSIONS_PAGE",
+      prevPage: "PREV_OPERATION_PERMISSIONS_PAGE",
+    }),
+  },
+};
 </script>
 
 <style lang="scss" scoped>
-
+@import "../../../assets/css/objects/table-page";
 </style>
