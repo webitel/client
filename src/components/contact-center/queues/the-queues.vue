@@ -153,7 +153,7 @@ export default {
     changeQueueState({ item, value }) {
       const prop = 'enabled';
       const index = this.dataList.indexOf(item);
-      this.patchProperty({index, prop, value });
+      this.patchProperty({ index, prop, value });
     },
 
     computeQueueType(type) {
@@ -172,6 +172,8 @@ export default {
           return 'Predictive Dialer';
         case QueueType.CHAT_INBOUND_QUEUE:
           return 'Chat Inbound Queue';
+        case QueueType.TASK_QUEUE:
+          return 'Task Queue';
         default:
           return 'Unknown';
       }
@@ -204,6 +206,9 @@ export default {
           break;
         case QueueType.CHAT_INBOUND_QUEUE:
           type = 'chat-inbound-queue';
+          break;
+        case QueueType.TASK_QUEUE:
+          type = 'task-queue';
           break;
         default:
           type = 'unknown';

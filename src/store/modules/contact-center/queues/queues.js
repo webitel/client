@@ -17,6 +17,7 @@ import defaultPreviewDialerState from './_internals/queueSchema/previewDialer';
 import defaultProgressiveDialerState from './_internals/queueSchema/progressiveDialer';
 import defaultPredictiveDialerState from './_internals/queueSchema/predictiveDialer';
 import defaultChatInboundQueueState from './_internals/queueSchema/chatInboundQueue';
+import defaultTaskQueueState from './_internals/queueSchema/taskQueue';
 import proxy from '../../../../utils/editProxy';
 
 const defaultState = () => {
@@ -93,6 +94,9 @@ const actions = {
         break;
       case  QueueType.CHAT_INBOUND_QUEUE:
         item = deepMerge(defaultChatInboundQueueState(), item);
+        break;
+      case  QueueType.TASK_QUEUE:
+        item = deepMerge(defaultTaskQueueState(), item);
         break;
     }
     context.commit('SET_ITEM', proxy(item));
