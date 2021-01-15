@@ -42,6 +42,20 @@
 
 // ----- old styles
 
+// outer wrap of module- page
+.object-wrap {
+  width: 100%;
+  min-height: 100%;
+}
+
+// main content itself, without nav but with main header
+.object {
+  min-height: 100%;
+}
+
+.object-content-wrap {
+}
+
 // inner content section
 .object-content {
   display: flex;
