@@ -95,7 +95,7 @@ export default {
   computed: {
     ...mapState('ccenter/queues', {
       itemInstance: (state) => state.itemInstance,
-      itemId: (state) => state.itemId,
+      id: (state) => state.itemId,
     }),
 
     tabs() {

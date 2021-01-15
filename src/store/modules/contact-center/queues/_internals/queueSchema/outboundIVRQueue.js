@@ -14,7 +14,7 @@ const outboundIVRQueue = () => ({
     minDuration: 3,
     maxAttempts: 3, // required
     originateTimeout: 60, // required
-    waitBetweenRetries: 60,  // required
+    waitBetweenRetries: 30 * 60,  // required
     recordings: false,
     amd: amd(),
   },

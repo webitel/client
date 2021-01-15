@@ -37,9 +37,10 @@ const defaultItemObject = {
 
 const preRequestHandler = (item) => {
   // eslint-disable-next-line no-param-reassign
-  item.variables = item.variables.reduce((variables, variable) => (
-    { ...variables, [variable.key]: variable.value }
-  ), {});
+  item.variables = item.variables.reduce((variables, variable) => {
+    if (!variable.key) return variables;
+    return { ...variables, [variable.key]: variable.value };
+  }, {});
   return item;
 };
 
