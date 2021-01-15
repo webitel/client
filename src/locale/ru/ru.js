@@ -515,6 +515,8 @@ export default {
                 predictiveDialerDescription: 'Исходящая кампания без предварительного резервирования оператора для максимального сокращения времени ожидания звонка.',
                 chatInboundQueue: 'Входящая очередь чатов',
                 chatInboundQueueDescription: 'То же самое, что и Входящая очередь, но с чатами',
+                taskQueue: 'Очередь задач',
+                taskQueueDescription: 'Очередь задач',
                 strategy: 'Стратегия',
                 timezone: 'Часовая зона',
                 callLimit: 'Максимальное количество одновременных звонков',

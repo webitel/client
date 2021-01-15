@@ -520,6 +520,8 @@ export default {
                 predictiveDialerDescription: 'A predictive dialer calls multiple numbers at one time. As soon as a customer answers, an agent is connected to them.',
                 chatInboundQueue: 'Chat inbound queue',
                 chatInboundQueueDescription: 'The same as inbound queue, but with chats',
+                taskQueue: 'Task queue',
+                taskQueueDescription: 'Task queue',
                 strategy: 'Strategy',
                 timezone: 'Timezone',
                 callLimit: 'Call limit',
