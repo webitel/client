@@ -1,10 +1,11 @@
 import queue from './defaults/defaultQueue';
 import amd from './defaults/amd';
+import QueueType from '../enums/QueueType.enum';
 import { Strategy } from '../enums/Strategy.enum';
 
 const outboundIVRQueue = () => ({
   ...queue(),
-  type: 2,
+  type: QueueType.OUTBOUND_IVR_QUEUE,
   strategy: Strategy.FIFO,  // required
   schema: {},
   doSchema: {},

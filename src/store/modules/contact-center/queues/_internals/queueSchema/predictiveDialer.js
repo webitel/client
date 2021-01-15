@@ -1,10 +1,11 @@
 import queue from './defaults/defaultQueue';
 import amd from './defaults/amd';
+import QueueType from '../enums/QueueType.enum';
 import { Strategy } from '../enums/Strategy.enum';
 
 const predictiveDialer = () => ({
   ...queue(),
-  type: 5,
+  type: QueueType.PREDICTIVE_DIALER,
   strategy: Strategy.FIFO, // required
   team: {}, // required
   doSchema: {},

@@ -1,9 +1,10 @@
 import queue from './defaults/defaultQueue';
+import QueueType from '../enums/QueueType.enum';
 import { Strategy } from '../enums/Strategy.enum';
 
 const previewDialer = () => ({
   ...queue(),
-  type: 3,
+  type: QueueType.PREVIEW_DIALER,
   team: {}, // required
   strategy: Strategy.FIFO, // required
   doSchema: {},

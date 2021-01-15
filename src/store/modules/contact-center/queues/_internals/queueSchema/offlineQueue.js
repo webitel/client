@@ -1,18 +1,16 @@
 import queue from './defaults/defaultQueue';
+import QueueType from '../enums/QueueType.enum';
+import { Strategy } from '../enums/Strategy.enum';
 
 const offlineQueue = () => ({
   ...queue(),
-  type: 0,
-  schema: {},
-  team: {},
-  strategy: {},
-  ringtone: {},
-  timeout: 10,
+  type: QueueType.OFFLINE_QUEUE,
+  team: {}, // required
+  strategy: Strategy.FIFO,  // required
+  doSchema: {},
+  afterSchema: {},
   payload: {
-    waitBetweenRetries: 60,
-    originateTimeout: 60,
-    waitForResultStatus: true,
-    maxAttempts: 3,
+    originateTimeout: 60, // required
     recordings: false,
   },
 });

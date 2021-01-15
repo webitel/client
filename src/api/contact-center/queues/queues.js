@@ -31,6 +31,7 @@ const defaultListObject = {
 };
 
 const defaultItemObject = {
+  type: 0,
   _dirty: false,
 };
 

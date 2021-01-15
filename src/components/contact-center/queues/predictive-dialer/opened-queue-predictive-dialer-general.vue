@@ -81,9 +81,9 @@ import { mapActions, mapState } from 'vuex';
 import { getCalendarList } from '../../../../api/lookups/calendars/calendars';
 import { getBlacklistList } from '../../../../api/lookups/blacklists/blacklists';
 import { getTeamsList } from '../../../../api/contact-center/teams/teams';
+import { getFlowList } from '../../../../api/routing/flow/flow';
 import { StrategyList } from '../../../../store/modules/contact-center/queues/_internals/enums/Strategy.enum';
 import openedTabComponentMixin from '../../../../mixins/openedTabComponentMixin';
-import { getFlowList } from '@/api/routing/flow/flow';
 
 export default {
   name: 'opened-queue-offline-queue-general',
