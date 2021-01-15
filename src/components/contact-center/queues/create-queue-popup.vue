@@ -1,5 +1,5 @@
 <template>
-  <wt-popup class="create-queue-popup" @close="close">
+  <wt-popup class="create-queue-popup" min-width="480" @close="close">
     <template slot="title">{{ $t('objects.ccenter.queues.newQueue') }}</template>
 
     <template slot="main">
@@ -76,7 +76,20 @@ export default {
         title: this.$t('objects.ccenter.queues.predictiveDialer'),
         description: this.$t('objects.ccenter.queues.predictiveDialerDescription'),
       };
-      return [offline, inbound, outboundIVR, previewDialer, progressiveDialer, predictiveDialer];
+      const chatInboundQueue = {
+        value: 'chat-inbound-queue',
+        title: this.$t('objects.ccenter.queues.chatInboundQueue'),
+        description: this.$t('objects.ccenter.queues.chatInboundQueueDescription'),
+      };
+      return [
+        offline,
+        inbound,
+        outboundIVR,
+        previewDialer,
+        progressiveDialer,
+        predictiveDialer,
+        chatInboundQueue,
+      ];
     },
   },
 
@@ -104,14 +117,6 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.create-queue-popup {
-  --min-popup-width: 600px;
-
-  ::v-deep .wt-popup__popup {
-    min-width: var(--min-popup-width);
-  }
-}
-
 .popup-options {
   margin-top: 20px;
   padding-right: 10px;
@@ -138,7 +143,7 @@ export default {
       margin-left: auto;
 
       ::v-deep .wt-tooltip {
-        width: calc(var(--min-popup-width) * 0.75);
+        width: 300px;
         top: 50%;
         right: calc(100% + 10px);
         left: auto;

@@ -14,8 +14,9 @@ import defaultInboundQueueState from './_internals/queueSchema/inboundQueue';
 import defaultOutboundIVRQueueState from './_internals/queueSchema/outboundIVRQueue';
 import defaultOfflineQueueState from './_internals/queueSchema/offlineQueue';
 import defaultPreviewDialerState from './_internals/queueSchema/previewDialer';
-import defaultPredictiveDialerState from './_internals/queueSchema/predictiveDialer';
 import defaultProgressiveDialerState from './_internals/queueSchema/progressiveDialer';
+import defaultPredictiveDialerState from './_internals/queueSchema/predictiveDialer';
+import defaultChatInboundQueueState from './_internals/queueSchema/chatInboundQueue';
 import proxy from '../../../../utils/editProxy';
 
 const defaultState = () => {
@@ -89,6 +90,9 @@ const actions = {
         break;
       case  QueueType.PREDICTIVE_DIALER:
         item = deepMerge(defaultPredictiveDialerState(), item);
+        break;
+      case  QueueType.CHAT_INBOUND_QUEUE:
+        item = deepMerge(defaultChatInboundQueueState(), item);
         break;
     }
     context.commit('SET_ITEM', proxy(item));
