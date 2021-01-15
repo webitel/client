@@ -537,7 +537,8 @@ export default {
                 waitBetweenRetries: 'Wait between retries',
                 timeout: 'Timeout',
                 maxNumberOfRetry: 'Max number of retry',
-                minCallDuration: 'Minimum succeed call duration',
+                minDuration: 'Minimum succeed call duration',
+                maxAttempts: 'Max call attempts',
                 waitForResultStatus: 'Wait for result status',
                 bucketRatio: 'Ratio',
                 amd: 'AMD',
@@ -545,6 +546,7 @@ export default {
                 allowNotSure: 'Transfer NOTSURE to an agent',
                 allowGreetingAgent: 'Allow greeting agent',
                 preSchema: 'Pre-executive schema',
+                afterSchema: 'After-executive schema',
                 recordings: 'Recording',
                 maxWordLength: 'Maximum word length (ms)',
                 maxNumberOfWords: 'Maximum number of words',
@@ -555,6 +557,10 @@ export default {
                 afterGreetingSilence: 'After greeting silence (ms)',
                 greeting: 'Greeting (ms)',
                 initialSilence: 'Initial silence (ms)',
+                queueStrategy: {
+                  fifo: 'FIFO (First In First Out)',
+                  lifo: 'LIFO (Last In First Out)',
+                },
             },
 
             logs: {

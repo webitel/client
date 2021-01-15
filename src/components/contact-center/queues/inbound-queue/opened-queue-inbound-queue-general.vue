@@ -11,7 +11,6 @@
           @input="setItemProp({ prop: 'name', value: $event })"
           required
       ></wt-input>
-
       <wt-select
           :value="calendar"
           :v="v.itemInstance.calendar"
@@ -22,7 +21,6 @@
           required
           @input="setItemProp({ prop: 'calendar', value: $event })"
       ></wt-select>
-
       <wt-select
           :value="dncList"
           :label="$tc('objects.lookups.blacklist.blacklist', 1)"
@@ -30,16 +28,12 @@
           :internal-search="false"
           @input="setItemProp({ prop: 'dncList', value: $event })"
       ></wt-select>
-
-      <wt-select
+      <wt-input
           :value="priority"
-          :options="dropdownOptionsPriorityList"
           :label="$t('objects.ccenter.queues.priority')"
-          :track-by="null"
-          @input="setItemProp({ prop: 'priority', value: $event })"
-      ></wt-select>
-
-
+          type="number"
+          @input="setItemProp({ prop: 'priority', value: +$event })"
+      ></wt-input>
       <wt-select
           :value="team"
           :v="v.itemInstance.team"
@@ -50,7 +44,6 @@
           required
           @input="setItemProp({ prop: 'team', value: $event })"
       ></wt-select>
-
       <wt-select
           :value="ringtone"
           :label="$t('objects.ccenter.queues.ringtone')"
@@ -58,7 +51,6 @@
           :internal-search="false"
           @input="setItemProp({ prop: 'ringtone', value: $event })"
       ></wt-select>
-
       <wt-textarea
           :value="description"
           :label="$t('objects.description')"
@@ -80,18 +72,6 @@ export default {
   name: 'opened-queue-inbound-queue-general',
   mixins: [openedTabComponentMixin],
   data: () => ({
-      dropdownOptionsPriorityList: [
-        { name: '1', value: '1' },
-        { name: '2', value: '2' },
-        { name: '3', value: '3' },
-        { name: '4', value: '4' },
-        { name: '5', value: '5' },
-        { name: '6', value: '6' },
-        { name: '7', value: '7' },
-        { name: '8', value: '8' },
-        { name: '8', value: '9' },
-        { name: '10', value: '10' },
-      ],
   }),
 
   computed: {
@@ -100,9 +80,9 @@ export default {
       calendar: (state) => state.itemInstance.calendar,
       dncList: (state) => state.itemInstance.dncList,
       priority: (state) => state.itemInstance.priority,
+      description: (state) => state.itemInstance.description,
       team: (state) => state.itemInstance.team,
       ringtone: (state) => state.itemInstance.ringtone,
-      description: (state) => state.itemInstance.description,
     }),
   },
 

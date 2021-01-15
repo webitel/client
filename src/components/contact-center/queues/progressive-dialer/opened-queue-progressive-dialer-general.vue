@@ -1,247 +1,163 @@
 <template>
-    <section>
-        <header class="content-header">
-            <h3 class="content-title">{{$t('objects.generalInfo')}}</h3>
-        </header>
-        <form class="object-input-grid">
-            <form-input
-                    v-model="name"
-                    :v="v.itemInstance.name"
-                    :label="$t('objects.name')"
-                    required
-            ></form-input>
-
-            <dropdown-select
-                    v-model="calendar"
-                    :v="v.itemInstance.calendar"
-                    :options="dropdownOptionsCalendarList"
-                    :label="$tc('objects.lookups.calendars.calendars', 1)"
-                    @search="loadDropdownOptionsCalendarList"
-                    required
-            ></dropdown-select>
-
-            <dropdown-select
-                    v-model="strategy"
-                    :v="v.itemInstance.strategy"
-                    :options="dropdownOptionsStrategyList"
-                    :label="$t('objects.ccenter.queues.strategy')"
-                    required
-            ></dropdown-select>
-
-            <dropdown-select
-                    v-model="dncList"
-                    :options="dropdownOptionsBlacklistList"
-                    :label="$tc('objects.lookups.blacklist.blacklist', 1)"
-                    @search="loadDropdownOptionsBlacklistList"
-            ></dropdown-select>
-
-            <dropdown-select
-                    v-model="priority"
-                    :options="dropdownOptionsPriorityList"
-                    :label="$t('objects.ccenter.queues.priority')"
-            ></dropdown-select>
-
-            <dropdown-select
-                    v-model="team"
-                    :v="v.itemInstance.team"
-                    :options="dropdownOptionsTeamList"
-                    :label="$tc('objects.ccenter.teams.teams', 1)"
-                    @search="loadDropdownOptionsTeamList"
-                    required
-            ></dropdown-select>
-
-            <dropdown-select
-                    v-model="preSchema"
-                    :options="dropdownOptionsSchemaList"
-                    :label="$t('objects.ccenter.queues.preSchema')"
-                    @search="loadDropdownOptionsSchemaList"
-            ></dropdown-select>
-
-            <div class="switcher-label-wrap">
-                <div class="label">{{$t('objects.ccenter.queues.allowGreetingAgent')}}</div>
-                <switcher
-                        v-model="allowGreetingAgent"
-                ></switcher>
-
-                <div class="label">{{$t('objects.ccenter.queues.recordings')}}</div>
-                <switcher
-                        v-model="recordings"
-                ></switcher>
-            </div>
-
-            <form-input
-                    v-model="description"
-                    :label="$t('objects.description')"
-                    textarea
-            ></form-input>
-
-        </form>
-    </section>
+  <section>
+    <header class="content-header">
+      <h3 class="content-title">{{ $t('objects.generalInfo') }}</h3>
+    </header>
+    <form class="object-input-grid">
+      <wt-input
+        :value="name"
+        :v="v.itemInstance.name"
+        :label="$t('objects.name')"
+        @input="setItemProp({ prop: 'name', value: $event })"
+        required
+      ></wt-input>
+      <wt-select
+        :value="calendar"
+        :v="v.itemInstance.calendar"
+        :label="$tc('objects.lookups.calendars.calendars', 1)"
+        :search="loadDropdownOptionsCalendarList"
+        :internal-search="false"
+        :clearable="false"
+        required
+        @input="setItemProp({ prop: 'calendar', value: $event })"
+      ></wt-select>
+      <wt-select
+        :value="dncList"
+        :label="$tc('objects.lookups.blacklist.blacklist', 1)"
+        :search="loadDropdownOptionsBlacklistList"
+        :internal-search="false"
+        @input="setItemProp({ prop: 'dncList', value: $event })"
+      ></wt-select>
+      <wt-input
+        :value="priority"
+        :label="$t('objects.ccenter.queues.priority')"
+        type="number"
+        @input="setItemProp({ prop: 'priority', value: +$event })"
+      ></wt-input>
+      <wt-select
+        v-model="strategy"
+        :v="v.itemInstance.strategy"
+        :label="$t('objects.ccenter.queues.strategy')"
+        :options="dropdownOptionsStrategyList"
+        :clearable="false"
+        track-by="value"
+        required
+      ></wt-select>
+      <wt-select
+        :value="team"
+        :v="v.itemInstance.team"
+        :label="$tc('objects.ccenter.teams.teams', 1)"
+        :search="loadDropdownOptionsTeamList"
+        :internal-search="false"
+        :clearable="false"
+        required
+        @input="setItemProp({ prop: 'team', value: $event })"
+      ></wt-select>
+      <wt-select
+        :value="doSchema"
+        :label="$t('objects.ccenter.queues.preSchema')"
+        :search="loadDropdownOptionsSchemaList"
+        :internal-search="false"
+        @input="setItemProp({ prop: 'doSchema', value: $event })"
+      ></wt-select>
+      <wt-select
+        :value="afterSchema"
+        :label="$t('objects.ccenter.queues.afterSchema')"
+        :search="loadDropdownOptionsSchemaList"
+        :internal-search="false"
+        @input="setItemProp({ prop: 'afterSchema', value: $event })"
+      ></wt-select>
+      <wt-textarea
+        :value="description"
+        :label="$t('objects.description')"
+        @input="setItemProp({ prop: 'description', value: $event })"
+      ></wt-textarea>
+    </form>
+  </section>
 </template>
 
 <script>
-    import openedTabComponentMixin from '@/mixins/openedTabComponentMixin';
-    import { mapActions } from 'vuex';
-    import { getCalendarList } from '../../../../api/lookups/calendars/calendars';
-    import { getBlacklistList } from '../../../../api/lookups/blacklists/blacklists';
-    import { getTeamsList } from '../../../../api/contact-center/teams/teams';
-    import { getFlowList } from '../../../../api/routing/flow/flow';
+import { mapActions, mapState } from 'vuex';
+import { getCalendarList } from '../../../../api/lookups/calendars/calendars';
+import { getBlacklistList } from '../../../../api/lookups/blacklists/blacklists';
+import { getTeamsList } from '../../../../api/contact-center/teams/teams';
+import { getFlowList } from '../../../../api/routing/flow/flow';
+import { StrategyList } from '../../../../store/modules/contact-center/queues/_internals/enums/Strategy.enum';
+import openedTabComponentMixin from '../../../../mixins/openedTabComponentMixin';
 
-    export default {
-        name: 'opened-queue-progressive-dialer-general',
-        mixins: [openedTabComponentMixin],
-        data() {
-            return {
-                dropdownOptionsCalendarList: [],
-                dropdownOptionsBlacklistList: [],
-                dropdownOptionsStrategyList: [
-                    { name: 'FIFO', id: 1, value: 'fifo' },
-                    { name: 'LIFO', id: 2, value: 'lifo' },
-                ],
-                dropdownOptionsPriorityList: ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10'],
-                dropdownOptionsTeamList: [],
-                dropdownOptionsSchemaList: [],
-            };
-        },
+export default {
+  name: 'opened-queue-progressive-dialer-general',
+  mixins: [openedTabComponentMixin],
 
-        mounted() {
-            this.loadDropdownOptionsCalendarList();
-            this.loadDropdownOptionsBlacklistList();
-            this.loadDropdownOptionsTeamList();
-            this.loadDropdownOptionsSchemaList();
-        },
+  computed: {
+    ...mapState('ccenter/queues', {
+      name: (state) => state.itemInstance.name,
+      calendar: (state) => state.itemInstance.calendar,
+      dncList: (state) => state.itemInstance.dncList,
+      priority: (state) => state.itemInstance.priority,
+      description: (state) => state.itemInstance.description,
+      strategyValue: (state) => state.itemInstance.strategy,
+      team: (state) => state.itemInstance.team,
+      doSchema: (state) => state.itemInstance.doSchema,
+      afterSchema: (state) => state.itemInstance.afterSchema,
+    }),
 
-        computed: {
-            name: {
-                get() {
-                    return this.$store.state.ccenter.queues.itemInstance.name;
-                },
-                set(value) {
-                    this.setItemProp({ prop: 'name', value });
-                },
-            },
+    strategy: {
+      get() {
+        return this.dropdownOptionsStrategyList
+          .find((strategy) => strategy.value === this.strategyValue);
+      },
+      set(value) {
+        this.setItemProp({ prop: 'strategy', value: value.value });
+      },
+    },
 
-            calendar: {
-                get() {
-                    return this.$store.state.ccenter.queues.itemInstance.calendar;
-                },
-                set(value) {
-                    this.setItemProp({ prop: 'calendar', value });
-                },
-            },
+    dropdownOptionsStrategyList() {
+      return StrategyList.map((strategy) => ({
+        value: strategy.value,
+        name: this.$t(`objects.ccenter.queues.queueStrategy.${strategy.value}`),
+      }));
+    },
+  },
 
-            dncList: {
-                get() {
-                    return this.$store.state.ccenter.queues.itemInstance.dncList;
-                },
-                set(value) {
-                    this.setItemProp({ prop: 'dncList', value });
-                },
-            },
+  methods: {
+    async loadDropdownOptionsCalendarList(search) {
+      const response = await getCalendarList(1, 10, search);
+      return response.list.map((item) => ({
+        name: item.name,
+        id: item.id,
+      }));
+    },
 
-            strategy: {
-                get() {
-                    return this.$store.state.ccenter.queues.itemInstance.strategy;
-                },
-                set(value) {
-                    this.setItemProp({ prop: 'strategy', value });
-                },
-            },
+    async loadDropdownOptionsBlacklistList(search) {
+      const response = await getBlacklistList(1, 10, search);
+      return response.list.map((item) => ({
+        name: item.name,
+        id: item.id,
+      }));
+    },
 
-            priority: {
-                get() {
-                    return this.$store.state.ccenter.queues.itemInstance.priority;
-                },
-                set(value) {
-                    this.setItemProp({ prop: 'priority', value });
-                },
-            },
+    async loadDropdownOptionsTeamList(search) {
+      const response = await getTeamsList(1, 10, search);
+      return response.list.map((item) => ({
+        name: item.name,
+        id: item.id,
+      }));
+    },
 
-            team: {
-                get() {
-                    return this.$store.state.ccenter.queues.itemInstance.team;
-                },
-                set(value) {
-                    this.setItemProp({ prop: 'team', value });
-                },
-            },
+    async loadDropdownOptionsSchemaList(search) {
+      const response = await getFlowList(1, 10, search);
+      return response.list.map((item) => ({
+        name: item.name,
+        id: item.id,
+      }));
+    },
 
-            preSchema: {
-                get() {
-                    return this.$store.state.ccenter.queues.itemInstance.doSchema;
-                },
-                set(value) {
-                    this.setItemProp({ prop: 'doSchema', value });
-                },
-            },
-
-            description: {
-                get() {
-                    return this.$store.state.ccenter.queues.itemInstance.description;
-                },
-                set(value) {
-                    this.setItemProp({ prop: 'description', value });
-                },
-            },
-
-            allowGreetingAgent: {
-                get() {
-                    return this.$store.state.ccenter.queues.itemInstance.payload.allowGreetingAgent || false;
-                },
-                set(value) {
-                    this.setItemPayloadProp({ prop: 'allowGreetingAgent', value });
-                },
-            },
-
-            recordings: {
-                get() {
-                    return this.$store.state.ccenter.queues.itemInstance.payload.recordings || false;
-                },
-                set(value) {
-                    this.setItemPayloadProp({ prop: 'recordings', value });
-                },
-            },
-        },
-
-        methods: {
-            async loadDropdownOptionsCalendarList(search) {
-                const response = await getCalendarList(0, 10, search);
-                this.dropdownOptionsCalendarList = response.list.map((item) => ({
-                        name: item.name,
-                        id: item.id,
-                    }));
-            },
-
-            async loadDropdownOptionsBlacklistList(search) {
-                const response = await getBlacklistList(0, 10, search);
-                this.dropdownOptionsBlacklistList = response.list.map((item) => ({
-                        name: item.name,
-                        id: item.id,
-                    }));
-            },
-
-            async loadDropdownOptionsTeamList(search) {
-                const response = await getTeamsList(0, 10, search);
-                this.dropdownOptionsTeamList = response.list.map((item) => ({
-                        name: item.name,
-                        id: item.id,
-                    }));
-            },
-
-            async loadDropdownOptionsSchemaList(search) {
-                const response = await getFlowList(0, 10, search);
-                this.dropdownOptionsSchemaList = response.list.map((item) => ({
-                        name: item.name,
-                        id: item.id,
-                    }));
-            },
-
-            ...mapActions('ccenter/queues', {
-                setItemProp: 'SET_ITEM_PROPERTY',
-                setItemPayloadProp: 'SET_ITEM_PAYLOAD_PROPERTY',
-            }),
-        },
-    };
+    ...mapActions('ccenter/queues', {
+      setItemProp: 'SET_ITEM_PROPERTY',
+    }),
+  },
+};
 </script>
 
 <style lang="scss" scoped>

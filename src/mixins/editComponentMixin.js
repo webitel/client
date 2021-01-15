@@ -37,7 +37,11 @@ export default {
         save() {
             const invalid = this.checkValidations();
             if (!invalid) {
-                !this.id ? this.addItem() : this.updateItem();
+                if (this.id) {
+                  this.updateItem();
+                } else {
+                  this.addItem();
+                }
             }
         },
 

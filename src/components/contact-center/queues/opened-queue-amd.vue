@@ -1,212 +1,105 @@
 <template>
-    <section>
-        <form class="object-input-grid">
-
-            <div>
-                <div class="label">{{$t('objects.ccenter.queues.enabled')}}</div>
-                <wt-switcher
-                        v-model="enabled"
-                ></wt-switcher>
-            </div>
-
-            <wt-input
-                    v-model="maxWordLength"
-                    type="number"
-                    :label="$t('objects.ccenter.queues.maxWordLength')"
-            ></wt-input>
-
-            <wt-input
-                    v-model="maxNumberOfWords"
-                    type="number"
-                    :label="$t('objects.ccenter.queues.maxNumberOfWords')"
-            ></wt-input>
-
-            <wt-input
-                    v-model="betweenWordsSilence"
-                    type="number"
-                    :label="$t('objects.ccenter.queues.betweenWordsSilence')"
-            ></wt-input>
-
-            <wt-input
-                    v-model="minWordLength"
-                    type="number"
-                    :label="$t('objects.ccenter.queues.minWordLength')"
-            ></wt-input>
-
-            <wt-input
-                    v-model="totalAnalysisTime"
-                    type="number"
-                    :label="$t('objects.ccenter.queues.totalAnalysisTime')"
-            ></wt-input>
-
-            <wt-input
-                    v-model="silenceThreshold"
-                    type="number"
-                    :label="$t('objects.ccenter.queues.silenceThreshold')"
-            ></wt-input>
-
-            <wt-input
-                    v-model="afterGreetingSilence"
-                    type="number"
-                    :label="$t('objects.ccenter.queues.afterGreetingSilence')"
-            ></wt-input>
-
-            <wt-input
-                    v-model="greeting"
-                    type="number"
-                    :label="$t('objects.ccenter.queues.greeting')"
-            ></wt-input>
-
-            <wt-input
-                    v-model="initialSilence"
-                    type="number"
-                    :label="$t('objects.ccenter.queues.initialSilence')"
-            ></wt-input>
-
-            <div>
-                <div class="label">{{$t('objects.ccenter.queues.allowNotSure')}}</div>
-                <wt-switcher
-                        v-model="allowNotSure"
-                ></wt-switcher>
-            </div>
-
-        </form>
-    </section>
+  <section>
+    <form class="object-input-grid">
+      <wt-switcher
+        :value="enabled"
+        :label="$t('objects.ccenter.queues.enabled')"
+        @change="setAmdItemProp({ prop: 'enabled', value: $event })"
+      ></wt-switcher>
+      <wt-input
+        :value="maxNumberOfWords"
+        :label="$t('objects.ccenter.queues.maxNumberOfWords')"
+        type="number"
+        @input="setAmdItemProp({ prop: 'maxNumberOfWords', value: +$event })"
+      ></wt-input>
+      <wt-input
+        :value="betweenWordsSilence"
+        :label="$t('objects.ccenter.queues.betweenWordsSilence')"
+        type="number"
+        @input="setAmdItemProp({ prop: 'betweenWordsSilence', value:+ $event })"
+      ></wt-input>
+      <wt-input
+        :value="maxWordLength"
+        :label="$t('objects.ccenter.queues.maxWordLength')"
+        type="number"
+        @input="setAmdItemProp({ prop: 'maxWordLength', value: +$event })"
+      ></wt-input>
+      <wt-input
+        :value="minWordLength"
+        :label="$t('objects.ccenter.queues.minWordLength')"
+        type="number"
+        @input="setAmdItemProp({ prop: 'minWordLength', value: +$event })"
+      ></wt-input>
+      <wt-input
+        :value="totalAnalysisTime"
+        :label="$t('objects.ccenter.queues.totalAnalysisTime')"
+        type="number"
+        @input="setAmdItemProp({ prop: 'totalAnalysisTime', value: +$event })"
+      ></wt-input>
+      <wt-input
+        :value="silenceThreshold"
+        :label="$t('objects.ccenter.queues.silenceThreshold')"
+        type="number"
+        @input="setAmdItemProp({ prop: 'silenceThreshold', value: +$event })"
+      ></wt-input>
+      <wt-input
+        :value="afterGreetingSilence"
+        :label="$t('objects.ccenter.queues.afterGreetingSilence')"
+        type="number"
+        @input="setAmdItemProp({ prop: 'afterGreetingSilence', value: +$event })"
+      ></wt-input>
+      <wt-input
+        :value="greeting"
+        :label="$t('objects.ccenter.queues.greeting')"
+        type="number"
+        @input="setAmdItemProp({ prop: 'greeting', value: +$event })"
+      ></wt-input>
+      <wt-input
+        :value="initialSilence"
+        :label="$t('objects.ccenter.queues.initialSilence')"
+        type="number"
+        @input="setAmdItemProp({ prop: 'initialSilence', value: +$event })"
+      ></wt-input>
+      <wt-switcher
+        :value="allowNotSure"
+        :label="$t('objects.ccenter.queues.allowNotSure')"
+        @change="setAmdItemProp({ prop: 'allowNotSure', value: $event })"
+      ></wt-switcher>
+    </form>
+  </section>
 </template>
 
 <script>
-    import openedTabComponentMixin from '@/mixins/openedTabComponentMixin';
-    import { mapActions } from 'vuex';
+import { mapState, mapActions } from 'vuex';
+import openedTabComponentMixin from '../../../mixins/openedTabComponentMixin';
 
-    export default {
-        name: 'opened-queue-outbound-ivr-timing',
-        mixins: [openedTabComponentMixin],
-        components: { },
-        data() {
-            return {};
-        },
+export default {
+  name: 'opened-queue-outbound-ivr-timing',
+  mixins: [openedTabComponentMixin],
 
-        computed: {
-            enabled: {
-                get() {
-                    return this.$store.state.ccenter.queues.itemInstance.payload.amd.enabled;
-                },
-                set(value) {
-                    this.setAmdItemProp({ prop: 'enabled', value });
-                },
-            },
+  computed: {
+    ...mapState('ccenter/queues', {
+      enabled: (state) => state.itemInstance.payload.amd.enabled,
+      maxNumberOfWords: (state) => state.itemInstance.payload.amd.maxNumberOfWords,
+      betweenWordsSilence: (state) => state.itemInstance.payload.amd.betweenWordsSilence,
+      maxWordLength: (state) => state.itemInstance.payload.amd.maxWordLength,
+      minWordLength: (state) => state.itemInstance.payload.amd.minWordLength,
+      totalAnalysisTime: (state) => state.itemInstance.payload.amd.totalAnalysisTime,
+      silenceThreshold: (state) => state.itemInstance.payload.amd.silenceThreshold,
+      afterGreetingSilence: (state) => state.itemInstance.payload.amd.afterGreetingSilence,
+      greeting: (state) => state.itemInstance.payload.amd.greeting,
+      initialSilence: (state) => state.itemInstance.payload.amd.initialSilence,
+      allowNotSure: (state) => state.itemInstance.payload.amd.allowNotSure,
+    }),
+  },
 
-            allowNotSure: {
-                get() {
-                    return this.$store.state.ccenter.queues.itemInstance.payload.amd.allowNotSure;
-                },
-                set(value) {
-                    this.setAmdItemProp({ prop: 'allowNotSure', value });
-                },
-            },
-
-            maxWordLength: {
-                get() {
-                    return this.$store.state.ccenter.queues.itemInstance.payload.amd.maxWordLength;
-                },
-                set(value) {
-                    value = +value;
-                    this.setAmdItemProp({ prop: 'maxWordLength', value });
-                },
-            },
-
-            maxNumberOfWords: {
-                get() {
-                    return this.$store.state.ccenter.queues.itemInstance.payload.amd.maxNumberOfWords;
-                },
-                set(value) {
-                    value = +value;
-                    this.setAmdItemProp({ prop: 'maxNumberOfWords', value });
-                },
-            },
-
-            betweenWordsSilence: {
-                get() {
-                    return this.$store.state.ccenter.queues.itemInstance.payload.amd.betweenWordsSilence;
-                },
-                set(value) {
-                    value = +value;
-                    this.setAmdItemProp({ prop: 'betweenWordsSilence', value });
-                },
-            },
-
-            minWordLength: {
-                get() {
-                    return this.$store.state.ccenter.queues.itemInstance.payload.amd.minWordLength;
-                },
-                set(value) {
-                    value = +value;
-                    this.setAmdItemProp({ prop: 'minWordLength', value });
-                },
-            },
-
-            totalAnalysisTime: {
-                get() {
-                    return this.$store.state.ccenter.queues.itemInstance.payload.amd.totalAnalysisTime;
-                },
-                set(value) {
-                    value = +value;
-                    this.setAmdItemProp({ prop: 'totalAnalysisTime', value });
-                },
-            },
-
-            silenceThreshold: {
-                get() {
-                    return this.$store.state.ccenter.queues.itemInstance.payload.amd.silenceThreshold;
-                },
-                set(value) {
-                    value = +value;
-                    this.setAmdItemProp({ prop: 'silenceThreshold', value });
-                },
-            },
-
-            afterGreetingSilence: {
-                get() {
-                    return this.$store.state.ccenter.queues.itemInstance.payload.amd.afterGreetingSilence;
-                },
-                set(value) {
-                    value = +value;
-                    this.setAmdItemProp({ prop: 'afterGreetingSilence', value });
-                },
-            },
-
-            greeting: {
-                get() {
-                    return this.$store.state.ccenter.queues.itemInstance.payload.amd.greeting;
-                },
-                set(value) {
-                    value = +value;
-                    this.setAmdItemProp({ prop: 'greeting', value });
-                },
-            },
-
-            initialSilence: {
-                get() {
-                    return this.$store.state.ccenter.queues.itemInstance.payload.amd.initialSilence;
-                },
-                set(value) {
-                    value = +value;
-                    this.setAmdItemProp({ prop: 'initialSilence', value });
-                },
-            },
-        },
-
-        methods: {
-            ...mapActions('ccenter/queues', {
-                setItemProp: 'SET_ITEM_PROPERTY',
-                setAmdItemProp: 'SET_AMD_ITEM_PROPERTY',
-            }),
-        },
-    };
+  methods: {
+    ...mapActions('ccenter/queues', {
+      setAmdItemProp: 'SET_AMD_ITEM_PROPERTY',
+    }),
+  },
+};
 </script>
 
 <style lang="scss" scoped>
-    .timepicker {
-        margin-bottom: 28px;
-    }
 </style>

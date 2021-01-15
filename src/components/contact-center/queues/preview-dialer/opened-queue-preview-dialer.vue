@@ -1,138 +1,142 @@
 <template>
-    <div>
-        <object-header
-                :primaryText="computePrimaryText"
-                :primaryAction="save"
-                :primaryDisabled="computeDisabled"
-                close
-        >
-            {{$t('objects.ccenter.queues.previewDialer')}} |
-            {{computeTitle}}
-        </object-header>
-        <tabs-component
-                :tabs="tabs"
-                :root="$options.name"
-        >
-            <template slot="component" slot-scope="props">
-                <component
-                        class="tabs-inner-component"
-                        :is="props.currentTab"
-                        :v="$v"
-                ></component>
-            </template>
-        </tabs-component>
-    </div>
+  <wt-page-wrapper :actions-panel="false">
+    <template slot="header">
+      <wt-headline>
+        <template slot="title">
+          {{ $t('objects.ccenter.queues.previewDialer') }} |
+          {{ computeTitle }}
+        </template>
+        <template slot="actions">
+          <wt-button
+            :disabled="computeDisabled"
+            @click="save"
+          >
+            {{ computePrimaryText || $t('objects.addNew') }}
+          </wt-button>
+          <wt-button
+            color="secondary"
+            @click="close"
+          >
+            {{ $t('objects.close') }}
+          </wt-button>
+        </template>
+      </wt-headline>
+    </template>
+    <template slot="main">
+      <div class="tabs-page-wrapper">
+      <wt-tabs
+        v-model="currentTab"
+        :tabs="tabs"
+      >
+      </wt-tabs>
+      <component
+        :is="$options.name + '-' + currentTab.value"
+        :v="$v"
+      ></component>
+      </div>
+    </template>
+  </wt-page-wrapper>
 </template>
 
 <script>
-    import editComponentMixin from '@/mixins/editComponentMixin';
-    import { required } from 'vuelidate/lib/validators';
-    import { mapActions, mapState } from 'vuex';
-    import openedQueuePreviewDialerGeneral from './opened-queue-preview-dialer-general';
-    import openedQueuePreviewDialerResources from '../opened-queue-resources';
-    import openedQueuePreviewDialerVariables from '../opened-queue-variables';
-    import openedQueuePreviewDialerTiming from './opened-queue-preview-dialer-timing';
-    import openedQueuePreviewDialerBuckets from '../opened-queue-buckets';
-    import openedQueuePreviewDialerPermissions from '../opened-queue-permissions';
-    import openedQueuePreviewDialerLogs from '../opened-queue-logs';
+import { required } from 'vuelidate/lib/validators';
+import { mapActions, mapState } from 'vuex';
+import OpenedQueuePreviewDialerGeneral from './opened-queue-preview-dialer-general.vue';
+import OpenedQueuePreviewDialerResources from '../opened-queue-resources.vue';
+import OpenedQueuePreviewDialerVariables from '../opened-queue-variables.vue';
+import OpenedQueuePreviewDialerTiming from './opened-queue-preview-dialer-timing.vue';
+import OpenedQueuePreviewDialerBuckets from '../opened-queue-buckets.vue';
+import OpenedQueuePreviewDialerPermissions from '../opened-queue-permissions.vue';
+import OpenedQueuePreviewDialerLogs from '../opened-queue-logs.vue';
+import editComponentMixin from '../../../../mixins/editComponentMixin';
+import QueueType from '../../../../store/modules/contact-center/queues/_internals/enums/QueueType.enum';
 
-    export default {
-        name: 'opened-queue-preview-dialer',
-        components: {
-            openedQueuePreviewDialerGeneral,
-            openedQueuePreviewDialerResources,
-            openedQueuePreviewDialerVariables,
-            openedQueuePreviewDialerTiming,
-            openedQueuePreviewDialerBuckets,
-            openedQueuePreviewDialerLogs,
-            openedQueuePreviewDialerPermissions,
-        },
-        mixins: [editComponentMixin],
+export default {
+  name: 'opened-queue-preview-dialer',
+  components: {
+    OpenedQueuePreviewDialerGeneral,
+    OpenedQueuePreviewDialerResources,
+    OpenedQueuePreviewDialerVariables,
+    OpenedQueuePreviewDialerTiming,
+    OpenedQueuePreviewDialerBuckets,
+    OpenedQueuePreviewDialerLogs,
+    OpenedQueuePreviewDialerPermissions,
+  },
+  mixins: [editComponentMixin],
 
-        data() {
-            return {};
-        },
+  data: () => ({
+    currentTab: {
+      value: 'general',
+    },
+  }),
 
-        validations: {
-            itemInstance: {
-                name: {
-                    required,
-                },
-                calendar: {
-                    required,
-                },
-                strategy: {
-                    required,
-                },
-                team: {
-                    required,
-                },
-            },
-        },
+  validations: {
+    itemInstance: {
+      name: { required },
+      calendar: { required },
+      strategy: { required },
+      team: { required },
+      payload: {
+        maxAttempts: { required },
+        originateTimeout: { required },
+        waitBetweenRetries: { required },
+      },
+    },
+  },
 
-        mounted() {
-            this.id = this.$route.params.id;
-            this.loadItem('preview-dialer');
-        },
+  mounted() {
+    this.setId(this.$route.params.id);
+    this.loadItem(QueueType.PREVIEW_DIALER);
+  },
 
-        computed: {
-            ...mapState('ccenter/queues', {
-                itemInstance: (state) => state.itemInstance,
-            }),
-            id: {
-                get() { return this.$store.state.ccenter.queues.itemId; },
-                set(value) { this.setId(value); },
-            },
+  computed: {
+    ...mapState('ccenter/queues', {
+      itemInstance: (state) => state.itemInstance,
+      id: (state) => state.itemId,
+    }),
 
-            tabs() {
-                const tabs = [{
-                    text: this.$t('objects.general'),
-                    value: 'general',
-                }, {
-                    text: this.$tc('objects.ccenter.res.res', 2),
-                    value: 'resources',
-                }, {
-                    text: this.$tc('objects.ccenter.queues.variables', 2),
-                    value: 'variables',
-                }, {
-                    text: this.$t('objects.ccenter.queues.timing'),
-                    value: 'timing',
-                }, {
-                    text: this.$tc('objects.ccenter.buckets.buckets', 2),
-                    value: 'buckets',
-                }, {
-                    text: this.$tc('objects.ccenter.logs.logs', 1),
-                    value: 'logs',
-                }];
+    tabs() {
+      const tabs = [{
+        text: this.$t('objects.general'),
+        value: 'general',
+      }, {
+        text: this.$t('objects.ccenter.queues.timing'),
+        value: 'timing',
+      }, {
+        text: this.$tc('objects.ccenter.res.res', 2),
+        value: 'resources',
+      }, {
+        text: this.$tc('objects.ccenter.buckets.buckets', 2),
+        value: 'buckets',
+      }, {
+        text: this.$tc('objects.ccenter.queues.variables', 2),
+        value: 'variables',
+      }, {
+        text: this.$tc('objects.ccenter.logs.logs', 1),
+        value: 'logs',
+      }];
 
-                const permissions = {
-                    text: this.$tc('objects.permissions.permissions', 2),
-                    value: 'permissions',
-                };
+      const permissions = {
+        text: this.$tc('objects.permissions.permissions', 2),
+        value: 'permissions',
+      };
 
-                if (this.id) tabs.push(permissions);
-                return tabs;
-            },
-        },
+      if (this.id) tabs.push(permissions);
+      return tabs;
+    },
+  },
 
-        methods: {
-            ...mapActions('ccenter/queues', {
-                setId: 'SET_ITEM_ID',
-                loadItem: 'LOAD_ITEM',
-                addItem: 'ADD_ITEM',
-                updateItem: 'UPDATE_ITEM',
-            }),
-        },
-    };
+  methods: {
+    ...mapActions('ccenter/queues', {
+      setId: 'SET_ITEM_ID',
+      loadItem: 'LOAD_ITEM',
+      addItem: 'ADD_ITEM',
+      updateItem: 'UPDATE_ITEM',
+    }),
+  },
+};
 </script>
 
 
 <style lang="scss" scoped>
-    .value-pair-wrap {
-        margin-top: 8px;
-    }
-
-    .value-pair {
-        grid-template-columns: 1fr 24px;
-    }
 </style>
