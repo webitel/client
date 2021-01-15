@@ -5,4 +5,5 @@ export default Object.freeze({
   PREVIEW_DIALER: 3,
   PROGRESSIVE_DIALER: 4,
   PREDICTIVE_DIALER: 5,
+  CHAT_INBOUND_QUEUE: 6,
 });

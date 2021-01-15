@@ -170,6 +170,8 @@ export default {
           return 'Progressive Dialer';
         case QueueType.PREDICTIVE_DIALER:
           return 'Predictive Dialer';
+        case QueueType.CHAT_INBOUND_QUEUE:
+          return 'Chat Inbound Queue';
         default:
           return 'Unknown';
       }
@@ -199,6 +201,9 @@ export default {
           break;
         case QueueType.PREDICTIVE_DIALER:
           type = 'predictive-dialer';
+          break;
+        case QueueType.CHAT_INBOUND_QUEUE:
+          type = 'chat-inbound-queue';
           break;
         default:
           type = 'unknown';

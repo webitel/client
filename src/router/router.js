@@ -60,6 +60,8 @@ const openedQueueProgressiveDialer
     = () => import('../components/contact-center/queues/progressive-dialer/opened-queue-progressive-dialer');
 const openedQueuePredictiveDialer
     = () => import('../components/contact-center/queues/predictive-dialer/opened-queue-predictive-dialer');
+const openedQueueChatInbound
+    = () => import('../components/contact-center/queues/chat-inbound-queue/opened-queue-chat-inbound-queue');
 const triggers = () => import('../components/integrations/triggers/the-triggers');
 const openedTriggerOnEvent = () => import('../components/integrations/triggers/opened-trigger-on-event');
 const openedTriggerAtTime = () => import('../components/integrations/triggers/opened-trigger-at-time');
@@ -437,6 +439,16 @@ const router = new Router({
                     path: '/contact-center/queues/predictive-dialer/:id',
                     name: 'cc-queue-predictive-dialer-edit',
                     component: openedQueuePredictiveDialer,
+                },
+                {
+                    path: '/contact-center/queues/chat-inbound-queue/new',
+                    name: 'cc-queue-chat-inbound-queue-new',
+                    component: openedQueueChatInbound,
+                },
+                {
+                    path: '/contact-center/queues/chat-inbound-queue/:id',
+                    name: 'cc-queue-chat-inbound-queue-edit',
+                    component: openedQueueChatInbound,
                 },
                 // --------------CONTACT CENTER END-------------
 

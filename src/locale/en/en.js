@@ -518,6 +518,8 @@ export default {
                 progressiveDialerDescription: 'Progressive dialing minimizes wasted time between calls by automatically dialing a number from a call list as soon as an agent becomes available.',
                 predictiveDialer: 'Predictive dialer',
                 predictiveDialerDescription: 'A predictive dialer calls multiple numbers at one time. As soon as a customer answers, an agent is connected to them.',
+                chatInboundQueue: 'Chat inbound queue',
+                chatInboundQueueDescription: 'The same as inbound queue, but with chats',
                 strategy: 'Strategy',
                 timezone: 'Timezone',
                 callLimit: 'Call limit',
