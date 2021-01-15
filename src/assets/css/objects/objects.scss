@@ -42,34 +42,6 @@
 
 // ----- old styles
 
-// outer wrap of module- page
-.object-wrap {
-  display: flex;
-  width: 100vw;
-  //overflow-x: hidden;
-}
-
-// main content itself, without nav but with main header
-.object {
-  flex: 1 0 auto;
-  width: 1px;
-  //padding: 40px;
-  //width: calc(100vw - 272px);
-  //overflow: auto;
-}
-
-.the-nav__wrap {
-  flex: 0 0 272px;
-  //min-width: 272px;
-  //width: 272px;
-}
-
-.object-content-wrap {
-  //width: 100%;
-  //max-width: 100%;
-  //min-width: 100%;
-}
-
 // inner content section
 .object-content {
   display: flex;
