@@ -76,7 +76,7 @@ export default {
         title: this.$t('objects.ccenter.queues.predictiveDialer'),
         description: this.$t('objects.ccenter.queues.predictiveDialerDescription'),
       };
-      return [outboundIVR, inbound, offline, previewDialer, progressiveDialer, predictiveDialer];
+      return [offline, inbound, outboundIVR, previewDialer, progressiveDialer, predictiveDialer];
     },
   },
 
