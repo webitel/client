@@ -55,7 +55,4 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.timepicker {
-  margin-bottom: 28px;
-}
 </style>

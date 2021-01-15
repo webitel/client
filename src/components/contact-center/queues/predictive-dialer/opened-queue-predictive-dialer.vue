@@ -1,149 +1,147 @@
 <template>
-    <div>
-        <object-header
-                :primaryText="computePrimaryText"
-                :primaryAction="save"
-                :primaryDisabled="computeDisabled"
-                close
+  <wt-page-wrapper :actions-panel="false">
+    <template slot="header">
+      <wt-headline>
+        <template slot="title">
+          {{ $t('objects.ccenter.queues.predictiveDialer') }} |
+          {{ computeTitle }}
+        </template>
+        <template slot="actions">
+          <wt-button
+            :disabled="computeDisabled"
+            @click="save"
+          >
+            {{ computePrimaryText || $t('objects.addNew') }}
+          </wt-button>
+          <wt-button
+            color="secondary"
+            @click="close"
+          >
+            {{ $t('objects.close') }}
+          </wt-button>
+        </template>
+      </wt-headline>
+    </template>
+    <template slot="main">
+      <div class="tabs-page-wrapper">
+        <wt-tabs
+          v-model="currentTab"
+          :tabs="tabs"
         >
-            {{$t('objects.ccenter.queues.predictiveDialer')}} |
-            {{computeTitle}}
-        </object-header>
-
-        <tabs-component
-                :tabs="tabs"
-                :root="$options.name"
-        >
-            <template slot="component" slot-scope="props">
-                <component
-                        class="tabs-inner-component"
-                        :is="props.currentTab"
-                        :v="$v"
-                ></component>
-            </template>
-        </tabs-component>
-    </div>
+        </wt-tabs>
+        <component
+          :is="$options.name + '-' + currentTab.value"
+          :v="$v"
+        ></component>
+      </div>
+    </template>
+  </wt-page-wrapper>
 </template>
 
 <script>
-    import editComponentMixin from '@/mixins/editComponentMixin';
-    import { required } from 'vuelidate/lib/validators';
-    import { mapActions, mapState } from 'vuex';
-    import openedQueuePredictiveDialerGeneral from './opened-queue-predictive-dialer-general';
-    import openedQueuePredictiveDialerResources from '../opened-queue-resources';
-    import openedQueuePredictiveDialerVariables from '../opened-queue-variables';
-    import openedQueuePredictiveDialerTiming from './opened-queue-predictive-dialer-timing';
-    import openedQueuePredictiveDialerBuckets from '../opened-queue-buckets';
-    import openedQueuePredictiveDialerAmd from '../opened-queue-amd';
-    import openedQueuePredictiveDialerPermissions from '../opened-queue-permissions';
-    import openedQueuePredictiveDialerLogs from '../opened-queue-logs';
+import { required } from 'vuelidate/lib/validators';
+import { mapActions, mapState } from 'vuex';
+import OpenedQueuePredictiveDialerGeneral from './opened-queue-predictive-dialer-general.vue';
+import OpenedQueuePredictiveDialerResources from '../opened-queue-resources.vue';
+import OpenedQueuePredictiveDialerVariables from '../opened-queue-variables.vue';
+import OpenedQueuePredictiveDialerTiming from './opened-queue-predictive-dialer-timing.vue';
+import OpenedQueuePredictiveDialerBuckets from '../opened-queue-buckets.vue';
+import OpenedQueuePredictiveDialerAmd from '../opened-queue-amd.vue';
+import OpenedQueuePredictiveDialerPermissions from '../opened-queue-permissions.vue';
+import OpenedQueuePredictiveDialerLogs from '../opened-queue-logs.vue';
+import editComponentMixin from '../../../../mixins/editComponentMixin';
+import QueueType from '../../../../store/modules/contact-center/queues/_internals/enums/QueueType.enum';
 
-    export default {
-        name: 'opened-queue-predictive-dialer',
-        components: {
-            openedQueuePredictiveDialerGeneral,
-            openedQueuePredictiveDialerResources,
-            openedQueuePredictiveDialerVariables,
-            openedQueuePredictiveDialerTiming,
-            openedQueuePredictiveDialerBuckets,
-            openedQueuePredictiveDialerAmd,
-            openedQueuePredictiveDialerLogs,
-            openedQueuePredictiveDialerPermissions,
-        },
-        mixins: [editComponentMixin],
+export default {
+  name: 'opened-queue-predictive-dialer',
+  components: {
+    OpenedQueuePredictiveDialerGeneral,
+    OpenedQueuePredictiveDialerResources,
+    OpenedQueuePredictiveDialerVariables,
+    OpenedQueuePredictiveDialerTiming,
+    OpenedQueuePredictiveDialerBuckets,
+    OpenedQueuePredictiveDialerAmd,
+    OpenedQueuePredictiveDialerLogs,
+    OpenedQueuePredictiveDialerPermissions,
+  },
+  mixins: [editComponentMixin],
 
-        data() {
-            return {};
-        },
+  data: () => ({
+    currentTab: {
+      value: 'general',
+    },
+  }),
 
-        // by vuelidate
-        validations: {
-            itemInstance: {
-                name: {
-                    required,
-                },
-                calendar: {
-                    required,
-                },
-                strategy: {
-                    required,
-                },
-                team: {
-                    required,
-                },
-            },
-        },
+  validations: {
+    itemInstance: {
+      name: { required },
+      calendar: { required },
+      strategy: { required },
+      team: { required },
+      payload: {
+        maxAttempts: { required },
+        originateTimeout: { required },
+        waitBetweenRetries: { required },
+      },
+    },
+  },
 
-        mounted() {
-            this.id = this.$route.params.id;
-            this.loadItem('predictive-dialer');
-        },
+  mounted() {
+    this.setId(this.$route.params.id);
+    this.loadItem(QueueType.PREDICTIVE_DIALER);
+  },
 
-        computed: {
-            ...mapState('ccenter/queues', {
-                itemInstance: (state) => state.itemInstance,
-            }),
-            id: {
-                get() {
-                    return this.$store.state.ccenter.queues.itemId;
-                },
-                set(value) {
-                    this.setId(value);
-                },
-            },
+  computed: {
+    ...mapState('ccenter/queues', {
+      itemInstance: (state) => state.itemInstance,
+      id: (state) => state.itemId,
+    }),
 
-            tabs() {
-                const tabs = [{
-                    text: this.$t('objects.general'),
-                    value: 'general',
-                }, {
-                    text: this.$tc('objects.ccenter.res.res', 2),
-                    value: 'resources',
-                }, {
-                    text: this.$tc('objects.ccenter.queues.variables', 2),
-                    value: 'variables',
-                }, {
-                    text: this.$t('objects.ccenter.queues.timing'),
-                    value: 'timing',
-                }, {
-                    text: this.$tc('objects.ccenter.buckets.buckets', 2),
-                    value: 'buckets',
-                }, {
-                    text: this.$t('objects.ccenter.queues.amd'),
-                    value: 'amd',
-                }, {
-                    text: this.$tc('objects.ccenter.logs.logs', 1),
-                    value: 'logs',
-                }];
+    tabs() {
+      const tabs = [{
+        text: this.$t('objects.general'),
+        value: 'general',
+      }, {
+        text: this.$t('objects.ccenter.queues.timing'),
+        value: 'timing',
+      }, {
+        text: this.$tc('objects.ccenter.res.res', 2),
+        value: 'resources',
+      }, {
+        text: this.$tc('objects.ccenter.buckets.buckets', 2),
+        value: 'buckets',
+      }, {
+        text: this.$t('objects.ccenter.queues.amd'),
+        value: 'amd',
+      }, {
+        text: this.$tc('objects.ccenter.queues.variables', 2),
+        value: 'variables',
+      }, {
+        text: this.$tc('objects.ccenter.logs.logs', 1),
+        value: 'logs',
+      }];
 
-                const permissions = {
-                    text: this.$tc('objects.permissions.permissions', 2),
-                    value: 'permissions',
-                };
+      const permissions = {
+        text: this.$tc('objects.permissions.permissions', 2),
+        value: 'permissions',
+      };
 
-                if (this.id) tabs.push(permissions);
-                return tabs;
-            },
-        },
+      if (this.id) tabs.push(permissions);
+      return tabs;
+    },
+  },
 
-        methods: {
-            ...mapActions('ccenter/queues', {
-                setId: 'SET_ITEM_ID',
-                loadItem: 'LOAD_ITEM',
-                addItem: 'ADD_ITEM',
-                updateItem: 'UPDATE_ITEM',
-            }),
-        },
-    };
+  methods: {
+    ...mapActions('ccenter/queues', {
+      setId: 'SET_ITEM_ID',
+      loadItem: 'LOAD_ITEM',
+      addItem: 'ADD_ITEM',
+      updateItem: 'UPDATE_ITEM',
+    }),
+  },
+};
 </script>
 
 
 <style lang="scss" scoped>
-    .value-pair-wrap {
-        margin-top: 8px;
-    }
-
-    .value-pair {
-        grid-template-columns: 1fr 24px;
-    }
 </style>
