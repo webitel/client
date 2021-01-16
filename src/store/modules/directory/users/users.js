@@ -36,6 +36,8 @@ const state = {
 const getters = {};
 
 const actions = {
+    ...defaultModule.actions,
+
     GET_LIST: async () => {
         return await getUsersList(state.page, state.size, state.search);
     },
@@ -88,7 +90,10 @@ const actions = {
         }
     },
 
-    ...defaultModule.actions,
+    RESET_ITEM_STATE: (context) => {
+        context.commit('RESET_ITEM_STATE');
+        context.dispatch('directory/users/tokens/RESET_STATE', {}, {root: true});
+    },
 };
 
 const mutations = {
