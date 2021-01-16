@@ -5,6 +5,7 @@
                 :primaryAction="save"
                 :primaryDisabled="computeDisabled"
                 close
+                @close="resetState"
         >
             {{$tc('objects.lookups.blacklist.blacklist', 1)}} | {{computeTitle}}
         </object-header>
@@ -95,6 +96,7 @@
                 loadItem: 'LOAD_ITEM',
                 addItem: 'ADD_ITEM',
                 updateItem: 'UPDATE_ITEM',
+                resetState: 'RESET_ITEM_STATE',
             }),
         },
     };
