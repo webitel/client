@@ -5,25 +5,23 @@ import skills from './team-skills';
 import permissions from './permissions';
 import {
     addTeam, deleteTeam,
-    getTeam,  getTeamsList, updateTeam,
+    getTeam, getTeamsList, updateTeam,
 } from "../../../../api/contact-center/teams/teams";
-import {DefaultModule} from "../../defaults/DefaultModule";
+import { DefaultModule } from "../../defaults/DefaultModule";
 
-const defaultState = () => {
-    return {
-        itemId: 0,
-        itemInstance: {
-            name: '',
-            description: '',
-            strategy: {},
-            maxNoAnswer: 3,
-            wrapUpTime: 15,
-            noAnswerDelayTime: 30,
-            callTimeout: 60,
-            postProcessing: false,
-        },
-    };
-};
+const defaultState = () => ({
+    itemId: 0,
+    itemInstance: {
+        name: '',
+        description: '',
+        strategy: {},
+        maxNoAnswer: 3,
+        wrapUpTime: 15,
+        noAnswerDelayTime: 30,
+        callTimeout: 60,
+        postProcessing: false,
+    },
+});
 
 const defaultModule = new DefaultModule(defaultState);
 
@@ -34,31 +32,31 @@ const state = {
 const getters = {};
 
 const actions = {
-    GET_LIST: async () => {
-        return await getTeamsList(state.page, state.size, state.search);
+    GET_LIST: (context) => {
+        return getTeamsList(context.state.page, context.state.size, context.state.search);
     },
 
-    GET_ITEM: async () => {
-        return await getTeam(state.itemId);
+    GET_ITEM: (context) => {
+        return getTeam(context.state.itemId);
     },
 
-    POST_ITEM: async () => {
-        return await addTeam(state.itemInstance);
+    POST_ITEM: (context) => {
+        return addTeam(context.state.itemInstance);
     },
 
-    UPD_ITEM: async () => {
-        await updateTeam(state.itemId, state.itemInstance);
+    UPD_ITEM: (context) => {
+        return updateTeam(context.state.itemId, context.state.itemInstance);
     },
 
-    DELETE_ITEM: async (context, id) => {
-        await deleteTeam(id);
+    DELETE_ITEM: (context, id) => {
+        return deleteTeam(id);
     },
 
-    RESET_ITEM_STATE: async (context) => {
+    RESET_ITEM_STATE: (context) => {
         context.commit('RESET_ITEM_STATE');
-        context.dispatch('ccenter/teams/supervisors/RESET_ITEM_STATE', {}, {root: true});
-        context.dispatch('ccenter/teams/agents/RESET_ITEM_STATE', {}, {root: true});
-        context.dispatch('ccenter/teams/skills/RESET_ITEM_STATE', {}, {root: true});
+        context.dispatch('ccenter/teams/supervisors/RESET_STATE', {}, { root: true });
+        context.dispatch('ccenter/teams/agents/RESET_STATE', {}, { root: true });
+        context.dispatch('ccenter/teams/skills/RESET_STATE', {}, { root: true });
     },
 
     ...defaultModule.actions,
@@ -74,5 +72,5 @@ export default {
     getters,
     actions,
     mutations,
-    modules: {supervisors, agents, skills, permissions},
+    modules: { supervisors, agents, skills, permissions },
 };

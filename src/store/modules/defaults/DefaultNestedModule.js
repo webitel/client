@@ -1,20 +1,30 @@
 import proxy from '../../../utils/editProxy';
 
+const DEFAULT_STATE = {
+    page: 1,
+    dataList: [],
+    isNextPage: false,
+    size: '10',
+    search: '',
+};
+
+const DEFAULT_ITEM_STATE = {
+    itemId: 0,
+    itemInstance: {},
+};
+
 export class DefaultNestedModule {
-    constructor(defaultState) {
-        this.state = {
-            parentId: 0,
-            page: 1,
-            isNextPage: false,
-            size: '10',
-            search: '',
-            ...defaultState()
-        };
+    constructor(defaultState, defaultItemState) {
+        const state = { parentId: 0 };
+        const _defaultState = defaultState || (() => DEFAULT_STATE);
+        const _defaultItemState = defaultItemState || (() => DEFAULT_ITEM_STATE);
+        this.defaultState = _defaultState;
+        this.defaultItemState = _defaultItemState;
+        this.state = { ...state, ..._defaultState(), ..._defaultItemState() };
 
         this.actions = {
             SET_PARENT_ITEM_ID: (context, id) => {
                 context.commit('SET_PARENT_ITEM_ID', id);
-                context.dispatch('RESET_ITEM_STATE'); // FIXME: MOVED HERE FROM LOAD_DATA_LIST. NOT SURE ABOUT SIDE EFFECTS :/
             },
 
             SET_ITEM_ID: (context, id) => {
@@ -22,9 +32,9 @@ export class DefaultNestedModule {
             },
 
             LOAD_DATA_LIST: async (context) => {
-                if(context.state.parentId) {
+                if (context.state.parentId) {
                     const response = await context.dispatch('GET_LIST');
-                    if(response.list) {
+                    if (response.list) {
                         context.commit('SET_DATA_LIST', response.list);
                         context.commit('SET_IS_NEXT', response.isNext);
                     }
@@ -40,14 +50,14 @@ export class DefaultNestedModule {
             },
 
             NEXT_PAGE: (context) => {
-                if(context.state.isNextPage) {
+                if (context.state.isNextPage) {
                     context.commit('INCREMENT_PAGE');
                     context.dispatch('LOAD_DATA_LIST');
                 }
             },
 
             PREV_PAGE: (context) => {
-                if(context.state.page) {
+                if (context.state.page) {
                     context.commit('DECREMENT_PAGE');
                     context.dispatch('LOAD_DATA_LIST');
                 }
@@ -88,7 +98,11 @@ export class DefaultNestedModule {
                 }
             },
 
-            RESET_ITEM_STATE: async (context) => {
+            RESET_STATE: (context) => {
+                context.commit('RESET_STATE');
+            },
+
+            RESET_ITEM_STATE: (context) => {
                 context.commit('RESET_ITEM_STATE');
             },
         };
@@ -126,7 +140,7 @@ export class DefaultNestedModule {
                 state.isNextPage = next;
             },
 
-            SET_ITEM_PROPERTY: (state, {prop, value}) => {
+            SET_ITEM_PROPERTY: (state, { prop, value }) => {
                 state.itemInstance[prop] = value;
             },
 
@@ -138,8 +152,12 @@ export class DefaultNestedModule {
                 state.dataList.splice(index, 1);
             },
 
+            RESET_STATE: (state) => {
+                Object.assign(state, this.defaultState(), this.defaultItemState());
+            },
+
             RESET_ITEM_STATE: (state) => {
-                Object.assign(state, defaultState());
+                Object.assign(state, this.defaultItemState());
             },
         };
     }

@@ -1,28 +1,21 @@
 import {
     getTeamSkillsList, getTeamSkill, addTeamSkill,
-    updateTeamSkill, deleteTeamSkill
-} from "../../../../api/contact-center/teams/teamSkills";
-import {DefaultNestedModule} from "../../defaults/DefaultNestedModule";
+    updateTeamSkill, deleteTeamSkill,
+} from '../../../../api/contact-center/teams/teamSkills';
+import { DefaultNestedModule } from '../../defaults/DefaultNestedModule';
 
-const defaultState = () => {
-    return {
-        itemId: 0,
-        dataList: [],
-        size: '10',
-        search: '',
-        page: 1,
-        isNextPage: true,
-        itemInstance: {
-            skill: {},
-            lvl: 0,
-            minCapacity: 0,
-            maxCapacity: 10,
-            buckets: [],
-        },
-    };
-};
+const defaultItemState = () => ({
+    itemId: 0,
+    itemInstance: {
+        skill: {},
+        lvl: 0,
+        minCapacity: 0,
+        maxCapacity: 10,
+        buckets: [],
+    },
+});
 
-const defaultNestedModule = new DefaultNestedModule(defaultState);
+const defaultNestedModule = new DefaultNestedModule(null, defaultItemState);
 
 const state = {
     ...defaultNestedModule.state,
@@ -36,24 +29,24 @@ const getters = {
 };
 
 const actions = {
-    GET_LIST: async () => {
-        return await getTeamSkillsList(state.parentId, state.page, state.size, state.search);
+    GET_LIST: (context) => {
+        return getTeamSkillsList(context.state.parentId, context.state.page, context.state.size, context.state.search);
     },
 
-    GET_ITEM: async () => {
-        return await getTeamSkill(state.parentId, state.itemId);
+    GET_ITEM: (context) => {
+        return getTeamSkill(context.state.parentId, context.state.itemId);
     },
 
-    POST_ITEM: async () => {
-        return await addTeamSkill(state.parentId, state.itemInstance);
+    POST_ITEM: (context) => {
+        return addTeamSkill(context.state.parentId, context.state.itemInstance);
     },
 
-    UPD_ITEM: async () => {
-        await updateTeamSkill(state.parentId, state.itemId, state.itemInstance);
+    UPD_ITEM: (context) => {
+        return updateTeamSkill(context.state.parentId, context.state.itemId, context.state.itemInstance);
     },
 
-    DELETE_ITEM: async (context, id) => {
-        await deleteTeamSkill(state.parentId, id);
+    DELETE_ITEM: (context, id) => {
+        return deleteTeamSkill(context.state.parentId, id);
     },
 
     ...defaultNestedModule.actions,
