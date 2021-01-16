@@ -32,6 +32,8 @@ const state = {
 const getters = {};
 
 const actions = {
+    ...defaultModule.actions,
+
     GET_LIST: (context) => {
         return getTeamsList(context.state.page, context.state.size, context.state.search);
     },
@@ -58,8 +60,6 @@ const actions = {
         context.dispatch('ccenter/teams/agents/RESET_STATE', {}, { root: true });
         context.dispatch('ccenter/teams/skills/RESET_STATE', {}, { root: true });
     },
-
-    ...defaultModule.actions,
 };
 
 const mutations = {

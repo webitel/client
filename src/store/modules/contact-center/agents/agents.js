@@ -27,6 +27,8 @@ const state = {
 const getters = {};
 
 const actions = {
+  ...defaultModule.actions,
+
   GET_LIST: async (context) => {
     return await getAgentsList(context.state.page, context.state.size, context.state.search);
   },
@@ -53,8 +55,6 @@ const actions = {
     context.dispatch('ccenter/agents/skills/RESET_STATE', {}, { root: true });
     context.dispatch('ccenter/agents/teams/RESET_STATE', {}, { root: true });
   },
-
-  ...defaultModule.actions,
 };
 
 const mutations = {
