@@ -1,26 +1,18 @@
-import proxy from '../../../../utils/editProxy';
 import {
     addQueueResGroup, deleteQueueResGroup,
     getQueueResGroup,
     getQueueResGroupList, updateQueueResGroup
 } from "../../../../api/contact-center/queues/queueResGroups";
-import {DefaultNestedModule} from "../../defaults/DefaultNestedModule";
+import { DefaultNestedModule } from "../../defaults/DefaultNestedModule";
 
-const defaultState = () => {
-    return {
-        dataList: [],
-        size: '10',
-        search: '',
-        page: 1,
-        isNextPage: true,
-        itemId: 0,
-        itemInstance: {
-            resourceGroup: {},
-        },
-    };
-};
+const defaultItemState = () => ({
+    itemId: 0,
+    itemInstance: {
+        resourceGroup: {},
+    },
+});
 
-const defaultModule = new DefaultNestedModule(defaultState);
+const defaultModule = new DefaultNestedModule(null, defaultItemState);
 
 const state = {
     ...defaultModule.state,
@@ -29,24 +21,24 @@ const state = {
 const getters = {};
 
 const actions = {
-    GET_LIST: async () => {
-        return await getQueueResGroupList(state.parentId, state.page, state.size, state.search);
+    GET_LIST: (context) => {
+        return getQueueResGroupList(context.state.parentId, context.state.page, context.state.size, context.state.search);
     },
 
-    GET_ITEM: async () => {
-        return await getQueueResGroup(state.parentId, state.itemId);
+    GET_ITEM: (context) => {
+        return getQueueResGroup(context.state.parentId, context.state.itemId);
     },
 
-    POST_ITEM: async () => {
-        return await addQueueResGroup(state.parentId, state.itemInstance);
+    POST_ITEM: (context) => {
+        return addQueueResGroup(context.state.parentId, context.state.itemInstance);
     },
 
-    UPD_ITEM: async () => {
-        await updateQueueResGroup(state.parentId, state.itemId, state.itemInstance);
+    UPD_ITEM: (context) => {
+        return updateQueueResGroup(context.state.parentId, context.state.itemId, context.state.itemInstance);
     },
 
     DELETE_ITEM: async (context, id) => {
-        await deleteQueueResGroup(state.parentId, id);
+        await deleteQueueResGroup(context.state.parentId, id);
         await context.dispatch('LOAD_DATA_LIST');
     },
 

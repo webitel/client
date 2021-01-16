@@ -5,6 +5,7 @@
                 :primaryAction="save"
                 :primaryDisabled="computeDisabled"
                 close
+                @close="resetState"
         >
             {{$t('objects.ccenter.queues.progressiveDialer')}} |
             {{computeTitle}}
@@ -127,6 +128,7 @@
                 loadItem: 'LOAD_ITEM',
                 addItem: 'ADD_ITEM',
                 updateItem: 'UPDATE_ITEM',
+                resetState: 'RESET_ITEM_STATE',
             }),
         },
     };
