@@ -1,16 +1,7 @@
 import {getAgentTeamsList} from "../../../../api/contact-center/agents/agents";
 import {DefaultNestedModule} from "../../defaults/DefaultNestedModule";
 
-const defaultState = () => {
-    return {
-        dataList: [],
-        size: '10',
-        search: '',
-        page: 1,
-        isNextPage: true,
-    };
-};
-const defaultModule = new DefaultNestedModule(defaultState);
+const defaultModule = new DefaultNestedModule();
 
 const state = {
     ...defaultModule.state,

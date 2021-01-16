@@ -1,26 +1,19 @@
 import {
     addAgentSkill, deleteAgentSkill,
     getAgentSkill, getAgentSkillsList,
-    updateAgentSkill
+    updateAgentSkill,
 } from "../../../../api/contact-center/agents/agentSkills";
-import {DefaultNestedModule} from "../../defaults/DefaultNestedModule";
+import { DefaultNestedModule } from "../../defaults/DefaultNestedModule";
 
-const defaultState = () => {
-    return {
-        dataList: [],
-        size: '10',
-        search: '',
-        page: 1,
-        isNextPage: false,
-        itemId: 0,
-        itemInstance: {
-            skill: '',
-            capacity: 10,
-            id: 0,
-        },
-    };
-};
-const defaultModule = new DefaultNestedModule(defaultState);
+const defaultItemState = () => ({
+    itemId: 0,
+    itemInstance: {
+        skill: '',
+        capacity: 10,
+        id: 0,
+    },
+});
+const defaultModule = new DefaultNestedModule(null, defaultItemState);
 
 const state = {
     ...defaultModule.state,
