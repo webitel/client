@@ -119,23 +119,29 @@
 </template>
 
 <script>
-import tableComponentMixin from "@/mixins/tableComponentMixin";
-import editComponentMixin from "@/mixins/editComponentMixin";
 import { mapActions, mapState } from "vuex";
+import tableComponentMixin from "../../../mixins/tableComponentMixin";
+import editComponentMixin from "../../../mixins/editComponentMixin";
+
 // eslint-disable-next-line import/extensions
 import rolePopup from "./opened-object-permissions-role-popup";
 
-export default {
-  name: "opened-object-permissions-general",
-  mixins: [tableComponentMixin, editComponentMixin],
-  components: { rolePopup },
-  data() {
-    return {
-      // vuetable prop
-      headers: [
-        {
-          value: "grantee",
-          text: this.$t("objects.permissions.object.grantee"),
+       export default {
+        name: 'opened-object-permissions-general',
+        mixins: [tableComponentMixin, editComponentMixin],
+        components: { rolePopup },
+        data() {
+            return {
+                // vuetable prop
+                fields: [
+                    { name: 'grantee', title: this.$t('objects.permissions.object.grantee') },
+                    { name: 'create', title: this.$t('objects.create') },
+                    { name: 'read', title: this.$t('objects.read') },
+                    { name: 'edit', title: this.$t('objects.edit') },
+                    { name: 'delete', title: this.$t('objects.delete') },
+                ],
+                headerTitle: '',
+            };
         },
         { value: "create", text: this.$t("objects.create") },
         { value: "read", text: this.$t("objects.read") },
@@ -169,6 +175,8 @@ export default {
     ...mapState("permissions/objects", {
       dataList: (state) => state.operationInstance.dataList,
       page: (state) => state.operationInstance.page,
+      size: (state) => state.operationInstance.size,
+      search: (state) => state.operationInstance.search,
       isNextPage: (state) => state.operationInstance.isItemNextPage,
     }),
 
@@ -178,24 +186,6 @@ export default {
       },
       set(value) {
         this.setId(value);
-      },
-    },
-
-    size: {
-      get() {
-        return this.$store.state.permissions.objects.operationInstance.size;
-      },
-      set(value) {
-        this.setSize(value);
-      },
-    },
-
-    search: {
-      get() {
-        return this.$store.state.permissions.objects.operationInstance.search;
-      },
-      set(value) {
-        this.setSearch(value);
       },
     },
   },

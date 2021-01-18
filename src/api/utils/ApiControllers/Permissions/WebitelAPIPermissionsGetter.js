@@ -60,7 +60,7 @@ export default class WebitelAPIPermissionsGetter {
                     }));
             }
             
-            return { list: formattedResponse, next: response.next};         
+            return { list: formattedResponse, next: response.next };         
         } catch (err) {
             throw err;
         }

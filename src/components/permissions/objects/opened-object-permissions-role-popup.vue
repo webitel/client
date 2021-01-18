@@ -14,7 +14,7 @@
                 @search="loadDropdownOptionsList"
             ></dropdown-select>
         </section>
-    </popup>
+    </popup>    
 </template>
 
 <script>

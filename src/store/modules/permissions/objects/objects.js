@@ -48,7 +48,7 @@ const actions = {
     },
 
     LOAD_DATA_LIST: async (context) => {
-        const response = await getObjectList(state.itemSearch, state.itemPage, state.itemSize);
+        const response = await getObjectList(context.state.itemSearch, context.state.itemPage, context.state.itemSize);
         context.dispatch('RESET_ITEM_STATE');
         context.commit('SET_DATA_LIST', response.list);
         context.commit('SET_IS_NEXT', response.next);
@@ -61,7 +61,7 @@ const actions = {
     SET_SIZE: (context, size) => {
         context.commit('SET_SIZE', size);
     },
-    
+
     NEXT_PAGE: (context) => {
         if (context.state.isNextPage) {
             context.commit('INCREMENT_PAGE');
@@ -76,12 +76,12 @@ const actions = {
         }
     },
 
-    TOGGLE_ITEM_PROPERTY: async (context, {prop, item, value}) => {
-        let changes = prop == 'obac' ? {obac: value} : {rbac: value}   
-              
+    TOGGLE_ITEM_PROPERTY: async (context, { prop, item, value }) => {
+        let changes = prop == 'obac' ? { obac: value } : { rbac: value }
+
         try {
             await updateObject(item.id, changes);
-        } catch(err) {
+        } catch (err) {
             throw err;
         } finally {
             await context.dispatch('LOAD_DATA_LIST');
@@ -98,7 +98,7 @@ const actions = {
 
     SET_RECORDS_PERMISSIONS_SIZE: (context, size) => {
         context.commit('SET_RECORDS_SIZE', size);
-    },    
+    },
 
     SET_ITEM_PERMISSIONS_SEARCH: (context, search) => {
         context.commit('SET_ITEM_PERMISSIONS_SEARCH', search);
@@ -113,69 +113,69 @@ const actions = {
     },
 
     NEXT_ITEM_PERMISSIONS_PAGE: async (context) => {
-        if(state.isItemNextPage) {
-            await context.commit('INCREMENT_ITEM_PERMISSIONS_PAGE');            
-            context.dispatch('LOAD_ITEM_PERMISSIONS_DATA_lIST');      
+        if (state.isItemNextPage) {
+            await context.commit('INCREMENT_ITEM_PERMISSIONS_PAGE');
+            context.dispatch('LOAD_ITEM_PERMISSIONS_DATA_lIST');
         }
     },
 
-    PREV_ITEM_PERMISSIONS_PAGE: async (context) => {    
-        await context.commit('DECREMENT_ITEM_PERMISSIONS_PAGE');            
-        context.dispatch('LOAD_ITEM_PERMISSIONS_DATA_lIST');                
+    PREV_ITEM_PERMISSIONS_PAGE: async (context) => {
+        await context.commit('DECREMENT_ITEM_PERMISSIONS_PAGE');
+        context.dispatch('LOAD_ITEM_PERMISSIONS_DATA_lIST');
     },
 
     NEXT_OPERATION_PERMISSIONS_PAGE: async (context) => {
-        if(state.operationInstance.isItemNextPage) {
-            await context.commit('INCREMENT_OPERATION_PERMISSIONS_PAGE');            
-            context.dispatch('LOAD_ITEM_PERMISSIONS_DATA_lIST');      
+        if (state.operationInstance.isItemNextPage) {
+            await context.commit('INCREMENT_OPERATION_PERMISSIONS_PAGE');
+            context.dispatch('LOAD_ITEM_PERMISSIONS_DATA_lIST');
         }
     },
 
-    PREV_OPERATION_PERMISSIONS_PAGE: async (context) => {    
-        await context.commit('DECREMENT_OPERATION_PERMISSIONS_PAGE');            
-        context.dispatch('LOAD_ITEM_PERMISSIONS_DATA_lIST');                
+    PREV_OPERATION_PERMISSIONS_PAGE: async (context) => {
+        await context.commit('DECREMENT_OPERATION_PERMISSIONS_PAGE');
+        context.dispatch('LOAD_ITEM_PERMISSIONS_DATA_lIST');
     },
 
     NEXT_RECORDS_PERMISSIONS_PAGE: async (context) => {
-        if(state.recordsInstance.page) {
-            await context.commit('INCREMENT_RECORD_PERMISSIONS_PAGE');            
-            context.dispatch('SEARCH_DEFAULT_LIST');      
+        if (state.recordsInstance.page) {
+            await context.commit('INCREMENT_RECORD_PERMISSIONS_PAGE');
+            context.dispatch('SEARCH_DEFAULT_LIST');
         }
     },
 
-    PREV_RECORDS_PERMISSIONS_PAGE: async (context) => {    
-        await context.commit('DECREMENT_RECORD_PERMISSIONS_PAGE');            
-        context.dispatch('SEARCH_DEFAULT_LIST');                
+    PREV_RECORDS_PERMISSIONS_PAGE: async (context) => {
+        await context.commit('DECREMENT_RECORD_PERMISSIONS_PAGE');
+        context.dispatch('SEARCH_DEFAULT_LIST');
     },
 
     LOAD_ITEM_PERMISSIONS_DATA_lIST: async (context) => {
         if (state.itemId) {
-            const response = await getObjectPermissions(state.itemId, state.operationInstance.page, state.operationInstance.size, state.operationInstance.search);
+            const response = await getObjectPermissions(context.state.itemId, context.state.operationInstance.page, context.state.operationInstance.size, context.state.operationInstance.search);
             context.commit('SET_ITEM_PERMISSIONS_DATA_lIST', response.list);
             context.commit('SET_IS_OPERATIONS_NEXT', response.next);
         }
     },
 
-    PATCH_ITEM_PERMISSIONS: async (context, {prop, index}) => {
+    PATCH_ITEM_PERMISSIONS: async (context, { prop, index }) => {
         const readState = state.itemPermissionsDataList[index].access.r;
-        await context.commit('PATCH_ITEM_PERMISSIONS', {prop, index});
-        
+        await context.commit('PATCH_ITEM_PERMISSIONS', { prop, index });
+
         let mode = '';
         switch (prop) {
-        case 'x':
-            mode = 'x';
-            break;
-        case 'r':
-            mode = 'r';
-            break;
-        case 'w':
-            mode = 'w';
-            break;
-        case 'd':
-            mode = 'd';
-            break;
-        default:
-            throw new Error(`Cound not identify access mode {{prop}}`);
+            case 'x':
+                mode = 'x';
+                break;
+            case 'r':
+                mode = 'r';
+                break;
+            case 'w':
+                mode = 'w';
+                break;
+            case 'd':
+                mode = 'd';
+                break;
+            default:
+                throw new Error(`Cound not identify access mode {{prop}}`);
         }
         let rule = {
             grantee: +(state.itemPermissionsDataList[index].grantee.id),
@@ -189,19 +189,20 @@ const actions = {
         }
     },
 
-    TOGGLE_GENERAL_MODE: async (context, {mode, ruleName, item}) => {
+    TOGGLE_GENERAL_MODE: async (context, { mode, ruleName, item }) => {
         let have;
         let want;
 
         const rule = item;
-        
-        if(ruleName == 'c' || ruleName == 'r' || ruleName == 'w' || ruleName == 'd') { have = rule.access[ruleName];}
+
+        if (ruleName == 'c' || ruleName == 'r' || ruleName == 'w' || ruleName == 'd') {
+            have = rule.access[ruleName];
+        }
         switch (mode.id) {
             case 1:
                 want = ruleName;
                 break;
             case 2:
-                debugger
                 want = have.rule || ruleName;
                 break;
             case 3:
@@ -218,7 +219,7 @@ const actions = {
         };
         try {
             await patchObjectPermissions(state.itemId, [ctl]);
-        } catch(err) {
+        } catch (err) {
             throw err;
         } finally {
             context.dispatch('LOAD_ITEM_PERMISSIONS_DATA_lIST');
@@ -238,7 +239,7 @@ const actions = {
         }
     },
 
-    ADD_DEFAULT_ITEM_ROLE: async (context, {grantee, grantor}) => {
+    ADD_DEFAULT_ITEM_ROLE: async (context, { grantee, grantor }) => {
         const item = [{
             grantor: +grantor.id,
             grantee: +grantee.id,
@@ -246,7 +247,7 @@ const actions = {
         }];
         try {
             await patchObjectDefaultPermissions(state.itemId, grantor.id, item);
-        } catch {            
+        } catch {
         } finally {
             context.dispatch('SEARCH_DEFAULT_LIST');
         }
@@ -259,18 +260,20 @@ const actions = {
     // [R]ecord-[b]ased [A]ccess [C]ontrol list
     SEARCH_DEFAULT_LIST: async (context) => {
         if (state.itemId) {
-            const rbac = await fetchObjclassDefaultList(state.itemId, state.recordsInstance.page, state.recordsInstance.size, state.recordsInstance.search);
+            const rbac = await fetchObjclassDefaultList(context.state.itemId, context.state.recordsInstance.page, context.state.recordsInstance.size, context.state.recordsInstance.search);
             context.commit('CACHE_DEFAULT_LIST', rbac.list);
-            context.commit('SET_IS_RECORDS_NEXT', rbac.next);            
+            context.commit('SET_IS_RECORDS_NEXT', rbac.next);
         }
     },
 
-    TOGGLE_DEFAULT_MODE: async (context, {mode, ruleName, item}) => {
+    TOGGLE_DEFAULT_MODE: async (context, { mode, ruleName, item }) => {
         let have;
         let want;
 
         const rule = item;
-        if(ruleName == 'r' || ruleName == 'w' || ruleName == 'd') { have = rule.perm[ruleName];}
+        if (ruleName == 'r' || ruleName == 'w' || ruleName == 'd') {
+            have = rule.perm[ruleName];
+        }
         switch (mode.id) {
             case 1:
                 want = ruleName;
@@ -291,7 +294,7 @@ const actions = {
         };
         try {
             await toggleObjclassDefaultMode(state.itemId, +(rule.grantor.id), ctl);
-        } catch(err) {
+        } catch (err) {
             throw err;
         } finally {
             context.dispatch('SEARCH_DEFAULT_LIST');
@@ -332,7 +335,7 @@ const mutations = {
         state.recordsInstance.isItemNextPage = isNext;
     },
 
-    TOGGLE_ITEM_PROPERTY: (state, {prop, index}) => {
+    TOGGLE_ITEM_PROPERTY: (state, { prop, index }) => {
         state.dataList[index][prop] = !state.dataList[index][prop];
     },
 
@@ -388,7 +391,7 @@ const mutations = {
         state.operationInstance.dataList = item;
     },
 
-    PATCH_ITEM_PERMISSIONS: (state, {prop, item}) => {
+    PATCH_ITEM_PERMISSIONS: (state, { prop, item }) => {
         // if 'read' checkbox switches to false, make all operations false
         if (prop === 'r' && state.itemPermissionsDataList[index].access.r) {
             Object.keys(state.itemPermissionsDataList[index].access).map(item => {
@@ -411,10 +414,10 @@ const mutations = {
         state.recordsInstance.dataList = rbac;
     },
 
-    TOGGLE_DEFAULT_MODE: (state, {mode, ruleName, index}) => {
-        if(ruleName == 'r') {  state.itemPermissionsDefaultList[index].perm.r = mode;}
-        if(ruleName == 'w') {  state.itemPermissionsDefaultList[index].perm.w = mode;}
-        if(ruleName == 'd') {  state.itemPermissionsDefaultList[index].perm.d = mode;}       
+    TOGGLE_DEFAULT_MODE: (state, { mode, ruleName, index }) => {
+        if (ruleName == 'r') { state.itemPermissionsDefaultList[index].perm.r = mode; }
+        if (ruleName == 'w') { state.itemPermissionsDefaultList[index].perm.w = mode; }
+        if (ruleName == 'd') { state.itemPermissionsDefaultList[index].perm.d = mode; }
     },
 };
 

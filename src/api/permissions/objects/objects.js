@@ -9,10 +9,10 @@ const BASE_DEFAULTS_URL = '/acl/objclass';
 
  const permissionsGetter = new WebitelAPIPermissionsGetter(BASE_URL);
  const permissionsPatcher = new WebitelAPIPermissionsPatcher(BASE_URL);
- const permissionsDefaultsPatcher = new WebitelAPIDefaultAccess(BASE_URL);
- const defaultAccessList = new WebitelAPIDefaultAccess(BASE_URL);
+ const permissionsDefaultsPatcher = new WebitelAPIDefaultAccess(BASE_DEFAULTS_URL);
+ const defaultAccessList = new WebitelAPIDefaultAccess(BASE_DEFAULTS_URL);
 
-export const getObjectList = async (search, page, size) => {
+export const getObjectList = async (search, page = 1, size = 10) => {
     const defaultObject = { // default object prototype, to merge response with it to get all fields
         class: '',
         obac: false,
@@ -22,9 +22,12 @@ export const getObjectList = async (search, page, size) => {
 
     let url = BASE_URL;
     
-    if (size) url += `?size=${size}`;
-    if (page) url += `&page=${page}`;
-    if (search) url += '&class=' + search + '*';
+    url += `?size=${size}`;
+    url += `&page=${page}`;
+    if (search) {
+        url += '&class=' + search;
+        if(search.slice(-1) != '*') url += '*';
+    }
 
     try {
         const response = await instance.get(url);
@@ -67,13 +70,13 @@ export const getObject = async (id) => {
     }
 };
 
-export const getObjectPermissions = async (id, page, size, search) => await permissionsGetter.getList(id, page, size, search);
+export const getObjectPermissions = (id, page, size, search) => permissionsGetter.getList(id, page, size, search);
 
 export const patchObjectPermissions = async (id, item) => await permissionsPatcher.patchItem(id, item);
 
 export const patchObjectDefaultPermissions = async (id, grantorId, item) => await permissionsDefaultsPatcher.patchDefaultItem(id, grantorId, item);
 
-export const fetchObjclassDefaultList = async (oid, page, size, search) => {
+export const fetchObjclassDefaultList = async (objectId, page, size, search) => {
     const getName = (value) => {
         switch (value) {
             case 1:
@@ -86,7 +89,7 @@ export const fetchObjclassDefaultList = async (oid, page, size, search) => {
                 return '';
         }
     };
-    const response = await defaultAccessList.searchObjclassDefaultList(oid, page, size, search);
+    const response = await defaultAccessList.searchObjclassDefaultList(objectId, page, size, search);
     if (Array.isArray(response.items)) {
         const list = response.items.map((item) => ({
             grantee: item.grantee,
@@ -109,9 +112,9 @@ export const fetchObjclassDefaultList = async (oid, page, size, search) => {
                 },
             },
         }));
-        return {list: list, next: response.next};
+        return { list: list, next: response.next };
     }
     return [];
 };
 
-export const toggleObjclassDefaultMode = async (oid, grantorId, rule) => await defaultAccessList.toggleObjclassDefaultMode(oid, grantorId, rule);
+export const toggleObjclassDefaultMode = async (objectId, grantorId, rule) => await defaultAccessList.toggleObjclassDefaultMode(objectId, grantorId, rule);

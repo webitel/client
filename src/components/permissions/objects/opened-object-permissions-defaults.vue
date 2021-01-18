@@ -5,12 +5,11 @@
       @close="popupTriggerIf = false"
     ></role-popup>
 
-    <header ref="rbac" class="content-header">
+    <header class="content-header">
       <h3 class="content-title">
         {{ $t("objects.permissions.object.defaultList") }}
       </h3>
-      <div class="content-header__actions-wrap">
-        
+      <div class="content-header__actions-wrap">        
         <wt-icon-btn
           class="icon-action"
           icon="refresh"
@@ -35,13 +34,13 @@
         :grid-actions="false"
       >
         <template slot="grantor" slot-scope="{ item }">
-          <div>
+          <div v-if="item.grantor">
             {{ item.grantor.name }}
           </div>
         </template>
 
         <template slot="grantee" slot-scope="{ item }">
-          <div>
+          <div v-if="item.grantee">
             {{ item.grantee.name }}
           </div>
         </template>
@@ -51,13 +50,12 @@
             :value="item.perm.r"
             :options="dropdownOptionsList"
             :clearable='false'
-            allow-empty: false
             track-by="name"            
             @input="
               toggleDefaultMode({
                 mode: $event,
                 ruleName: 'r',
-                item: item,
+                item,
               })
             "
           ></wt-select>
@@ -73,7 +71,7 @@
               toggleDefaultMode({
                 mode: $event,
                 ruleName: 'w',
-                item: item,
+                item,
               })
             "
           ></wt-select>
@@ -89,7 +87,7 @@
               toggleDefaultMode({
                 mode: $event,
                 ruleName: 'd',
-                item: item,
+                item,
               })
             "
           ></wt-select>
@@ -122,8 +120,6 @@ export default {
   components: { rolePopup },
   data() {
     return {
-      headerTitle: "", // header title. retieves from object GET request
-      // [R]ecord-[b]ased [A]ccess [C]ontrol section (!)
       headers: [
         {
           value: "grantor",
