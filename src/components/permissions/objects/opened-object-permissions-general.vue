@@ -27,24 +27,24 @@
 
     <wt-loader v-show="!isLoaded"></wt-loader>
     <div class="table-wrapper" v-show="isLoaded">
-    <wt-table
+      <wt-table
         :headers="headers"
         :data="dataList"
         :selectable="false"
         :grid-actions="false"
       >
-      <template slot="grantee" slot-scope="{ item }">
-        <div>
-          {{ item.grantee.name }}
-        </div>
-      </template>
+        <template slot="grantee" slot-scope="{ item }">
+          <div>
+            {{ item.grantee.name }}
+          </div>
+        </template>
 
-      <template slot="create" slot-scope="{ item }">
-        <wt-select
+        <template slot="create" slot-scope="{ item }">
+          <wt-select
             :value="item.access.c"
             :options="dropdownOptionsList"
-            :clearable='false'
-            track-by="name"            
+            :clearable="false"
+            track-by="name"
             @input="
               patchItem({
                 mode: $event,
@@ -53,13 +53,13 @@
               })
             "
           ></wt-select>
-      </template>
+        </template>
 
-      <template slot="read" slot-scope="{ item }">
-        <wt-select
+        <template slot="read" slot-scope="{ item }">
+          <wt-select
             :value="item.access.r"
             :options="dropdownOptionsList"
-            :clearable='false'
+            :clearable="false"
             track-by="name"
             @input="
               patchItem({
@@ -69,13 +69,13 @@
               })
             "
           ></wt-select>
-      </template>
+        </template>
 
-      <template slot="edit" slot-scope="{ item }">
-        <wt-select
+        <template slot="edit" slot-scope="{ item }">
+          <wt-select
             :value="item.access.w"
             :options="dropdownOptionsList"
-            :clearable='false'
+            :clearable="false"
             track-by="name"
             @input="
               patchItem({
@@ -85,13 +85,13 @@
               })
             "
           ></wt-select>
-      </template>
+        </template>
 
-      <template slot="delete" slot-scope="{ item }">
-        <wt-select
+        <template slot="delete" slot-scope="{ item }">
+          <wt-select
             :value="item.access.d"
             :options="dropdownOptionsList"
-            :clearable='false'
+            :clearable="false"
             track-by="name"
             @input="
               patchItem({
@@ -101,9 +101,9 @@
               })
             "
           ></wt-select>
-      </template>
-    </wt-table>
-    <wt-pagination
+        </template>
+      </wt-table>
+      <wt-pagination
         :size="size"
         :next="isNextPage"
         :prev="page > 1"
@@ -113,7 +113,6 @@
         @input="setSize"
         @change="loadList"
       ></wt-pagination>
-    
     </div>
   </section>
 </template>
@@ -126,28 +125,24 @@ import editComponentMixin from "../../../mixins/editComponentMixin";
 // eslint-disable-next-line import/extensions
 import rolePopup from "./opened-object-permissions-role-popup";
 
-       export default {
-        name: 'opened-object-permissions-general',
-        mixins: [tableComponentMixin, editComponentMixin],
-        components: { rolePopup },
-        data() {
-            return {
-                // vuetable prop
-                fields: [
-                    { name: 'grantee', title: this.$t('objects.permissions.object.grantee') },
-                    { name: 'create', title: this.$t('objects.create') },
-                    { name: 'read', title: this.$t('objects.read') },
-                    { name: 'edit', title: this.$t('objects.edit') },
-                    { name: 'delete', title: this.$t('objects.delete') },
-                ],
-                headerTitle: '',
-            };
+export default {
+  name: "opened-object-permissions-general",
+  mixins: [tableComponentMixin, editComponentMixin],
+  components: { rolePopup },
+  data() {
+    return {
+      // vuetable prop
+      headers: [
+        {
+          value: "grantee",
+          text: this.$t("objects.permissions.object.grantee"),
         },
         { value: "create", text: this.$t("objects.create") },
         { value: "read", text: this.$t("objects.read") },
         { value: "edit", text: this.$t("objects.edit") },
         { value: "delete", text: this.$t("objects.delete") },
       ],
+
       dropdownOptionsList: [
         {
           name: "Forbidden",
