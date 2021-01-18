@@ -42,7 +42,7 @@
           <div>{{ item.ratio }}</div>
         </template>
 
-        <template slot="actions" slot-scope="{ item }">
+        <template slot="actions" slot-scope="{ item, index }">
           <wt-icon-btn
               class="table-action"
               icon="edit"
@@ -51,7 +51,7 @@
           <wt-icon-btn
               class="table-action"
               icon="bucket"
-              @click="removeItem(item.id)"
+              @click="removeItem(index)"
           ></wt-icon-btn>
         </template>
       </wt-table>
@@ -125,6 +125,11 @@ export default {
       this.popupTriggerIf = true;
     },
 
+    closePopup() {
+      this.popupTriggerIf = false;
+      this.resetItemState();
+    },
+
     ...mapActions('ccenter/queues', {
       addParentItem: 'ADD_ITEM',
     }),
@@ -138,6 +143,7 @@ export default {
       nextPage: 'NEXT_PAGE',
       prevPage: 'PREV_PAGE',
       removeItem: 'DELETE_ITEM',
+      resetItemState: 'RESET_ITEM_STATE',
     }),
   },
 };

@@ -119,6 +119,11 @@ export default {
       this.popupTriggerIf = true;
     },
 
+    closePopup() {
+      this.popupTriggerIf = false;
+      this.resetItemState();
+    },
+
     ...mapActions('ccenter/queues', {
       addParentItem: 'ADD_ITEM',
     }),
@@ -132,6 +137,7 @@ export default {
       nextPage: 'NEXT_PAGE',
       prevPage: 'PREV_PAGE',
       removeItem: 'DELETE_ITEM',
+      resetItemState: 'RESET_ITEM_STATE',
     }),
   },
 };

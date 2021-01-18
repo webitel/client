@@ -1,23 +1,16 @@
 import { DefaultNestedModule } from '../../defaults/DefaultNestedModule';
 import { getTokens, addToken, deleteToken } from '../../../../api/directory/users/users';
 
-const defaultState = () => {
-    return {
-        dataList: [],
-        size: '10',
-        search: '',
-        page: 1,
-        isNextPage: false,
-        itemId: 0,
-        itemInstance: {
-            token: '',
-            usage: '',
-        },
-    };
-};
+const defaultItemState = () => ({
+    itemId: 0,
+    itemInstance: {
+        token: '',
+        usage: '',
+    },
+});
 
 
-const defaultModule = new DefaultNestedModule(defaultState);
+const defaultModule = new DefaultNestedModule(null, defaultItemState);
 
 const state = {
     ...defaultModule.state,
@@ -26,6 +19,8 @@ const state = {
 const getters = {};
 
 const actions = {
+    ...defaultModule.actions,
+
     GET_LIST: async (context) => {
         return await getTokens(context.state.parentId, context.state.page, context.state.size, context.state.search);
     },
@@ -47,8 +42,6 @@ const actions = {
             throw err;
         }
     },
-
-    ...defaultModule.actions,
 
     LOAD_DATA_LIST: async (context) => {
         if (context.state.parentId) {

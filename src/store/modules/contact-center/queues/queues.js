@@ -39,28 +39,28 @@ const getters = {};
 const actions = {
   ...defaultModule.actions,
 
-  GET_LIST: async (context) => {
-    return await getQueuesList(context.state.page, context.state.size, context.state.search);
+  GET_LIST: (context) => {
+    return getQueuesList(context.state.page, context.state.size, context.state.search);
   },
 
-  GET_ITEM: async (context) => {
-    return await getQueue(context.state.itemId);
+  GET_ITEM: (context) => {
+    return getQueue(context.state.itemId);
   },
 
-  POST_ITEM: async (context) => {
-    return await addQueue(context.state.itemInstance);
+  POST_ITEM: (context) => {
+    return addQueue(context.state.itemInstance);
   },
 
-  PATCH_ITEM: async (context, { id, changes }) => {
-    return await patchQueue(id, changes);
+  PATCH_ITEM: (context, { id, changes }) => {
+    return patchQueue(id, changes);
   },
 
-  UPD_ITEM: async (context) => {
-    await updateQueue(context.state.itemId, context.state.itemInstance);
+  UPD_ITEM: (context) => {
+    return updateQueue(context.state.itemId, context.state.itemInstance);
   },
 
-  DELETE_ITEM: async (context, id) => {
-    await deleteQueue(id);
+  DELETE_ITEM: (context, id) => {
+    return deleteQueue(id);
   },
 
   LOAD_ITEM: async (context, type) => {
@@ -130,14 +130,13 @@ const actions = {
 
   RESET_ITEM_STATE: async (context) => {
     context.commit('RESET_ITEM_STATE');
-    context.dispatch('ccenter/queues/buckets/RESET_ITEM_STATE', {}, { root: true });
-    context.dispatch('ccenter/queues/resGroups/RESET_ITEM_STATE', {}, { root: true });
-    context.dispatch('ccenter/queues/members/RESET_ITEM_STATE', {}, { root: true });
+    context.dispatch('ccenter/queues/buckets/RESET_STATE', {}, { root: true });
+    context.dispatch('ccenter/queues/resGroups/RESET_STATE', {}, { root: true });
+    context.dispatch('ccenter/queues/members/RESET_STATE', {}, { root: true });
   },
 };
 
 const mutations = {
-
   SET_ITEM_PAYLOAD_PROPERTY: (state, { prop, value }) => {
     state.itemInstance.payload[prop] = value;
   },

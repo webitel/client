@@ -7,22 +7,15 @@ import {
 } from "../../../../api/contact-center/resourceGroups/resInGroup";
 import {DefaultNestedModule} from "../../defaults/DefaultNestedModule";
 
-const defaultState = () => {
-    return {
-        dataList: [],
-        size: '10',
-        search: '',
-        page: 1,
-        isNextPage: true,
-        itemId: 0,
-        itemInstance: {
-            resource: {}
-            },
-    }
-};
+const defaultItemState = () => ({
+    itemId: 0,
+    itemInstance: {
+        resource: {}
+    },
+});
 
 
-const defaultModule = new DefaultNestedModule(defaultState);
+const defaultModule = new DefaultNestedModule(null, defaultItemState);
 
 const state = {
     ...defaultModule.state,

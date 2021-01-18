@@ -146,7 +146,13 @@ export default {
       loadItem: 'LOAD_ITEM',
       addItem: 'ADD_ITEM',
       updateItem: 'UPDATE_ITEM',
+      resetState: 'RESET_ITEM_STATE',
     }),
+
+    close() {
+      this.resetState();
+      this.$router.go(-1);
+    },
   },
 };
 </script>

@@ -1,26 +1,16 @@
 <template>
   <wt-page-wrapper :actions-panel="false">
     <template slot="header">
-      <wt-headline>
-        <template slot="title">
-          {{ $t('objects.ccenter.queues.taskQueue') }} |
-          {{ computeTitle }}
-        </template>
-        <template slot="actions">
-          <wt-button
-            :disabled="computeDisabled"
-            @click="save"
-          >
-            {{ computePrimaryText || $t('objects.addNew') }}
-          </wt-button>
-          <wt-button
-            color="secondary"
-            @click="close"
-          >
-            {{ $t('objects.close') }}
-          </wt-button>
-        </template>
-      </wt-headline>
+      <object-header
+        :primaryText="computePrimaryText"
+        :primaryAction="save"
+        :primaryDisabled="computeDisabled"
+        close
+        @close="resetState"
+      >
+        {{ $t('objects.ccenter.queues.taskQueue') }} |
+        {{ computeTitle }}
+      </object-header>
     </template>
     <template slot="main">
       <div class="tabs-page-wrapper">
@@ -126,6 +116,7 @@ export default {
       loadItem: 'LOAD_ITEM',
       addItem: 'ADD_ITEM',
       updateItem: 'UPDATE_ITEM',
+      resetState: 'RESET_ITEM_STATE',
     }),
   },
 };
