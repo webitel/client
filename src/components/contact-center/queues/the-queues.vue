@@ -68,18 +68,25 @@
               ></wt-switcher>
             </template>
             <template slot="actions" slot-scope="{ item, index }">
-              <i class="vuetable-action icon-icon_nav-directory"
-                 :title="$t('iconHints.members')"
-                 @click="openMembers(item)"
-              ></i>
+              <wt-icon-btn
+                class="table-action"
+                icon="queue-member"
+                :tooltip="$t('iconHints.members')"
+                tooltip-position="left"
+                @click="openMembers(item)"
+              ></wt-icon-btn>
               <wt-icon-btn
                 class="table-action"
                 icon="edit"
+                :tooltip="$t('iconHints.edit')"
+                tooltip-position="left"
                 @click="edit(item)"
               ></wt-icon-btn>
               <wt-icon-btn
                 class="table-action"
                 icon="bucket"
+                :tooltip="$t('iconHints.delete')"
+                tooltip-position="left"
                 @click="remove(index)"
               ></wt-icon-btn>
             </template>
