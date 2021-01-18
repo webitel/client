@@ -1,20 +1,14 @@
 <template>
   <wt-page-wrapper class="members" :actions-panel="false">
     <template slot="header">
-      <wt-headline>
-        <template slot="title">
-          {{ $tc('objects.ccenter.queues.queues', 1) }} |
-          {{ $tc('objects.ccenter.members.members', 2) }}
-        </template>
-        <template slot="actions">
-          <wt-button @click="create" v-if="isNotInboundMember">
-            {{ $t('objects.add') }}
-          </wt-button>
-          <wt-button color="secondary" @click="close">
-            {{ $t('objects.close') }}
-          </wt-button>
-        </template>
-      </wt-headline>
+      <object-header
+          :hide-primary="!isNotInboundMember"
+          :primary-action="create"
+          :secondary-action="close"
+      >
+        {{ $tc('objects.ccenter.queues.queues', 1) }} |
+        {{ $tc('objects.ccenter.members.members', 2) }}
+      </object-header>
     </template>
     <template slot="main">
       <destinations-popup
@@ -33,14 +27,14 @@
         <header class="content-header">
           <h3 class="content-title">{{ $t('objects.ccenter.members.allMembers') }}</h3>
           <div class="content-header__actions-wrap">
-<!--            TODO: NO API -->
-<!--            <wt-search-bar-->
-<!--                :value="search"-->
-<!--                debounce-->
-<!--                @input="setSearch"-->
-<!--                @search="loadList"-->
-<!--                @enter="loadList"-->
-<!--            ></wt-search-bar>-->
+            <!--            TODO: NO API -->
+            <!--            <wt-search-bar-->
+            <!--                :value="search"-->
+            <!--                debounce-->
+            <!--                @input="setSearch"-->
+            <!--                @search="loadList"-->
+            <!--                @enter="loadList"-->
+            <!--            ></wt-search-bar>-->
             <wt-icon-btn
                 class="icon-action"
                 :class="{'hidden': anySelected}"

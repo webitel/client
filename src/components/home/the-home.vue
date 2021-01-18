@@ -1,6 +1,6 @@
 <template>
     <div class="content-wrap">
-        <object-header hide-primary-action>
+        <object-header hide-primary>
             {{$t('home.dashboard')}}
         </object-header>
 

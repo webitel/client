@@ -1,20 +1,15 @@
 <template>
   <wt-page-wrapper :actions-panel="false">
     <template slot="header">
-      <wt-headline>
-        <template slot="title">
-          {{ $tc('objects.directory.users.users', 1) }} |
-          {{ computeTitle }}
-        </template>
-        <template slot="actions">
-          <wt-button :disabled="computeDisabled" @click="save">
-            {{ computePrimaryText || $t('objects.addNew') }}
-          </wt-button>
-          <wt-button color="secondary" @click="close">
-            {{ $t('objects.close') }}
-          </wt-button>
-        </template>
-      </wt-headline>
+      <object-header
+          :primary-action="save"
+          :primary-text="computePrimaryText"
+          :primary-disabled="computeDisabled"
+          :secondary-action="close"
+      >
+        {{ $tc('objects.directory.devices.devices', 1) }}
+        | {{ computeTitle }}
+      </object-header>
     </template>
 
     <template slot="main">

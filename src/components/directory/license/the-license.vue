@@ -1,17 +1,10 @@
 <template>
   <wt-page-wrapper class="license" :actions-panel="false">
     <template slot="header">
-      <wt-headline>
-        <template slot="title">
-          {{ $t('objects.directory.directory') }} |
-          {{ $t('objects.directory.license.license') }}
-        </template>
-        <template slot="actions">
-          <wt-button color="secondary" @click="$router.go(-1)">
-            {{ $t('objects.close') }}
-          </wt-button>
-        </template>
-      </wt-headline>
+      <object-header :hide-primary="true">
+        {{ $t('objects.directory.directory') }} |
+        {{ $t('objects.directory.license.license') }}
+      </object-header>
     </template>
     <template slot="main">
       <license-popup

@@ -1,8 +1,6 @@
 <template>
     <div>
-        <object-header
-                hide-primary-action
-        >
+        <object-header hide-primary>
             {{$t('objects.permissions.permissions')}} |
             {{$t('objects.permissions.object.object')}}
         </object-header>
