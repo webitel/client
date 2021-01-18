@@ -3,6 +3,7 @@
     <token-popup
         v-if="isPopup"
         @close="closeTokenPopup"
+        @token-created="openTokenCreatedPopup"
     ></token-popup>
 
     <token-created-popup
@@ -130,13 +131,17 @@ export default {
 
     closeTokenPopup() {
       this.isPopup = false;
-      if (this.$store.state.directory.users.tokens.itemInstance.token !== '') {
-        this.isTokenGenerated = true;
-      }
+      this.resetItemState();
+    },
+
+    openTokenCreatedPopup() {
+      this.isPopup = false;
+      this.isTokenGenerated = true;
     },
 
     closeTokenCreatedPopup() {
       this.isTokenGenerated = false;
+      this.resetItemState();
     },
 
     prettifyDate(value) {
@@ -155,6 +160,7 @@ export default {
       nextPage: 'NEXT_PAGE',
       prevPage: 'PREV_PAGE',
       removeItem: 'REMOVE_ITEM',
+      resetItemState: 'RESET_ITEM_STATE',
     }),
   },
 };

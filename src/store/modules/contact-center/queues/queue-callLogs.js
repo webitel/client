@@ -1,18 +1,13 @@
-import {DefaultNestedModule} from "../../defaults/DefaultNestedModule";
-import {getQueueCallLogList} from "../../../../api/contact-center/queues/queueLog";
+import { DefaultNestedModule } from "../../defaults/DefaultNestedModule";
+import { getQueueCallLogList } from "../../../../api/contact-center/queues/queueLog";
 
-const defaultState = () => {
-    return {
-        dataList: [],
-        size: '10',
-        page: 1,
-        sortOrder: '+joined_at',
-        isNextPage: true,
-        itemId: 0,
-        itemInstance: {
-        },
-    };
-};
+const defaultState = () => ({
+    dataList: [],
+    size: '10',
+    page: 1,
+    sortOrder: '+joined_at',
+    isNextPage: true,
+});
 
 const defaultModule = new DefaultNestedModule(defaultState);
 
@@ -23,8 +18,8 @@ const state = {
 const getters = {};
 
 const actions = {
-    GET_LIST: async () => {
-        return await getQueueCallLogList(state.parentId, state.page, state.size, state.sortOrder);
+    GET_LIST: (context) => {
+        return getQueueCallLogList(context.state.parentId, context.state.page, context.state.size, context.state.sortOrder);
     },
 
     SET_SORT: async (context, value) => {

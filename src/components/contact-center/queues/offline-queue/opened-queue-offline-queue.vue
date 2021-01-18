@@ -5,6 +5,7 @@
                 :primaryAction="save"
                 :primaryDisabled="computeDisabled"
                 close
+                @close="resetState"
         >
             {{$t('objects.ccenter.queues.offlineQueue')}} | {{computeTitle}}
         </object-header>
@@ -121,7 +122,8 @@
                 loadItem: 'LOAD_ITEM',
                 addItem: 'ADD_ITEM',
                 updateItem: 'UPDATE_ITEM',
-            }),
+                resetState: 'RESET_ITEM_STATE',
+              }),
         },
     };
 </script>

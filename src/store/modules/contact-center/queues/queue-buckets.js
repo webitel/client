@@ -2,24 +2,17 @@ import {
     addQueueBucket, deleteQueueBucket,
     getQueueBucket, getQueueBucketsList, updateQueueBucket
 } from "../../../../api/contact-center/queues/queueBuckets";
-import {DefaultNestedModule} from "../../defaults/DefaultNestedModule";
+import { DefaultNestedModule } from "../../defaults/DefaultNestedModule";
 
-const defaultState = () => {
-    return {
-        dataList: [],
-        size: '10',
-        search: '',
-        page: 1,
-        isNextPage: false,
-        itemId: 0,
-        itemInstance: {
-            bucket: '',
-            ratio: 0,
+const defaultItemState = () => ({
+    itemId: 0,
+    itemInstance: {
+        bucket: '',
+        ratio: 0,
         },
-    };
-};
+});
 
-const defaultModule = new DefaultNestedModule(defaultState);
+const defaultModule = new DefaultNestedModule(null, defaultItemState);
 
 const state = {
     ...defaultModule.state,
@@ -28,24 +21,24 @@ const state = {
 const getters = {};
 
 const actions = {
-    GET_LIST: async () => {
-        return await getQueueBucketsList(state.parentId, state.page, state.size, state.search);
+    GET_LIST: (context) => {
+        return getQueueBucketsList(context.state.parentId, context.state.page, context.state.size, context.state.search);
     },
 
-    GET_ITEM: async () => {
-        return await getQueueBucket(state.parentId, state.itemId);
+    GET_ITEM: (context) => {
+        return getQueueBucket(context.state.parentId, context.state.itemId);
     },
 
-    POST_ITEM: async () => {
-        return await addQueueBucket(state.parentId, state.itemInstance);
+    POST_ITEM: (context) => {
+        return addQueueBucket(context.state.parentId, context.state.itemInstance);
     },
 
-    UPD_ITEM: async () => {
-        await updateQueueBucket(state.parentId, state.itemId, state.itemInstance);
+    UPD_ITEM: (context) => {
+        return updateQueueBucket(context.state.parentId, context.state.itemId, context.state.itemInstance);
     },
 
     DELETE_ITEM: async (context, id) => {
-        await deleteQueueBucket(state.parentId, id);
+        await deleteQueueBucket(context.state.parentId, id);
         await context.dispatch('LOAD_DATA_LIST');
     },
 

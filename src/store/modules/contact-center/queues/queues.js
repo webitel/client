@@ -225,32 +225,32 @@ const getters = {};
 const actions = {
     ...defaultModule.actions,
 
-    GET_LIST: async () => {
-        return await getQueuesList(state.page, state.size, state.search);
+    GET_LIST: (context) => {
+        return getQueuesList(context.state.page, context.state.size, context.state.search);
     },
 
-    GET_ITEM: async () => {
-        return await getQueue(state.itemId);
+    GET_ITEM: (context) => {
+        return getQueue(context.state.itemId);
     },
 
-    POST_ITEM: async () => {
-        return await addQueue(state.itemInstance);
+    POST_ITEM: (context) => {
+        return addQueue(context.state.itemInstance);
     },
 
-    PATCH_ITEM: async (context, {id, changes}) => {
-        return await patchQueue(id, changes);
+    PATCH_ITEM: (context, { id, changes }) => {
+        return patchQueue(id, changes);
     },
 
-    UPD_ITEM: async () => {
-        await updateQueue(state.itemId, state.itemInstance);
+    UPD_ITEM: (context) => {
+        return updateQueue(context.state.itemId, context.state.itemInstance);
     },
 
-    DELETE_ITEM: async (context, id) => {
-        await deleteQueue(id);
+    DELETE_ITEM: (context, id) => {
+        return deleteQueue(id);
     },
 
     LOAD_ITEM: async (context, type) => {
-        if (state.itemId) {
+        if (context.state.itemId) {
             const item = await context.dispatch('GET_ITEM');
             context.dispatch('SET_TYPED_ITEM', {type: type, item: proxy(item)});
         } else {
@@ -335,9 +335,9 @@ const actions = {
 
     RESET_ITEM_STATE: async (context) => {
         context.commit('RESET_ITEM_STATE');
-        context.dispatch('ccenter/queues/buckets/RESET_ITEM_STATE', {}, {root: true});
-        context.dispatch('ccenter/queues/resGroups/RESET_ITEM_STATE', {}, {root: true});
-        context.dispatch('ccenter/queues/members/RESET_ITEM_STATE', {}, {root: true});
+        context.dispatch('ccenter/queues/buckets/RESET_STATE', {}, {root: true});
+        context.dispatch('ccenter/queues/resGroups/RESET_STATE', {}, {root: true});
+        context.dispatch('ccenter/queues/members/RESET_STATE', {}, {root: true});
     },
 };
 

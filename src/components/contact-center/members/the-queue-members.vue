@@ -10,7 +10,7 @@
           <wt-button @click="create" v-if="isNotInboundMember">
             {{ $t('objects.add') }}
           </wt-button>
-          <wt-button color="secondary" @click="$router.go(-1)">
+          <wt-button color="secondary" @click="close">
             {{ $t('objects.close') }}
           </wt-button>
         </template>
@@ -261,6 +261,11 @@ export default {
       this.loadList();
     },
 
+    close() {
+      this.resetState();
+      this.$router.go(-1);
+    },
+
     ...mapActions('ccenter/queues/members', {
       setDestinationId: 'SET_DESTINATION_ID',
       setParentId: 'SET_PARENT_ITEM_ID',
@@ -273,6 +278,7 @@ export default {
       prevPage: 'PREV_PAGE',
       removeItem: 'REMOVE_ITEM',
       removeItems: 'REMOVE_ITEMS',
+      resetState: 'RESET_STATE',
     }),
 
   },

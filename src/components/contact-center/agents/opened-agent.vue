@@ -5,6 +5,7 @@
                 :primaryAction="save"
                 :primaryDisabled="computeDisabled"
                 close
+                @close="resetState"
         >
             {{$tc('objects.ccenter.agents.agents', 1)}} |
             {{computeTitle}}
@@ -107,6 +108,7 @@
                 loadItem: 'LOAD_ITEM',
                 addItem: 'ADD_ITEM',
                 updateItem: 'UPDATE_ITEM',
+                resetState: 'RESET_ITEM_STATE',
             }),
         },
     };
