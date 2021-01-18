@@ -1,17 +1,10 @@
 <template>
   <wt-page-wrapper class="users" :actions-panel="false">
     <template slot="header">
-      <wt-headline>
-        <template slot="title">
-          {{ $t('objects.directory.directory') }} |
-          {{ $tc('objects.directory.users.users', 2) }}
-        </template>
-        <template slot="actions">
-          <wt-button @click="create">
-            {{ $t('objects.add') }}
-          </wt-button>
-        </template>
-      </wt-headline>
+      <object-header :primary-action="create">
+        {{ $t('objects.directory.directory') }} |
+        {{ $tc('objects.directory.users.users', 2) }}
+      </object-header>
     </template>
     <template slot="main">
       <upload-popup

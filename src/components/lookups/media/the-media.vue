@@ -1,8 +1,6 @@
 <template>
     <div class="content-wrap">
-        <object-header
-                hide-primary-action
-        >
+        <object-header hide-primary>
             {{$t('objects.lookups.lookups')}} |
             {{$tc('objects.lookups.media.mediaFiles', 2)}}
         </object-header>

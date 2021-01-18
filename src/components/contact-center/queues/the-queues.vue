@@ -1,17 +1,10 @@
 <template>
   <wt-page-wrapper class="queues" :actions-panel="false">
     <template slot="header">
-      <wt-headline>
-        <template slot="title">
-          {{ $t('objects.ccenter.ccenter') }} |
-          {{ $tc('objects.ccenter.queues.queues', 2) }}
-        </template>
-        <template slot="actions">
-          <wt-button @click="create">
-            {{ $t('objects.add') }}
-          </wt-button>
-        </template>
-      </wt-headline>
+      <object-header :primary-action="create">
+        {{ $t('objects.ccenter.ccenter') }} |
+        {{ $tc('objects.ccenter.queues.queues', 2) }}
+      </object-header>
     </template>
     <template slot="main">
       <queue-popup

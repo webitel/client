@@ -1,26 +1,15 @@
 <template>
   <wt-page-wrapper :actions-panel="currentTab.actionsPanel">
     <template slot="header">
-      <wt-headline>
-        <template slot="title">
-          {{ $t('objects.ccenter.queues.outboundIVRQueue') }} |
-          {{ computeTitle }}
-        </template>
-        <template slot="actions">
-          <wt-button
-            :disabled="computeDisabled"
-            @click="save"
-          >
-            {{ computePrimaryText || $t('objects.addNew') }}
-          </wt-button>
-          <wt-button
-              color="secondary"
-              @click="close"
-          >
-            {{ $t('objects.close') }}
-          </wt-button>
-        </template>
-      </wt-headline>
+      <object-header
+          :primary-action="save"
+          :primary-text="computePrimaryText"
+          :primary-disabled="computeDisabled"
+          :secondary-action="close"
+      >
+        {{ $t('objects.ccenter.queues.outboundIVRQueue') }} |
+        {{ computeTitle }}
+      </object-header>
     </template>
 
     <template slot="main">

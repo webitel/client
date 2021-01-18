@@ -36,7 +36,7 @@
         name: 'table-pagination',
         props: {
             value: {
-                type: String,
+                // type: String,
                 required: true,
             },
             isNext: {

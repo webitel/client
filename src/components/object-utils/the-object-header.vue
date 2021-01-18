@@ -1,40 +1,35 @@
 <template>
-  <header class="object-header">
-    <div class="object-header__title-wrap">
-      <h2 class="object-title">
-        <slot></slot>
-      </h2>
-    </div>
-
-    <div class="btn-controls">
-      <btn
-          class="btn secondary-btn"
-          v-if="close"
-          @click.native="back"
+  <wt-headline>
+    <template slot="title">
+      <slot></slot>
+    </template>
+    <template slot="actions">
+      <wt-button
+          v-if="!hidePrimary"
+          :disabled="primaryDisabled"
+          @click="primaryAction"
+      >
+        {{ primaryText || $t('objects.add') }}
+      </wt-button>
+      <wt-button
+          v-if="!hideSecondary"
+          color="secondary"
+          @click="secondaryActionHelper"
       >
         {{ secondaryText || $t('objects.close') }}
-      </btn>
-      <btn
-          class="btn primary-btn"
-          v-if="!hidePrimaryAction"
-          :disabled="primaryDisabled"
-          @click.native="primaryAction"
-      >
-        {{ primaryText || $t('objects.addNew') }}
-      </btn>
-    </div>
-  </header>
+      </wt-button>
+    </template>
+  </wt-headline>
 </template>
 
 <script>
-import btn from '../utils/btn';
-
 export default {
-  name: 'page-header',
-  components: {
-    btn,
-  },
+  name: 'the-object-header',
   props: {
+    hidePrimary: {
+      type: Boolean,
+      default: false,
+    },
     primaryText: {
       type: String,
     },
@@ -48,13 +43,22 @@ export default {
     secondaryText: {
       type: String,
     },
+    secondaryAction: {
+      type: Function,
+    },
     close: {
       type: Boolean,
       default: false,
     },
-    hidePrimaryAction: {
-      type: Boolean,
-      default: false,
+  },
+
+  computed: {
+    // FIXME: REPLACE "CLOSE" WITH SECONDARY_ACTION AND DELETE AFTER REFACTOR
+    secondaryActionHelper() {
+      return this.secondaryAction ? this.secondaryAction : this.back;
+    },
+    hideSecondary() {
+      return !(this.close || this.secondaryAction || this.secondaryText);
     },
   },
 
@@ -68,30 +72,14 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.object-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  min-height: 68px;
-  padding: 15px 30px;
-  margin-bottom: 20px;
 
-  background: #fff;
-  border-radius: $border-radius;
-}
+.wt-headline {
+  .wt-button {
+    margin-left: 20px;
 
-.object-header__title-wrap {
-  display: flex;
-}
-
-.object-title {
-  @extend .typo-heading-lg;
-
-  margin: 0;
-  letter-spacing: 0.15px;
-
-  span {
-    @extend .typo-heading-lg;
+    &:first-child {
+      margin-left: 0;
+    }
   }
 }
 </style>
