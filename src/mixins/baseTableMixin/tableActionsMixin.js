@@ -1,3 +1,6 @@
+/**
+ * @fileOverview wt-table-actions extension mixin with default behavior, extended by baseTableMixin
+ */
 export default {
     methods: {
       tableActionsHandler(eventName) {
