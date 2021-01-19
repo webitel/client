@@ -1,88 +1,67 @@
 <template>
-    <section>
-        <header class="content-header">
-            <h3 class="content-title">{{$t('objects.generalInfo')}}</h3>
-        </header>
-        <form class="object-input-grid">
-            <form-input
-                    v-model.trim="name"
-                    :v="v.itemInstance.name"
-                    :label="$t('objects.name')"
-                    required
-            ></form-input>
-
-            <dropdown-select
-                    v-model="strategy"
-                    :v="v.itemInstance.strategy"
-                    :options="dropdownOptionsStrategyList"
-                    :label="$t('objects.ccenter.teams.strategy')"
-                    required
-            ></dropdown-select>
-
-            <form-input
-                    v-model.trim="description"
-                    :label="$t('objects.description')"
-                    textarea
-            ></form-input>
-        </form>
-    </section>
+  <section>
+    <header class="content-header">
+      <h3 class="content-title">{{ $t('objects.generalInfo') }}</h3>
+    </header>
+    <form class="object-input-grid">
+      <wt-input
+        :value="name"
+        :v="v.itemInstance.name"
+        :label="$t('objects.name')"
+        required
+        @input="setItemProp({ prop: 'name', value: $event })"
+      ></wt-input>
+      <wt-select
+        v-model="strategy"
+        :v="v.itemInstance.strategy"
+        :label="$t('objects.ccenter.teams.strategy')"
+        :options="strategyOptions"
+        :clearable="false"
+        track-by="value"
+        required
+      ></wt-select>
+      <wt-textarea
+        :value="description"
+        :label="$t('objects.description')"
+        @input="setItemProp({ prop: 'description', value: $event })"
+      ></wt-textarea>
+    </form>
+  </section>
 </template>
 
 <script>
-    import openedTabComponentMixin from '@/mixins/openedTabComponentMixin';
-    import { mapActions } from 'vuex';
+import { mapState } from 'vuex';
+import { kebabToCamel } from '@webitel/ui-sdk/src/scripts/caseConverters';
+import TeamStrategy from '../../../store/modules/contact-center/teams/_internals/enums/TeamStrategy.enum';
+import openedTabComponentMixin from '../../../mixins/openedTabComponentMixin';
 
-    export default {
-        name: 'opened-team-general',
-        mixins: [openedTabComponentMixin],
-        data() {
-            return {
-                dropdownOptionsStrategyList: [
-                    { name: 'Random', value: 'random' },
-                    // {name: '', value: 'sequentially-by-agent-level'},
-                    { name: 'Agent with fewest calls', value: 'fewest-calls' },
-                    { name: 'Agent with least talk time', value: 'least-talk-time' },
-                    { name: 'Top-Down', value: 'top-down' },
-                    { name: 'Round robbin', value: 'round-robin' },
-                    { name: 'Longest idle Agent', value: 'longest-idle-time' },
-                ],
-            };
-        },
+export default {
+  name: 'opened-team-general',
+  mixins: [openedTabComponentMixin],
 
-        computed: {
-            name: {
-                get() { return this.$store.state.ccenter.teams.itemInstance.name; },
-                set(value) { this.setItemProp({ prop: 'name', value }); },
-            },
-            strategy: {
-                get() { return this.$store.state.ccenter.teams.itemInstance.strategy; },
-                set(value) { this.setItemProp({ prop: 'strategy', value }); },
-            },
-            description: {
-                get() { return this.$store.state.ccenter.teams.itemInstance.description; },
-                set(value) { this.setItemProp({ prop: 'description', value }); },
-            },
-        },
-
-        methods: {
-            ...mapActions('ccenter/teams', {
-                setItemProp: 'SET_ITEM_PROPERTY',
-            }),
-        },
-    };
+  computed: {
+    ...mapState('ccenter/teams', {
+      name: (state) => state.itemInstance.name,
+      strategyValue: (state) => state.itemInstance.strategy,
+      description: (state) => state.itemInstance.description,
+    }),
+    strategy: {
+      get() {
+        return this.strategyOptions.find((strategy) => strategy.value === this.strategyValue);
+      },
+      set(value) {
+        this.setItemProp({ prop: 'strategy', value: value.value });
+      },
+    },
+    strategyOptions() {
+      return Object.values(TeamStrategy).map((strategy) => ({
+        name: this.$t(`objects.ccenter.teams.strategies.${kebabToCamel(strategy)}`),
+        value: strategy,
+      }));
+    },
+  },
+};
 </script>
 
 <style lang="scss" scoped>
-    .switcher-label-wrap {
-        margin: 0 0 28px;
-
-        .switcher {
-            margin-top: 7px;
-        }
-    }
-
-    .teams__time-wrap {
-        display: flex;
-        align-items: center;
-    }
 </style>

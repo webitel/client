@@ -471,6 +471,17 @@ export default {
                 wrapUpTime: 'Wrap up time',
                 noAnswerDelayTime: 'No answer delay time',
                 postProcessing: 'Waiting for call result',
+                minCapacity: 'Min capacity',
+                maxCapacity: 'Max capacity',
+                strategies: {
+                    random: 'Random',
+                    fewestCalls: 'Agent with fewest calls',
+                    leastTalkTime: 'Agent with least talk time',
+                    topDown: 'Top down',
+                    roundRobin: 'Round robin',
+                    roundRobinBucket: 'Round robin bucket',
+                    longestIdleAgent: 'Agent with longest idle time',
+                },
             },
 
             members: {

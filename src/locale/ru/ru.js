@@ -466,6 +466,17 @@ export default {
                 callTimeout: 'Длительность вызова',
                 wrapUpTime: 'Длительность паузы между звонками',
                 noAnswerDelayTime: 'Время ожидания при отсутствии ответа оператора',
+                minCapacity: 'Минимальная ёмкость',
+                maxCapacity: 'Максимальная ёмкость',
+                strategies: {
+                    random: 'Случайно',
+                    fewestCalls: 'Агент с найменьшим количеством звонков',
+                    leastTalkTime: 'Агент с найменьшим временем разговора',
+                    topDown: 'Сверху вниз',
+                    roundRobin: 'По порядку',
+                    roundRobinBucket: 'По порядку корзины',
+                    longestIdleAgent: 'Агент с найбольшим временем простоя',
+                },
             },
 
             members: {

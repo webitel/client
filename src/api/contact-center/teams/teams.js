@@ -15,23 +15,15 @@ const BASE_URL = '/call_center/teams';
 const fieldsToSend = ['domainId', 'name', 'description', 'strategy', 'maxNoAnswer', 'wrapUpTime',
      'noAnswerDelayTime', 'callTimeout', 'postProcessing'];
 
-export const strategiesList = {
-    random: 'Random',
-    'fewest-calls': 'Agent with fewest calls',
-    'least-talk-time': 'Agent with least talk time',
-    'top-down': 'Top-Down',
-    'round-robin': 'Round robbin',
-    'longest-idle-time': 'Longest idle Agent',
-};
 
 const preRequestHandler = (item) => {
-    item.busyDelayTime = +item.busyDelayTime;
-    item.wrapUpTime = +item.wrapUpTime;
-    item.callTimeout = +item.callTimeout;
-    item.maxNoAnswer = +item.maxNoAnswer;
-    item.rejectDelayTime = +item.rejectDelayTime;
-    item.noAnswerDelayTime = +item.noAnswerDelayTime;
-    item.strategy = item.strategy.value;
+    // item.busyDelayTime = +item.busyDelayTime;
+    // item.wrapUpTime = +item.wrapUpTime;
+    // item.callTimeout = +item.callTimeout;
+    // item.maxNoAnswer = +item.maxNoAnswer;
+    // item.rejectDelayTime = +item.rejectDelayTime;
+    // item.noAnswerDelayTime = +item.noAnswerDelayTime;
+    // item.strategy = item.strategy.value;
     return item;
 };
 
@@ -55,26 +47,26 @@ itemGetter.responseHandler = (response) => {
         wrapUpTime: 0,
     };
     try {
-        response.strategy = {
-            name: strategiesList[response.strategy],
-            value: response.strategy,
-        };
         return { ...defaultItemObject, ...response };
     } catch (err) {
         throw err;
     }
 };
 
-export const getTeamsList = async (page = 0, size = 10, search) => await listGetter.getList({ page, size, search });
+export const getTeamsList = (page = 1, size = 10, search) => (
+  listGetter.getList({ page, size, search })
+);
 
-export const getTeam = async (id) => await itemGetter.getItem(id);
+export const getTeam = (id) => itemGetter.getItem(id);
 
-export const addTeam = async (item) => await itemCreator.createItem(item);
+export const addTeam = (item) => itemCreator.createItem(item);
 
-export const updateTeam = async (id, item) => await itemUpdater.updateItem(id, item);
+export const updateTeam = (id, item) => itemUpdater.updateItem(id, item);
 
-export const deleteTeam = async (id) => await itemDeleter.deleteItem(id);
+export const deleteTeam = (id) => itemDeleter.deleteItem(id);
 
-export const getTeamPermissions = async (id, page = 0, size = 10, search) => await permissionsGetter.getList(id, size, search);
+export const getTeamPermissions = (id, page = 1, size = 10, search) => (
+  permissionsGetter.getList(id, size, search)
+);
 
-export const patchTeamPermissions = async (id, item) => await permissionsPatcher.patchItem(id, item);
+export const patchTeamPermissions = (id, item) => permissionsPatcher.patchItem(id, item);
