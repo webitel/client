@@ -14,6 +14,7 @@ export const getAgentSkillsList = async (agentId, page = 0, size = 10, search) =
     const { domainId } = store.state.userinfo;
     if (search && search.slice(-1) !== '*') search += '*';
     const defaultObject = {
+        capacity: 0,
         _isSelected: false,
     };
 
@@ -25,7 +26,7 @@ export const getAgentSkillsList = async (agentId, page = 0, size = 10, search) =
                 isNext: response.next || false,
             };
         }
-        return [];
+        return { list: [] };
     } catch (err) {
         throw err;
     }

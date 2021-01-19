@@ -100,16 +100,22 @@
               <wt-icon-btn
                   class="table-action"
                   icon="history"
+                  :tooltip="$t('iconHints.history')"
+                  tooltip-position="left"
                   @click="openHistory(item.id)"
               ></wt-icon-btn>
               <wt-icon-btn
                   class="table-action"
                   icon="edit"
+                  :tooltip="$t('iconHints.edit')"
+                  tooltip-position="left"
                   @click="edit(item)"
               ></wt-icon-btn>
               <wt-icon-btn
                   class="table-action"
                   icon="bucket"
+                  :tooltip="$t('iconHints.delete')"
+                  tooltip-position="left"
                   @click="remove(index)"
               ></wt-icon-btn>
             </template>
@@ -136,7 +142,7 @@ import HistoryPopup from './device-history-popup.vue';
 import UploadPopup from './upload-devices-popup.vue';
 import DevicePopup from './create-device-popup.vue';
 import tableComponentMixin from '../../../mixins/tableComponentMixin';
-import tableActionsHandlerMixin from '../../../mixins/tableActionsMixin';
+import tableActionsHandlerMixin from '../../../mixins/baseTableMixin/tableActionsMixin';
 
 export default {
   name: 'the-devices',
