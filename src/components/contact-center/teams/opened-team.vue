@@ -1,144 +1,106 @@
 <template>
-    <div>
-        <object-header
-                :primaryText="computePrimaryText"
-                :primaryAction="save"
-                :primaryDisabled="computeDisabled"
-                close
-                @close="resetState"
+  <wt-page-wrapper :actions-panel="false">
+    <template slot="header">
+    <object-header
+      :primary-action="save"
+      :primary-disabled="computeDisabled"
+      :primary-text="computePrimaryText"
+      :secondary-action="close"
+    >
+      {{ $tc('objects.ccenter.teams.teams', 1) }} |
+      {{ computeTitle }}
+    </object-header>
+    </template>
+    <template slot="main">
+      <div class="main-container">
+        <wt-tabs
+          v-model="currentTab"
+          :tabs="tabs"
         >
-            {{$tc('objects.ccenter.teams.teams', 1)}} |
-            {{computeTitle}}
-        </object-header>
-        <tabs-component
-                :tabs="tabs"
-                :root="$options.name"
-        >
-            <template slot="component" slot-scope="props">
-                <component
-                        class="tabs-inner-component"
-                        :is="props.currentTab"
-                        :v="$v"
-                ></component>
-            </template>
-        </tabs-component>
-    </div>
+        </wt-tabs>
+        <component
+          :is="`${$options.name}-${currentTab.value}`"
+          :v="$v"
+          :namespace="namespace"
+        ></component>
+      </div>
+    </template>
+  </wt-page-wrapper>
 </template>
 
 <script>
-    import editComponentMixin from '@/mixins/editComponentMixin';
-    import { required, numeric } from 'vuelidate/lib/validators';
-    import { mapActions, mapState } from 'vuex';
-    import openedTeamGeneral from './opened-team-general';
-    import openedTeamSupervisors from './opened-team-supervisors';
-    import openedTeamAgents from './opened-team-agents';
-    import openedTeamSkills from './opened-team-skills';
-    import openedTeamTiming from './opened-team-timing';
-    import openedTeamPermissions from './opened-team-permissions';
+import { numeric, required } from 'vuelidate/lib/validators';
+import { mapState } from 'vuex';
+import OpenedTeamGeneral from './opened-team-general.vue';
+import OpenedTeamSupervisors from './opened-team-supervisors.vue';
+import OpenedTeamAgents from './opened-team-agents.vue';
+import OpenedTeamSkills from './opened-team-skills.vue';
+import OpenedTeamTiming from './opened-team-timing.vue';
+import OpenedTeamPermissions from './opened-team-permissions.vue';
+import openedObjectMixin from '../../../mixins/openedObjectMixin/openedObjectMixin';
 
-    export default {
-        name: 'opened-team',
-        components: {
-            openedTeamGeneral,
-            openedTeamSupervisors,
-            openedTeamAgents,
-            openedTeamSkills,
-            openedTeamTiming,
-            openedTeamPermissions,
-        },
-        mixins: [editComponentMixin],
+export default {
+  name: 'opened-team',
+  mixins: [openedObjectMixin],
+  components: {
+    OpenedTeamGeneral,
+    OpenedTeamSupervisors,
+    OpenedTeamAgents,
+    OpenedTeamSkills,
+    OpenedTeamTiming,
+    OpenedTeamPermissions,
+  },
 
-        data() {
-            return {};
-        },
+  data: () => ({
+    namespace: 'ccenter/teams',
+  }),
 
-        // by vuelidate
-        validations: {
-            itemInstance: {
-                name: {
-                    required,
-                },
-                strategy: {
-                    required,
-                },
-                maxNoAnswer: {
-                    numeric,
-                    required,
-                },
-                wrapUpTime: {
-                    numeric,
-                    required,
-                },
-                noAnswerDelayTime: {
-                    numeric,
-                    required,
-                },
-                callTimeout: {
-                    numeric,
-                    required,
-                },
-            },
-        },
+  validations: {
+    itemInstance: {
+      name: { required },
+      strategy: { required },
+      maxNoAnswer: { numeric, required },
+      wrapUpTime: { numeric, required },
+      noAnswerDelayTime: { numeric, required },
+      callTimeout: { numeric, required },
+    },
+  },
+  computed: {
+    ...mapState('ccenter/teams', {
+      id: (state) => state.itemId,
+      itemInstance: (state) => state.itemInstance,
+    }),
 
-        mounted() {
-            this.id = this.$route.params.id;
-            this.loadItem();
-        },
+    tabs() {
+      const tabs = [{
+        text: this.$t('objects.general'),
+        value: 'general',
+      }, {
+        text: this.$t('objects.ccenter.teams.timing'),
+        value: 'timing',
+      }, {
+        text: this.$tc('objects.ccenter.teams.supervisors', 2),
+        value: 'supervisors',
+      }, {
+        text: this.$tc('objects.ccenter.agents.agents', 2),
+        value: 'agents',
+      }, {
+        text: this.$tc('objects.ccenter.skills.skills', 2),
+        value: 'skills',
+      }];
 
-        computed: {
-            ...mapState('ccenter/teams', {
-                itemInstance: (state) => state.itemInstance,
-            }),
-            id: {
-                get() {
-                    return this.$store.state.ccenter.teams.itemId;
-                },
-                set(value) {
-                    this.setId(value);
-                },
-            },
+      const permissions = {
+        text: this.$tc('objects.permissions.permissions', 2),
+        value: 'permissions',
+      };
 
-            tabs() {
-                const tabs = [{
-                    text: this.$t('objects.general'),
-                    value: 'general',
-                }, {
-                    text: this.$t('objects.ccenter.teams.timing'),
-                    value: 'timing',
-                }, {
-                    text: this.$tc('objects.ccenter.teams.supervisors', 2),
-                    value: 'supervisors',
-                }, {
-                    text: this.$tc('objects.ccenter.agents.agents', 2),
-                    value: 'agents',
-                }, {
-                    text: this.$tc('objects.ccenter.skills.skills', 2),
-                    value: 'skills',
-                }];
-
-                const permissions = {
-                    text: this.$tc('objects.permissions.permissions', 2),
-                    value: 'permissions',
-                };
-
-                if (this.id) tabs.push(permissions);
-                return tabs;
-            },
-        },
-
-        methods: {
-            ...mapActions('ccenter/teams', {
-                setId: 'SET_ITEM_ID',
-                loadItem: 'LOAD_ITEM',
-                addItem: 'ADD_ITEM',
-                updateItem: 'UPDATE_ITEM',
-                resetState: 'RESET_ITEM_STATE',
-            }),
-        },
-    };
+      if (this.id) tabs.push(permissions);
+      return tabs;
+    },
+  },
+};
 </script>
 
 
 <style lang="scss" scoped>
-
 </style>

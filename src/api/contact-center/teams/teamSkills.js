@@ -25,14 +25,15 @@ export const getTeamSkillsList = async (teamId, page = 0, size = 10, search) => 
     };
 
     try {
-        const response = await teamResService.searchResourceTeamSkill(teamId, page, size, search, domainId);
+        const response = await teamResService
+          .searchResourceTeamSkill(teamId, page, size, search, domainId);
         if (response.items) {
             return {
                 list: response.items.map((item) => ({ ...defaultObject, ...item })),
                 isNext: response.next || false,
             };
         }
-        return [];
+        return { list: [] };
     } catch (err) {
         throw err;
     }

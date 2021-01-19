@@ -1,186 +1,135 @@
 <template>
-    <popup
-            :title="$tc('objects.ccenter.skills.skills', 1)"
-            :primaryAction="save"
-            :primaryText="computePrimaryText"
-            :primaryDisabled="computeDisabled"
-            @close="$emit('close')"
-            overflow
-    >
-        <form>
-            <dropdown-select
-                    v-model="skill"
-                    :v="$v.itemInstance.skill"
-                    :options="dropdownSkillsList"
-                    :label="$tc('objects.ccenter.skills.skills', 1)"
-                    @search="loadSkillsOptions"
-                    required
-            ></dropdown-select>
-
-            <form-input
-                    v-model.trim="lvl"
-                    :v="$v.itemInstance.lvl"
-                    :label="$t('objects.ccenter.teams.lvl')"
-                    required
-            ></form-input>
-
-            <div class="label">{{$t('objects.ccenter.skills.capacity')}}*</div>
-            <div class="input-row-wrap">
-                <form-input
-                        v-model.trim="minCapacity"
-                        :label="$t('objects.from')"
-                ></form-input>
-                <form-input
-                        v-model.trim="maxCapacity"
-                        :label="$t('objects.to')"
-                ></form-input>
-            </div>
-
-            <tags-input
-                    v-model="buckets"
-                    :options="dropdownBucketsList"
-                    :label="$tc('objects.ccenter.buckets.buckets', 1)"
-                    @search="loadBucketsOptions"
-            ></tags-input>
-        </form>
-    </popup>
+  <wt-popup min-width="480" overflow @close="close">
+    <template slot="title">
+      {{ $tc('objects.ccenter.skills.skills', 1) }}
+    </template>
+    <template slot="main">
+      <form>
+        <wt-select
+          :value="skill"
+          :v="$v.itemInstance.skill"
+          :label="$tc('objects.ccenter.skills.skills', 1)"
+          :search="loadSkillsOptions"
+          :internal-search="false"
+          :clearable="false"
+          required
+          @input="setItemProp({ prop: 'skill', value: $event })"
+        ></wt-select>
+        <wt-input
+          :value="lvl"
+          :v="$v.itemInstance.lvl"
+          :label="$t('objects.ccenter.teams.lvl')"
+          type="number"
+          @input="setItemProp({ prop: 'lvl', value: +$event })"
+        ></wt-input>
+        <div class="input-row-wrap">
+          <wt-input
+            :value="minCapacity"
+            :label="$t('objects.ccenter.teams.minCapacity')"
+            :number-min="0"
+            :number-max="100"
+            type="number"
+            @input="setItemProp({ prop: 'minCapacity', value: +$event })"
+          ></wt-input>
+          <wt-input
+            :value="maxCapacity"
+            :label="$t('objects.ccenter.teams.maxCapacity')"
+            :number-min="0"
+            :number-max="100"
+            type="number"
+            @input="setItemProp({ prop: 'maxCapacity', value: +$event })"
+          ></wt-input>
+        </div>
+        <wt-select
+          :value="buckets"
+          :label="$tc('objects.ccenter.buckets.buckets', 1)"
+          :search="loadBucketsOptions"
+          :close-on-select="false"
+          :internal-search="false"
+          multiple
+          @input="setItemProp({ prop: 'buckets', value: $event })"
+        ></wt-select>
+      </form>
+    </template>
+    <template slot="actions">
+      <wt-button
+        :disabled="computeDisabled"
+        @click="save"
+      >{{ $t('objects.add') }}
+      </wt-button>
+      <wt-button
+        color="secondary"
+        @click="close"
+      >{{ $t('objects.close') }}
+      </wt-button>
+    </template>
+  </wt-popup>
 </template>
 
 <script>
-    import popup from '@/components/utils/popup';
-    import editComponentMixin from '@/mixins/editComponentMixin';
-    import {
- required, numeric, minValue, maxValue,
-} from 'vuelidate/lib/validators';
-    import { mapActions, mapState } from 'vuex';
-    import { getBucketsList } from '../../../api/contact-center/buckets/buckets';
-    import { getSkillsList } from '../../../api/contact-center/agentSkills/agentSkills';
+import { required } from 'vuelidate/lib/validators';
+import { mapState } from 'vuex';
+import { getBucketsList } from '../../../api/contact-center/buckets/buckets';
+import { getSkillsList } from '../../../api/contact-center/agentSkills/agentSkills';
+import nestedObjectMixin from '../../../mixins/openedObjectMixin/nestedObjectMixin';
 
-    export default {
-        name: 'opened-team-skills-popup',
-        mixins: [editComponentMixin],
-        components: {
-            popup,
-        },
+export default {
+  name: 'opened-team-skills-popup',
+  mixins: [nestedObjectMixin],
 
-        data() {
-            return {
-                dropdownSkillsList: [],
-                dropdownBucketsList: [],
-            };
-        },
+  data: () => ({
+    namespace: 'ccenter/teams/skills',
+  }),
 
-        validations: {
-            itemInstance: {
-                skill: {
-                    required,
-                },
-                lvl: {
-                    required,
-                },
-            },
-        },
+  validations: {
+    itemInstance: {
+      skill: { required },
+      lvl: { required },
+    },
+  },
+  computed: {
+    ...mapState('ccenter/teams/skills', {
+      id: (state) => state.itemId,
+      itemInstance: (state) => state.itemInstance,
+      skill: (state) => state.itemInstance.skill,
+      lvl: (state) => state.itemInstance.lvl,
+      minCapacity: (state) => state.itemInstance.minCapacity,
+      maxCapacity: (state) => state.itemInstance.maxCapacity,
+      buckets: (state) => state.itemInstance.buckets,
+    }),
+  },
 
-        mounted() {
-            this.loadItem();
-            this.loadSkillsOptions();
-            this.loadBucketsOptions();
-        },
+  methods: {
+    async loadSkillsOptions(search) {
+      const response = await getSkillsList(1, 10, search);
+      return response.list.map((item) => ({
+        name: item.name,
+        id: item.id,
+      }));
+    },
 
-        computed: {
-            ...mapState('ccenter/teams/skills', {
-                id: (state) => state.itemId,
-                itemInstance: (state) => state.itemInstance,
-            }),
-            skill: {
-                get() {
-                    return this.$store.state.ccenter.teams.skills.itemInstance.skill;
-                },
-                set(value) {
-                    this.setItemProp({ prop: 'skill', value });
-                },
-            },
-            lvl: {
-                get() {
-                    return this.$store.state.ccenter.teams.skills.itemInstance.lvl;
-                },
-                set(value) {
-                    this.setItemProp({ prop: 'lvl', value });
-                },
-            },
-            minCapacity: {
-                get() {
-                    return this.$store.state.ccenter.teams.skills.itemInstance.minCapacity;
-                },
-                set(value) {
-                    this.setItemProp({ prop: 'minCapacity', value });
-                },
-            },
-            maxCapacity: {
-                get() {
-                    return this.$store.state.ccenter.teams.skills.itemInstance.maxCapacity;
-                },
-                set(value) {
-                    this.setItemProp({ prop: 'maxCapacity', value });
-                },
-            },
-            buckets: {
-                get() {
-                    return this.$store.state.ccenter.teams.skills.itemInstance.buckets;
-                },
-                set(value) {
-                    this.setItemProp({ prop: 'buckets', value });
-                },
-            },
-        },
-
-        methods: {
-            async save() {
-                const invalid = this.checkValidations();
-                if (!invalid) {
-                    try {
-                        !this.id ? await this.addItem() : await this.updateItem();
-                        this.$emit('close');
-                    } catch {}
-                }
-            },
-
-            async loadSkillsOptions(search) {
-                const response = await getSkillsList(0, 10, search);
-                this.dropdownSkillsList = response.list.map((item) => ({
-                        name: item.name,
-                        id: item.id,
-                    }));
-            },
-
-            async loadBucketsOptions(search) {
-                const response = await getBucketsList(0, 10, search);
-                this.dropdownBucketsList = response.list.map((item) => ({
-                        name: item.name,
-                        id: item.id,
-                    }));
-            },
-
-            ...mapActions('ccenter/teams/skills', {
-                setItemProp: 'SET_ITEM_PROPERTY',
-                addItem: 'ADD_ITEM',
-                updateItem: 'UPDATE_ITEM',
-                loadItem: 'LOAD_ITEM',
-            }),
-        },
-    };
+    async loadBucketsOptions(search) {
+      const response = await getBucketsList(1, 10, search);
+      return response.list.map((item) => ({
+        name: item.name,
+        id: item.id,
+      }));
+    },
+  },
+};
 </script>
 
 <style lang="scss" scoped>
-    .input-row-wrap {
-        display: flex;
+.input-row-wrap {
+  display: flex;
+  margin-bottom: 10px;
 
-        .form-input {
-            width: 50%;
+  .wt-input {
+    width: 50%;
 
-            &:first-child {
-                margin-right: 18px;
-            }
-        }
+    &:first-child {
+      margin-right: 18px;
     }
+  }
+}
 </style>

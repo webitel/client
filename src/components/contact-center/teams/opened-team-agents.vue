@@ -1,129 +1,109 @@
 <template>
   <section>
-
     <agent-buckets-popup
-        v-if="bucketsPopupTriggerIf"
+        v-if="isAgentBucketsPopup"
         :itemId="this.agentId"
         @close="closeBucketsPopup"
     ></agent-buckets-popup>
 
     <agent-popup
-        v-if="popupTriggerIf"
+        v-if="isAgentPopup"
         @close="closePopup"
     ></agent-popup>
 
     <header class="content-header">
       <h3 class="content-title">{{ $tc('objects.ccenter.agents.agents', 2) }}</h3>
       <div class="content-header__actions-wrap">
-        <search
-            v-model="search"
-            @filterData="loadList"
-        ></search>
-        <i
-            class="icon-icon_delete icon-action"
-            :class="{'hidden': anySelected}"
-            :title="$t('iconHints.deleteSelected')"
-            @click="deleteSelected"
-        ></i>
-        <i
-            class="icon-icon_reload icon-action"
-            :title="$t('iconHints.reload')"
-            @click="loadList"
-        ></i>
-        <i
-            class="icon-action icon-icon_plus"
-            :title="$t('iconHints.add')"
-            @click="create"
-        ></i>
+        <wt-search-bar
+          :value="search"
+          debounce
+          @enter="loadList"
+          @input="setSearch"
+          @search="loadList"
+        ></wt-search-bar>
+        <wt-icon-btn
+          :class="{'hidden': anySelected}"
+          :tooltip="$t('iconHints.deleteSelected')"
+          class="icon-action"
+          icon="bucket"
+          @click="deleteSelected"
+        ></wt-icon-btn>
+        <wt-table-actions
+          :icons="['refresh']"
+          @input="tableActionsHandler"
+        ></wt-table-actions>
+        <wt-icon-btn
+          class="icon-action"
+          icon="plus"
+          @click="create"
+        ></wt-icon-btn>
       </div>
     </header>
 
-    <loader v-show="!isLoaded"></loader>
-
-    <vuetable
-        v-show="isLoaded"
-        :api-mode="false"
-        :fields="fields"
+    <wt-loader v-show="!isLoaded"></wt-loader>
+    <div v-show="isLoaded" class="table-wrapper">
+    <wt-table
+        :headers="headers"
         :data="dataList"
     >
-      <template slot="name" slot-scope="props">
-        <div>
-          {{ dataList[props.rowIndex].agent.name }}
+      <template slot="name" slot-scope="{ item }">
+        <div v-if="item.agent">
+          {{ item.agent.name }}
         </div>
       </template>
 
-      <template slot="lvl" slot-scope="props">
-        <div>
-          {{ dataList[props.rowIndex].lvl }}
-        </div>
+      <template slot="lvl" slot-scope="{ item }">
+          {{ item.lvl }}
       </template>
 
-      <template slot="buckets" slot-scope="props">
-        <div>{{ getFirstBucket(dataList[props.rowIndex].buckets) }}
+      <template slot="buckets" slot-scope="{ item }">
+        <div>{{ getFirstBucket(item.buckets) }}
           <span class="hidden-num"
-                @click="readBuckets(props.rowIndex)"
-                v-if="dataList[props.rowIndex].buckets.length > 1"
-          >+{{ dataList[props.rowIndex].buckets.length - 1 }}</span>
+                @click="readBuckets(item)"
+                v-if="item.buckets.length > 1"
+          >+{{ item.buckets.length - 1 }}</span>
         </div>
       </template>
 
-      <template slot="actions" slot-scope="props">
-        <i class="vuetable-action icon-icon_edit"
-           :title="$t('iconHints.edit')"
-           @click="edit(props.rowIndex)"
-        ></i>
-        <i class="vuetable-action icon-icon_delete"
-           :title="$t('iconHints.delete')"
-           @click="remove(props.rowIndex)"
-        ></i>
+      <template slot="actions" slot-scope="{ item, index }">
+        <edit-action
+          @click="edit(item)"
+        ></edit-action>
+        <delete-action
+          @click="remove(index)"
+        ></delete-action>
       </template>
-    </vuetable>
-    <pagination
-        v-show="isLoaded"
-        v-model="size"
-        @loadDataList="loadList"
+    </wt-table>
+      <wt-pagination
+        :next="isNext"
+        :prev="page > 1"
+        :size="size"
+        debounce
+        @change="loadList"
+        @input="setSize"
         @next="nextPage"
         @prev="prevPage"
-        :isNext="isNextPage"
-        :isPrev="!!page"
-        :page="page"
-    ></pagination>
+      ></wt-pagination>
+    </div>
   </section>
 </template>
 
 <script>
-import tableComponentMixin from '@/mixins/tableComponentMixin';
-import openedTabComponentMixin from '@/mixins/openedTabComponentMixin';
-import { _checkboxTableField, _actionsTableField_2 } from '@/utils/tableFieldPresets';
-import { mapActions, mapState } from 'vuex';
-import eventBus from '@/utils/eventBus';
-import agentBucketsPopup from './opened-team-agents-buckets-popup';
-import agentPopup from './opened-team-agents-popup';
+import { mapState } from 'vuex';
+import AgentBucketsPopup from './opened-team-agents-buckets-popup.vue';
+import AgentPopup from './opened-team-agents-popup.vue';
+import openedObjectTableTabMixin from '../../../mixins/openedObjectTableTabMixin/openedObjectTableTabMixin';
 
 export default {
   name: 'opened-team-agents',
-  mixins: [openedTabComponentMixin, tableComponentMixin],
-  components: { agentPopup, agentBucketsPopup },
-  data() {
-    return {
-      bucketsPopupTriggerIf: false,
-      agentId: 0,
-      fields: [
-        _checkboxTableField,
-        { name: 'name', title: this.$t('objects.name') },
-        { name: 'lvl', title: this.$t('objects.ccenter.teams.lvl') },
-        { name: 'buckets', title: this.$tc('objects.ccenter.buckets.buckets', 1), width: '160px' },
-        _actionsTableField_2,
-      ],
-    };
-  },
-
-  watch: {
-    parentId(value) {
-      this.setParentId(value);
-    },
-  },
-
+  mixins: [openedObjectTableTabMixin],
+  components: { AgentPopup, AgentBucketsPopup },
+  data: () => ({
+    isAgentBucketsPopup: false,
+    isAgentPopup: false,
+    agentId: 0,
+    subNamespace: 'agents',
+  }),
   computed: {
     ...mapState('ccenter/teams', {
       parentId: (state) => state.itemId,
@@ -131,80 +111,45 @@ export default {
     ...mapState('ccenter/teams/agents', {
       dataList: (state) => state.dataList,
       page: (state) => state.page,
-      isNextPage: (state) => state.isNextPage,
+      size: (state) => state.size,
+      search: (state) => state.search,
+      isNext: (state) => state.isNextPage,
     }),
-
-    size: {
-      get() {
-        return this.$store.state.ccenter.teams.agents.size;
-      },
-      set(value) {
-        this.setSize(value);
-      },
+    headers() {
+      return [
+        { value: 'name', text: this.$t('objects.name') },
+        { value: 'lvl', text: this.$t('objects.ccenter.teams.lvl') },
+        { value: 'buckets', text: this.$tc('objects.ccenter.buckets.buckets', 1), width: '160px' },
+      ];
     },
-
-    search: {
-      get() {
-        return this.$store.state.ccenter.teams.agents.search;
-      },
-      set(value) {
-        this.setSearch(value);
-      },
-    },
-
   },
 
   methods: {
-    async create() {
-      if (!this.checkValidations()) {
-        if (!this.id) await this.addParentItem();
-        this.popupTriggerIf = true;
-      } else {
-        eventBus.$emit('notification', { type: 'error', text: 'Check your validations!' });
-      }
-    },
-
-    edit(rowIndex) {
-      this.setId(this.dataList[rowIndex].id);
-      this.popupTriggerIf = true;
-    },
-
     getFirstBucket(buckets) {
       if (buckets.length > 0) {
         return buckets[0].name;
       }
+      return '';
     },
 
-    readBuckets(rowIndex) {
-      this.agentId = this.dataList[rowIndex].id;
-      this.bucketsPopupTriggerIf = true;
+    readBuckets(item) {
+      this.agentId = item.id;
+      this.isAgentBucketsPopup = true;
+    },
+
+    openPopup() {
+      this.isAgentPopup = true;
     },
 
     closePopup() {
-      this.popupTriggerIf = false;
+      this.isAgentPopup = false;
       this.resetItemState();
     },
 
     closeBucketsPopup() {
-      this.bucketsPopupTriggerIf = false;
+      this.isAgentBucketsPopup = false;
       this.resetItemState();
     },
-
-    ...mapActions('ccenter/teams', {
-      addParentItem: 'ADD_ITEM',
-    }),
-
-    ...mapActions('ccenter/teams/agents', {
-      setParentId: 'SET_PARENT_ITEM_ID',
-      setId: 'SET_ITEM_ID',
-      loadDataList: 'LOAD_DATA_LIST',
-      setSize: 'SET_SIZE',
-      setSearch: 'SET_SEARCH',
-      nextPage: 'NEXT_PAGE',
-      prevPage: 'PREV_PAGE',
-      removeItem: 'REMOVE_ITEM',
-      resetItemState: 'RESET_ITEM_STATE',
-    }),
   },
 };
 </script>

@@ -30,7 +30,7 @@ export const getTeamAgentsList = async (teamId, page = 0, size = 10, search) => 
                 isNext: response.next || false,
             };
         }
-        return [];
+        return { list: [] };
     } catch (err) {
         throw err;
     }

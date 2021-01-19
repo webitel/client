@@ -1,83 +1,69 @@
 <template>
-    <section>
-        <header class="content-header">
-            <h3 class="content-title">{{$t('objects.ccenter.teams.timing')}}</h3>
-        </header>
-        <form class="object-input-grid">
-            <form-input
-                    v-model.trim="maxNoAnswer"
-                    :v="v.itemInstance.maxNoAnswer"
-                    :label="$t('objects.ccenter.teams.maxNoAnswer')"
-                    required
-            ></form-input>
-            <form-input
-                    v-model.trim="callTimeout"
-                    :v="v.itemInstance.callTimeout"
-                    :label="$t('objects.ccenter.teams.callTimeout')"
-                    required
-            ></form-input>
-            <form-input
-                    v-model.trim="wrapUpTime"
-                    :v="v.itemInstance.wrapUpTime"
-                    :label="$t('objects.ccenter.teams.wrapUpTime')"
-                    required
-            ></form-input>
-            <form-input
-                    v-model.trim="noAnswerDelayTime"
-                    :v="v.itemInstance.noAnswerDelayTime"
-                    :label="$t('objects.ccenter.teams.noAnswerDelayTime')"
-                    required
-            ></form-input>
-
-            <div class="switcher-label-wrap">
-                <div class="label">{{$t('objects.ccenter.teams.postProcessing')}}</div>
-                <switcher
-                        v-model="postProcessing"
-                ></switcher>
-            </div>
-        </form>
-    </section>
+  <section>
+    <header class="content-header">
+      <h3 class="content-title">{{ $t('objects.ccenter.teams.timing') }}</h3>
+    </header>
+    <form class="object-input-grid">
+      <wt-input
+        :value="maxNoAnswer"
+        :v="v.itemInstance.maxNoAnswer"
+        :label="$t('objects.ccenter.teams.maxNoAnswer')"
+        type="number"
+        required
+        @input="setItemProp({ prop: 'maxNoAnswer', value: +$event })"
+      ></wt-input>
+      <wt-input
+        :value="callTimeout"
+        :v="v.itemInstance.callTimeout"
+        :label="$t('objects.ccenter.teams.callTimeout')"
+        type="number"
+        required
+        @input="setItemProp({ prop: 'callTimeout', value: +$event })"
+      ></wt-input>
+      <wt-input
+        :value="wrapUpTime"
+        :v="v.itemInstance.wrapUpTime"
+        :label="$t('objects.ccenter.teams.wrapUpTime')"
+        type="number"
+        required
+        @input="setItemProp({ prop: 'wrapUpTime', value: +$event })"
+      ></wt-input>
+      <wt-input
+        :value="noAnswerDelayTime"
+        :v="v.itemInstance.noAnswerDelayTime"
+        :label="$t('objects.ccenter.teams.noAnswerDelayTime')"
+        type="number"
+        required
+        @input="setItemProp({ prop: 'noAnswerDelayTime', value: +$event })"
+      ></wt-input>
+      <wt-switcher
+        :value="postProcessing"
+        :label="$t('objects.ccenter.teams.postProcessing')"
+        @change="setItemProp({ prop: 'postProcessing', value: $event })"
+      ></wt-switcher>
+    </form>
+  </section>
 </template>
 
 <script>
-    import openedTabComponentMixin from '@/mixins/openedTabComponentMixin';
-    import { mapActions } from 'vuex';
+import { mapState } from 'vuex';
+import openedTabComponentMixin from '../../../mixins/openedTabComponentMixin';
 
-    export default {
-        name: 'opened-team-timing',
-        mixins: [openedTabComponentMixin],
+export default {
+  name: 'opened-team-timing',
+  mixins: [openedTabComponentMixin],
 
-        computed: {
-            maxNoAnswer: {
-                get() { return this.$store.state.ccenter.teams.itemInstance.maxNoAnswer; },
-                set(value) { this.setItemProp({ prop: 'maxNoAnswer', value }); },
-            },
-            callTimeout: {
-                get() { return this.$store.state.ccenter.teams.itemInstance.callTimeout; },
-                set(value) { this.setItemProp({ prop: 'callTimeout', value }); },
-            },
-            wrapUpTime: {
-                get() { return this.$store.state.ccenter.teams.itemInstance.wrapUpTime; },
-                set(value) { this.setItemProp({ prop: 'wrapUpTime', value }); },
-            },
-            noAnswerDelayTime: {
-                get() { return this.$store.state.ccenter.teams.itemInstance.noAnswerDelayTime; },
-                set(value) { this.setItemProp({ prop: 'noAnswerDelayTime', value }); },
-            },
-            postProcessing: {
-                get() { return this.$store.state.ccenter.teams.itemInstance.postProcessing; },
-                set(value) { this.setItemProp({ prop: 'postProcessing', value }); },
-            },
-        },
-
-        methods: {
-            ...mapActions('ccenter/teams', {
-                setItemProp: 'SET_ITEM_PROPERTY',
-            }),
-        },
-    };
+  computed: {
+    ...mapState('ccenter/teams', {
+      maxNoAnswer: (state) => state.itemInstance.maxNoAnswer,
+      callTimeout: (state) => state.itemInstance.callTimeout,
+      wrapUpTime: (state) => state.itemInstance.wrapUpTime,
+      noAnswerDelayTime: (state) => state.itemInstance.noAnswerDelayTime,
+      postProcessing: (state) => state.itemInstance.postProcessing,
+    }),
+  },
+};
 </script>
 
 <style lang="scss" scoped>
-
 </style>

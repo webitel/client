@@ -21,7 +21,7 @@ const state = {
 
 const getters = {
     GET_ITEM_BUCKETS: (state) => (id) => {
-        const item = state.dataList.filter(item => item.id === id)[0];
+        const item = state.dataList.find((item) => item.id === id);
         return item.buckets;
     },
 };
