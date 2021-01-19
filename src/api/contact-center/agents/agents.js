@@ -34,10 +34,9 @@ export const updateAgent = async (id, item) => itemUpdater.updateItem(id, item);
 
 export const deleteAgent = async (id) => itemDeleter.deleteItem(id);
 
-export const getAgentUsersOptions = async (page = 0, size = 10, search) => {
-    const { domainId } = store.state.userinfo;
-    const response = await agentService.searchLookupUsersAgentNotExists(page, size, search, domainId);
-    return response.items ? response.items : [];
+export const getAgentUsersOptions = async (page = 1, size = 10, search) => {
+    const response = await agentService.searchLookupUsersAgentNotExists(page, size, search);
+    return response.items ? { list: response.items } : [];
 };
 
 export const getAgentHistory = async (id, date, page = 0, size = 10, search) => {
@@ -68,11 +67,15 @@ export const getAgentTeamsList = async (id, page = 0, size = 10, search = '') =>
 
 export const getAgentQueuesList = async (id, page = 0, size = 10, search = '') => {
     const { domainId } = store.state.userinfo;
+    const defaultObject = {
+      countMember: 0,
+      waitingMember: 0,
+    };
     try {
         const response = await agentService.searchAgentInQueue(id, page, size, search, domainId);
         if (response.items) {
             return {
-                list: response.items,
+                list: response.items.map((item) => ({...defaultObject, ...item })),
                 isNext: response.next || false,
             };
         }
