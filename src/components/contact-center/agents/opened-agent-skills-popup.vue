@@ -1,122 +1,111 @@
 <template>
-    <popup
-            :title="$t('objects.ccenter.agents.addSkill')"
-            :primaryAction="save"
-            :primaryText="computePrimaryText"
-            :primaryDisabled="computeDisabled"
-            @close="$emit('close')"
-            overflow
-    >
-        <form>
-            <dropdown-select
-                    v-model="skill"
-                    :v="$v.itemInstance.skill"
-                    :options="dropdownOptionsList"
-                    :label="$tc('objects.ccenter.skills.skills', 1)"
-                    @search="loadDropdownOptionsList"
-                    required
-            ></dropdown-select>
-
-            <form-input
-                    v-model.trim="capacity"
-                    :label="$t('objects.ccenter.skills.capacity')"
-                    :v="$v.itemInstance.capacity"
-                    required
-            ></form-input>
-        </form>
-    </popup>
+  <wt-popup min-width="480" overflow @close="close">
+    <template slot="title">
+      {{ $t('objects.ccenter.agents.addSkill') }}
+    </template>
+    <template slot="main">
+      <form>
+        <wt-select
+          :value="skill"
+          :v="$v.itemInstance.skill"
+          :label="$tc('objects.ccenter.skills.skills', 1)"
+          :search="loadDropdownOptionsList"
+          :internal-search="false"
+          :clearable="false"
+          required
+          @input="setItemProp({ prop: 'skill', value: $event })"
+        ></wt-select>
+        <wt-input
+          :value="capacity"
+          :v="$v.itemInstance.capacity"
+          :label="$t('objects.ccenter.skills.capacity')"
+          :number-min="0"
+          :number-max="100"
+          type="number"
+          required
+          @input="setItemProp({ prop: 'capacity', value: +$event })"
+        >
+          <template slot="validation-text">
+            {{ capacityValidationText }}
+          </template>
+        </wt-input>
+      </form>
+    </template>
+    <template slot="actions">
+      <wt-button
+        :disabled="computeDisabled"
+        @click="save"
+      >{{ $t('objects.add') }}
+      </wt-button>
+      <wt-button
+        color="secondary"
+        @click="close"
+      >{{ $t('objects.close') }}
+      </wt-button>
+    </template>
+  </wt-popup>
 </template>
 
 <script>
-    import popup from '@/components/utils/popup';
-    import editComponentMixin from '@/mixins/editComponentMixin';
-    import {
- required, numeric, minValue, maxValue,
+import { mapState } from 'vuex';
+import {
+ maxValue, minValue, numeric, required,
 } from 'vuelidate/lib/validators';
-    import { mapActions, mapState } from 'vuex';
-    import { getAgentSkills } from '../../../api/contact-center/agents/agentSkills';
+import { getAgentSkills } from '../../../api/contact-center/agents/agentSkills';
+import nestedObjectMixin from '../../../mixins/openedObjectMixin/nestedObjectMixin';
 
-    export default {
-        name: 'opened-agent-skills-popup',
-        mixins: [editComponentMixin],
-        components: {
-            popup,
-        },
-        data() {
-            return {};
-        },
+export default {
+  name: 'opened-agent-skills-popup',
+  mixins: [nestedObjectMixin],
 
-        validations: {
-            itemInstance: {
-                skill: {
-                    required,
-                },
-                capacity: {
-                    numeric,
-                    minValue: minValue(0),
-                    maxValue: maxValue(100),
-                    required,
-                },
-            },
-        },
+  data: () => ({
+    namespace: 'ccenter/agents/skills',
+  }),
 
-        mounted() {
-            this.loadItem();
-            this.loadDropdownOptionsList();
-        },
+  validations: {
+    itemInstance: {
+      skill: {
+        required,
+      },
+      capacity: {
+        numeric,
+        minValue: minValue(0),
+        maxValue: maxValue(100),
+        required,
+      },
+    },
+  },
 
-        computed: {
-            ...mapState('ccenter/agents/skills', {
-                id: (state) => state.itemId,
-                parentId: (state) => state.parentId,
-                itemInstance: (state) => state.itemInstance,
-            }),
-            skill: {
-                get() {
-                    return this.$store.state.ccenter.agents.skills.itemInstance.skill;
-                },
-                set(value) {
-                    this.setItemProp({ prop: 'skill', value });
-                },
-            },
-            capacity: {
-                get() {
-                    return this.$store.state.ccenter.agents.skills.itemInstance.capacity;
-                },
-                set(value) {
-                    this.setItemProp({ prop: 'capacity', value });
-                },
-            },
-        },
+  computed: {
+    ...mapState('ccenter/agents/skills', {
+      id: (state) => state.itemId,
+      parentId: (state) => state.parentId,
+      itemInstance: (state) => state.itemInstance,
+      skill: (state) => state.itemInstance.skill,
+      capacity: (state) => state.itemInstance.capacity,
+    }),
 
-        methods: {
-            async save() {
-                const invalid = this.checkValidations();
-                if (!invalid) {
-                    try {
-                        !this.id ? await this.addItem() : await this.updateItem();
-                        this.$emit('close');
-                    } catch {
-                    }
-                }
-            },
+    capacityValidationText() {
+      const v = this.$v.itemInstance.capacity;
+      if (!v.$invalid) return '';
+      if (!v.required) return this.$t('validation.required');
+      if (!v.numeric) return this.$t('validation.numeric');
+      if (!v.minValue) return `${this.$t('validation.minValue')} ${v.$params.minValue.min}`;
+      if (!v.maxValue) return `${this.$t('validation.maxValue')} ${v.$params.maxValue.max}`;
+      return '';
+    },
+  },
 
-            async loadDropdownOptionsList(search) {
-                const response = await getAgentSkills(this.parentId, 0, 10, search);
-                this.dropdownOptionsList = response.map((item) => ({
-                        name: item.name,
-                        id: item.id,
-                    }));
-            },
-
-            ...mapActions('ccenter/agents/skills', {
-                setItemProp: 'SET_ITEM_PROPERTY',
-                addItem: 'ADD_ITEM',
-                updateItem: 'UPDATE_ITEM',
-                loadItem: 'LOAD_ITEM',
-            }),
-        },
-    };
+  methods: {
+    async loadDropdownOptionsList(search) {
+      const response = await getAgentSkills(this.parentId, 1, 10, search);
+      return response.map((item) => ({
+        name: item.name,
+        id: item.id,
+      }));
+    },
+  },
+};
 </script>
 
 <style scoped>
