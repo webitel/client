@@ -7,7 +7,7 @@
           :primary-disabled="computeDisabled"
           :secondary-action="close"
       >
-        {{ $tc('objects.directory.devices.devices', 1) }}
+        {{ $tc('objects.directory.users.users', 1) }}
         | {{ computeTitle }}
       </object-header>
     </template>
