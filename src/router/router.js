@@ -31,8 +31,7 @@ const openedCommunicationType = () => import('../components/lookups/communicatio
 const contactType = () => import('../components/lookups/contact-type/the-contact-type');
 const openedContactType = () => import('../components/lookups/contact-type/opened-contact-type');
 const sipGateways = () => import('../components/routing/sip-gateways/the-sip-gateways');
-const openedRegGateway = () => import('../components/routing/sip-gateways/opened-register-sip-gateway');
-const openedTrunkGateway = () => import('../components/routing/sip-gateways/opened-trunking-sip-gateway');
+const OpenedGateway = () => import('../components/routing/sip-gateways/opened-sip-gateway');
 const flow = () => import('../components/routing/flow/the-flow');
 const openedFlow = () => import('../components/routing/flow/opened-flow');
 const dialplan = () => import('../components/routing/dialplan/the-dialplan');
@@ -195,22 +194,22 @@ const router = new Router({
                 {
                     path: '/routing/gateways/register/new',
                     name: 'reg-gateway-new',
-                    component: openedRegGateway,
+                    component: OpenedGateway,
                 },
                 {
                     path: '/routing/gateways/register/:id',
                     name: 'reg-gateway-edit',
-                    component: openedRegGateway,
+                    component: OpenedGateway,
                 },
                 {
                     path: '/routing/gateways/trunking/new',
                     name: 'trunk-gateway-new',
-                    component: openedTrunkGateway,
+                    component: OpenedGateway,
                 },
                 {
                     path: '/routing/gateways/trunking/:id',
                     name: 'trunk-gateway-edit',
-                    component: openedTrunkGateway,
+                    component: OpenedGateway,
                 },
                 // ----------ROUTING END------------
 

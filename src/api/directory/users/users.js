@@ -94,7 +94,7 @@ export const addUser = async (item) => await itemCreator.createItem(item);
 
 export const updateUser = async (id, item) => await itemUpdater.updateItem(id, item);
 
-export const patchUser = async (id, item) => await itemPatcher.patchItem(id, item);
+export const patchUser = async (id, item) => await itemPatcher.patchItem(id, item, 'presence');
 
 export const deleteUser = async (id) => await itemDeleter.deleteItem(id);
 
