@@ -1,48 +1,27 @@
 <template>
-  <wt-popup class="create-queue-popup" min-width="480" @close="close">
-    <template slot="title">{{ $t('objects.ccenter.queues.newQueue') }}</template>
-
-    <template slot="main">
-      <ul class="popup-options">
-        <li
-            class="popup-options__item-wrap"
-            v-for="(option, key) of options"
-            :class="{'active': option === selected}"
-            :key="key"
-            @click="selectOption(option)"
-        >
-          <h4 class="popup-options__item-header">{{ option.title }}</h4>
-          <wt-icon-btn
-              icon="rounded-info"
-              color="outline"
-              :tooltip="option.description"
-          ></wt-icon-btn>
-        </li>
-      </ul>
-    </template>
-
-    <template slot="actions">
-      <wt-button
-          :disabled="!selected"
-          @click="createQueue"
-      >{{ $t('objects.create') }}
-      </wt-button>
-      <wt-button
-          color="secondary"
-          @click="close"
-      >{{ $t('objects.close') }}
-      </wt-button>
-    </template>
-  </wt-popup>
+  <selection-popup
+    :title="$t('objects.ccenter.queues.newQueue')"
+    :selected="selected"
+    :options="options"
+    @change="selectOption"
+    @select="createQueue"
+    @close="close"
+  ></selection-popup>
 </template>
 
 <script>
+import SelectionPopup from '../../utils/selection-popup/selection-popup.vue';
+
 export default {
   name: 'create-queue-popup',
-
+  components: { SelectionPopup },
   data: () => ({
     selected: null,
   }),
+
+  created() {
+    this.selectOption(this.options[0]);
+  },
 
   computed: {
     options() {
@@ -103,19 +82,13 @@ export default {
     close() {
       this.$emit('close');
     },
-
     selectOption(option) {
       this.selected = option;
     },
-
     createQueue() {
       if (this.selected) {
         this.$router.push(`/contact-center/queues/${this.selected.value}/new`);
       }
-    },
-
-    isSelected(option) {
-      return option === this.selected;
     },
   },
 
@@ -123,43 +96,5 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.popup-options {
-  margin-top: 20px;
-  padding-right: 10px;
 
-  .popup-options__item-wrap {
-    position: relative;
-    display: flex;
-    align-items: center;
-    padding: 7px 10px;
-    margin-bottom: 10px;
-    border: 1px solid var(--form-border-color);
-    border-radius: var(--border-radius);
-    cursor: pointer;
-
-    &:last-child {
-      margin-bottom: 0;
-    }
-
-    &:hover, &.active {
-      border-color: var(--main-accent-color);
-    }
-
-    .wt-icon-btn {
-      margin-left: auto;
-
-      ::v-deep .wt-tooltip {
-        width: 300px;
-        top: 50%;
-        right: calc(100% + 10px);
-        left: auto;
-        transform: translate(0, -50%);
-      }
-    }
-  }
-
-  .popup-options__item-header {
-    @extend %typo-strong-md;
-  }
-}
 </style>
