@@ -30,7 +30,7 @@ export const sipAccountValidator = (value) => {
   if (typeof value === 'undefined' || value === null || value === '') {
     return true;
   }
-  return /^(sips?:)?([\w\-\.!~\*\(\)&=+\$,;\?\/]+)(?:@([\w\-\.]+)(?::(\d{3,5}))?)?$/i.test(value);
+  return /^(sips?:)?([\w\-\.!~\*\(\)&=\+\$,;\?\/]+)(?:@([\w\-\.]+)(?::(\d{3,5}))?)?$/i.test(value);
 };
 
 export const requiredArrayValue = (array) => array.some((value) => value);
