@@ -8,7 +8,7 @@ import baseTableMixin from './baseTableMixin/baseTableMixin';
  * @param {string} this.routeName - should be declared in data()
  *      and contain a string name for edit and new entity route names
  *      like 'cc-agent' for create() and edit() method standardization
- * @extends editComponentMixin
+ * @extends baseTableMixin
  */
 export default {
   mixins: [baseTableMixin],

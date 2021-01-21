@@ -90,7 +90,7 @@
 </template>
 
 <script>
-import { mapState } from 'vuex';
+import { mapState, mapActions } from 'vuex';
 import convertDuration from '@webitel/ui-sdk/src/scripts/convertDuration';
 import HistoryPopup from './agent-history-popup.vue';
 import tableComponentMixin from '../../../mixins/tableComponentMixin';
@@ -125,6 +125,10 @@ export default {
   },
 
   methods: {
+    ...mapActions('ccenter/agents', {
+      read: 'SET_HISTORY_ITEM_ID',
+    }),
+
     convertDuration,
 
     computeOnlineText(state) {
