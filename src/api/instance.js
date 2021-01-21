@@ -21,10 +21,23 @@ instance.interceptors.request.use(
             || request.method === 'put'
             || request.method === 'patch') {
             if (typeof request.data === 'string') {
-                request.data = JSON.stringify(objCamelToSnake(JSON.parse(request.data), DO_NOT_CONVERT_KEYS));
+              // eslint-disable-next-line no-param-reassign
+                request.data = JSON
+                  .stringify(objCamelToSnake(JSON.parse(request.data), DO_NOT_CONVERT_KEYS));
             } else {
+              // eslint-disable-next-line no-param-reassign
                 request.data = objCamelToSnake(request.data, DO_NOT_CONVERT_KEYS);
             }
+        }
+        if (request.method === 'get') {
+          const searchRegex = /(\?|\&)(q|name)\=([^&]+)/gs;
+          const searches = request.url.match(searchRegex) || [];
+          searches.forEach((search) => {
+            if (search.slice(-1) !== '*') {
+              // eslint-disable-next-line no-param-reassign
+              request.url = request.url.replace(search, `${search}*`);
+            }
+          });
         }
         return request;
     },
