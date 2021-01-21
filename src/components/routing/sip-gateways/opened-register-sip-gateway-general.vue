@@ -1,119 +1,96 @@
 <template>
-    <section>
-        <header class="content-header">
-            <h3 class="content-title">{{$t('objects.generalInfo')}}</h3>
-        </header>
-        <form class="object-input-grid">
-            <form-input
-                    v-model.trim="name"
-                    :v="v.itemInstance.name"
-                    :label="$t('objects.name')"
-                    required
-            ></form-input>
-
-            <form-input
-                    v-model.trim="registrar"
-                    :v="v.itemInstance.registrar"
-                    :label="$t('objects.routing.gateways.hostnameRegister')"
-                    required
-            ></form-input>
-
-            <form-input
-                    v-model.trim="accountName"
-                    :v="v.itemInstance.accountName"
-                    :label="$t('objects.routing.gateways.accountNumber')"
-                    required
-            ></form-input>
-            <div class="input-extension-wrap">
-                <form-input
-                        v-model.trim="password"
-                        :v="v.itemInstance.password"
-                        :label="$t('objects.password')"
-                        :type="type"
-                        required
-                ></form-input>
-                <div class="input-extension">
-                <i
-                        class="input-extension__generate icon-icon_eye"
-                        :title="$t('iconHints.generate')"
-                        @click="showPassword"
-                ></i>
-                </div>
-            </div>
-            <form-input
-                    v-model.trim="expires"
-                    :v="v.itemInstance.expires"
-                    :label="$t('objects.routing.gateways.expire')"
-                    required
-            ></form-input>
-
-            <form-input
-                    v-model.trim="description"
-                    :label="$t('objects.description')"
-                    textarea
-            ></form-input>
-        </form>
-    </section>
+  <section>
+    <header class="content-header">
+      <h3 class="content-title">{{ $t('objects.generalInfo') }}</h3>
+    </header>
+    <form class="object-input-grid">
+      <wt-input
+        :value="name"
+        :label="$t('objects.name')"
+        @input="setItemProp({ prop: 'name', value: $event })"
+      ></wt-input>
+      <wt-input
+        :value="account"
+        :v="v.itemInstance.account"
+        :label="$t('objects.routing.gateways.account')"
+        required
+        @input="setItemProp({ prop: 'account', value: $event })"
+      ></wt-input>
+      <wt-input
+        :value="username"
+        :label="$t('objects.routing.gateways.authID')"
+        @input="setItemProp({ prop: 'username', value: $event })"
+      ></wt-input>
+      <password-input
+        :value="password"
+        :v="v.itemInstance.password"
+        required
+        @input="setItemProp({ prop: 'password', value: $event })"
+      ></password-input>
+      <wt-select
+        :value="schema"
+        :label="$t('objects.routing.schema')"
+        :search="loadDropdownOptionsList"
+        :internal-search="false"
+        @input="setItemProp({ prop: 'schema', value: $event })"
+      ></wt-select>
+      <wt-input
+        :value="proxy"
+        :v="v.itemInstance.proxy"
+        :label="$t('objects.routing.gateways.outboundProxy')"
+        @input="setItemProp({ prop: 'proxy', value: $event })"
+      ></wt-input>
+      <wt-textarea
+        :value="description"
+        :label="$t('objects.description')"
+        @input="setItemProp({ prop: 'description', value: $event })"
+      ></wt-textarea>
+      <wt-input
+        :value="expires"
+        :v="v.itemInstance.expires"
+        :label="$t('objects.routing.gateways.expire')"
+        type="number"
+        required
+        @input="setItemProp({ prop: 'expires', value: +$event })"
+      ></wt-input>
+    </form>
+  </section>
 </template>
 
 <script>
-    import openedTabComponentMixin from '@/mixins/openedTabComponentMixin';
-    import { mapActions } from 'vuex';
+import { mapState } from 'vuex';
+import { getFlowList } from '../../../api/routing/flow/flow';
+import PasswordInput from '../../utils/generate-password-input.vue';
+import openedTabComponentMixin from '../../../mixins/openedTabComponentMixin';
 
-    export default {
-        name: 'opened-register-sip-gateway-general',
-        mixins: [openedTabComponentMixin],
-        data() {
-            return {
-              type: 'password',
-            };
-        },
+export default {
+  name: 'opened-sip-gateway-register-general',
+  mixins: [openedTabComponentMixin],
+  components: { PasswordInput },
+  computed: {
+    ...mapState('routing/gateways', {
+      name: (state) => state.itemInstance.name,
+      expires: (state) => state.itemInstance.expires,
+      account: (state) => state.itemInstance.account,
+      password: (state) => state.itemInstance.password,
+      username: (state) => state.itemInstance.username,
+      schema: (state) => state.itemInstance.schema,
+      proxy: (state) => state.itemInstance.proxy,
+      description: (state) => state.itemInstance.description,
+    }),
+  },
 
-        computed: {
-            name: {
-                get() { return this.$store.state.routing.gateways.itemInstance.name; },
-                set(value) { this.setItemProp({ prop: 'name', value }); },
-            },
-            registrar: {
-                get() { return this.$store.state.routing.gateways.itemInstance.registrar; },
-                set(value) { this.setItemProp({ prop: 'registrar', value }); },
-            },
-            expires: {
-                get() { return this.$store.state.routing.gateways.itemInstance.expires; },
-                set(value) { this.setItemProp({ prop: 'expires', value }); },
-            },
-            password: {
-                get() { return this.$store.state.routing.gateways.itemInstance.password; },
-                set(value) { this.setItemProp({ prop: 'password', value }); },
-            },
-            description: {
-                get() { return this.$store.state.routing.gateways.itemInstance.description; },
-                set(value) { this.setItemProp({ prop: 'description', value }); },
-            },
-            accountName: {
-                get() { return this.$store.state.routing.gateways.itemInstance.accountName; },
-                set(value) { this.setItemProp({ prop: 'accountName', value }); },
-            },
-        },
-
-        methods: {
-            loadDropdownOptionsList() {
-                return [];
-            },
-
-            showPassword() {
-                this.type = this.type === 'password' ? 'text' : 'password';
-            },
-
-            ...mapActions('routing/gateways', {
-                setItemProp: 'SET_ITEM_PROPERTY',
-            }),
-        },
-    };
+  methods: {
+    async loadDropdownOptionsList(search) {
+      const response = await getFlowList(1, 10, search);
+      return response.list.map((item) => ({
+        name: item.name,
+        id: item.id,
+      }));
+    },
+  },
+};
 </script>
 
 <style lang="scss" scoped>
-   .icon-icon_eye:before {
-       content: url("../../../assets/img/nav/gray/eye_md.svg");
-   }
 </style>

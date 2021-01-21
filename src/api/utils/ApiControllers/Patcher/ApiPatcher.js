@@ -10,12 +10,12 @@ export class WebitelAPIItemPatcher extends BaseItemPatcher {
         this.url = url;
     }
 
-    async patchItem(id, item) {
-        const updUrl = `${this.url}/${id}/presence`;
+    async patchItem(id, item, afterUrl = '') {
+        const updUrl = `${this.url}/${id}/${afterUrl}`;
         const itemCopy = deepCopy(item);
         sanitizer(itemCopy, this.fieldsToSend);
         try {
-            const response = await instance.patch(updUrl, itemCopy);
+            await instance.patch(updUrl, itemCopy);
             eventBus.$emit('notification', { type: 'info', text: 'Successfully updated' });
         } catch (err) {
             throw err;

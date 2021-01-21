@@ -14,6 +14,7 @@
         <div
           class="value-pair"
           v-for="(variable, key) in variables"
+          :key="key"
         >
           <wt-input
             :value="variable.key"
