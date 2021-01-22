@@ -6,8 +6,7 @@
                 :primaryDisabled="computeDisabled"
                 close
         >
-            {{$t('objects.routing.flow.flowSchema')}} |
-            {{computeTitle}}
+          <headline-nav :path="path"></headline-nav>
         </object-header>
         <section class="object-content module-new">
             <header class="content-header">
@@ -96,6 +95,17 @@
                     this.setItemProp({ prop: 'schema', value });
                 },
             },
+
+          path() {
+            return [
+              { name: this.$t('objects.routing.routing') },
+              { name: this.$tc('objects.routing.flow.flow', 2), route: '/routing/flow' },
+              {
+                name: this.id ? this.itemInstance.name : this.$t('objects.new'),
+                route: this.id ? `/routing/flow/${this.id}` : '/routing/flow/new',
+              },
+            ];
+          },
         },
 
         methods: {

@@ -2,8 +2,7 @@
   <wt-page-wrapper class="devices" :actions-panel="false">
     <template slot="header">
       <object-header :primary-action="create">
-        {{ $t('objects.directory.directory') }} |
-        {{ $tc('objects.directory.devices.devices', 2) }}
+        <headline-nav :path="path"></headline-nav>
       </object-header>
     </template>
 
@@ -177,6 +176,12 @@ export default {
     ...mapState('directory/devices/history', {
       historyId: (state) => state.itemId,
     }),
+    path() {
+      return [
+        { name: this.$t('objects.directory.directory') },
+        { name: this.$tc('objects.directory.devices.devices', 2), route: '/directory/devices' },
+      ];
+    },
   },
 
   methods: {

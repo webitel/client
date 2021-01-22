@@ -6,8 +6,7 @@
                 :primaryDisabled="computeDisabled"
                 close
         >
-            {{$tc('objects.lookups.calendars.calendars', 1)}} |
-            {{computeTitle}}
+          <headline-nav :path="path"></headline-nav>
         </object-header>
         <tabs-component
                 :tabs="tabs"
@@ -98,6 +97,17 @@
                 if (this.id) tabs.push(permissions);
                 return tabs;
             },
+
+          path() {
+            return [
+              { name: this.$t('objects.lookups.lookups') },
+              { name: this.$tc('objects.lookups.calendars.calendars', 2), route: '/lookups/calendars' },
+              {
+                name: this.id ? this.itemInstance.name : this.$t('objects.new'),
+                route: this.id ? `/lookups/calendars/${this.id}` : '/lookups/calendars/new',
+              },
+            ];
+          },
         },
 
         methods: {

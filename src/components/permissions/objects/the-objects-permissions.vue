@@ -1,8 +1,7 @@
 <template>
     <div>
         <object-header hide-primary>
-            {{$t('objects.permissions.permissions')}} |
-            {{$t('objects.permissions.object.object')}}
+          <headline-nav :path="path"></headline-nav>
         </object-header>
 
         <section class="object-content">
@@ -96,6 +95,13 @@
                 get() { return this.$store.state.permissions.objects.search; },
                 set(value) { this.setSearch(value); },
             },
+
+          path() {
+            return [
+              { name: this.$t('objects.permissions.permissions') },
+              { name: this.$t('objects.permissions.object.object'), route: '/permissions/objects' },
+            ];
+          },
         },
 
         methods: {

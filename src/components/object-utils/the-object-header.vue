@@ -1,7 +1,11 @@
 <template>
   <wt-headline>
-    <template slot="title">
-      <slot></slot>
+    <template slot="title-wrapper">
+      <slot>
+        <template slot="title">
+          <slot name="title"></slot>
+        </template>
+      </slot>
     </template>
     <template slot="actions">
       <wt-button

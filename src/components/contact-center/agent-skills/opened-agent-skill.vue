@@ -6,8 +6,7 @@
                 :primaryDisabled="computeDisabled"
                 close
         >
-            {{$tc('objects.ccenter.skills.agentSkills', 1)}} |
-            {{computeTitle}}
+          <headline-nav :path="path"></headline-nav>
         </object-header>
         <section class="object-content module-new">
             <header class="content-header">
@@ -75,6 +74,17 @@
                 get() { return this.$store.state.ccenter.skills.itemInstance.description; },
                 set(value) { this.setItemProp({ prop: 'description', value }); },
             },
+
+          path() {
+            return [
+              { name: this.$t('objects.ccenter.ccenter') },
+              { name: this.$tc('objects.ccenter.skills.agentSkills', 2), route: '/contact-center/skills' },
+              {
+                name: this.id ? this.itemInstance.name : this.$t('objects.new'),
+                route: this.id ? `/contact-center/skills/${this.id}` : '/contact-center/skills/new',
+              },
+            ];
+          },
         },
 
         methods: {

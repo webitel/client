@@ -1,10 +1,7 @@
 <template>
     <div class="content-wrap">
-        <object-header
-                :primaryAction="create"
-        >
-            {{$t('objects.integrations.integrations')}} |
-            {{$t('objects.integrations.storage.storage')}}
+        <object-header :primaryAction="create">
+          <headline-nav :path="path"></headline-nav>
         </object-header>
 
         <storage-popup
@@ -148,6 +145,13 @@
                     this.setSearch(value);
                 },
             },
+
+          path() {
+            return [
+              { name: this.$t('objects.integrations.integrations') },
+              { name: this.$t('objects.integrations.storage.storage'), route: '/integrations/storage' },
+            ];
+          },
         },
 
         methods: {

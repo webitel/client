@@ -7,8 +7,7 @@
                 close
                 @close="resetState"
         >
-            {{$tc('objects.ccenter.resGroups.resGroups', 1)}} |
-            {{computeTitle}}
+          <headline-nav :path="path"></headline-nav>
         </object-header>
         <tabs-component
                 :tabs="tabs"
@@ -99,6 +98,17 @@
                 if (this.id) tabs.push(permissions);
                 return tabs;
             },
+
+          path() {
+            return [
+              { name: this.$t('objects.ccenter.ccenter') },
+              { name: this.$tc('objects.ccenter.resGroups.resGroups', 2), route: '/contact-center/resource-groups' },
+              {
+                name: this.id ? this.itemInstance.name : this.$t('objects.new'),
+                route: this.id ? `/contact-center/resource-groups/${this.id}` : '/contact-center/resource-groups/new',
+              },
+            ];
+          },
         },
 
         methods: {

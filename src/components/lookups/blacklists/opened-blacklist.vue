@@ -7,7 +7,7 @@
                 close
                 @close="resetState"
         >
-            {{$tc('objects.lookups.blacklist.blacklist', 1)}} | {{computeTitle}}
+          <headline-nav :path="path"></headline-nav>
         </object-header>
         <tabs-component
                 :tabs="tabs"
@@ -88,6 +88,17 @@
                 if (this.id) tabs.push(permissions);
                 return tabs;
             },
+
+          path() {
+            return [
+              { name: this.$t('objects.lookups.lookups') },
+              { name: this.$tc('objects.lookups.blacklist.blacklist', 2), route: '/lookups/blacklist' },
+              {
+                name: this.id ? this.itemInstance.name : this.$t('objects.new'),
+                route: this.id ? `/lookups/blacklist/${this.id}` : '/lookups/blacklist/new',
+              },
+            ];
+          },
         },
 
         methods: {

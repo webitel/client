@@ -5,7 +5,7 @@
             :primaryAction="save"
             close
         >
-        {{$t('objects.permissions.object.operations')}} | {{computeTitle}}
+          <headline-nav :path="path"></headline-nav>
         </object-header>
         <tabs-component
                 :tabs="tabs"
@@ -40,6 +40,7 @@
 
         mounted() {
             this.id = this.$route.params.id;
+            this.loadItem();
         },
 
         computed: {
@@ -67,13 +68,25 @@
                     }];
                 return tabs;
             },
-        },
+
+          path() {
+            return [
+              { name: this.$t('objects.permissions.permissions') },
+              { name: this.$t('objects.permissions.object.object'), route: '/permissions/objects' },
+              {
+                name: this.itemInstance.class,
+                route: `/permissions/objects/${this.id}`,
+              },
+            ];
+          },
+    },
 
         methods: {
             ...mapActions('permissions/objects', {
                 setId: 'SET_ITEM_ID',
                 setItemProp: 'SET_ITEM_PROPERTY',
                 loadDataList: 'LOAD_ITEM_PERMISSIONS_DATA_lIST',
+                loadItem: 'LOAD_ITEM',
                 patchItem: 'PATCH_ITEM_PERMISSIONS',
                 setSize: 'SET_ITEM_PERMISSIONS_SIZE',
                 setSearch: 'SET_ITEM_PERMISSIONS_SEARCH',

@@ -7,8 +7,7 @@
           :primary-disabled="computeDisabled"
           :secondary-action="close"
       >
-        {{ $tc('objects.directory.users.users', 1) }}
-        | {{ computeTitle }}
+        <headline-nav :path="path"></headline-nav>
       </object-header>
     </template>
 
@@ -81,6 +80,17 @@ export default {
       id: (state) => state.itemId,
       itemInstance: (state) => state.itemInstance,
     }),
+
+    path() {
+      return [
+        { name: this.$t('objects.directory.directory') },
+        { name: this.$tc('objects.directory.users.users', 2), route: '/directory/users' },
+        {
+          name: this.id ? this.itemInstance.name : this.$t('objects.new'),
+          route: this.id ? `/directory/users/${this.id}` : '/directory/users/new',
+        },
+      ];
+    },
 
     tabs() {
       const tabs = [{

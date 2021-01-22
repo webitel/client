@@ -1,5 +1,6 @@
 import eventBus from '@webitel/ui-sdk/src/scripts/eventBus';
 import instance from '../../instance';
+import { WebitelAPIItemGetter } from '../../utils/ApiControllers/Getter/ApiGetter';
 import WebitelAPIPermissionsGetter from '../../utils/ApiControllers/Permissions/WebitelAPIPermissionsGetter';
 import WebitelAPIPermissionsPatcher from '../../utils/ApiControllers/Permissions/WebitelAPIPermissionsPatcher';
 import WebitelAPIDefaultAccess from '../../utils/ApiControllers/Permissions/WebitelAPIDefaultAccess';
@@ -7,6 +8,7 @@ import WebitelAPIDefaultAccess from '../../utils/ApiControllers/Permissions/Webi
 const BASE_URL = '/objclass';
 const BASE_DEFAULTS_URL = '/acl/objclass';
 
+const itemGetter = new WebitelAPIItemGetter(BASE_URL);
  const permissionsGetter = new WebitelAPIPermissionsGetter(BASE_URL);
  const permissionsPatcher = new WebitelAPIPermissionsPatcher(BASE_URL);
  const permissionsDefaultsPatcher = new WebitelAPIDefaultAccess(BASE_URL);
@@ -31,6 +33,8 @@ export const getObjectList = async (search) => {
     }
 };
 
+export const getObject = (id) => itemGetter.getItem(id);
+
 export const updateObject = async (id, item) => {
     const url = `${BASE_URL}/${id}`;
     const updatedItem = {
@@ -41,16 +45,6 @@ export const updateObject = async (id, item) => {
     try {
         await instance.put(url, updatedItem);
         eventBus.$emit('notification', { type: 'info', text: 'Successfully updated' });
-    } catch (error) {
-        throw error;
-    }
-};
-
-export const getObject = async (id) => {
-    const url = `${BASE_URL}/${id}`;
-    try {
-        const response = await instance.get(url);
-        return response.class.class;
     } catch (error) {
         throw error;
     }

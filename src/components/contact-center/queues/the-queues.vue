@@ -2,8 +2,7 @@
   <wt-page-wrapper class="queues" :actions-panel="false">
     <template slot="header">
       <object-header :primary-action="create">
-        {{ $t('objects.ccenter.ccenter') }} |
-        {{ $tc('objects.ccenter.queues.queues', 2) }}
+        <headline-nav :path="path"></headline-nav>
       </object-header>
     </template>
     <template slot="main">
@@ -138,6 +137,12 @@ export default {
         { value: 'waiting', text: this.$t('objects.ccenter.queues.waiting') },
         { value: 'priority', text: this.$t('objects.ccenter.queues.priority') },
         { value: 'state', text: this.$t('objects.ccenter.queues.state') },
+      ];
+    },
+    path() {
+      return [
+        { name: this.$t('objects.ccenter.ccenter') },
+        { name: this.$tc('objects.ccenter.queues.queues', 2), route: '/contact-center/queues' },
       ];
     },
   },

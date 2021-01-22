@@ -6,8 +6,8 @@
         :primary-text="computePrimaryText"
         :primary-disabled="computeDisabled"
         :secondary-action="close"
-      > {{ gatewayTitle }} |
-        {{ computeTitle }}
+      >
+        <headline-nav :path="path"></headline-nav>
       </object-header>
       </template>
 
@@ -114,6 +114,18 @@ export default {
       return this.isRegister
         ? this.$t('objects.routing.gateways.registerGateway')
         : this.$t('objects.routing.gateways.trunkingGateway');
+    },
+
+    path() {
+      const url = this.isRegister ? '/routing/gateways/register' : '/routing/gateways/trunking';
+      return [
+        { name: this.$t('objects.routing.routing') },
+        { name: this.$tc('objects.routing.gateways.gateways', 2), route: '/routing/gateways' },
+        {
+          name: `${(this.id ? this.itemInstance.name : this.$t('objects.new'))} (${this.gatewayTitle})`,
+          route: this.id ? `${url}/${this.id}` : `${url}/new`,
+        },
+      ];
     },
   },
 

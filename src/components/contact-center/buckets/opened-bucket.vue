@@ -6,8 +6,7 @@
                 :primaryDisabled="computeDisabled"
                 close
         >
-            {{$tc('objects.ccenter.buckets.buckets', 1)}} |
-            {{computeTitle}}
+          <headline-nav :path="path"></headline-nav>
         </object-header>
         <tabs-component
                 :tabs="tabs"
@@ -76,6 +75,17 @@
                 if (this.id) tabs.push(permissions);
                 return tabs;
             },
+
+          path() {
+            return [
+              { name: this.$t('objects.ccenter.ccenter') },
+              { name: this.$tc('objects.ccenter.buckets.buckets', 2), route: '/contact-center/buckets' },
+              {
+                name: this.id ? this.itemInstance.name : this.$t('objects.new'),
+                route: this.id ? `/contact-center/bucket/${this.id}` : '/contact-center/bucket/new',
+              },
+            ];
+          },
         },
 
         methods: {

@@ -7,8 +7,7 @@
           :primary-disabled="computeDisabled"
           :secondary-action="close"
       >
-        {{ $tc('objects.directory.devices.devices', 1) }}
-        | {{ computeTitle }}
+        <headline-nav :path="path"></headline-nav>
       </object-header>
     </template>
 
@@ -115,6 +114,18 @@ export default {
 
       if (this.id) defaultTabs.push(permissions);
       return defaultTabs;
+    },
+
+    path() {
+      const url = this.isHotdesk ? '/directory/devices/hotdesk' : '/directory/devices';
+      return [
+        { name: this.$t('objects.directory.directory') },
+        { name: this.$tc('objects.directory.devices.devices', 2), route: '/directory/devices' },
+        {
+          name: this.id ? this.itemInstance.name : this.$t('objects.new'),
+          route: this.id ? `${url}/${this.id}` : `${url}/new`,
+        },
+      ];
     },
   },
 

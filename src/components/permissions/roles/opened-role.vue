@@ -6,7 +6,7 @@
                 :primaryDisabled="computeDisabled"
                 close
         >
-            {{$tc('objects.permissions.permissionsRole')}} | {{computeTitle}}
+          <headline-nav :path="path"></headline-nav>
         </object-header>
 
         <section class="object-content module-new">
@@ -77,6 +77,17 @@
                 get() { return this.$store.state.permissions.roles.itemInstance.description; },
                 set(value) { this.setItemProp({ prop: 'description', value }); },
             },
+
+          path() {
+            return [
+              { name: this.$t('objects.permissions.permissions') },
+              { name: this.$tc('objects.permissions.permissionsRole', 2), route: '/permissions/roles' },
+              {
+                name: this.id ? this.itemInstance.name : this.$t('objects.new'),
+                route: this.id ? `/permissions/roles/${this.id}` : '/permissions/roles/new',
+              },
+            ];
+          },
         },
 
         methods: {

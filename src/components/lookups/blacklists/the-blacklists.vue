@@ -1,10 +1,7 @@
 <template>
     <div class="content-wrap">
-        <object-header
-                :primaryAction="create"
-        >
-            {{$t('objects.lookups.lookups')}} |
-            {{$tc('objects.lookups.blacklist.blacklist', 2)}}
+        <object-header :primaryAction="create">
+          <headline-nav :path="path"></headline-nav>
         </object-header>
 
         <section class="object-content">
@@ -125,6 +122,12 @@
                     this.setSearch(value);
                 },
             },
+          path() {
+            return [
+              { name: this.$t('objects.lookups.lookups') },
+              { name: this.$tc('objects.lookups.blacklist.blacklist', 2), route: '/lookups/blacklist' },
+            ];
+          },
         },
 
         methods: {

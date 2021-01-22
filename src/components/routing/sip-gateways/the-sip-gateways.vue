@@ -2,8 +2,7 @@
   <wt-page-wrapper :actions-panel="false" class="gateways">
     <template slot="header">
       <object-header :primary-action="create">
-        {{ $t('objects.routing.routing') }} |
-        {{ $tc('objects.routing.gateways.gateways', 2) }}
+        <headline-nav :path="path"></headline-nav>
       </object-header>
     </template>
     <template slot="main">
@@ -119,6 +118,12 @@ export default {
         { value: 'proxy', text: this.$t('objects.routing.gateways.proxy') },
         { value: 'enabled', text: this.$t('objects.enabled'), width: '60px' },
         { value: 'status', text: this.$t('objects.status') },
+      ];
+    },
+    path() {
+      return [
+        { name: this.$t('objects.routing.routing') },
+        { name: this.$tc('objects.routing.gateways.gateways', 2), route: '/routing/gateways' },
       ];
     },
   },

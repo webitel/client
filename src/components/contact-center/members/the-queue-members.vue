@@ -6,8 +6,7 @@
           :primary-action="create"
           :secondary-action="close"
       >
-        {{ $tc('objects.ccenter.queues.queues', 1) }} |
-        {{ $tc('objects.ccenter.members.members', 2) }}
+        <headline-nav :path="path"></headline-nav>
       </object-header>
     </template>
     <template slot="main">
@@ -173,6 +172,16 @@ export default {
     // if is NOT -- member is immutable. NOT prevents actions load by default
     isNotInboundMember() {
       return !(this.parentQueue.type === 1);
+    },
+    path() {
+      return [
+        { name: this.$t('objects.ccenter.ccenter') },
+        { name: this.$tc('objects.ccenter.users.users', 2), route: '/directory/users' },
+        {
+          name: this.id ? this.itemInstance.name : this.$t('objects.new'),
+          route: this.id ? `/directory/users/${this.id}` : '/directory/users/new',
+        },
+      ];
     },
   },
 

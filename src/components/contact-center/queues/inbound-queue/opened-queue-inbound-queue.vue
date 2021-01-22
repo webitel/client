@@ -7,8 +7,7 @@
           :primary-disabled="computeDisabled"
           :secondary-action="close"
       >
-        {{ $t('objects.ccenter.queues.inboundQueue') }} |
-        {{ computeTitle }}
+        <headline-nav :path="path"></headline-nav>
       </object-header>
     </template>
 
@@ -100,6 +99,17 @@ export default {
 
       if (this.id) tabs.push(permissions);
       return tabs;
+    },
+
+    path() {
+      return [
+        { name: this.$t('objects.ccenter.ccenter') },
+        { name: this.$tc('objects.ccenter.queues.queues', 2), route: '/contact-center/queues' },
+        {
+          name: `${(this.id ? this.itemInstance.name : this.$t('objects.new'))} (${this.$t('objects.ccenter.queues.inboundQueue')})`,
+          route: this.id ? `/contact-center/queues/${this.id}` : '/contact-center/queues/new',
+        },
+      ];
     },
   },
 

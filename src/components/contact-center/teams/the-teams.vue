@@ -2,8 +2,7 @@
   <wt-page-wrapper :actions-panel="false">
     <template slot="header">
       <object-header :primaryAction="create">
-        {{ $t('objects.ccenter.ccenter') }} |
-        {{ $tc('objects.ccenter.teams.teams', 2) }}
+        <headline-nav :path="path"></headline-nav>
       </object-header>
     </template>
 
@@ -98,6 +97,13 @@ export default {
       return [
         { value: 'name', text: this.$t('objects.name') },
         { value: 'strategy', text: this.$t('objects.ccenter.teams.strategy') },
+      ];
+    },
+
+    path() {
+      return [
+        { name: this.$t('objects.ccenter.ccenter') },
+        { name: this.$tc('objects.ccenter.teams.teams', 2), route: '/contact-center/teams' },
       ];
     },
   },

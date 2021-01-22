@@ -2,8 +2,7 @@
   <wt-page-wrapper class="license" :actions-panel="false">
     <template slot="header">
       <object-header :hide-primary="true">
-        {{ $t('objects.directory.directory') }} |
-        {{ $t('objects.directory.license.license') }}
+        <headline-nav :path="path"></headline-nav>
       </object-header>
     </template>
     <template slot="main">
@@ -141,6 +140,13 @@ export default {
       search: (state) => state.search,
       isNext: (state) => state.isNextPage,
     }),
+
+    path() {
+      return [
+        { name: this.$t('objects.directory.directory') },
+        { name: this.$t('objects.directory.license.license'), route: '/directory/license' },
+      ];
+    },
   },
 
   methods: {

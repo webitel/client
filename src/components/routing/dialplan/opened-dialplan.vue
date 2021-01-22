@@ -6,7 +6,7 @@
                 :primaryDisabled="computeDisabled"
                 close
         >
-            <span>{{$t('objects.routing.dialplan.dialplanRule')}}</span> | {{computeTitle}}
+          <headline-nav :path="path"></headline-nav>
         </object-header>
         <section class="object-content module-new">
             <header class="content-header">
@@ -110,7 +110,18 @@
                 get() { return this.$store.state.routing.dialplan.itemInstance.description; },
                 set(value) { this.setItemProp({ prop: 'description', value }); },
             },
-        },
+
+          path() {
+            return [
+              { name: this.$t('objects.routing.routing') },
+              { name: this.$t('objects.routing.dialplan.dialplan'), route: '/routing/dialplan' },
+              {
+                name: this.id ? this.itemInstance.name : this.$t('objects.new'),
+                route: this.id ? `/routing/dialplan/${this.id}` : '/routing/dialplan/new',
+              },
+            ];
+          },
+    },
 
         methods: {
             async loadDropdownOptionsList(search) {

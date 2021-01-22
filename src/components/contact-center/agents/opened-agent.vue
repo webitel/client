@@ -7,8 +7,7 @@
         :primary-text="computePrimaryText"
         :secondary-action="close"
       >
-        {{ $tc('objects.ccenter.agents.agents', 1) }} |
-        {{ computeTitle }}
+        <headline-nav :path="path"></headline-nav>
       </object-header>
     </template>
     <template slot="main">
@@ -87,6 +86,17 @@ export default {
 
       if (this.id) tabs.push(permissions);
       return tabs;
+    },
+
+    path() {
+      return [
+        { name: this.$t('objects.ccenter.ccenter') },
+        { name: this.$tc('objects.ccenter.agents.agents', 2), route: '/contact-center/agents' },
+        {
+          name: this.id ? this.itemInstance.user.name : this.$t('objects.new'),
+          route: this.id ? `/contact-center/agents/${this.id}` : '/contact-center/agents/new',
+        },
+      ];
     },
   },
 };

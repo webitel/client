@@ -1,11 +1,11 @@
 import {
-    getObjectList,
-    getObjectPermissions,
-    patchObjectPermissions,
-    patchObjectDefaultPermissions,
-    updateObject,
-    fetchObjclassDefaultList,
-    toggleObjclassDefaultMode
+  getObjectList,
+  getObjectPermissions,
+  patchObjectPermissions,
+  patchObjectDefaultPermissions,
+  updateObject,
+  fetchObjclassDefaultList,
+  toggleObjclassDefaultMode, getObject,
 } from "../../../../api/permissions/objects/objects";
 
 const defaultState = () => {
@@ -38,6 +38,13 @@ const actions = {
         const response = await getObjectList(state.search);
         context.dispatch('RESET_ITEM_STATE');
         context.commit('SET_DATA_LIST', response);
+    },
+
+    GET_ITEM: (context) => getObject(context.state.itemId),
+
+    LOAD_ITEM: async (context) => {
+      const item = await context.dispatch('GET_ITEM');
+      context.commit('SET_ITEM', item);
     },
 
     SET_SEARCH: (context, search) => {
@@ -85,7 +92,7 @@ const actions = {
     PATCH_ITEM_PERMISSIONS: async (context, {prop, index}) => {
         const readState = state.itemPermissionsDataList[index].access.r;
         await context.commit('PATCH_ITEM_PERMISSIONS', {prop, index});
-        
+
         let mode = '';
         switch (prop) {
         case 'x':
@@ -136,7 +143,7 @@ const actions = {
         }];
         try {
             await patchObjectDefaultPermissions(state.itemId, grantor.id, item);
-        } catch {            
+        } catch {
         } finally {
             context.dispatch('SEARCH_DEFAULT_LIST');
         }
@@ -197,6 +204,10 @@ const mutations = {
         state.dataList = list;
     },
 
+    SET_ITEM: (state, item) => {
+      state.itemInstance = item;
+    },
+
     SET_SEARCH: (state, search) => {
         state.search = search;
     },
@@ -251,7 +262,7 @@ const mutations = {
     TOGGLE_DEFAULT_MODE: (state, {mode, ruleName, index}) => {
         if(ruleName == 'r') {  state.itemPermissionsDefaultList[index].perm.r = mode;}
         if(ruleName == 'w') {  state.itemPermissionsDefaultList[index].perm.w = mode;}
-        if(ruleName == 'd') {  state.itemPermissionsDefaultList[index].perm.d = mode;}       
+        if(ruleName == 'd') {  state.itemPermissionsDefaultList[index].perm.d = mode;}
     },
 };
 

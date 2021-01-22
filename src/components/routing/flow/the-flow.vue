@@ -1,10 +1,7 @@
 <template>
     <div class="content-wrap">
-        <object-header
-                :primaryAction="create"
-        >
-            {{$t('objects.routing.routing')}} |
-            {{$tc('objects.routing.flow.flow', 2)}}
+        <object-header :primaryAction="create">
+              <headline-nav :path="path"></headline-nav>
         </object-header>
 
         <upload-popup
@@ -159,6 +156,12 @@
                     this.setSearch(value);
                 },
             },
+          path() {
+            return [
+              { name: this.$t('objects.routing.routing') },
+              { name: this.$tc('objects.routing.flow.flow', 2), route: '/routing/flow' },
+            ];
+          },
         },
 
         methods: {

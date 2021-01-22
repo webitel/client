@@ -6,8 +6,7 @@
                 :primaryDisabled="computeDisabled"
                 close
         >
-            {{$tc('objects.lookups.communications.communications', 1)}} |
-            {{computeTitle}}
+          <headline-nav :path="path"></headline-nav>
         </object-header>
         <section class="object-content module-new">
             <header class="content-header">
@@ -97,6 +96,17 @@
                 get() { return this.$store.state.lookups.communications.itemInstance.description; },
                 set(value) { this.setItemProp({ prop: 'description', value }); },
             },
+
+          path() {
+            return [
+              { name: this.$t('objects.lookups.lookups') },
+              { name: this.$tc('objects.lookups.communications.communications', 2), route: '/lookups/communications' },
+              {
+                name: this.id ? this.itemInstance.name : this.$t('objects.new'),
+                route: this.id ? `/lookups/communications/${this.id}` : '/lookups/communications/new',
+              },
+            ];
+          },
         },
 
         methods: {

@@ -6,8 +6,7 @@
                 :primaryDisabled="computeDisabled"
                 close
         >
-            {{$t('objects.integrations.storage.storage')}} |
-            {{computeTitle}}
+          <headline-nav :path="path"></headline-nav>
         </object-header>
         <tabs-component
                 :tabs="tabs"
@@ -142,6 +141,19 @@
                 }
                 return tabs;
             },
+
+          path() {
+              const type = this.$route.params.type;
+              const url = `/integrations/storage/${type}`;
+            return [
+              { name: this.$t('objects.integrations.integrations') },
+              { name: this.$t('objects.integrations.storage.storage'), route: '/integrations/storage' },
+              {
+                name: this.id ? this.itemInstance.name : this.$t('objects.new'),
+                route: this.id ? `${url}/${this.id}` : `${url}/new`,
+              },
+            ];
+          },
         },
 
         methods: {
