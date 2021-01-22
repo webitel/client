@@ -18,6 +18,7 @@ export default {
   created() {
     this.setId(this.$route.params.id);
     this.loadItem();
+    this.setInitialTab();
   },
 
   methods: {
@@ -29,5 +30,10 @@ export default {
         return dispatch(`${this.namespace}/RESET_ITEM_STATE`, payload);
       },
     }),
+
+    setInitialTab() {
+      // eslint-disable-next-line prefer-destructuring
+      if (this.tabs) this.currentTab = this.tabs[0];
+    },
   },
 };
