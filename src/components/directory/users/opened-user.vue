@@ -140,7 +140,6 @@ export default {
     }),
 
     close() {
-      this.resetState();
       this.$router.go(-1);
     },
   },

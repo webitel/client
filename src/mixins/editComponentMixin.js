@@ -48,6 +48,11 @@ export default {
     };
   },
 
+  destroyed() {
+    // FIXME REMOVE IF() CHECK WHEN METHOD WILL BE IMPLEMENTED IN ALL OBJECT PAGES
+    if (this.resetState) this.resetState();
+  },
+
   computed: {
     computePrimaryText() {
       // if it's a new item
@@ -96,8 +101,6 @@ export default {
     },
 
     close() {
-      // FIXME REMOVE IF() CHECK WHEN METHOD WILL BE IMPLEMENTED IN ALL OBJECT PAGES
-      if (this.resetState) this.resetState();
       this.$router.go(-1);
     },
 
