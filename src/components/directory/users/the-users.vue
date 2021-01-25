@@ -134,7 +134,7 @@ export default {
     headers() {
       return [
         { value: 'name', text: this.$t('objects.name') },
-        { value: 'status', text: this.$t('objects.directory.users.status'), width: '240px' },
+        { value: 'status', text: this.$t('objects.directory.users.status'), width: 'minmax(240px, 1fr)' },
         { value: 'username', text: this.$t('objects.directory.users.login') },
         { value: 'extensions', text: this.$t('objects.directory.users.extensions') },
         { value: 'DnD', text: this.$t('objects.directory.users.DnD'), width: '80px' },
