@@ -112,6 +112,7 @@ import QueuePopup from './create-queue-popup.vue';
 import tableActionsHandlerMixin from '../../../mixins/baseTableMixin/tableActionsMixin';
 import tableComponentMixin from '../../../mixins/tableComponentMixin';
 import QueueType from '../../../store/modules/contact-center/queues/_internals/enums/QueueType.enum';
+import getQueueSubRoute from '../../../store/modules/contact-center/queues/_internals/scripts/getQueueSubRoute';
 
 export default {
   name: 'the-queues',
@@ -189,35 +190,7 @@ export default {
     },
 
     edit(item) {
-      let type;
-      switch (item.type) {
-        case QueueType.OFFLINE_QUEUE:
-          type = 'offline-queue';
-          break;
-        case QueueType.INBOUND_QUEUE:
-          type = 'inbound-queue';
-          break;
-        case QueueType.OUTBOUND_IVR_QUEUE:
-          type = 'outbound-ivr';
-          break;
-        case QueueType.PREVIEW_DIALER:
-          type = 'preview-dialer';
-          break;
-        case QueueType.PROGRESSIVE_DIALER:
-          type = 'progressive-dialer';
-          break;
-        case QueueType.PREDICTIVE_DIALER:
-          type = 'predictive-dialer';
-          break;
-        case QueueType.CHAT_INBOUND_QUEUE:
-          type = 'chat-inbound-queue';
-          break;
-        case QueueType.TASK_QUEUE:
-          type = 'task-queue';
-          break;
-        default:
-          type = 'unknown';
-      }
+      const type = getQueueSubRoute(item.type);
       this.$router.push({
         name: `cc-queue-${type}-edit`,
         params: { id: item.id },
