@@ -156,6 +156,10 @@ export default {
     this.loadParentQueue();
   },
 
+  destroyed() {
+    this.resetState();
+  },
+
   computed: {
     ...mapState('ccenter/queues/members', {
       dataList: (state) => state.dataList,
@@ -265,7 +269,6 @@ export default {
     },
 
     close() {
-      this.resetState();
       this.$router.go(-1);
     },
 

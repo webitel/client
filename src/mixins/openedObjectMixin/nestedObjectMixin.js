@@ -14,6 +14,10 @@ export default {
     this.loadItem();
   },
 
+  destroyed() {
+    this.resetState();
+  },
+
   methods: {
     ...mapActions({
       setItemProp(dispatch, payload) {
@@ -37,7 +41,6 @@ export default {
     },
 
     close() {
-      this.resetState();
       this.$emit('close');
     },
   },
