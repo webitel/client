@@ -152,10 +152,6 @@ export default {
     };
   },
 
-  created() {
-    this.loadParentQueue();
-  },
-
   computed: {
     ...mapState('ccenter/queues/members', {
       dataList: (state) => state.dataList,
