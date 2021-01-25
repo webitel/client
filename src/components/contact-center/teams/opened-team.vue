@@ -103,7 +103,7 @@ export default {
         { name: this.$t('objects.ccenter.ccenter') },
         { name: this.$tc('objects.ccenter.teams.teams', 2), route: baseUrl },
         {
-          name: this.id ? this.itemInstance.name : this.$t('objects.new'),
+          name: this.id ? this.pathName : this.$t('objects.new'),
           route: this.id ? `${baseUrl}/${this.id}` : `${baseUrl}/new`,
         },
       ];

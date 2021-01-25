@@ -26,6 +26,7 @@
     import { mapActions, mapState } from 'vuex';
     import openedObjectPermissionsGeneral from './opened-object-permissions-general.vue';
     import openedObjectPermissionsDefaults from './opened-object-permissions-defaults.vue';
+    import headlineNavMixin from '../../../mixins/headlineNavMixin/headlineNavMixin';
 
     export default {
         name: 'opened-object-permissions',
@@ -33,7 +34,7 @@
             openedObjectPermissionsGeneral,
             openedObjectPermissionsDefaults,
         },
-        mixins: [editComponentMixin],
+        mixins: [editComponentMixin, headlineNavMixin],
         data() {
             return {};
         },
@@ -75,7 +76,7 @@
               { name: this.$t('objects.permissions.permissions') },
               { name: this.$t('objects.permissions.object.object'), route: baseUrl },
               {
-                name: this.itemInstance.class,
+                name: this.pathName,
                 route: `${baseUrl}/${this.id}`,
               },
             ];
@@ -95,6 +96,10 @@
                 prevPage: 'PREV_ITEM_PERMISSIONS_PAGE',
             }),
         },
+      // override headlineNavMixin
+      setPathName() {
+          this.pathName = this.itemInstance.class;
+      },
     };
 </script>
 

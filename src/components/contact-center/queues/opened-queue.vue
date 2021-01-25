@@ -381,7 +381,7 @@ export default {
         { name: this.$t('objects.ccenter.ccenter') },
         { name: this.$tc(`${localeRoot}.queues`, 2), route: baseUrl },
         {
-          name: `${(this.id ? this.itemInstance.name : this.$t('objects.new'))} (${title})`,
+          name: `${(this.id ? this.pathName : this.$t('objects.new'))} (${title})`,
           route: `${baseUrl}/${queueUrl}/${this.id ? this.id : 'new'}`,
         },
       ];

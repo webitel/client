@@ -55,10 +55,11 @@
     import { required } from 'vuelidate/lib/validators';
     import { mapActions, mapState } from 'vuex';
     import { getFlowList } from '../../../api/routing/flow/flow';
+    import headlineNavMixin from '../../../mixins/headlineNavMixin/headlineNavMixin';
 
     export default {
         name: 'opened-dialplan',
-        mixins: [editComponentMixin],
+        mixins: [editComponentMixin, headlineNavMixin],
         data() {
             return {
 
@@ -117,7 +118,7 @@
               { name: this.$t('objects.routing.routing') },
               { name: this.$t('objects.routing.dialplan.dialplan'), route: baseUrl },
               {
-                name: this.id ? this.itemInstance.name : this.$t('objects.new'),
+                name: this.id ? this.pathName : this.$t('objects.new'),
                 route: this.id ? `${baseUrl}/${this.id}` : `${baseUrl}/new`,
               },
             ];

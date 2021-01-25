@@ -32,10 +32,11 @@
     import openedQueueMemberCommunication from './opened-queue-member-communication';
     import openedQueueMemberVariables from './opened-queue-member-variables';
     import { requiredArrayValue } from '../../../utils/validators';
+    import headlineNavMixin from '../../../mixins/headlineNavMixin/headlineNavMixin';
 
     export default {
         name: 'opened-queue-member',
-        mixins: [editComponentMixin],
+        mixins: [editComponentMixin, headlineNavMixin],
         components: {
             openedQueueMemberGeneral,
             openedQueueMemberCommunication,
@@ -93,7 +94,7 @@
                 { name: this.$t('objects.ccenter.ccenter') },
                 { name: this.$tc('objects.ccenter.members.members', 2), route: baseUrl },
                 {
-                  name: this.id ? this.itemInstance.name : this.$t('objects.new'),
+                  name: this.id ? this.pathName : this.$t('objects.new'),
                   route: this.id ? `${baseUrl}/${this.id}` : `${baseUrl}/new`,
                 },
               ];

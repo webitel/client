@@ -33,10 +33,11 @@
     import openedStorageBackblaze from './opened-storage-backblaze';
     import openedStorageDropbox from './opened-storage-dropbox';
     import openedStorageDrive from './opened-storage-drive';
+    import headlineNavMixin from '../../../mixins/headlineNavMixin/headlineNavMixin';
 
     export default {
         name: 'opened-storage',
-        mixins: [editComponentMixin],
+        mixins: [editComponentMixin, headlineNavMixin],
         components: {
             openedStorageGeneral,
             openedStorageLocal,
@@ -150,7 +151,7 @@
               { name: this.$t('objects.integrations.integrations') },
               { name: this.$t('objects.integrations.storage.storage'), route: baseUrl },
               {
-                name: this.id ? this.itemInstance.name : this.$t('objects.new'),
+                name: this.id ? this.pathName : this.$t('objects.new'),
                 route: this.id ? `${url}/${this.id}` : `${url}/new`,
               },
             ];

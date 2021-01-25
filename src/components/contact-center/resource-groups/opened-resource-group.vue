@@ -36,10 +36,11 @@
     import openedResourceGroupResources from './opened-resource-group-resources';
     import openedResourceGroupTimerange from './opened-resource-group-timerange';
     import openedResourceGroupPermissions from './opened-resource-group-permissions';
+    import headlineNavMixin from '../../../mixins/headlineNavMixin/headlineNavMixin';
 
     export default {
         name: 'opened-resource-group',
-        mixins: [editComponentMixin],
+        mixins: [editComponentMixin, headlineNavMixin],
         components: {
             openedResourceGroupGeneral,
             openedResourceGroupResources,
@@ -105,7 +106,7 @@
               { name: this.$t('objects.ccenter.ccenter') },
               { name: this.$tc('objects.ccenter.resGroups.resGroups', 2), route: baseUrl },
               {
-                name: this.id ? this.itemInstance.name : this.$t('objects.new'),
+                name: this.id ? this.pathName : this.$t('objects.new'),
                 route: this.id ? `${baseUrl}/${this.id}` : `${baseUrl}/new`,
               },
             ];

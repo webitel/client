@@ -1,5 +1,6 @@
 import { mapActions } from 'vuex';
 import editComponentMixin from '../editComponentMixin';
+import headlineNavMixin from '../headlineNavMixin/headlineNavMixin';
 
 /**
  * @fileOverview contains openedObject (wrapper with tabs, like opened-agent.vue) common logic
@@ -8,7 +9,7 @@ import editComponentMixin from '../editComponentMixin';
  * @extends editComponentMixin
  */
 export default {
-  mixins: [editComponentMixin],
+  mixins: [editComponentMixin, headlineNavMixin],
   data: () => ({
     currentTab: {
       value: 'general',

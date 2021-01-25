@@ -32,10 +32,11 @@
     import openedCalendarHolidays from './opened-calendar-holidays';
     import openedCalendarPermissions from './opened-calendar-permissions';
     import { timerangeNotIntersect, timerangeStartLessThanEnd } from '../../../utils/validators';
+    import headlineNavMixin from '../../../mixins/headlineNavMixin/headlineNavMixin';
 
     export default {
         name: 'opened-calendar',
-        mixins: [editComponentMixin],
+        mixins: [editComponentMixin, headlineNavMixin],
         components: {
             openedCalendarWorkWeek,
             openedCalendarHolidays,
@@ -104,7 +105,7 @@
               { name: this.$t('objects.lookups.lookups') },
               { name: this.$tc('objects.lookups.calendars.calendars', 2), route: baseUrl },
               {
-                name: this.id ? this.itemInstance.name : this.$t('objects.new'),
+                name: this.id ? this.pathName : this.$t('objects.new'),
                 route: this.id ? `${baseUrl}/${this.id}` : `${baseUrl}/new`,
               },
             ];

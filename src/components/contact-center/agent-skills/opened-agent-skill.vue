@@ -36,10 +36,11 @@
     import editComponentMixin from '@/mixins/editComponentMixin';
     import { required } from 'vuelidate/lib/validators';
     import { mapActions, mapState } from 'vuex';
+    import headlineNavMixin from '../../../mixins/headlineNavMixin/headlineNavMixin';
 
     export default {
         name: 'opened-agent-skill',
-        mixins: [editComponentMixin],
+        mixins: [editComponentMixin, headlineNavMixin],
         data() {
             return {
             };
@@ -81,7 +82,7 @@
               { name: this.$t('objects.ccenter.ccenter') },
               { name: this.$tc('objects.ccenter.skills.agentSkills', 2), route: baseUrl },
               {
-                name: this.id ? this.itemInstance.name : this.$t('objects.new'),
+                name: this.id ? this.pathName : this.$t('objects.new'),
                 route: this.id ? `${baseUrl}/${this.id}` : `${baseUrl}/new`,
               },
             ];

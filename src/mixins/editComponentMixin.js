@@ -13,7 +13,6 @@ import tagsInput from '@/components/utils/tags-input';
 import permissionsTab from '../components/object-utils/utils/permissions-tab';
 
 import ObjectHeader from '../components/object-utils/the-object-header.vue';
-import HeadlineNav from '../components/utils/headline-nav/headline-nav.vue';
 import openedObjectValidationMixin from './openedObjectValidationMixin/openedObjectValidationMixin';
 
 /**
@@ -28,7 +27,6 @@ export default {
   mixins: [openedObjectValidationMixin],
   components: {
     ObjectHeader,
-    HeadlineNav,
 
     // FIXME: DELETE AFTER REFACTOR WITH WEBITEL-UI
     formInput,

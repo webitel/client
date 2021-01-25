@@ -94,10 +94,16 @@ export default {
         { name: this.$t('objects.ccenter.ccenter') },
         { name: this.$tc('objects.ccenter.agents.agents', 2), route: baseUrl },
         {
-          name: this.id ? this.itemInstance.user.name : this.$t('objects.new'),
+          name: this.id ? this.pathName : this.$t('objects.new'),
           route: this.id ? `${baseUrl}/${this.id}` : `${baseUrl}/new`,
         },
       ];
+    },
+  },
+  methods: {
+    // overrides headlineNavMixin method
+    setPathName() {
+      this.pathName = this.itemInstance.user.name;
     },
   },
 };

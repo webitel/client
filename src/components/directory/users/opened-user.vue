@@ -38,10 +38,11 @@ import OpenedUserVariables from './opened-user-variables.vue';
 import OpenedUserTokens from './opened-user-token.vue';
 import OpenedUserPermissions from './opened-user-permissions.vue';
 import editComponentMixin from '../../../mixins/editComponentMixin';
+import headlineNavMixin from '../../../mixins/headlineNavMixin/headlineNavMixin';
 
 export default {
   name: 'opened-user',
-  mixins: [editComponentMixin],
+  mixins: [editComponentMixin, headlineNavMixin],
   components: {
     OpenedUserGeneral,
     OpenedUserRoles,
@@ -87,7 +88,7 @@ export default {
         { name: this.$t('objects.directory.directory') },
         { name: this.$tc('objects.directory.users.users', 2), route: baseUrl },
         {
-          name: this.id ? this.itemInstance.name : this.$t('objects.new'),
+          name: this.id ? this.pathName : this.$t('objects.new'),
           route: this.id ? `${baseUrl}/${this.id}` : `${baseUrl}/new`,
         },
       ];

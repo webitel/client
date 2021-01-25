@@ -49,10 +49,11 @@
         getCommunication,
         updateCommunication,
     } from '../../../api/lookups/communications/communications';
+    import headlineNavMixin from '../../../mixins/headlineNavMixin/headlineNavMixin';
 
     export default {
         name: 'opened-communications-type',
-        mixins: [editComponentMixin],
+        mixins: [editComponentMixin, headlineNavMixin],
         data() {
             return {
 
@@ -103,7 +104,7 @@
               { name: this.$t('objects.lookups.lookups') },
               { name: this.$tc('objects.lookups.communications.communications', 2), route: baseUrl },
               {
-                name: this.id ? this.itemInstance.name : this.$t('objects.new'),
+                name: this.id ? this.pathName : this.$t('objects.new'),
                 route: this.id ? `${baseUrl}/${this.id}` : `${baseUrl}/new`,
               },
             ];

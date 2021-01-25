@@ -37,10 +37,11 @@ import OpenedDevicePermissions from './opened-device-permissions.vue';
 import OpenedDeviceHotdeskGeneral from './opened-hotdesk-device-general.vue';
 import OpenedDeviceHotdeskHotdesking from './opened-hotdesk-device-hotdesking.vue';
 import editComponentMixin from '../../../mixins/editComponentMixin';
+import headlineNavMixin from '../../../mixins/headlineNavMixin/headlineNavMixin';
 
 export default {
   name: 'opened-device',
-  mixins: [editComponentMixin],
+  mixins: [editComponentMixin, headlineNavMixin],
   components: {
     OpenedDeviceGeneral,
     OpenedDevicePhoneInfo,
@@ -123,7 +124,7 @@ export default {
         { name: this.$t('objects.directory.directory') },
         { name: this.$tc('objects.directory.devices.devices', 2), route: baseUrl },
         {
-          name: this.id ? this.itemInstance.name : this.$t('objects.new'),
+          name: this.id ? this.pathName : this.$t('objects.new'),
           route: this.id ? `${url}/${this.id}` : `${baseUrl}/new`,
         },
       ];
