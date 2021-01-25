@@ -81,6 +81,11 @@ const actions = {
         await deleteMembers(context.state.parentId, ids);
     },
 
+    SET_PARENT_ITEM_ID: async (context, payload) => {
+      await defaultModule.actions.SET_PARENT_ITEM_ID(context, payload);
+      return context.dispatch('LOAD_PARENT_QUEUE');
+    },
+
     ADD_COMMUNICATION_ITEM: (context, item) => {
         context.commit('ADD_COMMUNICATION_ITEM', item);
         context.commit('SET_ITEM_PROPERTY', {prop: '_dirty', value: true});

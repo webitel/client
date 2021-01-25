@@ -152,10 +152,6 @@ export default {
     };
   },
 
-  created() {
-    this.loadParentQueue();
-  },
-
   destroyed() {
     this.resetState();
   },
