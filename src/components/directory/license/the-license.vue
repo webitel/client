@@ -83,9 +83,9 @@
             </template>
 
             <template slot="status" slot-scope="{ item }">
-              <div class="license-status" :class="statusClass(item.notAfter)">
+              <wt-badge class="license-status" :class="statusClass(item.notAfter)">
                 {{ statusText(item.notAfter) }}
-              </div>
+              </wt-badge>
             </template>
           </wt-table>
           <wt-pagination
@@ -233,8 +233,6 @@ export default {
   text-align: center;
   align-self: flex-end;
   width: 93px;
-  padding: 5px 8px 3px;
-  border-radius: var(--border-radius);
 
   &.valid {
     background: var(--license--valid);
