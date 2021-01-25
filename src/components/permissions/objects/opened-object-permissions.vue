@@ -70,12 +70,13 @@
             },
 
           path() {
+              const baseUrl = '/permissions/objects';
             return [
               { name: this.$t('objects.permissions.permissions') },
-              { name: this.$t('objects.permissions.object.object'), route: '/permissions/objects' },
+              { name: this.$t('objects.permissions.object.object'), route: baseUrl },
               {
                 name: this.itemInstance.class,
-                route: `/permissions/objects/${this.id}`,
+                route: `${baseUrl}/${this.id}`,
               },
             ];
           },

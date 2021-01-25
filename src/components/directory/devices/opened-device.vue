@@ -117,13 +117,14 @@ export default {
     },
 
     path() {
-      const url = this.isHotdesk ? '/directory/devices/hotdesk' : '/directory/devices';
+      const baseUrl = '/directory/devices';
+      const url = baseUrl + this.isHotdesk ? '/hotdesk' : '';
       return [
         { name: this.$t('objects.directory.directory') },
-        { name: this.$tc('objects.directory.devices.devices', 2), route: '/directory/devices' },
+        { name: this.$tc('objects.directory.devices.devices', 2), route: baseUrl },
         {
           name: this.id ? this.itemInstance.name : this.$t('objects.new'),
-          route: this.id ? `${url}/${this.id}` : `${url}/new`,
+          route: this.id ? `${url}/${this.id}` : `${baseUrl}/new`,
         },
       ];
     },

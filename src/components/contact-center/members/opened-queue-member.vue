@@ -7,8 +7,7 @@
                 close
                 @close="resetState"
         >
-            {{$tc('objects.ccenter.members.members', 1)}} |
-            {{computeTitle}}
+          <headline-nav :path="path"></headline-nav>
         </object-header>
         <tabs-component
                 :tabs="tabs"
@@ -81,11 +80,23 @@
 
         computed: {
             ...mapState('ccenter/queues/members', {
-                itemInstance: (state) => state.itemInstance,
+              parentQueue: (state) => state.parentQueue,
+              itemInstance: (state) => state.itemInstance,
             }),
             id: {
                 get() { return this.$store.state.ccenter.queues.members.itemId; },
                 set(value) { this.setId(value); },
+            },
+            path() {
+              const baseUrl = `/contact-center/queues/${this.parentQueue.id}/members`;
+              return [
+                { name: this.$t('objects.ccenter.ccenter') },
+                { name: this.$tc('objects.ccenter.members.members', 2), route: baseUrl },
+                {
+                  name: this.id ? this.itemInstance.name : this.$t('objects.new'),
+                  route: this.id ? `${baseUrl}/${this.id}` : `${baseUrl}/new`,
+                },
+              ];
             },
         },
 

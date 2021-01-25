@@ -143,11 +143,12 @@
             },
 
           path() {
-              const type = this.$route.params.type;
-              const url = `/integrations/storage/${type}`;
+              const { type } = this.$route.params;
+              const baseUrl = '/integrations/storage';
+              const url = `${baseUrl}/${type}`;
             return [
               { name: this.$t('objects.integrations.integrations') },
-              { name: this.$t('objects.integrations.storage.storage'), route: '/integrations/storage' },
+              { name: this.$t('objects.integrations.storage.storage'), route: baseUrl },
               {
                 name: this.id ? this.itemInstance.name : this.$t('objects.new'),
                 route: this.id ? `${url}/${this.id}` : `${url}/new`,

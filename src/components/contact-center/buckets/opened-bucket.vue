@@ -77,12 +77,13 @@
             },
 
           path() {
+              const baseUrl = '/contact-center/buckets';
             return [
               { name: this.$t('objects.ccenter.ccenter') },
-              { name: this.$tc('objects.ccenter.buckets.buckets', 2), route: '/contact-center/buckets' },
+              { name: this.$tc('objects.ccenter.buckets.buckets', 2), route: baseUrl },
               {
                 name: this.id ? this.itemInstance.name : this.$t('objects.new'),
-                route: this.id ? `/contact-center/bucket/${this.id}` : '/contact-center/bucket/new',
+                route: this.id ? `${baseUrl}/${this.id}` : `${baseUrl}/new`,
               },
             ];
           },

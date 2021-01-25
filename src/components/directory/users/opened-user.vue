@@ -82,12 +82,13 @@ export default {
     }),
 
     path() {
+      const baseUrl = '/directory/users';
       return [
         { name: this.$t('objects.directory.directory') },
-        { name: this.$tc('objects.directory.users.users', 2), route: '/directory/users' },
+        { name: this.$tc('objects.directory.users.users', 2), route: baseUrl },
         {
           name: this.id ? this.itemInstance.name : this.$t('objects.new'),
-          route: this.id ? `/directory/users/${this.id}` : '/directory/users/new',
+          route: this.id ? `${baseUrl}/${this.id}` : `${baseUrl}/new`,
         },
       ];
     },

@@ -26,6 +26,7 @@ export default {
     path: {
       type: Array,
       required: true,
+      // PATH EXAMPLE
       // default: () => [
       //   { name: 'directory' },
       //   { name: 'users', route: '/directory/users' },
@@ -40,6 +41,8 @@ export default {
 .headline-nav {
   display: flex;
   align-items: center;
+  flex-wrap: wrap;
+  max-width: 80%;
 }
 
 .headline-nav__nav__wrapper {

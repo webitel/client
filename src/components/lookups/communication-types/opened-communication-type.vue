@@ -98,12 +98,13 @@
             },
 
           path() {
+              const baseUrl = '/lookups/communications';
             return [
               { name: this.$t('objects.lookups.lookups') },
-              { name: this.$tc('objects.lookups.communications.communications', 2), route: '/lookups/communications' },
+              { name: this.$tc('objects.lookups.communications.communications', 2), route: baseUrl },
               {
                 name: this.id ? this.itemInstance.name : this.$t('objects.new'),
-                route: this.id ? `/lookups/communications/${this.id}` : '/lookups/communications/new',
+                route: this.id ? `${baseUrl}/${this.id}` : `${baseUrl}/new`,
               },
             ];
           },

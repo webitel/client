@@ -79,12 +79,13 @@
             },
 
           path() {
+              const baseUrl = '/permissions/roles';
             return [
               { name: this.$t('objects.permissions.permissions') },
-              { name: this.$tc('objects.permissions.permissionsRole', 2), route: '/permissions/roles' },
+              { name: this.$tc('objects.permissions.permissionsRole', 2), route: baseUrl },
               {
                 name: this.id ? this.itemInstance.name : this.$t('objects.new'),
-                route: this.id ? `/permissions/roles/${this.id}` : '/permissions/roles/new',
+                route: this.id ? `${baseUrl}/${this.id}` : `${baseUrl}/new`,
               },
             ];
           },

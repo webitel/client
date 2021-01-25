@@ -117,10 +117,11 @@ export default {
     },
 
     path() {
-      const url = this.isRegister ? '/routing/gateways/register' : '/routing/gateways/trunking';
+      const baseUrl = '/routing/gateways';
+      const url = baseUrl + this.isRegister ? '/register' : '/trunking';
       return [
         { name: this.$t('objects.routing.routing') },
-        { name: this.$tc('objects.routing.gateways.gateways', 2), route: '/routing/gateways' },
+        { name: this.$tc('objects.routing.gateways.gateways', 2), route: baseUrl },
         {
           name: `${(this.id ? this.itemInstance.name : this.$t('objects.new'))} (${this.gatewayTitle})`,
           route: this.id ? `${url}/${this.id}` : `${url}/new`,

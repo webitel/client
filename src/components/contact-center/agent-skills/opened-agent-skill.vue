@@ -76,12 +76,13 @@
             },
 
           path() {
+              const baseUrl = '/contact-center/skills';
             return [
               { name: this.$t('objects.ccenter.ccenter') },
-              { name: this.$tc('objects.ccenter.skills.agentSkills', 2), route: '/contact-center/skills' },
+              { name: this.$tc('objects.ccenter.skills.agentSkills', 2), route: baseUrl },
               {
                 name: this.id ? this.itemInstance.name : this.$t('objects.new'),
-                route: this.id ? `/contact-center/skills/${this.id}` : '/contact-center/skills/new',
+                route: this.id ? `${baseUrl}/${this.id}` : `${baseUrl}/new`,
               },
             ];
           },

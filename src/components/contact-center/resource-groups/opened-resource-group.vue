@@ -100,12 +100,13 @@
             },
 
           path() {
+            const baseUrl = '/contact-center/resource-groups';
             return [
               { name: this.$t('objects.ccenter.ccenter') },
-              { name: this.$tc('objects.ccenter.resGroups.resGroups', 2), route: '/contact-center/resource-groups' },
+              { name: this.$tc('objects.ccenter.resGroups.resGroups', 2), route: baseUrl },
               {
                 name: this.id ? this.itemInstance.name : this.$t('objects.new'),
-                route: this.id ? `/contact-center/resource-groups/${this.id}` : '/contact-center/resource-groups/new',
+                route: this.id ? `${baseUrl}/${this.id}` : `${baseUrl}/new`,
               },
             ];
           },

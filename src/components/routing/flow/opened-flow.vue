@@ -97,12 +97,13 @@
             },
 
           path() {
+              const baseUrl = '/routing/flow';
             return [
               { name: this.$t('objects.routing.routing') },
-              { name: this.$tc('objects.routing.flow.flow', 2), route: '/routing/flow' },
+              { name: this.$tc('objects.routing.flow.flow', 2), route: baseUrl },
               {
                 name: this.id ? this.itemInstance.name : this.$t('objects.new'),
-                route: this.id ? `/routing/flow/${this.id}` : '/routing/flow/new',
+                route: this.id ? `${baseUrl}/${this.id}` : `${baseUrl}/new`,
               },
             ];
           },

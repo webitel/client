@@ -89,12 +89,13 @@ export default {
     },
 
     path() {
+      const baseUrl = '/contact-center/agents';
       return [
         { name: this.$t('objects.ccenter.ccenter') },
-        { name: this.$tc('objects.ccenter.agents.agents', 2), route: '/contact-center/agents' },
+        { name: this.$tc('objects.ccenter.agents.agents', 2), route: baseUrl },
         {
           name: this.id ? this.itemInstance.user.name : this.$t('objects.new'),
-          route: this.id ? `/contact-center/agents/${this.id}` : '/contact-center/agents/new',
+          route: this.id ? `${baseUrl}/${this.id}` : `${baseUrl}/new`,
         },
       ];
     },

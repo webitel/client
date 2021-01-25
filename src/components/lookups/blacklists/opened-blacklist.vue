@@ -90,12 +90,13 @@
             },
 
           path() {
+              const baseUrl = '/lookups/blacklist';
             return [
               { name: this.$t('objects.lookups.lookups') },
-              { name: this.$tc('objects.lookups.blacklist.blacklist', 2), route: '/lookups/blacklist' },
+              { name: this.$tc('objects.lookups.blacklist.blacklist', 2), route: baseUrl },
               {
                 name: this.id ? this.itemInstance.name : this.$t('objects.new'),
-                route: this.id ? `/lookups/blacklist/${this.id}` : '/lookups/blacklist/new',
+                route: this.id ? `${baseUrl}/${this.id}` : `${baseUrl}/new`,
               },
             ];
           },

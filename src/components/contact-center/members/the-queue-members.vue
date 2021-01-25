@@ -174,13 +174,11 @@ export default {
       return !(this.parentQueue.type === 1);
     },
     path() {
+      const baseUrl = `/contact-center/queues/${this.parentQueue.id}`;
       return [
         { name: this.$t('objects.ccenter.ccenter') },
-        { name: this.$tc('objects.ccenter.users.users', 2), route: '/directory/users' },
-        {
-          name: this.id ? this.itemInstance.name : this.$t('objects.new'),
-          route: this.id ? `/directory/users/${this.id}` : '/directory/users/new',
-        },
+        { name: this.parentQueue.name, route: baseUrl },
+        { name: this.$tc('objects.ccenter.members.members', 2), route: `${baseUrl}/members` },
       ];
     },
   },

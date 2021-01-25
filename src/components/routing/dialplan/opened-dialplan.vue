@@ -112,12 +112,13 @@
             },
 
           path() {
+              const baseUrl = '/routing/dialplan';
             return [
               { name: this.$t('objects.routing.routing') },
-              { name: this.$t('objects.routing.dialplan.dialplan'), route: '/routing/dialplan' },
+              { name: this.$t('objects.routing.dialplan.dialplan'), route: baseUrl },
               {
                 name: this.id ? this.itemInstance.name : this.$t('objects.new'),
-                route: this.id ? `/routing/dialplan/${this.id}` : '/routing/dialplan/new',
+                route: this.id ? `${baseUrl}/${this.id}` : `${baseUrl}/new`,
               },
             ];
           },
