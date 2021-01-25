@@ -1,8 +1,7 @@
 <template>
     <div class="content-wrap">
         <object-header hide-primary>
-            {{$t('objects.lookups.lookups')}} |
-            {{$tc('objects.lookups.media.mediaFiles', 2)}}
+          <headline-nav :path="path"></headline-nav>
         </object-header>
 
         <!--        <textToSpeechPopup-->
@@ -224,6 +223,13 @@
                     this.setSearch(value);
                 },
             },
+
+          path() {
+            return [
+              { name: this.$t('objects.lookups.lookups') },
+              { name: this.$tc('objects.lookups.media.mediaFiles', 2), route: '/lookups/media' },
+             ];
+          },
         },
 
         methods: {

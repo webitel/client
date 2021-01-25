@@ -6,8 +6,7 @@
                 :primaryDisabled="computeDisabled"
                 close
         >
-            {{$t('objects.integrations.storage.storage')}} |
-            {{computeTitle}}
+          <headline-nav :path="path"></headline-nav>
         </object-header>
         <tabs-component
                 :tabs="tabs"
@@ -34,10 +33,11 @@
     import openedStorageBackblaze from './opened-storage-backblaze';
     import openedStorageDropbox from './opened-storage-dropbox';
     import openedStorageDrive from './opened-storage-drive';
+    import headlineNavMixin from '../../../mixins/headlineNavMixin/headlineNavMixin';
 
     export default {
         name: 'opened-storage',
-        mixins: [editComponentMixin],
+        mixins: [editComponentMixin, headlineNavMixin],
         components: {
             openedStorageGeneral,
             openedStorageLocal,
@@ -142,6 +142,20 @@
                 }
                 return tabs;
             },
+
+          path() {
+              const { type } = this.$route.params;
+              const baseUrl = '/integrations/storage';
+              const url = `${baseUrl}/${type}`;
+            return [
+              { name: this.$t('objects.integrations.integrations') },
+              { name: this.$t('objects.integrations.storage.storage'), route: baseUrl },
+              {
+                name: this.id ? this.pathName : this.$t('objects.new'),
+                route: this.id ? `${url}/${this.id}` : `${url}/new`,
+              },
+            ];
+          },
         },
 
         methods: {

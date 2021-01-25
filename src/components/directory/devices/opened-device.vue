@@ -7,8 +7,7 @@
           :primary-disabled="computeDisabled"
           :secondary-action="close"
       >
-        {{ $tc('objects.directory.devices.devices', 1) }}
-        | {{ computeTitle }}
+        <headline-nav :path="path"></headline-nav>
       </object-header>
     </template>
 
@@ -38,10 +37,11 @@ import OpenedDevicePermissions from './opened-device-permissions.vue';
 import OpenedDeviceHotdeskGeneral from './opened-hotdesk-device-general.vue';
 import OpenedDeviceHotdeskHotdesking from './opened-hotdesk-device-hotdesking.vue';
 import editComponentMixin from '../../../mixins/editComponentMixin';
+import headlineNavMixin from '../../../mixins/headlineNavMixin/headlineNavMixin';
 
 export default {
   name: 'opened-device',
-  mixins: [editComponentMixin],
+  mixins: [editComponentMixin, headlineNavMixin],
   components: {
     OpenedDeviceGeneral,
     OpenedDevicePhoneInfo,
@@ -115,6 +115,19 @@ export default {
 
       if (this.id) defaultTabs.push(permissions);
       return defaultTabs;
+    },
+
+    path() {
+      const baseUrl = '/directory/devices';
+      const url = baseUrl + this.isHotdesk ? '/hotdesk' : '';
+      return [
+        { name: this.$t('objects.directory.directory') },
+        { name: this.$tc('objects.directory.devices.devices', 2), route: baseUrl },
+        {
+          name: this.id ? this.pathName : this.$t('objects.new'),
+          route: this.id ? `${url}/${this.id}` : `${baseUrl}/new`,
+        },
+      ];
     },
   },
 

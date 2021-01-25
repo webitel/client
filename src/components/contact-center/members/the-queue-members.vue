@@ -6,8 +6,7 @@
           :primary-action="create"
           :secondary-action="close"
       >
-        {{ $tc('objects.ccenter.queues.queues', 1) }} |
-        {{ $tc('objects.ccenter.members.members', 2) }}
+        <headline-nav :path="path"></headline-nav>
       </object-header>
     </template>
     <template slot="main">
@@ -131,6 +130,7 @@ import destinationsPopup from './opened-queue-member-destinations-popup.vue';
 import uploadPopup from './upload-members-popup.vue';
 import tableComponentMixin from '../../../mixins/tableComponentMixin';
 import tableActionsHandlerMixin from '../../../mixins/baseTableMixin/tableActionsMixin';
+import getQueueSubRoute from '../../../store/modules/contact-center/queues/_internals/scripts/getQueueSubRoute';
 
 export default {
   name: 'the-queue-members',
@@ -173,6 +173,15 @@ export default {
     // if is NOT -- member is immutable. NOT prevents actions load by default
     isNotInboundMember() {
       return !(this.parentQueue.type === 1);
+    },
+    path() {
+      const queueSubRoute = getQueueSubRoute(this.parentQueue.type);
+      const baseUrl = `/contact-center/queues/${queueSubRoute}/${this.parentQueue.id}`;
+      return [
+        { name: this.$t('objects.ccenter.ccenter') },
+        { name: this.parentQueue.name, route: baseUrl },
+        { name: this.$tc('objects.ccenter.members.members', 2), route: `${baseUrl}/members` },
+      ];
     },
   },
 

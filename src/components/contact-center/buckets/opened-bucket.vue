@@ -6,8 +6,7 @@
                 :primaryDisabled="computeDisabled"
                 close
         >
-            {{$tc('objects.ccenter.buckets.buckets', 1)}} |
-            {{computeTitle}}
+          <headline-nav :path="path"></headline-nav>
         </object-header>
         <tabs-component
                 :tabs="tabs"
@@ -30,10 +29,11 @@
     import { mapActions, mapState } from 'vuex';
     import openedBucketPermissions from './opened-bucket-permissions';
     import openedBucketGeneral from './opened-bucket-general';
+    import headlineNavMixin from '../../../mixins/headlineNavMixin/headlineNavMixin';
 
     export default {
         name: 'opened-bucket',
-        mixins: [editComponentMixin],
+        mixins: [editComponentMixin, headlineNavMixin],
         components: { openedBucketGeneral, openedBucketPermissions },
 
         data() {
@@ -76,6 +76,18 @@
                 if (this.id) tabs.push(permissions);
                 return tabs;
             },
+
+          path() {
+              const baseUrl = '/contact-center/buckets';
+            return [
+              { name: this.$t('objects.ccenter.ccenter') },
+              { name: this.$tc('objects.ccenter.buckets.buckets', 2), route: baseUrl },
+              {
+                name: this.id ? this.pathName : this.$t('objects.new'),
+                route: this.id ? `${baseUrl}/${this.id}` : `${baseUrl}/new`,
+              },
+            ];
+          },
         },
 
         methods: {

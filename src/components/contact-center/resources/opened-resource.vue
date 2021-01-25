@@ -7,8 +7,7 @@
                 close
                 @close="resetState"
         >
-            {{$tc('objects.ccenter.res.res', 1)}} |
-            {{computeTitle}}
+          <headline-nav :path="path"></headline-nav>
         </object-header>
         <tabs-component
                 :tabs="tabs"
@@ -37,10 +36,11 @@
     import openedResourceNumbers from './opened-resource-numbers';
     import openedResourceFailure from './opened-resource-failure';
     import openedResourcePermissions from './opened-resource-permissions';
+    import headlineNavMixin from '../../../mixins/headlineNavMixin/headlineNavMixin';
 
     export default {
         name: 'opened-resource',
-        mixins: [editComponentMixin],
+        mixins: [editComponentMixin, headlineNavMixin],
         components: {
             openedResourceGeneral,
             openedResourceNumbers,
@@ -114,6 +114,18 @@
                 if (this.id) tabs.push(permissions);
                 return tabs;
             },
+
+          path() {
+            const baseUrl = '/contact-center/resources';
+            return [
+              { name: this.$t('objects.ccenter.ccenter') },
+              { name: this.$tc('objects.ccenter.res.res', 2), route: baseUrl },
+              {
+                name: this.id ? this.pathName : this.$t('objects.new'),
+                route: this.id ? `${baseUrl}/${this.id}` : `${baseUrl}/new`,
+              },
+            ];
+          },
         },
 
         methods: {

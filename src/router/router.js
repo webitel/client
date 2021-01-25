@@ -51,18 +51,7 @@ const openedBucket = () => import('../components/contact-center/buckets/opened-b
 const queues = () => import('../components/contact-center/queues/the-queues');
 const members = () => import('../components/contact-center/members/the-queue-members');
 const openedMember = () => import('../components/contact-center/members/opened-queue-member');
-const openedQueueOutboundIVR = () => import('../components/contact-center/queues/outbound-ivr-queue/opened-queue-outbound-ivr');
-const openedQueueInbound = () => import('../components/contact-center/queues/inbound-queue/opened-queue-inbound-queue');
-const openedQueueOfflineQueue = () => import('../components/contact-center/queues/offline-queue/opened-queue-offline-queue');
-const openedQueuePreviewDialer = () => import('../components/contact-center/queues/preview-dialer/opened-queue-preview-dialer');
-const openedQueueProgressiveDialer
-    = () => import('../components/contact-center/queues/progressive-dialer/opened-queue-progressive-dialer');
-const openedQueuePredictiveDialer
-    = () => import('../components/contact-center/queues/predictive-dialer/opened-queue-predictive-dialer');
-const openedQueueChatInbound
-    = () => import('../components/contact-center/queues/chat-inbound-queue/opened-queue-chat-inbound-queue');
-const openedQueueTaskQueue
-    = () => import('../components/contact-center/queues/task-queue/opened-queue-task-queue');
+const OpenedQueue = () => import('../components/contact-center/queues/opened-queue');
 const triggers = () => import('../components/integrations/triggers/the-triggers');
 const openedTriggerOnEvent = () => import('../components/integrations/triggers/opened-trigger-on-event');
 const openedTriggerAtTime = () => import('../components/integrations/triggers/opened-trigger-at-time');
@@ -384,82 +373,82 @@ const router = new Router({
                 {
                     path: '/contact-center/queues/outbound-ivr/new',
                     name: 'cc-queue-outbound-ivr-new',
-                    component: openedQueueOutboundIVR,
+                    component: OpenedQueue,
                 },
                 {
                     path: '/contact-center/queues/outbound-ivr/:id',
                     name: 'cc-queue-outbound-ivr-edit',
-                    component: openedQueueOutboundIVR,
+                    component: OpenedQueue,
                 },
                 {
                     path: '/contact-center/queues/inbound-queue/new',
                     name: 'cc-queue-inbound-queue-new',
-                    component: openedQueueInbound,
+                    component: OpenedQueue,
                 },
                 {
                     path: '/contact-center/queues/inbound-queue/:id',
                     name: 'cc-queue-inbound-queue-edit',
-                    component: openedQueueInbound,
+                    component: OpenedQueue,
                 },
                 {
                     path: '/contact-center/queues/offline-queue/new',
                     name: 'cc-queue-offline-queue-new',
-                    component: openedQueueOfflineQueue,
+                    component: OpenedQueue,
                 },
                 {
                     path: '/contact-center/queues/offline-queue/:id',
                     name: 'cc-queue-offline-queue-edit',
-                    component: openedQueueOfflineQueue,
+                    component: OpenedQueue,
                 },
                 {
                     path: '/contact-center/queues/preview-dialer/new',
                     name: 'cc-queue-preview-dialer-new',
-                    component: openedQueuePreviewDialer,
+                    component: OpenedQueue,
                 },
                 {
                     path: '/contact-center/queues/preview-dialer/:id',
                     name: 'cc-queue-preview-dialer-edit',
-                    component: openedQueuePreviewDialer,
+                    component: OpenedQueue,
                 },
                 {
                     path: '/contact-center/queues/progressive-dialer/new',
                     name: 'cc-queue-progressive-dialer-new',
-                    component: openedQueueProgressiveDialer,
+                    component: OpenedQueue,
                 },
                 {
                     path: '/contact-center/queues/progressive-dialer/:id',
                     name: 'cc-queue-progressive-dialer-edit',
-                    component: openedQueueProgressiveDialer,
+                    component: OpenedQueue,
                 },
                 {
                     path: '/contact-center/queues/predictive-dialer/new',
                     name: 'cc-queue-predictive-dialer-new',
-                    component: openedQueuePredictiveDialer,
+                    component: OpenedQueue,
                 },
                 {
                     path: '/contact-center/queues/predictive-dialer/:id',
                     name: 'cc-queue-predictive-dialer-edit',
-                    component: openedQueuePredictiveDialer,
+                    component: OpenedQueue,
                 },
                 {
                     path: '/contact-center/queues/chat-inbound-queue/new',
                     name: 'cc-queue-chat-inbound-queue-new',
-                    component: openedQueueChatInbound,
+                    component: OpenedQueue,
                 },
                 {
                     path: '/contact-center/queues/chat-inbound-queue/:id',
                     name: 'cc-queue-chat-inbound-queue-edit',
-                    component: openedQueueChatInbound,
+                    component: OpenedQueue,
                 },
                 {
                     path: '/contact-center/queues/task-queue/new',
                     name: 'cc-queue-task-queue-new',
-                    component: openedQueueTaskQueue,
+                    component: OpenedQueue,
                 },
                 {
                     path: '/contact-center/queues/task-queue/:id',
                     name: 'cc-queue-task-queue-edit',
-                    component: openedQueueTaskQueue,
+                    component: OpenedQueue,
                 },
                 // --------------CONTACT CENTER END-------------
 

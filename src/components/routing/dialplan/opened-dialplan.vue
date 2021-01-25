@@ -6,7 +6,7 @@
                 :primaryDisabled="computeDisabled"
                 close
         >
-            <span>{{$t('objects.routing.dialplan.dialplanRule')}}</span> | {{computeTitle}}
+          <headline-nav :path="path"></headline-nav>
         </object-header>
         <section class="object-content module-new">
             <header class="content-header">
@@ -55,10 +55,11 @@
     import { required } from 'vuelidate/lib/validators';
     import { mapActions, mapState } from 'vuex';
     import { getFlowList } from '../../../api/routing/flow/flow';
+    import headlineNavMixin from '../../../mixins/headlineNavMixin/headlineNavMixin';
 
     export default {
         name: 'opened-dialplan',
-        mixins: [editComponentMixin],
+        mixins: [editComponentMixin, headlineNavMixin],
         data() {
             return {
 
@@ -110,7 +111,19 @@
                 get() { return this.$store.state.routing.dialplan.itemInstance.description; },
                 set(value) { this.setItemProp({ prop: 'description', value }); },
             },
-        },
+
+          path() {
+              const baseUrl = '/routing/dialplan';
+            return [
+              { name: this.$t('objects.routing.routing') },
+              { name: this.$t('objects.routing.dialplan.dialplan'), route: baseUrl },
+              {
+                name: this.id ? this.pathName : this.$t('objects.new'),
+                route: this.id ? `${baseUrl}/${this.id}` : `${baseUrl}/new`,
+              },
+            ];
+          },
+    },
 
         methods: {
             async loadDropdownOptionsList(search) {

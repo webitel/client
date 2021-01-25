@@ -7,7 +7,7 @@
                 close
                 @close="resetState"
         >
-            {{$tc('objects.lookups.blacklist.blacklist', 1)}} | {{computeTitle}}
+          <headline-nav :path="path"></headline-nav>
         </object-header>
         <tabs-component
                 :tabs="tabs"
@@ -31,6 +31,7 @@
     import openedBlacklistGeneral from './opened-blacklist-general';
     import openedBlacklistNumbers from './opened-blacklist-numbers';
     import openedBlacklistPermissions from './opened-blacklist-permissions';
+    import headlineNavMixin from '../../../mixins/headlineNavMixin/headlineNavMixin';
 
     export default {
         name: 'opened-blacklist',
@@ -39,7 +40,7 @@
             openedBlacklistNumbers,
             openedBlacklistPermissions,
         },
-        mixins: [editComponentMixin],
+        mixins: [editComponentMixin, headlineNavMixin],
 
         data() {
             return {};
@@ -88,6 +89,18 @@
                 if (this.id) tabs.push(permissions);
                 return tabs;
             },
+
+          path() {
+              const baseUrl = '/lookups/blacklist';
+            return [
+              { name: this.$t('objects.lookups.lookups') },
+              { name: this.$tc('objects.lookups.blacklist.blacklist', 2), route: baseUrl },
+              {
+                name: this.id ? this.pathName : this.$t('objects.new'),
+                route: this.id ? `${baseUrl}/${this.id}` : `${baseUrl}/new`,
+              },
+            ];
+          },
         },
 
         methods: {

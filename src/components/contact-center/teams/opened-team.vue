@@ -7,8 +7,7 @@
       :primary-text="computePrimaryText"
       :secondary-action="close"
     >
-      {{ $tc('objects.ccenter.teams.teams', 1) }} |
-      {{ computeTitle }}
+      <headline-nav :path="path"></headline-nav>
     </object-header>
     </template>
     <template slot="main">
@@ -96,6 +95,18 @@ export default {
 
       if (this.id) tabs.push(permissions);
       return tabs;
+    },
+
+    path() {
+      const baseUrl = '/contact-center/teams';
+      return [
+        { name: this.$t('objects.ccenter.ccenter') },
+        { name: this.$tc('objects.ccenter.teams.teams', 2), route: baseUrl },
+        {
+          name: this.id ? this.pathName : this.$t('objects.new'),
+          route: this.id ? `${baseUrl}/${this.id}` : `${baseUrl}/new`,
+        },
+      ];
     },
   },
 };

@@ -2,8 +2,7 @@
   <wt-page-wrapper :actions-panel="false">
     <template slot="header">
       <object-header :primaryAction="create">
-        {{ $t('objects.ccenter.ccenter') }} |
-        {{ $tc('objects.ccenter.agents.agents', 2) }}
+        <headline-nav :path="path"></headline-nav>
       </object-header>
     </template>
     <template slot="main">
@@ -120,6 +119,13 @@ export default {
         { value: 'user', text: this.$tc('objects.directory.users.users', 1) },
         { value: 'state', text: this.$t('objects.ccenter.agents.state') },
         { value: 'time', text: this.$t('objects.ccenter.agents.stateTime') },
+      ];
+    },
+
+    path() {
+      return [
+        { name: this.$t('objects.ccenter.ccenter') },
+        { name: this.$tc('objects.ccenter.agents.agents', 2), route: '/contact-center/agents' },
       ];
     },
   },

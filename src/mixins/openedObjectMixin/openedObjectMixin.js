@@ -1,5 +1,6 @@
 import { mapActions } from 'vuex';
 import editComponentMixin from '../editComponentMixin';
+import headlineNavMixin from '../headlineNavMixin/headlineNavMixin';
 
 /**
  * @fileOverview contains openedObject (wrapper with tabs, like opened-agent.vue) common logic
@@ -8,7 +9,7 @@ import editComponentMixin from '../editComponentMixin';
  * @extends editComponentMixin
  */
 export default {
-  mixins: [editComponentMixin],
+  mixins: [editComponentMixin, headlineNavMixin],
   data: () => ({
     currentTab: {
       value: 'general',
@@ -18,6 +19,7 @@ export default {
   created() {
     this.setId(this.$route.params.id);
     this.loadItem();
+    this.setInitialTab();
   },
 
   methods: {
@@ -29,5 +31,10 @@ export default {
         return dispatch(`${this.namespace}/RESET_ITEM_STATE`, payload);
       },
     }),
+
+    setInitialTab() {
+      // eslint-disable-next-line prefer-destructuring
+      if (this.tabs) this.currentTab = this.tabs[0];
+    },
   },
 };

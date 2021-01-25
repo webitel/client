@@ -147,7 +147,8 @@
 
             // get object title to show on page header
             async loadHeaderTitle(id) {
-                this.headerTitle = await getObject(id);
+                const object = await getObject(id);
+                this.headerTitle = object.class;
             },
         },
     };

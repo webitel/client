@@ -1,4 +1,5 @@
 import { mapActions } from 'vuex';
+import HeadlineNav from '../components/utils/headline-nav/headline-nav.vue';
 import baseTableMixin from './baseTableMixin/baseTableMixin';
 
 /**
@@ -12,7 +13,7 @@ import baseTableMixin from './baseTableMixin/baseTableMixin';
  */
 export default {
   mixins: [baseTableMixin],
-
+  components: { HeadlineNav },
   methods: {
     ...mapActions({
       loadDataList(dispatch, payload) {

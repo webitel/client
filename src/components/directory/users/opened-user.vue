@@ -7,8 +7,7 @@
           :primary-disabled="computeDisabled"
           :secondary-action="close"
       >
-        {{ $tc('objects.directory.users.users', 1) }}
-        | {{ computeTitle }}
+        <headline-nav :path="path"></headline-nav>
       </object-header>
     </template>
 
@@ -39,10 +38,11 @@ import OpenedUserVariables from './opened-user-variables.vue';
 import OpenedUserTokens from './opened-user-token.vue';
 import OpenedUserPermissions from './opened-user-permissions.vue';
 import editComponentMixin from '../../../mixins/editComponentMixin';
+import headlineNavMixin from '../../../mixins/headlineNavMixin/headlineNavMixin';
 
 export default {
   name: 'opened-user',
-  mixins: [editComponentMixin],
+  mixins: [editComponentMixin, headlineNavMixin],
   components: {
     OpenedUserGeneral,
     OpenedUserRoles,
@@ -81,6 +81,18 @@ export default {
       id: (state) => state.itemId,
       itemInstance: (state) => state.itemInstance,
     }),
+
+    path() {
+      const baseUrl = '/directory/users';
+      return [
+        { name: this.$t('objects.directory.directory') },
+        { name: this.$tc('objects.directory.users.users', 2), route: baseUrl },
+        {
+          name: this.id ? this.pathName : this.$t('objects.new'),
+          route: this.id ? `${baseUrl}/${this.id}` : `${baseUrl}/new`,
+        },
+      ];
+    },
 
     tabs() {
       const tabs = [{

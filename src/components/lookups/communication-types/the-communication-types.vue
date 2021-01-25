@@ -1,11 +1,8 @@
 <template>
     <div class="content-wrap">
 
-        <object-header
-                :primaryAction="create"
-        >
-            {{$t('objects.lookups.lookups')}} |
-            {{$tc('objects.lookups.communications.communications', 2)}}
+        <object-header :primaryAction="create">
+          <headline-nav :path="path"></headline-nav>
         </object-header>
 
         <section class="object-content">
@@ -120,6 +117,12 @@
                 get() { return this.$store.state.lookups.communications.search; },
                 set(value) { this.setSearch(value); },
             },
+          path() {
+            return [
+              { name: this.$t('objects.lookups.lookups') },
+              { name: this.$tc('objects.lookups.communications.communications', 2), route: '/lookups/communications' },
+            ];
+          },
         },
 
         methods: {

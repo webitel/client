@@ -7,8 +7,7 @@
                 close
                 @close="resetState"
         >
-            {{$tc('objects.ccenter.resGroups.resGroups', 1)}} |
-            {{computeTitle}}
+          <headline-nav :path="path"></headline-nav>
         </object-header>
         <tabs-component
                 :tabs="tabs"
@@ -37,10 +36,11 @@
     import openedResourceGroupResources from './opened-resource-group-resources';
     import openedResourceGroupTimerange from './opened-resource-group-timerange';
     import openedResourceGroupPermissions from './opened-resource-group-permissions';
+    import headlineNavMixin from '../../../mixins/headlineNavMixin/headlineNavMixin';
 
     export default {
         name: 'opened-resource-group',
-        mixins: [editComponentMixin],
+        mixins: [editComponentMixin, headlineNavMixin],
         components: {
             openedResourceGroupGeneral,
             openedResourceGroupResources,
@@ -99,6 +99,18 @@
                 if (this.id) tabs.push(permissions);
                 return tabs;
             },
+
+          path() {
+            const baseUrl = '/contact-center/resource-groups';
+            return [
+              { name: this.$t('objects.ccenter.ccenter') },
+              { name: this.$tc('objects.ccenter.resGroups.resGroups', 2), route: baseUrl },
+              {
+                name: this.id ? this.pathName : this.$t('objects.new'),
+                route: this.id ? `${baseUrl}/${this.id}` : `${baseUrl}/new`,
+              },
+            ];
+          },
         },
 
         methods: {
