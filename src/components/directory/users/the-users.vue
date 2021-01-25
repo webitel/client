@@ -62,6 +62,9 @@
                  {{ item.name }}
                </span>
             </template>
+            <template slot="status" slot-scope="{ item }">
+              <user-status :presence="item.presence" />
+            </template>
             <template slot="username" slot-scope="{ item }">
               {{ item.username }}
             </template>
@@ -74,7 +77,6 @@
                 @change="setDND({item, value: $event})"
               ></wt-switcher>
             </template>
-
             <template slot="actions" slot-scope="{ item, index }">
               <wt-icon-btn
                 class="table-action"
@@ -107,12 +109,13 @@
 <script>
 import { mapActions, mapState } from 'vuex';
 import UploadPopup from './upload-users-popup.vue';
+import UserStatus from './_internals/user-status-chips.vue';
 import tableComponentMixin from '../../../mixins/tableComponentMixin';
 
 export default {
   name: 'the-users',
-  components: { UploadPopup },
   mixins: [tableComponentMixin],
+  components: { UploadPopup, UserStatus },
   data: () => ({
     isUploadPopup: false,
     csvFile: null,
@@ -131,6 +134,7 @@ export default {
     headers() {
       return [
         { value: 'name', text: this.$t('objects.name') },
+        { value: 'status', text: this.$t('objects.directory.users.status'), width: 'minmax(240px, 1fr)' },
         { value: 'username', text: this.$t('objects.directory.users.login') },
         { value: 'extensions', text: this.$t('objects.directory.users.extensions') },
         { value: 'DnD', text: this.$t('objects.directory.users.DnD'), width: '80px' },
