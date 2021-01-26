@@ -17,9 +17,8 @@ export default {
   }),
 
   created() {
-    this.setId(this.$route.params.id);
-    this.loadItem();
     this.setInitialTab();
+    this.loadPageData();
   },
 
   methods: {
@@ -31,6 +30,11 @@ export default {
         return dispatch(`${this.namespace}/RESET_ITEM_STATE`, payload);
       },
     }),
+
+    async loadPageData() {
+      await this.setId(this.$route.params.id);
+      return this.loadItem();
+    },
 
     setInitialTab() {
       // eslint-disable-next-line prefer-destructuring
