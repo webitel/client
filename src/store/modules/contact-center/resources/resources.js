@@ -6,20 +6,18 @@ import {
 } from "../../../../api/contact-center/resources/resources";
 import {DefaultModule} from "../../defaults/DefaultModule";
 
-const defaultState = () => {
-    return {
-        itemId: 0,
-        itemInstance: {
-            name: '',
-            gateway: {},
-            cps: 10,
-            limit: 10,
-            description: '',
-            maxErrors: 2,
-            errorIds: [],
-        },
-    };
-};
+const defaultState = () => ({
+  itemId: 0,
+  itemInstance: {
+    name: '',
+    gateway: {},
+    cps: 10,
+    limit: 10,
+    description: '',
+    maxErrors: 2,
+    errorIds: [],
+  },
+});
 
 const defaultModule = new DefaultModule(defaultState);
 
@@ -32,31 +30,31 @@ const getters = {};
 const actions = {
     ...defaultModule.actions,
 
-    GET_LIST: async () => {
-        return await getResourceList(state.page, state.size, state.search);
+    GET_LIST: (context) => {
+        return getResourceList(context.state.page, context.state.size, context.state.search);
     },
 
-    GET_ITEM: async () => {
-        return await getResource(state.itemId);
+    GET_ITEM: (context) => {
+        return getResource(context.state.itemId);
     },
 
-    POST_ITEM: async () => {
-        return await addResource(state.itemInstance);
+    POST_ITEM: (context) => {
+        return addResource(context.state.itemInstance);
     },
 
-    PATCH_ITEM: async (context, {id, changes}) => {
-        return await patchResource(id, changes);
+    PATCH_ITEM: (context, { id, changes }) => {
+        return patchResource(id, changes);
     },
 
-    UPD_ITEM: async () => {
-        await updateResource(state.itemId, state.itemInstance);
+    UPD_ITEM: (context) => {
+        return updateResource(context.state.itemId, context.state.itemInstance);
     },
 
-    DELETE_ITEM: async (context, id) => {
-        await deleteResource(id);
+    DELETE_ITEM: (context, id) => {
+      return deleteResource(id);
     },
 
-    RESET_ITEM_STATE: async (context) => {
+    RESET_ITEM_STATE: (context) => {
         context.commit('RESET_ITEM_STATE');
         context.dispatch('ccenter/res/numbers/RESET_STATE', {}, {root: true});
     },
