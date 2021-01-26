@@ -10,6 +10,7 @@
         :label="$tc('objects.directory.users.users', 1)"
         :search="loadDropdownOptionsList"
         :internal-search="false"
+        :clearable="false"
         required
         @input="setItemProp({ prop: 'user', value: $event })"
       ></wt-select>

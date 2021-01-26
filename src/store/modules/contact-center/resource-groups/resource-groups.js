@@ -36,24 +36,24 @@ const getters = {};
 const actions = {
     ...defaultModule.actions,
 
-    GET_LIST: async () => {
-        return await getResGroupList(state.page, state.size, state.search);
+    GET_LIST: (context) => {
+        return getResGroupList(context.state.page, context.state.size, context.state.search);
     },
 
-    GET_ITEM: async () => {
-        return await getResGroup(state.itemId);
+    GET_ITEM: (context) => {
+        return getResGroup(context.state.itemId);
     },
 
-    POST_ITEM: async () => {
-        return await addResGroup(state.itemInstance);
+    POST_ITEM: (context) => {
+        return addResGroup(context.state.itemInstance);
     },
 
-    UPD_ITEM: async () => {
-        await updateResGroup(state.itemId, state.itemInstance);
+    UPD_ITEM: (context) => {
+        return updateResGroup(context.state.itemId, context.state.itemInstance);
     },
 
-    DELETE_ITEM: async (context, id) => {
-        await deleteResGroup(id);
+    DELETE_ITEM: (context, id) => {
+        return deleteResGroup(id);
     },
 
     ADD_VARIABLE_PAIR: (context) => {
@@ -72,13 +72,14 @@ const actions = {
         context.commit('SET_ITEM_PROPERTY', {prop: '_dirty', value: true});
     },
 
-    RESET_ITEM_STATE: async (context) => {
+    RESET_ITEM_STATE: (context) => {
         context.commit('RESET_ITEM_STATE');
         context.dispatch('ccenter/resGroups/res/RESET_STATE', {}, {root: true});
     },
 };
 
 const mutations = {
+  ...defaultModule.mutations,
 
     ADD_VARIABLE_PAIR: (state, pair) => {
         state.itemInstance.time.push(pair);
@@ -91,8 +92,6 @@ const mutations = {
     DELETE_VARIABLE_PAIR: (state, index) => {
         state.itemInstance.time.splice(index, 1);
     },
-
-    ...defaultModule.mutations,
 };
 
 export default {

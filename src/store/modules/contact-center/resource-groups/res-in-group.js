@@ -24,27 +24,27 @@ const state = {
 const getters = {};
 
 const actions = {
-    GET_LIST: async () => {
-        return await getResInGroupList(state.parentId, state.page, state.size, state.search);
+  ...defaultModule.actions,
+
+  GET_LIST: (context) => {
+        return getResInGroupList(context.state.parentId, context.state.page, context.state.size, context.state.search);
     },
 
-    GET_ITEM: async () => {
-        return await getResInGroup(state.parentId, state.itemId);
+    GET_ITEM: (context) => {
+        return getResInGroup(context.state.parentId, context.state.itemId);
     },
 
-    POST_ITEM: async () => {
-        return await addResInGroup(state.parentId, state.itemInstance);
+    POST_ITEM: (context) => {
+        return addResInGroup(context.state.parentId, context.state.itemInstance);
     },
 
-    UPD_ITEM: async () => {
-        await updateResInGroup(state.parentId, state.itemId, state.itemInstance);
+    UPD_ITEM: (context) => {
+        return updateResInGroup(context.state.parentId, context.state.itemId, context.state.itemInstance);
     },
 
-    DELETE_ITEM: async (context, id) => {
-        await deleteResInGroup(state.parentId, id);
+    DELETE_ITEM: (context, id) => {
+        return deleteResInGroup(context.state.parentId, id);
     },
-
-    ...defaultModule.actions,
 };
 
 const mutations = {
