@@ -154,6 +154,14 @@
   grid-column-gap: 20px;
   grid-row-gap: 10px;
   align-items: flex-start;
+
+  &__1-col {
+    grid-template-columns: 1fr;
+  }
+
+  &__w50 {
+    width: 50%;
+  }
 }
 
 .grid-w100 {
@@ -164,10 +172,6 @@
 
 .grid-w50 {
   .object-input-grid {
-    grid-template-columns: 50%;
-  }
-
-  &.object-input-grid {
     grid-template-columns: 50%;
   }
 }
