@@ -101,7 +101,9 @@ export default {
              const routeName = this.$route.name.replace('-new', '-edit');
              await this.$router.replace({ name: routeName, params: { id: this.id } });
            }
-          } catch {}
+          } catch (err) {
+            throw err;
+          }
         }
       }
     },
