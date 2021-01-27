@@ -158,16 +158,25 @@
         },
 
         methods: {
-            async create() {
-                if (!this.checkValidations()) {
-                    if (!this.id) await this.addParentItem();
-                    this.popupTriggerIf = true;
-                } else {
-                    eventBus.$emit('notification', { type: 'error', text: 'Check your validations!' });
+          async create() {
+            const invalid = this.checkValidations();
+            if (!invalid) {
+              try {
+                if (!this.parentId) {
+                  await this.addParentItem();
+                  const routeName = this.$route.name.replace('-new', '-edit');
+                  await this.$router.replace({ name: routeName, params: { id: this.parentId } });
                 }
-            },
+                this.popupTriggerIf = true;
+              } catch (err) {
+                throw err;
+              }
+            } else {
+              eventBus.$emit('notification', { type: 'error', text: 'Check your validations!' });
+            }
+          },
 
-            edit(rowIndex) {
+          edit(rowIndex) {
                 this.setId(this.dataList[rowIndex].id);
                 this.popupTriggerIf = true;
             },

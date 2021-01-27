@@ -33,8 +33,8 @@ import OpenedQueueOfflineQueueGeneral from './offline-queue/opened-queue-offline
 import OpenedQueueOfflineQueueTiming from './offline-queue/opened-queue-offline-queue-timing.vue';
 import OpenedQueueInboundQueueGeneral from './inbound-queue/opened-queue-inbound-queue-general.vue';
 import OpenedQueueInboundQueueTiming from './inbound-queue/opened-queue-inbound-queue-timing.vue';
-import OpenedQueueOutboundIvrGeneral from './outbound-ivr-queue/opened-queue-outbound-ivr-general.vue';
-import OpenedQueueOutboundIvrTiming from './outbound-ivr-queue/opened-queue-outbound-ivr-timing.vue';
+import OpenedQueueOutboundIvrQueueGeneral from './outbound-ivr-queue/opened-queue-outbound-ivr-general.vue';
+import OpenedQueueOutboundIvrQueueTiming from './outbound-ivr-queue/opened-queue-outbound-ivr-timing.vue';
 import OpenedQueuePreviewDialerGeneral from './preview-dialer/opened-queue-preview-dialer-general.vue';
 import OpenedQueuePreviewDialerTiming from './preview-dialer/opened-queue-preview-dialer-timing.vue';
 import OpenedQueueProgressiveDialerGeneral from './progressive-dialer/opened-queue-progressive-dialer-general.vue';
@@ -62,8 +62,8 @@ export default {
     OpenedQueueOfflineQueueTiming,
     OpenedQueueInboundQueueGeneral,
     OpenedQueueInboundQueueTiming,
-    OpenedQueueOutboundIvrGeneral,
-    OpenedQueueOutboundIvrTiming,
+    OpenedQueueOutboundIvrQueueGeneral,
+    OpenedQueueOutboundIvrQueueTiming,
     OpenedQueuePreviewDialerGeneral,
     OpenedQueuePreviewDialerTiming,
     OpenedQueueProgressiveDialerGeneral,
@@ -192,10 +192,6 @@ export default {
       default:
         return {};
     }
-  },
-
-  created() {
-    this.loadItem(this.queueType);
   },
 
   computed: {
@@ -385,6 +381,12 @@ export default {
           route: `${baseUrl}/${queueUrl}/${this.id ? this.id : 'new'}`,
         },
       ];
+    },
+  },
+  methods: {
+    async loadPageData() {
+      await this.setId(this.$route.params.id);
+      return this.loadItem(this.queueType);
     },
   },
 };

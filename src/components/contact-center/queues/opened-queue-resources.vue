@@ -68,9 +68,9 @@
 import openedTabComponentMixin from '@/mixins/openedTabComponentMixin';
 import tableComponentMixin from '@/mixins/tableComponentMixin';
 import { mapActions, mapState } from 'vuex';
-import eventBus from '@webitel/ui-sdk/src/scripts/eventBus';
 import resourcePopup from './opened-queue-resources-popup.vue';
 import tableActionsHandlerMixin from '../../../mixins/baseTableMixin/tableActionsMixin';
+import eventBus from '@webitel/ui-sdk/src/scripts/eventBus';
 
 export default {
   name: 'opened-queue-resources',
@@ -106,9 +106,18 @@ export default {
 
   methods: {
     async create() {
-      if (!this.checkValidations()) {
-        if (!this.id) await this.addParentItem();
-        this.popupTriggerIf = true;
+      const invalid = this.checkValidations();
+      if (!invalid) {
+        try {
+          if (!this.parentId) {
+            await this.addParentItem();
+            const routeName = this.$route.name.replace('-new', '-edit');
+            await this.$router.replace({ name: routeName, params: { id: this.parentId } });
+          }
+          this.popupTriggerIf = true;
+        } catch (err) {
+          throw err;
+        }
       } else {
         eventBus.$emit('notification', { type: 'error', text: 'Check your validations!' });
       }
