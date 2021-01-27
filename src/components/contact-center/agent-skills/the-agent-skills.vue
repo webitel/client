@@ -1,144 +1,113 @@
 <template>
-    <div class="content-wrap">
-        <object-header :primaryAction="create">
-          <headline-nav :path="path"></headline-nav>
-        </object-header>
+  <wt-page-wrapper :actions-panel="false">
+    <template slot="header">
+      <object-header :primary-action="create">
+        <headline-nav :path="path"></headline-nav>
+      </object-header>
+    </template>
 
-        <section class="object-content">
-            <header class="content-header">
-                <h3 class="content-title">{{$t('objects.ccenter.skills.allSkills')}}</h3>
-                <div class="content-header__actions-wrap">
-                    <search
-                            v-model="search"
-                            @filterData="loadList"
-                    ></search>
-                    <i
-                            class="icon-icon_delete icon-action"
-                            :class="{'hidden': anySelected}"
-                            :title="$t('iconHints.deleteSelected')"
-                            @click="deleteSelected"
-                    ></i>
-                    <i
-                            class="icon-icon_reload icon-action"
-                            :title="$t('iconHints.reload')"
-                            @click="loadList"
-                    ></i>
-                </div>
-            </header>
+    <template slot="main">
+      <section class="main-section__wrapper">
+        <header class="content-header">
+          <h3 class="content-title">{{ $t('objects.ccenter.skills.allSkills') }}</h3>
+          <div class="content-header__actions-wrap">
+            <wt-search-bar
+              :value="search"
+              debounce
+              @input="setSearch"
+              @search="loadList"
+              @enter="loadList"
+            ></wt-search-bar>
+            <wt-icon-btn
+              class="icon-action"
+              :class="{'hidden': anySelected}"
+              icon="bucket"
+              :tooltip="$t('iconHints.deleteSelected')"
+              @click="deleteSelected"
+            ></wt-icon-btn>
+            <wt-table-actions
+              :icons="['refresh']"
+              @input="tableActionsHandler"
+            ></wt-table-actions>
+          </div>
+        </header>
 
-            <loader v-show="!isLoaded"></loader>
-
-            <vuetable
-                    v-show="isLoaded"
-                    :api-mode="false"
-                    :fields="fields"
-                    :data="dataList"
-            >
-                <template slot="name" slot-scope="props">
-                    <div>
-                        <span class="nameLink" @click="edit(props.rowIndex)">
-                        {{dataList[props.rowIndex].name}}
-                        </span>
-                    </div>
-                </template>
-
-                <template slot="description" slot-scope="props">
-                    <div>
-                        {{dataList[props.rowIndex].description || ''}}
-                    </div>
-                </template>
-
-                <template slot="actions" slot-scope="props">
-                        <i class="vuetable-action icon-icon_edit"
-                           :title="$t('iconHints.edit')"
-                           @click="edit(props.rowIndex)"
-                        ></i>
-                        <i class="vuetable-action icon-icon_delete"
-                           :title="$t('iconHints.delete')"
-                           @click="remove(props.rowIndex)"
-                        ></i>
-                </template>
-            </vuetable>
-            <pagination
-                    v-show="isLoaded"
-                    v-model="size"
-                    @loadDataList="loadList"
-                    @next="nextPage"
-                    @prev="prevPage"
-                    :isNext="isNextPage"
-                    :isPrev="!!page"
-                    :page="page"
-            ></pagination>
-        </section>
-    </div>
+        <wt-loader v-show="!isLoaded"></wt-loader>
+        <div class="table-wrapper" v-show="isLoaded">
+          <wt-table
+            :headers="headers"
+            :data="dataList"
+          >
+            <template slot="name" slot-scope="{ item }">
+              <span class="nameLink" @click="edit(item)">
+                {{ item.name }}
+              </span>
+            </template>
+            <template slot="description" slot-scope="{ item }">
+              {{ item.description }}
+            </template>
+            <template slot="actions" slot-scope="{ item, index }">
+              <edit-action
+                @click="edit(item)"
+              ></edit-action>
+              <delete-action
+                @click="remove(index)"
+              ></delete-action>
+            </template>
+          </wt-table>
+          <wt-pagination
+            :size="size"
+            :next="isNext"
+            :prev="page > 1"
+            debounce
+            @next="nextPage"
+            @prev="prevPage"
+            @input="setSize"
+            @change="loadList"
+          ></wt-pagination>
+        </div>
+      </section>
+    </template>
+  </wt-page-wrapper>
 </template>
 
 <script>
-    import tableComponentMixin from '@/mixins/tableComponentMixin';
-    import { mapActions, mapState } from 'vuex';
-    import { _actionsTableField_2, _checkboxTableField } from '../../../utils/tableFieldPresets';
+import { mapState } from 'vuex';
+import tableComponentMixin from '../../../mixins/tableComponentMixin';
 
-    export default {
-        name: 'the-agent-skills',
-        mixins: [tableComponentMixin],
-        data() {
-            return {
-                fields: [
-                    _checkboxTableField,
-                    { name: 'name', title: this.$t('objects.name') },
-                    { name: 'description', title: this.$t('objects.description') },
-                    _actionsTableField_2,
-                ],
-            };
-        },
+export default {
+  name: 'the-agent-skills',
+  mixins: [tableComponentMixin],
 
-        computed: {
-            ...mapState('ccenter/skills', {
-                dataList: (state) => state.dataList,
-                page: (state) => state.page,
-                isNextPage: (state) => state.isNextPage,
-            }),
+  data: () => ({
+    namespace: 'ccenter/skills',
+    routeName: 'cc-skill',
+  }),
 
-            size: {
-                get() { return this.$store.state.ccenter.skills.size; },
-                set(value) { this.setSize(value); },
-            },
+  computed: {
+    ...mapState('ccenter/skills', {
+      dataList: (state) => state.dataList,
+      page: (state) => state.page,
+      size: (state) => state.size,
+      search: (state) => state.search,
+      isNext: (state) => state.isNextPage,
+    }),
 
-            search: {
-                get() { return this.$store.state.ccenter.skills.search; },
-                set(value) { this.setSearch(value); },
-            },
+    headers() {
+      return [
+        { value: 'name', text: this.$t('objects.name') },
+        { value: 'description', text: this.$t('objects.description') },
+      ];
+    },
 
-          path() {
-            return [
-              { name: this.$t('objects.ccenter.ccenter') },
-              { name: this.$tc('objects.ccenter.skills.agentSkills', 2), route: '/contact-center/skills' },
-            ];
-          },
-        },
-
-        methods: {
-            create() {
-                this.$router.push('/contact-center/skills/new');
-            },
-
-            edit(rowId) {
-                this.$router.push({
-                    name: 'cc-skill-edit',
-                    params: { id: this.dataList[rowId].id },
-                });
-            },
-
-            ...mapActions('ccenter/skills', {
-                loadDataList: 'LOAD_DATA_LIST',
-                setSize: 'SET_SIZE',
-                setSearch: 'SET_SEARCH',
-                nextPage: 'NEXT_PAGE',
-                prevPage: 'PREV_PAGE',
-                removeItem: 'REMOVE_ITEM',
-            }),
-        },
-    };
+    path() {
+      return [
+        { name: this.$t('objects.ccenter.ccenter') },
+        { name: this.$tc('objects.ccenter.skills.agentSkills', 2), route: '/contact-center/skills' },
+      ];
+    },
+  },
+};
 </script>
 
 <style scoped>

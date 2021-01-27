@@ -11,8 +11,8 @@ const defaultItemState = () => ({
     parentQueue: {},
     itemInstance: {
         name: '',
-        priority: '0',
-        expireAt: 0,
+        priority: 0,
+        expireAt: Date.now() + 24 * 60 * 60 * 1000,
         skill: {},
         bucket: {},
         timezone: {},

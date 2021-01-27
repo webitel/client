@@ -1,59 +1,60 @@
 import {
-    addSkill, deleteSkill,
-    getSkill, getSkillsList, updateSkill
-} from "../../../../api/contact-center/agentSkills/agentSkills";
-import {DefaultModule} from "../../defaults/DefaultModule";
+  addSkill,
+  deleteSkill,
+  getSkill,
+  getSkillsList,
+  updateSkill,
+} from '../../../../api/contact-center/agentSkills/agentSkills';
+import { DefaultModule } from '../../defaults/DefaultModule';
 
-const defaultState = () => {
-    return {
-        itemId: 0,
-        itemInstance: {
-            name: '',
-            description: '',
-        },
-    };
-};
+const defaultState = () => ({
+  itemId: 0,
+  itemInstance: {
+    name: '',
+    description: '',
+  },
+});
 
 const defaultModule = new DefaultModule(defaultState);
 
 const state = {
-    ...defaultModule.state,
+  ...defaultModule.state,
 };
 
 const getters = {};
 
 const actions = {
-    GET_LIST: async (context) => {
-        return await getSkillsList(context.state.page, context.state.size, context.state.search);
-    },
+  ...defaultModule.actions,
 
-    GET_ITEM: async (context) => {
-        return await getSkill(context.state.itemId);
-    },
+  GET_LIST: async (context) => {
+    return await getSkillsList(context.state.page, context.state.size, context.state.search);
+  },
 
-    POST_ITEM: async (context) => {
-        return await addSkill(context.state.itemInstance);
-    },
+  GET_ITEM: async (context) => {
+    return await getSkill(context.state.itemId);
+  },
 
-    UPD_ITEM: async (context) => {
-        await updateSkill(context.state.itemId, context.state.itemInstance);
-    },
+  POST_ITEM: async (context) => {
+    return await addSkill(context.state.itemInstance);
+  },
 
-    DELETE_ITEM: async (context, id) => {
-        await deleteSkill(id);
-    },
+  UPD_ITEM: async (context) => {
+    await updateSkill(context.state.itemId, context.state.itemInstance);
+  },
 
-    ...defaultModule.actions,
+  DELETE_ITEM: async (context, id) => {
+    await deleteSkill(id);
+  },
 };
 
 const mutations = {
-    ...defaultModule.mutations,
+  ...defaultModule.mutations,
 };
 
 export default {
-    namespaced: true,
-    state,
-    getters,
-    actions,
-    mutations,
+  namespaced: true,
+  state,
+  getters,
+  actions,
+  mutations,
 };

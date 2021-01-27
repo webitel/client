@@ -2,24 +2,24 @@
   <wt-page-wrapper class="members" :actions-panel="false">
     <template slot="header">
       <object-header
-          :hide-primary="!isNotInboundMember"
-          :primary-action="create"
-          :secondary-action="close"
+        :hide-primary="!isNotInboundMember"
+        :primary-action="create"
+        :secondary-action="close"
       >
         <headline-nav :path="path"></headline-nav>
       </object-header>
     </template>
     <template slot="main">
       <destinations-popup
-          v-if="isDestinationsPopup"
-          :communications="communicationsOnPopup"
-          @close="closeDestinationsPopup"
+        v-if="isDestinationsPopup"
+        :communications="communicationsOnPopup"
+        @close="closeDestinationsPopup"
       ></destinations-popup>
 
       <upload-popup
-          v-if="isUploadPopup"
-          :file="csvFile"
-          @close="closeCSVPopup"
+        v-if="isUploadPopup"
+        :file="csvFile"
+        @close="closeCSVPopup"
       ></upload-popup>
 
       <section class="main-section__wrapper">
@@ -35,29 +35,29 @@
             <!--                @enter="loadList"-->
             <!--            ></wt-search-bar>-->
             <wt-icon-btn
-                class="icon-action"
-                :class="{'hidden': anySelected}"
-                icon="bucket"
-                :tooltip="$t('iconHints.deleteSelected')"
-                @click="deleteSelected"
+              class="icon-action"
+              :class="{'hidden': anySelected}"
+              icon="bucket"
+              :tooltip="$t('iconHints.deleteSelected')"
+              @click="deleteSelected"
             ></wt-icon-btn>
             <div class="upload-csv" v-if="isNotInboundMember">
               <wt-icon-btn
-                  icon="upload"
-                  :tooltip="$t('iconHints.upload')"
-                  @click="triggerFileInput"
+                icon="upload"
+                :tooltip="$t('iconHints.upload')"
+                @click="triggerFileInput"
               ></wt-icon-btn>
               <input
-                  ref="file-input"
-                  class="upload-csv__input"
-                  type="file"
-                  @change="processCSV($event)"
-                  accept=".csv"
+                ref="file-input"
+                class="upload-csv__input"
+                type="file"
+                @change="processCSV($event)"
+                accept=".csv"
               >
             </div>
             <wt-table-actions
-                :icons="['refresh']"
-                @input="tableActionsHandler"
+              :icons="['refresh']"
+              @input="tableActionsHandler"
             ></wt-table-actions>
           </div>
         </header>
@@ -65,10 +65,10 @@
         <wt-loader v-show="!isLoaded"></wt-loader>
         <div class="table-wrapper" v-show="isLoaded">
           <wt-table
-              :headers="headers"
-              :data="dataList"
-              :selectable="false"
-              :grid-actions="isNotInboundMember"
+            :headers="headers"
+            :data="dataList"
+            :selectable="isNotInboundMember"
+            :grid-actions="isNotInboundMember"
           >
             <template slot="createdAt" slot-scope="{ item }">
               {{ prettifyDate(item.createdAt) }}
@@ -97,26 +97,26 @@
 
             <template slot="actions" slot-scope="{ item, index }">
               <wt-icon-btn
-                  class="table-action"
-                  icon="edit"
-                  @click="edit(item.id)"
+                class="table-action"
+                icon="edit"
+                @click="edit(item)"
               ></wt-icon-btn>
               <wt-icon-btn
-                  class="table-action"
-                  icon="bucket"
-                  @click="remove(index)"
+                class="table-action"
+                icon="bucket"
+                @click="remove(index)"
               ></wt-icon-btn>
             </template>
           </wt-table>
           <wt-pagination
-              :size="size"
-              :next="isNext"
-              :prev="page > 1"
-              debounce
-              @next="nextPage"
-              @prev="prevPage"
-              @input="setSize"
-              @change="loadList"
+            :size="size"
+            :next="isNext"
+            :prev="page > 1"
+            debounce
+            @next="nextPage"
+            @prev="prevPage"
+            @input="setSize"
+            @change="loadList"
           ></wt-pagination>
         </div>
       </section>
@@ -136,25 +136,13 @@ export default {
   name: 'the-queue-members',
   mixins: [tableComponentMixin, tableActionsHandlerMixin],
   components: { uploadPopup, destinationsPopup },
-  data() {
-    return {
-      isUploadPopup: false,
-      communicationsOnPopup: null,
-      isDestinationsPopup: false,
-      csvFile: null,
-      headers: [
-        { value: 'createdAt', text: this.$t('objects.createdAt') },
-        { value: 'name', text: this.$t('objects.name') },
-        { value: 'priority', text: this.$t('objects.ccenter.queues.priority') },
-        { value: 'endCause', text: this.$t('objects.ccenter.queues.endCause') },
-        { value: 'destination', text: this.$tc('objects.ccenter.queues.destination', 1) },
-      ],
-    };
-  },
-
-  destroyed() {
-    this.resetState();
-  },
+  data: () => ({
+    isUploadPopup: false,
+    communicationsOnPopup: null,
+    isDestinationsPopup: false,
+    csvFile: null,
+    namespace: 'ccenter/queues/members',
+  }),
 
   computed: {
     ...mapState('ccenter/queues/members', {
@@ -168,6 +156,16 @@ export default {
 
     parentId() {
       return this.$route.params.queueId;
+    },
+
+    headers() {
+      return [
+        { value: 'createdAt', text: this.$t('objects.createdAt') },
+        { value: 'name', text: this.$t('objects.name') },
+        { value: 'priority', text: this.$t('objects.ccenter.queues.priority') },
+        { value: 'endCause', text: this.$t('objects.ccenter.queues.endCause') },
+        { value: 'destination', text: this.$tc('objects.ccenter.queues.destination', 1) },
+      ];
     },
 
     // if is NOT -- member is immutable. NOT prevents actions load by default
@@ -246,10 +244,10 @@ export default {
       });
     },
 
-    edit(id) {
+    edit(item) {
       this.$router.push({
         name: 'cc-queue-member-edit',
-        params: { queueId: this.parentId, id },
+        params: { queueId: this.parentId, id: item.id },
       });
     },
 
@@ -266,19 +264,14 @@ export default {
 
     close() {
       this.$router.go(-1);
+      this.resetState();
     },
 
     ...mapActions('ccenter/queues/members', {
       setDestinationId: 'SET_DESTINATION_ID',
       setParentId: 'SET_PARENT_ITEM_ID',
       setId: 'SET_ITEM_ID',
-      loadDataList: 'LOAD_DATA_LIST',
       loadParentQueue: 'LOAD_PARENT_QUEUE',
-      setSize: 'SET_SIZE',
-      setSearch: 'SET_SEARCH',
-      nextPage: 'NEXT_PAGE',
-      prevPage: 'PREV_PAGE',
-      removeItem: 'REMOVE_ITEM',
       removeItems: 'REMOVE_ITEMS',
       resetState: 'RESET_STATE',
     }),
@@ -288,8 +281,6 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-@import '../../../assets/css/objects/table-page';
-
 .upload-csv {
   .upload-csv__input {
     visibility: hidden;

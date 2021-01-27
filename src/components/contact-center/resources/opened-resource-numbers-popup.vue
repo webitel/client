@@ -1,86 +1,60 @@
 <template>
-    <popup
-            :title="$tc('objects.ccenter.res.numbers', 1)"
-            :primaryAction="save"
-            :primaryText="computePrimaryText"
-            :primaryDisabled="computeDisabled"
-            @close="$emit('close')"
-            overflow
-    >
-        <form>
-            <form-input
-                    v-model="display"
-                    :v="$v.itemInstance.display"
-                    :label="$tc('objects.ccenter.res.numbers', 1)"
-                    required
-            ></form-input>
-        </form>
-    </popup>
+  <wt-popup min-width="480" overflow @close="close">
+    <template slot="title">
+      {{ $tc('objects.ccenter.res.numbers', 1) }}
+    </template>
+    <template slot="main">
+      <form>
+        <wt-input
+          :value="display"
+          :v="$v.itemInstance.display"
+          :label="$tc('objects.ccenter.res.numbers', 1)"
+          required
+          @input="setItemProp({ prop: 'display', value: $event })"
+        ></wt-input>
+      </form>
+    </template>
+    <template slot="actions">
+      <wt-button
+        :disabled="computeDisabled"
+        @click="save"
+      >{{ $t('objects.add') }}
+      </wt-button>
+      <wt-button
+        color="secondary"
+        @click="close"
+      >{{ $t('objects.close') }}
+      </wt-button>
+    </template>
+  </wt-popup>
 </template>
 
 <script>
-    import popup from '@/components/utils/popup';
-    import editComponentMixin from '@/mixins/editComponentMixin';
-    import {
- required, numeric, minValue, maxValue,
-} from 'vuelidate/lib/validators';
-    import { mapActions, mapState } from 'vuex';
-    import { getAgentsList } from '../../../api/contact-center/agents/agents';
-    import { getBucketsList } from '../../../api/contact-center/buckets/buckets';
+import { required } from 'vuelidate/lib/validators';
+import { mapState } from 'vuex';
+import nestedObjectMixin from '../../../mixins/openedObjectMixin/nestedObjectMixin';
 
-    export default {
-        name: 'opened-res-numbers-popup',
-        mixins: [editComponentMixin],
-        components: {
-            popup,
-        },
+export default {
+  name: 'opened-res-numbers-popup',
+  mixins: [nestedObjectMixin],
+  data: () => ({
+    namespace: 'ccenter/res/numbers',
+  }),
 
-        validations: {
-            itemInstance: {
-                display: {
-                    required,
-                },
-            },
-        },
+  validations: {
+    itemInstance: {
+      display: { required },
+    },
+  },
 
-        mounted() {
-            this.loadItem();
-        },
-
-        computed: {
-            ...mapState('ccenter/res/numbers', {
-                id: (state) => state.itemId,
-                itemInstance: (state) => state.itemInstance,
-            }),
-            display: {
-                get() {
-                    return this.$store.state.ccenter.res.numbers.itemInstance.display;
-                },
-                set(value) {
-                    this.setItemProp({ prop: 'display', value });
-                },
-            },
-        },
-
-        methods: {
-            async save() {
-                const invalid = this.checkValidations();
-                if (!invalid) {
-                    try {
-                        !this.id ? await this.addItem() : await this.updateItem();
-                        this.$emit('close');
-                    } catch {}
-                }
-            },
-
-            ...mapActions('ccenter/res/numbers', {
-                setItemProp: 'SET_ITEM_PROPERTY',
-                addItem: 'ADD_ITEM',
-                updateItem: 'UPDATE_ITEM',
-                loadItem: 'LOAD_ITEM',
-            }),
-        },
-    };
+  computed: {
+    ...mapState('ccenter/res/numbers', {
+      id: (state) => state.itemId,
+      itemInstance: (state) => state.itemInstance,
+      display: (state) => state.itemInstance.display,
+    }),
+  },
+};
 </script>
 
 <style scoped>

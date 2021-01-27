@@ -1,79 +1,60 @@
 <template>
-    <section>
-        <header class="content-header">
-            <h3 class="content-title">{{$t('objects.generalInfo')}}</h3>
-        </header>
-        <form class="object-input-grid">
-            <form-input
-                    v-model.trim="name"
-                    :v="v.itemInstance.name"
-                    :label="$t('objects.name')"
-                    required
-            ></form-input>
-
-            <dropdown-select
-                    v-model="communication"
-                    :v="v.itemInstance.communication"
-                    :options="dropdownOptionsList"
-                    :label="$tc('objects.lookups.communications.communications', 1)"
-                    @search="loadDropdownOptionsList"
-                    required
-            ></dropdown-select>
-
-            <form-input
-                    v-model="description"
-                    :label="$t('objects.description')"
-                    textarea
-            ></form-input>
-        </form>
-    </section>
+  <section>
+    <header class="content-header">
+      <h3 class="content-title">{{ $t('objects.generalInfo') }}</h3>
+    </header>
+    <form class="object-input-grid">
+      <wt-input
+        :value="name"
+        :v="v.itemInstance.name"
+        :label="$t('objects.name')"
+        required
+        @input="setItemProp({ prop: 'name', value: $event })"
+      ></wt-input>
+      <wt-select
+        :value="communication"
+        :v="v.itemInstance.communication"
+        :label="$tc('objects.lookups.communications.communications', 1)"
+        :search="loadDropdownOptionsList"
+        :internal-search="false"
+        :clearable="false"
+        required
+        @input="setItemProp({ prop: 'communication', value: $event })"
+      ></wt-select>
+      <wt-textarea
+        :value="description"
+        :label="$t('objects.description')"
+        @input="setItemProp({ prop: 'description', value: $event })"
+      ></wt-textarea>
+    </form>
+  </section>
 </template>
 
 <script>
-    import openedTabComponentMixin from '@/mixins/openedTabComponentMixin';
-    import { mapActions } from 'vuex';
-    import { getCommunicationsList } from '../../../api/lookups/communications/communications';
+import { mapState } from 'vuex';
+import { getCommunicationsList } from '../../../api/lookups/communications/communications';
+import openedTabComponentMixin from '../../../mixins/openedTabComponentMixin';
 
-    export default {
-        name: 'opened-resource-group-general',
-        mixins: [openedTabComponentMixin],
-        data() {
-            return {
-                dropdownOptionsList: [],
-            };
-        },
+export default {
+  name: 'opened-resource-group-general',
+  mixins: [openedTabComponentMixin],
 
-        mounted() {
-            this.loadDropdownOptionsList();
-        },
+  computed: {
+    ...mapState('ccenter/resGroups', {
+      name: (state) => state.itemInstance.name,
+      communication: (state) => state.itemInstance.communication,
+      description: (state) => state.itemInstance.description,
+    }),
+  },
 
-        computed: {
-            name: {
-                get() { return this.$store.state.ccenter.resGroups.itemInstance.name; },
-                set(value) { this.setItemProp({ prop: 'name', value }); },
-            },
-            communication: {
-                get() { return this.$store.state.ccenter.resGroups.itemInstance.communication; },
-                set(value) { this.setItemProp({ prop: 'communication', value }); },
-            },
-            description: {
-                get() { return this.$store.state.ccenter.resGroups.itemInstance.description; },
-                set(value) { this.setItemProp({ prop: 'description', value }); },
-            },
-        },
-
-        methods: {
-            async loadDropdownOptionsList(search) {
-                const response = await getCommunicationsList(0, 10, search);
-                this.dropdownOptionsList = response.list.map((comm) => ({
-                        name: comm.name,
-                        id: comm.id,
-                    }));
-            },
-
-            ...mapActions('ccenter/resGroups', {
-                setItemProp: 'SET_ITEM_PROPERTY',
-            }),
-        },
-    };
+  methods: {
+    async loadDropdownOptionsList(search) {
+      const response = await getCommunicationsList(0, 10, search);
+      return response.list.map((comm) => ({
+        name: comm.name,
+        id: comm.id,
+      }));
+    },
+  },
+};
 </script>
