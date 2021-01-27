@@ -89,13 +89,19 @@ export default {
       },
     }),
 
-    save() {
+   async save() {
       const invalid = this.checkValidations();
       if (!invalid) {
         if (this.id) {
-          this.updateItem();
+         await this.updateItem();
         } else {
-          this.addItem();
+          try {
+            await this.addItem();
+           if (this.id) {
+             const routeName = this.$route.name.replace('-new', '-edit');
+             await this.$router.replace({ name: routeName, params: { id: this.id } });
+           }
+          } catch {}
         }
       }
     },
