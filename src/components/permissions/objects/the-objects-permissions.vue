@@ -83,7 +83,7 @@
 <script>
     import tableComponentMixin from '@/mixins/tableComponentMixin';
     import { mapActions, mapState } from 'vuex';
-    import tableActionsHandlerMixin from '../../../mixins/tableActionsMixin';
+    import tableActionsHandlerMixin from '../../../mixins/baseTableMixin/tableActionsMixin';
 
     export default {
         name: 'the-objects-permissions',

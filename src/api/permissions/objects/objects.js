@@ -8,7 +8,7 @@ import WebitelAPIDefaultAccess from '../../utils/ApiControllers/Permissions/Webi
 const BASE_URL = '/objclass';
 const BASE_DEFAULTS_URL = '/acl/objclass';
 
-const itemGetter = new WebitelAPIItemGetter(BASE_URL);
+ const itemGetter = new WebitelAPIItemGetter(BASE_URL);
  const permissionsGetter = new WebitelAPIPermissionsGetter(BASE_URL);
  const permissionsPatcher = new WebitelAPIPermissionsPatcher(BASE_URL);
  const permissionsDefaultsPatcher = new WebitelAPIDefaultAccess(BASE_DEFAULTS_URL);
@@ -41,9 +41,6 @@ export const getObjectList = async (search, page = 1, size = 10) => {
         throw error;
     }
 };
-
-
-export const getObject = (id) => itemGetter.getItem(id);
 
 export const updateObject = async (id, changes) => {
     const url = `${BASE_URL}/${id}`;

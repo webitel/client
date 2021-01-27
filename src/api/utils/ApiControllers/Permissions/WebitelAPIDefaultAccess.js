@@ -6,11 +6,11 @@ export default class WebitelAPIDefaultAccess {
     }
 
     async searchObjclassDefaultList(oid, page, size, search) {
-        const url = `${this.url}/${oid}`;        
-        if (search && search.slice(-1) !== '*') search += '*';        
-        url += `?page=${size}&page=${page}&q=${search}`;
+        let url = `${this.url}/${oid}`;        
+        if (search && search.slice(-1) !== '*') search += '*';
+        url += `?size=${size}&page=${page}&q=${search}`;
         try {
-            const response = await instance.get(url + queryString());
+            const response = await instance.get(url);
             return response;
         } catch (err) {
             throw err;
