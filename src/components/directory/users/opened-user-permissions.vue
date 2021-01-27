@@ -23,7 +23,7 @@
       </div>
     </header>
 
-    <loader v-show="!isLoaded"></loader>
+    <wt-loader v-show="!isLoaded"></wt-loader>
     <div class="table-wrapper" v-show="isLoaded">
       <wt-table
           :headers="headers"

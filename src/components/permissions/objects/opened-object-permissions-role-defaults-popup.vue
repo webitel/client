@@ -47,7 +47,7 @@
 
         computed: {
             ...mapState('permissions/objects', {
-                dataList: (state) => state.itemPermissionsDefaultList,
+                dataList: (state) => state.recordsInstance.dataList,
             }),
 
             computeAvailableGrantees() {

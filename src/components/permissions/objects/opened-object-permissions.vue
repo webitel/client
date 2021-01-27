@@ -1,24 +1,33 @@
 <template>
-    <div class="opened-object-permissions">
-        <object-header
-            :primaryText="computePrimaryText"
-            :primaryAction="save"
-            close
-        >
-          <headline-nav :path="path"></headline-nav>
-        </object-header>
-        <tabs-component
+    <wt-page-wrapper :actions-panel="false">
+        <template slot="header">
+            <wt-headline>
+                <template slot="title">
+                {{$t('objects.permissions.object.operations')}} |
+                {{ computeTitle }}
+                </template>
+                <template slot="actions">           
+                    <wt-button color="secondary" @click="close">
+                        {{ $t('objects.close') }}
+                    </wt-button>
+                </template>
+            </wt-headline>
+        </template>
+        
+        <template slot="main">
+        <div class="main-container">
+            <wt-tabs
+                v-model="currentTab"
+
                 :tabs="tabs"
-                :root="$options.name"
-        >
-             <template slot="component" slot-scope="props">
-                <component
-                        class="tabs-inner-component"
-                        :is="props.currentTab"
-                ></component>
-             </template>
-         </tabs-component>
-    </div>
+            >
+            </wt-tabs>
+            <component
+                :is="$options.name + '-' + currentTab.value"
+            ></component>
+        </div>
+        </template>       
+    </wt-page-wrapper>
 </template>
 
 <script>
@@ -36,7 +45,11 @@
         },
         mixins: [editComponentMixin, headlineNavMixin],
         data() {
-            return {};
+            return {
+                currentTab: {
+                    value: 'general',
+                },
+            };
         },
 
         mounted() {

@@ -14,7 +14,7 @@
                 @search="loadDropdownOptionsList"
             ></dropdown-select>
         </section>
-    </popup>
+    </popup>    
 </template>
 
 <script>
@@ -39,7 +39,7 @@
 
         computed: {
             ...mapState('permissions/objects', {
-                dataList: (state) => state.itemPermissionsDataList,
+                dataList: (state) => state.operationInstance.dataList,
             }),
 
             computeAvailableGrantees() {

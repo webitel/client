@@ -8,13 +8,13 @@ import WebitelAPIDefaultAccess from '../../utils/ApiControllers/Permissions/Webi
 const BASE_URL = '/objclass';
 const BASE_DEFAULTS_URL = '/acl/objclass';
 
-const itemGetter = new WebitelAPIItemGetter(BASE_URL);
+ const itemGetter = new WebitelAPIItemGetter(BASE_URL);
  const permissionsGetter = new WebitelAPIPermissionsGetter(BASE_URL);
  const permissionsPatcher = new WebitelAPIPermissionsPatcher(BASE_URL);
- const permissionsDefaultsPatcher = new WebitelAPIDefaultAccess(BASE_URL);
- const defaultAccessList = new WebitelAPIDefaultAccess(BASE_URL);
+ const permissionsDefaultsPatcher = new WebitelAPIDefaultAccess(BASE_DEFAULTS_URL);
+ const defaultAccessList = new WebitelAPIDefaultAccess(BASE_DEFAULTS_URL);
 
-export const getObjectList = async (search) => {
+export const getObjectList = async (search, page = 1, size = 10) => {
     const defaultObject = { // default object prototype, to merge response with it to get all fields
         class: '',
         obac: false,
@@ -23,60 +23,64 @@ export const getObjectList = async (search) => {
     };
 
     let url = BASE_URL;
-    if (search) url += `name='${search}*`;
+    
+    url += `?size=${size}`;
+    url += `&page=${page}`;
+    if (search) {
+        url += '&class=' + search;
+        if(search.slice(-1) != '*') url += '*';
+    }
 
     try {
         const response = await instance.get(url);
-        return response.items.map((item) => ({ ...defaultObject, ...item }));
+        return { 
+            list: response.items.map((item) => ({ ...defaultObject, ...item })), 
+            next: response.next 
+        }
     } catch (error) {
         throw error;
     }
 };
 
-export const getObject = (id) => itemGetter.getItem(id);
-
-export const updateObject = async (id, item) => {
+export const updateObject = async (id, changes) => {
     const url = `${BASE_URL}/${id}`;
-    const updatedItem = {
-        obac: item.obac,
-        rbac: item.rbac,
-    };
-
     try {
-        await instance.put(url, updatedItem);
+        await instance.put(url, changes);
         eventBus.$emit('notification', { type: 'info', text: 'Successfully updated' });
     } catch (error) {
         throw error;
     }
 };
 
-export const getObjectPermissions = async (id) => await permissionsGetter.getList(id);
+export const updateObacObject = async (id, changes) => {
+    const url = `${BASE_URL}/${id}/acl`;
+    try {
+        await instance.put(url, changes);
+        eventBus.$emit('notification', { type: 'info', text: 'Successfully updated' });
+    } catch (error) {
+        throw error;
+    }
+};
+
+
+export const getObject = async (id) => {
+    const url = `${BASE_URL}/${id}`;
+    try {
+        const response = await instance.get(url);
+        return response.class.class;
+    } catch (error) {
+        throw error;
+    }
+};
+
+export const getObjectPermissions = (id, page, size, search) => permissionsGetter.getList(id, page, size, search);
+
 
 export const patchObjectPermissions = async (id, item) => await permissionsPatcher.patchItem(id, item);
 
 export const patchObjectDefaultPermissions = async (id, grantorId, item) => await permissionsDefaultsPatcher.patchDefaultItem(id, grantorId, item);
 
-export const coerceObjectPermissionsResponse = (response) => {
-    let formattedResponse = [];
-    if (response.items) {
-        // format response before assignment
-        formattedResponse = response.items.map((item) => ({
-                grantee: {
-                    id: item.grantee.id,
-                    name: item.grantee.name,
-                },
-                access: {
-                    c: item.granted.includes('x'),
-                    r: item.granted.includes('r'),
-                    w: item.granted.includes('w'),
-                    d: item.granted.includes('d'),
-                },
-            }));
-    }
-    return formattedResponse;
-};
-
-export const fetchObjclassDefaultList = async (oid) => {
+export const fetchObjclassDefaultList = async (objectId, page, size, search) => {
     const getName = (value) => {
         switch (value) {
             case 1:
@@ -89,9 +93,9 @@ export const fetchObjclassDefaultList = async (oid) => {
                 return '';
         }
     };
-    const response = await defaultAccessList.searchObjclassDefaultList(oid);
-    if (Array.isArray(response)) {
-        const list = response.map((item) => ({
+    const response = await defaultAccessList.searchObjclassDefaultList(objectId, page, size, search);
+    if (Array.isArray(response.items)) {
+        const list = response.items.map((item) => ({
             grantee: item.grantee,
             grantor: item.grantor,
             perm: {
@@ -112,9 +116,9 @@ export const fetchObjclassDefaultList = async (oid) => {
                 },
             },
         }));
-        return list;
+        return { list: list, next: response.next };
     }
     return [];
 };
 
-export const toggleObjclassDefaultMode = async (oid, grantorId, rule) => await defaultAccessList.toggleObjclassDefaultMode(oid, grantorId, rule);
+export const toggleObjclassDefaultMode = async (objectId, grantorId, rule) => await defaultAccessList.toggleObjclassDefaultMode(objectId, grantorId, rule);
