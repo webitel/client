@@ -1,163 +1,123 @@
 <template>
-    <section>
-        <skill-popup
-                v-if="popupTriggerIf"
-                @close="closePopup"
-        ></skill-popup>
+  <section>
+    <skill-popup
+      v-if="isSkillPopup"
+      @close="closePopup"
+    ></skill-popup>
 
-        <header class="content-header">
-            <h3 class="content-title">{{$tc('objects.ccenter.skills.skills', 2)}}</h3>
-            <div class="content-header__actions-wrap">
-                <search
-                        v-model="search"
-                        @filterData="loadList"
-                ></search>
-                <i
-                        class="icon-icon_delete icon-action"
-                        :class="{'hidden': anySelected}"
-                        :title="$t('iconHints.deleteSelected')"
-                        @click="deleteSelected"
-                ></i>
-                <i
-                        class="icon-icon_reload icon-action"
-                        :title="$t('iconHints.reload')"
-                        @click="loadList"
-                ></i>
-                <i
-                        class="icon-action icon-icon_plus"
-                        :title="$t('iconHints.add')"
-                        @click="create"
-                ></i>
-            </div>
-        </header>
+    <header class="content-header">
+      <h3 class="content-title">{{ $tc('objects.ccenter.skills.skills', 2) }}</h3>
+      <div class="content-header__actions-wrap">
+        <wt-search-bar
+          :value="search"
+          debounce
+          @enter="loadList"
+          @input="setSearch"
+          @search="loadList"
+        ></wt-search-bar>
+        <wt-icon-btn
+          :class="{'hidden': anySelected}"
+          :tooltip="$t('iconHints.deleteSelected')"
+          class="icon-action"
+          icon="bucket"
+          @click="deleteSelected"
+        ></wt-icon-btn>
+        <wt-table-actions
+          :icons="['refresh']"
+          @input="tableActionsHandler"
+        ></wt-table-actions>
+        <wt-icon-btn
+          class="icon-action"
+          icon="plus"
+          @click="create"
+        ></wt-icon-btn>
+      </div>
+    </header>
 
-        <loader v-show="!isLoaded"></loader>
+    <wt-loader v-show="!isLoaded"></wt-loader>
+    <div v-show="isLoaded" class="table-wrapper">
+      <wt-table
+        :data="dataList"
+        :headers="headers"
+      >
+        <template slot="name" slot-scope="{ item }">
+          <div v-if="item.skill">
+            {{ item.skill.name }}
+          </div>
+        </template>
 
-        <vuetable
-                v-show="isLoaded"
-                :api-mode="false"
-                :fields="fields"
-                :data="dataList"
-        >
-            <template slot="name" slot-scope="props">
-                <div>
-                    {{dataList[props.rowIndex].skill.name}}
-                </div>
-            </template>
+        <template slot="capacity" slot-scope="{ item }">
+          {{ item.capacity }}
+        </template>
 
-            <template slot="capacity" slot-scope="props">
-                <div>
-                    {{dataList[props.rowIndex].capacity}}
-                </div>
-            </template>
-
-            <template slot="actions" slot-scope="props">
-                <i class="vuetable-action icon-icon_edit"
-                   @click="edit(props.rowIndex)"
-                ></i>
-                <i class="vuetable-action icon-icon_delete"
-                   @click="remove(props.rowIndex)"
-                ></i>
-            </template>
-        </vuetable>
-        <pagination
-                v-show="isLoaded"
-                v-model="size"
-                @loadDataList="loadList"
-                @next="nextPage"
-                @prev="prevPage"
-                :isNext="isNextPage"
-                :isPrev="!!page"
-                :page="page"
-        ></pagination>
-    </section>
+        <template slot="actions" slot-scope="{ item, index }">
+          <edit-action
+            @click="edit(item)"
+          ></edit-action>
+          <delete-action
+            @click="remove(index)"
+          ></delete-action>
+        </template>
+      </wt-table>
+      <wt-pagination
+        :next="isNext"
+        :prev="page > 1"
+        :size="size"
+        debounce
+        @change="loadList"
+        @input="setSize"
+        @next="nextPage"
+        @prev="prevPage"
+      ></wt-pagination>
+    </div>
+  </section>
 </template>
 
 <script>
-    import tableComponentMixin from '@/mixins/tableComponentMixin';
-    import openedTabComponentMixin from '@/mixins/openedTabComponentMixin';
-    import { _checkboxTableField, _actionsTableField_2 } from '@/utils/tableFieldPresets';
-    import { mapActions, mapState } from 'vuex';
-    import eventBus from '@webitel/ui-sdk/src/scripts/eventBus';
-    import openedAgentSkillsPopup from './opened-agent-skills-popup';
+import { mapState } from 'vuex';
+import SkillPopup from './opened-agent-skills-popup.vue';
+import openedObjectTableTabMixin from '../../../mixins/openedObjectTableTabMixin/openedObjectTableTabMixin';
 
-    export default {
-        name: 'opened-agent-skills',
-        mixins: [openedTabComponentMixin, tableComponentMixin],
-        components: {
-            'skill-popup': openedAgentSkillsPopup,
-        },
-        data() {
-            return {
-                fields: [
-                    _checkboxTableField,
-                    { name: 'name', title: this.$tc('objects.ccenter.skills.skills', 2) },
-                    { name: 'capacity', title: this.$t('objects.ccenter.skills.capacity') },
-                    _actionsTableField_2,
-                ],
-            };
-        },
+export default {
+  name: 'opened-agent-skills',
+  mixins: [openedObjectTableTabMixin],
+  components: { SkillPopup },
+  data: () => ({
+    subNamespace: 'skills',
+    isSkillPopup: false,
+  }),
 
-        watch: {
-            parentId(value) {
-                this.setParentId(value);
-            },
-        },
+  computed: {
+    ...mapState('ccenter/agents', {
+      parentId: (state) => state.itemId,
+    }),
+    ...mapState('ccenter/agents/skills', {
+      dataList: (state) => state.dataList,
+      page: (state) => state.page,
+      size: (state) => state.size,
+      search: (state) => state.search,
+      isNext: (state) => state.isNextPage,
+    }),
+    headers() {
+      return [
+        { value: 'name', text: this.$tc('objects.ccenter.skills.skills', 2) },
+        { value: 'capacity', text: this.$t('objects.ccenter.skills.capacity') },
+      ];
+    },
+  },
 
-        computed: {
-            ...mapState('ccenter/agents', {
-                parentId: (state) => state.itemId,
-            }),
-            ...mapState('ccenter/agents/skills', {
-                dataList: (state) => state.dataList,
-                page: (state) => state.page,
-                isNextPage: (state) => state.isNextPage,
-            }),
+  methods: {
+    openPopup() {
+      this.isSkillPopup = true;
+    },
 
-            size: {
-                get() { return this.$store.state.ccenter.agents.skills.size; },
-                set(value) { this.setSize(value); },
-            },
-
-            search: {
-                get() { return this.$store.state.ccenter.agents.skills.search; },
-                set(value) { this.setSearch(value); },
-            },
-        },
-
-        methods: {
-            async create() {
-                if (!this.checkValidations()) {
-                    if (!this.id) await this.addParentItem();
-                    this.popupTriggerIf = true;
-                } else {
-                    eventBus.$emit('notification', { type: 'error', text: 'Check your validations!' });
-                }
-            },
-
-            edit(rowIndex) {
-                this.setId(this.dataList[rowIndex].id);
-                this.popupTriggerIf = true;
-            },
-
-            ...mapActions('ccenter/agents', {
-                addParentItem: 'ADD_ITEM',
-            }),
-
-            ...mapActions('ccenter/agents/skills', {
-                setParentId: 'SET_PARENT_ITEM_ID',
-                setId: 'SET_ITEM_ID',
-                loadDataList: 'LOAD_DATA_LIST',
-                setSize: 'SET_SIZE',
-                setSearch: 'SET_SEARCH',
-                nextPage: 'NEXT_PAGE',
-                prevPage: 'PREV_PAGE',
-                removeItem: 'REMOVE_ITEM',
-            }),
-        },
-    };
+    closePopup() {
+      this.isSkillPopup = false;
+      this.resetItemState();
+    },
+  },
+};
 </script>
 
 <style lang="scss" scoped>
-
 </style>

@@ -3,6 +3,7 @@
     <token-popup
         v-if="isPopup"
         @close="closeTokenPopup"
+        @token-created="openTokenCreatedPopup"
     ></token-popup>
 
     <token-created-popup
@@ -79,7 +80,7 @@ import TokenPopup from './opened-user-token-popup.vue';
 import TokenCreatedPopup from './opened-user-token-created-popup.vue';
 import openedTabComponentMixin from '../../../mixins/openedTabComponentMixin';
 import tableComponentMixin from '../../../mixins/tableComponentMixin';
-import tableActionsHandlerMixin from '../../../mixins/tableActionsMixin';
+import tableActionsHandlerMixin from '../../../mixins/baseTableMixin/tableActionsMixin';
 
 export default {
   name: 'opened-user-tokens',
@@ -130,13 +131,17 @@ export default {
 
     closeTokenPopup() {
       this.isPopup = false;
-      if (this.$store.state.directory.users.tokens.itemInstance.token !== '') {
-        this.isTokenGenerated = true;
-      }
+      this.resetItemState();
+    },
+
+    openTokenCreatedPopup() {
+      this.isPopup = false;
+      this.isTokenGenerated = true;
     },
 
     closeTokenCreatedPopup() {
       this.isTokenGenerated = false;
+      this.resetItemState();
     },
 
     prettifyDate(value) {
@@ -155,6 +160,7 @@ export default {
       nextPage: 'NEXT_PAGE',
       prevPage: 'PREV_PAGE',
       removeItem: 'REMOVE_ITEM',
+      resetItemState: 'RESET_ITEM_STATE',
     }),
   },
 };

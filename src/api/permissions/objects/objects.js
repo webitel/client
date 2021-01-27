@@ -1,5 +1,6 @@
 import eventBus from '@webitel/ui-sdk/src/scripts/eventBus';
 import instance from '../../instance';
+import { WebitelAPIItemGetter } from '../../utils/ApiControllers/Getter/ApiGetter';
 import WebitelAPIPermissionsGetter from '../../utils/ApiControllers/Permissions/WebitelAPIPermissionsGetter';
 import WebitelAPIPermissionsPatcher from '../../utils/ApiControllers/Permissions/WebitelAPIPermissionsPatcher';
 import WebitelAPIDefaultAccess from '../../utils/ApiControllers/Permissions/WebitelAPIDefaultAccess';
@@ -7,6 +8,7 @@ import WebitelAPIDefaultAccess from '../../utils/ApiControllers/Permissions/Webi
 const BASE_URL = '/objclass';
 const BASE_DEFAULTS_URL = '/acl/objclass';
 
+const itemGetter = new WebitelAPIItemGetter(BASE_URL);
  const permissionsGetter = new WebitelAPIPermissionsGetter(BASE_URL);
  const permissionsPatcher = new WebitelAPIPermissionsPatcher(BASE_URL);
  const permissionsDefaultsPatcher = new WebitelAPIDefaultAccess(BASE_DEFAULTS_URL);
@@ -40,6 +42,9 @@ export const getObjectList = async (search, page = 1, size = 10) => {
     }
 };
 
+
+export const getObject = (id) => itemGetter.getItem(id);
+
 export const updateObject = async (id, changes) => {
     const url = `${BASE_URL}/${id}`;
     try {
@@ -60,6 +65,7 @@ export const updateObacObject = async (id, changes) => {
     }
 };
 
+
 export const getObject = async (id) => {
     const url = `${BASE_URL}/${id}`;
     try {
@@ -71,6 +77,7 @@ export const getObject = async (id) => {
 };
 
 export const getObjectPermissions = (id, page, size, search) => permissionsGetter.getList(id, page, size, search);
+
 
 export const patchObjectPermissions = async (id, item) => await permissionsPatcher.patchItem(id, item);
 

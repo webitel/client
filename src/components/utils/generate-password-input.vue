@@ -4,6 +4,7 @@
         ref="input-password"
         :value="passwordRepresentation"
         :v="v"
+        :placeholder="$t('objects.password')"
         :required="required"
         @input="input"
     >
@@ -54,6 +55,7 @@ export default {
   props: {
     value: {
       type: String,
+      default: '',
     },
     v: {
       type: Object,

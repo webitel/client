@@ -141,6 +141,11 @@
                 this.popupTriggerIf = true;
             },
 
+            closePopup() {
+              this.popupTriggerIf = false;
+              this.resetItemState();
+            },
+
             ...mapActions('ccenter/resGroups', {
                 addParentItem: 'ADD_ITEM',
             }),
@@ -154,6 +159,7 @@
                 nextPage: 'NEXT_PAGE',
                 prevPage: 'PREV_PAGE',
                 removeItem: 'REMOVE_ITEM',
+                resetItemState: 'RESET_ITEM_STATE',
             }),
         },
     };

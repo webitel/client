@@ -1,10 +1,7 @@
 <template>
     <div class="content-wrap">
-        <object-header
-                :primaryAction="create"
-        >
-            {{$t('objects.permissions.permissions')}} |
-            {{$tc('objects.permissions.permissionsRole', 2)}}
+        <object-header :primaryAction="create">
+          <headline-nav :path="path"></headline-nav>
         </object-header>
 
         <section class="object-content">
@@ -122,6 +119,13 @@
                     this.setSearch(value);
                 },
             },
+
+          path() {
+            return [
+              { name: this.$t('objects.permissions.permissions') },
+              { name: this.$tc('objects.permissions.permissionsRole', 2), route: '/permissions/roles' },
+           ];
+          },
         },
 
         methods: {

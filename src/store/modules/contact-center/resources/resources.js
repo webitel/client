@@ -30,6 +30,8 @@ const state = {
 const getters = {};
 
 const actions = {
+    ...defaultModule.actions,
+
     GET_LIST: async () => {
         return await getResourceList(state.page, state.size, state.search);
     },
@@ -56,10 +58,8 @@ const actions = {
 
     RESET_ITEM_STATE: async (context) => {
         context.commit('RESET_ITEM_STATE');
-        context.dispatch('ccenter/res/numbers/RESET_ITEM_STATE', {}, {root: true});
+        context.dispatch('ccenter/res/numbers/RESET_STATE', {}, {root: true});
     },
-
-    ...defaultModule.actions,
 };
 
 const mutations = {

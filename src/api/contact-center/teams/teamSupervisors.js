@@ -12,6 +12,7 @@ const fieldsToSend = ['domainId', 'teamId', 'agent'];
 
 export const getTeamSupervisorsList = async (teamId, page = 0, size = 10, search) => {
     const { domainId } = store.state.userinfo;
+  // eslint-disable-next-line no-param-reassign
     if (search && search.slice(-1) !== '*') search += '*';
     const defaultObject = {
         agent: {},
@@ -19,14 +20,15 @@ export const getTeamSupervisorsList = async (teamId, page = 0, size = 10, search
     };
 
     try {
-        const response = await teamSupervisorService.searchSupervisorInTeam(teamId, page, size, search, domainId);
+        const response = await teamSupervisorService
+          .searchSupervisorInTeam(teamId, page, size, search, domainId);
         if (response.items) {
             return {
                 list: response.items.map((item) => ({ ...defaultObject, ...item })),
                 isNext: response.next || false,
             };
         }
-        return [];
+        return { list: [] };
     } catch (err) {
         throw err;
     }

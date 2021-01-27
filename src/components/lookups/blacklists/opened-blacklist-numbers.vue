@@ -186,6 +186,11 @@
                 this.$refs['file-input'].value = null;
             },
 
+            closePopup() {
+              this.popupTriggerIf = false;
+              this.resetItemState();
+            },
+
             ...mapActions('lookups/blacklists', {
                 addParentItem: 'ADD_ITEM',
             }),
@@ -199,6 +204,7 @@
                 nextPage: 'NEXT_PAGE',
                 prevPage: 'PREV_PAGE',
                 removeItem: 'REMOVE_ITEM',
+                resetItemState: 'RESET_ITEM_STATE',
             }),
         },
     };

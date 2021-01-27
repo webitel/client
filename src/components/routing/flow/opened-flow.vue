@@ -6,8 +6,7 @@
                 :primaryDisabled="computeDisabled"
                 close
         >
-            {{$t('objects.routing.flow.flowSchema')}} |
-            {{computeTitle}}
+          <headline-nav :path="path"></headline-nav>
         </object-header>
         <section class="object-content module-new">
             <header class="content-header">
@@ -35,10 +34,11 @@
     import { mapActions, mapState } from 'vuex';
     import editComponentMixin from '../../../mixins/editComponentMixin';
     import codeEditor from '../../utils/code-editor';
+    import headlineNavMixin from '../../../mixins/headlineNavMixin/headlineNavMixin';
 
     export default {
         name: 'opened-flow',
-        mixins: [editComponentMixin],
+        mixins: [editComponentMixin, headlineNavMixin],
         components: {
             codeEditor,
         },
@@ -96,6 +96,18 @@
                     this.setItemProp({ prop: 'schema', value });
                 },
             },
+
+          path() {
+              const baseUrl = '/routing/flow';
+            return [
+              { name: this.$t('objects.routing.routing') },
+              { name: this.$tc('objects.routing.flow.flow', 2), route: baseUrl },
+              {
+                name: this.id ? this.pathName : this.$t('objects.new'),
+                route: this.id ? `${baseUrl}/${this.id}` : `${baseUrl}/new`,
+              },
+            ];
+          },
         },
 
         methods: {

@@ -1,117 +1,61 @@
 <template>
-    <popup
-        :title="$t('objects.routing.gateways.newGateway')"
-        :primaryText="$t('objects.create')"
-        :primaryAction="createItemInstance"
-        :disableAction="!!this.selectedOption"
-        @close="$emit('close')"
-    >
-        <section>
-            <p class="popup-subheading">{{$t('objects.routing.gateways.newGatewayDescription')}}</p>
-
-            <ul class="popup-options">
-                <li
-                        class="popup-options__item-wrap"
-                        :class="{'active': computeSelectedOption('register')}"
-                        @click="selectPopupOption('register')"
-                >
-                    <h4 class="popup-options__item-header">
-                        {{$t('objects.routing.gateways.SIPregistrations')}}
-                    </h4>
-                    <p class="popup-options__item-text">
-                        {{$t('objects.routing.gateways.SIPregistrationsDescription')}}
-                    </p>
-                </li>
-                <li
-                        class="popup-options__item-wrap"
-                        :class="{'active': computeSelectedOption('trunking')}"
-                        @click="selectPopupOption('trunking')"
-                >
-                    <h4 class="popup-options__item-header">
-                        {{$t('objects.routing.gateways.SIPtrunking')}}
-                    </h4>
-                    <p class="popup-options__item-text">
-                        {{$t('objects.routing.gateways.SIPtrunkingDescription')}}
-                    </p>
-                </li>
-            </ul>
-        </section>
-    </popup>
+  <selection-popup
+    :title="$t('objects.routing.gateways.newGateway')"
+    :selected="selected"
+    :options="options"
+    @change="selectOption"
+    @select="createGateway"
+    @close="close"
+  ></selection-popup>
 </template>
 
 <script>
-    import popup from '../../utils/popup';
+import SelectionPopup from '../../utils/selection-popup/selection-popup.vue';
 
-    export default {
-        name: 'create-gateway-popup',
-        components: {
-            popup,
-        },
+export default {
+  name: 'create-gateway-popup',
+  components: { SelectionPopup },
+  data: () => ({
+    selected: null,
+  }),
 
-        data() {
-            return {
-                selectedOption: '',
-            };
-        },
+  created() {
+    this.selectOption(this.options[0]);
+  },
 
+  computed: {
+    options() {
+      const register = {
+        value: 'register',
+        title: this.$t('objects.routing.gateways.SIPregistrations'),
+        description: this.$t('objects.routing.gateways.SIPregistrationsDescription'),
+      };
+      const trunking = {
+        value: 'trunking',
+        title: this.$t('objects.routing.gateways.SIPtrunking'),
+        description: this.$t('objects.routing.gateways.SIPtrunkingDescription'),
+      };
+      return [register, trunking];
+    },
+  },
 
-        methods: {
-            selectPopupOption(option) {
-                this.selectedOption = option;
-            },
+  methods: {
+    selectOption(option) {
+      this.selected = option;
+    },
+    createGateway() {
+      if (this.selected) {
+        this.$router.push(`/routing/gateways/${this.selected.value}/new`);
+      }
+    },
+    close() {
+      this.$emit('close');
+    },
+  },
 
-            createItemInstance() {
-                if (this.selectedOption) this.$router.push(`/routing/gateways/${this.selectedOption}/new`);
-            },
-
-            computeSelectedOption(option) {
-                return option === this.selectedOption;
-            },
-        },
-
-    };
+};
 </script>
 
 <style lang="scss" scoped>
-    .popup-subheading {
-        @extend .typo-input-label;
-        margin: 0 0 28px;
-    }
 
-    .popup-options {
-        margin-bottom: 28px;
-
-        .popup-options__item-wrap {
-            position: relative;
-            padding: 28px 50px 28px 28px;
-            margin-bottom: 18px;
-            border: 2px solid $input;
-            border-radius: $border-radius;
-            cursor: pointer;
-
-            &:hover, &.active {
-                border-color: $info-color;
-            }
-        }
-
-        .popup-options__item-header {
-            @extend .typo-btn;
-            margin: 0 0 11px;
-            /*font-size: 1em;*/
-        }
-
-        .popup-options__item-text {
-            @extend .typo-body-md;
-            margin: 0;
-            /*font-size: 0.9em;*/
-        }
-
-        .popup-options__item-icon {
-            position: absolute;
-            top: 50%;
-            right: 26px;
-            transform: translateY(-50%);
-            color: $info-color;
-        }
-    }
 </style>

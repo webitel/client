@@ -18,6 +18,7 @@
         <div class="main-container">
             <wt-tabs
                 v-model="currentTab"
+
                 :tabs="tabs"
             >
             </wt-tabs>
@@ -34,6 +35,7 @@
     import { mapActions, mapState } from 'vuex';
     import openedObjectPermissionsGeneral from './opened-object-permissions-general.vue';
     import openedObjectPermissionsDefaults from './opened-object-permissions-defaults.vue';
+    import headlineNavMixin from '../../../mixins/headlineNavMixin/headlineNavMixin';
 
     export default {
         name: 'opened-object-permissions',
@@ -41,7 +43,7 @@
             openedObjectPermissionsGeneral,
             openedObjectPermissionsDefaults,
         },
-        mixins: [editComponentMixin],
+        mixins: [editComponentMixin, headlineNavMixin],
         data() {
             return {
                 currentTab: {
@@ -52,6 +54,7 @@
 
         mounted() {
             this.id = this.$route.params.id;
+            this.loadItem();
         },
 
         computed: {
@@ -79,13 +82,26 @@
                     }];
                 return tabs;
             },
-        },
+
+          path() {
+              const baseUrl = '/permissions/objects';
+            return [
+              { name: this.$t('objects.permissions.permissions') },
+              { name: this.$t('objects.permissions.object.object'), route: baseUrl },
+              {
+                name: this.pathName,
+                route: `${baseUrl}/${this.id}`,
+              },
+            ];
+          },
+    },
 
         methods: {
             ...mapActions('permissions/objects', {
                 setId: 'SET_ITEM_ID',
                 setItemProp: 'SET_ITEM_PROPERTY',
                 loadDataList: 'LOAD_ITEM_PERMISSIONS_DATA_lIST',
+                loadItem: 'LOAD_ITEM',
                 patchItem: 'PATCH_ITEM_PERMISSIONS',
                 setSize: 'SET_ITEM_PERMISSIONS_SIZE',
                 setSearch: 'SET_ITEM_PERMISSIONS_SEARCH',
@@ -93,6 +109,10 @@
                 prevPage: 'PREV_ITEM_PERMISSIONS_PAGE',
             }),
         },
+      // override headlineNavMixin
+      setPathName() {
+          this.pathName = this.itemInstance.class;
+      },
     };
 </script>
 

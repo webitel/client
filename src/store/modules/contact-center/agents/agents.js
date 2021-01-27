@@ -4,68 +4,68 @@ import teams from './agent-teams';
 import queues from './agent-queues';
 import permissions from './permissions';
 import {
-    addAgent, deleteAgent,
-    getAgent, getAgentsList, updateAgent,
-} from "../../../../api/contact-center/agents/agents";
-import {DefaultModule} from "../../defaults/DefaultModule";
+  addAgent, deleteAgent,
+  getAgent, getAgentsList, updateAgent,
+} from '../../../../api/contact-center/agents/agents';
+import { DefaultModule } from '../../defaults/DefaultModule';
 
-const defaultState = () => {
-    return {
-        itemId: 0,
-        itemInstance: {
-            user: {},
-            description: '',
-            progressiveCount: 1,
-        },
-    };
-};
+const defaultState = () => ({
+  itemId: 0,
+  itemInstance: {
+    user: {},
+    description: '',
+    progressiveCount: 1,
+  },
+});
 
 const defaultModule = new DefaultModule(defaultState);
 
 const state = {
-    ...defaultModule.state,
+  ...defaultModule.state,
 };
 
 const getters = {};
 
 const actions = {
-    GET_LIST: async (context) => {
-        return await getAgentsList(context.state.page, context.state.size, context.state.search);
-    },
+  ...defaultModule.actions,
 
-    GET_ITEM: async (context) => {
-        return await getAgent(context.state.itemId);
-    },
+  GET_LIST: async (context) => {
+    return await getAgentsList(context.state.page, context.state.size, context.state.search);
+  },
 
-    POST_ITEM: async (context) => {
-        return await addAgent(context.state.itemInstance);
-    },
+  GET_ITEM: async (context) => {
+    return await getAgent(context.state.itemId);
+  },
 
-    UPD_ITEM: async (context) => {
-        await updateAgent(context.state.itemId, context.state.itemInstance);
-    },
+  POST_ITEM: async (context) => {
+    return await addAgent(context.state.itemInstance);
+  },
 
-    DELETE_ITEM: async (context, id) => {
-        await deleteAgent(id);
-    },
+  UPD_ITEM: async (context) => {
+    await updateAgent(context.state.itemId, context.state.itemInstance);
+  },
 
-    RESET_ITEM_STATE: async (context) => {
-        context.commit('RESET_ITEM_STATE');
-        context.dispatch('ccenter/agents/skills/RESET_ITEM_STATE', {}, {root: true});
-    },
+  DELETE_ITEM: async (context, id) => {
+    await deleteAgent(id);
+  },
 
-    ...defaultModule.actions,
+  RESET_ITEM_STATE: async (context) => {
+    context.commit('RESET_ITEM_STATE');
+    context.dispatch('ccenter/agents/queues/RESET_STATE', {}, { root: true });
+    context.dispatch('ccenter/agents/skills/RESET_STATE', {}, { root: true });
+    context.dispatch('ccenter/agents/teams/RESET_STATE', {}, { root: true });
+  },
 };
 
 const mutations = {
-    ...defaultModule.mutations,
+  ...defaultModule.mutations,
 };
 
 export default {
-    namespaced: true,
-    state,
-    getters,
-    actions,
-    mutations,
-    modules: {history, skills, teams, queues, permissions}
+  namespaced: true,
+  state,
+  getters,
+  actions,
+  mutations,
+  modules: { history, skills, teams, queues, permissions },
 };

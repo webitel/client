@@ -6,7 +6,7 @@
                 :primaryDisabled="computeDisabled"
                 close
         >
-            {{$tc('objects.permissions.permissionsRole')}} | {{computeTitle}}
+          <headline-nav :path="path"></headline-nav>
         </object-header>
 
         <section class="object-content module-new">
@@ -37,10 +37,11 @@
     import editComponentMixin from '@/mixins/editComponentMixin';
     import { required } from 'vuelidate/lib/validators';
     import { mapActions, mapState } from 'vuex';
+    import headlineNavMixin from '../../../mixins/headlineNavMixin/headlineNavMixin';
 
     export default {
         name: 'opened-role',
-        mixins: [editComponentMixin],
+        mixins: [editComponentMixin, headlineNavMixin],
 
         data() {
             return {
@@ -77,6 +78,18 @@
                 get() { return this.$store.state.permissions.roles.itemInstance.description; },
                 set(value) { this.setItemProp({ prop: 'description', value }); },
             },
+
+          path() {
+              const baseUrl = '/permissions/roles';
+            return [
+              { name: this.$t('objects.permissions.permissions') },
+              { name: this.$tc('objects.permissions.permissionsRole', 2), route: baseUrl },
+              {
+                name: this.id ? this.pathName : this.$t('objects.new'),
+                route: this.id ? `${baseUrl}/${this.id}` : `${baseUrl}/new`,
+              },
+            ];
+          },
         },
 
         methods: {

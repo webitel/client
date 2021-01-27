@@ -1,10 +1,7 @@
 <template>
     <div>
-        <object-header
-            :primaryAction="create"
-        >
-            {{$t('objects.ccenter.ccenter')}} |
-            {{$tc('objects.ccenter.resGroups.resGroups', 2)}}
+        <object-header :primaryAction="create">
+          <headline-nav :path="path"></headline-nav>
         </object-header>
 
         <section class="object-content">
@@ -123,6 +120,13 @@
                 get() { return this.$store.state.ccenter.resGroups.search; },
                 set(value) { this.setSearch(value); },
             },
+
+          path() {
+            return [
+              { name: this.$t('objects.ccenter.ccenter') },
+              { name: this.$tc('objects.ccenter.resGroups.resGroups', 2), route: '/contact-center/resource-groups' },
+            ];
+          },
         },
 
         methods: {

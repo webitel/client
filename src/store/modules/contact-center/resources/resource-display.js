@@ -5,20 +5,15 @@ import {
 } from "../../../../api/contact-center/resources/resourceDisplay";
 import {DefaultNestedModule} from "../../defaults/DefaultNestedModule";
 
-const defaultState = () => {
-    return {
-        itemId: 0,
-        dataList: [],
-        size: '10',
-        search: '',
-        page: 1,
-        isNextPage: true,
-        itemInstance: {display: '2'},
-    }
-};
+const defaultItemState = () => ({
+    itemId: 0,
+    itemInstance: {
+        display: '2'
+    },
+});
 
 
-const defaultModule = new DefaultNestedModule(defaultState);
+const defaultModule = new DefaultNestedModule(null, defaultItemState);
 
 const state = {
     ...defaultModule.state,
@@ -27,6 +22,8 @@ const state = {
 const getters = {};
 
 const actions = {
+    ...defaultModule.actions,
+
     GET_LIST: async () => {
         return await getResDisplayList(state.parentId, state.page, state.size, state.search);
     },
@@ -46,8 +43,6 @@ const actions = {
     DELETE_ITEM: async (context, id) => {
         await deleteResDisplay(state.parentId, id);
     },
-
-    ...defaultModule.actions,
 };
 
 const mutations = {

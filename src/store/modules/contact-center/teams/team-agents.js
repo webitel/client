@@ -1,26 +1,19 @@
 import {
     getTeamAgentsList, getTeamAgent, addTeamAgent,
-    updateTeamAgent, deleteTeamAgent
-} from "../../../../api/contact-center/teams/teamAgents";
-import {DefaultNestedModule} from "../../defaults/DefaultNestedModule";
+    updateTeamAgent, deleteTeamAgent,
+} from '../../../../api/contact-center/teams/teamAgents';
+import { DefaultNestedModule } from '../../defaults/DefaultNestedModule';
 
-const defaultState = () => {
-    return {
-        dataList: [],
-        size: '10',
-        search: '',
-        page: 1,
-        isNextPage: true,
-        itemId: 0,
-        itemInstance: {
-            agent: {},
-            lvl: 0,
-            buckets: [],
-        },
-    };
-};
+const defaultItemState = () => ({
+    itemId: 0,
+    itemInstance: {
+        agent: {},
+        lvl: 0,
+        buckets: [],
+    },
+});
 
-const defaultNestedModule = new DefaultNestedModule(defaultState);
+const defaultNestedModule = new DefaultNestedModule(null, defaultItemState);
 
 const state = {
     ...defaultNestedModule.state,
@@ -28,30 +21,30 @@ const state = {
 
 const getters = {
     GET_ITEM_BUCKETS: (state) => (id) => {
-        const item = state.dataList.filter(item => item.id === id)[0];
+        const item = state.dataList.find((item) => item.id === id);
         return item.buckets;
     },
 };
 
 const actions = {
-    GET_LIST: async () => {
-        return await getTeamAgentsList(state.parentId, state.page, state.size, state.search);
+    GET_LIST: (context) => {
+        return getTeamAgentsList(context.state.parentId, context.state.page, context.state.size, context.state.search);
     },
 
-    GET_ITEM: async () => {
-        return await getTeamAgent(state.parentId, state.itemId);
+    GET_ITEM: (context) => {
+        return getTeamAgent(context.state.parentId, context.state.itemId);
     },
 
-    POST_ITEM: async () => {
-        return await addTeamAgent(state.parentId, state.itemInstance);
+    POST_ITEM: (context) => {
+        return addTeamAgent(context.state.parentId, context.state.itemInstance);
     },
 
-    UPD_ITEM: async () => {
-        await updateTeamAgent(state.parentId, state.itemId, state.itemInstance);
+    UPD_ITEM: (context) => {
+        return updateTeamAgent(context.state.parentId, context.state.itemId, context.state.itemInstance);
     },
 
-    DELETE_ITEM: async (context, id) => {
-        await deleteTeamAgent(state.parentId, id);
+    DELETE_ITEM: (context, id) => {
+        return deleteTeamAgent(context.state.parentId, id);
     },
 
     ...defaultNestedModule.actions,

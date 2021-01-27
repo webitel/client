@@ -5,82 +5,54 @@
     </header>
     <form class="object-input-grid">
       <wt-timepicker
-          v-model="originateTimeout"
-          :label="$t('objects.ccenter.queues.originateTimeout')"
+        :value="originateTimeout"
+        :label="$t('objects.ccenter.queues.originateTimeout')"
+        @input="setItemPayloadProp({ prop: 'originateTimeout', value: $event })"
       ></wt-timepicker>
-
       <wt-input
-          v-model="maxAttempts"
-          type="number"
-          :label="$t('objects.ccenter.queues.maxNumberOfRetry')"
+        :value="maxAttempts"
+        type="number"
+        :label="$t('objects.ccenter.queues.maxAttempts')"
+        @input="setItemPayloadProp({ prop: 'maxAttempts', value: $event })"
       ></wt-input>
-
       <wt-timepicker
-          v-model="secBetweenRetries"
-          :label="$t('objects.ccenter.queues.waitBetweenRetries')"
+        :value="waitBetweenRetries"
+        :label="$t('objects.ccenter.queues.waitBetweenRetries')"
+        @input="setItemPayloadProp({ prop: 'waitBetweenRetries', value: $event })"
       ></wt-timepicker>
-
       <wt-timepicker
-          v-model="minDuration"
-          :label="$t('objects.ccenter.queues.minCallDuration')"
+        :value="minDuration"
+        :label="$t('objects.ccenter.queues.minDuration')"
+        @input="setItemPayloadProp({ prop: 'minDuration', value: $event })"
       ></wt-timepicker>
+      <wt-switcher
+        :value="recordings"
+        :label="$t('objects.ccenter.queues.recordings')"
+        @change="setItemPayloadProp({ prop: 'recordings', value: $event })"
+      ></wt-switcher>
     </form>
   </section>
 </template>
 
 <script>
 import openedTabComponentMixin from '@/mixins/openedTabComponentMixin';
-import { mapActions } from 'vuex';
+import { mapActions, mapState } from 'vuex';
 
 export default {
   name: 'opened-queue-outbound-ivr-timing',
   mixins: [openedTabComponentMixin],
-  components: {},
-  data() {
-    return {};
-  },
-
   computed: {
-    originateTimeout: {
-      get() {
-        return this.$store.state.ccenter.queues.itemInstance.payload.originateTimeout || 0;
-      },
-      set(value) {
-        this.setItemPayloadProp({ prop: 'originateTimeout', value: +value });
-      },
-    },
-
-    secBetweenRetries: {
-      get() {
-        return this.$store.state.ccenter.queues.itemInstance.payload.secBetweenRetries || 0;
-      },
-      set(value) {
-        this.setItemPayloadProp({ prop: 'secBetweenRetries', value: +value });
-      },
-    },
-
-    maxAttempts: {
-      get() {
-        return this.$store.state.ccenter.queues.itemInstance.payload.maxAttempts || 0;
-      },
-      set(value) {
-        this.setItemPayloadProp({ prop: 'maxAttempts', value: +value });
-      },
-    },
-
-    minDuration: {
-      get() {
-        return this.$store.state.ccenter.queues.itemInstance.payload.minDuration || 0;
-      },
-      set(value) {
-        this.setItemPayloadProp({ prop: 'minDuration', value: +value });
-      },
-    },
+    ...mapState('ccenter/queues', {
+      minDuration: (state) => state.itemInstance.payload.minDuration,
+      maxAttempts: (state) => state.itemInstance.payload.maxAttempts,
+      originateTimeout: (state) => state.itemInstance.payload.originateTimeout,
+      waitBetweenRetries: (state) => state.itemInstance.payload.waitBetweenRetries,
+      recordings: (state) => state.itemInstance.payload.recordings,
+    }),
   },
 
   methods: {
     ...mapActions('ccenter/queues', {
-      setItemProp: 'SET_ITEM_PROPERTY',
       setItemPayloadProp: 'SET_ITEM_PAYLOAD_PROPERTY',
     }),
   },

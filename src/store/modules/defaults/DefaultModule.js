@@ -22,8 +22,7 @@ export class DefaultModule {
                     context.commit('SET_FIRST_PAGE');
                 }
                 const response = await context.dispatch('GET_LIST');
-                await context.dispatch('RESET_ITEM_STATE');
-                context.commit('SET_DATA_LIST', response.list);
+                context.commit('SET_DATA_LIST', response.list || []);
                 context.commit('SET_IS_NEXT', response.next);
             },
 
@@ -128,7 +127,7 @@ export class DefaultModule {
             },
 
             SET_FIRST_PAGE: (state) => {
-                state.page = 1; 
+                state.page = 1;
             },
 
             SET_IS_NEXT: (state, next) => {

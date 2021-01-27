@@ -4,27 +4,24 @@ import {
     getMember, getMembersList, updateMember
 } from '../../../../api/contact-center/queues/queueMembers';
 import { getQueue } from '../../../../api/contact-center/queues/queues';
-import {DefaultNestedModule} from '../../defaults/DefaultNestedModule';
+import { DefaultNestedModule } from '../../defaults/DefaultNestedModule';
 
-const defaultState = () => {
-    return {
-        dataList:[],
-        itemId: 0,
-        parentQueue: {},
-        itemInstance: {
-            name: '',
-            priority: '0',
-            expireAt: 0,
-            skill: {},
-            bucket: {},
-            timezone: {},
-            communications: [],
-            variables: [],
-        },
-    };
-};
+const defaultItemState = () => ({
+    itemId: 0,
+    parentQueue: {},
+    itemInstance: {
+        name: '',
+        priority: '0',
+        expireAt: 0,
+        skill: {},
+        bucket: {},
+        timezone: {},
+        communications: [],
+        variables: [],
+    },
+});
 
-const defaultModule = new DefaultNestedModule(defaultState);
+const defaultModule = new DefaultNestedModule(null, defaultItemState);
 
 const state = {
     ...defaultModule.state,
@@ -60,28 +57,33 @@ const actions = {
         }
     },
 
-    GET_LIST: async () => {
-        return await getMembersList(state.parentId, state.page, state.size, state.search);
+    GET_LIST: (context) => {
+        return getMembersList(context.state.parentId, context.state.page, context.state.size, context.state.search);
     },
 
-    GET_ITEM: async () => {
-        return await getMember(state.parentId, state.itemId);
+    GET_ITEM: (context) => {
+        return getMember(context.state.parentId, context.state.itemId);
     },
 
-    POST_ITEM: async () => {
-        return await addMember(state.parentId, state.itemInstance);
+    POST_ITEM: (context) => {
+        return addMember(context.state.parentId, context.state.itemInstance);
     },
 
-    UPD_ITEM: async () => {
-        await updateMember(state.parentId, state.itemId, state.itemInstance);
+    UPD_ITEM: (context) => {
+        return updateMember(context.state.parentId, context.state.itemId, context.state.itemInstance);
     },
 
-    DELETE_ITEM: async (context, id) => {
-        await deleteMember(state.parentId, id);
+    DELETE_ITEM: (context, id) => {
+        return deleteMember(context.state.parentId, id);
     },
 
     DELETE_ITEMS: async (context, ids) => {
-        await deleteMembers(state.parentId, ids);
+        await deleteMembers(context.state.parentId, ids);
+    },
+
+    SET_PARENT_ITEM_ID: async (context, payload) => {
+      await defaultModule.actions.SET_PARENT_ITEM_ID(context, payload);
+      return context.dispatch('LOAD_PARENT_QUEUE');
     },
 
     ADD_COMMUNICATION_ITEM: (context, item) => {

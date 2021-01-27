@@ -171,7 +171,6 @@ export default {
       setSearch: "SET_RECORDS_PERMISSIONS_SEARCH",
       nextPage: "NEXT_RECORDS_PERMISSIONS_PAGE",
       prevPage: "PREV_RECORDS_PERMISSIONS_PAGE",
-
       loadDataList: "SEARCH_DEFAULT_LIST",
       toggleDefaultMode: "TOGGLE_DEFAULT_MODE",
     }),
@@ -182,6 +181,7 @@ export default {
     },
   },
 };
+
 </script>
 
 <style lang="scss" scoped>

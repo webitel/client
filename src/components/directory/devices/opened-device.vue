@@ -1,20 +1,14 @@
 <template>
   <wt-page-wrapper :actions-panel="false">
     <template slot="header">
-      <wt-headline>
-        <template slot="title">
-          {{ $tc('objects.directory.devices.devices', 1) }}
-          | {{ computeTitle }}
-        </template>
-        <template slot="actions">
-          <wt-button :disabled="computeDisabled" @click="save">
-            {{ computePrimaryText || $t('objects.addNew') }}
-          </wt-button>
-          <wt-button color="secondary" @click="close">
-            {{ $t('objects.close') }}
-          </wt-button>
-        </template>
-      </wt-headline>
+      <object-header
+          :primary-action="save"
+          :primary-text="computePrimaryText"
+          :primary-disabled="computeDisabled"
+          :secondary-action="close"
+      >
+        <headline-nav :path="path"></headline-nav>
+      </object-header>
     </template>
 
     <template slot="main">
@@ -43,10 +37,11 @@ import OpenedDevicePermissions from './opened-device-permissions.vue';
 import OpenedDeviceHotdeskGeneral from './opened-hotdesk-device-general.vue';
 import OpenedDeviceHotdeskHotdesking from './opened-hotdesk-device-hotdesking.vue';
 import editComponentMixin from '../../../mixins/editComponentMixin';
+import headlineNavMixin from '../../../mixins/headlineNavMixin/headlineNavMixin';
 
 export default {
   name: 'opened-device',
-  mixins: [editComponentMixin],
+  mixins: [editComponentMixin, headlineNavMixin],
   components: {
     OpenedDeviceGeneral,
     OpenedDevicePhoneInfo,
@@ -120,6 +115,19 @@ export default {
 
       if (this.id) defaultTabs.push(permissions);
       return defaultTabs;
+    },
+
+    path() {
+      const baseUrl = '/directory/devices';
+      const url = baseUrl + this.isHotdesk ? '/hotdesk' : '';
+      return [
+        { name: this.$t('objects.directory.directory') },
+        { name: this.$tc('objects.directory.devices.devices', 2), route: baseUrl },
+        {
+          name: this.id ? this.pathName : this.$t('objects.new'),
+          route: this.id ? `${url}/${this.id}` : `${baseUrl}/new`,
+        },
+      ];
     },
   },
 

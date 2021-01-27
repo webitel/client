@@ -1,20 +1,13 @@
 <template>
   <wt-page-wrapper class="members" :actions-panel="false">
     <template slot="header">
-      <wt-headline>
-        <template slot="title">
-          {{ $tc('objects.ccenter.queues.queues', 1) }} |
-          {{ $tc('objects.ccenter.members.members', 2) }}
-        </template>
-        <template slot="actions">
-          <wt-button @click="create" v-if="isNotInboundMember">
-            {{ $t('objects.add') }}
-          </wt-button>
-          <wt-button color="secondary" @click="$router.go(-1)">
-            {{ $t('objects.close') }}
-          </wt-button>
-        </template>
-      </wt-headline>
+      <object-header
+          :hide-primary="!isNotInboundMember"
+          :primary-action="create"
+          :secondary-action="close"
+      >
+        <headline-nav :path="path"></headline-nav>
+      </object-header>
     </template>
     <template slot="main">
       <destinations-popup
@@ -33,14 +26,14 @@
         <header class="content-header">
           <h3 class="content-title">{{ $t('objects.ccenter.members.allMembers') }}</h3>
           <div class="content-header__actions-wrap">
-<!--            TODO: NO API -->
-<!--            <wt-search-bar-->
-<!--                :value="search"-->
-<!--                debounce-->
-<!--                @input="setSearch"-->
-<!--                @search="loadList"-->
-<!--                @enter="loadList"-->
-<!--            ></wt-search-bar>-->
+            <!--            TODO: NO API -->
+            <!--            <wt-search-bar-->
+            <!--                :value="search"-->
+            <!--                debounce-->
+            <!--                @input="setSearch"-->
+            <!--                @search="loadList"-->
+            <!--                @enter="loadList"-->
+            <!--            ></wt-search-bar>-->
             <wt-icon-btn
                 class="icon-action"
                 :class="{'hidden': anySelected}"
@@ -136,7 +129,8 @@ import { mapActions, mapState } from 'vuex';
 import destinationsPopup from './opened-queue-member-destinations-popup.vue';
 import uploadPopup from './upload-members-popup.vue';
 import tableComponentMixin from '../../../mixins/tableComponentMixin';
-import tableActionsHandlerMixin from '../../../mixins/tableActionsMixin';
+import tableActionsHandlerMixin from '../../../mixins/baseTableMixin/tableActionsMixin';
+import getQueueSubRoute from '../../../store/modules/contact-center/queues/_internals/scripts/getQueueSubRoute';
 
 export default {
   name: 'the-queue-members',
@@ -158,8 +152,8 @@ export default {
     };
   },
 
-  created() {
-    this.loadParentQueue();
+  destroyed() {
+    this.resetState();
   },
 
   computed: {
@@ -179,6 +173,15 @@ export default {
     // if is NOT -- member is immutable. NOT prevents actions load by default
     isNotInboundMember() {
       return !(this.parentQueue.type === 1);
+    },
+    path() {
+      const queueSubRoute = getQueueSubRoute(this.parentQueue.type);
+      const baseUrl = `/contact-center/queues/${queueSubRoute}/${this.parentQueue.id}`;
+      return [
+        { name: this.$t('objects.ccenter.ccenter') },
+        { name: this.parentQueue.name, route: baseUrl },
+        { name: this.$tc('objects.ccenter.members.members', 2), route: `${baseUrl}/members` },
+      ];
     },
   },
 
@@ -261,6 +264,10 @@ export default {
       this.loadList();
     },
 
+    close() {
+      this.$router.go(-1);
+    },
+
     ...mapActions('ccenter/queues/members', {
       setDestinationId: 'SET_DESTINATION_ID',
       setParentId: 'SET_PARENT_ITEM_ID',
@@ -273,6 +280,7 @@ export default {
       prevPage: 'PREV_PAGE',
       removeItem: 'REMOVE_ITEM',
       removeItems: 'REMOVE_ITEMS',
+      resetState: 'RESET_STATE',
     }),
 
   },

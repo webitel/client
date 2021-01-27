@@ -1,23 +1,15 @@
 <template>
   <wt-page-wrapper class="users" :actions-panel="false">
     <template slot="header">
-      <wt-headline>
-        <template slot="title">
-          {{ $t('objects.directory.directory') }} |
-          {{ $tc('objects.directory.users.users', 2) }}
-        </template>
-        <template slot="actions">
-          <wt-button @click="create">
-            {{ $t('objects.add') }}
-          </wt-button>
-        </template>
-      </wt-headline>
+      <object-header :primary-action="create">
+        <headline-nav :path="path"></headline-nav>
+      </object-header>
     </template>
     <template slot="main">
       <upload-popup
-          v-if="isUploadPopup"
-          :file="csvFile"
-          @close="closeCSVPopup"
+        v-if="isUploadPopup"
+        :file="csvFile"
+        @close="closeCSVPopup"
       ></upload-popup>
 
       <section class="main-section__wrapper">
@@ -66,9 +58,12 @@
               :data="dataList"
           >
             <template slot="name" slot-scope="{ item }">
-               <span class="nameLink" @click="edit(item.id)">
+               <span class="nameLink" @click="edit(item)">
                  {{ item.name }}
                </span>
+            </template>
+            <template slot="status" slot-scope="{ item }">
+              <user-status :presence="item.presence" />
             </template>
             <template slot="username" slot-scope="{ item }">
               {{ item.username }}
@@ -78,33 +73,32 @@
             </template>
             <template slot="DnD" slot-scope="{ item }">
               <wt-switcher
-                  :value="getDND(item.presence)"
-                  @change="setDND({item, value: $event})"
+                :value="getDND(item.presence)"
+                @change="setDND({item, value: $event})"
               ></wt-switcher>
             </template>
-
             <template slot="actions" slot-scope="{ item, index }">
               <wt-icon-btn
-                  class="table-action"
-                  icon="edit"
-                  @click="edit(item.id)"
+                class="table-action"
+                icon="edit"
+                @click="edit(item)"
               ></wt-icon-btn>
               <wt-icon-btn
-                  class="table-action"
-                  icon="bucket"
-                  @click="remove(index)"
+                class="table-action"
+                icon="bucket"
+                @click="remove(index)"
               ></wt-icon-btn>
             </template>
           </wt-table>
           <wt-pagination
-              :size="size"
-              :next="isNext"
-              :prev="page > 1"
-              debounce
-              @next="nextPage"
-              @prev="prevPage"
-              @input="setSize"
-              @change="loadList"
+            :size="size"
+            :next="isNext"
+            :prev="page > 1"
+            debounce
+            @next="nextPage"
+            @prev="prevPage"
+            @input="setSize"
+            @change="loadList"
           ></wt-pagination>
         </div>
       </section>
@@ -115,27 +109,19 @@
 <script>
 import { mapActions, mapState } from 'vuex';
 import UploadPopup from './upload-users-popup.vue';
+import UserStatus from './_internals/user-status-chips.vue';
 import tableComponentMixin from '../../../mixins/tableComponentMixin';
-import tableActionsHandlerMixin from '../../../mixins/tableActionsMixin';
 
 export default {
   name: 'the-users',
-  components: {
-    UploadPopup,
-  },
-  mixins: [tableComponentMixin, tableActionsHandlerMixin],
-  data() {
-    return {
-      isUploadPopup: false,
-      csvFile: null,
-      headers: [
-        { value: 'name', text: this.$t('objects.name') },
-        { value: 'username', text: this.$t('objects.directory.users.login') },
-        { value: 'extensions', text: this.$t('objects.directory.users.extensions') },
-        { value: 'DnD', text: this.$t('objects.directory.users.DnD'), width: '80px' },
-      ],
-    };
-  },
+  mixins: [tableComponentMixin],
+  components: { UploadPopup, UserStatus },
+  data: () => ({
+    isUploadPopup: false,
+    csvFile: null,
+    namespace: 'directory/users',
+    routeName: 'directory-users',
+  }),
 
   computed: {
     ...mapState('directory/users', {
@@ -145,6 +131,21 @@ export default {
       search: (state) => state.search,
       isNext: (state) => state.isNextPage,
     }),
+    headers() {
+      return [
+        { value: 'name', text: this.$t('objects.name') },
+        { value: 'status', text: this.$t('objects.directory.users.status'), width: 'minmax(240px, 1fr)' },
+        { value: 'username', text: this.$t('objects.directory.users.login') },
+        { value: 'extensions', text: this.$t('objects.directory.users.extensions') },
+        { value: 'DnD', text: this.$t('objects.directory.users.DnD'), width: '80px' },
+      ];
+    },
+    path() {
+      return [
+        { name: this.$t('objects.directory.directory') },
+        { name: this.$tc('objects.directory.users.users', 2), route: '/directory/users' },
+      ];
+    },
   },
 
   methods: {
@@ -152,22 +153,11 @@ export default {
       this.$refs['file-input'].click();
     },
 
-    create() {
-      this.$router.push('/directory/users/new');
-    },
-
     getDND(value) {
       if (value && value.status) {
         return value.status.includes('dnd');
       }
       return false;
-    },
-
-    edit(id) {
-      this.$router.push({
-        name: 'directory-users-edit',
-        params: { id },
-      });
     },
 
     processCSV(event) {
@@ -185,21 +175,13 @@ export default {
     },
 
     ...mapActions('directory/users', {
-      loadDataList: 'LOAD_DATA_LIST',
-      setSize: 'SET_SIZE',
-      setSearch: 'SET_SEARCH',
       setDND: 'SET_USER_DND',
-      nextPage: 'NEXT_PAGE',
-      prevPage: 'PREV_PAGE',
-      removeItem: 'REMOVE_ITEM',
     }),
   },
 };
 </script>
 
 <style lang="scss" scoped>
-@import '../../../assets/css/objects/table-page';
-
 .upload-csv {
   .upload-csv__input {
     visibility: hidden;

@@ -6,8 +6,7 @@
                 :primaryDisabled="computeDisabled"
                 close
         >
-            {{$tc('objects.lookups.calendars.calendars', 1)}} |
-            {{computeTitle}}
+          <headline-nav :path="path"></headline-nav>
         </object-header>
         <tabs-component
                 :tabs="tabs"
@@ -33,10 +32,11 @@
     import openedCalendarHolidays from './opened-calendar-holidays';
     import openedCalendarPermissions from './opened-calendar-permissions';
     import { timerangeNotIntersect, timerangeStartLessThanEnd } from '../../../utils/validators';
+    import headlineNavMixin from '../../../mixins/headlineNavMixin/headlineNavMixin';
 
     export default {
         name: 'opened-calendar',
-        mixins: [editComponentMixin],
+        mixins: [editComponentMixin, headlineNavMixin],
         components: {
             openedCalendarWorkWeek,
             openedCalendarHolidays,
@@ -98,6 +98,18 @@
                 if (this.id) tabs.push(permissions);
                 return tabs;
             },
+
+          path() {
+              const baseUrl = '/lookups/calendars';
+            return [
+              { name: this.$t('objects.lookups.lookups') },
+              { name: this.$tc('objects.lookups.calendars.calendars', 2), route: baseUrl },
+              {
+                name: this.id ? this.pathName : this.$t('objects.new'),
+                route: this.id ? `${baseUrl}/${this.id}` : `${baseUrl}/new`,
+              },
+            ];
+          },
         },
 
         methods: {

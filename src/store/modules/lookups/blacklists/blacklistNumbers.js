@@ -7,23 +7,16 @@ import {
 } from "../../../../api/lookups/blacklists/blacklistNumbers";
 import {DefaultNestedModule} from "../../defaults/DefaultNestedModule";
 
-const defaultState = () => {
-    return {
-        dataList: [],
-        size: '10',
-        search: '',
-        page: 1,
-        isNextPage: false,
-        itemId: 0,
-        itemInstance: {
-            number: '',
-            description: '',
-        }
+const defaultItemState = () => ({
+    itemId: 0,
+    itemInstance: {
+        number: '',
+        description: '',
     }
-};
+});
 
 
-const defaultModule = new DefaultNestedModule(defaultState);
+const defaultModule = new DefaultNestedModule(null, defaultItemState);
 
 const state = {
     ...defaultModule.state,
@@ -32,6 +25,8 @@ const state = {
 const getters = {};
 
 const actions = {
+    ...defaultModule.actions,
+
     GET_LIST: async () => {
         return await getBlacklistCommunicationList(state.parentId, state.page, state.size, state.search);
     },
@@ -51,8 +46,6 @@ const actions = {
     DELETE_ITEM: async (context, id) => {
         await deleteBlacklistCommunication(state.parentId, id);
     },
-
-    ...defaultModule.actions,
 };
 
 const mutations = {

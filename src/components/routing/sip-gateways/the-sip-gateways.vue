@@ -1,195 +1,177 @@
 <template>
-    <div class="gateways">
-        <object-header
-                :primaryAction="create"
-        >
-            {{$t('objects.routing.routing')}} |
-            {{$tc('objects.routing.gateways.gateways', 2)}}
-        </object-header>
+  <wt-page-wrapper :actions-panel="false" class="gateways">
+    <template slot="header">
+      <object-header :primary-action="create">
+        <headline-nav :path="path"></headline-nav>
+      </object-header>
+    </template>
+    <template slot="main">
+      <gateway-popup
+        v-if="isGatewayPopup"
+        @close="isGatewayPopup = false"
+      ></gateway-popup>
 
-        <gateway-popup
-                v-if="popupTriggerIf"
-                @close="popupTriggerIf = false"
-        >
-        </gateway-popup>
+      <section class="main-section__wrapper">
+        <header class="content-header">
+          <h3 class="content-title">{{ $t('objects.routing.gateways.allGateways') }}</h3>
+          <div class="content-header__actions-wrap">
+            <wt-search-bar
+              :value="search"
+              debounce
+              @input="setSearch"
+              @search="loadList"
+              @enter="loadList"
+            ></wt-search-bar>
+            <wt-icon-btn
+              class="icon-action"
+              :class="{'hidden': anySelected}"
+              icon="bucket"
+              :tooltip="$t('iconHints.deleteSelected')"
+              @click="deleteSelected"
+            ></wt-icon-btn>
+            <wt-table-actions
+              :icons="['refresh']"
+              @input="tableActionsHandler"
+            ></wt-table-actions>
+          </div>
+        </header>
 
-        <section class="object-content">
-            <header class="content-header">
-                <h3 class="content-title">
-                    {{$t('objects.routing.gateways.allGateways')}}
-                </h3>
-
-                <div class="content-header__actions-wrap">
-                    <search
-                            v-model="search"
-                            @filterData="loadList"
-                    ></search>
-                    <i
-                            class="icon-icon_delete icon-action"
-                            :class="{'hidden': anySelected}"
-                            :title="$t('iconHints.deleteSelected')"
-                            @click="deleteSelected"
-                    ></i>
-                    <i
-                            class="icon-icon_reload icon-action"
-                            :title="$t('iconHints.reload')"
-                            @click="loadList"
-                    ></i>
-                </div>
-            </header>
-
-            <loader v-show="!isLoaded"></loader>
-
-            <vuetable
-                    v-show="isLoaded"
-                    :api-mode="false"
-                    :fields="fields"
-                    :data="dataList"
-                    no-data-template="Empty data message"
-            >
-
-                <template slot="name" slot-scope="props">
-                    <div>
-                        <span class="nameLink" @click="edit(props.rowIndex)">
-                            {{dataList[props.rowIndex].name}}
-                        </span>
-                    </div>
-                </template>
-
-                <template slot="proxy" slot-scope="props">
-                    <span>
-                        {{dataList[props.rowIndex].proxy}}
-                    </span>
-                </template>
-
-                <template slot="enabled" slot-scope="props">
-                    <switcher
-                            :value="dataList[props.rowIndex].enable"
-                            @input="patchProperty({index: props.rowIndex, prop: 'enable', value: $event})"
-                    ></switcher>
-                </template>
-
-                <template slot="status" slot-scope="props">
-                    <status
-                            class="status"
-                            :class="computeStatusClass(dataList[props.rowIndex].rState)"
-                            :text="computeStatusText(dataList[props.rowIndex].rState)"
-                    ></status>
-                </template>
-
-                <template slot="actions" slot-scope="props">
-                    <i class="vuetable-action icon-icon_edit"
-                       :title="$t('iconHints.edit')"
-                       @click="edit(props.rowIndex)"
-                    ></i>
-                    <i class="vuetable-action icon-icon_delete"
-                       :title="$t('iconHints.delete')"
-                       @click="remove(props.rowIndex)"
-                    ></i>
-                </template>
-            </vuetable>
-            <pagination
-                    v-show="isLoaded"
-                    v-model="size"
-                    @loadDataList="loadList"
-                    @next="nextPage"
-                    @prev="prevPage"
-                    :isNext="isNextPage"
-                    :isPrev="!!page"
-                    :page="page"
-            ></pagination>
-        </section>
-    </div>
+        <wt-loader v-show="!isLoaded"></wt-loader>
+        <div class="table-wrapper" v-show="isLoaded">
+          <wt-table
+            :headers="headers"
+            :data="dataList"
+          >
+            <template slot="name" slot-scope="{ item }">
+              <span class="nameLink" @click="edit(item)">
+                {{ item.name }}
+              </span>
+            </template>
+            <template slot="proxy" slot-scope="{ item }">
+              {{ item.proxy }}
+            </template>
+            <template slot="enabled" slot-scope="{ item }">
+              <wt-switcher
+                :value="item.enable"
+                @change="changeState({ item, value: $event })"
+              ></wt-switcher>
+            </template>
+            <template slot="status" slot-scope="{ item }">
+              <status
+                class="status"
+                :class="computeStatusClass(item.rState)"
+                :text="computeStatusText(item.rState)"
+              ></status>
+            </template>
+            <template slot="actions" slot-scope="{ item, index }">
+              <edit-action
+                @click="edit(item)"
+              ></edit-action>
+              <delete-action
+                @click="remove(index)"
+              ></delete-action>
+            </template>
+          </wt-table>
+          <wt-pagination
+            :size="size"
+            :next="isNext"
+            :prev="page > 1"
+            debounce
+            @next="nextPage"
+            @prev="prevPage"
+            @input="setSize"
+            @change="loadList"
+          ></wt-pagination>
+        </div>
+      </section>
+    </template>
+  </wt-page-wrapper>
 </template>
 
 <script>
-    import tableComponentMixin from '@/mixins/tableComponentMixin';
-    import { _checkboxTableField, _actionsTableField_2, _switcherWidth } from '@/utils/tableFieldPresets';
-    import { mapActions, mapState } from 'vuex';
-    import gatewayPopup from './create-gateway-popup';
+import { mapActions, mapState } from 'vuex';
+import GatewayPopup from './create-gateway-popup.vue';
+import tableComponentMixin from '../../../mixins/tableComponentMixin';
 
-    export default {
-        name: 'the-sip-gateways',
-        mixins: [tableComponentMixin],
-        components: { gatewayPopup },
-        data() {
-            return {
-                fields: [
-                    _checkboxTableField,
-                    { name: 'name', title: this.$t('objects.name') },
-                    { name: 'proxy', title: this.$t('objects.routing.gateways.proxy') },
-                    { name: 'enabled', title: this.$t('objects.enabled'), width: _switcherWidth },
-                    { name: 'status', title: this.$t('objects.status') },
-                    _actionsTableField_2,
-                ],
-            };
-        },
+export default {
+  name: 'the-sip-gateways',
+  mixins: [tableComponentMixin],
+  components: { GatewayPopup },
 
-        computed: {
-            ...mapState('routing/gateways', {
-                dataList: (state) => state.dataList,
-                page: (state) => state.page,
-                isNextPage: (state) => state.isNextPage,
-            }),
+  data: () => ({
+    isGatewayPopup: false,
+    namespace: 'routing/gateways',
+  }),
 
-            size: {
-                get() { return this.$store.state.routing.gateways.size; },
-                set(value) { this.setSize(value); },
-            },
+  computed: {
+    ...mapState('routing/gateways', {
+      dataList: (state) => state.dataList,
+      page: (state) => state.page,
+      size: (state) => state.size,
+      search: (state) => state.search,
+      isNext: (state) => state.isNextPage,
+    }),
 
-            search: {
-                get() { return this.$store.state.routing.gateways.search; },
-                set(value) { this.setSearch(value); },
-            },
-        },
+    headers() {
+      return [
+        { value: 'name', text: this.$t('objects.name') },
+        { value: 'proxy', text: this.$t('objects.routing.gateways.proxy') },
+        { value: 'enabled', text: this.$t('objects.enabled'), width: '60px' },
+        { value: 'status', text: this.$t('objects.status') },
+      ];
+    },
+    path() {
+      return [
+        { name: this.$t('objects.routing.routing') },
+        { name: this.$tc('objects.routing.gateways.gateways', 2), route: '/routing/gateways' },
+      ];
+    },
+  },
 
-        methods: {
-            create() {
-                this.popupTriggerIf = true;
-            },
+  methods: {
+    ...mapActions('routing/gateways', {
+      changeState: 'CHANGE_STATE',
+    }),
 
-            edit(rowId) {
-                const name = this.dataList[rowId].register
-                    ? 'reg-gateway-edit' : 'trunk-gateway-edit';
+    create() {
+      this.isGatewayPopup = true;
+    },
 
-                this.$router.push({
-                    name,
-                    params: { id: this.dataList[rowId].id },
-                });
-            },
+    edit(item) {
+      const name = item.register
+        ? 'reg-gateway-edit' : 'trunk-gateway-edit';
 
-            computeStatusText(stateCode) {
-                if (stateCode === 3) {
-                    return this.$t('objects.routing.gateways.stateSuccess');
-                } if (stateCode > 3 && stateCode < 8) {
-                    return this.$t('objects.routing.gateways.stateFailed');
-                } if (stateCode > 7 && stateCode < 2) {
-                    return this.$t('objects.routing.gateways.stateProgress');
-                }
-                    return this.$t('objects.routing.gateways.stateNonreg');
-            },
+      this.$router.push({
+        name,
+        params: { id: item.id },
+      });
+    },
 
-            computeStatusClass(stateCode) {
-                if (stateCode === 3) {
-                    return 'status__true';
-                } if (stateCode > 3 && stateCode < 8) {
-                    return 'status__false';
-                } if (stateCode > 7 && stateCode < 2) {
-                    return 'status__info';
-                }
-                    return 'not-registered';
-            },
+    computeStatusText(stateCode) {
+      if (stateCode === 3) {
+        return this.$t('objects.routing.gateways.stateSuccess');
+      }
+      if (stateCode > 3 && stateCode < 8) {
+        return this.$t('objects.routing.gateways.stateFailed');
+      }
+      if (stateCode > 7 && stateCode < 2) {
+        return this.$t('objects.routing.gateways.stateProgress');
+      }
+      return this.$t('objects.routing.gateways.stateNonreg');
+    },
 
-            ...mapActions('routing/gateways', {
-                loadDataList: 'LOAD_DATA_LIST',
-                setSize: 'SET_SIZE',
-                setSearch: 'SET_SEARCH',
-                patchProperty: 'PATCH_ITEM_PROPERTY',
-                nextPage: 'NEXT_PAGE',
-                prevPage: 'PREV_PAGE',
-                removeItem: 'REMOVE_ITEM',
-            }),
-        },
-
-    };
+    computeStatusClass(stateCode) {
+      if (stateCode === 3) {
+        return 'status__true';
+      }
+      if (stateCode > 3 && stateCode < 8) {
+        return 'status__false';
+      }
+      if (stateCode > 7 && stateCode < 2) {
+        return 'status__info';
+      }
+      return 'not-registered';
+    },
+  },
+};
 </script>

@@ -5,22 +5,14 @@
 @import "../main";
 @import "../styleguide/tooltip";
 
+@import './table-page';
+
 // ----- new styles
 
 .tabs-page-wrapper {
   display: flex;
   flex-direction: column;
   width: 100%;
-}
-
-.wt-headline {
-  .wt-button {
-    margin-left: 20px;
-
-    &:first-child {
-      margin-left: 0;
-    }
-  }
 }
 
 .wt-page-wrapper {
@@ -44,30 +36,16 @@
 
 // outer wrap of module- page
 .object-wrap {
-  display: flex;
-  width: 100vw;
-  //overflow-x: hidden;
+  width: 100%;
+  min-height: 100%;
 }
 
 // main content itself, without nav but with main header
 .object {
-  flex: 1 0 auto;
-  width: 1px;
-  //padding: 40px;
-  //width: calc(100vw - 272px);
-  //overflow: auto;
-}
-
-.the-nav__wrap {
-  flex: 0 0 272px;
-  //min-width: 272px;
-  //width: 272px;
+  min-height: 100%;
 }
 
 .object-content-wrap {
-  //width: 100%;
-  //max-width: 100%;
-  //min-width: 100%;
 }
 
 // inner content section

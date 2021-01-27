@@ -37,7 +37,7 @@ export default {
     async save() {
       try {
         await this.addToken(this.usage);
-        this.close();
+        this.$emit('token-created');
       } catch {
       }
     },

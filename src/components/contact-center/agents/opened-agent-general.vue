@@ -1,78 +1,65 @@
 <template>
-    <section>
-        <header class="content-header">
-            <h3 class="content-title">{{$t('objects.generalInfo')}}</h3>
-        </header>
-        <form class="object-input-grid">
-            <dropdown-select
-                    v-model="user"
-                    :v="v.itemInstance.user"
-                    :options="dropdownOptionsList"
-                    :label="$tc('objects.directory.users.users', 1)"
-                    @search="loadDropdownOptionsList"
-                    required
-            ></dropdown-select>
+  <section>
+    <header class="content-header">
+      <h3 class="content-title">{{ $t('objects.generalInfo') }}</h3>
+    </header>
+    <form class="object-input-grid">
+      <wt-select
+        :value="user"
+        :v="v.itemInstance.user"
+        :label="$tc('objects.directory.users.users', 1)"
+        :search="loadDropdownOptionsList"
+        :internal-search="false"
+        required
+        @input="setItemProp({ prop: 'user', value: $event })"
+      ></wt-select>
 
-            <form-input
-                    v-model="progressiveCount"
-                    :v="v.itemInstance.progressiveCount"
-                    :label="$t('objects.ccenter.agents.progressiveCount')"
-                    required
-            ></form-input>
+      <wt-input
+        :value="progressiveCount"
+        :v="v.itemInstance.progressiveCount"
+        :label="$t('objects.ccenter.agents.progressiveCount')"
+        type="number"
+        required
+        @input="setItemProp({ prop: 'progressiveCount', value: +$event })"
+      ></wt-input>
 
-            <form-input
-                    v-model="description"
-                    :label="$t('objects.description')"
-                    textarea
-            ></form-input>
-        </form>
-    </section>
+      <wt-textarea
+        :value="description"
+        :label="$t('objects.description')"
+        @input="setItemProp({ prop: 'description', value: $event })"
+      ></wt-textarea>
+    </form>
+  </section>
 </template>
 
 <script>
-    import openedTabComponentMixin from '@/mixins/openedTabComponentMixin';
-    import { mapActions } from 'vuex';
-    import { getAgentUsersOptions } from '../../../api/contact-center/agents/agents';
+import { mapState } from 'vuex';
+import { getAgentUsersOptions } from '../../../api/contact-center/agents/agents';
+import openedTabComponentMixin from '../../../mixins/openedTabComponentMixin';
 
-    export default {
-        name: 'opened-agent-general',
-        mixins: [openedTabComponentMixin],
+export default {
+  name: 'opened-agent-general',
+  mixins: [openedTabComponentMixin],
 
-        mounted() {
-            this.loadDropdownOptionsList();
-        },
+  computed: {
+    ...mapState('ccenter/agents', {
+      user: (state) => state.itemInstance.user,
+      progressiveCount: (state) => state.itemInstance.progressiveCount,
+      description: (state) => state.itemInstance.description,
+    }),
+  },
 
-        computed: {
-            user: {
-                get() { return this.$store.state.ccenter.agents.itemInstance.user; },
-                set(value) { this.setItemProp({ prop: 'user', value }); },
-            },
-            description: {
-                get() { return this.$store.state.ccenter.agents.itemInstance.description; },
-                set(value) { this.setItemProp({ prop: 'description', value }); },
-            },
-            progressiveCount: {
-                get() { return this.$store.state.ccenter.agents.itemInstance.progressiveCount; },
-                set(value) { this.setItemProp({ prop: 'progressiveCount', value }); },
-            },
-        },
-
-        methods: {
-            async loadDropdownOptionsList(search) {
-                const response = await getAgentUsersOptions(1, 10, search);
-                this.dropdownOptionsList = response.map((item) => ({
-                        name: item.name,
-                        id: item.id,
-                    }));
-            },
-
-            ...mapActions('ccenter/agents', {
-                setItemProp: 'SET_ITEM_PROPERTY',
-            }),
-        },
-    };
+  methods: {
+    async loadDropdownOptionsList(search) {
+      const response = await getAgentUsersOptions(1, 10, search);
+      return response.list.map((item) => ({
+        name: item.name,
+        id: item.id,
+      }));
+    },
+  },
+};
 </script>
 
 <style lang="scss" scoped>
-
 </style>

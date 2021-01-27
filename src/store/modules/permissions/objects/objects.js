@@ -7,6 +7,7 @@ import {
     updateObacObject,
     fetchObjclassDefaultList,
     toggleObjclassDefaultMode
+
 } from "../../../../api/permissions/objects/objects";
 
 const defaultState = () => {
@@ -52,6 +53,13 @@ const actions = {
         context.dispatch('RESET_ITEM_STATE');
         context.commit('SET_DATA_LIST', response.list);
         context.commit('SET_IS_NEXT', response.next);
+    },
+
+    GET_ITEM: (context) => getObject(context.state.itemId),
+
+    LOAD_ITEM: async (context) => {
+      const item = await context.dispatch('GET_ITEM');
+      context.commit('SET_ITEM', item);
     },
 
     SET_SEARCH: (context, search) => {
@@ -158,6 +166,7 @@ const actions = {
 
     PATCH_ITEM_PERMISSIONS: async (context, { prop, index }) => {
         const readState = state.itemPermissionsDataList[index].access.r;
+
         await context.commit('PATCH_ITEM_PERMISSIONS', { prop, index });
 
         let mode = '';
@@ -311,6 +320,10 @@ const mutations = {
         state.dataList = list;
     },
 
+    SET_ITEM: (state, item) => {
+      state.itemInstance = item;
+    },
+
     SET_SEARCH: (state, search) => {
         state.itemSearch = search;
     },
@@ -418,6 +431,7 @@ const mutations = {
         if (ruleName == 'r') { state.itemPermissionsDefaultList[index].perm.r = mode; }
         if (ruleName == 'w') { state.itemPermissionsDefaultList[index].perm.w = mode; }
         if (ruleName == 'd') { state.itemPermissionsDefaultList[index].perm.d = mode; }
+
     },
 };
 

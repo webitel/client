@@ -1,17 +1,9 @@
 <template>
   <wt-page-wrapper class="license" :actions-panel="false">
     <template slot="header">
-      <wt-headline>
-        <template slot="title">
-          {{ $t('objects.directory.directory') }} |
-          {{ $t('objects.directory.license.license') }}
-        </template>
-        <template slot="actions">
-          <wt-button color="secondary" @click="$router.go(-1)">
-            {{ $t('objects.close') }}
-          </wt-button>
-        </template>
-      </wt-headline>
+      <object-header :hide-primary="true">
+        <headline-nav :path="path"></headline-nav>
+      </object-header>
     </template>
     <template slot="main">
       <license-popup
@@ -91,9 +83,9 @@
             </template>
 
             <template slot="status" slot-scope="{ item }">
-              <div class="license-status" :class="statusClass(item.notAfter)">
+              <wt-badge class="license-status" :class="statusClass(item.notAfter)">
                 {{ statusText(item.notAfter) }}
-              </div>
+              </wt-badge>
             </template>
           </wt-table>
           <wt-pagination
@@ -117,7 +109,7 @@ import { mapActions, mapState } from 'vuex';
 import copy from 'clipboard-copy';
 import licensePopup from './license-popup.vue';
 import tableComponentMixin from '../../../mixins/tableComponentMixin';
-import tableActionsHandlerMixin from '../../../mixins/tableActionsMixin';
+import tableActionsHandlerMixin from '../../../mixins/baseTableMixin/tableActionsMixin';
 
 let copiedIdTimeout = null;
 
@@ -148,6 +140,13 @@ export default {
       search: (state) => state.search,
       isNext: (state) => state.isNextPage,
     }),
+
+    path() {
+      return [
+        { name: this.$t('objects.directory.directory') },
+        { name: this.$t('objects.directory.license.license'), route: '/directory/license' },
+      ];
+    },
   },
 
   methods: {
@@ -234,8 +233,6 @@ export default {
   text-align: center;
   align-self: flex-end;
   width: 93px;
-  padding: 5px 8px 3px;
-  border-radius: var(--border-radius);
 
   &.valid {
     background: var(--license--valid);

@@ -70,7 +70,7 @@ import tableComponentMixin from '@/mixins/tableComponentMixin';
 import { mapActions, mapState } from 'vuex';
 import eventBus from '@webitel/ui-sdk/src/scripts/eventBus';
 import resourcePopup from './opened-queue-resources-popup.vue';
-import tableActionsHandlerMixin from '../../../mixins/tableActionsMixin';
+import tableActionsHandlerMixin from '../../../mixins/baseTableMixin/tableActionsMixin';
 
 export default {
   name: 'opened-queue-resources',
@@ -119,6 +119,11 @@ export default {
       this.popupTriggerIf = true;
     },
 
+    closePopup() {
+      this.popupTriggerIf = false;
+      this.resetItemState();
+    },
+
     ...mapActions('ccenter/queues', {
       addParentItem: 'ADD_ITEM',
     }),
@@ -132,6 +137,7 @@ export default {
       nextPage: 'NEXT_PAGE',
       prevPage: 'PREV_PAGE',
       removeItem: 'DELETE_ITEM',
+      resetItemState: 'RESET_ITEM_STATE',
     }),
   },
 };

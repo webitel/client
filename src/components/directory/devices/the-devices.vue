@@ -1,17 +1,9 @@
 <template>
   <wt-page-wrapper class="devices" :actions-panel="false">
     <template slot="header">
-      <wt-headline>
-        <template slot="title">
-          {{ $t('objects.directory.directory') }} |
-          {{ $tc('objects.directory.devices.devices', 2) }}
-        </template>
-        <template slot="actions">
-          <wt-button @click="create">
-            {{ $t('objects.add') }}
-          </wt-button>
-        </template>
-      </wt-headline>
+      <object-header :primary-action="create">
+        <headline-nav :path="path"></headline-nav>
+      </object-header>
     </template>
 
     <template slot="main">
@@ -107,16 +99,22 @@
               <wt-icon-btn
                   class="table-action"
                   icon="history"
+                  :tooltip="$t('iconHints.history')"
+                  tooltip-position="left"
                   @click="openHistory(item.id)"
               ></wt-icon-btn>
               <wt-icon-btn
                   class="table-action"
                   icon="edit"
+                  :tooltip="$t('iconHints.edit')"
+                  tooltip-position="left"
                   @click="edit(item)"
               ></wt-icon-btn>
               <wt-icon-btn
                   class="table-action"
                   icon="bucket"
+                  :tooltip="$t('iconHints.delete')"
+                  tooltip-position="left"
                   @click="remove(index)"
               ></wt-icon-btn>
             </template>
@@ -143,7 +141,7 @@ import HistoryPopup from './device-history-popup.vue';
 import UploadPopup from './upload-devices-popup.vue';
 import DevicePopup from './create-device-popup.vue';
 import tableComponentMixin from '../../../mixins/tableComponentMixin';
-import tableActionsHandlerMixin from '../../../mixins/tableActionsMixin';
+import tableActionsHandlerMixin from '../../../mixins/baseTableMixin/tableActionsMixin';
 
 export default {
   name: 'the-devices',
@@ -178,6 +176,12 @@ export default {
     ...mapState('directory/devices/history', {
       historyId: (state) => state.itemId,
     }),
+    path() {
+      return [
+        { name: this.$t('objects.directory.directory') },
+        { name: this.$tc('objects.directory.devices.devices', 2), route: '/directory/devices' },
+      ];
+    },
   },
 
   methods: {

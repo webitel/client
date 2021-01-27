@@ -1,11 +1,8 @@
 <template>
     <div class="content-wrap">
-        <object-header
-                :primaryAction="create"
-        >
-            {{$t('objects.routing.routing')}} |
-            {{$t('objects.routing.dialplan.dialplan')}}
-        </object-header>
+        <object-header :primaryAction="create">
+          <headline-nav :path="path"></headline-nav>
+         </object-header>
 
         <section class="object-content dialplan">
             <header class="content-header">
@@ -173,7 +170,14 @@
                     this.setSearch(value);
                 },
             },
-        },
+          path() {
+            return [
+              { name: this.$t('objects.routing.routing') },
+              { name: this.$t('objects.routing.dialplan.dialplan'), route: '/routing/dialplan' },
+            ];
+          },
+
+    },
 
         methods: {
 

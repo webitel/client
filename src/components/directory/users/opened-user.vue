@@ -1,20 +1,14 @@
 <template>
   <wt-page-wrapper :actions-panel="false">
     <template slot="header">
-      <wt-headline>
-        <template slot="title">
-          {{ $tc('objects.directory.users.users', 1) }} |
-          {{ computeTitle }}
-        </template>
-        <template slot="actions">
-          <wt-button :disabled="computeDisabled" @click="save">
-            {{ computePrimaryText || $t('objects.addNew') }}
-          </wt-button>
-          <wt-button color="secondary" @click="close">
-            {{ $t('objects.close') }}
-          </wt-button>
-        </template>
-      </wt-headline>
+      <object-header
+          :primary-action="save"
+          :primary-text="computePrimaryText"
+          :primary-disabled="computeDisabled"
+          :secondary-action="close"
+      >
+        <headline-nav :path="path"></headline-nav>
+      </object-header>
     </template>
 
     <template slot="main">
@@ -44,10 +38,11 @@ import OpenedUserVariables from './opened-user-variables.vue';
 import OpenedUserTokens from './opened-user-token.vue';
 import OpenedUserPermissions from './opened-user-permissions.vue';
 import editComponentMixin from '../../../mixins/editComponentMixin';
+import headlineNavMixin from '../../../mixins/headlineNavMixin/headlineNavMixin';
 
 export default {
   name: 'opened-user',
-  mixins: [editComponentMixin],
+  mixins: [editComponentMixin, headlineNavMixin],
   components: {
     OpenedUserGeneral,
     OpenedUserRoles,
@@ -86,6 +81,18 @@ export default {
       id: (state) => state.itemId,
       itemInstance: (state) => state.itemInstance,
     }),
+
+    path() {
+      const baseUrl = '/directory/users';
+      return [
+        { name: this.$t('objects.directory.directory') },
+        { name: this.$tc('objects.directory.users.users', 2), route: baseUrl },
+        {
+          name: this.id ? this.pathName : this.$t('objects.new'),
+          route: this.id ? `${baseUrl}/${this.id}` : `${baseUrl}/new`,
+        },
+      ];
+    },
 
     tabs() {
       const tabs = [{
@@ -129,7 +136,12 @@ export default {
       loadItem: 'LOAD_ITEM',
       addItem: 'ADD_ITEM',
       updateItem: 'UPDATE_ITEM',
+      resetState: 'RESET_ITEM_STATE',
     }),
+
+    close() {
+      this.$router.go(-1);
+    },
   },
 };
 </script>
