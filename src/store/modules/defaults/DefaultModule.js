@@ -74,7 +74,7 @@ export class DefaultModule {
             ADD_ITEM: async (context) => {
                 if (!context.state.itemId) {
                     const id = await context.dispatch('POST_ITEM');
-                    context.dispatch('SET_ITEM_ID', id);
+                    await context.dispatch('SET_ITEM_ID', id);
                     context.dispatch('LOAD_ITEM');
                 }
             },
