@@ -6,7 +6,8 @@ import {
     updateObject,
     updateObacObject,
     fetchObjclassDefaultList,
-    toggleObjclassDefaultMode
+    toggleObjclassDefaultMode,
+    getObject
 
 } from "../../../../api/permissions/objects/objects";
 
@@ -58,8 +59,8 @@ const actions = {
     GET_ITEM: (context) => getObject(context.state.itemId),
 
     LOAD_ITEM: async (context) => {
-      const item = await context.dispatch('GET_ITEM');
-      context.commit('SET_ITEM', item);
+        const item = await context.dispatch('GET_ITEM');
+        context.commit('SET_ITEM', item);
     },
 
     SET_SEARCH: (context, search) => {
@@ -199,39 +200,41 @@ const actions = {
     },
 
     TOGGLE_GENERAL_MODE: async (context, { mode, ruleName, item }) => {
-        let have;
-        let want;
+        if (mode) {
+            let have;
+            let want;
 
-        const rule = item;
+            const rule = item;
 
-        if (ruleName == 'c' || ruleName == 'r' || ruleName == 'w' || ruleName == 'd') {
-            have = rule.access[ruleName];
-        }
-        switch (mode.id) {
-            case 1:
-                want = ruleName;
-                break;
-            case 2:
-                want = have.rule || ruleName;
-                break;
-            case 3:
-                want = ruleName + ruleName;
-                break;
-            default:
-                console.log(`Cound not identify access mode '${want}'`);
-                return;
-        }
-        want = want.replace('cc', 'xx').replace('c', 'x');
-        let ctl = {
-            grantee: +(item.grantee.id),
-            grants: want
-        };
-        try {
-            await patchObjectPermissions(state.itemId, [ctl]);
-        } catch (err) {
-            throw err;
-        } finally {
-            context.dispatch('LOAD_ITEM_PERMISSIONS_DATA_lIST');
+            if (ruleName == 'c' || ruleName == 'r' || ruleName == 'w' || ruleName == 'd') {
+                have = rule.access[ruleName];
+            }
+            switch (mode.id) {
+                case 1:
+                    want = ruleName;
+                    break;
+                case 2:
+                    want = have.rule || ruleName;
+                    break;
+                case 3:
+                    want = ruleName + ruleName;
+                    break;
+                default:
+                    console.log(`Cound not identify access mode '${want}'`);
+                    return;
+            }
+            want = want.replace('cc', 'xx').replace('c', 'x');
+            let ctl = {
+                grantee: +(item.grantee.id),
+                grants: want
+            };
+            try {
+                await patchObjectPermissions(state.itemId, [ctl]);
+            } catch (err) {
+                throw err;
+            } finally {
+                context.dispatch('LOAD_ITEM_PERMISSIONS_DATA_lIST');
+            }
         }
     },
 
@@ -321,7 +324,7 @@ const mutations = {
     },
 
     SET_ITEM: (state, item) => {
-      state.itemInstance = item;
+        state.itemInstance = item;
     },
 
     SET_SEARCH: (state, search) => {

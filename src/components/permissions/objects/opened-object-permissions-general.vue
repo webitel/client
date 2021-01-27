@@ -131,7 +131,6 @@ export default {
   components: { rolePopup },
   data() {
     return {
-      // vuetable prop
       headers: [
         {
           value: "grantee",
