@@ -19,8 +19,8 @@
 
 <script>
     import { mapActions, mapState } from 'vuex';
-    import popup from '../../utils/popup';
-    import dropdownSelect from '../../utils/dropdown-select';
+    import popup from '../../utils/popup.vue';
+    import dropdownSelect from '../../utils/dropdown-select.vue';
     import { getRoleList } from '../../../api/permissions/roles/roles';
 
     export default {
@@ -29,7 +29,7 @@
         data() {
             return {
                 newGrantee: '',
-                dropdownOptionsList: [], // list of all roles to add new. retrieves from roles GET request
+                dropdownOptionsList: [],
             };
         },
 
@@ -44,7 +44,9 @@
 
             computeAvailableGrantees() {
                 // filter available grantees:
-                return this.dropdownOptionsList.filter((grantee) => !this.dataList.some((usedGrantee) => grantee.id === usedGrantee.grantee.id));
+                return this.dropdownOptionsList.filter(
+                    (grantee) => !this.dataList.some((used) => grantee.id === used.grantee.id)
+                );
             },
         },
 

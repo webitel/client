@@ -39,7 +39,7 @@ export const getAgentUsersOptions = async (page = 1, size = 10, search) => {
     return response.items ? { list: response.items } : [];
 };
 
-export const getAgentHistory = async (id, date, page = 0, size = 10, search) => {
+export const getAgentHistory = async (id, date, page, size, search) => {
     const { domainId } = store.state.userinfo;
     try {
         const response = await agentService.searchAgentStateHistory(page, size, date, Date.now(), id, '-joined_at', domainId);

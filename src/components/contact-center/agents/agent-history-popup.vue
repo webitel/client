@@ -6,25 +6,24 @@
             @close="$emit('close')"
             overflow
     >
-        <section class="history-popup">
-            <datetime-picker
-                    class="history-popup__datetimepicker datepicker__to-right"
-                    v-model="date"
-                    hide-label
-                    hide-details
-            ></datetime-picker>
+        <section class="history-popup">            
+            <wt-datetimepicker
+                v-model="date"
+            ></wt-datetimepicker>
             <vuetable
                     :api-mode="false"
                     :fields="fields"
                     :data="dataList"
-            >
-                <template slot="state" slot-scope="props">
-<!--                    <status-->
-<!--                            :class="{'status__true': dataList[props.rowIndex].state}"-->
-<!--                            :text=computeOnlineText(dataList[props.rowIndex].state)-->
-<!--                    ></status>-->
+            >                
+                <template slot="state" slot-scope="props">                    
                     <div>
                         {{dataList[props.rowIndex].state.toUpperCase()}}
+                    </div>
+                </template>
+
+                <template slot="payload" slot-scope="props">                    
+                    <div>
+                        {{dataList[props.rowIndex].payload}}
                     </div>
                 </template>
 
@@ -82,6 +81,7 @@
             return {
                 fields: [
                     { name: 'state', title: this.$t('objects.ccenter.agents.historyState') },
+                    { name: 'payload', title: this.$t('objects.ccenter.agents.payload') },
                     { name: 'channel', title: this.$t('objects.ccenter.agents.historyChannel') },
                     { name: 'from', title: this.$t('objects.ccenter.agents.historyFrom') },
                     { name: 'to', title: this.$t('objects.ccenter.agents.historyTo') },

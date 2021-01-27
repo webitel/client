@@ -167,7 +167,6 @@ const actions = {
 
     PATCH_ITEM_PERMISSIONS: async (context, { prop, index }) => {
         const readState = state.itemPermissionsDataList[index].access.r;
-
         await context.commit('PATCH_ITEM_PERMISSIONS', { prop, index });
 
         let mode = '';
@@ -434,7 +433,6 @@ const mutations = {
         if (ruleName == 'r') { state.itemPermissionsDefaultList[index].perm.r = mode; }
         if (ruleName == 'w') { state.itemPermissionsDefaultList[index].perm.w = mode; }
         if (ruleName == 'd') { state.itemPermissionsDefaultList[index].perm.d = mode; }
-
     },
 };
 

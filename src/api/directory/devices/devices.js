@@ -98,6 +98,6 @@ export const getDeviceHistory = async ({ id, from, to, page, size }) => {
     }
 };
 
-export const getDevicePermissions = async (id, page = 1, size = 10, search) => await permissionsGetter.getList(id, size, search);
+export const getDevicePermissions = async (id, page = 1, size = 10, search) => await permissionsGetter.getList(id, page, size, search);
 
 export const patchDevicePermissions = async (id, item) => await permissionsPatcher.patchItem(id, item);

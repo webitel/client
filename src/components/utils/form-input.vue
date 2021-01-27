@@ -93,6 +93,7 @@
             // disables input
             disabled: {
                 type: Boolean,
+                default: false,
             },
 
             // '*' sign property
@@ -116,6 +117,7 @@
         },
         mounted() {
             eventBus.$on('copyToClipboard', this.copyToClipboard);
+            eventBus.$on('copy', this.copyTo);
             if (this.textarea) this.$refs.input.style.height = `${this.height}px`;
         },
         computed: {
@@ -135,6 +137,15 @@
                 if (this.value === copyTarget && this.value) {
                     this.$refs.input.select();
                     document.execCommand('copy');
+                }
+            },
+
+            copyTo(copyTarget) {
+                if (this.value === copyTarget && this.value) {
+                    this.$refs.input.disabled = false;
+                    this.$refs.input.select();
+                    document.execCommand('copy');
+                    this.$refs.input.disabled = true;
                 }
             },
         },
