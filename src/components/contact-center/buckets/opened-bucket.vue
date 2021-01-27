@@ -1,104 +1,87 @@
 <template>
-    <div class="content-wrap">
-        <object-header
-                :primaryText="computePrimaryText"
-                :primaryAction="save"
-                :primaryDisabled="computeDisabled"
-                close
+  <wt-page-wrapper :actions-panel="false">
+    <template slot="header">
+      <object-header
+        :primary-action="save"
+        :primary-disabled="computeDisabled"
+        :primary-text="computePrimaryText"
+        :secondary-action="close"
+      >
+        <headline-nav :path="path"></headline-nav>
+      </object-header>
+    </template>
+    <template slot="main">
+      <div class="main-container">
+        <wt-tabs
+          v-model="currentTab"
+          :tabs="tabs"
         >
-          <headline-nav :path="path"></headline-nav>
-        </object-header>
-        <tabs-component
-                :tabs="tabs"
-                :root="$options.name"
-        >
-            <template slot="component" slot-scope="props">
-                <component
-                        class="tabs-inner-component"
-                        :is="props.currentTab"
-                        :v="$v"
-                ></component>
-            </template>
-        </tabs-component>
-    </div>
+        </wt-tabs>
+        <component
+          :is="`${$options.name}-${currentTab.value}`"
+          :v="$v"
+          :namespace="namespace"
+        ></component>
+      </div>
+    </template>
+  </wt-page-wrapper>
 </template>
 
 <script>
-    import editComponentMixin from '@/mixins/editComponentMixin';
-    import { required } from 'vuelidate/lib/validators';
-    import { mapActions, mapState } from 'vuex';
-    import openedBucketPermissions from './opened-bucket-permissions';
-    import openedBucketGeneral from './opened-bucket-general';
-    import headlineNavMixin from '../../../mixins/headlineNavMixin/headlineNavMixin';
+import { required } from 'vuelidate/lib/validators';
+import { mapState } from 'vuex';
+import OpenedBucketPermissions from './opened-bucket-permissions.vue';
+import OpenedBucketGeneral from './opened-bucket-general.vue';
+import openedObjectMixin from '../../../mixins/openedObjectMixin/openedObjectMixin';
 
-    export default {
-        name: 'opened-bucket',
-        mixins: [editComponentMixin, headlineNavMixin],
-        components: { openedBucketGeneral, openedBucketPermissions },
+export default {
+  name: 'opened-bucket',
+  mixins: [openedObjectMixin],
+  components: { OpenedBucketGeneral, OpenedBucketPermissions },
+  data: () => ({
+    namespace: 'ccenter/buckets',
+  }),
 
-        data() {
-            return {};
+  validations: {
+    itemInstance: {
+      name: { required },
+    },
+  },
+
+  computed: {
+    ...mapState('ccenter/buckets', {
+      id: (state) => state.itemId,
+      itemInstance: (state) => state.itemInstance,
+    }),
+
+    tabs() {
+      const tabs = [{
+        text: this.$t('objects.general'),
+        value: 'general',
+      }];
+
+      const permissions = {
+        text: this.$tc('objects.permissions.permissions', 2),
+        value: 'permissions',
+      };
+
+      if (this.id) tabs.push(permissions);
+      return tabs;
+    },
+
+    path() {
+      const baseUrl = '/contact-center/buckets';
+      return [
+        { name: this.$t('objects.ccenter.ccenter') },
+        { name: this.$tc('objects.ccenter.buckets.buckets', 2), route: baseUrl },
+        {
+          name: this.id ? this.pathName : this.$t('objects.new'),
+          route: this.id ? `${baseUrl}/${this.id}` : `${baseUrl}/new`,
         },
-
-        validations: {
-            itemInstance: {
-                name: {
-                    required,
-                },
-            },
-        },
-
-        mounted() {
-            this.id = this.$route.params.id;
-            this.loadItem();
-        },
-
-        computed: {
-            ...mapState('ccenter/buckets', {
-                itemInstance: (state) => state.itemInstance,
-            }),
-            id: {
-                get() { return this.$store.state.ccenter.buckets.itemId; },
-                set(value) { this.setId(value); },
-            },
-
-            tabs() {
-                const tabs = [{
-                    text: this.$t('objects.general'),
-                    value: 'general',
-                }];
-
-                const permissions = {
-                    text: this.$tc('objects.permissions.permissions', 2),
-                    value: 'permissions',
-                };
-
-                if (this.id) tabs.push(permissions);
-                return tabs;
-            },
-
-          path() {
-              const baseUrl = '/contact-center/buckets';
-            return [
-              { name: this.$t('objects.ccenter.ccenter') },
-              { name: this.$tc('objects.ccenter.buckets.buckets', 2), route: baseUrl },
-              {
-                name: this.id ? this.pathName : this.$t('objects.new'),
-                route: this.id ? `${baseUrl}/${this.id}` : `${baseUrl}/new`,
-              },
-            ];
-          },
-        },
-
-        methods: {
-            ...mapActions('ccenter/buckets', {
-                setId: 'SET_ITEM_ID',
-                loadItem: 'LOAD_ITEM',
-                addItem: 'ADD_ITEM',
-                updateItem: 'UPDATE_ITEM',
-            }),
-        },
-    };
+      ];
+    },
+  },
+};
 </script>
 
 <style scoped>

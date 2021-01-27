@@ -13,8 +13,8 @@ export class DefaultPermissionsModule {
             LOAD_DATA_LIST: async (context) => {
                 if (context.state.parentId) {
                     const dataList = await context.dispatch('LOAD_PERMISSIONS_LIST');
-                    // context.dispatch('RESET_ITEM_STATE');
-                    context.commit('SET_DATA_LIST', dataList);
+                    context.dispatch('RESET_ITEM_STATE');
+                    context.commit('SET_DATA_LIST', dataList.list);
                 }
             },
 

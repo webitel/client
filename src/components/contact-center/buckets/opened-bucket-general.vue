@@ -1,51 +1,40 @@
 <template>
-    <section>
-        <header class="content-header">
-            <h3 class="content-title">{{$t('objects.generalInfo')}}</h3>
-        </header>
-        <form class="object-input-grid grid-w50">
-            <form-input
-                    v-model.trim="name"
-                    :v="v.itemInstance.name"
-                    :label="$t('objects.name')"
-                    required
-            ></form-input>
-
-            <form-input
-                    v-model.trim="description"
-                    :label="$t('objects.description')"
-                    textarea
-            ></form-input>
-        </form>
-    </section>
+  <section>
+    <header class="content-header">
+      <h3 class="content-title">{{ $t('objects.generalInfo') }}</h3>
+    </header>
+    <form class="object-input-grid object-input-grid__1-col object-input-grid__w50">
+      <wt-input
+        :value="name"
+        :v="v.itemInstance.name"
+        :label="$t('objects.name')"
+        required
+        @input="setItemProp({ prop: 'name', value: $event })"
+      ></wt-input>
+      <wt-textarea
+        :value="description"
+        :label="$t('objects.description')"
+        @input="setItemProp({ prop: 'description', value: $event })"
+      ></wt-textarea>
+    </form>
+  </section>
 </template>
 
 <script>
-    import openedTabComponentMixin from '@/mixins/openedTabComponentMixin';
-    import { mapActions } from 'vuex';
+import { mapState } from 'vuex';
+import openedTabComponentMixin from '../../../mixins/openedTabComponentMixin';
 
-    export default {
-        name: 'opened-bucket-general',
-        mixins: [openedTabComponentMixin],
+export default {
+  name: 'opened-bucket-general',
+  mixins: [openedTabComponentMixin],
 
-        computed: {
-            name: {
-                get() { return this.$store.state.ccenter.buckets.itemInstance.name; },
-                set(value) { this.setItemProp({ prop: 'name', value }); },
-            },
-
-            description: {
-                get() { return this.$store.state.ccenter.buckets.itemInstance.description; },
-                set(value) { this.setItemProp({ prop: 'description', value }); },
-            },
-        },
-
-        methods: {
-            ...mapActions('ccenter/buckets', {
-                setItemProp: 'SET_ITEM_PROPERTY',
-            }),
-        },
-    };
+  computed: {
+    ...mapState('ccenter/buckets', {
+      name: (state) => state.itemInstance.name,
+      description: (state) => state.itemInstance.description,
+    }),
+  },
+};
 </script>
 
 <style scoped>

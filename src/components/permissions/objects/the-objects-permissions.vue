@@ -1,87 +1,100 @@
 <template>
-    <div>
-        <object-header hide-primary>
-          <headline-nav :path="path"></headline-nav>
-        </object-header>
+    <wt-page-wrapper class="devices" :actions-panel="false">
+        <template slot="header">
+            <wt-headline>
+                <template slot="title">
+                    {{$t('objects.permissions.permissions')}} |
+                    {{$t('objects.permissions.object.object')}}
+                </template>            
+            </wt-headline>
+        </template>
 
-        <section class="object-content">
-            <header class="content-header">
-                <h3 class="content-title">
-                    {{$t('objects.permissions.object.allObjects')}}
-                </h3>
-                <div class="content-header__actions-wrap">
-                    <search
-                            v-model="search"
-                            @filterData="loadList"
-                    ></search>
-                    <i
-                            class="icon-icon_reload icon-action"
-                            :title="$t('iconHints.reload')"
-                            @click="loadList"
-                    ></i>
-                </div>
-            </header>
-
-            <loader v-show="!isLoaded"></loader>
-
-            <vuetable
-                    v-show="isLoaded"
-                    :api-mode="false"
-                    :fields="fields"
-                    :data="dataList"
-            >
-
-                <template slot="name" slot-scope="props">
-                    <div>
-                        <span class="nameLink" @click="edit(props.rowIndex)">
-                            {{dataList[props.rowIndex].class}}
-                        </span>
+        <template slot="main">
+            <section class="main-section__wrapper">
+                <header class="content-header">
+                    <h3 class="content-title">
+                        {{$t('objects.permissions.object.allObjects')}}
+                    </h3>
+                    <div class="content-header__actions-wrap">
+                        <wt-search-bar
+                            :value="search"
+                            debounce
+                            @input="setSearch"
+                            @search="loadList"
+                            @enter="loadList"
+                        ></wt-search-bar>
+                        <wt-table-actions
+                            :icons="['refresh']"
+                            @input="tableActionsHandler"
+                        ></wt-table-actions>
                     </div>
-                </template>
+                </header>
 
-                <template slot="obac" slot-scope="props">
-                    <switcher
-                            class="test__object-switcher__obac"
-                            :value="dataList[props.rowIndex].obac"
-                            @input="toggleItemProperty({prop: 'obac', index: props.rowIndex})"
-                    ></switcher>
-                </template>
+                <wt-loader v-show="!isLoaded"></wt-loader>
+                
+                <div class="table-wrapper" v-show="isLoaded">
+                    <wt-table
+                        :headers="headers"
+                        :data="dataList"
+                    >
+                        <template slot="name"  slot-scope="{ item }">
+                            <span class="nameLink" @click="edit(item)">
+                                {{ item.class }}
+                            </span>
+                        </template>
 
-                <template slot="rbac" slot-scope="props">
-                    <switcher
-                            class="test__object-switcher__rbac"
-                            :value="dataList[props.rowIndex].rbac"
-                            @input="toggleItemProperty({prop: 'rbac', index: props.rowIndex})"
-                    ></switcher>
-                </template>
+                        <template slot="obac" slot-scope="{ item }">
+                            <wt-switcher
+                                :value="item.obac"
+                                @change="toggleItemProperty({prop: 'obac', item: item, value: $event})"
+                            ></wt-switcher>                            
+                        </template>
 
-                <template slot="actions" slot-scope="props">
-                    <i class="vuetable-action icon-icon_edit"
-                       :title="$t('iconHints.edit')"
-                       @click="edit(props.rowIndex)"
-                    ></i>
-                </template>
-            </vuetable>
-        </section>
-    </div>
+                        <template slot="rbac" slot-scope="{ item }">
+                            <wt-switcher
+                                :value="item.rbac"
+                                @change="toggleItemProperty({prop: 'rbac', item: item, value: $event})"
+                            ></wt-switcher>    
+                        </template>
+                        <template slot="actions" slot-scope="{ item }">
+                        <wt-icon-btn
+                            class="table-action"
+                            icon="edit"
+                            @click="edit(item)"
+                        ></wt-icon-btn>
+                        </template>
+                    </wt-table>
+                    <wt-pagination
+                        :size="size"
+                        :next="isNext"
+                        :prev="page > 1"
+                        debounce
+                        @next="nextPage"
+                        @prev="prevPage"
+                        @input="setSize"
+                        @change="loadList"
+                    ></wt-pagination>
+                </div>
+            </section>
+        </template>
+    </wt-page-wrapper>
 </template>
 
 <script>
     import tableComponentMixin from '@/mixins/tableComponentMixin';
-    import { _actionsTableField_1 } from '@/utils/tableFieldPresets';
     import { mapActions, mapState } from 'vuex';
+    import tableActionsHandlerMixin from '../../../mixins/baseTableMixin/tableActionsMixin';
 
     export default {
         name: 'the-objects-permissions',
-        mixins: [tableComponentMixin],
+        mixins: [tableComponentMixin, tableActionsHandlerMixin],
 
         data() {
             return {
-                fields: [
-                    { name: 'name', title: this.$t('objects.name') },
-                    { name: 'obac', title: this.$t('objects.permissions.object.ObAC') },
-                    { name: 'rbac', title: this.$t('objects.permissions.object.RbAC') },
-                    _actionsTableField_1,
+                headers: [
+                    { value: 'name', text: this.$t('objects.name') },
+                    { value: 'obac', text: this.$t('objects.permissions.object.ObAC') },
+                    { value: 'rbac', text: this.$t('objects.permissions.object.RbAC') },                    
                 ],
             };
         },
@@ -89,38 +102,33 @@
         computed: {
             ...mapState('permissions/objects', {
                 dataList: (state) => state.dataList,
+                page: (state) => state.itemPage,
+                size: (state) => state.itemSize,
+                search: (state) => state.itemSearch,
+                isNext: (state) => state.isItemNextPage,
             }),
-
-            search: {
-                get() { return this.$store.state.permissions.objects.search; },
-                set(value) { this.setSearch(value); },
-            },
-
-          path() {
-            return [
-              { name: this.$t('objects.permissions.permissions') },
-              { name: this.$t('objects.permissions.object.object'), route: '/permissions/objects' },
-            ];
-          },
         },
 
         methods: {
-            edit(rowId) {
+            edit(item) {
                 this.$router.push({
                     name: 'permissions-objects-edit',
-                    params: { id: this.dataList[rowId].id },
+                    params: { id: item.id },
                 });
             },
 
             ...mapActions('permissions/objects', {
                 loadDataList: 'LOAD_DATA_LIST',
                 setSearch: 'SET_SEARCH',
+                setSize: 'SET_SIZE',
                 toggleItemProperty: 'TOGGLE_ITEM_PROPERTY',
+                nextPage: 'NEXT_PAGE',
+                prevPage: 'PREV_PAGE',
             }),
         },
     };
 </script>
 
 <style lang="scss" scoped>
-
+    @import '../../../assets/css/objects/table-page';
 </style>

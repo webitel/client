@@ -1,159 +1,189 @@
 <template>
-    <section>
-        <role-popup
-                v-if="popupTriggerIf"
-                @close="popupTriggerIf = false"
-        ></role-popup>
+  <section>
+    <role-popup
+      v-if="popupTriggerIf"
+      @close="popupTriggerIf = false"
+    ></role-popup>
 
-        <header ref="rbac" class="content-header">
-                <h3 class="content-title">{{$t('objects.permissions.object.defaultList')}}</h3>
-                <div class="content-header__actions-wrap">
-                    <search
-                            v-model="search"
-                            @filterData="loadList"
-                    ></search>
-                    <i
-                        class="icon-icon_reload icon-action"
-                        :title="$t('iconHints.reload')"
-                        @click="loadList"
-                    ></i>
-                     <i
-                            class="icon-icon_plus icon-action"
-                            :title="$t('iconHints.add')"
-                            @click="popupTriggerIf = true"
-                    ></i>
-                </div>
-            </header>
-            <vuetable ref="rbac"
-                v-show="isLoaded"
-                :api-mode="false"
-                :fields="rbac.fields"
-                :data="defaultList"
-            >
-                <template slot="grantor" slot-scope="props">
-                    <div>
-                        {{defaultList[props.rowIndex].grantor.name}}
-                    </div>
-                </template>
+    <header class="content-header">
+      <h3 class="content-title">
+        {{ $t("objects.permissions.object.defaultList") }}
+      </h3>
+      <div class="content-header__actions-wrap">        
+        <wt-icon-btn
+          class="icon-action"
+          icon="refresh"
+          :tooltip="$t('iconHints.reload')"
+          @click="loadList"
+        ></wt-icon-btn>
+        <wt-icon-btn
+          class="icon-action"
+          icon="plus"
+          :tooltip="$t('iconHints.add')"
+          @click="popupTriggerIf = true"
+        ></wt-icon-btn>
+      </div>
+    </header>
 
-                <template slot="grantee" slot-scope="props">
-                    <div>
-                        {{defaultList[props.rowIndex].grantee.name}}
-                    </div>
-                </template>
+    <wt-loader v-show="!isLoaded"></wt-loader>
+    <div class="table-wrapper" v-show="isLoaded">
+      <wt-table
+        :headers="headers"
+        :data="defaultList"
+        :selectable="false"
+        :grid-actions="false"
+      >
+        <template slot="grantor" slot-scope="{ item }">
+          <div v-if="item.grantor">
+            {{ item.grantor.name }}
+          </div>
+        </template>
 
-                <template slot="read" slot-scope="props">
-                     <dropdown-select
-                        v-model="props.rowData.perm.r"
-                        :options="dropdownOptionsList"
-                        @input="toggleDefaultMode(
-                            {mode: $event, ruleName: 'r', index: props.rowIndex}
-                        )"
-                    ></dropdown-select>
-                </template>
+        <template slot="grantee" slot-scope="{ item }">
+          <div v-if="item.grantee">
+            {{ item.grantee.name }}
+          </div>
+        </template>
 
-                <template slot="write" slot-scope="props">
-                    <dropdown-select
-                        v-model="props.rowData.perm.w"
-                        :options="dropdownOptionsList"
-                        @input="toggleDefaultMode(
-                            {mode: $event, ruleName: 'w', index: props.rowIndex}
-                        )"
-                    ></dropdown-select>
-                </template>
+        <template slot="read" slot-scope="{ item }">
+          <wt-select
+            :value="item.perm.r"
+            :options="dropdownOptionsList"
+            :clearable='false'
+            track-by="name"            
+            @input="
+              toggleDefaultMode({
+                mode: $event,
+                ruleName: 'r',
+                item,
+              })
+            "
+          ></wt-select>
+        </template>
 
-                <template slot="delete" slot-scope="props">
-                   <dropdown-select
-                        v-model="props.rowData.perm.d"
-                        :options="dropdownOptionsList"
-                        @input="toggleDefaultMode(
-                            {mode: $event, ruleName: 'd', index: props.rowIndex}
-                        )"
-                    ></dropdown-select>
-                </template>
-            </vuetable>
-    </section>
+        <template slot="write" slot-scope="{ item }">
+          <wt-select
+            :value="item.perm.w"
+            :options="dropdownOptionsList"
+            :clearable='false'
+            track-by="name"
+            @input="
+              toggleDefaultMode({
+                mode: $event,
+                ruleName: 'w',
+                item,
+              })
+            "
+          ></wt-select>
+        </template>
+
+        <template slot="delete" slot-scope="{ item }">
+          <wt-select
+            :value="item.perm.d"
+            :options="dropdownOptionsList"
+            :clearable='false'
+            track-by="name"
+            @input="
+              toggleDefaultMode({
+                mode: $event,
+                ruleName: 'd',
+                item,
+              })
+            "
+          ></wt-select>
+        </template>
+      </wt-table>
+      <wt-pagination
+        :size="size"
+        :next="isNext"
+        :prev="page > 1"
+        debounce
+        @next="nextPage"
+        @prev="prevPage"
+        @input="setSize"
+        @change="loadList"
+      ></wt-pagination>
+    </div>
+  </section>
 </template>
 
 <script>
-    import tableComponentMixin from '@/mixins/tableComponentMixin';
-    import editComponentMixin from '@/mixins/editComponentMixin';
-    import { mapActions, mapState } from 'vuex';
-    import { getObject } from '../../../api/permissions/objects/objects';
-    import rolePopup from './opened-object-permissions-role-defaults-popup';
+import tableComponentMixin from "@/mixins/tableComponentMixin";
+import editComponentMixin from "@/mixins/editComponentMixin";
+import { mapActions, mapState } from "vuex";
+import { getObject } from "../../../api/permissions/objects/objects";
+import rolePopup from "./opened-object-permissions-role-defaults-popup";
 
-       export default {
-        name: 'opened-object-permissions-defaults',
-        mixins: [tableComponentMixin, editComponentMixin],
-        components: { rolePopup },
-        data() {
-            return {
-                headerTitle: '', // header title. retieves from object GET request
-                // [R]ecord-[b]ased [A]ccess [C]ontrol section (!)
-                rbac: {
-                    fields: [
-                        { name: 'grantor', title: this.$t('objects.permissions.object.grantor') },
-                        { name: 'grantee', title: this.$t('objects.permissions.object.grantee') },
-                        { name: 'read', title: this.$t('objects.read') },
-                        { name: 'write', title: this.$t('objects.edit') },
-                        { name: 'delete', title: this.$t('objects.delete') },
-                    ],
-                },
-                dropdownOptionsList: [
-                    {
-                        name: 'Forbidden',
-                        id: 1,
-                    },
-
-                    {
-                        name: 'Allow',
-                        id: 2,
-                    },
-                    {
-                        name: 'Allow with delegation',
-                        id: 3,
-                    },
-                ],
-            };
+export default {
+  name: "opened-object-permissions-defaults",
+  mixins: [tableComponentMixin, editComponentMixin],
+  components: { rolePopup },
+  data() {
+    return {
+      headers: [
+        {
+          value: "grantor",
+          text: this.$t("objects.permissions.object.grantor"),
+        },
+        {
+          value: "grantee",
+          text: this.$t("objects.permissions.object.grantee"),
+        },
+        { value: "read", text: this.$t("objects.read") },
+        { value: "write", text: this.$t("objects.edit") },
+        { value: "delete", text: this.$t("objects.delete") },
+      ],
+      dropdownOptionsList: [
+        {
+          name: "Forbidden",
+          id: 1,
         },
 
-        mounted() {
-            this.id = this.$route.params.id;
+        {
+          name: "Allow",
+          id: 2,
         },
-         computed: {
-            ...mapState('permissions/objects', {
-                defaultList: (state) => state.itemPermissionsDefaultList,
-            }),
-
-            search: {
-                    get() {
-                         return this.$store.state.permissions.objects.itemSearch;
-},
-                    set(value) { this.setSearch(value); },
-                },
+        {
+          name: "Allow with delegation",
+          id: 3,
         },
-
-        methods: {
-            ...mapActions('permissions/objects', {
-                setId: 'SET_ITEM_ID',
-                setSize: 'SET_ITEM_PERMISSIONS_SIZE',
-                setSearch: 'SET_ITEM_PERMISSIONS_SEARCH',
-                nextPage: 'NEXT_ITEM_PERMISSIONS_PAGE',
-                prevPage: 'PREV_ITEM_PERMISSIONS_PAGE',
-
-                loadDataList: 'SEARCH_DEFAULT_LIST',
-                toggleDefaultMode: 'TOGGLE_DEFAULT_MODE',
-            }),
-
-            // get object title to show on page header
-            async loadHeaderTitle(id) {
-                const object = await getObject(id);
-                this.headerTitle = object.class;
-            },
-        },
+      ],
     };
+  },
+
+  mounted() {
+    this.id = this.$route.params.id;
+  },
+  computed: {
+    ...mapState("permissions/objects", {
+      defaultList: (state) => state.recordsInstance.dataList,
+      search: (state) => state.recordsInstance.search,
+      size: (state) => state.recordsInstance.size,
+      page: (state) => state.recordsInstance.page,
+      isNext: (state) => state.recordsInstance.isItemNextPage,
+    }),
+  },
+
+  methods: {
+    ...mapActions("permissions/objects", {
+      setId: "SET_ITEM_ID",
+      setSize: "SET_RECORDS_PERMISSIONS_SIZE",
+      setSearch: "SET_RECORDS_PERMISSIONS_SEARCH",
+      nextPage: "NEXT_RECORDS_PERMISSIONS_PAGE",
+      prevPage: "PREV_RECORDS_PERMISSIONS_PAGE",
+      loadDataList: "SEARCH_DEFAULT_LIST",
+      toggleDefaultMode: "TOGGLE_DEFAULT_MODE",
+    }),
+
+    // get object title to show on page header
+    async loadHeaderTitle(id) {
+      this.headerTitle = await getObject(id);
+    },
+  },
+};
+
 </script>
 
 <style lang="scss" scoped>
-
+@import "../../../assets/css/objects/table-page";
 </style>

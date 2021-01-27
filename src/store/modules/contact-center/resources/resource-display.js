@@ -8,7 +8,7 @@ import {DefaultNestedModule} from "../../defaults/DefaultNestedModule";
 const defaultItemState = () => ({
     itemId: 0,
     itemInstance: {
-        display: '2'
+        display: ''
     },
 });
 
@@ -24,24 +24,24 @@ const getters = {};
 const actions = {
     ...defaultModule.actions,
 
-    GET_LIST: async () => {
-        return await getResDisplayList(state.parentId, state.page, state.size, state.search);
+    GET_LIST: (context) => {
+        return getResDisplayList(context.state.parentId, context.state.page, context.state.size, context.state.search);
     },
 
-    GET_ITEM: async () => {
-        return await getResDisplay(state.parentId, state.itemId);
+    GET_ITEM: (context) => {
+        return getResDisplay(context.state.parentId, context.state.itemId);
     },
 
-    POST_ITEM: async () => {
-        return await addResDisplay(state.parentId, state.itemInstance);
+    POST_ITEM: (context) => {
+        return addResDisplay(context.state.parentId, context.state.itemInstance);
     },
 
-    UPD_ITEM: async () => {
-        await updateResDisplay(state.parentId, state.itemId, state.itemInstance);
+    UPD_ITEM: (context) => {
+      return updateResDisplay(context.state.parentId, context.state.itemId, context.state.itemInstance);
     },
 
-    DELETE_ITEM: async (context, id) => {
-        await deleteResDisplay(state.parentId, id);
+    DELETE_ITEM: (context, id) => {
+        return deleteResDisplay(context.state.parentId, id);
     },
 };
 
