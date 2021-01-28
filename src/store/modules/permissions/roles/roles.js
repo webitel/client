@@ -29,8 +29,8 @@ const actions = {
     return await getRole(state.itemId);
   },
 
-  POST_ITEM: async () => {
-    return await addRole(state.itemInstance);
+  POST_ITEM: () => {
+    return addRole(state.itemInstance);
   },
 
   UPD_ITEM: async () => {

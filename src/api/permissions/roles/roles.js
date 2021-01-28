@@ -7,34 +7,22 @@ import { WebitelAPIItemGetter } from '../../utils/ApiControllers/Getter/ApiGette
 
 const BASE_URL = '/roles';
 const fieldsToSend = ['name', 'description'];
-
+const defaultItemObject = {
+  name: '',
+  description: '',
+  _dirty: false,
+};
 const listGetter = new WebitelAPIListGetter(BASE_URL);
-const itemGetter = new WebitelAPIItemGetter(BASE_URL);
+const itemGetter = new WebitelAPIItemGetter(BASE_URL, defaultItemObject);
 const itemCreator = new WebitelAPIItemCreator(BASE_URL, fieldsToSend);
 const itemUpdater = new WebitelAPIItemUpdater(BASE_URL, fieldsToSend);
 const itemDeleter = new WebitelAPIItemDeleter(BASE_URL);
-
-itemGetter.responseHandler = (response) => {
-    try {
-        return response;
-    } catch (error) {
-        throw error;
-    }
-};
-
-itemCreator.responseHandler = (response) => {
-    try {
-        return response.created.id;
-    } catch (error) {
-        throw error;
-    }
-};
 
 export const getRoleList = async (page = 0, size = 10, search) => await listGetter.getList({ page, size, search });
 
 export const getRole = async (id) => await itemGetter.getItem(id);
 
-export const addRole = async (item) => await itemCreator.createItem(item);
+export const addRole = (item) => itemCreator.createItem(item);
 
 export const updateRole = async (id, item) => await itemUpdater.updateItem(id, item);
 
