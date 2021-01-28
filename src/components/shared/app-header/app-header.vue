@@ -9,6 +9,7 @@
 <script>
 import { mapState } from 'vuex';
 import { logout } from '../../../api/auth/auth';
+import { Objects } from '../../../store/modules/userinfo/_internals/enums/Objects.enum';
 
 export default {
   name: 'app-header',
@@ -27,23 +28,24 @@ export default {
   computed: {
     ...mapState('userinfo', {
       user: (state) => state,
+      scope: (state) => state.scope,
     }),
 
     nav() {
-      return [{
+      const nav = [{
         value: 'directory',
         name: this.$t('nav.directory.directory'),
         route: '/directory',
         subNav: [{
-          value: 'license',
+          value: Objects.LICENSE,
           name: this.$t('nav.directory.license'),
           route: 'license',
         }, {
-          value: 'users',
+          value: Objects.USERS,
           name: this.$t('nav.directory.users'),
           route: 'users',
         }, {
-          value: 'devices',
+          value: Objects.DEVICES,
           name: this.$t('nav.directory.devices'),
           route: 'devices',
         }],
@@ -53,15 +55,15 @@ export default {
           name: this.$t('nav.routing.routing'),
           route: '/routing',
           subNav: [{
-            value: 'flow',
+            value: Objects.FLOW,
             name: this.$t('nav.routing.flow'),
             route: 'flow',
           }, {
-            value: 'dialplan',
+            value: Objects.DIALPLAN,
             name: this.$t('nav.routing.dialplan'),
             route: 'dialplan',
           }, {
-            value: 'gateways',
+            value: Objects.GATEWAYS,
             name: this.$t('nav.routing.gateways'),
             route: 'gateways',
           }],
@@ -70,19 +72,19 @@ export default {
           name: this.$t('nav.lookups.lookups'),
           route: '/lookups',
           subNav: [{
-            value: 'blacklist',
+            value: Objects.BLACKLIST,
             name: this.$t('nav.lookups.blacklists'),
             route: 'blacklist',
           }, {
-            value: 'calendars',
+            value: Objects.CALENDARS,
             name: this.$t('nav.lookups.calendars'),
             route: 'calendars',
           }, {
-            value: 'communications',
+            value: Objects.COMMUNICATIONS,
             name: this.$t('nav.lookups.communications'),
             route: 'communications',
           }, {
-            value: 'media',
+            value: Objects.MEDIA,
             name: this.$t('nav.lookups.media'),
             route: 'media',
           }],
@@ -91,31 +93,31 @@ export default {
           name: this.$t('nav.ccenter.ccenter'),
           route: '/contact-center',
           subNav: [{
-            value: 'agent-skills',
+            value: Objects.SKILLS,
             name: this.$t('nav.ccenter.agentSkills'),
             route: 'skills',
           }, {
-            value: 'agents',
+            value: Objects.AGENTS,
             name: this.$t('nav.ccenter.agents'),
             route: 'agents',
           }, {
-            value: 'teams',
+            value: Objects.TEAMS,
             name: this.$t('nav.ccenter.teams'),
             route: 'teams',
           }, {
-            value: 'resources',
+            value: Objects.RESOURCES,
             name: this.$t('nav.ccenter.res'),
             route: 'resources',
           }, {
-            value: 'resource-groups',
+            value: Objects.RESOURCE_GROUPS,
             name: this.$t('nav.ccenter.resGroups'),
             route: 'resource-groups',
           }, {
-            value: 'queues',
+            value: Objects.QUEUES,
             name: this.$t('nav.ccenter.queues'),
             route: 'queues',
           }, {
-            value: 'buckets',
+            value: Objects.BUCKETS,
             name: this.$t('nav.ccenter.buckets'),
             route: 'buckets',
           }],
@@ -124,7 +126,7 @@ export default {
           name: this.$t('nav.integrations.integrations'),
           route: '/integrations',
           subNav: [{
-            value: 'storage',
+            value: Objects.STORAGE,
             name: this.$t('nav.administration.storage'),
             route: 'storage',
           }],
@@ -133,15 +135,26 @@ export default {
           name: this.$t('nav.permissions.permissions'),
           route: '/permissions',
           subNav: [{
-            value: 'roles',
+            value: Objects.ROLES,
             name: this.$t('nav.permissions.roles'),
             route: 'roles',
           }, {
-            value: 'objects',
+            value: Objects.OBJECTS,
             name: this.$t('nav.permissions.objects'),
             route: 'objects',
           }],
         }];
+      return nav.reduce((accumulator, nav) => {
+        const subNav = nav.subNav.filter((subNav) => {
+          const object = this.scope[subNav.value];
+          return object && object.access;
+        });
+        if (subNav.length) {
+          const newNav = { ...nav, subNav };
+          return [...accumulator, newNav];
+        }
+        return accumulator;
+      }, []);
     },
   },
 

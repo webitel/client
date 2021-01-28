@@ -1,10 +1,12 @@
+import convertScope from './_internals/scripts/convertScope';
+
 const defaultState = () => ({
     domainId: 0,
     name: '',
     username: '',
     account: '',
     userId: 0,
-    scope: [],
+    scope: {},
     roles: [],
     license: [],
     language: localStorage.getItem('lang'),
@@ -21,7 +23,8 @@ const getters = {
 const actions = {
     SET_SESSION: (context, session) => {
         context.dispatch('RESET_STATE');
-        context.commit('SET_SESSION', session);
+        const scope = convertScope(session.scope, session.permissions);
+        context.commit('SET_SESSION', {...session, scope });
     },
 
     SET_DOMAIN_ID: (context, domainId) => {
