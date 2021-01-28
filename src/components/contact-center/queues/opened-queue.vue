@@ -272,7 +272,7 @@ export default {
       }, {
         text: this.$t('objects.ccenter.queues.timing'),
         value: 'preview-dialer-timing',
-      }, buckets, buckets];
+      }, resources, buckets];
 
       const progressiveDialerTabs = [{
         text: this.$t('objects.general'),
@@ -289,6 +289,7 @@ export default {
         text: this.$t('objects.ccenter.queues.timing'),
         value: 'predictive-dialer-timing',
       }, resources, buckets, amd];
+
       const chatInboundQueueTabs = [{
         text: this.$t('objects.general'),
         value: 'chat-inbound-queue-general',
@@ -296,6 +297,7 @@ export default {
         text: this.$t('objects.ccenter.queues.timing'),
         value: 'chat-inbound-queue-timing',
       }];
+
       const taskQueueTabs = [{
         text: this.$t('objects.general'),
         value: 'task-queue-general',
