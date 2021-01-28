@@ -88,7 +88,7 @@ const router = new Router({
                     path: '/admin',
                     name: 'home',
                     component: home,
-                    redirect: '/directory/license',
+                    redirect: '/directory/users',
                 },
                 {
                     path: '/settings',
