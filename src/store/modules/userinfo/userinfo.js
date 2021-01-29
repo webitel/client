@@ -1,6 +1,7 @@
 import convertScope from './_internals/scripts/convertScope';
 
 const defaultState = () => ({
+    isLoading: true,
     domainId: 0,
     name: '',
     username: '',
@@ -17,18 +18,27 @@ const state = {
 };
 
 const getters = {
-
+  GET_SCOPE: (state) => state.scope,
 };
 
 const actions = {
-    SET_SESSION: (context, session) => {
-        context.dispatch('RESET_STATE');
+    SET_SESSION: async (context, session) => {
+      try {
+        await context.dispatch('RESET_STATE');
         const scope = convertScope(session.scope, session.permissions);
         context.commit('SET_SESSION', {...session, scope });
+        await context.dispatch('SET_LOADING', false);
+      } catch (err) {
+        throw err;
+      }
     },
 
     SET_DOMAIN_ID: (context, domainId) => {
         context.commit('SET_DOMAIN_ID', domainId);
+    },
+
+    SET_LOADING: (context, isLoading) => {
+      context.commit('SET_LOADING', isLoading);
     },
 
     RESET_STATE: (context) => {
@@ -50,6 +60,10 @@ const mutations = {
 
     SET_DOMAIN_ID: (state, domainId) => {
         state.domainId = domainId;
+    },
+
+    SET_LOADING: (state, isLoading) => {
+        state.isLoading = isLoading;
     },
 
     RESET_STATE: (state) => {
