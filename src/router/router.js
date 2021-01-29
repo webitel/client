@@ -2,6 +2,7 @@ import Vue from 'vue';
 import store from '../store/store';
 import Router from 'vue-router';
 import auth from '../components/shared/auth/the-auth';
+import RouteNames from './_internals/RouteNames.enum';
 
 const ApplicationHub = () => import('../components/application-hub/application-hub.vue');
 const moduleWrap = () => import('../components/object-utils/the-object-wrap');
@@ -73,17 +74,17 @@ const router = new Router({
     routes: [
         {
             path: '/auth',
-            name: 'auth',
+            name: RouteNames.AUTH,
             component: auth,
         },
         {
             path: '/',
-            name: 'application-hub',
+            name: RouteNames.APPLICATION_HUB,
             component: ApplicationHub,
         },
         {
           path: '/access-denied',
-          name: 'access-denied',
+          name: RouteNames.PAGE_403,
           component: AccessDenied,
         },
         {
@@ -92,60 +93,59 @@ const router = new Router({
             children: [
                 {
                     path: '/admin',
-                    name: 'home',
+                    name: RouteNames.HOME,
                     component: home,
-                    redirect: '/directory/users',
                 },
                 {
                     path: '/settings',
-                    name: 'settings',
+                    name: RouteNames.SETTINGS_PAGE,
                     component: settings,
                 },
 
                 // ----------DIRECTORY------------
                 {
                     path: '/directory/devices',
-                    name: 'directory-devices',
+                    name: RouteNames.DEVICES,
                     component: devices,
                 },
                 {
                     path: '/directory/devices/:id',
-                    name: 'directory-devices-edit',
+                    name: `${RouteNames.DEVICES}-edit`,
                     component: openedDevice,
                 },
                 {
                     path: '/directory/devices/new',
-                    name: 'directory-devices-new',
+                    name: `${RouteNames.DEVICES}-new`,
                     component: openedDevice,
                 },
                 {
                     path: '/directory/devices/hotdesk/:id',
-                    name: 'directory-devices-hotdesk-edit',
+                    name: `${RouteNames.DEVICES}-hotdesk-edit`,
                     component: openedDevice,
                 },
                 {
                     path: '/directory/devices/hotdesk/new',
-                    name: 'directory-devices-hotdesk-new',
+                    name: `${RouteNames.DEVICES}-hotdesk-new`,
                     component: openedDevice,
                 },
                 {
                     path: '/directory/license',
-                    name: 'license',
+                    name: RouteNames.LICENSE,
                     component: license,
                 },
                 {
                     path: '/directory/users',
-                    name: 'directory-users',
+                    name: RouteNames.USERS,
                     component: users,
                 },
                 {
                     path: '/directory/users/:id',
-                    name: 'directory-users-edit',
+                    name: `${RouteNames.USERS}-edit`,
                     component: openedUser,
                 },
                 {
                     path: '/directory/users/new',
-                    name: 'directory-users-new',
+                    name: `${RouteNames.USERS}-new`,
                     component: openedUser,
                 },
                 // ----------DIRECTORY END------------
@@ -154,57 +154,57 @@ const router = new Router({
                 // ----------ROUTING------------
                 {
                     path: '/routing/flow',
-                    name: 'flow',
+                    name: RouteNames.FLOW,
                     component: flow,
                 },
                 {
                     path: '/routing/flow/new',
-                    name: 'flow-new',
+                    name: `${RouteNames.FLOW}-new`,
                     component: openedFlow,
                 },
                 {
                     path: '/routing/flow/:id',
-                    name: 'flow-edit',
+                    name: `${RouteNames.FLOW}-edit`,
                     component: openedFlow,
                 },
                 {
                     path: '/routing/dialplan',
-                    name: 'dialplan',
+                    name: RouteNames.DIALPLAN,
                     component: dialplan,
                 },
                 {
                     path: '/routing/dialplan/new',
-                    name: 'dialplan-new',
+                    name: `${RouteNames.DIALPLAN}-new`,
                     component: openedDialplan,
                 },
                 {
                     path: '/routing/dialplan/:id',
-                    name: 'dialplan-edit',
+                    name: `${RouteNames.DIALPLAN}-edit`,
                     component: openedDialplan,
                 },
                 {
                     path: '/routing/gateways',
-                    name: 'sip-gateways',
+                    name: RouteNames.GATEWAYS,
                     component: sipGateways,
                 },
                 {
                     path: '/routing/gateways/register/new',
-                    name: 'reg-gateway-new',
+                    name: `${RouteNames.GATEWAYS}-reg-new`,
                     component: OpenedGateway,
                 },
                 {
                     path: '/routing/gateways/register/:id',
-                    name: 'reg-gateway-edit',
+                    name: `${RouteNames.GATEWAYS}-reg-edit`,
                     component: OpenedGateway,
                 },
                 {
                     path: '/routing/gateways/trunking/new',
-                    name: 'trunk-gateway-new',
+                    name: `${RouteNames.GATEWAYS}-trunk-new`,
                     component: OpenedGateway,
                 },
                 {
                     path: '/routing/gateways/trunking/:id',
-                    name: 'trunk-gateway-edit',
+                    name: `${RouteNames.GATEWAYS}-trunk-edit`,
                     component: OpenedGateway,
                 },
                 // ----------ROUTING END------------
@@ -213,54 +213,54 @@ const router = new Router({
                 // ----------LOOKUPS------------
                 {
                     path: '/lookups/blacklist',
-                    name: 'blacklists',
+                    name: RouteNames.BLACKLIST,
                     component: blacklists,
                 },
                 {
                     path: '/lookups/blacklist/new',
-                    name: 'blacklist-new',
+                    name: `${RouteNames.BLACKLIST}-new`,
                     component: openedBlacklist,
                 },
                 {
                     path: '/lookups/blacklist/:id',
-                    name: 'blacklist-edit',
+                    name: `${RouteNames.BLACKLIST}-edit`,
                     component: openedBlacklist,
                 },
                 {
                     path: '/lookups/media',
-                    name: 'media',
+                    name: RouteNames.MEDIA,
                     component: media,
                 },
 
                 {
                     path: '/lookups/calendars',
-                    name: 'calendars-lookup',
+                    name: RouteNames.CALENDARS,
                     component: calendars,
                 },
                 {
                     path: '/lookups/calendars/new',
-                    name: 'calendars-new',
+                    name: `${RouteNames.CALENDARS}-new`,
                     component: openedCalendar,
                 },
                 {
                     path: '/lookups/calendars/:id',
-                    name: 'calendars-edit',
+                    name: `${RouteNames.CALENDARS}-edit`,
                     component: openedCalendar,
                 },
 
                 {
                     path: '/lookups/communications',
-                    name: 'communications-lookup',
+                    name: RouteNames.COMMUNICATIONS,
                     component: communicationTypes,
                 },
                 {
                     path: '/lookups/communications/new',
-                    name: 'communications-lookup-new',
+                    name: `${RouteNames.COMMUNICATIONS}-new`,
                     component: openedCommunicationType,
                 },
                 {
                     path: '/lookups/communications/:id',
-                    name: 'communications-lookup-edit',
+                    name: `${RouteNames.COMMUNICATIONS}-edit`,
                     component: openedCommunicationType,
                 },
                 // ----------LOOKUPS END------------
@@ -269,192 +269,192 @@ const router = new Router({
                 // --------------CONTACT CENTER-------------
                 {
                     path: '/contact-center/skills',
-                    name: 'cc-skills',
+                    name: RouteNames.SKILLS,
                     component: agentSkills,
                 },
                 {
                     path: '/contact-center/skills/new',
-                    name: 'cc-skill-new',
+                    name: `${RouteNames.SKILLS}-new`,
                     component: openedAgentSkill,
                 },
                 {
                     path: '/contact-center/skills/:id',
-                    name: 'cc-skill-edit',
+                    name: `${RouteNames.SKILLS}-edit`,
                     component: openedAgentSkill,
                 },
                 {
                     path: '/contact-center/agents',
-                    name: 'cc-agents',
+                    name: RouteNames.AGENTS,
                     component: agents,
                 },
                 {
                     path: '/contact-center/agents/new',
-                    name: 'cc-agent-new',
+                    name: `${RouteNames.AGENTS}-new`,
                     component: openedAgent,
                 },
                 {
                     path: '/contact-center/agents/:id',
-                    name: 'cc-agent-edit',
+                    name: `${RouteNames.AGENTS}-edit`,
                     component: openedAgent,
                 },
                 {
                     path: '/contact-center/teams',
-                    name: 'cc-teams',
+                    name: RouteNames.TEAMS,
                     component: teams,
                 },
                 {
                     path: '/contact-center/teams/new',
-                    name: 'cc-team-new',
+                    name: `${RouteNames.TEAMS}-new`,
                     component: openedTeam,
                 },
                 {
                     path: '/contact-center/teams/:id',
-                    name: 'cc-team-edit',
+                    name: `${RouteNames.TEAMS}-edit`,
                     component: openedTeam,
                 },
                 {
                     path: '/contact-center/resources',
-                    name: 'cc-resources',
+                    name: RouteNames.RESOURCES,
                     component: theResources,
                 },
                 {
                     path: '/contact-center/resources/new',
-                    name: 'cc-resource-new',
+                    name: `${RouteNames.RESOURCES}-new`,
                     component: openedResource,
                 },
                 {
                     path: '/contact-center/resources/:id',
-                    name: 'cc-resource-edit',
+                    name: `${RouteNames.RESOURCES}-edit`,
                     component: openedResource,
                 },
                 {
                     path: '/contact-center/resource-groups',
-                    name: 'cc-resource-groups',
+                    name: RouteNames.RESOURCE_GROUPS,
                     component: resourceGroups,
                 },
                 {
                     path: '/contact-center/resource-groups/new',
-                    name: 'cc-resource-group-new',
+                    name: `${RouteNames.RESOURCE_GROUPS}-new`,
                     component: openedResourceGroup,
                 },
                 {
                     path: '/contact-center/resource-groups/:id',
-                    name: 'cc-resource-group-edit',
+                    name: `${RouteNames.RESOURCE_GROUPS}-edit`,
                     component: openedResourceGroup,
                 },
                 {
                     path: '/contact-center/buckets',
-                    name: 'cc-buckets',
+                    name: RouteNames.BUCKETS,
                     component: buckets,
                 },
                 {
                     path: '/contact-center/buckets/new',
-                    name: 'cc-bucket-new',
+                    name: `${RouteNames.BUCKETS}-new`,
                     component: openedBucket,
                 },
                 {
                     path: '/contact-center/bucket/:id',
-                    name: 'cc-bucket-edit',
+                    name: `${RouteNames.BUCKETS}-edit`,
                     component: openedBucket,
                 },
                 {
                     path: '/contact-center/queues',
-                    name: 'cc-queues',
+                    name: RouteNames.QUEUES,
                     component: queues,
                 },
                 {
                     path: '/contact-center/queues/:queueId/members',
-                    name: 'cc-queue-members',
+                    name: RouteNames.MEMBERS,
                     component: members,
                 },
                 {
                     path: '/contact-center/queues/:queueId/members/new',
-                    name: 'cc-queue-member-new',
+                    name: `${RouteNames.MEMBERS}-new`,
                     component: openedMember,
                 },
                 {
                     path: '/contact-center/queues/:queueId/members/:id',
-                    name: 'cc-queue-member-edit',
+                    name: `${RouteNames.MEMBERS}-edit`,
                     component: openedMember,
                 },
                 {
                     path: '/contact-center/queues/outbound-ivr/new',
-                    name: 'cc-queue-outbound-ivr-new',
+                    name: `${RouteNames.QUEUES}-outbound-ivr-new`,
                     component: OpenedQueue,
                 },
                 {
                     path: '/contact-center/queues/outbound-ivr/:id',
-                    name: 'cc-queue-outbound-ivr-edit',
+                    name: `${RouteNames.QUEUES}-outbound-ivr-edit`,
                     component: OpenedQueue,
                 },
                 {
                     path: '/contact-center/queues/inbound-queue/new',
-                    name: 'cc-queue-inbound-queue-new',
+                    name: `${RouteNames.QUEUES}-inbound-queue-new`,
                     component: OpenedQueue,
                 },
                 {
                     path: '/contact-center/queues/inbound-queue/:id',
-                    name: 'cc-queue-inbound-queue-edit',
+                    name: `${RouteNames.QUEUES}-inbound-queue-edit`,
                     component: OpenedQueue,
                 },
                 {
                     path: '/contact-center/queues/offline-queue/new',
-                    name: 'cc-queue-offline-queue-new',
+                    name: `${RouteNames.QUEUES}-offline-queue-new`,
                     component: OpenedQueue,
                 },
                 {
                     path: '/contact-center/queues/offline-queue/:id',
-                    name: 'cc-queue-offline-queue-edit',
+                    name: `${RouteNames.QUEUES}-offline-queue-edit`,
                     component: OpenedQueue,
                 },
                 {
                     path: '/contact-center/queues/preview-dialer/new',
-                    name: 'cc-queue-preview-dialer-new',
+                    name: `${RouteNames.QUEUES}-preview-dialer-new`,
                     component: OpenedQueue,
                 },
                 {
                     path: '/contact-center/queues/preview-dialer/:id',
-                    name: 'cc-queue-preview-dialer-edit',
+                    name: `${RouteNames.QUEUES}-preview-dialer-edit`,
                     component: OpenedQueue,
                 },
                 {
                     path: '/contact-center/queues/progressive-dialer/new',
-                    name: 'cc-queue-progressive-dialer-new',
+                    name: `${RouteNames.QUEUES}-progressive-dialer-new`,
                     component: OpenedQueue,
                 },
                 {
                     path: '/contact-center/queues/progressive-dialer/:id',
-                    name: 'cc-queue-progressive-dialer-edit',
+                    name: `${RouteNames.QUEUES}-progressive-dialer-edit`,
                     component: OpenedQueue,
                 },
                 {
                     path: '/contact-center/queues/predictive-dialer/new',
-                    name: 'cc-queue-predictive-dialer-new',
+                    name: `${RouteNames.QUEUES}-predictive-dialer-new`,
                     component: OpenedQueue,
                 },
                 {
                     path: '/contact-center/queues/predictive-dialer/:id',
-                    name: 'cc-queue-predictive-dialer-edit',
+                    name: `${RouteNames.QUEUES}-predictive-dialer-edit`,
                     component: OpenedQueue,
                 },
                 {
                     path: '/contact-center/queues/chat-inbound-queue/new',
-                    name: 'cc-queue-chat-inbound-queue-new',
+                    name: `${RouteNames.QUEUES}-chat-inbound-queue-new`,
                     component: OpenedQueue,
                 },
                 {
                     path: '/contact-center/queues/chat-inbound-queue/:id',
-                    name: 'cc-queue-chat-inbound-queue-edit',
+                    name: `${RouteNames.QUEUES}-chat-inbound-queue-edit`,
                     component: OpenedQueue,
                 },
                 {
                     path: '/contact-center/queues/task-queue/new',
-                    name: 'cc-queue-task-queue-new',
+                    name: `${RouteNames.QUEUES}-task-queue-new`,
                     component: OpenedQueue,
                 },
                 {
                     path: '/contact-center/queues/task-queue/:id',
-                    name: 'cc-queue-task-queue-edit',
+                    name: `${RouteNames.QUEUES}-task-queue-edit`,
                     component: OpenedQueue,
                 },
                 // --------------CONTACT CENTER END-------------
@@ -463,17 +463,17 @@ const router = new Router({
                 // ----------INTEGRATIONS-----------------
                 {
                     path: '/integrations/storage',
-                    name: 'storage',
+                    name: RouteNames.STORAGE,
                     component: storage,
                 },
                 {
                     path: '/integrations/storage/:type/new',
-                    name: 'storage-new',
+                    name: `${RouteNames.STORAGE}-new`,
                     component: openedStorage,
                 },
                 {
                     path: '/integrations/storage/:type/:id',
-                    name: 'storage-edit',
+                    name: `${RouteNames.STORAGE}-edit`,
                     component: openedStorage,
                 },
                 // --------------INTEGRATIONS END-------------
@@ -482,27 +482,27 @@ const router = new Router({
                 // ----------PERMISSIONS-----------------
                 {
                     path: '/permissions/roles',
-                    name: 'permissions-roles',
+                    name: RouteNames.ROLES,
                     component: permissionsRoles,
                 },
                 {
                     path: '/permissions/roles/:id',
-                    name: 'permissions-roles-edit',
+                    name: `${RouteNames.ROLES}-edit`,
                     component: openedPermissionsRoles,
                 },
                 {
                     path: '/permissions/roles/new',
-                    name: 'permissions-roles-new',
+                    name: `${RouteNames.ROLES}-new`,
                     component: openedPermissionsRoles,
                 },
                 {
                     path: '/permissions/objects',
-                    name: 'permissions-objects',
+                    name: RouteNames.OBJECTS,
                     component: permissionsObjects,
                 },
                 {
                     path: '/permissions/objects/:id',
-                    name: 'permissions-objects-edit',
+                    name: `${RouteNames.OBJECTS}-edit`,
                     component: openedPermissionsObjects,
                 },
                 // ----------PERMISSIONS END-----------------
@@ -510,7 +510,7 @@ const router = new Router({
         },
         {
             path: '*',
-            name: 'not-found',
+            name: RouteNames.PAGE_404,
             component: notFound,
         },
     ],
