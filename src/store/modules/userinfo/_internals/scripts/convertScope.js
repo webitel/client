@@ -14,6 +14,15 @@ const convertScope = (initialScope, initialPermissions) => {
       return objects;
     }, {});
   }
+
+  // temporary add full access to lookups and flow permissions as soon as they haven't implemented on backend
+  const flow = ObjectsList.find((obj) => obj.name === Objects.FLOW);
+  const communications = ObjectsList.find((obj) => obj.name === Objects.COMMUNICATIONS);
+  const skills = ObjectsList.find((obj) => obj.name === Objects.SKILLS);
+  scope.flow = { ...flow, access: 'rxwd' };
+  scope.communications = { ...communications, access: 'rxwd' };
+  scope.skills = { ...skills, access: 'rxwd' };
+
   // if global "ADD" permission, add license and objects pages access
   if (initialPermissions && initialPermissions.find((permission) => permission.id === 'add')) {
     const license = ObjectsList.find((obj) => obj.name === Objects.LICENSE);
