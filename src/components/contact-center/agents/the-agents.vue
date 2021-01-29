@@ -93,6 +93,7 @@ import { mapState, mapActions } from 'vuex';
 import convertDuration from '@webitel/ui-sdk/src/scripts/convertDuration';
 import HistoryPopup from './agent-history-popup.vue';
 import tableComponentMixin from '../../../mixins/tableComponentMixin';
+import RouteNames from '../../../router/_internals/RouteNames.enum';
 
 export default {
   name: 'the-agents',
@@ -101,7 +102,7 @@ export default {
 
   data: () => ({
     namespace: 'ccenter/agents',
-    routeName: 'cc-agent',
+    routeName: RouteNames.AGENTS,
   }),
 
   computed: {

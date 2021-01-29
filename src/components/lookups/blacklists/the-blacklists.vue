@@ -83,6 +83,7 @@
     import { mapActions, mapState } from 'vuex';
     import { downloadAsCSV } from '../../../utils/download';
     import { getBlacklistCommunicationList } from '../../../api/lookups/blacklists/blacklistNumbers';
+    import RouteNames from '../../../router/_internals/RouteNames.enum';
 
     export default {
         name: 'the-blacklists',
@@ -132,12 +133,12 @@
 
         methods: {
             create() {
-                this.$router.push('/lookups/blacklist/new');
+                this.$router.push({ name: `${RouteNames.BLACKLIST}-new` });
             },
 
             edit(rowId) {
                 this.$router.push({
-                    name: 'blacklist-edit',
+                    name: `${RouteNames.BLACKLIST}-edit`,
                     params: { id: this.dataList[rowId].id },
                 });
             },

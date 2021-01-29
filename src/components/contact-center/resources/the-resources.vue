@@ -90,13 +90,14 @@
 <script>
 import { mapActions, mapState } from 'vuex';
 import tableComponentMixin from '../../../mixins/tableComponentMixin';
+import RouteNames from '../../../router/_internals/RouteNames.enum';
 
 export default {
   name: 'the-resources',
   mixins: [tableComponentMixin],
   data: () => ({
     namespace: 'ccenter/res',
-    routeName: 'cc-resource',
+    routeName: RouteNames.RESOURCES,
   }),
 
   computed: {

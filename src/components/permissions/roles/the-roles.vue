@@ -79,6 +79,7 @@
     import tableComponentMixin from '@/mixins/tableComponentMixin';
     import { _checkboxTableField, _actionsTableField_2 } from '@/utils/tableFieldPresets';
     import { mapActions, mapState } from 'vuex';
+    import RouteNames from '../../../router/_internals/RouteNames.enum';
 
     export default {
         name: 'the-roles',
@@ -130,12 +131,12 @@
 
         methods: {
             create() {
-                this.$router.push('/permissions/roles/new');
+                this.$router.push({ name: `${RouteNames.ROLES}-new` });
             },
 
             edit(rowId) {
                 this.$router.push({
-                    name: 'permissions-roles-edit',
+                    name: `${RouteNames.ROLES}-edit`,
                     params: { id: this.dataList[rowId].id },
                 });
             },

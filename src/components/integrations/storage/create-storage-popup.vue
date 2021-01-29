@@ -61,6 +61,7 @@
 
 <script>
     import popup from '@/components/utils/popup';
+    import RouteNames from '../../../router/_internals/RouteNames.enum';
 
     export default {
         name: 'create-storage-popup',
@@ -83,7 +84,7 @@
             createItemInstance() {
                 if (this.selectedOption) {
                     this.$router.push({
-                        name: 'storage-new',
+                        name: `${RouteNames.STORAGE}-new`,
                         params: { type: this.selectedOption },
                     });
                 }

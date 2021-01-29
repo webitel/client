@@ -82,13 +82,14 @@
 <script>
 import { mapState } from 'vuex';
 import tableComponentMixin from '../../../mixins/tableComponentMixin';
+import RouteNames from '../../../router/_internals/RouteNames.enum';
 
 export default {
   name: 'the-resource-groups',
   mixins: [tableComponentMixin],
   data: () => ({
     namespace: 'ccenter/resGroups',
-    routeName: 'cc-resource-group',
+    routeName: RouteNames.RESOURCE_GROUPS,
   }),
 
   computed: {

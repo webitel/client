@@ -79,6 +79,7 @@
     import { _checkboxTableField, _actionsTableField_2 } from '@/utils/tableFieldPresets';
     import { mapActions, mapState } from 'vuex';
     import { deleteCalendar, getCalendarList } from '../../../api/lookups/calendars/calendars';
+    import RouteNames from '../../../router/_internals/RouteNames.enum';
 
     export default {
         name: 'the-calendars',
@@ -121,12 +122,12 @@
 
         methods: {
             create() {
-                this.$router.push('/lookups/calendars/new');
+                this.$router.push({ name: `${RouteNames.CALENDARS}-new` });
             },
 
             edit(rowId) {
                 this.$router.push({
-                    name: 'calendars-edit',
+                    name: `${RouteNames.CALENDARS}-edit`,
                     params: { id: this.dataList[rowId].id },
                 });
             },

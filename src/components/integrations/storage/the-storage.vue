@@ -102,6 +102,7 @@
     import { mapActions, mapState } from 'vuex';
     import storagePopup from './create-storage-popup';
     import { _checkboxTableField, _actionsTableField_2, _switcherWidth } from '../../../utils/tableFieldPresets';
+    import RouteNames from '../../../router/_internals/RouteNames.enum';
 
     export default {
         name: 'the-storage',
@@ -161,7 +162,7 @@
 
             edit(rowId) {
                 this.$router.push({
-                    name: 'storage-edit',
+                    name: `${RouteNames.STORAGE}-edit`,
                     params: {
                         type: this.dataList[rowId].type,
                         id: this.dataList[rowId].id,

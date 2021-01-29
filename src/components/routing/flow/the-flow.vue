@@ -115,6 +115,7 @@
     import flowPopup from './create-flow-popup';
     import { getFlow } from '../../../api/routing/flow/flow';
     import { downloadAsJSON } from '../../../utils/download';
+    import RouteNames from '../../../router/_internals/RouteNames.enum';
 
     export default {
         name: 'the-flow',
@@ -167,12 +168,12 @@
         methods: {
             create() {
                 // this.popupTriggerIf = true;
-                this.$router.push('/routing/flow/new');
+                this.$router.push({ name: `${RouteNames.FLOW}-new` });
             },
 
             edit(rowId) {
                 this.$router.push({
-                    name: 'flow-edit',
+                    name: `${RouteNames.FLOW}-edit`,
                     params: { id: this.dataList[rowId].id },
                 });
             },

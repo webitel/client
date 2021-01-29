@@ -75,13 +75,14 @@
 import { mapState } from 'vuex';
 import { kebabToCamel } from '@webitel/ui-sdk/src/scripts/caseConverters';
 import tableComponentMixin from '../../../mixins/tableComponentMixin';
+import RouteNames from '../../../router/_internals/RouteNames.enum';
 
 export default {
   name: 'the-teams',
   mixins: [tableComponentMixin],
   data: () => ({
     namespace: 'ccenter/teams',
-    routeName: 'cc-team',
+    routeName: RouteNames.TEAMS,
   }),
 
   computed: {

@@ -74,6 +74,7 @@
 <script>
 import { mapState } from 'vuex';
 import tableComponentMixin from '../../../mixins/tableComponentMixin';
+import RouteNames from '../../../router/_internals/RouteNames.enum';
 
 export default {
   name: 'the-agent-skills',
@@ -81,7 +82,7 @@ export default {
 
   data: () => ({
     namespace: 'ccenter/skills',
-    routeName: 'cc-skill',
+    routeName: RouteNames.SKILLS,
   }),
 
   computed: {

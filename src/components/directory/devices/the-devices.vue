@@ -142,6 +142,7 @@ import UploadPopup from './upload-devices-popup.vue';
 import DevicePopup from './create-device-popup.vue';
 import tableComponentMixin from '../../../mixins/tableComponentMixin';
 import tableActionsHandlerMixin from '../../../mixins/baseTableMixin/tableActionsMixin';
+import RouteNames from '../../../router/_internals/RouteNames.enum';
 
 export default {
   name: 'the-devices',
@@ -207,8 +208,8 @@ export default {
 
     edit(item) {
       const name = item.hotdesk
-          ? 'directory-devices-hotdesk-edit'
-          : 'directory-devices-edit';
+          ? `${RouteNames.DEVICES}-hotdesk-edit`
+          : `${RouteNames.DEVICES}-edit`;
 
       this.$router.push({
         name,

@@ -25,6 +25,8 @@
 </template>
 
 <script>
+import RouteNames from '../../../router/_internals/RouteNames.enum';
+
 export default {
   name: 'create-device-popup',
 
@@ -35,12 +37,12 @@ export default {
         value: 'default',
         title: this.$tc('objects.directory.devices.devices', 1),
         description: this.$tc('objects.directory.devices.deviceSettings', 1),
-        url: '/directory/devices/new',
+        routeName: `${RouteNames.DEVICES}-new`,
       }, {
         value: 'hotdesk',
         title: this.$t('objects.directory.devices.hotdeskDevice'),
         description: this.$t('objects.directory.devices.hotdeskDeviceSettings'),
-        url: '/directory/devices/hotdesk/new',
+        routeName: `${RouteNames.DEVICES}-hotdesk-new`,
       }],
     };
   },
@@ -62,7 +64,7 @@ export default {
     },
 
     createItemInstance() {
-      this.$router.push(this.selectedOption.url);
+      this.$router.push({ name: this.selectedOption.routeName });
     },
 
     close() {

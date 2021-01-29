@@ -131,6 +131,7 @@ import uploadPopup from './upload-members-popup.vue';
 import tableComponentMixin from '../../../mixins/tableComponentMixin';
 import tableActionsHandlerMixin from '../../../mixins/baseTableMixin/tableActionsMixin';
 import getQueueSubRoute from '../../../store/modules/contact-center/queues/_internals/scripts/getQueueSubRoute';
+import RouteNames from '../../../router/_internals/RouteNames.enum';
 
 export default {
   name: 'the-queue-members',
@@ -239,14 +240,14 @@ export default {
 
     create() {
       this.$router.push({
-        name: 'cc-queue-member-new',
+        name: `${RouteNames.MEMBERS}-new`,
         params: { queueId: this.parentId },
       });
     },
 
     edit(item) {
       this.$router.push({
-        name: 'cc-queue-member-edit',
+        name: `${RouteNames.MEMBERS}-edit`,
         params: { queueId: this.parentId, id: item.id },
       });
     },

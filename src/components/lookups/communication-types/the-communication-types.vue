@@ -85,6 +85,7 @@
     import { _checkboxTableField, _actionsTableField_2 } from '@/utils/tableFieldPresets';
     import { mapActions, mapState } from 'vuex';
     import { deleteCommunication, getCommunicationsList } from '../../../api/lookups/communications/communications';
+    import RouteNames from '../../../router/_internals/RouteNames.enum';
 
     export default {
         name: 'the-communication-types',
@@ -127,12 +128,12 @@
 
         methods: {
             create() {
-                this.$router.push('/lookups/communications/new');
+                this.$router.push({ name: `${RouteNames.COMMUNICATIONS}-new` });
             },
 
             edit(rowId) {
                 this.$router.push({
-                    name: 'communications-lookup-edit',
+                    name: `${RouteNames.COMMUNICATIONS}-edit`,
                     params: { id: this.dataList[rowId].id },
                 });
             },

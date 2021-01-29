@@ -5,7 +5,7 @@
                 <template slot="title">
                     {{$t('objects.permissions.permissions')}} |
                     {{$t('objects.permissions.object.object')}}
-                </template>            
+                </template>
             </wt-headline>
         </template>
 
@@ -31,7 +31,7 @@
                 </header>
 
                 <wt-loader v-show="!isLoaded"></wt-loader>
-                
+
                 <div class="table-wrapper" v-show="isLoaded">
                     <wt-table
                         :headers="headers"
@@ -47,14 +47,14 @@
                             <wt-switcher
                                 :value="item.obac"
                                 @change="toggleItemProperty({prop: 'obac', item: item, value: $event})"
-                            ></wt-switcher>                            
+                            ></wt-switcher>
                         </template>
 
                         <template slot="rbac" slot-scope="{ item }">
                             <wt-switcher
                                 :value="item.rbac"
                                 @change="toggleItemProperty({prop: 'rbac', item: item, value: $event})"
-                            ></wt-switcher>    
+                            ></wt-switcher>
                         </template>
                         <template slot="actions" slot-scope="{ item }">
                         <wt-icon-btn
@@ -84,6 +84,7 @@
     import tableComponentMixin from '@/mixins/tableComponentMixin';
     import { mapActions, mapState } from 'vuex';
     import tableActionsHandlerMixin from '../../../mixins/baseTableMixin/tableActionsMixin';
+    import RouteNames from '../../../router/_internals/RouteNames.enum';
 
     export default {
         name: 'the-objects-permissions',
@@ -94,7 +95,7 @@
                 headers: [
                     { value: 'name', text: this.$t('objects.name') },
                     { value: 'obac', text: this.$t('objects.permissions.object.ObAC') },
-                    { value: 'rbac', text: this.$t('objects.permissions.object.RbAC') },                    
+                    { value: 'rbac', text: this.$t('objects.permissions.object.RbAC') },
                 ],
             };
         },
@@ -112,7 +113,7 @@
         methods: {
             edit(item) {
                 this.$router.push({
-                    name: 'permissions-objects-edit',
+                    name: `${RouteNames.OBJECTS}-edit`,
                     params: { id: item.id },
                 });
             },

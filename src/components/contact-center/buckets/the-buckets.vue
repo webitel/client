@@ -73,13 +73,14 @@
 <script>
 import { mapState } from 'vuex';
 import tableComponentMixin from '../../../mixins/tableComponentMixin';
+import RouteNames from '../../../router/_internals/RouteNames.enum';
 
 export default {
   name: 'the-agent-buckets',
   mixins: [tableComponentMixin],
   data: () => ({
     namespace: 'ccenter/buckets',
-    routeName: 'cc-bucket',
+    routeName: RouteNames.BUCKETS,
   }),
 
   computed: {

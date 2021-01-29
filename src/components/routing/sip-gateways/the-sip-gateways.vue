@@ -92,6 +92,7 @@
 import { mapActions, mapState } from 'vuex';
 import GatewayPopup from './create-gateway-popup.vue';
 import tableComponentMixin from '../../../mixins/tableComponentMixin';
+import RouteNames from '../../../router/_internals/RouteNames.enum';
 
 export default {
   name: 'the-sip-gateways',
@@ -139,7 +140,7 @@ export default {
 
     edit(item) {
       const name = item.register
-        ? 'reg-gateway-edit' : 'trunk-gateway-edit';
+        ? `${RouteNames.GATEWAYS}-reg-edit` : `${RouteNames.GATEWAYS}-trunk-edit`;
 
       this.$router.push({
         name,

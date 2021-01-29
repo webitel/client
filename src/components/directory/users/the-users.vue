@@ -111,6 +111,7 @@ import { mapActions, mapState } from 'vuex';
 import UploadPopup from './upload-users-popup.vue';
 import UserStatus from './_internals/user-status-chips.vue';
 import tableComponentMixin from '../../../mixins/tableComponentMixin';
+import RouteNames from '../../../router/_internals/RouteNames.enum';
 
 export default {
   name: 'the-users',
@@ -120,7 +121,7 @@ export default {
     isUploadPopup: false,
     csvFile: null,
     namespace: 'directory/users',
-    routeName: 'directory-users',
+    routeName: RouteNames.USERS,
   }),
 
   computed: {
