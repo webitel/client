@@ -7,7 +7,8 @@ const ApplicationHub = () => import('../components/application-hub/application-h
 const moduleWrap = () => import('../components/object-utils/the-object-wrap');
 const home = () => import('../components/home/the-home');
 const settings = () => import('../components/shared/the-settings');
-const notFound = () => import('../components/utils/the-not-found-component');
+const AccessDenied = () => import('../components/utils/error-pages/the-access-denied-component');
+const notFound = () => import('../components/utils/error-pages/the-not-found-component');
 const permissionsRoles = () => import('../components/permissions/roles/the-roles');
 const openedPermissionsRoles = () => import('../components/permissions/roles/opened-role');
 const permissionsObjects = () => import('../components/permissions/objects/the-objects-permissions');
@@ -79,6 +80,11 @@ const router = new Router({
             path: '/',
             name: 'application-hub',
             component: ApplicationHub,
+        },
+        {
+          path: '/access-denied',
+          name: 'access-denied',
+          component: AccessDenied,
         },
         {
             path: '/admin',

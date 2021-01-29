@@ -678,11 +678,19 @@ export default {
         },
     },
 
-    page404: {
-        title404: "Looks like you're lost",
-        text404: 'Sorry, we can\'t find the page you want.',
-        btn404: 'Go back',
+  errorPages: {
+    page403: {
+      title: 'Access denied',
+      text: 'Sorry, you have not enough privileges to see this page.',
+      btn: 'Go to Home page',
     },
+
+    page404: {
+      title: "Looks like you're lost",
+      text: 'Sorry, we can\'t find the page you want.',
+      btn: 'Go back',
+    },
+  },
 
     icon: {
         docs: 'Docs',
