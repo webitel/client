@@ -1,7 +1,7 @@
 import { mapActions } from 'vuex';
 import HeadlineNav from '../components/utils/headline-nav/headline-nav.vue';
 import baseTableMixin from './baseTableMixin/baseTableMixin';
-import scopeMixin from './scopeMixin/scopeMixin';
+import accessControlMixin from './accessControlMixin/accessControlMixin';
 
 /**
  * @fileOverview contains main tables (like the-agents.vue) common logic
@@ -13,7 +13,7 @@ import scopeMixin from './scopeMixin/scopeMixin';
  * @extends baseTableMixin
  */
 export default {
-  mixins: [baseTableMixin, scopeMixin],
+  mixins: [baseTableMixin, accessControlMixin],
   components: { HeadlineNav },
   methods: {
     ...mapActions({

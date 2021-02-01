@@ -1,4 +1,5 @@
 import convertScope from './_internals/scripts/convertScope';
+import convertPermissions from './_internals/scripts/convertPermissions';
 
 const defaultState = () => ({
     isLoading: true,
@@ -8,6 +9,7 @@ const defaultState = () => ({
     account: '',
     userId: 0,
     scope: {},
+    permissions: {},
     roles: [],
     license: [],
     language: localStorage.getItem('lang'),
@@ -18,15 +20,23 @@ const state = {
 };
 
 const getters = {
-  GET_SCOPE: (state) => state.scope,
+  GET_OBJECT_SCOPE_BY_ROUTE: (state) => (route) => (
+    Object.values(state.scope).find((object) => route.name.includes(object.route))
+  ),
+  HAS_READ_ACCESS: (state, getters) => (route) => {
+    if (state.permissions?.read) return true;
+    const objectScope = getters.GET_OBJECT_SCOPE_BY_ROUTE(route);
+    return  objectScope.access?.includes('r');
+  },
 };
 
 const actions = {
     SET_SESSION: async (context, session) => {
       try {
         await context.dispatch('RESET_STATE');
-        const scope = convertScope(session.scope, session.permissions);
-        context.commit('SET_SESSION', {...session, scope });
+        const scope = convertScope(session.scope);
+        const permissions = convertPermissions(session.permissions);
+        context.commit('SET_SESSION', {...session, scope, permissions });
         await context.dispatch('SET_LOADING', false);
       } catch (err) {
         throw err;
@@ -48,14 +58,7 @@ const actions = {
 
 const mutations = {
     SET_SESSION: (state, session) => {
-        state.domainId = session.dc;
-        state.account = session.preferredUsername;
-        state.roles = session.roles;
-        state.scope = session.scope;
-        state.userId = session.userId;
-        state.license = session.license;
-        state.username = session.username;
-        state.name = session.name;
+        Object.assign(state, session);
     },
 
     SET_DOMAIN_ID: (state, domainId) => {

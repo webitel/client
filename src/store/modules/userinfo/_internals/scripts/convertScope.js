@@ -1,8 +1,7 @@
 import { Objects, ObjectsList } from '../enums/Objects.enum';
 
-const convertScope = (initialScope, initialPermissions) => {
+const convertScope = (initialScope) => {
   let scope = {};
-  if (!initialScope && !initialPermissions) return scope; // if no scope or permissions, return empty object
   if (initialScope) {
     // iterate over ObjectsList and collect included classes
     scope = ObjectsList.reduce((objects, object) => {
@@ -23,13 +22,6 @@ const convertScope = (initialScope, initialPermissions) => {
   scope.communications = { ...communications, access: 'rxwd' };
   scope.skills = { ...skills, access: 'rxwd' };
 
-  // if global "ADD" permission, add license and objects pages access
-  if (initialPermissions && initialPermissions.find((permission) => permission.id === 'add')) {
-    const license = ObjectsList.find((obj) => obj.name === Objects.LICENSE);
-    const objects = ObjectsList.find((obj) => obj.name === Objects.OBJECTS);
-    scope.license = { ...license, access: 'rxwd' };
-    scope.objects = { ...objects, access: 'rxwd' };
-  }
   return scope;
 };
 
