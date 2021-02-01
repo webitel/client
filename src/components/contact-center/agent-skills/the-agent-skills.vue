@@ -1,7 +1,10 @@
 <template>
   <wt-page-wrapper :actions-panel="false">
     <template slot="header">
-      <object-header :primary-action="create">
+      <object-header
+        :hide-primary="!isCreateAccess"
+        :primary-action="create"
+      >
         <headline-nav :path="path"></headline-nav>
       </object-header>
     </template>
@@ -19,6 +22,7 @@
               @enter="loadList"
             ></wt-search-bar>
             <wt-icon-btn
+              v-if="isDeleteAccess"
               class="icon-action"
               :class="{'hidden': anySelected}"
               icon="bucket"
@@ -51,6 +55,7 @@
                 @click="edit(item)"
               ></edit-action>
               <delete-action
+                v-if="isDeleteAccess"
                 @click="remove(index)"
               ></delete-action>
             </template>
@@ -74,6 +79,7 @@
 <script>
 import { mapState } from 'vuex';
 import tableComponentMixin from '../../../mixins/tableComponentMixin';
+import RouteNames from '../../../router/_internals/RouteNames.enum';
 
 export default {
   name: 'the-agent-skills',
@@ -81,7 +87,7 @@ export default {
 
   data: () => ({
     namespace: 'ccenter/skills',
-    routeName: 'cc-skill',
+    routeName: RouteNames.SKILLS,
   }),
 
   computed: {

@@ -2,7 +2,7 @@
   <wt-page-wrapper class="members" :actions-panel="false">
     <template slot="header">
       <object-header
-        :hide-primary="!isNotInboundMember"
+        :hide-primary="!isCreateAccess || !isNotInboundMember"
         :primary-action="create"
         :secondary-action="close"
       >
@@ -35,13 +35,14 @@
             <!--                @enter="loadList"-->
             <!--            ></wt-search-bar>-->
             <wt-icon-btn
+              v-if="isDeleteAccess"
               class="icon-action"
               :class="{'hidden': anySelected}"
               icon="bucket"
               :tooltip="$t('iconHints.deleteSelected')"
               @click="deleteSelected"
             ></wt-icon-btn>
-            <div class="upload-csv" v-if="isNotInboundMember">
+            <div class="upload-csv" v-if="isCreateAccess && isNotInboundMember">
               <wt-icon-btn
                 icon="upload"
                 :tooltip="$t('iconHints.upload')"
@@ -101,11 +102,10 @@
                 icon="edit"
                 @click="edit(item)"
               ></wt-icon-btn>
-              <wt-icon-btn
-                class="table-action"
-                icon="bucket"
+              <delete-action
+                v-if="isDeleteAccess"
                 @click="remove(index)"
-              ></wt-icon-btn>
+              ></delete-action>
             </template>
           </wt-table>
           <wt-pagination
@@ -131,6 +131,7 @@ import uploadPopup from './upload-members-popup.vue';
 import tableComponentMixin from '../../../mixins/tableComponentMixin';
 import tableActionsHandlerMixin from '../../../mixins/baseTableMixin/tableActionsMixin';
 import getQueueSubRoute from '../../../store/modules/contact-center/queues/_internals/scripts/getQueueSubRoute';
+import RouteNames from '../../../router/_internals/RouteNames.enum';
 
 export default {
   name: 'the-queue-members',
@@ -239,14 +240,14 @@ export default {
 
     create() {
       this.$router.push({
-        name: 'cc-queue-member-new',
+        name: `${RouteNames.MEMBERS}-new`,
         params: { queueId: this.parentId },
       });
     },
 
     edit(item) {
       this.$router.push({
-        name: 'cc-queue-member-edit',
+        name: `${RouteNames.MEMBERS}-edit`,
         params: { queueId: this.parentId, id: item.id },
       });
     },

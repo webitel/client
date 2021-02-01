@@ -1,7 +1,10 @@
 <template>
   <wt-page-wrapper :actions-panel="false">
     <template slot="header">
-      <object-header :primaryAction="create">
+      <object-header
+        :hide-primary="!isCreateAccess"
+        :primary-action="create"
+      >
         <headline-nav :path="path"></headline-nav>
       </object-header>
     </template>
@@ -19,6 +22,7 @@
               @enter="loadList"
             ></wt-search-bar>
             <wt-icon-btn
+              v-if="isDeleteAccess"
               class="icon-action"
               :class="{'hidden': anySelected}"
               icon="bucket"
@@ -67,6 +71,7 @@
                 @click="edit(item)"
               ></edit-action>
               <delete-action
+                v-if="isDeleteAccess"
                 @click="remove(index)"
               ></delete-action>
             </template>
@@ -90,13 +95,14 @@
 <script>
 import { mapActions, mapState } from 'vuex';
 import tableComponentMixin from '../../../mixins/tableComponentMixin';
+import RouteNames from '../../../router/_internals/RouteNames.enum';
 
 export default {
   name: 'the-resources',
   mixins: [tableComponentMixin],
   data: () => ({
     namespace: 'ccenter/res',
-    routeName: 'cc-resource',
+    routeName: RouteNames.RESOURCES,
   }),
 
   computed: {

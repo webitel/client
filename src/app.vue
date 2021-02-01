@@ -4,12 +4,10 @@
 </template>
 
 <script>
-    import { getSession } from './api/userinfo/userinfo';
 
     export default {
         name: 'app',
         created() {
-            getSession();
             this.setDomain();
             this.setLanguage();
         },

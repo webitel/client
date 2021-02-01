@@ -1,6 +1,9 @@
 <template>
     <div class="content-wrap">
-        <object-header :primaryAction="create">
+      <object-header
+        :hide-primary="!isCreateAccess"
+        :primary-action="create"
+      >
               <headline-nav :path="path"></headline-nav>
         </object-header>
 
@@ -24,12 +27,14 @@
                             @filterData="loadList"
                     ></search>
                     <i
+                            v-if="isDeleteAccess"
                             class="icon-icon_delete icon-action"
                             :class="{'hidden': anySelected}"
                             :title="$t('iconHints.deleteSelected')"
                             @click="deleteSelected"
                     ></i>
                     <div
+                            v-if="isCreateAccess"
                             class="upload-csv"
                             :title="$t('iconHints.upload')"
                     >
@@ -87,6 +92,7 @@
                             @click="edit(props.rowIndex)"
                     ></i>
                     <i
+                            v-if="isDeleteAccess"
                             class="vuetable-action icon-icon_delete"
                             :title="$t('iconHints.delete')"
                             @click="remove(props.rowIndex)"
@@ -115,6 +121,7 @@
     import flowPopup from './create-flow-popup';
     import { getFlow } from '../../../api/routing/flow/flow';
     import { downloadAsJSON } from '../../../utils/download';
+    import RouteNames from '../../../router/_internals/RouteNames.enum';
 
     export default {
         name: 'the-flow',
@@ -167,12 +174,12 @@
         methods: {
             create() {
                 // this.popupTriggerIf = true;
-                this.$router.push('/routing/flow/new');
+                this.$router.push({ name: `${RouteNames.FLOW}-new` });
             },
 
             edit(rowId) {
                 this.$router.push({
-                    name: 'flow-edit',
+                    name: `${RouteNames.FLOW}-edit`,
                     params: { id: this.dataList[rowId].id },
                 });
             },

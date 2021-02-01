@@ -1,7 +1,10 @@
 <template>
   <wt-page-wrapper class="devices" :actions-panel="false">
     <template slot="header">
-      <object-header :primary-action="create">
+      <object-header
+        :hide-primary="!isCreateAccess"
+        :primary-action="create"
+      >
         <headline-nav :path="path"></headline-nav>
       </object-header>
     </template>
@@ -35,13 +38,14 @@
                 @enter="loadList"
             ></wt-search-bar>
             <wt-icon-btn
+                v-if="isDeleteAccess"
                 class="icon-action"
                 :class="{'hidden': anySelected}"
                 icon="bucket"
                 :tooltip="$t('iconHints.deleteSelected')"
                 @click="deleteSelected"
             ></wt-icon-btn>
-            <div class="upload-csv">
+            <div v-if="isCreateAccess" class="upload-csv">
               <wt-icon-btn
                   icon="upload"
                   :tooltip="$t('iconHints.upload')"
@@ -110,13 +114,10 @@
                   tooltip-position="left"
                   @click="edit(item)"
               ></wt-icon-btn>
-              <wt-icon-btn
-                  class="table-action"
-                  icon="bucket"
-                  :tooltip="$t('iconHints.delete')"
-                  tooltip-position="left"
-                  @click="remove(index)"
-              ></wt-icon-btn>
+              <delete-action
+                v-if="isDeleteAccess"
+                @click="remove(index)"
+              ></delete-action>
             </template>
           </wt-table>
           <wt-pagination
@@ -142,6 +143,7 @@ import UploadPopup from './upload-devices-popup.vue';
 import DevicePopup from './create-device-popup.vue';
 import tableComponentMixin from '../../../mixins/tableComponentMixin';
 import tableActionsHandlerMixin from '../../../mixins/baseTableMixin/tableActionsMixin';
+import RouteNames from '../../../router/_internals/RouteNames.enum';
 
 export default {
   name: 'the-devices',
@@ -207,8 +209,8 @@ export default {
 
     edit(item) {
       const name = item.hotdesk
-          ? 'directory-devices-hotdesk-edit'
-          : 'directory-devices-edit';
+          ? `${RouteNames.DEVICES}-hotdesk-edit`
+          : `${RouteNames.DEVICES}-edit`;
 
       this.$router.push({
         name,

@@ -1,7 +1,10 @@
 <template>
   <wt-page-wrapper class="queues" :actions-panel="false">
     <template slot="header">
-      <object-header :primary-action="create">
+      <object-header
+        :hide-primary="!isCreateAccess"
+        :primary-action="create"
+      >
         <headline-nav :path="path"></headline-nav>
       </object-header>
     </template>
@@ -23,6 +26,7 @@
               @enter="loadList"
             ></wt-search-bar>
             <wt-icon-btn
+              v-if="isDeleteAccess"
               class="icon-action"
               :class="{'hidden': anySelected}"
               icon="bucket"
@@ -81,13 +85,10 @@
                 tooltip-position="left"
                 @click="edit(item)"
               ></wt-icon-btn>
-              <wt-icon-btn
-                class="table-action"
-                icon="bucket"
-                :tooltip="$t('iconHints.delete')"
-                tooltip-position="left"
+              <delete-action
+                v-if="isDeleteAccess"
                 @click="remove(index)"
-              ></wt-icon-btn>
+              ></delete-action>
             </template>
           </wt-table>
           <wt-pagination
@@ -113,6 +114,7 @@ import tableActionsHandlerMixin from '../../../mixins/baseTableMixin/tableAction
 import tableComponentMixin from '../../../mixins/tableComponentMixin';
 import QueueType from '../../../store/modules/contact-center/queues/_internals/enums/QueueType.enum';
 import getQueueSubRoute from '../../../store/modules/contact-center/queues/_internals/scripts/getQueueSubRoute';
+import RouteNames from '../../../router/_internals/RouteNames.enum';
 
 export default {
   name: 'the-queues',
@@ -151,7 +153,7 @@ export default {
   methods: {
     openMembers(item) {
       this.$router.push({
-        name: 'cc-queue-members',
+        name: `${RouteNames.MEMBERS}`,
         params: { queueId: item.id },
       });
     },
@@ -192,7 +194,7 @@ export default {
     edit(item) {
       const type = getQueueSubRoute(item.type);
       this.$router.push({
-        name: `cc-queue-${type}-edit`,
+        name: `${RouteNames.QUEUES}-${type}-edit`,
         params: { id: item.id },
       });
     },

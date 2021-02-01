@@ -1,7 +1,10 @@
 <template>
   <wt-page-wrapper :actions-panel="false">
     <template slot="header">
-      <object-header :primary-action="create">
+      <object-header
+        :hide-primary="!isCreateAccess"
+        :primary-action="create"
+      >
         <headline-nav :path="path"></headline-nav>
       </object-header>
     </template>
@@ -23,6 +26,7 @@
               @enter="loadList"
             ></wt-search-bar>
             <wt-icon-btn
+              v-if="isDeleteAccess"
               class="icon-action"
               :class="{'hidden': anySelected}"
               icon="bucket"
@@ -68,6 +72,7 @@
                 @click="edit(item)"
               ></edit-action>
               <delete-action
+                v-if="isDeleteAccess"
                 @click="remove(index)"
               ></delete-action>
             </template>
@@ -93,6 +98,7 @@ import { mapState, mapActions } from 'vuex';
 import convertDuration from '@webitel/ui-sdk/src/scripts/convertDuration';
 import HistoryPopup from './agent-history-popup.vue';
 import tableComponentMixin from '../../../mixins/tableComponentMixin';
+import RouteNames from '../../../router/_internals/RouteNames.enum';
 
 export default {
   name: 'the-agents',
@@ -101,7 +107,7 @@ export default {
 
   data: () => ({
     namespace: 'ccenter/agents',
-    routeName: 'cc-agent',
+    routeName: RouteNames.AGENTS,
   }),
 
   computed: {

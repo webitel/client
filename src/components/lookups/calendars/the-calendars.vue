@@ -1,7 +1,9 @@
 <template>
     <div class="content-wrap">
-
-        <object-header :primaryAction="create">
+      <object-header
+        :hide-primary="!isCreateAccess"
+        :primary-action="create"
+      >
           <headline-nav :path="path"></headline-nav>
         </object-header>
 
@@ -14,6 +16,7 @@
                             @filterData="loadList"
                     ></search>
                     <i
+                            v-if="isDeleteAccess"
                             class="icon-icon_delete icon-action"
                             :class="{'hidden': anySelected}"
                             :title="$t('iconHints.deleteSelected')"
@@ -55,6 +58,7 @@
                        @click="edit(props.rowIndex)"
                     ></i>
                     <i class="vuetable-action icon-icon_delete"
+                       v-if="isDeleteAccess"
                        :title="$t('iconHints.delete')"
                        @click="remove(props.rowIndex)"
                     ></i>
@@ -79,6 +83,7 @@
     import { _checkboxTableField, _actionsTableField_2 } from '@/utils/tableFieldPresets';
     import { mapActions, mapState } from 'vuex';
     import { deleteCalendar, getCalendarList } from '../../../api/lookups/calendars/calendars';
+    import RouteNames from '../../../router/_internals/RouteNames.enum';
 
     export default {
         name: 'the-calendars',
@@ -121,12 +126,12 @@
 
         methods: {
             create() {
-                this.$router.push('/lookups/calendars/new');
+                this.$router.push({ name: `${RouteNames.CALENDARS}-new` });
             },
 
             edit(rowId) {
                 this.$router.push({
-                    name: 'calendars-edit',
+                    name: `${RouteNames.CALENDARS}-edit`,
                     params: { id: this.dataList[rowId].id },
                 });
             },

@@ -1,6 +1,9 @@
 <template>
     <div class="content-wrap">
-        <object-header :primaryAction="create">
+      <object-header
+        :hide-primary="!isCreateAccess"
+        :primary-action="create"
+      >
           <headline-nav :path="path"></headline-nav>
         </object-header>
 
@@ -18,6 +21,7 @@
                             @filterData="loadList"
                     ></search>
                     <i
+                            v-if="isDeleteAccess"
                             class="icon-icon_delete icon-action"
                             :class="{'hidden': anySelected}"
                             :title="$t('iconHints.deleteSelected')"
@@ -78,6 +82,7 @@
                        @click="edit(props.rowIndex)"
                     ></i>
                     <i class="vuetable-action icon-icon_delete"
+                       v-if="isDeleteAccess"
                        :title="$t('iconHints.delete')"
                        @click="remove(props.rowIndex)"
                     ></i>
@@ -102,6 +107,7 @@
     import { mapActions, mapState } from 'vuex';
     import storagePopup from './create-storage-popup';
     import { _checkboxTableField, _actionsTableField_2, _switcherWidth } from '../../../utils/tableFieldPresets';
+    import RouteNames from '../../../router/_internals/RouteNames.enum';
 
     export default {
         name: 'the-storage',
@@ -161,7 +167,7 @@
 
             edit(rowId) {
                 this.$router.push({
-                    name: 'storage-edit',
+                    name: `${RouteNames.STORAGE}-edit`,
                     params: {
                         type: this.dataList[rowId].type,
                         id: this.dataList[rowId].id,

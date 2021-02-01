@@ -1,16 +1,16 @@
 <template>
     <div class="not-found">
         <section class="not-found-content">
-            <img class="not-found__img" src="../../assets/img/travolta-404.png" alt="404-img">
-            <h2 class="not-found__title typo-404-title">{{$t('page404.title404')}}</h2>
-            <p class="not-found__text typo-404-text">{{$t('page404.text404')}}</p>
-            <btn class="not-found__btn" @click.native="$router.go(-1)">{{$t('page404.btn404')}}</btn>
+            <img class="not-found__img" src="../../../assets/img/admin/error-pages/404.png" alt="404-img">
+            <h2 class="not-found__title typo-404-title">{{$t('errorPages.page404.title')}}</h2>
+            <p class="not-found__text typo-404-text">{{$t('errorPages.page404.text')}}</p>
+            <btn class="not-found__btn" @click.native="$router.go(-1)">{{$t('errorPages.page404.btn')}}</btn>
         </section>
     </div>
 </template>
 
 <script>
-    import btn from './btn';
+    import btn from '../btn';
 
     export default {
         name: 'the-not-found-component',

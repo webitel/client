@@ -1,19 +1,24 @@
 <template>
     <div class="content-wrap">
-
-        <object-header :primaryAction="create">
+      <object-header
+        :hide-primary="!isCreateAccess"
+        :primary-action="create"
+      >
           <headline-nav :path="path"></headline-nav>
         </object-header>
 
         <section class="object-content">
             <header class="content-header">
-                <h3 class="content-title">{{$t('objects.lookups.communications.allCommunications')}}</h3>
+                <h3 class="content-title">
+                  {{$t('objects.lookups.communications.allCommunications')}}
+                </h3>
                 <div class="content-header__actions-wrap">
                     <search
                             v-model="search"
                             @filterData="loadList"
                     ></search>
                     <i
+                            v-if="isDeleteAccess"
                             class="icon-icon_delete icon-action"
                             :class="{'hidden': anySelected}"
                             :title="$t('iconHints.deleteSelected')"
@@ -61,6 +66,7 @@
                        @click="edit(props.rowIndex)"
                     ></i>
                     <i class="vuetable-action icon-icon_delete"
+                       v-if="isDeleteAccess"
                        :title="$t('iconHints.delete')"
                        @click="remove(props.rowIndex)"
                     ></i>
@@ -85,6 +91,7 @@
     import { _checkboxTableField, _actionsTableField_2 } from '@/utils/tableFieldPresets';
     import { mapActions, mapState } from 'vuex';
     import { deleteCommunication, getCommunicationsList } from '../../../api/lookups/communications/communications';
+    import RouteNames from '../../../router/_internals/RouteNames.enum';
 
     export default {
         name: 'the-communication-types',
@@ -127,12 +134,12 @@
 
         methods: {
             create() {
-                this.$router.push('/lookups/communications/new');
+                this.$router.push({ name: `${RouteNames.COMMUNICATIONS}-new` });
             },
 
             edit(rowId) {
                 this.$router.push({
-                    name: 'communications-lookup-edit',
+                    name: `${RouteNames.COMMUNICATIONS}-edit`,
                     params: { id: this.dataList[rowId].id },
                 });
             },

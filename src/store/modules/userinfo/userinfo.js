@@ -1,10 +1,16 @@
+import Permissions from './_internals/enums/Permissions.enum';
+import convertScope from './_internals/scripts/convertScope';
+import convertPermissions from './_internals/scripts/convertPermissions';
+
 const defaultState = () => ({
+    isLoading: true,
     domainId: 0,
     name: '',
     username: '',
     account: '',
     userId: 0,
-    scope: [],
+    scope: {},
+    permissions: {},
     roles: [],
     license: [],
     language: localStorage.getItem('lang'),
@@ -15,17 +21,45 @@ const state = {
 };
 
 const getters = {
-
+  GET_OBJECT_SCOPE_BY_ROUTE: (state) => (route) => (
+    Object.values(state.scope).find((object) => route.name.includes(object.route))
+  ),
+  HAS_READ_ACCESS: (state, getters) => (route) => {
+    if (state.permissions[Permissions.READ]) return true;
+    const objectScope = getters.GET_OBJECT_SCOPE_BY_ROUTE(route);
+    return  objectScope.access?.includes('r');
+  },
+  HAS_CREATE_ACCESS: (state, getters) => (route) => {
+    if (state.permissions[Permissions.CREATE]) return true;
+    const objectScope = getters.GET_OBJECT_SCOPE_BY_ROUTE(route);
+    return  objectScope.access?.includes('x');
+  },
+  HAS_DELETE_ACCESS: (state, getters) => (route) => {
+    if (state.permissions[Permissions.DELETE]) return true;
+    const objectScope = getters.GET_OBJECT_SCOPE_BY_ROUTE(route);
+    return  objectScope.access?.includes('d');
+  },
 };
 
 const actions = {
-    SET_SESSION: (context, session) => {
-        context.dispatch('RESET_STATE');
-        context.commit('SET_SESSION', session);
+    SET_SESSION: async (context, session) => {
+      try {
+        await context.dispatch('RESET_STATE');
+        const scope = convertScope(session.scope);
+        const permissions = convertPermissions(session.permissions);
+        context.commit('SET_SESSION', {...session, scope, permissions });
+        await context.dispatch('SET_LOADING', false);
+      } catch (err) {
+        throw err;
+      }
     },
 
     SET_DOMAIN_ID: (context, domainId) => {
         context.commit('SET_DOMAIN_ID', domainId);
+    },
+
+    SET_LOADING: (context, isLoading) => {
+      context.commit('SET_LOADING', isLoading);
     },
 
     RESET_STATE: (context) => {
@@ -35,18 +69,15 @@ const actions = {
 
 const mutations = {
     SET_SESSION: (state, session) => {
-        state.domainId = session.dc;
-        state.account = session.preferredUsername;
-        state.roles = session.roles;
-        state.scope = session.scope;
-        state.userId = session.userId;
-        state.license = session.license;
-        state.username = session.username;
-        state.name = session.name;
+        Object.assign(state, session);
     },
 
     SET_DOMAIN_ID: (state, domainId) => {
         state.domainId = domainId;
+    },
+
+    SET_LOADING: (state, isLoading) => {
+        state.isLoading = isLoading;
     },
 
     RESET_STATE: (state) => {

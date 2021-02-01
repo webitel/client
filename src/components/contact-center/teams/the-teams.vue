@@ -1,7 +1,10 @@
 <template>
   <wt-page-wrapper :actions-panel="false">
     <template slot="header">
-      <object-header :primaryAction="create">
+      <object-header
+        :hide-primary="!isCreateAccess"
+        :primary-action="create"
+      >
         <headline-nav :path="path"></headline-nav>
       </object-header>
     </template>
@@ -19,6 +22,7 @@
               @search="loadList"
             ></wt-search-bar>
             <wt-icon-btn
+              v-if="isDeleteAccess"
               :class="{'hidden': anySelected}"
               :tooltip="$t('iconHints.deleteSelected')"
               class="icon-action"
@@ -51,6 +55,7 @@
                 @click="edit(item)"
               ></edit-action>
               <delete-action
+                v-if="isDeleteAccess"
                 @click="remove(index)"
               ></delete-action>
             </template>
@@ -75,13 +80,14 @@
 import { mapState } from 'vuex';
 import { kebabToCamel } from '@webitel/ui-sdk/src/scripts/caseConverters';
 import tableComponentMixin from '../../../mixins/tableComponentMixin';
+import RouteNames from '../../../router/_internals/RouteNames.enum';
 
 export default {
   name: 'the-teams',
   mixins: [tableComponentMixin],
   data: () => ({
     namespace: 'ccenter/teams',
-    routeName: 'cc-team',
+    routeName: RouteNames.TEAMS,
   }),
 
   computed: {

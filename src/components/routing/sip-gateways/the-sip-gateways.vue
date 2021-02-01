@@ -1,7 +1,10 @@
 <template>
   <wt-page-wrapper :actions-panel="false" class="gateways">
     <template slot="header">
-      <object-header :primary-action="create">
+      <object-header
+        :hide-primary="!isCreateAccess"
+        :primary-action="create"
+      >
         <headline-nav :path="path"></headline-nav>
       </object-header>
     </template>
@@ -23,6 +26,7 @@
               @enter="loadList"
             ></wt-search-bar>
             <wt-icon-btn
+              v-if="isDeleteAccess"
               class="icon-action"
               :class="{'hidden': anySelected}"
               icon="bucket"
@@ -68,6 +72,7 @@
                 @click="edit(item)"
               ></edit-action>
               <delete-action
+                v-if="isDeleteAccess"
                 @click="remove(index)"
               ></delete-action>
             </template>
@@ -92,6 +97,7 @@
 import { mapActions, mapState } from 'vuex';
 import GatewayPopup from './create-gateway-popup.vue';
 import tableComponentMixin from '../../../mixins/tableComponentMixin';
+import RouteNames from '../../../router/_internals/RouteNames.enum';
 
 export default {
   name: 'the-sip-gateways',
@@ -139,7 +145,7 @@ export default {
 
     edit(item) {
       const name = item.register
-        ? 'reg-gateway-edit' : 'trunk-gateway-edit';
+        ? `${RouteNames.GATEWAYS}-reg-edit` : `${RouteNames.GATEWAYS}-trunk-edit`;
 
       this.$router.push({
         name,

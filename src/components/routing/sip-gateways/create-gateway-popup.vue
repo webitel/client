@@ -11,6 +11,7 @@
 
 <script>
 import SelectionPopup from '../../utils/selection-popup/selection-popup.vue';
+import RouteNames from '../../../router/_internals/RouteNames.enum';
 
 export default {
   name: 'create-gateway-popup',
@@ -26,12 +27,12 @@ export default {
   computed: {
     options() {
       const register = {
-        value: 'register',
+        value: 'reg',
         title: this.$t('objects.routing.gateways.SIPregistrations'),
         description: this.$t('objects.routing.gateways.SIPregistrationsDescription'),
       };
       const trunking = {
-        value: 'trunking',
+        value: 'trunk',
         title: this.$t('objects.routing.gateways.SIPtrunking'),
         description: this.$t('objects.routing.gateways.SIPtrunkingDescription'),
       };
@@ -45,7 +46,7 @@ export default {
     },
     createGateway() {
       if (this.selected) {
-        this.$router.push(`/routing/gateways/${this.selected.value}/new`);
+        this.$router.push({ name: `${RouteNames.GATEWAYS}-${this.selected.value}-new` });
       }
     },
     close() {

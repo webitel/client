@@ -1,6 +1,9 @@
 <template>
     <div class="content-wrap">
-        <object-header :primaryAction="create">
+      <object-header
+        :hide-primary="!isCreateAccess"
+        :primary-action="create"
+      >
           <headline-nav :path="path"></headline-nav>
          </object-header>
 
@@ -13,6 +16,7 @@
                             @filterData="loadList"
                     ></search>
                     <i
+                            v-if="isDeleteAccess"
                             class="icon-icon_delete icon-action"
                             :class="{'hidden': anySelected}"
                             :title="$t('iconHints.deleteSelected')"
@@ -73,6 +77,7 @@
                        @click="edit(props.rowIndex)"
                     ></i>
                     <i class="vuetable-action icon-icon_delete"
+                       v-if="isDeleteAccess"
                        :title="$t('iconHints.delete')"
                        @click="remove(props.rowIndex)"
                     ></i>
@@ -97,6 +102,7 @@
     import Sortable, { Swap } from 'sortablejs';
     import tableComponentMixin from '../../../mixins/tableComponentMixin';
     import { _checkboxTableField, _actionsTableField_3, _switcherWidth } from '../../../utils/tableFieldPresets';
+    import RouteNames from '../../../router/_internals/RouteNames.enum';
 
     Sortable.mount(new Swap());
     const isFirefox = navigator.userAgent.toLowerCase().indexOf('firefox') > -1;
@@ -183,7 +189,7 @@
 
             openFlow(value) {
                 this.$router.push({
-                    name: 'flow-edit',
+                    name: `${RouteNames.FLOW}-edit`,
                     params: { id: value },
                 });
             },
@@ -207,12 +213,12 @@
             },
 
             create() {
-                this.$router.push('/routing/dialplan/new');
+                this.$router.push({ name: `${RouteNames.DIALPLAN}-new` });
             },
 
             edit(rowId) {
                 this.$router.push({
-                    name: 'dialplan-edit',
+                    name: `${RouteNames.DIALPLAN}-edit`,
                     params: { id: this.dataList[rowId].id },
                 });
             },

@@ -18,6 +18,7 @@
                             @filterData="loadList"
                     ></search>
                     <i
+                            v-if="isDeleteAccess"
                             class="icon-icon_delete icon-action"
                             :class="{'hidden': anySelected}"
                             :title="$t('iconHints.deleteSelected')"
@@ -37,6 +38,7 @@
                 </div>
             </header>
             <vue-dropzone
+                    v-if="isCreateAccess"
                     id="dropzone"
                     :options="dropzoneOptions"
                     :destroy-dropzone="false"
@@ -119,6 +121,7 @@
                     </div>
                     <i
                             class="vuetable-action icon-icon_delete"
+                            v-if="isDeleteAccess"
                             :title="$t('iconHints.delete')"
                             @click="remove(props.rowIndex)"
                     ></i>
