@@ -24,6 +24,7 @@
                 @enter="loadList"
             ></wt-search-bar>
             <wt-icon-btn
+                v-if="isDeleteAccess"
                 class="icon-action"
                 :class="{'hidden': anySelected}"
                 icon="bucket"
