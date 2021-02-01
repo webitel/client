@@ -19,6 +19,7 @@
               @search="loadList"
             ></wt-search-bar>
             <wt-icon-btn
+              v-if="isDeleteAccess"
               :class="{'hidden': anySelected}"
               :tooltip="$t('iconHints.deleteSelected')"
               class="icon-action"
