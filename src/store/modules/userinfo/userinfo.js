@@ -1,3 +1,4 @@
+import Permissions from './_internals/enums/Permissions.enum';
 import convertScope from './_internals/scripts/convertScope';
 import convertPermissions from './_internals/scripts/convertPermissions';
 
@@ -24,9 +25,14 @@ const getters = {
     Object.values(state.scope).find((object) => route.name.includes(object.route))
   ),
   HAS_READ_ACCESS: (state, getters) => (route) => {
-    if (state.permissions?.read) return true;
+    if (state.permissions[Permissions.READ]) return true;
     const objectScope = getters.GET_OBJECT_SCOPE_BY_ROUTE(route);
     return  objectScope.access?.includes('r');
+  },
+  HAS_DELETE_ACCESS: (state, getters) => (route) => {
+    if (state.permissions[Permissions.DELETE]) return true;
+    const objectScope = getters.GET_OBJECT_SCOPE_BY_ROUTE(route);
+    return  objectScope.access?.includes('d');
   },
 };
 
