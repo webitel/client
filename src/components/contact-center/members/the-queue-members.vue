@@ -101,11 +101,10 @@
                 icon="edit"
                 @click="edit(item)"
               ></wt-icon-btn>
-              <wt-icon-btn
-                class="table-action"
-                icon="bucket"
+              <delete-action
+                v-if="isDeleteAccess"
                 @click="remove(index)"
-              ></wt-icon-btn>
+              ></delete-action>
             </template>
           </wt-table>
           <wt-pagination

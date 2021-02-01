@@ -56,6 +56,7 @@
                     ></i>
                     <i
                             class="vuetable-action icon-icon_delete"
+                            v-if="isDeleteAccess"
                             :title="$t('iconHints.delete')"
                             @click="remove(props.rowIndex)"
                     ></i>

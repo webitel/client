@@ -110,13 +110,10 @@
                   tooltip-position="left"
                   @click="edit(item)"
               ></wt-icon-btn>
-              <wt-icon-btn
-                  class="table-action"
-                  icon="bucket"
-                  :tooltip="$t('iconHints.delete')"
-                  tooltip-position="left"
-                  @click="remove(index)"
-              ></wt-icon-btn>
+              <delete-action
+                v-if="isDeleteAccess"
+                @click="remove(index)"
+              ></delete-action>
             </template>
           </wt-table>
           <wt-pagination

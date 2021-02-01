@@ -87,6 +87,7 @@
                             @click="edit(props.rowIndex)"
                     ></i>
                     <i
+                            v-if="isDeleteAccess"
                             class="vuetable-action icon-icon_delete"
                             :title="$t('iconHints.delete')"
                             @click="remove(props.rowIndex)"
