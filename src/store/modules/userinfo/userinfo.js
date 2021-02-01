@@ -29,6 +29,11 @@ const getters = {
     const objectScope = getters.GET_OBJECT_SCOPE_BY_ROUTE(route);
     return  objectScope.access?.includes('r');
   },
+  HAS_CREATE_ACCESS: (state, getters) => (route) => {
+    if (state.permissions[Permissions.CREATE]) return true;
+    const objectScope = getters.GET_OBJECT_SCOPE_BY_ROUTE(route);
+    return  objectScope.access?.includes('x');
+  },
   HAS_DELETE_ACCESS: (state, getters) => (route) => {
     if (state.permissions[Permissions.DELETE]) return true;
     const objectScope = getters.GET_OBJECT_SCOPE_BY_ROUTE(route);

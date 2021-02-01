@@ -38,6 +38,7 @@
                 </div>
             </header>
             <vue-dropzone
+                    v-if="isCreateAccess"
                     id="dropzone"
                     :options="dropzoneOptions"
                     :destroy-dropzone="false"

@@ -1,7 +1,10 @@
 <template>
   <wt-page-wrapper :actions-panel="false" class="gateways">
     <template slot="header">
-      <object-header :primary-action="create">
+      <object-header
+        :hide-primary="!isCreateAccess"
+        :primary-action="create"
+      >
         <headline-nav :path="path"></headline-nav>
       </object-header>
     </template>

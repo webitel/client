@@ -1,13 +1,17 @@
 <template>
     <div class="content-wrap">
-
-        <object-header :primaryAction="create">
+      <object-header
+        :hide-primary="!isCreateAccess"
+        :primary-action="create"
+      >
           <headline-nav :path="path"></headline-nav>
         </object-header>
 
         <section class="object-content">
             <header class="content-header">
-                <h3 class="content-title">{{$t('objects.lookups.communications.allCommunications')}}</h3>
+                <h3 class="content-title">
+                  {{$t('objects.lookups.communications.allCommunications')}}
+                </h3>
                 <div class="content-header__actions-wrap">
                     <search
                             v-model="search"

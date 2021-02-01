@@ -1,7 +1,10 @@
 <template>
   <wt-page-wrapper class="users" :actions-panel="false">
     <template slot="header">
-      <object-header :primary-action="create">
+      <object-header
+        :hide-primary="!isCreateAccess"
+        :primary-action="create"
+      >
         <headline-nav :path="path"></headline-nav>
       </object-header>
     </template>
@@ -31,7 +34,7 @@
                 :tooltip="$t('iconHints.deleteSelected')"
                 @click="deleteSelected"
             ></wt-icon-btn>
-            <div class="upload-csv">
+            <div v-if="isCreateAccess" class="upload-csv">
               <wt-icon-btn
                   icon="upload"
                   :tooltip="$t('iconHints.upload')"

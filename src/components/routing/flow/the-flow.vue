@@ -1,6 +1,9 @@
 <template>
     <div class="content-wrap">
-        <object-header :primaryAction="create">
+      <object-header
+        :hide-primary="!isCreateAccess"
+        :primary-action="create"
+      >
               <headline-nav :path="path"></headline-nav>
         </object-header>
 
@@ -31,6 +34,7 @@
                             @click="deleteSelected"
                     ></i>
                     <div
+                            v-if="isCreateAccess"
                             class="upload-csv"
                             :title="$t('iconHints.upload')"
                     >

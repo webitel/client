@@ -2,7 +2,7 @@
   <wt-page-wrapper class="members" :actions-panel="false">
     <template slot="header">
       <object-header
-        :hide-primary="!isNotInboundMember"
+        :hide-primary="!isCreateAccess || !isNotInboundMember"
         :primary-action="create"
         :secondary-action="close"
       >
@@ -42,7 +42,7 @@
               :tooltip="$t('iconHints.deleteSelected')"
               @click="deleteSelected"
             ></wt-icon-btn>
-            <div class="upload-csv" v-if="isNotInboundMember">
+            <div class="upload-csv" v-if="isCreateAccess && isNotInboundMember">
               <wt-icon-btn
                 icon="upload"
                 :tooltip="$t('iconHints.upload')"
