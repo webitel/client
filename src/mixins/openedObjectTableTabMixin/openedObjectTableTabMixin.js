@@ -55,9 +55,18 @@ export default {
     }),
 
     async create() {
-      if (!this.checkValidations()) {
-        if (!this.id) await this.addParentItem();
-        this.openPopup();
+      const invalid = this.checkValidations();
+      if (!invalid) {
+        try {
+          if (!this.parentId) {
+            await this.addParentItem();
+            const routeName = this.$route.name.replace('-new', '-edit');
+            await this.$router.replace({ name: routeName, params: { id: this.parentId } });
+          }
+          this.openPopup();
+        } catch (err) {
+          throw err;
+        }
       } else {
         this.$eventBus.$emit('notification', { type: 'error', text: 'Check your validations!' });
       }
