@@ -17,6 +17,9 @@ export default {
     isCreateAccess() {
       return store.getters['userinfo/HAS_CREATE_ACCESS'](this.$route);
     },
+    isEditAccess() {
+      return store.getters['userinfo/HAS_EDIT_ACCESS'](this.$route);
+    },
     isDeleteAccess() {
       return store.getters['userinfo/HAS_DELETE_ACCESS'](this.$route);
     },

@@ -69,6 +69,7 @@
                 @click="read(item.id)"
               ></history-action>
               <edit-action
+                v-if="isEditAccess"
                 @click="edit(item)"
               ></edit-action>
               <delete-action

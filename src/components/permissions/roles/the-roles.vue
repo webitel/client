@@ -55,6 +55,7 @@
                 <template slot="actions" slot-scope="props">
                     <i
                             class="vuetable-action icon-icon_edit"
+                            v-if="isEditAccess"
                             :title="$t('iconHints.edit')"
                             @click="edit(props.rowIndex)"
                     ></i>
@@ -89,18 +90,6 @@
     export default {
         name: 'the-roles',
         mixins: [tableComponentMixin],
-
-        data() {
-            return {
-                fields: [
-                    _checkboxTableField,
-                    { name: 'name', title: this.$t('objects.name') },
-                    { name: 'description', title: this.$t('objects.description') },
-                    _actionsTableField_2,
-                ],
-            };
-        },
-
         computed: {
             ...mapState('permissions/roles', {
                 dataList: (state) => state.dataList,
@@ -126,6 +115,15 @@
                 },
             },
 
+          fields() {
+            let fields = [
+              _checkboxTableField,
+              { name: 'name', title: this.$t('objects.name') },
+              { name: 'description', title: this.$t('objects.description') },
+            ];
+            if (this.hasTableActions) fields = fields.concat(_actionsTableField_2);
+            return fields;
+          },
           path() {
             return [
               { name: this.$t('objects.permissions.permissions') },

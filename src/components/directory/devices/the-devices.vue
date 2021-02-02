@@ -71,6 +71,7 @@
           <wt-table
               :headers="headers"
               :data="dataList"
+              :grid-actions="hasTableActions"
           >
 
             <template slot="name" slot-scope="{ item }">
@@ -107,13 +108,10 @@
                   tooltip-position="left"
                   @click="openHistory(item.id)"
               ></wt-icon-btn>
-              <wt-icon-btn
-                  class="table-action"
-                  icon="edit"
-                  :tooltip="$t('iconHints.edit')"
-                  tooltip-position="left"
-                  @click="edit(item)"
-              ></wt-icon-btn>
+              <edit-action
+                v-if="isEditAccess"
+                @click="edit(item)"
+              ></edit-action>
               <delete-action
                 v-if="isDeleteAccess"
                 @click="remove(index)"

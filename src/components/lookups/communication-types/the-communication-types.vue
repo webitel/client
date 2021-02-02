@@ -62,6 +62,7 @@
 
                 <template slot="actions" slot-scope="props">
                     <i class="vuetable-action icon-icon_edit"
+                       v-if="isEditAccess"
                        :title="$t('iconHints.edit')"
                        @click="edit(props.rowIndex)"
                     ></i>
@@ -96,18 +97,6 @@
     export default {
         name: 'the-communication-types',
         mixins: [tableComponentMixin],
-        data() {
-            return {
-                fields: [
-                    _checkboxTableField,
-                    { name: 'code', title: this.$t('objects.lookups.communications.code') },
-                    { name: 'name', title: this.$t('objects.name') },
-                    { name: 'description', title: this.$t('objects.description') },
-                    _actionsTableField_2,
-                ],
-            };
-        },
-
         computed: {
             ...mapState('lookups/communications', {
                 dataList: (state) => state.dataList,
@@ -124,6 +113,16 @@
                 get() { return this.$store.state.lookups.communications.search; },
                 set(value) { this.setSearch(value); },
             },
+          fields() {
+            let fields = [
+              _checkboxTableField,
+              { name: 'code', title: this.$t('objects.lookups.communications.code') },
+              { name: 'name', title: this.$t('objects.name') },
+              { name: 'description', title: this.$t('objects.description') },
+            ];
+            if (this.hasTableActions) fields = fields.concat(_actionsTableField_2);
+            return fields;
+          },
           path() {
             return [
               { name: this.$t('objects.lookups.lookups') },

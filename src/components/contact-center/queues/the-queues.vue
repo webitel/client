@@ -47,9 +47,9 @@
             :data="dataList"
           >
             <template slot="name" slot-scope="{ item }">
-          <span class="nameLink" @click="edit(item)">
-            {{ item.name }}
-          </span>
+              <span class="nameLink" @click="edit(item)">
+                {{ item.name }}
+              </span>
             </template>
 
             <template slot="type" slot-scope="{ item }">
@@ -67,6 +67,7 @@
             <template slot="state" slot-scope="{ item }">
               <wt-switcher
                 :value="item.enabled"
+                :disabled="!isEditAccess"
                 @change="changeQueueState({item, value: $event})"
               ></wt-switcher>
             </template>
@@ -78,13 +79,10 @@
                 tooltip-position="left"
                 @click="openMembers(item)"
               ></wt-icon-btn>
-              <wt-icon-btn
-                class="table-action"
-                icon="edit"
-                :tooltip="$t('iconHints.edit')"
-                tooltip-position="left"
+              <edit-action
+                v-if="isEditAccess"
                 @click="edit(item)"
-              ></wt-icon-btn>
+              ></edit-action>
               <delete-action
                 v-if="isDeleteAccess"
                 @click="remove(index)"

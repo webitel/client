@@ -56,7 +56,7 @@
                 <template slot="schema" slot-scope="props">
                     <div>
                         <span class="nameLink" @click="openFlow(dataList[props.rowIndex].schema.id)">
-                        {{dataList[props.rowIndex].schema.name || 'schema IS EMPTY'}}
+                        {{dataList[props.rowIndex].schema.name}}
                         </span>
                     </div>
                 </template>
@@ -64,15 +64,18 @@
                 <template slot="enabled" slot-scope="props">
                     <switcher
                             :value="!dataList[props.rowIndex].disabled"
+                            :disabled="!isEditAccess"
                             @input="patchProperty({index: props.rowIndex, prop: 'disabled', value: !$event})"
                     ></switcher>
                 </template>
 
                 <template slot="actions" slot-scope="props">
                     <i class="vuetable-action icon-icon_draggable"
+                       v-if="isEditAccess"
                        :title="$t('iconHints.draggable')"
                     ></i>
                     <i class="vuetable-action icon-icon_edit"
+                       v-if="isEditAccess"
                        :title="$t('iconHints.edit')"
                        @click="edit(props.rowIndex)"
                     ></i>
@@ -131,14 +134,6 @@
         data() {
             return {
                 sortableInstance: null,
-                fields: [
-                    _checkboxTableField,
-                    { name: 'name', title: this.$t('objects.name') },
-                    { name: 'pattern', title: this.$t('objects.routing.dialplan.pattern') },
-                    { name: 'schema', title: this.$tc('objects.routing.schema', 1) },
-                    { name: 'enabled', title: this.$t('objects.enabled'), width: _switcherWidth },
-                    _actionsTableField_3,
-                ],
             };
         },
 
@@ -176,6 +171,17 @@
                     this.setSearch(value);
                 },
             },
+          fields() {
+            let fields = [
+              _checkboxTableField,
+              { name: 'name', title: this.$t('objects.name') },
+              { name: 'pattern', title: this.$t('objects.routing.dialplan.pattern') },
+              { name: 'schema', title: this.$tc('objects.routing.schema', 1) },
+              { name: 'enabled', title: this.$t('objects.enabled'), width: _switcherWidth },
+            ];
+            if (this.hasTableActions) fields = fields.concat(_actionsTableField_3);
+            return fields;
+          },
           path() {
             return [
               { name: this.$t('objects.routing.routing') },
@@ -186,7 +192,6 @@
     },
 
         methods: {
-
             openFlow(value) {
                 this.$router.push({
                     name: `${RouteNames.FLOW}-edit`,
@@ -195,6 +200,7 @@
             },
 
             initSortable() {
+              if (!this.isEditAccess) return;
                 if (this.sortableInstance) this.sortableInstance.destroy();
 
                 // https://github.com/SortableJS/Sortable#options

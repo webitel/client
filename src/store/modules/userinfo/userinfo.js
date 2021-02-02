@@ -34,6 +34,12 @@ const getters = {
     const objectScope = getters.GET_OBJECT_SCOPE_BY_ROUTE(route);
     return  objectScope?.access?.includes('x');
   },
+  HAS_EDIT_ACCESS: (state, getters) => (route) => {
+    return false;
+    if (state.permissions[Permissions.EDIT]) return true;
+    const objectScope = getters.GET_OBJECT_SCOPE_BY_ROUTE(route);
+    return  objectScope?.access?.includes('w');
+  },
   HAS_DELETE_ACCESS: (state, getters) => (route) => {
     if (state.permissions[Permissions.DELETE]) return true;
     const objectScope = getters.GET_OBJECT_SCOPE_BY_ROUTE(route);

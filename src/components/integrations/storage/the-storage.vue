@@ -78,6 +78,7 @@
 
                 <template slot="actions" slot-scope="props">
                     <i class="vuetable-action icon-icon_edit"
+                       v-if="isEditAccess"
                        :title="$t('iconHints.edit')"
                        @click="edit(props.rowIndex)"
                     ></i>
@@ -113,20 +114,6 @@
         name: 'the-storage',
         mixins: [tableComponentMixin],
         components: { storagePopup },
-        data() {
-            return {
-                fields: [
-                    _checkboxTableField,
-                    { name: 'name', title: this.$t('objects.name') },
-                    { name: 'type', title: this.$t('objects.integrations.storage.type') },
-                    { name: 'maxSize', title: this.$t('objects.integrations.storage.maxSize') },
-                    { name: 'expireDays', title: this.$t('objects.integrations.storage.expireDays') },
-                    { name: 'enabled', title: this.$t('objects.enabled'), width: _switcherWidth },
-                    _actionsTableField_2,
-                ],
-            };
-        },
-
         computed: {
             ...mapState('integrations/storage', {
                 dataList: (state) => state.dataList,
@@ -152,6 +139,18 @@
                 },
             },
 
+          fields() {
+            let fields = [
+              _checkboxTableField,
+              { name: 'name', title: this.$t('objects.name') },
+              { name: 'type', title: this.$t('objects.integrations.storage.type') },
+              { name: 'maxSize', title: this.$t('objects.integrations.storage.maxSize') },
+              { name: 'expireDays', title: this.$t('objects.integrations.storage.expireDays') },
+              { name: 'enabled', title: this.$t('objects.enabled'), width: _switcherWidth },
+            ];
+            if (this.hasTableActions) fields = fields.concat(_actionsTableField_2);
+            return fields;
+          },
           path() {
             return [
               { name: this.$t('objects.integrations.integrations') },

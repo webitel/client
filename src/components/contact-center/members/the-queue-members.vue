@@ -35,7 +35,7 @@
             <!--                @enter="loadList"-->
             <!--            ></wt-search-bar>-->
             <wt-icon-btn
-              v-if="isDeleteAccess"
+              v-if="isDeleteAccess && isNotInboundMember"
               class="icon-action"
               :class="{'hidden': anySelected}"
               icon="bucket"
@@ -68,14 +68,15 @@
           <wt-table
             :headers="headers"
             :data="dataList"
-            :selectable="isNotInboundMember"
-            :grid-actions="isNotInboundMember"
+            :grid-actions="hasTableActions && isNotInboundMember"
           >
+            <template slot="name" slot-scope="{ item }">
+              <span class="nameLink" @click="edit(item)">
+                {{ item.name }}
+              </span>
+            </template>
             <template slot="createdAt" slot-scope="{ item }">
               {{ prettifyDate(item.createdAt) }}
-            </template>
-            <template slot="name" slot-scope="{ item }">
-              {{ item.name }}
             </template>
             <template slot="priority" slot-scope="{ item }">
               {{ item.priority }}
@@ -97,11 +98,10 @@
             </template>
 
             <template slot="actions" slot-scope="{ item, index }">
-              <wt-icon-btn
-                class="table-action"
-                icon="edit"
+              <edit-action
+                v-if="isEditAccess"
                 @click="edit(item)"
-              ></wt-icon-btn>
+              ></edit-action>
               <delete-action
                 v-if="isDeleteAccess"
                 @click="remove(index)"
@@ -161,8 +161,8 @@ export default {
 
     headers() {
       return [
-        { value: 'createdAt', text: this.$t('objects.createdAt') },
         { value: 'name', text: this.$t('objects.name') },
+        { value: 'createdAt', text: this.$t('objects.createdAt') },
         { value: 'priority', text: this.$t('objects.ccenter.queues.priority') },
         { value: 'endCause', text: this.$t('objects.ccenter.queues.endCause') },
         { value: 'destination', text: this.$tc('objects.ccenter.queues.destination', 1) },

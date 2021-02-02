@@ -41,6 +41,7 @@
           <wt-table
             :data="dataList"
             :headers="headers"
+            :grid-actions="hasTableActions"
           >
             <template slot="name" slot-scope="{ item }">
               <span class="nameLink" @click="edit(item)">
@@ -52,6 +53,7 @@
             </template>
             <template slot="actions" slot-scope="{ item, index }">
               <edit-action
+                v-if="isEditAccess"
                 @click="edit(item)"
               ></edit-action>
               <delete-action

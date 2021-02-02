@@ -87,6 +87,7 @@
                             @click="download(props.rowIndex)"
                     ></i>
                     <i
+                            v-if="isEditAccess"
                             class="vuetable-action icon-icon_edit"
                             :title="$t('iconHints.edit')"
                             @click="edit(props.rowIndex)"

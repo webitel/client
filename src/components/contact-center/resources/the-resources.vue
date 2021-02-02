@@ -41,6 +41,7 @@
           <wt-table
             :headers="headers"
             :data="dataList"
+            :grid-actions="hasTableActions"
           >
             <template slot="name" slot-scope="{ item }">
               <span class="nameLink" @click="edit(item)">
@@ -56,6 +57,7 @@
               <wt-switcher
                 class="test__resources__enable-switcher"
                 :value="item.enabled"
+                :disabled="!isEditAccess"
                 @change="patchProperty({ index, prop: 'enabled', value: $event })"
               ></wt-switcher>
             </template>
@@ -63,11 +65,13 @@
               <wt-switcher
                 class="test__resources__reserve-switcher"
                 :value="item.reserve"
+                :disabled="!isEditAccess"
                 @change="patchProperty({ index, prop: 'reserve', value: $event })"
               ></wt-switcher>
             </template>
             <template slot="actions" slot-scope="{ item, index }">
               <edit-action
+                v-if="isEditAccess"
                 @click="edit(item)"
               ></edit-action>
               <delete-action

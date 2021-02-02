@@ -60,6 +60,7 @@
           <wt-table
               :headers="headers"
               :data="dataList"
+              :grid-actions="hasTableActions"
           >
             <template slot="name" slot-scope="{ item }">
                <span class="nameLink" @click="edit(item)">
@@ -78,15 +79,15 @@
             <template slot="DnD" slot-scope="{ item }">
               <wt-switcher
                 :value="getDND(item.presence)"
+                :disabled="!isEditAccess"
                 @change="setDND({item, value: $event})"
               ></wt-switcher>
             </template>
             <template slot="actions" slot-scope="{ item, index }">
-              <wt-icon-btn
-                class="table-action"
-                icon="edit"
+              <edit-action
+                v-if="isEditAccess"
                 @click="edit(item)"
-              ></wt-icon-btn>
+              ></edit-action>
               <delete-action
                 v-if="isDeleteAccess"
                 @click="remove(index)"

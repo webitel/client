@@ -36,6 +36,8 @@
                     <wt-table
                         :headers="headers"
                         :data="dataList"
+                        :selectable="false"
+                        :grid-actions="hasTableActions"
                     >
                         <template slot="name"  slot-scope="{ item }">
                             <span class="nameLink" @click="edit(item)">
@@ -46,6 +48,7 @@
                         <template slot="obac" slot-scope="{ item }">
                             <wt-switcher
                                 :value="item.obac"
+                                :disabled="!isEditAccess"
                                 @change="toggleItemProperty({prop: 'obac', item: item, value: $event})"
                             ></wt-switcher>
                         </template>
@@ -53,11 +56,13 @@
                         <template slot="rbac" slot-scope="{ item }">
                             <wt-switcher
                                 :value="item.rbac"
+                                :disabled="!isEditAccess"
                                 @change="toggleItemProperty({prop: 'rbac', item: item, value: $event})"
                             ></wt-switcher>
                         </template>
                         <template slot="actions" slot-scope="{ item }">
                         <wt-icon-btn
+                            v-if="isEditAccess"
                             class="table-action"
                             icon="edit"
                             @click="edit(item)"
@@ -108,6 +113,9 @@
                 search: (state) => state.itemSearch,
                 isNext: (state) => state.isItemNextPage,
             }),
+          hasTableActions() {
+              return this.isEditAccess;
+          },
         },
 
         methods: {

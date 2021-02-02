@@ -10,11 +10,17 @@ import accessControlMixin from './accessControlMixin/accessControlMixin';
  * @param {string} this.routeName - should be declared in data()
  *      and contain a string name for edit and new entity route names
  *      like 'cc-agent' for create() and edit() method standardization
- * @extends baseTableMixin
+ * @extends baseTableMixin, accessControlMixin
  */
 export default {
   mixins: [baseTableMixin, accessControlMixin],
   components: { HeadlineNav },
+  computed: {
+    hasTableActions() {
+      // from accessControlMixin
+      return this.isEditAccess || this.isDeleteAccess;
+    },
+  },
   methods: {
     ...mapActions({
       loadDataList(dispatch, payload) {
