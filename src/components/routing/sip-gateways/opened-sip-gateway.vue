@@ -4,6 +4,7 @@
       <object-header
         :primary-action="save"
         :primary-text="computePrimaryText"
+        :hide-primary="!hasSaveActionAccess"
         :primary-disabled="computeDisabled"
         :secondary-action="close"
       >

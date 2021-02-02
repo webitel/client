@@ -3,6 +3,7 @@
         <object-header
                 :primaryText="computePrimaryText"
                 :primaryAction="save"
+                :hide-primary="!hasSaveActionAccess"
                 :primaryDisabled="computeDisabled"
                 close
         >
@@ -17,6 +18,7 @@
                         v-model.trim="name"
                         :v="$v.itemInstance.name"
                         :label="$t('objects.name')"
+                        :disabled="disableUserInput"
                         required
                 ></form-input>
 
@@ -25,6 +27,7 @@
                     :v="$v.itemInstance.schema"
                     :label="$tc('objects.routing.schema', 1)"
                     :options="dropdownOptionsList"
+                    :disabled="disableUserInput"
                     @search="loadDropdownOptionsList"
                     required
                 ></dropdown-select>
@@ -35,12 +38,14 @@
                             v-model.trim="pattern"
                             :v="$v.itemInstance.pattern"
                             :label="$t('objects.routing.dialplan.pattern')"
+                            :disabled="disableUserInput"
                             required
                     ></form-input>
 
                     <form-input
                             v-model="description"
                             :label="$t('objects.description')"
+                            :disabled="disableUserInput"
                             textarea
                     ></form-input>
                 </div>
@@ -50,7 +55,8 @@
 </template>
 
 <script>
-    import editComponentMixin from '@/mixins/objectPagesMixins/openedObjectMixin/editComponentMixin';
+    import editComponentMixin from '../../../mixins/objectPagesMixins/openedObjectMixin/editComponentMixin';
+    import openedTabComponentMixin from '../../../mixins/objectPagesMixins/openedObjectTabMixin/openedTabComponentMixin';
 
     import { required } from 'vuelidate/lib/validators';
     import { mapActions, mapState } from 'vuex';
@@ -59,7 +65,7 @@
 
     export default {
         name: 'opened-dialplan',
-        mixins: [editComponentMixin, headlineNavMixin],
+        mixins: [editComponentMixin, openedTabComponentMixin, headlineNavMixin],
         data() {
             return {
 

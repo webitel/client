@@ -37,6 +37,10 @@
                 default: '',
             },
             proposals: Function,
+            disabled: {
+              type: Boolean,
+              default: false,
+            },
         },
 
         model: {
@@ -62,6 +66,7 @@
 
         mounted() {
             this.config.value = this.value || '[]';
+            if (this.disabled) config.readOnly = true;
             this.editor = editor.create(this.$refs.editor, config);
 
             this.editor.onDidChangeModelContent((event) => {
