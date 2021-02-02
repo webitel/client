@@ -28,7 +28,7 @@
 
 <script>
 import { mapState, mapActions } from 'vuex';
-import openedTabComponentMixin from '../../../../mixins/openedTabComponentMixin';
+import openedTabComponentMixin from '../../../../mixins/objectPagesMixins/openedObjectTabMixin/openedTabComponentMixin';
 import { TimeBaseScore } from '../../../../store/modules/contact-center/queues/_internals/enums/TimeBaseScore.enum';
 
 export default {

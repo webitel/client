@@ -6,14 +6,14 @@
                 {{$t('objects.permissions.object.operations')}} |
                 {{ computeTitle }}
                 </template>
-                <template slot="actions">           
+                <template slot="actions">
                     <wt-button color="secondary" @click="close">
                         {{ $t('objects.close') }}
                     </wt-button>
                 </template>
             </wt-headline>
         </template>
-        
+
         <template slot="main">
         <div class="main-container">
             <wt-tabs
@@ -26,16 +26,16 @@
                 :is="$options.name + '-' + currentTab.value"
             ></component>
         </div>
-        </template>       
+        </template>
     </wt-page-wrapper>
 </template>
 
 <script>
-    import editComponentMixin from '@/mixins/editComponentMixin';
+    import editComponentMixin from '@/mixins/objectPagesMixins/openedObjectMixin/editComponentMixin';
     import { mapActions, mapState } from 'vuex';
     import openedObjectPermissionsGeneral from './opened-object-permissions-general.vue';
     import openedObjectPermissionsDefaults from './opened-object-permissions-defaults.vue';
-    import headlineNavMixin from '../../../mixins/headlineNavMixin/headlineNavMixin';
+    import headlineNavMixin from '../../../mixins/baseMixins/headlineNavMixin/headlineNavMixin';
 
     export default {
         name: 'opened-object-permissions',

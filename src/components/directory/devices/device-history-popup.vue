@@ -56,7 +56,7 @@
 
 <script>
 import { mapActions, mapState } from 'vuex';
-import tableComponentMixin from '../../../mixins/tableComponentMixin';
+import tableComponentMixin from '../../../mixins/objectPagesMixins/objectTableMixin/tableComponentMixin';
 
 export default {
   name: 'device-history-popup',

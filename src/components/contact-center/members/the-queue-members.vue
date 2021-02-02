@@ -128,8 +128,8 @@
 import { mapActions, mapState } from 'vuex';
 import destinationsPopup from './opened-queue-member-destinations-popup.vue';
 import uploadPopup from './upload-members-popup.vue';
-import tableComponentMixin from '../../../mixins/tableComponentMixin';
-import tableActionsHandlerMixin from '../../../mixins/baseTableMixin/tableActionsMixin';
+import tableComponentMixin from '../../../mixins/objectPagesMixins/objectTableMixin/tableComponentMixin';
+import tableActionsHandlerMixin from '../../../mixins/baseMixins/baseTableMixin/tableActionsMixin';
 import getQueueSubRoute from '../../../store/modules/contact-center/queues/_internals/scripts/getQueueSubRoute';
 import RouteNames from '../../../router/_internals/RouteNames.enum';
 

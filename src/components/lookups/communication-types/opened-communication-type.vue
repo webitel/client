@@ -40,7 +40,7 @@
 </template>
 
 <script>
-    import editComponentMixin from '@/mixins/editComponentMixin';
+    import editComponentMixin from '@/mixins/objectPagesMixins/openedObjectMixin/editComponentMixin';
 
     import { required } from 'vuelidate/lib/validators';
     import { mapActions, mapState } from 'vuex';
@@ -49,7 +49,7 @@
         getCommunication,
         updateCommunication,
     } from '../../../api/lookups/communications/communications';
-    import headlineNavMixin from '../../../mixins/headlineNavMixin/headlineNavMixin';
+    import headlineNavMixin from '../../../mixins/baseMixins/headlineNavMixin/headlineNavMixin';
 
     export default {
         name: 'opened-communications-type',

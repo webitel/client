@@ -72,7 +72,7 @@
 <script>
 import { mapState } from 'vuex';
 import SupervisorPopup from './opened-team-supervisors-popup.vue';
-import openedObjectTableTabMixin from '../../../mixins/openedObjectTableTabMixin/openedObjectTableTabMixin';
+import openedObjectTableTabMixin from '../../../mixins/objectPagesMixins/openedObjectTableTabMixin/openedObjectTableTabMixin';
 
 export default {
   name: 'opened-team-supervisors',

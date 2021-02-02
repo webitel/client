@@ -77,9 +77,9 @@
 </template>
 
 <script>
-    import tableComponentMixin from '@/mixins/tableComponentMixin';
+    import tableComponentMixin from '@/mixins/objectPagesMixins/objectTableMixin/tableComponentMixin';
     import { _checkboxTableField, _actionsTableField_2 } from '@/utils/tableFieldPresets';
-    import openedTabComponentMixin from '@/mixins/openedTabComponentMixin';
+    import openedTabComponentMixin from '@/mixins/objectPagesMixins/openedObjectTabMixin/openedTabComponentMixin';
     import { mapActions, mapState } from 'vuex';
     import eventBus from '@webitel/ui-sdk/src/scripts/eventBus';
     import communicationPopup from './opened-queue-member-communication-popup';

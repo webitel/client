@@ -109,8 +109,8 @@
 import { mapActions, mapState } from 'vuex';
 import copy from 'clipboard-copy';
 import licensePopup from './license-popup.vue';
-import tableComponentMixin from '../../../mixins/tableComponentMixin';
-import tableActionsHandlerMixin from '../../../mixins/baseTableMixin/tableActionsMixin';
+import tableComponentMixin from '../../../mixins/objectPagesMixins/objectTableMixin/tableComponentMixin';
+import tableActionsHandlerMixin from '../../../mixins/baseMixins/baseTableMixin/tableActionsMixin';
 
 let copiedIdTimeout = null;
 

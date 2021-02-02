@@ -37,7 +37,7 @@ import { sipAccountValidator, gatewayHostValidator, ipValidator } from '../../..
 import OpenedSipGatewayRegisterGeneral from './opened-register-sip-gateway-general.vue';
 import OpenedSipGatewayTrunkingConfiguration from './opened-trunking-sip-gateway-configuration.vue';
 import OpenedSipGatewayTrunkingGeneral from './opened-trunking-sip-gateway-general.vue';
-import openedObjectMixin from '../../../mixins/openedObjectMixin/openedObjectMixin';
+import openedObjectMixin from '../../../mixins/objectPagesMixins/openedObjectMixin/openedObjectMixin';
 
 export default {
   name: 'opened-sip-gateway',

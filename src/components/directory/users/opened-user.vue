@@ -37,8 +37,8 @@ import OpenedUserDevices from './opened-user-devices.vue';
 import OpenedUserVariables from './opened-user-variables.vue';
 import OpenedUserTokens from './opened-user-token.vue';
 import OpenedUserPermissions from './opened-user-permissions.vue';
-import editComponentMixin from '../../../mixins/editComponentMixin';
-import headlineNavMixin from '../../../mixins/headlineNavMixin/headlineNavMixin';
+import editComponentMixin from '../../../mixins/objectPagesMixins/openedObjectMixin/editComponentMixin';
+import headlineNavMixin from '../../../mixins/baseMixins/headlineNavMixin/headlineNavMixin';
 
 export default {
   name: 'opened-user',

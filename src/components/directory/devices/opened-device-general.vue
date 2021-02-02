@@ -8,6 +8,7 @@
           :value="name"
           :v="v.itemInstance.name"
           :label="$t('objects.name')"
+          :disabled="isEditAccess"
           required
           @input="setItemProp({ prop: 'name', value: $event })"
       ></wt-input>
@@ -15,12 +16,14 @@
           :value="account"
           :v="v.itemInstance.account"
           :label="$t('objects.directory.devices.authId')"
+          :disabled="isEditAccess"
           required
           @input="setItemProp({ prop: 'account', value: $event })"
       ></wt-input>
       <password-input
           :value="password"
           :v="v.itemInstance.password"
+          :disabled="isEditAccess"
           required
           @input="setItemProp({ prop: 'password', value: $event })"
       ></password-input>
@@ -29,6 +32,7 @@
           :label="$tc('objects.directory.users.users', 1)"
           :search="loadDropdownOptionsList"
           :internal-search="false"
+          :disabled="isEditAccess"
           @input="setItemProp({ prop: 'user', value: $event })"
       ></wt-select>
     </form>
@@ -39,7 +43,7 @@
 import { mapActions, mapState } from 'vuex';
 import { getUsersList } from '../../../api/directory/users/users';
 import PasswordInput from '../../utils/generate-password-input.vue';
-import openedTabComponentMixin from '../../../mixins/openedTabComponentMixin';
+import openedTabComponentMixin from '../../../mixins/objectPagesMixins/openedObjectTabMixin/openedTabComponentMixin';
 
 export default {
   name: 'opened-device-general',

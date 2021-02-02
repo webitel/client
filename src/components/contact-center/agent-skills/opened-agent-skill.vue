@@ -38,7 +38,7 @@
 <script>
 import { required } from 'vuelidate/lib/validators';
 import { mapState, mapActions } from 'vuex';
-import openedObjectMixin from '../../../mixins/openedObjectMixin/openedObjectMixin';
+import openedObjectMixin from '../../../mixins/objectPagesMixins/openedObjectMixin/openedObjectMixin';
 
 export default {
   name: 'opened-agent-skill',

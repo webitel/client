@@ -56,7 +56,7 @@
 </template>
 
 <script>
-    import openedTabComponentMixin from '@/mixins/openedTabComponentMixin';
+    import openedTabComponentMixin from '@/mixins/objectPagesMixins/openedObjectTabMixin/openedTabComponentMixin';
     import { mapActions, mapState } from 'vuex';
     import DropdownSelect from '../../utils/dropdown-select';
     import { AWSRegions, DigitalOceanRegions } from '../../../api/integrations/storage/storage';

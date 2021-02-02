@@ -34,7 +34,7 @@ import OpenedResourceGeneral from './opened-resource-general.vue';
 import OpenedResourceNumbers from './opened-resource-numbers.vue';
 import OpenedResourceFailure from './opened-resource-failure.vue';
 import OpenedResourcePermissions from './opened-resource-permissions.vue';
-import openedObjectMixin from '../../../mixins/openedObjectMixin/openedObjectMixin';
+import openedObjectMixin from '../../../mixins/objectPagesMixins/openedObjectMixin/openedObjectMixin';
 
 export default {
   name: 'opened-resource',

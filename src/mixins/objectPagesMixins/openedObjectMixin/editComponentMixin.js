@@ -10,10 +10,11 @@ import tabs from '@/components/utils/tabs';
 import validationMessage from '@/components/utils/validation-message';
 import tabsComponent from '@/components/utils/tabs-component';
 import tagsInput from '@/components/utils/tags-input';
-import permissionsTab from '../components/object-utils/utils/permissions-tab';
+import permissionsTab from '../../../components/object-utils/utils/permissions-tab';
 
-import ObjectHeader from '../components/object-utils/the-object-header.vue';
-import openedObjectValidationMixin from './openedObjectValidationMixin/openedObjectValidationMixin';
+import ObjectHeader from '../../../components/object-utils/the-object-header.vue';
+import openedObjectValidationMixin from '../../baseMixins/openedObjectValidationMixin/openedObjectValidationMixin';
+import openedObjectAccessControlMixin from './_internals/openedObjectAccessControlMixin';
 
 /**
  * @fileOverview abstract mixin,
@@ -21,10 +22,12 @@ import openedObjectValidationMixin from './openedObjectValidationMixin/openedObj
  * and nested (nestedObjectMixin) mixins
  * @param {string} this.namespace - should be declared in data()
  *      and contain a string name for storeModule like 'ccenter/agents/skills'
- * @extends openedObjectValidationMixin
+ * @extends openedObjectValidationMixin, openedObjectAccessControlMixin
  */
 export default {
-  mixins: [openedObjectValidationMixin],
+  // FIXME: MOVE ACCESS_CONTROL MIXIN IMPORT TO OPENED_OBJECT_MIXIN
+  //  AFTER COMPLETE OBJECT PAGES REFACTOR
+  mixins: [openedObjectAccessControlMixin, openedObjectValidationMixin],
   components: {
     ObjectHeader,
 

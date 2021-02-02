@@ -28,7 +28,7 @@
 </template>
 
 <script>
-    import openedTabComponentMixin from '@/mixins/openedTabComponentMixin';
+    import openedTabComponentMixin from '@/mixins/objectPagesMixins/openedObjectTabMixin/openedTabComponentMixin';
 
     export default {
         name: 'opened-trigger-at-time-general',

@@ -35,7 +35,7 @@ import OpenedAgentTeams from './opened-agent-teams.vue';
 import OpenedAgentQueues from './opened-agent-queues.vue';
 import OpenedAgentSkills from './opened-agent-skills.vue';
 import OpenedAgentPermissions from './opened-agent-permissions.vue';
-import openedObjectMixin from '../../../mixins/openedObjectMixin/openedObjectMixin';
+import openedObjectMixin from '../../../mixins/objectPagesMixins/openedObjectMixin/openedObjectMixin';
 
 export default {
   name: 'opened-agent',

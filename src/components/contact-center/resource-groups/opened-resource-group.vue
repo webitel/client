@@ -35,7 +35,7 @@ import OpenedResourceGroupGeneral from './opened-resource-group-general.vue';
 import OpenedResourceGroupResources from './opened-resource-group-resources.vue';
 import OpenedResourceGroupTimerange from './opened-resource-group-timerange.vue';
 import OpenedResourceGroupPermissions from './opened-resource-group-permissions.vue';
-import openedObjectMixin from '../../../mixins/openedObjectMixin/openedObjectMixin';
+import openedObjectMixin from '../../../mixins/objectPagesMixins/openedObjectMixin/openedObjectMixin';
 
 export default {
   name: 'opened-resource-group',

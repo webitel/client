@@ -59,7 +59,7 @@
 </template>
 
 <script>
-    import tableComponentMixin from '@/mixins/tableComponentMixin';
+    import tableComponentMixin from '@/mixins/objectPagesMixins/objectTableMixin/tableComponentMixin';
     import { _checkboxTableField, _actionsTableField_1 } from '@/utils/tableFieldPresets';
 
     export default {

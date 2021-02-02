@@ -139,8 +139,8 @@ import { mapActions, mapState } from 'vuex';
 import HistoryPopup from './device-history-popup.vue';
 import UploadPopup from './upload-devices-popup.vue';
 import DevicePopup from './create-device-popup.vue';
-import tableComponentMixin from '../../../mixins/tableComponentMixin';
-import tableActionsHandlerMixin from '../../../mixins/baseTableMixin/tableActionsMixin';
+import tableComponentMixin from '../../../mixins/objectPagesMixins/objectTableMixin/tableComponentMixin';
+import tableActionsHandlerMixin from '../../../mixins/baseMixins/baseTableMixin/tableActionsMixin';
 import RouteNames from '../../../router/_internals/RouteNames.enum';
 
 export default {

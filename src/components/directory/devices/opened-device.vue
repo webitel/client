@@ -4,6 +4,7 @@
       <object-header
           :primary-action="save"
           :primary-text="computePrimaryText"
+          :hide-primary="!isEditAccess"
           :primary-disabled="computeDisabled"
           :secondary-action="close"
       >
@@ -36,8 +37,8 @@ import OpenedDeviceGeneral from './opened-device-general.vue';
 import OpenedDevicePermissions from './opened-device-permissions.vue';
 import OpenedDeviceHotdeskGeneral from './opened-hotdesk-device-general.vue';
 import OpenedDeviceHotdeskHotdesking from './opened-hotdesk-device-hotdesking.vue';
-import editComponentMixin from '../../../mixins/editComponentMixin';
-import headlineNavMixin from '../../../mixins/headlineNavMixin/headlineNavMixin';
+import editComponentMixin from '../../../mixins/objectPagesMixins/openedObjectMixin/editComponentMixin';
+import headlineNavMixin from '../../../mixins/baseMixins/headlineNavMixin/headlineNavMixin';
 
 export default {
   name: 'opened-device',

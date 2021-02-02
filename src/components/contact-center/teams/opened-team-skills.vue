@@ -96,7 +96,7 @@
 import { mapState } from 'vuex';
 import SkillBucketsPopup from './opened-team-skills-buckets-popup.vue';
 import SkillPopup from './opened-team-skills-popup.vue';
-import openedObjectTableTabMixin from '../../../mixins/openedObjectTableTabMixin/openedObjectTableTabMixin';
+import openedObjectTableTabMixin from '../../../mixins/objectPagesMixins/openedObjectTableTabMixin/openedObjectTableTabMixin';
 
 export default {
   name: 'opened-team-skills',

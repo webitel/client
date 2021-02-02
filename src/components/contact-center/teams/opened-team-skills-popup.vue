@@ -71,7 +71,7 @@ import { required } from 'vuelidate/lib/validators';
 import { mapState } from 'vuex';
 import { getBucketsList } from '../../../api/contact-center/buckets/buckets';
 import { getSkillsList } from '../../../api/contact-center/agentSkills/agentSkills';
-import nestedObjectMixin from '../../../mixins/openedObjectMixin/nestedObjectMixin';
+import nestedObjectMixin from '../../../mixins/objectPagesMixins/openedObjectMixin/nestedObjectMixin';
 
 export default {
   name: 'opened-team-skills-popup',

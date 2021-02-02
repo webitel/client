@@ -29,7 +29,7 @@
 
 <script>
     import popup from '@/components/utils/popup';
-    import editComponentMixin from '@/mixins/editComponentMixin';
+    import editComponentMixin from '@/mixins/objectPagesMixins/openedObjectMixin/editComponentMixin';
     import { required, numeric, minValue } from 'vuelidate/lib/validators';
     import { mapActions, mapState } from 'vuex';
     import { getBucketsList } from '../../../api/contact-center/buckets/buckets';

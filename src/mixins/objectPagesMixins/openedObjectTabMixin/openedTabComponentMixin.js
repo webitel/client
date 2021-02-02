@@ -1,5 +1,4 @@
 import { mapActions } from 'vuex';
-import openedObjectValidationMixin from './openedObjectValidationMixin/openedObjectValidationMixin';
 import ObjectHeader from '@/components/object-utils/the-object-header';
 import formInput from '@/components/utils/form-input';
 import expansionPanel from '@/components/utils/expansion-panel';
@@ -13,14 +12,17 @@ import tagsInput from '@/components/utils/tags-input';
 import permissionsTab from '@/components/object-utils/utils/permissions-tab';
 import tabsComponent from '@/components/utils/tabs-component';
 
+import openedObjectValidationMixin from '../../baseMixins/openedObjectValidationMixin/openedObjectValidationMixin';
+import openedObjectTabAccessControlMixin from './_internals/openedObjectTabAccessControlMixin';
+
 /**
  * @fileOverview contains openedObject tab
  *      (tab with subordinate entity, like opened-agent-general.vue) common logic
  * @param {string} this.namespace - should be passed as prop from tabs wrapper
- * @extends openedObjectValidationMixin,
+ * @extends openedObjectValidationMixin, openedObjectTabAccessControlMixin
  */
 export default {
-  mixins: [openedObjectValidationMixin],
+  mixins: [openedObjectValidationMixin, openedObjectTabAccessControlMixin],
   components: {
     ObjectHeader,
 

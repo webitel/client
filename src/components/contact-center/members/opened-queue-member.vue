@@ -34,7 +34,7 @@ import OpenedQueueMemberGeneral from './opened-queue-member-general.vue';
 import OpenedQueueMemberCommunication from './opened-queue-member-communication.vue';
 import OpenedQueueMemberVariables from './opened-queue-member-variables.vue';
 import { requiredArrayValue } from '../../../utils/validators';
-import openedObjectMixin from '../../../mixins/openedObjectMixin/openedObjectMixin';
+import openedObjectMixin from '../../../mixins/objectPagesMixins/openedObjectMixin/openedObjectMixin';
 
 export default {
   name: 'opened-queue-member',

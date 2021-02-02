@@ -24,7 +24,7 @@
 </template>
 
 <script>
-    import editComponentMixin from '@/mixins/editComponentMixin';
+    import editComponentMixin from '@/mixins/objectPagesMixins/openedObjectMixin/editComponentMixin';
     import { required, email } from 'vuelidate/lib/validators';
     import { mapActions, mapState } from 'vuex';
     import openedStorageGeneral from './opened-storage-general';
@@ -33,7 +33,7 @@
     import openedStorageBackblaze from './opened-storage-backblaze';
     import openedStorageDropbox from './opened-storage-dropbox';
     import openedStorageDrive from './opened-storage-drive';
-    import headlineNavMixin from '../../../mixins/headlineNavMixin/headlineNavMixin';
+    import headlineNavMixin from '../../../mixins/baseMixins/headlineNavMixin/headlineNavMixin';
 
     export default {
         name: 'opened-storage',

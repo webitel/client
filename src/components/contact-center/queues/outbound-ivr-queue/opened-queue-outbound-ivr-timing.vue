@@ -35,7 +35,7 @@
 </template>
 
 <script>
-import openedTabComponentMixin from '@/mixins/openedTabComponentMixin';
+import openedTabComponentMixin from '@/mixins/objectPagesMixins/openedObjectTabMixin/openedTabComponentMixin';
 import { mapActions, mapState } from 'vuex';
 
 export default {

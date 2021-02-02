@@ -33,7 +33,7 @@
 import { mapState } from 'vuex';
 import { kebabToCamel } from '@webitel/ui-sdk/src/scripts/caseConverters';
 import TeamStrategy from '../../../store/modules/contact-center/teams/_internals/enums/TeamStrategy.enum';
-import openedTabComponentMixin from '../../../mixins/openedTabComponentMixin';
+import openedTabComponentMixin from '../../../mixins/objectPagesMixins/openedObjectTabMixin/openedTabComponentMixin';
 
 export default {
   name: 'opened-team-general',

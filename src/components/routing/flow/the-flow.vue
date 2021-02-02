@@ -115,7 +115,7 @@
 </template>
 
 <script>
-    import tableComponentMixin from '@/mixins/tableComponentMixin';
+    import tableComponentMixin from '@/mixins/objectPagesMixins/objectTableMixin/tableComponentMixin';
     import { _checkboxTableField, _actionsTableField_3, _switcherWidth } from '@/utils/tableFieldPresets';
     import { mapActions, mapState } from 'vuex';
     import uploadPopup from './upload-flow-popup';

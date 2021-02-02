@@ -157,7 +157,7 @@
     import eventBus from '@webitel/ui-sdk/src/scripts/eventBus';
     import audioPlayer from '../../utils/audio-player';
     import textToSpeechPopup from './media-text-to-speech-popup';
-    import tableComponentMixin from '../../../mixins/tableComponentMixin';
+    import tableComponentMixin from '../../../mixins/objectPagesMixins/objectTableMixin/tableComponentMixin';
     import { _checkboxTableField, _actionsTableField_3 } from '../../../utils/tableFieldPresets';
     import { download } from '../../../utils/download';
 

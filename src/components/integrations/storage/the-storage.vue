@@ -104,7 +104,7 @@
 </template>
 
 <script>
-    import tableComponentMixin from '@/mixins/tableComponentMixin';
+    import tableComponentMixin from '@/mixins/objectPagesMixins/objectTableMixin/tableComponentMixin';
     import { mapActions, mapState } from 'vuex';
     import storagePopup from './create-storage-popup';
     import { _checkboxTableField, _actionsTableField_2, _switcherWidth } from '../../../utils/tableFieldPresets';

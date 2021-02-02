@@ -33,7 +33,7 @@
 <script>
 import { mapState } from 'vuex';
 import { getCommunicationsList } from '../../../api/lookups/communications/communications';
-import openedTabComponentMixin from '../../../mixins/openedTabComponentMixin';
+import openedTabComponentMixin from '../../../mixins/objectPagesMixins/openedObjectTabMixin/openedTabComponentMixin';
 
 export default {
   name: 'opened-resource-group-general',

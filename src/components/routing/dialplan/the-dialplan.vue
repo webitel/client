@@ -103,7 +103,7 @@
 <script>
     import { mapActions, mapState } from 'vuex';
     import Sortable, { Swap } from 'sortablejs';
-    import tableComponentMixin from '../../../mixins/tableComponentMixin';
+    import tableComponentMixin from '../../../mixins/objectPagesMixins/objectTableMixin/tableComponentMixin';
     import { _checkboxTableField, _actionsTableField_3, _switcherWidth } from '../../../utils/tableFieldPresets';
     import RouteNames from '../../../router/_internals/RouteNames.enum';
 

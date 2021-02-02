@@ -51,7 +51,7 @@
 
 <script>
     import datepicker from '@/components/utils/datepicker';
-    import openedTabComponentMixin from '@/mixins/openedTabComponentMixin';
+    import openedTabComponentMixin from '@/mixins/objectPagesMixins/openedObjectTabMixin/openedTabComponentMixin';
     import { mapActions } from 'vuex';
     import { getCalendarTimezones } from '../../../api/lookups/calendars/calendars';
 

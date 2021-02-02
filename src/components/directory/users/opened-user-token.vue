@@ -78,9 +78,9 @@ import { mapActions, mapState } from 'vuex';
 import eventBus from '@webitel/ui-sdk/src/scripts/eventBus';
 import TokenPopup from './opened-user-token-popup.vue';
 import TokenCreatedPopup from './opened-user-token-created-popup.vue';
-import openedTabComponentMixin from '../../../mixins/openedTabComponentMixin';
-import tableComponentMixin from '../../../mixins/tableComponentMixin';
-import tableActionsHandlerMixin from '../../../mixins/baseTableMixin/tableActionsMixin';
+import openedTabComponentMixin from '../../../mixins/objectPagesMixins/openedObjectTabMixin/openedTabComponentMixin';
+import tableComponentMixin from '../../../mixins/objectPagesMixins/objectTableMixin/tableComponentMixin';
+import tableActionsHandlerMixin from '../../../mixins/baseMixins/baseTableMixin/tableActionsMixin';
 
 export default {
   name: 'opened-user-tokens',

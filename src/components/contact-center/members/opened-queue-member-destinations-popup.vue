@@ -36,7 +36,7 @@
 </template>
 
 <script>
-import tableComponentMixin from '../../../mixins/tableComponentMixin';
+import tableComponentMixin from '../../../mixins/objectPagesMixins/objectTableMixin/tableComponentMixin';
 
 export default {
   name: 'opened-queue-member-destinations-popup',

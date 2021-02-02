@@ -61,7 +61,7 @@
 import { mapState } from 'vuex';
 import { getFlowList } from '../../../api/routing/flow/flow';
 import PasswordInput from '../../utils/generate-password-input.vue';
-import openedTabComponentMixin from '../../../mixins/openedTabComponentMixin';
+import openedTabComponentMixin from '../../../mixins/objectPagesMixins/openedObjectTabMixin/openedTabComponentMixin';
 
 export default {
   name: 'opened-sip-gateway-register-general',

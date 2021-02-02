@@ -1,6 +1,6 @@
 import { mapActions } from 'vuex';
-import openedTabComponentMixin from '../openedTabComponentMixin';
-import baseTableMixin from '../baseTableMixin/baseTableMixin';
+import openedTabComponentMixin from '../openedObjectTabMixin/openedTabComponentMixin';
+import baseTableMixin from '../../baseMixins/baseTableMixin/baseTableMixin';
 
 /**
  * @fileOverview contains openedObject tab with table

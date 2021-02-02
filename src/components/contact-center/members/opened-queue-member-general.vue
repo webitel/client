@@ -52,7 +52,7 @@ import { mapState } from 'vuex';
 import { getBucketsList } from '../../../api/contact-center/buckets/buckets';
 import { getSkillsList } from '../../../api/contact-center/agentSkills/agentSkills';
 import { getCalendarTimezones } from '../../../api/lookups/calendars/calendars';
-import openedTabComponentMixin from '../../../mixins/openedTabComponentMixin';
+import openedTabComponentMixin from '../../../mixins/objectPagesMixins/openedObjectTabMixin/openedTabComponentMixin';
 
 export default {
   name: 'opened-queue-member-general',

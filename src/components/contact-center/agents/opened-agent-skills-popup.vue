@@ -52,7 +52,7 @@ import {
  maxValue, minValue, numeric, required,
 } from 'vuelidate/lib/validators';
 import { getAgentSkills } from '../../../api/contact-center/agents/agentSkills';
-import nestedObjectMixin from '../../../mixins/openedObjectMixin/nestedObjectMixin';
+import nestedObjectMixin from '../../../mixins/objectPagesMixins/openedObjectMixin/nestedObjectMixin';
 
 export default {
   name: 'opened-agent-skills-popup',

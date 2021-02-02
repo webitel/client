@@ -36,7 +36,7 @@
 
 <script>
 import { mapActions, mapState } from 'vuex';
-import openedTabComponentMixin from '../../../../mixins/openedTabComponentMixin';
+import openedTabComponentMixin from '../../../../mixins/objectPagesMixins/openedObjectTabMixin/openedTabComponentMixin';
 
 export default {
   name: 'opened-queue-progressive-dialer-timing',

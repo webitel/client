@@ -24,7 +24,7 @@
 </template>
 
 <script>
-    import editComponentMixin from '@/mixins/editComponentMixin';
+    import editComponentMixin from '@/mixins/objectPagesMixins/openedObjectMixin/editComponentMixin';
     import { required } from 'vuelidate/lib/validators';
     import { mapActions, mapState } from 'vuex';
     import openedCalendarGeneral from './opened-calendar-general';
@@ -32,7 +32,7 @@
     import openedCalendarHolidays from './opened-calendar-holidays';
     import openedCalendarPermissions from './opened-calendar-permissions';
     import { timerangeNotIntersect, timerangeStartLessThanEnd } from '../../../utils/validators';
-    import headlineNavMixin from '../../../mixins/headlineNavMixin/headlineNavMixin';
+    import headlineNavMixin from '../../../mixins/baseMixins/headlineNavMixin/headlineNavMixin';
 
     export default {
         name: 'opened-calendar',

@@ -86,9 +86,9 @@
 </template>
 
 <script>
-    import tableComponentMixin from '@/mixins/tableComponentMixin';
+    import tableComponentMixin from '@/mixins/objectPagesMixins/objectTableMixin/tableComponentMixin';
     import { mapActions, mapState } from 'vuex';
-    import tableActionsHandlerMixin from '../../../mixins/baseTableMixin/tableActionsMixin';
+    import tableActionsHandlerMixin from '../../../mixins/baseMixins/baseTableMixin/tableActionsMixin';
     import RouteNames from '../../../router/_internals/RouteNames.enum';
 
     export default {

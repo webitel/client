@@ -9,7 +9,7 @@
       <h3 class="content-title">
         {{ $t("objects.permissions.object.defaultList") }}
       </h3>
-      <div class="content-header__actions-wrap">        
+      <div class="content-header__actions-wrap">
         <wt-icon-btn
           class="icon-action"
           icon="refresh"
@@ -50,7 +50,7 @@
             :value="item.perm.r"
             :options="dropdownOptionsList"
             :clearable='false'
-            track-by="name"            
+            track-by="name"
             @input="
               toggleDefaultMode({
                 mode: $event,
@@ -108,8 +108,8 @@
 </template>
 
 <script>
-import tableComponentMixin from "@/mixins/tableComponentMixin";
-import editComponentMixin from "@/mixins/editComponentMixin";
+import tableComponentMixin from "@/mixins/objectPagesMixins/objectTableMixin/tableComponentMixin";
+import editComponentMixin from "@/mixins/objectPagesMixins/openedObjectMixin/editComponentMixin";
 import { mapActions, mapState } from "vuex";
 import { getObject } from "../../../api/permissions/objects/objects";
 import rolePopup from "./opened-object-permissions-role-defaults-popup";

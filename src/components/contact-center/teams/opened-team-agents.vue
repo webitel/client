@@ -92,7 +92,7 @@
 import { mapState } from 'vuex';
 import AgentBucketsPopup from './opened-team-agents-buckets-popup.vue';
 import AgentPopup from './opened-team-agents-popup.vue';
-import openedObjectTableTabMixin from '../../../mixins/openedObjectTableTabMixin/openedObjectTableTabMixin';
+import openedObjectTableTabMixin from '../../../mixins/objectPagesMixins/openedObjectTableTabMixin/openedObjectTableTabMixin';
 
 export default {
   name: 'opened-team-agents',

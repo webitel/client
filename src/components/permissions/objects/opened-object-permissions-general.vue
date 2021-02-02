@@ -119,8 +119,8 @@
 
 <script>
 import { mapActions, mapState } from "vuex";
-import tableComponentMixin from "../../../mixins/tableComponentMixin";
-import editComponentMixin from "../../../mixins/editComponentMixin";
+import tableComponentMixin from "../../../mixins/objectPagesMixins/objectTableMixin/tableComponentMixin";
+import editComponentMixin from "../../../mixins/objectPagesMixins/openedObjectMixin/editComponentMixin";
 
 // eslint-disable-next-line import/extensions
 import rolePopup from "./opened-object-permissions-role-popup";

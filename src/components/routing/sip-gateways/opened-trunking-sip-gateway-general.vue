@@ -42,7 +42,7 @@
 <script>
 import { mapState } from 'vuex';
 import { getFlowList } from '../../../api/routing/flow/flow';
-import openedTabComponentMixin from '../../../mixins/openedTabComponentMixin';
+import openedTabComponentMixin from '../../../mixins/objectPagesMixins/openedObjectTabMixin/openedTabComponentMixin';
 
 export default {
   name: 'opened-trunking-sip-gateway-general',

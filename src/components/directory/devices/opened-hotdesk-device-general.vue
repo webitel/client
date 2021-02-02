@@ -40,7 +40,7 @@ import { mapActions, mapState } from 'vuex';
 import { getUsersList } from '../../../api/directory/users/users';
 import CopyInput from '../../utils/copy-input.vue';
 import PasswordInput from '../../utils/generate-password-input.vue';
-import openedTabComponentMixin from '../../../mixins/openedTabComponentMixin';
+import openedTabComponentMixin from '../../../mixins/objectPagesMixins/openedObjectTabMixin/openedTabComponentMixin';
 
 export default {
   name: 'opened-hotdesk-device-general',

@@ -76,7 +76,7 @@
 </template>
 
 <script>
-    import tableComponentMixin from '@/mixins/tableComponentMixin';
+    import tableComponentMixin from '@/mixins/objectPagesMixins/objectTableMixin/tableComponentMixin';
     import { _checkboxTableField, _actionsTableField_2, _switcherWidth } from '@/utils/tableFieldPresets';
     import triggerPopup from './create-trigger-popup';
 

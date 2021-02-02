@@ -84,7 +84,7 @@
 </template>
 
 <script>
-    import tableComponentMixin from '@/mixins/tableComponentMixin';
+    import tableComponentMixin from '@/mixins/objectPagesMixins/objectTableMixin/tableComponentMixin';
     import { _checkboxTableField, _actionsTableField_3 } from '@/utils/tableFieldPresets';
     import { mapActions, mapState } from 'vuex';
     import { downloadAsCSV } from '../../../utils/download';

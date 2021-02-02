@@ -79,7 +79,7 @@
 <script>
 import { mapActions, mapState } from 'vuex';
 import { StrategyList } from '../../../../store/modules/contact-center/queues/_internals/enums/Strategy.enum';
-import openedTabComponentMixin from '../../../../mixins/openedTabComponentMixin';
+import openedTabComponentMixin from '../../../../mixins/objectPagesMixins/openedObjectTabMixin/openedTabComponentMixin';
 import { getCalendarList } from '../../../../api/lookups/calendars/calendars';
 import { getBlacklistList } from '../../../../api/lookups/blacklists/blacklists';
 import { getFlowList } from '../../../../api/routing/flow/flow';

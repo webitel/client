@@ -81,7 +81,7 @@
 <script>
 import { mapState } from 'vuex';
 import { kebabToCamel } from '@webitel/ui-sdk/src/scripts/caseConverters';
-import tableComponentMixin from '../../../mixins/tableComponentMixin';
+import tableComponentMixin from '../../../mixins/objectPagesMixins/objectTableMixin/tableComponentMixin';
 import RouteNames from '../../../router/_internals/RouteNames.enum';
 
 export default {

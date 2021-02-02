@@ -36,7 +36,7 @@
 <script>
     import popup from '@/components/utils/popup';
     import datepicker from '@/components/utils/datepicker';
-    import editComponentMixin from '@/mixins/editComponentMixin';
+    import editComponentMixin from '@/mixins/objectPagesMixins/openedObjectMixin/editComponentMixin';
     import { required } from 'vuelidate/lib/validators';
     import { mapActions, mapState } from 'vuex';
 

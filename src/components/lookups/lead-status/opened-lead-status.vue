@@ -42,7 +42,7 @@
 </template>
 
 <script>
-    import editComponentMixin from '@/mixins/editComponentMixin';
+    import editComponentMixin from '@/mixins/objectPagesMixins/openedObjectMixin/editComponentMixin';
 
     import { required } from 'vuelidate/lib/validators';
 

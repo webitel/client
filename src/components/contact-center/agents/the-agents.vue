@@ -98,7 +98,7 @@
 import { mapState, mapActions } from 'vuex';
 import convertDuration from '@webitel/ui-sdk/src/scripts/convertDuration';
 import HistoryPopup from './agent-history-popup.vue';
-import tableComponentMixin from '../../../mixins/tableComponentMixin';
+import tableComponentMixin from '../../../mixins/objectPagesMixins/objectTableMixin/tableComponentMixin';
 import RouteNames from '../../../router/_internals/RouteNames.enum';
 
 export default {

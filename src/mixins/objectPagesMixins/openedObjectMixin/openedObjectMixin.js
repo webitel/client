@@ -1,6 +1,6 @@
 import { mapActions } from 'vuex';
-import editComponentMixin from '../editComponentMixin';
-import headlineNavMixin from '../headlineNavMixin/headlineNavMixin';
+import editComponentMixin from './editComponentMixin';
+import headlineNavMixin from '../../baseMixins/headlineNavMixin/headlineNavMixin';
 
 /**
  * @fileOverview contains openedObject (wrapper with tabs, like opened-agent.vue) common logic

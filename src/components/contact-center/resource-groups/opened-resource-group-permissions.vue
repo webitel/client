@@ -75,8 +75,8 @@
 </template>
 
 <script>
-    import tableComponentMixin from '@/mixins/tableComponentMixin';
-    import editComponentMixin from '@/mixins/editComponentMixin';
+    import tableComponentMixin from '@/mixins/objectPagesMixins/objectTableMixin/tableComponentMixin';
+    import editComponentMixin from '@/mixins/objectPagesMixins/openedObjectMixin/editComponentMixin';
     import { mapActions, mapState } from 'vuex';
     import rolePopup from './opened-resource-group-permissions-role-popup';
 

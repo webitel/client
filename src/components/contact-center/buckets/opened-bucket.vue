@@ -32,7 +32,7 @@ import { required } from 'vuelidate/lib/validators';
 import { mapState } from 'vuex';
 import OpenedBucketPermissions from './opened-bucket-permissions.vue';
 import OpenedBucketGeneral from './opened-bucket-general.vue';
-import openedObjectMixin from '../../../mixins/openedObjectMixin/openedObjectMixin';
+import openedObjectMixin from '../../../mixins/objectPagesMixins/openedObjectMixin/openedObjectMixin';
 
 export default {
   name: 'opened-bucket',

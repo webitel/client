@@ -108,8 +108,8 @@
 <script>
 import { mapActions, mapState } from 'vuex';
 import QueuePopup from './create-queue-popup.vue';
-import tableActionsHandlerMixin from '../../../mixins/baseTableMixin/tableActionsMixin';
-import tableComponentMixin from '../../../mixins/tableComponentMixin';
+import tableActionsHandlerMixin from '../../../mixins/baseMixins/baseTableMixin/tableActionsMixin';
+import tableComponentMixin from '../../../mixins/objectPagesMixins/objectTableMixin/tableComponentMixin';
 import QueueType from '../../../store/modules/contact-center/queues/_internals/enums/QueueType.enum';
 import getQueueSubRoute from '../../../store/modules/contact-center/queues/_internals/scripts/getQueueSubRoute';
 import RouteNames from '../../../router/_internals/RouteNames.enum';

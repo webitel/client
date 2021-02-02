@@ -26,7 +26,7 @@
 <script>
 import { required, requiredUnless } from 'vuelidate/lib/validators';
     import datepicker from 'vuejs-datepicker';
-    import editComponentMixin from '@/mixins/editComponentMixin';
+    import editComponentMixin from '@/mixins/objectPagesMixins/openedObjectMixin/editComponentMixin';
     import { mapActions, mapState } from 'vuex';
     import openedHotdeskDeviceGeneral from './opened-hotdesk-device-general';
     import openedHotdeskDeviceHotdesking from './opened-hotdesk-device-hotdesking';

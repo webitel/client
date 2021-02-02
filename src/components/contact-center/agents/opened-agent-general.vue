@@ -36,7 +36,7 @@
 <script>
 import { mapState } from 'vuex';
 import { getAgentUsersOptions } from '../../../api/contact-center/agents/agents';
-import openedTabComponentMixin from '../../../mixins/openedTabComponentMixin';
+import openedTabComponentMixin from '../../../mixins/objectPagesMixins/openedObjectTabMixin/openedTabComponentMixin';
 
 export default {
   name: 'opened-agent-general',

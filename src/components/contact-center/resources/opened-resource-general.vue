@@ -49,7 +49,7 @@
 <script>
 import { mapState } from 'vuex';
 import { getGatewayList } from '../../../api/routing/gateways/gateways';
-import openedTabComponentMixin from '../../../mixins/openedTabComponentMixin';
+import openedTabComponentMixin from '../../../mixins/objectPagesMixins/openedObjectTabMixin/openedTabComponentMixin';
 
 export default {
   name: 'opened-resource-general',

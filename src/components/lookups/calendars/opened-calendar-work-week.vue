@@ -59,7 +59,7 @@
 <script>
     import timepicker from '@/components/utils/timepicker';
     import vuetable from 'vuetable-2/src/components/Vuetable';
-    import openedTabComponentMixin from '@/mixins/openedTabComponentMixin';
+    import openedTabComponentMixin from '@/mixins/objectPagesMixins/openedObjectTabMixin/openedTabComponentMixin';
     import { _actionsTableField_1, _switcherWidth } from '@/utils/tableFieldPresets';
 
     import { mapActions, mapState } from 'vuex';

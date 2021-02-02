@@ -72,7 +72,7 @@
 <script>
 import { mapState } from 'vuex';
 import ResPopup from './opened-resource-group-resource-popup.vue';
-import openedObjectTableTabMixin from '../../../mixins/openedObjectTableTabMixin/openedObjectTableTabMixin';
+import openedObjectTableTabMixin from '../../../mixins/objectPagesMixins/openedObjectTableTabMixin/openedObjectTableTabMixin';
 
 export default {
   name: 'opened-resource-group-resources',

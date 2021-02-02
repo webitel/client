@@ -36,7 +36,7 @@ import OpenedTeamAgents from './opened-team-agents.vue';
 import OpenedTeamSkills from './opened-team-skills.vue';
 import OpenedTeamTiming from './opened-team-timing.vue';
 import OpenedTeamPermissions from './opened-team-permissions.vue';
-import openedObjectMixin from '../../../mixins/openedObjectMixin/openedObjectMixin';
+import openedObjectMixin from '../../../mixins/objectPagesMixins/openedObjectMixin/openedObjectMixin';
 
 export default {
   name: 'opened-team',

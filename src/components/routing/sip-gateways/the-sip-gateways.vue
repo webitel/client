@@ -99,7 +99,7 @@
 <script>
 import { mapActions, mapState } from 'vuex';
 import GatewayPopup from './create-gateway-popup.vue';
-import tableComponentMixin from '../../../mixins/tableComponentMixin';
+import tableComponentMixin from '../../../mixins/objectPagesMixins/objectTableMixin/tableComponentMixin';
 import RouteNames from '../../../router/_internals/RouteNames.enum';
 
 export default {
