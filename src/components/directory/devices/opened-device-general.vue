@@ -8,7 +8,7 @@
           :value="name"
           :v="v.itemInstance.name"
           :label="$t('objects.name')"
-          :disabled="isEditAccess"
+          :disabled="disableUserInput"
           required
           @input="setItemProp({ prop: 'name', value: $event })"
       ></wt-input>
@@ -16,14 +16,14 @@
           :value="account"
           :v="v.itemInstance.account"
           :label="$t('objects.directory.devices.authId')"
-          :disabled="isEditAccess"
+          :disabled="disableUserInput"
           required
           @input="setItemProp({ prop: 'account', value: $event })"
       ></wt-input>
       <password-input
           :value="password"
           :v="v.itemInstance.password"
-          :disabled="isEditAccess"
+          :disabled="disableUserInput"
           required
           @input="setItemProp({ prop: 'password', value: $event })"
       ></password-input>
@@ -32,7 +32,7 @@
           :label="$tc('objects.directory.users.users', 1)"
           :search="loadDropdownOptionsList"
           :internal-search="false"
-          :disabled="isEditAccess"
+          :disabled="disableUserInput"
           @input="setItemProp({ prop: 'user', value: $event })"
       ></wt-select>
     </form>

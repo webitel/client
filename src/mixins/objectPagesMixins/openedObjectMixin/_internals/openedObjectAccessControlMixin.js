@@ -4,7 +4,8 @@ export default {
   mixins: [accessControlMixin],
   computed: {
     hasSaveActionAccess() {
-      return this.isEditAccess || this.isDeleteAccess;
+      if (this.$route.name.includes('-edit')) return this.isEditAccess;
+      return this.isCreateAccess;
     },
   },
 };
