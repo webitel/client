@@ -8,6 +8,7 @@
           :value="hotdesks"
           :label="$t('objects.directory.devices.hostName')"
           :add-only-from-autocomplete="false"
+          :disabled="disableUserInput"
           @input="setItemProp({ prop: 'hotdesks', value: $event })"
       ></wt-tags-input>
     </form>

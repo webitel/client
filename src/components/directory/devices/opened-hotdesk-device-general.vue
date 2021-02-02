@@ -8,6 +8,7 @@
           :value="name"
           :v="v.itemInstance.name"
           :label="$t('objects.name')"
+          :disabled="disableUserInput"
           required
           @input="setItemProp({ prop: 'name', value: $event })"
       ></wt-input>
@@ -21,6 +22,7 @@
       <password-input
           :value="password"
           :v="v.itemInstance.password"
+          :disabled="disableUserInput"
           required
           @input="setItemProp({ prop: 'password', value: $event })"
       ></password-input>
@@ -29,6 +31,7 @@
           :label="$tc('objects.directory.users.users', 1)"
           :search="loadDropdownOptionsList"
           :internal-search="false"
+          :disabled="disableUserInput"
           @input="setItemProp({ prop: 'user', value: $event })"
       ></wt-select>
     </form>

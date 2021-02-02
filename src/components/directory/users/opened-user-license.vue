@@ -10,6 +10,7 @@
           :search="loadDropdownOptionsList"
           :internal-search="false"
           :close-on-select="false"
+          :disabled="disableUserInput"
           multiple
           @input="setItemProp({ prop: 'license', value: $event })"
       ></wt-select>

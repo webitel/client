@@ -10,6 +10,7 @@
           :search="loadDropdownOptionsList"
           :internal-search="false"
           :close-on-select="false"
+          :disabled="disableUserInput"
           multiple
           @input="setItemProp({ prop: 'roles', value: $event })"
       ></wt-select>

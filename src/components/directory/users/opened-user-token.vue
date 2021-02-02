@@ -16,6 +16,7 @@
 
       <div class="content-header__actions-wrap">
         <wt-icon-btn
+            v-if="!disableUserInput"
             class="icon-action"
             :class="{'hidden': anySelected}"
             icon="bucket"
@@ -27,6 +28,7 @@
             @input="tableActionsHandler"
         ></wt-table-actions>
         <wt-icon-btn
+            v-if="!disableUserInput"
             class="icon-action"
             icon="plus"
             :tooltip="$t('iconHints.add')"
@@ -40,6 +42,7 @@
       <wt-table
           :headers="headers"
           :data="dataList"
+          :grid-actions="!disableUserInput"
       >
         <template slot="usage" slot-scope="{ item }">
           {{ item.usage }}
