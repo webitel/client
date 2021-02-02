@@ -27,17 +27,17 @@ const getters = {
   HAS_READ_ACCESS: (state, getters) => (route) => {
     if (state.permissions[Permissions.READ]) return true;
     const objectScope = getters.GET_OBJECT_SCOPE_BY_ROUTE(route);
-    return  objectScope.access?.includes('r');
+    return  objectScope?.access?.includes('r');
   },
   HAS_CREATE_ACCESS: (state, getters) => (route) => {
     if (state.permissions[Permissions.CREATE]) return true;
     const objectScope = getters.GET_OBJECT_SCOPE_BY_ROUTE(route);
-    return  objectScope.access?.includes('x');
+    return  objectScope?.access?.includes('x');
   },
   HAS_DELETE_ACCESS: (state, getters) => (route) => {
     if (state.permissions[Permissions.DELETE]) return true;
     const objectScope = getters.GET_OBJECT_SCOPE_BY_ROUTE(route);
-    return  objectScope.access?.includes('d');
+    return  objectScope?.access?.includes('d');
   },
 };
 
