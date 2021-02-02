@@ -8,6 +8,7 @@
                     v-model.trim="name"
                     :v="v.itemInstance.name"
                     :label="$t('objects.name')"
+                    :disabled="disableUserInput"
                     required
             ></form-input>
 
@@ -15,6 +16,7 @@
                     v-model="timezone"
                     :options="dropdownOptionsList"
                     :label="$t('objects.lookups.calendars.timezone')"
+                    :disabled="disableUserInput"
                     @search="loadDropdownOptionsList"
                     required
             ></dropdown-select>
@@ -22,6 +24,7 @@
             <form-input
                     v-model.trim="description"
                     :label="$t('objects.description')"
+                    :disabled="disableUserInput"
                     textarea
             ></form-input>
 
@@ -30,18 +33,19 @@
                     <div class="label">{{$t('objects.lookups.calendars.fulltime')}}</div>
                     <switcher
                             v-model="expires"
+                            :disabled="disableUserInput"
                     ></switcher>
                 </div>
                 <div class="calendars__date-wrap">
                     <datepicker
                             v-model="startAt"
                             :label="$t('objects.lookups.calendars.start')"
-                            :disabled="!expires"
+                            :disabled="disableUserInput || !expires"
                     ></datepicker>
                     <datepicker
                             v-model="endAt"
                             :label="$t('objects.lookups.calendars.end')"
-                            :disabled="!expires"
+                            :disabled="disableUserInput || !expires"
                     ></datepicker>
                 </div>
             </div>
