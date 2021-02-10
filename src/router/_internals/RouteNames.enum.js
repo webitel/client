@@ -2,6 +2,7 @@ export default Object.freeze({
   AUTH: 'auth',
   APPLICATION_HUB: 'application-hub',
   HOME: 'home',
+  START: 'start',
 
   // DIRECTORY
   LICENSE: 'license',

@@ -1,16 +1,16 @@
 <template>
-  <ul class="home-nav__category home-nav__category--lvl-2">
+  <ul class="start-nav__category start-nav__category--lvl-2">
     <li class="
-            home-nav__category-option__wrapper
-            home-nav__category-option
-            home-nav__category-option--lvl-2
+            start-nav__category-option__wrapper
+            start-nav__category-option
+            start-nav__category-option--lvl-2
           "
         v-for="(category, key) of categories"
         :key="key"
     >
-      <span class="home-nav__category-indicator"></span>
+      <span class="start-nav__category-indicator"></span>
       <router-link
-        class="home-nav__link"
+        class="start-nav__link"
         :to="category.route"
       >{{ category.name }}
       </router-link>
@@ -20,7 +20,7 @@
 
 <script>
 export default {
-  name: 'home-category-lvl-2',
+  name: 'start-category-lvl-2',
   props: {
     categories: {
       type: Array,
@@ -31,15 +31,15 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-@import '../../../assets/css/admin/home/home-category';
+@import '../../../assets/css/admin/start/start-category';
 
-.home-nav__category--lvl-2 {
+.start-nav__category--lvl-2 {
   @extend %wt-scrollbar;
   overflow-y: scroll;
 }
 
-.home-nav__category-option--lvl-2 {
-  .home-nav__category-indicator {
+.start-nav__category-option--lvl-2 {
+  .start-nav__category-indicator {
     position: relative;
     display: block;
     width: 24px;

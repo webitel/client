@@ -7,6 +7,7 @@ import RouteNames from './_internals/RouteNames.enum';
 const ApplicationHub = () => import('../components/application-hub/application-hub.vue');
 const moduleWrap = () => import('../components/object-utils/the-object-wrap');
 const home = () => import('../components/home/the-home');
+const StartPage = () => import('../components/start-page/the-start-page');
 const settings = () => import('../components/shared/the-settings');
 const AccessDenied = () => import('../components/utils/error-pages/the-access-denied-component');
 const notFound = () => import('../components/utils/error-pages/the-not-found-component');
@@ -95,6 +96,12 @@ const router = new Router({
                     path: '/admin',
                     name: RouteNames.HOME,
                     component: home,
+                    redirect: '/start',
+                },
+                {
+                    path: '/start',
+                    name: RouteNames.START,
+                    component: StartPage,
                 },
                 {
                     path: '/settings',

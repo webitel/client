@@ -1,6 +1,6 @@
 <template>
-  <section class="home-nav">
-    <article class="home-nav__wrapper">
+  <section class="start-nav">
+    <article class="start-nav__wrapper">
       <category-lvl-1
         :categories="categories"
         :selected="selected"
@@ -20,12 +20,12 @@
 </template>
 
 <script>
-import CategoryLvl1 from '../start-page/_internals/start-category-lvl-1.vue';
-import CategoryLvl2 from '../start-page/_internals/start-category-lvl-2.vue';
+import CategoryLvl1 from './_internals/start-category-lvl-1.vue';
+import CategoryLvl2 from './_internals/start-category-lvl-2.vue';
 import navMixin from '../../mixins/navMixin';
 
 export default {
-  name: 'the-home',
+  name: 'the-start-page',
   mixins: [navMixin],
   components: { CategoryLvl1, CategoryLvl2 },
   data: () => ({
@@ -61,7 +61,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.home-nav {
+.start-nav {
   --button-min-height: 60px;
   --wrapper-width: 60%;
   --wrapper-height: calc(
@@ -84,14 +84,14 @@ export default {
   }
 }
 
-.home-nav {
+.start-nav {
   flex-grow: 1;
   display: flex;
   align-items: center;
   justify-content: center;
 }
 
-.home-nav__wrapper {
+.start-nav__wrapper {
   @extend %wt-scrollbar;
 
   box-sizing: border-box;

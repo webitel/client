@@ -1,17 +1,17 @@
 
-.home-nav__category {
+.start-nav__category {
   box-sizing: border-box;
   height: 100%;
   border-radius: var(--border-radius);
 }
 
-.home-nav__category-option__wrapper {
+.start-nav__category-option__wrapper {
   &:not(:last-child) {
     margin-bottom: var(--component-spacing);
   }
 }
 
-.home-nav__category-option {
+.start-nav__category-option {
   box-sizing: border-box;
   text-align: left;
   display: flex;

@@ -1,13 +1,13 @@
 <template>
-  <ul class="home-nav__category home-nav__category--lvl-1">
+  <ul class="start-nav__category start-nav__category--lvl-1">
     <li
-      class="home-nav__category-option__wrapper"
+      class="start-nav__category-option__wrapper"
       v-for="(category, key) of categories"
       :key="key"
     >
       <button
-        class="home-nav__category-option home-nav__category-option--lvl-1"
-        :class="{ 'home-nav__category-option--selected': selected === category }"
+        class="start-nav__category-option start-nav__category-option--lvl-1"
+        :class="{ 'start-nav__category-option--selected': selected === category }"
         @click="select(category)">
         <wt-icon icon-prefix="adm" color="active" :icon="category.value"></wt-icon>
         {{ category.name }}
@@ -21,7 +21,7 @@
 
 <script>
 export default {
-  name: 'home-category-lvl-1',
+  name: 'start-category-lvl-1',
   props: {
     categories: {
       type: Array,
@@ -41,12 +41,12 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-@import '../../../assets/css/admin/home/home-category';
+@import '../../../assets/css/admin/start/start-category';
 
-.home-nav__category-option--lvl-1 {
+.start-nav__category-option--lvl-1 {
   background: var(--lvl-1-bg);
 
-  &.home-nav__category-option--selected,
+  &.start-nav__category-option--selected,
   &:hover {
     background: var(--lvl-1-bg--hover);
   }
