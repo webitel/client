@@ -43,10 +43,6 @@ export default {
 <style lang="scss" scoped>
 @import '../../../assets/css/admin/home/home-category';
 
-.home-nav__category--lvl-1 {
-  padding: 2px; // compensate lvl-2 .home-category__wrapper
-}
-
 .home-nav__category-option--lvl-1 {
   background: var(--lvl-1-bg);
 

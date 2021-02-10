@@ -16,7 +16,7 @@
   text-align: left;
   display: flex;
   align-items: center;
-  min-height: 60px;
+  min-height: var(--button-min-height);
   width: 100%;
   padding: 18px 20px;
   border-radius: var(--border-radius);
