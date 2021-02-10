@@ -23,6 +23,6 @@
   transition: var(--transition);
 
   .wt-icon {
-    margin-right: 10px;
+    margin-right: var(--icon-spacing);
   }
 }

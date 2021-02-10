@@ -7,12 +7,12 @@
         @select="select"
       >
         <category-lvl-2
-          class="d-none d-sm-block"
+          class="d-none d-block-xs"
           :categories="subcategories"
         ></category-lvl-2>
       </category-lvl-1>
       <category-lvl-2
-        class="d-sm-none"
+        class="d-none-xs"
         :categories="subcategories"
       ></category-lvl-2>
     </article>
@@ -25,7 +25,7 @@ import CategoryLvl2 from './_internals/start-category-lvl-2.vue';
 import navMixin from '../../mixins/navMixin';
 
 export default {
-  name: 'the-start-page',
+  name: 'the-start-age',
   mixins: [navMixin],
   components: { CategoryLvl1, CategoryLvl2 },
   data: () => ({
@@ -73,12 +73,12 @@ export default {
   --lvl-1-bg: hsla(var(--_secondary-color), var(--_opacity--default));
   --lvl-1-bg--hover: hsla(var(--_accent-color), var(--_opacity--default));
 
-  @media only screen and (max-width: $viewport-md) {
+  @media #{$media} and #{$media-width-sm} {
     --wrapper-width: 80%;
     --wrapper-height: 440px;
   }
 
-  @media only screen and (max-width: $viewport-sm) {
+  @media #{$media} and #{$media-width-xs} {
     --wrapper-width: 100%;
     --wrapper-height: 100%;
   }
@@ -105,7 +105,7 @@ export default {
   background: var(--main-color);
   border-radius: var(--border-radius);
 
-  @media only screen and (max-width: $viewport-sm) {
+  @media #{$media} and #{$media-width-xs} {
     grid-template-columns: 1fr;
   }
 }

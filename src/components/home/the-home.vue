@@ -75,7 +75,6 @@ export default {
 
   @media only screen and (max-width: $viewport-md) {
     --wrapper-width: 80%;
-    --wrapper-height: 440px;
   }
 
   @media only screen and (max-width: $viewport-sm) {
