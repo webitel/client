@@ -13,6 +13,8 @@ $transition: 0.2s;
 //disables scrollbar on 100vh auth on small laptops
 body {
   display: flex;
+  min-width: 100%;
+  min-height: 100%;
 }
 
 //reset ul styles
