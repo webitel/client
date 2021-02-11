@@ -24,6 +24,7 @@ export default {
 .object-wrap {
   width: 100%;
   min-height: 100%;
+  overflow-y: scroll;
 }
 
 // main content itself, without nav but with main header
@@ -39,6 +40,7 @@ export default {
   display: flex;
 
   & > * {
+    box-sizing: border-box;
     width: 100%; // FIXME: delete after complete refactor with wt-page-wrapper
     &:not(.wt-page-wrapper) {
       padding: 20px 30px;
