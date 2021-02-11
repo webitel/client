@@ -49,11 +49,6 @@ const queues = () => import('../components/contact-center/queues/the-queues');
 const members = () => import('../components/contact-center/members/the-queue-members');
 const openedMember = () => import('../components/contact-center/members/opened-queue-member');
 const OpenedQueue = () => import('../components/contact-center/queues/opened-queue');
-const triggers = () => import('../components/integrations/triggers/the-triggers');
-const openedTriggerOnEvent = () => import('../components/integrations/triggers/opened-trigger-on-event');
-const openedTriggerAtTime = () => import('../components/integrations/triggers/opened-trigger-at-time');
-const tokens = () => import('../components/integrations/tokens/the-tokens');
-const openedToken = () => import('../components/integrations/tokens/opened-token');
 const storage = () => import('../components/integrations/storage/the-storage');
 const openedStorage = () => import('../components/integrations/storage/opened-storage');
 
