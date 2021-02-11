@@ -1,10 +1,10 @@
 <template>
     <div>
         <object-header
-                :primaryText="computePrimaryText"
-                :primaryAction="save"
-                :primaryDisabled="computeDisabled"
-                close
+                :primary-text="computePrimaryText"
+                :primary-action="save"
+                :primary-disabled="computeDisabled"
+                :secondary-action="close"
         >
           <headline-nav :path="path"></headline-nav>
         </object-header>
@@ -118,6 +118,7 @@
                 loadItem: 'LOAD_ITEM',
                 addItem: 'ADD_ITEM',
                 updateItem: 'UPDATE_ITEM',
+                resetState: 'RESET_ITEM_STATE',
             }),
         },
     };

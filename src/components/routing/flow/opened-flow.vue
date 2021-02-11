@@ -128,6 +128,7 @@
                 addItem: 'ADD_ITEM',
                 updateItem: 'UPDATE_ITEM',
                 setItemProp: 'SET_ITEM_PROPERTY',
+                resetState: 'RESET_ITEM_STATE',
             }),
         },
     };

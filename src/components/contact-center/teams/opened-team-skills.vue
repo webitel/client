@@ -148,7 +148,6 @@ export default {
 
     closePopup() {
       this.isSkillPopup = false;
-      this.resetItemState();
     },
 
     closeBucketsPopup() {
