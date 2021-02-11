@@ -143,7 +143,6 @@ export default {
 
     closePopup() {
       this.isAgentPopup = false;
-      this.resetItemState();
     },
 
     closeBucketsPopup() {

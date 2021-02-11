@@ -13,10 +13,10 @@ export default {
   created() {
     this.loadItem();
   },
-
-  destroyed() {
-    this.resetState();
-  },
+  // duplicate of editComponentMixin logic
+  // destroyed() {
+  //   this.resetState();
+  // },
 
   methods: {
     ...mapActions({

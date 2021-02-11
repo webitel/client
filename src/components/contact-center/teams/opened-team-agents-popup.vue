@@ -28,6 +28,7 @@
           :label="$tc('objects.ccenter.buckets.buckets', 1)"
           :search="loadBucketsOptions"
           :internal-search="false"
+          :close-on-select="false"
           multiple
           @input="setItemProp({ prop: 'buckets', value: $event })"
         ></wt-select>

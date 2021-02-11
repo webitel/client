@@ -108,7 +108,6 @@ export default {
 
     closePopup() {
       this.isSupervisorPopup = false;
-      this.resetItemState();
     },
   },
 };
