@@ -9,7 +9,7 @@
       <h3 class="content-title">
         {{ $t("objects.permissions.object.defaultList") }}
       </h3>
-      <div class="content-header__actions-wrap">        
+      <div class="content-header__actions-wrap">
         <wt-icon-btn
           class="icon-action"
           icon="refresh"
@@ -50,7 +50,7 @@
             :value="item.perm.r"
             :options="dropdownOptionsList"
             :clearable='false'
-            track-by="name"            
+            track-by="name"
             @input="
               toggleDefaultMode({
                 mode: $event,

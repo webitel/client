@@ -38,6 +38,7 @@
 
 // inner content section
 .object-content {
+  box-sizing: border-box;
   display: flex;
   flex-direction: column;
   width: 100%;

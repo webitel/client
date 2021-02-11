@@ -1,60 +1,32 @@
 <template>
-    <div class="not-found">
-        <section class="not-found-content">
-            <img class="not-found__img" src="../../../assets/img/admin/error-pages/404.png" alt="404-img">
-            <h2 class="not-found__title typo-404-title">{{$t('errorPages.page404.title')}}</h2>
-            <p class="not-found__text typo-404-text">{{$t('errorPages.page404.text')}}</p>
-            <btn class="not-found__btn" @click.native="$router.go(-1)">{{$t('errorPages.page404.btn')}}</btn>
-        </section>
-    </div>
+  <section class="error-page">
+    <article class="error-page__wrapper">
+      <img
+        class="error-page__img"
+        src="../../../assets/img/admin/error-pages/404.png"
+        alt="not found pic"
+      >
+      <h2
+        class="error-page__title">{{ $t('errorPages.page404.title') }}</h2>
+      <p class="error-page__text">{{ $t('errorPages.page404.text') }}</p>
+      <wt-button
+        class="error-page__action"
+        @click.native="goToHome"
+      >{{$t('errorPages.goToHome')}}
+      </wt-button>
+    </article>
+  </section>
 </template>
 
 <script>
-    import btn from '../btn';
+import errorPageMixin from '../../../mixins/errorPageMixin/errorPageMixin';
 
-    export default {
-        name: 'the-not-found-component',
-        components: { btn },
-    };
+export default {
+  name: 'the-not-found-component',
+  mixins: [errorPageMixin],
+};
 </script>
 
 <style lang="scss" scoped>
-    $bg-color: #171A2A;
-
-    .not-found {
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        min-width: 100vw;
-        min-height: 100vh;
-        padding: 90px;
-        background: $bg-color;
-
-        .not-found-content {
-            text-align: center;
-            color: #fff;
-
-            .not-found__img {
-                max-width: 65vw;
-                width: 778px;
-                user-select: none;
-            }
-
-            .not-found__title {
-                text-transform: uppercase;
-                margin-top: 69px;
-            }
-
-            .not-found__text {
-                margin-top: 21px;
-            }
-
-            .not-found__btn {
-                height: 60px;
-                min-width: 160px;
-                margin-top: 40px;
-                font-size: 21px;
-            }
-        }
-    }
+@import '../../../assets/css/admin/shared/error-page';
 </style>
