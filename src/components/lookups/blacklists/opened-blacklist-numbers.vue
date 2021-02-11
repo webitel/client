@@ -197,6 +197,7 @@
 
             closePopup() {
               this.popupTriggerIf = false;
+              console.info('123');
               this.resetItemState();
             },
 
