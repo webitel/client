@@ -289,9 +289,14 @@ export default {
                 operations: 'Operations',
                 searchPlaceholder: 'object ..',
                 newPermissionRole: 'New grantee',
-                defaultList: 'Default',
+                rbacDefault: 'Default Record based Access',
                 grantor: 'Grantor',
                 grantee: 'Grantee',
+                accessMode: {
+                  1: 'Forbidden',
+                  2: 'Allow',
+                  3: 'Allow with delegation',
+                },
             },
         },
         lookups: {

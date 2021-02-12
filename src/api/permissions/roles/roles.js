@@ -18,7 +18,7 @@ const itemCreator = new WebitelAPIItemCreator(BASE_URL, fieldsToSend);
 const itemUpdater = new WebitelAPIItemUpdater(BASE_URL, fieldsToSend);
 const itemDeleter = new WebitelAPIItemDeleter(BASE_URL);
 
-export const getRoleList = async (page = 0, size = 10, search) => await listGetter.getList({ page, size, search });
+export const getRoleList = (page = 1, size = 10, search) => listGetter.getList({ page, size, search });
 
 export const getRole = async (id) => await itemGetter.getItem(id);
 

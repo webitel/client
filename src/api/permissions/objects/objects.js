@@ -23,7 +23,7 @@ export const getObjectList = async (search, page = 1, size = 10) => {
     };
 
     let url = BASE_URL;
-    
+
     url += `?size=${size}`;
     url += `&page=${page}`;
     if (search) {
@@ -33,9 +33,9 @@ export const getObjectList = async (search, page = 1, size = 10) => {
 
     try {
         const response = await instance.get(url);
-        return { 
-            list: response.items.map((item) => ({ ...defaultObject, ...item })), 
-            next: response.next 
+        return {
+            list: response.items.map((item) => ({ ...defaultObject, ...item })),
+            next: response.next
         }
     } catch (error) {
         throw error;
@@ -67,58 +67,44 @@ export const getObject = async (id) => {
     const url = `${BASE_URL}/${id}`;
     try {
         const response = await instance.get(url);
-        return response.class.class;
+        return response;
     } catch (error) {
         throw error;
     }
 };
 
-export const getObjectPermissions = (id, page, size, search) => permissionsGetter.getList(id, page, size, search);
+export const getObjectPermissions = ({ id, page, size, search }) => (
+  permissionsGetter.getList(id, page, size, search)
+);
 
-
-export const patchObjectPermissions = async (id, item) => await permissionsPatcher.patchItem(id, item);
+export const patchObjectPermissions = (id, item) => permissionsPatcher.patchItem(id, item);
 
 export const patchObjectDefaultPermissions = async (id, grantorId, item) => await permissionsDefaultsPatcher.patchDefaultItem(id, grantorId, item);
 
-export const fetchObjclassDefaultList = async (objectId, page, size, search) => {
-    const getName = (value) => {
-        switch (value) {
-            case 1:
-                return 'Forbidden';
-            case 2:
-                return 'Allow';
-            case 3:
-                return 'Allow with delegation';
-            default:
-                return '';
-        }
-    };
-    const response = await defaultAccessList.searchObjclassDefaultList(objectId, page, size, search);
+export const fetchObjclassDefaultList = async ({ id, page, size, search }) => {
+    const response = await defaultAccessList.searchObjclassDefaultList(id, page, size, search);
     if (Array.isArray(response.items)) {
         const list = response.items.map((item) => ({
             grantee: item.grantee,
             grantor: item.grantor,
-            perm: {
+            access: {
                 r: {
                     id: ((item.granted.match(/r/g) || []).length + 1),
-                    name: getName((item.granted.match(/r/g) || []).length + 1),
                     rule: 'r'.repeat((item.granted.match(/r/g) || []).length),
                 },
                 w: {
                     id: ((item.granted.match(/w/g) || []).length + 1),
-                    name: getName((item.granted.match(/w/g) || []).length + 1),
                     rule: 'w'.repeat((item.granted.match(/w/g) || []).length),
                 },
                 d: {
                     id: ((item.granted.match(/d/g) || []).length + 1),
-                    name: getName((item.granted.match(/d/g) || []).length + 1),
                     rule: 'd'.repeat((item.granted.match(/d/g) || []).length),
                 },
             },
         }));
-        return { list: list, next: response.next };
+        return { list, next: response.next };
     }
     return [];
 };
 
-export const toggleObjclassDefaultMode = async (objectId, grantorId, rule) => await defaultAccessList.toggleObjclassDefaultMode(objectId, grantorId, rule);
+export const toggleObjclassDefaultMode = (objectId, grantorId, rule) => defaultAccessList.toggleObjclassDefaultMode(objectId, grantorId, rule);
