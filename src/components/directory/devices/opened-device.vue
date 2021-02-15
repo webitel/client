@@ -139,6 +139,7 @@ export default {
       loadHotdeskItem: 'LOAD_HOTDESK_ITEM',
       addItem: 'ADD_ITEM',
       updateItem: 'UPDATE_ITEM',
+      resetState: 'RESET_ITEM_STATE',
     }),
 
     setInitialTab() {

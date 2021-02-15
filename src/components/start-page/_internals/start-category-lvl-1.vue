@@ -1,0 +1,54 @@
+<template>
+  <ul class="start-nav__category start-nav__category--lvl-1">
+    <li
+      class="start-nav__category-option__wrapper"
+      v-for="(category, key) of categories"
+      :key="key"
+    >
+      <button
+        class="start-nav__category-option start-nav__category-option--lvl-1"
+        :class="{ 'start-nav__category-option--selected': selected === category }"
+        @click="select(category)">
+        <wt-icon icon-prefix="adm" color="active" :icon="category.value"></wt-icon>
+        {{ category.name }}
+      </button>
+      <div v-show="selected === category">
+        <slot></slot>
+      </div>
+    </li>
+  </ul>
+</template>
+
+<script>
+export default {
+  name: 'start-category-lvl-1',
+  props: {
+    categories: {
+      type: Array,
+      default: () => [],
+    },
+    selected: {
+      type: Object,
+      default: () => ({}),
+    },
+  },
+  methods: {
+    select(category) {
+      this.$emit('select', category);
+    },
+  },
+};
+</script>
+
+<style lang="scss" scoped>
+@import '../../../assets/css/admin/start/start-category';
+
+.start-nav__category-option--lvl-1 {
+  background: var(--lvl-1-bg);
+
+  &.start-nav__category-option--selected,
+  &:hover {
+    background: var(--lvl-1-bg--hover);
+  }
+}
+</style>

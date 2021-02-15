@@ -8,7 +8,7 @@ import Icon from './components/utils/icon-wrap.vue';
 import './plugins/webitel-ui';
 
 import './assets/lib/normalize.scss';
-import './assets/lib/bootstrap-grid.min.css';
+// import './assets/lib/bootstrap-grid.min.css';
 import './assets/css/objects/lib-custom-styling/vuetable.scss';
 import './assets/css/fonts.scss';
 

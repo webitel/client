@@ -26,9 +26,10 @@ export default {
       setId(dispatch, payload) {
         return dispatch(`${this.namespace}/SET_ITEM_ID`, payload);
       },
-      resetState(dispatch, payload) {
-        return dispatch(`${this.namespace}/RESET_ITEM_STATE`, payload);
-      },
+      // editComponentMixin duplication
+      // resetState(dispatch, payload) {
+      //   return dispatch(`${this.namespace}/RESET_ITEM_STATE`, payload);
+      // },
     }),
 
     async loadPageData() {

@@ -105,7 +105,6 @@ export default {
 
     closePopup() {
       this.isNumberPopup = false;
-      this.resetItemState();
     },
   },
 };

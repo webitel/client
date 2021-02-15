@@ -16,10 +16,18 @@
 }
 
 .wt-page-wrapper {
+  width: 100%;
+
   .main-container {
     display: flex;
     flex-direction: column;
     width: 100%;
+
+    & > section {
+      display: flex;
+      flex-direction: column;
+      height: 100%;
+    }
   }
 }
 
@@ -34,22 +42,9 @@
 
 // ----- old styles
 
-// outer wrap of module- page
-.object-wrap {
-  width: 100%;
-  min-height: 100%;
-}
-
-// main content itself, without nav but with main header
-.object {
-  min-height: 100%;
-}
-
-.object-content-wrap {
-}
-
 // inner content section
 .object-content {
+  box-sizing: border-box;
   display: flex;
   flex-direction: column;
   width: 100%;

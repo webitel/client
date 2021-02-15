@@ -7,6 +7,7 @@ import RouteNames from './_internals/RouteNames.enum';
 const ApplicationHub = () => import('../components/application-hub/application-hub.vue');
 const moduleWrap = () => import('../components/object-utils/the-object-wrap');
 const home = () => import('../components/home/the-home');
+const StartPage = () => import('../components/start-page/the-start-page');
 const settings = () => import('../components/shared/the-settings');
 const AccessDenied = () => import('../components/utils/error-pages/the-access-denied-component');
 const notFound = () => import('../components/utils/error-pages/the-not-found-component');
@@ -24,14 +25,8 @@ const media = () => import('../components/lookups/media/the-media');
 const openedBlacklist = () => import('../components/lookups/blacklists/opened-blacklist');
 const calendars = () => import('../components/lookups/calendars/the-calendars');
 const openedCalendar = () => import('../components/lookups/calendars/opened-calendar');
-const leadStatus = () => import('../components/lookups/lead-status/the-lead-status');
-const openedLeadStatus = () => import('../components/lookups/lead-status/opened-lead-status');
-const leadSource = () => import('../components/lookups/lead-source/the-lead-source');
-const openedLeadSource = () => import('../components/lookups/lead-source/opened-lead-source');
 const communicationTypes = () => import('../components/lookups/communication-types/the-communication-types');
 const openedCommunicationType = () => import('../components/lookups/communication-types/opened-communication-type');
-const contactType = () => import('../components/lookups/contact-type/the-contact-type');
-const openedContactType = () => import('../components/lookups/contact-type/opened-contact-type');
 const sipGateways = () => import('../components/routing/sip-gateways/the-sip-gateways');
 const OpenedGateway = () => import('../components/routing/sip-gateways/opened-sip-gateway');
 const flow = () => import('../components/routing/flow/the-flow');
@@ -54,11 +49,6 @@ const queues = () => import('../components/contact-center/queues/the-queues');
 const members = () => import('../components/contact-center/members/the-queue-members');
 const openedMember = () => import('../components/contact-center/members/opened-queue-member');
 const OpenedQueue = () => import('../components/contact-center/queues/opened-queue');
-const triggers = () => import('../components/integrations/triggers/the-triggers');
-const openedTriggerOnEvent = () => import('../components/integrations/triggers/opened-trigger-on-event');
-const openedTriggerAtTime = () => import('../components/integrations/triggers/opened-trigger-at-time');
-const tokens = () => import('../components/integrations/tokens/the-tokens');
-const openedToken = () => import('../components/integrations/tokens/opened-token');
 const storage = () => import('../components/integrations/storage/the-storage');
 const openedStorage = () => import('../components/integrations/storage/opened-storage');
 
@@ -95,6 +85,12 @@ const router = new Router({
                     path: '/admin',
                     name: RouteNames.HOME,
                     component: home,
+                    redirect: '/start',
+                },
+                {
+                    path: '/start',
+                    name: RouteNames.START,
+                    component: StartPage,
                 },
                 {
                     path: '/settings',

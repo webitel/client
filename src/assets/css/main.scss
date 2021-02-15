@@ -7,12 +7,15 @@ $border-radius: 4px;
 $transition: 0.2s;
 
 * {
+  box-sizing: border-box;
   font-family: 'Montserrat Medium', monospace;
 }
 
 //disables scrollbar on 100vh auth on small laptops
 body {
   display: flex;
+  min-width: 100%;
+  min-height: 100%;
 }
 
 //reset ul styles

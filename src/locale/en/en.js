@@ -289,9 +289,14 @@ export default {
                 operations: 'Operations',
                 searchPlaceholder: 'object ..',
                 newPermissionRole: 'New grantee',
-                defaultList: 'Default',
+                rbacDefault: 'Default Record based Access',
                 grantor: 'Grantor',
                 grantee: 'Grantee',
+                accessMode: {
+                  1: 'Forbidden',
+                  2: 'Allow',
+                  3: 'Allow with delegation',
+                },
             },
         },
         lookups: {
@@ -679,16 +684,14 @@ export default {
     },
 
   errorPages: {
+    goToHome: 'Go to Home page',
     page403: {
       title: 'Access denied',
       text: 'Sorry, you have not enough privileges to see this page.',
-      btn: 'Go to Home page',
     },
-
     page404: {
       title: "Looks like you're lost",
       text: 'Sorry, we can\'t find the page you want.',
-      btn: 'Go back',
     },
   },
 

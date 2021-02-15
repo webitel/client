@@ -108,7 +108,6 @@ export default {
 
     closePopup() {
       this.isResPopup = false;
-      this.resetItemState();
     },
   },
 };

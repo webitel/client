@@ -1,18 +1,17 @@
 <template>
-  <div class="content-wrap">
-    <object-header
-      :primaryText="computePrimaryText"
-      :primaryAction="save"
-      :hide-primary="!hasSaveActionAccess"
-      :primaryDisabled="computeDisabled"
-      close
-    >
-      <headline-nav :path="path"></headline-nav>
-    </object-header>
-    <section class="object-content module-new">
-      <header class="content-header">
-        <h3 class="content-title">{{ $t('objects.generalInfo') }}</h3>
-      </header>
+    <div class="content-wrap">
+        <object-header
+          :primary-text="computePrimaryText"
+          :primary-action="save"
+          :primary-disabled="computeDisabled"
+          :secondary-action="close"
+        >
+          <headline-nav :path="path"></headline-nav>
+        </object-header>
+        <section class="object-content module-new">
+            <header class="content-header">
+                <h3 class="content-title">{{$t('objects.generalInfo')}}</h3>
+            </header>
 
       <form class="new_w50">
         <form-input
@@ -125,16 +124,17 @@ export default {
     },
   },
 
-  methods: {
-    ...mapActions('lookups/communications', {
-      setId: 'SET_ITEM_ID',
-      loadItem: 'LOAD_ITEM',
-      addItem: 'ADD_ITEM',
-      updateItem: 'UPDATE_ITEM',
-      setItemProp: 'SET_ITEM_PROPERTY',
-    }),
-  },
-};
+        methods: {
+            ...mapActions('lookups/communications', {
+                setId: 'SET_ITEM_ID',
+                loadItem: 'LOAD_ITEM',
+                addItem: 'ADD_ITEM',
+                updateItem: 'UPDATE_ITEM',
+                setItemProp: 'SET_ITEM_PROPERTY',
+                resetState: 'RESET_ITEM_STATE',
+            }),
+        },
+    };
 </script>
 
 <style scoped>
