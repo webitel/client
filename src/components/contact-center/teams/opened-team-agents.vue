@@ -22,6 +22,7 @@
           @search="loadList"
         ></wt-search-bar>
         <wt-icon-btn
+          v-if="!disableUserInput"
           :class="{'hidden': anySelected}"
           :tooltip="$t('iconHints.deleteSelected')"
           class="icon-action"
@@ -33,6 +34,7 @@
           @input="tableActionsHandler"
         ></wt-table-actions>
         <wt-icon-btn
+          v-if="!disableUserInput"
           class="icon-action"
           icon="plus"
           @click="create"
@@ -45,6 +47,7 @@
     <wt-table
         :headers="headers"
         :data="dataList"
+        :grid-actions="!disableUserInput"
     >
       <template slot="name" slot-scope="{ item }">
         <div v-if="item.agent">

@@ -17,8 +17,7 @@
         <wt-tabs
             v-model="currentTab"
             :tabs="tabs"
-        >
-        </wt-tabs>
+        ></wt-tabs>
         <component
             :is="$options.name + '-' + currentTab.value"
             :v="$v"

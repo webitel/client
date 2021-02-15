@@ -3,7 +3,8 @@
         <header class="content-header">
             <h3 class="content-title">{{$t('objects.ccenter.resGroups.timerange')}}</h3>
             <i
-                    class="icon-icon_plus icon-action"
+              v-if="!disableUserInput"
+              class="icon-icon_plus icon-action"
                     :title="$t('iconHints.add')"
                     @click="addValuePair"
             ></i>
@@ -16,6 +17,7 @@
                             :label="$t('objects.ccenter.resGroups.timerangeFrom')"
                             :v="v.itemInstance.range"
                             :format="'hh:mm'"
+                            :disabled="disableUserInput"
                             @input="setVariableProp({index: key, prop: 'start', value: $event})"
                             required
                     >
@@ -25,14 +27,16 @@
                             :label="$t('objects.ccenter.resGroups.timerangeTo')"
                             :v="v.itemInstance.range"
                             :format="'hh:mm'"
+                            :disabled="disableUserInput"
                             @input="setVariableProp({index: key, prop: 'end', value: $event})"
                             required
                     >
                     </timepicker>
                     <i
-                            class="icon-icon_delete icon-action"
+                      v-if="key !== 0"
+                      class="icon-icon_delete icon-action"
                             :title="$t('iconHints.delete')"
-                            v-if="key !== 0"
+                            :disabled="disableUserInput"
                             @click="deleteValuePair(key)"
                     ></i>
                 </div>

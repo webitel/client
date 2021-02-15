@@ -8,6 +8,7 @@
         :value="name"
         :v="v.itemInstance.name"
         :label="$t('objects.name')"
+        :disabled="disableUserInput"
         required
         @input="setItemProp({ prop: 'name', value: $event })"
       ></wt-input>
@@ -17,12 +18,14 @@
         :label="$t('objects.ccenter.teams.strategy')"
         :options="strategyOptions"
         :clearable="false"
+        :disabled="disableUserInput"
         track-by="value"
         required
       ></wt-select>
       <wt-textarea
         :value="description"
         :label="$t('objects.description')"
+        :disabled="disableUserInput"
         @input="setItemProp({ prop: 'description', value: $event })"
       ></wt-textarea>
     </form>

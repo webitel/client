@@ -7,6 +7,7 @@
       <wt-input
         :value="maxErrors"
         :label="$t('objects.ccenter.res.maxErrors')"
+        :disabled="disableUserInput"
         type="number"
         @input="setItemProp({ prop: 'maxErrors', value: +$event })"
       ></wt-input>
@@ -15,6 +16,7 @@
         :autocomplete-items="errorIdsAutocomplete"
         :label="$t('objects.ccenter.res.errorCodes')"
         :add-only-from-autocomplete="false"
+        :disabled="disableUserInput"
         @input="setItemProp({ prop: 'errorIds', value: $event })"
       ></wt-tags-input>
     </form>

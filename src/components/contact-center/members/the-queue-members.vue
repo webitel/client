@@ -2,7 +2,7 @@
   <wt-page-wrapper class="members" :actions-panel="false">
     <template slot="header">
       <object-header
-        :hide-primary="!isCreateAccess || !isNotInboundMember"
+        :hide-primary="!isEditAccess || !isNotInboundMember"
         :primary-action="create"
         :secondary-action="close"
       >
@@ -17,7 +17,7 @@
       ></destinations-popup>
 
       <upload-popup
-        v-if="isUploadPopup"
+        v-if="isEditAccess && isUploadPopup"
         :file="csvFile"
         @close="closeCSVPopup"
       ></upload-popup>
@@ -35,14 +35,14 @@
             <!--                @enter="loadList"-->
             <!--            ></wt-search-bar>-->
             <wt-icon-btn
-              v-if="isDeleteAccess && isNotInboundMember"
+              v-if="isEditAccess && isNotInboundMember"
               class="icon-action"
               :class="{'hidden': anySelected}"
               icon="bucket"
               :tooltip="$t('iconHints.deleteSelected')"
               @click="deleteSelected"
             ></wt-icon-btn>
-            <div class="upload-csv" v-if="isCreateAccess && isNotInboundMember">
+            <div class="upload-csv" v-if="isEditAccess && isNotInboundMember">
               <wt-icon-btn
                 icon="upload"
                 :tooltip="$t('iconHints.upload')"
@@ -68,7 +68,7 @@
           <wt-table
             :headers="headers"
             :data="dataList"
-            :grid-actions="hasTableActions && isNotInboundMember"
+            :grid-actions="isEditAccess && isNotInboundMember"
           >
             <template slot="name" slot-scope="{ item }">
               <span class="nameLink" @click="edit(item)">
@@ -99,11 +99,9 @@
 
             <template slot="actions" slot-scope="{ item, index }">
               <edit-action
-                v-if="isEditAccess"
                 @click="edit(item)"
               ></edit-action>
               <delete-action
-                v-if="isDeleteAccess"
                 @click="remove(index)"
               ></delete-action>
             </template>

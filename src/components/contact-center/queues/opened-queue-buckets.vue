@@ -20,6 +20,7 @@
             @input="tableActionsHandler"
         ></wt-table-actions>
         <wt-icon-btn
+            v-if="!disableUserInput"
             class="icon-action"
             icon="plus"
             @click="create"
@@ -33,6 +34,7 @@
           :headers="headers"
           :data="dataList"
           :selectable="false"
+          :grid-actions="!disableUserInput"
       >
         <template slot="name" slot-scope="{ item }">
           <div>{{ item.bucket.name }}</div>

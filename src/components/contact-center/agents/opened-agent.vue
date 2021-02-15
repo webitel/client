@@ -5,6 +5,7 @@
         :primary-action="save"
         :primary-disabled="computeDisabled"
         :primary-text="computePrimaryText"
+        :hide-primary="!hasSaveActionAccess"
         :secondary-action="close"
       >
         <headline-nav :path="path"></headline-nav>
@@ -15,8 +16,7 @@
         <wt-tabs
           v-model="currentTab"
           :tabs="tabs"
-        >
-        </wt-tabs>
+        ></wt-tabs>
         <component
           :is="`${$options.name}-${currentTab.value}`"
           :v="$v"

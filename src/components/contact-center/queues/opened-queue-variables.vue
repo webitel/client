@@ -3,6 +3,7 @@
     <header class="content-header">
       <h3 class="content-title">{{ $t('objects.ccenter.queues.variables') }}</h3>
       <wt-icon-btn
+        v-if="!disableUserInput"
         class="icon-action"
         icon="plus"
         :tooltip="$t('iconHints.add')"
@@ -19,14 +20,17 @@
           <wt-input
             :value="variable.key"
             :placeholder="$t('objects.ccenter.queues.varKey')"
+            :disabled="disableUserInput"
             @input="setVariableProp({index: key, prop: 'key', value: $event})"
           ></wt-input>
           <wt-input
             :value="variable.value"
             :placeholder="$t('objects.ccenter.queues.varVal')"
+            :disabled="disableUserInput"
             @input="setVariableProp({index: key, prop: 'value', value: $event})"
           ></wt-input>
           <wt-icon-btn
+            v-if="!disableUserInput"
             icon="bucket"
             :tooltip="$t('iconHints.delete')"
             @click="deleteVariable(key)"

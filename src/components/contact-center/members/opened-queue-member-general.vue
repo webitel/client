@@ -8,18 +8,21 @@
         :value="name"
         :v="v.itemInstance.name"
         :label="$t('objects.name')"
+        :disabled="disableUserInput"
         required
         @input="setItemProp({ prop: 'name', value: $event })"
       ></wt-input>
       <wt-input
         :value="priority"
         :label="$t('objects.ccenter.queues.priority')"
+        :disabled="disableUserInput"
         type="number"
         @input="setItemProp({ prop: 'priority', value: +$event })"
       ></wt-input>
       <wt-datetimepicker
         :value="expireAt"
         :label="$t('objects.ccenter.queues.expire')"
+        :disabled="disableUserInput"
         @change="setItemProp({ prop: 'expireAt', value: $event })"
       ></wt-datetimepicker>
       <wt-select
@@ -27,6 +30,7 @@
         :label="$tc('objects.ccenter.buckets.buckets', 1)"
         :search="loadDropdownOptionsBucketsList"
         :internal-search="false"
+        :disabled="disableUserInput"
         @input="setItemProp({ prop: 'bucket', value: $event })"
       ></wt-select>
       <wt-select
@@ -34,6 +38,7 @@
         :label="$tc('objects.ccenter.skills.skills', 1)"
         :search="loadDropdownOptionsSkillsList"
         :internal-search="false"
+        :disabled="disableUserInput"
         @input="setItemProp({ prop: 'skill', value: $event })"
       ></wt-select>
       <wt-select
@@ -41,6 +46,7 @@
         :label="$t('objects.ccenter.queues.timezone')"
         :search="loadDropdownOptionsTimezoneList"
         :internal-search="false"
+        :disabled="disableUserInput"
         @input="setItemProp({ prop: 'timezone', value: $event })"
       ></wt-select>
     </form>
@@ -68,6 +74,9 @@ export default {
       timezone: (state) => state.itemInstance.timezone,
       description: (state) => state.itemInstance.description,
     }),
+    disableUserInput() {
+      return !this.isEditAccess;
+    },
   },
 
   methods: {

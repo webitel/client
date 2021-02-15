@@ -4,6 +4,7 @@
       <object-header
         :primary-action="save"
         :primary-disabled="computeDisabled"
+        :hide-primary="!hasSaveActionAccess"
         :primary-text="computePrimaryText"
         :secondary-action="close"
       >
@@ -15,8 +16,7 @@
         <wt-tabs
           v-model="currentTab"
           :tabs="tabs"
-        >
-        </wt-tabs>
+        ></wt-tabs>
         <component
           :is="`${$options.name}-${currentTab.value}`"
           :v="$v"
@@ -85,6 +85,9 @@ export default {
           route: this.id ? `${baseUrl}/${this.id}` : `${baseUrl}/new`,
         },
       ];
+    },
+    hasSaveActionAccess() {
+      return this.isEditAccess;
     },
   },
 

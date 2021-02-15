@@ -7,11 +7,13 @@
       <wt-timepicker
           :value="maxWaitTime"
           :label="$t('objects.ccenter.queues.maxWaitTime')"
+          :disabled="disableUserInput"
           @input="setItemPayloadProp({ prop: 'maxWaitTime', value: $event })"
       ></wt-timepicker>
       <wt-timepicker
           :value="discardAbandonedAfter"
           :label="$t('objects.ccenter.queues.discardAbandonedAfter')"
+          :disabled="disableUserInput"
           @input="setItemPayloadProp({ prop: 'discardAbandonedAfter', value: $event })"
       ></wt-timepicker>
       <wt-select
@@ -20,6 +22,7 @@
           :label="$t('objects.ccenter.queues.timeBaseScore')"
           :clearable="false"
           :track-by="null"
+          :disabled="disableUserInput"
           @input="setItemPayloadProp({ prop: 'timeBaseScore', value: $event })"
       ></wt-select>
     </form>
