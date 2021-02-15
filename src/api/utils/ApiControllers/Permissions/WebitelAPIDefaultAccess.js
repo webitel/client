@@ -6,7 +6,7 @@ export default class WebitelAPIDefaultAccess {
     }
 
     async searchObjclassDefaultList(oid, page, size, search) {
-        let url = `${this.url}/${oid}`;        
+        let url = `${this.url}/${oid}`;
         if (search && search.slice(-1) !== '*') search += '*';
         url += `?size=${size}&page=${page}&q=${search}`;
         try {

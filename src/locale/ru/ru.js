@@ -288,9 +288,14 @@ export default {
                 operations: 'Действия',
                 searchPlaceholder: 'раздел ..',
                 newPermissionRole: 'Новый владелец прав',
-                defaultList: 'Права по умолчанию',
+                rbacDefault: 'Права доступа по записям по умолчанию',
                 grantor: 'Праводатель',
                 grantee: 'Получатель',
+              accessMode: {
+                1: 'Запрещено',
+                2: 'Разрешено',
+                3: 'Управление',
+              },
             },
         },
         lookups: {

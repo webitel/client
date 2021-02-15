@@ -1,17 +1,17 @@
 
   .actions-panel-wrapper {
     display: flex;
-  
+
     .filter-wrap {
       flex: 1;
     }
-  
+
     .wt-table-actions {
       height: fit-content;
       margin-top: 24px;
     }
   }
-  
+
   .table-wrapper {
     display: flex;
     flex-direction: column;
@@ -23,7 +23,7 @@
     .wt-table {
       flex-grow: 1;
     }
-  
+
     .wt-pagination {
       margin-top: 20px;
       margin-left: auto;
@@ -31,5 +31,17 @@
 
     .table-action {
       margin-left: 10px;
+    }
+
+    /*
+     wrapper class for table content overflow: visible preserving table scroll itself
+    .table-wrapper>.table-wrapper__scroll-wrapper>.wt-table
+     */
+    .table-wrapper__scroll-wrapper {
+      height: 100%;
+      overflow: auto;
+      .wt-table {
+        overflow: visible;
+      }
     }
   }

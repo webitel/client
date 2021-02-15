@@ -11,10 +11,10 @@ export default class WebitelAPIPermissionsGetter {
         if (size) url += `?size=${size}`;
         if (page) url += `&page=${page}`;
         if (search && search.slice(-1) !== '*') search += '*';
-        if (search) url += `&name=${search}`;
+        if (search) url += `&q=${search}`;
 
         try {
-            const response = await instance.get(url);            
+            const response = await instance.get(url);
             const getName = (value) => {
                 switch (value) {
                     case 1:
@@ -36,10 +36,16 @@ export default class WebitelAPIPermissionsGetter {
                             name: item.grantee.name,
                         },
                         access: {
+                          /* fixme: should be replaced with "x" and then removed */
                             c: {
                                 id: ((item.granted.match(/x/g) || []).length + 1),
                                 name: getName((item.granted.match(/x/g) || []).length + 1),
                                 rule: 'c'.repeat((item.granted.match(/x/g) || []).length),
+                            },
+                            x: {
+                                id: ((item.granted.match(/x/g) || []).length + 1),
+                                name: getName((item.granted.match(/x/g) || []).length + 1),
+                                rule: 'x'.repeat((item.granted.match(/x/g) || []).length),
                             },
                             r: {
                                 id: ((item.granted.match(/r/g) || []).length + 1),
@@ -56,11 +62,11 @@ export default class WebitelAPIPermissionsGetter {
                                 name: getName((item.granted.match(/d/g) || []).length + 1),
                                 rule: 'd'.repeat((item.granted.match(/d/g) || []).length),
                             },
-                        },                        
+                        },
                     }));
             }
-            
-            return { list: formattedResponse, next: response.next };         
+
+            return { list: formattedResponse, next: response.next };
         } catch (err) {
             throw err;
         }

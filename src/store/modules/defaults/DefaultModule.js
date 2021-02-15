@@ -59,13 +59,13 @@ export class DefaultModule {
                 context.commit('SET_ITEM_PROPERTY', payload);
             },
 
-            PATCH_ITEM_PROPERTY: async (context, {index, prop, value}) => {
+            PATCH_ITEM_PROPERTY: async (context, { item, index, prop, value }) => {
                 await context.commit('PATCH_ITEM_PROPERTY', {index, prop, value});
-                const id = context.state.dataList[index].id;
-                const changes = {};
-                changes[prop] = value;
+                const id = item?.id || context.state.dataList[index].id;
+                const changes = { [prop]: value };
                 try {
-                    await context.dispatch('PATCH_ITEM', {id, changes});
+                    await context.dispatch('PATCH_ITEM', { id, changes });
+                    context.commit('PATCH_ITEM_PROPERTY', { item, index, prop, value })
                 } catch {
                     context.dispatch('LOAD_DATA_LIST');
                 }
@@ -142,7 +142,7 @@ export class DefaultModule {
                 state.itemInstance = item;
             },
 
-            PATCH_ITEM_PROPERTY: (state, {index, prop, value}) => {
+            PATCH_ITEM_PROPERTY: (state, { index, prop, value }) => {
                 state.dataList[index][prop] = value;
             },
 
