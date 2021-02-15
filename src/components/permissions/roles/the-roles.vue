@@ -1,161 +1,119 @@
 <template>
-    <div class="content-wrap">
+  <wt-page-wrapper :actions-panel="false">
+    <template slot="header">
       <object-header
         :hide-primary="!isCreateAccess"
         :primary-action="create"
       >
-          <headline-nav :path="path"></headline-nav>
-        </object-header>
+        <headline-nav :path="path"></headline-nav>
+      </object-header>
+    </template>
 
-        <section class="object-content">
-            <header class="content-header">
-                <h3 class="content-title">{{$t('objects.permissions.allRoles')}}</h3>
-                <div class="content-header__actions-wrap">
-                    <search
-                            v-model="search"
-                            @filterData="loadList"
-                    ></search>
-                    <i
-                            v-if="isDeleteAccess"
-                            class="icon-icon_delete icon-action"
-                            :class="{'hidden': anySelected}"
-                            :title="$t('iconHints.deleteSelected')"
-                            @click="deleteSelected"
-                    ></i>
-                    <i
-                            class="icon-icon_reload icon-action"
-                            :title="$t('iconHints.reload')"
-                            @click="loadList"
-                    ></i>
-                </div>
-            </header>
+    <template slot="main">
+      <section class="main-section__wrapper">
+        <header class="content-header">
+          <h3 class="content-title">{{ $t('objects.permissions.allRoles') }}</h3>
+          <div class="content-header__actions-wrap">
+            <wt-search-bar
+              :value="search"
+              debounce
+              @input="setSearch"
+              @search="loadList"
+              @enter="loadList"
+            ></wt-search-bar>
+            <wt-icon-btn
+              v-if="isDeleteAccess"
+              class="icon-action"
+              :class="{'hidden': anySelected}"
+              icon="bucket"
+              :tooltip="$t('iconHints.deleteSelected')"
+              @click="deleteSelected"
+            ></wt-icon-btn>
+            <wt-table-actions
+              :icons="['refresh']"
+              @input="tableActionsHandler"
+            ></wt-table-actions>
+          </div>
+        </header>
 
-            <loader v-show="!isLoaded"></loader>
-
-            <vuetable
-                    v-show="isLoaded"
-                    :api-mode="false"
-                    :fields="fields"
-                    :data="dataList"
-            >
-                <template slot="name" slot-scope="props">
-                    <div>
-                        <span class="nameLink" @click="edit(props.rowIndex)">
-                        {{dataList[props.rowIndex].name}}
-                        </span>
-                    </div>
-                </template>
-
-                <template slot="description" slot-scope="props">
-                    <div>
-                        {{dataList[props.rowIndex].description}}
-                    </div>
-                </template>
-
-                <template slot="actions" slot-scope="props">
-                    <i
-                            class="vuetable-action icon-icon_edit"
-                            v-if="isEditAccess"
-                            :title="$t('iconHints.edit')"
-                            @click="edit(props.rowIndex)"
-                    ></i>
-                    <i
-                            class="vuetable-action icon-icon_delete"
-                            v-if="isDeleteAccess"
-                            :title="$t('iconHints.delete')"
-                            @click="remove(props.rowIndex)"
-                    ></i>
-                </template>
-            </vuetable>
-            <pagination
-                    v-show="isLoaded"
-                    v-model="size"
-                    @loadDataList="loadList"
-                    @next="nextPage"
-                    @prev="prevPage"
-                    :isNext="isNextPage"
-                    :isPrev="!!page"
-                    :page="page"
-            ></pagination>
-        </section>
-    </div>
+        <wt-loader v-show="!isLoaded"></wt-loader>
+        <div class="table-wrapper" v-show="isLoaded">
+          <wt-table
+            :headers="headers"
+            :data="dataList"
+            :grid-actions="hasTableActions"
+          >
+            <template slot="name" slot-scope="{ item }">
+            <span class="nameLink" @click="edit(item)">
+              {{ item.name }}
+            </span>
+            </template>
+            <template slot="description" slot-scope="{ item }">
+              {{ item.description }}
+            </template>
+            <template slot="actions" slot-scope="{ item, index }">
+              <edit-action
+                v-if="isEditAccess"
+                @click="edit(item)"
+              ></edit-action>
+              <delete-action
+                v-if="isDeleteAccess"
+                @click="remove(index)"
+              ></delete-action>
+            </template>
+          </wt-table>
+          <wt-pagination
+            :size="size"
+            :next="isNext"
+            :prev="page > 1"
+            debounce
+            @next="nextPage"
+            @prev="prevPage"
+            @input="setSize"
+            @change="loadList"
+          ></wt-pagination>
+        </div>
+      </section>
+    </template>
+  </wt-page-wrapper>
 </template>
 
 <script>
-    import tableComponentMixin from '@/mixins/objectPagesMixins/objectTableMixin/tableComponentMixin';
-    import { _checkboxTableField, _actionsTableField_2 } from '@/utils/tableFieldPresets';
-    import { mapActions, mapState } from 'vuex';
-    import RouteNames from '../../../router/_internals/RouteNames.enum';
+import { mapState } from 'vuex';
+import tableComponentMixin from '../../../mixins/objectPagesMixins/objectTableMixin/tableComponentMixin';
+import RouteNames from '../../../router/_internals/RouteNames.enum';
 
-    export default {
-        name: 'the-roles',
-        mixins: [tableComponentMixin],
-        computed: {
-            ...mapState('permissions/roles', {
-                dataList: (state) => state.dataList,
-                page: (state) => state.page,
-                isNextPage: (state) => state.isNextPage,
-            }),
+export default {
+  name: 'the-roles',
+  mixins: [tableComponentMixin],
+  data: () => ({
+    namespace: 'permissions/roles',
+    routeName: RouteNames.ROLES,
+  }),
+  computed: {
+    ...mapState('permissions/roles', {
+      dataList: (state) => state.dataList,
+      page: (state) => state.page,
+      size: (state) => state.size,
+      search: (state) => state.search,
+      isNext: (state) => state.isNextPage,
+    }),
 
-            size: {
-                get() {
-                    return this.$store.state.permissions.roles.size;
-                },
-                set(value) {
-                    this.setSize(value);
-                },
-            },
-
-            search: {
-                get() {
-                    return this.$store.state.permissions.roles.search;
-                },
-                set(value) {
-                    this.setSearch(value);
-                },
-            },
-
-          fields() {
-            let fields = [
-              _checkboxTableField,
-              { name: 'name', title: this.$t('objects.name') },
-              { name: 'description', title: this.$t('objects.description') },
-            ];
-            if (this.hasTableActions) fields = fields.concat(_actionsTableField_2);
-            return fields;
-          },
-          path() {
-            return [
-              { name: this.$t('objects.permissions.permissions') },
-              { name: this.$tc('objects.permissions.permissionsRole', 2), route: '/permissions/roles' },
-           ];
-          },
-        },
-
-        methods: {
-            create() {
-                this.$router.push({ name: `${RouteNames.ROLES}-new` });
-            },
-
-            edit(rowId) {
-                this.$router.push({
-                    name: `${RouteNames.ROLES}-edit`,
-                    params: { id: this.dataList[rowId].id },
-                });
-            },
-
-            ...mapActions('permissions/roles', {
-                loadDataList: 'LOAD_DATA_LIST',
-                setSize: 'SET_SIZE',
-                setSearch: 'SET_SEARCH',
-                nextPage: 'NEXT_PAGE',
-                prevPage: 'PREV_PAGE',
-                removeItem: 'REMOVE_ITEM',
-            }),
-        },
-    };
+    headers() {
+      return [
+        { value: 'name', text: this.$t('objects.name') },
+        { value: 'description', text: this.$t('objects.description') },
+      ];
+    },
+    path() {
+      return [
+        { name: this.$t('objects.permissions.permissions') },
+        { name: this.$tc('objects.permissions.permissionsRole', 2), route: '/permissions/roles' },
+      ];
+    },
+  },
+};
 </script>
 
 <style lang="scss" scoped>
-
 </style>
