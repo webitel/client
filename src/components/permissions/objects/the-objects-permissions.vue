@@ -56,11 +56,13 @@
             <template slot="rbac" slot-scope="{ item, index }">
               <wt-switcher
                 :value="item.rbac"
+                :disabled="!isEditAccess"
                 @change="toggleObjectRbac({ item, index, value: $event })"
               ></wt-switcher>
             </template>
             <template slot="actions" slot-scope="{ item }">
               <edit-action
+                v-if="isEditAccess"
                 @click="edit(item)"
               ></edit-action>
             </template>
