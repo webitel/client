@@ -56,9 +56,9 @@
         :value="expires"
         :v="v.itemInstance.expires"
         :label="$t('objects.routing.gateways.expire')"
+        :disabled="disableUserInput"
         type="number"
         required
-        :disabled="disableUserInput"
         @input="setItemProp({ prop: 'expires', value: +$event })"
       ></wt-input>
     </form>

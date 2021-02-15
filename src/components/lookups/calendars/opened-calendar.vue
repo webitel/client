@@ -3,6 +3,7 @@
         <object-header
                 :primary-text="computePrimaryText"
                 :primary-action="save"
+                :hide-primary="!hasSaveActionAccess"
                 :primary-disabled="computeDisabled"
                 :secondary-action="close"
         >

@@ -3,7 +3,7 @@
         <header class="content-header">
             <h3 class="content-title">{{$t('objects.generalInfo')}}</h3>
         </header>
-        <form class="w-50">
+      <form class="object-input-grid object-input-grid__1-col object-input-grid__w50">
             <form-input
                     v-model.trim="name"
                     :v="v.itemInstance.name"
