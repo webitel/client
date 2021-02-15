@@ -58,21 +58,16 @@ export default {
       }
     },
 
-    async getAvailableGrantors(search) {
-       const roles = await this.loadRoles(search);
-       return roles.filter((roles) => (
-         !this.dataList.some((usedGrantee) => roles.id === usedGrantee.grantor.id)));
-     },
-
-    async getAvailableGrantees(search) {
+    // async getAvailableGrantors(search) {
+    //    const roles = await this.loadRoles(search);
+    //    return roles.filter((roles) => (
+    //      !this.dataList.some((usedGrantee) => roles.id === usedGrantee.grantor.id)));
     //  },
-    // getFilteredRoles(filterProp) {
-    //   return async function (search) {
-        const roles = await this.loadRoles(search);
-        return roles.filter((role) => (
-          !this.dataList.some((usedRoles) => role.id === usedRoles['grantee'].id)));
-      // }
-    },
+    // async getAvailableGrantees(search) {
+    //   const roles = await this.loadRoles(search);
+    //   return roles.filter((role) => (
+    //     !this.dataList.some((usedRoles) => role.id === usedRoles['grantee'].id)));
+    // },
 
     // get all roles to choose which to add
     async loadRoles(search) {
