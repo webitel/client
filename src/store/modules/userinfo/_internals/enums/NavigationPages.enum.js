@@ -9,17 +9,14 @@ const nav = Object.freeze([{
     value: Objects.LICENSE,
     locale: 'nav.directory.license',
     route: 'license',
-    routeName: RouteNames.LICENSE,
   }, {
     value: Objects.USERS,
     locale: 'nav.directory.users',
     route: 'users',
-    routeName: RouteNames.USERS,
   }, {
     value: Objects.DEVICES,
     locale: 'nav.directory.devices',
     route: 'devices',
-    routeName: RouteNames.DEVICES,
   }],
 },
   {
@@ -30,17 +27,14 @@ const nav = Object.freeze([{
       value: Objects.FLOW,
       locale: 'nav.routing.flow',
       route: 'flow',
-      routeName: RouteNames.FLOW,
     }, {
       value: Objects.DIALPLAN,
       locale: 'nav.routing.dialplan',
       route: 'dialplan',
-      routeName: RouteNames.DIALPLAN,
     }, {
       value: Objects.GATEWAYS,
       locale: 'nav.routing.gateways',
       route: 'gateways',
-      routeName: RouteNames.GATEWAYS,
     }],
   }, {
     value: 'lookups',
@@ -50,22 +44,18 @@ const nav = Object.freeze([{
       value: Objects.BLACKLIST,
       locale: 'nav.lookups.blacklists',
       route: 'blacklist',
-      routeName: RouteNames.BLACKLIST,
     }, {
       value: Objects.CALENDARS,
       locale: 'nav.lookups.calendars',
       route: 'calendars',
-      routeName: RouteNames.CALENDARS,
     }, {
       value: Objects.COMMUNICATIONS,
       locale: 'nav.lookups.communications',
       route: 'communications',
-      routeName: RouteNames.COMMUNICATIONS,
     }, {
       value: Objects.MEDIA,
       locale: 'nav.lookups.media',
       route: 'media',
-      routeName: RouteNames.MEDIA,
     }],
   }, {
     value: 'contact-center',
@@ -75,37 +65,30 @@ const nav = Object.freeze([{
       value: Objects.SKILLS,
       locale: 'nav.ccenter.agentSkills',
       route: 'skills',
-      routeName: RouteNames.SKILLS,
     }, {
       value: Objects.AGENTS,
       locale: 'nav.ccenter.agents',
       route: 'agents',
-      routeName: RouteNames.AGENTS,
     }, {
       value: Objects.TEAMS,
       locale: 'nav.ccenter.teams',
       route: 'teams',
-      routeName: RouteNames.TEAMS,
     }, {
       value: Objects.RESOURCES,
       locale: 'nav.ccenter.res',
       route: 'resources',
-      routeName: RouteNames.RESOURCES,
     }, {
       value: Objects.RESOURCE_GROUPS,
       locale: 'nav.ccenter.resGroups',
       route: 'resource-groups',
-      routeName: RouteNames.RESOURCE_GROUPS,
     }, {
       value: Objects.QUEUES,
       locale: 'nav.ccenter.queues',
       route: 'queues',
-      routeName: RouteNames.QUEUES,
     }, {
       value: Objects.BUCKETS,
       locale: 'nav.ccenter.buckets',
       route: 'buckets',
-      routeName: RouteNames.BUCKETS,
     }],
   }, {
     value: 'integrations',
@@ -115,7 +98,6 @@ const nav = Object.freeze([{
       value: Objects.STORAGE,
       locale: 'nav.administration.storage',
       route: 'storage',
-      routeName: RouteNames.STORAGE,
     }],
   }, {
     value: 'permissions',
@@ -125,12 +107,10 @@ const nav = Object.freeze([{
       value: Objects.ROLES,
       locale: 'nav.permissions.roles',
       route: 'roles',
-      routeName: RouteNames.ROLES,
     }, {
       value: Objects.OBJECTS,
       locale: 'nav.permissions.objects',
       route: 'objects',
-      routeName: RouteNames.OBJECTS,
     }],
   }]);
 
