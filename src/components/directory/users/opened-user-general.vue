@@ -7,12 +7,14 @@
       <wt-input
           :value="name"
           :label="$t('objects.name')"
+          :disabled="disableUserInput"
           @input="setItemProp({ prop: 'name', value: $event })"
       ></wt-input>
       <wt-input
           :value="username"
           :v="v.itemInstance.username"
           :label="$t('objects.directory.users.login')"
+          :disabled="disableUserInput"
           required
           @input="setItemProp({ prop: 'username', value: $event })"
       ></wt-input>
@@ -20,6 +22,7 @@
       <password-input
           :value="password"
           :v="v.itemInstance.password"
+          :disabled="disableUserInput"
           required
           @input="setItemProp({ prop: 'password', value: $event })"
       ></password-input>
@@ -27,6 +30,7 @@
       <wt-input
           :value="extension"
           :label="$t('objects.directory.users.extensions')"
+          :disabled="disableUserInput"
           @input="setItemProp({ prop: 'extension', value: $event })"
       ></wt-input>
     </form>
@@ -36,7 +40,7 @@
 <script>
 import { mapActions, mapState } from 'vuex';
 import PasswordInput from '../../utils/generate-password-input.vue';
-import openedTabComponentMixin from '../../../mixins/openedTabComponentMixin';
+import openedTabComponentMixin from '../../../mixins/objectPagesMixins/openedObjectTabMixin/openedTabComponentMixin';
 
 export default {
   name: 'opened-user-general',

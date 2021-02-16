@@ -76,8 +76,8 @@
 <script>
 import { mapActions, mapState } from 'vuex';
 import RolePopup from './opened-user-permissions-role-popup.vue';
-import tableComponentMixin from '../../../mixins/tableComponentMixin';
-import editComponentMixin from '../../../mixins/editComponentMixin';
+import tableComponentMixin from '../../../mixins/objectPagesMixins/objectTableMixin/tableComponentMixin';
+import editComponentMixin from '../../../mixins/objectPagesMixins/openedObjectMixin/editComponentMixin';
 
 export default {
   name: 'opened-user-permissions',

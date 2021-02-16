@@ -2,7 +2,7 @@
   <wt-page-wrapper :actions-panel="false">
     <template slot="header">
       <object-header
-        :hide-primary="!isCreateAccess"
+        :hide-primary="!hasCreateAccess"
         :primary-action="create"
       >
         <headline-nav :path="path"></headline-nav>
@@ -26,7 +26,7 @@
               @enter="loadList"
             ></wt-search-bar>
             <wt-icon-btn
-              v-if="isDeleteAccess"
+              v-if="hasDeleteAccess"
               class="icon-action"
               :class="{'hidden': anySelected}"
               icon="bucket"
@@ -69,10 +69,11 @@
                 @click="read(item.id)"
               ></history-action>
               <edit-action
+                v-if="hasEditAccess"
                 @click="edit(item)"
               ></edit-action>
               <delete-action
-                v-if="isDeleteAccess"
+                v-if="hasDeleteAccess"
                 @click="remove(index)"
               ></delete-action>
             </template>
@@ -97,7 +98,7 @@
 import { mapState, mapActions } from 'vuex';
 import convertDuration from '@webitel/ui-sdk/src/scripts/convertDuration';
 import HistoryPopup from './agent-history-popup.vue';
-import tableComponentMixin from '../../../mixins/tableComponentMixin';
+import tableComponentMixin from '../../../mixins/objectPagesMixins/objectTableMixin/tableComponentMixin';
 import RouteNames from '../../../router/_internals/RouteNames.enum';
 
 export default {

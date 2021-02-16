@@ -38,7 +38,7 @@
 </template>
 
 <script>
-    import editComponentMixin from '@/mixins/editComponentMixin';
+    import editComponentMixin from '@/mixins/objectPagesMixins/openedObjectMixin/editComponentMixin';
     import btn from '@/components/utils/btn';
     import divider from '@/components/utils/divider';
     import { required } from 'vuelidate/lib/validators';

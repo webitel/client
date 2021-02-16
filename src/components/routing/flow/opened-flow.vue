@@ -3,6 +3,7 @@
         <object-header
                 :primaryText="computePrimaryText"
                 :primaryAction="save"
+                :hide-primary="!hasSaveActionAccess"
                 :primaryDisabled="computeDisabled"
                 close
         >
@@ -17,12 +18,14 @@
                         v-model.trim="name"
                         :v="$v.itemInstance.name"
                         :label="$t('objects.name')"
+                        :disabled="disableUserInput"
                         required
                 ></form-input>
             </form>
             <code-editor
                     v-model="schema"
                     :label="$t('objects.routing.flow.callFlow')"
+                    :disabled="disableUserInput"
                     @errorListener="isSyntaxError = $event"
             ></code-editor>
         </section>
@@ -32,13 +35,14 @@
 <script>
     import { required } from 'vuelidate/lib/validators';
     import { mapActions, mapState } from 'vuex';
-    import editComponentMixin from '../../../mixins/editComponentMixin';
+    import editComponentMixin from '../../../mixins/objectPagesMixins/openedObjectMixin/editComponentMixin';
+    import openedTabComponentMixin from '../../../mixins/objectPagesMixins/openedObjectTabMixin/openedTabComponentMixin';
     import codeEditor from '../../utils/code-editor';
-    import headlineNavMixin from '../../../mixins/headlineNavMixin/headlineNavMixin';
+    import headlineNavMixin from '../../../mixins/baseMixins/headlineNavMixin/headlineNavMixin';
 
     export default {
         name: 'opened-flow',
-        mixins: [editComponentMixin, headlineNavMixin],
+        mixins: [editComponentMixin, openedTabComponentMixin, headlineNavMixin],
         components: {
             codeEditor,
         },

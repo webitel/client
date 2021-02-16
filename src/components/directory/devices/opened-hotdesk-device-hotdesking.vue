@@ -8,6 +8,7 @@
           :value="hotdesks"
           :label="$t('objects.directory.devices.hostName')"
           :add-only-from-autocomplete="false"
+          :disabled="disableUserInput"
           @input="setItemProp({ prop: 'hotdesks', value: $event })"
       ></wt-tags-input>
     </form>
@@ -16,7 +17,7 @@
 
 <script>
 import { mapState, mapActions } from 'vuex';
-import openedTabComponentMixin from '../../../mixins/openedTabComponentMixin';
+import openedTabComponentMixin from '../../../mixins/objectPagesMixins/openedObjectTabMixin/openedTabComponentMixin';
 
 export default {
   name: 'opened-device-hotdesking',

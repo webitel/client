@@ -7,11 +7,13 @@
       <wt-timepicker
           :value="maxWaitTime"
           :label="$t('objects.ccenter.queues.maxWaitTime')"
+          :disabled="disableUserInput"
           @input="setItemPayloadProp({ prop: 'maxWaitTime', value: $event })"
       ></wt-timepicker>
       <wt-timepicker
           :value="discardAbandonedAfter"
           :label="$t('objects.ccenter.queues.discardAbandonedAfter')"
+          :disabled="disableUserInput"
           @input="setItemPayloadProp({ prop: 'discardAbandonedAfter', value: $event })"
       ></wt-timepicker>
       <wt-select
@@ -20,11 +22,13 @@
           :label="$t('objects.ccenter.queues.timeBaseScore')"
           :clearable="false"
           :track-by="null"
+          :disabled="disableUserInput"
           @input="setItemPayloadProp({ prop: 'timeBaseScore', value: $event })"
       ></wt-select>
       <wt-switcher
         :value="allowGreetingAgent"
         :label="$t('objects.ccenter.queues.allowGreetingAgent')"
+        :disabled="disableUserInput"
         @change="setItemPayloadProp({ prop: 'allowGreetingAgent', value: $event })"
       ></wt-switcher>
     </form>
@@ -33,7 +37,7 @@
 
 <script>
 import { mapState, mapActions } from 'vuex';
-import openedTabComponentMixin from '../../../../mixins/openedTabComponentMixin';
+import openedTabComponentMixin from '../../../../mixins/objectPagesMixins/openedObjectTabMixin/openedTabComponentMixin';
 import { TimeBaseScore } from '../../../../store/modules/contact-center/queues/_internals/enums/TimeBaseScore.enum';
 
 export default {

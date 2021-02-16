@@ -1,108 +1,78 @@
 <template>
-    <div>
-        <object-header
-                :primaryText="computePrimaryText"
-                :primaryAction="save"
-                :primaryDisabled="computeDisabled"
-                close
-        >
-          <headline-nav :path="path"></headline-nav>
-        </object-header>
-
-        <section class="object-content module-new">
-            <header class="content-header">
-                <h3 class="content-title">{{$t('objects.generalInfo')}}</h3>
-            </header>
-
-            <form class="new_w50">
-                <form-input
-                        v-model.trim="name"
-                        :v="$v.itemInstance.name"
-                        :label="$t('objects.name')"
-                        required
-                ></form-input>
-
-                <form-input
-                        v-model.trim="description"
-                        :label="$t('objects.description')"
-                        textarea
-                ></form-input>
-
-            </form>
-        </section>
-    </div>
+  <wt-page-wrapper :actions-panel="false">
+    <template slot="header">
+      <object-header
+        :primary-text="computePrimaryText"
+        :primary-action="save"
+        :hide-primary="!hasSaveActionAccess"
+        :primary-disabled="computeDisabled"
+        :secondary-action="close"
+      >
+        <headline-nav :path="path"></headline-nav>
+      </object-header>
+    </template>
+    <template slot="main">
+      <div class="main-container">
+        <wt-tabs
+          v-model="currentTab"
+          :tabs="tabs"
+        ></wt-tabs>
+        <component
+          :is="`${$options.name}-${currentTab.value}`"
+          :v="$v"
+          :namespace="namespace"
+        ></component>
+      </div>
+    </template>
+  </wt-page-wrapper>
 </template>
 
 <script>
-    import editComponentMixin from '@/mixins/editComponentMixin';
-    import { required } from 'vuelidate/lib/validators';
-    import { mapActions, mapState } from 'vuex';
-    import headlineNavMixin from '../../../mixins/headlineNavMixin/headlineNavMixin';
+import { required } from 'vuelidate/lib/validators';
+import { mapState } from 'vuex';
+import OpenedRoleGeneral from './opened-role-general.vue';
+import openedObjectMixin from '../../../mixins/objectPagesMixins/openedObjectMixin/openedObjectMixin';
 
-    export default {
-        name: 'opened-role',
-        mixins: [editComponentMixin, headlineNavMixin],
+export default {
+  name: 'opened-role',
+  mixins: [openedObjectMixin],
+  components: { OpenedRoleGeneral },
+  data: () => ({
+    namespace: 'permissions/roles',
+  }),
 
-        data() {
-            return {
+  validations: {
+    itemInstance: {
+      name: { required },
+    },
+  },
 
-            };
+  computed: {
+    ...mapState('permissions/roles', {
+      id: (state) => state.itemId,
+      itemInstance: (state) => state.itemInstance,
+    }),
+
+    tabs() {
+      const tabs = [{
+        text: this.$t('objects.general'),
+        value: 'general',
+      }];
+      return tabs;
+    },
+    path() {
+      const baseUrl = '/permissions/roles';
+      return [
+        { name: this.$t('objects.permissions.permissions') },
+        { name: this.$tc('objects.permissions.permissionsRole', 2), route: baseUrl },
+        {
+          name: this.id ? this.pathName : this.$t('objects.new'),
+          route: this.id ? `${baseUrl}/${this.id}` : `${baseUrl}/new`,
         },
-
-        validations: {
-            itemInstance: {
-                name: {
-                    required,
-                },
-            },
-        },
-
-        mounted() {
-            this.id = this.$route.params.id;
-            this.loadItem();
-        },
-
-        computed: {
-            ...mapState('permissions/roles', {
-                itemInstance: (state) => state.itemInstance,
-            }),
-            id: {
-                get() { return this.$store.state.permissions.roles.itemId; },
-                set(value) { this.setId(value); },
-            },
-            name: {
-                get() { return this.$store.state.permissions.roles.itemInstance.name; },
-                set(value) { this.setItemProp({ prop: 'name', value }); },
-            },
-            description: {
-                get() { return this.$store.state.permissions.roles.itemInstance.description; },
-                set(value) { this.setItemProp({ prop: 'description', value }); },
-            },
-
-          path() {
-              const baseUrl = '/permissions/roles';
-            return [
-              { name: this.$t('objects.permissions.permissions') },
-              { name: this.$tc('objects.permissions.permissionsRole', 2), route: baseUrl },
-              {
-                name: this.id ? this.pathName : this.$t('objects.new'),
-                route: this.id ? `${baseUrl}/${this.id}` : `${baseUrl}/new`,
-              },
-            ];
-          },
-        },
-
-        methods: {
-            ...mapActions('permissions/roles', {
-                setId: 'SET_ITEM_ID',
-                setItemProp: 'SET_ITEM_PROPERTY',
-                loadItem: 'LOAD_ITEM',
-                addItem: 'ADD_ITEM',
-                updateItem: 'UPDATE_ITEM',
-                resetState: 'RESET_ITEM_STATE',
-            }),
-        },
-    };
+      ];
+    },
+  },
+};
 </script>
 
 

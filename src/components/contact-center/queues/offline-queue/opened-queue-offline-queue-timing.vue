@@ -7,11 +7,13 @@
       <wt-timepicker
         :value="originateTimeout"
         :label="$t('objects.ccenter.queues.originateTimeout')"
+        :disabled="disableUserInput"
         @input="setItemPayloadProp({ prop: 'originateTimeout', value: $event })"
       ></wt-timepicker>
       <wt-switcher
         :value="recordings"
         :label="$t('objects.ccenter.queues.recordings')"
+        :disabled="disableUserInput"
         @change="setItemPayloadProp({ prop: 'recordings', value: $event })"
       ></wt-switcher>
     </form>
@@ -20,7 +22,7 @@
 
 <script>
 import { mapActions, mapState } from 'vuex';
-import openedTabComponentMixin from '../../../../mixins/openedTabComponentMixin';
+import openedTabComponentMixin from '../../../../mixins/objectPagesMixins/openedObjectTabMixin/openedTabComponentMixin';
 
 export default {
   name: 'opened-queue-outbound-ivr-timing',

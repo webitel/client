@@ -22,28 +22,40 @@ const state = {
 };
 
 const getters = {
+  GET_OBJECT_SCOPE: (state, getters) => ({ name, route }) => {
+    if (route) return getters.GET_OBJECT_SCOPE_BY_ROUTE(route);
+    return getters.GET_OBJECT_SCOPE_BY_NAME(name);
+  },
+  GET_OBJECT_SCOPE_BY_NAME: (state) => (name) => (
+    Object.values(state.scope).find((object) => name === object.name)
+  ),
   GET_OBJECT_SCOPE_BY_ROUTE: (state) => (route) => (
     Object.values(state.scope).find((object) => route.name.includes(object.route))
   ),
-  HAS_READ_ACCESS: (state, getters) => (route) => {
+  HAS_READ_ACCESS: (state, getters) => (checkedObject) => {
     if (state.permissions[Permissions.READ]) return true;
-    const objectScope = getters.GET_OBJECT_SCOPE_BY_ROUTE(route);
+    const objectScope = getters.GET_OBJECT_SCOPE(checkedObject);
     return objectScope?.access?.includes('r');
   },
-  HAS_CREATE_ACCESS: (state, getters) => (route) => {
+  HAS_CREATE_ACCESS: (state, getters) => (checkedObject) => {
     if (state.permissions[Permissions.CREATE]) return true;
-    const objectScope = getters.GET_OBJECT_SCOPE_BY_ROUTE(route);
+    const objectScope = getters.GET_OBJECT_SCOPE(checkedObject);
     return objectScope?.access?.includes('x');
   },
-  HAS_DELETE_ACCESS: (state, getters) => (route) => {
+  HAS_EDIT_ACCESS: (state, getters) => (checkedObject) => {
+    if (state.permissions[Permissions.EDIT]) return true;
+    const objectScope = getters.GET_OBJECT_SCOPE(checkedObject);
+    return  objectScope?.access?.includes('w');
+  },
+  HAS_DELETE_ACCESS: (state, getters) => (checkedObject) => {
     if (state.permissions[Permissions.DELETE]) return true;
-    const objectScope = getters.GET_OBJECT_SCOPE_BY_ROUTE(route);
+    const objectScope = getters.GET_OBJECT_SCOPE(checkedObject);
     return objectScope?.access?.includes('d');
   },
   ACCESSIBLE_NAV: (state, getters) => {
     return NavigationPages.reduce((accumulator, nav) => {
       const subNav = nav.subNav.filter((subNav) => (
-        getters.HAS_READ_ACCESS({ name: subNav.routeName })
+        getters.HAS_READ_ACCESS({ name: subNav.value })
       ));
       if (subNav.length) {
         const newNav = { ...nav, subNav };

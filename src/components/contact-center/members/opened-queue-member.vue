@@ -4,6 +4,7 @@
       <object-header
         :primary-action="save"
         :primary-disabled="computeDisabled"
+        :hide-primary="!hasSaveActionAccess"
         :primary-text="computePrimaryText"
         :secondary-action="close"
       >
@@ -15,8 +16,7 @@
         <wt-tabs
           v-model="currentTab"
           :tabs="tabs"
-        >
-        </wt-tabs>
+        ></wt-tabs>
         <component
           :is="`${$options.name}-${currentTab.value}`"
           :v="$v"
@@ -34,7 +34,7 @@ import OpenedQueueMemberGeneral from './opened-queue-member-general.vue';
 import OpenedQueueMemberCommunication from './opened-queue-member-communication.vue';
 import OpenedQueueMemberVariables from './opened-queue-member-variables.vue';
 import { requiredArrayValue } from '../../../utils/validators';
-import openedObjectMixin from '../../../mixins/openedObjectMixin/openedObjectMixin';
+import openedObjectMixin from '../../../mixins/objectPagesMixins/openedObjectMixin/openedObjectMixin';
 
 export default {
   name: 'opened-queue-member',
@@ -85,6 +85,9 @@ export default {
           route: this.id ? `${baseUrl}/${this.id}` : `${baseUrl}/new`,
         },
       ];
+    },
+    hasSaveActionAccess() {
+      return this.hasEditAccess;
     },
   },
 

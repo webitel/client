@@ -16,6 +16,7 @@
           @search="loadList"
         ></wt-search-bar>
         <wt-icon-btn
+          v-if="!disableUserInput"
           :class="{'hidden': anySelected}"
           :tooltip="$t('iconHints.deleteSelected')"
           class="icon-action"
@@ -27,6 +28,7 @@
           @input="tableActionsHandler"
         ></wt-table-actions>
         <wt-icon-btn
+          v-if="!disableUserInput"
           class="icon-action"
           icon="plus"
           @click="create"
@@ -39,6 +41,7 @@
       <wt-table
         :headers="headers"
         :data="dataList"
+        :grid-actions="!disableUserInput"
       >
         <template slot="name" slot-scope="{ item }">
           <div v-if="item.agent">
@@ -72,7 +75,7 @@
 <script>
 import { mapState } from 'vuex';
 import SupervisorPopup from './opened-team-supervisors-popup.vue';
-import openedObjectTableTabMixin from '../../../mixins/openedObjectTableTabMixin/openedObjectTableTabMixin';
+import openedObjectTableTabMixin from '../../../mixins/objectPagesMixins/openedObjectTableTabMixin/openedObjectTableTabMixin';
 
 export default {
   name: 'opened-team-supervisors',

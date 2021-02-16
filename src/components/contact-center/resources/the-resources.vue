@@ -2,7 +2,7 @@
   <wt-page-wrapper :actions-panel="false">
     <template slot="header">
       <object-header
-        :hide-primary="!isCreateAccess"
+        :hide-primary="!hasCreateAccess"
         :primary-action="create"
       >
         <headline-nav :path="path"></headline-nav>
@@ -22,7 +22,7 @@
               @enter="loadList"
             ></wt-search-bar>
             <wt-icon-btn
-              v-if="isDeleteAccess"
+              v-if="hasDeleteAccess"
               class="icon-action"
               :class="{'hidden': anySelected}"
               icon="bucket"
@@ -41,6 +41,7 @@
           <wt-table
             :headers="headers"
             :data="dataList"
+            :grid-actions="hasTableActions"
           >
             <template slot="name" slot-scope="{ item }">
               <span class="nameLink" @click="edit(item)">
@@ -56,6 +57,7 @@
               <wt-switcher
                 class="test__resources__enable-switcher"
                 :value="item.enabled"
+                :disabled="!hasEditAccess"
                 @change="patchProperty({ index, prop: 'enabled', value: $event })"
               ></wt-switcher>
             </template>
@@ -63,15 +65,17 @@
               <wt-switcher
                 class="test__resources__reserve-switcher"
                 :value="item.reserve"
+                :disabled="!hasEditAccess"
                 @change="patchProperty({ index, prop: 'reserve', value: $event })"
               ></wt-switcher>
             </template>
             <template slot="actions" slot-scope="{ item, index }">
               <edit-action
+                v-if="hasEditAccess"
                 @click="edit(item)"
               ></edit-action>
               <delete-action
-                v-if="isDeleteAccess"
+                v-if="hasDeleteAccess"
                 @click="remove(index)"
               ></delete-action>
             </template>
@@ -94,7 +98,7 @@
 
 <script>
 import { mapActions, mapState } from 'vuex';
-import tableComponentMixin from '../../../mixins/tableComponentMixin';
+import tableComponentMixin from '../../../mixins/objectPagesMixins/objectTableMixin/tableComponentMixin';
 import RouteNames from '../../../router/_internals/RouteNames.enum';
 
 export default {

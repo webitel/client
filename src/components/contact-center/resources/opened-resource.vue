@@ -4,6 +4,7 @@
       <object-header
       :primary-action="save"
       :primary-disabled="computeDisabled"
+      :hide-primary="!hasSaveActionAccess"
       :primary-text="computePrimaryText"
       :secondary-action="close"
     >
@@ -15,8 +16,7 @@
         <wt-tabs
           v-model="currentTab"
           :tabs="tabs"
-        >
-        </wt-tabs>
+        ></wt-tabs>
         <component
           :is="`${$options.name}-${currentTab.value}`"
           :v="$v"
@@ -34,7 +34,7 @@ import OpenedResourceGeneral from './opened-resource-general.vue';
 import OpenedResourceNumbers from './opened-resource-numbers.vue';
 import OpenedResourceFailure from './opened-resource-failure.vue';
 import OpenedResourcePermissions from './opened-resource-permissions.vue';
-import openedObjectMixin from '../../../mixins/openedObjectMixin/openedObjectMixin';
+import openedObjectMixin from '../../../mixins/objectPagesMixins/openedObjectMixin/openedObjectMixin';
 
 export default {
   name: 'opened-resource',

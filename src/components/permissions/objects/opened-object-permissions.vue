@@ -32,7 +32,7 @@
 import { mapActions, mapState } from 'vuex';
 import openedObjectPermissionsObac from './obac/opened-object-permissions-obac.vue';
 import openedObjectPermissionsRbac from './rbac/opened-object-permissions-rbac.vue';
-import openedObjectMixin from '../../../mixins/openedObjectMixin/openedObjectMixin';
+import openedObjectMixin from '../../../mixins/objectPagesMixins/openedObjectMixin/openedObjectMixin';
 
 export default {
   name: 'opened-object-permissions',

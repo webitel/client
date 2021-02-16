@@ -1,7 +1,7 @@
 <template>
     <div class="content-wrap">
       <object-header
-        :hide-primary="!isCreateAccess"
+        :hide-primary="!hasCreateAccess"
         :primary-action="create"
       >
               <headline-nav :path="path"></headline-nav>
@@ -27,14 +27,14 @@
                             @filterData="loadList"
                     ></search>
                     <i
-                            v-if="isDeleteAccess"
+                            v-if="hasDeleteAccess"
                             class="icon-icon_delete icon-action"
                             :class="{'hidden': anySelected}"
                             :title="$t('iconHints.deleteSelected')"
                             @click="deleteSelected"
                     ></i>
                     <div
-                            v-if="isCreateAccess"
+                            v-if="hasCreateAccess"
                             class="upload-csv"
                             :title="$t('iconHints.upload')"
                     >
@@ -87,12 +87,13 @@
                             @click="download(props.rowIndex)"
                     ></i>
                     <i
+                            v-if="hasEditAccess"
                             class="vuetable-action icon-icon_edit"
                             :title="$t('iconHints.edit')"
                             @click="edit(props.rowIndex)"
                     ></i>
                     <i
-                            v-if="isDeleteAccess"
+                            v-if="hasDeleteAccess"
                             class="vuetable-action icon-icon_delete"
                             :title="$t('iconHints.delete')"
                             @click="remove(props.rowIndex)"
@@ -114,7 +115,7 @@
 </template>
 
 <script>
-    import tableComponentMixin from '@/mixins/tableComponentMixin';
+    import tableComponentMixin from '@/mixins/objectPagesMixins/objectTableMixin/tableComponentMixin';
     import { _checkboxTableField, _actionsTableField_3, _switcherWidth } from '@/utils/tableFieldPresets';
     import { mapActions, mapState } from 'vuex';
     import uploadPopup from './upload-flow-popup';

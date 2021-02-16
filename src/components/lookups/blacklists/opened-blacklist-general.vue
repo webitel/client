@@ -3,17 +3,19 @@
         <header class="content-header">
             <h3 class="content-title">{{$t('objects.generalInfo')}}</h3>
         </header>
-        <form class="w-50">
+      <form class="object-input-grid object-input-grid__1-col object-input-grid__w50">
             <form-input
                     v-model.trim="name"
                     :v="v.itemInstance.name"
                     :label="$t('objects.name')"
+                    :disabled="disableUserInput"
                     required
             ></form-input>
 
             <form-input
                     v-model.trim="description"
                     :label="$t('objects.description')"
+                    :disabled="disableUserInput"
                     textarea
             ></form-input>
         </form>
@@ -21,7 +23,7 @@
 </template>
 
 <script>
-    import openedTabComponentMixin from '@/mixins/openedTabComponentMixin';
+    import openedTabComponentMixin from '@/mixins/objectPagesMixins/openedObjectTabMixin/openedTabComponentMixin';
     import { mapActions } from 'vuex';
 
     export default {

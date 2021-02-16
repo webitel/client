@@ -4,6 +4,7 @@
       <object-header
         :primary-action="save"
         :primary-text="computePrimaryText"
+        :hide-primary="!hasSaveActionAccess"
         :primary-disabled="computeDisabled"
         :secondary-action="close"
       >
@@ -51,7 +52,7 @@ import OpenedQueueAmd from './opened-queue-amd.vue';
 import OpenedQueueVariables from './opened-queue-variables.vue';
 import OpenedQueueLogs from './opened-queue-logs.vue';
 import OpenedQueuePermissions from './opened-queue-permissions.vue';
-import openedObjectMixin from '../../../mixins/openedObjectMixin/openedObjectMixin';
+import openedObjectMixin from '../../../mixins/objectPagesMixins/openedObjectMixin/openedObjectMixin';
 import QueueType from '../../../store/modules/contact-center/queues/_internals/enums/QueueType.enum';
 
 export default {

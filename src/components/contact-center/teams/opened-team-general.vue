@@ -8,6 +8,7 @@
         :value="name"
         :v="v.itemInstance.name"
         :label="$t('objects.name')"
+        :disabled="disableUserInput"
         required
         @input="setItemProp({ prop: 'name', value: $event })"
       ></wt-input>
@@ -17,12 +18,14 @@
         :label="$t('objects.ccenter.teams.strategy')"
         :options="strategyOptions"
         :clearable="false"
+        :disabled="disableUserInput"
         track-by="value"
         required
       ></wt-select>
       <wt-textarea
         :value="description"
         :label="$t('objects.description')"
+        :disabled="disableUserInput"
         @input="setItemProp({ prop: 'description', value: $event })"
       ></wt-textarea>
     </form>
@@ -33,7 +36,7 @@
 import { mapState } from 'vuex';
 import { kebabToCamel } from '@webitel/ui-sdk/src/scripts/caseConverters';
 import TeamStrategy from '../../../store/modules/contact-center/teams/_internals/enums/TeamStrategy.enum';
-import openedTabComponentMixin from '../../../mixins/openedTabComponentMixin';
+import openedTabComponentMixin from '../../../mixins/objectPagesMixins/openedObjectTabMixin/openedTabComponentMixin';
 
 export default {
   name: 'opened-team-general',

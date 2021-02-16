@@ -36,6 +36,8 @@
           <wt-table
             :headers="headers"
             :data="dataList"
+            :selectable="false"
+            :grid-actions="hasTableActions"
           >
             <template slot="name" slot-scope="{ item }">
               <span class="nameLink" @click="edit(item)">
@@ -46,6 +48,7 @@
             <template slot="obac" slot-scope="{ item, index }">
               <wt-switcher
                 :value="item.obac"
+                :disabled="!hasEditAccess"
                 @change="toggleObjectObac({ item, index, value: $event })"
               ></wt-switcher>
             </template>
@@ -53,11 +56,13 @@
             <template slot="rbac" slot-scope="{ item, index }">
               <wt-switcher
                 :value="item.rbac"
+                :disabled="!hasEditAccess"
                 @change="toggleObjectRbac({ item, index, value: $event })"
               ></wt-switcher>
             </template>
             <template slot="actions" slot-scope="{ item }">
               <edit-action
+                v-if="hasEditAccess"
                 @click="edit(item)"
               ></edit-action>
             </template>
@@ -80,7 +85,7 @@
 
 <script>
 import { mapActions, mapState } from 'vuex';
-import tableComponentMixin from '../../../mixins/tableComponentMixin';
+import tableComponentMixin from '../../../mixins/objectPagesMixins/objectTableMixin/tableComponentMixin';
 import RouteNames from '../../../router/_internals/RouteNames.enum';
 
 export default {
@@ -106,6 +111,9 @@ export default {
         { value: 'obac', text: this.$t('objects.permissions.object.ObAC') },
         { value: 'rbac', text: this.$t('objects.permissions.object.RbAC') },
       ];
+    },
+    hasTableActions() {
+      return this.hasEditAccess;
     },
   },
 

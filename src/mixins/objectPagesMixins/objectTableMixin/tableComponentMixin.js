@@ -1,7 +1,7 @@
 import { mapActions } from 'vuex';
-import HeadlineNav from '../components/utils/headline-nav/headline-nav.vue';
-import baseTableMixin from './baseTableMixin/baseTableMixin';
-import accessControlMixin from './accessControlMixin/accessControlMixin';
+import HeadlineNav from '../../../components/utils/headline-nav/headline-nav.vue';
+import baseTableMixin from '../../baseMixins/baseTableMixin/baseTableMixin';
+import objectTableAccessControlMixin from './_internals/objectTableAccessControlMixin';
 
 /**
  * @fileOverview contains main tables (like the-agents.vue) common logic
@@ -10,10 +10,10 @@ import accessControlMixin from './accessControlMixin/accessControlMixin';
  * @param {string} this.routeName - should be declared in data()
  *      and contain a string name for edit and new entity route names
  *      like 'cc-agent' for create() and edit() method standardization
- * @extends baseTableMixin
+ * @extends baseTableMixin, objectTableAccessControlMixin
  */
 export default {
-  mixins: [baseTableMixin, accessControlMixin],
+  mixins: [baseTableMixin, objectTableAccessControlMixin],
   components: { HeadlineNav },
   methods: {
     ...mapActions({

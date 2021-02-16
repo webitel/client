@@ -8,6 +8,7 @@
         :value="name"
         :v="v.itemInstance.name"
         :label="$t('objects.name')"
+        :disabled="disableUserInput"
         required
         @input="setItemProp({ prop: 'name', value: $event })"
       ></wt-input>
@@ -18,12 +19,14 @@
         :search="loadDropdownOptionsList"
         :internal-search="false"
         :clearable="false"
+        :disabled="disableUserInput"
         required
         @input="setItemProp({ prop: 'communication', value: $event })"
       ></wt-select>
       <wt-textarea
         :value="description"
         :label="$t('objects.description')"
+        :disabled="disableUserInput"
         @input="setItemProp({ prop: 'description', value: $event })"
       ></wt-textarea>
     </form>
@@ -33,7 +36,7 @@
 <script>
 import { mapState } from 'vuex';
 import { getCommunicationsList } from '../../../api/lookups/communications/communications';
-import openedTabComponentMixin from '../../../mixins/openedTabComponentMixin';
+import openedTabComponentMixin from '../../../mixins/objectPagesMixins/openedObjectTabMixin/openedTabComponentMixin';
 
 export default {
   name: 'opened-resource-group-general',

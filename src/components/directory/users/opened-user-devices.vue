@@ -8,6 +8,7 @@
           :value="device"
           :options="devices"
           :label="$t('objects.directory.users.defaultDevice')"
+          :disabled="disableUserInput"
           track-by="id"
           required
           @input="setItemProp({ prop: 'device', value: $event })"
@@ -20,6 +21,7 @@
             :search="loadDropdownOptionsList"
             :close-on-select="false"
             :internal-search="false"
+            :disabled="disableUserInput"
             track-by="id"
             multiple
             @input="setItemProp({ prop: 'devices', value: $event })"
@@ -39,7 +41,7 @@
 <script>
 import { mapState, mapActions } from 'vuex';
 import { getDeviceList } from '../../../api/directory/devices/devices';
-import openedTabComponentMixin from '../../../mixins/openedTabComponentMixin';
+import openedTabComponentMixin from '../../../mixins/objectPagesMixins/openedObjectTabMixin/openedTabComponentMixin';
 
 export default {
   name: 'opened-user-devices',

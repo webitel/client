@@ -7,12 +7,14 @@
       <wt-input
         :value="name"
         :label="$t('objects.name')"
+        :disabled="disableUserInput"
         @input="setItemProp({ prop: 'name', value: $event })"
       ></wt-input>
       <wt-input
         :value="proxy"
         :v="v.itemInstance.proxy"
         :label="$t('objects.routing.gateways.proxy')"
+        :disabled="disableUserInput"
         required
         @input="setItemProp({ prop: 'proxy', value: $event })"
       ></wt-input>
@@ -21,18 +23,21 @@
         :label="$t('objects.routing.schema')"
         :search="loadDropdownOptionsList"
         :internal-search="false"
+        :disabled="disableUserInput"
         @input="setItemProp({ prop: 'schema', value: $event })"
       ></wt-select>
       <wt-input
         :value="host"
         :v="v.itemInstance.host"
         :label="$t('objects.routing.gateways.host')"
+        :disabled="disableUserInput"
         required
         @input="setItemProp({ prop: 'host', value: $event })"
       ></wt-input>
       <wt-textarea
         :value="description"
         :label="$t('objects.description')"
+        :disabled="disableUserInput"
         @input="setItemProp({ prop: 'description', value: $event })"
       ></wt-textarea>
     </form>
@@ -42,7 +47,7 @@
 <script>
 import { mapState } from 'vuex';
 import { getFlowList } from '../../../api/routing/flow/flow';
-import openedTabComponentMixin from '../../../mixins/openedTabComponentMixin';
+import openedTabComponentMixin from '../../../mixins/objectPagesMixins/openedObjectTabMixin/openedTabComponentMixin';
 
 export default {
   name: 'opened-trunking-sip-gateway-general',

@@ -2,7 +2,7 @@
   <wt-page-wrapper :actions-panel="false">
     <template slot="header">
       <object-header
-        :hide-primary="!isCreateAccess"
+        :hide-primary="!hasCreateAccess"
         :primary-action="create"
       >
         <headline-nav :path="path"></headline-nav>
@@ -22,7 +22,7 @@
               @search="loadList"
             ></wt-search-bar>
             <wt-icon-btn
-              v-if="isDeleteAccess"
+              v-if="hasDeleteAccess"
               :class="{'hidden': anySelected}"
               :tooltip="$t('iconHints.deleteSelected')"
               class="icon-action"
@@ -41,6 +41,7 @@
           <wt-table
             :data="dataList"
             :headers="headers"
+            :grid-actions="hasTableActions"
           >
             <template slot="name" slot-scope="{ item }">
               <span class="nameLink" @click="edit(item)">
@@ -52,10 +53,11 @@
             </template>
             <template slot="actions" slot-scope="{ item, index }">
               <edit-action
+                v-if="hasEditAccess"
                 @click="edit(item)"
               ></edit-action>
               <delete-action
-                v-if="isDeleteAccess"
+                v-if="hasDeleteAccess"
                 @click="remove(index)"
               ></delete-action>
             </template>
@@ -79,7 +81,7 @@
 <script>
 import { mapState } from 'vuex';
 import { kebabToCamel } from '@webitel/ui-sdk/src/scripts/caseConverters';
-import tableComponentMixin from '../../../mixins/tableComponentMixin';
+import tableComponentMixin from '../../../mixins/objectPagesMixins/objectTableMixin/tableComponentMixin';
 import RouteNames from '../../../router/_internals/RouteNames.enum';
 
 export default {

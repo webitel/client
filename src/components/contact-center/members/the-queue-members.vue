@@ -2,7 +2,7 @@
   <wt-page-wrapper class="members" :actions-panel="false">
     <template slot="header">
       <object-header
-        :hide-primary="!isCreateAccess || !isNotInboundMember"
+        :hide-primary="!hasEditAccess || !isNotInboundMember"
         :primary-action="create"
         :secondary-action="close"
       >
@@ -17,7 +17,7 @@
       ></destinations-popup>
 
       <upload-popup
-        v-if="isUploadPopup"
+        v-if="hasEditAccess && isUploadPopup"
         :file="csvFile"
         @close="closeCSVPopup"
       ></upload-popup>
@@ -35,14 +35,14 @@
             <!--                @enter="loadList"-->
             <!--            ></wt-search-bar>-->
             <wt-icon-btn
-              v-if="isDeleteAccess"
+              v-if="hasEditAccess && isNotInboundMember"
               class="icon-action"
               :class="{'hidden': anySelected}"
               icon="bucket"
               :tooltip="$t('iconHints.deleteSelected')"
               @click="deleteSelected"
             ></wt-icon-btn>
-            <div class="upload-csv" v-if="isCreateAccess && isNotInboundMember">
+            <div class="upload-csv" v-if="hasEditAccess && isNotInboundMember">
               <wt-icon-btn
                 icon="upload"
                 :tooltip="$t('iconHints.upload')"
@@ -68,14 +68,15 @@
           <wt-table
             :headers="headers"
             :data="dataList"
-            :selectable="isNotInboundMember"
-            :grid-actions="isNotInboundMember"
+            :grid-actions="hasEditAccess && isNotInboundMember"
           >
+            <template slot="name" slot-scope="{ item }">
+              <span class="nameLink" @click="edit(item)">
+                {{ item.name }}
+              </span>
+            </template>
             <template slot="createdAt" slot-scope="{ item }">
               {{ prettifyDate(item.createdAt) }}
-            </template>
-            <template slot="name" slot-scope="{ item }">
-              {{ item.name }}
             </template>
             <template slot="priority" slot-scope="{ item }">
               {{ item.priority }}
@@ -97,13 +98,10 @@
             </template>
 
             <template slot="actions" slot-scope="{ item, index }">
-              <wt-icon-btn
-                class="table-action"
-                icon="edit"
+              <edit-action
                 @click="edit(item)"
-              ></wt-icon-btn>
+              ></edit-action>
               <delete-action
-                v-if="isDeleteAccess"
                 @click="remove(index)"
               ></delete-action>
             </template>
@@ -128,8 +126,8 @@
 import { mapActions, mapState } from 'vuex';
 import destinationsPopup from './opened-queue-member-destinations-popup.vue';
 import uploadPopup from './upload-members-popup.vue';
-import tableComponentMixin from '../../../mixins/tableComponentMixin';
-import tableActionsHandlerMixin from '../../../mixins/baseTableMixin/tableActionsMixin';
+import tableComponentMixin from '../../../mixins/objectPagesMixins/objectTableMixin/tableComponentMixin';
+import tableActionsHandlerMixin from '../../../mixins/baseMixins/baseTableMixin/tableActionsMixin';
 import getQueueSubRoute from '../../../store/modules/contact-center/queues/_internals/scripts/getQueueSubRoute';
 import RouteNames from '../../../router/_internals/RouteNames.enum';
 
@@ -161,8 +159,8 @@ export default {
 
     headers() {
       return [
-        { value: 'createdAt', text: this.$t('objects.createdAt') },
         { value: 'name', text: this.$t('objects.name') },
+        { value: 'createdAt', text: this.$t('objects.createdAt') },
         { value: 'priority', text: this.$t('objects.ccenter.queues.priority') },
         { value: 'endCause', text: this.$t('objects.ccenter.queues.endCause') },
         { value: 'destination', text: this.$tc('objects.ccenter.queues.destination', 1) },

@@ -68,7 +68,7 @@
 <script>
     import { mapActions, mapState } from 'vuex';
     import popup from '../../utils/popup';
-    import tableComponentMixin from '../../../mixins/tableComponentMixin';
+    import tableComponentMixin from '../../../mixins/objectPagesMixins/objectTableMixin/tableComponentMixin';
     import datetimePicker from '../../utils/datetimepicker';
 
     export default {

@@ -8,12 +8,14 @@
           :value="phone"
           :label="$t('objects.directory.devices.phone')"
           :options="phoneOptions"
+          :disabled="disableUserInput"
           @input="setDevice"
       ></wt-select>
       <wt-input
           :value="ip"
           :v="v.itemInstance.ip"
           :label="$t('objects.directory.devices.ipv4')"
+          :disabled="disableUserInput"
           @input="setItemProp({ prop: 'ip', value: $event })"
       >
         <template slot="validation-text" slot-scope="{ invalid }">
@@ -23,17 +25,20 @@
       <wt-input
           :value="brand"
           :label="$t('objects.directory.devices.vendor')"
+          :disabled="disableUserInput"
           @input="setItemProp({ prop: 'brand', value: $event })"
       ></wt-input>
       <wt-input
           :value="model"
           :label="$t('objects.directory.devices.model')"
+          :disabled="disableUserInput"
           @input="setItemProp({ prop: 'model', value: $event })"
       ></wt-input>
       <wt-input
           :value="mac"
           :v="v.itemInstance.mac"
           :label="$t('objects.directory.devices.mac')"
+          :disabled="disableUserInput"
           @input="setItemProp({ prop: 'mac', value: $event })"
       >
         <template slot="validation-text" slot-scope="{ invalid }">
@@ -46,7 +51,7 @@
 
 <script>
 import { mapActions, mapState } from 'vuex';
-import openedTabComponentMixin from '../../../mixins/openedTabComponentMixin';
+import openedTabComponentMixin from '../../../mixins/objectPagesMixins/openedObjectTabMixin/openedTabComponentMixin';
 
 export default {
   name: 'opened-device-phone-info',

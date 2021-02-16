@@ -8,8 +8,9 @@
         :value="name"
         :v="v.itemInstance.name"
         :label="$t('objects.name')"
-        @input="setItemProp({ prop: 'name', value: $event })"
+        :disabled="disableUserInput"
         required
+        @input="setItemProp({ prop: 'name', value: $event })"
       ></wt-input>
       <wt-select
         :value="calendar"
@@ -18,6 +19,7 @@
         :search="loadDropdownOptionsCalendarList"
         :internal-search="false"
         :clearable="false"
+        :disabled="disableUserInput"
         required
         @input="setItemProp({ prop: 'calendar', value: $event })"
       ></wt-select>
@@ -26,11 +28,13 @@
         :label="$tc('objects.lookups.blacklist.blacklist', 1)"
         :search="loadDropdownOptionsBlacklistList"
         :internal-search="false"
+        :disabled="disableUserInput"
         @input="setItemProp({ prop: 'dncList', value: $event })"
       ></wt-select>
       <wt-input
         :value="priority"
         :label="$t('objects.ccenter.queues.priority')"
+        :disabled="disableUserInput"
         type="number"
         @input="setItemProp({ prop: 'priority', value: +$event })"
       ></wt-input>
@@ -41,6 +45,7 @@
         :options="dropdownOptionsStrategyList"
         :clearable="false"
         track-by="value"
+        :disabled="disableUserInput"
         required
       ></wt-select>
       <wt-select
@@ -50,6 +55,7 @@
         :search="loadDropdownOptionsSchemaList"
         :internal-search="false"
         :clearable="false"
+        :disabled="disableUserInput"
         required
         @input="setItemProp({ prop: 'schema', value: $event })"
       ></wt-select>
@@ -58,6 +64,7 @@
         :label="$t('objects.ccenter.queues.preSchema')"
         :search="loadDropdownOptionsSchemaList"
         :internal-search="false"
+        :disabled="disableUserInput"
         @input="setItemProp({ prop: 'doSchema', value: $event })"
       ></wt-select>
       <wt-select
@@ -65,11 +72,13 @@
         :label="$t('objects.ccenter.queues.afterSchema')"
         :search="loadDropdownOptionsSchemaList"
         :internal-search="false"
+        :disabled="disableUserInput"
         @input="setItemProp({ prop: 'afterSchema', value: $event })"
       ></wt-select>
       <wt-textarea
         :value="description"
         :label="$t('objects.description')"
+        :disabled="disableUserInput"
         @input="setItemProp({ prop: 'description', value: $event })"
       ></wt-textarea>
     </form>
@@ -79,7 +88,7 @@
 <script>
 import { mapActions, mapState } from 'vuex';
 import { StrategyList } from '../../../../store/modules/contact-center/queues/_internals/enums/Strategy.enum';
-import openedTabComponentMixin from '../../../../mixins/openedTabComponentMixin';
+import openedTabComponentMixin from '../../../../mixins/objectPagesMixins/openedObjectTabMixin/openedTabComponentMixin';
 import { getCalendarList } from '../../../../api/lookups/calendars/calendars';
 import { getBlacklistList } from '../../../../api/lookups/blacklists/blacklists';
 import { getFlowList } from '../../../../api/routing/flow/flow';

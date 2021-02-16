@@ -6,6 +6,7 @@
         :v="v"
         :placeholder="$t('objects.password')"
         :required="required"
+        :disabled="disabled"
         @input="input"
     >
       <template slot="label">
@@ -20,7 +21,11 @@
       </template>
     </wt-input>
 
-    <div class="generate-password-input__icon-extension" :style="iconExtensionStyle">
+    <div
+      v-if="!disabled"
+      class="generate-password-input__icon-extension"
+      :style="iconExtensionStyle"
+    >
       <wt-icon-btn
           v-show="passwordRepresentation && !isCopied"
           class="generate-password-input__icon-btn generate-password-input__icon-btn--copy"
@@ -61,6 +66,10 @@ export default {
       type: Object,
     },
     required: {
+      type: Boolean,
+      default: false,
+    },
+    disabled: {
       type: Boolean,
       default: false,
     },

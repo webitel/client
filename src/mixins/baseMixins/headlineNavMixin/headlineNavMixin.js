@@ -1,4 +1,4 @@
-import HeadlineNav from '../../components/utils/headline-nav/headline-nav.vue';
+import HeadlineNav from '../../../components/utils/headline-nav/headline-nav.vue';
 
 export default {
   data: () => ({

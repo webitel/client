@@ -58,4 +58,8 @@ export default {
     }
   }
 }
+
+.start-nav__link:hover, .start-nav__link:active {
+  text-decoration: underline;
+}
 </style>

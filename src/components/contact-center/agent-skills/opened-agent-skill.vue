@@ -4,33 +4,25 @@
       <object-header
         :primary-text="computePrimaryText"
         :primary-action="save"
+        :hide-primary="!hasSaveActionAccess"
         :primary-disabled="computeDisabled"
         :secondary-action="close"
       >
         <headline-nav :path="path"></headline-nav>
       </object-header>
     </template>
-    <template slot="main">
-      <section class="object-content module-new">
-        <header class="content-header">
-          <h3 class="content-title">{{ $t('objects.generalInfo') }}</h3>
-        </header>
 
-        <form class="object-input-grid object-input-grid__1-col object-input-grid__w50">
-          <wt-input
-            :value="name"
-            :v="$v.itemInstance.name"
-            :label="$t('objects.name')"
-            required
-            @input="setItemProp({ prop: 'name', value: $event })"
-          ></wt-input>
-          <wt-textarea
-            :value="description"
-            :label="$t('objects.description')"
-            @input="setItemProp({ prop: 'description', value: $event })"
-          ></wt-textarea>
-        </form>
-      </section>
+    <template slot="main">
+      <div class="main-container">
+        <wt-tabs
+          v-model="currentTab"
+          :tabs="tabs"
+        ></wt-tabs>
+        <component
+          :is="$options.name + '-' + currentTab.value"
+          :v="$v"
+        ></component>
+      </div>
     </template>
   </wt-page-wrapper>
 </template>
@@ -38,12 +30,13 @@
 <script>
 import { required } from 'vuelidate/lib/validators';
 import { mapState, mapActions } from 'vuex';
-import openedObjectMixin from '../../../mixins/openedObjectMixin/openedObjectMixin';
+import OpenedAgentSkillGeneral from './opened-agent-skill-general.vue';
+import openedObjectMixin from '../../../mixins/objectPagesMixins/openedObjectMixin/openedObjectMixin';
 
 export default {
   name: 'opened-agent-skill',
   mixins: [openedObjectMixin],
-
+  components: { OpenedAgentSkillGeneral },
   data: () => ({
     namespace: 'ccenter/skills',
   }),
@@ -61,6 +54,14 @@ export default {
       name: (state) => state.itemInstance.name,
       description: (state) => state.itemInstance.description,
     }),
+
+    tabs() {
+      const tabs = [{
+        text: this.$t('objects.general'),
+        value: 'general',
+      }];
+      return tabs;
+    },
 
     path() {
       const baseUrl = '/contact-center/skills';

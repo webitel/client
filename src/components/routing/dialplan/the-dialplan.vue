@@ -1,7 +1,7 @@
 <template>
     <div class="content-wrap">
       <object-header
-        :hide-primary="!isCreateAccess"
+        :hide-primary="!hasCreateAccess"
         :primary-action="create"
       >
           <headline-nav :path="path"></headline-nav>
@@ -16,7 +16,7 @@
                             @filterData="loadList"
                     ></search>
                     <i
-                            v-if="isDeleteAccess"
+                            v-if="hasDeleteAccess"
                             class="icon-icon_delete icon-action"
                             :class="{'hidden': anySelected}"
                             :title="$t('iconHints.deleteSelected')"
@@ -56,7 +56,7 @@
                 <template slot="schema" slot-scope="props">
                     <div>
                         <span class="nameLink" @click="openFlow(dataList[props.rowIndex].schema.id)">
-                        {{dataList[props.rowIndex].schema.name || 'schema IS EMPTY'}}
+                        {{dataList[props.rowIndex].schema.name}}
                         </span>
                     </div>
                 </template>
@@ -64,20 +64,23 @@
                 <template slot="enabled" slot-scope="props">
                     <switcher
                             :value="!dataList[props.rowIndex].disabled"
+                            :disabled="!hasEditAccess"
                             @input="patchProperty({index: props.rowIndex, prop: 'disabled', value: !$event})"
                     ></switcher>
                 </template>
 
                 <template slot="actions" slot-scope="props">
                     <i class="vuetable-action icon-icon_draggable"
+                       v-if="hasEditAccess"
                        :title="$t('iconHints.draggable')"
                     ></i>
                     <i class="vuetable-action icon-icon_edit"
+                       v-if="hasEditAccess"
                        :title="$t('iconHints.edit')"
                        @click="edit(props.rowIndex)"
                     ></i>
                     <i class="vuetable-action icon-icon_delete"
-                       v-if="isDeleteAccess"
+                       v-if="hasDeleteAccess"
                        :title="$t('iconHints.delete')"
                        @click="remove(props.rowIndex)"
                     ></i>
@@ -100,7 +103,7 @@
 <script>
     import { mapActions, mapState } from 'vuex';
     import Sortable, { Swap } from 'sortablejs';
-    import tableComponentMixin from '../../../mixins/tableComponentMixin';
+    import tableComponentMixin from '../../../mixins/objectPagesMixins/objectTableMixin/tableComponentMixin';
     import { _checkboxTableField, _actionsTableField_3, _switcherWidth } from '../../../utils/tableFieldPresets';
     import RouteNames from '../../../router/_internals/RouteNames.enum';
 
@@ -131,14 +134,6 @@
         data() {
             return {
                 sortableInstance: null,
-                fields: [
-                    _checkboxTableField,
-                    { name: 'name', title: this.$t('objects.name') },
-                    { name: 'pattern', title: this.$t('objects.routing.dialplan.pattern') },
-                    { name: 'schema', title: this.$tc('objects.routing.schema', 1) },
-                    { name: 'enabled', title: this.$t('objects.enabled'), width: _switcherWidth },
-                    _actionsTableField_3,
-                ],
             };
         },
 
@@ -176,6 +171,17 @@
                     this.setSearch(value);
                 },
             },
+          fields() {
+            let fields = [
+              _checkboxTableField,
+              { name: 'name', title: this.$t('objects.name') },
+              { name: 'pattern', title: this.$t('objects.routing.dialplan.pattern') },
+              { name: 'schema', title: this.$tc('objects.routing.schema', 1) },
+              { name: 'enabled', title: this.$t('objects.enabled'), width: _switcherWidth },
+            ];
+            if (this.hasTableActions) fields = fields.concat(_actionsTableField_3);
+            return fields;
+          },
           path() {
             return [
               { name: this.$t('objects.routing.routing') },
@@ -186,7 +192,6 @@
     },
 
         methods: {
-
             openFlow(value) {
                 this.$router.push({
                     name: `${RouteNames.FLOW}-edit`,
@@ -195,6 +200,7 @@
             },
 
             initSortable() {
+              if (!this.hasEditAccess) return;
                 if (this.sortableInstance) this.sortableInstance.destroy();
 
                 // https://github.com/SortableJS/Sortable#options

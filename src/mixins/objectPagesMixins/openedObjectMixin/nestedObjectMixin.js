@@ -1,5 +1,5 @@
 import { mapActions } from 'vuex';
-import editComponentMixin from '../editComponentMixin';
+import editComponentMixin from './editComponentMixin';
 
 /**
  * @fileOverview contains nestedObject common logic

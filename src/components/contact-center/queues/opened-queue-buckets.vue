@@ -20,6 +20,7 @@
             @input="tableActionsHandler"
         ></wt-table-actions>
         <wt-icon-btn
+            v-if="!disableUserInput"
             class="icon-action"
             icon="plus"
             @click="create"
@@ -33,6 +34,7 @@
           :headers="headers"
           :data="dataList"
           :selectable="false"
+          :grid-actions="!disableUserInput"
       >
         <template slot="name" slot-scope="{ item }">
           <div>{{ item.bucket.name }}</div>
@@ -72,10 +74,10 @@
 <script>
 import { mapActions, mapState } from 'vuex';
 import eventBus from '@webitel/ui-sdk/src/scripts/eventBus';
-import openedTabComponentMixin from '@/mixins/openedTabComponentMixin';
-import tableComponentMixin from '@/mixins/tableComponentMixin';
+import openedTabComponentMixin from '@/mixins/objectPagesMixins/openedObjectTabMixin/openedTabComponentMixin';
+import tableComponentMixin from '@/mixins/objectPagesMixins/objectTableMixin/tableComponentMixin';
 import bucketPopup from './opened-queue-buckets-popup.vue';
-import tableActionsHandlerMixin from '../../../mixins/baseTableMixin/tableActionsMixin';
+import tableActionsHandlerMixin from '../../../mixins/baseMixins/baseTableMixin/tableActionsMixin';
 
 export default {
   name: 'opened-queue-outbound-ivr-buckets',

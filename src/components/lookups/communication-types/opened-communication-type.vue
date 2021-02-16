@@ -3,6 +3,7 @@
         <object-header
           :primary-text="computePrimaryText"
           :primary-action="save"
+          :hide-primary="!hasSaveActionAccess"
           :primary-disabled="computeDisabled"
           :secondary-action="close"
         >
@@ -13,103 +14,116 @@
                 <h3 class="content-title">{{$t('objects.generalInfo')}}</h3>
             </header>
 
-            <form class="new_w50">
-                <form-input
-                        v-model.trim="code"
-                        :v="$v.itemInstance.code"
-                        :label="$t('objects.lookups.communications.code')"
-                        required
-                ></form-input>
+      <form class="new_w50">
+        <form-input
+          v-model.trim="code"
+          :v="$v.itemInstance.code"
+          :label="$t('objects.lookups.communications.code')"
+          :disabled="disableUserInput"
+          required
+        ></form-input>
 
-                <form-input
-                        v-model.trim="name"
-                        :v="$v.itemInstance.name"
-                        :label="$t('objects.name')"
-                        required
-                ></form-input>
+        <form-input
+          v-model.trim="name"
+          :v="$v.itemInstance.name"
+          :label="$t('objects.name')"
+          :disabled="disableUserInput"
+          required
+        ></form-input>
 
-                <form-input
-                        v-model="description"
-                        :label="$t('objects.description')"
-                        textarea
-                ></form-input>
+        <form-input
+          v-model="description"
+          :label="$t('objects.description')"
+          :disabled="disableUserInput"
+          textarea
+        ></form-input>
 
-            </form>
-        </section>
-    </div>
+      </form>
+    </section>
+  </div>
 </template>
 
 <script>
-    import editComponentMixin from '@/mixins/editComponentMixin';
+import editComponentMixin from '@/mixins/objectPagesMixins/openedObjectMixin/editComponentMixin';
 
-    import { required } from 'vuelidate/lib/validators';
-    import { mapActions, mapState } from 'vuex';
-    import {
-        addCommunication,
-        getCommunication,
-        updateCommunication,
-    } from '../../../api/lookups/communications/communications';
-    import headlineNavMixin from '../../../mixins/headlineNavMixin/headlineNavMixin';
+import { required } from 'vuelidate/lib/validators';
+import { mapActions, mapState } from 'vuex';
+import openedTabComponentMixin from '../../../mixins/objectPagesMixins/openedObjectTabMixin/openedTabComponentMixin';
+import headlineNavMixin from '../../../mixins/baseMixins/headlineNavMixin/headlineNavMixin';
 
-    export default {
-        name: 'opened-communications-type',
-        mixins: [editComponentMixin, headlineNavMixin],
-        data() {
-            return {
+export default {
+  name: 'opened-communications-type',
+  mixins: [editComponentMixin, openedTabComponentMixin, headlineNavMixin],
+  data() {
+    return {};
+  },
 
-            };
+  // by vuelidate
+  validations: {
+    itemInstance: {
+      code: {
+        required,
+      },
+      name: {
+        required,
+      },
+    },
+  },
+
+  mounted() {
+    this.id = this.$route.params.id;
+    this.loadItem();
+  },
+
+  computed: {
+    ...mapState('lookups/communications', {
+      itemInstance: (state) => state.itemInstance,
+    }),
+    id: {
+      get() {
+        return this.$store.state.lookups.communications.itemId;
+      },
+      set(value) {
+        this.setId(value);
+      },
+    },
+    code: {
+      get() {
+        return this.$store.state.lookups.communications.itemInstance.code;
+      },
+      set(value) {
+        this.setItemProp({ prop: 'code', value });
+      },
+    },
+    name: {
+      get() {
+        return this.$store.state.lookups.communications.itemInstance.name;
+      },
+      set(value) {
+        this.setItemProp({ prop: 'name', value });
+      },
+    },
+    description: {
+      get() {
+        return this.$store.state.lookups.communications.itemInstance.description;
+      },
+      set(value) {
+        this.setItemProp({ prop: 'description', value });
+      },
+    },
+
+    path() {
+      const baseUrl = '/lookups/communications';
+      return [
+        { name: this.$t('objects.lookups.lookups') },
+        { name: this.$tc('objects.lookups.communications.communications', 2), route: baseUrl },
+        {
+          name: this.id ? this.pathName : this.$t('objects.new'),
+          route: this.id ? `${baseUrl}/${this.id}` : `${baseUrl}/new`,
         },
-
-        // by vuelidate
-        validations: {
-            itemInstance: {
-                code: {
-                    required,
-                },
-                name: {
-                    required,
-                },
-            },
-        },
-
-        mounted() {
-            this.id = this.$route.params.id;
-            this.loadItem();
-        },
-
-        computed: {
-            ...mapState('lookups/communications', {
-                itemInstance: (state) => state.itemInstance,
-            }),
-            id: {
-                get() { return this.$store.state.lookups.communications.itemId; },
-                set(value) { this.setId(value); },
-            },
-            code: {
-                get() { return this.$store.state.lookups.communications.itemInstance.code; },
-                set(value) { this.setItemProp({ prop: 'code', value }); },
-            },
-            name: {
-                get() { return this.$store.state.lookups.communications.itemInstance.name; },
-                set(value) { this.setItemProp({ prop: 'name', value }); },
-            },
-            description: {
-                get() { return this.$store.state.lookups.communications.itemInstance.description; },
-                set(value) { this.setItemProp({ prop: 'description', value }); },
-            },
-
-          path() {
-              const baseUrl = '/lookups/communications';
-            return [
-              { name: this.$t('objects.lookups.lookups') },
-              { name: this.$tc('objects.lookups.communications.communications', 2), route: baseUrl },
-              {
-                name: this.id ? this.pathName : this.$t('objects.new'),
-                route: this.id ? `${baseUrl}/${this.id}` : `${baseUrl}/new`,
-              },
-            ];
-          },
-        },
+      ];
+    },
+  },
 
         methods: {
             ...mapActions('lookups/communications', {

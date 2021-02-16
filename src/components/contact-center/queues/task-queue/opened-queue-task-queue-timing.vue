@@ -6,13 +6,15 @@
     <form class="object-input-grid">
       <wt-input
         :value="maxAttempts"
-        type="number"
         :label="$t('objects.ccenter.queues.maxAttempts')"
+        :disabled="disableUserInput"
+        type="number"
         @input="setItemPayloadProp({ prop: 'maxAttempts', value: $event })"
       ></wt-input>
       <wt-timepicker
         :value="waitBetweenRetries"
         :label="$t('objects.ccenter.queues.waitBetweenRetries')"
+        :disabled="disableUserInput"
         @input="setItemPayloadProp({ prop: 'waitBetweenRetries', value: $event })"
       ></wt-timepicker>
     </form>
@@ -21,7 +23,7 @@
 
 <script>
 import { mapActions, mapState } from 'vuex';
-import openedTabComponentMixin from '../../../../mixins/openedTabComponentMixin';
+import openedTabComponentMixin from '../../../../mixins/objectPagesMixins/openedObjectTabMixin/openedTabComponentMixin';
 
 export default {
   name: 'opened-queue-task-queue-timing',

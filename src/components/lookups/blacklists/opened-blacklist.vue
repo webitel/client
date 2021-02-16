@@ -3,6 +3,7 @@
         <object-header
                 :primaryText="computePrimaryText"
                 :primaryAction="save"
+                :hide-primary="!hasSaveActionAccess"
                 :primaryDisabled="computeDisabled"
                 close
                 @close="resetState"
@@ -25,13 +26,13 @@
 </template>
 
 <script>
-    import editComponentMixin from '@/mixins/editComponentMixin';
+    import editComponentMixin from '@/mixins/objectPagesMixins/openedObjectMixin/editComponentMixin';
     import { required } from 'vuelidate/lib/validators';
     import { mapActions, mapState } from 'vuex';
     import openedBlacklistGeneral from './opened-blacklist-general';
     import openedBlacklistNumbers from './opened-blacklist-numbers';
     import openedBlacklistPermissions from './opened-blacklist-permissions';
-    import headlineNavMixin from '../../../mixins/headlineNavMixin/headlineNavMixin';
+    import headlineNavMixin from '../../../mixins/baseMixins/headlineNavMixin/headlineNavMixin';
 
     export default {
         name: 'opened-blacklist',

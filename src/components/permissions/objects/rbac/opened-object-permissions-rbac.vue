@@ -16,13 +16,15 @@
           @input="setSearch"
           @search="loadList"
           @enter="loadList"
-        ></wt-search-bar><wt-icon-btn
+        ></wt-search-bar>
+        <wt-icon-btn
           class="icon-action"
           icon="refresh"
           :tooltip="$t('iconHints.reload')"
           @click="loadList"
         ></wt-icon-btn>
         <wt-icon-btn
+          v-if="hasEditAccess"
           class="icon-action"
           icon="plus"
           :tooltip="$t('iconHints.add')"
@@ -57,6 +59,7 @@
               :value="item.access.r"
               :options="accessOptions"
               :clearable="false"
+              :disabled="!hasEditAccess"
               @input="changeReadAccessMode({ item, mode: $event })"
             ></wt-select>
           </template>
@@ -66,6 +69,7 @@
               :value="item.access.w"
               :options="accessOptions"
               :clearable="false"
+              :disabled="!hasEditAccess"
               @input="changeUpdateAccessMode({ item, mode: $event })"
             ></wt-select>
           </template>
@@ -75,6 +79,7 @@
               :value="item.access.d"
               :options="accessOptions"
               :clearable="false"
+              :disabled="!hasEditAccess"
               @input="changeDeleteAccessMode({ item, mode: $event })"
             ></wt-select>
           </template>
@@ -96,7 +101,7 @@
 
 <script>
 import { mapState } from 'vuex';
-import permissionsTabMixin from '../../../../mixins/permissionsTabMixin/permissionsTabMixin';
+import permissionsTabMixin from '../../../../mixins/objectPagesMixins/permissionsTabMixin/permissionsTabMixin';
 import RolePopup from './opened-object-permissions-rbac-role-popup.vue';
 
 export default {

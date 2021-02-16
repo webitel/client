@@ -18,7 +18,7 @@
                             @filterData="loadList"
                     ></search>
                     <i
-                            v-if="isDeleteAccess"
+                            v-if="hasDeleteAccess"
                             class="icon-icon_delete icon-action"
                             :class="{'hidden': anySelected}"
                             :title="$t('iconHints.deleteSelected')"
@@ -38,7 +38,7 @@
                 </div>
             </header>
             <vue-dropzone
-                    v-if="isCreateAccess"
+                    v-if="hasCreateAccess"
                     id="dropzone"
                     :options="dropzoneOptions"
                     :destroy-dropzone="false"
@@ -121,7 +121,7 @@
                     </div>
                     <i
                             class="vuetable-action icon-icon_delete"
-                            v-if="isDeleteAccess"
+                            v-if="hasDeleteAccess"
                             :title="$t('iconHints.delete')"
                             @click="remove(props.rowIndex)"
                     ></i>
@@ -157,7 +157,7 @@
     import eventBus from '@webitel/ui-sdk/src/scripts/eventBus';
     import audioPlayer from '../../utils/audio-player';
     import textToSpeechPopup from './media-text-to-speech-popup';
-    import tableComponentMixin from '../../../mixins/tableComponentMixin';
+    import tableComponentMixin from '../../../mixins/objectPagesMixins/objectTableMixin/tableComponentMixin';
     import { _checkboxTableField, _actionsTableField_3 } from '../../../utils/tableFieldPresets';
     import { download } from '../../../utils/download';
 

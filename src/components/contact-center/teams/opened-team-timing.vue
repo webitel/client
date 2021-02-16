@@ -8,6 +8,7 @@
         :value="maxNoAnswer"
         :v="v.itemInstance.maxNoAnswer"
         :label="$t('objects.ccenter.teams.maxNoAnswer')"
+        :disabled="disableUserInput"
         type="number"
         required
         @input="setItemProp({ prop: 'maxNoAnswer', value: +$event })"
@@ -16,6 +17,7 @@
         :value="callTimeout"
         :v="v.itemInstance.callTimeout"
         :label="$t('objects.ccenter.teams.callTimeout')"
+        :disabled="disableUserInput"
         type="number"
         required
         @input="setItemProp({ prop: 'callTimeout', value: +$event })"
@@ -24,6 +26,7 @@
         :value="wrapUpTime"
         :v="v.itemInstance.wrapUpTime"
         :label="$t('objects.ccenter.teams.wrapUpTime')"
+        :disabled="disableUserInput"
         type="number"
         required
         @input="setItemProp({ prop: 'wrapUpTime', value: +$event })"
@@ -32,6 +35,7 @@
         :value="noAnswerDelayTime"
         :v="v.itemInstance.noAnswerDelayTime"
         :label="$t('objects.ccenter.teams.noAnswerDelayTime')"
+        :disabled="disableUserInput"
         type="number"
         required
         @input="setItemProp({ prop: 'noAnswerDelayTime', value: +$event })"
@@ -39,6 +43,7 @@
       <wt-switcher
         :value="postProcessing"
         :label="$t('objects.ccenter.teams.postProcessing')"
+        :disabled="disableUserInput"
         @change="setItemProp({ prop: 'postProcessing', value: $event })"
       ></wt-switcher>
     </form>
@@ -47,7 +52,7 @@
 
 <script>
 import { mapState } from 'vuex';
-import openedTabComponentMixin from '../../../mixins/openedTabComponentMixin';
+import openedTabComponentMixin from '../../../mixins/objectPagesMixins/openedObjectTabMixin/openedTabComponentMixin';
 
 export default {
   name: 'opened-team-timing',

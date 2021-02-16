@@ -7,6 +7,7 @@
       <wt-input
         :value="maxErrors"
         :label="$t('objects.ccenter.res.maxErrors')"
+        :disabled="disableUserInput"
         type="number"
         @input="setItemProp({ prop: 'maxErrors', value: +$event })"
       ></wt-input>
@@ -15,6 +16,7 @@
         :autocomplete-items="errorIdsAutocomplete"
         :label="$t('objects.ccenter.res.errorCodes')"
         :add-only-from-autocomplete="false"
+        :disabled="disableUserInput"
         @input="setItemProp({ prop: 'errorIds', value: $event })"
       ></wt-tags-input>
     </form>
@@ -23,7 +25,7 @@
 
 <script>
 import { mapState } from 'vuex';
-import openedTabComponentMixin from '../../../mixins/openedTabComponentMixin';
+import openedTabComponentMixin from '../../../mixins/objectPagesMixins/openedObjectTabMixin/openedTabComponentMixin';
 
 export default {
   name: 'opened-resource-failure',

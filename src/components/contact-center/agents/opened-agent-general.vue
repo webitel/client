@@ -11,6 +11,7 @@
         :search="loadDropdownOptionsList"
         :internal-search="false"
         :clearable="false"
+        :disabled="disableUserInput"
         required
         @input="setItemProp({ prop: 'user', value: $event })"
       ></wt-select>
@@ -19,6 +20,7 @@
         :value="progressiveCount"
         :v="v.itemInstance.progressiveCount"
         :label="$t('objects.ccenter.agents.progressiveCount')"
+        :disabled="disableUserInput"
         type="number"
         required
         @input="setItemProp({ prop: 'progressiveCount', value: +$event })"
@@ -27,6 +29,7 @@
       <wt-textarea
         :value="description"
         :label="$t('objects.description')"
+        :disabled="disableUserInput"
         @input="setItemProp({ prop: 'description', value: $event })"
       ></wt-textarea>
     </form>
@@ -36,7 +39,7 @@
 <script>
 import { mapState } from 'vuex';
 import { getAgentUsersOptions } from '../../../api/contact-center/agents/agents';
-import openedTabComponentMixin from '../../../mixins/openedTabComponentMixin';
+import openedTabComponentMixin from '../../../mixins/objectPagesMixins/openedObjectTabMixin/openedTabComponentMixin';
 
 export default {
   name: 'opened-agent-general',

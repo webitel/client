@@ -2,7 +2,7 @@
   <wt-page-wrapper class="users" :actions-panel="false">
     <template slot="header">
       <object-header
-        :hide-primary="!isCreateAccess"
+        :hide-primary="!hasCreateAccess"
         :primary-action="create"
       >
         <headline-nav :path="path"></headline-nav>
@@ -27,14 +27,14 @@
                 @enter="loadList"
             ></wt-search-bar>
             <wt-icon-btn
-                v-if="isDeleteAccess"
+                v-if="hasDeleteAccess"
                 class="icon-action"
                 :class="{'hidden': anySelected}"
                 icon="bucket"
                 :tooltip="$t('iconHints.deleteSelected')"
                 @click="deleteSelected"
             ></wt-icon-btn>
-            <div v-if="isCreateAccess" class="upload-csv">
+            <div v-if="hasCreateAccess" class="upload-csv">
               <wt-icon-btn
                   icon="upload"
                   :tooltip="$t('iconHints.upload')"
@@ -60,6 +60,7 @@
           <wt-table
               :headers="headers"
               :data="dataList"
+              :grid-actions="hasTableActions"
           >
             <template slot="name" slot-scope="{ item }">
                <span class="nameLink" @click="edit(item)">
@@ -78,17 +79,17 @@
             <template slot="DnD" slot-scope="{ item }">
               <wt-switcher
                 :value="getDND(item.presence)"
+                :disabled="!hasEditAccess"
                 @change="setDND({item, value: $event})"
               ></wt-switcher>
             </template>
             <template slot="actions" slot-scope="{ item, index }">
-              <wt-icon-btn
-                class="table-action"
-                icon="edit"
+              <edit-action
+                v-if="hasEditAccess"
                 @click="edit(item)"
-              ></wt-icon-btn>
+              ></edit-action>
               <delete-action
-                v-if="isDeleteAccess"
+                v-if="hasDeleteAccess"
                 @click="remove(index)"
               ></delete-action>
             </template>
@@ -113,7 +114,7 @@
 import { mapActions, mapState } from 'vuex';
 import UploadPopup from './upload-users-popup.vue';
 import UserStatus from './_internals/user-status-chips.vue';
-import tableComponentMixin from '../../../mixins/tableComponentMixin';
+import tableComponentMixin from '../../../mixins/objectPagesMixins/objectTableMixin/tableComponentMixin';
 import RouteNames from '../../../router/_internals/RouteNames.enum';
 
 export default {
