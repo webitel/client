@@ -28,7 +28,7 @@
                 @input="tableActionsHandler"
             ></wt-table-actions>
             <wt-icon-btn
-                v-if="isCreateAccess"
+                v-if="hasCreateAccess"
                 class="icon-action"
                 icon="plus"
                 :tooltip="$t('iconHints.add')"

@@ -87,7 +87,7 @@ export default {
       ];
     },
     hasSaveActionAccess() {
-      return this.isEditAccess;
+      return this.hasEditAccess;
     },
   },
 

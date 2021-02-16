@@ -54,7 +54,7 @@ export default {
       variables: (state) => state.itemInstance.variables,
     }),
     disableUserInput() {
-      return !this.isEditAccess;
+      return !this.hasEditAccess;
     },
   },
 

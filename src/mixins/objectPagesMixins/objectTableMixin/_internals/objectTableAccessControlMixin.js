@@ -4,7 +4,7 @@ export default {
   mixins: [accessControlMixin],
   computed: {
     hasTableActions() {
-      return this.isEditAccess || this.isDeleteAccess;
+      return this.hasEditAccess || this.hasDeleteAccess;
     },
   },
 };

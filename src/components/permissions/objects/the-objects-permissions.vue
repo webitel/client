@@ -48,7 +48,7 @@
             <template slot="obac" slot-scope="{ item, index }">
               <wt-switcher
                 :value="item.obac"
-                :disabled="!isEditAccess"
+                :disabled="!hasEditAccess"
                 @change="toggleObjectObac({ item, index, value: $event })"
               ></wt-switcher>
             </template>
@@ -56,13 +56,13 @@
             <template slot="rbac" slot-scope="{ item, index }">
               <wt-switcher
                 :value="item.rbac"
-                :disabled="!isEditAccess"
+                :disabled="!hasEditAccess"
                 @change="toggleObjectRbac({ item, index, value: $event })"
               ></wt-switcher>
             </template>
             <template slot="actions" slot-scope="{ item }">
               <edit-action
-                v-if="isEditAccess"
+                v-if="hasEditAccess"
                 @click="edit(item)"
               ></edit-action>
             </template>
@@ -113,7 +113,7 @@ export default {
       ];
     },
     hasTableActions() {
-      return this.isEditAccess;
+      return this.hasEditAccess;
     },
   },
 

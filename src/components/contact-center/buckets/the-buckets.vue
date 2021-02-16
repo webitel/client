@@ -2,7 +2,7 @@
   <wt-page-wrapper :actions-panel="false">
     <template slot="header">
       <object-header
-        :hide-primary="!isCreateAccess"
+        :hide-primary="!hasCreateAccess"
         :primary-action="create"
       >
         <headline-nav :path="path"></headline-nav>
@@ -21,7 +21,7 @@
               @enter="loadList"
             ></wt-search-bar>
             <wt-icon-btn
-              v-if="isDeleteAccess"
+              v-if="hasDeleteAccess"
               class="icon-action"
               :class="{'hidden': anySelected}"
               icon="bucket"
@@ -52,11 +52,11 @@
             </template>
             <template slot="actions" slot-scope="{ item, index }">
               <edit-action
-                v-if="isEditAccess"
+                v-if="hasEditAccess"
                 @click="edit(item)"
               ></edit-action>
               <delete-action
-                v-if="isDeleteAccess"
+                v-if="hasDeleteAccess"
                 @click="remove(index)"
               ></delete-action>
             </template>

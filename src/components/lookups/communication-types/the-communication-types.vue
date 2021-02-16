@@ -1,7 +1,7 @@
 <template>
     <div class="content-wrap">
       <object-header
-        :hide-primary="!isCreateAccess"
+        :hide-primary="!hasCreateAccess"
         :primary-action="create"
       >
           <headline-nav :path="path"></headline-nav>
@@ -18,7 +18,7 @@
                             @filterData="loadList"
                     ></search>
                     <i
-                            v-if="isDeleteAccess"
+                            v-if="hasDeleteAccess"
                             class="icon-icon_delete icon-action"
                             :class="{'hidden': anySelected}"
                             :title="$t('iconHints.deleteSelected')"
@@ -62,12 +62,12 @@
 
                 <template slot="actions" slot-scope="props">
                     <i class="vuetable-action icon-icon_edit"
-                       v-if="isEditAccess"
+                       v-if="hasEditAccess"
                        :title="$t('iconHints.edit')"
                        @click="edit(props.rowIndex)"
                     ></i>
                     <i class="vuetable-action icon-icon_delete"
-                       v-if="isDeleteAccess"
+                       v-if="hasDeleteAccess"
                        :title="$t('iconHints.delete')"
                        @click="remove(props.rowIndex)"
                     ></i>

@@ -2,7 +2,7 @@
   <wt-page-wrapper class="users" :actions-panel="false">
     <template slot="header">
       <object-header
-        :hide-primary="!isCreateAccess"
+        :hide-primary="!hasCreateAccess"
         :primary-action="create"
       >
         <headline-nav :path="path"></headline-nav>
@@ -27,14 +27,14 @@
                 @enter="loadList"
             ></wt-search-bar>
             <wt-icon-btn
-                v-if="isDeleteAccess"
+                v-if="hasDeleteAccess"
                 class="icon-action"
                 :class="{'hidden': anySelected}"
                 icon="bucket"
                 :tooltip="$t('iconHints.deleteSelected')"
                 @click="deleteSelected"
             ></wt-icon-btn>
-            <div v-if="isCreateAccess" class="upload-csv">
+            <div v-if="hasCreateAccess" class="upload-csv">
               <wt-icon-btn
                   icon="upload"
                   :tooltip="$t('iconHints.upload')"
@@ -79,17 +79,17 @@
             <template slot="DnD" slot-scope="{ item }">
               <wt-switcher
                 :value="getDND(item.presence)"
-                :disabled="!isEditAccess"
+                :disabled="!hasEditAccess"
                 @change="setDND({item, value: $event})"
               ></wt-switcher>
             </template>
             <template slot="actions" slot-scope="{ item, index }">
               <edit-action
-                v-if="isEditAccess"
+                v-if="hasEditAccess"
                 @click="edit(item)"
               ></edit-action>
               <delete-action
-                v-if="isDeleteAccess"
+                v-if="hasDeleteAccess"
                 @click="remove(index)"
               ></delete-action>
             </template>

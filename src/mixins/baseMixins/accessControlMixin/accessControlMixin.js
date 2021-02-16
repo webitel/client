@@ -2,8 +2,8 @@ import store from '../../../store/store';
 
 export default {
   beforeRouteEnter(to, from, next) {
-    const isReadAccess = store.getters['userinfo/HAS_READ_ACCESS'](to);
-    if (isReadAccess) {
+    const hasReadAccess = store.getters['userinfo/HAS_READ_ACCESS']({ route: to });
+    if (hasReadAccess) {
       next();
     } else {
       next('/access-denied');
@@ -11,17 +11,17 @@ export default {
   },
 
   computed: {
-    isReadAccess() {
-      return store.getters['userinfo/HAS_READ_ACCESS'](this.$route);
+    hasReadAccess() {
+      return store.getters['userinfo/HAS_READ_ACCESS']({ route: this.$route });
     },
-    isCreateAccess() {
-      return store.getters['userinfo/HAS_CREATE_ACCESS'](this.$route);
+    hasCreateAccess() {
+      return store.getters['userinfo/HAS_CREATE_ACCESS']({ route: this.$route });
     },
-    isEditAccess() {
-      return store.getters['userinfo/HAS_EDIT_ACCESS'](this.$route);
+    hasEditAccess() {
+      return store.getters['userinfo/HAS_EDIT_ACCESS']({ route: this.$route });
     },
-    isDeleteAccess() {
-      return store.getters['userinfo/HAS_DELETE_ACCESS'](this.$route);
+    hasDeleteAccess() {
+      return store.getters['userinfo/HAS_DELETE_ACCESS']({ route: this.$route });
     },
   },
 };

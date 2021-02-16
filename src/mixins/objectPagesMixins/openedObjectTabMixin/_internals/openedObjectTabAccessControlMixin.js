@@ -4,8 +4,8 @@ export default {
   mixins: [accessControlMixin],
   computed: {
     disableUserInput() {
-      if (this.$route.name.includes('-edit')) return !this.isEditAccess;
-      return !this.isCreateAccess;
+      if (this.$route.name.includes('-edit')) return !this.hasEditAccess;
+      return !this.hasCreateAccess;
     },
   },
 };

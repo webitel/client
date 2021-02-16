@@ -2,7 +2,7 @@
   <wt-page-wrapper class="members" :actions-panel="false">
     <template slot="header">
       <object-header
-        :hide-primary="!isEditAccess || !isNotInboundMember"
+        :hide-primary="!hasEditAccess || !isNotInboundMember"
         :primary-action="create"
         :secondary-action="close"
       >
@@ -17,7 +17,7 @@
       ></destinations-popup>
 
       <upload-popup
-        v-if="isEditAccess && isUploadPopup"
+        v-if="hasEditAccess && isUploadPopup"
         :file="csvFile"
         @close="closeCSVPopup"
       ></upload-popup>
@@ -35,14 +35,14 @@
             <!--                @enter="loadList"-->
             <!--            ></wt-search-bar>-->
             <wt-icon-btn
-              v-if="isEditAccess && isNotInboundMember"
+              v-if="hasEditAccess && isNotInboundMember"
               class="icon-action"
               :class="{'hidden': anySelected}"
               icon="bucket"
               :tooltip="$t('iconHints.deleteSelected')"
               @click="deleteSelected"
             ></wt-icon-btn>
-            <div class="upload-csv" v-if="isEditAccess && isNotInboundMember">
+            <div class="upload-csv" v-if="hasEditAccess && isNotInboundMember">
               <wt-icon-btn
                 icon="upload"
                 :tooltip="$t('iconHints.upload')"
@@ -68,7 +68,7 @@
           <wt-table
             :headers="headers"
             :data="dataList"
-            :grid-actions="isEditAccess && isNotInboundMember"
+            :grid-actions="hasEditAccess && isNotInboundMember"
           >
             <template slot="name" slot-scope="{ item }">
               <span class="nameLink" @click="edit(item)">

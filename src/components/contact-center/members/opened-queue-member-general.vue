@@ -75,7 +75,7 @@ export default {
       description: (state) => state.itemInstance.description,
     }),
     disableUserInput() {
-      return !this.isEditAccess;
+      return !this.hasEditAccess;
     },
   },
 

@@ -23,7 +23,7 @@
           @click="loadList"
         ></wt-icon-btn>
         <wt-icon-btn
-          v-if="isEditAccess"
+          v-if="hasEditAccess"
           class="icon-action"
           icon="plus"
           :tooltip="$t('iconHints.add')"
@@ -52,7 +52,7 @@
             :value="item.access.x"
             :options="accessOptions"
             :clearable="false"
-            :disabled="!isEditAccess"
+            :disabled="!hasEditAccess"
             @input="changeCreateAccessMode({ item, mode: $event })"
           ></wt-select>
         </template>
@@ -62,7 +62,7 @@
             :value="item.access.r"
             :options="accessOptions"
             :clearable="false"
-            :disabled="!isEditAccess"
+            :disabled="!hasEditAccess"
             @input="changeReadAccessMode({ item, mode: $event })"
           ></wt-select>
         </template>
@@ -72,7 +72,7 @@
             :value="item.access.w"
             :options="accessOptions"
             :clearable="false"
-            :disabled="!isEditAccess"
+            :disabled="!hasEditAccess"
             @input="changeUpdateAccessMode({ item, mode: $event })"
           ></wt-select>
         </template>
@@ -82,7 +82,7 @@
             :value="item.access.d"
             :options="accessOptions"
             :clearable="false"
-            :disabled="!isEditAccess"
+            :disabled="!hasEditAccess"
             @input="changeDeleteAccessMode({ item, mode: $event })"
           ></wt-select>
         </template>

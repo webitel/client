@@ -98,7 +98,7 @@ export default {
       dataList: (state) => state.dataList,
     }),
     disableUserInput() {
-      return !this.isEditAccess;
+      return !this.hasEditAccess;
     },
     fields() {
       let fields = [
