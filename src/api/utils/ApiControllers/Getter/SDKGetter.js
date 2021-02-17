@@ -1,19 +1,23 @@
-import store from '../../../../store/store';
 import { BaseItemGetter } from './BaseItemGetter';
 
+// todo: export -> default export
 export class WebitelSDKItemGetter extends BaseItemGetter {
-    constructor() {
-        super(...arguments);
+  async _getItem(args) {
+    try {
+      const response = await this.method(...args);
+      return this.responseHandler(response);
+    } catch (err) {
+      throw err;
     }
+  }
 
-    async getItem(id) {
-        const { domainId } = store.state.userinfo;
+  getItem(id) {
+    return this._getItem([id]);
+  }
 
-        try {
-            const response = await this.method(id, domainId);
-            return this.responseHandler(response);
-        } catch (err) {
-            throw err;
-        }
-    }
+  getNestedItem({ parentId, itemId }) {
+    return this._getItem([parentId, itemId]);
+  }
 }
+
+export default WebitelSDKItemGetter;

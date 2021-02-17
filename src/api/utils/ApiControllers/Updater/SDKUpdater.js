@@ -1,24 +1,32 @@
 import deepCopy from 'deep-copy';
 import eventBus from '@webitel/ui-sdk/src/scripts/eventBus';
-import store from '../../../../store/store';
 import sanitizer from '../../sanitizer';
 import { BaseItemUpdater } from './BaseItemUpdater';
 
+// todo: export -> default export
 export class WebitelSDKItemUpdater extends BaseItemUpdater {
-    constructor() {
-        super(...arguments);
+  async _updateItem(args) {
+    try {
+      await this.method(...args);
+      eventBus.$emit('notification', { type: 'info', text: 'Successfully updated' });
+    } catch (err) {
+      throw err;
     }
+  }
 
-    async updateItem(id, item) {
-        const itemCopy = deepCopy(item);
-        itemCopy.domainId = store.state.userinfo.domainId;
-        if (this.preRequestHandler) this.preRequestHandler(itemCopy);
-        sanitizer(itemCopy, this.fieldsToSend);
-        try {
-            await this.method(id, itemCopy);
-            eventBus.$emit('notification', { type: 'info', text: 'Successfully updated' });
-        } catch (err) {
-            throw err;
-        }
-    }
+  updateItem(id, item) {
+    let itemCopy = deepCopy(item);
+    if (this.preRequestHandler) itemCopy = this.preRequestHandler(itemCopy);
+    sanitizer(itemCopy, this.fieldsToSend);
+    return this._updateItem([id, item]);
+  }
+
+  updateNestedItem({ parentId, itemId, itemInstance }) {
+    let itemCopy = deepCopy(itemInstance);
+    if (this.preRequestHandler) itemCopy = this.preRequestHandler(itemCopy, parentId);
+    sanitizer(itemCopy, this.fieldsToSend);
+    return this._updateItem([parentId, itemId, itemInstance]);
+  }
 }
+
+export default WebitelSDKItemUpdater;
