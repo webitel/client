@@ -1,4 +1,4 @@
-import { BaseListGetter } from './BaseListGetter';
+import BaseListGetter from './BaseListGetter';
 
 // todo: export -> default export
 export class WebitelSDKListGetter extends BaseListGetter {

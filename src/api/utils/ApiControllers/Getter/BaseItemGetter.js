@@ -1,4 +1,4 @@
-export class BaseItemGetter {
+export default class BaseItemGetter {
     default = { _dirty: false };
 
     constructor(method, defaultItem) {

@@ -1,4 +1,4 @@
-import { BaseItemGetter } from './BaseItemGetter';
+import BaseItemGetter from './BaseItemGetter';
 
 // todo: export -> default export
 export class WebitelSDKItemGetter extends BaseItemGetter {

@@ -1,7 +1,7 @@
 import deepCopy from 'deep-copy';
 import eventBus from '@webitel/ui-sdk/src/scripts/eventBus';
 import sanitizer from '../../sanitizer';
-import { BaseItemPatcher } from './BaseItemPatcher';
+import BaseItemPatcher from './BaseItemPatcher';
 
 // todo: export -> default export
 export class WebitelSDKItemPatcher extends BaseItemPatcher {

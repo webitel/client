@@ -1,4 +1,4 @@
-export class BaseListGetter {
+export default class BaseListGetter {
     default = { _isSelected: false };
 
     constructor(method, defaultItem) {

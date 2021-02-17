@@ -1,7 +1,7 @@
 import deepCopy from 'deep-copy';
 import eventBus from '@webitel/ui-sdk/src/scripts/eventBus';
 import sanitizer from '../../sanitizer';
-import { BaseItemCreator } from './BaseItemCreator';
+import BaseItemCreator from './BaseItemCreator';
 
 // todo: export -> default export
 export class WebitelSDKItemCreator extends BaseItemCreator {

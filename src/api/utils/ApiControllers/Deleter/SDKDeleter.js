@@ -1,4 +1,4 @@
-import { BaseItemDeleter } from './BaseItemDeleter';
+import BaseItemDeleter from './BaseItemDeleter';
 
 // todo: export -> default export
 export class WebitelSDKItemDeleter extends BaseItemDeleter {

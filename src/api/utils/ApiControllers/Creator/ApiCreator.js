@@ -3,7 +3,7 @@ import eventBus from '@webitel/ui-sdk/src/scripts/eventBus';
 import store from '../../../../store/store';
 import sanitizer from '../../sanitizer';
 import instance from '../../../instance';
-import { BaseItemCreator } from './BaseItemCreator';
+import BaseItemCreator from './BaseItemCreator';
 
 export class WebitelAPIItemCreator extends BaseItemCreator {
     constructor(url, fieldsToSend, preRequestHandler) {

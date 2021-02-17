@@ -1,4 +1,4 @@
-export class BaseItemCreator {
+export default class BaseItemCreator {
     constructor(method, fieldsToSend, preRequestHandler) {
         this.method = method;
         this.fieldsToSend = fieldsToSend;

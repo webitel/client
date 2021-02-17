@@ -2,7 +2,7 @@ import deepCopy from 'deep-copy';
 import eventBus from '@webitel/ui-sdk/src/scripts/eventBus';
 import sanitizer from '../../sanitizer';
 import instance from '../../../instance';
-import { BaseItemPatcher } from './BaseItemPatcher';
+import BaseItemPatcher from './BaseItemPatcher';
 
 export class WebitelAPIItemPatcher extends BaseItemPatcher {
     constructor(url, fieldsToSend) {
