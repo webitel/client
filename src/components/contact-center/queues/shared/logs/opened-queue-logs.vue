@@ -207,7 +207,7 @@
         height: 24px;
         Top: 50%;
         left: 5px;
-        background: url("../../../assets/img/nav/accent/arrow.svg");
+        background: url("../../../../../assets/img/nav/accent/arrow.svg");
         background-size: contain;
         transform: translateY(-50%);
     }

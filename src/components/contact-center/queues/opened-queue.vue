@@ -46,11 +46,11 @@ import OpenedQueueChatInboundQueueGeneral from './chat-inbound-queue/opened-queu
 import OpenedQueueChatInboundQueueTiming from './chat-inbound-queue/opened-queue-chat-inbound-queue-timing.vue';
 import OpenedQueueTaskQueueGeneral from './task-queue/opened-queue-task-queue-general.vue';
 import OpenedQueueTaskQueueTiming from './task-queue/opened-queue-task-queue-timing.vue';
-import OpenedQueueResources from './opened-queue-resources.vue';
-import OpenedQueueBuckets from './opened-queue-buckets.vue';
-import OpenedQueueAmd from './opened-queue-amd.vue';
-import OpenedQueueVariables from './opened-queue-variables.vue';
-import OpenedQueueLogs from './opened-queue-logs.vue';
+import OpenedQueueResources from './shared/resources/opened-queue-resources.vue';
+import OpenedQueueBuckets from './shared/buckets/opened-queue-buckets.vue';
+import OpenedQueueAmd from './shared/amd/opened-queue-amd.vue';
+import OpenedQueueVariables from './shared/variables/opened-queue-variables.vue';
+import OpenedQueueLogs from './shared/logs/opened-queue-logs.vue';
 import OpenedQueuePermissions from './opened-queue-permissions.vue';
 import openedObjectMixin from '../../../mixins/objectPagesMixins/openedObjectMixin/openedObjectMixin';
 import QueueType from '../../../store/modules/contact-center/queues/_internals/enums/QueueType.enum';

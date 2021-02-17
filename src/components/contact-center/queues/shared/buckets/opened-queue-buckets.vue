@@ -1,12 +1,12 @@
 <template>
   <section>
-    <resource-popup
+    <bucket-popup
         v-if="popupTriggerIf"
         @close="closePopup"
-    ></resource-popup>
+    ></bucket-popup>
 
     <header class="content-header">
-      <h3 class="content-title">{{ $tc('objects.ccenter.res.res', 2) }}</h3>
+      <h3 class="content-title">{{ $tc('objects.ccenter.buckets.buckets', 2) }}</h3>
       <div class="content-header__actions-wrap">
         <wt-search-bar
             :value="search"
@@ -37,11 +37,14 @@
           :grid-actions="!disableUserInput"
       >
         <template slot="name" slot-scope="{ item }">
-          <div v-if="item.resourceGroup">
-            {{ item.resourceGroup.name }}
-          </div>
+          <div>{{ item.bucket.name }}</div>
         </template>
-        <template slot="actions" slot-scope="{ item }">
+
+        <template slot="capacity" slot-scope="{ item }">
+          <div>{{ item.ratio }}</div>
+        </template>
+
+        <template slot="actions" slot-scope="{ item, index }">
           <wt-icon-btn
               class="table-action"
               icon="edit"
@@ -50,7 +53,7 @@
           <wt-icon-btn
               class="table-action"
               icon="bucket"
-              @click="removeItem(item.id)"
+              @click="removeItem(index)"
           ></wt-icon-btn>
         </template>
       </wt-table>
@@ -69,22 +72,23 @@
 </template>
 
 <script>
+import { mapActions, mapState } from 'vuex';
+import eventBus from '@webitel/ui-sdk/src/scripts/eventBus';
 import openedTabComponentMixin from '@/mixins/objectPagesMixins/openedObjectTabMixin/openedTabComponentMixin';
 import tableComponentMixin from '@/mixins/objectPagesMixins/objectTableMixin/tableComponentMixin';
-import { mapActions, mapState } from 'vuex';
-import resourcePopup from './opened-queue-resources-popup.vue';
-import tableActionsHandlerMixin from '../../../mixins/baseMixins/baseTableMixin/tableActionsMixin';
-import eventBus from '@webitel/ui-sdk/src/scripts/eventBus';
+import bucketPopup from './opened-queue-buckets-popup.vue';
+import tableActionsHandlerMixin from '../../../../../mixins/baseMixins/baseTableMixin/tableActionsMixin';
 
 export default {
-  name: 'opened-queue-resources',
+  name: 'opened-queue-outbound-ivr-buckets',
   mixins: [tableComponentMixin, openedTabComponentMixin, tableActionsHandlerMixin],
-  components: { resourcePopup },
+  components: { bucketPopup },
 
   data() {
     return {
       headers: [
-        { value: 'name', text: this.$t('objects.name') },
+        { value: 'name', text: this.$tc('objects.ccenter.buckets.buckets', 2) },
+        { value: 'ratio', text: this.$t('objects.ccenter.queues.bucketRatio') },
       ],
     };
   },
@@ -99,7 +103,7 @@ export default {
     ...mapState('ccenter/queues', {
       parentId: (state) => state.itemId,
     }),
-    ...mapState('ccenter/queues/resGroups', {
+    ...mapState('ccenter/queues/buckets', {
       dataList: (state) => state.dataList,
       page: (state) => state.page,
       size: (state) => state.size,
@@ -118,7 +122,7 @@ export default {
             const routeName = this.$route.name.replace('-new', '-edit');
             await this.$router.replace({ name: routeName, params: { id: this.parentId } });
           }
-          this.popupTriggerIf = true;
+        this.popupTriggerIf = true;
         } catch (err) {
           throw err;
         }
@@ -141,7 +145,7 @@ export default {
       addParentItem: 'ADD_ITEM',
     }),
 
-    ...mapActions('ccenter/queues/resGroups', {
+    ...mapActions('ccenter/queues/buckets', {
       setParentId: 'SET_PARENT_ITEM_ID',
       setId: 'SET_ITEM_ID',
       loadDataList: 'LOAD_DATA_LIST',
@@ -157,5 +161,5 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-@import '../../../assets/css/objects/table-page';
+@import '../../../../../assets/css/objects/table-page';
 </style>
