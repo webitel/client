@@ -19,7 +19,7 @@ export class WebitelSDKItemCreator extends BaseItemCreator {
     const itemCopy = deepCopy(item);
     if (this.preRequestHandler) this.preRequestHandler(itemCopy);
     sanitizer(itemCopy, this.fieldsToSend);
-    return this._createItem([item]);
+    return this._createItem([itemCopy]);
   }
 
   createNestedItem({ parentId, itemInstance }) {

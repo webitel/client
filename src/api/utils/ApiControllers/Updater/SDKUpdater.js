@@ -18,14 +18,14 @@ export class WebitelSDKItemUpdater extends BaseItemUpdater {
     let itemCopy = deepCopy(item);
     if (this.preRequestHandler) itemCopy = this.preRequestHandler(itemCopy);
     sanitizer(itemCopy, this.fieldsToSend);
-    return this._updateItem([id, item]);
+    return this._updateItem([id, itemCopy]);
   }
 
   updateNestedItem({ parentId, itemId, itemInstance }) {
     let itemCopy = deepCopy(itemInstance);
     if (this.preRequestHandler) itemCopy = this.preRequestHandler(itemCopy, parentId);
     sanitizer(itemCopy, this.fieldsToSend);
-    return this._updateItem([parentId, itemId, itemInstance]);
+    return this._updateItem([parentId, itemId, itemCopy]);
   }
 }
 
