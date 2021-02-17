@@ -71,7 +71,13 @@
             >+{{ item.buckets.length - 1 }}</span>
           </div>
         </template>
-
+        <template slot="state" slot-scope="{ item }">
+          <wt-switcher
+            :value="item.enabled"
+            :disabled="!hasEditAccess"
+            @change="changeState({ item, value: $event })"
+          ></wt-switcher>
+        </template>
         <template slot="actions" slot-scope="{ item, index }">
           <edit-action
             @click="edit(item)"
@@ -96,7 +102,7 @@
 </template>
 
 <script>
-import { mapState } from 'vuex';
+import { mapActions, mapState } from 'vuex';
 import SkillBucketsPopup from './opened-queue-skills-buckets-popup.vue';
 import SkillPopup from './opened-queue-skills-popup.vue';
 import openedObjectTableTabMixin from '../../../../../mixins/objectPagesMixins/openedObjectTableTabMixin/openedObjectTableTabMixin';
@@ -128,11 +134,17 @@ export default {
         { value: 'capacity', text: this.$t('objects.ccenter.skills.capacity') },
         { value: 'lvl', text: this.$t('objects.ccenter.skills.lvl') },
         { value: 'buckets', text: this.$tc('objects.ccenter.buckets.buckets', 1) },
+        { value: 'state', text: this.$tc('objects.ccenter.skills.state') },
       ];
     },
   },
 
   methods: {
+    ...mapActions({
+      changeState(dispatch, payload) {
+        return dispatch(`${this.namespace}/${this.subNamespace}/CHANGE_STATE`, payload);
+      },
+    }),
     getFirstBucket(buckets) {
       if (buckets.length > 0) {
         return buckets[0].name;

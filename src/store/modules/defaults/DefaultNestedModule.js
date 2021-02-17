@@ -33,11 +33,15 @@ export class DefaultNestedModule {
 
             LOAD_DATA_LIST: async (context) => {
                 if (context.state.parentId) {
+                  try {
                     const response = await context.dispatch('GET_LIST');
                     if (response.list) {
-                        context.commit('SET_DATA_LIST', response.list);
-                        context.commit('SET_IS_NEXT', response.isNext);
+                      context.commit('SET_DATA_LIST', response.list);
+                      context.commit('SET_IS_NEXT', response.isNext);
                     }
+                  } catch (err) {
+                    throw err;
+                  }
                 }
             },
 

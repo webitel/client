@@ -1,87 +1,50 @@
 import { QueueSkillServiceApiFactory } from 'webitel-sdk';
-import deepCopy from 'deep-copy';
-import eventBus from '@webitel/ui-sdk/src/scripts/eventBus';
 import instance from '../../instance';
 import configuration from '../../openAPIConfig';
-import sanitizer from '../../utils/sanitizer';
+import SDKListGetter from '../../utils/ApiControllers/ListGetter/SDKListGetter';
+import SDKGetter from '../../utils/ApiControllers/Getter/SDKGetter';
+import SDKCreator from '../../utils/ApiControllers/Creator/SDKCreator';
+import SDKPatcher from '../../utils/ApiControllers/Patcher/SDKPatcher';
+import SDKUpdater from '../../utils/ApiControllers/Updater/SDKUpdater';
+import SDKDeleter from '../../utils/ApiControllers/Deleter/SDKDeleter';
 
-const queueResService = new QueueSkillServiceApiFactory(configuration, '', instance);
+const queueSkillService = new QueueSkillServiceApiFactory(configuration, '', instance);
 
-const fieldsToSend = ['domainId', 'maxCapacity',
-    'minCapacity', 'queueId', 'lvl', 'buckets', 'skill'];
-
-export const getQueueSkillsList = async (queueId, page = 0, size = 10, search) => {
-    const defaultObject = {
-        agent: {},
-        minCapacity: 0,
-        maxCapacity: 0,
-        buckets: [],
-        lvl: 0,
-        _isSelected: false,
-    };
-
-    try {
-        const response = await queueResService
-          .searchQueueSkill(queueId, page, size, search);
-        if (response.items) {
-            return {
-                list: response.items.map((item) => ({ ...defaultObject, ...item })),
-                isNext: response.next || false,
-            };
-        }
-        return { list: [] };
-    } catch (err) {
-        throw err;
-    }
+const defaultListObject = {
+  agent: {},
+  minCapacity: 0,
+  maxCapacity: 0,
+  buckets: [],
+  lvl: 0,
+  _isSelected: false,
 };
 
-export const getQueueSkill = async (queueId, id) => {
-    const defaultObject = {
-        agent: {},
-        minCapacity: 0,
-        maxCapacity: 0,
-        buckets: [],
-        lvl: 0,
-        _dirty: false,
-    };
-
-    try {
-        const response = await queueResService.readQueueSkill(queueId, id);
-        return { ...defaultObject, ...response };
-    } catch (err) {
-        throw err;
-    }
+const defaultObject = {
+  agent: {},
+  minCapacity: 0,
+  maxCapacity: 0,
+  buckets: [],
+  lvl: 0,
+  _dirty: false,
 };
 
-export const addQueueSkill = async (queueId, item) => {
-    const itemCopy = deepCopy(item);
-    itemCopy.queueId = queueId;
-    sanitizer(itemCopy, fieldsToSend);
-    try {
-        const response = await queueResService.createQueueSkill(queueId, itemCopy);
-        eventBus.$emit('notification', { type: 'info', text: 'Successfully added' });
-        return response.id;
-    } catch (err) {
-        throw err;
-    }
-};
+const fieldsToSend = ['domainId', 'maxCapacity', 'minCapacity', 'queueId',
+  'lvl', 'buckets', 'skill'];
 
-export const updateQueueSkill = async (queueId, id, item) => {
-    const itemCopy = deepCopy(item);
-    itemCopy.queueId = queueId;
-    sanitizer(itemCopy, fieldsToSend);
-    try {
-        await queueResService.updateQueueSkill(queueId, id, itemCopy);
-        eventBus.$emit('notification', { type: 'info', text: 'Successfully updated' });
-    } catch (err) {
-        throw err;
-    }
-};
+const preRequestHandler = (item, parentId) => ({ ...item, queueId: parentId });
 
-export const deleteQueueSkill = async (queueId, id) => {
-    try {
-        await queueResService.deleteQueueSkill(queueId, id);
-    } catch (err) {
-        throw err;
-    }
-};
+const listGetter = new SDKListGetter(queueSkillService.searchQueueSkill, defaultListObject);
+const itemGetter = new SDKGetter(queueSkillService.readQueueSkill, defaultObject);
+const itemCreator = new SDKCreator(queueSkillService.createQueueSkill,
+  fieldsToSend, preRequestHandler);
+const itemPatcher = new SDKPatcher(queueSkillService.patchQueueSkill, fieldsToSend);
+const itemUpdater = new SDKUpdater(queueSkillService.updateQueueSkill,
+  fieldsToSend, preRequestHandler);
+const itemDeleter = new SDKDeleter(queueSkillService.deleteQueueSkill);
+
+export const getQueueSkillsList = (params) => listGetter.getNestedList(params);
+export const getQueueSkill = (params) => itemGetter.getNestedItem(params);
+export const addQueueSkill = (params) => itemCreator.createNestedItem(params);
+export const patchQueueSkill = (params) => itemPatcher.patchNestedItem(params);
+export const updateQueueSkill = (params) => itemUpdater.updateNestedItem(params);
+export const deleteQueueSkill = (params) => itemDeleter.deleteNestedItem(params);

@@ -1,6 +1,6 @@
 import {
-    getQueueSkillsList, getQueueSkill, addQueueSkill,
-    updateQueueSkill, deleteQueueSkill,
+  getQueueSkillsList, getQueueSkill, addQueueSkill,
+  updateQueueSkill, deleteQueueSkill, patchQueueSkill,
 } from '../../../../api/contact-center/queues/queueSkills';
 import { DefaultNestedModule } from '../../defaults/DefaultNestedModule';
 
@@ -29,27 +29,30 @@ const getters = {
 };
 
 const actions = {
+  ...defaultNestedModule.actions,
     GET_LIST: (context) => {
-        return getQueueSkillsList(context.state.parentId, context.state.page, context.state.size, context.state.search);
+      return getQueueSkillsList(context.state);
     },
 
     GET_ITEM: (context) => {
-        return getQueueSkill(context.state.parentId, context.state.itemId);
+        return getQueueSkill(context.state);
     },
 
     POST_ITEM: (context) => {
-        return addQueueSkill(context.state.parentId, context.state.itemInstance);
+        return addQueueSkill(context.state);
+    },
+
+    PATCH_ITEM: (context, { id, changes }) => {
+        return patchQueueSkill({ parentId: context.state.parentId, id, changes });
     },
 
     UPD_ITEM: (context) => {
-        return updateQueueSkill(context.state.parentId, context.state.itemId, context.state.itemInstance);
+        return updateQueueSkill(context.state);
     },
 
     DELETE_ITEM: (context, id) => {
-        return deleteQueueSkill(context.state.parentId, id);
+        return deleteQueueSkill({ parentId: context.state.parentId, id });
     },
-
-    ...defaultNestedModule.actions,
 };
 
 const mutations = {
