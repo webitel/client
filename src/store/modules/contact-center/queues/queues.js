@@ -1,5 +1,6 @@
 import deepMerge from 'deepmerge';
 import buckets from './queue-buckets';
+import skills from './queue-skills';
 import resGroups from './queue-res-groups';
 import members from './queue-members';
 import permissions from './permissions';
@@ -166,5 +167,5 @@ export default {
   getters,
   actions,
   mutations,
-  modules: { buckets, resGroups, members, permissions },
+  modules: { skills, buckets, resGroups, members, permissions },
 };

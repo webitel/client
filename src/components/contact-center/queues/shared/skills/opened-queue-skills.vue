@@ -77,7 +77,7 @@
             @click="edit(item)"
           ></edit-action>
           <delete-action
-            @click="remove(index)"  
+            @click="remove(index)"
           ></delete-action>
         </template>
       </wt-table>
