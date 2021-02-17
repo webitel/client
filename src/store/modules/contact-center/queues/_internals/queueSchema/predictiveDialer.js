@@ -10,6 +10,9 @@ const predictiveDialer = () => ({
   team: {}, // required
   doSchema: {},
   afterSchema: {},
+  processing: false,
+  processingSec: 30,
+  processingRenewalSec: 15,
   payload: {
     maxAttempts: 3, // required
     originateTimeout: 60, // required

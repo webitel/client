@@ -9,6 +9,9 @@ const offlineQueue = () => ({
   strategy: Strategy.FIFO,  // required
   doSchema: {},
   afterSchema: {},
+  processing: false,
+  processingSec: 30,
+  processingRenewalSec: 15,
   payload: {
     originateTimeout: 60, // required
     recordings: false,

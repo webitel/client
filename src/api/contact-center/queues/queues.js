@@ -19,7 +19,7 @@ const queueService = new QueueServiceApiFactory(configuration, '', instance);
 const BASE_URL = '/call_center/queues';
 const fieldsToSend = ['domainId', 'name', 'type', 'strategy', 'team', 'priority', 'dncList', 'schema',
   'payload', 'maxOfRetry', 'timeout', 'secBetweenRetries', 'variables', 'calendar', 'description',
-  'enabled', 'ringtone', 'doSchema', 'afterSchema'];
+  'enabled', 'ringtone', 'doSchema', 'afterSchema', 'processing', 'processingSec', 'processingRenewalSec'];
 
 const defaultListObject = {
   type: 0,
