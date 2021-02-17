@@ -21,6 +21,7 @@
         <component
           :is="$options.name + '-' + currentTab.value"
           :v="$v"
+          :namespace="namespace"
         ></component>
       </div>
     </template>
