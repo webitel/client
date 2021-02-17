@@ -448,6 +448,7 @@ export default {
                 lvl: 'Level',
                 agentSkills: 'Agent skill | Agent skills',
                 allSkills: 'All skills',
+                state: 'State',
             },
 
             agents: {

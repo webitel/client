@@ -71,11 +71,11 @@
             >+{{ item.buckets.length - 1 }}</span>
           </div>
         </template>
-        <template slot="state" slot-scope="{ item }">
+        <template slot="state" slot-scope="{ item, index }">
           <wt-switcher
             :value="item.enabled"
             :disabled="!hasEditAccess"
-            @change="changeState({ item, value: $event })"
+            @change="changeState({ item, index, value: $event })"
           ></wt-switcher>
         </template>
         <template slot="actions" slot-scope="{ item, index }">

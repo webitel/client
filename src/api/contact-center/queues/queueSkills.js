@@ -32,8 +32,18 @@ const fieldsToSend = ['domainId', 'maxCapacity', 'minCapacity', 'queueId',
   'lvl', 'buckets', 'skill'];
 
 const preRequestHandler = (item, parentId) => ({ ...item, queueId: parentId });
+const listResponseHandler = (response) => {
+  const { list, next } = response;
+  if (!list) return response;
+  const handledList = response.list.map((item) => ({
+    ...item,
+      enabled: !item.disabled,
+  }));
+  return { list: handledList, next };
+};
 
-const listGetter = new SDKListGetter(queueSkillService.searchQueueSkill, defaultListObject);
+const listGetter = new SDKListGetter(queueSkillService.searchQueueSkill,
+  defaultListObject, listResponseHandler);
 const itemGetter = new SDKGetter(queueSkillService.readQueueSkill, defaultObject);
 const itemCreator = new SDKCreator(queueSkillService.createQueueSkill,
   fieldsToSend, preRequestHandler);

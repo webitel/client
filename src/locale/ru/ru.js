@@ -446,6 +446,7 @@ export default {
                 lvl: 'Уровень',
                 agentSkills: 'Навыки оператора | Навыки операторов',
                 allSkills: 'Все навыки',
+                state: 'Состояние',
             },
 
             agents: {
