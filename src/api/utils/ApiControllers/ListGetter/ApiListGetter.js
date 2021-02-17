@@ -1,5 +1,5 @@
 import instance from '../../../instance';
-import { BaseListGetter } from './BaseListGetter';
+import BaseListGetter from './BaseListGetter';
 
 export class WebitelAPIListGetter extends BaseListGetter {
     constructor(url, defaultItem) {

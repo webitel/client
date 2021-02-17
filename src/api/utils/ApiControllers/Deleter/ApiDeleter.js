@@ -1,5 +1,5 @@
 import instance from '../../../instance';
-import { BaseItemDeleter } from './BaseItemDeleter';
+import BaseItemDeleter from './BaseItemDeleter';
 
 export class WebitelAPIItemDeleter extends BaseItemDeleter {
     constructor(url) {

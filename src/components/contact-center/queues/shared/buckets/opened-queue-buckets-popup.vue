@@ -32,7 +32,7 @@
     import editComponentMixin from '@/mixins/objectPagesMixins/openedObjectMixin/editComponentMixin';
     import { required, numeric, minValue } from 'vuelidate/lib/validators';
     import { mapActions, mapState } from 'vuex';
-    import { getBucketsList } from '../../../api/contact-center/buckets/buckets';
+    import { getBucketsList } from '../../../../../api/contact-center/buckets/buckets';
 
     export default {
         name: 'opened-queue-buckets-popup',

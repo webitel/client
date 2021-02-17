@@ -25,7 +25,7 @@
     import editComponentMixin from '@/mixins/objectPagesMixins/openedObjectMixin/editComponentMixin';
     import { required } from 'vuelidate/lib/validators';
     import { mapActions, mapState } from 'vuex';
-    import { getResGroupList } from '../../../api/contact-center/resourceGroups/resourceGroups';
+    import { getResGroupList } from '../../../../../api/contact-center/resourceGroups/resourceGroups';
 
     export default {
         name: 'opened-queue-buckets-popup',

@@ -21,6 +21,7 @@
         <component
           :is="`${$options.name}-${currentTab.value}`"
           :v="$v"
+          :namespace="namespace"
         ></component>
       </div>
     </template>
@@ -46,11 +47,12 @@ import OpenedQueueChatInboundQueueGeneral from './chat-inbound-queue/opened-queu
 import OpenedQueueChatInboundQueueTiming from './chat-inbound-queue/opened-queue-chat-inbound-queue-timing.vue';
 import OpenedQueueTaskQueueGeneral from './task-queue/opened-queue-task-queue-general.vue';
 import OpenedQueueTaskQueueTiming from './task-queue/opened-queue-task-queue-timing.vue';
-import OpenedQueueResources from './opened-queue-resources.vue';
-import OpenedQueueBuckets from './opened-queue-buckets.vue';
-import OpenedQueueAmd from './opened-queue-amd.vue';
-import OpenedQueueVariables from './opened-queue-variables.vue';
-import OpenedQueueLogs from './opened-queue-logs.vue';
+import OpenedQueueSkills from './shared/skills/opened-queue-skills.vue';
+import OpenedQueueResources from './shared/resources/opened-queue-resources.vue';
+import OpenedQueueBuckets from './shared/buckets/opened-queue-buckets.vue';
+import OpenedQueueAmd from './shared/amd/opened-queue-amd.vue';
+import OpenedQueueVariables from './shared/variables/opened-queue-variables.vue';
+import OpenedQueueLogs from './shared/logs/opened-queue-logs.vue';
 import OpenedQueuePermissions from './opened-queue-permissions.vue';
 import openedObjectMixin from '../../../mixins/objectPagesMixins/openedObjectMixin/openedObjectMixin';
 import QueueType from '../../../store/modules/contact-center/queues/_internals/enums/QueueType.enum';
@@ -75,6 +77,7 @@ export default {
     OpenedQueueChatInboundQueueTiming,
     OpenedQueueTaskQueueGeneral,
     OpenedQueueTaskQueueTiming,
+    OpenedQueueSkills,
     OpenedQueueResources,
     OpenedQueueBuckets,
     OpenedQueueAmd,
@@ -214,6 +217,10 @@ export default {
     },
 
     tabs() {
+      const skills = {
+        text: this.$tc('objects.ccenter.skills.skills', 2),
+        value: 'skills',
+      };
       const resources = {
         text: this.$tc('objects.ccenter.res.res', 2),
         value: 'resources',
@@ -245,7 +252,7 @@ export default {
       }, {
         text: this.$t('objects.ccenter.queues.timing'),
         value: 'offline-queue-timing',
-      }, resources, buckets];
+      }, skills, resources, buckets];
 
       const inboundQueueTabs = [{
         text: this.$t('objects.general'),
@@ -253,7 +260,7 @@ export default {
       }, {
         text: this.$t('objects.ccenter.queues.timing'),
         value: 'inbound-queue-timing',
-      }];
+      }, skills];
 
       const outboundIVRQueueTabs = [{
         text: this.$t('objects.general'),
@@ -269,7 +276,7 @@ export default {
       }, {
         text: this.$t('objects.ccenter.queues.timing'),
         value: 'preview-dialer-timing',
-      }, resources, buckets];
+      }, skills, resources, buckets];
 
       const progressiveDialerTabs = [{
         text: this.$t('objects.general'),
@@ -277,7 +284,7 @@ export default {
       }, {
         text: this.$t('objects.ccenter.queues.timing'),
         value: 'progressive-dialer-timing',
-      }, resources, buckets, amd];
+      }, skills, resources, buckets, amd];
 
       const predictiveDialerTabs = [{
         text: this.$t('objects.general'),
@@ -285,7 +292,7 @@ export default {
       }, {
         text: this.$t('objects.ccenter.queues.timing'),
         value: 'predictive-dialer-timing',
-      }, resources, buckets, amd];
+      }, skills, resources, buckets, amd];
 
       const chatInboundQueueTabs = [{
         text: this.$t('objects.general'),
@@ -293,7 +300,7 @@ export default {
       }, {
         text: this.$t('objects.ccenter.queues.timing'),
         value: 'chat-inbound-queue-timing',
-      }];
+      }, skills];
 
       const taskQueueTabs = [{
         text: this.$t('objects.general'),
@@ -301,7 +308,7 @@ export default {
       }, {
         text: this.$t('objects.ccenter.queues.timing'),
         value: 'task-queue-timing',
-      }, buckets];
+      }, skills, buckets];
 
       let tabs = [];
       switch (this.queueType) {

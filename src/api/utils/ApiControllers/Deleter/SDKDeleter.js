@@ -1,17 +1,22 @@
-import store from '../../../../store/store';
-import { BaseItemDeleter } from './BaseItemDeleter';
+import BaseItemDeleter from './BaseItemDeleter';
 
+// todo: export -> default export
 export class WebitelSDKItemDeleter extends BaseItemDeleter {
-    constructor() {
-        super(...arguments);
+  async _deleteItem(args) {
+    try {
+      await this.method(...args);
+    } catch (err) {
+      throw err;
     }
+  }
 
-    async deleteItem(id) {
-        const { domainId } = store.state.userinfo;
-        try {
-            await this.method(id, domainId);
-        } catch (err) {
-            throw err;
-        }
-    }
+  deleteItem(id) {
+    return this._deleteItem([id]);
+  }
+
+  deleteNestedItem({ parentId, id }) {
+    return this._deleteItem([parentId, id]);
+  }
 }
+
+export default WebitelSDKItemDeleter;

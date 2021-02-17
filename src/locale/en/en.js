@@ -443,8 +443,12 @@ export default {
             skills: {
                 skills: 'Skill | Skills',
                 capacity: 'Capacity',
+                minCapacity: 'Min capacity',
+                maxCapacity: 'Max capacity',
+                lvl: 'Level',
                 agentSkills: 'Agent skill | Agent skills',
                 allSkills: 'All skills',
+                state: 'State',
             },
 
             agents: {
@@ -468,15 +472,12 @@ export default {
                 allTeams: 'All teams',
                 strategy: 'Strategy',
                 supervisors: 'Supervisor | Supervisors',
-                lvl: 'Level',
                 timing: 'Timing',
                 maxNoAnswer: 'Max no answer',
                 callTimeout: 'Call timeout',
                 wrapUpTime: 'Wrap up time',
                 noAnswerDelayTime: 'No answer delay time',
                 postProcessing: 'Waiting for call result',
-                minCapacity: 'Min capacity',
-                maxCapacity: 'Max capacity',
                 strategies: {
                     random: 'Random',
                     fewestCalls: 'Agent with fewest calls',
@@ -546,6 +547,9 @@ export default {
                 discardAbandonedAfter: 'Discard abandoned after',
                 timeoutWithNoAgents: 'Timeout with no agents',
                 timeBaseScore: 'Time base score',
+                processing: 'Waiting for call result',
+                processingSec: 'Postprocessing time (sec)',
+                processingRenewalSec: 'Notify to continue after (sec)',
                 varKey: 'Key',
                 varVal: 'Value',
                 endCause: 'End cause',

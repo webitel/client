@@ -1,21 +1,25 @@
-import store from '../../../../store/store';
-import { BaseListGetter } from './BaseListGetter';
+import BaseListGetter from './BaseListGetter';
 
+// todo: export -> default export
 export class WebitelSDKListGetter extends BaseListGetter {
-    constructor() {
-        super(...arguments);
+  async _getList(args) {
+    try {
+      let response = await this.method(...args);
+      response = this.responseHandler(response);
+      if (this.userResponseHandler) response = this.userResponseHandler(response);
+      return response;
+    } catch (err) {
+      throw err;
     }
+  }
 
-    async getList({ page, size, search }) {
-        const { domainId } = store.state.userinfo;
-        if (search && search.slice(-1) !== '*') search += '*';
-        size = size || 10;
+  getList({ page, size, search }) {
+    return this._getList([page, size, search]);
+  }
 
-        try {
-            const response = await this.method(page, size, search, domainId);
-            return this.responseHandler(response);
-        } catch (err) {
-            throw err;
-        }
-    }
+  getNestedList({ parentId, page, size, search }) {
+    return this._getList([parentId, page, size, search]);
+  }
 }
+
+export default WebitelSDKListGetter;

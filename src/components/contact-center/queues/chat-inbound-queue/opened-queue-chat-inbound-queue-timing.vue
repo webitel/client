@@ -25,6 +25,28 @@
           :disabled="disableUserInput"
           @input="setItemPayloadProp({ prop: 'timeBaseScore', value: $event })"
       ></wt-select>
+      <wt-switcher
+        :value="processing"
+        :label="$t('objects.ccenter.queues.processing')"
+        :disabled="disableUserInput"
+        @change="setItemProp({ prop: 'processing', value: $event })"
+      ></wt-switcher>
+      <wt-input
+        v-show="processing"
+        :value="processingSec"
+        :label="$t('objects.ccenter.queues.processingSec')"
+        :disabled="disableUserInput"
+        type="number"
+        @input="setItemProp({ prop: 'processingSec', value: $event })"
+      ></wt-input>
+      <wt-input
+        v-show="processing"
+        :value="processingRenewalSec"
+        :label="$t('objects.ccenter.queues.processingRenewalSec')"
+        :disabled="disableUserInput"
+        type="number"
+        @input="setItemProp({ prop: 'processingRenewalSec', value: $event })"
+      ></wt-input>
     </form>
   </section>
 </template>
@@ -44,6 +66,9 @@ export default {
       discardAbandonedAfter: (state) => state.itemInstance.payload.discardAbandonedAfter,
       maxWaitTime: (state) => state.itemInstance.payload.maxWaitTime,
       timeBaseScore: (state) => state.itemInstance.payload.timeBaseScore,
+      processing: (state) => state.itemInstance.processing,
+      processingSec: (state) => state.itemInstance.processingSec,
+      processingRenewalSec: (state) => state.itemInstance.processingRenewalSec,
     }),
 
     timeBaseScoreOptions() {

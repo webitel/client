@@ -441,8 +441,12 @@ export default {
             skills: {
                 skills: 'Навык | Навыки',
                 capacity: 'Потенциал',
+                minCapacity: 'Минимальный потенциал',
+                maxCapacity: 'Максимальный потенциал',
+                lvl: 'Уровень',
                 agentSkills: 'Навыки оператора | Навыки операторов',
                 allSkills: 'Все навыки',
+                state: 'Состояние',
             },
 
             agents: {
@@ -465,14 +469,11 @@ export default {
                 allTeams: 'Все команды',
                 strategy: 'Стратегия',
                 supervisors: 'Супервизор | Супервизоры',
-                lvl: 'Уровень',
                 timing: 'Параметры дозвона',
                 maxNoAnswer: 'Максимальное количество звонков без ответа',
                 callTimeout: 'Длительность вызова',
                 wrapUpTime: 'Длительность паузы между звонками',
                 noAnswerDelayTime: 'Время ожидания при отсутствии ответа оператора',
-                minCapacity: 'Минимальная ёмкость',
-                maxCapacity: 'Максимальная ёмкость',
                 strategies: {
                     random: 'Случайно',
                     fewestCalls: 'Агент с найменьшим количеством звонков',
@@ -542,6 +543,9 @@ export default {
                 discardAbandonedAfter: 'Кол-во секунд до полного удаления абонента',
                 timeoutWithNoAgents: 'Время ожидания, когда нет агентов',
                 timeBaseScore: 'Рейтинг звонка',
+                processing: 'Ожидание результата звонка',
+                processingSec: 'Время постобработки (сек)',
+                processingRenewalSec: 'Предложить продление после (сек)',
                 varKey: 'Ключ',
                 varVal: 'Значение',
                 endCause: 'Причина прекращения',
