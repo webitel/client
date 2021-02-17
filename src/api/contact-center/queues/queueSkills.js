@@ -16,6 +16,7 @@ const defaultListObject = {
   maxCapacity: 0,
   buckets: [],
   lvl: 0,
+  enabled: false,
   _isSelected: false,
 };
 
@@ -25,25 +26,16 @@ const defaultObject = {
   maxCapacity: 0,
   buckets: [],
   lvl: 0,
+  enabled: false,
   _dirty: false,
 };
 
 const fieldsToSend = ['domainId', 'maxCapacity', 'minCapacity', 'queueId',
-  'lvl', 'buckets', 'skill'];
+  'lvl', 'buckets', 'skill', 'enabled'];
 
 const preRequestHandler = (item, parentId) => ({ ...item, queueId: parentId });
-const listResponseHandler = (response) => {
-  const { list, next } = response;
-  if (!list) return response;
-  const handledList = response.list.map((item) => ({
-    ...item,
-      enabled: !item.disabled,
-  }));
-  return { list: handledList, next };
-};
 
-const listGetter = new SDKListGetter(queueSkillService.searchQueueSkill,
-  defaultListObject, listResponseHandler);
+const listGetter = new SDKListGetter(queueSkillService.searchQueueSkill, defaultListObject);
 const itemGetter = new SDKGetter(queueSkillService.readQueueSkill, defaultObject);
 const itemCreator = new SDKCreator(queueSkillService.createQueueSkill,
   fieldsToSend, preRequestHandler);

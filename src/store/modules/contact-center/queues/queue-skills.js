@@ -16,6 +16,7 @@ const defaultItemState = () => ({
     minCapacity: 0,
     maxCapacity: 10,
     buckets: [],
+    enabled: true,
   },
 });
 
@@ -54,7 +55,7 @@ const actions = {
   },
   CHANGE_STATE: async (context, { item, index, value }) => {
     context.commit('CHANGE_STATE', { index, value });
-    const changes = { disabled: !value };
+    const changes = { enabled: value };
     try {
       await context.dispatch('PATCH_ITEM', { id: item.id, changes });
     } catch (err) {
