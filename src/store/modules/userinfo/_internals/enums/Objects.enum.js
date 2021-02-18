@@ -13,6 +13,7 @@ export const Objects = Object.freeze({
 
   // LOOKUPS
   BLACKLIST: 'blacklist',                // scope: cc_list
+  REGIONS: 'regions',                    // scope: lookups
   CALENDARS: 'calendars',                // scope: calendars
   COMMUNICATIONS: 'communications',      // scope: lookups
   PAUSE_CAUSE: 'pause-cause',            // scope: lookups
@@ -50,6 +51,7 @@ export const ObjectsList = Object.freeze([
   // LOOKUPS
   { field: 'cc_list', name: Objects.BLACKLIST, route: RouteNames.BLACKLIST },                // scope: cc_list
   { field: 'calendars', name: Objects.CALENDARS, route: RouteNames.CALENDARS },                // scope: calendars
+  { field: 'lookups', name: Objects.REGIONS, route: RouteNames.REGIONS },      // scope: lookups
   { field: 'lookups', name: Objects.COMMUNICATIONS, route: RouteNames.COMMUNICATIONS },      // scope: lookups
   { field: 'lookups', name: Objects.PAUSE_CAUSE, route: RouteNames.PAUSE_CAUSE },      // scope: lookups
   { field: 'media_file', name: Objects.MEDIA, route: RouteNames.MEDIA },                        // scope: media_file

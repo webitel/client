@@ -16,6 +16,7 @@ export default Object.freeze({
 
   // LOOKUPS
   BLACKLIST: 'blacklists',
+  REGIONS: 'regions',
   CALENDARS: 'calendars',
   COMMUNICATIONS: 'communications',
   PAUSE_CAUSE: 'agent-pause-cause',

@@ -31,25 +31,26 @@
 <script>
 import { required } from 'vuelidate/lib/validators';
 import { mapState } from 'vuex';
-import OpenedAgentPauseCauseGeneral from './opened-agent-pause-cause-general.vue';
+import OpenedRegionGeneral from './opened-region-general.vue';
 import openedObjectMixin from '../../../mixins/objectPagesMixins/openedObjectMixin/openedObjectMixin';
 
 export default {
-  name: 'opened-agent-pause-cause',
+  name: 'opened-region',
   mixins: [openedObjectMixin],
-  components: { OpenedAgentPauseCauseGeneral },
+  components: { OpenedRegionGeneral },
   data: () => ({
-    namespace: 'lookups/pauseCause',
+    namespace: 'lookups/regions',
   }),
 
   validations: {
     itemInstance: {
       name: { required },
+      timezone: { required },
     },
   },
 
   computed: {
-    ...mapState('lookups/pauseCause', {
+    ...mapState('lookups/regions', {
       id: (state) => state.itemId,
       itemInstance: (state) => state.itemInstance,
     }),
@@ -63,10 +64,10 @@ export default {
     },
 
     path() {
-      const baseUrl = '/lookups/pause-cause';
+      const baseUrl = '/lookups/regions';
       return [
         { name: this.$t('objects.lookups.lookups') },
-        { name: this.$tc('objects.lookups.pauseCause.pauseCause', 2), route: baseUrl },
+        { name: this.$tc('objects.lookups.regions.regions', 2), route: baseUrl },
         {
           name: this.id ? this.pathName : this.$t('objects.new'),
           route: this.id ? `${baseUrl}/${this.id}` : `${baseUrl}/new`,

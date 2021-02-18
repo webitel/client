@@ -54,7 +54,7 @@ import { mapState } from 'vuex';
 import openedTabComponentMixin from '../../../mixins/objectPagesMixins/openedObjectTabMixin/openedTabComponentMixin';
 
 export default {
-  name: 'opened-agent-skill-general',
+  name: 'opened-agent-pause-cause-general',
   mixins: [openedTabComponentMixin],
 
   computed: {

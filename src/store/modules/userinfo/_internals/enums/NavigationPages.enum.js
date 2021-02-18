@@ -44,6 +44,10 @@ const nav = Object.freeze([{
       locale: 'nav.lookups.blacklists',
       route: 'blacklist',
     }, {
+      value: Objects.REGIONS,
+      locale: 'nav.lookups.regions',
+      route: 'regions',
+    }, {
       value: Objects.CALENDARS,
       locale: 'nav.lookups.calendars',
       route: 'calendars',
