@@ -97,9 +97,7 @@ export default {
             blacklists: 'Call list',
             calendars: 'Calendars',
             communications: 'Communication types',
-            contactTypes: 'Contact types',
-            leadSources: 'Lead sources',
-            leadStatus: 'Lead status',
+            agentPauseCause: 'Agent statuses',
         },
         ccenter: {
             ccenter: 'Contact center',
@@ -323,7 +321,6 @@ export default {
                 key: 'Key',
                 dragPlaceholder: 'Drag and drop files',
                 dragPlaceholderHere: 'here.',
-
             },
             calendars: {
                 calendars: 'Calendar | Calendars',
@@ -354,17 +351,14 @@ export default {
                 addCommunication: 'Add communication',
                 code: 'Code',
             },
-            contactType: {
-                contactType: 'Contact type | Contact types',
-                allContactTypes: 'All contact types',
-            },
-            leadSource: {
-                leadSource: 'Lead source | Lead sources',
-                allSources: 'All sources',
-            },
-            leadStatus: {
-                leadStatus: 'Lead status',
-                allStatuses: 'All statuses',
+            pauseCause: {
+              pauseCause: 'Agent statuses | Agent status',
+              allPauseCause: 'All agent pause causes',
+              limit: 'Limit (min)',
+              min: 'min',
+              allowAdmin: 'Admin can change this status',
+              allowSupervisor: 'Supervisor can change this status',
+              allowAgent: 'Agent can change this status',
             },
         },
         routing: {

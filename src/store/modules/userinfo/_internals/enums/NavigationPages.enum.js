@@ -52,6 +52,10 @@ const nav = Object.freeze([{
       locale: 'nav.lookups.communications',
       route: 'communications',
     }, {
+      value: Objects.PAUSE_CAUSE,
+      locale: 'nav.lookups.agentPauseCause',
+      route: 'pause-cause',
+    }, {
       value: Objects.MEDIA,
       locale: 'nav.lookups.media',
       route: 'media',

@@ -18,6 +18,7 @@ export default Object.freeze({
   BLACKLIST: 'blacklists',
   CALENDARS: 'calendars',
   COMMUNICATIONS: 'communications',
+  PAUSE_CAUSE: 'agent-pause-cause',
   MEDIA: 'media',
 
   // CONTACT-CENTER
@@ -25,7 +26,7 @@ export default Object.freeze({
   AGENTS: 'agents',
   TEAMS: 'teams',
   RESOURCES: 'resources',
-  RESOURCE_GROUPS: 'resource_groups',
+  RESOURCE_GROUPS: 'resource-groups',
   BUCKETS: 'buckets',
   QUEUES: 'queues',
   MEMBERS: 'members',

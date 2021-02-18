@@ -5,8 +5,12 @@ import resGroups from './queue-res-groups';
 import members from './queue-members';
 import permissions from './permissions';
 import {
-  addQueue, deleteQueue, patchQueue,
-  getQueue, getQueuesList, updateQueue,
+  addQueue,
+  deleteQueue,
+  getQueue,
+  getQueuesList,
+  patchQueue,
+  updateQueue,
 } from '../../../../api/contact-center/queues/queues';
 import { DefaultModule } from '../../defaults/DefaultModule';
 import QueueType from './_internals/enums/QueueType.enum';
