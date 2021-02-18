@@ -27,6 +27,8 @@ const calendars = () => import('../components/lookups/calendars/the-calendars');
 const openedCalendar = () => import('../components/lookups/calendars/opened-calendar');
 const communicationTypes = () => import('../components/lookups/communication-types/the-communication-types');
 const openedCommunicationType = () => import('../components/lookups/communication-types/opened-communication-type');
+const Regions = () => import('../components/lookups/regions/the-regions');
+const OpenedRegion = () => import('../components/lookups/regions/the-regions');
 const AgentPauseCause = () => import('../components/lookups/agent-pause-cause/the-agent-pause-cause');
 const OpenedAgentPauseCause = () => import('../components/lookups/agent-pause-cause/opened-agent-pause-cause');
 const sipGateways = () => import('../components/routing/sip-gateways/the-sip-gateways');
@@ -261,6 +263,22 @@ const router = new Router({
                     name: `${RouteNames.COMMUNICATIONS}-edit`,
                     component: openedCommunicationType,
                 },
+
+              {
+                path: '/lookups/regions',
+                name: RouteNames.REGIONS,
+                component: Regions,
+              },
+              {
+                path: '/lookups/regions/new',
+                name: `${RouteNames.REGIONS}-new`,
+                component: OpenedRegion,
+              },
+              {
+                path: '/lookups/regions/:id',
+                name: `${RouteNames.REGIONS}-edit`,
+                component: OpenedRegion,
+              },
 
               {
                 path: '/lookups/pause-cause',

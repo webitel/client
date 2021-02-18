@@ -321,6 +321,13 @@ export default {
                 dragPlaceholder: 'Перетаскивание файлов',
                 dragPlaceholderHere: 'здесь.',
             },
+          regions: {
+            regions: 'Регион | Регионы',
+            allRegions: 'Все регионы',
+          },
+          timezone: {
+            timezone: 'Часовая зона | Часовые зоны',
+          },
             calendars: {
                 calendars: 'Календарь | Календари',
                 allCalendars: 'Все календари',

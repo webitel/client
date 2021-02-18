@@ -96,6 +96,7 @@ export default {
             media: 'Media files',
             blacklists: 'Call list',
             calendars: 'Calendars',
+            regions: 'Regions',
             communications: 'Communication types',
             agentPauseCause: 'Agent statuses',
         },
@@ -322,6 +323,13 @@ export default {
                 dragPlaceholder: 'Drag and drop files',
                 dragPlaceholderHere: 'here.',
             },
+          regions: {
+              regions: 'Region | Regions',
+              allRegions: 'All regions',
+          },
+          timezone: {
+              timezone: 'Timezone | Timezones',
+          },
             calendars: {
                 calendars: 'Calendar | Calendars',
                 allCalendars: 'All calendars',
