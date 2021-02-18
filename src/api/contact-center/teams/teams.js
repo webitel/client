@@ -1,8 +1,10 @@
 import { AgentTeamServiceApiFactory } from 'webitel-sdk';
 import instance from '../../instance';
 import configuration from '../../openAPIConfig';
-import WebitelAPIPermissionsGetter from '../../utils/ApiControllers/Permissions/WebitelAPIPermissionsGetter';
-import WebitelAPIPermissionsPatcher from '../../utils/ApiControllers/Permissions/WebitelAPIPermissionsPatcher';
+import WebitelAPIPermissionsGetter
+  from '../../utils/ApiControllers/Permissions/WebitelAPIPermissionsGetter';
+import WebitelAPIPermissionsPatcher
+  from '../../utils/ApiControllers/Permissions/WebitelAPIPermissionsPatcher';
 import { WebitelSDKItemDeleter } from '../../utils/ApiControllers/Deleter/SDKDeleter';
 import { WebitelSDKItemUpdater } from '../../utils/ApiControllers/Updater/SDKUpdater';
 import { WebitelSDKItemCreator } from '../../utils/ApiControllers/Creator/SDKCreator';
@@ -13,18 +15,18 @@ const teamService = new AgentTeamServiceApiFactory(configuration, '', instance);
 
 const BASE_URL = '/call_center/teams';
 const fieldsToSend = ['domainId', 'name', 'description', 'strategy', 'maxNoAnswer', 'wrapUpTime',
-     'noAnswerDelayTime', 'callTimeout', 'postProcessing'];
+  'noAnswerDelayTime', 'callTimeout', 'postProcessing'];
 
 
 const preRequestHandler = (item) => {
-    // item.busyDelayTime = +item.busyDelayTime;
-    // item.wrapUpTime = +item.wrapUpTime;
-    // item.callTimeout = +item.callTimeout;
-    // item.maxNoAnswer = +item.maxNoAnswer;
-    // item.rejectDelayTime = +item.rejectDelayTime;
-    // item.noAnswerDelayTime = +item.noAnswerDelayTime;
-    // item.strategy = item.strategy.value;
-    return item;
+  // item.busyDelayTime = +item.busyDelayTime;
+  // item.wrapUpTime = +item.wrapUpTime;
+  // item.callTimeout = +item.callTimeout;
+  // item.maxNoAnswer = +item.maxNoAnswer;
+  // item.rejectDelayTime = +item.rejectDelayTime;
+  // item.noAnswerDelayTime = +item.noAnswerDelayTime;
+  // item.strategy = item.strategy.value;
+  return item;
 };
 
 const listGetter = new WebitelSDKListGetter(teamService.searchAgentTeam);
@@ -36,21 +38,21 @@ const permissionsGetter = new WebitelAPIPermissionsGetter(BASE_URL);
 const permissionsPatcher = new WebitelAPIPermissionsPatcher(BASE_URL);
 
 itemGetter.responseHandler = (response) => {
-    const defaultItemObject = {
-        _dirty: false,
-        postProcessing: false,
-        busyDelayTime: 0,
-        callTimeout: 0,
-        maxNoAnswer: 0,
-        noAnswerDelayTime: 0,
-        rejectDelayTime: 0,
-        wrapUpTime: 0,
-    };
-    try {
-        return { ...defaultItemObject, ...response };
-    } catch (err) {
-        throw err;
-    }
+  const defaultItemObject = {
+    _dirty: false,
+    postProcessing: false,
+    busyDelayTime: 0,
+    callTimeout: 0,
+    maxNoAnswer: 0,
+    noAnswerDelayTime: 0,
+    rejectDelayTime: 0,
+    wrapUpTime: 0,
+  };
+  try {
+    return { ...defaultItemObject, ...response };
+  } catch (err) {
+    throw err;
+  }
 };
 
 export const getTeamsList = (page = 1, size = 10, search) => (

@@ -4,8 +4,11 @@ import teams from './agent-teams';
 import queues from './agent-queues';
 import permissions from './permissions';
 import {
-  addAgent, deleteAgent,
-  getAgent, getAgentsList, updateAgent,
+  addAgent,
+  deleteAgent,
+  getAgent,
+  getAgentsList,
+  updateAgent,
 } from '../../../../api/contact-center/agents/agents';
 import { DefaultModule } from '../../defaults/DefaultModule';
 

@@ -25,7 +25,10 @@ const actions = {
     size: context.state.size,
     search: context.state.search,
   }),
-  PATCH_ACCESS_MODE: (context, { item, changes }) => toggleObjclassDefaultMode(context.getters.OBJECT_ID, +item.grantor.id, changes),
+  PATCH_ACCESS_MODE: (context, {
+    item,
+    changes,
+  }) => toggleObjclassDefaultMode(context.getters.OBJECT_ID, +item.grantor.id, changes),
 
   ADD_DEFAULT_ITEM_ROLE: async (context, { grantee, grantor }) => {
     const changes = {

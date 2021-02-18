@@ -18,7 +18,11 @@ const itemCreator = new WebitelSDKItemCreator(skillService.createSkill, fieldsTo
 const itemUpdater = new WebitelSDKItemUpdater(skillService.updateSkill, fieldsToSend);
 const itemDeleter = new WebitelSDKItemDeleter(skillService.deleteSkill);
 
-export const getSkillsList = async (page, size, search) => await listGetter.getList({ page, size, search });
+export const getSkillsList = async (page, size, search) => await listGetter.getList({
+  page,
+  size,
+  search,
+});
 
 export const getSkill = async (id) => await itemGetter.getItem(id);
 

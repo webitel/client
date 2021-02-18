@@ -11,75 +11,75 @@ const teamSupervisorService = new SupervisorInTeamServiceApiFactory(configuratio
 const fieldsToSend = ['domainId', 'teamId', 'agent'];
 
 export const getTeamSupervisorsList = async (teamId, page = 0, size = 10, search) => {
-    const { domainId } = store.state.userinfo;
+  const { domainId } = store.state.userinfo;
   // eslint-disable-next-line no-param-reassign
-    if (search && search.slice(-1) !== '*') search += '*';
-    const defaultObject = {
-        agent: {},
-        _isSelected: false,
-    };
+  if (search && search.slice(-1) !== '*') search += '*';
+  const defaultObject = {
+    agent: {},
+    _isSelected: false,
+  };
 
-    try {
-        const response = await teamSupervisorService
-          .searchSupervisorInTeam(teamId, page, size, search, domainId);
-        if (response.items) {
-            return {
-                list: response.items.map((item) => ({ ...defaultObject, ...item })),
-                isNext: response.next || false,
-            };
-        }
-        return { list: [] };
-    } catch (err) {
-        throw err;
+  try {
+    const response = await teamSupervisorService
+      .searchSupervisorInTeam(teamId, page, size, search, domainId);
+    if (response.items) {
+      return {
+        list: response.items.map((item) => ({ ...defaultObject, ...item })),
+        isNext: response.next || false,
+      };
     }
+    return { list: [] };
+  } catch (err) {
+    throw err;
+  }
 };
 
 export const getTeamSupervisor = async (teamId, id) => {
-    const { domainId } = store.state.userinfo;
-    try {
-        const response = await teamSupervisorService.readSupervisorInTeam(teamId, id, domainId);
-        const defaultObject = {
-            agent: {},
-            _dirty: false,
-        };
-        return { ...defaultObject, ...response };
-    } catch (err) {
-        throw err;
-    }
+  const { domainId } = store.state.userinfo;
+  try {
+    const response = await teamSupervisorService.readSupervisorInTeam(teamId, id, domainId);
+    const defaultObject = {
+      agent: {},
+      _dirty: false,
+    };
+    return { ...defaultObject, ...response };
+  } catch (err) {
+    throw err;
+  }
 };
 
 export const addTeamSupervisor = async (teamId, item) => {
-    const itemCopy = deepCopy(item);
-    itemCopy.domainId = store.state.userinfo.domainId;
-    itemCopy.teamId = teamId;
-    sanitizer(itemCopy, fieldsToSend);
-    try {
-        const response = await teamSupervisorService.createSupervisorInTeam(teamId, itemCopy);
-        eventBus.$emit('notification', { type: 'info', text: 'Successfully added' });
-        return response.id;
-    } catch (err) {
-        throw err;
-    }
+  const itemCopy = deepCopy(item);
+  itemCopy.domainId = store.state.userinfo.domainId;
+  itemCopy.teamId = teamId;
+  sanitizer(itemCopy, fieldsToSend);
+  try {
+    const response = await teamSupervisorService.createSupervisorInTeam(teamId, itemCopy);
+    eventBus.$emit('notification', { type: 'info', text: 'Successfully added' });
+    return response.id;
+  } catch (err) {
+    throw err;
+  }
 };
 
 export const updateTeamSupervisor = async (teamId, id, item) => {
-    const itemCopy = deepCopy(item);
-    itemCopy.domainId = store.state.userinfo.domainId;
-    itemCopy.teamId = teamId;
-    sanitizer(itemCopy, fieldsToSend);
-    try {
-        await teamSupervisorService.updateSupervisorInTeam(teamId, id, itemCopy);
-        eventBus.$emit('notification', { type: 'info', text: 'Successfully updated' });
-    } catch (err) {
-        throw err;
-    }
+  const itemCopy = deepCopy(item);
+  itemCopy.domainId = store.state.userinfo.domainId;
+  itemCopy.teamId = teamId;
+  sanitizer(itemCopy, fieldsToSend);
+  try {
+    await teamSupervisorService.updateSupervisorInTeam(teamId, id, itemCopy);
+    eventBus.$emit('notification', { type: 'info', text: 'Successfully updated' });
+  } catch (err) {
+    throw err;
+  }
 };
 
 export const deleteTeamSupervisor = async (teamId, id) => {
-    const { domainId } = store.state.userinfo;
-    try {
-        await teamSupervisorService.deleteSupervisorInTeam(teamId, id, domainId);
-    } catch (err) {
-        throw err;
-    }
+  const { domainId } = store.state.userinfo;
+  try {
+    await teamSupervisorService.deleteSupervisorInTeam(teamId, id, domainId);
+  } catch (err) {
+    throw err;
+  }
 };

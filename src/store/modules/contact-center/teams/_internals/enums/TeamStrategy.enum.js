@@ -1,4 +1,3 @@
-
 const TeamStrategy = Object.freeze({
   RANDOM: 'random',
   FEWEST_CALLS: 'fewest-calls',

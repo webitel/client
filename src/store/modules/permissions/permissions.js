@@ -2,11 +2,11 @@ import objects from './objects/objects';
 import roles from './roles/roles';
 
 const modules = {
-    roles,
-    objects
+  roles,
+  objects,
 };
 
 export default {
-    namespaced: true,
-    modules
+  namespaced: true,
+  modules,
 };

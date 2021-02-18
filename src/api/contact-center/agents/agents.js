@@ -3,8 +3,10 @@ import instance from '../../instance';
 import configuration from '../../openAPIConfig';
 import store from '../../../store/store';
 import { WebitelSDKListGetter } from '../../utils/ApiControllers/ListGetter/SDKListGetter';
-import WebitelAPIPermissionsGetter from '../../utils/ApiControllers/Permissions/WebitelAPIPermissionsGetter';
-import WebitelAPIPermissionsPatcher from '../../utils/ApiControllers/Permissions/WebitelAPIPermissionsPatcher';
+import WebitelAPIPermissionsGetter
+  from '../../utils/ApiControllers/Permissions/WebitelAPIPermissionsGetter';
+import WebitelAPIPermissionsPatcher
+  from '../../utils/ApiControllers/Permissions/WebitelAPIPermissionsPatcher';
 import { WebitelSDKItemDeleter } from '../../utils/ApiControllers/Deleter/SDKDeleter';
 import { WebitelSDKItemUpdater } from '../../utils/ApiControllers/Updater/SDKUpdater';
 import { WebitelSDKItemCreator } from '../../utils/ApiControllers/Creator/SDKCreator';
@@ -24,7 +26,11 @@ const itemDeleter = new WebitelSDKItemDeleter(agentService.deleteAgent);
 const permissionsGetter = new WebitelAPIPermissionsGetter(BASE_URL);
 const permissionsPatcher = new WebitelAPIPermissionsPatcher(BASE_URL);
 
-export const getAgentsList = async (page = 0, size = 10, search) => listGetter.getList({ page, size, search });
+export const getAgentsList = async (page = 0, size = 10, search) => listGetter.getList({
+  page,
+  size,
+  search,
+});
 
 export const getAgent = async (id) => itemGetter.getItem(id);
 
@@ -35,54 +41,54 @@ export const updateAgent = async (id, item) => itemUpdater.updateItem(id, item);
 export const deleteAgent = async (id) => itemDeleter.deleteItem(id);
 
 export const getAgentUsersOptions = async (page = 1, size = 10, search) => {
-    const response = await agentService.searchLookupUsersAgentNotExists(page, size, search);
-    return response.items ? { list: response.items } : [];
+  const response = await agentService.searchLookupUsersAgentNotExists(page, size, search);
+  return response.items ? { list: response.items } : [];
 };
 
 export const getAgentHistory = async (id, date, page = 0, size = 10, search) => {
-    const { domainId } = store.state.userinfo;
-    try {
-        const response = await agentService.searchAgentStateHistory(page, size, date, Date.now(), id, '-joined_at', domainId);
-        return response.items ? response.items : [];
-    } catch (err) {
-        throw err;
-    }
+  const { domainId } = store.state.userinfo;
+  try {
+    const response = await agentService.searchAgentStateHistory(page, size, date, Date.now(), id, '-joined_at', domainId);
+    return response.items ? response.items : [];
+  } catch (err) {
+    throw err;
+  }
 };
 
 export const getAgentTeamsList = async (id, page = 0, size = 10, search = '') => {
-    const { domainId } = store.state.userinfo;
-    try {
-        const response = await agentService.searchAgentInTeam(id, page, size, search, domainId);
-        if (response.items) {
-            return {
-                list: response.items,
-                isNext: response.next || false,
-            };
-        }
-        return [];
-    } catch (err) {
-        throw err;
+  const { domainId } = store.state.userinfo;
+  try {
+    const response = await agentService.searchAgentInTeam(id, page, size, search, domainId);
+    if (response.items) {
+      return {
+        list: response.items,
+        isNext: response.next || false,
+      };
     }
+    return [];
+  } catch (err) {
+    throw err;
+  }
 };
 
 export const getAgentQueuesList = async (id, page = 0, size = 10, search = '') => {
-    const { domainId } = store.state.userinfo;
-    const defaultObject = {
-      countMember: 0,
-      waitingMember: 0,
-    };
-    try {
-        const response = await agentService.searchAgentInQueue(id, page, size, search, domainId);
-        if (response.items) {
-            return {
-                list: response.items.map((item) => ({...defaultObject, ...item })),
-                isNext: response.next || false,
-            };
-        }
-        return [];
-    } catch (err) {
-        throw err;
+  const { domainId } = store.state.userinfo;
+  const defaultObject = {
+    countMember: 0,
+    waitingMember: 0,
+  };
+  try {
+    const response = await agentService.searchAgentInQueue(id, page, size, search, domainId);
+    if (response.items) {
+      return {
+        list: response.items.map((item) => ({ ...defaultObject, ...item })),
+        isNext: response.next || false,
+      };
     }
+    return [];
+  } catch (err) {
+    throw err;
+  }
 };
 
 export const getAgentPermissions = async (id, page = 0, size = 10, search) => await permissionsGetter.getList(id, size, search);

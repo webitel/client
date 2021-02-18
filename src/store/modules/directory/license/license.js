@@ -1,79 +1,79 @@
-import {getLicenseList, updateLicense} from "../../../../api/directory/license/license";
-import {DefaultModule} from "../../defaults/DefaultModule";
+import { getLicenseList, updateLicense } from "../../../../api/directory/license/license";
+import { DefaultModule } from "../../defaults/DefaultModule";
 
 const defaultState = () => {
-    return {
-        key: '',
-    };
+  return {
+    key: '',
+  };
 };
 
 const defaultModule = new DefaultModule(defaultState);
 
 const state = {
-    ...defaultModule.state,
+  ...defaultModule.state,
 };
 
 const getters = {};
 
 const actions = {
-    ...defaultModule.actions,
+  ...defaultModule.actions,
 
-    GET_LIST: async () => {
-        return await getLicenseList(state.page, state.size, state.search);
-    },
+  GET_LIST: async () => {
+    return await getLicenseList(state.page, state.size, state.search);
+  },
 
-    UPD_ITEM: async () => {
-        return await updateLicense(state.key);
-    },    
+  UPD_ITEM: async () => {
+    return await updateLicense(state.key);
+  },
 
-    SET_SIZE: (context, size) => {
-        context.commit('SET_SIZE', size);
-    },
+  SET_SIZE: (context, size) => {
+    context.commit('SET_SIZE', size);
+  },
 
-    SET_SEARCH: (context, search) => {
-        context.commit('SET_SEARCH', search);
-    },
+  SET_SEARCH: (context, search) => {
+    context.commit('SET_SEARCH', search);
+  },
 
-    NEXT_PAGE: (context) => {
-        if (state.isNextPage) {
-            context.commit('INCREMENT_PAGE');
-            context.dispatch('LOAD_DATA_LIST');
-        }
-    },
+  NEXT_PAGE: (context) => {
+    if (state.isNextPage) {
+      context.commit('INCREMENT_PAGE');
+      context.dispatch('LOAD_DATA_LIST');
+    }
+  },
 
-    PREV_PAGE: (context) => {
-        if (state.page) {
-            context.commit('DECREMENT_PAGE');
-            context.dispatch('LOAD_DATA_LIST');
-        }
-    },
+  PREV_PAGE: (context) => {
+    if (state.page) {
+      context.commit('DECREMENT_PAGE');
+      context.dispatch('LOAD_DATA_LIST');
+    }
+  },
 
-    SET_KEY_PROPERTY: (context, value) => {
-        context.commit('SET_KEY_PROPERTY', value);
-    },
+  SET_KEY_PROPERTY: (context, value) => {
+    context.commit('SET_KEY_PROPERTY', value);
+  },
 
-    UPDATE_ITEM: async (context) => {
-        await context.dispatch('UPD_ITEM');
-        context.dispatch('LOAD_DATA_LIST');
-    },
+  UPDATE_ITEM: async (context) => {
+    await context.dispatch('UPD_ITEM');
+    context.dispatch('LOAD_DATA_LIST');
+  },
 
-    RESET_ITEM_STATE: async (context) => {
-        context.commit('RESET_ITEM_STATE');
-    },
+  RESET_ITEM_STATE: async (context) => {
+    context.commit('RESET_ITEM_STATE');
+  },
 };
 
 const mutations = {
-    ...defaultModule.mutations,
+  ...defaultModule.mutations,
 
-    SET_KEY_PROPERTY: (state, value) => {
-        state.key = value;
-    },
+  SET_KEY_PROPERTY: (state, value) => {
+    state.key = value;
+  },
 };
 
 export default {
-    namespaced: true,
-    state,
-    getters,
-    actions,
-    mutations,
+  namespaced: true,
+  state,
+  getters,
+  actions,
+  mutations,
 };

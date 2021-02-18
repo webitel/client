@@ -1,6 +1,8 @@
 import deepCopy from 'deep-copy';
-import WebitelAPIPermissionsGetter from '../../utils/ApiControllers/Permissions/WebitelAPIPermissionsGetter';
-import WebitelAPIPermissionsPatcher from '../../utils/ApiControllers/Permissions/WebitelAPIPermissionsPatcher';
+import WebitelAPIPermissionsGetter
+  from '../../utils/ApiControllers/Permissions/WebitelAPIPermissionsGetter';
+import WebitelAPIPermissionsPatcher
+  from '../../utils/ApiControllers/Permissions/WebitelAPIPermissionsPatcher';
 import { WebitelAPIItemDeleter } from '../../utils/ApiControllers/Deleter/ApiDeleter';
 import { WebitelAPIItemPatcher } from '../../utils/ApiControllers/Patcher/ApiPatcher';
 import { WebitelAPIItemUpdater } from '../../utils/ApiControllers/Updater/ApiUpdater';
@@ -11,48 +13,50 @@ import instance from '../../instance';
 
 const BASE_URL = '/users';
 const fieldsToSend = ['name', 'username', 'password', 'extension', 'status', 'note', 'roles', 'license', 'devices', 'device',
-    'profile', 'profile', 'email'];
+  'profile', 'profile', 'email'];
 
 const defaultListItem = {
-    _isSelected: false,
-    name: '',
-    status: '',
-    state: true,
-    dnd: false,
+  _isSelected: false,
+  name: '',
+  status: '',
+  state: true,
+  dnd: false,
 };
 
 const defaultItem = {
-    name: '',
-    username: '',
-    password: '',
-    extension: '',
-    roles: [],
-    license: [],
-    devices: [],
-    device: {},
-    variables: [
-        { key: '', value: '' },
-    ],
-    _dirty: false,
+  name: '',
+  username: '',
+  password: '',
+  extension: '',
+  roles: [],
+  license: [],
+  devices: [],
+  device: {},
+  variables: [
+    { key: '', value: '' },
+  ],
+  _dirty: false,
 };
 
 const defaultTokensItem = {
-    token: '',
-    usage: '',
+  token: '',
+  usage: '',
 };
 
 const preRequestHandler = (item) => {
-    if (item.device && !item.device.id) delete item.device;
-    if (item.roles) item.roles.forEach((item) => delete item.text);
-    if (item.devices) item.devices.forEach((item) => delete item.text);
-    if (item.license) { item.license = item.license.map((item) => ({ id: item.id })); }
-    item.profile = {};
-    if (item.variables) {
-        item.variables.forEach((variable) => {
-            item.profile[variable.key] = variable.value;
-        });
-    }
-    return item;
+  if (item.device && !item.device.id) delete item.device;
+  if (item.roles) item.roles.forEach((item) => delete item.text);
+  if (item.devices) item.devices.forEach((item) => delete item.text);
+  if (item.license) {
+    item.license = item.license.map((item) => ({ id: item.id }));
+  }
+  item.profile = {};
+  if (item.variables) {
+    item.variables.forEach((variable) => {
+      item.profile[variable.key] = variable.value;
+    });
+  }
+  return item;
 };
 
 const listGetter = new WebitelAPIListGetter(BASE_URL, defaultListItem);
@@ -65,29 +69,29 @@ const permissionsGetter = new WebitelAPIPermissionsGetter(BASE_URL);
 const permissionsPatcher = new WebitelAPIPermissionsPatcher(BASE_URL);
 
 itemGetter.responseHandler = (response) => {
-    const user = { ...defaultItem, ...response };
-    if (user.license) {
- user.license.forEach((item) => {
-        item.name = item.prod;
+  const user = { ...defaultItem, ...response };
+  if (user.license) {
+    user.license.forEach((item) => {
+      item.name = item.prod;
     });
-}
-    if (user.profile) {
-        user.variables = Object.keys(user.profile).map((key) => ({
-                key,
-                value: user.profile[key],
-            }));
-    } else {
-        user.variables = [{ key: '', value: '' }];
-    }
-    return user;
+  }
+  if (user.profile) {
+    user.variables = Object.keys(user.profile).map((key) => ({
+      key,
+      value: user.profile[key],
+    }));
+  } else {
+    user.variables = [{ key: '', value: '' }];
+  }
+  return user;
 };
 
 export async function getUsersList(page, size, search) {
-    return await listGetter.getList({ page, size, search });
+  return await listGetter.getList({ page, size, search });
 }
 
 export async function getUser(id) {
-    return await itemGetter.getItem(id);
+  return await itemGetter.getItem(id);
 }
 
 export const addUser = async (item) => await itemCreator.createItem(item);
@@ -99,42 +103,42 @@ export const patchUser = async (id, item) => await itemPatcher.patchItem(id, ite
 export const deleteUser = async (id) => await itemDeleter.deleteItem(id);
 
 export async function getTokens(id, page = 1, size = 10, search) {
-    const getTokensUrl = `${BASE_URL}/${id}/tokens`;
-    if (search && search.slice(-1) !== '*') search += '*';
-    let url = `${getTokensUrl}?size=${size}&page=${page}`;
-    if (search) url += `&name=${search}`;
+  const getTokensUrl = `${BASE_URL}/${id}/tokens`;
+  if (search && search.slice(-1) !== '*') search += '*';
+  let url = `${getTokensUrl}?size=${size}&page=${page}`;
+  if (search) url += `&name=${search}`;
 
-    try {
-        const response = await instance.get(url);
-        return {
-            list: response.items || [],
-            next: response.next || false,
-        };
-    } catch (err) {
-        throw err;
-    }
+  try {
+    const response = await instance.get(url);
+    return {
+      list: response.items || [],
+      next: response.next || false,
+    };
+  } catch (err) {
+    throw err;
+  }
 }
 
 export async function addToken(userId, item) {
-    const url = `${BASE_URL}/${userId}/tokens`;
-    const itemCopy = deepCopy(item);
-    delete itemCopy.token;
-    try {
-        const response = await instance.post(url, itemCopy);
-        return response;
-    } catch (err) {
-        throw err;
-    }
+  const url = `${BASE_URL}/${userId}/tokens`;
+  const itemCopy = deepCopy(item);
+  delete itemCopy.token;
+  try {
+    const response = await instance.post(url, itemCopy);
+    return response;
+  } catch (err) {
+    throw err;
+  }
 }
 
 export async function deleteToken(userId, id) {
-    const url = `${BASE_URL}/${userId}/tokens/${id}`;
-    try {
-        const response = await instance.delete(url);
-        return response;
-    } catch (err) {
-        throw err;
-    }
+  const url = `${BASE_URL}/${userId}/tokens/${id}`;
+  try {
+    const response = await instance.delete(url);
+    return response;
+  } catch (err) {
+    throw err;
+  }
 }
 
 export const getUserPermissions = async (id, page = 1, size = 10, search) => await permissionsGetter.getList(id, size, search);

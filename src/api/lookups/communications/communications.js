@@ -13,10 +13,10 @@ const communicationService = new CommunicationTypeServiceApiFactory(configuratio
 const fieldsToSend = ['domainId', 'code', 'name', 'description'];
 
 const defaultItemObject = {
-    name: '',
-    code: '',
-    description: '',
-    _dirty: false,
+  name: '',
+  code: '',
+  description: '',
+  _dirty: false,
 };
 
 const listGetter = new WebitelSDKListGetter(communicationService.searchCommunicationType);
@@ -25,7 +25,11 @@ const itemCreator = new WebitelSDKItemCreator(communicationService.createCommuni
 const itemUpdater = new WebitelSDKItemUpdater(communicationService.updateCommunicationType, fieldsToSend);
 const itemDeleter = new WebitelSDKItemDeleter(communicationService.deleteCommunicationType);
 
-export const getCommunicationsList = async (page = 0, size = 10, search) => await listGetter.getList({ page, size, search });
+export const getCommunicationsList = async (page = 0, size = 10, search) => await listGetter.getList({
+  page,
+  size,
+  search,
+});
 
 export const getCommunication = async (id) => await itemGetter.getItem(id);
 

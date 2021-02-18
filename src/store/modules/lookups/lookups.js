@@ -4,13 +4,13 @@ import communications from './communications/communications';
 import media from './media/media';
 
 const modules = {
-    blacklists,
-    calendars,
-    communications,
-    media,
+  blacklists,
+  calendars,
+  communications,
+  media,
 };
 
 export default {
-    namespaced: true,
-    modules
+  namespaced: true,
+  modules,
 };

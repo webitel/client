@@ -1,5 +1,5 @@
 export default class BaseItemDeleter {
-    constructor(method) {
-        this.method = method;
-    }
+  constructor(method) {
+    this.method = method;
+  }
 }

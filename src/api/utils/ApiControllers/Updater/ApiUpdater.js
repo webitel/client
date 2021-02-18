@@ -6,23 +6,23 @@ import instance from '../../../instance';
 import BaseItemUpdater from './BaseItemUpdater';
 
 export class WebitelAPIItemUpdater extends BaseItemUpdater {
-    constructor(url, fieldsToSend, preRequestHandler) {
-        super(null, fieldsToSend);
-        this.url = url;
-        this.preRequestHandler = preRequestHandler;
-    }
+  constructor(url, fieldsToSend, preRequestHandler) {
+    super(null, fieldsToSend);
+    this.url = url;
+    this.preRequestHandler = preRequestHandler;
+  }
 
-    async updateItem(id, item) {
-        const updUrl = `${this.url}/${id}`;
-        const itemCopy = deepCopy(item);
-        itemCopy.domainId = store.state.userinfo.domainId;
-        if (this.preRequestHandler) this.preRequestHandler(itemCopy);
-        sanitizer(itemCopy, this.fieldsToSend);
-        try {
-            const response = await instance.put(updUrl, itemCopy);
-            eventBus.$emit('notification', { type: 'info', text: 'Successfully updated' });
-        } catch (err) {
-            throw err;
-        }
+  async updateItem(id, item) {
+    const updUrl = `${this.url}/${id}`;
+    const itemCopy = deepCopy(item);
+    itemCopy.domainId = store.state.userinfo.domainId;
+    if (this.preRequestHandler) this.preRequestHandler(itemCopy);
+    sanitizer(itemCopy, this.fieldsToSend);
+    try {
+      const response = await instance.put(updUrl, itemCopy);
+      eventBus.$emit('notification', { type: 'info', text: 'Successfully updated' });
+    } catch (err) {
+      throw err;
     }
+  }
 }

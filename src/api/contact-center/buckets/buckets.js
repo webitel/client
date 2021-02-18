@@ -1,8 +1,10 @@
 import { BucketServiceApiFactory } from 'webitel-sdk';
 import instance from '../../instance';
 import configuration from '../../openAPIConfig';
-import WebitelAPIPermissionsGetter from '../../utils/ApiControllers/Permissions/WebitelAPIPermissionsGetter';
-import WebitelAPIPermissionsPatcher from '../../utils/ApiControllers/Permissions/WebitelAPIPermissionsPatcher';
+import WebitelAPIPermissionsGetter
+  from '../../utils/ApiControllers/Permissions/WebitelAPIPermissionsGetter';
+import WebitelAPIPermissionsPatcher
+  from '../../utils/ApiControllers/Permissions/WebitelAPIPermissionsPatcher';
 import { WebitelSDKItemDeleter } from '../../utils/ApiControllers/Deleter/SDKDeleter';
 import { WebitelSDKItemUpdater } from '../../utils/ApiControllers/Updater/SDKUpdater';
 import { WebitelSDKItemCreator } from '../../utils/ApiControllers/Creator/SDKCreator';
@@ -23,7 +25,11 @@ const itemDeleter = new WebitelSDKItemDeleter(bucketService.deleteBucket);
 const permissionsGetter = new WebitelAPIPermissionsGetter(BASE_URL);
 const permissionsPatcher = new WebitelAPIPermissionsPatcher(BASE_URL);
 
-export const getBucketsList = async (page = 0, size = 10, search) => await listGetter.getList({ page, size, search });
+export const getBucketsList = async (page = 0, size = 10, search) => await listGetter.getList({
+  page,
+  size,
+  search,
+});
 
 export const getBucket = async (id) => await itemGetter.getItem(id);
 
