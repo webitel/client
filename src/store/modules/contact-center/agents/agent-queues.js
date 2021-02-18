@@ -1,5 +1,5 @@
-import { getAgentQueuesList } from "../../../../api/contact-center/agents/agents";
-import { DefaultNestedModule } from "../../defaults/DefaultNestedModule";
+import AgentsAPI from '../../../../api/contact-center/agents/agents';
+import { DefaultNestedModule } from '../../defaults/DefaultNestedModule';
 
 const defaultModule = new DefaultNestedModule();
 
@@ -10,11 +10,10 @@ const state = {
 const getters = {};
 
 const actions = {
-  GET_LIST: async (context) => {
-    return await getAgentQueuesList(context.state.parentId, context.state.page, context.state.size, context.state.search);
-  },
-
   ...defaultModule.actions,
+  GET_LIST: (context) => {
+    return AgentsAPI.getAgentsInQueue(context.state);
+  },
 };
 
 const mutations = {

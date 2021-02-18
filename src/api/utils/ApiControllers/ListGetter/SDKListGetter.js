@@ -13,11 +13,16 @@ export class WebitelSDKListGetter extends BaseListGetter {
     }
   }
 
-  getList({ page, size, search }) {
+  getList({ page = 1, size = 10, search }) {
     return this._getList([page, size, search]);
   }
 
-  getNestedList({ parentId, page, size, search }) {
+  getNestedList({
+                  parentId,
+                  page = 1,
+                  size = 10,
+                  search,
+                }) {
     return this._getList([parentId, page, size, search]);
   }
 }

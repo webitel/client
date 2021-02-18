@@ -1,23 +1,22 @@
 import skills from './agent-skills';
 import history from './history';
-import teams from './agent-teams';
 import queues from './agent-queues';
 import permissions from './permissions';
-import {
-  addAgent,
-  deleteAgent,
-  getAgent,
-  getAgentsList,
-  updateAgent,
-} from '../../../../api/contact-center/agents/agents';
+import AgentsAPI from '../../../../api/contact-center/agents/agents';
 import { DefaultModule } from '../../defaults/DefaultModule';
 
 const defaultState = () => ({
   itemId: 0,
   itemInstance: {
     user: {},
-    description: '',
+    team: {},
+    supervisor: {},
+    auditor: {},
+    region: {},
     progressiveCount: 1,
+    chatCount: 1,
+    isSupervisor: false,
+    description: '',
   },
 });
 
@@ -31,32 +30,25 @@ const getters = {};
 
 const actions = {
   ...defaultModule.actions,
-
-  GET_LIST: async (context) => {
-    return await getAgentsList(context.state.page, context.state.size, context.state.search);
+  GET_LIST: (context) => {
+    return AgentsAPI.getList(context.state);
   },
-
-  GET_ITEM: async (context) => {
-    return await getAgent(context.state.itemId);
+  GET_ITEM: (context) => {
+    return AgentsAPI.get(context.state);
   },
-
-  POST_ITEM: async (context) => {
-    return await addAgent(context.state.itemInstance);
+  POST_ITEM: (context) => {
+    return AgentsAPI.add(context.state);
   },
-
-  UPD_ITEM: async (context) => {
-    await updateAgent(context.state.itemId, context.state.itemInstance);
+  UPD_ITEM: (context) => {
+    return AgentsAPI.update(context.state);
   },
-
-  DELETE_ITEM: async (context, id) => {
-    await deleteAgent(id);
+  DELETE_ITEM: (context, id) => {
+    return AgentsAPI.delete({ id });
   },
-
   RESET_ITEM_STATE: async (context) => {
     context.commit('RESET_ITEM_STATE');
     context.dispatch('ccenter/agents/queues/RESET_STATE', {}, { root: true });
     context.dispatch('ccenter/agents/skills/RESET_STATE', {}, { root: true });
-    context.dispatch('ccenter/agents/teams/RESET_STATE', {}, { root: true });
   },
 };
 
@@ -70,5 +62,5 @@ export default {
   getters,
   actions,
   mutations,
-  modules: { history, skills, teams, queues, permissions },
+  modules: { history, skills, queues, permissions },
 };
