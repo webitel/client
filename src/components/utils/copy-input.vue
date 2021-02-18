@@ -1,29 +1,29 @@
 <template>
   <div class="copy-input">
     <wt-input
-        ref="copy-input"
-        :value="value"
-        :label="label"
-        :v="v"
-        :required="required"
-        :disabled="disabled"
-        @input="input"
+      ref="copy-input"
+      :value="value"
+      :label="label"
+      :v="v"
+      :required="required"
+      :disabled="disabled"
+      @input="input"
     ></wt-input>
 
     <div class="copy-input__icon-extension" :style="iconExtensionStyle">
       <wt-icon-btn
-          v-show="!isCopied"
-          class="copy-input__icon-btn copy-input__icon-btn--copy"
-          icon="copy"
-          :tooltip="$t('objects.copy')"
-          @click="copy"
+        v-show="!isCopied"
+        class="copy-input__icon-btn copy-input__icon-btn--copy"
+        icon="copy"
+        :tooltip="$t('objects.copy')"
+        @click="copy"
       ></wt-icon-btn>
       <wt-icon-btn
-          v-show="isCopied"
-          class="copy-input__icon-btn copy-input__icon-btn--tick"
-          icon="rounded-tick"
-          color="true"
-          :tooltip="$t('objects.copied')"
+        v-show="isCopied"
+        class="copy-input__icon-btn copy-input__icon-btn--tick"
+        icon="rounded-tick"
+        color="true"
+        :tooltip="$t('objects.copied')"
       ></wt-icon-btn>
     </div>
   </div>
@@ -61,7 +61,7 @@ export default {
   },
 
   mounted() {
-   this.isMounted = true;
+    this.isMounted = true;
   },
 
   computed: {
@@ -115,7 +115,7 @@ export default {
 .copy-input__icon-extension {
   display: flex;
   position: absolute;
- // top: 35px; // middle of input field
+  // top: 35px; // middle of input field
   right: 9px; // input right padding
 }
 

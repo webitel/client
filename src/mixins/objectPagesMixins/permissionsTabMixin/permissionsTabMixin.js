@@ -1,6 +1,7 @@
 import { mapActions } from 'vuex';
 import tableComponentMixin from '../objectTableMixin/tableComponentMixin';
-import AccessMode from '../../../store/modules/permissions/objects/_internals/enums/AccessMode.enum';
+import AccessMode
+  from '../../../store/modules/permissions/objects/_internals/enums/AccessMode.enum';
 
 export default {
   mixins: [tableComponentMixin],

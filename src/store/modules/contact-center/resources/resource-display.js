@@ -1,7 +1,9 @@
-import proxy from "../../../../utils/editProxy";
 import {
-  getResDisplayList, addResDisplay,
-  updateResDisplay, deleteResDisplay, getResDisplay,
+  addResDisplay,
+  deleteResDisplay,
+  getResDisplay,
+  getResDisplayList,
+  updateResDisplay,
 } from "../../../../api/contact-center/resources/resourceDisplay";
 import { DefaultNestedModule } from "../../defaults/DefaultNestedModule";
 

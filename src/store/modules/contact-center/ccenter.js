@@ -8,17 +8,17 @@ import buckets from './buckets/buckets';
 import callLog from './queues/queue-callLogs';
 
 const modules = {
-    agents,
-    skills,
-    teams,
-    queues,
-    res,
-    resGroups,
-    buckets,
-    callLog,
+  agents,
+  skills,
+  teams,
+  queues,
+  res,
+  resGroups,
+  buckets,
+  callLog,
 };
 
 export default {
-    namespaced: true,
-    modules
+  namespaced: true,
+  modules,
 };

@@ -12,7 +12,8 @@ import tagsInput from '@/components/utils/tags-input';
 import permissionsTab from '@/components/object-utils/utils/permissions-tab';
 import tabsComponent from '@/components/utils/tabs-component';
 
-import openedObjectValidationMixin from '../../baseMixins/openedObjectValidationMixin/openedObjectValidationMixin';
+import openedObjectValidationMixin
+  from '../../baseMixins/openedObjectValidationMixin/openedObjectValidationMixin';
 import openedObjectTabAccessControlMixin from './_internals/openedObjectTabAccessControlMixin';
 
 /**

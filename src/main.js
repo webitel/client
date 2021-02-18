@@ -22,25 +22,25 @@ Vue.component('vuetable-field-table-checkbox', tableCheckboxColumn);
 Vue.use(Vuelidate);
 
 const fetchConfig = async () => {
-    const response = await fetch(`${process.env.BASE_URL}config.json`);
-    return response.json();
+  const response = await fetch(`${process.env.BASE_URL}config.json`);
+  return response.json();
 };
 
 const fetchUserinfo = () => getSession();
 
 const createVueInstance = () => {
-    new Vue({
-        router,
-        store,
-        i18n,
-        render: (h) => h(App),
-    }).$mount('#app');
+  new Vue({
+    router,
+    store,
+    i18n,
+    render: (h) => h(App),
+  }).$mount('#app');
 };
 
 // init IIFE
 (async () => {
-    const config = await fetchConfig();
-    await fetchUserinfo();
-    Vue.prototype.$config = config;
-    createVueInstance();
+  const config = await fetchConfig();
+  await fetchUserinfo();
+  Vue.prototype.$config = config;
+  createVueInstance();
 })();

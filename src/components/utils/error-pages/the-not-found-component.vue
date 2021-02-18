@@ -12,7 +12,7 @@
       <wt-button
         class="error-page__action"
         @click.native="goToHome"
-      >{{$t('errorPages.goToHome')}}
+      >{{ $t('errorPages.goToHome') }}
       </wt-button>
     </article>
   </section>

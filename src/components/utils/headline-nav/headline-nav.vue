@@ -71,6 +71,7 @@ export default {
   .headline-nav__nav__indicator {
     background: var(--icon-accent-color);
   }
+
   .headline-nav__nav__text {
     color: var(--text-primary-color);
   }

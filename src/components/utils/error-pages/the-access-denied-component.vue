@@ -6,12 +6,12 @@
         src="../../../assets/img/admin/error-pages/403.svg"
         alt="access denied pic"
       >
-      <h2 class="error-page__title">{{$t('errorPages.page403.title')}}</h2>
-      <p class="error-page__text">{{$t('errorPages.page403.text')}}</p>
+      <h2 class="error-page__title">{{ $t('errorPages.page403.title') }}</h2>
+      <p class="error-page__text">{{ $t('errorPages.page403.text') }}</p>
       <wt-button
         class="error-page__action"
         @click="goToHome"
-      >{{$t('errorPages.goToHome')}}
+      >{{ $t('errorPages.goToHome') }}
       </wt-button>
     </article>
   </section>

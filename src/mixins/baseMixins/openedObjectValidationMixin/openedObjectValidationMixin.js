@@ -1,4 +1,3 @@
-
 /**
  * @fileOverview implements work with validation
  */

@@ -13,7 +13,8 @@ import tagsInput from '@/components/utils/tags-input';
 import permissionsTab from '../../../components/object-utils/utils/permissions-tab';
 
 import ObjectHeader from '../../../components/object-utils/the-object-header.vue';
-import openedObjectValidationMixin from '../../baseMixins/openedObjectValidationMixin/openedObjectValidationMixin';
+import openedObjectValidationMixin
+  from '../../baseMixins/openedObjectValidationMixin/openedObjectValidationMixin';
 import openedObjectAccessControlMixin from './_internals/openedObjectAccessControlMixin';
 
 /**
@@ -92,18 +93,18 @@ export default {
       },
     }),
 
-   async save() {
+    async save() {
       const invalid = this.checkValidations();
       if (!invalid) {
         if (this.id) {
-         await this.updateItem();
+          await this.updateItem();
         } else {
           try {
             await this.addItem();
-           if (this.id) {
-             const routeName = this.$route.name.replace('-new', '-edit');
-             await this.$router.replace({ name: routeName, params: { id: this.id } });
-           }
+            if (this.id) {
+              const routeName = this.$route.name.replace('-new', '-edit');
+              await this.$router.replace({ name: routeName, params: { id: this.id } });
+            }
           } catch (err) {
             throw err;
           }

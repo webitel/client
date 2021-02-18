@@ -9,9 +9,9 @@ export default {
       const navWithLocale = (nav) => ({ ...nav, name: this.$t(nav.locale) });
       return this.accessibleNav.map((nav) => {
         if (nav.subNav) {
-         return {
+          return {
             ...navWithLocale(nav),
-           subNav: nav.subNav.map((nav) => navWithLocale(nav)),
+            subNav: nav.subNav.map((nav) => navWithLocale(nav)),
           };
         }
         return navWithLocale(nav);

@@ -10,14 +10,14 @@ import permissions from './modules/permissions/permissions';
 
 Vue.use(Vuex);
 export default new Vuex.Store({
-    strict: false,
-    modules: {
-        userinfo,
-        directory,
-        routing,
-        lookups,
-        ccenter,
-        integrations,
-        permissions,
-    },
+  strict: false,
+  modules: {
+    userinfo,
+    directory,
+    routing,
+    lookups,
+    ccenter,
+    integrations,
+    permissions,
+  },
 });
