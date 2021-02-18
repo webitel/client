@@ -92,7 +92,7 @@ export default {
 
   data: () => ({
     namespace: 'lookups/regions',
-    routeName: RouteNames.PAUSE_CAUSE,
+    routeName: RouteNames.REGIONS,
   }),
 
   computed: {

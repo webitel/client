@@ -28,7 +28,7 @@ const openedCalendar = () => import('../components/lookups/calendars/opened-cale
 const communicationTypes = () => import('../components/lookups/communication-types/the-communication-types');
 const openedCommunicationType = () => import('../components/lookups/communication-types/opened-communication-type');
 const Regions = () => import('../components/lookups/regions/the-regions');
-const OpenedRegion = () => import('../components/lookups/regions/the-regions');
+const OpenedRegion = () => import('../components/lookups/regions/opened-region');
 const AgentPauseCause = () => import('../components/lookups/agent-pause-cause/the-agent-pause-cause');
 const OpenedAgentPauseCause = () => import('../components/lookups/agent-pause-cause/opened-agent-pause-cause');
 const sipGateways = () => import('../components/routing/sip-gateways/the-sip-gateways');
