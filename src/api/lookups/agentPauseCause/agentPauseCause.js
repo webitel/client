@@ -12,18 +12,37 @@ const pauseCauseService = new AgentPauseCauseServiceApiFactory(configuration, ''
 
 const fieldsToSend = ['name', 'limitMin', 'allowAdmin', 'allowSupervisor', 'allowAgent', 'description'];
 
-const listGetter = new SDKListGetter(pauseCauseService.searchAgentPauseCause);
-const itemGetter = new SDKItemGetter(pauseCauseService.readAgentPauseCause);
+const defaultListObject = {
+  name: '',
+  limitMin: 0,
+  allowAdmin: false,
+  allowSupervisor: false,
+  allowAgent: false,
+};
+
+const defaultObject = {
+  name: '',
+  limitMin: 0,
+  allowAdmin: false,
+  allowSupervisor: false,
+  allowAgent: false,
+  _dirty: false,
+};
+
+const listGetter = new SDKListGetter(pauseCauseService.searchAgentPauseCause, defaultListObject);
+const itemGetter = new SDKItemGetter(pauseCauseService.readAgentPauseCause, defaultObject);
 const itemCreator = new SDKItemCreator(pauseCauseService.createAgentPauseCause, fieldsToSend);
 const itemPatcher = new SDKItemPatcher(pauseCauseService.patchAgentPauseCause, fieldsToSend);
 const itemUpdater = new SDKItemUpdater(pauseCauseService.updateAgentPauseCause, fieldsToSend);
 const itemDeleter = new SDKItemDeleter(pauseCauseService.deleteAgentPauseCause);
 
 export const getPauseCauseList = (params) => listGetter.getList(params);
-export const getPauseCause = ({ id }) => itemGetter.getItem(id);
+export const getPauseCause = ({ itemId }) => itemGetter.getItem(itemId);
 export const addPauseCause = ({ itemInstance }) => itemCreator.createItem(itemInstance);
 export const patchPauseCause = ({ id, changes }) => itemPatcher.patchItem(id, changes);
-export const updatePauseCause = ({ id, itemInstance }) => itemUpdater.updateItem(id, itemInstance);
+export const updatePauseCause = ({ itemId, itemInstance }) => (
+  itemUpdater.updateItem(itemId, itemInstance)
+);
 export const deletePauseCause = ({ id }) => itemDeleter.deleteItem(id);
 
 export default {

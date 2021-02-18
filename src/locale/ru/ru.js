@@ -96,9 +96,7 @@ export default {
             blacklists: 'Cписок обзвона',
             calendars: 'Календари',
             communications: 'Типы связи',
-            contactTypes: 'Типы контактов',
-            leadSources: 'Lead sources',
-            leadStatus: 'Lead status',
+            agentPauseCause: 'Статусы агента',
         },
         ccenter: {
             ccenter: 'Контакт-центр',
@@ -352,18 +350,15 @@ export default {
                 addCommunication: 'Добавить связь',
                 code: 'Код',
             },
-            contactType: {
-                contactType: 'Тип контакта | Типы контактов',
-                allContactTypes: 'Все типы контактов',
-            },
-            leadSource: {
-                leadSource: 'Lead source | Lead sources',
-                allSources: 'All sources',
-            },
-            leadStatus: {
-                leadStatus: 'Lead status',
-                allStatuses: 'Все статусы',
-            },
+          pauseCause: {
+            pauseCause: 'Статусы агента | Статус агента',
+            allPauseCause: 'Все причины паузы агента',
+            limit: 'Лимит (мин)',
+            min: 'Минут',
+            allowAdmin: 'Администратор может изменять этот статус',
+            allowSupervisor: 'Супервизор может изменять этот статус',
+            allowAgent: 'Оператор может изменять этот статус',
+          },
         },
         routing: {
             routing: 'Маршрутизация',
