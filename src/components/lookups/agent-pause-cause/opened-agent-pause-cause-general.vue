@@ -25,7 +25,7 @@
         :disabled="disableUserInput"
         @input="setItemProp({ prop: 'description', value: $event })"
       ></wt-textarea>
-      <div>
+      <div class="form-checkbox-wrapper">
         <wt-checkbox
           :selected="allowAdmin"
           :label="$t('objects.lookups.pauseCause.allowAdmin')"
@@ -70,6 +70,8 @@ export default {
 };
 </script>
 
-<style scoped>
-
+<style lang="scss" scoped>
+.form-checkbox-wrapper .wt-checkbox:not(:last-child) {
+  margin-bottom: var(--component-spacing);
+}
 </style>
