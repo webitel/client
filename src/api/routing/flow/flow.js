@@ -12,9 +12,9 @@ const flowService = new RoutingSchemaServiceApiFactory(configuration, '', instan
 const fieldsToSend = ['domainId', 'name', 'schema', 'payload'];
 
 const preRequestHandler = (item) => {
-    item.schema = JSON.parse(item.schema);
-    item.payload = {};
-    return item;
+  item.schema = JSON.parse(item.schema);
+  item.payload = {};
+  return item;
 };
 
 const baseItem = { _dirty: false };
@@ -26,13 +26,17 @@ const itemUpdater = new WebitelSDKItemUpdater(flowService.updateRoutingSchema, f
 const itemDeleter = new WebitelSDKItemDeleter(flowService.deleteRoutingSchema);
 
 itemGetter.responseHandler = (response) => ({
-        ...baseItem,
-        ...response,
-        schema: JSON.stringify(response.schema, null, 4),
+  ...baseItem,
+  ...response,
+  schema: JSON.stringify(response.schema, null, 4),
 
-    });
+});
 
-export const getFlowList = async (page = 0, size = 10, search) => await listGetter.getList({ page, size, search });
+export const getFlowList = async (page = 0, size = 10, search) => await listGetter.getList({
+  page,
+  size,
+  search,
+});
 
 export const getFlow = async (id) => await itemGetter.getItem(id);
 

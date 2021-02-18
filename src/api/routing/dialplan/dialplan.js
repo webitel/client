@@ -24,7 +24,11 @@ const itemUpdater = new WebitelSDKItemUpdater(dialplanService.updateRoutingOutbo
 const itemPatcher = new WebitelSDKItemPatcher(dialplanService.patchRoutingOutboundCall, fieldsToSend);
 const itemDeleter = new WebitelSDKItemDeleter(dialplanService.deleteRoutingOutboundCall);
 
-export const getDialplanList = async (page = 0, size = 10, search) => await listGetter.getList({ page, size, search });
+export const getDialplanList = async (page = 0, size = 10, search) => await listGetter.getList({
+  page,
+  size,
+  search,
+});
 
 export const getDialplan = async (id) => await itemGetter.getItem(id);
 
@@ -37,11 +41,11 @@ export const updateDialplan = async (id, item) => await itemUpdater.updateItem(i
 export const deleteDialplan = async (id) => await itemDeleter.deleteItem(id);
 
 export const moveDialplan = async (fromId, toId) => {
-    const domain_id = store.state.userinfo.domainId;
-    try {
-        await dialplanService.movePositionRoutingOutboundCall(fromId, toId, { domain_id });
-        eventBus.$emit('notification', { type: 'info', text: 'Successfully updated' });
-    } catch (err) {
-        throw err;
-    }
+  const domain_id = store.state.userinfo.domainId;
+  try {
+    await dialplanService.movePositionRoutingOutboundCall(fromId, toId, { domain_id });
+    eventBus.$emit('notification', { type: 'info', text: 'Successfully updated' });
+  } catch (err) {
+    throw err;
+  }
 };

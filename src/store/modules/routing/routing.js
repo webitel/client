@@ -3,12 +3,12 @@ import flow from './flow/flow';
 import dialplan from './dialplan/dialplan';
 
 const modules = {
-    flow,
-    dialplan,
-    gateways
+  flow,
+  dialplan,
+  gateways,
 };
 
 export default {
-    namespaced: true,
-    modules
+  namespaced: true,
+  modules,
 };

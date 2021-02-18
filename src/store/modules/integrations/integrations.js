@@ -1,10 +1,10 @@
 import storage from './storage/storage';
 
 const modules = {
-    storage,
+  storage,
 };
 
 export default {
-    namespaced: true,
-    modules
+  namespaced: true,
+  modules,
 };

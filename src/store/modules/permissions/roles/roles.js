@@ -1,6 +1,11 @@
-import proxy from '../../../../utils/editProxy';
-import {addRole, deleteRole, getRole, getRoleList, updateRole} from "../../../../api/permissions/roles/roles";
-import {DefaultModule} from "../../defaults/DefaultModule";
+import {
+  addRole,
+  deleteRole,
+  getRole,
+  getRoleList,
+  updateRole,
+} from "../../../../api/permissions/roles/roles";
+import { DefaultModule } from "../../defaults/DefaultModule";
 
 const defaultState = () => {
   return {

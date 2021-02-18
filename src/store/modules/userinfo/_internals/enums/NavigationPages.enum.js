@@ -1,5 +1,4 @@
 import { Objects } from './Objects.enum';
-import RouteNames from '../../../../../router/_internals/RouteNames.enum';
 
 const nav = Object.freeze([{
   value: 'directory',

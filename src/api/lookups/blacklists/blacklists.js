@@ -2,8 +2,10 @@
 import { ListServiceApiFactory } from 'webitel-sdk';
 import instance from '../../instance';
 import configuration from '../../openAPIConfig';
-import WebitelAPIPermissionsGetter from '../../utils/ApiControllers/Permissions/WebitelAPIPermissionsGetter';
-import WebitelAPIPermissionsPatcher from '../../utils/ApiControllers/Permissions/WebitelAPIPermissionsPatcher';
+import WebitelAPIPermissionsGetter
+  from '../../utils/ApiControllers/Permissions/WebitelAPIPermissionsGetter';
+import WebitelAPIPermissionsPatcher
+  from '../../utils/ApiControllers/Permissions/WebitelAPIPermissionsPatcher';
 import { WebitelSDKItemDeleter } from '../../utils/ApiControllers/Deleter/SDKDeleter';
 import { WebitelSDKItemUpdater } from '../../utils/ApiControllers/Updater/SDKUpdater';
 import { WebitelSDKItemCreator } from '../../utils/ApiControllers/Creator/SDKCreator';
@@ -23,7 +25,11 @@ const itemDeleter = new WebitelSDKItemDeleter(listService.deleteList);
 const permissionsGetter = new WebitelAPIPermissionsGetter(BASE_URL);
 const permissionsPatcher = new WebitelAPIPermissionsPatcher(BASE_URL);
 
-export const getBlacklistList = async (page, size, search) => await listGetter.getList({ page, size, search });
+export const getBlacklistList = async (page, size, search) => await listGetter.getList({
+  page,
+  size,
+  search,
+});
 
 export const getBlacklist = async (id) => await itemGetter.getItem(id);
 

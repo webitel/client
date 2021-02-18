@@ -1,6 +1,11 @@
 import proxy from '../../../../utils/editProxy';
 import {
-  addGateway, deleteGateway, getGateway, getGatewayList, patchGateway, updateGateway,
+  addGateway,
+  deleteGateway,
+  getGateway,
+  getGatewayList,
+  patchGateway,
+  updateGateway,
 } from '../../../../api/routing/gateways/gateways';
 import { DefaultModule } from '../../defaults/DefaultModule';
 import registerGateway from './_internals/gatewaySchema/registerGateway';

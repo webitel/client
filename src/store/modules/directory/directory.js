@@ -3,12 +3,12 @@ import license from './license/license';
 import devices from './devices/devices';
 
 const modules = {
-    users,
-    license,
-    devices,
+  users,
+  license,
+  devices,
 };
 
 export default {
-    namespaced: true,
-    modules
+  namespaced: true,
+  modules,
 };

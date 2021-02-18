@@ -1,56 +1,62 @@
-import {addFlow, deleteFlow, getFlow, getFlowList, updateFlow} from "../../../../api/routing/flow/flow";
-import {DefaultModule} from "../../defaults/DefaultModule";
+import {
+  addFlow,
+  deleteFlow,
+  getFlow,
+  getFlowList,
+  updateFlow,
+} from "../../../../api/routing/flow/flow";
+import { DefaultModule } from "../../defaults/DefaultModule";
 
 const defaultState = () => {
-    return {
-        itemId: 0,
-        itemInstance: {
-            name: '',
-            schema: '[]'
-        },
-    }
+  return {
+    itemId: 0,
+    itemInstance: {
+      name: '',
+      schema: '[]',
+    },
+  };
 };
 
 const defaultModule = new DefaultModule(defaultState);
 
 const state = {
-    ...defaultModule.state,
+  ...defaultModule.state,
 };
 
 const getters = {};
 
 const actions = {
-    GET_LIST: async () => {
-        return await getFlowList(state.page, state.size, state.search);
-    },
+  GET_LIST: async () => {
+    return await getFlowList(state.page, state.size, state.search);
+  },
 
-    GET_ITEM: async () => {
-        return await getFlow(state.itemId);
-    },
+  GET_ITEM: async () => {
+    return await getFlow(state.itemId);
+  },
 
-    POST_ITEM: async () => {
-        return await addFlow(state.itemInstance);
-    },
+  POST_ITEM: async () => {
+    return await addFlow(state.itemInstance);
+  },
 
-    UPD_ITEM: async () => {
-        await updateFlow(state.itemId, state.itemInstance);
-    },
+  UPD_ITEM: async () => {
+    await updateFlow(state.itemId, state.itemInstance);
+  },
 
-    DELETE_ITEM: async (context, id) => {
-        await deleteFlow(id);
-    },
+  DELETE_ITEM: async (context, id) => {
+    await deleteFlow(id);
+  },
 
-    ...defaultModule.actions,
+  ...defaultModule.actions,
 };
 
 const mutations = {
-    ...defaultModule.mutations,
+  ...defaultModule.mutations,
 };
 
 export default {
-    namespaced: true,
-    state,
-    getters,
-    actions,
-    mutations,
+  namespaced: true,
+  state,
+  getters,
+  actions,
+  mutations,
 };

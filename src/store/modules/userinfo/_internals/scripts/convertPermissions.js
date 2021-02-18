@@ -1,4 +1,3 @@
-
 const convertPermissions = (initialPermissions) => {
   let permissions = {};
   if (!initialPermissions) return permissions;

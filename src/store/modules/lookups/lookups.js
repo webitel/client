@@ -5,14 +5,14 @@ import pauseCause from './agent-pause-cause/agent-pause-cause';
 import media from './media/media';
 
 const modules = {
-    blacklists,
-    calendars,
-    communications,
-    pauseCause,
-    media,
+  blacklists,
+  calendars,
+  communications,
+  pauseCause,
+  media,
 };
 
 export default {
-    namespaced: true,
-    modules
+  namespaced: true,
+  modules,
 };

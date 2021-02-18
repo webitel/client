@@ -1,8 +1,10 @@
 import { OutboundResourceServiceApiFactory } from 'webitel-sdk';
 import instance from '../../instance';
 import configuration from '../../openAPIConfig';
-import WebitelAPIPermissionsGetter from '../../utils/ApiControllers/Permissions/WebitelAPIPermissionsGetter';
-import WebitelAPIPermissionsPatcher from '../../utils/ApiControllers/Permissions/WebitelAPIPermissionsPatcher';
+import WebitelAPIPermissionsGetter
+  from '../../utils/ApiControllers/Permissions/WebitelAPIPermissionsGetter';
+import WebitelAPIPermissionsPatcher
+  from '../../utils/ApiControllers/Permissions/WebitelAPIPermissionsPatcher';
 import { WebitelSDKItemDeleter } from '../../utils/ApiControllers/Deleter/SDKDeleter';
 import { WebitelSDKItemPatcher } from '../../utils/ApiControllers/Patcher/SDKPatcher';
 import { WebitelSDKItemUpdater } from '../../utils/ApiControllers/Updater/SDKUpdater';
@@ -15,35 +17,35 @@ const resService = new OutboundResourceServiceApiFactory(configuration, '', inst
 
 const BASE_URL = '/call_center/resources';
 const fieldsToSend = ['domainId', 'limit', 'enabled',
-    'rps', 'reserve', 'maxSuccessivelyErrors',
-    'name', 'errorIds', 'display', 'resourceId', 'gateway'];
+  'rps', 'reserve', 'maxSuccessivelyErrors',
+  'name', 'errorIds', 'display', 'resourceId', 'gateway'];
 
 const defaultListObject = {
-    _isSelected: false,
-    name: '',
-    gateway: null,
-    enabled: false,
-    reserve: false,
-    id: 0,
+  _isSelected: false,
+  name: '',
+  gateway: null,
+  enabled: false,
+  reserve: false,
+  id: 0,
 };
 
 const defaultItemObject = {
-    name: '',
-    gateway: {},
-    cps: 0,
-    limit: 0,
-    description: '',
-    maxErrors: 0,
-    errorIds: [],
-    id: 0,
-    _dirty: false,
+  name: '',
+  gateway: {},
+  cps: 0,
+  limit: 0,
+  description: '',
+  maxErrors: 0,
+  errorIds: [],
+  id: 0,
+  _dirty: false,
 };
 
 const preRequestHandler = (item) => {
-    item.errorIds = item.errorIds.map((item) => item.name || item.text);
-    item.maxSuccessivelyErrors = item.maxErrors;
-    item.rps = item.cps;
-    return item;
+  item.errorIds = item.errorIds.map((item) => item.name || item.text);
+  item.maxSuccessivelyErrors = item.maxErrors;
+  item.rps = item.cps;
+  return item;
 };
 
 const listGetter = new WebitelSDKListGetter(resService.searchOutboundResource, defaultListObject);
@@ -56,19 +58,23 @@ const permissionsGetter = new WebitelAPIPermissionsGetter(BASE_URL);
 const permissionsPatcher = new WebitelAPIPermissionsPatcher(BASE_URL);
 
 itemGetter.responseHandler = (response) => {
-    try {
-        response.maxErrors = response.maxSuccessivelyErrors;
-        response.cps = response.rps;
-        if (response.errorIds) {
-            response.errorIds = response.errorIds.map((item) => ({ name: item }));
-        }
-        return { ...defaultItemObject, ...response };
-    } catch (err) {
-        throw err;
+  try {
+    response.maxErrors = response.maxSuccessivelyErrors;
+    response.cps = response.rps;
+    if (response.errorIds) {
+      response.errorIds = response.errorIds.map((item) => ({ name: item }));
     }
+    return { ...defaultItemObject, ...response };
+  } catch (err) {
+    throw err;
+  }
 };
 
-export const getResourceList = async (page, size = 10, search) => await listGetter.getList({ page, size, search });
+export const getResourceList = async (page, size = 10, search) => await listGetter.getList({
+  page,
+  size,
+  search,
+});
 
 export const getResource = async (id) => await itemGetter.getItem(id);
 

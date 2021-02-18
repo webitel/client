@@ -45,7 +45,7 @@ const getters = {
   HAS_EDIT_ACCESS: (state, getters) => (checkedObject) => {
     if (state.permissions[Permissions.EDIT]) return true;
     const objectScope = getters.GET_OBJECT_SCOPE(checkedObject);
-    return  objectScope?.access?.includes('w');
+    return objectScope?.access?.includes('w');
   },
   HAS_DELETE_ACCESS: (state, getters) => (checkedObject) => {
     if (state.permissions[Permissions.DELETE]) return true;

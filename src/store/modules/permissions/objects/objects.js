@@ -9,9 +9,7 @@ import {
 
 const defaultState = () => ({
   itemId: 0,
-  itemInstance: {
-
-  },
+  itemInstance: {},
 });
 const defaultModule = new DefaultModule(defaultState);
 
@@ -35,8 +33,8 @@ const actions = {
 
   RESET_ITEM_STATE: (context) => {
     context.commit('RESET_ITEM_STATE');
-    context.dispatch('permissions/objects/obac/RESET_ITEM_STATE', {}, {root: true});
-    context.dispatch('permissions/objects/rbac/RESET_ITEM_STATE', {}, {root: true});
+    context.dispatch('permissions/objects/obac/RESET_ITEM_STATE', {}, { root: true });
+    context.dispatch('permissions/objects/rbac/RESET_ITEM_STATE', {}, { root: true });
   },
 };
 

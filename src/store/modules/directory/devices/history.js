@@ -1,45 +1,43 @@
-import {
-    getDeviceHistory,
-} from "../../../../api/directory/devices/devices";
+import { getDeviceHistory } from "../../../../api/directory/devices/devices";
 import { DefaultHistoryModule } from "../../defaults/DefaultHistoryModule";
 
 const defaultState = () => {
-    return {
-        from: new Date().setHours(0, 0, 0, 0),
-        to: Date.now(),
-    };
+  return {
+    from: new Date().setHours(0, 0, 0, 0),
+    to: Date.now(),
+  };
 };
 
 const defaultHistoryModule = new DefaultHistoryModule(defaultState);
 
 const state = {
-    ...defaultHistoryModule.state,
+  ...defaultHistoryModule.state,
 };
 
 const getters = {};
 
 const actions = {
-    GET_HISTORY_LIST: async (context) => {
-        return await getDeviceHistory({
-            id: context.state.itemId,
-            from: context.state.from,
-            to: context.state.to,
-            page: context.state.page,
-            size: context.state.size,
-        });
-    },
+  GET_HISTORY_LIST: async (context) => {
+    return await getDeviceHistory({
+      id: context.state.itemId,
+      from: context.state.from,
+      to: context.state.to,
+      page: context.state.page,
+      size: context.state.size,
+    });
+  },
 
-    ...defaultHistoryModule.actions,
+  ...defaultHistoryModule.actions,
 };
 
 const mutations = {
-    ...defaultHistoryModule.mutations,
+  ...defaultHistoryModule.mutations,
 };
 
 export default {
-    namespaced: true,
-    state,
-    getters,
-    actions,
-    mutations,
+  namespaced: true,
+  state,
+  getters,
+  actions,
+  mutations,
 };
