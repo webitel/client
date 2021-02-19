@@ -86,6 +86,18 @@ export class DefaultNestedModule {
         }
       },
 
+      PATCH_ITEM_PROPERTY: async (context, { item, index, prop, value }) => {
+        await context.commit('PATCH_ITEM_PROPERTY', { index, prop, value });
+        const id = item?.id || context.state.dataList[index].id;
+        const changes = { [prop]: value };
+        try {
+          await context.dispatch('PATCH_ITEM', { id, changes });
+          context.commit('PATCH_ITEM_PROPERTY', { item, index, prop, value });
+        } catch {
+          context.dispatch('LOAD_DATA_LIST');
+        }
+      },
+
       UPDATE_ITEM: async (context) => {
         if (context.state.itemInstance._dirty) {
           await context.dispatch('UPD_ITEM');
@@ -154,6 +166,10 @@ export class DefaultNestedModule {
 
       REMOVE_ITEM: (state, index) => {
         state.dataList.splice(index, 1);
+      },
+
+      PATCH_ITEM_PROPERTY: (state, { index, prop, value }) => {
+        state.dataList[index][prop] = value;
       },
 
       RESET_STATE: (state) => {
