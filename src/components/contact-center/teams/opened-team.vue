@@ -78,7 +78,7 @@ export default {
         text: this.$t('objects.ccenter.teams.timing'),
         value: 'timing',
       }, {
-        text: this.$tc('objects.ccenter.teams.supervisors', 2),
+        text: this.$tc('objects.ccenter.agents.supervisors', 2),
         value: 'supervisors',
       }, {
         text: this.$tc('objects.ccenter.agents.agents', 2),

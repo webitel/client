@@ -55,6 +55,8 @@ export default {
   validations: {
     itemInstance: {
       user: { required },
+      progressiveCount: { required },
+      chatCount: { required },
     },
   },
 

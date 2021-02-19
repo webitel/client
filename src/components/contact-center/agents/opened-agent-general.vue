@@ -8,14 +8,45 @@
         :value="user"
         :v="v.itemInstance.user"
         :label="$tc('objects.directory.users.users', 1)"
-        :search="loadDropdownOptionsList"
+        :search="loadUsersOptions"
         :internal-search="false"
         :clearable="false"
         :disabled="disableUserInput"
         required
         @input="setItemProp({ prop: 'user', value: $event })"
       ></wt-select>
-
+      <wt-select
+        :value="team"
+        :label="$tc('objects.ccenter.teams.teams', 1)"
+        :search="loadTeamsOptions"
+        :internal-search="false"
+        :disabled="disableUserInput"
+        @input="setItemProp({ prop: 'team', value: $event })"
+      ></wt-select>
+      <wt-select
+        :value="supervisor"
+        :label="$tc('objects.ccenter.agents.supervisors', 1)"
+        :search="loadSupervisorsOptions"
+        :internal-search="false"
+        :disabled="disableUserInput"
+        @input="setItemProp({ prop: 'supervisor', value: $event })"
+      ></wt-select>
+      <wt-select
+        :value="auditor"
+        :label="$tc('objects.ccenter.auditors.auditors', 1)"
+        :search="loadAuditorsOptions"
+        :internal-search="false"
+        :disabled="disableUserInput"
+        @input="setItemProp({ prop: 'auditor', value: $event })"
+      ></wt-select>
+      <wt-select
+        :value="region"
+        :label="$tc('objects.lookups.regions.regions', 1)"
+        :search="loadRegionsOptions"
+        :internal-search="false"
+        :disabled="disableUserInput"
+        @input="setItemProp({ prop: 'region', value: $event })"
+      ></wt-select>
       <wt-input
         :value="progressiveCount"
         :v="v.itemInstance.progressiveCount"
@@ -25,20 +56,37 @@
         required
         @input="setItemProp({ prop: 'progressiveCount', value: +$event })"
       ></wt-input>
-
+      <wt-input
+        :value="chatCount"
+        :v="v.itemInstance.chatCount"
+        :label="$t('objects.ccenter.agents.chatCount')"
+        :disabled="disableUserInput"
+        type="number"
+        required
+        @input="setItemProp({ prop: 'chatCount', value: +$event })"
+      ></wt-input>
       <wt-textarea
         :value="description"
         :label="$t('objects.description')"
         :disabled="disableUserInput"
         @input="setItemProp({ prop: 'description', value: $event })"
       ></wt-textarea>
+      <wt-switcher
+        :value="isSupervisor"
+        :label="$t('objects.ccenter.agents.isSupervisor')"
+        :disabled="disableUserInput"
+        @change="setItemProp({ prop: 'isSupervisor', value: $event })"
+      ></wt-switcher>
     </form>
   </section>
 </template>
 
 <script>
 import { mapState } from 'vuex';
-import { getAgentUsersOptions } from '../../../api/contact-center/agents/agents';
+import { getAgentUsersOptions, getAgentSupervisorsOptions } from '../../../api/contact-center/agents/agents';
+import { getTeamsList } from '../../../api/contact-center/teams/teams';
+import { getUsersList } from '../../../api/directory/users/users';
+import { getRegionsList } from '../../../api/lookups/regions/regions';
 import openedTabComponentMixin from '../../../mixins/objectPagesMixins/openedObjectTabMixin/openedTabComponentMixin';
 
 export default {
@@ -48,14 +96,48 @@ export default {
   computed: {
     ...mapState('ccenter/agents', {
       user: (state) => state.itemInstance.user,
+      team: (state) => state.itemInstance.team,
+      supervisor: (state) => state.itemInstance.supervisor,
+      auditor: (state) => state.itemInstance.auditor,
+      region: (state) => state.itemInstance.region,
       progressiveCount: (state) => state.itemInstance.progressiveCount,
+      chatCount: (state) => state.itemInstance.chatCount,
+      isSupervisor: (state) => state.itemInstance.isSupervisor,
       description: (state) => state.itemInstance.description,
     }),
   },
 
   methods: {
-    async loadDropdownOptionsList(search) {
-      const response = await getAgentUsersOptions(1, 10, search);
+    async loadUsersOptions(search) {
+      const response = await getAgentUsersOptions({ search });
+      return response.list.map((item) => ({
+        name: item.name,
+        id: item.id,
+      }));
+    },
+    async loadTeamsOptions(search) {
+      const response = await getTeamsList(1, 10, search);
+      return response.list.map((item) => ({
+        name: item.name,
+        id: item.id,
+      }));
+    },
+    async loadSupervisorsOptions(search) {
+      const response = await getAgentSupervisorsOptions({ search });
+      return response.list.map((item) => ({
+        name: item.name,
+        id: item.id,
+      }));
+    },
+    async loadAuditorsOptions(search) {
+      const response = await getUsersList(1, 10, search);
+      return response.list.map((item) => ({
+        name: item.name,
+        id: item.id,
+      }));
+    },
+    async loadRegionsOptions(search) {
+      const response = await getRegionsList({ search });
       return response.list.map((item) => ({
         name: item.name,
         id: item.id,

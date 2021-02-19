@@ -14,6 +14,6 @@ export default class BaseListGetter {
         next: response.next || false,
       };
     }
-    return [];
+    return { list: [], next: false };
   };
 }

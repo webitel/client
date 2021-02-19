@@ -455,9 +455,12 @@ export default {
 
       agents: {
         agents: 'Agent | Agents',
+        supervisors: 'Supervisor | Supervisors',
         allAgents: 'All agents',
         progressiveCount: 'Progressive call count',
+        chatCount: 'Chat count',
         state: 'State',
+        isSupervisor: 'Supervisor',
         stateTime: 'State time',
         addSkill: 'Add skill',
         statusHistory: 'Status history',
@@ -469,11 +472,14 @@ export default {
         historyDuration: 'Duration',
       },
 
+      auditors: {
+        auditors: 'Auditor | Auditors',
+      },
+
       teams: {
         teams: 'Team | Teams',
         allTeams: 'All teams',
         strategy: 'Strategy',
-        supervisors: 'Supervisor | Supervisors',
         timing: 'Timing',
         maxNoAnswer: 'Max no answer',
         callTimeout: 'Call timeout',

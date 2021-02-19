@@ -18,8 +18,21 @@ const BASE_URL = '/call_center/agents';
 const fieldsToSend = ['user', 'team', 'supervisor', 'auditor', 'region', 'progressiveCount',
   'chatCount', 'isSupervisor', 'description'];
 
+const defaultObject = {
+  user: {},
+  team: {},
+  supervisor: {},
+  auditor: {},
+  region: {},
+  progressiveCount: 0,
+  chatCount: 0,
+  isSupervisor: false,
+  description: '',
+  _dirty: false,
+};
+
 const listGetter = new SDKListGetter(agentService.searchAgent);
-const itemGetter = new SDKItemGetter(agentService.readAgent);
+const itemGetter = new SDKItemGetter(agentService.readAgent, defaultObject);
 const itemCreator = new SDKItemCreator(agentService.createAgent, fieldsToSend);
 const itemUpdater = new SDKItemUpdater(agentService.updateAgent, fieldsToSend);
 const itemDeleter = new SDKItemDeleter(agentService.deleteAgent);
@@ -39,6 +52,7 @@ export const updateAgent = ({ itemId, itemInstance }) => (
 export const deleteAgent = ({ id }) => itemDeleter.deleteItem(id);
 
 export const getAgentUsersOptions = (params) => newAgentUsersGetter.getList(params);
+export const getAgentSupervisorsOptions = (params) => getAgentsList(params);
 export const getAgentQueuesList = (params) => agentQueuesGetter.getNestedList(params);
 
 export const getAgentHistory = async (id, date, page = 0, size = 10) => {
@@ -62,4 +76,7 @@ export default {
   update: updateAgent,
   delete: deleteAgent,
   getAgentsInQueue: getAgentQueuesList,
+
+  getAgentUsersOptions,
+  getAgentSupervisorsOptions,
 };

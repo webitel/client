@@ -6,7 +6,7 @@
     ></supervisor-popup>
 
     <header class="content-header">
-      <h3 class="content-title">{{ $tc('objects.ccenter.teams.supervisors', 2) }}</h3>
+      <h3 class="content-title">{{ $tc('objects.ccenter.agents.supervisors', 2) }}</h3>
       <div class="content-header__actions-wrap">
         <wt-search-bar
           :value="search"
@@ -99,7 +99,7 @@ export default {
     }),
     headers() {
       return [
-        { value: 'name', text: this.$tc('objects.ccenter.teams.supervisors', 2) },
+        { value: 'name', text: this.$tc('objects.ccenter.agents.supervisors', 2) },
       ];
     },
   },
