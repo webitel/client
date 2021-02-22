@@ -42,10 +42,7 @@ export default {
     },
 
     edit(item) {
-      this.$router.push({
-        name: `${this.routeName}-edit`,
-        params: { id: item.id },
-      });
+      this.$router.push(this.itemLink(item));
     },
   },
 };

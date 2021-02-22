@@ -49,13 +49,9 @@
         :grid-actions="!disableUserInput"
       >
         <template slot="name" slot-scope="{ item }">
-          <router-link
-            class="nameLink"
-            :to="agentLink(item)"
-            target="_blank"
-          >
+          <item-link :link="itemLink(item)">
             {{ item.user.name }}
-          </router-link>
+          </item-link>
         </template>
         <template slot="supervisor" slot-scope="{ item }">
           <div>
@@ -92,16 +88,16 @@
 import { mapState } from 'vuex';
 import SubordinatePopup from './opened-agent-subordinates-popup.vue';
 import SkillsPopup from './opened-agent-subordinate-skills-popup.vue';
-import OnePlusMany from '../../../utils/one-plus-many-table-cell/one-plus-many-table-cell.vue';
 import openedObjectTableTabMixin from '../../../../mixins/objectPagesMixins/openedObjectTableTabMixin/openedObjectTableTabMixin';
 import RouteNames from '../../../../router/_internals/RouteNames.enum';
 
 export default {
   name: 'opened-agent-subordinates',
   mixins: [openedObjectTableTabMixin],
-  components: { SubordinatePopup, SkillsPopup, OnePlusMany },
+  components: { SubordinatePopup, SkillsPopup },
   data: () => ({
-    subNamespace: 'subordinates',
+    subNamespace: 'subordinates', // used in mixin map actions
+    tableObjectRouteName: RouteNames.AGENTS, // this.itemLink() computing
     isSubordinatePopup: false,
     isSkillsPopup: false,
     subordinateId: null,
@@ -128,9 +124,6 @@ export default {
   },
 
   methods: {
-    agentLink(item) {
-      return { name: `${RouteNames.AGENTS}-edit`, params: { id: item.id } };
-    },
     readSkills(item) {
       this.subordinateId = item.id;
       this.openSkillsPopup();

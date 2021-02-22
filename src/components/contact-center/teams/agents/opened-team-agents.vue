@@ -31,9 +31,9 @@
         :grid-actions="false"
     >
       <template slot="name" slot-scope="{ item }">
-        <div>
+        <item-link :link="itemLink(item)">
           {{ item.user.name }}
-        </div>
+        </item-link>
       </template>
       <template slot="supervisor" slot-scope="{ item }">
         <div v-if="item.supervisor">
@@ -65,17 +65,18 @@
 <script>
 import { mapState } from 'vuex';
 import AgentSkillsPopup from './opened-team-agents-skills-popup.vue';
-import OnePlusMany from '../../../utils/one-plus-many-table-cell/one-plus-many-table-cell.vue';
 import openedObjectTableTabMixin from '../../../../mixins/objectPagesMixins/openedObjectTableTabMixin/openedObjectTableTabMixin';
+import RouteNames from '../../../../router/_internals/RouteNames.enum';
 
 export default {
   name: 'opened-team-agents',
   mixins: [openedObjectTableTabMixin],
-  components: { AgentSkillsPopup, OnePlusMany },
+  components: { AgentSkillsPopup },
   data: () => ({
+    subNamespace: 'agents',
+    tableObjectRouteName: RouteNames.AGENTS, // this.itemLink() computing
     isAgentSkillsPopup: false,
     agentId: 0,
-    subNamespace: 'agents',
   }),
   computed: {
     ...mapState('ccenter/teams', {
