@@ -1,6 +1,5 @@
 import supervisors from './team-supervisors';
 import agents from './team-agents';
-import skills from './team-skills';
 import permissions from './permissions';
 import {
   addTeam,
@@ -60,7 +59,6 @@ const actions = {
     context.commit('RESET_ITEM_STATE');
     context.dispatch('ccenter/teams/supervisors/RESET_STATE', {}, { root: true });
     context.dispatch('ccenter/teams/agents/RESET_STATE', {}, { root: true });
-    context.dispatch('ccenter/teams/skills/RESET_STATE', {}, { root: true });
   },
 };
 
@@ -74,5 +72,5 @@ export default {
   getters,
   actions,
   mutations,
-  modules: { supervisors, agents, skills, permissions },
+  modules: { supervisors, agents, permissions },
 };
