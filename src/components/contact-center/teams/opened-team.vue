@@ -33,7 +33,6 @@ import { mapState } from 'vuex';
 import OpenedTeamGeneral from './opened-team-general.vue';
 import OpenedTeamSupervisors from './opened-team-supervisors.vue';
 import OpenedTeamAgents from './opened-team-agents.vue';
-import OpenedTeamSkills from './opened-team-skills.vue';
 import OpenedTeamTiming from './opened-team-timing.vue';
 import OpenedTeamPermissions from './opened-team-permissions.vue';
 import openedObjectMixin from '../../../mixins/objectPagesMixins/openedObjectMixin/openedObjectMixin';
@@ -45,7 +44,6 @@ export default {
     OpenedTeamGeneral,
     OpenedTeamSupervisors,
     OpenedTeamAgents,
-    OpenedTeamSkills,
     OpenedTeamTiming,
     OpenedTeamPermissions,
   },
@@ -83,9 +81,6 @@ export default {
       }, {
         text: this.$tc('objects.ccenter.agents.agents', 2),
         value: 'agents',
-      }, {
-        text: this.$tc('objects.ccenter.skills.skills', 2),
-        value: 'skills',
       }];
 
       const permissions = {
