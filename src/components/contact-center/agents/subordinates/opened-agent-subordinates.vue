@@ -63,18 +63,10 @@
           </div>
         </template>
         <template slot="skills" slot-scope="{ item }">
-          <div>
-            <a
-              v-if="item.skills.length"
-              class="nameLink"
-              tabIndex="0"
-              @click.prevent="openSkillsPopup(item)"
-              @keypress.enter.prevent="openSkillsPopup(item)"
-            >{{ item.skills[0].name }}</a>
-            <wt-badge v-if="item.skills.length > 1">
-              +{{ item.skills.length - 1 }}
-            </wt-badge>
-          </div>
+          <one-plus-many
+            :collection="item.skills"
+            @input="readSkills(item)"
+          ></one-plus-many>
         </template>
         <template slot="actions" slot-scope="{ item, index }">
           <delete-action
@@ -100,13 +92,14 @@
 import { mapState } from 'vuex';
 import SubordinatePopup from './opened-agent-subordinates-popup.vue';
 import SkillsPopup from './opened-agent-subordinate-skills-popup.vue';
+import OnePlusMany from '../../../utils/one-plus-many-table-cell/one-plus-many-table-cell.vue';
 import openedObjectTableTabMixin from '../../../../mixins/objectPagesMixins/openedObjectTableTabMixin/openedObjectTableTabMixin';
 import RouteNames from '../../../../router/_internals/RouteNames.enum';
 
 export default {
   name: 'opened-agent-subordinates',
   mixins: [openedObjectTableTabMixin],
-  components: { SubordinatePopup, SkillsPopup },
+  components: { SubordinatePopup, SkillsPopup, OnePlusMany },
   data: () => ({
     subNamespace: 'subordinates',
     isSubordinatePopup: false,
@@ -138,8 +131,11 @@ export default {
     agentLink(item) {
       return { name: `${RouteNames.AGENTS}-edit`, params: { id: item.id } };
     },
-    openSkillsPopup(item) {
+    readSkills(item) {
       this.subordinateId = item.id;
+      this.openSkillsPopup();
+      },
+    openSkillsPopup() {
       this.isSkillsPopup = true;
     },
     closeSkillsPopup() {
@@ -160,7 +156,4 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.wt-badge {
-  margin-left: var(--component-spacing);
-}
 </style>
