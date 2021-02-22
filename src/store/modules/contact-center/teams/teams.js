@@ -16,11 +16,11 @@ const defaultState = () => ({
     name: '',
     description: '',
     strategy: {},
+    admin: {},
     maxNoAnswer: 3,
     wrapUpTime: 15,
     noAnswerDelayTime: 30,
     callTimeout: 60,
-    postProcessing: false,
   },
 });
 
@@ -36,23 +36,23 @@ const actions = {
   ...defaultModule.actions,
 
   GET_LIST: (context) => {
-    return getTeamsList(context.state.page, context.state.size, context.state.search);
+    return getTeamsList(context.state);
   },
 
   GET_ITEM: (context) => {
-    return getTeam(context.state.itemId);
+    return getTeam(context.state);
   },
 
   POST_ITEM: (context) => {
-    return addTeam(context.state.itemInstance);
+    return addTeam(context.state);
   },
 
   UPD_ITEM: (context) => {
-    return updateTeam(context.state.itemId, context.state.itemInstance);
+    return updateTeam(context.state);
   },
 
   DELETE_ITEM: (context, id) => {
-    return deleteTeam(id);
+    return deleteTeam({ id });
   },
 
   RESET_ITEM_STATE: (context) => {

@@ -42,8 +42,6 @@ const actions = {
   DELETE_ITEM: (context, id) => {
     return deleteTeamSupervisor(context.state.parentId, id);
   },
-
-  ...defaultModule.actions,
 };
 
 const mutations = {
