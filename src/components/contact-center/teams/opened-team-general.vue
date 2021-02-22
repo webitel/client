@@ -22,6 +22,14 @@
         track-by="value"
         required
       ></wt-select>
+      <wt-select
+        v-model="admin"
+        :label="$tc('objects.ccenter.agents.admins', 1)"
+        :search="fetchAdmins"
+        :internal-search="false"
+        :disabled="disableUserInput"
+        @input="setItemProp({ prop: 'admin', value: $event })"
+      ></wt-select>
       <wt-textarea
         :value="description"
         :label="$t('objects.description')"
@@ -35,6 +43,7 @@
 <script>
 import { mapState } from 'vuex';
 import { kebabToCamel } from '@webitel/ui-sdk/src/scripts/caseConverters';
+import { getAgentSupervisorsOptions } from '../../../api/contact-center/agents/agents';
 import TeamStrategy from '../../../store/modules/contact-center/teams/_internals/enums/TeamStrategy.enum';
 import openedTabComponentMixin from '../../../mixins/objectPagesMixins/openedObjectTabMixin/openedTabComponentMixin';
 
@@ -46,6 +55,7 @@ export default {
     ...mapState('ccenter/teams', {
       name: (state) => state.itemInstance.name,
       strategyValue: (state) => state.itemInstance.strategy,
+      admin: (state) => state.itemInstance.admin,
       description: (state) => state.itemInstance.description,
     }),
     strategy: {
@@ -61,6 +71,12 @@ export default {
         name: this.$t(`objects.ccenter.teams.strategies.${kebabToCamel(strategy)}`),
         value: strategy,
       }));
+    },
+  },
+  methods: {
+    async fetchAdmins(search) {
+      const response = await getAgentSupervisorsOptions({ search });
+      return response.list;
     },
   },
 };

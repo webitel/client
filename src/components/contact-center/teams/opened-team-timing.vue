@@ -40,12 +40,6 @@
         required
         @input="setItemProp({ prop: 'noAnswerDelayTime', value: +$event })"
       ></wt-input>
-      <wt-switcher
-        :value="postProcessing"
-        :label="$t('objects.ccenter.teams.postProcessing')"
-        :disabled="disableUserInput"
-        @change="setItemProp({ prop: 'postProcessing', value: $event })"
-      ></wt-switcher>
     </form>
   </section>
 </template>
@@ -64,7 +58,6 @@ export default {
       callTimeout: (state) => state.itemInstance.callTimeout,
       wrapUpTime: (state) => state.itemInstance.wrapUpTime,
       noAnswerDelayTime: (state) => state.itemInstance.noAnswerDelayTime,
-      postProcessing: (state) => state.itemInstance.postProcessing,
     }),
   },
 };
