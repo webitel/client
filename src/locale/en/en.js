@@ -456,6 +456,7 @@ export default {
       agents: {
         agents: 'Agent | Agents',
         supervisors: 'Supervisor | Supervisors',
+        subordinates: 'Subordinate agent | Subordinate agents',
         allAgents: 'All agents',
         progressiveCount: 'Progressive call count',
         chatCount: 'Chat count',
@@ -466,6 +467,7 @@ export default {
         statusHistory: 'Status history',
         historyState: 'State',
         payload: 'Cause',
+        addSubordinate: 'Add subordinate agent',
         historyChannel: 'Channel',
         historyFrom: 'From',
         historyTo: 'To',

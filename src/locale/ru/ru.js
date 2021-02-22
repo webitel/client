@@ -454,6 +454,7 @@ export default {
       agents: {
         agents: 'Оператор | Операторы',
         supervisors: 'Супервизор | Супервизоры',
+        subordinates: 'Подчинённый оператор | Подчинённые операторы',
         allAgents: 'Все операторы',
         state: 'Статус',
         progressiveCount: 'Количество одновременных звонков',
@@ -461,6 +462,7 @@ export default {
         isSupervisor: 'Супервизор',
         stateTime: 'Время статуса',
         addSkill: 'Добавить навык',
+        addSubordinate: 'Добавить подчинённого агента',
         statusHistory: 'История статусов',
         historyState: 'Статус',
         historyChannel: 'Канал',

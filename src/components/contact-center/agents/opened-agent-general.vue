@@ -52,6 +52,7 @@
         :v="v.itemInstance.progressiveCount"
         :label="$t('objects.ccenter.agents.progressiveCount')"
         :disabled="disableUserInput"
+        :min-value="0"
         type="number"
         required
         @input="setItemProp({ prop: 'progressiveCount', value: +$event })"
@@ -61,6 +62,7 @@
         :v="v.itemInstance.chatCount"
         :label="$t('objects.ccenter.agents.chatCount')"
         :disabled="disableUserInput"
+        :min-value="0"
         type="number"
         required
         @input="setItemProp({ prop: 'chatCount', value: +$event })"

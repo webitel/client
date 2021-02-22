@@ -16,13 +16,13 @@ export class WebitelSDKItemPatcher extends BaseItemPatcher {
 
   patchItem(id, changes) {
     const changesCopy = deepCopy(changes);
-    sanitizer(changesCopy, this.fieldsToSend);
+    if (this.fieldsToSend) sanitizer(changesCopy, this.fieldsToSend);
     return this._patchItem([id, changes]);
   }
 
   patchNestedItem({ parentId, id, changes }) {
     const changesCopy = deepCopy(changes);
-    sanitizer(changesCopy, this.fieldsToSend);
+    if (this.fieldsToSend) sanitizer(changesCopy, this.fieldsToSend);
     return this._patchItem([parentId, id, changes]);
   }
 }

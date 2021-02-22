@@ -31,9 +31,9 @@
 import { required } from 'vuelidate/lib/validators';
 import { mapState } from 'vuex';
 import OpenedAgentGeneral from './opened-agent-general.vue';
-import OpenedAgentTeams from './opened-agent-teams.vue';
 import OpenedAgentQueues from './opened-agent-queues.vue';
 import OpenedAgentSkills from './opened-agent-skills.vue';
+import OpenedAgentSubordinates from './subordinates/opened-agent-subordinates.vue';
 import OpenedAgentPermissions from './opened-agent-permissions.vue';
 import openedObjectMixin from '../../../mixins/objectPagesMixins/openedObjectMixin/openedObjectMixin';
 
@@ -42,9 +42,9 @@ export default {
   mixins: [openedObjectMixin],
   components: {
     OpenedAgentGeneral,
-    OpenedAgentTeams,
     OpenedAgentQueues,
     OpenedAgentSkills,
+    OpenedAgentSubordinates,
     OpenedAgentPermissions,
   },
 
@@ -64,6 +64,7 @@ export default {
     ...mapState('ccenter/agents', {
       id: (state) => state.itemId,
       itemInstance: (state) => state.itemInstance,
+      isSupervisor: (state) => state.itemInstance.isSupervisor,
     }),
 
     tabs() {
@@ -74,18 +75,21 @@ export default {
         text: this.$tc('objects.ccenter.skills.skills', 2),
         value: 'skills',
       }, {
-        text: this.$tc('objects.ccenter.teams.teams', 2),
-        value: 'teams',
-      }, {
         text: this.$tc('objects.ccenter.queues.queues', 2),
         value: 'queues',
       }];
+
+      const subordinates = {
+        text: this.$tc('objects.ccenter.agents.agents', 2),
+        value: 'subordinates',
+      };
 
       const permissions = {
         text: this.$tc('objects.permissions.permissions', 2),
         value: 'permissions',
       };
 
+      if (this.isSupervisor) tabs.push(subordinates);
       if (this.id) tabs.push(permissions);
       return tabs;
     },

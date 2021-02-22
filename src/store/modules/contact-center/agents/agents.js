@@ -1,6 +1,7 @@
 import skills from './agent-skills';
 import history from './history';
 import queues from './agent-queues';
+import subordinates from './agent-subordinates';
 import permissions from './permissions';
 import AgentsAPI from '../../../../api/contact-center/agents/agents';
 import { DefaultModule } from '../../defaults/DefaultModule';
@@ -49,6 +50,7 @@ const actions = {
     context.commit('RESET_ITEM_STATE');
     context.dispatch('ccenter/agents/queues/RESET_STATE', {}, { root: true });
     context.dispatch('ccenter/agents/skills/RESET_STATE', {}, { root: true });
+    context.dispatch('ccenter/agents/subordinates/RESET_STATE', {}, { root: true });
   },
 };
 
@@ -62,5 +64,5 @@ export default {
   getters,
   actions,
   mutations,
-  modules: { history, skills, queues, permissions },
+  modules: { history, skills, queues, subordinates, permissions },
 };
