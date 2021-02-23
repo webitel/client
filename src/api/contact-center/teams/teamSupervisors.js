@@ -1,85 +1,58 @@
-import { SupervisorInTeamServiceApiFactory } from 'webitel-sdk';
-import deepCopy from 'deep-copy';
-import eventBus from '@webitel/ui-sdk/src/scripts/eventBus';
+import { AgentServiceApiFactory } from 'webitel-sdk';
 import instance from '../../instance';
 import configuration from '../../openAPIConfig';
-import sanitizer from '../../utils/sanitizer';
-import store from '../../../store/store';
+import SDKListGetter from '../../utils/ApiControllers/ListGetter/SDKListGetter';
+import SDKItemGetter from '../../utils/ApiControllers/Getter/SDKGetter';
+import SDKItemPatcher from '../../utils/ApiControllers/Patcher/SDKPatcher';
 
-const teamSupervisorService = new SupervisorInTeamServiceApiFactory(configuration, '', instance);
+const teamSupervisorService = new AgentServiceApiFactory(configuration, '', instance);
 
-const fieldsToSend = ['domainId', 'teamId', 'agent'];
+const listGetter = new SDKListGetter(teamSupervisorService.searchAgent);
+const itemGetter = new SDKItemGetter(teamSupervisorService.readAgent);
+const itemPatcher = new SDKItemPatcher(teamSupervisorService.patchAgent);
 
-export const getTeamSupervisorsList = async (teamId, page = 0, size = 10, search) => {
-  const { domainId } = store.state.userinfo;
-  // eslint-disable-next-line no-param-reassign
-  if (search && search.slice(-1) !== '*') search += '*';
-  const defaultObject = {
-    agent: {},
-    _isSelected: false,
-  };
+const _getTeamSupervisorsList = (getList) => function ({
+                                                     page,
+                                                     size,
+                                                     search,
+                                                     parentId,
+                                                   }) {
+  // parent id == team id
+  const isSupervisor = true;
+  const fields = ['id', 'user'];
+  const params = [page, size, search, undefined, fields, undefined, undefined,
+    undefined, undefined, parentId, undefined, undefined, isSupervisor];
+  return getList(params);
+};
 
+export const getTeamSupervisorsList = (params) => (
+  listGetter
+    .setGetListMethod(_getTeamSupervisorsList)
+    .getList(params)
+);
+export const getTeamSupervisor = ({ itemId }) => itemGetter.getItem(itemId);
+export const addTeamSupervisor = ({ parentId, itemInstance }) => {
+  const { id } = itemInstance.user;
+  const changes = { team: { id: parentId } };
+  return itemPatcher.patchItem(id, changes);
+};
+export const deleteTeamSupervisor = ({ id }) => {
+  const changes = { team: { id: null } };
+  return itemPatcher.patchItem(id, changes);
+};
+export const updateTeamSupervisor = async ({ parentId, itemId, itemInstance }) => {
   try {
-    const response = await teamSupervisorService
-      .searchSupervisorInTeam(teamId, page, size, search, domainId);
-    if (response.items) {
-      return {
-        list: response.items.map((item) => ({ ...defaultObject, ...item })),
-        isNext: response.next || false,
-      };
-    }
-    return { list: [] };
+    await addTeamSupervisor({ parentId, itemInstance });
+    await deleteTeamSupervisor({ id: itemId });
   } catch (err) {
     throw err;
   }
 };
 
-export const getTeamSupervisor = async (teamId, id) => {
-  const { domainId } = store.state.userinfo;
-  try {
-    const response = await teamSupervisorService.readSupervisorInTeam(teamId, id, domainId);
-    const defaultObject = {
-      agent: {},
-      _dirty: false,
-    };
-    return { ...defaultObject, ...response };
-  } catch (err) {
-    throw err;
-  }
-};
-
-export const addTeamSupervisor = async (teamId, item) => {
-  const itemCopy = deepCopy(item);
-  itemCopy.domainId = store.state.userinfo.domainId;
-  itemCopy.teamId = teamId;
-  sanitizer(itemCopy, fieldsToSend);
-  try {
-    const response = await teamSupervisorService.createSupervisorInTeam(teamId, itemCopy);
-    eventBus.$emit('notification', { type: 'info', text: 'Successfully added' });
-    return response.id;
-  } catch (err) {
-    throw err;
-  }
-};
-
-export const updateTeamSupervisor = async (teamId, id, item) => {
-  const itemCopy = deepCopy(item);
-  itemCopy.domainId = store.state.userinfo.domainId;
-  itemCopy.teamId = teamId;
-  sanitizer(itemCopy, fieldsToSend);
-  try {
-    await teamSupervisorService.updateSupervisorInTeam(teamId, id, itemCopy);
-    eventBus.$emit('notification', { type: 'info', text: 'Successfully updated' });
-  } catch (err) {
-    throw err;
-  }
-};
-
-export const deleteTeamSupervisor = async (teamId, id) => {
-  const { domainId } = store.state.userinfo;
-  try {
-    await teamSupervisorService.deleteSupervisorInTeam(teamId, id, domainId);
-  } catch (err) {
-    throw err;
-  }
+export default {
+  getList: getTeamSupervisorsList,
+  get: getTeamSupervisor,
+  add: addTeamSupervisor,
+  update: updateTeamSupervisor,
+  delete: deleteTeamSupervisor,
 };

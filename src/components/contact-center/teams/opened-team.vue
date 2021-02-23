@@ -31,7 +31,7 @@
 import { numeric, required } from 'vuelidate/lib/validators';
 import { mapState } from 'vuex';
 import OpenedTeamGeneral from './opened-team-general.vue';
-import OpenedTeamSupervisors from './opened-team-supervisors.vue';
+import OpenedTeamSupervisors from './supervisors/opened-team-supervisors.vue';
 import OpenedTeamAgents from './agents/opened-team-agents.vue';
 import OpenedTeamTiming from './opened-team-timing.vue';
 import OpenedTeamPermissions from './opened-team-permissions.vue';

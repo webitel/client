@@ -6,14 +6,14 @@
     <template slot="main">
       <form>
         <wt-select
-          :value="agent"
-          :v="$v.itemInstance.agent"
+          :value="user"
+          :v="$v.itemInstance.user"
           :label="$tc('objects.ccenter.agents.agents', 1)"
           :search="loadAgentsOptions"
           :internal-search="false"
           :clearable="false"
           required
-          @input="setItemProp({ prop: 'agent', value: $event })"
+          @input="setItemProp({ prop: 'user', value: $event })"
         ></wt-select>
       </form>
     </template>
@@ -35,8 +35,8 @@
 <script>
 import { required } from 'vuelidate/lib/validators';
 import { mapState } from 'vuex';
-import { getAgentsList } from '../../../api/contact-center/agents/agents';
-import nestedObjectMixin from '../../../mixins/objectPagesMixins/openedObjectMixin/nestedObjectMixin';
+import { getAgentsList } from '../../../../api/contact-center/agents/agents';
+import nestedObjectMixin from '../../../../mixins/objectPagesMixins/openedObjectMixin/nestedObjectMixin';
 
 export default {
   name: 'opened-team-agents-popup',
@@ -48,7 +48,7 @@ export default {
 
   validations: {
     itemInstance: {
-      agent: { required },
+      user: { required },
     },
   },
 
@@ -56,7 +56,7 @@ export default {
     ...mapState('ccenter/teams/supervisors', {
       id: (state) => state.itemId,
       itemInstance: (state) => state.itemInstance,
-      agent: (state) => state.itemInstance.agent,
+      user: (state) => state.itemInstance.user,
     }),
   },
 

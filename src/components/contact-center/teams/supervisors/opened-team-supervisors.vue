@@ -44,9 +44,9 @@
         :grid-actions="!disableUserInput"
       >
         <template slot="name" slot-scope="{ item }">
-          <div v-if="item.agent">
-            {{ item.agent.name }}
-          </div>
+          <item-link :link="itemLink(item)">
+            {{ item.user.name }}
+          </item-link>
         </template>
 
         <template slot="actions" slot-scope="{ item, index }">
@@ -75,7 +75,8 @@
 <script>
 import { mapState } from 'vuex';
 import SupervisorPopup from './opened-team-supervisors-popup.vue';
-import openedObjectTableTabMixin from '../../../mixins/objectPagesMixins/openedObjectTableTabMixin/openedObjectTableTabMixin';
+import openedObjectTableTabMixin from '../../../../mixins/objectPagesMixins/openedObjectTableTabMixin/openedObjectTableTabMixin';
+import RouteNames from '../../../../router/_internals/RouteNames.enum';
 
 export default {
   name: 'opened-team-supervisors',
@@ -83,6 +84,7 @@ export default {
   components: { SupervisorPopup },
   data: () => ({
     subNamespace: 'supervisors',
+    tableObjectRouteName: RouteNames.AGENTS, // this.itemLink() computing
     isSupervisorPopup: false,
   }),
 
