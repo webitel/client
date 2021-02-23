@@ -64,7 +64,7 @@
 
 <script>
 import { mapState } from 'vuex';
-import AgentSkillsPopup from './opened-team-agents-skills-popup.vue';
+import AgentSkillsPopup from './opened-team-agent-skills-popup.vue';
 import openedObjectTableTabMixin from '../../../../mixins/objectPagesMixins/openedObjectTableTabMixin/openedObjectTableTabMixin';
 import RouteNames from '../../../../router/_internals/RouteNames.enum';
 

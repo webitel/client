@@ -11,17 +11,32 @@ const listGetter = new SDKListGetter(teamSupervisorService.searchAgent);
 const itemGetter = new SDKItemGetter(teamSupervisorService.readAgent);
 const itemPatcher = new SDKItemPatcher(teamSupervisorService.patchAgent);
 
+const subordinatesListGetter = new SDKListGetter(teamSupervisorService.searchAgent);
+
 const _getTeamSupervisorsList = (getList) => function ({
-                                                     page,
-                                                     size,
-                                                     search,
-                                                     parentId,
-                                                   }) {
+                                                         page,
+                                                         size,
+                                                         search,
+                                                         parentId,
+                                                       }) {
   // parent id == team id
   const isSupervisor = true;
   const fields = ['id', 'user'];
   const params = [page, size, search, undefined, fields, undefined, undefined,
     undefined, undefined, parentId, undefined, undefined, isSupervisor];
+  return getList(params);
+};
+
+const _getTeamSupervisorSubordinatesList = (getList) => function ({
+                                                                    page,
+                                                                    size,
+                                                                    search,
+                                                                    supervisorId,
+                                                                    teamId,
+                                                                  }) {
+  const fields = ['id', 'user'];
+  const params = [page, size, search, undefined, fields, undefined, undefined,
+    undefined, supervisorId, teamId, undefined, undefined];
   return getList(params);
 };
 
@@ -48,6 +63,12 @@ export const updateTeamSupervisor = async ({ parentId, itemId, itemInstance }) =
     throw err;
   }
 };
+
+export const getTeamSupervisorSubordinatesList = (params) => (
+  subordinatesListGetter
+    .setGetListMethod(_getTeamSupervisorSubordinatesList)
+    .getList(params)
+);
 
 export default {
   getList: getTeamSupervisorsList,

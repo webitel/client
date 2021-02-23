@@ -4,6 +4,11 @@
       v-if="isSupervisorPopup"
       @close="closePopup"
     ></supervisor-popup>
+    <supervisor-subordinates-popup
+      v-if="isSupervisorSubordinatesPopup"
+      :item-id="supervisorId"
+      @close="closeSubordinates"
+    ></supervisor-subordinates-popup>
 
     <header class="content-header">
       <h3 class="content-title">{{ $tc('objects.ccenter.agents.supervisors', 2) }}</h3>
@@ -50,6 +55,13 @@
         </template>
 
         <template slot="actions" slot-scope="{ item, index }">
+          <wt-icon-btn
+            class="table-action"
+            icon="queue-member"
+            :tooltip="$tc('objects.ccenter.agents.subordinates', 2)"
+            tooltip-position="left"
+            @click="openSubordinates(item)"
+          ></wt-icon-btn>
           <edit-action
             @click="edit(item)"
           ></edit-action>
@@ -75,17 +87,20 @@
 <script>
 import { mapState } from 'vuex';
 import SupervisorPopup from './opened-team-supervisors-popup.vue';
+import SupervisorSubordinatesPopup from './opened-team-supervisor-subordinates-popup.vue';
 import openedObjectTableTabMixin from '../../../../mixins/objectPagesMixins/openedObjectTableTabMixin/openedObjectTableTabMixin';
 import RouteNames from '../../../../router/_internals/RouteNames.enum';
 
 export default {
   name: 'opened-team-supervisors',
   mixins: [openedObjectTableTabMixin],
-  components: { SupervisorPopup },
+  components: { SupervisorPopup, SupervisorSubordinatesPopup },
   data: () => ({
     subNamespace: 'supervisors',
     tableObjectRouteName: RouteNames.AGENTS, // this.itemLink() computing
+    supervisorId: null,
     isSupervisorPopup: false,
+    isSupervisorSubordinatesPopup: false,
   }),
 
   computed: {
@@ -107,12 +122,25 @@ export default {
   },
 
   methods: {
+    openSubordinates({ id }) {
+      this.supervisorId = id;
+      this.openSubordinatesPopup();
+    },
+    closeSubordinates() {
+      this.supervisorId = null;
+      this.closeSubordinatesPopup();
+    },
     openPopup() {
       this.isSupervisorPopup = true;
     },
-
     closePopup() {
       this.isSupervisorPopup = false;
+    },
+    openSubordinatesPopup() {
+      this.isSupervisorSubordinatesPopup = true;
+    },
+    closeSubordinatesPopup() {
+      this.isSupervisorSubordinatesPopup = false;
     },
   },
 };

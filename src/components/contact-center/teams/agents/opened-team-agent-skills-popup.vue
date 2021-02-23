@@ -24,7 +24,7 @@
 import { mapGetters } from 'vuex';
 
 export default {
-  name: 'opened-team-agents-skills-popup',
+  name: 'opened-team-agent-skills-popup',
   props: {
     itemId: {
       required: true,
