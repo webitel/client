@@ -7,8 +7,11 @@ import SDKItemPatcher from '../../utils/ApiControllers/Patcher/SDKPatcher';
 
 const teamSupervisorService = new AgentServiceApiFactory(configuration, '', instance);
 
+const subordinateGetterResponseHandler = (agent) => ({ agent });
+
 const listGetter = new SDKListGetter(teamSupervisorService.searchAgent);
-const itemGetter = new SDKItemGetter(teamSupervisorService.readAgent);
+const itemGetter = new SDKItemGetter(teamSupervisorService.readAgent, null,
+  subordinateGetterResponseHandler);
 const itemPatcher = new SDKItemPatcher(teamSupervisorService.patchAgent);
 
 const subordinatesListGetter = new SDKListGetter(teamSupervisorService.searchAgent);
@@ -47,7 +50,7 @@ export const getTeamSupervisorsList = (params) => (
 );
 export const getTeamSupervisor = ({ itemId }) => itemGetter.getItem(itemId);
 export const addTeamSupervisor = ({ parentId, itemInstance }) => {
-  const { id } = itemInstance.user;
+  const { id } = itemInstance.agent;
   const changes = { team: { id: parentId } };
   return itemPatcher.patchItem(id, changes);
 };

@@ -4,7 +4,7 @@ import { DefaultNestedModule } from '../../defaults/DefaultNestedModule';
 const defaultItemState = () => ({
   itemId: 0,
   itemInstance: {
-    user: {},
+    agent: {},
   },
 });
 const defaultModule = new DefaultNestedModule(null, defaultItemState);

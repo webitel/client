@@ -13,8 +13,11 @@ const defaultListObject = {
   _isSelected: false,
 };
 
+const subordinateGetterResponseHandler = (agent) => ({ agent });
+
 const listGetter = new SDKListGetter(subordinateService.searchAgent, defaultListObject);
-const itemGetter = new SDKItemGetter(subordinateService.readAgent);
+const itemGetter = new SDKItemGetter(subordinateService.readAgent, null,
+  subordinateGetterResponseHandler);
 const itemPatcher = new SDKPatcher(subordinateService.patchAgent);
 
 const getSubordinatesList = (getList) => function ({
@@ -36,7 +39,7 @@ export const getAgentSubordinatesList = (params) => (
 );
 export const getAgentSubordinate = ({ itemId }) => itemGetter.getItem(itemId);
 export const addAgentSubordinate = ({ parentId, itemInstance }) => {
-  const { id } = itemInstance.user;
+  const { id } = itemInstance.agent;
   const changes = { supervisor: { id: parentId } };
   return itemPatcher.patchItem(id, changes);
 };

@@ -4,8 +4,10 @@ import BaseItemGetter from './BaseItemGetter';
 export class WebitelSDKItemGetter extends BaseItemGetter {
   async _getItem(args) {
     try {
-      const response = await this.method(...args);
-      return this.responseHandler(response);
+      let response = await this.method(...args);
+      response = this.responseHandler(response);
+      if (this.userResponseHandler) response = this.userResponseHandler(response);
+      return response;
     } catch (err) {
       throw err;
     }
