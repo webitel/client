@@ -6,14 +6,14 @@
     <template slot="main">
       <form>
         <wt-select
-          :value="agent"
-          :v="$v.itemInstance.agent"
+          :value="user"
+          :v="$v.itemInstance.user"
           :label="$tc('objects.ccenter.agents.subordinates', 1)"
           :search="loadDropdownOptionsList"
           :internal-search="false"
           :clearable="false"
           required
-          @input="setItemProp({ prop: 'agent', value: $event })"
+          @input="setItemProp({ prop: 'user', value: $event })"
         ></wt-select>
       </form>
     </template>
@@ -48,7 +48,7 @@ export default {
 
   validations: {
     itemInstance: {
-      agent: { required },
+      user: { required },
     },
   },
 
@@ -57,7 +57,7 @@ export default {
       id: (state) => state.itemId,
       parentId: (state) => state.parentId,
       itemInstance: (state) => state.itemInstance,
-      agent: (state) => state.itemInstance.agent,
+      user: (state) => state.itemInstance.user,
     }),
   },
 

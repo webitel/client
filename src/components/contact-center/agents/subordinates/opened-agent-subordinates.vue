@@ -65,6 +65,9 @@
           ></one-plus-many>
         </template>
         <template slot="actions" slot-scope="{ item, index }">
+          <edit-action
+            @click="edit(item)"
+          ></edit-action>
           <delete-action
             @click="remove(index)"
           ></delete-action>

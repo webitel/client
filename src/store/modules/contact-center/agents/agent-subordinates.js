@@ -4,7 +4,7 @@ import { DefaultNestedModule } from '../../defaults/DefaultNestedModule';
 const defaultItemState = () => ({
   itemId: 0,
   itemInstance: {
-    agent: {},
+    user: {},
   },
 });
 const defaultModule = new DefaultNestedModule(null, defaultItemState);
@@ -25,8 +25,14 @@ const actions = {
   GET_LIST: (context) => {
     return AgentSubordinatesAPI.getList(context.state);
   },
+  GET_ITEM: (context) => {
+    return AgentSubordinatesAPI.get(context.state);
+  },
   POST_ITEM: (context) => {
     return AgentSubordinatesAPI.add(context.state);
+  },
+  UPD_ITEM: (context) => {
+    return AgentSubordinatesAPI.update(context.state);
   },
   DELETE_ITEM: (context, id) => {
     return AgentSubordinatesAPI.delete({ parentId: context.state.parentId, id });
