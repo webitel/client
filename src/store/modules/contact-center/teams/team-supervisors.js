@@ -1,10 +1,4 @@
-import {
-  addTeamSupervisor,
-  deleteTeamSupervisor,
-  getTeamSupervisor,
-  getTeamSupervisorsList,
-  updateTeamSupervisor,
-} from '../../../../api/contact-center/teams/teamSupervisors';
+import TeamSupervisorsAPI from '../../../../api/contact-center/teams/teamSupervisors';
 import { DefaultNestedModule } from '../../defaults/DefaultNestedModule';
 
 const defaultItemState = () => ({
@@ -23,27 +17,22 @@ const state = {
 const getters = {};
 
 const actions = {
-  GET_LIST: (context) => {
-    return getTeamSupervisorsList(context.state.parentId, context.state.page, context.state.size, context.state.search);
-  },
-
-  GET_ITEM: (context) => {
-    return getTeamSupervisor(context.state.parentId, context.state.itemId);
-  },
-
-  POST_ITEM: (context) => {
-    return addTeamSupervisor(context.state.parentId, context.state.itemInstance);
-  },
-
-  UPD_ITEM: (context) => {
-    return updateTeamSupervisor(context.state.parentId, context.state.itemId, context.state.itemInstance);
-  },
-
-  DELETE_ITEM: (context, id) => {
-    return deleteTeamSupervisor(context.state.parentId, id);
-  },
-
   ...defaultModule.actions,
+  GET_LIST: (context) => {
+    return TeamSupervisorsAPI.getList(context.state);
+  },
+  GET_ITEM: (context) => {
+    return TeamSupervisorsAPI.get(context.state);
+  },
+  POST_ITEM: (context) => {
+    return TeamSupervisorsAPI.add(context.state);
+  },
+  UPD_ITEM: (context) => {
+    return TeamSupervisorsAPI.update(context.state);
+  },
+  DELETE_ITEM: (context, id) => {
+    return TeamSupervisorsAPI.delete({ parentId: context.state.parentId, id });
+  },
 };
 
 const mutations = {

@@ -1,6 +1,7 @@
 import { mapActions } from 'vuex';
 import openedTabComponentMixin from '../openedObjectTabMixin/openedTabComponentMixin';
 import baseTableMixin from '../../baseMixins/baseTableMixin/baseTableMixin';
+import OnePlusMany from '../../../components/utils/table-cell/one-plus-many-table-cell/one-plus-many-table-cell.vue';
 
 /**
  * @fileOverview contains openedObject tab with table
@@ -12,6 +13,7 @@ import baseTableMixin from '../../baseMixins/baseTableMixin/baseTableMixin';
  */
 export default {
   mixins: [openedTabComponentMixin, baseTableMixin],
+  components: { OnePlusMany },
   watch: {
     parentId(value) {
       this.setParentId(value);

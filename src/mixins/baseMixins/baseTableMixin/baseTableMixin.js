@@ -1,7 +1,8 @@
 import ObjectHeader from '../../../components/object-utils/the-object-header.vue';
-import EditAction from '../../../components/utils/default-table-actions/edit-action.vue';
-import DeleteAction from '../../../components/utils/default-table-actions/delete-action.vue';
-import HistoryAction from '../../../components/utils/default-table-actions/history-action.vue';
+import EditAction from '../../../components/utils/table-cell/default-table-actions/edit-action.vue';
+import DeleteAction from '../../../components/utils/table-cell/default-table-actions/delete-action.vue';
+import HistoryAction from '../../../components/utils/table-cell/default-table-actions/history-action.vue';
+import itemLinkMixin from './itemLinkMixin';
 import tableActionsHandlerMixin from './tableActionsMixin';
 
 
@@ -17,10 +18,10 @@ import loader from '../../../components/utils/loader';
  * used by main-table (tableComponentMixin)
  * and table-in-tab (openedObjectTableTabMixin) mixins
  *
- * @extends tableActionsHandlerMixin
+ * @extends itemLinkMixin, tableActionsHandlerMixin
  */
 export default {
-  mixins: [tableActionsHandlerMixin],
+  mixins: [itemLinkMixin, tableActionsHandlerMixin],
   components: {
     ObjectHeader,
     EditAction,

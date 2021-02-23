@@ -49,13 +49,9 @@
         :grid-actions="!disableUserInput"
       >
         <template slot="name" slot-scope="{ item }">
-          <router-link
-            class="nameLink"
-            :to="agentLink(item)"
-            target="_blank"
-          >
+          <item-link :link="itemLink(item)">
             {{ item.user.name }}
-          </router-link>
+          </item-link>
         </template>
         <template slot="supervisor" slot-scope="{ item }">
           <div>
@@ -63,20 +59,15 @@
           </div>
         </template>
         <template slot="skills" slot-scope="{ item }">
-          <div>
-            <a
-              v-if="item.skills.length"
-              class="nameLink"
-              tabIndex="0"
-              @click.prevent="openSkillsPopup(item)"
-              @keypress.enter.prevent="openSkillsPopup(item)"
-            >{{ item.skills[0].name }}</a>
-            <wt-badge v-if="item.skills.length > 1">
-              +{{ item.skills.length - 1 }}
-            </wt-badge>
-          </div>
+          <one-plus-many
+            :collection="item.skills"
+            @input="readSkills(item)"
+          ></one-plus-many>
         </template>
         <template slot="actions" slot-scope="{ item, index }">
+          <edit-action
+            @click="edit(item)"
+          ></edit-action>
           <delete-action
             @click="remove(index)"
           ></delete-action>
@@ -108,7 +99,8 @@ export default {
   mixins: [openedObjectTableTabMixin],
   components: { SubordinatePopup, SkillsPopup },
   data: () => ({
-    subNamespace: 'subordinates',
+    subNamespace: 'subordinates', // used in mixin map actions
+    tableObjectRouteName: RouteNames.AGENTS, // this.itemLink() computing
     isSubordinatePopup: false,
     isSkillsPopup: false,
     subordinateId: null,
@@ -135,11 +127,11 @@ export default {
   },
 
   methods: {
-    agentLink(item) {
-      return { name: `${RouteNames.AGENTS}-edit`, params: { id: item.id } };
-    },
-    openSkillsPopup(item) {
+    readSkills(item) {
       this.subordinateId = item.id;
+      this.openSkillsPopup();
+      },
+    openSkillsPopup() {
       this.isSkillsPopup = true;
     },
     closeSkillsPopup() {
@@ -160,7 +152,4 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.wt-badge {
-  margin-left: var(--component-spacing);
-}
 </style>

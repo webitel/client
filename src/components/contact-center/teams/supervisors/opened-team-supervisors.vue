@@ -1,18 +1,17 @@
 <template>
   <section>
-    <skill-buckets-popup
-      v-if="isSkillBucketsPopup"
-      :itemId="this.agentId"
-      @close="closeBucketsPopup"
-    ></skill-buckets-popup>
-
-    <skill-popup
-      v-if="isSkillPopup"
+    <supervisor-popup
+      v-if="isSupervisorPopup"
       @close="closePopup"
-    ></skill-popup>
+    ></supervisor-popup>
+    <supervisor-subordinates-popup
+      v-if="isSupervisorSubordinatesPopup"
+      :item-id="supervisorId"
+      @close="closeSubordinates"
+    ></supervisor-subordinates-popup>
 
     <header class="content-header">
-      <h3 class="content-title">{{ $tc('objects.ccenter.skills.skills', 2) }}</h3>
+      <h3 class="content-title">{{ $tc('objects.ccenter.agents.supervisors', 2) }}</h3>
       <div class="content-header__actions-wrap">
         <wt-search-bar
           :value="search"
@@ -50,29 +49,19 @@
         :grid-actions="!disableUserInput"
       >
         <template slot="name" slot-scope="{ item }">
-          <div v-if="item.skill">
-            {{ item.skill.name }}
-          </div>
+          <item-link :link="itemLink(item)">
+            {{ item.user.name }}
+          </item-link>
         </template>
 
-        <template slot="capacity" slot-scope="{ item }">
-          {{ item.minCapacity }} - {{ item.maxCapacity }}
-        </template>
-
-        <template slot="lvl" slot-scope="{ item }">
-          {{ item.lvl }}
-        </template>
-
-        <template slot="buckets" slot-scope="{ item }">
-          <div>{{ getFirstBucket(item.buckets) }}
-            <span class="hidden-num"
-                  @click="readBuckets(item)"
-                  v-if="item.buckets.length > 1"
-            >+{{ item.buckets.length - 1 }}</span>
-          </div>
-        </template>
-
-        <template slot="actions" slot-scope="{ item }">
+        <template slot="actions" slot-scope="{ item, index }">
+          <wt-icon-btn
+            class="table-action"
+            icon="queue-member"
+            :tooltip="$tc('objects.ccenter.agents.subordinates', 2)"
+            tooltip-position="left"
+            @click="openSubordinates(item)"
+          ></wt-icon-btn>
           <edit-action
             @click="edit(item)"
           ></edit-action>
@@ -97,25 +86,28 @@
 
 <script>
 import { mapState } from 'vuex';
-import SkillBucketsPopup from './opened-team-skills-buckets-popup.vue';
-import SkillPopup from './opened-team-skills-popup.vue';
-import openedObjectTableTabMixin from '../../../mixins/objectPagesMixins/openedObjectTableTabMixin/openedObjectTableTabMixin';
+import SupervisorPopup from './opened-team-supervisors-popup.vue';
+import SupervisorSubordinatesPopup from './opened-team-supervisor-subordinates-popup.vue';
+import openedObjectTableTabMixin from '../../../../mixins/objectPagesMixins/openedObjectTableTabMixin/openedObjectTableTabMixin';
+import RouteNames from '../../../../router/_internals/RouteNames.enum';
 
 export default {
-  name: 'opened-team-skills',
+  name: 'opened-team-supervisors',
   mixins: [openedObjectTableTabMixin],
-  components: { SkillPopup, SkillBucketsPopup },
+  components: { SupervisorPopup, SupervisorSubordinatesPopup },
   data: () => ({
-    subNamespace: 'skills',
-    isSkillBucketsPopup: null,
-    isSkillPopup: false,
-    agentId: 0,
+    subNamespace: 'supervisors',
+    tableObjectRouteName: RouteNames.AGENTS, // this.itemLink() computing
+    supervisorId: null,
+    isSupervisorPopup: false,
+    isSupervisorSubordinatesPopup: false,
   }),
+
   computed: {
     ...mapState('ccenter/teams', {
       parentId: (state) => state.itemId,
     }),
-    ...mapState('ccenter/teams/skills', {
+    ...mapState('ccenter/teams/supervisors', {
       dataList: (state) => state.dataList,
       page: (state) => state.page,
       size: (state) => state.size,
@@ -124,49 +116,35 @@ export default {
     }),
     headers() {
       return [
-        { value: 'name', text: this.$t('objects.name') },
-        { value: 'capacity', text: this.$t('objects.ccenter.skills.capacity') },
-        { value: 'lvl', text: this.$t('objects.ccenter.teams.lvl') },
-        { value: 'buckets', text: this.$tc('objects.ccenter.buckets.buckets', 1) },
+        { value: 'name', text: this.$tc('objects.ccenter.agents.supervisors', 2) },
       ];
     },
   },
 
   methods: {
-    getFirstBucket(buckets) {
-      if (buckets.length > 0) {
-        return buckets[0].name;
-      }
-      return '';
+    openSubordinates({ id }) {
+      this.supervisorId = id;
+      this.openSubordinatesPopup();
     },
-
-    readBuckets(item) {
-      this.agentId = item.id;
-      this.isSkillBucketsPopup = true;
+    closeSubordinates() {
+      this.supervisorId = null;
+      this.closeSubordinatesPopup();
     },
-
     openPopup() {
-      this.isSkillPopup = true;
+      this.isSupervisorPopup = true;
     },
-
     closePopup() {
-      this.isSkillPopup = false;
+      this.isSupervisorPopup = false;
     },
-
-    closeBucketsPopup() {
-      this.isSkillBucketsPopup = false;
-      this.resetItemState();
+    openSubordinatesPopup() {
+      this.isSupervisorSubordinatesPopup = true;
+    },
+    closeSubordinatesPopup() {
+      this.isSupervisorSubordinatesPopup = false;
     },
   },
 };
 </script>
 
 <style lang="scss" scoped>
-.hidden-num {
-  @extend .typo-body-md;
-
-  margin-left: 33px;
-  text-decoration: underline;
-  cursor: pointer;
-}
 </style>

@@ -1,17 +1,17 @@
 <template>
   <wt-popup min-width="480" @close="close">
     <template slot="title">
-      {{ $tc('objects.ccenter.buckets.buckets', 2) }}
+      {{ $tc('objects.ccenter.skills.skills', 2) }}
     </template>
     <template slot="main">
-      <section class="agent-buckets-popup">
+      <section>
         <wt-table
           :data="dataList"
           :headers="headers"
           :selectable="false"
           :grid-actions="false"
         >
-          <template slot="bucket" slot-scope="{ item }">
+          <template slot="skill" slot-scope="{ item }">
             {{ item.name }}
           </template>
         </wt-table>
@@ -24,7 +24,7 @@
 import { mapGetters } from 'vuex';
 
 export default {
-  name: 'opened-team-agents-buckets-popup',
+  name: 'opened-team-agent-skills-popup',
   props: {
     itemId: {
       required: true,
@@ -33,14 +33,14 @@ export default {
 
   computed: {
     ...mapGetters('ccenter/teams/agents', {
-      getBuckets: 'GET_ITEM_BUCKETS',
+      getSkills: 'GET_ITEM_SKILLS',
     }),
     dataList() {
-      return this.getBuckets(this.itemId);
+      return this.getSkills(this.itemId);
     },
     headers() {
       return [
-        { value: 'bucket', text: this.$tc('objects.ccenter.buckets.buckets', 1) },
+        { value: 'skill', text: this.$tc('objects.ccenter.skills.skills', 1) },
       ];
     },
   },

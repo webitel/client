@@ -456,6 +456,7 @@ export default {
       agents: {
         agents: 'Agent | Agents',
         supervisors: 'Supervisor | Supervisors',
+        admins: 'Admin | Admins',
         subordinates: 'Subordinate agent | Subordinate agents',
         allAgents: 'All agents',
         progressiveCount: 'Progressive call count',
@@ -487,7 +488,6 @@ export default {
         callTimeout: 'Call timeout',
         wrapUpTime: 'Wrap up time',
         noAnswerDelayTime: 'No answer delay time',
-        postProcessing: 'Waiting for call result',
         strategies: {
           random: 'Random',
           fewestCalls: 'Agent with fewest calls',

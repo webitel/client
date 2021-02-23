@@ -35,8 +35,8 @@
 <script>
 import { required } from 'vuelidate/lib/validators';
 import { mapState } from 'vuex';
-import { getAgentsList } from '../../../api/contact-center/agents/agents';
-import nestedObjectMixin from '../../../mixins/objectPagesMixins/openedObjectMixin/nestedObjectMixin';
+import { getAgentsList } from '../../../../api/contact-center/agents/agents';
+import nestedObjectMixin from '../../../../mixins/objectPagesMixins/openedObjectMixin/nestedObjectMixin';
 
 export default {
   name: 'opened-team-agents-popup',
