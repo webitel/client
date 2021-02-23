@@ -75,8 +75,9 @@ export default {
   },
   methods: {
     async fetchAdmins(search) {
-      const response = await getAgentSupervisorsOptions({ search });
-      return response.list;
+      const fields = ['id', 'name'];
+      const response = await getAgentSupervisorsOptions({ search, fields });
+      return response.list.map((item) => ({ name: item.name, id: item.id }));
     },
   },
 };

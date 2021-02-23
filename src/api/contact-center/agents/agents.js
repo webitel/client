@@ -31,12 +31,13 @@ const defaultObject = {
   _dirty: false,
 };
 const getSupervisorsList = (getList) => function ({
-                                                     page = 1,
-                                                     size = 10,
-                                                     search,
-                                                   }) {
+                                                    page = 1,
+                                                    size = 10,
+                                                    search,
+                                                    fields,
+                                                  }) {
   const isSupervisor = true;
-  const params = [page, size, search, undefined, undefined, undefined, undefined,
+  const params = [page, size, search, undefined, fields, undefined, undefined,
     undefined, undefined, undefined, undefined, undefined, isSupervisor];
   return getList(params);
 };
