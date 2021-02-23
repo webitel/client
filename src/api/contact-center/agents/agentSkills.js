@@ -1,90 +1,54 @@
 import { AgentSkillServiceApiFactory } from 'webitel-sdk';
-import deepCopy from 'deep-copy';
-import eventBus from '@webitel/ui-sdk/src/scripts/eventBus';
 import instance from '../../instance';
 import configuration from '../../openAPIConfig';
-import sanitizer from '../../utils/sanitizer';
-import store from '../../../store/store';
+import SDKListGetter from '../../utils/ApiControllers/ListGetter/SDKListGetter';
+import SDKGetter from '../../utils/ApiControllers/Getter/SDKGetter';
+import SDKCreator from '../../utils/ApiControllers/Creator/SDKCreator';
+import SDKPatcher from '../../utils/ApiControllers/Patcher/SDKPatcher';
+import SDKUpdater from '../../utils/ApiControllers/Updater/SDKUpdater';
+import SDKDeleter from '../../utils/ApiControllers/Deleter/SDKDeleter';
 
 const agentSkillService = new AgentSkillServiceApiFactory(configuration, '', instance);
 
-const fieldsToSend = ['skill', 'capacity'];
-
-export const getAgentSkillsList = async (agentId, page = 0, size = 10, search) => {
-  const { domainId } = store.state.userinfo;
-  if (search && search.slice(-1) !== '*') search += '*';
-  const defaultObject = {
-    capacity: 0,
-    _isSelected: false,
-  };
-
-  try {
-    const response = await agentSkillService.searchAgentSkill(agentId, page, size, search, domainId);
-    if (response.items) {
-      return {
-        list: response.items.map((item) => ({ ...defaultObject, ...item })),
-        isNext: response.next || false,
-      };
-    }
-    return { list: [] };
-  } catch (err) {
-    throw err;
-  }
+const defaultListObject = {
+  skill: {},
+  capacity: 0,
+  enabled: false,
+  _isSelected: false,
 };
 
-export const getAgentSkill = async (agentId, id) => {
-  const { domainId } = store.state.userinfo;
-  const defaultObject = {
-    _dirty: false,
-  };
-  try {
-    const response = await agentSkillService.readAgentSkill(agentId, id, domainId);
-    return { ...defaultObject, ...response };
-  } catch (err) {
-    throw err;
-  }
+const defaultObject = {
+  skill: {},
+  capacity: 0,
+  enabled: false,
+  _dirty: false,
 };
 
-export const addAgentSkill = async (agentId, item) => {
-  const itemCopy = deepCopy(item);
-  itemCopy.domainId = store.state.userinfo.domainId;
-  sanitizer(itemCopy, fieldsToSend);
-  try {
-    const response = await agentSkillService.createAgentSkill(agentId, itemCopy);
-    eventBus.$emit('notification', { type: 'info', text: 'Successfully added' });
-    return response.id;
-  } catch (err) {
-    throw err;
-  }
-};
+const fieldsToSend = ['capacity', 'agentId', 'skill', 'enabled'];
 
-export const updateAgentSkill = async (agentId, id, item) => {
-  const itemCopy = deepCopy(item);
-  itemCopy.domainId = store.state.userinfo.domainId;
-  sanitizer(itemCopy, fieldsToSend);
-  try {
-    await agentSkillService.updateAgentSkill(agentId, id, itemCopy);
-    eventBus.$emit('notification', { type: 'info', text: 'Successfully updated' });
-  } catch (err) {
-    throw err;
-  }
-};
+const preRequestHandler = (item, parentId) => ({ ...item, agentId: parentId });
 
-export const deleteAgentSkill = async (agentId, id) => {
-  const { domainId } = store.state.userinfo;
-  try {
-    await agentSkillService.deleteAgentSkill(agentId, id, domainId);
-  } catch (err) {
-    throw err;
-  }
-};
+const listGetter = new SDKListGetter(agentSkillService.searchAgentSkill, defaultListObject);
+const itemGetter = new SDKGetter(agentSkillService.readAgentSkill, defaultObject);
+const itemCreator = new SDKCreator(agentSkillService.createAgentSkill,
+  fieldsToSend, preRequestHandler);
+const itemPatcher = new SDKPatcher(agentSkillService.patchAgentSkill, fieldsToSend);
+const itemUpdater = new SDKUpdater(agentSkillService.updateAgentSkill,
+  fieldsToSend, preRequestHandler);
+const itemDeleter = new SDKDeleter(agentSkillService.deleteAgentSkill);
 
-export const getAgentSkills = async (id, page = 0, size = 10, search) => {
-  const { domainId } = store.state.userinfo;
-  try {
-    const response = await agentSkillService.searchLookupAgentNotExistsSkill(id, page, size, search, domainId);
-    return response.items ? response.items : [];
-  } catch (err) {
-    throw err;
-  }
+export const getAgentSkillsList = (params) => listGetter.getNestedList(params);
+export const getAgentSkill = (params) => itemGetter.getNestedItem(params);
+export const addAgentSkill = (params) => itemCreator.createNestedItem(params);
+export const patchAgentSkill = (params) => itemPatcher.patchNestedItem(params);
+export const updateAgentSkill = (params) => itemUpdater.updateNestedItem(params);
+export const deleteAgentSkill = (params) => itemDeleter.deleteNestedItem(params);
+
+export default {
+  getList: getAgentSkillsList,
+  get: getAgentSkill,
+  add: addAgentSkill,
+  patch: patchAgentSkill,
+  update: updateAgentSkill,
+  delete: deleteAgentSkill,
 };

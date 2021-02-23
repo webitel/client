@@ -12,8 +12,10 @@ export default class BaseListGetter {
       return {
         list: response.items.map((item) => ({ ...this.default, ...item })),
         next: response.next || false,
+        isNext: response.next || false, // remove after nested lists refactor with BaseListGetter
       };
     }
-    return [];
+    // remove isNext after nested lists refactor with BaseListGetter
+    return { list: [], next: false, isNext: false };
   };
 }

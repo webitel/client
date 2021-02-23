@@ -13,11 +13,21 @@ export class WebitelSDKListGetter extends BaseListGetter {
     }
   }
 
-  getList({ page, size, search }) {
+  setGetListMethod(method) {
+    this.getList = method(this._getList.bind(this));
+    return this;
+  }
+
+  getList({ page = 1, size = 10, search }) {
     return this._getList([page, size, search]);
   }
 
-  getNestedList({ parentId, page, size, search }) {
+  getNestedList({
+                  parentId,
+                  page = 1,
+                  size = 10,
+                  search,
+                }) {
     return this._getList([parentId, page, size, search]);
   }
 }

@@ -30,8 +30,8 @@ const defaultObject = {
   _dirty: false,
 };
 
-const fieldsToSend = ['domainId', 'maxCapacity', 'minCapacity', 'queueId',
-  'lvl', 'buckets', 'skill', 'enabled'];
+const fieldsToSend = ['maxCapacity', 'minCapacity', 'queueId', 'lvl', 'buckets', 'skill',
+  'enabled'];
 
 const preRequestHandler = (item, parentId) => ({ ...item, queueId: parentId });
 

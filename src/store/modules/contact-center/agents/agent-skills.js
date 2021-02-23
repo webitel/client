@@ -1,18 +1,12 @@
-import {
-  addAgentSkill,
-  deleteAgentSkill,
-  getAgentSkill,
-  getAgentSkillsList,
-  updateAgentSkill,
-} from "../../../../api/contact-center/agents/agentSkills";
-import { DefaultNestedModule } from "../../defaults/DefaultNestedModule";
+import AgentSkillAPI from '../../../../api/contact-center/agents/agentSkills';
+import { DefaultNestedModule } from '../../defaults/DefaultNestedModule';
 
 const defaultItemState = () => ({
   itemId: 0,
   itemInstance: {
     skill: '',
     capacity: 10,
-    id: 0,
+    enabled: true,
   },
 });
 const defaultModule = new DefaultNestedModule(null, defaultItemState);
@@ -24,27 +18,26 @@ const state = {
 const getters = {};
 
 const actions = {
-  GET_LIST: async (context) => {
-    return await getAgentSkillsList(context.state.parentId, context.state.page, context.state.size, context.state.search);
-  },
-
-  GET_ITEM: async (context) => {
-    return await getAgentSkill(context.state.parentId, context.state.itemId);
-  },
-
-  POST_ITEM: async (context) => {
-    return await addAgentSkill(context.state.parentId, context.state.itemInstance);
-  },
-
-  UPD_ITEM: async (context) => {
-    await updateAgentSkill(context.state.parentId, context.state.itemId, context.state.itemInstance);
-  },
-
-  DELETE_ITEM: async (context, id) => {
-    await deleteAgentSkill(context.state.parentId, id);
-  },
-
   ...defaultModule.actions,
+  GET_LIST: (context) => {
+    return AgentSkillAPI.getList(context.state);
+  },
+  GET_ITEM: (context) => {
+    return AgentSkillAPI.get(context.state);
+  },
+  POST_ITEM: (context) => {
+    return AgentSkillAPI.add(context.state);
+  },
+  PATCH_ITEM: (context, { id, changes }) => {
+    return AgentSkillAPI.patch({ parentId: context.state.parentId, id, changes });
+  },
+  UPD_ITEM: (context) => {
+    return AgentSkillAPI.update(context.state);
+  },
+  DELETE_ITEM: (context, id) => {
+    return AgentSkillAPI.delete({ parentId: context.state.parentId, id });
+  },
+  CHANGE_STATE: (context, payload) => context.dispatch('PATCH_ITEM_PROPERTY', { prop: 'enabled', ...payload }),
 };
 
 const mutations = {

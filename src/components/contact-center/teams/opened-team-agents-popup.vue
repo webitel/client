@@ -83,7 +83,7 @@ export default {
 
   methods: {
     async loadAgentsOptions(search) {
-      const response = await getAgentsList(1, 10, search);
+      const response = await getAgentsList({ search });
       return response.list.map((item) => ({
         name: item.user.name,
         id: item.id,

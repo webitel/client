@@ -51,7 +51,7 @@ import { mapState } from 'vuex';
 import {
  maxValue, minValue, numeric, required,
 } from 'vuelidate/lib/validators';
-import { getAgentSkills } from '../../../api/contact-center/agents/agentSkills';
+import { getSkillsList } from '../../../api/contact-center/agentSkills/agentSkills';
 import nestedObjectMixin from '../../../mixins/objectPagesMixins/openedObjectMixin/nestedObjectMixin';
 
 export default {
@@ -98,8 +98,9 @@ export default {
 
   methods: {
     async loadDropdownOptionsList(search) {
-      const response = await getAgentSkills(this.parentId, 1, 10, search);
-      return response.map((item) => ({
+      const response = await getSkillsList(1, 10, search);
+      if (!response?.list) return [];
+      return response.list.map((item) => ({
         name: item.name,
         id: item.id,
       }));

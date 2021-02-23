@@ -453,11 +453,16 @@ export default {
 
       agents: {
         agents: 'Оператор | Операторы',
+        supervisors: 'Супервизор | Супервизоры',
+        subordinates: 'Подчинённый оператор | Подчинённые операторы',
         allAgents: 'Все операторы',
         state: 'Статус',
-        progressiveCount: 'Progressive call count',
+        progressiveCount: 'Количество одновременных звонков',
+        chatCount: 'Количество одновременных чатов',
+        isSupervisor: 'Супервизор',
         stateTime: 'Время статуса',
         addSkill: 'Добавить навык',
+        addSubordinate: 'Добавить подчинённого агента',
         statusHistory: 'История статусов',
         historyState: 'Статус',
         historyChannel: 'Канал',
@@ -466,11 +471,14 @@ export default {
         historyDuration: 'Длительность',
       },
 
+      auditors: {
+        auditors: 'Аудитор | Аудиторы',
+      },
+
       teams: {
         teams: 'Команда| Команды',
         allTeams: 'Все команды',
         strategy: 'Стратегия',
-        supervisors: 'Супервизор | Супервизоры',
         timing: 'Параметры дозвона',
         maxNoAnswer: 'Максимальное количество звонков без ответа',
         callTimeout: 'Длительность вызова',

@@ -53,24 +53,11 @@ const actions = {
   DELETE_ITEM: (context, id) => {
     return deleteQueueSkill({ parentId: context.state.parentId, id });
   },
-  CHANGE_STATE: async (context, { item, index, value }) => {
-    context.commit('CHANGE_STATE', { index, value });
-    const changes = { enabled: value };
-    try {
-      await context.dispatch('PATCH_ITEM', { id: item.id, changes });
-    } catch (err) {
-      context.commit('CHANGE_STATE', { index, value: !value });
-      context.dispatch('LOAD_DATA_LIST');
-      throw (err);
-    }
-  },
+  CHANGE_STATE: (context, payload) => context.dispatch('PATCH_ITEM_PROPERTY', { prop: 'enabled', ...payload }),
 };
 
 const mutations = {
   ...defaultNestedModule.mutations,
-  CHANGE_STATE: (state, { index, value }) => {
-    state.dataList[index].enabled = value;
-  },
 };
 
 export default {
