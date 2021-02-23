@@ -19,9 +19,10 @@ const getTeamAgents = (getList) => function ({
                                                     search,
                                                   }) {
   // parent id == team id
+  const isSupervisor = false;
   const fields = ['id', 'user', 'supervisor', 'skills'];
   const params = [page, size, search, undefined, fields, undefined, undefined,
-    undefined, undefined, parentId];
+    undefined, undefined, parentId, undefined, undefined, isSupervisor];
   return getList(params);
 };
 
