@@ -57,3 +57,6 @@ export const timerangeNotIntersect = (array) => {
   });
   return !isIntersecting;
 };
+
+export const lessOrEqualTo = (comparedProp) => (value, vm) => value <= vm[comparedProp];
+export const moreOrEqualTo = (comparedProp) => (value, vm) => value >= vm[comparedProp];

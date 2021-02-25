@@ -355,7 +355,7 @@ export default {
       },
       communications: {
         communications: 'Communication type | Communication types',
-        allCommunications: 'All communiction types',
+        allCommunications: 'All communication types',
         addCommunication: 'Add communication',
         code: 'Code',
       },
@@ -446,7 +446,9 @@ export default {
         skills: 'Skill | Skills',
         capacity: 'Capacity',
         minCapacity: 'Min capacity',
+        minCapacityLessOrEqualToMaxCapacityValidator: 'Should be less or equal to Max capacity',
         maxCapacity: 'Max capacity',
+        maxCapacityMoreOrEqualToMinCapacityValidator: 'Should be more or equal to Min capacity',
         lvl: 'Level',
         agentSkills: 'Agent skill | Agent skills',
         allSkills: 'All skills',

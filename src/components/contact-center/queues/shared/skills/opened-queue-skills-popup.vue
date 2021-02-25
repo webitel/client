@@ -25,6 +25,8 @@
         <div class="input-row-wrap">
           <wt-input
             :value="minCapacity"
+            :v="$v.itemInstance.minCapacity"
+            :custom-validators="minCapacityCustomValidator"
             :label="$t('objects.ccenter.skills.minCapacity')"
             :number-min="0"
             :number-max="100"
@@ -33,6 +35,8 @@
           ></wt-input>
           <wt-input
             :value="maxCapacity"
+            :v="$v.itemInstance.maxCapacity"
+            :custom-validators="maxCapacityCustomValidator"
             :label="$t('objects.ccenter.skills.maxCapacity')"
             :number-min="0"
             :number-max="100"
@@ -67,8 +71,9 @@
 </template>
 
 <script>
-import { required } from 'vuelidate/lib/validators';
+import { required, minValue, maxValue } from 'vuelidate/lib/validators';
 import { mapState } from 'vuex';
+import { lessOrEqualTo, moreOrEqualTo } from '../../../../../utils/validators';
 import { getBucketsList } from '../../../../../api/contact-center/buckets/buckets';
 import { getSkillsList } from '../../../../../api/contact-center/agentSkills/agentSkills';
 import nestedObjectMixin from '../../../../../mixins/objectPagesMixins/openedObjectMixin/nestedObjectMixin';
@@ -84,7 +89,21 @@ export default {
   validations: {
     itemInstance: {
       skill: { required },
-      lvl: { required },
+      lvl: {
+        required,
+        minValue: minValue(0),
+        maxValue: maxValue(1000),
+      },
+      minCapacity: {
+        minValue: minValue(0),
+        maxValue: maxValue(100),
+        lessOrEqualTo: lessOrEqualTo('maxCapacity'),
+      },
+      maxCapacity: {
+        minValue: minValue(0),
+        maxValue: maxValue(100),
+        moreOrEqualTo: moreOrEqualTo('minCapacity'),
+      },
     },
   },
   computed: {
@@ -97,6 +116,12 @@ export default {
       maxCapacity: (state) => state.itemInstance.maxCapacity,
       buckets: (state) => state.itemInstance.buckets,
     }),
+    minCapacityCustomValidator() {
+      return [{ name: 'lessOrEqualTo', text: this.$t('objects.ccenter.skills.minCapacityLessOrEqualToMaxCapacityValidator') }];
+    },
+    maxCapacityCustomValidator() {
+      return [{ name: 'moreOrEqualTo', text: this.$t('objects.ccenter.skills.maxCapacityMoreOrEqualToMinCapacityValidator') }];
+    },
   },
 
   methods: {
