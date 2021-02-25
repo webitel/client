@@ -17,7 +17,6 @@ const defaultState = () => ({
     progressiveCount: 1,
     chatCount: 1,
     isSupervisor: false,
-    description: '',
   },
 });
 

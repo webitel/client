@@ -67,12 +67,6 @@
         required
         @input="setItemProp({ prop: 'chatCount', value: +$event })"
       ></wt-input>
-      <wt-textarea
-        :value="description"
-        :label="$t('objects.description')"
-        :disabled="disableUserInput"
-        @input="setItemProp({ prop: 'description', value: $event })"
-      ></wt-textarea>
       <wt-switcher
         :value="isSupervisor"
         :label="$t('objects.ccenter.agents.isSupervisor')"
@@ -105,7 +99,6 @@ export default {
       progressiveCount: (state) => state.itemInstance.progressiveCount,
       chatCount: (state) => state.itemInstance.chatCount,
       isSupervisor: (state) => state.itemInstance.isSupervisor,
-      description: (state) => state.itemInstance.description,
     }),
   },
 

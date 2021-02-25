@@ -16,7 +16,7 @@ const agentService = new AgentServiceApiFactory(configuration, '', instance);
 
 const BASE_URL = '/call_center/agents';
 const fieldsToSend = ['user', 'team', 'supervisor', 'auditor', 'region', 'progressiveCount',
-  'chatCount', 'isSupervisor', 'description'];
+  'chatCount', 'isSupervisor'];
 
 const defaultObject = {
   user: {},
