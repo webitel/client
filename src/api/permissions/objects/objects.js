@@ -45,6 +45,16 @@ export const getObjectList = async (search, page = 1, size = 10) => {
   }
 };
 
+export const patchObject = async (id, changes) => {
+  const url = `${BASE_URL}/${id}`;
+  try {
+    await instance.patch(url, changes);
+    eventBus.$emit('notification', { type: 'info', text: 'Successfully updated' });
+  } catch (error) {
+    throw error;
+  }
+};
+
 export const updateObject = async (id, changes) => {
   const url = `${BASE_URL}/${id}`;
   try {

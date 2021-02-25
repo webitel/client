@@ -4,7 +4,7 @@ import { DefaultModule } from '../../defaults/DefaultModule';
 import {
   getObject,
   getObjectList,
-  updateObject,
+  patchObject,
 } from '../../../../api/permissions/objects/objects';
 
 const defaultState = () => ({
@@ -26,7 +26,7 @@ const actions = {
 
   GET_ITEM: (context) => getObject(context.state.itemId),
 
-  PATCH_ITEM: (context, { id, changes }) => updateObject(id, changes),
+  PATCH_ITEM: (context, { id, changes }) => patchObject(id, changes),
 
   TOGGLE_OBJECT_OBAC: (context, payload) => context.dispatch('PATCH_ITEM_PROPERTY', { prop: 'obac', ...payload }),
   TOGGLE_OBJECT_RBAC: (context, payload) => context.dispatch('PATCH_ITEM_PROPERTY', { prop: 'rbac', ...payload }),
