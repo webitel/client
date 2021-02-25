@@ -17,11 +17,7 @@
           :label="$t('objects.directory.devices.ipv4')"
           :disabled="disableUserInput"
           @input="setItemProp({ prop: 'ip', value: $event })"
-      >
-        <template slot="validation-text" slot-scope="{ invalid }">
-          {{ invalid ? $t('validation.ipValidator') : ''}}
-        </template>
-      </wt-input>
+      ></wt-input>
       <wt-input
           :value="brand"
           :label="$t('objects.directory.devices.vendor')"
@@ -40,11 +36,7 @@
           :label="$t('objects.directory.devices.mac')"
           :disabled="disableUserInput"
           @input="setItemProp({ prop: 'mac', value: $event })"
-      >
-        <template slot="validation-text" slot-scope="{ invalid }">
-          {{ invalid ? $t('validation.macValidator') : ''}}
-        </template>
-      </wt-input>
+      ></wt-input>
     </form>
   </section>
 </template>
