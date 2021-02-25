@@ -30,6 +30,12 @@
         @change="setItemPayloadProp({ prop: 'recordings', value: $event })"
       ></wt-switcher>
       <wt-switcher
+        :value="allowGreetingAgent"
+        :label="$t('objects.ccenter.queues.allowGreetingAgent')"
+        :disabled="disableUserInput"
+        @change="setItemPayloadProp({ prop: 'allowGreetingAgent', value: $event })"
+      ></wt-switcher>
+      <wt-switcher
         :value="processing"
         :label="$t('objects.ccenter.queues.processing')"
         :disabled="disableUserInput"
@@ -69,6 +75,7 @@ export default {
       originateTimeout: (state) => state.itemInstance.payload.originateTimeout,
       waitBetweenRetries: (state) => state.itemInstance.payload.waitBetweenRetries,
       recordings: (state) => state.itemInstance.payload.recordings,
+      allowGreetingAgent: (state) => state.itemInstance.payload.allowGreetingAgent,
       processing: (state) => state.itemInstance.processing,
       processingSec: (state) => state.itemInstance.processingSec,
       processingRenewalSec: (state) => state.itemInstance.processingRenewalSec,
