@@ -42,20 +42,12 @@
               :tooltip="$t('iconHints.deleteSelected')"
               @click="deleteSelected"
             ></wt-icon-btn>
-            <div class="upload-csv" v-if="hasEditAccess && isNotInboundMember">
-              <wt-icon-btn
-                icon="upload"
-                :tooltip="$t('iconHints.upload')"
-                @click="triggerFileInput"
-              ></wt-icon-btn>
-              <input
-                ref="file-input"
-                class="upload-csv__input"
-                type="file"
-                @change="processCSV($event)"
-                accept=".csv"
-              >
-            </div>
+            <upload-file-icon-btn
+              v-if="hasEditAccess && isNotInboundMember"
+              class="icon-action"
+              accept=".csv"
+              @change="processCSV"
+            ></upload-file-icon-btn>
             <wt-table-actions
               :icons="['refresh']"
               @input="tableActionsHandler"
@@ -126,6 +118,7 @@
 import { mapActions, mapState } from 'vuex';
 import destinationsPopup from './opened-queue-member-destinations-popup.vue';
 import uploadPopup from './upload-members-popup.vue';
+import UploadFileIconBtn from '../../utils/upload-file-ucon-btn.vue';
 import tableComponentMixin from '../../../mixins/objectPagesMixins/objectTableMixin/tableComponentMixin';
 import tableActionsHandlerMixin from '../../../mixins/baseMixins/baseTableMixin/tableActionsMixin';
 import getQueueSubRoute from '../../../store/modules/contact-center/queues/_internals/scripts/getQueueSubRoute';
@@ -134,7 +127,7 @@ import RouteNames from '../../../router/_internals/RouteNames.enum';
 export default {
   name: 'the-queue-members',
   mixins: [tableComponentMixin, tableActionsHandlerMixin],
-  components: { uploadPopup, destinationsPopup },
+  components: { uploadPopup, destinationsPopup, UploadFileIconBtn },
   data: () => ({
     isUploadPopup: false,
     communicationsOnPopup: null,
@@ -183,10 +176,6 @@ export default {
   },
 
   methods: {
-    triggerFileInput() {
-      this.$refs['file-input'].click();
-    },
-
     prettifyStopCause(cause) {
       switch (cause) {
         case 'SYSTEM_SHUTDOWN':
@@ -222,8 +211,8 @@ export default {
       this.isDestinationsPopup = false;
     },
 
-    processCSV(event) {
-      const file = event.target.files[0];
+    processCSV(files) {
+      const file = files[0];
       if (file) {
         this.csvFile = file;
         this.isUploadPopup = true;
@@ -233,7 +222,6 @@ export default {
     closeCSVPopup() {
       this.loadList();
       this.isUploadPopup = false;
-      this.$refs['file-input'].value = null;
     },
 
     create() {
@@ -280,12 +268,6 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.upload-csv {
-  .upload-csv__input {
-    visibility: hidden;
-  }
-}
-
 .members__destinations-wrapper {
   display: flex;
 }

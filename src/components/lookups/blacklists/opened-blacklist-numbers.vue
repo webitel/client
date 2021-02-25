@@ -25,22 +25,12 @@
           :title="$t('iconHints.deleteSelected')"
           @click="deleteSelected"
         ></i>
-        <div
+        <upload-file-icon-btn
           v-if="!disableUserInput"
-          class="upload-csv"
-          :title="$t('iconHints.upload')"
-        >
-          <i
-            class="icon-icon_upload icon-action"
-          ></i>
-          <input
-            ref="file-input"
-            class="upload-csv__input"
-            type="file"
-            @change="processCSV($event)"
-            accept=".csv"
-          >
-        </div>
+          class="icon-action"
+          accept=".csv"
+          @change="processCSV"
+        ></upload-file-icon-btn>
         <i
           class="icon-icon_reload icon-action"
           :title="$t('iconHints.reload')"
@@ -107,11 +97,12 @@ import { mapActions, mapState } from 'vuex';
 import eventBus from '@webitel/ui-sdk/src/scripts/eventBus';
 import numberPopup from './opened-blacklist-number-popup';
 import uploadPopup from './upload-blacklist-numbers-popup';
+import UploadFileIconBtn from '../../utils/upload-file-ucon-btn.vue';
 
 export default {
   name: 'opened-blacklist-numbers',
   mixins: [openedTabComponentMixin, tableComponentMixin],
-  components: { numberPopup, uploadPopup },
+  components: { numberPopup, uploadPopup, UploadFileIconBtn },
   data() {
     return {
       uploadPopupTriggerIf: false,
@@ -187,8 +178,8 @@ export default {
       this.popupTriggerIf = true;
     },
 
-    processCSV(event) {
-      const file = event.target.files[0];
+    processCSV(files) {
+      const file = files[0];
       if (file) {
         this.csvFile = file;
         this.uploadPopupTriggerIf = true;
@@ -198,7 +189,6 @@ export default {
     closeCSVPopup() {
       this.loadDataList();
       this.uploadPopupTriggerIf = false;
-      this.$refs['file-input'].value = null;
     },
 
     closePopup() {

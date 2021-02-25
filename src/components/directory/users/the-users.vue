@@ -34,20 +34,12 @@
                 :tooltip="$t('iconHints.deleteSelected')"
                 @click="deleteSelected"
             ></wt-icon-btn>
-            <div v-if="hasCreateAccess" class="upload-csv">
-              <wt-icon-btn
-                  icon="upload"
-                  :tooltip="$t('iconHints.upload')"
-                  @click="triggerFileInput"
-              ></wt-icon-btn>
-              <input
-                  ref="file-input"
-                  class="upload-csv__input"
-                  type="file"
-                  @change="processCSV($event)"
-                  accept=".csv"
-              >
-            </div>
+            <upload-file-icon-btn
+              v-if="hasCreateAccess"
+              class="icon-action"
+              accept=".csv"
+              @change="processCSV"
+            ></upload-file-icon-btn>
             <wt-table-actions
                 :icons="['refresh']"
                 @input="tableActionsHandler"
@@ -114,13 +106,14 @@
 import { mapActions, mapState } from 'vuex';
 import UploadPopup from './upload-users-popup.vue';
 import UserStatus from './_internals/user-status-chips.vue';
+import UploadFileIconBtn from '../../utils/upload-file-ucon-btn.vue';
 import tableComponentMixin from '../../../mixins/objectPagesMixins/objectTableMixin/tableComponentMixin';
 import RouteNames from '../../../router/_internals/RouteNames.enum';
 
 export default {
   name: 'the-users',
   mixins: [tableComponentMixin],
-  components: { UploadPopup, UserStatus },
+  components: { UploadPopup, UserStatus, UploadFileIconBtn },
   data: () => ({
     isUploadPopup: false,
     csvFile: null,
@@ -154,10 +147,6 @@ export default {
   },
 
   methods: {
-    triggerFileInput() {
-      this.$refs['file-input'].click();
-    },
-
     getDND(value) {
       if (value && value.status) {
         return value.status.includes('dnd');
@@ -165,8 +154,8 @@ export default {
       return false;
     },
 
-    processCSV(event) {
-      const file = event.target.files[0];
+    processCSV(files) {
+      const file = files[0];
       if (file) {
         this.csvFile = file;
         this.isUploadPopup = true;
@@ -176,7 +165,6 @@ export default {
     closeCSVPopup() {
       this.loadList();
       this.isUploadPopup = false;
-      this.$refs['file-input'].value = null;
     },
 
     ...mapActions('directory/users', {
@@ -187,9 +175,4 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.upload-csv {
-  .upload-csv__input {
-    visibility: hidden;
-  }
-}
 </style>

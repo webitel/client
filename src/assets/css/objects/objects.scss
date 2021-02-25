@@ -111,33 +111,6 @@
       color: #000;
     }
 
-    .upload-csv {
-      position: relative;
-      height: 24px;
-      margin-left: 20px;
-
-      .icon-icon_upload {
-        margin-left: 0;
-        opacity: 1;
-        pointer-events: none;
-      }
-
-      &:hover .icon-icon_upload {
-        color: #000;
-      }
-
-      .upload-csv__input {
-        position: absolute;
-        top: -2px;
-        left: 0;
-        width: 24px;
-        height: 24px;
-        font-size: 0;
-        cursor: pointer;
-        opacity: 0;
-      }
-    }
-
     i:not(.icon-icon_search):not(.wt-icon) {
       @extend .icon-action;
       margin-left: 30px;

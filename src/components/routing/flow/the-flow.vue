@@ -33,22 +33,12 @@
                             :title="$t('iconHints.deleteSelected')"
                             @click="deleteSelected"
                     ></i>
-                    <div
-                            v-if="hasCreateAccess"
-                            class="upload-csv"
-                            :title="$t('iconHints.upload')"
-                    >
-                        <i
-                                class="icon-icon_upload icon-action"
-                        ></i>
-                        <input
-                                ref="file-input"
-                                class="upload-csv__input"
-                                type="file"
-                                @change="processJSON($event)"
-                                accept=".json"
-                        >
-                    </div>
+                  <upload-file-icon-btn
+                    v-if="hasCreateAccess"
+                    class="icon-action"
+                    accept=".json"
+                    @change="processJSON"
+                  ></upload-file-icon-btn>
                     <i
                             class="icon-icon_reload icon-action"
                             :title="$t('iconHints.reload')"
@@ -120,6 +110,7 @@
     import { mapActions, mapState } from 'vuex';
     import uploadPopup from './upload-flow-popup';
     import flowPopup from './create-flow-popup';
+    import UploadFileIconBtn from '../../utils/upload-file-ucon-btn.vue';
     import { getFlow } from '../../../api/routing/flow/flow';
     import { downloadAsJSON } from '../../../utils/download';
     import RouteNames from '../../../router/_internals/RouteNames.enum';
@@ -127,7 +118,7 @@
     export default {
         name: 'the-flow',
         mixins: [tableComponentMixin],
-        components: { uploadPopup, flowPopup },
+        components: { uploadPopup, flowPopup, UploadFileIconBtn },
         data() {
             return {
                 fields: [
@@ -185,8 +176,8 @@
                 });
             },
 
-            processJSON(event) {
-                const file = event.target.files[0];
+            processJSON(files) {
+                const file = files[0];
                 if (file) {
                     this.jsonFile = file;
                     this.popupTriggerIf = true;
@@ -196,7 +187,6 @@
             closeUploadPopup() {
                 this.loadList();
                 this.popupTriggerIf = false;
-                this.$refs['file-input'].value = null;
             },
 
             async download(rowId) {
