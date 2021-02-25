@@ -11,7 +11,7 @@
     <template slot="main">
       <section class="main-section__wrapper">
         <header class="content-header">
-          <h3 class="content-title">{{ $t('objects.ccenter.buckets.allBuckets') }}</h3>
+          <h3 class="content-title">{{ $t('objects.lookups.buckets.allBuckets') }}</h3>
           <div class="content-header__actions-wrap">
             <wt-search-bar
               :value="search"
@@ -86,12 +86,12 @@ export default {
   name: 'the-agent-buckets',
   mixins: [tableComponentMixin],
   data: () => ({
-    namespace: 'ccenter/buckets',
+    namespace: 'lookups/buckets',
     routeName: RouteNames.BUCKETS,
   }),
 
   computed: {
-    ...mapState('ccenter/buckets', {
+    ...mapState('lookups/buckets', {
       dataList: (state) => state.dataList,
       page: (state) => state.page,
       size: (state) => state.size,
@@ -109,7 +109,7 @@ export default {
     path() {
       return [
         { name: this.$t('objects.ccenter.ccenter') },
-        { name: this.$tc('objects.ccenter.buckets.buckets', 2), route: '/contact-center/buckets' },
+        { name: this.$tc('objects.lookups.buckets.buckets', 2), route: '/lookups/buckets' },
       ];
     },
   },

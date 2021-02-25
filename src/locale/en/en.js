@@ -93,6 +93,8 @@ export default {
     },
     lookups: {
       lookups: 'Lookups',
+      agentSkills: 'Agent skills',
+      buckets: 'Buckets',
       media: 'Media files',
       blacklists: 'Call list',
       calendars: 'Calendars',
@@ -102,13 +104,11 @@ export default {
     },
     ccenter: {
       ccenter: 'Contact center',
-      agentSkills: 'Agent skills',
       agents: 'Agents',
       teams: 'Teams',
       res: 'Resources',
       resGroups: 'Resource groups',
       queues: 'Queues',
-      buckets: 'Buckets',
     },
     kibana: 'Kibana',
     integrations: {
@@ -300,6 +300,23 @@ export default {
     },
     lookups: {
       lookups: 'Lookups',
+      skills: {
+        skills: 'Skill | Skills',
+        capacity: 'Capacity',
+        minCapacity: 'Min capacity',
+        minCapacityLessOrEqualToMaxCapacityValidator: 'Should be less or equal to Max capacity',
+        maxCapacity: 'Max capacity',
+        maxCapacityMoreOrEqualToMinCapacityValidator: 'Should be more or equal to Min capacity',
+        lvl: 'Level',
+        agentSkills: 'Agent skill | Agent skills',
+        allSkills: 'All skills',
+        state: 'State',
+      },
+      buckets: {
+        buckets: 'Bucket | Buckets',
+        allBuckets: 'All buckets',
+        addBucket: 'Add bucket',
+      },
       blacklist: {
         blacklist: 'Blacklist | Blacklists',
         allBlacklists: 'All blacklists',
@@ -441,19 +458,6 @@ export default {
 
     ccenter: {
       ccenter: 'Contact center',
-
-      skills: {
-        skills: 'Skill | Skills',
-        capacity: 'Capacity',
-        minCapacity: 'Min capacity',
-        minCapacityLessOrEqualToMaxCapacityValidator: 'Should be less or equal to Max capacity',
-        maxCapacity: 'Max capacity',
-        maxCapacityMoreOrEqualToMinCapacityValidator: 'Should be more or equal to Min capacity',
-        lvl: 'Level',
-        agentSkills: 'Agent skill | Agent skills',
-        allSkills: 'All skills',
-        state: 'State',
-      },
 
       agents: {
         agents: 'Agent | Agents',
@@ -600,12 +604,6 @@ export default {
 
       logs: {
         logs: 'Log | Logs',
-      },
-
-      buckets: {
-        buckets: 'Bucket | Buckets',
-        allBuckets: 'All buckets',
-        addBucket: 'Add bucket',
       },
 
       res: {

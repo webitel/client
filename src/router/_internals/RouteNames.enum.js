@@ -15,6 +15,8 @@ export default Object.freeze({
   GATEWAYS: 'gateways',
 
   // LOOKUPS
+  SKILLS: 'skills',
+  BUCKETS: 'buckets',
   BLACKLIST: 'blacklists',
   REGIONS: 'regions',
   CALENDARS: 'calendars',
@@ -23,12 +25,10 @@ export default Object.freeze({
   MEDIA: 'media',
 
   // CONTACT-CENTER
-  SKILLS: 'skills',
   AGENTS: 'agents',
   TEAMS: 'teams',
   RESOURCES: 'resources',
   RESOURCE_GROUPS: 'resource-groups',
-  BUCKETS: 'buckets',
   QUEUES: 'queues',
   MEMBERS: 'members',
 

@@ -103,10 +103,10 @@
         },
 
         computed: {
-            ...mapState('ccenter/buckets', {
+            ...mapState('lookups/buckets', {
                 parentId: (state) => state.itemId,
             }),
-            ...mapState('ccenter/buckets/permissions', {
+            ...mapState('lookups/buckets/permissions', {
                 dataList: (state) => state.dataList,
                 page: (state) => state.page,
                 isNextPage: (state) => state.isNextPage,
@@ -114,7 +114,7 @@
 
             size: {
                 get() {
-                    return this.$store.state.ccenter.buckets.permissions.size;
+                    return this.$store.state.lookups.buckets.permissions.size;
                 },
                 set(value) {
                     this.setSize(value);
@@ -123,7 +123,7 @@
 
             search: {
                 get() {
-                    return this.$store.state.ccenter.buckets.permissions.search;
+                    return this.$store.state.lookups.buckets.permissions.search;
                 },
                 set(value) {
                     this.setSearch(value);
@@ -132,7 +132,7 @@
         },
 
         methods: {
-            ...mapActions('ccenter/buckets/permissions', {
+            ...mapActions('lookups/buckets/permissions', {
                 setParentId: 'SET_PARENT_ITEM_ID',
                 loadDataList: 'LOAD_DATA_LIST',
                 setSize: 'SET_SIZE',

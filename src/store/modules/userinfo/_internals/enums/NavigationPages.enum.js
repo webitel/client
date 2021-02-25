@@ -40,6 +40,14 @@ const nav = Object.freeze([{
     locale: 'nav.lookups.lookups',
     route: '/lookups',
     subNav: [{
+      value: Objects.SKILLS,
+      locale: 'nav.lookups.agentSkills',
+      route: 'skills',
+    }, {
+      value: Objects.BUCKETS,
+      locale: 'nav.lookups.buckets',
+      route: 'buckets',
+    }, {
       value: Objects.BLACKLIST,
       locale: 'nav.lookups.blacklists',
       route: 'blacklist',
@@ -69,10 +77,6 @@ const nav = Object.freeze([{
     locale: 'nav.ccenter.ccenter',
     route: '/contact-center',
     subNav: [{
-      value: Objects.SKILLS,
-      locale: 'nav.ccenter.agentSkills',
-      route: 'skills',
-    }, {
       value: Objects.AGENTS,
       locale: 'nav.ccenter.agents',
       route: 'agents',
@@ -92,10 +96,6 @@ const nav = Object.freeze([{
       value: Objects.QUEUES,
       locale: 'nav.ccenter.queues',
       route: 'queues',
-    }, {
-      value: Objects.BUCKETS,
-      locale: 'nav.ccenter.buckets',
-      route: 'buckets',
     }],
   }, {
     value: 'integrations',

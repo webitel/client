@@ -44,10 +44,10 @@ const agents = () => import('../components/contact-center/agents/the-agents');
 const openedAgent = () => import('../components/contact-center/agents/opened-agent');
 const teams = () => import('../components/contact-center/teams/the-teams');
 const openedTeam = () => import('../components/contact-center/teams/opened-team');
-const agentSkills = () => import('../components/contact-center/agent-skills/the-agent-skills');
-const openedAgentSkill = () => import('../components/contact-center/agent-skills/opened-agent-skill');
-const buckets = () => import('../components/contact-center/buckets/the-buckets');
-const openedBucket = () => import('../components/contact-center/buckets/opened-bucket');
+const agentSkills = () => import('../components/lookups/agent-skills/the-agent-skills');
+const openedAgentSkill = () => import('../components/lookups/agent-skills/opened-agent-skill');
+const buckets = () => import('../components/lookups/buckets/the-buckets');
+const openedBucket = () => import('../components/lookups/buckets/opened-bucket');
 const queues = () => import('../components/contact-center/queues/the-queues');
 const members = () => import('../components/contact-center/members/the-queue-members');
 const openedMember = () => import('../components/contact-center/members/opened-queue-member');
@@ -211,6 +211,36 @@ const router = new Router({
 
         // ----------LOOKUPS------------
         {
+          path: '/lookups/skills',
+          name: RouteNames.SKILLS,
+          component: agentSkills,
+        },
+        {
+          path: '/lookups/skills/new',
+          name: `${RouteNames.SKILLS}-new`,
+          component: openedAgentSkill,
+        },
+        {
+          path: '/lookups/skills/:id',
+          name: `${RouteNames.SKILLS}-edit`,
+          component: openedAgentSkill,
+        },
+        {
+          path: '/lookups/buckets',
+          name: RouteNames.BUCKETS,
+          component: buckets,
+        },
+        {
+          path: '/lookups/buckets/new',
+          name: `${RouteNames.BUCKETS}-new`,
+          component: openedBucket,
+        },
+        {
+          path: '/lookups/bucket/:id',
+          name: `${RouteNames.BUCKETS}-edit`,
+          component: openedBucket,
+        },
+        {
           path: '/lookups/blacklist',
           name: RouteNames.BLACKLIST,
           component: blacklists,
@@ -230,7 +260,6 @@ const router = new Router({
           name: RouteNames.MEDIA,
           component: media,
         },
-
         {
           path: '/lookups/calendars',
           name: RouteNames.CALENDARS,
@@ -299,21 +328,6 @@ const router = new Router({
 
         // --------------CONTACT CENTER-------------
         {
-          path: '/contact-center/skills',
-          name: RouteNames.SKILLS,
-          component: agentSkills,
-        },
-        {
-          path: '/contact-center/skills/new',
-          name: `${RouteNames.SKILLS}-new`,
-          component: openedAgentSkill,
-        },
-        {
-          path: '/contact-center/skills/:id',
-          name: `${RouteNames.SKILLS}-edit`,
-          component: openedAgentSkill,
-        },
-        {
           path: '/contact-center/agents',
           name: RouteNames.AGENTS,
           component: agents,
@@ -372,21 +386,6 @@ const router = new Router({
           path: '/contact-center/resource-groups/:id',
           name: `${RouteNames.RESOURCE_GROUPS}-edit`,
           component: openedResourceGroup,
-        },
-        {
-          path: '/contact-center/buckets',
-          name: RouteNames.BUCKETS,
-          component: buckets,
-        },
-        {
-          path: '/contact-center/buckets/new',
-          name: `${RouteNames.BUCKETS}-new`,
-          component: openedBucket,
-        },
-        {
-          path: '/contact-center/bucket/:id',
-          name: `${RouteNames.BUCKETS}-edit`,
-          component: openedBucket,
         },
         {
           path: '/contact-center/queues',

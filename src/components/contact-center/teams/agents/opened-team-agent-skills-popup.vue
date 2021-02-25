@@ -1,7 +1,7 @@
 <template>
   <wt-popup min-width="480" @close="close">
     <template slot="title">
-      {{ $tc('objects.ccenter.skills.skills', 2) }}
+      {{ $tc('objects.lookups.skills.skills', 2) }}
     </template>
     <template slot="main">
       <section>
@@ -40,7 +40,7 @@ export default {
     },
     headers() {
       return [
-        { value: 'skill', text: this.$tc('objects.ccenter.skills.skills', 1) },
+        { value: 'skill', text: this.$tc('objects.lookups.skills.skills', 1) },
       ];
     },
   },

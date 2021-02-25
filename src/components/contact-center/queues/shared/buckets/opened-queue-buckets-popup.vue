@@ -1,6 +1,6 @@
 <template>
     <popup
-            :title="$t('objects.ccenter.buckets.addBucket')"
+            :title="$t('objects.lookups.buckets.addBucket')"
             :primaryAction="save"
             :primaryText="computePrimaryText"
             :primaryDisabled="computeDisabled"
@@ -12,7 +12,7 @@
                     v-model="bucket"
                     :v="$v.itemInstance.bucket"
                     :options="dropdownOptionsList"
-                    :label="$tc('objects.ccenter.buckets.buckets', 1)"
+                    :label="$tc('objects.lookups.buckets.buckets', 1)"
                     @search="loadDropdownOptionsList"
                     required
             ></dropdown-select>
@@ -32,7 +32,7 @@
     import editComponentMixin from '@/mixins/objectPagesMixins/openedObjectMixin/editComponentMixin';
     import { required, numeric, minValue } from 'vuelidate/lib/validators';
     import { mapActions, mapState } from 'vuex';
-    import { getBucketsList } from '../../../../../api/contact-center/buckets/buckets';
+    import { getBucketsList } from '../../../../../api/lookups/buckets/buckets';
 
     export default {
         name: 'opened-queue-buckets-popup',

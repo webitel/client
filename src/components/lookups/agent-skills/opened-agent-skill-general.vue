@@ -31,7 +31,7 @@ export default {
   mixins: [openedTabComponentMixin],
 
   computed: {
-    ...mapState('ccenter/skills', {
+    ...mapState('lookups/skills', {
       name: (state) => state.itemInstance.name,
       description: (state) => state.itemInstance.description,
     }),
