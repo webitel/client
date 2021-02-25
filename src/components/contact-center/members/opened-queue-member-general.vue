@@ -27,7 +27,7 @@
       ></wt-datetimepicker>
       <wt-select
         :value="bucket"
-        :label="$tc('objects.ccenter.buckets.buckets', 1)"
+        :label="$tc('objects.lookups.buckets.buckets', 1)"
         :search="loadDropdownOptionsBucketsList"
         :internal-search="false"
         :disabled="disableUserInput"
@@ -35,7 +35,7 @@
       ></wt-select>
       <wt-select
         :value="skill"
-        :label="$tc('objects.ccenter.skills.skills', 1)"
+        :label="$tc('objects.lookups.skills.skills', 1)"
         :search="loadDropdownOptionsSkillsList"
         :internal-search="false"
         :disabled="disableUserInput"
@@ -55,8 +55,8 @@
 
 <script>
 import { mapState } from 'vuex';
-import { getBucketsList } from '../../../api/contact-center/buckets/buckets';
-import { getSkillsList } from '../../../api/contact-center/agentSkills/agentSkills';
+import { getBucketsList } from '../../../api/lookups/buckets/buckets';
+import { getSkillsList } from '../../../api/lookups/agentSkills/agentSkills';
 import { getCalendarTimezones } from '../../../api/lookups/calendars/calendars';
 import openedTabComponentMixin from '../../../mixins/objectPagesMixins/openedObjectTabMixin/openedTabComponentMixin';
 

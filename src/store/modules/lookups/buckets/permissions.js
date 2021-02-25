@@ -2,7 +2,7 @@ import { DefaultPermissionsModule } from "../../defaults/DefaultPermissionsModul
 import {
   getBucketPermissions,
   patchBucketPermissions,
-} from "../../../../api/contact-center/buckets/buckets";
+} from "../../../../api/lookups/buckets/buckets";
 
 const defaultState = () => {
   return {

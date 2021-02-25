@@ -72,7 +72,7 @@ export default {
         text: this.$t('objects.general'),
         value: 'general',
       }, {
-        text: this.$tc('objects.ccenter.skills.skills', 2),
+        text: this.$tc('objects.lookups.skills.skills', 2),
         value: 'skills',
       }, {
         text: this.$tc('objects.ccenter.queues.queues', 2),

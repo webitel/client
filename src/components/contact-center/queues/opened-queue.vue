@@ -218,7 +218,7 @@ export default {
 
     tabs() {
       const skills = {
-        text: this.$tc('objects.ccenter.skills.skills', 2),
+        text: this.$tc('objects.lookups.skills.skills', 2),
         value: 'skills',
       };
       const resources = {
@@ -226,7 +226,7 @@ export default {
         value: 'resources',
       };
       const buckets = {
-        text: this.$tc('objects.ccenter.buckets.buckets', 2),
+        text: this.$tc('objects.lookups.buckets.buckets', 2),
         value: 'buckets',
       };
       const amd = {

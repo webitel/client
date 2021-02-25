@@ -8,7 +8,7 @@
         <wt-select
           :value="skill"
           :v="$v.itemInstance.skill"
-          :label="$tc('objects.ccenter.skills.skills', 1)"
+          :label="$tc('objects.lookups.skills.skills', 1)"
           :search="loadDropdownOptionsList"
           :internal-search="false"
           :clearable="false"
@@ -18,7 +18,7 @@
         <wt-input
           :value="capacity"
           :v="$v.itemInstance.capacity"
-          :label="$t('objects.ccenter.skills.capacity')"
+          :label="$t('objects.lookups.skills.capacity')"
           :number-min="0"
           :number-max="100"
           type="number"
@@ -47,7 +47,7 @@ import { mapState } from 'vuex';
 import {
  maxValue, minValue, numeric, required,
 } from 'vuelidate/lib/validators';
-import { getSkillsList } from '../../../api/contact-center/agentSkills/agentSkills';
+import { getSkillsList } from '../../../api/lookups/agentSkills/agentSkills';
 import nestedObjectMixin from '../../../mixins/objectPagesMixins/openedObjectMixin/nestedObjectMixin';
 
 export default {

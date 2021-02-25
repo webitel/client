@@ -1,7 +1,7 @@
 <template>
   <wt-popup min-width="480" @close="close">
     <template slot="title">
-      {{ $tc('objects.ccenter.buckets.buckets', 2) }}
+      {{ $tc('objects.lookups.buckets.buckets', 2) }}
     </template>
     <template slot="main">
       <section class="agent-buckets-popup">
@@ -40,7 +40,7 @@ export default {
     },
     headers() {
       return [
-        { value: 'bucket', text: this.$tc('objects.ccenter.buckets.buckets', 1) },
+        { value: 'bucket', text: this.$tc('objects.lookups.buckets.buckets', 1) },
       ];
     },
   },

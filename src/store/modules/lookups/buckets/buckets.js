@@ -5,7 +5,7 @@ import {
   getBucket,
   getBucketsList,
   updateBucket,
-} from "../../../../api/contact-center/buckets/buckets";
+} from "../../../../api/lookups/buckets/buckets";
 import { DefaultModule } from "../../defaults/DefaultModule";
 
 const defaultState = () => {

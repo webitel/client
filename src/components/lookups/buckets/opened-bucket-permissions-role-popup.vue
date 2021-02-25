@@ -38,7 +38,7 @@
         },
 
         computed: {
-            ...mapState('ccenter/buckets/permissions', {
+            ...mapState('lookups/buckets/permissions', {
                 dataList: (state) => state.dataList,
             }),
 
@@ -62,7 +62,7 @@
                 this.dropdownOptionsList = [...response.list];
             },
 
-            ...mapActions('ccenter/buckets/permissions', {
+            ...mapActions('lookups/buckets/permissions', {
                 addRole: 'ADD_ITEM_ROLE',
             }),
         },
