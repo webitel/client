@@ -1,17 +1,22 @@
 import instance from '../../../instance';
 import BaseListGetter from './BaseListGetter';
 
+// remove export after refactor
 export class WebitelAPIListGetter extends BaseListGetter {
   constructor(url, defaultItem) {
     super(null, defaultItem);
     this.url = url;
   }
 
-  async getList({ page, size, search }) {
+  async getList({
+                  page = 1,
+                  size = 10,
+                  search,
+                  searchQuery = 'name',
+                }) {
     if (search && search.slice(-1) !== '*') search += '*';
-    size = size || 10;
     let url = `${this.url}?size=${size}&page=${page}`;
-    if (search) url += `&name=${search}`;
+    if (search) url += `&${searchQuery}=${search}`;
 
     try {
       const response = await instance.get(url);
@@ -21,3 +26,5 @@ export class WebitelAPIListGetter extends BaseListGetter {
     }
   }
 }
+
+export default WebitelAPIListGetter;
