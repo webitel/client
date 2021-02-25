@@ -24,11 +24,7 @@
           type="number"
           required
           @input="setItemProp({ prop: 'capacity', value: +$event })"
-        >
-          <template slot="validation-text">
-            {{ capacityValidationText }}
-          </template>
-        </wt-input>
+        ></wt-input>
       </form>
     </template>
     <template slot="actions">
@@ -84,16 +80,6 @@ export default {
       skill: (state) => state.itemInstance.skill,
       capacity: (state) => state.itemInstance.capacity,
     }),
-
-    capacityValidationText() {
-      const v = this.$v.itemInstance.capacity;
-      if (!v.$invalid) return '';
-      if (!v.required) return this.$t('validation.required');
-      if (!v.numeric) return this.$t('validation.numeric');
-      if (!v.minValue) return `${this.$t('validation.minValue')} ${v.$params.minValue.min}`;
-      if (!v.maxValue) return `${this.$t('validation.maxValue')} ${v.$params.maxValue.max}`;
-      return '';
-    },
   },
 
   methods: {
