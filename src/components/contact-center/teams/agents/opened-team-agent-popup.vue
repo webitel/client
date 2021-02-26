@@ -15,23 +15,6 @@
           required
           @input="setItemProp({ prop: 'agent', value: $event })"
         ></wt-select>
-        <wt-input
-          :value="lvl"
-          :v="$v.itemInstance.lvl"
-          :label="$t('objects.ccenter.teams.lvl')"
-          type="number"
-          required
-          @input="setItemProp({ prop: 'lvl', value: +$event })"
-        ></wt-input>
-        <wt-select
-          :value="buckets"
-          :label="$tc('objects.lookups.buckets.buckets', 1)"
-          :search="loadBucketsOptions"
-          :internal-search="false"
-          :close-on-select="false"
-          multiple
-          @input="setItemProp({ prop: 'buckets', value: $event })"
-        ></wt-select>
       </form>
     </template>
     <template slot="actions">
@@ -52,12 +35,11 @@
 <script>
 import { required } from 'vuelidate/lib/validators';
 import { mapState } from 'vuex';
-import { getAgentsList } from '../../../../../api/contact-center/agents/agents';
-import { getBucketsList } from '../../../../../api/lookups/buckets/buckets';
-import nestedObjectMixin from '../../../../../mixins/objectPagesMixins/openedObjectMixin/nestedObjectMixin';
+import { getAgentsList } from '../../../../api/contact-center/agents/agents';
+import nestedObjectMixin from '../../../../mixins/objectPagesMixins/openedObjectMixin/nestedObjectMixin';
 
 export default {
-  name: 'opened-team-agents-popup',
+  name: 'opened-team-agent-popup',
   mixins: [nestedObjectMixin],
 
   data: () => ({
@@ -67,7 +49,6 @@ export default {
   validations: {
     itemInstance: {
       agent: { required },
-      lvl: { required },
     },
   },
 
@@ -76,22 +57,12 @@ export default {
       id: (state) => state.itemId,
       itemInstance: (state) => state.itemInstance,
       agent: (state) => state.itemInstance.agent,
-      lvl: (state) => state.itemInstance.lvl,
-      buckets: (state) => state.itemInstance.buckets,
     }),
   },
 
   methods: {
     async loadAgentsOptions(search) {
       const response = await getAgentsList({ search });
-      return response.list.map((item) => ({
-        name: item.user.name,
-        id: item.id,
-      }));
-    },
-
-    async loadBucketsOptions(search) {
-      const response = await getBucketsList(1, 10, search);
       return response.list.map((item) => ({
         name: item.name,
         id: item.id,

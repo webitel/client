@@ -2,6 +2,10 @@ import TeamAgentsAPI from '../../../../api/contact-center/teams/teamAgents';
 import { DefaultNestedModule } from '../../defaults/DefaultNestedModule';
 
 const defaultItemState = () => ({
+  itemId: 0,
+  itemInstance: {
+    agent: {},
+  },
 });
 
 const defaultNestedModule = new DefaultNestedModule(null, defaultItemState);
@@ -22,18 +26,18 @@ const actions = {
   GET_LIST: (context) => {
     return TeamAgentsAPI.getList(context.state);
   },
-  // GET_ITEM: (context) => {
-  //   return getTeamAgent(context.state);
-  // },
-  // POST_ITEM: (context) => {
-  //   return addTeamAgent(context.state);
-  // },
-  // UPD_ITEM: (context) => {
-  //   return updateTeamAgent(context.state);
-  // },
-  // DELETE_ITEM: (context, id) => {
-  //   return deleteTeamAgent({ parentId: context.state.parentId, id });
-  // },
+  GET_ITEM: (context) => {
+    return TeamAgentsAPI.get(context.state);
+  },
+  POST_ITEM: (context) => {
+    return TeamAgentsAPI.add(context.state);
+  },
+  UPD_ITEM: (context) => {
+    return TeamAgentsAPI.update(context.state);
+  },
+  DELETE_ITEM: (context, id) => {
+    return TeamAgentsAPI.delete({ parentId: context.state.parentId, id });
+  },
 };
 
 const mutations = {

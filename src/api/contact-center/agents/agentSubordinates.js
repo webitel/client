@@ -8,7 +8,7 @@ import SDKPatcher from '../../utils/ApiControllers/Patcher/SDKPatcher';
 const subordinateService = new AgentServiceApiFactory(configuration, '', instance);
 
 const defaultListObject = {
-  user: {},
+  name: '',
   skills: [],
   _isSelected: false,
 };

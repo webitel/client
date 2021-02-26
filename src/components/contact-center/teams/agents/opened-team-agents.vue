@@ -1,5 +1,9 @@
 <template>
   <section>
+    <agent-popup
+      v-if="isAgentPopup"
+      @close="closePopup"
+    ></agent-popup>
     <agent-skills-popup
         v-if="isAgentSkillsPopup"
         :itemId="this.agentId"
@@ -16,10 +20,24 @@
           @input="setSearch"
           @search="loadList"
         ></wt-search-bar>
+        <wt-icon-btn
+          v-if="!disableUserInput"
+          :class="{'hidden': anySelected}"
+          :tooltip="$t('iconHints.deleteSelected')"
+          class="icon-action"
+          icon="bucket"
+          @click="deleteSelected"
+        ></wt-icon-btn>
         <wt-table-actions
           :icons="['refresh']"
           @input="tableActionsHandler"
         ></wt-table-actions>
+        <wt-icon-btn
+          v-if="!disableUserInput"
+          class="icon-action"
+          icon="plus"
+          @click="create"
+        ></wt-icon-btn>
       </div>
     </header>
 
@@ -28,7 +46,7 @@
     <wt-table
         :headers="headers"
         :data="dataList"
-        :grid-actions="false"
+        :grid-actions="!disableUserInput"
     >
       <template slot="name" slot-scope="{ item }">
         <item-link :link="itemLink(item)" target="_blank">
@@ -40,12 +58,19 @@
           {{ item.supervisor.name }}
         </div>
       </template>
-
       <template slot="skills" slot-scope="{ item }">
         <one-plus-many
           :collection="item.skills"
           @input="readSkills(item)"
         ></one-plus-many>
+      </template>
+      <template slot="actions" slot-scope="{ item, index }">
+        <edit-action
+          @click="edit(item)"
+        ></edit-action>
+        <delete-action
+          @click="remove(index)"
+        ></delete-action>
       </template>
     </wt-table>
       <wt-pagination
@@ -64,6 +89,7 @@
 
 <script>
 import { mapState } from 'vuex';
+import AgentPopup from './opened-team-agent-popup.vue';
 import AgentSkillsPopup from './opened-team-agent-skills-popup.vue';
 import openedObjectTableTabMixin from '../../../../mixins/objectPagesMixins/openedObjectTableTabMixin/openedObjectTableTabMixin';
 import RouteNames from '../../../../router/_internals/RouteNames.enum';
@@ -71,10 +97,11 @@ import RouteNames from '../../../../router/_internals/RouteNames.enum';
 export default {
   name: 'opened-team-agents',
   mixins: [openedObjectTableTabMixin],
-  components: { AgentSkillsPopup },
+  components: { AgentPopup, AgentSkillsPopup },
   data: () => ({
     subNamespace: 'agents',
     tableObjectRouteName: RouteNames.AGENTS, // this.itemLink() computing
+    isAgentPopup: false,
     isAgentSkillsPopup: false,
     agentId: 0,
   }),
@@ -103,11 +130,15 @@ export default {
       this.agentId = item.id;
       this.openSkillsPopup();
     },
-
+    openPopup() {
+      this.isAgentPopup = true;
+    },
+    closePopup() {
+      this.isAgentPopup = false;
+    },
     openSkillsPopup() {
       this.isAgentSkillsPopup = true;
     },
-
     closeSkillsPopup() {
       this.isAgentSkillsPopup = false;
     },
@@ -116,11 +147,4 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.hidden-num {
-  @extend .typo-body-md;
-
-  margin-left: 33px;
-  text-decoration: underline;
-  cursor: pointer;
-}
 </style>
