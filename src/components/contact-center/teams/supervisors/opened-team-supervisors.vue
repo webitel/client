@@ -49,8 +49,8 @@
         :grid-actions="!disableUserInput"
       >
         <template slot="name" slot-scope="{ item }">
-          <item-link :link="itemLink(item)">
-            {{ item.user.name }}
+          <item-link :link="itemLink(item)" target="_blank">
+            {{ item.name }}
           </item-link>
         </template>
 
@@ -116,7 +116,7 @@ export default {
     }),
     headers() {
       return [
-        { value: 'name', text: this.$tc('objects.ccenter.agents.supervisors', 2) },
+        { value: 'name', text: this.$t('objects.name') },
       ];
     },
   },

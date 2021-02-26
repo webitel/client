@@ -26,7 +26,7 @@ const getSubordinatesList = (getList) => function ({
                                                      search,
                                                      parentId,
                                                    }) {
-  const fields = ['id', 'user', 'supervisor', 'skills'];
+  const fields = ['id', 'name', 'supervisor', 'skills'];
   const params = [page, size, search, undefined, fields, undefined, undefined,
     undefined, parentId];
   return getList(params);

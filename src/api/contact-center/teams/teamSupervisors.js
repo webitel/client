@@ -24,7 +24,7 @@ const _getTeamSupervisorsList = (getList) => function ({
                                                        }) {
   // parent id == team id
   const isSupervisor = true;
-  const fields = ['id', 'user'];
+  const fields = ['id', 'name'];
   const params = [page, size, search, undefined, fields, undefined, undefined,
     undefined, undefined, parentId, undefined, undefined, isSupervisor];
   return getList(params);

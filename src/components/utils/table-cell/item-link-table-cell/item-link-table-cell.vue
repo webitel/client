@@ -2,7 +2,7 @@
   <router-link
     class="nameLink"
     :to="link"
-    target="_blank"
+    :target="target"
   >
   <slot>{{ text }}</slot>
   </router-link>
@@ -19,6 +19,10 @@ export default {
     link: {
       type: [String, Object],
       default: '',
+    },
+    target: {
+      type: String,
+      default: '_self',
     },
   },
 };

@@ -46,10 +46,10 @@
             :headers="headers"
             :data="dataList"
           >
-            <template slot="user" slot-scope="{ item }">
-              <span class="nameLink" @click="edit(item)">
-                {{ item.user.name }}
-              </span>
+            <template slot="name" slot-scope="{ item }">
+              <item-link :link="itemLink(item)">
+                {{ item.name }}
+              </item-link>
             </template>
 
             <template slot="state" slot-scope="{ item }">
@@ -123,7 +123,7 @@ export default {
 
     headers() {
       return [
-        { value: 'user', text: this.$tc('objects.directory.users.users', 1) },
+        { value: 'name', text: this.$t('objects.name') },
         { value: 'state', text: this.$t('objects.ccenter.agents.state') },
         { value: 'time', text: this.$t('objects.ccenter.agents.stateTime') },
       ];

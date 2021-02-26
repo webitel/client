@@ -31,8 +31,8 @@
         :grid-actions="false"
     >
       <template slot="name" slot-scope="{ item }">
-        <item-link :link="itemLink(item)">
-          {{ item.user.name }}
+        <item-link :link="itemLink(item)" target="_blank">
+          {{ item.name }}
         </item-link>
       </template>
       <template slot="supervisor" slot-scope="{ item }">
