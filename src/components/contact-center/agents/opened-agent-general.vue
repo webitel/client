@@ -15,6 +15,12 @@
         required
         @input="setItemProp({ prop: 'user', value: $event })"
       ></wt-select>
+      <wt-switcher
+        :value="isSupervisor"
+        :label="$t('objects.ccenter.agents.isSupervisor')"
+        :disabled="disableUserInput"
+        @change="setItemProp({ prop: 'isSupervisor', value: $event })"
+      ></wt-switcher>
       <wt-select
         :value="team"
         :label="$tc('objects.ccenter.teams.teams', 1)"
@@ -24,6 +30,7 @@
         @input="setItemProp({ prop: 'team', value: $event })"
       ></wt-select>
       <wt-select
+        v-show="isSupervisor"
         :value="supervisor"
         :label="$tc('objects.ccenter.agents.supervisors', 1)"
         :search="loadSupervisorsOptions"
@@ -67,12 +74,6 @@
         required
         @input="setItemProp({ prop: 'chatCount', value: +$event })"
       ></wt-input>
-      <wt-switcher
-        :value="isSupervisor"
-        :label="$t('objects.ccenter.agents.isSupervisor')"
-        :disabled="disableUserInput"
-        @change="setItemProp({ prop: 'isSupervisor', value: $event })"
-      ></wt-switcher>
     </form>
   </section>
 </template>
