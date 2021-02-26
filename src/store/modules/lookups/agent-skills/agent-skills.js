@@ -4,7 +4,7 @@ import {
   getSkill,
   getSkillsList,
   updateSkill,
-} from '../../../../api/contact-center/agentSkills/agentSkills';
+} from '../../../../api/lookups/agentSkills/agentSkills';
 import { DefaultModule } from '../../defaults/DefaultModule';
 
 const defaultState = () => ({

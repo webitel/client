@@ -31,7 +31,7 @@ export default {
   mixins: [openedTabComponentMixin],
 
   computed: {
-    ...mapState('ccenter/buckets', {
+    ...mapState('lookups/buckets', {
       name: (state) => state.itemInstance.name,
       description: (state) => state.itemInstance.description,
     }),

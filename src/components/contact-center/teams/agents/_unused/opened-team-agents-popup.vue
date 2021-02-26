@@ -25,7 +25,7 @@
         ></wt-input>
         <wt-select
           :value="buckets"
-          :label="$tc('objects.ccenter.buckets.buckets', 1)"
+          :label="$tc('objects.lookups.buckets.buckets', 1)"
           :search="loadBucketsOptions"
           :internal-search="false"
           :close-on-select="false"
@@ -53,7 +53,7 @@
 import { required } from 'vuelidate/lib/validators';
 import { mapState } from 'vuex';
 import { getAgentsList } from '../../../../../api/contact-center/agents/agents';
-import { getBucketsList } from '../../../../../api/contact-center/buckets/buckets';
+import { getBucketsList } from '../../../../../api/lookups/buckets/buckets';
 import nestedObjectMixin from '../../../../../mixins/objectPagesMixins/openedObjectMixin/nestedObjectMixin';
 
 export default {

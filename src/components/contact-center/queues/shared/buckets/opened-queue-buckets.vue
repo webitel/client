@@ -6,7 +6,7 @@
     ></bucket-popup>
 
     <header class="content-header">
-      <h3 class="content-title">{{ $tc('objects.ccenter.buckets.buckets', 2) }}</h3>
+      <h3 class="content-title">{{ $tc('objects.lookups.buckets.buckets', 2) }}</h3>
       <div class="content-header__actions-wrap">
         <wt-search-bar
             :value="search"
@@ -87,7 +87,7 @@ export default {
   data() {
     return {
       headers: [
-        { value: 'name', text: this.$tc('objects.ccenter.buckets.buckets', 2) },
+        { value: 'name', text: this.$tc('objects.lookups.buckets.buckets', 2) },
         { value: 'ratio', text: this.$t('objects.ccenter.queues.bucketRatio') },
       ],
     };

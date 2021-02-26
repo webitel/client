@@ -39,7 +39,7 @@ export default {
   mixins: [openedObjectMixin],
   components: { OpenedBucketGeneral, OpenedBucketPermissions },
   data: () => ({
-    namespace: 'ccenter/buckets',
+    namespace: 'lookups/buckets',
   }),
 
   validations: {
@@ -49,7 +49,7 @@ export default {
   },
 
   computed: {
-    ...mapState('ccenter/buckets', {
+    ...mapState('lookups/buckets', {
       id: (state) => state.itemId,
       itemInstance: (state) => state.itemInstance,
     }),
@@ -70,10 +70,10 @@ export default {
     },
 
     path() {
-      const baseUrl = '/contact-center/buckets';
+      const baseUrl = '/lookups/buckets';
       return [
         { name: this.$t('objects.ccenter.ccenter') },
-        { name: this.$tc('objects.ccenter.buckets.buckets', 2), route: baseUrl },
+        { name: this.$tc('objects.lookups.buckets.buckets', 2), route: baseUrl },
         {
           name: this.id ? this.pathName : this.$t('objects.new'),
           route: this.id ? `${baseUrl}/${this.id}` : `${baseUrl}/new`,

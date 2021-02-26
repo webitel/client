@@ -39,7 +39,7 @@ export default {
   mixins: [openedObjectMixin],
   components: { OpenedAgentSkillGeneral },
   data: () => ({
-    namespace: 'ccenter/skills',
+    namespace: 'lookups/skills',
   }),
 
   validations: {
@@ -49,7 +49,7 @@ export default {
   },
 
   computed: {
-    ...mapState('ccenter/skills', {
+    ...mapState('lookups/skills', {
       id: (state) => state.itemId,
       itemInstance: (state) => state.itemInstance,
       name: (state) => state.itemInstance.name,
@@ -65,10 +65,10 @@ export default {
     },
 
     path() {
-      const baseUrl = '/contact-center/skills';
+      const baseUrl = '/lookups/skills';
       return [
         { name: this.$t('objects.ccenter.ccenter') },
-        { name: this.$tc('objects.ccenter.skills.agentSkills', 2), route: baseUrl },
+        { name: this.$tc('objects.lookups.skills.agentSkills', 2), route: baseUrl },
         {
           name: this.id ? this.pathName : this.$t('objects.new'),
           route: this.id ? `${baseUrl}/${this.id}` : `${baseUrl}/new`,
@@ -77,7 +77,7 @@ export default {
     },
   },
   methods: {
-    ...mapActions('ccenter/skills', {
+    ...mapActions('lookups/skills', {
       setItemProp: 'SET_ITEM_PROPERTY',
     }),
   },

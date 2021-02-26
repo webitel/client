@@ -17,6 +17,7 @@ const previewDialer = () => ({
     originateTimeout: 60, // required
     waitBetweenRetries: 30 * 60, // required
     recordings: false,
+    allowGreetingAgent: false,
   },
 });
 

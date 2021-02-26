@@ -121,7 +121,7 @@ export default {
       return [
         { value: 'name', text: this.$tc('objects.ccenter.agents.subordinates', 1) },
         { value: 'supervisor', text: this.$tc('objects.ccenter.agents.supervisors', 1) },
-        { value: 'skills', text: this.$tc('objects.ccenter.skills.skills', 2) },
+        { value: 'skills', text: this.$tc('objects.lookups.skills.skills', 2) },
       ];
     },
   },

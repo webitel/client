@@ -12,7 +12,7 @@
     <template slot="main">
       <section class="main-section__wrapper">
         <header class="content-header">
-          <h3 class="content-title">{{ $t('objects.ccenter.skills.allSkills') }}</h3>
+          <h3 class="content-title">{{ $t('objects.lookups.skills.allSkills') }}</h3>
           <div class="content-header__actions-wrap">
             <wt-search-bar
               :value="search"
@@ -88,12 +88,12 @@ export default {
   mixins: [tableComponentMixin],
 
   data: () => ({
-    namespace: 'ccenter/skills',
+    namespace: 'lookups/skills',
     routeName: RouteNames.SKILLS,
   }),
 
   computed: {
-    ...mapState('ccenter/skills', {
+    ...mapState('lookups/skills', {
       dataList: (state) => state.dataList,
       page: (state) => state.page,
       size: (state) => state.size,
@@ -111,7 +111,7 @@ export default {
     path() {
       return [
         { name: this.$t('objects.ccenter.ccenter') },
-        { name: this.$tc('objects.ccenter.skills.agentSkills', 2), route: '/contact-center/skills' },
+        { name: this.$tc('objects.lookups.skills.agentSkills', 2), route: '/lookups/skills' },
       ];
     },
   },

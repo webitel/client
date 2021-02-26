@@ -45,20 +45,12 @@
                 :tooltip="$t('iconHints.deleteSelected')"
                 @click="deleteSelected"
             ></wt-icon-btn>
-            <div v-if="hasCreateAccess" class="upload-csv">
-              <wt-icon-btn
-                  icon="upload"
-                  :tooltip="$t('iconHints.upload')"
-                  @click="triggerFileInput"
-              ></wt-icon-btn>
-              <input
-                  ref="file-input"
-                  class="upload-csv__input"
-                  type="file"
-                  @change="processCSV($event)"
-                  accept=".csv"
-              >
-            </div>
+            <upload-file-icon-btn
+              v-if="hasCreateAccess"
+              class="icon-action"
+              accept=".csv"
+              @change="processCSV"
+            ></upload-file-icon-btn>
             <wt-table-actions
                 :icons="['refresh']"
                 @input="tableActionsHandler"
@@ -139,6 +131,7 @@ import { mapActions, mapState } from 'vuex';
 import HistoryPopup from './device-history-popup.vue';
 import UploadPopup from './upload-devices-popup.vue';
 import DevicePopup from './create-device-popup.vue';
+import UploadFileIconBtn from '../../utils/upload-file-ucon-btn.vue';
 import tableComponentMixin from '../../../mixins/objectPagesMixins/objectTableMixin/tableComponentMixin';
 import tableActionsHandlerMixin from '../../../mixins/baseMixins/baseTableMixin/tableActionsMixin';
 import RouteNames from '../../../router/_internals/RouteNames.enum';
@@ -150,6 +143,7 @@ export default {
     HistoryPopup,
     UploadPopup,
     DevicePopup,
+    UploadFileIconBtn,
   },
   data() {
     return {
@@ -197,10 +191,6 @@ export default {
       openHistory: 'SET_HISTORY_ITEM_ID',
     }),
 
-    triggerFileInput() {
-      this.$refs['file-input'].click();
-    },
-
     create() {
       this.isDeviceSelectPopup = true;
     },
@@ -216,8 +206,8 @@ export default {
       });
     },
 
-    processCSV(event) {
-      const file = event.target.files[0];
+    processCSV(files) {
+      const file = files[0];
       if (file) {
         this.csvFile = file;
         this.isUploadPopup = true;
@@ -231,7 +221,6 @@ export default {
     closeCSVPopup() {
       this.loadList();
       this.isUploadPopup = false;
-      this.$refs['file-input'].value = null;
     },
 
     // computes dynamic class name for state icon colorizing
@@ -278,10 +267,4 @@ export default {
 
 <style lang="scss" scoped>
 @import '../../../assets/css/objects/table-page';
-
-.upload-csv {
-  .upload-csv__input {
-    visibility: hidden;
-  }
-}
 </style>

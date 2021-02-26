@@ -92,6 +92,8 @@ export default {
     },
     lookups: {
       lookups: 'Справочники',
+      agentSkills: 'Навыки оператора',
+      buckets: 'Корзины',
       media: 'Медиафайлы',
       blacklists: 'Cписок обзвона',
       calendars: 'Календари',
@@ -100,13 +102,11 @@ export default {
     },
     ccenter: {
       ccenter: 'Контакт-центр',
-      agentSkills: 'Навыки оператора',
       agents: 'Операторы',
       teams: 'Команды',
       res: 'Ресурсы',
       resGroups: 'Группы ресурсов',
       queues: 'Очереди',
-      buckets: 'Корзины',
     },
     kibana: 'Кибана',
     integrations: {
@@ -298,6 +298,23 @@ export default {
     },
     lookups: {
       lookups: 'Справочники',
+      skills: {
+        skills: 'Навык | Навыки',
+        capacity: 'Потенциал',
+        minCapacity: 'Минимальный потенциал',
+        minCapacityLessOrEqualToMaxCapacityValidator: 'Должно быть меньше или равно Минимальному потенциалу',
+        maxCapacity: 'Максимальный потенциал',
+        maxCapacityMoreOrEqualToMinCapacityValidator: 'Должно быть больше или равно Максимальному потенциалу',
+        lvl: 'Уровень',
+        agentSkills: 'Навыки оператора | Навыки операторов',
+        allSkills: 'Все навыки',
+        state: 'Состояние',
+      },
+      buckets: {
+        buckets: 'Корзина | Корзины',
+        allBuckets: 'все корзины',
+        addBucket: 'Добавить корзину',
+      },
       blacklist: {
         blacklist: 'Черный список | Черные списки',
         allBlacklists: 'Все черные списки',
@@ -439,20 +456,6 @@ export default {
     },
     ccenter: {
       ccenter: 'Контакт центр',
-
-      skills: {
-        skills: 'Навык | Навыки',
-        capacity: 'Потенциал',
-        minCapacity: 'Минимальный потенциал',
-        minCapacityLessOrEqualToMaxCapacityValidator: 'Должно быть меньше или равно Минимальному потенциалу',
-        maxCapacity: 'Максимальный потенциал',
-        maxCapacityMoreOrEqualToMinCapacityValidator: 'Должно быть больше или равно Максимальному потенциалу',
-        lvl: 'Уровень',
-        agentSkills: 'Навыки оператора | Навыки операторов',
-        allSkills: 'Все навыки',
-        state: 'Состояние',
-      },
-
       agents: {
         agents: 'Оператор | Операторы',
         supervisors: 'Супервизор | Супервизоры',
@@ -597,12 +600,6 @@ export default {
 
       logs: {
         logs: 'Лог | Логи',
-      },
-
-      buckets: {
-        buckets: 'Корзина | Корзины',
-        allBuckets: 'все корзины',
-        addBucket: 'Добавить корзину',
       },
 
       res: {

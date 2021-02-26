@@ -1,14 +1,14 @@
 <template>
   <wt-popup min-width="480" overflow @close="close">
     <template slot="title">
-      {{ $tc('objects.ccenter.skills.skills', 1) }}
+      {{ $tc('objects.lookups.skills.skills', 1) }}
     </template>
     <template slot="main">
       <form>
         <wt-select
           :value="skill"
           :v="$v.itemInstance.skill"
-          :label="$tc('objects.ccenter.skills.skills', 1)"
+          :label="$tc('objects.lookups.skills.skills', 1)"
           :search="loadSkillsOptions"
           :internal-search="false"
           :clearable="false"
@@ -18,7 +18,7 @@
         <wt-input
           :value="lvl"
           :v="$v.itemInstance.lvl"
-          :label="$t('objects.ccenter.skills.lvl')"
+          :label="$t('objects.lookups.skills.lvl')"
           type="number"
           @input="setItemProp({ prop: 'lvl', value: +$event })"
         ></wt-input>
@@ -27,7 +27,7 @@
             :value="minCapacity"
             :v="$v.itemInstance.minCapacity"
             :custom-validators="minCapacityCustomValidator"
-            :label="$t('objects.ccenter.skills.minCapacity')"
+            :label="$t('objects.lookups.skills.minCapacity')"
             :number-min="0"
             :number-max="100"
             type="number"
@@ -37,7 +37,7 @@
             :value="maxCapacity"
             :v="$v.itemInstance.maxCapacity"
             :custom-validators="maxCapacityCustomValidator"
-            :label="$t('objects.ccenter.skills.maxCapacity')"
+            :label="$t('objects.lookups.skills.maxCapacity')"
             :number-min="0"
             :number-max="100"
             type="number"
@@ -46,7 +46,7 @@
         </div>
         <wt-select
           :value="buckets"
-          :label="$tc('objects.ccenter.buckets.buckets', 1)"
+          :label="$tc('objects.lookups.buckets.buckets', 1)"
           :search="loadBucketsOptions"
           :close-on-select="false"
           :internal-search="false"
@@ -74,8 +74,8 @@
 import { required, minValue, maxValue } from 'vuelidate/lib/validators';
 import { mapState } from 'vuex';
 import { lessOrEqualTo, moreOrEqualTo } from '../../../../../utils/validators';
-import { getBucketsList } from '../../../../../api/contact-center/buckets/buckets';
-import { getSkillsList } from '../../../../../api/contact-center/agentSkills/agentSkills';
+import { getBucketsList } from '../../../../../api/lookups/buckets/buckets';
+import { getSkillsList } from '../../../../../api/lookups/agentSkills/agentSkills';
 import nestedObjectMixin from '../../../../../mixins/objectPagesMixins/openedObjectMixin/nestedObjectMixin';
 
 export default {
@@ -117,10 +117,10 @@ export default {
       buckets: (state) => state.itemInstance.buckets,
     }),
     minCapacityCustomValidator() {
-      return [{ name: 'lessOrEqualTo', text: this.$t('objects.ccenter.skills.minCapacityLessOrEqualToMaxCapacityValidator') }];
+      return [{ name: 'lessOrEqualTo', text: this.$t('objects.lookups.skills.minCapacityLessOrEqualToMaxCapacityValidator') }];
     },
     maxCapacityCustomValidator() {
-      return [{ name: 'moreOrEqualTo', text: this.$t('objects.ccenter.skills.maxCapacityMoreOrEqualToMinCapacityValidator') }];
+      return [{ name: 'moreOrEqualTo', text: this.$t('objects.lookups.skills.maxCapacityMoreOrEqualToMinCapacityValidator') }];
     },
   },
 

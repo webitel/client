@@ -1,6 +1,7 @@
 import instance from '../../../instance';
 import BaseItemGetter from './BaseItemGetter';
 
+// remove named export after refactor with default export
 export class WebitelAPIItemGetter extends BaseItemGetter {
   constructor(url, defaultItem) {
     super(null, defaultItem);
@@ -18,3 +19,5 @@ export class WebitelAPIItemGetter extends BaseItemGetter {
     }
   }
 }
+
+export default WebitelAPIItemGetter;

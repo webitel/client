@@ -12,7 +12,7 @@
     ></skill-popup>
 
     <header class="content-header">
-      <h3 class="content-title">{{ $tc('objects.ccenter.skills.skills', 2) }}</h3>
+      <h3 class="content-title">{{ $tc('objects.lookups.skills.skills', 2) }}</h3>
       <div class="content-header__actions-wrap">
         <wt-search-bar
           :value="search"
@@ -131,10 +131,10 @@ export default {
     headers() {
       return [
         { value: 'name', text: this.$t('objects.name') },
-        { value: 'capacity', text: this.$t('objects.ccenter.skills.capacity') },
-        { value: 'lvl', text: this.$t('objects.ccenter.skills.lvl') },
-        { value: 'buckets', text: this.$tc('objects.ccenter.buckets.buckets', 1) },
-        { value: 'state', text: this.$tc('objects.ccenter.skills.state') },
+        { value: 'capacity', text: this.$t('objects.lookups.skills.capacity') },
+        { value: 'lvl', text: this.$t('objects.lookups.skills.lvl') },
+        { value: 'buckets', text: this.$tc('objects.lookups.buckets.buckets', 1) },
+        { value: 'state', text: this.$tc('objects.lookups.skills.state') },
       ];
     },
   },
