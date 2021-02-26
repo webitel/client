@@ -68,6 +68,7 @@
             languageOptions: [
                 { name: 'English', id: 'en' },
                 { name: 'Русский', id: 'ru' },
+                { name: 'Українська', id: 'ua' },
             ],
         }),
 

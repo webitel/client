@@ -19,3 +19,4 @@ Vue.use(WebitelUI, { eventBus });
 // add plugin locales to main i18n
 i18n.mergeLocaleMessage('en', WebitelUIEn);
 i18n.mergeLocaleMessage('ru', WebitelUIRu);
+i18n.mergeLocaleMessage('ua', WebitelUIEn);
