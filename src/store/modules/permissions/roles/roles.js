@@ -1,10 +1,4 @@
-import {
-  addRole,
-  deleteRole,
-  getRole,
-  getRoleList,
-  updateRole,
-} from '../../../../api/permissions/roles/roles';
+import RolesAPI from '../../../../api/permissions/roles/roles';
 import { DefaultModule } from '../../defaults/DefaultModule';
 
 const defaultState = () => {
@@ -28,20 +22,20 @@ const getters = {};
 
 const actions = {
   ...defaultModule.actions,
-  GET_LIST: () => {
-    return getRoleList(state.page, state.size, state.search);
+  GET_LIST: (context) => {
+    return RolesAPI.getList(context.state);
   },
-  GET_ITEM: () => {
-    return getRole(state.itemId);
+  GET_ITEM: (context) => {
+    return RolesAPI.get(context.state);
   },
-  POST_ITEM: () => {
-    return addRole(state.itemInstance);
+  POST_ITEM: (context) => {
+    return RolesAPI.add(context.state);
   },
-  UPD_ITEM: () => {
-    return updateRole(state.itemId, state.itemInstance);
+  UPD_ITEM: (context) => {
+    return RolesAPI.update(context.state);
   },
   DELETE_ITEM: (context, id) => {
-    return deleteRole(id);
+    return RolesAPI.delete({ id });
   },
   ADD_ROLE_PERMISSION: (context, permission) => {
     const value = context.state.itemInstance.permissions.concat(permission);

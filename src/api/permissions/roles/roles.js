@@ -22,15 +22,21 @@ const itemDeleter = new WebitelAPIItemDeleter(BASE_URL);
 const PERMISSIONS_LIST_URL = '/permissions';
 const permissionsListGetter = new WebitelAPIListGetter(PERMISSIONS_LIST_URL, {});
 
-export const getRoleList = (page = 1, size = 10, search) => listGetter.getList({
-  page,
-  size,
-  search,
-});
+export const getRoleList = (params) => listGetter.getList(params);
 
-export const getRole = (id) => itemGetter.getItem(id);
-export const addRole = (item) => itemCreator.createItem(item);
-export const updateRole = (id, item) => itemUpdater.updateItem(id, item);
-export const deleteRole = (id) => itemDeleter.deleteItem(id);
+export const getRole = ({ itemId }) => itemGetter.getItem(itemId);
+export const addRole = ({ itemInstance }) => itemCreator.createItem(itemInstance);
+export const updateRole = ({ itemId, itemInstance }) => (
+  itemUpdater.updateItem(itemId, itemInstance)
+);
+export const deleteRole = ({ id }) => itemDeleter.deleteItem(id);
 
 export const getPermissionsOptions = (payload) => permissionsListGetter.getList(payload);
+
+export default {
+  getList: getRoleList,
+  get: getRole,
+  add: addRole,
+  update: updateRole,
+  delete: deleteRole,
+};
