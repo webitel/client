@@ -30,7 +30,7 @@
 <script>
 import { required } from 'vuelidate/lib/validators';
 import { mapState } from 'vuex';
-import OpenedBucketPermissions from './opened-bucket-permissions.vue';
+import OpenedBucketPermissions from './permissions-tab/permissions-tab.vue';
 import OpenedBucketGeneral from './opened-bucket-general.vue';
 import openedObjectMixin from '../../../mixins/objectPagesMixins/openedObjectMixin/openedObjectMixin';
 

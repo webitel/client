@@ -1,32 +1,22 @@
-import { DefaultModule } from '../../../../defaults/DefaultModule';
-import BaseObjectAccessControl from '../BaseObjectAccessControl';
-
+import { DefaultPermissionsModule } from '../../../../defaults/DefaultPermissionsModule';
 import {
   getObjectPermissions,
   patchObjectPermissions,
 } from '../../../../../../api/permissions/objects/objects';
 
 const defaultState = () => ({});
-const defaultModule = new DefaultModule(defaultState);
+const defaultModule = new DefaultPermissionsModule();
 
 const state = {
   ...defaultModule.state,
 };
 
-const getters = {
-  ...BaseObjectAccessControl.getters,
-};
+const getters = {};
 
 const actions = {
   ...defaultModule.actions,
-  ...BaseObjectAccessControl.actions,
-  GET_LIST: (context) => getObjectPermissions({
-    id: context.getters.OBJECT_ID,
-    page: context.state.page,
-    size: context.state.size,
-    search: context.state.search,
-  }),
-  PATCH_ACCESS_MODE: (context, { changes }) => patchObjectPermissions(context.getters.OBJECT_ID, [changes]),
+  GET_LIST: (context) => getObjectPermissions(context.state),
+  PATCH_ACCESS_MODE: (context, { changes }) => patchObjectPermissions(context.state.parentId, [changes]),
 
   ADD_ROLE_PERMISSIONS: async (context, role) => {
     const changes = {
@@ -45,7 +35,6 @@ const actions = {
 
 const mutations = {
   ...defaultModule.mutations,
-  ...BaseObjectAccessControl.mutations,
 };
 
 export default {

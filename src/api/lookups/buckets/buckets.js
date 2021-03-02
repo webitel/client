@@ -39,6 +39,6 @@ export const updateBucket = async (id, item) => await itemUpdater.updateItem(id,
 
 export const deleteBucket = async (id) => await itemDeleter.deleteItem(id);
 
-export const getBucketPermissions = async (id, page = 0, size = 10, search) => await permissionsGetter.getList(id, size, search);
+export const getBucketPermissions = (params) => permissionsGetter.getList(params);
 
-export const patchBucketPermissions = async (id, item) => await permissionsPatcher.patchItem(id, item);
+export const patchBucketPermissions = (parentId, item) => permissionsPatcher.patchItem(parentId, item);

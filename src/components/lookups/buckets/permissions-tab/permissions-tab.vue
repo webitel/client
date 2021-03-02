@@ -8,41 +8,28 @@
     ></role-popup>
 
     <header class="content-header">
-      <h3 class="content-title">
-        {{ $tc("objects.permissions.object.operations", 2) }}
-      </h3>
+      <h3 class="content-title">{{ $t('objects.permissions.object.operations') }}</h3>
       <div class="content-header__actions-wrap">
-        <wt-search-bar
-          :value="search"
-          debounce
-          @input="setSearch"
-          @search="loadList"
-          @enter="loadList"
-        ></wt-search-bar>
+        <wt-table-actions
+          :icons="['refresh']"
+          @input="tableActionsHandler"
+        ></wt-table-actions>
         <wt-icon-btn
-          class="icon-action"
-          icon="refresh"
-          :tooltip="$t('iconHints.reload')"
-          @click="loadList"
-        ></wt-icon-btn>
-        <wt-icon-btn
-          v-if="hasEditAccess"
+          v-if="!disableUserInput"
           class="icon-action"
           icon="plus"
-          :tooltip="$t('iconHints.add')"
           @click="openRoleSelectPopup"
         ></wt-icon-btn>
       </div>
     </header>
 
     <wt-loader v-show="!isLoaded"></wt-loader>
-    <div class="table-wrapper" v-show="isLoaded">
+    <div v-show="isLoaded" class="table-wrapper">
       <div class="table-wrapper__scroll-wrapper">
-        <wt-table
-        :headers="headers"
+      <wt-table
         :data="dataList"
-        :selectable="false"
-        :grid-actions="false"
+        :headers="headers"
+        :grid-actions="!disableUserInput"
       >
         <template slot="grantee" slot-scope="{ item }">
           <div v-if="item.grantee">
@@ -50,22 +37,12 @@
           </div>
         </template>
 
-        <template slot="create" slot-scope="{ item }">
-          <wt-select
-            :value="item.access.x"
-            :options="accessOptions"
-            :clearable="false"
-            :disabled="!hasEditAccess"
-            @input="changeCreateAccessMode({ item, mode: $event })"
-          ></wt-select>
-        </template>
-
         <template slot="read" slot-scope="{ item }">
           <wt-select
             :value="item.access.r"
             :options="accessOptions"
             :clearable="false"
-            :disabled="!hasEditAccess"
+            :disabled="disableUserInput"
             @input="changeReadAccessMode({ item, mode: $event })"
           ></wt-select>
         </template>
@@ -75,7 +52,7 @@
             :value="item.access.w"
             :options="accessOptions"
             :clearable="false"
-            :disabled="!hasEditAccess"
+            :disabled="disableUserInput"
             @input="changeUpdateAccessMode({ item, mode: $event })"
           ></wt-select>
         </template>
@@ -85,47 +62,44 @@
             :value="item.access.d"
             :options="accessOptions"
             :clearable="false"
-            :disabled="!hasEditAccess"
+            :disabled="disableUserInput"
             @input="changeDeleteAccessMode({ item, mode: $event })"
           ></wt-select>
         </template>
       </wt-table>
       </div>
       <wt-pagination
-        :size="size"
         :next="isNext"
         :prev="page > 1"
+        :size="size"
         debounce
+        @change="loadList"
+        @input="setSize"
         @next="nextPage"
         @prev="prevPage"
-        @input="setSize"
-        @change="loadList"
       ></wt-pagination>
     </div>
   </section>
 </template>
 
 <script>
-import { mapState } from 'vuex';
-import RolePopup from './opened-object-permissions-obac-role-popup.vue';
+import { mapActions } from 'vuex';
+import RolePopup from './permissions-tab-role-popup.vue';
 import permissionsTabMixin from '../../../../mixins/objectPagesMixins/permissionsTabMixin/permissionsTabMixin';
+import openedTabComponentMixin from '../../../../mixins/objectPagesMixins/openedObjectTabMixin/openedTabComponentMixin';
 
 export default {
-  name: 'opened-object-permissions-obac',
-  mixins: [permissionsTabMixin],
+  name: 'permissions-tab',
+  mixins: [openedTabComponentMixin, permissionsTabMixin],
   components: { RolePopup },
   data: () => ({
-    subNamespace: 'obac',
-    headerTitle: '',
+    subNamespace: 'permissions',
   }),
+
   computed: {
-    ...mapState('permissions/objects', {
-      id: (state) => state.itemId,
-    }),
     headers() {
       return [
-        { value: 'grantee', text: this.$t('objects.permissions.object.grantee') },
-        { value: 'create', text: this.$t('objects.create') },
+        { value: 'grantee', text: this.$t('objects.name') },
         { value: 'read', text: this.$t('objects.read') },
         { value: 'edit', text: this.$t('objects.edit') },
         { value: 'delete', text: this.$t('objects.delete') },
@@ -136,4 +110,5 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+
 </style>

@@ -32,12 +32,12 @@ export const patchObject = ({ id, changes }) => itemPatcher.patchItem(id, change
 export const getObject = ({ itemId }) => itemGetter.getItem(itemId);
 
 export const getObjectPermissions = ({
-                                       id,
+                                       parentId,
                                        page,
                                        size,
                                        search,
                                      }) => (
-  permissionsGetter.getList(id, page, size, search)
+  permissionsGetter.getList({ parentId, page, size, search })
 );
 
 export const patchObjectPermissions = (id, item) => permissionsPatcher.patchItem(id, item);
@@ -46,8 +46,8 @@ export const patchObjectDefaultPermissions = (id, grantorId, item) => (
   permissionsDefaultsPatcher.patchDefaultItem(id, grantorId, item)
 );
 
-export const fetchObjclassDefaultList = async ({ id, page, size, search }) => {
-  const response = await defaultAccessList.searchObjclassDefaultList(id, page, size, search);
+export const fetchObjclassDefaultList = async ({ parentId, page, size, search }) => {
+  const response = await defaultAccessList.searchObjclassDefaultList(parentId, page, size, search);
   if (Array.isArray(response.items)) {
     const list = response.items.map((item) => ({
       grantee: item.grantee,
@@ -69,7 +69,7 @@ export const fetchObjclassDefaultList = async ({ id, page, size, search }) => {
     }));
     return { list, next: response.next };
   }
-  return [];
+  return { list: [], next: false };
 };
 
 export const toggleObjclassDefaultMode = (objectId, grantorId, rule) => (

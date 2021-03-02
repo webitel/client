@@ -6,8 +6,8 @@ export default class WebitelAPIPermissionsGetter {
     this.url = url;
   }
 
-  async getList(id, page, size, search) {
-    let url = `${this.url}/${id}/acl`;
+  async getList({ parentId, page, size, search }) {
+    let url = `${this.url}/${parentId}/acl`;
     if (size) url += `?size=${size}`;
     if (page) url += `&page=${page}`;
     if (search && search.slice(-1) !== '*') search += '*';
