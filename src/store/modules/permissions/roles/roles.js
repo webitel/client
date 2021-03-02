@@ -1,11 +1,5 @@
-import {
-  addRole,
-  deleteRole,
-  getRole,
-  getRoleList,
-  updateRole,
-} from "../../../../api/permissions/roles/roles";
-import { DefaultModule } from "../../defaults/DefaultModule";
+import RolesAPI from '../../../../api/permissions/roles/roles';
+import { DefaultModule } from '../../defaults/DefaultModule';
 
 const defaultState = () => {
   return {
@@ -13,6 +7,7 @@ const defaultState = () => {
     itemInstance: {
       name: '',
       description: '',
+      permissions: [],
     },
   };
 };
@@ -26,27 +21,36 @@ const state = {
 const getters = {};
 
 const actions = {
-  GET_LIST: async () => {
-    return await getRoleList(state.page, state.size, state.search);
-  },
-
-  GET_ITEM: async () => {
-    return await getRole(state.itemId);
-  },
-
-  POST_ITEM: () => {
-    return addRole(state.itemInstance);
-  },
-
-  UPD_ITEM: async () => {
-    await updateRole(state.itemId, state.itemInstance);
-  },
-
-  DELETE_ITEM: async (context, id) => {
-    await deleteRole(id);
-  },
-
   ...defaultModule.actions,
+  GET_LIST: (context) => {
+    return RolesAPI.getList(context.state);
+  },
+  GET_ITEM: (context) => {
+    return RolesAPI.get(context.state);
+  },
+  POST_ITEM: (context) => {
+    return RolesAPI.add(context.state);
+  },
+  UPD_ITEM: (context) => {
+    return RolesAPI.update(context.state);
+  },
+  DELETE_ITEM: (context, id) => {
+    return RolesAPI.delete({ id });
+  },
+  ADD_ROLE_PERMISSION: (context, permission) => {
+    const value = context.state.itemInstance.permissions.concat(permission);
+    context.commit('SET_ITEM_PROPERTY', { prop: 'permissions', value });
+  },
+  UPDATE_ROLE_PERMISSION: (context, { index, permission }) => {
+    const value = [...context.state.itemInstance.permissions];
+    value.splice(index, 1, permission);
+    context.commit('SET_ITEM_PROPERTY', { prop: 'permissions', value });
+  },
+  REMOVE_ROLE_PERMISSION: (context, index) => {
+    const value = [...context.state.itemInstance.permissions];
+    value.splice(index, 1);
+    context.commit('SET_ITEM_PROPERTY', { prop: 'permissions', value });
+  },
 };
 
 const mutations = {

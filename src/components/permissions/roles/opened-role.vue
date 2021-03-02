@@ -31,12 +31,13 @@
 import { required } from 'vuelidate/lib/validators';
 import { mapState } from 'vuex';
 import OpenedRoleGeneral from './opened-role-general.vue';
+import OpenedRolePermissions from './role-permissions/opened-role-permissions.vue';
 import openedObjectMixin from '../../../mixins/objectPagesMixins/openedObjectMixin/openedObjectMixin';
 
 export default {
   name: 'opened-role',
   mixins: [openedObjectMixin],
-  components: { OpenedRoleGeneral },
+  components: { OpenedRoleGeneral, OpenedRolePermissions },
   data: () => ({
     namespace: 'permissions/roles',
   }),
@@ -57,6 +58,9 @@ export default {
       const tabs = [{
         text: this.$t('objects.general'),
         value: 'general',
+      }, {
+        text: this.$tc('objects.permissions.roles.permissions', 2),
+        value: 'permissions',
       }];
       return tabs;
     },

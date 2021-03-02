@@ -6,10 +6,11 @@ import { WebitelAPIItemGetter } from '../../utils/ApiControllers/Getter/ApiGette
 
 
 const BASE_URL = '/roles';
-const fieldsToSend = ['name', 'description'];
+const fieldsToSend = ['name', 'description', 'permissions'];
 const defaultItemObject = {
   name: '',
   description: '',
+  permissions: [],
   _dirty: false,
 };
 const listGetter = new WebitelAPIListGetter(BASE_URL);
@@ -18,16 +19,24 @@ const itemCreator = new WebitelAPIItemCreator(BASE_URL, fieldsToSend);
 const itemUpdater = new WebitelAPIItemUpdater(BASE_URL, fieldsToSend);
 const itemDeleter = new WebitelAPIItemDeleter(BASE_URL);
 
-export const getRoleList = (page = 1, size = 10, search) => listGetter.getList({
-  page,
-  size,
-  search,
-});
+const PERMISSIONS_LIST_URL = '/permissions';
+const permissionsListGetter = new WebitelAPIListGetter(PERMISSIONS_LIST_URL, {});
 
-export const getRole = async (id) => await itemGetter.getItem(id);
+export const getRoleList = (params) => listGetter.getList(params);
 
-export const addRole = (item) => itemCreator.createItem(item);
+export const getRole = ({ itemId }) => itemGetter.getItem(itemId);
+export const addRole = ({ itemInstance }) => itemCreator.createItem(itemInstance);
+export const updateRole = ({ itemId, itemInstance }) => (
+  itemUpdater.updateItem(itemId, itemInstance)
+);
+export const deleteRole = ({ id }) => itemDeleter.deleteItem(id);
 
-export const updateRole = async (id, item) => await itemUpdater.updateItem(id, item);
+export const getPermissionsOptions = (payload) => permissionsListGetter.getList(payload);
 
-export const deleteRole = async (id) => await itemDeleter.deleteItem(id);
+export default {
+  getList: getRoleList,
+  get: getRole,
+  add: addRole,
+  update: updateRole,
+  delete: deleteRole,
+};
