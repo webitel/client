@@ -1,10 +1,6 @@
 import APIListGetter from '../../utils/ApiControllers/ListGetter/ApiListGetter';
 import APIGetter from '../../utils/ApiControllers/Getter/ApiGetter';
 import APIPatcher from '../../utils/ApiControllers/Patcher/ApiPatcher';
-import WebitelAPIPermissionsGetter
-  from '../../utils/ApiControllers/Permissions/WebitelAPIPermissionsGetter';
-import WebitelAPIPermissionsPatcher
-  from '../../utils/ApiControllers/Permissions/WebitelAPIPermissionsPatcher';
 import WebitelAPIDefaultAccess
   from '../../utils/ApiControllers/Permissions/WebitelAPIDefaultAccess';
 
@@ -21,8 +17,6 @@ const defaultListObject = { // default object prototype, to merge response with 
 const listGetter = new APIListGetter(BASE_URL, defaultListObject);
 const itemGetter = new APIGetter(BASE_URL);
 const itemPatcher = new APIPatcher(BASE_URL);
-const permissionsGetter = new WebitelAPIPermissionsGetter(BASE_URL);
-const permissionsPatcher = new WebitelAPIPermissionsPatcher(BASE_URL);
 const permissionsDefaultsPatcher = new WebitelAPIDefaultAccess(BASE_DEFAULTS_URL);
 const defaultAccessList = new WebitelAPIDefaultAccess(BASE_DEFAULTS_URL);
 
@@ -30,17 +24,6 @@ const defaultAccessList = new WebitelAPIDefaultAccess(BASE_DEFAULTS_URL);
 export const getObjectList = (params) => listGetter.getList({ searchQuery: 'class', ...params });
 export const patchObject = ({ id, changes }) => itemPatcher.patchItem(id, changes);
 export const getObject = ({ itemId }) => itemGetter.getItem(itemId);
-
-export const getObjectPermissions = ({
-                                       parentId,
-                                       page,
-                                       size,
-                                       search,
-                                     }) => (
-  permissionsGetter.getList({ parentId, page, size, search })
-);
-
-export const patchObjectPermissions = (id, item) => permissionsPatcher.patchItem(id, item);
 
 export const patchObjectDefaultPermissions = (id, grantorId, item) => (
   permissionsDefaultsPatcher.patchDefaultItem(id, grantorId, item)

@@ -4,7 +4,6 @@ import {
   toggleObjclassDefaultMode,
 } from '../../../../../../api/permissions/objects/objects';
 
-const defaultState = () => ({});
 const defaultModule = new DefaultPermissionsModule();
 
 const state = {
