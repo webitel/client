@@ -11,8 +11,6 @@ import DefaultPermissionsModule from '../../defaults/DefaultPermissionsModule';
 import router from "../../../../router/router";
 import proxy from "../../../../utils/editProxy";
 
-const PERMISSIONS_API_URL = '/devices';
-
 const generateHotdeskAccount = (length = 7) => {
   const charset = 'abcdefghijklmnopqrstuvwxyz0123456789';
   let value = 'hot-';
@@ -146,6 +144,7 @@ const mutations = {
   },
 };
 
+const PERMISSIONS_API_URL = '/devices';
 const permissions = new DefaultPermissionsModule()
   .generateAPIMethods(PERMISSIONS_API_URL)
   .getModule();
