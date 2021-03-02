@@ -18,7 +18,7 @@
           :tabs="tabs"
         ></wt-tabs>
         <component
-          :is="`${$options.name}-${currentTab.value}`"
+          :is="currentTab.value"
           :v="$v"
           :namespace="namespace"
         ></component>
@@ -30,14 +30,13 @@
 <script>
 import { required } from 'vuelidate/lib/validators';
 import { mapState } from 'vuex';
-import OpenedBucketPermissions from '../../object-utils/permissions-tab/permissions-tab.vue';
-import OpenedBucketGeneral from './opened-bucket-general.vue';
+import General from './opened-bucket-general.vue';
 import openedObjectMixin from '../../../mixins/objectPagesMixins/openedObjectMixin/openedObjectMixin';
 
 export default {
   name: 'opened-bucket',
   mixins: [openedObjectMixin],
-  components: { OpenedBucketGeneral, OpenedBucketPermissions },
+  components: { General },
   data: () => ({
     namespace: 'lookups/buckets',
   }),
