@@ -85,8 +85,8 @@
 <script>
 import { mapActions } from 'vuex';
 import RolePopup from './permissions-tab-role-popup.vue';
-import permissionsTabMixin from '../../../../mixins/objectPagesMixins/permissionsTabMixin/permissionsTabMixin';
-import openedTabComponentMixin from '../../../../mixins/objectPagesMixins/openedObjectTabMixin/openedTabComponentMixin';
+import permissionsTabMixin from '../../../mixins/objectPagesMixins/permissionsTabMixin/permissionsTabMixin';
+import openedTabComponentMixin from '../../../mixins/objectPagesMixins/openedObjectTabMixin/openedTabComponentMixin';
 
 export default {
   name: 'permissions-tab',

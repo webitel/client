@@ -1,5 +1,4 @@
 import history from './history';
-import permissions from './permissions';
 import {
   addDevice,
   deleteDevice,
@@ -8,8 +7,11 @@ import {
   updateDevice,
 } from "../../../../api/directory/devices/devices";
 import { DefaultModule } from "../../defaults/DefaultModule";
+import DefaultPermissionsModule from '../../defaults/DefaultPermissionsModule';
 import router from "../../../../router/router";
 import proxy from "../../../../utils/editProxy";
+
+const PERMISSIONS_API_URL = '/devices';
 
 const generateHotdeskAccount = (length = 7) => {
   const charset = 'abcdefghijklmnopqrstuvwxyz0123456789';
@@ -143,6 +145,10 @@ const mutations = {
     }
   },
 };
+
+const permissions = new DefaultPermissionsModule()
+  .generateAPIMethods(PERMISSIONS_API_URL)
+  .getModule();
 
 export default {
   namespaced: true,

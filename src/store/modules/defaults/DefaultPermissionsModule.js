@@ -1,3 +1,4 @@
+import PermissionsAPI from '../../../api/shared/permissions/PermissionsAPI';
 import AccessMode from '../permissions/objects/_internals/enums/AccessMode.enum';
 
 export class DefaultPermissionsModule {
@@ -8,7 +9,9 @@ export class DefaultPermissionsModule {
     search: '',
     isNextPage: false,
   })
+
   getters = {};
+
   actions = {
     SET_PARENT_ITEM_ID: (context, id) => {
       context.commit('SET_PARENT_ITEM_ID', id);
@@ -103,6 +106,7 @@ export class DefaultPermissionsModule {
       context.commit('RESET_ITEM_STATE');
     },
   };
+
   mutations = {
     SET_PARENT_ITEM_ID: (state, id) => {
       state.parentId = id;
@@ -137,6 +141,17 @@ export class DefaultPermissionsModule {
     };
   }
 
+  generateAPIMethods(url) {
+    const permissionsAPI = new PermissionsAPI(url);
+    this.actions.GET_LIST = (context) => {
+      return permissionsAPI.getList(context.state);
+    }
+    this.actions.PATCH_ACCESS_MODE = (context, { changes }) => {
+      return permissionsAPI.patch(context.state.parentId, [changes])
+    }
+    return this;
+  }
+
   getModule() {
     return {
       state: this.state,
@@ -147,3 +162,5 @@ export class DefaultPermissionsModule {
     }
   }
 }
+
+export default DefaultPermissionsModule;

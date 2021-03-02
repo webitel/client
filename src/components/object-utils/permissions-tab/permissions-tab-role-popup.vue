@@ -20,7 +20,7 @@
 </template>
 
 <script>
-import permissionsTabRolePopupMixins from '../../../../mixins/objectPagesMixins/permissionsTabMixin/permissionsTabRolePopupMixin';
+import permissionsTabRolePopupMixins from '../../../mixins/objectPagesMixins/permissionsTabMixin/permissionsTabRolePopupMixin';
 
 export default {
   name: 'permissions-tab-role-popup',
