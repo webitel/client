@@ -1,10 +1,6 @@
 import { OutboundResourceGroupServiceApiFactory } from 'webitel-sdk';
 import instance from '../../instance';
 import configuration from '../../openAPIConfig';
-import WebitelAPIPermissionsGetter
-  from '../../utils/ApiControllers/Permissions/WebitelAPIPermissionsGetter';
-import WebitelAPIPermissionsPatcher
-  from '../../utils/ApiControllers/Permissions/WebitelAPIPermissionsPatcher';
 import { WebitelSDKItemDeleter } from '../../utils/ApiControllers/Deleter/SDKDeleter';
 import { WebitelSDKItemUpdater } from '../../utils/ApiControllers/Updater/SDKUpdater';
 import { WebitelSDKItemCreator } from '../../utils/ApiControllers/Creator/SDKCreator';
@@ -14,7 +10,6 @@ import { WebitelSDKListGetter } from '../../utils/ApiControllers/ListGetter/SDKL
 
 const resGrService = new OutboundResourceGroupServiceApiFactory(configuration, '', instance);
 
-const BASE_URL = '/call_center/resource_group';
 const fieldsToSend = ['domainId', 'name', 'description', 'strategy', 'communication', 'time'];
 
 const defaultListObject = {
@@ -54,8 +49,6 @@ const itemGetter = new WebitelSDKItemGetter(resGrService.readOutboundResourceGro
 const itemCreator = new WebitelSDKItemCreator(resGrService.createOutboundResourceGroup, fieldsToSend, preRequestHandler);
 const itemUpdater = new WebitelSDKItemUpdater(resGrService.updateOutboundResourceGroup, fieldsToSend, preRequestHandler);
 const itemDeleter = new WebitelSDKItemDeleter(resGrService.deleteOutboundResourceGroup);
-const permissionsGetter = new WebitelAPIPermissionsGetter(BASE_URL);
-const permissionsPatcher = new WebitelAPIPermissionsPatcher(BASE_URL);
 
 itemGetter.responseHandler = (response) => {
   try {
@@ -89,7 +82,3 @@ export async function updateResGroup(id, item) {
 export async function deleteResGroup(id) {
   return await itemDeleter.deleteItem(id);
 }
-
-export const getResGroupPermissions = async (id, page = 0, size = 10, search) => await permissionsGetter.getList(id, size, search);
-
-export const patchResGroupPermissions = async (id, item) => await permissionsPatcher.patchItem(id, item);

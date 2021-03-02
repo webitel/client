@@ -9,7 +9,6 @@ import { WebitelSDKItemCreator } from '../../utils/ApiControllers/Creator/SDKCre
 import { WebitelSDKItemGetter } from '../../utils/ApiControllers/Getter/SDKGetter';
 import { WebitelSDKListGetter } from '../../utils/ApiControllers/ListGetter/SDKListGetter';
 
-
 const queueService = new QueueServiceApiFactory(configuration, '', instance);
 
 const fieldsToSend = ['domainId', 'name', 'type', 'strategy', 'team', 'priority', 'dncList', 'schema',

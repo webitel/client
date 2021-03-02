@@ -18,7 +18,7 @@
           :tabs="tabs"
         ></wt-tabs>
         <component
-          :is="`${$options.name}-${currentTab.value}`"
+          :is="currentTab.value"
           :v="$v"
           :namespace="namespace"
         ></component>
@@ -31,20 +31,18 @@
 import { mapState } from 'vuex';
 import { required } from 'vuelidate/lib/validators';
 import { requiredArrayValue, timerangeNotIntersect, timerangeStartLessThanEnd } from '../../../utils/validators';
-import OpenedResourceGroupGeneral from './opened-resource-group-general.vue';
-import OpenedResourceGroupResources from './opened-resource-group-resources.vue';
-import OpenedResourceGroupTimerange from './opened-resource-group-timerange.vue';
-import OpenedResourceGroupPermissions from './opened-resource-group-permissions.vue';
+import General from './opened-resource-group-general.vue';
+import Resources from './opened-resource-group-resources.vue';
+import Timerange from './opened-resource-group-timerange.vue';
 import openedObjectMixin from '../../../mixins/objectPagesMixins/openedObjectMixin/openedObjectMixin';
 
 export default {
   name: 'opened-resource-group',
   mixins: [openedObjectMixin],
   components: {
-    OpenedResourceGroupGeneral,
-    OpenedResourceGroupResources,
-    OpenedResourceGroupTimerange,
-    OpenedResourceGroupPermissions,
+    General,
+    Resources,
+    Timerange,
   },
 
   data: () => ({
