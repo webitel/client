@@ -18,7 +18,7 @@
           :tabs="tabs"
         ></wt-tabs>
         <component
-          :is="`${$options.name}-${currentTab.value}`"
+          :is="currentTab.value"
           :v="$v"
           :namespace="namespace"
         ></component>
@@ -30,22 +30,20 @@
 <script>
 import { required } from 'vuelidate/lib/validators';
 import { mapState } from 'vuex';
-import OpenedAgentGeneral from './opened-agent-general.vue';
-import OpenedAgentQueues from './opened-agent-queues.vue';
-import OpenedAgentSkills from './opened-agent-skills.vue';
-import OpenedAgentSubordinates from './subordinates/opened-agent-subordinates.vue';
-import OpenedAgentPermissions from './opened-agent-permissions.vue';
+import General from './opened-agent-general.vue';
+import Queues from './opened-agent-queues.vue';
+import Skills from './opened-agent-skills.vue';
+import Subordinates from './subordinates/opened-agent-subordinates.vue';
 import openedObjectMixin from '../../../mixins/objectPagesMixins/openedObjectMixin/openedObjectMixin';
 
 export default {
   name: 'opened-agent',
   mixins: [openedObjectMixin],
   components: {
-    OpenedAgentGeneral,
-    OpenedAgentQueues,
-    OpenedAgentSkills,
-    OpenedAgentSubordinates,
-    OpenedAgentPermissions,
+    General,
+    Queues,
+    Skills,
+    Subordinates,
   },
 
   data: () => ({

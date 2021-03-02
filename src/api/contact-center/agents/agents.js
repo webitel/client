@@ -6,15 +6,9 @@ import SDKItemGetter from '../../utils/ApiControllers/Getter/SDKGetter';
 import SDKItemCreator from '../../utils/ApiControllers/Creator/SDKCreator';
 import SDKItemUpdater from '../../utils/ApiControllers/Updater/SDKUpdater';
 import SDKItemDeleter from '../../utils/ApiControllers/Deleter/SDKDeleter';
-import WebitelAPIPermissionsGetter
-  from '../../utils/ApiControllers/Permissions/WebitelAPIPermissionsGetter';
-import WebitelAPIPermissionsPatcher
-  from '../../utils/ApiControllers/Permissions/WebitelAPIPermissionsPatcher';
-
 
 const agentService = new AgentServiceApiFactory(configuration, '', instance);
 
-const BASE_URL = '/call_center/agents';
 const fieldsToSend = ['user', 'team', 'supervisor', 'auditor', 'region', 'progressiveCount',
   'chatCount', 'isSupervisor'];
 
@@ -52,9 +46,6 @@ const supervisorsListGetter = new SDKListGetter(agentService.searchAgent);
 const newAgentUsersGetter = new SDKListGetter(agentService.searchLookupUsersAgentNotExists);
 const agentQueuesGetter = new SDKListGetter(agentService.searchAgentInQueue);
 
-const permissionsGetter = new WebitelAPIPermissionsGetter(BASE_URL);
-const permissionsPatcher = new WebitelAPIPermissionsPatcher(BASE_URL);
-
 export const getAgentsList = (params) => listGetter.getList(params);
 export const getAgent = ({ itemId }) => itemGetter.getItem(itemId);
 export const addAgent = ({ itemInstance }) => itemCreator.createItem(itemInstance);
@@ -79,11 +70,6 @@ export const getAgentHistory = async (id, date, page = 0, size = 10) => {
     throw err;
   }
 };
-
-export const getAgentPermissions = (id, page = 0, size = 10, search) => (
-  permissionsGetter.getList(id, size, search)
-);
-export const patchAgentPermissions = (id, item) => permissionsPatcher.patchItem(id, item);
 
 export default {
   getList: getAgentsList,
