@@ -17,17 +17,11 @@ const defaultListObject = { // default object prototype, to merge response with 
 const listGetter = new APIListGetter(BASE_URL, defaultListObject);
 const itemGetter = new APIGetter(BASE_URL);
 const itemPatcher = new APIPatcher(BASE_URL);
-const permissionsDefaultsPatcher = new WebitelAPIDefaultAccess(BASE_DEFAULTS_URL);
 const defaultAccessList = new WebitelAPIDefaultAccess(BASE_DEFAULTS_URL);
-
 
 export const getObjectList = (params) => listGetter.getList({ searchQuery: 'class', ...params });
 export const patchObject = ({ id, changes }) => itemPatcher.patchItem(id, changes);
 export const getObject = ({ itemId }) => itemGetter.getItem(itemId);
-
-export const patchObjectDefaultPermissions = (id, grantorId, item) => (
-  permissionsDefaultsPatcher.patchDefaultItem(id, grantorId, item)
-);
 
 export const fetchObjclassDefaultList = async ({ parentId, page, size, search }) => {
   const response = await defaultAccessList.searchObjclassDefaultList(parentId, page, size, search);
