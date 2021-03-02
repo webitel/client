@@ -47,6 +47,7 @@ import OpenedQueueChatInboundQueueGeneral from './chat-inbound-queue/opened-queu
 import OpenedQueueChatInboundQueueTiming from './chat-inbound-queue/opened-queue-chat-inbound-queue-timing.vue';
 import OpenedQueueTaskQueueGeneral from './task-queue/opened-queue-task-queue-general.vue';
 import OpenedQueueTaskQueueTiming from './task-queue/opened-queue-task-queue-timing.vue';
+import OpenedQueueAgents from './shared/agents/opened-queue-agents.vue';
 import OpenedQueueSkills from './shared/skills/opened-queue-skills.vue';
 import OpenedQueueResources from './shared/resources/opened-queue-resources.vue';
 import OpenedQueueBuckets from './shared/buckets/opened-queue-buckets.vue';
@@ -77,6 +78,7 @@ export default {
     OpenedQueueChatInboundQueueTiming,
     OpenedQueueTaskQueueGeneral,
     OpenedQueueTaskQueueTiming,
+    OpenedQueueAgents,
     OpenedQueueSkills,
     OpenedQueueResources,
     OpenedQueueBuckets,
@@ -217,6 +219,10 @@ export default {
     },
 
     tabs() {
+      const agents = {
+        text: this.$tc('objects.ccenter.agents.agents', 2),
+        value: 'agents',
+      };
       const skills = {
         text: this.$tc('objects.lookups.skills.skills', 2),
         value: 'skills',
@@ -252,7 +258,7 @@ export default {
       }, {
         text: this.$t('objects.ccenter.queues.timing'),
         value: 'offline-queue-timing',
-      }, skills, resources, buckets];
+      }, agents, skills, resources, buckets];
 
       const inboundQueueTabs = [{
         text: this.$t('objects.general'),
@@ -260,7 +266,7 @@ export default {
       }, {
         text: this.$t('objects.ccenter.queues.timing'),
         value: 'inbound-queue-timing',
-      }, skills];
+      }, agents, skills];
 
       const outboundIVRQueueTabs = [{
         text: this.$t('objects.general'),
@@ -276,7 +282,7 @@ export default {
       }, {
         text: this.$t('objects.ccenter.queues.timing'),
         value: 'preview-dialer-timing',
-      }, skills, resources, buckets];
+      }, agents, skills, resources, buckets];
 
       const progressiveDialerTabs = [{
         text: this.$t('objects.general'),
@@ -284,7 +290,7 @@ export default {
       }, {
         text: this.$t('objects.ccenter.queues.timing'),
         value: 'progressive-dialer-timing',
-      }, skills, resources, buckets, amd];
+      }, agents, skills, resources, buckets, amd];
 
       const predictiveDialerTabs = [{
         text: this.$t('objects.general'),
@@ -292,7 +298,7 @@ export default {
       }, {
         text: this.$t('objects.ccenter.queues.timing'),
         value: 'predictive-dialer-timing',
-      }, skills, resources, buckets, amd];
+      }, agents, skills, resources, buckets, amd];
 
       const chatInboundQueueTabs = [{
         text: this.$t('objects.general'),
@@ -300,7 +306,7 @@ export default {
       }, {
         text: this.$t('objects.ccenter.queues.timing'),
         value: 'chat-inbound-queue-timing',
-      }, skills];
+      }, agents, skills];
 
       const taskQueueTabs = [{
         text: this.$t('objects.general'),
@@ -308,7 +314,7 @@ export default {
       }, {
         text: this.$t('objects.ccenter.queues.timing'),
         value: 'task-queue-timing',
-      }, skills, buckets];
+      }, agents, skills, buckets];
 
       let tabs = [];
       switch (this.queueType) {

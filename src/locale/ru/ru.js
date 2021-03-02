@@ -278,6 +278,11 @@ export default {
       permissionsRole: 'Роль | Роли',
       allRoles: 'Все роли',
       searchPlaceholder: 'роль ..',
+      roles: {
+        permissions: 'Право доступа роли | Права доступа ролей',
+        addPermission: 'Добавить право доступа для роли',
+        usage: 'Использование',
+      },
       object: {
         object: 'Разделы',
         allObjects: 'Все разделы',
