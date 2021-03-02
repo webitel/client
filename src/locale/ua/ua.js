@@ -280,8 +280,8 @@ export default {
       allRoles: 'Всі ролі',
       searchPlaceholder: 'роль ..',
       roles: {
-        permissions: 'Дізвіл ролі | Дозволи ролей',
-        addPermission: 'Додати право доступу до ролі',
+        permissions: 'Дозвіл ролі | Дозволи ролей',
+        addPermission: 'Надати дозвіл',
         usage: 'Використання',
       },
       object: {
