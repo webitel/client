@@ -1,6 +1,5 @@
 import proxy from '../../../../utils/editProxy';
 import holidays from './calendar-holidays';
-import permissions from './permissions';
 import {
   addCalendar,
   deleteCalendar,
@@ -8,6 +7,8 @@ import {
   getCalendarList,
   updateCalendar,
 } from "../../../../api/lookups/calendars/calendars";
+import DefaultPermissionsModule from '../../defaults/DefaultPermissionsModule';
+
 
 const defaultAccepts = () => {
   const accepts = [];
@@ -254,6 +255,12 @@ const mutations = {
     Object.assign(state, defaultState());
   },
 };
+
+const PERMISSIONS_API_URL = '/calendars';
+const permissions = new DefaultPermissionsModule()
+  .generateAPIMethods(PERMISSIONS_API_URL)
+  .getModule();
+
 
 export default {
   namespaced: true,

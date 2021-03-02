@@ -11,13 +11,14 @@
         </object-header>
         <tabs-component
                 :tabs="tabs"
-                :root="$options.name"
+                root=""
         >
             <template slot="component" slot-scope="props">
                 <component
                         class="tabs-inner-component"
                         :is="props.currentTab"
                         :v="$v"
+                        :namespace="namespace"
                 ></component>
             </template>
         </tabs-component>
@@ -28,10 +29,9 @@
     import editComponentMixin from '@/mixins/objectPagesMixins/openedObjectMixin/editComponentMixin';
     import { required } from 'vuelidate/lib/validators';
     import { mapActions, mapState } from 'vuex';
-    import openedCalendarGeneral from './opened-calendar-general';
-    import openedCalendarWorkWeek from './opened-calendar-work-week';
-    import openedCalendarHolidays from './opened-calendar-holidays';
-    import openedCalendarPermissions from './opened-calendar-permissions';
+    import General from './opened-calendar-general.vue';
+    import WorkWeek from './opened-calendar-work-week.vue';
+    import Holidays from './opened-calendar-holidays.vue';
     import { timerangeNotIntersect, timerangeStartLessThanEnd } from '../../../utils/validators';
     import headlineNavMixin from '../../../mixins/baseMixins/headlineNavMixin/headlineNavMixin';
 
@@ -39,13 +39,14 @@
         name: 'opened-calendar',
         mixins: [editComponentMixin, headlineNavMixin],
         components: {
-            openedCalendarWorkWeek,
-            openedCalendarHolidays,
-            openedCalendarGeneral,
-            openedCalendarPermissions,
+            WorkWeek,
+            Holidays,
+            General,
         },
         data() {
-            return {};
+            return {
+              namespace: 'lookups/calendars',
+            };
         },
 
         // by vuelidate
