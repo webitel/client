@@ -19,7 +19,7 @@
           :tabs="tabs"
         ></wt-tabs>
         <component
-          :is="`${$options.name}-${currentTab.value}`"
+          :is="currentTab.value"
           :v="$v"
           :namespace="namespace"
         ></component>
@@ -31,30 +31,29 @@
 <script>
 import { mapState } from 'vuex';
 import { required } from 'vuelidate/lib/validators';
-import OpenedQueueOfflineQueueGeneral from './offline-queue/opened-queue-offline-queue-general.vue';
-import OpenedQueueOfflineQueueTiming from './offline-queue/opened-queue-offline-queue-timing.vue';
-import OpenedQueueInboundQueueGeneral from './inbound-queue/opened-queue-inbound-queue-general.vue';
-import OpenedQueueInboundQueueTiming from './inbound-queue/opened-queue-inbound-queue-timing.vue';
-import OpenedQueueOutboundIvrQueueGeneral from './outbound-ivr-queue/opened-queue-outbound-ivr-general.vue';
-import OpenedQueueOutboundIvrQueueTiming from './outbound-ivr-queue/opened-queue-outbound-ivr-timing.vue';
-import OpenedQueuePreviewDialerGeneral from './preview-dialer/opened-queue-preview-dialer-general.vue';
-import OpenedQueuePreviewDialerTiming from './preview-dialer/opened-queue-preview-dialer-timing.vue';
-import OpenedQueueProgressiveDialerGeneral from './progressive-dialer/opened-queue-progressive-dialer-general.vue';
-import OpenedQueueProgressiveDialerTiming from './progressive-dialer/opened-queue-progressive-dialer-timing.vue';
-import OpenedQueuePredictiveDialerGeneral from './predictive-dialer/opened-queue-predictive-dialer-general.vue';
-import OpenedQueuePredictiveDialerTiming from './predictive-dialer/opened-queue-predictive-dialer-timing.vue';
-import OpenedQueueChatInboundQueueGeneral from './chat-inbound-queue/opened-queue-chat-inbound-queue-general.vue';
-import OpenedQueueChatInboundQueueTiming from './chat-inbound-queue/opened-queue-chat-inbound-queue-timing.vue';
-import OpenedQueueTaskQueueGeneral from './task-queue/opened-queue-task-queue-general.vue';
-import OpenedQueueTaskQueueTiming from './task-queue/opened-queue-task-queue-timing.vue';
-import OpenedQueueAgents from './shared/agents/opened-queue-agents.vue';
-import OpenedQueueSkills from './shared/skills/opened-queue-skills.vue';
-import OpenedQueueResources from './shared/resources/opened-queue-resources.vue';
-import OpenedQueueBuckets from './shared/buckets/opened-queue-buckets.vue';
-import OpenedQueueAmd from './shared/amd/opened-queue-amd.vue';
-import OpenedQueueVariables from './shared/variables/opened-queue-variables.vue';
-import OpenedQueueLogs from './shared/logs/opened-queue-logs.vue';
-import OpenedQueuePermissions from './opened-queue-permissions.vue';
+import OfflineQueueGeneral from './offline-queue/opened-queue-offline-queue-general.vue';
+import OfflineQueueTiming from './offline-queue/opened-queue-offline-queue-timing.vue';
+import InboundQueueGeneral from './inbound-queue/opened-queue-inbound-queue-general.vue';
+import InboundQueueTiming from './inbound-queue/opened-queue-inbound-queue-timing.vue';
+import OutboundIvrQueueGeneral from './outbound-ivr-queue/opened-queue-outbound-ivr-general.vue';
+import OutboundIvrQueueTiming from './outbound-ivr-queue/opened-queue-outbound-ivr-timing.vue';
+import PreviewDialerGeneral from './preview-dialer/opened-queue-preview-dialer-general.vue';
+import PreviewDialerTiming from './preview-dialer/opened-queue-preview-dialer-timing.vue';
+import ProgressiveDialerGeneral from './progressive-dialer/opened-queue-progressive-dialer-general.vue';
+import ProgressiveDialerTiming from './progressive-dialer/opened-queue-progressive-dialer-timing.vue';
+import PredictiveDialerGeneral from './predictive-dialer/opened-queue-predictive-dialer-general.vue';
+import PredictiveDialerTiming from './predictive-dialer/opened-queue-predictive-dialer-timing.vue';
+import ChatInboundQueueGeneral from './chat-inbound-queue/opened-queue-chat-inbound-queue-general.vue';
+import ChatInboundQueueTiming from './chat-inbound-queue/opened-queue-chat-inbound-queue-timing.vue';
+import TaskQueueGeneral from './task-queue/opened-queue-task-queue-general.vue';
+import TaskQueueTiming from './task-queue/opened-queue-task-queue-timing.vue';
+import Agents from './shared/agents/opened-queue-agents.vue';
+import Skills from './shared/skills/opened-queue-skills.vue';
+import Resources from './shared/resources/opened-queue-resources.vue';
+import Buckets from './shared/buckets/opened-queue-buckets.vue';
+import Amd from './shared/amd/opened-queue-amd.vue';
+import Variables from './shared/variables/opened-queue-variables.vue';
+import Logs from './shared/logs/opened-queue-logs.vue';
 import openedObjectMixin from '../../../mixins/objectPagesMixins/openedObjectMixin/openedObjectMixin';
 import QueueType from '../../../store/modules/contact-center/queues/_internals/enums/QueueType.enum';
 
@@ -62,30 +61,29 @@ export default {
   name: 'opened-queue',
   mixins: [openedObjectMixin],
   components: {
-    OpenedQueueOfflineQueueGeneral,
-    OpenedQueueOfflineQueueTiming,
-    OpenedQueueInboundQueueGeneral,
-    OpenedQueueInboundQueueTiming,
-    OpenedQueueOutboundIvrQueueGeneral,
-    OpenedQueueOutboundIvrQueueTiming,
-    OpenedQueuePreviewDialerGeneral,
-    OpenedQueuePreviewDialerTiming,
-    OpenedQueueProgressiveDialerGeneral,
-    OpenedQueueProgressiveDialerTiming,
-    OpenedQueuePredictiveDialerGeneral,
-    OpenedQueuePredictiveDialerTiming,
-    OpenedQueueChatInboundQueueGeneral,
-    OpenedQueueChatInboundQueueTiming,
-    OpenedQueueTaskQueueGeneral,
-    OpenedQueueTaskQueueTiming,
-    OpenedQueueAgents,
-    OpenedQueueSkills,
-    OpenedQueueResources,
-    OpenedQueueBuckets,
-    OpenedQueueAmd,
-    OpenedQueueVariables,
-    OpenedQueueLogs,
-    OpenedQueuePermissions,
+    OfflineQueueGeneral,
+    OfflineQueueTiming,
+    InboundQueueGeneral,
+    InboundQueueTiming,
+    OutboundIvrQueueGeneral,
+    OutboundIvrQueueTiming,
+    PreviewDialerGeneral,
+    PreviewDialerTiming,
+    ProgressiveDialerGeneral,
+    ProgressiveDialerTiming,
+    PredictiveDialerGeneral,
+    PredictiveDialerTiming,
+    ChatInboundQueueGeneral,
+    ChatInboundQueueTiming,
+    TaskQueueGeneral,
+    TaskQueueTiming,
+    Agents,
+    Skills,
+    Resources,
+    Buckets,
+    Amd,
+    Variables,
+    Logs,
   },
 
   data: () => ({
