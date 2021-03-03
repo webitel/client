@@ -4,7 +4,7 @@
       {{ $t('objects.permissions.object.newPermissionRole') }}
     </template>
     <template slot="main">
-    <wt-select
+      <wt-select
         v-model="newGrantee"
         :placeholder="$tc('objects.permissions.permissionsRole', 1)"
         :search="getAvailableGrantees"
@@ -20,10 +20,10 @@
 </template>
 
 <script>
-import permissionsTabRolePopupMixins from '../../../../mixins/objectPagesMixins/permissionsTabMixin/permissionsTabRolePopupMixin';
+import permissionsTabRolePopupMixins from '../../../mixins/objectPagesMixins/permissionsTabMixin/permissionsTabRolePopupMixin';
 
 export default {
-  name: 'opened-object-permissions-obac-role-popup',
+  name: 'permissions-tab-role-popup',
   mixins: [permissionsTabRolePopupMixins],
 };
 </script>

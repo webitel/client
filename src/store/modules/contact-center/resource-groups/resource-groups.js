@@ -1,5 +1,4 @@
 import res from './res-in-group';
-import permissions from './permissions';
 import {
   addResGroup,
   deleteResGroup,
@@ -8,6 +7,7 @@ import {
   updateResGroup,
 } from "../../../../api/contact-center/resourceGroups/resourceGroups";
 import { DefaultModule } from "../../defaults/DefaultModule";
+import DefaultPermissionsModule from '../../defaults/DefaultPermissionsModule';
 
 const defaultState = () => {
   return {
@@ -95,6 +95,11 @@ const mutations = {
     state.itemInstance.time.splice(index, 1);
   },
 };
+
+const PERMISSIONS_API_URL = '/call_center/resource_group';
+const permissions = new DefaultPermissionsModule()
+  .generateAPIMethods(PERMISSIONS_API_URL)
+  .getModule();
 
 export default {
   namespaced: true,

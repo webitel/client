@@ -6,8 +6,8 @@ import {
   updateBlacklist,
 } from "../../../../api/lookups/blacklists/blacklists";
 import numbers from './blacklistNumbers';
-import permissions from './permissions';
 import { DefaultModule } from "../../defaults/DefaultModule";
+import DefaultPermissionsModule from '../../defaults/DefaultPermissionsModule';
 
 const defaultState = () => ({
   itemId: 0,
@@ -57,6 +57,11 @@ const actions = {
 const mutations = {
   ...defaultModule.mutations,
 };
+
+const PERMISSIONS_API_URL = '/call_center/list';
+const permissions = new DefaultPermissionsModule()
+  .generateAPIMethods(PERMISSIONS_API_URL)
+  .getModule();
 
 export default {
   namespaced: true,

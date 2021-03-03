@@ -9,7 +9,6 @@ import switcher from '@/components/utils/switcher';
 import hint from '@/components/utils/hint';
 import tabs from '@/components/utils/tabs';
 import tagsInput from '@/components/utils/tags-input';
-import permissionsTab from '@/components/object-utils/utils/permissions-tab';
 import tabsComponent from '@/components/utils/tabs-component';
 
 import openedObjectValidationMixin
@@ -37,7 +36,6 @@ export default {
     hint,
     tabs,
     tagsInput,
-    permissionsTab,
     tabsComponent,
   },
   props: {

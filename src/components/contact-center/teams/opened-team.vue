@@ -18,7 +18,7 @@
           :tabs="tabs"
         ></wt-tabs>
         <component
-          :is="`${$options.name}-${currentTab.value}`"
+          :is="currentTab.value"
           :v="$v"
           :namespace="namespace"
         ></component>
@@ -30,22 +30,20 @@
 <script>
 import { numeric, required } from 'vuelidate/lib/validators';
 import { mapState } from 'vuex';
-import OpenedTeamGeneral from './opened-team-general.vue';
-import OpenedTeamSupervisors from './supervisors/opened-team-supervisors.vue';
-import OpenedTeamAgents from './agents/opened-team-agents.vue';
-import OpenedTeamTiming from './opened-team-timing.vue';
-import OpenedTeamPermissions from './opened-team-permissions.vue';
+import General from './opened-team-general.vue';
+import Supervisors from './supervisors/opened-team-supervisors.vue';
+import Agents from './agents/opened-team-agents.vue';
+import Timing from './opened-team-timing.vue';
 import openedObjectMixin from '../../../mixins/objectPagesMixins/openedObjectMixin/openedObjectMixin';
 
 export default {
   name: 'opened-team',
   mixins: [openedObjectMixin],
   components: {
-    OpenedTeamGeneral,
-    OpenedTeamSupervisors,
-    OpenedTeamAgents,
-    OpenedTeamTiming,
-    OpenedTeamPermissions,
+    General,
+    Supervisors,
+    Agents,
+    Timing,
   },
 
   data: () => ({

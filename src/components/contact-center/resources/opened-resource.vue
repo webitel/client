@@ -18,7 +18,7 @@
           :tabs="tabs"
         ></wt-tabs>
         <component
-          :is="`${$options.name}-${currentTab.value}`"
+          :is="currentTab.value"
           :v="$v"
           :namespace="namespace"
         ></component>
@@ -30,20 +30,18 @@
 <script>
 import { required } from 'vuelidate/lib/validators';
 import { mapState } from 'vuex';
-import OpenedResourceGeneral from './opened-resource-general.vue';
-import OpenedResourceNumbers from './opened-resource-numbers.vue';
-import OpenedResourceFailure from './opened-resource-failure.vue';
-import OpenedResourcePermissions from './opened-resource-permissions.vue';
+import General from './opened-resource-general.vue';
+import Numbers from './opened-resource-numbers.vue';
+import Failure from './opened-resource-failure.vue';
 import openedObjectMixin from '../../../mixins/objectPagesMixins/openedObjectMixin/openedObjectMixin';
 
 export default {
   name: 'opened-resource',
   mixins: [openedObjectMixin],
   components: {
-    OpenedResourceGeneral,
-    OpenedResourceNumbers,
-    OpenedResourceFailure,
-    OpenedResourcePermissions,
+    General,
+    Numbers,
+    Failure,
   },
 
   data: () => ({

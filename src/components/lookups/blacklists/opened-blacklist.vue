@@ -12,13 +12,14 @@
         </object-header>
         <tabs-component
                 :tabs="tabs"
-                :root="$options.name"
+                root=""
         >
             <template slot="component" slot-scope="props">
                 <component
                         class="tabs-inner-component"
                         :is="props.currentTab"
                         :v="$v"
+                        :namespace="namespace"
                 ></component>
             </template>
         </tabs-component>
@@ -29,22 +30,22 @@
     import editComponentMixin from '@/mixins/objectPagesMixins/openedObjectMixin/editComponentMixin';
     import { required } from 'vuelidate/lib/validators';
     import { mapActions, mapState } from 'vuex';
-    import openedBlacklistGeneral from './opened-blacklist-general';
-    import openedBlacklistNumbers from './opened-blacklist-numbers';
-    import openedBlacklistPermissions from './opened-blacklist-permissions';
+    import General from './opened-blacklist-general.vue';
+    import Numbers from './opened-blacklist-numbers.vue';
     import headlineNavMixin from '../../../mixins/baseMixins/headlineNavMixin/headlineNavMixin';
 
     export default {
         name: 'opened-blacklist',
         components: {
-            openedBlacklistGeneral,
-            openedBlacklistNumbers,
-            openedBlacklistPermissions,
+            General,
+            Numbers,
         },
         mixins: [editComponentMixin, headlineNavMixin],
 
         data() {
-            return {};
+            return {
+              namespace: 'lookups/blacklists',
+            };
         },
 
         validations: {

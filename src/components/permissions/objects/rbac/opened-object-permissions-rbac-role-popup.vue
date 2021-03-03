@@ -27,55 +27,23 @@
 </template>
 
 <script>
-import { mapActions, mapState } from 'vuex';
-import { getRoleList } from '../../../../api/permissions/roles/roles';
+import permissionsTabRolePopupMixins from '../../../../mixins/objectPagesMixins/permissionsTabMixin/permissionsTabRolePopupMixin';
 
 export default {
   name: 'opened-object-permissions-rbac-role-popup',
-  data() {
-    return {
-      newGrantee: '',
-      newGrantor: '',
-    };
-  },
-
-  computed: {
-    ...mapState('permissions/objects/rbac', {
-      dataList: (state) => state.dataList,
-    }),
-  },
+  mixins: [permissionsTabRolePopupMixins],
+  data: () => ({
+    newGrantor: '',
+  }),
 
   methods: {
-    ...mapActions('permissions/objects/rbac', {
-      patchItem: 'ADD_DEFAULT_ITEM_ROLE',
-    }),
     async save() {
       try {
-        await this.patchItem({ grantee: this.newGrantee, grantor: this.newGrantor });
+        await this.addRolePermissions({ grantee: this.newGrantee, grantor: this.newGrantor });
         this.$emit('close');
       } catch (err) {
         throw err;
       }
-    },
-
-    // async getAvailableGrantors(search) {
-    //    const roles = await this.loadRoles(search);
-    //    return roles.filter((roles) => (
-    //      !this.dataList.some((usedGrantee) => roles.id === usedGrantee.grantor.id)));
-    //  },
-    // async getAvailableGrantees(search) {
-    //   const roles = await this.loadRoles(search);
-    //   return roles.filter((role) => (
-    //     !this.dataList.some((usedRoles) => role.id === usedRoles['grantee'].id)));
-    // },
-
-    // get all roles to choose which to add
-    async loadRoles(search) {
-      const response = await getRoleList(1, 10, search);
-      return response.list || [];
-    },
-    close() {
-      this.$emit('close');
     },
   },
 };

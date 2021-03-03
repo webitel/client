@@ -1,9 +1,9 @@
 import deepMerge from 'deepmerge';
+import agents from './queue-agents';
 import buckets from './queue-buckets';
 import skills from './queue-skills';
 import resGroups from './queue-res-groups';
 import members from './queue-members';
-import permissions from './permissions';
 import {
   addQueue,
   deleteQueue,
@@ -13,6 +13,7 @@ import {
   updateQueue,
 } from '../../../../api/contact-center/queues/queues';
 import { DefaultModule } from '../../defaults/DefaultModule';
+import DefaultPermissionsModule from '../../defaults/DefaultPermissionsModule';
 import QueueType from './_internals/enums/QueueType.enum';
 import defaultQueueState from './_internals/queueSchema/defaults/defaultQueue';
 import defaultInboundQueueState from './_internals/queueSchema/inboundQueue';
@@ -165,11 +166,16 @@ const mutations = {
   ...defaultModule.mutations,
 };
 
+const PERMISSIONS_API_URL = '/call_center/queues';
+const permissions = new DefaultPermissionsModule()
+  .generateAPIMethods(PERMISSIONS_API_URL)
+  .getModule();
+
 export default {
   namespaced: true,
   state,
   getters,
   actions,
   mutations,
-  modules: { skills, buckets, resGroups, members, permissions },
+  modules: { agents, skills, buckets, resGroups, members, permissions },
 };

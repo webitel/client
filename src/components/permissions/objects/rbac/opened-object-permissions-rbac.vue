@@ -2,6 +2,8 @@
   <section>
     <role-popup
       v-if="isRoleSelectPopup"
+      :namespace="namespace"
+      :sub-namespace="subNamespace"
       @close="closeRoleSelectPopup"
     ></role-popup>
 
@@ -100,26 +102,18 @@
 </template>
 
 <script>
-import { mapState } from 'vuex';
-import permissionsTabMixin from '../../../../mixins/objectPagesMixins/permissionsTabMixin/permissionsTabMixin';
 import RolePopup from './opened-object-permissions-rbac-role-popup.vue';
+import permissionsTabMixin from '../../../../mixins/objectPagesMixins/permissionsTabMixin/permissionsTabMixin';
 
 export default {
   name: 'opened-object-permissions-rbac',
   mixins: [permissionsTabMixin],
   components: { RolePopup },
   data: () => ({
-    namespace: 'permissions/objects/rbac',
+    subNamespace: 'rbac',
     headerTitle: '',
   }),
   computed: {
-    ...mapState('permissions/objects/rbac', {
-      dataListValue: (state) => state.dataList,
-      search: (state) => state.search,
-      size: (state) => state.size,
-      page: (state) => state.page,
-      isNext: (state) => state.isNextPage,
-    }),
     headers() {
       return [
         { value: 'grantor', text: this.$t('objects.permissions.object.grantor') },
