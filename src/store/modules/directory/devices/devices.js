@@ -1,5 +1,4 @@
 import history from './history';
-import permissions from './permissions';
 import {
   addDevice,
   deleteDevice,
@@ -8,6 +7,7 @@ import {
   updateDevice,
 } from "../../../../api/directory/devices/devices";
 import { DefaultModule } from "../../defaults/DefaultModule";
+import DefaultPermissionsModule from '../../defaults/DefaultPermissionsModule';
 import router from "../../../../router/router";
 import proxy from "../../../../utils/editProxy";
 
@@ -143,6 +143,11 @@ const mutations = {
     }
   },
 };
+
+const PERMISSIONS_API_URL = '/devices';
+const permissions = new DefaultPermissionsModule()
+  .generateAPIMethods(PERMISSIONS_API_URL)
+  .getModule();
 
 export default {
   namespaced: true,

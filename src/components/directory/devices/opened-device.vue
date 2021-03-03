@@ -20,8 +20,9 @@
         >
         </wt-tabs>
         <component
-            :is="$options.name + '-' + currentTab.value"
+            :is="currentTab.value"
             :v="$v"
+            :namespace="namespace"
         ></component>
       </div>
     </template>
@@ -32,11 +33,10 @@
 import { mapActions, mapState } from 'vuex';
 import { required, requiredUnless } from 'vuelidate/lib/validators';
 import { ipValidator, macValidator } from '../../../utils/validators';
-import OpenedDevicePhoneInfo from './opened-device-phone-info.vue';
-import OpenedDeviceGeneral from './opened-device-general.vue';
-import OpenedDevicePermissions from './opened-device-permissions.vue';
-import OpenedDeviceHotdeskGeneral from './opened-hotdesk-device-general.vue';
-import OpenedDeviceHotdeskHotdesking from './opened-hotdesk-device-hotdesking.vue';
+import PhoneInfo from './opened-device-phone-info.vue';
+import General from './opened-device-general.vue';
+import HotdeskGeneral from './opened-hotdesk-device-general.vue';
+import HotdeskHotdesking from './opened-hotdesk-device-hotdesking.vue';
 import editComponentMixin from '../../../mixins/objectPagesMixins/openedObjectMixin/editComponentMixin';
 import headlineNavMixin from '../../../mixins/baseMixins/headlineNavMixin/headlineNavMixin';
 
@@ -44,20 +44,18 @@ export default {
   name: 'opened-device',
   mixins: [editComponentMixin, headlineNavMixin],
   components: {
-    OpenedDeviceGeneral,
-    OpenedDevicePhoneInfo,
-    OpenedDevicePermissions,
-    OpenedDeviceHotdeskGeneral,
-    OpenedDeviceHotdeskHotdesking,
+    General,
+    PhoneInfo,
+    HotdeskGeneral,
+    HotdeskHotdesking,
   },
 
-  data() {
-    return {
-      currentTab: {
-        value: 'general',
-      },
-    };
-  },
+  data: () => ({
+    namespace: 'directory/devices',
+    currentTab: {
+      value: 'general',
+    },
+  }),
 
   validations: {
     itemInstance: {
@@ -94,7 +92,7 @@ export default {
         value: 'general',
       }, {
         text: this.$t('objects.directory.devices.phoneInfo'),
-        value: 'phoneInfo',
+        value: 'phone-info',
       }];
 
       const hotdeskTabs = [{
@@ -105,7 +103,7 @@ export default {
         value: 'hotdesk-hotdesking',
       }, {
         text: this.$t('objects.directory.devices.phoneInfo'),
-        value: 'phoneInfo',
+        value: 'phone-info',
       }];
 
       const permissions = {

@@ -10,9 +10,9 @@ import tabs from '@/components/utils/tabs';
 import validationMessage from '@/components/utils/validation-message';
 import tabsComponent from '@/components/utils/tabs-component';
 import tagsInput from '@/components/utils/tags-input';
-import permissionsTab from '../../../components/object-utils/utils/permissions-tab';
 
 import ObjectHeader from '../../../components/object-utils/the-object-header.vue';
+import Permissions from '../../../components/object-utils/permissions-tab/permissions-tab.vue';
 import openedObjectValidationMixin
   from '../../baseMixins/openedObjectValidationMixin/openedObjectValidationMixin';
 import openedObjectAccessControlMixin from './_internals/openedObjectAccessControlMixin';
@@ -31,6 +31,7 @@ export default {
   mixins: [openedObjectAccessControlMixin, openedObjectValidationMixin],
   components: {
     ObjectHeader,
+    Permissions, // FIXME MOVE TO openedObjectMixin AFTER REFACTOR
 
     // FIXME: DELETE AFTER REFACTOR WITH WEBITEL-UI
     formInput,
@@ -42,7 +43,6 @@ export default {
     hint,
     tabs,
     tagsInput,
-    permissionsTab,
     tabsComponent,
   },
 

@@ -19,8 +19,9 @@
             :tabs="tabs"
         ></wt-tabs>
         <component
-            :is="$options.name + '-' + currentTab.value"
+            :is="currentTab.value"
             :v="$v"
+            :namespace="namespace"
         ></component>
       </div>
     </template>
@@ -30,13 +31,12 @@
 <script>
 import { mapActions, mapState } from 'vuex';
 import { required, requiredUnless } from 'vuelidate/lib/validators';
-import OpenedUserGeneral from './opened-user-general.vue';
-import OpenedUserRoles from './opened-user-roles.vue';
-import OpenedUserLicense from './opened-user-license.vue';
-import OpenedUserDevices from './opened-user-devices.vue';
-import OpenedUserVariables from './opened-user-variables.vue';
-import OpenedUserTokens from './opened-user-token.vue';
-import OpenedUserPermissions from './opened-user-permissions.vue';
+import General from './opened-user-general.vue';
+import Roles from './opened-user-roles.vue';
+import License from './opened-user-license.vue';
+import Devices from './opened-user-devices.vue';
+import Variables from './opened-user-variables.vue';
+import Tokens from './opened-user-token.vue';
 import editComponentMixin from '../../../mixins/objectPagesMixins/openedObjectMixin/editComponentMixin';
 import headlineNavMixin from '../../../mixins/baseMixins/headlineNavMixin/headlineNavMixin';
 
@@ -44,21 +44,19 @@ export default {
   name: 'opened-user',
   mixins: [editComponentMixin, headlineNavMixin],
   components: {
-    OpenedUserGeneral,
-    OpenedUserRoles,
-    OpenedUserLicense,
-    OpenedUserDevices,
-    OpenedUserVariables,
-    OpenedUserTokens,
-    OpenedUserPermissions,
+    General,
+    Roles,
+    License,
+    Devices,
+    Variables,
+    Tokens,
   },
-  data() {
-    return {
-      currentTab: {
-        value: 'general',
-      },
-    };
-  },
+  data: () => ({
+    namespace: 'directory/users',
+    currentTab: {
+      value: 'general',
+    },
+  }),
 
   validations: {
     itemInstance: {
