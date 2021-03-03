@@ -57,7 +57,7 @@
                 icon="download"
                 :tooltip="$t('iconHints.download')"
                 tooltip-position="left"
-                @click="download(index)"
+                @click="download(item)"
               ></wt-icon-btn>
               <edit-action
                 v-if="hasEditAccess"
@@ -88,7 +88,6 @@
 <script>
 import exportCSVMixin from '@webitel/ui-sdk/src/modules/CSVExport/mixins/exportCSVMixin';
 import tableComponentMixin from '../../../mixins/objectPagesMixins/objectTableMixin/tableComponentMixin';
-import { downloadAsCSV } from '../../../utils/download';
 import { getBlacklistNumbersList } from '../../../api/lookups/blacklists/blacklistNumbers';
 import RouteNames from '../../../router/_internals/RouteNames.enum';
 
@@ -101,7 +100,7 @@ export default {
   }),
 
   created() {
-    this.initCSVExport(getBlacklistNumbersList, { filename: 'numbers' });
+    this.initCSVExport(this.getBlacklistNumbersList, { filename: 'numbers' });
   },
 
   computed: {
@@ -120,19 +119,12 @@ export default {
   },
 
   methods: {
-    async download(rowId) {
-      const list = this.dataList[rowId];
-      // this.exportCSV({ parentId: list.id });
-      const listNumbers = await getBlacklistNumbersList({ parentId: list.id, size: 5000 });
-
-      let dataStr = 'data:text/csv;charset=utf-8,';
-      dataStr += 'number,description\n';
-      listNumbers.list.forEach((item) => {
-        dataStr += encodeURIComponent(
-          `${item.number},${item.description}\n`,
-        );
-      });
-      downloadAsCSV(dataStr, `${list.name}-numbers.csv`);
+    async download({ id }) {
+      return this.exportCSV({ parentId: id, fields: ['number', 'description'] });
+    },
+    async getBlacklistNumbersList(params) {
+      const response = await getBlacklistNumbersList(params);
+      return { items: response.list, ...response };
     },
   },
 };
