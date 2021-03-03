@@ -1,12 +1,12 @@
 <template>
   <section>
     <number-popup
-      v-if="popupTriggerIf"
+      v-if="isNumberPopup"
       @close="closePopup"
     ></number-popup>
 
     <upload-popup
-      v-if="uploadPopupTriggerIf"
+      v-if="isUploadPopup"
       :file="csvFile"
       @close="closeCSVPopup"
     ></upload-popup>
@@ -14,203 +14,124 @@
     <header class="content-header">
       <h3 class="content-title">{{ $tc('objects.lookups.blacklist.number', 2) }}</h3>
       <div class="content-header__actions-wrap">
-        <search
-          v-model="search"
-          @filterData="loadList"
-        ></search>
-        <i
+        <wt-search-bar
+          :value="search"
+          debounce
+          @enter="loadList"
+          @input="setSearch"
+          @search="loadList"
+        ></wt-search-bar>
+        <wt-icon-btn
           v-if="!disableUserInput"
-          class="icon-icon_delete icon-action"
           :class="{'hidden': anySelected}"
-          :title="$t('iconHints.deleteSelected')"
+          :tooltip="$t('iconHints.deleteSelected')"
+          class="icon-action"
+          icon="bucket"
           @click="deleteSelected"
-        ></i>
+        ></wt-icon-btn>
         <upload-file-icon-btn
           v-if="!disableUserInput"
           class="icon-action"
           accept=".csv"
           @change="processCSV"
         ></upload-file-icon-btn>
-        <i
-          class="icon-icon_reload icon-action"
-          :title="$t('iconHints.reload')"
-          @click="loadList"
-        ></i>
-        <i
+        <wt-table-actions
+          :icons="['refresh']"
+          @input="tableActionsHandler"
+        ></wt-table-actions>
+        <wt-icon-btn
           v-if="!disableUserInput"
-          class="icon-action icon-icon_plus"
-          :title="$t('iconHints.add')"
+          class="icon-action"
+          icon="plus"
           @click="create"
-        ></i>
+        ></wt-icon-btn>
       </div>
     </header>
 
-    <loader v-show="!isLoaded"></loader>
-
-    <vuetable
-      v-show="isLoaded"
-      :api-mode="false"
-      :fields="fields"
+    <wt-loader v-show="!isLoaded"></wt-loader>
+    <div v-show="isLoaded" class="table-wrapper">
+    <wt-table
+      :headers="headers"
       :data="dataList"
+      :grid-actions="!disableUserInput"
     >
-      <template slot="number" slot-scope="props">
-        <div>
-          {{ dataList[props.rowIndex].number }}
-        </div>
+      <template slot="number" slot-scope="{ item }">
+        {{ item.number }}
       </template>
 
-      <template slot="description" slot-scope="props">
-        <div>
-          {{ dataList[props.rowIndex].description }}
-        </div>
+      <template slot="description" slot-scope="{ item }">
+        {{ item.description }}
       </template>
 
-      <template slot="actions" slot-scope="props">
-        <i class="vuetable-action icon-icon_edit"
-           :title="$t('iconHints.edit')"
-           @click="edit(props.rowIndex)"
-        ></i>
-        <i class="vuetable-action icon-icon_delete"
-           :title="$t('iconHints.delete')"
-           @click="remove(props.rowIndex)"
-        ></i>
+      <template slot="actions" slot-scope="{ item, index }">
+        <edit-action
+          @click="edit(item)"
+        ></edit-action>
+        <delete-action
+          @click="remove(index)"
+        ></delete-action>
       </template>
-    </vuetable>
-    <pagination
-      v-show="isLoaded"
-      v-model="size"
-      @loadDataList="loadList"
-      @next="nextPage"
-      @prev="prevPage"
-      :isNext="isNextPage"
-      :isPrev="!!page"
-      :page="page"
-    ></pagination>
+    </wt-table>
+      <wt-pagination
+        :next="isNext"
+        :prev="page > 1"
+        :size="size"
+        debounce
+        @change="loadList"
+        @input="setSize"
+        @next="nextPage"
+        @prev="prevPage"
+      ></wt-pagination>
+    </div>
   </section>
 </template>
 
 <script>
-import openedTabComponentMixin from '@/mixins/objectPagesMixins/openedObjectTabMixin/openedTabComponentMixin';
-import tableComponentMixin from '@/mixins/objectPagesMixins/objectTableMixin/tableComponentMixin';
-import { _actionsTableField_2, _checkboxTableField } from '@/utils/tableFieldPresets';
-import { mapActions, mapState } from 'vuex';
-import eventBus from '@webitel/ui-sdk/src/scripts/eventBus';
-import numberPopup from './opened-blacklist-number-popup';
-import uploadPopup from './upload-blacklist-numbers-popup';
+import openedObjectTableTabMixin from '../../../mixins/objectPagesMixins/openedObjectTableTabMixin/openedObjectTableTabMixin';
+import numberPopup from './opened-blacklist-number-popup.vue';
+import uploadPopup from './upload-blacklist-numbers-popup.vue';
 import UploadFileIconBtn from '../../utils/upload-file-ucon-btn.vue';
 
 export default {
   name: 'opened-blacklist-numbers',
-  mixins: [openedTabComponentMixin, tableComponentMixin],
+  mixins: [openedObjectTableTabMixin],
   components: { numberPopup, uploadPopup, UploadFileIconBtn },
   data() {
     return {
-      uploadPopupTriggerIf: false,
+      subNamespace: 'numbers',
+      isNumberPopup: false,
+      isUploadPopup: false,
       csvFile: null,
     };
   },
 
-  watch: {
-    parentId(value) {
-      this.setParentId(value);
-    },
-  },
-
   computed: {
-    ...mapState('lookups/blacklists', {
-      parentId: (state) => state.itemId,
-    }),
-    ...mapState('lookups/blacklists/numbers', {
-      dataList: (state) => state.dataList,
-      page: (state) => state.page,
-      isNextPage: (state) => state.isNextPage,
-    }),
-
-    size: {
-      get() {
-        return this.$store.state.lookups.blacklists.numbers.size;
-      },
-      set(value) {
-        this.setSize(value);
-      },
-    },
-
-    search: {
-      get() {
-        return this.$store.state.lookups.blacklists.numbers.search;
-      },
-      set(value) {
-        this.setSearch(value);
-      },
-    },
-    fields() {
-      let fields = [
-        _checkboxTableField,
-        { name: 'number', title: this.$tc('objects.lookups.blacklist.number', 1) },
-        { name: 'description', title: this.$t('objects.description') },
+    headers() {
+      return [
+        { value: 'number', text: this.$tc('objects.lookups.blacklist.number', 1) },
+        { value: 'description', text: this.$t('objects.description') },
       ];
-      if (!this.disableUserInput) fields = fields.concat(_actionsTableField_2);
-      return fields;
     },
   },
 
   methods: {
-    async create() {
-      const invalid = this.checkValidations();
-      if (!invalid) {
-        try {
-          if (!this.parentId) {
-            await this.addParentItem();
-            const routeName = this.$route.name.replace('-new', '-edit');
-            await this.$router.replace({ name: routeName, params: { id: this.parentId } });
-          }
-          this.popupTriggerIf = true;
-        } catch (err) {
-          throw err;
-        }
-      } else {
-        eventBus.$emit('notification', { type: 'error', text: 'Check your validations!' });
-      }
-    },
-
-    edit(rowIndex) {
-      this.setId(this.dataList[rowIndex].id);
-      this.popupTriggerIf = true;
-    },
-
     processCSV(files) {
       const file = files[0];
       if (file) {
         this.csvFile = file;
-        this.uploadPopupTriggerIf = true;
+        this.isUploadPopup = true;
       }
     },
-
     closeCSVPopup() {
       this.loadDataList();
-      this.uploadPopupTriggerIf = false;
+      this.isUploadPopup = false;
     },
-
+    openPopup() {
+      this.isNumberPopup = true;
+    },
     closePopup() {
-      this.popupTriggerIf = false;
-      this.resetItemState();
+      this.isNumberPopup = false;
     },
-
-    ...mapActions('lookups/blacklists', {
-      addParentItem: 'ADD_ITEM',
-    }),
-
-    ...mapActions('lookups/blacklists/numbers', {
-      setParentId: 'SET_PARENT_ITEM_ID',
-      setId: 'SET_ITEM_ID',
-      loadDataList: 'LOAD_DATA_LIST',
-      setSize: 'SET_SIZE',
-      setSearch: 'SET_SEARCH',
-      nextPage: 'NEXT_PAGE',
-      prevPage: 'PREV_PAGE',
-      removeItem: 'REMOVE_ITEM',
-      resetItemState: 'RESET_ITEM_STATE',
-    }),
   },
 };
 </script>

@@ -1,5 +1,6 @@
-import { mapActions } from 'vuex';
+import { mapState, mapActions } from 'vuex';
 import editComponentMixin from './editComponentMixin';
+import getNamespacedState from '../../../store/helpers/getNamespacedState';
 
 /**
  * @fileOverview contains nestedObject common logic
@@ -17,6 +18,17 @@ export default {
   // destroyed() {
   //   this.resetState();
   // },
+
+  computed: {
+    ...mapState({
+      id(state) {
+        return getNamespacedState(state, this.namespace).itemId;
+      },
+      itemInstance(state) {
+        return getNamespacedState(state, this.namespace).itemInstance;
+      },
+    }),
+  },
 
   methods: {
     ...mapActions({

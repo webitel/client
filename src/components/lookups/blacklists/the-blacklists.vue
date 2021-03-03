@@ -89,7 +89,7 @@
 import exportCSVMixin from '@webitel/ui-sdk/src/modules/CSVExport/mixins/exportCSVMixin';
 import tableComponentMixin from '../../../mixins/objectPagesMixins/objectTableMixin/tableComponentMixin';
 import { downloadAsCSV } from '../../../utils/download';
-import { getBlacklistCommunicationList } from '../../../api/lookups/blacklists/blacklistNumbers';
+import { getBlacklistNumbersList } from '../../../api/lookups/blacklists/blacklistNumbers';
 import RouteNames from '../../../router/_internals/RouteNames.enum';
 
 export default {
@@ -101,7 +101,7 @@ export default {
   }),
 
   created() {
-    this.initCSVExport(getBlacklistCommunicationList, { filename: 'numbers' });
+    this.initCSVExport(getBlacklistNumbersList, { filename: 'numbers' });
   },
 
   computed: {
@@ -123,7 +123,7 @@ export default {
     async download(rowId) {
       const list = this.dataList[rowId];
       // this.exportCSV({ parentId: list.id });
-      const listNumbers = await getBlacklistCommunicationList({ parentId: list.id, size: 5000 });
+      const listNumbers = await getBlacklistNumbersList({ parentId: list.id, size: 5000 });
 
       let dataStr = 'data:text/csv;charset=utf-8,';
       dataStr += 'number,description\n';

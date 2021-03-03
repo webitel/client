@@ -1,11 +1,5 @@
-import {
-  addBlacklistCommunication,
-  deleteBlacklistCommunication,
-  getBlacklistCommunication,
-  getBlacklistCommunicationList,
-  updateBlacklistCommunication,
-} from "../../../../api/lookups/blacklists/blacklistNumbers";
-import { DefaultNestedModule } from "../../defaults/DefaultNestedModule";
+import BlacklistNumbersAPI from '../../../../api/lookups/blacklists/blacklistNumbers';
+import { DefaultNestedModule } from '../../defaults/DefaultNestedModule';
 
 const defaultItemState = () => ({
   itemId: 0,
@@ -14,7 +8,6 @@ const defaultItemState = () => ({
     description: '',
   },
 });
-
 
 const defaultModule = new DefaultNestedModule(null, defaultItemState);
 
@@ -26,25 +19,20 @@ const getters = {};
 
 const actions = {
   ...defaultModule.actions,
-
-  GET_LIST: async () => {
-    return await getBlacklistCommunicationList(state.parentId, state.page, state.size, state.search);
+  GET_LIST: (context) => {
+    return BlacklistNumbersAPI.getList(context.state);
   },
-
-  GET_ITEM: async () => {
-    return await getBlacklistCommunication(state.parentId, state.itemId);
+  GET_ITEM: (context) => {
+    return BlacklistNumbersAPI.get(context.state);
   },
-
-  POST_ITEM: async () => {
-    return await addBlacklistCommunication(state.parentId, state.itemInstance);
+  POST_ITEM: (context) => {
+    return BlacklistNumbersAPI.add(context.state);
   },
-
-  UPD_ITEM: async () => {
-    await updateBlacklistCommunication(state.parentId, state.itemId, state.itemInstance);
+  UPD_ITEM: (context) => {
+    return BlacklistNumbersAPI.update(context.state);
   },
-
-  DELETE_ITEM: async (context, id) => {
-    await deleteBlacklistCommunication(state.parentId, id);
+  DELETE_ITEM: (context, id) => {
+    return BlacklistNumbersAPI.delete({ parentId: context.state.parentId, id });
   },
 };
 

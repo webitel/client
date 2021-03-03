@@ -1,12 +1,6 @@
-import {
-  addBlacklist,
-  deleteBlacklist,
-  getBlacklist,
-  getBlacklistList,
-  updateBlacklist,
-} from "../../../../api/lookups/blacklists/blacklists";
+import BlacklistsAPI from '../../../../api/lookups/blacklists/blacklists';
 import numbers from './blacklistNumbers';
-import { DefaultModule } from "../../defaults/DefaultModule";
+import { DefaultModule } from '../../defaults/DefaultModule';
 import DefaultPermissionsModule from '../../defaults/DefaultPermissionsModule';
 
 const defaultState = () => ({
@@ -27,27 +21,21 @@ const getters = {};
 
 const actions = {
   ...defaultModule.actions,
-
-  GET_LIST: async () => {
-    return await getBlacklistList(state.page, state.size, state.search);
+  GET_LIST: (context) => {
+    return BlacklistsAPI.getList(context.state);
   },
-
-  GET_ITEM: async () => {
-    return await getBlacklist(state.itemId);
+  GET_ITEM: (context) => {
+    return BlacklistsAPI.get(context.state);
   },
-
-  POST_ITEM: async () => {
-    return await addBlacklist(state.itemInstance);
+  POST_ITEM: (context) => {
+    return BlacklistsAPI.add(context.state);
   },
-
-  UPD_ITEM: async () => {
-    await updateBlacklist(state.itemId, state.itemInstance);
+  UPD_ITEM: (context) => {
+    return BlacklistsAPI.update(context.state);
   },
-
-  DELETE_ITEM: async (context, id) => {
-    await deleteBlacklist(id);
+  DELETE_ITEM: (context, id) => {
+    return BlacklistsAPI.delete({ id });
   },
-
   RESET_ITEM_STATE: async (context) => {
     context.commit('RESET_ITEM_STATE');
     context.dispatch('lookups/blacklists/numbers/RESET_STATE', {}, { root: true });

@@ -1,96 +1,57 @@
 <template>
-    <popup
-            :title="$t('objects.lookups.blacklist.newNumber')"
-            :primaryAction="save"
-            :primaryText="computePrimaryText"
-            :primaryDisabled="computeDisabled"
-            @close="$emit('close')"
-    >
-        <form class="popup-form">
-            <form-input
-                    v-model.trim="number"
-                    :v="$v.itemInstance.number"
-                    :label="$tc('objects.lookups.blacklist.number', 1)"
-                    required
-            ></form-input>
-            <form-input
-                    v-model.trim="description"
-                    :label="$t('objects.description')"
-                    textarea
-            ></form-input>
-        </form>
-    </popup>
+  <wt-popup min-width="480" overflow @close="close">
+    <template slot="title">
+      {{ $t('objects.lookups.blacklist.newNumber') }}
+    </template>
+    <template slot="main">
+      <form>
+        <wt-input
+          :value="itemInstance.number"
+          :v="$v.itemInstance.number"
+          :label="$tc('objects.lookups.blacklist.number', 1)"
+          required
+          @input="setItemProp({ prop: 'number', value: $event })"
+        ></wt-input>
+        <wt-textarea
+          :value="itemInstance.description"
+          :label="$t('objects.description')"
+          @input="setItemProp({ prop: 'description', value: $event })"
+        ></wt-textarea>
+      </form>
+    </template>
+    <template slot="actions">
+      <wt-button
+        :disabled="computeDisabled"
+        @click="save"
+      >{{ $t('objects.add') }}
+      </wt-button>
+      <wt-button
+        color="secondary"
+        @click="close"
+      >{{ $t('objects.close') }}
+      </wt-button>
+    </template>
+  </wt-popup>
 </template>
 
 <script>
-    import popup from '@/components/utils/popup';
-    import editComponentMixin from '@/mixins/objectPagesMixins/openedObjectMixin/editComponentMixin';
-    import { required } from 'vuelidate/lib/validators';
-    import { mapActions, mapState } from 'vuex';
+import { required } from 'vuelidate/lib/validators';
+import nestedObjectMixin from '../../../mixins/objectPagesMixins/openedObjectMixin/nestedObjectMixin';
 
-    export default {
-        name: 'opened-blacklist-number-popup',
-        mixins: [editComponentMixin],
-        components: {
-            popup,
-        },
+export default {
+  name: 'opened-blacklist-number-popup',
+  mixins: [nestedObjectMixin],
+  data: () => ({
+    namespace: 'lookups/blacklists/numbers',
+  }),
 
-        data() {
-            return {
-
-            };
-        },
-
-        validations: {
-            itemInstance: {
-                number: {
-                    required,
-                },
-            },
-        },
-
-        mounted() {
-            this.loadItem();
-        },
-
-        computed: {
-            ...mapState('lookups/blacklists/numbers', {
-                id: (state) => state.itemId,
-                itemInstance: (state) => state.itemInstance,
-            }),
-            number: {
-                get() { return this.$store.state.lookups.blacklists.numbers.itemInstance.number; },
-                set(value) { this.setItemProp({ prop: 'number', value }); },
-            },
-            description: {
-                get() { return this.$store.state.lookups.blacklists.numbers.itemInstance.description; },
-                set(value) { this.setItemProp({ prop: 'description', value }); },
-            },
-        },
-
-        methods: {
-            async save() {
-                const invalid = this.checkValidations();
-                if (!invalid) {
-                try {
-                    !this.id ? await this.addItem() : await this.updateItem();
-                    this.$emit('close');
-                } catch {}
-                }
-            },
-
-            ...mapActions('lookups/blacklists/numbers', {
-                setItemProp: 'SET_ITEM_PROPERTY',
-                addItem: 'ADD_ITEM',
-                updateItem: 'UPDATE_ITEM',
-                loadItem: 'LOAD_ITEM',
-            }),
-        },
-    };
+  validations: {
+    itemInstance: {
+      number: { required },
+    },
+  },
+};
 </script>
 
 <style lang="scss" scoped>
-    .popup-form {
-        margin-bottom: 18px;
-    }
 </style>
