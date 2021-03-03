@@ -36,7 +36,7 @@
 
 <script>
 import { required } from 'vuelidate/lib/validators';
-import nestedObjectMixin from '../../../mixins/objectPagesMixins/openedObjectMixin/nestedObjectMixin';
+import nestedObjectMixin from '../../../../mixins/objectPagesMixins/openedObjectMixin/nestedObjectMixin';
 
 export default {
   name: 'opened-blacklist-number-popup',

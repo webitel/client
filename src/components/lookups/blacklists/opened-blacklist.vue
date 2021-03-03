@@ -31,7 +31,7 @@
 <script>
 import { required } from 'vuelidate/lib/validators';
 import General from './opened-blacklist-general.vue';
-import Numbers from './opened-blacklist-numbers.vue';
+import Numbers from './numbers/opened-blacklist-numbers.vue';
 import openedObjectMixin from '../../../mixins/objectPagesMixins/openedObjectMixin/openedObjectMixin';
 
 export default {
