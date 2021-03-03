@@ -52,7 +52,7 @@ export default {
 
   methods: {
     async loadDropdownOptionsList(search) {
-      const response = await getCommunicationsList(0, 10, search);
+      const response = await getCommunicationsList({ search });
       return response.list.map((comm) => ({
         name: comm.name,
         id: comm.id,

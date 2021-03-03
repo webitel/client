@@ -1,16 +1,16 @@
 import { CommunicationTypeServiceApiFactory } from 'webitel-sdk';
 import instance from '../../instance';
 import configuration from '../../openAPIConfig';
-import { WebitelSDKItemDeleter } from '../../utils/ApiControllers/Deleter/SDKDeleter';
-import { WebitelSDKItemUpdater } from '../../utils/ApiControllers/Updater/SDKUpdater';
-import { WebitelSDKItemCreator } from '../../utils/ApiControllers/Creator/SDKCreator';
-import { WebitelSDKItemGetter } from '../../utils/ApiControllers/Getter/SDKGetter';
-import { WebitelSDKListGetter } from '../../utils/ApiControllers/ListGetter/SDKListGetter';
+import SDKItemDeleter from '../../utils/ApiControllers/Deleter/SDKDeleter';
+import SDKItemUpdater from '../../utils/ApiControllers/Updater/SDKUpdater';
+import SDKItemCreator from '../../utils/ApiControllers/Creator/SDKCreator';
+import SDKItemGetter from '../../utils/ApiControllers/Getter/SDKGetter';
+import SDKListGetter from '../../utils/ApiControllers/ListGetter/SDKListGetter';
 
 
 const communicationService = new CommunicationTypeServiceApiFactory(configuration, '', instance);
 
-const fieldsToSend = ['domainId', 'code', 'name', 'description'];
+const fieldsToSend = ['code', 'name', 'description'];
 
 const defaultItemObject = {
   name: '',
@@ -19,22 +19,24 @@ const defaultItemObject = {
   _dirty: false,
 };
 
-const listGetter = new WebitelSDKListGetter(communicationService.searchCommunicationType);
-const itemGetter = new WebitelSDKItemGetter(communicationService.readCommunicationType, defaultItemObject);
-const itemCreator = new WebitelSDKItemCreator(communicationService.createCommunicationType, fieldsToSend);
-const itemUpdater = new WebitelSDKItemUpdater(communicationService.updateCommunicationType, fieldsToSend);
-const itemDeleter = new WebitelSDKItemDeleter(communicationService.deleteCommunicationType);
+const listGetter = new SDKListGetter(communicationService.searchCommunicationType);
+const itemGetter = new SDKItemGetter(communicationService.readCommunicationType, defaultItemObject);
+const itemCreator = new SDKItemCreator(communicationService.createCommunicationType, fieldsToSend);
+const itemUpdater = new SDKItemUpdater(communicationService.updateCommunicationType, fieldsToSend);
+const itemDeleter = new SDKItemDeleter(communicationService.deleteCommunicationType);
 
-export const getCommunicationsList = async (page = 0, size = 10, search) => await listGetter.getList({
-  page,
-  size,
-  search,
-});
+export const getCommunicationsList = (params) => listGetter.getList(params);
+export const getCommunication = ({ itemId }) => itemGetter.getItem(itemId);
+export const addCommunication = ({ itemInstance }) => itemCreator.createItem(itemInstance);
+export const updateCommunication = ({ itemId, itemInstance }) => (
+  itemUpdater.updateItem(itemId, itemInstance)
+);
+export const deleteCommunication = ({ id }) => itemDeleter.deleteItem(id);
 
-export const getCommunication = async (id) => await itemGetter.getItem(id);
-
-export const addCommunication = async (item) => await itemCreator.createItem(item);
-
-export const updateCommunication = async (id, item) => await itemUpdater.updateItem(id, item);
-
-export const deleteCommunication = async (id) => await itemDeleter.deleteItem(id);
+export default {
+  getList: getCommunicationsList,
+  get: getCommunication,
+  add: addCommunication,
+  update: updateCommunication,
+  delete: deleteCommunication,
+};

@@ -173,7 +173,7 @@
             },
 
             async loadDropdownOptionsTypeList(search) {
-                const response = await getCommunicationsList(0, 10, search);
+                const response = await getCommunicationsList({ search });
                 this.dropdownOptionsTypeList = response.list.map((item) => ({
                         name: item.name,
                         id: item.id,
