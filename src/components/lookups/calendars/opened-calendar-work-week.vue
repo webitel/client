@@ -4,79 +4,77 @@
       <h3 class="content-title">{{ $t('objects.lookups.calendars.workWeek') }}</h3>
     </header>
 
-    <vuetable
-      :api-mode="false"
-      :fields="fields"
-      :data="dataList"
-      :row-class="computeWorkdayEnd"
-    >
-
-      <template slot="name" slot-scope="props">
-                <span v-if="isDayStart(props.rowIndex)">
-                    {{ weekdays[dataList[props.rowIndex].day] }}
-                </span>
-      </template>
-
-      <template slot="start" slot-scope="props">
-        <timepicker
-          :value="dataList[props.rowIndex].start"
-          :format="'hh:mm'"
-          :disabled="disableUserInput"
-          @input="setItemProp({prop: 'start', index: props.rowIndex, value: $event})"
-        ></timepicker>
-      </template>
-
-      <template slot="end" slot-scope="props">
-        <timepicker
-          :value="dataList[props.rowIndex].end"
-          :format="'hh:mm'"
-          :disabled="disableUserInput"
-          @input="setItemProp({prop: 'end', index: props.rowIndex, value: $event})"
-        ></timepicker>
-      </template>
-
-      <template slot="status" slot-scope="props">
-        <switcher
-          :value="!dataList[props.rowIndex].disabled"
-          :disabled="disableUserInput"
-          @input="setItemProp({prop: 'disabled', index: props.rowIndex, value: !$event})"
-        ></switcher>
-      </template>
-
-      <template slot="actions" slot-scope="props">
-        <i class="vuetable-action icon-icon_plus"
-           v-if="isDayStart(props.rowIndex)"
-           :title="$t('iconHints.add')"
-           @click="addWorkRange(dataList[props.rowIndex].day)"
-        ></i>
-        <i class="vuetable-action icon-icon_delete calendar-workweek__item"
-           v-else
-           :title="$t('iconHints.delete')"
-           @click="remove(props.rowIndex)"
-        ></i>
-      </template>
-    </vuetable>
+    <div class="table-wrapper">
+      <div class="table-wrapper__scroll-wrapper">
+        <wt-table
+          :headers="headers"
+          :data="dataList"
+          :grid-actions="!disableUserInput"
+          :selectable="false"
+        >
+          <template slot="name" slot-scope="{ item, index }">
+            <span v-if="isDayStart(index)">
+              {{ weekdaysList[item.day] }}
+            </span>
+          </template>
+          <template slot="start" slot-scope="{ item, index }">
+            <wt-timepicker
+              :value="minToSec(item.start)"
+              format="hh:mm"
+              :disabled="disableUserInput"
+              @input="setItemProp({prop: 'start', index, value: secToMin($event)})"
+            ></wt-timepicker>
+          </template>
+          <template slot="end" slot-scope="{ item, index }">
+            <wt-timepicker
+              :value="minToSec(item.end)"
+              format="hh:mm"
+              :disabled="disableUserInput"
+              @input="setItemProp({prop: 'end', index, value: secToMin($event)})"
+            ></wt-timepicker>
+          </template>
+          <template slot="state" slot-scope="{ item, index }">
+            <wt-switcher
+              :value="!item.disabled"
+              :disabled="disableUserInput"
+              @change="setItemProp({prop: 'disabled', index, value: !$event})"
+            ></wt-switcher>
+          </template>
+          <template slot="actions" slot-scope="{ item, index }">
+            <wt-icon-btn
+              v-if="isDayStart(index)"
+              class="table-action"
+              icon="plus"
+              :tooltip="$t('iconHints.add')"
+              tooltip-position="left"
+              @click="addWorkRange(item.day)"
+            ></wt-icon-btn>
+            <delete-action
+              v-else
+              @click="remove(index)"
+            ></delete-action>
+          </template>
+        </wt-table>
+      </div>
+    </div>
   </section>
 </template>
 
 <script>
-import timepicker from '@/components/utils/timepicker';
-import vuetable from 'vuetable-2/src/components/Vuetable';
-import openedTabComponentMixin from '@/mixins/objectPagesMixins/openedObjectTabMixin/openedTabComponentMixin';
-import { _actionsTableField_1, _switcherWidth } from '@/utils/tableFieldPresets';
-
 import { mapActions, mapState } from 'vuex';
+import DeleteAction from '../../utils/table-cell/default-table-actions/delete-action.vue';
+import openedTabComponentMixin from '../../../mixins/objectPagesMixins/openedObjectTabMixin/openedTabComponentMixin';
 
 export default {
   name: 'opened-calendar-work-week',
-  components: {
-    vuetable,
-    timepicker,
-  },
   mixins: [openedTabComponentMixin],
-  data() {
-    return {
-      weekdays: [
+  components: { DeleteAction },
+  computed: {
+    ...mapState('lookups/calendars', {
+      dataList: (state) => state.itemInstance.accepts,
+    }),
+    weekdaysList() {
+      return [
         this.$t('objects.lookups.calendars.mon'),
         this.$t('objects.lookups.calendars.tue'),
         this.$t('objects.lookups.calendars.wed'),
@@ -84,55 +82,41 @@ export default {
         this.$t('objects.lookups.calendars.fri'),
         this.$t('objects.lookups.calendars.sat'),
         this.$t('objects.lookups.calendars.sun'),
-      ],
-    };
-  },
-
-  computed: {
-    ...mapState('lookups/calendars', {
-      dataList: (state) => state.itemInstance.accepts,
-    }),
-    fields() {
-      let fields = [
-        { name: 'name', title: this.$t('objects.name') },
-        { name: 'start', title: this.$t('objects.lookups.calendars.start') },
-        { name: 'end', title: this.$t('objects.lookups.calendars.end') },
-        { name: 'status', title: this.$t('objects.lookups.calendars.enabled'), width: _switcherWidth },
       ];
-      if (!this.disableUserInput) fields = fields.concat(_actionsTableField_1);
-      return fields;
+    },
+    headers() {
+      return [
+        { value: 'name', text: this.$t('objects.name') },
+        { value: 'start', text: this.$t('objects.lookups.calendars.start') },
+        { value: 'end', text: this.$t('objects.lookups.calendars.end') },
+        { value: 'state', text: this.$t('objects.lookups.calendars.enabled') },
+      ];
     },
   },
 
   methods: {
-    isDayStart(rowIndex) {
-      return this.dataList[rowIndex].day // this day index is not equal to
-        !== (this.dataList[rowIndex - 1] || {}).day; // prev day index (or empty)
-    },
-
-    computeWorkdayEnd(item, rowIndex) {
-      return this.isDayStart(rowIndex) ? 'day-start' : '';
-    },
-
     ...mapActions('lookups/calendars', {
       setItemProp: 'SET_ACCEPT_ITEM_PROPERTY',
       addWorkRange: 'ADD_ACCEPT_ITEM',
       remove: 'REMOVE_ACCEPT_ITEM',
     }),
-
+    isDayStart(index) {
+      if (index === 0) return true;
+      return this.dataList[index].day // this day index is not equal to
+        !== (this.dataList[index - 1]).day; // prev day index
+    },
+    minToSec(min) {
+      return min * 60;
+    },
+    secToMin(sec) {
+      return sec / 60;
+    },
   },
 };
 </script>
 
-<style lang="scss">
-.opened-calendar-work-week {
-  .timepicker {
-    position: relative;
-    left: -16px;
-
-    .vs__dropdown-toggle {
-      border-color: transparent;
-    }
-  }
+<style lang="scss" scoped>
+.wt-timepicker ::v-deep .wt-label {
+  display: none;
 }
 </style>
