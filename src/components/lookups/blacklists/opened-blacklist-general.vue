@@ -1,50 +1,32 @@
 <template>
-    <section>
-        <header class="content-header">
-            <h3 class="content-title">{{$t('objects.generalInfo')}}</h3>
-        </header>
-      <form class="object-input-grid object-input-grid__1-col object-input-grid__w50">
-            <form-input
-                    v-model.trim="name"
-                    :v="v.itemInstance.name"
-                    :label="$t('objects.name')"
-                    :disabled="disableUserInput"
-                    required
-            ></form-input>
-
-            <form-input
-                    v-model.trim="description"
-                    :label="$t('objects.description')"
-                    :disabled="disableUserInput"
-                    textarea
-            ></form-input>
-        </form>
-    </section>
+  <section>
+    <header class="content-header">
+      <h3 class="content-title">{{ $t('objects.generalInfo') }}</h3>
+    </header>
+    <form class="object-input-grid object-input-grid__1-col object-input-grid__w50">
+      <wt-input
+        :value="itemInstance.name"
+        :v="v.itemInstance.name"
+        :label="$t('objects.name')"
+        :disabled="disableUserInput"
+        required
+        @input="setItemProp({ prop: 'name', value: $event })"
+      ></wt-input>
+      <wt-textarea
+        :value="itemInstance.description"
+        :label="$t('objects.description')"
+        :disabled="disableUserInput"
+        @input="setItemProp({ prop: 'description', value: $event })"
+      ></wt-textarea>
+    </form>
+  </section>
 </template>
 
 <script>
-    import openedTabComponentMixin from '@/mixins/objectPagesMixins/openedObjectTabMixin/openedTabComponentMixin';
-    import { mapActions } from 'vuex';
+import openedTabComponentMixin from '../../../mixins/objectPagesMixins/openedObjectTabMixin/openedTabComponentMixin';
 
-    export default {
-        name: 'opened-blacklist-general',
-        mixins: [openedTabComponentMixin],
-
-        computed: {
-            name: {
-                get() { return this.$store.state.lookups.blacklists.itemInstance.name; },
-                set(value) { this.setItemProp({ prop: 'name', value }); },
-            },
-            description: {
-                get() { return this.$store.state.lookups.blacklists.itemInstance.description; },
-                set(value) { this.setItemProp({ prop: 'description', value }); },
-            },
-        },
-
-        methods: {
-            ...mapActions('lookups/blacklists', {
-                setItemProp: 'SET_ITEM_PROPERTY',
-            }),
-        },
-    };
+export default {
+  name: 'opened-blacklist-general',
+  mixins: [openedTabComponentMixin],
+};
 </script>

@@ -10,15 +10,14 @@ const listService = new ListServiceApiFactory(configuration, '', instance);
 
 const fieldsToSend = ['domainId', 'listId', 'description', 'number'];
 
-export const getBlacklistCommunicationList = async (listId, page = 0, size = 10, search) => {
-  const { domainId } = store.state.userinfo;
+export const getBlacklistCommunicationList = async ({ parentId, page = 1, size = 10, search }) => {
   if (search && search.slice(-1) !== '*') search += '*';
   const defaultObject = {
     name: '',
     _isSelected: false,
   };
   try {
-    const response = await listService.searchListCommunication(listId, page, size, search, domainId);
+    const response = await listService.searchListCommunication(parentId, page, size, search);
     if (response.items) {
       return {
         list: response.items.map((item) => ({ ...defaultObject, ...item })),
