@@ -103,7 +103,7 @@ export default {
     },
 
     async loadDropdownOptionsBlacklistList(search) {
-      const response = await getBlacklistList(1, 10, search);
+      const response = await getBlacklistList({ search });
       return response.list.map((item) => ({
         name: item.name,
         id: item.id,
