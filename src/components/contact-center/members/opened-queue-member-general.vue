@@ -97,7 +97,7 @@ export default {
     },
 
     async loadDropdownOptionsTimezoneList(search) {
-      const response = await getCalendarTimezones(1, 10, search);
+      const response = await getCalendarTimezones({ search });
       return response.map((item) => ({
         name: item.name,
         id: item.id,

@@ -1,4 +1,4 @@
-import { mapActions } from 'vuex';
+import { mapState, mapActions } from 'vuex';
 import ObjectHeader from '@/components/object-utils/the-object-header';
 import formInput from '@/components/utils/form-input';
 import expansionPanel from '@/components/utils/expansion-panel';
@@ -14,6 +14,7 @@ import tabsComponent from '@/components/utils/tabs-component';
 import openedObjectValidationMixin
   from '../../baseMixins/openedObjectValidationMixin/openedObjectValidationMixin';
 import openedObjectTabAccessControlMixin from './_internals/openedObjectTabAccessControlMixin';
+import getNamespacedState from '../../../store/helpers/getNamespacedState';
 
 /**
  * @fileOverview contains openedObject tab
@@ -43,6 +44,13 @@ export default {
       type: String,
       // required: true, FIXME: MAKE ME REQUIRED AFTER REFACTOR
     },
+  },
+  computed: {
+    ...mapState({
+      itemInstance(state) {
+        return getNamespacedState(state, this.namespace).itemInstance;
+      },
+    }),
   },
   methods: {
     ...mapActions({

@@ -1,7 +1,8 @@
-import { mapActions } from 'vuex';
+import { mapActions, mapState } from 'vuex';
 import openedTabComponentMixin from '../openedObjectTabMixin/openedTabComponentMixin';
 import baseTableMixin from '../../baseMixins/baseTableMixin/baseTableMixin';
 import OnePlusMany from '../../../components/utils/table-cell/one-plus-many-table-cell/one-plus-many-table-cell.vue';
+import getNamespacedState from '../../../store/helpers/getNamespacedState';
 
 /**
  * @fileOverview contains openedObject tab with table
@@ -18,6 +19,29 @@ export default {
     parentId(value) {
       this.setParentId(value);
     },
+  },
+
+  computed: {
+    ...mapState({
+      parentId(state) {
+        return getNamespacedState(state, `${this.namespace}`).itemId;
+      },
+      dataList(state) {
+        return getNamespacedState(state, `${this.namespace}/${this.subNamespace}`).dataList;
+      },
+      page(state) {
+        return getNamespacedState(state, `${this.namespace}/${this.subNamespace}`).page;
+      },
+      size(state) {
+        return getNamespacedState(state, `${this.namespace}/${this.subNamespace}`).size;
+      },
+      search(state) {
+        return getNamespacedState(state, `${this.namespace}/${this.subNamespace}`).search;
+      },
+      isNext(state) {
+        return getNamespacedState(state, `${this.namespace}/${this.subNamespace}`).isNextPage;
+      },
+    }),
   },
 
   methods: {

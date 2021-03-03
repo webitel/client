@@ -54,7 +54,7 @@
 </template>
 
 <script>
-    import uploadCSVMixin from '../../../mixins/uploadCSVMixin';
+    import uploadCSVMixin from '../../../../mixins/uploadCSVMixin';
 
     export default {
         name: 'upload-users-popup',
@@ -86,5 +86,5 @@
 </script>
 
 <style lang="scss" scoped>
-    @import "../../../assets/css/objects/upload-popup";
+    @import "../../../../assets/css/objects/upload-popup";
 </style>

@@ -1,7 +1,8 @@
-import { mapActions } from 'vuex';
+import { mapActions, mapState } from 'vuex';
 import HeadlineNav from '../../../components/utils/headline-nav/headline-nav.vue';
 import baseTableMixin from '../../baseMixins/baseTableMixin/baseTableMixin';
 import objectTableAccessControlMixin from './_internals/objectTableAccessControlMixin';
+import getNamespacedState from '../../../store/helpers/getNamespacedState';
 
 /**
  * @fileOverview contains main tables (like the-agents.vue) common logic
@@ -15,6 +16,25 @@ import objectTableAccessControlMixin from './_internals/objectTableAccessControl
 export default {
   mixins: [baseTableMixin, objectTableAccessControlMixin],
   components: { HeadlineNav },
+  computed: {
+    ...mapState({
+      dataList(state) {
+        return getNamespacedState(state, this.namespace).dataList;
+      },
+      page(state) {
+        return getNamespacedState(state, this.namespace).page;
+      },
+      size(state) {
+        return getNamespacedState(state, this.namespace).size;
+      },
+      search(state) {
+        return getNamespacedState(state, this.namespace).search;
+      },
+      isNext(state) {
+        return getNamespacedState(state, this.namespace).isNextPage;
+      },
+    }),
+  },
   methods: {
     ...mapActions({
       loadDataList(dispatch, payload) {
