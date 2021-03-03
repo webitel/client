@@ -56,15 +56,6 @@ itemGetter.responseHandler = (response) => {
   return { ...defaultObject, ...response };
 };
 
-timezoneGetter.responseHandler = (response) => {
-  if (response.items) {
-    return {
-      list: response.items,
-    };
-  }
-  return [];
-};
-
 export const getCalendarList = async (page = 0, size = 10, search) => await listGetter.getList({
   page,
   size,
@@ -73,8 +64,8 @@ export const getCalendarList = async (page = 0, size = 10, search) => await list
 
 export const getCalendar = async (id) => await itemGetter.getItem(id);
 
-export const getCalendarTimezones = async (page = 0, size = 20, search) => {
-  const response = await timezoneGetter.getList({ page, size, search });
+export const getCalendarTimezones = async (params) => {
+  const response = await timezoneGetter.getList(params);
   return response.list;
 };
 

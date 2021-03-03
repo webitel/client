@@ -51,8 +51,8 @@ export default {
   },
   methods: {
     async loadTimezones(search) {
-      const response = await getCalendarTimezones(1, 10, search);
-      return response || [];
+      const response = await getCalendarTimezones({ search });
+      return response;
     },
   },
 };
