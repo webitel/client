@@ -61,7 +61,7 @@ export default {
       const tabs = [
         { value: 'general', text: this.$t('objects.general') },
         { value: 'work-week', text: this.$t('objects.lookups.calendars.workWeek') },
-        { value: 'holidays', text: this.$t('objects.lookups.calendars.holidays') },
+        { value: 'holidays', text: this.$tc('objects.lookups.calendars.holidays', 2) },
       ];
 
       const permissions = {

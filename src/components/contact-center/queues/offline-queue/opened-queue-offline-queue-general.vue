@@ -130,7 +130,7 @@ export default {
 
   methods: {
     async loadDropdownOptionsCalendarList(search) {
-      const response = await getCalendarList(1, 10, search);
+      const response = await getCalendarList({ search });;
       return response.list.map((item) => ({
         name: item.name,
         id: item.id,

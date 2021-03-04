@@ -1,102 +1,146 @@
 <template>
   <section>
     <holiday-popup
-      v-if="popupTriggerIf"
+      v-if="isHolidayPopup"
+      :edited-index="editedIndex"
       @close="closePopup"
     ></holiday-popup>
 
     <header class="content-header">
-      <h3 class="content-title">{{ $t('objects.lookups.calendars.holidays') }}</h3>
-      <i
+      <h3 class="content-title">{{ $tc('objects.lookups.calendars.holidays', 2) }}</h3>
+      <div class="content-header__actions-wrap">
+      <wt-search-bar
+        v-model="search"
+        debounce
+        @enter="loadList"
+        @search="loadList"
+      ></wt-search-bar>
+      <wt-icon-btn
         v-if="!disableUserInput"
-        class="icon-action icon-icon_plus"
-        :title="$t('iconHints.add')"
-        @click="popupTriggerIf = true"
-      ></i>
+        :class="{'hidden': anySelected}"
+        :tooltip="$t('iconHints.deleteSelected')"
+        class="icon-action"
+        icon="bucket"
+        @click="deleteSelected"
+      ></wt-icon-btn>
+      <wt-icon-btn
+        v-if="!disableUserInput"
+        class="icon-action"
+        icon="plus"
+        @click="create"
+      ></wt-icon-btn>
+      </div>
     </header>
 
-    <vuetable
-      :api-mode="false"
-      :fields="fields"
-      :data="dataList"
-    >
-
-      <template slot="date" slot-scope="props">
-        <span>{{ new Date(+dataList[props.rowIndex].date).toLocaleDateString() }}</span>
-      </template>
-
-      <template slot="repeat" slot-scope="props">
-        <switcher
-          :value="dataList[props.rowIndex].repeat"
-          :disabled="disableUserInput"
-          @input="toggleItemProp(props.rowIndex)"
-        ></switcher>
-      </template>
-
-      <template slot="actions" slot-scope="props">
-        <i class="vuetable-action icon-icon_edit"
-           :title="$t('iconHints.edit')"
-           @click="edit(props.rowIndex)"
-        ></i>
-        <i class="vuetable-action icon-icon_delete"
-           :title="$t('iconHints.delete')"
-           @click="remove(props.rowIndex)"
-        ></i>
-      </template>
-    </vuetable>
+    <div class="table-wrapper">
+      <wt-table
+        :headers="headers"
+        :data="dataList"
+        :grid-actions="!disableUserInput"
+      >
+        <template slot="date" slot-scope="{ item }">
+          {{ prettifyDate(item.date) }}
+        </template>
+        <template slot="repeat" slot-scope="{ item, index }">
+          <wt-switcher
+            :value="item.repeat"
+            :disabled="disableUserInput"
+            @change="setRepeatValue({ prop: 'repeat', index, value: $event })"
+          ></wt-switcher>
+        </template>
+        <template slot="actions" slot-scope="{ item, index }">
+          <edit-action
+            @click="edit(index)"
+          ></edit-action>
+          <delete-action
+            @click="remove(index)"
+          ></delete-action>
+        </template>
+      </wt-table>
+    </div>
   </section>
 </template>
 
 <script>
-import tableComponentMixin from '@/mixins/objectPagesMixins/objectTableMixin/tableComponentMixin';
-import openedTabComponentMixin from '@/mixins/objectPagesMixins/openedObjectTabMixin/openedTabComponentMixin';
-import { _actionsTableField_2 } from '@/utils/tableFieldPresets';
 import { mapActions, mapState } from 'vuex';
-import holidayPopup from './opened-calendar-holiday-popup';
+import holidayPopup from './opened-calendar-holiday-popup.vue';
+import openedObjectTableTabMixin from '../../../mixins/objectPagesMixins/openedObjectTableTabMixin/openedObjectTableTabMixin';
 
 export default {
   name: 'opened-calendar-holidays',
-  mixins: [tableComponentMixin, openedTabComponentMixin],
+  mixins: [openedObjectTableTabMixin],
   components: { holidayPopup },
+  data: () => ({
+    dataListValue: [],
+    searchValue: '',
+    isHolidayPopup: false,
+    editedIndex: null,
+  }),
+  watch: {
+    holidayList() {
+      this.loadList();
+    },
+  },
   computed: {
-    ...mapState('lookups/calendars/holidays', {
-      dataList: (state) => state.dataList,
+    ...mapState('lookups/calendars', {
+      holidayList: (state) => state.itemInstance.excepts,
     }),
-    fields() {
-      let fields = [
-        { name: 'name', title: this.$t('objects.name') },
-        { name: 'date', title: this.$t('objects.lookups.calendars.date') },
-        { name: 'repeat', title: this.$t('objects.lookups.calendars.repeat') },
+    // override mixin map state
+    dataList: {
+      get() { return this.dataListValue; },
+      set(value) { this.dataListValue = value; },
+    },
+    // override mixin map state
+    search: {
+      get() { return this.searchValue; },
+      set(value) { this.searchValue = value; },
+    },
+    headers() {
+      return [
+        { value: 'name', text: this.$t('objects.name') },
+        { value: 'date', text: this.$t('objects.lookups.calendars.date') },
+        { value: 'repeat', text: this.$t('objects.lookups.calendars.repeat') },
       ];
-      if (!this.disableUserInput) fields = fields.concat(_actionsTableField_2);
-      return fields;
     },
   },
 
   methods: {
-    async create() {
-      this.popupTriggerIf = true;
+    ...mapActions({
+      removeItem(dispatch, payload) {
+        return dispatch(`${this.namespace}/REMOVE_EXCEPT_ITEM`, payload);
+      },
+      setExceptItemProperty(dispatch, payload) {
+        return dispatch(`${this.namespace}/SET_EXCEPT_ITEM_PROPERTY`, payload);
+      },
+    }),
+    loadList() {
+      this.dataList = this.holidayList
+        .filter((holiday) => holiday.name.includes(this.search))
+        .map((holiday) => ({ ...holiday, _isSelected: false }));
     },
-
+    setRepeatValue(payload) {
+      this.setExceptItemProperty(payload);
+      this.loadList();
+    },
+    prettifyDate(date) {
+      return new Date(+date).toLocaleDateString();
+    },
+    create() {
+      this.openHolidayPopup();
+    },
+    edit(index) {
+      this.editedIndex = index;
+      this.openHolidayPopup();
+    },
+    openHolidayPopup() {
+      this.isHolidayPopup = true;
+    },
     closePopup() {
-      this.setId(null);
-      this.popupTriggerIf = false;
+      this.isHolidayPopup = false;
+      this.editedIndex = null;
     },
-
-    edit(rowIndex) {
-      this.setId(rowIndex);
-      this.popupTriggerIf = true;
+    setParentId() {
     },
-
-    ...mapActions('lookups/calendars', {
-      toggleItemProp: 'TOGGLE_EXCEPT_ITEM_PROPERTY',
-    }),
-
-    ...mapActions('lookups/calendars/holidays', {
-      setId: 'SET_ITEM_ID',
-      loadDataList: 'LOAD_DATA_LIST',
-      removeItem: 'REMOVE_ITEM',
-    }),
   },
 };
 </script>

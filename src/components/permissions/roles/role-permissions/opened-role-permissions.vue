@@ -68,8 +68,8 @@ export default {
   mixins: [openedObjectTableTabMixin],
   components: { PermissionsPopup },
   data: () => ({
-    dataList: [],
-    search: '',
+    dataListValue: [],
+    searchValue: '',
     isPermissionsPopup: false,
     editedIndex: null,
   }),
@@ -82,6 +82,16 @@ export default {
     ...mapState('permissions/roles', {
       permissionsList: (state) => state.itemInstance.permissions,
     }),
+    // override mixin map state
+    dataList: {
+      get() { return this.dataListValue; },
+      set(value) { this.dataListValue = value; },
+    },
+    // override mixin map state
+    search: {
+      get() { return this.searchValue; },
+      set(value) { this.searchValue = value; },
+    },
     headers() {
       return [
         { value: 'name', text: this.$t('objects.name') },
