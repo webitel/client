@@ -20,51 +20,11 @@
 </template>
 
 <script>
-import { mapActions, mapState } from 'vuex';
-import { getRoleList } from '../../../../api/permissions/roles/roles';
+import permissionsTabRolePopupMixins from '../../../../mixins/objectPagesMixins/permissionsTabMixin/permissionsTabRolePopupMixin';
 
 export default {
   name: 'opened-object-permissions-obac-role-popup',
-  data() {
-    return {
-      newGrantee: '',
-    };
-  },
-
-  computed: {
-    ...mapState('permissions/objects/obac', {
-      dataList: (state) => state.dataList,
-    }),
-  },
-
-  methods: {
-    ...mapActions('permissions/objects/obac', {
-      addRolePermissions: 'ADD_ROLE_PERMISSIONS',
-    }),
-    async save() {
-      try {
-        await this.addRolePermissions(this.newGrantee);
-        this.close();
-      } catch (err) {
-        throw err;
-      }
-    },
-
-    // filter new roles
-    async getAvailableGrantees(search) {
-      const roles = await this.loadRoles(search);
-      return roles.filter((role) => (
-        !this.dataList.some((usedRoles) => role.id === usedRoles.grantee.id)));
-    },
-    async loadRoles(search) {
-      const response = await getRoleList(1, 10, search);
-      return response?.list || [];
-    },
-
-    close() {
-      this.$emit('close');
-    },
-  },
+  mixins: [permissionsTabRolePopupMixins],
 };
 </script>
 

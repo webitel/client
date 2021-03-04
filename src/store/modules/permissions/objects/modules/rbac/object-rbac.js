@@ -1,36 +1,25 @@
-import { DefaultModule } from '../../../../defaults/DefaultModule';
-import BaseObjectAccessControl from '../BaseObjectAccessControl';
+import { DefaultPermissionsModule } from '../../../../defaults/DefaultPermissionsModule';
 import {
   fetchObjclassDefaultList,
   toggleObjclassDefaultMode,
 } from '../../../../../../api/permissions/objects/objects';
 
-const defaultState = () => ({});
-const defaultModule = new DefaultModule(defaultState);
+const defaultModule = new DefaultPermissionsModule();
 
 const state = {
   ...defaultModule.state,
 };
 
-const getters = {
-  ...BaseObjectAccessControl.getters,
-};
+const getters = {};
 
 const actions = {
   ...defaultModule.actions,
-  ...BaseObjectAccessControl.actions,
-  GET_LIST: (context) => fetchObjclassDefaultList({
-    id: context.getters.OBJECT_ID,
-    page: context.state.page,
-    size: context.state.size,
-    search: context.state.search,
-  }),
-  PATCH_ACCESS_MODE: (context, {
-    item,
-    changes,
-  }) => toggleObjclassDefaultMode(context.getters.OBJECT_ID, +item.grantor.id, changes),
+  GET_LIST: (context) => fetchObjclassDefaultList(context.state),
+  PATCH_ACCESS_MODE: (context, { item, changes }) => (
+    toggleObjclassDefaultMode(context.state.parentId, +item.grantor.id, changes)
+  ),
 
-  ADD_DEFAULT_ITEM_ROLE: async (context, { grantee, grantor }) => {
+  ADD_ROLE_PERMISSIONS: async (context, { grantee, grantor }) => {
     const changes = {
       grantor: +grantor.id,
       grantee: +grantee.id,
@@ -49,7 +38,6 @@ const actions = {
 
 const mutations = {
   ...defaultModule.mutations,
-  ...BaseObjectAccessControl.mutations,
 };
 
 export default {

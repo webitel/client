@@ -1,6 +1,5 @@
 import supervisors from './team-supervisors';
 import agents from './team-agents';
-import permissions from './permissions';
 import {
   addTeam,
   deleteTeam,
@@ -9,6 +8,7 @@ import {
   updateTeam,
 } from "../../../../api/contact-center/teams/teams";
 import { DefaultModule } from "../../defaults/DefaultModule";
+import DefaultPermissionsModule from '../../defaults/DefaultPermissionsModule';
 
 const defaultState = () => ({
   itemId: 0,
@@ -65,6 +65,11 @@ const actions = {
 const mutations = {
   ...defaultModule.mutations,
 };
+
+const PERMISSIONS_API_URL = '/call_center/teams';
+const permissions = new DefaultPermissionsModule()
+  .generateAPIMethods(PERMISSIONS_API_URL)
+  .getModule();
 
 export default {
   namespaced: true,

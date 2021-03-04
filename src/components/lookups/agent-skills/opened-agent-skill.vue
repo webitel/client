@@ -30,7 +30,7 @@
 
 <script>
 import { required } from 'vuelidate/lib/validators';
-import { mapState, mapActions } from 'vuex';
+import { mapState } from 'vuex';
 import OpenedAgentSkillGeneral from './opened-agent-skill-general.vue';
 import openedObjectMixin from '../../../mixins/objectPagesMixins/openedObjectMixin/openedObjectMixin';
 
@@ -52,8 +52,6 @@ export default {
     ...mapState('lookups/skills', {
       id: (state) => state.itemId,
       itemInstance: (state) => state.itemInstance,
-      name: (state) => state.itemInstance.name,
-      description: (state) => state.itemInstance.description,
     }),
 
     tabs() {
@@ -75,11 +73,6 @@ export default {
         },
       ];
     },
-  },
-  methods: {
-    ...mapActions('lookups/skills', {
-      setItemProp: 'SET_ITEM_PROPERTY',
-    }),
   },
 };
 </script>

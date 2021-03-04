@@ -1,44 +1,39 @@
-/* eslint-disable no-return-await */
 import { ListServiceApiFactory } from 'webitel-sdk';
 import instance from '../../instance';
 import configuration from '../../openAPIConfig';
-import WebitelAPIPermissionsGetter
-  from '../../utils/ApiControllers/Permissions/WebitelAPIPermissionsGetter';
-import WebitelAPIPermissionsPatcher
-  from '../../utils/ApiControllers/Permissions/WebitelAPIPermissionsPatcher';
-import { WebitelSDKItemDeleter } from '../../utils/ApiControllers/Deleter/SDKDeleter';
-import { WebitelSDKItemUpdater } from '../../utils/ApiControllers/Updater/SDKUpdater';
-import { WebitelSDKItemCreator } from '../../utils/ApiControllers/Creator/SDKCreator';
-import { WebitelSDKItemGetter } from '../../utils/ApiControllers/Getter/SDKGetter';
-import { WebitelSDKListGetter } from '../../utils/ApiControllers/ListGetter/SDKListGetter';
+import SDKItemDeleter from '../../utils/ApiControllers/Deleter/SDKDeleter';
+import SDKItemUpdater from '../../utils/ApiControllers/Updater/SDKUpdater';
+import SDKItemCreator from '../../utils/ApiControllers/Creator/SDKCreator';
+import SDKItemGetter from '../../utils/ApiControllers/Getter/SDKGetter';
+import SDKListGetter from '../../utils/ApiControllers/ListGetter/SDKListGetter';
 
 const listService = new ListServiceApiFactory(configuration, '', instance);
 
-const BASE_URL = '/call_center/list';
-const fieldsToSend = ['domainId', 'name', 'description'];
+const fieldsToSend = ['name', 'description'];
 
-const listGetter = new WebitelSDKListGetter(listService.searchList);
-const itemGetter = new WebitelSDKItemGetter(listService.readList);
-const itemCreator = new WebitelSDKItemCreator(listService.createList, fieldsToSend);
-const itemUpdater = new WebitelSDKItemUpdater(listService.updateList, fieldsToSend);
-const itemDeleter = new WebitelSDKItemDeleter(listService.deleteList);
-const permissionsGetter = new WebitelAPIPermissionsGetter(BASE_URL);
-const permissionsPatcher = new WebitelAPIPermissionsPatcher(BASE_URL);
+const defaultListObject = {
+  name: '',
+  count: 0,
+};
 
-export const getBlacklistList = async (page, size, search) => await listGetter.getList({
-  page,
-  size,
-  search,
-});
+const listGetter = new SDKListGetter(listService.searchList, defaultListObject);
+const itemGetter = new SDKItemGetter(listService.readList);
+const itemCreator = new SDKItemCreator(listService.createList, fieldsToSend);
+const itemUpdater = new SDKItemUpdater(listService.updateList, fieldsToSend);
+const itemDeleter = new SDKItemDeleter(listService.deleteList);
 
-export const getBlacklist = async (id) => await itemGetter.getItem(id);
+export const getBlacklistList = (params) => listGetter.getList(params);
+export const getBlacklist = ({ itemId }) => itemGetter.getItem(itemId);
+export const addBlacklist = ({ itemInstance }) => itemCreator.createItem(itemInstance);
+export const updateBlacklist = ({ itemId, itemInstance }) => (
+  itemUpdater.updateItem(itemId, itemInstance)
+);
+export const deleteBlacklist = ({ id }) => itemDeleter.deleteItem(id);
 
-export const addBlacklist = async (item) => await itemCreator.createItem(item);
-
-export const updateBlacklist = async (id, item) => await itemUpdater.updateItem(id, item);
-
-export const deleteBlacklist = async (id) => await itemDeleter.deleteItem(id);
-
-export const getBlacklistPermissions = async (id, page = 0, size = 10, search) => await permissionsGetter.getList(id, size, search);
-
-export const patchBlacklistPermissions = async (id, item) => await permissionsPatcher.patchItem(id, item);
+export default {
+  getList: getBlacklistList,
+  get: getBlacklist,
+  add: addBlacklist,
+  update: updateBlacklist,
+  delete: deleteBlacklist,
+};

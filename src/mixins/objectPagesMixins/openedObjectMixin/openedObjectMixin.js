@@ -1,6 +1,7 @@
-import { mapActions } from 'vuex';
+import { mapActions, mapState } from 'vuex';
 import editComponentMixin from './editComponentMixin';
 import headlineNavMixin from '../../baseMixins/headlineNavMixin/headlineNavMixin';
+import getNamespacedState from '../../../store/helpers/getNamespacedState';
 
 /**
  * @fileOverview contains openedObject (wrapper with tabs, like opened-agent.vue) common logic
@@ -19,6 +20,17 @@ export default {
   created() {
     this.setInitialTab();
     this.loadPageData();
+  },
+
+  computed: {
+    ...mapState({
+      id(state) {
+        return getNamespacedState(state, this.namespace).itemId;
+      },
+      itemInstance(state) {
+        return getNamespacedState(state, this.namespace).itemInstance;
+      },
+    }),
   },
 
   methods: {

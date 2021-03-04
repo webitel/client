@@ -13,6 +13,7 @@ const MonacoWebpackPlugin = require('monaco-editor-webpack-plugin');
 
 module.exports = {
     publicPath: '/',
+    transpileDependencies: ['@webitel/ui-sdk/src'],
     lintOnSave: true,
     productionSourceMap: process.env.NODE_ENV !== 'production' || process.env.SOURCE_MAP,
     css: {

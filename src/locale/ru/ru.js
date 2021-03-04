@@ -278,6 +278,11 @@ export default {
       permissionsRole: 'Роль | Роли',
       allRoles: 'Все роли',
       searchPlaceholder: 'роль ..',
+      roles: {
+        permissions: 'Право доступа роли | Права доступа ролей',
+        addPermission: 'Добавить право доступа для роли',
+        usage: 'Использование',
+      },
       object: {
         object: 'Разделы',
         allObjects: 'Все разделы',
@@ -688,6 +693,14 @@ export default {
     },
     pagination: {
       rowsPerPage: 'Количество строк на странице',
+    },
+  },
+
+  utils: {
+    downloadFilesBtn: {
+      downloadFiles: 'Скачать файлы',
+      filesLoaded: 'Файлов скачано',
+      zippingProgress: 'Прогресс архивации',
     },
   },
 

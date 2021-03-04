@@ -18,23 +18,19 @@ const state = {
 const getters = {};
 
 const actions = {
-  GET_LIST: async () => {
-    return await getMediaList(state.page, state.size, state.search);
-  },
-
-  GET_ITEM: async () => {
-    return await getMedia(state.itemId);
-  },
-
-  POST_ITEM: async () => {
-    return await addMedia(state.itemInstance);
-  },
-
-  DELETE_ITEM: async (context, id) => {
-    await deleteMedia(id);
-  },
-
   ...defaultModule.actions,
+  GET_LIST: (context) => {
+    return getMediaList(context.state);
+  },
+  GET_ITEM: (context) => {
+    return getMedia(context.state);
+  },
+  POST_ITEM: (context) => {
+    return addMedia(context.state);
+  },
+  DELETE_ITEM: (context, id) => {
+    return deleteMedia({ id });
+  },
 };
 
 const mutations = {

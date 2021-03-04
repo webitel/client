@@ -1,5 +1,4 @@
 import numbers from './resource-display';
-import permissions from './permissions';
 import {
   addResource,
   deleteResource,
@@ -9,6 +8,7 @@ import {
   updateResource,
 } from "../../../../api/contact-center/resources/resources";
 import { DefaultModule } from "../../defaults/DefaultModule";
+import DefaultPermissionsModule from '../../defaults/DefaultPermissionsModule';
 
 const defaultState = () => ({
   itemId: 0,
@@ -67,6 +67,11 @@ const actions = {
 const mutations = {
   ...defaultModule.mutations,
 };
+
+const PERMISSIONS_API_URL = '/call_center/resources';
+const permissions = new DefaultPermissionsModule()
+  .generateAPIMethods(PERMISSIONS_API_URL)
+  .getModule();
 
 export default {
   namespaced: true,

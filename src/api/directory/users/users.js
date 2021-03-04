@@ -1,8 +1,4 @@
 import deepCopy from 'deep-copy';
-import WebitelAPIPermissionsGetter
-  from '../../utils/ApiControllers/Permissions/WebitelAPIPermissionsGetter';
-import WebitelAPIPermissionsPatcher
-  from '../../utils/ApiControllers/Permissions/WebitelAPIPermissionsPatcher';
 import { WebitelAPIItemDeleter } from '../../utils/ApiControllers/Deleter/ApiDeleter';
 import { WebitelAPIItemPatcher } from '../../utils/ApiControllers/Patcher/ApiPatcher';
 import { WebitelAPIItemUpdater } from '../../utils/ApiControllers/Updater/ApiUpdater';
@@ -65,8 +61,6 @@ const itemCreator = new WebitelAPIItemCreator(BASE_URL, fieldsToSend, preRequest
 const itemUpdater = new WebitelAPIItemUpdater(BASE_URL, fieldsToSend, preRequestHandler);
 const itemPatcher = new WebitelAPIItemPatcher(BASE_URL, fieldsToSend);
 const itemDeleter = new WebitelAPIItemDeleter(BASE_URL);
-const permissionsGetter = new WebitelAPIPermissionsGetter(BASE_URL);
-const permissionsPatcher = new WebitelAPIPermissionsPatcher(BASE_URL);
 
 itemGetter.responseHandler = (response) => {
   const user = { ...defaultItem, ...response };
@@ -140,7 +134,3 @@ export async function deleteToken(userId, id) {
     throw err;
   }
 }
-
-export const getUserPermissions = async (id, page = 1, size = 10, search) => await permissionsGetter.getList(id, size, search);
-
-export const patchUserPermissions = async (id, item) => await permissionsPatcher.patchItem(id, item);

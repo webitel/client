@@ -2,6 +2,8 @@
   <section>
     <role-popup
       v-if="isRoleSelectPopup"
+      :namespace="namespace"
+      :sub-namespace="subNamespace"
       @close="closeRoleSelectPopup"
     ></role-popup>
 
@@ -16,7 +18,8 @@
           @input="setSearch"
           @search="loadList"
           @enter="loadList"
-        ></wt-search-bar><wt-icon-btn
+        ></wt-search-bar>
+        <wt-icon-btn
           class="icon-action"
           icon="refresh"
           :tooltip="$t('iconHints.reload')"
@@ -104,27 +107,20 @@
 
 <script>
 import { mapState } from 'vuex';
-import permissionsTabMixin from '../../../../mixins/objectPagesMixins/permissionsTabMixin/permissionsTabMixin';
 import RolePopup from './opened-object-permissions-obac-role-popup.vue';
+import permissionsTabMixin from '../../../../mixins/objectPagesMixins/permissionsTabMixin/permissionsTabMixin';
 
 export default {
   name: 'opened-object-permissions-obac',
   mixins: [permissionsTabMixin],
   components: { RolePopup },
   data: () => ({
-    namespace: 'permissions/objects/obac',
+    subNamespace: 'obac',
     headerTitle: '',
   }),
   computed: {
     ...mapState('permissions/objects', {
       id: (state) => state.itemId,
-    }),
-    ...mapState('permissions/objects/obac', {
-      dataListValue: (state) => state.dataList,
-      page: (state) => state.page,
-      size: (state) => state.size,
-      search: (state) => state.search,
-      isNext: (state) => state.isNextPage,
     }),
     headers() {
       return [

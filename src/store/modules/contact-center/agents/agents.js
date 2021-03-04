@@ -2,9 +2,9 @@ import skills from './agent-skills';
 import history from './history';
 import queues from './agent-queues';
 import subordinates from './agent-subordinates';
-import permissions from './permissions';
 import AgentsAPI from '../../../../api/contact-center/agents/agents';
 import { DefaultModule } from '../../defaults/DefaultModule';
+import DefaultPermissionsModule from '../../defaults/DefaultPermissionsModule';
 
 const defaultState = () => ({
   itemId: 0,
@@ -56,6 +56,11 @@ const actions = {
 const mutations = {
   ...defaultModule.mutations,
 };
+
+const PERMISSIONS_API_URL = '/call_center/agents';
+const permissions = new DefaultPermissionsModule()
+  .generateAPIMethods(PERMISSIONS_API_URL)
+  .getModule();
 
 export default {
   namespaced: true,

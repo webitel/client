@@ -1,10 +1,6 @@
 import { OutboundResourceServiceApiFactory } from 'webitel-sdk';
 import instance from '../../instance';
 import configuration from '../../openAPIConfig';
-import WebitelAPIPermissionsGetter
-  from '../../utils/ApiControllers/Permissions/WebitelAPIPermissionsGetter';
-import WebitelAPIPermissionsPatcher
-  from '../../utils/ApiControllers/Permissions/WebitelAPIPermissionsPatcher';
 import { WebitelSDKItemDeleter } from '../../utils/ApiControllers/Deleter/SDKDeleter';
 import { WebitelSDKItemPatcher } from '../../utils/ApiControllers/Patcher/SDKPatcher';
 import { WebitelSDKItemUpdater } from '../../utils/ApiControllers/Updater/SDKUpdater';
@@ -15,7 +11,6 @@ import { WebitelSDKListGetter } from '../../utils/ApiControllers/ListGetter/SDKL
 
 const resService = new OutboundResourceServiceApiFactory(configuration, '', instance);
 
-const BASE_URL = '/call_center/resources';
 const fieldsToSend = ['domainId', 'limit', 'enabled',
   'rps', 'reserve', 'maxSuccessivelyErrors',
   'name', 'errorIds', 'display', 'resourceId', 'gateway'];
@@ -54,8 +49,6 @@ const itemCreator = new WebitelSDKItemCreator(resService.createOutboundResource,
 const itemUpdater = new WebitelSDKItemUpdater(resService.updateOutboundResource, fieldsToSend, preRequestHandler);
 const itemPatcher = new WebitelSDKItemPatcher(resService.patchOutboundResource, fieldsToSend);
 const itemDeleter = new WebitelSDKItemDeleter(resService.deleteOutboundResource);
-const permissionsGetter = new WebitelAPIPermissionsGetter(BASE_URL);
-const permissionsPatcher = new WebitelAPIPermissionsPatcher(BASE_URL);
 
 itemGetter.responseHandler = (response) => {
   try {
@@ -85,7 +78,3 @@ export const updateResource = async (id, item) => await itemUpdater.updateItem(i
 export const patchResource = async (id, item) => await itemPatcher.patchItem(id, item);
 
 export const deleteResource = async (id) => await itemDeleter.deleteItem(id);
-
-export const getResPermissions = async (id, page = 0, size = 10, search) => await permissionsGetter.getList(id, size, search);
-
-export const patchResPermissions = async (id, item) => await permissionsPatcher.patchItem(id, item);

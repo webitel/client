@@ -1,9 +1,5 @@
 import deepCopy from 'deep-copy';
 import instance from '../../instance';
-import WebitelAPIPermissionsGetter
-  from '../../utils/ApiControllers/Permissions/WebitelAPIPermissionsGetter';
-import WebitelAPIPermissionsPatcher
-  from '../../utils/ApiControllers/Permissions/WebitelAPIPermissionsPatcher';
 import { WebitelAPIItemDeleter } from '../../utils/ApiControllers/Deleter/ApiDeleter';
 import { WebitelAPIItemUpdater } from '../../utils/ApiControllers/Updater/ApiUpdater';
 import { WebitelAPIItemCreator } from '../../utils/ApiControllers/Creator/ApiCreator';
@@ -55,8 +51,6 @@ const itemGetter = new WebitelAPIItemGetter(BASE_URL, defaultItem);
 const itemCreator = new WebitelAPIItemCreator(BASE_URL, fieldsToSend, preRequestHandler);
 const itemUpdater = new WebitelAPIItemUpdater(BASE_URL, fieldsToSend, preRequestHandler);
 const itemDeleter = new WebitelAPIItemDeleter(BASE_URL);
-const permissionsGetter = new WebitelAPIPermissionsGetter(BASE_URL);
-const permissionsPatcher = new WebitelAPIPermissionsPatcher(BASE_URL);
 
 itemGetter.responseHandler = (response) => {
   try {
@@ -99,7 +93,3 @@ export const getDeviceHistory = async ({ id, from, to, page, size }) => {
     throw err;
   }
 };
-
-export const getDevicePermissions = async (id, page = 1, size = 10, search) => await permissionsGetter.getList(id, size, search);
-
-export const patchDevicePermissions = async (id, item) => await permissionsPatcher.patchItem(id, item);

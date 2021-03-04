@@ -280,6 +280,11 @@ export default {
       permissionsRole: 'Role | Roles',
       allRoles: 'All roles',
       searchPlaceholder: 'role ..',
+      roles: {
+        permissions: 'Role permission | Role permissions',
+        addPermission: 'Add role permission',
+        usage: 'Usage',
+      },
       object: {
         object: 'Objects',
         allObjects: 'All objects',
@@ -694,6 +699,14 @@ export default {
 
     pagination: {
       rowsPerPage: 'Rows per page',
+    },
+  },
+
+  utils: {
+    downloadFilesBtn: {
+      downloadFiles: 'Download files',
+      filesLoaded: 'Files loaded',
+      zippingProgress: 'Zipping progress',
     },
   },
 

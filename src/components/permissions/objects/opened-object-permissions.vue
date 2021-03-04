@@ -21,7 +21,8 @@
           :tabs="tabs"
         ></wt-tabs>
         <component
-          :is="$options.name + '-' + currentTab.value"
+          :is="`${$options.name}-${currentTab.value}`"
+          :namespace="namespace"
         ></component>
       </div>
     </template>
@@ -75,10 +76,16 @@ export default {
   },
 
   methods: {
-    ...mapActions('permissions/objects', {
-      setId: 'SET_ITEM_ID',
-      loadItem: 'LOAD_ITEM',
-      resetState: 'RESET_ITEM_STATE',
+    ...mapActions({
+      setId(dispatch, payload) {
+        return dispatch(`${this.namespace}/SET_ITEM_ID`, payload);
+      },
+      loadItem(dispatch, payload) {
+        return dispatch(`${this.namespace}/LOAD_ITEM`, payload);
+      },
+      resetState(dispatch, payload) {
+        return dispatch(`${this.namespace}/RESET_ITEM_STATE`, payload);
+      },
     }),
   },
   // override headlineNavMixin

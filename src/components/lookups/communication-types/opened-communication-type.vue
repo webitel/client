@@ -1,117 +1,62 @@
 <template>
-    <div class="content-wrap">
-        <object-header
-          :primary-text="computePrimaryText"
-          :primary-action="save"
-          :hide-primary="!hasSaveActionAccess"
-          :primary-disabled="computeDisabled"
-          :secondary-action="close"
-        >
-          <headline-nav :path="path"></headline-nav>
-        </object-header>
-        <section class="object-content module-new">
-            <header class="content-header">
-                <h3 class="content-title">{{$t('objects.generalInfo')}}</h3>
-            </header>
+  <wt-page-wrapper :actions-panel="false">
+    <template slot="header">
+      <object-header
+        :primary-text="computePrimaryText"
+        :primary-action="save"
+        :hide-primary="!hasSaveActionAccess"
+        :primary-disabled="computeDisabled"
+        :secondary-action="close"
+      >
+        <headline-nav :path="path"></headline-nav>
+      </object-header>
+    </template>
 
-      <form class="new_w50">
-        <form-input
-          v-model.trim="code"
-          :v="$v.itemInstance.code"
-          :label="$t('objects.lookups.communications.code')"
-          :disabled="disableUserInput"
-          required
-        ></form-input>
-
-        <form-input
-          v-model.trim="name"
-          :v="$v.itemInstance.name"
-          :label="$t('objects.name')"
-          :disabled="disableUserInput"
-          required
-        ></form-input>
-
-        <form-input
-          v-model="description"
-          :label="$t('objects.description')"
-          :disabled="disableUserInput"
-          textarea
-        ></form-input>
-
-      </form>
-    </section>
-  </div>
+    <template slot="main">
+      <div class="main-container">
+        <wt-tabs
+          v-model="currentTab"
+          :tabs="tabs"
+        ></wt-tabs>
+        <component
+          :is="currentTab.value"
+          :v="$v"
+          :namespace="namespace"
+        ></component>
+      </div>
+    </template>
+  </wt-page-wrapper>
 </template>
 
 <script>
-import editComponentMixin from '@/mixins/objectPagesMixins/openedObjectMixin/editComponentMixin';
-
 import { required } from 'vuelidate/lib/validators';
-import { mapActions, mapState } from 'vuex';
-import openedTabComponentMixin from '../../../mixins/objectPagesMixins/openedObjectTabMixin/openedTabComponentMixin';
-import headlineNavMixin from '../../../mixins/baseMixins/headlineNavMixin/headlineNavMixin';
+import General from './opened-communication-type-general.vue';
+import openedObjectMixin from '../../../mixins/objectPagesMixins/openedObjectMixin/openedObjectMixin';
 
 export default {
   name: 'opened-communications-type',
-  mixins: [editComponentMixin, openedTabComponentMixin, headlineNavMixin],
-  data() {
-    return {};
-  },
+  mixins: [openedObjectMixin],
+  components: { General },
+  data: () => ({
+    namespace: 'lookups/communications',
+  }),
 
   // by vuelidate
   validations: {
     itemInstance: {
-      code: {
-        required,
-      },
-      name: {
-        required,
-      },
+      name: { required },
+      code: { required },
     },
-  },
-
-  mounted() {
-    this.id = this.$route.params.id;
-    this.loadItem();
   },
 
   computed: {
-    ...mapState('lookups/communications', {
-      itemInstance: (state) => state.itemInstance,
-    }),
-    id: {
-      get() {
-        return this.$store.state.lookups.communications.itemId;
-      },
-      set(value) {
-        this.setId(value);
-      },
+    tabs() {
+      const tabs = [{
+        text: this.$t('objects.general'),
+        value: 'general',
+      }];
+      return tabs;
     },
-    code: {
-      get() {
-        return this.$store.state.lookups.communications.itemInstance.code;
-      },
-      set(value) {
-        this.setItemProp({ prop: 'code', value });
-      },
-    },
-    name: {
-      get() {
-        return this.$store.state.lookups.communications.itemInstance.name;
-      },
-      set(value) {
-        this.setItemProp({ prop: 'name', value });
-      },
-    },
-    description: {
-      get() {
-        return this.$store.state.lookups.communications.itemInstance.description;
-      },
-      set(value) {
-        this.setItemProp({ prop: 'description', value });
-      },
-    },
-
     path() {
       const baseUrl = '/lookups/communications';
       return [
@@ -124,18 +69,7 @@ export default {
       ];
     },
   },
-
-        methods: {
-            ...mapActions('lookups/communications', {
-                setId: 'SET_ITEM_ID',
-                loadItem: 'LOAD_ITEM',
-                addItem: 'ADD_ITEM',
-                updateItem: 'UPDATE_ITEM',
-                setItemProp: 'SET_ITEM_PROPERTY',
-                resetState: 'RESET_ITEM_STATE',
-            }),
-        },
-    };
+};
 </script>
 
 <style scoped>

@@ -7,8 +7,8 @@ import {
   updateUser,
 } from "../../../../api/directory/users/users";
 import { DefaultModule } from "../../defaults/DefaultModule";
+import DefaultPermissionsModule from '../../defaults/DefaultPermissionsModule';
 import tokens from './usersTokens';
-import permissions from './permissions';
 
 const defaultState = () => {
   return {
@@ -115,6 +115,11 @@ const mutations = {
 
   ...defaultModule.mutations,
 };
+
+const PERMISSIONS_API_URL = '/users';
+const permissions = new DefaultPermissionsModule()
+  .generateAPIMethods(PERMISSIONS_API_URL)
+  .getModule();
 
 export default {
   namespaced: true,
