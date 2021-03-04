@@ -702,6 +702,14 @@ export default {
     },
   },
 
+  utils: {
+    downloadFilesBtn: {
+      downloadFiles: 'Download files',
+      filesLoaded: 'Files loaded',
+      zippingProgress: 'Zipping progress',
+    },
+  },
+
   errorPages: {
     goToHome: 'Go to Home page',
     page403: {
