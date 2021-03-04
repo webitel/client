@@ -47,7 +47,7 @@ export default {
   },
   data: () => ({
     namespace: 'permissions/roles',
-    itemInstance: {
+    itemInstanceValue: {
       permission: {},
     },
   }),
@@ -63,6 +63,14 @@ export default {
     ...mapState('permissions/roles', {
       permissions: (state) => state.itemInstance.permissions,
     }),
+    // override mixin map state
+    itemInstance: {
+      get() { return this.itemInstanceValue; },
+      set(value) { this.itemInstanceValue = value; },
+    },
+    computeDisabled() {
+      return this.checkValidations();
+    },
   },
   methods: {
     ...mapActions({
@@ -95,6 +103,7 @@ export default {
         this.permissions.every((addedPermission) => addedPermission.id !== permission.id)
       ));
     },
+    loadItem() {},
     resetState() {},
   },
 };
