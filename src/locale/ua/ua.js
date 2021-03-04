@@ -696,6 +696,14 @@ export default {
     },
   },
 
+  utils: {
+    downloadFilesBtn: {
+      downloadFiles: 'Скачати файли',
+      filesLoaded: 'Файлов скачано',
+      zippingProgress: 'Прогрес архівації',
+    },
+  },
+
   errorPages: {
     goToHome: 'Повернутись додому',
     page403: {

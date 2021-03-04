@@ -1,8 +1,16 @@
 <template>
   <wt-page-wrapper :actions-panel="false">
     <template slot="header">
-      <object-header hide-primary>
+      <object-header>
         <headline-nav :path="path"></headline-nav>
+        <template slot="actions">
+          <download-files-btn
+            :is-files-loading="isFilesLoading"
+            :files-download-progress="filesDownloadProgress"
+            :files-zipping-progress="filesZippingProgress"
+            @export-files="exportFiles"
+          ></download-files-btn>
+        </template>
       </object-header>
     </template>
 
@@ -26,12 +34,6 @@
               :tooltip="$t('iconHints.deleteSelected')"
               @click="deleteSelected"
             ></wt-icon-btn>
-            <wt-icon-btn
-              class="icon-action"
-              icon="download"
-              :tooltip="$t('iconHints.downloadAll')"
-              @click="downloadAll"
-            ></wt-icon-btn>
             <wt-table-actions
               :icons="['refresh']"
               @input="tableActionsHandler"
@@ -52,7 +54,8 @@
         >
           <div v-show="isLoadingFiles">
             <div class="progress-count">
-              <span>{{ loadedCount }}</span>/<span>{{ allLoadingCount }}</span>
+              <wt-loader size="sm"></wt-loader>
+              <p>{{ loadedCount }}/{{ allLoadingCount }}</p>
             </div>
           </div>
           <div
@@ -144,6 +147,7 @@ import vueDropzone from 'vue2-dropzone';
 import exportFilesMixin from '@webitel/ui-sdk/src/modules/FilesExport/mixins/exportFilesMixin';
 import prettifyFileSize from '@webitel/ui-sdk/src/scripts/prettifyFileSize';
 import eventBus from '@webitel/ui-sdk/src/scripts/eventBus';
+import DownloadFilesBtn from '../../utils/download-files-btn.vue';
 import tableComponentMixin from '../../../mixins/objectPagesMixins/objectTableMixin/tableComponentMixin';
 import { download } from '../../../utils/download';
 import { getMediaList } from '../../../api/lookups/media/media';
@@ -155,6 +159,7 @@ export default {
   name: 'the-media',
   mixins: [exportFilesMixin, tableComponentMixin],
   components: {
+    DownloadFilesBtn,
     vueDropzone,
   },
   data() {
@@ -208,12 +213,9 @@ export default {
       download(url, name);
     },
 
-    async downloadAll() {
-      return this.exportFiles();
-    },
-
     getSelectedFiles() {
-      return this.dataList.filter((item) => item._isSelected);
+      const selected = this.dataList.filter((item) => item._isSelected);
+      return selected.length ? selected : null;
     },
 
     // dropzone event on loading start
@@ -270,9 +272,17 @@ export default {
 };
 </script>
 
-<style lang="scss">
-.new-file {
-  background: rgba(255, 193, 7, 0.1);
+<style lang="scss" scoped>
+.progress-count {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  .wt-loader {
+    display: inline-block;
+    margin-bottom: 3px;
+    margin-right: var(--icon-spacing);
+  }
 }
 
 .table-action--iframe-wrap {
