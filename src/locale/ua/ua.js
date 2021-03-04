@@ -357,7 +357,7 @@ export default {
         start: 'Початок',
         end: 'Кінець',
         workWeek: 'Робочий тиждень',
-        holidays: 'Вихідні',
+        holidays: 'Вихідний | Вихідні',
         enabled: 'Включено',
         date: 'Дата',
         repeat: 'Повторювати',

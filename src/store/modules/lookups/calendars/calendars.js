@@ -1,5 +1,4 @@
 import proxy from '../../../../utils/editProxy';
-import holidays from './calendar-holidays';
 import {
   addCalendar,
   deleteCalendar,
@@ -51,24 +50,24 @@ const state = {
 const getters = {};
 
 const actions = {
-  GET_LIST: async () => {
-    return await getCalendarList(state.page, state.size, state.search);
+  GET_LIST: (context) => {
+    return getCalendarList(context.state);
   },
 
-  GET_ITEM: async () => {
-    return await getCalendar(state.itemId);
+  GET_ITEM: (context) => {
+    return getCalendar(context.state);
   },
 
-  POST_ITEM: async () => {
-    return await addCalendar(state.itemInstance);
+  POST_ITEM: (context) => {
+    return addCalendar(context.state);
   },
 
-  UPD_ITEM: async () => {
-    await updateCalendar(state.itemId, state.itemInstance);
+  UPD_ITEM: (context) => {
+    return updateCalendar(context.state);
   },
 
-  DELETE_ITEM: async (context, id) => {
-    await deleteCalendar(id);
+  DELETE_ITEM: (context, id) => {
+    return deleteCalendar({ id });
   },
 
   SET_ITEM_ID: (context, id) => {
@@ -144,40 +143,44 @@ const actions = {
   },
 
   ADD_ACCEPT_ITEM: (context, day) => {
+    const value = context.state.itemInstance.accepts;
     // iterates through array and tries to find first day next to param day
-    const dayIndex = state.itemInstance.accepts.findIndex(workday => workday.day > day);
+    const dayIndex = value.findIndex(workday => workday.day > day);
     const dayItem = {
       day,
       disabled: false,
       start: 9 * 60,
       end: 20 * 60,
     };
-    context.commit('ADD_ACCEPT_ITEM', { index: dayIndex, item: dayItem });
-    context.commit('SET_ITEM_PROPERTY', { prop: '_dirty', value: true });
+    value.splice(dayIndex, 0, dayItem);
+    context.commit('SET_ITEM_PROPERTY', { prop: 'accepts', value });
   },
 
   REMOVE_ACCEPT_ITEM: (context, index) => {
-    context.commit('REMOVE_ACCEPT_ITEM', index);
-    context.commit('SET_ITEM_PROPERTY', { prop: '_dirty', value: true });
+    const value = context.state.itemInstance.accepts;
+    value.splice(index, 1);
+    context.commit('SET_ITEM_PROPERTY', { prop: 'accepts', value });
   },
 
   ADD_EXCEPT_ITEM: (context, item) => {
-    context.commit('ADD_EXCEPT_ITEM', item);
-    context.commit('SET_ITEM_PROPERTY', { prop: '_dirty', value: true });
+    const value = context.state.itemInstance.excepts.concat(item);
+    context.commit('SET_ITEM_PROPERTY', { prop: 'excepts', value });
   },
 
   UPDATE_EXCEPT_ITEM: (context, { index, item }) => {
-    context.commit('UPDATE_EXCEPT_ITEM', { index, item });
-    context.commit('SET_ITEM_PROPERTY', { prop: '_dirty', value: true });
+    const value = context.state.itemInstance.excepts;
+    value.splice(index, 1, item);
+    context.commit('SET_ITEM_PROPERTY', { prop: 'excepts', value });
   },
 
-  TOGGLE_EXCEPT_ITEM_PROPERTY: (context, index) => {
-    context.commit('TOGGLE_EXCEPT_ITEM_PROPERTY', index);
-    context.commit('SET_ITEM_PROPERTY', { prop: '_dirty', value: true });
+  REMOVE_EXCEPT_ITEM: (context, index) => {
+    const value = context.state.itemInstance.excepts;
+    value.splice(index, 1);
+    context.commit('SET_ITEM_PROPERTY', { prop: 'excepts', value });
   },
 
-  REMOVE_EXCEPT_ITEM: async (context, index) => {
-    context.commit('REMOVE_EXCEPT_ITEM', index);
+  SET_EXCEPT_ITEM_PROPERTY: (context, { index, prop, value }) => {
+    context.commit('SET_EXCEPT_ITEM_PROPERTY', { index, prop, value });
     context.commit('SET_ITEM_PROPERTY', { prop: '_dirty', value: true });
   },
 
@@ -227,28 +230,8 @@ const mutations = {
     state.itemInstance.accepts[index][prop] = value;
   },
 
-  ADD_ACCEPT_ITEM: (state, { index, item }) => {
-    state.itemInstance.accepts.splice(index, 0, item);
-  },
-
-  REMOVE_ACCEPT_ITEM: (state, index) => {
-    state.itemInstance.accepts.splice(index, 1);
-  },
-
-  ADD_EXCEPT_ITEM: (state, item) => {
-    state.itemInstance.excepts.push(item);
-  },
-
-  UPDATE_EXCEPT_ITEM: (state, { index, item }) => {
-    state.itemInstance.excepts[index] = item;
-  },
-
-  TOGGLE_EXCEPT_ITEM_PROPERTY: (state, index) => {
-    state.itemInstance.excepts[index].repeat = !state.itemInstance.excepts[index].repeat;
-  },
-
-  REMOVE_EXCEPT_ITEM: (state, index) => {
-    state.itemInstance.excepts.splice(index, 1);
+  SET_EXCEPT_ITEM_PROPERTY: (state, { index, prop, value }) => {
+    state.itemInstance.excepts[index][prop] = value;
   },
 
   RESET_ITEM_STATE: (state) => {
@@ -268,5 +251,5 @@ export default {
   getters,
   actions,
   mutations,
-  modules: { holidays, permissions },
+  modules: { permissions },
 };

@@ -360,7 +360,7 @@ export default {
         start: 'Start',
         end: 'End',
         workWeek: 'Working week',
-        holidays: 'Holidays',
+        holidays: 'Holiday | Holidays',
         enabled: 'Enabled',
         date: 'Date',
         repeat: 'Repeat',
