@@ -15,17 +15,12 @@ const BASE_URL = process.env.VUE_APP_API_URL;
 const listGetter = new WebitelSDKListGetter(mediaService.searchMediaFile);
 const itemDeleter = new WebitelSDKItemDeleter(mediaService.deleteMediaFile);
 
-export const getMediaList = async (page = 0, size = 10, search) => await listGetter.getList({
-  page,
-  size,
-  search,
-});
+export const getMediaList = (params) => listGetter.getList(params);
 
-export const getMedia = async (id) => {
-  const url = `${BASE_URL}/storage/media/${id}/stream?access_token=${token}`;
-  const { domainId } = store.state.userinfo;
+export const getMedia = async ({ itemId }) => {
+  const url = `${BASE_URL}/storage/media/${itemId}/stream?access_token=${token}`;
   try {
-    return await instance.get(url, domainId);
+    return await instance.get(url);
   } catch (err) {
     throw err;
   }
@@ -40,7 +35,7 @@ export const downloadMedia = async (id) => {
   }
 };
 
-export const addMedia = async (file) => {
+export const addMedia = async ({ itemInstance }) => {
   const url = `${BASE_URL}/storage/media?access_token=${token}`;
   const config = {
     headers: {
@@ -48,7 +43,7 @@ export const addMedia = async (file) => {
     },
   };
   const formData = new FormData();
-  formData.append('file', file);
+  formData.append('file', itemInstance);
   try {
     const response = await axios.post(url, formData, config);
     eventBus.$emit('notification', { type: 'info', text: 'Successfully added' });
@@ -58,4 +53,4 @@ export const addMedia = async (file) => {
   }
 };
 
-export const deleteMedia = async (id) => await itemDeleter.deleteItem(id);
+export const deleteMedia = ({ id }) => itemDeleter.deleteItem(id);
