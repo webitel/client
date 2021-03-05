@@ -1,275 +1,232 @@
 <template>
-    <div class="content-wrap">
+  <wt-page-wrapper class="dialplan" :actions-panel="false">
+    <template slot="header">
       <object-header
         :hide-primary="!hasCreateAccess"
         :primary-action="create"
       >
-          <headline-nav :path="path"></headline-nav>
-         </object-header>
+        <headline-nav :path="path"></headline-nav>
+      </object-header>
+    </template>
 
-        <section class="object-content dialplan">
-            <header class="content-header">
-                <h3 class="content-title">{{$t('objects.routing.dialplan.dialplanRules')}}</h3>
-                <div class="content-header__actions-wrap">
-                    <search
-                            v-model="search"
-                            @filterData="loadList"
-                    ></search>
-                    <i
-                            v-if="hasDeleteAccess"
-                            class="icon-icon_delete icon-action"
-                            :class="{'hidden': anySelected}"
-                            :title="$t('iconHints.deleteSelected')"
-                            @click="deleteSelected"
-                    ></i>
-                    <i
-                            class="icon-icon_reload icon-action"
-                            :title="$t('iconHints.reload')"
-                            @click="loadList"
-                    ></i>
-                </div>
-            </header>
+    <template slot="main">
+      <section class="main-section__wrapper">
+        <header class="content-header">
+          <h3 class="content-title">{{ $t('objects.routing.dialplan.dialplanRules') }}</h3>
+          <div class="content-header__actions-wrap">
+            <wt-search-bar
+              :value="search"
+              debounce
+              @input="setSearch"
+              @search="loadList"
+              @enter="loadList"
+            ></wt-search-bar>
+            <wt-icon-btn
+              v-if="hasDeleteAccess"
+              class="icon-action"
+              :class="{'hidden': anySelected}"
+              icon="bucket"
+              :tooltip="$t('iconHints.deleteSelected')"
+              @click="deleteSelected"
+            ></wt-icon-btn>
+            <wt-table-actions
+              :icons="['refresh']"
+              @input="tableActionsHandler"
+            ></wt-table-actions>
+          </div>
+        </header>
 
-            <loader v-show="!isLoaded"></loader>
-
-            <vuetable
-                    v-show="isLoaded"
-                    ref="vuetable"
-                    :api-mode="false"
-                    :fields="fields"
-                    :data="dataList"
-            >
-                <template slot="name" slot-scope="props">
-                    <div>
-                        <span class="nameLink" @click="edit(props.rowIndex)">
-                        {{dataList[props.rowIndex].name}}
-                        </span>
-                    </div>
-                </template>
-
-                <template slot="pattern" slot-scope="props">
-                    <div>
-                        {{dataList[props.rowIndex].pattern}}
-                    </div>
-                </template>
-
-                <template slot="schema" slot-scope="props">
-                    <div>
-                        <span class="nameLink" @click="openFlow(dataList[props.rowIndex].schema.id)">
-                        {{dataList[props.rowIndex].schema.name}}
-                        </span>
-                    </div>
-                </template>
-
-                <template slot="enabled" slot-scope="props">
-                    <switcher
-                            :value="!dataList[props.rowIndex].disabled"
-                            :disabled="!hasEditAccess"
-                            @input="patchProperty({index: props.rowIndex, prop: 'disabled', value: !$event})"
-                    ></switcher>
-                </template>
-
-                <template slot="actions" slot-scope="props">
-                    <i class="vuetable-action icon-icon_draggable"
-                       v-if="hasEditAccess"
-                       :title="$t('iconHints.draggable')"
-                    ></i>
-                    <i class="vuetable-action icon-icon_edit"
-                       v-if="hasEditAccess"
-                       :title="$t('iconHints.edit')"
-                       @click="edit(props.rowIndex)"
-                    ></i>
-                    <i class="vuetable-action icon-icon_delete"
-                       v-if="hasDeleteAccess"
-                       :title="$t('iconHints.delete')"
-                       @click="remove(props.rowIndex)"
-                    ></i>
-                </template>
-            </vuetable>
-            <pagination
-                    v-show="isLoaded"
-                    v-model="size"
-                    @loadDataList="loadList"
-                    @next="nextPage"
-                    @prev="prevPage"
-                    :isNext="isNextPage"
-                    :isPrev="!!page"
-                    :page="page"
-            ></pagination>
-        </section>
-    </div>
+        <wt-loader v-show="!isLoaded"></wt-loader>
+        <div class="table-wrapper" v-show="isLoaded">
+          <wt-table
+            ref="dialplan-table"
+            :headers="headers"
+            :data="dataList"
+            :grid-actions="hasTableActions"
+          >
+            <template slot="name" slot-scope="{ item }">
+              <item-link :link="itemLink(item)">
+                {{ item.name }}
+              </item-link>
+            </template>
+            <template slot="pattern" slot-scope="{ item }">
+              {{ item.pattern }}
+            </template>
+            <template slot="schema" slot-scope="{ item }">
+              <item-link v-if="item.schema" :link="itemFlowLink(item)" target="_blank">
+                {{ item.schema.name }}
+              </item-link>
+            </template>
+            <template slot="enabled" slot-scope="{ item, index }">
+              <wt-switcher
+                :value="!item.disabled"
+                :disabled="!hasEditAccess"
+                @change="patchProperty({index, prop: 'disabled', value: !$event})"
+              ></wt-switcher>
+            </template>
+            <template slot="actions" slot-scope="{ item, index }">
+              <wt-icon-btn
+                class="table-action dialplan__draggable-icon"
+                icon="move"
+                v-if="hasEditAccess"
+                :tooltip="$t('iconHints.draggable')"
+                tooltip-position="left"
+              ></wt-icon-btn>
+              <edit-action
+                v-if="hasEditAccess"
+                @click="edit(item)"
+              ></edit-action>
+              <delete-action
+                v-if="hasDeleteAccess"
+                @click="remove(index)"
+              ></delete-action>
+            </template>
+          </wt-table>
+          <wt-pagination
+            :size="size"
+            :next="isNext"
+            :prev="page > 1"
+            debounce
+            @next="nextPage"
+            @prev="prevPage"
+            @input="setSize"
+            @change="loadList"
+          ></wt-pagination>
+        </div>
+      </section>
+    </template>
+  </wt-page-wrapper>
 </template>
 
 <script>
-    import { mapActions, mapState } from 'vuex';
-    import Sortable, { Swap } from 'sortablejs';
-    import tableComponentMixin from '../../../mixins/objectPagesMixins/objectTableMixin/tableComponentMixin';
-    import { _checkboxTableField, _actionsTableField_3, _switcherWidth } from '../../../utils/tableFieldPresets';
-    import RouteNames from '../../../router/_internals/RouteNames.enum';
+import { mapActions } from 'vuex';
+import Sortable, { Swap } from 'sortablejs';
+import tableComponentMixin from '../../../mixins/objectPagesMixins/objectTableMixin/tableComponentMixin';
+import RouteNames from '../../../router/_internals/RouteNames.enum';
 
-    Sortable.mount(new Swap());
-    const isFirefox = navigator.userAgent.toLowerCase().indexOf('firefox') > -1;
-    const sortableConfig = {
-        swap: true, // Enable swap mode
-        swapClass: 'sortable-swap-highlight', // Class name for swap item (if swap mode is enabled)
-        animation: 150, // ms, animation speed moving items when sorting, `0` — without animation
-        easing: 'cubic-bezier(1, 0, 0, 1)', // Easing for animation. Defaults to null. See https://easings.net/ for examples.
-        ghostClass: 'sortable-ghost', // Class name for the drop placeholder
-        chosenClass: 'sortable-chosen', // Class name for the chosen item
-        dragClass: 'sortable-drag', // Class name for the dragging item
+Sortable.mount(new Swap());
+const isFirefox = navigator.userAgent.toLowerCase().indexOf('firefox') > -1;
+const sortableConfig = {
+  swap: true, // Enable swap mode
+  swapClass: 'sortable-swap-highlight', // Class name for swap item (if swap mode is enabled)
+  animation: 150, // ms, animation speed moving items when sorting, `0` — without animation
+  easing: 'cubic-bezier(1, 0, 0, 1)', // Easing for animation. Defaults to null. See https://easings.net/ for examples.
+  ghostClass: 'sortable-ghost', // Class name for the drop placeholder
+  chosenClass: 'sortable-chosen', // Class name for the chosen item
+  dragClass: 'sortable-drag', // Class name for the dragging item
 
-        direction: 'vertical', // Direction of Sortable (will be detected automatically if not given)
+  direction: 'vertical', // Direction of Sortable (will be detected automatically if not given)
 
-        forceFallback: isFirefox, // ignore the HTML5 DnD behaviour and force the fallback to kick in
-        fallbackClass: 'sortable-fallback', // Class name for the cloned DOM Element when using forceFallback
+  forceFallback: isFirefox, // ignore the HTML5 DnD behaviour and force the fallback to kick in
+  fallbackClass: 'sortable-fallback', // Class name for the cloned DOM Element when using forceFallback
 
-        setData: (dataTransfer, draggedElement) => {
-            dataTransfer.setData('foo', 'bar'); // required by Firefox in order to DnD work: https://stackoverflow.com/a/19055350/1411105
-        },
-    };
+  // eslint-disable-next-line no-unused-vars
+  setData: (dataTransfer, draggedElement) => {
+    dataTransfer.setData('foo', 'bar'); // required by Firefox in order to DnD work: https://stackoverflow.com/a/19055350/1411105
+  },
+};
 
-    export default {
-        name: 'the-dialplan',
-        mixins: [tableComponentMixin],
-        data() {
-            return {
-                sortableInstance: null,
-            };
-        },
-
-        mounted() {
-            this.initSortable();
-        },
-
-        watch: {
-            dataList() {
-                this.initSortable();
-            },
-        },
-
-        computed: {
-            ...mapState('routing/dialplan', {
-                dataList: (state) => state.dataList,
-                page: (state) => state.page,
-                isNextPage: (state) => state.isNextPage,
-            }),
-
-            size: {
-                get() {
-                    return this.$store.state.routing.dialplan.size;
-                },
-                set(value) {
-                    this.setSize(value);
-                },
-            },
-
-            search: {
-                get() {
-                    return this.$store.state.routing.dialplan.search;
-                },
-                set(value) {
-                    this.setSearch(value);
-                },
-            },
-          fields() {
-            let fields = [
-              _checkboxTableField,
-              { name: 'name', title: this.$t('objects.name') },
-              { name: 'pattern', title: this.$t('objects.routing.dialplan.pattern') },
-              { name: 'schema', title: this.$tc('objects.routing.schema', 1) },
-              { name: 'enabled', title: this.$t('objects.enabled'), width: _switcherWidth },
-            ];
-            if (this.hasTableActions) fields = fields.concat(_actionsTableField_3);
-            return fields;
-          },
-          path() {
-            return [
-              { name: this.$t('objects.routing.routing') },
-              { name: this.$t('objects.routing.dialplan.dialplan'), route: '/routing/dialplan' },
-            ];
-          },
-
+export default {
+  name: 'the-dialplan',
+  mixins: [tableComponentMixin],
+  data: () => ({
+    namespace: 'routing/dialplan',
+    routeName: RouteNames.DIALPLAN,
+    sortableInstance: null,
+  }),
+  mounted() {
+    this.initSortable();
+  },
+  destroyed() {
+    this.destroySortable();
+  },
+  watch: {
+    dataList() {
+      this.initSortable();
     },
+  },
+  computed: {
+    headers() {
+      return [
+        { value: 'name', text: this.$t('objects.name') },
+        { value: 'pattern', text: this.$t('objects.routing.dialplan.pattern') },
+        { value: 'schema', text: this.$tc('objects.routing.schema', 1) },
+        { value: 'enabled', text: this.$t('objects.enabled') },
+      ];
+    },
+    path() {
+      return [
+        { name: this.$t('objects.routing.routing') },
+        { name: this.$t('objects.routing.dialplan.dialplan'), route: '/routing/dialplan' },
+      ];
+    },
+  },
+  methods: {
+    itemFlowLink({ id }) {
+      return {
+        name: `${RouteNames.FLOW}-edit`,
+        params: { id },
+      };
+    },
+    initSortable() {
+      if (!this.hasEditAccess) return;
+      if (this.sortableInstance) this.destroySortable();
+        // https://github.com/SortableJS/Sortable#options
+      const tableBody = document.querySelector('.wt-table__body');
+      this.sortableInstance = Sortable.create(tableBody, {
+        ...sortableConfig,
 
-        methods: {
-            openFlow(value) {
-                this.$router.push({
-                    name: `${RouteNames.FLOW}-edit`,
-                    params: { id: value },
-                });
-            },
-
-            initSortable() {
-              if (!this.hasEditAccess) return;
-                if (this.sortableInstance) this.sortableInstance.destroy();
-
-                // https://github.com/SortableJS/Sortable#options
-                const vuetableBody = document.querySelector('.vuetable-body');
-                this.sortableInstance = Sortable.create(vuetableBody, {
-                    ...sortableConfig,
-
-                    // Element dragging ended
-                    onEnd: async (event) => {
-                        if (event.oldIndex === event.newIndex) return;
-                        const fromId = this.dataList[event.oldIndex].id;
-                        const toId = this.dataList[event.newIndex].id;
-                        await this.swapRows({ fromId, toId });
-                    },
-                });
-            },
-
-            create() {
-                this.$router.push({ name: `${RouteNames.DIALPLAN}-new` });
-            },
-
-            edit(rowId) {
-                this.$router.push({
-                    name: `${RouteNames.DIALPLAN}-edit`,
-                    params: { id: this.dataList[rowId].id },
-                });
-            },
-
-            ...mapActions('routing/dialplan', {
-                loadDataList: 'LOAD_DATA_LIST',
-                setSize: 'SET_SIZE',
-                setSearch: 'SET_SEARCH',
-                patchProperty: 'PATCH_ITEM_PROPERTY',
-                swapRows: 'SWAP_ROWS',
-                nextPage: 'NEXT_PAGE',
-                prevPage: 'PREV_PAGE',
-                removeItem: 'REMOVE_ITEM',
-            }),
+        // Element dragging ended
+        onEnd: async (event) => {
+          if (event.oldIndex === event.newIndex) return;
+          const fromId = this.dataList[event.oldIndex].id;
+          const toId = this.dataList[event.newIndex].id;
+          await this.swapRows({ fromId, toId });
         },
-    };
+      });
+    },
+    destroySortable() {
+      this.sortableInstance.destroy();
+    },
+    ...mapActions({
+      patchProperty(dispatch, payload) {
+        return dispatch(`${this.namespace}/PATCH_ITEM_PROPERTY`, payload);
+      },
+      swapRows(dispatch, payload) {
+        return dispatch(`${this.namespace}/SWAP_ROWS`, payload);
+      },
+    }),
+  },
+};
 </script>
 
-<style lang="scss">
-    .dialplan .vuetable {
-        .sortable-chosen {
-            .icon-icon_draggable:before {
-                color: #000;
-            }
-        }
-
-        .icon-action.icon-icon_draggable {
-            cursor: grab;
-        }
-
-        .sortable-drag {
-            position: relative;
-            border-radius: $border-radius;
-        }
-
-        // Firefox fallback
-        .sortable-fallback {
-            display: grid;
-            grid-template-columns: 42px 1fr 1fr 1fr 10% 240px;
-            grid-column-gap: 10px;
-            align-items: center;
-        }
-
-        .sortable-swap-highlight {
-            background: $accent-color;
-        }
+<style lang="scss" scoped>
+.dialplan ::v-deep {
+  .sortable-chosen {
+    .dialplan__draggable-icon .wt-icon__icon {
+      fill: var(--icon--active-color);
     }
+  }
+
+  .dialplan__draggable-icon {
+    cursor: move;
+  }
+
+  .sortable-drag {
+    position: relative;
+    border-radius: var(--border-radius);
+  }
+
+  // Firefox fallback
+  .sortable-fallback {
+    display: grid;
+    grid-template-columns: 42px 1fr 1fr 1fr 10% 240px;
+    grid-column-gap: 10px;
+    align-items: center;
+  }
+
+  .wt-table .sortable-swap-highlight {
+    background: var(--accent-color);
+  }
+}
 </style>

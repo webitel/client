@@ -2,50 +2,49 @@ import { RoutingOutboundCallServiceApiFactory } from 'webitel-sdk';
 import eventBus from '@webitel/ui-sdk/src/scripts/eventBus';
 import instance from '../../instance';
 import configuration from '../../openAPIConfig';
-import store from '../../../store/store';
-import { WebitelSDKItemDeleter } from '../../utils/ApiControllers/Deleter/SDKDeleter';
-import { WebitelSDKItemPatcher } from '../../utils/ApiControllers/Patcher/SDKPatcher';
-import { WebitelSDKItemUpdater } from '../../utils/ApiControllers/Updater/SDKUpdater';
-import { WebitelSDKItemCreator } from '../../utils/ApiControllers/Creator/SDKCreator';
-import { WebitelSDKItemGetter } from '../../utils/ApiControllers/Getter/SDKGetter';
-import { WebitelSDKListGetter } from '../../utils/ApiControllers/ListGetter/SDKListGetter';
-
+import SDKItemDeleter from '../../utils/ApiControllers/Deleter/SDKDeleter';
+import SDKItemPatcher from '../../utils/ApiControllers/Patcher/SDKPatcher';
+import SDKItemUpdater from '../../utils/ApiControllers/Updater/SDKUpdater';
+import SDKItemCreator from '../../utils/ApiControllers/Creator/SDKCreator';
+import SDKItemGetter from '../../utils/ApiControllers/Getter/SDKGetter';
+import SDKListGetter from '../../utils/ApiControllers/ListGetter/SDKListGetter';
 
 const dialplanService = new RoutingOutboundCallServiceApiFactory(configuration, '', instance);
 
-const fieldsToSend = ['domainId', 'name', 'schema', 'pattern', 'description', 'disabled'];
+const fieldsToSend = ['name', 'schema', 'pattern', 'description', 'disabled'];
 
-const defaultListItem = { _isSelected: false, disabled: false };
+const defaultListObject = { _isSelected: false, disabled: false };
 
-const listGetter = new WebitelSDKListGetter(dialplanService.searchRoutingOutboundCall, defaultListItem);
-const itemGetter = new WebitelSDKItemGetter(dialplanService.readRoutingOutboundCall);
-const itemCreator = new WebitelSDKItemCreator(dialplanService.createRoutingOutboundCall, fieldsToSend);
-const itemUpdater = new WebitelSDKItemUpdater(dialplanService.updateRoutingOutboundCall, fieldsToSend);
-const itemPatcher = new WebitelSDKItemPatcher(dialplanService.patchRoutingOutboundCall, fieldsToSend);
-const itemDeleter = new WebitelSDKItemDeleter(dialplanService.deleteRoutingOutboundCall);
+const listGetter = new SDKListGetter(dialplanService.searchRoutingOutboundCall, defaultListObject);
+const itemGetter = new SDKItemGetter(dialplanService.readRoutingOutboundCall);
+const itemCreator = new SDKItemCreator(dialplanService.createRoutingOutboundCall, fieldsToSend);
+const itemUpdater = new SDKItemUpdater(dialplanService.updateRoutingOutboundCall, fieldsToSend);
+const itemPatcher = new SDKItemPatcher(dialplanService.patchRoutingOutboundCall, fieldsToSend);
+const itemDeleter = new SDKItemDeleter(dialplanService.deleteRoutingOutboundCall);
 
-export const getDialplanList = async (page = 0, size = 10, search) => await listGetter.getList({
-  page,
-  size,
-  search,
-});
-
-export const getDialplan = async (id) => await itemGetter.getItem(id);
-
-export const addDialplan = async (item) => await itemCreator.createItem(item);
-
-export const patchDialplan = async (id, item) => await itemPatcher.patchItem(id, item);
-
-export const updateDialplan = async (id, item) => await itemUpdater.updateItem(id, item);
-
-export const deleteDialplan = async (id) => await itemDeleter.deleteItem(id);
-
-export const moveDialplan = async (fromId, toId) => {
-  const domain_id = store.state.userinfo.domainId;
+export const getDialplanList = (params) => listGetter.getList(params);
+export const getDialplan = ({ itemId }) => itemGetter.getItem(itemId);
+export const addDialplan = ({ itemInstance }) => itemCreator.createItem(itemInstance);
+export const patchDialplan = ({ id, changes }) => itemPatcher.patchItem(id, changes);
+export const updateDialplan = ({ itemId, itemInstance }) => (
+  itemUpdater.updateItem(itemId, itemInstance)
+);
+export const deleteDialplan = ({ id }) => itemDeleter.deleteItem(id);
+export const moveDialplan = async ({ fromId, toId }) => {
   try {
-    await dialplanService.movePositionRoutingOutboundCall(fromId, toId, { domain_id });
+    await dialplanService.movePositionRoutingOutboundCall(fromId, toId, {});
     eventBus.$emit('notification', { type: 'info', text: 'Successfully updated' });
   } catch (err) {
     throw err;
   }
+};
+
+export default {
+  getList: getDialplanList,
+  get: getDialplan,
+  add: addDialplan,
+  update: updateDialplan,
+  delete: deleteDialplan,
+  patch: patchDialplan,
+  moveDialplan,
 };

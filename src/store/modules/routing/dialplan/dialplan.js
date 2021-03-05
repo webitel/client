@@ -1,25 +1,15 @@
-import {
-  addDialplan,
-  deleteDialplan,
-  getDialplan,
-  getDialplanList,
-  moveDialplan,
-  patchDialplan,
-  updateDialplan,
-} from "../../../../api/routing/dialplan/dialplan";
-import { DefaultModule } from "../../defaults/DefaultModule";
+import DialplanAPI from '../../../../api/routing/dialplan/dialplan';
+import { DefaultModule } from '../../defaults/DefaultModule';
 
-const defaultState = () => {
-  return {
-    itemId: 0,
-    itemInstance: {
-      name: '',
-      schema: {},
-      pattern: '',
-      description: '',
-    },
-  };
-};
+const defaultState = () => ({
+  itemId: 0,
+  itemInstance: {
+    name: '',
+    schema: {},
+    pattern: '',
+    description: '',
+  },
+});
 
 const defaultModule = new DefaultModule(defaultState);
 
@@ -30,66 +20,49 @@ const state = {
 const getters = {};
 
 const actions = {
-  GET_LIST: async () => {
-    return await getDialplanList(state.page, state.size, state.search);
+  ...defaultModule.actions,
+  GET_LIST: (context) => {
+    return DialplanAPI.getList(context.state);
   },
-
-  GET_ITEM: async () => {
-    return await getDialplan(state.itemId);
+  GET_ITEM: (context) => {
+    return DialplanAPI.get(context.state);
   },
-
-  POST_ITEM: async () => {
-    return await addDialplan(state.itemInstance);
+  POST_ITEM: (context) => {
+    return DialplanAPI.add(context.state);
   },
-
-  PATCH_ITEM: async (context, { id, changes }) => {
-    return await patchDialplan(id, changes);
+  PATCH_ITEM: (context, { id, changes }) => {
+    return DialplanAPI.patch({ id, changes });
   },
-
-  UPD_ITEM: async () => {
-    await updateDialplan(state.itemId, state.itemInstance);
+  UPD_ITEM: (context) => {
+    return DialplanAPI.update(context.state);
   },
-
-  DELETE_ITEM: async (context, id) => {
-    await deleteDialplan(id);
+  DELETE_ITEM: (context, id) => {
+    return DialplanAPI.delete({ id });
   },
-
   SWAP_ROWS: async (context, { fromId, toId }) => {
-    // on-frontend swap commented
-    // because sortable reinitialization triggers on each dataList change
-    // but UI changes anyway
-    //await context.commit('SWAP_ROWS', {fromId, toId});
+    /*
+    UI swap commented
+    because sortable reinitialization triggers on each dataList change
+    but UI changes anyway
+    await context.commit('SWAP_ROWS', {fromId, toId});
+    */
     try {
-      await moveDialplan(fromId, toId);
-      await context.dispatch('LOAD_DATA_LIST');
+      await DialplanAPI.moveDialplan({ fromId, toId });
     } catch {
+    } finally {
       context.dispatch('LOAD_DATA_LIST');
     }
-  },
-
-  ...defaultModule.actions,
-
-  RESET_ITEM_STATE: async (context) => {
-    context.commit('RESET_ITEM_STATE');
   },
 };
 
 const mutations = {
-
+  ...defaultModule.mutations,
   SWAP_ROWS: (state, { fromId, toId }) => {
     const fromIndex = state.dataList.findIndex(item => item.id === fromId);
     const toIndex = state.dataList.findIndex(item => item.id === toId);
     const buffer = state.dataList[fromIndex];
     state.dataList.splice(fromIndex, 1, state.dataList[toIndex]);
     state.dataList.splice(toIndex, 1, buffer);
-  },
-
-  ...defaultModule.mutations,
-
-  RESET_ITEM_STATE: (state) => {
-    state.dataList = [];
-    Object.assign(state, defaultState());
-    console.log(state.dataList);
   },
 };
 

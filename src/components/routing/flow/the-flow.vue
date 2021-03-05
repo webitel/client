@@ -58,7 +58,8 @@
               <item-link :link="itemLink(item)">
                 {{ item.name }}
               </item-link>
-            </template><template slot="actions" slot-scope="{ item, index }">
+            </template>
+            <template slot="actions" slot-scope="{ item, index }">
             <wt-icon-btn
               class="table-action"
               icon="download"
