@@ -747,5 +747,7 @@ export default {
     moveDown: 'Пересунути вниз',
     nextPage: 'Наступна сторінка',
     prevPage: 'Попередня сторінка',
+    expand: 'Розгорнути',
+    collapse: 'Згорнути',
   },
 };

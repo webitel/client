@@ -1,145 +1,77 @@
 <template>
-    <div class="content-wrap">
-        <object-header
-                :primaryText="computePrimaryText"
-                :primaryAction="save"
-                :hide-primary="!hasSaveActionAccess"
-                :primaryDisabled="computeDisabled"
-                close
-        >
-          <headline-nav :path="path"></headline-nav>
-        </object-header>
-        <section class="object-content module-new">
-            <header class="content-header">
-                <h3 class="content-title">{{$t('objects.generalInfo')}}</h3>
-            </header>
-            <form class="object-input-grid">
-                <form-input
-                        v-model.trim="name"
-                        :v="$v.itemInstance.name"
-                        :label="$t('objects.name')"
-                        :disabled="disableUserInput"
-                        required
-                ></form-input>
-            </form>
-            <code-editor
-                    v-model="schema"
-                    :label="$t('objects.routing.flow.callFlow')"
-                    :disabled="disableUserInput"
-                    @errorListener="isSyntaxError = $event"
-            ></code-editor>
-        </section>
-    </div>
+  <wt-page-wrapper :actions-panel="false">
+    <template slot="header">
+      <object-header
+        :primary-text="computePrimaryText"
+        :primary-action="save"
+        :hide-primary="!hasSaveActionAccess"
+        :primary-disabled="computeDisabled"
+        :secondary-action="close"
+      >
+        <headline-nav :path="path"></headline-nav>
+      </object-header>
+    </template>
+
+    <template slot="main">
+      <div class="main-container">
+        <wt-tabs
+          v-model="currentTab"
+          :tabs="tabs"
+        ></wt-tabs>
+        <component
+          :is="currentTab.value"
+          :v="$v"
+          :namespace="namespace"
+        ></component>
+      </div>
+    </template>
+  </wt-page-wrapper>
 </template>
 
 <script>
-    import { required } from 'vuelidate/lib/validators';
-    import { mapActions, mapState } from 'vuex';
-    import editComponentMixin from '../../../mixins/objectPagesMixins/openedObjectMixin/editComponentMixin';
-    import openedTabComponentMixin from '../../../mixins/objectPagesMixins/openedObjectTabMixin/openedTabComponentMixin';
-    import codeEditor from '../../utils/code-editor';
-    import headlineNavMixin from '../../../mixins/baseMixins/headlineNavMixin/headlineNavMixin';
+import { required } from 'vuelidate/lib/validators';
+import General from './opened-flow-general.vue';
+import openedObjectMixin from '../../../mixins/objectPagesMixins/openedObjectMixin/openedObjectMixin';
 
-    export default {
-        name: 'opened-flow',
-        mixins: [editComponentMixin, openedTabComponentMixin, headlineNavMixin],
-        components: {
-            codeEditor,
+export default {
+  name: 'opened-flow',
+  mixins: [openedObjectMixin],
+  components: { General },
+  data: () => ({
+    namespace: 'routing/flow',
+  }),
+
+  // by vuelidate
+  validations: {
+    itemInstance: {
+      name: { required },
+      schema: { required },
+    },
+  },
+
+  computed: {
+    tabs() {
+      const tabs = [{
+        text: this.$t('objects.general'),
+        value: 'general',
+      }];
+      return tabs;
+    },
+
+    path() {
+      const baseUrl = '/routing/flow';
+      return [
+        { name: this.$t('objects.routing.routing') },
+        { name: this.$tc('objects.routing.flow.flow', 2), route: baseUrl },
+        {
+          name: this.id ? this.pathName : this.$t('objects.new'),
+          route: this.id ? `${baseUrl}/${this.id}` : `${baseUrl}/new`,
         },
-        data() {
-            return {
-                options: {
-                    autoClosingBrackets: false,
-                },
-                isSyntaxError: true,
-            };
-        },
-
-        // by vuelidate
-        validations: {
-            itemInstance: {
-                name: {
-                    required,
-                },
-                schema: {
-                    required,
-                },
-            },
-        },
-
-        mounted() {
-            this.id = this.$route.params.id;
-            this.loadItem();
-        },
-
-        computed: {
-            ...mapState('routing/flow', {
-                itemInstance: (state) => state.itemInstance,
-            }),
-            id: {
-                get() {
-                    return this.$store.state.routing.flow.itemId;
-                },
-                set(value) {
-                    this.setId(value);
-                },
-            },
-            name: {
-                get() {
-                    return this.$store.state.routing.flow.itemInstance.name;
-                },
-                set(value) {
-                    this.setItemProp({ prop: 'name', value });
-                },
-            },
-            schema: {
-                get() {
-                    return this.$store.state.routing.flow.itemInstance.schema;
-                },
-                set(value) {
-                    this.setItemProp({ prop: 'schema', value });
-                },
-            },
-
-          path() {
-              const baseUrl = '/routing/flow';
-            return [
-              { name: this.$t('objects.routing.routing') },
-              { name: this.$tc('objects.routing.flow.flow', 2), route: baseUrl },
-              {
-                name: this.id ? this.pathName : this.$t('objects.new'),
-                route: this.id ? `${baseUrl}/${this.id}` : `${baseUrl}/new`,
-              },
-            ];
-          },
-        },
-
-        methods: {
-            // override validations check to compute disabled SAVE properly
-            // can't just add isSyntaxError to validations because checkValidation checks
-            // only itemInstance props
-            checkValidations(validatedInstance = 'itemInstance') {
-                const v = this.$v ? this.$v : this.v;
-                v[validatedInstance].$touch();
-                // if its still pending or an error is returned do not submit
-                return v[validatedInstance].$pending
-                    || v[validatedInstance].$error || this.isSyntaxError;
-            },
-
-            ...mapActions('routing/flow', {
-                setId: 'SET_ITEM_ID',
-                loadItem: 'LOAD_ITEM',
-                addItem: 'ADD_ITEM',
-                updateItem: 'UPDATE_ITEM',
-                setItemProp: 'SET_ITEM_PROPERTY',
-                resetState: 'RESET_ITEM_STATE',
-            }),
-        },
-    };
+      ];
+    },
+  },
+};
 </script>
 
 <style lang="scss" scoped>
-    .editor-wrap {
-        margin-top: 8px;
-    }
 </style>
