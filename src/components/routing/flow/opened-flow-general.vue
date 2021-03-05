@@ -3,7 +3,7 @@
     <header class="content-header">
       <h3 class="content-title">{{ $t('objects.generalInfo') }}</h3>
     </header>
-    <form class="object-input-grid object-input-grid__1-col">
+    <form class="object-input-grid object-input-grid__1-col object-input-grid__w50">
       <wt-input
         :value="itemInstance.name"
         :v="v.itemInstance.name"
@@ -12,14 +12,14 @@
         required
         @input="setItemProp({ prop: 'name', value: $event })"
       ></wt-input>
-      <code-editor
+    </form>
+    <code-editor
         :value="itemInstance.schema"
         :label="$t('objects.routing.flow.callFlow')"
         :disabled="disableUserInput"
         @errorListener="isSyntaxError = $event"
         @change="setItemProp({ prop: 'schema', value: $event })"
       ></code-editor>
-    </form>
   </section>
 </template>
 
