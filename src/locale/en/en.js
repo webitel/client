@@ -753,5 +753,7 @@ export default {
     moveDown: 'Move down',
     nextPage: 'Next page',
     prevPage: 'Previous page',
+    expand: 'Expand',
+    collapse: 'Collapse',
   },
 };

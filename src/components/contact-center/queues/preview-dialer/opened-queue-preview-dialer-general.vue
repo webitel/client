@@ -155,7 +155,7 @@ export default {
     },
 
     async loadDropdownOptionsSchemaList(search) {
-      const response = await getFlowList(1, 10, search);
+      const response = await getFlowList({ search });
       return response.list.map((item) => ({
         name: item.name,
         id: item.id,

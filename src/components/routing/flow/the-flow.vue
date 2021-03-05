@@ -1,211 +1,152 @@
 <template>
-    <div class="content-wrap">
+  <wt-page-wrapper :actions-panel="false">
+    <template slot="header">
       <object-header
         :hide-primary="!hasCreateAccess"
         :primary-action="create"
       >
-              <headline-nav :path="path"></headline-nav>
-        </object-header>
+        <headline-nav :path="path"></headline-nav>
+      </object-header>
+    </template>
 
-        <upload-popup
-                v-if="popupTriggerIf"
-                :file="jsonFile"
-                @close="closeUploadPopup"
-        ></upload-popup>
+    <template slot="main">
+      <upload-popup
+        v-if="isUploadPopup"
+        :file="jsonFile"
+        @close="closeUploadPopup"
+      ></upload-popup>
+      <section class="main-section__wrapper">
+        <header class="content-header">
+          <h3 class="content-title">{{ $t('objects.routing.flow.allFlowSchemas') }}</h3>
+          <div class="content-header__actions-wrap">
+            <wt-search-bar
+              :value="search"
+              debounce
+              @input="setSearch"
+              @search="loadList"
+              @enter="loadList"
+            ></wt-search-bar>
+            <wt-icon-btn
+              v-if="hasDeleteAccess"
+              class="icon-action"
+              :class="{'hidden': anySelected}"
+              icon="bucket"
+              :tooltip="$t('iconHints.deleteSelected')"
+              @click="deleteSelected"
+            ></wt-icon-btn>
+            <upload-file-icon-btn
+              v-if="hasCreateAccess"
+              class="icon-action"
+              accept=".json"
+              @change="processJSON"
+            ></upload-file-icon-btn>
+            <wt-table-actions
+              :icons="['refresh']"
+              @input="tableActionsHandler"
+            ></wt-table-actions>
+          </div>
+        </header>
 
-        <!--        <flow-popup-->
-        <!--                v-if="popupTriggerIf"-->
-        <!--                @close="popupTriggerIf = false"-->
-        <!--        ></flow-popup>-->
-
-        <section class="object-content">
-            <header class="content-header">
-                <h3 class="content-title">{{$t('objects.routing.flow.allFlowSchemas')}}</h3>
-                <div class="content-header__actions-wrap">
-                    <search
-                            v-model="search"
-                            @filterData="loadList"
-                    ></search>
-                    <i
-                            v-if="hasDeleteAccess"
-                            class="icon-icon_delete icon-action"
-                            :class="{'hidden': anySelected}"
-                            :title="$t('iconHints.deleteSelected')"
-                            @click="deleteSelected"
-                    ></i>
-                  <upload-file-icon-btn
-                    v-if="hasCreateAccess"
-                    class="icon-action"
-                    accept=".json"
-                    @change="processJSON"
-                  ></upload-file-icon-btn>
-                    <i
-                            class="icon-icon_reload icon-action"
-                            :title="$t('iconHints.reload')"
-                            @click="loadList"
-                    ></i>
-                </div>
-            </header>
-
-            <loader v-show="!isLoaded"></loader>
-
-            <vuetable
-                    v-show="isLoaded"
-                    :api-mode="false"
-                    :fields="fields"
-                    :data="dataList"
-            >
-                <template slot="name" slot-scope="props">
-                    <div>
-                        <span class="nameLink" @click="edit(props.rowIndex)">
-                        {{dataList[props.rowIndex].name}}
-                        </span>
-                    </div>
-                </template>
-
-                <!--                <template slot="debug" slot-scope="props">-->
-                <!--                    <switcher-->
-                <!--                            v-model="dataList[props.rowIndex].debug"-->
-                <!--                            disabled-->
-                <!--                    ></switcher>-->
-                <!--                </template>-->
-
-                <template slot="actions" slot-scope="props">
-                    <i
-                            class="vuetable-action icon-icon_download"
-                            :title="$t('iconHints.download')"
-                            @click="download(props.rowIndex)"
-                    ></i>
-                    <i
-                            v-if="hasEditAccess"
-                            class="vuetable-action icon-icon_edit"
-                            :title="$t('iconHints.edit')"
-                            @click="edit(props.rowIndex)"
-                    ></i>
-                    <i
-                            v-if="hasDeleteAccess"
-                            class="vuetable-action icon-icon_delete"
-                            :title="$t('iconHints.delete')"
-                            @click="remove(props.rowIndex)"
-                    ></i>
-                </template>
-            </vuetable>
-            <pagination
-                    v-show="isLoaded"
-                    v-model="size"
-                    @loadDataList="loadList"
-                    @next="nextPage"
-                    @prev="prevPage"
-                    :isNext="isNextPage"
-                    :isPrev="!!page"
-                    :page="page"
-            ></pagination>
-        </section>
-    </div>
+        <wt-loader v-show="!isLoaded"></wt-loader>
+        <div class="table-wrapper" v-show="isLoaded">
+          <wt-table
+            :headers="headers"
+            :data="dataList"
+            :grid-actions="hasTableActions"
+          >
+            <template slot="name" slot-scope="{ item }">
+              <item-link :link="itemLink(item)">
+                {{ item.name }}
+              </item-link>
+            </template><template slot="actions" slot-scope="{ item, index }">
+            <wt-icon-btn
+              class="table-action"
+              icon="download"
+              :tooltip="$t('iconHints.download')"
+              tooltip-position="left"
+              @click="download(item)"
+            ></wt-icon-btn>
+            <edit-action
+              v-if="hasEditAccess"
+              @click="edit(item)"
+            ></edit-action>
+            <delete-action
+              v-if="hasDeleteAccess"
+              @click="remove(index)"
+            ></delete-action>
+          </template>
+          </wt-table>
+          <wt-pagination
+            :size="size"
+            :next="isNext"
+            :prev="page > 1"
+            debounce
+            @next="nextPage"
+            @prev="prevPage"
+            @input="setSize"
+            @change="loadList"
+          ></wt-pagination>
+        </div>
+      </section>
+    </template>
+  </wt-page-wrapper>
 </template>
 
 <script>
-    import tableComponentMixin from '@/mixins/objectPagesMixins/objectTableMixin/tableComponentMixin';
-    import { _checkboxTableField, _actionsTableField_3, _switcherWidth } from '@/utils/tableFieldPresets';
-    import { mapActions, mapState } from 'vuex';
-    import uploadPopup from './upload-flow-popup';
-    import flowPopup from './create-flow-popup';
-    import UploadFileIconBtn from '../../utils/upload-file-ucon-btn.vue';
-    import { getFlow } from '../../../api/routing/flow/flow';
-    import { downloadAsJSON } from '../../../utils/download';
-    import RouteNames from '../../../router/_internals/RouteNames.enum';
+import tableComponentMixin from '../../../mixins/objectPagesMixins/objectTableMixin/tableComponentMixin';
+import UploadPopup from './upload-flow-popup.vue';
+import UploadFileIconBtn from '../../utils/upload-file-ucon-btn.vue';
+import { getFlow } from '../../../api/routing/flow/flow';
+import { downloadAsJSON } from '../../../utils/download';
+import RouteNames from '../../../router/_internals/RouteNames.enum';
 
-    export default {
-        name: 'the-flow',
-        mixins: [tableComponentMixin],
-        components: { uploadPopup, flowPopup, UploadFileIconBtn },
-        data() {
-            return {
-                fields: [
-                    _checkboxTableField,
-                    { name: 'name', title: this.$t('objects.name') },
-                    // {name: 'debug', title: this.$t('objects.routing.flow.debug'), width: _switcherWidth},
-                    _actionsTableField_3,
-                ],
-                jsonFile: null,
-            };
-        },
+export default {
+  name: 'the-flow',
+  mixins: [tableComponentMixin],
+  components: { UploadPopup, UploadFileIconBtn },
+  data: () => ({
+    namespace: 'routing/flow',
+    routeName: RouteNames.FLOW,
+    isUploadPopup: false,
+    jsonFile: null,
+  }),
 
-        computed: {
-            ...mapState('routing/flow', {
-                dataList: (state) => state.dataList,
-                page: (state) => state.page,
-                isNextPage: (state) => state.isNextPage,
-            }),
+  computed: {
+    headers() {
+      return [
+        { value: 'name', text: this.$t('objects.name') },
+      ];
+    },
+    path() {
+      return [
+        { name: this.$t('objects.routing.routing') },
+        { name: this.$tc('objects.routing.flow.flow', 2), route: '/routing/flow' },
+      ];
+    },
+  },
 
-            size: {
-                get() {
-                    return this.$store.state.routing.flow.size;
-                },
-                set(value) {
-                    this.setSize(value);
-                },
-            },
-
-            search: {
-                get() {
-                    return this.$store.state.routing.flow.search;
-                },
-                set(value) {
-                    this.setSearch(value);
-                },
-            },
-          path() {
-            return [
-              { name: this.$t('objects.routing.routing') },
-              { name: this.$tc('objects.routing.flow.flow', 2), route: '/routing/flow' },
-            ];
-          },
-        },
-
-        methods: {
-            create() {
-                // this.popupTriggerIf = true;
-                this.$router.push({ name: `${RouteNames.FLOW}-new` });
-            },
-
-            edit(rowId) {
-                this.$router.push({
-                    name: `${RouteNames.FLOW}-edit`,
-                    params: { id: this.dataList[rowId].id },
-                });
-            },
-
-            processJSON(files) {
-                const file = files[0];
-                if (file) {
-                    this.jsonFile = file;
-                    this.popupTriggerIf = true;
-                }
-            },
-
-            closeUploadPopup() {
-                this.loadList();
-                this.popupTriggerIf = false;
-            },
-
-            async download(rowId) {
-                const flowId = this.dataList[rowId].id;
-                const flow = await getFlow(flowId);
-                const filename = `${flow.name}-schema`;
-                downloadAsJSON(flow, filename);
-            },
-
-            ...mapActions('routing/flow', {
-                loadDataList: 'LOAD_DATA_LIST',
-                setSize: 'SET_SIZE',
-                setSearch: 'SET_SEARCH',
-                nextPage: 'NEXT_PAGE',
-                prevPage: 'PREV_PAGE',
-                removeItem: 'REMOVE_ITEM',
-            }),
-        },
-    };
+  methods: {
+    processJSON(files) {
+      const file = files[0];
+      if (file) {
+        this.jsonFile = file;
+        this.openUploadPopup();
+      }
+    },
+    openUploadPopup() {
+      this.isUploadPopup = true;
+    },
+    closeUploadPopup() {
+      this.loadList();
+      this.isUploadPopup = false;
+    },
+    async download({ id, name }) {
+      const flow = await getFlow({ id });
+      const filename = `${name}-schema`;
+      downloadAsJSON(flow, filename);
+    },
+  },
+};
 </script>
 
 <style lang="scss" scoped>

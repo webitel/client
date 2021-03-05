@@ -781,7 +781,7 @@ const createProposals = (range) =>
       }, null, 4),
     },
   ];
-export const Monaco = (() => {
+const Monaco = (() => {
   let instance;
 
   const createInstance = () => monaco;
@@ -813,3 +813,5 @@ export const Monaco = (() => {
     },
   };
 })();
+
+export default Monaco;
