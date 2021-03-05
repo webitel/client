@@ -1,21 +1,13 @@
-import {
-  addFlow,
-  deleteFlow,
-  getFlow,
-  getFlowList,
-  updateFlow,
-} from "../../../../api/routing/flow/flow";
-import { DefaultModule } from "../../defaults/DefaultModule";
+import FlowAPI from '../../../../api/routing/flow/flow';
+import { DefaultModule } from '../../defaults/DefaultModule';
 
-const defaultState = () => {
-  return {
-    itemId: 0,
-    itemInstance: {
-      name: '',
-      schema: '[]',
-    },
-  };
-};
+const defaultState = () => ({
+  itemId: 0,
+  itemInstance: {
+    name: '',
+    schema: '[]',
+  },
+});
 
 const defaultModule = new DefaultModule(defaultState);
 
@@ -26,27 +18,22 @@ const state = {
 const getters = {};
 
 const actions = {
-  GET_LIST: async () => {
-    return await getFlowList(state.page, state.size, state.search);
-  },
-
-  GET_ITEM: async () => {
-    return await getFlow(state.itemId);
-  },
-
-  POST_ITEM: async () => {
-    return await addFlow(state.itemInstance);
-  },
-
-  UPD_ITEM: async () => {
-    await updateFlow(state.itemId, state.itemInstance);
-  },
-
-  DELETE_ITEM: async (context, id) => {
-    await deleteFlow(id);
-  },
-
   ...defaultModule.actions,
+  GET_LIST: (context) => {
+    return FlowAPI.getList(context.state);
+  },
+  GET_ITEM: (context) => {
+    return FlowAPI.get(context.state);
+  },
+  POST_ITEM: (context) => {
+    return FlowAPI.add(context.state);
+  },
+  UPD_ITEM: (context) => {
+    return FlowAPI.update(context.state);
+  },
+  DELETE_ITEM: (context, id) => {
+    return FlowAPI.delete({ id });
+  },
 };
 
 const mutations = {

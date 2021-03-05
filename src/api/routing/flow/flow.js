@@ -1,47 +1,52 @@
 import { RoutingSchemaServiceApiFactory } from 'webitel-sdk';
 import instance from '../../instance';
 import configuration from '../../openAPIConfig';
-import { WebitelSDKItemDeleter } from '../../utils/ApiControllers/Deleter/SDKDeleter';
-import { WebitelSDKItemUpdater } from '../../utils/ApiControllers/Updater/SDKUpdater';
-import { WebitelSDKItemCreator } from '../../utils/ApiControllers/Creator/SDKCreator';
-import { WebitelSDKItemGetter } from '../../utils/ApiControllers/Getter/SDKGetter';
-import { WebitelSDKListGetter } from '../../utils/ApiControllers/ListGetter/SDKListGetter';
+import SDKItemDeleter from '../../utils/ApiControllers/Deleter/SDKDeleter';
+import SDKItemUpdater from '../../utils/ApiControllers/Updater/SDKUpdater';
+import SDKItemCreator from '../../utils/ApiControllers/Creator/SDKCreator';
+import SDKItemGetter from '../../utils/ApiControllers/Getter/SDKGetter';
+import SDKListGetter from '../../utils/ApiControllers/ListGetter/SDKListGetter';
 
 const flowService = new RoutingSchemaServiceApiFactory(configuration, '', instance);
 
-const fieldsToSend = ['domainId', 'name', 'schema', 'payload'];
+const fieldsToSend = ['name', 'schema', 'payload'];
 
 const preRequestHandler = (item) => {
+  // eslint-disable-next-line no-param-reassign
   item.schema = JSON.parse(item.schema);
+  // eslint-disable-next-line no-param-reassign
   item.payload = {};
   return item;
 };
 
 const baseItem = { _dirty: false };
 
-const listGetter = new WebitelSDKListGetter(flowService.searchRoutingSchema);
-const itemGetter = new WebitelSDKItemGetter(flowService.readRoutingSchema);
-const itemCreator = new WebitelSDKItemCreator(flowService.createRoutingSchema, fieldsToSend, preRequestHandler);
-const itemUpdater = new WebitelSDKItemUpdater(flowService.updateRoutingSchema, fieldsToSend, preRequestHandler);
-const itemDeleter = new WebitelSDKItemDeleter(flowService.deleteRoutingSchema);
+const listGetter = new SDKListGetter(flowService.searchRoutingSchema);
+const itemGetter = new SDKItemGetter(flowService.readRoutingSchema);
+const itemCreator = new SDKItemCreator(flowService.createRoutingSchema,
+  fieldsToSend, preRequestHandler);
+const itemUpdater = new SDKItemUpdater(flowService.updateRoutingSchema,
+  fieldsToSend, preRequestHandler);
+const itemDeleter = new SDKItemDeleter(flowService.deleteRoutingSchema);
 
 itemGetter.responseHandler = (response) => ({
   ...baseItem,
   ...response,
   schema: JSON.stringify(response.schema, null, 4),
-
 });
 
-export const getFlowList = async (page = 0, size = 10, search) => await listGetter.getList({
-  page,
-  size,
-  search,
-});
+export const getFlowList = (params) => listGetter.getList(params);
+export const getFlow = ({ itemId }) => itemGetter.getItem(itemId);
+export const addFlow = ({ itemInstance }) => itemCreator.createItem(itemInstance);
+export const updateFlow = ({ itemId, itemInstance }) => (
+  itemUpdater.updateItem(itemId, itemInstance)
+);
+export const deleteFlow = ({ id }) => itemDeleter.deleteItem(id);
 
-export const getFlow = async (id) => await itemGetter.getItem(id);
-
-export const addFlow = async (item) => await itemCreator.createItem(item);
-
-export const updateFlow = async (id, item) => await itemUpdater.updateItem(id, item);
-
-export const deleteFlow = async (id) => await itemDeleter.deleteItem(id);
+export default {
+  getList: getFlowList,
+  get: getFlow,
+  add: addFlow,
+  update: updateFlow,
+  delete: deleteFlow,
+};
