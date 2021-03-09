@@ -640,7 +640,7 @@ export default {
         allStorages: 'Все хранилища',
         type: 'Тип',
         maxSize: 'Объем хранилища (GB)',
-        expireDays: 'Срок хранения',
+        expireDays: 'Срок хранения (дней)',
         priority: 'Приоритет',
         newStorage: 'Новое хранилище',
         newStorageDescription: 'Описание нового хранилища',

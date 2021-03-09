@@ -4,80 +4,48 @@
       <h3 class="content-title">{{ $t('objects.generalInfo') }}</h3>
     </header>
     <form class="object-input-grid">
-      <form-input
-        v-model.trim="name"
+      <wt-input
+        :value="itemInstance.name"
         :v="v.itemInstance.name"
         :label="$t('objects.name')"
         :disabled="disableUserInput"
         required
-      ></form-input>
-      <form-input
-        v-model.trim="maxSize"
+        @input="setItemProp({ prop: 'name', value: $event })"
+      ></wt-input>
+      <wt-input
+        :value="itemInstance.maxSize"
         :label="$t('objects.integrations.storage.maxSize')"
         :disabled="disableUserInput"
-      ></form-input>
-      <form-input
-        v-model.trim="expireDays"
+        type="number"
+        :min-value="0"
+        @input="setItemProp({ prop: 'maxSize', value: $event })"
+      ></wt-input>
+      <wt-input
+        :value="itemInstance.expireDays"
         :label="$t('objects.integrations.storage.expireDays')"
         :disabled="disableUserInput"
-      ></form-input>
-      <form-input
-        v-model.trim="priority"
+        type="number"
+        :min-value="0"
+        @input="setItemProp({ prop: 'expireDays', value: $event })"
+      ></wt-input>
+      <wt-input
+        :value="itemInstance.priority"
         :label="$t('objects.integrations.storage.priority')"
         :disabled="disableUserInput"
-      ></form-input>
+        type="number"
+        :min-value="0"
+        @input="setItemProp({ prop: 'priority', value: $event })"
+      ></wt-input>
     </form>
   </section>
 </template>
 
 <script>
-import openedTabComponentMixin from '@/mixins/objectPagesMixins/openedObjectTabMixin/openedTabComponentMixin';
-import { mapActions } from 'vuex';
+import openedTabComponentMixin from '../../../mixins/objectPagesMixins/openedObjectTabMixin/openedTabComponentMixin';
 
 export default {
   name: 'opened-storage-general',
   mixins: [openedTabComponentMixin],
-
-  computed: {
-    name: {
-      get() {
-        return this.$store.state.integrations.storage.itemInstance.name;
-      },
-      set(value) {
-        this.setItemProp({ prop: 'name', value });
-      },
-    },
-    maxSize: {
-      get() {
-        return this.$store.state.integrations.storage.itemInstance.maxSize;
-      },
-      set(value) {
-        this.setItemProp({ prop: 'maxSize', value });
-      },
-    },
-    expireDays: {
-      get() {
-        return this.$store.state.integrations.storage.itemInstance.expireDays;
-      },
-      set(value) {
-        this.setItemProp({ prop: 'expireDays', value });
-      },
-    },
-    priority: {
-      get() {
-        return this.$store.state.integrations.storage.itemInstance.priority;
-      },
-      set(value) {
-        this.setItemProp({ prop: 'priority', value });
-      },
-    },
-  },
-
-  methods: {
-    ...mapActions('integrations/storage', {
-      setItemProp: 'SET_ITEM_PROPERTY',
-    }),
-  },
 };
 </script>
 

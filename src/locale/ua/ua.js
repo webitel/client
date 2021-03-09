@@ -640,7 +640,7 @@ export default {
         allStorages: 'Всі сховища',
         type: 'Тип',
         maxSize: 'Об\'єм сховища (GB)',
-        expireDays: 'Термін зберігання',
+        expireDays: 'Термін зберігання (днів)',
         priority: 'Пріоритет',
         newStorage: 'Нове сховище',
         newStorageDescription: 'Опис нового сховища',

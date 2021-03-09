@@ -61,7 +61,7 @@
 
 <script>
     import popup from '@/components/utils/popup';
-    import RouteNames from '../../../router/_internals/RouteNames.enum';
+    import RouteNames from '../../../../router/_internals/RouteNames.enum';
 
     export default {
         name: 'create-storage-popup',
