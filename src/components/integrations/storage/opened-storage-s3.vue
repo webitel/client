@@ -28,6 +28,12 @@
         required
         @input="setItemProp({ prop: 'bucketName', value: $event })"
       ></wt-input>
+      <wt-input
+        :value="itemInstance.properties.pathPattern"
+        :label="$t('objects.integrations.storage.pathPattern')"
+        :disabled="disableUserInput"
+        @input="setItemProp({ prop: 'pathPattern', value: $event })"
+      ></wt-input>
       <wt-select
         v-if="!this.id"
         :value="service"

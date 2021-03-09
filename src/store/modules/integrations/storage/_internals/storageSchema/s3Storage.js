@@ -10,6 +10,7 @@ const s3Storage = () => ({
     bucketName: '',
     region: {},
     endpoint: '',
+    pathPattern: '$DOMAIN/$Y/$M/$D',
   },
 });
 

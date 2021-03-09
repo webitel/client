@@ -656,6 +656,7 @@ export default {
         dropbox: 'Dropbox',
         drive: 'Google Drive',
         configuration: 'Configuration',
+        pathPattern: 'Path pattern',
         localFolder: 'Local folder',
         s3Key: 'Key ID',
         s3Access: 'Access Key',

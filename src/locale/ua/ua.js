@@ -651,6 +651,7 @@ export default {
         dropbox: 'Dropbox',
         drive: 'Google Drive',
         configuration: 'Конфігурація',
+        pathPattern: 'Шаблон шляху',
         localFolder: 'Local folder',
         awsKey: 'Key ID',
         awsAccess: 'Access Key',
