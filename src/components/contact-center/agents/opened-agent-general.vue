@@ -30,7 +30,7 @@
         @input="setItemProp({ prop: 'team', value: $event })"
       ></wt-select>
       <wt-select
-        v-show="isSupervisor"
+        v-show="!isSupervisor"
         :value="supervisor"
         :label="$tc('objects.ccenter.agents.supervisors', 1)"
         :search="loadSupervisorsOptions"
