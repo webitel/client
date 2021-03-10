@@ -1,5 +1,5 @@
 import TeamAgentsAPI from '../../../../api/contact-center/teams/teamAgents';
-import { DefaultNestedModule } from '../../defaults/DefaultNestedModule';
+import DefaultNestedModule from '../../../BaseModules/defaults/DefaultNestedModule';
 
 const defaultItemState = () => ({
   itemId: 0,

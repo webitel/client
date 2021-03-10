@@ -1,4 +1,4 @@
-import { DefaultNestedModule } from '../../defaults/DefaultNestedModule';
+import DefaultNestedModule from '../../../BaseModules/defaults/DefaultNestedModule';
 import { addToken, deleteToken, getTokens } from '../../../../api/directory/users/users';
 
 const defaultItemState = () => ({

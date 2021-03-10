@@ -7,7 +7,7 @@ import {
   patchGateway,
   updateGateway,
 } from '../../../../api/routing/gateways/gateways';
-import { DefaultModule } from '../../defaults/DefaultModule';
+import DefaultModule from '../../../BaseModules/defaults/DefaultModule';
 import registerGateway from './_internals/gatewaySchema/registerGateway';
 import trunkingGateway from './_internals/gatewaySchema/trunkingGateway';
 

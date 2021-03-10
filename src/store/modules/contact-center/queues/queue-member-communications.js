@@ -1,5 +1,5 @@
 import store from '../../../store';
-import { DefaultNestedListModule } from "../../defaults/DefaultNestedListModule";
+import { DefaultNestedListModule } from "../../../BaseModules/defaults/DefaultNestedListModule";
 
 const defaultState = () => {
   return {

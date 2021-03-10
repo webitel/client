@@ -1,5 +1,5 @@
 import TeamSupervisorsAPI from '../../../../api/contact-center/teams/teamSupervisors';
-import { DefaultNestedModule } from '../../defaults/DefaultNestedModule';
+import DefaultNestedModule from '../../../BaseModules/defaults/DefaultNestedModule';
 
 const defaultItemState = () => ({
   itemId: 0,

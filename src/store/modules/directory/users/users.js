@@ -6,8 +6,8 @@ import {
   patchUser,
   updateUser,
 } from "../../../../api/directory/users/users";
-import { DefaultModule } from "../../defaults/DefaultModule";
-import DefaultPermissionsModule from '../../defaults/DefaultPermissionsModule';
+import DefaultModule from "../../../BaseModules/defaults/DefaultModule";
+import DefaultPermissionsModule from '../../../BaseModules/defaults/DefaultPermissionsModule';
 import tokens from './usersTokens';
 
 const defaultState = () => {
@@ -118,7 +118,7 @@ const mutations = {
 
 const PERMISSIONS_API_URL = '/users';
 const permissions = new DefaultPermissionsModule()
-  .generateAPIMethods(PERMISSIONS_API_URL)
+  .generateAPIActions(PERMISSIONS_API_URL)
   .getModule();
 
 export default {

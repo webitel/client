@@ -1,4 +1,4 @@
-import { DefaultModule } from '../../defaults/DefaultModule';
+import DefaultModule from '../../../BaseModules/defaults/DefaultModule';
 import RegionsAPI from '../../../../api/lookups/regions/regions';
 
 const defaultState = () => ({

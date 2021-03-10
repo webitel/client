@@ -1,5 +1,5 @@
 import AgentSkillAPI from '../../../../api/contact-center/agents/agentSkills';
-import { DefaultNestedModule } from '../../defaults/DefaultNestedModule';
+import DefaultNestedModule from '../../../BaseModules/defaults/DefaultNestedModule';
 
 const defaultItemState = () => ({
   itemId: 0,

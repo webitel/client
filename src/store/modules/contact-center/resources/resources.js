@@ -7,8 +7,8 @@ import {
   patchResource,
   updateResource,
 } from "../../../../api/contact-center/resources/resources";
-import { DefaultModule } from "../../defaults/DefaultModule";
-import DefaultPermissionsModule from '../../defaults/DefaultPermissionsModule';
+import DefaultModule from "../../../BaseModules/defaults/DefaultModule";
+import DefaultPermissionsModule from '../../../BaseModules/defaults/DefaultPermissionsModule';
 
 const defaultState = () => ({
   itemId: 0,
@@ -70,7 +70,7 @@ const mutations = {
 
 const PERMISSIONS_API_URL = '/call_center/resources';
 const permissions = new DefaultPermissionsModule()
-  .generateAPIMethods(PERMISSIONS_API_URL)
+  .generateAPIActions(PERMISSIONS_API_URL)
   .getModule();
 
 export default {

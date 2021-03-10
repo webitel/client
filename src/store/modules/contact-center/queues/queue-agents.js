@@ -1,5 +1,5 @@
 import QueueAgentsAPI from '../../../../api/contact-center/queues/queueAgents';
-import { DefaultNestedModule } from '../../defaults/DefaultNestedModule';
+import DefaultNestedModule from '../../../BaseModules/defaults/DefaultNestedModule';
 
 const defaultItemState = () => ({
 });

@@ -1,5 +1,5 @@
 import FlowAPI from '../../../../api/routing/flow/flow';
-import { DefaultModule } from '../../defaults/DefaultModule';
+import DefaultModule from '../../../BaseModules/defaults/DefaultModule';
 
 const defaultState = () => ({
   itemId: 0,

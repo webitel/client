@@ -1,5 +1,5 @@
 import { getLicenseList, updateLicense } from "../../../../api/directory/license/license";
-import { DefaultModule } from "../../defaults/DefaultModule";
+import DefaultModule from "../../../BaseModules/defaults/DefaultModule";
 
 const defaultState = () => {
   return {

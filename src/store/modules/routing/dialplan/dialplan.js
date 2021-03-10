@@ -1,5 +1,5 @@
 import DialplanAPI from '../../../../api/routing/dialplan/dialplan';
-import { DefaultModule } from '../../defaults/DefaultModule';
+import DefaultModule from '../../../BaseModules/defaults/DefaultModule';
 
 const defaultState = () => ({
   itemId: 0,

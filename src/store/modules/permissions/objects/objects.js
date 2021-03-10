@@ -1,6 +1,6 @@
 import obac from './modules/obac/object-obac';
 import rbac from './modules/rbac/object-rbac';
-import { DefaultModule } from '../../defaults/DefaultModule';
+import DefaultModule from '../../../BaseModules/defaults/DefaultModule';
 import {
   getObject,
   getObjectList,

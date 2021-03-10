@@ -12,8 +12,8 @@ import {
   patchQueue,
   updateQueue,
 } from '../../../../api/contact-center/queues/queues';
-import { DefaultModule } from '../../defaults/DefaultModule';
-import DefaultPermissionsModule from '../../defaults/DefaultPermissionsModule';
+import DefaultModule from '../../../BaseModules/defaults/DefaultModule';
+import DefaultPermissionsModule from '../../../BaseModules/defaults/DefaultPermissionsModule';
 import QueueType from './_internals/enums/QueueType.enum';
 import defaultQueueState from './_internals/queueSchema/defaults/defaultQueue';
 import defaultInboundQueueState from './_internals/queueSchema/inboundQueue';
@@ -169,7 +169,7 @@ const mutations = {
 
 const PERMISSIONS_API_URL = '/call_center/queues';
 const permissions = new DefaultPermissionsModule()
-  .generateAPIMethods(PERMISSIONS_API_URL)
+  .generateAPIActions(PERMISSIONS_API_URL)
   .getModule();
 
 export default {

@@ -5,8 +5,8 @@ import {
   getBucketsList,
   updateBucket,
 } from "../../../../api/lookups/buckets/buckets";
-import { DefaultModule } from "../../defaults/DefaultModule";
-import DefaultPermissionsModule from '../../defaults/DefaultPermissionsModule';
+import DefaultModule from "../../../BaseModules/defaults/DefaultModule";
+import DefaultPermissionsModule from '../../../BaseModules/defaults/DefaultPermissionsModule';
 
 const defaultState = () => {
   return {
@@ -56,7 +56,7 @@ const mutations = {
 
 const PERMISSIONS_API_URL = '/call_center/buckets';
 const permissions = new DefaultPermissionsModule()
-  .generateAPIMethods(PERMISSIONS_API_URL)
+  .generateAPIActions(PERMISSIONS_API_URL)
   .getModule();
 
 export default {

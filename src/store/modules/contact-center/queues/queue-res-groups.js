@@ -5,7 +5,7 @@ import {
   getQueueResGroupList,
   updateQueueResGroup,
 } from "../../../../api/contact-center/queues/queueResGroups";
-import { DefaultNestedModule } from "../../defaults/DefaultNestedModule";
+import DefaultNestedModule from "../../../BaseModules/defaults/DefaultNestedModule";
 
 const defaultItemState = () => ({
   itemId: 0,

@@ -5,7 +5,7 @@ import {
   getResInGroupList,
   updateResInGroup,
 } from "../../../../api/contact-center/resourceGroups/resInGroup";
-import { DefaultNestedModule } from "../../defaults/DefaultNestedModule";
+import DefaultNestedModule from "../../../BaseModules/defaults/DefaultNestedModule";
 
 const defaultItemState = () => ({
   itemId: 0,

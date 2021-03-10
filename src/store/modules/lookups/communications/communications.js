@@ -1,5 +1,5 @@
 import CommunicationsAPI from '../../../../api/lookups/communications/communications';
-import { DefaultModule } from "../../defaults/DefaultModule";
+import DefaultModule from "../../../BaseModules/defaults/DefaultModule";
 
 const defaultState = () => ({
   itemId: 0,

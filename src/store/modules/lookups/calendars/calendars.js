@@ -6,7 +6,7 @@ import {
   getCalendarList,
   updateCalendar,
 } from "../../../../api/lookups/calendars/calendars";
-import DefaultPermissionsModule from '../../defaults/DefaultPermissionsModule';
+import DefaultPermissionsModule from '../../../BaseModules/defaults/DefaultPermissionsModule';
 
 
 const defaultAccepts = () => {
@@ -241,7 +241,7 @@ const mutations = {
 
 const PERMISSIONS_API_URL = '/calendars';
 const permissions = new DefaultPermissionsModule()
-  .generateAPIMethods(PERMISSIONS_API_URL)
+  .generateAPIActions(PERMISSIONS_API_URL)
   .getModule();
 
 

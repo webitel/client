@@ -1,5 +1,5 @@
 import RolesAPI from '../../../../api/permissions/roles/roles';
-import { DefaultModule } from '../../defaults/DefaultModule';
+import DefaultModule from '../../../BaseModules/defaults/DefaultModule';
 
 const defaultState = () => {
   return {

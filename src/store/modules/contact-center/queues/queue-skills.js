@@ -6,7 +6,7 @@ import {
   patchQueueSkill,
   updateQueueSkill,
 } from '../../../../api/contact-center/queues/queueSkills';
-import { DefaultNestedModule } from '../../defaults/DefaultNestedModule';
+import DefaultNestedModule from '../../../BaseModules/defaults/DefaultNestedModule';
 
 const defaultItemState = () => ({
   itemId: 0,

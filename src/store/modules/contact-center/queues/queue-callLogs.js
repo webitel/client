@@ -1,4 +1,4 @@
-import { DefaultNestedModule } from "../../defaults/DefaultNestedModule";
+import DefaultNestedModule from "../../../BaseModules/defaults/DefaultNestedModule";
 import { getQueueCallLogList } from "../../../../api/contact-center/queues/queueLog";
 
 const defaultState = () => ({

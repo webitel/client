@@ -5,7 +5,7 @@ import {
   getResDisplayList,
   updateResDisplay,
 } from "../../../../api/contact-center/resources/resourceDisplay";
-import { DefaultNestedModule } from "../../defaults/DefaultNestedModule";
+import DefaultNestedModule from "../../../BaseModules/defaults/DefaultNestedModule";
 
 const defaultItemState = () => ({
   itemId: 0,

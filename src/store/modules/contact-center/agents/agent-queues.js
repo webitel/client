@@ -1,5 +1,5 @@
 import AgentsAPI from '../../../../api/contact-center/agents/agents';
-import { DefaultNestedModule } from '../../defaults/DefaultNestedModule';
+import DefaultNestedModule from '../../../BaseModules/defaults/DefaultNestedModule';
 
 const defaultModule = new DefaultNestedModule();
 

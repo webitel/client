@@ -5,7 +5,7 @@ import {
   getSkillsList,
   updateSkill,
 } from '../../../../api/lookups/agentSkills/agentSkills';
-import { DefaultModule } from '../../defaults/DefaultModule';
+import DefaultModule from '../../../BaseModules/defaults/DefaultModule';
 
 const defaultState = () => ({
   itemId: 0,

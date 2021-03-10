@@ -30,6 +30,7 @@
         :data="dataList"
         :headers="headers"
         :grid-actions="!disableUserInput"
+        :selectable="false"
       >
         <template slot="grantee" slot-scope="{ item }">
           <div v-if="item.grantee">

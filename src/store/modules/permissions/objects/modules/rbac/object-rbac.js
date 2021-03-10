@@ -1,4 +1,4 @@
-import { DefaultPermissionsModule } from '../../../../defaults/DefaultPermissionsModule';
+import { DefaultPermissionsModule } from '../../../../../BaseModules/defaults/DefaultPermissionsModule';
 import {
   fetchObjclassDefaultList,
   toggleObjclassDefaultMode,

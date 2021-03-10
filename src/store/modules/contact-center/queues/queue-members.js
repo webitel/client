@@ -8,7 +8,7 @@ import {
   updateMember,
 } from '../../../../api/contact-center/queues/queueMembers';
 import { getQueue } from '../../../../api/contact-center/queues/queues';
-import { DefaultNestedModule } from '../../defaults/DefaultNestedModule';
+import DefaultNestedModule from '../../../BaseModules/defaults/DefaultNestedModule';
 
 const defaultItemState = () => ({
   itemId: 0,

@@ -1,5 +1,5 @@
 import { addMedia, deleteMedia, getMedia, getMediaList } from "../../../../api/lookups/media/media";
-import { DefaultModule } from "../../defaults/DefaultModule";
+import DefaultModule from "../../../BaseModules/defaults/DefaultModule";
 
 
 const defaultState = () => {

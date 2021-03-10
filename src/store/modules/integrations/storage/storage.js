@@ -1,6 +1,6 @@
 import deepMerge from 'deepmerge';
 import StorageAPI from '../../../../api/integrations/storage/storage';
-import { DefaultModule } from '../../defaults/DefaultModule';
+import DefaultModule from '../../../BaseModules/defaults/DefaultModule';
 import Storage from './_internals/enums/Storage.enum';
 import defaultStorageState from './_internals/storageSchema/defaults/defaultStorage';
 import defaultLocalStorageState from './_internals/storageSchema/localStorage';

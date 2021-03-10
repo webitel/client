@@ -1,5 +1,5 @@
 import AgentSubordinatesAPI from '../../../../api/contact-center/agents/agentSubordinates';
-import { DefaultNestedModule } from '../../defaults/DefaultNestedModule';
+import DefaultNestedModule from '../../../BaseModules/defaults/DefaultNestedModule';
 
 const defaultItemState = () => ({
   itemId: 0,

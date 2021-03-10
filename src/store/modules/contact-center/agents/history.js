@@ -1,5 +1,5 @@
 import { getAgentHistory } from "../../../../api/contact-center/agents/agents";
-import { DefaultHistoryModule } from "../../defaults/DefaultHistoryModule";
+import { DefaultHistoryModule } from "../../../BaseModules/defaults/DefaultHistoryModule";
 
 const defaultState = () => {
   return {

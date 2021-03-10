@@ -1,4 +1,4 @@
-import { DefaultModule } from '../../defaults/DefaultModule';
+import DefaultModule from '../../../BaseModules/defaults/DefaultModule';
 import PauseCauseAPI from '../../../../api/lookups/agentPauseCause/agentPauseCause';
 
 const defaultState = () => ({

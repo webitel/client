@@ -1,5 +1,5 @@
 import { getDeviceHistory } from "../../../../api/directory/devices/devices";
-import { DefaultHistoryModule } from "../../defaults/DefaultHistoryModule";
+import { DefaultHistoryModule } from "../../../BaseModules/defaults/DefaultHistoryModule";
 
 const defaultState = () => {
   return {

@@ -5,7 +5,7 @@ import {
   getQueueBucketsList,
   updateQueueBucket,
 } from "../../../../api/contact-center/queues/queueBuckets";
-import { DefaultNestedModule } from "../../defaults/DefaultNestedModule";
+import DefaultNestedModule from "../../../BaseModules/defaults/DefaultNestedModule";
 
 const defaultItemState = () => ({
   itemId: 0,

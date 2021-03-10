@@ -6,8 +6,8 @@ import {
   getResGroupList,
   updateResGroup,
 } from "../../../../api/contact-center/resourceGroups/resourceGroups";
-import { DefaultModule } from "../../defaults/DefaultModule";
-import DefaultPermissionsModule from '../../defaults/DefaultPermissionsModule';
+import DefaultModule from "../../../BaseModules/defaults/DefaultModule";
+import DefaultPermissionsModule from '../../../BaseModules/defaults/DefaultPermissionsModule';
 
 const defaultState = () => {
   return {
@@ -98,7 +98,7 @@ const mutations = {
 
 const PERMISSIONS_API_URL = '/call_center/resource_group';
 const permissions = new DefaultPermissionsModule()
-  .generateAPIMethods(PERMISSIONS_API_URL)
+  .generateAPIActions(PERMISSIONS_API_URL)
   .getModule();
 
 export default {
