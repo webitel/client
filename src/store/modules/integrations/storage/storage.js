@@ -1,110 +1,19 @@
-import {
-  addStorage,
-  deleteStorage,
-  getStorage,
-  getStorageList,
-  patchStorage,
-  updateStorage,
-} from "../../../../api/integrations/storage/storage";
-import { DefaultModule } from "../../defaults/DefaultModule";
-import proxy from "../../../../utils/editProxy";
+import deepMerge from 'deepmerge';
+import StorageAPI from '../../../../api/integrations/storage/storage';
+import { DefaultModule } from '../../defaults/DefaultModule';
+import Storage from './_internals/enums/Storage.enum';
+import defaultStorageState from './_internals/storageSchema/defaults/defaultStorage';
+import defaultLocalStorageState from './_internals/storageSchema/localStorage';
+import defaultS3StorageState from './_internals/storageSchema/s3Storage';
+import defaultBackblazeStorageState from './_internals/storageSchema/backblazeStorage';
+import defaultDropboxStorageState from './_internals/storageSchema/dropboxStorage';
+import defaultDriveStorageState from './_internals/storageSchema/driveStorage';
+import proxy from '../../../../utils/editProxy';
 
-const defaultState = () => {
-  return {
-    itemId: 0,
-    page: 0,
-    itemInstance: {
-      name: '',
-      maxSize: 0,
-      expireDays: 0,
-    },
-  };
-};
-
-const defaultLocalState = () => {
-  return {
-    name: 'LOCAL NAME',
-    maxSize: 10,
-    expireDays: 12,
-    priority: 0,
-    type: 'local',
-    properties: { directory: '/path/to/local/dir' },
-  };
-};
-
-const defaultS3State = () => {
-  return {
-    name: 'S3 Storage',
-    maxSize: 0,
-    expireDays: 0,
-    priority: 0,
-    type: 's3',
-    properties: {
-      keyId: '',
-      accessKey: '',
-      bucketName: '',
-      region: {},
-      endpoint: '',
-    },
-  };
-};
-
-const defaultDigitalOceanState = () => {
-  return {
-    name: 'Digital Ocean Storage',
-    maxSize: 10,
-    expireDays: 12,
-    priority: 0,
-    type: 'digitalOcean',
-    properties: {
-      keyId: '1010',
-      accessKey: '2020',
-      bucketName: '4040',
-      region: { name: 'New York City, United States (NYC1)', value: 'NYC1' },
-    },
-  };
-};
-
-const defaultBackblazeState = () => {
-  return {
-    name: '',
-    maxSize: 10,
-    expireDays: 12,
-    type: 'backblaze',
-    // account: '',
-    // key: '',
-    // bucket: '',
-    // bucketId: '',
-  };
-};
-
-const defaultDropboxState = () => {
-  return {
-    name: 'Dropbox Storage',
-    maxSize: 10,
-    expireDays: 12,
-    priority: 0,
-    type: 'dropbox',
-    properties: {
-      token: '10102020',
-    },
-  };
-};
-
-const defaultDriveState = () => {
-  return {
-    name: 'Drive Storage',
-    maxSize: 10,
-    expireDays: 12,
-    priority: 0,
-    type: 'drive',
-    properties: {
-      directory: 'dir_name',
-      email: 'email@gmail.com',
-      privateKey: '80feoiufewqrewr4t4t43uriot54ut2hrkjt43jk32r',
-    },
-  };
-};
+const defaultState = () => ({
+  itemId: 0,
+  itemInstance: defaultStorageState(),
+});
 
 const defaultModule = new DefaultModule(defaultState);
 
@@ -116,64 +25,53 @@ const state = {
 const getters = {};
 
 const actions = {
-
   ...defaultModule.actions,
-
-  GET_LIST: async () => {
-    return await getStorageList(state.page, state.size, state.search);
+  GET_LIST: (context) => {
+    return StorageAPI.getList(context.state);
   },
-
-  GET_ITEM: async () => {
-    return await getStorage(state.itemId);
+  GET_ITEM: (context) => {
+    return StorageAPI.get(context.state);
   },
-
-  POST_ITEM: async () => {
-    return await addStorage(state.itemInstance);
+  POST_ITEM: (context) => {
+    return StorageAPI.add(context.state);
   },
-
-  PATCH_ITEM: async (context, { id, changes }) => {
-    await patchStorage(id, changes);
+  PATCH_ITEM: (context, { id, changes }) => {
+    return StorageAPI.patch({ id, changes });
   },
-
-  UPD_ITEM: async () => {
-    await updateStorage(state.itemId, state.itemInstance);
+  UPD_ITEM: (context) => {
+    return StorageAPI.update(context.state);
   },
-
-  DELETE_ITEM: async (context, id) => {
-    await deleteStorage(id);
+  DELETE_ITEM: (context, id) => {
+    return StorageAPI.delete({ id });
   },
-
   LOAD_ITEM: async (context, type) => {
-    if (state.itemId) {
+    if (context.state.itemId) {
       const item = await context.dispatch('GET_ITEM');
-      context.commit('SET_ITEM', proxy(item));
+      context.dispatch('SET_TYPED_ITEM', { item, type: item.type });
     } else {
-      context.dispatch('SET_ITEM_BY_TYPE', type);
+      context.dispatch('SET_TYPED_ITEM', { type });
     }
   },
-
-  SET_ITEM_BY_TYPE: (context, type) => {
-    let item = {};
+  SET_TYPED_ITEM: (context, { type, item = {} }) => {
     switch (type) {
-      case 'local':
-        item = defaultLocalState();
+      case Storage.LOCAL:
+        item = deepMerge(defaultLocalStorageState(), item);
         break;
-      case 's3':
-        item = defaultS3State();
+      case Storage.S3:
+        item = deepMerge(defaultS3StorageState(), item);
         break;
-      case 'backblaze':
-        item = defaultBackblazeState();
+      case Storage.BACKBLAZE:
+        item = deepMerge(defaultBackblazeStorageState(), item);
         break;
-      case 'dropbox':
-        item = defaultDropboxState();
+      case Storage.DROPBOX:
+        item = deepMerge(defaultDropboxStorageState(), item);
         break;
-      case 'drive':
-        item = defaultDriveState();
+      case Storage.DRIVE:
+        item = deepMerge(defaultDriveStorageState(), item);
         break;
     }
-    context.commit('SET_ITEM', item);
+    context.commit('SET_ITEM', proxy(item));
   },
-
   SET_ITEM_PROPERTIES_PROPERTY: (context, payload) => {
     context.commit('SET_ITEM_PROPERTIES_PROPERTY', payload);
     context.dispatch('SET_ITEM_PROPERTY', { prop: '_dirty', value: true });
@@ -181,12 +79,10 @@ const actions = {
 };
 
 const mutations = {
-
+  ...defaultModule.mutations,
   SET_ITEM_PROPERTIES_PROPERTY: (state, { prop, value }) => {
     state.itemInstance.properties[prop] = value;
   },
-
-  ...defaultModule.mutations,
 };
 
 export default {

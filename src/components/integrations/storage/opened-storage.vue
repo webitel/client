@@ -1,65 +1,68 @@
 <template>
-  <div class="content-wrap">
-    <object-header
-      :primary-text="computePrimaryText"
-      :primary-action="save"
-      :hide-primary="!hasSaveActionAccess"
-      :primary-disabled="computeDisabled"
-      :secondary-action="close"
-    >
-      <headline-nav :path="path"></headline-nav>
-    </object-header>
-    <tabs-component
-      :tabs="tabs"
-      :root="$options.name"
-    >
-      <template slot="component" slot-scope="props">
+  <wt-page-wrapper :actions-panel="false">
+    <template slot="header">
+      <object-header
+        :primary-text="computePrimaryText"
+        :primary-action="save"
+        :hide-primary="!hasSaveActionAccess"
+        :primary-disabled="computeDisabled"
+        :secondary-action="close"
+      >
+        <headline-nav :path="path"></headline-nav>
+      </object-header>
+    </template>
+
+    <template slot="main">
+      <div class="main-container">
+        <wt-tabs
+          v-model="currentTab"
+          :tabs="tabs"
+        ></wt-tabs>
         <component
-          class="tabs-inner-component"
-          :is="props.currentTab"
+          :is="currentTab.value"
           :v="$v"
+          :namespace="namespace"
         ></component>
-      </template>
-    </tabs-component>
-  </div>
+      </div>
+    </template>
+  </wt-page-wrapper>
 </template>
 
 <script>
-import editComponentMixin from '@/mixins/objectPagesMixins/openedObjectMixin/editComponentMixin';
 import { required } from 'vuelidate/lib/validators';
-import { mapActions, mapState } from 'vuex';
-import openedStorageGeneral from './opened-storage-general';
-import openedStorageLocal from './opened-storage-local';
-import openedStorageS3 from './opened-storage-s3';
-import openedStorageBackblaze from './opened-storage-backblaze';
-import openedStorageDropbox from './opened-storage-dropbox';
-import openedStorageDrive from './opened-storage-drive';
-import headlineNavMixin from '../../../mixins/baseMixins/headlineNavMixin/headlineNavMixin';
+import General from './opened-storage-general.vue';
+import Local from './_unused/opened-storage-local.vue';
+import S3 from './opened-storage-s3.vue';
+import Backblaze from './_unused/opened-storage-backblaze.vue';
+import Dropbox from './_unused/opened-storage-dropbox.vue';
+import Drive from './_unused/opened-storage-drive.vue';
+import openedObjectMixin from '../../../mixins/objectPagesMixins/openedObjectMixin/openedObjectMixin';
+import Storage from '../../../store/modules/integrations/storage/_internals/enums/Storage.enum';
 
 export default {
   name: 'opened-storage',
-  mixins: [editComponentMixin, headlineNavMixin],
+  mixins: [openedObjectMixin],
   components: {
-    openedStorageGeneral,
-    openedStorageLocal,
-    openedStorageS3,
-    openedStorageBackblaze,
-    openedStorageDropbox,
-    openedStorageDrive,
+    General,
+    Local,
+    S3,
+    Backblaze,
+    Dropbox,
+    Drive,
   },
-  data() {
-    return {};
-  },
+  data: () => ({
+    namespace: 'integrations/storage',
+  }),
 
   validations() {
     switch (this.$route.params.type) {
-      case 'local':
+      case Storage.LOCAL:
         return {
           itemInstance: {
             name: { required },
           },
         };
-      case 's3':
+      case Storage.S3:
         return {
           itemInstance: {
             name: { required },
@@ -72,7 +75,7 @@ export default {
             },
           },
         };
-      case 'backblaze':
+      case Storage.BACKBLAZE:
         return {
           itemInstance: {
             name: { required },
@@ -82,7 +85,7 @@ export default {
             bucketId: { required },
           },
         };
-      case 'dropbox':
+      case Storage.DROPBOX:
         return {
           itemInstance: {
             name: { required },
@@ -91,7 +94,7 @@ export default {
             },
           },
         };
-      case 'drive':
+      case Storage.DRIVE:
         return {
           itemInstance: {
             name: { required },
@@ -102,44 +105,40 @@ export default {
             },
           },
         };
+      default: return {};
     }
   },
 
-  mounted() {
-    this.id = this.$route.params.id;
-    this.loadItem(this.$route.params.type);
-  },
-
   computed: {
-    ...mapState('integrations/storage', {
-      itemInstance: (state) => state.itemInstance,
-    }),
-    id: {
-      get() {
-        return this.$store.state.integrations.storage.itemId;
-      },
-      set(value) {
-        this.setId(value);
-      },
+    storageType() {
+      switch (this.$route.params.type) {
+        case Storage.LOCAL: return Storage.LOCAL;
+        case Storage.S3: return Storage.S3;
+        case Storage.BACKBLAZE: return Storage.BACKBLAZE;
+        case Storage.DROPBOX: return Storage.DROPBOX;
+        case Storage.DRIVE: return Storage.DRIVE;
+        default: return '';
+      }
     },
     tabs() {
       const tabs = [{ text: this.$t('objects.general'), value: 'general' }];
       switch (this.$route.params.type) {
-        case 'local':
+        case Storage.LOCAL:
           tabs.push({ text: this.$t('objects.integrations.storage.configuration'), value: 'local' });
           break;
-        case 's3':
+        case Storage.S3:
           tabs.push({ text: this.$t('objects.integrations.storage.configuration'), value: 's3' });
           break;
-        case 'backblaze':
+        case Storage.BACKBLAZE:
           tabs.push({ text: this.$t('objects.integrations.storage.configuration'), value: 'backblaze' });
           break;
-        case 'dropbox':
+        case Storage.DROPBOX:
           tabs.push({ text: this.$t('objects.integrations.storage.configuration'), value: 'dropbox' });
           break;
-        case 'drive':
+        case Storage.DRIVE:
           tabs.push({ text: this.$t('objects.integrations.storage.configuration'), value: 'drive' });
           break;
+          default:
       }
       return tabs;
     },
@@ -158,15 +157,11 @@ export default {
       ];
     },
   },
-
   methods: {
-    ...mapActions('integrations/storage', {
-      setId: 'SET_ITEM_ID',
-      loadItem: 'LOAD_ITEM',
-      addItem: 'ADD_ITEM',
-      updateItem: 'UPDATE_ITEM',
-      resetState: 'RESET_ITEM_STATE',
-    }),
+    async loadPageData() {
+      await this.setId(this.$route.params.id);
+      return this.loadItem(this.storageType);
+    },
   },
 };
 </script>

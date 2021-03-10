@@ -36,8 +36,8 @@
 <script>
     import openedTabComponentMixin from '@/mixins/objectPagesMixins/openedObjectTabMixin/openedTabComponentMixin';
     import { mapActions } from 'vuex';
-    import DropdownSelect from '../../utils/dropdown-select';
-    import { DigitalOceanRegions } from '../../../api/integrations/storage/storage';
+    import DropdownSelect from '../../../utils/dropdown-select';
+    import { DigitalOceanRegions } from '../../../../api/integrations/storage/storage';
 
     export default {
         name: 'opened-storage-digital-ocean',

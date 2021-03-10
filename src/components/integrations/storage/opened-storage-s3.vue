@@ -4,87 +4,99 @@
       <h3 class="content-title">{{ $t('objects.integrations.storage.s3') }}</h3>
     </header>
     <form class="object-input-grid">
-      <form-input
-        v-model="keyId"
+      <wt-input
+        :value="itemInstance.properties.keyId"
         :v="v.itemInstance.properties.keyId"
         :label="$t('objects.integrations.storage.s3Key')"
         :disabled="disableUserInput"
         required
-      ></form-input>
-      <form-input
-        v-model="accessKey"
+        @input="setItemProp({ prop: 'keyId', value: $event })"
+      ></wt-input>
+      <wt-input
+        :value="itemInstance.properties.accessKey"
         :v="v.itemInstance.properties.accessKey"
         :label="$t('objects.integrations.storage.s3Access')"
         :disabled="disableUserInput"
         required
-      ></form-input>
-      <form-input
-        v-model="bucketName"
+        @input="setItemProp({ prop: 'accessKey', value: $event })"
+      ></wt-input>
+      <wt-input
+        :value="itemInstance.properties.bucketName"
         :v="v.itemInstance.properties.bucketName"
         :label="$t('objects.integrations.storage.bucket')"
         :disabled="disableUserInput"
         required
-      ></form-input>
-      <dropdown-select
+        @input="setItemProp({ prop: 'bucketName', value: $event })"
+      ></wt-input>
+      <wt-input
+        :value="itemInstance.properties.pathPattern"
+        :label="$t('objects.integrations.storage.pathPattern')"
+        :disabled="disableUserInput"
+        @input="setItemProp({ prop: 'pathPattern', value: $event })"
+      ></wt-input>
+      <wt-select
         v-if="!this.id"
         :value="service"
         :options="serviceOptions"
         :label="$t('objects.integrations.storage.service')"
         :disabled="disableUserInput"
+        track-by="value"
         @input="setService"
-      ></dropdown-select>
-      <dropdown-select
-        v-show="service.value !== 'custom'"
-        v-model="region"
+      ></wt-select>
+      <wt-select
+        v-if="service.value !== 'custom'"
+        :value="itemInstance.properties.region"
         :v="v.itemInstance.properties.region"
         :options="computeRegionOptions"
         :label="$t('objects.integrations.storage.region')"
         :disabled="disableUserInput"
+        track-by="value"
+        :clearable="false"
         required
-      ></dropdown-select>
-      <form-input
-        v-show="service.value === 'custom'"
-        v-model="endpoint"
+        @input="setItemProp({ prop: 'region', value: $event })"
+      ></wt-select>
+      <wt-input
+        v-if="service.value === 'custom'"
+        :value="itemInstance.properties.endpoint"
         :v="v.itemInstance.properties.endpoint"
         :label="$t('objects.integrations.storage.s3Endpoint')"
         :disabled="disableUserInput"
         required
-      ></form-input>
-      <form-input
-        v-show="service.value === 'custom'"
-        v-model="region"
+        @input="setItemProp({ prop: 'endpoint', value: $event })"
+      ></wt-input>
+      <wt-input
+        v-if="service.value === 'custom'"
+        :value="itemInstance.properties.region"
         :v="v.itemInstance.properties.region"
         :label="$t('objects.integrations.storage.region')"
         :disabled="disableUserInput"
         required
-      ></form-input>
+        @input="setItemProp({ prop: 'region', value: $event })"
+      ></wt-input>
     </form>
   </section>
 </template>
 
 <script>
-import openedTabComponentMixin from '@/mixins/objectPagesMixins/openedObjectTabMixin/openedTabComponentMixin';
 import { mapActions, mapState } from 'vuex';
-import DropdownSelect from '../../utils/dropdown-select';
-import { AWSRegions, DigitalOceanRegions } from '../../../api/integrations/storage/storage';
+import openedTabComponentMixin from '../../../mixins/objectPagesMixins/openedObjectTabMixin/openedTabComponentMixin';
+import AWSRegions from '../../../store/modules/integrations/storage/_internals/lookups/AWSRegions.lookup';
+import DigitalOceanRegions from '../../../store/modules/integrations/storage/_internals/lookups/DigitalOceanRegions.lookup';
 
 export default {
   name: 'opened-storage-aws',
-  components: { DropdownSelect },
   mixins: [openedTabComponentMixin],
-  data() {
-    return {
-      service: {},
-      serviceOptions: [
-        { name: 'AWS S3 Bucket', value: 'aws' },
-        { name: 'Digital Ocean Spaces', value: 'do' },
-        { name: 'Custom', value: 'custom' }],
-      AWSRegions,
-      DigitalOceanRegions,
-    };
-  },
+  data: () => ({
+    service: {},
+    serviceOptions: [
+      { name: 'AWS S3 Bucket', value: 'aws' },
+      { name: 'Digital Ocean Spaces', value: 'do' },
+      { name: 'Custom', value: 'custom' }],
+    AWSRegions,
+    DigitalOceanRegions,
+  }),
 
-  mounted() {
+  created() {
     if (!this.id) this.setService({ name: 'AWS S3 Bucket', value: 'aws' });
   },
 
@@ -93,52 +105,11 @@ export default {
       id: (state) => state.itemId,
     }),
 
-    keyId: {
-      get() {
-        return this.$store.state.integrations.storage.itemInstance.properties.keyId;
-      },
-      set(value) {
-        this.setItemProp({ prop: 'keyId', value });
-      },
-    },
-    accessKey: {
-      get() {
-        return this.$store.state.integrations.storage.itemInstance.properties.accessKey;
-      },
-      set(value) {
-        this.setItemProp({ prop: 'accessKey', value });
-      },
-    },
-    bucketName: {
-      get() {
-        return this.$store.state.integrations.storage.itemInstance.properties.bucketName;
-      },
-      set(value) {
-        this.setItemProp({ prop: 'bucketName', value });
-      },
-    },
-    endpoint: {
-      get() {
-        return this.$store.state.integrations.storage.itemInstance.properties.endpoint;
-      },
-      set(value) {
-        this.setItemProp({ prop: 'endpoint', value });
-      },
-    },
-    region: {
-      get() {
-        return this.$store.state.integrations.storage.itemInstance.properties.region;
-      },
-      set(value) {
-        this.setItemProp({ prop: 'region', value });
-      },
-    },
-
     computeRegionOptions() {
-      if (this.endpoint.includes('aws')) {
+      if (this.itemInstance.properties.endpoint.includes('aws')) {
         return this.AWSRegions;
       }
-      if (this.endpoint.includes('digitalocean')) {
+      if (this.itemInstance.properties.endpoint.includes('digitalocean')) {
         return this.DigitalOceanRegions;
       }
       return [];
@@ -153,14 +124,14 @@ export default {
     setService(value) {
       this.service = value;
       if (this.service.value === 'aws') {
-        this.endpoint = 'amazonaws.com';
-        this.region = {};
+        this.setItemProp({ prop: 'endpoint', value: 'amazonaws.com' });
+        this.setItemProp({ prop: 'region', value: {} });
       } else if (this.service.value === 'do') {
-        this.endpoint = 'digitaloceanspaces.com';
-        this.region = {};
+        this.setItemProp({ prop: 'endpoint', value: 'digitaloceanspaces.com' });
+        this.setItemProp({ prop: 'region', value: {} });
       } else {
-        this.endpoint = '';
-        this.region = '';
+        this.setItemProp({ prop: 'endpoint', value: '' });
+        this.setItemProp({ prop: 'region', value: '' });
       }
     },
   },
