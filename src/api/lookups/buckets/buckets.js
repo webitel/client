@@ -9,7 +9,7 @@ import { WebitelSDKListGetter } from '../../utils/ApiControllers/ListGetter/SDKL
 
 const bucketService = new BucketServiceApiFactory(configuration, '', instance);
 
-const fieldsToSend = ['domainId', 'name', 'description'];
+const fieldsToSend = ['name', 'description'];
 
 const listGetter = new WebitelSDKListGetter(bucketService.searchBucket);
 const itemGetter = new WebitelSDKItemGetter(bucketService.readBucket);
@@ -17,16 +17,18 @@ const itemCreator = new WebitelSDKItemCreator(bucketService.createBucket, fields
 const itemUpdater = new WebitelSDKItemUpdater(bucketService.updateBucket, fieldsToSend);
 const itemDeleter = new WebitelSDKItemDeleter(bucketService.deleteBucket);
 
-export const getBucketsList = async (page = 0, size = 10, search) => await listGetter.getList({
-  page,
-  size,
-  search,
-});
+export const getBucketsList = (params) => listGetter.getList(params);
+export const getBucket = ({ itemId }) => itemGetter.getItem(itemId);
+export const addBucket = ({ itemInstance }) => itemCreator.createItem(itemInstance);
+export const updateBucket = ({ itemId, itemInstance }) => (
+  itemUpdater.updateItem(itemId, itemInstance)
+);
+export const deleteBucket = ({ id }) => itemDeleter.deleteItem(id);
 
-export const getBucket = async (id) => await itemGetter.getItem(id);
-
-export const addBucket = async (item) => await itemCreator.createItem(item);
-
-export const updateBucket = async (id, item) => await itemUpdater.updateItem(id, item);
-
-export const deleteBucket = async (id) => await itemDeleter.deleteItem(id);
+export default {
+  getList: getBucketsList,
+  get: getBucket,
+  add: addBucket,
+  update: updateBucket,
+  delete: deleteBucket,
+};

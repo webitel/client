@@ -3,17 +3,16 @@ import { MediaFileServiceApiFactory } from 'webitel-sdk';
 import eventBus from '@webitel/ui-sdk/src/scripts/eventBus';
 import instance from '../../instance';
 import configuration from '../../openAPIConfig';
-import store from '../../../store/store';
-import { WebitelSDKItemDeleter } from '../../utils/ApiControllers/Deleter/SDKDeleter';
-import { WebitelSDKListGetter } from '../../utils/ApiControllers/ListGetter/SDKListGetter';
+import SDKItemDeleter from '../../utils/ApiControllers/Deleter/SDKDeleter';
+import SDKListGetter from '../../utils/ApiControllers/ListGetter/SDKListGetter';
 
 const mediaService = new MediaFileServiceApiFactory(configuration, '', instance);
 
 const token = localStorage.getItem('access-token');
 const BASE_URL = process.env.VUE_APP_API_URL;
 
-const listGetter = new WebitelSDKListGetter(mediaService.searchMediaFile);
-const itemDeleter = new WebitelSDKItemDeleter(mediaService.deleteMediaFile);
+const listGetter = new SDKListGetter(mediaService.searchMediaFile);
+const itemDeleter = new SDKItemDeleter(mediaService.deleteMediaFile);
 
 export const getMediaList = (params) => listGetter.getList(params);
 
@@ -54,3 +53,10 @@ export const addMedia = async ({ itemInstance }) => {
 };
 
 export const deleteMedia = ({ id }) => itemDeleter.deleteItem(id);
+
+export default {
+  getList: getMediaList,
+  get: getMedia,
+  add: addMedia,
+  delete: deleteMedia,
+};
