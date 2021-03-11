@@ -41,7 +41,6 @@ const coerceRegisterResponse = (response) => {
   return result;
 };
 
-
 const listGetter = new WebitelAPIListGetter(BASE_URL, defaultListItem);
 const itemGetter = new WebitelAPIItemGetter(BASE_URL);
 const itemCreator = new WebitelAPIItemCreator(BASE_URL, fieldsToSend);
@@ -54,16 +53,20 @@ itemGetter.responseHandler = (response) => {
   return coerceTrunkingResponse(response);
 };
 
-export const getGatewayList = (page = 1, size = 10, search) => (
-  listGetter.getList({ page, size, search })
+export const getGatewayList = (params) => listGetter.getList(params);
+export const getGateway = ({ itemId }) => itemGetter.getItem(itemId);
+export const addGateway = ({ itemInstance }) => itemCreator.createItem(itemInstance);
+export const updateGateway = ({ itemId, itemInstance }) => (
+  itemUpdater.updateItem(itemId, itemInstance)
 );
+export const patchGateway = ({ id, changes }) => itemPatcher.patchItem(id, changes);
+export const deleteGateway = ({ id }) => itemDeleter.deleteItem(id);
 
-export const getGateway = (id) => itemGetter.getItem(id);
-
-export const addGateway = (item) => itemCreator.createItem(item);
-
-export const updateGateway = (id, item) => itemUpdater.updateItem(id, item);
-
-export const patchGateway = (id, changes) => itemPatcher.patchItem(id, changes);
-
-export const deleteGateway = (id) => itemDeleter.deleteItem(id);
+export default {
+  getList: getGatewayList,
+  get: getGateway,
+  add: addGateway,
+  patch: patchGateway,
+  update: updateGateway,
+  delete: deleteGateway,
+};
