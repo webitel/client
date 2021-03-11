@@ -1,98 +1,66 @@
 <template>
-    <popup
-            :title="$t('objects.ccenter.resGroups.addResGroup')"
-            :primaryAction="save"
-            :primaryText="computePrimaryText"
-            :primaryDisabled="computeDisabled"
-            @close="$emit('close')"
-            overflow
-    >
-        <form>
-            <dropdown-select
-                    v-model="resourceGroup"
-                    :v="$v.itemInstance.resourceGroup"
-                    :options="dropdownOptionsList"
-                    :label="$tc('objects.ccenter.resGroups.resGroups', 1)"
-                    @search="loadDropdownOptionsList"
-                    required
-            ></dropdown-select>
-        </form>
-    </popup>
+  <wt-popup min-width="480" overflow @close="close">
+    <template slot="title">
+      {{ $tc('objects.ccenter.resGroups.resGroups', 1) }}
+    </template>
+    <template slot="main">
+      <form>
+        <wt-select
+          :value="itemInstance.resourceGroup"
+          :v="$v.itemInstance.resourceGroup"
+          :label="$tc('objects.ccenter.resGroups.resGroups', 1)"
+          :search="loadResGroupsOptions"
+          :internal-search="false"
+          :clearable="false"
+          required
+          @input="setItemProp({ prop: 'resourceGroup', value: $event })"
+        ></wt-select>
+      </form>
+    </template>
+    <template slot="actions">
+      <wt-button
+        :disabled="computeDisabled"
+        @click="save"
+      >{{ $t('objects.save') }}
+      </wt-button>
+      <wt-button
+        color="secondary"
+        @click="close"
+      >{{ $t('objects.close') }}
+      </wt-button>
+    </template>
+  </wt-popup>
 </template>
 
 <script>
-    import popup from '@/components/utils/popup';
-    import editComponentMixin from '@/mixins/objectPagesMixins/openedObjectMixin/editComponentMixin';
-    import { required } from 'vuelidate/lib/validators';
-    import { mapActions, mapState } from 'vuex';
-    import { getResGroupList } from '../../../../../api/contact-center/resourceGroups/resourceGroups';
+import { required } from 'vuelidate/lib/validators';
+import { getResGroupList } from '../../../../../api/contact-center/resourceGroups/resourceGroups';
+import nestedObjectMixin from '../../../../../mixins/objectPagesMixins/openedObjectMixin/nestedObjectMixin';
 
-    export default {
-        name: 'opened-queue-buckets-popup',
-        mixins: [editComponentMixin],
-        components: {
-            popup,
-        },
-        data() {
-            return {};
-        },
+export default {
+  name: 'opened-queue-buckets-popup',
+  mixins: [nestedObjectMixin],
 
-        validations: {
-            itemInstance: {
-                resourceGroup: {
-                    required,
-                },
-            },
-        },
+  data: () => ({
+    namespace: 'ccenter/queues/resGroups',
+  }),
 
-        mounted() {
-            this.loadItem();
-            this.loadDropdownOptionsList();
-        },
+  validations: {
+    itemInstance: {
+      resourceGroup: { required },
+    },
+  },
 
-        computed: {
-            ...mapState('ccenter/queues/resGroups', {
-                id: (state) => state.itemId,
-                itemInstance: (state) => state.itemInstance,
-            }),
-            resourceGroup: {
-                get() {
-                    return this.$store.state.ccenter.queues.resGroups.itemInstance.resourceGroup;
-                },
-                set(value) {
-                    this.setItemProp({ prop: 'resourceGroup', value });
-                },
-            },
-        },
-
-        methods: {
-            async save() {
-                const invalid = this.checkValidations();
-                if (!invalid) {
-                    try {
-                        !this.id ? await this.addItem() : await this.updateItem();
-                        this.$emit('close');
-                    } catch {
-                    }
-                }
-            },
-
-            async loadDropdownOptionsList(search) {
-                const response = await getResGroupList(0, 10, search);
-                this.dropdownOptionsList = response.list.map((item) => ({
-                        name: item.name,
-                        id: item.id,
-                    }));
-            },
-
-            ...mapActions('ccenter/queues/resGroups', {
-                setItemProp: 'SET_ITEM_PROPERTY',
-                addItem: 'ADD_ITEM',
-                updateItem: 'UPDATE_ITEM',
-                loadItem: 'LOAD_ITEM',
-            }),
-        },
-    };
+  methods: {
+    async loadResGroupsOptions(search) {
+      const response = await getResGroupList(1, 10, search);
+      return response.list.map((item) => ({
+        name: item.name,
+        id: item.id,
+      }));
+    },
+  },
+};
 </script>
 
 <style scoped>

@@ -601,10 +601,16 @@ export default {
           fifo: 'FIFO (Первый зашёл Первый вышел)',
           lifo: 'LIFO (Последний зашёл Первый вышел)',
         },
-      },
-
-      logs: {
-        logs: 'Лог | Логи',
+        logs: {
+          logs: 'Лог | Логи',
+          destination: 'Назначение',
+          offeringAt: 'Распределение',
+          joinedAt: 'Начало',
+          leavingAt: 'Конец',
+          duration: 'Длительность',
+          viewNumber: 'Номер',
+          result: 'Результат',
+        },
       },
 
       res: {

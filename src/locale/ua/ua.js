@@ -601,10 +601,16 @@ export default {
           fifo: 'FIFO (Першим зайшов, першим вийшов)',
           lifo: 'LIFO (Останнім зайшов, першим вийшов)',
         },
-      },
-
-      logs: {
-        logs: 'Лог | Логи',
+        logs: {
+          logs: 'Лог | Логи',
+          destination: 'Призначення',
+          offeringAt: 'Розподілення',
+          joinedAt: 'Початок',
+          leavingAt: 'Кінець',
+          duration: 'Тривалість',
+          viewNumber: 'Номер',
+          result: 'Результат',
+        },
       },
 
       res: {

@@ -50,3 +50,12 @@ export const addQueueSkill = (params) => itemCreator.createNestedItem(params);
 export const patchQueueSkill = (params) => itemPatcher.patchNestedItem(params);
 export const updateQueueSkill = (params) => itemUpdater.updateNestedItem(params);
 export const deleteQueueSkill = (params) => itemDeleter.deleteNestedItem(params);
+
+export default {
+  getList: getQueueSkillsList,
+  get: getQueueSkill,
+  add: addQueueSkill,
+  patch: patchQueueSkill,
+  update: updateQueueSkill,
+  delete: deleteQueueSkill,
+};

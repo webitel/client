@@ -6,8 +6,7 @@ import AgentsAPI from '../../../../api/contact-center/agents/agents';
 import DefaultModule from '../../../BaseModules/defaults/DefaultModule';
 import DefaultPermissionsModule from '../../../BaseModules/defaults/DefaultPermissionsModule';
 
-const defaultState = () => ({
-  itemId: 0,
+const resettableState = {
   itemInstance: {
     user: {},
     team: {},
@@ -18,33 +17,9 @@ const defaultState = () => ({
     chatCount: 1,
     isSupervisor: false,
   },
-});
-
-const defaultModule = new DefaultModule(defaultState);
-
-const state = {
-  ...defaultModule.state,
 };
 
-const getters = {};
-
 const actions = {
-  ...defaultModule.actions,
-  GET_LIST: (context) => {
-    return AgentsAPI.getList(context.state);
-  },
-  GET_ITEM: (context) => {
-    return AgentsAPI.get(context.state);
-  },
-  POST_ITEM: (context) => {
-    return AgentsAPI.add(context.state);
-  },
-  UPD_ITEM: (context) => {
-    return AgentsAPI.update(context.state);
-  },
-  DELETE_ITEM: (context, id) => {
-    return AgentsAPI.delete({ id });
-  },
   RESET_ITEM_STATE: async (context) => {
     context.commit('RESET_ITEM_STATE');
     context.dispatch('ccenter/agents/queues/RESET_STATE', {}, { root: true });
@@ -53,20 +28,16 @@ const actions = {
   },
 };
 
-const mutations = {
-  ...defaultModule.mutations,
-};
-
 const PERMISSIONS_API_URL = '/call_center/agents';
 const permissions = new DefaultPermissionsModule()
   .generateAPIActions(PERMISSIONS_API_URL)
   .getModule();
 
-export default {
-  namespaced: true,
-  state,
-  getters,
-  actions,
-  mutations,
-  modules: { history, skills, queues, subordinates, permissions },
-};
+const agents = new DefaultModule(resettableState)
+  .attachAPIModule(AgentsAPI)
+  .generateAPIActions()
+  .setChildModules({ history, skills, queues, subordinates, permissions })
+  .getModule({ actions });
+
+export default agents;
+

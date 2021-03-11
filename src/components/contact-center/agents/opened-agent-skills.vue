@@ -55,7 +55,7 @@
           <wt-switcher
             :value="item.enabled"
             :disabled="!hasEditAccess"
-            @change="changeState({ item, index, value: $event })"
+            @change="patchItem({ item, index, prop: 'enabled', value: $event })"
           ></wt-switcher>
         </template>
         <template slot="actions" slot-scope="{ item, index }">
@@ -117,8 +117,8 @@ export default {
 
   methods: {
     ...mapActions({
-      changeState(dispatch, payload) {
-        return dispatch(`${this.namespace}/${this.subNamespace}/CHANGE_STATE`, payload);
+      patchItem(dispatch, payload) {
+        return dispatch(`${this.namespace}/${this.subNamespace}/PATCH_ITEM_PROPERTY`, payload);
       },
     }),
     openPopup() {

@@ -1,15 +1,7 @@
-import {
-  addQueueSkill,
-  deleteQueueSkill,
-  getQueueSkill,
-  getQueueSkillsList,
-  patchQueueSkill,
-  updateQueueSkill,
-} from '../../../../api/contact-center/queues/queueSkills';
+import QueueSkillsAPI from '../../../../api/contact-center/queues/queueSkills';
 import DefaultNestedModule from '../../../BaseModules/defaults/DefaultNestedModule';
 
-const defaultItemState = () => ({
-  itemId: 0,
+const resettableItemState = {
   itemInstance: {
     skill: {},
     lvl: 0,
@@ -18,12 +10,6 @@ const defaultItemState = () => ({
     buckets: [],
     enabled: true,
   },
-});
-
-const defaultNestedModule = new DefaultNestedModule(null, defaultItemState);
-
-const state = {
-  ...defaultNestedModule.state,
 };
 
 const getters = {
@@ -33,37 +19,9 @@ const getters = {
   },
 };
 
-const actions = {
-  ...defaultNestedModule.actions,
-  GET_LIST: (context) => {
-    return getQueueSkillsList(context.state);
-  },
-  GET_ITEM: (context) => {
-    return getQueueSkill(context.state);
-  },
-  POST_ITEM: (context) => {
-    return addQueueSkill(context.state);
-  },
-  PATCH_ITEM: (context, { id, changes }) => {
-    return patchQueueSkill({ parentId: context.state.parentId, id, changes });
-  },
-  UPD_ITEM: (context) => {
-    return updateQueueSkill(context.state);
-  },
-  DELETE_ITEM: (context, id) => {
-    return deleteQueueSkill({ parentId: context.state.parentId, id });
-  },
-  CHANGE_STATE: (context, payload) => context.dispatch('PATCH_ITEM_PROPERTY', { prop: 'enabled', ...payload }),
-};
+const queueSkills = new DefaultNestedModule(null, resettableItemState)
+  .attachAPIModule(QueueSkillsAPI)
+  .generateAPIActions()
+  .getModule({ getters });
 
-const mutations = {
-  ...defaultNestedModule.mutations,
-};
-
-export default {
-  namespaced: true,
-  state,
-  getters,
-  actions,
-  mutations,
-};
+export default queueSkills;

@@ -605,10 +605,16 @@ export default {
           fifo: 'FIFO (First In First Out)',
           lifo: 'LIFO (Last In First Out)',
         },
-      },
-
-      logs: {
-        logs: 'Log | Logs',
+        logs: {
+          logs: 'Log | Logs',
+          destination: 'Destination',
+          offeringAt: 'Offering',
+          joinedAt: 'Start',
+          leavingAt: 'End',
+          duration: 'Duration',
+          viewNumber: 'View number',
+          result: 'Result',
+        },
       },
 
       res: {

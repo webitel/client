@@ -1,35 +1,32 @@
 import { MemberServiceApiFactory } from 'webitel-sdk';
 import instance from '../../instance';
 import configuration from '../../openAPIConfig';
-import store from '../../../store/store';
+import SDKListGetter from '../../utils/ApiControllers/ListGetter/SDKListGetter';
 
 const queueMemberAttemptsService = new MemberServiceApiFactory(configuration, '', instance);
-export const getQueueCallLogList = async (queueId, page = 0, size = 10, sort) => {
-  const { domainId } = store.state.userinfo;
-  try {
-    const response = await queueMemberAttemptsService.searchAttemptsHistory(
-      page,
-      size,
-      1000000000000,
-      Date.now(),
-      undefined,
-      queueId,
-      undefined,
-      undefined,
-      undefined,
-      undefined,
-      undefined,
-      sort,
-      domainId,
-    );
-    if (response.items) {
-      return {
-        list: response.items,
-        isNext: response.next || false,
-      };
-    }
-    return [];
-  } catch (err) {
-    throw err;
-  }
+
+const listGetter = new SDKListGetter(queueMemberAttemptsService.searchAttemptsHistory);
+
+const _getQueueLogs = (getList) => function ({
+                                               parentId,
+                                               page = 1,
+                                               size = 10,
+                                               sort = '+joined_at',
+                                             }) {
+  // parent id == queue id
+  const joinedAtFrom = 100000000;
+  const joinedAtTo = Date.now();
+  const params = [page, size, joinedAtFrom, joinedAtTo, undefined, parentId,
+    undefined, undefined, undefined, undefined, undefined, sort];
+  return getList(params);
+};
+
+export const getQueueLogs = (params) => (
+  listGetter
+    .setGetListMethod(_getQueueLogs)
+    .getList(params)
+);
+
+export default {
+  getList: getQueueLogs,
 };

@@ -11,7 +11,7 @@ import { WebitelSDKListGetter } from '../../utils/ApiControllers/ListGetter/SDKL
 
 const queueService = new QueueServiceApiFactory(configuration, '', instance);
 
-const fieldsToSend = ['domainId', 'name', 'type', 'strategy', 'team', 'priority', 'dncList', 'schema',
+const fieldsToSend = ['name', 'type', 'strategy', 'team', 'priority', 'dncList', 'schema',
   'payload', 'maxOfRetry', 'timeout', 'secBetweenRetries', 'variables', 'calendar', 'description',
   'enabled', 'ringtone', 'doSchema', 'afterSchema', 'processing', 'processingSec', 'processingRenewalSec'];
 
@@ -38,16 +38,7 @@ const preRequestHandler = (item) => {
   return item;
 };
 
-const listGetter = new WebitelSDKListGetter(queueService.searchQueue, defaultListObject);
-const itemGetter = new WebitelSDKItemGetter(queueService.readQueue, defaultItemObject);
-// eslint-disable-next-line max-len
-const itemCreator = new WebitelSDKItemCreator(queueService.createQueue, fieldsToSend, preRequestHandler);
-// eslint-disable-next-line max-len
-const itemUpdater = new WebitelSDKItemUpdater(queueService.updateQueue, fieldsToSend, preRequestHandler);
-const itemPatcher = new WebitelSDKItemPatcher(queueService.patchQueue, fieldsToSend);
-const itemDeleter = new WebitelSDKItemDeleter(queueService.deleteQueue);
-
-itemGetter.responseHandler = (response) => {
+const itemResponseHandler = (response) => {
   try {
     if (response.variables) {
       // eslint-disable-next-line no-param-reassign
@@ -60,16 +51,30 @@ itemGetter.responseHandler = (response) => {
   }
 };
 
-export const getQueuesList = (page = 1, size = 10, search) => (
-  listGetter.getList({ page, size, search })
+const listGetter = new WebitelSDKListGetter(queueService.searchQueue, defaultListObject);
+const itemGetter = new WebitelSDKItemGetter(queueService.readQueue,
+  defaultItemObject, itemResponseHandler);
+const itemCreator = new WebitelSDKItemCreator(queueService.createQueue,
+  fieldsToSend, preRequestHandler);
+const itemUpdater = new WebitelSDKItemUpdater(queueService.updateQueue,
+  fieldsToSend, preRequestHandler);
+const itemPatcher = new WebitelSDKItemPatcher(queueService.patchQueue, fieldsToSend);
+const itemDeleter = new WebitelSDKItemDeleter(queueService.deleteQueue);
+
+export const getQueuesList = (params) => listGetter.getList(params);
+export const getQueue = ({ itemId }) => itemGetter.getItem(itemId);
+export const addQueue = ({ itemInstance }) => itemCreator.createItem(itemInstance);
+export const updateQueue = ({ itemId, itemInstance }) => (
+  itemUpdater.updateItem(itemId, itemInstance)
 );
+export const patchQueue = ({ id, changes }) => itemPatcher.patchItem(id, changes);
+export const deleteQueue = ({ id }) => itemDeleter.deleteItem(id);
 
-export const getQueue = (id) => itemGetter.getItem(id);
-
-export const addQueue = (item) => itemCreator.createItem(item);
-
-export const updateQueue = (id, item) => itemUpdater.updateItem(id, item);
-
-export const patchQueue = (id, item) => itemPatcher.patchItem(id, item);
-
-export const deleteQueue = (id) => itemDeleter.deleteItem(id);
+export default {
+  getList: getQueuesList,
+  get: getQueue,
+  add: addQueue,
+  patch: patchQueue,
+  update: updateQueue,
+  delete: deleteQueue,
+};
