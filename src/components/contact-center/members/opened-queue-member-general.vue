@@ -26,28 +26,21 @@
         @change="setItemProp({ prop: 'expireAt', value: $event })"
       ></wt-datetimepicker>
       <wt-select
+        :value="timezone"
+        :label="$t('objects.ccenter.queues.timezone')"
+        :search="loadDropdownOptionsTimezoneList"
+        :internal-search="false"
+        :clearable="false"
+        :disabled="disableUserInput"
+        @input="setItemProp({ prop: 'timezone', value: $event })"
+      ></wt-select>
+      <wt-select
         :value="bucket"
         :label="$tc('objects.lookups.buckets.buckets', 1)"
         :search="loadDropdownOptionsBucketsList"
         :internal-search="false"
         :disabled="disableUserInput"
         @input="setItemProp({ prop: 'bucket', value: $event })"
-      ></wt-select>
-      <wt-select
-        :value="skill"
-        :label="$tc('objects.lookups.skills.skills', 1)"
-        :search="loadDropdownOptionsSkillsList"
-        :internal-search="false"
-        :disabled="disableUserInput"
-        @input="setItemProp({ prop: 'skill', value: $event })"
-      ></wt-select>
-      <wt-select
-        :value="timezone"
-        :label="$t('objects.ccenter.queues.timezone')"
-        :search="loadDropdownOptionsTimezoneList"
-        :internal-search="false"
-        :disabled="disableUserInput"
-        @input="setItemProp({ prop: 'timezone', value: $event })"
       ></wt-select>
     </form>
   </section>
@@ -56,7 +49,6 @@
 <script>
 import { mapState } from 'vuex';
 import { getBucketsList } from '../../../api/lookups/buckets/buckets';
-import { getSkillsList } from '../../../api/lookups/agentSkills/agentSkills';
 import { getCalendarTimezones } from '../../../api/lookups/calendars/calendars';
 import openedTabComponentMixin from '../../../mixins/objectPagesMixins/openedObjectTabMixin/openedTabComponentMixin';
 
@@ -88,13 +80,6 @@ export default {
       }));
     },
 
-    async loadDropdownOptionsSkillsList(search) {
-      const response = await getSkillsList({ search });
-      return response.list.map((item) => ({
-        name: item.name,
-        id: item.id,
-      }));
-    },
 
     async loadDropdownOptionsTimezoneList(search) {
       const response = await getCalendarTimezones({ search });

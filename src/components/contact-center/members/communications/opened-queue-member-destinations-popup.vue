@@ -15,13 +15,11 @@
           <template slot="destination" slot-scope="{ item }">
             {{ item.destination }}
           </template>
-
           <template slot="type" slot-scope="{ item }">
             <div v-if="item.type">
               {{ item.type.name }}
             </div>
           </template>
-
           <template slot="priority" slot-scope="{ item }">
             {{ item.priority }}
           </template>
@@ -36,7 +34,7 @@
 </template>
 
 <script>
-import tableComponentMixin from '../../../mixins/objectPagesMixins/objectTableMixin/tableComponentMixin';
+import tableComponentMixin from '../../../../mixins/objectPagesMixins/objectTableMixin/tableComponentMixin';
 
 export default {
   name: 'opened-queue-member-destinations-popup',

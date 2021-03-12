@@ -116,7 +116,7 @@
 
 <script>
 import { mapActions, mapState } from 'vuex';
-import destinationsPopup from './opened-queue-member-destinations-popup.vue';
+import destinationsPopup from './communications/opened-queue-member-destinations-popup.vue';
 import uploadPopup from './upload-members-popup.vue';
 import UploadFileIconBtn from '../../utils/upload-file-ucon-btn.vue';
 import tableComponentMixin from '../../../mixins/objectPagesMixins/objectTableMixin/tableComponentMixin';
