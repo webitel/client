@@ -29,7 +29,7 @@ const actions = {
   },
   ADD_ITEM: async (context) => {
     if (!context.state.itemId) {
-      const id = await context.dispatch('POST_ITEM');
+      const { id } = await context.dispatch('POST_ITEM');
       context.dispatch('SET_ITEM_ID', id);
       await context.dispatch('LOAD_ITEM');
     }

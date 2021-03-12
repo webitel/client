@@ -3,27 +3,40 @@ import BaseListGetter from './BaseListGetter';
 
 // remove export after refactor
 export class WebitelAPIListGetter extends BaseListGetter {
-  constructor(url, defaultItem) {
-    super(null, defaultItem);
-    this.url = url;
+  constructor(baseUrl, { defaultItem, responseHandler, nestedUrl } = {}) {
+    super(null, defaultItem, responseHandler);
+    this.baseUrl = baseUrl;
+    if (nestedUrl) this.nestedUrl = nestedUrl;
   }
 
-  async getList({
-                  page = 1,
-                  size = 10,
-                  search,
-                  searchQuery = 'name',
-                }) {
+  async _getList({
+    page = 1,
+    size = 10,
+    search,
+    searchQuery = 'name',
+  }, baseUrl = this.baseUrl) {
+    // eslint-disable-next-line no-param-reassign
     if (search && search.slice(-1) !== '*') search += '*';
-    let url = `${this.url}?size=${size}&page=${page}`;
+    let url = `${baseUrl}?size=${size}&page=${page}`;
     if (search) url += `&${searchQuery}=${search}`;
 
     try {
-      const response = await instance.get(url);
-      return this.responseHandler(response);
+      let response = await instance.get(url);
+      response = this.responseHandler(response);
+      if (this.userResponseHandler) response = this.userResponseHandler(response);
+      return response;
     } catch (err) {
       throw err;
     }
+  }
+
+  getList(params) {
+    return this._getList(params);
+  }
+
+  getNestedList(params) {
+    const baseUrl = `${this.baseUrl}/${params.parentId}/${this.nestedUrl}`;
+    return this._getList(params, baseUrl);
   }
 }
 

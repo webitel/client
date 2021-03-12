@@ -5,9 +5,5 @@ export default class BaseItemCreator {
     if (preRequestHandler) this.preRequestHandler = preRequestHandler;
   }
 
-  responseHandler = (response) => {
-    if (response.id) {
-      return response.id;
-    }
-  };
+  responseHandler = (response) => response;
 }

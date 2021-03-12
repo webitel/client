@@ -2,18 +2,28 @@ import instance from '../../../instance';
 import BaseItemDeleter from './BaseItemDeleter';
 
 export class WebitelAPIItemDeleter extends BaseItemDeleter {
-  constructor(url) {
+  constructor(baseUrl, { nestedUrl } = {}) {
     super(null);
-    this.url = url;
+    this.baseUrl = baseUrl;
+    if (nestedUrl) this.nestedUrl = nestedUrl;
   }
 
-  async deleteItem(id) {
-    const delUrl = `${this.url}/${id}?permanent=true`;
+  async _deleteItem({ id }, baseUrl = this.baseUrl) {
+    const delUrl = `${baseUrl}/${id}?permanent=true`;
     try {
       await instance.delete(delUrl);
       // eventBus.$emit('notificationInfo', 'Successfully delted');
     } catch (err) {
       throw err;
     }
+  }
+
+  deleteItem(id) {
+    return this._deleteItem({ id });
+  }
+
+  deleteNestedItem({ parentId, id }) {
+    const baseUrl = `${this.baseUrl}/${parentId}/${this.nestedUrl}`;
+    return this._deleteItem({ id }, baseUrl);
   }
 }

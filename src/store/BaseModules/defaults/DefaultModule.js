@@ -12,7 +12,7 @@ export default class DefaultModule extends BaseStoreModule {
 
     ADD_ITEM: async (context) => {
       if (!context.state.itemId) {
-        const id = await context.dispatch('POST_ITEM');
+        const { id } = await context.dispatch('POST_ITEM');
         await context.dispatch('SET_ITEM_ID', id);
         context.dispatch('LOAD_ITEM');
       }
