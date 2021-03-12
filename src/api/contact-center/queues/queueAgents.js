@@ -21,9 +21,11 @@ const getQueueAgents = (getList) => function ({
                                                     search,
                                                   }) {
   // parent id == queue id
+  if (!parentId) return;
   const fields = ['id', 'name', 'supervisor', 'skills'];
   const params = [page, size, search, undefined, fields, undefined, undefined,
     undefined, undefined, undefined, undefined, undefined, undefined, undefined, parentId];
+  // eslint-disable-next-line consistent-return
   return getList(params);
 };
 

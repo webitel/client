@@ -31,7 +31,7 @@
 import { required } from 'vuelidate/lib/validators';
 import { mapState } from 'vuex';
 import General from './opened-resource-general.vue';
-import Numbers from './opened-resource-numbers.vue';
+import Numbers from './numbers/opened-resource-numbers.vue';
 import Failure from './opened-resource-failure.vue';
 import openedObjectMixin from '../../../mixins/objectPagesMixins/openedObjectMixin/openedObjectMixin';
 

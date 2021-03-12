@@ -23,10 +23,12 @@ const _getTeamSupervisorsList = (getList) => function ({
                                                          parentId,
                                                        }) {
   // parent id == team id
+  if (!parentId) return;
   const isSupervisor = true;
   const fields = ['id', 'name'];
   const params = [page, size, search, undefined, fields, undefined, undefined,
     undefined, undefined, parentId, undefined, undefined, isSupervisor];
+  // eslint-disable-next-line consistent-return
   return getList(params);
 };
 

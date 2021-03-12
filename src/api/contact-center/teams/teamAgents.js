@@ -28,10 +28,12 @@ const getTeamAgents = (getList) => function ({
                                                     search,
                                                   }) {
   // parent id == team id
+  if (!parentId) return;
   const isSupervisor = false;
   const fields = ['id', 'name', 'supervisor', 'skills'];
   const params = [page, size, search, undefined, fields, undefined, undefined,
     undefined, undefined, parentId, undefined, undefined, isSupervisor];
+  // eslint-disable-next-line consistent-return
   return getList(params);
 };
 
