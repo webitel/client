@@ -74,10 +74,10 @@ const preRequestHandler = (item) => {
 };
 
 const listGetter = new WebitelAPIListGetter(BASE_URL, { defaultItem: defaultListItem });
-const itemGetter = new WebitelAPIItemGetter(BASE_URL, defaultItem, itemResponseHandler);
+const itemGetter = new WebitelAPIItemGetter(BASE_URL, { defaultItem, itemResponseHandler });
 const itemCreator = new WebitelAPIItemCreator(BASE_URL, { fieldsToSend, preRequestHandler });
-const itemUpdater = new WebitelAPIItemUpdater(BASE_URL, fieldsToSend, preRequestHandler);
-const itemPatcher = new WebitelAPIItemPatcher(BASE_URL, fieldsToSend);
+const itemUpdater = new WebitelAPIItemUpdater(BASE_URL, { fieldsToSend, preRequestHandler });
+const itemPatcher = new WebitelAPIItemPatcher(BASE_URL, { fieldsToSend });
 const itemDeleter = new WebitelAPIItemDeleter(BASE_URL);
 
 export const getUsersList = (params) => listGetter.getList(params);

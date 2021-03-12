@@ -133,8 +133,7 @@ export default {
   methods: {
     ...mapActions('directory/devices', {
       setId: 'SET_ITEM_ID',
-      loadSingleItem: 'LOAD_SINGLE_ITEM',
-      loadHotdeskItem: 'LOAD_HOTDESK_ITEM',
+      loadTypedItem: 'LOAD_ITEM',
       addItem: 'ADD_ITEM',
       updateItem: 'UPDATE_ITEM',
       resetState: 'RESET_ITEM_STATE',
@@ -145,11 +144,7 @@ export default {
     },
 
     loadItem() {
-      if (this.isHotdesk) {
-        this.loadHotdeskItem();
-      } else {
-        this.loadSingleItem();
-      }
+      return this.loadTypedItem(this.isHotdesk);
     },
   },
 };
