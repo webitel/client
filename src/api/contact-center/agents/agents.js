@@ -56,9 +56,15 @@ export const getAgentUsersOptions = (params) => newAgentUsersGetter.getList(para
 export const getAgentSupervisorsOptions = (params) => supervisorsListGetter.getList(params);
 export const getAgentQueuesList = (params) => agentQueuesGetter.getNestedList(params);
 
-export const getAgentHistory = async (id, date, page = 0, size = 10) => {
+export const getAgentHistory = async ({
+                                        id,
+                                        from,
+                                        to,
+                                        page,
+                                        size,
+                                      }) => {
   try {
-    const response = await agentService.searchAgentStateHistory(page, size, date, Date.now(), id, '-joined_at');
+    const response = await agentService.searchAgentStateHistory(page, size, from, to, id, '-joined_at');
     return response.items ? response.items : [];
   } catch (err) {
     throw err;

@@ -3,8 +3,8 @@ import { DefaultHistoryModule } from "../../../BaseModules/defaults/DefaultHisto
 
 const defaultState = () => {
   return {
-    date: Date.now(),
-    size: '8',
+    from: new Date().setHours(0, 0, 0, 0),
+    to: Date.now(),
   };
 };
 
@@ -18,7 +18,7 @@ const getters = {};
 
 const actions = {
   GET_HISTORY_LIST: async (context) => {
-    return await getAgentHistory(context.state.itemId, context.state.date, context.state.page, context.state.size);
+    return await getAgentHistory(context.state);
   },
 
   ...defaultModule.actions,
@@ -29,6 +29,7 @@ const mutations = {
 };
 
 export default {
+  namespaced: true,
   state,
   getters,
   actions,

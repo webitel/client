@@ -111,14 +111,4 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.history-popup__filters {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  grid-gap: 10px;
-  margin-bottom: 20px;
-}
-
-.wt-table {
-  max-height: 40vh;
-}
 </style>

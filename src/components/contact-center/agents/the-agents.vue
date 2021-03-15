@@ -11,7 +11,7 @@
     <template slot="main">
       <history-popup
         v-if="historyId"
-        @close="read(null)"
+        @close="closeHistoryPopup"
       ></history-popup>
 
       <section class="main-section__wrapper">
@@ -66,7 +66,7 @@
 
             <template slot="actions" slot-scope="{ item, index }">
               <history-action
-                @click="read(item.id)"
+                @click="openHistory(item.id)"
               ></history-action>
               <edit-action
                 v-if="hasEditAccess"
@@ -138,11 +138,15 @@ export default {
   },
 
   methods: {
-    ...mapActions('ccenter/agents', {
-      read: 'SET_HISTORY_ITEM_ID',
+    ...mapActions('ccenter/agents/history', {
+      openHistory: 'SET_HISTORY_ITEM_ID',
     }),
 
     convertDuration,
+
+    closeHistoryPopup() {
+      this.openHistory(null);
+    },
 
     computeOnlineText(state) {
       switch (state) {
