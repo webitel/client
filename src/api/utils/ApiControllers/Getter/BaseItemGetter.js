@@ -6,4 +6,10 @@ export default class BaseItemGetter {
   }
 
   responseHandler = (response) => ({ ...this._defaultSingleObject, ...response });
+
+  // eslint-disable-next-line class-methods-use-this
+  _getItem() {}
+
+  // eslint-disable-next-line class-methods-use-this
+  getItem() {}
 }

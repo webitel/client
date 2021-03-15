@@ -5,4 +5,10 @@ export default class BaseItemCreator {
   }
 
   responseHandler = (response) => response;
+
+  // eslint-disable-next-line class-methods-use-this
+  _createItem() {}
+
+  // eslint-disable-next-line class-methods-use-this
+  createItem() {}
 }
