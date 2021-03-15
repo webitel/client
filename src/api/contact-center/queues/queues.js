@@ -2,10 +2,10 @@ import { QueueServiceApiFactory } from 'webitel-sdk';
 import deepMerge from 'deepmerge';
 import instance from '../../instance';
 import configuration from '../../openAPIConfig';
-import SDKItemDeleter from '../../utils/ApiControllers/Deleter/SDKDeleter';
-import SDKItemPatcher from '../../utils/ApiControllers/Patcher/SDKPatcher';
-import SDKItemUpdater from '../../utils/ApiControllers/Updater/SDKUpdater';
-import SDKItemCreator from '../../utils/ApiControllers/Creator/SDKCreator';
+import SDKDeleter from '../../utils/ApiControllers/Deleter/SDKDeleter';
+import SDKPatcher from '../../utils/ApiControllers/Patcher/SDKPatcher';
+import SDKUpdater from '../../utils/ApiControllers/Updater/SDKUpdater';
+import SDKCreator from '../../utils/ApiControllers/Creator/SDKCreator';
 import SDKGetter from '../../utils/ApiControllers/Getter/SDKGetter';
 import SDKListGetter from '../../utils/ApiControllers/ListGetter/SDKListGetter';
 
@@ -52,12 +52,12 @@ const itemResponseHandler = (response) => {
 const listGetter = new SDKListGetter(queueService.searchQueue, { defaultListObject });
 const itemGetter = new SDKGetter(queueService.readQueue,
   { defaultSingleObject, itemResponseHandler });
-const itemCreator = new SDKItemCreator(queueService.createQueue,
+const itemCreator = new SDKCreator(queueService.createQueue,
   fieldsToSend, preRequestHandler);
-const itemUpdater = new SDKItemUpdater(queueService.updateQueue,
+const itemUpdater = new SDKUpdater(queueService.updateQueue,
   fieldsToSend, preRequestHandler);
-const itemPatcher = new SDKItemPatcher(queueService.patchQueue, fieldsToSend);
-const itemDeleter = new SDKItemDeleter(queueService.deleteQueue);
+const itemPatcher = new SDKPatcher(queueService.patchQueue, fieldsToSend);
+const itemDeleter = new SDKDeleter(queueService.deleteQueue);
 
 export const getQueuesList = (params) => listGetter.getList(params);
 export const getQueue = (params) => itemGetter.getItem(params);

@@ -1,9 +1,9 @@
 import { SkillServiceApiFactory } from 'webitel-sdk';
 import instance from '../../instance';
 import configuration from '../../openAPIConfig';
-import SDKItemDeleter from '../../utils/ApiControllers/Deleter/SDKDeleter';
-import SDKItemUpdater from '../../utils/ApiControllers/Updater/SDKUpdater';
-import SDKItemCreator from '../../utils/ApiControllers/Creator/SDKCreator';
+import SDKDeleter from '../../utils/ApiControllers/Deleter/SDKDeleter';
+import SDKUpdater from '../../utils/ApiControllers/Updater/SDKUpdater';
+import SDKCreator from '../../utils/ApiControllers/Creator/SDKCreator';
 import SDKGetter from '../../utils/ApiControllers/Getter/SDKGetter';
 import SDKListGetter from '../../utils/ApiControllers/ListGetter/SDKListGetter';
 
@@ -13,9 +13,9 @@ const fieldsToSend = ['name', 'description'];
 
 const listGetter = new SDKListGetter(skillService.searchSkill);
 const itemGetter = new SDKGetter(skillService.readSkill);
-const itemCreator = new SDKItemCreator(skillService.createSkill, fieldsToSend);
-const itemUpdater = new SDKItemUpdater(skillService.updateSkill, fieldsToSend);
-const itemDeleter = new SDKItemDeleter(skillService.deleteSkill);
+const itemCreator = new SDKCreator(skillService.createSkill, fieldsToSend);
+const itemUpdater = new SDKUpdater(skillService.updateSkill, fieldsToSend);
+const itemDeleter = new SDKDeleter(skillService.deleteSkill);
 
 export const getSkillsList = (params) => listGetter.getList(params);
 export const getSkill = (params) => itemGetter.getItem(params);

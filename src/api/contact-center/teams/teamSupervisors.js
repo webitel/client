@@ -3,7 +3,7 @@ import instance from '../../instance';
 import configuration from '../../openAPIConfig';
 import SDKListGetter from '../../utils/ApiControllers/ListGetter/SDKListGetter';
 import SDKGetter from '../../utils/ApiControllers/Getter/SDKGetter';
-import SDKItemPatcher from '../../utils/ApiControllers/Patcher/SDKPatcher';
+import SDKPatcher from '../../utils/ApiControllers/Patcher/SDKPatcher';
 
 const teamSupervisorService = new AgentServiceApiFactory(configuration, '', instance);
 
@@ -43,7 +43,7 @@ const listGetter = new SDKListGetter(teamSupervisorService.searchAgent)
 const itemGetter = new SDKGetter(teamSupervisorService.readAgent, {
   itemResponseHandler: subordinateGetterResponseHandler,
 });
-const itemPatcher = new SDKItemPatcher(teamSupervisorService.patchAgent);
+const itemPatcher = new SDKPatcher(teamSupervisorService.patchAgent);
 
 const subordinatesListGetter = new SDKListGetter(teamSupervisorService.searchAgent)
   .setGetListMethod(_getTeamSupervisorSubordinatesList);

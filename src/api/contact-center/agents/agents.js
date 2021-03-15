@@ -3,9 +3,9 @@ import instance from '../../instance';
 import configuration from '../../openAPIConfig';
 import SDKListGetter from '../../utils/ApiControllers/ListGetter/SDKListGetter';
 import SDKGetter from '../../utils/ApiControllers/Getter/SDKGetter';
-import SDKItemCreator from '../../utils/ApiControllers/Creator/SDKCreator';
-import SDKItemUpdater from '../../utils/ApiControllers/Updater/SDKUpdater';
-import SDKItemDeleter from '../../utils/ApiControllers/Deleter/SDKDeleter';
+import SDKCreator from '../../utils/ApiControllers/Creator/SDKCreator';
+import SDKUpdater from '../../utils/ApiControllers/Updater/SDKUpdater';
+import SDKDeleter from '../../utils/ApiControllers/Deleter/SDKDeleter';
 
 const agentService = new AgentServiceApiFactory(configuration, '', instance);
 
@@ -38,9 +38,9 @@ const getSupervisorsList = (getList) => function ({
 const listGetter = new SDKListGetter(agentService.searchAgent)
   .setGetListMethod(getSupervisorsList);
 const itemGetter = new SDKGetter(agentService.readAgent, { defaultSingleObject });
-const itemCreator = new SDKItemCreator(agentService.createAgent, fieldsToSend);
-const itemUpdater = new SDKItemUpdater(agentService.updateAgent, fieldsToSend);
-const itemDeleter = new SDKItemDeleter(agentService.deleteAgent);
+const itemCreator = new SDKCreator(agentService.createAgent, fieldsToSend);
+const itemUpdater = new SDKUpdater(agentService.updateAgent, fieldsToSend);
+const itemDeleter = new SDKDeleter(agentService.deleteAgent);
 
 const supervisorsListGetter = new SDKListGetter(agentService.searchAgent);
 const newAgentUsersGetter = new SDKListGetter(agentService.searchLookupUsersAgentNotExists);

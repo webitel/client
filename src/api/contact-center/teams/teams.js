@@ -1,9 +1,9 @@
 import { AgentTeamServiceApiFactory } from 'webitel-sdk';
 import instance from '../../instance';
 import configuration from '../../openAPIConfig';
-import SDKItemDeleter from '../../utils/ApiControllers/Deleter/SDKDeleter';
-import SDKItemUpdater from '../../utils/ApiControllers/Updater/SDKUpdater';
-import SDKItemCreator from '../../utils/ApiControllers/Creator/SDKCreator';
+import SDKDeleter from '../../utils/ApiControllers/Deleter/SDKDeleter';
+import SDKUpdater from '../../utils/ApiControllers/Updater/SDKUpdater';
+import SDKCreator from '../../utils/ApiControllers/Creator/SDKCreator';
 import SDKGetter from '../../utils/ApiControllers/Getter/SDKGetter';
 import SDKListGetter from '../../utils/ApiControllers/ListGetter/SDKListGetter';
 
@@ -27,9 +27,9 @@ const defaultSingleObject = {
 
 const listGetter = new SDKListGetter(teamService.searchAgentTeam);
 const itemGetter = new SDKGetter(teamService.readAgentTeam, { defaultSingleObject });
-const itemCreator = new SDKItemCreator(teamService.createAgentTeam, fieldsToSend);
-const itemUpdater = new SDKItemUpdater(teamService.updateAgentTeam, fieldsToSend);
-const itemDeleter = new SDKItemDeleter(teamService.deleteAgentTeam);
+const itemCreator = new SDKCreator(teamService.createAgentTeam, fieldsToSend);
+const itemUpdater = new SDKUpdater(teamService.updateAgentTeam, fieldsToSend);
+const itemDeleter = new SDKDeleter(teamService.deleteAgentTeam);
 
 export const getTeamsList = (params) => listGetter.getList(params);
 export const getTeam = (params) => itemGetter.getItem(params);

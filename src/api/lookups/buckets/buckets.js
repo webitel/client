@@ -1,9 +1,9 @@
 import { BucketServiceApiFactory } from 'webitel-sdk';
 import instance from '../../instance';
 import configuration from '../../openAPIConfig';
-import SDKItemDeleter from '../../utils/ApiControllers/Deleter/SDKDeleter';
-import SDKItemUpdater from '../../utils/ApiControllers/Updater/SDKUpdater';
-import SDKItemCreator from '../../utils/ApiControllers/Creator/SDKCreator';
+import SDKDeleter from '../../utils/ApiControllers/Deleter/SDKDeleter';
+import SDKUpdater from '../../utils/ApiControllers/Updater/SDKUpdater';
+import SDKCreator from '../../utils/ApiControllers/Creator/SDKCreator';
 import SDKGetter from '../../utils/ApiControllers/Getter/SDKGetter';
 import SDKListGetter from '../../utils/ApiControllers/ListGetter/SDKListGetter';
 
@@ -13,9 +13,9 @@ const fieldsToSend = ['name', 'description'];
 
 const listGetter = new SDKListGetter(bucketService.searchBucket);
 const itemGetter = new SDKGetter(bucketService.readBucket);
-const itemCreator = new SDKItemCreator(bucketService.createBucket, fieldsToSend);
-const itemUpdater = new SDKItemUpdater(bucketService.updateBucket, fieldsToSend);
-const itemDeleter = new SDKItemDeleter(bucketService.deleteBucket);
+const itemCreator = new SDKCreator(bucketService.createBucket, fieldsToSend);
+const itemUpdater = new SDKUpdater(bucketService.updateBucket, fieldsToSend);
+const itemDeleter = new SDKDeleter(bucketService.deleteBucket);
 
 export const getBucketsList = (params) => listGetter.getList(params);
 export const getBucket = (params) => itemGetter.getItem(params);

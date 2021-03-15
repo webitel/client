@@ -3,7 +3,7 @@ import eventBus from '@webitel/ui-sdk/src/scripts/eventBus';
 import sanitizer from '../../sanitizer';
 import BaseItemPatcher from './BaseItemPatcher';
 
-export default class SDKItemPatcher extends BaseItemPatcher {
+export default class SDKPatcher extends BaseItemPatcher {
   constructor(SDKMethod, options) {
     super(options);
     this.SDKMethod = SDKMethod;

@@ -1,9 +1,9 @@
 import { RoutingSchemaServiceApiFactory } from 'webitel-sdk';
 import instance from '../../instance';
 import configuration from '../../openAPIConfig';
-import SDKItemDeleter from '../../utils/ApiControllers/Deleter/SDKDeleter';
-import SDKItemUpdater from '../../utils/ApiControllers/Updater/SDKUpdater';
-import SDKItemCreator from '../../utils/ApiControllers/Creator/SDKCreator';
+import SDKDeleter from '../../utils/ApiControllers/Deleter/SDKDeleter';
+import SDKUpdater from '../../utils/ApiControllers/Updater/SDKUpdater';
+import SDKCreator from '../../utils/ApiControllers/Creator/SDKCreator';
 import SDKGetter from '../../utils/ApiControllers/Getter/SDKGetter';
 import SDKListGetter from '../../utils/ApiControllers/ListGetter/SDKListGetter';
 
@@ -23,11 +23,11 @@ const baseItem = { _dirty: false };
 
 const listGetter = new SDKListGetter(flowService.searchRoutingSchema);
 const itemGetter = new SDKGetter(flowService.readRoutingSchema);
-const itemCreator = new SDKItemCreator(flowService.createRoutingSchema,
+const itemCreator = new SDKCreator(flowService.createRoutingSchema,
   fieldsToSend, preRequestHandler);
-const itemUpdater = new SDKItemUpdater(flowService.updateRoutingSchema,
+const itemUpdater = new SDKUpdater(flowService.updateRoutingSchema,
   fieldsToSend, preRequestHandler);
-const itemDeleter = new SDKItemDeleter(flowService.deleteRoutingSchema);
+const itemDeleter = new SDKDeleter(flowService.deleteRoutingSchema);
 
 itemGetter.responseHandler = (response) => ({
   ...baseItem,

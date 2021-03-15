@@ -1,9 +1,9 @@
 import { ListServiceApiFactory } from 'webitel-sdk';
 import instance from '../../instance';
 import configuration from '../../openAPIConfig';
-import SDKItemDeleter from '../../utils/ApiControllers/Deleter/SDKDeleter';
-import SDKItemUpdater from '../../utils/ApiControllers/Updater/SDKUpdater';
-import SDKItemCreator from '../../utils/ApiControllers/Creator/SDKCreator';
+import SDKDeleter from '../../utils/ApiControllers/Deleter/SDKDeleter';
+import SDKUpdater from '../../utils/ApiControllers/Updater/SDKUpdater';
+import SDKCreator from '../../utils/ApiControllers/Creator/SDKCreator';
 import SDKGetter from '../../utils/ApiControllers/Getter/SDKGetter';
 import SDKListGetter from '../../utils/ApiControllers/ListGetter/SDKListGetter';
 
@@ -18,9 +18,9 @@ const defaultListObject = {
 
 const listGetter = new SDKListGetter(listService.searchList, { defaultListObject });
 const itemGetter = new SDKGetter(listService.readList);
-const itemCreator = new SDKItemCreator(listService.createList, fieldsToSend);
-const itemUpdater = new SDKItemUpdater(listService.updateList, fieldsToSend);
-const itemDeleter = new SDKItemDeleter(listService.deleteList);
+const itemCreator = new SDKCreator(listService.createList, fieldsToSend);
+const itemUpdater = new SDKUpdater(listService.updateList, fieldsToSend);
+const itemDeleter = new SDKDeleter(listService.deleteList);
 
 export const getBlacklistList = (params) => listGetter.getList(params);
 export const getBlacklist = (params) => itemGetter.getItem(params);

@@ -3,7 +3,7 @@ import { MediaFileServiceApiFactory } from 'webitel-sdk';
 import eventBus from '@webitel/ui-sdk/src/scripts/eventBus';
 import instance from '../../instance';
 import configuration from '../../openAPIConfig';
-import SDKItemDeleter from '../../utils/ApiControllers/Deleter/SDKDeleter';
+import SDKDeleter from '../../utils/ApiControllers/Deleter/SDKDeleter';
 import SDKListGetter from '../../utils/ApiControllers/ListGetter/SDKListGetter';
 
 const mediaService = new MediaFileServiceApiFactory(configuration, '', instance);
@@ -12,7 +12,7 @@ const token = localStorage.getItem('access-token');
 const BASE_URL = process.env.VUE_APP_API_URL;
 
 const listGetter = new SDKListGetter(mediaService.searchMediaFile);
-const itemDeleter = new SDKItemDeleter(mediaService.deleteMediaFile);
+const itemDeleter = new SDKDeleter(mediaService.deleteMediaFile);
 
 export const getMediaList = (params) => listGetter.getList(params);
 

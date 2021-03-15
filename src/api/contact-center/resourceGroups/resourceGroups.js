@@ -1,9 +1,9 @@
 import { OutboundResourceGroupServiceApiFactory } from 'webitel-sdk';
 import instance from '../../instance';
 import configuration from '../../openAPIConfig';
-import SDKItemDeleter from '../../utils/ApiControllers/Deleter/SDKDeleter';
-import SDKItemUpdater from '../../utils/ApiControllers/Updater/SDKUpdater';
-import SDKItemCreator from '../../utils/ApiControllers/Creator/SDKCreator';
+import SDKDeleter from '../../utils/ApiControllers/Deleter/SDKDeleter';
+import SDKUpdater from '../../utils/ApiControllers/Updater/SDKUpdater';
+import SDKCreator from '../../utils/ApiControllers/Creator/SDKCreator';
 import SDKGetter from '../../utils/ApiControllers/Getter/SDKGetter';
 import SDKListGetter from '../../utils/ApiControllers/ListGetter/SDKListGetter';
 
@@ -45,11 +45,11 @@ const preRequestHandler = (item) => {
 const listGetter = new SDKListGetter(resGrService.searchOutboundResourceGroup);
 const itemGetter = new SDKGetter(resGrService.readOutboundResourceGroup,
   { defaultSingleObject, itemResponseHandler });
-const itemCreator = new SDKItemCreator(resGrService.createOutboundResourceGroup,
+const itemCreator = new SDKCreator(resGrService.createOutboundResourceGroup,
   fieldsToSend, preRequestHandler);
-const itemUpdater = new SDKItemUpdater(resGrService.updateOutboundResourceGroup,
+const itemUpdater = new SDKUpdater(resGrService.updateOutboundResourceGroup,
   fieldsToSend, preRequestHandler);
-const itemDeleter = new SDKItemDeleter(resGrService.deleteOutboundResourceGroup);
+const itemDeleter = new SDKDeleter(resGrService.deleteOutboundResourceGroup);
 
 export const getResGroupList = (params) => listGetter.getList(params);
 export const getResGroup = (params) => itemGetter.getItem(params);

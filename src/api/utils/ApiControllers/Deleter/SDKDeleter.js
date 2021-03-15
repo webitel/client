@@ -1,6 +1,6 @@
 import BaseItemDeleter from './BaseItemDeleter';
 
-export default class SDKItemDeleter extends BaseItemDeleter {
+export default class SDKDeleter extends BaseItemDeleter {
   async _deleteItem(args) {
     try {
       await this.method(...args);

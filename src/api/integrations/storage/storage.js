@@ -1,12 +1,12 @@
 import { BackendProfileServiceApiFactory } from 'webitel-sdk';
 import instance from '../../instance';
 import configuration from '../../openAPIConfig';
-import SDKItemDeleter from '../../utils/ApiControllers/Deleter/SDKDeleter';
-import SDKItemUpdater from '../../utils/ApiControllers/Updater/SDKUpdater';
-import SDKItemCreator from '../../utils/ApiControllers/Creator/SDKCreator';
+import SDKDeleter from '../../utils/ApiControllers/Deleter/SDKDeleter';
+import SDKUpdater from '../../utils/ApiControllers/Updater/SDKUpdater';
+import SDKCreator from '../../utils/ApiControllers/Creator/SDKCreator';
 import SDKGetter from '../../utils/ApiControllers/Getter/SDKGetter';
 import SDKListGetter from '../../utils/ApiControllers/ListGetter/SDKListGetter';
-import SDKItemPatcher from '../../utils/ApiControllers/Patcher/SDKPatcher';
+import SDKPatcher from '../../utils/ApiControllers/Patcher/SDKPatcher';
 import AWSRegions from '../../../store/modules/integrations/storage/_internals/lookups/AWSRegions.lookup';
 import DigitalOceanRegions from '../../../store/modules/integrations/storage/_internals/lookups/DigitalOceanRegions.lookup';
 import StorageTypeAdapter from '../../../store/modules/integrations/storage/_internals/scripts/backendStorageTypeAdapters';
@@ -65,12 +65,12 @@ const listGetter = new SDKListGetter(storageService.searchBackendProfile,
   { defaultListObject, listResponseHandler });
 const itemGetter = new SDKGetter(storageService.readBackendProfile,
   { defaultSingleObject, itemResponseHandler });
-const itemCreator = new SDKItemCreator(storageService.createBackendProfile,
+const itemCreator = new SDKCreator(storageService.createBackendProfile,
   fieldsToSend, preRequestHandler);
-const itemPatcher = new SDKItemPatcher(storageService.patchBackendProfile, fieldsToSend);
-const itemUpdater = new SDKItemUpdater(storageService.updateBackendProfile,
+const itemPatcher = new SDKPatcher(storageService.patchBackendProfile, fieldsToSend);
+const itemUpdater = new SDKUpdater(storageService.updateBackendProfile,
   fieldsToSend, preRequestHandler);
-const itemDeleter = new SDKItemDeleter(storageService.deleteBackendProfile);
+const itemDeleter = new SDKDeleter(storageService.deleteBackendProfile);
 
 export const getStorageList = (params) => listGetter.getList(params);
 export const getStorage = (params) => itemGetter.getItem(params);
