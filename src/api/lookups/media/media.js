@@ -34,7 +34,7 @@ export const downloadMedia = async (id) => {
   }
 };
 
-export const addMedia = async ({ itemInstance }) => {
+export const addMedia = async (params) => {
   const url = `${BASE_URL}/storage/media?access_token=${token}`;
   const config = {
     headers: {

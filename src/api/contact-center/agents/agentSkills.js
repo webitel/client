@@ -14,14 +14,12 @@ const defaultListObject = {
   skill: {},
   capacity: 0,
   enabled: false,
-  _isSelected: false,
 };
 
 const defaultSingleObject = {
   skill: {},
   capacity: 0,
   enabled: false,
-  _dirty: false,
 };
 
 const fieldsToSend = ['capacity', 'agentId', 'skill', 'enabled'];
@@ -31,7 +29,7 @@ const preRequestHandler = (item, parentId) => ({ ...item, agentId: parentId });
 const listGetter = new SDKListGetter(agentSkillService.searchAgentSkill, { defaultListObject });
 const itemGetter = new SDKGetter(agentSkillService.readAgentSkill, { defaultSingleObject });
 const itemCreator = new SDKCreator(agentSkillService.createAgentSkill,
-  fieldsToSend, preRequestHandler);
+  { fieldsToSend, preRequestHandler });
 const itemPatcher = new SDKPatcher(agentSkillService.patchAgentSkill, fieldsToSend);
 const itemUpdater = new SDKUpdater(agentSkillService.updateAgentSkill,
   fieldsToSend, preRequestHandler);

@@ -11,7 +11,6 @@ const defaultListObject = {
   name: '',
   supervisor: {},
   skills: [],
-  _isSelected: false,
 };
 
 const getTeamAgents = (getList) => function ({

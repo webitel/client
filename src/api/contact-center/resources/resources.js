@@ -15,7 +15,6 @@ const fieldsToSend = ['limit', 'enabled',
   'name', 'errorIds', 'display', 'resourceId', 'gateway'];
 
 const defaultListObject = {
-  _isSelected: false,
   gateway: null,
   enabled: false,
   reserve: false,
@@ -29,7 +28,6 @@ const defaultSingleObject = {
   description: '',
   maxSuccessivelyErrors: 0,
   errorIds: [],
-  _dirty: false,
 };
 
 const itemResponseHandler = (response) => {
@@ -68,7 +66,7 @@ const itemDeleter = new SDKItemDeleter(resService.deleteOutboundResource);
 
 export const getResourceList = (params) => listGetter.getList(params);
 export const getResource = (params) => itemGetter.getItem(params);
-export const addResource = ({ itemInstance }) => itemCreator.createItem(itemInstance);
+export const addResource = (params) => itemCreator.createItem(params);
 export const updateResource = ({ itemId, itemInstance }) => (
   itemUpdater.updateItem(itemId, itemInstance)
 );

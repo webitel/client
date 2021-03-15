@@ -16,7 +16,6 @@ const defaultSingleObject = {
   name: '',
   code: '',
   description: '',
-  _dirty: false,
 };
 
 const listGetter = new SDKListGetter(communicationService.searchCommunicationType);
@@ -28,7 +27,7 @@ const itemDeleter = new SDKItemDeleter(communicationService.deleteCommunicationT
 
 export const getCommunicationsList = (params) => listGetter.getList(params);
 export const getCommunication = (params) => itemGetter.getItem(params);
-export const addCommunication = ({ itemInstance }) => itemCreator.createItem(itemInstance);
+export const addCommunication = (params) => itemCreator.createItem(params);
 export const updateCommunication = ({ itemId, itemInstance }) => (
   itemUpdater.updateItem(itemId, itemInstance)
 );

@@ -16,7 +16,7 @@ const preRequestHandler = (item, parentId) => ({ ...item, queueId: parentId });
 const listGetter = new SDKListGetter(queueResService.searchQueueResourceGroup);
 const itemGetter = new SDKGetter(queueResService.readQueueResourceGroup);
 const itemCreator = new SDKCreator(queueResService.createQueueResourceGroup,
-  fieldsToSend, preRequestHandler);
+  { fieldsToSend, preRequestHandler });
 const itemUpdater = new SDKUpdater(queueResService.updateQueueResourceGroup,
   fieldsToSend, preRequestHandler);
 const itemDeleter = new SDKDeleter(queueResService.deleteQueueResourceGroup);

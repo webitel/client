@@ -4,11 +4,10 @@ import sanitizer from '../../sanitizer';
 import instance from '../../../instance';
 import BaseItemCreator from './BaseItemCreator';
 
-export default class APIItemCreator extends BaseItemCreator {
-  constructor(baseUrl, { fieldsToSend, preRequestHandler, nestedUrl } = {}) {
-    super(null, fieldsToSend);
+export default class APICreator extends BaseItemCreator {
+  constructor(baseUrl, { nestedUrl, ...options } = {}) {
+    super(options);
     this.baseUrl = baseUrl;
-    if (preRequestHandler) this.preRequestHandler = preRequestHandler;
     if (nestedUrl) this.nestedUrl = nestedUrl;
   }
 
@@ -22,17 +21,17 @@ export default class APIItemCreator extends BaseItemCreator {
     }
   }
 
-  createItem(itemInstance) {
+  createItem({ itemInstance }) {
     const itemCopy = deepCopy(itemInstance);
     if (this.preRequestHandler) this.preRequestHandler(itemCopy);
-    sanitizer(itemCopy, this.fieldsToSend);
+    if (this.fieldsToSend) sanitizer(itemCopy, this.fieldsToSend);
     return this._createItem(itemCopy);
   }
 
   createNestedItem({ parentId, itemInstance }) {
     const itemCopy = deepCopy(itemInstance);
     if (this.preRequestHandler) this.preRequestHandler(itemCopy);
-    sanitizer(itemCopy, this.fieldsToSend);
+    if (this.fieldsToSend) sanitizer(itemCopy, this.fieldsToSend);
     const baseUrl = `${this.baseUrl}/${parentId}/${this.nestedUrl}`;
     return this._createItem(itemCopy, baseUrl);
   }

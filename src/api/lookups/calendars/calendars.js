@@ -38,7 +38,6 @@ const itemResponseHandler = (response) => {
     expires: !!(response.startAt || response.endAt),
     accepts: [],
     excepts: [],
-    _dirty: false,
   };
   // eslint-disable-next-line no-param-reassign
   response.accepts = response.accepts.map((accept) => ({
@@ -73,7 +72,7 @@ export const getCalendarTimezones = async (params) => {
   const response = await timezoneGetter.getList(params);
   return response.list;
 };
-export const addCalendar = ({ itemInstance }) => itemCreator.createItem(itemInstance);
+export const addCalendar = (params) => itemCreator.createItem(params);
 export const updateCalendar = ({ itemId, itemInstance }) => (
   itemUpdater.updateItem(itemId, itemInstance)
 );

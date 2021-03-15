@@ -1,7 +1,7 @@
 import instance from '../../instance';
 import APIItemDeleter from '../../utils/ApiControllers/Deleter/ApiDeleter';
 import APIItemUpdater from '../../utils/ApiControllers/Updater/ApiUpdater';
-import APIItemCreator from '../../utils/ApiControllers/Creator/ApiCreator';
+import APICreator from '../../utils/ApiControllers/Creator/ApiCreator';
 import APIItemGetter from '../../utils/ApiControllers/Getter/ApiGetter';
 import APIListGetter from '../../utils/ApiControllers/ListGetter/ApiListGetter';
 
@@ -11,15 +11,13 @@ const fieldsToSend = ['name', 'account', 'password', 'user',
 ];
 
 const defaultListObject = { // default object prototype, to merge response with it to get all fields
-  _isSelected: false,
   state: 0,
 };
 
-const defaultSingleObject = { // default object prototype, to merge response with it to get all fields
+const defaultSingleObject = {
   state: 0,
   hotdesks: [],
   hotdesk: false,
-  _dirty: false,
 };
 
 const itemResponseHandler = (response) => {
@@ -42,13 +40,13 @@ const preRequestHandler = (item) => {
 
 const listGetter = new APIListGetter(BASE_URL, { defaultListObject });
 const itemGetter = new APIItemGetter(BASE_URL, { defaultSingleObject, itemResponseHandler });
-const itemCreator = new APIItemCreator(BASE_URL, { fieldsToSend, preRequestHandler });
+const itemCreator = new APICreator(BASE_URL, { fieldsToSend, preRequestHandler });
 const itemUpdater = new APIItemUpdater(BASE_URL, { fieldsToSend, preRequestHandler });
 const itemDeleter = new APIItemDeleter(BASE_URL);
 
 export const getDeviceList = (params) => listGetter.getList(params);
 export const getDevice = (params) => itemGetter.getItem(params);
-export const addDevice = async ({ itemInstance }) => itemCreator.createItem(itemInstance);
+export const addDevice = async (params) => itemCreator.createItem(params);
 export const updateDevice = ({ itemId, itemInstance }) => (
   itemUpdater.updateItem(itemId, itemInstance)
 );

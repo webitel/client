@@ -17,7 +17,6 @@ const defaultListObject = {
   buckets: [],
   lvl: 0,
   enabled: false,
-  _isSelected: false,
 };
 
 const defaultSingleObject = {
@@ -27,7 +26,6 @@ const defaultSingleObject = {
   buckets: [],
   lvl: 0,
   enabled: false,
-  _dirty: false,
 };
 
 const fieldsToSend = ['maxCapacity', 'minCapacity', 'queueId', 'lvl', 'buckets', 'skill',
@@ -38,7 +36,7 @@ const preRequestHandler = (item, parentId) => ({ ...item, queueId: parentId });
 const listGetter = new SDKListGetter(queueSkillService.searchQueueSkill, { defaultListObject });
 const itemGetter = new SDKGetter(queueSkillService.readQueueSkill, { defaultSingleObject });
 const itemCreator = new SDKCreator(queueSkillService.createQueueSkill,
-  fieldsToSend, preRequestHandler);
+  { fieldsToSend, preRequestHandler });
 const itemPatcher = new SDKPatcher(queueSkillService.patchQueueSkill, fieldsToSend);
 const itemUpdater = new SDKUpdater(queueSkillService.updateQueueSkill,
   fieldsToSend, preRequestHandler);

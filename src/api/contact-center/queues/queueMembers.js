@@ -20,7 +20,6 @@ const communicationsFieldsToSend = ['destination', 'display', 'priority', 'type'
 const defaultListObject = {
   createdAt: 'unknown',
   priority: 0,
-  _isSelected: false,
 };
 
 const defaultSingleObject = {
@@ -32,7 +31,6 @@ const defaultSingleObject = {
   timezone: {},
   communications: [],
   variables: [],
-  _dirty: false,
 };
 
 const defaultSingleObjectCommunication = {
@@ -93,7 +91,7 @@ const listGetter = new SDKListGetter(memberService.searchMemberInQueue,
 const itemGetter = new SDKGetter(memberService.readMember,
   { defaultSingleObject, itemResponseHandler });
 const itemCreator = new SDKCreator(memberService.createMember,
-  fieldsToSend, preRequestHandler);
+  { fieldsToSend, preRequestHandler });
 const itemUpdater = new SDKUpdater(memberService.updateMember,
   fieldsToSend, preRequestHandler);
 const itemDeleter = new SDKDeleter(memberService.deleteMember);

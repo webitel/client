@@ -16,7 +16,7 @@ const preRequestHandler = (item, parentId) => ({ ...item, groupId: parentId });
 const listGetter = new SDKListGetter(resGrService.searchOutboundResourceInGroup);
 const itemGetter = new SDKGetter(resGrService.readOutboundResourceInGroup);
 const itemCreator = new SDKCreator(resGrService.createOutboundResourceInGroup,
-  fieldsToSend, preRequestHandler);
+  { fieldsToSend, preRequestHandler });
 const itemUpdater = new SDKUpdater(resGrService.updateOutboundResourceInGroup,
   fieldsToSend, preRequestHandler);
 const itemDeleter = new SDKDeleter(resGrService.deleteOutboundResourceInGroup);

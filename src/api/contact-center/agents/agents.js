@@ -22,7 +22,6 @@ const defaultSingleObject = {
   chatCount: 0,
   isSupervisor: false,
   description: '',
-  _dirty: false,
 };
 const getSupervisorsList = (getList) => function ({
                                                     page = 1,
@@ -49,7 +48,7 @@ const agentQueuesGetter = new SDKListGetter(agentService.searchAgentInQueue);
 
 export const getAgentsList = (params) => listGetter.getList(params);
 export const getAgent = (params) => itemGetter.getItem(params);
-export const addAgent = ({ itemInstance }) => itemCreator.createItem(itemInstance);
+export const addAgent = (params) => itemCreator.createItem(params);
 export const updateAgent = ({ itemId, itemInstance }) => (
   itemUpdater.updateItem(itemId, itemInstance)
 );

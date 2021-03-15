@@ -25,7 +25,7 @@ const itemDeleter = new SDKItemDeleter(dialplanService.deleteRoutingOutboundCall
 
 export const getDialplanList = (params) => listGetter.getList(params);
 export const getDialplan = (params) => itemGetter.getItem(params);
-export const addDialplan = ({ itemInstance }) => itemCreator.createItem(itemInstance);
+export const addDialplan = (params) => itemCreator.createItem(params);
 export const patchDialplan = ({ id, changes }) => itemPatcher.patchItem(id, changes);
 export const updateDialplan = ({ itemId, itemInstance }) => (
   itemUpdater.updateItem(itemId, itemInstance)

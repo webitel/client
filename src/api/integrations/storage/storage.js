@@ -16,7 +16,6 @@ const storageService = new BackendProfileServiceApiFactory(configuration, '', in
 const fieldsToSend = ['name', 'maxSize', 'priority', 'properties', 'expireDays', 'type', 'disabled'];
 
 const defaultListObject = {
-  _isSelected: false,
   disabled: false,
   maxSize: 0,
   expireDays: 0,
@@ -27,7 +26,6 @@ const defaultSingleObject = {
   maxSize: 0,
   expireDays: 0,
   priority: 0,
-  _dirty: false,
 };
 
 const listResponseHandler = (response) => {
@@ -76,7 +74,7 @@ const itemDeleter = new SDKItemDeleter(storageService.deleteBackendProfile);
 
 export const getStorageList = (params) => listGetter.getList(params);
 export const getStorage = (params) => itemGetter.getItem(params);
-export const addStorage = ({ itemInstance }) => itemCreator.createItem(itemInstance);
+export const addStorage = (params) => itemCreator.createItem(params);
 export const patchStorage = ({ id, changes }) => itemPatcher.patchItem(id, changes);
 export const updateStorage = ({ itemId, itemInstance }) => (
   itemUpdater.updateItem(itemId, itemInstance)

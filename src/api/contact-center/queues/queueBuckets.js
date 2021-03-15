@@ -13,12 +13,10 @@ const fieldsToSend = ['bucket', 'ratio', 'queueId'];
 
 const defaultListObject = {
   ratio: 0,
-  _isSelected: false,
 };
 
 const defaultSingleObject = {
   ratio: 0,
-  _dirty: false,
 };
 
 const preRequestHandler = (item, parentId) => ({ ...item, queueId: parentId });
@@ -26,7 +24,7 @@ const preRequestHandler = (item, parentId) => ({ ...item, queueId: parentId });
 const listGetter = new SDKListGetter(queueBucketsService.searchQueueBucket, { defaultListObject });
 const itemGetter = new SDKGetter(queueBucketsService.readQueueBucket, { defaultSingleObject });
 const itemCreator = new SDKCreator(queueBucketsService.createQueueBucket,
-  fieldsToSend, preRequestHandler);
+  { fieldsToSend, preRequestHandler });
 const itemUpdater = new SDKUpdater(queueBucketsService.updateQueueBucket,
   fieldsToSend, preRequestHandler);
 const itemDeleter = new SDKDeleter(queueBucketsService.deleteQueueBucket);

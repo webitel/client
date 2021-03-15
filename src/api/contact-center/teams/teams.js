@@ -23,7 +23,6 @@ const defaultSingleObject = {
   noAnswerDelayTime: 0,
   rejectDelayTime: 0,
   wrapUpTime: 0,
-  _dirty: false,
 };
 
 const listGetter = new SDKListGetter(teamService.searchAgentTeam);
@@ -34,7 +33,7 @@ const itemDeleter = new SDKItemDeleter(teamService.deleteAgentTeam);
 
 export const getTeamsList = (params) => listGetter.getList(params);
 export const getTeam = (params) => itemGetter.getItem(params);
-export const addTeam = ({ itemInstance }) => itemCreator.createItem(itemInstance);
+export const addTeam = (params) => itemCreator.createItem(params);
 export const updateTeam = ({ itemId, itemInstance }) => (
   itemUpdater.updateItem(itemId, itemInstance)
 );

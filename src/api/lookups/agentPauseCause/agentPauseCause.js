@@ -26,7 +26,6 @@ const defaultSingleObject = {
   allowAdmin: false,
   allowSupervisor: false,
   allowAgent: false,
-  _dirty: false,
 };
 
 const listGetter = new SDKListGetter(pauseCauseService.searchAgentPauseCause,
@@ -39,7 +38,7 @@ const itemDeleter = new SDKItemDeleter(pauseCauseService.deleteAgentPauseCause);
 
 export const getPauseCauseList = (params) => listGetter.getList(params);
 export const getPauseCause = (params) => itemGetter.getItem(params);
-export const addPauseCause = ({ itemInstance }) => itemCreator.createItem(itemInstance);
+export const addPauseCause = (params) => itemCreator.createItem(params);
 export const patchPauseCause = ({ id, changes }) => itemPatcher.patchItem(id, changes);
 export const updatePauseCause = ({ itemId, itemInstance }) => (
   itemUpdater.updateItem(itemId, itemInstance)

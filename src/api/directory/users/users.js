@@ -1,7 +1,7 @@
 import APIItemDeleter from '../../utils/ApiControllers/Deleter/ApiDeleter';
 import APIItemPatcher from '../../utils/ApiControllers/Patcher/ApiPatcher';
 import APIItemUpdater from '../../utils/ApiControllers/Updater/ApiUpdater';
-import APIItemCreator from '../../utils/ApiControllers/Creator/ApiCreator';
+import APICreator from '../../utils/ApiControllers/Creator/ApiCreator';
 import APIItemGetter from '../../utils/ApiControllers/Getter/ApiGetter';
 import APIListGetter from '../../utils/ApiControllers/ListGetter/ApiListGetter';
 
@@ -10,7 +10,6 @@ const fieldsToSend = ['name', 'username', 'password', 'extension', 'status', 'no
   'profile', 'profile', 'email'];
 
 const defaultListObject = {
-  _isSelected: false,
   name: '',
   status: '',
   state: true,
@@ -29,7 +28,6 @@ const defaultSingleObject = {
   variables: [
     { key: '', value: '' },
   ],
-  _dirty: false,
 };
 
 const itemResponseHandler = (response) => {
@@ -75,14 +73,14 @@ const preRequestHandler = (item) => {
 
 const listGetter = new APIListGetter(BASE_URL, { defaultListObject });
 const itemGetter = new APIItemGetter(BASE_URL, { defaultSingleObject, itemResponseHandler });
-const itemCreator = new APIItemCreator(BASE_URL, { fieldsToSend, preRequestHandler });
+const itemCreator = new APICreator(BASE_URL, { fieldsToSend, preRequestHandler });
 const itemUpdater = new APIItemUpdater(BASE_URL, { fieldsToSend, preRequestHandler });
 const itemPatcher = new APIItemPatcher(BASE_URL, { fieldsToSend });
 const itemDeleter = new APIItemDeleter(BASE_URL);
 
 export const getUsersList = (params) => listGetter.getList(params);
 export const getUser = (params) => itemGetter.getItem(params);
-export const addUser = ({ itemInstance }) => itemCreator.createItem(itemInstance);
+export const addUser = (params) => itemCreator.createItem(params);
 export const updateUser = ({ itemId, itemInstance }) => (
   itemUpdater.updateItem(itemId, itemInstance)
 );

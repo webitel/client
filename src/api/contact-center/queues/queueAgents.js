@@ -9,7 +9,6 @@ const defaultListObject = {
   name: '',
   supervisor: {},
   skills: [],
-  _isSelected: false,
 };
 
 const getQueueAgents = (getList) => function ({

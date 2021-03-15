@@ -21,12 +21,10 @@ const defaultListObject = {
   active: 0,
   waiting: 0,
   priority: '0',
-  _isSelected: false,
 };
 
 const defaultSingleObject = {
   type: 0,
-  _dirty: false,
 };
 
 const preRequestHandler = (item) => {
@@ -63,7 +61,7 @@ const itemDeleter = new SDKItemDeleter(queueService.deleteQueue);
 
 export const getQueuesList = (params) => listGetter.getList(params);
 export const getQueue = (params) => itemGetter.getItem(params);
-export const addQueue = ({ itemInstance }) => itemCreator.createItem(itemInstance);
+export const addQueue = (params) => itemCreator.createItem(params);
 export const updateQueue = ({ itemId, itemInstance }) => (
   itemUpdater.updateItem(itemId, itemInstance)
 );

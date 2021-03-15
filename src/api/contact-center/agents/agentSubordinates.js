@@ -10,7 +10,6 @@ const subordinateService = new AgentServiceApiFactory(configuration, '', instanc
 const defaultListObject = {
   name: '',
   skills: [],
-  _isSelected: false,
 };
 
 const getSubordinatesList = (getList) => function ({
