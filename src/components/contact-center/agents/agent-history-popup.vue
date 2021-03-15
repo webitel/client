@@ -7,12 +7,12 @@
           <wt-datetimepicker
             :value="from"
             :label="$t('objects.from')"
-            @change="setHistoryFrom"
+            @change="setFrom"
           ></wt-datetimepicker>
           <wt-datetimepicker
             :value="to"
             :label="$t('objects.to')"
-            @change="setHistoryTo"
+            @change="setTo"
           ></wt-datetimepicker>
         </div>
         <div class="table-wrapper">
@@ -29,7 +29,7 @@
               {{ item.channel }}
             </template>
             <template slot="from" slot-scope="{ item }">
-              {{ computeTime(item.joinedAt) }}
+              {{ prettifyTime(item.joinedAt) }}
             </template>
             <template slot="to" slot-scope="{ item }">
               <div v-if="item.duration">
@@ -61,27 +61,17 @@
 </template>
 
 <script>
-import { mapActions, mapState } from 'vuex';
 import convertDuration from '@webitel/ui-sdk/src/scripts/convertDuration';
-import tableComponentMixin from '../../../mixins/objectPagesMixins/objectTableMixin/tableComponentMixin';
+import historyPopupMixin from '../../../mixins/objectPagesMixins/historyPopupMixin/historyPopupMixin';
 
 export default {
   name: 'agent-history-popup',
-  mixins: [tableComponentMixin],
-  data() {
-    return {};
-  },
+  mixins: [historyPopupMixin],
+  data: () => ({
+    namespace: 'ccenter/agents/history',
+  }),
 
   computed: {
-    ...mapState('ccenter/agents/history', {
-      dataList: (state) => state.dataList,
-      page: (state) => state.page,
-      size: (state) => state.size,
-      search: (state) => state.search,
-      from: (state) => state.from,
-      to: (state) => state.to,
-      isNext: (state) => state.isNextPage,
-    }),
     headers() {
       return [
         { value: 'state', text: this.$t('objects.ccenter.agents.historyState') },
@@ -94,24 +84,9 @@ export default {
   },
 
   methods: {
-    ...mapActions('ccenter/agents/history', {
-      loadDataList: 'LOAD_HISTORY_DATA_LIST',
-      setSize: 'SET_HISTORY_SIZE',
-      setSearch: 'SET_HISTORY_SEARCH',
-      setHistoryFrom: 'SET_HISTORY_FROM',
-      setHistoryTo: 'SET_HISTORY_TO',
-      nextPage: 'NEXT_HISTORY_PAGE',
-      prevPage: 'PREV_HISTORY_PAGE',
-    }),
     convertDuration,
-    computeTime(time) {
-      return new Date(+time).toLocaleString();
-    },
     calcStatusTo(item) {
       return new Date(+item.joinedAt + item.duration * 1000).toLocaleString();
-    },
-    close() {
-      this.$emit('close');
     },
   },
 };

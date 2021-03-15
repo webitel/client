@@ -1,107 +1,58 @@
-export class DefaultHistoryModule {
-  constructor(defaultState) {
-    this.state = {
-      dataList: [],
-      size: '10',
-      search: '',
-      page: 1,
-      isNextPage: true,
-      itemId: 0,
-      ...defaultState(),
-    };
+import BaseStoreModule from '../bases/BaseStoreModule';
+import BaseTableModule from '../bases/BaseTableModule';
+import BaseOpenedInstanceModule from '../bases/BaseOpenedInstanceModule';
 
-    this.actions = {
-      SET_HISTORY_ITEM_ID: (context, id) => {
-        context.commit('SET_HISTORY_ITEM_ID', id);
-      },
+export class DefaultHistoryModule extends BaseStoreModule {
+  _resettableState = () => ({
+    ...BaseTableModule.generateState(),
+    parentId: 0,
+    from: new Date().setHours(0, 0, 0, 0),
+    to: Date.now(),
+  });
 
-      LOAD_HISTORY_DATA_LIST: async (context) => {
-        const response = await context.dispatch('GET_HISTORY_LIST');
-        context.commit('SET_HISTORY_DATA_LIST', response);
-      },
+  state = this._resettableState();
 
-      SET_HISTORY_SIZE: (context, size) => {
-        context.commit('SET_HISTORY_SIZE', size);
-      },
+  getters = {};
 
-      SET_HISTORY_SEARCH: (context, search) => {
-        context.commit('SET_HISTORY_SEARCH', search);
-      },
+  actions = {
+    ...BaseTableModule.getActions(),
+    ...BaseOpenedInstanceModule.getActions(),
 
-      NEXT_HISTORY_PAGE: (context) => {
-        if (context.state.isNextPage) {
-          context.commit('INCREMENT_HISTORY_PAGE');
-          context.dispatch('LOAD_HISTORY_DATA_LIST');
-        }
-      },
+    SET_FROM: (context, from) => {
+      context.commit('SET_FROM', from);
+      context.dispatch('LOAD_DATA_LIST');
+    },
+    SET_TO: (context, to) => {
+      context.commit('SET__TO', to);
+      context.dispatch('LOAD_DATA_LIST');
+    },
+  };
 
-      PREV_HISTORY_PAGE: (context) => {
-        if (context.state.page) {
-          context.commit('DECREMENT_HISTORY_PAGE');
-          context.dispatch('LOAD_HISTORY_DATA_LIST');
-        }
-      },
+  mutations = {
+    ...BaseTableModule.getMutations(),
+    ...BaseOpenedInstanceModule.getMutations(),
 
-      SET_HISTORY_DATE: (context, date) => {
-        context.commit('SET_HISTORY_DATE', date);
-        context.dispatch('LOAD_HISTORY_DATA_LIST');
-      },
+    SET_FROM: (state, from) => {
+      state.from = from;
+    },
+    SET_TO: (state, to) => {
+      state.to = to;
+    },
+    RESET_ITEM_STATE: (state) => {
+      Object.assign(state, this._resettableState());
+    },
+  };
 
-      SET_HISTORY_FROM: (context, from) => {
-        context.commit('SET_HISTORY_FROM', from);
-        context.dispatch('LOAD_HISTORY_DATA_LIST');
-      },
+  constructor() {
+    super();
+  }
 
-      SET_HISTORY_TO: (context, to) => {
-        context.commit('SET_HISTORY_TO', to);
-        context.dispatch('LOAD_HISTORY_DATA_LIST');
-      },
-
-      RESET_ITEM_STATE: async (context) => {
-        context.commit('RESET_ITEM_STATE');
-      },
-    };
-
-    this.mutations = {
-      SET_HISTORY_ITEM_ID: (state, id) => {
-        state.itemId = id;
-      },
-
-      SET_HISTORY_DATA_LIST: (state, list) => {
-        state.dataList = list;
-      },
-
-      SET_HISTORY_SIZE: (state, size) => {
-        state.size = size;
-      },
-
-      SET_HISTORY_SEARCH: (state, search) => {
-        state.search = search;
-      },
-
-      INCREMENT_HISTORY_PAGE: (state) => {
-        state.page++;
-      },
-
-      DECREMENT_HISTORY_PAGE: (state) => {
-        state.page--;
-      },
-
-      SET_HISTORY_DATE: (state, date) => { // TODO: DELETE ME AFTER AGENT HISTORY REFACTOR/DELETE
-        state.date = date;
-      },
-
-      SET_HISTORY_FROM: (state, from) => {
-        state.from = from;
-      },
-
-      SET_HISTORY_TO: (state, to) => {
-        state.to = to;
-      },
-
-      RESET_ITEM_STATE: (state) => {
-        Object.assign(state, defaultState());
-      },
-    };
+  generateGetListAction(APIMethod) {
+    this.actions.GET_LIST = (context) => {
+      return APIMethod(context.state);
+    }
+    return this;
   }
 }
+
+export default DefaultHistoryModule;

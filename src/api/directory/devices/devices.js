@@ -38,11 +38,25 @@ const preRequestHandler = (item) => {
   return item;
 };
 
+const _getDeviceHistory = (getList) => function ({
+                                                   parentId,
+                                                   from,
+                                                   to,
+                                                   page,
+                                                   size,
+                                                 }) {
+  const baseUrl = `${BASE_URL}/${parentId}/users/audit?time_from=${from}&time_to=${to}`;
+  return getList({ page, size }, baseUrl);
+};
+
 const listGetter = new APIListGetter(BASE_URL, { defaultListObject });
 const itemGetter = new APIItemGetter(BASE_URL, { defaultSingleObject, itemResponseHandler });
 const itemCreator = new APICreator(BASE_URL, { fieldsToSend, preRequestHandler });
 const itemUpdater = new APIUpdater(BASE_URL, { fieldsToSend, preRequestHandler });
 const itemDeleter = new APIItemDeleter(BASE_URL);
+
+const historyListGetter = new APIListGetter(BASE_URL)
+  .setGetListMethod(_getDeviceHistory);
 
 export const getDeviceList = (params) => listGetter.getList(params);
 export const getDevice = (params) => itemGetter.getItem(params);
@@ -50,16 +64,7 @@ export const addDevice = async (params) => itemCreator.createItem(params);
 export const updateDevice = (params) => itemUpdater.updateItem(params);
 export const deleteDevice = (params) => itemDeleter.deleteItem(params);
 
-export const getDeviceHistory = async ({ id, from, to, page, size }) => {
-  const url = `${BASE_URL}/${id}/users/audit?time_from=${from}&time_to=${to}&page=${page}&size=${size}`;
-  try {
-    const response = await instance.get(url);
-    if (response.items) return response.items;
-    return [];
-  } catch (err) {
-    throw err;
-  }
-};
+export const getDeviceHistory = (params) => historyListGetter.getList(params);
 
 export default {
   getList: getDeviceList,

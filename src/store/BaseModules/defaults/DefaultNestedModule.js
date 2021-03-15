@@ -12,9 +12,9 @@ export default class DefaultNestedModule extends BaseStoreModule {
     ...BaseOpenedInstanceModule.getActions(),
 
     // FIXME TRY TO DELETE )))
-    SET_ITEM_ID: (context, id) => {
-      if (id !== 'new') context.commit('SET_ITEM_ID', id);
-    },
+    // SET_ITEM_ID: (context, id) => {
+    //   if (id !== 'new') context.commit('SET_ITEM_ID', id);
+    // },
     ADD_ITEM: async (context) => {
       if (!context.state.itemId) {
         const { id } = await context.dispatch('POST_ITEM');
@@ -30,9 +30,6 @@ export default class DefaultNestedModule extends BaseStoreModule {
     },
     RESET_STATE: (context) => {
       context.commit('RESET_STATE');
-    },
-    RESET_ITEM_STATE: (context) => {
-      context.commit('RESET_ITEM_STATE');
     },
   };
 

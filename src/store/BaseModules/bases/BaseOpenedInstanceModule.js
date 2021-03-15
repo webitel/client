@@ -23,6 +23,9 @@ const actions = {
   SET_ITEM_PROPERTY: (context, payload) => {
     context.commit('SET_ITEM_PROPERTY', payload);
   },
+  RESET_ITEM_STATE: async (context) => {
+    context.commit('RESET_ITEM_STATE');
+  },
 };
 
 const mutations = {

@@ -5,28 +5,28 @@
       <section class="history-popup">
         <div class="history-popup__filters">
           <wt-datetimepicker
-              :value="from"
-              :label="$t('objects.from')"
-              @change="setHistoryFrom"
+            :value="from"
+            :label="$t('objects.from')"
+            @change="setFrom"
           ></wt-datetimepicker>
           <wt-datetimepicker
-              :value="to"
-              :label="$t('objects.to')"
-              @change="setHistoryTo"
+            :value="to"
+            :label="$t('objects.to')"
+            @change="setTo"
           ></wt-datetimepicker>
         </div>
         <div class="table-wrapper">
           <wt-table
-              :headers="headers"
-              :data="dataList"
-              :selectable="false"
-              :grid-actions="false"
+            :headers="headers"
+            :data="dataList"
+            :selectable="false"
+            :grid-actions="false"
           >
             <template slot="loggedIn" slot-scope="{ item }">
-              {{ prettifyLoggedIn(item.loggedIn) }}
+              {{ prettifyTime(item.loggedIn) }}
             </template>
             <template slot="loggedOut" slot-scope="{ item }">
-              {{ prettifyLoggedOut(item.loggedOut) }}
+              {{ prettifyTime(item.loggedOut) }}
             </template>
             <template slot="user" slot-scope="{ item }">
               <div v-if="item.user">
@@ -35,14 +35,14 @@
             </template>
           </wt-table>
           <wt-pagination
-              :size="size"
-              :next="isNext"
-              :prev="page > 1"
-              debounce
-              @next="nextPage"
-              @prev="prevPage"
-              @input="setSize"
-              @change="loadList"
+            :size="size"
+            :next="isNext"
+            :prev="page > 1"
+            debounce
+            @next="nextPage"
+            @prev="prevPage"
+            @input="setSize"
+            @change="loadList"
           ></wt-pagination>
         </div>
       </section>
@@ -55,56 +55,22 @@
 </template>
 
 <script>
-import { mapActions, mapState } from 'vuex';
-import tableComponentMixin from '../../../mixins/objectPagesMixins/objectTableMixin/tableComponentMixin';
+import historyPopupMixin from '../../../mixins/objectPagesMixins/historyPopupMixin/historyPopupMixin';
 
 export default {
   name: 'device-history-popup',
-  mixins: [tableComponentMixin],
-  data() {
-    return {
-      headers: [
+  mixins: [historyPopupMixin],
+  data: () => ({
+    namespace: 'directory/devices/history',
+  }),
+
+  computed: {
+    headers() {
+      return [
         { value: 'user', text: this.$tc('objects.directory.users.users', 1) },
         { value: 'loggedIn', text: this.$t('objects.directory.devices.loggedIn') },
         { value: 'loggedOut', text: this.$t('objects.directory.devices.loggedOut') },
-      ],
-    };
-  },
-
-  computed: {
-    ...mapState('directory/devices/history', {
-      dataList: (state) => state.dataList,
-      page: (state) => state.page,
-      size: (state) => state.size,
-      search: (state) => state.search,
-      from: (state) => state.from,
-      to: (state) => state.to,
-      isNext: (state) => state.isNextPage,
-    }),
-  },
-
-  methods: {
-    ...mapActions('directory/devices/history', {
-      loadDataList: 'LOAD_HISTORY_DATA_LIST',
-      setSize: 'SET_HISTORY_SIZE',
-      setSearch: 'SET_HISTORY_SEARCH',
-      setHistoryFrom: 'SET_HISTORY_FROM',
-      setHistoryTo: 'SET_HISTORY_TO',
-      nextPage: 'NEXT_HISTORY_PAGE',
-      prevPage: 'PREV_HISTORY_PAGE',
-    }),
-
-    prettifyLoggedIn(time) {
-      return new Date(+time).toLocaleString();
-    },
-
-    prettifyLoggedOut(time) {
-      if (!time) return 'none';
-      return new Date(+time).toLocaleString();
-    },
-
-    close() {
-      this.$emit('close');
+      ];
     },
   },
 };

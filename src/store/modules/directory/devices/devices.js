@@ -1,8 +1,8 @@
 import deepMerge from 'deepmerge';
-import history from './history';
-import DevicesAPI from '../../../../api/directory/devices/devices';
+import DevicesAPI, { getDeviceHistory } from '../../../../api/directory/devices/devices';
 import DefaultModule from '../../../BaseModules/defaults/DefaultModule';
 import DefaultPermissionsModule from '../../../BaseModules/defaults/DefaultPermissionsModule';
+import DefaultHistoryModule from '../../../BaseModules/defaults/DefaultHistoryModule';
 import proxy from '../../../../utils/editProxy';
 import defaultDevice from './_internals/deviceSchema/defaults/defaultDevice';
 import hotdeskDevice from './_internals/deviceSchema/hotdeskDevice';
@@ -33,6 +33,10 @@ const actions = {
 const PERMISSIONS_API_URL = '/devices';
 const permissions = new DefaultPermissionsModule()
   .generateAPIActions(PERMISSIONS_API_URL)
+  .getModule();
+
+const history = new DefaultHistoryModule()
+  .generateGetListAction(getDeviceHistory)
   .getModule();
 
 const devices = new DefaultModule(resettableState)

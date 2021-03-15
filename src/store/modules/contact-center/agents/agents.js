@@ -1,10 +1,10 @@
 import skills from './agent-skills';
-import history from './history';
 import queues from './agent-queues';
 import subordinates from './agent-subordinates';
-import AgentsAPI from '../../../../api/contact-center/agents/agents';
+import AgentsAPI, { getAgentHistory } from '../../../../api/contact-center/agents/agents';
 import DefaultModule from '../../../BaseModules/defaults/DefaultModule';
 import DefaultPermissionsModule from '../../../BaseModules/defaults/DefaultPermissionsModule';
+import DefaultHistoryModule from '../../../BaseModules/defaults/DefaultHistoryModule';
 
 const resettableState = {
   itemInstance: {
@@ -31,6 +31,10 @@ const actions = {
 const PERMISSIONS_API_URL = '/call_center/agents';
 const permissions = new DefaultPermissionsModule()
   .generateAPIActions(PERMISSIONS_API_URL)
+  .getModule();
+
+const history = new DefaultHistoryModule()
+  .generateGetListAction(getAgentHistory)
   .getModule();
 
 const agents = new DefaultModule(resettableState)

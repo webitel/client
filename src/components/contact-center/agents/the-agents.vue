@@ -118,7 +118,9 @@ export default {
       size: (state) => state.size,
       search: (state) => state.search,
       isNext: (state) => state.isNextPage,
-      historyId: (state) => state.history.itemId,
+    }),
+    ...mapState('ccenter/agents/history', {
+      historyId: (state) => state.parentId,
     }),
 
     headers() {
@@ -138,8 +140,10 @@ export default {
   },
 
   methods: {
-    ...mapActions('ccenter/agents/history', {
-      openHistory: 'SET_HISTORY_ITEM_ID',
+    ...mapActions({
+      openHistory(dispatch, payload) {
+        return dispatch(`${this.namespace}/history/SET_PARENT_ITEM_ID`, payload);
+      },
     }),
 
     convertDuration,

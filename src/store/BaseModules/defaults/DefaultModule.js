@@ -23,9 +23,6 @@ export default class DefaultModule extends BaseStoreModule {
         context.dispatch('LOAD_ITEM');
       }
     },
-    RESET_ITEM_STATE: (context) => {
-      context.commit('RESET_ITEM_STATE');
-    },
   };
 
   mutations = {
