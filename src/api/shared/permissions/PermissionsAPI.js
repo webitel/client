@@ -1,22 +1,22 @@
-import WebitelAPIPermissionsGetter
-  from '../../utils/ApiControllers/Permissions/WebitelAPIPermissionsGetter';
-import WebitelAPIPermissionsPatcher
-  from '../../utils/ApiControllers/Permissions/WebitelAPIPermissionsPatcher';
+import APIPermissionsGetter
+  from '../../utils/ApiControllers/Permissions/APIPermissionsGetter';
+import APIPermissionsPatcher
+  from '../../utils/ApiControllers/Permissions/APIPermissionsPatcher';
 
 export default class PermissionsAPI {
   constructor(url) {
     this.url = url;
-    this._permissionsGetter = new WebitelAPIPermissionsGetter(url);
-    this._permissionsPatcher = new WebitelAPIPermissionsPatcher(url);
+    this._permissionsGetter = new APIPermissionsGetter(url);
+    this._permissionsPatcher = new APIPermissionsPatcher(url);
   }
 
   static getListByUrl = (url) => {
-    const permissionsGetter = new WebitelAPIPermissionsGetter(url);
+    const permissionsGetter = new APIPermissionsGetter(url);
     return (params) => permissionsGetter.getList(params);
   };
 
   static patchByUrl = (url) => {
-    const permissionsPatcher = new WebitelAPIPermissionsPatcher(url);
+    const permissionsPatcher = new APIPermissionsPatcher(url);
     return (parentId, item) => permissionsPatcher.patchItem(parentId, item);
   };
 

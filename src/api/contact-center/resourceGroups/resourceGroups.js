@@ -1,11 +1,11 @@
 import { OutboundResourceGroupServiceApiFactory } from 'webitel-sdk';
 import instance from '../../instance';
 import configuration from '../../openAPIConfig';
-import { WebitelSDKItemDeleter } from '../../utils/ApiControllers/Deleter/SDKDeleter';
-import { WebitelSDKItemUpdater } from '../../utils/ApiControllers/Updater/SDKUpdater';
-import { WebitelSDKItemCreator } from '../../utils/ApiControllers/Creator/SDKCreator';
-import { WebitelSDKItemGetter } from '../../utils/ApiControllers/Getter/SDKGetter';
-import { WebitelSDKListGetter } from '../../utils/ApiControllers/ListGetter/SDKListGetter';
+import SDKItemDeleter from '../../utils/ApiControllers/Deleter/SDKDeleter';
+import SDKItemUpdater from '../../utils/ApiControllers/Updater/SDKUpdater';
+import SDKItemCreator from '../../utils/ApiControllers/Creator/SDKCreator';
+import SDKItemGetter from '../../utils/ApiControllers/Getter/SDKGetter';
+import SDKListGetter from '../../utils/ApiControllers/ListGetter/SDKListGetter';
 
 const resGrService = new OutboundResourceGroupServiceApiFactory(configuration, '', instance);
 
@@ -43,14 +43,14 @@ const preRequestHandler = (item) => {
   return item;
 };
 
-const listGetter = new WebitelSDKListGetter(resGrService.searchOutboundResourceGroup);
-const itemGetter = new WebitelSDKItemGetter(resGrService.readOutboundResourceGroup,
+const listGetter = new SDKListGetter(resGrService.searchOutboundResourceGroup);
+const itemGetter = new SDKItemGetter(resGrService.readOutboundResourceGroup,
   defaultItemObject, itemResponseHandler);
-const itemCreator = new WebitelSDKItemCreator(resGrService.createOutboundResourceGroup,
+const itemCreator = new SDKItemCreator(resGrService.createOutboundResourceGroup,
   fieldsToSend, preRequestHandler);
-const itemUpdater = new WebitelSDKItemUpdater(resGrService.updateOutboundResourceGroup,
+const itemUpdater = new SDKItemUpdater(resGrService.updateOutboundResourceGroup,
   fieldsToSend, preRequestHandler);
-const itemDeleter = new WebitelSDKItemDeleter(resGrService.deleteOutboundResourceGroup);
+const itemDeleter = new SDKItemDeleter(resGrService.deleteOutboundResourceGroup);
 
 export const getResGroupList = (params) => listGetter.getList(params);
 export const getResGroup = ({ itemId }) => itemGetter.getItem(itemId);

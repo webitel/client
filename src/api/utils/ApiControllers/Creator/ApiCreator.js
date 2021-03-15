@@ -4,7 +4,7 @@ import sanitizer from '../../sanitizer';
 import instance from '../../../instance';
 import BaseItemCreator from './BaseItemCreator';
 
-export class WebitelAPIItemCreator extends BaseItemCreator {
+export default class APIItemCreator extends BaseItemCreator {
   constructor(baseUrl, { fieldsToSend, preRequestHandler, nestedUrl } = {}) {
     super(null, fieldsToSend);
     this.baseUrl = baseUrl;

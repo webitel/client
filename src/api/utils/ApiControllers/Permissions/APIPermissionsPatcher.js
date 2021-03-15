@@ -1,6 +1,6 @@
 import ApiPatcher from '../Patcher/ApiPatcher';
 
-export default class WebitelAPIPermissionsPatcher {
+export default class APIPermissionsPatcher {
   constructor(baseUrl) {
     this.baseUrl = baseUrl;
     this.patcher = new ApiPatcher(this.baseUrl);

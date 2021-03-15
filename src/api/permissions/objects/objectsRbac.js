@@ -1,7 +1,7 @@
 import ApiListGetter from '../../utils/ApiControllers/ListGetter/ApiListGetter';
 import ApiPatcher from '../../utils/ApiControllers/Patcher/ApiPatcher';
-import WebitelAPIPermissionsGetter
-  from '../../utils/ApiControllers/Permissions/WebitelAPIPermissionsGetter';
+import APIPermissionsGetter
+  from '../../utils/ApiControllers/Permissions/APIPermissionsGetter';
 
 const BASE_URL = '/acl/objclass';
 
@@ -11,7 +11,7 @@ const _getObjclassDefaultList = (method) => function (params) {
 };
 
 const listGetter = new ApiListGetter(BASE_URL, {
-  responseHandler: WebitelAPIPermissionsGetter.handlePermissionsListResponse,
+  responseHandler: APIPermissionsGetter.handlePermissionsListResponse,
 }).setGetListMethod(_getObjclassDefaultList);
 const itemPatcher = new ApiPatcher(BASE_URL, { nestedUrl: 'grantor' });
 

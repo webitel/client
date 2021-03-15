@@ -1,7 +1,7 @@
 import instance from '../../../instance';
 import BaseItemDeleter from './BaseItemDeleter';
 
-export class WebitelAPIItemDeleter extends BaseItemDeleter {
+export default class APIItemDeleter extends BaseItemDeleter {
   constructor(baseUrl, { nestedUrl } = {}) {
     super(null);
     this.baseUrl = baseUrl;

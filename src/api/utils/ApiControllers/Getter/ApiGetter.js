@@ -1,8 +1,7 @@
 import instance from '../../../instance';
 import BaseItemGetter from './BaseItemGetter';
 
-// remove named export after refactor with default export
-export class WebitelAPIItemGetter extends BaseItemGetter {
+export default class APIItemGetter extends BaseItemGetter {
   constructor(baseUrl, { defaultItem, itemResponseHandler, nestedUrl } = {}) {
     super(null, defaultItem, itemResponseHandler);
     this.baseUrl = baseUrl;
@@ -30,5 +29,3 @@ export class WebitelAPIItemGetter extends BaseItemGetter {
     return this._getItem(itemId, baseUrl);
   }
 }
-
-export default WebitelAPIItemGetter;

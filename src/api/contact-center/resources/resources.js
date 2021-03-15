@@ -1,12 +1,12 @@
 import { OutboundResourceServiceApiFactory } from 'webitel-sdk';
 import instance from '../../instance';
 import configuration from '../../openAPIConfig';
-import { WebitelSDKItemDeleter } from '../../utils/ApiControllers/Deleter/SDKDeleter';
-import { WebitelSDKItemPatcher } from '../../utils/ApiControllers/Patcher/SDKPatcher';
-import { WebitelSDKItemUpdater } from '../../utils/ApiControllers/Updater/SDKUpdater';
-import { WebitelSDKItemCreator } from '../../utils/ApiControllers/Creator/SDKCreator';
-import { WebitelSDKItemGetter } from '../../utils/ApiControllers/Getter/SDKGetter';
-import { WebitelSDKListGetter } from '../../utils/ApiControllers/ListGetter/SDKListGetter';
+import SDKItemDeleter from '../../utils/ApiControllers/Deleter/SDKDeleter';
+import SDKItemPatcher from '../../utils/ApiControllers/Patcher/SDKPatcher';
+import SDKItemUpdater from '../../utils/ApiControllers/Updater/SDKUpdater';
+import SDKItemCreator from '../../utils/ApiControllers/Creator/SDKCreator';
+import SDKItemGetter from '../../utils/ApiControllers/Getter/SDKGetter';
+import SDKListGetter from '../../utils/ApiControllers/ListGetter/SDKListGetter';
 
 const resService = new OutboundResourceServiceApiFactory(configuration, '', instance);
 
@@ -54,17 +54,17 @@ const preRequestHandler = (item) => {
   return item;
 };
 
-const listGetter = new WebitelSDKListGetter(resService.searchOutboundResource,
+const listGetter = new SDKListGetter(resService.searchOutboundResource,
   defaultListObject);
-const itemGetter = new WebitelSDKItemGetter(resService.readOutboundResource,
+const itemGetter = new SDKItemGetter(resService.readOutboundResource,
   defaultItemObject, itemResponseHandler);
-const itemCreator = new WebitelSDKItemCreator(resService.createOutboundResource,
+const itemCreator = new SDKItemCreator(resService.createOutboundResource,
   fieldsToSend, preRequestHandler);
-const itemUpdater = new WebitelSDKItemUpdater(resService.updateOutboundResource,
+const itemUpdater = new SDKItemUpdater(resService.updateOutboundResource,
   fieldsToSend, preRequestHandler);
-const itemPatcher = new WebitelSDKItemPatcher(resService.patchOutboundResource,
+const itemPatcher = new SDKItemPatcher(resService.patchOutboundResource,
   fieldsToSend);
-const itemDeleter = new WebitelSDKItemDeleter(resService.deleteOutboundResource);
+const itemDeleter = new SDKItemDeleter(resService.deleteOutboundResource);
 
 export const getResourceList = (params) => listGetter.getList(params);
 export const getResource = ({ itemId }) => itemGetter.getItem(itemId);

@@ -1,11 +1,11 @@
 import { AgentTeamServiceApiFactory } from 'webitel-sdk';
 import instance from '../../instance';
 import configuration from '../../openAPIConfig';
-import { WebitelSDKItemDeleter } from '../../utils/ApiControllers/Deleter/SDKDeleter';
-import { WebitelSDKItemUpdater } from '../../utils/ApiControllers/Updater/SDKUpdater';
-import { WebitelSDKItemCreator } from '../../utils/ApiControllers/Creator/SDKCreator';
-import { WebitelSDKItemGetter } from '../../utils/ApiControllers/Getter/SDKGetter';
-import { WebitelSDKListGetter } from '../../utils/ApiControllers/ListGetter/SDKListGetter';
+import SDKItemDeleter from '../../utils/ApiControllers/Deleter/SDKDeleter';
+import SDKItemUpdater from '../../utils/ApiControllers/Updater/SDKUpdater';
+import SDKItemCreator from '../../utils/ApiControllers/Creator/SDKCreator';
+import SDKItemGetter from '../../utils/ApiControllers/Getter/SDKGetter';
+import SDKListGetter from '../../utils/ApiControllers/ListGetter/SDKListGetter';
 
 const teamService = new AgentTeamServiceApiFactory(configuration, '', instance);
 
@@ -26,11 +26,11 @@ const defaultObject = {
   _dirty: false,
 };
 
-const listGetter = new WebitelSDKListGetter(teamService.searchAgentTeam);
-const itemGetter = new WebitelSDKItemGetter(teamService.readAgentTeam, defaultObject);
-const itemCreator = new WebitelSDKItemCreator(teamService.createAgentTeam, fieldsToSend);
-const itemUpdater = new WebitelSDKItemUpdater(teamService.updateAgentTeam, fieldsToSend);
-const itemDeleter = new WebitelSDKItemDeleter(teamService.deleteAgentTeam);
+const listGetter = new SDKListGetter(teamService.searchAgentTeam);
+const itemGetter = new SDKItemGetter(teamService.readAgentTeam, defaultObject);
+const itemCreator = new SDKItemCreator(teamService.createAgentTeam, fieldsToSend);
+const itemUpdater = new SDKItemUpdater(teamService.updateAgentTeam, fieldsToSend);
+const itemDeleter = new SDKItemDeleter(teamService.deleteAgentTeam);
 
 export const getTeamsList = (params) => listGetter.getList(params);
 export const getTeam = ({ itemId }) => itemGetter.getItem(itemId);

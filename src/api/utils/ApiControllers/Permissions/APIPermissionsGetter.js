@@ -1,6 +1,6 @@
 import ApiListGetter from '../ListGetter/ApiListGetter';
 
-export default class WebitelAPIPermissionsGetter {
+export default class APIPermissionsGetter {
   _nestedUrl = 'acl';
 
   _searchQuery = 'q';
@@ -8,7 +8,7 @@ export default class WebitelAPIPermissionsGetter {
   constructor(url) {
     this.baseUrl = url;
     this.listGetter = new ApiListGetter(this.baseUrl, {
-      responseHandler: WebitelAPIPermissionsGetter.handlePermissionsListResponse,
+      responseHandler: APIPermissionsGetter.handlePermissionsListResponse,
       nestedUrl: this._nestedUrl,
     });
   }

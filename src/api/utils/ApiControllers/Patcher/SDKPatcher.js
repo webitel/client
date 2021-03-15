@@ -3,8 +3,7 @@ import eventBus from '@webitel/ui-sdk/src/scripts/eventBus';
 import sanitizer from '../../sanitizer';
 import BaseItemPatcher from './BaseItemPatcher';
 
-// todo: export -> default export
-export class WebitelSDKItemPatcher extends BaseItemPatcher {
+export default class SDKItemPatcher extends BaseItemPatcher {
   async _patchItem(args) {
     try {
       await this.method(...args);
@@ -26,5 +25,3 @@ export class WebitelSDKItemPatcher extends BaseItemPatcher {
     return this._patchItem([parentId, id, changes]);
   }
 }
-
-export default WebitelSDKItemPatcher;

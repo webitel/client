@@ -3,8 +3,7 @@ import eventBus from '@webitel/ui-sdk/src/scripts/eventBus';
 import sanitizer from '../../sanitizer';
 import BaseItemCreator from './BaseItemCreator';
 
-// todo: export -> default export
-export class WebitelSDKItemCreator extends BaseItemCreator {
+export default class SDKItemCreator extends BaseItemCreator {
   async _createItem(args) {
     try {
       const response = await this.method(...args);
@@ -29,5 +28,3 @@ export class WebitelSDKItemCreator extends BaseItemCreator {
     return this._createItem([parentId, itemCopy]);
   }
 }
-
-export default WebitelSDKItemCreator;

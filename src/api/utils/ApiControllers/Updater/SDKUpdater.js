@@ -4,7 +4,7 @@ import sanitizer from '../../sanitizer';
 import BaseItemUpdater from './BaseItemUpdater';
 
 // todo: export -> default export
-export class WebitelSDKItemUpdater extends BaseItemUpdater {
+export class SDKItemUpdater extends BaseItemUpdater {
   async _updateItem(args) {
     try {
       await this.method(...args);
@@ -29,4 +29,4 @@ export class WebitelSDKItemUpdater extends BaseItemUpdater {
   }
 }
 
-export default WebitelSDKItemUpdater;
+export default SDKItemUpdater;

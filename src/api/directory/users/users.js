@@ -1,9 +1,9 @@
-import { WebitelAPIItemDeleter } from '../../utils/ApiControllers/Deleter/ApiDeleter';
-import { WebitelAPIItemPatcher } from '../../utils/ApiControllers/Patcher/ApiPatcher';
-import { WebitelAPIItemUpdater } from '../../utils/ApiControllers/Updater/ApiUpdater';
-import { WebitelAPIItemCreator } from '../../utils/ApiControllers/Creator/ApiCreator';
-import { WebitelAPIItemGetter } from '../../utils/ApiControllers/Getter/ApiGetter';
-import { WebitelAPIListGetter } from '../../utils/ApiControllers/ListGetter/ApiListGetter';
+import APIItemDeleter from '../../utils/ApiControllers/Deleter/ApiDeleter';
+import APIItemPatcher from '../../utils/ApiControllers/Patcher/ApiPatcher';
+import APIItemUpdater from '../../utils/ApiControllers/Updater/ApiUpdater';
+import APIItemCreator from '../../utils/ApiControllers/Creator/ApiCreator';
+import APIItemGetter from '../../utils/ApiControllers/Getter/ApiGetter';
+import APIListGetter from '../../utils/ApiControllers/ListGetter/ApiListGetter';
 
 const BASE_URL = '/users';
 const fieldsToSend = ['name', 'username', 'password', 'extension', 'status', 'note', 'roles', 'license', 'devices', 'device',
@@ -73,12 +73,12 @@ const preRequestHandler = (item) => {
   return item;
 };
 
-const listGetter = new WebitelAPIListGetter(BASE_URL, { defaultItem: defaultListItem });
-const itemGetter = new WebitelAPIItemGetter(BASE_URL, { defaultItem, itemResponseHandler });
-const itemCreator = new WebitelAPIItemCreator(BASE_URL, { fieldsToSend, preRequestHandler });
-const itemUpdater = new WebitelAPIItemUpdater(BASE_URL, { fieldsToSend, preRequestHandler });
-const itemPatcher = new WebitelAPIItemPatcher(BASE_URL, { fieldsToSend });
-const itemDeleter = new WebitelAPIItemDeleter(BASE_URL);
+const listGetter = new APIListGetter(BASE_URL, { defaultItem: defaultListItem });
+const itemGetter = new APIItemGetter(BASE_URL, { defaultItem, itemResponseHandler });
+const itemCreator = new APIItemCreator(BASE_URL, { fieldsToSend, preRequestHandler });
+const itemUpdater = new APIItemUpdater(BASE_URL, { fieldsToSend, preRequestHandler });
+const itemPatcher = new APIItemPatcher(BASE_URL, { fieldsToSend });
+const itemDeleter = new APIItemDeleter(BASE_URL);
 
 export const getUsersList = (params) => listGetter.getList(params);
 export const getUser = ({ itemId }) => itemGetter.getItem(itemId);

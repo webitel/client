@@ -1,7 +1,6 @@
 import BaseListGetter from './BaseListGetter';
 
-// todo: export -> default export
-export class WebitelSDKListGetter extends BaseListGetter {
+export default class SDKListGetter extends BaseListGetter {
   async _getList(args) {
     try {
       let response = await this.method(...args);
@@ -26,5 +25,3 @@ export class WebitelSDKListGetter extends BaseListGetter {
     return this._getList([parentId, page, size, search]);
   }
 }
-
-export default WebitelSDKListGetter;

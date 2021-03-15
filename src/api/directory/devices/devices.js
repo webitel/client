@@ -1,9 +1,9 @@
 import instance from '../../instance';
-import { WebitelAPIItemDeleter } from '../../utils/ApiControllers/Deleter/ApiDeleter';
-import { WebitelAPIItemUpdater } from '../../utils/ApiControllers/Updater/ApiUpdater';
-import { WebitelAPIItemCreator } from '../../utils/ApiControllers/Creator/ApiCreator';
-import { WebitelAPIItemGetter } from '../../utils/ApiControllers/Getter/ApiGetter';
-import { WebitelAPIListGetter } from '../../utils/ApiControllers/ListGetter/ApiListGetter';
+import APIItemDeleter from '../../utils/ApiControllers/Deleter/ApiDeleter';
+import APIItemUpdater from '../../utils/ApiControllers/Updater/ApiUpdater';
+import APIItemCreator from '../../utils/ApiControllers/Creator/ApiCreator';
+import APIItemGetter from '../../utils/ApiControllers/Getter/ApiGetter';
+import APIListGetter from '../../utils/ApiControllers/ListGetter/ApiListGetter';
 
 const BASE_URL = '/devices';
 const fieldsToSend = ['name', 'account', 'password', 'user',
@@ -40,11 +40,11 @@ const preRequestHandler = (item) => {
   return item;
 };
 
-const listGetter = new WebitelAPIListGetter(BASE_URL, { defaultItem: defaultListItem });
-const itemGetter = new WebitelAPIItemGetter(BASE_URL, { defaultItem, itemResponseHandler });
-const itemCreator = new WebitelAPIItemCreator(BASE_URL, { fieldsToSend, preRequestHandler });
-const itemUpdater = new WebitelAPIItemUpdater(BASE_URL, { fieldsToSend, preRequestHandler });
-const itemDeleter = new WebitelAPIItemDeleter(BASE_URL);
+const listGetter = new APIListGetter(BASE_URL, { defaultItem: defaultListItem });
+const itemGetter = new APIItemGetter(BASE_URL, { defaultItem, itemResponseHandler });
+const itemCreator = new APIItemCreator(BASE_URL, { fieldsToSend, preRequestHandler });
+const itemUpdater = new APIItemUpdater(BASE_URL, { fieldsToSend, preRequestHandler });
+const itemDeleter = new APIItemDeleter(BASE_URL);
 
 export const getDeviceList = (params) => listGetter.getList(params);
 export const getDevice = ({ itemId }) => itemGetter.getItem(itemId);

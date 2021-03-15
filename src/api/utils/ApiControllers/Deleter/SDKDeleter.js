@@ -1,7 +1,6 @@
 import BaseItemDeleter from './BaseItemDeleter';
 
-// todo: export -> default export
-export class WebitelSDKItemDeleter extends BaseItemDeleter {
+export default class SDKItemDeleter extends BaseItemDeleter {
   async _deleteItem(args) {
     try {
       await this.method(...args);
@@ -18,5 +17,3 @@ export class WebitelSDKItemDeleter extends BaseItemDeleter {
     return this._deleteItem([parentId, id]);
   }
 }
-
-export default WebitelSDKItemDeleter;

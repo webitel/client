@@ -1,7 +1,6 @@
 import BaseItemGetter from './BaseItemGetter';
 
-// todo: export -> default export
-export class WebitelSDKItemGetter extends BaseItemGetter {
+export default class SDKItemGetter extends BaseItemGetter {
   async _getItem(args) {
     try {
       let response = await this.method(...args);
@@ -21,5 +20,3 @@ export class WebitelSDKItemGetter extends BaseItemGetter {
     return this._getItem([parentId, itemId]);
   }
 }
-
-export default WebitelSDKItemGetter;

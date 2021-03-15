@@ -1,9 +1,9 @@
-import { WebitelAPIItemDeleter } from '../../utils/ApiControllers/Deleter/ApiDeleter';
-import { WebitelAPIItemUpdater } from '../../utils/ApiControllers/Updater/ApiUpdater';
-import { WebitelAPIItemCreator } from '../../utils/ApiControllers/Creator/ApiCreator';
-import { WebitelAPIItemPatcher } from '../../utils/ApiControllers/Patcher/ApiPatcher';
-import { WebitelAPIItemGetter } from '../../utils/ApiControllers/Getter/ApiGetter';
-import { WebitelAPIListGetter } from '../../utils/ApiControllers/ListGetter/ApiListGetter';
+import APIItemDeleter from '../../utils/ApiControllers/Deleter/ApiDeleter';
+import APIItemUpdater from '../../utils/ApiControllers/Updater/ApiUpdater';
+import APIItemCreator from '../../utils/ApiControllers/Creator/ApiCreator';
+import APIItemPatcher from '../../utils/ApiControllers/Patcher/ApiPatcher';
+import APIItemGetter from '../../utils/ApiControllers/Getter/ApiGetter';
+import APIListGetter from '../../utils/ApiControllers/ListGetter/ApiListGetter';
 import registerGateway
   from '../../../store/modules/routing/gateways/_internals/gatewaySchema/registerGateway';
 import trunkingGateway
@@ -41,12 +41,12 @@ const coerceRegisterResponse = (response) => {
   return result;
 };
 
-const listGetter = new WebitelAPIListGetter(BASE_URL, defaultListItem);
-const itemGetter = new WebitelAPIItemGetter(BASE_URL);
-const itemCreator = new WebitelAPIItemCreator(BASE_URL, fieldsToSend);
-const itemUpdater = new WebitelAPIItemUpdater(BASE_URL, fieldsToSend);
-const itemPatcher = new WebitelAPIItemPatcher(BASE_URL, fieldsToSend);
-const itemDeleter = new WebitelAPIItemDeleter(BASE_URL);
+const listGetter = new APIListGetter(BASE_URL, defaultListItem);
+const itemGetter = new APIItemGetter(BASE_URL);
+const itemCreator = new APIItemCreator(BASE_URL, fieldsToSend);
+const itemUpdater = new APIItemUpdater(BASE_URL, fieldsToSend);
+const itemPatcher = new APIItemPatcher(BASE_URL, fieldsToSend);
+const itemDeleter = new APIItemDeleter(BASE_URL);
 
 itemGetter.responseHandler = (response) => {
   if (response.register) return coerceRegisterResponse(response);

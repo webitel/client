@@ -4,8 +4,7 @@ import sanitizer from '../../sanitizer';
 import instance from '../../../instance';
 import BaseItemPatcher from './BaseItemPatcher';
 
-// remove named export after refactor with default export
-export class WebitelAPIItemPatcher extends BaseItemPatcher {
+export default class APIItemPatcher extends BaseItemPatcher {
   constructor(baseUrl, { fieldsToSend, nestedUrl } = {}) {
     super(null, fieldsToSend);
     this.baseUrl = baseUrl;
@@ -42,5 +41,3 @@ export class WebitelAPIItemPatcher extends BaseItemPatcher {
     return this._patchItem(changesCopy, updUrl);
   }
 }
-
-export default WebitelAPIItemPatcher;
