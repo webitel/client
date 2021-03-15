@@ -88,7 +88,7 @@ const preRequestHandler = (item) => {
 };
 
 const listGetter = new SDKListGetter(memberService.searchMemberInQueue,
-  defaultListObject, listResponseHandler)
+  { defaultListObject, listResponseHandler })
   .setGetListMethod(_getMembersList);
 const itemGetter = new SDKGetter(memberService.readMember,
   defaultObject, itemResponseHandler);

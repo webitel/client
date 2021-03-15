@@ -1,6 +1,6 @@
+import { objSnakeToCamel } from '@webitel/ui-sdk/src/scripts/caseConverters';
 import instance from '../instance';
 import store from '../../store/store';
-import { objSnakeToCamel } from '../utils/caseConverters';
 
 // gets user by token from localstorage
 // stores response username in vuex

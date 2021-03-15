@@ -2,8 +2,8 @@ import instance from '../../../instance';
 import BaseListGetter from './BaseListGetter';
 
 export default class APIListGetter extends BaseListGetter {
-  constructor(baseUrl, { defaultItem, responseHandler, nestedUrl } = {}) {
-    super(null, defaultItem, responseHandler);
+  constructor(baseUrl, { defaultListObject, listResponseHandler, nestedUrl } = {}) {
+    super({ defaultListObject, listResponseHandler });
     this.baseUrl = baseUrl;
     if (nestedUrl) this.nestedUrl = nestedUrl;
   }

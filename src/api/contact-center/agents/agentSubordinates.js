@@ -27,7 +27,7 @@ const getSubordinatesList = (getList) => function ({
 
 const subordinateGetterResponseHandler = (agent) => ({ agent });
 
-const listGetter = new SDKListGetter(subordinateService.searchAgent, defaultListObject)
+const listGetter = new SDKListGetter(subordinateService.searchAgent, { defaultListObject })
   .setGetListMethod(getSubordinatesList);
 const itemGetter = new SDKItemGetter(subordinateService.readAgent, null,
   subordinateGetterResponseHandler);

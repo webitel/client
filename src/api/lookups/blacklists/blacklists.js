@@ -16,7 +16,7 @@ const defaultListObject = {
   count: 0,
 };
 
-const listGetter = new SDKListGetter(listService.searchList, defaultListObject);
+const listGetter = new SDKListGetter(listService.searchList, { defaultListObject });
 const itemGetter = new SDKItemGetter(listService.readList);
 const itemCreator = new SDKItemCreator(listService.createList, fieldsToSend);
 const itemUpdater = new SDKItemUpdater(listService.updateList, fieldsToSend);

@@ -32,7 +32,7 @@ const getTeamAgents = (getList) => function ({
 
 const agentGetterResponseHandler = (agent) => ({ agent });
 
-const listGetter = new SDKListGetter(agentService.searchAgent, defaultListObject)
+const listGetter = new SDKListGetter(agentService.searchAgent, { defaultListObject })
   .setGetListMethod(getTeamAgents);
 const itemGetter = new SDKItemGetter(agentService.readAgent, null,
   agentGetterResponseHandler);

@@ -1,16 +1,14 @@
 export default class BaseListGetter {
-  default = { _isSelected: false };
-
-  constructor(method, defaultItem, responseHandler) {
-    this.method = method;
-    this.default = defaultItem || this.default;
-    if (responseHandler) this.userResponseHandler = responseHandler;
+  constructor({ defaultListObject = {}, listResponseHandler } = {}) {
+    const _defaultListObject = { _isSelected: false };
+    this._defaultListObject = { ..._defaultListObject, ...defaultListObject };
+    if (listResponseHandler) this.userResponseHandler = listResponseHandler;
   }
 
   responseHandler = (response) => {
     if (response.items) {
       return {
-        list: response.items.map((item) => ({ ...this.default, ...item })),
+        list: response.items.map((item) => ({ ...this._defaultListObject, ...item })),
         next: response.next || false,
       };
     }

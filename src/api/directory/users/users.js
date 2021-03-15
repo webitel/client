@@ -9,7 +9,7 @@ const BASE_URL = '/users';
 const fieldsToSend = ['name', 'username', 'password', 'extension', 'status', 'note', 'roles', 'license', 'devices', 'device',
   'profile', 'profile', 'email'];
 
-const defaultListItem = {
+const defaultListObject = {
   _isSelected: false,
   name: '',
   status: '',
@@ -73,7 +73,7 @@ const preRequestHandler = (item) => {
   return item;
 };
 
-const listGetter = new APIListGetter(BASE_URL, { defaultItem: defaultListItem });
+const listGetter = new APIListGetter(BASE_URL, { defaultListObject });
 const itemGetter = new APIItemGetter(BASE_URL, { defaultItem, itemResponseHandler });
 const itemCreator = new APIItemCreator(BASE_URL, { fieldsToSend, preRequestHandler });
 const itemUpdater = new APIItemUpdater(BASE_URL, { fieldsToSend, preRequestHandler });

@@ -10,7 +10,7 @@ const fieldsToSend = ['name', 'account', 'password', 'user',
   'mac', 'ip', 'brand', 'model', 'hotdesks', 'hotdesk',
 ];
 
-const defaultListItem = { // default object prototype, to merge response with it to get all fields
+const defaultListObject = { // default object prototype, to merge response with it to get all fields
   _isSelected: false,
   state: 0,
 };
@@ -40,7 +40,7 @@ const preRequestHandler = (item) => {
   return item;
 };
 
-const listGetter = new APIListGetter(BASE_URL, { defaultItem: defaultListItem });
+const listGetter = new APIListGetter(BASE_URL, { defaultListObject });
 const itemGetter = new APIItemGetter(BASE_URL, { defaultItem, itemResponseHandler });
 const itemCreator = new APIItemCreator(BASE_URL, { fieldsToSend, preRequestHandler });
 const itemUpdater = new APIItemUpdater(BASE_URL, { fieldsToSend, preRequestHandler });

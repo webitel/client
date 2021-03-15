@@ -29,7 +29,7 @@ const defaultObject = {
   _dirty: false,
 };
 
-const listGetter = new SDKListGetter(pauseCauseService.searchAgentPauseCause, defaultListObject);
+const listGetter = new SDKListGetter(pauseCauseService.searchAgentPauseCause, { defaultListObject });
 const itemGetter = new SDKItemGetter(pauseCauseService.readAgentPauseCause, defaultObject);
 const itemCreator = new SDKItemCreator(pauseCauseService.createAgentPauseCause, fieldsToSend);
 const itemPatcher = new SDKItemPatcher(pauseCauseService.patchAgentPauseCause, fieldsToSend);

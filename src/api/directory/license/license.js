@@ -9,7 +9,7 @@ const defaultListObject = {
   limit: 0,
 };
 
-const listGetter = new APIListGetter(LICENSE_URL, { defaultItem: defaultListObject });
+const listGetter = new APIListGetter(LICENSE_URL, { defaultListObject });
 
 export const getLicenseList = (params) => listGetter.getList(params);
 export const updateLicense = async (data) => {

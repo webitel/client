@@ -51,7 +51,7 @@ const itemResponseHandler = (response) => {
   }
 };
 
-const listGetter = new SDKListGetter(queueService.searchQueue, defaultListObject);
+const listGetter = new SDKListGetter(queueService.searchQueue, { defaultListObject });
 const itemGetter = new SDKItemGetter(queueService.readQueue,
   defaultItemObject, itemResponseHandler);
 const itemCreator = new SDKItemCreator(queueService.createQueue,

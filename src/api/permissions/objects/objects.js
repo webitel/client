@@ -11,7 +11,7 @@ const defaultListObject = { // default object prototype, to merge response with 
   id: 0,
 };
 
-const listGetter = new APIListGetter(BASE_URL, { defaultItem: defaultListObject });
+const listGetter = new APIListGetter(BASE_URL, { defaultListObject });
 const itemGetter = new APIGetter(BASE_URL);
 const itemPatcher = new APIPatcher(BASE_URL);
 

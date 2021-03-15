@@ -64,7 +64,7 @@ const preRequestHandler = (item) => {
 };
 
 const listGetter = new SDKListGetter(storageService.searchBackendProfile,
-  defaultListObject, listResponseHandler);
+  { defaultListObject, listResponseHandler });
 const itemGetter = new SDKItemGetter(storageService.readBackendProfile,
   defaultObject, itemResponseHandler);
 const itemCreator = new SDKItemCreator(storageService.createBackendProfile,

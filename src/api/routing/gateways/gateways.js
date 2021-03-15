@@ -14,7 +14,7 @@ const BASE_URL = '/sip/gateways';
 const fieldsToSend = ['name', 'proxy', 'id', 'host', 'ipacl', 'account', 'account', 'username', 'expires',
   'account', 'registrar', 'register', 'password', 'schema', 'enable'];
 
-const defaultListItem = { // default object prototype, to merge response with it to get all fields
+const defaultListObject = { // default object prototype, to merge response with it to get all fields
   _isSelected: false,
   name: '',
   proxy: '',
@@ -41,7 +41,7 @@ const coerceRegisterResponse = (response) => {
   return result;
 };
 
-const listGetter = new APIListGetter(BASE_URL, defaultListItem);
+const listGetter = new APIListGetter(BASE_URL, { defaultListObject });
 const itemGetter = new APIItemGetter(BASE_URL);
 const itemCreator = new APIItemCreator(BASE_URL, fieldsToSend);
 const itemUpdater = new APIItemUpdater(BASE_URL, fieldsToSend);

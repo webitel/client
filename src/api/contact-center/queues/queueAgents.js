@@ -27,7 +27,7 @@ const getQueueAgents = (getList) => function ({
   return getList(params);
 };
 
-const listGetter = new SDKListGetter(agentService.searchAgent, defaultListObject)
+const listGetter = new SDKListGetter(agentService.searchAgent, { defaultListObject })
   .setGetListMethod(getQueueAgents);
 
 export const getQueueAgentsList = (params) => listGetter.getList(params);

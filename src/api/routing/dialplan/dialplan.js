@@ -15,7 +15,7 @@ const fieldsToSend = ['name', 'schema', 'pattern', 'description', 'disabled'];
 
 const defaultListObject = { _isSelected: false, disabled: false };
 
-const listGetter = new SDKListGetter(dialplanService.searchRoutingOutboundCall, defaultListObject);
+const listGetter = new SDKListGetter(dialplanService.searchRoutingOutboundCall, { defaultListObject });
 const itemGetter = new SDKItemGetter(dialplanService.readRoutingOutboundCall);
 const itemCreator = new SDKItemCreator(dialplanService.createRoutingOutboundCall, fieldsToSend);
 const itemUpdater = new SDKItemUpdater(dialplanService.updateRoutingOutboundCall, fieldsToSend);

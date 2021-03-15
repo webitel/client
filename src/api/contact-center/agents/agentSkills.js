@@ -28,7 +28,7 @@ const fieldsToSend = ['capacity', 'agentId', 'skill', 'enabled'];
 
 const preRequestHandler = (item, parentId) => ({ ...item, agentId: parentId });
 
-const listGetter = new SDKListGetter(agentSkillService.searchAgentSkill, defaultListObject);
+const listGetter = new SDKListGetter(agentSkillService.searchAgentSkill, { defaultListObject });
 const itemGetter = new SDKGetter(agentSkillService.readAgentSkill, defaultObject);
 const itemCreator = new SDKCreator(agentSkillService.createAgentSkill,
   fieldsToSend, preRequestHandler);

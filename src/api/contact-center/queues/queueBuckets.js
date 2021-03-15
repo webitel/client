@@ -23,7 +23,7 @@ const defaultObject = {
 
 const preRequestHandler = (item, parentId) => ({ ...item, queueId: parentId });
 
-const listGetter = new SDKListGetter(queueBucketsService.searchQueueBucket, defaultListObject);
+const listGetter = new SDKListGetter(queueBucketsService.searchQueueBucket, { defaultListObject });
 const itemGetter = new SDKGetter(queueBucketsService.readQueueBucket, defaultObject);
 const itemCreator = new SDKCreator(queueBucketsService.createQueueBucket,
   fieldsToSend, preRequestHandler);

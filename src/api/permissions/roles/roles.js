@@ -22,7 +22,7 @@ const itemUpdater = new APIItemUpdater(BASE_URL, { fieldsToSend });
 const itemDeleter = new APIItemDeleter(BASE_URL);
 
 const PERMISSIONS_LIST_URL = '/permissions';
-const permissionsListGetter = new APIListGetter(PERMISSIONS_LIST_URL, {});
+const permissionsListGetter = new APIListGetter(PERMISSIONS_LIST_URL);
 
 export const getRoleList = (params) => listGetter.getList(params);
 
