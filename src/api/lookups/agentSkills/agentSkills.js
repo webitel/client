@@ -21,7 +21,7 @@ export const getSkillsList = (params) => listGetter.getList(params);
 export const getSkill = (params) => itemGetter.getItem(params);
 export const addSkill = (params) => itemCreator.createItem(params);
 export const updateSkill = (params) => itemUpdater.updateItem(params);
-export const deleteSkill = ({ id }) => itemDeleter.deleteItem(id);
+export const deleteSkill = (params) => itemDeleter.deleteItem(params);
 
 export default {
   getList: getSkillsList,

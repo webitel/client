@@ -1,5 +1,7 @@
 export default class BaseItemDeleter {
-  constructor(method) {
-    this.method = method;
-  }
+  // eslint-disable-next-line class-methods-use-this
+  _deleteItem() {}
+
+  // eslint-disable-next-line class-methods-use-this
+  deleteItem() {}
 }

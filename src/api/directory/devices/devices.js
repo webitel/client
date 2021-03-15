@@ -48,7 +48,7 @@ export const getDeviceList = (params) => listGetter.getList(params);
 export const getDevice = (params) => itemGetter.getItem(params);
 export const addDevice = async (params) => itemCreator.createItem(params);
 export const updateDevice = (params) => itemUpdater.updateItem(params);
-export const deleteDevice = ({ id }) => itemDeleter.deleteItem(id);
+export const deleteDevice = (params) => itemDeleter.deleteItem(params);
 
 export const getDeviceHistory = async ({ id, from, to, page, size }) => {
   const url = `${BASE_URL}/${id}/users/audit?time_from=${from}&time_to=${to}&page=${page}&size=${size}`;

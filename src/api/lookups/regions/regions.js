@@ -21,7 +21,7 @@ export const getRegionsList = (params) => listGetter.getList(params);
 export const getRegion = (params) => itemGetter.getItem(params);
 export const addRegion = (params) => itemCreator.createItem(params);
 export const updateRegion = (params) => itemUpdater.updateItem(params);
-export const deleteRegion = ({ id }) => itemDeleter.deleteItem(id);
+export const deleteRegion = (params) => itemDeleter.deleteItem(params);
 
 export default {
   getList: getRegionsList,

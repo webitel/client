@@ -83,7 +83,7 @@ export const getUser = (params) => itemGetter.getItem(params);
 export const addUser = (params) => itemCreator.createItem(params);
 export const updateUser = (params) => itemUpdater.updateItem(params);
 export const patchUser = (params) => itemPatcher.patchItem(params, 'presence');
-export const deleteUser = ({ id }) => itemDeleter.deleteItem(id);
+export const deleteUser = (params) => itemDeleter.deleteItem(params);
 
 export default {
   getList: getUsersList,

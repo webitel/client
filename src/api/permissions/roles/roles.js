@@ -28,7 +28,7 @@ export const getRoleList = (params) => listGetter.getList(params);
 export const getRole = (params) => itemGetter.getItem(params);
 export const addRole = (params) => itemCreator.createItem(params);
 export const updateRole = (params) => itemUpdater.updateItem(params);
-export const deleteRole = ({ id }) => itemDeleter.deleteItem(id);
+export const deleteRole = (params) => itemDeleter.deleteItem(params);
 
 export const getPermissionsOptions = (payload) => permissionsListGetter.getList(payload);
 

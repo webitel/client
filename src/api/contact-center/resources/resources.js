@@ -69,7 +69,7 @@ export const getResource = (params) => itemGetter.getItem(params);
 export const addResource = (params) => itemCreator.createItem(params);
 export const updateResource = (params) => itemUpdater.updateItem(params);
 export const patchResource = (params) => itemPatcher.patchItem(params);
-export const deleteResource = ({ id }) => itemDeleter.deleteItem(id);
+export const deleteResource = (params) => itemDeleter.deleteItem(params);
 
 export default {
   getList: getResourceList,

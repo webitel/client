@@ -28,7 +28,7 @@ export const getDialplan = (params) => itemGetter.getItem(params);
 export const addDialplan = (params) => itemCreator.createItem(params);
 export const patchDialplan = (params) => itemPatcher.patchItem(params);
 export const updateDialplan = (params) => itemUpdater.updateItem(params);
-export const deleteDialplan = ({ id }) => itemDeleter.deleteItem(id);
+export const deleteDialplan = (params) => itemDeleter.deleteItem(params);
 export const moveDialplan = async ({ fromId, toId }) => {
   try {
     await dialplanService.movePositionRoutingOutboundCall(fromId, toId, {});

@@ -50,7 +50,7 @@ export const getAgentsList = (params) => listGetter.getList(params);
 export const getAgent = (params) => itemGetter.getItem(params);
 export const addAgent = (params) => itemCreator.createItem(params);
 export const updateAgent = (params) => itemUpdater.updateItem(params);
-export const deleteAgent = ({ id }) => itemDeleter.deleteItem(id);
+export const deleteAgent = (params) => itemDeleter.deleteItem(params);
 
 export const getAgentUsersOptions = (params) => newAgentUsersGetter.getList(params);
 export const getAgentSupervisorsOptions = (params) => supervisorsListGetter.getList(params);

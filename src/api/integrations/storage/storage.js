@@ -77,7 +77,7 @@ export const getStorage = (params) => itemGetter.getItem(params);
 export const addStorage = (params) => itemCreator.createItem(params);
 export const patchStorage = (params) => itemPatcher.patchItem(params);
 export const updateStorage = (params) => itemUpdater.updateItem(params);
-export const deleteStorage = ({ id }) => itemDeleter.deleteItem(id);
+export const deleteStorage = (params) => itemDeleter.deleteItem(params);
 
 export default {
   getList: getStorageList,

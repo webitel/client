@@ -52,7 +52,7 @@ export const addMedia = async (params) => {
   }
 };
 
-export const deleteMedia = ({ id }) => itemDeleter.deleteItem(id);
+export const deleteMedia = (params) => itemDeleter.deleteItem(params);
 
 export default {
   getList: getMediaList,

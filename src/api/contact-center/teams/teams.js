@@ -35,7 +35,7 @@ export const getTeamsList = (params) => listGetter.getList(params);
 export const getTeam = (params) => itemGetter.getItem(params);
 export const addTeam = (params) => itemCreator.createItem(params);
 export const updateTeam = (params) => itemUpdater.updateItem(params);
-export const deleteTeam = ({ id }) => itemDeleter.deleteItem(id);
+export const deleteTeam = (params) => itemDeleter.deleteItem(params);
 
 export default {
   getList: getTeamsList,

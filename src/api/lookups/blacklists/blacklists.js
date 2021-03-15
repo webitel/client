@@ -26,7 +26,7 @@ export const getBlacklistList = (params) => listGetter.getList(params);
 export const getBlacklist = (params) => itemGetter.getItem(params);
 export const addBlacklist = (params) => itemCreator.createItem(params);
 export const updateBlacklist = (params) => itemUpdater.updateItem(params);
-export const deleteBlacklist = ({ id }) => itemDeleter.deleteItem(id);
+export const deleteBlacklist = (params) => itemDeleter.deleteItem(params);
 
 export default {
   getList: getBlacklistList,

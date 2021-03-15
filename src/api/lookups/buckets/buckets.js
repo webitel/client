@@ -21,7 +21,7 @@ export const getBucketsList = (params) => listGetter.getList(params);
 export const getBucket = (params) => itemGetter.getItem(params);
 export const addBucket = (params) => itemCreator.createItem(params);
 export const updateBucket = (params) => itemUpdater.updateItem(params);
-export const deleteBucket = ({ id }) => itemDeleter.deleteItem(id);
+export const deleteBucket = (params) => itemDeleter.deleteItem(params);
 
 export default {
   getList: getBucketsList,

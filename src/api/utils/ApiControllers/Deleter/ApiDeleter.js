@@ -3,7 +3,7 @@ import BaseItemDeleter from './BaseItemDeleter';
 
 export default class APIItemDeleter extends BaseItemDeleter {
   constructor(baseUrl, { nestedUrl } = {}) {
-    super(null);
+    super();
     this.baseUrl = baseUrl;
     if (nestedUrl) this.nestedUrl = nestedUrl;
   }
@@ -18,7 +18,7 @@ export default class APIItemDeleter extends BaseItemDeleter {
     }
   }
 
-  deleteItem(id) {
+  deleteItem({ id }) {
     return this._deleteItem({ id });
   }
 

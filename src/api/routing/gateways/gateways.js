@@ -58,7 +58,7 @@ export const getGateway = (params) => itemGetter.getItem(params);
 export const addGateway = (params) => itemCreator.createItem(params);
 export const updateGateway = (params) => itemUpdater.updateItem(params);
 export const patchGateway = (params) => itemPatcher.patchItem(params);
-export const deleteGateway = ({ id }) => itemDeleter.deleteItem(id);
+export const deleteGateway = (params) => itemDeleter.deleteItem(params);
 
 export default {
   getList: getGatewayList,
