@@ -18,4 +18,15 @@ export default class BaseListGetter {
     // fixme: remove isNext after nested lists refactor with BaseListGetter
     return { list: [], next: false, isNext: false };
   };
+
+  // eslint-disable-next-line class-methods-use-this
+  _getList() {}
+
+  // eslint-disable-next-line class-methods-use-this
+  getList() {}
+
+  setGetListMethod(method) {
+    this.getList = method(this._getList.bind(this));
+    return this;
+  }
 }

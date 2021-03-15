@@ -1,22 +1,13 @@
 import { DefaultPermissionsModule } from '../../../../../BaseModules/defaults/DefaultPermissionsModule';
 import {
-  fetchObjclassDefaultList,
-  toggleObjclassDefaultMode,
-} from '../../../../../../api/permissions/objects/objects';
-
-const defaultModule = new DefaultPermissionsModule();
-
-const state = {
-  ...defaultModule.state,
-};
-
-const getters = {};
+  getObjclassDefaultList,
+  patchObjclassDefaultMode,
+} from '../../../../../../api/permissions/objects/objectsRbac';
 
 const actions = {
-  ...defaultModule.actions,
-  GET_LIST: (context) => fetchObjclassDefaultList(context.state),
+  GET_LIST: (context) => getObjclassDefaultList(context.state),
   PATCH_ACCESS_MODE: (context, { item, changes }) => (
-    toggleObjclassDefaultMode(context.state.parentId, +item.grantor.id, changes)
+    patchObjclassDefaultMode({ ...context.state, id: +item.grantor.id, changes: [changes] })
   ),
 
   ADD_ROLE_PERMISSIONS: async (context, { grantee, grantor }) => {
@@ -36,14 +27,8 @@ const actions = {
   },
 };
 
-const mutations = {
-  ...defaultModule.mutations,
-};
+const rbac = new DefaultPermissionsModule()
+  .getModule({ actions });
 
-export default {
-  namespaced: true,
-  state,
-  getters,
-  actions,
-  mutations,
-};
+export default rbac;
+

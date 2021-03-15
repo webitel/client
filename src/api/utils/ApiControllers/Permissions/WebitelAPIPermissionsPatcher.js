@@ -1,16 +1,13 @@
-import instance from '../../../instance';
+import ApiPatcher from '../Patcher/ApiPatcher';
 
 export default class WebitelAPIPermissionsPatcher {
-  constructor(url) {
-    this.url = url;
+  constructor(baseUrl) {
+    this.baseUrl = baseUrl;
+    this.patcher = new ApiPatcher(this.baseUrl);
   }
 
-  async patchItem(id, rules) {
-    const url = `${this.url}/${id}/acl`;
-    try {
-      await instance.patch(url, rules);
-    } catch (err) {
-      throw err;
-    }
+  async patchItem(id, changes) {
+    const afterUrl = 'acl';
+    return this.patcher.patchItem(id, changes, afterUrl);
   }
 }

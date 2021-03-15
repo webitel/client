@@ -100,16 +100,6 @@ export class DefaultPermissionsModule extends BaseStoreModule {
     }
     return this;
   }
-
-  getModule() {
-    return {
-      namespaced: true,
-      state: this.state,
-      getters: this.getters,
-      actions: this.actions,
-      mutations: this.mutations,
-    }
-  }
 }
 
 export default DefaultPermissionsModule;
