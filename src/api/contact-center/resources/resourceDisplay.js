@@ -18,7 +18,7 @@ const itemGetter = new SDKGetter(resService.readOutboundResourceDisplay);
 const itemCreator = new SDKCreator(resService.createOutboundResourceDisplay,
   { fieldsToSend, preRequestHandler });
 const itemUpdater = new SDKUpdater(resService.updateOutboundResourceDisplay,
-  fieldsToSend, preRequestHandler);
+  { fieldsToSend, preRequestHandler });
 const itemDeleter = new SDKDeleter(resService.deleteOutboundResourceDisplay);
 
 export const getResDisplayList = (params) => listGetter.getNestedList(params);

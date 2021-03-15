@@ -26,7 +26,7 @@ const itemGetter = new SDKGetter(queueBucketsService.readQueueBucket, { defaultS
 const itemCreator = new SDKCreator(queueBucketsService.createQueueBucket,
   { fieldsToSend, preRequestHandler });
 const itemUpdater = new SDKUpdater(queueBucketsService.updateQueueBucket,
-  fieldsToSend, preRequestHandler);
+  { fieldsToSend, preRequestHandler });
 const itemDeleter = new SDKDeleter(queueBucketsService.deleteQueueBucket);
 
 export const getQueueBucketsList = (params) => listGetter.getNestedList(params);

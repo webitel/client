@@ -62,9 +62,7 @@ const itemDeleter = new SDKItemDeleter(queueService.deleteQueue);
 export const getQueuesList = (params) => listGetter.getList(params);
 export const getQueue = (params) => itemGetter.getItem(params);
 export const addQueue = (params) => itemCreator.createItem(params);
-export const updateQueue = ({ itemId, itemInstance }) => (
-  itemUpdater.updateItem(itemId, itemInstance)
-);
+export const updateQueue = (params) => itemUpdater.updateItem(params);
 export const patchQueue = (params) => itemPatcher.patchItem(params);
 export const deleteQueue = ({ id }) => itemDeleter.deleteItem(id);
 

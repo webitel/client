@@ -20,9 +20,7 @@ const itemDeleter = new SDKItemDeleter(regionService.deleteRegion);
 export const getRegionsList = (params) => listGetter.getList(params);
 export const getRegion = (params) => itemGetter.getItem(params);
 export const addRegion = (params) => itemCreator.createItem(params);
-export const updateRegion = ({ itemId, itemInstance }) => (
-  itemUpdater.updateItem(itemId, itemInstance)
-);
+export const updateRegion = (params) => itemUpdater.updateItem(params);
 export const deleteRegion = ({ id }) => itemDeleter.deleteItem(id);
 
 export default {

@@ -25,9 +25,7 @@ const itemDeleter = new SDKItemDeleter(listService.deleteList);
 export const getBlacklistList = (params) => listGetter.getList(params);
 export const getBlacklist = (params) => itemGetter.getItem(params);
 export const addBlacklist = (params) => itemCreator.createItem(params);
-export const updateBlacklist = ({ itemId, itemInstance }) => (
-  itemUpdater.updateItem(itemId, itemInstance)
-);
+export const updateBlacklist = (params) => itemUpdater.updateItem(params);
 export const deleteBlacklist = ({ id }) => itemDeleter.deleteItem(id);
 
 export default {

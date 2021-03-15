@@ -20,9 +20,7 @@ const itemDeleter = new SDKItemDeleter(skillService.deleteSkill);
 export const getSkillsList = (params) => listGetter.getList(params);
 export const getSkill = (params) => itemGetter.getItem(params);
 export const addSkill = (params) => itemCreator.createItem(params);
-export const updateSkill = ({ itemId, itemInstance }) => (
-  itemUpdater.updateItem(itemId, itemInstance)
-);
+export const updateSkill = (params) => itemUpdater.updateItem(params);
 export const deleteSkill = ({ id }) => itemDeleter.deleteItem(id);
 
 export default {

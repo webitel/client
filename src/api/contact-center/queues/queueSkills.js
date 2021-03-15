@@ -39,7 +39,7 @@ const itemCreator = new SDKCreator(queueSkillService.createQueueSkill,
   { fieldsToSend, preRequestHandler });
 const itemPatcher = new SDKPatcher(queueSkillService.patchQueueSkill, { fieldsToSend });
 const itemUpdater = new SDKUpdater(queueSkillService.updateQueueSkill,
-  fieldsToSend, preRequestHandler);
+  { fieldsToSend, preRequestHandler });
 const itemDeleter = new SDKDeleter(queueSkillService.deleteQueueSkill);
 
 export const getQueueSkillsList = (params) => listGetter.getNestedList(params);

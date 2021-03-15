@@ -40,9 +40,7 @@ export const getPauseCauseList = (params) => listGetter.getList(params);
 export const getPauseCause = (params) => itemGetter.getItem(params);
 export const addPauseCause = (params) => itemCreator.createItem(params);
 export const patchPauseCause = (params) => itemPatcher.patchItem(params);
-export const updatePauseCause = ({ itemId, itemInstance }) => (
-  itemUpdater.updateItem(itemId, itemInstance)
-);
+export const updatePauseCause = (params) => itemUpdater.updateItem(params);
 export const deletePauseCause = ({ id }) => itemDeleter.deleteItem(id);
 
 export default {

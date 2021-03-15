@@ -34,9 +34,7 @@ const itemDeleter = new SDKItemDeleter(teamService.deleteAgentTeam);
 export const getTeamsList = (params) => listGetter.getList(params);
 export const getTeam = (params) => itemGetter.getItem(params);
 export const addTeam = (params) => itemCreator.createItem(params);
-export const updateTeam = ({ itemId, itemInstance }) => (
-  itemUpdater.updateItem(itemId, itemInstance)
-);
+export const updateTeam = (params) => itemUpdater.updateItem(params);
 export const deleteTeam = ({ id }) => itemDeleter.deleteItem(id);
 
 export default {

@@ -32,7 +32,7 @@ const itemCreator = new SDKCreator(agentSkillService.createAgentSkill,
   { fieldsToSend, preRequestHandler });
 const itemPatcher = new SDKPatcher(agentSkillService.patchAgentSkill, { fieldsToSend });
 const itemUpdater = new SDKUpdater(agentSkillService.updateAgentSkill,
-  fieldsToSend, preRequestHandler);
+  { fieldsToSend, preRequestHandler });
 const itemDeleter = new SDKDeleter(agentSkillService.deleteAgentSkill);
 
 export const getAgentSkillsList = (params) => listGetter.getNestedList(params);

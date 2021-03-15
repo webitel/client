@@ -73,9 +73,7 @@ export const getCalendarTimezones = async (params) => {
   return response.list;
 };
 export const addCalendar = (params) => itemCreator.createItem(params);
-export const updateCalendar = ({ itemId, itemInstance }) => (
-  itemUpdater.updateItem(itemId, itemInstance)
-);
+export const updateCalendar = (params) => itemUpdater.updateItem(params);
 export const deleteCalendar = ({ id }) => itemDeleter.deleteItem(id);
 
 export default {

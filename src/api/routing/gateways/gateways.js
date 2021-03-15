@@ -1,5 +1,5 @@
 import APIItemDeleter from '../../utils/ApiControllers/Deleter/ApiDeleter';
-import APIItemUpdater from '../../utils/ApiControllers/Updater/ApiUpdater';
+import APIUpdater from '../../utils/ApiControllers/Updater/ApiUpdater';
 import APICreator from '../../utils/ApiControllers/Creator/ApiCreator';
 import APIPatcher from '../../utils/ApiControllers/Patcher/ApiPatcher';
 import APIItemGetter from '../../utils/ApiControllers/Getter/ApiGetter';
@@ -44,7 +44,7 @@ const coerceRegisterResponse = (response) => {
 const listGetter = new APIListGetter(BASE_URL, { defaultListObject });
 const itemGetter = new APIItemGetter(BASE_URL);
 const itemCreator = new APICreator(BASE_URL, { fieldsToSend });
-const itemUpdater = new APIItemUpdater(BASE_URL, fieldsToSend);
+const itemUpdater = new APIUpdater(BASE_URL, { fieldsToSend });
 const itemPatcher = new APIPatcher(BASE_URL, { fieldsToSend });
 const itemDeleter = new APIItemDeleter(BASE_URL);
 
@@ -56,9 +56,7 @@ itemGetter.responseHandler = (response) => {
 export const getGatewayList = (params) => listGetter.getList(params);
 export const getGateway = (params) => itemGetter.getItem(params);
 export const addGateway = (params) => itemCreator.createItem(params);
-export const updateGateway = ({ itemId, itemInstance }) => (
-  itemUpdater.updateItem(itemId, itemInstance)
-);
+export const updateGateway = (params) => itemUpdater.updateItem(params);
 export const patchGateway = (params) => itemPatcher.patchItem(params);
 export const deleteGateway = ({ id }) => itemDeleter.deleteItem(id);
 

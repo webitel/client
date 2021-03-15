@@ -1,6 +1,6 @@
 import instance from '../../instance';
 import APIItemDeleter from '../../utils/ApiControllers/Deleter/ApiDeleter';
-import APIItemUpdater from '../../utils/ApiControllers/Updater/ApiUpdater';
+import APIUpdater from '../../utils/ApiControllers/Updater/ApiUpdater';
 import APICreator from '../../utils/ApiControllers/Creator/ApiCreator';
 import APIItemGetter from '../../utils/ApiControllers/Getter/ApiGetter';
 import APIListGetter from '../../utils/ApiControllers/ListGetter/ApiListGetter';
@@ -41,15 +41,13 @@ const preRequestHandler = (item) => {
 const listGetter = new APIListGetter(BASE_URL, { defaultListObject });
 const itemGetter = new APIItemGetter(BASE_URL, { defaultSingleObject, itemResponseHandler });
 const itemCreator = new APICreator(BASE_URL, { fieldsToSend, preRequestHandler });
-const itemUpdater = new APIItemUpdater(BASE_URL, { fieldsToSend, preRequestHandler });
+const itemUpdater = new APIUpdater(BASE_URL, { fieldsToSend, preRequestHandler });
 const itemDeleter = new APIItemDeleter(BASE_URL);
 
 export const getDeviceList = (params) => listGetter.getList(params);
 export const getDevice = (params) => itemGetter.getItem(params);
 export const addDevice = async (params) => itemCreator.createItem(params);
-export const updateDevice = ({ itemId, itemInstance }) => (
-  itemUpdater.updateItem(itemId, itemInstance)
-);
+export const updateDevice = (params) => itemUpdater.updateItem(params);
 export const deleteDevice = ({ id }) => itemDeleter.deleteItem(id);
 
 export const getDeviceHistory = async ({ id, from, to, page, size }) => {

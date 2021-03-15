@@ -67,9 +67,7 @@ const itemDeleter = new SDKItemDeleter(resService.deleteOutboundResource);
 export const getResourceList = (params) => listGetter.getList(params);
 export const getResource = (params) => itemGetter.getItem(params);
 export const addResource = (params) => itemCreator.createItem(params);
-export const updateResource = ({ itemId, itemInstance }) => (
-  itemUpdater.updateItem(itemId, itemInstance)
-);
+export const updateResource = (params) => itemUpdater.updateItem(params);
 export const patchResource = (params) => itemPatcher.patchItem(params);
 export const deleteResource = ({ id }) => itemDeleter.deleteItem(id);
 

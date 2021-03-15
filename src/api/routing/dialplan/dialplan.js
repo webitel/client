@@ -27,9 +27,7 @@ export const getDialplanList = (params) => listGetter.getList(params);
 export const getDialplan = (params) => itemGetter.getItem(params);
 export const addDialplan = (params) => itemCreator.createItem(params);
 export const patchDialplan = (params) => itemPatcher.patchItem(params);
-export const updateDialplan = ({ itemId, itemInstance }) => (
-  itemUpdater.updateItem(itemId, itemInstance)
-);
+export const updateDialplan = (params) => itemUpdater.updateItem(params);
 export const deleteDialplan = ({ id }) => itemDeleter.deleteItem(id);
 export const moveDialplan = async ({ fromId, toId }) => {
   try {

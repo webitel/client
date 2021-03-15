@@ -28,9 +28,7 @@ const itemDeleter = new SDKItemDeleter(communicationService.deleteCommunicationT
 export const getCommunicationsList = (params) => listGetter.getList(params);
 export const getCommunication = (params) => itemGetter.getItem(params);
 export const addCommunication = (params) => itemCreator.createItem(params);
-export const updateCommunication = ({ itemId, itemInstance }) => (
-  itemUpdater.updateItem(itemId, itemInstance)
-);
+export const updateCommunication = (params) => itemUpdater.updateItem(params);
 export const deleteCommunication = ({ id }) => itemDeleter.deleteItem(id);
 
 export default {

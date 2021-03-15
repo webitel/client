@@ -18,7 +18,7 @@ const itemGetter = new SDKGetter(queueResService.readQueueResourceGroup);
 const itemCreator = new SDKCreator(queueResService.createQueueResourceGroup,
   { fieldsToSend, preRequestHandler });
 const itemUpdater = new SDKUpdater(queueResService.updateQueueResourceGroup,
-  fieldsToSend, preRequestHandler);
+  { fieldsToSend, preRequestHandler });
 const itemDeleter = new SDKDeleter(queueResService.deleteQueueResourceGroup);
 
 export const getQueueResGroupsList = (params) => listGetter.getNestedList(params);

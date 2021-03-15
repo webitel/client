@@ -18,7 +18,7 @@ const itemGetter = new SDKGetter(resGrService.readOutboundResourceInGroup);
 const itemCreator = new SDKCreator(resGrService.createOutboundResourceInGroup,
   { fieldsToSend, preRequestHandler });
 const itemUpdater = new SDKUpdater(resGrService.updateOutboundResourceInGroup,
-  fieldsToSend, preRequestHandler);
+  { fieldsToSend, preRequestHandler });
 const itemDeleter = new SDKDeleter(resGrService.deleteOutboundResourceInGroup);
 
 export const getResInGroupList = (params) => listGetter.getNestedList(params);

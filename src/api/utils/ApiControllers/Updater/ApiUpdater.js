@@ -4,11 +4,10 @@ import sanitizer from '../../sanitizer';
 import instance from '../../../instance';
 import BaseItemUpdater from './BaseItemUpdater';
 
-export default class APIItemUpdater extends BaseItemUpdater {
-  constructor(baseUrl, { fieldsToSend, preRequestHandler, nestedUrl } = {}) {
-    super(null, fieldsToSend);
+export default class APIUpdater extends BaseItemUpdater {
+  constructor(baseUrl, { nestedUrl, ...options } = {}) {
+    super(options);
     this.baseUrl = baseUrl;
-    if (preRequestHandler) this.preRequestHandler = preRequestHandler;
     if (nestedUrl) this.nestedUrl = nestedUrl;
   }
 
@@ -23,7 +22,7 @@ export default class APIItemUpdater extends BaseItemUpdater {
     }
   }
 
-  updateItem(itemId, itemInstance) {
+  updateItem({ itemId, itemInstance }) {
     const itemCopy = deepCopy(itemInstance);
     if (this.preRequestHandler) this.preRequestHandler(itemCopy);
     sanitizer(itemCopy, this.fieldsToSend);

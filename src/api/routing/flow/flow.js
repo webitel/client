@@ -38,9 +38,7 @@ itemGetter.responseHandler = (response) => ({
 export const getFlowList = (params) => listGetter.getList(params);
 export const getFlow = (params) => itemGetter.getItem(params);
 export const addFlow = (params) => itemCreator.createItem(params);
-export const updateFlow = ({ itemId, itemInstance }) => (
-  itemUpdater.updateItem(itemId, itemInstance)
-);
+export const updateFlow = (params) => itemUpdater.updateItem(params);
 export const deleteFlow = ({ id }) => itemDeleter.deleteItem(id);
 
 export default {

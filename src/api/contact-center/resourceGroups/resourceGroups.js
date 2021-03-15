@@ -54,9 +54,7 @@ const itemDeleter = new SDKItemDeleter(resGrService.deleteOutboundResourceGroup)
 export const getResGroupList = (params) => listGetter.getList(params);
 export const getResGroup = (params) => itemGetter.getItem(params);
 export const addResGroup = (params) => itemCreator.createItem(params);
-export const updateResGroup = ({ itemId, itemInstance }) => (
-  itemUpdater.updateItem(itemId, itemInstance)
-);
+export const updateResGroup = (params) => itemUpdater.updateItem(params);
 export const deleteResGroup = ({ id }) => itemDeleter.deleteItem(id);
 
 export default {

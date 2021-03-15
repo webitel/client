@@ -1,6 +1,6 @@
 import APIItemDeleter from '../../utils/ApiControllers/Deleter/ApiDeleter';
 import APIPatcher from '../../utils/ApiControllers/Patcher/ApiPatcher';
-import APIItemUpdater from '../../utils/ApiControllers/Updater/ApiUpdater';
+import APIUpdater from '../../utils/ApiControllers/Updater/ApiUpdater';
 import APICreator from '../../utils/ApiControllers/Creator/ApiCreator';
 import APIItemGetter from '../../utils/ApiControllers/Getter/ApiGetter';
 import APIListGetter from '../../utils/ApiControllers/ListGetter/ApiListGetter';
@@ -74,16 +74,14 @@ const preRequestHandler = (item) => {
 const listGetter = new APIListGetter(BASE_URL, { defaultListObject });
 const itemGetter = new APIItemGetter(BASE_URL, { defaultSingleObject, itemResponseHandler });
 const itemCreator = new APICreator(BASE_URL, { fieldsToSend, preRequestHandler });
-const itemUpdater = new APIItemUpdater(BASE_URL, { fieldsToSend, preRequestHandler });
+const itemUpdater = new APIUpdater(BASE_URL, { fieldsToSend, preRequestHandler });
 const itemPatcher = new APIPatcher(BASE_URL, { fieldsToSend });
 const itemDeleter = new APIItemDeleter(BASE_URL);
 
 export const getUsersList = (params) => listGetter.getList(params);
 export const getUser = (params) => itemGetter.getItem(params);
 export const addUser = (params) => itemCreator.createItem(params);
-export const updateUser = ({ itemId, itemInstance }) => (
-  itemUpdater.updateItem(itemId, itemInstance)
-);
+export const updateUser = (params) => itemUpdater.updateItem(params);
 export const patchUser = (params) => itemPatcher.patchItem(params, 'presence');
 export const deleteUser = ({ id }) => itemDeleter.deleteItem(id);
 

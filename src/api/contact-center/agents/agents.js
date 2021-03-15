@@ -49,9 +49,7 @@ const agentQueuesGetter = new SDKListGetter(agentService.searchAgentInQueue);
 export const getAgentsList = (params) => listGetter.getList(params);
 export const getAgent = (params) => itemGetter.getItem(params);
 export const addAgent = (params) => itemCreator.createItem(params);
-export const updateAgent = ({ itemId, itemInstance }) => (
-  itemUpdater.updateItem(itemId, itemInstance)
-);
+export const updateAgent = (params) => itemUpdater.updateItem(params);
 export const deleteAgent = ({ id }) => itemDeleter.deleteItem(id);
 
 export const getAgentUsersOptions = (params) => newAgentUsersGetter.getList(params);

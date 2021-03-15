@@ -93,7 +93,7 @@ const itemGetter = new SDKGetter(memberService.readMember,
 const itemCreator = new SDKCreator(memberService.createMember,
   { fieldsToSend, preRequestHandler });
 const itemUpdater = new SDKUpdater(memberService.updateMember,
-  fieldsToSend, preRequestHandler);
+  { fieldsToSend, preRequestHandler });
 const itemDeleter = new SDKDeleter(memberService.deleteMember);
 
 export const getMembersList = (params) => listGetter.getList(params);
