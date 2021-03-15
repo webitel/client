@@ -76,7 +76,6 @@
             // this.$router.push({path: '/license', query: {id: '0'}})
         },
         mounted() {
-            // FIXME: delete test data
             for (let i = 0; i < 4; i++) {
                 this.test.push({
                     serial: `${i}${i}${i}`,

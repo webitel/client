@@ -111,8 +111,6 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-@import '../../../assets/css/objects/table-page';
-
 .history-popup__filters {
   display: grid;
   grid-template-columns: 1fr 1fr;

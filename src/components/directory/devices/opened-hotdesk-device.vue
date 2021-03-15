@@ -4,7 +4,7 @@
                 :primaryText="computePrimaryText"
                 :primaryAction="save"
                 :primaryDisabled="computeDisabled"
-                close
+                :secondary-action="close"
         >
             <span>{{$tc('objects.directory.devices.devices', 1)}}</span> | {{computeTitle}}
         </object-header>

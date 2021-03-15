@@ -12,11 +12,9 @@ export default class BaseListGetter {
       return {
         list: response.items.map((item) => ({ ...this.default, ...item })),
         next: response.next || false,
-        isNext: response.next || false, // fixme: remove after nested lists refactor
       };
     }
-    // fixme: remove isNext after nested lists refactor with BaseListGetter
-    return { list: [], next: false, isNext: false };
+    return { list: [], next: false };
   };
 
   // eslint-disable-next-line class-methods-use-this

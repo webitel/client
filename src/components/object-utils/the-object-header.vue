@@ -19,7 +19,7 @@
         <wt-button
           v-if="!hideSecondary"
           color="secondary"
-          @click="secondaryActionHelper"
+          @click="secondaryAction"
         >
           {{ secondaryText || $t('objects.close') }}
         </wt-button>
@@ -52,33 +52,17 @@ export default {
     secondaryAction: {
       type: Function,
     },
-    close: {
-      type: Boolean,
-      default: false,
-    },
   },
 
   computed: {
-    // FIXME: REPLACE "CLOSE" WITH SECONDARY_ACTION AND DELETE AFTER REFACTOR
-    secondaryActionHelper() {
-      return this.secondaryAction ? this.secondaryAction : this.back;
-    },
     hideSecondary() {
-      return !(this.close || this.secondaryAction || this.secondaryText);
-    },
-  },
-
-  methods: {
-    back() {
-      this.$emit('close');
-      this.$router.go(-1);
+      return !(this.secondaryAction || this.secondaryText);
     },
   },
 };
 </script>
 
 <style lang="scss" scoped>
-
 .wt-headline {
   .wt-button {
     margin-left: 20px;

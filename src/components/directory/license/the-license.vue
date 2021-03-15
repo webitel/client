@@ -197,8 +197,6 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-@import '../../../assets/css/objects/table-page';
-
 .license {
   --license--valid: rgba(255, 234, 0, 0.3);
   --license--90: rgba(255, 234, 0, 0.3);

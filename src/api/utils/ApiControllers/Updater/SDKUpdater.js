@@ -3,8 +3,7 @@ import eventBus from '@webitel/ui-sdk/src/scripts/eventBus';
 import sanitizer from '../../sanitizer';
 import BaseItemUpdater from './BaseItemUpdater';
 
-// todo: export -> default export
-export class SDKItemUpdater extends BaseItemUpdater {
+export default class SDKItemUpdater extends BaseItemUpdater {
   async _updateItem(args) {
     try {
       await this.method(...args);
@@ -28,5 +27,3 @@ export class SDKItemUpdater extends BaseItemUpdater {
     return this._updateItem([parentId, itemId, itemCopy]);
   }
 }
-
-export default SDKItemUpdater;

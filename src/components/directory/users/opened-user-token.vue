@@ -179,5 +179,4 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-@import '../../../assets/css/objects/table-page';
 </style>
