@@ -44,7 +44,7 @@
 <script>
     import vuetable from 'vuetable-2/src/components/Vuetable';
     import { _actionsTableField_1 } from '@/utils/tableFieldPresets';
-    import objectHeader from '../../object-utils/the-object-header';
+    import objectHeader from '../../../object-utils/the-object-header';
     import license from './opened-license';
 
 
