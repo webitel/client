@@ -4,16 +4,21 @@ import sanitizer from '../../sanitizer';
 import BaseItemPatcher from './BaseItemPatcher';
 
 export default class SDKItemPatcher extends BaseItemPatcher {
+  constructor(SDKMethod, options) {
+    super(options);
+    this.SDKMethod = SDKMethod;
+  }
+
   async _patchItem(args) {
     try {
-      await this.method(...args);
+      await this.SDKMethod(...args);
       eventBus.$emit('notification', { type: 'info', text: 'Successfully updated' });
     } catch (err) {
       throw err;
     }
   }
 
-  patchItem(id, changes) {
+  patchItem({ id, changes }) {
     const changesCopy = deepCopy(changes);
     if (this.fieldsToSend) sanitizer(changesCopy, this.fieldsToSend);
     return this._patchItem([id, changes]);

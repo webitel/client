@@ -6,8 +6,8 @@ export default class APIPermissionsPatcher {
     this.patcher = new ApiPatcher(this.baseUrl);
   }
 
-  async patchItem(id, changes) {
+  async patchItem({ id, changes }) {
     const afterUrl = 'acl';
-    return this.patcher.patchItem(id, changes, afterUrl);
+    return this.patcher.patchItem({ id, changes }, afterUrl);
   }
 }

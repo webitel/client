@@ -37,7 +37,7 @@ const listGetter = new SDKListGetter(queueSkillService.searchQueueSkill, { defau
 const itemGetter = new SDKGetter(queueSkillService.readQueueSkill, { defaultSingleObject });
 const itemCreator = new SDKCreator(queueSkillService.createQueueSkill,
   { fieldsToSend, preRequestHandler });
-const itemPatcher = new SDKPatcher(queueSkillService.patchQueueSkill, fieldsToSend);
+const itemPatcher = new SDKPatcher(queueSkillService.patchQueueSkill, { fieldsToSend });
 const itemUpdater = new SDKUpdater(queueSkillService.updateQueueSkill,
   fieldsToSend, preRequestHandler);
 const itemDeleter = new SDKDeleter(queueSkillService.deleteQueueSkill);

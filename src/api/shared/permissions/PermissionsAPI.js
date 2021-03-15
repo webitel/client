@@ -17,14 +17,14 @@ export default class PermissionsAPI {
 
   static patchByUrl = (url) => {
     const permissionsPatcher = new APIPermissionsPatcher(url);
-    return (parentId, item) => permissionsPatcher.patchItem(parentId, item);
+    return (parentId, changes) => permissionsPatcher.patchItem({ id: parentId, changes });
   };
 
   getList(params) {
     return this._permissionsGetter.getList(params);
   }
 
-  patch(parentId, item) {
-    return this._permissionsPatcher.patchItem(parentId, item);
+  patch(parentId, changes) {
+    return this._permissionsPatcher.patchItem({ id: parentId, changes });
   }
 }

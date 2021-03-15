@@ -4,9 +4,9 @@ import sanitizer from '../../sanitizer';
 import instance from '../../../instance';
 import BaseItemPatcher from './BaseItemPatcher';
 
-export default class APIItemPatcher extends BaseItemPatcher {
+export default class APIPatcher extends BaseItemPatcher {
   constructor(baseUrl, { fieldsToSend, nestedUrl } = {}) {
-    super(null, fieldsToSend);
+    super({ fieldsToSend });
     this.baseUrl = baseUrl;
     if (nestedUrl) this.nestedUrl = nestedUrl;
   }
@@ -20,7 +20,7 @@ export default class APIItemPatcher extends BaseItemPatcher {
     }
   }
 
-  patchItem(id, changes, afterUrl) {
+  patchItem({ id, changes }, afterUrl) {
     let updUrl = `${this.baseUrl}/${id}`;
     if (afterUrl) updUrl += `/${afterUrl}`;
     const changesCopy = deepCopy(changes);

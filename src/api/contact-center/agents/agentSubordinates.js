@@ -38,11 +38,11 @@ export const getAgentSubordinate = (params) => itemGetter.getItem(params);
 export const addAgentSubordinate = ({ parentId, itemInstance }) => {
   const { id } = itemInstance.agent;
   const changes = { supervisor: { id: parentId } };
-  return itemPatcher.patchItem(id, changes);
+  return itemPatcher.patchItem({ id, changes });
 };
 export const deleteAgentSubordinate = ({ id }) => {
   const changes = { supervisor: { id: null } };
-  return itemPatcher.patchItem(id, changes);
+  return itemPatcher.patchItem({ id, changes });
 };
 export const updateAgentSubordinate = async ({ parentId, itemId, itemInstance }) => {
   try {

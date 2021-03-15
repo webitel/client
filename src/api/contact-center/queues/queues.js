@@ -65,7 +65,7 @@ export const addQueue = (params) => itemCreator.createItem(params);
 export const updateQueue = ({ itemId, itemInstance }) => (
   itemUpdater.updateItem(itemId, itemInstance)
 );
-export const patchQueue = ({ id, changes }) => itemPatcher.patchItem(id, changes);
+export const patchQueue = (params) => itemPatcher.patchItem(params);
 export const deleteQueue = ({ id }) => itemDeleter.deleteItem(id);
 
 export default {

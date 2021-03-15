@@ -16,7 +16,7 @@ const itemGetter = new APIGetter(BASE_URL);
 const itemPatcher = new APIPatcher(BASE_URL);
 
 export const getObjectList = (params) => listGetter.getList({ searchQuery: 'class', ...params });
-export const patchObject = ({ id, changes }) => itemPatcher.patchItem(id, changes);
+export const patchObject = (params) => itemPatcher.patchItem(params);
 export const getObject = (params) => itemGetter.getItem(params);
 
 export default {

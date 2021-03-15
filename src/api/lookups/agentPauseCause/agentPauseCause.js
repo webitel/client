@@ -39,7 +39,7 @@ const itemDeleter = new SDKItemDeleter(pauseCauseService.deleteAgentPauseCause);
 export const getPauseCauseList = (params) => listGetter.getList(params);
 export const getPauseCause = (params) => itemGetter.getItem(params);
 export const addPauseCause = (params) => itemCreator.createItem(params);
-export const patchPauseCause = ({ id, changes }) => itemPatcher.patchItem(id, changes);
+export const patchPauseCause = (params) => itemPatcher.patchItem(params);
 export const updatePauseCause = ({ itemId, itemInstance }) => (
   itemUpdater.updateItem(itemId, itemInstance)
 );

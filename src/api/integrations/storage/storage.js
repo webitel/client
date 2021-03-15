@@ -75,7 +75,7 @@ const itemDeleter = new SDKItemDeleter(storageService.deleteBackendProfile);
 export const getStorageList = (params) => listGetter.getList(params);
 export const getStorage = (params) => itemGetter.getItem(params);
 export const addStorage = (params) => itemCreator.createItem(params);
-export const patchStorage = ({ id, changes }) => itemPatcher.patchItem(id, changes);
+export const patchStorage = (params) => itemPatcher.patchItem(params);
 export const updateStorage = ({ itemId, itemInstance }) => (
   itemUpdater.updateItem(itemId, itemInstance)
 );

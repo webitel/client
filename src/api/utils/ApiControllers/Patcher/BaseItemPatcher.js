@@ -1,6 +1,5 @@
 export default class BaseItemPatcher {
-  constructor(method, fieldsToSend) {
-    this.method = method;
+  constructor({ fieldsToSend }) {
     if (this.fieldsToSend) this.fieldsToSend = fieldsToSend;
   }
 }

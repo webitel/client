@@ -43,11 +43,11 @@ export const getTeamAgent = (params) => itemGetter.getItem(params);
 export const addTeamAgent = ({ parentId, itemInstance }) => {
   const { id } = itemInstance.agent;
   const changes = { team: { id: parentId } };
-  return itemPatcher.patchItem(id, changes);
+  return itemPatcher.patchItem({ id, changes });
 };
 export const deleteTeamAgent = ({ id }) => {
   const changes = { team: { id: null } };
-  return itemPatcher.patchItem(id, changes);
+  return itemPatcher.patchItem({ id, changes });
 };
 export const updateTeamAgent = async ({ parentId, itemId, itemInstance }) => {
   try {

@@ -70,7 +70,7 @@ export const addResource = (params) => itemCreator.createItem(params);
 export const updateResource = ({ itemId, itemInstance }) => (
   itemUpdater.updateItem(itemId, itemInstance)
 );
-export const patchResource = ({ id, changes }) => itemPatcher.patchItem(id, changes);
+export const patchResource = (params) => itemPatcher.patchItem(params);
 export const deleteResource = ({ id }) => itemDeleter.deleteItem(id);
 
 export default {

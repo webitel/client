@@ -30,7 +30,7 @@ const listGetter = new SDKListGetter(agentSkillService.searchAgentSkill, { defau
 const itemGetter = new SDKGetter(agentSkillService.readAgentSkill, { defaultSingleObject });
 const itemCreator = new SDKCreator(agentSkillService.createAgentSkill,
   { fieldsToSend, preRequestHandler });
-const itemPatcher = new SDKPatcher(agentSkillService.patchAgentSkill, fieldsToSend);
+const itemPatcher = new SDKPatcher(agentSkillService.patchAgentSkill, { fieldsToSend });
 const itemUpdater = new SDKUpdater(agentSkillService.updateAgentSkill,
   fieldsToSend, preRequestHandler);
 const itemDeleter = new SDKDeleter(agentSkillService.deleteAgentSkill);
