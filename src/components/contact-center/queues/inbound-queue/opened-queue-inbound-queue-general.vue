@@ -111,7 +111,7 @@ export default {
     },
 
     async loadDropdownOptionsTeamList(search) {
-      const response = await getTeamsList(1, 10, search);
+      const response = await getTeamsList({ search });
       return response.list.map((item) => ({
         name: item.name,
         id: item.id,

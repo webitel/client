@@ -56,7 +56,7 @@ export default {
 
   methods: {
     async loadDropdownOptionsList(search) {
-      const response = await getDeviceList(1, 10, search);
+      const response = await getDeviceList({ search });
       if (response.list) {
         return response.list.filter((item) => !item.hotdesk).map((item) => ({
           name: item.name,

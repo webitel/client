@@ -39,7 +39,7 @@ export default {
     }),
 
     async loadDropdownOptionsList(search) {
-      const response = await getRoleList(1, 10, search);
+      const response = await getRoleList({ search });
       if (response.list) {
         return response.list.map((item) => ({
           name: item.name,

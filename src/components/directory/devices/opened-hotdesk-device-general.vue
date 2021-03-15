@@ -65,7 +65,7 @@ export default {
     }),
 
     async loadDropdownOptionsList(search) {
-      const response = await getUsersList(1, 10, search);
+      const response = await getUsersList({ search });
       return response.list.map((item) => ({
         name: item.name,
         id: item.id,

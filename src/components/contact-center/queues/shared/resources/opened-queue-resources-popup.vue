@@ -53,7 +53,7 @@ export default {
 
   methods: {
     async loadResGroupsOptions(search) {
-      const response = await getResGroupList(1, 10, search);
+      const response = await getResGroupList({ search });
       return response.list.map((item) => ({
         name: item.name,
         id: item.id,
