@@ -48,6 +48,15 @@ const mapDefaultCommunications = (item) => (
   item.communications.map((comm) => ({ ...defaultObjectCommunication, ...comm }))
 );
 
+const _getMembersList = (getList) => function ({
+                                                 page,
+                                                 size,
+                                                 parentId,
+                                               }) {
+  const params = [parentId, page, size];
+  return getList(params);
+};
+
 const listResponseHandler = (response) => {
   const list = response.list.map((item) => ({
     ...item,
@@ -79,7 +88,8 @@ const preRequestHandler = (item) => {
 };
 
 const listGetter = new SDKListGetter(memberService.searchMemberInQueue,
-  defaultListObject, listResponseHandler);
+  defaultListObject, listResponseHandler)
+  .setGetListMethod(_getMembersList);
 const itemGetter = new SDKGetter(memberService.readMember,
   defaultObject, itemResponseHandler);
 const itemCreator = new SDKCreator(memberService.createMember,
@@ -88,20 +98,7 @@ const itemUpdater = new SDKUpdater(memberService.updateMember,
   fieldsToSend, preRequestHandler);
 const itemDeleter = new SDKDeleter(memberService.deleteMember);
 
-const _getMembersList = (getList) => function ({
-                                                     page,
-                                                     size,
-                                                     parentId,
-                                                   }) {
-  const params = [parentId, page, size];
-  return getList(params);
-};
-
-export const getMembersList = (params) => (
-  listGetter
-    .setGetListMethod(_getMembersList)
-    .getList(params)
-);
+export const getMembersList = (params) => listGetter.getList(params);
 export const getMember = (params) => itemGetter.getNestedItem(params);
 export const addMember = (params) => itemCreator.createNestedItem(params);
 export const updateMember = (params) => itemUpdater.updateNestedItem(params);

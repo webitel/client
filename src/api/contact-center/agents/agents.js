@@ -36,7 +36,8 @@ const getSupervisorsList = (getList) => function ({
   return getList(params);
 };
 
-const listGetter = new SDKListGetter(agentService.searchAgent);
+const listGetter = new SDKListGetter(agentService.searchAgent)
+  .setGetListMethod(getSupervisorsList);
 const itemGetter = new SDKItemGetter(agentService.readAgent, defaultObject);
 const itemCreator = new SDKItemCreator(agentService.createAgent, fieldsToSend);
 const itemUpdater = new SDKItemUpdater(agentService.updateAgent, fieldsToSend);
@@ -55,11 +56,7 @@ export const updateAgent = ({ itemId, itemInstance }) => (
 export const deleteAgent = ({ id }) => itemDeleter.deleteItem(id);
 
 export const getAgentUsersOptions = (params) => newAgentUsersGetter.getList(params);
-export const getAgentSupervisorsOptions = (params) => (
-  supervisorsListGetter
-    .setGetListMethod(getSupervisorsList)
-    .getList(params)
-);
+export const getAgentSupervisorsOptions = (params) => supervisorsListGetter.getList(params);
 export const getAgentQueuesList = (params) => agentQueuesGetter.getNestedList(params);
 
 export const getAgentHistory = async (id, date, page = 0, size = 10) => {

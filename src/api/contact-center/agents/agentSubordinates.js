@@ -13,13 +13,6 @@ const defaultListObject = {
   _isSelected: false,
 };
 
-const subordinateGetterResponseHandler = (agent) => ({ agent });
-
-const listGetter = new SDKListGetter(subordinateService.searchAgent, defaultListObject);
-const itemGetter = new SDKItemGetter(subordinateService.readAgent, null,
-  subordinateGetterResponseHandler);
-const itemPatcher = new SDKPatcher(subordinateService.patchAgent);
-
 const getSubordinatesList = (getList) => function ({
                                                      page,
                                                      size,
@@ -32,11 +25,15 @@ const getSubordinatesList = (getList) => function ({
   return getList(params);
 };
 
-export const getAgentSubordinatesList = (params) => (
-  listGetter
-    .setGetListMethod(getSubordinatesList)
-    .getList(params)
-);
+const subordinateGetterResponseHandler = (agent) => ({ agent });
+
+const listGetter = new SDKListGetter(subordinateService.searchAgent, defaultListObject)
+  .setGetListMethod(getSubordinatesList);
+const itemGetter = new SDKItemGetter(subordinateService.readAgent, null,
+  subordinateGetterResponseHandler);
+const itemPatcher = new SDKPatcher(subordinateService.patchAgent);
+
+export const getAgentSubordinatesList = (params) => listGetter.getList(params);
 export const getAgentSubordinate = ({ itemId }) => itemGetter.getItem(itemId);
 export const addAgentSubordinate = ({ parentId, itemInstance }) => {
   const { id } = itemInstance.agent;

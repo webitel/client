@@ -5,8 +5,6 @@ import SDKListGetter from '../../utils/ApiControllers/ListGetter/SDKListGetter';
 
 const queueMemberAttemptsService = new MemberServiceApiFactory(configuration, '', instance);
 
-const listGetter = new SDKListGetter(queueMemberAttemptsService.searchAttemptsHistory);
-
 const _getQueueLogs = (getList) => function ({
                                                parentId,
                                                page = 1,
@@ -21,11 +19,10 @@ const _getQueueLogs = (getList) => function ({
   return getList(params);
 };
 
-export const getQueueLogs = (params) => (
-  listGetter
-    .setGetListMethod(_getQueueLogs)
-    .getList(params)
-);
+const listGetter = new SDKListGetter(queueMemberAttemptsService.searchAttemptsHistory)
+  .setGetListMethod(_getQueueLogs);
+
+export const getQueueLogs = (params) => listGetter.getList(params);
 
 export default {
   getList: getQueueLogs,

@@ -14,19 +14,12 @@ const defaultListObject = {
   _isSelected: false,
 };
 
-const agentGetterResponseHandler = (agent) => ({ agent });
-
-const listGetter = new SDKListGetter(agentService.searchAgent, defaultListObject);
-const itemGetter = new SDKItemGetter(agentService.readAgent, null,
-  agentGetterResponseHandler);
-const itemPatcher = new SDKPatcher(agentService.patchAgent);
-
 const getTeamAgents = (getList) => function ({
-                                                    parentId,
-                                                    page = 1,
-                                                    size = 10,
-                                                    search,
-                                                  }) {
+                                               parentId,
+                                               page = 1,
+                                               size = 10,
+                                               search,
+                                             }) {
   // parent id == team id
   if (!parentId) return;
   const isSupervisor = false;
@@ -37,11 +30,15 @@ const getTeamAgents = (getList) => function ({
   return getList(params);
 };
 
-export const getTeamAgentsList = (params) => (
-  listGetter
-    .setGetListMethod(getTeamAgents)
-    .getList(params)
-);
+const agentGetterResponseHandler = (agent) => ({ agent });
+
+const listGetter = new SDKListGetter(agentService.searchAgent, defaultListObject)
+  .setGetListMethod(getTeamAgents);
+const itemGetter = new SDKItemGetter(agentService.readAgent, null,
+  agentGetterResponseHandler);
+const itemPatcher = new SDKPatcher(agentService.patchAgent);
+
+export const getTeamAgentsList = (params) => listGetter.getList(params);
 export const getTeamAgent = ({ itemId }) => itemGetter.getItem(itemId);
 export const addTeamAgent = ({ parentId, itemInstance }) => {
   const { id } = itemInstance.agent;

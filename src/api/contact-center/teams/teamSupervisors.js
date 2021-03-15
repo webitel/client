@@ -7,15 +7,6 @@ import SDKItemPatcher from '../../utils/ApiControllers/Patcher/SDKPatcher';
 
 const teamSupervisorService = new AgentServiceApiFactory(configuration, '', instance);
 
-const subordinateGetterResponseHandler = (agent) => ({ agent });
-
-const listGetter = new SDKListGetter(teamSupervisorService.searchAgent);
-const itemGetter = new SDKItemGetter(teamSupervisorService.readAgent, null,
-  subordinateGetterResponseHandler);
-const itemPatcher = new SDKItemPatcher(teamSupervisorService.patchAgent);
-
-const subordinatesListGetter = new SDKListGetter(teamSupervisorService.searchAgent);
-
 const _getTeamSupervisorsList = (getList) => function ({
                                                          page,
                                                          size,
@@ -45,11 +36,18 @@ const _getTeamSupervisorSubordinatesList = (getList) => function ({
   return getList(params);
 };
 
-export const getTeamSupervisorsList = (params) => (
-  listGetter
-    .setGetListMethod(_getTeamSupervisorsList)
-    .getList(params)
-);
+const subordinateGetterResponseHandler = (agent) => ({ agent });
+
+const listGetter = new SDKListGetter(teamSupervisorService.searchAgent)
+  .setGetListMethod(_getTeamSupervisorsList);
+const itemGetter = new SDKItemGetter(teamSupervisorService.readAgent, null,
+  subordinateGetterResponseHandler);
+const itemPatcher = new SDKItemPatcher(teamSupervisorService.patchAgent);
+
+const subordinatesListGetter = new SDKListGetter(teamSupervisorService.searchAgent)
+  .setGetListMethod(_getTeamSupervisorSubordinatesList);
+
+export const getTeamSupervisorsList = (params) => listGetter.getList(params);
 export const getTeamSupervisor = ({ itemId }) => itemGetter.getItem(itemId);
 export const addTeamSupervisor = ({ parentId, itemInstance }) => {
   const { id } = itemInstance.agent;
@@ -69,11 +67,7 @@ export const updateTeamSupervisor = async ({ parentId, itemId, itemInstance }) =
   }
 };
 
-export const getTeamSupervisorSubordinatesList = (params) => (
-  subordinatesListGetter
-    .setGetListMethod(_getTeamSupervisorSubordinatesList)
-    .getList(params)
-);
+export const getTeamSupervisorSubordinatesList = (params) => subordinatesListGetter.getList(params);
 
 export default {
   getList: getTeamSupervisorsList,
