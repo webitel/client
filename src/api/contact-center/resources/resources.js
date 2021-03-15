@@ -5,7 +5,7 @@ import SDKItemDeleter from '../../utils/ApiControllers/Deleter/SDKDeleter';
 import SDKItemPatcher from '../../utils/ApiControllers/Patcher/SDKPatcher';
 import SDKItemUpdater from '../../utils/ApiControllers/Updater/SDKUpdater';
 import SDKItemCreator from '../../utils/ApiControllers/Creator/SDKCreator';
-import SDKItemGetter from '../../utils/ApiControllers/Getter/SDKGetter';
+import SDKGetter from '../../utils/ApiControllers/Getter/SDKGetter';
 import SDKListGetter from '../../utils/ApiControllers/ListGetter/SDKListGetter';
 
 const resService = new OutboundResourceServiceApiFactory(configuration, '', instance);
@@ -21,7 +21,7 @@ const defaultListObject = {
   reserve: false,
 };
 
-const defaultItemObject = {
+const defaultSingleObject = {
   name: '',
   gateway: {},
   rps: 0,
@@ -56,8 +56,8 @@ const preRequestHandler = (item) => {
 
 const listGetter = new SDKListGetter(resService.searchOutboundResource,
   defaultListObject);
-const itemGetter = new SDKItemGetter(resService.readOutboundResource,
-  defaultItemObject, itemResponseHandler);
+const itemGetter = new SDKGetter(resService.readOutboundResource,
+  { defaultSingleObject, itemResponseHandler });
 const itemCreator = new SDKItemCreator(resService.createOutboundResource,
   fieldsToSend, preRequestHandler);
 const itemUpdater = new SDKItemUpdater(resService.updateOutboundResource,
@@ -67,7 +67,7 @@ const itemPatcher = new SDKItemPatcher(resService.patchOutboundResource,
 const itemDeleter = new SDKItemDeleter(resService.deleteOutboundResource);
 
 export const getResourceList = (params) => listGetter.getList(params);
-export const getResource = ({ itemId }) => itemGetter.getItem(itemId);
+export const getResource = (params) => itemGetter.getItem(params);
 export const addResource = ({ itemInstance }) => itemCreator.createItem(itemInstance);
 export const updateResource = ({ itemId, itemInstance }) => (
   itemUpdater.updateItem(itemId, itemInstance)

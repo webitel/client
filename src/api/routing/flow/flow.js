@@ -4,7 +4,7 @@ import configuration from '../../openAPIConfig';
 import SDKItemDeleter from '../../utils/ApiControllers/Deleter/SDKDeleter';
 import SDKItemUpdater from '../../utils/ApiControllers/Updater/SDKUpdater';
 import SDKItemCreator from '../../utils/ApiControllers/Creator/SDKCreator';
-import SDKItemGetter from '../../utils/ApiControllers/Getter/SDKGetter';
+import SDKGetter from '../../utils/ApiControllers/Getter/SDKGetter';
 import SDKListGetter from '../../utils/ApiControllers/ListGetter/SDKListGetter';
 
 const flowService = new RoutingSchemaServiceApiFactory(configuration, '', instance);
@@ -22,7 +22,7 @@ const preRequestHandler = (item) => {
 const baseItem = { _dirty: false };
 
 const listGetter = new SDKListGetter(flowService.searchRoutingSchema);
-const itemGetter = new SDKItemGetter(flowService.readRoutingSchema);
+const itemGetter = new SDKGetter(flowService.readRoutingSchema);
 const itemCreator = new SDKItemCreator(flowService.createRoutingSchema,
   fieldsToSend, preRequestHandler);
 const itemUpdater = new SDKItemUpdater(flowService.updateRoutingSchema,
@@ -36,7 +36,7 @@ itemGetter.responseHandler = (response) => ({
 });
 
 export const getFlowList = (params) => listGetter.getList(params);
-export const getFlow = ({ itemId }) => itemGetter.getItem(itemId);
+export const getFlow = (params) => itemGetter.getItem(params);
 export const addFlow = ({ itemInstance }) => itemCreator.createItem(itemInstance);
 export const updateFlow = ({ itemId, itemInstance }) => (
   itemUpdater.updateItem(itemId, itemInstance)

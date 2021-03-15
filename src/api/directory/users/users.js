@@ -17,7 +17,7 @@ const defaultListObject = {
   dnd: false,
 };
 
-const defaultItem = {
+const defaultSingleObject = {
   name: '',
   username: '',
   password: '',
@@ -33,7 +33,7 @@ const defaultItem = {
 };
 
 const itemResponseHandler = (response) => {
-  const user = { ...defaultItem, ...response };
+  const user = { ...defaultSingleObject, ...response };
   if (user.license) {
     user.license.forEach((item) => {
       // eslint-disable-next-line no-param-reassign
@@ -74,14 +74,14 @@ const preRequestHandler = (item) => {
 };
 
 const listGetter = new APIListGetter(BASE_URL, { defaultListObject });
-const itemGetter = new APIItemGetter(BASE_URL, { defaultItem, itemResponseHandler });
+const itemGetter = new APIItemGetter(BASE_URL, { defaultSingleObject, itemResponseHandler });
 const itemCreator = new APIItemCreator(BASE_URL, { fieldsToSend, preRequestHandler });
 const itemUpdater = new APIItemUpdater(BASE_URL, { fieldsToSend, preRequestHandler });
 const itemPatcher = new APIItemPatcher(BASE_URL, { fieldsToSend });
 const itemDeleter = new APIItemDeleter(BASE_URL);
 
 export const getUsersList = (params) => listGetter.getList(params);
-export const getUser = ({ itemId }) => itemGetter.getItem(itemId);
+export const getUser = (params) => itemGetter.getItem(params);
 export const addUser = ({ itemInstance }) => itemCreator.createItem(itemInstance);
 export const updateUser = ({ itemId, itemInstance }) => (
   itemUpdater.updateItem(itemId, itemInstance)

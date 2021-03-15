@@ -6,7 +6,7 @@ import SDKItemDeleter from '../../utils/ApiControllers/Deleter/SDKDeleter';
 import SDKItemPatcher from '../../utils/ApiControllers/Patcher/SDKPatcher';
 import SDKItemUpdater from '../../utils/ApiControllers/Updater/SDKUpdater';
 import SDKItemCreator from '../../utils/ApiControllers/Creator/SDKCreator';
-import SDKItemGetter from '../../utils/ApiControllers/Getter/SDKGetter';
+import SDKGetter from '../../utils/ApiControllers/Getter/SDKGetter';
 import SDKListGetter from '../../utils/ApiControllers/ListGetter/SDKListGetter';
 
 const dialplanService = new RoutingOutboundCallServiceApiFactory(configuration, '', instance);
@@ -15,15 +15,16 @@ const fieldsToSend = ['name', 'schema', 'pattern', 'description', 'disabled'];
 
 const defaultListObject = { _isSelected: false, disabled: false };
 
-const listGetter = new SDKListGetter(dialplanService.searchRoutingOutboundCall, { defaultListObject });
-const itemGetter = new SDKItemGetter(dialplanService.readRoutingOutboundCall);
+const listGetter = new SDKListGetter(dialplanService.searchRoutingOutboundCall,
+  { defaultListObject });
+const itemGetter = new SDKGetter(dialplanService.readRoutingOutboundCall);
 const itemCreator = new SDKItemCreator(dialplanService.createRoutingOutboundCall, fieldsToSend);
 const itemUpdater = new SDKItemUpdater(dialplanService.updateRoutingOutboundCall, fieldsToSend);
 const itemPatcher = new SDKItemPatcher(dialplanService.patchRoutingOutboundCall, fieldsToSend);
 const itemDeleter = new SDKItemDeleter(dialplanService.deleteRoutingOutboundCall);
 
 export const getDialplanList = (params) => listGetter.getList(params);
-export const getDialplan = ({ itemId }) => itemGetter.getItem(itemId);
+export const getDialplan = (params) => itemGetter.getItem(params);
 export const addDialplan = ({ itemInstance }) => itemCreator.createItem(itemInstance);
 export const patchDialplan = ({ id, changes }) => itemPatcher.patchItem(id, changes);
 export const updateDialplan = ({ itemId, itemInstance }) => (

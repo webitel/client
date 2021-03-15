@@ -2,7 +2,7 @@ import { AgentServiceApiFactory } from 'webitel-sdk';
 import instance from '../../instance';
 import configuration from '../../openAPIConfig';
 import SDKListGetter from '../../utils/ApiControllers/ListGetter/SDKListGetter';
-import SDKItemGetter from '../../utils/ApiControllers/Getter/SDKGetter';
+import SDKGetter from '../../utils/ApiControllers/Getter/SDKGetter';
 import SDKPatcher from '../../utils/ApiControllers/Patcher/SDKPatcher';
 
 const subordinateService = new AgentServiceApiFactory(configuration, '', instance);
@@ -29,12 +29,13 @@ const subordinateGetterResponseHandler = (agent) => ({ agent });
 
 const listGetter = new SDKListGetter(subordinateService.searchAgent, { defaultListObject })
   .setGetListMethod(getSubordinatesList);
-const itemGetter = new SDKItemGetter(subordinateService.readAgent, null,
-  subordinateGetterResponseHandler);
+const itemGetter = new SDKGetter(subordinateService.readAgent, {
+  itemResponseHandler: subordinateGetterResponseHandler,
+});
 const itemPatcher = new SDKPatcher(subordinateService.patchAgent);
 
 export const getAgentSubordinatesList = (params) => listGetter.getList(params);
-export const getAgentSubordinate = ({ itemId }) => itemGetter.getItem(itemId);
+export const getAgentSubordinate = (params) => itemGetter.getItem(params);
 export const addAgentSubordinate = ({ parentId, itemInstance }) => {
   const { id } = itemInstance.agent;
   const changes = { supervisor: { id: parentId } };

@@ -4,7 +4,7 @@ import configuration from '../../openAPIConfig';
 import SDKItemDeleter from '../../utils/ApiControllers/Deleter/SDKDeleter';
 import SDKItemUpdater from '../../utils/ApiControllers/Updater/SDKUpdater';
 import SDKItemCreator from '../../utils/ApiControllers/Creator/SDKCreator';
-import SDKItemGetter from '../../utils/ApiControllers/Getter/SDKGetter';
+import SDKGetter from '../../utils/ApiControllers/Getter/SDKGetter';
 import SDKListGetter from '../../utils/ApiControllers/ListGetter/SDKListGetter';
 
 const skillService = new SkillServiceApiFactory(configuration, '', instance);
@@ -12,13 +12,13 @@ const skillService = new SkillServiceApiFactory(configuration, '', instance);
 const fieldsToSend = ['name', 'description'];
 
 const listGetter = new SDKListGetter(skillService.searchSkill);
-const itemGetter = new SDKItemGetter(skillService.readSkill);
+const itemGetter = new SDKGetter(skillService.readSkill);
 const itemCreator = new SDKItemCreator(skillService.createSkill, fieldsToSend);
 const itemUpdater = new SDKItemUpdater(skillService.updateSkill, fieldsToSend);
 const itemDeleter = new SDKItemDeleter(skillService.deleteSkill);
 
 export const getSkillsList = (params) => listGetter.getList(params);
-export const getSkill = ({ itemId }) => itemGetter.getItem(itemId);
+export const getSkill = (params) => itemGetter.getItem(params);
 export const addSkill = ({ itemInstance }) => itemCreator.createItem(itemInstance);
 export const updateSkill = ({ itemId, itemInstance }) => (
   itemUpdater.updateItem(itemId, itemInstance)

@@ -17,7 +17,7 @@ const defaultListObject = {
   _isSelected: false,
 };
 
-const defaultObject = {
+const defaultSingleObject = {
   skill: {},
   capacity: 0,
   enabled: false,
@@ -29,7 +29,7 @@ const fieldsToSend = ['capacity', 'agentId', 'skill', 'enabled'];
 const preRequestHandler = (item, parentId) => ({ ...item, agentId: parentId });
 
 const listGetter = new SDKListGetter(agentSkillService.searchAgentSkill, { defaultListObject });
-const itemGetter = new SDKGetter(agentSkillService.readAgentSkill, defaultObject);
+const itemGetter = new SDKGetter(agentSkillService.readAgentSkill, { defaultSingleObject });
 const itemCreator = new SDKCreator(agentSkillService.createAgentSkill,
   fieldsToSend, preRequestHandler);
 const itemPatcher = new SDKPatcher(agentSkillService.patchAgentSkill, fieldsToSend);

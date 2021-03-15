@@ -4,7 +4,7 @@ import configuration from '../../openAPIConfig';
 import SDKItemDeleter from '../../utils/ApiControllers/Deleter/SDKDeleter';
 import SDKItemUpdater from '../../utils/ApiControllers/Updater/SDKUpdater';
 import SDKItemCreator from '../../utils/ApiControllers/Creator/SDKCreator';
-import SDKItemGetter from '../../utils/ApiControllers/Getter/SDKGetter';
+import SDKGetter from '../../utils/ApiControllers/Getter/SDKGetter';
 import SDKListGetter from '../../utils/ApiControllers/ListGetter/SDKListGetter';
 
 const bucketService = new BucketServiceApiFactory(configuration, '', instance);
@@ -12,13 +12,13 @@ const bucketService = new BucketServiceApiFactory(configuration, '', instance);
 const fieldsToSend = ['name', 'description'];
 
 const listGetter = new SDKListGetter(bucketService.searchBucket);
-const itemGetter = new SDKItemGetter(bucketService.readBucket);
+const itemGetter = new SDKGetter(bucketService.readBucket);
 const itemCreator = new SDKItemCreator(bucketService.createBucket, fieldsToSend);
 const itemUpdater = new SDKItemUpdater(bucketService.updateBucket, fieldsToSend);
 const itemDeleter = new SDKItemDeleter(bucketService.deleteBucket);
 
 export const getBucketsList = (params) => listGetter.getList(params);
-export const getBucket = ({ itemId }) => itemGetter.getItem(itemId);
+export const getBucket = (params) => itemGetter.getItem(params);
 export const addBucket = ({ itemInstance }) => itemCreator.createItem(itemInstance);
 export const updateBucket = ({ itemId, itemInstance }) => (
   itemUpdater.updateItem(itemId, itemInstance)

@@ -6,7 +6,7 @@ import SDKItemDeleter from '../../utils/ApiControllers/Deleter/SDKDeleter';
 import SDKItemPatcher from '../../utils/ApiControllers/Patcher/SDKPatcher';
 import SDKItemUpdater from '../../utils/ApiControllers/Updater/SDKUpdater';
 import SDKItemCreator from '../../utils/ApiControllers/Creator/SDKCreator';
-import SDKItemGetter from '../../utils/ApiControllers/Getter/SDKGetter';
+import SDKGetter from '../../utils/ApiControllers/Getter/SDKGetter';
 import SDKListGetter from '../../utils/ApiControllers/ListGetter/SDKListGetter';
 
 const queueService = new QueueServiceApiFactory(configuration, '', instance);
@@ -24,7 +24,7 @@ const defaultListObject = {
   _isSelected: false,
 };
 
-const defaultItemObject = {
+const defaultSingleObject = {
   type: 0,
   _dirty: false,
 };
@@ -45,15 +45,15 @@ const itemResponseHandler = (response) => {
       response.variables = Object.keys(response.variables)
         .map((key) => ({ key, value: response.variables[key] }));
     }
-    return deepMerge(defaultItemObject, response);
+    return deepMerge(defaultSingleObject, response);
   } catch (err) {
     throw err;
   }
 };
 
 const listGetter = new SDKListGetter(queueService.searchQueue, { defaultListObject });
-const itemGetter = new SDKItemGetter(queueService.readQueue,
-  defaultItemObject, itemResponseHandler);
+const itemGetter = new SDKGetter(queueService.readQueue,
+  { defaultSingleObject, itemResponseHandler });
 const itemCreator = new SDKItemCreator(queueService.createQueue,
   fieldsToSend, preRequestHandler);
 const itemUpdater = new SDKItemUpdater(queueService.updateQueue,
@@ -62,7 +62,7 @@ const itemPatcher = new SDKItemPatcher(queueService.patchQueue, fieldsToSend);
 const itemDeleter = new SDKItemDeleter(queueService.deleteQueue);
 
 export const getQueuesList = (params) => listGetter.getList(params);
-export const getQueue = ({ itemId }) => itemGetter.getItem(itemId);
+export const getQueue = (params) => itemGetter.getItem(params);
 export const addQueue = ({ itemInstance }) => itemCreator.createItem(itemInstance);
 export const updateQueue = ({ itemId, itemInstance }) => (
   itemUpdater.updateItem(itemId, itemInstance)

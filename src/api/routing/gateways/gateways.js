@@ -54,7 +54,7 @@ itemGetter.responseHandler = (response) => {
 };
 
 export const getGatewayList = (params) => listGetter.getList(params);
-export const getGateway = ({ itemId }) => itemGetter.getItem(itemId);
+export const getGateway = (params) => itemGetter.getItem(params);
 export const addGateway = ({ itemInstance }) => itemCreator.createItem(itemInstance);
 export const updateGateway = ({ itemId, itemInstance }) => (
   itemUpdater.updateItem(itemId, itemInstance)

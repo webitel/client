@@ -2,7 +2,7 @@ import { AgentServiceApiFactory } from 'webitel-sdk';
 import instance from '../../instance';
 import configuration from '../../openAPIConfig';
 import SDKListGetter from '../../utils/ApiControllers/ListGetter/SDKListGetter';
-import SDKItemGetter from '../../utils/ApiControllers/Getter/SDKGetter';
+import SDKGetter from '../../utils/ApiControllers/Getter/SDKGetter';
 import SDKItemCreator from '../../utils/ApiControllers/Creator/SDKCreator';
 import SDKItemUpdater from '../../utils/ApiControllers/Updater/SDKUpdater';
 import SDKItemDeleter from '../../utils/ApiControllers/Deleter/SDKDeleter';
@@ -12,7 +12,7 @@ const agentService = new AgentServiceApiFactory(configuration, '', instance);
 const fieldsToSend = ['user', 'team', 'supervisor', 'auditor', 'region', 'progressiveCount',
   'chatCount', 'isSupervisor'];
 
-const defaultObject = {
+const defaultSingleObject = {
   user: {},
   team: {},
   supervisor: {},
@@ -38,7 +38,7 @@ const getSupervisorsList = (getList) => function ({
 
 const listGetter = new SDKListGetter(agentService.searchAgent)
   .setGetListMethod(getSupervisorsList);
-const itemGetter = new SDKItemGetter(agentService.readAgent, defaultObject);
+const itemGetter = new SDKGetter(agentService.readAgent, { defaultSingleObject });
 const itemCreator = new SDKItemCreator(agentService.createAgent, fieldsToSend);
 const itemUpdater = new SDKItemUpdater(agentService.updateAgent, fieldsToSend);
 const itemDeleter = new SDKItemDeleter(agentService.deleteAgent);
@@ -48,7 +48,7 @@ const newAgentUsersGetter = new SDKListGetter(agentService.searchLookupUsersAgen
 const agentQueuesGetter = new SDKListGetter(agentService.searchAgentInQueue);
 
 export const getAgentsList = (params) => listGetter.getList(params);
-export const getAgent = ({ itemId }) => itemGetter.getItem(itemId);
+export const getAgent = (params) => itemGetter.getItem(params);
 export const addAgent = ({ itemInstance }) => itemCreator.createItem(itemInstance);
 export const updateAgent = ({ itemId, itemInstance }) => (
   itemUpdater.updateItem(itemId, itemInstance)

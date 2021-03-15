@@ -20,7 +20,7 @@ const defaultListObject = {
   _isSelected: false,
 };
 
-const defaultObject = {
+const defaultSingleObject = {
   agent: {},
   minCapacity: 0,
   maxCapacity: 0,
@@ -36,7 +36,7 @@ const fieldsToSend = ['maxCapacity', 'minCapacity', 'queueId', 'lvl', 'buckets',
 const preRequestHandler = (item, parentId) => ({ ...item, queueId: parentId });
 
 const listGetter = new SDKListGetter(queueSkillService.searchQueueSkill, { defaultListObject });
-const itemGetter = new SDKGetter(queueSkillService.readQueueSkill, defaultObject);
+const itemGetter = new SDKGetter(queueSkillService.readQueueSkill, { defaultSingleObject });
 const itemCreator = new SDKCreator(queueSkillService.createQueueSkill,
   fieldsToSend, preRequestHandler);
 const itemPatcher = new SDKPatcher(queueSkillService.patchQueueSkill, fieldsToSend);

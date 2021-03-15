@@ -8,7 +8,7 @@ const BASE_URL = '/roles';
 
 const fieldsToSend = ['name', 'description', 'permissions'];
 
-const defaultItemObject = {
+const defaultSingleObject = {
   name: '',
   description: '',
   permissions: [],
@@ -16,7 +16,7 @@ const defaultItemObject = {
 };
 
 const listGetter = new APIListGetter(BASE_URL);
-const itemGetter = new APIItemGetter(BASE_URL, { defaultItem: defaultItemObject });
+const itemGetter = new APIItemGetter(BASE_URL, { defaultSingleObject });
 const itemCreator = new APIItemCreator(BASE_URL, { fieldsToSend });
 const itemUpdater = new APIItemUpdater(BASE_URL, { fieldsToSend });
 const itemDeleter = new APIItemDeleter(BASE_URL);
@@ -26,7 +26,7 @@ const permissionsListGetter = new APIListGetter(PERMISSIONS_LIST_URL);
 
 export const getRoleList = (params) => listGetter.getList(params);
 
-export const getRole = ({ itemId }) => itemGetter.getItem(itemId);
+export const getRole = (params) => itemGetter.getItem(params);
 export const addRole = ({ itemInstance }) => itemCreator.createItem(itemInstance);
 export const updateRole = ({ itemId, itemInstance }) => (
   itemUpdater.updateItem(itemId, itemInstance)

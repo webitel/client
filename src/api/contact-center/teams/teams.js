@@ -4,7 +4,7 @@ import configuration from '../../openAPIConfig';
 import SDKItemDeleter from '../../utils/ApiControllers/Deleter/SDKDeleter';
 import SDKItemUpdater from '../../utils/ApiControllers/Updater/SDKUpdater';
 import SDKItemCreator from '../../utils/ApiControllers/Creator/SDKCreator';
-import SDKItemGetter from '../../utils/ApiControllers/Getter/SDKGetter';
+import SDKGetter from '../../utils/ApiControllers/Getter/SDKGetter';
 import SDKListGetter from '../../utils/ApiControllers/ListGetter/SDKListGetter';
 
 const teamService = new AgentTeamServiceApiFactory(configuration, '', instance);
@@ -12,7 +12,7 @@ const teamService = new AgentTeamServiceApiFactory(configuration, '', instance);
 const fieldsToSend = ['name', 'description', 'strategy', 'admin', 'maxNoAnswer', 'wrapUpTime',
   'noAnswerDelayTime', 'callTimeout'];
 
-const defaultObject = {
+const defaultSingleObject = {
   name: '',
   strategy: {},
   admin: {},
@@ -27,13 +27,13 @@ const defaultObject = {
 };
 
 const listGetter = new SDKListGetter(teamService.searchAgentTeam);
-const itemGetter = new SDKItemGetter(teamService.readAgentTeam, defaultObject);
+const itemGetter = new SDKGetter(teamService.readAgentTeam, { defaultSingleObject });
 const itemCreator = new SDKItemCreator(teamService.createAgentTeam, fieldsToSend);
 const itemUpdater = new SDKItemUpdater(teamService.updateAgentTeam, fieldsToSend);
 const itemDeleter = new SDKItemDeleter(teamService.deleteAgentTeam);
 
 export const getTeamsList = (params) => listGetter.getList(params);
-export const getTeam = ({ itemId }) => itemGetter.getItem(itemId);
+export const getTeam = (params) => itemGetter.getItem(params);
 export const addTeam = ({ itemInstance }) => itemCreator.createItem(itemInstance);
 export const updateTeam = ({ itemId, itemInstance }) => (
   itemUpdater.updateItem(itemId, itemInstance)

@@ -4,14 +4,14 @@ import configuration from '../../openAPIConfig';
 import SDKItemDeleter from '../../utils/ApiControllers/Deleter/SDKDeleter';
 import SDKItemUpdater from '../../utils/ApiControllers/Updater/SDKUpdater';
 import SDKItemCreator from '../../utils/ApiControllers/Creator/SDKCreator';
-import SDKItemGetter from '../../utils/ApiControllers/Getter/SDKGetter';
+import SDKGetter from '../../utils/ApiControllers/Getter/SDKGetter';
 import SDKListGetter from '../../utils/ApiControllers/ListGetter/SDKListGetter';
 
 const resGrService = new OutboundResourceGroupServiceApiFactory(configuration, '', instance);
 
 const fieldsToSend = ['name', 'description', 'strategy', 'communication', 'time'];
 
-const defaultItemObject = {
+const defaultSingleObject = {
   name: '',
   strategy: '',
   description: '',
@@ -44,8 +44,8 @@ const preRequestHandler = (item) => {
 };
 
 const listGetter = new SDKListGetter(resGrService.searchOutboundResourceGroup);
-const itemGetter = new SDKItemGetter(resGrService.readOutboundResourceGroup,
-  defaultItemObject, itemResponseHandler);
+const itemGetter = new SDKGetter(resGrService.readOutboundResourceGroup,
+  { defaultSingleObject, itemResponseHandler });
 const itemCreator = new SDKItemCreator(resGrService.createOutboundResourceGroup,
   fieldsToSend, preRequestHandler);
 const itemUpdater = new SDKItemUpdater(resGrService.updateOutboundResourceGroup,
@@ -53,7 +53,7 @@ const itemUpdater = new SDKItemUpdater(resGrService.updateOutboundResourceGroup,
 const itemDeleter = new SDKItemDeleter(resGrService.deleteOutboundResourceGroup);
 
 export const getResGroupList = (params) => listGetter.getList(params);
-export const getResGroup = ({ itemId }) => itemGetter.getItem(itemId);
+export const getResGroup = (params) => itemGetter.getItem(params);
 export const addResGroup = ({ itemInstance }) => itemCreator.createItem(itemInstance);
 export const updateResGroup = ({ itemId, itemInstance }) => (
   itemUpdater.updateItem(itemId, itemInstance)

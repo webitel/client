@@ -2,7 +2,7 @@ import { AgentServiceApiFactory } from 'webitel-sdk';
 import instance from '../../instance';
 import configuration from '../../openAPIConfig';
 import SDKListGetter from '../../utils/ApiControllers/ListGetter/SDKListGetter';
-import SDKItemGetter from '../../utils/ApiControllers/Getter/SDKGetter';
+import SDKGetter from '../../utils/ApiControllers/Getter/SDKGetter';
 import SDKPatcher from '../../utils/ApiControllers/Patcher/SDKPatcher';
 
 const agentService = new AgentServiceApiFactory(configuration, '', instance);
@@ -34,12 +34,13 @@ const agentGetterResponseHandler = (agent) => ({ agent });
 
 const listGetter = new SDKListGetter(agentService.searchAgent, { defaultListObject })
   .setGetListMethod(getTeamAgents);
-const itemGetter = new SDKItemGetter(agentService.readAgent, null,
-  agentGetterResponseHandler);
+const itemGetter = new SDKGetter(agentService.readAgent, {
+  itemResponseHandler: agentGetterResponseHandler,
+});
 const itemPatcher = new SDKPatcher(agentService.patchAgent);
 
 export const getTeamAgentsList = (params) => listGetter.getList(params);
-export const getTeamAgent = ({ itemId }) => itemGetter.getItem(itemId);
+export const getTeamAgent = (params) => itemGetter.getItem(params);
 export const addTeamAgent = ({ parentId, itemInstance }) => {
   const { id } = itemInstance.agent;
   const changes = { team: { id: parentId } };

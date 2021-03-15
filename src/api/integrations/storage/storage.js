@@ -4,7 +4,7 @@ import configuration from '../../openAPIConfig';
 import SDKItemDeleter from '../../utils/ApiControllers/Deleter/SDKDeleter';
 import SDKItemUpdater from '../../utils/ApiControllers/Updater/SDKUpdater';
 import SDKItemCreator from '../../utils/ApiControllers/Creator/SDKCreator';
-import SDKItemGetter from '../../utils/ApiControllers/Getter/SDKGetter';
+import SDKGetter from '../../utils/ApiControllers/Getter/SDKGetter';
 import SDKListGetter from '../../utils/ApiControllers/ListGetter/SDKListGetter';
 import SDKItemPatcher from '../../utils/ApiControllers/Patcher/SDKPatcher';
 import AWSRegions from '../../../store/modules/integrations/storage/_internals/lookups/AWSRegions.lookup';
@@ -23,7 +23,7 @@ const defaultListObject = {
   priority: 0,
 };
 
-const defaultObject = {
+const defaultSingleObject = {
   maxSize: 0,
   expireDays: 0,
   priority: 0,
@@ -65,8 +65,8 @@ const preRequestHandler = (item) => {
 
 const listGetter = new SDKListGetter(storageService.searchBackendProfile,
   { defaultListObject, listResponseHandler });
-const itemGetter = new SDKItemGetter(storageService.readBackendProfile,
-  defaultObject, itemResponseHandler);
+const itemGetter = new SDKGetter(storageService.readBackendProfile,
+  { defaultSingleObject, itemResponseHandler });
 const itemCreator = new SDKItemCreator(storageService.createBackendProfile,
   fieldsToSend, preRequestHandler);
 const itemPatcher = new SDKItemPatcher(storageService.patchBackendProfile, fieldsToSend);
@@ -75,7 +75,7 @@ const itemUpdater = new SDKItemUpdater(storageService.updateBackendProfile,
 const itemDeleter = new SDKItemDeleter(storageService.deleteBackendProfile);
 
 export const getStorageList = (params) => listGetter.getList(params);
-export const getStorage = ({ itemId }) => itemGetter.getItem(itemId);
+export const getStorage = (params) => itemGetter.getItem(params);
 export const addStorage = ({ itemInstance }) => itemCreator.createItem(itemInstance);
 export const patchStorage = ({ id, changes }) => itemPatcher.patchItem(id, changes);
 export const updateStorage = ({ itemId, itemInstance }) => (

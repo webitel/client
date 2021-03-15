@@ -23,7 +23,7 @@ const defaultListObject = {
   _isSelected: false,
 };
 
-const defaultObject = {
+const defaultSingleObject = {
   createdAt: 'unknown',
   priority: '0',
   name: 'member',
@@ -35,7 +35,7 @@ const defaultObject = {
   _dirty: false,
 };
 
-const defaultObjectCommunication = {
+const defaultSingleObjectCommunication = {
   destination: '',
   display: '',
   priority: 0,
@@ -45,7 +45,7 @@ const defaultObjectCommunication = {
 };
 
 const mapDefaultCommunications = (item) => (
-  item.communications.map((comm) => ({ ...defaultObjectCommunication, ...comm }))
+  item.communications.map((comm) => ({ ...defaultSingleObjectCommunication, ...comm }))
 );
 
 const _getMembersList = (getList) => function ({
@@ -91,7 +91,7 @@ const listGetter = new SDKListGetter(memberService.searchMemberInQueue,
   { defaultListObject, listResponseHandler })
   .setGetListMethod(_getMembersList);
 const itemGetter = new SDKGetter(memberService.readMember,
-  defaultObject, itemResponseHandler);
+  { defaultSingleObject, itemResponseHandler });
 const itemCreator = new SDKCreator(memberService.createMember,
   fieldsToSend, preRequestHandler);
 const itemUpdater = new SDKUpdater(memberService.updateMember,

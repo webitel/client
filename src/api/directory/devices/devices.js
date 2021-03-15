@@ -15,7 +15,7 @@ const defaultListObject = { // default object prototype, to merge response with 
   state: 0,
 };
 
-const defaultItem = { // default object prototype, to merge response with it to get all fields
+const defaultSingleObject = { // default object prototype, to merge response with it to get all fields
   state: 0,
   hotdesks: [],
   hotdesk: false,
@@ -41,13 +41,13 @@ const preRequestHandler = (item) => {
 };
 
 const listGetter = new APIListGetter(BASE_URL, { defaultListObject });
-const itemGetter = new APIItemGetter(BASE_URL, { defaultItem, itemResponseHandler });
+const itemGetter = new APIItemGetter(BASE_URL, { defaultSingleObject, itemResponseHandler });
 const itemCreator = new APIItemCreator(BASE_URL, { fieldsToSend, preRequestHandler });
 const itemUpdater = new APIItemUpdater(BASE_URL, { fieldsToSend, preRequestHandler });
 const itemDeleter = new APIItemDeleter(BASE_URL);
 
 export const getDeviceList = (params) => listGetter.getList(params);
-export const getDevice = ({ itemId }) => itemGetter.getItem(itemId);
+export const getDevice = (params) => itemGetter.getItem(params);
 export const addDevice = async ({ itemInstance }) => itemCreator.createItem(itemInstance);
 export const updateDevice = ({ itemId, itemInstance }) => (
   itemUpdater.updateItem(itemId, itemInstance)

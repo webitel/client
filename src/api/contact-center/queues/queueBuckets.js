@@ -16,7 +16,7 @@ const defaultListObject = {
   _isSelected: false,
 };
 
-const defaultObject = {
+const defaultSingleObject = {
   ratio: 0,
   _dirty: false,
 };
@@ -24,7 +24,7 @@ const defaultObject = {
 const preRequestHandler = (item, parentId) => ({ ...item, queueId: parentId });
 
 const listGetter = new SDKListGetter(queueBucketsService.searchQueueBucket, { defaultListObject });
-const itemGetter = new SDKGetter(queueBucketsService.readQueueBucket, defaultObject);
+const itemGetter = new SDKGetter(queueBucketsService.readQueueBucket, { defaultSingleObject });
 const itemCreator = new SDKCreator(queueBucketsService.createQueueBucket,
   fieldsToSend, preRequestHandler);
 const itemUpdater = new SDKUpdater(queueBucketsService.updateQueueBucket,

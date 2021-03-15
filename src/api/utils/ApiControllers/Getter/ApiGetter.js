@@ -2,8 +2,8 @@ import instance from '../../../instance';
 import BaseItemGetter from './BaseItemGetter';
 
 export default class APIItemGetter extends BaseItemGetter {
-  constructor(baseUrl, { defaultItem, itemResponseHandler, nestedUrl } = {}) {
-    super(null, defaultItem, itemResponseHandler);
+  constructor(baseUrl, { defaultSingleObject, itemResponseHandler, nestedUrl } = {}) {
+    super({ defaultSingleObject, itemResponseHandler });
     this.baseUrl = baseUrl;
     if (nestedUrl) this.nestedUrl = nestedUrl;
   }
@@ -20,8 +20,8 @@ export default class APIItemGetter extends BaseItemGetter {
     }
   }
 
-  getItem(id) {
-    return this._getItem(id);
+  getItem({ itemId }) {
+    return this._getItem(itemId);
   }
 
   getNestedItem({ parentId, itemId }) {

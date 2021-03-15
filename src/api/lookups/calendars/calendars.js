@@ -5,7 +5,7 @@ import SDKItemDeleter from '../../utils/ApiControllers/Deleter/SDKDeleter';
 import SDKItemUpdater from '../../utils/ApiControllers/Updater/SDKUpdater';
 import SDKItemCreator from '../../utils/ApiControllers/Creator/SDKCreator';
 import SDKListGetter from '../../utils/ApiControllers/ListGetter/SDKListGetter';
-import SDKItemGetter from '../../utils/ApiControllers/Getter/SDKGetter';
+import SDKGetter from '../../utils/ApiControllers/Getter/SDKGetter';
 
 const calendarService = new CalendarServiceApiFactory(configuration, '', instance);
 
@@ -29,7 +29,7 @@ const preRequestHandler = (item) => {
 };
 
 const itemResponseHandler = (response) => {
-  const defaultObject = {
+  const defaultSingleObject = {
     name: '',
     timezone: {},
     description: '',
@@ -55,12 +55,11 @@ const itemResponseHandler = (response) => {
       repeat: except.repeat || false,
     }));
   }
-  return { ...defaultObject, ...response };
+  return { ...defaultSingleObject, ...response };
 };
 
 const listGetter = new SDKListGetter(calendarService.searchCalendar);
-const itemGetter = new SDKItemGetter(calendarService.readCalendar,
-  null, itemResponseHandler);
+const itemGetter = new SDKGetter(calendarService.readCalendar, { itemResponseHandler });
 const timezoneGetter = new SDKListGetter(calendarService.searchTimezones);
 const itemCreator = new SDKItemCreator(calendarService.createCalendar,
   fieldsToSend, preRequestHandler);
@@ -69,7 +68,7 @@ const itemUpdater = new SDKItemUpdater(calendarService.updateCalendar,
 const itemDeleter = new SDKItemDeleter(calendarService.deleteCalendar);
 
 export const getCalendarList = (params) => listGetter.getList(params);
-export const getCalendar = ({ itemId }) => itemGetter.getItem(itemId);
+export const getCalendar = (params) => itemGetter.getItem(params);
 export const getCalendarTimezones = async (params) => {
   const response = await timezoneGetter.getList(params);
   return response.list;
