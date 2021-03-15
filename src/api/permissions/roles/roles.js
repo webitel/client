@@ -14,9 +14,9 @@ const defaultItemObject = {
   _dirty: false,
 };
 const listGetter = new WebitelAPIListGetter(BASE_URL);
-const itemGetter = new WebitelAPIItemGetter(BASE_URL, defaultItemObject);
-const itemCreator = new WebitelAPIItemCreator(BASE_URL, fieldsToSend);
-const itemUpdater = new WebitelAPIItemUpdater(BASE_URL, fieldsToSend);
+const itemGetter = new WebitelAPIItemGetter(BASE_URL, { defaultItem: defaultItemObject });
+const itemCreator = new WebitelAPIItemCreator(BASE_URL, { fieldsToSend });
+const itemUpdater = new WebitelAPIItemUpdater(BASE_URL, { fieldsToSend });
 const itemDeleter = new WebitelAPIItemDeleter(BASE_URL);
 
 const PERMISSIONS_LIST_URL = '/permissions';
