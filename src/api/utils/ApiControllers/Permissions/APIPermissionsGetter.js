@@ -8,7 +8,7 @@ export default class APIPermissionsGetter {
   constructor(url) {
     this.baseUrl = url;
     this.listGetter = new ApiListGetter(this.baseUrl, {
-      responseHandler: APIPermissionsGetter.handlePermissionsListResponse,
+      listResponseHandler: APIPermissionsGetter.handlePermissionsListResponse,
       nestedUrl: this._nestedUrl,
     });
   }

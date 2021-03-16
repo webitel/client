@@ -11,7 +11,7 @@ const _getObjclassDefaultList = (method) => function (params) {
 };
 
 const listGetter = new ApiListGetter(BASE_URL, {
-  responseHandler: APIPermissionsGetter.handlePermissionsListResponse,
+  listResponseHandler: APIPermissionsGetter.handlePermissionsListResponse,
 }).setGetListMethod(_getObjclassDefaultList);
 const itemPatcher = new ApiPatcher(BASE_URL, { nestedUrl: 'grantor' });
 
