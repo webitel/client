@@ -1,33 +1,9 @@
 import obac from './modules/obac/object-obac';
 import rbac from './modules/rbac/object-rbac';
-import { DefaultModule } from '../../defaults/DefaultModule';
-import {
-  getObject,
-  getObjectList,
-  patchObject,
-} from '../../../../api/permissions/objects/objects';
-
-const defaultState = () => ({
-  itemId: 0,
-  itemInstance: {},
-});
-const defaultModule = new DefaultModule(defaultState);
-
-const state = {
-  ...defaultModule.state,
-};
-
-const getters = {};
+import DefaultModule from '../../../BaseModules/defaults/DefaultModule';
+import ObjectsAPI from '../../../../api/permissions/objects/objects';
 
 const actions = {
-  ...defaultModule.actions,
-
-  GET_LIST: (context) => getObjectList(context.state),
-
-  GET_ITEM: (context) => getObject(context.state),
-
-  PATCH_ITEM: (context, { id, changes }) => patchObject({ id, changes }),
-
   TOGGLE_OBJECT_OBAC: (context, payload) => context.dispatch('PATCH_ITEM_PROPERTY', { prop: 'obac', ...payload }),
   TOGGLE_OBJECT_RBAC: (context, payload) => context.dispatch('PATCH_ITEM_PROPERTY', { prop: 'rbac', ...payload }),
 
@@ -38,15 +14,10 @@ const actions = {
   },
 };
 
-const mutations = {
-  ...defaultModule.mutations,
-};
+const objects = new DefaultModule()
+  .attachAPIModule(ObjectsAPI)
+  .generateAPIActions()
+  .setChildModules({ obac, rbac })
+  .getModule({ actions });
 
-export default {
-  namespaced: true,
-  state,
-  getters,
-  actions,
-  mutations,
-  modules: { obac, rbac },
-};
+export default objects;

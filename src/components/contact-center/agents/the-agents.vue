@@ -11,7 +11,7 @@
     <template slot="main">
       <history-popup
         v-if="historyId"
-        @close="read(null)"
+        @close="closeHistoryPopup"
       ></history-popup>
 
       <section class="main-section__wrapper">
@@ -66,7 +66,7 @@
 
             <template slot="actions" slot-scope="{ item, index }">
               <history-action
-                @click="read(item.id)"
+                @click="openHistory(item.id)"
               ></history-action>
               <edit-action
                 v-if="hasEditAccess"
@@ -118,7 +118,9 @@ export default {
       size: (state) => state.size,
       search: (state) => state.search,
       isNext: (state) => state.isNextPage,
-      historyId: (state) => state.history.itemId,
+    }),
+    ...mapState('ccenter/agents/history', {
+      historyId: (state) => state.parentId,
     }),
 
     headers() {
@@ -138,11 +140,17 @@ export default {
   },
 
   methods: {
-    ...mapActions('ccenter/agents', {
-      read: 'SET_HISTORY_ITEM_ID',
+    ...mapActions({
+      openHistory(dispatch, payload) {
+        return dispatch(`${this.namespace}/history/SET_PARENT_ITEM_ID`, payload);
+      },
     }),
 
     convertDuration,
+
+    closeHistoryPopup() {
+      this.openHistory(null);
+    },
 
     computeOnlineText(state) {
       switch (state) {

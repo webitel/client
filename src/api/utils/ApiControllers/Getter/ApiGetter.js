@@ -1,23 +1,31 @@
 import instance from '../../../instance';
 import BaseItemGetter from './BaseItemGetter';
 
-// remove named export after refactor with default export
-export class WebitelAPIItemGetter extends BaseItemGetter {
-  constructor(url, defaultItem) {
-    super(null, defaultItem);
-    this.url = url;
+export default class APIItemGetter extends BaseItemGetter {
+  constructor(baseUrl, { defaultSingleObject, itemResponseHandler, nestedUrl } = {}) {
+    super({ defaultSingleObject, itemResponseHandler });
+    this.baseUrl = baseUrl;
+    if (nestedUrl) this.nestedUrl = nestedUrl;
   }
 
-  async getItem(id) {
-    const getUrl = `${this.url}/${id}`;
-
+  async _getItem(id, baseUrl = this.baseUrl) {
+    const getUrl = `${baseUrl}/${id}`;
     try {
-      const response = await instance.get(getUrl);
-      return this.responseHandler(response);
+      let response = await instance.get(getUrl);
+      response = this.responseHandler(response);
+      if (this.userResponseHandler) response = this.userResponseHandler(response);
+      return response;
     } catch (err) {
       throw err;
     }
   }
-}
 
-export default WebitelAPIItemGetter;
+  getItem({ itemId }) {
+    return this._getItem(itemId);
+  }
+
+  getNestedItem({ parentId, itemId }) {
+    const baseUrl = `${this.baseUrl}/${parentId}/${this.nestedUrl}`;
+    return this._getItem(itemId, baseUrl);
+  }
+}

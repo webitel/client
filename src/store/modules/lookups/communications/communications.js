@@ -1,50 +1,17 @@
 import CommunicationsAPI from '../../../../api/lookups/communications/communications';
-import { DefaultModule } from "../../defaults/DefaultModule";
+import DefaultModule from '../../../BaseModules/defaults/DefaultModule';
 
-const defaultState = () => ({
-  itemId: 0,
+const resettableState = {
   itemInstance: {
     name: '',
     code: '',
     description: '',
   },
-});
-
-const defaultModule = new DefaultModule(defaultState);
-
-const state = {
-  ...defaultModule.state,
 };
 
-const getters = {};
+const communications = new DefaultModule(resettableState)
+  .attachAPIModule(CommunicationsAPI)
+  .generateAPIActions()
+  .getModule();
 
-const actions = {
-  ...defaultModule.actions,
-  GET_LIST: (context) => {
-    return CommunicationsAPI.getList(context.state);
-  },
-  GET_ITEM: (context) => {
-    return CommunicationsAPI.get(context.state);
-  },
-  POST_ITEM: (context) => {
-    return CommunicationsAPI.add(context.state);
-  },
-  UPD_ITEM: (context) => {
-    return CommunicationsAPI.update(context.state);
-  },
-  DELETE_ITEM: async (context, id) => {
-    return CommunicationsAPI.delete({ id });
-  },
-};
-
-const mutations = {
-  ...defaultModule.mutations,
-};
-
-export default {
-  namespaced: true,
-  state,
-  getters,
-  actions,
-  mutations,
-};
+export default communications;

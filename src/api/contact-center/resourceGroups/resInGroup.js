@@ -1,85 +1,36 @@
 import { OutboundResourceGroupServiceApiFactory } from 'webitel-sdk';
-import deepCopy from 'deep-copy';
-import eventBus from '@webitel/ui-sdk/src/scripts/eventBus';
 import instance from '../../instance';
 import configuration from '../../openAPIConfig';
-import sanitizer from '../../utils/sanitizer';
-import store from '../../../store/store';
+import SDKListGetter from '../../utils/ApiControllers/ListGetter/SDKListGetter';
+import SDKGetter from '../../utils/ApiControllers/Getter/SDKGetter';
+import SDKCreator from '../../utils/ApiControllers/Creator/SDKCreator';
+import SDKUpdater from '../../utils/ApiControllers/Updater/SDKUpdater';
+import SDKDeleter from '../../utils/ApiControllers/Deleter/SDKDeleter';
 
 const resGrService = new OutboundResourceGroupServiceApiFactory(configuration, '', instance);
 
-const fieldsToSend = ['domainId', 'groupId', 'name', 'description', 'resource'];
+const fieldsToSend = ['groupId', 'name', 'description', 'resource'];
 
+const preRequestHandler = (item, parentId) => ({ ...item, groupId: parentId });
 
-export const getResInGroupList = async (resGroupId, page = 0, size = 10, search) => {
-  const { domainId } = store.state.userinfo;
-  if (search && search.slice(-1) !== '*') search += '*';
-  const defaultObject = {
-    resource: {},
-    _isSelected: false,
-  };
-  try {
-    const response = await resGrService.searchOutboundResourceInGroup(resGroupId, page, size, search, domainId);
-    if (response.items) {
-      return {
-        list: response.items.map((item) => ({ ...defaultObject, ...item })),
-        isNext: response.next || false,
-      };
-    }
-    return [];
-  } catch (err) {
-    throw err;
-  }
-};
+const listGetter = new SDKListGetter(resGrService.searchOutboundResourceInGroup);
+const itemGetter = new SDKGetter(resGrService.readOutboundResourceInGroup);
+const itemCreator = new SDKCreator(resGrService.createOutboundResourceInGroup,
+  { fieldsToSend, preRequestHandler });
+const itemUpdater = new SDKUpdater(resGrService.updateOutboundResourceInGroup,
+  { fieldsToSend, preRequestHandler });
+const itemDeleter = new SDKDeleter(resGrService.deleteOutboundResourceInGroup);
 
-export const getResInGroup = async (resGrId, id) => {
-  const { domainId } = store.state.userinfo;
-  const defaultObject = {
-    display: '',
-    id: 0,
-    _dirty: false,
-  };
+export const getResInGroupList = (params) => listGetter.getNestedList(params);
+export const getResInGroup = (params) => itemGetter.getNestedItem(params);
+export const addResInGroup = (params) => itemCreator.createNestedItem(params);
+export const updateResInGroup = (params) => itemUpdater.updateNestedItem(params);
+export const deleteResInGroup = (params) => itemDeleter.deleteNestedItem(params);
 
-  try {
-    const response = await resGrService.readOutboundResourceInGroup(resGrId, id, domainId);
-    return { ...defaultObject, ...response };
-  } catch (err) {
-    throw err;
-  }
-};
-
-export const addResInGroup = async (resGroupId, item) => {
-  const itemCopy = deepCopy(item);
-  itemCopy.domainId = store.state.userinfo.domainId;
-  itemCopy.groupId = resGroupId;
-  sanitizer(itemCopy, fieldsToSend);
-  try {
-    const response = await resGrService.createOutboundResourceInGroup(resGroupId, itemCopy);
-    eventBus.$emit('notification', { type: 'info', text: 'Successfully added' });
-    return response.id;
-  } catch (err) {
-    throw err;
-  }
-};
-
-export const updateResInGroup = async (resGroupId, id, item) => {
-  const itemCopy = deepCopy(item);
-  itemCopy.domainId = store.state.userinfo.domainId;
-  itemCopy.groupId = resGroupId;
-  sanitizer(itemCopy, fieldsToSend);
-  try {
-    await resGrService.updateOutboundResourceInGroup(resGroupId, id, itemCopy);
-    eventBus.$emit('notification', { type: 'info', text: 'Successfully updated' });
-  } catch (err) {
-    throw err;
-  }
-};
-
-export const deleteResInGroup = async (resGroupId, id) => {
-  const { domainId } = store.state.userinfo;
-  try {
-    await resGrService.deleteOutboundResourceInGroup(resGroupId, id, domainId);
-  } catch (err) {
-    throw err;
-  }
+export default {
+  getList: getResInGroupList,
+  get: getResInGroup,
+  add: addResInGroup,
+  update: updateResInGroup,
+  delete: deleteResInGroup,
 };

@@ -38,7 +38,7 @@ export default {
       setItemProp: 'SET_ITEM_PROPERTY',
     }),
     async loadDropdownOptionsList(search) {
-      const response = await getLicenseList(1, 10, search);
+      const response = await getLicenseList({ search });
       return response.list.map((item) => ({
         name: item.product,
         id: item.id,

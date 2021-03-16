@@ -1,28 +1,38 @@
 import deepCopy from 'deep-copy';
 import eventBus from '@webitel/ui-sdk/src/scripts/eventBus';
-import store from '../../../../store/store';
 import sanitizer from '../../sanitizer';
 import instance from '../../../instance';
 import BaseItemCreator from './BaseItemCreator';
 
-export class WebitelAPIItemCreator extends BaseItemCreator {
-  constructor(url, fieldsToSend, preRequestHandler) {
-    super(null, fieldsToSend);
-    this.url = url;
-    this.preRequestHandler = preRequestHandler;
+export default class APICreator extends BaseItemCreator {
+  constructor(baseUrl, { nestedUrl, ...options } = {}) {
+    super(options);
+    this.baseUrl = baseUrl;
+    if (nestedUrl) this.nestedUrl = nestedUrl;
   }
 
-  async createItem(item) {
-    const itemCopy = deepCopy(item);
-    itemCopy.domainId = store.state.userinfo.domainId;
-    if (this.preRequestHandler) this.preRequestHandler(itemCopy);
-    sanitizer(itemCopy, this.fieldsToSend);
+  async _createItem(item, baseUrl = this.baseUrl) {
     try {
-      const response = await instance.post(this.url, itemCopy);
+      const response = await instance.post(baseUrl, item);
       eventBus.$emit('notification', { type: 'info', text: 'Successfully added' });
       return this.responseHandler(response);
     } catch (err) {
       throw err;
     }
+  }
+
+  createItem({ itemInstance }) {
+    const itemCopy = deepCopy(itemInstance);
+    if (this.preRequestHandler) this.preRequestHandler(itemCopy);
+    if (this.fieldsToSend) sanitizer(itemCopy, this.fieldsToSend);
+    return this._createItem(itemCopy);
+  }
+
+  createNestedItem({ parentId, itemInstance }) {
+    const itemCopy = deepCopy(itemInstance);
+    if (this.preRequestHandler) this.preRequestHandler(itemCopy);
+    if (this.fieldsToSend) sanitizer(itemCopy, this.fieldsToSend);
+    const baseUrl = `${this.baseUrl}/${parentId}/${this.nestedUrl}`;
+    return this._createItem(itemCopy, baseUrl);
   }
 }

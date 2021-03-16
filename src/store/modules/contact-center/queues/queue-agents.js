@@ -1,14 +1,5 @@
 import QueueAgentsAPI from '../../../../api/contact-center/queues/queueAgents';
-import { DefaultNestedModule } from '../../defaults/DefaultNestedModule';
-
-const defaultItemState = () => ({
-});
-
-const defaultNestedModule = new DefaultNestedModule(null, defaultItemState);
-
-const state = {
-  ...defaultNestedModule.state,
-};
+import DefaultNestedModule from '../../../BaseModules/defaults/DefaultNestedModule';
 
 const getters = {
   GET_ITEM_SKILLS: (state) => (id) => {
@@ -18,20 +9,12 @@ const getters = {
 };
 
 const actions = {
-  ...defaultNestedModule.actions,
   GET_LIST: (context) => {
     return QueueAgentsAPI.getList(context.state);
   },
 };
 
-const mutations = {
-  ...defaultNestedModule.mutations,
-};
+const queueAgents = new DefaultNestedModule()
+  .getModule({ getters, actions });
 
-export default {
-  namespaced: true,
-  state,
-  getters,
-  actions,
-  mutations,
-};
+export default queueAgents;

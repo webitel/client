@@ -1,11 +1,15 @@
 export default class BaseItemGetter {
-  default = { _dirty: false };
-
-  constructor(method, defaultItem, responseHandler) {
-    this.method = method;
-    this.default = defaultItem || this.default;
-    if (responseHandler) this.userResponseHandler = responseHandler;
+  constructor({ defaultSingleObject = {}, itemResponseHandler } = {}) {
+    const _defaultSingleObject = { _dirty: false };
+    this._defaultSingleObject = { ..._defaultSingleObject, ...defaultSingleObject };
+    if (itemResponseHandler) this.userResponseHandler = itemResponseHandler;
   }
 
-  responseHandler = (response) => ({ ...this.default, ...response });
+  responseHandler = (response) => ({ ...this._defaultSingleObject, ...response });
+
+  // eslint-disable-next-line class-methods-use-this
+  _getItem() {}
+
+  // eslint-disable-next-line class-methods-use-this
+  getItem() {}
 }

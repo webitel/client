@@ -58,7 +58,7 @@
                 class="test__resources__enable-switcher"
                 :value="item.enabled"
                 :disabled="!hasEditAccess"
-                @change="patchProperty({ index, prop: 'enabled', value: $event })"
+                @change="patchProperty({ index, item, prop: 'enabled', value: $event })"
               ></wt-switcher>
             </template>
             <template slot="reserve" slot-scope="{ item, index }">
@@ -66,7 +66,7 @@
                 class="test__resources__reserve-switcher"
                 :value="item.reserve"
                 :disabled="!hasEditAccess"
-                @change="patchProperty({ index, prop: 'reserve', value: $event })"
+                @change="patchProperty({ index, item, prop: 'reserve', value: $event })"
               ></wt-switcher>
             </template>
             <template slot="actions" slot-scope="{ item, index }">

@@ -2,17 +2,17 @@ import { AgentServiceApiFactory } from 'webitel-sdk';
 import instance from '../../instance';
 import configuration from '../../openAPIConfig';
 import SDKListGetter from '../../utils/ApiControllers/ListGetter/SDKListGetter';
-import SDKItemGetter from '../../utils/ApiControllers/Getter/SDKGetter';
-import SDKItemCreator from '../../utils/ApiControllers/Creator/SDKCreator';
-import SDKItemUpdater from '../../utils/ApiControllers/Updater/SDKUpdater';
-import SDKItemDeleter from '../../utils/ApiControllers/Deleter/SDKDeleter';
+import SDKGetter from '../../utils/ApiControllers/Getter/SDKGetter';
+import SDKCreator from '../../utils/ApiControllers/Creator/SDKCreator';
+import SDKUpdater from '../../utils/ApiControllers/Updater/SDKUpdater';
+import SDKDeleter from '../../utils/ApiControllers/Deleter/SDKDeleter';
 
 const agentService = new AgentServiceApiFactory(configuration, '', instance);
 
 const fieldsToSend = ['user', 'team', 'supervisor', 'auditor', 'region', 'progressiveCount',
   'chatCount', 'isSupervisor'];
 
-const defaultObject = {
+const defaultSingleObject = {
   user: {},
   team: {},
   supervisor: {},
@@ -22,7 +22,6 @@ const defaultObject = {
   chatCount: 0,
   isSupervisor: false,
   description: '',
-  _dirty: false,
 };
 const getSupervisorsList = (getList) => function ({
                                                     page = 1,
@@ -36,40 +35,44 @@ const getSupervisorsList = (getList) => function ({
   return getList(params);
 };
 
-const listGetter = new SDKListGetter(agentService.searchAgent);
-const itemGetter = new SDKItemGetter(agentService.readAgent, defaultObject);
-const itemCreator = new SDKItemCreator(agentService.createAgent, fieldsToSend);
-const itemUpdater = new SDKItemUpdater(agentService.updateAgent, fieldsToSend);
-const itemDeleter = new SDKItemDeleter(agentService.deleteAgent);
+const _getAgentHistory = (getList) => function ({
+                                         parentId,
+                                         from,
+                                         to,
+                                         page,
+                                         size,
+                                       }) {
+  // parentId -- agent id
+  const sort = '-joined_at';
+  const params = [page, size, from, to, parentId, sort];
+  return getList(params);
+};
+
+const listGetter = new SDKListGetter(agentService.searchAgent)
+  .setGetListMethod(getSupervisorsList);
+const itemGetter = new SDKGetter(agentService.readAgent, { defaultSingleObject });
+const itemCreator = new SDKCreator(agentService.createAgent, fieldsToSend);
+const itemUpdater = new SDKUpdater(agentService.updateAgent, fieldsToSend);
+const itemDeleter = new SDKDeleter(agentService.deleteAgent);
+
+const historyListGetter = new SDKListGetter(agentService.searchAgentStateHistory)
+  .setGetListMethod(_getAgentHistory);
 
 const supervisorsListGetter = new SDKListGetter(agentService.searchAgent);
 const newAgentUsersGetter = new SDKListGetter(agentService.searchLookupUsersAgentNotExists);
 const agentQueuesGetter = new SDKListGetter(agentService.searchAgentInQueue);
 
 export const getAgentsList = (params) => listGetter.getList(params);
-export const getAgent = ({ itemId }) => itemGetter.getItem(itemId);
-export const addAgent = ({ itemInstance }) => itemCreator.createItem(itemInstance);
-export const updateAgent = ({ itemId, itemInstance }) => (
-  itemUpdater.updateItem(itemId, itemInstance)
-);
-export const deleteAgent = ({ id }) => itemDeleter.deleteItem(id);
+export const getAgent = (params) => itemGetter.getItem(params);
+export const addAgent = (params) => itemCreator.createItem(params);
+export const updateAgent = (params) => itemUpdater.updateItem(params);
+export const deleteAgent = (params) => itemDeleter.deleteItem(params);
+
+export const getAgentHistory = (params) => historyListGetter.getList(params);
 
 export const getAgentUsersOptions = (params) => newAgentUsersGetter.getList(params);
-export const getAgentSupervisorsOptions = (params) => (
-  supervisorsListGetter
-    .setGetListMethod(getSupervisorsList)
-    .getList(params)
-);
+export const getAgentSupervisorsOptions = (params) => supervisorsListGetter.getList(params);
 export const getAgentQueuesList = (params) => agentQueuesGetter.getNestedList(params);
-
-export const getAgentHistory = async (id, date, page = 0, size = 10) => {
-  try {
-    const response = await agentService.searchAgentStateHistory(page, size, date, Date.now(), id, '-joined_at');
-    return response.items ? response.items : [];
-  } catch (err) {
-    throw err;
-  }
-};
 
 export default {
   getList: getAgentsList,

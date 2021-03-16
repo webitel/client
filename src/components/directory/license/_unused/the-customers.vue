@@ -44,7 +44,7 @@
 <script>
     import vuetable from 'vuetable-2/src/components/Vuetable';
     import { _actionsTableField_1 } from '@/utils/tableFieldPresets';
-    import objectHeader from '../../object-utils/the-object-header';
+    import objectHeader from '../../../object-utils/the-object-header';
     import license from './opened-license';
 
 
@@ -76,7 +76,6 @@
             // this.$router.push({path: '/license', query: {id: '0'}})
         },
         mounted() {
-            // FIXME: delete test data
             for (let i = 0; i < 4; i++) {
                 this.test.push({
                     serial: `${i}${i}${i}`,

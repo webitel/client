@@ -1,11 +1,11 @@
 import { AgentPauseCauseServiceApiFactory } from 'webitel-sdk';
 import instance from '../../instance';
 import configuration from '../../openAPIConfig';
-import SDKItemDeleter from '../../utils/ApiControllers/Deleter/SDKDeleter';
-import SDKItemUpdater from '../../utils/ApiControllers/Updater/SDKUpdater';
-import SDKItemPatcher from '../../utils/ApiControllers/Patcher/SDKPatcher';
-import SDKItemCreator from '../../utils/ApiControllers/Creator/SDKCreator';
-import SDKItemGetter from '../../utils/ApiControllers/Getter/SDKGetter';
+import SDKDeleter from '../../utils/ApiControllers/Deleter/SDKDeleter';
+import SDKUpdater from '../../utils/ApiControllers/Updater/SDKUpdater';
+import SDKPatcher from '../../utils/ApiControllers/Patcher/SDKPatcher';
+import SDKCreator from '../../utils/ApiControllers/Creator/SDKCreator';
+import SDKGetter from '../../utils/ApiControllers/Getter/SDKGetter';
 import SDKListGetter from '../../utils/ApiControllers/ListGetter/SDKListGetter';
 
 const pauseCauseService = new AgentPauseCauseServiceApiFactory(configuration, '', instance);
@@ -20,30 +20,28 @@ const defaultListObject = {
   allowAgent: false,
 };
 
-const defaultObject = {
+const defaultSingleObject = {
   name: '',
   limitMin: 0,
   allowAdmin: false,
   allowSupervisor: false,
   allowAgent: false,
-  _dirty: false,
 };
 
-const listGetter = new SDKListGetter(pauseCauseService.searchAgentPauseCause, defaultListObject);
-const itemGetter = new SDKItemGetter(pauseCauseService.readAgentPauseCause, defaultObject);
-const itemCreator = new SDKItemCreator(pauseCauseService.createAgentPauseCause, fieldsToSend);
-const itemPatcher = new SDKItemPatcher(pauseCauseService.patchAgentPauseCause, fieldsToSend);
-const itemUpdater = new SDKItemUpdater(pauseCauseService.updateAgentPauseCause, fieldsToSend);
-const itemDeleter = new SDKItemDeleter(pauseCauseService.deleteAgentPauseCause);
+const listGetter = new SDKListGetter(pauseCauseService.searchAgentPauseCause,
+  { defaultListObject });
+const itemGetter = new SDKGetter(pauseCauseService.readAgentPauseCause, { defaultSingleObject });
+const itemCreator = new SDKCreator(pauseCauseService.createAgentPauseCause, fieldsToSend);
+const itemPatcher = new SDKPatcher(pauseCauseService.patchAgentPauseCause, fieldsToSend);
+const itemUpdater = new SDKUpdater(pauseCauseService.updateAgentPauseCause, fieldsToSend);
+const itemDeleter = new SDKDeleter(pauseCauseService.deleteAgentPauseCause);
 
 export const getPauseCauseList = (params) => listGetter.getList(params);
-export const getPauseCause = ({ itemId }) => itemGetter.getItem(itemId);
-export const addPauseCause = ({ itemInstance }) => itemCreator.createItem(itemInstance);
-export const patchPauseCause = ({ id, changes }) => itemPatcher.patchItem(id, changes);
-export const updatePauseCause = ({ itemId, itemInstance }) => (
-  itemUpdater.updateItem(itemId, itemInstance)
-);
-export const deletePauseCause = ({ id }) => itemDeleter.deleteItem(id);
+export const getPauseCause = (params) => itemGetter.getItem(params);
+export const addPauseCause = (params) => itemCreator.createItem(params);
+export const patchPauseCause = (params) => itemPatcher.patchItem(params);
+export const updatePauseCause = (params) => itemUpdater.updateItem(params);
+export const deletePauseCause = (params) => itemDeleter.deleteItem(params);
 
 export default {
   getList: getPauseCauseList,

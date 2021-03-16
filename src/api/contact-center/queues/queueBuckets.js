@@ -1,84 +1,44 @@
 import { QueueBucketServiceApiFactory } from 'webitel-sdk';
-import deepCopy from 'deep-copy';
-import eventBus from '@webitel/ui-sdk/src/scripts/eventBus';
 import instance from '../../instance';
 import configuration from '../../openAPIConfig';
-import sanitizer from '../../utils/sanitizer';
-import store from '../../../store/store';
+import SDKListGetter from '../../utils/ApiControllers/ListGetter/SDKListGetter';
+import SDKGetter from '../../utils/ApiControllers/Getter/SDKGetter';
+import SDKCreator from '../../utils/ApiControllers/Creator/SDKCreator';
+import SDKUpdater from '../../utils/ApiControllers/Updater/SDKUpdater';
+import SDKDeleter from '../../utils/ApiControllers/Deleter/SDKDeleter';
 
 const queueBucketsService = new QueueBucketServiceApiFactory(configuration, '', instance);
 
 const fieldsToSend = ['bucket', 'ratio', 'queueId'];
 
-export const getQueueBucketsList = async (queueId, page = 0, size = 10, search) => {
-  const { domainId } = store.state.userinfo;
-  const defaultObject = {
-    ratio: 0,
-    _isSelected: false,
-  };
-  if (search && search.slice(-1) !== '*') search += '*';
-
-  try {
-    const response = await queueBucketsService.searchQueueBucket(queueId, page, size, search, domainId);
-    if (response.items) {
-      return {
-        list: response.items.map((item) => ({ ...defaultObject, ...item })),
-        isNext: response.next || false,
-      };
-    }
-    return [];
-  } catch (err) {
-    throw err;
-  }
+const defaultListObject = {
+  ratio: 0,
 };
 
-export const getQueueBucket = async (queueId, id) => {
-  const { domainId } = store.state.userinfo;
-  const defaultObject = {
-    ratio: 0,
-    _dirty: false,
-  };
-  try {
-    const response = await queueBucketsService.readQueueBucket(queueId, id, domainId);
-    return { ...defaultObject, ...response };
-  } catch (err) {
-    throw err;
-  }
+const defaultSingleObject = {
+  ratio: 0,
 };
 
-export const addQueueBucket = async (queueId, item) => {
-  const itemCopy = deepCopy(item);
-  itemCopy.domainId = store.state.userinfo.domainId;
-  itemCopy.queueId = queueId;
+const preRequestHandler = (item, parentId) => ({ ...item, queueId: parentId });
 
-  sanitizer(itemCopy, fieldsToSend);
-  try {
-    const response = await queueBucketsService.createQueueBucket(queueId, itemCopy);
-    eventBus.$emit('notification', { type: 'info', text: 'Successfully added' });
-    return response.id;
-  } catch (err) {
-    throw err;
-  }
-};
+const listGetter = new SDKListGetter(queueBucketsService.searchQueueBucket, { defaultListObject });
+const itemGetter = new SDKGetter(queueBucketsService.readQueueBucket, { defaultSingleObject });
+const itemCreator = new SDKCreator(queueBucketsService.createQueueBucket,
+  { fieldsToSend, preRequestHandler });
+const itemUpdater = new SDKUpdater(queueBucketsService.updateQueueBucket,
+  { fieldsToSend, preRequestHandler });
+const itemDeleter = new SDKDeleter(queueBucketsService.deleteQueueBucket);
 
-export const updateQueueBucket = async (queueId, id, item) => {
-  const itemCopy = deepCopy(item);
-  itemCopy.domainId = store.state.userinfo.domainId;
-  itemCopy.queueId = queueId;
-  sanitizer(itemCopy, fieldsToSend);
-  try {
-    await queueBucketsService.updateQueueBucket(queueId, id, itemCopy);
-    eventBus.$emit('notification', { type: 'info', text: 'Successfully updated' });
-  } catch (err) {
-    throw err;
-  }
-};
+export const getQueueBucketsList = (params) => listGetter.getNestedList(params);
+export const getQueueBucket = (params) => itemGetter.getNestedItem(params);
+export const addQueueBucket = (params) => itemCreator.createNestedItem(params);
+export const updateQueueBucket = (params) => itemUpdater.updateNestedItem(params);
+export const deleteQueueBucket = (params) => itemDeleter.deleteNestedItem(params);
 
-export const deleteQueueBucket = async (queueId, id) => {
-  const { domainId } = store.state.userinfo;
-  try {
-    await queueBucketsService.deleteQueueBucket(queueId, id, domainId);
-  } catch (err) {
-    throw err;
-  }
+export default {
+  getList: getQueueBucketsList,
+  get: getQueueBucket,
+  add: addQueueBucket,
+  update: updateQueueBucket,
+  delete: deleteQueueBucket,
 };

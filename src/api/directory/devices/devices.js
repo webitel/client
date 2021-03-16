@@ -1,95 +1,75 @@
-import deepCopy from 'deep-copy';
 import instance from '../../instance';
-import { WebitelAPIItemDeleter } from '../../utils/ApiControllers/Deleter/ApiDeleter';
-import { WebitelAPIItemUpdater } from '../../utils/ApiControllers/Updater/ApiUpdater';
-import { WebitelAPIItemCreator } from '../../utils/ApiControllers/Creator/ApiCreator';
-import { WebitelAPIItemGetter } from '../../utils/ApiControllers/Getter/ApiGetter';
-import { WebitelAPIListGetter } from '../../utils/ApiControllers/ListGetter/ApiListGetter';
-
+import APIItemDeleter from '../../utils/ApiControllers/Deleter/ApiDeleter';
+import APIUpdater from '../../utils/ApiControllers/Updater/ApiUpdater';
+import APICreator from '../../utils/ApiControllers/Creator/ApiCreator';
+import APIItemGetter from '../../utils/ApiControllers/Getter/ApiGetter';
+import APIListGetter from '../../utils/ApiControllers/ListGetter/ApiListGetter';
 
 const BASE_URL = '/devices';
 const fieldsToSend = ['name', 'account', 'password', 'user',
   'mac', 'ip', 'brand', 'model', 'hotdesks', 'hotdesk',
 ];
 
-const defaultListItem = { // default object prototype, to merge response with it to get all fields
-  _isSelected: false,
-  name: '',
-  account: '',
-  user: {},
+const defaultListObject = { // default object prototype, to merge response with it to get all fields
   state: 0,
-  id: 0,
 };
 
-const defaultItem = { // default object prototype, to merge response with it to get all fields
-  name: '',
-  account: '',
-  user: {},
+const defaultSingleObject = {
   state: 0,
-  id: 0,
   hotdesks: [],
   hotdesk: false,
-  password: '',
-  phone: {},
-  brand: '',
-  ip: '',
-  mac: '',
-  model: '',
-  _dirty: false,
+};
+
+const itemResponseHandler = (response) => {
+  if (response.hotdesks) {
+    // eslint-disable-next-line no-param-reassign
+    response.hotdesks = response.hotdesks.map((item) => ({ name: item }));
+  }
+  return response;
 };
 
 const preRequestHandler = (item) => {
   if (item.hotdesks) {
+    // eslint-disable-next-line no-param-reassign
     item.hotdesks = item.hotdesks.map((item) => item.name || item.text);
   }
+  // eslint-disable-next-line no-param-reassign
   if (!item.password) delete item.password;
   return item;
 };
 
-const listGetter = new WebitelAPIListGetter(BASE_URL, defaultListItem);
-const itemGetter = new WebitelAPIItemGetter(BASE_URL, defaultItem);
-const itemCreator = new WebitelAPIItemCreator(BASE_URL, fieldsToSend, preRequestHandler);
-const itemUpdater = new WebitelAPIItemUpdater(BASE_URL, fieldsToSend, preRequestHandler);
-const itemDeleter = new WebitelAPIItemDeleter(BASE_URL);
-
-itemGetter.responseHandler = (response) => {
-  try {
-    if (response.hotdesks) {
-      response.hotdesks = response.hotdesks.map((item) => ({ name: item }));
-    }
-    return { ...defaultItem, ...response };
-  } catch (err) {
-    throw err;
-  }
+const _getDeviceHistory = (getList) => function ({
+                                                   parentId,
+                                                   from,
+                                                   to,
+                                                   page,
+                                                   size,
+                                                 }) {
+  const baseUrl = `${BASE_URL}/${parentId}/users/audit?time_from=${from}&time_to=${to}`;
+  return getList({ page, size }, baseUrl);
 };
 
-export async function getDeviceList(page, size, search) {
-  return listGetter.getList({ page, size, search });
-}
+const listGetter = new APIListGetter(BASE_URL, { defaultListObject });
+const itemGetter = new APIItemGetter(BASE_URL, { defaultSingleObject, itemResponseHandler });
+const itemCreator = new APICreator(BASE_URL, { fieldsToSend, preRequestHandler });
+const itemUpdater = new APIUpdater(BASE_URL, { fieldsToSend, preRequestHandler });
+const itemDeleter = new APIItemDeleter(BASE_URL);
 
-export async function getDevice(id) {
-  return itemGetter.getItem(id);
-}
+const historyListGetter = new APIListGetter(BASE_URL)
+  .setGetListMethod(_getDeviceHistory);
 
-export const addDevice = async (item) => {
-  const itemCopy = deepCopy(item);
-  return itemCreator.createItem(itemCopy);
-};
+export const getDeviceList = (params) => listGetter.getList(params);
+export const getDevice = (params) => itemGetter.getItem(params);
+export const addDevice = async (params) => itemCreator.createItem(params);
+export const updateDevice = (params) => itemUpdater.updateItem(params);
+export const deleteDevice = (params) => itemDeleter.deleteItem(params);
 
-export const updateDevice = async (id, item) => {
-  const itemCopy = deepCopy(item);
-  return itemUpdater.updateItem(id, itemCopy);
-};
+export const getDeviceHistory = (params) => historyListGetter.getList(params);
 
-export const deleteDevice = (id) => itemDeleter.deleteItem(id);
-
-export const getDeviceHistory = async ({ id, from, to, page, size }) => {
-  const url = `${BASE_URL}/${id}/users/audit?time_from=${from}&time_to=${to}&page=${page}&size=${size}`;
-  try {
-    const response = await instance.get(url);
-    if (response.items) return response.items;
-    return [];
-  } catch (err) {
-    throw err;
-  }
+export default {
+  getList: getDeviceList,
+  get: getDevice,
+  add: addDevice,
+  update: updateDevice,
+  delete: deleteDevice,
 };

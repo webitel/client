@@ -9,29 +9,27 @@ const defaultListObject = {
   name: '',
   supervisor: {},
   skills: [],
-  _isSelected: false,
 };
 
-const listGetter = new SDKListGetter(agentService.searchAgent, defaultListObject);
-
 const getQueueAgents = (getList) => function ({
-                                                    parentId,
-                                                    page = 1,
-                                                    size = 10,
-                                                    search,
-                                                  }) {
+                                                parentId,
+                                                page = 1,
+                                                size = 10,
+                                                search,
+                                              }) {
   // parent id == queue id
+  if (!parentId) return;
   const fields = ['id', 'name', 'supervisor', 'skills'];
   const params = [page, size, search, undefined, fields, undefined, undefined,
     undefined, undefined, undefined, undefined, undefined, undefined, undefined, parentId];
+  // eslint-disable-next-line consistent-return
   return getList(params);
 };
 
-export const getQueueAgentsList = (params) => (
-  listGetter
-    .setGetListMethod(getQueueAgents)
-    .getList(params)
-);
+const listGetter = new SDKListGetter(agentService.searchAgent, { defaultListObject })
+  .setGetListMethod(getQueueAgents);
+
+export const getQueueAgentsList = (params) => listGetter.getList(params);
 
 export default {
   getList: getQueueAgentsList,

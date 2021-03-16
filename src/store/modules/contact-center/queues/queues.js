@@ -3,17 +3,11 @@ import agents from './queue-agents';
 import buckets from './queue-buckets';
 import skills from './queue-skills';
 import resGroups from './queue-res-groups';
+import log from './queue-logs';
 import members from './queue-members';
-import {
-  addQueue,
-  deleteQueue,
-  getQueue,
-  getQueuesList,
-  patchQueue,
-  updateQueue,
-} from '../../../../api/contact-center/queues/queues';
-import { DefaultModule } from '../../defaults/DefaultModule';
-import DefaultPermissionsModule from '../../defaults/DefaultPermissionsModule';
+import QueuesAPI from '../../../../api/contact-center/queues/queues';
+import DefaultModule from '../../../BaseModules/defaults/DefaultModule';
+import DefaultPermissionsModule from '../../../BaseModules/defaults/DefaultPermissionsModule';
 import QueueType from './_internals/enums/QueueType.enum';
 import defaultQueueState from './_internals/queueSchema/defaults/defaultQueue';
 import defaultInboundQueueState from './_internals/queueSchema/inboundQueue';
@@ -26,49 +20,11 @@ import defaultChatInboundQueueState from './_internals/queueSchema/chatInboundQu
 import defaultTaskQueueState from './_internals/queueSchema/taskQueue';
 import proxy from '../../../../utils/editProxy';
 
-const defaultState = () => {
-  return {
-    itemId: 0,
-    itemInstance: defaultQueueState(),
-  };
+const resettableState = {
+  itemInstance: defaultQueueState(),
 };
-
-
-const defaultModule = new DefaultModule(defaultState);
-
-const state = {
-  ...defaultModule.state,
-};
-
-const getters = {};
 
 const actions = {
-  ...defaultModule.actions,
-
-  GET_LIST: (context) => {
-    return getQueuesList(context.state.page, context.state.size, context.state.search);
-  },
-
-  GET_ITEM: (context) => {
-    return getQueue(context.state.itemId);
-  },
-
-  POST_ITEM: (context) => {
-    return addQueue(context.state.itemInstance);
-  },
-
-  PATCH_ITEM: (context, { id, changes }) => {
-    return patchQueue(id, changes);
-  },
-
-  UPD_ITEM: (context) => {
-    return updateQueue(context.state.itemId, context.state.itemInstance);
-  },
-
-  DELETE_ITEM: (context, id) => {
-    return deleteQueue(id);
-  },
-
   LOAD_ITEM: async (context, type) => {
     if (context.state.itemId) {
       const item = await context.dispatch('GET_ITEM');
@@ -77,7 +33,6 @@ const actions = {
       context.dispatch('SET_TYPED_ITEM', { type });
     }
   },
-
   SET_TYPED_ITEM: (context, { type, item = {} }) => {
     switch (type) {
       case QueueType.OFFLINE_QUEUE:
@@ -107,33 +62,27 @@ const actions = {
     }
     context.commit('SET_ITEM', proxy(item));
   },
-
   SET_ITEM_PAYLOAD_PROPERTY: (context, payload) => {
     context.commit('SET_ITEM_PAYLOAD_PROPERTY', payload);
     context.commit('SET_ITEM_PROPERTY', { prop: '_dirty', value: true });
   },
-
   SET_AMD_ITEM_PROPERTY: (context, payload) => {
     context.commit('SET_AMD_ITEM_PROPERTY', payload);
     context.commit('SET_ITEM_PROPERTY', { prop: '_dirty', value: true });
   },
-
   ADD_VARIABLE_PAIR: (context) => {
     const pair = { key: '', value: '' };
     context.commit('ADD_VARIABLE_PAIR', pair);
     context.commit('SET_ITEM_PROPERTY', { prop: '_dirty', value: true });
   },
-
   SET_VARIABLE_PROP: (context, { index, prop, value }) => {
     context.commit('SET_VARIABLE_PROP', { index, prop, value });
     context.commit('SET_ITEM_PROPERTY', { prop: '_dirty', value: true });
   },
-
   DELETE_VARIABLE_PAIR: (context, index) => {
     context.commit('DELETE_VARIABLE_PAIR', index);
     context.commit('SET_ITEM_PROPERTY', { prop: '_dirty', value: true });
   },
-
   RESET_ITEM_STATE: async (context) => {
     context.commit('RESET_ITEM_STATE');
     context.dispatch('ccenter/queues/skills/RESET_STATE', {}, { root: true });
@@ -147,36 +96,29 @@ const mutations = {
   SET_ITEM_PAYLOAD_PROPERTY: (state, { prop, value }) => {
     state.itemInstance.payload[prop] = value;
   },
-
   SET_AMD_ITEM_PROPERTY: (state, { prop, value }) => {
     state.itemInstance.payload.amd[prop] = value;
   },
-
   ADD_VARIABLE_PAIR: (state, pair) => {
     state.itemInstance.variables.push(pair);
   },
-
   SET_VARIABLE_PROP: (state, { index, prop, value }) => {
     state.itemInstance.variables[index][prop] = value;
   },
-
   DELETE_VARIABLE_PAIR: (state, index) => {
     state.itemInstance.variables.splice(index, 1);
   },
-
-  ...defaultModule.mutations,
 };
 
 const PERMISSIONS_API_URL = '/call_center/queues';
 const permissions = new DefaultPermissionsModule()
-  .generateAPIMethods(PERMISSIONS_API_URL)
+  .generateAPIActions(PERMISSIONS_API_URL)
   .getModule();
 
-export default {
-  namespaced: true,
-  state,
-  getters,
-  actions,
-  mutations,
-  modules: { agents, skills, buckets, resGroups, members, permissions },
-};
+const queues = new DefaultModule(resettableState)
+  .attachAPIModule(QueuesAPI)
+  .generateAPIActions()
+  .setChildModules({ agents, skills, buckets, resGroups, log, members, permissions })
+  .getModule({ actions, mutations });
+
+export default queues;

@@ -3,11 +3,15 @@ import eventBus from '@webitel/ui-sdk/src/scripts/eventBus';
 import sanitizer from '../../sanitizer';
 import BaseItemCreator from './BaseItemCreator';
 
-// todo: export -> default export
-export class WebitelSDKItemCreator extends BaseItemCreator {
+export default class SDKCreator extends BaseItemCreator {
+  constructor(SDKMethod, options) {
+    super(options);
+    this.SDKMethod = SDKMethod;
+  }
+
   async _createItem(args) {
     try {
-      const response = await this.method(...args);
+      const response = await this.SDKMethod(...args);
       eventBus.$emit('notification', { type: 'info', text: 'Successfully added' });
       return this.responseHandler(response);
     } catch (err) {
@@ -15,19 +19,17 @@ export class WebitelSDKItemCreator extends BaseItemCreator {
     }
   }
 
-  createItem(item) {
-    const itemCopy = deepCopy(item);
+  createItem({ itemInstance }) {
+    const itemCopy = deepCopy(itemInstance);
     if (this.preRequestHandler) this.preRequestHandler(itemCopy);
-    sanitizer(itemCopy, this.fieldsToSend);
+    if (this.fieldsToSend) sanitizer(itemCopy, this.fieldsToSend);
     return this._createItem([itemCopy]);
   }
 
   createNestedItem({ parentId, itemInstance }) {
     let itemCopy = deepCopy(itemInstance);
     if (this.preRequestHandler) itemCopy = this.preRequestHandler(itemCopy, parentId);
-    sanitizer(itemCopy, this.fieldsToSend);
+    if (this.fieldsToSend) sanitizer(itemCopy, this.fieldsToSend);
     return this._createItem([parentId, itemCopy]);
   }
 }
-
-export default WebitelSDKItemCreator;

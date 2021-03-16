@@ -1,35 +1,34 @@
-import { WebitelAPIListGetter } from '../../utils/ApiControllers/ListGetter/ApiListGetter';
-import { WebitelAPIItemDeleter } from '../../utils/ApiControllers/Deleter/ApiDeleter';
-import { WebitelAPIItemUpdater } from '../../utils/ApiControllers/Updater/ApiUpdater';
-import { WebitelAPIItemCreator } from '../../utils/ApiControllers/Creator/ApiCreator';
-import { WebitelAPIItemGetter } from '../../utils/ApiControllers/Getter/ApiGetter';
-
+import APIListGetter from '../../utils/ApiControllers/ListGetter/ApiListGetter';
+import APIItemDeleter from '../../utils/ApiControllers/Deleter/ApiDeleter';
+import APIUpdater from '../../utils/ApiControllers/Updater/ApiUpdater';
+import APICreator from '../../utils/ApiControllers/Creator/ApiCreator';
+import APIItemGetter from '../../utils/ApiControllers/Getter/ApiGetter';
 
 const BASE_URL = '/roles';
+
 const fieldsToSend = ['name', 'description', 'permissions'];
-const defaultItemObject = {
+
+const defaultSingleObject = {
   name: '',
   description: '',
   permissions: [],
-  _dirty: false,
 };
-const listGetter = new WebitelAPIListGetter(BASE_URL);
-const itemGetter = new WebitelAPIItemGetter(BASE_URL, defaultItemObject);
-const itemCreator = new WebitelAPIItemCreator(BASE_URL, fieldsToSend);
-const itemUpdater = new WebitelAPIItemUpdater(BASE_URL, fieldsToSend);
-const itemDeleter = new WebitelAPIItemDeleter(BASE_URL);
+
+const listGetter = new APIListGetter(BASE_URL);
+const itemGetter = new APIItemGetter(BASE_URL, { defaultSingleObject });
+const itemCreator = new APICreator(BASE_URL, { fieldsToSend });
+const itemUpdater = new APIUpdater(BASE_URL, { fieldsToSend });
+const itemDeleter = new APIItemDeleter(BASE_URL);
 
 const PERMISSIONS_LIST_URL = '/permissions';
-const permissionsListGetter = new WebitelAPIListGetter(PERMISSIONS_LIST_URL, {});
+const permissionsListGetter = new APIListGetter(PERMISSIONS_LIST_URL);
 
 export const getRoleList = (params) => listGetter.getList(params);
 
-export const getRole = ({ itemId }) => itemGetter.getItem(itemId);
-export const addRole = ({ itemInstance }) => itemCreator.createItem(itemInstance);
-export const updateRole = ({ itemId, itemInstance }) => (
-  itemUpdater.updateItem(itemId, itemInstance)
-);
-export const deleteRole = ({ id }) => itemDeleter.deleteItem(id);
+export const getRole = (params) => itemGetter.getItem(params);
+export const addRole = (params) => itemCreator.createItem(params);
+export const updateRole = (params) => itemUpdater.updateItem(params);
+export const deleteRole = (params) => itemDeleter.deleteItem(params);
 
 export const getPermissionsOptions = (payload) => permissionsListGetter.getList(payload);
 

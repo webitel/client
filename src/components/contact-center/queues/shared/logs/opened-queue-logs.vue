@@ -1,223 +1,136 @@
 <template>
-    <section>
-        <header class="content-header">
-            <h3 class="content-title">{{$tc('objects.ccenter.logs.logs', 1)}}</h3>
-        </header>
+  <section>
+    <header class="content-header">
+      <h3 class="content-title">{{ $tc('objects.ccenter.queues.logs.logs', 1) }}</h3>
+      <div class="content-header__actions-wrap">
+<!--        API IS NOT IMPLEMENTED-->
+<!--        <wt-search-bar-->
+<!--          :value="search"-->
+<!--          debounce-->
+<!--          @enter="loadList"-->
+<!--          @input="setSearch"-->
+<!--          @search="loadList"-->
+<!--        ></wt-search-bar>-->
+        <wt-table-actions
+          :icons="['refresh']"
+          @input="tableActionsHandler"
+        ></wt-table-actions>
+      </div>
+    </header>
 
-        <loader v-show="!isLoaded"></loader>
-
-        <wt-table ref="vuetable"
-                v-show="isLoaded"
-                :headers="fields"
-                sortable
-                :data="dataList"
-                @sort="sort = getNextSort($event.sort)"
-        >
-            <template slot="number" slot-scope="{item}">
-                <div>
-                    {{item.destination.destination}}
-                </div>
-            </template>
-
-            <template slot="agent" slot-scope="{item}">
-                <div v-if="item.agent">
-                    {{item.agent.name}}
-                </div>
-            </template>
-
-            <template slot="start" slot-scope="{item}">
-                <div>
-                    {{formatDate(item.joinedAt)}}
-                </div>
-            </template>
-
-            <template slot="offering" slot-scope="{item}">
-                <div>
-                    {{formatDate(item.offeringAt)}}
-                </div>
-            </template>
-
-            <template slot="end" slot-scope="{item}">
-                <div>
-                    {{formatDate(item.leavingAt)}}
-                </div>
-            </template>
-
-            <template slot="attempt" >
-                <div>
-                    {{"no data"}}
-                </div>
-            </template>
-
-            <template slot="duration" >
-                <div>
-                    {{"no data"}}
-                </div>
-            </template>
-
-            <template slot="name" slot-scope="{item}">
-                <div>
-                    {{item.destination.description}}
-                </div>
-            </template>
-
-            <template slot="result" slot-scope="{item}">
-                <div>
-                    {{item.result}}
-                </div>
-            </template>
-
-        </wt-table>
-        <pagination
-                v-show="isLoaded"
-                v-model="size"
-                @loadDataList="loadList"
-                @next="nextPage"
-                @prev="prevPage"
-                :isNext="isNextPage"
-                :isPrev="!!page"
-                :page="page"
-        ></pagination>
-    </section>
+    <wt-loader v-show="!isLoaded"></wt-loader>
+    <div v-show="isLoaded" class="table-wrapper">
+      <wt-table
+        :headers="headers"
+        :data="dataList"
+        :grid-actions="false"
+      >
+        <template slot="destination" slot-scope="{ item }">
+          <div v-if="item.destination">
+            {{ item.destination.destination }}
+          </div>
+        </template>
+        <template slot="agent" slot-scope="{ item }">
+          <div v-if="item.agent">
+            {{ item.agent.name }}
+          </div>
+        </template>
+        <template slot="joinedAt" slot-scope="{ item }">
+          {{ formatDate(item.joinedAt) }}
+        </template>
+        <template slot="leavingAt" slot-scope="{ item }">
+          {{ formatDate(item.leavingAt) }}
+        </template>
+        <template slot="offeringAt" slot-scope="{ item }">
+          {{ formatDate(item.offeringAt) }}
+        </template>
+        <template slot="duration" slot-scope="{ item }">
+          {{ calcDuration(item) }}
+        </template>
+        <template slot="viewNumber" slot-scope="{ item }">
+          <div v-if="item.destination">
+            {{ item.destination.description }}
+          </div>
+        </template>
+        <template slot="result" slot-scope="{ item }">
+          {{ item.result }}
+        </template>
+      </wt-table>
+      <wt-pagination
+        :next="isNext"
+        :prev="page > 1"
+        :size="size"
+        debounce
+        @change="loadList"
+        @input="setSize"
+        @next="nextPage"
+        @prev="prevPage"
+      ></wt-pagination>
+    </div>
+  </section>
 </template>
 
 <script>
-    import tableComponentMixin from '@/mixins/objectPagesMixins/objectTableMixin/tableComponentMixin';
-    import openedTabComponentMixin from '@/mixins/objectPagesMixins/openedObjectTabMixin/openedTabComponentMixin';
-    import { mapActions, mapState } from 'vuex';
+import convertDuration from '@webitel/ui-sdk/src/scripts/convertDuration';
+import openedObjectTableTabMixin
+  from '../../../../../mixins/objectPagesMixins/openedObjectTableTabMixin/openedObjectTableTabMixin';
 
-    export default {
-        name: 'opened-queue-logs',
-        mixins: [tableComponentMixin, openedTabComponentMixin],
-
-        data() {
-            return {
-                sortOrder: [
-                        {
-                            field: 'start',
-                            sortField: 'joined_at',
-                            direction: 'asc',
-                        },
-                    ],
-                fields: [
-                    {
- value: 'number', text: 'Number', sortField: 'number', sort: 'asc',
-},
-                    { value: 'agent', text: this.$tc('objects.ccenter.agents.agents', 1), sortField: 'agent' },
-                    { value: 'start', text: 'Call start', sortField: 'joined_at' },
-                    { value: 'end', text: 'Call end', sortField: 'joined_at' },
-                    { value: 'offering', text: 'Offering time', sortField: 'offering' },
-                    { value: 'attempt', text: 'Attempts', sortField: 'attempt' },
-                    { value: 'duration', text: 'Duration', sortField: 'duration' },
-                    { value: 'name', text: 'View number', sortField: 'name' },
-                    { value: 'result', text: 'Call result', sortField: 'result' },
-
-                ],
-            };
+export default {
+  name: 'opened-queue-logs',
+  mixins: [openedObjectTableTabMixin],
+  data: () => ({
+    subNamespace: 'log',
+  }),
+  computed: {
+    headers() {
+      return [
+        {
+          value: 'destination',
+          text: this.$t('objects.ccenter.queues.logs.destination'),
         },
-
-        watch: {
-            parentId(value) {
-                this.setParentId(value);
-            },
-
-            // dataList() {
-            //     this.$refs.vuetable.setData(this.dataList);
-            // },
+        {
+          value: 'agent',
+          text: this.$tc('objects.ccenter.agents.agents', 1),
         },
-
-        computed: {
-            ...mapState('ccenter/queues', {
-                parentId: (state) => state.itemId,
-            }),
-            ...mapState('ccenter/callLog', {
-                dataList: (state) => state.dataList,
-                page: (state) => state.page,
-                isNextPage: (state) => state.isNextPage,
-            }),
-
-            size: {
-                get() { return this.$store.state.ccenter.queues.resGroups.size; },
-                set(value) { this.setSize(value); },
-            },
+        {
+          value: 'joinedAt',
+          text: this.$t('objects.ccenter.queues.logs.joinedAt'),
         },
-
-        methods: {
-            formatDate(value) {
-                const time = new Date(+value).toLocaleString('en-GB').replace(',', '\n').replace('Invalid Date', '');
-                return time;
-            },
-
-            getDuration(item) {
-                if (this.item) {
-                    let millis = this.item.offeringAt - this.item.joinedAt;
-                    millis = millis >= 0 ? millis : 0;
-                    const stringTime = this.msToTime(millis);
-                    return stringTime;
-                }
-                return '';
-            },
-
-            msToTime(s) {
-                function pad(n, z) {
-                    z = z || 2;
-                    return (`00${n}`).slice(-z);
-                }
-                const ms = s % 1000;
-                s = (s - ms) / 1000;
-                const secs = s % 60;
-                s = (s - secs) / 60;
-                const mins = s % 60;
-                const hrs = (s - mins) / 60;
-                return `${pad(hrs)}:${pad(mins)}:${pad(secs)}`;
-            },
-
-
-            dataManager(sortOrder) {
-                if (sortOrder[0]) {
-                    const sortDir = sortOrder[0].direction === 'asc' ? '-' : '+';
-                    const sortStr = sortDir + sortOrder[0].sortField;
-                    this.setSort(sortStr);
-                }
-            },
-
-            ...mapActions('ccenter/callLog', {
-                setParentId: 'SET_PARENT_ITEM_ID',
-                loadDataList: 'LOAD_DATA_LIST',
-                setSort: 'SET_SORT',
-                setSize: 'SET_SIZE',
-                nextPage: 'NEXT_PAGE',
-                prevPage: 'PREV_PAGE',
-            }),
+        {
+          value: 'leavingAt',
+          text: this.$t('objects.ccenter.queues.logs.leavingAt'),
         },
-    };
+        {
+          value: 'offeringAt',
+          text: this.$t('objects.ccenter.queues.logs.offeringAt'),
+        },
+        {
+          value: 'duration',
+          text: this.$t('objects.ccenter.queues.logs.duration'),
+        },
+        {
+          value: 'viewNumber',
+          text: this.$t('objects.ccenter.queues.logs.viewNumber'),
+        },
+        {
+          value: 'result',
+          text: this.$t('objects.ccenter.queues.logs.result'),
+        },
+      ];
+    },
+  },
+
+  methods: {
+    formatDate(value) {
+      return new Date(+value).toLocaleString();
+    },
+
+    calcDuration(item) {
+      return convertDuration(item.offeringAt - item.joinedAt);
+    },
+  },
+};
 </script>
 
-<style lang="scss">
-    .sort-icon {
-        position: relative;
-        float: none !important;
-    }
-
-    .sort-icon:before {
-        display: none;
-        content: "";
-        position: absolute;
-        width: 24px;
-        height: 24px;
-        Top: 50%;
-        left: 5px;
-        background: url("../../../../../assets/img/nav/accent/arrow.svg");
-        background-size: contain;
-        transform: translateY(-50%);
-    }
-
-    .sorted-asc .sort-icon:before {
-        display: block;
-        transform: translateY(-50%) rotate(180deg);
-    }
-
-    .sorted-desc .sort-icon:before {
-        display: block;
-    }
+<style lang="scss" scoped>
 </style>

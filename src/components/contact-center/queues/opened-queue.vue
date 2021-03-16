@@ -242,7 +242,7 @@ export default {
         value: 'variables',
       };
       const logs = {
-        text: this.$tc('objects.ccenter.logs.logs', 2),
+        text: this.$tc('objects.ccenter.queues.logs.logs', 2),
         value: 'logs',
       };
       const permissions = {

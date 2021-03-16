@@ -55,11 +55,11 @@
             <template slot="proxy" slot-scope="{ item }">
               {{ item.proxy }}
             </template>
-            <template slot="enabled" slot-scope="{ item }">
+            <template slot="enabled" slot-scope="{ item, index }">
               <wt-switcher
                 :value="item.enable"
                 :disabled="!hasEditAccess"
-                @change="changeState({ item, value: $event })"
+                @change="patchItem({ item, index, prop: 'enable', value: $event })"
               ></wt-switcher>
             </template>
             <template slot="status" slot-scope="{ item }">
@@ -139,7 +139,7 @@ export default {
 
   methods: {
     ...mapActions('routing/gateways', {
-      changeState: 'CHANGE_STATE',
+      patchItem: 'PATCH_ITEM_PROPERTY',
     }),
 
     create() {

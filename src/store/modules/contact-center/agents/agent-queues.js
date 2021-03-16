@@ -1,29 +1,13 @@
 import AgentsAPI from '../../../../api/contact-center/agents/agents';
-import { DefaultNestedModule } from '../../defaults/DefaultNestedModule';
-
-const defaultModule = new DefaultNestedModule();
-
-const state = {
-  ...defaultModule.state,
-};
-
-const getters = {};
+import DefaultNestedModule from '../../../BaseModules/defaults/DefaultNestedModule';
 
 const actions = {
-  ...defaultModule.actions,
   GET_LIST: (context) => {
     return AgentsAPI.getAgentsInQueue(context.state);
   },
 };
 
-const mutations = {
-  ...defaultModule.mutations,
-};
+const agentQueues = new DefaultNestedModule()
+  .getModule({ actions });
 
-export default {
-  namespaced: true,
-  state,
-  getters,
-  actions,
-  mutations,
-};
+export default agentQueues;

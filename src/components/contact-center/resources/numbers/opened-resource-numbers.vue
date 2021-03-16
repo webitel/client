@@ -72,7 +72,7 @@
 <script>
 import { mapState } from 'vuex';
 import NumberPopup from './opened-resource-numbers-popup.vue';
-import openedObjectTableTabMixin from '../../../mixins/objectPagesMixins/openedObjectTableTabMixin/openedObjectTableTabMixin';
+import openedObjectTableTabMixin from '../../../../mixins/objectPagesMixins/openedObjectTableTabMixin/openedObjectTableTabMixin';
 
 export default {
   name: 'opened-resource-number',

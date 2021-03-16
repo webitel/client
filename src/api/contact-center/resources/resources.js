@@ -1,80 +1,81 @@
 import { OutboundResourceServiceApiFactory } from 'webitel-sdk';
 import instance from '../../instance';
 import configuration from '../../openAPIConfig';
-import { WebitelSDKItemDeleter } from '../../utils/ApiControllers/Deleter/SDKDeleter';
-import { WebitelSDKItemPatcher } from '../../utils/ApiControllers/Patcher/SDKPatcher';
-import { WebitelSDKItemUpdater } from '../../utils/ApiControllers/Updater/SDKUpdater';
-import { WebitelSDKItemCreator } from '../../utils/ApiControllers/Creator/SDKCreator';
-import { WebitelSDKItemGetter } from '../../utils/ApiControllers/Getter/SDKGetter';
-import { WebitelSDKListGetter } from '../../utils/ApiControllers/ListGetter/SDKListGetter';
-
+import SDKDeleter from '../../utils/ApiControllers/Deleter/SDKDeleter';
+import SDKPatcher from '../../utils/ApiControllers/Patcher/SDKPatcher';
+import SDKUpdater from '../../utils/ApiControllers/Updater/SDKUpdater';
+import SDKCreator from '../../utils/ApiControllers/Creator/SDKCreator';
+import SDKGetter from '../../utils/ApiControllers/Getter/SDKGetter';
+import SDKListGetter from '../../utils/ApiControllers/ListGetter/SDKListGetter';
 
 const resService = new OutboundResourceServiceApiFactory(configuration, '', instance);
 
-const fieldsToSend = ['domainId', 'limit', 'enabled',
+const fieldsToSend = ['limit', 'enabled',
   'rps', 'reserve', 'maxSuccessivelyErrors',
   'name', 'errorIds', 'display', 'resourceId', 'gateway'];
 
 const defaultListObject = {
-  _isSelected: false,
-  name: '',
   gateway: null,
   enabled: false,
   reserve: false,
-  id: 0,
 };
 
-const defaultItemObject = {
+const defaultSingleObject = {
   name: '',
   gateway: {},
-  cps: 0,
+  rps: 0,
   limit: 0,
   description: '',
-  maxErrors: 0,
+  maxSuccessivelyErrors: 0,
   errorIds: [],
-  id: 0,
-  _dirty: false,
+};
+
+const itemResponseHandler = (response) => {
+  // eslint-disable-next-line no-param-reassign
+  response.maxErrors = response.maxSuccessivelyErrors;
+  // eslint-disable-next-line no-param-reassign
+  response.cps = response.rps;
+  if (response.errorIds) {
+    // eslint-disable-next-line no-param-reassign
+    response.errorIds = response.errorIds.map((item) => ({ name: item }));
+  }
+  return response;
 };
 
 const preRequestHandler = (item) => {
+  // eslint-disable-next-line no-param-reassign
   item.errorIds = item.errorIds.map((item) => item.name || item.text);
+  // eslint-disable-next-line no-param-reassign
   item.maxSuccessivelyErrors = item.maxErrors;
+  // eslint-disable-next-line no-param-reassign
   item.rps = item.cps;
   return item;
 };
 
-const listGetter = new WebitelSDKListGetter(resService.searchOutboundResource, defaultListObject);
-const itemGetter = new WebitelSDKItemGetter(resService.readOutboundResource, defaultItemObject);
-const itemCreator = new WebitelSDKItemCreator(resService.createOutboundResource, fieldsToSend, preRequestHandler);
-const itemUpdater = new WebitelSDKItemUpdater(resService.updateOutboundResource, fieldsToSend, preRequestHandler);
-const itemPatcher = new WebitelSDKItemPatcher(resService.patchOutboundResource, fieldsToSend);
-const itemDeleter = new WebitelSDKItemDeleter(resService.deleteOutboundResource);
+const listGetter = new SDKListGetter(resService.searchOutboundResource,
+  defaultListObject);
+const itemGetter = new SDKGetter(resService.readOutboundResource,
+  { defaultSingleObject, itemResponseHandler });
+const itemCreator = new SDKCreator(resService.createOutboundResource,
+  fieldsToSend, preRequestHandler);
+const itemUpdater = new SDKUpdater(resService.updateOutboundResource,
+  fieldsToSend, preRequestHandler);
+const itemPatcher = new SDKPatcher(resService.patchOutboundResource,
+  fieldsToSend);
+const itemDeleter = new SDKDeleter(resService.deleteOutboundResource);
 
-itemGetter.responseHandler = (response) => {
-  try {
-    response.maxErrors = response.maxSuccessivelyErrors;
-    response.cps = response.rps;
-    if (response.errorIds) {
-      response.errorIds = response.errorIds.map((item) => ({ name: item }));
-    }
-    return { ...defaultItemObject, ...response };
-  } catch (err) {
-    throw err;
-  }
+export const getResourceList = (params) => listGetter.getList(params);
+export const getResource = (params) => itemGetter.getItem(params);
+export const addResource = (params) => itemCreator.createItem(params);
+export const updateResource = (params) => itemUpdater.updateItem(params);
+export const patchResource = (params) => itemPatcher.patchItem(params);
+export const deleteResource = (params) => itemDeleter.deleteItem(params);
+
+export default {
+  getList: getResourceList,
+  get: getResource,
+  add: addResource,
+  patch: patchResource,
+  update: updateResource,
+  delete: deleteResource,
 };
-
-export const getResourceList = async (page, size = 10, search) => await listGetter.getList({
-  page,
-  size,
-  search,
-});
-
-export const getResource = async (id) => await itemGetter.getItem(id);
-
-export const addResource = async (item) => await itemCreator.createItem(item);
-
-export const updateResource = async (id, item) => await itemUpdater.updateItem(id, item);
-
-export const patchResource = async (id, item) => await itemPatcher.patchItem(id, item);
-
-export const deleteResource = async (id) => await itemDeleter.deleteItem(id);

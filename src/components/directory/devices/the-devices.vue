@@ -168,7 +168,7 @@ export default {
       isNext: (state) => state.isNextPage,
     }),
     ...mapState('directory/devices/history', {
-      historyId: (state) => state.itemId,
+      historyId: (state) => state.parentId,
     }),
     path() {
       return [
@@ -188,7 +188,7 @@ export default {
       removeItem: 'REMOVE_ITEM',
     }),
     ...mapActions('directory/devices/history', {
-      openHistory: 'SET_HISTORY_ITEM_ID',
+      openHistory: 'SET_PARENT_ITEM_ID',
     }),
 
     create() {
@@ -266,5 +266,4 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-@import '../../../assets/css/objects/table-page';
 </style>

@@ -126,7 +126,7 @@ export default {
 
   methods: {
     async loadSkillsOptions(search) {
-      const response = await getSkillsList(1, 10, search);
+      const response = await getSkillsList({ search });
       return response.list.map((item) => ({
         name: item.name,
         id: item.id,
@@ -134,7 +134,7 @@ export default {
     },
 
     async loadBucketsOptions(search) {
-      const response = await getBucketsList(1, 10, search);
+      const response = await getBucketsList({ search });
       return response.list.map((item) => ({
         name: item.name,
         id: item.id,

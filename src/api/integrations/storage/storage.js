@@ -1,12 +1,12 @@
 import { BackendProfileServiceApiFactory } from 'webitel-sdk';
 import instance from '../../instance';
 import configuration from '../../openAPIConfig';
-import SDKItemDeleter from '../../utils/ApiControllers/Deleter/SDKDeleter';
-import SDKItemUpdater from '../../utils/ApiControllers/Updater/SDKUpdater';
-import SDKItemCreator from '../../utils/ApiControllers/Creator/SDKCreator';
-import SDKItemGetter from '../../utils/ApiControllers/Getter/SDKGetter';
+import SDKDeleter from '../../utils/ApiControllers/Deleter/SDKDeleter';
+import SDKUpdater from '../../utils/ApiControllers/Updater/SDKUpdater';
+import SDKCreator from '../../utils/ApiControllers/Creator/SDKCreator';
+import SDKGetter from '../../utils/ApiControllers/Getter/SDKGetter';
 import SDKListGetter from '../../utils/ApiControllers/ListGetter/SDKListGetter';
-import SDKItemPatcher from '../../utils/ApiControllers/Patcher/SDKPatcher';
+import SDKPatcher from '../../utils/ApiControllers/Patcher/SDKPatcher';
 import AWSRegions from '../../../store/modules/integrations/storage/_internals/lookups/AWSRegions.lookup';
 import DigitalOceanRegions from '../../../store/modules/integrations/storage/_internals/lookups/DigitalOceanRegions.lookup';
 import StorageTypeAdapter from '../../../store/modules/integrations/storage/_internals/scripts/backendStorageTypeAdapters';
@@ -16,18 +16,16 @@ const storageService = new BackendProfileServiceApiFactory(configuration, '', in
 const fieldsToSend = ['name', 'maxSize', 'priority', 'properties', 'expireDays', 'type', 'disabled'];
 
 const defaultListObject = {
-  _isSelected: false,
   disabled: false,
   maxSize: 0,
   expireDays: 0,
   priority: 0,
 };
 
-const defaultObject = {
+const defaultSingleObject = {
   maxSize: 0,
   expireDays: 0,
   priority: 0,
-  _dirty: false,
 };
 
 const listResponseHandler = (response) => {
@@ -64,24 +62,22 @@ const preRequestHandler = (item) => {
 };
 
 const listGetter = new SDKListGetter(storageService.searchBackendProfile,
-  defaultListObject, listResponseHandler);
-const itemGetter = new SDKItemGetter(storageService.readBackendProfile,
-  defaultObject, itemResponseHandler);
-const itemCreator = new SDKItemCreator(storageService.createBackendProfile,
+  { defaultListObject, listResponseHandler });
+const itemGetter = new SDKGetter(storageService.readBackendProfile,
+  { defaultSingleObject, itemResponseHandler });
+const itemCreator = new SDKCreator(storageService.createBackendProfile,
   fieldsToSend, preRequestHandler);
-const itemPatcher = new SDKItemPatcher(storageService.patchBackendProfile, fieldsToSend);
-const itemUpdater = new SDKItemUpdater(storageService.updateBackendProfile,
+const itemPatcher = new SDKPatcher(storageService.patchBackendProfile, fieldsToSend);
+const itemUpdater = new SDKUpdater(storageService.updateBackendProfile,
   fieldsToSend, preRequestHandler);
-const itemDeleter = new SDKItemDeleter(storageService.deleteBackendProfile);
+const itemDeleter = new SDKDeleter(storageService.deleteBackendProfile);
 
 export const getStorageList = (params) => listGetter.getList(params);
-export const getStorage = ({ itemId }) => itemGetter.getItem(itemId);
-export const addStorage = ({ itemInstance }) => itemCreator.createItem(itemInstance);
-export const patchStorage = ({ id, changes }) => itemPatcher.patchItem(id, changes);
-export const updateStorage = ({ itemId, itemInstance }) => (
-  itemUpdater.updateItem(itemId, itemInstance)
-);
-export const deleteStorage = ({ id }) => itemDeleter.deleteItem(id);
+export const getStorage = (params) => itemGetter.getItem(params);
+export const addStorage = (params) => itemCreator.createItem(params);
+export const patchStorage = (params) => itemPatcher.patchItem(params);
+export const updateStorage = (params) => itemUpdater.updateItem(params);
+export const deleteStorage = (params) => itemDeleter.deleteItem(params);
 
 export default {
   getList: getStorageList,

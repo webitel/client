@@ -112,7 +112,7 @@ export default {
       }));
     },
     async loadTeamsOptions(search) {
-      const response = await getTeamsList(1, 10, search);
+      const response = await getTeamsList({ search });
       return response.list.map((item) => ({
         name: item.name,
         id: item.id,
@@ -126,7 +126,7 @@ export default {
       }));
     },
     async loadAuditorsOptions(search) {
-      const response = await getUsersList(1, 10, search);
+      const response = await getUsersList({ search });
       return response.list.map((item) => ({
         name: item.name,
         id: item.id,

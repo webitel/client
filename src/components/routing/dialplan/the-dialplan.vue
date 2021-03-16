@@ -140,11 +140,6 @@ export default {
   destroyed() {
     this.destroySortable();
   },
-  watch: {
-    dataList() {
-      this.initSortable();
-    },
-  },
   computed: {
     headers() {
       return [
@@ -168,7 +163,7 @@ export default {
         params: { id },
       };
     },
-    initSortable() {
+    async initSortable() {
       if (!this.hasEditAccess) return;
       if (this.sortableInstance) this.destroySortable();
         // https://github.com/SortableJS/Sortable#options
@@ -181,12 +176,21 @@ export default {
           if (event.oldIndex === event.newIndex) return;
           const fromId = this.dataList[event.oldIndex].id;
           const toId = this.dataList[event.newIndex].id;
-          await this.swapRows({ fromId, toId });
+          await this.swapRowsAndReloadList({ fromId, toId });
         },
       });
     },
     destroySortable() {
       this.sortableInstance.destroy();
+      this.sortableInstance = null;
+    },
+    async swapRowsAndReloadList(swapPayload) {
+      this.isLoading = true;
+      this.destroySortable();
+      await this.swapRows(swapPayload);
+      await this.loadList();
+      await this.initSortable();
+      this.isLoading = false;
     },
     ...mapActions({
       patchProperty(dispatch, payload) {

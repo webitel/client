@@ -1,42 +1,40 @@
 import { OutboundResourceGroupServiceApiFactory } from 'webitel-sdk';
 import instance from '../../instance';
 import configuration from '../../openAPIConfig';
-import { WebitelSDKItemDeleter } from '../../utils/ApiControllers/Deleter/SDKDeleter';
-import { WebitelSDKItemUpdater } from '../../utils/ApiControllers/Updater/SDKUpdater';
-import { WebitelSDKItemCreator } from '../../utils/ApiControllers/Creator/SDKCreator';
-import { WebitelSDKItemGetter } from '../../utils/ApiControllers/Getter/SDKGetter';
-import { WebitelSDKListGetter } from '../../utils/ApiControllers/ListGetter/SDKListGetter';
-
+import SDKDeleter from '../../utils/ApiControllers/Deleter/SDKDeleter';
+import SDKUpdater from '../../utils/ApiControllers/Updater/SDKUpdater';
+import SDKCreator from '../../utils/ApiControllers/Creator/SDKCreator';
+import SDKGetter from '../../utils/ApiControllers/Getter/SDKGetter';
+import SDKListGetter from '../../utils/ApiControllers/ListGetter/SDKListGetter';
 
 const resGrService = new OutboundResourceGroupServiceApiFactory(configuration, '', instance);
 
-const fieldsToSend = ['domainId', 'name', 'description', 'strategy', 'communication', 'time'];
+const fieldsToSend = ['name', 'description', 'strategy', 'communication', 'time'];
 
-const defaultListObject = {
-  _isSelected: false,
+const defaultSingleObject = {
   name: '',
   strategy: '',
   description: '',
-  communication: { id: 0 },
-  id: 0,
-};
-
-const defaultItemObject = {
-  name: '',
-  strategy: '',
-  description: '',
-  communication: { id: 0 },
+  communication: {},
   time: [
     {
       start: 0,
       finish: 0,
     },
   ],
-  id: 0,
-  _dirty: false,
+};
+
+const itemResponseHandler = (response) => {
+    const time = response.time.map((range) => ({
+      start: range.startTimeOfDay || 0,
+      end: range.endTimeOfDay || 0,
+    }));
+
+    return { ...response, time };
 };
 
 const preRequestHandler = (item) => {
+  // eslint-disable-next-line no-param-reassign
   item.time = item.time.map((range) => ({
     startTimeOfDay: range.start,
     endTimeOfDay: range.end,
@@ -44,41 +42,25 @@ const preRequestHandler = (item) => {
   return item;
 };
 
-const listGetter = new WebitelSDKListGetter(resGrService.searchOutboundResourceGroup, defaultListObject);
-const itemGetter = new WebitelSDKItemGetter(resGrService.readOutboundResourceGroup);
-const itemCreator = new WebitelSDKItemCreator(resGrService.createOutboundResourceGroup, fieldsToSend, preRequestHandler);
-const itemUpdater = new WebitelSDKItemUpdater(resGrService.updateOutboundResourceGroup, fieldsToSend, preRequestHandler);
-const itemDeleter = new WebitelSDKItemDeleter(resGrService.deleteOutboundResourceGroup);
+const listGetter = new SDKListGetter(resGrService.searchOutboundResourceGroup);
+const itemGetter = new SDKGetter(resGrService.readOutboundResourceGroup,
+  { defaultSingleObject, itemResponseHandler });
+const itemCreator = new SDKCreator(resGrService.createOutboundResourceGroup,
+  fieldsToSend, preRequestHandler);
+const itemUpdater = new SDKUpdater(resGrService.updateOutboundResourceGroup,
+  fieldsToSend, preRequestHandler);
+const itemDeleter = new SDKDeleter(resGrService.deleteOutboundResourceGroup);
 
-itemGetter.responseHandler = (response) => {
-  try {
-    response.time = response.time.map((range) => ({
-      start: range.startTimeOfDay || 0,
-      end: range.endTimeOfDay || 0,
-    }));
+export const getResGroupList = (params) => listGetter.getList(params);
+export const getResGroup = (params) => itemGetter.getItem(params);
+export const addResGroup = (params) => itemCreator.createItem(params);
+export const updateResGroup = (params) => itemUpdater.updateItem(params);
+export const deleteResGroup = (params) => itemDeleter.deleteItem(params);
 
-    return { ...defaultItemObject, ...response };
-  } catch (err) {
-    throw err;
-  }
+export default {
+  getList: getResGroupList,
+  get: getResGroup,
+  add: addResGroup,
+  update: updateResGroup,
+  delete: deleteResGroup,
 };
-
-export const getResGroupList = async (page = 0, size = 10, search) => await listGetter.getList({
-  page,
-  size,
-  search,
-});
-
-export const getResGroup = async (id) => await itemGetter.getItem(id);
-
-export async function addResGroup(item) {
-  return await itemCreator.createItem(item);
-}
-
-export async function updateResGroup(id, item) {
-  return await itemUpdater.updateItem(id, item);
-}
-
-export async function deleteResGroup(id) {
-  return await itemDeleter.deleteItem(id);
-}

@@ -72,7 +72,7 @@ export default {
 
   methods: {
     async loadDropdownOptionsList(search) {
-      const response = await getGatewayList(1, 10, search);
+      const response = await getGatewayList({ search });
       return response.list.map((item) => ({
         name: item.name,
         id: item.id,

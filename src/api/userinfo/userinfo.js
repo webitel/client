@@ -1,11 +1,11 @@
+import { objSnakeToCamel } from '@webitel/ui-sdk/src/scripts/caseConverters';
 import instance from '../instance';
 import store from '../../store/store';
-import { objSnakeToCamel } from '../utils/caseConverters';
 
 // gets user by token from localstorage
 // stores response username in vuex
 export const getSession = async () => {
-  const defaultObject = {
+  const defaultSingleObject = {
     domainId: 0,
     username: '',
     userId: 0,
@@ -21,7 +21,7 @@ export const getSession = async () => {
       const response = await instance.get(url);
       localStorage.setItem('domain', response.dc);
       store.dispatch('userinfo/SET_SESSION', {
-        ...defaultObject,
+        ...defaultSingleObject,
         ...objSnakeToCamel(response),
       });
     } catch (error) {

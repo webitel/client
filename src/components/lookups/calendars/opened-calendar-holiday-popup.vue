@@ -100,7 +100,7 @@ export default {
       if (Number.isInteger(this.editedIndex)) {
         this.updateHoliday({
           index: this.editedIndex,
-          holiday: this.itemInstance,
+          item: this.itemInstance,
         });
       } else {
         this.addHoliday(this.itemInstance);

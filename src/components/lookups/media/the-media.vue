@@ -15,7 +15,7 @@
     </template>
 
     <template slot="main">
-      <section class="main-section__wrapper" ref="object-content">
+      <section class="main-section__wrapper">
         <header class="content-header">
           <h3 class="content-title">{{ $t('objects.lookups.media.allMediaFiles') }}</h3>
           <div class="content-header__actions-wrap">

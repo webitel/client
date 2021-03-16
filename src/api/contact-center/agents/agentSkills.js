@@ -14,27 +14,25 @@ const defaultListObject = {
   skill: {},
   capacity: 0,
   enabled: false,
-  _isSelected: false,
 };
 
-const defaultObject = {
+const defaultSingleObject = {
   skill: {},
   capacity: 0,
   enabled: false,
-  _dirty: false,
 };
 
 const fieldsToSend = ['capacity', 'agentId', 'skill', 'enabled'];
 
 const preRequestHandler = (item, parentId) => ({ ...item, agentId: parentId });
 
-const listGetter = new SDKListGetter(agentSkillService.searchAgentSkill, defaultListObject);
-const itemGetter = new SDKGetter(agentSkillService.readAgentSkill, defaultObject);
+const listGetter = new SDKListGetter(agentSkillService.searchAgentSkill, { defaultListObject });
+const itemGetter = new SDKGetter(agentSkillService.readAgentSkill, { defaultSingleObject });
 const itemCreator = new SDKCreator(agentSkillService.createAgentSkill,
-  fieldsToSend, preRequestHandler);
-const itemPatcher = new SDKPatcher(agentSkillService.patchAgentSkill, fieldsToSend);
+  { fieldsToSend, preRequestHandler });
+const itemPatcher = new SDKPatcher(agentSkillService.patchAgentSkill, { fieldsToSend });
 const itemUpdater = new SDKUpdater(agentSkillService.updateAgentSkill,
-  fieldsToSend, preRequestHandler);
+  { fieldsToSend, preRequestHandler });
 const itemDeleter = new SDKDeleter(agentSkillService.deleteAgentSkill);
 
 export const getAgentSkillsList = (params) => listGetter.getNestedList(params);

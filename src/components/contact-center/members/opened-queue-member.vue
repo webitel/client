@@ -31,7 +31,7 @@
 import { mapActions, mapState } from 'vuex';
 import required from 'vuelidate/src/validators/required';
 import OpenedQueueMemberGeneral from './opened-queue-member-general.vue';
-import OpenedQueueMemberCommunication from './opened-queue-member-communication.vue';
+import OpenedQueueMemberCommunication from './communications/opened-queue-member-communication.vue';
 import OpenedQueueMemberVariables from './opened-queue-member-variables.vue';
 import { requiredArrayValue } from '../../../utils/validators';
 import openedObjectMixin from '../../../mixins/objectPagesMixins/openedObjectMixin/openedObjectMixin';

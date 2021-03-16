@@ -17,17 +17,15 @@ const defaultListObject = {
   buckets: [],
   lvl: 0,
   enabled: false,
-  _isSelected: false,
 };
 
-const defaultObject = {
+const defaultSingleObject = {
   agent: {},
   minCapacity: 0,
   maxCapacity: 0,
   buckets: [],
   lvl: 0,
   enabled: false,
-  _dirty: false,
 };
 
 const fieldsToSend = ['maxCapacity', 'minCapacity', 'queueId', 'lvl', 'buckets', 'skill',
@@ -35,13 +33,13 @@ const fieldsToSend = ['maxCapacity', 'minCapacity', 'queueId', 'lvl', 'buckets',
 
 const preRequestHandler = (item, parentId) => ({ ...item, queueId: parentId });
 
-const listGetter = new SDKListGetter(queueSkillService.searchQueueSkill, defaultListObject);
-const itemGetter = new SDKGetter(queueSkillService.readQueueSkill, defaultObject);
+const listGetter = new SDKListGetter(queueSkillService.searchQueueSkill, { defaultListObject });
+const itemGetter = new SDKGetter(queueSkillService.readQueueSkill, { defaultSingleObject });
 const itemCreator = new SDKCreator(queueSkillService.createQueueSkill,
-  fieldsToSend, preRequestHandler);
-const itemPatcher = new SDKPatcher(queueSkillService.patchQueueSkill, fieldsToSend);
+  { fieldsToSend, preRequestHandler });
+const itemPatcher = new SDKPatcher(queueSkillService.patchQueueSkill, { fieldsToSend });
 const itemUpdater = new SDKUpdater(queueSkillService.updateQueueSkill,
-  fieldsToSend, preRequestHandler);
+  { fieldsToSend, preRequestHandler });
 const itemDeleter = new SDKDeleter(queueSkillService.deleteQueueSkill);
 
 export const getQueueSkillsList = (params) => listGetter.getNestedList(params);
@@ -50,3 +48,12 @@ export const addQueueSkill = (params) => itemCreator.createNestedItem(params);
 export const patchQueueSkill = (params) => itemPatcher.patchNestedItem(params);
 export const updateQueueSkill = (params) => itemUpdater.updateNestedItem(params);
 export const deleteQueueSkill = (params) => itemDeleter.deleteNestedItem(params);
+
+export default {
+  getList: getQueueSkillsList,
+  get: getQueueSkill,
+  add: addQueueSkill,
+  patch: patchQueueSkill,
+  update: updateQueueSkill,
+  delete: deleteQueueSkill,
+};

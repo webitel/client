@@ -1,35 +1,27 @@
-import eventBus from '@webitel/ui-sdk/src/scripts/eventBus';
 import instance from '../../instance';
+import APIListGetter from '../../utils/ApiControllers/ListGetter/ApiListGetter';
 
-const BASE_URL = '/license';
+const LICENSE_URL = '/license';
+const CUSTOMER_URL = '/customer';
 
-export async function getLicenseList(page = 1, size = 10, search) {
-  const defaultObject = { remain: 0, limit: 0 };
-  // eslint-disable-next-line no-param-reassign
-  if (search && search.slice(-1) !== '*') search += '*';
-  let url = `${BASE_URL}?page=${page}&size=${size}`;
-  if (search) url += `&name=${search}`;
+const defaultListObject = {
+  remain: 0,
+  limit: 0,
+};
 
+const listGetter = new APIListGetter(LICENSE_URL, { defaultListObject });
+
+export const getLicenseList = (params) => listGetter.getList(params);
+export const updateLicense = async (data) => {
   try {
-    const response = await instance.get(url);
-    if (response.items) {
-      return {
-        list: response.items.map((item) => ({ ...defaultObject, ...item })),
-        next: response.next || false,
-      };
-    }
-    return [];
-  } catch (error) {
-    throw error;
-  }
-}
-
-export const updateLicense = async (certificate) => {
-  const url = '/customer';
-  try {
-    await instance.put(url, { certificate });
-    eventBus.$emit('notification', { type: 'info', text: 'Successfully updated' });
+    const response = await instance.put(CUSTOMER_URL, data);
+    return response;
   } catch (err) {
     throw err;
   }
+};
+
+export default {
+  getList: getLicenseList,
+  update: updateLicense,
 };

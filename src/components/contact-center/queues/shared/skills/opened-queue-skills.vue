@@ -75,7 +75,7 @@
           <wt-switcher
             :value="item.enabled"
             :disabled="!hasEditAccess"
-            @change="changeState({ item, index, value: $event })"
+            @change="patchItem({ item, index, prop: 'enabled', value: $event })"
           ></wt-switcher>
         </template>
         <template slot="actions" slot-scope="{ item, index }">
@@ -102,10 +102,11 @@
 </template>
 
 <script>
-import { mapActions, mapState } from 'vuex';
+import { mapActions } from 'vuex';
 import SkillBucketsPopup from './opened-queue-skills-buckets-popup.vue';
 import SkillPopup from './opened-queue-skills-popup.vue';
-import openedObjectTableTabMixin from '../../../../../mixins/objectPagesMixins/openedObjectTableTabMixin/openedObjectTableTabMixin';
+import openedObjectTableTabMixin
+  from '../../../../../mixins/objectPagesMixins/openedObjectTableTabMixin/openedObjectTableTabMixin';
 
 export default {
   name: 'opened-queue-skills',
@@ -118,16 +119,6 @@ export default {
     agentId: 0,
   }),
   computed: {
-    ...mapState('ccenter/queues', {
-      parentId: (state) => state.itemId,
-    }),
-    ...mapState('ccenter/queues/skills', {
-      dataList: (state) => state.dataList,
-      page: (state) => state.page,
-      size: (state) => state.size,
-      search: (state) => state.search,
-      isNext: (state) => state.isNextPage,
-    }),
     headers() {
       return [
         { value: 'name', text: this.$t('objects.name') },
@@ -141,8 +132,8 @@ export default {
 
   methods: {
     ...mapActions({
-      changeState(dispatch, payload) {
-        return dispatch(`${this.namespace}/${this.subNamespace}/CHANGE_STATE`, payload);
+      patchItem(dispatch, payload) {
+        return dispatch(`${this.namespace}/${this.subNamespace}/PATCH_ITEM_PROPERTY`, payload);
       },
     }),
     getFirstBucket(buckets) {

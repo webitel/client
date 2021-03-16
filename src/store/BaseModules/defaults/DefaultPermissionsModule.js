@@ -1,53 +1,23 @@
+import BaseStoreModule from '../bases/BaseStoreModule';
 import PermissionsAPI from '../../../api/shared/permissions/PermissionsAPI';
-import AccessMode from '../permissions/objects/_internals/enums/AccessMode.enum';
+import BaseTableModule from '../bases/BaseTableModule';
+import BaseOpenedInstanceModule from '../bases/BaseOpenedInstanceModule';
+import AccessMode from '../../modules/permissions/objects/_internals/enums/AccessMode.enum';
 
-export class DefaultPermissionsModule {
-  defaultState = () => ({
-    dataList: [],
-    page: 1,
-    size: 10,
-    search: '',
-    isNextPage: false,
-  })
+export class DefaultPermissionsModule extends BaseStoreModule {
+  _resettableState = () => ({
+    ...BaseTableModule.generateState(),
+    parentId: 0,
+  });
+
+  state = this._resettableState();
 
   getters = {};
 
   actions = {
-    SET_PARENT_ITEM_ID: (context, id) => {
-      context.commit('SET_PARENT_ITEM_ID', id);
-    },
-    LOAD_DATA_LIST: async (context) => {
-      if (context.state.parentId) {
-        try {
-          const response = await context.dispatch('GET_LIST');
-          if (response.list) {
-            context.commit('SET_DATA_LIST', response.list);
-            context.commit('SET_IS_NEXT', response.next);
-          }
-        } catch (err) {
-          throw err;
-        }
-      }
-    },
-    SET_SIZE: (context, size) => {
-      context.commit('SET_SIZE', size);
-    },
-    SET_SEARCH: (context, search) => {
-      context.commit('SET_SEARCH', search);
-    },
+    ...BaseTableModule.getActions(),
+    ...BaseOpenedInstanceModule.getActions(),
 
-    NEXT_PAGE: (context) => {
-      if (context.state.isNextPage) {
-        context.commit('INCREMENT_PAGE');
-        context.dispatch('LOAD_DATA_LIST');
-      }
-    },
-    PREV_PAGE: (context) => {
-      if (context.state.page) {
-        context.commit('DECREMENT_PAGE');
-        context.dispatch('LOAD_DATA_LIST');
-      }
-    },
     CHANGE_CREATE_ACCESS_MODE: (context, payload) => context.dispatch('CHANGE_ACCESS_MODE', { ruleName: 'x', ...payload }),
     CHANGE_READ_ACCESS_MODE: (context, payload) => context.dispatch('CHANGE_ACCESS_MODE', { ruleName: 'r', ...payload }),
     CHANGE_UPDATE_ACCESS_MODE: (context, payload) => context.dispatch('CHANGE_ACCESS_MODE', { ruleName: 'w', ...payload }),
@@ -108,40 +78,19 @@ export class DefaultPermissionsModule {
   };
 
   mutations = {
-    SET_PARENT_ITEM_ID: (state, id) => {
-      state.parentId = id;
-    },
-    SET_DATA_LIST: (state, list) => {
-      state.dataList = list;
-    },
-    SET_SIZE: (state, size) => {
-      state.size = size;
-    },
-    SET_SEARCH: (state, search) => {
-      state.search = search;
-    },
-    INCREMENT_PAGE: (state) => {
-      state.page++;
-    },
-    DECREMENT_PAGE: (state) => {
-      state.page--;
-    },
-    SET_IS_NEXT: (state, next) => {
-      state.isNextPage = next;
-    },
+    ...BaseTableModule.getMutations(),
+    ...BaseOpenedInstanceModule.getMutations(),
+
     RESET_ITEM_STATE: (state) => {
-      Object.assign(state, this.defaultState());
+      Object.assign(state, this._resettableState());
     },
   };
 
   constructor() {
-    this.state = {
-      parentId: 0,
-      ...this.defaultState(),
-    };
+    super();
   }
 
-  generateAPIMethods(url) {
+  generateAPIActions(url) {
     const permissionsAPI = new PermissionsAPI(url);
     this.actions.GET_LIST = (context) => {
       return permissionsAPI.getList(context.state);
@@ -150,16 +99,6 @@ export class DefaultPermissionsModule {
       return permissionsAPI.patch(context.state.parentId, [changes])
     }
     return this;
-  }
-
-  getModule() {
-    return {
-      state: this.state,
-      getters: this.getters,
-      actions: this.actions,
-      mutations: this.mutations,
-      namespaced: true,
-    }
   }
 }
 

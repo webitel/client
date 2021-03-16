@@ -13,8 +13,8 @@ const fieldsToSend = ['listId', 'description', 'number'];
 
 const listGetter = new SDKListGetter(listService.searchListCommunication);
 const itemGetter = new SDKGetter(listService.readListCommunication);
-const itemCreator = new SDKCreator(listService.createListCommunication, fieldsToSend);
-const itemUpdater = new SDKUpdater(listService.updateListCommunication, fieldsToSend);
+const itemCreator = new SDKCreator(listService.createListCommunication, { fieldsToSend });
+const itemUpdater = new SDKUpdater(listService.updateListCommunication, { fieldsToSend });
 const itemDeleter = new SDKDeleter(listService.deleteListCommunication);
 
 export const getBlacklistNumbersList = (params) => listGetter.getNestedList(params);

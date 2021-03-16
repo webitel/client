@@ -1,11 +1,11 @@
 import { CalendarServiceApiFactory } from 'webitel-sdk';
 import instance from '../../instance';
 import configuration from '../../openAPIConfig';
-import SDKItemDeleter from '../../utils/ApiControllers/Deleter/SDKDeleter';
-import SDKItemUpdater from '../../utils/ApiControllers/Updater/SDKUpdater';
-import SDKItemCreator from '../../utils/ApiControllers/Creator/SDKCreator';
+import SDKDeleter from '../../utils/ApiControllers/Deleter/SDKDeleter';
+import SDKUpdater from '../../utils/ApiControllers/Updater/SDKUpdater';
+import SDKCreator from '../../utils/ApiControllers/Creator/SDKCreator';
 import SDKListGetter from '../../utils/ApiControllers/ListGetter/SDKListGetter';
-import SDKItemGetter from '../../utils/ApiControllers/Getter/SDKGetter';
+import SDKGetter from '../../utils/ApiControllers/Getter/SDKGetter';
 
 const calendarService = new CalendarServiceApiFactory(configuration, '', instance);
 
@@ -29,7 +29,7 @@ const preRequestHandler = (item) => {
 };
 
 const itemResponseHandler = (response) => {
-  const defaultObject = {
+  const defaultSingleObject = {
     name: '',
     timezone: {},
     description: '',
@@ -38,7 +38,6 @@ const itemResponseHandler = (response) => {
     expires: !!(response.startAt || response.endAt),
     accepts: [],
     excepts: [],
-    _dirty: false,
   };
   // eslint-disable-next-line no-param-reassign
   response.accepts = response.accepts.map((accept) => ({
@@ -55,30 +54,27 @@ const itemResponseHandler = (response) => {
       repeat: except.repeat || false,
     }));
   }
-  return { ...defaultObject, ...response };
+  return { ...defaultSingleObject, ...response };
 };
 
 const listGetter = new SDKListGetter(calendarService.searchCalendar);
-const itemGetter = new SDKItemGetter(calendarService.readCalendar,
-  null, itemResponseHandler);
+const itemGetter = new SDKGetter(calendarService.readCalendar, { itemResponseHandler });
 const timezoneGetter = new SDKListGetter(calendarService.searchTimezones);
-const itemCreator = new SDKItemCreator(calendarService.createCalendar,
+const itemCreator = new SDKCreator(calendarService.createCalendar,
   fieldsToSend, preRequestHandler);
-const itemUpdater = new SDKItemUpdater(calendarService.updateCalendar,
+const itemUpdater = new SDKUpdater(calendarService.updateCalendar,
   fieldsToSend, preRequestHandler);
-const itemDeleter = new SDKItemDeleter(calendarService.deleteCalendar);
+const itemDeleter = new SDKDeleter(calendarService.deleteCalendar);
 
 export const getCalendarList = (params) => listGetter.getList(params);
-export const getCalendar = ({ itemId }) => itemGetter.getItem(itemId);
+export const getCalendar = (params) => itemGetter.getItem(params);
 export const getCalendarTimezones = async (params) => {
   const response = await timezoneGetter.getList(params);
   return response.list;
 };
-export const addCalendar = ({ itemInstance }) => itemCreator.createItem(itemInstance);
-export const updateCalendar = ({ itemId, itemInstance }) => (
-  itemUpdater.updateItem(itemId, itemInstance)
-);
-export const deleteCalendar = ({ id }) => itemDeleter.deleteItem(id);
+export const addCalendar = (params) => itemCreator.createItem(params);
+export const updateCalendar = (params) => itemUpdater.updateItem(params);
+export const deleteCalendar = (params) => itemDeleter.deleteItem(params);
 
 export default {
   getList: getCalendarList,

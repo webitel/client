@@ -1,118 +1,79 @@
 <template>
-    <popup
-            :title="$t('objects.lookups.buckets.addBucket')"
-            :primaryAction="save"
-            :primaryText="computePrimaryText"
-            :primaryDisabled="computeDisabled"
-            @close="$emit('close')"
-            overflow
-    >
-        <form>
-            <dropdown-select
-                    v-model="bucket"
-                    :v="$v.itemInstance.bucket"
-                    :options="dropdownOptionsList"
-                    :label="$tc('objects.lookups.buckets.buckets', 1)"
-                    @search="loadDropdownOptionsList"
-                    required
-            ></dropdown-select>
-
-            <form-input
-                    v-model.trim="ratio"
-                    :label="$t('objects.ccenter.queues.bucketRatio')"
-                    :v="$v.itemInstance.ratio"
-                    required
-            ></form-input>
-        </form>
-    </popup>
+  <wt-popup min-width="480" overflow @close="close">
+    <template slot="title">
+      {{ $tc('objects.lookups.buckets.buckets', 1) }}
+    </template>
+    <template slot="main">
+      <form>
+        <wt-select
+          :value="itemInstance.bucket"
+          :v="$v.itemInstance.bucket"
+          :label="$tc('objects.lookups.buckets.buckets', 1)"
+          :search="loadBucketsOptions"
+          :internal-search="false"
+          :clearable="false"
+          required
+          @input="setItemProp({ prop: 'bucket', value: $event })"
+        ></wt-select>
+        <wt-input
+          :value="itemInstance.ratio"
+          :v="$v.itemInstance.ratio"
+          :label="$t('objects.ccenter.queues.bucketRatio')"
+          type="number"
+          required
+          @input="setItemProp({ prop: 'ratio', value: $event })"
+        ></wt-input>
+      </form>
+    </template>
+    <template slot="actions">
+      <wt-button
+        :disabled="computeDisabled"
+        @click="save"
+      >{{ $t('objects.save') }}
+      </wt-button>
+      <wt-button
+        color="secondary"
+        @click="close"
+      >{{ $t('objects.close') }}
+      </wt-button>
+    </template>
+  </wt-popup>
 </template>
 
 <script>
-    import popup from '@/components/utils/popup';
-    import editComponentMixin from '@/mixins/objectPagesMixins/openedObjectMixin/editComponentMixin';
-    import { required, numeric, minValue } from 'vuelidate/lib/validators';
-    import { mapActions, mapState } from 'vuex';
-    import { getBucketsList } from '../../../../../api/lookups/buckets/buckets';
+import { minValue, numeric, required } from 'vuelidate/lib/validators';
+import { getBucketsList } from '../../../../../api/lookups/buckets/buckets';
+import nestedObjectMixin from '../../../../../mixins/objectPagesMixins/openedObjectMixin/nestedObjectMixin';
 
-    export default {
-        name: 'opened-queue-buckets-popup',
-        mixins: [editComponentMixin],
-        components: {
-            popup,
-        },
-        data() {
-            return {};
-        },
+export default {
+  name: 'opened-queue-buckets-popup',
+  mixins: [nestedObjectMixin],
 
-        validations: {
-            itemInstance: {
-                bucket: {
-                    required,
-                },
-                ratio: {
-                    numeric,
-                    minValue: minValue(0),
-                    required,
-                },
-            },
-        },
+  data: () => ({
+    namespace: 'ccenter/queues/buckets',
+  }),
 
-        mounted() {
-            this.loadItem();
-            this.loadDropdownOptionsList();
-        },
+  validations: {
+    itemInstance: {
+      bucket: { required },
+      ratio: {
+        numeric,
+        minValue: minValue(0),
+        required,
+      },
+    },
+  },
 
-        computed: {
-            ...mapState('ccenter/queues/buckets', {
-                id: (state) => state.itemId,
-                itemInstance: (state) => state.itemInstance,
-            }),
-            bucket: {
-                get() {
-                    return this.$store.state.ccenter.queues.buckets.itemInstance.bucket;
-                },
-                set(value) {
-                    this.setItemProp({ prop: 'bucket', value });
-                },
-            },
-            ratio: {
-                get() {
-                    return this.$store.state.ccenter.queues.buckets.itemInstance.ratio;
-                },
-                set(value) {
-                    this.setItemProp({ prop: 'ratio', value });
-                },
-            },
-        },
-
-        methods: {
-            async save() {
-                const invalid = this.checkValidations();
-                if (!invalid) {
-                    try {
-                        !this.id ? await this.addItem() : await this.updateItem();
-                        this.$emit('close');
-                    } catch {
-                    }
-                }
-            },
-
-            async loadDropdownOptionsList(search) {
-                const response = await getBucketsList(0, 10, search);
-                this.dropdownOptionsList = response.list.map((item) => ({
-                        name: item.name,
-                        id: item.id,
-                    }));
-            },
-
-            ...mapActions('ccenter/queues/buckets', {
-                setItemProp: 'SET_ITEM_PROPERTY',
-                addItem: 'ADD_ITEM',
-                updateItem: 'UPDATE_ITEM',
-                loadItem: 'LOAD_ITEM',
-            }),
-        },
-    };
+  methods: {
+    async loadBucketsOptions(search) {
+      const response = await getBucketsList({ search });
+      return response.list.map((item) => ({
+        name: item.name,
+        id: item.id,
+      }));
+    },
+  },
+};
 </script>
 
 <style scoped>

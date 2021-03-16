@@ -4,129 +4,103 @@ import eventBus from '@webitel/ui-sdk/src/scripts/eventBus';
 import instance from '../../instance';
 import configuration from '../../openAPIConfig';
 import sanitizer from '../../utils/sanitizer';
+import SDKListGetter from '../../utils/ApiControllers/ListGetter/SDKListGetter';
+import SDKGetter from '../../utils/ApiControllers/Getter/SDKGetter';
+import SDKCreator from '../../utils/ApiControllers/Creator/SDKCreator';
+import SDKUpdater from '../../utils/ApiControllers/Updater/SDKUpdater';
+import SDKDeleter from '../../utils/ApiControllers/Deleter/SDKDeleter';
 
 const memberService = new MemberServiceApiFactory(configuration, '', instance);
 
-const fieldsToSend = ['queueId', 'name', 'priority', 'bucket', 'skill', 'timezone', 'communications',
+const fieldsToSend = ['queueId', 'name', 'priority', 'bucket', 'timezone', 'communications',
   'variables', 'expireAt'];
-
 
 const communicationsFieldsToSend = ['destination', 'display', 'priority', 'type', 'resource', 'description'];
 
-export const getMembersList = async (queueId, page = 0, size = 10, search) => {
-  if (search && search.slice(-1) !== '*') search += '*';
-  const defaultObject = {
-    createdAt: 'unknown',
-    priority: '0',
-    _isSelected: false,
-  };
-
-  const defaultObjectCommunication = {
-    destination: '',
-    display: '',
-    priority: 0,
-    type: {},
-    resource: {},
-    description: '',
-  };
-
-  try {
-    const response = await memberService.searchMemberInQueue(queueId, page, size);
-    if (response.items) {
-      return {
-        list: response.items.map((item) => {
-          item.communications = item.communications.map((comm) => ({ ...defaultObjectCommunication, ...comm }));
-          return { ...defaultObject, ...item };
-        }),
-        isNext: response.next || false,
-      };
-    }
-    return [];
-  } catch (err) {
-    throw err;
-  }
+const defaultListObject = {
+  createdAt: 'unknown',
+  priority: 0,
 };
 
-export const getMember = async (queueId, id) => {
-  const defaultObject = {
-    createdAt: 'unknown',
-    priority: '0',
-    name: 'member',
-    expireAt: 0,
-    skill: {},
-    bucket: {},
-    timezone: {},
-    communications: [],
-    variables: [],
-    _isSelected: false,
-    _dirty: false,
-  };
-
-  const defaultObjectCommunication = {
-    destination: '',
-    display: '',
-    priority: 0,
-    type: {},
-    resource: {},
-    description: '',
-  };
-
-  try {
-    const response = await memberService.readMember(queueId, id);
-    if (response.variables) {
-      response.variables = Object.keys(response.variables).map((key) => ({
-        key,
-        value: response.variables[key],
-      }));
-    }
-    if (response.priority) response.priority += '';
-    response.communications = response.communications.map((comm) => ({ ...defaultObjectCommunication, ...comm }));
-    return { ...defaultObject, ...response };
-  } catch (err) {
-    throw err;
-  }
+const defaultSingleObject = {
+  createdAt: 'unknown',
+  priority: '0',
+  name: 'member',
+  expireAt: 0,
+  bucket: {},
+  timezone: {},
+  communications: [],
+  variables: [],
 };
 
-export const addMember = async (queueId, item) => {
-  const itemCopy = deepCopy(item);
-  itemCopy.variables = {};
-  sanitizer(itemCopy, fieldsToSend);
-  itemCopy.communications.forEach((item) => sanitizer(item, communicationsFieldsToSend));
-  item.variables.forEach((variable) => {
-    itemCopy.variables[variable.key] = variable.value;
-  });
-  try {
-    const response = await memberService.createMember(queueId, itemCopy);
-    eventBus.$emit('notification', { type: 'info', text: 'Successfully added' });
-    return response.id;
-  } catch (err) {
-    throw err;
-  }
+const defaultSingleObjectCommunication = {
+  destination: '',
+  display: '',
+  priority: 0,
+  type: {},
+  resource: {},
+  description: '',
 };
 
-export const updateMember = async (queueId, id, item) => {
-  const itemCopy = deepCopy(item);
-  itemCopy.variables = {};
-  sanitizer(itemCopy, fieldsToSend);
-  itemCopy.communications.forEach((item) => sanitizer(item, communicationsFieldsToSend));
-  item.variables.forEach((variable) => {
-    itemCopy.variables[variable.key] = variable.value;
-  });
-  try {
-    await memberService.updateMember(queueId, id, itemCopy);
-    eventBus.$emit('notification', { type: 'info', text: 'Successfully updated' });
-  } catch (err) {
-    throw err;
-  }
+const mapDefaultCommunications = (item) => (
+  item.communications.map((comm) => ({ ...defaultSingleObjectCommunication, ...comm }))
+);
+
+const _getMembersList = (getList) => function ({
+                                                 page,
+                                                 size,
+                                                 parentId,
+                                               }) {
+  const params = [parentId, page, size];
+  return getList(params);
 };
 
-export const deleteMember = async (queueId, id) => {
-  try {
-    await memberService.deleteMember(queueId, id);
-  } catch (err) {
-    throw err;
-  }
+const listResponseHandler = (response) => {
+  const list = response.list.map((item) => ({
+    ...item,
+    communications: mapDefaultCommunications(item),
+  }));
+  return { list, next: response.next };
 };
+
+const itemResponseHandler = (response) => {
+  let variables = [];
+  if (response.variables) {
+    variables = Object.keys(response.variables).map((key) => ({
+      key,
+      value: response.variables[key],
+    }));
+  }
+  const communications = mapDefaultCommunications(response);
+  return { ...response, variables, communications };
+};
+
+const preRequestHandler = (item) => {
+  item.communications
+    .forEach((item) => sanitizer(item, communicationsFieldsToSend));
+  const variables = item.variables.reduce((variables, variable) => ({
+    ...variables,
+    [variable.key]: variable.value,
+  }), {});
+  return { ...item, variables };
+};
+
+const listGetter = new SDKListGetter(memberService.searchMemberInQueue,
+  { defaultListObject, listResponseHandler })
+  .setGetListMethod(_getMembersList);
+const itemGetter = new SDKGetter(memberService.readMember,
+  { defaultSingleObject, itemResponseHandler });
+const itemCreator = new SDKCreator(memberService.createMember,
+  { fieldsToSend, preRequestHandler });
+const itemUpdater = new SDKUpdater(memberService.updateMember,
+  { fieldsToSend, preRequestHandler });
+const itemDeleter = new SDKDeleter(memberService.deleteMember);
+
+export const getMembersList = (params) => listGetter.getList(params);
+export const getMember = (params) => itemGetter.getNestedItem(params);
+export const addMember = (params) => itemCreator.createNestedItem(params);
+export const updateMember = (params) => itemUpdater.updateNestedItem(params);
+export const deleteMember = (params) => itemDeleter.deleteNestedItem(params);
 
 export const deleteMembers = async (queueId, ids) => {
   try {
@@ -145,4 +119,12 @@ export const addMembersList = async (queueId, items) => {
   } catch (err) {
     throw err;
   }
+};
+
+export default {
+  getList: getMembersList,
+  get: getMember,
+  add: addMember,
+  update: updateMember,
+  delete: deleteMember,
 };

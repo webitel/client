@@ -45,7 +45,7 @@ export default {
         !this.dataList.some((usedRoles) => role.id === usedRoles.grantee.id)));
     },
     async loadRoles(search) {
-      const response = await getRoleList(1, 10, search);
+      const response = await getRoleList({ search });
       return response?.list || [];
     },
     close() {

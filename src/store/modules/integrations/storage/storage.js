@@ -1,6 +1,6 @@
 import deepMerge from 'deepmerge';
 import StorageAPI from '../../../../api/integrations/storage/storage';
-import { DefaultModule } from '../../defaults/DefaultModule';
+import DefaultModule from '../../../BaseModules/defaults/DefaultModule';
 import Storage from './_internals/enums/Storage.enum';
 import defaultStorageState from './_internals/storageSchema/defaults/defaultStorage';
 import defaultLocalStorageState from './_internals/storageSchema/localStorage';
@@ -10,40 +10,11 @@ import defaultDropboxStorageState from './_internals/storageSchema/dropboxStorag
 import defaultDriveStorageState from './_internals/storageSchema/driveStorage';
 import proxy from '../../../../utils/editProxy';
 
-const defaultState = () => ({
-  itemId: 0,
+const resettableState = {
   itemInstance: defaultStorageState(),
-});
-
-const defaultModule = new DefaultModule(defaultState);
-
-const state = {
-  ...defaultModule.state,
 };
 
-
-const getters = {};
-
 const actions = {
-  ...defaultModule.actions,
-  GET_LIST: (context) => {
-    return StorageAPI.getList(context.state);
-  },
-  GET_ITEM: (context) => {
-    return StorageAPI.get(context.state);
-  },
-  POST_ITEM: (context) => {
-    return StorageAPI.add(context.state);
-  },
-  PATCH_ITEM: (context, { id, changes }) => {
-    return StorageAPI.patch({ id, changes });
-  },
-  UPD_ITEM: (context) => {
-    return StorageAPI.update(context.state);
-  },
-  DELETE_ITEM: (context, id) => {
-    return StorageAPI.delete({ id });
-  },
   LOAD_ITEM: async (context, type) => {
     if (context.state.itemId) {
       const item = await context.dispatch('GET_ITEM');
@@ -79,16 +50,14 @@ const actions = {
 };
 
 const mutations = {
-  ...defaultModule.mutations,
   SET_ITEM_PROPERTIES_PROPERTY: (state, { prop, value }) => {
     state.itemInstance.properties[prop] = value;
   },
 };
 
-export default {
-  namespaced: true,
-  state,
-  getters,
-  actions,
-  mutations,
-};
+const storage = new DefaultModule(resettableState)
+  .attachAPIModule(StorageAPI)
+  .generateAPIActions()
+  .getModule({ actions, mutations });
+
+export default storage;

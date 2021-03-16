@@ -2,7 +2,7 @@ import { AgentServiceApiFactory } from 'webitel-sdk';
 import instance from '../../instance';
 import configuration from '../../openAPIConfig';
 import SDKListGetter from '../../utils/ApiControllers/ListGetter/SDKListGetter';
-import SDKItemGetter from '../../utils/ApiControllers/Getter/SDKGetter';
+import SDKGetter from '../../utils/ApiControllers/Getter/SDKGetter';
 import SDKPatcher from '../../utils/ApiControllers/Patcher/SDKPatcher';
 
 const subordinateService = new AgentServiceApiFactory(configuration, '', instance);
@@ -10,15 +10,7 @@ const subordinateService = new AgentServiceApiFactory(configuration, '', instanc
 const defaultListObject = {
   name: '',
   skills: [],
-  _isSelected: false,
 };
-
-const subordinateGetterResponseHandler = (agent) => ({ agent });
-
-const listGetter = new SDKListGetter(subordinateService.searchAgent, defaultListObject);
-const itemGetter = new SDKItemGetter(subordinateService.readAgent, null,
-  subordinateGetterResponseHandler);
-const itemPatcher = new SDKPatcher(subordinateService.patchAgent);
 
 const getSubordinatesList = (getList) => function ({
                                                      page,
@@ -32,20 +24,25 @@ const getSubordinatesList = (getList) => function ({
   return getList(params);
 };
 
-export const getAgentSubordinatesList = (params) => (
-  listGetter
-    .setGetListMethod(getSubordinatesList)
-    .getList(params)
-);
-export const getAgentSubordinate = ({ itemId }) => itemGetter.getItem(itemId);
+const subordinateGetterResponseHandler = (agent) => ({ agent });
+
+const listGetter = new SDKListGetter(subordinateService.searchAgent, { defaultListObject })
+  .setGetListMethod(getSubordinatesList);
+const itemGetter = new SDKGetter(subordinateService.readAgent, {
+  itemResponseHandler: subordinateGetterResponseHandler,
+});
+const itemPatcher = new SDKPatcher(subordinateService.patchAgent);
+
+export const getAgentSubordinatesList = (params) => listGetter.getList(params);
+export const getAgentSubordinate = (params) => itemGetter.getItem(params);
 export const addAgentSubordinate = ({ parentId, itemInstance }) => {
   const { id } = itemInstance.agent;
   const changes = { supervisor: { id: parentId } };
-  return itemPatcher.patchItem(id, changes);
+  return itemPatcher.patchItem({ id, changes });
 };
 export const deleteAgentSubordinate = ({ id }) => {
   const changes = { supervisor: { id: null } };
-  return itemPatcher.patchItem(id, changes);
+  return itemPatcher.patchItem({ id, changes });
 };
 export const updateAgentSubordinate = async ({ parentId, itemId, itemInstance }) => {
   try {
