@@ -27,8 +27,10 @@ const actions = {
     context.dispatch('LOAD_DATA_LIST');
   },
   PREV_PAGE: (context) => {
-    context.commit('DECREMENT_PAGE');
+    if (context.state.page > 1) {
+      context.commit('DECREMENT_PAGE');
     context.dispatch('LOAD_DATA_LIST');
+    }
   },
   PATCH_ITEM_PROPERTY: async (context, { item, index, prop, value }) => {
     await context.commit('PATCH_ITEM_PROPERTY', { index, prop, value });
