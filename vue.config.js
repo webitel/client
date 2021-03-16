@@ -8,14 +8,15 @@ process.env.VUE_APP_AUDIT_URL = process.env.NODE_ENV === 'production' ? '/audit'
 process.env.VUE_APP_HISTORY_URL = process.env.NODE_ENV === 'production' ? '/history' : 'https://dev.webitel.com/history';
 process.env.VUE_APP_GRAFANA_URL = process.env.NODE_ENV === 'production' ? '/grafana' : 'https://dev.webitel.com/grafana';
 
-const MonacoWebpackPlugin = require('monaco-editor-webpack-plugin');
+process.env.VUE_APP_PACKAGE_VERSION = require('./package.json').version;
 
+const MonacoWebpackPlugin = require('monaco-editor-webpack-plugin');
 
 module.exports = {
     publicPath: '/',
     transpileDependencies: ['@webitel/ui-sdk/src'],
     lintOnSave: true,
-    productionSourceMap: process.env.NODE_ENV !== 'production' || process.env.SOURCE_MAP,
+    productionSourceMap: false && process.env.NODE_ENV !== 'production' || process.env.SOURCE_MAP,
     css: {
         loaderOptions: {
             sass: {

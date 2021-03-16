@@ -2,7 +2,12 @@
   <wt-app-header>
     <wt-navigation-bar :current-app="currentApp" :nav="nav"></wt-navigation-bar>
     <wt-app-navigator :current-app="currentApp" :apps="apps"></wt-app-navigator>
-    <wt-header-actions :user="user" @settings="settings" @logout="logoutUser"/>
+    <wt-header-actions
+      :user="user"
+      :build-info="buildInfo"
+      @settings="settings"
+      @logout="logoutUser"
+    />
   </wt-app-header>
 </template>
 
@@ -16,6 +21,10 @@ export default {
   mixins: [navMixin],
   data: () => ({
     currentApp: 'admin',
+    buildInfo: {
+      release: process.env.VUE_APP_PACKAGE_VERSION,
+      build: process.env.VUE_APP_BUILD_NUMBER,
+    },
     apps: {
       agent: { href: process.env.VUE_APP_AGENT_URL },
       supervisor: { href: process.env.VUE_APP_SUPERVISOR_URL },
