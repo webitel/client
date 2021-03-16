@@ -13,7 +13,7 @@
         <slot></slot>
       </section>
 
-      <divider/>
+      <wt-divider/>
 
       <div class="btn-controls">
         <btn class="secondary-btn" @click.native="close">{{ $t('objects.close') }}</btn>
@@ -32,12 +32,10 @@
 
 <script>
 import btn from '@/components/utils/btn';
-import divider from '@/components/utils/divider';
 
 export default {
   name: 'popup',
   components: {
-    divider,
     btn,
   },
   props: {

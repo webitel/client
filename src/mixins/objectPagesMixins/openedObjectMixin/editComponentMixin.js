@@ -1,14 +1,8 @@
 import { mapActions } from 'vuex';
 
 import formInput from '@/components/utils/form-input';
-import expansionPanel from '@/components/utils/expansion-panel';
 import dropdownSelect from '@/components/utils/dropdown-select';
-import switcher from '@/components/utils/switcher';
 import tableCheckbox from '@/components/utils/checkbox';
-import hint from '@/components/utils/hint';
-import tabs from '@/components/utils/tabs';
-import validationMessage from '@/components/utils/validation-message';
-import tabsComponent from '@/components/utils/tabs-component';
 import tagsInput from '@/components/utils/tags-input';
 
 import ObjectHeader from '../../../components/object-utils/the-object-header.vue';

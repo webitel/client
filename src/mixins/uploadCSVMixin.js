@@ -1,6 +1,5 @@
 import checkbox from '../components/utils/checkbox';
 import formInput from '../components/utils/form-input';
-import divider from '../components/utils/divider';
 import popup from '../components/utils/popup';
 import dropdownSelect from '../components/utils/dropdown-select';
 import { charsetOptions, processCSVFile } from '../utils/processCSV';
@@ -10,7 +9,6 @@ export default {
     formInput,
     dropdownSelect,
     checkbox,
-    divider,
     popup,
   },
   props: {

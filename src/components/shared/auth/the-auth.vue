@@ -1,7 +1,7 @@
 <template>
     <div class="auth-wrap">
         <div v-show="!isLoaded" class="auth-loader">
-            <loader/>
+            <wt-loader/>
         </div>
         <iframe
                 class="auth"
@@ -14,16 +14,12 @@
 </template>
 
 <script>
-    import loader from '../../utils/loader';
     import { handleToken } from '../../../api/auth/auth';
 
     const authURL = process.env.VUE_APP_AUTH_MODULE_URL;
 
     export default {
         name: 'auth',
-        components: {
-            loader,
-        },
 
         data: () => ({
             authURL,

@@ -2,16 +2,9 @@ import ObjectHeader from '../../../components/object-utils/the-object-header.vue
 import EditAction from '../../../components/utils/table-cell/default-table-actions/edit-action.vue';
 import DeleteAction from '../../../components/utils/table-cell/default-table-actions/delete-action.vue';
 import HistoryAction from '../../../components/utils/table-cell/default-table-actions/history-action.vue';
+import Status from '../../../components/utils/status.vue';
 import itemLinkMixin from './itemLinkMixin';
 import tableActionsHandlerMixin from './tableActionsMixin';
-
-
-import vuetable from 'vuetable-2/src/components/Vuetable';
-import pagination from '../../../components/utils/table-pagination';
-import switcher from '../../../components/utils/switcher';
-import status from '../../../components/utils/status';
-import search from '../../../components/utils/search';
-import loader from '../../../components/utils/loader';
 
 /**
  * @fileOverview abstract mixin,
@@ -27,14 +20,7 @@ export default {
     EditAction,
     DeleteAction,
     HistoryAction,
-
-    // FIXME: DELETE ME AFTER WEBITEL-UI REFACTOR
-    vuetable,
-    pagination,
-    switcher,
-    status,
-    search,
-    loader,
+    Status,
   },
 
   data: () => ({
