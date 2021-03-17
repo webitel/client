@@ -1,0 +1,72 @@
+
+.typo-heading-lg {
+  @extend %typo-heading-lg;
+}
+
+.typo-heading-md {
+  @extend %typo-heading-md;
+}
+
+.typo-heading-sm {
+  @extend %typo-heading-sm;
+}
+
+.typo-body-lg {
+  @extend %typo-body-lg;
+}
+
+.typo-body-md {
+  @extend %typo-body-md;
+}
+
+.typo-body-sm {
+  @extend %typo-body-sm;
+}
+
+.typo-btn {
+  font-family: 'Montserrat Bold', monospace;
+  font-size: 14px;
+  line-height: 16px;
+}
+
+.typo-input-label {
+  font-family: 'Montserrat Medium', monospace;
+  font-size: 12px;
+  line-height: 16px;
+}
+
+.typo-input-text {
+  font-family: 'Montserrat Medium', monospace;
+  font-size: 14px;
+  line-height: 20px;
+}
+
+.typo-notification-text {
+  font-family: 'Montserrat Medium', monospace;
+  font-size: 16px;
+  line-height: 18px;
+}
+
+.typo-nav-item {
+  font-family: 'Montserrat Medium', monospace;
+  font-size: 14px;
+  line-height: 16px;
+}
+
+.typo-tab {
+  font-family: 'Montserrat Medium', monospace;
+  font-size: 16px;
+  line-height: 22px;
+}
+
+.typo-404-title {
+  font-family: 'Montserrat ExtraBold', monospace;
+  font-size: 37px;
+  line-height: 44px;
+}
+
+.typo-404-text {
+  font-family: 'Montserrat Medium', monospace;
+  font-size: 26px;
+  line-height: 32px;
+}

@@ -1,16 +1,15 @@
 import Vue from 'vue';
 import Vuelidate from 'vuelidate';
-import App from './app.vue';
-import router from './router/router';
-import store from './store/store';
-import i18n from './locale/i18n';
-import './plugins/webitel-ui';
+import App from './app/components/app.vue';
+import router from './app/router/router';
+import store from './app/store/store';
+import i18n from './app/locale/i18n';
+import './app/plugins/webitel-ui';
 
-import './assets/lib/normalize.scss';
 // import './assets/lib/bootstrap-grid.min.css';
-import './assets/css/fonts.scss';
+import './app/css/fonts.scss';
 
-import { getSession } from './api/userinfo/userinfo';
+import { getSession } from './app/api/userinfo/userinfo';
 
 Vue.config.productionTip = false;
 
