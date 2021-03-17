@@ -18,9 +18,9 @@ const defaultListObject = { _isSelected: false, disabled: false };
 const listGetter = new SDKListGetter(dialplanService.searchRoutingOutboundCall,
   { defaultListObject });
 const itemGetter = new SDKGetter(dialplanService.readRoutingOutboundCall);
-const itemCreator = new SDKCreator(dialplanService.createRoutingOutboundCall, fieldsToSend);
-const itemUpdater = new SDKUpdater(dialplanService.updateRoutingOutboundCall, fieldsToSend);
-const itemPatcher = new SDKPatcher(dialplanService.patchRoutingOutboundCall, fieldsToSend);
+const itemCreator = new SDKCreator(dialplanService.createRoutingOutboundCall, { fieldsToSend });
+const itemUpdater = new SDKUpdater(dialplanService.updateRoutingOutboundCall, { fieldsToSend });
+const itemPatcher = new SDKPatcher(dialplanService.patchRoutingOutboundCall, { fieldsToSend });
 const itemDeleter = new SDKDeleter(dialplanService.deleteRoutingOutboundCall);
 
 export const getDialplanList = (params) => listGetter.getList(params);

@@ -13,8 +13,8 @@ const fieldsToSend = ['name', 'timezone', 'description'];
 
 const listGetter = new SDKListGetter(regionService.searchRegion);
 const itemGetter = new SDKGetter(regionService.readRegion);
-const itemCreator = new SDKCreator(regionService.createRegion, fieldsToSend);
-const itemUpdater = new SDKUpdater(regionService.updateRegion, fieldsToSend);
+const itemCreator = new SDKCreator(regionService.createRegion, { fieldsToSend });
+const itemUpdater = new SDKUpdater(regionService.updateRegion, { fieldsToSend });
 const itemDeleter = new SDKDeleter(regionService.deleteRegion);
 
 export const getRegionsList = (params) => listGetter.getList(params);

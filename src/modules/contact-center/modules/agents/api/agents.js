@@ -51,8 +51,8 @@ const _getAgentHistory = (getList) => function ({
 const listGetter = new SDKListGetter(agentService.searchAgent)
   .setGetListMethod(getSupervisorsList);
 const itemGetter = new SDKGetter(agentService.readAgent, { defaultSingleObject });
-const itemCreator = new SDKCreator(agentService.createAgent, fieldsToSend);
-const itemUpdater = new SDKUpdater(agentService.updateAgent, fieldsToSend);
+const itemCreator = new SDKCreator(agentService.createAgent, { fieldsToSend });
+const itemUpdater = new SDKUpdater(agentService.updateAgent, { fieldsToSend });
 const itemDeleter = new SDKDeleter(agentService.deleteAgent);
 
 const historyListGetter = new SDKListGetter(agentService.searchAgentStateHistory)

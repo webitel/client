@@ -46,9 +46,9 @@ const listGetter = new SDKListGetter(resGrService.searchOutboundResourceGroup);
 const itemGetter = new SDKGetter(resGrService.readOutboundResourceGroup,
   { defaultSingleObject, itemResponseHandler });
 const itemCreator = new SDKCreator(resGrService.createOutboundResourceGroup,
-  fieldsToSend, preRequestHandler);
+  { fieldsToSend, preRequestHandler });
 const itemUpdater = new SDKUpdater(resGrService.updateOutboundResourceGroup,
-  fieldsToSend, preRequestHandler);
+  { fieldsToSend, preRequestHandler });
 const itemDeleter = new SDKDeleter(resGrService.deleteOutboundResourceGroup);
 
 export const getResGroupList = (params) => listGetter.getList(params);

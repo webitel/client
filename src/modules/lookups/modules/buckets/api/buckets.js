@@ -13,8 +13,8 @@ const fieldsToSend = ['name', 'description'];
 
 const listGetter = new SDKListGetter(bucketService.searchBucket);
 const itemGetter = new SDKGetter(bucketService.readBucket);
-const itemCreator = new SDKCreator(bucketService.createBucket, fieldsToSend);
-const itemUpdater = new SDKUpdater(bucketService.updateBucket, fieldsToSend);
+const itemCreator = new SDKCreator(bucketService.createBucket, { fieldsToSend });
+const itemUpdater = new SDKUpdater(bucketService.updateBucket, { fieldsToSend });
 const itemDeleter = new SDKDeleter(bucketService.deleteBucket);
 
 export const getBucketsList = (params) => listGetter.getList(params);

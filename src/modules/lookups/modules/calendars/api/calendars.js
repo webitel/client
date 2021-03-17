@@ -61,9 +61,9 @@ const listGetter = new SDKListGetter(calendarService.searchCalendar);
 const itemGetter = new SDKGetter(calendarService.readCalendar, { itemResponseHandler });
 const timezoneGetter = new SDKListGetter(calendarService.searchTimezones);
 const itemCreator = new SDKCreator(calendarService.createCalendar,
-  fieldsToSend, preRequestHandler);
+  { fieldsToSend, preRequestHandler });
 const itemUpdater = new SDKUpdater(calendarService.updateCalendar,
-  fieldsToSend, preRequestHandler);
+  { fieldsToSend, preRequestHandler });
 const itemDeleter = new SDKDeleter(calendarService.deleteCalendar);
 
 export const getCalendarList = (params) => listGetter.getList(params);

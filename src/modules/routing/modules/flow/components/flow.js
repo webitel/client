@@ -24,9 +24,9 @@ const baseItem = { _dirty: false };
 const listGetter = new SDKListGetter(flowService.searchRoutingSchema);
 const itemGetter = new SDKGetter(flowService.readRoutingSchema);
 const itemCreator = new SDKCreator(flowService.createRoutingSchema,
-  fieldsToSend, preRequestHandler);
+  { fieldsToSend, preRequestHandler });
 const itemUpdater = new SDKUpdater(flowService.updateRoutingSchema,
-  fieldsToSend, preRequestHandler);
+  { fieldsToSend, preRequestHandler });
 const itemDeleter = new SDKDeleter(flowService.deleteRoutingSchema);
 
 itemGetter.responseHandler = (response) => ({

@@ -21,8 +21,8 @@ const defaultSingleObject = {
 const listGetter = new SDKListGetter(communicationService.searchCommunicationType);
 const itemGetter = new SDKGetter(communicationService.readCommunicationType,
   { defaultSingleObject });
-const itemCreator = new SDKCreator(communicationService.createCommunicationType, fieldsToSend);
-const itemUpdater = new SDKUpdater(communicationService.updateCommunicationType, fieldsToSend);
+const itemCreator = new SDKCreator(communicationService.createCommunicationType, { fieldsToSend });
+const itemUpdater = new SDKUpdater(communicationService.updateCommunicationType, { fieldsToSend });
 const itemDeleter = new SDKDeleter(communicationService.deleteCommunicationType);
 
 export const getCommunicationsList = (params) => listGetter.getList(params);

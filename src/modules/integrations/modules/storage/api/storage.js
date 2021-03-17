@@ -66,10 +66,10 @@ const listGetter = new SDKListGetter(storageService.searchBackendProfile,
 const itemGetter = new SDKGetter(storageService.readBackendProfile,
   { defaultSingleObject, itemResponseHandler });
 const itemCreator = new SDKCreator(storageService.createBackendProfile,
-  fieldsToSend, preRequestHandler);
-const itemPatcher = new SDKPatcher(storageService.patchBackendProfile, fieldsToSend);
+  { fieldsToSend, preRequestHandler });
+const itemPatcher = new SDKPatcher(storageService.patchBackendProfile, { fieldsToSend });
 const itemUpdater = new SDKUpdater(storageService.updateBackendProfile,
-  fieldsToSend, preRequestHandler);
+  { fieldsToSend, preRequestHandler });
 const itemDeleter = new SDKDeleter(storageService.deleteBackendProfile);
 
 export const getStorageList = (params) => listGetter.getList(params);

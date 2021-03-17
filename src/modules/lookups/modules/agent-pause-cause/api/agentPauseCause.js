@@ -31,9 +31,9 @@ const defaultSingleObject = {
 const listGetter = new SDKListGetter(pauseCauseService.searchAgentPauseCause,
   { defaultListObject });
 const itemGetter = new SDKGetter(pauseCauseService.readAgentPauseCause, { defaultSingleObject });
-const itemCreator = new SDKCreator(pauseCauseService.createAgentPauseCause, fieldsToSend);
-const itemPatcher = new SDKPatcher(pauseCauseService.patchAgentPauseCause, fieldsToSend);
-const itemUpdater = new SDKUpdater(pauseCauseService.updateAgentPauseCause, fieldsToSend);
+const itemCreator = new SDKCreator(pauseCauseService.createAgentPauseCause, { fieldsToSend });
+const itemPatcher = new SDKPatcher(pauseCauseService.patchAgentPauseCause, { fieldsToSend });
+const itemUpdater = new SDKUpdater(pauseCauseService.updateAgentPauseCause, { fieldsToSend });
 const itemDeleter = new SDKDeleter(pauseCauseService.deleteAgentPauseCause);
 
 export const getPauseCauseList = (params) => listGetter.getList(params);

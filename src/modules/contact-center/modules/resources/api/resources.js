@@ -53,15 +53,15 @@ const preRequestHandler = (item) => {
 };
 
 const listGetter = new SDKListGetter(resService.searchOutboundResource,
-  defaultListObject);
+  { defaultListObject });
 const itemGetter = new SDKGetter(resService.readOutboundResource,
   { defaultSingleObject, itemResponseHandler });
 const itemCreator = new SDKCreator(resService.createOutboundResource,
-  fieldsToSend, preRequestHandler);
+  { fieldsToSend, preRequestHandler });
 const itemUpdater = new SDKUpdater(resService.updateOutboundResource,
-  fieldsToSend, preRequestHandler);
+  { fieldsToSend, preRequestHandler });
 const itemPatcher = new SDKPatcher(resService.patchOutboundResource,
-  fieldsToSend);
+  { fieldsToSend });
 const itemDeleter = new SDKDeleter(resService.deleteOutboundResource);
 
 export const getResourceList = (params) => listGetter.getList(params);

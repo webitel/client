@@ -27,8 +27,8 @@ const defaultSingleObject = {
 
 const listGetter = new SDKListGetter(teamService.searchAgentTeam);
 const itemGetter = new SDKGetter(teamService.readAgentTeam, { defaultSingleObject });
-const itemCreator = new SDKCreator(teamService.createAgentTeam, fieldsToSend);
-const itemUpdater = new SDKUpdater(teamService.updateAgentTeam, fieldsToSend);
+const itemCreator = new SDKCreator(teamService.createAgentTeam, { fieldsToSend });
+const itemUpdater = new SDKUpdater(teamService.updateAgentTeam, { fieldsToSend });
 const itemDeleter = new SDKDeleter(teamService.deleteAgentTeam);
 
 export const getTeamsList = (params) => listGetter.getList(params);

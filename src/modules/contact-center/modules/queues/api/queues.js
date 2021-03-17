@@ -53,10 +53,10 @@ const listGetter = new SDKListGetter(queueService.searchQueue, { defaultListObje
 const itemGetter = new SDKGetter(queueService.readQueue,
   { defaultSingleObject, itemResponseHandler });
 const itemCreator = new SDKCreator(queueService.createQueue,
-  fieldsToSend, preRequestHandler);
+  { fieldsToSend, preRequestHandler });
 const itemUpdater = new SDKUpdater(queueService.updateQueue,
-  fieldsToSend, preRequestHandler);
-const itemPatcher = new SDKPatcher(queueService.patchQueue, fieldsToSend);
+  { fieldsToSend, preRequestHandler });
+const itemPatcher = new SDKPatcher(queueService.patchQueue, { fieldsToSend });
 const itemDeleter = new SDKDeleter(queueService.deleteQueue);
 
 export const getQueuesList = (params) => listGetter.getList(params);

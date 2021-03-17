@@ -18,8 +18,8 @@ const defaultListObject = {
 
 const listGetter = new SDKListGetter(listService.searchList, { defaultListObject });
 const itemGetter = new SDKGetter(listService.readList);
-const itemCreator = new SDKCreator(listService.createList, fieldsToSend);
-const itemUpdater = new SDKUpdater(listService.updateList, fieldsToSend);
+const itemCreator = new SDKCreator(listService.createList, { fieldsToSend });
+const itemUpdater = new SDKUpdater(listService.updateList, { fieldsToSend });
 const itemDeleter = new SDKDeleter(listService.deleteList);
 
 export const getBlacklistList = (params) => listGetter.getList(params);

@@ -13,8 +13,8 @@ const fieldsToSend = ['name', 'description'];
 
 const listGetter = new SDKListGetter(skillService.searchSkill);
 const itemGetter = new SDKGetter(skillService.readSkill);
-const itemCreator = new SDKCreator(skillService.createSkill, fieldsToSend);
-const itemUpdater = new SDKUpdater(skillService.updateSkill, fieldsToSend);
+const itemCreator = new SDKCreator(skillService.createSkill, { fieldsToSend });
+const itemUpdater = new SDKUpdater(skillService.updateSkill, { fieldsToSend });
 const itemDeleter = new SDKDeleter(skillService.deleteSkill);
 
 export const getSkillsList = (params) => listGetter.getList(params);
