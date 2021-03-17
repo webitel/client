@@ -29,15 +29,9 @@ export default {
 
     // FIXME: DELETE AFTER REFACTOR WITH WEBITEL-UI
     formInput,
-    expansionPanel,
     dropdownSelect,
-    validationMessage,
     checkbox: tableCheckbox,
-    switcher,
-    hint,
-    tabs,
     tagsInput,
-    tabsComponent,
   },
 
   data() {
