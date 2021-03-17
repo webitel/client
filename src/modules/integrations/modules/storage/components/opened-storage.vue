@@ -1,0 +1,171 @@
+<template>
+  <wt-page-wrapper :actions-panel="false">
+    <template slot="header">
+      <object-header
+        :primary-text="computePrimaryText"
+        :primary-action="save"
+        :hide-primary="!hasSaveActionAccess"
+        :primary-disabled="computeDisabled"
+        :secondary-action="close"
+      >
+        <headline-nav :path="path"></headline-nav>
+      </object-header>
+    </template>
+
+    <template slot="main">
+      <div class="main-container">
+        <wt-tabs
+          v-model="currentTab"
+          :tabs="tabs"
+        ></wt-tabs>
+        <component
+          :is="currentTab.value"
+          :v="$v"
+          :namespace="namespace"
+        ></component>
+      </div>
+    </template>
+  </wt-page-wrapper>
+</template>
+
+<script>
+import { required } from 'vuelidate/lib/validators';
+import General from './opened-storage-general.vue';
+import Local from './_unused/opened-storage-local.vue';
+import S3 from './opened-storage-s3.vue';
+import Backblaze from './_unused/opened-storage-backblaze.vue';
+import Dropbox from './_unused/opened-storage-dropbox.vue';
+import Drive from './_unused/opened-storage-drive.vue';
+import openedObjectMixin from '../../../../../app/mixins/objectPagesMixins/openedObjectMixin/openedObjectMixin';
+import Storage from '../store/_internals/enums/Storage.enum';
+
+export default {
+  name: 'opened-storage',
+  mixins: [openedObjectMixin],
+  components: {
+    General,
+    Local,
+    S3,
+    Backblaze,
+    Dropbox,
+    Drive,
+  },
+  data: () => ({
+    namespace: 'integrations/storage',
+  }),
+
+  validations() {
+    switch (this.$route.params.type) {
+      case Storage.LOCAL:
+        return {
+          itemInstance: {
+            name: { required },
+          },
+        };
+      case Storage.S3:
+        return {
+          itemInstance: {
+            name: { required },
+            properties: {
+              keyId: { required },
+              accessKey: { required },
+              bucketName: { required },
+              region: { required },
+              endpoint: { required },
+            },
+          },
+        };
+      case Storage.BACKBLAZE:
+        return {
+          itemInstance: {
+            name: { required },
+            account: { required },
+            key: { required },
+            bucket: { required },
+            bucketId: { required },
+          },
+        };
+      case Storage.DROPBOX:
+        return {
+          itemInstance: {
+            name: { required },
+            properties: {
+              token: { required },
+            },
+          },
+        };
+      case Storage.DRIVE:
+        return {
+          itemInstance: {
+            name: { required },
+            properties: {
+              directory: { required },
+              privateKey: { required },
+              email: { required },
+            },
+          },
+        };
+      default: return {};
+    }
+  },
+
+  computed: {
+    storageType() {
+      switch (this.$route.params.type) {
+        case Storage.LOCAL: return Storage.LOCAL;
+        case Storage.S3: return Storage.S3;
+        case Storage.BACKBLAZE: return Storage.BACKBLAZE;
+        case Storage.DROPBOX: return Storage.DROPBOX;
+        case Storage.DRIVE: return Storage.DRIVE;
+        default: return '';
+      }
+    },
+    tabs() {
+      const tabs = [{ text: this.$t('objects.general'), value: 'general' }];
+      switch (this.$route.params.type) {
+        case Storage.LOCAL:
+          tabs.push({ text: this.$t('objects.integrations.storage.configuration'), value: 'local' });
+          break;
+        case Storage.S3:
+          tabs.push({ text: this.$t('objects.integrations.storage.configuration'), value: 's3' });
+          break;
+        case Storage.BACKBLAZE:
+          tabs.push({ text: this.$t('objects.integrations.storage.configuration'), value: 'backblaze' });
+          break;
+        case Storage.DROPBOX:
+          tabs.push({ text: this.$t('objects.integrations.storage.configuration'), value: 'dropbox' });
+          break;
+        case Storage.DRIVE:
+          tabs.push({ text: this.$t('objects.integrations.storage.configuration'), value: 'drive' });
+          break;
+          default:
+      }
+      return tabs;
+    },
+
+    path() {
+      const { type } = this.$route.params;
+      const baseUrl = '/integrations/storage';
+      const url = `${baseUrl}/${type}`;
+      return [
+        { name: this.$t('objects.integrations.integrations') },
+        { name: this.$t('objects.integrations.storage.storage'), route: baseUrl },
+        {
+          name: this.id ? this.pathName : this.$t('objects.new'),
+          route: this.id ? `${url}/${this.id}` : `${url}/new`,
+        },
+      ];
+    },
+  },
+  methods: {
+    async loadPageData() {
+      await this.setId(this.$route.params.id);
+      return this.loadItem(this.storageType);
+    },
+  },
+};
+</script>
+
+<style scoped>
+
+</style>

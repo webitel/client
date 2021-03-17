@@ -22,9 +22,9 @@ module.exports = {
             sass: {
                 prependData: `
                       @import '~@webitel/ui-sdk/src/css/main.scss';
-                      @import "@/assets/css/main.scss";
-                      @import "@/assets/css/objects/objects.scss";
-                      @import "@/assets/css/media.scss";
+                      @import "@/app/css/main.scss";
+                      @import "@/app/css/objects/objects.scss";
+                      @import "@/app/css/media.scss";
                     `,
             },
         },

@@ -1,0 +1,255 @@
+@font-face {
+  font-family: 'Montserrat Medium';
+  src: url('fonts/Montserrat/Montserrat-Medium.ttf') format('truetype');
+}
+
+@font-face {
+  font-family: 'Montserrat Bold';
+  src: url('fonts/Montserrat/Montserrat-Bold.ttf') format('truetype');
+}
+
+@font-face {
+  font-family: 'Montserrat ExtraBold';
+  src: url('fonts/Montserrat/Montserrat-ExtraBold.ttf') format('truetype');
+}
+
+@font-face {
+  font-family: 'Montserrat Regular';
+  src: url('fonts/Montserrat/Montserrat-Regular.ttf') format('truetype');
+}
+
+@font-face {
+  font-family: 'icomoon';
+  src: url('fonts/icons/icomoon.eot?z1vy67');
+  src: url('fonts/icons/icomoon.eot?z1vy67#iefix') format('embedded-opentype'),
+  url('fonts/icons/icomoon.ttf?z1vy67') format('truetype'),
+  url('fonts/icons/icomoon.woff?z1vy67') format('woff'),
+  url('fonts/icons/icomoon.svg?z1vy67#icomoon') format('svg');
+  font-weight: normal;
+  font-style: normal;
+}
+
+[class^="icon-"], [class*=" icon-"] {
+  /* use !important to prevent issues with browser extensions that change fonts */
+  font-family: 'icomoon' !important;
+  speak: none;
+  font-style: normal;
+  font-weight: normal;
+  font-variant: normal;
+  text-transform: none;
+  line-height: 1;
+  font-size: 24px;
+
+  /* Better Font Rendering =========== */
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.icon-icon_draggable:before {
+  content: "\e91a";
+  color: #808080;
+}
+
+.icon-icon_stop:before {
+  content: "\e90a";
+  color: #808080;
+}
+
+.icon-icon_logout:before {
+  content: "\e900";
+  color: #808080;
+}
+
+.icon-icon_settings:before {
+  content: "\e901";
+  color: #808080;
+}
+
+.icon-icon_mute:before {
+  content: "\e908";
+  color: #808080;
+}
+
+.icon-icon_volume:before {
+  content: "\e909";
+  color: #808080;
+}
+
+.icon-Group-420:before {
+  content: "\e90c";
+  color: #808080;
+}
+
+.icon-icon_doc:before {
+  content: "\e90d";
+  color: #808080;
+}
+
+.icon-icon_reload:before {
+  content: "\e907";
+  color: #727272;
+}
+
+.icon-icon_close:before {
+  content: "\e905";
+  color: #808080;
+}
+
+.icon-icon_pause:before {
+  content: "\e906";
+  color: #808080;
+}
+
+.icon-icon_search:before {
+  content: "\e904";
+  color: #808080;
+}
+
+.icon-icon_menu-burger:before {
+  content: "\e9a0";
+  color: #808080;
+}
+
+.icon-icon_arrow-right:before {
+  content: "\e921";
+  color: #808080;
+}
+
+.icon-icon_arrow-up:before {
+  content: "\e902";
+  color: #808080;
+}
+
+.icon-icon_arrow-left:before {
+  content: "\e903";
+  color: #808080;
+}
+
+.icon-icon_checkbox-checked:before {
+  content: "\e001";
+  color: #ffc107;
+}
+
+.icon-icon_generate:before {
+  content: "\e002";
+  color: #808080;
+}
+
+.icon-icon_upload:before {
+  content: "\e90c";
+  color: #808080;
+}
+
+.icon-icon_text-to-speech:before {
+  content: "\e004";
+  color: #808080;
+}
+
+.icon-icon_pull:before {
+  content: "\e005";
+  color: #808080;
+}
+
+.icon-icon_edit:before {
+  content: "\e006";
+  color: #808080;
+}
+
+.icon-icon_delete:before {
+  content: "\e007";
+  color: #808080;
+}
+
+.icon-icon_checkbox:before {
+  content: "\e008";
+  color: #808080;
+}
+
+.icon-icon_filter:before {
+  content: "\e009";
+  color: #808080;
+}
+
+.icon-icon_download:before {
+  content: "\e00a";
+  color: #808080;
+}
+
+.icon-icon_vertical-range:before {
+  content: "\e00b";
+  color: #808080;
+}
+
+.icon-icon_nav-directory:before {
+  content: "\e00c";
+  color: #808080;
+}
+
+.icon-icon_nav-contacts:before {
+  content: "\e00d";
+  color: #808080;
+}
+
+.icon-icon_nav-ccenter:before {
+  content: "\e00e";
+  color: #808080;
+}
+
+.icon-icon_nav-routing:before {
+  content: "\e00f";
+  color: #808080;
+}
+
+.icon-icon_nav-integrations:before {
+  content: "\e010";
+  color: #808080;
+}
+
+.icon-icon_nav-lookups:before {
+  content: "\e011";
+  color: #808080;
+}
+
+.icon-icon_nav-administration:before {
+  content: "\e012";
+}
+
+.icon-icon_nav-permissions:before {
+  content: "\e013";
+  color: #808080;
+}
+
+.icon-icon_question:before {
+  content: "\e014";
+  color: #808080;
+}
+
+.icon-icon_notification:before {
+  content: "\e015";
+  color: #808080;
+}
+
+.icon-icon_plus:before {
+  content: "\e016";
+  color: #808080;
+}
+
+.icon-icon_play:before {
+  content: "\e90b";
+  color: #808080;
+}
+
+.icon-icon_read:before {
+  content: "\e018";
+  color: #808080;
+}
+
+.icon-icon_calendar:before {
+  content: "\e019";
+  color: #808080;
+}
+
+.icon-icon_arrow-down:before {
+  content: "\e01a";
+  color: #808080;
+}

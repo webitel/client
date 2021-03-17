@@ -1,0 +1,170 @@
+@import "styleguide/styleguide";
+@import "utils/helper-classes";
+
+// OTHER
+$input-padding: 11px 16px 7px;
+$border-radius: 4px;
+$transition: 0.2s;
+
+* {
+  box-sizing: border-box;
+  font-family: 'Montserrat Medium', monospace;
+}
+
+//disables scrollbar on 100vh auth on small laptops
+body {
+  display: flex;
+  min-width: 100%;
+  min-height: 100%;
+}
+
+//reset ul styles
+ul {
+  padding: 0;
+  margin: 0;
+  list-style-type: none;
+}
+
+iframe {
+  border: none;
+  outline: none;
+}
+
+h1, h2, h3, h4, h5, h6, p {
+  margin: 0;
+}
+
+a {
+  color: #000;
+  text-decoration: none;
+}
+
+i {
+  color: $icon-color;
+  transition: $transition;
+}
+
+.mb-0 {
+  margin-bottom: 0;
+}
+
+// helper class
+.no-padding {
+  padding: 0;
+}
+
+.box-shadow {
+  //box-shadow: 0px 5px 6px rgba(0, 0, 0, 0.2), 0px 3px 16px rgba(0, 0, 0, 0.12), 0px 9px 12px rgba(0, 0, 0, 0.14);
+  box-shadow: rgba(0, 0, 0, 0.08) 0 8px 18px;
+}
+
+.icon-action {
+  cursor: pointer;
+
+  &:before {
+    transition: $transition;
+  }
+
+  &:hover:before {
+    color: #000;
+  }
+}
+
+// helper underline class
+.border-underline {
+  position: relative;
+
+  &:before {
+    content: '';
+    position: absolute;
+    bottom: 6px;
+    left: 0;
+    right: 0;
+    height: 1px;
+  }
+}
+
+.label {
+  @extend .typo-input-label;
+
+  position: relative;
+  display: block;
+  margin-bottom: 10px;
+  color: $label-color;
+  transition: $transition;
+
+  .hint {
+    position: absolute;
+    bottom: -2px;
+  }
+}
+
+.default-input {
+  @extend .typo-input-text;
+
+  display: block;
+  width: 100%;
+  /*different top and bottom padding to vertically align text*/
+  padding: $input-padding;
+  border: 1px solid $input;
+  border-radius: $border-radius;
+  outline: none;
+  transition: $transition;
+
+  &::placeholder {
+    color: $input;
+  }
+
+  &:hover:not(:disabled) {
+    border-color: #000;
+  }
+
+  &:focus {
+    border-color: #000;
+
+    &::placeholder {
+      color: transparent;
+    }
+  }
+
+  &:disabled {
+    background: $input-disabled;
+    border-color: $input;
+  }
+}
+
+.invalid {
+  color: $false-color;
+  border-color: $false-color;
+}
+
+$scrollbar-bg-color: #EAEAEA;
+$srollbar-thumb-color: $accent-color;
+$srollbar-border-radius: 4px;
+
+.scrollbar {
+  // scrollbar itself
+  &::-webkit-scrollbar {
+    width: 4px;
+    height: 6px;
+    background-color: $scrollbar-bg-color;
+    cursor: pointer;
+  }
+
+  // scrollable element
+  &::-webkit-scrollbar-thumb {
+    width: 4px;
+    height: 6px;
+    background-color: $srollbar-thumb-color;
+    border-radius: $srollbar-border-radius;
+  }
+}
+
+.hidden {
+  opacity: 0;
+  pointer-events: none;
+}
+
+.value-pair-wrap {
+  position: relative;
+}
