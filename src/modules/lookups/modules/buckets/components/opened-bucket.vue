@@ -48,23 +48,12 @@ export default {
   },
 
   computed: {
-    ...mapState('lookups/buckets', {
-      id: (state) => state.itemId,
-      itemInstance: (state) => state.itemInstance,
-    }),
-
     tabs() {
       const tabs = [{
         text: this.$t('objects.general'),
         value: 'general',
       }];
-
-      const permissions = {
-        text: this.$tc('objects.permissions.permissions', 2),
-        value: 'permissions',
-      };
-
-      if (this.id) tabs.push(permissions);
+      if (this.id) tabs.push(this.permissionsTab);
       return tabs;
     },
 

@@ -14,7 +14,7 @@
       <div class="variables">
         <div
           class="value-pair"
-          v-for="(acl, key) in ipacl"
+          v-for="(acl, key) in itemInstance.ipacl"
           :key="key"
         >
           <wt-select
@@ -54,30 +54,14 @@
 </template>
 
 <script>
-import { mapActions, mapState } from 'vuex';
 import openedTabComponentMixin from '../../../../../app/mixins/objectPagesMixins/openedObjectTabMixin/openedTabComponentMixin';
 
 export default {
   name: 'opened-sip-gateway-trunking-configuration',
   mixins: [openedTabComponentMixin],
-
   data: () => ({
     protocolList: ['any', 'udp', 'tcp'],
   }),
-
-  computed: {
-    ...mapState('routing/gateways', {
-      ipacl: (state) => state.itemInstance.ipacl,
-    }),
-  },
-
-  methods: {
-    ...mapActions('routing/gateways', {
-      addVariable: 'ADD_VARIABLE_PAIR',
-      setVariableProp: 'SET_VARIABLE_PROP',
-      deleteVariable: 'DELETE_VARIABLE_PAIR',
-    }),
-  },
 };
 </script>
 

@@ -64,12 +64,7 @@ export default {
         { value: 'holidays', text: this.$tc('objects.lookups.calendars.holidays', 2) },
       ];
 
-      const permissions = {
-        text: this.$tc('objects.permissions.permissions', 2),
-        value: 'permissions',
-      };
-
-      if (this.id) tabs.push(permissions);
+      if (this.id) tabs.push(this.permissionsTab);
       return tabs;
     },
 

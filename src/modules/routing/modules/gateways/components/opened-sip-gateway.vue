@@ -19,7 +19,7 @@
             :tabs="tabs"
           ></wt-tabs>
           <component
-            :is="`${$options.name}-${currentTab.value}`"
+            :is="currentTab.value"
             :v="$v"
             :namespace="namespace"
           ></component>
@@ -35,27 +35,23 @@ import {
 } from 'vuelidate/lib/validators';
 import { mapActions, mapState } from 'vuex';
 import { sipAccountValidator, gatewayHostValidator, ipValidator } from '../../../../../app/utils/validators';
-import OpenedSipGatewayRegisterGeneral from './opened-register-sip-gateway-general.vue';
-import OpenedSipGatewayTrunkingConfiguration from './opened-trunking-sip-gateway-configuration.vue';
-import OpenedSipGatewayTrunkingGeneral from './opened-trunking-sip-gateway-general.vue';
+import RegisterGeneral from './opened-register-sip-gateway-general.vue';
+import TrunkingConfiguration from './opened-trunking-sip-gateway-configuration.vue';
+import TrunkingGeneral from './opened-trunking-sip-gateway-general.vue';
 import openedObjectMixin from '../../../../../app/mixins/objectPagesMixins/openedObjectMixin/openedObjectMixin';
 
 export default {
   name: 'opened-sip-gateway',
   mixins: [openedObjectMixin],
   components: {
-    OpenedSipGatewayRegisterGeneral,
-    OpenedSipGatewayTrunkingGeneral,
-    OpenedSipGatewayTrunkingConfiguration,
+    RegisterGeneral,
+    TrunkingGeneral,
+    TrunkingConfiguration,
   },
 
   data: () => ({
     namespace: 'routing/gateways',
   }),
-
-  created() {
-    this.currentTab = this.tabs[0];
-  },
 
   validations() {
     if (this.isRegister) {
@@ -87,11 +83,6 @@ export default {
   },
 
   computed: {
-    ...mapState('routing/gateways', {
-      id: (state) => state.itemId,
-      itemInstance: (state) => state.itemInstance,
-    }),
-
     isRegister() {
       return this.$route.path.includes('register');
     },
@@ -132,9 +123,13 @@ export default {
   },
 
   methods: {
-    ...mapActions('routing/gateways', {
-      loadRegisterItem: 'LOAD_REGISTER_ITEM',
-      loadTrunkingItem: 'LOAD_TRUNKING_ITEM',
+    ...mapActions({
+      loadRegisterItem(dispatch, payload) {
+        return dispatch(`${this.namespace}/LOAD_REGISTER_ITEM`, payload);
+      },
+      loadTrunkingItem(dispatch, payload) {
+        return dispatch(`${this.namespace}/LOAD_TRUNKING_ITEM`, payload);
+      },
     }),
 
     loadItem() {

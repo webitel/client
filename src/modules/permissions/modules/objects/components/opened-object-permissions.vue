@@ -21,7 +21,7 @@
           :tabs="tabs"
         ></wt-tabs>
         <component
-          :is="`${$options.name}-${currentTab.value}`"
+          :is="currentTab.value"
           :namespace="namespace"
         ></component>
       </div>
@@ -30,27 +30,19 @@
 </template>
 
 <script>
-import { mapActions, mapState } from 'vuex';
-import openedObjectPermissionsObac from '../modules/obac/components/opened-object-permissions-obac.vue';
-import openedObjectPermissionsRbac from '../modules/rbac/components/opened-object-permissions-rbac.vue';
+import Obac from '../modules/obac/components/opened-object-permissions-obac.vue';
+import Rbac from '../modules/rbac/components/opened-object-permissions-rbac.vue';
 import openedObjectMixin from '../../../../../app/mixins/objectPagesMixins/openedObjectMixin/openedObjectMixin';
 
 export default {
   name: 'opened-object-permissions',
-  components: {
-    openedObjectPermissionsObac,
-    openedObjectPermissionsRbac,
-  },
+  components: { Obac, Rbac },
   mixins: [openedObjectMixin],
   data: () => ({
     namespace: 'permissions/objects',
   }),
 
   computed: {
-    ...mapState('permissions/objects', {
-      id: (state) => state.itemId,
-      itemInstance: (state) => state.itemInstance,
-    }),
     tabs() {
       const tabs = [{
         text: this.$t('objects.permissions.object.ObAC'),
@@ -76,21 +68,10 @@ export default {
   },
 
   methods: {
-    ...mapActions({
-      setId(dispatch, payload) {
-        return dispatch(`${this.namespace}/SET_ITEM_ID`, payload);
-      },
-      loadItem(dispatch, payload) {
-        return dispatch(`${this.namespace}/LOAD_ITEM`, payload);
-      },
-      resetState(dispatch, payload) {
-        return dispatch(`${this.namespace}/RESET_ITEM_STATE`, payload);
-      },
-    }),
-  },
-  // override headlineNavMixin
-  setPathName() {
-    this.pathName = this.itemInstance.class;
+    // override headlineNavMixin
+    setPathName() {
+      this.pathName = this.itemInstance.class;
+    },
   },
 };
 </script>
