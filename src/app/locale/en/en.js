@@ -1,4 +1,7 @@
 export default {
+  reusable: {
+    state: 'State',
+  },
   auth: {
     register: 'Register',
     login: 'Login',
@@ -614,6 +617,20 @@ export default {
           duration: 'Duration',
           viewNumber: 'View number',
           result: 'Result',
+        },
+        hooks: {
+          hooks: 'Hook | Hooks',
+          event: 'Event',
+          eventTypes: {
+            joined: 'Joined',
+            answered: 'Answered',
+            offering: 'Offering',
+            bridged: 'Bridged',
+            missed: 'Missed',
+            leaving: 'Leaving',
+            processing: 'Processing',
+            active: 'Active',
+          },
         },
       },
 

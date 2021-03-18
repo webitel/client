@@ -50,6 +50,7 @@ import Agents from '../modules/agents/components/opened-queue-agents.vue';
 import Skills from '../modules/skills/components/opened-queue-skills.vue';
 import Resources from '../modules/res-groups/components/opened-queue-resources.vue';
 import Buckets from '../modules/buckets/components/opened-queue-buckets.vue';
+import Hooks from '../modules/hooks/components/opened-queue-hooks.vue';
 import Amd from './shared/amd/opened-queue-amd.vue';
 import Variables from './shared/variables/opened-queue-variables.vue';
 import Logs from '../modules/logs/components/opened-queue-logs.vue';
@@ -80,6 +81,7 @@ export default {
     Skills,
     Resources,
     Buckets,
+    Hooks,
     Amd,
     Variables,
     Logs,
@@ -227,6 +229,10 @@ export default {
         text: this.$tc('objects.lookups.buckets.buckets', 2),
         value: 'buckets',
       };
+      const hooks = {
+        text: this.$tc('objects.ccenter.queues.hooks.hooks', 2),
+        value: 'hooks',
+      };
       const amd = {
         text: this.$t('objects.ccenter.queues.amd'),
         value: 'amd',
@@ -245,7 +251,7 @@ export default {
       }, {
         text: this.$t('objects.ccenter.queues.timing'),
         value: 'offline-queue-timing',
-      }, agents, skills, resources, buckets];
+      }, agents, skills, resources, buckets, hooks];
 
       const inboundQueueTabs = [{
         text: this.$t('objects.general'),
@@ -253,7 +259,7 @@ export default {
       }, {
         text: this.$t('objects.ccenter.queues.timing'),
         value: 'inbound-queue-timing',
-      }, agents, skills];
+      }, agents, skills, hooks];
 
       const outboundIVRQueueTabs = [{
         text: this.$t('objects.general'),
@@ -261,7 +267,7 @@ export default {
       }, {
         text: this.$t('objects.ccenter.queues.timing'),
         value: 'outbound-ivr-queue-timing',
-      }, resources, buckets, amd];
+      }, resources, buckets, hooks, amd];
 
       const previewDialerTabs = [{
         text: this.$t('objects.general'),
@@ -269,7 +275,7 @@ export default {
       }, {
         text: this.$t('objects.ccenter.queues.timing'),
         value: 'preview-dialer-timing',
-      }, agents, skills, resources, buckets];
+      }, agents, skills, resources, buckets, hooks];
 
       const progressiveDialerTabs = [{
         text: this.$t('objects.general'),
@@ -277,7 +283,7 @@ export default {
       }, {
         text: this.$t('objects.ccenter.queues.timing'),
         value: 'progressive-dialer-timing',
-      }, agents, skills, resources, buckets, amd];
+      }, agents, skills, resources, buckets, hooks, amd];
 
       const predictiveDialerTabs = [{
         text: this.$t('objects.general'),
@@ -285,7 +291,7 @@ export default {
       }, {
         text: this.$t('objects.ccenter.queues.timing'),
         value: 'predictive-dialer-timing',
-      }, agents, skills, resources, buckets, amd];
+      }, agents, skills, resources, buckets, hooks, amd];
 
       const chatInboundQueueTabs = [{
         text: this.$t('objects.general'),
@@ -293,7 +299,7 @@ export default {
       }, {
         text: this.$t('objects.ccenter.queues.timing'),
         value: 'chat-inbound-queue-timing',
-      }, agents, skills];
+      }, agents, skills, hooks];
 
       const taskQueueTabs = [{
         text: this.$t('objects.general'),
@@ -301,7 +307,7 @@ export default {
       }, {
         text: this.$t('objects.ccenter.queues.timing'),
         value: 'task-queue-timing',
-      }, agents, skills, buckets];
+      }, agents, skills, buckets, hooks];
 
       let tabs = [];
       switch (this.queueType) {

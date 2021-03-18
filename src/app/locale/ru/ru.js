@@ -1,4 +1,7 @@
 export default {
+  reusable: {
+    state: 'Состояние',
+  },
   auth: {
     register: 'Создать',
     login: 'Вход',
@@ -610,6 +613,20 @@ export default {
           duration: 'Длительность',
           viewNumber: 'Номер',
           result: 'Результат',
+        },
+        hooks: {
+          hooks: 'Хук | Хуки',
+          event: 'Событие',
+          eventTypes: {
+            joined: 'Joined',
+            answered: 'Answered',
+            offering: 'Offering',
+            bridged: 'Bridged',
+            missed: 'Missed',
+            leaving: 'Leaving',
+            processing: 'Processing',
+            active: 'Active',
+          },
         },
       },
 
