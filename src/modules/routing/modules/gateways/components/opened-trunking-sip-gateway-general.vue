@@ -5,13 +5,13 @@
     </header>
     <form class="object-input-grid">
       <wt-input
-        :value="name"
+        :value="itemInstance.name"
         :label="$t('objects.name')"
         :disabled="disableUserInput"
         @input="setItemProp({ prop: 'name', value: $event })"
       ></wt-input>
       <wt-input
-        :value="proxy"
+        :value="itemInstance.proxy"
         :v="v.itemInstance.proxy"
         :label="$t('objects.routing.gateways.proxy')"
         :disabled="disableUserInput"
@@ -19,7 +19,7 @@
         @input="setItemProp({ prop: 'proxy', value: $event })"
       ></wt-input>
       <wt-select
-        :value="schema"
+        :value="itemInstance.schema"
         :label="$t('objects.routing.schema')"
         :search="loadDropdownOptionsList"
         :internal-search="false"
@@ -27,7 +27,7 @@
         @input="setItemProp({ prop: 'schema', value: $event })"
       ></wt-select>
       <wt-input
-        :value="host"
+        :value="itemInstance.host"
         :v="v.itemInstance.host"
         :label="$t('objects.routing.gateways.host')"
         :disabled="disableUserInput"
@@ -35,7 +35,7 @@
         @input="setItemProp({ prop: 'host', value: $event })"
       ></wt-input>
       <wt-textarea
-        :value="description"
+        :value="itemInstance.description"
         :label="$t('objects.description')"
         :disabled="disableUserInput"
         @input="setItemProp({ prop: 'description', value: $event })"
@@ -45,24 +45,12 @@
 </template>
 
 <script>
-import { mapState } from 'vuex';
 import { getFlowList } from '../../flow/components/flow';
 import openedTabComponentMixin from '../../../../../app/mixins/objectPagesMixins/openedObjectTabMixin/openedTabComponentMixin';
 
 export default {
   name: 'opened-trunking-sip-gateway-general',
   mixins: [openedTabComponentMixin],
-
-  computed: {
-    ...mapState('routing/gateways', {
-      name: (state) => state.itemInstance.name,
-      schema: (state) => state.itemInstance.schema,
-      proxy: (state) => state.itemInstance.proxy,
-      host: (state) => state.itemInstance.host,
-      description: (state) => state.itemInstance.description,
-    }),
-  },
-
   methods: {
     async loadDropdownOptionsList(search) {
       const response = await getFlowList({ search });

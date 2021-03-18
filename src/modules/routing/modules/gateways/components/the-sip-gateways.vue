@@ -97,7 +97,6 @@
 </template>
 
 <script>
-import { mapActions, mapState } from 'vuex';
 import GatewayPopup from './create-gateway-popup.vue';
 import tableComponentMixin from '../../../../../app/mixins/objectPagesMixins/objectTableMixin/tableComponentMixin';
 import RouteNames from '../../../../../app/router/_internals/RouteNames.enum';
@@ -108,19 +107,11 @@ export default {
   components: { GatewayPopup },
 
   data: () => ({
-    isGatewayPopup: false,
     namespace: 'routing/gateways',
+    isGatewayPopup: false,
   }),
 
   computed: {
-    ...mapState('routing/gateways', {
-      dataList: (state) => state.dataList,
-      page: (state) => state.page,
-      size: (state) => state.size,
-      search: (state) => state.search,
-      isNext: (state) => state.isNextPage,
-    }),
-
     headers() {
       return [
         { value: 'name', text: this.$t('objects.name') },
@@ -138,10 +129,6 @@ export default {
   },
 
   methods: {
-    ...mapActions('routing/gateways', {
-      patchItem: 'PATCH_ITEM_PROPERTY',
-    }),
-
     create() {
       this.isGatewayPopup = true;
     },

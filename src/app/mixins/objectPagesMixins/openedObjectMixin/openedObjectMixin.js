@@ -31,6 +31,12 @@ export default {
         return getNamespacedState(state, this.namespace).itemInstance;
       },
     }),
+    permissionsTab() {
+      return {
+        text: this.$tc('objects.permissions.permissions', 2),
+        value: 'permissions',
+      };
+    },
   },
 
   methods: {

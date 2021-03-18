@@ -5,7 +5,7 @@
     </header>
     <form class="object-input-grid">
       <wt-input
-        :value="name"
+        :value="itemInstance.name"
         :v="v.itemInstance.name"
         :label="$t('objects.name')"
         :disabled="disableUserInput"
@@ -13,7 +13,7 @@
         @input="setItemProp({ prop: 'name', value: $event })"
       ></wt-input>
       <wt-select
-        :value="timezone"
+        :value="itemInstance.timezone"
         :v="v.itemInstance.timezone"
         :label="$tc('objects.lookups.timezone.timezone', 1)"
         :search="loadTimezones"
@@ -24,7 +24,7 @@
         @input="setItemProp({ prop: 'timezone', value: $event })"
       ></wt-select>
       <wt-textarea
-        :value="description"
+        :value="itemInstance.description"
         :label="$t('objects.description')"
         :disabled="disableUserInput"
         @input="setItemProp({ prop: 'description', value: $event })"
@@ -41,14 +41,6 @@ import openedTabComponentMixin from '../../../../../app/mixins/objectPagesMixins
 export default {
   name: 'opened-region-general',
   mixins: [openedTabComponentMixin],
-
-  computed: {
-    ...mapState('lookups/regions', {
-      name: (state) => state.itemInstance.name,
-      timezone: (state) => state.itemInstance.timezone,
-      description: (state) => state.itemInstance.description,
-    }),
-  },
   methods: {
     async loadTimezones(search) {
       const response = await getCalendarTimezones({ search });

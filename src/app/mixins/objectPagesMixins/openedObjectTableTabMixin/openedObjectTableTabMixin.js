@@ -75,6 +75,9 @@ export default {
       removeItem(dispatch, payload) {
         return dispatch(`${this.namespace}/${this.subNamespace}/REMOVE_ITEM`, payload);
       },
+      patchItem(dispatch, payload) {
+        return dispatch(`${this.namespace}/${this.subNamespace}/PATCH_ITEM_PROPERTY`, payload);
+      },
       resetItemState(dispatch, payload) {
         return dispatch(`${this.namespace}/${this.subNamespace}/RESET_ITEM_STATE`, payload);
       },

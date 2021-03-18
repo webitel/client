@@ -20,19 +20,19 @@
           <h3 class="content-title">{{ $t('objects.directory.users.allUsers') }}</h3>
           <div class="content-header__actions-wrap">
             <wt-search-bar
-                :value="search"
-                debounce
-                @input="setSearch"
-                @search="loadList"
-                @enter="loadList"
+              :value="search"
+              debounce
+              @input="setSearch"
+              @search="loadList"
+              @enter="loadList"
             ></wt-search-bar>
             <wt-icon-btn
-                v-if="hasDeleteAccess"
-                class="icon-action"
-                :class="{'hidden': anySelected}"
-                icon="bucket"
-                :tooltip="$t('iconHints.deleteSelected')"
-                @click="deleteSelected"
+              v-if="hasDeleteAccess"
+              class="icon-action"
+              :class="{'hidden': anySelected}"
+              icon="bucket"
+              :tooltip="$t('iconHints.deleteSelected')"
+              @click="deleteSelected"
             ></wt-icon-btn>
             <upload-file-icon-btn
               v-if="hasCreateAccess"
@@ -41,8 +41,8 @@
               @change="processCSV"
             ></upload-file-icon-btn>
             <wt-table-actions
-                :icons="['refresh']"
-                @input="tableActionsHandler"
+              :icons="['refresh']"
+              @input="tableActionsHandler"
             ></wt-table-actions>
           </div>
         </header>
@@ -50,9 +50,9 @@
         <wt-loader v-show="!isLoaded"></wt-loader>
         <div class="table-wrapper" v-show="isLoaded">
           <wt-table
-              :headers="headers"
-              :data="dataList"
-              :grid-actions="hasTableActions"
+            :headers="headers"
+            :data="dataList"
+            :grid-actions="hasTableActions"
           >
             <template slot="name" slot-scope="{ item }">
                <span class="nameLink" @click="edit(item)">
@@ -60,7 +60,7 @@
                </span>
             </template>
             <template slot="status" slot-scope="{ item }">
-              <user-status :presence="item.presence" />
+              <user-status :presence="item.presence"/>
             </template>
             <template slot="username" slot-scope="{ item }">
               {{ item.username }}
@@ -103,7 +103,7 @@
 </template>
 
 <script>
-import { mapActions, mapState } from 'vuex';
+import { mapActions } from 'vuex';
 import UploadPopup from './upload-users-popup.vue';
 import UserStatus from './_internals/user-status-chips.vue';
 import UploadFileIconBtn from '../../../../../app/components/utils/upload-file-ucon-btn.vue';
@@ -122,13 +122,6 @@ export default {
   }),
 
   computed: {
-    ...mapState('directory/users', {
-      dataList: (state) => state.dataList,
-      page: (state) => state.page,
-      size: (state) => state.size,
-      search: (state) => state.search,
-      isNext: (state) => state.isNextPage,
-    }),
     headers() {
       return [
         { value: 'name', text: this.$t('objects.name') },
@@ -147,6 +140,12 @@ export default {
   },
 
   methods: {
+    ...mapActions({
+      setDND(dispatch, payload) {
+        return dispatch(`${this.namespace}/SET_USER_DND`, payload);
+      },
+    }),
+
     getDND(value) {
       if (value && value.status) {
         return value.status.includes('dnd');
@@ -166,10 +165,6 @@ export default {
       this.loadList();
       this.isUploadPopup = false;
     },
-
-    ...mapActions('directory/users', {
-      setDND: 'SET_USER_DND',
-    }),
   },
 };
 </script>

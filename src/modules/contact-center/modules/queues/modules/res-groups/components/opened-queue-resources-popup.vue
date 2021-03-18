@@ -40,7 +40,6 @@ import nestedObjectMixin from '../../../../../../../app/mixins/objectPagesMixins
 export default {
   name: 'opened-queue-buckets-popup',
   mixins: [nestedObjectMixin],
-
   data: () => ({
     namespace: 'ccenter/queues/resGroups',
   }),

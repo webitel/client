@@ -11,19 +11,19 @@
 
     <template slot="main">
       <history-popup
-          v-if="historyId"
-          @close="closeHistoryPopup"
+        v-if="historyId"
+        @close="closeHistoryPopup"
       ></history-popup>
 
       <upload-popup
-          v-if="isUploadPopup"
-          :file="csvFile"
-          @close="closeCSVPopup"
+        v-if="isUploadPopup"
+        :file="csvFile"
+        @close="closeCSVPopup"
       ></upload-popup>
 
       <device-popup
-          v-if="isDeviceSelectPopup"
-          @close="isDeviceSelectPopup = false"
+        v-if="isDeviceSelectPopup"
+        @close="isDeviceSelectPopup = false"
       ></device-popup>
 
       <section class="main-section__wrapper">
@@ -31,19 +31,19 @@
           <h3 class="content-title">{{ $t('objects.directory.devices.allDevices') }}</h3>
           <div class="content-header__actions-wrap">
             <wt-search-bar
-                :value="search"
-                debounce
-                @input="setSearch"
-                @search="loadList"
-                @enter="loadList"
+              :value="search"
+              debounce
+              @input="setSearch"
+              @search="loadList"
+              @enter="loadList"
             ></wt-search-bar>
             <wt-icon-btn
-                v-if="hasDeleteAccess"
-                class="icon-action"
-                :class="{'hidden': anySelected}"
-                icon="bucket"
-                :tooltip="$t('iconHints.deleteSelected')"
-                @click="deleteSelected"
+              v-if="hasDeleteAccess"
+              class="icon-action"
+              :class="{'hidden': anySelected}"
+              icon="bucket"
+              :tooltip="$t('iconHints.deleteSelected')"
+              @click="deleteSelected"
             ></wt-icon-btn>
             <upload-file-icon-btn
               v-if="hasCreateAccess"
@@ -52,8 +52,8 @@
               @change="processCSV"
             ></upload-file-icon-btn>
             <wt-table-actions
-                :icons="['refresh']"
-                @input="tableActionsHandler"
+              :icons="['refresh']"
+              @input="tableActionsHandler"
             ></wt-table-actions>
           </div>
         </header>
@@ -61,9 +61,9 @@
         <wt-loader v-show="!isLoaded"></wt-loader>
         <div class="table-wrapper" v-show="isLoaded">
           <wt-table
-              :headers="headers"
-              :data="dataList"
-              :grid-actions="hasTableActions"
+            :headers="headers"
+            :data="dataList"
+            :grid-actions="hasTableActions"
           >
 
             <template slot="name" slot-scope="{ item }">
@@ -85,20 +85,20 @@
             <!--state classes are specified in table-status component-->
             <template slot="state" slot-scope="{ item }">
               <status
-                  class="device-state"
-                  :class="stateClass(item.reged ? 1 : 0)"
-                  :text="stateText(item.reged ? 1 : 0)"
+                class="device-state"
+                :class="stateClass(item.reged ? 1 : 0)"
+                :text="stateText(item.reged ? 1 : 0)"
               >
               </status>
             </template>
 
             <template slot="actions" slot-scope="{ item, index }">
               <wt-icon-btn
-                  class="table-action"
-                  icon="history"
-                  :tooltip="$t('iconHints.history')"
-                  tooltip-position="left"
-                  @click="openHistory(item.id)"
+                class="table-action"
+                icon="history"
+                :tooltip="$t('iconHints.history')"
+                tooltip-position="left"
+                @click="openHistory(item.id)"
               ></wt-icon-btn>
               <edit-action
                 v-if="hasEditAccess"
@@ -111,14 +111,14 @@
             </template>
           </wt-table>
           <wt-pagination
-              :size="size"
-              :next="isNext"
-              :prev="page > 1"
-              debounce
-              @next="nextPage"
-              @prev="prevPage"
-              @input="setSize"
-              @change="loadList"
+            :size="size"
+            :next="isNext"
+            :prev="page > 1"
+            debounce
+            @next="nextPage"
+            @prev="prevPage"
+            @input="setSize"
+            @change="loadList"
           ></wt-pagination>
         </div>
       </section>
@@ -133,43 +133,39 @@ import UploadPopup from './upload-devices-popup.vue';
 import DevicePopup from './create-device-popup.vue';
 import UploadFileIconBtn from '../../../../../app/components/utils/upload-file-ucon-btn.vue';
 import tableComponentMixin from '../../../../../app/mixins/objectPagesMixins/objectTableMixin/tableComponentMixin';
-import tableActionsHandlerMixin from '../../../../../app/mixins/baseMixins/baseTableMixin/tableActionsMixin';
 import RouteNames from '../../../../../app/router/_internals/RouteNames.enum';
+import getNamespacedState from '../../../../../app/store/helpers/getNamespacedState';
 
 export default {
   name: 'the-devices',
-  mixins: [tableComponentMixin, tableActionsHandlerMixin],
+  mixins: [tableComponentMixin],
   components: {
     HistoryPopup,
     UploadPopup,
     DevicePopup,
     UploadFileIconBtn,
   },
-  data() {
-    return {
-      isUploadPopup: false,
-      isDeviceSelectPopup: false,
-      csvFile: null,
-      headers: [
+  data: () => ({
+    namespace: 'directory/devices',
+    isUploadPopup: false,
+    isDeviceSelectPopup: false,
+    csvFile: null,
+  }),
+
+  computed: {
+    ...mapState({
+      historyId(state) {
+        return getNamespacedState(state, `${this.namespace}/history`).parentId;
+      },
+    }),
+    headers() {
+      return [
         { value: 'name', text: this.$t('objects.name') },
         { value: 'account', text: this.$t('objects.directory.devices.authId') },
         { value: 'user', text: this.$t('objects.user') },
         { value: 'state', text: this.$t('objects.directory.devices.presence') },
-      ],
-    };
-  },
-
-  computed: {
-    ...mapState('directory/devices', {
-      dataList: (state) => state.dataList,
-      page: (state) => state.page,
-      size: (state) => state.size,
-      search: (state) => state.search,
-      isNext: (state) => state.isNextPage,
-    }),
-    ...mapState('directory/devices/history', {
-      historyId: (state) => state.parentId,
-    }),
+      ];
+    },
     path() {
       return [
         { name: this.$t('objects.directory.directory') },
@@ -179,16 +175,10 @@ export default {
   },
 
   methods: {
-    ...mapActions('directory/devices', {
-      loadDataList: 'LOAD_DATA_LIST',
-      setSize: 'SET_SIZE',
-      setSearch: 'SET_SEARCH',
-      nextPage: 'NEXT_PAGE',
-      prevPage: 'PREV_PAGE',
-      removeItem: 'REMOVE_ITEM',
-    }),
-    ...mapActions('directory/devices/history', {
-      openHistory: 'SET_PARENT_ITEM_ID',
+    ...mapActions({
+      openHistory(dispatch, payload) {
+        return dispatch(`${this.namespace}/history/SET_PARENT_ITEM_ID`, payload);
+      },
     }),
 
     create() {
@@ -197,8 +187,8 @@ export default {
 
     edit(item) {
       const name = item.hotdesk
-          ? `${RouteNames.DEVICES}-hotdesk-edit`
-          : `${RouteNames.DEVICES}-edit`;
+        ? `${RouteNames.DEVICES}-hotdesk-edit`
+        : `${RouteNames.DEVICES}-edit`;
 
       this.$router.push({
         name,

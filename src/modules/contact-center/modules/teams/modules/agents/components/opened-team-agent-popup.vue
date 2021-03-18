@@ -6,7 +6,7 @@
     <template slot="main">
       <form>
         <wt-select
-          :value="agent"
+          :value="itemInstance.agent"
           :v="$v.itemInstance.agent"
           :label="$tc('objects.ccenter.agents.agents', 1)"
           :search="loadAgentsOptions"
@@ -34,7 +34,6 @@
 
 <script>
 import { required } from 'vuelidate/lib/validators';
-import { mapState } from 'vuex';
 import { getAgentsList } from '../../../../agents/api/agents';
 import nestedObjectMixin from '../../../../../../../app/mixins/objectPagesMixins/openedObjectMixin/nestedObjectMixin';
 
@@ -50,14 +49,6 @@ export default {
     itemInstance: {
       agent: { required },
     },
-  },
-
-  computed: {
-    ...mapState('ccenter/teams/agents', {
-      id: (state) => state.itemId,
-      itemInstance: (state) => state.itemInstance,
-      agent: (state) => state.itemInstance.agent,
-    }),
   },
 
   methods: {

@@ -31,7 +31,6 @@
         </header>
 
         <wt-loader v-show="!isLoaded"></wt-loader>
-
         <div class="table-wrapper" v-show="isLoaded">
           <wt-table
             :headers="headers"
@@ -84,27 +83,19 @@
 </template>
 
 <script>
-import { mapActions, mapState } from 'vuex';
+import { mapActions } from 'vuex';
 import tableComponentMixin from '../../../../../app/mixins/objectPagesMixins/objectTableMixin/tableComponentMixin';
 import RouteNames from '../../../../../app/router/_internals/RouteNames.enum';
 
 export default {
   name: 'the-objects-permissions',
   mixins: [tableComponentMixin],
-
   data: () => ({
     namespace: 'permissions/objects',
     routeName: RouteNames.OBJECTS,
   }),
 
   computed: {
-    ...mapState('permissions/objects', {
-      dataList: (state) => state.dataList,
-      page: (state) => state.page,
-      size: (state) => state.size,
-      search: (state) => state.search,
-      isNext: (state) => state.isNextPage,
-    }),
     headers() {
       return [
         { value: 'name', text: this.$t('objects.name') },
@@ -118,9 +109,13 @@ export default {
   },
 
   methods: {
-    ...mapActions('permissions/objects', {
-      toggleObjectObac: 'TOGGLE_OBJECT_OBAC',
-      toggleObjectRbac: 'TOGGLE_OBJECT_RBAC',
+    ...mapActions({
+      toggleObjectObac(dispatch, payload) {
+        return dispatch(`${this.namespace}/TOGGLE_OBJECT_OBAC`, payload);
+      },
+      toggleObjectRbac(dispatch, payload) {
+        return dispatch(`${this.namespace}/TOGGLE_OBJECT_RBAC`, payload);
+      },
     }),
   },
 };

@@ -5,14 +5,14 @@
     </header>
     <form class="object-input-grid grid-w50">
       <wt-input
-        :value="maxErrors"
+        :value="itemInstance.maxErrors"
         :label="$t('objects.ccenter.res.maxErrors')"
         :disabled="disableUserInput"
         type="number"
         @input="setItemProp({ prop: 'maxErrors', value: +$event })"
       ></wt-input>
       <wt-tags-input
-        :value="errorIds"
+        :value="itemInstance.errorIds"
         :autocomplete-items="errorIdsAutocomplete"
         :label="$t('objects.ccenter.res.errorCodes')"
         :add-only-from-autocomplete="false"
@@ -24,7 +24,6 @@
 </template>
 
 <script>
-import { mapState } from 'vuex';
 import openedTabComponentMixin from '../../../../../app/mixins/objectPagesMixins/openedObjectTabMixin/openedTabComponentMixin';
 
 export default {
@@ -40,12 +39,5 @@ export default {
       { name: '5xx' },
     ],
   }),
-
-  computed: {
-    ...mapState('ccenter/res', {
-      maxErrors: (state) => state.itemInstance.maxErrors,
-      errorIds: (state) => state.itemInstance.errorIds,
-    }),
-  },
 };
 </script>

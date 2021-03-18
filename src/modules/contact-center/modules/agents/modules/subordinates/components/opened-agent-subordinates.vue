@@ -88,11 +88,10 @@
 </template>
 
 <script>
-import { mapState } from 'vuex';
 import SubordinatePopup from './opened-agent-subordinates-popup.vue';
 import SkillsPopup from './opened-agent-subordinate-skills-popup.vue';
-import openedObjectTableTabMixin from '../../../../../../app/mixins/objectPagesMixins/openedObjectTableTabMixin/openedObjectTableTabMixin';
-import RouteNames from '../../../../../../app/router/_internals/RouteNames.enum';
+import openedObjectTableTabMixin from '../../../../../../../app/mixins/objectPagesMixins/openedObjectTableTabMixin/openedObjectTableTabMixin';
+import RouteNames from '../../../../../../../app/router/_internals/RouteNames.enum';
 
 export default {
   name: 'opened-agent-subordinates',
@@ -107,16 +106,6 @@ export default {
   }),
 
   computed: {
-    ...mapState('ccenter/agents', {
-      parentId: (state) => state.itemId,
-    }),
-    ...mapState('ccenter/agents/subordinates', {
-      dataList: (state) => state.dataList,
-      page: (state) => state.page,
-      size: (state) => state.size,
-      search: (state) => state.search,
-      isNext: (state) => state.isNextPage,
-    }),
     headers() {
       return [
         { value: 'name', text: this.$t('objects.name') },

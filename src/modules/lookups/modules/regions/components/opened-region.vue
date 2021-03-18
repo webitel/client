@@ -19,7 +19,7 @@
           :tabs="tabs"
         ></wt-tabs>
         <component
-          :is="$options.name + '-' + currentTab.value"
+          :is="currentTab.value"
           :v="$v"
           :namespace="namespace"
         ></component>
@@ -31,13 +31,13 @@
 <script>
 import { required } from 'vuelidate/lib/validators';
 import { mapState } from 'vuex';
-import OpenedRegionGeneral from './opened-region-general.vue';
+import General from './opened-region-general.vue';
 import openedObjectMixin from '../../../../../app/mixins/objectPagesMixins/openedObjectMixin/openedObjectMixin';
 
 export default {
   name: 'opened-region',
   mixins: [openedObjectMixin],
-  components: { OpenedRegionGeneral },
+  components: { General },
   data: () => ({
     namespace: 'lookups/regions',
   }),
@@ -50,11 +50,6 @@ export default {
   },
 
   computed: {
-    ...mapState('lookups/regions', {
-      id: (state) => state.itemId,
-      itemInstance: (state) => state.itemInstance,
-    }),
-
     tabs() {
       const tabs = [{
         text: this.$t('objects.general'),

@@ -120,32 +120,28 @@ import destinationsPopup from './communications/opened-queue-member-destinations
 import uploadPopup from './upload-members-popup.vue';
 import UploadFileIconBtn from '../../../../../../../app/components/utils/upload-file-ucon-btn.vue';
 import tableComponentMixin from '../../../../../../../app/mixins/objectPagesMixins/objectTableMixin/tableComponentMixin';
-import tableActionsHandlerMixin from '../../../../../../../app/mixins/baseMixins/baseTableMixin/tableActionsMixin';
 import getQueueSubRoute from '../../../store/_internals/scripts/getQueueSubRoute';
 import RouteNames from '../../../../../../../app/router/_internals/RouteNames.enum';
+import getNamespacedState from '../../../../../../../app/store/helpers/getNamespacedState';
 
 export default {
   name: 'the-queue-members',
-  mixins: [tableComponentMixin, tableActionsHandlerMixin],
+  mixins: [tableComponentMixin],
   components: { uploadPopup, destinationsPopup, UploadFileIconBtn },
   data: () => ({
+    namespace: 'ccenter/queues/members',
     isUploadPopup: false,
     communicationsOnPopup: null,
     isDestinationsPopup: false,
     csvFile: null,
-    namespace: 'ccenter/queues/members',
   }),
 
   computed: {
-    ...mapState('ccenter/queues/members', {
-      dataList: (state) => state.dataList,
-      parentQueue: (state) => state.parentQueue,
-      page: (state) => state.page,
-      size: (state) => state.size,
-      search: (state) => state.search,
-      isNext: (state) => state.isNextPage,
+    ...mapState({
+      parentQueue(state) {
+        return getNamespacedState(state, this.namespace).parentQueue;
+      },
     }),
-
     parentId() {
       return this.$route.params.queueId;
     },
@@ -252,16 +248,28 @@ export default {
 
     close() {
       this.$router.go(-1);
-      this.resetState();
+      this.resetState(); // reset only after close() bcse at destroy() reset component resets itemId
     },
 
-    ...mapActions('ccenter/queues/members', {
-      setDestinationId: 'SET_DESTINATION_ID',
-      setParentId: 'SET_PARENT_ITEM_ID',
-      setId: 'SET_ITEM_ID',
-      loadParentQueue: 'LOAD_PARENT_QUEUE',
-      removeItems: 'REMOVE_ITEMS',
-      resetState: 'RESET_STATE',
+    ...mapActions({
+      setDestinationId(dispatch, payload) {
+        return dispatch(`${this.namespace}/SET_DESTINATION_ID`, payload);
+      },
+      setParentId(dispatch, payload) {
+        return dispatch(`${this.namespace}/SET_PARENT_ITEM_ID`, payload);
+      },
+      setId(dispatch, payload) {
+        return dispatch(`${this.namespace}/SET_ITEM_ID`, payload);
+      },
+      loadParentQueue(dispatch, payload) {
+        return dispatch(`${this.namespace}/LOAD_PARENT_QUEUE`, payload);
+      },
+      removeItems(dispatch, payload) {
+        return dispatch(`${this.namespace}/REMOVE_ITEMS`, payload);
+      },
+      resetState(dispatch, payload) {
+        return dispatch(`${this.namespace}/RESET_STATE`, payload);
+      },
     }),
 
   },

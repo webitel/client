@@ -7,8 +7,8 @@
     </template>
     <template slot="main">
       <license-popup
-          v-if="isLicensePopup"
-          @close="isLicensePopup = false"
+        v-if="isLicensePopup"
+        @close="isLicensePopup = false"
       ></license-popup>
       <section class="main-section__wrapper">
         <header class="content-header">
@@ -17,22 +17,22 @@
           </h3>
           <div class="content-header__actions-wrap">
             <wt-search-bar
-                :value="search"
-                debounce
-                @input="setSearch"
-                @search="loadList"
-                @enter="loadList"
+              :value="search"
+              debounce
+              @input="setSearch"
+              @search="loadList"
+              @enter="loadList"
             ></wt-search-bar>
             <wt-table-actions
-                :icons="['refresh']"
-                @input="tableActionsHandler"
+              :icons="['refresh']"
+              @input="tableActionsHandler"
             ></wt-table-actions>
             <wt-icon-btn
-                v-if="hasCreateAccess"
-                class="icon-action"
-                icon="plus"
-                :tooltip="$t('iconHints.add')"
-                @click="isLicensePopup = true"
+              v-if="hasCreateAccess"
+              class="icon-action"
+              icon="plus"
+              :tooltip="$t('iconHints.add')"
+              @click="isLicensePopup = true"
             ></wt-icon-btn>
           </div>
         </header>
@@ -40,26 +40,26 @@
         <wt-loader v-show="!isLoaded"></wt-loader>
         <div class="table-wrapper" v-show="isLoaded">
           <wt-table
-              :headers="headers"
-              :data="dataList"
-              :selectable="false"
-              :grid-actions="false"
+            :headers="headers"
+            :data="dataList"
+            :selectable="false"
+            :grid-actions="false"
           >
             <template slot="id" slot-scope="{ item }">
               <div class="license__id-column">
                 <wt-icon-btn
-                    v-show="copiedId !== item.id"
-                    class="license__id-column__icon-btn license__id-column__icon-btn--copy"
-                    icon="copy"
-                    :tooltip="$t('objects.copy')"
-                    @click="copy(item.id)"
+                  v-show="copiedId !== item.id"
+                  class="license__id-column__icon-btn license__id-column__icon-btn--copy"
+                  icon="copy"
+                  :tooltip="$t('objects.copy')"
+                  @click="copy(item.id)"
                 ></wt-icon-btn>
                 <wt-icon-btn
-                    v-show="copiedId === item.id"
-                    class="license__id-column__icon-btn license__id-column__icon-btn--tick"
-                    icon="rounded-tick"
-                    color="true"
-                    :tooltip="$t('objects.copied')"
+                  v-show="copiedId === item.id"
+                  class="license__id-column__icon-btn license__id-column__icon-btn--tick"
+                  icon="rounded-tick"
+                  color="true"
+                  :tooltip="$t('objects.copied')"
                 ></wt-icon-btn>
               </div>
             </template>
@@ -90,14 +90,14 @@
             </template>
           </wt-table>
           <wt-pagination
-              :size="size"
-              :next="isNext"
-              :prev="page > 1"
-              debounce
-              @next="nextPage"
-              @prev="prevPage"
-              @input="setSize"
-              @change="loadList"
+            :size="size"
+            :next="isNext"
+            :prev="page > 1"
+            debounce
+            @next="nextPage"
+            @prev="prevPage"
+            @input="setSize"
+            @change="loadList"
           ></wt-pagination>
         </div>
       </section>
@@ -106,23 +106,24 @@
 </template>
 
 <script>
-import { mapActions, mapState } from 'vuex';
 import copy from 'clipboard-copy';
 import licensePopup from './license-popup.vue';
 import tableComponentMixin from '../../../../../app/mixins/objectPagesMixins/objectTableMixin/tableComponentMixin';
-import tableActionsHandlerMixin from '../../../../../app/mixins/baseMixins/baseTableMixin/tableActionsMixin';
 
 let copiedIdTimeout = null;
 
 export default {
   name: 'the-license',
-  mixins: [tableComponentMixin, tableActionsHandlerMixin],
+  mixins: [tableComponentMixin],
   components: { licensePopup },
-  data() {
-    return {
-      isLicensePopup: false,
-      copiedId: null,
-      headers: [
+  data: () => ({
+    namespace: 'directory/license',
+    isLicensePopup: false,
+    copiedId: null,
+  }),
+  computed: {
+    headers() {
+      return [
         { value: 'id', text: this.$t('objects.directory.license.licenseId'), width: '24px' },
         { value: 'product', text: this.$t('objects.directory.license.product') },
         { value: 'valid-from', text: this.$t('objects.directory.license.validFrom'), width: '150px' },
@@ -130,18 +131,8 @@ export default {
         { value: 'used', text: this.$t('objects.directory.license.used') },
         { value: 'limit', text: this.$t('objects.directory.license.limit') },
         { value: 'status', text: this.$t('objects.directory.license.status'), width: '120px' },
-      ],
-    };
-  },
-  computed: {
-    ...mapState('directory/license', {
-      dataList: (state) => state.dataList,
-      page: (state) => state.page,
-      size: (state) => state.size,
-      search: (state) => state.search,
-      isNext: (state) => state.isNextPage,
-    }),
-
+      ];
+    },
     path() {
       return [
         { name: this.$t('objects.directory.directory') },
@@ -183,15 +174,6 @@ export default {
       if (daysLeft < 90) return 'days90';
       return 'valid';
     },
-
-
-    ...mapActions('directory/license', {
-      loadDataList: 'LOAD_DATA_LIST',
-      setSize: 'SET_SIZE',
-      setSearch: 'SET_SEARCH',
-      nextPage: 'NEXT_PAGE',
-      prevPage: 'PREV_PAGE',
-    }),
   },
 };
 </script>
@@ -221,6 +203,7 @@ export default {
 
     &--tick {
       pointer-events: none;
+
       ::v-deep .wt-tooltip {
         opacity: 1;
       }

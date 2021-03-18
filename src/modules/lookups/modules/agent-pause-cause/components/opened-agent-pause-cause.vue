@@ -19,7 +19,7 @@
           :tabs="tabs"
         ></wt-tabs>
         <component
-          :is="$options.name + '-' + currentTab.value"
+          :is="currentTab.value"
           :v="$v"
           :namespace="namespace"
         ></component>
@@ -31,13 +31,13 @@
 <script>
 import { required } from 'vuelidate/lib/validators';
 import { mapState } from 'vuex';
-import OpenedAgentPauseCauseGeneral from './opened-agent-pause-cause-general.vue';
+import General from './opened-agent-pause-cause-general.vue';
 import openedObjectMixin from '../../../../../app/mixins/objectPagesMixins/openedObjectMixin/openedObjectMixin';
 
 export default {
   name: 'opened-agent-pause-cause',
   mixins: [openedObjectMixin],
-  components: { OpenedAgentPauseCauseGeneral },
+  components: { General },
   data: () => ({
     namespace: 'lookups/pauseCause',
   }),
@@ -49,11 +49,6 @@ export default {
   },
 
   computed: {
-    ...mapState('lookups/pauseCause', {
-      id: (state) => state.itemId,
-      itemInstance: (state) => state.itemInstance,
-    }),
-
     tabs() {
       const tabs = [{
         text: this.$t('objects.general'),

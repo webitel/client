@@ -5,7 +5,7 @@
     </header>
     <form class="object-input-grid">
       <wt-input
-        :value="maxNoAnswer"
+        :value="itemInstance.maxNoAnswer"
         :v="v.itemInstance.maxNoAnswer"
         :label="$t('objects.ccenter.teams.maxNoAnswer')"
         :disabled="disableUserInput"
@@ -14,7 +14,7 @@
         @input="setItemProp({ prop: 'maxNoAnswer', value: +$event })"
       ></wt-input>
       <wt-input
-        :value="callTimeout"
+        :value="itemInstance.callTimeout"
         :v="v.itemInstance.callTimeout"
         :label="$t('objects.ccenter.teams.callTimeout')"
         :disabled="disableUserInput"
@@ -23,7 +23,7 @@
         @input="setItemProp({ prop: 'callTimeout', value: +$event })"
       ></wt-input>
       <wt-input
-        :value="wrapUpTime"
+        :value="itemInstance.wrapUpTime"
         :v="v.itemInstance.wrapUpTime"
         :label="$t('objects.ccenter.teams.wrapUpTime')"
         :disabled="disableUserInput"
@@ -32,7 +32,7 @@
         @input="setItemProp({ prop: 'wrapUpTime', value: +$event })"
       ></wt-input>
       <wt-input
-        :value="noAnswerDelayTime"
+        :value="itemInstance.noAnswerDelayTime"
         :v="v.itemInstance.noAnswerDelayTime"
         :label="$t('objects.ccenter.teams.noAnswerDelayTime')"
         :disabled="disableUserInput"
@@ -45,21 +45,11 @@
 </template>
 
 <script>
-import { mapState } from 'vuex';
 import openedTabComponentMixin from '../../../../../app/mixins/objectPagesMixins/openedObjectTabMixin/openedTabComponentMixin';
 
 export default {
   name: 'opened-team-timing',
   mixins: [openedTabComponentMixin],
-
-  computed: {
-    ...mapState('ccenter/teams', {
-      maxNoAnswer: (state) => state.itemInstance.maxNoAnswer,
-      callTimeout: (state) => state.itemInstance.callTimeout,
-      wrapUpTime: (state) => state.itemInstance.wrapUpTime,
-      noAnswerDelayTime: (state) => state.itemInstance.noAnswerDelayTime,
-    }),
-  },
 };
 </script>
 

@@ -29,7 +29,6 @@
 </template>
 
 <script>
-import { mapState } from 'vuex';
 import { required } from 'vuelidate/lib/validators';
 import OfflineQueueGeneral from './offline-queue/opened-queue-offline-queue-general.vue';
 import OfflineQueueTiming from './offline-queue/opened-queue-offline-queue-timing.vue';
@@ -199,11 +198,6 @@ export default {
   },
 
   computed: {
-    ...mapState('ccenter/queues', {
-      itemInstance: (state) => state.itemInstance,
-      id: (state) => state.itemId,
-    }),
-
     queueType() {
       if (this.$route.path.includes('offline-queue')) return QueueType.OFFLINE_QUEUE;
       if (this.$route.path.includes('chat-inbound-queue')) return QueueType.CHAT_INBOUND_QUEUE;
@@ -245,11 +239,6 @@ export default {
         text: this.$tc('objects.ccenter.queues.logs.logs', 2),
         value: 'logs',
       };
-      const permissions = {
-        text: this.$tc('objects.permissions.permissions', 2),
-        value: 'permissions',
-      };
-
       const offlineQueueTabs = [{
         text: this.$t('objects.general'),
         value: 'offline-queue-general',
@@ -343,7 +332,7 @@ export default {
         default:
       }
       tabs = tabs.concat(variables, logs);
-      if (this.id) tabs.push(permissions);
+      if (this.id) tabs.push(this.permissionsTab);
       return tabs;
     },
 

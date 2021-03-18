@@ -5,7 +5,7 @@
     </header>
     <form class="object-input-grid">
       <wt-input
-          :value="name"
+          :value="itemInstance.name"
           :v="v.itemInstance.name"
           :label="$t('objects.name')"
           :disabled="disableUserInput"
@@ -13,7 +13,7 @@
           @input="setItemProp({ prop: 'name', value: $event })"
       ></wt-input>
       <wt-input
-          :value="account"
+          :value="itemInstance.account"
           :v="v.itemInstance.account"
           :label="$t('objects.directory.devices.authId')"
           :disabled="disableUserInput"
@@ -21,14 +21,14 @@
           @input="setItemProp({ prop: 'account', value: $event })"
       ></wt-input>
       <password-input
-          :value="password"
+          :value="itemInstance.password"
           :v="v.itemInstance.password"
           :disabled="disableUserInput"
           required
           @input="setItemProp({ prop: 'password', value: $event })"
       ></password-input>
       <wt-select
-          :value="user"
+          :value="itemInstance.user"
           :label="$tc('objects.directory.users.users', 1)"
           :search="loadDropdownOptionsList"
           :internal-search="false"
@@ -49,21 +49,7 @@ export default {
   name: 'opened-device-general',
   mixins: [openedTabComponentMixin],
   components: { PasswordInput },
-
-  computed: {
-    ...mapState('directory/devices', {
-      name: (state) => state.itemInstance.name,
-      account: (state) => state.itemInstance.account,
-      password: (state) => state.itemInstance.password,
-      user: (state) => state.itemInstance.user,
-    }),
-  },
-
   methods: {
-    ...mapActions('directory/devices', {
-      setItemProp: 'SET_ITEM_PROPERTY',
-    }),
-
     async loadDropdownOptionsList(search) {
       const response = await getUsersList({ search });
       return response.list.map((item) => ({

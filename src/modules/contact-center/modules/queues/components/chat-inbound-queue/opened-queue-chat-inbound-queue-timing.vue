@@ -5,19 +5,19 @@
     </header>
     <form class="object-input-grid">
       <wt-timepicker
-          :value="maxWaitTime"
+          :value="itemInstance.payload.maxWaitTime"
           :label="$t('objects.ccenter.queues.maxWaitTime')"
           :disabled="disableUserInput"
           @input="setItemPayloadProp({ prop: 'maxWaitTime', value: $event })"
       ></wt-timepicker>
       <wt-timepicker
-          :value="discardAbandonedAfter"
+          :value="itemInstance.payload.discardAbandonedAfter"
           :label="$t('objects.ccenter.queues.discardAbandonedAfter')"
           :disabled="disableUserInput"
           @input="setItemPayloadProp({ prop: 'discardAbandonedAfter', value: $event })"
       ></wt-timepicker>
       <wt-select
-          :value="timeBaseScore"
+          :value="itemInstance.payload.timeBaseScore"
           :options="timeBaseScoreOptions"
           :label="$t('objects.ccenter.queues.timeBaseScore')"
           :clearable="false"
@@ -26,22 +26,22 @@
           @input="setItemPayloadProp({ prop: 'timeBaseScore', value: $event })"
       ></wt-select>
       <wt-switcher
-        :value="processing"
+        :value="itemInstance.processing"
         :label="$t('objects.ccenter.queues.processing')"
         :disabled="disableUserInput"
         @change="setItemProp({ prop: 'processing', value: $event })"
       ></wt-switcher>
       <wt-input
-        v-show="processing"
-        :value="processingSec"
+        v-show="itemInstance.processing"
+        :value="itemInstance.processingSec"
         :label="$t('objects.ccenter.queues.processingSec')"
         :disabled="disableUserInput"
         type="number"
         @input="setItemProp({ prop: 'processingSec', value: $event })"
       ></wt-input>
       <wt-input
-        v-show="processing"
-        :value="processingRenewalSec"
+        v-show="itemInstance.processing"
+        :value="itemInstance.processingRenewalSec"
         :label="$t('objects.ccenter.queues.processingRenewalSec')"
         :disabled="disableUserInput"
         type="number"
@@ -52,34 +52,24 @@
 </template>
 
 <script>
-import { mapState, mapActions } from 'vuex';
+import { mapActions } from 'vuex';
 import openedTabComponentMixin from '../../../../../../app/mixins/objectPagesMixins/openedObjectTabMixin/openedTabComponentMixin';
 import { TimeBaseScore } from '../../store/_internals/enums/TimeBaseScore.enum';
 
 export default {
   name: 'opened-queue-inbound-queue-timing',
   mixins: [openedTabComponentMixin],
-  data: () => ({
-  }),
   computed: {
-    ...mapState('ccenter/queues', {
-      discardAbandonedAfter: (state) => state.itemInstance.payload.discardAbandonedAfter,
-      maxWaitTime: (state) => state.itemInstance.payload.maxWaitTime,
-      timeBaseScore: (state) => state.itemInstance.payload.timeBaseScore,
-      processing: (state) => state.itemInstance.processing,
-      processingSec: (state) => state.itemInstance.processingSec,
-      processingRenewalSec: (state) => state.itemInstance.processingRenewalSec,
-    }),
-
     timeBaseScoreOptions() {
       return Object.values(TimeBaseScore);
     },
   },
 
   methods: {
-    ...mapActions('ccenter/queues', {
-      setItemProp: 'SET_ITEM_PROPERTY',
-      setItemPayloadProp: 'SET_ITEM_PAYLOAD_PROPERTY',
+    ...mapActions({
+      setItemPayloadProp(dispatch, payload) {
+        return dispatch(`${this.namespace}/SET_ITEM_PAYLOAD_PROPERTY`, payload);
+      },
     }),
   },
 };

@@ -70,7 +70,6 @@
 </template>
 
 <script>
-import { mapState } from 'vuex';
 import NumberPopup from './opened-resource-numbers-popup.vue';
 import openedObjectTableTabMixin from '../../../../../../../app/mixins/objectPagesMixins/openedObjectTableTabMixin/openedObjectTableTabMixin';
 
@@ -84,16 +83,6 @@ export default {
   }),
 
   computed: {
-    ...mapState('ccenter/res', {
-      parentId: (state) => state.itemId,
-    }),
-    ...mapState('ccenter/res/numbers', {
-      dataList: (state) => state.dataList,
-      page: (state) => state.page,
-      size: (state) => state.size,
-      search: (state) => state.search,
-      isNext: (state) => state.isNextPage,
-    }),
     headers() {
       return [
         { value: 'name', text: this.$tc('objects.ccenter.res.numbers', 2) },
@@ -105,7 +94,6 @@ export default {
     openPopup() {
       this.isNumberPopup = true;
     },
-
     closePopup() {
       this.isNumberPopup = false;
     },

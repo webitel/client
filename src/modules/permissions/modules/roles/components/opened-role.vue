@@ -18,7 +18,7 @@
           :tabs="tabs"
         ></wt-tabs>
         <component
-          :is="`${$options.name}-${currentTab.value}`"
+          :is="currentTab.value"
           :v="$v"
           :namespace="namespace"
         ></component>
@@ -29,15 +29,14 @@
 
 <script>
 import { required } from 'vuelidate/lib/validators';
-import { mapState } from 'vuex';
-import OpenedRoleGeneral from './opened-role-general.vue';
-import OpenedRolePermissions from './role-permissions/opened-role-permissions.vue';
+import General from './opened-role-general.vue';
+import Permissions from './role-permissions/opened-role-permissions.vue';
 import openedObjectMixin from '../../../../../app/mixins/objectPagesMixins/openedObjectMixin/openedObjectMixin';
 
 export default {
   name: 'opened-role',
   mixins: [openedObjectMixin],
-  components: { OpenedRoleGeneral, OpenedRolePermissions },
+  components: { General, Permissions },
   data: () => ({
     namespace: 'permissions/roles',
   }),
@@ -49,11 +48,6 @@ export default {
   },
 
   computed: {
-    ...mapState('permissions/roles', {
-      id: (state) => state.itemId,
-      itemInstance: (state) => state.itemInstance,
-    }),
-
     tabs() {
       const tabs = [{
         text: this.$t('objects.general'),

@@ -73,7 +73,6 @@
 </template>
 
 <script>
-import { mapState } from 'vuex';
 import ResPopup from './opened-resource-group-resource-popup.vue';
 import openedObjectTableTabMixin from '../../../../../../../app/mixins/objectPagesMixins/openedObjectTableTabMixin/openedObjectTableTabMixin';
 
@@ -87,16 +86,6 @@ export default {
   }),
 
   computed: {
-    ...mapState('ccenter/resGroups', {
-      parentId: (state) => state.itemId,
-    }),
-    ...mapState('ccenter/resGroups/res', {
-      dataList: (state) => state.dataList,
-      page: (state) => state.page,
-      size: (state) => state.size,
-      search: (state) => state.search,
-      isNext: (state) => state.isNextPage,
-    }),
     headers() {
       return [
         { value: 'name', text: this.$tc('objects.ccenter.res.numbers', 2) },
@@ -108,7 +97,6 @@ export default {
     openPopup() {
       this.isResPopup = true;
     },
-
     closePopup() {
       this.isResPopup = false;
     },

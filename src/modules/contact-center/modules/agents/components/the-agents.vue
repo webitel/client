@@ -100,6 +100,7 @@ import convertDuration from '@webitel/ui-sdk/src/scripts/convertDuration';
 import HistoryPopup from './agent-history-popup.vue';
 import tableComponentMixin from '../../../../../app/mixins/objectPagesMixins/objectTableMixin/tableComponentMixin';
 import RouteNames from '../../../../../app/router/_internals/RouteNames.enum';
+import getNamespacedState from '../../../../../app/store/helpers/getNamespacedState';
 
 export default {
   name: 'the-agents',
@@ -112,15 +113,10 @@ export default {
   }),
 
   computed: {
-    ...mapState('ccenter/agents', {
-      dataList: (state) => state.dataList,
-      page: (state) => state.page,
-      size: (state) => state.size,
-      search: (state) => state.search,
-      isNext: (state) => state.isNextPage,
-    }),
-    ...mapState('ccenter/agents/history', {
-      historyId: (state) => state.parentId,
+    ...mapState({
+      historyId(state) {
+        return getNamespacedState(state, `${this.namespace}/history`).parentId;
+      },
     }),
 
     headers() {

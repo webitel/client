@@ -11,18 +11,11 @@ const resettableItemState = {
 const actions = {
   ADD_TOKEN: async (context) => {
     try {
-      let resp = await context.dispatch('POST_ITEM');
+      const { token } = await context.dispatch('POST_ITEM');
       await context.dispatch('LOAD_DATA_LIST');
-      context.commit('SET_TOKEN', resp.token);
+      context.commit('SET_TOKEN', token);
     } catch (err) {
       throw err;
-    }
-  },
-  LOAD_DATA_LIST: async (context) => {
-    if (context.state.parentId) {
-      const response = await context.dispatch('GET_LIST');
-      context.commit('SET_DATA_LIST', response.list);
-      context.commit('SET_IS_NEXT', response.next);
     }
   },
 };

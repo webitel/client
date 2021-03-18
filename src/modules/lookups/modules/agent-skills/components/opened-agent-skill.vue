@@ -19,7 +19,7 @@
           :tabs="tabs"
         ></wt-tabs>
         <component
-          :is="$options.name + '-' + currentTab.value"
+          :is="currentTab.value"
           :v="$v"
           :namespace="namespace"
         ></component>
@@ -30,14 +30,13 @@
 
 <script>
 import { required } from 'vuelidate/lib/validators';
-import { mapState } from 'vuex';
-import OpenedAgentSkillGeneral from './opened-agent-skill-general.vue';
+import General from './opened-agent-skill-general.vue';
 import openedObjectMixin from '../../../../../app/mixins/objectPagesMixins/openedObjectMixin/openedObjectMixin';
 
 export default {
   name: 'opened-agent-skill',
   mixins: [openedObjectMixin],
-  components: { OpenedAgentSkillGeneral },
+  components: { General },
   data: () => ({
     namespace: 'lookups/skills',
   }),
@@ -49,11 +48,6 @@ export default {
   },
 
   computed: {
-    ...mapState('lookups/skills', {
-      id: (state) => state.itemId,
-      itemInstance: (state) => state.itemInstance,
-    }),
-
     tabs() {
       const tabs = [{
         text: this.$t('objects.general'),

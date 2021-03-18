@@ -6,7 +6,7 @@
     <template slot="main">
       <form>
         <wt-select
-          :value="skill"
+          :value="itemInstance.skill"
           :v="$v.itemInstance.skill"
           :label="$tc('objects.lookups.skills.skills', 1)"
           :search="loadDropdownOptionsList"
@@ -16,7 +16,7 @@
           @input="setItemProp({ prop: 'skill', value: $event })"
         ></wt-select>
         <wt-input
-          :value="capacity"
+          :value="itemInstance.capacity"
           :v="$v.itemInstance.capacity"
           :label="$t('objects.lookups.skills.capacity')"
           :number-min="0"
@@ -43,7 +43,6 @@
 </template>
 
 <script>
-import { mapState } from 'vuex';
 import {
  maxValue, minValue, numeric, required,
 } from 'vuelidate/lib/validators';
@@ -53,16 +52,13 @@ import nestedObjectMixin from '../../../../../../../app/mixins/objectPagesMixins
 export default {
   name: 'opened-agent-skills-popup',
   mixins: [nestedObjectMixin],
-
   data: () => ({
     namespace: 'ccenter/agents/skills',
   }),
 
   validations: {
     itemInstance: {
-      skill: {
-        required,
-      },
+      skill: { required },
       capacity: {
         numeric,
         minValue: minValue(0),
@@ -70,16 +66,6 @@ export default {
         required,
       },
     },
-  },
-
-  computed: {
-    ...mapState('ccenter/agents/skills', {
-      id: (state) => state.itemId,
-      parentId: (state) => state.parentId,
-      itemInstance: (state) => state.itemInstance,
-      skill: (state) => state.itemInstance.skill,
-      capacity: (state) => state.itemInstance.capacity,
-    }),
   },
 
   methods: {

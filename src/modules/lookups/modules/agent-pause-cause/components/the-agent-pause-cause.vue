@@ -100,7 +100,7 @@
 </template>
 
 <script>
-import { mapState, mapActions } from 'vuex';
+import { mapActions } from 'vuex';
 import tableComponentMixin from '../../../../../app/mixins/objectPagesMixins/objectTableMixin/tableComponentMixin';
 import RouteNames from '../../../../../app/router/_internals/RouteNames.enum';
 
@@ -114,14 +114,6 @@ export default {
   }),
 
   computed: {
-    ...mapState('lookups/pauseCause', {
-      dataList: (state) => state.dataList,
-      page: (state) => state.page,
-      size: (state) => state.size,
-      search: (state) => state.search,
-      isNext: (state) => state.isNextPage,
-    }),
-
     headers() {
       return [
         { value: 'name', text: this.$t('objects.name') },
@@ -131,7 +123,6 @@ export default {
         { value: 'allowAgent', text: this.$t('objects.lookups.pauseCause.allowAgent') },
       ];
     },
-
     path() {
       return [
         { name: this.$t('objects.lookups.lookups') },

@@ -82,7 +82,6 @@
 </template>
 
 <script>
-import { mapState } from 'vuex';
 import tableComponentMixin from '../../../../../app/mixins/objectPagesMixins/objectTableMixin/tableComponentMixin';
 import RouteNames from '../../../../../app/router/_internals/RouteNames.enum';
 
@@ -96,14 +95,6 @@ export default {
   }),
 
   computed: {
-    ...mapState('lookups/regions', {
-      dataList: (state) => state.dataList,
-      page: (state) => state.page,
-      size: (state) => state.size,
-      search: (state) => state.search,
-      isNext: (state) => state.isNextPage,
-    }),
-
     headers() {
       return [
         { value: 'name', text: this.$t('objects.name') },

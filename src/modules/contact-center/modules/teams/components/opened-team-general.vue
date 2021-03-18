@@ -5,7 +5,7 @@
     </header>
     <form class="object-input-grid">
       <wt-input
-        :value="name"
+        :value="itemInstance.name"
         :v="v.itemInstance.name"
         :label="$t('objects.name')"
         :disabled="disableUserInput"
@@ -23,7 +23,7 @@
         required
       ></wt-select>
       <wt-select
-        v-model="admin"
+        :value="itemInstance.admin"
         :label="$tc('objects.ccenter.agents.admins', 1)"
         :search="fetchAdmins"
         :internal-search="false"
@@ -31,7 +31,7 @@
         @input="setItemProp({ prop: 'admin', value: $event })"
       ></wt-select>
       <wt-textarea
-        :value="description"
+        :value="itemInstance.description"
         :label="$t('objects.description')"
         :disabled="disableUserInput"
         @input="setItemProp({ prop: 'description', value: $event })"
@@ -41,7 +41,6 @@
 </template>
 
 <script>
-import { mapState } from 'vuex';
 import { kebabToCamel } from '@webitel/ui-sdk/src/scripts/caseConverters';
 import { getAgentSupervisorsOptions } from '../../agents/api/agents';
 import TeamStrategy from '../store/_internals/enums/TeamStrategy.enum';
@@ -52,15 +51,10 @@ export default {
   mixins: [openedTabComponentMixin],
 
   computed: {
-    ...mapState('ccenter/teams', {
-      name: (state) => state.itemInstance.name,
-      strategyValue: (state) => state.itemInstance.strategy,
-      admin: (state) => state.itemInstance.admin,
-      description: (state) => state.itemInstance.description,
-    }),
     strategy: {
       get() {
-        return this.strategyOptions.find((strategy) => strategy.value === this.strategyValue);
+        return this.strategyOptions
+          .find((strategy) => strategy.value === this.itemInstance.strategy);
       },
       set(value) {
         this.setItemProp({ prop: 'strategy', value: value.value });

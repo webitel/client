@@ -5,26 +5,26 @@
     </header>
     <form class="object-input-grid">
       <wt-select
-          :value="device"
-          :options="devices"
-          :label="$t('objects.directory.users.defaultDevice')"
-          :disabled="disableUserInput"
-          track-by="id"
-          required
-          @input="setItemProp({ prop: 'device', value: $event })"
-          @reset="setItemProp({ prop: 'device', value: {} })"
+        :value="itemInstance.device"
+        :options="itemInstance.devices"
+        :label="$t('objects.directory.users.defaultDevice')"
+        :disabled="disableUserInput"
+        track-by="id"
+        required
+        @input="setItemProp({ prop: 'device', value: $event })"
+        @reset="setItemProp({ prop: 'device', value: {} })"
       ></wt-select>
       <div>
         <wt-select
-            :value="devices"
-            :label="$tc('objects.directory.devices.devices', 2)"
-            :search="loadDropdownOptionsList"
-            :close-on-select="false"
-            :internal-search="false"
-            :disabled="disableUserInput"
-            track-by="id"
-            multiple
-            @input="setItemProp({ prop: 'devices', value: $event })"
+          :value="itemInstance.devices"
+          :label="$tc('objects.directory.devices.devices', 2)"
+          :search="loadDropdownOptionsList"
+          :close-on-select="false"
+          :internal-search="false"
+          :disabled="disableUserInput"
+          track-by="id"
+          multiple
+          @input="setItemProp({ prop: 'devices', value: $event })"
         ></wt-select>
 
         <div class="hint-link__wrap">
@@ -39,36 +39,21 @@
 </template>
 
 <script>
-import { mapState, mapActions } from 'vuex';
 import { getDeviceList } from '../../devices/api/devices';
-import openedTabComponentMixin from '../../../../../app/mixins/objectPagesMixins/openedObjectTabMixin/openedTabComponentMixin';
+import openedTabComponentMixin
+  from '../../../../../app/mixins/objectPagesMixins/openedObjectTabMixin/openedTabComponentMixin';
 
 export default {
   name: 'opened-user-devices',
   mixins: [openedTabComponentMixin],
-
-  computed: {
-    ...mapState('directory/users', {
-      devices: (state) => state.itemInstance.devices,
-      device: (state) => state.itemInstance.device,
-    }),
-  },
-
   methods: {
     async loadDropdownOptionsList(search) {
       const response = await getDeviceList({ search });
-      if (response.list) {
-        return response.list.filter((item) => !item.hotdesk).map((item) => ({
-          name: item.name,
-          id: item.id,
-        }));
-      }
-      return [];
+      return response.list.filter((item) => !item.hotdesk).map((item) => ({
+        name: item.name,
+        id: item.id,
+      }));
     },
-
-    ...mapActions('directory/users', {
-      setItemProp: 'SET_ITEM_PROPERTY',
-    }),
   },
 };
 </script>

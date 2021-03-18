@@ -125,7 +125,6 @@ export default {
     }),
     initEditedValue() {
       if (Number.isInteger(this.editedIndex)) {
-        console.info(this.commList[this.editedIndex]);
         this.itemInstance = deepCopy(this.commList[this.editedIndex]);
       }
     },

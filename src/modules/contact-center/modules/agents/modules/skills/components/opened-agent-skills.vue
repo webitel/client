@@ -96,16 +96,6 @@ export default {
   }),
 
   computed: {
-    ...mapState('ccenter/agents', {
-      parentId: (state) => state.itemId,
-    }),
-    ...mapState('ccenter/agents/skills', {
-      dataList: (state) => state.dataList,
-      page: (state) => state.page,
-      size: (state) => state.size,
-      search: (state) => state.search,
-      isNext: (state) => state.isNextPage,
-    }),
     headers() {
       return [
         { value: 'name', text: this.$tc('objects.lookups.skills.skills', 2) },
@@ -124,7 +114,6 @@ export default {
     openPopup() {
       this.isSkillPopup = true;
     },
-
     closePopup() {
       this.isSkillPopup = false;
     },

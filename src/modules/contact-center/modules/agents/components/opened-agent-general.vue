@@ -5,7 +5,7 @@
     </header>
     <form class="object-input-grid">
       <wt-select
-        :value="user"
+        :value="itemInstance.user"
         :v="v.itemInstance.user"
         :label="$tc('objects.directory.users.users', 1)"
         :search="loadUsersOptions"
@@ -16,13 +16,13 @@
         @input="setItemProp({ prop: 'user', value: $event })"
       ></wt-select>
       <wt-switcher
-        :value="isSupervisor"
+        :value="itemInstance.isSupervisor"
         :label="$t('objects.ccenter.agents.isSupervisor')"
         :disabled="disableUserInput"
         @change="setItemProp({ prop: 'isSupervisor', value: $event })"
       ></wt-switcher>
       <wt-select
-        :value="team"
+        :value="itemInstance.team"
         :label="$tc('objects.ccenter.teams.teams', 1)"
         :search="loadTeamsOptions"
         :internal-search="false"
@@ -30,8 +30,8 @@
         @input="setItemProp({ prop: 'team', value: $event })"
       ></wt-select>
       <wt-select
-        v-show="!isSupervisor"
-        :value="supervisor"
+        v-show="!itemInstance.isSupervisor"
+        :value="itemInstance.supervisor"
         :label="$tc('objects.ccenter.agents.supervisors', 1)"
         :search="loadSupervisorsOptions"
         :internal-search="false"
@@ -39,7 +39,7 @@
         @input="setItemProp({ prop: 'supervisor', value: $event })"
       ></wt-select>
       <wt-select
-        :value="auditor"
+        :value="itemInstance.auditor"
         :label="$tc('objects.ccenter.auditors.auditors', 1)"
         :search="loadAuditorsOptions"
         :internal-search="false"
@@ -47,7 +47,7 @@
         @input="setItemProp({ prop: 'auditor', value: $event })"
       ></wt-select>
       <wt-select
-        :value="region"
+        :value="itemInstance.region"
         :label="$tc('objects.lookups.regions.regions', 1)"
         :search="loadRegionsOptions"
         :internal-search="false"
@@ -55,7 +55,7 @@
         @input="setItemProp({ prop: 'region', value: $event })"
       ></wt-select>
       <wt-input
-        :value="progressiveCount"
+        :value="itemInstance.progressiveCount"
         :v="v.itemInstance.progressiveCount"
         :label="$t('objects.ccenter.agents.progressiveCount')"
         :disabled="disableUserInput"
@@ -65,7 +65,7 @@
         @input="setItemProp({ prop: 'progressiveCount', value: +$event })"
       ></wt-input>
       <wt-input
-        :value="chatCount"
+        :value="itemInstance.chatCount"
         :v="v.itemInstance.chatCount"
         :label="$t('objects.ccenter.agents.chatCount')"
         :disabled="disableUserInput"
@@ -79,7 +79,6 @@
 </template>
 
 <script>
-import { mapState } from 'vuex';
 import { getAgentUsersOptions, getAgentSupervisorsOptions } from '../api/agents';
 import { getTeamsList } from '../../teams/api/teams';
 import { getUsersList } from '../../../../directory/modules/users/api/users';
@@ -89,20 +88,6 @@ import openedTabComponentMixin from '../../../../../app/mixins/objectPagesMixins
 export default {
   name: 'opened-agent-general',
   mixins: [openedTabComponentMixin],
-
-  computed: {
-    ...mapState('ccenter/agents', {
-      user: (state) => state.itemInstance.user,
-      team: (state) => state.itemInstance.team,
-      supervisor: (state) => state.itemInstance.supervisor,
-      auditor: (state) => state.itemInstance.auditor,
-      region: (state) => state.itemInstance.region,
-      progressiveCount: (state) => state.itemInstance.progressiveCount,
-      chatCount: (state) => state.itemInstance.chatCount,
-      isSupervisor: (state) => state.itemInstance.isSupervisor,
-    }),
-  },
-
   methods: {
     async loadUsersOptions(search) {
       const response = await getAgentUsersOptions({ search });

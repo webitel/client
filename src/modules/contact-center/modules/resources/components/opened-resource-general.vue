@@ -5,7 +5,7 @@
     </header>
     <form class="object-input-grid">
       <wt-input
-        :value="name"
+        :value="itemInstance.name"
         :v="v.itemInstance.name"
         :label="$t('objects.name')"
         :disabled="disableUserInput"
@@ -13,7 +13,7 @@
         @input="setItemProp({ prop: 'name', value: $event })"
       ></wt-input>
       <wt-select
-        :value="gateway"
+        :value="itemInstance.gateway"
         :v="v.itemInstance.gateway"
         :label="$tc('objects.routing.gateways.gateways', 1)"
         :search="loadDropdownOptionsList"
@@ -24,7 +24,7 @@
         @input="setItemProp({ prop: 'gateway', value: $event })"
       ></wt-select>
       <wt-input
-        :value="cps"
+        :value="itemInstance.cps"
         :v="v.itemInstance.cps"
         :label="$t('objects.ccenter.res.cps')"
         :disabled="disableUserInput"
@@ -33,7 +33,7 @@
         @input="setItemProp({ prop: 'cps', value: +$event })"
       ></wt-input>
       <wt-input
-        :value="limit"
+        :value="itemInstance.limit"
         :v="v.itemInstance.limit"
         :label="$t('objects.ccenter.res.limit')"
         :disabled="disableUserInput"
@@ -42,7 +42,7 @@
         @input="setItemProp({ prop: 'limit', value: +$event })"
       ></wt-input>
       <wt-textarea
-        :value="description"
+        :value="itemInstance.description"
         :label="$t('objects.description')"
         :disabled="disableUserInput"
         @input="setItemProp({ prop: 'description', value: $event })"
@@ -52,23 +52,12 @@
 </template>
 
 <script>
-import { mapState } from 'vuex';
 import { getGatewayList } from '../../../../routing/modules/gateways/api/gateways';
 import openedTabComponentMixin from '../../../../../app/mixins/objectPagesMixins/openedObjectTabMixin/openedTabComponentMixin';
 
 export default {
   name: 'opened-resource-general',
   mixins: [openedTabComponentMixin],
-
-  computed: {
-    ...mapState('ccenter/res', {
-      name: (state) => state.itemInstance.name,
-      gateway: (state) => state.itemInstance.gateway,
-      cps: (state) => state.itemInstance.cps,
-      limit: (state) => state.itemInstance.limit,
-      description: (state) => state.itemInstance.description,
-    }),
-  },
 
   methods: {
     async loadDropdownOptionsList(search) {

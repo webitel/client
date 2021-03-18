@@ -79,35 +79,24 @@
 </template>
 
 <script>
-import { mapState } from 'vuex';
 import tableComponentMixin from '../../../../../app/mixins/objectPagesMixins/objectTableMixin/tableComponentMixin';
 import RouteNames from '../../../../../app/router/_internals/RouteNames.enum';
 
 export default {
   name: 'the-agent-skills',
   mixins: [tableComponentMixin],
-
   data: () => ({
     namespace: 'lookups/skills',
     routeName: RouteNames.SKILLS,
   }),
 
   computed: {
-    ...mapState('lookups/skills', {
-      dataList: (state) => state.dataList,
-      page: (state) => state.page,
-      size: (state) => state.size,
-      search: (state) => state.search,
-      isNext: (state) => state.isNextPage,
-    }),
-
     headers() {
       return [
         { value: 'name', text: this.$t('objects.name') },
         { value: 'description', text: this.$t('objects.description') },
       ];
     },
-
     path() {
       return [
         { name: this.$t('objects.ccenter.ccenter') },

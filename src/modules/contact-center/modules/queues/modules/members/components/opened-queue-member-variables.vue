@@ -14,7 +14,7 @@
       <div class="variables">
         <div
           class="value-pair"
-          v-for="(variable, key) in variables"
+          v-for="(variable, key) in itemInstance.variables"
           :key="key"
         >
           <wt-input
@@ -42,28 +42,15 @@
 </template>
 
 <script>
-import { mapActions, mapState } from 'vuex';
 import openedTabComponentMixin from '../../../../../../../app/mixins/objectPagesMixins/openedObjectTabMixin/openedTabComponentMixin';
 
 export default {
   name: 'opened-queue-member-variables',
   mixins: [openedTabComponentMixin],
-
   computed: {
-    ...mapState('ccenter/queues/members', {
-      variables: (state) => state.itemInstance.variables,
-    }),
     disableUserInput() {
       return !this.hasEditAccess;
     },
-  },
-
-  methods: {
-    ...mapActions('ccenter/queues/members', {
-      addVariable: 'ADD_VARIABLE_PAIR',
-      setVariableProp: 'SET_VARIABLE_PROP',
-      deleteVariable: 'DELETE_VARIABLE_PAIR',
-    }),
   },
 };
 </script>

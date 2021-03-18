@@ -37,7 +37,7 @@
         </template>
 
         <template slot="strategy" slot-scope="{ item }">
-          {{ computeStrategy(item.strategy) }}
+          {{ item.strategy }}
         </template>
       </wt-table>
       <wt-pagination
@@ -55,7 +55,6 @@
 </template>
 
 <script>
-import { mapActions, mapState } from 'vuex';
 import openedObjectTableTabMixin from '../../../../../../../app/mixins/objectPagesMixins/openedObjectTableTabMixin/openedObjectTableTabMixin';
 import QueueType from '../../../../queues/store/_internals/enums/QueueType.enum';
 
@@ -67,16 +66,6 @@ export default {
   }),
 
   computed: {
-    ...mapState('ccenter/agents', {
-      parentId: (state) => state.itemId,
-    }),
-    ...mapState('ccenter/agents/queues', {
-      dataList: (state) => state.dataList,
-      page: (state) => state.page,
-      size: (state) => state.size,
-      search: (state) => state.search,
-      isNext: (state) => state.isNextPage,
-    }),
     headers() {
       return [
         { value: 'name', text: this.$tc('objects.ccenter.queues.queues', 2) },
@@ -107,23 +96,6 @@ export default {
           return 'Predictive Dialer';
         case QueueType.TASK_QUEUE:
           return 'Predictive Dialer';
-        default:
-          return 'Unknown';
-      }
-    },
-
-    computeStrategy(strategy) {
-      switch (strategy) {
-        case 'random':
-          return 'Random';
-        case 'strict-circuit':
-          return 'Strict circuit';
-        case 'next-try-circuit':
-          return 'Next try circuit';
-        case 'by-buckets':
-          return 'By buckets';
-        case 'by-skills':
-          return 'By skills';
         default:
           return 'Unknown';
       }

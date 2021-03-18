@@ -63,11 +63,6 @@ export default {
   },
 
   computed: {
-    ...mapState('ccenter/res', {
-      id: (state) => state.itemId,
-      itemInstance: (state) => state.itemInstance,
-    }),
-
     tabs() {
       const tabs = [{
         text: this.$t('objects.general'),
@@ -80,12 +75,7 @@ export default {
         value: 'failure',
       }];
 
-      const permissions = {
-        text: this.$tc('objects.permissions.permissions', 2),
-        value: 'permissions',
-      };
-
-      if (this.id) tabs.push(permissions);
+      if (this.id) tabs.push(this.permissionsTab);
       return tabs;
     },
 

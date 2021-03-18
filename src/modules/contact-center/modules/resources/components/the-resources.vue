@@ -58,7 +58,7 @@
                 class="test__resources__enable-switcher"
                 :value="item.enabled"
                 :disabled="!hasEditAccess"
-                @change="patchProperty({ index, item, prop: 'enabled', value: $event })"
+                @change="patchItem({ index, item, prop: 'enabled', value: $event })"
               ></wt-switcher>
             </template>
             <template slot="reserve" slot-scope="{ item, index }">
@@ -66,7 +66,7 @@
                 class="test__resources__reserve-switcher"
                 :value="item.reserve"
                 :disabled="!hasEditAccess"
-                @change="patchProperty({ index, item, prop: 'reserve', value: $event })"
+                @change="patchItem({ index, item, prop: 'reserve', value: $event })"
               ></wt-switcher>
             </template>
             <template slot="actions" slot-scope="{ item, index }">
@@ -97,7 +97,6 @@
 </template>
 
 <script>
-import { mapActions, mapState } from 'vuex';
 import tableComponentMixin from '../../../../../app/mixins/objectPagesMixins/objectTableMixin/tableComponentMixin';
 import RouteNames from '../../../../../app/router/_internals/RouteNames.enum';
 
@@ -110,14 +109,6 @@ export default {
   }),
 
   computed: {
-    ...mapState('ccenter/res', {
-      dataList: (state) => state.dataList,
-      page: (state) => state.page,
-      size: (state) => state.size,
-      search: (state) => state.search,
-      isNext: (state) => state.isNextPage,
-    }),
-
     headers() {
       return [
         { value: 'name', text: this.$t('objects.name') },
@@ -133,12 +124,6 @@ export default {
         { name: this.$tc('objects.ccenter.res.res', 2), route: '/contact-center/resources' },
       ];
     },
-  },
-
-  methods: {
-    ...mapActions('ccenter/res', {
-      patchProperty: 'PATCH_ITEM_PROPERTY',
-    }),
   },
 };
 </script>

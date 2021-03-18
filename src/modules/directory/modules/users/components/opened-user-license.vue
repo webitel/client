@@ -5,38 +5,28 @@
     </header>
     <form class="object-input-grid">
       <wt-select
-          :value="license"
-          :label="$t('objects.directory.license.license')"
-          :search="loadDropdownOptionsList"
-          :internal-search="false"
-          :close-on-select="false"
-          :disabled="disableUserInput"
-          multiple
-          @input="setItemProp({ prop: 'license', value: $event })"
+        :value="itemInstance.license"
+        :label="$t('objects.directory.license.license')"
+        :search="loadDropdownOptionsList"
+        :internal-search="false"
+        :close-on-select="false"
+        :disabled="disableUserInput"
+        multiple
+        @input="setItemProp({ prop: 'license', value: $event })"
       ></wt-select>
     </form>
   </section>
 </template>
 
 <script>
-import { mapState, mapActions } from 'vuex';
 import { getLicenseList } from '../../license/api/license';
-import openedTabComponentMixin from '../../../../../app/mixins/objectPagesMixins/openedObjectTabMixin/openedTabComponentMixin';
+import openedTabComponentMixin
+  from '../../../../../app/mixins/objectPagesMixins/openedObjectTabMixin/openedTabComponentMixin';
 
 export default {
   name: 'opened-user-license',
   mixins: [openedTabComponentMixin],
-
-  computed: {
-    ...mapState('directory/users', {
-      license: (state) => state.itemInstance.license,
-    }),
-  },
-
   methods: {
-    ...mapActions('directory/users', {
-      setItemProp: 'SET_ITEM_PROPERTY',
-    }),
     async loadDropdownOptionsList(search) {
       const response = await getLicenseList({ search });
       return response.list.map((item) => ({
