@@ -30,31 +30,26 @@
 </template>
 
 <script>
-import { mapActions, mapState } from 'vuex';
+import { mapActions } from 'vuex';
 import { required, requiredUnless } from 'vuelidate/lib/validators';
 import { ipValidator, macValidator } from '../../../../../app/utils/validators';
 import PhoneInfo from './opened-device-phone-info.vue';
 import General from './opened-device-general.vue';
 import HotdeskGeneral from './opened-hotdesk-device-general.vue';
 import HotdeskHotdesking from './opened-hotdesk-device-hotdesking.vue';
-import editComponentMixin from '../../../../../app/mixins/objectPagesMixins/openedObjectMixin/editComponentMixin';
-import headlineNavMixin from '../../../../../app/mixins/baseMixins/headlineNavMixin/headlineNavMixin';
+import openedObjectMixin from '../../../../../app/mixins/objectPagesMixins/openedObjectMixin/openedObjectMixin';
 
 export default {
   name: 'opened-device',
-  mixins: [editComponentMixin, headlineNavMixin],
+  mixins: [openedObjectMixin],
   components: {
     General,
     PhoneInfo,
     HotdeskGeneral,
     HotdeskHotdesking,
   },
-
   data: () => ({
     namespace: 'directory/devices',
-    currentTab: {
-      value: 'general',
-    },
   }),
 
   validations: {
@@ -67,21 +62,7 @@ export default {
     },
   },
 
-  created() {
-    this.setInitialTab();
-  },
-
-  mounted() {
-    this.setId(this.$route.params.id);
-    this.loadItem();
-  },
-
   computed: {
-    ...mapState('directory/devices', {
-      id: (state) => state.itemId,
-      itemInstance: (state) => state.itemInstance,
-    }),
-
     isHotdesk() {
       return this.$route.path.includes('hotdesk');
     },
@@ -105,14 +86,9 @@ export default {
         text: this.$t('objects.directory.devices.phoneInfo'),
         value: 'phone-info',
       }];
-
-      const permissions = {
-        text: this.$tc('objects.permissions.permissions', 2),
-        value: 'permissions',
-      };
       if (this.isHotdesk) return hotdeskTabs;
 
-      if (this.id) defaultTabs.push(permissions);
+      if (this.id) defaultTabs.push(this.permissionsTab);
       return defaultTabs;
     },
 
@@ -131,18 +107,14 @@ export default {
   },
 
   methods: {
-    ...mapActions('directory/devices', {
-      setId: 'SET_ITEM_ID',
-      loadTypedItem: 'LOAD_ITEM',
-      addItem: 'ADD_ITEM',
-      updateItem: 'UPDATE_ITEM',
-      resetState: 'RESET_ITEM_STATE',
+    ...mapActions({
+      loadTypedItem(dispatch, payload) {
+        return dispatch(`${this.namespace}/LOAD_ITEM`, payload);
+      },
     }),
-
     setInitialTab() {
       this.currentTab.value = this.isHotdesk ? 'hotdesk-general' : 'general';
     },
-
     loadItem() {
       return this.loadTypedItem(this.isHotdesk);
     },

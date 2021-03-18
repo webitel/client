@@ -37,12 +37,11 @@ import License from './opened-user-license.vue';
 import Devices from './opened-user-devices.vue';
 import Variables from './opened-user-variables.vue';
 import Tokens from '../modules/tokens/components/opened-user-token.vue';
-import editComponentMixin from '../../../../../app/mixins/objectPagesMixins/openedObjectMixin/editComponentMixin';
-import headlineNavMixin from '../../../../../app/mixins/baseMixins/headlineNavMixin/headlineNavMixin';
+import openedObjectMixin from '../../../../../app/mixins/objectPagesMixins/openedObjectMixin/openedObjectMixin';
 
 export default {
   name: 'opened-user',
-  mixins: [editComponentMixin, headlineNavMixin],
+  mixins: [openedObjectMixin],
   components: {
     General,
     Roles,
@@ -53,33 +52,18 @@ export default {
   },
   data: () => ({
     namespace: 'directory/users',
-    currentTab: {
-      value: 'general',
-    },
   }),
 
   validations: {
     itemInstance: {
-      username: {
-        required,
-      },
+      username: { required },
       password: {
         required: requiredUnless('id'),
       },
     },
   },
 
-  mounted() {
-    this.setId(this.$route.params.id);
-    this.loadItem();
-  },
-
   computed: {
-    ...mapState('directory/users', {
-      id: (state) => state.itemId,
-      itemInstance: (state) => state.itemInstance,
-    }),
-
     path() {
       const baseUrl = '/directory/users';
       return [
@@ -118,27 +102,8 @@ export default {
           value: 'tokens',
         }];
 
-      const permissions = {
-        text: this.$tc('objects.permissions.permissions', 2),
-        value: 'permissions',
-      };
-
-      if (this.id) tabs.push(permissions);
+      if (this.id) tabs.push(this.permissionsTab);
       return tabs;
-    },
-  },
-
-  methods: {
-    ...mapActions('directory/users', {
-      setId: 'SET_ITEM_ID',
-      loadItem: 'LOAD_ITEM',
-      addItem: 'ADD_ITEM',
-      updateItem: 'UPDATE_ITEM',
-      resetState: 'RESET_ITEM_STATE',
-    }),
-
-    close() {
-      this.$router.go(-1);
     },
   },
 };

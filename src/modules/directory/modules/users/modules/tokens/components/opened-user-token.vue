@@ -1,14 +1,14 @@
 <template>
   <section>
     <token-popup
-        v-if="isPopup"
-        @close="closeTokenPopup"
-        @token-created="openTokenCreatedPopup"
+      v-if="isPopup"
+      @close="closePopup"
+      @token-created="openTokenCreatedPopup"
     ></token-popup>
 
     <token-created-popup
-        v-if="isTokenGenerated"
-        @close="closeTokenCreatedPopup"
+      v-if="isTokenGenerated"
+      @close="closeTokenCreatedPopup"
     ></token-created-popup>
 
     <header class="content-header">
@@ -16,23 +16,23 @@
 
       <div class="content-header__actions-wrap">
         <wt-icon-btn
-            v-if="!disableUserInput"
-            class="icon-action"
-            :class="{'hidden': anySelected}"
-            icon="bucket"
-            :tooltip="$t('iconHints.deleteSelected')"
-            @click="deleteSelected"
+          v-if="!disableUserInput"
+          class="icon-action"
+          :class="{'hidden': anySelected}"
+          icon="bucket"
+          :tooltip="$t('iconHints.deleteSelected')"
+          @click="deleteSelected"
         ></wt-icon-btn>
         <wt-table-actions
-            :icons="['refresh']"
-            @input="tableActionsHandler"
+          :icons="['refresh']"
+          @input="tableActionsHandler"
         ></wt-table-actions>
         <wt-icon-btn
-            v-if="!disableUserInput"
-            class="icon-action"
-            icon="plus"
-            :tooltip="$t('iconHints.add')"
-            @click="create"
+          v-if="!disableUserInput"
+          class="icon-action"
+          icon="plus"
+          :tooltip="$t('iconHints.add')"
+          @click="create"
         ></wt-icon-btn>
       </div>
     </header>
@@ -40,9 +40,9 @@
     <wt-loader v-show="!isLoaded"></wt-loader>
     <div class="table-wrapper" v-show="isLoaded">
       <wt-table
-          :headers="headers"
-          :data="dataList"
-          :grid-actions="!disableUserInput"
+        :headers="headers"
+        :data="dataList"
+        :grid-actions="!disableUserInput"
       >
         <template slot="usage" slot-scope="{ item }">
           {{ item.usage }}
@@ -57,91 +57,55 @@
         </template>
         <template slot="actions" slot-scope="{ item, index }">
           <wt-icon-btn
-              icon="bucket"
-              @click="remove(index)"
+            icon="bucket"
+            @click="remove(index)"
           ></wt-icon-btn>
         </template>
       </wt-table>
       <wt-pagination
-          :size="size"
-          :next="isNext"
-          :prev="page > 1"
-          debounce
-          @next="nextPage"
-          @prev="prevPage"
-          @input="setSize"
-          @change="loadList"
+        :size="size"
+        :next="isNext"
+        :prev="page > 1"
+        debounce
+        @next="nextPage"
+        @prev="prevPage"
+        @input="setSize"
+        @change="loadList"
       ></wt-pagination>
     </div>
   </section>
 </template>
 
 <script>
-import { mapActions, mapState } from 'vuex';
-import eventBus from '@webitel/ui-sdk/src/scripts/eventBus';
 import TokenPopup from './opened-user-token-popup.vue';
 import TokenCreatedPopup from './opened-user-token-created-popup.vue';
-import openedTabComponentMixin from '../../../../../../../app/mixins/objectPagesMixins/openedObjectTabMixin/openedTabComponentMixin';
-import tableComponentMixin from '../../../../../../../app/mixins/objectPagesMixins/objectTableMixin/tableComponentMixin';
-import tableActionsHandlerMixin from '../../../../../../../app/mixins/baseMixins/baseTableMixin/tableActionsMixin';
+import openedObjectTableTabMixin
+  from '../../../../../../../app/mixins/objectPagesMixins/openedObjectTableTabMixin/openedObjectTableTabMixin';
 
 export default {
   name: 'opened-user-tokens',
-  mixins: [openedTabComponentMixin, tableComponentMixin, tableActionsHandlerMixin],
+  mixins: [openedObjectTableTabMixin],
   components: { TokenPopup, TokenCreatedPopup },
-
-  data() {
-    return {
-      isPopup: false,
-      isTokenGenerated: false,
-      headers: [
+  data: () => ({
+    subNamespace: 'tokens',
+    isPopup: false,
+    isTokenGenerated: false,
+  }),
+  computed: {
+    headers() {
+      return [
         { value: 'usage', text: this.$t('objects.directory.users.usage') },
         { value: 'createdAt', text: this.$t('objects.directory.users.createdAt') },
         { value: 'createdBy', text: this.$t('objects.directory.users.createdBy') },
-      ],
-    };
-  },
-
-  watch: {
-    parentId(value) {
-      this.setParentId(value);
+      ];
     },
-  },
-
-  computed: {
-    ...mapState('directory/users', {
-      parentId: (state) => state.itemId,
-    }),
-
-    ...mapState('directory/users/tokens', {
-      dataList: (state) => state.dataList,
-      page: (state) => state.page,
-      size: (state) => state.size,
-      search: (state) => state.search,
-      isNext: (state) => state.isNextPage,
-    }),
   },
 
   methods: {
-    async create() {
-      const invalid = this.checkValidations();
-      if (!invalid) {
-        try {
-          if (!this.parentId) {
-            await this.addParentItem();
-            const routeName = this.$route.name.replace('-new', '-edit');
-            await this.$router.replace({ name: routeName, params: { id: this.parentId } });
-          }
-          this.isPopup = true;
-        } catch (err) {
-          throw err;
-        }
-      } else {
-        eventBus.$emit('notification', { type: 'error', text: 'Check your validations!' });
-      }
+    openPopup() {
+      this.isPopup = true;
     },
-
-    closeTokenPopup() {
+    closePopup() {
       this.isPopup = false;
       this.resetItemState();
     },
@@ -159,21 +123,6 @@ export default {
     prettifyDate(value) {
       return new Date(+value).toLocaleString();
     },
-
-    ...mapActions('directory/users', {
-      addParentItem: 'ADD_ITEM',
-    }),
-
-    ...mapActions('directory/users/tokens', {
-      setParentId: 'SET_PARENT_ITEM_ID',
-      loadDataList: 'LOAD_DATA_LIST',
-      setSize: 'SET_SIZE',
-      setSearch: 'SET_SEARCH',
-      nextPage: 'NEXT_PAGE',
-      prevPage: 'PREV_PAGE',
-      removeItem: 'REMOVE_ITEM',
-      resetItemState: 'RESET_ITEM_STATE',
-    }),
   },
 };
 </script>

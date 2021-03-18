@@ -1,13 +1,13 @@
 <template>
-  <wt-popup @close="close">
+  <wt-popup min-width="480" @close="close">
     <template slot="title">
       {{ $tc('objects.directory.users.token', 2) }}
     </template>
     <template slot="main">
       <wt-input
-          :value="usage"
-          :label="$t('objects.name')"
-          @input="setItemProp({ prop: 'usage', value: $event })"
+        :value="itemInstance.usage"
+        :label="$t('objects.name')"
+        @input="setItemProp({ prop: 'usage', value: $event })"
       ></wt-input>
     </template>
     <template slot="actions">
@@ -22,40 +22,34 @@
 </template>
 
 <script>
-import { mapActions, mapState } from 'vuex';
+import { mapActions } from 'vuex';
+import nestedObjectMixin from '../../../../../../../app/mixins/objectPagesMixins/openedObjectMixin/nestedObjectMixin';
 
 export default {
   name: 'opened-user-tokens-popup',
-
-  computed: {
-    ...mapState('directory/users/tokens', {
-      usage: (state) => state.itemInstance.usage,
-    }),
-  },
+  mixins: [nestedObjectMixin],
+  data: () => ({
+    namespace: 'directory/users/tokens',
+  }),
 
   methods: {
+    ...mapActions({
+      addToken(dispatch, payload) {
+        return dispatch(`${this.namespace}/ADD_TOKEN`, payload);
+      },
+    }),
     async save() {
       try {
-        await this.addToken(this.usage);
+        await this.addToken();
         this.$emit('token-created');
       } catch {
       }
     },
-
-    close() {
-      this.$emit('close');
-    },
-
-    ...mapActions('directory/users/tokens', {
-      addToken: 'ADD_TOKEN',
-      setItemProp: 'SET_ITEM_PROPERTY',
-    }),
+    resetState() {},
   },
 };
 </script>
 
 <style lang="scss" scoped>
-.wt-popup ::v-deep .wt-popup__popup {
-  min-width: 480px;
-}
+
 </style>

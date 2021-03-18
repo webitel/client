@@ -5,80 +5,64 @@
     </header>
     <form class="object-input-grid">
       <wt-select
-          :value="phone"
-          :label="$t('objects.directory.devices.phone')"
-          :options="phoneOptions"
-          :disabled="disableUserInput"
-          @input="setDevice"
+        :value="itemInstance.phone"
+        :label="$t('objects.directory.devices.phone')"
+        :options="phoneOptions"
+        :disabled="disableUserInput"
+        @input="setDevice"
       ></wt-select>
       <wt-input
-          :value="ip"
-          :v="v.itemInstance.ip"
-          :label="$t('objects.directory.devices.ipv4')"
-          :disabled="disableUserInput"
-          @input="setItemProp({ prop: 'ip', value: $event })"
+        :value="itemInstance.ip"
+        :v="v.itemInstance.ip"
+        :label="$t('objects.directory.devices.ipv4')"
+        :disabled="disableUserInput"
+        @input="setItemProp({ prop: 'ip', value: $event })"
       ></wt-input>
       <wt-input
-          :value="brand"
-          :label="$t('objects.directory.devices.vendor')"
-          :disabled="disableUserInput"
-          @input="setItemProp({ prop: 'brand', value: $event })"
+        :value="itemInstance.brand"
+        :label="$t('objects.directory.devices.vendor')"
+        :disabled="disableUserInput"
+        @input="setItemProp({ prop: 'brand', value: $event })"
       ></wt-input>
       <wt-input
-          :value="model"
-          :label="$t('objects.directory.devices.model')"
-          :disabled="disableUserInput"
-          @input="setItemProp({ prop: 'model', value: $event })"
+        :value="itemInstance.model"
+        :label="$t('objects.directory.devices.model')"
+        :disabled="disableUserInput"
+        @input="setItemProp({ prop: 'model', value: $event })"
       ></wt-input>
       <wt-input
-          :value="mac"
-          :v="v.itemInstance.mac"
-          :label="$t('objects.directory.devices.mac')"
-          :disabled="disableUserInput"
-          @input="setItemProp({ prop: 'mac', value: $event })"
+        :value="itemInstance.mac"
+        :v="v.itemInstance.mac"
+        :label="$t('objects.directory.devices.mac')"
+        :disabled="disableUserInput"
+        @input="setItemProp({ prop: 'mac', value: $event })"
       ></wt-input>
     </form>
   </section>
 </template>
 
 <script>
-import { mapActions, mapState } from 'vuex';
-import openedTabComponentMixin from '../../../../../app/mixins/objectPagesMixins/openedObjectTabMixin/openedTabComponentMixin';
+import openedTabComponentMixin
+  from '../../../../../app/mixins/objectPagesMixins/openedObjectTabMixin/openedTabComponentMixin';
 
 export default {
   name: 'opened-device-phone-info',
   mixins: [openedTabComponentMixin],
-  data() {
-    return {
-      phoneOptions: [{
-          name: 'Cisco IP Phone 7821',
-          id: 1,
-          brand: 'cisco',
-          model: '7821',
-        }, {
-          name: 'Yealink SIP-T21P E2',
-          id: 2,
-          brand: 'yealink',
-          model: 'T21',
-        }],
-    };
-  },
-
-  computed: {
-    ...mapState('directory/devices', {
-      phone: (state) => state.itemInstance.phone,
-      ip: (state) => state.itemInstance.ip,
-      brand: (state) => state.itemInstance.brand,
-      model: (state) => state.itemInstance.model,
-      mac: (state) => state.itemInstance.mac,
-    }),
-  },
+  data: () => ({
+    phoneOptions: [{
+      name: 'Cisco IP Phone 7821',
+      id: 1,
+      brand: 'cisco',
+      model: '7821',
+    }, {
+      name: 'Yealink SIP-T21P E2',
+      id: 2,
+      brand: 'yealink',
+      model: 'T21',
+    }],
+  }),
 
   methods: {
-    ...mapActions('directory/devices', {
-      setItemProp: 'SET_ITEM_PROPERTY',
-    }),
-
     setDevice(phone) {
       this.setItemProp({ prop: 'phone', value: phone });
       this.setItemProp({ prop: 'brand', value: phone.brand });
