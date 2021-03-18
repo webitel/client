@@ -64,11 +64,11 @@
             <template slot="priority" slot-scope="{ item }">
               {{ item.priority }}
             </template>
-            <template slot="state" slot-scope="{ item }">
+            <template slot="state" slot-scope="{ item, index }">
               <wt-switcher
                 :value="item.enabled"
                 :disabled="!hasEditAccess"
-                @change="changeQueueState({item, value: $event})"
+                @change="patchItem({ item, index, prop: 'enabled', value: $event})"
               ></wt-switcher>
             </template>
             <template slot="actions" slot-scope="{ item, index }">
@@ -81,7 +81,7 @@
               ></wt-icon-btn>
               <edit-action
                 v-if="hasEditAccess"
-                @click="edit(item)"
+                @click="edit(item, index)"
               ></edit-action>
               <delete-action
                 v-if="hasDeleteAccess"
@@ -106,9 +106,7 @@
 </template>
 
 <script>
-import { mapActions, mapState } from 'vuex';
 import QueuePopup from './create-queue-popup.vue';
-import tableActionsHandlerMixin from '../../../../../app/mixins/baseMixins/baseTableMixin/tableActionsMixin';
 import tableComponentMixin from '../../../../../app/mixins/objectPagesMixins/objectTableMixin/tableComponentMixin';
 import QueueType from '../store/_internals/enums/QueueType.enum';
 import getQueueSubRoute from '../store/_internals/scripts/getQueueSubRoute';
@@ -116,20 +114,14 @@ import RouteNames from '../../../../../app/router/_internals/RouteNames.enum';
 
 export default {
   name: 'the-queues',
-  mixins: [tableComponentMixin, tableActionsHandlerMixin],
+  mixins: [tableComponentMixin],
   components: { QueuePopup },
   data: () => ({
+    namespace: 'ccenter/queues',
     isQueueSelectPopup: false,
   }),
 
   computed: {
-    ...mapState('ccenter/queues', {
-      dataList: (state) => state.dataList,
-      page: (state) => state.page,
-      size: (state) => state.size,
-      search: (state) => state.search,
-      isNext: (state) => state.isNextPage,
-    }),
     headers() {
       return [
         { value: 'name', text: this.$t('objects.name') },
@@ -154,12 +146,6 @@ export default {
         name: `${RouteNames.MEMBERS}`,
         params: { queueId: item.id },
       });
-    },
-
-    changeQueueState({ item, value }) {
-      const prop = 'enabled';
-      const index = this.dataList.indexOf(item);
-      this.patchProperty({ index, prop, value });
     },
 
     computeQueueType(type) {
@@ -196,16 +182,6 @@ export default {
         params: { id: item.id },
       });
     },
-
-    ...mapActions('ccenter/queues', {
-      loadDataList: 'LOAD_DATA_LIST',
-      setSize: 'SET_SIZE',
-      setSearch: 'SET_SEARCH',
-      nextPage: 'NEXT_PAGE',
-      prevPage: 'PREV_PAGE',
-      patchProperty: 'PATCH_ITEM_PROPERTY',
-      removeItem: 'REMOVE_ITEM',
-    }),
   },
 
 };

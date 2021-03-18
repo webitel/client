@@ -18,7 +18,7 @@
           :tabs="tabs"
         ></wt-tabs>
         <component
-          :is="`${$options.name}-${currentTab.value}`"
+          :is="currentTab.value"
           :v="$v"
           :namespace="namespace"
         ></component>
@@ -30,19 +30,20 @@
 <script>
 import { mapActions, mapState } from 'vuex';
 import required from 'vuelidate/src/validators/required';
-import OpenedQueueMemberGeneral from './opened-queue-member-general.vue';
-import OpenedQueueMemberCommunication from './communications/opened-queue-member-communication.vue';
-import OpenedQueueMemberVariables from './opened-queue-member-variables.vue';
+import General from './opened-queue-member-general.vue';
+import Communication from './communications/opened-queue-member-communication.vue';
+import Variables from './opened-queue-member-variables.vue';
 import { requiredArrayValue } from '../../../../../../../app/utils/validators';
 import openedObjectMixin from '../../../../../../../app/mixins/objectPagesMixins/openedObjectMixin/openedObjectMixin';
+import getNamespacedState from '../../../../../../../app/store/helpers/getNamespacedState';
 
 export default {
   name: 'opened-queue-member',
   mixins: [openedObjectMixin],
   components: {
-    OpenedQueueMemberGeneral,
-    OpenedQueueMemberCommunication,
-    OpenedQueueMemberVariables,
+    General,
+    Communication,
+    Variables,
   },
   data: () => ({
     namespace: 'ccenter/queues/members',
@@ -56,12 +57,11 @@ export default {
   },
 
   computed: {
-    ...mapState('ccenter/queues/members', {
-      id: (state) => state.itemId,
-      parentQueue: (state) => state.parentQueue,
-      itemInstance: (state) => state.itemInstance,
+    ...mapState({
+      parentQueue(state) {
+        return getNamespacedState(state, this.namespace).parentQueue;
+      },
     }),
-
     tabs() {
       return [{
         text: this.$t('objects.general'),
@@ -92,8 +92,10 @@ export default {
   },
 
   methods: {
-    ...mapActions('ccenter/queues/members', {
-      setParentId: 'SET_PARENT_ITEM_ID',
+    ...mapActions({
+      setParentId(dispatch, payload) {
+        return dispatch(`${this.namespace}/SET_PARENT_ITEM_ID`, payload);
+      },
     }),
     async loadPageData() {
       await Promise.all([

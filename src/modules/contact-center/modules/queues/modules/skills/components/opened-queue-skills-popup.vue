@@ -6,7 +6,7 @@
     <template slot="main">
       <form>
         <wt-select
-          :value="skill"
+          :value="itemInstance.skill"
           :v="$v.itemInstance.skill"
           :label="$tc('objects.lookups.skills.skills', 1)"
           :search="loadSkillsOptions"
@@ -16,7 +16,7 @@
           @input="setItemProp({ prop: 'skill', value: $event })"
         ></wt-select>
         <wt-input
-          :value="lvl"
+          :value="itemInstance.lvl"
           :v="$v.itemInstance.lvl"
           :label="$t('objects.lookups.skills.lvl')"
           type="number"
@@ -24,7 +24,7 @@
         ></wt-input>
         <div class="input-row-wrap">
           <wt-input
-            :value="minCapacity"
+            :value="itemInstance.minCapacity"
             :v="$v.itemInstance.minCapacity"
             :custom-validators="minCapacityCustomValidator"
             :label="$t('objects.lookups.skills.minCapacity')"
@@ -34,7 +34,7 @@
             @input="setItemProp({ prop: 'minCapacity', value: +$event })"
           ></wt-input>
           <wt-input
-            :value="maxCapacity"
+            :value="itemInstance.maxCapacity"
             :v="$v.itemInstance.maxCapacity"
             :custom-validators="maxCapacityCustomValidator"
             :label="$t('objects.lookups.skills.maxCapacity')"
@@ -45,7 +45,7 @@
           ></wt-input>
         </div>
         <wt-select
-          :value="buckets"
+          :value="itemInstance.buckets"
           :label="$tc('objects.lookups.buckets.buckets', 1)"
           :search="loadBucketsOptions"
           :close-on-select="false"
@@ -72,7 +72,6 @@
 
 <script>
 import { required, minValue, maxValue } from 'vuelidate/lib/validators';
-import { mapState } from 'vuex';
 import { lessOrEqualTo, moreOrEqualTo } from '../../../../../../../app/utils/validators';
 import { getBucketsList } from '../../../../../../lookups/modules/buckets/api/buckets';
 import { getSkillsList } from '../../../../../../lookups/modules/agent-skills/api/agentSkills';
@@ -81,7 +80,6 @@ import nestedObjectMixin from '../../../../../../../app/mixins/objectPagesMixins
 export default {
   name: 'opened-queue-skills-popup',
   mixins: [nestedObjectMixin],
-
   data: () => ({
     namespace: 'ccenter/queues/skills',
   }),
@@ -107,15 +105,6 @@ export default {
     },
   },
   computed: {
-    ...mapState('ccenter/queues/skills', {
-      id: (state) => state.itemId,
-      itemInstance: (state) => state.itemInstance,
-      skill: (state) => state.itemInstance.skill,
-      lvl: (state) => state.itemInstance.lvl,
-      minCapacity: (state) => state.itemInstance.minCapacity,
-      maxCapacity: (state) => state.itemInstance.maxCapacity,
-      buckets: (state) => state.itemInstance.buckets,
-    }),
     minCapacityCustomValidator() {
       return [{ name: 'lessOrEqualTo', text: this.$t('objects.lookups.skills.minCapacityLessOrEqualToMaxCapacityValidator') }];
     },

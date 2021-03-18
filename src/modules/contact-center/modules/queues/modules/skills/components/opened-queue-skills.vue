@@ -102,7 +102,6 @@
 </template>
 
 <script>
-import { mapActions } from 'vuex';
 import SkillBucketsPopup from './opened-queue-skills-buckets-popup.vue';
 import SkillPopup from './opened-queue-skills-popup.vue';
 import openedObjectTableTabMixin
@@ -131,11 +130,6 @@ export default {
   },
 
   methods: {
-    ...mapActions({
-      patchItem(dispatch, payload) {
-        return dispatch(`${this.namespace}/${this.subNamespace}/PATCH_ITEM_PROPERTY`, payload);
-      },
-    }),
     getFirstBucket(buckets) {
       if (buckets.length > 0) {
         return buckets[0].name;

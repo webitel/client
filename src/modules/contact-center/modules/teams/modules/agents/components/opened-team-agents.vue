@@ -88,7 +88,6 @@
 </template>
 
 <script>
-import { mapState } from 'vuex';
 import AgentPopup from './opened-team-agent-popup.vue';
 import AgentSkillsPopup from './opened-team-agent-skills-popup.vue';
 import openedObjectTableTabMixin from '../../../../../../../app/mixins/objectPagesMixins/openedObjectTableTabMixin/openedObjectTableTabMixin';
@@ -106,16 +105,6 @@ export default {
     agentId: 0,
   }),
   computed: {
-    ...mapState('ccenter/teams', {
-      parentId: (state) => state.itemId,
-    }),
-    ...mapState('ccenter/teams/agents', {
-      dataList: (state) => state.dataList,
-      page: (state) => state.page,
-      size: (state) => state.size,
-      search: (state) => state.search,
-      isNext: (state) => state.isNextPage,
-    }),
     headers() {
       return [
         { value: 'name', text: this.$t('objects.name') },

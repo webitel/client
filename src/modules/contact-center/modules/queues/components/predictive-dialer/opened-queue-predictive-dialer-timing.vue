@@ -5,53 +5,53 @@
     </header>
     <form class="object-input-grid">
       <wt-timepicker
-        :value="originateTimeout"
+        :value="itemInstance.payload.originateTimeout"
         :label="$t('objects.ccenter.queues.originateTimeout')"
         :disabled="disableUserInput"
         @input="setItemPayloadProp({ prop: 'originateTimeout', value: $event })"
       ></wt-timepicker>
       <wt-input
-        :value="maxAttempts"
+        :value="itemInstance.payload.maxAttempts"
         :label="$t('objects.ccenter.queues.maxAttempts')"
         :disabled="disableUserInput"
         type="number"
         @input="setItemPayloadProp({ prop: 'maxAttempts', value: $event })"
       ></wt-input>
       <wt-timepicker
-        :value="waitBetweenRetries"
+        :value="itemInstance.payload.waitBetweenRetries"
         :label="$t('objects.ccenter.queues.waitBetweenRetries')"
         :disabled="disableUserInput"
         @input="setItemPayloadProp({ prop: 'waitBetweenRetries', value: $event })"
       ></wt-timepicker>
       <wt-switcher
-        :value="recordings"
+        :value="itemInstance.payload.recordings"
         :label="$t('objects.ccenter.queues.recordings')"
         :disabled="disableUserInput"
         @change="setItemPayloadProp({ prop: 'recordings', value: $event })"
       ></wt-switcher>
       <wt-switcher
-        :value="allowGreetingAgent"
+        :value="itemInstance.payload.allowGreetingAgent"
         :label="$t('objects.ccenter.queues.allowGreetingAgent')"
         :disabled="disableUserInput"
         @change="setItemPayloadProp({ prop: 'allowGreetingAgent', value: $event })"
       ></wt-switcher>
       <wt-switcher
-        :value="processing"
+        :value="itemInstance.processing"
         :label="$t('objects.ccenter.queues.processing')"
         :disabled="disableUserInput"
         @change="setItemProp({ prop: 'processing', value: $event })"
       ></wt-switcher>
       <wt-input
-        v-show="processing"
-        :value="processingSec"
+        v-show="itemInstance.processing"
+        :value="itemInstance.processingSec"
         :label="$t('objects.ccenter.queues.processingSec')"
         :disabled="disableUserInput"
         type="number"
         @input="setItemProp({ prop: 'processingSec', value: $event })"
       ></wt-input>
       <wt-input
-        v-show="processing"
-        :value="processingRenewalSec"
+        v-show="itemInstance.processing"
+        :value="itemInstance.processingRenewalSec"
         :label="$t('objects.ccenter.queues.processingRenewalSec')"
         :disabled="disableUserInput"
         type="number"
@@ -62,30 +62,17 @@
 </template>
 
 <script>
-import { mapActions, mapState } from 'vuex';
+import { mapActions } from 'vuex';
 import openedTabComponentMixin from '../../../../../../app/mixins/objectPagesMixins/openedObjectTabMixin/openedTabComponentMixin';
 
 export default {
   name: 'opened-queue-outbound-ivr-timing',
   mixins: [openedTabComponentMixin],
-
-  computed: {
-    ...mapState('ccenter/queues', {
-      maxAttempts: (state) => state.itemInstance.payload.maxAttempts,
-      originateTimeout: (state) => state.itemInstance.payload.originateTimeout,
-      waitBetweenRetries: (state) => state.itemInstance.payload.waitBetweenRetries,
-      recordings: (state) => state.itemInstance.payload.recordings,
-      allowGreetingAgent: (state) => state.itemInstance.payload.allowGreetingAgent,
-      processing: (state) => state.itemInstance.processing,
-      processingSec: (state) => state.itemInstance.processingSec,
-      processingRenewalSec: (state) => state.itemInstance.processingRenewalSec,
-    }),
-  },
-
   methods: {
-    ...mapActions('ccenter/queues', {
-      setItemProp: 'SET_ITEM_PROPERTY',
-      setItemPayloadProp: 'SET_ITEM_PAYLOAD_PROPERTY',
+    ...mapActions({
+      setItemPayloadProp(dispatch, payload) {
+        return dispatch(`${this.namespace}/SET_ITEM_PAYLOAD_PROPERTY`, payload);
+      },
     }),
   },
 };

@@ -6,7 +6,7 @@
     <template slot="main">
       <form>
         <wt-select
-          :value="agent"
+          :value="itemInstance.agent"
           :v="$v.itemInstance.agent"
           :label="$tc('objects.ccenter.agents.subordinates', 1)"
           :search="loadDropdownOptionsList"
@@ -33,15 +33,13 @@
 </template>
 
 <script>
-import { mapState } from 'vuex';
 import { required } from 'vuelidate/lib/validators';
-import { getAgentsList } from '../../api/agents';
-import nestedObjectMixin from '../../../../../../app/mixins/objectPagesMixins/openedObjectMixin/nestedObjectMixin';
+import { getAgentsList } from '../../../api/agents';
+import nestedObjectMixin from '../../../../../../../app/mixins/objectPagesMixins/openedObjectMixin/nestedObjectMixin';
 
 export default {
   name: 'opened-agent-subordinates-popup',
   mixins: [nestedObjectMixin],
-
   data: () => ({
     namespace: 'ccenter/agents/subordinates',
   }),
@@ -50,15 +48,6 @@ export default {
     itemInstance: {
       agent: { required },
     },
-  },
-
-  computed: {
-    ...mapState('ccenter/agents/subordinates', {
-      id: (state) => state.itemId,
-      parentId: (state) => state.parentId,
-      itemInstance: (state) => state.itemInstance,
-      agent: (state) => state.itemInstance.agent,
-    }),
   },
 
   methods: {

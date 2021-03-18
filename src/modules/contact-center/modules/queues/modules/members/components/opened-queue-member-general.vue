@@ -5,7 +5,7 @@
     </header>
     <form class="object-input-grid">
       <wt-input
-        :value="name"
+        :value="itemInstance.name"
         :v="v.itemInstance.name"
         :label="$t('objects.name')"
         :disabled="disableUserInput"
@@ -13,20 +13,20 @@
         @input="setItemProp({ prop: 'name', value: $event })"
       ></wt-input>
       <wt-input
-        :value="priority"
+        :value="itemInstance.priority"
         :label="$t('objects.ccenter.queues.priority')"
         :disabled="disableUserInput"
         type="number"
         @input="setItemProp({ prop: 'priority', value: +$event })"
       ></wt-input>
       <wt-datetimepicker
-        :value="expireAt"
+        :value="itemInstance.expireAt"
         :label="$t('objects.ccenter.queues.expire')"
         :disabled="disableUserInput"
         @change="setItemProp({ prop: 'expireAt', value: $event })"
       ></wt-datetimepicker>
       <wt-select
-        :value="timezone"
+        :value="itemInstance.timezone"
         :label="$t('objects.ccenter.queues.timezone')"
         :search="loadDropdownOptionsTimezoneList"
         :internal-search="false"
@@ -35,7 +35,7 @@
         @input="setItemProp({ prop: 'timezone', value: $event })"
       ></wt-select>
       <wt-select
-        :value="bucket"
+        :value="itemInstance.bucket"
         :label="$tc('objects.lookups.buckets.buckets', 1)"
         :search="loadDropdownOptionsBucketsList"
         :internal-search="false"
@@ -47,7 +47,6 @@
 </template>
 
 <script>
-import { mapState } from 'vuex';
 import { getBucketsList } from '../../../../../../lookups/modules/buckets/api/buckets';
 import { getCalendarTimezones } from '../../../../../../lookups/modules/calendars/api/calendars';
 import openedTabComponentMixin from '../../../../../../../app/mixins/objectPagesMixins/openedObjectTabMixin/openedTabComponentMixin';
@@ -55,17 +54,7 @@ import openedTabComponentMixin from '../../../../../../../app/mixins/objectPages
 export default {
   name: 'opened-queue-member-general',
   mixins: [openedTabComponentMixin],
-
   computed: {
-    ...mapState('ccenter/queues/members', {
-      name: (state) => state.itemInstance.name,
-      priority: (state) => state.itemInstance.priority,
-      expireAt: (state) => state.itemInstance.expireAt,
-      bucket: (state) => state.itemInstance.bucket,
-      skill: (state) => state.itemInstance.skill,
-      timezone: (state) => state.itemInstance.timezone,
-      description: (state) => state.itemInstance.description,
-    }),
     disableUserInput() {
       return !this.hasEditAccess;
     },

@@ -6,7 +6,7 @@
     <template slot="main">
       <form>
         <wt-select
-          :value="agent"
+          :value="itemInstance.agent"
           :v="$v.itemInstance.agent"
           :label="$tc('objects.ccenter.agents.agents', 1)"
           :search="loadAgentsOptions"
@@ -50,14 +50,6 @@ export default {
     itemInstance: {
       agent: { required },
     },
-  },
-
-  computed: {
-    ...mapState('ccenter/teams/supervisors', {
-      id: (state) => state.itemId,
-      itemInstance: (state) => state.itemInstance,
-      agent: (state) => state.itemInstance.agent,
-    }),
   },
 
   methods: {

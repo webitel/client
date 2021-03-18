@@ -5,32 +5,32 @@
     </header>
     <form class="object-input-grid">
       <wt-timepicker
-        :value="originateTimeout"
+        :value="itemInstance.payload.originateTimeout"
         :label="$t('objects.ccenter.queues.originateTimeout')"
         :disabled="disableUserInput"
         @input="setItemPayloadProp({ prop: 'originateTimeout', value: $event })"
       ></wt-timepicker>
       <wt-input
-        :value="maxAttempts"
+        :value="itemInstance.payload.maxAttempts"
         :label="$t('objects.ccenter.queues.maxAttempts')"
         :disabled="disableUserInput"
         type="number"
         @input="setItemPayloadProp({ prop: 'maxAttempts', value: $event })"
       ></wt-input>
       <wt-timepicker
-        :value="waitBetweenRetries"
+        :value="itemInstance.payload.waitBetweenRetries"
         :label="$t('objects.ccenter.queues.waitBetweenRetries')"
         :disabled="disableUserInput"
         @input="setItemPayloadProp({ prop: 'waitBetweenRetries', value: $event })"
       ></wt-timepicker>
       <wt-timepicker
-        :value="minDuration"
+        :value="itemInstance.payload.minDuration"
         :label="$t('objects.ccenter.queues.minDuration')"
         :disabled="disableUserInput"
         @input="setItemPayloadProp({ prop: 'minDuration', value: $event })"
       ></wt-timepicker>
       <wt-switcher
-        :value="recordings"
+        :value="itemInstance.payload.recordings"
         :label="$t('objects.ccenter.queues.recordings')"
         :disabled="disableUserInput"
         @change="setItemPayloadProp({ prop: 'recordings', value: $event })"
@@ -40,25 +40,17 @@
 </template>
 
 <script>
-import openedTabComponentMixin from '@/app/mixins/objectPagesMixins/openedObjectTabMixin/openedTabComponentMixin';
-import { mapActions, mapState } from 'vuex';
+import { mapActions } from 'vuex';
+import openedTabComponentMixin from '../../../../../../app/mixins/objectPagesMixins/openedObjectTabMixin/openedTabComponentMixin';
 
 export default {
   name: 'opened-queue-outbound-ivr-timing',
   mixins: [openedTabComponentMixin],
-  computed: {
-    ...mapState('ccenter/queues', {
-      minDuration: (state) => state.itemInstance.payload.minDuration,
-      maxAttempts: (state) => state.itemInstance.payload.maxAttempts,
-      originateTimeout: (state) => state.itemInstance.payload.originateTimeout,
-      waitBetweenRetries: (state) => state.itemInstance.payload.waitBetweenRetries,
-      recordings: (state) => state.itemInstance.payload.recordings,
-    }),
-  },
-
   methods: {
-    ...mapActions('ccenter/queues', {
-      setItemPayloadProp: 'SET_ITEM_PAYLOAD_PROPERTY',
+    ...mapActions({
+      setItemPayloadProp(dispatch, payload) {
+        return dispatch(`${this.namespace}/SET_ITEM_PAYLOAD_PROPERTY`, payload);
+      },
     }),
   },
 };

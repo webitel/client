@@ -6,7 +6,7 @@
     <template slot="main">
       <form>
         <wt-select
-          :value="resource"
+          :value="itemInstance.resource"
           :v="$v.itemInstance.resource"
           :label="$tc('objects.ccenter.res.res', 1)"
           :search="loadDropdownOptionsList"
@@ -49,14 +49,6 @@ export default {
     itemInstance: {
       resource: { required },
     },
-  },
-
-  computed: {
-    ...mapState('ccenter/resGroups/res', {
-      id: (state) => state.itemId,
-      itemInstance: (state) => state.itemInstance,
-      resource: (state) => state.itemInstance.resource,
-    }),
   },
 
   methods: {

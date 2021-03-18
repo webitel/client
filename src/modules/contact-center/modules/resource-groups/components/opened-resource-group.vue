@@ -28,7 +28,6 @@
 </template>
 
 <script>
-import { mapState } from 'vuex';
 import { required } from 'vuelidate/lib/validators';
 import { requiredArrayValue, timerangeNotIntersect, timerangeStartLessThanEnd } from '../../../../../app/utils/validators';
 import General from './opened-resource-group-general.vue';
@@ -44,7 +43,6 @@ export default {
     Resources,
     Timerange,
   },
-
   data: () => ({
     namespace: 'ccenter/resGroups',
   }),
@@ -64,24 +62,13 @@ export default {
     },
   },
   computed: {
-    ...mapState('ccenter/resGroups', {
-      id: (state) => state.itemId,
-      itemInstance: (state) => state.itemInstance,
-    }),
-
     tabs() {
       const tabs = [
         { text: this.$t('objects.general'), value: 'general' },
         { value: 'resources', text: this.$tc('objects.ccenter.res.res', 2) },
         { value: 'timerange', text: this.$t('objects.ccenter.resGroups.timerange') },
       ];
-
-      const permissions = {
-        text: this.$tc('objects.permissions.permissions', 2),
-        value: 'permissions',
-      };
-
-      if (this.id) tabs.push(permissions);
+      if (this.id) tabs.push(this.permissionsTab);
       return tabs;
     },
 

@@ -5,7 +5,7 @@
     </header>
     <form class="object-input-grid">
       <wt-input
-        :value="name"
+        :value="itemInstance.name"
         :v="v.itemInstance.name"
         :label="$t('objects.name')"
         :disabled="disableUserInput"
@@ -13,7 +13,7 @@
         @input="setItemProp({ prop: 'name', value: $event })"
       ></wt-input>
       <wt-select
-        :value="calendar"
+        :value="itemInstance.calendar"
         :v="v.itemInstance.calendar"
         :label="$tc('objects.lookups.calendars.calendars', 1)"
         :search="loadDropdownOptionsCalendarList"
@@ -24,7 +24,7 @@
         @input="setItemProp({ prop: 'calendar', value: $event })"
       ></wt-select>
       <wt-select
-        :value="dncList"
+        :value="itemInstance.dncList"
         :label="$tc('objects.lookups.blacklist.blacklist', 1)"
         :search="loadDropdownOptionsBlacklistList"
         :internal-search="false"
@@ -32,7 +32,7 @@
         @input="setItemProp({ prop: 'dncList', value: $event })"
       ></wt-select>
       <wt-input
-        :value="priority"
+        :value="itemInstance.priority"
         :label="$t('objects.ccenter.queues.priority')"
         :disabled="disableUserInput"
         type="number"
@@ -49,7 +49,7 @@
         required
       ></wt-select>
       <wt-select
-        :value="team"
+        :value="itemInstance.team"
         :v="v.itemInstance.team"
         :label="$tc('objects.ccenter.teams.teams', 1)"
         :search="loadDropdownOptionsTeamList"
@@ -60,7 +60,7 @@
         @input="setItemProp({ prop: 'team', value: $event })"
       ></wt-select>
       <wt-select
-        :value="doSchema"
+        :value="itemInstance.doSchema"
         :label="$t('objects.ccenter.queues.preSchema')"
         :search="loadDropdownOptionsSchemaList"
         :internal-search="false"
@@ -68,7 +68,7 @@
         @input="setItemProp({ prop: 'doSchema', value: $event })"
       ></wt-select>
       <wt-select
-        :value="afterSchema"
+        :value="itemInstance.afterSchema"
         :label="$t('objects.ccenter.queues.afterSchema')"
         :search="loadDropdownOptionsSchemaList"
         :internal-search="false"
@@ -76,7 +76,7 @@
         @input="setItemProp({ prop: 'afterSchema', value: $event })"
       ></wt-select>
       <wt-textarea
-        :value="description"
+        :value="itemInstance.description"
         :label="$t('objects.description')"
         :disabled="disableUserInput"
         @input="setItemProp({ prop: 'description', value: $event })"
@@ -86,7 +86,6 @@
 </template>
 
 <script>
-import { mapActions, mapState } from 'vuex';
 import { getCalendarList } from '../../../../../lookups/modules/calendars/api/calendars';
 import { getBlacklistList } from '../../../../../lookups/modules/blacklists/api/blacklists';
 import { getTeamsList } from '../../../teams/api/teams';
@@ -99,22 +98,10 @@ export default {
   mixins: [openedTabComponentMixin],
 
   computed: {
-    ...mapState('ccenter/queues', {
-      name: (state) => state.itemInstance.name,
-      calendar: (state) => state.itemInstance.calendar,
-      dncList: (state) => state.itemInstance.dncList,
-      priority: (state) => state.itemInstance.priority,
-      description: (state) => state.itemInstance.description,
-      strategyValue: (state) => state.itemInstance.strategy,
-      team: (state) => state.itemInstance.team,
-      doSchema: (state) => state.itemInstance.doSchema,
-      afterSchema: (state) => state.itemInstance.afterSchema,
-    }),
-
     strategy: {
       get() {
         return this.dropdownOptionsStrategyList
-          .find((strategy) => strategy.value === this.strategyValue);
+          .find((strategy) => strategy.value === this.itemInstance.strategy);
       },
       set(value) {
         this.setItemProp({ prop: 'strategy', value: value.value });
@@ -161,10 +148,6 @@ export default {
         id: item.id,
       }));
     },
-
-    ...mapActions('ccenter/queues', {
-      setItemProp: 'SET_ITEM_PROPERTY',
-    }),
   },
 };
 </script>

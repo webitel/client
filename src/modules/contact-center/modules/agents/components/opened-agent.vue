@@ -29,11 +29,10 @@
 
 <script>
 import { required } from 'vuelidate/lib/validators';
-import { mapState } from 'vuex';
 import General from './opened-agent-general.vue';
 import Queues from '../modules/queues/components/opened-agent-queues.vue';
 import Skills from '../modules/skills/components/opened-agent-skills.vue';
-import Subordinates from '../modules/subordinates/opened-agent-subordinates.vue';
+import Subordinates from '../modules/subordinates/components/opened-agent-subordinates.vue';
 import openedObjectMixin from '../../../../../app/mixins/objectPagesMixins/openedObjectMixin/openedObjectMixin';
 
 export default {
@@ -59,12 +58,6 @@ export default {
   },
 
   computed: {
-    ...mapState('ccenter/agents', {
-      id: (state) => state.itemId,
-      itemInstance: (state) => state.itemInstance,
-      isSupervisor: (state) => state.itemInstance.isSupervisor,
-    }),
-
     tabs() {
       const tabs = [{
         text: this.$t('objects.general'),
@@ -82,13 +75,8 @@ export default {
         value: 'subordinates',
       };
 
-      const permissions = {
-        text: this.$tc('objects.permissions.permissions', 2),
-        value: 'permissions',
-      };
-
-      if (this.isSupervisor) tabs.push(subordinates);
-      if (this.id) tabs.push(permissions);
+      if (this.itemInstance.isSupervisor) tabs.push(subordinates);
+      if (this.id) tabs.push(this.permissionsTab);
       return tabs;
     },
 

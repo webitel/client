@@ -55,6 +55,9 @@ export default {
       removeItem(dispatch, payload) {
         return dispatch(`${this.namespace}/REMOVE_ITEM`, payload);
       },
+      patchItem(dispatch, payload) {
+        return dispatch(`${this.namespace}/PATCH_ITEM_PROPERTY`, payload);
+      },
     }),
 
     create() {

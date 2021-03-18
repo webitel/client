@@ -6,7 +6,7 @@
     <template slot="main">
       <form>
         <wt-input
-          :value="display"
+          :value="itemInstance.display"
           :v="$v.itemInstance.display"
           :label="$tc('objects.ccenter.res.numbers', 1)"
           required
@@ -31,7 +31,6 @@
 
 <script>
 import { required } from 'vuelidate/lib/validators';
-import { mapState } from 'vuex';
 import nestedObjectMixin from '../../../../../../../app/mixins/objectPagesMixins/openedObjectMixin/nestedObjectMixin';
 
 export default {
@@ -45,14 +44,6 @@ export default {
     itemInstance: {
       display: { required },
     },
-  },
-
-  computed: {
-    ...mapState('ccenter/res/numbers', {
-      id: (state) => state.itemId,
-      itemInstance: (state) => state.itemInstance,
-      display: (state) => state.itemInstance.display,
-    }),
   },
 };
 </script>

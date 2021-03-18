@@ -5,7 +5,7 @@
     </header>
     <form class="object-input-grid">
       <wt-input
-          :value="name"
+          :value="itemInstance.name"
           :v="v.itemInstance.name"
           :label="$t('objects.name')"
           :disabled="disableUserInput"
@@ -13,7 +13,7 @@
           @input="setItemProp({ prop: 'name', value: $event })"
       ></wt-input>
       <wt-select
-          :value="calendar"
+          :value="itemInstance.calendar"
           :v="v.itemInstance.calendar"
           :label="$tc('objects.lookups.calendars.calendars', 1)"
           :search="loadDropdownOptionsCalendarList"
@@ -24,7 +24,7 @@
           @input="setItemProp({ prop: 'calendar', value: $event })"
       ></wt-select>
       <wt-select
-          :value="dncList"
+          :value="itemInstance.dncList"
           :label="$tc('objects.lookups.blacklist.blacklist', 1)"
           :search="loadDropdownOptionsBlacklistList"
           :internal-search="false"
@@ -32,14 +32,14 @@
           @input="setItemProp({ prop: 'dncList', value: $event })"
       ></wt-select>
       <wt-input
-          :value="priority"
+          :value="itemInstance.priority"
           :label="$t('objects.ccenter.queues.priority')"
           :disabled="disableUserInput"
           type="number"
           @input="setItemProp({ prop: 'priority', value: +$event })"
       ></wt-input>
       <wt-select
-          :value="team"
+          :value="itemInstance.team"
           :v="v.itemInstance.team"
           :label="$tc('objects.ccenter.teams.teams', 1)"
           :search="loadDropdownOptionsTeamList"
@@ -50,7 +50,7 @@
           @input="setItemProp({ prop: 'team', value: $event })"
       ></wt-select>
       <wt-select
-          :value="ringtone"
+          :value="itemInstance.ringtone"
           :label="$t('objects.ccenter.queues.ringtone')"
           :search="loadDropdownOptionsMediaList"
           :internal-search="false"
@@ -58,7 +58,7 @@
           @input="setItemProp({ prop: 'ringtone', value: $event })"
       ></wt-select>
       <wt-textarea
-          :value="description"
+          :value="itemInstance.description"
           :label="$t('objects.description')"
           :disabled="disableUserInput"
           @input="setItemProp({ prop: 'description', value: $event })"
@@ -68,7 +68,6 @@
 </template>
 
 <script>
-import { mapState, mapActions } from 'vuex';
 import openedTabComponentMixin from '../../../../../../app/mixins/objectPagesMixins/openedObjectTabMixin/openedTabComponentMixin';
 import { getCalendarList } from '../../../../../lookups/modules/calendars/api/calendars';
 import { getTeamsList } from '../../../teams/api/teams';
@@ -78,21 +77,6 @@ import { getMediaList } from '../../../../../lookups/modules/media/api/media';
 export default {
   name: 'opened-queue-inbound-queue-general',
   mixins: [openedTabComponentMixin],
-  data: () => ({
-  }),
-
-  computed: {
-    ...mapState('ccenter/queues', {
-      name: (state) => state.itemInstance.name,
-      calendar: (state) => state.itemInstance.calendar,
-      dncList: (state) => state.itemInstance.dncList,
-      priority: (state) => state.itemInstance.priority,
-      description: (state) => state.itemInstance.description,
-      team: (state) => state.itemInstance.team,
-      ringtone: (state) => state.itemInstance.ringtone,
-    }),
-  },
-
   methods: {
     async loadDropdownOptionsCalendarList(search) {
       const response = await getCalendarList({ search });
@@ -101,7 +85,6 @@ export default {
         id: item.id,
       }));
     },
-
     async loadDropdownOptionsBlacklistList(search) {
       const response = await getBlacklistList({ search });
       return response.list.map((item) => ({
@@ -109,7 +92,6 @@ export default {
         id: item.id,
       }));
     },
-
     async loadDropdownOptionsTeamList(search) {
       const response = await getTeamsList({ search });
       return response.list.map((item) => ({
@@ -117,7 +99,6 @@ export default {
         id: item.id,
       }));
     },
-
     async loadDropdownOptionsMediaList(search) {
       const response = await getMediaList({ search });
       return response.list.map((item) => ({
@@ -125,10 +106,6 @@ export default {
         id: item.id,
       }));
     },
-
-    ...mapActions('ccenter/queues', {
-      setItemProp: 'SET_ITEM_PROPERTY',
-    }),
   },
 };
 </script>
