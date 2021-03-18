@@ -1,15 +1,5 @@
 import { mapActions } from 'vuex';
-
-import formInput from '@/app/components/utils/form-input';
-import dropdownSelect from '@/app/components/utils/dropdown-select';
-import tableCheckbox from '@/app/components/utils/checkbox';
-import tagsInput from '@/app/components/utils/tags-input';
-
-import ObjectHeader from '../../../components/utils/object-utils/the-object-header.vue';
-import Permissions from '../../../../modules/_shared/permissions-tab/components/permissions-tab.vue';
-import openedObjectValidationMixin
-  from '../../baseMixins/openedObjectValidationMixin/openedObjectValidationMixin';
-import openedObjectAccessControlMixin from './_internals/openedObjectAccessControlMixin';
+import openedObjectValidationMixin from '../openedObjectValidationMixin/openedObjectValidationMixin';
 
 /**
  * @fileOverview abstract mixin,
@@ -20,29 +10,9 @@ import openedObjectAccessControlMixin from './_internals/openedObjectAccessContr
  * @extends openedObjectValidationMixin, openedObjectAccessControlMixin
  */
 export default {
-  // FIXME: MOVE ACCESS_CONTROL MIXIN IMPORT TO OPENED_OBJECT_MIXIN
-  //  AFTER COMPLETE OBJECT PAGES REFACTOR
-  mixins: [openedObjectAccessControlMixin, openedObjectValidationMixin],
-  components: {
-    ObjectHeader,
-    Permissions, // FIXME MOVE TO openedObjectMixin AFTER REFACTOR
-
-    // FIXME: DELETE AFTER REFACTOR WITH WEBITEL-UI
-    formInput,
-    dropdownSelect,
-    checkbox: tableCheckbox,
-    tagsInput,
-  },
-
-  data() {
-    return {
-      dropdownOptionsList: [], // FIXME: DELETE AFTER REFACTOR WITH WEBITEL-UI
-    };
-  },
-
+  mixins: [openedObjectValidationMixin],
   destroyed() {
-    // FIXME REMOVE IF() CHECK WHEN METHOD WILL BE IMPLEMENTED IN ALL OBJECT PAGES
-    if (this.resetState) this.resetState();
+    this.resetState();
   },
 
   computed: {
@@ -98,17 +68,6 @@ export default {
           }
         }
       }
-    },
-
-    close() {
-      this.$router.go(-1);
-    },
-
-    /* FIXME AFTER REFACTOR WITH HIGHER-LEVEL MIXINS
-         (openedObject and nested object) due to different implementation */
-    closePopup() {
-      this.popupTriggerIf = false;
-      this.loadDataList();
     },
   },
 };

@@ -1,16 +1,27 @@
 import { mapActions, mapState } from 'vuex';
-import editComponentMixin from './editComponentMixin';
+import ObjectHeader from '../../../components/utils/object-utils/the-object-header.vue';
+import Permissions from '../../../../modules/_shared/permissions-tab/components/permissions-tab.vue';
+import baseObjectMixin from '../../baseMixins/baseObjectMixin/baseObjectMixin';
 import headlineNavMixin from '../../baseMixins/headlineNavMixin/headlineNavMixin';
+import openedObjectAccessControlMixin from './_internals/openedObjectAccessControlMixin';
 import getNamespacedState from '../../../store/helpers/getNamespacedState';
 
 /**
  * @fileOverview contains openedObject (wrapper with tabs, like opened-agent.vue) common logic
  * @param {string} this.namespace - should be declared in data()
  *      and contain a string name for storeModule like 'ccenter/agents/skills'
- * @extends editComponentMixin
+ * @extends baseObjectMixin
  */
 export default {
-  mixins: [editComponentMixin, headlineNavMixin],
+  mixins: [
+    openedObjectAccessControlMixin,
+    headlineNavMixin,
+    baseObjectMixin,
+  ],
+  components: {
+    ObjectHeader,
+    Permissions,
+  },
   data: () => ({
     currentTab: {
       value: 'general',
@@ -44,10 +55,6 @@ export default {
       setId(dispatch, payload) {
         return dispatch(`${this.namespace}/SET_ITEM_ID`, payload);
       },
-      // editComponentMixin duplication
-      // resetState(dispatch, payload) {
-      //   return dispatch(`${this.namespace}/RESET_ITEM_STATE`, payload);
-      // },
     }),
 
     async loadPageData() {
@@ -58,6 +65,10 @@ export default {
     setInitialTab() {
       // eslint-disable-next-line prefer-destructuring
       if (this.tabs) this.currentTab = this.tabs[0];
+    },
+
+    close() {
+      this.$router.go(-1);
     },
   },
 };

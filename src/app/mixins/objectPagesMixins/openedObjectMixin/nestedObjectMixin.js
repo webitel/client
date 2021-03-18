@@ -1,5 +1,5 @@
 import { mapState, mapActions } from 'vuex';
-import editComponentMixin from './editComponentMixin';
+import baseObjectMixin from '../../baseMixins/baseObjectMixin/baseObjectMixin';
 import getNamespacedState from '../../../store/helpers/getNamespacedState';
 
 /**
@@ -7,17 +7,13 @@ import getNamespacedState from '../../../store/helpers/getNamespacedState';
  *      (popup entity inside objectTab like opened-agent-skills-popup.vue)
  * @param {string} this.namespace - should be declared in data()
  *      and contain a string name for storeModule like 'ccenter/agents/skills'
- * @extends editComponentMixin
+ * @extends baseObjectMixin
  */
 export default {
-  mixins: [editComponentMixin],
+  mixins: [baseObjectMixin],
   created() {
     this.loadItem();
   },
-  // duplicate of editComponentMixin logic
-  // destroyed() {
-  //   this.resetState();
-  // },
 
   computed: {
     ...mapState({
