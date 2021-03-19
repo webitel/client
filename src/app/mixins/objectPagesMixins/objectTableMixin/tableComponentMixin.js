@@ -38,6 +38,7 @@ export default {
       },
     }),
     headers() {
+      if (!this.headersValue) return [];
       return this.headersValue.map((header) => ({
         ...header,
         text: this.$t(header.locale),

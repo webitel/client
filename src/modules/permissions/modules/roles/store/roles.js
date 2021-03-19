@@ -27,7 +27,7 @@ const actions = {
 };
 
 
-const roles = new ObjectStoreModule(resettableState)
+const roles = new ObjectStoreModule({ resettableState })
   .attachAPIModule(RolesAPI)
   .generateAPIActions()
   .getModule({ actions });

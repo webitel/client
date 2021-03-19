@@ -26,7 +26,7 @@ const mutations = {
   },
 };
 
-const userTokens = new NestedObjectStoreModule(null, resettableItemState)
+const userTokens = new NestedObjectStoreModule({ resettableItemState })
   .attachAPIModule(UserTokensAPI)
   .generateAPIActions()
   .getModule({ actions, mutations });

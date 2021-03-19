@@ -8,7 +8,7 @@ const resettableState = {
   },
 };
 
-const flow = new ObjectStoreModule(resettableState)
+const flow = new ObjectStoreModule({ resettableState })
   .attachAPIModule(FlowAPI)
   .generateAPIActions()
   .getModule();

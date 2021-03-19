@@ -27,7 +27,7 @@ const permissions = new PermissionsStoreModule()
   .generateAPIActions(PERMISSIONS_API_URL)
   .getModule();
 
-const resources = new ObjectStoreModule(resettableState)
+const resources = new ObjectStoreModule({ resettableState })
   .attachAPIModule(ResourcesAPI)
   .generateAPIActions()
   .setChildModules({ numbers, permissions })

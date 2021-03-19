@@ -116,7 +116,7 @@ const permissions = new PermissionsStoreModule()
   .generateAPIActions(PERMISSIONS_API_URL)
   .getModule();
 
-const queues = new ObjectStoreModule(resettableState)
+const queues = new ObjectStoreModule({ resettableState })
   .attachAPIModule(QueuesAPI)
   .generateAPIActions()
   .setChildModules({ agents, skills, buckets, resGroups, hooks, log, members, permissions })

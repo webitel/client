@@ -93,7 +93,7 @@ const permissions = new PermissionsStoreModule()
   .getModule();
 
 
-const calendars = new ObjectStoreModule(resettableState)
+const calendars = new ObjectStoreModule({ resettableState })
   .attachAPIModule(CalendarsAPI)
   .generateAPIActions()
   .setChildModules({ permissions })

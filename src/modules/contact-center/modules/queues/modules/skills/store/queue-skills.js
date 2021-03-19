@@ -19,7 +19,7 @@ const getters = {
   },
 };
 
-const queueSkills = new NestedObjectStoreModule(null, resettableItemState)
+const queueSkills = new NestedObjectStoreModule({ resettableItemState })
   .attachAPIModule(QueueSkillsAPI)
   .generateAPIActions()
   .getModule({ getters });

@@ -9,7 +9,7 @@ const resettableState = {
   },
 };
 
-const communications = new ObjectStoreModule(resettableState)
+const communications = new ObjectStoreModule({ resettableState })
   .attachAPIModule(CommunicationsAPI)
   .generateAPIActions()
   .getModule();

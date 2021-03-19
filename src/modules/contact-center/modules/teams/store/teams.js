@@ -30,7 +30,7 @@ const permissions = new PermissionsStoreModule()
   .generateAPIActions(PERMISSIONS_API_URL)
   .getModule();
 
-const teams = new ObjectStoreModule(resettableState)
+const teams = new ObjectStoreModule({ resettableState })
   .attachAPIModule(TeamsAPI)
   .generateAPIActions()
   .setChildModules({ supervisors, agents, permissions })

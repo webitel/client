@@ -36,7 +36,7 @@ export default class ObjectStoreModule extends BaseStoreModule {
 
   modules = {}
 
-  constructor(resettableState, { headers } = {}) {
+  constructor({ resettableState, headers } = {}) {
     super();
     this._resettableState = () => deepCopy({
       ...BaseOpenedInstanceModule.generateState(),

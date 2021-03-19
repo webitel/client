@@ -7,7 +7,7 @@ const resettableItemState = {
   },
 };
 
-const teamSupervisors = new NestedObjectStoreModule(null, resettableItemState)
+const teamSupervisors = new NestedObjectStoreModule({ resettableItemState })
   .attachAPIModule(TeamSupervisorsAPI)
   .generateAPIActions()
   .getModule();

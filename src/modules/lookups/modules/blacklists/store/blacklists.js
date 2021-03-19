@@ -22,7 +22,7 @@ const permissions = new PermissionsStoreModule()
   .generateAPIActions(PERMISSIONS_API_URL)
   .getModule();
 
-const blacklists = new ObjectStoreModule(resettableState)
+const blacklists = new ObjectStoreModule({ resettableState })
   .attachAPIModule(BlacklistsAPI)
   .generateAPIActions()
   .setChildModules({ numbers, permissions })

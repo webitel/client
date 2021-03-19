@@ -86,10 +86,6 @@ export class PermissionsStoreModule extends BaseStoreModule {
     },
   };
 
-  constructor() {
-    super();
-  }
-
   generateAPIActions(url) {
     const permissionsAPI = new PermissionsAPI(url);
     this.actions.GET_LIST = (context) => {

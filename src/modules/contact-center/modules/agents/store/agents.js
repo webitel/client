@@ -38,7 +38,7 @@ const history = new HistoryStoreModule()
   .generateGetListAction(getAgentHistory)
   .getModule();
 
-const agents = new ObjectStoreModule(resettableState, { headers })
+const agents = new ObjectStoreModule({ resettableState, headers })
   .attachAPIModule(AgentsAPI)
   .generateAPIActions()
   .setChildModules({ history, skills, queues, subordinates, permissions })

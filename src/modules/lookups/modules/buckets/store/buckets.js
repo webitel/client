@@ -14,7 +14,7 @@ const permissions = new PermissionsStoreModule()
   .generateAPIActions(PERMISSIONS_API_URL)
   .getModule();
 
-const buckets = new ObjectStoreModule(resettableState)
+const buckets = new ObjectStoreModule({ resettableState })
   .attachAPIModule(BucketsAPI)
   .generateAPIActions()
   .setChildModules({ permissions })

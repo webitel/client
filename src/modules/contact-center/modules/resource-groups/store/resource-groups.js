@@ -59,7 +59,7 @@ const permissions = new PermissionsStoreModule()
   .generateAPIActions(PERMISSIONS_API_URL)
   .getModule();
 
-const resGroups = new ObjectStoreModule(resettableState)
+const resGroups = new ObjectStoreModule({ resettableState })
   .attachAPIModule(ResGroupsAPI)
   .generateAPIActions()
   .setChildModules({ res, permissions })

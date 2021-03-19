@@ -37,7 +37,7 @@ const mutations = {
   },
 };
 
-const dialplan = new ObjectStoreModule(resettableState)
+const dialplan = new ObjectStoreModule({ resettableState })
   .attachAPIModule(DialplanAPI)
   .generateAPIActions()
   .getModule({ actions, mutations });

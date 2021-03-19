@@ -9,7 +9,7 @@ const resettableState = {
   },
 };
 
-const regions = new ObjectStoreModule(resettableState)
+const regions = new ObjectStoreModule({ resettableState })
   .attachAPIModule(RegionsAPI)
   .generateAPIActions()
   .getModule();

@@ -55,7 +55,7 @@ const mutations = {
   },
 };
 
-const storage = new ObjectStoreModule(resettableState)
+const storage = new ObjectStoreModule({ resettableState })
   .attachAPIModule(StorageAPI)
   .generateAPIActions()
   .getModule({ actions, mutations });

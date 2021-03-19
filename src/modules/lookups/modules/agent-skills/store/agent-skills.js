@@ -8,7 +8,7 @@ const resettableState = {
   },
 };
 
-const skills = new ObjectStoreModule(resettableState)
+const skills = new ObjectStoreModule({ resettableState })
   .attachAPIModule(SkillsAPI)
   .generateAPIActions()
   .getModule();

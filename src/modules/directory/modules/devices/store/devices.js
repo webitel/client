@@ -39,7 +39,7 @@ const history = new HistoryStoreModule()
   .generateGetListAction(getDeviceHistory)
   .getModule();
 
-const devices = new ObjectStoreModule(resettableState)
+const devices = new ObjectStoreModule({ resettableState })
   .attachAPIModule(DevicesAPI)
   .generateAPIActions()
   .setChildModules({ history, permissions })

@@ -99,7 +99,7 @@ const mutations = {
   },
 };
 
-const queueMembers = new NestedObjectStoreModule(null, resettableItemState)
+const queueMembers = new NestedObjectStoreModule({ resettableItemState })
   .attachAPIModule(MembersAPI)
   .generateAPIActions()
   .getModule({ actions, mutations });

@@ -18,7 +18,7 @@ const actions = {
   CHANGE_AGENT_PERMISSIONS: (context, payload) => context.dispatch('PATCH_ITEM_PROPERTY', { prop: 'allowAgent', ...payload }),
 };
 
-const pauseCause = new ObjectStoreModule(resettableState)
+const pauseCause = new ObjectStoreModule({ resettableState })
   .attachAPIModule(PauseCauseAPI)
   .generateAPIActions()
   .getModule({ actions });
