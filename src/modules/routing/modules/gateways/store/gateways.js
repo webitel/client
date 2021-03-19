@@ -3,6 +3,7 @@ import GatewaysAPI from '../api/gateways';
 import ObjectStoreModule from '../../../../../app/store/BaseStoreModules/StoreModules/ObjectStoreModule';
 import registerGateway from './_internals/gatewaySchema/registerGateway';
 import trunkingGateway from './_internals/gatewaySchema/trunkingGateway';
+import headers from './_internals/headers';
 
 const actions = {
   LOAD_REGISTER_ITEM: async (context) => {
@@ -53,7 +54,7 @@ const mutations = {
   },
 };
 
-const gateways = new ObjectStoreModule()
+const gateways = new ObjectStoreModule({ headers })
   .attachAPIModule(GatewaysAPI)
   .generateAPIActions()
   .getModule({ actions, mutations });

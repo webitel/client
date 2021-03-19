@@ -43,6 +43,7 @@
             :headers="headers"
             :data="dataList"
             :grid-actions="hasTableActions"
+            @sort="sort"
           >
             <template slot="name" slot-scope="{ item }">
               <item-link :link="itemLink(item)">
@@ -141,14 +142,6 @@ export default {
     this.destroySortable();
   },
   computed: {
-    headers() {
-      return [
-        { value: 'name', text: this.$t('objects.name') },
-        { value: 'pattern', text: this.$t('objects.routing.dialplan.pattern') },
-        { value: 'schema', text: this.$tc('objects.routing.schema', 1) },
-        { value: 'enabled', text: this.$t('objects.enabled') },
-      ];
-    },
     path() {
       return [
         { name: this.$t('objects.routing.routing') },
