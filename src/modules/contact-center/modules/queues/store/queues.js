@@ -2,6 +2,7 @@ import deepMerge from 'deepmerge';
 import agents from '../modules/agents/store/queue-agents';
 import buckets from '../modules/buckets/store/queue-buckets';
 import skills from '../modules/skills/store/queue-skills';
+import hooks from '../modules/hooks/store/queue-hooks';
 import resGroups from '../modules/res-groups/store/queue-res-groups';
 import log from '../modules/logs/store/queue-logs';
 import members from '../modules/members/store/queue-members';
@@ -118,7 +119,7 @@ const permissions = new PermissionsStoreModule()
 const queues = new ObjectStoreModule(resettableState)
   .attachAPIModule(QueuesAPI)
   .generateAPIActions()
-  .setChildModules({ agents, skills, buckets, resGroups, log, members, permissions })
+  .setChildModules({ agents, skills, buckets, resGroups, hooks, log, members, permissions })
   .getModule({ actions, mutations });
 
 export default queues;
