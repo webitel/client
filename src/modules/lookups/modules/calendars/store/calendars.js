@@ -1,6 +1,7 @@
 import CalendarsAPI from '../api/calendars';
 import ObjectStoreModule from '../../../../../app/store/BaseStoreModules/StoreModules/ObjectStoreModule';
 import PermissionsStoreModule from '../../../../../app/store/BaseStoreModules/StoreModules/PermissionsStoreModule';
+import headers from './_internals/headers';
 
 const defaultAccepts = () => {
   const accepts = [];
@@ -93,7 +94,7 @@ const permissions = new PermissionsStoreModule()
   .getModule();
 
 
-const calendars = new ObjectStoreModule({ resettableState })
+const calendars = new ObjectStoreModule({ resettableState, headers })
   .attachAPIModule(CalendarsAPI)
   .generateAPIActions()
   .setChildModules({ permissions })

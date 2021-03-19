@@ -42,6 +42,8 @@
             :headers="headers"
             :data="dataList"
             :grid-actions="hasTableActions"
+            sortable
+            @sort="sort"
           >
             <template slot="name" slot-scope="{ item }">
               <span class="nameLink" @click="edit(item)">
@@ -114,15 +116,6 @@ export default {
   }),
 
   computed: {
-    headers() {
-      return [
-        { value: 'name', text: this.$t('objects.name') },
-        { value: 'limit', text: this.$t('objects.lookups.pauseCause.limit') },
-        { value: 'allowAdmin', text: this.$t('objects.lookups.pauseCause.allowAdmin') },
-        { value: 'allowSupervisor', text: this.$t('objects.lookups.pauseCause.allowSupervisor') },
-        { value: 'allowAgent', text: this.$t('objects.lookups.pauseCause.allowAgent') },
-      ];
-    },
     path() {
       return [
         { name: this.$t('objects.lookups.lookups') },

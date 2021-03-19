@@ -1,5 +1,6 @@
 import CommunicationsAPI from '../api/communications';
 import ObjectStoreModule from '../../../../../app/store/BaseStoreModules/StoreModules/ObjectStoreModule';
+import headers from './_internals/headers';
 
 const resettableState = {
   itemInstance: {
@@ -9,7 +10,7 @@ const resettableState = {
   },
 };
 
-const communications = new ObjectStoreModule({ resettableState })
+const communications = new ObjectStoreModule({ resettableState, headers })
   .attachAPIModule(CommunicationsAPI)
   .generateAPIActions()
   .getModule();
