@@ -3,6 +3,7 @@ import agents from '../modules/agents/store/team-agents';
 import TeamsAPI from '../api/teams';
 import ObjectStoreModule from '../../../../../app/store/BaseStoreModules/StoreModules/ObjectStoreModule';
 import PermissionsStoreModule from '../../../../../app/store/BaseStoreModules/StoreModules/PermissionsStoreModule';
+import headers from './_internals/headers';
 
 const resettableState = {
   itemInstance: {
@@ -30,7 +31,7 @@ const permissions = new PermissionsStoreModule()
   .generateAPIActions(PERMISSIONS_API_URL)
   .getModule();
 
-const teams = new ObjectStoreModule({ resettableState })
+const teams = new ObjectStoreModule({ resettableState, headers })
   .attachAPIModule(TeamsAPI)
   .generateAPIActions()
   .setChildModules({ supervisors, agents, permissions })

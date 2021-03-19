@@ -2,6 +2,7 @@ import res from '../modules/resources/store/res-in-group';
 import ResGroupsAPI from '../api/resourceGroups';
 import ObjectStoreModule from '../../../../../app/store/BaseStoreModules/StoreModules/ObjectStoreModule';
 import PermissionsStoreModule from '../../../../../app/store/BaseStoreModules/StoreModules/PermissionsStoreModule';
+import headers from './_internals/headers';
 
 const resettableState = {
   itemInstance: {
@@ -59,7 +60,7 @@ const permissions = new PermissionsStoreModule()
   .generateAPIActions(PERMISSIONS_API_URL)
   .getModule();
 
-const resGroups = new ObjectStoreModule({ resettableState })
+const resGroups = new ObjectStoreModule({ resettableState, headers })
   .attachAPIModule(ResGroupsAPI)
   .generateAPIActions()
   .setChildModules({ res, permissions })

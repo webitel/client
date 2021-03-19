@@ -42,6 +42,7 @@
             :headers="headers"
             :data="dataList"
             :grid-actions="hasTableActions"
+            @sort="sort"
           >
             <template slot="name" slot-scope="{ item }">
               <span class="nameLink" @click="edit(item)">
@@ -109,15 +110,6 @@ export default {
   }),
 
   computed: {
-    headers() {
-      return [
-        { value: 'name', text: this.$t('objects.name') },
-        { value: 'gateway', text: this.$tc('objects.routing.gateways.gateways', 1) },
-        { value: 'enabled', text: this.$t('objects.enabled'), width: '100px' },
-        { value: 'reserve', text: this.$t('objects.ccenter.res.reserve'), width: '100px' },
-      ];
-    },
-
     path() {
       return [
         { name: this.$t('objects.ccenter.ccenter') },

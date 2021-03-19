@@ -1,0 +1,30 @@
+import { SortSymbols } from '@webitel/ui-sdk/src/scripts/sortQueryAdapters';
+
+export default [
+  {
+    value: 'name',
+    locale: 'objects.name',
+    field: 'name',
+    sort: SortSymbols.NONE,
+  },
+  {
+    value: 'gateway',
+    locale: ['objects.routing.gateways.gateways', 1],
+    field: 'gateway',
+    sort: SortSymbols.NONE,
+  },
+  {
+    value: 'enabled',
+    locale: 'objects.enabled',
+    width: '100px',
+    field: 'enabled',
+    sort: SortSymbols.NONE,
+  },
+  {
+    value: 'reserve',
+    locale: 'objects.ccenter.res.reserve',
+    width: '100px',
+    field: 'reserve',
+    sort: SortSymbols.NONE,
+  },
+];

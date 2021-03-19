@@ -41,6 +41,7 @@
             :headers="headers"
             :data="dataList"
             :grid-actions="hasTableActions"
+            @sort="sort"
           >
 
             <template slot="name" slot-scope="{ item }">
@@ -49,14 +50,14 @@
               </span>
             </template>
 
-            <template slot="description" slot-scope="{ item }">
-              {{ item.description }}
-            </template>
-
             <template slot="communication" slot-scope="{ item }">
               <div v-if="item.communication">
                 {{ item.communication.name }}
               </div>
+            </template>
+
+            <template slot="description" slot-scope="{ item }">
+              {{ item.description }}
             </template>
 
             <template slot="actions" slot-scope="{ item, index }">
@@ -99,14 +100,6 @@ export default {
   }),
 
   computed: {
-    headers() {
-      return [
-        { value: 'name', text: this.$t('objects.name') },
-        { value: 'description', text: this.$t('objects.description') },
-        { value: 'communication', text: this.$tc('objects.lookups.communications.communications', 1) },
-      ];
-    },
-
     path() {
       return [
         { name: this.$t('objects.ccenter.ccenter') },
