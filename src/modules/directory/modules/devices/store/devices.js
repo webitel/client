@@ -6,6 +6,7 @@ import HistoryStoreModule from '../../../../../app/store/BaseStoreModules/StoreM
 import proxy from '../../../../../app/utils/editProxy';
 import defaultDevice from './_internals/deviceSchema/defaults/defaultDevice';
 import hotdeskDevice from './_internals/deviceSchema/hotdeskDevice';
+import headers from './_internals/headers';
 
 const resettableState = {
   itemInstance: defaultDevice(),
@@ -39,7 +40,7 @@ const history = new HistoryStoreModule()
   .generateGetListAction(getDeviceHistory)
   .getModule();
 
-const devices = new ObjectStoreModule({ resettableState })
+const devices = new ObjectStoreModule({ resettableState, headers })
   .attachAPIModule(DevicesAPI)
   .generateAPIActions()
   .setChildModules({ history, permissions })

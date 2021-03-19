@@ -13,11 +13,13 @@ export default class APIListGetter extends BaseListGetter {
     size = 10,
     search,
     searchQuery = 'name',
+    sort,
   }, baseUrl = this.baseUrl) {
     // eslint-disable-next-line no-param-reassign
     if (search && search.slice(-1) !== '*') search += '*';
     let url = `${baseUrl}?size=${size}&page=${page}`;
     if (search) url += `&${searchQuery}=${search}`;
+    if (sort) url += `&sort=${encodeURIComponent(sort)}`;
 
     try {
       let response = await instance.get(url);

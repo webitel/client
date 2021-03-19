@@ -53,6 +53,8 @@
             :headers="headers"
             :data="dataList"
             :grid-actions="hasTableActions"
+            sortable
+            @sort="sort"
           >
             <template slot="name" slot-scope="{ item }">
                <span class="nameLink" @click="edit(item)">
@@ -122,15 +124,6 @@ export default {
   }),
 
   computed: {
-    headers() {
-      return [
-        { value: 'name', text: this.$t('objects.name') },
-        { value: 'status', text: this.$t('objects.directory.users.status'), width: 'minmax(240px, 1fr)' },
-        { value: 'username', text: this.$t('objects.directory.users.login') },
-        { value: 'extensions', text: this.$t('objects.directory.users.extensions') },
-        { value: 'DnD', text: this.$t('objects.directory.users.DnD'), width: '80px' },
-      ];
-    },
     path() {
       return [
         { name: this.$t('objects.directory.directory') },
