@@ -24,17 +24,6 @@ const defaultSingleObject = {
   description: '',
 };
 
-const _getAgentsList = (getList) => function ({
-                                               page = 1,
-                                               size = 10,
-                                               search,
-                                               fields,
-                                               sort,
-                                             }) {
-  const params = [page, size, search, undefined, fields, sort];
-  return getList(params);
-};
-
 const getSupervisorsList = (getList) => function ({
                                                     page = 1,
                                                     size = 10,
@@ -43,7 +32,7 @@ const getSupervisorsList = (getList) => function ({
                                                   }) {
   const isSupervisor = true;
   const params = [page, size, search, undefined, fields, undefined, undefined,
-    undefined, undefined, undefined, undefined, undefined, isSupervisor];
+    undefined, undefined, undefined, undefined, isSupervisor];
   return getList(params);
 };
 
@@ -60,8 +49,7 @@ const _getAgentHistory = (getList) => function ({
   return getList(params);
 };
 
-const listGetter = new SDKListGetter(agentService.searchAgent)
-  .setGetListMethod(_getAgentsList);
+const listGetter = new SDKListGetter(agentService.searchAgent);
 const itemGetter = new SDKGetter(agentService.readAgent, { defaultSingleObject });
 const itemCreator = new SDKCreator(agentService.createAgent, { fieldsToSend });
 const itemUpdater = new SDKUpdater(agentService.updateAgent, { fieldsToSend });

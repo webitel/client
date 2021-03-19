@@ -45,6 +45,7 @@
           <wt-table
             :headers="headers"
             :data="dataList"
+            :grid-actions="hasTableActions"
             sortable
             @sort="sort"
           >

@@ -17,7 +17,7 @@ const _getTeamSupervisorsList = (getList) => function ({
   if (!parentId) return;
   const isSupervisor = true;
   const fields = ['id', 'name'];
-  const params = [page, size, search, undefined, fields, undefined, undefined,
+  const params = [page, size, search, undefined, fields, undefined,
     undefined, undefined, parentId, undefined, undefined, isSupervisor];
   // eslint-disable-next-line consistent-return
   return getList(params);
@@ -31,7 +31,7 @@ const _getTeamSupervisorSubordinatesList = (getList) => function ({
                                                                     teamId,
                                                                   }) {
   const fields = ['id', 'user'];
-  const params = [page, size, search, undefined, fields, undefined, undefined,
+  const params = [page, size, search, undefined, fields, undefined,
     undefined, supervisorId, teamId, undefined, undefined];
   return getList(params);
 };

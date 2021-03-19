@@ -1,5 +1,5 @@
 import deepCopy from 'deep-copy';
-import { sortToQueryAdapter } from '@webitel/ui-sdk/src/scripts/sortQueryAdapters';
+import { SortSymbols, sortToQueryAdapter } from '@webitel/ui-sdk/src/scripts/sortQueryAdapters';
 
 const state = {
   headers: [],
@@ -52,7 +52,7 @@ const actions = {
   },
   UPDATE_HEADER_SORT: (context, { header, nextSortOrder }) => {
     const newHeader = { ...header, sort: nextSortOrder };
-    const headers = [...context.state.headers];
+    const headers = context.state.headers.map((header) => ({ ...header, sort: SortSymbols.NONE }));
     const headerIndex = headers.findIndex((header) => header.value === newHeader.value);
     headers.splice(headerIndex, 1, newHeader);
     context.commit('SET_HEADERS', headers);

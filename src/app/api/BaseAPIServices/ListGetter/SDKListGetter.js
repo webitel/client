@@ -17,8 +17,15 @@ export default class SDKListGetter extends BaseListGetter {
     }
   }
 
-  getList({ page = 1, size = 10, search }) {
-    return this._getList([page, size, search]);
+  getList({
+            page = 1,
+            size = 10,
+            search,
+            sort,
+            fields,
+            ids,
+          }) {
+    return this._getList([page, size, search, sort, fields, ids]);
   }
 
   getNestedList({
