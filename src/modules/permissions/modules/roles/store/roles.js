@@ -1,5 +1,6 @@
 import RolesAPI from '../api/roles';
 import ObjectStoreModule from '../../../../../app/store/BaseStoreModules/StoreModules/ObjectStoreModule';
+import headers from './_internals/headers';
 
 const resettableState = {
   itemInstance: {
@@ -27,7 +28,7 @@ const actions = {
 };
 
 
-const roles = new ObjectStoreModule({ resettableState })
+const roles = new ObjectStoreModule({ resettableState, headers })
   .attachAPIModule(RolesAPI)
   .generateAPIActions()
   .getModule({ actions });
