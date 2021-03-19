@@ -23,6 +23,18 @@ const defaultSingleObject = {
   isSupervisor: false,
   description: '',
 };
+
+const _getAgentsList = (getList) => function ({
+                                               page = 1,
+                                               size = 10,
+                                               search,
+                                               fields,
+                                               sort,
+                                             }) {
+  const params = [page, size, search, undefined, fields, sort];
+  return getList(params);
+};
+
 const getSupervisorsList = (getList) => function ({
                                                     page = 1,
                                                     size = 10,
@@ -49,7 +61,7 @@ const _getAgentHistory = (getList) => function ({
 };
 
 const listGetter = new SDKListGetter(agentService.searchAgent)
-  .setGetListMethod(getSupervisorsList);
+  .setGetListMethod(_getAgentsList);
 const itemGetter = new SDKGetter(agentService.readAgent, { defaultSingleObject });
 const itemCreator = new SDKCreator(agentService.createAgent, { fieldsToSend });
 const itemUpdater = new SDKUpdater(agentService.updateAgent, { fieldsToSend });
@@ -58,7 +70,8 @@ const itemDeleter = new SDKDeleter(agentService.deleteAgent);
 const historyListGetter = new SDKListGetter(agentService.searchAgentStateHistory)
   .setGetListMethod(_getAgentHistory);
 
-const supervisorsListGetter = new SDKListGetter(agentService.searchAgent);
+const supervisorsListGetter = new SDKListGetter(agentService.searchAgent)
+.setGetListMethod(getSupervisorsList);
 const newAgentUsersGetter = new SDKListGetter(agentService.searchLookupUsersAgentNotExists);
 const agentQueuesGetter = new SDKListGetter(agentService.searchAgentInQueue);
 

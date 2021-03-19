@@ -5,6 +5,7 @@ import AgentsAPI, { getAgentHistory } from '../api/agents';
 import ObjectStoreModule from '../../../../../app/store/BaseStoreModules/StoreModules/ObjectStoreModule';
 import PermissionsStoreModule from '../../../../../app/store/BaseStoreModules/StoreModules/PermissionsStoreModule';
 import HistoryStoreModule from '../../../../../app/store/BaseStoreModules/StoreModules/HistoryStoreModule';
+import headers from './_internals/headers';
 
 const resettableState = {
   itemInstance: {
@@ -37,11 +38,10 @@ const history = new HistoryStoreModule()
   .generateGetListAction(getAgentHistory)
   .getModule();
 
-const agents = new ObjectStoreModule(resettableState)
+const agents = new ObjectStoreModule(resettableState, { headers })
   .attachAPIModule(AgentsAPI)
   .generateAPIActions()
   .setChildModules({ history, skills, queues, subordinates, permissions })
   .getModule({ actions });
 
 export default agents;
-

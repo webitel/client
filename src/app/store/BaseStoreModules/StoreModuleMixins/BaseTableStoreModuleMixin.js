@@ -1,10 +1,13 @@
 import deepCopy from 'deep-copy';
+import { sortToQueryAdapter } from '@webitel/ui-sdk/src/scripts/sortQueryAdapters';
 
 const state = {
+  headers: [],
   dataList: [],
   size: 10,
   search: '',
   page: 1,
+  sort: '',
   isNextPage: false,
 };
 
@@ -14,23 +17,45 @@ const actions = {
     context.commit('SET_DATA_LIST', list);
     context.commit('SET_IS_NEXT', next);
   },
-  SET_SIZE: (context, size) => {
+  SET_SIZE: async (context, size) => {
     context.commit('SET_SIZE', size);
-    context.commit('RESET_PAGE');
+    await context.dispatch('RESET_PAGE');
   },
-  SET_SEARCH: (context, search) => {
+  SET_SEARCH: async (context, search) => {
     context.commit('SET_SEARCH', search);
-    context.commit('RESET_PAGE');
+    await context.dispatch('RESET_PAGE');
   },
   NEXT_PAGE: (context) => {
-    context.commit('INCREMENT_PAGE');
+    const page = context.state.page + 1;
+    context.commit('SET_PAGE', page);
     context.dispatch('LOAD_DATA_LIST');
   },
   PREV_PAGE: (context) => {
     if (context.state.page > 1) {
-      context.commit('DECREMENT_PAGE');
-    context.dispatch('LOAD_DATA_LIST');
+      const page = context.state.page -1;
+      context.commit('SET_PAGE', page);
+      context.dispatch('LOAD_DATA_LIST');
     }
+  },
+  RESET_PAGE: (context) => {
+    const page = 1;
+    context.commit('SET_PAGE', page);
+  },
+  SORT: async (context, { header, nextSortOrder }) => {
+    const sort = nextSortOrder
+      ? `${sortToQueryAdapter(nextSortOrder)}${header.field}`
+      : nextSortOrder;
+    context.commit('SET_SORT', sort);
+    context.dispatch('UPDATE_HEADER_SORT', { header, nextSortOrder });
+    await context.dispatch('RESET_PAGE');
+    return context.dispatch('LOAD_DATA_LIST');
+  },
+  UPDATE_HEADER_SORT: (context, { header, nextSortOrder }) => {
+    const newHeader = { ...header, sort: nextSortOrder };
+    const headers = [...context.state.headers];
+    const headerIndex = headers.findIndex((header) => header.value === newHeader.value);
+    headers.splice(headerIndex, 1, newHeader);
+    context.commit('SET_HEADERS', headers);
   },
   PATCH_ITEM_PROPERTY: async (context, { item, index, prop, value }) => {
     await context.commit('PATCH_ITEM_PROPERTY', { index, prop, value });
@@ -58,23 +83,23 @@ const mutations = {
   SET_DATA_LIST: (state, list) => {
     state.dataList = list;
   },
-  SET_SIZE: (context, size) => {
-    context.size = size;
+  SET_SIZE: (state, size) => {
+    state.size = size;
   },
-  SET_SEARCH: (context, search) => {
-    context.search = search;
+  SET_SEARCH: (state, search) => {
+    state.search = search;
   },
-  INCREMENT_PAGE: (state) => {
-    state.page++;
+  SET_PAGE: (state, page) => {
+    state.page = page;
   },
-  DECREMENT_PAGE: (state) => {
-    state.page--;
-  },
-  RESET_PAGE: (state) => {
-    state.page = 1;
+  SET_SORT: (state, sort) => {
+    state.sort = sort;
   },
   SET_IS_NEXT: (state, next) => {
     state.isNextPage = next;
+  },
+  SET_HEADERS: (state, headers) => {
+    state.headers = headers;
   },
   PATCH_ITEM_PROPERTY: (state, { index, prop, value }) => {
     state.dataList[index][prop] = value;

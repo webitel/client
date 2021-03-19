@@ -18,6 +18,9 @@ export default {
   components: { HeadlineNav },
   computed: {
     ...mapState({
+      headersValue(state) {
+        return getNamespacedState(state, this.namespace).headers;
+      },
       dataList(state) {
         return getNamespacedState(state, this.namespace).dataList;
       },
@@ -34,6 +37,12 @@ export default {
         return getNamespacedState(state, this.namespace).isNextPage;
       },
     }),
+    headers() {
+      return this.headersValue.map((header) => ({
+        ...header,
+        text: this.$t(header.locale),
+      }));
+    },
   },
   methods: {
     ...mapActions({
@@ -52,6 +61,9 @@ export default {
       prevPage(dispatch, payload) {
         return dispatch(`${this.namespace}/PREV_PAGE`, payload);
       },
+      dispatchSort(dispatch, payload) {
+        return dispatch(`${this.namespace}/SORT`, payload);
+      },
       removeItem(dispatch, payload) {
         return dispatch(`${this.namespace}/REMOVE_ITEM`, payload);
       },
@@ -59,13 +71,14 @@ export default {
         return dispatch(`${this.namespace}/PATCH_ITEM_PROPERTY`, payload);
       },
     }),
-
     create() {
       this.$router.push({ name: `${this.routeName}-new` });
     },
-
     edit(item) {
       this.$router.push(this.itemLink(item));
+    },
+    sort(...params) {
+      this.dispatchSort({ header: params[0], nextSortOrder: params[1] });
     },
   },
 };
