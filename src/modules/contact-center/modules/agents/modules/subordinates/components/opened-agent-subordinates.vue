@@ -47,6 +47,8 @@
         :data="dataList"
         :headers="headers"
         :grid-actions="!disableUserInput"
+        sortable
+        @sort="sort"
       >
         <template slot="name" slot-scope="{ item }">
           <item-link :link="itemLink(item)" target="_blank">
@@ -104,16 +106,6 @@ export default {
     isSkillsPopup: false,
     subordinateId: null,
   }),
-
-  computed: {
-    headers() {
-      return [
-        { value: 'name', text: this.$t('objects.name') },
-        { value: 'supervisor', text: this.$tc('objects.ccenter.agents.supervisors', 1) },
-        { value: 'skills', text: this.$tc('objects.lookups.skills.skills', 2) },
-      ];
-    },
-  },
 
   methods: {
     readSkills(item) {

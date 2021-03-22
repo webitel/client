@@ -54,6 +54,7 @@
       :headers="headers"
       :data="dataList"
       :grid-actions="!disableUserInput"
+      @sort="sort"
     >
       <template slot="number" slot-scope="{ item }">
         {{ item.number }}
@@ -103,15 +104,6 @@ export default {
       isUploadPopup: false,
       csvFile: null,
     };
-  },
-
-  computed: {
-    headers() {
-      return [
-        { value: 'number', text: this.$tc('objects.lookups.blacklist.number', 1) },
-        { value: 'description', text: this.$t('objects.description') },
-      ];
-    },
   },
 
   methods: {

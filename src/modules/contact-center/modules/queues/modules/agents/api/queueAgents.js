@@ -16,12 +16,13 @@ const getQueueAgents = (getList) => function ({
                                                 page = 1,
                                                 size = 10,
                                                 search,
+                                                sort,
                                               }) {
   // parent id == queue id
   if (!parentId) return;
   const fields = ['id', 'name', 'supervisor', 'skills'];
-  const params = [page, size, search, undefined, fields, undefined, undefined,
-    undefined, undefined, undefined, undefined, undefined, undefined, undefined, parentId];
+  const params = [page, size, search, sort, fields, undefined, undefined,
+    undefined, undefined, undefined, undefined, undefined, undefined, parentId];
   // eslint-disable-next-line consistent-return
   return getList(params);
 };

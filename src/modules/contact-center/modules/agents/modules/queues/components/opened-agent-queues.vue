@@ -17,6 +17,8 @@
         :headers="headers"
         :grid-actions="false"
         :selectable="false"
+        sortable
+        @sort="sort"
       >
         <template slot="name" slot-scope="{ item }">
           <div v-if="item.queue">
@@ -64,18 +66,6 @@ export default {
   data: () => ({
     subNamespace: 'queues',
   }),
-
-  computed: {
-    headers() {
-      return [
-        { value: 'name', text: this.$tc('objects.ccenter.queues.queues', 2) },
-        { value: 'type', text: this.$t('objects.ccenter.queues.type') },
-        { value: 'count', text: this.$tc('objects.ccenter.queues.members', 2) },
-        { value: 'waiting', text: this.$t('objects.ccenter.queues.waiting') },
-        { value: 'strategy', text: this.$t('objects.ccenter.queues.strategy') },
-      ];
-    },
-  },
 
   methods: {
     computeQueueType(type) {

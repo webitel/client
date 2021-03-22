@@ -1,6 +1,7 @@
 import MembersAPI, { deleteMembers } from '../api/queueMembers';
 import { getQueue } from '../../../api/queues';
 import NestedObjectStoreModule from '../../../../../../../app/store/BaseStoreModules/StoreModules/NestedObjectStoreModule';
+import headers from './_internals/headers';
 
 const resettableItemState = {
   parentQueue: {},
@@ -99,7 +100,7 @@ const mutations = {
   },
 };
 
-const queueMembers = new NestedObjectStoreModule({ resettableItemState })
+const queueMembers = new NestedObjectStoreModule({ resettableItemState, headers })
   .attachAPIModule(MembersAPI)
   .generateAPIActions()
   .getModule({ actions, mutations });

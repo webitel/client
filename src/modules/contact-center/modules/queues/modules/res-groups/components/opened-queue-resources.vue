@@ -42,6 +42,7 @@
         :headers="headers"
         :data="dataList"
         :grid-actions="!disableUserInput"
+        @sort="sort"
       >
         <template slot="name" slot-scope="{ item }">
           <div v-if="item.resourceGroup">
@@ -83,14 +84,6 @@ export default {
     subNamespace: 'resGroups',
     isResGroupPopup: false,
   }),
-
-  computed: {
-    headers() {
-      return [
-        { value: 'name', text: this.$t('objects.name') },
-      ];
-    },
-  },
 
   methods: {
     openPopup() {
