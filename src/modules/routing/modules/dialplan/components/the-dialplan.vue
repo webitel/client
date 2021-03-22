@@ -150,10 +150,10 @@ export default {
     },
   },
   methods: {
-    itemFlowLink({ id }) {
+    itemFlowLink({ schema }) {
       return {
         name: `${RouteNames.FLOW}-edit`,
-        params: { id },
+        params: { id: schema.id },
       };
     },
     async initSortable() {

@@ -8,7 +8,7 @@ import log from '../modules/logs/store/queue-logs';
 import members from '../modules/members/store/queue-members';
 import QueuesAPI from '../api/queues';
 import ObjectStoreModule from '../../../../../app/store/BaseStoreModules/StoreModules/ObjectStoreModule';
-import PermissionsStoreModule from '../../../../../app/store/BaseStoreModules/StoreModules/PermissionsStoreModule';
+import PermissionsStoreModule from '../../../../../app/store/BaseStoreModules/StoreModules/PermissionsStoreModule/PermissionsStoreModule';
 import QueueType from './_internals/enums/QueueType.enum';
 import defaultQueueState from './_internals/queueSchema/defaults/defaultQueue';
 import defaultInboundQueueState from './_internals/queueSchema/inboundQueue';

@@ -31,6 +31,7 @@
         :headers="headers"
         :grid-actions="!disableUserInput"
         :selectable="false"
+        @sort="sort"
       >
         <template slot="grantee" slot-scope="{ item }">
           <div v-if="item.grantee">
@@ -84,7 +85,6 @@
 </template>
 
 <script>
-import { mapActions } from 'vuex';
 import RolePopup from './permissions-tab-role-popup.vue';
 import permissionsTabMixin from '../../../../app/mixins/objectPagesMixins/permissionsTabMixin/permissionsTabMixin';
 import openedTabComponentMixin from '../../../../app/mixins/objectPagesMixins/openedObjectTabMixin/openedTabComponentMixin';
@@ -96,17 +96,6 @@ export default {
   data: () => ({
     subNamespace: 'permissions',
   }),
-
-  computed: {
-    headers() {
-      return [
-        { value: 'grantee', text: this.$t('objects.name') },
-        { value: 'read', text: this.$t('objects.read') },
-        { value: 'edit', text: this.$t('objects.edit') },
-        { value: 'delete', text: this.$t('objects.delete') },
-      ];
-    },
-  },
 };
 </script>
 

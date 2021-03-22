@@ -1,16 +1,12 @@
-import BaseStoreModule from '../BaseStoreModule';
-import PermissionsAPI from '../../../../modules/_shared/permissions-tab/api/PermissionsAPI';
-import BaseTableModule from '../StoreModuleMixins/BaseTableStoreModuleMixin';
-import BaseOpenedInstanceModule from '../StoreModuleMixins/BaseOpenedInstanceStoreModuleMixin';
-import AccessMode from '../../../../modules/permissions/modules/objects/store/_internals/enums/AccessMode.enum';
+import BaseStoreModule from '../../BaseStoreModule';
+import PermissionsAPI from '../../../../../modules/_shared/permissions-tab/api/PermissionsAPI';
+import BaseTableModule from '../../StoreModuleMixins/BaseTableStoreModuleMixin';
+import BaseOpenedInstanceModule from '../../StoreModuleMixins/BaseOpenedInstanceStoreModuleMixin';
+import AccessMode from '../../../../../modules/permissions/modules/objects/store/_internals/enums/AccessMode.enum';
+import defaultHeaders from './_internals/headers';
 
 export class PermissionsStoreModule extends BaseStoreModule {
-  _resettableState = () => ({
-    ...BaseTableModule.generateState(),
-    parentId: 0,
-  });
-
-  state = this._resettableState();
+  state = {};
 
   getters = {};
 
@@ -86,14 +82,22 @@ export class PermissionsStoreModule extends BaseStoreModule {
     },
   };
 
+  constructor({ headers = defaultHeaders } = {}) {
+    super();
+    this._resettableState = () => ({
+      ...BaseTableModule.generateState(),
+      headers,
+      parentId: 0,
+    });
+    this.state = this._resettableState();
+  }
+
   generateAPIActions(url) {
     const permissionsAPI = new PermissionsAPI(url);
-    this.actions.GET_LIST = (context) => {
-      return permissionsAPI.getList(context.state);
-    }
-    this.actions.PATCH_ACCESS_MODE = (context, { changes }) => {
-      return permissionsAPI.patch(context.state.parentId, [changes])
-    }
+    this.actions.GET_LIST = (context) => permissionsAPI.getList(context.state);
+    this.actions.PATCH_ACCESS_MODE = (context, { changes }) => (
+      permissionsAPI.patch(context.state.parentId, [changes])
+    );
     return this;
   }
 }

@@ -1,4 +1,4 @@
-import { PermissionsStoreModule } from '../../../../../../../app/store/BaseStoreModules/StoreModules/PermissionsStoreModule';
+import { PermissionsStoreModule } from '../../../../../../../app/store/BaseStoreModules/StoreModules/PermissionsStoreModule/PermissionsStoreModule';
 import {
   getObjclassDefaultList,
   patchObjclassDefaultMode,
