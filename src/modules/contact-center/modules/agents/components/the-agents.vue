@@ -45,6 +45,9 @@
           <wt-table
             :headers="headers"
             :data="dataList"
+            :grid-actions="hasTableActions"
+            sortable
+            @sort="sort"
           >
             <template slot="name" slot-scope="{ item }">
               <item-link :link="itemLink(item)">
@@ -118,15 +121,6 @@ export default {
         return getNamespacedState(state, `${this.namespace}/history`).parentId;
       },
     }),
-
-    headers() {
-      return [
-        { value: 'name', text: this.$t('objects.name') },
-        { value: 'state', text: this.$t('objects.ccenter.agents.state') },
-        { value: 'time', text: this.$t('objects.ccenter.agents.stateTime') },
-      ];
-    },
-
     path() {
       return [
         { name: this.$t('objects.ccenter.ccenter') },

@@ -20,6 +20,7 @@ import defaultPredictiveDialerState from './_internals/queueSchema/predictiveDia
 import defaultChatInboundQueueState from './_internals/queueSchema/chatInboundQueue';
 import defaultTaskQueueState from './_internals/queueSchema/taskQueue';
 import proxy from '../../../../../app/utils/editProxy';
+import headers from './_internals/headers';
 
 const resettableState = {
   itemInstance: defaultQueueState(),
@@ -45,19 +46,19 @@ const actions = {
       case QueueType.OUTBOUND_IVR_QUEUE:
         item = deepMerge(defaultOutboundIVRQueueState(), item);
         break;
-      case  QueueType.PREVIEW_DIALER:
+      case QueueType.PREVIEW_DIALER:
         item = deepMerge(defaultPreviewDialerState(), item);
         break;
-      case  QueueType.PROGRESSIVE_DIALER:
+      case QueueType.PROGRESSIVE_DIALER:
         item = deepMerge(defaultProgressiveDialerState(), item);
         break;
-      case  QueueType.PREDICTIVE_DIALER:
+      case QueueType.PREDICTIVE_DIALER:
         item = deepMerge(defaultPredictiveDialerState(), item);
         break;
-      case  QueueType.CHAT_INBOUND_QUEUE:
+      case QueueType.CHAT_INBOUND_QUEUE:
         item = deepMerge(defaultChatInboundQueueState(), item);
         break;
-      case  QueueType.TASK_QUEUE:
+      case QueueType.TASK_QUEUE:
         item = deepMerge(defaultTaskQueueState(), item);
         break;
     }
@@ -116,7 +117,7 @@ const permissions = new PermissionsStoreModule()
   .generateAPIActions(PERMISSIONS_API_URL)
   .getModule();
 
-const queues = new ObjectStoreModule(resettableState)
+const queues = new ObjectStoreModule({ resettableState, headers })
   .attachAPIModule(QueuesAPI)
   .generateAPIActions()
   .setChildModules({ agents, skills, buckets, resGroups, hooks, log, members, permissions })

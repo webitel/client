@@ -17,8 +17,17 @@ export default class SDKListGetter extends BaseListGetter {
     }
   }
 
-  getList({ page = 1, size = 10, search }) {
-    return this._getList([page, size, search]);
+  getList({
+            page = 1,
+            size = 10,
+            search,
+            sort,
+            fields,
+            ids,
+          }) {
+    // FIXME remove "|| undefined" after api methods refactor with default params order!!
+    return this._getList([page, size, search,
+      sort || undefined, fields || undefined, ids || undefined]);
   }
 
   getNestedList({

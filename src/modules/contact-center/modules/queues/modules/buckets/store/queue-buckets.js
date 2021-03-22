@@ -8,7 +8,7 @@ const resettableItemState = {
   },
 };
 
-const queueBuckets = new NestedObjectStoreModule(null, resettableItemState)
+const queueBuckets = new NestedObjectStoreModule({ resettableItemState })
   .attachAPIModule(QueueBucketsAPI)
   .generateAPIActions()
   .getModule();

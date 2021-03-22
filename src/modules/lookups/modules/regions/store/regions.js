@@ -1,5 +1,6 @@
 import RegionsAPI from '../api/regions';
 import ObjectStoreModule from '../../../../../app/store/BaseStoreModules/StoreModules/ObjectStoreModule';
+import headers from './_internals/headers';
 
 const resettableState = {
   itemInstance: {
@@ -9,7 +10,7 @@ const resettableState = {
   },
 };
 
-const regions = new ObjectStoreModule(resettableState)
+const regions = new ObjectStoreModule({ resettableState, headers })
   .attachAPIModule(RegionsAPI)
   .generateAPIActions()
   .getModule();

@@ -45,6 +45,9 @@
           <wt-table
             :headers="headers"
             :data="dataList"
+            :grid-actions="hasTableActions"
+            sortable
+            @sort="sort"
           >
             <template slot="name" slot-scope="{ item }">
               <span class="nameLink" @click="edit(item)">
@@ -122,16 +125,6 @@ export default {
   }),
 
   computed: {
-    headers() {
-      return [
-        { value: 'name', text: this.$t('objects.name') },
-        { value: 'type', text: this.$t('objects.ccenter.queues.type') },
-        { value: 'activeCalls', text: this.$t('objects.ccenter.queues.activeCalls') },
-        { value: 'waiting', text: this.$t('objects.ccenter.queues.waiting') },
-        { value: 'priority', text: this.$t('objects.ccenter.queues.priority') },
-        { value: 'state', text: this.$t('objects.ccenter.queues.state') },
-      ];
-    },
     path() {
       return [
         { name: this.$t('objects.ccenter.ccenter') },

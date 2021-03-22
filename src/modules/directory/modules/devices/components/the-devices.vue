@@ -64,6 +64,8 @@
             :headers="headers"
             :data="dataList"
             :grid-actions="hasTableActions"
+            sortable
+            @sort="sort"
           >
 
             <template slot="name" slot-scope="{ item }">
@@ -158,14 +160,6 @@ export default {
         return getNamespacedState(state, `${this.namespace}/history`).parentId;
       },
     }),
-    headers() {
-      return [
-        { value: 'name', text: this.$t('objects.name') },
-        { value: 'account', text: this.$t('objects.directory.devices.authId') },
-        { value: 'user', text: this.$t('objects.user') },
-        { value: 'state', text: this.$t('objects.directory.devices.presence') },
-      ];
-    },
     path() {
       return [
         { name: this.$t('objects.directory.directory') },

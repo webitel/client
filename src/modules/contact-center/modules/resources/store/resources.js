@@ -2,6 +2,7 @@ import numbers from '../modules/display/store/resource-display';
 import ResourcesAPI from '../api/resources';
 import ObjectStoreModule from '../../../../../app/store/BaseStoreModules/StoreModules/ObjectStoreModule';
 import PermissionsStoreModule from '../../../../../app/store/BaseStoreModules/StoreModules/PermissionsStoreModule';
+import headers from './_internals/headers';
 
 const resettableState = {
   itemInstance: {
@@ -27,7 +28,7 @@ const permissions = new PermissionsStoreModule()
   .generateAPIActions(PERMISSIONS_API_URL)
   .getModule();
 
-const resources = new ObjectStoreModule(resettableState)
+const resources = new ObjectStoreModule({ resettableState, headers })
   .attachAPIModule(ResourcesAPI)
   .generateAPIActions()
   .setChildModules({ numbers, permissions })

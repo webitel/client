@@ -8,7 +8,7 @@ const resettableItemState = {
   },
 };
 
-const blacklistNumbers = new NestedObjectStoreModule(null, resettableItemState)
+const blacklistNumbers = new NestedObjectStoreModule({ resettableItemState })
   .attachAPIModule(BlacklistNumbersAPI)
   .generateAPIActions()
   .getModule();

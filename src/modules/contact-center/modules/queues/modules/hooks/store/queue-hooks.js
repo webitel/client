@@ -10,7 +10,7 @@ const resettableItemState = {
   },
 };
 
-const queueHooks = new NestedObjectStoreModule(null, resettableItemState)
+const queueHooks = new NestedObjectStoreModule({ resettableItemState })
   .attachAPIModule(QueueHooksAPI)
   .generateAPIActions()
   .getModule();

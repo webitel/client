@@ -2,6 +2,7 @@ import obac from '../modules/obac/store/object-obac';
 import rbac from '../modules/rbac/store/object-rbac';
 import ObjectStoreModule from '../../../../../app/store/BaseStoreModules/StoreModules/ObjectStoreModule';
 import ObjectsAPI from '../api/objects';
+import headers from './_internals/headers';
 
 const actions = {
   TOGGLE_OBJECT_OBAC: (context, payload) => context.dispatch('PATCH_ITEM_PROPERTY', { prop: 'obac', ...payload }),
@@ -14,7 +15,7 @@ const actions = {
   },
 };
 
-const objects = new ObjectStoreModule()
+const objects = new ObjectStoreModule({ headers })
   .attachAPIModule(ObjectsAPI)
   .generateAPIActions()
   .setChildModules({ obac, rbac })

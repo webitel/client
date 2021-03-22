@@ -7,7 +7,7 @@ const resettableItemState = {
   },
 };
 
-const resDisplay = new NestedObjectStoreModule(null, resettableItemState)
+const resDisplay = new NestedObjectStoreModule({ resettableItemState })
   .attachAPIModule(ResDisplayAPI)
   .generateAPIActions()
   .getModule();

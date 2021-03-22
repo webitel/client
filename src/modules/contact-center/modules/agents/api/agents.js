@@ -23,6 +23,7 @@ const defaultSingleObject = {
   isSupervisor: false,
   description: '',
 };
+
 const getSupervisorsList = (getList) => function ({
                                                     page = 1,
                                                     size = 10,
@@ -31,7 +32,7 @@ const getSupervisorsList = (getList) => function ({
                                                   }) {
   const isSupervisor = true;
   const params = [page, size, search, undefined, fields, undefined, undefined,
-    undefined, undefined, undefined, undefined, undefined, isSupervisor];
+    undefined, undefined, undefined, undefined, isSupervisor];
   return getList(params);
 };
 
@@ -48,8 +49,7 @@ const _getAgentHistory = (getList) => function ({
   return getList(params);
 };
 
-const listGetter = new SDKListGetter(agentService.searchAgent)
-  .setGetListMethod(getSupervisorsList);
+const listGetter = new SDKListGetter(agentService.searchAgent);
 const itemGetter = new SDKGetter(agentService.readAgent, { defaultSingleObject });
 const itemCreator = new SDKCreator(agentService.createAgent, { fieldsToSend });
 const itemUpdater = new SDKUpdater(agentService.updateAgent, { fieldsToSend });
@@ -58,7 +58,8 @@ const itemDeleter = new SDKDeleter(agentService.deleteAgent);
 const historyListGetter = new SDKListGetter(agentService.searchAgentStateHistory)
   .setGetListMethod(_getAgentHistory);
 
-const supervisorsListGetter = new SDKListGetter(agentService.searchAgent);
+const supervisorsListGetter = new SDKListGetter(agentService.searchAgent)
+.setGetListMethod(getSupervisorsList);
 const newAgentUsersGetter = new SDKListGetter(agentService.searchLookupUsersAgentNotExists);
 const agentQueuesGetter = new SDKListGetter(agentService.searchAgentInQueue);
 

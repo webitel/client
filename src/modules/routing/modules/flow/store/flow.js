@@ -1,5 +1,6 @@
 import FlowAPI from '../components/flow';
 import ObjectStoreModule from '../../../../../app/store/BaseStoreModules/StoreModules/ObjectStoreModule';
+import headers from './_internals/headers';
 
 const resettableState = {
   itemInstance: {
@@ -8,7 +9,7 @@ const resettableState = {
   },
 };
 
-const flow = new ObjectStoreModule(resettableState)
+const flow = new ObjectStoreModule({ resettableState, headers })
   .attachAPIModule(FlowAPI)
   .generateAPIActions()
   .getModule();

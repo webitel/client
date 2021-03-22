@@ -42,6 +42,7 @@
             :headers="headers"
             :data="dataList"
             :grid-actions="hasTableActions"
+            @sort="sort"
           >
             <template slot="name" slot-scope="{ item }">
               <item-link :link="itemLink(item)">
@@ -104,12 +105,6 @@ export default {
   },
 
   computed: {
-    headers() {
-      return [
-        { value: 'name', text: this.$t('objects.name') },
-        { value: 'numbers', text: this.$t('objects.lookups.blacklist.numbersCount') },
-      ];
-    },
     path() {
       return [
         { name: this.$t('objects.lookups.lookups') },

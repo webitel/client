@@ -2,6 +2,7 @@ import tokens from '../modules/tokens/store/usersTokens';
 import UsersAPI from '../api/users';
 import ObjectStoreModule from '../../../../../app/store/BaseStoreModules/StoreModules/ObjectStoreModule';
 import PermissionsStoreModule from '../../../../../app/store/BaseStoreModules/StoreModules/PermissionsStoreModule';
+import headers from './_internals/headers';
 
 const resettableState = {
   itemInstance: {
@@ -69,7 +70,7 @@ const permissions = new PermissionsStoreModule()
   .generateAPIActions(PERMISSIONS_API_URL)
   .getModule();
 
-const users = new ObjectStoreModule(resettableState)
+const users = new ObjectStoreModule({ resettableState, headers })
   .attachAPIModule(UsersAPI)
   .generateAPIActions()
   .setChildModules({ tokens, permissions })

@@ -7,7 +7,7 @@ const resettableItemState = {
   },
 };
 
-const queueResGroups = new NestedObjectStoreModule(null, resettableItemState)
+const queueResGroups = new NestedObjectStoreModule({ resettableItemState })
   .attachAPIModule(QueueResGroupsAPI)
   .generateAPIActions()
   .getModule();

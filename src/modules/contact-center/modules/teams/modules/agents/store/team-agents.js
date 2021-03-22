@@ -14,7 +14,7 @@ const getters = {
   },
 };
 
-const teamAgents = new NestedObjectStoreModule(null, resettableItemState)
+const teamAgents = new NestedObjectStoreModule({ resettableItemState })
   .attachAPIModule(TeamAgentsAPI)
   .generateAPIActions()
   .getModule({ getters });

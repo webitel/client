@@ -78,6 +78,7 @@
           <wt-table
             :headers="headers"
             :data="dataList"
+            @sort="sort"
           >
             <template slot="name" slot-scope="{ item }">
               {{ item.name }}
@@ -191,14 +192,6 @@ export default {
     });
   },
   computed: {
-    headers() {
-      return [
-        { value: 'name', text: this.$t('objects.name') },
-        { value: 'createdAt', text: this.$t('objects.lookups.media.createdAt') },
-        { value: 'format', text: this.$t('objects.lookups.media.format') },
-        { value: 'size', text: this.$t('objects.lookups.media.size') },
-      ];
-    },
     path() {
       return [
         { name: this.$t('objects.lookups.lookups') },

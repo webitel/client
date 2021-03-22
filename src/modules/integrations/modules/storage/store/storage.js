@@ -9,6 +9,7 @@ import defaultBackblazeStorageState from './_internals/storageSchema/backblazeSt
 import defaultDropboxStorageState from './_internals/storageSchema/dropboxStorage';
 import defaultDriveStorageState from './_internals/storageSchema/driveStorage';
 import proxy from '../../../../../app/utils/editProxy';
+import headers from './_internals/headers';
 
 const resettableState = {
   itemInstance: defaultStorageState(),
@@ -55,7 +56,7 @@ const mutations = {
   },
 };
 
-const storage = new ObjectStoreModule(resettableState)
+const storage = new ObjectStoreModule({ resettableState, headers })
   .attachAPIModule(StorageAPI)
   .generateAPIActions()
   .getModule({ actions, mutations });

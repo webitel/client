@@ -43,23 +43,15 @@
 
 <style lang="scss" scoped>
     .auth-wrap {
+      position: relative;
         height: 100vh;
         width: 100vw;
 
-        .auth-loader {
-            position: fixed;
-            top: 0;
-            right: 0;
-            bottom: 0;
-            left: 0;
-            background: #fff;
-
-            .loader {
+        .wt-loader {
                 position: absolute;
                 top: 50%;
                 right: 50%;
                 transform: translate(-50%, -50%);
-            }
         }
 
         .auth {

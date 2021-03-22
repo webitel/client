@@ -43,10 +43,6 @@ export class HistoryStoreModule extends BaseStoreModule {
     },
   };
 
-  constructor() {
-    super();
-  }
-
   generateGetListAction(APIMethod) {
     this.actions.GET_LIST = (context) => {
       return APIMethod(context.state);

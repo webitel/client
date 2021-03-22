@@ -37,6 +37,8 @@
             :data="dataList"
             :selectable="false"
             :grid-actions="hasTableActions"
+            sortable
+            @sort="sort"
           >
             <template slot="name" slot-scope="{ item }">
               <span class="nameLink" @click="edit(item)">
@@ -96,13 +98,6 @@ export default {
   }),
 
   computed: {
-    headers() {
-      return [
-        { value: 'name', text: this.$t('objects.name') },
-        { value: 'obac', text: this.$t('objects.permissions.object.ObAC') },
-        { value: 'rbac', text: this.$t('objects.permissions.object.RbAC') },
-      ];
-    },
     hasTableActions() {
       return this.hasEditAccess;
     },

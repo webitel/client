@@ -46,6 +46,8 @@
             :headers="headers"
             :data="dataList"
             :grid-actions="hasTableActions"
+            sortable
+            @sort="sort"
           >
             <template slot="name" slot-scope="{ item }">
               <item-link :link="itemLink(item)">
@@ -112,15 +114,6 @@ export default {
     isStorageSelectPopup: false,
   }),
   computed: {
-    headers() {
-      return [
-        { value: 'name', text: this.$t('objects.name') },
-        { value: 'type', text: this.$t('objects.integrations.storage.type') },
-        { value: 'maxSize', text: this.$t('objects.integrations.storage.maxSize') },
-        { value: 'expireDays', text: this.$t('objects.integrations.storage.expireDays') },
-        { value: 'enabled', text: this.$t('objects.enabled'), width: '80px' },
-      ];
-    },
     path() {
       return [
         { name: this.$t('objects.integrations.integrations') },

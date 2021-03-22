@@ -9,7 +9,7 @@ const resettableItemState = {
   },
 };
 
-const agentSkills = new NestedObjectStoreModule(null, resettableItemState)
+const agentSkills = new NestedObjectStoreModule({ resettableItemState })
   .attachAPIModule(AgentSkillAPI)
   .generateAPIActions()
   .getModule();

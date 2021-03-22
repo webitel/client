@@ -44,6 +44,8 @@
             :data="dataList"
             :selectable="false"
             :grid-actions="false"
+            sortable
+            @sort="sort"
           >
             <template slot="id" slot-scope="{ item }">
               <div class="license__id-column">
@@ -122,17 +124,6 @@ export default {
     copiedId: null,
   }),
   computed: {
-    headers() {
-      return [
-        { value: 'id', text: this.$t('objects.directory.license.licenseId'), width: '24px' },
-        { value: 'product', text: this.$t('objects.directory.license.product') },
-        { value: 'valid-from', text: this.$t('objects.directory.license.validFrom'), width: '150px' },
-        { value: 'valid-till', text: this.$t('objects.directory.license.validTill') },
-        { value: 'used', text: this.$t('objects.directory.license.used') },
-        { value: 'limit', text: this.$t('objects.directory.license.limit') },
-        { value: 'status', text: this.$t('objects.directory.license.status'), width: '120px' },
-      ];
-    },
     path() {
       return [
         { name: this.$t('objects.directory.directory') },

@@ -45,7 +45,7 @@ export default class NestedObjectStoreModule extends BaseStoreModule {
     },
   };
 
-  constructor(resettableState, resettableItemState) {
+  constructor({ resettableState, resettableItemState } = {}) {
     super();
     const state = { parentId: 0 };
     this._resettableState = () => deepCopy({ ...DEFAULT_STATE, ...resettableState });
