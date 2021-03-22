@@ -202,8 +202,6 @@ export default {
         roles: 'Роли',
         tokens: 'Токены',
         usage: 'Использование',
-        createdAt: 'Создан для',
-        createdBy: 'Created by',
         roleAdmin: 'Администратор',
         license: 'Лицензия',
         devices: 'Устройство',
@@ -333,7 +331,8 @@ export default {
       media: {
         mediaFiles: 'Медиафайл| Медиафайлы',
         allMediaFiles: 'Все медиафайлы',
-        createdAt: 'Создан',
+        createdAt: 'Когда создан',
+        createdBy: 'Кем создан',
         format: 'Формат',
         size: 'Размер',
         textToSpeech: 'Синтез речи',
