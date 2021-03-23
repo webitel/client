@@ -78,6 +78,7 @@
           <wt-table
             :headers="headers"
             :data="dataList"
+            sortable
             @sort="sort"
           >
             <template slot="name" slot-scope="{ item }">

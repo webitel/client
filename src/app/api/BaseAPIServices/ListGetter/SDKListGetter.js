@@ -25,9 +25,7 @@ export default class SDKListGetter extends BaseListGetter {
             fields,
             ids,
           }) {
-    // FIXME remove "|| undefined" after api methods refactor with default params order!!
-    return this._getList([page, size, search,
-      sort || undefined, fields || undefined, ids || undefined]);
+    return this._getList([page, size, search, sort, fields, ids]);
   }
 
   getNestedList({
@@ -35,7 +33,10 @@ export default class SDKListGetter extends BaseListGetter {
                   page = 1,
                   size = 10,
                   search,
+                  sort,
+                  fields,
+                  ids,
                 }) {
-    return this._getList([parentId, page, size, search]);
+    return this._getList([parentId, page, size, search, sort, fields, ids]);
   }
 }

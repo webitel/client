@@ -61,7 +61,6 @@ const historyListGetter = new SDKListGetter(agentService.searchAgentStateHistory
 const supervisorsListGetter = new SDKListGetter(agentService.searchAgent)
 .setGetListMethod(getSupervisorsList);
 const newAgentUsersGetter = new SDKListGetter(agentService.searchLookupUsersAgentNotExists);
-const agentQueuesGetter = new SDKListGetter(agentService.searchAgentInQueue);
 
 export const getAgentsList = (params) => listGetter.getList(params);
 export const getAgent = (params) => itemGetter.getItem(params);
@@ -73,7 +72,6 @@ export const getAgentHistory = (params) => historyListGetter.getList(params);
 
 export const getAgentUsersOptions = (params) => newAgentUsersGetter.getList(params);
 export const getAgentSupervisorsOptions = (params) => supervisorsListGetter.getList(params);
-export const getAgentQueuesList = (params) => agentQueuesGetter.getNestedList(params);
 
 export default {
   getList: getAgentsList,
@@ -81,7 +79,6 @@ export default {
   add: addAgent,
   update: updateAgent,
   delete: deleteAgent,
-  getAgentsInQueue: getAgentQueuesList,
 
   getAgentUsersOptions,
   getAgentSupervisorsOptions,

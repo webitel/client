@@ -51,10 +51,10 @@ const actions = {
     return context.dispatch('LOAD_DATA_LIST');
   },
   UPDATE_HEADER_SORT: (context, { header, nextSortOrder }) => {
-    const newHeader = { ...header, sort: nextSortOrder };
-    const headers = context.state.headers.map((header) => ({ ...header, sort: SortSymbols.NONE }));
-    const headerIndex = headers.findIndex((header) => header.value === newHeader.value);
-    headers.splice(headerIndex, 1, newHeader);
+    const headers = context.state.headers.map((oldHeader) => ({
+      ...oldHeader,
+      sort: oldHeader.field === header.field ? nextSortOrder : SortSymbols.NONE,
+    }));
     context.commit('SET_HEADERS', headers);
   },
   PATCH_ITEM_PROPERTY: async (context, { item, index, prop, value }) => {

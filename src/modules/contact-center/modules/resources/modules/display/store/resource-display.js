@@ -1,5 +1,6 @@
 import ResDisplayAPI from '../api/resourceDisplay';
 import NestedObjectStoreModule from '../../../../../../../app/store/BaseStoreModules/StoreModules/NestedObjectStoreModule';
+import headers from './_internals/headers';
 
 const resettableItemState = {
   itemInstance: {
@@ -7,7 +8,7 @@ const resettableItemState = {
   },
 };
 
-const resDisplay = new NestedObjectStoreModule({ resettableItemState })
+const resDisplay = new NestedObjectStoreModule({ resettableItemState, headers })
   .attachAPIModule(ResDisplayAPI)
   .generateAPIActions()
   .getModule();

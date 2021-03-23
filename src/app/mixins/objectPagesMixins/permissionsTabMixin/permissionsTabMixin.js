@@ -18,6 +18,9 @@ export default {
       parentId(state) {
         return getNamespacedState(state, `${this.namespace}`).itemId;
       },
+      headersValue(state) {
+        return getNamespacedState(state, `${this.namespace}/${this.subNamespace}`).headers;
+      },
       dataListValue(state) {
         return getNamespacedState(state, `${this.namespace}/${this.subNamespace}`).dataList;
       },
@@ -34,6 +37,13 @@ export default {
         return getNamespacedState(state, `${this.namespace}/${this.subNamespace}`).isNextPage;
       },
     }),
+    headers() {
+      if (!this.headersValue) return [];
+      return this.headersValue.map((header) => ({
+        ...header,
+        text: typeof header.locale === 'string' ? this.$t(header.locale) : this.$tc(...header.locale),
+      }));
+    },
     dataList() {
       return this.dataListValue.map((item) => {
         const access = {};
@@ -73,6 +83,9 @@ export default {
       },
       prevPage(dispatch, payload) {
         return dispatch(`${this.namespace}/${this.subNamespace}/PREV_PAGE`, payload);
+      },
+      dispatchSort(dispatch, payload) {
+        return dispatch(`${this.namespace}/${this.subNamespace}/SORT`, payload);
       },
       changeCreateAccessMode(dispatch, payload) {
         return dispatch(`${this.namespace}/${this.subNamespace}/CHANGE_CREATE_ACCESS_MODE`, payload);

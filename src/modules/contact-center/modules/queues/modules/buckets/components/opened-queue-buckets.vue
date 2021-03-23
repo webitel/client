@@ -42,6 +42,8 @@
         :headers="headers"
         :data="dataList"
         :grid-actions="!disableUserInput"
+        sortable
+        @sort="sort"
       >
         <template slot="name" slot-scope="{ item }">
           {{ item.bucket.name }}
@@ -85,15 +87,6 @@ export default {
     subNamespace: 'buckets',
     isBucketPopup: null,
   }),
-
-  computed: {
-    headers() {
-      return [
-        { value: 'name', text: this.$tc('objects.lookups.buckets.buckets', 2) },
-        { value: 'ratio', text: this.$t('objects.ccenter.queues.bucketRatio') },
-      ];
-    },
-  },
 
   methods: {
     openPopup() {

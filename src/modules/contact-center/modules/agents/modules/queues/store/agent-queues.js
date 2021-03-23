@@ -1,13 +1,10 @@
-import AgentsAPI from '../../../api/agents';
+import AgentQueuesAPI from '../api/agentQueues';
 import NestedObjectStoreModule from '../../../../../../../app/store/BaseStoreModules/StoreModules/NestedObjectStoreModule';
+import headers from './_internals/headers';
 
-const actions = {
-  GET_LIST: (context) => {
-    return AgentsAPI.getAgentsInQueue(context.state);
-  },
-};
-
-const agentQueues = new NestedObjectStoreModule()
-  .getModule({ actions });
+const agentQueues = new NestedObjectStoreModule({ headers })
+  .attachAPIModule(AgentQueuesAPI)
+  .generateAPIActions()
+  .getModule();
 
 export default agentQueues;

@@ -42,6 +42,8 @@
         :headers="headers"
         :data="dataList"
         :grid-actions="!disableUserInput"
+        sortable
+        @sort="sort"
       >
         <template slot="name" slot-scope="{ item }">
           <div v-if="item.resource">
@@ -84,15 +86,6 @@ export default {
     subNamespace: 'res',
     isResPopup: false,
   }),
-
-  computed: {
-    headers() {
-      return [
-        { value: 'name', text: this.$tc('objects.ccenter.res.numbers', 2) },
-      ];
-    },
-  },
-
   methods: {
     openPopup() {
       this.isResPopup = true;

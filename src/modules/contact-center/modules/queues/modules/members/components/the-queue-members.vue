@@ -61,6 +61,7 @@
             :headers="headers"
             :data="dataList"
             :grid-actions="hasEditAccess && isNotInboundMember"
+            @sort="sort"
           >
             <template slot="name" slot-scope="{ item }">
               <span class="nameLink" @click="edit(item)">
@@ -144,16 +145,6 @@ export default {
     }),
     parentId() {
       return this.$route.params.queueId;
-    },
-
-    headers() {
-      return [
-        { value: 'name', text: this.$t('objects.name') },
-        { value: 'createdAt', text: this.$t('objects.createdAt') },
-        { value: 'priority', text: this.$t('objects.ccenter.queues.priority') },
-        { value: 'endCause', text: this.$t('objects.ccenter.queues.endCause') },
-        { value: 'destination', text: this.$tc('objects.ccenter.queues.destination', 1) },
-      ];
     },
 
     // if is NOT -- member is immutable. NOT prevents actions load by default

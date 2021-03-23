@@ -42,6 +42,8 @@
         :headers="headers"
         :data="dataList"
         :grid-actions="!disableUserInput"
+        sortable
+        @sort="sort"
       >
         <template slot="event" slot-scope="{ item }">
           {{ $t(`objects.ccenter.queues.hooks.eventTypes.${item.event}`) }}
@@ -92,15 +94,6 @@ export default {
     subNamespace: 'hooks',
     isHookPopup: false,
   }),
-  computed: {
-    headers() {
-      return [
-        { value: 'event', text: this.$t('objects.ccenter.queues.hooks.event') },
-        { value: 'schema', text: this.$tc('objects.routing.flow.flow', 1) },
-        { value: 'state', text: this.$tc('reusable.state') },
-      ];
-    },
-  },
 
   methods: {
     openPopup() {

@@ -49,6 +49,8 @@ const mapDefaultCommunications = (item) => (
 const _getMembersList = (getList) => function ({
                                                  page,
                                                  size,
+                                                 // search,
+                                                 // sort,
                                                  parentId,
                                                }) {
   const params = [parentId, page, size];

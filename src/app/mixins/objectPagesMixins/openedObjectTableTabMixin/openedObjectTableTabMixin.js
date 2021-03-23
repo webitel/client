@@ -26,6 +26,9 @@ export default {
       parentId(state) {
         return getNamespacedState(state, `${this.namespace}`).itemId;
       },
+      headersValue(state) {
+        return getNamespacedState(state, `${this.namespace}/${this.subNamespace}`).headers;
+      },
       dataList(state) {
         return getNamespacedState(state, `${this.namespace}/${this.subNamespace}`).dataList;
       },
@@ -42,6 +45,13 @@ export default {
         return getNamespacedState(state, `${this.namespace}/${this.subNamespace}`).isNextPage;
       },
     }),
+    headers() {
+      if (!this.headersValue) return [];
+      return this.headersValue.map((header) => ({
+        ...header,
+        text: typeof header.locale === 'string' ? this.$t(header.locale) : this.$tc(...header.locale),
+      }));
+    },
   },
 
   methods: {
@@ -71,6 +81,9 @@ export default {
       },
       prevPage(dispatch, payload) {
         return dispatch(`${this.namespace}/${this.subNamespace}/PREV_PAGE`, payload);
+      },
+      dispatchSort(dispatch, payload) {
+        return dispatch(`${this.namespace}/${this.subNamespace}/SORT`, payload);
       },
       removeItem(dispatch, payload) {
         return dispatch(`${this.namespace}/${this.subNamespace}/REMOVE_ITEM`, payload);
@@ -104,6 +117,9 @@ export default {
     edit(item) {
       this.setId(item.id);
       this.openPopup();
+    },
+    sort(...params) {
+      this.dispatchSort({ header: params[0], nextSortOrder: params[1] });
     },
   },
 };

@@ -1,5 +1,6 @@
 import QueueAgentsAPI from '../api/queueAgents';
 import NestedObjectStoreModule from '../../../../../../../app/store/BaseStoreModules/StoreModules/NestedObjectStoreModule';
+import headers from './_internals/headers';
 
 const getters = {
   GET_ITEM_SKILLS: (state) => (id) => {
@@ -8,13 +9,9 @@ const getters = {
   },
 };
 
-const actions = {
-  GET_LIST: (context) => {
-    return QueueAgentsAPI.getList(context.state);
-  },
-};
-
-const queueAgents = new NestedObjectStoreModule()
-  .getModule({ getters, actions });
+const queueAgents = new NestedObjectStoreModule({ headers })
+  .attachAPIModule(QueueAgentsAPI)
+  .generateAPIActions()
+  .getModule({ getters });
 
 export default queueAgents;

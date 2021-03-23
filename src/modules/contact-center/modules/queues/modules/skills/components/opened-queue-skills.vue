@@ -48,6 +48,8 @@
         :headers="headers"
         :data="dataList"
         :grid-actions="!disableUserInput"
+        sortable
+        @sort="sort"
       >
         <template slot="name" slot-scope="{ item }">
           <div v-if="item.skill">
@@ -117,17 +119,6 @@ export default {
     isSkillPopup: false,
     agentId: 0,
   }),
-  computed: {
-    headers() {
-      return [
-        { value: 'name', text: this.$t('objects.name') },
-        { value: 'capacity', text: this.$t('objects.lookups.skills.capacity') },
-        { value: 'lvl', text: this.$t('objects.lookups.skills.lvl') },
-        { value: 'buckets', text: this.$tc('objects.lookups.buckets.buckets', 1) },
-        { value: 'state', text: this.$tc('objects.lookups.skills.state') },
-      ];
-    },
-  },
 
   methods: {
     getFirstBucket(buckets) {

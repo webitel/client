@@ -24,6 +24,8 @@
         :headers="headers"
         :data="dataList"
         :grid-actions="false"
+        sortable
+        @sort="sort"
       >
         <template slot="destination" slot-scope="{ item }">
           <div v-if="item.destination">
@@ -81,47 +83,10 @@ export default {
   data: () => ({
     subNamespace: 'log',
   }),
-  computed: {
-    headers() {
-      return [
-        {
-          value: 'destination',
-          text: this.$t('objects.ccenter.queues.logs.destination'),
-        },
-        {
-          value: 'agent',
-          text: this.$tc('objects.ccenter.agents.agents', 1),
-        },
-        {
-          value: 'joinedAt',
-          text: this.$t('objects.ccenter.queues.logs.joinedAt'),
-        },
-        {
-          value: 'leavingAt',
-          text: this.$t('objects.ccenter.queues.logs.leavingAt'),
-        },
-        {
-          value: 'offeringAt',
-          text: this.$t('objects.ccenter.queues.logs.offeringAt'),
-        },
-        {
-          value: 'duration',
-          text: this.$t('objects.ccenter.queues.logs.duration'),
-        },
-        {
-          value: 'viewNumber',
-          text: this.$t('objects.ccenter.queues.logs.viewNumber'),
-        },
-        {
-          value: 'result',
-          text: this.$t('objects.ccenter.queues.logs.result'),
-        },
-      ];
-    },
-  },
 
   methods: {
     formatDate(value) {
+      if (!value) return '';
       return new Date(+value).toLocaleString();
     },
 

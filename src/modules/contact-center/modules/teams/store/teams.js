@@ -2,7 +2,7 @@ import supervisors from '../modules/supervisors/store/team-supervisors';
 import agents from '../modules/agents/store/team-agents';
 import TeamsAPI from '../api/teams';
 import ObjectStoreModule from '../../../../../app/store/BaseStoreModules/StoreModules/ObjectStoreModule';
-import PermissionsStoreModule from '../../../../../app/store/BaseStoreModules/StoreModules/PermissionsStoreModule';
+import PermissionsStoreModule from '../../../../../app/store/BaseStoreModules/StoreModules/PermissionsStoreModule/PermissionsStoreModule';
 import headers from './_internals/headers';
 
 const resettableState = {

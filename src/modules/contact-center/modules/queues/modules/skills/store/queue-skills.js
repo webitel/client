@@ -1,5 +1,6 @@
 import QueueSkillsAPI from '../api/queueSkills';
 import NestedObjectStoreModule from '../../../../../../../app/store/BaseStoreModules/StoreModules/NestedObjectStoreModule';
+import headers from './_internals/headers';
 
 const resettableItemState = {
   itemInstance: {
@@ -19,7 +20,7 @@ const getters = {
   },
 };
 
-const queueSkills = new NestedObjectStoreModule({ resettableItemState })
+const queueSkills = new NestedObjectStoreModule({ resettableItemState, headers })
   .attachAPIModule(QueueSkillsAPI)
   .generateAPIActions()
   .getModule({ getters });
