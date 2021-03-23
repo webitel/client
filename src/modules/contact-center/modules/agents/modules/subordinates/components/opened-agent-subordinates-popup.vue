@@ -34,7 +34,7 @@
 
 <script>
 import { required } from 'vuelidate/lib/validators';
-import { getAgentsList } from '../../../api/agents';
+import { getRegularAgentsOptions } from '../../../api/agents';
 import nestedObjectMixin from '../../../../../../../app/mixins/objectPagesMixins/openedObjectMixin/nestedObjectMixin';
 
 export default {
@@ -52,7 +52,7 @@ export default {
 
   methods: {
     async loadDropdownOptionsList(search) {
-      const response = await getAgentsList({ search });
+      const response = await getRegularAgentsOptions({ search });
       return response.list.map((item) => ({
         name: item.name,
         id: item.id,
