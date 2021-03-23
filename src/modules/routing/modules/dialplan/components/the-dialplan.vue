@@ -43,6 +43,7 @@
             :headers="headers"
             :data="dataList"
             :grid-actions="hasTableActions"
+            sortable
             @sort="sort"
           >
             <template slot="name" slot-scope="{ item }">

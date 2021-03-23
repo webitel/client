@@ -5,6 +5,11 @@ import SDKListGetter from '../../../../../../../app/api/BaseAPIServices/ListGett
 
 const agentService = new AgentServiceApiFactory(configuration, '', instance);
 
+const defaultListObject = {
+  countMembers: 0,
+  waitingMembers: 0,
+};
+
 const _getAgentQueues = (getList) => function ({
                                                     page = 1,
                                                     size = 10,
@@ -19,7 +24,7 @@ const _getAgentQueues = (getList) => function ({
   return getList(params);
 };
 
-const listGetter = new SDKListGetter(agentService.searchAgentInQueue)
+const listGetter = new SDKListGetter(agentService.searchAgentInQueue, { defaultListObject })
   .setGetListMethod(_getAgentQueues);
 export const getAgentQueuesList = (params) => listGetter.getNestedList(params);
 

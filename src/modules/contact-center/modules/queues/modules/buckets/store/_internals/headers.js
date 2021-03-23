@@ -9,7 +9,7 @@ export default [
   },
   {
     value: 'ratio',
-    locale: 'objects.lookups.queues.bucketRatio',
+    locale: 'objects.ccenter.queues.bucketRatio',
     field: 'ratio',
     sort: SortSymbols.NONE,
   },

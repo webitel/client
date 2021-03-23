@@ -42,11 +42,11 @@ export const addMedia = async (params) => {
     },
   };
   const formData = new FormData();
-  formData.append('file', itemInstance);
+  formData.append('file', params.itemInstance);
   try {
     const response = await axios.post(url, formData, config);
     eventBus.$emit('notification', { type: 'info', text: 'Successfully added' });
-    return response.id;
+    return response;
   } catch (err) {
     throw err;
   }

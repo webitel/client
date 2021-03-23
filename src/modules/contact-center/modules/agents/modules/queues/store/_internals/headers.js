@@ -16,13 +16,13 @@ export default [
   {
     value: 'count',
     locale: ['objects.ccenter.queues.members', 2],
-    field: 'count_member',
+    field: 'count_members',
     sort: SortSymbols.NONE,
   },
   {
     value: 'count',
     locale: 'objects.ccenter.queues.waiting',
-    field: 'waiting_member',
+    field: 'waiting_members',
     sort: SortSymbols.NONE,
   },
   {

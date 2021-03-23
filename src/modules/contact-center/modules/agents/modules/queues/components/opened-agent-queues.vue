@@ -31,11 +31,11 @@
         </template>
 
         <template slot="count" slot-scope="{ item }">
-          {{ item.countMember }}
+          {{ item.countMembers }}
         </template>
 
         <template slot="waiting" slot-scope="{ item }">
-          {{ item.waitingMember }}
+          {{ item.waitingMembers }}
         </template>
 
         <template slot="strategy" slot-scope="{ item }">

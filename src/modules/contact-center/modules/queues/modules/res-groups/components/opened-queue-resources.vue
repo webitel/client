@@ -42,6 +42,7 @@
         :headers="headers"
         :data="dataList"
         :grid-actions="!disableUserInput"
+        sortable
         @sort="sort"
       >
         <template slot="name" slot-scope="{ item }">
