@@ -576,6 +576,7 @@ export default {
         varKey: 'Key',
         varVal: 'Value',
         endCause: 'End cause',
+        offeringAt: 'Offering at',
         destination: 'Destination | Destinations',
         expire: 'Expire',
         originateTimeout: 'Originate timeout',
