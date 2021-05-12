@@ -170,10 +170,7 @@ export default {
 
   methods: {
     prettifyStopCause(cause) {
-      if (!cause) {
-
-        return ''
-      }
+      if (!cause) return ''
 
       switch (cause) {
         case 'shutdown':
@@ -191,7 +188,7 @@ export default {
         case 'QUEUE_NOT_IMPLEMENT':
           return this.$t('objects.ccenter.members.endCause.queueNotImplement');
         default:
-          return this.$t('objects.ccenter.members.endCause.unknown');
+          return cause;
       }
     },
 
