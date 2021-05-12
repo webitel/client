@@ -72,7 +72,9 @@
               {{ prettifyDate(item.createdAt) }}
             </template>
             <template slot="offeringAt" slot-scope="{ item }">
-              {{ prettifyDateTime(item.minOfferingAt) }}
+              <div v-if="item.minOfferingAt">
+                {{ prettifyDateTime(item.minOfferingAt) }}
+              </div>
             </template>
             <template slot="priority" slot-scope="{ item }">
               {{ item.priority }}
@@ -81,7 +83,7 @@
               {{ prettifyStopCause(item.stopCause) }}
             </template>
             <template slot="destination" slot-scope="{ item }">
-              <div class="members__destinations-wrapper" v-if="item.communications.length > 0">
+              <div class="members__destinations-wrapper" v-if="item.communications.length">
                 {{ item.communications[0].destination }}
                 <span class="members__destinations-num"
                       v-if="item.communications.length > 1"
@@ -197,13 +199,8 @@ export default {
       return new Date(+createdAt).toLocaleDateString();
     },
 
-    prettifyDateTime(dt) {
-      if (!dt) {
-
-        return ''
-      }
-
-      return new Date(+dt).toLocaleString();
+    prettifyDateTime(timestamp) {
+      return new Date(+timestamp).toLocaleString();
     },
 
     readDestinations(item) {
