@@ -14,6 +14,18 @@ export default [
     sort: SortSymbols.NONE,
   },
   {
+    value: 'offeringAt',
+    locale: 'objects.ccenter.queues.offeringAt',
+    field: 'min_offering_at',
+    sort: SortSymbols.NONE,
+  },
+  {
+    value: 'destination',
+    locale: ['objects.ccenter.queues.destination', 2],
+    field: 'communications',
+    sort: SortSymbols.NONE,
+  },
+  {
     value: 'priority',
     locale: 'objects.ccenter.queues.priority',
     field: 'priority',
@@ -22,13 +34,7 @@ export default [
   {
     value: 'endCause',
     locale: 'objects.ccenter.queues.endCause',
-    field: 'stopCause',
-    sort: SortSymbols.NONE,
-  },
-  {
-    value: 'destination',
-    locale: ['objects.ccenter.queues.destination', 2],
-    field: 'communications',
+    field: 'stop_cause',
     sort: SortSymbols.NONE,
   },
 ];

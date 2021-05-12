@@ -572,6 +572,7 @@ export default {
         varKey: 'Ключ',
         varVal: 'Значення',
         endCause: 'Причина припинення',
+        offeringAt: 'Передзвонити в',
         destination: 'Призначення | Призначення',
         expire: 'Закінчується',
         originateTimeout: 'Тривалість додзвону',
