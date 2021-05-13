@@ -39,6 +39,14 @@
         type="number"
         @input="setItemProp({ prop: 'processingRenewalSec', value: $event })"
       ></wt-input>
+      <!-- empty for grid cell -->
+      <div></div>
+      <wt-switcher
+        :value="itemInstance.stickyAgent"
+        :label="$t('objects.ccenter.queues.stickyAgent')"
+        :disabled="disableUserInput"
+        @change="setItemProp({ prop: 'stickyAgent', value: $event })"
+      ></wt-switcher>
     </form>
   </section>
 </template>
