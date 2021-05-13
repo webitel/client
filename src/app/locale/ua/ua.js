@@ -569,6 +569,8 @@ export default {
         processing: 'Очікування результату дзвінка',
         processingSec: 'Час постобробки (сек)',
         processingRenewalSec: 'Запропонувати продовження через (сек)',
+        stickyAgent: 'Липкість',
+        stickyAgentSec: 'Час очікування липкості (сек)',
         varKey: 'Ключ',
         varVal: 'Значення',
         endCause: 'Причина припинення',
