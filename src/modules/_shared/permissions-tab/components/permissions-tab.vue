@@ -34,7 +34,11 @@
         @sort="sort"
       >
         <template slot="grantee" slot-scope="{ item }">
-          <div v-if="item.grantee">
+          <div v-if="item.grantee" class="permissions-tab__role-column">
+            <wt-icon
+              :icon="item.user ? 'user' : 'role'"
+              color="active"
+            ></wt-icon>
             {{ item.grantee.name }}
           </div>
         </template>
@@ -100,5 +104,11 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-
+.permissions-tab__role-column {
+  display: flex;
+  align-items: center;
+  .wt-icon {
+    margin-right: var(--component-spacing);
+  }
+}
 </style>
