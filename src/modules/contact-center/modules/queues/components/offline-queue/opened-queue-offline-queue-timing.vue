@@ -8,7 +8,7 @@
         :value="itemInstance.payload.originateTimeout"
         :label="$t('objects.ccenter.queues.originateTimeout')"
         :disabled="disableUserInput"
-        @input="setItemPayloadProp({ prop: 'originateTimeout', value: $event })"
+        @input="setItemPayloadProp({ prop: 'originateTimeout', value: +$event })"
       ></wt-timepicker>
       <wt-switcher
         :value="itemInstance.payload.recordings"
@@ -28,7 +28,7 @@
         :label="$t('objects.ccenter.queues.processingSec')"
         :disabled="disableUserInput"
         type="number"
-        @input="setItemProp({ prop: 'processingSec', value: $event })"
+        @input="setItemProp({ prop: 'processingSec', value: +$event })"
       ></wt-input>
       <wt-input
         v-show="itemInstance.processing"
@@ -36,7 +36,7 @@
         :label="$t('objects.ccenter.queues.processingRenewalSec')"
         :disabled="disableUserInput"
         type="number"
-        @input="setItemProp({ prop: 'processingRenewalSec', value: $event })"
+        @input="setItemProp({ prop: 'processingRenewalSec', value: +$event })"
       ></wt-input>
     </form>
   </section>
