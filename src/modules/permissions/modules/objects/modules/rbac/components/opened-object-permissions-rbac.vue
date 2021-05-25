@@ -45,15 +45,11 @@
           :grid-actions="false"
         >
           <template slot="grantor" slot-scope="{ item }">
-            <div v-if="item.grantor">
-              {{ item.grantor.name }}
-            </div>
+            <role-column :role="item.grantor"></role-column>
           </template>
 
           <template slot="grantee" slot-scope="{ item }">
-            <div v-if="item.grantee">
-              {{ item.grantee.name }}
-            </div>
+            <role-column :role="item.grantee"></role-column>
           </template>
 
           <template slot="read" slot-scope="{ item }">
@@ -102,13 +98,14 @@
 </template>
 
 <script>
+import RoleColumn from '../../../../../../_shared/permissions-tab/components/permissions-role-column.vue';
 import RolePopup from './opened-object-permissions-rbac-role-popup.vue';
 import permissionsTabMixin from '../../../../../../../app/mixins/objectPagesMixins/permissionsTabMixin/permissionsTabMixin';
 
 export default {
   name: 'opened-object-permissions-rbac',
   mixins: [permissionsTabMixin],
-  components: { RolePopup },
+  components: { RolePopup, RoleColumn },
   data: () => ({
     subNamespace: 'rbac',
     headerTitle: '',
