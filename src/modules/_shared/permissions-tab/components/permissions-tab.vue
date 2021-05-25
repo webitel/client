@@ -34,9 +34,7 @@
         @sort="sort"
       >
         <template slot="grantee" slot-scope="{ item }">
-          <div v-if="item.grantee">
-            {{ item.grantee.name }}
-          </div>
+          <role-column :role="item.grantee"></role-column>
         </template>
 
         <template slot="read" slot-scope="{ item }">
@@ -85,6 +83,7 @@
 </template>
 
 <script>
+import RoleColumn from './_internals/permissions-role-column.vue';
 import RolePopup from './permissions-tab-role-popup.vue';
 import permissionsTabMixin from '../../../../app/mixins/objectPagesMixins/permissionsTabMixin/permissionsTabMixin';
 import openedTabComponentMixin from '../../../../app/mixins/objectPagesMixins/openedObjectTabMixin/openedTabComponentMixin';
@@ -92,7 +91,7 @@ import openedTabComponentMixin from '../../../../app/mixins/objectPagesMixins/op
 export default {
   name: 'permissions-tab',
   mixins: [openedTabComponentMixin, permissionsTabMixin],
-  components: { RolePopup },
+  components: { RolePopup, RoleColumn },
   data: () => ({
     subNamespace: 'permissions',
   }),
@@ -100,5 +99,4 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-
 </style>
