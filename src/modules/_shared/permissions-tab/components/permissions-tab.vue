@@ -83,7 +83,7 @@
 </template>
 
 <script>
-import RoleColumn from './permissions-role-column.vue';
+import RoleColumn from './_internals/permissions-role-column.vue';
 import RolePopup from './permissions-tab-role-popup.vue';
 import permissionsTabMixin from '../../../../app/mixins/objectPagesMixins/permissionsTabMixin/permissionsTabMixin';
 import openedTabComponentMixin from '../../../../app/mixins/objectPagesMixins/openedObjectTabMixin/openedTabComponentMixin';

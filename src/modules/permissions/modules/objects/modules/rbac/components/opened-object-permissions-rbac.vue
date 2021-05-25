@@ -98,7 +98,7 @@
 </template>
 
 <script>
-import RoleColumn from '../../../../../../_shared/permissions-tab/components/permissions-role-column.vue';
+import RoleColumn from '../../../../../../_shared/permissions-tab/components/_internals/permissions-role-column.vue';
 import RolePopup from './opened-object-permissions-rbac-role-popup.vue';
 import permissionsTabMixin from '../../../../../../../app/mixins/objectPagesMixins/permissionsTabMixin/permissionsTabMixin';
 

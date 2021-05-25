@@ -27,7 +27,7 @@
 <script>
 import permissionsTabRolePopupMixins
   from '../../../../app/mixins/objectPagesMixins/permissionsTabMixin/permissionsTabRolePopupMixin';
-import PermissionsRoleSelect from './permissions-role-select.vue';
+import PermissionsRoleSelect from './_internals/permissions-role-select.vue';
 
 export default {
   name: 'permissions-tab-role-popup',

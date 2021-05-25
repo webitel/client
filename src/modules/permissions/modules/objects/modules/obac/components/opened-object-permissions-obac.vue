@@ -105,7 +105,7 @@
 
 <script>
 import { mapState } from 'vuex';
-import RoleColumn from '../../../../../../_shared/permissions-tab/components/permissions-role-column.vue';
+import RoleColumn from '../../../../../../_shared/permissions-tab/components/_internals/permissions-role-column.vue';
 import RolePopup from '../../../../../../_shared/permissions-tab/components/permissions-tab-role-popup.vue';
 import permissionsTabMixin from '../../../../../../../app/mixins/objectPagesMixins/permissionsTabMixin/permissionsTabMixin';
 
