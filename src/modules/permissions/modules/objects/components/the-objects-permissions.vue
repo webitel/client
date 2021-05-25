@@ -1,12 +1,9 @@
 <template>
   <wt-page-wrapper :actions-panel="false">
     <template slot="header">
-      <wt-headline>
-        <template slot="title">
-          {{ $t('objects.permissions.permissions') }} |
-          {{ $t('objects.permissions.object.object') }}
-        </template>
-      </wt-headline>
+      <object-header hide-primary>
+        <headline-nav :path="path"></headline-nav>
+      </object-header>
     </template>
 
     <template slot="main">
@@ -100,6 +97,13 @@ export default {
   computed: {
     hasTableActions() {
       return this.hasEditAccess;
+    },
+    path() {
+      const baseUrl = '/permissions/objects';
+      return [
+        { name: this.$t('objects.permissions.permissions') },
+        { name: this.$t('objects.permissions.object.object'), route: baseUrl },
+      ];
     },
   },
 
