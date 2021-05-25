@@ -45,9 +45,7 @@
         :grid-actions="false"
       >
         <template slot="grantee" slot-scope="{ item }">
-          <div v-if="item.grantee">
-            {{ item.grantee.name }}
-          </div>
+          <role-column :role="item.grantee"></role-column>
         </template>
 
         <template slot="create" slot-scope="{ item }">
@@ -107,13 +105,14 @@
 
 <script>
 import { mapState } from 'vuex';
-import RolePopup from './opened-object-permissions-obac-role-popup.vue';
+import RoleColumn from '../../../../../../_shared/permissions-tab/components/permissions-role-column.vue';
+import RolePopup from '../../../../../../_shared/permissions-tab/components/permissions-tab-role-popup.vue';
 import permissionsTabMixin from '../../../../../../../app/mixins/objectPagesMixins/permissionsTabMixin/permissionsTabMixin';
 
 export default {
   name: 'opened-object-permissions-obac',
   mixins: [permissionsTabMixin],
-  components: { RolePopup },
+  components: { RolePopup, RoleColumn },
   data: () => ({
     subNamespace: 'obac',
     headerTitle: '',
