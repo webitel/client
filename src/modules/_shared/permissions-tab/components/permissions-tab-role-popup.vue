@@ -1,5 +1,10 @@
 <template>
-  <wt-popup min-width="480" overflow @close="close">
+  <wt-popup
+    class="permissions-tab-role-popup"
+    min-width="480"
+    overflow
+    @close="close"
+  >
     <template slot="title">
       {{ $t('objects.permissions.object.newPermissionRole') }}
     </template>
@@ -12,7 +17,7 @@
         :clearable="false"
       >
         <template slot="singleLabel" slot-scope="{ option, optionLabel }">
-          <span class="multiselect__single-label">
+          <span class="multiselect__single-label permissions-tab-role-popup__select-option">
             <permissions-role-icon
               :user="option.user"
             ></permissions-role-icon>
@@ -21,7 +26,7 @@
         </template>
 
         <template slot="option" slot-scope="{ option, optionLabel }">
-          <span>
+          <span class="permissions-tab-role-popup__select-option">
             <permissions-role-icon
               :user="option.user"
             ></permissions-role-icon>
@@ -38,8 +43,9 @@
 </template>
 
 <script>
-  import PermissionsRoleIcon from './permissions-role-icon.vue';
-import permissionsTabRolePopupMixins from '../../../../app/mixins/objectPagesMixins/permissionsTabMixin/permissionsTabRolePopupMixin';
+import permissionsTabRolePopupMixins
+  from '../../../../app/mixins/objectPagesMixins/permissionsTabMixin/permissionsTabRolePopupMixin';
+import PermissionsRoleIcon from './permissions-role-icon.vue';
 
 export default {
   name: 'permissions-tab-role-popup',
@@ -49,5 +55,13 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+//  elevating specificity
+.permissions-tab-role-popup .multiselect .permissions-tab-role-popup__select-option {
+  display: flex;
+  align-items: center;
+}
 
+.permissions-role-icon {
+  margin-right: var(--component-spacing);
+}
 </style>

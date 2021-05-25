@@ -35,7 +35,7 @@
       >
         <template slot="grantee" slot-scope="{ item }">
           <div v-if="item.grantee" class="permissions-tab__role-column">
-           <permissions-role-icon :user="item.user"></permissions-role-icon>
+           <permissions-role-icon :user="item.grantee.user"></permissions-role-icon>
             {{ item.grantee.name }}
           </div>
         </template>
