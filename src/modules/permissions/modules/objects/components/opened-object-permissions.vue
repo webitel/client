@@ -1,17 +1,13 @@
 <template>
   <wt-page-wrapper :actions-panel="false">
     <template slot="header">
-      <wt-headline>
-        <template slot="title">
-          {{ $t('objects.permissions.object.operations') }} |
-          {{ computeTitle }}
-        </template>
-        <template slot="actions">
-          <wt-button color="secondary" @click="close">
-            {{ $t('objects.close') }}
-          </wt-button>
-        </template>
-      </wt-headline>
+      <object-header
+        :primaryText="computePrimaryText"
+        :primaryAction="save"
+        close
+      >
+        <headline-nav :path="path"></headline-nav>
+      </object-header>
     </template>
 
     <template slot="main">
