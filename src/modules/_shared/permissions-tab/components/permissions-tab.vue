@@ -35,10 +35,7 @@
       >
         <template slot="grantee" slot-scope="{ item }">
           <div v-if="item.grantee" class="permissions-tab__role-column">
-            <wt-icon
-              :icon="item.user ? 'user' : 'role'"
-              color="active"
-            ></wt-icon>
+           <permissions-role-icon :user="item.user"></permissions-role-icon>
             {{ item.grantee.name }}
           </div>
         </template>
@@ -90,13 +87,14 @@
 
 <script>
 import RolePopup from './permissions-tab-role-popup.vue';
+import PermissionsRoleIcon from './permissions-role-icon.vue';
 import permissionsTabMixin from '../../../../app/mixins/objectPagesMixins/permissionsTabMixin/permissionsTabMixin';
 import openedTabComponentMixin from '../../../../app/mixins/objectPagesMixins/openedObjectTabMixin/openedTabComponentMixin';
 
 export default {
   name: 'permissions-tab',
   mixins: [openedTabComponentMixin, permissionsTabMixin],
-  components: { RolePopup },
+  components: { RolePopup, PermissionsRoleIcon },
   data: () => ({
     subNamespace: 'permissions',
   }),
@@ -107,7 +105,7 @@ export default {
 .permissions-tab__role-column {
   display: flex;
   align-items: center;
-  .wt-icon {
+  .permissions-role-icon {
     margin-right: var(--component-spacing);
   }
 }

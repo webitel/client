@@ -10,7 +10,25 @@
         :search="getAvailableGrantees"
         :internal-search="false"
         :clearable="false"
-      ></wt-select>
+      >
+        <template slot="singleLabel" slot-scope="{ option, optionLabel }">
+          <span class="multiselect__single-label">
+            <permissions-role-icon
+              :user="option.user"
+            ></permissions-role-icon>
+            {{ option[optionLabel] || option }}
+          </span>
+        </template>
+
+        <template slot="option" slot-scope="{ option, optionLabel }">
+          <span>
+            <permissions-role-icon
+              :user="option.user"
+            ></permissions-role-icon>
+            {{ option[optionLabel] || option }}
+          </span>
+        </template>
+      </wt-select>
     </template>
     <template slot="actions">
       <wt-button @click="save">{{ $t('objects.add') }}</wt-button>
@@ -20,11 +38,13 @@
 </template>
 
 <script>
+  import PermissionsRoleIcon from './permissions-role-icon.vue';
 import permissionsTabRolePopupMixins from '../../../../app/mixins/objectPagesMixins/permissionsTabMixin/permissionsTabRolePopupMixin';
 
 export default {
   name: 'permissions-tab-role-popup',
   mixins: [permissionsTabRolePopupMixins],
+  components: { PermissionsRoleIcon },
 };
 </script>
 

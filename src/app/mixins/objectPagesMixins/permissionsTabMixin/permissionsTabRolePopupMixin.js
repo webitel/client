@@ -1,5 +1,7 @@
 import { mapActions, mapState } from 'vuex';
-import { getRoleList } from '../../../../modules/permissions/modules/roles/api/roles';
+import {
+  getExtendedRoles,
+} from '../../../../modules/permissions/modules/roles/api/roles';
 import getNamespacedState from '../../../store/helpers/getNamespacedState';
 
 export default {
@@ -45,8 +47,9 @@ export default {
         !this.dataList.some((usedRoles) => role.id === usedRoles.grantee.id)));
     },
     async loadRoles(search) {
-      const response = await getRoleList({ search });
-      return response?.list || [];
+      const fields = ['name', 'id', 'user'];
+      const response = await getExtendedRoles({ search, fields });
+      return response.items;
     },
     close() {
       this.$emit('close');
