@@ -30,13 +30,19 @@ export default [
   {
     value: 'used',
     locale: 'objects.directory.license.used',
-    field: 'remain',
+    field: 'used',
     sort: SortSymbols.NONE,
   },
   {
     value: 'limit',
     locale: 'objects.directory.license.limit',
     field: 'limit',
+    sort: SortSymbols.NONE,
+  },
+  {
+    value: 'competitive',
+    locale: 'objects.directory.license.competitive',
+    field: 'competitive',
     sort: SortSymbols.NONE,
   },
   {

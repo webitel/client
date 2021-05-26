@@ -81,8 +81,8 @@
               {{ item.limit - item.remain }}
             </template>
 
-            <template slot="limit" slot-scope="{ item }">
-              {{ item.limit }}
+            <template slot="competitive" slot-scope="{ item }">
+              {{ item.competitive ? $t('reusable.true') : '' }}
             </template>
 
             <template slot="status" slot-scope="{ item }">
