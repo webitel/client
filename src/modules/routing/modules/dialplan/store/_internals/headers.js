@@ -20,8 +20,8 @@ export default [
     sort: SortSymbols.NONE,
   },
   {
-    value: 'enabled',
-    locale: 'objects.enabled',
+    value: 'state',
+    locale: 'reusable.state',
     field: 'disabled',
     sort: SortSymbols.NONE,
   },

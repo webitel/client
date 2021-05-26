@@ -14,9 +14,9 @@ export default [
     sort: SortSymbols.NONE,
   },
   {
-    value: 'enabled',
-    locale: 'objects.enabled',
-    width: '100px',
+    value: 'state',
+    locale: 'reusable.state',
+    width: '120px',
     field: 'enabled',
     sort: SortSymbols.NONE,
   },
