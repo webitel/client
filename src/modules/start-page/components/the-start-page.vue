@@ -73,12 +73,12 @@ export default {
   --lvl-1-bg: hsla(var(--_secondary-color), var(--_opacity--default));
   --lvl-1-bg--hover: hsla(var(--_accent-color), var(--_opacity--default));
 
-  @media #{$media} and #{$media-width-sm} {
+  @media (#{$media} and #{$media-width-sm}) {
     --wrapper-width: 80%;
     --wrapper-height: 440px;
   }
 
-  @media #{$media} and #{$media-width-xs} {
+  @media (#{$media} and #{$media-width-xs}) {
     --wrapper-width: 100%;
     --wrapper-height: 100%;
   }
@@ -105,7 +105,7 @@ export default {
   background: var(--main-color);
   border-radius: var(--border-radius);
 
-  @media #{$media} and #{$media-width-xs} {
+  @media (#{$media} and #{$media-width-xs}) {
     grid-template-columns: 1fr;
   }
 }

@@ -43,6 +43,7 @@
             :headers="headers"
             :data="dataList"
             :grid-actions="hasTableActions"
+            sortable
             @sort="sort"
           >
             <template slot="name" slot-scope="{ item }">
@@ -58,7 +59,7 @@
                 {{ item.schema.name }}
               </item-link>
             </template>
-            <template slot="enabled" slot-scope="{ item, index }">
+            <template slot="state" slot-scope="{ item, index }">
               <wt-switcher
                 :value="!item.disabled"
                 :disabled="!hasEditAccess"
@@ -150,10 +151,10 @@ export default {
     },
   },
   methods: {
-    itemFlowLink({ id }) {
+    itemFlowLink({ schema }) {
       return {
         name: `${RouteNames.FLOW}-edit`,
-        params: { id },
+        params: { id: schema.id },
       };
     },
     async initSortable() {

@@ -2,76 +2,76 @@
   <section>
     <form class="object-input-grid">
       <wt-switcher
-        :value="itemInstance.amd.enabled"
+        :value="itemInstance.payload.amd.enabled"
         :label="$t('objects.ccenter.queues.enabled')"
         :disabled="disableUserInput"
         @change="setAmdItemProp({ prop: 'enabled', value: $event })"
       ></wt-switcher>
       <wt-input
-        :value="itemInstance.amd.maxNumberOfWords"
+        :value="itemInstance.payload.amd.maxNumberOfWords"
         :label="$t('objects.ccenter.queues.maxNumberOfWords')"
         :disabled="disableUserInput"
         type="number"
         @input="setAmdItemProp({ prop: 'maxNumberOfWords', value: +$event })"
       ></wt-input>
       <wt-input
-        :value="itemInstance.amd.betweenWordsSilence"
+        :value="itemInstance.payload.amd.betweenWordsSilence"
         :label="$t('objects.ccenter.queues.betweenWordsSilence')"
         :disabled="disableUserInput"
         type="number"
         @input="setAmdItemProp({ prop: 'betweenWordsSilence', value:+ $event })"
       ></wt-input>
       <wt-input
-        :value="itemInstance.amd.maxWordLength"
+        :value="itemInstance.payload.amd.maxWordLength"
         :label="$t('objects.ccenter.queues.maxWordLength')"
         :disabled="disableUserInput"
         type="number"
         @input="setAmdItemProp({ prop: 'maxWordLength', value: +$event })"
       ></wt-input>
       <wt-input
-        :value="itemInstance.amd.minWordLength"
+        :value="itemInstance.payload.amd.minWordLength"
         :label="$t('objects.ccenter.queues.minWordLength')"
         :disabled="disableUserInput"
         type="number"
         @input="setAmdItemProp({ prop: 'minWordLength', value: +$event })"
       ></wt-input>
       <wt-input
-        :value="itemInstance.amd.totalAnalysisTime"
+        :value="itemInstance.payload.amd.totalAnalysisTime"
         :label="$t('objects.ccenter.queues.totalAnalysisTime')"
         :disabled="disableUserInput"
         type="number"
         @input="setAmdItemProp({ prop: 'totalAnalysisTime', value: +$event })"
       ></wt-input>
       <wt-input
-        :value="itemInstance.amd.silenceThreshold"
+        :value="itemInstance.payload.amd.silenceThreshold"
         :label="$t('objects.ccenter.queues.silenceThreshold')"
         :disabled="disableUserInput"
         type="number"
         @input="setAmdItemProp({ prop: 'silenceThreshold', value: +$event })"
       ></wt-input>
       <wt-input
-        :value="itemInstance.amd.afterGreetingSilence"
+        :value="itemInstance.payload.amd.afterGreetingSilence"
         :label="$t('objects.ccenter.queues.afterGreetingSilence')"
         :disabled="disableUserInput"
         type="number"
         @input="setAmdItemProp({ prop: 'afterGreetingSilence', value: +$event })"
       ></wt-input>
       <wt-input
-        :value="itemInstance.amd.greeting"
+        :value="itemInstance.payload.amd.greeting"
         :label="$t('objects.ccenter.queues.greeting')"
         :disabled="disableUserInput"
         type="number"
         @input="setAmdItemProp({ prop: 'greeting', value: +$event })"
       ></wt-input>
       <wt-input
-        :value="itemInstance.amd.initialSilence"
+        :value="itemInstance.payload.amd.initialSilence"
         :label="$t('objects.ccenter.queues.initialSilence')"
         :disabled="disableUserInput"
         type="number"
         @input="setAmdItemProp({ prop: 'initialSilence', value: +$event })"
       ></wt-input>
       <wt-switcher
-        :value="itemInstance.amd.allowNotSure"
+        :value="itemInstance.payload.amd.allowNotSure"
         :label="$t('objects.ccenter.queues.allowNotSure')"
         :disabled="disableUserInput"
         @change="setAmdItemProp({ prop: 'allowNotSure', value: $event })"
@@ -85,7 +85,7 @@ import { mapActions } from 'vuex';
 import openedTabComponentMixin from '../../../../../../../app/mixins/objectPagesMixins/openedObjectTabMixin/openedTabComponentMixin';
 
 export default {
-  name: 'opened-queue-outbound-ivr-timing',
+  name: 'opened-queue-amd',
   mixins: [openedTabComponentMixin],
   methods: {
     ...mapActions({

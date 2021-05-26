@@ -1,6 +1,6 @@
-import BaseStoreModule from '../BaseStoreModule';
-import BaseTableModule from '../StoreModuleMixins/BaseTableStoreModuleMixin';
-import BaseOpenedInstanceModule from '../StoreModuleMixins/BaseOpenedInstanceStoreModuleMixin';
+import BaseStoreModule from '../../BaseStoreModule';
+import BaseTableModule from '../../StoreModuleMixins/BaseTableStoreModuleMixin';
+import BaseOpenedInstanceModule from '../../StoreModuleMixins/BaseOpenedInstanceStoreModuleMixin';
 
 export class HistoryStoreModule extends BaseStoreModule {
   _resettableState = () => ({

@@ -36,13 +36,25 @@ const getSupervisorsList = (getList) => function ({
   return getList(params);
 };
 
+const _getRegularAgentsList = (getList) => function ({
+                                                       page = 1,
+                                                       size = 10,
+                                                       search,
+                                                       fields,
+                                                     }) {
+  const isNotSupervisor = true;
+  const params = [page, size, search, undefined, fields, undefined, undefined,
+    undefined, undefined, undefined, undefined, undefined, undefined, undefined, isNotSupervisor];
+  return getList(params);
+};
+
 const _getAgentHistory = (getList) => function ({
-                                         parentId,
-                                         from,
-                                         to,
-                                         page,
-                                         size,
-                                       }) {
+                                                  parentId,
+                                                  from,
+                                                  to,
+                                                  page,
+                                                  size,
+                                                }) {
   // parentId -- agent id
   const sort = '-joined_at';
   const params = [page, size, from, to, parentId, sort];
@@ -59,9 +71,10 @@ const historyListGetter = new SDKListGetter(agentService.searchAgentStateHistory
   .setGetListMethod(_getAgentHistory);
 
 const supervisorsListGetter = new SDKListGetter(agentService.searchAgent)
-.setGetListMethod(getSupervisorsList);
+  .setGetListMethod(getSupervisorsList);
+const regularAgentListGetter = new SDKListGetter(agentService.searchAgent)
+  .setGetListMethod(_getRegularAgentsList);
 const newAgentUsersGetter = new SDKListGetter(agentService.searchLookupUsersAgentNotExists);
-const agentQueuesGetter = new SDKListGetter(agentService.searchAgentInQueue);
 
 export const getAgentsList = (params) => listGetter.getList(params);
 export const getAgent = (params) => itemGetter.getItem(params);
@@ -73,7 +86,7 @@ export const getAgentHistory = (params) => historyListGetter.getList(params);
 
 export const getAgentUsersOptions = (params) => newAgentUsersGetter.getList(params);
 export const getAgentSupervisorsOptions = (params) => supervisorsListGetter.getList(params);
-export const getAgentQueuesList = (params) => agentQueuesGetter.getNestedList(params);
+export const getRegularAgentsOptions = (params) => regularAgentListGetter.getList(params);
 
 export default {
   getList: getAgentsList,
@@ -81,7 +94,6 @@ export default {
   add: addAgent,
   update: updateAgent,
   delete: deleteAgent,
-  getAgentsInQueue: getAgentQueuesList,
 
   getAgentUsersOptions,
   getAgentSupervisorsOptions,

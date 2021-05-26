@@ -54,7 +54,6 @@
                 {{ item.name }}
               </item-link>
             </template>
-
             <template slot="state" slot-scope="{ item }">
               <status
                 :class="{'status__true': item.status === 'online',
@@ -62,11 +61,14 @@
                 :text=computeOnlineText(item.status)
               ></status>
             </template>
-
             <template slot="time" slot-scope="{ item }">
               {{ convertDuration(item.statusDuration) }}
             </template>
-
+            <template slot="team" slot-scope="{ item }">
+              <item-link v-if="item.team" :link="itemTeamLink(item)" target="_blank">
+                {{ item.team.name }}
+              </item-link>
+            </template>
             <template slot="actions" slot-scope="{ item, index }">
               <history-action
                 @click="openHistory(item.id)"
@@ -135,6 +137,12 @@ export default {
         return dispatch(`${this.namespace}/history/SET_PARENT_ITEM_ID`, payload);
       },
     }),
+    itemTeamLink({ team }) {
+      return {
+        name: `${RouteNames.TEAMS}-edit`,
+        params: { id: team.id },
+      };
+    },
 
     convertDuration,
 

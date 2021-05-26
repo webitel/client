@@ -1,7 +1,7 @@
 import res from '../modules/resources/store/res-in-group';
 import ResGroupsAPI from '../api/resourceGroups';
 import ObjectStoreModule from '../../../../../app/store/BaseStoreModules/StoreModules/ObjectStoreModule';
-import PermissionsStoreModule from '../../../../../app/store/BaseStoreModules/StoreModules/PermissionsStoreModule';
+import PermissionsStoreModule from '../../../../../app/store/BaseStoreModules/StoreModules/PermissionsStoreModule/PermissionsStoreModule';
 import headers from './_internals/headers';
 
 const resettableState = {

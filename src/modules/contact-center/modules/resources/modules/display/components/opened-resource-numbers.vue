@@ -42,6 +42,8 @@
         :headers="headers"
         :data="dataList"
         :grid-actions="!disableUserInput"
+        sortable
+        @sort="sort"
       >
         <template slot="name" slot-scope="{ item }">
           {{ item.display }}
@@ -81,14 +83,6 @@ export default {
     subNamespace: 'numbers',
     isNumberPopup: false,
   }),
-
-  computed: {
-    headers() {
-      return [
-        { value: 'name', text: this.$tc('objects.ccenter.res.numbers', 2) },
-      ];
-    },
-  },
 
   methods: {
     openPopup() {

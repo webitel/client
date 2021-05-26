@@ -1,5 +1,6 @@
 import QueueHooksAPI from '../api/queueHooks';
 import NestedObjectStoreModule from '../../../../../../../app/store/BaseStoreModules/StoreModules/NestedObjectStoreModule';
+import headers from './_internals/headers';
 
 const resettableItemState = {
   itemInstance: {
@@ -10,7 +11,7 @@ const resettableItemState = {
   },
 };
 
-const queueHooks = new NestedObjectStoreModule({ resettableItemState })
+const queueHooks = new NestedObjectStoreModule({ resettableItemState, headers })
   .attachAPIModule(QueueHooksAPI)
   .generateAPIActions()
   .getModule();

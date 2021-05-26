@@ -13,7 +13,7 @@ import SDKDeleter from '../../../../../../../app/api/BaseAPIServices/Deleter/SDK
 const memberService = new MemberServiceApiFactory(configuration, '', instance);
 
 const fieldsToSend = ['queueId', 'name', 'priority', 'bucket', 'timezone', 'communications',
-  'variables', 'expireAt'];
+  'variables', 'expireAt', 'minOfferingAt'];
 
 const communicationsFieldsToSend = ['destination', 'display', 'priority', 'type', 'resource', 'description'];
 
@@ -43,12 +43,14 @@ const defaultSingleObjectCommunication = {
 };
 
 const mapDefaultCommunications = (item) => (
-  item.communications.map((comm) => ({ ...defaultSingleObjectCommunication, ...comm }))
+    item.communications ? item.communications.map((comm) => ({ ...defaultSingleObjectCommunication, ...comm })) : []
 );
 
 const _getMembersList = (getList) => function ({
                                                  page,
                                                  size,
+                                                 // search,
+                                                 // sort,
                                                  parentId,
                                                }) {
   const params = [parentId, page, size];

@@ -11,8 +11,9 @@ export default class SDKPatcher extends BaseItemPatcher {
 
   async _patchItem(args) {
     try {
-      await this.SDKMethod(...args);
+      const response = await this.SDKMethod(...args);
       eventBus.$emit('notification', { type: 'info', text: 'Successfully updated' });
+      return response;
     } catch (err) {
       throw err;
     }

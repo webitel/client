@@ -1,13 +1,14 @@
 import MembersAPI, { deleteMembers } from '../api/queueMembers';
 import { getQueue } from '../../../api/queues';
 import NestedObjectStoreModule from '../../../../../../../app/store/BaseStoreModules/StoreModules/NestedObjectStoreModule';
+import headers from './_internals/headers';
 
 const resettableItemState = {
   parentQueue: {},
   itemInstance: {
     name: '',
     priority: 0,
-    expireAt: Date.now() + 24 * 60 * 60 * 1000,
+    expireAt: Date.now() + 7 * 24 * 60 * 60 * 1000,
     bucket: {},
     timezone: {},
     communications: [],
@@ -99,7 +100,7 @@ const mutations = {
   },
 };
 
-const queueMembers = new NestedObjectStoreModule({ resettableItemState })
+const queueMembers = new NestedObjectStoreModule({ resettableItemState, headers })
   .attachAPIModule(MembersAPI)
   .generateAPIActions()
   .getModule({ actions, mutations });

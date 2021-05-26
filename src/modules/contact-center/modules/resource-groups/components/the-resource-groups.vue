@@ -41,9 +41,9 @@
             :headers="headers"
             :data="dataList"
             :grid-actions="hasTableActions"
+            sortable
             @sort="sort"
           >
-
             <template slot="name" slot-scope="{ item }">
               <span class="nameLink" @click="edit(item)">
                 {{ item.name }}

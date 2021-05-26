@@ -8,13 +8,13 @@
           :value="itemInstance.payload.maxWaitTime"
           :label="$t('objects.ccenter.queues.maxWaitTime')"
           :disabled="disableUserInput"
-          @input="setItemPayloadProp({ prop: 'maxWaitTime', value: $event })"
+          @input="setItemPayloadProp({ prop: 'maxWaitTime', value: +$event })"
       ></wt-timepicker>
       <wt-timepicker
           :value="itemInstance.payload.discardAbandonedAfter"
           :label="$t('objects.ccenter.queues.discardAbandonedAfter')"
           :disabled="disableUserInput"
-          @input="setItemPayloadProp({ prop: 'discardAbandonedAfter', value: $event })"
+          @input="setItemPayloadProp({ prop: 'discardAbandonedAfter', value: +$event })"
       ></wt-timepicker>
       <wt-switcher
         :value="itemInstance.payload.allowGreetingAgent"
@@ -22,15 +22,8 @@
         :disabled="disableUserInput"
         @change="setItemPayloadProp({ prop: 'allowGreetingAgent', value: $event })"
       ></wt-switcher>
-      <wt-select
-          :value="itemInstance.payload.timeBaseScore"
-          :options="timeBaseScoreOptions"
-          :label="$t('objects.ccenter.queues.timeBaseScore')"
-          :clearable="false"
-          :track-by="null"
-          :disabled="disableUserInput"
-          @input="setItemPayloadProp({ prop: 'timeBaseScore', value: $event })"
-      ></wt-select>
+      <!-- empty for grid cell -->
+      <div></div>
       <wt-switcher
         :value="itemInstance.processing"
         :label="$t('objects.ccenter.queues.processing')"
@@ -43,7 +36,7 @@
         :label="$t('objects.ccenter.queues.processingSec')"
         :disabled="disableUserInput"
         type="number"
-        @input="setItemProp({ prop: 'processingSec', value: $event })"
+        @input="setItemProp({ prop: 'processingSec', value: +$event })"
       ></wt-input>
       <wt-input
         v-show="itemInstance.processing"
@@ -51,7 +44,23 @@
         :label="$t('objects.ccenter.queues.processingRenewalSec')"
         :disabled="disableUserInput"
         type="number"
-        @input="setItemProp({ prop: 'processingRenewalSec', value: $event })"
+        @input="setItemProp({ prop: 'processingRenewalSec', value: +$event })"
+      ></wt-input>
+      <!-- empty for grid cell -->
+      <div></div>
+      <wt-switcher
+        :value="itemInstance.stickyAgent"
+        :label="$t('objects.ccenter.queues.stickyAgent')"
+        :disabled="disableUserInput"
+        @change="setItemProp({ prop: 'stickyAgent', value: $event })"
+      ></wt-switcher>
+      <wt-input
+        v-show="itemInstance.stickyAgent"
+        :value="itemInstance.payload.stickyAgentSec"
+        :label="$t('objects.ccenter.queues.stickyAgentSec')"
+        :disabled="disableUserInput"
+        type="number"
+        @input="setItemPayloadProp({ prop: 'stickyAgentSec', value: +$event })"
       ></wt-input>
     </form>
   </section>

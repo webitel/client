@@ -42,6 +42,8 @@
         :data="dataList"
         :headers="headers"
         :grid-actions="!disableUserInput"
+        sortable
+        @sort="sort"
       >
         <template slot="name" slot-scope="{ item }">
           <div v-if="item.skill">
@@ -82,7 +84,7 @@
 </template>
 
 <script>
-import { mapActions, mapState } from 'vuex';
+import { mapActions } from 'vuex';
 import SkillPopup from './opened-agent-skills-popup.vue';
 import openedObjectTableTabMixin from '../../../../../../../app/mixins/objectPagesMixins/openedObjectTableTabMixin/openedObjectTableTabMixin';
 
@@ -94,17 +96,6 @@ export default {
     subNamespace: 'skills',
     isSkillPopup: false,
   }),
-
-  computed: {
-    headers() {
-      return [
-        { value: 'name', text: this.$tc('objects.lookups.skills.skills', 2) },
-        { value: 'capacity', text: this.$t('objects.lookups.skills.capacity') },
-        { value: 'state', text: this.$tc('objects.lookups.skills.state') },
-      ];
-    },
-  },
-
   methods: {
     ...mapActions({
       patchItem(dispatch, payload) {

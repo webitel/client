@@ -1,5 +1,6 @@
 import AgentSubordinatesAPI from '../api/agentSubordinates';
 import NestedObjectStoreModule from '../../../../../../../app/store/BaseStoreModules/StoreModules/NestedObjectStoreModule';
+import headers from './_internals/headers';
 
 const resettableItemState = {
   itemInstance: {
@@ -14,7 +15,7 @@ const getters = {
   },
 };
 
-const agentSubordinates = new NestedObjectStoreModule({ resettableItemState })
+const agentSubordinates = new NestedObjectStoreModule({ resettableItemState, headers })
   .attachAPIModule(AgentSubordinatesAPI)
   .generateAPIActions()
   .getModule({ getters });

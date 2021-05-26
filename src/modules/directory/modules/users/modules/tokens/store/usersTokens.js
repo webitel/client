@@ -1,5 +1,6 @@
 import UserTokensAPI from '../api/userTokens';
 import NestedObjectStoreModule from '../../../../../../../app/store/BaseStoreModules/StoreModules/NestedObjectStoreModule';
+import headers from './_internals/headers';
 
 const resettableItemState = {
   itemInstance: {
@@ -26,7 +27,7 @@ const mutations = {
   },
 };
 
-const userTokens = new NestedObjectStoreModule({ resettableItemState })
+const userTokens = new NestedObjectStoreModule({ resettableItemState, headers })
   .attachAPIModule(UserTokensAPI)
   .generateAPIActions()
   .getModule({ actions, mutations });

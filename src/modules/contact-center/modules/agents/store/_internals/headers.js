@@ -19,4 +19,10 @@ export default [
     field: 'status_duration',
     sort: SortSymbols.NONE,
   },
+  {
+    value: 'team',
+    locale: ['objects.ccenter.teams.teams', 1],
+    field: 'team',
+    sort: SortSymbols.NONE,
+  },
 ];

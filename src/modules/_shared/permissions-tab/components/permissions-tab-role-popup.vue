@@ -1,16 +1,21 @@
 <template>
-  <wt-popup min-width="480" overflow @close="close">
+  <wt-popup
+    class="permissions-tab-role-popup"
+    min-width="480"
+    overflow
+    @close="close"
+  >
     <template slot="title">
       {{ $t('objects.permissions.object.newPermissionRole') }}
     </template>
     <template slot="main">
-      <wt-select
+      <permissions-role-select
         v-model="newGrantee"
         :placeholder="$tc('objects.permissions.permissionsRole', 1)"
         :search="getAvailableGrantees"
         :internal-search="false"
         :clearable="false"
-      ></wt-select>
+      ></permissions-role-select>
     </template>
     <template slot="actions">
       <wt-button @click="save">{{ $t('objects.add') }}</wt-button>
@@ -20,14 +25,16 @@
 </template>
 
 <script>
-import permissionsTabRolePopupMixins from '../../../../app/mixins/objectPagesMixins/permissionsTabMixin/permissionsTabRolePopupMixin';
+import permissionsTabRolePopupMixins
+  from '../../../../app/mixins/objectPagesMixins/permissionsTabMixin/permissionsTabRolePopupMixin';
+import PermissionsRoleSelect from './_internals/permissions-role-select.vue';
 
 export default {
   name: 'permissions-tab-role-popup',
   mixins: [permissionsTabRolePopupMixins],
+  components: { PermissionsRoleSelect },
 };
 </script>
 
 <style lang="scss" scoped>
-
 </style>

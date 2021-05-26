@@ -12,6 +12,7 @@ const taskQueue = () => ({
   processing: false,
   processingSec: 30,
   processingRenewalSec: 15,
+  stickyAgent: false,
   payload: {
     maxAttempts: 3, // required
     waitBetweenRetries: 30 * 60, // required

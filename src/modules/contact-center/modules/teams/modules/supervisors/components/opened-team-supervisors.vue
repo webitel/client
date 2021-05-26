@@ -47,6 +47,8 @@
         :headers="headers"
         :data="dataList"
         :grid-actions="!disableUserInput"
+        sortable
+        @sort="sort"
       >
         <template slot="name" slot-scope="{ item }">
           <item-link :link="itemLink(item)" target="_blank">
@@ -85,7 +87,6 @@
 </template>
 
 <script>
-import { mapState } from 'vuex';
 import SupervisorPopup from './opened-team-supervisors-popup.vue';
 import SupervisorSubordinatesPopup from './opened-team-supervisor-subordinates-popup.vue';
 import openedObjectTableTabMixin from '../../../../../../../app/mixins/objectPagesMixins/openedObjectTableTabMixin/openedObjectTableTabMixin';
@@ -102,14 +103,6 @@ export default {
     isSupervisorPopup: false,
     isSupervisorSubordinatesPopup: false,
   }),
-
-  computed: {
-    headers() {
-      return [
-        { value: 'name', text: this.$t('objects.name') },
-      ];
-    },
-  },
 
   methods: {
     openSubordinates({ id }) {

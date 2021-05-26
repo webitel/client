@@ -61,6 +61,7 @@
             :headers="headers"
             :data="dataList"
             :grid-actions="hasEditAccess && isNotInboundMember"
+            @sort="sort"
           >
             <template slot="name" slot-scope="{ item }">
               <span class="nameLink" @click="edit(item)">
@@ -70,6 +71,11 @@
             <template slot="createdAt" slot-scope="{ item }">
               {{ prettifyDate(item.createdAt) }}
             </template>
+            <template slot="offeringAt" slot-scope="{ item }">
+              <div v-if="item.minOfferingAt">
+                {{ prettifyDateTime(item.minOfferingAt) }}
+              </div>
+            </template>
             <template slot="priority" slot-scope="{ item }">
               {{ item.priority }}
             </template>
@@ -77,7 +83,7 @@
               {{ prettifyStopCause(item.stopCause) }}
             </template>
             <template slot="destination" slot-scope="{ item }">
-              <div class="members__destinations-wrapper" v-if="item.communications">
+              <div class="members__destinations-wrapper" v-if="item.communications.length">
                 {{ item.communications[0].destination }}
                 <span class="members__destinations-num"
                       v-if="item.communications.length > 1"
@@ -146,16 +152,6 @@ export default {
       return this.$route.params.queueId;
     },
 
-    headers() {
-      return [
-        { value: 'name', text: this.$t('objects.name') },
-        { value: 'createdAt', text: this.$t('objects.createdAt') },
-        { value: 'priority', text: this.$t('objects.ccenter.queues.priority') },
-        { value: 'endCause', text: this.$t('objects.ccenter.queues.endCause') },
-        { value: 'destination', text: this.$tc('objects.ccenter.queues.destination', 1) },
-      ];
-    },
-
     // if is NOT -- member is immutable. NOT prevents actions load by default
     isNotInboundMember() {
       return !(this.parentQueue.type === 1);
@@ -174,28 +170,34 @@ export default {
 
   methods: {
     prettifyStopCause(cause) {
+      if (!cause) return ''
+
       switch (cause) {
-        case 'SYSTEM_SHUTDOWN':
+        case 'shutdown':
           return this.$t('objects.ccenter.members.endCause.sysShutdown');
-        case 'DATABASE_ERROR':
+        case 'database_error':
           return this.$t('objects.ccenter.members.endCause.dbError');
-        case 'ABANDONED':
+        case 'abandoned':
           return this.$t('objects.ccenter.members.endCause.abandoned');
-        case 'TIMEOUT':
+        case 'timeout':
           return this.$t('objects.ccenter.members.endCause.timeout');
-        case 'CANCEL':
+        case 'cancel':
           return this.$t('objects.ccenter.members.endCause.cancel');
-        case 'SUCCESSFUL':
+        case 'success':
           return this.$t('objects.ccenter.members.endCause.successful');
         case 'QUEUE_NOT_IMPLEMENT':
           return this.$t('objects.ccenter.members.endCause.queueNotImplement');
         default:
-          return this.$t('objects.ccenter.members.endCause.unknown');
+          return cause;
       }
     },
 
     prettifyDate(createdAt) {
       return new Date(+createdAt).toLocaleDateString();
+    },
+
+    prettifyDateTime(timestamp) {
+      return new Date(+timestamp).toLocaleString();
     },
 
     readDestinations(item) {

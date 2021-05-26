@@ -1,5 +1,6 @@
 import ResInGroupAPI from '../api/resInGroup';
 import NestedObjectStoreModule from '../../../../../../../app/store/BaseStoreModules/StoreModules/NestedObjectStoreModule';
+import headers from './_internals/headers';
 
 const resettableItemState = {
   itemInstance: {
@@ -7,7 +8,7 @@ const resettableItemState = {
   },
 };
 
-const resInGroup = new NestedObjectStoreModule({ resettableItemState })
+const resInGroup = new NestedObjectStoreModule({ resettableItemState, headers })
   .attachAPIModule(ResInGroupAPI)
   .generateAPIActions()
   .getModule();

@@ -43,6 +43,8 @@
         :headers="headers"
         :data="dataList"
         :grid-actions="!disableUserInput"
+        sortable
+        @sort="sort"
       >
         <template slot="usage" slot-scope="{ item }">
           {{ item.usage }}
@@ -91,15 +93,6 @@ export default {
     isPopup: false,
     isTokenGenerated: false,
   }),
-  computed: {
-    headers() {
-      return [
-        { value: 'usage', text: this.$t('objects.directory.users.usage') },
-        { value: 'createdAt', text: this.$t('objects.directory.users.createdAt') },
-        { value: 'createdBy', text: this.$t('objects.directory.users.createdBy') },
-      ];
-    },
-  },
 
   methods: {
     openPopup() {
