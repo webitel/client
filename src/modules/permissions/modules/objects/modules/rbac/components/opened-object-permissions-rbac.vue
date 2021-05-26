@@ -43,6 +43,8 @@
           :data="dataList"
           :selectable="false"
           :grid-actions="false"
+          sortable
+          @sort="sort"
         >
           <template slot="grantor" slot-scope="{ item }">
             <role-column :role="item.grantor"></role-column>
@@ -62,7 +64,7 @@
             ></wt-select>
           </template>
 
-          <template slot="write" slot-scope="{ item }">
+          <template slot="edit" slot-scope="{ item }">
             <wt-select
               :value="item.access.w"
               :options="accessOptions"
@@ -110,17 +112,6 @@ export default {
     subNamespace: 'rbac',
     headerTitle: '',
   }),
-  computed: {
-    headers() {
-      return [
-        { value: 'grantor', text: this.$t('objects.permissions.object.grantor') },
-        { value: 'grantee', text: this.$t('objects.permissions.object.grantee') },
-        { value: 'read', text: this.$t('objects.read') },
-        { value: 'write', text: this.$t('objects.edit') },
-        { value: 'delete', text: this.$t('objects.delete') },
-      ];
-    },
-  },
 };
 
 </script>
