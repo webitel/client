@@ -89,7 +89,7 @@ export default {
         { value: 'name', text: this.$t('objects.name') },
         { value: 'start', text: this.$t('objects.lookups.calendars.start') },
         { value: 'end', text: this.$t('objects.lookups.calendars.end') },
-        { value: 'state', text: this.$t('objects.lookups.calendars.enabled') },
+        { value: 'state', text: this.$t('reusable.state') },
       ];
     },
   },

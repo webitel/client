@@ -55,7 +55,7 @@
                 {{ item.gateway.name }}
               </div>
             </template>
-            <template slot="enabled" slot-scope="{ item, index }">
+            <template slot="state" slot-scope="{ item, index }">
               <wt-switcher
                 class="test__resources__enable-switcher"
                 :value="item.enabled"

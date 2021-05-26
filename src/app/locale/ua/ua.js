@@ -360,7 +360,6 @@ export default {
         end: 'Кінець',
         workWeek: 'Робочий тиждень',
         holidays: 'Вихідний | Вихідні',
-        enabled: 'Включено',
         date: 'Дата',
         repeat: 'Повторювати',
         fulltime: 'Тимчасовий',

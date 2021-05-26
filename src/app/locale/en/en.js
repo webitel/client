@@ -363,7 +363,6 @@ export default {
         end: 'End',
         workWeek: 'Working week',
         holidays: 'Holiday | Holidays',
-        enabled: 'Enabled',
         date: 'Date',
         repeat: 'Repeat',
         fulltime: 'Temporary',

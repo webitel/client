@@ -59,7 +59,7 @@
                 {{ item.schema.name }}
               </item-link>
             </template>
-            <template slot="enabled" slot-scope="{ item, index }">
+            <template slot="state" slot-scope="{ item, index }">
               <wt-switcher
                 :value="!item.disabled"
                 :disabled="!hasEditAccess"

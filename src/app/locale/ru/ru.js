@@ -361,7 +361,6 @@ export default {
         end: 'Конец',
         workWeek: 'Рабочая неделя',
         holidays: 'Выходной | Выходные',
-        enabled: 'Включено',
         date: 'Дата',
         repeat: 'Повторить',
         fulltime: 'Временный',

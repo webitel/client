@@ -57,7 +57,7 @@
             <template slot="proxy" slot-scope="{ item }">
               {{ item.proxy }}
             </template>
-            <template slot="enabled" slot-scope="{ item, index }">
+            <template slot="state" slot-scope="{ item, index }">
               <wt-switcher
                 :value="item.enable"
                 :disabled="!hasEditAccess"
