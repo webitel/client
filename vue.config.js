@@ -20,7 +20,8 @@ module.exports = {
     css: {
         loaderOptions: {
             sass: {
-                prependData: `
+              implementation: require('sass'),
+              additionalData: `
                       @import '~@webitel/ui-sdk/src/css/main.scss';
                       @import "@/app/css/main.scss";
                       @import "@/app/css/objects/objects.scss";

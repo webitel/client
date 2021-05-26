@@ -71,11 +71,11 @@
     }
 
     &.opened {
-      @extend .default-input:hover;
+      @extend .default-input;
     }
 
     &.disabled {
-      @extend .default-input:disabled;
+      @extend .default-input;
 
       input {
         background: transparent;

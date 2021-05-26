@@ -10,7 +10,7 @@
   },
   "dependencies": {
     "@johmun/vue-tags-input": "^2.1.0",
-    "@webitel/ui-sdk": "^0.7.81",
+    "@webitel/ui-sdk": "^0.8.0",
     "axios": "^0.21.1",
     "chart.js": "^2.9.3",
     "clipboard-copy": "^4.0.1",
@@ -24,6 +24,7 @@
     "jszip": "^3.2.2",
     "jszip-utils": "^0.1.0",
     "monaco-editor": "^0.18.1",
+    "sass": "^1.34.0",
     "sortablejs": "^1.10.2",
     "svg-sprite-loader": "^5.2.1",
     "vue": "^2.6.10",
@@ -51,8 +52,7 @@
     "eslint-plugin-import": "^2.20.1",
     "eslint-plugin-vue": "^6.1.2",
     "monaco-editor-webpack-plugin": "^1.7.0",
-    "node-sass": "^4.12.0",
-    "sass-loader": "^8.0.2",
+    "sass-loader": "^10.2.0",
     "vue-template-compiler": "^2.6.10"
   },
   "postcss": {
