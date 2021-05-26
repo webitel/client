@@ -10,16 +10,19 @@ export default [
   {
     value: 'read',
     locale: 'objects.read',
-    field: 'access',
+    field: 'r',
+    sort: SortSymbols.NONE,
   },
   {
     value: 'edit',
     locale: 'objects.edit',
-    field: 'access',
+    field: 'w',
+    sort: SortSymbols.NONE,
   },
   {
     value: 'delete',
     locale: 'objects.delete',
-    field: 'access',
+    field: 'd',
+    sort: SortSymbols.NONE,
   },
 ];
