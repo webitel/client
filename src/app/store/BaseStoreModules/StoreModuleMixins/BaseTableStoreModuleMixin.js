@@ -1,5 +1,5 @@
-import deepCopy from 'deep-copy';
 import { SortSymbols, sortToQueryAdapter } from '@webitel/ui-sdk/src/scripts/sortQueryAdapters';
+import deepCopy from 'deep-copy';
 
 const state = {
   headers: [],
@@ -32,7 +32,7 @@ const actions = {
   },
   PREV_PAGE: (context) => {
     if (context.state.page > 1) {
-      const page = context.state.page -1;
+      const page = context.state.page - 1;
       context.commit('SET_PAGE', page);
       context.dispatch('LOAD_DATA_LIST');
     }
@@ -68,15 +68,39 @@ const actions = {
       context.dispatch('LOAD_DATA_LIST');
     }
   },
-  REMOVE_ITEM: async (context, index) => {
-    const id = context.state.dataList[index].id;
-    context.commit('REMOVE_ITEM', index);
+  DELETE: async (context, deleted) => {
+    let action = 'DELETE_SINGLE';
+    if (Array.isArray(deleted)) {
+      if (deleted.length) action = 'DELETE_BULK';
+      else action = 'DELETE_ALL';
+    }
+    try {
+      await context.dispatch(action, deleted);
+    } catch (err) {
+      throw err;
+    } finally {
+      await context.dispatch('LOAD_DATA_LIST');
+    }
+  },
+  DELETE_SINGLE: async (context, { id }) => {
     try {
       await context.dispatch('DELETE_ITEM', id);
     } catch (err) {
       throw err;
     }
   },
+  DELETE_BULK: async (context, deleted) => {
+    return Promise.allSettled(deleted.map((item) => context.dispatch('DELETE_SINGLE', item)));
+  },
+  // REMOVE_ITEM: async (context, index) => {
+  //   const id = context.state.dataList[index].id;
+  //   context.commit('REMOVE_ITEM', index);
+  //   try {
+  //     await context.dispatch('DELETE_ITEM', id);
+  //   } catch (err) {
+  //     throw err;
+  //   }
+  // },
 };
 
 const mutations = {
@@ -104,9 +128,9 @@ const mutations = {
   PATCH_ITEM_PROPERTY: (state, { index, prop, value }) => {
     state.dataList[index][prop] = value;
   },
-  REMOVE_ITEM: (state, index) => {
-    state.dataList.splice(index, 1);
-  },
+  // REMOVE_ITEM: (state, index) => {
+  //   state.dataList.splice(index, 1);
+  // },
 };
 
 export default {

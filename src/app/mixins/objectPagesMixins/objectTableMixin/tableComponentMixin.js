@@ -65,6 +65,9 @@ export default {
       dispatchSort(dispatch, payload) {
         return dispatch(`${this.namespace}/SORT`, payload);
       },
+      dispatchDelete(dispatch, payload) {
+        return dispatch(`${this.namespace}/DELETE`, payload);
+      },
       removeItem(dispatch, payload) {
         return dispatch(`${this.namespace}/REMOVE_ITEM`, payload);
       },
