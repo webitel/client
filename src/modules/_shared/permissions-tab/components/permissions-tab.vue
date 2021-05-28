@@ -31,6 +31,7 @@
         :headers="headers"
         :grid-actions="!disableUserInput"
         :selectable="false"
+        sortable
         @sort="sort"
       >
         <template slot="grantee" slot-scope="{ item }">

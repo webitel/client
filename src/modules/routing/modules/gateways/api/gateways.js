@@ -53,7 +53,7 @@ itemGetter.responseHandler = (response) => {
   return coerceTrunkingResponse(response);
 };
 
-export const getGatewayList = (params) => listGetter.getList(params);
+export const getGatewayList = (params) => listGetter.getList({ ...params, searchQuery: 'q' });
 export const getGateway = (params) => itemGetter.getItem(params);
 export const addGateway = (params) => itemCreator.createItem(params);
 export const updateGateway = (params) => itemUpdater.updateItem(params);

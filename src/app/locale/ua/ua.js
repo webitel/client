@@ -429,6 +429,7 @@ export default {
         dialplanRules: 'Правила вихідного набору',
         pattern: 'Номер призначення',
         dialplanRule: 'Правило вихідного набору',
+        position: 'Позиція',
       },
 
       gateways: {

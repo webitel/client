@@ -43,6 +43,8 @@
         :data="dataList"
         :selectable="false"
         :grid-actions="false"
+        sortable
+        @sort="sort"
       >
         <template slot="grantee" slot-scope="{ item }">
           <role-column :role="item.grantee"></role-column>
@@ -121,15 +123,6 @@ export default {
     ...mapState('permissions/objects', {
       id: (state) => state.itemId,
     }),
-    headers() {
-      return [
-        { value: 'grantee', text: this.$t('objects.permissions.object.grantee') },
-        { value: 'create', text: this.$t('objects.create') },
-        { value: 'read', text: this.$t('objects.read') },
-        { value: 'edit', text: this.$t('objects.edit') },
-        { value: 'delete', text: this.$t('objects.delete') },
-      ];
-    },
   },
 };
 </script>

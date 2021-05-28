@@ -3,6 +3,7 @@ import {
   getObjclassDefaultList,
   patchObjclassDefaultMode,
 } from '../api/objectsRbac';
+import headers from './_internals/headers';
 
 const actions = {
   GET_LIST: (context) => getObjclassDefaultList(context.state),
@@ -27,8 +28,7 @@ const actions = {
   },
 };
 
-const rbac = new PermissionsStoreModule()
+const rbac = new PermissionsStoreModule({ headers })
   .getModule({ actions });
 
 export default rbac;
-

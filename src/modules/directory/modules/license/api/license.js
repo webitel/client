@@ -11,7 +11,7 @@ const defaultListObject = {
 
 const listGetter = new APIListGetter(LICENSE_URL, { defaultListObject });
 
-export const getLicenseList = (params) => listGetter.getList(params);
+export const getLicenseList = (params) => listGetter.getList({ ...params, searchQuery: 'q' });
 export const updateLicense = async (data) => {
   try {
     const response = await instance.put(CUSTOMER_URL, data);

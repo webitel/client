@@ -3,8 +3,14 @@ import { SortSymbols } from '@webitel/ui-sdk/src/scripts/sortQueryAdapters';
 export default [
   {
     value: 'grantee',
-    locale: 'objects.name',
+    locale: 'objects.permissions.object.grantee',
     field: 'grantee',
+    sort: SortSymbols.NONE,
+  },
+  {
+    value: 'create',
+    locale: 'objects.create',
+    field: 'x',
     sort: SortSymbols.NONE,
   },
   {

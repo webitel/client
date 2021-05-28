@@ -26,8 +26,8 @@ const itemDeleter = new APIItemDeleter(baseUrl);
 const PERMISSIONS_LIST_URL = '/permissions';
 const permissionsListGetter = new APIListGetter(PERMISSIONS_LIST_URL);
 
-export const getRoleList = (params) => listGetter.getList(params);
-export const getExtendedRoles = (params) => extendedRolesListGetter.getList(params);
+export const getRoleList = (params) => listGetter.getList({ ...params, searchQuery: 'q' });
+export const getExtendedRoles = (params) => extendedRolesListGetter.getList({ ...params, searchQuery: 'q' });
 
 export const getRole = (params) => itemGetter.getItem(params);
 export const addRole = (params) => itemCreator.createItem(params);
