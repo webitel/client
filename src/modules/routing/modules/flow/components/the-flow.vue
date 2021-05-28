@@ -15,6 +15,12 @@
         :file="jsonFile"
         @close="closeUploadPopup"
       ></upload-popup>
+      <delete-confirmation-popup
+        v-show="deleteConfirmation.isDeleteConfirmationPopup"
+        :payload="deleteConfirmation"
+        @close="closeDelete"
+      ></delete-confirmation-popup>
+
       <section class="main-section__wrapper">
         <header class="content-header">
           <h3 class="content-title">{{ $t('objects.routing.flow.allFlowSchemas') }}</h3>
@@ -32,7 +38,7 @@
               :class="{'hidden': anySelected}"
               icon="bucket"
               :tooltip="$t('iconHints.deleteSelected')"
-              @click="deleteSelected"
+              @click="callDelete(selectedRows)"
             ></wt-icon-btn>
             <upload-file-icon-btn
               v-if="hasCreateAccess"
@@ -61,7 +67,7 @@
                 {{ item.name }}
               </item-link>
             </template>
-            <template slot="actions" slot-scope="{ item, index }">
+            <template slot="actions" slot-scope="{ item }">
             <wt-icon-btn
               class="table-action"
               icon="download"
@@ -75,7 +81,7 @@
             ></edit-action>
             <delete-action
               v-if="hasDeleteAccess"
-              @click="remove(index)"
+              @click="callDelete(item)"
             ></delete-action>
           </template>
           </wt-table>
