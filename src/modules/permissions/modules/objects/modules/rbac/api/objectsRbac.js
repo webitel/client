@@ -15,5 +15,5 @@ const listGetter = new ApiListGetter(BASE_URL, {
 }).setGetListMethod(_getObjclassDefaultList);
 const itemPatcher = new ApiPatcher(BASE_URL, { nestedUrl: 'grantor' });
 
-export const getObjclassDefaultList = (params) => listGetter.getList(params);
+export const getObjclassDefaultList = (params) => listGetter.getList({ ...params, searchQuery: 'q' });
 export const patchObjclassDefaultMode = (params) => itemPatcher.patchNestedItem(params);

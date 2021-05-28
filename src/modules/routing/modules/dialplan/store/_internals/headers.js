@@ -25,4 +25,10 @@ export default [
     field: 'disabled',
     sort: SortSymbols.NONE,
   },
+  {
+    value: 'position',
+    locale: 'objects.routing.dialplan.position',
+    field: 'position',
+    sort: SortSymbols.ASC,
+  },
 ];

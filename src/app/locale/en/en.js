@@ -426,6 +426,7 @@ export default {
         dialplanRules: 'Dialplan rules',
         pattern: 'Destination number',
         dialplanRule: 'Dialplan rule',
+        position: 'Position',
       },
 
       gateways: {

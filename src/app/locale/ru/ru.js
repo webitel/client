@@ -424,6 +424,7 @@ export default {
         dialplanRules: 'Правила исходящей маршрутизации',
         pattern: 'Номер назначения',
         dialplanRule: 'Правило исходящей маршрутизации',
+        position: 'Позиция',
       },
 
       gateways: {
