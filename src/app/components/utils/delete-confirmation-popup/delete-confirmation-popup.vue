@@ -66,11 +66,16 @@ export default {
       this.$emit('close');
     },
     async confirm() {
-      this.isDeleting = true;
-      this.$emit('confirm');
-      await this.payload.callback();
-      this.isDeleting = false;
-      this.close();
+      try {
+        this.isDeleting = true;
+        this.$emit('confirm');
+        await this.payload.callback();
+      } catch (err) {
+        throw err;
+      } finally {
+        this.isDeleting = false;
+        this.close();
+      }
     },
     cancel() {
       this.$emit('cancel');

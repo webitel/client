@@ -66,10 +66,24 @@ const actions = {
     context.commit('SET_ITEM_PROPERTY', { prop: 'excepts', value });
   },
 
-  REMOVE_EXCEPT_ITEM: (context, index) => {
-    const value = context.state.itemInstance.excepts;
-    value.splice(index, 1);
-    context.commit('SET_ITEM_PROPERTY', { prop: 'excepts', value });
+  DELETE_EXCEPT_ITEM: async (context, deleted) => {
+    let action = 'DELETE_SINGLE_EXCEPT_ITEM';
+    if (Array.isArray(deleted)) {
+      if (deleted.length) action = 'DELETE_BULK_EXCEPT_ITEMS';
+    }
+    try {
+      await context.dispatch(action, deleted);
+    } catch (err) {
+      throw err;
+    }
+  },
+  DELETE_SINGLE_EXCEPT_ITEM: async (context, item) => {
+    const { excepts } = context.state.itemInstance;
+    excepts.splice(excepts.indexOf(item), 1);
+    context.commit('SET_ITEM_PROPERTY', { prop: 'excepts', value: excepts });
+  },
+  DELETE_BULK_EXCEPT_ITEMS: async (context, deleted) => {
+    return Promise.allSettled(deleted.map((item) => context.dispatch('DELETE_SINGLE_EXCEPT_ITEM', item)));
   },
 
   SET_EXCEPT_ITEM_PROPERTY: (context, { index, prop, value }) => {
