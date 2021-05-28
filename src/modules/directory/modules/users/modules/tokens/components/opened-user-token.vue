@@ -21,7 +21,7 @@
           :class="{'hidden': anySelected}"
           icon="bucket"
           :tooltip="$t('iconHints.deleteSelected')"
-          @click="deleteSelected"
+          @click="callDelete(selectedRows)"
         ></wt-icon-btn>
         <wt-table-actions
           :icons="['refresh']"
@@ -57,10 +57,10 @@
         <template slot="createdAt" slot-scope="{ item }">
           {{ prettifyDate(item.createdAt) }}
         </template>
-        <template slot="actions" slot-scope="{ item, index }">
+        <template slot="actions" slot-scope="{ item }">
           <wt-icon-btn
             icon="bucket"
-            @click="remove(index)"
+            @click="callDelete(item)"
           ></wt-icon-btn>
         </template>
       </wt-table>
@@ -92,6 +92,8 @@ export default {
     subNamespace: 'tokens',
     isPopup: false,
     isTokenGenerated: false,
+
+    isDeleteConfirmation: false,
   }),
 
   methods: {
