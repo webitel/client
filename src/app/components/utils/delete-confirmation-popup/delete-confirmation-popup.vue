@@ -52,10 +52,9 @@ export default {
           { count: this.$t('objects.deleteConfirmation.deleteAll') },
         );
       }
-      const plural = this.payload.deleteCount % 2;
       return this.$tc(
         'objects.deleteConfirmation.askingAlert',
-        plural,
+        this.payload.deleteCount === 1 ? 1 : 2,
         null,
         { count: this.payload.deleteCount },
       );

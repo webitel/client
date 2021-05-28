@@ -10,6 +10,12 @@
     </template>
 
     <template slot="main">
+      <delete-confirmation-popup
+        v-show="deleteConfirmation.isDeleteConfirmationPopup"
+        :payload="deleteConfirmation"
+        @close="closeDelete"
+      ></delete-confirmation-popup>
+
       <section class="main-section__wrapper">
         <header class="content-header">
           <h3 class="content-title">{{ $t('objects.lookups.blacklist.allBlacklists') }}</h3>
@@ -27,7 +33,7 @@
               :class="{'hidden': anySelected}"
               icon="bucket"
               :tooltip="$t('iconHints.deleteSelected')"
-              @click="deleteSelected"
+              @click="callDelete(selectedRows)"
             ></wt-icon-btn>
             <wt-table-actions
               :icons="['refresh']"
@@ -53,7 +59,7 @@
             <template slot="numbers" slot-scope="{ item }">
               {{ item.count }}
             </template>
-            <template slot="actions" slot-scope="{ item, index }">
+            <template slot="actions" slot-scope="{ item }">
               <wt-icon-btn
                 class="table-action"
                 icon="download"
@@ -67,7 +73,7 @@
               ></edit-action>
               <delete-action
                 v-if="hasDeleteAccess"
-                @click="remove(index)"
+                @click="callDelete(item)"
               ></delete-action>
             </template>
           </wt-table>

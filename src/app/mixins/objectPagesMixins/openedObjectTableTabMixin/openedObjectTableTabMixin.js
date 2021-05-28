@@ -85,8 +85,8 @@ export default {
       dispatchSort(dispatch, payload) {
         return dispatch(`${this.namespace}/${this.subNamespace}/SORT`, payload);
       },
-      removeItem(dispatch, payload) {
-        return dispatch(`${this.namespace}/${this.subNamespace}/REMOVE_ITEM`, payload);
+      dispatchDelete(dispatch, payload) {
+        return dispatch(`${this.namespace}/${this.subNamespace}/DELETE`, payload);
       },
       patchItem(dispatch, payload) {
         return dispatch(`${this.namespace}/${this.subNamespace}/PATCH_ITEM_PROPERTY`, payload);
