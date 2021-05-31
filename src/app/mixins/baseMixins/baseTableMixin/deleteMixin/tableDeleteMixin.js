@@ -14,22 +14,5 @@ export default {
     dispatchDelete() {
       throw new TypeError('implement dispatchDelete method first');
     },
-
-    // deleteSelected() {
-    //   const selectedItems = this.dataList.filter((item) => item._isSelected);
-    //   this.remove(null, selectedItems);
-    // },
-    //
-    // async remove(rowIndex, items) {
-    //   if (items) {
-    //     for (const item of items) {
-    //       const initialIndex = this.dataList.indexOf(item);
-    //       await this.removeItem(initialIndex);
-    //     }
-    //   } else {
-    //     await this.removeItem(rowIndex);
-    //   }
-    //   this.loadList();
-    // },
   },
 };

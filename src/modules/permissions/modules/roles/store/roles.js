@@ -20,10 +20,27 @@ const actions = {
     value.splice(index, 1, permission);
     context.commit('SET_ITEM_PROPERTY', { prop: 'permissions', value });
   },
-  REMOVE_ROLE_PERMISSION: (context, index) => {
-    const value = [...context.state.itemInstance.permissions];
-    value.splice(index, 1);
-    context.commit('SET_ITEM_PROPERTY', { prop: 'permissions', value });
+  DELETE_ROLE_PERMISSION: (context, deleted) => {
+    let action = 'DELETE_SINGLE_PERMISSION';
+    if (Array.isArray(deleted)) {
+      if (deleted.length) action = 'DELETE_BULK_PERMISSIONS';
+      else action = 'DELETE_ALL_PERMISSIONS';
+    }
+    return context.dispatch(action, deleted);
+  },
+  DELETE_SINGLE_PERMISSION: (context, deleted) => {
+    const permissions = [...context.state.itemInstance.permissions];
+    permissions.splice(permissions.indexOf(deleted), 1);
+    context.commit('SET_ITEM_PROPERTY', { prop: 'permissions', value: permissions });
+  },
+  DELETE_BULK_PERMISSIONS: (context, deleted) => {
+    const permissions = context.state.itemInstance.permissions
+      .filter((perm) => !deleted.some((delPerm) => delPerm.id === perm.id));
+    context.commit('SET_ITEM_PROPERTY', { prop: 'permissions', value: permissions });
+  },
+  DELETE_ALL_PERMISSIONS: (context) => {
+    const permissions = [];
+    context.commit('SET_ITEM_PROPERTY', { prop: 'permissions', value: permissions });
   },
 };
 

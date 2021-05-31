@@ -68,9 +68,6 @@ export default {
       dispatchDelete(dispatch, payload) {
         return dispatch(`${this.namespace}/DELETE`, payload);
       },
-      removeItem(dispatch, payload) {
-        return dispatch(`${this.namespace}/REMOVE_ITEM`, payload);
-      },
       patchItem(dispatch, payload) {
         return dispatch(`${this.namespace}/PATCH_ITEM_PROPERTY`, payload);
       },
