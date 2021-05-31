@@ -21,7 +21,7 @@
           :tooltip="$t('iconHints.deleteSelected')"
           class="icon-action"
           icon="bucket"
-          @click="deleteSelected"
+          @click="callDelete(selectedRows)"
         ></wt-icon-btn>
         <wt-table-actions
           :icons="['refresh']"
@@ -58,12 +58,12 @@
             @change="patchItem({ item, index, prop: 'enabled', value: $event })"
           ></wt-switcher>
         </template>
-        <template slot="actions" slot-scope="{ item, index }">
+        <template slot="actions" slot-scope="{ item }">
           <edit-action
             @click="edit(item)"
           ></edit-action>
           <delete-action
-            @click="remove(index)"
+            @click="callDelete(item)"
           ></delete-action>
         </template>
       </wt-table>
@@ -93,6 +93,8 @@ export default {
   data: () => ({
     subNamespace: 'hooks',
     isHookPopup: false,
+
+    isDeleteConfirmation: false,
   }),
 
   methods: {

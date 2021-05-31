@@ -22,6 +22,12 @@
         @close="closeCSVPopup"
       ></upload-popup>
 
+      <delete-confirmation-popup
+        v-show="deleteConfirmation.isDeleteConfirmationPopup"
+        :payload="deleteConfirmation"
+        @close="closeDelete"
+      ></delete-confirmation-popup>
+
       <section class="main-section__wrapper">
         <header class="content-header">
           <h3 class="content-title">{{ $t('objects.ccenter.members.allMembers') }}</h3>
@@ -37,10 +43,9 @@
             <wt-icon-btn
               v-if="hasEditAccess && isNotInboundMember"
               class="icon-action"
-              :class="{'hidden': anySelected}"
               icon="bucket"
               :tooltip="$t('iconHints.deleteSelected')"
-              @click="deleteSelected"
+              @click="callDelete(selectedRows)"
             ></wt-icon-btn>
             <upload-file-icon-btn
               v-if="hasEditAccess && isNotInboundMember"
@@ -95,12 +100,12 @@
               {{ item.type }}
             </template>
 
-            <template slot="actions" slot-scope="{ item, index }">
+            <template slot="actions" slot-scope="{ item }">
               <edit-action
                 @click="edit(item)"
               ></edit-action>
               <delete-action
-                @click="remove(index)"
+                @click="callDelete(item)"
               ></delete-action>
             </template>
           </wt-table>
@@ -170,7 +175,7 @@ export default {
 
   methods: {
     prettifyStopCause(cause) {
-      if (!cause) return ''
+      if (!cause) return '';
 
       switch (cause) {
         case 'shutdown':
@@ -237,17 +242,6 @@ export default {
       });
     },
 
-    // override mixin "remove" for bulk delete
-    async remove(rowIndex, items) {
-      if (items) {
-        const ids = items.map((item) => item.id);
-        await this.removeItems(ids);
-      } else {
-        await this.removeItem(rowIndex);
-      }
-      this.loadList();
-    },
-
     close() {
       this.$router.go(-1);
       this.resetState(); // reset only after close() bcse at destroy() reset component resets itemId
@@ -265,9 +259,6 @@ export default {
       },
       loadParentQueue(dispatch, payload) {
         return dispatch(`${this.namespace}/LOAD_PARENT_QUEUE`, payload);
-      },
-      removeItems(dispatch, payload) {
-        return dispatch(`${this.namespace}/REMOVE_ITEMS`, payload);
       },
       resetState(dispatch, payload) {
         return dispatch(`${this.namespace}/RESET_STATE`, payload);

@@ -26,7 +26,7 @@
           :tooltip="$t('iconHints.deleteSelected')"
           class="icon-action"
           icon="bucket"
-          @click="deleteSelected"
+          @click="callDelete(selectedRows)"
         ></wt-icon-btn>
         <wt-table-actions
           :icons="['refresh']"
@@ -56,7 +56,7 @@
           </item-link>
         </template>
 
-        <template slot="actions" slot-scope="{ item, index }">
+        <template slot="actions" slot-scope="{ item }">
           <wt-icon-btn
             class="table-action"
             icon="queue-member"
@@ -68,7 +68,7 @@
             @click="edit(item)"
           ></edit-action>
           <delete-action
-            @click="remove(index)"
+            @click="callDelete(item)"
           ></delete-action>
         </template>
       </wt-table>
@@ -102,6 +102,8 @@ export default {
     supervisorId: null,
     isSupervisorPopup: false,
     isSupervisorSubordinatesPopup: false,
+
+    isDeleteConfirmation: false,
   }),
 
   methods: {

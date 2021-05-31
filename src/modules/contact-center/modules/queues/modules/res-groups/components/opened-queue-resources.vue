@@ -21,7 +21,7 @@
           :tooltip="$t('iconHints.deleteSelected')"
           class="icon-action"
           icon="bucket"
-          @click="deleteSelected"
+          @click="callDelete(selectedRows)"
         ></wt-icon-btn>
         <wt-table-actions
           :icons="['refresh']"
@@ -55,7 +55,7 @@
             @click="edit(item)"
           ></edit-action>
           <delete-action
-            @click="remove(index)"
+            @click="callDelete(item)"
           ></delete-action>
         </template>
       </wt-table>
@@ -84,6 +84,8 @@ export default {
   data: () => ({
     subNamespace: 'resGroups',
     isResGroupPopup: false,
+
+    isDeleteConfirmation: false,
   }),
 
   methods: {
