@@ -13,6 +13,13 @@ export default {
       callback: null,
     },
   }),
+  computed: {
+    actionPanelDeleteTooltip() {
+      if (!this.selectedRows) return this.$t('reusable.delete');
+      const count = this.selectedRows.length;
+      return count ? this.$t('iconHints.deleteSelected', { count }) : this.$t('iconHints.deleteAll');
+    },
+  },
   methods: {
     askDeleteConfirmation({ deleted, callback }) {
       if (Array.isArray(deleted)) this.deleteConfirmation.deleteCount = deleted.length;

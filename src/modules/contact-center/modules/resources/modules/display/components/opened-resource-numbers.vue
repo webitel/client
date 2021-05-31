@@ -4,6 +4,11 @@
       v-if="isNumberPopup"
       @close="closePopup"
     ></number-popup>
+    <delete-confirmation-popup
+      v-show="deleteConfirmation.isDeleteConfirmationPopup"
+      :payload="deleteConfirmation"
+      @close="closeDelete"
+    ></delete-confirmation-popup>
 
     <header class="content-header">
       <h3 class="content-title">{{ $tc('objects.ccenter.res.numbers', 1) }}</h3>
@@ -18,7 +23,7 @@
         <wt-icon-btn
           v-if="!disableUserInput"
           :class="{'hidden': anySelected}"
-          :tooltip="$t('iconHints.deleteSelected')"
+          :tooltip="actionPanelDeleteTooltip"
           class="icon-action"
           icon="bucket"
           @click="callDelete(selectedRows)"
@@ -82,8 +87,6 @@ export default {
   data: () => ({
     subNamespace: 'numbers',
     isNumberPopup: false,
-
-    isDeleteConfirmation: false,
   }),
 
   methods: {

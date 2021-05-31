@@ -31,7 +31,7 @@
               class="icon-action"
               :class="{'hidden': anySelected}"
               icon="bucket"
-              :tooltip="$t('iconHints.deleteSelected')"
+              :tooltip="actionPanelDeleteTooltip"
               @click="callDelete(selectedRows)"
             ></wt-icon-btn>
             <wt-table-actions

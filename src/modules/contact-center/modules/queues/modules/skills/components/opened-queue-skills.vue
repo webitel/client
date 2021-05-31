@@ -24,7 +24,7 @@
         <wt-icon-btn
           v-if="!disableUserInput"
           :class="{'hidden': anySelected}"
-          :tooltip="$t('iconHints.deleteSelected')"
+          :tooltip="actionPanelDeleteTooltip"
           class="icon-action"
           icon="bucket"
           @click="callDelete(selectedRows)"

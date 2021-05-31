@@ -9,6 +9,11 @@
       :item-id="supervisorId"
       @close="closeSubordinates"
     ></supervisor-subordinates-popup>
+    <delete-confirmation-popup
+      v-show="deleteConfirmation.isDeleteConfirmationPopup"
+      :payload="deleteConfirmation"
+      @close="closeDelete"
+    ></delete-confirmation-popup>
 
     <header class="content-header">
       <h3 class="content-title">{{ $tc('objects.ccenter.agents.supervisors', 2) }}</h3>
@@ -23,7 +28,7 @@
         <wt-icon-btn
           v-if="!disableUserInput"
           :class="{'hidden': anySelected}"
-          :tooltip="$t('iconHints.deleteSelected')"
+          :tooltip="actionPanelDeleteTooltip"
           class="icon-action"
           icon="bucket"
           @click="callDelete(selectedRows)"
@@ -102,8 +107,6 @@ export default {
     supervisorId: null,
     isSupervisorPopup: false,
     isSupervisorSubordinatesPopup: false,
-
-    isDeleteConfirmation: false,
   }),
 
   methods: {
