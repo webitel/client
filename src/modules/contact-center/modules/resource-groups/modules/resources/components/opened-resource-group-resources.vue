@@ -4,6 +4,11 @@
       v-if="isResPopup"
       @close="closePopup"
     ></res-popup>
+    <delete-confirmation-popup
+      v-show="deleteConfirmation.isDeleteConfirmationPopup"
+      :payload="deleteConfirmation"
+      @close="closeDelete"
+    ></delete-confirmation-popup>
 
     <header class="content-header">
       <h3 class="content-title">{{ $tc('objects.ccenter.res.res', 2) }}</h3>
@@ -18,10 +23,10 @@
         <wt-icon-btn
           v-if="!disableUserInput"
           :class="{'hidden': anySelected}"
-          :tooltip="$t('iconHints.deleteSelected')"
+          :tooltip="actionPanelDeleteTooltip"
           class="icon-action"
           icon="bucket"
-          @click="deleteSelected"
+          @click="callDelete(selectedRows)"
         ></wt-icon-btn>
         <wt-table-actions
           :icons="['refresh']"
@@ -51,12 +56,12 @@
           </div>
         </template>
 
-        <template slot="actions" slot-scope="{ item, index }">
+        <template slot="actions" slot-scope="{ item }">
           <edit-action
             @click="edit(item)"
           ></edit-action>
           <delete-action
-            @click="remove(index)"
+            @click="callDelete(item)"
           ></delete-action>
         </template>
       </wt-table>

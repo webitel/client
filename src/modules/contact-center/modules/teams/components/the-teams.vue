@@ -10,6 +10,12 @@
     </template>
 
     <template slot="main">
+      <delete-confirmation-popup
+        v-show="deleteConfirmation.isDeleteConfirmationPopup"
+        :payload="deleteConfirmation"
+        @close="closeDelete"
+      ></delete-confirmation-popup>
+
       <section class="main-section__wrapper">
         <header class="content-header">
           <h3 class="content-title">{{ $t('objects.ccenter.teams.allTeams') }}</h3>
@@ -24,10 +30,10 @@
             <wt-icon-btn
               v-if="hasDeleteAccess"
               :class="{'hidden': anySelected}"
-              :tooltip="$t('iconHints.deleteSelected')"
+              :tooltip="actionPanelDeleteTooltip"
               class="icon-action"
               icon="bucket"
-              @click="deleteSelected"
+              @click="callDelete(selectedRows)"
             ></wt-icon-btn>
             <wt-table-actions
               :icons="['refresh']"
@@ -53,14 +59,14 @@
             <template slot="strategy" slot-scope="{ item }">
               {{ computeStrategyDisplay(item.strategy) }}
             </template>
-            <template slot="actions" slot-scope="{ item, index }">
+            <template slot="actions" slot-scope="{ item }">
               <edit-action
                 v-if="hasEditAccess"
                 @click="edit(item)"
               ></edit-action>
               <delete-action
                 v-if="hasDeleteAccess"
-                @click="remove(index)"
+                @click="callDelete(item)"
               ></delete-action>
             </template>
           </wt-table>

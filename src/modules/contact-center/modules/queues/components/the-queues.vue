@@ -13,6 +13,12 @@
         v-if="isQueueSelectPopup"
         @close="isQueueSelectPopup = false"
       ></queue-popup>
+      <delete-confirmation-popup
+        v-show="deleteConfirmation.isDeleteConfirmationPopup"
+        :payload="deleteConfirmation"
+        @close="closeDelete"
+      ></delete-confirmation-popup>
+
 
       <section class="main-section__wrapper">
         <header class="content-header">
@@ -30,8 +36,8 @@
               class="icon-action"
               :class="{'hidden': anySelected}"
               icon="bucket"
-              :tooltip="$t('iconHints.deleteSelected')"
-              @click="deleteSelected"
+              :tooltip="actionPanelDeleteTooltip"
+              @click="callDelete(selectedRows)"
             ></wt-icon-btn>
             <wt-table-actions
               :icons="['refresh']"
@@ -74,7 +80,7 @@
                 @change="patchItem({ item, index, prop: 'enabled', value: $event})"
               ></wt-switcher>
             </template>
-            <template slot="actions" slot-scope="{ item, index }">
+            <template slot="actions" slot-scope="{ item }">
               <wt-icon-btn
                 class="table-action"
                 icon="queue-member"
@@ -88,7 +94,7 @@
               ></edit-action>
               <delete-action
                 v-if="hasDeleteAccess"
-                @click="remove(index)"
+                @click="callDelete(item)"
               ></delete-action>
             </template>
           </wt-table>

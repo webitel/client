@@ -180,6 +180,12 @@ export default {
     importJSON: 'Імпортувати JSON',
     addNew: 'Додати',
 
+    deleteConfirmation: {
+      title: 'Підтвердіть видалення',
+      askingAlert: 'Ви впевнені, що хочете видалити {count} запис? | Ви впевнені, що хочете видалити {count} записів?',
+      undoneActionAlert: 'Дана дія не може бути скасована.',
+      deleteAll: 'ВСІ',
+    },
     CSV: {
       skipHeaders: 'Згорнути заголовки',
       charSet: 'Char set',
@@ -755,7 +761,8 @@ export default {
     reload: 'Оновити',
     edit: 'Редагувати',
     delete: 'Видалити',
-    deleteSelected: 'Видалити вибране',
+    deleteAll: 'Видалити всі об\'єкти',
+    deleteSelected: 'Видалити {count} обраних об\'єктів',
     generate: 'Створити',
     add: 'Додати',
     history: 'Історія',

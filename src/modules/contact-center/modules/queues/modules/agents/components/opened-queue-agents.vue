@@ -48,12 +48,12 @@
           @input="readSkills(item)"
         ></one-plus-many>
       </template>
-      <template slot="actions" slot-scope="{ item, index }">
+      <template slot="actions" slot-scope="{ item }">
         <edit-action
           @click="edit(item)"
         ></edit-action>
         <delete-action
-          @click="remove(index)"
+          @click="callDelete(item)"
         ></delete-action>
       </template>
     </wt-table>
@@ -85,6 +85,8 @@ export default {
     tableObjectRouteName: RouteNames.AGENTS, // this.itemLink() computing
     isAgentSkillsPopup: false,
     agentId: 0,
+
+    isDeleteConfirmation: false,
   }),
 
   methods: {

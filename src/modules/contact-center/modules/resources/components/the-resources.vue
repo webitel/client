@@ -10,6 +10,12 @@
     </template>
 
     <template slot="main">
+      <delete-confirmation-popup
+        v-show="deleteConfirmation.isDeleteConfirmationPopup"
+        :payload="deleteConfirmation"
+        @close="closeDelete"
+      ></delete-confirmation-popup>
+
       <section class="main-section__wrapper">
         <header class="content-header">
           <h3 class="content-title">{{ $t('objects.ccenter.res.allRes') }}</h3>
@@ -26,8 +32,8 @@
               class="icon-action"
               :class="{'hidden': anySelected}"
               icon="bucket"
-              :tooltip="$t('iconHints.deleteSelected')"
-              @click="deleteSelected"
+              :tooltip="actionPanelDeleteTooltip"
+              @click="callDelete(selectedRows)"
             ></wt-icon-btn>
             <wt-table-actions
               :icons="['refresh']"
@@ -71,14 +77,14 @@
                 @change="patchItem({ index, item, prop: 'reserve', value: $event })"
               ></wt-switcher>
             </template>
-            <template slot="actions" slot-scope="{ item, index }">
+            <template slot="actions" slot-scope="{ item }">
               <edit-action
                 v-if="hasEditAccess"
                 @click="edit(item)"
               ></edit-action>
               <delete-action
                 v-if="hasDeleteAccess"
-                @click="remove(index)"
+                @click="callDelete(item)"
               ></delete-action>
             </template>
           </wt-table>

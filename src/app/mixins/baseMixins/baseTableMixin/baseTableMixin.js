@@ -5,6 +5,7 @@ import HistoryAction from '../../../components/utils/table-cell/default-table-ac
 import Status from '../../../components/utils/status.vue';
 import itemLinkMixin from './itemLinkMixin';
 import tableActionsHandlerMixin from './tableActionsMixin';
+import deleteMixin from './deleteMixin/tableDeleteMixin';
 
 /**
  * @fileOverview abstract mixin,
@@ -14,7 +15,11 @@ import tableActionsHandlerMixin from './tableActionsMixin';
  * @extends itemLinkMixin, tableActionsHandlerMixin
  */
 export default {
-  mixins: [itemLinkMixin, tableActionsHandlerMixin],
+  mixins: [
+    deleteMixin,
+    itemLinkMixin,
+    tableActionsHandlerMixin,
+  ],
   components: {
     ObjectHeader,
     EditAction,
@@ -34,12 +39,12 @@ export default {
   },
 
   computed: {
+    selectedRows() {
+      return this.dataList.filter((item) => item._isSelected);
+    },
     // shows delete table action if some items are selected
     anySelected() {
-      if (this.dataList) {
-        return !this.dataList.some((item) => item._isSelected);
-      }
-      return false;
+      return !this.selectedRows?.length;
     },
   },
 
@@ -52,23 +57,6 @@ export default {
       } finally {
         this.isLoaded = true;
       }
-    },
-
-    deleteSelected() {
-      const selectedItems = this.dataList.filter((item) => item._isSelected);
-      this.remove(null, selectedItems);
-    },
-
-    async remove(rowIndex, items) {
-      if (items) {
-        for (const item of items) {
-          const initialIndex = this.dataList.indexOf(item);
-          await this.removeItem(initialIndex);
-        }
-      } else {
-        await this.removeItem(rowIndex);
-      }
-      this.loadList();
     },
   },
 };

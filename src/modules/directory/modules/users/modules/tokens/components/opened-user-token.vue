@@ -5,11 +5,15 @@
       @close="closePopup"
       @token-created="openTokenCreatedPopup"
     ></token-popup>
-
     <token-created-popup
       v-if="isTokenGenerated"
       @close="closeTokenCreatedPopup"
     ></token-created-popup>
+    <delete-confirmation-popup
+      v-show="deleteConfirmation.isDeleteConfirmationPopup"
+      :payload="deleteConfirmation"
+      @close="closeDelete"
+    ></delete-confirmation-popup>
 
     <header class="content-header">
       <h3 class="content-title">{{ $tc('objects.directory.users.token', 2) }}</h3>
@@ -20,8 +24,8 @@
           class="icon-action"
           :class="{'hidden': anySelected}"
           icon="bucket"
-          :tooltip="$t('iconHints.deleteSelected')"
-          @click="deleteSelected"
+          :tooltip="actionPanelDeleteTooltip"
+          @click="callDelete(selectedRows)"
         ></wt-icon-btn>
         <wt-table-actions
           :icons="['refresh']"
@@ -57,10 +61,10 @@
         <template slot="createdAt" slot-scope="{ item }">
           {{ prettifyDate(item.createdAt) }}
         </template>
-        <template slot="actions" slot-scope="{ item, index }">
+        <template slot="actions" slot-scope="{ item }">
           <wt-icon-btn
             icon="bucket"
-            @click="remove(index)"
+            @click="callDelete(item)"
           ></wt-icon-btn>
         </template>
       </wt-table>

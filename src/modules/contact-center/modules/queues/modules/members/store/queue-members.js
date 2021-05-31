@@ -25,9 +25,6 @@ const actions = {
       throw err;
     }
   },
-  DELETE_ITEMS: async (context, ids) => {
-    await deleteMembers(context.state.parentId, ids);
-  },
   ADD_ITEM: async (context) => {
     if (!context.state.itemId) {
       const { id } = await context.dispatch('POST_ITEM');
@@ -41,6 +38,12 @@ const actions = {
       await context.dispatch('LOAD_ITEM');
     }
   },
+  DELETE_SINGLE: (context, { id }) => context.dispatch('DELETE_ITEM', id),
+  DELETE_BULK: (context, deleted) => {
+    const ids = deleted.map((item) => item.id);
+    return deleteMembers(context.state.parentId, ids);
+  },
+  DELETE_ALL: (context) => deleteMembers(context.state.parentId, []),
   SET_PARENT_ITEM_ID: (context, id) => {
     context.commit('SET_PARENT_ITEM_ID', id);
     return context.dispatch('LOAD_PARENT_QUEUE');
@@ -54,10 +57,27 @@ const actions = {
     value.splice(index, 1, item);
     context.commit('SET_ITEM_PROPERTY', { prop: 'communications', value });
   },
-  REMOVE_MEMBER_COMMUNICATION: (context, index) => {
-    const value = [...context.state.itemInstance.communications];
-    value.splice(index, 1);
-    context.commit('SET_ITEM_PROPERTY', { prop: 'communications', value });
+  DELETE_MEMBER_COMMUNICATION: (context, deleted) => {
+    let action = 'DELETE_SINGLE_COMMUNICATION';
+    if (Array.isArray(deleted)) {
+      if (deleted.length) action = 'DELETE_BULK_COMMUNICATIONS';
+      else action = 'DELETE_ALL_COMMUNICATIONS';
+    }
+    return context.dispatch(action, deleted);
+  },
+  DELETE_SINGLE_COMMUNICATION: (context, deleted) => {
+    const communications = [...context.state.itemInstance.communications];
+    communications.splice(communications.indexOf(deleted), 1);
+    context.commit('SET_ITEM_PROPERTY', { prop: 'communications', value: communications });
+  },
+  DELETE_BULK_COMMUNICATIONS: (context, deleted) => {
+    const communications = context.state.itemInstance.communications
+      .filter((comm) => !deleted.some((delComm) => delComm.destination === comm.destination));
+    context.commit('SET_ITEM_PROPERTY', { prop: 'communications', value: communications });
+  },
+  DELETE_ALL_COMMUNICATIONS: (context) => {
+    const communications = [];
+    context.commit('SET_ITEM_PROPERTY', { prop: 'communications', value: communications });
   },
   ADD_VARIABLE_PAIR: (context) => {
     const pair = { key: '', value: '' };
@@ -71,12 +91,6 @@ const actions = {
   DELETE_VARIABLE_PAIR: (context, index) => {
     context.commit('DELETE_VARIABLE_PAIR', index);
     context.commit('SET_ITEM_PROPERTY', { prop: '_dirty', value: true });
-  },
-  REMOVE_ITEMS: async (context, ids) => {
-    try {
-      await context.dispatch('DELETE_ITEMS', ids);
-    } catch {
-    }
   },
 };
 

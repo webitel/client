@@ -178,6 +178,13 @@ export default {
     importJSON: 'Импортировать JSON',
     addNew: 'Добавить',
 
+
+    deleteConfirmation: {
+      title: 'Подтвердите удаление',
+      askingAlert: 'Вы уверенны, что хотите удалить {count} запись? | Вы уверенны, что хотите удалить {count} записей?',
+      undoneActionAlert: 'Это действие не может быть отменено.',
+      deleteAll: 'ВСЕ',
+    },
     CSV: {
       skipHeaders: 'Свернуть заголовки',
       charSet: 'Char set',
@@ -755,7 +762,8 @@ export default {
     reload: 'Обновить',
     edit: 'Редактировать',
     delete: 'Удалить',
-    deleteSelected: 'Удалить выбранное',
+    deleteAll: 'Удалить все объекты',
+    deleteSelected: 'Удалить {count} выбраных объктов',
     generate: 'Создать',
     add: 'Добавить',
     history: 'История',

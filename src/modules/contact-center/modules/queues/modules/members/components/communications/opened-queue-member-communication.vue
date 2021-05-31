@@ -6,6 +6,12 @@
       @close="closePopup"
     ></communication-popup>
 
+    <delete-confirmation-popup
+      v-show="deleteConfirmation.isDeleteConfirmationPopup"
+      :payload="deleteConfirmation"
+      @close="closeDelete"
+    ></delete-confirmation-popup>
+
     <header class="content-header">
       <h3 class="content-title"
           :class="{'invalid': v.itemInstance.communications.$error}"
@@ -14,10 +20,9 @@
         <wt-icon-btn
           v-if="!disableUserInput"
           class="icon-action"
-          :class="{'hidden': anySelected}"
           icon="bucket"
-          :tooltip="$t('iconHints.deleteSelected')"
-          @click="deleteSelected"
+          :tooltip="actionPanelDeleteTooltip"
+          @click="callDelete(selectedRows)"
         ></wt-icon-btn>
         <wt-icon-btn
           v-if="!disableUserInput"
@@ -49,12 +54,12 @@
         <template slot="priority" slot-scope="{ item }">
           {{ item.priority }}
         </template>
-        <template slot="actions" slot-scope="{ index }">
+        <template slot="actions" slot-scope="{ index, item }">
           <edit-action
             @click="edit(index)"
           ></edit-action>
           <delete-action
-            @click="remove(index)"
+            @click="callDelete(item)"
           ></delete-action>
         </template>
       </wt-table>
@@ -121,8 +126,8 @@ export default {
   },
   methods: {
     ...mapActions({
-      removeItem(dispatch, payload) {
-        return dispatch(`${this.namespace}/REMOVE_MEMBER_COMMUNICATION`, payload);
+      dispatchDelete(dispatch, payload) {
+        return dispatch(`${this.namespace}/DELETE_MEMBER_COMMUNICATION`, payload);
       },
     }),
     loadList() {

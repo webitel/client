@@ -5,6 +5,11 @@
       :edited-index="editedIndex"
       @close="closePopup"
     ></holiday-popup>
+    <delete-confirmation-popup
+      v-show="deleteConfirmation.isDeleteConfirmationPopup"
+      :payload="deleteConfirmation"
+      @close="closeDelete"
+    ></delete-confirmation-popup>
 
     <header class="content-header">
       <h3 class="content-title">{{ $tc('objects.lookups.calendars.holidays', 2) }}</h3>
@@ -18,10 +23,10 @@
       <wt-icon-btn
         v-if="!disableUserInput"
         :class="{'hidden': anySelected}"
-        :tooltip="$t('iconHints.deleteSelected')"
+        :tooltip="actionPanelDeleteTooltip"
         class="icon-action"
         icon="bucket"
-        @click="deleteSelected"
+        @click="callDelete(selectedRows)"
       ></wt-icon-btn>
       <wt-icon-btn
         v-if="!disableUserInput"
@@ -53,7 +58,7 @@
             @click="edit(index)"
           ></edit-action>
           <delete-action
-            @click="remove(index)"
+            @click="callDelete(index)"
           ></delete-action>
         </template>
       </wt-table>
@@ -106,8 +111,8 @@ export default {
 
   methods: {
     ...mapActions({
-      removeItem(dispatch, payload) {
-        return dispatch(`${this.namespace}/REMOVE_EXCEPT_ITEM`, payload);
+      dispatchDelete(dispatch, payload) {
+        return dispatch(`${this.namespace}/DELETE_EXCEPT_ITEM`, payload);
       },
       setExceptItemProperty(dispatch, payload) {
         return dispatch(`${this.namespace}/SET_EXCEPT_ITEM_PROPERTY`, payload);

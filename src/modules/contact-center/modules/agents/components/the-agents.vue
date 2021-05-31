@@ -8,7 +8,14 @@
         <headline-nav :path="path"></headline-nav>
       </object-header>
     </template>
+
     <template slot="main">
+      <delete-confirmation-popup
+        v-show="deleteConfirmation.isDeleteConfirmationPopup"
+        :payload="deleteConfirmation"
+        @close="closeDelete"
+      ></delete-confirmation-popup>
+
       <history-popup
         v-if="historyId"
         @close="closeHistoryPopup"
@@ -30,8 +37,8 @@
               class="icon-action"
               :class="{'hidden': anySelected}"
               icon="bucket"
-              :tooltip="$t('iconHints.deleteSelected')"
-              @click="deleteSelected"
+              :tooltip="actionPanelDeleteTooltip"
+              @click="callDelete(selectedRows)"
             ></wt-icon-btn>
             <wt-table-actions
               :icons="['refresh']"
@@ -69,7 +76,7 @@
                 {{ item.team.name }}
               </item-link>
             </template>
-            <template slot="actions" slot-scope="{ item, index }">
+            <template slot="actions" slot-scope="{ item }">
               <history-action
                 @click="openHistory(item.id)"
               ></history-action>
@@ -79,7 +86,7 @@
               ></edit-action>
               <delete-action
                 v-if="hasDeleteAccess"
-                @click="remove(index)"
+                @click="callDelete(item)"
               ></delete-action>
             </template>
           </wt-table>

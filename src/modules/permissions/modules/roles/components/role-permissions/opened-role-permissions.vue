@@ -5,6 +5,12 @@
       :edited-index="editedIndex"
       @close="closePopup"
     ></permissions-popup>
+    <delete-confirmation-popup
+      v-show="deleteConfirmation.isDeleteConfirmationPopup"
+      :payload="deleteConfirmation"
+      @close="closeDelete"
+    ></delete-confirmation-popup>
+
 
     <header class="content-header">
       <h3 class="content-title">{{ $tc('objects.permissions.roles.permissions', 2) }}</h3>
@@ -17,11 +23,10 @@
         ></wt-search-bar>
         <wt-icon-btn
           v-if="!disableUserInput"
-          :class="{'hidden': anySelected}"
-          :tooltip="$t('iconHints.deleteSelected')"
+          :tooltip="actionPanelDeleteTooltip"
           class="icon-action"
           icon="bucket"
-          @click="deleteSelected"
+          @click="callDelete(selectedRows)"
         ></wt-icon-btn>
         <wt-icon-btn
           v-if="!disableUserInput"
@@ -49,7 +54,7 @@
             @click="edit(index)"
           ></edit-action>
           <delete-action
-            @click="remove(index)"
+            @click="callDelete(item)"
           ></delete-action>
         </template>
       </wt-table>
@@ -101,8 +106,8 @@ export default {
   },
   methods: {
     ...mapActions({
-      removeItem(dispatch, payload) {
-        return dispatch(`${this.namespace}/REMOVE_ROLE_PERMISSION`, payload);
+      dispatchDelete(dispatch, payload) {
+        return dispatch(`${this.namespace}/DELETE_ROLE_PERMISSION`, payload);
       },
     }),
     loadList() {
