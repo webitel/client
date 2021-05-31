@@ -1,3 +1,5 @@
+/* eslint-disable quote-props */
+
 export default {
   reusable: {
     state: 'Стан',
@@ -57,6 +59,7 @@ export default {
     supervisor: 'Робоче місце супервізора',
     audit: 'Аудит',
     history: 'Історія дзвінків',
+    grafana: 'Grafana',
   },
 
   settings: {
@@ -90,14 +93,14 @@ export default {
       routing: 'Маршрутизація',
       flow: 'Схема дзвінка',
       dialplan: 'Правила вихідного набору',
-      chatplan: 'Chatplan',
+      chatplan: 'Правила чатів',
       gateways: 'Шлюзи',
     },
     lookups: {
       lookups: 'Довідники',
       agentSkills: 'Навички оператора',
       buckets: 'Кошики',
-      regions: 'Регіони',
+      regions: 'Розміщення',
       media: 'Медіафайли',
       blacklists: 'Cписок обдзвону',
       calendars: 'Календарі',
@@ -241,9 +244,9 @@ export default {
         competitive: 'Конкурентна',
         searchPlaceholder: 'Серія, продукт',
         daysToExpire: {
-          0: 'Час дії вичерпано',
-          30: '30 або менше',
-          90: '90 або менше',
+          '0': 'Час дії вичерпано',
+          '30': '30 або менше',
+          '90': '90 або менше',
           days: ' днів',
         },
         importLicense: 'Завантажити ліцензію',
@@ -304,9 +307,9 @@ export default {
         grantor: 'Праводатель',
         grantee: 'Отримувач',
         accessMode: {
-          1: 'Заборонено',
-          2: 'Дозволено',
-          3: 'Управління',
+          '1': 'Заборонено',
+          '2': 'Дозволено',
+          '3': 'Управління',
         },
       },
     },
@@ -321,6 +324,8 @@ export default {
         agentSkills: 'Навички оператора | Навички операторів',
         allSkills: 'Всі навички',
         state: 'Стан',
+        minCapacityLessOrEqualToMaxCapacityValidator: 'Має бути менше або рівне Мінімальному потенціалу',
+        maxCapacityMoreOrEqualToMinCapacityValidator: 'Має бути більше або рівне Максимальному потенціалу',
       },
       buckets: {
         buckets: 'Кошик | Кошики',
@@ -351,8 +356,8 @@ export default {
         dragPlaceholderHere: 'тут.',
       },
       regions: {
-        regions: 'Регіон | Регіони',
-        allRegions: 'Всі регіони',
+        regions: 'Розміщення | Розміщення',
+        allRegions: 'Всі розміщення',
       },
       timezone: {
         timezone: 'Часова зона | Часові зони',
@@ -452,7 +457,6 @@ export default {
         authID: 'Ім\'я користувача',
         account: 'Акаунт',
         outboundProxy: 'Адреса вихідного SIP-проксі',
-        domain: 'Домен/Ім\'я',
         newGateway: 'Новий шлюз',
         newGatewayDescription: 'Опис нового шлюзу',
         SIPregistrations: 'SIP-реєстрація',
@@ -488,6 +492,7 @@ export default {
         historyFrom: 'Від',
         historyTo: 'До',
         historyDuration: 'Тривалість',
+        payload: 'Причина',
       },
 
       auditors: {
@@ -524,7 +529,7 @@ export default {
         endCause: {
           sysShutdown: 'Вимкнення системи',
           dbError: 'Помилка бази даних',
-          abandoned: 'Покинутий',
+          abandoned: 'Втрачений',
           timeout: 'Тайм-аут',
           cancel: 'Вихід',
           successful: 'Успішно',
@@ -536,7 +541,7 @@ export default {
       queues: {
         queues: 'Черга | Черги',
         allQueues: 'Всі черги',
-        type: 'Типи',
+        type: 'Тип',
         state: 'Стан',
         active: 'Активна',
         notActive: 'Не активна',
@@ -676,7 +681,7 @@ export default {
         newStorage: 'Нове сховище',
         newStorageDescription: 'Опис нового сховища',
         local: 'Local',
-        aws: 'Amazon S3',
+        s3: 'Amazon S3',
         digitalOcean: 'Digital Ocean Spaces',
         backblaze: 'Backblaze B2',
         dropbox: 'Dropbox',
@@ -684,10 +689,10 @@ export default {
         configuration: 'Конфігурація',
         pathPattern: 'Шаблон шляху',
         localFolder: 'Local folder',
-        awsKey: 'Key ID',
-        awsAccess: 'Access Key',
+        s3Key: 'Key ID',
+        s3Access: 'Access Key',
         bucket: 'Bucket',
-        region: 'Region',
+        region: 'Розміщення',
         oceanKey: 'Key ID',
         oceanAccess: 'Access Key',
         backblazeAccount: 'Account ID',
@@ -705,7 +710,7 @@ export default {
         tokens: 'Токен | Токени',
         allTokens: 'Всі токени',
         expires: 'Закінчується',
-        popupMessage: 'Завантежте файл з ключем зараз або скопіюйте його для подальшого використання. Якщо Ви не завантажите файл ключа зараз, то не зможете отримати свій токен-ключ знову. Для Вашої безпеки нікому не передвайте свій токен-ключ.',
+        popupMessage: 'Завантажте файл з ключем зараз або скопіюйте його для подальшого використання. Якщо Ви не завантажите файл ключа зараз, то не зможете отримати свій токен-ключ знову. Для Вашої безпеки нікому не передвайте свій токен-ключ.',
         tokenCreated: 'Ваш токен успішно створений',
       },
 
@@ -724,14 +729,14 @@ export default {
       },
     },
     pagination: {
-      rowsPerPage: 'Кількість рядків на сторінці',
+      rowsPerPage: 'Кількість записів',
     },
   },
 
   utils: {
     downloadFilesBtn: {
       downloadFiles: 'Скачати файли',
-      filesLoaded: 'Файлов скачано',
+      filesLoaded: 'Файлів скачано',
       zippingProgress: 'Прогрес архівації',
     },
   },

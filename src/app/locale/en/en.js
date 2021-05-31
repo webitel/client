@@ -1,3 +1,5 @@
+/* eslint-disable quote-props */
+
 export default {
   reusable: {
     state: 'State',
@@ -101,7 +103,7 @@ export default {
       media: 'Media files',
       blacklists: 'Call list',
       calendars: 'Calendars',
-      regions: 'Regions',
+      regions: 'Location',
       communications: 'Communication types',
       agentPauseCause: 'Agent statuses',
     },
@@ -126,7 +128,7 @@ export default {
       administration: 'Administration',
       storage: 'Storage',
       media: 'Media',
-      blacklists: 'Blacklists',
+      blacklists: 'Call lists',
       adfs: 'ADFS OAuth2',
     },
     permissions: {
@@ -242,9 +244,9 @@ export default {
         competitive: 'Competitive',
         searchPlaceholder: 'Serial, product',
         daysToExpire: {
-          0: 'Expired',
-          30: '30 or less',
-          90: '90 or less',
+          '0': 'Expired',
+          '30': '30 or less',
+          '90': '90 or less',
           days: ' days',
         },
         importLicense: 'Import license',
@@ -305,9 +307,9 @@ export default {
         grantor: 'Grantor',
         grantee: 'Grantee',
         accessMode: {
-          1: 'Forbidden',
-          2: 'Allow',
-          3: 'Allow with delegation',
+          '1': 'Forbidden',
+          '2': 'Allow',
+          '3': 'Allow with delegation',
         },
       },
     },
@@ -331,8 +333,8 @@ export default {
         addBucket: 'Add bucket',
       },
       blacklist: {
-        blacklist: 'Blacklist | Blacklists',
-        allBlacklists: 'All blacklists',
+        blacklist: 'Call list | Call lists',
+        allBlacklists: 'All call lists',
         number: 'Number | Numbers',
         newNumber: 'New number',
         numbersCount: 'Numbers',
@@ -554,9 +556,9 @@ export default {
         outboundIVR: 'Outbound IVR',
         outboundIVRDescription: 'An Outbound IVR allows an organization to automatically engage customers through multiple channels such as automated voice calls, SMS messages, email or social media posts using personalized notifications.',
         inboundQueue: 'Inbound queue',
-        inboundQueueDescription: 'An Inbound queue is that it’s where callers are placed on hold, in a queue, while they wait to speak with a live agent.',
+        inboundQueueDescription: 'An Inbound queue is that it\'s where callers are placed on hold, in a queue, while they wait to speak with a live agent.',
         offlineQueue: 'Offline queue',
-        offlineQueueDescription: 'An Offline queue gives callers the option to stop waiting on hold, input their phone number and receive a callback as soon as it’s their turn.',
+        offlineQueueDescription: 'An Offline queue gives callers the option to stop waiting on hold, input their phone number and receive a callback as soon as it\'s their turn.',
         previewDialer: 'Preview dialer',
         previewDialerDescription: 'Preview the contact before auto dialing them.',
         progressiveDialer: 'Progressive dialer',
@@ -669,7 +671,7 @@ export default {
     },
 
     integrations: {
-      integrations: 'Intergations',
+      integrations: 'Integrations',
 
       storage: {
         storage: 'Storage',

@@ -1,3 +1,5 @@
+/* eslint-disable quote-props */
+
 export default {
   reusable: {
     state: 'Состояние',
@@ -57,6 +59,7 @@ export default {
     supervisor: 'Supervisor Workspace',
     audit: 'Audit',
     history: 'Call History',
+    grafana: 'Grafana',
   },
 
   settings: {
@@ -101,6 +104,7 @@ export default {
       blacklists: 'Cписок обзвона',
       calendars: 'Календари',
       communications: 'Типы связи',
+      regions: 'Площадки',
       agentPauseCause: 'Статусы агента',
     },
     ccenter: {
@@ -165,6 +169,7 @@ export default {
     copy: 'Копировать',
     copied: 'Скопировано в буфер обмена!',
     createdAt: 'Создан в',
+    createdBy: 'Кем создан',
     importCSV: 'Импортировать CSV',
     online: 'Онлайн',
     offline: 'Оффлайн',
@@ -240,9 +245,9 @@ export default {
         competitive: 'Конкурентная',
         searchPlaceholder: 'Серия, продукт',
         daysToExpire: {
-          0: 'Истечение срока действия',
-          30: '30 или меньше',
-          90: '90 или меньше',
+          '0': 'Истечение срока действия',
+          '30': '30 или меньше',
+          '90': '90 или меньше',
           days: ' дней',
         },
         importLicense: 'Загрузить лицензию',
@@ -303,9 +308,9 @@ export default {
         grantor: 'Праводатель',
         grantee: 'Получатель',
         accessMode: {
-          1: 'Запрещено',
-          2: 'Разрешено',
-          3: 'Управление',
+          '1': 'Запрещено',
+          '2': 'Разрешено',
+          '3': 'Управление',
         },
       },
     },
@@ -339,7 +344,6 @@ export default {
         mediaFiles: 'Медиафайл| Медиафайлы',
         allMediaFiles: 'Все медиафайлы',
         createdAt: 'Когда создан',
-        createdBy: 'Кем создан',
         format: 'Формат',
         size: 'Размер',
         textToSpeech: 'Синтез речи',
@@ -454,7 +458,6 @@ export default {
         authID: 'Имя пользователя',
         account: 'Аккаунт',
         outboundProxy: 'Адрес исходящего SIP-прокси',
-        domain: 'Домен/Имя',
         newGateway: 'Новый шлюз',
         newGatewayDescription: 'Описание нового шлюза',
         SIPregistrations: 'SIP-регистрация',
@@ -489,6 +492,7 @@ export default {
         historyFrom: 'С',
         historyTo: 'До',
         historyDuration: 'Длительность',
+        payload: 'Причина',
       },
 
       auditors: {
@@ -677,7 +681,7 @@ export default {
         newStorage: 'Новое хранилище',
         newStorageDescription: 'Описание нового хранилища',
         local: 'Local',
-        aws: 'Amazon S3',
+        s3: 'Amazon S3',
         digitalOcean: 'Digital Ocean Spaces',
         backblaze: 'Backblaze B2',
         dropbox: 'Dropbox',
@@ -685,10 +689,10 @@ export default {
         configuration: 'Конфигурация',
         pathPattern: 'Шаблон пути',
         localFolder: 'Local folder',
-        awsKey: 'Key ID',
-        awsAccess: 'Access Key',
+        s3Key: 'Key ID',
+        s3Access: 'Access Key',
         bucket: 'Корзина',
-        region: 'Регион',
+        region: 'Площадка',
         oceanKey: 'Key ID',
         oceanAccess: 'Access Key',
         backblazeAccount: 'Account ID',
