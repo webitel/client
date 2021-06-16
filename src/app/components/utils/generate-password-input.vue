@@ -4,22 +4,13 @@
         ref="input-password"
         :value="passwordRepresentation"
         :v="v"
+        :label="$t('objects.password')"
         :placeholder="$t('objects.password')"
         :required="required"
         :disabled="disabled"
+        :label-props="{ hint: $t('objects.directory.passwordInfo') }"
         @input="input"
-    >
-      <template slot="label">
-        <div class="generate-password-input__label-wrapper">
-          {{ $t('objects.password') }}
-          <wt-icon-btn
-              icon="rounded-info"
-              color="outline"
-              :tooltip="$t('objects.directory.passwordInfo')"
-          ></wt-icon-btn>
-        </div>
-      </template>
-    </wt-input>
+    ></wt-input>
 
     <div
       v-if="!disabled"
@@ -138,19 +129,6 @@ export default {
 .generate-password-input__label-wrapper {
   display: flex;
   align-items: center;
-
-  .wt-icon-btn {
-    margin-right: 10px;
-
-    ::v-deep {
-      .wt-tooltip {
-        top: 50%;
-        left: auto;
-        width: 280px;
-        transform: translate(0, -50%);
-      }
-    }
-  }
 }
 
 .generate-password-input__icon-extension {

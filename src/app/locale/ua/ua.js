@@ -603,6 +603,8 @@ export default {
         allowGreetingAgent: 'Дозволити привітання',
         preSchema: 'Схема попереднього набору',
         afterSchema: 'Схема подальшого набору',
+        maxCalls: 'Ліміт дзвінків',
+        maxCallsHint: 'Якщо значення дорівнює 0, будуть використані всі ресурси',
         recordings: 'Запис',
         maxWordLength: 'Максимальна тривалість речення (мс)',
         maxNumberOfWords: 'Максимальна кількість слів в привітанні',
