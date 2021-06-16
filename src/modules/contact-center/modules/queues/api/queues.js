@@ -13,7 +13,8 @@ const queueService = new QueueServiceApiFactory(configuration, '', instance);
 
 const fieldsToSend = ['name', 'type', 'strategy', 'team', 'priority', 'dncList', 'schema',
   'payload', 'maxOfRetry', 'timeout', 'secBetweenRetries', 'variables', 'calendar', 'description',
-  'enabled', 'ringtone', 'doSchema', 'afterSchema', 'processing', 'processingSec', 'processingRenewalSec', 'stickyAgent'];
+  'enabled', 'ringtone', 'doSchema', 'afterSchema', 'processing', 'processingSec', 'processingRenewalSec',
+  'stickyAgent'];
 
 const defaultListObject = {
   type: 0,

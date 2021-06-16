@@ -19,6 +19,7 @@ const progressiveDialer = () => ({
     waitBetweenRetries: 30 * 60, // required
     recordings: false,
     allowGreetingAgent: false,
+    maxCalls: 0,
     amd: amd(),
   },
 });

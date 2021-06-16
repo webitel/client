@@ -23,6 +23,14 @@
         :disabled="disableUserInput"
         @input="setItemPayloadProp({ prop: 'waitBetweenRetries', value: +$event })"
       ></wt-timepicker>
+      <wt-input
+        :value="itemInstance.payload.maxCalls"
+        :label="$t('objects.ccenter.queues.maxCalls')"
+        :disabled="disableUserInput"
+        :label-props="{ hint: $t('objects.ccenter.queues.maxCallsHint') }"
+        type="number"
+        @input="setItemPayloadProp({ prop: 'maxCalls', value: +$event })"
+      ></wt-input>
       <wt-switcher
         :value="itemInstance.payload.recordings"
         :label="$t('objects.ccenter.queues.recordings')"
