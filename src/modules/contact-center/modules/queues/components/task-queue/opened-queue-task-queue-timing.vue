@@ -18,6 +18,12 @@
         @input="setItemPayloadProp({ prop: 'waitBetweenRetries', value: $event })"
       ></wt-timepicker>
       <wt-switcher
+        :value="itemInstance.payload.waitBetweenRetriesDesc"
+        :label="$t('objects.ccenter.queues.waitBetweenRetriesDesc')"
+        :disabled="disableUserInput"
+        @change="setItemPayloadProp({ prop: 'waitBetweenRetriesDesc', value: $event })"
+      ></wt-switcher>
+      <wt-switcher
         :value="itemInstance.processing"
         :label="$t('objects.ccenter.queues.processing')"
         :disabled="disableUserInput"
@@ -39,8 +45,6 @@
         type="number"
         @input="setItemProp({ prop: 'processingRenewalSec', value: +$event })"
       ></wt-input>
-      <!-- empty for grid cell -->
-      <div></div>
       <wt-switcher
         :value="itemInstance.stickyAgent"
         :label="$t('objects.ccenter.queues.stickyAgent')"

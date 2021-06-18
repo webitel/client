@@ -16,6 +16,7 @@ const taskQueue = () => ({
   payload: {
     maxAttempts: 3, // required
     waitBetweenRetries: 30 * 60, // required
+    waitBetweenRetriesDesc: false,
   },
 });
 
