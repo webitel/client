@@ -37,6 +37,14 @@
         type="number"
         @input="setItemPayloadProp({ prop: 'maxCalls', value: +$event })"
       ></wt-input>
+      <!-- empty for grid cell -->
+      <div></div>
+      <wt-switcher
+        :value="itemInstance.payload.waitBetweenRetriesDesc"
+        :label="$t('objects.ccenter.queues.waitBetweenRetriesDesc')"
+        :disabled="disableUserInput"
+        @change="setItemPayloadProp({ prop: 'waitBetweenRetriesDesc', value: $event })"
+      ></wt-switcher>
       <wt-switcher
         :value="itemInstance.payload.recordings"
         :label="$t('objects.ccenter.queues.recordings')"

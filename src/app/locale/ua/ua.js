@@ -591,6 +591,7 @@ export default {
         originateTimeout: 'Тривалість додзвону',
         maxWaitTime: 'Максимальний час очікування',
         waitBetweenRetries: 'Час між спробами додзвону',
+        waitBetweenRetriesDesc: 'Сортування перезвонів абонентам: низхідний',
         timeout: 'Час перерви між дзвінками',
         maxNumberOfRetry: 'Максимальна кількість повторів додзвону',
         minDuration: 'Мінімальна тривалість успішного дзвінка',

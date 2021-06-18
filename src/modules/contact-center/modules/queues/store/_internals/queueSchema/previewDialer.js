@@ -17,6 +17,7 @@ const previewDialer = () => ({
     maxAttempts: 3, // required
     originateTimeout: 60, // required
     waitBetweenRetries: 30 * 60, // required
+    waitBetweenRetriesDesc: false,
     maxCalls: 0,
     recordings: false,
     allowGreetingAgent: false,

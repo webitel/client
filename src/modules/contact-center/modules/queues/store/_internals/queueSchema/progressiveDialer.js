@@ -17,6 +17,7 @@ const progressiveDialer = () => ({
     maxAttempts: 3, // required
     originateTimeout: 60, // required
     waitBetweenRetries: 30 * 60, // required
+    waitBetweenRetriesDesc: false,
     recordings: false,
     allowGreetingAgent: false,
     maxCalls: 0,

@@ -592,6 +592,7 @@ export default {
         originateTimeout: 'Originate timeout',
         maxWaitTime: 'Max wait time',
         waitBetweenRetries: 'Wait between retries',
+        waitBetweenRetriesDesc: 'Sort members retries by descending',
         timeout: 'Timeout',
         maxNumberOfRetry: 'Max number of retry',
         minDuration: 'Minimum succeed call duration',
