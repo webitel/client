@@ -9,6 +9,7 @@ const predictiveDialer = () => ({
   strategy: Strategy.FIFO, // required
   team: {}, // required
   doSchema: {},
+  ringtone: {},
   afterSchema: {},
   processing: false,
   processingSec: 30,
@@ -18,6 +19,7 @@ const predictiveDialer = () => ({
     originateTimeout: 60, // required
     waitBetweenRetries: 30 * 60, // required
     waitBetweenRetriesDesc: false,
+    retryAbandoned: false,
     recordings: false,
     allowGreetingAgent: false,
     maxCalls: 0,

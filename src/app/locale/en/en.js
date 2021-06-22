@@ -593,6 +593,8 @@ export default {
         maxWaitTime: 'Max wait time',
         waitBetweenRetries: 'Wait between retries',
         waitBetweenRetriesDesc: 'Sort members retries by descending',
+        retryAbandoned: 'Retry abandoned',
+        playbackFile: 'Playback file',
         timeout: 'Timeout',
         maxNumberOfRetry: 'Max number of retry',
         minDuration: 'Minimum succeed call duration',
