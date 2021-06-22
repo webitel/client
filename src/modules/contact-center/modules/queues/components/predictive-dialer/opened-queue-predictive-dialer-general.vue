@@ -60,20 +60,20 @@
         @input="setItemProp({ prop: 'team', value: $event })"
       ></wt-select>
       <wt-select
+        :value="itemInstance.ringtone"
+        :label="$t('objects.ccenter.queues.playbackFile')"
+        :search="loadDropdownOptionsMediaList"
+        :internal-search="false"
+        :disabled="disableUserInput"
+        @input="setItemProp({ prop: 'ringtone', value: $event })"
+      ></wt-select>
+      <wt-select
         :value="itemInstance.doSchema"
         :label="$t('objects.ccenter.queues.preSchema')"
         :search="loadDropdownOptionsSchemaList"
         :internal-search="false"
         :disabled="disableUserInput"
         @input="setItemProp({ prop: 'doSchema', value: $event })"
-      ></wt-select>
-      <wt-select
-        :value="itemInstance.afterSchema"
-        :label="$t('objects.ccenter.queues.afterSchema')"
-        :search="loadDropdownOptionsSchemaList"
-        :internal-search="false"
-        :disabled="disableUserInput"
-        @input="setItemProp({ prop: 'afterSchema', value: $event })"
       ></wt-select>
       <wt-textarea
         :value="itemInstance.description"
@@ -92,6 +92,7 @@ import { getTeamsList } from '../../../teams/api/teams';
 import { getFlowList } from '../../../../../routing/modules/flow/components/flow';
 import { StrategyList } from '../../store/_internals/enums/Strategy.enum';
 import openedTabComponentMixin from '../../../../../../app/mixins/objectPagesMixins/openedObjectTabMixin/openedTabComponentMixin';
+import { getMediaList } from '../../../../../lookups/modules/media/api/media';
 
 export default {
   name: 'opened-queue-offline-queue-general',
@@ -142,6 +143,14 @@ export default {
 
     async loadDropdownOptionsSchemaList(search) {
       const response = await getFlowList({ search });
+      return response.list.map((item) => ({
+        name: item.name,
+        id: item.id,
+      }));
+    },
+
+    async loadDropdownOptionsMediaList(search) {
+      const response = await getMediaList({ search });
       return response.list.map((item) => ({
         name: item.name,
         id: item.id,

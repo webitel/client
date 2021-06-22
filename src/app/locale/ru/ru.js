@@ -592,6 +592,8 @@ export default {
         maxWaitTime: 'Максимальное время ожидания',
         waitBetweenRetries: 'Время между попытками дозвона',
         waitBetweenRetriesDesc: 'Сортировка перезвона абонентам по спаданию',
+        retryAbandoned: 'Возобновлять потерянных абонентов',
+        playbackFile: 'Проиграть файл',
         timeout: 'Время перерыва между звонками',
         maxNumberOfRetry: 'Максимальное количество попыток звонков',
         minDuration: 'Минимально успешная длительность звонка',
