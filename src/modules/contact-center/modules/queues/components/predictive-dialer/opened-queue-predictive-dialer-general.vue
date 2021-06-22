@@ -92,7 +92,7 @@ import { getTeamsList } from '../../../teams/api/teams';
 import { getFlowList } from '../../../../../routing/modules/flow/components/flow';
 import { StrategyList } from '../../store/_internals/enums/Strategy.enum';
 import openedTabComponentMixin from '../../../../../../app/mixins/objectPagesMixins/openedObjectTabMixin/openedTabComponentMixin';
-import {getMediaList} from "@/modules/lookups/modules/media/api/media";
+import { getMediaList } from '../../../../../lookups/modules/media/api/media';
 
 export default {
   name: 'opened-queue-offline-queue-general',
