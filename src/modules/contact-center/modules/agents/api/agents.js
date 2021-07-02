@@ -15,8 +15,8 @@ const fieldsToSend = ['user', 'team', 'supervisor', 'auditor', 'region', 'progre
 const defaultSingleObject = {
   user: {},
   team: {},
-  supervisor: {},
-  auditor: {},
+  supervisor: [],
+  auditor: [],
   region: {},
   progressiveCount: 0,
   chatCount: 0,

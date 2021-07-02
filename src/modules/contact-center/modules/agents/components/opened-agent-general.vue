@@ -36,6 +36,8 @@
         :search="loadSupervisorsOptions"
         :internal-search="false"
         :disabled="disableUserInput"
+        :close-on-select="false"
+        multiple
         @input="setItemProp({ prop: 'supervisor', value: $event })"
       ></wt-select>
       <wt-select
@@ -44,6 +46,8 @@
         :search="loadAuditorsOptions"
         :internal-search="false"
         :disabled="disableUserInput"
+        :close-on-select="false"
+        multiple
         @input="setItemProp({ prop: 'auditor', value: $event })"
       ></wt-select>
       <wt-select
@@ -90,39 +94,24 @@ export default {
   mixins: [openedTabComponentMixin],
   methods: {
     async loadUsersOptions(search) {
-      const response = await getAgentUsersOptions({ search });
-      return response.list.map((item) => ({
-        name: item.name,
-        id: item.id,
-      }));
+      const response = await getAgentUsersOptions({ search, fields: ['name', 'id'] });
+      return response.list;
     },
     async loadTeamsOptions(search) {
-      const response = await getTeamsList({ search });
-      return response.list.map((item) => ({
-        name: item.name,
-        id: item.id,
-      }));
+      const response = await getTeamsList({ search, fields: ['name', 'id'] });
+      return response.list;
     },
     async loadSupervisorsOptions(search) {
-      const response = await getAgentSupervisorsOptions({ search });
-      return response.list.map((item) => ({
-        name: item.name,
-        id: item.id,
-      }));
+      const response = await getAgentSupervisorsOptions({ search, fields: ['name', 'id'] });
+      return response.list;
     },
     async loadAuditorsOptions(search) {
-      const response = await getUsersList({ search });
-      return response.list.map((item) => ({
-        name: item.name,
-        id: item.id,
-      }));
+      const response = await getUsersList({ search, fields: ['name', 'id'] });
+      return response.list;
     },
     async loadRegionsOptions(search) {
-      const response = await getRegionsList({ search });
-      return response.list.map((item) => ({
-        name: item.name,
-        id: item.id,
-      }));
+      const response = await getRegionsList({ search, fields: ['name', 'id'] });
+      return response.list;
     },
   },
 };
