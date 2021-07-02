@@ -8,7 +8,7 @@
             :is-files-loading="isFilesLoading"
             :files-download-progress="filesDownloadProgress"
             :files-zipping-progress="filesZippingProgress"
-            @export-files="exportFiles"
+            @export-files="exportFiles(null, { fields: undefined })"
           ></download-files-btn>
         </template>
       </object-header>
