@@ -11,8 +11,8 @@ const resettableState = {
   itemInstance: {
     user: {},
     team: {},
-    supervisor: {},
-    auditor: {},
+    supervisor: [],
+    auditor: [],
     region: {},
     progressiveCount: 1,
     chatCount: 1,
