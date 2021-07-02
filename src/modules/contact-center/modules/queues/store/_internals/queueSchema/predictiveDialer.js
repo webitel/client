@@ -13,6 +13,7 @@ const predictiveDialer = () => ({
   processing: false,
   processingSec: 30,
   processingRenewalSec: 15,
+  stickyAgent: false,
   payload: {
     maxAttempts: 3, // required
     originateTimeout: 60, // required
