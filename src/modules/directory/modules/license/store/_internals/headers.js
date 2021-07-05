@@ -4,7 +4,7 @@ export default [
   {
     value: 'id',
     locale: 'objects.directory.license.licenseId',
-    width: '24px',
+    width: '50px',
     field: 'id',
     sort: SortSymbols.NONE,
   },
