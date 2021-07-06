@@ -7,15 +7,15 @@
     <object-list-popup
       v-if="isSupervisorPopup"
       :title="$tc('objects.ccenter.agents.supervisors', 2)"
-      :data-list="subordinateSupervisors"
-      :headers="subordinateSupervisorHeaders"
+      :data-list="openedItemSupervisors"
+      :headers="openedItemSupervisorHeaders"
       @close="closeSupervisorPopup"
     ></object-list-popup>
     <object-list-popup
       v-if="isSkillsPopup"
       :title="$tc('objects.lookups.skills.skills', 2)"
-      :data-list="subordinateSkills"
-      :headers="subordinateSkillsHeaders"
+      :data-list="openedItemSkills"
+      :headers="openedItemSkillsHeaders"
       @close="closeSkillsPopup"
     ></object-list-popup>
 
@@ -105,61 +105,20 @@ import openedObjectTableTabMixin
   from '../../../../../../../app/mixins/objectPagesMixins/openedObjectTableTabMixin/openedObjectTableTabMixin';
 import RouteNames from '../../../../../../../app/router/_internals/RouteNames.enum';
 import SubordinatePopup from './opened-agent-subordinates-popup.vue';
+import agentSupervisorsAndSkillsPopupMixin from '../../../../../mixins/agentSupervisorsAndSkillsPopupMixin';
 
 export default {
   name: 'opened-agent-subordinates',
-  mixins: [openedObjectTableTabMixin],
+  mixins: [openedObjectTableTabMixin, agentSupervisorsAndSkillsPopupMixin],
   components: { SubordinatePopup, ObjectListPopup },
   data: () => ({
     subNamespace: 'subordinates', // used in mixin map actions
     tableObjectRouteName: RouteNames.AGENTS, // this.itemLink() computing
     isSubordinatePopup: false,
 
-    subordinateId: null, // "selected" id object list popup
-    isSupervisorPopup: false, // object list popup
-    isSkillsPopup: false, // object list popup
-
     isDeleteConfirmation: false,
   }),
-  computed: {
-    subordinateSupervisors() {
-      return this.$store.getters[`${this.namespace}/${this.subNamespace}/GET_ITEM_PROP_BY_ID`](this.subordinateId, 'supervisor');
-    },
-    subordinateSupervisorHeaders() {
-      return [{ value: 'name', text: this.$tc('objects.ccenter.agents.supervisors', 1) }];
-    },
-    subordinateSkills() {
-      return this.$store.getters[`${this.namespace}/${this.subNamespace}/GET_ITEM_PROP_BY_ID`](this.subordinateId, 'skills');
-    },
-    subordinateSkillsHeaders() {
-      return [{ value: 'name', text: this.$tc('objects.lookups.skills.skills', 1) }];
-    },
-  },
   methods: {
-    readSupervisor(item) {
-      this.subordinateId = item.id;
-      this.openSupervisorPopup();
-    },
-    openSupervisorPopup() {
-      this.isSupervisorPopup = true;
-    },
-    closeSupervisorPopup() {
-      this.isSupervisorPopup = false;
-      this.subordinateId = null;
-    },
-
-    readSkills(item) {
-      this.subordinateId = item.id;
-      this.openSkillsPopup();
-    },
-    openSkillsPopup() {
-      this.isSkillsPopup = true;
-    },
-    closeSkillsPopup() {
-      this.isSkillsPopup = false;
-      this.subordinateId = null;
-    },
-
     openPopup() {
       return this.openSubordinatePopup();
     },

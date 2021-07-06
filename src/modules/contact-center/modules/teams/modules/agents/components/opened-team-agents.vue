@@ -4,25 +4,25 @@
       v-if="isAgentPopup"
       @close="closePopup"
     ></agent-popup>
-    <object-list-popup
-      v-if="isSupervisorPopup"
-      :title="$tc('objects.ccenter.agents.supervisors', 2)"
-      :data-list="agentSupervisors"
-      :headers="agentSupervisorHeaders"
-      @close="closeSupervisorPopup"
-    ></object-list-popup>
-    <object-list-popup
-      v-if="isSkillsPopup"
-      :title="$tc('objects.lookups.skills.skills', 2)"
-      :data-list="agentSkills"
-      :headers="agentSkillsHeaders"
-      @close="closeSkillsPopup"
-    ></object-list-popup>
     <delete-confirmation-popup
       v-show="deleteConfirmation.isDeleteConfirmationPopup"
       :payload="deleteConfirmation"
       @close="closeDelete"
     ></delete-confirmation-popup>
+    <object-list-popup
+      v-if="isSupervisorPopup"
+      :title="$tc('objects.ccenter.agents.supervisors', 2)"
+      :data-list="openedItemSupervisors"
+      :headers="openedItemSupervisorHeaders"
+      @close="closeSupervisorPopup"
+    ></object-list-popup>
+    <object-list-popup
+      v-if="isSkillsPopup"
+      :title="$tc('objects.lookups.skills.skills', 2)"
+      :data-list="openedItemSkills"
+      :headers="openedItemSkillsHeaders"
+      @close="closeSkillsPopup"
+    ></object-list-popup>
 
     <header class="content-header">
       <h3 class="content-title">{{ $tc('objects.ccenter.agents.agents', 2) }}</h3>
@@ -109,53 +109,19 @@ import ObjectListPopup from '../../../../../../../app/components/utils/object-li
 import AgentPopup from './opened-team-agent-popup.vue';
 import openedObjectTableTabMixin from '../../../../../../../app/mixins/objectPagesMixins/openedObjectTableTabMixin/openedObjectTableTabMixin';
 import RouteNames from '../../../../../../../app/router/_internals/RouteNames.enum';
+import agentSupervisorsAndSkillsPopupMixin from '../../../../../mixins/agentSupervisorsAndSkillsPopupMixin';
 
 export default {
   name: 'opened-team-agents',
-  mixins: [openedObjectTableTabMixin],
+  mixins: [openedObjectTableTabMixin, agentSupervisorsAndSkillsPopupMixin],
   components: { AgentPopup, ObjectListPopup },
   data: () => ({
     subNamespace: 'agents',
     tableObjectRouteName: RouteNames.AGENTS, // this.itemLink() computing
     isAgentPopup: false,
-    isAgentSkillsPopup: false,
-
-    agentId: null, // "selected" id object list popup
-    isSupervisorPopup: false, // object list popup
-    isSkillsPopup: false, // object list popup
-  }),
-  computed: {
-    agentSupervisors() {
-      return this.$store.getters[`${this.namespace}/${this.subNamespace}/GET_ITEM_PROP_BY_ID`](this.agentId, 'supervisor');
-    },
-    agentSupervisorHeaders() {
-      return [{ value: 'name', text: this.$tc('objects.ccenter.agents.supervisors', 1) }];
-    },
-    agentSkills() {
-      return this.$store.getters[`${this.namespace}/${this.subNamespace}/GET_ITEM_PROP_BY_ID`](this.agentId, 'skills');
-    },
-    agentSkillsHeaders() {
-      return [{ value: 'name', text: this.$tc('objects.lookups.skills.skills', 1) }];
-    },
-  },
+ }),
 
   methods: {
-    readSupervisor(item) {
-      this.agentId = item.id;
-      this.openSupervisorPopup();
-    },
-    openSupervisorPopup() {
-      this.isSupervisorPopup = true;
-    },
-    closeSupervisorPopup() {
-      this.isSupervisorPopup = false;
-      this.agentId = null;
-    },
-
-    readSkills(item) {
-      this.agentId = item.id;
-      this.openSkillsPopup();
-    },
     openPopup() {
       this.isAgentPopup = true;
     },
