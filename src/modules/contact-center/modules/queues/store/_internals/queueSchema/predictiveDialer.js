@@ -15,6 +15,7 @@ const predictiveDialer = () => ({
   processingRenewalSec: 15,
   stickyAgent: false,
   payload: {
+    maxWaitTime: 10,
     maxAttempts: 3, // required
     originateTimeout: 60, // required
     waitBetweenRetries: 30 * 60, // required
