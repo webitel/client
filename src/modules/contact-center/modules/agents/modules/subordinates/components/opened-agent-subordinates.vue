@@ -123,13 +123,13 @@ export default {
   }),
   computed: {
     subordinateSupervisors() {
-      return this.$store.getters[`${this.namespace}/${this.subNamespace}/GET_SUBORDINATE_SUPERVISORS`](this.subordinateId);
+      return this.$store.getters[`${this.namespace}/${this.subNamespace}/GET_ITEM_PROP_BY_ID`](this.subordinateId, 'supervisor');
     },
     subordinateSupervisorHeaders() {
       return [{ value: 'name', text: this.$tc('objects.ccenter.agents.supervisors', 1) }];
     },
     subordinateSkills() {
-      return this.$store.getters[`${this.namespace}/${this.subNamespace}/GET_SUBORDINATE_SKILLS`](this.subordinateId);
+      return this.$store.getters[`${this.namespace}/${this.subNamespace}/GET_ITEM_PROP_BY_ID`](this.subordinateId, 'skills');
     },
     subordinateSkillsHeaders() {
       return [{ value: 'name', text: this.$tc('objects.lookups.skills.skills', 1) }];

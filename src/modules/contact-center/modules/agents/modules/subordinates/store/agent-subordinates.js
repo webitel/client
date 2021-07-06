@@ -9,21 +9,9 @@ const resettableItemState = {
   },
 };
 
-const getters = {
-  GET_SUBORDINATE_BY_ID: (state) => (subordinateId) => (
-    state.dataList.find((subordinate) => subordinate.id === subordinateId)
-  ),
-  GET_SUBORDINATE_SUPERVISORS: (state, getters) => (subordinateId) => (
-    getters.GET_SUBORDINATE_BY_ID(subordinateId).supervisor
-  ),
-  GET_SUBORDINATE_SKILLS: (state, getters) => (subordinateId) => (
-    getters.GET_SUBORDINATE_BY_ID(subordinateId).skills
-  ),
-};
-
 const agentSubordinates = new NestedObjectStoreModule({ resettableItemState, headers })
   .attachAPIModule(AgentSubordinatesAPI)
   .generateAPIActions()
-  .getModule({ getters });
+  .getModule();
 
 export default agentSubordinates;
