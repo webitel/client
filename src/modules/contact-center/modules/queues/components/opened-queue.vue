@@ -101,7 +101,6 @@ export default {
         return {
           itemInstance: {
             ...defaults,
-            team: { required },
             strategy: { required },
             payload: {
               originateTimeout: { required },
@@ -112,7 +111,6 @@ export default {
         return {
           itemInstance: {
             ...defaults,
-            team: { required },
             payload: {
               timeBaseScore: { required },
               maxWaitTime: { required },
@@ -136,7 +134,6 @@ export default {
           itemInstance: {
             ...defaults,
             strategy: { required },
-            team: { required },
             payload: {
               maxAttempts: { required },
               originateTimeout: { required },
@@ -149,7 +146,6 @@ export default {
           itemInstance: {
             ...defaults,
             strategy: { required },
-            team: { required },
             payload: {
               maxAttempts: { required },
               originateTimeout: { required },
@@ -162,7 +158,6 @@ export default {
           itemInstance: {
             ...defaults,
             strategy: { required },
-            team: { required },
             payload: {
               maxAttempts: { required },
               originateTimeout: { required },
@@ -174,7 +169,6 @@ export default {
         return {
           itemInstance: {
             ...defaults,
-            team: { required },
             strategy: { required },
             payload: {
               timeBaseScore: { required },
@@ -187,7 +181,6 @@ export default {
           itemInstance: {
             ...defaults,
             strategy: { required },
-            team: { required },
             payload: {
               maxAttempts: { required },
               waitBetweenRetries: { required },

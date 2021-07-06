@@ -50,13 +50,11 @@
       ></wt-select>
       <wt-select
         :value="itemInstance.team"
-        :v="v.itemInstance.team"
         :label="$tc('objects.ccenter.teams.teams', 1)"
         :search="loadDropdownOptionsTeamList"
         :internal-search="false"
-        :clearable="false"
+        :clearable="true"
         :disabled="disableUserInput"
-        required
         @input="setItemProp({ prop: 'team', value: $event })"
       ></wt-select>
       <wt-select
