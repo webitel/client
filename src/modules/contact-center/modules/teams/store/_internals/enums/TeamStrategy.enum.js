@@ -6,6 +6,7 @@ const TeamStrategy = Object.freeze({
   ROUND_ROBIN: 'round-robin',
   ROUND_ROBIN_BUCKET: 'round-robin-bucket',
   LONGEST_IDLE_AGENT: 'longest-idle-agent',
+  SKILL_CAPACITY: 'skill-capacity',
 });
 
 export default TeamStrategy;
