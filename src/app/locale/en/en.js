@@ -517,6 +517,7 @@ export default {
           roundRobin: 'Round robin',
           roundRobinBucket: 'Round robin bucket',
           longestIdleAgent: 'Agent with longest idle time',
+          skillCapacity: 'By skill level',
         },
       },
 

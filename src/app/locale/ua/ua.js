@@ -516,6 +516,7 @@ export default {
           roundRobin: 'По порядку',
           roundRobinBucket: 'По порядку кошика',
           longestIdleAgent: 'Оператор з найбільшим часом простою',
+          skillCapacity: 'По рівню навички',
         },
       },
 
