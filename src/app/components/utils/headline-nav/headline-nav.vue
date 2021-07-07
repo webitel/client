@@ -41,7 +41,7 @@ export default {
 .headline-nav {
   display: flex;
   align-items: center;
-  flex-wrap: wrap;
+  flex-wrap: nowrap;
   max-width: 80%;
 }
 
@@ -57,6 +57,7 @@ export default {
   margin: 0 19px;
   background: var(--icon-primary-color);
   border-radius: 50%;
+  flex-shrink: 0;
 }
 
 .headline-nav__nav__title {
@@ -68,12 +69,20 @@ export default {
 }
 
 .headline-nav__nav__wrapper:last-child {
+  min-width: 0;
+
   .headline-nav__nav__indicator {
     background: var(--icon-accent-color);
+  }
+
+  .headline-nav__nav__title {
+    overflow: hidden;
+    text-overflow: ellipsis;
   }
 
   .headline-nav__nav__text {
     color: var(--text-primary-color);
   }
+
 }
 </style>
