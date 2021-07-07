@@ -41,7 +41,6 @@ export default {
 .headline-nav {
   display: flex;
   align-items: center;
-  flex-wrap: nowrap;
   max-width: 80%;
 }
 
@@ -83,6 +82,5 @@ export default {
   .headline-nav__nav__text {
     color: var(--text-primary-color);
   }
-
 }
 </style>
