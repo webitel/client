@@ -8,12 +8,10 @@ import SDKCreator from '../../../../../app/api/BaseAPIServices/Creator/SDKCreato
 import SDKUpdater from '../../../../../app/api/BaseAPIServices/Updater/SDKUpdater';
 import SDKDeleter from '../../../../../app/api/BaseAPIServices/Deleter/SDKDeleter';
 
-
 const agentService = new AgentServiceApiFactory(configuration, '', instance);
 
 const fieldsToSend = ['user', 'team', 'supervisor', 'auditor', 'region', 'progressiveCount',
   'chatCount', 'isSupervisor'];
-
 
 const convertStatusDuration = (value) => {
   if (value > 60 * 60 * 24) return '>24:00:00';
@@ -30,7 +28,6 @@ const listResponseHandler = (response) => {
     list,
   };
 };
-
 
 const defaultSingleObject = {
   user: {},
