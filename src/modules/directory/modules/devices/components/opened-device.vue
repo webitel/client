@@ -39,11 +39,7 @@ import HotdeskGeneral from './opened-hotdesk-device-general.vue';
 import HotdeskHotdesking from './opened-hotdesk-device-hotdesking.vue';
 import openedObjectMixin from '../../../../../app/mixins/objectPagesMixins/openedObjectMixin/openedObjectMixin';
 
-const hotDeskNameValidator = (array) => !array.some((hotdesk) => {
-  const regex = /\w+/;
-  const valueToCheck = hotdesk.text ? hotdesk.text : hotdesk.name;
-  return !regex.test(valueToCheck);
-});
+const hotDeskNameValidator = (array) => !array.some((hotdesk) => !/\w+/.test(hotdesk.name || hotdesk.text));
 
 export default {
   name: 'opened-device',
@@ -59,8 +55,7 @@ export default {
   }),
 
   validations() {
-    let itemInstance;
-    const defaults = {
+    let itemInstance = {
       name: { required },
       password: { required: requiredUnless('id') },
       account: { required },
@@ -69,12 +64,8 @@ export default {
     };
     if (this.itemInstance.hotdesk) {
       itemInstance = {
-        ...defaults,
+        ...itemInstance,
         hotdesks: { hotDeskNameValidator },
-      };
-    } else {
-      itemInstance = {
-        ...defaults,
       };
     }
     return { itemInstance };

@@ -5,13 +5,13 @@
     </header>
     <form class="object-input-grid">
       <wt-tags-input
+        :value="itemInstance.hotdesks"
+        :v="v.itemInstance.hotdesks"
+        :label="$t('objects.directory.devices.hostName')"
+        :label-props=" { hint: $t('objects.directory.devices.hotdeskInputHint') }"
+        :custom-validators="hotDeskNameValidator"
         :add-only-from-autocomplete="false"
         :disabled="disableUserInput"
-        :label="$t('objects.directory.devices.hostName')"
-        :v="v.itemInstance.hotdesks"
-        :custom-validators="incorrectCharUsed"
-        :value="itemInstance.hotdesks"
-        :label-props=" { hint: $t('objects.directory.devices.hotdeskInputHint') }"
         @input="setItemProp({ prop: 'hotdesks', value: $event })"
       ></wt-tags-input>
     </form>
@@ -26,8 +26,8 @@ export default {
   name: 'opened-device-hotdesking',
   mixins: [openedTabComponentMixin],
   computed: {
-    incorrectCharUsed() {
-      return [{ name: 'hotDeskNameValidator', text: 'Incorrect host name' }];
+    hotDeskNameValidator() {
+      return [{ name: 'hotDeskNameValidator', text: this.$t('objects.directory.devices.hotdeskIncorrectInput') }];
     },
   },
 };

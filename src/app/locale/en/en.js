@@ -263,6 +263,7 @@ export default {
         hotdesk: 'Hot desking',
         hotdeskDevice: 'Hot desking device',
         hotdeskDeviceSettings: 'Hot desking device settings',
+        hotdeskIncorrectInput: 'Incorrect Host Name',
         hotdeskInputHint: 'To make it easier to identify this device, you should cover it with friendly hot-desk aliases. Valid name must contain following characters: A-Z, a-z, 0-9, -, _',
         deviceSettings: 'Device settings',
         hostName: 'Host Name',

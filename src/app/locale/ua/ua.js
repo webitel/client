@@ -263,6 +263,7 @@ export default {
         presence: 'Актуальний статус',
         hotdesk: 'Hot desking',
         hotdeskDevice: 'Hot desking пристрій',
+        hotdeskIncorrectInput: 'Неправильне ім\'я хоста',
         hotdeskInputHint: 'Для імені хоста використовуйте лише правильні символи. Дозволені символи: A-Z, a-z, 0-9, -, _',
         deviceSettings: 'Налаштування пристрою',
         hostName: 'Ім\'я хоста',
