@@ -1,3 +1,4 @@
+import convertDuration from '@webitel/ui-sdk/src/scripts/convertDuration';
 import { AgentServiceApiFactory } from 'webitel-sdk';
 import instance from '../../../../../app/api/instance';
 import configuration from '../../../../../app/api/openAPIConfig';
@@ -6,7 +7,7 @@ import SDKGetter from '../../../../../app/api/BaseAPIServices/Getter/SDKGetter';
 import SDKCreator from '../../../../../app/api/BaseAPIServices/Creator/SDKCreator';
 import SDKUpdater from '../../../../../app/api/BaseAPIServices/Updater/SDKUpdater';
 import SDKDeleter from '../../../../../app/api/BaseAPIServices/Deleter/SDKDeleter';
-import convertDuration from '@webitel/ui-sdk/src/scripts/convertDuration';
+
 
 const agentService = new AgentServiceApiFactory(configuration, '', instance);
 
