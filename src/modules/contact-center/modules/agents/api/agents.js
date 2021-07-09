@@ -15,8 +15,8 @@ const fieldsToSend = ['user', 'team', 'supervisor', 'auditor', 'region', 'progre
 
 
 const convertStatusDuration = (value) => {
-  if (value > 60 * 60 * 24) return ">24:00:00";
-  return convertDuration(value)
+  if (value > 60 * 60 * 24) return '>24:00:00';
+  return convertDuration(value);
 };
 
 const listResponseHandler = (response) => {
@@ -60,7 +60,6 @@ const _getRegularAgentsList = (getList) => function ({
                                                        size = 10,
                                                        search,
                                                        fields,
-
                                                      }) {
   const isNotSupervisor = true;
   const params = [page, size, search, undefined, fields, undefined, undefined,
