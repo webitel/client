@@ -1,9 +1,9 @@
 import { mapState, mapActions } from 'vuex';
-import ObjectHeader from '@/app/components/utils/object-utils/the-object-header';
-import formInput from '@/app/components/utils/form-input';
-import dropdownSelect from '@/app/components/utils/dropdown-select';
-import tableCheckbox from '@/app/components/utils/checkbox';
-import tagsInput from '@/app/components/utils/tags-input';
+import ObjectHeader from '@/app/components/utils/object-utils/the-object-header.vue';
+import formInput from '@/app/components/utils/form-input.vue';
+import dropdownSelect from '@/app/components/utils/dropdown-select.vue';
+import tableCheckbox from '@/app/components/utils/checkbox.vue';
+import tagsInput from '@/app/components/utils/tags-input.vue';
 
 import openedObjectValidationMixin
   from '../../baseMixins/openedObjectValidationMixin/openedObjectValidationMixin';
