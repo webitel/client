@@ -6,11 +6,30 @@ import SDKGetter from '../../../../../app/api/BaseAPIServices/Getter/SDKGetter';
 import SDKCreator from '../../../../../app/api/BaseAPIServices/Creator/SDKCreator';
 import SDKUpdater from '../../../../../app/api/BaseAPIServices/Updater/SDKUpdater';
 import SDKDeleter from '../../../../../app/api/BaseAPIServices/Deleter/SDKDeleter';
+import convertDuration from '@webitel/ui-sdk/src/scripts/convertDuration';
 
 const agentService = new AgentServiceApiFactory(configuration, '', instance);
 
 const fieldsToSend = ['user', 'team', 'supervisor', 'auditor', 'region', 'progressiveCount',
   'chatCount', 'isSupervisor'];
+
+
+const convertStatusDuration = (value) => {
+  if (value > 60 * 60 * 24) return ">24:00:00";
+  return convertDuration(value)
+};
+
+const listResponseHandler = (response) => {
+  const list = response.list.map((item) => ({
+    ...item,
+    statusDuration: convertStatusDuration(item.statusDuration),
+  }));
+  return {
+    ...response,
+    list,
+  };
+};
+
 
 const defaultSingleObject = {
   user: {},
@@ -41,6 +60,7 @@ const _getRegularAgentsList = (getList) => function ({
                                                        size = 10,
                                                        search,
                                                        fields,
+
                                                      }) {
   const isNotSupervisor = true;
   const params = [page, size, search, undefined, fields, undefined, undefined,
@@ -61,7 +81,9 @@ const _getAgentHistory = (getList) => function ({
   return getList(params);
 };
 
-const listGetter = new SDKListGetter(agentService.searchAgent);
+const listGetter = new SDKListGetter(agentService.searchAgent, {
+  listResponseHandler,
+});
 const itemGetter = new SDKGetter(agentService.readAgent, { defaultSingleObject });
 const itemCreator = new SDKCreator(agentService.createAgent, { fieldsToSend });
 const itemUpdater = new SDKUpdater(agentService.updateAgent, { fieldsToSend });

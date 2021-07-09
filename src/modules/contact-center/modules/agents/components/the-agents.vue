@@ -69,7 +69,7 @@
               ></status>
             </template>
             <template slot="time" slot-scope="{ item }">
-              {{ convertDuration(item.statusDuration) }}
+              {{ item.statusDuration }}
             </template>
             <template slot="team" slot-scope="{ item }">
               <item-link v-if="item.team" :link="itemTeamLink(item)" target="_blank">
@@ -150,7 +150,10 @@ export default {
         params: { id: team.id },
       };
     },
-
+    convertStatusDuration() {
+      if (value > 60 * 60 * 24) return '>24:00:00';
+      return  convertDuration(value)
+    },
     convertDuration,
 
     closeHistoryPopup() {
