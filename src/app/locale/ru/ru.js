@@ -264,6 +264,7 @@ export default {
         presence: 'Актуальный статус',
         hotdesk: 'Hot desking',
         hotdeskDevice: 'Hot desking устройство',
+        hotdeskInputHint: 'Для имени хоста используйте правильные символы. Разрешены символы: A-Z, a-z, 0-9, -, _',
         deviceSettings: 'Настройки устройства',
         hostName: 'Имя хоста',
         phoneInfo: 'Информация о телефоне',

@@ -40,7 +40,7 @@ export const timerangeStartLessThanEnd = (object) => object.start < object.end;
 export const timerangeNotIntersect = (array) => {
   let isIntersecting = false;
   let ranges = [{ start: array[0].start, end: array[0].end }];
-  array.reduce((prev, curr, index) => {
+  array.reduce((prev, curr) => {
     if (prev.day !== curr.day) {
       ranges = [{ start: curr.start, end: curr.end }];
       return curr;
