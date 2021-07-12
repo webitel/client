@@ -1,5 +1,7 @@
+import deepCopy from 'deep-copy';
 import RolesAPI from '../api/roles';
 import ObjectStoreModule from '../../../../../app/store/BaseStoreModules/StoreModules/ObjectStoreModule';
+import ApplicationsAccess from './_internals/ApplicationsAccess';
 import headers from './_internals/headers';
 
 const resettableState = {
@@ -7,10 +9,14 @@ const resettableState = {
     name: '',
     description: '',
     permissions: [],
+    metadata: {
+      access: new ApplicationsAccess().getAccess(),
+    },
   },
 };
 
 const actions = {
+  GET_ITEM: (context) => RolesAPI.get({ ...context.state, query: { fields: '*,metadata.access' } }),
   ADD_ROLE_PERMISSION: (context, permission) => {
     const value = context.state.itemInstance.permissions.concat(permission);
     context.commit('SET_ITEM_PROPERTY', { prop: 'permissions', value });
@@ -42,12 +48,27 @@ const actions = {
     const permissions = [];
     context.commit('SET_ITEM_PROPERTY', { prop: 'permissions', value: permissions });
   },
+  UPDATE_APPLICATION_ACCESS: (context, { app, value }) => {
+    const access = deepCopy(context.state.itemInstance.metadata.access);
+    access[app]._enabled = value;
+    context.commit('SET_METADATA_PROPERTY', { prop: 'access', value: access });
+  },
+  UPDATE_APPLICATION_SECTION_ACCESS: (context, { app, section, value }) => {
+    const access = deepCopy(context.state.itemInstance.metadata.access);
+    access[app][section]._enabled = value;
+    context.commit('SET_METADATA_PROPERTY', { prop: 'access', value: access });
+  },
 };
 
+const mutations = {
+  SET_METADATA_PROPERTY: (state, { prop, value }) => {
+    state.itemInstance.metadata = { ...state.itemInstance.metadata, [prop]: value };
+  },
+};
 
 const roles = new ObjectStoreModule({ resettableState, headers })
   .attachAPIModule(RolesAPI)
   .generateAPIActions()
-  .getModule({ actions });
+  .getModule({ actions, mutations });
 
 export default roles;

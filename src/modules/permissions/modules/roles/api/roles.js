@@ -1,26 +1,47 @@
-import { EndpointListGetterApiConsumer } from 'webitel-sdk/esm2015/api-consumers';
+import deepCopy from 'deep-copy';
+import {
+  EndpointListGetterApiConsumer,
+  EndpointGetterApiConsumer,
+  EndpointCreatorApiConsumer,
+  EndpointUpdaterApiConsumer,
+} from 'webitel-sdk/esm2015/api-consumers';
 import APIListGetter from '../../../../../app/api/BaseAPIServices/ListGetter/ApiListGetter';
 import APIItemDeleter from '../../../../../app/api/BaseAPIServices/Deleter/ApiDeleter';
-import APIUpdater from '../../../../../app/api/BaseAPIServices/Updater/ApiUpdater';
-import APICreator from '../../../../../app/api/BaseAPIServices/Creator/ApiCreator';
-import APIItemGetter from '../../../../../app/api/BaseAPIServices/Getter/ApiGetter';
 import instance from '../../../../../app/api/instance';
+import ApplicationsAccess from '../store/_internals/ApplicationsAccess';
 
 const baseUrl = '/roles';
 
-const fieldsToSend = ['name', 'description', 'permissions'];
+const fieldsToSend = ['name', 'description', 'permissions', 'metadata'];
 
 const defaultSingleObject = {
   name: '',
   description: '',
   permissions: [],
+  metadata: {},
+  _dirty: false,
+};
+
+const itemResponseHandler = (item) => {
+  // eslint-disable-next-line no-param-reassign
+  item.metadata.access = new ApplicationsAccess({ access: item.metadata.access }).getAccess();
+  return item;
+};
+
+const preRequestHandler = (item) => {
+  const itemCopy = deepCopy(item);
+  itemCopy.metadata.access = ApplicationsAccess.minify(item.metadata.access);
+  return itemCopy;
 };
 
 const listGetter = new APIListGetter(baseUrl);
-const extendedRolesListGetter = new EndpointListGetterApiConsumer({ baseUrl, instance }); // fixme reuse listGetter after refactor
-const itemGetter = new APIItemGetter(baseUrl, { defaultSingleObject });
-const itemCreator = new APICreator(baseUrl, { fieldsToSend });
-const itemUpdater = new APIUpdater(baseUrl, { fieldsToSend });
+const itemGetter = new EndpointGetterApiConsumer({ baseUrl, instance },
+  { defaultSingleObject, itemResponseHandler });
+const extendedRolesListGetter = new EndpointListGetterApiConsumer({ baseUrl, instance });
+const itemCreator = new EndpointCreatorApiConsumer({ baseUrl, instance },
+  { fieldsToSend, preRequestHandler });
+const itemUpdater = new EndpointUpdaterApiConsumer({ baseUrl, instance },
+  { fieldsToSend, preRequestHandler });
 const itemDeleter = new APIItemDeleter(baseUrl);
 
 const PERMISSIONS_LIST_URL = '/permissions';
@@ -28,7 +49,6 @@ const permissionsListGetter = new APIListGetter(PERMISSIONS_LIST_URL);
 
 export const getRoleList = (params) => listGetter.getList({ ...params, searchQuery: 'q' });
 export const getExtendedRoles = (params) => extendedRolesListGetter.getList({ ...params, searchQuery: 'q' });
-
 export const getRole = (params) => itemGetter.getItem(params);
 export const addRole = (params) => itemCreator.createItem(params);
 export const updateRole = (params) => itemUpdater.updateItem(params);
