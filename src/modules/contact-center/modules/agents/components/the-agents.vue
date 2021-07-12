@@ -69,7 +69,7 @@
               ></status>
             </template>
             <template slot="time" slot-scope="{ item }">
-              {{ convertDuration(item.statusDuration) }}
+              {{ item.statusDuration }}
             </template>
             <template slot="team" slot-scope="{ item }">
               <item-link v-if="item.team" :link="itemTeamLink(item)" target="_blank">
@@ -108,7 +108,6 @@
 
 <script>
 import { mapState, mapActions } from 'vuex';
-import convertDuration from '@webitel/ui-sdk/src/scripts/convertDuration';
 import HistoryPopup from './agent-history-popup.vue';
 import tableComponentMixin from '../../../../../app/mixins/objectPagesMixins/objectTableMixin/tableComponentMixin';
 import RouteNames from '../../../../../app/router/_internals/RouteNames.enum';
@@ -133,7 +132,10 @@ export default {
     path() {
       return [
         { name: this.$t('objects.ccenter.ccenter') },
-        { name: this.$tc('objects.ccenter.agents.agents', 2), route: '/contact-center/agents' },
+        {
+          name: this.$tc('objects.ccenter.agents.agents', 2),
+          route: '/contact-center/agents'
+        },
       ];
     },
   },
@@ -150,9 +152,6 @@ export default {
         params: { id: team.id },
       };
     },
-
-    convertDuration,
-
     closeHistoryPopup() {
       this.openHistory(null);
     },

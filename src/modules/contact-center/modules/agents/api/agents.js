@@ -1,3 +1,4 @@
+import convertDuration from '@webitel/ui-sdk/src/scripts/convertDuration';
 import { AgentServiceApiFactory } from 'webitel-sdk';
 import instance from '../../../../../app/api/instance';
 import configuration from '../../../../../app/api/openAPIConfig';
@@ -11,6 +12,22 @@ const agentService = new AgentServiceApiFactory(configuration, '', instance);
 
 const fieldsToSend = ['user', 'team', 'supervisor', 'auditor', 'region', 'progressiveCount',
   'chatCount', 'isSupervisor'];
+
+const convertStatusDuration = (value) => {
+  if (value > 60 * 60 * 24) return '>24:00:00';
+  return convertDuration(value);
+};
+
+const listResponseHandler = (response) => {
+  const list = response.list.map((item) => ({
+    ...item,
+    statusDuration: convertStatusDuration(item.statusDuration),
+  }));
+  return {
+    ...response,
+    list,
+  };
+};
 
 const defaultSingleObject = {
   user: {},
@@ -61,7 +78,9 @@ const _getAgentHistory = (getList) => function ({
   return getList(params);
 };
 
-const listGetter = new SDKListGetter(agentService.searchAgent);
+const listGetter = new SDKListGetter(agentService.searchAgent, {
+  listResponseHandler,
+});
 const itemGetter = new SDKGetter(agentService.readAgent, { defaultSingleObject });
 const itemCreator = new SDKCreator(agentService.createAgent, { fieldsToSend });
 const itemUpdater = new SDKUpdater(agentService.updateAgent, { fieldsToSend });
