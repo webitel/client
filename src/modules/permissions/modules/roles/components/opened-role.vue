@@ -31,12 +31,13 @@
 import { required } from 'vuelidate/lib/validators';
 import General from './opened-role-general.vue';
 import Permissions from './role-permissions/opened-role-permissions.vue';
+import ApplicationsAccess from './role-applications-access/opened-role-applications-access.vue';
 import openedObjectMixin from '../../../../../app/mixins/objectPagesMixins/openedObjectMixin/openedObjectMixin';
 
 export default {
   name: 'opened-role',
   mixins: [openedObjectMixin],
-  components: { General, Permissions },
+  components: { General, Permissions, ApplicationsAccess },
   data: () => ({
     namespace: 'permissions/roles',
   }),
@@ -55,6 +56,9 @@ export default {
       }, {
         text: this.$tc('objects.permissions.roles.permissions', 2),
         value: 'permissions',
+      }, {
+        text: this.$tc('objects.permissions.roles.applicationsAccess.applicationsAccess', 2),
+        value: 'applications-access',
       }];
       return tabs;
     },

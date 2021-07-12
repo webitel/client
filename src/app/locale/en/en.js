@@ -296,6 +296,17 @@ export default {
         permissions: 'Role permission | Role permissions',
         addPermission: 'Add role permission',
         usage: 'Usage',
+        applicationsAccess: {
+          applicationsAccess: 'Application access | Applications access',
+          access: 'Access',
+          supervisor: {
+            sections: {
+              queues: 'Queues',
+              agents: 'Agents',
+              activeCalls: 'Active calls',
+            },
+          },
+        },
       },
       object: {
         object: 'Objects',

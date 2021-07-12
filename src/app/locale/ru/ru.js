@@ -297,6 +297,17 @@ export default {
         permissions: 'Право доступа роли | Права доступа ролей',
         addPermission: 'Добавить право доступа для роли',
         usage: 'Использование',
+        applicationsAccess: {
+          applicationsAccess: 'Приложение | Приложения',
+          access: 'Доступ',
+          supervisor: {
+            sections: {
+              queues: 'Очереди',
+              agents: 'Агенты',
+              activeCalls: 'Активные звонки',
+            },
+          },
+        },
       },
       object: {
         object: 'Разделы',

@@ -296,6 +296,17 @@ export default {
         permissions: 'Дозвіл ролі | Дозволи ролей',
         addPermission: 'Надати дозвіл',
         usage: 'Використання',
+        applicationsAccess: {
+          applicationsAccess: 'Апплікація | Апплікації',
+          access: 'Доступ',
+          supervisor: {
+            sections: {
+              queues: 'Черги',
+              agents: 'Агенти',
+              activeCalls: 'Активні дзвінки',
+            },
+          },
+        },
       },
       object: {
         object: 'Розділи',
