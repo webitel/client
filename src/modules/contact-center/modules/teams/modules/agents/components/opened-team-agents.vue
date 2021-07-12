@@ -4,16 +4,25 @@
       v-if="isAgentPopup"
       @close="closePopup"
     ></agent-popup>
-    <agent-skills-popup
-        v-if="isAgentSkillsPopup"
-        :itemId="this.agentId"
-        @close="closeSkillsPopup"
-    ></agent-skills-popup>
     <delete-confirmation-popup
       v-show="deleteConfirmation.isDeleteConfirmationPopup"
       :payload="deleteConfirmation"
       @close="closeDelete"
     ></delete-confirmation-popup>
+    <object-list-popup
+      v-if="isSupervisorPopup"
+      :title="$tc('objects.ccenter.agents.supervisors', 2)"
+      :data-list="openedItemSupervisors"
+      :headers="openedItemSupervisorHeaders"
+      @close="closeSupervisorPopup"
+    ></object-list-popup>
+    <object-list-popup
+      v-if="isSkillsPopup"
+      :title="$tc('objects.lookups.skills.skills', 2)"
+      :data-list="openedItemSkills"
+      :headers="openedItemSkillsHeaders"
+      @close="closeSkillsPopup"
+    ></object-list-popup>
 
     <header class="content-header">
       <h3 class="content-title">{{ $tc('objects.ccenter.agents.agents', 2) }}</h3>
@@ -61,9 +70,10 @@
         </item-link>
       </template>
       <template slot="supervisor" slot-scope="{ item }">
-        <div v-if="item.supervisor">
-          {{ item.supervisor.name }}
-        </div>
+        <one-plus-many
+          :collection="item.supervisor"
+          @input="readSupervisor(item)"
+        ></one-plus-many>
       </template>
       <template slot="skills" slot-scope="{ item }">
         <one-plus-many
@@ -95,28 +105,23 @@
 </template>
 
 <script>
+import ObjectListPopup from '../../../../../../../app/components/utils/object-list-popup/object-list-popup.vue';
 import AgentPopup from './opened-team-agent-popup.vue';
-import AgentSkillsPopup from './opened-team-agent-skills-popup.vue';
 import openedObjectTableTabMixin from '../../../../../../../app/mixins/objectPagesMixins/openedObjectTableTabMixin/openedObjectTableTabMixin';
 import RouteNames from '../../../../../../../app/router/_internals/RouteNames.enum';
+import agentSupervisorsAndSkillsPopupMixin from '../../../../../mixins/agentSupervisorsAndSkillsPopupMixin';
 
 export default {
   name: 'opened-team-agents',
-  mixins: [openedObjectTableTabMixin],
-  components: { AgentPopup, AgentSkillsPopup },
+  mixins: [openedObjectTableTabMixin, agentSupervisorsAndSkillsPopupMixin],
+  components: { AgentPopup, ObjectListPopup },
   data: () => ({
     subNamespace: 'agents',
     tableObjectRouteName: RouteNames.AGENTS, // this.itemLink() computing
     isAgentPopup: false,
-    isAgentSkillsPopup: false,
-    agentId: 0,
-  }),
+ }),
 
   methods: {
-    readSkills(item) {
-      this.agentId = item.id;
-      this.openSkillsPopup();
-    },
     openPopup() {
       this.isAgentPopup = true;
     },
@@ -124,10 +129,10 @@ export default {
       this.isAgentPopup = false;
     },
     openSkillsPopup() {
-      this.isAgentSkillsPopup = true;
+      this.isSkillsPopup = true;
     },
     closeSkillsPopup() {
-      this.isAgentSkillsPopup = false;
+      this.isSkillsPopup = false;
     },
   },
 };

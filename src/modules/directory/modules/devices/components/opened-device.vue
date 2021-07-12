@@ -2,11 +2,11 @@
   <wt-page-wrapper :actions-panel="false">
     <template slot="header">
       <object-header
-          :primary-action="save"
-          :primary-text="computePrimaryText"
-          :hide-primary="!hasSaveActionAccess"
-          :primary-disabled="computeDisabled"
-          :secondary-action="close"
+        :primary-action="save"
+        :primary-text="computePrimaryText"
+        :hide-primary="!hasSaveActionAccess"
+        :primary-disabled="computeDisabled"
+        :secondary-action="close"
       >
         <headline-nav :path="path"></headline-nav>
       </object-header>
@@ -15,14 +15,14 @@
     <template slot="main">
       <div class="main-container">
         <wt-tabs
-            v-model="currentTab"
-            :tabs="tabs"
+          v-model="currentTab"
+          :tabs="tabs"
         >
         </wt-tabs>
         <component
-            :is="currentTab.value"
-            :v="$v"
-            :namespace="namespace"
+          :is="currentTab.value"
+          :v="$v"
+          :namespace="namespace"
         ></component>
       </div>
     </template>
@@ -39,6 +39,8 @@ import HotdeskGeneral from './opened-hotdesk-device-general.vue';
 import HotdeskHotdesking from './opened-hotdesk-device-hotdesking.vue';
 import openedObjectMixin from '../../../../../app/mixins/objectPagesMixins/openedObjectMixin/openedObjectMixin';
 
+const hotDeskNameValidator = (array) => !array.some((hotdesk) => !/\w+/.test(hotdesk.name || hotdesk.text));
+
 export default {
   name: 'opened-device',
   mixins: [openedObjectMixin],
@@ -52,14 +54,21 @@ export default {
     namespace: 'directory/devices',
   }),
 
-  validations: {
-    itemInstance: {
+  validations() {
+    let itemInstance = {
       name: { required },
       password: { required: requiredUnless('id') },
       account: { required },
       ip: { ipValidator },
       mac: { macValidator },
-    },
+    };
+    if (this.itemInstance.hotdesk) {
+      itemInstance = {
+        ...itemInstance,
+        hotdesks: { hotDeskNameValidator },
+      };
+    }
+    return { itemInstance };
   },
 
   computed: {

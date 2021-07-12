@@ -1,5 +1,6 @@
+import NestedObjectStoreModule
+  from '../../../../../../../app/store/BaseStoreModules/StoreModules/NestedObjectStoreModule';
 import AgentSubordinatesAPI from '../api/agentSubordinates';
-import NestedObjectStoreModule from '../../../../../../../app/store/BaseStoreModules/StoreModules/NestedObjectStoreModule';
 import headers from './_internals/headers';
 
 const resettableItemState = {
@@ -8,16 +9,9 @@ const resettableItemState = {
   },
 };
 
-const getters = {
-  GET_SUBORDINATE_SKILLS: (state) => (subordinateId) => {
-    const subordinate = state.dataList.find((subordinate) => subordinate.id === subordinateId);
-    return subordinate.skills;
-  },
-};
-
 const agentSubordinates = new NestedObjectStoreModule({ resettableItemState, headers })
   .attachAPIModule(AgentSubordinatesAPI)
   .generateAPIActions()
-  .getModule({ getters });
+  .getModule();
 
 export default agentSubordinates;

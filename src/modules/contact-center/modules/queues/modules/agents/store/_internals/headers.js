@@ -13,4 +13,10 @@ export default [
     field: 'supervisor',
     sort: SortSymbols.NONE,
   },
+  {
+    value: 'skills',
+    locale: ['objects.lookups.skills.skills', 1],
+    field: 'skills',
+    sort: SortSymbols.NONE,
+  },
 ];

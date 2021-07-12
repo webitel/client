@@ -4,11 +4,20 @@
       v-if="isSubordinatePopup"
       @close="closeSubordinatePopup"
     ></subordinate-popup>
-    <skills-popup
+    <object-list-popup
+      v-if="isSupervisorPopup"
+      :title="$tc('objects.ccenter.agents.supervisors', 2)"
+      :data-list="openedItemSupervisors"
+      :headers="openedItemSupervisorHeaders"
+      @close="closeSupervisorPopup"
+    ></object-list-popup>
+    <object-list-popup
       v-if="isSkillsPopup"
-      :itemId="subordinateId"
+      :title="$tc('objects.lookups.skills.skills', 2)"
+      :data-list="openedItemSkills"
+      :headers="openedItemSkillsHeaders"
       @close="closeSkillsPopup"
-    ></skills-popup>
+    ></object-list-popup>
 
     <header class="content-header">
       <h3 class="content-title">{{ $tc('objects.ccenter.agents.subordinates', 2) }}</h3>
@@ -56,9 +65,10 @@
           </item-link>
         </template>
         <template slot="supervisor" slot-scope="{ item }">
-          <div>
-            {{ item.supervisor.name }}
-          </div>
+          <one-plus-many
+            :collection="item.supervisor"
+            @input="readSupervisor(item)"
+          ></one-plus-many>
         </template>
         <template slot="skills" slot-scope="{ item }">
           <one-plus-many
@@ -90,37 +100,25 @@
 </template>
 
 <script>
-import SubordinatePopup from './opened-agent-subordinates-popup.vue';
-import SkillsPopup from './opened-agent-subordinate-skills-popup.vue';
-import openedObjectTableTabMixin from '../../../../../../../app/mixins/objectPagesMixins/openedObjectTableTabMixin/openedObjectTableTabMixin';
+import ObjectListPopup from '../../../../../../../app/components/utils/object-list-popup/object-list-popup.vue';
+import openedObjectTableTabMixin
+  from '../../../../../../../app/mixins/objectPagesMixins/openedObjectTableTabMixin/openedObjectTableTabMixin';
 import RouteNames from '../../../../../../../app/router/_internals/RouteNames.enum';
+import SubordinatePopup from './opened-agent-subordinates-popup.vue';
+import agentSupervisorsAndSkillsPopupMixin from '../../../../../mixins/agentSupervisorsAndSkillsPopupMixin';
 
 export default {
   name: 'opened-agent-subordinates',
-  mixins: [openedObjectTableTabMixin],
-  components: { SubordinatePopup, SkillsPopup },
+  mixins: [openedObjectTableTabMixin, agentSupervisorsAndSkillsPopupMixin],
+  components: { SubordinatePopup, ObjectListPopup },
   data: () => ({
     subNamespace: 'subordinates', // used in mixin map actions
     tableObjectRouteName: RouteNames.AGENTS, // this.itemLink() computing
     isSubordinatePopup: false,
-    isSkillsPopup: false,
-    subordinateId: null,
 
     isDeleteConfirmation: false,
   }),
-
   methods: {
-    readSkills(item) {
-      this.subordinateId = item.id;
-      this.openSkillsPopup();
-      },
-    openSkillsPopup() {
-      this.isSkillsPopup = true;
-    },
-    closeSkillsPopup() {
-      this.isSkillsPopup = false;
-      this.subordinateId = null;
-    },
     openPopup() {
       return this.openSubordinatePopup();
     },

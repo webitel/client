@@ -8,16 +8,9 @@ const resettableItemState = {
   },
 };
 
-const getters = {
-  GET_ITEM_SKILLS: (state) => (id) => {
-    const item = state.dataList.find((item) => item.id === id);
-    return item.skills;
-  },
-};
-
 const teamAgents = new NestedObjectStoreModule({ resettableItemState, headers })
   .attachAPIModule(TeamAgentsAPI)
   .generateAPIActions()
-  .getModule({ getters });
+  .getModule();
 
 export default teamAgents;

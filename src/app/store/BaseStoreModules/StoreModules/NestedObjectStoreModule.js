@@ -7,14 +7,19 @@ const DEFAULT_STATE = BaseTableModule.generateState();
 const DEFAULT_ITEM_STATE = BaseOpenedInstanceModule.generateState();
 
 export default class NestedObjectStoreModule extends BaseStoreModule {
+  getters = {
+    GET_ITEM_BY_ID: (state) => (itemId) => (
+      state.dataList.find((item) => item.id === itemId)
+    ),
+    GET_ITEM_PROP_BY_ID: (state, getters) => (itemId, prop) => (
+      getters.GET_ITEM_BY_ID(itemId)[prop]
+    ),
+  }
+
   actions = {
     ...BaseTableModule.getActions(),
     ...BaseOpenedInstanceModule.getActions(),
 
-    // FIXME TRY TO DELETE )))
-    // SET_ITEM_ID: (context, id) => {
-    //   if (id !== 'new') context.commit('SET_ITEM_ID', id);
-    // },
     ADD_ITEM: async (context) => {
       if (!context.state.itemId) {
         const { id } = await context.dispatch('POST_ITEM');
