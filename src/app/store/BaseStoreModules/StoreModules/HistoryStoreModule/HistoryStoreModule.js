@@ -23,7 +23,7 @@ export class HistoryStoreModule extends BaseStoreModule {
       context.dispatch('LOAD_DATA_LIST');
     },
     SET_TO: (context, to) => {
-      context.commit('SET__TO', to);
+      context.commit('SET_TO', to);
       context.dispatch('LOAD_DATA_LIST');
     },
   };
@@ -44,9 +44,7 @@ export class HistoryStoreModule extends BaseStoreModule {
   };
 
   generateGetListAction(APIMethod) {
-    this.actions.GET_LIST = (context) => {
-      return APIMethod(context.state);
-    }
+    this.actions.GET_LIST = (context) => APIMethod(context.state);
     return this;
   }
 }

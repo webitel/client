@@ -31,7 +31,7 @@ const createVueInstance = () => {
   }).$mount('#app');
 };
 
-// init IIFE
+// init npm
 (async () => {
   const config = await fetchConfig();
   await fetchUserinfo();
