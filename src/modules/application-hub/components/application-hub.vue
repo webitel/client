@@ -48,6 +48,7 @@
 </template>
 
 <script>
+    import { mapGetters } from 'vuex';
     import CcHeader from '../../_reusable/app-header/components/app-header.vue';
 
     const picAdmin = {
@@ -92,6 +93,9 @@
         components: { CcHeader },
 
         computed: {
+          ...mapGetters('userinfo', {
+            checkAccess: 'CHECK_APP_ACCESS',
+          }),
             apps() {
                 const agentApp = {
                     name: 'agent',
@@ -133,7 +137,8 @@
                     pic: picGrafana,
                 };
 
-                const apps = [agentApp, supervisorApp, historyApp, auditApp, adminApp];
+                const apps = [agentApp, supervisorApp, historyApp, auditApp, adminApp]
+                  .filter(({ name }) => this.checkAccess(name));
                 if (this.$config.ON_SITE) apps.push(grafanaApp);
                 return apps;
             },
