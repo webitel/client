@@ -62,14 +62,32 @@ const getters = {
         return [...accumulator, newNav];
       }
       return accumulator;
-    }, []);
-  },
+    }, []),
 };
 
 const actions = {
-  SET_SESSION: async (context, session) => {
+  OPEN_SESSION: async (context) => {
+    if (!localStorage.getItem('access-token')) {
+      router.replace('/auth');
+      throw new Error('No access-token in localStorage');
+    }
+    const session = await getSession();
+    await context.dispatch('SET_SESSION', session);
+  },
+
+  SET_SESSION: async (context, _session) => {
+    const defaultSession = {
+      domainId: 0,
+      username: '',
+      userId: 0,
+      scope: [],
+      roles: [],
+      license: [],
+    };
+
     try {
       await context.dispatch('RESET_STATE');
+      const session = { ...defaultSession, ..._session };
       const scope = convertScope(session.scope);
       const permissions = convertPermissions(session.permissions);
       context.commit('SET_SESSION', { ...session, scope, permissions });

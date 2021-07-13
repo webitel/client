@@ -1,12 +1,15 @@
 import instance from '../../../../app/api/instance';
-import router from '../../../../app/router/router';
-import { getSession } from '../../../../app/api/userinfo/userinfo';
 
-export const handleToken = async (token) => {
+export const setToken = async (token) => {
   localStorage.setItem('access-token', token);
   instance.defaults.headers['X-Webitel-Access'] = localStorage.getItem('access-token');
-  await getSession();
-  return router.replace('/');
+};
+
+const removeToken = () => {
+  // remove tokens
+  localStorage.removeItem('access-token');
+  localStorage.removeItem('domain');
+  instance.defaults.headers['X-Webitel-Access'] = '';
 };
 
 export const logout = async () => {
@@ -14,13 +17,8 @@ export const logout = async () => {
 
   try {
     await instance.post(url, {});
-    // remove tokens
-    localStorage.removeItem('access-token');
-    localStorage.removeItem('domain');
-    instance.defaults.headers['X-Webitel-Access'] = '';
-    // and throw user to auth page
-    return router.replace('/auth');
-  } catch (error) {
-    throw error;
+    removeToken();
+  } catch (err) {
+    throw err;
   }
 };
