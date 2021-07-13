@@ -122,7 +122,6 @@ const applicationsAccess = (value = true) => ({
 });
 
 /**
- * JSON stringifying/parsing prevents keys order mixing
  */
 export default class ApplicationsAccess {
   // value param could be passed to set same value for all options
@@ -150,13 +149,12 @@ export default class ApplicationsAccess {
       });
       return obj;
     };
-    const clearedAccess = rmEmptyKeys(deepCopy(access));
-    return JSON.stringify(clearedAccess);
+    return rmEmptyKeys(deepCopy(access));
   }
 
   // restore minified schema from API response
   static restore(access) {
-    return deepmerge(applicationsAccess(false), JSON.parse(access));
-    // return deepmerge(JSON.parse(access), applicationsAccess(false));
+    return deepmerge(applicationsAccess(false), access);
+    // return deepmerge(access, applicationsAccess(false));
   }
 }
