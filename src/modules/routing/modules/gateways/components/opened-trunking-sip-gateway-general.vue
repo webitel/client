@@ -35,10 +35,10 @@
         @input="setItemProp({ prop: 'host', value: $event })"
       ></wt-input>
       <wt-textarea
-        :value="itemInstance.description"
+        :value="itemInstance.usage"
         :label="$t('objects.description')"
         :disabled="disableUserInput"
-        @input="setItemProp({ prop: 'description', value: $event })"
+        @input="setItemProp({ prop: 'usage', value: $event })"
       ></wt-textarea>
     </form>
   </section>

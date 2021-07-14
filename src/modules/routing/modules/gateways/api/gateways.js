@@ -11,8 +11,8 @@ import trunkingGateway
 
 
 const BASE_URL = '/sip/gateways';
-const fieldsToSend = ['name', 'proxy', 'id', 'host', 'ipacl', 'account', 'account', 'username', 'expires',
-  'account', 'registrar', 'register', 'password', 'schema', 'enable'];
+const fieldsToSend = ['name', 'proxy', 'id', 'host', 'ipacl', 'account', 'username', 'expires',
+  'account', 'registrar', 'name', 'register', 'password', 'schema', 'usage', 'enable'];
 
 const defaultListObject = { // default object prototype, to merge response with it to get all fields
   _isSelected: false,
