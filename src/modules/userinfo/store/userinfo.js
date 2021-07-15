@@ -91,7 +91,6 @@ const actions = {
     const session = await getSession();
     await context.dispatch('SET_SESSION', session);
     const access = await getApplicationsAccess();
-    console.info(access);
     await context.dispatch('SET_APPLICATIONS_ACCESS', new ApplicationsAccess({ access }).getAccess());
   },
 

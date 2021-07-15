@@ -16,6 +16,7 @@
 
 <script>
 import { mapState, mapGetters } from 'vuex';
+import WebitelApplications from '@webitel/ui-sdk/src/enums/WebitelApplications/WebitelApplications.enum';
 import navMixin from '../../../../app/mixins/navMixin';
 import router from '../../../../app/router/router';
 import { logout } from '../../auth/api/auth';
@@ -24,7 +25,7 @@ export default {
   name: 'app-header',
   mixins: [navMixin],
   data: () => ({
-    currentApp: 'admin',
+    currentApp: WebitelApplications.ADMIN,
     buildInfo: {
       release: process.env.VUE_APP_PACKAGE_VERSION,
       build: process.env.VUE_APP_BUILD_NUMBER,
@@ -38,31 +39,31 @@ export default {
       checkAccess: 'CHECK_APP_ACCESS',
     }),
     isAdminAccess() {
-      return this.checkAccess('admin');
+      return this.checkAccess(WebitelApplications.ADMIN);
     },
     apps() {
       const agent = {
-        name: 'agent',
+        name: WebitelApplications.AGENT,
         href: process.env.VUE_APP_AGENT_URL,
       };
       const supervisor = {
-        name: 'supervisor',
+        name: WebitelApplications.SUPERVISOR,
         href: process.env.VUE_APP_SUPERVISOR_URL,
       };
       const history = {
-        name: 'history',
+        name: WebitelApplications.HISTORY,
         href: process.env.VUE_APP_HISTORY_URL,
       };
       const audit = {
-        name: 'audit',
+        name: WebitelApplications.AUDIT,
         href: process.env.VUE_APP_AUDIT_URL,
       };
       const admin = {
-        name: 'admin',
+        name: WebitelApplications.ADMIN,
         href: process.env.VUE_APP_ADMIN_URL,
       };
       const grafana = {
-        name: 'grafana',
+        name: WebitelApplications.ANALYTICS,
         href: process.env.VUE_APP_GRAFANA_URL,
       };
       const apps = [admin, supervisor, agent, history, audit];
