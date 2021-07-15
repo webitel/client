@@ -100,7 +100,6 @@ export default {
       },
     }),
     loadList() {
-      console.info(this.access);
       this.dataList = Object.keys(this.access)
         .map((app) => ({
           name: app,
