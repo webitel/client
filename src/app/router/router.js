@@ -1,6 +1,6 @@
 import Vue from 'vue';
 import Router from 'vue-router';
-import auth from '../../modules/_reusable/auth/components/the-auth';
+import auth from '../../modules/_reusable/auth/components/the-auth.vue';
 import RouteNames from './_internals/RouteNames.enum';
 
 const ApplicationHub = () => import('../../modules/application-hub/components/application-hub.vue');
