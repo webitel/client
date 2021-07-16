@@ -1,4 +1,4 @@
-import Objects from '../enums/Objects.enum';
+import AdminSections from '@webitel/ui-sdk/src/enums/WebitelApplications/AdminSections.enum';
 import ObjectsList from '../lookups/ObjectsList.lookup';
 
 const convertScope = (initialScope) => {
@@ -16,9 +16,9 @@ const convertScope = (initialScope) => {
   }
 
   // temporary add full access to lookups and flow permissions as soon as they haven't implemented on backend
-  const flow = ObjectsList.find((obj) => obj.name === Objects.FLOW);
-  const communications = ObjectsList.find((obj) => obj.name === Objects.COMMUNICATIONS);
-  const skills = ObjectsList.find((obj) => obj.name === Objects.SKILLS);
+  const flow = ObjectsList.find((obj) => obj.name === AdminSections.FLOW);
+  const communications = ObjectsList.find((obj) => obj.name === AdminSections.COMMUNICATIONS);
+  const skills = ObjectsList.find((obj) => obj.name === AdminSections.SKILLS);
   scope.flow = { ...flow, access: 'rxwd' };
   scope.communications = { ...communications, access: 'rxwd' };
   scope.skills = { ...skills, access: 'rxwd' };

@@ -48,6 +48,8 @@
 </template>
 
 <script>
+    import { mapGetters } from 'vuex';
+    import WebitelApplications from '@webitel/ui-sdk/src/enums/WebitelApplications/WebitelApplications.enum';
     import CcHeader from '../../_reusable/app-header/components/app-header.vue';
 
     const picAdmin = {
@@ -92,42 +94,45 @@
         components: { CcHeader },
 
         computed: {
+          ...mapGetters('userinfo', {
+            checkAccess: 'CHECK_APP_ACCESS',
+          }),
             apps() {
                 const agentApp = {
-                    name: 'agent',
+                    name: WebitelApplications.AGENT,
                     title: this.$t('applicationHub.agent'),
                     href: process.env.VUE_APP_AGENT_URL,
                     pic: picAgent,
                 };
                 const supervisorApp = {
-                    name: 'supervisor',
+                    name: WebitelApplications.SUPERVISOR,
                     title: this.$t('applicationHub.supervisor'),
                     href: process.env.VUE_APP_SUPERVISOR_URL,
                     pic: picSupervisor,
                 };
                 const historyApp = {
-                    name: 'history',
+                    name: WebitelApplications.HISTORY,
                     title: this.$t('applicationHub.history'),
                     href: process.env.VUE_APP_HISTORY_URL,
                     pic: picHistory,
                 };
 
                 const auditApp = {
-                    name: 'audit',
+                    name: WebitelApplications.AUDIT,
                     title: this.$t('applicationHub.audit'),
                     href: process.env.VUE_APP_AUDIT_URL,
                     pic: picAudit,
                 };
 
                 const adminApp = {
-                    name: 'admin',
+                    name: WebitelApplications.ADMIN,
                     title: this.$t('applicationHub.admin'),
                     href: process.env.VUE_APP_ADMIN_URL,
                     pic: picAdmin,
                 };
 
                 const grafanaApp = {
-                    name: 'grafana',
+                    name: WebitelApplications.ANALYTICS,
                     title: this.$t('applicationHub.grafana'),
                     href: process.env.VUE_APP_GRAFANA_URL,
                     pic: picGrafana,
@@ -135,7 +140,7 @@
 
                 const apps = [agentApp, supervisorApp, historyApp, auditApp, adminApp];
                 if (this.$config.ON_SITE) apps.push(grafanaApp);
-                return apps;
+                return apps.filter(({ name }) => this.checkAccess(name));
             },
         },
     };

@@ -1,6 +1,9 @@
 <template>
   <wt-app-header>
-    <wt-navigation-bar :current-app="currentApp" :nav="nav"></wt-navigation-bar>
+    <wt-navigation-bar
+      v-if="isAdminAccess"
+      :current-app="currentApp" :nav="nav"
+    ></wt-navigation-bar>
     <wt-app-navigator :current-app="currentApp" :apps="apps"></wt-app-navigator>
     <wt-header-actions
       :user="user"
@@ -12,32 +15,61 @@
 </template>
 
 <script>
-import { mapState } from 'vuex';
+import { mapState, mapGetters } from 'vuex';
+import WebitelApplications from '@webitel/ui-sdk/src/enums/WebitelApplications/WebitelApplications.enum';
 import navMixin from '../../../../app/mixins/navMixin';
+import router from '../../../../app/router/router';
 import { logout } from '../../auth/api/auth';
 
 export default {
   name: 'app-header',
   mixins: [navMixin],
   data: () => ({
-    currentApp: 'admin',
+    currentApp: WebitelApplications.ADMIN,
     buildInfo: {
       release: process.env.VUE_APP_PACKAGE_VERSION,
       build: process.env.VUE_APP_BUILD_NUMBER,
-    },
-    apps: {
-      agent: { href: process.env.VUE_APP_AGENT_URL },
-      supervisor: { href: process.env.VUE_APP_SUPERVISOR_URL },
-      history: { href: process.env.VUE_APP_HISTORY_URL },
-      audit: { href: process.env.VUE_APP_AUDIT_URL },
-      admin: { href: process.env.VUE_APP_ADMIN_URL },
-      grafana: { href: process.env.VUE_APP_GRAFANA_URL },
     },
   }),
   computed: {
     ...mapState('userinfo', {
       user: (state) => state,
     }),
+    ...mapGetters('userinfo', {
+      checkAccess: 'CHECK_APP_ACCESS',
+    }),
+    isAdminAccess() {
+      return this.checkAccess(WebitelApplications.ADMIN);
+    },
+    apps() {
+      const agent = {
+        name: WebitelApplications.AGENT,
+        href: process.env.VUE_APP_AGENT_URL,
+      };
+      const supervisor = {
+        name: WebitelApplications.SUPERVISOR,
+        href: process.env.VUE_APP_SUPERVISOR_URL,
+      };
+      const history = {
+        name: WebitelApplications.HISTORY,
+        href: process.env.VUE_APP_HISTORY_URL,
+      };
+      const audit = {
+        name: WebitelApplications.AUDIT,
+        href: process.env.VUE_APP_AUDIT_URL,
+      };
+      const admin = {
+        name: WebitelApplications.ADMIN,
+        href: process.env.VUE_APP_ADMIN_URL,
+      };
+      const grafana = {
+        name: WebitelApplications.ANALYTICS,
+        href: process.env.VUE_APP_GRAFANA_URL,
+      };
+      const apps = [admin, supervisor, agent, history, audit];
+      if (this.$config?.ON_SITE) apps.push(grafana);
+      return apps.filter(({ name }) => this.checkAccess(name));
+    },
   },
 
   methods: {
@@ -45,8 +77,10 @@ export default {
       this.$router.push('/settings');
     },
 
-    logoutUser() {
-      logout();
+    async logoutUser() {
+      await logout();
+      // and throw user to auth page
+      return router.replace('/auth');
     },
   },
 };

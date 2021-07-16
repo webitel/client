@@ -1,123 +1,129 @@
 import deepmerge from 'deepmerge';
 import deepCopy from 'deep-copy';
-import Objects from '../../../../../userinfo/store/_internals/enums/Objects.enum';
+import WebitelApplications from '@webitel/ui-sdk/src/enums/WebitelApplications/WebitelApplications.enum';
+import SupervisorSections from '@webitel/ui-sdk/src/enums/WebitelApplications/SupervisorSections.enum';
+import AdminSections from '@webitel/ui-sdk/src/enums/WebitelApplications/AdminSections.enum';
 
 const applicationsAccess = (value = true) => ({
-  agent: {
+  [WebitelApplications.AGENT]: {
     _enabled: value,
     _locale: 'applicationHub.agent',
   },
-  supervisor: {
+  [WebitelApplications.SUPERVISOR]: {
     _enabled: value,
     _locale: 'applicationHub.supervisor',
-    queues: {
+    [SupervisorSections.QUEUES]: {
       _enabled: value,
       _locale: 'objects.permissions.roles.applicationsAccess.supervisor.sections.queues',
     },
-    agents: {
+    [SupervisorSections.AGENTS]: {
       _enabled: value,
       _locale: 'objects.permissions.roles.applicationsAccess.supervisor.sections.agents',
   },
-    activeCalls: {
+    [SupervisorSections.ACTIVE_CALLS]: {
       _enabled: value,
       _locale: 'objects.permissions.roles.applicationsAccess.supervisor.sections.activeCalls',
     },
   },
-  history: {
+  [WebitelApplications.HISTORY]: {
     _enabled: value,
     _locale: 'applicationHub.history',
   },
-  admin: {
+  [WebitelApplications.ADMIN]: {
     _enabled: value,
     _locale: 'applicationHub.admin',
-    [Objects.LICENSE]: {
+    [AdminSections.LICENSE]: {
       _enabled: value,
       _locale: 'nav.directory.license',
     },
-    [Objects.USERS]: {
+    [AdminSections.USERS]: {
       _enabled: value,
       _locale: 'nav.directory.users',
     },
-    [Objects.DEVICES]: {
+    [AdminSections.DEVICES]: {
       _enabled: value,
       _locale: 'nav.directory.devices',
     },
-    [Objects.FLOW]: {
+    [AdminSections.FLOW]: {
       _enabled: value,
       _locale: 'nav.routing.flow',
     },
-    [Objects.DIALPLAN]: {
+    [AdminSections.DIALPLAN]: {
       _enabled: value,
       _locale: 'nav.routing.dialplan',
     },
-    [Objects.GATEWAYS]: {
+    [AdminSections.GATEWAYS]: {
       _enabled: value,
       _locale: 'nav.routing.gateways',
     },
-    [Objects.SKILLS]: {
+    [AdminSections.SKILLS]: {
       _enabled: value,
       _locale: 'nav.lookups.agentSkills',
     },
-    [Objects.BUCKETS]: {
+    [AdminSections.BUCKETS]: {
       _enabled: value,
       _locale: 'nav.lookups.buckets',
     },
-    [Objects.BLACKLIST]: {
+    [AdminSections.BLACKLIST]: {
       _enabled: value,
       _locale: 'nav.lookups.blacklists',
     },
-    [Objects.REGIONS]: {
+    [AdminSections.REGIONS]: {
       _enabled: value,
       _locale: 'nav.lookups.regions',
     },
-    [Objects.CALENDARS]: {
+    [AdminSections.CALENDARS]: {
       _enabled: value,
       _locale: 'nav.lookups.calendars',
     },
-    [Objects.COMMUNICATIONS]: {
+    [AdminSections.COMMUNICATIONS]: {
       _enabled: value,
       _locale: 'nav.lookups.communications',
     },
-    [Objects.PAUSE_CAUSE]: {
+    [AdminSections.PAUSE_CAUSE]: {
       _enabled: value,
       _locale: 'nav.lookups.agentPauseCause',
     },
-    [Objects.MEDIA]: {
+    [AdminSections.MEDIA]: {
       _enabled: value,
       _locale: 'nav.lookups.media',
     },
-    [Objects.AGENTS]: {
+    [AdminSections.AGENTS]: {
       _enabled: value,
       _locale: 'nav.ccenter.agents',
     },
-    [Objects.TEAMS]: {
+    [AdminSections.TEAMS]: {
       _enabled: value,
       _locale: 'nav.ccenter.teams',
     },
-    [Objects.RESOURCES]: {
+    [AdminSections.RESOURCES]: {
       _enabled: value,
       _locale: 'nav.ccenter.res',
     },
-    [Objects.RESOURCE_GROUPS]: {
+    [AdminSections.RESOURCE_GROUPS]: {
       _enabled: value,
       _locale: 'nav.ccenter.resGroups',
     },
-    [Objects.QUEUES]: {
+    [AdminSections.QUEUES]: {
       _enabled: value,
       _locale: 'nav.ccenter.queues',
     },
-    [Objects.STORAGE]: {
+    [AdminSections.STORAGE]: {
       _enabled: value,
       _locale: 'nav.administration.storage',
     },
-    [Objects.ROLES]: {
+    [AdminSections.ROLES]: {
       _enabled: value,
       _locale: 'nav.permissions.roles',
     },
-    [Objects.OBJECTS]: {
+    [AdminSections.OBJECTS]: {
       _enabled: value,
       _locale: 'nav.permissions.objects',
     },
+  },
+  [WebitelApplications.ANALYTICS]: {
+    _enabled: value,
+    _locale: 'applicationHub.grafana',
   },
 });
 

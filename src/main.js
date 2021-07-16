@@ -9,8 +9,6 @@ import './app/plugins/webitel-ui';
 // import './assets/lib/bootstrap-grid.min.css';
 import './app/css/fonts.scss';
 
-import { getSession } from './app/api/userinfo/userinfo';
-
 Vue.config.productionTip = false;
 
 Vue.use(Vuelidate);
@@ -20,7 +18,7 @@ const fetchConfig = async () => {
   return response.json();
 };
 
-const fetchUserinfo = () => getSession();
+const initSession = async () => store.dispatch('userinfo/OPEN_SESSION');
 
 const createVueInstance = () => {
   new Vue({
@@ -33,8 +31,13 @@ const createVueInstance = () => {
 
 // init IIFE
 (async () => {
-  const config = await fetchConfig();
-  await fetchUserinfo();
-  Vue.prototype.$config = config;
-  createVueInstance();
+  let config = {};
+  try {
+    config = await fetchConfig();
+    await initSession();
+  } catch (err) {
+  } finally {
+    Vue.prototype.$config = config;
+    createVueInstance();
+  }
 })();

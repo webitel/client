@@ -1,19 +1,19 @@
-import Objects from '../../../modules/userinfo/store/_internals/enums/Objects.enum';
+import AdminSections from '@webitel/ui-sdk/src/enums/WebitelApplications/AdminSections.enum';
 
 const nav = Object.freeze([{
   value: 'directory',
   locale: 'nav.directory.directory',
   route: '/directory',
   subNav: [{
-    value: Objects.LICENSE,
+    value: AdminSections.LICENSE,
     locale: 'nav.directory.license',
     route: 'license',
   }, {
-    value: Objects.USERS,
+    value: AdminSections.USERS,
     locale: 'nav.directory.users',
     route: 'users',
   }, {
-    value: Objects.DEVICES,
+    value: AdminSections.DEVICES,
     locale: 'nav.directory.devices',
     route: 'devices',
   }],
@@ -23,15 +23,15 @@ const nav = Object.freeze([{
     locale: 'nav.routing.routing',
     route: '/routing',
     subNav: [{
-      value: Objects.FLOW,
+      value: AdminSections.FLOW,
       locale: 'nav.routing.flow',
       route: 'flow',
     }, {
-      value: Objects.DIALPLAN,
+      value: AdminSections.DIALPLAN,
       locale: 'nav.routing.dialplan',
       route: 'dialplan',
     }, {
-      value: Objects.GATEWAYS,
+      value: AdminSections.GATEWAYS,
       locale: 'nav.routing.gateways',
       route: 'gateways',
     }],
@@ -40,35 +40,35 @@ const nav = Object.freeze([{
     locale: 'nav.lookups.lookups',
     route: '/lookups',
     subNav: [{
-      value: Objects.SKILLS,
+      value: AdminSections.SKILLS,
       locale: 'nav.lookups.agentSkills',
       route: 'skills',
     }, {
-      value: Objects.BUCKETS,
+      value: AdminSections.BUCKETS,
       locale: 'nav.lookups.buckets',
       route: 'buckets',
     }, {
-      value: Objects.BLACKLIST,
+      value: AdminSections.BLACKLIST,
       locale: 'nav.lookups.blacklists',
       route: 'blacklist',
     }, {
-      value: Objects.REGIONS,
+      value: AdminSections.REGIONS,
       locale: 'nav.lookups.regions',
       route: 'regions',
     }, {
-      value: Objects.CALENDARS,
+      value: AdminSections.CALENDARS,
       locale: 'nav.lookups.calendars',
       route: 'calendars',
     }, {
-      value: Objects.COMMUNICATIONS,
+      value: AdminSections.COMMUNICATIONS,
       locale: 'nav.lookups.communications',
       route: 'communications',
     }, {
-      value: Objects.PAUSE_CAUSE,
+      value: AdminSections.PAUSE_CAUSE,
       locale: 'nav.lookups.agentPauseCause',
       route: 'pause-cause',
     }, {
-      value: Objects.MEDIA,
+      value: AdminSections.MEDIA,
       locale: 'nav.lookups.media',
       route: 'media',
     }],
@@ -77,23 +77,23 @@ const nav = Object.freeze([{
     locale: 'nav.ccenter.ccenter',
     route: '/contact-center',
     subNav: [{
-      value: Objects.AGENTS,
+      value: AdminSections.AGENTS,
       locale: 'nav.ccenter.agents',
       route: 'agents',
     }, {
-      value: Objects.TEAMS,
+      value: AdminSections.TEAMS,
       locale: 'nav.ccenter.teams',
       route: 'teams',
     }, {
-      value: Objects.RESOURCES,
+      value: AdminSections.RESOURCES,
       locale: 'nav.ccenter.res',
       route: 'resources',
     }, {
-      value: Objects.RESOURCE_GROUPS,
+      value: AdminSections.RESOURCE_GROUPS,
       locale: 'nav.ccenter.resGroups',
       route: 'resource-groups',
     }, {
-      value: Objects.QUEUES,
+      value: AdminSections.QUEUES,
       locale: 'nav.ccenter.queues',
       route: 'queues',
     }],
@@ -102,7 +102,7 @@ const nav = Object.freeze([{
     locale: 'nav.integrations.integrations',
     route: '/integrations',
     subNav: [{
-      value: Objects.STORAGE,
+      value: AdminSections.STORAGE,
       locale: 'nav.administration.storage',
       route: 'storage',
     }],
@@ -111,11 +111,11 @@ const nav = Object.freeze([{
     locale: 'nav.permissions.permissions',
     route: '/permissions',
     subNav: [{
-      value: Objects.ROLES,
+      value: AdminSections.ROLES,
       locale: 'nav.permissions.roles',
       route: 'roles',
     }, {
-      value: Objects.OBJECTS,
+      value: AdminSections.OBJECTS,
       locale: 'nav.permissions.objects',
       route: 'objects',
     }],
