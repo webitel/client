@@ -58,7 +58,7 @@ export default {
     },
 
     path() {
-      const baseUrl = '/lookups/buckets';
+      const baseUrl = '/lookups/bucket';
       return [
         { name: this.$t('objects.ccenter.ccenter') },
         { name: this.$tc('objects.lookups.buckets.buckets', 2), route: baseUrl },

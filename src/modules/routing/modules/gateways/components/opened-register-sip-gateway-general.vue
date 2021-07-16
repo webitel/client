@@ -47,10 +47,10 @@
         @input="setItemProp({ prop: 'proxy', value: $event })"
       ></wt-input>
       <wt-textarea
-        :value="itemInstance.description"
+        :value="itemInstance.usage"
         :label="$t('objects.description')"
         :disabled="disableUserInput"
-        @input="setItemProp({ prop: 'description', value: $event })"
+        @input="setItemProp({ prop: 'usage', value: $event })"
       ></wt-textarea>
       <wt-input
         :value="itemInstance.expires"
@@ -66,7 +66,6 @@
 </template>
 
 <script>
-import { mapState } from 'vuex';
 import { getFlowList } from '../../flow/components/flow';
 import PasswordInput from '../../../../../app/components/utils/generate-password-input.vue';
 import openedTabComponentMixin from '../../../../../app/mixins/objectPagesMixins/openedObjectTabMixin/openedTabComponentMixin';

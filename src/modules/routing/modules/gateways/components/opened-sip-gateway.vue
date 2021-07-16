@@ -110,7 +110,7 @@ export default {
 
     path() {
       const baseUrl = '/routing/gateways';
-      const url = baseUrl + this.isRegister ? '/register' : '/trunking';
+      const url = baseUrl.concat(this.isRegister ? '/register' : '/trunking');
       return [
         { name: this.$t('objects.routing.routing') },
         { name: this.$tc('objects.routing.gateways.gateways', 2), route: baseUrl },
