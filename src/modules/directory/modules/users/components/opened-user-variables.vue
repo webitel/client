@@ -23,7 +23,6 @@
             :placeholder="$t('objects.directory.users.varKey')"
             :disabled="disableUserInput"
             @input="setVariableProp({index: key, prop: 'key', value: $event})"
-
           ></wt-input>
           <wt-input
             :value="variable.value"
@@ -45,15 +44,11 @@
 </template>
 
 <script>
-
 import openedTabComponentMixin from '../../../../../app/mixins/objectPagesMixins/openedObjectTabMixin/openedTabComponentMixin';
 
 export default {
   name: 'opened-user-variables',
   mixins: [openedTabComponentMixin],
-  mounted() {
-    console.log(this.v.itemInstance);
-  },
 };
 </script>
 
