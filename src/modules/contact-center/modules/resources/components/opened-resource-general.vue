@@ -27,7 +27,6 @@
         :value="itemInstance.cps"
         :v="v.itemInstance.cps"
         :label="$t('objects.ccenter.res.cps')"
-        :custom-validators="isPositiveNumberValidator"
         :disabled="disableUserInput"
         type="number"
         required
@@ -38,7 +37,6 @@
         :v="v.itemInstance.limit"
         :label="$t('objects.ccenter.res.limit')"
         :disabled="disableUserInput"
-        :custom-validators="isPositiveNumberValidator"
         type="number"
         required
         @input="setItemProp({ prop: 'limit', value: +$event })"
@@ -61,11 +59,6 @@ import openedTabComponentMixin
 export default {
   name: 'opened-resource-general',
   mixins: [openedTabComponentMixin],
-  computed: {
-    isPositiveNumberValidator() {
-      return [{ name: 'isPositiveNumberValidator', text: this.$t('validation.isPositiveValue') }];
-    },
-  },
   methods: {
     async loadDropdownOptionsList(search) {
       const response = await getGatewayList({ search });
