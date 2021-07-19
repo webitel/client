@@ -2,11 +2,11 @@
   <wt-page-wrapper :actions-panel="false">
     <template slot="header">
       <object-header
-          :primary-action="save"
-          :primary-text="computePrimaryText"
-          :hide-primary="!hasSaveActionAccess"
-          :primary-disabled="computeDisabled"
-          :secondary-action="close"
+        :primary-action="save"
+        :primary-text="computePrimaryText"
+        :hide-primary="!hasSaveActionAccess"
+        :primary-disabled="computeDisabled"
+        :secondary-action="close"
       >
         <headline-nav :path="path"></headline-nav>
       </object-header>
@@ -15,13 +15,13 @@
     <template slot="main">
       <div class="main-container">
         <wt-tabs
-            v-model="currentTab"
-            :tabs="tabs"
+          v-model="currentTab"
+          :tabs="tabs"
         ></wt-tabs>
         <component
-            :is="currentTab.value"
-            :v="$v"
-            :namespace="namespace"
+          :is="currentTab.value"
+          :v="$v"
+          :namespace="namespace"
         ></component>
       </div>
     </template>
@@ -59,6 +59,12 @@ export default {
       username: { required },
       password: {
         required: requiredUnless('id'),
+      },
+      variables: {
+        $each: {
+          key: { required },
+          value: { required },
+        },
       },
     },
   },
