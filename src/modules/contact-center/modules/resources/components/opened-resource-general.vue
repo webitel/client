@@ -27,6 +27,7 @@
         :value="itemInstance.cps"
         :v="v.itemInstance.cps"
         :label="$t('objects.ccenter.res.cps')"
+        :custom-validators="isPositiveNumberValidator"
         :disabled="disableUserInput"
         type="number"
         required
@@ -37,6 +38,7 @@
         :v="v.itemInstance.limit"
         :label="$t('objects.ccenter.res.limit')"
         :disabled="disableUserInput"
+        :custom-validators="isPositiveNumberValidator"
         type="number"
         required
         @input="setItemProp({ prop: 'limit', value: +$event })"
@@ -53,12 +55,17 @@
 
 <script>
 import { getGatewayList } from '../../../../routing/modules/gateways/api/gateways';
-import openedTabComponentMixin from '../../../../../app/mixins/objectPagesMixins/openedObjectTabMixin/openedTabComponentMixin';
+import openedTabComponentMixin
+  from '../../../../../app/mixins/objectPagesMixins/openedObjectTabMixin/openedTabComponentMixin';
 
 export default {
   name: 'opened-resource-general',
   mixins: [openedTabComponentMixin],
-
+  computed: {
+    isPositiveNumberValidator() {
+      return [{ name: 'isPositiveNumberValidator', text: this.$t('validation.isPositiveValue') }];
+    },
+  },
   methods: {
     async loadDropdownOptionsList(search) {
       const response = await getGatewayList({ search });

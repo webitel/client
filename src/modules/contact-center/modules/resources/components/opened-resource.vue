@@ -35,6 +35,8 @@ import Numbers from '../modules/display/components/opened-resource-numbers.vue';
 import Failure from './opened-resource-failure.vue';
 import openedObjectMixin from '../../../../../app/mixins/objectPagesMixins/openedObjectMixin/openedObjectMixin';
 
+const isPositiveNumberValidator = (value) => value > 0;
+
 export default {
   name: 'opened-resource',
   mixins: [openedObjectMixin],
@@ -53,8 +55,8 @@ export default {
     itemInstance: {
       name: { required },
       gateway: { required },
-      cps: { required },
-      limit: { required },
+      cps: { required, isPositiveNumberValidator },
+      limit: { required, isPositiveNumberValidator },
       maxErrors: { required },
       // numberList: {
       //     requiredArrayValue
