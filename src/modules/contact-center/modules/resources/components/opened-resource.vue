@@ -28,7 +28,7 @@
 </template>
 
 <script>
-import { required } from 'vuelidate/lib/validators';
+import { required, minValue, maxValue } from 'vuelidate/lib/validators';
 import { mapState } from 'vuex';
 import General from './opened-resource-general.vue';
 import Numbers from '../modules/display/components/opened-resource-numbers.vue';
@@ -53,8 +53,16 @@ export default {
     itemInstance: {
       name: { required },
       gateway: { required },
-      cps: { required },
-      limit: { required },
+      cps: {
+        required,
+        minValue: minValue(-1),
+        maxValue: maxValue(1000),
+      },
+      limit: {
+        required,
+        minValue: minValue(-1),
+        maxValue: maxValue(1000),
+      },
       maxErrors: { required },
       // numberList: {
       //     requiredArrayValue

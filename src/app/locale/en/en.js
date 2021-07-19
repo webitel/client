@@ -79,6 +79,7 @@ export default {
     maxValue: 'Value should be not much',
     numeric: 'Should be numeric',
     requiredArrayValue: 'Array should not be empty',
+    isPositiveValue: 'Value should be positive number',
   },
 
   nav: {

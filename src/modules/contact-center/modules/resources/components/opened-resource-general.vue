@@ -53,12 +53,12 @@
 
 <script>
 import { getGatewayList } from '../../../../routing/modules/gateways/api/gateways';
-import openedTabComponentMixin from '../../../../../app/mixins/objectPagesMixins/openedObjectTabMixin/openedTabComponentMixin';
+import openedTabComponentMixin
+  from '../../../../../app/mixins/objectPagesMixins/openedObjectTabMixin/openedTabComponentMixin';
 
 export default {
   name: 'opened-resource-general',
   mixins: [openedTabComponentMixin],
-
   methods: {
     async loadDropdownOptionsList(search) {
       const response = await getGatewayList({ search });
