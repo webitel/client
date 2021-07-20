@@ -70,6 +70,7 @@ export default {
     maxValue: 'Значення має бути не надто велкиим',
     numeric: 'Мають бути цифри',
     requiredArrayValue: 'Поле не може бути пустим',
+    isPositiveValue: 'Значення має бути додатнім числом',
   },
 
   nav: {
