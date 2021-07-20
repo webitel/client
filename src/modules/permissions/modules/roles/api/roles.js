@@ -5,10 +5,10 @@ import {
   EndpointCreatorApiConsumer,
   EndpointUpdaterApiConsumer,
 } from 'webitel-sdk/esm2015/api-consumers';
+import ApplicationsAccess from '@webitel/ui-sdk/src/modules/Userinfo/classes/ApplicationsAccess';
 import APIListGetter from '../../../../../app/api/BaseAPIServices/ListGetter/ApiListGetter';
 import APIItemDeleter from '../../../../../app/api/BaseAPIServices/Deleter/ApiDeleter';
 import instance from '../../../../../app/api/instance';
-import ApplicationsAccess from '../store/_internals/ApplicationsAccess';
 
 const baseUrl = '/roles';
 

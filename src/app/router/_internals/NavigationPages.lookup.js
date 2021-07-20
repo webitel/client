@@ -1,3 +1,4 @@
+import WebitelApplications from '@webitel/ui-sdk/src/enums/WebitelApplications/WebitelApplications.enum';
 import AdminSections from '@webitel/ui-sdk/src/enums/WebitelApplications/AdminSections.enum';
 
 const nav = Object.freeze([{
@@ -6,15 +7,15 @@ const nav = Object.freeze([{
   route: '/directory',
   subNav: [{
     value: AdminSections.LICENSE,
-    locale: 'nav.directory.license',
+    locale: `WebitelApplications.${WebitelApplications.ADMIN}.sections.${AdminSections.LICENSE}`,
     route: 'license',
   }, {
     value: AdminSections.USERS,
-    locale: 'nav.directory.users',
+    locale: `WebitelApplications.${WebitelApplications.ADMIN}.sections.${AdminSections.USERS}`,
     route: 'users',
   }, {
     value: AdminSections.DEVICES,
-    locale: 'nav.directory.devices',
+    locale: `WebitelApplications.${WebitelApplications.ADMIN}.sections.${AdminSections.DEVICES}`,
     route: 'devices',
   }],
 },
@@ -24,15 +25,15 @@ const nav = Object.freeze([{
     route: '/routing',
     subNav: [{
       value: AdminSections.FLOW,
-      locale: 'nav.routing.flow',
+      locale: `WebitelApplications.${WebitelApplications.ADMIN}.sections.${AdminSections.FLOW}`,
       route: 'flow',
     }, {
       value: AdminSections.DIALPLAN,
-      locale: 'nav.routing.dialplan',
+      locale: `WebitelApplications.${WebitelApplications.ADMIN}.sections.${AdminSections.DIALPLAN}`,
       route: 'dialplan',
     }, {
       value: AdminSections.GATEWAYS,
-      locale: 'nav.routing.gateways',
+      locale: `WebitelApplications.${WebitelApplications.ADMIN}.sections.${AdminSections.GATEWAYS}`,
       route: 'gateways',
     }],
   }, {
@@ -41,35 +42,35 @@ const nav = Object.freeze([{
     route: '/lookups',
     subNav: [{
       value: AdminSections.SKILLS,
-      locale: 'nav.lookups.agentSkills',
+      locale: `WebitelApplications.${WebitelApplications.ADMIN}.sections.${AdminSections.SKILLS}`,
       route: 'skills',
     }, {
       value: AdminSections.BUCKETS,
-      locale: 'nav.lookups.buckets',
+      locale: `WebitelApplications.${WebitelApplications.ADMIN}.sections.${AdminSections.BUCKETS}`,
       route: 'buckets',
     }, {
       value: AdminSections.BLACKLIST,
-      locale: 'nav.lookups.blacklists',
+      locale: `WebitelApplications.${WebitelApplications.ADMIN}.sections.${AdminSections.BLACKLIST}`,
       route: 'blacklist',
     }, {
       value: AdminSections.REGIONS,
-      locale: 'nav.lookups.regions',
+      locale: `WebitelApplications.${WebitelApplications.ADMIN}.sections.${AdminSections.REGIONS}`,
       route: 'regions',
     }, {
       value: AdminSections.CALENDARS,
-      locale: 'nav.lookups.calendars',
+      locale: `WebitelApplications.${WebitelApplications.ADMIN}.sections.${AdminSections.CALENDARS}`,
       route: 'calendars',
     }, {
       value: AdminSections.COMMUNICATIONS,
-      locale: 'nav.lookups.communications',
+      locale: `WebitelApplications.${WebitelApplications.ADMIN}.sections.${AdminSections.COMMUNICATIONS}`,
       route: 'communications',
     }, {
       value: AdminSections.PAUSE_CAUSE,
-      locale: 'nav.lookups.agentPauseCause',
+      locale: `WebitelApplications.${WebitelApplications.ADMIN}.sections.${AdminSections.PAUSE_CAUSE}`,
       route: 'pause-cause',
     }, {
       value: AdminSections.MEDIA,
-      locale: 'nav.lookups.media',
+      locale: `WebitelApplications.${WebitelApplications.ADMIN}.sections.${AdminSections.MEDIA}`,
       route: 'media',
     }],
   }, {
@@ -78,23 +79,23 @@ const nav = Object.freeze([{
     route: '/contact-center',
     subNav: [{
       value: AdminSections.AGENTS,
-      locale: 'nav.ccenter.agents',
+      locale: `WebitelApplications.${WebitelApplications.ADMIN}.sections.${AdminSections.AGENTS}`,
       route: 'agents',
     }, {
       value: AdminSections.TEAMS,
-      locale: 'nav.ccenter.teams',
+      locale: `WebitelApplications.${WebitelApplications.ADMIN}.sections.${AdminSections.TEAMS}`,
       route: 'teams',
     }, {
       value: AdminSections.RESOURCES,
-      locale: 'nav.ccenter.res',
+      locale: `WebitelApplications.${WebitelApplications.ADMIN}.sections.${AdminSections.RESOURCES}`,
       route: 'resources',
     }, {
       value: AdminSections.RESOURCE_GROUPS,
-      locale: 'nav.ccenter.resGroups',
+      locale: `WebitelApplications.${WebitelApplications.ADMIN}.sections.${AdminSections.RESOURCE_GROUPS}`,
       route: 'resource-groups',
     }, {
       value: AdminSections.QUEUES,
-      locale: 'nav.ccenter.queues',
+      locale: `WebitelApplications.${WebitelApplications.ADMIN}.sections.${AdminSections.QUEUES}`,
       route: 'queues',
     }],
   }, {
@@ -103,7 +104,7 @@ const nav = Object.freeze([{
     route: '/integrations',
     subNav: [{
       value: AdminSections.STORAGE,
-      locale: 'nav.administration.storage',
+      locale: `WebitelApplications.${WebitelApplications.ADMIN}.sections.${AdminSections.STORAGE}`,
       route: 'storage',
     }],
   }, {
@@ -112,11 +113,11 @@ const nav = Object.freeze([{
     route: '/permissions',
     subNav: [{
       value: AdminSections.ROLES,
-      locale: 'nav.permissions.roles',
+      locale: `WebitelApplications.${WebitelApplications.ADMIN}.sections.${AdminSections.ROLES}`,
       route: 'roles',
     }, {
       value: AdminSections.OBJECTS,
-      locale: 'nav.permissions.objects',
+      locale: `WebitelApplications.${WebitelApplications.ADMIN}.sections.${AdminSections.OBJECTS}`,
       route: 'objects',
     }],
   }]);

@@ -100,40 +100,40 @@
             apps() {
                 const agentApp = {
                     name: WebitelApplications.AGENT,
-                    title: this.$t('applicationHub.agent'),
+                    title: this.$t(`WebitelApplications.${WebitelApplications.AGENT}.name`),
                     href: process.env.VUE_APP_AGENT_URL,
                     pic: picAgent,
                 };
                 const supervisorApp = {
                     name: WebitelApplications.SUPERVISOR,
-                    title: this.$t('applicationHub.supervisor'),
+                    title: this.$t(`WebitelApplications.${WebitelApplications.SUPERVISOR}.name`),
                     href: process.env.VUE_APP_SUPERVISOR_URL,
                     pic: picSupervisor,
                 };
                 const historyApp = {
                     name: WebitelApplications.HISTORY,
-                    title: this.$t('applicationHub.history'),
+                    title: this.$t(`WebitelApplications.${WebitelApplications.HISTORY}.name`),
                     href: process.env.VUE_APP_HISTORY_URL,
                     pic: picHistory,
                 };
 
                 const auditApp = {
                     name: WebitelApplications.AUDIT,
-                    title: this.$t('applicationHub.audit'),
+                    title: this.$t(`WebitelApplications.${WebitelApplications.AUDIT}.name`),
                     href: process.env.VUE_APP_AUDIT_URL,
                     pic: picAudit,
                 };
 
                 const adminApp = {
                     name: WebitelApplications.ADMIN,
-                    title: this.$t('applicationHub.admin'),
+                    title: this.$t(`WebitelApplications.${WebitelApplications.ADMIN}.name`),
                     href: process.env.VUE_APP_ADMIN_URL,
                     pic: picAdmin,
                 };
 
                 const grafanaApp = {
                     name: WebitelApplications.ANALYTICS,
-                    title: this.$t('applicationHub.grafana'),
+                    title: this.$t(`WebitelApplications.${WebitelApplications.ANALYTICS}.name`),
                     href: process.env.VUE_APP_GRAFANA_URL,
                     pic: picGrafana,
                 };

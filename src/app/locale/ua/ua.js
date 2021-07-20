@@ -43,15 +43,6 @@ export default {
     docs: 'Довідка',
   },
 
-  applicationHub: {
-    admin: 'Адміністрування',
-    agent: 'Робоче місце оператора',
-    supervisor: 'Робоче місце супервізора',
-    audit: 'Аудит',
-    history: 'Історія дзвінків',
-    grafana: 'Інструмент візуалізації даних',
-  },
-
   appNavigator: {
     title: 'Додатки Webitel',
     admin: 'Адміністрування',
@@ -84,58 +75,21 @@ export default {
   nav: {
     directory: {
       directory: 'Каталог',
-      users: 'Користувачі',
-      license: 'Ліцензії',
-      devices: 'Пристрої',
     },
-    contacts: 'Контакти',
     routing: {
       routing: 'Маршрутизація',
-      flow: 'Схема дзвінка',
-      dialplan: 'Правила вихідного набору',
-      chatplan: 'Правила чатів',
-      gateways: 'Шлюзи',
     },
     lookups: {
       lookups: 'Довідники',
-      agentSkills: 'Навички оператора',
-      buckets: 'Кошики',
-      regions: 'Розміщення',
-      media: 'Медіафайли',
-      blacklists: 'Cписок обдзвону',
-      calendars: 'Календарі',
-      communications: 'Типи зв\'язку',
-      agentPauseCause: 'Статуси оператора',
     },
     ccenter: {
       ccenter: 'Контакт-центр',
-      agents: 'Оператори',
-      teams: 'Команди',
-      res: 'Ресурси',
-      resGroups: 'Групи ресурсів',
-      queues: 'Черги',
     },
-    kibana: 'Kibana',
     integrations: {
       integrations: 'Інтеграції',
-      tokens: 'API-токени',
-      accounts: 'Акаунти',
-      triggers: 'Тригери',
-      widgets: 'Віджети',
-      callTracking: 'Call tracking',
-    },
-    administration: {
-      administration: 'Управління',
-      storage: 'Сховище',
-      media: 'Медіа',
-      blacklists: 'Чорні списки',
-      adfs: 'ADFS OAuth2',
     },
     permissions: {
       permissions: 'Дозволи',
-      roles: 'Ролі',
-      objects: 'Розділи',
-      operations: 'Операції',
     },
   },
 
@@ -299,13 +253,6 @@ export default {
         applicationsAccess: {
           applicationsAccess: 'Апплікація | Апплікації',
           access: 'Доступ',
-          supervisor: {
-            sections: {
-              queues: 'Черги',
-              agents: 'Агенти',
-              activeCalls: 'Активні дзвінки',
-            },
-          },
         },
       },
       object: {

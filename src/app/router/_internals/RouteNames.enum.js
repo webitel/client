@@ -30,7 +30,7 @@ export default Object.freeze({
   RESOURCES: 'resources',
   RESOURCE_GROUPS: 'resource-groups',
   QUEUES: 'queues',
-  MEMBERS: 'members',
+  MEMBERS: 'queues-members',
 
   // INTEGRATIONS
   STORAGE: 'storage',

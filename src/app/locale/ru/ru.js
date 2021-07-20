@@ -43,15 +43,6 @@ export default {
     docs: 'Справка',
   },
 
-  applicationHub: {
-    admin: 'Admin',
-    agent: 'Agent Workspace',
-    supervisor: 'Supervisor Workspace',
-    audit: 'Audit',
-    history: 'Call History',
-    grafana: 'Data Visualisation Tool',
-  },
-
   appNavigator: {
     title: 'Приложения Webitel',
     admin: 'Admin',
@@ -84,58 +75,21 @@ export default {
   nav: {
     directory: {
       directory: 'Каталог',
-      users: 'Пользователи',
-      license: 'Лицензии',
-      devices: 'Устройства',
     },
-    contacts: 'Контакты',
     routing: {
       routing: 'Маршрутизация',
-      flow: 'Схема звонка',
-      dialplan: 'Исходящая маршрутизация',
-      chatplan: 'Chatplan',
-      gateways: 'Шлюзы',
     },
     lookups: {
       lookups: 'Справочники',
-      agentSkills: 'Навыки оператора',
-      buckets: 'Корзины',
-      media: 'Медиафайлы',
-      blacklists: 'Cписок обзвона',
-      calendars: 'Календари',
-      communications: 'Типы связи',
-      regions: 'Площадки',
-      agentPauseCause: 'Статусы агента',
     },
     ccenter: {
       ccenter: 'Контакт-центр',
-      agents: 'Операторы',
-      teams: 'Команды',
-      res: 'Ресурсы',
-      resGroups: 'Группы ресурсов',
-      queues: 'Очереди',
     },
-    kibana: 'Кибана',
     integrations: {
       integrations: 'Интеграции',
-      tokens: 'API-токены',
-      accounts: 'Accounts',
-      triggers: 'Триггеры',
-      widgets: 'Виджеты',
-      callTracking: 'Call tracking',
-    },
-    administration: {
-      administration: 'Управление',
-      storage: 'Хранилище',
-      media: 'Медиа',
-      blacklists: 'Черные списки',
-      adfs: 'ADFS OAuth2',
     },
     permissions: {
       permissions: 'Разрешения',
-      roles: 'Роли',
-      objects: 'Разделы',
-      operations: 'Операции',
     },
   },
 
@@ -300,13 +254,6 @@ export default {
         applicationsAccess: {
           applicationsAccess: 'Приложение | Приложения',
           access: 'Доступ',
-          supervisor: {
-            sections: {
-              queues: 'Очереди',
-              agents: 'Агенты',
-              activeCalls: 'Активные звонки',
-            },
-          },
         },
       },
       object: {

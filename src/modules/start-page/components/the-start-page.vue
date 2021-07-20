@@ -25,7 +25,7 @@ import CategoryLvl2 from './_internals/start-category-lvl-2.vue';
 import navMixin from '../../../app/mixins/navMixin';
 
 export default {
-  name: 'the-start-age',
+  name: 'the-start-page',
   mixins: [navMixin],
   components: { CategoryLvl1, CategoryLvl2 },
   data: () => ({

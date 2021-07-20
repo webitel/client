@@ -16,10 +16,10 @@
 
 <script>
 import { mapState, mapGetters } from 'vuex';
+import authAPI from '@webitel/ui-sdk/src/modules/Userinfo/api/auth';
 import WebitelApplications from '@webitel/ui-sdk/src/enums/WebitelApplications/WebitelApplications.enum';
 import navMixin from '../../../../app/mixins/navMixin';
 import router from '../../../../app/router/router';
-import { logout } from '../../auth/api/auth';
 
 export default {
   name: 'app-header',
@@ -78,7 +78,7 @@ export default {
     },
 
     async logoutUser() {
-      await logout();
+      await authAPI.logout();
       // and throw user to auth page
       return router.replace('/auth');
     },

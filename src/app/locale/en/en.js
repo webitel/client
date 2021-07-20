@@ -43,15 +43,6 @@ export default {
     docs: 'Docs',
   },
 
-  applicationHub: {
-    admin: 'Admin',
-    agent: 'Agent Workspace',
-    supervisor: 'Supervisor Workspace',
-    audit: 'Audit',
-    history: 'Call History',
-    grafana: 'Data Visualisation Tool',
-  },
-
   appNavigator: {
     title: 'Webitel applications',
     admin: 'Admin',
@@ -84,58 +75,21 @@ export default {
   nav: {
     directory: {
       directory: 'Directory',
-      users: 'Users',
-      license: 'License',
-      devices: 'Devices',
     },
-    contacts: 'Contacts',
     routing: {
       routing: 'Routing',
-      flow: 'Flow',
-      dialplan: 'Dialplan',
-      chatplan: 'Chatplan',
-      gateways: 'Gateways',
     },
     lookups: {
       lookups: 'Lookups',
-      agentSkills: 'Agent skills',
-      buckets: 'Buckets',
-      media: 'Media files',
-      blacklists: 'Call list',
-      calendars: 'Calendars',
-      regions: 'Location',
-      communications: 'Communication types',
-      agentPauseCause: 'Agent statuses',
     },
     ccenter: {
       ccenter: 'Contact center',
-      agents: 'Agents',
-      teams: 'Teams',
-      res: 'Resources',
-      resGroups: 'Resource groups',
-      queues: 'Queues',
     },
-    kibana: 'Kibana',
     integrations: {
       integrations: 'Integrations',
-      tokens: 'API tokens',
-      accounts: 'Accounts',
-      triggers: 'Triggers',
-      widgets: 'Widgets',
-      callTracking: 'Call tracking',
-    },
-    administration: {
-      administration: 'Administration',
-      storage: 'Storage',
-      media: 'Media',
-      blacklists: 'Call lists',
-      adfs: 'ADFS OAuth2',
     },
     permissions: {
       permissions: 'Permissions',
-      roles: 'Roles',
-      objects: 'Objects',
-      operations: 'Operations',
     },
   },
 
@@ -299,13 +253,6 @@ export default {
         applicationsAccess: {
           applicationsAccess: 'Application access | Applications access',
           access: 'Access',
-          supervisor: {
-            sections: {
-              queues: 'Queues',
-              agents: 'Agents',
-              activeCalls: 'Active calls',
-            },
-          },
         },
       },
       object: {

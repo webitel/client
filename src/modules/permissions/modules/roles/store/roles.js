@@ -1,7 +1,7 @@
 import deepCopy from 'deep-copy';
+import ApplicationsAccess from '@webitel/ui-sdk/src/modules/Userinfo/classes/ApplicationsAccess';
 import RolesAPI from '../api/roles';
 import ObjectStoreModule from '../../../../../app/store/BaseStoreModules/StoreModules/ObjectStoreModule';
-import ApplicationsAccess from './_internals/ApplicationsAccess';
 import headers from './_internals/headers';
 
 const resettableState = {
