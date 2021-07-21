@@ -12,7 +12,7 @@ const resService = new OutboundResourceServiceApiFactory(configuration, '', inst
 
 const fieldsToSend = ['limit', 'enabled',
   'rps', 'reserve', 'maxSuccessivelyErrors',
-  'name', 'errorIds', 'display', 'resourceId', 'gateway'];
+  'name', 'errorIds', 'display', 'description', 'resourceId', 'gateway'];
 
 const defaultListObject = {
   gateway: null,
