@@ -1,11 +1,11 @@
 import UserinfoStoreModule from '@webitel/ui-sdk/src/modules/Userinfo/store/UserinfoStoreModule';
+import WebitelApplications from '@webitel/ui-sdk/src/enums/WebitelApplications/WebitelApplications.enum';
 
 // register api's
 import authAPI from '@webitel/ui-sdk/src/modules/Userinfo/api/auth';
 import userinfoAPI from '@webitel/ui-sdk/src/modules/Userinfo/api/userinfo';
 import instance from '../../../app/api/instance';
 
-import router from '../../../app/router/router';
 import Permissions from './_internals/enums/Permissions.enum';
 import NavigationPages from '../../../app/router/_internals/NavigationPages.lookup';
 import convertScope from './_internals/scripts/convertScope';
@@ -13,6 +13,10 @@ import convertPermissions from './_internals/scripts/convertPermissions';
 
 authAPI.setInstance(instance);
 userinfoAPI.setInstance(instance);
+
+const state = {
+  thisApp: WebitelApplications.ADMIN,
+};
 
 const getters = {
   GET_OBJECT_SCOPE: (state, getters) => ({ name, route }) => {
@@ -59,11 +63,10 @@ const getters = {
 };
 
 const actions = {
-  REDIRECT_TO_AUTH: () => router.replace('/auth'),
   CONVERT_USER_SCOPE: (context, scope) => convertScope(scope),
   CONVERT_USER_PERMISSIONS: (context, permissions) => convertPermissions(permissions),
 };
 
-const userinfo = new UserinfoStoreModule().getModule({ getters, actions });
+const userinfo = new UserinfoStoreModule().getModule({ state, getters, actions });
 
 export default userinfo;

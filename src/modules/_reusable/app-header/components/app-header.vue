@@ -25,7 +25,6 @@ export default {
   name: 'app-header',
   mixins: [navMixin],
   data: () => ({
-    currentApp: WebitelApplications.ADMIN,
     buildInfo: {
       release: process.env.VUE_APP_PACKAGE_VERSION,
       build: process.env.VUE_APP_BUILD_NUMBER,
@@ -34,6 +33,7 @@ export default {
   computed: {
     ...mapState('userinfo', {
       user: (state) => state,
+      currentApp: (state) => state.thisApp,
     }),
     ...mapGetters('userinfo', {
       checkAccess: 'CHECK_APP_ACCESS',
