@@ -1,5 +1,5 @@
 <template>
-  <section class="start-nav">
+  <section v-if="hasAccess" class="start-nav">
     <article class="start-nav__wrapper">
       <category-lvl-1
         :categories="categories"
@@ -17,9 +17,12 @@
       ></category-lvl-2>
     </article>
   </section>
+  <wt-error-page v-else type="403" @back="$router.push('/')"></wt-error-page>
 </template>
 
 <script>
+import { mapGetters } from 'vuex';
+import WebitelApplications from '@webitel/ui-sdk/src/enums/WebitelApplications/WebitelApplications.enum';
 import CategoryLvl1 from './_internals/start-category-lvl-1.vue';
 import CategoryLvl2 from './_internals/start-category-lvl-2.vue';
 import navMixin from '../../../app/mixins/navMixin';
@@ -37,6 +40,12 @@ export default {
   },
 
   computed: {
+    ...mapGetters('userinfo', {
+      checkAppAccess: 'CHECK_APP_ACCESS',
+    }),
+    hasAccess() {
+      return this.checkAppAccess(WebitelApplications.ADMIN);
+    },
     categories() {
       return this.nav;
     },
