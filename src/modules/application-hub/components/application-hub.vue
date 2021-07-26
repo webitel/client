@@ -138,7 +138,7 @@
                     pic: picGrafana,
                 };
 
-                const apps = [agentApp, supervisorApp, historyApp, auditApp, adminApp];
+                const apps = [agentApp, supervisorApp, historyApp, adminApp];
                 if (this.$config.ON_SITE) apps.push(grafanaApp);
                 return apps.filter(({ name }) => this.checkAccess(name));
             },
