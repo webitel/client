@@ -30,7 +30,7 @@
 
 <script>
 import { mapActions, mapState } from 'vuex';
-import { required, requiredUnless } from 'vuelidate/lib/validators';
+import { required, requiredUnless, requiredIf } from 'vuelidate/lib/validators';
 import General from './opened-user-general.vue';
 import Roles from './opened-user-roles.vue';
 import License from './opened-user-license.vue';
@@ -62,8 +62,8 @@ export default {
       },
       variables: {
         $each: {
-          key: { required },
-          value: { required },
+          key: { required: requiredIf('value') },
+          value: { required: requiredIf('key') },
         },
       },
     },

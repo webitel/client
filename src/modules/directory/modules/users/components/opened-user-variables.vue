@@ -32,6 +32,7 @@
             @input="setVariableProp({index: key, prop: 'value', value: $event})"
           ></wt-input>
           <wt-icon-btn
+            class="value-pair__delete-button"
             v-if="!disableUserInput"
             icon="bucket"
             :tooltip="$t('iconHints.delete')"
@@ -53,4 +54,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+.value-pair__delete-button{
+  margin-bottom: 20px;
+}
 </style>
