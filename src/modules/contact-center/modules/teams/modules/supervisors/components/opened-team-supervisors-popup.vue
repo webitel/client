@@ -55,7 +55,7 @@ export default {
   methods: {
     async loadAgentsOptions(search) {
       const response = await getAgentsList({ search });
-      return response.list.map((item) => ({
+      return response.list.filter((item) => item.isSupervisor).map((item) => ({
         name: item.user.name,
         id: item.id,
       }));
