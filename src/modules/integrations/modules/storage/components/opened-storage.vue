@@ -29,7 +29,7 @@
 </template>
 
 <script>
-import { required } from 'vuelidate/lib/validators';
+import { required, minValue } from 'vuelidate/lib/validators';
 import General from './opened-storage-general.vue';
 import Local from './_unused/opened-storage-local.vue';
 import S3 from './opened-storage-s3.vue';
@@ -55,17 +55,22 @@ export default {
   }),
 
   validations() {
+    const itemInstanceDefaults = {
+      name: { required },
+      expireDays: { minValue: minValue(0) },
+      maxSize: { minValue: minValue(0) },
+      priority: { minValue: minValue(0) },
+    };
     switch (this.$route.params.type) {
       case Storage.LOCAL:
         return {
           itemInstance: {
-            name: { required },
+            ...itemInstanceDefaults,
           },
         };
       case Storage.S3:
         return {
           itemInstance: {
-            name: { required },
             properties: {
               keyId: { required },
               accessKey: { required },
@@ -73,36 +78,37 @@ export default {
               region: { required },
               endpoint: { required },
             },
+            ...itemInstanceDefaults,
           },
         };
       case Storage.BACKBLAZE:
         return {
           itemInstance: {
-            name: { required },
             account: { required },
             key: { required },
             bucket: { required },
             bucketId: { required },
+            ...itemInstanceDefaults,
           },
         };
       case Storage.DROPBOX:
         return {
           itemInstance: {
-            name: { required },
             properties: {
               token: { required },
             },
+            ...itemInstanceDefaults,
           },
         };
       case Storage.DRIVE:
         return {
           itemInstance: {
-            name: { required },
             properties: {
               directory: { required },
               privateKey: { required },
               email: { required },
             },
+            ...itemInstanceDefaults,
           },
         };
       default: return {};
