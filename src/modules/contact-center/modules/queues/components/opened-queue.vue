@@ -96,9 +96,6 @@ export default {
       name: { required },
       calendar: { required },
       priority: { minValue: minValue(0) },
-      payload: {
-        maxWaitTime: { minValue: minValue(0) },
-      },
     };
     switch (this.queueType) {
       case QueueType.OFFLINE_QUEUE:
@@ -118,6 +115,7 @@ export default {
             payload: {
               timeBaseScore: { required },
               maxWaitTime: { required, minValue: minValue(0) },
+              discardAbandonedAfter: { minValue: minValue(0) },
             },
           },
         };
@@ -177,6 +175,7 @@ export default {
             payload: {
               timeBaseScore: { required },
               maxWaitTime: { required, minValue: minValue(0) },
+              discardAbandonedAfter: { minValue: minValue(0) },
             },
           },
         };

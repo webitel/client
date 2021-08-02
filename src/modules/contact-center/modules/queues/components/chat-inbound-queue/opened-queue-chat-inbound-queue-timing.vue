@@ -80,6 +80,9 @@ export default {
       },
     }),
   },
+  mounted() {
+    console.log(this.itemInstance);
+  },
 };
 </script>
 
