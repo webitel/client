@@ -10,6 +10,18 @@
         :disabled="disableUserInput"
         @input="setItemPayloadProp({ prop: 'originateTimeout', value: +$event })"
       ></wt-timepicker>
+      <wt-timepicker
+        :value="itemInstance.payload.maxWaitTime"
+        :label="$t('objects.ccenter.queues.maxWaitTime')"
+        :disabled="disableUserInput"
+        @input="setItemPayloadProp({ prop: 'maxWaitTime', value: +$event })"
+      ></wt-timepicker>
+      <wt-timepicker
+        :value="itemInstance.payload.waitBetweenRetries"
+        :label="$t('objects.ccenter.queues.waitBetweenRetries')"
+        :disabled="disableUserInput"
+        @input="setItemPayloadProp({ prop: 'waitBetweenRetries', value: +$event })"
+      ></wt-timepicker>
       <wt-input
         :value="itemInstance.payload.maxAttempts"
         :label="$t('objects.ccenter.queues.maxAttempts')"
@@ -17,12 +29,27 @@
         type="number"
         @input="setItemPayloadProp({ prop: 'maxAttempts', value: +$event })"
       ></wt-input>
-      <wt-timepicker
-        :value="itemInstance.payload.maxWaitTime"
-        :label="$t('objects.ccenter.queues.maxWaitTime')"
+      <wt-input
+        :value="itemInstance.payload.maxAgentLine"
+        :label="$t('objects.ccenter.queues.maxAgentLine')"
         :disabled="disableUserInput"
-        @input="setItemPayloadProp({ prop: 'maxWaitTime', value: +$event })"
-      ></wt-timepicker>
+        type="number"
+        @input="setItemPayloadProp({ prop: 'maxAgentLine', value: +$event })"
+      ></wt-input>
+      <wt-input
+        :value="itemInstance.payload.minAttempts"
+        :label="$t('objects.ccenter.queues.minAttempts')"
+        :disabled="disableUserInput"
+        type="number"
+        @input="setItemPayloadProp({ prop: 'minAttempts', value: +$event })"
+      ></wt-input>
+      <wt-input
+        :value="itemInstance.payload.maxAbandonedRate"
+        :label="$t('objects.ccenter.queues.maxAbandonedRate')"
+        :disabled="disableUserInput"
+        type="number"
+        @input="setItemPayloadProp({ prop: 'maxAbandonedRate', value: +$event })"
+      ></wt-input>
       <wt-input
         :value="itemInstance.payload.maxCalls"
         :label="$t('objects.ccenter.queues.maxCalls')"
@@ -31,12 +58,6 @@
         type="number"
         @input="setItemPayloadProp({ prop: 'maxCalls', value: +$event })"
       ></wt-input>
-      <wt-timepicker
-        :value="itemInstance.payload.waitBetweenRetries"
-        :label="$t('objects.ccenter.queues.waitBetweenRetries')"
-        :disabled="disableUserInput"
-        @input="setItemPayloadProp({ prop: 'waitBetweenRetries', value: +$event })"
-      ></wt-timepicker>
       <wt-switcher
         :value="itemInstance.payload.waitBetweenRetriesDesc"
         :label="$t('objects.ccenter.queues.waitBetweenRetriesDesc')"
