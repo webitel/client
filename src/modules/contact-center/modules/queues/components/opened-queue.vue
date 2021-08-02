@@ -29,7 +29,7 @@
 </template>
 
 <script>
-import { required } from 'vuelidate/lib/validators';
+import { required, minValue } from 'vuelidate/lib/validators';
 import OfflineQueueGeneral from './offline-queue/opened-queue-offline-queue-general.vue';
 import OfflineQueueTiming from './offline-queue/opened-queue-offline-queue-timing.vue';
 import InboundQueueGeneral from './inbound-queue/opened-queue-inbound-queue-general.vue';
@@ -95,6 +95,7 @@ export default {
     const defaults = {
       name: { required },
       calendar: { required },
+      priority: { minValue: minValue(0) },
     };
     switch (this.queueType) {
       case QueueType.OFFLINE_QUEUE:

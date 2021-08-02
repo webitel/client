@@ -70,7 +70,7 @@
             <template slot="waiting" slot-scope="{ item }">
               {{ item.waiting }}
             </template>
-            <template slot="priority" slot-scope="{ item }">
+            <template slot="priority" slot-scope="{ item } ">
               {{ item.priority }}
             </template>
             <template slot="state" slot-scope="{ item, index }">
