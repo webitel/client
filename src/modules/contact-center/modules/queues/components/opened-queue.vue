@@ -96,6 +96,9 @@ export default {
       name: { required },
       calendar: { required },
       priority: { minValue: minValue(0) },
+      payload: {
+        maxWaitTime: { minValue: minValue(0) },
+      },
     };
     switch (this.queueType) {
       case QueueType.OFFLINE_QUEUE:
@@ -104,7 +107,7 @@ export default {
             ...defaults,
             strategy: { required },
             payload: {
-              originateTimeout: { required },
+              originateTimeout: { required, minValue: minValue(0) },
             },
           },
         };
@@ -114,7 +117,7 @@ export default {
             ...defaults,
             payload: {
               timeBaseScore: { required },
-              maxWaitTime: { required },
+              maxWaitTime: { required, minValue: minValue(0) },
             },
           },
         };
@@ -125,7 +128,7 @@ export default {
             strategy: { required },
             payload: {
               maxAttempts: { required },
-              originateTimeout: { required },
+              originateTimeout: { required, minValue: minValue(0) },
               waitBetweenRetries: { required },
             },
           },
@@ -137,7 +140,7 @@ export default {
             strategy: { required },
             payload: {
               maxAttempts: { required },
-              originateTimeout: { required },
+              originateTimeout: { required, minValue: minValue(0) },
               waitBetweenRetries: { required },
             },
           },
@@ -149,7 +152,7 @@ export default {
             strategy: { required },
             payload: {
               maxAttempts: { required },
-              originateTimeout: { required },
+              originateTimeout: { required, minValue: minValue(0) },
               waitBetweenRetries: { required },
             },
           },
@@ -161,7 +164,7 @@ export default {
             strategy: { required },
             payload: {
               maxAttempts: { required },
-              originateTimeout: { required },
+              originateTimeout: { required, minValue: minValue(0) },
               waitBetweenRetries: { required },
             },
           },
@@ -173,7 +176,7 @@ export default {
             strategy: { required },
             payload: {
               timeBaseScore: { required },
-              maxWaitTime: { required },
+              maxWaitTime: { required, minValue: minValue(0) },
             },
           },
         };

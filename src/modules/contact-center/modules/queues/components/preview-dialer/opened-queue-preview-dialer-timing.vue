@@ -6,6 +6,7 @@
     <form class="object-input-grid">
       <wt-timepicker
         :value="itemInstance.payload.originateTimeout"
+        :v="v.itemInstance.payload.originateTimeout"
         :label="$t('objects.ccenter.queues.originateTimeout')"
         :disabled="disableUserInput"
         @input="setItemPayloadProp({ prop: 'originateTimeout', value: $event })"
