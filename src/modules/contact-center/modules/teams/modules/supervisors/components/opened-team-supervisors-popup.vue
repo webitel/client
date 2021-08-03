@@ -34,7 +34,7 @@
 
 <script>
 import { required } from 'vuelidate/lib/validators';
-import { getAgentsList, getSupervisorOptions } from '../../../../agents/api/agents';
+import { getSupervisorOptions } from '../../../../agents/api/agents';
 
 import nestedObjectMixin from '../../../../../../../app/mixins/objectPagesMixins/openedObjectMixin/nestedObjectMixin';
 
