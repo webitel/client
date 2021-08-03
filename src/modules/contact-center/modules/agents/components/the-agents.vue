@@ -134,7 +134,7 @@ export default {
         { name: this.$t('objects.ccenter.ccenter') },
         {
           name: this.$tc('objects.ccenter.agents.agents', 2),
-          route: '/contact-center/agents'
+          route: '/contact-center/agents',
         },
       ];
     },
