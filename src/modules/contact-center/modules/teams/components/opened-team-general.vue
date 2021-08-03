@@ -42,7 +42,7 @@
 
 <script>
 import { kebabToCamel } from '@webitel/ui-sdk/src/scripts/caseConverters';
-import { getAgentSupervisorsOptions } from '../../agents/api/agents';
+import { getSupervisorOptions } from '../../agents/api/agents';
 import TeamStrategy from '../store/_internals/enums/TeamStrategy.enum';
 import openedTabComponentMixin from '../../../../../app/mixins/objectPagesMixins/openedObjectTabMixin/openedTabComponentMixin';
 
@@ -70,7 +70,7 @@ export default {
   methods: {
     async fetchAdmins(search) {
       const fields = ['id', 'name'];
-      const response = await getAgentSupervisorsOptions({ search, fields });
+      const response = await getSupervisorOptions({ search, fields });
       return response.list.map((item) => ({ name: item.name, id: item.id }));
     },
   },

@@ -34,8 +34,8 @@
 
 <script>
 import { required } from 'vuelidate/lib/validators';
-import { mapState } from 'vuex';
-import { getAgentsList } from '../../../../agents/api/agents';
+import { getAgentsList, getSupervisorOptions } from '../../../../agents/api/agents';
+
 import nestedObjectMixin from '../../../../../../../app/mixins/objectPagesMixins/openedObjectMixin/nestedObjectMixin';
 
 export default {
@@ -54,7 +54,7 @@ export default {
 
   methods: {
     async loadAgentsOptions(search) {
-      const response = await getAgentsList({ search });
+      const response = await getSupervisorOptions({ search });
       return response.list.map((item) => ({
         name: item.user.name,
         id: item.id,

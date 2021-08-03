@@ -85,7 +85,7 @@
 </template>
 
 <script>
-import { mapActions, mapState } from 'vuex';
+import { mapActions } from 'vuex';
 import { getCalendarList } from '../../../../../lookups/modules/calendars/api/calendars';
 import { getBlacklistList } from '../../../../../lookups/modules/blacklists/api/blacklists';
 import { getTeamsList } from '../../../teams/api/teams';

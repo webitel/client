@@ -83,7 +83,7 @@
 </template>
 
 <script>
-import { getAgentUsersOptions, getAgentSupervisorsOptions } from '../api/agents';
+import { getAgentUsersOptions, getSupervisorOptions } from '../api/agents';
 import { getTeamsList } from '../../teams/api/teams';
 import { getUsersList } from '../../../../directory/modules/users/api/users';
 import { getRegionsList } from '../../../../lookups/modules/regions/api/regions';
@@ -102,7 +102,7 @@ export default {
       return response.list;
     },
     async loadSupervisorsOptions(search) {
-      const response = await getAgentSupervisorsOptions({ search, fields: ['name', 'id'] });
+      const response = await getSupervisorOptions({ search, fields: ['name', 'id'] });
       return response.list;
     },
     async loadAuditorsOptions(search) {
