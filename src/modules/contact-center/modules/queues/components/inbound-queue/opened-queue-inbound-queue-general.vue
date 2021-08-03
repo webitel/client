@@ -33,6 +33,7 @@
       ></wt-select>
       <wt-input
           :value="itemInstance.priority"
+          :v="v.itemInstance.priority"
           :label="$t('objects.ccenter.queues.priority')"
           :disabled="disableUserInput"
           type="number"
