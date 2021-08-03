@@ -14,6 +14,7 @@
       ></wt-input>
       <wt-input
         :value="itemInstance.maxSize"
+        :v="v.itemInstance.maxSize"
         :label="$t('objects.integrations.storage.maxSize')"
         :disabled="disableUserInput"
         type="number"
@@ -22,6 +23,7 @@
       ></wt-input>
       <wt-input
         :value="itemInstance.expireDays"
+        :v="v.itemInstance.expireDays"
         :label="$t('objects.integrations.storage.expireDays')"
         :disabled="disableUserInput"
         type="number"
@@ -30,6 +32,7 @@
       ></wt-input>
       <wt-input
         :value="itemInstance.priority"
+        :v="v.itemInstance.priority"
         :label="$t('objects.integrations.storage.priority')"
         :disabled="disableUserInput"
         type="number"
