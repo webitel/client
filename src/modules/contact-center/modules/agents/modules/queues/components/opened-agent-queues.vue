@@ -83,9 +83,9 @@ export default {
         case QueueType.PREDICTIVE_DIALER:
           return 'Predictive Dialer';
         case QueueType.CHAT_INBOUND_QUEUE:
-          return 'Predictive Dialer';
+          return 'Chat Inbound Queue';
         case QueueType.TASK_QUEUE:
-          return 'Predictive Dialer';
+          return 'Task Queue';
         default:
           return 'Unknown';
       }
