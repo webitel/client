@@ -24,6 +24,7 @@
         :headers="headers"
         :data="dataList"
         :grid-actions="false"
+        :selectable="false"
         sortable
         @sort="sort"
       >

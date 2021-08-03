@@ -25,6 +25,10 @@ const predictiveDialer = () => ({
     allowGreetingAgent: false,
     maxCalls: 0,
     amd: amd(),
+    maxAgentLine: 5,
+    minAttempts: 3,
+    maxAbandonedRate: 5.0,
+    targetAbandonedRate: 3.0,
   },
 });
 

@@ -20,7 +20,7 @@ export default [
     sort: SortSymbols.NONE,
   },
   {
-    value: 'count',
+    value: 'waiting',
     locale: 'objects.ccenter.queues.waiting',
     field: 'waiting_members',
     sort: SortSymbols.NONE,
