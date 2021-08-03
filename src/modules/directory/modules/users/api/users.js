@@ -78,7 +78,7 @@ const itemUpdater = new APIUpdater(BASE_URL, { fieldsToSend, preRequestHandler }
 const itemPatcher = new APIPatcher(BASE_URL, { fieldsToSend });
 const itemDeleter = new APIItemDeleter(BASE_URL);
 
-export const getUsersList = (params) => listGetter.getList(params);
+export const getUsersList = (params) => listGetter.getList({ searchQuery: 'q', ...params });
 export const getUser = (params) => itemGetter.getItem(params);
 export const addUser = (params) => itemCreator.createItem(params);
 export const updateUser = (params) => itemUpdater.updateItem(params);

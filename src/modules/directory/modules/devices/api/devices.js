@@ -58,7 +58,7 @@ const itemDeleter = new APIItemDeleter(BASE_URL);
 const historyListGetter = new APIListGetter(BASE_URL)
   .setGetListMethod(_getDeviceHistory);
 
-export const getDeviceList = (params) => listGetter.getList({ ...params, searchQuery: 'q' });
+export const getDeviceList = (params) => listGetter.getList({ searchQuery: 'q', ...params });
 export const getDevice = (params) => itemGetter.getItem(params);
 export const addDevice = async (params) => itemCreator.createItem(params);
 export const updateDevice = (params) => itemUpdater.updateItem(params);
