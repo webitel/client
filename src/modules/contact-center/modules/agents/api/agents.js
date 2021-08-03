@@ -104,7 +104,7 @@ export const deleteAgent = (params) => itemDeleter.deleteItem(params);
 export const getAgentHistory = (params) => historyListGetter.getList(params);
 
 export const getAgentUsersOptions = (params) => newAgentUsersGetter.getList(params);
-export const getAgentSupervisorsOptions = (params) => supervisorsListGetter.getList(params);
+export const getSupervisorOptions = (params) => supervisorsListGetter.getList(params); // getSupervisorOption
 export const getRegularAgentsOptions = (params) => regularAgentListGetter.getList(params);
 
 export default {
@@ -115,5 +115,5 @@ export default {
   delete: deleteAgent,
 
   getAgentUsersOptions,
-  getAgentSupervisorsOptions,
+  getSupervisorOptions,
 };
