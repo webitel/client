@@ -38,7 +38,7 @@ const actions = {
   ADD_ACCEPT_ITEM: (context, day) => {
     const value = context.state.itemInstance.accepts;
     // iterates through array and tries to find first day next to param day
-    const dayIndex = value.findIndex(workday => workday.day > day);
+    const dayIndex = value.findIndex((workday) => workday.day > day);
     const dayItem = {
       day,
       disabled: false,
@@ -79,7 +79,7 @@ const actions = {
   },
   DELETE_SINGLE_EXCEPT_ITEM: async (context, item) => {
     const { excepts } = context.state.itemInstance;
-    excepts.splice(excepts.indexOf(item), 1);
+    excepts.splice(excepts.findIndex((except) => except.name === item.name && except.date === item.date), 1);
     context.commit('SET_ITEM_PROPERTY', { prop: 'excepts', value: excepts });
   },
   DELETE_BULK_EXCEPT_ITEMS: async (context, deleted) => {
