@@ -123,6 +123,7 @@ export default {
         return {
           itemInstance: {
             ...defaults,
+            strategy: { required },
             payload: {
               maxAttempts: { required },
               originateTimeout: { required, minValue: minValue(0) },
