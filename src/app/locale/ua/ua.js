@@ -552,6 +552,7 @@ export default {
         expire: 'Закінчується',
         originateTimeout: 'Тривалість додзвону',
         maxAgentLine: 'Max agent lines',
+        maxAgentLose: 'Max agent lose calls',
         minAttempts: 'Min predict attempts',
         maxAbandonedRate: 'Max abandoned rate',
         targetAbandonedRate: 'Target abandoned rate',

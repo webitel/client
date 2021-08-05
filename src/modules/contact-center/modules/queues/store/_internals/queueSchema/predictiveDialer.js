@@ -29,6 +29,7 @@ const predictiveDialer = () => ({
     minAttempts: 3,
     maxAbandonedRate: 5.0,
     targetAbandonedRate: 3.0,
+    maxAgentLose: 1,
   },
 });
 
