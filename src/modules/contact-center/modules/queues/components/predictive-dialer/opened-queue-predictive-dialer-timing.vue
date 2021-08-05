@@ -22,6 +22,7 @@
         :disabled="disableUserInput"
         @input="setItemPayloadProp({ prop: 'waitBetweenRetries', value: +$event })"
       ></wt-timepicker>
+      <div></div>
       <wt-input
         :value="itemInstance.payload.maxAttempts"
         :label="$t('objects.ccenter.queues.maxAttempts')"
@@ -35,6 +36,13 @@
         :disabled="disableUserInput"
         type="number"
         @input="setItemPayloadProp({ prop: 'maxAgentLine', value: +$event })"
+      ></wt-input>
+      <wt-input
+        :value="itemInstance.payload.maxAgentLose"
+        :label="$t('objects.ccenter.queues.maxAgentLose')"
+        :disabled="disableUserInput"
+        type="number"
+        @input="setItemPayloadProp({ prop: 'maxAgentLose', value: +$event })"
       ></wt-input>
       <wt-input
         :value="itemInstance.payload.minAttempts"
