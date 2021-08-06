@@ -6,12 +6,14 @@
     <form class="object-input-grid">
       <wt-timepicker
           :value="itemInstance.payload.maxWaitTime"
+          :v="v.itemInstance.payload.maxWaitTime"
           :label="$t('objects.ccenter.queues.maxWaitTime')"
           :disabled="disableUserInput"
           @input="setItemPayloadProp({ prop: 'maxWaitTime', value: +$event })"
       ></wt-timepicker>
       <wt-timepicker
           :value="itemInstance.payload.discardAbandonedAfter"
+          :v="v.itemInstance.payload.discardAbandonedAfter"
           :label="$t('objects.ccenter.queues.discardAbandonedAfter')"
           :disabled="disableUserInput"
           @input="setItemPayloadProp({ prop: 'discardAbandonedAfter', value: +$event })"

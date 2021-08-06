@@ -104,7 +104,7 @@ export default {
             ...defaults,
             strategy: { required },
             payload: {
-              originateTimeout: { required },
+              originateTimeout: { required, minValue: minValue(0) },
             },
           },
         };
@@ -114,7 +114,8 @@ export default {
             ...defaults,
             payload: {
               timeBaseScore: { required },
-              maxWaitTime: { required },
+              maxWaitTime: { required, minValue: minValue(0) },
+              discardAbandonedAfter: { minValue: minValue(0) },
             },
           },
         };
@@ -125,8 +126,9 @@ export default {
             strategy: { required },
             payload: {
               maxAttempts: { required },
-              originateTimeout: { required },
-              waitBetweenRetries: { required },
+              originateTimeout: { required, minValue: minValue(0) },
+              waitBetweenRetries: { required, minValue: minValue(0) },
+              minDuration: { minValue: minValue(0) },
             },
           },
         };
@@ -137,8 +139,8 @@ export default {
             strategy: { required },
             payload: {
               maxAttempts: { required },
-              originateTimeout: { required },
-              waitBetweenRetries: { required },
+              originateTimeout: { required, minValue: minValue(0) },
+              waitBetweenRetries: { required, minValue: minValue(0) },
             },
           },
         };
@@ -149,8 +151,8 @@ export default {
             strategy: { required },
             payload: {
               maxAttempts: { required },
-              originateTimeout: { required },
-              waitBetweenRetries: { required },
+              originateTimeout: { required, minValue: minValue(0) },
+              waitBetweenRetries: { required, minValue: minValue(0) },
             },
           },
         };
@@ -161,8 +163,9 @@ export default {
             strategy: { required },
             payload: {
               maxAttempts: { required },
-              originateTimeout: { required },
-              waitBetweenRetries: { required },
+              originateTimeout: { required, minValue: minValue(0) },
+              waitBetweenRetries: { required, minValue: minValue(0) },
+              maxWaitTime: { minValue: minValue(0) },
             },
           },
         };
@@ -173,7 +176,8 @@ export default {
             strategy: { required },
             payload: {
               timeBaseScore: { required },
-              maxWaitTime: { required },
+              maxWaitTime: { required, minValue: minValue(0) },
+              discardAbandonedAfter: { minValue: minValue(0) },
             },
           },
         };
@@ -184,7 +188,7 @@ export default {
             strategy: { required },
             payload: {
               maxAttempts: { required },
-              waitBetweenRetries: { required },
+              waitBetweenRetries: { required, minValue: minValue(0) },
             },
           },
         };

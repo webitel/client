@@ -6,6 +6,7 @@
     <form class="object-input-grid">
       <wt-timepicker
         :value="itemInstance.payload.originateTimeout"
+        :v="v.itemInstance.payload.originateTimeout"
         :label="$t('objects.ccenter.queues.originateTimeout')"
         :disabled="disableUserInput"
         @input="setItemPayloadProp({ prop: 'originateTimeout', value: +$event })"
@@ -19,6 +20,7 @@
       ></wt-input>
       <wt-timepicker
         :value="itemInstance.payload.waitBetweenRetries"
+        :v="v.itemInstance.payload.waitBetweenRetries"
         :label="$t('objects.ccenter.queues.waitBetweenRetries')"
         :disabled="disableUserInput"
         @input="setItemPayloadProp({ prop: 'waitBetweenRetries', value: $event })"

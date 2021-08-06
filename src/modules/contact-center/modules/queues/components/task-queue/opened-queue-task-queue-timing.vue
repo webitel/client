@@ -13,6 +13,7 @@
       ></wt-input>
       <wt-timepicker
         :value="itemInstance.payload.waitBetweenRetries"
+        :v="v.itemInstance.payload.waitBetweenRetries"
         :label="$t('objects.ccenter.queues.waitBetweenRetries')"
         :disabled="disableUserInput"
         @input="setItemPayloadProp({ prop: 'waitBetweenRetries', value: $event })"
