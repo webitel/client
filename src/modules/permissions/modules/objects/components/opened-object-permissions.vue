@@ -2,9 +2,7 @@
   <wt-page-wrapper :actions-panel="false">
     <template slot="header">
       <object-header
-        :primaryText="computePrimaryText"
-        :primaryAction="save"
-        close
+        :hide-primary="true"
       >
         <headline-nav :path="path"></headline-nav>
       </object-header>
