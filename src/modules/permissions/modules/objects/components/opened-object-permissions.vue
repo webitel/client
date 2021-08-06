@@ -3,6 +3,7 @@
     <template slot="header">
       <object-header
         :hide-primary="true"
+        :secondary-action="close"
       >
         <headline-nav :path="path"></headline-nav>
       </object-header>
