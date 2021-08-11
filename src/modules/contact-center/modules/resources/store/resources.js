@@ -13,6 +13,7 @@ const resettableState = {
     description: '',
     maxErrors: 2,
     errorIds: [],
+    patterns: [],
   },
 };
 
