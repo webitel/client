@@ -2,7 +2,7 @@ import axios from 'axios';
 import eventBus from '@webitel/ui-sdk/src/scripts/eventBus';
 import { objCamelToSnake, objSnakeToCamel } from '@webitel/ui-sdk/src/scripts/caseConverters';
 
-const DO_NOT_CONVERT_KEYS = ['schema', 'variables'];
+const DO_NOT_CONVERT_KEYS = ['schema', 'variables', 'patterns'];
 
 // global API configuration
 // 'X-Webitel-Access' ~ 'X-Access-Token'
