@@ -628,6 +628,7 @@ export default {
         failure: 'Failure',
         maxErrors: 'Maximum failure responses',
         errorCodes: 'Request Failure Responses',
+        patterns: 'Destination number pattern',
       },
 
       resGroups: {

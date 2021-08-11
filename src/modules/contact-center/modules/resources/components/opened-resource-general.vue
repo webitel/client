@@ -47,6 +47,13 @@
         :disabled="disableUserInput"
         @input="setItemProp({ prop: 'description', value: $event })"
       ></wt-textarea>
+      <wt-tags-input
+        :value="itemInstance.patterns"
+        :label="$t('objects.ccenter.res.patterns')"
+        :add-only-from-autocomplete="false"
+        :disabled="disableUserInput"
+        @input="setItemProp({ prop: 'patterns', value: $event })"
+      ></wt-tags-input>
     </form>
   </section>
 </template>

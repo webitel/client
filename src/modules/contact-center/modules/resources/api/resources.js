@@ -12,7 +12,7 @@ const resService = new OutboundResourceServiceApiFactory(configuration, '', inst
 
 const fieldsToSend = ['limit', 'enabled',
   'rps', 'reserve', 'maxSuccessivelyErrors',
-  'name', 'errorIds', 'display', 'description', 'resourceId', 'gateway'];
+  'name', 'errorIds', 'display', 'description', 'resourceId', 'gateway', 'patterns'];
 
 const defaultListObject = {
   gateway: null,
@@ -28,6 +28,7 @@ const defaultSingleObject = {
   description: '',
   maxSuccessivelyErrors: 0,
   errorIds: [],
+  patterns: [],
 };
 
 const itemResponseHandler = (response) => {
@@ -39,12 +40,18 @@ const itemResponseHandler = (response) => {
     // eslint-disable-next-line no-param-reassign
     response.errorIds = response.errorIds.map((item) => ({ name: item }));
   }
+  if (response.patterns) {
+    // eslint-disable-next-line no-param-reassign
+    response.patterns = response.patterns.map((item) => ({ name: item }));
+  }
   return response;
 };
 
 const preRequestHandler = (item) => {
   // eslint-disable-next-line no-param-reassign
   item.errorIds = item.errorIds.map((item) => item.name || item.text);
+  // eslint-disable-next-line no-param-reassign
+  item.patterns = item.patterns.map((item) => item.name || item.text);
   // eslint-disable-next-line no-param-reassign
   item.maxSuccessivelyErrors = item.maxErrors;
   // eslint-disable-next-line no-param-reassign

@@ -627,6 +627,7 @@ export default {
         failure: 'Сбой',
         maxErrors: 'Максимальное количество ошибок',
         errorCodes: 'Коды ошибок',
+        patterns: 'Шаблон исходящего номера',
       },
 
       resGroups: {
