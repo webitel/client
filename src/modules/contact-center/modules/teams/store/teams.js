@@ -10,7 +10,7 @@ const resettableState = {
     name: '',
     description: '',
     strategy: {},
-    admin: {},
+    admin: [],
     maxNoAnswer: 3,
     wrapUpTime: 15,
     noAnswerDelayTime: 30,
