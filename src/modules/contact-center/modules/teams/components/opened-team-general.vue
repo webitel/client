@@ -28,6 +28,8 @@
         :search="fetchAdmins"
         :internal-search="false"
         :disabled="disableUserInput"
+        :close-on-select="false"
+        multiple
         @input="setItemProp({ prop: 'admin', value: $event })"
       ></wt-select>
       <wt-textarea

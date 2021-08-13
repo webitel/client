@@ -15,7 +15,7 @@ const fieldsToSend = ['name', 'description', 'strategy', 'admin', 'maxNoAnswer',
 const defaultSingleObject = {
   name: '',
   strategy: {},
-  admin: {},
+  admin: [],
   description: '',
   busyDelayTime: 0,
   callTimeout: 0,
