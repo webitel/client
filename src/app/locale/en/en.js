@@ -426,6 +426,10 @@ export default {
         SIPtrunkingDescription: 'SIP trunking description',
 
       },
+      chatGateways: {
+        chatGateways: 'Chat gateway | Chat gateways',
+        allChatGateways: 'All chat gateways',
+      },
 
       callflow: {
         callflow: 'Callflow',

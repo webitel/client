@@ -428,6 +428,11 @@ export default {
 
       },
 
+      chatGateways: {
+        chatGateways: 'Текстовый шлюз | Текстовые шлюзы',
+        allChatGateways: 'Все текстовые шлюзы',
+      },
+
       callflow: {
         callflow: 'Конструктор звонка',
       },

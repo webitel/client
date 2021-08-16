@@ -32,6 +32,7 @@ const AgentPauseCause = () => import('../../modules/lookups/modules/agent-pause-
 const OpenedAgentPauseCause = () => import('../../modules/lookups/modules/agent-pause-cause/components/opened-agent-pause-cause');
 const sipGateways = () => import('../../modules/routing/modules/gateways/components/the-sip-gateways');
 const OpenedGateway = () => import('../../modules/routing/modules/gateways/components/opened-sip-gateway');
+const chatGateways = () => import('../../modules/routing/modules/chat-gateways/components/the-chat-gateways');
 const flow = () => import('../../modules/routing/modules/flow/components/the-flow');
 const openedFlow = () => import('../../modules/routing/modules/flow/components/opened-flow');
 const dialplan = () => import('../../modules/routing/modules/dialplan/components/the-dialplan');
@@ -205,6 +206,11 @@ const router = new Router({
           path: '/routing/gateways/trunking/:id',
           name: `${RouteNames.GATEWAYS}-trunk-edit`,
           component: OpenedGateway,
+        },
+        {
+          path: '/routing/chat-gateways',
+          name: RouteNames.CHAT_GATEWAYS,
+          component: chatGateways,
         },
         // ----------ROUTING END------------
 

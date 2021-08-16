@@ -427,6 +427,11 @@ export default {
 
       },
 
+      chatGateways: {
+        chatGateways: 'Текстовий шлюз | Текстові шлюзи',
+        allChatGateways: 'Всі текстові шлюзи',
+      },
+
       callflow: {
         callflow: 'Конструктор дзвінка',
       },
