@@ -62,6 +62,20 @@
         @input="setItemPayloadProp({ prop: 'maxAbandonedRate', value: +$event })"
       ></wt-input>
       <wt-input
+        :value="itemInstance.payload.abandonRateAdjustment"
+        :label="$t('objects.ccenter.queues.abandonRateAdjustment')"
+        :disabled="disableUserInput"
+        type="number"
+        @input="setItemPayloadProp({ prop: 'abandonRateAdjustment', value: +$event })"
+      ></wt-input>
+      <wt-input
+        :value="itemInstance.payload.playbackSilence"
+        :label="$t('objects.ccenter.queues.playbackSilence')"
+        :disabled="disableUserInput"
+        type="number"
+        @input="setItemPayloadProp({ prop: 'playbackSilence', value: +$event })"
+      ></wt-input>
+      <wt-input
         :value="itemInstance.payload.maxCalls"
         :label="$t('objects.ccenter.queues.maxCalls')"
         :disabled="disableUserInput"
