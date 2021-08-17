@@ -431,6 +431,11 @@ export default {
       chatGateways: {
         chatGateways: 'Текстовый шлюз | Текстовые шлюзы',
         allChatGateways: 'Все текстовые шлюзы',
+        telegram: 'Телеграм',
+        whatsapp: 'Вотсапп',
+        facebook: 'Фейсбук',
+        viber: 'Вайбер',
+        webchat: 'Веб чат',
       },
 
       callflow: {

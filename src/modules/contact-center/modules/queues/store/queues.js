@@ -120,7 +120,9 @@ const permissions = new PermissionsStoreModule()
 const queues = new ObjectStoreModule({ resettableState, headers })
   .attachAPIModule(QueuesAPI)
   .generateAPIActions()
-  .setChildModules({ agents, skills, buckets, resGroups, hooks, log, members, permissions })
+  .setChildModules({
+ agents, skills, buckets, resGroups, hooks, log, members, permissions,
+})
   .getModule({ actions, mutations });
 
 export default queues;

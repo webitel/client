@@ -6,7 +6,7 @@ const offlineQueue = () => ({
   ...queue(),
   type: QueueType.OFFLINE_QUEUE,
   team: {}, // required
-  strategy: Strategy.FIFO,  // required
+  strategy: Strategy.FIFO, // required
   doSchema: {},
   afterSchema: {},
   processing: false,

@@ -57,13 +57,17 @@ const actions = {
     }));
     context.commit('SET_HEADERS', headers);
   },
-  PATCH_ITEM_PROPERTY: async (context, { item, index, prop, value }) => {
+  PATCH_ITEM_PROPERTY: async (context, {
+ item, index, prop, value,
+}) => {
     await context.commit('PATCH_ITEM_PROPERTY', { index, prop, value });
     const id = item?.id || context.state.dataList[index].id;
     const changes = { [prop]: value };
     try {
       await context.dispatch('PATCH_ITEM', { id, changes });
-      context.commit('PATCH_ITEM_PROPERTY', { item, index, prop, value });
+      context.commit('PATCH_ITEM_PROPERTY', {
+ item, index, prop, value,
+});
     } catch {
       context.dispatch('LOAD_DATA_LIST');
     }
@@ -89,9 +93,7 @@ const actions = {
       throw err;
     }
   },
-  DELETE_BULK: async (context, deleted) => {
-    return Promise.allSettled(deleted.map((item) => context.dispatch('DELETE_SINGLE', item)));
-  },
+  DELETE_BULK: async (context, deleted) => Promise.allSettled(deleted.map((item) => context.dispatch('DELETE_SINGLE', item))),
   // REMOVE_ITEM: async (context, index) => {
   //   const id = context.state.dataList[index].id;
   //   context.commit('REMOVE_ITEM', index);

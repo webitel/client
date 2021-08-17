@@ -13,8 +13,8 @@ const inboundQueue = () => ({
   stickyAgent: false,
   payload: {
     discardAbandonedAfter: 0,
-    timeBaseScore: TimeBaseScore.QUEUE,  // required
-    maxWaitTime: 60 * 60,  // required
+    timeBaseScore: TimeBaseScore.QUEUE, // required
+    maxWaitTime: 60 * 60, // required
     allowGreetingAgent: false,
     stickyAgentSec: 5,
   },

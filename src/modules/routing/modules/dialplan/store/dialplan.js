@@ -30,8 +30,8 @@ const actions = {
 
 const mutations = {
   SWAP_ROWS: (state, { fromId, toId }) => {
-    const fromIndex = state.dataList.findIndex(item => item.id === fromId);
-    const toIndex = state.dataList.findIndex(item => item.id === toId);
+    const fromIndex = state.dataList.findIndex((item) => item.id === fromId);
+    const toIndex = state.dataList.findIndex((item) => item.id === toId);
     const buffer = state.dataList[fromIndex];
     state.dataList.splice(fromIndex, 1, state.dataList[toIndex]);
     state.dataList.splice(toIndex, 1, buffer);

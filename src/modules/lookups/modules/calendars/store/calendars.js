@@ -82,9 +82,7 @@ const actions = {
     excepts.splice(excepts.findIndex((except) => except.name === item.name && except.date === item.date), 1);
     context.commit('SET_ITEM_PROPERTY', { prop: 'excepts', value: excepts });
   },
-  DELETE_BULK_EXCEPT_ITEMS: async (context, deleted) => {
-    return Promise.allSettled(deleted.map((item) => context.dispatch('DELETE_SINGLE_EXCEPT_ITEM', item)));
-  },
+  DELETE_BULK_EXCEPT_ITEMS: async (context, deleted) => Promise.allSettled(deleted.map((item) => context.dispatch('DELETE_SINGLE_EXCEPT_ITEM', item))),
 
   SET_EXCEPT_ITEM_PROPERTY: (context, { index, prop, value }) => {
     context.commit('SET_EXCEPT_ITEM_PROPERTY', { index, prop, value });

@@ -41,7 +41,9 @@ const history = new HistoryStoreModule()
 const agents = new ObjectStoreModule({ resettableState, headers })
   .attachAPIModule(AgentsAPI)
   .generateAPIActions()
-  .setChildModules({ history, skills, queues, subordinates, permissions })
+  .setChildModules({
+ history, skills, queues, subordinates, permissions,
+})
   .getModule({ actions });
 
 export default agents;
