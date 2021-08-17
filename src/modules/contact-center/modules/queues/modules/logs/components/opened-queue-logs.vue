@@ -92,7 +92,7 @@ export default {
     },
 
     calcDuration(item) {
-      return convertDuration(item.offeringAt - item.joinedAt);
+      return convertDuration((item.leavingAt - item.joinedAt) / 1000);
     },
   },
 };
