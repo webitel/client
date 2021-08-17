@@ -33,6 +33,7 @@ const OpenedAgentPauseCause = () => import('../../modules/lookups/modules/agent-
 const sipGateways = () => import('../../modules/routing/modules/gateways/components/the-sip-gateways');
 const OpenedGateway = () => import('../../modules/routing/modules/gateways/components/opened-sip-gateway');
 const chatGateways = () => import('../../modules/routing/modules/chat-gateways/components/the-chat-gateways');
+const chatTelegram = () => import('../../modules/routing/modules/chat-gateways/components/chat-telegram');
 const flow = () => import('../../modules/routing/modules/flow/components/the-flow');
 const openedFlow = () => import('../../modules/routing/modules/flow/components/opened-flow');
 const dialplan = () => import('../../modules/routing/modules/dialplan/components/the-dialplan');
@@ -211,6 +212,11 @@ const router = new Router({
           path: '/routing/chat-gateways',
           name: RouteNames.CHAT_GATEWAYS,
           component: chatGateways,
+        },
+        {
+          path: '/routing/chat-gateways/register/new-telegram',
+          name: `${RouteNames.CHAT_GATEWAYS}-reg-new-telegram`,
+          component: chatTelegram,
         },
         // ----------ROUTING END------------
 
