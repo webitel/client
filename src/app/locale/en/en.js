@@ -429,6 +429,11 @@ export default {
       chatGateways: {
         chatGateways: 'Chat gateway | Chat gateways',
         allChatGateways: 'All chat gateways',
+        telegram: 'Telegram',
+        whatsapp: 'Whatsapp',
+        facebook: 'Facebook',
+        viber: 'Viber',
+        webchat: 'Web chat',
       },
 
       callflow: {

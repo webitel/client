@@ -26,7 +26,7 @@ const itemUpdater = new APIUpdater(BASE_URL, { fieldsToSend });
 const itemPatcher = new APIPatcher(BASE_URL, { fieldsToSend });
 const itemDeleter = new APIItemDeleter(BASE_URL);
 
-export const getChatGatewayList = (params) => listGetter.getList({ ...params });
+export const getChatGatewayList = (params) => listGetter.getList({ ...params, searchQuery: 'q' });
 export const getChatGateway = (params) => itemGetter.getItem(params);
 export const addChatGateway = (params) => itemCreator.createItem(params);
 export const updateChatGateway = (params) => itemUpdater.updateItem(params);

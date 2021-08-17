@@ -10,6 +10,10 @@
     </template>
 
     <template slot="main">
+      <create-chat-gateway-popup
+        v-if="isChatGatewayPopup"
+        @close="isGatewayPopup = false"
+      ></create-chat-gateway-popup>
       <delete-confirmation-popup
         v-show="deleteConfirmation.isDeleteConfirmationPopup"
         :payload="deleteConfirmation"
@@ -112,27 +116,34 @@
 import tableComponentMixin
   from '../../../../../app/mixins/objectPagesMixins/objectTableMixin/tableComponentMixin';
 import RouteNames from '../../../../../app/router/_internals/RouteNames.enum';
+import CreateChatGatewayPopup from './create-chat-gateway-popup';
 
 export default {
+  components: { CreateChatGatewayPopup },
   mixins: [tableComponentMixin],
 
   name: 'the-chat-gateways',
   data: () => ({
     namespace: 'routing/chatGateways',
-    routeName: RouteNames.CHAT_GATEWAYS,
+    isChatGatewayPopup: false,
   }),
   computed: {
     path() {
-      return [{ name: this.$t('objects.routing.routing') },
-        { name: this.$tc('objects.routing.chatGateways.chatGateways', 2), route: '/routing/chat-gateways' },]
+      return [
+        { name: this.$t('objects.routing.routing') },
+        { name: this.$tc('objects.routing.chatGateways.chatGateways', 2), route: '/routing/chat-gateways' },
+      ];
     },
   },
 
   methods: {
     iconType(item) {
-      if (item.provider === 'infobip_whatsapp') return 'whatsapp'
-      if (item.provider === 'webchat') return 'web-chat'
-      return item.provider
+      if (item.provider === 'infobip_whatsapp') return 'whatsapp';
+      if (item.provider === 'webchat') return 'web-chat';
+      return item.provider;
+    },
+    create() {
+      this.isChatGatewayPopup = true;
     },
   },
 };
