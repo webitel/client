@@ -10,21 +10,21 @@
       >
         <headline-nav :path="path"></headline-nav>
       </object-header>
-      </template>
+    </template>
 
-      <template slot="main">
-        <div class="main-container">
-          <wt-tabs
-            v-model="currentTab"
-            :tabs="tabs"
-          ></wt-tabs>
-          <component
-            :is="currentTab.value"
-            :v="$v"
-            :namespace="namespace"
-          ></component>
-        </div>
-      </template>
+    <template slot="main">
+      <div class="main-container">
+        <wt-tabs
+          v-model="currentTab"
+          :tabs="tabs"
+        ></wt-tabs>
+        <component
+          :is="currentTab.value"
+          :v="$v"
+          :namespace="namespace"
+        ></component>
+      </div>
+    </template>
   </wt-page-wrapper>
 </template>
 
@@ -35,13 +35,13 @@ import {
 } from 'vuelidate/lib/validators';
 import { mapActions } from 'vuex';
 import { sipAccountValidator, gatewayHostValidator, ipValidator } from '../../../../../app/utils/validators';
-import RegisterGeneral from './opened-register-sip-gateway-general.vue';
-import TrunkingConfiguration from './opened-trunking-sip-gateway-configuration.vue';
-import TrunkingGeneral from './opened-trunking-sip-gateway-general.vue';
+import RegisterGeneral from '../../gateways/components/opened-register-sip-gateway-general.vue';
+import TrunkingConfiguration from '../../gateways/components/opened-trunking-sip-gateway-configuration.vue';
+import TrunkingGeneral from '../../gateways/components/opened-trunking-sip-gateway-general.vue';
 import openedObjectMixin from '../../../../../app/mixins/objectPagesMixins/openedObjectMixin/openedObjectMixin';
 
 export default {
-  name: 'opened-sip-gateway',
+  name: 'chat-telegram',
   mixins: [openedObjectMixin],
   components: {
     RegisterGeneral,
@@ -50,7 +50,7 @@ export default {
   },
 
   data: () => ({
-    namespace: 'routing/gateways',
+    namespace: 'routing/chatGateways',
   }),
 
   validations() {
@@ -103,17 +103,21 @@ export default {
     },
 
     gatewayTitle() {
-      return this.isRegister
-        ? this.$t('objects.routing.gateways.registerGateway')
-        : this.$t('objects.routing.gateways.trunkingGateway');
+      //Тут буде змінюватись текст після New
+      // return this.isRegister
+      //   // ? this.$t('objects.routing.chatGateways.registerTelegramChat')
+      //   // : this.$t('objects.routing.chatGateways');
+       if (this.isRegister) {
+       return this.$t('objects.routing.chatGateways.registerTelegramChat');
+      }
     },
 
     path() {
-      const baseUrl = '/routing/gateways';
+      const baseUrl = '/routing/chat-gateways';
       const url = baseUrl.concat(this.isRegister ? '/register' : '/trunking');
       return [
         { name: this.$t('objects.routing.routing') },
-        { name: this.$tc('objects.routing.gateways.gateways', 2), route: baseUrl },
+        { name: this.$tc('objects.routing.chatGateways.chatGateways', 2), route: baseUrl },
         {
           name: `${(this.id ? this.pathName : this.$t('objects.new'))} (${this.gatewayTitle})`,
           route: this.id ? `${url}/${this.id}` : `${url}/new`,
