@@ -429,6 +429,10 @@ export default {
       chatGateways: {
         chatGateways: 'Chat gateway | Chat gateways',
         allChatGateways: 'All chat gateways',
+        registerTelegramChat: 'Register Telegram Chat',
+        registerFacebookChat: 'Register Facebook Chat',
+        registerViberChat: 'Register Viber Chat',
+        registerInfobipWhatsappChat: 'Register Infobip Whatsapp Chat',
       },
 
       callflow: {
