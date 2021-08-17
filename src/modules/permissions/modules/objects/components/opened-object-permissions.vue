@@ -2,8 +2,8 @@
   <wt-page-wrapper :actions-panel="false">
     <template slot="header">
       <object-header
-        :hide-primary="true"
         :secondary-action="close"
+        hide-primary
       >
         <headline-nav :path="path"></headline-nav>
       </object-header>
