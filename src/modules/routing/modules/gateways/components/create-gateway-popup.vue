@@ -29,12 +29,12 @@ export default {
       const register = {
         value: 'reg',
         title: this.$t('objects.routing.gateways.SIPregistrations'),
-        usage: this.$t('objects.routing.gateways.SIPregistrationsDescription'),
+        description: this.$t('objects.routing.gateways.SIPregistrationsDescription'),
       };
       const trunking = {
         value: 'trunk',
         title: this.$t('objects.routing.gateways.SIPtrunking'),
-        usage: this.$t('objects.routing.gateways.SIPtrunkingDescription'),
+        description: this.$t('objects.routing.gateways.SIPtrunkingDescription'),
       };
       return [register, trunking];
     },

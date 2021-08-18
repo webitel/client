@@ -429,18 +429,30 @@ export default {
       chatGateways: {
         chatGateways: 'Chat gateway | Chat gateways',
         allChatGateways: 'All chat gateways',
-        feature/chats-configuration-popup
         telegram: 'Telegram',
-        whatsapp: 'Whatsapp',
+        whatsapp: 'Infobip Whatsapp',
         facebook: 'Facebook',
         viber: 'Viber',
         webchat: 'Web chat',
-
-        registerTelegramChat: 'Register Telegram Chat',
-        registerFacebookChat: 'Register Facebook Chat',
-        registerViberChat: 'Register Viber Chat',
-        registerInfobipWhatsappChat: 'Register Infobip Whatsapp Chat',
-        feature/chats-configuration-adding
+        uri: 'URI',
+        provider: 'Provider',
+        newChatGateway: 'New chat gateway',
+        metadata: {
+          apiKey: 'Api Key',
+          number: 'Number',
+          baseUrl: 'Base URL',
+          scenarioKey: 'Scenario Key',
+          accessToken: 'Access Token',
+          verifyToken: 'Verify Token',
+          sendApi: 'Send API',
+          allowOrigin: 'Allow Origin',
+          readTimeout: 'Read Timeout (sec)',
+          writeTimeout: 'Write Timeout (sec)',
+          handshakeTimeout: 'Handshake Timeout (sec)',
+          messageSize: 'Message Size max (bytes)',
+          botName: 'Bot Name',
+          eventTypes: 'Event Types',
+        },
       },
 
       callflow: {

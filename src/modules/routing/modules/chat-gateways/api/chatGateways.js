@@ -7,7 +7,7 @@ import APIListGetter from '../../../../../app/api/BaseAPIServices/ListGetter/Api
 
 const BASE_URL = '/chat/bots';
 
-const fieldsToSend = ['name', 'uri', 'id', 'flow', 'enabled', 'provider'];
+const fieldsToSend = ['name', 'uri', 'flow', 'enabled', 'provider', 'metadata'];
 
 const defaultListObject = { // default object prototype, to merge response with it to get all fields
   _isSelected: false,
@@ -15,9 +15,8 @@ const defaultListObject = { // default object prototype, to merge response with 
   uri: '',
   flow: {},
   provider: '',
-  id: 0,
+  metadata: {},
 };
-
 
 const listGetter = new APIListGetter(BASE_URL, { defaultListObject });
 const itemGetter = new APIItemGetter(BASE_URL);

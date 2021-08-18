@@ -1,5 +1,5 @@
 <template>
-  <wt-page-wrapper :actions-panel="false" class="gateways">
+  <wt-page-wrapper :actions-panel="false" class="chat-gateways">
     <template slot="header">
       <object-header
         :hide-primary="!hasCreateAccess"
@@ -12,7 +12,7 @@
     <template slot="main">
       <create-chat-gateway-popup
         v-if="isChatGatewayPopup"
-        @close="isGatewayPopup = false"
+        @close="isChatGatewayPopup = false"
       ></create-chat-gateway-popup>
       <delete-confirmation-popup
         v-show="deleteConfirmation.isDeleteConfirmationPopup"
@@ -67,12 +67,14 @@
             </template>
 
             <template slot="flow" slot-scope="{ item }">
-              {{ item.flow.name }}
-
+              <div v-if="item.flow">
+                {{ item.flow.name }}
+              </div>
             </template>
 
             <template slot="provider" slot-scope="{ item }">
-              <wt-icon icon-prefix="messenger" :icon="iconType(item)" sm></wt-icon>
+              <wt-icon v-if="iconType[item.provider]" icon-prefix="messenger" :icon="iconType[item.provider]" sm />
+              <p v-else> {{item.provider}} </p>
             </template>
 
             <template slot="state" slot-scope="{ item, index }">
@@ -113,19 +115,29 @@
 </template>
 
 <script>
+import MessengerType from 'webitel-sdk/esm2015/enums/messenger-type.enum';
 import tableComponentMixin
   from '../../../../../app/mixins/objectPagesMixins/objectTableMixin/tableComponentMixin';
+import getMessengerType from '../store/_internals/scripts/getMessengerTypeByEnum';
+import CreateChatGatewayPopup from './create-chat-gateway-popup.vue';
 import RouteNames from '../../../../../app/router/_internals/RouteNames.enum';
-import CreateChatGatewayPopup from './create-chat-gateway-popup';
+
+const iconType = {
+  [MessengerType.FACEBOOK]: 'facebook',
+  [MessengerType.WHATSAPP]: 'whatsapp',
+  [MessengerType.VIBER]: 'viber',
+  [MessengerType.WEB_CHAT]: 'web-chat',
+  [MessengerType.TELEGRAM]: 'telegram',
+};
 
 export default {
+  name: 'the-chat-gateways',
   components: { CreateChatGatewayPopup },
   mixins: [tableComponentMixin],
-
-  name: 'the-chat-gateways',
   data: () => ({
     namespace: 'routing/chatGateways',
     isChatGatewayPopup: false,
+    iconType,
   }),
   computed: {
     path() {
@@ -137,19 +149,16 @@ export default {
   },
 
   methods: {
-    iconType(item) {
-      if (item.provider === 'infobip_whatsapp') return 'whatsapp';
-      if (item.provider === 'webchat') return 'web-chat';
-      return item.provider;
-    },
     create() {
       this.isChatGatewayPopup = true;
+    },
+    edit(item) {
+      const type = getMessengerType(item.provider);
+      this.$router.push({
+        name: `${RouteNames.CHAT_GATEWAYS}-${type}-edit`,
+        params: { id: item.id },
+      });
     },
   },
 };
 </script>
-
-<style scoped>
-
-
-</style>

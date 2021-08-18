@@ -12,7 +12,7 @@ export default Object.freeze({
   // ROUTING
   FLOW: 'flow',
   DIALPLAN: 'dialplan',
-  GATEWAYS: 'gateways',
+  GATEWAYS: 'sip-gateways',
   CHAT_GATEWAYS: 'chat-gateways',
 
   // LOOKUPS
