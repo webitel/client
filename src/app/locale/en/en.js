@@ -429,18 +429,18 @@ export default {
       chatGateways: {
         chatGateways: 'Chat gateway | Chat gateways',
         allChatGateways: 'All chat gateways',
-        feature/chats-configuration-popup
         telegram: 'Telegram',
         whatsapp: 'Whatsapp',
         facebook: 'Facebook',
         viber: 'Viber',
         webchat: 'Web chat',
-
+        url: 'Url',
+        provider: 'Provider',
+        newChatGateway: 'New chat gateway',
         registerTelegramChat: 'Register Telegram Chat',
         registerFacebookChat: 'Register Facebook Chat',
         registerViberChat: 'Register Viber Chat',
         registerInfobipWhatsappChat: 'Register Infobip Whatsapp Chat',
-        feature/chats-configuration-adding
       },
 
       callflow: {

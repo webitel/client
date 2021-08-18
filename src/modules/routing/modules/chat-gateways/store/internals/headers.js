@@ -9,26 +9,26 @@ export default [
   },
   {
     value: 'url',
-    locale: 'Url',
-    field: 'proxy',
+    locale: 'objects.routing.chatGateways.url',
+    field: 'uri',
     sort: SortSymbols.NONE,
   },
   {
     value: 'flow',
     locale: 'objects.routing.flow.flow',
-    field: 'enable',
+    field: 'flow',
     sort: SortSymbols.NONE,
   },
   {
     value: 'provider',
-    locale: 'objects.lookups.media.provider',
-    field: 'r_state',
+    locale: 'objects.routing.chatGateways.provider',
+    field: 'provider',
     sort: SortSymbols.NONE,
   },
   {
     value: 'state',
     locale: 'reusable.state',
-    field: 'onOff',
+    field: 'enabled',
     sort: SortSymbols.NONE,
   },
 ];

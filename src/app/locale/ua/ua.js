@@ -435,6 +435,9 @@ export default {
         facebook: 'Фейсбук',
         viber: 'Вайбер',
         webchat: 'Веб чат',
+        url: 'Url',
+        provider: 'Провайдер',
+        newChatGateway: 'Новий текстовий шлюз',
       },
 
       callflow: {

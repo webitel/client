@@ -1,5 +1,12 @@
 <template>
-
+  <selection-popup
+    :title="$t('objects.routing.chatGateways.newChatGateway')"
+    :options="options"
+    :selected="selected"
+    @change="selectOption"
+    @select="createGateway"
+    @close="close"
+  ></selection-popup>
 </template>
 
 <script>
@@ -18,27 +25,27 @@ export default {
       const telegram = {
         value: 'telegram',
         title: this.$t('objects.routing.chatGateways.telegram'),
-        icon: 'telegram',
+        icon: 'messenger-telegram',
       };
       const whatsapp = {
         value: 'whatsapp',
         title: this.$t('objects.routing.chatGateways.whatsapp'),
-        icon: 'whatsapp',
+        icon: 'messenger-whatsapp',
       };
       const facebook = {
         value: 'facebook',
         title: this.$t('objects.routing.chatGateways.facebook'),
-        icon: 'facebook',
+        icon: 'messenger-facebook',
       };
       const viber = {
         value: 'viber',
         title: this.$t('objects.routing.chatGateways.viber'),
-        icon: 'viber',
+        icon: 'messenger-viber',
       };
       const webchat = {
         value: 'webchat',
         title: this.$t('objects.routing.chatGateways.webchat'),
-        icon: 'web-chat',
+        icon: 'messenger-web-chat',
       };
       return [telegram, whatsapp, facebook, viber, webchat];
     },
@@ -50,7 +57,7 @@ export default {
     },
     createGateway() {
       if (this.selected) {
-        this.$router.push({ name: `${RouteNames.GATEWAYS}-${this.selected.value}-new` });
+        this.$router.push({ name: `${RouteNames.CHAT_GATEWAYS}-${this.selected.value}-new` });
       }
     },
     close() {
