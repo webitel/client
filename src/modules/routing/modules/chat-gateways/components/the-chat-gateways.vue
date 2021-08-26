@@ -135,6 +135,7 @@ export default {
   components: { CreateChatGatewayPopup },
   mixins: [tableComponentMixin],
   data: () => ({
+    iconType,
     namespace: 'routing/chatGateways',
     isChatGatewayPopup: false,
     iconType,
