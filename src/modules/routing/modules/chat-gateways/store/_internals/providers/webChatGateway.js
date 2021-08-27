@@ -12,4 +12,3 @@ const webChatGateway = () => ({
 });
 
 export default webChatGateway;
-W
