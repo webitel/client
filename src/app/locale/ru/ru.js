@@ -428,6 +428,35 @@ export default {
 
       },
 
+      chatGateways: {
+        chatGateways: 'Текстовый шлюз | Текстовые шлюзы',
+        allChatGateways: 'Все текстовые шлюзы',
+        telegram: 'Телеграм',
+        whatsapp: 'Вотсапп',
+        facebook: 'Фейсбук',
+        viber: 'Вайбер',
+        webchat: 'Веб чат',
+        uri: 'URI',
+        provider: 'Провайдер',
+        newChatGateway: 'Новый текстовый шлюз',
+        metadata: {
+          apiKey: 'Api Key',
+          number: 'Number',
+          baseUrl: 'Base URL',
+          scenarioKey: 'Scenario Key',
+          accessToken: 'Access Token',
+          verifyToken: 'Verify Token',
+          sendApi: 'Send API',
+          allowOrigin: 'Allow Origin',
+          readTimeout: 'Read Timeout (sec)',
+          writeTimeout: 'Write Timeout (sec)',
+          handshakeTimeout: 'Handshake Timeout (sec)',
+          messageSize: 'Message Size max (bytes)',
+          botName: 'Bot Name',
+          eventTypes: 'Event Types',
+        },
+      },
+
       callflow: {
         callflow: 'Конструктор звонка',
       },
