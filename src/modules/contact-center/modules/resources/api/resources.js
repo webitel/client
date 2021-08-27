@@ -11,13 +11,12 @@ import SDKListGetter from '../../../../../app/api/BaseAPIServices/ListGetter/SDK
 const resService = new OutboundResourceServiceApiFactory(configuration, '', instance);
 
 const fieldsToSend = ['limit', 'enabled',
-  'rps', 'reserve', 'maxSuccessivelyErrors',
+  'rps', 'maxSuccessivelyErrors',
   'name', 'errorIds', 'display', 'description', 'resourceId', 'gateway', 'patterns'];
 
 const defaultListObject = {
   gateway: null,
   enabled: false,
-  reserve: false,
 };
 
 const defaultSingleObject = {

@@ -20,11 +20,4 @@ export default [
     field: 'enabled',
     sort: SortSymbols.NONE,
   },
-  {
-    value: 'reserve',
-    locale: 'objects.ccenter.res.reserve',
-    width: '100px',
-    field: 'reserve',
-    sort: SortSymbols.NONE,
-  },
 ];

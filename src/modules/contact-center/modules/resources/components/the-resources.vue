@@ -69,14 +69,6 @@
                 @change="patchItem({ index, item, prop: 'enabled', value: $event })"
               ></wt-switcher>
             </template>
-            <template slot="reserve" slot-scope="{ item, index }">
-              <wt-switcher
-                class="test__resources__reserve-switcher"
-                :value="item.reserve"
-                :disabled="!hasEditAccess"
-                @change="patchItem({ index, item, prop: 'reserve', value: $event })"
-              ></wt-switcher>
-            </template>
             <template slot="actions" slot-scope="{ item }">
               <edit-action
                 v-if="hasEditAccess"

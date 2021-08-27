@@ -659,6 +659,8 @@ export default {
         maxErrors: 'Максимальное количество ошибок',
         errorCodes: 'Коды ошибок',
         patterns: 'Шаблон исходящего номера',
+        priority: 'Приоритет',
+        reserveResource: 'Резервный ресурс',
       },
 
       resGroups: {

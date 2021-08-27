@@ -9,7 +9,7 @@ import SDKDeleter from '../../../../../../../app/api/BaseAPIServices/Deleter/SDK
 
 const resGrService = new OutboundResourceGroupServiceApiFactory(configuration, '', instance);
 
-const fieldsToSend = ['groupId', 'name', 'description', 'resource'];
+const fieldsToSend = ['groupId', 'name', 'description', 'resource', 'reserveResource', 'priority'];
 
 const preRequestHandler = (item, parentId) => ({ ...item, groupId: parentId });
 

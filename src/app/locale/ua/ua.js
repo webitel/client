@@ -658,6 +658,8 @@ export default {
         maxErrors: 'Максимальна кількість помилок',
         errorCodes: 'Коди помилок',
         patterns: 'Шаблон вихідного номера',
+        priority: 'Пріоритет',
+        reserveResource: 'Резервний ресурс',
       },
 
       resGroups: {

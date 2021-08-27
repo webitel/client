@@ -659,6 +659,8 @@ export default {
         maxErrors: 'Maximum failure responses',
         errorCodes: 'Request Failure Responses',
         patterns: 'Destination number pattern',
+        priority: 'Priority',
+        reserveResource: 'Reserve resource',
       },
 
       resGroups: {
