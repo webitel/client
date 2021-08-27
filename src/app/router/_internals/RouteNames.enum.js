@@ -13,6 +13,7 @@ export default Object.freeze({
   FLOW: 'flow',
   DIALPLAN: 'dialplan',
   GATEWAYS: 'gateways',
+  CHAT_GATEWAYS: 'chat-gateways',
 
   // LOOKUPS
   SKILLS: 'skills',
