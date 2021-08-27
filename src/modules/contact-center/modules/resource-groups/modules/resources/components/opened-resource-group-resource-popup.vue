@@ -15,6 +15,23 @@
           required
           @input="setItemProp({ prop: 'resource', value: $event })"
         ></wt-select>
+
+        <wt-input
+          :value="itemInstance.priority"
+          :label="$t('objects.ccenter.res.priority')"
+          type="number"
+          @input="setItemProp({ prop: 'priority', value: +$event })"
+        ></wt-input>
+
+        <wt-select
+          :value="itemInstance.reserveResource"
+          :v="$v.itemInstance.resource"
+          :label="$tc('objects.ccenter.res.res', 1)"
+          :search="loadDropdownOptionsList"
+          :internal-search="false"
+          :clearable="true"
+          @input="setItemProp({ prop: 'reserveResource', value: $event })"
+        ></wt-select>
       </form>
     </template>
     <template slot="actions">

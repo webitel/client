@@ -5,6 +5,8 @@ import headers from './_internals/headers';
 const resettableItemState = {
   itemInstance: {
     resource: {},
+    reserveResource: {},
+    priority: 0,
   },
 };
 
