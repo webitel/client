@@ -56,12 +56,11 @@
 <script>
 import { mapActions } from 'vuex';
 import { getFlowList } from '../../flow/components/flow';
-import baseObjectMixin from '../../../../../app/mixins/baseMixins/baseObjectMixin/baseObjectMixin';
 import openedTabComponentMixin from '../../../../../app/mixins/objectPagesMixins/openedObjectTabMixin/openedTabComponentMixin';
 
 export default {
   name: 'opened-chat-gateway-facebook-general-tab',
-  mixins: [openedTabComponentMixin, baseObjectMixin],
+  mixins: [openedTabComponentMixin],
   methods: {
     async loadDropdownOptionsList(search) {
       const response = await getFlowList({ search });
@@ -80,12 +79,5 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.content-header {
-  display: flex;
-  justify-content: flex-start;
-
-  .wt-icon {
-    margin-right: var(--icon-spacing);
-  }
-}
+@import "../chat-gateways";
 </style>

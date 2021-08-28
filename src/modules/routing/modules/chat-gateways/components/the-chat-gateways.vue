@@ -95,7 +95,6 @@
                 @click="callDelete(item)"
               ></delete-action>
             </template>
-
           </wt-table>
 
           <wt-pagination
@@ -132,10 +131,9 @@ const iconType = {
 
 export default {
   name: 'the-chat-gateways',
-  components: { CreateChatGatewayPopup },
   mixins: [tableComponentMixin],
+  components: { CreateChatGatewayPopup },
   data: () => ({
-    iconType,
     namespace: 'routing/chatGateways',
     isChatGatewayPopup: false,
     iconType,

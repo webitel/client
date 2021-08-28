@@ -132,6 +132,7 @@ export default {
       if (this.$route.path.includes('webchat')) {
         return 'webchat';
       }
+      return '';
     },
 
     tabs() {
@@ -173,7 +174,7 @@ export default {
 
     chatGatewayTitle() {
       const type = this.chatType;
-      return this.$t(`objects.routing.chatGateways.${type}`).concat(' gateway');
+      return this.$t(`objects.routing.chatGateways.${type} `).concat(this.$tc('objects.routing.gateways.gateways', 1));
     },
 
     path() {
@@ -192,7 +193,7 @@ export default {
   methods: {
     async loadPageData() {
       await this.setId(this.$route.params.id);
-      return this.loadItem(this.chatType.toUpperCase());
+      return this.loadItem(this.chatType);
     },
   },
 };
