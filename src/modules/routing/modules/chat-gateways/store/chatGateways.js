@@ -1,5 +1,6 @@
 import ObjectStoreModule
   from '../../../../../app/store/BaseStoreModules/StoreModules/ObjectStoreModule';
+import proxy from '../../../../../app/utils/editProxy';
 import ChatGatewaysAPI from '../api/chatGateways';
 import headers from './_internals/headers';
 import defaultChatGateway from './_internals/defaults/defaultChatGateway';
@@ -20,14 +21,10 @@ const actions = {
   LOAD_ITEM: async (context, provider) => {
     if (context.state.itemId) {
       const item = await context.dispatch('GET_ITEM');
-      context.dispatch('SET_TYPED_ITEM', { item, provider: item.provider.toUpperCase() });
+      context.commit('SET_ITEM', proxy(item));
     } else {
-      context.dispatch('SET_TYPED_ITEM', { provider });
+      context.commit(`SET_${provider}_ITEM`);
     }
-  },
-
-  SET_TYPED_ITEM: (context, { provider, item = {} }) => {
-    context.commit(`SET_${provider}_ITEM`, item);
   },
 
   SET_ITEM_METADATA: (context, payload) => {

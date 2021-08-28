@@ -132,14 +132,15 @@ const iconType = {
 
 export default {
   name: 'the-chat-gateways',
-  components: { CreateChatGatewayPopup },
   mixins: [tableComponentMixin],
+  components: { CreateChatGatewayPopup },
+
   data: () => ({
-    iconType,
     namespace: 'routing/chatGateways',
     isChatGatewayPopup: false,
     iconType,
   }),
+
   computed: {
     path() {
       return [

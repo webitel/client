@@ -10,8 +10,8 @@
 </template>
 
 <script>
-import SelectionPopup from '../../../../../app/components/utils/selection-popup/selection-popup';
 import RouteNames from '../../../../../app/router/_internals/RouteNames.enum';
+import SelectionPopup from '../../../../../app/components/utils/selection-popup/selection-popup.vue';
 
 export default {
   name: 'create-chat-gateway-popup',
