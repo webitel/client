@@ -7,4 +7,16 @@ export default [
     field: 'resource',
     sort: SortSymbols.NONE,
   },
+  {
+    value: 'priority',
+    locale: 'objects.ccenter.res.priority',
+    field: 'priority',
+    sort: SortSymbols.NONE,
+  },
+  {
+    value: 'reserveResource',
+    locale: 'objects.ccenter.res.reserveResource',
+    field: 'reserveResource',
+    sort: SortSymbols.NONE,
+  },
 ];

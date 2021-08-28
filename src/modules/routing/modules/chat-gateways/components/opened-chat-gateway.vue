@@ -174,7 +174,7 @@ export default {
 
     chatGatewayTitle() {
       const type = this.chatType;
-      return this.$t(`objects.routing.chatGateways.${type} `).concat(this.$tc('objects.routing.gateways.gateways', 1));
+      return this.$t(`objects.routing.chatGateways.${type}`).concat(' ', this.$tc('objects.routing.gateways.gateways', 1));
     },
 
     path() {
@@ -193,7 +193,7 @@ export default {
   methods: {
     async loadPageData() {
       await this.setId(this.$route.params.id);
-      return this.loadItem(this.chatType);
+      return this.loadItem(this.chatType.toUpperCase());
     },
   },
 };
