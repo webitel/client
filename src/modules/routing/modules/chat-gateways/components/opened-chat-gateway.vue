@@ -33,7 +33,6 @@
 import { required } from 'vuelidate/lib/validators';
 import openedObjectMixin
   from '../../../../../app/mixins/objectPagesMixins/openedObjectMixin/openedObjectMixin';
-import baseObjectMixin from '../../../../../app/mixins/baseMixins/baseObjectMixin/baseObjectMixin';
 import OpenedChatTelegram from './opened-chat-gateway-telegram-general-tab.vue';
 import OpenedChatFacebook from './opened-chat-gateway-facebook-general-tab.vue';
 import OpenedChatWhatsapp from './opened-chat-gateway-infobip-whatsapp-general-tab.vue';
@@ -41,8 +40,8 @@ import OpenedWebchat from './opened-chat-gateway-webchat-general-tab.vue';
 import OpenedViberChat from './opened-chat-gateway-viber-general-tab.vue';
 
 export default {
-  name: 'opened-chat',
-  mixins: [openedObjectMixin, baseObjectMixin],
+  name: 'opened-chat-gateway',
+  mixins: [openedObjectMixin],
   components: {
     OpenedChatTelegram,
     OpenedChatFacebook,
