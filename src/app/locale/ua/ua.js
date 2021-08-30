@@ -660,6 +660,7 @@ export default {
         patterns: 'Шаблон вихідного номера',
         priority: 'Пріоритет',
         reserveResource: 'Резервний ресурс',
+        failureDialDelay: 'Затримка при помилці набору',
       },
 
       resGroups: {

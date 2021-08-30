@@ -661,6 +661,7 @@ export default {
         patterns: 'Шаблон исходящего номера',
         priority: 'Приоритет',
         reserveResource: 'Резервный ресурс',
+        failureDialDelay: 'Задержка при ошибке набора',
       },
 
       resGroups: {

@@ -19,6 +19,13 @@
         :disabled="disableUserInput"
         @input="setItemProp({ prop: 'errorIds', value: $event })"
       ></wt-tags-input>
+      <wt-input
+        :value="itemInstance.failureDialDelay"
+        :label="$t('objects.ccenter.res.failureDialDelay')"
+        :disabled="disableUserInput"
+        type="number"
+        @input="setItemProp({ prop: 'failureDialDelay', value: +$event })"
+      ></wt-input>
     </form>
   </section>
 </template>

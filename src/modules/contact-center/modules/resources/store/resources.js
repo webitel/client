@@ -14,6 +14,7 @@ const resettableState = {
     maxErrors: 2,
     errorIds: [],
     patterns: [],
+    failureDialDelay: 0,
   },
 };
 
