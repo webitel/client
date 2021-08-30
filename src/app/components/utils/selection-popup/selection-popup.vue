@@ -12,7 +12,7 @@
           @click="selectOption(option)"
         >
           <wt-icon
-            v-if="option.icon" :icon="option.icon" sm></wt-icon>
+            v-if="option.icon" :icon="option.icon" size="sm"></wt-icon>
           <h4 class="popup-options__item-header">{{ option.title }}</h4>
           <wt-icon-btn
             v-if="option.description"

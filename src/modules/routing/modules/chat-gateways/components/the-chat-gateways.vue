@@ -73,7 +73,7 @@
             </template>
 
             <template slot="provider" slot-scope="{ item }">
-              <wt-icon v-if="iconType[item.provider]" icon-prefix="messenger" :icon="iconType[item.provider]" sm />
+              <wt-icon v-if="iconType[item.provider]" icon-prefix="messenger" :icon="iconType[item.provider]" size="sm" />
               <p v-else> {{item.provider}} </p>
             </template>
 

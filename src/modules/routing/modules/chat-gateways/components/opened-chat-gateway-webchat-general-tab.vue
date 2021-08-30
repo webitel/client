@@ -1,7 +1,7 @@
 <template>
   <section>
     <header class="content-header">
-      <wt-icon icon-prefix="messenger" icon="web-chat" sm></wt-icon>
+      <wt-icon icon-prefix="messenger" icon="web-chat" size="sm"></wt-icon>
       <h3 class="content-title">{{ $t('objects.routing.chatGateways.webchat') }}</h3>
     </header>
     <form class="object-input-grid">
