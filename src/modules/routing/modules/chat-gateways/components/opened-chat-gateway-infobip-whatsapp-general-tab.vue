@@ -27,8 +27,8 @@
         @input="setItemProp({ prop: 'uri', value: $event })"
       ></wt-input>
       <wt-input
-        :value="itemInstance.number"
-        :v="v.itemInstance.number"
+        :value="itemInstance.metadata.number"
+        :v="v.itemInstance.metadata.number"
         :label="$t('objects.routing.chatGateways.metadata.number')"
         :disabled="disableUserInput"
         @input="setItemMetadata({ prop: 'number', value: $event })"
@@ -43,15 +43,15 @@
         @input="setItemProp({ prop: 'flow', value: $event })"
       ></wt-select>
       <wt-input
-        :value="itemInstance.url"
-        :v="v.itemInstance.url"
+        :value="itemInstance.metadata.url"
+        :v="v.itemInstance.metadata.url"
         :label="$t('objects.routing.chatGateways.metadata.baseUrl')"
         :disabled="disableUserInput"
         @input="setItemMetadata({ prop: 'url', value: $event })"
       ></wt-input>
       <!--      Empty div in order to have correct page design--> <div></div>
       <wt-input
-        :value="itemInstance.scenarioKey"
+        :value="itemInstance.metadata.scenarioKey"
         :label="$t('objects.routing.chatGateways.metadata.scenarioKey')"
         :disabled="disableUserInput"
         @input="setItemMetadata({ prop: 'scenarioKey', value: $event })"
