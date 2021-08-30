@@ -661,6 +661,7 @@ export default {
         patterns: 'Destination number pattern',
         priority: 'Priority',
         reserveResource: 'Reserve resource',
+        failureDialDelay: 'Failure dial delay',
       },
 
       resGroups: {

@@ -15,18 +15,16 @@
           required
           @input="setItemProp({ prop: 'resource', value: $event })"
         ></wt-select>
-
         <wt-input
           :value="itemInstance.priority"
           :label="$t('objects.ccenter.res.priority')"
           type="number"
           @input="setItemProp({ prop: 'priority', value: +$event })"
         ></wt-input>
-
         <wt-select
           :value="itemInstance.reserveResource"
-          :v="$v.itemInstance.resource"
-          :label="$tc('objects.ccenter.res.res', 1)"
+          :v="$v.itemInstance.reserveResource"
+          :label="$tc('objects.ccenter.res.reserveResource', 1)"
           :search="loadDropdownOptionsList"
           :internal-search="false"
           :clearable="true"
@@ -51,7 +49,6 @@
 
 <script>
 import { required } from 'vuelidate/lib/validators';
-import { mapState } from 'vuex';
 import { getResourceList } from '../../../../resources/api/resources';
 import nestedObjectMixin from '../../../../../../../app/mixins/objectPagesMixins/openedObjectMixin/nestedObjectMixin';
 

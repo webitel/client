@@ -10,9 +10,9 @@ import SDKListGetter from '../../../../../app/api/BaseAPIServices/ListGetter/SDK
 
 const resService = new OutboundResourceServiceApiFactory(configuration, '', instance);
 
-const fieldsToSend = ['limit', 'enabled',
-  'rps', 'maxSuccessivelyErrors',
-  'name', 'errorIds', 'display', 'description', 'resourceId', 'gateway', 'patterns'];
+const fieldsToSend = ['limit', 'enabled', 'rps', 'maxSuccessivelyErrors',
+  'name', 'errorIds', 'display', 'description', 'resourceId', 'gateway',
+  'patterns', 'failureDialDelay'];
 
 const defaultListObject = {
   gateway: null,
@@ -28,6 +28,7 @@ const defaultSingleObject = {
   maxSuccessivelyErrors: 0,
   errorIds: [],
   patterns: [],
+  failureDialDelay: 0,
 };
 
 const itemResponseHandler = (response) => {
