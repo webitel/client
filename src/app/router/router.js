@@ -524,16 +524,16 @@ const router = new Router({
           name: `${RouteNames.QUEUES}-predictive-dialer-edit`,
           component: OpenedQueue,
         },
-        // {
-        //   path: '/contact-center/queues/chat-inbound-queue/new',
-        //   name: `${RouteNames.QUEUES}-chat-inbound-queue-new`,
-        //   component: OpenedQueue,
-        // },
-        // {
-        //   path: '/contact-center/queues/chat-inbound-queue/:id',
-        //   name: `${RouteNames.QUEUES}-chat-inbound-queue-edit`,
-        //   component: OpenedQueue,
-        // },
+        {
+          path: '/contact-center/queues/chat-inbound-queue/new',
+          name: `${RouteNames.QUEUES}-chat-inbound-queue-new`,
+          component: OpenedQueue,
+        },
+        {
+          path: '/contact-center/queues/chat-inbound-queue/:id',
+          name: `${RouteNames.QUEUES}-chat-inbound-queue-edit`,
+          component: OpenedQueue,
+        },
         {
           path: '/contact-center/queues/task-queue/new',
           name: `${RouteNames.QUEUES}-task-queue-new`,

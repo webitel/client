@@ -2,7 +2,7 @@ import MessengerType from 'webitel-sdk/esm2015/enums/messenger-type.enum';
 import defaultChatGateway from '../defaults/defaultChatGateway';
 
 const webChatGateway = () => ({
-  ...defaultChatGateway,
+  ...defaultChatGateway(),
   provider: MessengerType.WEB_CHAT,
   metadata: {
     allowOrigin: '',
