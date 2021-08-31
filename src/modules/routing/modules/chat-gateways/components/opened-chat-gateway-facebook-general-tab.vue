@@ -45,7 +45,7 @@
       <wt-input
         :value="itemInstance.metadata.url"
         :v="v.itemInstance.metadata.url"
-        :label="$t('objects.routing.chatGateways.metadata.baseUrl')"
+        :label="$t('objects.routing.chatGateways.metadata.facebookApiUrl')"
         :disabled="disableUserInput"
         @input="setItemMetadata({ prop: 'url', value: $event })"
       ></wt-input>

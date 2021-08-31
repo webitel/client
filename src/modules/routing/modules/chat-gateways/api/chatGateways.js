@@ -1,9 +1,10 @@
-import APIItemDeleter from '../../../../../app/api/BaseAPIServices/Deleter/ApiDeleter';
-import APIUpdater from '../../../../../app/api/BaseAPIServices/Updater/ApiUpdater';
 import APICreator from '../../../../../app/api/BaseAPIServices/Creator/ApiCreator';
-import APIPatcher from '../../../../../app/api/BaseAPIServices/Patcher/ApiPatcher';
+import APIItemDeleter from '../../../../../app/api/BaseAPIServices/Deleter/ApiDeleter';
 import APIItemGetter from '../../../../../app/api/BaseAPIServices/Getter/ApiGetter';
 import APIListGetter from '../../../../../app/api/BaseAPIServices/ListGetter/ApiListGetter';
+import APIPatcher from '../../../../../app/api/BaseAPIServices/Patcher/ApiPatcher';
+import APIUpdater from '../../../../../app/api/BaseAPIServices/Updater/ApiUpdater';
+import getMessengerTypeByEnum from '../store/_internals/scripts/getMessengerTypeByEnum';
 
 const BASE_URL = '/chat/bots';
 
@@ -18,12 +19,55 @@ const defaultListObject = { // default object prototype, to merge response with 
   metadata: {},
 };
 
+const updateWebchatSeconds = (num) => `${num}s`;
+
+const preRequestHandler = (item) => {
+  if (item.metadata.readTimeout) {
+    item.metadata.readTimeout = updateWebchatSeconds(item.metadata.readTimeout);
+  }
+  if (item.metadata.writeTimeout) {
+    item.metadata.writeTimeout = updateWebchatSeconds(item.metadata.writeTimeout);
+  }
+  if (item.metadata.handshakeTimeout) {
+    item.metadata.handshakeTimeout = updateWebchatSeconds(item.metadata.handshakeTimeout);
+  }
+  if (item.metadata.allowOrigin) {
+    item.metadata.allowOrigin = item.metadata.allowOrigin.map((obj) => obj.text).join();
+  }
+  return item;
+};
+
+const baseItem = { _dirty: false };
+const parseTimeoutSeconds = (item) => (item.includes('s') ? parseInt(item.replace('/s', '/'), 10) : +item);
+
+
 const listGetter = new APIListGetter(BASE_URL, { defaultListObject });
 const itemGetter = new APIItemGetter(BASE_URL);
-const itemCreator = new APICreator(BASE_URL, { fieldsToSend });
-const itemUpdater = new APIUpdater(BASE_URL, { fieldsToSend });
+const itemCreator = new APICreator(BASE_URL, { fieldsToSend, preRequestHandler });
+const itemUpdater = new APIUpdater(BASE_URL, { fieldsToSend, preRequestHandler });
 const itemPatcher = new APIPatcher(BASE_URL, { fieldsToSend });
 const itemDeleter = new APIItemDeleter(BASE_URL);
+
+itemGetter.responseHandler = (response) => {
+  if (response.metadata.allowOrigin && Array.isArray(response.metadata.allowOrigin)) {
+    response.metadata.allowOrigin = response.metadata.allowOrigin.split(',').map((origin) => ({
+      text: origin,
+    }));
+  }
+  if (response.metadata.readTimeout) {
+    response.metadata.readTimeout = parseTimeoutSeconds(response.metadata.readTimeout);
+  }
+  if (response.metadata.writeTimeout) {
+    response.metadata.writeTimeout = parseTimeoutSeconds(response.metadata.writeTimeout);
+  }
+  if (response.metadata.handshakeTimeout) {
+    response.metadata.handshakeTimeout = parseTimeoutSeconds(response.metadata.handshakeTimeout);
+  }
+  return {
+  ...baseItem,
+  ...response,
+  };
+};
 
 export const getChatGatewayList = (params) => listGetter.getList({ ...params, searchQuery: 'q' });
 export const getChatGateway = (params) => itemGetter.getItem(params);

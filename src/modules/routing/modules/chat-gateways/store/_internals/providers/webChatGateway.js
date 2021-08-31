@@ -5,11 +5,10 @@ const webChatGateway = () => ({
   ...defaultChatGateway(),
   provider: MessengerType.WEB_CHAT,
   metadata: {
-    allowOrigin: '',
-    readTimeout: '30s',
-    writeTimeout: '10s',
-    handshakeTimeout: '10s',
-    messageSizeMax: '4096',
+    allowOrigin: [],
+    readTimeout: '30',
+    writeTimeout: '1',
+    handshakeTimeout: '10',
   },
 });
 

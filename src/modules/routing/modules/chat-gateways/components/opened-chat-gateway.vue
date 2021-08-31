@@ -30,7 +30,7 @@
 
 <script>
 
-import { required } from 'vuelidate/lib/validators';
+import { required, minValue, maxValue } from 'vuelidate/lib/validators';
 import openedObjectMixin
   from '../../../../../app/mixins/objectPagesMixins/openedObjectMixin/openedObjectMixin';
 import OpenedChatTelegram from './opened-chat-gateway-telegram-general-tab.vue';
@@ -98,6 +98,21 @@ export default {
         return {
           itemInstance: {
             ...defaults,
+            metadata: {
+              allowOrigin: {},
+              readTimeout: {
+                minValue: minValue(30),
+                maxValue: maxValue(300),
+              },
+              writeTimeout: {
+                minValue: minValue(1),
+                maxValue: maxValue(60),
+              },
+              handshakeTimeout: {
+                minValue: minValue(10),
+                maxValue: maxValue(60),
+              },
+            },
           },
         };
       case 'viber':

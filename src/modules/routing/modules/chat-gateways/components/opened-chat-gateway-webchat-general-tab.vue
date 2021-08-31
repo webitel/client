@@ -12,12 +12,13 @@
         :disabled="disableUserInput"
         @input="setItemProp({ prop: 'name', value: $event })"
       ></wt-input>
-      <wt-input
+      <wt-tags-input
         :value="itemInstance.metadata.allowOrigin"
         :label="$t('objects.routing.chatGateways.metadata.allowOrigin')"
+        :add-only-from-autocomplete="false"
         :disabled="disableUserInput"
         @input="setItemMetadata({ prop: 'allowOrigin', value: $event })"
-      ></wt-input>
+      ></wt-tags-input>
       <wt-input
         :value="itemInstance.uri"
         :v="v.itemInstance.uri"
@@ -27,6 +28,7 @@
       ></wt-input>
       <wt-input
         :value="itemInstance.metadata.readTimeout"
+        :v="v.itemInstance.metadata.readTimeout"
         :label="$t('objects.routing.chatGateways.metadata.readTimeout')"
         :disabled="disableUserInput"
         @input="setItemMetadata({ prop: 'readTimeout', value: $event })"
@@ -42,6 +44,7 @@
       ></wt-select>
       <wt-input
         :value="itemInstance.metadata.writeTimeout"
+        :v="v.itemInstance.metadata.writeTimeout"
         :label="$t('objects.routing.chatGateways.metadata.writeTimeout')"
         :disabled="disableUserInput"
         @input="setItemMetadata({ prop: 'writeTimeout', value: $event })"
@@ -49,17 +52,20 @@
       <!--      Empty div in order to have correct page design--> <div></div>
       <wt-input
         :value="itemInstance.metadata.handshakeTimeout"
+        :v="v.itemInstance.metadata.handshakeTimeout"
         :label="$t('objects.routing.chatGateways.metadata.handshakeTimeout')"
         :disabled="disableUserInput"
         @input="setItemMetadata({ prop: 'handshakeTimeout', value: $event })"
       ></wt-input>
-      <!--      Empty div in order to have correct page design--> <div></div>
-      <wt-input
-        :value="itemInstance.metadata.messageSizeMax"
-        :label="$t('objects.routing.chatGateways.metadata.messageSize')"
-        :disabled="disableUserInput"
-        @input="setItemMetadata({ prop: 'messageSizeMax', value: $event })"
-      ></wt-input>
+<!--      If the input below is not commented - please add an empty <div></div> here in order to have correct page design -->
+<!--      The following input should be commented. Now the maximum message size is default, -->
+<!--      but in future it could be useful allowing admins to set max size of json file-->
+<!--      <wt-input-->
+<!--        :value="itemInstance.metadata.messageSizeMax"-->
+<!--        :label="$t('objects.routing.chatGateways.metadata.messageSize')"-->
+<!--        :disabled="disableUserInput"-->
+<!--        @input="setItemMetadata({ prop: 'messageSizeMax', value: $event })"-->
+<!--      ></wt-input>-->
     </form>
   </section>
 </template>
@@ -89,6 +95,7 @@ export default {
 };
 </script>
 
-<style lang="scss" scoped>
+<style lang="scss">
 @import "../css/chat-gateways";
+
 </style>

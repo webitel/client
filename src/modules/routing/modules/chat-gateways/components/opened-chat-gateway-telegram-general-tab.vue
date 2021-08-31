@@ -15,7 +15,7 @@
       <wt-input
         :value="itemInstance.metadata.token"
         :v="v.itemInstance.metadata.token"
-        :label="$tc('objects.directory.users.token', 1)"
+        :label="$t('objects.routing.chatGateways.metadata.telegramToken')"
         :disabled="disableUserInput"
         @input="setItemMetadata({ prop: 'token', value: $event })"
       ></wt-input>
