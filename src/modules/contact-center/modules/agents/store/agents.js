@@ -2,9 +2,12 @@ import skills from '../modules/skills/store/agent-skills';
 import queues from '../modules/queues/store/agent-queues';
 import subordinates from '../modules/subordinates/store/agent-subordinates';
 import AgentsAPI, { getAgentHistory } from '../api/agents';
-import ObjectStoreModule from '../../../../../app/store/BaseStoreModules/StoreModules/ObjectStoreModule';
-import PermissionsStoreModule from '../../../../../app/store/BaseStoreModules/StoreModules/PermissionsStoreModule/PermissionsStoreModule';
-import HistoryStoreModule from '../../../../../app/store/BaseStoreModules/StoreModules/HistoryStoreModule/HistoryStoreModule';
+import ObjectStoreModule
+  from '../../../../../app/store/BaseStoreModules/StoreModules/ObjectStoreModule';
+import PermissionsStoreModule
+  from '../../../../../app/store/BaseStoreModules/StoreModules/PermissionsStoreModule/PermissionsStoreModule';
+import HistoryStoreModule
+  from '../../../../../app/store/BaseStoreModules/StoreModules/HistoryStoreModule/HistoryStoreModule';
 import headers from './_internals/headers';
 
 const resettableState = {
@@ -42,8 +45,8 @@ const agents = new ObjectStoreModule({ resettableState, headers })
   .attachAPIModule(AgentsAPI)
   .generateAPIActions()
   .setChildModules({
- history, skills, queues, subordinates, permissions,
-})
+    history, skills, queues, subordinates, permissions,
+  })
   .getModule({ actions });
 
 export default agents;

@@ -99,7 +99,6 @@ export default {
           itemInstance: {
             ...defaults,
             metadata: {
-              allowOrigin: {},
               readTimeout: {
                 minValue: minValue(30),
                 maxValue: maxValue(300),

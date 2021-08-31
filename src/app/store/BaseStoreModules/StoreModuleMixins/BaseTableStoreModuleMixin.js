@@ -58,16 +58,16 @@ const actions = {
     context.commit('SET_HEADERS', headers);
   },
   PATCH_ITEM_PROPERTY: async (context, {
- item, index, prop, value,
-}) => {
+    item, index, prop, value,
+  }) => {
     await context.commit('PATCH_ITEM_PROPERTY', { index, prop, value });
     const id = item?.id || context.state.dataList[index].id;
     const changes = { [prop]: value };
     try {
       await context.dispatch('PATCH_ITEM', { id, changes });
       context.commit('PATCH_ITEM_PROPERTY', {
- item, index, prop, value,
-});
+        item, index, prop, value,
+      });
     } catch {
       context.dispatch('LOAD_DATA_LIST');
     }
