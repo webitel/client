@@ -244,13 +244,13 @@ const router = new Router({
           component: OpenedChatGateways,
         },
         {
-          path: '/routing/chat-gateways/infobip-whatsapp/new',
-          name: `${RouteNames.CHAT_GATEWAYS}-infobip-whatsapp-new`,
+          path: '/routing/chat-gateways/infobip/new',
+          name: `${RouteNames.CHAT_GATEWAYS}-infobip-new`,
           component: OpenedChatGateways,
         },
         {
-          path: '/routing/chat-gateways/infobip-whatsapp/:id',
-          name: `${RouteNames.CHAT_GATEWAYS}-infobip-whatsapp-edit`,
+          path: '/routing/chat-gateways/infobip/:id',
+          name: `${RouteNames.CHAT_GATEWAYS}-infobip-edit`,
           component: OpenedChatGateways,
         },
         {

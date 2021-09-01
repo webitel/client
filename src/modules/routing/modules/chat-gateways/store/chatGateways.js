@@ -5,7 +5,7 @@ import ChatGatewaysAPI from '../api/chatGateways';
 import headers from './_internals/headers';
 import defaultChatGateway from './_internals/defaults/defaultChatGateway';
 import facebookChatGateway from './_internals/providers/facebookChatGateway';
-import infobipWhatsappChatGateway from './_internals/providers/infobipWhatsappChatGateway';
+import infobipChatGateway from './_internals/providers/infobipChatGateway';
 import telegramChatGateway from './_internals/providers/telegramChatGateway';
 import viberChatGateway from './_internals/providers/viberChatGateway';
 import webChatGateway from './_internals/providers/webChatGateway';
@@ -43,8 +43,8 @@ const mutations = {
   SET_WEBCHAT_ITEM: (state) => {
     state.itemInstance = webChatGateway();
   },
-  SET_WHATSAPP_ITEM: (state) => {
-    state.itemInstance = infobipWhatsappChatGateway();
+  SET_INFOBIP_ITEM: (state) => {
+    state.itemInstance = infobipChatGateway();
   },
   SET_VIBER_ITEM: (state) => {
     state.itemInstance = viberChatGateway();

@@ -6,8 +6,8 @@ export default (messengerType) => {
       return 'webchat';
     case MessengerType.FACEBOOK:
       return 'facebook';
-    case MessengerType.WHATSAPP:
-      return 'infobip-whatsapp';
+    case MessengerType.INFOBIP:
+      return 'infobip';
     case MessengerType.VIBER:
       return 'viber';
     case MessengerType.TELEGRAM:

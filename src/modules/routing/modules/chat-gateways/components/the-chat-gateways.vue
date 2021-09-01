@@ -123,7 +123,7 @@ import RouteNames from '../../../../../app/router/_internals/RouteNames.enum';
 
 const iconType = {
   [MessengerType.FACEBOOK]: 'facebook',
-  [MessengerType.WHATSAPP]: 'whatsapp',
+  [MessengerType.INFOBIP]: 'infobip',
   [MessengerType.VIBER]: 'viber',
   [MessengerType.WEB_CHAT]: 'web-chat',
   [MessengerType.TELEGRAM]: 'telegram',
