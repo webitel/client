@@ -430,7 +430,7 @@ export default {
         chatGateways: 'Chat gateway | Chat gateways',
         allChatGateways: 'All chat gateways',
         telegram: 'Telegram',
-        whatsapp: 'Infobip Whatsapp',
+        infobip: 'Infobip',
         facebook: 'Facebook',
         viber: 'Viber',
         webchat: 'Web chat',

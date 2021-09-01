@@ -1,8 +1,8 @@
 <template>
   <section>
     <header class="content-header">
-      <wt-icon icon-prefix="messenger" icon="whatsapp" size="sm"></wt-icon>
-      <h3 class="content-title">{{ $t('objects.routing.chatGateways.whatsapp') }}</h3>
+      <wt-icon icon-prefix="messenger" icon="infobip" size="sm"></wt-icon>
+      <h3 class="content-title">{{ $t('objects.routing.chatGateways.infobip') }}</h3>
     </header>
     <form class="object-input-grid">
       <wt-input
@@ -66,7 +66,7 @@ import { getFlowList } from '../../flow/components/flow';
 import openedTabComponentMixin from '../../../../../app/mixins/objectPagesMixins/openedObjectTabMixin/openedTabComponentMixin';
 
 export default {
-  name: 'opened-chat-gateway-infobip-whatsapp-general-tab',
+  name: 'opened-chat-gateway-infobip-general-tab',
   mixins: [openedTabComponentMixin],
   methods: {
     async loadDropdownOptionsList(search) {

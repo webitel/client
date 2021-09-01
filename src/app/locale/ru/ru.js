@@ -431,7 +431,7 @@ export default {
         chatGateways: 'Текстовый шлюз | Текстовые шлюзы',
         allChatGateways: 'Все текстовые шлюзы',
         telegram: 'Телеграм',
-        whatsapp: 'Вотсапп',
+        infobip: 'Инфобип',
         facebook: 'Фейсбук',
         viber: 'Вайбер',
         webchat: 'Веб чат',

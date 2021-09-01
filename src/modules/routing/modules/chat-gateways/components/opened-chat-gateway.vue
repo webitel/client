@@ -35,7 +35,7 @@ import openedObjectMixin
   from '../../../../../app/mixins/objectPagesMixins/openedObjectMixin/openedObjectMixin';
 import OpenedChatTelegram from './opened-chat-gateway-telegram-general-tab.vue';
 import OpenedChatFacebook from './opened-chat-gateway-facebook-general-tab.vue';
-import OpenedChatWhatsapp from './opened-chat-gateway-infobip-whatsapp-general-tab.vue';
+import OpenedChatInfobip from './opened-chat-gateway-infobip-general-tab.vue';
 import OpenedWebchat from './opened-chat-gateway-webchat-general-tab.vue';
 import OpenedViberChat from './opened-chat-gateway-viber-general-tab.vue';
 
@@ -45,7 +45,7 @@ export default {
   components: {
     OpenedChatTelegram,
     OpenedChatFacebook,
-    OpenedChatWhatsapp,
+    OpenedChatInfobip,
     OpenedWebchat,
     OpenedViberChat,
   },
@@ -83,7 +83,7 @@ export default {
             },
           },
         };
-      case 'whatsapp':
+      case 'infobip':
         return {
           itemInstance: {
             ...defaults,
@@ -136,8 +136,8 @@ export default {
       if (this.$route.path.includes('facebook')) {
         return 'facebook';
       }
-      if (this.$route.path.includes('whatsapp')) {
-        return 'whatsapp';
+      if (this.$route.path.includes('infobip')) {
+        return 'infobip';
       }
       if (this.$route.path.includes('viber')) {
         return 'viber';
@@ -157,9 +157,9 @@ export default {
         text: this.$t('objects.routing.chatGateways.facebook'),
         value: 'OpenedChatFacebook',
       };
-      const infobipWhatsappChat = {
-        text: this.$t('objects.routing.chatGateways.whatsapp'),
-        value: 'OpenedChatWhatsapp',
+      const infobipChat = {
+        text: this.$t('objects.routing.chatGateways.infobip'),
+        value: 'OpenedChatInfobip',
       };
       const viberChat = {
         text: this.$t('objects.routing.chatGateways.viber'),
@@ -174,8 +174,8 @@ export default {
           return [telegramChat];
         case 'facebook':
           return [facebookChat];
-        case 'whatsapp':
-          return [infobipWhatsappChat];
+        case 'infobip':
+          return [infobipChat];
         case 'viber':
           return [viberChat];
         case 'webchat':
