@@ -19,7 +19,8 @@ module.exports = {
     indent: 'off',
     'no-underscore-dangle': 'off',
     'no-useless-escape': 'off', // regexp escapes
-    'import/no-cycle': 'off',
+    // 'import/no-cycle': 'off',
+    'linebreak-style': 'off',
   },
   overrides: [
     {
