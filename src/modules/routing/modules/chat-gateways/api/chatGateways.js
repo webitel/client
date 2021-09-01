@@ -49,11 +49,8 @@ const itemDeleter = new APIItemDeleter(BASE_URL);
 
 itemGetter.responseHandler = (response) => {
   if (response.provider === MessengerType.WEB_CHAT) {
-    if (response.metadata.allowOrigin) {
-      response.metadata.allowOrigin = response.metadata.allowOrigin.split(',').map((origin) => ({
-        text: origin,
-      }));
-    }
+    response.metadata.allowOrigin = response.metadata.allowOrigin ? response.metadata.allowOrigin.split(',').map((origin) => ({text: origin})) : [];
+
     if (response.metadata.readTimeout) {
       response.metadata.readTimeout = parseTimeoutSeconds(response.metadata.readTimeout);
     }
@@ -62,9 +59,6 @@ itemGetter.responseHandler = (response) => {
     }
     if (response.metadata.handshakeTimeout) {
       response.metadata.handshakeTimeout = parseTimeoutSeconds(response.metadata.handshakeTimeout);
-    }
-    if (!response.metadata.allowOrigin) {
-      response.metadata.allowOrigin = [];
     }
   }
   return {
