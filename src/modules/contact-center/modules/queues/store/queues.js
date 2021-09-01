@@ -7,8 +7,10 @@ import resGroups from '../modules/res-groups/store/queue-res-groups';
 import log from '../modules/logs/store/queue-logs';
 import members from '../modules/members/store/queue-members';
 import QueuesAPI from '../api/queues';
-import ObjectStoreModule from '../../../../../app/store/BaseStoreModules/StoreModules/ObjectStoreModule';
-import PermissionsStoreModule from '../../../../../app/store/BaseStoreModules/StoreModules/PermissionsStoreModule/PermissionsStoreModule';
+import ObjectStoreModule
+  from '../../../../../app/store/BaseStoreModules/StoreModules/ObjectStoreModule';
+import PermissionsStoreModule
+  from '../../../../../app/store/BaseStoreModules/StoreModules/PermissionsStoreModule/PermissionsStoreModule';
 import QueueType from './_internals/enums/QueueType.enum';
 import defaultQueueState from './_internals/queueSchema/defaults/defaultQueue';
 import defaultInboundQueueState from './_internals/queueSchema/inboundQueue';
@@ -120,7 +122,9 @@ const permissions = new PermissionsStoreModule()
 const queues = new ObjectStoreModule({ resettableState, headers })
   .attachAPIModule(QueuesAPI)
   .generateAPIActions()
-  .setChildModules({ agents, skills, buckets, resGroups, hooks, log, members, permissions })
+  .setChildModules({
+    agents, skills, buckets, resGroups, hooks, log, members, permissions,
+  })
   .getModule({ actions, mutations });
 
 export default queues;

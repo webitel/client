@@ -1,8 +1,8 @@
 <template>
   <section>
     <header class="content-header">
-      <wt-icon icon-prefix="messenger" icon="whatsapp" size="sm"></wt-icon>
-      <h3 class="content-title">{{ $t('objects.routing.chatGateways.whatsapp') }}</h3>
+      <wt-icon icon-prefix="messenger" icon="web-chat" size="sm"></wt-icon>
+      <h3 class="content-title">{{ $t('objects.routing.chatGateways.webchat') }}</h3>
     </header>
     <form class="object-input-grid">
       <wt-input
@@ -12,13 +12,13 @@
         :disabled="disableUserInput"
         @input="setItemProp({ prop: 'name', value: $event })"
       ></wt-input>
-      <wt-input
-        :value="itemInstance.metadata.apiKey"
-        :v="v.itemInstance.metadata.apiKey"
-        :label="$t('objects.routing.chatGateways.metadata.apiKey')"
+      <wt-tags-input
+        :value="itemInstance.metadata.allowOrigin"
+        :label="$t('objects.routing.chatGateways.metadata.allowOrigin')"
+        :add-only-from-autocomplete="false"
         :disabled="disableUserInput"
-        @input="setItemMetadata({ prop: 'apiKey', value: $event })"
-      ></wt-input>
+        @input="setItemMetadata({ prop: 'allowOrigin', value: $event })"
+      ></wt-tags-input>
       <wt-input
         :value="itemInstance.uri"
         :v="v.itemInstance.uri"
@@ -27,11 +27,11 @@
         @input="setItemProp({ prop: 'uri', value: $event })"
       ></wt-input>
       <wt-input
-        :value="itemInstance.metadata.number"
-        :v="v.itemInstance.metadata.number"
-        :label="$t('objects.routing.chatGateways.metadata.number')"
+        :value="itemInstance.metadata.readTimeout"
+        :v="v.itemInstance.metadata.readTimeout"
+        :label="$t('objects.routing.chatGateways.metadata.readTimeout')"
         :disabled="disableUserInput"
-        @input="setItemMetadata({ prop: 'number', value: $event })"
+        @input="setItemMetadata({ prop: 'readTimeout', value: $event })"
       ></wt-input>
       <wt-select
         :value="itemInstance.flow"
@@ -43,19 +43,29 @@
         @input="setItemProp({ prop: 'flow', value: $event })"
       ></wt-select>
       <wt-input
-        :value="itemInstance.metadata.url"
-        :v="v.itemInstance.metadata.url"
-        :label="$t('objects.routing.chatGateways.metadata.baseUrl')"
+        :value="itemInstance.metadata.writeTimeout"
+        :v="v.itemInstance.metadata.writeTimeout"
+        :label="$t('objects.routing.chatGateways.metadata.writeTimeout')"
         :disabled="disableUserInput"
-        @input="setItemMetadata({ prop: 'url', value: $event })"
+        @input="setItemMetadata({ prop: 'writeTimeout', value: $event })"
       ></wt-input>
       <!--      Empty div in order to have correct page design--> <div></div>
       <wt-input
-        :value="itemInstance.metadata.scenarioKey"
-        :label="$t('objects.routing.chatGateways.metadata.scenarioKey')"
+        :value="itemInstance.metadata.handshakeTimeout"
+        :v="v.itemInstance.metadata.handshakeTimeout"
+        :label="$t('objects.routing.chatGateways.metadata.handshakeTimeout')"
         :disabled="disableUserInput"
-        @input="setItemMetadata({ prop: 'scenarioKey', value: $event })"
+        @input="setItemMetadata({ prop: 'handshakeTimeout', value: $event })"
       ></wt-input>
+<!--      If the input below is not commented - please add an empty <div></div> here in order to have correct page design -->
+<!--      The following input should be commented. Now the maximum message size is default, -->
+<!--      but in future it could be useful allowing admins to set max size of json file-->
+<!--      <wt-input-->
+<!--        :value="itemInstance.metadata.messageSizeMax"-->
+<!--        :label="$t('objects.routing.chatGateways.metadata.messageSize')"-->
+<!--        :disabled="disableUserInput"-->
+<!--        @input="setItemMetadata({ prop: 'messageSizeMax', value: $event })"-->
+<!--      ></wt-input>-->
     </form>
   </section>
 </template>
@@ -66,7 +76,7 @@ import { getFlowList } from '../../flow/components/flow';
 import openedTabComponentMixin from '../../../../../app/mixins/objectPagesMixins/openedObjectTabMixin/openedTabComponentMixin';
 
 export default {
-  name: 'opened-chat-gateway-infobip-whatsapp-general-tab',
+  name: 'opened-chat-webchat-general-tab',
   mixins: [openedTabComponentMixin],
   methods: {
     async loadDropdownOptionsList(search) {

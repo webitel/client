@@ -1,0 +1,12 @@
+.content-header {
+  display: flex;
+  justify-content: flex-start;
+
+  .wt-icon {
+    margin-right: var(--icon-spacing);
+  }
+}
+
+.object-input-grid .vue-tags-input {
+  max-width: 100%;
+}

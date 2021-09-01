@@ -14,8 +14,8 @@ const chatInboundQueue = () => ({
   stickyAgent: false,
   payload: {
     discardAbandonedAfter: 0,
-    timeBaseScore: TimeBaseScore.QUEUE,  // required
-    maxWaitTime: 60 * 60,  // required
+    timeBaseScore: TimeBaseScore.QUEUE, // required
+    maxWaitTime: 60 * 60, // required
     stickyAgentSec: 5,
   },
 });

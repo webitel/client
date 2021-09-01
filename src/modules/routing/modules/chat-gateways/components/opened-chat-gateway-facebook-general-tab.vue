@@ -1,8 +1,8 @@
 <template>
   <section>
     <header class="content-header">
-      <wt-icon icon-prefix="messenger" icon="whatsapp" size="sm"></wt-icon>
-      <h3 class="content-title">{{ $t('objects.routing.chatGateways.whatsapp') }}</h3>
+      <wt-icon icon-prefix="messenger" icon="facebook" size="sm"></wt-icon>
+      <h3 class="content-title">{{ $t('objects.routing.chatGateways.facebook') }}</h3>
     </header>
     <form class="object-input-grid">
       <wt-input
@@ -13,11 +13,11 @@
         @input="setItemProp({ prop: 'name', value: $event })"
       ></wt-input>
       <wt-input
-        :value="itemInstance.metadata.apiKey"
-        :v="v.itemInstance.metadata.apiKey"
-        :label="$t('objects.routing.chatGateways.metadata.apiKey')"
+        :value="itemInstance.metadata.AccessToken"
+        :v="v.itemInstance.metadata.AccessToken"
+        :label="$t('objects.routing.chatGateways.metadata.accessToken')"
         :disabled="disableUserInput"
-        @input="setItemMetadata({ prop: 'apiKey', value: $event })"
+        @input="setItemMetadata({ prop: 'AccessToken', value: $event })"
       ></wt-input>
       <wt-input
         :value="itemInstance.uri"
@@ -27,11 +27,11 @@
         @input="setItemProp({ prop: 'uri', value: $event })"
       ></wt-input>
       <wt-input
-        :value="itemInstance.metadata.number"
-        :v="v.itemInstance.metadata.number"
-        :label="$t('objects.routing.chatGateways.metadata.number')"
+        :value="itemInstance.metadata.VerifyToken"
+        :v="v.itemInstance.metadata.VerifyToken"
+        :label="$t('objects.routing.chatGateways.metadata.verifyToken')"
         :disabled="disableUserInput"
-        @input="setItemMetadata({ prop: 'number', value: $event })"
+        @input="setItemMetadata({ prop: 'VerifyToken', value: $event })"
       ></wt-input>
       <wt-select
         :value="itemInstance.flow"
@@ -45,16 +45,9 @@
       <wt-input
         :value="itemInstance.metadata.url"
         :v="v.itemInstance.metadata.url"
-        :label="$t('objects.routing.chatGateways.metadata.baseUrl')"
+        :label="$t('objects.routing.chatGateways.metadata.facebookApiUrl')"
         :disabled="disableUserInput"
         @input="setItemMetadata({ prop: 'url', value: $event })"
-      ></wt-input>
-      <!--      Empty div in order to have correct page design--> <div></div>
-      <wt-input
-        :value="itemInstance.metadata.scenarioKey"
-        :label="$t('objects.routing.chatGateways.metadata.scenarioKey')"
-        :disabled="disableUserInput"
-        @input="setItemMetadata({ prop: 'scenarioKey', value: $event })"
       ></wt-input>
     </form>
   </section>
@@ -66,7 +59,7 @@ import { getFlowList } from '../../flow/components/flow';
 import openedTabComponentMixin from '../../../../../app/mixins/objectPagesMixins/openedObjectTabMixin/openedTabComponentMixin';
 
 export default {
-  name: 'opened-chat-gateway-infobip-whatsapp-general-tab',
+  name: 'opened-chat-gateway-facebook-general-tab',
   mixins: [openedTabComponentMixin],
   methods: {
     async loadDropdownOptionsList(search) {

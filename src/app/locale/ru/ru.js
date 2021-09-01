@@ -425,7 +425,6 @@ export default {
         SIPregistrationsDescription: 'Описание SIP-регистрации',
         SIPtrunking: 'SIP-транки',
         SIPtrunkingDescription: 'Описание SIP-транков',
-
       },
 
       chatGateways: {
@@ -444,8 +443,8 @@ export default {
           number: 'Number',
           baseUrl: 'Base URL',
           scenarioKey: 'Scenario Key',
-          accessToken: 'Access Token',
-          verifyToken: 'Verify Token',
+          accessToken: 'Facebook Page Access Token',
+          verifyToken: 'App Webhook Verify Token',
           sendApi: 'Send API',
           allowOrigin: 'Allow Origin',
           readTimeout: 'Read Timeout (sec)',
@@ -454,6 +453,8 @@ export default {
           messageSize: 'Message Size max (bytes)',
           botName: 'Bot Name',
           eventTypes: 'Event Types',
+          telegramToken: 'Telegram BOT API Token',
+          facebookApiUrl: 'Facebook API URL',
         },
       },
 

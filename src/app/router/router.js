@@ -32,8 +32,8 @@ const AgentPauseCause = () => import('../../modules/lookups/modules/agent-pause-
 const OpenedAgentPauseCause = () => import('../../modules/lookups/modules/agent-pause-cause/components/opened-agent-pause-cause');
 const SipGateways = () => import('../../modules/routing/modules/gateways/components/the-sip-gateways');
 const OpenedGateway = () => import('../../modules/routing/modules/gateways/components/opened-sip-gateway');
-// const ChatGateways = () => import('../../modules/routing/modules/chat-gateways/components/the-chat-gateways');
-// const OpenedChatGateways = () => import('../../modules/routing/modules/chat-gateways/components/opened-chat-gateway');
+const ChatGateways = () => import('../../modules/routing/modules/chat-gateways/components/the-chat-gateways');
+const OpenedChatGateways = () => import('../../modules/routing/modules/chat-gateways/components/opened-chat-gateway');
 const Flow = () => import('../../modules/routing/modules/flow/components/the-flow');
 const OpenedFlow = () => import('../../modules/routing/modules/flow/components/opened-flow');
 const Dialplan = () => import('../../modules/routing/modules/dialplan/components/the-dialplan');
@@ -208,61 +208,61 @@ const router = new Router({
           name: `${RouteNames.GATEWAYS}-trunk-edit`,
           component: OpenedGateway,
         },
-        // {
-        //   path: '/routing/chat-gateways',
-        //   name: RouteNames.CHAT_GATEWAYS,
-        //   component: ChatGateways,
-        // },
-        // {
-        //   path: '/routing/chat-gateways/telegram/new',
-        //   name: `${RouteNames.CHAT_GATEWAYS}-telegram-new`,
-        //   component: OpenedChatGateways,
-        // },
-        // {
-        //   path: '/routing/chat-gateways/telegram/:id',
-        //   name: `${RouteNames.CHAT_GATEWAYS}-telegram-edit`,
-        //   component: OpenedChatGateways,
-        // },
-        // {
-        //   path: '/routing/chat-gateways/facebook/new',
-        //   name: `${RouteNames.CHAT_GATEWAYS}-facebook-new`,
-        //   component: OpenedChatGateways,
-        // },
-        // {
-        //   path: '/routing/chat-gateways/facebook/:id',
-        //   name: `${RouteNames.CHAT_GATEWAYS}-facebook-edit`,
-        //   component: OpenedChatGateways,
-        // },
-        // {
-        //   path: '/routing/chat-gateways/webchat/new',
-        //   name: `${RouteNames.CHAT_GATEWAYS}-webchat-new`,
-        //   component: OpenedChatGateways,
-        // },
-        // {
-        //   path: '/routing/chat-gateways/webchat/:id',
-        //   name: `${RouteNames.CHAT_GATEWAYS}-webchat-edit`,
-        //   component: OpenedChatGateways,
-        // },
-        // {
-        //   path: '/routing/chat-gateways/infobip-whatsapp/new',
-        //   name: `${RouteNames.CHAT_GATEWAYS}-infobip-whatsapp-new`,
-        //   component: OpenedChatGateways,
-        // },
-        // {
-        //   path: '/routing/chat-gateways/infobip-whatsapp/:id',
-        //   name: `${RouteNames.CHAT_GATEWAYS}-infobip-whatsapp-edit`,
-        //   component: OpenedChatGateways,
-        // },
-        // {
-        //   path: '/routing/chat-gateways/viber/new',
-        //   name: `${RouteNames.CHAT_GATEWAYS}-viber-new`,
-        //   component: OpenedChatGateways,
-        // },
-        // {
-        //   path: '/routing/chat-gateways/viber/:id',
-        //   name: `${RouteNames.CHAT_GATEWAYS}-viber-edit`,
-        //   component: OpenedChatGateways,
-        // },
+        {
+          path: '/routing/chat-gateways',
+          name: RouteNames.CHAT_GATEWAYS,
+          component: ChatGateways,
+        },
+        {
+          path: '/routing/chat-gateways/telegram/new',
+          name: `${RouteNames.CHAT_GATEWAYS}-telegram-new`,
+          component: OpenedChatGateways,
+        },
+        {
+          path: '/routing/chat-gateways/telegram/:id',
+          name: `${RouteNames.CHAT_GATEWAYS}-telegram-edit`,
+          component: OpenedChatGateways,
+        },
+        {
+          path: '/routing/chat-gateways/facebook/new',
+          name: `${RouteNames.CHAT_GATEWAYS}-facebook-new`,
+          component: OpenedChatGateways,
+        },
+        {
+          path: '/routing/chat-gateways/facebook/:id',
+          name: `${RouteNames.CHAT_GATEWAYS}-facebook-edit`,
+          component: OpenedChatGateways,
+        },
+        {
+          path: '/routing/chat-gateways/webchat/new',
+          name: `${RouteNames.CHAT_GATEWAYS}-webchat-new`,
+          component: OpenedChatGateways,
+        },
+        {
+          path: '/routing/chat-gateways/webchat/:id',
+          name: `${RouteNames.CHAT_GATEWAYS}-webchat-edit`,
+          component: OpenedChatGateways,
+        },
+        {
+          path: '/routing/chat-gateways/infobip-whatsapp/new',
+          name: `${RouteNames.CHAT_GATEWAYS}-infobip-whatsapp-new`,
+          component: OpenedChatGateways,
+        },
+        {
+          path: '/routing/chat-gateways/infobip-whatsapp/:id',
+          name: `${RouteNames.CHAT_GATEWAYS}-infobip-whatsapp-edit`,
+          component: OpenedChatGateways,
+        },
+        {
+          path: '/routing/chat-gateways/viber/new',
+          name: `${RouteNames.CHAT_GATEWAYS}-viber-new`,
+          component: OpenedChatGateways,
+        },
+        {
+          path: '/routing/chat-gateways/viber/:id',
+          name: `${RouteNames.CHAT_GATEWAYS}-viber-edit`,
+          component: OpenedChatGateways,
+        },
         // ----------ROUTING END------------
 
 
@@ -524,16 +524,16 @@ const router = new Router({
           name: `${RouteNames.QUEUES}-predictive-dialer-edit`,
           component: OpenedQueue,
         },
-        // {
-        //   path: '/contact-center/queues/chat-inbound-queue/new',
-        //   name: `${RouteNames.QUEUES}-chat-inbound-queue-new`,
-        //   component: OpenedQueue,
-        // },
-        // {
-        //   path: '/contact-center/queues/chat-inbound-queue/:id',
-        //   name: `${RouteNames.QUEUES}-chat-inbound-queue-edit`,
-        //   component: OpenedQueue,
-        // },
+        {
+          path: '/contact-center/queues/chat-inbound-queue/new',
+          name: `${RouteNames.QUEUES}-chat-inbound-queue-new`,
+          component: OpenedQueue,
+        },
+        {
+          path: '/contact-center/queues/chat-inbound-queue/:id',
+          name: `${RouteNames.QUEUES}-chat-inbound-queue-edit`,
+          component: OpenedQueue,
+        },
         {
           path: '/contact-center/queues/task-queue/new',
           name: `${RouteNames.QUEUES}-task-queue-new`,
