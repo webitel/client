@@ -2,7 +2,14 @@ import axios from 'axios';
 import eventBus from '@webitel/ui-sdk/src/scripts/eventBus';
 import { objCamelToSnake, objSnakeToCamel } from '@webitel/ui-sdk/src/scripts/caseConverters';
 
-const DO_NOT_CONVERT_KEYS = ['schema', 'variables', 'patterns', 'errorIds'];
+const DO_NOT_CONVERT_KEYS = [
+  'schema',
+  'variables',
+  'patterns',
+  'errorIds',
+  'AccessToken', // for facebook chatGateway backend
+  'VerifyToken', // for facebook chatGateway backend
+];
 
 // global API configuration
 // 'X-Webitel-Access' ~ 'X-Access-Token'
