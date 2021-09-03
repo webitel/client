@@ -4,6 +4,7 @@ import { objCamelToSnake, objSnakeToCamel } from '@webitel/ui-sdk/src/scripts/ca
 
 const DO_NOT_CONVERT_KEYS = [
   'schema',
+  'profile',
   'variables',
   'patterns',
   'errorIds',

@@ -23,7 +23,7 @@
         :value="itemInstance.uri"
         :v="v.itemInstance.uri"
         :label="$t('objects.routing.chatGateways.uri')"
-        :disabled="isEditTab"
+        :disabled="!isUriEditable"
         @input="setItemProp({ prop: 'uri', value: $event })"
       ></wt-input>
       <wt-input
@@ -69,8 +69,8 @@ export default {
   name: 'opened-chat-gateway-infobip-general-tab',
   mixins: [openedTabComponentMixin],
   computed: {
-    isEditTab() {
-      return !this.$route.path.includes('/new');
+    isUriEditable() {
+      return !this.disableUserInput && this.$route.path.includes('/new');
     },
   },
   methods: {
