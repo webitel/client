@@ -30,7 +30,6 @@ const actions = {
     context.commit('SET_ITEM_METADATA', payload);
     context.commit('SET_ITEM_PROPERTY', { prop: '_dirty', value: true });
   },
-
 };
 
 const mutations = {

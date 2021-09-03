@@ -23,7 +23,7 @@
         :value="itemInstance.uri"
         :v="v.itemInstance.uri"
         :label="$t('objects.routing.chatGateways.uri')"
-        :disabled="disableUserInput"
+        :disabled="isEditTab"
         @input="setItemProp({ prop: 'uri', value: $event })"
       ></wt-input>
       <wt-input
@@ -39,7 +39,7 @@
         :search="loadDropdownOptionsList"
         :internal-search="false"
         :disabled="disableUserInput"
-        @input="setItemProp({ prop: 'flow', value: $event })"
+        @input="setFlow"
       ></wt-select>
       <wt-input
         :value="itemInstance.metadata.eventTypes"
@@ -59,7 +59,25 @@ import openedTabComponentMixin from '../../../../../app/mixins/objectPagesMixins
 export default {
   name: 'opened-chat-viber-general-tab',
   mixins: [openedTabComponentMixin],
+  computed: {
+    isEditTab() {
+      return !this.$route.path.includes('/new');
+    },
+  },
   methods: {
+    ...mapActions({
+      setItemMetadata(dispatch, payload) {
+        return dispatch(`${this.namespace}/SET_ITEM_METADATA`, payload);
+      },
+    }),
+
+    setFlow(value) {
+      if (!this.itemInstance.name) {
+        this.setItemProp({ prop: 'name', value: value.name });
+      };
+      this.setItemProp({ prop: 'flow', value: value});
+    },
+
     async loadDropdownOptionsList(search) {
       const response = await getFlowList({ search });
       return response.list.map((item) => ({
@@ -67,11 +85,6 @@ export default {
         id: item.id,
       }));
     },
-    ...mapActions({
-      setItemMetadata(dispatch, payload) {
-        return dispatch(`${this.namespace}/SET_ITEM_METADATA`, payload);
-      },
-    }),
   },
 };
 </script>
