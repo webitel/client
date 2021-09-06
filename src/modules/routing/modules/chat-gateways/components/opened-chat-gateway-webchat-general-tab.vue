@@ -12,13 +12,14 @@
         :disabled="disableUserInput"
         @input="setItemProp({ prop: 'name', value: $event })"
       ></wt-input>
+      <div class="pes">
       <wt-tags-input
         :value="itemInstance.metadata.allowOrigin"
         :label="$t('objects.routing.chatGateways.metadata.allowOrigin')"
         :add-only-from-autocomplete="false"
         :disabled="disableUserInput"
         @input="setItemMetadata({ prop: 'allowOrigin', value: $event })"
-      ></wt-tags-input>
+      ></wt-tags-input></div>
       <wt-input
         :value="itemInstance.uri"
         :v="v.itemInstance.uri"
@@ -97,4 +98,5 @@ export default {
 
 <style lang="scss" scoped>
 @import "../css/chat-gateways";
+
 </style>

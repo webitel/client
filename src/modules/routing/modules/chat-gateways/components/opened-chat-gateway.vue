@@ -36,6 +36,7 @@ import openedObjectMixin
 import OpenedChatTelegram from './opened-chat-gateway-telegram-general-tab.vue';
 import OpenedChatFacebook from './opened-chat-gateway-facebook-general-tab.vue';
 import OpenedChatInfobip from './opened-chat-gateway-infobip-general-tab.vue';
+import OpenedViewWebchat from './opened-chat-gateway-webchat-view-tab';
 import OpenedWebchat from './opened-chat-gateway-webchat-general-tab.vue';
 import OpenedViberChat from './opened-chat-gateway-viber-general-tab.vue';
 
@@ -48,6 +49,7 @@ export default {
     OpenedChatInfobip,
     OpenedWebchat,
     OpenedViberChat,
+    OpenedViewWebchat,
   },
 
   data: () => ({
@@ -111,6 +113,9 @@ export default {
                 minValue: minValue(10),
                 maxValue: maxValue(60),
               },
+              view: {
+                btnOpacity: { minValue: minValue(0), maxValue: maxValue(100) },
+              },
             },
           },
         };
@@ -169,6 +174,10 @@ export default {
         text: this.$t('objects.routing.chatGateways.webchat'),
         value: 'OpenedWebchat',
       };
+      const webchatView = {
+        text: this.$t('objects.routing.chatGateways.metadata.view'),
+        value: 'OpenedViewWebchat',
+      };
       switch (this.chatType) {
         case 'telegram':
           return [telegramChat];
@@ -179,7 +188,7 @@ export default {
         case 'viber':
           return [viberChat];
         case 'webchat':
-          return [webChat];
+          return [webChat, webchatView];
         default:
           return [];
       }
