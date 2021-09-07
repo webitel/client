@@ -10,16 +10,15 @@
         :v="v.itemInstance.name"
         :label="$t('objects.name')"
         :disabled="disableUserInput"
-        @input="setItemProp({ prop: 'name', value: $event })"
+        @input="setItemProp({ prop: 'name', value: $event})"
       ></wt-input>
-      <div class="pes">
       <wt-tags-input
         :value="itemInstance.metadata.allowOrigin"
         :label="$t('objects.routing.chatGateways.metadata.allowOrigin')"
         :add-only-from-autocomplete="false"
         :disabled="disableUserInput"
         @input="setItemMetadata({ prop: 'allowOrigin', value: $event })"
-      ></wt-tags-input></div>
+      ></wt-tags-input>
       <wt-input
         :value="itemInstance.uri"
         :v="v.itemInstance.uri"

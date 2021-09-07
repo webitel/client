@@ -10,12 +10,13 @@ const webChatGateway = () => ({
     writeTimeout: '1',
     handshakeTimeout: '10',
     view: {
-      baseUrl: '',
+      wsUrl: '',
       borderRadiusStyle: '',
       lang: '',
       btnOpacity: '',
       logoUrl: '',
       accentColor: '',
+      position: '',
     },
   },
 });
