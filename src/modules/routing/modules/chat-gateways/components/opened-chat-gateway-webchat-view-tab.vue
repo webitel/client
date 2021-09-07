@@ -152,62 +152,7 @@ export default {
       },
     }),
 
-    getConfig(userConfig) {
-      return Object.keys(defaultConfig).reduce((config, key) => ({
-        ...config,
-        [key]: userConfig[key] || defaultConfig[key],
-      }), {});
-    },
-
-    normalizeConfig(_userConfig) {
-      const userConfig = deepCopy(_userConfig);
-      const btnOpacity = userConfig.btnOpacity > 1 ? userConfig.btnOpacity / 100 : userConfig.btnOpacity;
-      return {
-        ...userConfig,
-        btnOpacity,
-      };
-    },
-
-    generateCode({
-                   btnOpacity, accentColor, borderRadiusStyle, lang, logoUrl, position,
-                 }) {
-      return `
-      const script = document.createElement('script');
-      script.src = 'https://cloud.webitel.ua/omni-widget/WtOmniWidget.umd.js';
-      script.onload = function () {
-        const body = document.querySelector('body');
-        const widgetEl = document.createElement('div');
-        widgetEl.setAttribute('id', 'wt-omnichannel-widget');
-        body.appendChild(widgetEl);
-
-        const config = {
-            wsUrl: "${BASE_URL}/chat${this.itemInstance.uri}",
-            borderRadiusStyle: "${borderRadiusStyle}",
-            accentColor: "${accentColor}",
-            btnOpacity: "${btnOpacity}",
-            lang: "${lang}",
-            logoUrl: "${logoUrl}",
-            position: "${position}",
-         };
-
-        const app = new WtOmniWidget('#wt-omnichannel-widget', config);
-      };
-      document.head.appendChild(script);
-
-      const link = document.createElement('link');
-      link.href = 'https://cloud.webitel.ua/omni-widget/WtOmniWidget.css';
-      link.type = 'text/css';
-      link.rel = 'stylesheet';
-      link.media = 'screen,print';
-      document.head.appendChild(link);
-`;
-    },
-
-    copyCode() {
-      const userConfig = this.normalizeConfig(this.itemInstance.metadata.view);
-      const config = this.getConfig(userConfig);
-      const code = this.generateCode(config);
-      clipboardCopy(code);
+      clipboardCopy(configScript);
       this.isCopied = true;
       setTimeout(() => {
         this.isCopied = false;
