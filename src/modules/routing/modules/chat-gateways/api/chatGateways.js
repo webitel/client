@@ -34,6 +34,9 @@ const preRequestHandler = (item) => {
   if (item.metadata.allowOrigin) {
     item.metadata.allowOrigin = item.metadata.allowOrigin.map((obj) => obj.text).join();
   }
+  if (item.metadata.view) {
+    item.metadata.view = '';
+  }
   return item;
 };
 
@@ -61,6 +64,9 @@ itemGetter.responseHandler = (response) => {
     }
     if (response.metadata.handshakeTimeout) {
       response.metadata.handshakeTimeout = parseTimeoutSeconds(response.metadata.handshakeTimeout);
+    }
+    if (!response.metadata.view) {
+      response.metadata.view = {};
     }
   }
   return {
