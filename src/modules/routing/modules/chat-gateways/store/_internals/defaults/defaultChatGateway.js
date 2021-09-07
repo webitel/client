@@ -1,6 +1,8 @@
+import generateUri from '../scripts/generateUri';
+
 const defaultChatGateway = () => ({
   name: '',
-  uri: '',
+  uri: generateUri(),
   flow: {},
   enabled: false,
   provider: '',
