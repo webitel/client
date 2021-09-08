@@ -466,8 +466,8 @@ export default {
           lightness: 'Яркость',
           rounded: 'Круглая',
           square: 'Квадратная',
-          right: 'Правая',
-          left: 'Левая',
+          right: 'Справа',
+          left: 'Слева',
         },
       },
 

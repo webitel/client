@@ -10,7 +10,7 @@
         :v="v.itemInstance.name"
         :label="$t('objects.name')"
         :disabled="disableUserInput"
-        @input="setItemProp({ prop: 'name', value: $event})"
+        @input="setItemProp({ prop: 'name', value: $event })"
       ></wt-input>
       <wt-tags-input
         :value="itemInstance.metadata.allowOrigin"
@@ -49,7 +49,8 @@
         :disabled="disableUserInput"
         @input="setItemMetadata({ prop: 'writeTimeout', value: $event })"
       ></wt-input>
-      <!--      Empty div in order to have correct page design--> <div></div>
+      <!--      Empty div in order to have correct page design-->
+      <div></div>
       <wt-input
         :value="itemInstance.metadata.handshakeTimeout"
         :v="v.itemInstance.metadata.handshakeTimeout"
@@ -57,15 +58,15 @@
         :disabled="disableUserInput"
         @input="setItemMetadata({ prop: 'handshakeTimeout', value: $event })"
       ></wt-input>
-<!--      If the input below is not commented - please add an empty <div></div> here in order to have correct page design -->
-<!--      The following input should be commented. Now the maximum message size is default, -->
-<!--      but in future it could be useful allowing admins to set max size of json file-->
-<!--      <wt-input-->
-<!--        :value="itemInstance.metadata.messageSizeMax"-->
-<!--        :label="$t('objects.routing.chatGateways.metadata.messageSize')"-->
-<!--        :disabled="disableUserInput"-->
-<!--        @input="setItemMetadata({ prop: 'messageSizeMax', value: $event })"-->
-<!--      ></wt-input>-->
+      <!--      If the input below is not commented - please add an empty <div></div> here in order to have correct page design -->
+      <!--      The following input should be commented. Now the maximum message size is default, -->
+      <!--      but in future it could be useful allowing admins to set max size of json file-->
+      <!--      <wt-input-->
+      <!--        :value="itemInstance.metadata.messageSizeMax"-->
+      <!--        :label="$t('objects.routing.chatGateways.metadata.messageSize')"-->
+      <!--        :disabled="disableUserInput"-->
+      <!--        @input="setItemMetadata({ prop: 'messageSizeMax', value: $event })"-->
+      <!--      ></wt-input>-->
     </form>
   </section>
 </template>
@@ -73,7 +74,8 @@
 <script>
 import { mapActions } from 'vuex';
 import { getFlowList } from '../../flow/components/flow';
-import openedTabComponentMixin from '../../../../../app/mixins/objectPagesMixins/openedObjectTabMixin/openedTabComponentMixin';
+import openedTabComponentMixin
+  from '../../../../../app/mixins/objectPagesMixins/openedObjectTabMixin/openedTabComponentMixin';
 
 export default {
   name: 'opened-chat-webchat-general-tab',
@@ -93,8 +95,9 @@ export default {
     setFlow(value) {
       if (!this.itemInstance.name) {
         this.setItemProp({ prop: 'name', value: value.name });
-      };
-      this.setItemProp({ prop: 'flow', value: value});
+      }
+      ;
+      this.setItemProp({ prop: 'flow', value: value });
     },
 
     async loadDropdownOptionsList(search) {

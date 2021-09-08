@@ -5,5 +5,5 @@ export default () => {
   for (let i = 0; i < length; i += 1) {
     value += charset.charAt(Math.floor(Math.random() * charset.length));
   }
-  this.input(value);
+  return value;
 };

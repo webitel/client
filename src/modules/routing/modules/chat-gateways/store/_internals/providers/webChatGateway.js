@@ -17,6 +17,9 @@ const webChatGateway = () => ({
       logoUrl: '',
       accentColor: '',
       position: '',
+      hue: '',
+      saturation: '',
+      lightness: '',
     },
   },
 });

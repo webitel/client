@@ -465,8 +465,8 @@ export default {
           lightness: 'Яскравість',
           rounded: 'Кругла',
           square: 'Квадратна',
-          right: 'Права',
-          left: 'Ліва',
+          right: 'Справа',
+          left: 'Зліва',
         },
       },
 

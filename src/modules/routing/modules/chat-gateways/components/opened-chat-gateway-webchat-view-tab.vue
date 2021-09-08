@@ -9,7 +9,7 @@
         v-model="selectedLanguage"
         :options="languages"
         :label="$t('objects.routing.chatGateways.metadata.language')"
-        @input="setWebchatViewProperty({prop: 'lang', value: $event.value})"
+        @input="setWebchatViewProperty({prop: 'lang', value: $event.value })"
       ></wt-select>
       <wt-select
         v-model="selectedPosition"
@@ -23,24 +23,29 @@
         :options="borderRadiusOptions"
         :label="$t('objects.routing.chatGateways.metadata.borderRadius')"
         :allow-empty="true"
-        @input="setWebchatViewProperty({prop: 'borderRadiusStyle', value: $event.value})"
+        @input="setWebchatViewProperty({prop: 'borderRadiusStyle', value: $event.value })"
       ></wt-select>
 
       <section>
         <div class="colorpicker-section">
           <wt-input
-            v-model="hsl.hue"
+            :value="itemInstance.metadata.view.hue"
             :label="$t('objects.routing.chatGateways.metadata.hue')"
+            :disabled="disableUserInput"
+            @input="setWebchatViewProperty({prop: 'hue',value: $event })"
           ></wt-input>
           <wt-input
-            v-model="hsl.saturation"
+            :value="itemInstance.metadata.view.saturation"
             :label="$t('objects.routing.chatGateways.metadata.saturation')"
+            :disabled="disableUserInput"
+            @input="setWebchatViewProperty({prop: 'saturation',value: $event })"
           ></wt-input>
           <wt-input
-            v-model="hsl.lightness"
+            :value="itemInstance.metadata.view.lightness"
             :label="$t('objects.routing.chatGateways.metadata.lightness')"
+            @input="setWebchatViewProperty({prop: 'lightness',value: $event })"
           ></wt-input>
-          <div class="color-template" :style="getHsl"></div>
+          <div class="color-template" :style="{backgroundColor: hslColor}"></div>
         </div>
       </section>
 
@@ -49,7 +54,7 @@
         :v="v.itemInstance.metadata.view.btnOpacity"
         :label="$t('objects.routing.chatGateways.metadata.btnOpacity')"
         :disabled="disableUserInput"
-        @input="setWebchatViewProperty({prop: 'btnOpacity',value: $event})"
+        @input="setWebchatViewProperty({prop: 'btnOpacity',value: $event })"
       ></wt-input>
 
       <wt-input
@@ -70,7 +75,6 @@
 <script>
 import clipboardCopy from 'clipboard-copy';
 import deepCopy from 'deep-copy';
-import deepMerge from 'deepmerge';
 import { mapActions } from 'vuex';
 import openedTabComponentMixin
   from '../../../../../app/mixins/objectPagesMixins/openedObjectTabMixin/openedTabComponentMixin';
@@ -100,45 +104,35 @@ export default {
       { name: 'Russian', value: 'ru' },
       { name: 'Ukrainian', value: 'ua' },
     ],
-    hsl: {
-      hue: '',
-      saturation: '',
-      lightness: '',
-    },
   }),
 
   computed: {
     borderRadiusOptions() {
-      return [
-        {
-          name: this.$t('objects.routing.chatGateways.metadata.square'),
-          value: 'square',
-        },
-        {
-          name: this.$t('objects.routing.chatGateways.metadata.rounded'),
-          value: 'rounded',
-        }];
+      return [{
+        name: this.$t('objects.routing.chatGateways.metadata.square'),
+        value: 'square',
+      }, {
+        name: this.$t('objects.routing.chatGateways.metadata.rounded'),
+        value: 'rounded',
+      }];
     },
     positionOptions() {
-      return [
-        {
-          name: this.$t('objects.routing.chatGateways.metadata.right'),
-          value: 'right',
-        }, {
-          name: this.$t('objects.routing.chatGateways.metadata.left'),
-          value: 'left',
-        },
-      ];
+      return [{
+        name: this.$t('objects.routing.chatGateways.metadata.right'),
+        value: 'right',
+      }, {
+        name: this.$t('objects.routing.chatGateways.metadata.left'),
+        value: 'left',
+      }];
     },
     buttonLabel() {
       return this.isCopied ? this.$t('objects.copied') : this.$t('objects.copy');
     },
-    getHsl() {
-      const color = `hsl(${this.hsl.hue}, ${this.hsl.saturation}%, ${this.hsl.lightness}%)`;
-      if (this.hsl.hue && this.hsl.saturation && this.hsl.lightness) {
-        this.setWebchatViewProperty({ prop: 'accentColor', value: color });
-      }
-      return { backgroundColor: color };
+    hslColor() {
+      const view = this.itemInstance.metadata.view;
+      return view.hue && view.saturation && view.lightness
+        ? `hsl(${view.hue}, ${view.saturation}%, ${view.lightness}%`
+        : '';
     },
   },
 
@@ -152,11 +146,70 @@ export default {
       },
     }),
 
-      clipboardCopy(configScript);
+    getConfig(userConfig) {
+      return Object.keys(defaultConfig).reduce((config, key) => ({
+        ...config,
+        [key]: userConfig[key] || defaultConfig[key],
+      }), {});
+    },
+
+    normalizeConfig(_userConfig) {
+      const userConfig = deepCopy(_userConfig);
+      const btnOpacity = userConfig.btnOpacity > 1 ? userConfig.btnOpacity / 100 : userConfig.btnOpacity;
+      const accentColor = this.hslColor;
+      return {
+        ...userConfig,
+        btnOpacity,
+        accentColor,
+      };
+    },
+
+    generateCode({ btnOpacity, accentColor, borderRadiusStyle, lang, logoUrl, position }) {
+      return `
+      const script = document.createElement('script');
+      script.src = 'https://cloud.webitel.ua/omni-widget/WtOmniWidget.umd.js';
+      script.onload = function () {
+        const body = document.querySelector('body');
+        const widgetEl = document.createElement('div');
+        widgetEl.setAttribute('id', 'wt-omnichannel-widget');
+        body.appendChild(widgetEl);
+
+        const config = {
+            wsUrl: "${BASE_URL}/chat${this.itemInstance.uri}",
+            borderRadiusStyle: "${borderRadiusStyle}",
+            accentColor: "${accentColor}",
+            btnOpacity: "${btnOpacity}",
+            lang: "${lang}",
+            logoUrl: "${logoUrl}",
+            position: "${position}",
+         };
+
+        const app = new WtOmniWidget('#wt-omnichannel-widget', config);
+      };
+      document.head.appendChild(script);
+
+      const link = document.createElement('link');
+      link.href = 'https://cloud.webitel.ua/omni-widget/WtOmniWidget.css';
+      link.type = 'text/css';
+      link.rel = 'stylesheet';
+      link.media = 'screen,print';
+      document.head.appendChild(link);
+    `;
+    },
+    copyCode() {
+      const userConfig = this.normalizeConfig(this.itemInstance.metadata.view);
+      const config = this.getConfig(userConfig);
+      const code = this.generateCode(config);
+      clipboardCopy(code);
       this.isCopied = true;
       setTimeout(() => {
         this.isCopied = false;
       }, 1500);
+    },
+  },
+  watch: {
+    hslColor(value) {
+      this.setWebchatViewProperty({ prop: 'accentColor', value: value });
     },
   },
 };
