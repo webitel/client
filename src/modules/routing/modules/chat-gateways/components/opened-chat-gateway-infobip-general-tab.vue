@@ -83,8 +83,8 @@ export default {
     setFlow(value) {
       if (!this.itemInstance.name) {
         this.setItemProp({ prop: 'name', value: value.name });
-      };
-      this.setItemProp({ prop: 'flow', value: value});
+      }
+      this.setItemProp({ prop: 'flow', value });
     },
 
     async loadDropdownOptionsList(search) {
