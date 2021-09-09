@@ -23,7 +23,7 @@
         :options="borderRadiusOptions"
         :label="$t('objects.routing.chatGateways.metadata.borderRadius')"
         :allow-empty="true"
-        @input="setWebchatViewProperty({prop: 'borderRadiusStyle', value: $event.value })"
+        @input="setWebchatViewProperty({ prop: 'borderRadiusStyle', value: $event.value })"
       ></wt-select>
 
       <section>
@@ -32,20 +32,20 @@
             :value="itemInstance.metadata.view.hue"
             :label="$t('objects.routing.chatGateways.metadata.hue')"
             :disabled="disableUserInput"
-            @input="setWebchatViewProperty({prop: 'hue',value: $event })"
+            @input="setWebchatViewProperty({ prop: 'hue',value: $event })"
           ></wt-input>
           <wt-input
             :value="itemInstance.metadata.view.saturation"
             :label="$t('objects.routing.chatGateways.metadata.saturation')"
             :disabled="disableUserInput"
-            @input="setWebchatViewProperty({prop: 'saturation',value: $event })"
+            @input="setWebchatViewProperty({ prop: 'saturation',value: $event })"
           ></wt-input>
           <wt-input
             :value="itemInstance.metadata.view.lightness"
             :label="$t('objects.routing.chatGateways.metadata.lightness')"
-            @input="setWebchatViewProperty({prop: 'lightness',value: $event })"
+            @input="setWebchatViewProperty({ prop: 'lightness',value: $event })"
           ></wt-input>
-          <div class="color-template" :style="{backgroundColor: hslColor}"></div>
+          <div class="color-template" :style="{ backgroundColor: hslColor }"></div>
         </div>
       </section>
 
@@ -89,6 +89,46 @@ const defaultConfig = {
   btnOpacity: 1,
   logoUrl: '',
   position: 'right',
+};
+
+const getConfig = (userConfig) => {
+  return Object.keys(defaultConfig).reduce((config, key) => ({
+    ...config,
+    [key]: userConfig[key] || defaultConfig[key],
+  }), {});
+};
+
+const generateCode = ({ btnOpacity, accentColor, borderRadiusStyle, lang, logoUrl, position, uri }) => {
+  return `
+      const script = document.createElement('script');
+      script.src = '${BASE_URL}/omni-widget/WtOmniWidget.umd.js';
+      script.onload = function () {
+        const body = document.querySelector('body');
+        const widgetEl = document.createElement('div');
+        widgetEl.setAttribute('id', 'wt-omnichannel-widget');
+        body.appendChild(widgetEl);
+
+        const config = {
+            wsUrl: "${BASE_URL}/chat${uri}",
+            borderRadiusStyle: "${borderRadiusStyle}",
+            accentColor: "${accentColor}",
+            btnOpacity: "${btnOpacity}",
+            lang: "${lang}",
+            logoUrl: "${logoUrl}",
+            position: "${position}",
+         };
+
+        const app = new WtOmniWidget('#wt-omnichannel-widget', config);
+      };
+      document.head.appendChild(script);
+
+      const link = document.createElement('link');
+      link.href = '${BASE_URL}/omni-widget/WtOmniWidget.css';
+      link.type = 'text/css';
+      link.rel = 'stylesheet';
+      link.media = 'screen,print';
+      document.head.appendChild(link);
+    `;
 };
 
 export default {
@@ -136,6 +176,12 @@ export default {
     },
   },
 
+  watch: {
+    hslColor(value) {
+      this.setWebchatViewProperty({ prop: 'accentColor', value: value });
+    },
+  },
+
   methods: {
     ...mapActions({
       setItemMetadata(dispatch, payload) {
@@ -155,12 +201,10 @@ export default {
 
     normalizeConfig(_userConfig) {
       const userConfig = deepCopy(_userConfig);
-      const btnOpacity = userConfig.btnOpacity > 1 ? userConfig.btnOpacity / 100 : userConfig.btnOpacity;
-      const accentColor = this.hslColor;
+      userConfig.btnOpacity = userConfig.btnOpacity > 1 ? userConfig.btnOpacity / 100 : userConfig.btnOpacity;
+      userConfig.accentColor = this.hslColor;
       return {
         ...userConfig,
-        btnOpacity,
-        accentColor,
       };
     },
 
