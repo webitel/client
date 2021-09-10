@@ -12,7 +12,7 @@
         :disabled="disableUserInput"
         :clearable="false"
         track-by="name"
-        @input="setWebchatViewProperty({prop: 'lang', value: $event.value})"
+        @input="setWebchatViewProperty({ prop: 'lang', value: $event.value })"
       ></wt-select>
       <wt-select
         v-model="selectedPosition"
@@ -41,9 +41,9 @@
       <section>
         <div class="colorpicker-section">
           <div class="slider-wrapper">
-            <wt-label>Button color</wt-label>
+            <wt-label>{{ colorPickerTitle }}</wt-label>
             <color-picker v-model="color"></color-picker>
-            <wt-label>Button opacity</wt-label>
+            <wt-label>{{ opacityPickerTitle }}</wt-label>
             <div class="alphapicker-wrapper">
               <opacity-picker :value="color" @change="setAlpha"></opacity-picker>
             </div>
@@ -176,9 +176,14 @@ export default {
       }];
     },
     buttonLabel() {
-      return this.isCopied ? this.$t('objects.copied') : this.$t('objects.copy').concat(' code for site');
+      return this.isCopied ? this.$t('objects.copied') : this.$t('objects.routing.chatGateways.metadata.copy');
     },
-
+    colorPickerTitle() {
+      return this.$t('objects.routing.chatGateways.metadata.btnColor');
+    },
+    opacityPickerTitle() {
+      return this.$t('objects.routing.chatGateways.metadata.btnOpacity');
+    },
     hslColor() {
       const h = Math.floor(this.color.hsl.h);
       const s = this.color.hsl.s.toFixed(2) * 100;
@@ -249,10 +254,9 @@ export default {
   display: flex;
   justify-content: center;
   align-items: center;
-  vertical-align: middle;
   grid-column-gap: var(--component-spacing);
 
-  .wt-label{
+  .wt-label {
     margin: var(--component-spacing);
   }
 
