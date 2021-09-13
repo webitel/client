@@ -604,6 +604,7 @@ export default {
         maxWaitTime: 'Максимальний час очікування',
         waitBetweenRetries: 'Час між спробами додзвону',
         waitBetweenRetriesDesc: 'Сортування перезвонів абонентам: низхідний',
+        strictCircuit: 'Strict circuit',
         timeout: 'Час перерви між дзвінками',
         maxNumberOfRetry: 'Максимальна кількість повторів додзвону',
         minDuration: 'Мінімальна тривалість успішного дзвінка',

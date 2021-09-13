@@ -23,6 +23,7 @@ const progressiveDialer = () => ({
     allowGreetingAgent: false,
     maxCalls: 0,
     amd: amd(),
+    strictCircuit: false,
   },
 });
 
