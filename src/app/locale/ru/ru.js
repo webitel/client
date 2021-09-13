@@ -604,6 +604,7 @@ export default {
         maxWaitTime: 'Максимальное время ожидания',
         waitBetweenRetries: 'Время между попытками дозвона',
         waitBetweenRetriesDesc: 'Сортировка перезвона абонентам по спаданию',
+        strictCircuit: 'Strict circuit',
         retryAbandoned: 'Возобновлять потерянных абонентов',
         playbackFile: 'Проиграть файл',
         timeout: 'Время перерыва между звонками',

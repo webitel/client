@@ -32,6 +32,7 @@ const predictiveDialer = () => ({
     maxAgentLose: 1,
     abandonRateAdjustment: 0,
     playbackSilence: 0,
+    strictCircuit: false,
   },
 });
 

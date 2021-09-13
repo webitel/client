@@ -90,6 +90,12 @@
         @change="setItemPayloadProp({ prop: 'waitBetweenRetriesDesc', value: $event })"
       ></wt-switcher>
       <wt-switcher
+        :value="itemInstance.payload.strictCircuit"
+        :label="$t('objects.ccenter.queues.strictCircuit')"
+        :disabled="disableUserInput"
+        @change="setItemPayloadProp({ prop: 'strictCircuit', value: $event })"
+      ></wt-switcher>
+      <wt-switcher
         :value="itemInstance.payload.retryAbandoned"
         :label="$t('objects.ccenter.queues.retryAbandoned')"
         :disabled="disableUserInput"

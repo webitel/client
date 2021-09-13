@@ -21,6 +21,7 @@ const previewDialer = () => ({
     maxCalls: 0,
     recordings: false,
     allowGreetingAgent: false,
+    strictCircuit: false,
   },
 });
 

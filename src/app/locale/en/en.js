@@ -605,6 +605,7 @@ export default {
         maxWaitTime: 'Max wait time',
         waitBetweenRetries: 'Wait between retries',
         waitBetweenRetriesDesc: 'Sort members retries by descending',
+        strictCircuit: 'Strict circuit',
         retryAbandoned: 'Retry abandoned',
         playbackFile: 'Playback file',
         timeout: 'Timeout',
