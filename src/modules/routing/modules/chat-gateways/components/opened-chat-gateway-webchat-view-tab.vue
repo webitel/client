@@ -12,7 +12,7 @@
         :disabled="disableUserInput"
         :clearable="false"
         track-by="name"
-        @input="setWebchatViewProperty({ prop: 'lang', value: $event.value })"
+        @input="setItemMetadata({ prop: 'lang', value: $event.value })"
       ></wt-select>
       <wt-select
         v-model="selectedPosition"
@@ -21,7 +21,7 @@
         :disabled="disableUserInput"
         :clearable="false"
         track-by="name"
-        @input="setWebchatViewProperty({ prop: 'position', value: $event.value })"
+        @input="setItemMetadata({ prop: 'position', value: $event.value })"
       ></wt-select>
       <wt-select
         v-model="selectedBorderRadius"
@@ -30,31 +30,32 @@
         :disabled="disableUserInput"
         :clearable="false"
         track-by="name"
-        @input="setWebchatViewProperty({ prop: 'borderRadiusStyle', value: $event.value })"
+        @input="setItemMetadata({ prop: 'borderRadiusStyle', value: $event.value })"
       ></wt-select>
       <wt-input
-        :value="itemInstance.metadata.view.logoUrl"
+        :value="itemInstance.metadata.logoUrl"
         :label="$t('objects.routing.chatGateways.metadata.logoUrl')"
         :disabled="disableUserInput"
-        @input="setWebchatViewProperty({ prop: 'logoUrl', value: $event })"
+        @input="setItemMetadata({ prop: 'logoUrl', value: $event })"
       ></wt-input>
       <section>
         <div class="colorpicker-section">
           <div class="slider-wrapper">
-            <wt-label>{{ colorPickerTitle }}</wt-label>
+            <wt-label>{{ this.$t('objects.routing.chatGateways.metadata.btnColor') }}</wt-label>
             <color-picker v-model="color"></color-picker>
-            <wt-label>{{ opacityPickerTitle }}</wt-label>
-            <div class="alphapicker-wrapper">
+            <wt-label>{{ this.$t('objects.routing.chatGateways.metadata.btnOpacity') }}</wt-label>
+            <div class="opacity-wrapper">
               <opacity-picker :value="color" @change="setAlpha"></opacity-picker>
             </div>
           </div>
-          <div class="color-template" :style="{ backgroundColor: hslColor, opacity: opacityValue }"></div>
+          <div class="color-template"
+               :style="{ backgroundColor: hslColor, opacity: this.color.a }"></div>
         </div>
       </section>
       <section class="button-wrapper">
-      <wt-button color="primary" @click="copyCode" large>
-        {{ buttonLabel }}
-      </wt-button>
+        <wt-button color="primary" @click="copyCode" large>
+          {{ buttonLabel }}
+        </wt-button>
       </section>
     </form>
   </section>
@@ -85,6 +86,11 @@ const getConfig = (userConfig) => Object.keys(defaultConfig)
     ...config,
     [key]: userConfig[key] || defaultConfig[key],
   }), {});
+
+const normalizeConfig = (_userConfig) => {
+  const userConfig = deepCopy(_userConfig);
+  return userConfig;
+}
 
 const generateCode = ({
                         btnOpacity,
@@ -139,8 +145,17 @@ export default {
     selectedLanguage: {},
     color: {
       a: 1,
-      rgba: { r: 0, g: 0, b: 0, a: 1, },
-      hsl: { h: 2, s: 100, l: 50, },
+      rgba: {
+        r: 0,
+        g: 0,
+        b: 0,
+        a: 1,
+      },
+      hsl: {
+        h: 0,
+        s: 100,
+        l: 50,
+      },
     },
   }),
 
@@ -178,28 +193,18 @@ export default {
     buttonLabel() {
       return this.isCopied ? this.$t('objects.copied') : this.$t('objects.routing.chatGateways.metadata.copy');
     },
-    colorPickerTitle() {
-      return this.$t('objects.routing.chatGateways.metadata.btnColor');
-    },
-    opacityPickerTitle() {
-      return this.$t('objects.routing.chatGateways.metadata.btnOpacity');
-    },
     hslColor() {
       const h = Math.floor(this.color.hsl.h);
-      const s = this.color.hsl.s.toFixed(2) * 100;
-      const l = this.color.hsl.l.toFixed(2) * 100;
+      const s = +this.color.hsl.s <= 1 ? +this.color.hsl.s.toFixed(2) * 100 : +this.color.hsl.s.toFixed(2);
+      const l = +this.color.hsl.l <= 1 ? +this.color.hsl.l.toFixed(2) * 100 : +this.color.hsl.l.toFixed(2);
       return `hsl(${h}, ${s}%, ${l}%)`;
-    },
-
-    opacityValue() {
-      return this.color.a;
     },
   },
 
   methods: {
     ...mapActions({
-      setWebchatViewProperty(dispatch, payload) {
-        return dispatch(`${this.namespace}/SET_WEBCHAT_VIEW_PROPERTY`, payload);
+      setItemMetadata(dispatch, payload) {
+        return dispatch(`${this.namespace}/SET_ITEM_METADATA`, payload);
       },
     }),
 
@@ -212,17 +217,14 @@ export default {
         },
         a: value.a,
       };
-    },
-
-    normalizeConfig(_userConfig) {
-      const userConfig = deepCopy(_userConfig);
-      userConfig.accentColor = this.hslColor;
-      userConfig.btnOpacity = this.opacityValue;
-      return userConfig;
+      this.setItemMetadata({
+        prop: 'btnOpacity',
+        value: `${value.a}`,
+      });
     },
 
     copyCode() {
-      const userConfig = this.normalizeConfig(this.itemInstance.metadata.view);
+      const userConfig = normalizeConfig(this.itemInstance.metadata);
       const config = getConfig(userConfig);
       const code = generateCode({
         ...config,
@@ -237,11 +239,33 @@ export default {
   },
   watch: {
     hslColor(value) {
-      this.setWebchatViewProperty({
-        prop: 'accentColor',
-        value,
-      });
+      this.setItemMetadata({ prop: 'accentColor', value });
     },
+  },
+  mounted() {
+    if (this.itemInstance.metadata.lang) {
+      this.selectedLanguage = this.languages
+        .filter((language) => language.value === this.itemInstance.metadata.lang);
+    }
+    if (this.itemInstance.metadata.position) {
+      this.selectedPosition = this.positionOptions
+      .filter((position) => position.value === this.itemInstance.metadata.position);
+    }
+    if (this.itemInstance.metadata.borderRadiusStyle) {
+      this.selectedBorderRadius = this.borderRadiusOptions
+        .filter((type) => type.value === this.itemInstance.metadata.borderRadiusStyle);
+    }
+    if (this.itemInstance.metadata.btnOpacity) {
+      this.color.a = this.itemInstance.metadata.btnOpacity;
+    }
+    if (this.itemInstance.metadata.accentColor) {
+      const colorArray = this.itemInstance.metadata.accentColor.replace(/\s+|%|hsl|\(|\)/g, '').split(',');
+      this.color.hsl = {
+        h: +colorArray[0],
+        s: +colorArray[1],
+        l: +colorArray[2],
+      };
+    }
   },
 };
 </script>
@@ -278,7 +302,7 @@ export default {
     }
   }
 
-  .alphapicker-wrapper ::v-deep {
+  .opacity-wrapper ::v-deep {
     position: relative;
     height: 12px;
     margin: var(--component-spacing) auto;
