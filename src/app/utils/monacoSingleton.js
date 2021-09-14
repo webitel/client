@@ -2,27 +2,16 @@ const createProposals = (range) =>
   // returning a static list of proposals, not even looking at the prefix (filtering is done by the Monaco editor),
   // here you could do a server side lookup
   [
-    {
-      label: '"agent"',
-      range,
-      kind: monaco.languages.CompletionItemKind.Function,
-      documentation: 'Modify agent status.',
-      insertText: JSON.stringify({
-        agent: {
-          name: '1000',
-          status: 'Available',
-          state: 'Waiting',
-        },
-      }, null, 4),
-    },
+
+    // General applications.
     {
       label: '"if"',
       range,
       kind: monaco.languages.CompletionItemKind.Function,
-      documentation: 'Use if … then to specify a block of code to be executed, if a specified condition is true.',
+      documentation: 'Оператор if управляет условным ветвлением.',
       insertText: JSON.stringify({
         if: {
-          expression: "${myVar} != ''",
+          expression: '${myVar} == 1',
           then: [],
           else: [],
         },
@@ -32,10 +21,10 @@ const createProposals = (range) =>
       label: '"switch"',
       range,
       kind: monaco.languages.CompletionItemKind.Function,
-      documentation: 'Use switch to specify many alternative blocks of code to be executed.',
+      documentation: 'Операторы switch и case помогают управлять сложными условными операциями и операциями ветвления..',
       insertText: JSON.stringify({
         switch: {
-          variable: '${IVR}',
+          variable: '${getIvrDigit}',
           case: {
             1: [],
             2: [],
@@ -46,243 +35,116 @@ const createProposals = (range) =>
       }, null, 4),
     },
     {
-      label: '"amd"',
+      label: '"disconnected"',
       range,
       kind: monaco.languages.CompletionItemKind.Function,
-      documentation: 'Answering machine detection (voice activity detection).',
+      documentation: 'Выполняет набор приложений после завершение основного скрипта. Объявляется единожды вначале скрипта.',
       insertText: JSON.stringify({
-        amd: {
-          maximumWordLength: 5000,
-          maximumNumberOfWords: 3,
-          betweenWordsSilence: 50,
-          minWordLength: 100,
-          totalAnalysisTime: 5000,
-          silenceThreshold: 256,
-          afterGreetingSilence: 800,
-          greeting: 1500,
-          initialSilence: 2500,
+        trigger: {
+          disconnected: [],
         },
       }, null, 4),
     },
     {
-      label: '"answer"',
+      label: '"function"',
       range,
       kind: monaco.languages.CompletionItemKind.Function,
-      documentation: 'Answers an incoming call or session.',
+      documentation: 'Объединить набор приложений в именную функцию. Объявляется вначале скрипта.',
       insertText: JSON.stringify({
-        answer: '200 OK',
-      }, null, 4),
-    },
-    {
-      label: '"blackList"',
-      range,
-      kind: monaco.languages.CompletionItemKind.Function,
-      documentation: 'The blackList application executes various actions for the blacklisted numbers.',
-      insertText: JSON.stringify({
-        blackList: {
-          name: 'myNewBlackList',
-          number: '${caller_id_number}',
-          actions: [
-            {
-              hangup: 'INCOMING_CALL_BARRED',
-            },
-          ],
+        function: {
+          name: 'myFunction',
+          actions: [],
         },
       }, null, 4),
     },
     {
-      label: '"bridge"',
+      label: '"execute"',
       range,
       kind: monaco.languages.CompletionItemKind.Function,
-      documentation: 'Bridge a new channel to the existing one.Generally used to route an incoming call to one or more endpoints. Multiple endpoints can be dialed simultaneously or sequentially.',
+      documentation: 'Выполнение предварительно объявленной функции по имени.',
       insertText: JSON.stringify({
-        bridge: {
-          strategy: 'multiple',
-          pickup: 'mygroup',
-          codecs: ['G729', 'PCMA'],
-          parameters: ['instant_ringback=true'],
-          endpoints: [
-            {
-              name: 'gw_name1',
-              type: 'sipGateway',
-              dialString: '$1',
-              parameters: ['sip_invite_params=user=phone'],
-            },
-            {
-              name: '1000',
-              type: 'device',
-              parameters: ['leg_timeout=15'],
-            },
-          ],
+        execute: {
+          name: 'myFunction',
         },
       }, null, 4),
     },
     {
-      label: '"cache"',
+      label: '"set"',
       range,
       kind: monaco.languages.CompletionItemKind.Function,
-      documentation: 'The application can be used to distribute key/value pairs without having to resort to using a database.',
+      documentation: 'Назначение переменных на канал',
       insertText: JSON.stringify({
-        cache: {
-          method: 'add',
-          expire: 10,
-          key: 'CID',
-          value: '${caller_id_number}',
+        set: {
+          hangup_after_bridge: 'true',
+          ivrLang: 'en',
         },
+      }, null, 4),
+    },
+    {
+      label: '"export"',
+      range,
+      kind: monaco.languages.CompletionItemKind.Function,
+      documentation: 'Экспорт переменных на сторону оператора, а так же, в статистику.',
+      insertText: JSON.stringify({
+        export: [
+          'reverted_caller_id_number',
+        ],
+      }, null, 4),
+    },
+    {
+      label: '"unSet"',
+      range,
+      kind: monaco.languages.CompletionItemKind.Function,
+      documentation: 'Разустанавливает переменную.',
+      insertText: JSON.stringify({
+        unSet: [
+          'reverted_caller_id_number',
+        ],
       }, null, 4),
     },
     {
       label: '"calendar"',
       range,
       kind: monaco.languages.CompletionItemKind.Function,
-      documentation: 'Set true or false into the variable when current datetime is in the Calendar.',
+      documentation: 'Приложение позволяет проверить текущее время с рабочем календарем. Значение сохраняется в переменную',
       insertText: JSON.stringify({
         calendar: {
-          name: 'my Business Calendar',
           extended: false,
+          name: 'WorkDay',
           setVar: 'isWorkDay',
         },
       }, null, 4),
     },
     {
-      label: '"callback"',
+      label: '"httpRequest"',
       range,
       kind: monaco.languages.CompletionItemKind.Function,
-      documentation: 'Add number to the callback queue.',
+      documentation: 'Выполнение HTTP REST запроса и обработка результата (get JSON)',
       insertText: JSON.stringify({
-        callback: {
-          setVar: 'return_value',
-          widget: 'myWidget',
-          queue: 'callbackQueueName',
-          number: '${caller_id_number}',
-          comment: 'Additional comment',
-        },
-      }, null, 4),
-    },
-    {
-      label: '"cdr"',
-      range,
-      kind: monaco.languages.CompletionItemKind.Function,
-      documentation: 'Create search request into the CDR.',
-      insertText: JSON.stringify({
-        cdr: {
-          exportVar: {
-            avg_wait: 'aggregations.waiting.value',
+        httpRequest: {
+          // eslint-disable-next-line no-template-curly-in-string
+          url: 'https://sales.bpmonline.com/${id}/dataservice/json/reply/SelectQuery',
+          method: 'POST',
+          timeout: 1000,
+          insecureSkipVerify: false,
+          parser: 'application/json',
+          responseCode: 'http_response_code',
+          headers: {
+            'Content-Type': 'application/json',
+            // eslint-disable-next-line no-template-curly-in-string
+            Cookie: '${my_cookie}',
           },
-          elastic: {
-            aggs: {
-              waiting: {
-                avg: {
-                  field: 'queue.wait_duration',
-                },
-              },
-            },
-            index: 'cdr-a*',
-            limit: 0,
-            query: '*',
-            filter: {
-              bool: {
-                must: [
-                  {
-                    match: {
-                      'queue.name': 'myQueue',
-                    },
-                  },
-                  {
-                    range: {
-                      created_time: {
-                        gte: 'now-1h',
-                        lte: 'now',
-                      },
-                    },
-                  },
-                ],
-              },
-            },
+          path: {
+            id: 0,
           },
-        },
-      }, null, 4),
-    },
-    {
-      label: '"conference"',
-      range,
-      kind: monaco.languages.CompletionItemKind.Function,
-      documentation: 'The inbound and outbound conference bridge service.',
-      insertText: JSON.stringify({
-        conference: {
-          name: 'ConferenceName',
-          pin: '1234',
-          flags: ['mute', 'moderator'],
-        },
-      }, null, 4),
-    },
-    {
-      label: '"inBandDTMF"',
-      range,
-      kind: monaco.languages.CompletionItemKind.Function,
-      documentation: 'You can use inBandDTMF to enable in-band DTMF detection (i.e. the detection of DTMF tones on a channel). You should do this when you want to be able to identify DTMF tones on a channel that doesn’t otherwise support another signaling method (like RFC2833 or INFO).',
-      insertText: JSON.stringify({
-        inBandDTMF: 'start',
-      }, null, 4),
-    },
-    {
-      label: '"flushDTMF"',
-      range,
-      kind: monaco.languages.CompletionItemKind.Function,
-      documentation: 'Flushes DTMFs received on a channel. Useful in cases where callers may have entered extra digits in one dialog and you want to flush them out before sending them into another dialog.',
-      insertText: JSON.stringify({
-        eavesdrop: {
-          user: '1000',
-          spy: false,
-        },
-      }, null, 4),
-    },
-    {
-      label: '"echo"',
-      range,
-      kind: monaco.languages.CompletionItemKind.Function,
-      documentation: 'Simply returns all audio sent, including voice, DTMF, etc after the specified delay milliseconds.',
-      insertText: JSON.stringify({ echo: '0' }, null, 4),
-    },
-    {
-      label: '"exists"',
-      range,
-      kind: monaco.languages.CompletionItemKind.Function,
-      documentation: 'Determines whether the given resource exists or not.',
-      insertText: JSON.stringify({
-        exists: {
-          resource: 'media',
-          name: 'myFile.wav',
-          type: 'wav',
-          setVar: 'DoesMyFileExist',
-        },
-      }, null, 4),
-    },
-    {
-      label: '"sendEmail"',
-      range,
-      kind: monaco.languages.CompletionItemKind.Function,
-      documentation: 'Sending an Email.',
-      insertText: JSON.stringify({
-        sendEmail: {
-          to: [
-            'office@gmail.com',
-            'support@webitel.ua',
-          ],
-          subject: '[webitel](${Caller - Caller - ID - Number}) SMS notification',
-          message: '<h3>Turn on SMS</h3>\\n<b>Creditcard</b>: \${Creditcard[0]} <i>***</i> \${Creditcard[1]}',
-        },
-      }, null, 4),
-    },
-    {
-      label: '"receiveFax"',
-      range,
-      kind: monaco.languages.CompletionItemKind.Function,
-      documentation: 'Receive a FAX as a PDF file.',
-      insertText: JSON.stringify({
-        receiveFax: {
-          enable_t38: false,
-          email: ['office@webitel.com', 'admin@webitel.com'],
+          data: {
+            Name: 'Supervisor',
+            UserID: 'Supervisor',
+          },
+          exportVariables: {
+            effective_caller_id_name: 'callerIdName',
+            owner_caller_id_number: 'callerIdOwner',
+          },
         },
       }, null, 4),
     },
@@ -293,138 +155,344 @@ const createProposals = (range) =>
       documentation: 'Executes JavaScript code.',
       insertText: JSON.stringify({
         js: {
-          data: "var time = LocalDate(); time.setDate(time.getDate() + (+${dpd}*-1)); return time.getMonth() + '-' + time.getDate() + '-' + time.getFullYear()",
+          data: 'var time = LocalDate(); time.setDate(time.getDate() + (+${dpd}*-1)); return time.getMonth() + \'-\' + time.getDate() + \'-\' + time.getFullYear()',
           setVar: 'myVar',
         },
       }, null, 4),
     },
     {
-      label: '"goto"',
+      label: '"string"',
       range,
       kind: monaco.languages.CompletionItemKind.Function,
-      documentation: 'Immediately goto an another extension (or route) and exit from current extension.',
+      documentation: 'Math application allows you to perform mathematical tasks on numbers.',
       insertText: JSON.stringify({
-        goto: 'public:my_extension',
+        string: {
+          data: '${caller_id_number}',
+          fn: 'reverse',
+          setVar: 'reverted_caller_id_number',
+        },
       }, null, 4),
     },
     {
-      label: '"hangup"',
+      label: '"markIVR"',
       range,
       kind: monaco.languages.CompletionItemKind.Function,
-      documentation: 'Hangs up a current channel, with an optional cause code supplied.',
+      documentation: 'Позволяет сохранить массив значений в переменную, которая будет доступна в истории',
       insertText: JSON.stringify({
-        hangup: '',
+        markIVR: {
+          name: 'Log',
+          value: 'Входящий звонок',
+        },
       }, null, 4),
     },
     {
-      label: '"httpRequest"',
+      label: '"userInfo"',
       range,
       kind: monaco.languages.CompletionItemKind.Function,
-      documentation: 'Send HTTP Request.',
+      documentation: 'Приложение позволяет получить значение из объекта пользователя по номеру телефона',
       insertText: JSON.stringify({
-        httpRequest: {
-          url: 'https://sales.bpmonline.com/ServiceModel/AuthService.svc/Login',
-          method: 'POST',
-          timeout: 2000,
-          responseCode: 'http_response_code',
-          exportCookie: 'my_cookie',
-          data: {
-            UserName: 'Supervisor',
-            UserPassword: 'Supervisor',
+        userInfo: {
+          set: {
+            usrId: 'id',
+            mob: 'variables.fwd_mob',
+            out: 'variables.out_cid',
+          },
+          user: {
+            extension: '${ext}',
           },
         },
+      }, null, 4),
+    },
+    {
+      label: '"setGrantee"',
+      range,
+      kind: monaco.languages.CompletionItemKind.Function,
+      documentation: 'Передать права на канал пользователю с идентификатором указанным в id',
+      insertText: JSON.stringify({
+        setGrantee: {
+          id: 10,
+        },
+      }, null, 4),
+    },
+    {
+      label: '"schema"',
+      range,
+      kind: monaco.languages.CompletionItemKind.Function,
+      documentation: 'Выполнить внешнюю схему по идентификатору',
+      insertText: JSON.stringify({
+        schema: {
+          id: 1,
+        },
+      }, null, 4),
+    },
+    {
+      label: '"sleep"',
+      range,
+      kind: monaco.languages.CompletionItemKind.Function,
+      documentation: 'Пауза выполнения скрипта в миллисекундах ',
+      insertText: JSON.stringify({
+        sleep: 1000,
       }, null, 4),
     },
     {
       label: '"log"',
       range,
       kind: monaco.languages.CompletionItemKind.Function,
-      documentation: 'Logs a string of text to the console.',
+      documentation: 'Вывод дополнительной информации в лог файл приложений',
       insertText: JSON.stringify({
-        log: 'my log message',
+        log: '>> ${Hold} <<<',
       }, null, 4),
     },
     {
-      label: '"math"',
+      label: '"goto"',
       range,
       kind: monaco.languages.CompletionItemKind.Function,
-      documentation: 'Math application allows you to perform mathematical tasks on numbers.',
+      documentation: 'Перейти к именной метке',
       insertText: JSON.stringify({
-        math: {
-          data: '${caller_id_array}',
-          setVar: 'new_random_caller_id',
-          fn: 'random',
+        goto: 'tagName',
+      }, null, 4),
+    },
+    {
+      label: '"tag"',
+      range,
+      kind: monaco.languages.CompletionItemKind.Function,
+      documentation: 'Установить именную метку в скрипте',
+      insertText: JSON.stringify({
+        tag: 'tagName',
+      }, null, 4),
+    },
+    {
+      label: '"async"',
+      range,
+      kind: monaco.languages.CompletionItemKind.Function,
+      documentation: 'Выполнение приложения без блокировки',
+      insertText: JSON.stringify({
+        async: true,
+      }, null, 4),
+    },
+    {
+      label: '"break"',
+      range,
+      kind: monaco.languages.CompletionItemKind.Function,
+      documentation: 'Прерывает выполнение скрипта',
+      insertText: JSON.stringify({
+        break: true,
+      }, null, 4),
+    },
+    {
+      label: '"limit"',
+      range,
+      kind: monaco.languages.CompletionItemKind.Function,
+      documentation: 'Позволяет прерывать цикл после прохождения количества указанного в атрибуте max. Выход осуществляется в именную метку указанною в атрибуте failover.',
+      insertText: JSON.stringify({
+        limit: {
+          max: 5,
+          failover: 'anotherTag',
         },
       }, null, 4),
     },
+
+    // Messaging applications
     {
-      label: '"member"',
+      label: '"menu"',
       range,
       kind: monaco.languages.CompletionItemKind.Function,
-      documentation: 'Add new member to the dilaer.',
+      documentation: 'Приложение позволяет сгенерировать меню навигации, где выбор будет сохранен в переменную',
       insertText: JSON.stringify({
-        member: {
-          dialer: '57a77ecbe5440b0c002ca16d',
-          name: '${effective_caller_id_name}',
-          priority: 10,
-          variables: {
-            DID: '380322530550',
-          },
-          communications: [
-            {
-              number: '380442228392',
-              priority: 5,
-              type: '1',
-              description: 'call was missed',
-            },
+        menu: {
+          text: 'Выберите пункт меню',
+          set: '${onClick.Menu}',
+          variable: '${response}',
+          buttons: [
+            [
+              {
+                text: '💰 Кредиты',
+                type: 'reply',
+              },
+              {
+                text: '⚙️ Главное меню',
+                type: 'reply',
+              },
+            ],
+            [
+              {
+                text: '💰 Депозиты',
+                type: 'reply',
+              },
+              {
+                text: '🧙‍♂️ Помощь оператора',
+                type: 'reply',
+              },
+            ],
           ],
         },
       }, null, 4),
     },
     {
-      label: '"originate"',
+      label: '"recvMessage"',
       range,
       kind: monaco.languages.CompletionItemKind.Function,
-      documentation: 'Originate a new call.',
+      documentation: 'Сохранить в переменную текстовое сообщение полученное от пользователя в рамках активного диалога',
       insertText: JSON.stringify({
-        originate: {
-          uuid: '${new_uuid}',
-          delay: 2,
-          timeout: 40,
-          cid_num: '${caller_id_number}',
-          cid_name: '${caller_id_name}',
-          exportVar: {
-            other_uuid: '${uuid}',
-            new_uuid: '${new_uuid}',
-          },
-          endpoint: {
-            name: 'gw_name1',
-            type: 'sipGateway',
-            dialString: '${caller_id2}',
-            parameters: ['ignore_early_media=true'],
-          },
-          actions: [
-            {
-              playback: {
-                name: 'my.mp3',
-                type: 'mp3',
-              },
+        recvMessage: {
+          set: 'response',
+          timeout: 60,
+        },
+      }, null, 4),
+    },
+    {
+      label: '"sendText"',
+      range,
+      kind: monaco.languages.CompletionItemKind.Function,
+      documentation: 'Приложение позволяет отправить текстовое сообщение в рамках активного диалога.',
+      insertText: JSON.stringify({}, null, 4),
+    },
+    {
+      label: '"sendFile"',
+      range,
+      kind: monaco.languages.CompletionItemKind.Function,
+      documentation: 'Приложение позволяет отправить ссылку на файл в рамках активного диалога',
+      insertText: JSON.stringify({
+        sendFile: {
+          url: '${file_link}',
+        },
+      }, null, 4),
+    },
+    {
+      label: '"sendEmail"',
+      range,
+      kind: monaco.languages.CompletionItemKind.Function,
+      documentation: 'Отправка Email сообщения\n' +
+        '\n',
+      insertText: JSON.stringify({
+        sendEmail: {
+          cc: [
+            'office@mail.com',
+          ],
+          from: '\'"Bot Name\" <bot@mail.com>',
+          message: 'H3>Turn on SMS</h3>\n<b>Creditcard</b>: ${Creditcard[0]} <i>***</i> ${Creditcard[1]}',
+          smtp: {
+            auth: {
+              password: 'pass',
+              user: 'bot@mail.com',
             },
-            {
-              bridge: {
-                uuid: '${new_uuid}',
-                other_uuid: '${other_uuid}',
-              },
-            },
+            port: '587',
+            server: 'smtp.mail.com',
+            tls: true,
+          },
+          subject: '[webitel](${caller_id_name}) Email notification',
+          to: [
+            '${customer_email}'
           ],
         },
+      }, null, 4),
+    },
+    {
+      label: '"classifier"',
+      range,
+      kind: monaco.languages.CompletionItemKind.Function,
+      documentation: 'Классификатор типов ответов клиента',
+      insertText: JSON.stringify({
+        classifier: {
+          cluster: {
+            y: [
+              'да',
+              'будет',
+              'так',
+              'оплачу',
+            ],
+          },
+          input: '${google_transcript}',
+          set: 'answer_def',
+        },
+      }, null, 4),
+    },
+
+    //Call's applications
+    {
+      label: '"ringReady"',
+      range,
+      kind: monaco.languages.CompletionItemKind.Function,
+      documentation: 'Ответ 180 Ringing на входящий INVITE запрос',
+      insertText: JSON.stringify({
+        ringReady: '',
+      }, null, 4),
+    },
+    {
+      label: '"preAnswer"',
+      range,
+      kind: monaco.languages.CompletionItemKind.Function,
+      documentation: 'Ответ 183 Session Progress на входящий INVITE запрос',
+      insertText: JSON.stringify({
+        preAnswer: '',
+      }, null, 4),
+    },
+    {
+      label: '"answer"',
+      range,
+      kind: monaco.languages.CompletionItemKind.Function,
+      documentation: 'Ответ 200 Ok на входящий INVITE запрос.',
+      insertText: JSON.stringify({
+        answer: '',
+      }, null, 4),
+    },
+    {
+      label: '"sipRedirect"',
+      range,
+      kind: monaco.languages.CompletionItemKind.Function,
+      documentation: 'Ответ SIP 302 Moved Temporarily на входящий INVITE запрос',
+      insertText: JSON.stringify({
+        sipRedirect: 'sip:foo@end.com',
+      }, null, 4),
+    },
+    {
+      label: '"ringback"',
+      range,
+      kind: monaco.languages.CompletionItemKind.Function,
+      documentation: 'Приложение позволяет задать тон КПВ либо медиафайл',
+      insertText: JSON.stringify({
+        ringback: {
+          all: true,
+          call: {
+            name: '%(1000,6000,425);loops=-1',
+            type: 'tone',
+          },
+          hold: {
+            id: 10,
+          },
+          transfer: {
+            name: '%(1000,6000,425);loops=-1',
+            type: 'tone',
+          },
+        },
+      }, null, 4),
+    },
+    {
+      label: '"updateCid"',
+      range,
+      kind: monaco.languages.CompletionItemKind.Function,
+      documentation: 'Приложение позволяет изменить значение номера и имени абонента.',
+      insertText: JSON.stringify({
+        updateCid: {
+          name: 'Новый клиент',
+          number: '8${effective_caller_id_number}',
+        },
+      }, null, 4),
+    },
+    {
+      label: '"sleep"',
+      range,
+      kind: monaco.languages.CompletionItemKind.Function,
+      documentation: 'Пауза, указывается в миллисекундах',
+      insertText: JSON.stringify({
+        sleep: 1000,
       }, null, 4),
     },
     {
       label: '"park"',
       range,
       kind: monaco.languages.CompletionItemKind.Function,
-      documentation: 'Places a channel “on hold” in the switch, instead of in the phone.',
+      documentation: 'Удержание звонка на стороне сервера',
       insertText: JSON.stringify({
         park: {
           name: 'myPark',
@@ -434,69 +502,93 @@ const createProposals = (range) =>
       }, null, 4),
     },
     {
-      label: '"pickup"',
+      label: '"conference"',
       range,
       kind: monaco.languages.CompletionItemKind.Function,
-      documentation: 'Permits proper answering of multiple simultaneous calls to the same pickup group.',
+      documentation: 'Вход в конференцию.',
       insertText: JSON.stringify({
-        pickup: 'mygroup',
+        conference: {
+          flags: [
+            'audio-always',
+          ],
+          name: 'CR-$1',
+          profile: 'video-mcu-stereo',
+        },
+
+      }, null, 4),
+    },
+    {
+      label: '"bridge"',
+      range,
+      kind: monaco.languages.CompletionItemKind.Function,
+      documentation: 'Инициация Б-канала с дальнейшим соединением с А-каналом',
+      insertText: JSON.stringify({
+        bridge: {
+          endpoints: [
+            {
+              extension: 1008,
+              idle: true,
+              type: 'user',
+            },
+            {
+              dialString: '380732327758',
+              name: 'lifecell_out',
+              type: 'gateway',
+              parameters: {
+                origination_caller_id_number: '380732327757',
+                'sip_h_X-FWD-Original': '${caller_id_number}',
+              },
+            },
+          ],
+        },
+      }, null, 4),
+    },
+    {
+      label: '"hangup"',
+      range,
+      kind: monaco.languages.CompletionItemKind.Function,
+      documentation: 'Завершение звонка. В качестве параметра может быть указан код ответа из списка Hangup cause',
+      insertText: JSON.stringify({
+        hangup: '',
+      }, null, 4),
+    },
+    {
+      label: '"inBandDTMF"',
+      range,
+      kind: monaco.languages.CompletionItemKind.Function,
+      documentation: 'Управление in-band DTMF',
+      insertText: JSON.stringify({
+        inBandDTMF: 'start',
+      }, null, 4),
+    },
+    {
+      label: '"flushDTMF"',
+      range,
+      kind: monaco.languages.CompletionItemKind.Function,
+      documentation: 'Очистка буфера ввода абонентом',
+      insertText: JSON.stringify({
+        flushDTMF: true,
       }, null, 4),
     },
     {
       label: '"playback"',
       range,
       kind: monaco.languages.CompletionItemKind.Function,
-      documentation: 'Play an audio file or tone stream.',
+      documentation: 'Воспроизведение медиафайла с возможностью сохранить ввод абонента в переменную.',
       insertText: JSON.stringify({
         playback: {
-          name: 'enter_ext.wav',
-          type: 'wav',
+          files: [
+            {
+              name: 'its_${lang}.wav',
+            },
+          ],
           getDigits: {
-            setVar: 'getIvrDigit',
-            min: 3,
-            max: 4,
-            tries: 1,
-            timeout: 2000,
             flushDTMF: true,
-          },
-        },
-      }, null, 4),
-    },
-    {
-      label: '"queue"',
-      range,
-      kind: monaco.languages.CompletionItemKind.Function,
-      documentation: 'An inbound call queuing application that can be used for call center needs.',
-      insertText: JSON.stringify({
-        queue: {
-          name: 'myQueueName',
-          transferAfterBridge: 'public:feedback_ivr_menu',
-          timer: {
-            interval: 90,
+            max: 4,
+            min: 1,
+            setVar: 'getIVR',
+            timeout: 3000,
             tries: 1,
-            actions: [
-              {
-                ccPosition: {
-                  var: 'cc_my_position',
-                },
-              },
-              {
-                playback: {
-                  files: [
-                    {
-                      name: 'ivr/ivr-you_are_number.wav',
-                      type: 'local',
-                    },
-                    {
-                      name: '${cc_my_position}',
-                      type: 'say',
-                      lang: 'en',
-                      method: 'number pronounced',
-                    },
-                  ],
-                },
-              },
-            ],
           },
         },
       }, null, 4),
@@ -505,17 +597,15 @@ const createProposals = (range) =>
       label: '"recordFile"',
       range,
       kind: monaco.languages.CompletionItemKind.Function,
-      documentation: 'Record to a file from the channel’s input media stream.',
+      documentation: 'Записать медиа в файл',
       insertText: JSON.stringify({
         recordFile: {
-          name: 'MySuperFile',
+          maxSec: 30,
+          name: '${uuid}',
+          silenceHits: 5,
           terminators: '#',
           type: 'mp3',
-          maxSec: 60,
-          silenceHits: 5,
-          email: ['office@webitel.com', 'admin@webitel.com'],
-          emailSubject: 'You have a new message!',
-          emailBody: 'Message fom ${caller_id_number}',
+          voiceMail: true,
         },
       }, null, 4),
     },
@@ -523,260 +613,338 @@ const createProposals = (range) =>
       label: '"recordSession"',
       range,
       kind: monaco.languages.CompletionItemKind.Function,
-      documentation: 'Records an entire phone call or session.',
+      documentation: 'Управление записью медиапотока в файл.',
       insertText: JSON.stringify({
         recordSession: {
           action: 'start',
-          type: 'mp3',
-          stereo: true,
-          bridged: true,
-          minSec: 2,
+          bridged: false,
           followTransfer: true,
-          email: ['office@webitel.com', 'admin@webitel.com'],
-          emailSubject: 'You have a new message!',
-          emailBody: 'Message fom ${caller_id_number}',
+          minSec: 2,
+          stereo: true,
+          type: 'mp3',
         },
       }, null, 4),
     },
     {
-      label: '"ringback"',
+      label: '"generateLink"',
       range,
       kind: monaco.languages.CompletionItemKind.Function,
-      documentation: 'Ringback call lets you set artificial ringback on a channel that is waiting for an originated call to be answered.',
+      documentation: 'Приложение создает публичную ссылку на запись и сохраняет значение в переменную',
       insertText: JSON.stringify({
-        ringback: {
-          call: {
-            name: 'my.mp3',
-            type: 'mp3',
-          },
-          hold: {
-            type: 'silence',
-          },
-          transfer: {
-            name: '${us-ring}',
-            type: 'tone',
-          },
-        },
-      }, null, 4),
-    },
-    {
-      label: '"schedule"',
-      range,
-      kind: monaco.languages.CompletionItemKind.Function,
-      documentation: 'Schedule a hangup or goto in the future. Also, you can schedule a callback.',
-      insertText: JSON.stringify({
-        schedule: {
-          action: 'hangup',
-          seconds: 360,
-          data: 'ALLOTTED_TIMEOUT',
-        },
-      }, null, 4),
-    },
-    {
-      label: '"sendEvent"',
-      range,
-      kind: monaco.languages.CompletionItemKind.Function,
-      documentation: 'sendEvent application can be used to fire arbitrary events.',
-      insertText: JSON.stringify({
-        sendEvent: {
-          dump: false,
-          data: {
-            myUUID: '${uuid}',
-          },
-        },
-      }, null, 4),
-    },
-    {
-      label: '"sipRedirect"',
-      range,
-      kind: monaco.languages.CompletionItemKind.Function,
-      documentation: 'Can redirect a SIP channel to another endpoint.',
-      insertText: JSON.stringify({
-        sipRedirect: ['sip:foo@bar.com', 'sip:foo@end.com'],
-      }, null, 4),
-    },
-    {
-      label: '"setSounds"',
-      range,
-      kind: monaco.languages.CompletionItemKind.Function,
-      documentation: 'Set sound file package. There are a number of sound file packages available.',
-      insertText: JSON.stringify({
-        setSounds: {
-          voice: 'elena',
-          lang: 'ru_RU',
-        },
-      }, null, 4),
-    },
-    {
-      label: '"sleep"',
-      range,
-      kind: monaco.languages.CompletionItemKind.Function,
-      documentation: 'Pause the channel for a given number of milliseconds, consuming the audio for that period of time. Calling sleep also will consume any outstanding RTP on the operating system’s input queue, which can be very useful in situations where audio becomes backlogged.',
-      insertText: JSON.stringify({
-        sleep: 1000,
-      }, null, 4),
-    },
-    {
-      label: '"script"',
-      range,
-      kind: monaco.languages.CompletionItemKind.Function,
-      documentation: 'String application help you to work with strings.',
-      insertText: JSON.stringify({
-        string: {
-          data: '${caller_id_number}',
-          fn: 'replace',
-          setVar: 'effective_caller_id_number',
-          args: [
-            '/^0/',
-            '+84',
-          ],
-        },
-      }, null, 4),
-    },
-    {
-      label: '"stt"',
-      range,
-      kind: monaco.languages.CompletionItemKind.Function,
-      documentation: 'Speech-To-Text.',
-      insertText: JSON.stringify({
-        stt: {
-          lang: 'uk-UA',
-          maxSec: 15,
-          silenceThresh: 200,
-          silenceHits: 3,
-          setVar: 'myTextVar',
+        generateLink: {
+          expire: 604800,
+          server: 'https://dev.webitel.com',
+          set: 'record_link',
         },
       }, null, 4),
     },
     {
       label: '"tts"',
       kind: monaco.languages.CompletionItemKind.Function,
-      documentation: 'Text-To-Speech.',
+      documentation: 'Генерация речи',
       insertText: JSON.stringify({
         tts: {
-          provider: 'polly',
-          accessKey: 'GDNYEHJWNNYYWBJNOZA',
-          accessToken: 'c1j5QSPx9H63jmwtwMojSZiQ9QeO+3v',
-          voice: 'Maxim',
+          language: 'ru-RU',
+          provider: 'google',
+          text: '<speak>Ваш номер договора ${usr_selected_prolongation}.</speak>',
           textType: 'ssml',
-          text: '<speak><amazon:effect name="whispered">If you make any noise, </amazon:effect> she said, <amazon:effect name="whispered">they will hear us.</amazon:effect></speak>',
         },
       }, null, 4),
     },
     {
-      label: '"setUser"',
+      label: '"getSpeech"',
       range,
       kind: monaco.languages.CompletionItemKind.Function,
-      documentation: 'Pulls all of the channel variables defined for a user as if the user had auth’d.',
-      insertText: JSON.stringify({
-        setUser: {
-          name: '102',
-        },
-      }, null, 4),
-    },
-    {
-      label: '"findUser"',
-      range,
-      kind: monaco.languages.CompletionItemKind.Function,
-      documentation: 'Find an user by variables or parameters.',
-      insertText: JSON.stringify({
-        findUser: {
-          filter: {
-            'vm-password': '${userPIN}',
-          },
-          columns: [
-            'id',
-            'effective_caller_id_name',
-          ],
-          exportVariables: {
-            ext_id: '0.id',
-            effective_caller_id_name: '0.effective_caller_id_name',
+      documentation: 'Асинхронное распознавание речи.',
+      insertText: JSON.stringify([
+        {
+          set: {
+            GOOGLE_DISABLE_BREAK: true,
+            GOOGLE_OFFSET: 14000,
+            GOOGLE_SILENCE_THRESHOLD: 100,
+            GOOGLE_SPEECH_ALTERNATIVE_LANG: 'ru-RU',
+            GOOGLE_SPEECH_ENABLE_AUTOMATIC_PUNCTUATION: true,
+            GOOGLE_SPEECH_LANG: 'uk-UA',
           },
         },
-      }, null, 4),
+        {
+          playback: {
+            files: [
+              {
+                name: 'media_file_menu.wav',
+              },
+              {
+                name: 3500,
+                type: 'silence',
+              },
+            ],
+            getSpeech: {},
+          },
+        },
+        {
+          set: {
+            usr_text: '${google_transcript}',
+          },
+        },
+      ], null, 4),
     },
     {
-      label: '"userData"',
+      label: '"joinQueue"',
       range,
       kind: monaco.languages.CompletionItemKind.Function,
-      documentation: 'Retrieves user variables as defined in the directory.',
+      documentation: 'Постановка абонента в очередь.',
       insertText: JSON.stringify({
-        userData: {
-          name: '102',
-          var: 'account_state',
-          setVar: 'acc_state',
+        joinQueue: {
+          bucket_id: 1,
+          priority: 100,
+          agent: {
+            extension: 1000,
+          },
+          queue: {
+            id: 1,
+          },
+          ringtone: {
+            id: 126,
+            type: 'wav',
+          },
+          timers: [
+            {
+              actions: [
+                {
+                  playback: {
+                    files: [
+                      {
+                        name: 'hold_акции.wav',
+                      },
+                    ],
+                  },
+                },
+              ],
+              interval: 1,
+              tries: 20,
+            },
+          ],
+          transferAfterBridge: {
+            id: 2,
+          },
         },
       }, null, 4),
     },
     {
-      label: '"setVar"',
+      label: '"joinAgent"',
       range,
       kind: monaco.languages.CompletionItemKind.Function,
-      documentation: 'Set a channel variable.',
+      documentation: 'Постановка абонента в личную очередь оператора.',
       insertText: JSON.stringify({
-        setVar: ['a=1', 'b=2', 'c=3'],
+        joinAgent: {
+          agent: {
+            extension: 1008,
+          },
+          bridged: [
+            {
+              log: 'request 1C',
+            },
+          ],
+          cancel_distribute: true,
+          processing: {
+            enabled: true,
+            renewal_sec: 5,
+            sec: 30,
+          },
+          queue_name: '${cc_queue_name}',
+        },
       }, null, 4),
     },
     {
-      label: '"setArray"',
+      label: '"getQueueAgents"',
       range,
       kind: monaco.languages.CompletionItemKind.Function,
-      documentation: 'Set array of variables',
+      documentation: 'Получить информацию по количеству операторов в зависимости от статуса в очереди',
       insertText: JSON.stringify({
-        setArray: {
-          myArray: [
-            'val1', 'val2', 'val3',
+        getQueueAgents: {
+          queue: {
+            id: 2,
+          },
+          set: {
+            res_count: 'count',
+            res_offline: 'offline',
+            res_online: 'online',
+            res_pause: 'pause',
+            res_waiting: 'waiting',
+          },
+        },
+      }, null, 4),
+    },
+    {
+      label: '"getQueueMetrics"',
+      range,
+      kind: monaco.languages.CompletionItemKind.Function,
+      documentation: 'Рассчитать показатели по очереди.',
+      insertText: JSON.stringify({
+        getQueueMetrics: {
+          bucket: null,
+          calls: 'complete',
+          field: 'sl',
+          lastMinutes: 3800,
+          metric: 'sl',
+          queue: {
+            id: 19,
+          },
+          set: 'varResult',
+          slSec: 20,
+        },
+      }, null, 4),
+    },
+    {
+      label: '"ccPosition"',
+      range,
+      kind: monaco.languages.CompletionItemKind.Function,
+      documentation: 'Текущая позиция абонента в очереди',
+      insertText: JSON.stringify({
+        ccPosition: {
+          set: 'pos',
+        },
+      }, null, 4),
+    },
+    {
+      label: '"ewt"',
+      range,
+      kind: monaco.languages.CompletionItemKind.Function,
+      documentation: 'Расчет среднего времени ожидания абонентом в очереди',
+      insertText: JSON.stringify({
+        ewt: {
+          queue_ids: [
+            8,
+          ],
+          setVar: 'ewt',
+          strategy: 'puzzle',
+        },
+      }, null, 4),
+    },
+    {
+      label: '"memberInfo"',
+      range,
+      kind: monaco.languages.CompletionItemKind.Function,
+      documentation: 'Найти информацию по абоненту дайлера.',
+      insertText: JSON.stringify({
+        memberInfo: {
+          bucket_i: 1,
+          completed: false,
+          destination: "${caller_id_number}",
+          name: "Customer Name",
+          queue_ids: [
+            8,
+          ],
+          set: {
+            member_var1: 'sum',
+            member_var2: 'credit',
+          },
+          today: true,
+        },
+      }, null, 4),
+    },
+    {
+      label: '"patchMembers"',
+      range,
+      kind: monaco.languages.CompletionItemKind.Function,
+      documentation: 'Изменить информацию по абоненту дайлера',
+      insertText: JSON.stringify({
+        patchMembers: {
+          bucket_id: 1,
+          completed: false,
+          destination: '${caller_id_number}',
+          name: 'Customer Name',
+          queue_ids: [
+            8,
+          ],
+          patch: {
+            bucket_id: 2,
+            name: 'sum',
+            priority: 'credit',
+            ready_at: 2147483647,
+            stop_cause: 'cancel',
+            variables: {
+              new_var: 'var',
+            },
+          },
+          today: true,
+        },
+      }, null, 4),
+    },
+    {
+      label: '"callbackQueue"',
+      range,
+      kind: monaco.languages.CompletionItemKind.Function,
+      documentation: 'Добавить абонента в оффлайн очередь.',
+      insertText: JSON.stringify({
+        callbackQueue: {
+          communication: {
+            destination: '${caller_id_number}',
+            type_id: 1,
+          },
+          holdSec: 1,
+          name: '${caller_id_number}',
+          queue_id: 26,
+          variables: {
+            DPD: '${DPD}',
+            internal_operator_id: '${internal_operator_id}',
+            loan_id: '${Loan}',
+          },
+        },
+      }, null, 4),
+    },
+    {
+      label: '"confirm"',
+      range,
+      kind: monaco.languages.CompletionItemKind.Function,
+      documentation: 'Установка значений до набора абонента дайлером',
+      insertText: JSON.stringify({
+        confirm: {
+          destination: '8${destination_number}',
+          display: '${agent_extension}',
+          export: [
+            'new_variable',
           ],
         },
       }, null, 4),
     },
     {
-      label: '"setProfileVar"',
+      label: '"cancel"',
       range,
       kind: monaco.languages.CompletionItemKind.Function,
-      documentation: 'Set profile variable.',
+      documentation: 'Отмена текущей попытки набора абонента в дайлере.',
       insertText: JSON.stringify({
-        setProfileVar: [
-          'caller_id_name=Customer',
-        ],
-      }, null, 4),
-    },
-    {
-      label: '"exportVars"',
-      range,
-      kind: monaco.languages.CompletionItemKind.Function,
-      documentation: 'exportVars lists variables to be exported to the webitel client side upon JavaScript library.',
-      insertText: JSON.stringify({
-        exportVars: [
-          'ivrLang',
-          'mainMenuAction',
-          'subMenuAction',
-        ],
-      }, null, 4),
-    },
-    {
-      label: '"unSet"',
-      range,
-      kind: monaco.languages.CompletionItemKind.Function,
-      documentation: 'Clears out a channel variable.',
-      insertText: JSON.stringify({
-        unSet: 'sip_h_call-info',
-      }, null, 4),
-    },
-    {
-      label: '"voicemail"',
-      range,
-      kind: monaco.languages.CompletionItemKind.Function,
-      documentation: 'Voicemail application lets you send calls to voicemail, which allows callers to leave messages for users and allows users to retrieve and manage any messages left by callers.',
-      insertText: JSON.stringify({
-        voicemail: {
-          user: '100',
-          skip_greeting: true,
-          skip_instructions: true,
-          cc: [
-            '1001',
-            '1002',
+        cancel: {
+          description: 'do not call',
+          export: [
+            'new_var',
           ],
+          nextDistributeSec: 0,
+          stop: false,
+        },
+      }, null, 4),
+    },
+    {
+      label: '"lastBridged"',
+      range,
+      kind: monaco.languages.CompletionItemKind.Function,
+      documentation: 'Получить информацию по соединениям для липкости звонка.',
+      insertText: JSON.stringify({
+        lastBridged: {
+          calls: {
+            inbound: 'all',
+            outbound: 'all',
+            queue_ids: [
+              1, 2,
+            ],
+          },
+          hours: 24,
+          number: "380932327757",
+          set: {
+            my_ag: 'agent_id',
+            my_ext: 'extension',
+            my_q: 'queue_id',
+          },
         },
       }, null, 4),
     },
