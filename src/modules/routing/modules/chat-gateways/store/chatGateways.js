@@ -30,12 +30,6 @@ const actions = {
     context.commit('SET_ITEM_METADATA', payload);
     context.commit('SET_ITEM_PROPERTY', { prop: '_dirty', value: true });
   },
-
-  SET_WEBCHAT_VIEW_PROPERTY: (context, payload) => {
-    context.commit('SET_WEBCHAT_VIEW_PROPERTY', payload);
-    context.commit('SET_ITEM_PROPERTY', { prop: '_dirty', value: true });
-  },
-
 };
 
 const mutations = {
@@ -56,9 +50,6 @@ const mutations = {
   },
   SET_ITEM_METADATA: (state, { prop, value }) => {
     state.itemInstance.metadata[prop] = value;
-  },
-  SET_WEBCHAT_VIEW_PROPERTY: (state, { prop, value }) => {
-    state.itemInstance.metadata.view[prop] = value;
   },
 };
 

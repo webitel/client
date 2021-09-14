@@ -63,7 +63,6 @@
 
 <script>
 import clipboardCopy from 'clipboard-copy';
-import deepCopy from 'deep-copy';
 import { mapActions } from 'vuex';
 import { Slider, Alpha } from 'vue-color';
 import openedTabComponentMixin
@@ -86,11 +85,6 @@ const getConfig = (userConfig) => Object.keys(defaultConfig)
     ...config,
     [key]: userConfig[key] || defaultConfig[key],
   }), {});
-
-const normalizeConfig = (_userConfig) => {
-  const userConfig = deepCopy(_userConfig);
-  return userConfig;
-}
 
 const generateCode = ({
                         btnOpacity,
@@ -145,17 +139,8 @@ export default {
     selectedLanguage: {},
     color: {
       a: 1,
-      rgba: {
-        r: 0,
-        g: 0,
-        b: 0,
-        a: 1,
-      },
-      hsl: {
-        h: 0,
-        s: 100,
-        l: 50,
-      },
+      hsl: { h: 0, s: 100, l: 50 },
+      rgba: { r: 0, g: 0, b: 0, a: 0 },
     },
   }),
 
@@ -195,8 +180,8 @@ export default {
     },
     hslColor() {
       const h = Math.floor(this.color.hsl.h);
-      const s = +this.color.hsl.s <= 1 ? +this.color.hsl.s.toFixed(2) * 100 : +this.color.hsl.s.toFixed(2);
-      const l = +this.color.hsl.l <= 1 ? +this.color.hsl.l.toFixed(2) * 100 : +this.color.hsl.l.toFixed(2);
+      const s = +this.color.hsl.s <= 1 ? +this.color.hsl.s.toFixed(2) * 100 : +this.color.hsl.s;
+      const l = +this.color.hsl.l <= 1 ? +this.color.hsl.l.toFixed(2) * 100 : +this.color.hsl.l;
       return `hsl(${h}, ${s}%, ${l}%)`;
     },
   },
@@ -207,7 +192,6 @@ export default {
         return dispatch(`${this.namespace}/SET_ITEM_METADATA`, payload);
       },
     }),
-
     setAlpha(value) {
       this.color = {
         ...this.color,
@@ -217,15 +201,10 @@ export default {
         },
         a: value.a,
       };
-      this.setItemMetadata({
-        prop: 'btnOpacity',
-        value: `${value.a}`,
-      });
+      this.setItemMetadata({ prop: 'btnOpacity', value: `${value.a}` });
     },
-
     copyCode() {
-      const userConfig = normalizeConfig(this.itemInstance.metadata);
-      const config = getConfig(userConfig);
+      const config = getConfig(this.itemInstance.metadata);
       const code = generateCode({
         ...config,
         uri: this.itemInstance.uri,
@@ -236,36 +215,56 @@ export default {
         this.isCopied = false;
       }, 1500);
     },
+    restoreLanguage(value) {
+      if (value) {
+        this.selectedLanguage = this.languages
+          .find((language) => language.value === value);
+      }
+    },
+    restorePosition(value) {
+      if (value) {
+        this.selectedPosition = this.positionOptions
+          .find((position) => position.value === value);
+      }
+    },
+    restoreBorderRadius(value) {
+      if (value) {
+        this.selectedBorderRadius = this.borderRadiusOptions
+          .find((type) => type.value === value);
+      }
+    },
+    restoreOpacity(value) {
+      if (value) {
+        this.color.a = value;
+        this.color.rgba.a = value;
+      }
+    },
+    restoreColor(value) {
+      if (value) {
+        const colorArray = value.replace(/\s+|%|hsl|\(|\)/g, '')
+          .split(',');
+        this.color.hsl = {
+          h: +colorArray[0],
+          s: +colorArray[1],
+          l: +colorArray[2],
+        };
+      }
+    },
   },
   watch: {
     hslColor(value) {
-      this.setItemMetadata({ prop: 'accentColor', value });
+      this.setItemMetadata({
+        prop: 'accentColor',
+        value,
+      });
     },
   },
-  mounted() {
-    if (this.itemInstance.metadata.lang) {
-      this.selectedLanguage = this.languages
-        .filter((language) => language.value === this.itemInstance.metadata.lang);
-    }
-    if (this.itemInstance.metadata.position) {
-      this.selectedPosition = this.positionOptions
-      .filter((position) => position.value === this.itemInstance.metadata.position);
-    }
-    if (this.itemInstance.metadata.borderRadiusStyle) {
-      this.selectedBorderRadius = this.borderRadiusOptions
-        .filter((type) => type.value === this.itemInstance.metadata.borderRadiusStyle);
-    }
-    if (this.itemInstance.metadata.btnOpacity) {
-      this.color.a = this.itemInstance.metadata.btnOpacity;
-    }
-    if (this.itemInstance.metadata.accentColor) {
-      const colorArray = this.itemInstance.metadata.accentColor.replace(/\s+|%|hsl|\(|\)/g, '').split(',');
-      this.color.hsl = {
-        h: +colorArray[0],
-        s: +colorArray[1],
-        l: +colorArray[2],
-      };
-    }
+  created() {
+    this.restoreLanguage(this.itemInstance.metadata.lang);
+    this.restorePosition(this.itemInstance.metadata.position);
+    this.restoreBorderRadius(this.itemInstance.metadata.borderRadiusStyle);
+    this.restoreOpacity(this.itemInstance.metadata.btnOpacity);
+    this.restoreColor(this.itemInstance.metadata.accentColor);
   },
 };
 </script>
