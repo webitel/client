@@ -180,8 +180,8 @@ export default {
     },
     hslColor() {
       const h = Math.floor(this.color.hsl.h);
-      const s = +this.color.hsl.s <= 1 ? +this.color.hsl.s.toFixed(2) * 100 : +this.color.hsl.s;
-      const l = +this.color.hsl.l <= 1 ? +this.color.hsl.l.toFixed(2) * 100 : +this.color.hsl.l;
+      const s = +this.color.hsl.s.toFixed(2) * 100;
+      const l = +this.color.hsl.l.toFixed(2) * 100;
       return `hsl(${h}, ${s}%, ${l}%)`;
     },
   },
@@ -215,6 +215,7 @@ export default {
         this.isCopied = false;
       }, 1500);
     },
+
     restoreLanguage(value) {
       if (value) {
         this.selectedLanguage = this.languages
@@ -245,8 +246,8 @@ export default {
           .split(',');
         this.color.hsl = {
           h: +colorArray[0],
-          s: +colorArray[1],
-          l: +colorArray[2],
+          s: +colorArray[1] / 100,
+          l: +colorArray[2] / 100,
         };
       }
     },
