@@ -36,7 +36,7 @@ import openedObjectMixin
 import OpenedChatTelegram from './opened-chat-gateway-telegram-general-tab.vue';
 import OpenedChatFacebook from './opened-chat-gateway-facebook-general-tab.vue';
 import OpenedChatInfobip from './opened-chat-gateway-infobip-general-tab.vue';
-import OpenedViewWebchat from './opened-chat-gateway-webchat-view-tab';
+import OpenedViewWebchat from './opened-chat-gateway-webchat-view-tab.vue';
 import OpenedWebchat from './opened-chat-gateway-webchat-general-tab.vue';
 import OpenedViberChat from './opened-chat-gateway-viber-general-tab.vue';
 
@@ -112,9 +112,6 @@ export default {
               handshakeTimeout: {
                 minValue: minValue(10),
                 maxValue: maxValue(60),
-              },
-              view: {
-                btnOpacity: { minValue: minValue(0), maxValue: maxValue(100) },
               },
             },
           },
