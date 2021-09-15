@@ -24,13 +24,13 @@ export default {
     options() {
       const diagram = {
         value: 'diagram',
-        title: this.$t('objects.routing.flow.diagram'),
-        description: this.$t('objects.routing.flow.diagramDescription'),
+        title: this.$t('objects.routing.flow.diagram.diagram').concat(' CURRENTLY IN DEVELOPMENT. USE ONLY FOR TEST PURPOSES!'),
+        description: this.$t('objects.routing.flow.diagram.description'),
       };
       const code = {
         value: 'code',
-        title: this.$t('objects.routing.flow.code'),
-        description: this.$t('objects.routing.flow.codeDescription'),
+        title: this.$t('objects.routing.flow.code.code'),
+        description: this.$t('objects.routing.flow.code.description'),
       };
       return [diagram, code];
     },
@@ -41,7 +41,7 @@ export default {
       this.selected = option;
     },
     create() {
-      this.$router.push({ name: `${RouteNames.FLOW}-new`, hash: this.selected.value });
+      this.$router.push({ name: `${RouteNames.FLOW}-new`, hash: `#${this.selected.value}` });
     },
     close() {
       this.$emit('close');

@@ -1,5 +1,6 @@
 <template>
-  <wt-page-wrapper :actions-panel="false">
+  <diagram v-if="isDiagram"></diagram>
+  <wt-page-wrapper v-else :actions-panel="false">
     <template slot="header">
       <object-header
         :primary-text="computePrimaryText"
@@ -30,13 +31,17 @@
 
 <script>
 import { required } from 'vuelidate/lib/validators';
-import General from './opened-flow-general.vue';
+import Diagram from './opened-flow-diagram.vue';
+import Code from './opened-flow-code.vue';
 import openedObjectMixin from '../../../../../app/mixins/objectPagesMixins/openedObjectMixin/openedObjectMixin';
 
 export default {
   name: 'opened-flow',
   mixins: [openedObjectMixin],
-  components: { General },
+  components: {
+    Diagram,
+    Code,
+  },
   data: () => ({
     namespace: 'routing/flow',
   }),
@@ -50,10 +55,13 @@ export default {
   },
 
   computed: {
+    isDiagram() {
+      return this.$route.hash === '#diagram';
+    },
     tabs() {
       const tabs = [{
         text: this.$t('objects.general'),
-        value: 'general',
+        value: 'code',
       }];
       return tabs;
     },
