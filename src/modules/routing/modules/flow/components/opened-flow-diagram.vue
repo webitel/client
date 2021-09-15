@@ -1,6 +1,7 @@
 <template>
   <section class="flow-diagram">
-    <div id="flow-diagram"></div>
+    <wt-loader v-show="isLoading"></wt-loader>
+    <div id="flow-diagram" v-show="!isLoading"></div>
   </section>
 </template>
 
@@ -11,6 +12,7 @@ export default {
   name: 'opened-flow-diagram',
   data: () => ({
     diagram: null,
+    isLoading: true,
   }),
   methods: {
     async initDiagram() {
@@ -23,6 +25,7 @@ export default {
           },
         };
         this.diagram = new window.WtFlowDiagram.default('#flow-diagram', config);
+        this.isLoading = false;
       };
       document.head.appendChild(script);
 
@@ -49,5 +52,12 @@ export default {
   left: 0;
   bottom: 0;
   z-index: 1000;
+
+  .wt-loader {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+  }
 }
 </style>
