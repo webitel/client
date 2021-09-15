@@ -91,7 +91,7 @@ import { StrategyList } from '../../store/_internals/enums/Strategy.enum';
 import openedTabComponentMixin from '../../../../../../app/mixins/objectPagesMixins/openedObjectTabMixin/openedTabComponentMixin';
 import { getCalendarList } from '../../../../../lookups/modules/calendars/api/calendars';
 import { getBlacklistList } from '../../../../../lookups/modules/blacklists/api/blacklists';
-import { getFlowList } from '../../../../../routing/modules/flow/components/flow';
+import { getFlowList } from '../../../../../routing/modules/flow/api/flow';
 
 export default {
   name: 'opened-queue-outbound-ivr-general',

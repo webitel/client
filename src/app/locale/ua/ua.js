@@ -373,21 +373,15 @@ export default {
       flow: {
         flow: 'Схема',
         allFlowSchemas: 'Всі схеми дзвінків',
-        newFlow: 'Нова схема',
-        flowSchema: 'Схема дзвінка',
-        type: 'Тип',
-        debug: 'Налагодження',
-        newFlowDescription: 'Оберіть шаблон, щоб почати роботу, або створіть нову схему',
-        generalFlow: 'Основна схема',
-        generalFlowDescription: 'Опис',
-        visual: 'Візуальна схема',
-        json: 'JSON-схема',
-        callFlow: 'Конструктор схеми дзвінка',
-        callflow: 'Конструктор дзвінка',
-        callFlowDescription: 'Опис',
-        visualDescription: 'lorem ipsum',
-        jsonDescription: 'lorem ipsum',
-        createNew: 'Створити нову схему',
+        createFlowSelectionPopup: 'Створити нову схему',
+        diagram: {
+          diagram: 'Діаграма',
+          description: 'Створити нову схему використовуючи Webitel Flow Diagram',
+        },
+        code: {
+          code: 'Код',
+          description: 'Створити нову схему використовуючи JSON-схему у редакторі коду',
+        },
       },
 
       dialplan: {

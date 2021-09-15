@@ -44,7 +44,7 @@
 <script>
 import { required } from 'vuelidate/lib/validators';
 import nestedObjectMixin from '../../../../../../../app/mixins/objectPagesMixins/openedObjectMixin/nestedObjectMixin';
-import { getFlowList } from '../../../../../../routing/modules/flow/components/flow';
+import { getFlowList } from '../../../../../../routing/modules/flow/api/flow';
 import HookEvent from '../enum/HookEvent.enum';
 
 export default {

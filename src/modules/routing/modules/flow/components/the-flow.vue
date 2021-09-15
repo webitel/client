@@ -10,6 +10,10 @@
     </template>
 
     <template slot="main">
+      <create-flow-popup
+        v-if="isCreateFlowPopup"
+        @close="isCreateFlowPopup = false"
+      ></create-flow-popup>
       <upload-popup
         v-if="isUploadPopup"
         :file="jsonFile"
@@ -103,21 +107,27 @@
 
 <script>
 import tableComponentMixin from '../../../../../app/mixins/objectPagesMixins/objectTableMixin/tableComponentMixin';
+import CreateFlowPopup from './create-flow-popup.vue';
 import UploadPopup from './upload-flow-popup.vue';
 import UploadFileIconBtn from '../../../../../app/components/utils/upload-file-ucon-btn.vue';
-import { getFlow } from './flow';
+import { getFlow } from '../api/flow';
 import { downloadAsJSON } from '../../../../../app/utils/download';
 import RouteNames from '../../../../../app/router/_internals/RouteNames.enum';
 
 export default {
   name: 'the-flow',
   mixins: [tableComponentMixin],
-  components: { UploadPopup, UploadFileIconBtn },
+  components: {
+    CreateFlowPopup,
+    UploadPopup,
+    UploadFileIconBtn,
+  },
   data: () => ({
     namespace: 'routing/flow',
     routeName: RouteNames.FLOW,
     isUploadPopup: false,
     jsonFile: null,
+    isCreateFlowPopup: false,
   }),
 
   computed: {
@@ -130,6 +140,9 @@ export default {
   },
 
   methods: {
+    create() {
+      this.isCreateFlowPopup = true;
+    },
     processJSON(files) {
       const file = files[0];
       if (file) {

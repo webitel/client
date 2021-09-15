@@ -28,7 +28,7 @@ import CodeEditor from '../../../../../app/components/utils/code-editor.vue';
 import openedTabComponentMixin from '../../../../../app/mixins/objectPagesMixins/openedObjectTabMixin/openedTabComponentMixin';
 
 export default {
-  name: 'opened-flow',
+  name: 'opened-flow-code',
   mixins: [openedTabComponentMixin],
   components: { CodeEditor },
 };

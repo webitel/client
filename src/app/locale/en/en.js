@@ -373,21 +373,15 @@ export default {
       flow: {
         flow: 'Flow',
         allFlowSchemas: 'All flow schemas',
-        newFlow: 'New schema',
-        flowSchema: 'Flow schema',
-        type: 'Type',
-        debug: 'Debug',
-        newFlowDescription: 'Choose a template to get going, or start from scratch with a blank canvas',
-        generalFlow: 'General schema',
-        generalFlowDescription: 'lorem ipsum',
-        visual: 'Visual schema',
-        json: 'JSON schema',
-        callFlow: 'Callflow schema',
-        callflow: 'Callflow',
-        callFlowDescription: 'lorem ipsum',
-        visualDescription: 'lorem ipsum',
-        jsonDescription: 'lorem ipsum',
-        createNew: 'Create new schema',
+        createFlowSelectionPopup: 'Create new flow',
+        diagram: {
+          diagram: 'Diagram',
+          description: 'Create new flow using Webitel Flow Diagram tool',
+        },
+        code: {
+          code: 'Code',
+          description: 'Create new flow using JSON-schema in code editor',
+        },
       },
 
       dialplan: {
