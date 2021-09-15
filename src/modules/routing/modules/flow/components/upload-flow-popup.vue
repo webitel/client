@@ -34,7 +34,7 @@
 
 <script>
 import required from 'vuelidate/src/validators/required';
-import { addFlow, updateFlow } from './flow';
+import { addFlow, updateFlow } from '../api/flow';
 
 export default {
   name: 'upload-flow-popup',

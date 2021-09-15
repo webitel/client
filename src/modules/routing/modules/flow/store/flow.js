@@ -1,4 +1,4 @@
-import FlowAPI from '../components/flow';
+import FlowAPI from '../api/flow';
 import ObjectStoreModule from '../../../../../app/store/BaseStoreModules/StoreModules/ObjectStoreModule';
 import headers from './_internals/headers';
 

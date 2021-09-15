@@ -66,7 +66,7 @@
 </template>
 
 <script>
-import { getFlowList } from '../../flow/components/flow';
+import { getFlowList } from '../../flow/api/flow';
 import PasswordInput from '../../../../../app/components/utils/generate-password-input.vue';
 import openedTabComponentMixin from '../../../../../app/mixins/objectPagesMixins/openedObjectTabMixin/openedTabComponentMixin';
 

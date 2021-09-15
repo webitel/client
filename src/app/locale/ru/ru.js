@@ -374,21 +374,6 @@ export default {
       flow: {
         flow: 'Схема',
         allFlowSchemas: 'Все схемы звонков',
-        newFlow: 'Новая схема',
-        flowSchema: 'Схема звонка',
-        type: 'Тип',
-        debug: 'Отладка',
-        newFlowDescription: 'Выберите шаблон, чтобы начать работу или создайте новую схему',
-        generalFlow: 'Главная схема',
-        generalFlowDescription: 'Описание',
-        visual: 'Визуальная схема',
-        json: 'JSON-схема',
-        callFlow: 'Конструктор схемы звонка',
-        callflow: 'Конструктор звонка',
-        callFlowDescription: 'Описание',
-        visualDescription: 'lorem ipsum',
-        jsonDescription: 'lorem ipsum',
-        createNew: 'Создать новую схему',
       },
 
       dialplan: {

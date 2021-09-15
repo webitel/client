@@ -43,7 +43,7 @@
 
 <script>
 import openedTabComponentMixin from '../../../../../app/mixins/objectPagesMixins/openedObjectTabMixin/openedTabComponentMixin';
-import { getFlowList } from '../../flow/components/flow';
+import { getFlowList } from '../../flow/api/flow';
 
 export default {
   name: 'opened-dialplan',

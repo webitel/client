@@ -56,9 +56,7 @@ export default {
       this.selected = option;
     },
     createGateway() {
-      if (this.selected) {
-        this.$router.push({ name: `${RouteNames.CHAT_GATEWAYS}-${this.selected.value}-new` });
-      }
+      this.$router.push({ name: `${RouteNames.CHAT_GATEWAYS}-${this.selected.value}-new` });
     },
     close() {
       this.$emit('close');
