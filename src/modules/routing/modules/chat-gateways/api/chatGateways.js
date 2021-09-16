@@ -12,6 +12,7 @@ const fieldsToSend = ['name', 'uri', 'flow', 'enabled', 'provider', 'metadata'];
 
 const defaultListObject = { // default object prototype, to merge response with it to get all fields
   _isSelected: false,
+  enabled: false,
   name: '',
   uri: '',
   flow: {},

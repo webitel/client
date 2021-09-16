@@ -26,7 +26,7 @@ export default [
     sort: SortSymbols.NONE,
   },
   {
-    value: 'state',
+    value: 'enabled',
     locale: 'reusable.state',
     field: 'enabled',
     sort: SortSymbols.NONE,

@@ -62,7 +62,7 @@
               </span>
             </template>
 
-            <template slot="url" slot-scope="{ item }">
+            <template slot="uri" slot-scope="{ item }">
               {{ item.uri }}
             </template>
 
@@ -73,11 +73,12 @@
             </template>
 
             <template slot="provider" slot-scope="{ item }">
-              <wt-icon v-if="iconType[item.provider]" icon-prefix="messenger" :icon="iconType[item.provider]" size="sm" />
-              <p v-else> {{item.provider}} </p>
+              <wt-icon v-if="iconType[item.provider]" icon-prefix="messenger"
+                       :icon="iconType[item.provider]" size="sm"/>
+              <p v-else> {{ item.provider }} </p>
             </template>
 
-            <template slot="state" slot-scope="{ item, index }">
+            <template slot="enabled" slot-scope="{ item, index }">
               <wt-switcher
                 :value="item.enabled"
                 :disabled="!hasEditAccess"
