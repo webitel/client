@@ -32,7 +32,7 @@
 <script>
 import { required } from 'vuelidate/lib/validators';
 import Diagram from './opened-flow-diagram.vue';
-import Code from './opened-flow-code.vue';
+import JsonSchema from './opened-flow-code.vue';
 import openedObjectMixin from '../../../../../app/mixins/objectPagesMixins/openedObjectMixin/openedObjectMixin';
 
 export default {
@@ -40,7 +40,7 @@ export default {
   mixins: [openedObjectMixin],
   components: {
     Diagram,
-    Code,
+    JsonSchema,
   },
   data: () => ({
     namespace: 'routing/flow',
@@ -61,7 +61,7 @@ export default {
     tabs() {
       const tabs = [{
         text: this.$t('objects.general'),
-        value: 'code',
+        value: 'json-schema',
       }];
       return tabs;
     },

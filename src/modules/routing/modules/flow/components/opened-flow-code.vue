@@ -15,11 +15,11 @@
     </form>
     <code-editor
         :value="itemInstance.schema"
-        :label="$t('objects.routing.flow.callFlow')"
+        :label="$tc('objects.routing.flow.flow', 1)"
         :disabled="disableUserInput"
         @errorListener="isSyntaxError = $event"
         @change="setItemProp({ prop: 'schema', value: $event })"
-      ></code-editor>
+    ></code-editor>
   </section>
 </template>
 
