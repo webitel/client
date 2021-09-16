@@ -12,7 +12,7 @@ const resService = new OutboundResourceServiceApiFactory(configuration, '', inst
 
 const fieldsToSend = ['limit', 'enabled', 'rps', 'maxSuccessivelyErrors',
   'name', 'errorIds', 'display', 'description', 'resourceId', 'gateway',
-  'patterns', 'failureDialDelay'];
+  'patterns', 'failureDialDelay', 'parameters'];
 
 const defaultListObject = {
   gateway: null,
@@ -29,6 +29,10 @@ const defaultSingleObject = {
   errorIds: [],
   patterns: [],
   failureDialDelay: 0,
+  parameters: {
+    cidType: '',
+    ignoreEarlyMedia: '',
+  },
 };
 
 const itemResponseHandler = (response) => {

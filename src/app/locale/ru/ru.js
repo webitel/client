@@ -667,6 +667,8 @@ export default {
         searchPlaceholder: 'название, шлюз..',
         cps: 'CPS',
         limit: 'Лимит',
+        cidType: 'CID Type',
+        ignoreEarlyMedia: 'Ignore Early Media',
         numbers: 'Номер | Номера',
         displayNumbers: 'Номер для отображения',
         failure: 'Сбой',
