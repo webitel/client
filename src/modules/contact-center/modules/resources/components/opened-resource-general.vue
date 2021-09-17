@@ -41,25 +41,24 @@
         required
         @input="setItemProp({ prop: 'limit', value: +$event })"
       ></wt-input>
-
       <wt-select
-        v-model="cidType"
+        :value="itemInstance.parameters.cidType"
         :label="$t('objects.ccenter.res.cidType')"
         :options="dropdownOptionsCidTypeList"
         :clearable="true"
-        track-by="value"
+        :track-by="null"
         :disabled="disableUserInput"
+        @input="setItemParameterProp({ prop: 'cidType', value: $event })"
       ></wt-select>
-
       <wt-select
-        v-model="ignoreEarlyMedia"
+        :value="itemInstance.parameters.ignoreEarlyMedia"
         :label="$t('objects.ccenter.res.ignoreEarlyMedia')"
         :options="dropdownOptionsEarlyMediaList"
         :clearable="true"
-        track-by="value"
+        :track-by="null"
         :disabled="disableUserInput"
+        @input="setItemParameterProp({ prop: 'ignoreEarlyMedia', value: $event })"
       ></wt-select>
-
       <wt-textarea
         :value="itemInstance.description"
         :label="$t('objects.description')"
@@ -82,48 +81,18 @@ import { mapActions } from 'vuex';
 import { getGatewayList } from '../../../../routing/modules/gateways/api/gateways';
 import openedTabComponentMixin
   from '../../../../../app/mixins/objectPagesMixins/openedObjectTabMixin/openedTabComponentMixin';
-import { CidTypeList } from '../store/_internals/enums/CidType.enum';
-import { EarlyMediaList } from '../store/_internals/enums/EarlyMedia.enum';
+import CidTypeList from '../lookups/CidType.lookup';
+import EarlyMediaList from '../lookups/EarlyMedia.lookup';
 
 export default {
   name: 'opened-resource-general',
   mixins: [openedTabComponentMixin],
   computed: {
-    cidType: {
-      get() {
-        return this.dropdownOptionsCidTypeList
-          .find((type) => type.value === this.itemInstance.parameters.cidType);
-      },
-      set(value) {
-        this.setItemParameterProp({
-          prop: 'cidType',
-          value: value.value,
-        });
-      },
-    },
-    ignoreEarlyMedia: {
-      get() {
-        return this.dropdownOptionsEarlyMediaList
-          .find((media) => media.value === this.itemInstance.parameters.ignoreEarlyMedia);
-      },
-      set(value) {
-        this.setItemParameterProp({
-          prop: 'ignoreEarlyMedia',
-          value: value.value,
-        });
-      },
-    },
     dropdownOptionsCidTypeList() {
-      return CidTypeList.map((type) => ({
-        value: type.value,
-        name: type.value,
-      }));
+      return CidTypeList;
     },
     dropdownOptionsEarlyMediaList() {
-      return EarlyMediaList.map((type) => ({
-        value: type.value,
-        name: type.value,
-      }));
+      return EarlyMediaList;
     },
   },
   methods: {
