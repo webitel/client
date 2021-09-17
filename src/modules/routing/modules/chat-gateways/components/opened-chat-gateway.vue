@@ -198,7 +198,7 @@ export default {
 
     path() {
       const baseUrl = '/routing/chat-gateways';
-      const url = baseUrl.concat(this.chatType);
+      const url = baseUrl.concat(`/${this.chatType}`);
       return [
         { name: this.$t('objects.routing.routing') },
         { name: this.$tc('objects.routing.chatGateways.chatGateways', 2), route: baseUrl },
