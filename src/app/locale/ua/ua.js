@@ -373,6 +373,15 @@ export default {
       flow: {
         flow: 'Схема',
         allFlowSchemas: 'Всі схеми дзвінків',
+        createFlowSelectionPopup: 'Створити нову схему',
+        diagram: {
+          diagram: 'Діаграма',
+          description: 'Створити нову схему використовуючи Webitel Flow Diagram',
+        },
+        code: {
+          code: 'Код',
+          description: 'Створити нову схему використовуючи JSON-схему у редакторі коду',
+        },
       },
 
       dialplan: {

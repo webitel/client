@@ -127,7 +127,7 @@ export default {
     routeName: RouteNames.FLOW,
     isUploadPopup: false,
     jsonFile: null,
-    isCreateFlowPopup: true,
+    isCreateFlowPopup: false,
   }),
 
   computed: {
@@ -140,6 +140,9 @@ export default {
   },
 
   methods: {
+    create() {
+      this.isCreateFlowPopup = true;
+    },
     processJSON(files) {
       const file = files[0];
       if (file) {

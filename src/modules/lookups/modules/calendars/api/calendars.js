@@ -1,4 +1,5 @@
 import { CalendarServiceApiFactory } from 'webitel-sdk';
+import { SdkListGetterApiConsumer } from 'webitel-sdk/esm2015/api-consumers';
 import instance from '../../../../../app/api/instance';
 import configuration from '../../../../../app/api/openAPIConfig';
 import SDKDeleter from '../../../../../app/api/BaseAPIServices/Deleter/SDKDeleter';
@@ -76,10 +77,16 @@ export const addCalendar = (params) => itemCreator.createItem(params);
 export const updateCalendar = (params) => itemUpdater.updateItem(params);
 export const deleteCalendar = (params) => itemDeleter.deleteItem(params);
 
+
+// FIXME REFACTOR ALL COMPONENTS WITH WEBITEL-SDK CONSUMERS
+const _listGetter = new SdkListGetterApiConsumer(calendarService.searchCalendar);
+const getCalendarsLookup = (params) => _listGetter.getLookup(params);
+
 export default {
   getList: getCalendarList,
   get: getCalendar,
   add: addCalendar,
   update: updateCalendar,
   delete: deleteCalendar,
+  getLookup: getCalendarsLookup,
 };
