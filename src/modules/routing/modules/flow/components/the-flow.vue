@@ -71,6 +71,14 @@
                 {{ item.name }}
               </item-link>
             </template>
+            <template slot="editor" slot-scope="{ item }">
+              <div v-if="item.payload && Object.keys(item.payload).length">
+                {{ $t('objects.routing.flow.diagram.diagram') }}
+              </div>
+              <div v-else>
+                {{ $t('objects.routing.flow.code.code') }}
+              </div>
+            </template>
             <template slot="actions" slot-scope="{ item }">
             <wt-icon-btn
               class="table-action"
@@ -161,6 +169,14 @@ export default {
       const flow = await getFlow({ id });
       const filename = `${name}-schema`;
       downloadAsJSON(flow, filename);
+    },
+    /**
+      @overrides itemLinkMixin.js
+     */
+    itemLink({ id, payload }) {
+      const isDiagram = payload && Object.keys(payload).length;
+      const routeName = this.routeName || this.tableObjectRouteName;
+      return { name: `${routeName}-edit`, params: { id }, hash: isDiagram ? '#diagram' : null };
     },
   },
 };

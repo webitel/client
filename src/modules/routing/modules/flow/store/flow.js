@@ -10,9 +10,13 @@ const resettableState = {
   },
 };
 
+const state = {
+  fields: ['id'].concat(headers.map((header) => header.field)),
+};
+
 const flow = new ObjectStoreModule({ resettableState, headers })
   .attachAPIModule(FlowAPI)
   .generateAPIActions()
-  .getModule();
+  .getModule({ state });
 
 export default flow;
