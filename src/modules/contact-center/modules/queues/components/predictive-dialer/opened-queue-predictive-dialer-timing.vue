@@ -25,7 +25,14 @@
         :disabled="disableUserInput"
         @input="setItemPayloadProp({ prop: 'waitBetweenRetries', value: +$event })"
       ></wt-timepicker>
-      <div></div>
+      <wt-select
+        v-model="statisticTime"
+        :label="$t('objects.ccenter.queues.statisticTime')"
+        :options="dropdownOptionsStatisticTimeList"
+        :clearable="false"
+        track-by="value"
+        :disabled="disableUserInput"
+      ></wt-select>
       <wt-input
         :value="itemInstance.payload.maxAttempts"
         :label="$t('objects.ccenter.queues.maxAttempts')"
@@ -34,11 +41,11 @@
         @input="setItemPayloadProp({ prop: 'maxAttempts', value: +$event })"
       ></wt-input>
       <wt-input
-        :value="itemInstance.payload.maxAgentLine"
-        :label="$t('objects.ccenter.queues.maxAgentLine')"
+        :value="itemInstance.payload.minAttempts"
+        :label="$t('objects.ccenter.queues.minAttempts')"
         :disabled="disableUserInput"
         type="number"
-        @input="setItemPayloadProp({ prop: 'maxAgentLine', value: +$event })"
+        @input="setItemPayloadProp({ prop: 'minAttempts', value: +$event })"
       ></wt-input>
       <wt-input
         :value="itemInstance.payload.maxAgentLose"
@@ -48,11 +55,11 @@
         @input="setItemPayloadProp({ prop: 'maxAgentLose', value: +$event })"
       ></wt-input>
       <wt-input
-        :value="itemInstance.payload.minAttempts"
-        :label="$t('objects.ccenter.queues.minAttempts')"
+        :value="itemInstance.payload.maxAgentLine"
+        :label="$t('objects.ccenter.queues.maxAgentLine')"
         :disabled="disableUserInput"
         type="number"
-        @input="setItemPayloadProp({ prop: 'minAttempts', value: +$event })"
+        @input="setItemPayloadProp({ prop: 'maxAgentLine', value: +$event })"
       ></wt-input>
       <wt-input
         :value="itemInstance.payload.maxAbandonedRate"
@@ -148,6 +155,7 @@
 <script>
 import { mapActions } from 'vuex';
 import openedTabComponentMixin from '../../../../../../app/mixins/objectPagesMixins/openedObjectTabMixin/openedTabComponentMixin';
+import StatisticTimeList from '../../store/_internals/enums/StatisticTime.enum';
 
 export default {
   name: 'opened-queue-outbound-ivr-timing',
@@ -158,6 +166,24 @@ export default {
         return dispatch(`${this.namespace}/SET_ITEM_PAYLOAD_PROPERTY`, payload);
       },
     }),
+  },
+  computed: {
+    statisticTime: {
+      get() {
+        return this.dropdownOptionsStatisticTimeList
+          .find((time) => time.value === this.itemInstance.payload.statisticTime);
+      },
+      set(value) {
+        this.setItemPayloadProp({ prop: 'statisticTime', value: value.value });
+      },
+    },
+
+    dropdownOptionsStatisticTimeList() {
+      return StatisticTimeList.map((time) => ({
+        value: time.value,
+        name: this.$t(`objects.ccenter.queues.time.${time.name}`),
+      }));
+    },
   },
 };
 </script>
