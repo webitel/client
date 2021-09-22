@@ -6,15 +6,24 @@
 </template>
 
 <script>
+import { mapActions } from 'vuex';
+import { objCamelToSnake } from '@webitel/ui-sdk/src/scripts/caseConverters';
 import calendarsAPI from '../../../../lookups/modules/calendars/api/calendars';
+import openedTabComponentMixin from '../../../../../app/mixins/objectPagesMixins/openedObjectTabMixin/openedTabComponentMixin';
 
 export default {
   name: 'opened-flow-diagram',
+  mixins: [openedTabComponentMixin],
   data: () => ({
     diagram: null,
     isLoading: true,
   }),
   methods: {
+    ...mapActions({
+      save(dispatch, payload) {
+        return dispatch(`${this.namespace}/ADD_ITEM`, payload);
+      },
+    }),
     async initDiagram() {
       const script = document.createElement('script');
       script.src = 'https://dev.webitel.com/flow-diagram/WtFlowDiagram.umd.min.js';
@@ -24,7 +33,20 @@ export default {
             calendars: calendarsAPI.getLookup,
           },
         };
-        this.diagram = new window.WtFlowDiagram.default('#flow-diagram', config);
+        const WtFlowDiagram = window.WtFlowDiagram.default;
+        this.diagram = new WtFlowDiagram('#flow-diagram', config);
+        const onSave = ({ schema, payload }) => {
+          console.log('save!', payload);
+          const name = `visual test--${Math.random()}`;
+          this.setItemProp({ prop: 'name', value: name });
+          this.setItemProp({ prop: 'schema', value: schema });
+          this.setItemProp({ prop: 'payload', value: payload });
+          this.save();
+        };
+        const onClose = () => this.$router.push('/routing/flow');
+        this.diagram.on(WtFlowDiagram.Event.SAVE, onSave);
+        this.diagram.on(WtFlowDiagram.Event.CLOSE, onClose);
+
         this.isLoading = false;
       };
       document.head.appendChild(script);

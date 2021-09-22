@@ -6,6 +6,7 @@ const resettableState = {
   itemInstance: {
     name: '',
     schema: '[]',
+    payload: {},
   },
 };
 
