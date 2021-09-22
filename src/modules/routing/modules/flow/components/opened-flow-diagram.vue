@@ -7,7 +7,6 @@
 
 <script>
 import { mapActions } from 'vuex';
-import { objCamelToSnake } from '@webitel/ui-sdk/src/scripts/caseConverters';
 import calendarsAPI from '../../../../lookups/modules/calendars/api/calendars';
 import openedTabComponentMixin from '../../../../../app/mixins/objectPagesMixins/openedObjectTabMixin/openedTabComponentMixin';
 
@@ -18,12 +17,17 @@ export default {
     diagram: null,
     isLoading: true,
   }),
+  computed: {
+    isEdit() {
+      return !!this.$route.params?.id;
+    },
+  },
   methods: {
-    ...mapActions({
-      save(dispatch, payload) {
-        return dispatch(`${this.namespace}/ADD_ITEM`, payload);
-      },
-    }),
+    // ...mapActions({
+    //   save(dispatch, payload) {
+    //     return dispatch(`${this.namespace}/ADD_ITEM`, payload);
+    //   },
+    // }),
     async initDiagram() {
       const script = document.createElement('script');
       script.src = 'https://dev.webitel.com/flow-diagram/WtFlowDiagram.umd.min.js';
@@ -35,17 +39,21 @@ export default {
         };
         const WtFlowDiagram = window.WtFlowDiagram.default;
         this.diagram = new WtFlowDiagram('#flow-diagram', config);
-        const onSave = ({ schema, payload }) => {
-          console.log('save!', payload);
+        const onSave = async ({ schema, payload }) => {
+          console.log('save!', { schema, payload });
           const name = `visual test--${Math.random()}`;
-          this.setItemProp({ prop: 'name', value: name });
-          this.setItemProp({ prop: 'schema', value: schema });
-          this.setItemProp({ prop: 'payload', value: payload });
+          await Promise.all([
+            this.setItemProp({ prop: 'name', value: name }),
+            this.setItemProp({ prop: 'schema', value: schema }),
+            this.setItemProp({ prop: 'payload', value: payload }),
+          ]);
           this.save();
         };
-        const onClose = () => this.$router.push('/routing/flow');
         this.diagram.on(WtFlowDiagram.Event.SAVE, onSave);
-        this.diagram.on(WtFlowDiagram.Event.CLOSE, onClose);
+        this.diagram.on(WtFlowDiagram.Event.CLOSE, this.close.bind(this));
+
+        console.info(JSON.stringify(this.itemInstance.payload));
+        if (this.isEdit) setTimeout(() => this.diagram.setDiagram(this.itemInstance), 1500); // restore edited diagram
 
         this.isLoading = false;
       };
@@ -57,6 +65,12 @@ export default {
       link.rel = 'stylesheet';
       link.media = 'screen,print';
       document.head.appendChild(link);
+    },
+    save() {
+      this.$emit('save');
+    },
+    close() {
+      this.$emit('close');
     },
   },
   mounted() {

@@ -52,6 +52,7 @@ export default {
     }),
 
     async save() {
+      console.info(JSON.parse(JSON.stringify(this.itemInstance)));
       const invalid = this.checkValidations();
       if (!invalid) {
         if (this.id) {
