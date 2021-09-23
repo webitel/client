@@ -30,7 +30,7 @@
 
 <script>
 
-import { required, minValue, maxValue } from 'vuelidate/lib/validators';
+import { required, minValue, maxValue, minLength } from 'vuelidate/lib/validators';
 import openedObjectMixin
   from '../../../../../app/mixins/objectPagesMixins/openedObjectMixin/openedObjectMixin';
 import OpenedChatTelegram from './opened-chat-gateway-telegram-general-tab.vue';
@@ -59,7 +59,7 @@ export default {
   validations() {
     const defaults = {
       name: { required },
-      uri: { required },
+      uri: { required, minLength: minLength(3) },
       flow: {
         name: { required },
       },
