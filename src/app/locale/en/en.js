@@ -625,9 +625,18 @@ export default {
         afterGreetingSilence: 'After greeting silence (ms)',
         greeting: 'Greeting (ms)',
         initialSilence: 'Initial silence (ms)',
+        statisticTime: 'Recalculation interval',
         queueStrategy: {
           fifo: 'FIFO (First In First Out)',
           lifo: 'LIFO (Last In First Out)',
+        },
+        time: {
+          t15m: '15 min',
+          t30m: '30 min',
+          t45m: '45 min',
+          t1h: '1 hour',
+          t3h: '4 hour',
+          t6h: '6 hour',
         },
         logs: {
           logs: 'Log | Logs',
