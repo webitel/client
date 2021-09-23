@@ -155,7 +155,7 @@
 <script>
 import { mapActions } from 'vuex';
 import openedTabComponentMixin from '../../../../../../app/mixins/objectPagesMixins/openedObjectTabMixin/openedTabComponentMixin';
-import StatisticTimeList from '../../store/_internals/enums/StatisticTime.enum';
+import StatisticTimeList from '../../store/_internals/lookups/StatisticTime.lookup';
 
 export default {
   name: 'opened-queue-outbound-ivr-timing',
