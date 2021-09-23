@@ -44,7 +44,7 @@
       <wt-select
         :value="itemInstance.parameters.cidType"
         :label="$t('objects.ccenter.res.cidType')"
-        :options="dropdownOptionsCidTypeList"
+        :options="CidTypeList"
         :clearable="true"
         :track-by="null"
         :disabled="disableUserInput"
@@ -53,7 +53,7 @@
       <wt-select
         :value="itemInstance.parameters.ignoreEarlyMedia"
         :label="$t('objects.ccenter.res.ignoreEarlyMedia')"
-        :options="dropdownOptionsEarlyMediaList"
+        :options="EarlyMediaList"
         :clearable="true"
         :track-by="null"
         :disabled="disableUserInput"
@@ -87,13 +87,11 @@ import EarlyMediaList from '../lookups/EarlyMedia.lookup';
 export default {
   name: 'opened-resource-general',
   mixins: [openedTabComponentMixin],
-  computed: {
-    dropdownOptionsCidTypeList() {
-      return CidTypeList;
-    },
-    dropdownOptionsEarlyMediaList() {
-      return EarlyMediaList;
-    },
+  data() {
+    return {
+      CidTypeList,
+      EarlyMediaList,
+    };
   },
   methods: {
     ...mapActions({
