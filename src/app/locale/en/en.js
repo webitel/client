@@ -671,6 +671,8 @@ export default {
         searchPlaceholder: 'name, gateway..',
         cps: 'CPS',
         limit: 'Limit',
+        cidType: 'CID Type',
+        ignoreEarlyMedia: 'Ignore Early Media',
         numbers: 'Number | Numbers',
         displayNumbers: 'Display numbers',
         failure: 'Failure',

@@ -41,6 +41,24 @@
         required
         @input="setItemProp({ prop: 'limit', value: +$event })"
       ></wt-input>
+      <wt-select
+        :value="itemInstance.parameters.cidType"
+        :label="$t('objects.ccenter.res.cidType')"
+        :options="CidTypeList"
+        :clearable="true"
+        :track-by="null"
+        :disabled="disableUserInput"
+        @input="setItemParameterProp({ prop: 'cidType', value: $event })"
+      ></wt-select>
+      <wt-select
+        :value="itemInstance.parameters.ignoreEarlyMedia"
+        :label="$t('objects.ccenter.res.ignoreEarlyMedia')"
+        :options="EarlyMediaList"
+        :clearable="true"
+        :track-by="null"
+        :disabled="disableUserInput"
+        @input="setItemParameterProp({ prop: 'ignoreEarlyMedia', value: $event })"
+      ></wt-select>
       <wt-textarea
         :value="itemInstance.description"
         :label="$t('objects.description')"
@@ -59,14 +77,28 @@
 </template>
 
 <script>
+import { mapActions } from 'vuex';
 import { getGatewayList } from '../../../../routing/modules/gateways/api/gateways';
 import openedTabComponentMixin
   from '../../../../../app/mixins/objectPagesMixins/openedObjectTabMixin/openedTabComponentMixin';
+import CidTypeList from '../lookups/CidType.lookup';
+import EarlyMediaList from '../lookups/EarlyMedia.lookup';
 
 export default {
   name: 'opened-resource-general',
   mixins: [openedTabComponentMixin],
+  data() {
+    return {
+      CidTypeList,
+      EarlyMediaList,
+    };
+  },
   methods: {
+    ...mapActions({
+      setItemParameterProp(dispatch, payload) {
+        return dispatch(`${this.namespace}/SET_ITEM_PARAMETERS_PROPERTY`, payload);
+      },
+    }),
     async loadDropdownOptionsList(search) {
       const response = await getGatewayList({ search });
       return response.list.map((item) => ({
