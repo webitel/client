@@ -48,6 +48,11 @@ const itemResponseHandler = (response) => {
     // eslint-disable-next-line no-param-reassign
     response.patterns = response.patterns.map((item) => ({ name: item }));
   }
+  // eslint-disable-next-line no-param-reassign
+  response.parameters = {
+    ...defaultSingleObject.parameters,
+    ...response.parameters,
+  };
   return response;
 };
 
