@@ -628,6 +628,7 @@ export default {
         queueStrategy: {
           fifo: 'FIFO (Первый зашёл Первый вышел)',
           lifo: 'LIFO (Последний зашёл Первый вышел)',
+          strict_fifo: 'Strict FIFO (Первый зашёл Первый вышел)',
         },
         time: {
           t15m: '15 мин',
