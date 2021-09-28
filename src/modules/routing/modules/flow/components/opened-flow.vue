@@ -1,5 +1,10 @@
 <template>
-  <diagram v-if="isDiagram"></diagram>
+  <diagram
+    v-if="isDiagram"
+    :namespace="namespace"
+    @save="save"
+    @close="close"
+  ></diagram>
   <wt-page-wrapper v-else :actions-panel="false">
     <template slot="header">
       <object-header

@@ -60,14 +60,22 @@ export default {
           try {
             await this.addItem();
             if (this.id) {
-              const routeName = this.$route.name.replace('-new', '-edit');
-              await this.$router.replace({ name: routeName, params: { id: this.id } });
+              await this.redirectToEdit();
             }
           } catch (err) {
             throw err;
           }
         }
       }
+    },
+
+    async redirectToEdit() {
+      const routeName = this.$route.name.replace('-new', '-edit');
+      return this.$router.replace({
+        name: routeName,
+        params: { id: this.id },
+        hash: this.$route.hash,
+      });
     },
   },
 };

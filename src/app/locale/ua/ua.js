@@ -374,6 +374,7 @@ export default {
         flow: 'Схема',
         allFlowSchemas: 'Всі схеми дзвінків',
         createFlowSelectionPopup: 'Створити нову схему',
+        editor: 'Редактор',
         diagram: {
           diagram: 'Діаграма',
           description: 'Створити нову схему використовуючи Webitel Flow Diagram',

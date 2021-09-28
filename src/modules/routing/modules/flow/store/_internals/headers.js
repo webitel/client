@@ -7,4 +7,10 @@ export default [
     field: 'name',
     sort: SortSymbols.NONE,
   },
+  {
+    value: 'editor',
+    locale: 'objects.routing.flow.editor',
+    field: 'payload',
+    sort: SortSymbols.NONE,
+  },
 ];

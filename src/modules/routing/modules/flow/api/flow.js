@@ -13,9 +13,7 @@ const fieldsToSend = ['name', 'schema', 'payload'];
 
 const preRequestHandler = (item) => {
   // eslint-disable-next-line no-param-reassign
-  item.schema = JSON.parse(item.schema);
-  // eslint-disable-next-line no-param-reassign
-  item.payload = {};
+  if (typeof item.schema === 'string') item.schema = JSON.parse(item.schema);
   return item;
 };
 

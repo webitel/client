@@ -374,6 +374,7 @@ export default {
         flow: 'Flow',
         allFlowSchemas: 'All flow schemas',
         createFlowSelectionPopup: 'Create new flow',
+        editor: 'Editor',
         diagram: {
           diagram: 'Diagram',
           description: 'Create new flow using Webitel Flow Diagram tool',

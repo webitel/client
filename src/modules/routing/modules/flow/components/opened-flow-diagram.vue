@@ -7,24 +7,48 @@
 
 <script>
 import calendarsAPI from '../../../../lookups/modules/calendars/api/calendars';
+import openedTabComponentMixin from '../../../../../app/mixins/objectPagesMixins/openedObjectTabMixin/openedTabComponentMixin';
 
 export default {
   name: 'opened-flow-diagram',
+  mixins: [openedTabComponentMixin],
   data: () => ({
     diagram: null,
     isLoading: true,
   }),
+  computed: {
+    isEdit() {
+      return !!this.$route.params?.id;
+    },
+  },
   methods: {
     async initDiagram() {
       const script = document.createElement('script');
       script.src = 'https://dev.webitel.com/flow-diagram/WtFlowDiagram.umd.min.js';
       script.onload = () => {
-        const config = {
-          search: {
-            calendars: calendarsAPI.getLookup,
+        const params = {
+          diagram: this.isEdit ? this.itemInstance : null, // if edit, restore diagram
+          config: {
+            search: {
+              calendars: calendarsAPI.getLookup,
+            },
           },
         };
-        this.diagram = new window.WtFlowDiagram.default('#flow-diagram', config);
+        const WtFlowDiagram = window.WtFlowDiagram.default;
+        this.diagram = new WtFlowDiagram('#flow-diagram', params);
+        const onSave = async ({ name, schema, payload }) => {
+          await Promise.all([
+            this.setItemProp({ prop: 'name', value: name }),
+            this.setItemProp({ prop: 'schema', value: schema }),
+            this.setItemProp({ prop: 'payload', value: payload }),
+          ]);
+          this.save();
+        };
+        this.diagram.on(WtFlowDiagram.Event.SAVE, onSave);
+        this.diagram.on(WtFlowDiagram.Event.CLOSE, this.close.bind(this));
+
+        console.info(JSON.stringify(this.itemInstance.payload));
+
         this.isLoading = false;
       };
       document.head.appendChild(script);
@@ -35,6 +59,12 @@ export default {
       link.rel = 'stylesheet';
       link.media = 'screen,print';
       document.head.appendChild(link);
+    },
+    save() {
+      this.$emit('save');
+    },
+    close() {
+      this.$emit('close');
     },
   },
   mounted() {
