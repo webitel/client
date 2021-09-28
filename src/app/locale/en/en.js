@@ -459,7 +459,9 @@ export default {
           square: 'Square',
           right: 'Right',
           left: 'Left',
+          static: 'Static',
           copy: 'Copy code for site',
+          openTimeout: 'Open Timeout',
         },
       },
 

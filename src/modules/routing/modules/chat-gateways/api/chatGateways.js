@@ -23,17 +23,23 @@ const defaultListObject = { // default object prototype, to merge response with 
 const convertWebchatSeconds = (num) => `${num}s`;
 
 const preRequestHandler = (item) => {
-  if (item.metadata.readTimeout) {
-    item.metadata.readTimeout = convertWebchatSeconds(item.metadata.readTimeout);
-  }
-  if (item.metadata.writeTimeout) {
-    item.metadata.writeTimeout = convertWebchatSeconds(item.metadata.writeTimeout);
-  }
-  if (item.metadata.handshakeTimeout) {
-    item.metadata.handshakeTimeout = convertWebchatSeconds(item.metadata.handshakeTimeout);
-  }
-  if (item.metadata.allowOrigin) {
-    item.metadata.allowOrigin = item.metadata.allowOrigin.map((obj) => obj.text).join();
+  if (item.provider === MessengerType.WEB_CHAT) {
+    if (item.metadata.readTimeout) {
+      item.metadata.readTimeout = convertWebchatSeconds(item.metadata.readTimeout);
+    };
+    if (item.metadata.writeTimeout) {
+      item.metadata.writeTimeout = convertWebchatSeconds(item.metadata.writeTimeout);
+    };
+    if (item.metadata.handshakeTimeout) {
+      item.metadata.handshakeTimeout = convertWebchatSeconds(item.metadata.handshakeTimeout);
+    };
+    if (item.metadata.allowOrigin) {
+      item.metadata.allowOrigin = item.metadata.allowOrigin.map((obj) => obj.text).join();
+    };
+    if (item.metadata.openTimeout) {
+      item.metadata.openTimeout = item.metadata.openTimeout + '';
+    };
+    item.metadata.timeoutIsActive = item.metadata.timeoutIsActive ? 'true' : 'false';
   }
   return item;
 };
@@ -56,14 +62,17 @@ itemGetter.responseHandler = (response) => {
 
     if (response.metadata.readTimeout) {
       response.metadata.readTimeout = parseTimeoutSeconds(response.metadata.readTimeout);
-    }
+    };
     if (response.metadata.writeTimeout) {
       response.metadata.writeTimeout = parseTimeoutSeconds(response.metadata.writeTimeout);
-    }
+    };
     if (response.metadata.handshakeTimeout) {
       response.metadata.handshakeTimeout = parseTimeoutSeconds(response.metadata.handshakeTimeout);
-    }
-  }
+    };
+    if (response.metadata.timeoutIsActive) {
+      response.metadata.timeoutIsActive = response.metadata.timeoutIsActive === 'true';
+    };
+  };
   return {
     ...baseItem,
     ...response,

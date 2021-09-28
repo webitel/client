@@ -113,6 +113,9 @@ export default {
                 minValue: minValue(10),
                 maxValue: maxValue(60),
               },
+              openTimeout: {
+                minValue: minValue(0),
+              },
             },
           },
         };

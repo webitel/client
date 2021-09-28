@@ -459,7 +459,9 @@ export default {
           square: 'Квадратна',
           right: 'Справа',
           left: 'Зліва',
+          static: 'Статична',
           copy: 'Копіювати код',
+          openTimeout: 'Затримка відкриття',
         },
       },
 

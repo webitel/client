@@ -460,7 +460,9 @@ export default {
           square: 'Квадратная',
           right: 'Справа',
           left: 'Слева',
+          static: 'Статическая',
           copy: 'Скопировать код',
+          openTimeout: 'Задержка открытия',
         },
       },
 
