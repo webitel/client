@@ -6,7 +6,6 @@
 </template>
 
 <script>
-import { mapActions } from 'vuex';
 import calendarsAPI from '../../../../lookups/modules/calendars/api/calendars';
 import openedTabComponentMixin from '../../../../../app/mixins/objectPagesMixins/openedObjectTabMixin/openedTabComponentMixin';
 
@@ -23,25 +22,21 @@ export default {
     },
   },
   methods: {
-    // ...mapActions({
-    //   save(dispatch, payload) {
-    //     return dispatch(`${this.namespace}/ADD_ITEM`, payload);
-    //   },
-    // }),
     async initDiagram() {
       const script = document.createElement('script');
       script.src = 'https://dev.webitel.com/flow-diagram/WtFlowDiagram.umd.min.js';
       script.onload = () => {
-        const config = {
-          search: {
-            calendars: calendarsAPI.getLookup,
+        const params = {
+          diagram: this.isEdit ? this.itemInstance : null, // if edit, restore diagram
+          config: {
+            search: {
+              calendars: calendarsAPI.getLookup,
+            },
           },
         };
         const WtFlowDiagram = window.WtFlowDiagram.default;
-        this.diagram = new WtFlowDiagram('#flow-diagram', config);
-        const onSave = async ({ schema, payload }) => {
-          console.log('save!', { schema, payload });
-          const name = `visual test--${Math.random()}`;
+        this.diagram = new WtFlowDiagram('#flow-diagram', params);
+        const onSave = async ({ name, schema, payload }) => {
           await Promise.all([
             this.setItemProp({ prop: 'name', value: name }),
             this.setItemProp({ prop: 'schema', value: schema }),
@@ -53,7 +48,6 @@ export default {
         this.diagram.on(WtFlowDiagram.Event.CLOSE, this.close.bind(this));
 
         console.info(JSON.stringify(this.itemInstance.payload));
-        if (this.isEdit) setTimeout(() => this.diagram.setDiagram(this.itemInstance), 1500); // restore edited diagram
 
         this.isLoading = false;
       };
