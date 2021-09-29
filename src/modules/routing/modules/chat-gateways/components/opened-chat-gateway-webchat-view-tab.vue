@@ -92,8 +92,8 @@ import { mapActions } from 'vuex';
 import { Slider, Alpha } from 'vue-color';
 import openedTabComponentMixin
   from '../../../../../app/mixins/objectPagesMixins/openedObjectTabMixin/openedTabComponentMixin';
-import previewMixin from '../mixins/previewMixin';
-import viewFormMixin from '../mixins/viewFormMixin';
+import webChatPreviewMixin from '../mixins/webChatPreviewMixin';
+import webChatViewFormMixin from '../mixins/webChatViewFormMixin';
 
 const BASE_URL = 'wss://cloud.webitel.ua';
 
@@ -157,7 +157,7 @@ const generateCode = ({
 
 export default {
   name: 'opened-chat-gateway-webchat-view-tab',
-  mixins: [openedTabComponentMixin, previewMixin, viewFormMixin],
+  mixins: [openedTabComponentMixin, webChatViewFormMixin, webChatPreviewMixin],
   components: {
     ColorPicker: Slider,
     OpacityPicker: Alpha,
@@ -169,12 +169,12 @@ export default {
       },
     }),
     copyCode() {
-      const timeout = this.itemInstance.metadata.timeoutIsActive ? this.itemInstance.metadata.openTimeout : false;
+      const openTimeout = this.itemInstance.metadata.timeoutIsActive ? this.itemInstance.metadata.openTimeout : false;
       const config = getConfig(this.itemInstance.metadata);
       const code = generateCode({
         ...config,
+        openTimeout,
         uri: this.itemInstance.uri,
-        openTimeout: timeout,
       });
       clipboardCopy(code);
       this.isCopied = true;

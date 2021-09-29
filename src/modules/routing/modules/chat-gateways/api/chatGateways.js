@@ -65,9 +65,11 @@ const preRequestHandler = (item) => {
   switch (item.provider) {
     case MessengerType.WEB_CHAT:
       item = webchatRequestConverter(item);
+      break;
     default:
-      return item;
-  }
+      break;
+  };
+  return item;
 };
 
 const baseItem = { _dirty: false };
@@ -84,11 +86,12 @@ itemGetter.responseHandler = (response) => {
     case MessengerType.WEB_CHAT:
       response = webChatResponseConverter(response);
     default:
-      return {
-        ...baseItem,
-        ...response,
-      };
-  }
+      break;
+  };
+  return {
+    ...baseItem,
+    ...response,
+  };
 };
 
 export const getChatGatewayList = (params) => listGetter.getList({ ...params, searchQuery: 'q' });
