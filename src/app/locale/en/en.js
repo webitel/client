@@ -455,6 +455,7 @@ export default {
           btnOpacity: 'Button Opacity',
           btnColor: 'Button Color',
           logoUrl: 'Logo URL',
+          logoHint: 'Recommended logo format is \'JPEG\' or \'PNG\', 24x24px',
           rounded: 'Rounded',
           square: 'Square',
           right: 'Right',

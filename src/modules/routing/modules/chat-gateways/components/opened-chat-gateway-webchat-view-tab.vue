@@ -44,7 +44,9 @@
           ></wt-select>
           <wt-input
             :value="itemInstance.metadata.logoUrl"
+            :v="v.itemInstance.metadata.logoUrl"
             :label="$t('objects.routing.chatGateways.metadata.logoUrl')"
+            :label-props=" { hint: this.$t('objects.routing.chatGateways.metadata.logoHint'), hintPosition: 'right' }"
             :disabled="disableUserInput"
             @input="setItemMetadata({ prop: 'logoUrl', value: $event })"
           ></wt-input>
@@ -90,6 +92,7 @@ import { mapActions } from 'vuex';
 import { Slider, Alpha } from 'vue-color';
 import openedTabComponentMixin
   from '../../../../../app/mixins/objectPagesMixins/openedObjectTabMixin/openedTabComponentMixin';
+import webchatConfigMixin from '../mixins/webchatConfigMixin';
 import webchatViewMixin from '../mixins/webchatViewMixin';
 
 const BASE_URL = 'wss://cloud.webitel.ua';
@@ -154,28 +157,10 @@ const generateCode = ({
 
 export default {
   name: 'opened-chat-gateway-webchat-view-tab',
-  mixins: [openedTabComponentMixin, webchatViewMixin],
+  mixins: [openedTabComponentMixin, webchatViewMixin, webchatConfigMixin],
   components: {
     ColorPicker: Slider,
     OpacityPicker: Alpha,
-  },
-  data: () => ({
-    chatPreview: null,
-    buttonPreview: null,
-  }),
-  computed: {
-    openTimeoutValue() {
-      return this.itemInstance.metadata.timeoutIsActive ? this.itemInstance.metadata.openTimeout : false;
-    },
-  },
-  watch: {
-    'itemInstance.metadata': {
-      handler() {
-        this.updateChatPreview();
-        this.updateButtonPreview();
-      },
-      deep: true,
-    },
   },
   methods: {
     ...mapActions({
@@ -183,43 +168,6 @@ export default {
         return dispatch(`${this.namespace}/SET_ITEM_METADATA`, payload);
       },
     }),
-    getPreviewConfig(previewMode) {
-      return {
-        ...this.itemInstance.metadata,
-        position: 'static',
-        _previewMode: previewMode,
-      };
-    },
-    initWidgetPreview() {
-      const baseUrl = process.env.VUE_APP_OMNI_WIDGET_URL;
-
-      let script = document.createElement('script');
-      script.src = `${baseUrl}/WtOmniWidget.umd.js`;
-      script.onload = () => {
-        this.chatPreview = new WtOmniWidget('#chat-preview', this.getPreviewConfig('chat'));
-      };
-      document.head.appendChild(script);
-
-      script = document.createElement('script');
-      script.src = `${baseUrl}/WtOmniWidget.umd.js`;
-      script.onload = () => {
-        this.buttonPreview = new WtOmniWidget('#chat-button-preview', this.getPreviewConfig('button'));
-      };
-      document.head.appendChild(script);
-
-      const link = document.createElement('link');
-      link.href = `${baseUrl}/WtOmniWidget.css`;
-      link.type = 'text/css';
-      link.rel = 'stylesheet';
-      link.media = 'screen,print';
-      document.head.appendChild(link);
-    },
-    updateChatPreview() {
-      this.chatPreview.setConfig(this.getPreviewConfig('chat'));
-    },
-    updateButtonPreview() {
-      this.buttonPreview.setConfig(this.getPreviewConfig('button'));
-    },
     copyCode() {
       const config = getConfig(this.itemInstance.metadata);
       const code = generateCode({
@@ -241,6 +189,8 @@ export default {
 @import "../css/chat-gateways";
 
 .webchat-view-main {
+  width: 50%;
+  min-width: 710px;
   display: flex;
   gap: var(--component-spacing);
   justify-content: space-between;
@@ -262,7 +212,7 @@ export default {
     margin-top: var(--component-spacing);
 
     .wt-input {
-      width: 80%;
+      width: 60%;
     }
   }
 

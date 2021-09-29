@@ -22,30 +22,55 @@ const defaultListObject = { // default object prototype, to merge response with 
 
 const convertWebchatSeconds = (num) => `${num}s`;
 
+const parseTimeoutSeconds = (item) => (item.includes('s') ? parseInt(item.replace('/s', '/'), 10) : +item);
+
+const webchatRequestConverter = (data) => {
+  if (data.readTimeout) {
+    data.readTimeout = convertWebchatSeconds(data.readTimeout);
+  };
+  if (data.writeTimeout) {
+    data.writeTimeout = convertWebchatSeconds(data.writeTimeout);
+  };
+  if (data.handshakeTimeout) {
+    data.handshakeTimeout = convertWebchatSeconds(data.handshakeTimeout);
+  };
+  if (data.allowOrigin) {
+    data.allowOrigin = data.allowOrigin.map((obj) => obj.text).join();
+  };
+  if (data.openTimeout) {
+    data.openTimeout = `${data.openTimeout}`;
+  };
+  data.timeoutIsActive = `${data.timeoutIsActive}`;
+  return data;
+};
+
+const webChatResponseConverter = (data) => {
+  data.allowOrigin = data.allowOrigin
+    ? data.allowOrigin.split(',').map((origin) => ({ text: origin }))
+    : [];
+  if (data.readTimeout) {
+    data.readTimeout = parseTimeoutSeconds(data.readTimeout);
+  };
+  if (data.writeTimeout) {
+    data.writeTimeout = parseTimeoutSeconds(data.writeTimeout);
+  };
+  if (data.handshakeTimeout) {
+    data.handshakeTimeout = parseTimeoutSeconds(data.handshakeTimeout);
+  };
+  data.timeoutIsActive = data.timeoutIsActive === 'true';
+};
+
 const preRequestHandler = (item) => {
-  if (item.provider === MessengerType.WEB_CHAT) {
-    if (item.metadata.readTimeout) {
-      item.metadata.readTimeout = convertWebchatSeconds(item.metadata.readTimeout);
-    };
-    if (item.metadata.writeTimeout) {
-      item.metadata.writeTimeout = convertWebchatSeconds(item.metadata.writeTimeout);
-    };
-    if (item.metadata.handshakeTimeout) {
-      item.metadata.handshakeTimeout = convertWebchatSeconds(item.metadata.handshakeTimeout);
-    };
-    if (item.metadata.allowOrigin) {
-      item.metadata.allowOrigin = item.metadata.allowOrigin.map((obj) => obj.text).join();
-    };
-    if (item.metadata.openTimeout) {
-      item.metadata.openTimeout = `${item.metadata.openTimeout}`;
-    };
-    item.metadata.timeoutIsActive = `${item.metadata.timeoutIsActive}`;
+  switch (item.provider) {
+    case MessengerType.WEB_CHAT:
+      webchatRequestConverter(item.metadata);
+      return item;
+    default:
+      return item;
   }
-  return item;
 };
 
 const baseItem = { _dirty: false };
-const parseTimeoutSeconds = (item) => (item.includes('s') ? parseInt(item.replace('/s', '/'), 10) : +item);
 
 const listGetter = new APIListGetter(BASE_URL, { defaultListObject });
 const itemGetter = new APIItemGetter(BASE_URL);
@@ -56,25 +81,8 @@ const itemDeleter = new APIItemDeleter(BASE_URL);
 
 itemGetter.responseHandler = (response) => {
   if (response.provider === MessengerType.WEB_CHAT) {
-    response.metadata.allowOrigin = response.metadata.allowOrigin
-      ? response.metadata.allowOrigin.split(',').map((origin) => ({ text: origin }))
-      : [];
-
-    if (response.metadata.readTimeout) {
-      response.metadata.readTimeout = parseTimeoutSeconds(response.metadata.readTimeout);
-    }
-    ;
-    if (response.metadata.writeTimeout) {
-      response.metadata.writeTimeout = parseTimeoutSeconds(response.metadata.writeTimeout);
-    }
-    ;
-    if (response.metadata.handshakeTimeout) {
-      response.metadata.handshakeTimeout = parseTimeoutSeconds(response.metadata.handshakeTimeout);
-    }
-    ;
-    response.metadata.timeoutIsActive = response.metadata.timeoutIsActive === 'true';
-  }
-  ;
+    webChatResponseConverter(response.metadata);
+  };
   return {
     ...baseItem,
     ...response,
