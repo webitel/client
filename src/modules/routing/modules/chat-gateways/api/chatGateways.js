@@ -37,9 +37,9 @@ const preRequestHandler = (item) => {
       item.metadata.allowOrigin = item.metadata.allowOrigin.map((obj) => obj.text).join();
     };
     if (item.metadata.openTimeout) {
-      item.metadata.openTimeout = item.metadata.openTimeout + '';
+      item.metadata.openTimeout = `${item.metadata.openTimeout}`;
     };
-    item.metadata.timeoutIsActive = item.metadata.timeoutIsActive ? 'true' : 'false';
+    item.metadata.timeoutIsActive = `${item.metadata.timeoutIsActive}`;
   }
   return item;
 };
@@ -62,17 +62,19 @@ itemGetter.responseHandler = (response) => {
 
     if (response.metadata.readTimeout) {
       response.metadata.readTimeout = parseTimeoutSeconds(response.metadata.readTimeout);
-    };
+    }
+    ;
     if (response.metadata.writeTimeout) {
       response.metadata.writeTimeout = parseTimeoutSeconds(response.metadata.writeTimeout);
-    };
+    }
+    ;
     if (response.metadata.handshakeTimeout) {
       response.metadata.handshakeTimeout = parseTimeoutSeconds(response.metadata.handshakeTimeout);
-    };
-    if (response.metadata.timeoutIsActive) {
-      response.metadata.timeoutIsActive = response.metadata.timeoutIsActive === 'true';
-    };
-  };
+    }
+    ;
+    response.metadata.timeoutIsActive = response.metadata.timeoutIsActive === 'true';
+  }
+  ;
   return {
     ...baseItem,
     ...response,

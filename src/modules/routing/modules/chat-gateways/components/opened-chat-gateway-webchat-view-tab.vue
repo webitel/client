@@ -4,80 +4,82 @@
       <wt-icon icon-prefix="messenger" icon="web-chat" size="sm"></wt-icon>
       <h3 class="content-title">{{ $t('objects.routing.chatGateways.webchat') }}</h3>
     </header>
-    <section class="content-main">
+    <section class="webchat-view-main">
       <section class="chat-preview-section">
         <div id="chat-preview"></div>
         <div class="copy-button-wrapper">
-          <wt-button color="primary" @click="copyCode" large>
+          <wt-button wide @click="copyCode">
             {{ buttonLabel }}
           </wt-button>
         </div>
       </section>
-      <form class="object-input-grid object-input-grid__1-col object-input-grid__w50">
-        <wt-select
-          v-model="selectedLanguage"
-          :options="languages"
-          :label="$t('objects.routing.chatGateways.metadata.language')"
-          :disabled="disableUserInput"
-          :clearable="false"
-          track-by="name"
-          @input="setItemMetadata({ prop: 'lang', value: $event.value })"
-        ></wt-select>
-        <wt-select
-          v-model="selectedPosition"
-          :options="positionOptions"
-          :label="$t('objects.routing.dialplan.position')"
-          :disabled="disableUserInput"
-          :clearable="false"
-          track-by="name"
-          @input="setItemMetadata({ prop: 'position', value: $event.value })"
-        ></wt-select>
-        <wt-select
-          v-model="selectedBorderRadius"
-          :options="borderRadiusOptions"
-          :label="$t('objects.routing.chatGateways.metadata.borderRadius')"
-          :disabled="disableUserInput"
-          :clearable="false"
-          track-by="name"
-          @input="setItemMetadata({ prop: 'borderRadiusStyle', value: $event.value })"
-        ></wt-select>
-        <wt-input
-          :value="itemInstance.metadata.logoUrl"
-          :label="$t('objects.routing.chatGateways.metadata.logoUrl')"
-          :disabled="disableUserInput"
-          @input="setItemMetadata({ prop: 'logoUrl', value: $event })"
-        ></wt-input>
-        <section class="switcher-section">
-          <wt-switcher
-            :value="itemInstance.metadata.timeoutIsActive"
-            :label="this.$t('objects.routing.chatGateways.metadata.openTimeout')"
-            @change="setItemMetadata({ prop: 'timeoutIsActive', value: $event})"
-          ></wt-switcher>
+      <section class="chat-config-section">
+        <form class="object-input-grid object-input-grid__1-col">
+          <wt-select
+            v-model="selectedLanguage"
+            :options="languages"
+            :label="$t('objects.routing.chatGateways.metadata.language')"
+            :disabled="disableUserInput"
+            :clearable="false"
+            track-by="name"
+            @input="setItemMetadata({ prop: 'lang', value: $event.value })"
+          ></wt-select>
+          <wt-select
+            v-model="selectedPosition"
+            :options="positionOptions"
+            :label="$t('objects.routing.dialplan.position')"
+            :disabled="disableUserInput"
+            :clearable="false"
+            track-by="name"
+            @input="setItemMetadata({ prop: 'position', value: $event.value })"
+          ></wt-select>
+          <wt-select
+            v-model="selectedBorderRadius"
+            :options="borderRadiusOptions"
+            :label="$t('objects.routing.chatGateways.metadata.borderRadius')"
+            :disabled="disableUserInput"
+            :clearable="false"
+            track-by="name"
+            @input="setItemMetadata({ prop: 'borderRadiusStyle', value: $event.value })"
+          ></wt-select>
           <wt-input
-            :value="itemInstance.metadata.openTimeout"
-            :v="v.itemInstance.metadata.openTimeout"
-            :label="this.$t('date.sec')"
-            :disabled="disableOpenTimeout"
-            @input="setItemMetadata({ prop: 'openTimeout', value: $event })"
+            :value="itemInstance.metadata.logoUrl"
+            :label="$t('objects.routing.chatGateways.metadata.logoUrl')"
+            :disabled="disableUserInput"
+            @input="setItemMetadata({ prop: 'logoUrl', value: $event })"
           ></wt-input>
-        </section>
-        <section>
-          <div class="colorpicker-section">
-            <div class="slider-wrapper">
-              <wt-label>{{ this.$t('objects.routing.chatGateways.metadata.btnColor') }}</wt-label>
-              <color-picker v-model="color"></color-picker>
-              <wt-label>{{ this.$t('objects.routing.chatGateways.metadata.btnOpacity') }}
-              </wt-label>
-              <div class="opacity-wrapper">
-                <opacity-picker :value="color" @change="setAlpha"></opacity-picker>
+          <section class="switcher-section">
+            <wt-switcher
+              :value="itemInstance.metadata.timeoutIsActive"
+              :label="this.$t('objects.routing.chatGateways.metadata.openTimeout')"
+              @change="setItemMetadata({ prop: 'timeoutIsActive', value: $event })"
+            ></wt-switcher>
+            <wt-input
+              :value="itemInstance.metadata.openTimeout"
+              :v="v.itemInstance.metadata.openTimeout"
+              :label="this.$t('date.sec')"
+              :disabled="disableOpenTimeout"
+              @input="setItemMetadata({ prop: 'openTimeout', value: $event })"
+            ></wt-input>
+          </section>
+          <section>
+            <div class="colorpicker-section">
+              <div class="slider-wrapper">
+                <wt-label>{{ this.$t('objects.routing.chatGateways.metadata.btnColor') }}</wt-label>
+                <color-picker :value="color" @input="setColor"></color-picker>
+                <wt-label>{{ this.$t('objects.routing.chatGateways.metadata.btnOpacity') }}
+                </wt-label>
+                <div class="opacity-wrapper">
+                  <opacity-picker :value="color" @change="setAlpha"></opacity-picker>
+                </div>
               </div>
             </div>
-          </div>
-        </section>
-        <section class="chat-button-preview-section">
-          <div id="chat-button-preview"></div>
-        </section>
-      </form>
+          </section>
+          <section class="chat-button-preview-section">
+            <div id="chat-button-preview"></div>
+          </section>
+        </form>
+      </section>
     </section>
   </section>
 </template>
@@ -100,6 +102,7 @@ const defaultConfig = {
   btnOpacity: 1,
   logoUrl: '',
   position: 'right',
+  openTimeout: false,
 };
 
 const getConfig = (userConfig) => Object.keys(defaultConfig)
@@ -115,6 +118,7 @@ const generateCode = ({
                         lang,
                         logoUrl,
                         position,
+                        openTimeout,
                         uri,
                       }) => `
       const script = document.createElement('script');
@@ -133,6 +137,7 @@ const generateCode = ({
             lang: "${lang}",
             logoUrl: "${logoUrl}",
             position: "${position}",
+            openTimeout: ${openTimeout}
          };
 
         const app = new WtOmniWidget('#wt-omnichannel-widget', config);
@@ -158,6 +163,11 @@ export default {
     chatPreview: null,
     buttonPreview: null,
   }),
+  computed: {
+    openTimeoutValue() {
+      return this.itemInstance.metadata.timeoutIsActive ? this.itemInstance.metadata.openTimeout : false;
+    },
+  },
   watch: {
     'itemInstance.metadata': {
       handler() {
@@ -173,6 +183,13 @@ export default {
         return dispatch(`${this.namespace}/SET_ITEM_METADATA`, payload);
       },
     }),
+    getPreviewConfig(previewMode) {
+      return {
+        ...this.itemInstance.metadata,
+        position: 'static',
+        _previewMode: previewMode,
+      };
+    },
     initWidgetPreview() {
       const baseUrl = process.env.VUE_APP_OMNI_WIDGET_URL;
 
@@ -199,7 +216,6 @@ export default {
     },
     updateChatPreview() {
       this.chatPreview.setConfig(this.getPreviewConfig('chat'));
-      console.log(this.chatPreview);
     },
     updateButtonPreview() {
       this.buttonPreview.setConfig(this.getPreviewConfig('button'));
@@ -209,6 +225,7 @@ export default {
       const code = generateCode({
         ...config,
         uri: this.itemInstance.uri,
+        openTimeout: this.openTimeoutValue,
       });
       clipboardCopy(code);
       this.isCopied = true;
@@ -217,35 +234,32 @@ export default {
       }, 1500);
     },
   },
-  created() {
-    this.initWidgetPreview();
-  },
 };
 </script>
 
 <style lang="scss" scoped>
 @import "../css/chat-gateways";
 
-.content-main {
+.webchat-view-main {
   display: flex;
-  justify-content: space-evenly;
+  gap: var(--component-spacing);
+  justify-content: space-between;
 
   .chat-preview-section {
+    flex-basis: max-content;
     display: flex;
     flex-direction: column;
-    justify-content: center;
   }
 
-  .object-input-grid {
-    align-items: center;
-    justify-content: center;
+  .chat-config-section {
+    flex-grow: 1;
   }
 
   .switcher-section {
-    margin-top: var(--component-spacing);
     display: flex;
     align-items: center;
     justify-content: space-between;
+    margin-top: var(--component-spacing);
 
     .wt-input {
       width: 80%;
@@ -306,7 +320,7 @@ export default {
   }
 
   .copy-button-wrapper {
-    margin: var(--component-spacing) auto;
+    margin-top: var(--component-spacing);
   }
 
   .chat-button-preview-section {
@@ -319,14 +333,15 @@ export default {
     justify-content: center;
     align-items: center;
   }
+
   .chat-button-preview-section::after {
     content: '';
-    background: url("../images/transparent-img.svg") repeat;
     position: absolute;
     top: 0;
     left: 0;
     bottom: 0;
     right: 0;
+    background: url("../assets/transparent-img.svg") repeat;
     opacity: 0.3;
   }
 }

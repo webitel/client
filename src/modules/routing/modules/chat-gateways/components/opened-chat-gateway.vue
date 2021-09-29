@@ -30,7 +30,7 @@
 
 <script>
 
-import { required, minValue, maxValue, minLength } from 'vuelidate/lib/validators';
+import { required, minValue, maxValue, minLength, numeric } from 'vuelidate/lib/validators';
 import openedObjectMixin
   from '../../../../../app/mixins/objectPagesMixins/openedObjectMixin/openedObjectMixin';
 import OpenedChatTelegram from './opened-chat-gateway-telegram-general-tab.vue';
@@ -102,18 +102,22 @@ export default {
             ...defaults,
             metadata: {
               readTimeout: {
+                numeric,
                 minValue: minValue(30),
                 maxValue: maxValue(300),
               },
               writeTimeout: {
+                numeric,
                 minValue: minValue(1),
                 maxValue: maxValue(60),
               },
               handshakeTimeout: {
+                numeric,
                 minValue: minValue(10),
                 maxValue: maxValue(60),
               },
               openTimeout: {
+                numeric,
                 minValue: minValue(0),
               },
             },

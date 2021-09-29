@@ -1,17 +1,15 @@
 export default {
-  data() {
-    return {
-      isCopied: false,
-      selectedBorderRadius: {},
-      selectedPosition: {},
-      selectedLanguage: {},
-      color: {
-        a: 1,
-        hsl: { h: 0, s: 100, l: 50 },
-        rgba: { r: 0, g: 0, b: 0, a: 0 },
-      },
-    };
-  },
+  data: () => ({
+    isCopied: false,
+    selectedBorderRadius: {},
+    selectedPosition: {},
+    selectedLanguage: {},
+    color: {
+      a: 1,
+      hsl: { h: 0, s: 100, l: 50, a: 1 },
+      rgba: { r: 0, g: 0, b: 0, a: 1 },
+    },
+  }),
 
   computed: {
     languages() {
@@ -55,8 +53,9 @@ export default {
     },
   },
 
-  watch: {
-    color() {
+  methods: {
+    setColor(value) {
+      this.color = value;
       const h = Math.floor(this.color.hsl.h);
       const s = +this.color.hsl.s.toFixed(2) * 100;
       const l = +this.color.hsl.l.toFixed(2) * 100;
@@ -64,9 +63,6 @@ export default {
       this.setItemMetadata({ prop: 'accentColor', value: hsl });
       this.setItemMetadata({ prop: 'btnOpacity', value: `${this.color.a}` });
     },
-  },
-
-  methods: {
     setAlpha(value) {
       this.color = {
         ...this.color,
@@ -74,8 +70,8 @@ export default {
           ...this.color.rgba,
           a: value.a,
         },
-        hsla: {
-          ...this.color.hsla,
+        hsl: {
+          ...this.color.hsl,
           a: value.a,
         },
         a: value.a,
@@ -104,6 +100,7 @@ export default {
       if (value) {
         this.color.a = value;
         this.color.rgba.a = value;
+        this.color.hsl.a = value;
       }
     },
     restoreColor(value) {
@@ -115,22 +112,20 @@ export default {
           s: +colorArray[1] / 100,
           l: +colorArray[2] / 100,
         };
+        this.restoreOpacity(this.itemInstance.metadata.btnOpacity);
       }
     },
-    getPreviewConfig(previewMode) {
-      return {
-        ...this.itemInstance.metadata,
-        position: 'static',
-        _previewMode: previewMode,
-      };
+    restoreConfig() {
+      this.restoreLanguage(this.itemInstance.metadata.lang);
+      this.restorePosition(this.itemInstance.metadata.position);
+      this.restoreBorderRadius(this.itemInstance.metadata.borderRadiusStyle);
+      this.restoreOpacity(this.itemInstance.metadata.btnOpacity);
+      this.restoreColor(this.itemInstance.metadata.accentColor);
     },
   },
 
   created() {
-    this.restoreLanguage(this.itemInstance.metadata.lang);
-    this.restorePosition(this.itemInstance.metadata.position);
-    this.restoreBorderRadius(this.itemInstance.metadata.borderRadiusStyle);
-    this.restoreOpacity(this.itemInstance.metadata.btnOpacity);
-    this.restoreColor(this.itemInstance.metadata.accentColor);
+    this.restoreConfig();
+    this.initWidgetPreview();
   },
 };
