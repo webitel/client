@@ -67,7 +67,6 @@ const preRequestHandler = (item) => {
       item = webchatRequestConverter(item);
       break;
     default:
-      break;
   };
   return item;
 };
@@ -85,8 +84,8 @@ itemGetter.responseHandler = (response) => {
   switch (response.provider) {
     case MessengerType.WEB_CHAT:
       response = webChatResponseConverter(response);
-    default:
       break;
+    default:
   };
   return {
     ...baseItem,
