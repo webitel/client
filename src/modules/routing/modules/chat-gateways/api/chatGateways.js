@@ -25,46 +25,46 @@ const convertWebchatSeconds = (num) => `${num}s`;
 const parseTimeoutSeconds = (item) => (item.includes('s') ? parseInt(item.replace('/s', '/'), 10) : +item);
 
 const webchatRequestConverter = (data) => {
-  if (data.readTimeout) {
-    data.readTimeout = convertWebchatSeconds(data.readTimeout);
+  if (data.metadata.readTimeout) {
+    data.metadata.readTimeout = convertWebchatSeconds(data.metadata.readTimeout);
   };
-  if (data.writeTimeout) {
-    data.writeTimeout = convertWebchatSeconds(data.writeTimeout);
+  if (data.metadata.writeTimeout) {
+    data.metadata.writeTimeout = convertWebchatSeconds(data.metadata.writeTimeout);
   };
-  if (data.handshakeTimeout) {
-    data.handshakeTimeout = convertWebchatSeconds(data.handshakeTimeout);
+  if (data.metadata.handshakeTimeout) {
+    data.metadata.handshakeTimeout = convertWebchatSeconds(data.metadata.handshakeTimeout);
   };
-  if (data.allowOrigin) {
-    data.allowOrigin = data.allowOrigin.map((obj) => obj.text).join();
+  if (data.metadata.allowOrigin) {
+    data.metadata.allowOrigin = data.metadata.allowOrigin.map((obj) => obj.text).join();
   };
-  if (data.openTimeout) {
-    data.openTimeout = `${data.openTimeout}`;
+  if (data.metadata.openTimeout) {
+    data.metadata.openTimeout = `${data.metadata.openTimeout}`;
   };
-  data.timeoutIsActive = `${data.timeoutIsActive}`;
+  data.metadata.timeoutIsActive = `${data.metadata.timeoutIsActive}`;
   return data;
 };
 
 const webChatResponseConverter = (data) => {
-  data.allowOrigin = data.allowOrigin
-    ? data.allowOrigin.split(',').map((origin) => ({ text: origin }))
+  data.metadata.allowOrigin = data.metadata.allowOrigin
+    ? data.metadata.allowOrigin.split(',').map((origin) => ({ text: origin }))
     : [];
-  if (data.readTimeout) {
-    data.readTimeout = parseTimeoutSeconds(data.readTimeout);
+  if (data.metadata.readTimeout) {
+    data.metadata.readTimeout = parseTimeoutSeconds(data.metadata.readTimeout);
   };
-  if (data.writeTimeout) {
-    data.writeTimeout = parseTimeoutSeconds(data.writeTimeout);
+  if (data.metadata.writeTimeout) {
+    data.metadata.writeTimeout = parseTimeoutSeconds(data.metadata.writeTimeout);
   };
-  if (data.handshakeTimeout) {
-    data.handshakeTimeout = parseTimeoutSeconds(data.handshakeTimeout);
+  if (data.metadata.handshakeTimeout) {
+    data.metadata.handshakeTimeout = parseTimeoutSeconds(data.metadata.handshakeTimeout);
   };
-  data.timeoutIsActive = data.timeoutIsActive === 'true';
+  data.metadata.timeoutIsActive = data.metadata.timeoutIsActive === 'true';
+  return data;
 };
 
 const preRequestHandler = (item) => {
   switch (item.provider) {
     case MessengerType.WEB_CHAT:
-      webchatRequestConverter(item.metadata);
-      return item;
+      item = webchatRequestConverter(item);
     default:
       return item;
   }
@@ -80,13 +80,15 @@ const itemPatcher = new APIPatcher(BASE_URL, { fieldsToSend });
 const itemDeleter = new APIItemDeleter(BASE_URL);
 
 itemGetter.responseHandler = (response) => {
-  if (response.provider === MessengerType.WEB_CHAT) {
-    webChatResponseConverter(response.metadata);
-  };
-  return {
-    ...baseItem,
-    ...response,
-  };
+  switch (response.provider) {
+    case MessengerType.WEB_CHAT:
+      response = webChatResponseConverter(response);
+    default:
+      return {
+        ...baseItem,
+        ...response,
+      };
+  }
 };
 
 export const getChatGatewayList = (params) => listGetter.getList({ ...params, searchQuery: 'q' });

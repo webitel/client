@@ -46,7 +46,7 @@
             :value="itemInstance.metadata.logoUrl"
             :v="v.itemInstance.metadata.logoUrl"
             :label="$t('objects.routing.chatGateways.metadata.logoUrl')"
-            :label-props=" { hint: this.$t('objects.routing.chatGateways.metadata.logoHint'), hintPosition: 'right' }"
+            :label-props="{ hint: this.$t('objects.routing.chatGateways.metadata.logoHint'), hintPosition: 'right' }"
             :disabled="disableUserInput"
             @input="setItemMetadata({ prop: 'logoUrl', value: $event })"
           ></wt-input>
@@ -92,8 +92,8 @@ import { mapActions } from 'vuex';
 import { Slider, Alpha } from 'vue-color';
 import openedTabComponentMixin
   from '../../../../../app/mixins/objectPagesMixins/openedObjectTabMixin/openedTabComponentMixin';
-import webchatConfigMixin from '../mixins/webchatConfigMixin';
-import webchatViewMixin from '../mixins/webchatViewMixin';
+import previewMixin from '../mixins/previewMixin';
+import viewFormMixin from '../mixins/viewFormMixin';
 
 const BASE_URL = 'wss://cloud.webitel.ua';
 
@@ -157,7 +157,7 @@ const generateCode = ({
 
 export default {
   name: 'opened-chat-gateway-webchat-view-tab',
-  mixins: [openedTabComponentMixin, webchatViewMixin, webchatConfigMixin],
+  mixins: [openedTabComponentMixin, previewMixin, viewFormMixin],
   components: {
     ColorPicker: Slider,
     OpacityPicker: Alpha,
@@ -169,11 +169,12 @@ export default {
       },
     }),
     copyCode() {
+      const timeout = this.itemInstance.metadata.timeoutIsActive ? this.itemInstance.metadata.openTimeout : false;
       const config = getConfig(this.itemInstance.metadata);
       const code = generateCode({
         ...config,
         uri: this.itemInstance.uri,
-        openTimeout: this.openTimeoutValue,
+        openTimeout: timeout,
       });
       clipboardCopy(code);
       this.isCopied = true;
@@ -190,109 +191,106 @@ export default {
 
 .webchat-view-main {
   width: 50%;
-  min-width: 710px;
+  min-width: 760px;
   display: flex;
   gap: var(--component-spacing);
-  justify-content: space-between;
 
-  .chat-preview-section {
+  .chat-preview-section ::v-deep {
     flex-basis: max-content;
     display: flex;
     flex-direction: column;
+
+    #wt-omni-widget.wt-omni-widget--position-static {
+      z-index: 1;
+    }
+
+    .copy-button-wrapper {
+      margin-top: var(--component-spacing);
+    }
   }
 
   .chat-config-section {
-    flex-grow: 1;
-  }
-
-  .switcher-section {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    margin-top: var(--component-spacing);
-
-    .wt-input {
-      width: 60%;
-    }
-  }
-
-  .colorpicker-section {
-    position: relative;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    grid-column-gap: var(--component-spacing);
-
-    .wt-label {
-      margin: var(--component-spacing);
+    .switcher-section {
+      display: flex;
+      gap: var(--component-spacing);
+      flex-shrink: 0;
+      align-items: center;
     }
 
-    .slider-wrapper ::v-deep {
-      width: 80%;
-      margin: auto;
+    .colorpicker-section {
+      position: relative;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      grid-column-gap: var(--component-spacing);
 
-      .vc-slider {
-        width: 100%;
+      .wt-label {
+        margin: var(--component-spacing);
+      }
 
-        .vc-hue {
+      .slider-wrapper ::v-deep {
+        width: 80%;
+        margin: auto;
+
+        .vc-slider {
           width: 100%;
-          border-radius: 8px;
+
+          .vc-hue {
+            width: 100%;
+            border-radius: 8px;
+          }
+        }
+
+        .vc-slider-swatches {
+          display: none;
         }
       }
 
-      .vc-slider-swatches {
-        display: none;
+      .opacity-wrapper ::v-deep {
+        position: relative;
+        height: 12px;
+        margin: var(--component-spacing) auto;
+
+        .vc-checkerboard {
+          border-radius: 8px;
+        }
+
+        .vc-alpha-gradient {
+          border-radius: 8px;
+        }
+
+        .vc-alpha-picker {
+          width: 14px;
+          height: 14px;
+          border-radius: 6px;
+          transform: translate(-6px, -2px);
+          background-color: rgb(248, 248, 248);
+          box-shadow: 0 1px 4px 0 rgba(0, 0, 0, 0.37);
+        }
       }
     }
 
-    .opacity-wrapper ::v-deep {
+    .chat-button-preview-section {
+      align-self: center;
+      justify-self: center;
       position: relative;
-      height: 12px;
-      margin: var(--component-spacing) auto;
-
-      .vc-checkerboard {
-        border-radius: 8px;
-      }
-
-      .vc-alpha-gradient {
-        border-radius: 8px;
-      }
-
-      .vc-alpha-picker {
-        width: 14px;
-        height: 14px;
-        border-radius: 6px;
-        transform: translate(-6px, -2px);
-        background-color: rgb(248, 248, 248);
-        box-shadow: 0 1px 4px 0 rgba(0, 0, 0, 0.37);
-      }
+      width: 100px;
+      height: 100px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
     }
-  }
 
-  .copy-button-wrapper {
-    margin-top: var(--component-spacing);
-  }
-
-  .chat-button-preview-section {
-    align-self: center;
-    justify-self: center;
-    position: relative;
-    width: 100px;
-    height: 100px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-  }
-
-  .chat-button-preview-section::after {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    bottom: 0;
-    right: 0;
-    background: url("../assets/transparent-img.svg") repeat;
-    opacity: 0.3;
+    .chat-button-preview-section::after {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      bottom: 0;
+      right: 0;
+      background: url("../assets/transparent-img.svg") repeat;
+      opacity: 0.3;
+    }
   }
 }
 

@@ -50,9 +50,6 @@ export default {
     disableOpenTimeout() {
       return !this.itemInstance.metadata.timeoutIsActive || this.disableUserInput;
     },
-    openTimeoutValue() {
-      return this.itemInstance.metadata.timeoutIsActive ? this.itemInstance.metadata.openTimeout : false;
-    },
   },
   methods: {
     restoreLanguage(value) {
