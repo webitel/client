@@ -46,7 +46,10 @@
             :value="itemInstance.metadata.logoUrl"
             :v="v.itemInstance.metadata.logoUrl"
             :label="$t('objects.routing.chatGateways.metadata.logoUrl')"
-            :label-props="{ hint: this.$t('objects.routing.chatGateways.metadata.logoHint'), hintPosition: 'right' }"
+            :label-props="{
+              hint: this.$t('objects.routing.chatGateways.metadata.logoHint'),
+              hintPosition: 'right',
+             }"
             :disabled="disableUserInput"
             @input="setItemMetadata({ prop: 'logoUrl', value: $event })"
           ></wt-input>
@@ -95,8 +98,6 @@ import openedTabComponentMixin
 import webChatPreviewMixin from '../mixins/webChatPreviewMixin';
 import webChatViewFormMixin from '../mixins/webChatViewFormMixin';
 
-const BASE_URL = 'wss://cloud.webitel.ua';
-
 const defaultConfig = {
   wsUrl: '',
   borderRadiusStyle: 'square',
@@ -114,6 +115,10 @@ const getConfig = (userConfig) => Object.keys(defaultConfig)
     [key]: userConfig[key] || defaultConfig[key],
   }), {});
 
+
+const SCRIPT_URL = window.location.origin;
+const SERVER_URL = SCRIPT_URL.replace(/^http/, 'ws');
+
 const generateCode = ({
                         btnOpacity,
                         accentColor,
@@ -125,7 +130,7 @@ const generateCode = ({
                         uri,
                       }) => `
       const script = document.createElement('script');
-      script.src = '${BASE_URL}/omni-widget/WtOmniWidget.umd.js';
+      script.src = '${SCRIPT_URL}/omni-widget/WtOmniWidget.umd.js';
       script.onload = function () {
         const body = document.querySelector('body');
         const widgetEl = document.createElement('div');
@@ -133,7 +138,7 @@ const generateCode = ({
         body.appendChild(widgetEl);
 
         const config = {
-            wsUrl: "${BASE_URL}/chat${uri}",
+            wsUrl: "${SERVER_URL}/chat${uri}",
             borderRadiusStyle: "${borderRadiusStyle}",
             accentColor: "${accentColor}",
             btnOpacity: "${btnOpacity}",
@@ -148,7 +153,7 @@ const generateCode = ({
       document.head.appendChild(script);
 
       const link = document.createElement('link');
-      link.href = '${BASE_URL}/omni-widget/WtOmniWidget.css';
+      link.href = '${SCRIPT_URL}/omni-widget/WtOmniWidget.css';
       link.type = 'text/css';
       link.rel = 'stylesheet';
       link.media = 'screen,print';
@@ -169,7 +174,9 @@ export default {
       },
     }),
     copyCode() {
-      const openTimeout = this.itemInstance.metadata.timeoutIsActive ? this.itemInstance.metadata.openTimeout : false;
+      const openTimeout = this.itemInstance.metadata.timeoutIsActive
+        ? this.itemInstance.metadata.openTimeout
+        : false;
       const config = getConfig(this.itemInstance.metadata);
       const code = generateCode({
         ...config,
