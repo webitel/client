@@ -11,11 +11,13 @@ const webChatGateway = () => ({
     handshakeTimeout: '10',
     wsUrl: '',
     borderRadiusStyle: '',
-    lang: '',
+    lang: 'en',
     btnOpacity: '',
     logoUrl: '',
     accentColor: '',
     position: '',
+    timeoutIsActive: false,
+    openTimeout: '',
   },
 });
 
