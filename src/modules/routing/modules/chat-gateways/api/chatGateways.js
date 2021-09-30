@@ -22,24 +22,56 @@ const defaultListObject = { // default object prototype, to merge response with 
 
 const convertWebchatSeconds = (num) => `${num}s`;
 
+const parseTimeoutSeconds = (item) => (item.includes('s') ? parseInt(item.replace('/s', '/'), 10) : +item);
+
+const webchatRequestConverter = (data) => {
+  if (data.metadata.readTimeout) {
+    data.metadata.readTimeout = convertWebchatSeconds(data.metadata.readTimeout);
+  };
+  if (data.metadata.writeTimeout) {
+    data.metadata.writeTimeout = convertWebchatSeconds(data.metadata.writeTimeout);
+  };
+  if (data.metadata.handshakeTimeout) {
+    data.metadata.handshakeTimeout = convertWebchatSeconds(data.metadata.handshakeTimeout);
+  };
+  if (data.metadata.allowOrigin) {
+    data.metadata.allowOrigin = data.metadata.allowOrigin.map((obj) => obj.text).join();
+  };
+  if (data.metadata.openTimeout) {
+    data.metadata.openTimeout = `${data.metadata.openTimeout}`;
+  };
+  data.metadata.timeoutIsActive = `${data.metadata.timeoutIsActive}`;
+  return data;
+};
+
+const webChatResponseConverter = (data) => {
+  data.metadata.allowOrigin = data.metadata.allowOrigin
+    ? data.metadata.allowOrigin.split(',').map((origin) => ({ text: origin }))
+    : [];
+  if (data.metadata.readTimeout) {
+    data.metadata.readTimeout = parseTimeoutSeconds(data.metadata.readTimeout);
+  };
+  if (data.metadata.writeTimeout) {
+    data.metadata.writeTimeout = parseTimeoutSeconds(data.metadata.writeTimeout);
+  };
+  if (data.metadata.handshakeTimeout) {
+    data.metadata.handshakeTimeout = parseTimeoutSeconds(data.metadata.handshakeTimeout);
+  };
+  data.metadata.timeoutIsActive = data.metadata.timeoutIsActive === 'true';
+  return data;
+};
+
 const preRequestHandler = (item) => {
-  if (item.metadata.readTimeout) {
-    item.metadata.readTimeout = convertWebchatSeconds(item.metadata.readTimeout);
-  }
-  if (item.metadata.writeTimeout) {
-    item.metadata.writeTimeout = convertWebchatSeconds(item.metadata.writeTimeout);
-  }
-  if (item.metadata.handshakeTimeout) {
-    item.metadata.handshakeTimeout = convertWebchatSeconds(item.metadata.handshakeTimeout);
-  }
-  if (item.metadata.allowOrigin) {
-    item.metadata.allowOrigin = item.metadata.allowOrigin.map((obj) => obj.text).join();
-  }
+  switch (item.provider) {
+    case MessengerType.WEB_CHAT:
+      item = webchatRequestConverter(item);
+      break;
+    default:
+  };
   return item;
 };
 
 const baseItem = { _dirty: false };
-const parseTimeoutSeconds = (item) => (item.includes('s') ? parseInt(item.replace('/s', '/'), 10) : +item);
 
 const listGetter = new APIListGetter(BASE_URL, { defaultListObject });
 const itemGetter = new APIItemGetter(BASE_URL);
@@ -49,21 +81,12 @@ const itemPatcher = new APIPatcher(BASE_URL, { fieldsToSend });
 const itemDeleter = new APIItemDeleter(BASE_URL);
 
 itemGetter.responseHandler = (response) => {
-  if (response.provider === MessengerType.WEB_CHAT) {
-    response.metadata.allowOrigin = response.metadata.allowOrigin
-      ? response.metadata.allowOrigin.split(',').map((origin) => ({ text: origin }))
-      : [];
-
-    if (response.metadata.readTimeout) {
-      response.metadata.readTimeout = parseTimeoutSeconds(response.metadata.readTimeout);
-    }
-    if (response.metadata.writeTimeout) {
-      response.metadata.writeTimeout = parseTimeoutSeconds(response.metadata.writeTimeout);
-    }
-    if (response.metadata.handshakeTimeout) {
-      response.metadata.handshakeTimeout = parseTimeoutSeconds(response.metadata.handshakeTimeout);
-    }
-  }
+  switch (response.provider) {
+    case MessengerType.WEB_CHAT:
+      response = webChatResponseConverter(response);
+      break;
+    default:
+  };
   return {
     ...baseItem,
     ...response,
