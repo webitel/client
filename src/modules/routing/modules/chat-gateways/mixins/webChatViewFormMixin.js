@@ -91,9 +91,18 @@ export default {
       this.setItemMetadata({ prop: 'accentColor', value: hsl });
     },
     setAlpha(value) {
-      this.color.hsl.a = value.a;
-      this.color.rgba.a = value.a;
-      this.color.a = value.a;
+      this.color = {
+        ...this.color,
+        rgba: {
+          ...this.color.rgba,
+          a: value.a,
+        },
+        hsl: {
+          ...this.color.hsl,
+          a: value.a,
+        },
+        a: value.a,
+      };
       this.setItemMetadata({ prop: 'btnOpacity', value: `${value.a}` });
     },
     restoreOpacity(value) {
