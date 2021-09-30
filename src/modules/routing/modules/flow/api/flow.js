@@ -1,4 +1,5 @@
 import { RoutingSchemaServiceApiFactory } from 'webitel-sdk';
+import { SdkListGetterApiConsumer } from 'webitel-sdk/esm2015/api-consumers';
 import instance from '../../../../../app/api/instance';
 import configuration from '../../../../../app/api/openAPIConfig';
 import SDKDeleter from '../../../../../app/api/BaseAPIServices/Deleter/SDKDeleter';
@@ -39,10 +40,16 @@ export const addFlow = (params) => itemCreator.createItem(params);
 export const updateFlow = (params) => itemUpdater.updateItem(params);
 export const deleteFlow = (params) => itemDeleter.deleteItem(params);
 
+
+// FIXME REFACTOR ALL COMPONENTS WITH WEBITEL-SDK CONSUMERS
+const _listGetter = new SdkListGetterApiConsumer(flowService.searchRoutingSchema);
+const getFlowsLookup = (params) => _listGetter.getLookup(params);
+
 export default {
   getList: getFlowList,
   get: getFlow,
   add: addFlow,
   update: updateFlow,
   delete: deleteFlow,
+  getLookup: getFlowsLookup,
 };

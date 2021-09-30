@@ -24,7 +24,7 @@ export default {
     options() {
       const diagram = {
         value: 'diagram',
-        title: this.$t('objects.routing.flow.diagram.diagram').concat(' CURRENTLY IN DEVELOPMENT. USE ONLY FOR TEST PURPOSES!'),
+        title: this.$t('objects.routing.flow.diagram.diagram'),
         description: this.$t('objects.routing.flow.diagram.description'),
       };
       const code = {

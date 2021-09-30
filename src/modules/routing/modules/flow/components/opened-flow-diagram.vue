@@ -6,7 +6,9 @@
 </template>
 
 <script>
+import usersAPI from '../../../../directory/modules/users/api/users';
 import calendarsAPI from '../../../../lookups/modules/calendars/api/calendars';
+import flowsAPI from '../api/flow';
 import openedTabComponentMixin from '../../../../../app/mixins/objectPagesMixins/openedObjectTabMixin/openedTabComponentMixin';
 
 export default {
@@ -30,7 +32,9 @@ export default {
           diagram: this.isEdit ? this.itemInstance : null, // if edit, restore diagram
           config: {
             search: {
+              users: usersAPI.getLookup,
               calendars: calendarsAPI.getLookup,
+              flows: flowsAPI.getLookup,
             },
           },
         };
