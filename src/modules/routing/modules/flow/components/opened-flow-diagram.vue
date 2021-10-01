@@ -46,7 +46,9 @@ export default {
             this.setItemProp({ prop: 'schema', value: schema }),
             this.setItemProp({ prop: 'payload', value: payload }),
           ]);
-          this.save();
+          return new Promise((resolve) => {
+            this.save(resolve);
+          });
         };
         this.diagram.on(WtFlowDiagram.Event.SAVE, onSave);
         this.diagram.on(WtFlowDiagram.Event.CLOSE, this.close.bind(this));
@@ -64,8 +66,8 @@ export default {
       link.media = 'screen,print';
       document.head.appendChild(link);
     },
-    save() {
-      this.$emit('save');
+    save(callback) {
+      this.$emit('save', callback);
     },
     close() {
       this.$emit('close');

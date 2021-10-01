@@ -2,7 +2,7 @@
   <diagram
     v-if="isDiagram"
     :namespace="namespace"
-    @save="save"
+    @save="saveDiagram"
     @close="close"
   ></diagram>
   <wt-page-wrapper v-else :actions-panel="false">
@@ -82,6 +82,12 @@ export default {
         },
       ];
     },
+  },
+  methods: {
+   async saveDiagram(callback) {
+     await this.save();
+     callback();
+   },
   },
 };
 </script>
