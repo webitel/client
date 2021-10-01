@@ -6,6 +6,7 @@
 </template>
 
 <script>
+import isEmpty from '@webitel/ui-sdk/src/scripts/isEmpty';
 import usersAPI from '../../../../directory/modules/users/api/users';
 import calendarsAPI from '../../../../lookups/modules/calendars/api/calendars';
 import flowsAPI from '../api/flow';
@@ -71,8 +72,11 @@ export default {
       this.$emit('close');
     },
   },
-  mounted() {
-    this.initDiagram();
+  watch: {
+    itemInstance() {
+      if (this.isEdit && isEmpty(this.itemInstance.payload)) return;
+      this.initDiagram();
+    },
   },
 };
 </script>
