@@ -377,7 +377,7 @@ export default {
         createFlowSelectionPopup: 'Создать новую схему',
         editor: 'Редактор',
         diagram: {
-          diagram: 'Диаграма',
+          diagram: 'Диаграмма',
           description: 'Создать новую схему используя Webitel Flow Diagram',
         },
         code: {
