@@ -7,10 +7,11 @@
 
 <script>
 import isEmpty from '@webitel/ui-sdk/src/scripts/isEmpty';
+import openedTabComponentMixin
+  from '../../../../../app/mixins/objectPagesMixins/openedObjectTabMixin/openedTabComponentMixin';
 import usersAPI from '../../../../directory/modules/users/api/users';
 import calendarsAPI from '../../../../lookups/modules/calendars/api/calendars';
 import flowsAPI from '../api/flow';
-import openedTabComponentMixin from '../../../../../app/mixins/objectPagesMixins/openedObjectTabMixin/openedTabComponentMixin';
 
 export default {
   name: 'opened-flow-diagram',
@@ -75,9 +76,15 @@ export default {
     },
   },
   watch: {
-    itemInstance() {
-      if (this.isEdit && isEmpty(this.itemInstance.payload)) return;
-      this.initDiagram();
+    itemInstance: {
+      handler() {
+        if (
+          (this.isEdit && isEmpty(this.itemInstance.payload)) // if this is empty edit
+          || this.diagram // if diagram is already created
+        ) return;
+        this.initDiagram();
+      },
+      immediate: true,
     },
   },
 };
