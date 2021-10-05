@@ -7,16 +7,28 @@ const resettableState = {
     name: '',
     schema: '[]',
     payload: {},
+    editor: false,
   },
 };
 
 const state = {
   fields: ['id'].concat(headers.map((header) => header.field)),
 };
+const actions = {
+  SET_EDITOR: (context) => {
+    context.commit('SET_EDITOR');
+  },
+};
+
+const mutations = {
+  SET_EDITOR: (state) => {
+    state.itemInstance.editor = true;
+  },
+};
 
 const flow = new ObjectStoreModule({ resettableState, headers })
   .attachAPIModule(FlowAPI)
   .generateAPIActions()
-  .getModule({ state });
+  .getModule({ state, actions, mutations });
 
 export default flow;

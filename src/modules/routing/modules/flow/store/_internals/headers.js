@@ -10,7 +10,7 @@ export default [
   {
     value: 'editor',
     locale: 'objects.routing.flow.editor',
-    field: 'payload',
+    field: 'editor',
     sort: SortSymbols.NONE,
   },
 ];

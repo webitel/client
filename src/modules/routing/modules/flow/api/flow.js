@@ -10,7 +10,7 @@ import SDKListGetter from '../../../../../app/api/BaseAPIServices/ListGetter/SDK
 
 const flowService = new RoutingSchemaServiceApiFactory(configuration, '', instance);
 
-const fieldsToSend = ['name', 'schema', 'payload'];
+const fieldsToSend = ['name', 'schema', 'payload', 'editor'];
 
 const preRequestHandler = (item) => {
   // eslint-disable-next-line no-param-reassign
@@ -32,6 +32,7 @@ itemGetter.responseHandler = (response) => ({
   ...baseItem,
   ...response,
   schema: JSON.stringify(response.schema, null, 4),
+  editor: response.editor ? true : false,
 });
 
 export const getFlowList = (params) => listGetter.getList(params);

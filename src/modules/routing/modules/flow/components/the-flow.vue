@@ -72,7 +72,7 @@
               </item-link>
             </template>
             <template slot="editor" slot-scope="{ item }">
-              <div v-if="item.payload && Object.keys(item.payload).length">
+              <div v-if="item.editor">
                 {{ $t('objects.routing.flow.diagram.diagram') }}
               </div>
               <div v-else>
@@ -173,10 +173,9 @@ export default {
     /**
       @overrides itemLinkMixin.js
      */
-    itemLink({ id, payload }) {
-      const isDiagram = payload && Object.keys(payload).length;
+    itemLink({ id }) {
       const routeName = this.routeName || this.tableObjectRouteName;
-      return { name: `${routeName}-edit`, params: { id }, hash: isDiagram ? '#diagram' : null };
+      return { name: `${routeName}-edit`, params: { id } };
     },
   },
 };

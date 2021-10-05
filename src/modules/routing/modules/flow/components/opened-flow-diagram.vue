@@ -79,7 +79,7 @@ export default {
     itemInstance: {
       handler() {
         if (
-          (this.isEdit && isEmpty(this.itemInstance.payload)) // if this is empty edit
+          (this.isEdit && !this.itemInstance.editor) // if this is empty edit
           || this.diagram // if diagram is already created
         ) return;
         this.initDiagram();

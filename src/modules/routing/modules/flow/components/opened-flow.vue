@@ -1,6 +1,6 @@
 <template>
   <diagram
-    v-if="isDiagram"
+    v-if="itemInstance.editor"
     :namespace="namespace"
     @save="saveDiagram"
     @close="close"
@@ -60,9 +60,6 @@ export default {
   },
 
   computed: {
-    isDiagram() {
-      return this.$route.hash === '#diagram';
-    },
     tabs() {
       const tabs = [{
         text: this.$t('objects.general'),
