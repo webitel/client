@@ -7,6 +7,7 @@ const resettableState = {
     name: '',
     schema: '[]',
     payload: {},
+    editor: false,
   },
 };
 

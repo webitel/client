@@ -6,7 +6,6 @@
 </template>
 
 <script>
-import isEmpty from '@webitel/ui-sdk/src/scripts/isEmpty';
 import openedTabComponentMixin
   from '../../../../../app/mixins/objectPagesMixins/openedObjectTabMixin/openedTabComponentMixin';
 import usersAPI from '../../../../directory/modules/users/api/users';
@@ -79,7 +78,7 @@ export default {
     itemInstance: {
       handler() {
         if (
-          (this.isEdit && isEmpty(this.itemInstance.payload)) // if this is empty edit
+          (this.isEdit && !this.itemInstance.editor) // if this is empty edit
           || this.diagram // if diagram is already created
         ) return;
         this.initDiagram();

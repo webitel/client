@@ -10,14 +10,17 @@
 </template>
 
 <script>
+import { mapActions } from 'vuex';
 import RouteNames from '../../../../../app/router/_internals/RouteNames.enum';
-import SelectionPopup from '../../../../../app/components/utils/selection-popup/selection-popup.vue';
+import SelectionPopup
+  from '../../../../../app/components/utils/selection-popup/selection-popup.vue';
 
 export default {
   name: 'create-flow-popup',
   components: { SelectionPopup },
 
   data: () => ({
+    namespace: 'routing/flow',
     selected: null,
   }),
   computed: {
@@ -37,8 +40,18 @@ export default {
   },
 
   methods: {
+    ...mapActions({
+      setEditorValue(dispatch, payload) {
+        return dispatch(`${this.namespace}/SET_ITEM_PROPERTY`, payload);
+      },
+    }),
     selectOption(option) {
       this.selected = option;
+      if (this.selected.value === 'diagram') {
+        this.setEditorValue({ prop: 'editor', value: true });
+      } else {
+        this.setEditorValue({ prop: 'editor', value: false });
+      }
     },
     create() {
       this.$router.push({ name: `${RouteNames.FLOW}-new`, hash: `#${this.selected.value}` });

@@ -84,10 +84,10 @@ export default {
     },
   },
   methods: {
-   async saveDiagram(callback) {
-     await this.save();
-     callback();
-   },
+    async saveDiagram(callback) {
+      await this.save();
+      callback();
+    },
   },
 };
 </script>
