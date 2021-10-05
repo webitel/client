@@ -41,16 +41,20 @@ export default {
 
   methods: {
     ...mapActions({
-      setEditor(dispatch) {
-        return dispatch(`${this.namespace}/SET_EDITOR`);
+      setEditorValue(dispatch, payload) {
+        return dispatch(`${this.namespace}/SET_ITEM_PROPERTY`, payload);
       },
     }),
     selectOption(option) {
       this.selected = option;
+      if (this.selected.value === 'diagram') {
+        this.setEditorValue({ prop: 'editor', value: true });
+      } else {
+        this.setEditorValue({ prop: 'editor', value: false });
+      }
     },
     create() {
-      if (this.selected.value === 'diagram') this.setEditor();
-      this.$router.push({ name: `${RouteNames.FLOW}-new` });
+      this.$router.push({ name: `${RouteNames.FLOW}-new`, hash: `#${this.selected.value}` });
     },
     close() {
       this.$emit('close');

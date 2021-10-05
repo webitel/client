@@ -18,9 +18,13 @@ const preRequestHandler = (item) => {
   return item;
 };
 
+const defaultListObject = {
+  editor: false,
+};
+
 const baseItem = { _dirty: false };
 
-const listGetter = new SDKListGetter(flowService.searchRoutingSchema);
+const listGetter = new SDKListGetter(flowService.searchRoutingSchema, { defaultListObject });
 const itemGetter = new SDKGetter(flowService.readRoutingSchema);
 const itemCreator = new SDKCreator(flowService.createRoutingSchema,
   { fieldsToSend, preRequestHandler });
@@ -32,7 +36,7 @@ itemGetter.responseHandler = (response) => ({
   ...baseItem,
   ...response,
   schema: JSON.stringify(response.schema, null, 4),
-  editor: response.editor ? true : false,
+  editor: !!response.editor,
 });
 
 export const getFlowList = (params) => listGetter.getList(params);

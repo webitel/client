@@ -171,16 +171,12 @@ export default {
       downloadAsJSON(flow, filename);
     },
     /**
-      @overrides itemLinkMixin.js
+     @overrides itemLinkMixin.js
      */
-    itemLink({ id }) {
+    itemLink({ id, editor }) {
       const routeName = this.routeName || this.tableObjectRouteName;
-      return { name: `${routeName}-edit`, params: { id } };
+      return { name: `${routeName}-edit`, params: { id }, hash: editor ? '#diagram' : '#code' };
     },
   },
 };
 </script>
-
-<style lang="scss" scoped>
-
-</style>
