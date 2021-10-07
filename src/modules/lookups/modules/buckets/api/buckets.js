@@ -1,4 +1,5 @@
 import { BucketServiceApiFactory } from 'webitel-sdk';
+import { SdkListGetterApiConsumer } from 'webitel-sdk/esm2015/api-consumers';
 import instance from '../../../../../app/api/instance';
 import configuration from '../../../../../app/api/openAPIConfig';
 import SDKDeleter from '../../../../../app/api/BaseAPIServices/Deleter/SDKDeleter';
@@ -23,10 +24,15 @@ export const addBucket = (params) => itemCreator.createItem(params);
 export const updateBucket = (params) => itemUpdater.updateItem(params);
 export const deleteBucket = (params) => itemDeleter.deleteItem(params);
 
+// FIXME REFACTOR ALL COMPONENTS WITH WEBITEL-SDK CONSUMERS
+const _listGetter = new SdkListGetterApiConsumer(bucketService.searchBucket);
+const getBucketsLookup = (params) => _listGetter.getLookup(params);
+
 export default {
   getList: getBucketsList,
   get: getBucket,
   add: addBucket,
   update: updateBucket,
   delete: deleteBucket,
+  getLookup: getBucketsLookup,
 };

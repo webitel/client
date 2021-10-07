@@ -10,6 +10,9 @@ import openedTabComponentMixin
   from '../../../../../app/mixins/objectPagesMixins/openedObjectTabMixin/openedTabComponentMixin';
 import usersAPI from '../../../../directory/modules/users/api/users';
 import calendarsAPI from '../../../../lookups/modules/calendars/api/calendars';
+import mediaAPI from '../../../../lookups/modules/media/api/media';
+import bucketsAPI from '../../../../lookups/modules/buckets/api/buckets';
+import queuesAPI from '../../../../contact-center/modules/queues/api/queues';
 import flowsAPI from '../api/flow';
 
 export default {
@@ -36,6 +39,10 @@ export default {
               users: usersAPI.getLookup,
               calendars: calendarsAPI.getLookup,
               flows: flowsAPI.getLookup,
+              media: mediaAPI.getLookup,
+              queues: queuesAPI.getLookup,
+              buckets: bucketsAPI.getLookup,
+              // gateways -- задача з зірочкою
             },
           },
         };

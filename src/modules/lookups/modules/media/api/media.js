@@ -1,5 +1,6 @@
 import axios from 'axios';
 import { MediaFileServiceApiFactory } from 'webitel-sdk';
+import { SdkListGetterApiConsumer } from 'webitel-sdk/esm2015/api-consumers';
 import eventBus from '@webitel/ui-sdk/src/scripts/eventBus';
 import instance from '../../../../../app/api/instance';
 import configuration from '../../../../../app/api/openAPIConfig';
@@ -54,9 +55,14 @@ export const addMedia = async (params) => {
 
 export const deleteMedia = (params) => itemDeleter.deleteItem(params);
 
+// FIXME REFACTOR ALL COMPONENTS WITH WEBITEL-SDK CONSUMERS
+const _listGetter = new SdkListGetterApiConsumer(mediaService.searchMediaFile);
+const getMediaLookup = (params) => _listGetter.getLookup(params);
+
 export default {
   getList: getMediaList,
   get: getMedia,
   add: addMedia,
   delete: deleteMedia,
+  getLookup: getMediaLookup,
 };

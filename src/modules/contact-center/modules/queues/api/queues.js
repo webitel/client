@@ -1,5 +1,6 @@
-import { QueueServiceApiFactory } from 'webitel-sdk';
 import deepMerge from 'deepmerge';
+import { QueueServiceApiFactory } from 'webitel-sdk';
+import { SdkListGetterApiConsumer } from 'webitel-sdk/esm2015/api-consumers';
 import instance from '../../../../../app/api/instance';
 import configuration from '../../../../../app/api/openAPIConfig';
 import SDKDeleter from '../../../../../app/api/BaseAPIServices/Deleter/SDKDeleter';
@@ -67,6 +68,11 @@ export const updateQueue = (params) => itemUpdater.updateItem(params);
 export const patchQueue = (params) => itemPatcher.patchItem(params);
 export const deleteQueue = (params) => itemDeleter.deleteItem(params);
 
+
+// FIXME REFACTOR ALL COMPONENTS WITH WEBITEL-SDK CONSUMERS
+const _listGetter = new SdkListGetterApiConsumer(queueService.searchQueue);
+const getQueuesLookup = (params) => _listGetter.getLookup(params);
+
 export default {
   getList: getQueuesList,
   get: getQueue,
@@ -74,4 +80,5 @@ export default {
   patch: patchQueue,
   update: updateQueue,
   delete: deleteQueue,
+  getLookup: getQueuesLookup,
 };
