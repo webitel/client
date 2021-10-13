@@ -109,7 +109,7 @@ export default {
     },
 
     path() {
-      const baseUrl = '/routing/gateways';
+      const baseUrl = '/routing/sip-gateways';
       const url = baseUrl.concat(this.isRegister ? '/register' : '/trunking');
       return [
         { name: this.$t('objects.routing.routing') },

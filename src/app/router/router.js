@@ -293,7 +293,7 @@ const router = new Router({
           component: OpenedBucket,
         },
         {
-          path: '/lookups/bucket/:id',
+          path: '/lookups/buckets/:id',
           name: `${RouteNames.BUCKETS}-edit`,
           component: OpenedBucket,
         },
