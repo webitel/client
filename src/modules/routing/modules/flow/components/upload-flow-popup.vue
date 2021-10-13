@@ -73,9 +73,9 @@ export default {
       try {
         if (this.create) {
           delete this.flow.id;
-          await addFlow(this.flow);
+          await addFlow({ itemInstance: this.flow });
         } else {
-          await updateFlow(this.flow.id, this.flow);
+          await updateFlow({ itemId: this.flow.id, itemInstance: this.flow });
         }
         this.close();
       } catch (err) {
