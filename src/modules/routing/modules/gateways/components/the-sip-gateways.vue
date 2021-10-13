@@ -123,7 +123,7 @@ export default {
     path() {
       return [
         { name: this.$t('objects.routing.routing') },
-        { name: this.$tc('objects.routing.gateways.gateways', 2), route: '/routing/gateways' },
+        { name: this.$tc('objects.routing.gateways.gateways', 2), route: '/routing/sip-gateways' },
       ];
     },
   },
