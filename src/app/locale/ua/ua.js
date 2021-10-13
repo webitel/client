@@ -374,6 +374,7 @@ export default {
         flow: 'Схема',
         allFlowSchemas: 'Всі схеми дзвінків',
         createFlowSelectionPopup: 'Створити нову схему',
+        createNew: 'Створити нову схему?',
         editor: 'Редактор',
         diagram: {
           diagram: 'Діаграма',

@@ -166,7 +166,7 @@ export default {
       this.isUploadPopup = false;
     },
     async download({ id, name }) {
-      const flow = await getFlow({ id });
+      const flow = await getFlow({ itemId: id });
       const filename = `${name}-schema`;
       downloadAsJSON(flow, filename);
     },

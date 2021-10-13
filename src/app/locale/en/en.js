@@ -374,6 +374,7 @@ export default {
         flow: 'Flow',
         allFlowSchemas: 'All flow schemas',
         createFlowSelectionPopup: 'Create new flow',
+        createNew: 'Create new?',
         editor: 'Editor',
         diagram: {
           diagram: 'Diagram',
