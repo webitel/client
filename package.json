@@ -16,6 +16,7 @@
     "clipboard-copy": "^4.0.1",
     "core-js": "^3.6.4",
     "css-loader": "^3.2.0",
+    "csv-parse": "^4.16.3",
     "deep-copy": "^1.4.2",
     "deep-equal": "^1.1.0",
     "deepmerge": "^4.2.2",

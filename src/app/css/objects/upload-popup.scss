@@ -1,41 +1,57 @@
 .upload-popup {
-  .upload-popup__info {
-    .upload-popup__info-headers {
-      @extend .typo-body-md;
-    }
-
-    form {
-      @extend .object-input-grid;
-      margin: 18px 0 18px;
-    }
+  .object-input-grid {
+    grid-auto-rows: minmax(40px, auto); // override default
   }
 
-  .CSV-column-match {
-    .column-headers {
+  ::v-deep .wt-popup__popup {
+    min-height: 60vh; // to place loader in the center, till file is parsed
+  }
+
+  .wt-loader {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+  }
+
+  .upload-popup-form__form {
       @extend .object-input-grid;
-      @extend .typo-body-md;
+      margin: var(--component-spacing) 0;
+  }
 
-      color: $label-color;
+  .upload-popup-form__file-preview .wt-table {
+    max-width: 60vw;
+    overflow: auto;
+  }
 
-      div {
+  .upload-popup-mapping {
+    .upload-popup-mapping-item {
+      @extend .object-input-grid;
+      margin-bottom: var(--component-spacing);
+
+      &__field {
+        @extend %typo-body-lg;
         align-self: center;
+
+        &.upload-popup-mapping-item__field--title {
+          @extend %typo-strong-lg;
+        }
       }
-    }
 
-    .column-rows {
-      padding: 24px 0 18px;
-
-      li {
-        @extend .object-input-grid;
-        /*grid-row-gap: 28px; // (28px - 9px label + 20px bottom error)*/
-        margin-bottom: 18px;
-        /*FIXME: MARGIN TOP INSTEAD OF GRID GAPS*/
-        div {
-          @extend .typo-body-md;
-          align-self: center;
+      &__select ::v-deep {
+        .wt-label, .wt-input-info {
+          display: none;
         }
       }
     }
+  }
+
+  .upload-popup-form__error-stack-trace {
+    padding: var(--component-padding);
+    margin-top: var(--component-spacing);
+    color: var(--false-color);
+    background: var(--secondary-color);
+    border-radius: var(--border-radius);
   }
 
   .upload-tooltip {
