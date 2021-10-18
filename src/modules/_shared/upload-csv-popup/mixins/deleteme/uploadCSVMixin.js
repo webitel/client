@@ -1,8 +1,8 @@
-import checkbox from '../components/utils/checkbox';
-import formInput from '../components/utils/form-input';
-import popup from '../components/utils/popup';
-import dropdownSelect from '../components/utils/dropdown-select';
-import { charsetOptions, processCSVFile } from '../utils/processCSV';
+import checkbox from '../../../../app/components/utils/checkbox';
+import formInput from '../../../../app/components/utils/form-input';
+import popup from '../../../../app/components/utils/popup';
+import dropdownSelect from '../../../../app/components/utils/dropdown-select';
+import { charsetOptions, processCSVFile } from '../../../../app/utils/processCSV';
 
 export default {
   components: {

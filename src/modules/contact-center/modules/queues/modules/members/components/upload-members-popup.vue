@@ -65,7 +65,7 @@
 <script>
     import { mapState } from 'vuex';
     import tagsInput from '../../../../../../../app/components/utils/tags-input';
-    import uploadCSVMixin from '../../../../../../../app/mixins/uploadCSVMixin';
+    import uploadCSVMixin from '../../../../../../_shared/upload-csv-popup/mixins/uploadCSVMixin';
     import { addMember, addMembersList } from '../api/queueMembers';
 
     export default {
@@ -207,5 +207,5 @@
 </script>
 
 <style lang="scss" scoped>
-    @import "../../../../../../../app/css/objects/upload-popup";
+    @import "../../../../../../_shared/upload-csv-popup/css/upload-popup";
 </style>
