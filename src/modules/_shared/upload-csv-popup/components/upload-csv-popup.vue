@@ -82,7 +82,9 @@
               class="upload-popup-mapping-item__select"
               v-model="field.csv"
               :options="csvColumns"
+              :multiple="field.multiple"
               :placeholder="field.name"
+              :clearable="!field.required"
               :track-by="null"
             ></wt-select>
             <div class="upload-tooltip" v-if="field.tooltip">{{field.tooltip}}</div>

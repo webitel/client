@@ -1,5 +1,6 @@
 import parse from 'csv-parse';
 import debounce from '@webitel/ui-sdk/src/scripts/debounce';
+import isEmpty from '@webitel/ui-sdk/src/scripts/isEmpty';
 
 const processFile = (file, { charset = 'utf-8' } = {}) => (
   new Promise((resolve, reject) => {
@@ -31,7 +32,7 @@ export default {
     mappingFields: {
       type: Array,
       required: true,
-      description: '[{ name: String, required: Boolean, csv: String }]',
+      description: '[{ name: String, required: Boolean, csv: String, multiple: Boolean }]',
     },
     addBulkItems: {
       type: Function,
@@ -111,7 +112,7 @@ export default {
         const normalizedData = this.normalizeCSVData(data);
         console.info('normalized data', normalizedData);
         await this.saveBulkData(normalizedData);
-        this.close();
+        // this.close();
       } catch (err) {
         this.parseErrorStackTrace = err;
         throw err;
@@ -130,11 +131,13 @@ export default {
       }
     },
     normalizeCSVData(data) {
-      const nonEmptyMappingFields = this.mappingFields.filter((field) => field.csv);
+      const nonEmptyMappingFields = this.mappingFields.filter((field) => !isEmpty(field.csv));
       return data.map((dataItem) => (
-        nonEmptyMappingFields.reduce((normalizedItem, { name, csv }) => ({
+        nonEmptyMappingFields.reduce((normalizedItem, { name, csv, multiple }) => ({
           ...normalizedItem,
-          [name]: dataItem[csv],
+          [name]: multiple // if multiple is true, csv is arr
+            ? csv.reduce((list, key) => [...list, dataItem[key]], [])
+            : dataItem[csv],
         }), {})
       ));
     },
