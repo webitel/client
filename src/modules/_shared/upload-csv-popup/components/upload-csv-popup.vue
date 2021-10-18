@@ -85,6 +85,7 @@
               :placeholder="field.name"
               :track-by="null"
             ></wt-select>
+            <div class="upload-tooltip" v-if="field.tooltip">{{field.tooltip}}</div>
           </li>
         </ul>
       </section>
