@@ -1,14 +1,17 @@
 <template>
   <wt-popup
     class="upload-popup"
-    min-width="480"
+    min-width="680"
     @close="close"
   >
     <template slot="title">
       {{ $t('objects.importCSV') }}
     </template>
     <template slot="main">
-      <wt-loader v-show="isReadingFile"></wt-loader>
+      <wt-loader
+        v-show="isReadingFile"
+        class="upload-popup__reading-file-loader"
+      ></wt-loader>
       <section
         v-show="!isReadingFile"
         class="upload-popup-form"
@@ -16,6 +19,7 @@
         <wt-checkbox
           v-model="skipHeaders"
           :label="$t('objects.CSV.skipHeaders')"
+          disabled
         ></wt-checkbox>
         <form class="upload-popup-form__form">
           <wt-select
@@ -31,18 +35,32 @@
             :label="$t('objects.CSV.separator')"
           ></wt-input>
         </form>
-        <article class="upload-popup-form__file-preview">
-          <wt-table
-            :headers="csvPreviewTableHeaders"
-            :data="csvPreviewTableData"
-            :selectable="false"
-          ></wt-table>
-        </article>
-        <article
-          v-if="parseErrorStackTrace"
-          class="upload-popup-form__error-stack-trace"
-        >{{ parseErrorStackTrace }}
-        </article>
+
+        <!--        PREVIEW SECTION: preview loader, preview table, parsing stack trace-->
+        <section>
+          <wt-loader
+            v-show="isParsingPreview"
+            class="upload-popup__parsing-preview-loader"
+          ></wt-loader>
+          <article
+            v-show="!isParsingPreview"
+            class="upload-popup-form__file-preview"
+          >
+            <wt-table
+              :headers="csvPreviewTableHeaders"
+              :data="csvPreviewTableData"
+              :selectable="false"
+              :grid-actions="false"
+            ></wt-table>
+          </article>
+          <article
+            v-show="!isParsingPreview && parseErrorStackTrace"
+            class="upload-popup-form__error-stack-trace"
+          >{{ parseErrorStackTrace }}
+          </article>
+        </section>
+
+        <!--        FIELDS MAPPING-->
         <ul class="upload-popup-mapping">
           <li class="upload-popup-mapping-item">
             <p class="upload-popup-mapping-item__field upload-popup-mapping-item__field--title">
@@ -128,6 +146,7 @@ export default {
     isReadingFile: false,
     isParsingCSV: false,
     parsedFile: null,
+    isParsingPreview: false,
     parseErrorStackTrace: '',
     csvPreview: [[]],
 
@@ -139,22 +158,22 @@ export default {
       {
         name: 'username',
         required: true,
-        csv: {},
+        csv: '',
       },
       {
         name: 'name',
         required: false,
-        csv: {},
+        csv: '',
       },
       {
         name: 'extension',
         required: false,
-        csv: {},
+        csv: '',
       },
       {
         name: 'email',
         required: false,
-        csv: {},
+        csv: '',
       },
     ],
   }),
@@ -172,9 +191,9 @@ export default {
           if (this.skipHeaders) return firstLine;
           return firstLine.map((item, index) => `${index}`);
         },
-        skipLinesWithError: true,
+        // skipLinesWithError: true,
         skipEmptyLines: true,
-        cast: true,
+        // cast: true,
       };
     },
     csvPreviewTableHeaders() {
@@ -184,22 +203,16 @@ export default {
       }));
     },
     csvPreviewTableData() {
-      // const data = this.skipHeaders ? this.csvPreview.slice(1) : this.csvPreview;
-      const data = this.csvPreview;
-      // return data.map((row) => (
-      //   row.reduce((rowObj, field, index) => ({
-      //     ...rowObj,
-      //     [index]: field,
-      //   }), {})
-      // ));
-      return data;
+      return this.csvPreview;
     },
   },
   watch: {
     skipHeaders() {
+      this.isParsingPreview = true;
       this.handleParseOptionsChange();
     },
     separator() {
+      this.isParsingPreview = true;
       this.handleParseOptionsChange();
     },
   },
@@ -207,6 +220,7 @@ export default {
     handleParseOptionsChange() {
       this.processCSVPreview();
       this.resetMappings();
+      this.isParsingPreview = false;
     },
     async processCSVPreview() {
       try {
@@ -218,8 +232,17 @@ export default {
       }
     },
     async processCSV() {
-      const data = await this.parseCSV();
-      console.info('data', data);
+      try {
+        const data = await this.parseCSV();
+        console.info('data', data);
+        const normalizedData = this.normalizeCSVData(data);
+        console.info('normalized data', normalizedData);
+        await this.saveBulkData(normalizedData);
+        this.close();
+      } catch (err) {
+        this.parseErrorStackTrace = err;
+        throw err;
+      }
     },
     async parseCSV() {
       this.isParsingCSV = true;
@@ -228,11 +251,19 @@ export default {
         this.parseErrorStackTrace = '';
         return await parseCSV(this.parsedFile, this.parseCSVOptions);
       } catch (err) {
-        this.parseErrorStackTrace = err;
-        return err;
+        throw err;
       } finally {
         this.isParsingCSV = false;
       }
+    },
+    normalizeCSVData(data) {
+      const nonEmptyMappingFields = this.mappingFields.filter((field) => field.csv);
+      return data.map((dataItem) => (
+        nonEmptyMappingFields.reduce((normalizedItem, { name, csv }) => ({
+          ...normalizedItem,
+          [name]: dataItem[csv],
+        }), {})
+      ));
     },
     async readFile() {
       this.parsedFile = await processFile(this.file, {});
@@ -252,8 +283,39 @@ export default {
         csv: field.tags ? [] : {},
       }));
     },
-    async addItem(item) {
-      await addUser(item);
+    // async saveBulkData(data) {
+    //   const chunkSize = 100;
+    //   const chunksCount = Math.ceil(data.length / chunkSize);
+    //   let processedChunkIndex = 1;
+    //   try {
+    //     for (; processedChunkIndex <= chunksCount; processedChunkIndex += 1) {
+    //       // eslint-disable-next-line no-await-in-loop
+    //       await this.addBulkItems(data.slice(chunkSize, processedChunkIndex * chunkSize));
+    //     }
+    //   } catch (err) {
+    //     // eslint-disable-next-line no-throw-literal
+    //     throw `An error occurred during saving ${(processedChunkIndex - 1) * chunkSize}-${processedChunkIndex * chunkSize} data chunk: ${JSON.stringify(err)}`;
+    //   }
+    // },
+    async saveBulkData(data) {
+      let processedChunkIndex = 1;
+      try {
+        // eslint-disable-next-line no-restricted-syntax
+        for (const item of data) {
+          // eslint-disable-next-line no-await-in-loop
+          await this.addItem(item);
+          processedChunkIndex += 1;
+        }
+      } catch (err) {
+        // eslint-disable-next-line no-throw-literal
+        throw `An error occurred during saving ${processedChunkIndex} record: ${JSON.stringify(err)}`;
+      }
+    },
+    async addBulkItems(items) {
+      return items;
+    },
+    addItem(itemInstance) {
+      return addUser({ itemInstance });
     },
     close() {
       this.$emit('close');

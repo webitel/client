@@ -7,7 +7,7 @@
     min-height: 60vh; // to place loader in the center, till file is parsed
   }
 
-  .wt-loader {
+  .upload-popup__reading-file-loader {
     position: absolute;
     top: 50%;
     left: 50%;
@@ -17,6 +17,10 @@
   .upload-popup-form__form {
       @extend .object-input-grid;
       margin: var(--component-spacing) 0;
+  }
+
+  .upload-popup__parsing-preview-loader {
+    margin: auto;
   }
 
   .upload-popup-form__file-preview .wt-table {
