@@ -7,6 +7,7 @@
     <upload-popup
       v-if="isUploadPopup"
       :file="csvFile"
+      :parent-id="parentId"
       @close="closeCSVPopup"
     ></upload-popup>
     <delete-confirmation-popup

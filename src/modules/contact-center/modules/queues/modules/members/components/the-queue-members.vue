@@ -19,6 +19,7 @@
       <upload-popup
         v-if="hasEditAccess && isUploadPopup"
         :file="csvFile"
+        :parent-id="parentId"
         @close="closeCSVPopup"
       ></upload-popup>
 
