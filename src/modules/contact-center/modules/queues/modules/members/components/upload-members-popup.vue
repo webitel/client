@@ -1,14 +1,15 @@
 <template>
   <upload-csv-popup
+    v-model="mappingFields"
     :file="file"
-    :mapping-fields="mappingFields"
     :add-bulk-items="saveBulkData"
     @close="close"
   ></upload-csv-popup>
 </template>
 
 <script>
-import uploadCSVWrapperComponentMixin from '../../../../../../_shared/upload-csv-popup/mixins/uploadCSVWrapperComponentMixin';
+import uploadCSVWrapperComponentMixin
+  from '../../../../../../_shared/upload-csv-popup/mixins/uploadCSVWrapperComponentMixin';
 import { addMembersList } from '../api/queueMembers';
 
 export default {
@@ -64,7 +65,7 @@ export default {
       },
       {
         text: 'Communication priority',
-        name: 'priority',
+        name: 'commPriority',
         required: false,
         multiple: true,
         csv: [],
@@ -88,46 +89,61 @@ export default {
 
   methods: {
     saveBulkData(data) {
-      console.info('sbd', data);
-      const normalizedData = this.normalizeData(data);
-      return addMembersList(this.parentId, normalizedData);
+      try {
+        const normalizedData = this.normalizeData(data);
+        return addMembersList(this.parentId, normalizedData);
+      } catch (err) {
+        throw err;
+      }
     },
 
-    normalizeData(data, mappingFields) {
+    normalizeData(data) {
       return data.map((item) => {
-        const normalizedItem = { variables: {}, communications: [] };
-        Object.keys(normalizedItem).filter
-      });
-      const item = ;
-      mappingFields.forEach((field) => {
-        if (field.csv && Object.entries(field.csv).length) {
-          let { name } = field;
-          if (name.includes('Id')) {
-            name = name.slice(0, -2);
-            item[name] = { id: row[field.csv.id] };
-          } else {
-            item[name] = row[field.csv.id];
-          }
+        const normalizedItem = {
+          ...item,
+        };
+
+        if (normalizedItem.timezoneId) {
+          normalizedItem.timezone = { id: item.timezoneId };
+          delete normalizedItem.timezoneId;
         }
-      });
-      const communications = mappingFields.filter((field) => field.tags);
-      communications.forEach((field) => {
-        field.csvArr.forEach((csvItem, index) => {
-          let { name } = field;
-          if (name === 'variables') {
-            item.variables[csvItem.name] = row[csvItem.id];
-          } else {
-            item.communications[index] = item.communications[index] || {};
-            if (name.includes('Id')) {
-              name = name.slice(0, -2);
-              item.communications[index][name] = { id: row[csvItem.id] };
-            } else {
-              item.communications[index][name] = row[csvItem.id];
-            }
+        if (normalizedItem.bucketId) {
+          normalizedItem.bucket = { id: item.bucketId };
+          delete normalizedItem.bucketId;
+        }
+        if (normalizedItem.variables) {
+          const variablesMappings = this.mappingFields.find((field) => field.name === 'variables');
+          normalizedItem.variables = item.variables.reduce((variables, variable, index) => ({
+            ...variables,
+            [variablesMappings.csv[index].text]: variable, // csv is arr of tags { text }
+          }), {});
+        }
+
+        normalizedItem.communications = [];
+        const commLength = Math.max(
+          normalizedItem.destination.length,
+          normalizedItem.typeId.length,
+        );
+        for (let index = 0; index < commLength; index += 1) {
+          const communication = {
+            destination: normalizedItem.destination[index],
+            type: { id: normalizedItem.typeId[index] },
+          };
+          if (normalizedItem.commPriority && normalizedItem.commPriority[index]) {
+            communication.priority = normalizedItem.commPriority[index];
           }
-        });
+          if (normalizedItem.description && normalizedItem.description[index]) {
+            communication.description = normalizedItem.description[index];
+          }
+          normalizedItem.communications.push(communication);
+        }
+        delete normalizedItem.destination;
+        delete normalizedItem.typeId;
+        delete normalizedItem.commPriority;
+        delete normalizedItem.description;
+
+        return normalizedItem;
       });
-      return item;
     },
   },
 };

@@ -38,6 +38,10 @@ export default {
       type: Function,
     },
   },
+  model: {
+    prop: 'mappingFields',
+    event: 'changeMappingFields',
+  },
   data: () => ({
     isReadingFile: false,
     isParsingCSV: false,
@@ -79,6 +83,9 @@ export default {
     csvPreviewTableData() {
       return this.csvPreview;
     },
+    allowSaveAction() {
+      return this.mappingFields.every((field) => !field.required || !isEmpty(field.csv));
+    },
   },
   watch: {
     skipHeaders() {
@@ -106,28 +113,27 @@ export default {
       }
     },
     async processCSV() {
+      this.isParsingCSV = true;
       try {
-        const data = await this.parseCSV();
-        console.info('data', data);
-        const normalizedData = this.normalizeCSVData(data);
-        console.info('normalized data', normalizedData);
+        const sourceData = await this.parseCSV();
+        console.info('upload csv: source data', sourceData);
+        const normalizedData = this.normalizeCSVData(sourceData);
+        console.info('upload csv: normalized data', normalizedData);
         await this.saveBulkData(normalizedData);
-        // this.close();
+        this.close();
       } catch (err) {
         this.parseErrorStackTrace = err;
         throw err;
+      } finally {
+        this.isParsingCSV = false;
       }
     },
     async parseCSV() {
-      this.isParsingCSV = true;
-
       try {
         this.parseErrorStackTrace = '';
         return await parseCSV(this.parsedFile, this.parseCSVOptions);
       } catch (err) {
         throw err;
-      } finally {
-        this.isParsingCSV = false;
       }
     },
     normalizeCSVData(data) {
@@ -135,8 +141,8 @@ export default {
       return data.map((dataItem) => (
         nonEmptyMappingFields.reduce((normalizedItem, { name, csv, multiple }) => ({
           ...normalizedItem,
-          [name]: multiple // if multiple is true, csv is arr
-            ? csv.reduce((list, key) => [...list, dataItem[key]], [])
+          [name]: multiple // if multiple is true, csv is arr of tags { text }
+            ? csv.reduce((list, { text }) => [...list, dataItem[text]], [])
             : dataItem[csv],
         }), {})
       ));
@@ -154,10 +160,11 @@ export default {
     },
     resetMappings() {
       // reset previously selected values
-      this.mappingFields = this.mappingFields.map((field) => ({
+      const mappingFields = this.mappingFields.map((field) => ({
         ...field,
-        csv: field.tags ? [] : {},
+        csv: field.multiple ? [] : '',
       }));
+      this.$emit('changeMappingFields', mappingFields);
     },
     async saveBulkData(data) {
       const chunkSize = 100;

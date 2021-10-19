@@ -76,17 +76,26 @@
             :key="key"
           >
             <p class="upload-popup-mapping-item__field">
-              {{ field.name }}<span v-if="field.required">*</span>
+              {{ field.text || field.name }}<span v-if="field.required">*</span>
             </p>
             <wt-select
+              v-if="!field.multiple"
               class="upload-popup-mapping-item__select"
               v-model="field.csv"
               :options="csvColumns"
-              :multiple="field.multiple"
-              :placeholder="field.name"
+              :placeholder="field.text || field.name"
               :clearable="!field.required"
               :track-by="null"
             ></wt-select>
+            <wt-tags-input
+              v-else
+              class="upload-popup-mapping-item__select"
+              v-model="field.csv"
+              :autocomplete-items="csvColumns"
+              :placeholder="field.text || field.name"
+              autocomplete-filter-duplicates
+              add-only-from-autocomplete
+            ></wt-tags-input>
             <div class="upload-tooltip" v-if="field.tooltip">{{field.tooltip}}</div>
           </li>
         </ul>
@@ -98,6 +107,7 @@
     >
       <wt-button
         :loading="isParsingCSV"
+        :disabled="!allowSaveAction"
         @click="processCSV"
       >{{ $t('reusable.save') }}
       </wt-button>
