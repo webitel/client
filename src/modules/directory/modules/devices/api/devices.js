@@ -1,4 +1,5 @@
 import instance from '../../../../../app/api/instance';
+import { EndpointListGetterApiConsumer } from 'webitel-sdk/esm2015/api-consumers';
 import APIItemDeleter from '../../../../../app/api/BaseAPIServices/Deleter/ApiDeleter';
 import APIUpdater from '../../../../../app/api/BaseAPIServices/Updater/ApiUpdater';
 import APICreator from '../../../../../app/api/BaseAPIServices/Creator/ApiCreator';
@@ -45,9 +46,16 @@ const _getDeviceHistory = (getList) => function ({
                                                    page,
                                                    size,
                                                  }) {
-  const baseUrl = `${BASE_URL}/${parentId}/users/audit?time_from=${from}&time_to=${to}`;
-  return getList({ page, size }, baseUrl);
+  const baseUrl = `${BASE_URL}/${parentId}/users/audit`;
+  const params = {
+    page,
+    size,
+    time_from: from, // query format
+    time_to: to, // query format
+  };
+  return getList(params, baseUrl);
 };
+const getDeviceHistoryResponseHandler = (response) => ({ ...response, list: response.items });
 
 const listGetter = new APIListGetter(BASE_URL, { defaultListObject });
 const itemGetter = new APIItemGetter(BASE_URL, { defaultSingleObject, itemResponseHandler });
@@ -55,8 +63,10 @@ const itemCreator = new APICreator(BASE_URL, { fieldsToSend, preRequestHandler }
 const itemUpdater = new APIUpdater(BASE_URL, { fieldsToSend, preRequestHandler });
 const itemDeleter = new APIItemDeleter(BASE_URL);
 
-const historyListGetter = new APIListGetter(BASE_URL)
-  .setGetListMethod(_getDeviceHistory);
+const historyListGetter = new EndpointListGetterApiConsumer(
+  { baseUrl: BASE_URL, instance },
+  { listResponseHandler: getDeviceHistoryResponseHandler },
+).setGetListMethod(_getDeviceHistory);
 
 export const getDeviceList = (params) => listGetter.getList({ searchQuery: 'q', ...params });
 export const getDevice = (params) => itemGetter.getItem(params);
