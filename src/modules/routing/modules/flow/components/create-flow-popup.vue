@@ -14,6 +14,8 @@ import { mapActions } from 'vuex';
 import RouteNames from '../../../../../app/router/_internals/RouteNames.enum';
 import SelectionPopup
   from '../../../../../app/components/utils/selection-popup/selection-popup.vue';
+import CodeSelectionPic from '../assets/code-selection-pic.svg';
+import DiagramSelectionPic from '../assets/diagram-selection-pic.svg';
 
 export default {
   name: 'create-flow-popup',
@@ -29,11 +31,15 @@ export default {
         value: 'diagram',
         title: this.$t('objects.routing.flow.diagram.diagram'),
         description: this.$t('objects.routing.flow.diagram.description'),
+        image: DiagramSelectionPic,
+        alt: this.$t('objects.routing.flow.diagram.diagram'),
       };
       const code = {
         value: 'code',
         title: this.$t('objects.routing.flow.code.code'),
         description: this.$t('objects.routing.flow.code.description'),
+        image: CodeSelectionPic,
+        alt: this.$t('objects.routing.flow.code.code'),
       };
       return [diagram, code];
     },

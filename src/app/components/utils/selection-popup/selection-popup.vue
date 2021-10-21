@@ -1,25 +1,37 @@
 <template>
-  <wt-popup class="selection-popup" :min-width="minWidth" @close="close">
+  <wt-popup
+    class="selection-popup"
+    :min-width="minWidth"
+    @close="close"
+  >
     <template slot="title">{{ title }}</template>
-
     <template slot="main">
       <ul class="popup-options">
         <li
-          class="popup-options__item-wrap"
+          class="popup-options__item"
           v-for="(option, key) of options"
-          :class="{'active': option === selected}"
           :key="key"
-          @click="selectOption(option)"
         >
-          <wt-icon
-            v-if="option.icon" :icon="option.icon" size="sm"></wt-icon>
-          <h4 class="popup-options__item-header">{{ option.title }}</h4>
-          <wt-icon-btn
-            v-if="option.description"
-            icon="rounded-info"
-            color="outline"
-            :tooltip="option.description"
-          ></wt-icon-btn>
+          <img :src="option.image" :alt="option.alt">
+          <div
+            class="popup-options__item-wrap"
+            :class="{'active': option === selected}"
+            @click="selectOption(option)"
+          >
+            <wt-icon
+              v-if="option.icon"
+              :icon="option.icon"
+              size="sm"
+            ></wt-icon>
+            <h4 class="popup-options__item-header">{{ option.title }}</h4>
+            <wt-icon-btn
+              v-if="option.description"
+              icon="rounded-info"
+              color="outline"
+              :tooltip="option.description"
+              :tooltip-position="option.value === 'code' ? 'left' : 'bottom'"
+            ></wt-icon-btn>
+          </div>
         </li>
       </ul>
     </template>
@@ -81,14 +93,17 @@ export default {
 .selection-popup {
   .popup-options {
     margin-top: 20px;
-    padding-right: 10px;
+    display: flex;
+    //Because a margin between buttons in `wt-popup` is 20px;
+    gap: 20px;
 
     .popup-options__item-wrap {
       position: relative;
-      display: flex;
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      justify-items: center;
       align-items: center;
       padding: 7px 10px;
-      margin-bottom: 10px;
       border: 1px solid var(--form-border-color);
       border-radius: var(--border-radius);
       transition: var(--transition);
@@ -98,30 +113,27 @@ export default {
         margin-right: var(--icon-spacing);
       }
 
-      &:last-child {
-        margin-bottom: 0;
-      }
-
       &:hover, &.active {
         border-color: var(--main-accent-color);
       }
 
-      .wt-icon-btn {
-        margin-left: auto;
+      .wt-icon-btn ::v-deep {
+        justify-self: end;
 
-        ::v-deep .wt-tooltip {
+        .wt-tooltip {
           width: 300px;
-          top: 50%;
-          right: calc(100% + 10px);
-          left: auto;
-          transform: translate(0, -50%);
         }
       }
     }
 
     .popup-options__item-header {
       @extend %typo-strong-md;
+      grid-column-start: 2;
     }
+  }
+
+  .wt-button {
+    flex: 1;
   }
 }
 </style>
