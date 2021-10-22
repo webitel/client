@@ -12,7 +12,8 @@
           v-for="(option, key) of options"
           :key="key"
         >
-          <img :src="option.image" :alt="option.alt">
+<!--          <img :src="option.image" :alt="option.alt">-->
+          <object :data="option.image"></object>
           <div
             class="popup-options__item-wrap"
             :class="{'active': option === selected}"
