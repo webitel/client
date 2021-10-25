@@ -8,6 +8,7 @@ process.env.VUE_APP_AUDIT_URL = process.env.NODE_ENV === 'production' ? '/audit'
 process.env.VUE_APP_HISTORY_URL = process.env.NODE_ENV === 'production' ? '/history' : 'https://dev.webitel.com/history';
 process.env.VUE_APP_GRAFANA_URL = process.env.NODE_ENV === 'production' ? '/grafana' : 'https://dev.webitel.com/grafana';
 process.env.VUE_APP_OMNI_WIDGET_URL = process.env.NODE_ENV === 'production' ? '/omni-widget' : 'https://dev.webitel.com/omni-widget';
+process.env.VUE_APP_FLOW_DIAGRAM_URL = process.env.NODE_ENV === 'production' ? '/flow-diagram' : 'https://dev.webitel.com/flow-diagram';
 
 process.env.VUE_APP_PACKAGE_VERSION = require('./package.json').version;
 

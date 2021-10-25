@@ -29,8 +29,9 @@ export default {
   },
   methods: {
     async initDiagram() {
+      const flowDiagramUrl = process.env.VUE_APP_FLOW_DIAGRAM_URL;
       const script = document.createElement('script');
-      script.src = 'https://dev.webitel.com/flow-diagram/WtFlowDiagram.umd.min.js';
+      script.src = `${flowDiagramUrl}/WtFlowDiagram.umd.min.js`;
       script.onload = () => {
         const params = {
           diagram: this.isEdit ? this.itemInstance : null, // if edit, restore diagram
@@ -68,7 +69,7 @@ export default {
       document.head.appendChild(script);
 
       const link = document.createElement('link');
-      link.href = 'https://dev.webitel.com/flow-diagram/WtFlowDiagram.css';
+      link.href = `${flowDiagramUrl}/WtFlowDiagram.css`;
       link.type = 'text/css';
       link.rel = 'stylesheet';
       link.media = 'screen,print';
