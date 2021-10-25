@@ -1,16 +1,19 @@
 <template>
-  <div class="content-wrap">
-    <object-header hide-primary>
-      {{ $t('settings.settings') }}
-    </object-header>
-
-    <section class="object-content">
-      <section class="settings-section">
-        <header class="content-header">
-          <h3 class="content-title">{{ $t('settings.changePassword') }}</h3>
-        </header>
-        <form class="object-input-grid grid-w50">
-          <div>
+  <wt-page-wrapper :actions-panel="false">
+    <template slot="header">
+      <object-header hide-primary>
+        {{ $t('settings.settings') }}
+      </object-header>
+    </template>
+    <template slot="main">
+      <!--This wrapper is needed to place the "settings-section" in a column
+       and give them half the width of the screen-->
+      <div class="settings-section-wrapper">
+        <section class="settings-section">
+          <header class="content-header">
+            <h3 class="content-title">{{ $t('settings.changePassword') }}</h3>
+          </header>
+          <form @submit="changePassword">
             <wt-input
               v-model="newPassword"
               :v="$v.newPassword"
@@ -27,29 +30,30 @@
             ></wt-input>
             <wt-button
               :disabled="computeDisabled"
-              @click="changePassword"
+              :loading="isPasswordPatching"
+              type="submit"
+              @click.prevent="changePassword"
             >{{ $t('objects.save') }}
             </wt-button>
-          </div>
-        </form>
-      </section>
-
-      <section class="settings-section">
-        <header class="content-header">
-          <h3 class="content-title">{{ $t('settings.language') }}</h3>
-        </header>
-        <form class="object-input-grid grid-w50">
-          <wt-select
-            class="language-list"
-            :value="language"
-            :options="languageOptions"
-            :label="$t('settings.language')"
-            @input="changeLanguage"
-          ></wt-select>
-        </form>
-      </section>
-    </section>
-  </div>
+          </form>
+        </section>
+        <section class="settings-section">
+          <header class="content-header">
+            <h3 class="content-title">{{ $t('settings.language') }}</h3>
+          </header>
+          <form>
+            <wt-select
+              class="language-list"
+              :value="language"
+              :options="languageOptions"
+              :label="$t('settings.language')"
+              @input="changeLanguage"
+            ></wt-select>
+          </form>
+        </section>
+      </div>
+    </template>
+  </wt-page-wrapper>
 </template>
 
 
@@ -58,22 +62,18 @@ import { sameAs, required } from 'vuelidate/lib/validators';
 import { mapState } from 'vuex';
 import objectHeader from '../../../app/components/utils/object-utils/the-object-header.vue';
 import getNamespacedState from '../../../app/store/helpers/getNamespacedState';
-import { getPasswordItem, getPasswordList, patchMe, patchPasswordList } from '../api/settings';
-// import DropdownSelect from '../../../app/components/utils/dropdown-select';
-// import btn from '../../../app/components/utils/btn';
-// import formInput from '../../../app/components/utils/form-input';
+import { changePassword } from '../api/settings';
+
 
 export default {
   name: 'the-settings',
   components: {
     objectHeader,
-    // DropdownSelect,
-    // btn,
-    // formInput,
   },
   data: () => ({
     newPassword: '',
     confirmNewPassword: '',
+    isPasswordPatching: false,
     language: {
       name: 'English',
       id: 'en',
@@ -103,10 +103,8 @@ export default {
     },
   },
 
-  mounted() {
-    const lang = localStorage.getItem('lang'); // get default lang
-    // if there's a previously set lang, set it
-    if (lang) this.language = this.languageOptions.find((item) => item.id === lang);
+  created() {
+    this.restoreLanguage();
   },
 
   computed: {
@@ -122,20 +120,23 @@ export default {
   },
 
   methods: {
-  async  changePassword() {
-      // console.log('New password:', this.newPassword);
-      // console.log('User ID:', this.userId);
-      // console.log(instance('/userinfo'));
-      // console.log(instance('/users'));
-      // await instance('/userinfo')
-      //  .then((response) => response)
-      //  .then((data) => {
-      //    data.password = this.newPassword;
-      //    console.log(data);
-      //  });
-      // getPasswordItem({ password: this.newPassword, userId: this.userId });
-      // patchPasswordList(this.newPassword, this.userId);
-      await patchMe({ password: this.newPassword, userId: this.userId });
+    async changePassword() {
+      try {
+        this.isPasswordPatching = true;
+        const changes = { password: this.newPassword };
+        await changePassword({
+          id: this.userId,
+          changes,
+        });
+        this.$eventBus.$emit('notification', {
+          type: 'info',
+          text: 'Password is successfully updated!',
+        });
+      } catch (err) {
+        throw err;
+      } finally {
+        this.isPasswordPatching = false;
+      }
     },
 
     changeLanguage(value) {
@@ -143,13 +144,23 @@ export default {
       this.language = value;
       this.$i18n.locale = value.id;
     },
+    restoreLanguage() {
+      const lang = localStorage.getItem('lang'); // get default lang
+      // if there's a previously set lang, set it
+      if (lang) this.language = this.languageOptions.find((item) => item.id === lang);
+    },
   },
 };
 </script>
 
 <style lang="scss" scoped>
+.settings-section-wrapper {
+  flex: 0 1 50%;
+  min-width: 200px;
+}
+
 .settings-section {
-  margin-bottom: 28px;
+  margin-bottom: var(--component-spacing);
 
   .wt-button {
     display: block;
