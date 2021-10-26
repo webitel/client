@@ -127,7 +127,7 @@ export default {
     path() {
       return [
         { name: this.$t('objects.directory.directory') },
-        { name: this.$t('objects.directory.license.license'), route: '/directory/license' },
+        { name: this.$tc('objects.directory.license.license', 2), route: '/directory/license' },
       ];
     },
   },
