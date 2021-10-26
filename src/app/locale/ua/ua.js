@@ -287,8 +287,8 @@ export default {
         agentSkills: 'Навички оператора | Навички операторів',
         allSkills: 'Всі навички',
         state: 'Стан',
-        minCapacityLessOrEqualToMaxCapacityValidator: 'Має бути менше або рівне Мінімальному потенціалу',
-        maxCapacityMoreOrEqualToMinCapacityValidator: 'Має бути більше або рівне Максимальному потенціалу',
+        minCapacityLessOrEqualToMaxCapacityValidator: 'Має бути менше або рівне Максимальному потенціалу',
+        maxCapacityMoreOrEqualToMinCapacityValidator: 'Має бути більше або рівне Мінімальному потенціалу',
       },
       buckets: {
         buckets: 'Кошик | Кошики',
