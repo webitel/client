@@ -6,35 +6,55 @@
   >
     <template slot="title">{{ title }}</template>
     <template slot="main">
-      <ul class="popup-options">
-        <li
-          class="popup-options__item"
-          v-for="(option, key) of options"
-          :key="key"
-        >
-<!--          Change images to SVG!!-->
-          <img :src="option.image" :alt="option.alt">
+      <section class="popup-flows">
+        <article class="popup-flows__flow">
+          <!--Change images to SVG!!!-->
+          <img :src="diagram.image" :alt="diagram.alt">
           <div
-            class="popup-options__item-wrap"
-            :class="{'active': option === selected}"
-            @click="selectOption(option)"
+            class="popup-flows__flow-button-imitation"
+            @click="selectOption(diagram)"
+            :class="{'active': diagram === selected}"
           >
+            <h4 class="popup-flows__flow-button-imitation-title">{{ diagram.title }}</h4>
             <wt-icon
-              v-if="option.icon"
-              :icon="option.icon"
+              v-if="diagram.icon"
+              :icon="diagram.icon"
               size="sm"
             ></wt-icon>
-            <h4 class="popup-options__item-header">{{ option.title }}</h4>
             <wt-icon-btn
-              v-if="option.description"
+              v-if="diagram.description"
               icon="rounded-info"
               color="outline"
-              :tooltip="option.description"
-              :tooltip-position="option.value === 'code' ? 'left' : 'bottom'"
+              :tooltip="diagram.description"
+              tooltip-position="bottom"
             ></wt-icon-btn>
           </div>
-        </li>
-      </ul>
+        </article>
+
+        <article class="popup-flows__flow">
+          <!--Change images to SVG!!!-->
+          <img :src="code.image" :alt="code.alt">
+          <div
+            class="popup-flows__flow-button-imitation"
+            @click="selectOption(code)"
+            :class="{'active': code === selected}"
+          >
+            <h4 class="popup-flows__flow-button-imitation-title">{{ code.title }}</h4>
+            <wt-icon
+              v-if="code.icon"
+              :icon="code.icon"
+              size="sm"
+            ></wt-icon>
+            <wt-icon-btn
+              v-if="code.description"
+              icon="rounded-info"
+              color="outline"
+              :tooltip="code.description"
+              tooltip-position="left"
+            ></wt-icon-btn>
+          </div>
+        </article>
+      </section>
     </template>
 
     <template slot="actions">
@@ -63,9 +83,15 @@ export default {
       type: Object,
       description: 'Should have following schema: { value: \'\', title: \'\', description: \'\'}',
     },
-    options: {
-      type: Array,
-      default: () => [],
+    diagram: {
+      type: Object,
+      default: () => {
+      },
+    },
+    code: {
+      type: Object,
+      default: () => {
+      },
     },
     minWidth: {
       type: [String, Number],
@@ -92,13 +118,13 @@ export default {
 
 <style lang="scss" scoped>
 .selection-popup {
-  .popup-options {
+  .popup-flows {
     margin-top: 20px;
     display: flex;
     //Because a margin between buttons in `wt-popup` is 20px;
     gap: 20px;
 
-    .popup-options__item-wrap {
+    &__flow-button-imitation {
       position: relative;
       display: grid;
       grid-template-columns: repeat(3, 1fr);
@@ -127,7 +153,7 @@ export default {
       }
     }
 
-    .popup-options__item-header {
+    &__flow-button-imitation-title {
       @extend %typo-strong-md;
       grid-column-start: 2;
     }

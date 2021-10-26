@@ -1,7 +1,8 @@
 <template>
   <selection-popup
     :title="$t('objects.routing.flow.createFlowSelectionPopup')"
-    :options="options"
+    :diagram="diagram"
+    :code="code"
     :selected="selected"
     @change="selectOption"
     @select="create"
@@ -11,9 +12,9 @@
 
 <script>
 import { mapActions } from 'vuex';
-import RouteNames from '../../../../../app/router/_internals/RouteNames.enum';
 import SelectionPopup
   from '../../../../../app/components/utils/selection-popup/selection-popup.vue';
+import RouteNames from '../../../../../app/router/_internals/RouteNames.enum';
 // Change images to SVG!!!
 import codeSelectionPic from '../assets/code-selection-pic.png';
 import diagramSelectionPic from '../assets/diagram-selection-pic.png';
@@ -27,22 +28,23 @@ export default {
     selected: null,
   }),
   computed: {
-    options() {
-      const diagram = {
+    diagram() {
+      return {
         value: 'diagram',
         title: this.$t('objects.routing.flow.diagram.diagram'),
         description: this.$t('objects.routing.flow.diagram.description'),
         image: diagramSelectionPic,
         alt: this.$t('objects.routing.flow.diagram.diagram'),
       };
-      const code = {
+    },
+    code() {
+      return {
         value: 'code',
         title: this.$t('objects.routing.flow.code.code'),
         description: this.$t('objects.routing.flow.code.description'),
         image: codeSelectionPic,
         alt: this.$t('objects.routing.flow.code.code'),
       };
-      return [diagram, code];
     },
   },
 
