@@ -6,10 +6,10 @@
       </object-header>
     </template>
     <template slot="main">
-      <!--This wrapper is needed to place the "settings-section" in a column
-       and give them half the width of the screen-->
-      <div class="settings-section-wrapper">
-        <section class="settings-section">
+      <!--This wrapper "settings-section" is needed to place the "settings-section__setting"
+      in a column and give them half the width of the screen-->
+      <section class="settings-section">
+        <article class="settings-section__setting">
           <header class="content-header">
             <h3 class="content-title">{{ $t('settings.changePassword') }}</h3>
           </header>
@@ -29,15 +29,15 @@
               required
             ></wt-input>
             <wt-button
-              :disabled="computeDisabled"
+              :disabled="disablePasswordChange"
               :loading="isPasswordPatching"
               type="submit"
               @click.prevent="changePassword"
             >{{ $t('objects.save') }}
             </wt-button>
           </form>
-        </section>
-        <section class="settings-section">
+        </article>
+        <section class="settings-section__setting">
           <header class="content-header">
             <h3 class="content-title">{{ $t('settings.language') }}</h3>
           </header>
@@ -51,18 +51,18 @@
             ></wt-select>
           </form>
         </section>
-      </div>
+      </section>
     </template>
   </wt-page-wrapper>
 </template>
 
 
 <script>
+import getNamespacedState from '@webitel/ui-sdk/src/store/helpers/getNamespacedState';
 import { sameAs, required } from 'vuelidate/lib/validators';
 import { mapState } from 'vuex';
-import objectHeader from '../../../app/components/utils/object-utils/the-object-header.vue';
-import getNamespacedState from '../../../app/store/helpers/getNamespacedState';
 import { changePassword } from '../api/settings';
+import objectHeader from '../../../app/components/utils/object-utils/the-object-header.vue';
 
 
 export default {
@@ -113,7 +113,7 @@ export default {
         return getNamespacedState(state, 'userinfo').userId;
       },
     }),
-    computeDisabled() {
+    disablePasswordChange() {
       this.$v.$touch();
       return this.$v.$pending || this.$v.$error;
     },
@@ -154,13 +154,12 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.settings-section-wrapper {
+.settings-section {
+  display: flex;
+  flex-direction: column;
+  gap: var(--component-spacing);
   flex: 0 1 50%;
   min-width: 200px;
-}
-
-.settings-section {
-  margin-bottom: var(--component-spacing);
 
   .wt-button {
     display: block;
