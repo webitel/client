@@ -125,7 +125,7 @@ export default {
     path() {
       return [
         { name: this.$t('objects.lookups.lookups') },
-        { name: this.$tc('objects.lookups.pauseCause.pauseCause', 2), route: '/lookups/pause-cause' },
+        { name: this.$t('objects.lookups.pauseCause.pauseCause'), route: '/lookups/pause-cause' },
       ];
     },
   },

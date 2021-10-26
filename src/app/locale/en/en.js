@@ -185,7 +185,7 @@ export default {
       },
       license: {
         customers: 'Customers',
-        license: 'License',
+        license: 'License | Licenses',
         licenseId: 'ID',
         allCustomers: 'All customers',
         allLicenses: 'All licenses',
@@ -267,6 +267,8 @@ export default {
         rbacDefault: 'Default Record based Access',
         grantor: 'Grantor',
         grantee: 'Grantee',
+        create: 'Create',
+        delete: 'Delete',
         accessMode: {
           '1': 'Forbidden',
           '2': 'Allow',
@@ -303,7 +305,7 @@ export default {
       media: {
         mediaFiles: 'Media file | Media files',
         allMediaFiles: 'All media files',
-        createdAt: 'Created at',
+        createdAt: 'Created',
         format: 'Format',
         size: 'Size',
         textToSpeech: 'Text to speech',
@@ -317,8 +319,8 @@ export default {
         dragPlaceholderHere: 'here.',
       },
       regions: {
-        regions: 'Region | Regions',
-        allRegions: 'All regions',
+        regions: 'Location | Locations',
+        allRegions: 'All locations',
       },
       timezone: {
         timezone: 'Timezone | Timezones',
@@ -352,7 +354,7 @@ export default {
         code: 'Code',
       },
       pauseCause: {
-        pauseCause: 'Agent statuses | Agent status',
+        pauseCause: 'Agent status',
         allPauseCause: 'All agent pause causes',
         limit: 'Limit (min)',
         min: 'min',

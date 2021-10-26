@@ -27,7 +27,7 @@ export default [
   },
   {
     value: 'delete',
-    locale: 'objects.delete',
+    locale: 'objects.permissions.object.delete',
     field: 'd',
     sort: SortSymbols.NONE,
   },
