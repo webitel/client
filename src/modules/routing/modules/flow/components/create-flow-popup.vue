@@ -14,8 +14,9 @@ import { mapActions } from 'vuex';
 import RouteNames from '../../../../../app/router/_internals/RouteNames.enum';
 import SelectionPopup
   from '../../../../../app/components/utils/selection-popup/selection-popup.vue';
-import codeSelectionPic from '../assets/code-selection-pic.svg';
-import diagramSelectionPic from '../assets/diagram-selection-pic.svg';
+// Change images to SVG!!!
+import codeSelectionPic from '../assets/code-selection-pic.png';
+import diagramSelectionPic from '../assets/diagram-selection-pic.png';
 
 export default {
   name: 'create-flow-popup',
