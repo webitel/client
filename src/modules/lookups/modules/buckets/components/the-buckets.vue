@@ -100,7 +100,7 @@ export default {
   computed: {
     path() {
       return [
-        { name: this.$t('objects.ccenter.ccenter') },
+        { name: this.$t('objects.lookups.lookups') },
         { name: this.$tc('objects.lookups.buckets.buckets', 2), route: '/lookups/buckets' },
       ];
     },
