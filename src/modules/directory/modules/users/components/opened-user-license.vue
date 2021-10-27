@@ -1,12 +1,12 @@
 <template>
   <section>
     <header class="content-header">
-      <h3 class="content-title">{{ $t('objects.directory.license.license') }}</h3>
+      <h3 class="content-title">{{ $tc('objects.directory.license.license', 1) }}</h3>
     </header>
     <form class="object-input-grid">
       <wt-select
         :value="itemInstance.license"
-        :label="$t('objects.directory.license.license')"
+        :label="$tc('objects.directory.license.license', 1)"
         :search="loadDropdownOptionsList"
         :internal-search="false"
         :close-on-select="false"
