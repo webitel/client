@@ -1,60 +1,28 @@
 <template>
-  <wt-popup
-    class="selection-popup"
-    :min-width="minWidth"
-    @close="close"
-  >
+  <wt-popup class="selection-popup" :min-width="minWidth" @close="close">
     <template slot="title">{{ title }}</template>
     <template slot="main">
-      <section class="popup-flows">
-        <article class="popup-flows__flow">
-          <!--Change images to SVG!!!-->
-          <img :src="diagram.image" :alt="diagram.alt">
-          <div
-            class="popup-flows__flow-button-imitation"
-            @click="selectOption(diagram)"
-            :class="{'active': diagram === selected}"
-          >
-            <h4 class="popup-flows__flow-button-imitation-title">{{ diagram.title }}</h4>
-            <wt-icon
-              v-if="diagram.icon"
-              :icon="diagram.icon"
-              size="sm"
-            ></wt-icon>
-            <wt-icon-btn
-              v-if="diagram.description"
-              icon="rounded-info"
-              color="outline"
-              :tooltip="diagram.description"
-              tooltip-position="bottom"
-            ></wt-icon-btn>
-          </div>
-        </article>
-
-        <article class="popup-flows__flow">
-          <!--Change images to SVG!!!-->
-          <img :src="code.image" :alt="code.alt">
-          <div
-            class="popup-flows__flow-button-imitation"
-            @click="selectOption(code)"
-            :class="{'active': code === selected}"
-          >
-            <h4 class="popup-flows__flow-button-imitation-title">{{ code.title }}</h4>
-            <wt-icon
-              v-if="code.icon"
-              :icon="code.icon"
-              size="sm"
-            ></wt-icon>
-            <wt-icon-btn
-              v-if="code.description"
-              icon="rounded-info"
-              color="outline"
-              :tooltip="code.description"
-              tooltip-position="left"
-            ></wt-icon-btn>
-          </div>
-        </article>
-      </section>
+      <ul class="popup-options">
+        <li
+          class="popup-options__item-wrap"
+          v-for="(option, key) of options"
+          :class="{'active': option === selected}"
+          :key="key"
+          @click="selectOption(option)"
+        >
+          <wt-icon
+            v-if="option.icon" :icon="option.icon" size="sm"></wt-icon>
+          <h4 class="popup-options__item-header">{{ option.title }}</h4>
+          <wt-icon-btn
+            v-if="option.description"
+            icon="rounded-info"
+            color="outline"
+            :tooltip="option.description"
+          ></wt-icon-btn>
+        </li>
+      </ul>
+      <!--Slot for displaying specific template styling-->
+      <slot name="after-section"></slot>
     </template>
 
     <template slot="actions">
@@ -83,22 +51,15 @@ export default {
       type: Object,
       description: 'Should have following schema: { value: \'\', title: \'\', description: \'\'}',
     },
-    diagram: {
-      type: Object,
-      default: () => {
-      },
-    },
-    code: {
-      type: Object,
-      default: () => {
-      },
+    options: {
+      type: Array,
+      default: () => [],
     },
     minWidth: {
       type: [String, Number],
       default: 480,
     },
   },
-
   methods: {
     add() {
       this.$emit('select', this.selected);
@@ -118,19 +79,16 @@ export default {
 
 <style lang="scss" scoped>
 .selection-popup {
-  .popup-flows {
+  .popup-options {
     margin-top: 20px;
-    display: flex;
-    //Because a margin between buttons in `wt-popup` is 20px;
-    gap: 20px;
+    padding-right: 10px;
 
-    &__flow-button-imitation {
+    .popup-options__item-wrap {
       position: relative;
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      justify-items: center;
+      display: flex;
       align-items: center;
       padding: 7px 10px;
+      margin-bottom: 10px;
       border: 1px solid var(--form-border-color);
       border-radius: var(--border-radius);
       transition: var(--transition);
@@ -140,27 +98,30 @@ export default {
         margin-right: var(--icon-spacing);
       }
 
+      &:last-child {
+        margin-bottom: 0;
+      }
+
       &:hover, &.active {
         border-color: var(--main-accent-color);
       }
 
-      .wt-icon-btn ::v-deep {
-        justify-self: end;
+      .wt-icon-btn {
+        margin-left: auto;
 
-        .wt-tooltip {
+        ::v-deep .wt-tooltip {
           width: 300px;
+          top: 50%;
+          right: calc(100% + 10px);
+          left: auto;
+          transform: translate(0, -50%);
         }
       }
     }
 
-    &__flow-button-imitation-title {
+    .popup-options__item-header {
       @extend %typo-strong-md;
-      grid-column-start: 2;
     }
-  }
-
-  .wt-button {
-    flex: 1;
   }
 }
 </style>
