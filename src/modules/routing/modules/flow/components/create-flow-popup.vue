@@ -11,15 +11,15 @@
      and in general this is a specific case-->
     <template slot="after-section">
       <section class="popup-flows">
-        <article class="popup-flows__flow">
+        <article class="popup-flow-editor">
           <!--Change images to SVG!!!-->
           <img :src="diagram.image" :alt="diagram.alt">
           <div
-            class="popup-flows__flow-button"
+            class="popup-flow-editor__button-wrapper"
             @click="selectOption(diagram)"
             :class="{'active': diagram === selected}"
           >
-            <h4 class="popup-flows__flow-button-title">{{ diagram.title }}</h4>
+            <h4 class="popup-flow-editor__title">{{ diagram.title }}</h4>
             <wt-icon-btn
               icon="rounded-info"
               color="outline"
@@ -28,15 +28,15 @@
           </div>
         </article>
 
-        <article class="popup-flows__flow">
+        <article class="popup-flow-editor">
           <!--Change images to SVG!!!-->
           <img :src="code.image" :alt="code.alt">
           <div
-            class="popup-flows__flow-button"
+            class="popup-flow-editor__button-wrapper"
             @click="selectOption(code)"
             :class="{'active': code === selected}"
           >
-            <h4 class="popup-flows__flow-button-title">{{ code.title }}</h4>
+            <h4 class="popup-flow-editor__title">{{ code.title }}</h4>
             <wt-icon-btn
               icon="rounded-info"
               color="outline"
@@ -127,20 +127,8 @@ export default {
   .popup-options {
     display: none;
   }
-
-  .popup-options__item-wrap {
-    flex: 1;
-    margin-bottom: 0 !important;
-  }
-
   .wt-button {
     flex: 1;
-  }
-
-
-  .popup-flows {
-    display: flex;
-    justify-content: space-evenly;
   }
 }
 //Create new specific styles
@@ -150,7 +138,7 @@ export default {
   gap: 20px;
 }
 
-.popup-flows__flow-button {
+.popup-flow-editor__button-wrapper {
   display: grid;
   grid-template-columns: repeat(3,1fr);
   align-items: center;
@@ -172,7 +160,7 @@ export default {
   }
 }
 
-.popup-flows__flow-button-title {
+.popup-flow-editor__title {
   @extend %typo-strong-md;
   grid-column-start: 2;
   justify-self: center;

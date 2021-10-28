@@ -458,7 +458,7 @@ export default {
           btnOpacity: 'Прозрачность кнопки',
           btnColor: 'Цвет кнопки',
           logoUrl: 'URL логотипа',
-          logoHint: 'Рекомендуемый формат логотипа - \'JPEG\' or \'PNG\', 24x24px',
+          logoHint: 'Поддерживаемый формат логотипа - \'JPEG\' or \'PNG\', 24x24px',
           rounded: 'Круглая',
           square: 'Квадратная',
           right: 'Справа',
