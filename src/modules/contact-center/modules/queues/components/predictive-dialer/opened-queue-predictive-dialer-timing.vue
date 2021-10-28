@@ -143,6 +143,13 @@
         @input="setItemProp({ prop: 'processingRenewalSec', value: +$event })"
       ></wt-input>
       <wt-switcher
+        v-show="!itemInstance.processing"
+        :value="itemInstance.payload.endless"
+        :label="$t('objects.ccenter.queues.endless')"
+        :disabled="disableUserInput"
+        @change="setItemPayloadProp({ prop: 'endless', value: $event })"
+      ></wt-switcher>
+      <wt-switcher
         :value="itemInstance.stickyAgent"
         :label="$t('objects.ccenter.queues.stickyAgent')"
         :disabled="disableUserInput"

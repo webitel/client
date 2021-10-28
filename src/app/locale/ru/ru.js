@@ -584,6 +584,7 @@ export default {
         processing: 'Ожидание результата звонка',
         processingSec: 'Время постобработки (сек)',
         processingRenewalSec: 'Предложить продление после (сек)',
+        endless: 'Не прекращать дозвон',
         stickyAgent: 'Липкость',
         stickyAgentSec: 'Время ожидания липкости (сек)',
         varKey: 'Ключ',

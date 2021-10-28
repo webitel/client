@@ -586,6 +586,7 @@ export default {
         processing: 'Waiting for call result',
         processingSec: 'Postprocessing time (sec)',
         processingRenewalSec: 'Notify to continue after (sec)',
+        endless: 'Endless',
         stickyAgent: 'Sticky',
         stickyAgentSec: 'Sticky agent (sec)',
         varKey: 'Key',
