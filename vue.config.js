@@ -37,12 +37,6 @@ module.exports = {
         config.optimization.splitChunks = {
             chunks: 'all',
         };
-        // exclude sprites default building
-        config.module.rule('svg').exclude.add(/^(.*sprites).*\.svg/);
-
-        // use svg-sprite-loader to process icons sprite
-        config.module.rule('svg-sprite').test(/^(.*sprites).*\.svg/)
-            .use('svg-sprite-loader').loader('svg-sprite-loader').options({ symbolId: () => '' });
 
         config.module
             .rule('eslint')
@@ -63,5 +57,15 @@ module.exports = {
         // analyzerMode: 'static',
         analyzerMode: 'disabled',
       }));
+
+      config.module
+        .rule('svg')
+        .exclude.add(/^(.*sprite).*\.svg/); // same as in svg-sprite-loader
+
+      config.module
+        .rule('svg-sprite')
+        .test(/^(.*sprite).*\.svg/) // same as in svg-url-loader
+        .use('svg-sprite-loader')
+        .loader('svg-sprite-loader');
     },
 };

@@ -1,6 +1,7 @@
 <template>
   <wt-icon
     class="permissions-role-icon"
+    icon-prefix="adm"
     :icon="icon"
     color="active"
   ></wt-icon>

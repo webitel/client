@@ -9,6 +9,8 @@ import './app/plugins/webitel-ui';
 // import './assets/lib/bootstrap-grid.min.css';
 import './app/css/fonts.scss';
 
+import './app/assets/icons/sprite';
+
 Vue.config.productionTip = false;
 
 Vue.use(Vuelidate);
