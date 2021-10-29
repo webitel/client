@@ -459,7 +459,7 @@ export default {
           btnOpacity: 'Прозорість кнопки',
           btnColor: 'Колір кнопки',
           logoUrl: 'URL логотипу',
-          logoHint: 'Рекомендований формат логотипу - \'JPEG\' or \'PNG\', 24x24px',
+          logoHint: 'Підтримуваний формат логотипу - \'JPEG\' or \'PNG\', 24x24px',
           rounded: 'Кругла',
           square: 'Квадратна',
           right: 'Справа',

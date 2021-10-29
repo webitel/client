@@ -1,7 +1,6 @@
 <template>
   <wt-popup class="selection-popup" :min-width="minWidth" @close="close">
     <template slot="title">{{ title }}</template>
-
     <template slot="main">
       <ul class="popup-options">
         <li
@@ -22,6 +21,8 @@
           ></wt-icon-btn>
         </li>
       </ul>
+      <!--Slot for displaying specific template styling-->
+      <slot name="after-section"></slot>
     </template>
 
     <template slot="actions">
@@ -59,7 +60,6 @@ export default {
       default: 480,
     },
   },
-
   methods: {
     add() {
       this.$emit('select', this.selected);
