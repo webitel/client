@@ -140,7 +140,7 @@ export default {
 
 .popup-flow-editor__button-wrapper {
   display: grid;
-  grid-template-columns: repeat(3,1fr);
+  grid-template-columns: 1fr 5fr 1fr;
   align-items: center;
   padding: 7px 10px;
   border: 1px solid var(--form-border-color);
