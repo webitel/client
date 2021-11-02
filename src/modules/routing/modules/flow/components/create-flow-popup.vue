@@ -13,7 +13,9 @@
       <section class="popup-flows">
         <article class="popup-flow-editor">
           <!--Change images to SVG!!!-->
-          <img :src="diagram.image" :alt="diagram.alt">
+          <div class="popup-flow-editor__img-wrapper">
+            <img :src="diagram.image" :alt="diagram.alt">
+          </div>
           <div
             class="popup-flow-editor__button-wrapper"
             @click="selectOption(diagram)"
@@ -30,7 +32,9 @@
 
         <article class="popup-flow-editor">
           <!--Change images to SVG!!!-->
-          <img :src="code.image" :alt="code.alt">
+          <div class="popup-flow-editor__img-wrapper">
+            <img :src="code.image" :alt="code.alt">
+          </div>
           <div
             class="popup-flow-editor__button-wrapper"
             @click="selectOption(code)"
@@ -127,42 +131,57 @@ export default {
   .popup-options {
     display: none;
   }
+
   .wt-button {
     flex: 1;
   }
 }
+
 //Create new specific styles
 .popup-flows {
-  display: flex;
-  justify-content: space-between;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr)); // https://stackoverflow.com/a/61240964
   gap: 20px;
 }
 
-.popup-flow-editor__button-wrapper {
-  display: grid;
-  grid-template-columns: repeat(3,1fr);
-  align-items: center;
-  padding: 7px 10px;
-  border: 1px solid var(--form-border-color);
-  border-radius: var(--border-radius);
-  transition: var(--transition);
-  cursor: pointer;
-
-  &:hover, &.active {
-    border-color: var(--main-accent-color);
+.popup-flow-editor {
+  &__img-wrapper {
+    width: 206px; // pic original width
+    margin: auto;
   }
 
-  .wt-icon-btn {
-    margin-left: auto;
-    ::v-deep .wt-tooltip {
-      width: 300px;
+  &__button-wrapper {
+    display: grid;
+    grid-template-columns: 24px 1fr 24px;
+    align-items: center;
+    padding: 7px 10px;
+    border: 1px solid var(--form-border-color);
+    border-radius: var(--border-radius);
+    transition: var(--transition);
+    cursor: pointer;
+
+
+    &:hover, &.active {
+      border-color: var(--main-accent-color);
+    }
+
+    .wt-icon-btn {
+      margin-left: auto;
+
+      ::v-deep .wt-tooltip {
+        width: 300px;
+      }
     }
   }
+
+  &__title {
+    @extend %typo-strong-md;
+    text-align: center;
+    grid-column-start: 2;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
 }
 
-.popup-flow-editor__title {
-  @extend %typo-strong-md;
-  grid-column-start: 2;
-  justify-self: center;
-}
+
 </style>
