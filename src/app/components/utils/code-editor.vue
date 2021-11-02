@@ -91,7 +91,7 @@ export default {
   },
   computed: {
     fullscreenIcon() {
-      return this.isFullscreen ? 'collapse-bold' : 'expand-bold';
+      return this.isFullscreen ? 'collapse' : 'expand';
     },
     fullscreenIconSize() {
       return this.isFullscreen ? 'xl' : 'md';

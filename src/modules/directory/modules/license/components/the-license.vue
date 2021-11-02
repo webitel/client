@@ -59,7 +59,7 @@
                 <wt-icon-btn
                   v-show="copiedId === item.id"
                   class="license__id-column__icon-btn license__id-column__icon-btn--tick"
-                  icon="rounded-tick"
+                  icon="done"
                   color="true"
                   :tooltip="$t('objects.copied')"
                 ></wt-icon-btn>

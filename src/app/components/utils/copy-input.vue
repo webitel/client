@@ -21,7 +21,7 @@
       <wt-icon-btn
         v-show="isCopied"
         class="copy-input__icon-btn copy-input__icon-btn--tick"
-        icon="rounded-tick"
+        icon="done"
         color="true"
         :tooltip="$t('objects.copied')"
       ></wt-icon-btn>

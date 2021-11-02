@@ -27,7 +27,7 @@
       <wt-icon-btn
           v-show="passwordRepresentation && isCopied"
           class="generate-password-input__icon-btn generate-password-input__icon-btn--tick"
-          icon="rounded-tick"
+          icon="done"
           color="true"
           :tooltip="$t('objects.copied')"
       ></wt-icon-btn>
