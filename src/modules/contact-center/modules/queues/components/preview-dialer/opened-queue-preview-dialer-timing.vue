@@ -16,14 +16,14 @@
         :label="$t('objects.ccenter.queues.maxAttempts')"
         :disabled="disableUserInput"
         type="number"
-        @input="setItemPayloadProp({ prop: 'maxAttempts', value: $event })"
+        @input="setItemPayloadProp({ prop: 'maxAttempts', value: +$event })"
       ></wt-input>
       <wt-timepicker
         :value="itemInstance.payload.waitBetweenRetries"
         :v="v.itemInstance.payload.waitBetweenRetries"
         :label="$t('objects.ccenter.queues.waitBetweenRetries')"
         :disabled="disableUserInput"
-        @input="setItemPayloadProp({ prop: 'waitBetweenRetries', value: $event })"
+        @input="setItemPayloadProp({ prop: 'waitBetweenRetries', value: +$event })"
       ></wt-timepicker>
       <wt-input
         :value="itemInstance.payload.maxCalls"
