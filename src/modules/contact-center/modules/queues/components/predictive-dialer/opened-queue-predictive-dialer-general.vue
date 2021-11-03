@@ -75,6 +75,14 @@
         :disabled="disableUserInput"
         @input="setItemProp({ prop: 'doSchema', value: $event })"
       ></wt-select>
+      <wt-select
+        :value="itemInstance.afterSchema"
+        :label="$t('objects.ccenter.queues.afterSchema')"
+        :search="loadDropdownOptionsSchemaList"
+        :internal-search="false"
+        :disabled="disableUserInput"
+        @input="setItemProp({ prop: 'afterSchema', value: $event })"
+      ></wt-select>
       <wt-textarea
         :value="itemInstance.description"
         :label="$t('objects.description')"
