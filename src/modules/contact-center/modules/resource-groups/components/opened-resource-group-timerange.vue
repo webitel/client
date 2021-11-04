@@ -2,12 +2,12 @@
   <section>
     <header class="content-header">
       <h3 class="content-title">{{ $t('objects.ccenter.resGroups.timerange') }}</h3>
-      <i
+      <wt-icon-btn
         v-if="!disableUserInput"
-        class="icon-icon_plus icon-action"
-        :title="$t('iconHints.add')"
+        :tooltip="$t('iconHints.add')"
+        icon="plus"
         @click="addVariable"
-      ></i>
+      ></wt-icon-btn>
     </header>
     <form class="object-input-grid">
       <div>

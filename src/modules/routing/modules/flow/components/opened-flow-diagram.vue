@@ -13,6 +13,7 @@ import calendarsAPI from '../../../../lookups/modules/calendars/api/calendars';
 import mediaAPI from '../../../../lookups/modules/media/api/media';
 import bucketsAPI from '../../../../lookups/modules/buckets/api/buckets';
 import queuesAPI from '../../../../contact-center/modules/queues/api/queues';
+import gatewaysAPI from '../../gateways/api/gateways';
 import flowsAPI from '../api/flow';
 
 export default {
@@ -43,7 +44,7 @@ export default {
               media: mediaAPI.getLookup,
               queues: queuesAPI.getLookup,
               buckets: bucketsAPI.getLookup,
-              // gateways -- задача з зірочкою
+              gateways: gatewaysAPI.getLookup,
             },
           },
         };

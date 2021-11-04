@@ -1,3 +1,5 @@
+import { EndpointListGetterApiConsumer } from 'webitel-sdk/esm2015/api-consumers';
+import instance from '../../../../../app/api/instance';
 import APIItemDeleter from '../../../../../app/api/BaseAPIServices/Deleter/ApiDeleter';
 import APIUpdater from '../../../../../app/api/BaseAPIServices/Updater/ApiUpdater';
 import APICreator from '../../../../../app/api/BaseAPIServices/Creator/ApiCreator';
@@ -10,7 +12,7 @@ import trunkingGateway
   from '../store/_internals/gatewaySchema/trunkingGateway';
 
 
-const BASE_URL = '/sip/gateways';
+const baseUrl = '/sip/gateways';
 const fieldsToSend = ['name', 'proxy', 'id', 'host', 'ipacl', 'account', 'username', 'expires',
   'account', 'registrar', 'name', 'register', 'password', 'schema', 'usage', 'enable'];
 
@@ -41,12 +43,12 @@ const coerceRegisterResponse = (response) => {
   return result;
 };
 
-const listGetter = new APIListGetter(BASE_URL, { defaultListObject });
-const itemGetter = new APIItemGetter(BASE_URL);
-const itemCreator = new APICreator(BASE_URL, { fieldsToSend });
-const itemUpdater = new APIUpdater(BASE_URL, { fieldsToSend });
-const itemPatcher = new APIPatcher(BASE_URL, { fieldsToSend });
-const itemDeleter = new APIItemDeleter(BASE_URL);
+const listGetter = new APIListGetter(baseUrl, { defaultListObject });
+const itemGetter = new APIItemGetter(baseUrl);
+const itemCreator = new APICreator(baseUrl, { fieldsToSend });
+const itemUpdater = new APIUpdater(baseUrl, { fieldsToSend });
+const itemPatcher = new APIPatcher(baseUrl, { fieldsToSend });
+const itemDeleter = new APIItemDeleter(baseUrl);
 
 itemGetter.responseHandler = (response) => {
   if (response.register) return coerceRegisterResponse(response);
@@ -60,6 +62,11 @@ export const updateGateway = (params) => itemUpdater.updateItem(params);
 export const patchGateway = (params) => itemPatcher.patchItem(params);
 export const deleteGateway = (params) => itemDeleter.deleteItem(params);
 
+
+// FIXME REFACTOR ALL COMPONENTS WITH WEBITEL-SDK CONSUMERS
+const _listGetter = new EndpointListGetterApiConsumer({ baseUrl, instance });
+const getGatewaysLookup = (params) => _listGetter.getLookup(params);
+
 export default {
   getList: getGatewayList,
   get: getGateway,
@@ -67,4 +74,5 @@ export default {
   patch: patchGateway,
   update: updateGateway,
   delete: deleteGateway,
+  getLookup: getGatewaysLookup,
 };
