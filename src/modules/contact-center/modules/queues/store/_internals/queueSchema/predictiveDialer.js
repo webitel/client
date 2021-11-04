@@ -9,6 +9,7 @@ const predictiveDialer = () => ({
   strategy: Strategy.FIFO, // required
   team: {}, // required
   doSchema: {},
+  afterSchema: {},
   ringtone: {},
   processing: false,
   processingSec: 30,
