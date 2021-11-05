@@ -37,18 +37,31 @@ const itemPatcher = new SDKPatcher(subordinateService.patchAgent);
 export const getAgentSubordinatesList = (params) => listGetter.getList(params);
 export const getAgentSubordinate = (params) => itemGetter.getItem(params);
 export const addAgentSubordinate = ({ parentId, itemInstance }) => {
-  const { id } = itemInstance.agent;
-  const changes = { supervisor: { id: parentId } };
+  const { id, supervisor } = itemInstance.agent;
+  // Set and .map() from obj to string and backwards is used to prevent duplicates
+  const newSupervisor = [
+    ...new Set(supervisor.map((sup) => sup.id).concat(parentId)),
+  ].map((id) => ({ id }));
+  const changes = { supervisor: newSupervisor };
   return itemPatcher.patchItem({ id, changes });
 };
-export const deleteAgentSubordinate = ({ id }) => {
-  const changes = { supervisor: { id: null } };
+export const deleteAgentSubordinate = ({ id, parentId, dataList }) => {
+  /* deleted subordinate is in dataList,
+   so first we should find it and retrieve his supervisors list */
+  const subordinate = dataList.find((sup) => sup.id === id);
+  const newSupervisor = subordinate.supervisor.filter(({ id }) => id !== parentId);
+  const changes = { supervisor: newSupervisor };
   return itemPatcher.patchItem({ id, changes });
 };
-export const updateAgentSubordinate = async ({ parentId, itemId, itemInstance }) => {
+export const updateAgentSubordinate = async ({
+                                               parentId,
+                                               itemId,
+                                               itemInstance,
+                                               dataList,
+                                             }) => {
   try {
     await addAgentSubordinate({ parentId, itemInstance });
-    await deleteAgentSubordinate({ id: itemId });
+    await deleteAgentSubordinate({ id: itemId, parentId, dataList });
   } catch (err) {
     throw err;
   }

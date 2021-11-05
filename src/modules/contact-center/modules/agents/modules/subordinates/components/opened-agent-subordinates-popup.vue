@@ -52,8 +52,9 @@ export default {
 
   methods: {
     async loadDropdownOptionsList(search) {
-      const response = await getRegularAgentsOptions({ search });
+      const response = await getRegularAgentsOptions({ search, fields: ['id', 'name', 'supervisor'] });
       return response.list.map((item) => ({
+        supervisor: item.supervisor || [],
         name: item.name,
         id: item.id,
       }));
