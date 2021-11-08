@@ -46,10 +46,12 @@ const getSupervisorsList = (getList) => function ({
                                                     size = 10,
                                                     search,
                                                     fields,
+                                                    notTeamId,
                                                   }) {
   const isSupervisor = true;
   const params = [page, size, search, undefined, fields, undefined, undefined,
-    undefined, undefined, undefined, undefined, isSupervisor];
+    undefined, undefined, undefined, undefined, isSupervisor, undefined, undefined, undefined,
+    undefined, undefined, notTeamId];
   return getList(params);
 };
 
