@@ -115,7 +115,7 @@ export default {
 
   methods: {
     async loadSkillsOptions(search) {
-      const response = await getSkillsList({ search });
+      const response = await getSkillsList({ search, size: 50 });
       return response.list.map((item) => ({
         name: item.name,
         id: item.id,

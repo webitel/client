@@ -54,7 +54,7 @@ export default {
   width: 6px;
   height: 6px;
   margin: 0 19px;
-  background: var(--icon-primary-color);
+  background: var(--icon-color);
   border-radius: 50%;
   flex-shrink: 0;
 }
@@ -71,7 +71,7 @@ export default {
   min-width: 0;
 
   .headline-nav__nav__indicator {
-    background: var(--icon-accent-color);
+    background: var(--icon-color-accent);
   }
 
   .headline-nav__nav__title {
