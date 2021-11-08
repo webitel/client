@@ -1,12 +1,15 @@
+import {
+  EndpointListGetterApiConsumer,
+  EndpointGetterApiConsumer,
+  EndpointCreatorApiConsumer,
+  EndpointUpdaterApiConsumer,
+  EndpointPatcherApiConsumer,
+  EndpointDeleterApiConsumer,
+} from 'webitel-sdk/esm2015/api-consumers';
 import MessengerType from 'webitel-sdk/esm2015/enums/messenger-type.enum';
-import APICreator from '../../../../../app/api/BaseAPIServices/Creator/ApiCreator';
-import APIItemDeleter from '../../../../../app/api/BaseAPIServices/Deleter/ApiDeleter';
-import APIItemGetter from '../../../../../app/api/BaseAPIServices/Getter/ApiGetter';
-import APIListGetter from '../../../../../app/api/BaseAPIServices/ListGetter/ApiListGetter';
-import APIPatcher from '../../../../../app/api/BaseAPIServices/Patcher/ApiPatcher';
-import APIUpdater from '../../../../../app/api/BaseAPIServices/Updater/ApiUpdater';
+import instance from '../../../../../app/api/instance';
 
-const BASE_URL = '/chat/bots';
+const baseUrl = '/chat/bots';
 
 const fieldsToSend = ['name', 'uri', 'flow', 'enabled', 'provider', 'metadata'];
 
@@ -27,19 +30,19 @@ const parseTimeoutSeconds = (item) => (item.includes('s') ? parseInt(item.replac
 const webchatRequestConverter = (data) => {
   if (data.metadata.readTimeout) {
     data.metadata.readTimeout = convertWebchatSeconds(data.metadata.readTimeout);
-  };
+  }
   if (data.metadata.writeTimeout) {
     data.metadata.writeTimeout = convertWebchatSeconds(data.metadata.writeTimeout);
-  };
+  }
   if (data.metadata.handshakeTimeout) {
     data.metadata.handshakeTimeout = convertWebchatSeconds(data.metadata.handshakeTimeout);
-  };
+  }
   if (data.metadata.allowOrigin) {
     data.metadata.allowOrigin = data.metadata.allowOrigin.map((obj) => obj.text).join();
-  };
+  }
   if (data.metadata.openTimeout) {
     data.metadata.openTimeout = `${data.metadata.openTimeout}`;
-  };
+  }
   data.metadata.timeoutIsActive = `${data.metadata.timeoutIsActive}`;
   return data;
 };
@@ -50,13 +53,13 @@ const webChatResponseConverter = (data) => {
     : [];
   if (data.metadata.readTimeout) {
     data.metadata.readTimeout = parseTimeoutSeconds(data.metadata.readTimeout);
-  };
+  }
   if (data.metadata.writeTimeout) {
     data.metadata.writeTimeout = parseTimeoutSeconds(data.metadata.writeTimeout);
-  };
+  }
   if (data.metadata.handshakeTimeout) {
     data.metadata.handshakeTimeout = parseTimeoutSeconds(data.metadata.handshakeTimeout);
-  };
+  }
   data.metadata.timeoutIsActive = data.metadata.timeoutIsActive === 'true';
   return data;
 };
@@ -67,18 +70,20 @@ const preRequestHandler = (item) => {
       item = webchatRequestConverter(item);
       break;
     default:
-  };
+  }
   return item;
 };
 
 const baseItem = { _dirty: false };
 
-const listGetter = new APIListGetter(BASE_URL, { defaultListObject });
-const itemGetter = new APIItemGetter(BASE_URL);
-const itemCreator = new APICreator(BASE_URL, { fieldsToSend, preRequestHandler });
-const itemUpdater = new APIUpdater(BASE_URL, { fieldsToSend, preRequestHandler });
-const itemPatcher = new APIPatcher(BASE_URL, { fieldsToSend });
-const itemDeleter = new APIItemDeleter(BASE_URL);
+const listGetter = new EndpointListGetterApiConsumer({ baseUrl, instance }, { defaultListObject });
+const itemGetter = new EndpointGetterApiConsumer({ baseUrl, instance });
+const itemCreator = new EndpointCreatorApiConsumer({ baseUrl, instance },
+  { fieldsToSend, preRequestHandler });
+const itemUpdater = new EndpointUpdaterApiConsumer({ baseUrl, instance },
+  { fieldsToSend, preRequestHandler });
+const itemPatcher = new EndpointPatcherApiConsumer({ baseUrl, instance }, { fieldsToSend });
+const itemDeleter = new EndpointDeleterApiConsumer({ baseUrl, instance });
 
 itemGetter.responseHandler = (response) => {
   switch (response.provider) {

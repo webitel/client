@@ -1,12 +1,13 @@
 import { CommunicationTypeServiceApiFactory } from 'webitel-sdk';
+import {
+  SdkListGetterApiConsumer,
+  SdkGetterApiConsumer,
+  SdkCreatorApiConsumer,
+  SdkUpdaterApiConsumer,
+  SdkDeleterApiConsumer,
+} from 'webitel-sdk/esm2015/api-consumers';
 import instance from '../../../../../app/api/instance';
 import configuration from '../../../../../app/api/openAPIConfig';
-import SDKDeleter from '../../../../../app/api/BaseAPIServices/Deleter/SDKDeleter';
-import SDKUpdater from '../../../../../app/api/BaseAPIServices/Updater/SDKUpdater';
-import SDKCreator from '../../../../../app/api/BaseAPIServices/Creator/SDKCreator';
-import SDKGetter from '../../../../../app/api/BaseAPIServices/Getter/SDKGetter';
-import SDKListGetter from '../../../../../app/api/BaseAPIServices/ListGetter/SDKListGetter';
-
 
 const communicationService = new CommunicationTypeServiceApiFactory(configuration, '', instance);
 
@@ -18,12 +19,14 @@ const defaultSingleObject = {
   description: '',
 };
 
-const listGetter = new SDKListGetter(communicationService.searchCommunicationType);
-const itemGetter = new SDKGetter(communicationService.readCommunicationType,
+const listGetter = new SdkListGetterApiConsumer(communicationService.searchCommunicationType);
+const itemGetter = new SdkGetterApiConsumer(communicationService.readCommunicationType,
   { defaultSingleObject });
-const itemCreator = new SDKCreator(communicationService.createCommunicationType, { fieldsToSend });
-const itemUpdater = new SDKUpdater(communicationService.updateCommunicationType, { fieldsToSend });
-const itemDeleter = new SDKDeleter(communicationService.deleteCommunicationType);
+const itemCreator = new SdkCreatorApiConsumer(communicationService.createCommunicationType,
+  { fieldsToSend });
+const itemUpdater = new SdkUpdaterApiConsumer(communicationService.updateCommunicationType,
+  { fieldsToSend });
+const itemDeleter = new SdkDeleterApiConsumer(communicationService.deleteCommunicationType);
 
 export const getCommunicationsList = (params) => listGetter.getList(params);
 export const getCommunication = (params) => itemGetter.getItem(params);

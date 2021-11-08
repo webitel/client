@@ -1,21 +1,23 @@
 import { RegionServiceApiFactory } from 'webitel-sdk';
+import {
+  SdkListGetterApiConsumer,
+  SdkGetterApiConsumer,
+  SdkCreatorApiConsumer,
+  SdkUpdaterApiConsumer,
+  SdkDeleterApiConsumer,
+} from 'webitel-sdk/esm2015/api-consumers';
 import instance from '../../../../../app/api/instance';
 import configuration from '../../../../../app/api/openAPIConfig';
-import SDKDeleter from '../../../../../app/api/BaseAPIServices/Deleter/SDKDeleter';
-import SDKUpdater from '../../../../../app/api/BaseAPIServices/Updater/SDKUpdater';
-import SDKCreator from '../../../../../app/api/BaseAPIServices/Creator/SDKCreator';
-import SDKGetter from '../../../../../app/api/BaseAPIServices/Getter/SDKGetter';
-import SDKListGetter from '../../../../../app/api/BaseAPIServices/ListGetter/SDKListGetter';
 
 const regionService = new RegionServiceApiFactory(configuration, '', instance);
 
 const fieldsToSend = ['name', 'timezone', 'description'];
 
-const listGetter = new SDKListGetter(regionService.searchRegion);
-const itemGetter = new SDKGetter(regionService.readRegion);
-const itemCreator = new SDKCreator(regionService.createRegion, { fieldsToSend });
-const itemUpdater = new SDKUpdater(regionService.updateRegion, { fieldsToSend });
-const itemDeleter = new SDKDeleter(regionService.deleteRegion);
+const listGetter = new SdkListGetterApiConsumer(regionService.searchRegion);
+const itemGetter = new SdkGetterApiConsumer(regionService.readRegion);
+const itemCreator = new SdkCreatorApiConsumer(regionService.createRegion, { fieldsToSend });
+const itemUpdater = new SdkUpdaterApiConsumer(regionService.updateRegion, { fieldsToSend });
+const itemDeleter = new SdkDeleterApiConsumer(regionService.deleteRegion);
 
 export const getRegionsList = (params) => listGetter.getList(params);
 export const getRegion = (params) => itemGetter.getItem(params);

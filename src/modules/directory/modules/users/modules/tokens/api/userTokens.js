@@ -1,14 +1,18 @@
-import APIItemDeleter from '../../../../../../../app/api/BaseAPIServices/Deleter/ApiDeleter';
-import APICreator from '../../../../../../../app/api/BaseAPIServices/Creator/ApiCreator';
-import APIListGetter from '../../../../../../../app/api/BaseAPIServices/ListGetter/ApiListGetter';
+import {
+  EndpointListGetterApiConsumer,
+  EndpointCreatorApiConsumer,
+  EndpointDeleterApiConsumer,
+} from 'webitel-sdk/esm2015/api-consumers';
+import instance from '../../../../../../../app/api/instance';
 
-const BASE_URL = '/users';
+const baseUrl = '/users';
 const nestedUrl = '/tokens';
 const fieldsToSend = ['token', 'usage'];
 
-const listGetter = new APIListGetter(BASE_URL, { nestedUrl });
-const itemCreator = new APICreator(BASE_URL, { fieldsToSend, nestedUrl });
-const itemDeleter = new APIItemDeleter(BASE_URL, { nestedUrl });
+const listGetter = new EndpointListGetterApiConsumer({ baseUrl, instance }, { nestedUrl });
+const itemCreator = new EndpointCreatorApiConsumer({ baseUrl, instance },
+  { fieldsToSend, nestedUrl });
+const itemDeleter = new EndpointDeleterApiConsumer({ baseUrl, instance }, { nestedUrl });
 
 export const getTokensList = (params) => listGetter.getNestedList(params);
 export const addToken = (params) => itemCreator.createNestedItem(params);

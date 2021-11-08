@@ -1,12 +1,14 @@
 import { AgentSkillServiceApiFactory } from 'webitel-sdk';
+import {
+  SdkListGetterApiConsumer,
+  SdkGetterApiConsumer,
+  SdkCreatorApiConsumer,
+  SdkUpdaterApiConsumer,
+  SdkPatcherApiConsumer,
+  SdkDeleterApiConsumer,
+} from 'webitel-sdk/esm2015/api-consumers';
 import instance from '../../../../../../../app/api/instance';
 import configuration from '../../../../../../../app/api/openAPIConfig';
-import SDKListGetter from '../../../../../../../app/api/BaseAPIServices/ListGetter/SDKListGetter';
-import SDKGetter from '../../../../../../../app/api/BaseAPIServices/Getter/SDKGetter';
-import SDKCreator from '../../../../../../../app/api/BaseAPIServices/Creator/SDKCreator';
-import SDKPatcher from '../../../../../../../app/api/BaseAPIServices/Patcher/SDKPatcher';
-import SDKUpdater from '../../../../../../../app/api/BaseAPIServices/Updater/SDKUpdater';
-import SDKDeleter from '../../../../../../../app/api/BaseAPIServices/Deleter/SDKDeleter';
 
 const agentSkillService = new AgentSkillServiceApiFactory(configuration, '', instance);
 
@@ -26,14 +28,16 @@ const fieldsToSend = ['capacity', 'agentId', 'skill', 'enabled'];
 
 const preRequestHandler = (item, parentId) => ({ ...item, agentId: parentId });
 
-const listGetter = new SDKListGetter(agentSkillService.searchAgentSkill, { defaultListObject });
-const itemGetter = new SDKGetter(agentSkillService.readAgentSkill, { defaultSingleObject });
-const itemCreator = new SDKCreator(agentSkillService.createAgentSkill,
+const listGetter = new SdkListGetterApiConsumer(agentSkillService.searchAgentSkill,
+  { defaultListObject });
+const itemGetter = new SdkGetterApiConsumer(agentSkillService.readAgentSkill,
+  { defaultSingleObject });
+const itemCreator = new SdkCreatorApiConsumer(agentSkillService.createAgentSkill,
   { fieldsToSend, preRequestHandler });
-const itemPatcher = new SDKPatcher(agentSkillService.patchAgentSkill, { fieldsToSend });
-const itemUpdater = new SDKUpdater(agentSkillService.updateAgentSkill,
+const itemPatcher = new SdkPatcherApiConsumer(agentSkillService.patchAgentSkill, { fieldsToSend });
+const itemUpdater = new SdkUpdaterApiConsumer(agentSkillService.updateAgentSkill,
   { fieldsToSend, preRequestHandler });
-const itemDeleter = new SDKDeleter(agentSkillService.deleteAgentSkill);
+const itemDeleter = new SdkDeleterApiConsumer(agentSkillService.deleteAgentSkill);
 
 export const getAgentSkillsList = (params) => listGetter.getNestedList(params);
 export const getAgentSkill = (params) => itemGetter.getNestedItem(params);

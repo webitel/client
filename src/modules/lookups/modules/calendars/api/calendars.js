@@ -1,12 +1,13 @@
 import { CalendarServiceApiFactory } from 'webitel-sdk';
-import { SdkListGetterApiConsumer } from 'webitel-sdk/esm2015/api-consumers';
+import {
+  SdkListGetterApiConsumer,
+  SdkGetterApiConsumer,
+  SdkCreatorApiConsumer,
+  SdkUpdaterApiConsumer,
+  SdkDeleterApiConsumer,
+} from 'webitel-sdk/esm2015/api-consumers';
 import instance from '../../../../../app/api/instance';
 import configuration from '../../../../../app/api/openAPIConfig';
-import SDKDeleter from '../../../../../app/api/BaseAPIServices/Deleter/SDKDeleter';
-import SDKUpdater from '../../../../../app/api/BaseAPIServices/Updater/SDKUpdater';
-import SDKCreator from '../../../../../app/api/BaseAPIServices/Creator/SDKCreator';
-import SDKListGetter from '../../../../../app/api/BaseAPIServices/ListGetter/SDKListGetter';
-import SDKGetter from '../../../../../app/api/BaseAPIServices/Getter/SDKGetter';
 
 const calendarService = new CalendarServiceApiFactory(configuration, '', instance);
 
@@ -58,14 +59,14 @@ const itemResponseHandler = (response) => {
   return { ...defaultSingleObject, ...response };
 };
 
-const listGetter = new SDKListGetter(calendarService.searchCalendar);
-const itemGetter = new SDKGetter(calendarService.readCalendar, { itemResponseHandler });
-const timezoneGetter = new SDKListGetter(calendarService.searchTimezones);
-const itemCreator = new SDKCreator(calendarService.createCalendar,
+const listGetter = new SdkListGetterApiConsumer(calendarService.searchCalendar);
+const itemGetter = new SdkGetterApiConsumer(calendarService.readCalendar, { itemResponseHandler });
+const timezoneGetter = new SdkListGetterApiConsumer(calendarService.searchTimezones);
+const itemCreator = new SdkCreatorApiConsumer(calendarService.createCalendar,
   { fieldsToSend, preRequestHandler });
-const itemUpdater = new SDKUpdater(calendarService.updateCalendar,
+const itemUpdater = new SdkUpdaterApiConsumer(calendarService.updateCalendar,
   { fieldsToSend, preRequestHandler });
-const itemDeleter = new SDKDeleter(calendarService.deleteCalendar);
+const itemDeleter = new SdkDeleterApiConsumer(calendarService.deleteCalendar);
 
 export const getCalendarList = (params) => listGetter.getList(params);
 export const getCalendar = (params) => itemGetter.getItem(params);
@@ -76,11 +77,7 @@ export const getCalendarTimezones = async (params) => {
 export const addCalendar = (params) => itemCreator.createItem(params);
 export const updateCalendar = (params) => itemUpdater.updateItem(params);
 export const deleteCalendar = (params) => itemDeleter.deleteItem(params);
-
-
-// FIXME REFACTOR ALL COMPONENTS WITH WEBITEL-SDK CONSUMERS
-const _listGetter = new SdkListGetterApiConsumer(calendarService.searchCalendar);
-const getCalendarsLookup = (params) => _listGetter.getLookup(params);
+const getCalendarsLookup = (params) => listGetter.getLookup(params);
 
 export default {
   getList: getCalendarList,

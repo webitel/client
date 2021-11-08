@@ -1,12 +1,14 @@
 import { QueueHookServiceApiFactory } from 'webitel-sdk';
+import {
+  SdkListGetterApiConsumer,
+  SdkGetterApiConsumer,
+  SdkCreatorApiConsumer,
+  SdkUpdaterApiConsumer,
+  SdkPatcherApiConsumer,
+  SdkDeleterApiConsumer,
+} from 'webitel-sdk/esm2015/api-consumers';
 import instance from '../../../../../../../app/api/instance';
 import configuration from '../../../../../../../app/api/openAPIConfig';
-import SDKListGetter from '../../../../../../../app/api/BaseAPIServices/ListGetter/SDKListGetter';
-import SDKGetter from '../../../../../../../app/api/BaseAPIServices/Getter/SDKGetter';
-import SDKCreator from '../../../../../../../app/api/BaseAPIServices/Creator/SDKCreator';
-import SDKPatcher from '../../../../../../../app/api/BaseAPIServices/Patcher/SDKPatcher';
-import SDKUpdater from '../../../../../../../app/api/BaseAPIServices/Updater/SDKUpdater';
-import SDKDeleter from '../../../../../../../app/api/BaseAPIServices/Deleter/SDKDeleter';
 
 const queueHookService = new QueueHookServiceApiFactory(configuration, '', instance);
 
@@ -25,14 +27,14 @@ const fieldsToSend = ['event', 'properties', 'schema', 'enabled'];
 
 const preRequestHandler = (item, parentId) => ({ ...item, queueId: parentId });
 
-const listGetter = new SDKListGetter(queueHookService.searchQueueHook, { defaultListObject });
-const itemGetter = new SDKGetter(queueHookService.readQueueHook, { defaultSingleObject });
-const itemCreator = new SDKCreator(queueHookService.createQueueHook,
+const listGetter = new SdkListGetterApiConsumer(queueHookService.searchQueueHook, { defaultListObject });
+const itemGetter = new SdkGetterApiConsumer(queueHookService.readQueueHook, { defaultSingleObject });
+const itemCreator = new SdkCreatorApiConsumer(queueHookService.createQueueHook,
   { fieldsToSend, preRequestHandler });
-const itemPatcher = new SDKPatcher(queueHookService.patchQueueHook);
-const itemUpdater = new SDKUpdater(queueHookService.updateQueueHook,
+const itemPatcher = new SdkPatcherApiConsumer(queueHookService.patchQueueHook);
+const itemUpdater = new SdkUpdaterApiConsumer(queueHookService.updateQueueHook,
   { fieldsToSend, preRequestHandler });
-const itemDeleter = new SDKDeleter(queueHookService.deleteQueueHook);
+const itemDeleter = new SdkDeleterApiConsumer(queueHookService.deleteQueueHook);
 
 export const getQueueHooksList = (params) => listGetter.getNestedList(params);
 export const getQueueHook = (params) => itemGetter.getNestedItem(params);

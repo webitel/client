@@ -1,14 +1,16 @@
 import { MemberServiceApiFactory } from 'webitel-sdk';
+import {
+  SdkListGetterApiConsumer,
+  SdkGetterApiConsumer,
+  SdkCreatorApiConsumer,
+  SdkUpdaterApiConsumer,
+  SdkDeleterApiConsumer,
+} from 'webitel-sdk/esm2015/api-consumers';
 import deepCopy from 'deep-copy';
 import eventBus from '@webitel/ui-sdk/src/scripts/eventBus';
 import instance from '../../../../../../../app/api/instance';
 import configuration from '../../../../../../../app/api/openAPIConfig';
 import sanitizer from '../../../../../../../app/api/utils/sanitizer';
-import SDKListGetter from '../../../../../../../app/api/BaseAPIServices/ListGetter/SDKListGetter';
-import SDKGetter from '../../../../../../../app/api/BaseAPIServices/Getter/SDKGetter';
-import SDKCreator from '../../../../../../../app/api/BaseAPIServices/Creator/SDKCreator';
-import SDKUpdater from '../../../../../../../app/api/BaseAPIServices/Updater/SDKUpdater';
-import SDKDeleter from '../../../../../../../app/api/BaseAPIServices/Deleter/SDKDeleter';
 
 const memberService = new MemberServiceApiFactory(configuration, '', instance);
 
@@ -87,16 +89,16 @@ const preRequestHandler = (item) => {
   return { ...item, variables };
 };
 
-const listGetter = new SDKListGetter(memberService.searchMemberInQueue,
+const listGetter = new SdkListGetterApiConsumer(memberService.searchMemberInQueue,
   { defaultListObject, listResponseHandler })
   .setGetListMethod(_getMembersList);
-const itemGetter = new SDKGetter(memberService.readMember,
+const itemGetter = new SdkGetterApiConsumer(memberService.readMember,
   { defaultSingleObject, itemResponseHandler });
-const itemCreator = new SDKCreator(memberService.createMember,
+const itemCreator = new SdkCreatorApiConsumer(memberService.createMember,
   { fieldsToSend, preRequestHandler });
-const itemUpdater = new SDKUpdater(memberService.updateMember,
+const itemUpdater = new SdkUpdaterApiConsumer(memberService.updateMember,
   { fieldsToSend, preRequestHandler });
-const itemDeleter = new SDKDeleter(memberService.deleteMember);
+const itemDeleter = new SdkDeleterApiConsumer(memberService.deleteMember);
 
 export const getMembersList = (params) => listGetter.getList(params);
 export const getMember = (params) => itemGetter.getNestedItem(params);

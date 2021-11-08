@@ -1,19 +1,22 @@
-import ApiListGetter from '../../../../../../../app/api/BaseAPIServices/ListGetter/ApiListGetter';
-import ApiPatcher from '../../../../../../../app/api/BaseAPIServices/Patcher/ApiPatcher';
+import {
+  EndpointListGetterApiConsumer,
+  EndpointPatcherApiConsumer,
+} from 'webitel-sdk/esm2015/api-consumers';
+import instance from '../../../../../../../app/api/instance';
 import APIPermissionsGetter
   from '../../../../../../../app/api/PermissionsAPIService/APIPermissionsGetter';
 
-const BASE_URL = '/acl/objclass';
+const baseUrl = '/acl/objclass';
 
 const _getObjclassDefaultList = (method) => function (params) {
   const baseUrl = `${this.baseUrl}/${params.parentId}`;
   return method(params, baseUrl);
 };
 
-const listGetter = new ApiListGetter(BASE_URL, {
+const listGetter = new EndpointListGetterApiConsumer({ baseUrl, instance }, {
   listResponseHandler: APIPermissionsGetter.handlePermissionsListResponse,
 }).setGetListMethod(_getObjclassDefaultList);
-const itemPatcher = new ApiPatcher(BASE_URL, { nestedUrl: 'grantor' });
+const itemPatcher = new EndpointPatcherApiConsumer({ baseUrl, instance }, { nestedUrl: 'grantor' });
 
 export const getObjclassDefaultList = (params) => listGetter.getList({ ...params, searchQuery: 'q' });
 export const patchObjclassDefaultMode = (params) => itemPatcher.patchNestedItem(params);

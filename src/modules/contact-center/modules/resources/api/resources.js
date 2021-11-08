@@ -1,12 +1,14 @@
 import { OutboundResourceServiceApiFactory } from 'webitel-sdk';
+import {
+  SdkListGetterApiConsumer,
+  SdkGetterApiConsumer,
+  SdkCreatorApiConsumer,
+  SdkUpdaterApiConsumer,
+  SdkPatcherApiConsumer,
+  SdkDeleterApiConsumer,
+} from 'webitel-sdk/esm2015/api-consumers';
 import instance from '../../../../../app/api/instance';
 import configuration from '../../../../../app/api/openAPIConfig';
-import SDKDeleter from '../../../../../app/api/BaseAPIServices/Deleter/SDKDeleter';
-import SDKPatcher from '../../../../../app/api/BaseAPIServices/Patcher/SDKPatcher';
-import SDKUpdater from '../../../../../app/api/BaseAPIServices/Updater/SDKUpdater';
-import SDKCreator from '../../../../../app/api/BaseAPIServices/Creator/SDKCreator';
-import SDKGetter from '../../../../../app/api/BaseAPIServices/Getter/SDKGetter';
-import SDKListGetter from '../../../../../app/api/BaseAPIServices/ListGetter/SDKListGetter';
 
 const resService = new OutboundResourceServiceApiFactory(configuration, '', instance);
 
@@ -68,17 +70,17 @@ const preRequestHandler = (item) => {
   return item;
 };
 
-const listGetter = new SDKListGetter(resService.searchOutboundResource,
+const listGetter = new SdkListGetterApiConsumer(resService.searchOutboundResource,
   { defaultListObject });
-const itemGetter = new SDKGetter(resService.readOutboundResource,
+const itemGetter = new SdkGetterApiConsumer(resService.readOutboundResource,
   { defaultSingleObject, itemResponseHandler });
-const itemCreator = new SDKCreator(resService.createOutboundResource,
+const itemCreator = new SdkCreatorApiConsumer(resService.createOutboundResource,
   { fieldsToSend, preRequestHandler });
-const itemUpdater = new SDKUpdater(resService.updateOutboundResource,
+const itemUpdater = new SdkUpdaterApiConsumer(resService.updateOutboundResource,
   { fieldsToSend, preRequestHandler });
-const itemPatcher = new SDKPatcher(resService.patchOutboundResource,
+const itemPatcher = new SdkPatcherApiConsumer(resService.patchOutboundResource,
   { fieldsToSend });
-const itemDeleter = new SDKDeleter(resService.deleteOutboundResource);
+const itemDeleter = new SdkDeleterApiConsumer(resService.deleteOutboundResource);
 
 export const getResourceList = (params) => listGetter.getList(params);
 export const getResource = (params) => itemGetter.getItem(params);

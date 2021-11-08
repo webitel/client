@@ -1,11 +1,13 @@
 import { ListServiceApiFactory } from 'webitel-sdk';
+import {
+  SdkListGetterApiConsumer,
+  SdkGetterApiConsumer,
+  SdkCreatorApiConsumer,
+  SdkUpdaterApiConsumer,
+  SdkDeleterApiConsumer,
+} from 'webitel-sdk/esm2015/api-consumers';
 import instance from '../../../../../app/api/instance';
 import configuration from '../../../../../app/api/openAPIConfig';
-import SDKDeleter from '../../../../../app/api/BaseAPIServices/Deleter/SDKDeleter';
-import SDKUpdater from '../../../../../app/api/BaseAPIServices/Updater/SDKUpdater';
-import SDKCreator from '../../../../../app/api/BaseAPIServices/Creator/SDKCreator';
-import SDKGetter from '../../../../../app/api/BaseAPIServices/Getter/SDKGetter';
-import SDKListGetter from '../../../../../app/api/BaseAPIServices/ListGetter/SDKListGetter';
 
 const listService = new ListServiceApiFactory(configuration, '', instance);
 
@@ -16,11 +18,11 @@ const defaultListObject = {
   count: 0,
 };
 
-const listGetter = new SDKListGetter(listService.searchList, { defaultListObject });
-const itemGetter = new SDKGetter(listService.readList);
-const itemCreator = new SDKCreator(listService.createList, { fieldsToSend });
-const itemUpdater = new SDKUpdater(listService.updateList, { fieldsToSend });
-const itemDeleter = new SDKDeleter(listService.deleteList);
+const listGetter = new SdkListGetterApiConsumer(listService.searchList, { defaultListObject });
+const itemGetter = new SdkGetterApiConsumer(listService.readList);
+const itemCreator = new SdkCreatorApiConsumer(listService.createList, { fieldsToSend });
+const itemUpdater = new SdkUpdaterApiConsumer(listService.updateList, { fieldsToSend });
+const itemDeleter = new SdkDeleterApiConsumer(listService.deleteList);
 
 export const getBlacklistList = (params) => listGetter.getList(params);
 export const getBlacklist = (params) => itemGetter.getItem(params);

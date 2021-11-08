@@ -1,12 +1,14 @@
 import convertDuration from '@webitel/ui-sdk/src/scripts/convertDuration';
 import { AgentServiceApiFactory } from 'webitel-sdk';
+import {
+  SdkListGetterApiConsumer,
+  SdkGetterApiConsumer,
+  SdkCreatorApiConsumer,
+  SdkUpdaterApiConsumer,
+  SdkDeleterApiConsumer,
+} from 'webitel-sdk/esm2015/api-consumers';
 import instance from '../../../../../app/api/instance';
 import configuration from '../../../../../app/api/openAPIConfig';
-import SDKListGetter from '../../../../../app/api/BaseAPIServices/ListGetter/SDKListGetter';
-import SDKGetter from '../../../../../app/api/BaseAPIServices/Getter/SDKGetter';
-import SDKCreator from '../../../../../app/api/BaseAPIServices/Creator/SDKCreator';
-import SDKUpdater from '../../../../../app/api/BaseAPIServices/Updater/SDKUpdater';
-import SDKDeleter from '../../../../../app/api/BaseAPIServices/Deleter/SDKDeleter';
 
 const agentService = new AgentServiceApiFactory(configuration, '', instance);
 
@@ -19,13 +21,13 @@ const convertStatusDuration = (value) => {
 };
 
 const listResponseHandler = (response) => {
-  const list = response.list.map((item) => ({
+  const items = response.items.map((item) => ({
     ...item,
     statusDuration: convertStatusDuration(item.statusDuration),
   }));
   return {
     ...response,
-    list,
+    items,
   };
 };
 
@@ -78,22 +80,24 @@ const _getAgentHistory = (getList) => function ({
   return getList(params);
 };
 
-const listGetter = new SDKListGetter(agentService.searchAgent, {
+const listGetter = new SdkListGetterApiConsumer(agentService.searchAgent, {
   listResponseHandler,
 });
-const itemGetter = new SDKGetter(agentService.readAgent, { defaultSingleObject });
-const itemCreator = new SDKCreator(agentService.createAgent, { fieldsToSend });
-const itemUpdater = new SDKUpdater(agentService.updateAgent, { fieldsToSend });
-const itemDeleter = new SDKDeleter(agentService.deleteAgent);
+const itemGetter = new SdkGetterApiConsumer(agentService.readAgent, { defaultSingleObject });
+const itemCreator = new SdkCreatorApiConsumer(agentService.createAgent, { fieldsToSend });
+const itemUpdater = new SdkUpdaterApiConsumer(agentService.updateAgent, { fieldsToSend });
+const itemDeleter = new SdkDeleterApiConsumer(agentService.deleteAgent);
 
-const historyListGetter = new SDKListGetter(agentService.searchAgentStateHistory)
+const historyListGetter = new SdkListGetterApiConsumer(agentService.searchAgentStateHistory)
   .setGetListMethod(_getAgentHistory);
 
-const supervisorsListGetter = new SDKListGetter(agentService.searchAgent)
+const supervisorsListGetter = new SdkListGetterApiConsumer(agentService.searchAgent)
   .setGetListMethod(getSupervisorsList);
-const regularAgentListGetter = new SDKListGetter(agentService.searchAgent)
+const regularAgentListGetter = new SdkListGetterApiConsumer(agentService.searchAgent)
   .setGetListMethod(_getRegularAgentsList);
-const newAgentUsersGetter = new SDKListGetter(agentService.searchLookupUsersAgentNotExists);
+const newAgentUsersGetter = new SdkListGetterApiConsumer(
+  agentService.searchLookupUsersAgentNotExists,
+);
 
 export const getAgentsList = (params) => listGetter.getList(params);
 export const getAgent = (params) => itemGetter.getItem(params);
@@ -104,7 +108,8 @@ export const deleteAgent = (params) => itemDeleter.deleteItem(params);
 export const getAgentHistory = (params) => historyListGetter.getList(params);
 
 export const getAgentUsersOptions = (params) => newAgentUsersGetter.getList(params);
-export const getSupervisorOptions = (params) => supervisorsListGetter.getList(params); // getSupervisorOption
+// getSupervisorOption
+export const getSupervisorOptions = (params) => supervisorsListGetter.getList(params);
 export const getRegularAgentsOptions = (params) => regularAgentListGetter.getList(params);
 
 export default {

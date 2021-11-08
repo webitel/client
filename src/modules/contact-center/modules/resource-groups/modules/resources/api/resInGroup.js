@@ -1,11 +1,13 @@
 import { OutboundResourceGroupServiceApiFactory } from 'webitel-sdk';
+import {
+  SdkListGetterApiConsumer,
+  SdkGetterApiConsumer,
+  SdkCreatorApiConsumer,
+  SdkUpdaterApiConsumer,
+  SdkDeleterApiConsumer,
+} from 'webitel-sdk/esm2015/api-consumers';
 import instance from '../../../../../../../app/api/instance';
 import configuration from '../../../../../../../app/api/openAPIConfig';
-import SDKListGetter from '../../../../../../../app/api/BaseAPIServices/ListGetter/SDKListGetter';
-import SDKGetter from '../../../../../../../app/api/BaseAPIServices/Getter/SDKGetter';
-import SDKCreator from '../../../../../../../app/api/BaseAPIServices/Creator/SDKCreator';
-import SDKUpdater from '../../../../../../../app/api/BaseAPIServices/Updater/SDKUpdater';
-import SDKDeleter from '../../../../../../../app/api/BaseAPIServices/Deleter/SDKDeleter';
 
 const resGrService = new OutboundResourceGroupServiceApiFactory(configuration, '', instance);
 
@@ -13,13 +15,13 @@ const fieldsToSend = ['groupId', 'name', 'description', 'resource', 'reserveReso
 
 const preRequestHandler = (item, parentId) => ({ ...item, groupId: parentId });
 
-const listGetter = new SDKListGetter(resGrService.searchOutboundResourceInGroup);
-const itemGetter = new SDKGetter(resGrService.readOutboundResourceInGroup);
-const itemCreator = new SDKCreator(resGrService.createOutboundResourceInGroup,
+const listGetter = new SdkListGetterApiConsumer(resGrService.searchOutboundResourceInGroup);
+const itemGetter = new SdkGetterApiConsumer(resGrService.readOutboundResourceInGroup);
+const itemCreator = new SdkCreatorApiConsumer(resGrService.createOutboundResourceInGroup,
   { fieldsToSend, preRequestHandler });
-const itemUpdater = new SDKUpdater(resGrService.updateOutboundResourceInGroup,
+const itemUpdater = new SdkUpdaterApiConsumer(resGrService.updateOutboundResourceInGroup,
   { fieldsToSend, preRequestHandler });
-const itemDeleter = new SDKDeleter(resGrService.deleteOutboundResourceInGroup);
+const itemDeleter = new SdkDeleterApiConsumer(resGrService.deleteOutboundResourceInGroup);
 
 export const getResInGroupList = (params) => listGetter.getNestedList(params);
 export const getResInGroup = (params) => itemGetter.getNestedItem(params);

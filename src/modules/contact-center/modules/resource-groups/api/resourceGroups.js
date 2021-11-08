@@ -1,11 +1,13 @@
 import { OutboundResourceGroupServiceApiFactory } from 'webitel-sdk';
+import {
+  SdkListGetterApiConsumer,
+  SdkGetterApiConsumer,
+  SdkCreatorApiConsumer,
+  SdkUpdaterApiConsumer,
+  SdkDeleterApiConsumer,
+} from 'webitel-sdk/esm2015/api-consumers';
 import instance from '../../../../../app/api/instance';
 import configuration from '../../../../../app/api/openAPIConfig';
-import SDKDeleter from '../../../../../app/api/BaseAPIServices/Deleter/SDKDeleter';
-import SDKUpdater from '../../../../../app/api/BaseAPIServices/Updater/SDKUpdater';
-import SDKCreator from '../../../../../app/api/BaseAPIServices/Creator/SDKCreator';
-import SDKGetter from '../../../../../app/api/BaseAPIServices/Getter/SDKGetter';
-import SDKListGetter from '../../../../../app/api/BaseAPIServices/ListGetter/SDKListGetter';
 
 const resGrService = new OutboundResourceGroupServiceApiFactory(configuration, '', instance);
 
@@ -42,14 +44,14 @@ const preRequestHandler = (item) => {
   return item;
 };
 
-const listGetter = new SDKListGetter(resGrService.searchOutboundResourceGroup);
-const itemGetter = new SDKGetter(resGrService.readOutboundResourceGroup,
+const listGetter = new SdkListGetterApiConsumer(resGrService.searchOutboundResourceGroup);
+const itemGetter = new SdkGetterApiConsumer(resGrService.readOutboundResourceGroup,
   { defaultSingleObject, itemResponseHandler });
-const itemCreator = new SDKCreator(resGrService.createOutboundResourceGroup,
+const itemCreator = new SdkCreatorApiConsumer(resGrService.createOutboundResourceGroup,
   { fieldsToSend, preRequestHandler });
-const itemUpdater = new SDKUpdater(resGrService.updateOutboundResourceGroup,
+const itemUpdater = new SdkUpdaterApiConsumer(resGrService.updateOutboundResourceGroup,
   { fieldsToSend, preRequestHandler });
-const itemDeleter = new SDKDeleter(resGrService.deleteOutboundResourceGroup);
+const itemDeleter = new SdkDeleterApiConsumer(resGrService.deleteOutboundResourceGroup);
 
 export const getResGroupList = (params) => listGetter.getList(params);
 export const getResGroup = (params) => itemGetter.getItem(params);

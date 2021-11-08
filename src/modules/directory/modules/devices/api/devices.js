@@ -1,12 +1,13 @@
+import {
+  EndpointListGetterApiConsumer,
+  EndpointGetterApiConsumer,
+  EndpointCreatorApiConsumer,
+  EndpointUpdaterApiConsumer,
+  EndpointDeleterApiConsumer,
+} from 'webitel-sdk/esm2015/api-consumers';
 import instance from '../../../../../app/api/instance';
-import { EndpointListGetterApiConsumer } from 'webitel-sdk/esm2015/api-consumers';
-import APIItemDeleter from '../../../../../app/api/BaseAPIServices/Deleter/ApiDeleter';
-import APIUpdater from '../../../../../app/api/BaseAPIServices/Updater/ApiUpdater';
-import APICreator from '../../../../../app/api/BaseAPIServices/Creator/ApiCreator';
-import APIItemGetter from '../../../../../app/api/BaseAPIServices/Getter/ApiGetter';
-import APIListGetter from '../../../../../app/api/BaseAPIServices/ListGetter/ApiListGetter';
 
-const BASE_URL = '/devices';
+const baseUrl = '/devices';
 const fieldsToSend = ['name', 'account', 'password', 'user',
   'mac', 'ip', 'brand', 'model', 'hotdesks', 'hotdesk',
 ];
@@ -46,25 +47,28 @@ const _getDeviceHistory = (getList) => function ({
                                                    page,
                                                    size,
                                                  }) {
-  const baseUrl = `${BASE_URL}/${parentId}/users/audit`;
+  const _baseUrl = `${baseUrl}/${parentId}/users/audit`;
   const params = {
     page,
     size,
     time_from: from, // query format
     time_to: to, // query format
   };
-  return getList(params, baseUrl);
+  return getList(params, _baseUrl);
 };
 const getDeviceHistoryResponseHandler = (response) => ({ ...response, list: response.items });
 
-const listGetter = new APIListGetter(BASE_URL, { defaultListObject });
-const itemGetter = new APIItemGetter(BASE_URL, { defaultSingleObject, itemResponseHandler });
-const itemCreator = new APICreator(BASE_URL, { fieldsToSend, preRequestHandler });
-const itemUpdater = new APIUpdater(BASE_URL, { fieldsToSend, preRequestHandler });
-const itemDeleter = new APIItemDeleter(BASE_URL);
+const listGetter = new EndpointListGetterApiConsumer({ baseUrl, instance }, { defaultListObject });
+const itemGetter = new EndpointGetterApiConsumer({ baseUrl, instance },
+  { defaultSingleObject, itemResponseHandler });
+const itemCreator = new EndpointCreatorApiConsumer({ baseUrl, instance },
+  { fieldsToSend, preRequestHandler });
+const itemUpdater = new EndpointUpdaterApiConsumer({ baseUrl, instance },
+  { fieldsToSend, preRequestHandler });
+const itemDeleter = new EndpointDeleterApiConsumer({ baseUrl, instance });
 
 const historyListGetter = new EndpointListGetterApiConsumer(
-  { baseUrl: BASE_URL, instance },
+  { baseUrl, instance },
   { listResponseHandler: getDeviceHistoryResponseHandler },
 ).setGetListMethod(_getDeviceHistory);
 

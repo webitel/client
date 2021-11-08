@@ -1,24 +1,25 @@
 import axios from 'axios';
 import { MediaFileServiceApiFactory } from 'webitel-sdk';
-import { SdkListGetterApiConsumer } from 'webitel-sdk/esm2015/api-consumers';
+import {
+  SdkListGetterApiConsumer,
+  SdkDeleterApiConsumer,
+} from 'webitel-sdk/esm2015/api-consumers';
 import eventBus from '@webitel/ui-sdk/src/scripts/eventBus';
 import instance from '../../../../../app/api/instance';
 import configuration from '../../../../../app/api/openAPIConfig';
-import SDKDeleter from '../../../../../app/api/BaseAPIServices/Deleter/SDKDeleter';
-import SDKListGetter from '../../../../../app/api/BaseAPIServices/ListGetter/SDKListGetter';
 
 const mediaService = new MediaFileServiceApiFactory(configuration, '', instance);
 
 const token = localStorage.getItem('access-token');
-const BASE_URL = process.env.VUE_APP_API_URL;
+const baseUrl = process.env.VUE_APP_API_URL;
 
-const listGetter = new SDKListGetter(mediaService.searchMediaFile);
-const itemDeleter = new SDKDeleter(mediaService.deleteMediaFile);
+const listGetter = new SdkListGetterApiConsumer(mediaService.searchMediaFile);
+const itemDeleter = new SdkDeleterApiConsumer(mediaService.deleteMediaFile);
 
 export const getMediaList = (params) => listGetter.getList(params);
 
 export const getMedia = async ({ itemId }) => {
-  const url = `${BASE_URL}/storage/media/${itemId}/stream?access_token=${token}`;
+  const url = `${baseUrl}/storage/media/${itemId}/stream?access_token=${token}`;
   try {
     return await instance.get(url);
   } catch (err) {
@@ -27,7 +28,7 @@ export const getMedia = async ({ itemId }) => {
 };
 
 export const downloadMedia = async (id) => {
-  const url = `${BASE_URL}/storage/media/${id}/download?access_token=${token}`;
+  const url = `${baseUrl}/storage/media/${id}/download?access_token=${token}`;
   try {
     return await instance.get(url);
   } catch (err) {
@@ -36,7 +37,7 @@ export const downloadMedia = async (id) => {
 };
 
 export const addMedia = async (params) => {
-  const url = `${BASE_URL}/storage/media?access_token=${token}`;
+  const url = `${baseUrl}/storage/media?access_token=${token}`;
   const config = {
     headers: {
       'content-type': 'multipart/form-data',
@@ -55,9 +56,7 @@ export const addMedia = async (params) => {
 
 export const deleteMedia = (params) => itemDeleter.deleteItem(params);
 
-// FIXME REFACTOR ALL COMPONENTS WITH WEBITEL-SDK CONSUMERS
-const _listGetter = new SdkListGetterApiConsumer(mediaService.searchMediaFile);
-const getMediaLookup = (params) => _listGetter.getLookup(params);
+const getMediaLookup = (params) => listGetter.getLookup(params);
 
 export default {
   getList: getMediaList,

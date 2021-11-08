@@ -1,7 +1,7 @@
 import { AgentServiceApiFactory } from 'webitel-sdk';
+import { SdkListGetterApiConsumer } from 'webitel-sdk/esm2015/api-consumers';
 import instance from '../../../../../../../app/api/instance';
 import configuration from '../../../../../../../app/api/openAPIConfig';
-import SDKListGetter from '../../../../../../../app/api/BaseAPIServices/ListGetter/SDKListGetter';
 
 const agentService = new AgentServiceApiFactory(configuration, '', instance);
 
@@ -24,8 +24,10 @@ const _getAgentQueues = (getList) => function ({
   return getList(params);
 };
 
-const listGetter = new SDKListGetter(agentService.searchAgentInQueue, { defaultListObject })
+const listGetter = new SdkListGetterApiConsumer(agentService.searchAgentInQueue,
+  { defaultListObject })
   .setGetListMethod(_getAgentQueues);
+
 export const getAgentQueuesList = (params) => listGetter.getNestedList(params);
 
 export default {

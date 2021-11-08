@@ -1,7 +1,7 @@
 import { MemberServiceApiFactory } from 'webitel-sdk';
+import { SdkListGetterApiConsumer } from 'webitel-sdk/esm2015/api-consumers';
 import instance from '../../../../../../../app/api/instance';
 import configuration from '../../../../../../../app/api/openAPIConfig';
-import SDKListGetter from '../../../../../../../app/api/BaseAPIServices/ListGetter/SDKListGetter';
 
 const queueMemberAttemptsService = new MemberServiceApiFactory(configuration, '', instance);
 
@@ -19,7 +19,7 @@ const _getQueueLogs = (getList) => function ({
   return getList(params);
 };
 
-const listGetter = new SDKListGetter(queueMemberAttemptsService.searchAttemptsHistory)
+const listGetter = new SdkListGetterApiConsumer(queueMemberAttemptsService.searchAttemptsHistory)
   .setGetListMethod(_getQueueLogs);
 
 export const getQueueLogs = (params) => listGetter.getList(params);

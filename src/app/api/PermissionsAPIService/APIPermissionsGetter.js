@@ -1,4 +1,7 @@
-import ApiListGetter from '../BaseAPIServices/ListGetter/ApiListGetter';
+import {
+  EndpointListGetterApiConsumer,
+} from 'webitel-sdk/esm2015/api-consumers';
+import instance from '../instance';
 
 export default class APIPermissionsGetter {
   _nestedUrl = 'acl';
@@ -7,7 +10,7 @@ export default class APIPermissionsGetter {
 
   constructor(url) {
     this.baseUrl = url;
-    this.listGetter = new ApiListGetter(this.baseUrl, {
+    this.listGetter = new EndpointListGetterApiConsumer({ baseUrl: this.baseUrl, instance }, {
       defaultListObject: { user: false },
       listResponseHandler: APIPermissionsGetter.handlePermissionsListResponse,
       nestedUrl: this._nestedUrl,
@@ -15,7 +18,7 @@ export default class APIPermissionsGetter {
   }
 
   static handlePermissionsListResponse(response) {
-    const list = response.list.map((item) => ({
+    const items = response.items.map((item) => ({
       ...item,
       access: {
         x: {
@@ -36,7 +39,7 @@ export default class APIPermissionsGetter {
         },
       },
     }));
-    return { list, next: response.next };
+    return { items, next: response.next };
   }
 
   async getList(params) {

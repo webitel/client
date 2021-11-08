@@ -1,12 +1,14 @@
 import { AgentPauseCauseServiceApiFactory } from 'webitel-sdk';
+import {
+  SdkListGetterApiConsumer,
+  SdkGetterApiConsumer,
+  SdkCreatorApiConsumer,
+  SdkUpdaterApiConsumer,
+  SdkPatcherApiConsumer,
+  SdkDeleterApiConsumer,
+} from 'webitel-sdk/esm2015/api-consumers';
 import instance from '../../../../../app/api/instance';
 import configuration from '../../../../../app/api/openAPIConfig';
-import SDKDeleter from '../../../../../app/api/BaseAPIServices/Deleter/SDKDeleter';
-import SDKUpdater from '../../../../../app/api/BaseAPIServices/Updater/SDKUpdater';
-import SDKPatcher from '../../../../../app/api/BaseAPIServices/Patcher/SDKPatcher';
-import SDKCreator from '../../../../../app/api/BaseAPIServices/Creator/SDKCreator';
-import SDKGetter from '../../../../../app/api/BaseAPIServices/Getter/SDKGetter';
-import SDKListGetter from '../../../../../app/api/BaseAPIServices/ListGetter/SDKListGetter';
 
 const pauseCauseService = new AgentPauseCauseServiceApiFactory(configuration, '', instance);
 
@@ -28,13 +30,17 @@ const defaultSingleObject = {
   allowAgent: false,
 };
 
-const listGetter = new SDKListGetter(pauseCauseService.searchAgentPauseCause,
+const listGetter = new SdkListGetterApiConsumer(pauseCauseService.searchAgentPauseCause,
   { defaultListObject });
-const itemGetter = new SDKGetter(pauseCauseService.readAgentPauseCause, { defaultSingleObject });
-const itemCreator = new SDKCreator(pauseCauseService.createAgentPauseCause, { fieldsToSend });
-const itemPatcher = new SDKPatcher(pauseCauseService.patchAgentPauseCause, { fieldsToSend });
-const itemUpdater = new SDKUpdater(pauseCauseService.updateAgentPauseCause, { fieldsToSend });
-const itemDeleter = new SDKDeleter(pauseCauseService.deleteAgentPauseCause);
+const itemGetter = new SdkGetterApiConsumer(pauseCauseService.readAgentPauseCause,
+  { defaultSingleObject });
+const itemCreator = new SdkCreatorApiConsumer(pauseCauseService.createAgentPauseCause,
+  { fieldsToSend });
+const itemPatcher = new SdkPatcherApiConsumer(pauseCauseService.patchAgentPauseCause,
+  { fieldsToSend });
+const itemUpdater = new SdkUpdaterApiConsumer(pauseCauseService.updateAgentPauseCause,
+  { fieldsToSend });
+const itemDeleter = new SdkDeleterApiConsumer(pauseCauseService.deleteAgentPauseCause);
 
 export const getPauseCauseList = (params) => listGetter.getList(params);
 export const getPauseCause = (params) => itemGetter.getItem(params);

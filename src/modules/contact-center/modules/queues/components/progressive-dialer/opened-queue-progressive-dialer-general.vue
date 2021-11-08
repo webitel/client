@@ -124,12 +124,10 @@ export default {
       }));
     },
 
-    async loadDropdownOptionsBlacklistList(search) {
-      const response = await getBlacklistList({ search });
-      return response.list.map((item) => ({
-        name: item.name,
-        id: item.id,
-      }));
+    async loadDropdownOptionsBlacklistList(params) {
+      const response = await getBlacklistList(params);
+      response.items = response.list;
+      return response;
     },
 
     async loadDropdownOptionsTeamList(search) {

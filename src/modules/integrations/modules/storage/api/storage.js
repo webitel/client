@@ -1,12 +1,14 @@
 import { BackendProfileServiceApiFactory } from 'webitel-sdk';
+import {
+  SdkListGetterApiConsumer,
+  SdkGetterApiConsumer,
+  SdkCreatorApiConsumer,
+  SdkUpdaterApiConsumer,
+  SdkPatcherApiConsumer,
+  SdkDeleterApiConsumer,
+} from 'webitel-sdk/esm2015/api-consumers';
 import instance from '../../../../../app/api/instance';
 import configuration from '../../../../../app/api/openAPIConfig';
-import SDKDeleter from '../../../../../app/api/BaseAPIServices/Deleter/SDKDeleter';
-import SDKUpdater from '../../../../../app/api/BaseAPIServices/Updater/SDKUpdater';
-import SDKCreator from '../../../../../app/api/BaseAPIServices/Creator/SDKCreator';
-import SDKGetter from '../../../../../app/api/BaseAPIServices/Getter/SDKGetter';
-import SDKListGetter from '../../../../../app/api/BaseAPIServices/ListGetter/SDKListGetter';
-import SDKPatcher from '../../../../../app/api/BaseAPIServices/Patcher/SDKPatcher';
 import AWSRegions from '../store/_internals/lookups/AWSRegions.lookup';
 import DigitalOceanRegions from '../store/_internals/lookups/DigitalOceanRegions.lookup';
 import StorageTypeAdapter from '../store/_internals/scripts/backendStorageTypeAdapters';
@@ -61,16 +63,16 @@ const preRequestHandler = (item) => {
   return item;
 };
 
-const listGetter = new SDKListGetter(storageService.searchBackendProfile,
+const listGetter = new SdkListGetterApiConsumer(storageService.searchBackendProfile,
   { defaultListObject, listResponseHandler });
-const itemGetter = new SDKGetter(storageService.readBackendProfile,
+const itemGetter = new SdkGetterApiConsumer(storageService.readBackendProfile,
   { defaultSingleObject, itemResponseHandler });
-const itemCreator = new SDKCreator(storageService.createBackendProfile,
+const itemCreator = new SdkCreatorApiConsumer(storageService.createBackendProfile,
   { fieldsToSend, preRequestHandler });
-const itemPatcher = new SDKPatcher(storageService.patchBackendProfile, { fieldsToSend });
-const itemUpdater = new SDKUpdater(storageService.updateBackendProfile,
+const itemPatcher = new SdkPatcherApiConsumer(storageService.patchBackendProfile, { fieldsToSend });
+const itemUpdater = new SdkUpdaterApiConsumer(storageService.updateBackendProfile,
   { fieldsToSend, preRequestHandler });
-const itemDeleter = new SDKDeleter(storageService.deleteBackendProfile);
+const itemDeleter = new SdkDeleterApiConsumer(storageService.deleteBackendProfile);
 
 export const getStorageList = (params) => listGetter.getList(params);
 export const getStorage = (params) => itemGetter.getItem(params);

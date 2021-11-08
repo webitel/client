@@ -1,11 +1,12 @@
-import { EndpointListGetterApiConsumer } from 'webitel-sdk/esm2015/api-consumers';
+import {
+  EndpointListGetterApiConsumer,
+  EndpointGetterApiConsumer,
+  EndpointCreatorApiConsumer,
+  EndpointUpdaterApiConsumer,
+  EndpointPatcherApiConsumer,
+  EndpointDeleterApiConsumer,
+} from 'webitel-sdk/esm2015/api-consumers';
 import instance from '../../../../../app/api/instance';
-import APIItemDeleter from '../../../../../app/api/BaseAPIServices/Deleter/ApiDeleter';
-import APIUpdater from '../../../../../app/api/BaseAPIServices/Updater/ApiUpdater';
-import APICreator from '../../../../../app/api/BaseAPIServices/Creator/ApiCreator';
-import APIPatcher from '../../../../../app/api/BaseAPIServices/Patcher/ApiPatcher';
-import APIItemGetter from '../../../../../app/api/BaseAPIServices/Getter/ApiGetter';
-import APIListGetter from '../../../../../app/api/BaseAPIServices/ListGetter/ApiListGetter';
 import registerGateway
   from '../store/_internals/gatewaySchema/registerGateway';
 import trunkingGateway
@@ -43,12 +44,12 @@ const coerceRegisterResponse = (response) => {
   return result;
 };
 
-const listGetter = new APIListGetter(baseUrl, { defaultListObject });
-const itemGetter = new APIItemGetter(baseUrl);
-const itemCreator = new APICreator(baseUrl, { fieldsToSend });
-const itemUpdater = new APIUpdater(baseUrl, { fieldsToSend });
-const itemPatcher = new APIPatcher(baseUrl, { fieldsToSend });
-const itemDeleter = new APIItemDeleter(baseUrl);
+const listGetter = new EndpointListGetterApiConsumer({ baseUrl, instance }, { defaultListObject });
+const itemGetter = new EndpointGetterApiConsumer({ baseUrl, instance });
+const itemCreator = new EndpointCreatorApiConsumer({ baseUrl, instance }, { fieldsToSend });
+const itemUpdater = new EndpointUpdaterApiConsumer({ baseUrl, instance }, { fieldsToSend });
+const itemPatcher = new EndpointPatcherApiConsumer({ baseUrl, instance }, { fieldsToSend });
+const itemDeleter = new EndpointDeleterApiConsumer({ baseUrl, instance });
 
 itemGetter.responseHandler = (response) => {
   if (response.register) return coerceRegisterResponse(response);
@@ -61,11 +62,7 @@ export const addGateway = (params) => itemCreator.createItem(params);
 export const updateGateway = (params) => itemUpdater.updateItem(params);
 export const patchGateway = (params) => itemPatcher.patchItem(params);
 export const deleteGateway = (params) => itemDeleter.deleteItem(params);
-
-
-// FIXME REFACTOR ALL COMPONENTS WITH WEBITEL-SDK CONSUMERS
-const _listGetter = new EndpointListGetterApiConsumer({ baseUrl, instance });
-const getGatewaysLookup = (params) => _listGetter.getLookup(params);
+const getGatewaysLookup = (params) => listGetter.getLookup(params);
 
 export default {
   getList: getGatewayList,
