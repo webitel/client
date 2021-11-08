@@ -45,7 +45,12 @@ export default {
   data: () => ({
     namespace: 'ccenter/teams/supervisors',
   }),
-
+  props: {
+    parentId: {
+      type: String,
+      required: true,
+    },
+  },
   validations: {
     itemInstance: {
       agent: { required },
@@ -54,7 +59,10 @@ export default {
 
   methods: {
     async loadAgentsOptions(search) {
-      const response = await getSupervisorOptions({ search });
+      const response = await getSupervisorOptions({
+        search,
+        notTeamId: this.parentId,
+      });
       return response.list.map((item) => ({
         name: item.user.name,
         id: item.id,

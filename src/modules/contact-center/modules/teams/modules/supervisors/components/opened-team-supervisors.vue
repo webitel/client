@@ -3,6 +3,7 @@
     <supervisor-popup
       v-if="isSupervisorPopup"
       @close="closePopup"
+      :parent-id="parentId"
     ></supervisor-popup>
     <supervisor-subordinates-popup
       v-if="isSupervisorSubordinatesPopup"
