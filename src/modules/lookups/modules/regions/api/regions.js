@@ -25,10 +25,12 @@ export const addRegion = (params) => itemCreator.createItem(params);
 export const updateRegion = (params) => itemUpdater.updateItem(params);
 export const deleteRegion = (params) => itemDeleter.deleteItem(params);
 
-export default {
+const RegionsAPI = {
   getList: getRegionsList,
   get: getRegion,
   add: addRegion,
   update: updateRegion,
   delete: deleteRegion,
 };
+
+export default RegionsAPI;

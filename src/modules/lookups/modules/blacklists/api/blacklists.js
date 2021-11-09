@@ -30,10 +30,12 @@ export const addBlacklist = (params) => itemCreator.createItem(params);
 export const updateBlacklist = (params) => itemUpdater.updateItem(params);
 export const deleteBlacklist = (params) => itemDeleter.deleteItem(params);
 
-export default {
+const BlacklistsAPI = {
   getList: getBlacklistList,
   get: getBlacklist,
   add: addBlacklist,
   update: updateBlacklist,
   delete: deleteBlacklist,
 };
+
+export default BlacklistsAPI;

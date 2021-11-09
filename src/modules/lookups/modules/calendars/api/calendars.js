@@ -70,20 +70,20 @@ const itemDeleter = new SdkDeleterApiConsumer(calendarService.deleteCalendar);
 
 export const getCalendarList = (params) => listGetter.getList(params);
 export const getCalendar = (params) => itemGetter.getItem(params);
-export const getCalendarTimezones = async (params) => {
-  const response = await timezoneGetter.getList(params);
-  return response.list;
-};
 export const addCalendar = (params) => itemCreator.createItem(params);
 export const updateCalendar = (params) => itemUpdater.updateItem(params);
 export const deleteCalendar = (params) => itemDeleter.deleteItem(params);
 const getCalendarsLookup = (params) => listGetter.getLookup(params);
+const getTimezonesLookup = (params) => timezoneGetter.getLookup(params);
 
-export default {
+const CalendarsAPI = {
   getList: getCalendarList,
   get: getCalendar,
   add: addCalendar,
   update: updateCalendar,
   delete: deleteCalendar,
   getLookup: getCalendarsLookup,
+  getTimezonesLookup,
 };
+
+export default CalendarsAPI;

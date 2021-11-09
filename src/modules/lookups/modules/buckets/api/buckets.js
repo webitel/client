@@ -26,7 +26,7 @@ export const updateBucket = (params) => itemUpdater.updateItem(params);
 export const deleteBucket = (params) => itemDeleter.deleteItem(params);
 const getBucketsLookup = (params) => listGetter.getLookup(params);
 
-export default {
+const BucketsAPI = {
   getList: getBucketsList,
   get: getBucket,
   add: addBucket,
@@ -34,3 +34,5 @@ export default {
   delete: deleteBucket,
   getLookup: getBucketsLookup,
 };
+
+export default BucketsAPI;

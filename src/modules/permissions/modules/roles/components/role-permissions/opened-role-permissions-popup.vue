@@ -9,8 +9,7 @@
           v-model="itemInstance.permission"
           :v="$v.itemInstance.permission"
           :label="$tc('objects.permissions.roles.permissions', 1)"
-          :search="loadPermissionsList"
-          :internal-search="false"
+          :search-method="loadPermissionsList"
           :clearable="false"
           required
         ></wt-select>
@@ -97,11 +96,12 @@ export default {
       }
       this.close();
     },
-    async loadPermissionsList(search) {
-      const response = await getPermissionsOptions({ search });
-      return response.list.filter((permission) => (
+    async loadPermissionsList(params) {
+      const response = await getPermissionsOptions(params);
+      response.items = response.items.filter((permission) => (
         this.permissions.every((addedPermission) => addedPermission.id !== permission.id)
       ));
+      return response;
     },
     loadItem() {},
     resetState() {},

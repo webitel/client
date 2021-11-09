@@ -22,8 +22,10 @@ export const getObjectList = (params) => listGetter.getList({ searchQuery: 'clas
 export const patchObject = (params) => itemPatcher.patchItem(params);
 export const getObject = (params) => itemGetter.getItem(params);
 
-export default {
+const ObjectsAPI = {
   getList: getObjectList,
   get: getObject,
   patch: patchObject,
 };
+
+export default ObjectsAPI;

@@ -34,10 +34,12 @@ export const addCommunication = (params) => itemCreator.createItem(params);
 export const updateCommunication = (params) => itemUpdater.updateItem(params);
 export const deleteCommunication = (params) => itemDeleter.deleteItem(params);
 
-export default {
+const CommunicationsAPI = {
   getList: getCommunicationsList,
   get: getCommunication,
   add: addCommunication,
   update: updateCommunication,
   delete: deleteCommunication,
 };
+
+export default CommunicationsAPI;

@@ -27,10 +27,12 @@ export const addBlacklistNumber = (params) => itemCreator.createNestedItem(param
 export const updateBlacklistNumber = (params) => itemUpdater.updateNestedItem(params);
 export const deleteBlacklistNumber = (params) => itemDeleter.deleteNestedItem(params);
 
-export default {
+const BlacklistNumbersAPI = {
   getList: getBlacklistNumbersList,
   get: getBlacklistNumber,
   add: addBlacklistNumber,
   update: updateBlacklistNumber,
   delete: deleteBlacklistNumber,
 };
+
+export default BlacklistNumbersAPI;

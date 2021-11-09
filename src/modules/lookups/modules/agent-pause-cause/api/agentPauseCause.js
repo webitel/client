@@ -49,7 +49,7 @@ export const patchPauseCause = (params) => itemPatcher.patchItem(params);
 export const updatePauseCause = (params) => itemUpdater.updateItem(params);
 export const deletePauseCause = (params) => itemDeleter.deleteItem(params);
 
-export default {
+const AgentPauseCauseAPI = {
   getList: getPauseCauseList,
   get: getPauseCause,
   add: addPauseCause,
@@ -57,3 +57,5 @@ export default {
   update: updatePauseCause,
   delete: deletePauseCause,
 };
+
+export default AgentPauseCauseAPI;

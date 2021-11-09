@@ -81,7 +81,7 @@ export const patchStorage = (params) => itemPatcher.patchItem(params);
 export const updateStorage = (params) => itemUpdater.updateItem(params);
 export const deleteStorage = (params) => itemDeleter.deleteItem(params);
 
-export default {
+const StorageAPI = {
   getList: getStorageList,
   get: getStorage,
   add: addStorage,
@@ -89,3 +89,5 @@ export default {
   update: updateStorage,
   delete: deleteStorage,
 };
+
+export default StorageAPI;

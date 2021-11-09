@@ -16,8 +16,7 @@
         :value="itemInstance.timezone"
         :v="v.itemInstance.timezone"
         :label="$tc('objects.lookups.timezone.timezone', 1)"
-        :search="loadTimezones"
-        :internal-search="false"
+        :search-method="loadTimezones"
         :clearable="false"
         :disabled="disableUserInput"
         required
@@ -34,17 +33,15 @@
 </template>
 
 <script>
-import { mapState } from 'vuex';
-import { getCalendarTimezones } from '../../calendars/api/calendars';
+import CalendarsAPI from '../../calendars/api/calendars';
 import openedTabComponentMixin from '../../../../../app/mixins/objectPagesMixins/openedObjectTabMixin/openedTabComponentMixin';
 
 export default {
   name: 'opened-region-general',
   mixins: [openedTabComponentMixin],
   methods: {
-    async loadTimezones(search) {
-      const response = await getCalendarTimezones({ search });
-      return response;
+    loadTimezones(params) {
+      return CalendarsAPI.getTimezonesLookup(params);
     },
   },
 };

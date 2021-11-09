@@ -58,10 +58,12 @@ export const deleteMedia = (params) => itemDeleter.deleteItem(params);
 
 const getMediaLookup = (params) => listGetter.getLookup(params);
 
-export default {
+const MediaAPI = {
   getList: getMediaList,
   get: getMedia,
   add: addMedia,
   delete: deleteMedia,
   getLookup: getMediaLookup,
 };
+
+export default MediaAPI;

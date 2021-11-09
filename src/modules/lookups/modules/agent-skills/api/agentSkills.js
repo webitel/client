@@ -25,10 +25,12 @@ export const addSkill = (params) => itemCreator.createItem(params);
 export const updateSkill = (params) => itemUpdater.updateItem(params);
 export const deleteSkill = (params) => itemDeleter.deleteItem(params);
 
-export default {
+const AgentSkillsAPI = {
   getList: getSkillsList,
   get: getSkill,
   add: addSkill,
   update: updateSkill,
   delete: deleteSkill,
 };
+
+export default AgentSkillsAPI;

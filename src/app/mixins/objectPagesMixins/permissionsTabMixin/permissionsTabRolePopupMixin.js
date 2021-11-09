@@ -42,11 +42,14 @@ export default {
 
     // filter new roles
     async getAvailableGrantees(params) {
-      const fields = ['name', 'id', 'user'];
-      const roles = await getExtendedRoles({ ...params, fields });
+      const roles = await this.loadRoles(params);
       roles.items = roles.items.filter((role) => (
         !this.dataList.some((usedRoles) => role.id === usedRoles.grantee.id)));
       return roles;
+    },
+    async loadRoles(params) {
+      const fields = ['name', 'id', 'user'];
+      return getExtendedRoles({ ...params, fields });
     },
     close() {
       this.$emit('close');

@@ -7,15 +7,13 @@
       <permissions-role-select
         v-model="newGrantor"
         :placeholder="$t('objects.permissions.object.grantor')"
-        :search="loadRoles"
-        :internal-search="false"
+        :search-method="loadRoles"
         :clearable="false"
       ></permissions-role-select>
       <permissions-role-select
         v-model="newGrantee"
         :placeholder="$t('objects.permissions.object.grantee')"
-        :search="loadRoles"
-        :internal-search="false"
+        :search-method="loadRoles"
         :clearable="false"
       ></permissions-role-select>
     </template>

@@ -16,9 +16,8 @@
         :value="itemInstance.timezone"
         :v="v.itemInstance.timezone"
         :label="$t('objects.lookups.calendars.timezone')"
-        :search="loadTimezones"
+        :search-method="loadTimezones"
         :disabled="disableUserInput"
-        :internal-search="false"
         :clearable="false"
         required
         @input="setItemProp({ prop: 'timezone', value: $event })"
@@ -55,15 +54,14 @@
 
 <script>
 import openedTabComponentMixin from '../../../../../app/mixins/objectPagesMixins/openedObjectTabMixin/openedTabComponentMixin';
-import { getCalendarTimezones } from '../api/calendars';
+import CalendarsAPI from '../api/calendars';
 
 export default {
   name: 'opened-calendar-general',
   mixins: [openedTabComponentMixin],
   methods: {
-    async loadTimezones(search) {
-      const response = await getCalendarTimezones({ search });
-      return response.map((item) => ({ name: item.name, id: item.id }));
+    loadTimezones(params) {
+      return CalendarsAPI.getTimezonesLookup(params);
     },
   },
 };
