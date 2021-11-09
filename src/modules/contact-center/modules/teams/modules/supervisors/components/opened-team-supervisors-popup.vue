@@ -34,9 +34,12 @@
 
 <script>
 import { required } from 'vuelidate/lib/validators';
+import { mapState } from 'vuex';
+import getNamespacedState from '../../../../../../../app/store/helpers/getNamespacedState';
 import { getSupervisorOptions } from '../../../../agents/api/agents';
 
-import nestedObjectMixin from '../../../../../../../app/mixins/objectPagesMixins/openedObjectMixin/nestedObjectMixin';
+import nestedObjectMixin
+  from '../../../../../../../app/mixins/objectPagesMixins/openedObjectMixin/nestedObjectMixin';
 
 export default {
   name: 'opened-team-agents-popup',
@@ -52,9 +55,20 @@ export default {
     },
   },
 
+  computed: {
+    ...mapState({
+      parentId(state) {
+        return getNamespacedState(state, this.namespace).parentId;
+      },
+    }),
+  },
+
   methods: {
     async loadAgentsOptions(search) {
-      const response = await getSupervisorOptions({ search });
+      const response = await getSupervisorOptions({
+        search,
+        notTeamId: this.parentId,
+      });
       return response.list.map((item) => ({
         name: item.user.name,
         id: item.id,
