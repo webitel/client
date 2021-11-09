@@ -9,8 +9,7 @@
           :value="itemInstance.bucket"
           :v="$v.itemInstance.bucket"
           :label="$tc('objects.lookups.buckets.buckets', 1)"
-          :search="loadBucketsOptions"
-          :internal-search="false"
+          :search-method="loadBucketsOptions"
           :clearable="false"
           required
           @input="setItemProp({ prop: 'bucket', value: $event })"
@@ -42,7 +41,7 @@
 
 <script>
 import { minValue, numeric, required } from 'vuelidate/lib/validators';
-import { getBucketsList } from '../../../../../../lookups/modules/buckets/api/buckets';
+import BucketsAPI from '../../../../../../lookups/modules/buckets/api/buckets';
 import nestedObjectMixin from '../../../../../../../app/mixins/objectPagesMixins/openedObjectMixin/nestedObjectMixin';
 
 export default {
@@ -65,12 +64,8 @@ export default {
   },
 
   methods: {
-    async loadBucketsOptions(search) {
-      const response = await getBucketsList({ search });
-      return response.list.map((item) => ({
-        name: item.name,
-        id: item.id,
-      }));
+    loadBucketsOptions(params) {
+      return BucketsAPI.getLookup(params);
     },
   },
 };

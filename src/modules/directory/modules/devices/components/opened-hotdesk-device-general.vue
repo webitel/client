@@ -52,7 +52,7 @@ export default {
   methods: {
     async loadDropdownOptionsList(search) {
       const response = await getUsersList({ search });
-      return response.list.map((item) => ({
+      return response.items.map((item) => ({
         name: item.name,
         id: item.id,
       }));

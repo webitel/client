@@ -9,8 +9,7 @@
           :value="itemInstance.agent"
           :v="$v.itemInstance.agent"
           :label="$tc('objects.ccenter.agents.subordinates', 1)"
-          :search="loadDropdownOptionsList"
-          :internal-search="false"
+          :search-method="loadDropdownOptionsList"
           :clearable="false"
           required
           @input="setItemProp({ prop: 'agent', value: $event })"
@@ -34,7 +33,7 @@
 
 <script>
 import { required } from 'vuelidate/lib/validators';
-import { getRegularAgentsOptions } from '../../../api/agents';
+import AgentsAPI from '../../../api/agents';
 import nestedObjectMixin from '../../../../../../../app/mixins/objectPagesMixins/openedObjectMixin/nestedObjectMixin';
 
 export default {
@@ -51,13 +50,14 @@ export default {
   },
 
   methods: {
-    async loadDropdownOptionsList(search) {
-      const response = await getRegularAgentsOptions({ search, fields: ['id', 'name', 'supervisor'] });
-      return response.list.map((item) => ({
+    async loadDropdownOptionsList(params) {
+      const fields = ['id', 'name', 'supervisor'];
+      const response = await AgentsAPI.getRegularAgentsOptions({ ...params, fields });
+      response.items = response.items.map((item) => ({
+        ...item,
         supervisor: item.supervisor || [],
-        name: item.name,
-        id: item.id,
       }));
+      return response;
     },
   },
 };

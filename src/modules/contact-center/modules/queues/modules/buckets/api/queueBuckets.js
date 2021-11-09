@@ -39,10 +39,12 @@ export const addQueueBucket = (params) => itemCreator.createNestedItem(params);
 export const updateQueueBucket = (params) => itemUpdater.updateNestedItem(params);
 export const deleteQueueBucket = (params) => itemDeleter.deleteNestedItem(params);
 
-export default {
+const QueueBucketsAPI = {
   getList: getQueueBucketsList,
   get: getQueueBucket,
   add: addQueueBucket,
   update: updateQueueBucket,
   delete: deleteQueueBucket,
 };
+
+export default QueueBucketsAPI;

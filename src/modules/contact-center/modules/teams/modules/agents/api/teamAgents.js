@@ -59,10 +59,12 @@ export const updateTeamAgent = async ({ parentId, itemId, itemInstance }) => {
   }
 };
 
-export default {
+const TeamAgentsAPI = {
   getList: getTeamAgentsList,
   get: getTeamAgent,
   add: addTeamAgent,
   update: updateTeamAgent,
   delete: deleteTeamAgent,
 };
+
+export default TeamAgentsAPI;

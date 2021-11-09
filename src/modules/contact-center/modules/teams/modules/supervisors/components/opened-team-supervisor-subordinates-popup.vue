@@ -22,7 +22,7 @@
 
 <script>
 import { mapState } from 'vuex';
-import { getTeamSupervisorSubordinatesList } from '../api/teamSupervisors';
+import TeamsAPI from '../api/teamSupervisors';
 
 export default {
   name: 'opened-team-supervisor-subordinates-popup',
@@ -55,8 +55,8 @@ export default {
         supervisorId: this.itemId,
         teamId: this.parentId,
       };
-      const response = await getTeamSupervisorSubordinatesList(params);
-      this.dataList = response.list;
+      const response = await TeamsAPI.getTeamSupervisorSubordinatesList(params);
+      this.dataList = response.items;
     },
     close() {
       this.$emit('close');

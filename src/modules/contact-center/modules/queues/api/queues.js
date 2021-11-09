@@ -70,7 +70,7 @@ export const patchQueue = (params) => itemPatcher.patchItem(params);
 export const deleteQueue = (params) => itemDeleter.deleteItem(params);
 const getQueuesLookup = (params) => listGetter.getLookup(params);
 
-export default {
+const QueuesAPI = {
   getList: getQueuesList,
   get: getQueue,
   add: addQueue,
@@ -79,3 +79,5 @@ export default {
   delete: deleteQueue,
   getLookup: getQueuesLookup,
 };
+
+export default QueuesAPI;

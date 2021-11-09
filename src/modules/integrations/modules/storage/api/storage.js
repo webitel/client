@@ -32,7 +32,7 @@ const defaultSingleObject = {
 
 const listResponseHandler = (response) => {
   // eslint-disable-next-line no-param-reassign
-  response.list = response.list.map((item) => (
+  response.items = response.list.items((item) => (
     { ...item, type: StorageTypeAdapter.backendToEnum(item.type) }
     ));
   return response;

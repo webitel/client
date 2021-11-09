@@ -30,6 +30,8 @@ const listGetter = new SdkListGetterApiConsumer(agentService.searchAgentInQueue,
 
 export const getAgentQueuesList = (params) => listGetter.getNestedList(params);
 
-export default {
+const AgentQueuesAPI = {
   getList: getAgentQueuesList,
 };
+
+export default AgentQueuesAPI;

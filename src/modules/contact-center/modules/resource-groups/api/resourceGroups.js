@@ -58,11 +58,15 @@ export const getResGroup = (params) => itemGetter.getItem(params);
 export const addResGroup = (params) => itemCreator.createItem(params);
 export const updateResGroup = (params) => itemUpdater.updateItem(params);
 export const deleteResGroup = (params) => itemDeleter.deleteItem(params);
+const getResGroupsLookup = (params) => listGetter.getLookup(params);
 
-export default {
+const ResourceGroupsAPI = {
   getList: getResGroupList,
   get: getResGroup,
   add: addResGroup,
   update: updateResGroup,
   delete: deleteResGroup,
+  getLookup: getResGroupsLookup,
 };
+
+export default ResourceGroupsAPI;

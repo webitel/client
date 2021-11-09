@@ -36,8 +36,7 @@
       <wt-select
         :value="itemInstance.bucket"
         :label="$tc('objects.lookups.buckets.buckets', 1)"
-        :search="loadDropdownOptionsBucketsList"
-        :internal-search="false"
+        :search-method="loadDropdownOptionsBucketsList"
         :disabled="disableUserInput"
         @input="setItemProp({ prop: 'bucket', value: $event })"
       ></wt-select>
@@ -46,7 +45,7 @@
 </template>
 
 <script>
-import { getBucketsList } from '../../../../../../lookups/modules/buckets/api/buckets';
+import BucketsAPI from '../../../../../../lookups/modules/buckets/api/buckets';
 import CalendarsAPI from '../../../../../../lookups/modules/calendars/api/calendars';
 import openedTabComponentMixin from '../../../../../../../app/mixins/objectPagesMixins/openedObjectTabMixin/openedTabComponentMixin';
 
@@ -60,15 +59,9 @@ export default {
   },
 
   methods: {
-    async loadDropdownOptionsBucketsList(search) {
-      const response = await getBucketsList({ search });
-      return response.list.map((item) => ({
-        name: item.name,
-        id: item.id,
-      }));
+    loadDropdownOptionsBucketsList(params) {
+      return BucketsAPI.getLookup(params);
     },
-
-
     loadDropdownOptionsTimezoneList(params) {
       return CalendarsAPI.getTimezonesLookup(params);
     },

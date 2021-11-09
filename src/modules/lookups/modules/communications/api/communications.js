@@ -33,6 +33,7 @@ export const getCommunication = (params) => itemGetter.getItem(params);
 export const addCommunication = (params) => itemCreator.createItem(params);
 export const updateCommunication = (params) => itemUpdater.updateItem(params);
 export const deleteCommunication = (params) => itemDeleter.deleteItem(params);
+const getCommunicationsLookup = (params) => listGetter.getLookup(params);
 
 const CommunicationsAPI = {
   getList: getCommunicationsList,
@@ -40,6 +41,7 @@ const CommunicationsAPI = {
   add: addCommunication,
   update: updateCommunication,
   delete: deleteCommunication,
+  getLookup: getCommunicationsLookup,
 };
 
 export default CommunicationsAPI;

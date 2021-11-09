@@ -88,12 +88,16 @@ export const addResource = (params) => itemCreator.createItem(params);
 export const updateResource = (params) => itemUpdater.updateItem(params);
 export const patchResource = (params) => itemPatcher.patchItem(params);
 export const deleteResource = (params) => itemDeleter.deleteItem(params);
+const getResourcesLookup = (params) => listGetter.getLookup(params);
 
-export default {
+const ResourcesAPI = {
   getList: getResourceList,
   get: getResource,
   add: addResource,
   patch: patchResource,
   update: updateResource,
   delete: deleteResource,
+  getLookup: getResourcesLookup,
 };
+
+export default ResourcesAPI;

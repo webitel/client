@@ -34,6 +34,8 @@ const listGetter = new SdkListGetterApiConsumer(agentService.searchAgent, { defa
 
 export const getQueueAgentsList = (params) => listGetter.getList(params);
 
-export default {
+const QueueAgentsAPI = {
   getList: getQueueAgentsList,
 };
+
+export default QueueAgentsAPI;

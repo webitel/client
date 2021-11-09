@@ -38,11 +38,15 @@ export const getTeam = (params) => itemGetter.getItem(params);
 export const addTeam = (params) => itemCreator.createItem(params);
 export const updateTeam = (params) => itemUpdater.updateItem(params);
 export const deleteTeam = (params) => itemDeleter.deleteItem(params);
+const getTeamsLookup = (params) => listGetter.getLookup(params);
 
-export default {
+const TeamsAPI = {
   getList: getTeamsList,
   get: getTeam,
   add: addTeam,
   update: updateTeam,
   delete: deleteTeam,
+  getLookup: getTeamsLookup,
 };
+
+export default TeamsAPI;

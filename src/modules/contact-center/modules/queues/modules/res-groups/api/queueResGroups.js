@@ -29,10 +29,12 @@ export const addQueueResGroup = (params) => itemCreator.createNestedItem(params)
 export const updateQueueResGroup = (params) => itemUpdater.updateNestedItem(params);
 export const deleteQueueResGroup = (params) => itemDeleter.deleteNestedItem(params);
 
-export default {
+const QueueResourceGroupsAPI = {
   getList: getQueueResGroupsList,
   get: getQueueResGroup,
   add: addQueueResGroup,
   update: updateQueueResGroup,
   delete: deleteQueueResGroup,
 };
+
+export default QueueResourceGroupsAPI;

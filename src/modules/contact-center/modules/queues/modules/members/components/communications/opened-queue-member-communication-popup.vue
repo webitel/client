@@ -15,16 +15,14 @@
           v-model="itemInstance.type"
           :v="$v.itemInstance.type"
           :label="$tc('objects.lookups.communications.communications', 1)"
-          :search="loadCommTypes"
-          :internal-search="false"
+          :search-method="loadCommTypes"
           :clearable="false"
           required
         ></wt-select>
         <wt-select
           v-model="itemInstance.resource"
           :label="$tc('objects.ccenter.res.res', 1)"
-          :search="loadResources"
-          :internal-search="false"
+          :search-method="loadResources"
         ></wt-select>
         <wt-input
           v-model="itemInstance.display"
@@ -60,8 +58,8 @@
 import deepCopy from 'deep-copy';
 import { required } from 'vuelidate/lib/validators';
 import { mapActions, mapState } from 'vuex';
-import { getResourceList } from '../../../../../resources/api/resources';
-import { getCommunicationsList } from '../../../../../../../lookups/modules/communications/api/communications';
+import ResourcesAPI from '../../../../../resources/api/resources';
+import CommunicationsAPI from '../../../../../../../lookups/modules/communications/api/communications';
 import nestedObjectMixin from '../../../../../../../../app/mixins/objectPagesMixins/openedObjectMixin/nestedObjectMixin';
 import getNamespacedState from '../../../../../../../../app/store/helpers/getNamespacedState';
 
@@ -139,19 +137,11 @@ export default {
       }
       this.close();
     },
-    async loadCommTypes(search) {
-      const response = await getCommunicationsList({ search });
-      return response.list.map((item) => ({
-        name: item.name,
-        id: item.id,
-      }));
+    loadCommTypes(params) {
+      return CommunicationsAPI.getLookup(params);
     },
-    async loadResources(search) {
-      const response = await getResourceList({ search });
-      return response.list.map((item) => ({
-        name: item.name,
-        id: item.id,
-      }));
+    loadResources(params) {
+      return ResourcesAPI.getLookup(params);
     },
     loadItem() {
     },

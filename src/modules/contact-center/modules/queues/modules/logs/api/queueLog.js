@@ -24,6 +24,8 @@ const listGetter = new SdkListGetterApiConsumer(queueMemberAttemptsService.searc
 
 export const getQueueLogs = (params) => listGetter.getList(params);
 
-export default {
+const QueueLogsAPI = {
   getList: getQueueLogs,
 };
+
+export default QueueLogsAPI;

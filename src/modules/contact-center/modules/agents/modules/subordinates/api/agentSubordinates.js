@@ -70,10 +70,12 @@ export const updateAgentSubordinate = async ({
   }
 };
 
-export default {
+const AgentSubordinatesAPI = {
   getList: getAgentSubordinatesList,
   get: getAgentSubordinate,
   add: addAgentSubordinate,
   update: updateAgentSubordinate,
   delete: deleteAgentSubordinate,
 };
+
+export default AgentSubordinatesAPI;

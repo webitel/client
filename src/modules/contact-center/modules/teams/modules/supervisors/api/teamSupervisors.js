@@ -71,12 +71,15 @@ export const updateTeamSupervisor = async ({ parentId, itemId, itemInstance }) =
   }
 };
 
-export const getTeamSupervisorSubordinatesList = (params) => subordinatesListGetter.getList(params);
+const getTeamSupervisorSubordinatesList = (params) => subordinatesListGetter.getList(params);
 
-export default {
+const TeamSupervisorsAPI = {
   getList: getTeamSupervisorsList,
   get: getTeamSupervisor,
   add: addTeamSupervisor,
   update: updateTeamSupervisor,
   delete: deleteTeamSupervisor,
+  getTeamSupervisorSubordinatesList,
 };
+
+export default TeamSupervisorsAPI;

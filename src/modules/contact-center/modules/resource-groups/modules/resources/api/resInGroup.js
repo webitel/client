@@ -29,10 +29,12 @@ export const addResInGroup = (params) => itemCreator.createNestedItem(params);
 export const updateResInGroup = (params) => itemUpdater.updateNestedItem(params);
 export const deleteResInGroup = (params) => itemDeleter.deleteNestedItem(params);
 
-export default {
+const ResInGroupAPI = {
   getList: getResInGroupList,
   get: getResInGroup,
   add: addResInGroup,
   update: updateResInGroup,
   delete: deleteResInGroup,
 };
+
+export default ResInGroupAPI;

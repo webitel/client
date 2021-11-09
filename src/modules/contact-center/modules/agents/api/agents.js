@@ -106,21 +106,25 @@ export const getAgent = (params) => itemGetter.getItem(params);
 export const addAgent = (params) => itemCreator.createItem(params);
 export const updateAgent = (params) => itemUpdater.updateItem(params);
 export const deleteAgent = (params) => itemDeleter.deleteItem(params);
+const getAgentsLookup = (params) => listGetter.getLookup(params);
 
 export const getAgentHistory = (params) => historyListGetter.getList(params);
 
-export const getAgentUsersOptions = (params) => newAgentUsersGetter.getList(params);
-// getSupervisorOption
-export const getSupervisorOptions = (params) => supervisorsListGetter.getList(params);
-export const getRegularAgentsOptions = (params) => regularAgentListGetter.getList(params);
+const getAgentUsersOptions = (params) => newAgentUsersGetter.getLookup(params);
+const getSupervisorOptions = (params) => supervisorsListGetter.getLookup(params);
+const getRegularAgentsOptions = (params) => regularAgentListGetter.getLookup(params);
 
-export default {
+const AgentsAPI = {
   getList: getAgentsList,
   get: getAgent,
   add: addAgent,
   update: updateAgent,
   delete: deleteAgent,
+  getLookup: getAgentsLookup,
 
+  getRegularAgentsOptions,
   getAgentUsersOptions,
   getSupervisorOptions,
 };
+
+export default AgentsAPI;

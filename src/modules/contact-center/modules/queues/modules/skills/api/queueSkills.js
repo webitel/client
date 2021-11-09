@@ -51,7 +51,7 @@ export const patchQueueSkill = (params) => itemPatcher.patchNestedItem(params);
 export const updateQueueSkill = (params) => itemUpdater.updateNestedItem(params);
 export const deleteQueueSkill = (params) => itemDeleter.deleteNestedItem(params);
 
-export default {
+const QueueSkillsAPI = {
   getList: getQueueSkillsList,
   get: getQueueSkill,
   add: addQueueSkill,
@@ -59,3 +59,5 @@ export default {
   update: updateQueueSkill,
   delete: deleteQueueSkill,
 };
+
+export default QueueSkillsAPI;

@@ -46,7 +46,7 @@ export const patchAgentSkill = (params) => itemPatcher.patchNestedItem(params);
 export const updateAgentSkill = (params) => itemUpdater.updateNestedItem(params);
 export const deleteAgentSkill = (params) => itemDeleter.deleteNestedItem(params);
 
-export default {
+const AgentSkillsAPI = {
   getList: getAgentSkillsList,
   get: getAgentSkill,
   add: addAgentSkill,
@@ -54,3 +54,5 @@ export default {
   update: updateAgentSkill,
   delete: deleteAgentSkill,
 };
+
+export default AgentSkillsAPI;

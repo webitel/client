@@ -24,6 +24,7 @@ export const getRegion = (params) => itemGetter.getItem(params);
 export const addRegion = (params) => itemCreator.createItem(params);
 export const updateRegion = (params) => itemUpdater.updateItem(params);
 export const deleteRegion = (params) => itemDeleter.deleteItem(params);
+const getRegionsLookup = (params) => listGetter.getLookup(params);
 
 const RegionsAPI = {
   getList: getRegionsList,
@@ -31,6 +32,7 @@ const RegionsAPI = {
   add: addRegion,
   update: updateRegion,
   delete: deleteRegion,
+  getLookup: getRegionsLookup,
 };
 
 export default RegionsAPI;

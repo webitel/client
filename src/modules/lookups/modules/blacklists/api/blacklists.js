@@ -29,6 +29,7 @@ export const getBlacklist = (params) => itemGetter.getItem(params);
 export const addBlacklist = (params) => itemCreator.createItem(params);
 export const updateBlacklist = (params) => itemUpdater.updateItem(params);
 export const deleteBlacklist = (params) => itemDeleter.deleteItem(params);
+const getBlacklistsLookup = (params) => listGetter.getLookup(params);
 
 const BlacklistsAPI = {
   getList: getBlacklistList,
@@ -36,6 +37,7 @@ const BlacklistsAPI = {
   add: addBlacklist,
   update: updateBlacklist,
   delete: deleteBlacklist,
+  getLookup: getBlacklistsLookup,
 };
 
 export default BlacklistsAPI;

@@ -43,7 +43,7 @@ export const patchQueueHook = (params) => itemPatcher.patchNestedItem(params);
 export const updateQueueHook = (params) => itemUpdater.updateNestedItem(params);
 export const deleteQueueHook = (params) => itemDeleter.deleteNestedItem(params);
 
-export default {
+const QueueHooksAPI = {
   getList: getQueueHooksList,
   get: getQueueHook,
   add: addQueueHook,
@@ -51,3 +51,5 @@ export default {
   update: updateQueueHook,
   delete: deleteQueueHook,
 };
+
+export default QueueHooksAPI;

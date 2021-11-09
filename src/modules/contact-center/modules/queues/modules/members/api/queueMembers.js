@@ -60,11 +60,11 @@ const _getMembersList = (getList) => function ({
 };
 
 const listResponseHandler = (response) => {
-  const list = response.list.map((item) => ({
+  const items = response.items.map((item) => ({
     ...item,
     communications: mapDefaultCommunications(item),
   }));
-  return { list, next: response.next };
+  return { items, next: response.next };
 };
 
 const itemResponseHandler = (response) => {
@@ -125,10 +125,12 @@ export const addMembersList = async (queueId, items) => {
   }
 };
 
-export default {
+const QueueMembersAPI = {
   getList: getMembersList,
   get: getMember,
   add: addMember,
   update: updateMember,
   delete: deleteMember,
 };
+
+export default QueueMembersAPI;
