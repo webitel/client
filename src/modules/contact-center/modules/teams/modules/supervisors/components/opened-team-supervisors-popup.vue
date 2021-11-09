@@ -34,6 +34,8 @@
 
 <script>
 import { required } from 'vuelidate/lib/validators';
+import { mapState } from 'vuex';
+import getNamespacedState from '../../../../../../../app/store/helpers/getNamespacedState';
 import { getSupervisorOptions } from '../../../../agents/api/agents';
 
 import nestedObjectMixin from '../../../../../../../app/mixins/objectPagesMixins/openedObjectMixin/nestedObjectMixin';
@@ -45,15 +47,19 @@ export default {
   data: () => ({
     namespace: 'ccenter/teams/supervisors',
   }),
-  props: {
-    parentId: {
-      type: String,
-    },
-  },
+
   validations: {
     itemInstance: {
       agent: { required },
     },
+  },
+
+  computed: {
+    ...mapState({
+      parentId(state) {
+        return getNamespacedState(state, 'ccenter/teams').itemId;
+      },
+    }),
   },
 
   methods: {
