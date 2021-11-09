@@ -18,7 +18,6 @@ const defaultSingleObject = {
   description: '',
   permissions: [],
   metadata: {},
-  _dirty: false,
 };
 
 const itemResponseHandler = (item) => {
@@ -54,13 +53,17 @@ export const getRole = (params) => itemGetter.getItem(params);
 export const addRole = (params) => itemCreator.createItem(params);
 export const updateRole = (params) => itemUpdater.updateItem(params);
 export const deleteRole = (params) => itemDeleter.deleteItem(params);
+const getRolesLookup = (params) => listGetter.getLookup(params);
 
 export const getPermissionsOptions = (payload) => permissionsListGetter.getList(payload);
 
-export default {
+const RolesAPI = {
   getList: getRoleList,
   get: getRole,
   add: addRole,
   update: updateRole,
   delete: deleteRole,
+  getLookup: getRolesLookup,
 };
+
+export default RolesAPI;

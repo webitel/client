@@ -74,8 +74,6 @@ const preRequestHandler = (item) => {
   return item;
 };
 
-const baseItem = { _dirty: false };
-
 const listGetter = new EndpointListGetterApiConsumer({ baseUrl, instance }, { defaultListObject });
 const itemGetter = new EndpointGetterApiConsumer({ baseUrl, instance });
 const itemCreator = new EndpointCreatorApiConsumer({ baseUrl, instance },
@@ -91,11 +89,8 @@ itemGetter.responseHandler = (response) => {
       response = webChatResponseConverter(response);
       break;
     default:
-  };
-  return {
-    ...baseItem,
-    ...response,
-  };
+  }
+  return response;
 };
 
 export const getChatGatewayList = (params) => listGetter.getList({ ...params, searchQuery: 'q' });
@@ -105,7 +100,7 @@ export const updateChatGateway = (params) => itemUpdater.updateItem(params);
 export const patchChatGateway = (params) => itemPatcher.patchItem(params);
 export const deleteChatGateway = (params) => itemDeleter.deleteItem(params);
 
-export default {
+const ChatGatewaysAPI = {
   getList: getChatGatewayList,
   get: getChatGateway,
   add: addChatGateway,
@@ -113,3 +108,5 @@ export default {
   update: updateChatGateway,
   delete: deleteChatGateway,
 };
+
+export default ChatGatewaysAPI;

@@ -32,7 +32,7 @@ const coerceTrunkingResponse = (response) => {
     port: null,
   };
 
-  const result = { ...trunkingGateway(), ...response, _dirty: false };
+  const result = { ...trunkingGateway(), ...response };
   result.ipacl = result.ipacl.map((acl) => (
     { ...defaultIPacl, ...acl }
   ));
@@ -40,7 +40,7 @@ const coerceTrunkingResponse = (response) => {
 };
 
 const coerceRegisterResponse = (response) => {
-  const result = { ...registerGateway(), ...response, _dirty: false };
+  const result = { ...registerGateway(), ...response };
   return result;
 };
 
@@ -64,7 +64,7 @@ export const patchGateway = (params) => itemPatcher.patchItem(params);
 export const deleteGateway = (params) => itemDeleter.deleteItem(params);
 const getGatewaysLookup = (params) => listGetter.getLookup(params);
 
-export default {
+const GatewaysAPI = {
   getList: getGatewayList,
   get: getGateway,
   add: addGateway,
@@ -73,3 +73,5 @@ export default {
   delete: deleteGateway,
   getLookup: getGatewaysLookup,
 };
+
+export default GatewaysAPI;

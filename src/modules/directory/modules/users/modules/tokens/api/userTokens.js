@@ -18,8 +18,10 @@ export const getTokensList = (params) => listGetter.getNestedList(params);
 export const addToken = (params) => itemCreator.createNestedItem(params);
 export const deleteToken = (params) => itemDeleter.deleteNestedItem(params);
 
-export default {
+const UserTokensAPI = {
   getList: getTokensList,
   add: addToken,
   delete: deleteToken,
 };
+
+export default UserTokensAPI;

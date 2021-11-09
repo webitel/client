@@ -12,8 +12,7 @@
       <permissions-role-select
         v-model="newGrantee"
         :placeholder="$tc('objects.permissions.permissionsRole', 1)"
-        :search="getAvailableGrantees"
-        :internal-search="false"
+        :search-method="getAvailableGrantees"
         :clearable="false"
       ></permissions-role-select>
     </template>

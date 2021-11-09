@@ -13,9 +13,13 @@ const state = {
 
 const actions = {
   LOAD_DATA_LIST: async (context) => {
-    const { items = [], next = false } = await context.dispatch('GET_LIST');
-    context.commit('SET_DATA_LIST', items);
-    context.commit('SET_IS_NEXT', next);
+    try {
+      const { items = [], next = false } = await context.dispatch('GET_LIST');
+      context.commit('SET_DATA_LIST', items);
+      context.commit('SET_IS_NEXT', next);
+    } catch (err) {
+      console.error(err);
+    }
   },
   SET_SIZE: async (context, size) => {
     context.commit('SET_SIZE', size);

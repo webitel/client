@@ -43,7 +43,7 @@ export const moveDialplan = async ({ fromId, toId }) => {
   }
 };
 
-export default {
+const DialplanAPI = {
   getList: getDialplanList,
   get: getDialplan,
   add: addDialplan,
@@ -52,3 +52,5 @@ export default {
   patch: patchDialplan,
   moveDialplan,
 };
+
+export default DialplanAPI;

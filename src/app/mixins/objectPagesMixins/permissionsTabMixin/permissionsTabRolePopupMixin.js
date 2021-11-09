@@ -41,15 +41,12 @@ export default {
     },
 
     // filter new roles
-    async getAvailableGrantees(search) {
-      const roles = await this.loadRoles(search);
-      return roles.filter((role) => (
-        !this.dataList.some((usedRoles) => role.id === usedRoles.grantee.id)));
-    },
-    async loadRoles(search) {
+    async getAvailableGrantees(params) {
       const fields = ['name', 'id', 'user'];
-      const response = await getExtendedRoles({ search, fields });
-      return response.items;
+      const roles = await getExtendedRoles({ ...params, fields });
+      roles.items = roles.items.filter((role) => (
+        !this.dataList.some((usedRoles) => role.id === usedRoles.grantee.id)));
+      return roles;
     },
     close() {
       this.$emit('close');

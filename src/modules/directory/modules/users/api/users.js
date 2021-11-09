@@ -74,7 +74,7 @@ const preRequestHandler = (item) => {
   return item;
 };
 
-const listGetter = new EndpointGetterApiConsumer({ baseUrl, instance }, { defaultListObject });
+const listGetter = new EndpointListGetterApiConsumer({ baseUrl, instance }, { defaultListObject });
 const itemGetter = new EndpointGetterApiConsumer({ baseUrl, instance },
   { defaultSingleObject, itemResponseHandler });
 const itemCreator = new EndpointCreatorApiConsumer({ baseUrl, instance },
@@ -92,7 +92,7 @@ export const patchUser = (params) => itemPatcher.patchItem(params, 'presence');
 export const deleteUser = (params) => itemDeleter.deleteItem(params);
 const getUsersLookup = (params) => listGetter.getLookup(params);
 
-export default {
+const UsersAPI = {
   getList: getUsersList,
   get: getUser,
   add: addUser,
@@ -101,3 +101,5 @@ export default {
   delete: deleteUser,
   getLookup: getUsersLookup,
 };
+
+export default UsersAPI;

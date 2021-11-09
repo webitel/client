@@ -37,8 +37,7 @@
         :value="itemInstance.flow"
         :v="v.itemInstance.flow"
         :label="$t('objects.routing.flow.flow')"
-        :search="loadDropdownOptionsList"
-        :internal-search="false"
+        :search-method="loadDropdownOptionsList"
         :disabled="disableUserInput"
         @input="setFlow"
       ></wt-select>
@@ -73,7 +72,7 @@
 
 <script>
 import { mapActions } from 'vuex';
-import { getFlowList } from '../../flow/api/flow';
+import FlowsAPI, { getFlowList } from '../../flow/api/flow';
 import openedTabComponentMixin
   from '../../../../../app/mixins/objectPagesMixins/openedObjectTabMixin/openedTabComponentMixin';
 
@@ -99,12 +98,8 @@ export default {
       this.setItemProp({ prop: 'flow', value });
     },
 
-    async loadDropdownOptionsList(search) {
-      const response = await getFlowList({ search });
-      return response.list.map((item) => ({
-        name: item.name,
-        id: item.id,
-      }));
+    loadDropdownOptionsList(params) {
+      return FlowsAPI.getLookup(params);
     },
   },
 };

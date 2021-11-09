@@ -7,8 +7,7 @@
       <wt-select
         :value="itemInstance.roles"
         :label="$tc('objects.permissions.permissionsRole')"
-        :search="loadDropdownOptionsList"
-        :internal-search="false"
+        :search-method="loadDropdownOptionsList"
         :close-on-select="false"
         :disabled="disableUserInput"
         multiple
@@ -19,7 +18,7 @@
 </template>
 
 <script>
-import { getRoleList } from '../../../../permissions/modules/roles/api/roles';
+import RolesAPI from '../../../../permissions/modules/roles/api/roles';
 import openedTabComponentMixin
   from '../../../../../app/mixins/objectPagesMixins/openedObjectTabMixin/openedTabComponentMixin';
 
@@ -27,12 +26,8 @@ export default {
   name: 'opened-user-roles',
   mixins: [openedTabComponentMixin],
   methods: {
-    async loadDropdownOptionsList(search) {
-      const response = await getRoleList({ search });
-      return response.list.map((item) => ({
-        name: item.name,
-        id: item.id,
-      }));
+    loadDropdownOptionsList(params) {
+      return RolesAPI.getLookup(params);
     },
   },
 };

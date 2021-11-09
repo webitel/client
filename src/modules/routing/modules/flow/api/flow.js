@@ -23,8 +23,6 @@ const defaultListObject = {
   editor: false,
 };
 
-const baseItem = { _dirty: false };
-
 const listGetter = new SdkListGetterApiConsumer(flowService.searchRoutingSchema,
   { defaultListObject });
 const itemGetter = new SdkGetterApiConsumer(flowService.readRoutingSchema);
@@ -35,7 +33,6 @@ const itemUpdater = new SdkUpdaterApiConsumer(flowService.updateRoutingSchema,
 const itemDeleter = new SdkDeleterApiConsumer(flowService.deleteRoutingSchema);
 
 itemGetter.responseHandler = (response) => ({
-  ...baseItem,
   ...response,
   schema: JSON.stringify(response.schema, null, 4),
   editor: !!response.editor,
@@ -48,7 +45,7 @@ export const updateFlow = (params) => itemUpdater.updateItem(params);
 export const deleteFlow = (params) => itemDeleter.deleteItem(params);
 const getFlowsLookup = (params) => listGetter.getLookup(params);
 
-export default {
+const FlowsAPI = {
   getList: getFlowList,
   get: getFlow,
   add: addFlow,
@@ -56,3 +53,5 @@ export default {
   delete: deleteFlow,
   getLookup: getFlowsLookup,
 };
+
+export default FlowsAPI;

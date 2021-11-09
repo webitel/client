@@ -77,13 +77,17 @@ export const getDevice = (params) => itemGetter.getItem(params);
 export const addDevice = async (params) => itemCreator.createItem(params);
 export const updateDevice = (params) => itemUpdater.updateItem(params);
 export const deleteDevice = (params) => itemDeleter.deleteItem(params);
+const getDevicesLookup = (params) => listGetter.getLookup(params);
 
 export const getDeviceHistory = (params) => historyListGetter.getList(params);
 
-export default {
+const DevicesAPI = {
   getList: getDeviceList,
   get: getDevice,
   add: addDevice,
   update: updateDevice,
   delete: deleteDevice,
+  getLookup: getDevicesLookup,
 };
+
+export default DevicesAPI;

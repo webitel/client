@@ -24,7 +24,9 @@ export const updateLicense = async (data) => {
   }
 };
 
-export default {
+const licenseAPI = {
   getList: getLicenseList,
   update: updateLicense,
 };
+
+export default licenseAPI;
