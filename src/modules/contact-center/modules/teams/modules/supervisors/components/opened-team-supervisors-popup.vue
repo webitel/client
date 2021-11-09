@@ -38,7 +38,8 @@ import { mapState } from 'vuex';
 import getNamespacedState from '../../../../../../../app/store/helpers/getNamespacedState';
 import { getSupervisorOptions } from '../../../../agents/api/agents';
 
-import nestedObjectMixin from '../../../../../../../app/mixins/objectPagesMixins/openedObjectMixin/nestedObjectMixin';
+import nestedObjectMixin
+  from '../../../../../../../app/mixins/objectPagesMixins/openedObjectMixin/nestedObjectMixin';
 
 export default {
   name: 'opened-team-agents-popup',
@@ -57,7 +58,7 @@ export default {
   computed: {
     ...mapState({
       parentId(state) {
-        return getNamespacedState(state, 'ccenter/teams').itemId;
+        return getNamespacedState(state, this.namespace).parentId;
       },
     }),
   },
