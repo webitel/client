@@ -24,8 +24,7 @@
           :value="itemInstance.reserveResource"
           :v="$v.itemInstance.reserveResource"
           :label="$tc('objects.ccenter.res.reserveResource', 1)"
-          :search="loadDropdownOptionsList"
-          :internal-search="false"
+          :search-method="loadDropdownOptionsList"
           :clearable="true"
           @input="setItemProp({ prop: 'reserveResource', value: $event })"
         ></wt-select>
