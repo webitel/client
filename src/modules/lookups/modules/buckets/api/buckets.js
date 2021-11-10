@@ -19,11 +19,11 @@ const itemCreator = new SdkCreatorApiConsumer(bucketService.createBucket, { fiel
 const itemUpdater = new SdkUpdaterApiConsumer(bucketService.updateBucket, { fieldsToSend });
 const itemDeleter = new SdkDeleterApiConsumer(bucketService.deleteBucket);
 
-export const getBucketsList = (params) => listGetter.getList(params);
-export const getBucket = (params) => itemGetter.getItem(params);
-export const addBucket = (params) => itemCreator.createItem(params);
-export const updateBucket = (params) => itemUpdater.updateItem(params);
-export const deleteBucket = (params) => itemDeleter.deleteItem(params);
+const getBucketsList = (params) => listGetter.getList(params);
+const getBucket = (params) => itemGetter.getItem(params);
+const addBucket = (params) => itemCreator.createItem(params);
+const updateBucket = (params) => itemUpdater.updateItem(params);
+const deleteBucket = (params) => itemDeleter.deleteItem(params);
 const getBucketsLookup = (params) => listGetter.getLookup(params);
 
 const BucketsAPI = {

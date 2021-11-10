@@ -23,11 +23,11 @@ const itemUpdater = new SdkUpdaterApiConsumer(resService.updateOutboundResourceD
   { fieldsToSend, preRequestHandler });
 const itemDeleter = new SdkDeleterApiConsumer(resService.deleteOutboundResourceDisplay);
 
-export const getResDisplayList = (params) => listGetter.getNestedList(params);
-export const getResDisplay = (params) => itemGetter.getNestedItem(params);
-export const addResDisplay = (params) => itemCreator.createNestedItem(params);
-export const updateResDisplay = (params) => itemUpdater.updateNestedItem(params);
-export const deleteResDisplay = (params) => itemDeleter.deleteNestedItem(params);
+const getResDisplayList = (params) => listGetter.getNestedList(params);
+const getResDisplay = (params) => itemGetter.getNestedItem(params);
+const addResDisplay = (params) => itemCreator.createNestedItem(params);
+const updateResDisplay = (params) => itemUpdater.updateNestedItem(params);
+const deleteResDisplay = (params) => itemDeleter.deleteNestedItem(params);
 
 export default {
   getList: getResDisplayList,

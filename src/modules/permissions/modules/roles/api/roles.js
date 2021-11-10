@@ -47,15 +47,15 @@ const permissionsListGetter = new EndpointListGetterApiConsumer(
   { baseUrl: PERMISSIONS_LIST_URL, instance },
 );
 
-export const getRoleList = (params) => listGetter.getList({ ...params, searchQuery: 'q' });
-export const getExtendedRoles = (params) => extendedRolesListGetter.getList({ ...params, searchQuery: 'q' });
-export const getRole = (params) => itemGetter.getItem(params);
-export const addRole = (params) => itemCreator.createItem(params);
-export const updateRole = (params) => itemUpdater.updateItem(params);
-export const deleteRole = (params) => itemDeleter.deleteItem(params);
+const getRoleList = (params) => listGetter.getList({ ...params, searchQuery: 'q' });
+const getExtendedRoles = (params) => extendedRolesListGetter.getList({ ...params, searchQuery: 'q' });
+const getRole = (params) => itemGetter.getItem(params);
+const addRole = (params) => itemCreator.createItem(params);
+const updateRole = (params) => itemUpdater.updateItem(params);
+const deleteRole = (params) => itemDeleter.deleteItem(params);
 const getRolesLookup = (params) => listGetter.getLookup(params);
 
-export const getPermissionsOptions = (payload) => permissionsListGetter.getList(payload);
+const getPermissionsOptions = (payload) => permissionsListGetter.getList(payload);
 
 const RolesAPI = {
   getList: getRoleList,
@@ -64,6 +64,9 @@ const RolesAPI = {
   update: updateRole,
   delete: deleteRole,
   getLookup: getRolesLookup,
+
+  getExtendedRoles,
+  getPermissionsOptions,
 };
 
 export default RolesAPI;

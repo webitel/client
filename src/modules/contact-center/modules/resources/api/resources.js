@@ -82,12 +82,12 @@ const itemPatcher = new SdkPatcherApiConsumer(resService.patchOutboundResource,
   { fieldsToSend });
 const itemDeleter = new SdkDeleterApiConsumer(resService.deleteOutboundResource);
 
-export const getResourceList = (params) => listGetter.getList(params);
-export const getResource = (params) => itemGetter.getItem(params);
-export const addResource = (params) => itemCreator.createItem(params);
-export const updateResource = (params) => itemUpdater.updateItem(params);
-export const patchResource = (params) => itemPatcher.patchItem(params);
-export const deleteResource = (params) => itemDeleter.deleteItem(params);
+const getResourceList = (params) => listGetter.getList(params);
+const getResource = (params) => itemGetter.getItem(params);
+const addResource = (params) => itemCreator.createItem(params);
+const updateResource = (params) => itemUpdater.updateItem(params);
+const patchResource = (params) => itemPatcher.patchItem(params);
+const deleteResource = (params) => itemDeleter.deleteItem(params);
 const getResourcesLookup = (params) => listGetter.getLookup(params);
 
 const ResourcesAPI = {

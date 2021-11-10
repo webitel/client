@@ -21,11 +21,11 @@ const itemUpdater = new SdkUpdaterApiConsumer(listService.updateListCommunicatio
   { fieldsToSend });
 const itemDeleter = new SdkDeleterApiConsumer(listService.deleteListCommunication);
 
-export const getBlacklistNumbersList = (params) => listGetter.getNestedList(params);
-export const getBlacklistNumber = (params) => itemGetter.getNestedItem(params);
-export const addBlacklistNumber = (params) => itemCreator.createNestedItem(params);
-export const updateBlacklistNumber = (params) => itemUpdater.updateNestedItem(params);
-export const deleteBlacklistNumber = (params) => itemDeleter.deleteNestedItem(params);
+const getBlacklistNumbersList = (params) => listGetter.getNestedList(params);
+const getBlacklistNumber = (params) => itemGetter.getNestedItem(params);
+const addBlacklistNumber = (params) => itemCreator.createNestedItem(params);
+const updateBlacklistNumber = (params) => itemUpdater.updateNestedItem(params);
+const deleteBlacklistNumber = (params) => itemDeleter.deleteNestedItem(params);
 
 const BlacklistNumbersAPI = {
   getList: getBlacklistNumbersList,

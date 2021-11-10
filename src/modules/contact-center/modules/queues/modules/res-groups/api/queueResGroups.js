@@ -23,11 +23,11 @@ const itemUpdater = new SdkUpdaterApiConsumer(queueResService.updateQueueResourc
   { fieldsToSend, preRequestHandler });
 const itemDeleter = new SdkDeleterApiConsumer(queueResService.deleteQueueResourceGroup);
 
-export const getQueueResGroupsList = (params) => listGetter.getNestedList(params);
-export const getQueueResGroup = (params) => itemGetter.getNestedItem(params);
-export const addQueueResGroup = (params) => itemCreator.createNestedItem(params);
-export const updateQueueResGroup = (params) => itemUpdater.updateNestedItem(params);
-export const deleteQueueResGroup = (params) => itemDeleter.deleteNestedItem(params);
+const getQueueResGroupsList = (params) => listGetter.getNestedList(params);
+const getQueueResGroup = (params) => itemGetter.getNestedItem(params);
+const addQueueResGroup = (params) => itemCreator.createNestedItem(params);
+const updateQueueResGroup = (params) => itemUpdater.updateNestedItem(params);
+const deleteQueueResGroup = (params) => itemDeleter.deleteNestedItem(params);
 
 const QueueResourceGroupsAPI = {
   getList: getQueueResGroupsList,

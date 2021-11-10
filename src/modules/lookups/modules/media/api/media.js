@@ -16,9 +16,9 @@ const baseUrl = process.env.VUE_APP_API_URL;
 const listGetter = new SdkListGetterApiConsumer(mediaService.searchMediaFile);
 const itemDeleter = new SdkDeleterApiConsumer(mediaService.deleteMediaFile);
 
-export const getMediaList = (params) => listGetter.getList(params);
+const getMediaList = (params) => listGetter.getList(params);
 
-export const getMedia = async ({ itemId }) => {
+const getMedia = async ({ itemId }) => {
   const url = `${baseUrl}/storage/media/${itemId}/stream?access_token=${token}`;
   try {
     return await instance.get(url);
@@ -36,7 +36,7 @@ export const downloadMedia = async (id) => {
   }
 };
 
-export const addMedia = async (params) => {
+const addMedia = async (params) => {
   const url = `${baseUrl}/storage/media?access_token=${token}`;
   const config = {
     headers: {
@@ -54,7 +54,7 @@ export const addMedia = async (params) => {
   }
 };
 
-export const deleteMedia = (params) => itemDeleter.deleteItem(params);
+const deleteMedia = (params) => itemDeleter.deleteItem(params);
 
 const getMediaLookup = (params) => listGetter.getLookup(params);
 

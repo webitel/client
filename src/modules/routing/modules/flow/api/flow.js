@@ -38,11 +38,11 @@ itemGetter.responseHandler = (response) => ({
   editor: !!response.editor,
 });
 
-export const getFlowList = (params) => listGetter.getList(params);
-export const getFlow = (params) => itemGetter.getItem(params);
-export const addFlow = (params) => itemCreator.createItem(params);
-export const updateFlow = (params) => itemUpdater.updateItem(params);
-export const deleteFlow = (params) => itemDeleter.deleteItem(params);
+const getFlowList = (params) => listGetter.getList(params);
+const getFlow = (params) => itemGetter.getItem(params);
+const addFlow = (params) => itemCreator.createItem(params);
+const updateFlow = (params) => itemUpdater.updateItem(params);
+const deleteFlow = (params) => itemDeleter.deleteItem(params);
 const getFlowsLookup = (params) => listGetter.getLookup(params);
 
 const FlowsAPI = {

@@ -36,12 +36,12 @@ const itemUpdater = new SdkUpdaterApiConsumer(queueHookService.updateQueueHook,
   { fieldsToSend, preRequestHandler });
 const itemDeleter = new SdkDeleterApiConsumer(queueHookService.deleteQueueHook);
 
-export const getQueueHooksList = (params) => listGetter.getNestedList(params);
-export const getQueueHook = (params) => itemGetter.getNestedItem(params);
-export const addQueueHook = (params) => itemCreator.createNestedItem(params);
-export const patchQueueHook = (params) => itemPatcher.patchNestedItem(params);
-export const updateQueueHook = (params) => itemUpdater.updateNestedItem(params);
-export const deleteQueueHook = (params) => itemDeleter.deleteNestedItem(params);
+const getQueueHooksList = (params) => listGetter.getNestedList(params);
+const getQueueHook = (params) => itemGetter.getNestedItem(params);
+const addQueueHook = (params) => itemCreator.createNestedItem(params);
+const patchQueueHook = (params) => itemPatcher.patchNestedItem(params);
+const updateQueueHook = (params) => itemUpdater.updateNestedItem(params);
+const deleteQueueHook = (params) => itemDeleter.deleteNestedItem(params);
 
 const QueueHooksAPI = {
   getList: getQueueHooksList,

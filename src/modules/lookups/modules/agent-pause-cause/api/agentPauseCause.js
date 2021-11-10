@@ -42,12 +42,12 @@ const itemUpdater = new SdkUpdaterApiConsumer(pauseCauseService.updateAgentPause
   { fieldsToSend });
 const itemDeleter = new SdkDeleterApiConsumer(pauseCauseService.deleteAgentPauseCause);
 
-export const getPauseCauseList = (params) => listGetter.getList(params);
-export const getPauseCause = (params) => itemGetter.getItem(params);
-export const addPauseCause = (params) => itemCreator.createItem(params);
-export const patchPauseCause = (params) => itemPatcher.patchItem(params);
-export const updatePauseCause = (params) => itemUpdater.updateItem(params);
-export const deletePauseCause = (params) => itemDeleter.deleteItem(params);
+const getPauseCauseList = (params) => listGetter.getList(params);
+const getPauseCause = (params) => itemGetter.getItem(params);
+const addPauseCause = (params) => itemCreator.createItem(params);
+const patchPauseCause = (params) => itemPatcher.patchItem(params);
+const updatePauseCause = (params) => itemUpdater.updateItem(params);
+const deletePauseCause = (params) => itemDeleter.deleteItem(params);
 
 const AgentPauseCauseAPI = {
   getList: getPauseCauseList,

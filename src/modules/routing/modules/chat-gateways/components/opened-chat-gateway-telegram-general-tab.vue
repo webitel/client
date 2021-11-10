@@ -41,7 +41,7 @@
 
 <script>
 import { mapActions } from 'vuex';
-import FlowsAPI, { getFlowList } from '../../flow/api/flow';
+import FlowsAPI from '../../flow/api/flow';
 import openedTabComponentMixin from '../../../../../app/mixins/objectPagesMixins/openedObjectTabMixin/openedTabComponentMixin';
 
 export default {

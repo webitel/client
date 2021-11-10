@@ -56,12 +56,12 @@ itemGetter.responseHandler = (response) => {
   return coerceTrunkingResponse(response);
 };
 
-export const getGatewayList = (params) => listGetter.getList({ ...params, searchQuery: 'q' });
-export const getGateway = (params) => itemGetter.getItem(params);
-export const addGateway = (params) => itemCreator.createItem(params);
-export const updateGateway = (params) => itemUpdater.updateItem(params);
-export const patchGateway = (params) => itemPatcher.patchItem(params);
-export const deleteGateway = (params) => itemDeleter.deleteItem(params);
+const getGatewayList = (params) => listGetter.getList({ ...params, searchQuery: 'q' });
+const getGateway = (params) => itemGetter.getItem(params);
+const addGateway = (params) => itemCreator.createItem(params);
+const updateGateway = (params) => itemUpdater.updateItem(params);
+const patchGateway = (params) => itemPatcher.patchItem(params);
+const deleteGateway = (params) => itemDeleter.deleteItem(params);
 const getGatewaysLookup = (params) => listGetter.getLookup(params);
 
 const GatewaysAPI = {

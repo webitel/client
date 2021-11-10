@@ -62,12 +62,12 @@ const itemUpdater = new SdkUpdaterApiConsumer(queueService.updateQueue,
 const itemPatcher = new SdkPatcherApiConsumer(queueService.patchQueue, { fieldsToSend });
 const itemDeleter = new SdkDeleterApiConsumer(queueService.deleteQueue);
 
-export const getQueuesList = (params) => listGetter.getList(params);
-export const getQueue = (params) => itemGetter.getItem(params);
-export const addQueue = (params) => itemCreator.createItem(params);
-export const updateQueue = (params) => itemUpdater.updateItem(params);
-export const patchQueue = (params) => itemPatcher.patchItem(params);
-export const deleteQueue = (params) => itemDeleter.deleteItem(params);
+const getQueuesList = (params) => listGetter.getList(params);
+const getQueue = (params) => itemGetter.getItem(params);
+const addQueue = (params) => itemCreator.createItem(params);
+const updateQueue = (params) => itemUpdater.updateItem(params);
+const patchQueue = (params) => itemPatcher.patchItem(params);
+const deleteQueue = (params) => itemDeleter.deleteItem(params);
 const getQueuesLookup = (params) => listGetter.getLookup(params);
 
 const QueuesAPI = {

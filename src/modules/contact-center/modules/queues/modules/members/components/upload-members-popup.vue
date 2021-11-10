@@ -10,7 +10,7 @@
 <script>
 import uploadCSVWrapperComponentMixin
   from '../../../../../../_shared/upload-csv-popup/mixins/uploadCSVWrapperComponentMixin';
-import { addMembersList } from '../api/queueMembers';
+import QueueMembersAPI from '../api/queueMembers';
 
 export default {
   name: 'upload-members-popup',
@@ -91,7 +91,7 @@ export default {
     saveBulkData(data) {
       try {
         const normalizedData = this.normalizeData(data);
-        return addMembersList(this.parentId, normalizedData);
+        return QueueMembersAPI.addBulk(this.parentId, normalizedData);
       } catch (err) {
         throw err;
       }

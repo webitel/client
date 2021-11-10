@@ -32,7 +32,7 @@ const getQueueAgents = (getList) => function ({
 const listGetter = new SdkListGetterApiConsumer(agentService.searchAgent, { defaultListObject })
   .setGetListMethod(getQueueAgents);
 
-export const getQueueAgentsList = (params) => listGetter.getList(params);
+const getQueueAgentsList = (params) => listGetter.getList(params);
 
 const QueueAgentsAPI = {
   getList: getQueueAgentsList,

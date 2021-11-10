@@ -53,11 +53,11 @@ const itemUpdater = new SdkUpdaterApiConsumer(resGrService.updateOutboundResourc
   { fieldsToSend, preRequestHandler });
 const itemDeleter = new SdkDeleterApiConsumer(resGrService.deleteOutboundResourceGroup);
 
-export const getResGroupList = (params) => listGetter.getList(params);
-export const getResGroup = (params) => itemGetter.getItem(params);
-export const addResGroup = (params) => itemCreator.createItem(params);
-export const updateResGroup = (params) => itemUpdater.updateItem(params);
-export const deleteResGroup = (params) => itemDeleter.deleteItem(params);
+const getResGroupList = (params) => listGetter.getList(params);
+const getResGroup = (params) => itemGetter.getItem(params);
+const addResGroup = (params) => itemCreator.createItem(params);
+const updateResGroup = (params) => itemUpdater.updateItem(params);
+const deleteResGroup = (params) => itemDeleter.deleteItem(params);
 const getResGroupsLookup = (params) => listGetter.getLookup(params);
 
 const ResourceGroupsAPI = {

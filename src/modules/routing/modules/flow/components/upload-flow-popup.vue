@@ -34,7 +34,7 @@
 
 <script>
 import required from 'vuelidate/src/validators/required';
-import { addFlow, updateFlow } from '../api/flow';
+import FlowsAPI from '../api/flow';
 
 export default {
   name: 'upload-flow-popup',
@@ -73,9 +73,9 @@ export default {
       try {
         if (this.create) {
           delete this.flow.id;
-          await addFlow({ itemInstance: this.flow });
+          await FlowsAPI.add({ itemInstance: this.flow });
         } else {
-          await updateFlow({ itemId: this.flow.id, itemInstance: this.flow });
+          await FlowsAPI.update({ itemId: this.flow.id, itemInstance: this.flow });
         }
         this.close();
       } catch (err) {

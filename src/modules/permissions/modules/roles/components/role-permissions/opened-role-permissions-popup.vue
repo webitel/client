@@ -33,7 +33,7 @@
 <script>
 import { mapState, mapActions } from 'vuex';
 import { required } from 'vuelidate/lib/validators';
-import { getPermissionsOptions } from '../../api/roles';
+import RolesAPI from '../../api/roles';
 import nestedObjectMixin from '../../../../../../app/mixins/objectPagesMixins/openedObjectMixin/nestedObjectMixin';
 
 export default {
@@ -97,7 +97,7 @@ export default {
       this.close();
     },
     async loadPermissionsList(params) {
-      const response = await getPermissionsOptions(params);
+      const response = await RolesAPI.getPermissionsOptions(params);
       response.items = response.items.filter((permission) => (
         this.permissions.every((addedPermission) => addedPermission.id !== permission.id)
       ));

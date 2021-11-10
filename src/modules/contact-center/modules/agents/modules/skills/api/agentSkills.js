@@ -39,12 +39,12 @@ const itemUpdater = new SdkUpdaterApiConsumer(agentSkillService.updateAgentSkill
   { fieldsToSend, preRequestHandler });
 const itemDeleter = new SdkDeleterApiConsumer(agentSkillService.deleteAgentSkill);
 
-export const getAgentSkillsList = (params) => listGetter.getNestedList(params);
-export const getAgentSkill = (params) => itemGetter.getNestedItem(params);
-export const addAgentSkill = (params) => itemCreator.createNestedItem(params);
-export const patchAgentSkill = (params) => itemPatcher.patchNestedItem(params);
-export const updateAgentSkill = (params) => itemUpdater.updateNestedItem(params);
-export const deleteAgentSkill = (params) => itemDeleter.deleteNestedItem(params);
+const getAgentSkillsList = (params) => listGetter.getNestedList(params);
+const getAgentSkill = (params) => itemGetter.getNestedItem(params);
+const addAgentSkill = (params) => itemCreator.createNestedItem(params);
+const patchAgentSkill = (params) => itemPatcher.patchNestedItem(params);
+const updateAgentSkill = (params) => itemUpdater.updateNestedItem(params);
+const deleteAgentSkill = (params) => itemDeleter.deleteNestedItem(params);
 
 const AgentSkillsAPI = {
   getList: getAgentSkillsList,

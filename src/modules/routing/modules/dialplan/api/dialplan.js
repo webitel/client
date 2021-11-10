@@ -28,13 +28,13 @@ const itemPatcher = new SdkPatcherApiConsumer(dialplanService.patchRoutingOutbou
   { fieldsToSend });
 const itemDeleter = new SdkDeleterApiConsumer(dialplanService.deleteRoutingOutboundCall);
 
-export const getDialplanList = (params) => listGetter.getList(params);
-export const getDialplan = (params) => itemGetter.getItem(params);
-export const addDialplan = (params) => itemCreator.createItem(params);
-export const patchDialplan = (params) => itemPatcher.patchItem(params);
-export const updateDialplan = (params) => itemUpdater.updateItem(params);
-export const deleteDialplan = (params) => itemDeleter.deleteItem(params);
-export const moveDialplan = async ({ fromId, toId }) => {
+const getDialplanList = (params) => listGetter.getList(params);
+const getDialplan = (params) => itemGetter.getItem(params);
+const addDialplan = (params) => itemCreator.createItem(params);
+const patchDialplan = (params) => itemPatcher.patchItem(params);
+const updateDialplan = (params) => itemUpdater.updateItem(params);
+const deleteDialplan = (params) => itemDeleter.deleteItem(params);
+const moveDialplan = async ({ fromId, toId }) => {
   try {
     await dialplanService.movePositionRoutingOutboundCall(fromId, toId, {});
     eventBus.$emit('notification', { type: 'info', text: 'Successfully updated' });

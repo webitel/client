@@ -14,8 +14,8 @@ const defaultListObject = {
 const listGetter = new EndpointListGetterApiConsumer({ baseUrl: LICENSE_URL, instance },
   { defaultListObject });
 
-export const getLicenseList = (params) => listGetter.getList({ ...params, searchQuery: 'q' });
-export const updateLicense = async (data) => {
+const getLicenseList = (params) => listGetter.getList({ ...params, searchQuery: 'q' });
+const updateLicense = async (data) => {
   try {
     const response = await instance.put(CUSTOMER_URL, data);
     return response;

@@ -14,9 +14,9 @@ const itemCreator = new EndpointCreatorApiConsumer({ baseUrl, instance },
   { fieldsToSend, nestedUrl });
 const itemDeleter = new EndpointDeleterApiConsumer({ baseUrl, instance }, { nestedUrl });
 
-export const getTokensList = (params) => listGetter.getNestedList(params);
-export const addToken = (params) => itemCreator.createNestedItem(params);
-export const deleteToken = (params) => itemDeleter.deleteNestedItem(params);
+const getTokensList = (params) => listGetter.getNestedList(params);
+const addToken = (params) => itemCreator.createNestedItem(params);
+const deleteToken = (params) => itemDeleter.deleteNestedItem(params);
 
 const UserTokensAPI = {
   getList: getTokensList,

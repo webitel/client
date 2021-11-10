@@ -39,18 +39,18 @@ const itemGetter = new SdkGetterApiConsumer(agentService.readAgent, {
 });
 const itemPatcher = new SdkPatcherApiConsumer(agentService.patchAgent);
 
-export const getTeamAgentsList = (params) => listGetter.getList(params);
-export const getTeamAgent = (params) => itemGetter.getItem(params);
-export const addTeamAgent = ({ parentId, itemInstance }) => {
+const getTeamAgentsList = (params) => listGetter.getList(params);
+const getTeamAgent = (params) => itemGetter.getItem(params);
+const addTeamAgent = ({ parentId, itemInstance }) => {
   const { id } = itemInstance.agent;
   const changes = { team: { id: parentId } };
   return itemPatcher.patchItem({ id, changes });
 };
-export const deleteTeamAgent = ({ id }) => {
+const deleteTeamAgent = ({ id }) => {
   const changes = { team: { id: null } };
   return itemPatcher.patchItem({ id, changes });
 };
-export const updateTeamAgent = async ({ parentId, itemId, itemInstance }) => {
+const updateTeamAgent = async ({ parentId, itemId, itemInstance }) => {
   try {
     await addTeamAgent({ parentId, itemInstance });
     await deleteTeamAgent({ id: itemId });

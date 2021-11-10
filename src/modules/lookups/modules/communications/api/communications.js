@@ -28,11 +28,11 @@ const itemUpdater = new SdkUpdaterApiConsumer(communicationService.updateCommuni
   { fieldsToSend });
 const itemDeleter = new SdkDeleterApiConsumer(communicationService.deleteCommunicationType);
 
-export const getCommunicationsList = (params) => listGetter.getList(params);
-export const getCommunication = (params) => itemGetter.getItem(params);
-export const addCommunication = (params) => itemCreator.createItem(params);
-export const updateCommunication = (params) => itemUpdater.updateItem(params);
-export const deleteCommunication = (params) => itemDeleter.deleteItem(params);
+const getCommunicationsList = (params) => listGetter.getList(params);
+const getCommunication = (params) => itemGetter.getItem(params);
+const addCommunication = (params) => itemCreator.createItem(params);
+const updateCommunication = (params) => itemUpdater.updateItem(params);
+const deleteCommunication = (params) => itemDeleter.deleteItem(params);
 const getCommunicationsLookup = (params) => listGetter.getLookup(params);
 
 const CommunicationsAPI = {

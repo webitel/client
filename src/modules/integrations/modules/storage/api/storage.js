@@ -74,12 +74,12 @@ const itemUpdater = new SdkUpdaterApiConsumer(storageService.updateBackendProfil
   { fieldsToSend, preRequestHandler });
 const itemDeleter = new SdkDeleterApiConsumer(storageService.deleteBackendProfile);
 
-export const getStorageList = (params) => listGetter.getList(params);
-export const getStorage = (params) => itemGetter.getItem(params);
-export const addStorage = (params) => itemCreator.createItem(params);
-export const patchStorage = (params) => itemPatcher.patchItem(params);
-export const updateStorage = (params) => itemUpdater.updateItem(params);
-export const deleteStorage = (params) => itemDeleter.deleteItem(params);
+const getStorageList = (params) => listGetter.getList(params);
+const getStorage = (params) => itemGetter.getItem(params);
+const addStorage = (params) => itemCreator.createItem(params);
+const patchStorage = (params) => itemPatcher.patchItem(params);
+const updateStorage = (params) => itemUpdater.updateItem(params);
+const deleteStorage = (params) => itemDeleter.deleteItem(params);
 
 const StorageAPI = {
   getList: getStorageList,

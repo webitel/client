@@ -1,7 +1,5 @@
 import { mapActions, mapState } from 'vuex';
-import {
-  getExtendedRoles,
-} from '../../../../modules/permissions/modules/roles/api/roles';
+import RolesAPI from '../../../../modules/permissions/modules/roles/api/roles';
 import getNamespacedState from '../../../store/helpers/getNamespacedState';
 
 export default {
@@ -49,7 +47,7 @@ export default {
     },
     async loadRoles(params) {
       const fields = ['name', 'id', 'user'];
-      return getExtendedRoles({ ...params, fields });
+      return RolesAPI.getExtendedRoles({ ...params, fields });
     },
     close() {
       this.$emit('close');

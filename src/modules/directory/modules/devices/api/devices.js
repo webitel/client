@@ -72,14 +72,14 @@ const historyListGetter = new EndpointListGetterApiConsumer(
   { listResponseHandler: getDeviceHistoryResponseHandler },
 ).setGetListMethod(_getDeviceHistory);
 
-export const getDeviceList = (params) => listGetter.getList({ searchQuery: 'q', ...params });
-export const getDevice = (params) => itemGetter.getItem(params);
-export const addDevice = async (params) => itemCreator.createItem(params);
-export const updateDevice = (params) => itemUpdater.updateItem(params);
-export const deleteDevice = (params) => itemDeleter.deleteItem(params);
+const getDeviceList = (params) => listGetter.getList({ searchQuery: 'q', ...params });
+const getDevice = (params) => itemGetter.getItem(params);
+const addDevice = async (params) => itemCreator.createItem(params);
+const updateDevice = (params) => itemUpdater.updateItem(params);
+const deleteDevice = (params) => itemDeleter.deleteItem(params);
 const getDevicesLookup = (params) => listGetter.getLookup(params);
 
-export const getDeviceHistory = (params) => historyListGetter.getList(params);
+const getDeviceHistory = (params) => historyListGetter.getList(params);
 
 const DevicesAPI = {
   getList: getDeviceList,
@@ -88,6 +88,7 @@ const DevicesAPI = {
   update: updateDevice,
   delete: deleteDevice,
   getLookup: getDevicesLookup,
+  getDeviceHistory,
 };
 
 export default DevicesAPI;

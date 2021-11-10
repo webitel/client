@@ -101,14 +101,14 @@ const newAgentUsersGetter = new SdkListGetterApiConsumer(
   agentService.searchLookupUsersAgentNotExists,
 );
 
-export const getAgentsList = (params) => listGetter.getList(params);
-export const getAgent = (params) => itemGetter.getItem(params);
-export const addAgent = (params) => itemCreator.createItem(params);
-export const updateAgent = (params) => itemUpdater.updateItem(params);
-export const deleteAgent = (params) => itemDeleter.deleteItem(params);
+const getAgentsList = (params) => listGetter.getList(params);
+const getAgent = (params) => itemGetter.getItem(params);
+const addAgent = (params) => itemCreator.createItem(params);
+const updateAgent = (params) => itemUpdater.updateItem(params);
+const deleteAgent = (params) => itemDeleter.deleteItem(params);
 const getAgentsLookup = (params) => listGetter.getLookup(params);
 
-export const getAgentHistory = (params) => historyListGetter.getList(params);
+const getAgentHistory = (params) => historyListGetter.getList(params);
 
 const getAgentUsersOptions = (params) => newAgentUsersGetter.getLookup(params);
 const getSupervisorOptions = (params) => supervisorsListGetter.getLookup(params);
@@ -122,6 +122,7 @@ const AgentsAPI = {
   delete: deleteAgent,
   getLookup: getAgentsLookup,
 
+  getAgentHistory,
   getRegularAgentsOptions,
   getAgentUsersOptions,
   getSupervisorOptions,

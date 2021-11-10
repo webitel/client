@@ -68,11 +68,11 @@ const itemUpdater = new SdkUpdaterApiConsumer(calendarService.updateCalendar,
   { fieldsToSend, preRequestHandler });
 const itemDeleter = new SdkDeleterApiConsumer(calendarService.deleteCalendar);
 
-export const getCalendarList = (params) => listGetter.getList(params);
-export const getCalendar = (params) => itemGetter.getItem(params);
-export const addCalendar = (params) => itemCreator.createItem(params);
-export const updateCalendar = (params) => itemUpdater.updateItem(params);
-export const deleteCalendar = (params) => itemDeleter.deleteItem(params);
+const getCalendarList = (params) => listGetter.getList(params);
+const getCalendar = (params) => itemGetter.getItem(params);
+const addCalendar = (params) => itemCreator.createItem(params);
+const updateCalendar = (params) => itemUpdater.updateItem(params);
+const deleteCalendar = (params) => itemDeleter.deleteItem(params);
 const getCalendarsLookup = (params) => listGetter.getLookup(params);
 const getTimezonesLookup = (params) => timezoneGetter.getLookup(params);
 

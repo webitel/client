@@ -24,11 +24,11 @@ const itemCreator = new SdkCreatorApiConsumer(listService.createList, { fieldsTo
 const itemUpdater = new SdkUpdaterApiConsumer(listService.updateList, { fieldsToSend });
 const itemDeleter = new SdkDeleterApiConsumer(listService.deleteList);
 
-export const getBlacklistList = (params) => listGetter.getList(params);
-export const getBlacklist = (params) => itemGetter.getItem(params);
-export const addBlacklist = (params) => itemCreator.createItem(params);
-export const updateBlacklist = (params) => itemUpdater.updateItem(params);
-export const deleteBlacklist = (params) => itemDeleter.deleteItem(params);
+const getBlacklistList = (params) => listGetter.getList(params);
+const getBlacklist = (params) => itemGetter.getItem(params);
+const addBlacklist = (params) => itemCreator.createItem(params);
+const updateBlacklist = (params) => itemUpdater.updateItem(params);
+const deleteBlacklist = (params) => itemDeleter.deleteItem(params);
 const getBlacklistsLookup = (params) => listGetter.getLookup(params);
 
 const BlacklistsAPI = {

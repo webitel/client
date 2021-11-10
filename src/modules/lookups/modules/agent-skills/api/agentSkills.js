@@ -19,11 +19,11 @@ const itemCreator = new SdkCreatorApiConsumer(skillService.createSkill, { fields
 const itemUpdater = new SdkUpdaterApiConsumer(skillService.updateSkill, { fieldsToSend });
 const itemDeleter = new SdkDeleterApiConsumer(skillService.deleteSkill);
 
-export const getSkillsList = (params) => listGetter.getList(params);
-export const getSkill = (params) => itemGetter.getItem(params);
-export const addSkill = (params) => itemCreator.createItem(params);
-export const updateSkill = (params) => itemUpdater.updateItem(params);
-export const deleteSkill = (params) => itemDeleter.deleteItem(params);
+const getSkillsList = (params) => listGetter.getList(params);
+const getSkill = (params) => itemGetter.getItem(params);
+const addSkill = (params) => itemCreator.createItem(params);
+const updateSkill = (params) => itemUpdater.updateItem(params);
+const deleteSkill = (params) => itemDeleter.deleteItem(params);
 const getSkillsLookup = (params) => listGetter.getLookup(params);
 
 const SkillsAPI = {

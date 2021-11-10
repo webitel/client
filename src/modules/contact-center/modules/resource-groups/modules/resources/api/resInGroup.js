@@ -23,11 +23,11 @@ const itemUpdater = new SdkUpdaterApiConsumer(resGrService.updateOutboundResourc
   { fieldsToSend, preRequestHandler });
 const itemDeleter = new SdkDeleterApiConsumer(resGrService.deleteOutboundResourceInGroup);
 
-export const getResInGroupList = (params) => listGetter.getNestedList(params);
-export const getResInGroup = (params) => itemGetter.getNestedItem(params);
-export const addResInGroup = (params) => itemCreator.createNestedItem(params);
-export const updateResInGroup = (params) => itemUpdater.updateNestedItem(params);
-export const deleteResInGroup = (params) => itemDeleter.deleteNestedItem(params);
+const getResInGroupList = (params) => listGetter.getNestedList(params);
+const getResInGroup = (params) => itemGetter.getNestedItem(params);
+const addResInGroup = (params) => itemCreator.createNestedItem(params);
+const updateResInGroup = (params) => itemUpdater.updateNestedItem(params);
+const deleteResInGroup = (params) => itemDeleter.deleteNestedItem(params);
 
 const ResInGroupAPI = {
   getList: getResInGroupList,

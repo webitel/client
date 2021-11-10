@@ -1,5 +1,5 @@
 import deepMerge from 'deepmerge';
-import DevicesAPI, { getDeviceHistory } from '../api/devices';
+import DevicesAPI from '../api/devices';
 import ObjectStoreModule from '../../../../../app/store/BaseStoreModules/StoreModules/ObjectStoreModule';
 import PermissionsStoreModule from '../../../../../app/store/BaseStoreModules/StoreModules/PermissionsStoreModule/PermissionsStoreModule';
 import HistoryStoreModule from '../../../../../app/store/BaseStoreModules/StoreModules/HistoryStoreModule/HistoryStoreModule';
@@ -37,7 +37,7 @@ const permissions = new PermissionsStoreModule()
   .getModule();
 
 const history = new HistoryStoreModule()
-  .generateGetListAction(getDeviceHistory)
+  .generateGetListAction(DevicesAPI.getDeviceHistory)
   .getModule();
 
 const devices = new ObjectStoreModule({ resettableState, headers })

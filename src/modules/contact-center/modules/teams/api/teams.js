@@ -33,11 +33,11 @@ const itemCreator = new SdkCreatorApiConsumer(teamService.createAgentTeam, { fie
 const itemUpdater = new SdkUpdaterApiConsumer(teamService.updateAgentTeam, { fieldsToSend });
 const itemDeleter = new SdkDeleterApiConsumer(teamService.deleteAgentTeam);
 
-export const getTeamsList = (params) => listGetter.getList(params);
-export const getTeam = (params) => itemGetter.getItem(params);
-export const addTeam = (params) => itemCreator.createItem(params);
-export const updateTeam = (params) => itemUpdater.updateItem(params);
-export const deleteTeam = (params) => itemDeleter.deleteItem(params);
+const getTeamsList = (params) => listGetter.getList(params);
+const getTeam = (params) => itemGetter.getItem(params);
+const addTeam = (params) => itemCreator.createItem(params);
+const updateTeam = (params) => itemUpdater.updateItem(params);
+const deleteTeam = (params) => itemDeleter.deleteItem(params);
 const getTeamsLookup = (params) => listGetter.getLookup(params);
 
 const TeamsAPI = {

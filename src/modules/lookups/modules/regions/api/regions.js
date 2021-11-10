@@ -19,11 +19,11 @@ const itemCreator = new SdkCreatorApiConsumer(regionService.createRegion, { fiel
 const itemUpdater = new SdkUpdaterApiConsumer(regionService.updateRegion, { fieldsToSend });
 const itemDeleter = new SdkDeleterApiConsumer(regionService.deleteRegion);
 
-export const getRegionsList = (params) => listGetter.getList(params);
-export const getRegion = (params) => itemGetter.getItem(params);
-export const addRegion = (params) => itemCreator.createItem(params);
-export const updateRegion = (params) => itemUpdater.updateItem(params);
-export const deleteRegion = (params) => itemDeleter.deleteItem(params);
+const getRegionsList = (params) => listGetter.getList(params);
+const getRegion = (params) => itemGetter.getItem(params);
+const addRegion = (params) => itemCreator.createItem(params);
+const updateRegion = (params) => itemUpdater.updateItem(params);
+const deleteRegion = (params) => itemDeleter.deleteItem(params);
 const getRegionsLookup = (params) => listGetter.getLookup(params);
 
 const RegionsAPI = {

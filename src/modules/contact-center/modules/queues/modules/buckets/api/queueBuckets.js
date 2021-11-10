@@ -33,11 +33,11 @@ const itemUpdater = new SdkUpdaterApiConsumer(queueBucketsService.updateQueueBuc
   { fieldsToSend, preRequestHandler });
 const itemDeleter = new SdkDeleterApiConsumer(queueBucketsService.deleteQueueBucket);
 
-export const getQueueBucketsList = (params) => listGetter.getNestedList(params);
-export const getQueueBucket = (params) => itemGetter.getNestedItem(params);
-export const addQueueBucket = (params) => itemCreator.createNestedItem(params);
-export const updateQueueBucket = (params) => itemUpdater.updateNestedItem(params);
-export const deleteQueueBucket = (params) => itemDeleter.deleteNestedItem(params);
+const getQueueBucketsList = (params) => listGetter.getNestedList(params);
+const getQueueBucket = (params) => itemGetter.getNestedItem(params);
+const addQueueBucket = (params) => itemCreator.createNestedItem(params);
+const updateQueueBucket = (params) => itemUpdater.updateNestedItem(params);
+const deleteQueueBucket = (params) => itemDeleter.deleteNestedItem(params);
 
 const QueueBucketsAPI = {
   getList: getQueueBucketsList,

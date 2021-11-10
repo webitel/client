@@ -10,7 +10,7 @@
 <script>
 import uploadCSVWrapperComponentMixin
   from '../../../../../../_shared/upload-csv-popup/mixins/uploadCSVWrapperComponentMixin';
-import { addBlacklistNumber } from '../api/blacklistNumbers';
+import BlacklistNumbersAPI from '../api/blacklistNumbers';
 
 export default {
   name: 'upload-users-popup',
@@ -52,7 +52,7 @@ export default {
       }
     },
     addItem(itemInstance) {
-      return addBlacklistNumber({ parentId: this.parentId, itemInstance });
+      return BlacklistNumbersAPI.add({ parentId: this.parentId, itemInstance });
     },
   },
 };

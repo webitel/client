@@ -22,7 +22,7 @@ const _getQueueLogs = (getList) => function ({
 const listGetter = new SdkListGetterApiConsumer(queueMemberAttemptsService.searchAttemptsHistory)
   .setGetListMethod(_getQueueLogs);
 
-export const getQueueLogs = (params) => listGetter.getList(params);
+const getQueueLogs = (params) => listGetter.getList(params);
 
 const QueueLogsAPI = {
   getList: getQueueLogs,

@@ -18,9 +18,9 @@ const listGetter = new EndpointListGetterApiConsumer({ baseUrl, instance }, { de
 const itemGetter = new EndpointGetterApiConsumer({ baseUrl, instance });
 const itemPatcher = new EndpointPatcherApiConsumer({ baseUrl, instance });
 
-export const getObjectList = (params) => listGetter.getList({ searchQuery: 'class', ...params });
-export const patchObject = (params) => itemPatcher.patchItem(params);
-export const getObject = (params) => itemGetter.getItem(params);
+const getObjectList = (params) => listGetter.getList({ searchQuery: 'class', ...params });
+const patchObject = (params) => itemPatcher.patchItem(params);
+const getObject = (params) => itemGetter.getItem(params);
 
 const ObjectsAPI = {
   getList: getObjectList,

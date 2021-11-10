@@ -96,7 +96,7 @@
 <script>
 import exportCSVMixin from '@webitel/ui-sdk/src/modules/CSVExport/mixins/exportCSVMixin';
 import tableComponentMixin from '../../../../../app/mixins/objectPagesMixins/objectTableMixin/tableComponentMixin';
-import { getBlacklistNumbersList } from '../modules/numbers/api/blacklistNumbers';
+import BlacklistNumbersAPI from '../modules/numbers/api/blacklistNumbers';
 import RouteNames from '../../../../../app/router/_internals/RouteNames.enum';
 
 export default {
@@ -124,10 +124,7 @@ export default {
     async download({ id }) {
       return this.exportCSV({ parentId: id, fields: ['number', 'description'] });
     },
-    async getBlacklistNumbersList(params) {
-      const response = await getBlacklistNumbersList(params);
-      return { items: response.list, ...response };
-    },
+    getBlacklistNumbersList: BlacklistNumbersAPI.getList,
   },
 };
 </script>

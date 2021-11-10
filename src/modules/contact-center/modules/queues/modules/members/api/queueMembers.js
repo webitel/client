@@ -100,13 +100,13 @@ const itemUpdater = new SdkUpdaterApiConsumer(memberService.updateMember,
   { fieldsToSend, preRequestHandler });
 const itemDeleter = new SdkDeleterApiConsumer(memberService.deleteMember);
 
-export const getMembersList = (params) => listGetter.getList(params);
-export const getMember = (params) => itemGetter.getNestedItem(params);
-export const addMember = (params) => itemCreator.createNestedItem(params);
-export const updateMember = (params) => itemUpdater.updateNestedItem(params);
-export const deleteMember = (params) => itemDeleter.deleteNestedItem(params);
+const getMembersList = (params) => listGetter.getList(params);
+const getMember = (params) => itemGetter.getNestedItem(params);
+const addMember = (params) => itemCreator.createNestedItem(params);
+const updateMember = (params) => itemUpdater.updateNestedItem(params);
+const deleteMember = (params) => itemDeleter.deleteNestedItem(params);
 
-export const deleteMembers = async (queueId, ids) => {
+export const deleteMembersBulk = async (queueId, ids) => {
   try {
     await memberService.deleteMembers(queueId, { ids });
   } catch (err) {
@@ -114,7 +114,7 @@ export const deleteMembers = async (queueId, ids) => {
   }
 };
 
-export const addMembersList = async (queueId, items) => {
+const addMembersBulk = async (queueId, items) => {
   const itemsCopy = deepCopy(items);
   const body = { queueId, items: itemsCopy };
   try {
@@ -129,8 +129,10 @@ const QueueMembersAPI = {
   getList: getMembersList,
   get: getMember,
   add: addMember,
+  addBulk: addMembersBulk,
   update: updateMember,
   delete: deleteMember,
+  deleteBulk: deleteMembersBulk,
 };
 
 export default QueueMembersAPI;

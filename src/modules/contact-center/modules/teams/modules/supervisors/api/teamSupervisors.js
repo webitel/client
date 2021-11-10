@@ -51,18 +51,18 @@ const itemPatcher = new SdkPatcherApiConsumer(teamSupervisorService.patchAgent);
 const subordinatesListGetter = new SdkListGetterApiConsumer(teamSupervisorService.searchAgent)
   .setGetListMethod(_getTeamSupervisorSubordinatesList);
 
-export const getTeamSupervisorsList = (params) => listGetter.getList(params);
-export const getTeamSupervisor = (params) => itemGetter.getItem(params);
-export const addTeamSupervisor = ({ parentId, itemInstance }) => {
+const getTeamSupervisorsList = (params) => listGetter.getList(params);
+const getTeamSupervisor = (params) => itemGetter.getItem(params);
+const addTeamSupervisor = ({ parentId, itemInstance }) => {
   const { id } = itemInstance.agent;
   const changes = { team: { id: parentId } };
   return itemPatcher.patchItem({ id, changes });
 };
-export const deleteTeamSupervisor = ({ id }) => {
+const deleteTeamSupervisor = ({ id }) => {
   const changes = { team: { id: null } };
   return itemPatcher.patchItem({ id, changes });
 };
-export const updateTeamSupervisor = async ({ parentId, itemId, itemInstance }) => {
+const updateTeamSupervisor = async ({ parentId, itemId, itemInstance }) => {
   try {
     await addTeamSupervisor({ parentId, itemInstance });
     await deleteTeamSupervisor({ id: itemId });

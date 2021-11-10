@@ -93,12 +93,12 @@ itemGetter.responseHandler = (response) => {
   return response;
 };
 
-export const getChatGatewayList = (params) => listGetter.getList({ ...params, searchQuery: 'q' });
-export const getChatGateway = (params) => itemGetter.getItem(params);
-export const addChatGateway = (params) => itemCreator.createItem(params);
-export const updateChatGateway = (params) => itemUpdater.updateItem(params);
-export const patchChatGateway = (params) => itemPatcher.patchItem(params);
-export const deleteChatGateway = (params) => itemDeleter.deleteItem(params);
+const getChatGatewayList = (params) => listGetter.getList({ ...params, searchQuery: 'q' });
+const getChatGateway = (params) => itemGetter.getItem(params);
+const addChatGateway = (params) => itemCreator.createItem(params);
+const updateChatGateway = (params) => itemUpdater.updateItem(params);
+const patchChatGateway = (params) => itemPatcher.patchItem(params);
+const deleteChatGateway = (params) => itemDeleter.deleteItem(params);
 
 const ChatGatewaysAPI = {
   getList: getChatGatewayList,

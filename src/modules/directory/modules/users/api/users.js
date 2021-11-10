@@ -84,12 +84,12 @@ const itemUpdater = new EndpointUpdaterApiConsumer({ baseUrl, instance },
 const itemPatcher = new EndpointPatcherApiConsumer({ baseUrl, instance }, { fieldsToSend });
 const itemDeleter = new EndpointDeleterApiConsumer({ baseUrl, instance });
 
-export const getUsersList = (params) => listGetter.getList({ searchQuery: 'q', ...params });
-export const getUser = (params) => itemGetter.getItem(params);
-export const addUser = (params) => itemCreator.createItem(params);
-export const updateUser = (params) => itemUpdater.updateItem(params);
-export const patchUser = (params) => itemPatcher.patchItem(params, 'presence');
-export const deleteUser = (params) => itemDeleter.deleteItem(params);
+const getUsersList = (params) => listGetter.getList({ searchQuery: 'q', ...params });
+const getUser = (params) => itemGetter.getItem(params);
+const addUser = (params) => itemCreator.createItem(params);
+const updateUser = (params) => itemUpdater.updateItem(params);
+const patchUser = (params) => itemPatcher.patchItem(params, 'presence');
+const deleteUser = (params) => itemDeleter.deleteItem(params);
 const getUsersLookup = (params) => listGetter.getLookup(params);
 
 const UsersAPI = {
