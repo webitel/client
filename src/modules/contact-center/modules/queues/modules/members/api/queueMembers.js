@@ -1,14 +1,16 @@
 import { MemberServiceApiFactory } from 'webitel-sdk';
+import {
+  SdkListGetterApiConsumer,
+  SdkGetterApiConsumer,
+  SdkCreatorApiConsumer,
+  SdkUpdaterApiConsumer,
+  SdkDeleterApiConsumer,
+} from 'webitel-sdk/esm2015/api-consumers';
 import deepCopy from 'deep-copy';
 import eventBus from '@webitel/ui-sdk/src/scripts/eventBus';
 import instance from '../../../../../../../app/api/instance';
 import configuration from '../../../../../../../app/api/openAPIConfig';
 import sanitizer from '../../../../../../../app/api/utils/sanitizer';
-import SDKListGetter from '../../../../../../../app/api/BaseAPIServices/ListGetter/SDKListGetter';
-import SDKGetter from '../../../../../../../app/api/BaseAPIServices/Getter/SDKGetter';
-import SDKCreator from '../../../../../../../app/api/BaseAPIServices/Creator/SDKCreator';
-import SDKUpdater from '../../../../../../../app/api/BaseAPIServices/Updater/SDKUpdater';
-import SDKDeleter from '../../../../../../../app/api/BaseAPIServices/Deleter/SDKDeleter';
 
 const memberService = new MemberServiceApiFactory(configuration, '', instance);
 
@@ -58,11 +60,11 @@ const _getMembersList = (getList) => function ({
 };
 
 const listResponseHandler = (response) => {
-  const list = response.list.map((item) => ({
+  const items = response.items.map((item) => ({
     ...item,
     communications: mapDefaultCommunications(item),
   }));
-  return { list, next: response.next };
+  return { items, next: response.next };
 };
 
 const itemResponseHandler = (response) => {
@@ -87,24 +89,24 @@ const preRequestHandler = (item) => {
   return { ...item, variables };
 };
 
-const listGetter = new SDKListGetter(memberService.searchMemberInQueue,
+const listGetter = new SdkListGetterApiConsumer(memberService.searchMemberInQueue,
   { defaultListObject, listResponseHandler })
   .setGetListMethod(_getMembersList);
-const itemGetter = new SDKGetter(memberService.readMember,
+const itemGetter = new SdkGetterApiConsumer(memberService.readMember,
   { defaultSingleObject, itemResponseHandler });
-const itemCreator = new SDKCreator(memberService.createMember,
+const itemCreator = new SdkCreatorApiConsumer(memberService.createMember,
   { fieldsToSend, preRequestHandler });
-const itemUpdater = new SDKUpdater(memberService.updateMember,
+const itemUpdater = new SdkUpdaterApiConsumer(memberService.updateMember,
   { fieldsToSend, preRequestHandler });
-const itemDeleter = new SDKDeleter(memberService.deleteMember);
+const itemDeleter = new SdkDeleterApiConsumer(memberService.deleteMember);
 
-export const getMembersList = (params) => listGetter.getList(params);
-export const getMember = (params) => itemGetter.getNestedItem(params);
-export const addMember = (params) => itemCreator.createNestedItem(params);
-export const updateMember = (params) => itemUpdater.updateNestedItem(params);
-export const deleteMember = (params) => itemDeleter.deleteNestedItem(params);
+const getMembersList = (params) => listGetter.getList(params);
+const getMember = (params) => itemGetter.getNestedItem(params);
+const addMember = (params) => itemCreator.createNestedItem(params);
+const updateMember = (params) => itemUpdater.updateNestedItem(params);
+const deleteMember = (params) => itemDeleter.deleteNestedItem(params);
 
-export const deleteMembers = async (queueId, ids) => {
+export const deleteMembersBulk = async (queueId, ids) => {
   try {
     await memberService.deleteMembers(queueId, { ids });
   } catch (err) {
@@ -112,7 +114,7 @@ export const deleteMembers = async (queueId, ids) => {
   }
 };
 
-export const addMembersList = async (queueId, items) => {
+const addMembersBulk = async (queueId, items) => {
   const itemsCopy = deepCopy(items);
   const body = { queueId, items: itemsCopy };
   try {
@@ -123,10 +125,14 @@ export const addMembersList = async (queueId, items) => {
   }
 };
 
-export default {
+const QueueMembersAPI = {
   getList: getMembersList,
   get: getMember,
   add: addMember,
+  addBulk: addMembersBulk,
   update: updateMember,
   delete: deleteMember,
+  deleteBulk: deleteMembersBulk,
 };
+
+export default QueueMembersAPI;

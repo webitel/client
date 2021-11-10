@@ -1,8 +1,11 @@
-import APIListGetter from '../../../../../app/api/BaseAPIServices/ListGetter/ApiListGetter';
-import APIGetter from '../../../../../app/api/BaseAPIServices/Getter/ApiGetter';
-import APIPatcher from '../../../../../app/api/BaseAPIServices/Patcher/ApiPatcher';
+import {
+  EndpointListGetterApiConsumer,
+  EndpointGetterApiConsumer,
+  EndpointPatcherApiConsumer,
+} from 'webitel-sdk/esm2015/api-consumers';
+import instance from '../../../../../app/api/instance';
 
-const BASE_URL = '/objclass';
+const baseUrl = '/objclass';
 
 const defaultListObject = { // default object prototype, to merge response with it to get all fields
   class: '',
@@ -11,16 +14,18 @@ const defaultListObject = { // default object prototype, to merge response with 
   id: 0,
 };
 
-const listGetter = new APIListGetter(BASE_URL, { defaultListObject });
-const itemGetter = new APIGetter(BASE_URL);
-const itemPatcher = new APIPatcher(BASE_URL);
+const listGetter = new EndpointListGetterApiConsumer({ baseUrl, instance }, { defaultListObject });
+const itemGetter = new EndpointGetterApiConsumer({ baseUrl, instance });
+const itemPatcher = new EndpointPatcherApiConsumer({ baseUrl, instance });
 
-export const getObjectList = (params) => listGetter.getList({ searchQuery: 'class', ...params });
-export const patchObject = (params) => itemPatcher.patchItem(params);
-export const getObject = (params) => itemGetter.getItem(params);
+const getObjectList = (params) => listGetter.getList({ searchQuery: 'class', ...params });
+const patchObject = (params) => itemPatcher.patchItem(params);
+const getObject = (params) => itemGetter.getItem(params);
 
-export default {
+const ObjectsAPI = {
   getList: getObjectList,
   get: getObject,
   patch: patchObject,
 };
+
+export default ObjectsAPI;

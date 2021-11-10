@@ -4,10 +4,9 @@ import {
   EndpointGetterApiConsumer,
   EndpointCreatorApiConsumer,
   EndpointUpdaterApiConsumer,
+  EndpointDeleterApiConsumer,
 } from 'webitel-sdk/esm2015/api-consumers';
 import ApplicationsAccess from '@webitel/ui-sdk/src/modules/Userinfo/classes/ApplicationsAccess';
-import APIListGetter from '../../../../../app/api/BaseAPIServices/ListGetter/ApiListGetter';
-import APIItemDeleter from '../../../../../app/api/BaseAPIServices/Deleter/ApiDeleter';
 import instance from '../../../../../app/api/instance';
 
 const baseUrl = '/roles';
@@ -19,7 +18,6 @@ const defaultSingleObject = {
   description: '',
   permissions: [],
   metadata: {},
-  _dirty: false,
 };
 
 const itemResponseHandler = (item) => {
@@ -34,7 +32,7 @@ const preRequestHandler = (item) => {
   return itemCopy;
 };
 
-const listGetter = new APIListGetter(baseUrl);
+const listGetter = new EndpointListGetterApiConsumer({ baseUrl, instance });
 const itemGetter = new EndpointGetterApiConsumer({ baseUrl, instance },
   { defaultSingleObject, itemResponseHandler });
 const extendedRolesListGetter = new EndpointListGetterApiConsumer({ baseUrl, instance });
@@ -42,24 +40,33 @@ const itemCreator = new EndpointCreatorApiConsumer({ baseUrl, instance },
   { fieldsToSend, preRequestHandler });
 const itemUpdater = new EndpointUpdaterApiConsumer({ baseUrl, instance },
   { fieldsToSend, preRequestHandler });
-const itemDeleter = new APIItemDeleter(baseUrl);
+const itemDeleter = new EndpointDeleterApiConsumer({ baseUrl, instance });
 
 const PERMISSIONS_LIST_URL = '/permissions';
-const permissionsListGetter = new APIListGetter(PERMISSIONS_LIST_URL);
+const permissionsListGetter = new EndpointListGetterApiConsumer(
+  { baseUrl: PERMISSIONS_LIST_URL, instance },
+);
 
-export const getRoleList = (params) => listGetter.getList({ ...params, searchQuery: 'q' });
-export const getExtendedRoles = (params) => extendedRolesListGetter.getList({ ...params, searchQuery: 'q' });
-export const getRole = (params) => itemGetter.getItem(params);
-export const addRole = (params) => itemCreator.createItem(params);
-export const updateRole = (params) => itemUpdater.updateItem(params);
-export const deleteRole = (params) => itemDeleter.deleteItem(params);
+const getRoleList = (params) => listGetter.getList({ ...params, searchQuery: 'q' });
+const getExtendedRoles = (params) => extendedRolesListGetter.getList({ ...params, searchQuery: 'q' });
+const getRole = (params) => itemGetter.getItem(params);
+const addRole = (params) => itemCreator.createItem(params);
+const updateRole = (params) => itemUpdater.updateItem(params);
+const deleteRole = (params) => itemDeleter.deleteItem(params);
+const getRolesLookup = (params) => listGetter.getLookup(params);
 
-export const getPermissionsOptions = (payload) => permissionsListGetter.getList(payload);
+const getPermissionsOptions = (payload) => permissionsListGetter.getList(payload);
 
-export default {
+const RolesAPI = {
   getList: getRoleList,
   get: getRole,
   add: addRole,
   update: updateRole,
   delete: deleteRole,
+  getLookup: getRolesLookup,
+
+  getExtendedRoles,
+  getPermissionsOptions,
 };
+
+export default RolesAPI;

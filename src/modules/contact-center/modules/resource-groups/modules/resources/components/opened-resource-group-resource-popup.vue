@@ -9,8 +9,7 @@
           :value="itemInstance.resource"
           :v="$v.itemInstance.resource"
           :label="$tc('objects.ccenter.res.res', 1)"
-          :search="loadDropdownOptionsList"
-          :internal-search="false"
+          :search-method="loadDropdownOptionsList"
           :clearable="false"
           required
           @input="setItemProp({ prop: 'resource', value: $event })"
@@ -49,7 +48,7 @@
 
 <script>
 import { required } from 'vuelidate/lib/validators';
-import { getResourceList } from '../../../../resources/api/resources';
+import ResourcesAPI from '../../../../resources/api/resources';
 import nestedObjectMixin from '../../../../../../../app/mixins/objectPagesMixins/openedObjectMixin/nestedObjectMixin';
 
 export default {
@@ -66,12 +65,8 @@ export default {
   },
 
   methods: {
-    async loadDropdownOptionsList(search) {
-      const response = await getResourceList({ search });
-      return response.list.map((item) => ({
-        name: item.name,
-        id: item.id,
-      }));
+    loadDropdownOptionsList(params) {
+      return ResourcesAPI.getLookup(params);
     },
   },
 };

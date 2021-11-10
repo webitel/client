@@ -1,14 +1,15 @@
 import deepMerge from 'deepmerge';
 import { QueueServiceApiFactory } from 'webitel-sdk';
-import { SdkListGetterApiConsumer } from 'webitel-sdk/esm2015/api-consumers';
+import {
+  SdkListGetterApiConsumer,
+  SdkGetterApiConsumer,
+  SdkCreatorApiConsumer,
+  SdkUpdaterApiConsumer,
+  SdkPatcherApiConsumer,
+  SdkDeleterApiConsumer,
+} from 'webitel-sdk/esm2015/api-consumers';
 import instance from '../../../../../app/api/instance';
 import configuration from '../../../../../app/api/openAPIConfig';
-import SDKDeleter from '../../../../../app/api/BaseAPIServices/Deleter/SDKDeleter';
-import SDKPatcher from '../../../../../app/api/BaseAPIServices/Patcher/SDKPatcher';
-import SDKUpdater from '../../../../../app/api/BaseAPIServices/Updater/SDKUpdater';
-import SDKCreator from '../../../../../app/api/BaseAPIServices/Creator/SDKCreator';
-import SDKGetter from '../../../../../app/api/BaseAPIServices/Getter/SDKGetter';
-import SDKListGetter from '../../../../../app/api/BaseAPIServices/ListGetter/SDKListGetter';
 
 const queueService = new QueueServiceApiFactory(configuration, '', instance);
 
@@ -51,29 +52,25 @@ const itemResponseHandler = (response) => {
   }
 };
 
-const listGetter = new SDKListGetter(queueService.searchQueue, { defaultListObject });
-const itemGetter = new SDKGetter(queueService.readQueue,
+const listGetter = new SdkListGetterApiConsumer(queueService.searchQueue, { defaultListObject });
+const itemGetter = new SdkGetterApiConsumer(queueService.readQueue,
   { defaultSingleObject, itemResponseHandler });
-const itemCreator = new SDKCreator(queueService.createQueue,
+const itemCreator = new SdkCreatorApiConsumer(queueService.createQueue,
   { fieldsToSend, preRequestHandler });
-const itemUpdater = new SDKUpdater(queueService.updateQueue,
+const itemUpdater = new SdkUpdaterApiConsumer(queueService.updateQueue,
   { fieldsToSend, preRequestHandler });
-const itemPatcher = new SDKPatcher(queueService.patchQueue, { fieldsToSend });
-const itemDeleter = new SDKDeleter(queueService.deleteQueue);
+const itemPatcher = new SdkPatcherApiConsumer(queueService.patchQueue, { fieldsToSend });
+const itemDeleter = new SdkDeleterApiConsumer(queueService.deleteQueue);
 
-export const getQueuesList = (params) => listGetter.getList(params);
-export const getQueue = (params) => itemGetter.getItem(params);
-export const addQueue = (params) => itemCreator.createItem(params);
-export const updateQueue = (params) => itemUpdater.updateItem(params);
-export const patchQueue = (params) => itemPatcher.patchItem(params);
-export const deleteQueue = (params) => itemDeleter.deleteItem(params);
+const getQueuesList = (params) => listGetter.getList(params);
+const getQueue = (params) => itemGetter.getItem(params);
+const addQueue = (params) => itemCreator.createItem(params);
+const updateQueue = (params) => itemUpdater.updateItem(params);
+const patchQueue = (params) => itemPatcher.patchItem(params);
+const deleteQueue = (params) => itemDeleter.deleteItem(params);
+const getQueuesLookup = (params) => listGetter.getLookup(params);
 
-
-// FIXME REFACTOR ALL COMPONENTS WITH WEBITEL-SDK CONSUMERS
-const _listGetter = new SdkListGetterApiConsumer(queueService.searchQueue);
-const getQueuesLookup = (params) => _listGetter.getLookup(params);
-
-export default {
+const QueuesAPI = {
   getList: getQueuesList,
   get: getQueue,
   add: addQueue,
@@ -82,3 +79,5 @@ export default {
   delete: deleteQueue,
   getLookup: getQueuesLookup,
 };
+
+export default QueuesAPI;

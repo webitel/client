@@ -16,8 +16,7 @@
         :value="itemInstance.schema"
         :v="v.itemInstance.schema"
         :label="$tc('objects.routing.schema', 1)"
-        :search="loadFlows"
-        :internal-search="false"
+        :search-method="loadFlows"
         :clearable="false"
         :disabled="disableUserInput"
         required
@@ -42,19 +41,15 @@
 </template>
 
 <script>
+import FlowsAPI from '../../flow/api/flow';
 import openedTabComponentMixin from '../../../../../app/mixins/objectPagesMixins/openedObjectTabMixin/openedTabComponentMixin';
-import { getFlowList } from '../../flow/api/flow';
 
 export default {
   name: 'opened-dialplan',
   mixins: [openedTabComponentMixin],
   methods: {
-    async loadFlows(search) {
-      const response = await getFlowList({ search });
-      return response.list.map((item) => ({
-        name: item.name,
-        id: item.id,
-      }));
+    loadFlows(params) {
+      return FlowsAPI.getLookup(params);
     },
   },
 };

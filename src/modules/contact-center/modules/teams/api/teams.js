@@ -1,11 +1,13 @@
 import { AgentTeamServiceApiFactory } from 'webitel-sdk';
+import {
+  SdkListGetterApiConsumer,
+  SdkGetterApiConsumer,
+  SdkCreatorApiConsumer,
+  SdkUpdaterApiConsumer,
+  SdkDeleterApiConsumer,
+} from 'webitel-sdk/esm2015/api-consumers';
 import instance from '../../../../../app/api/instance';
 import configuration from '../../../../../app/api/openAPIConfig';
-import SDKDeleter from '../../../../../app/api/BaseAPIServices/Deleter/SDKDeleter';
-import SDKUpdater from '../../../../../app/api/BaseAPIServices/Updater/SDKUpdater';
-import SDKCreator from '../../../../../app/api/BaseAPIServices/Creator/SDKCreator';
-import SDKGetter from '../../../../../app/api/BaseAPIServices/Getter/SDKGetter';
-import SDKListGetter from '../../../../../app/api/BaseAPIServices/ListGetter/SDKListGetter';
 
 const teamService = new AgentTeamServiceApiFactory(configuration, '', instance);
 
@@ -25,22 +27,26 @@ const defaultSingleObject = {
   wrapUpTime: 0,
 };
 
-const listGetter = new SDKListGetter(teamService.searchAgentTeam);
-const itemGetter = new SDKGetter(teamService.readAgentTeam, { defaultSingleObject });
-const itemCreator = new SDKCreator(teamService.createAgentTeam, { fieldsToSend });
-const itemUpdater = new SDKUpdater(teamService.updateAgentTeam, { fieldsToSend });
-const itemDeleter = new SDKDeleter(teamService.deleteAgentTeam);
+const listGetter = new SdkListGetterApiConsumer(teamService.searchAgentTeam);
+const itemGetter = new SdkGetterApiConsumer(teamService.readAgentTeam, { defaultSingleObject });
+const itemCreator = new SdkCreatorApiConsumer(teamService.createAgentTeam, { fieldsToSend });
+const itemUpdater = new SdkUpdaterApiConsumer(teamService.updateAgentTeam, { fieldsToSend });
+const itemDeleter = new SdkDeleterApiConsumer(teamService.deleteAgentTeam);
 
-export const getTeamsList = (params) => listGetter.getList(params);
-export const getTeam = (params) => itemGetter.getItem(params);
-export const addTeam = (params) => itemCreator.createItem(params);
-export const updateTeam = (params) => itemUpdater.updateItem(params);
-export const deleteTeam = (params) => itemDeleter.deleteItem(params);
+const getTeamsList = (params) => listGetter.getList(params);
+const getTeam = (params) => itemGetter.getItem(params);
+const addTeam = (params) => itemCreator.createItem(params);
+const updateTeam = (params) => itemUpdater.updateItem(params);
+const deleteTeam = (params) => itemDeleter.deleteItem(params);
+const getTeamsLookup = (params) => listGetter.getLookup(params);
 
-export default {
+const TeamsAPI = {
   getList: getTeamsList,
   get: getTeam,
   add: addTeam,
   update: updateTeam,
   delete: deleteTeam,
+  getLookup: getTeamsLookup,
 };
+
+export default TeamsAPI;

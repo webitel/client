@@ -1,11 +1,13 @@
 import { QueueBucketServiceApiFactory } from 'webitel-sdk';
+import {
+  SdkListGetterApiConsumer,
+  SdkGetterApiConsumer,
+  SdkCreatorApiConsumer,
+  SdkUpdaterApiConsumer,
+  SdkDeleterApiConsumer,
+} from 'webitel-sdk/esm2015/api-consumers';
 import instance from '../../../../../../../app/api/instance';
 import configuration from '../../../../../../../app/api/openAPIConfig';
-import SDKListGetter from '../../../../../../../app/api/BaseAPIServices/ListGetter/SDKListGetter';
-import SDKGetter from '../../../../../../../app/api/BaseAPIServices/Getter/SDKGetter';
-import SDKCreator from '../../../../../../../app/api/BaseAPIServices/Creator/SDKCreator';
-import SDKUpdater from '../../../../../../../app/api/BaseAPIServices/Updater/SDKUpdater';
-import SDKDeleter from '../../../../../../../app/api/BaseAPIServices/Deleter/SDKDeleter';
 
 const queueBucketsService = new QueueBucketServiceApiFactory(configuration, '', instance);
 
@@ -21,24 +23,28 @@ const defaultSingleObject = {
 
 const preRequestHandler = (item, parentId) => ({ ...item, queueId: parentId });
 
-const listGetter = new SDKListGetter(queueBucketsService.searchQueueBucket, { defaultListObject });
-const itemGetter = new SDKGetter(queueBucketsService.readQueueBucket, { defaultSingleObject });
-const itemCreator = new SDKCreator(queueBucketsService.createQueueBucket,
+const listGetter = new SdkListGetterApiConsumer(queueBucketsService.searchQueueBucket,
+  { defaultListObject });
+const itemGetter = new SdkGetterApiConsumer(queueBucketsService.readQueueBucket,
+  { defaultSingleObject });
+const itemCreator = new SdkCreatorApiConsumer(queueBucketsService.createQueueBucket,
   { fieldsToSend, preRequestHandler });
-const itemUpdater = new SDKUpdater(queueBucketsService.updateQueueBucket,
+const itemUpdater = new SdkUpdaterApiConsumer(queueBucketsService.updateQueueBucket,
   { fieldsToSend, preRequestHandler });
-const itemDeleter = new SDKDeleter(queueBucketsService.deleteQueueBucket);
+const itemDeleter = new SdkDeleterApiConsumer(queueBucketsService.deleteQueueBucket);
 
-export const getQueueBucketsList = (params) => listGetter.getNestedList(params);
-export const getQueueBucket = (params) => itemGetter.getNestedItem(params);
-export const addQueueBucket = (params) => itemCreator.createNestedItem(params);
-export const updateQueueBucket = (params) => itemUpdater.updateNestedItem(params);
-export const deleteQueueBucket = (params) => itemDeleter.deleteNestedItem(params);
+const getQueueBucketsList = (params) => listGetter.getNestedList(params);
+const getQueueBucket = (params) => itemGetter.getNestedItem(params);
+const addQueueBucket = (params) => itemCreator.createNestedItem(params);
+const updateQueueBucket = (params) => itemUpdater.updateNestedItem(params);
+const deleteQueueBucket = (params) => itemDeleter.deleteNestedItem(params);
 
-export default {
+const QueueBucketsAPI = {
   getList: getQueueBucketsList,
   get: getQueueBucket,
   add: addQueueBucket,
   update: updateQueueBucket,
   delete: deleteQueueBucket,
 };
+
+export default QueueBucketsAPI;

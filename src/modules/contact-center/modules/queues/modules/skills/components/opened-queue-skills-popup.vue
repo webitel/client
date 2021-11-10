@@ -9,8 +9,7 @@
           :value="itemInstance.skill"
           :v="$v.itemInstance.skill"
           :label="$tc('objects.lookups.skills.skills', 1)"
-          :search="loadSkillsOptions"
-          :internal-search="false"
+          :search-method="loadSkillsOptions"
           :clearable="false"
           required
           @input="setItemProp({ prop: 'skill', value: $event })"
@@ -47,9 +46,8 @@
         <wt-select
           :value="itemInstance.buckets"
           :label="$tc('objects.lookups.buckets.buckets', 1)"
-          :search="loadBucketsOptions"
+          :search-method="loadBucketsOptions"
           :close-on-select="false"
-          :internal-search="false"
           multiple
           @input="setItemProp({ prop: 'buckets', value: $event })"
         ></wt-select>
@@ -73,8 +71,8 @@
 <script>
 import { required, minValue, maxValue } from 'vuelidate/lib/validators';
 import { lessOrEqualTo, moreOrEqualTo } from '../../../../../../../app/utils/validators';
-import { getBucketsList } from '../../../../../../lookups/modules/buckets/api/buckets';
-import { getSkillsList } from '../../../../../../lookups/modules/agent-skills/api/agentSkills';
+import BucketsAPI from '../../../../../../lookups/modules/buckets/api/buckets';
+import SkillsAPI from '../../../../../../lookups/modules/agent-skills/api/agentSkills';
 import nestedObjectMixin from '../../../../../../../app/mixins/objectPagesMixins/openedObjectMixin/nestedObjectMixin';
 
 export default {
@@ -114,20 +112,12 @@ export default {
   },
 
   methods: {
-    async loadSkillsOptions(search) {
-      const response = await getSkillsList({ search, size: 50 });
-      return response.list.map((item) => ({
-        name: item.name,
-        id: item.id,
-      }));
+    loadSkillsOptions(params) {
+      return SkillsAPI.getLookup(params);
     },
 
-    async loadBucketsOptions(search) {
-      const response = await getBucketsList({ search });
-      return response.list.map((item) => ({
-        name: item.name,
-        id: item.id,
-      }));
+    loadBucketsOptions(params) {
+      return BucketsAPI.getLookup(params);
     },
   },
 };

@@ -28,8 +28,7 @@
       <wt-select
         :value="itemInstance.timezone"
         :label="$t('objects.ccenter.queues.timezone')"
-        :search="loadDropdownOptionsTimezoneList"
-        :internal-search="false"
+        :search-method="loadDropdownOptionsTimezoneList"
         :clearable="false"
         :disabled="disableUserInput"
         @input="setItemProp({ prop: 'timezone', value: $event })"
@@ -37,8 +36,7 @@
       <wt-select
         :value="itemInstance.bucket"
         :label="$tc('objects.lookups.buckets.buckets', 1)"
-        :search="loadDropdownOptionsBucketsList"
-        :internal-search="false"
+        :search-method="loadDropdownOptionsBucketsList"
         :disabled="disableUserInput"
         @input="setItemProp({ prop: 'bucket', value: $event })"
       ></wt-select>
@@ -47,8 +45,8 @@
 </template>
 
 <script>
-import { getBucketsList } from '../../../../../../lookups/modules/buckets/api/buckets';
-import { getCalendarTimezones } from '../../../../../../lookups/modules/calendars/api/calendars';
+import BucketsAPI from '../../../../../../lookups/modules/buckets/api/buckets';
+import CalendarsAPI from '../../../../../../lookups/modules/calendars/api/calendars';
 import openedTabComponentMixin from '../../../../../../../app/mixins/objectPagesMixins/openedObjectTabMixin/openedTabComponentMixin';
 
 export default {
@@ -61,21 +59,11 @@ export default {
   },
 
   methods: {
-    async loadDropdownOptionsBucketsList(search) {
-      const response = await getBucketsList({ search });
-      return response.list.map((item) => ({
-        name: item.name,
-        id: item.id,
-      }));
+    loadDropdownOptionsBucketsList(params) {
+      return BucketsAPI.getLookup(params);
     },
-
-
-    async loadDropdownOptionsTimezoneList(search) {
-      const response = await getCalendarTimezones({ search });
-      return response.map((item) => ({
-        name: item.name,
-        id: item.id,
-      }));
+    loadDropdownOptionsTimezoneList(params) {
+      return CalendarsAPI.getTimezonesLookup(params);
     },
   },
 };

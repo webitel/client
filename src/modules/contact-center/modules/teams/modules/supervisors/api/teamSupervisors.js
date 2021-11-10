@@ -1,9 +1,11 @@
 import { AgentServiceApiFactory } from 'webitel-sdk';
+import {
+  SdkListGetterApiConsumer,
+  SdkGetterApiConsumer,
+  SdkPatcherApiConsumer,
+} from 'webitel-sdk/esm2015/api-consumers';
 import instance from '../../../../../../../app/api/instance';
 import configuration from '../../../../../../../app/api/openAPIConfig';
-import SDKListGetter from '../../../../../../../app/api/BaseAPIServices/ListGetter/SDKListGetter';
-import SDKGetter from '../../../../../../../app/api/BaseAPIServices/Getter/SDKGetter';
-import SDKPatcher from '../../../../../../../app/api/BaseAPIServices/Patcher/SDKPatcher';
 
 const teamSupervisorService = new AgentServiceApiFactory(configuration, '', instance);
 
@@ -39,28 +41,28 @@ const _getTeamSupervisorSubordinatesList = (getList) => function ({
 
 const subordinateGetterResponseHandler = (agent) => ({ agent });
 
-const listGetter = new SDKListGetter(teamSupervisorService.searchAgent)
+const listGetter = new SdkListGetterApiConsumer(teamSupervisorService.searchAgent)
   .setGetListMethod(_getTeamSupervisorsList);
-const itemGetter = new SDKGetter(teamSupervisorService.readAgent, {
+const itemGetter = new SdkGetterApiConsumer(teamSupervisorService.readAgent, {
   itemResponseHandler: subordinateGetterResponseHandler,
 });
-const itemPatcher = new SDKPatcher(teamSupervisorService.patchAgent);
+const itemPatcher = new SdkPatcherApiConsumer(teamSupervisorService.patchAgent);
 
-const subordinatesListGetter = new SDKListGetter(teamSupervisorService.searchAgent)
+const subordinatesListGetter = new SdkListGetterApiConsumer(teamSupervisorService.searchAgent)
   .setGetListMethod(_getTeamSupervisorSubordinatesList);
 
-export const getTeamSupervisorsList = (params) => listGetter.getList(params);
-export const getTeamSupervisor = (params) => itemGetter.getItem(params);
-export const addTeamSupervisor = ({ parentId, itemInstance }) => {
+const getTeamSupervisorsList = (params) => listGetter.getList(params);
+const getTeamSupervisor = (params) => itemGetter.getItem(params);
+const addTeamSupervisor = ({ parentId, itemInstance }) => {
   const { id } = itemInstance.agent;
   const changes = { team: { id: parentId } };
   return itemPatcher.patchItem({ id, changes });
 };
-export const deleteTeamSupervisor = ({ id }) => {
+const deleteTeamSupervisor = ({ id }) => {
   const changes = { team: { id: null } };
   return itemPatcher.patchItem({ id, changes });
 };
-export const updateTeamSupervisor = async ({ parentId, itemId, itemInstance }) => {
+const updateTeamSupervisor = async ({ parentId, itemId, itemInstance }) => {
   try {
     await addTeamSupervisor({ parentId, itemInstance });
     await deleteTeamSupervisor({ id: itemId });
@@ -69,12 +71,15 @@ export const updateTeamSupervisor = async ({ parentId, itemId, itemInstance }) =
   }
 };
 
-export const getTeamSupervisorSubordinatesList = (params) => subordinatesListGetter.getList(params);
+const getTeamSupervisorSubordinatesList = (params) => subordinatesListGetter.getList(params);
 
-export default {
+const TeamSupervisorsAPI = {
   getList: getTeamSupervisorsList,
   get: getTeamSupervisor,
   add: addTeamSupervisor,
   update: updateTeamSupervisor,
   delete: deleteTeamSupervisor,
+  getTeamSupervisorSubordinatesList,
 };
+
+export default TeamSupervisorsAPI;

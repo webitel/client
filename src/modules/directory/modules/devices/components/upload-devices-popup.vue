@@ -10,7 +10,7 @@
 <script>
 import uploadCSVWrapperComponentMixin
   from '../../../../_shared/upload-csv-popup/mixins/uploadCSVWrapperComponentMixin';
-import { addDevice } from '../api/devices';
+import DevicesAPI from '../api/devices';
 
 export default {
   name: 'upload-devices-popup',
@@ -76,7 +76,7 @@ export default {
     addItem(item) {
       // eslint-disable-next-line no-param-reassign
       if (!item.password) item.password = item.account;
-      return addDevice({ itemInstance: item });
+      return DevicesAPI.add({ itemInstance: item });
     },
   },
 };

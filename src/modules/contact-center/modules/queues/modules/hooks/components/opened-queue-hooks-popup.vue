@@ -18,8 +18,7 @@
           :value="itemInstance.schema"
           :v="$v.itemInstance.schema"
           :label="$tc('objects.routing.flow.flow', 1)"
-          :search="loadFlowOptions"
-          :internal-search="false"
+          :search-method="loadFlowOptions"
           :clearable="false"
           required
           @input="setItemProp({ prop: 'schema', value: $event })"
@@ -44,7 +43,7 @@
 <script>
 import { required } from 'vuelidate/lib/validators';
 import nestedObjectMixin from '../../../../../../../app/mixins/objectPagesMixins/openedObjectMixin/nestedObjectMixin';
-import { getFlowList } from '../../../../../../routing/modules/flow/api/flow';
+import FlowsAPI from '../../../../../../routing/modules/flow/api/flow';
 import HookEvent from '../enum/HookEvent.enum';
 
 export default {
@@ -83,12 +82,8 @@ export default {
   },
 
   methods: {
-    async loadFlowOptions(search) {
-      const response = await getFlowList({ search });
-      return response.list.map((item) => ({
-        name: item.name,
-        id: item.id,
-      }));
+    loadFlowOptions(params) {
+      return FlowsAPI.getLookup(params);
     },
   },
 };

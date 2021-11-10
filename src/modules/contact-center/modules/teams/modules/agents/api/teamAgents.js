@@ -1,9 +1,11 @@
 import { AgentServiceApiFactory } from 'webitel-sdk';
+import {
+  SdkListGetterApiConsumer,
+  SdkGetterApiConsumer,
+  SdkPatcherApiConsumer,
+} from 'webitel-sdk/esm2015/api-consumers';
 import instance from '../../../../../../../app/api/instance';
 import configuration from '../../../../../../../app/api/openAPIConfig';
-import SDKListGetter from '../../../../../../../app/api/BaseAPIServices/ListGetter/SDKListGetter';
-import SDKGetter from '../../../../../../../app/api/BaseAPIServices/Getter/SDKGetter';
-import SDKPatcher from '../../../../../../../app/api/BaseAPIServices/Patcher/SDKPatcher';
 
 const agentService = new AgentServiceApiFactory(configuration, '', instance);
 
@@ -30,25 +32,25 @@ const getTeamAgents = (getList) => function ({
 
 const agentGetterResponseHandler = (agent) => ({ agent });
 
-const listGetter = new SDKListGetter(agentService.searchAgent, { defaultListObject })
+const listGetter = new SdkListGetterApiConsumer(agentService.searchAgent, { defaultListObject })
   .setGetListMethod(getTeamAgents);
-const itemGetter = new SDKGetter(agentService.readAgent, {
+const itemGetter = new SdkGetterApiConsumer(agentService.readAgent, {
   itemResponseHandler: agentGetterResponseHandler,
 });
-const itemPatcher = new SDKPatcher(agentService.patchAgent);
+const itemPatcher = new SdkPatcherApiConsumer(agentService.patchAgent);
 
-export const getTeamAgentsList = (params) => listGetter.getList(params);
-export const getTeamAgent = (params) => itemGetter.getItem(params);
-export const addTeamAgent = ({ parentId, itemInstance }) => {
+const getTeamAgentsList = (params) => listGetter.getList(params);
+const getTeamAgent = (params) => itemGetter.getItem(params);
+const addTeamAgent = ({ parentId, itemInstance }) => {
   const { id } = itemInstance.agent;
   const changes = { team: { id: parentId } };
   return itemPatcher.patchItem({ id, changes });
 };
-export const deleteTeamAgent = ({ id }) => {
+const deleteTeamAgent = ({ id }) => {
   const changes = { team: { id: null } };
   return itemPatcher.patchItem({ id, changes });
 };
-export const updateTeamAgent = async ({ parentId, itemId, itemInstance }) => {
+const updateTeamAgent = async ({ parentId, itemId, itemInstance }) => {
   try {
     await addTeamAgent({ parentId, itemInstance });
     await deleteTeamAgent({ id: itemId });
@@ -57,10 +59,12 @@ export const updateTeamAgent = async ({ parentId, itemId, itemInstance }) => {
   }
 };
 
-export default {
+const TeamAgentsAPI = {
   getList: getTeamAgentsList,
   get: getTeamAgent,
   add: addTeamAgent,
   update: updateTeamAgent,
   delete: deleteTeamAgent,
 };
+
+export default TeamAgentsAPI;

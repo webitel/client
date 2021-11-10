@@ -34,8 +34,7 @@
       <wt-select
         :value="itemInstance.schema"
         :label="$t('objects.routing.schema')"
-        :search="loadDropdownOptionsList"
-        :internal-search="false"
+        :search-method="loadDropdownOptionsList"
         :disabled="disableUserInput"
         @input="setItemProp({ prop: 'schema', value: $event })"
       ></wt-select>
@@ -66,7 +65,7 @@
 </template>
 
 <script>
-import { getFlowList } from '../../flow/api/flow';
+import FlowsAPI from '../../flow/api/flow';
 import PasswordInput from '../../../../../app/components/utils/generate-password-input.vue';
 import openedTabComponentMixin from '../../../../../app/mixins/objectPagesMixins/openedObjectTabMixin/openedTabComponentMixin';
 
@@ -75,12 +74,8 @@ export default {
   mixins: [openedTabComponentMixin],
   components: { PasswordInput },
   methods: {
-    async loadDropdownOptionsList(search) {
-      const response = await getFlowList({ search });
-      return response.list.map((item) => ({
-        name: item.name,
-        id: item.id,
-      }));
+    loadDropdownOptionsList(params) {
+      return FlowsAPI.getLookup(params);
     },
   },
 };

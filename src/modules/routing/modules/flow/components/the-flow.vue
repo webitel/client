@@ -118,7 +118,7 @@ import tableComponentMixin from '../../../../../app/mixins/objectPagesMixins/obj
 import CreateFlowPopup from './create-flow-popup.vue';
 import UploadPopup from './upload-flow-popup.vue';
 import UploadFileIconBtn from '../../../../../app/components/utils/upload-file-ucon-btn.vue';
-import { getFlow } from '../api/flow';
+import FlowsAPI from '../api/flow';
 import { downloadAsJSON } from '../../../../../app/utils/download';
 import RouteNames from '../../../../../app/router/_internals/RouteNames.enum';
 
@@ -166,7 +166,7 @@ export default {
       this.isUploadPopup = false;
     },
     async download({ id, name }) {
-      const flow = await getFlow({ itemId: id });
+      const flow = await FlowsAPI.get({ itemId: id });
       const filename = `${name}-schema`;
       downloadAsJSON(flow, filename);
     },

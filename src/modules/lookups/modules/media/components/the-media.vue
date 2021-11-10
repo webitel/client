@@ -158,7 +158,7 @@ import eventBus from '@webitel/ui-sdk/src/scripts/eventBus';
 import DownloadFilesBtn from '../../../../../app/components/utils/download-files-btn.vue';
 import tableComponentMixin from '../../../../../app/mixins/objectPagesMixins/objectTableMixin/tableComponentMixin';
 import { download } from '../../../../../app/utils/download';
-import { getMediaList } from '../api/media';
+import MediaAPI from '../api/media';
 
 const token = localStorage.getItem('access-token');
 const API_URL = process.env.VUE_APP_API_URL;
@@ -257,10 +257,7 @@ export default {
       this.playingIndex = null;
       this.audioLink = null;
     },
-    async getMediaList(params) {
-      const response = await getMediaList(params);
-      return { items: response.list, next: response.next };
-    },
+    getMediaList: MediaAPI.getList(params),
     prettifyDate(date) {
       return new Date(+date).toLocaleDateString();
     },

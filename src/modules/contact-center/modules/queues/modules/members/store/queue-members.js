@@ -1,5 +1,5 @@
-import MembersAPI, { deleteMembers } from '../api/queueMembers';
-import { getQueue } from '../../../api/queues';
+import MembersAPI from '../api/queueMembers';
+import QueuesAPI from '../../../api/queues';
 import NestedObjectStoreModule from '../../../../../../../app/store/BaseStoreModules/StoreModules/NestedObjectStoreModule';
 import headers from './_internals/headers';
 
@@ -19,7 +19,7 @@ const resettableItemState = {
 const actions = {
   LOAD_PARENT_QUEUE: async (context) => {
     try {
-      const queue = await getQueue({ itemId: context.state.parentId });
+      const queue = await QueuesAPI.get({ itemId: context.state.parentId });
       context.commit('SET_PARENT_QUEUE', queue);
     } catch (err) {
       throw err;
@@ -41,9 +41,9 @@ const actions = {
   DELETE_SINGLE: (context, { id }) => context.dispatch('DELETE_ITEM', id),
   DELETE_BULK: (context, deleted) => {
     const ids = deleted.map((item) => item.id);
-    return deleteMembers(context.state.parentId, ids);
+    return MembersAPI.deleteBulk(context.state.parentId, ids);
   },
-  DELETE_ALL: (context) => deleteMembers(context.state.parentId, []),
+  DELETE_ALL: (context) => MembersAPI.deleteBulk(context.state.parentId, []),
   SET_PARENT_ITEM_ID: (context, id) => {
     context.commit('SET_PARENT_ITEM_ID', id);
     return context.dispatch('LOAD_PARENT_QUEUE');

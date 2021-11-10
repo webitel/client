@@ -1,7 +1,7 @@
 import skills from '../modules/skills/store/agent-skills';
 import queues from '../modules/queues/store/agent-queues';
 import subordinates from '../modules/subordinates/store/agent-subordinates';
-import AgentsAPI, { getAgentHistory } from '../api/agents';
+import AgentsAPI from '../api/agents';
 import ObjectStoreModule
   from '../../../../../app/store/BaseStoreModules/StoreModules/ObjectStoreModule';
 import PermissionsStoreModule
@@ -38,7 +38,7 @@ const permissions = new PermissionsStoreModule()
   .getModule();
 
 const history = new HistoryStoreModule()
-  .generateGetListAction(getAgentHistory)
+  .generateGetListAction(AgentsAPI.getAgentHistory)
   .getModule();
 
 const agents = new ObjectStoreModule({ resettableState, headers })

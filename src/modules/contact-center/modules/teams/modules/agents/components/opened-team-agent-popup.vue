@@ -9,8 +9,7 @@
           :value="itemInstance.agent"
           :v="$v.itemInstance.agent"
           :label="$tc('objects.ccenter.agents.agents', 1)"
-          :search="loadAgentsOptions"
-          :internal-search="false"
+          :search-method="loadAgentsOptions"
           :clearable="false"
           required
           @input="setItemProp({ prop: 'agent', value: $event })"
@@ -34,7 +33,7 @@
 
 <script>
 import { required } from 'vuelidate/lib/validators';
-import { getAgentsList } from '../../../../agents/api/agents';
+import AgentsAPI from '../../../../agents/api/agents';
 import nestedObjectMixin from '../../../../../../../app/mixins/objectPagesMixins/openedObjectMixin/nestedObjectMixin';
 
 export default {
@@ -52,12 +51,8 @@ export default {
   },
 
   methods: {
-    async loadAgentsOptions(search) {
-      const response = await getAgentsList({ search });
-      return response.list.map((item) => ({
-        name: item.name,
-        id: item.id,
-      }));
+    loadAgentsOptions(params) {
+      return AgentsAPI.getLookup(params);
     },
   },
 };

@@ -16,8 +16,7 @@
         :value="itemInstance.gateway"
         :v="v.itemInstance.gateway"
         :label="$tc('objects.routing.gateways.gateways', 1)"
-        :search="loadDropdownOptionsList"
-        :internal-search="false"
+        :search-method="loadDropdownOptionsList"
         :clearable="false"
         :disabled="disableUserInput"
         required
@@ -45,7 +44,6 @@
         :value="itemInstance.parameters.cidType"
         :label="$t('objects.ccenter.res.cidType')"
         :options="CidTypeList"
-        :clearable="true"
         :track-by="null"
         :disabled="disableUserInput"
         @input="setItemParameterProp({ prop: 'cidType', value: $event })"
@@ -54,7 +52,6 @@
         :value="itemInstance.parameters.ignoreEarlyMedia"
         :label="$t('objects.ccenter.res.ignoreEarlyMedia')"
         :options="EarlyMediaList"
-        :clearable="true"
         :track-by="null"
         :disabled="disableUserInput"
         @input="setItemParameterProp({ prop: 'ignoreEarlyMedia', value: $event })"
@@ -78,7 +75,7 @@
 
 <script>
 import { mapActions } from 'vuex';
-import { getGatewayList } from '../../../../routing/modules/gateways/api/gateways';
+import GatewaysAPI from '../../../../routing/modules/gateways/api/gateways';
 import openedTabComponentMixin
   from '../../../../../app/mixins/objectPagesMixins/openedObjectTabMixin/openedTabComponentMixin';
 import CidTypeList from '../lookups/CidType.lookup';
@@ -99,12 +96,8 @@ export default {
         return dispatch(`${this.namespace}/SET_ITEM_PARAMETERS_PROPERTY`, payload);
       },
     }),
-    async loadDropdownOptionsList(search) {
-      const response = await getGatewayList({ search });
-      return response.list.map((item) => ({
-        name: item.name,
-        id: item.id,
-      }));
+    loadDropdownOptionsList(params) {
+      return GatewaysAPI.getLookup(params);
     },
   },
 };

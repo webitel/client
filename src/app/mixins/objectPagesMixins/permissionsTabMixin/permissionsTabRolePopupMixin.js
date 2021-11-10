@@ -1,7 +1,5 @@
 import { mapActions, mapState } from 'vuex';
-import {
-  getExtendedRoles,
-} from '../../../../modules/permissions/modules/roles/api/roles';
+import RolesAPI from '../../../../modules/permissions/modules/roles/api/roles';
 import getNamespacedState from '../../../store/helpers/getNamespacedState';
 
 export default {
@@ -41,15 +39,15 @@ export default {
     },
 
     // filter new roles
-    async getAvailableGrantees(search) {
-      const roles = await this.loadRoles(search);
-      return roles.filter((role) => (
+    async getAvailableGrantees(params) {
+      const roles = await this.loadRoles(params);
+      roles.items = roles.items.filter((role) => (
         !this.dataList.some((usedRoles) => role.id === usedRoles.grantee.id)));
+      return roles;
     },
-    async loadRoles(search) {
+    async loadRoles(params) {
       const fields = ['name', 'id', 'user'];
-      const response = await getExtendedRoles({ search, fields });
-      return response.items;
+      return RolesAPI.getExtendedRoles({ ...params, fields });
     },
     close() {
       this.$emit('close');

@@ -9,8 +9,7 @@
           v-model="itemInstance.permission"
           :v="$v.itemInstance.permission"
           :label="$tc('objects.permissions.roles.permissions', 1)"
-          :search="loadPermissionsList"
-          :internal-search="false"
+          :search-method="loadPermissionsList"
           :clearable="false"
           required
         ></wt-select>
@@ -34,7 +33,7 @@
 <script>
 import { mapState, mapActions } from 'vuex';
 import { required } from 'vuelidate/lib/validators';
-import { getPermissionsOptions } from '../../api/roles';
+import RolesAPI from '../../api/roles';
 import nestedObjectMixin from '../../../../../../app/mixins/objectPagesMixins/openedObjectMixin/nestedObjectMixin';
 
 export default {
@@ -97,11 +96,12 @@ export default {
       }
       this.close();
     },
-    async loadPermissionsList(search) {
-      const response = await getPermissionsOptions({ search });
-      return response.list.filter((permission) => (
+    async loadPermissionsList(params) {
+      const response = await RolesAPI.getPermissionsOptions(params);
+      response.items = response.items.filter((permission) => (
         this.permissions.every((addedPermission) => addedPermission.id !== permission.id)
       ));
+      return response;
     },
     loadItem() {},
     resetState() {},

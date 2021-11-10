@@ -9,7 +9,7 @@
 
 <script>
 import uploadCSVWrapperComponentMixin from '../../../../_shared/upload-csv-popup/mixins/uploadCSVWrapperComponentMixin';
-import { addUser } from '../api/users';
+import UsersAPI from '../api/users';
 
 export default {
   name: 'upload-users-popup',
@@ -54,7 +54,7 @@ export default {
       }
     },
     addItem(itemInstance) {
-      return addUser({ itemInstance });
+      return UsersAPI.add({ itemInstance });
     },
   },
 };

@@ -13,9 +13,13 @@ const state = {
 
 const actions = {
   LOAD_DATA_LIST: async (context) => {
-    const { list = [], next = false } = await context.dispatch('GET_LIST');
-    context.commit('SET_DATA_LIST', list);
-    context.commit('SET_IS_NEXT', next);
+    try {
+      const { items = [], next = false } = await context.dispatch('GET_LIST');
+      context.commit('SET_DATA_LIST', items);
+      context.commit('SET_IS_NEXT', next);
+    } catch (err) {
+      console.error(err);
+    }
   },
   SET_SIZE: async (context, size) => {
     context.commit('SET_SIZE', size);
@@ -106,8 +110,8 @@ const actions = {
 };
 
 const mutations = {
-  SET_DATA_LIST: (state, list) => {
-    state.dataList = list;
+  SET_DATA_LIST: (state, items) => {
+    state.dataList = items;
   },
   SET_SIZE: (state, size) => {
     state.size = size;

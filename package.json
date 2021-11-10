@@ -10,7 +10,7 @@
   },
   "dependencies": {
     "@johmun/vue-tags-input": "^2.1.0",
-    "@webitel/ui-sdk": "^0.9.9",
+    "@webitel/ui-sdk": "^0.9.18",
     "axios": "^0.21.1",
     "chart.js": "^2.9.3",
     "clipboard-copy": "^4.0.1",
@@ -39,7 +39,7 @@
     "vuejs-datepicker": "^1.6.2",
     "vuelidate": "^0.7.4",
     "vuex": "^3.0.1",
-    "webitel-sdk": "^0.1.80",
+    "webitel-sdk": "^0.1.83",
     "webpack-bundle-analyzer": "^4.4.2"
   },
   "devDependencies": {

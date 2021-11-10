@@ -29,8 +29,7 @@
       <wt-select
         :value="itemInstance.user"
         :label="$tc('objects.directory.users.users', 1)"
-        :search="loadDropdownOptionsList"
-        :internal-search="false"
+        :search-method="loadDropdownOptionsList"
         :disabled="disableUserInput"
         @input="setItemProp({ prop: 'user', value: $event })"
       ></wt-select>
@@ -39,7 +38,7 @@
 </template>
 
 <script>
-import { getUsersList } from '../../users/api/users';
+import UsersAPI from '../../users/api/users';
 import CopyInput from '../../../../../app/components/utils/copy-input.vue';
 import PasswordInput from '../../../../../app/components/utils/generate-password-input.vue';
 import openedTabComponentMixin
@@ -50,12 +49,8 @@ export default {
   mixins: [openedTabComponentMixin],
   components: { CopyInput, PasswordInput },
   methods: {
-    async loadDropdownOptionsList(search) {
-      const response = await getUsersList({ search });
-      return response.list.map((item) => ({
-        name: item.name,
-        id: item.id,
-      }));
+    loadDropdownOptionsList(params) {
+      return UsersAPI.getLookup(params);
     },
   },
 };

@@ -9,8 +9,7 @@
           :value="itemInstance.resourceGroup"
           :v="$v.itemInstance.resourceGroup"
           :label="$tc('objects.ccenter.resGroups.resGroups', 1)"
-          :search="loadResGroupsOptions"
-          :internal-search="false"
+          :search-method="loadResGroupsOptions"
           :clearable="false"
           required
           @input="setItemProp({ prop: 'resourceGroup', value: $event })"
@@ -34,7 +33,7 @@
 
 <script>
 import { required } from 'vuelidate/lib/validators';
-import { getResGroupList } from '../../../../resource-groups/api/resourceGroups';
+import ResourceGroupsAPI from '../../../../resource-groups/api/resourceGroups';
 import nestedObjectMixin from '../../../../../../../app/mixins/objectPagesMixins/openedObjectMixin/nestedObjectMixin';
 
 export default {
@@ -51,12 +50,8 @@ export default {
   },
 
   methods: {
-    async loadResGroupsOptions(search) {
-      const response = await getResGroupList({ search });
-      return response.list.map((item) => ({
-        name: item.name,
-        id: item.id,
-      }));
+    loadResGroupsOptions(params) {
+      return ResourceGroupsAPI.getLookup(params);
     },
   },
 };

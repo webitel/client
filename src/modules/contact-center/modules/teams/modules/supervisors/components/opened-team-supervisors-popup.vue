@@ -9,8 +9,7 @@
           :value="itemInstance.agent"
           :v="$v.itemInstance.agent"
           :label="$tc('objects.ccenter.agents.agents', 1)"
-          :search="loadAgentsOptions"
-          :internal-search="false"
+          :search-method="loadAgentsOptions"
           :clearable="false"
           required
           @input="setItemProp({ prop: 'agent', value: $event })"
@@ -36,7 +35,7 @@
 import { required } from 'vuelidate/lib/validators';
 import { mapState } from 'vuex';
 import getNamespacedState from '../../../../../../../app/store/helpers/getNamespacedState';
-import { getSupervisorOptions } from '../../../../agents/api/agents';
+import AgentsAPI from '../../../../agents/api/agents';
 
 import nestedObjectMixin
   from '../../../../../../../app/mixins/objectPagesMixins/openedObjectMixin/nestedObjectMixin';
@@ -64,15 +63,15 @@ export default {
   },
 
   methods: {
-    async loadAgentsOptions(search) {
-      const response = await getSupervisorOptions({
-        search,
+    async loadAgentsOptions(params) {
+      const fields = ['id', 'user'];
+      const response = await AgentsAPI.getSupervisorOptions({
+        ...params,
+        fields,
         notTeamId: this.parentId,
       });
-      return response.list.map((item) => ({
-        name: item.user.name,
-        id: item.id,
-      }));
+      response.items = response.items.map(({ user, id }) => ({ name: user.name, id }));
+      return response;
     },
   },
 };

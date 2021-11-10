@@ -8,8 +8,7 @@
         :value="itemInstance.user"
         :v="v.itemInstance.user"
         :label="$tc('objects.directory.users.users', 1)"
-        :search="loadUsersOptions"
-        :internal-search="false"
+        :search-method="loadUsersOptions"
         :clearable="false"
         :disabled="disableUserInput"
         required
@@ -24,8 +23,7 @@
       <wt-select
         :value="itemInstance.team"
         :label="$tc('objects.ccenter.teams.teams', 1)"
-        :search="loadTeamsOptions"
-        :internal-search="false"
+        :search-method="loadTeamsOptions"
         :disabled="disableUserInput"
         @input="setItemProp({ prop: 'team', value: $event })"
       ></wt-select>
@@ -33,8 +31,7 @@
         v-show="!itemInstance.isSupervisor"
         :value="itemInstance.supervisor"
         :label="$tc('objects.ccenter.agents.supervisors', 1)"
-        :search="loadSupervisorsOptions"
-        :internal-search="false"
+        :search-method="loadSupervisorsOptions"
         :disabled="disableUserInput"
         :close-on-select="false"
         multiple
@@ -43,8 +40,7 @@
       <wt-select
         :value="itemInstance.auditor"
         :label="$tc('objects.ccenter.auditors.auditors', 1)"
-        :search="loadAuditorsOptions"
-        :internal-search="false"
+        :search-method="loadAuditorsOptions"
         :disabled="disableUserInput"
         :close-on-select="false"
         multiple
@@ -53,8 +49,7 @@
       <wt-select
         :value="itemInstance.region"
         :label="$tc('objects.lookups.regions.regions', 1)"
-        :search="loadRegionsOptions"
-        :internal-search="false"
+        :search-method="loadRegionsOptions"
         :disabled="disableUserInput"
         @input="setItemProp({ prop: 'region', value: $event })"
       ></wt-select>
@@ -83,35 +78,30 @@
 </template>
 
 <script>
-import { getAgentUsersOptions, getSupervisorOptions } from '../api/agents';
-import { getTeamsList } from '../../teams/api/teams';
-import { getUsersList } from '../../../../directory/modules/users/api/users';
-import { getRegionsList } from '../../../../lookups/modules/regions/api/regions';
+import AgentsAPI from '../api/agents';
+import TeamsAPI from '../../teams/api/teams';
+import UsersAPI from '../../../../directory/modules/users/api/users';
+import RegionsAPI from '../../../../lookups/modules/regions/api/regions';
 import openedTabComponentMixin from '../../../../../app/mixins/objectPagesMixins/openedObjectTabMixin/openedTabComponentMixin';
 
 export default {
   name: 'opened-agent-general',
   mixins: [openedTabComponentMixin],
   methods: {
-    async loadUsersOptions(search) {
-      const response = await getAgentUsersOptions({ search, fields: ['name', 'id'] });
-      return response.list;
+    loadUsersOptions(params) {
+      return AgentsAPI.getAgentUsersOptions(params);
     },
-    async loadTeamsOptions(search) {
-      const response = await getTeamsList({ search, fields: ['name', 'id'] });
-      return response.list;
+    loadTeamsOptions(params) {
+      return TeamsAPI.getLookup(params);
     },
-    async loadSupervisorsOptions(search) {
-      const response = await getSupervisorOptions({ search, fields: ['name', 'id'] });
-      return response.list;
+    loadSupervisorsOptions(params) {
+      return AgentsAPI.getSupervisorOptions(params);
     },
-    async loadAuditorsOptions(search) {
-      const response = await getUsersList({ search, fields: ['name', 'id'] });
-      return response.list;
+    loadAuditorsOptions(params) {
+      return UsersAPI.getLookup(params);
     },
-    async loadRegionsOptions(search) {
-      const response = await getRegionsList({ search, fields: ['name', 'id'] });
-      return response.list;
+    loadRegionsOptions(params) {
+      return RegionsAPI.getLookup(params);
     },
   },
 };

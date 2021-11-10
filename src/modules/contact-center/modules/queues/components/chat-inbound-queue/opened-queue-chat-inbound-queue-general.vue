@@ -16,8 +16,7 @@
           :value="itemInstance.calendar"
           :v="v.itemInstance.calendar"
           :label="$tc('objects.lookups.calendars.calendars', 1)"
-          :search="loadDropdownOptionsCalendarList"
-          :internal-search="false"
+          :search-method="loadDropdownOptionsCalendarList"
           :clearable="false"
           :disabled="disableUserInput"
           required
@@ -26,8 +25,7 @@
       <wt-select
           :value="itemInstance.dncList"
           :label="$tc('objects.lookups.blacklist.blacklist', 1)"
-          :search="loadDropdownOptionsBlacklistList"
-          :internal-search="false"
+          :search-method="loadDropdownOptionsBlacklistList"
           :disabled="disableUserInput"
           @input="setItemProp({ prop: 'dncList', value: $event })"
       ></wt-select>
@@ -53,8 +51,7 @@
           :value="itemInstance.team"
           :v="v.itemInstance.team"
           :label="$tc('objects.ccenter.teams.teams', 1)"
-          :search="loadDropdownOptionsTeamList"
-          :internal-search="false"
+          :search-method="loadDropdownOptionsTeamList"
           :clearable="true"
           :disabled="disableUserInput"
           @input="setItemProp({ prop: 'team', value: $event })"
@@ -71,9 +68,9 @@
 
 <script>
 import openedTabComponentMixin from '../../../../../../app/mixins/objectPagesMixins/openedObjectTabMixin/openedTabComponentMixin';
-import { getCalendarList } from '../../../../../lookups/modules/calendars/api/calendars';
-import { getTeamsList } from '../../../teams/api/teams';
-import { getBlacklistList } from '../../../../../lookups/modules/blacklists/api/blacklists';
+import CalendarsAPI from '../../../../../lookups/modules/calendars/api/calendars';
+import TeamsAPI from '../../../teams/api/teams';
+import BlacklistsAPI from '../../../../../lookups/modules/blacklists/api/blacklists';
 import { StrategyList } from '../../store/_internals/enums/Strategy.enum';
 
 export default {
@@ -100,28 +97,14 @@ export default {
   },
 
   methods: {
-    async loadDropdownOptionsCalendarList(search) {
-      const response = await getCalendarList({ search });
-      return response.list.map((item) => ({
-        name: item.name,
-        id: item.id,
-      }));
+    loadDropdownOptionsCalendarList(params) {
+      return CalendarsAPI.getLookup(params);
     },
-
-    async loadDropdownOptionsBlacklistList(search) {
-      const response = await getBlacklistList({ search });
-      return response.list.map((item) => ({
-        name: item.name,
-        id: item.id,
-      }));
+    loadDropdownOptionsBlacklistList(params) {
+      return BlacklistsAPI.getLookup(params);
     },
-
-    async loadDropdownOptionsTeamList(search) {
-      const response = await getTeamsList({ search });
-      return response.list.map((item) => ({
-        name: item.name,
-        id: item.id,
-      }));
+    loadDropdownOptionsTeamList(params) {
+      return TeamsAPI.getLookup(params);
     },
   },
 };

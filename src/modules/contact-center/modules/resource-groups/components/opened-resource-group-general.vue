@@ -16,8 +16,7 @@
         :value="itemInstance.communication"
         :v="v.itemInstance.communication"
         :label="$tc('objects.lookups.communications.communications', 1)"
-        :search="loadDropdownOptionsList"
-        :internal-search="false"
+        :search-method="loadDropdownOptionsList"
         :clearable="false"
         :disabled="disableUserInput"
         required
@@ -34,19 +33,15 @@
 </template>
 
 <script>
-import { getCommunicationsList } from '../../../../lookups/modules/communications/api/communications';
+import CommunicationsAPI from '../../../../lookups/modules/communications/api/communications';
 import openedTabComponentMixin from '../../../../../app/mixins/objectPagesMixins/openedObjectTabMixin/openedTabComponentMixin';
 
 export default {
   name: 'opened-resource-group-general',
   mixins: [openedTabComponentMixin],
   methods: {
-    async loadDropdownOptionsList(search) {
-      const response = await getCommunicationsList({ search });
-      return response.list.map((comm) => ({
-        name: comm.name,
-        id: comm.id,
-      }));
+    loadDropdownOptionsList(params) {
+      return CommunicationsAPI.getLookup(params);
     },
   },
 };

@@ -18,11 +18,9 @@
         <wt-select
           :value="itemInstance.devices"
           :label="$tc('objects.directory.devices.devices', 2)"
-          :search="loadDropdownOptionsList"
+          :search-method="loadDropdownOptionsList"
           :close-on-select="false"
-          :internal-search="false"
           :disabled="disableUserInput"
-          track-by="id"
           multiple
           @input="setItemProp({ prop: 'devices', value: $event })"
         ></wt-select>
@@ -39,7 +37,7 @@
 </template>
 
 <script>
-import { getDeviceList } from '../../devices/api/devices';
+import DevicesAPI from '../../devices/api/devices';
 import openedTabComponentMixin
   from '../../../../../app/mixins/objectPagesMixins/openedObjectTabMixin/openedTabComponentMixin';
 
@@ -47,12 +45,11 @@ export default {
   name: 'opened-user-devices',
   mixins: [openedTabComponentMixin],
   methods: {
-    async loadDropdownOptionsList(search) {
-      const response = await getDeviceList({ search });
-      return response.list.filter((item) => !item.hotdesk).map((item) => ({
-        name: item.name,
-        id: item.id,
-      }));
+    async loadDropdownOptionsList(params) {
+      const fields = ['id', 'name', 'hotdesk'];
+      const response = await DevicesAPI.getLookup({ ...params, fields });
+      response.items = response.items.filter((item) => !item.hotdesk);
+      return response;
     },
   },
 };

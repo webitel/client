@@ -1,5 +1,7 @@
+import {
+  EndpointListGetterApiConsumer,
+} from 'webitel-sdk/esm2015/api-consumers';
 import instance from '../../../../../app/api/instance';
-import APIListGetter from '../../../../../app/api/BaseAPIServices/ListGetter/ApiListGetter';
 
 const LICENSE_URL = '/license';
 const CUSTOMER_URL = '/customer';
@@ -9,10 +11,11 @@ const defaultListObject = {
   limit: 0,
 };
 
-const listGetter = new APIListGetter(LICENSE_URL, { defaultListObject });
+const listGetter = new EndpointListGetterApiConsumer({ baseUrl: LICENSE_URL, instance },
+  { defaultListObject });
 
-export const getLicenseList = (params) => listGetter.getList({ ...params, searchQuery: 'q' });
-export const updateLicense = async (data) => {
+const getLicenseList = (params) => listGetter.getList({ ...params, searchQuery: 'q' });
+const updateLicense = async (data) => {
   try {
     const response = await instance.put(CUSTOMER_URL, data);
     return response;
@@ -21,7 +24,9 @@ export const updateLicense = async (data) => {
   }
 };
 
-export default {
+const licenseAPI = {
   getList: getLicenseList,
   update: updateLicense,
 };
+
+export default licenseAPI;

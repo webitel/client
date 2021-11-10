@@ -1,32 +1,38 @@
 import { ListServiceApiFactory } from 'webitel-sdk';
+import {
+  SdkListGetterApiConsumer,
+  SdkGetterApiConsumer,
+  SdkCreatorApiConsumer,
+  SdkUpdaterApiConsumer,
+  SdkDeleterApiConsumer,
+} from 'webitel-sdk/esm2015/api-consumers';
 import instance from '../../../../../../../app/api/instance';
 import configuration from '../../../../../../../app/api/openAPIConfig';
-import SDKListGetter from '../../../../../../../app/api/BaseAPIServices/ListGetter/SDKListGetter';
-import SDKGetter from '../../../../../../../app/api/BaseAPIServices/Getter/SDKGetter';
-import SDKCreator from '../../../../../../../app/api/BaseAPIServices/Creator/SDKCreator';
-import SDKUpdater from '../../../../../../../app/api/BaseAPIServices/Updater/SDKUpdater';
-import SDKDeleter from '../../../../../../../app/api/BaseAPIServices/Deleter/SDKDeleter';
 
 const listService = new ListServiceApiFactory(configuration, '', instance);
 
 const fieldsToSend = ['listId', 'description', 'number'];
 
-const listGetter = new SDKListGetter(listService.searchListCommunication);
-const itemGetter = new SDKGetter(listService.readListCommunication);
-const itemCreator = new SDKCreator(listService.createListCommunication, { fieldsToSend });
-const itemUpdater = new SDKUpdater(listService.updateListCommunication, { fieldsToSend });
-const itemDeleter = new SDKDeleter(listService.deleteListCommunication);
+const listGetter = new SdkListGetterApiConsumer(listService.searchListCommunication);
+const itemGetter = new SdkGetterApiConsumer(listService.readListCommunication);
+const itemCreator = new SdkCreatorApiConsumer(listService.createListCommunication,
+  { fieldsToSend });
+const itemUpdater = new SdkUpdaterApiConsumer(listService.updateListCommunication,
+  { fieldsToSend });
+const itemDeleter = new SdkDeleterApiConsumer(listService.deleteListCommunication);
 
-export const getBlacklistNumbersList = (params) => listGetter.getNestedList(params);
-export const getBlacklistNumber = (params) => itemGetter.getNestedItem(params);
-export const addBlacklistNumber = (params) => itemCreator.createNestedItem(params);
-export const updateBlacklistNumber = (params) => itemUpdater.updateNestedItem(params);
-export const deleteBlacklistNumber = (params) => itemDeleter.deleteNestedItem(params);
+const getBlacklistNumbersList = (params) => listGetter.getNestedList(params);
+const getBlacklistNumber = (params) => itemGetter.getNestedItem(params);
+const addBlacklistNumber = (params) => itemCreator.createNestedItem(params);
+const updateBlacklistNumber = (params) => itemUpdater.updateNestedItem(params);
+const deleteBlacklistNumber = (params) => itemDeleter.deleteNestedItem(params);
 
-export default {
+const BlacklistNumbersAPI = {
   getList: getBlacklistNumbersList,
   get: getBlacklistNumber,
   add: addBlacklistNumber,
   update: updateBlacklistNumber,
   delete: deleteBlacklistNumber,
 };
+
+export default BlacklistNumbersAPI;
