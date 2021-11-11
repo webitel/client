@@ -257,7 +257,7 @@ export default {
       this.playingIndex = null;
       this.audioLink = null;
     },
-    getMediaList: MediaAPI.getList(params),
+    getMediaList: MediaAPI.getList,
     prettifyDate(date) {
       return new Date(+date).toLocaleDateString();
     },
