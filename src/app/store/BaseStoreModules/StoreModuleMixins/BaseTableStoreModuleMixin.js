@@ -14,7 +14,12 @@ const state = {
 const actions = {
   LOAD_DATA_LIST: async (context) => {
     try {
-      const { items = [], next = false } = await context.dispatch('GET_LIST');
+      let { items = [], next = false } = await context.dispatch('GET_LIST');
+      /* we should set _isSelected property to all items in tables cause their checkbox selection
+      * is based on this property. Previously, this prop was set it api consumers, but now
+      * admin-specific were replaced by webitel-sdk consumers and i supposed it will be
+      * weird to set this property in each api file through defaultListObject */
+      items = items.map((item) => ({...item, _isSelected: false }));
       context.commit('SET_DATA_LIST', items);
       context.commit('SET_IS_NEXT', next);
     } catch (err) {
