@@ -21,7 +21,7 @@ const progressiveDialer = () => ({
     waitBetweenRetriesDesc: false,
     recordings: false,
     allowGreetingAgent: false,
-    maxCalls: 0,
+    maxCalls: 10,
     amd: amd(),
     strictCircuit: false,
     endless: false,
