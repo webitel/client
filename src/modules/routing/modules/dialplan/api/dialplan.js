@@ -15,7 +15,7 @@ const dialplanService = new RoutingOutboundCallServiceApiFactory(configuration, 
 
 const fieldsToSend = ['name', 'schema', 'pattern', 'description', 'disabled'];
 
-const defaultListObject = { _isSelected: false, disabled: false };
+const defaultListObject = { disabled: false };
 
 const listGetter = new SdkListGetterApiConsumer(dialplanService.searchRoutingOutboundCall,
   { defaultListObject });
