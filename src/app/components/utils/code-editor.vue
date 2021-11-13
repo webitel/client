@@ -215,7 +215,7 @@ $line-current: rgba(255, 193, 7, 0.2);
 
   .slider {
     background-color: $srollbar-thumb-color;
-    border-radius: $border-radius;
+    border-radius: var(--border-radius);
   }
 
   // scrollbar

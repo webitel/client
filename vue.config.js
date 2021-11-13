@@ -54,8 +54,8 @@ module.exports = {
 
       config.plugin('webpack-bundle-analyzer').use(new BundleAnalyzerPlugin({
         // analyzerHost: '127.0.0.1:8082',
-        // analyzerMode: 'static',
-        analyzerMode: 'disabled',
+        analyzerMode: 'static',
+        // analyzerMode: 'disabled',
       }));
 
       config.module

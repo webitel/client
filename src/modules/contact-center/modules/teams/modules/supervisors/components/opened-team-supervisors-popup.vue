@@ -34,7 +34,7 @@
 <script>
 import { required } from 'vuelidate/lib/validators';
 import { mapState } from 'vuex';
-import getNamespacedState from '../../../../../../../app/store/helpers/getNamespacedState';
+import getNamespacedState from '@webitel/ui-sdk/src/store/helpers/getNamespacedState';
 import AgentsAPI from '../../../../agents/api/agents';
 
 import nestedObjectMixin

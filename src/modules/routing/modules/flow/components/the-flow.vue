@@ -117,7 +117,7 @@
 import tableComponentMixin from '../../../../../app/mixins/objectPagesMixins/objectTableMixin/tableComponentMixin';
 import CreateFlowPopup from './create-flow-popup.vue';
 import UploadPopup from './upload-flow-popup.vue';
-import UploadFileIconBtn from '../../../../../app/components/utils/upload-file-ucon-btn.vue';
+import UploadFileIconBtn from '../../../../../app/components/utils/upload-file-icon-btn.vue';
 import FlowsAPI from '../api/flow';
 import { downloadAsJSON } from '../../../../../app/utils/download';
 import RouteNames from '../../../../../app/router/_internals/RouteNames.enum';

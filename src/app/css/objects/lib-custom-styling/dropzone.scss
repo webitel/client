@@ -3,8 +3,8 @@
 #dropzone {
   min-height: 57px;
   margin-bottom: 36px;
-  border: 2px dashed $accent-color;
-  border-radius: $border-radius;
+  border: 2px dashed var(--accent-color);
+  border-radius: var(--border-radius);
 
   &:hover {
     background: #fff;
@@ -25,7 +25,7 @@
       }
 
       i, .dz-message-text__accent {
-        color: $accent-color;
+        color: var(--accent-color);
       }
     }
   }

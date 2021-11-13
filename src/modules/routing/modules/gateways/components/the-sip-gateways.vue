@@ -71,11 +71,10 @@
               ></wt-switcher>
             </template>
             <template slot="status" slot-scope="{ item }">
-              <status
-                class="status"
-                :class="computeStatusClass(item.rState)"
+              <wt-indicator
+                :color="computeStatusClass(item.rState)"
                 :text="computeStatusText(item.rState)"
-              ></status>
+              ></wt-indicator>
             </template>
             <template slot="actions" slot-scope="{ item }">
               <edit-action
@@ -144,29 +143,17 @@ export default {
     },
 
     computeStatusText(stateCode) {
-      if (stateCode === 3) {
-        return this.$t('objects.routing.gateways.stateSuccess');
-      }
-      if (stateCode > 3 && stateCode < 8) {
-        return this.$t('objects.routing.gateways.stateFailed');
-      }
-      if (stateCode > 7 && stateCode < 2) {
-        return this.$t('objects.routing.gateways.stateProgress');
-      }
+      if (stateCode === 3) return this.$t('objects.routing.gateways.stateSuccess');
+      if (stateCode > 3 && stateCode < 8) return this.$t('objects.routing.gateways.stateFailed');
+      if (stateCode > 7 && stateCode < 2) return this.$t('objects.routing.gateways.stateProgress');
       return this.$t('objects.routing.gateways.stateNonreg');
     },
 
     computeStatusClass(stateCode) {
-      if (stateCode === 3) {
-        return 'status__true';
-      }
-      if (stateCode > 3 && stateCode < 8) {
-        return 'status__false';
-      }
-      if (stateCode > 7 && stateCode < 2) {
-        return 'status__info';
-      }
-      return 'not-registered';
+      if (stateCode === 3) return 'success';
+      if (stateCode > 3 && stateCode < 8) return 'danger';
+      if (stateCode > 7 && stateCode < 2) return 'primary';
+      return 'disabled';
     },
   },
 };

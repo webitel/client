@@ -93,12 +93,10 @@
 
             <!--state classes are specified in table-status component-->
             <template slot="state" slot-scope="{ item }">
-              <status
-                class="device-state"
-                :class="stateClass(item.reged ? 1 : 0)"
+              <wt-indicator
+                :color="stateClass(item.reged ? 1 : 0)"
                 :text="stateText(item.reged ? 1 : 0)"
-              >
-              </status>
+              ></wt-indicator>
             </template>
 
             <template slot="actions" slot-scope="{ item }">
@@ -137,13 +135,13 @@
 
 <script>
 import { mapActions, mapState } from 'vuex';
+import getNamespacedState from '@webitel/ui-sdk/src/store/helpers/getNamespacedState';
 import HistoryPopup from './device-history-popup.vue';
 import UploadPopup from './upload-devices-popup.vue';
 import DevicePopup from './create-device-popup.vue';
-import UploadFileIconBtn from '../../../../../app/components/utils/upload-file-ucon-btn.vue';
+import UploadFileIconBtn from '../../../../../app/components/utils/upload-file-icon-btn.vue';
 import tableComponentMixin from '../../../../../app/mixins/objectPagesMixins/objectTableMixin/tableComponentMixin';
 import RouteNames from '../../../../../app/router/_internals/RouteNames.enum';
-import getNamespacedState from '../../../../../app/store/helpers/getNamespacedState';
 
 export default {
   name: 'the-devices',
@@ -214,21 +212,12 @@ export default {
       this.isUploadPopup = false;
     },
 
-    // computes dynamic class name for state icon colorizing
     stateClass(state) {
       switch (state) {
         case 0:
-          return 'state__nonreg';
+          return 'disabled';
         case 1:
-          return 'state__reged';
-        case 2:
-          return 'state__ringing';
-        case 3:
-          return 'state__dialing';
-        case 4:
-          return 'state__dialog';
-        case 5:
-          return 'state__onhold';
+          return 'success';
         default:
           return '';
       }
@@ -240,14 +229,14 @@ export default {
           return this.$t('objects.directory.devices.state.nonreg');
         case 1:
           return this.$t('objects.directory.devices.state.reged');
-        case 2:
-          return this.$t('objects.directory.devices.state.ringing');
-        case 3:
-          return this.$t('objects.directory.devices.state.dialing');
-        case 4:
-          return this.$t('objects.directory.devices.state.dialog');
-        case 5:
-          return this.$t('objects.directory.devices.state.onhold');
+        // case 2:
+        //   return this.$t('objects.directory.devices.state.ringing');
+        // case 3:
+        //   return this.$t('objects.directory.devices.state.dialing');
+        // case 4:
+        //   return this.$t('objects.directory.devices.state.dialog');
+        // case 5:
+        //   return this.$t('objects.directory.devices.state.onhold');
         default:
           return 'unknown';
       }

@@ -77,7 +77,6 @@
 
 <script>
     import tableComponentMixin from '@/app/mixins/objectPagesMixins/objectTableMixin/tableComponentMixin';
-    import { _checkboxTableField, _actionsTableField_2, _switcherWidth } from '@/app/utils/tableFieldPresets';
     import triggerPopup from './create-trigger-popup';
 
     export default {
@@ -85,18 +84,6 @@
         mixins: [tableComponentMixin],
         components: {
             triggerPopup,
-        },
-        data() {
-            return {
-                fields: [
-                    _checkboxTableField,
-                    { name: 'name', title: this.$t('objects.name') },
-                    { name: 'type', title: this.$t('objects.integrations.triggers.type') },
-                    { name: 'enabled', title: this.$t('objects.enabled'), width: _switcherWidth },
-                    { name: 'schema', title: this.$t('objects.integrations.triggers.schema') },
-                    _actionsTableField_2,
-                ],
-            };
         },
 
         methods: {

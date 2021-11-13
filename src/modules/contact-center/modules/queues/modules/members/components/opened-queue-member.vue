@@ -29,13 +29,13 @@
 
 <script>
 import { mapActions, mapState } from 'vuex';
+import getNamespacedState from '@webitel/ui-sdk/src/store/helpers/getNamespacedState';
 import required from 'vuelidate/src/validators/required';
 import General from './opened-queue-member-general.vue';
 import Communication from './communications/opened-queue-member-communication.vue';
 import Variables from './opened-queue-member-variables.vue';
 import { requiredArrayValue } from '../../../../../../../app/utils/validators';
 import openedObjectMixin from '../../../../../../../app/mixins/objectPagesMixins/openedObjectMixin/openedObjectMixin';
-import getNamespacedState from '../../../../../../../app/store/helpers/getNamespacedState';
 
 export default {
   name: 'opened-queue-member',
