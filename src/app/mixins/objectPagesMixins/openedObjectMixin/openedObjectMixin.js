@@ -1,10 +1,10 @@
 import { mapActions, mapState } from 'vuex';
+import getNamespacedState from '@webitel/ui-sdk/src/store/helpers/getNamespacedState';
 import ObjectHeader from '../../../components/utils/object-utils/the-object-header.vue';
 import Permissions from '../../../../modules/_shared/permissions-tab/components/permissions-tab.vue';
 import baseObjectMixin from '../../baseMixins/baseObjectMixin/baseObjectMixin';
 import headlineNavMixin from '../../baseMixins/headlineNavMixin/headlineNavMixin';
 import openedObjectAccessControlMixin from './_internals/openedObjectAccessControlMixin';
-import getNamespacedState from '../../../store/helpers/getNamespacedState';
 
 /**
  * @fileOverview contains openedObject (wrapper with tabs, like opened-agent.vue) common logic

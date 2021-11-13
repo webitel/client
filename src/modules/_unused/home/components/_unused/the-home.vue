@@ -210,10 +210,10 @@ $scrollbar-bg-color: #EAEAEA;
   .chart {
     padding: 33px 41px;
     background: #fff;
-    border-radius: $border-radius;
+    border-radius: var(--border-radius);
 
     .chart-title {
-      @extend .typo-heading-md;
+      @extend %typo-heading-md;
       margin: 0 0 26px;
     }
   }
@@ -228,7 +228,7 @@ $scrollbar-bg-color: #EAEAEA;
   .dashboard-info__article {
     padding: 32px 41px;
     background: #fff;
-    border-radius: $border-radius;
+    border-radius: var(--border-radius);
   }
 
   .dashboard-news {
@@ -236,15 +236,15 @@ $scrollbar-bg-color: #EAEAEA;
     min-height: 400px;
     padding: 32px 41px;
     background: #fff;
-    border-radius: $border-radius;
+    border-radius: var(--border-radius);
 
     .dashboard-news__title {
-      @extend .typo-heading-md;
+      @extend %typo-heading-md;
       margin: 0 0 28px;
     }
 
     .dashboard-news__list {
-      @extend .typo-body-md;
+      @extend %typo-body-md;
       position: absolute;
       top: calc(32px + 22px + 28px); // top padding + h3 line height + h3 margin-bottom
       left: 41px;
@@ -264,14 +264,13 @@ $scrollbar-bg-color: #EAEAEA;
       &::-webkit-scrollbar-thumb {
         width: 4px;
         background-color: $accent-color;
-        border-radius: $border-radius;
+        border-radius: var(--border-radius);
       }
 
       &-item {
         margin-bottom: 44px;
 
         .dashboard-news__item-title-link {
-          @extend .typo-heading-sm;
           margin-right: 10px;
           text-decoration: none;
           color: #000;
@@ -283,7 +282,6 @@ $scrollbar-bg-color: #EAEAEA;
         }
 
         .dashboard-news__item-date {
-          color: $icon-color;
         }
 
         .dashboard-news__item-text {

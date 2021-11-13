@@ -1,12 +1,5 @@
-@import "styleguide/styleguide";
-@import "utils/helper-classes";
 @import '~@webitel/ui-sdk/src/css/main';
 
-
-// OTHER
-$input-padding: 11px 16px 7px;
-$border-radius: 4px;
-$transition: 0.2s;
 
 * {
   box-sizing: border-box;
@@ -41,11 +34,6 @@ a {
   text-decoration: none;
 }
 
-i {
-  color: $icon-color;
-  transition: $transition;
-}
-
 .mb-0 {
   margin-bottom: 0;
 }
@@ -64,7 +52,7 @@ i {
   cursor: pointer;
 
   &:before {
-    transition: $transition;
+    transition: var(--transition);
   }
 
   &:hover:before {
@@ -86,62 +74,8 @@ i {
   }
 }
 
-.label {
-  @extend .typo-input-label;
-
-  position: relative;
-  display: block;
-  margin-bottom: 10px;
-  color: $label-color;
-  transition: $transition;
-
-  .hint {
-    position: absolute;
-    bottom: -2px;
-  }
-}
-
-.default-input {
-  @extend .typo-input-text;
-
-  display: block;
-  width: 100%;
-  /*different top and bottom padding to vertically align text*/
-  padding: $input-padding;
-  border: 1px solid $input;
-  border-radius: $border-radius;
-  outline: none;
-  transition: $transition;
-
-  &::placeholder {
-    color: $input;
-  }
-
-  &:hover:not(:disabled) {
-    border-color: #000;
-  }
-
-  &:focus {
-    border-color: #000;
-
-    &::placeholder {
-      color: transparent;
-    }
-  }
-
-  &:disabled {
-    background: $input-disabled;
-    border-color: $input;
-  }
-}
-
-.invalid {
-  color: $false-color;
-  border-color: $false-color;
-}
-
 $scrollbar-bg-color: #EAEAEA;
-$srollbar-thumb-color: $accent-color;
+$srollbar-thumb-color: var(--accent-color);
 $srollbar-border-radius: 4px;
 
 .scrollbar {

@@ -69,10 +69,10 @@
 
 <script>
 import { mapActions, mapState } from 'vuex';
+import getNamespacedState from '@webitel/ui-sdk/src/store/helpers/getNamespacedState';
 import CommunicationPopup from './opened-queue-member-communication-popup.vue';
 import openedObjectTableTabMixin
   from '../../../../../../../../app/mixins/objectPagesMixins/openedObjectTableTabMixin/openedObjectTableTabMixin';
-import getNamespacedState from '../../../../../../../../app/store/helpers/getNamespacedState';
 
 export default {
   name: 'opened-queue-member-communication',

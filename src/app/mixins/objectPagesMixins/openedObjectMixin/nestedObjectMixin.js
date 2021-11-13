@@ -1,6 +1,6 @@
 import { mapState, mapActions } from 'vuex';
+import getNamespacedState from '@webitel/ui-sdk/src/store/helpers/getNamespacedState';
 import baseObjectMixin from '../../baseMixins/baseObjectMixin/baseObjectMixin';
-import getNamespacedState from '../../../store/helpers/getNamespacedState';
 
 /**
  * @fileOverview contains nestedObject common logic

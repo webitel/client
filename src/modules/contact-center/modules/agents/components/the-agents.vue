@@ -62,11 +62,10 @@
               </item-link>
             </template>
             <template slot="state" slot-scope="{ item }">
-              <status
-                :class="{'status__true': item.status === 'online',
-                            'status__info': item.status === 'pause'}"
-                :text=computeOnlineText(item.status)
-              ></status>
+              <wt-indicator
+                :color="statusIndicatorColor(item.status)"
+                :text="statusIndicatorText(item.status)"
+              ></wt-indicator>
             </template>
             <template slot="time" slot-scope="{ item }">
               {{ item.statusDuration }}
@@ -108,10 +107,10 @@
 
 <script>
 import { mapState, mapActions } from 'vuex';
+import getNamespacedState from '@webitel/ui-sdk/src/store/helpers/getNamespacedState';
 import HistoryPopup from './agent-history-popup.vue';
 import tableComponentMixin from '../../../../../app/mixins/objectPagesMixins/objectTableMixin/tableComponentMixin';
 import RouteNames from '../../../../../app/router/_internals/RouteNames.enum';
-import getNamespacedState from '../../../../../app/store/helpers/getNamespacedState';
 
 export default {
   name: 'the-agents',
@@ -155,8 +154,18 @@ export default {
     closeHistoryPopup() {
       this.openHistory(null);
     },
-
-    computeOnlineText(state) {
+    statusIndicatorColor(state) {
+      console.info('rc');
+      switch (state) {
+        case 'online':
+          return 'success';
+        case 'pause':
+          return 'primary';
+        default:
+          return 'disabled';
+      }
+      },
+    statusIndicatorText(state) {
       switch (state) {
         case 'online':
           return 'Online';

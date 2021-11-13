@@ -59,7 +59,6 @@
   }
 
   .upload-tooltip {
-    @extend .typo-body-sm;
-    color: $icon-color;
+    @extend %typo-body-sm;
   }
 }

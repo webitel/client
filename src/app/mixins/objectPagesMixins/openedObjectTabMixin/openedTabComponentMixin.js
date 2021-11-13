@@ -1,14 +1,10 @@
 import { mapState, mapActions } from 'vuex';
-import ObjectHeader from '@/app/components/utils/object-utils/the-object-header.vue';
-import formInput from '@/app/components/utils/form-input.vue';
-import dropdownSelect from '@/app/components/utils/dropdown-select.vue';
-import tableCheckbox from '@/app/components/utils/checkbox.vue';
-import tagsInput from '@/app/components/utils/tags-input.vue';
+import getNamespacedState from '@webitel/ui-sdk/src/store/helpers/getNamespacedState';
+import ObjectHeader from '../../../components/utils/object-utils/the-object-header.vue';
 
 import openedObjectValidationMixin
   from '../../baseMixins/openedObjectValidationMixin/openedObjectValidationMixin';
 import openedObjectTabAccessControlMixin from './_internals/openedObjectTabAccessControlMixin';
-import getNamespacedState from '../../../store/helpers/getNamespacedState';
 
 /**
  * @fileOverview contains openedObject tab
@@ -18,15 +14,7 @@ import getNamespacedState from '../../../store/helpers/getNamespacedState';
  */
 export default {
   mixins: [openedObjectValidationMixin, openedObjectTabAccessControlMixin],
-  components: {
-    ObjectHeader,
-
-    // FIXME: DELETE AFTER REFACTOR WITH WEBITEL-UI
-    formInput,
-    dropdownSelect,
-    checkbox: tableCheckbox,
-    tagsInput,
-  },
+  components: { ObjectHeader },
   props: {
     namespace: {
       type: String,

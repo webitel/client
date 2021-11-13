@@ -12,33 +12,33 @@
     <form class="object-input-grid">
       <div>
         <div class="range" v-for="(range, key) in itemInstance.time">
-          <timepicker
-            :value="range.start"
+          <wt-timepicker
+            :value="range.start * 60"
             :label="$t('objects.ccenter.resGroups.timerangeFrom')"
             :v="v.itemInstance.range"
-            :format="'hh:mm'"
+            format="hh:mm"
             :disabled="disableUserInput"
-            @input="setVariableProp({index: key, prop: 'start', value: $event})"
+            @input="setVariableProp({index: key, prop: 'start', value: $event / 60 })"
             required
           >
-          </timepicker>
-          <timepicker
-            :value="range.end"
+          </wt-timepicker>
+          <wt-timepicker
+            :value="range.end * 60"
             :label="$t('objects.ccenter.resGroups.timerangeTo')"
             :v="v.itemInstance.range"
-            :format="'hh:mm'"
+            format="hh:mm"
             :disabled="disableUserInput"
-            @input="setVariableProp({index: key, prop: 'end', value: $event})"
+            @input="setVariableProp({index: key, prop: 'end', value: $event / 60 })"
             required
           >
-          </timepicker>
-          <i
+          </wt-timepicker>
+          <wt-icon-btn
             v-if="key !== 0"
-            class="icon-icon_delete icon-action"
-            :title="$t('iconHints.delete')"
+            icon="bucket"
+            :tooltip="$t('iconHints.delete')"
             :disabled="disableUserInput"
             @click="deleteVariable(key)"
-          ></i>
+          ></wt-icon-btn>
         </div>
       </div>
     </form>
@@ -46,13 +46,11 @@
 </template>
 
 <script>
-import timepicker from '../../../../../app/components/utils/timepicker';
 import openedTabComponentMixin from '../../../../../app/mixins/objectPagesMixins/openedObjectTabMixin/openedTabComponentMixin';
 
 export default {
   name: 'opened-resource-group-timerange',
   mixins: [openedTabComponentMixin],
-  components: { timepicker },
 };
 </script>
 
@@ -62,11 +60,11 @@ export default {
   align-items: center;
   margin-top: 18px;
 
-  .timepicker {
+  .wt-timepicker {
     margin-right: 18px;
   }
 
-  .icon-action {
+  .wt-icon-btn {
     margin-top: 26px; // timepicker label height
   }
 }

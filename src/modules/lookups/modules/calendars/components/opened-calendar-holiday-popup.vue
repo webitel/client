@@ -39,8 +39,8 @@
 <script>
 import { required } from 'vuelidate/lib/validators';
 import { mapActions, mapState } from 'vuex';
+import getNamespacedState from '@webitel/ui-sdk/src/store/helpers/getNamespacedState';
 import nestedObjectMixin from '../../../../../app/mixins/objectPagesMixins/openedObjectMixin/nestedObjectMixin';
-import getNamespacedState from '../../../../../app/store/helpers/getNamespacedState';
 
 export default {
   name: 'opened-calendar-holiday-popup',

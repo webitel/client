@@ -22,7 +22,7 @@
 </template>
 
 <script>
-import { editor } from 'monaco-editor';
+import { editor } from 'monaco-editor/esm/vs/editor/editor.api.js';
 import Monaco from '../../utils/monacoSingleton';
 
 Monaco.getInstance(); // creates Monaco editor instance
@@ -215,7 +215,7 @@ $line-current: rgba(255, 193, 7, 0.2);
 
   .slider {
     background-color: $srollbar-thumb-color;
-    border-radius: $border-radius;
+    border-radius: var(--border-radius);
   }
 
   // scrollbar
