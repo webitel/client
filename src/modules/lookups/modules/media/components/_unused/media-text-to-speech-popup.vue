@@ -39,7 +39,6 @@
 
 <script>
     import editComponentMixin from '@/app/mixins/baseMixins/baseObjectMixin/baseObjectMixin';
-    import btn from '@/app/components/utils/btn';
     import divider from '@/app/components/utils/divider';
     import { required } from 'vuelidate/lib/validators';
     import mediaTextToSpeechPopupSettings from './media-text-to-speech-popup-settings';
@@ -52,7 +51,6 @@
             mediaTextToSpeechPopupGeneral,
             mediaTextToSpeechPopupSettings,
             divider,
-            btn,
         },
         props: {
             primaryBtnAction: {
@@ -142,7 +140,7 @@
         padding: 27px 0;
         background: #fff;
         transform: translate(-50%, -50%);
-        border-radius: $border-radius;
+        border-radius: var(--border-radius);
         overflow-y: auto;
         z-index: 10;
     }

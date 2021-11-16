@@ -1,8 +1,8 @@
 import { mapActions, mapState } from 'vuex';
+import getNamespacedState from '@webitel/ui-sdk/src/store/helpers/getNamespacedState';
 import openedTabComponentMixin from '../openedObjectTabMixin/openedTabComponentMixin';
 import baseTableMixin from '../../baseMixins/baseTableMixin/baseTableMixin';
 import OnePlusMany from '../../../components/utils/table-cell/one-plus-many-table-cell/one-plus-many-table-cell.vue';
-import getNamespacedState from '../../../store/helpers/getNamespacedState';
 
 /**
  * @fileOverview contains openedObject tab with table

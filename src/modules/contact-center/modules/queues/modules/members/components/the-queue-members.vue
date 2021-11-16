@@ -140,14 +140,14 @@
 
 <script>
 import { mapActions, mapState } from 'vuex';
+import getNamespacedState from '@webitel/ui-sdk/src/store/helpers/getNamespacedState';
 import destinationsPopup from './communications/opened-queue-member-destinations-popup.vue';
 import uploadPopup from './upload-members-popup.vue';
 import ResetPopup from './reset-members-popup.vue';
-import UploadFileIconBtn from '../../../../../../../app/components/utils/upload-file-ucon-btn.vue';
+import UploadFileIconBtn from '../../../../../../../app/components/utils/upload-file-icon-btn.vue';
 import tableComponentMixin from '../../../../../../../app/mixins/objectPagesMixins/objectTableMixin/tableComponentMixin';
 import getQueueSubRoute from '../../../store/_internals/scripts/getQueueSubRoute';
 import RouteNames from '../../../../../../../app/router/_internals/RouteNames.enum';
-import getNamespacedState from '../../../../../../../app/store/helpers/getNamespacedState';
 
 export default {
   name: 'the-queue-members',
@@ -306,7 +306,7 @@ export default {
 }
 
 .members__destinations-num {
-  @extend .typo-body-md;
+  @extend %typo-body-md;
 
   margin-left: 20px;
   text-decoration: underline;

@@ -97,7 +97,7 @@
 import openedObjectTableTabMixin from '../../../../../../../app/mixins/objectPagesMixins/openedObjectTableTabMixin/openedObjectTableTabMixin';
 import numberPopup from './opened-blacklist-number-popup.vue';
 import uploadPopup from './upload-blacklist-numbers-popup.vue';
-import UploadFileIconBtn from '../../../../../../../app/components/utils/upload-file-ucon-btn.vue';
+import UploadFileIconBtn from '../../../../../../../app/components/utils/upload-file-icon-btn.vue';
 
 export default {
   name: 'opened-blacklist-numbers',

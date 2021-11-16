@@ -60,14 +60,10 @@
 </template>
 
 <script>
-    import popup from '@/app/components/utils/popup';
     import RouteNames from '../../../../../../app/router/_internals/RouteNames.enum';
 
     export default {
         name: 'create-storage-popup',
-        components: {
-            popup,
-        },
 
         data() {
             return {
@@ -100,7 +96,6 @@
 
 <style lang="scss" scoped>
     .popup-subheading {
-        @extend .typo-input-label;
         margin: 0 0 28px;
     }
 
@@ -111,23 +106,20 @@
             position: relative;
             padding: 14px;
             margin-bottom: 18px;
-            border: 2px solid $input;
-            border-radius: $border-radius;
+            border-radius: var(--border-radius);
             cursor: pointer;
 
             &:hover, &.active {
-                border-color: $info-color;
             }
         }
 
         .popup-options__item-header {
-            @extend .typo-btn;
             margin: 0;
             /*font-size: 1em;*/
         }
 
         .popup-options__item-text {
-            @extend .typo-body-md;
+            @extend %typo-body-md;
             margin: 0;
             /*font-size: 0.9em;*/
         }
@@ -137,7 +129,6 @@
             top: 50%;
             right: 26px;
             transform: translateY(-50%);
-            color: $info-color;
         }
     }
 </style>

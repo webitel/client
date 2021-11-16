@@ -627,7 +627,7 @@ export default {
         preSchema: 'Pre-executive schema',
         afterSchema: 'After-executive schema',
         maxCalls: 'Max calls',
-        maxCallsHint: 'If value is 0, all available resources are used',
+        maxCallsHint: 'If value is 0, dialer won\'t call',
         recordings: 'Recording',
         maxWordLength: 'Maximum word length (ms)',
         maxNumberOfWords: 'Maximum number of words',

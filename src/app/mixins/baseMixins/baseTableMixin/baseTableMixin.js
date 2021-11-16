@@ -2,7 +2,6 @@ import ObjectHeader from '../../../components/utils/object-utils/the-object-head
 import EditAction from '../../../components/utils/table-cell/default-table-actions/edit-action.vue';
 import DeleteAction from '../../../components/utils/table-cell/default-table-actions/delete-action.vue';
 import HistoryAction from '../../../components/utils/table-cell/default-table-actions/history-action.vue';
-import Status from '../../../components/utils/status.vue';
 import itemLinkMixin from './itemLinkMixin';
 import tableActionsHandlerMixin from './tableActionsMixin';
 import deleteMixin from './deleteMixin/tableDeleteMixin';
@@ -25,7 +24,6 @@ export default {
     EditAction,
     DeleteAction,
     HistoryAction,
-    Status,
   },
 
   data: () => ({

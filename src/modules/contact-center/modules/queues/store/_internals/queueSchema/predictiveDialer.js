@@ -24,7 +24,7 @@ const predictiveDialer = () => ({
     retryAbandoned: false,
     recordings: false,
     allowGreetingAgent: false,
-    maxCalls: 0,
+    maxCalls: 10,
     amd: amd(),
     maxAgentLine: 5,
     minAttempts: 3,

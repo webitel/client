@@ -113,7 +113,7 @@
 import { mapActions } from 'vuex';
 import UploadPopup from './upload-users-popup.vue';
 import UserStatus from './_internals/user-status-chips.vue';
-import UploadFileIconBtn from '../../../../../app/components/utils/upload-file-ucon-btn.vue';
+import UploadFileIconBtn from '../../../../../app/components/utils/upload-file-icon-btn.vue';
 import tableComponentMixin from '../../../../../app/mixins/objectPagesMixins/objectTableMixin/tableComponentMixin';
 import RouteNames from '../../../../../app/router/_internals/RouteNames.enum';
 

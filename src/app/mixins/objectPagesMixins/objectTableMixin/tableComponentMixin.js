@@ -1,8 +1,8 @@
 import { mapActions, mapState } from 'vuex';
+import getNamespacedState from '@webitel/ui-sdk/src/store/helpers/getNamespacedState';
 import HeadlineNav from '../../../components/utils/headline-nav/headline-nav.vue';
 import baseTableMixin from '../../baseMixins/baseTableMixin/baseTableMixin';
 import objectTableAccessControlMixin from './_internals/objectTableAccessControlMixin';
-import getNamespacedState from '../../../store/helpers/getNamespacedState';
 
 /**
  * @fileOverview contains main tables (like the-agents.vue) common logic

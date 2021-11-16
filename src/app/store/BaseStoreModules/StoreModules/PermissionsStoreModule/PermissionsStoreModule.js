@@ -1,4 +1,4 @@
-import BaseStoreModule from '../../BaseStoreModule';
+import BaseStoreModule from '@webitel/ui-sdk/src/store/BaseStoreModules/BaseStoreModule';
 import PermissionsAPI from '../../../../../modules/_shared/permissions-tab/api/PermissionsAPI';
 import BaseTableModule from '../../StoreModuleMixins/BaseTableStoreModuleMixin';
 import BaseOpenedInstanceModule from '../../StoreModuleMixins/BaseOpenedInstanceStoreModuleMixin';

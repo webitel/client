@@ -50,10 +50,10 @@
 
 <script>
 import { mapActions, mapState } from 'vuex';
+import getNamespacedState from '@webitel/ui-sdk/src/store/helpers/getNamespacedState';
 import ApplicationAccessPopup from './opened-role-applications-access-popup.vue';
 import openedObjectTableTabMixin
   from '../../../../../../app/mixins/objectPagesMixins/openedObjectTableTabMixin/openedObjectTableTabMixin';
-import getNamespacedState from '../../../../../../app/store/helpers/getNamespacedState';
 
 export default {
   name: 'opened-role-applications-access',
