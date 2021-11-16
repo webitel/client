@@ -532,6 +532,11 @@ export default {
         destination: 'Destination',
         display: 'Display number',
         priority: 'Priority',
+        resetMembers: {
+          resetMembers: 'Reset members',
+          description: 'Are you sure you want to reset attempts of unsuccessful members?',
+          reset: 'Reset',
+        },
         endCause: {
           sysShutdown: 'System shutdown1',
           dbError: 'Database error',

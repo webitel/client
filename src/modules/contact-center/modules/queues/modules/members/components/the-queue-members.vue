@@ -29,6 +29,12 @@
         @close="closeDelete"
       ></delete-confirmation-popup>
 
+      <reset-popup
+        v-if="hasEditAccess && isResetPopup"
+        :callback="resetMembers"
+        @close="closeResetPopup"
+      ></reset-popup>
+
       <section class="main-section__wrapper">
         <header class="content-header">
           <h3 class="content-title">{{ $t('objects.ccenter.members.allMembers') }}</h3>
@@ -41,6 +47,12 @@
             <!--                @search="loadList"-->
             <!--                @enter="loadList"-->
             <!--            ></wt-search-bar>-->
+            <wt-icon-btn
+              v-if="hasEditAccess"
+              icon="clear"
+              :tooltip="$t('objects.ccenter.members.resetMembers.resetMembers')"
+              @click="openResetPopup"
+            ></wt-icon-btn>
             <wt-icon-btn
               v-if="hasEditAccess && isNotInboundMember"
               class="icon-action"
@@ -130,6 +142,7 @@
 import { mapActions, mapState } from 'vuex';
 import destinationsPopup from './communications/opened-queue-member-destinations-popup.vue';
 import uploadPopup from './upload-members-popup.vue';
+import ResetPopup from './reset-members-popup.vue';
 import UploadFileIconBtn from '../../../../../../../app/components/utils/upload-file-ucon-btn.vue';
 import tableComponentMixin from '../../../../../../../app/mixins/objectPagesMixins/objectTableMixin/tableComponentMixin';
 import getQueueSubRoute from '../../../store/_internals/scripts/getQueueSubRoute';
@@ -139,12 +152,18 @@ import getNamespacedState from '../../../../../../../app/store/helpers/getNamesp
 export default {
   name: 'the-queue-members',
   mixins: [tableComponentMixin],
-  components: { uploadPopup, destinationsPopup, UploadFileIconBtn },
+  components: {
+    uploadPopup,
+    destinationsPopup,
+    ResetPopup,
+    UploadFileIconBtn,
+  },
   data: () => ({
     namespace: 'ccenter/queues/members',
     isUploadPopup: false,
     communicationsOnPopup: null,
     isDestinationsPopup: false,
+    isResetPopup: false,
     csvFile: null,
   }),
 
@@ -206,6 +225,14 @@ export default {
       return new Date(+timestamp).toLocaleString();
     },
 
+    openResetPopup() {
+      this.isResetPopup = true;
+    },
+
+    closeResetPopup() {
+      this.isResetPopup = false;
+    },
+
     readDestinations(item) {
       this.communicationsOnPopup = item.communications;
       this.isDestinationsPopup = true;
@@ -263,6 +290,9 @@ export default {
       },
       resetState(dispatch, payload) {
         return dispatch(`${this.namespace}/RESET_STATE`, payload);
+      },
+      resetMembers(dispatch, payload) {
+        return dispatch(`${this.namespace}/RESET_MEMBERS`, payload);
       },
     }),
 

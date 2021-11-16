@@ -531,6 +531,11 @@ export default {
         destination: 'Призначення',
         display: 'Відображення номера',
         priority: 'Пріоритет',
+        resetMembers: {
+          resetMembers: 'Перезапустити абонентів',
+          description: 'Ви впевнені, що бажаєте перезапустити усі неуспішні спроби повторно?',
+          reset: 'Перезапустити',
+        },
         endCause: {
           sysShutdown: 'Вимкнення системи',
           dbError: 'Помилка бази даних',
