@@ -48,7 +48,12 @@ export default {
     async confirm() {
       try {
         this.isResetting = true;
-        await this.callback();
+        const response = await this.callback();
+        const { count = 0 } = response;
+        this.$eventBus.$emit('notification', {
+          type: 'info',
+          text: this.$t('objects.ccenter.members.resetMembers.successResetCount', { count }),
+        });
       } catch (err) {
         throw err;
       } finally {

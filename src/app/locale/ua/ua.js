@@ -535,6 +535,7 @@ export default {
           resetMembers: 'Перезапустити абонентів',
           description: 'Ви впевнені, що бажаєте перезапустити усі неуспішні спроби повторно?',
           reset: 'Перезапустити',
+          successResetCount: 'Успішно перезапущено {count} абонентів',
         },
         endCause: {
           sysShutdown: 'Вимкнення системи',

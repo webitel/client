@@ -536,6 +536,7 @@ export default {
           resetMembers: 'Reset members',
           description: 'Are you sure you want to reset attempts of unsuccessful members?',
           reset: 'Reset',
+          successResetCount: 'Successfully reset {count} members',
         },
         endCause: {
           sysShutdown: 'System shutdown1',
