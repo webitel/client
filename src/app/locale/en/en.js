@@ -498,6 +498,11 @@ export default {
         historyFrom: 'From',
         historyTo: 'To',
         historyDuration: 'Duration',
+        status: {
+          online: 'Online',
+          offline: 'Offline',
+          pause: 'Pause',
+        },
       },
 
       auditors: {

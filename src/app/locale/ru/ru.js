@@ -496,6 +496,11 @@ export default {
         historyTo: 'До',
         historyDuration: 'Длительность',
         payload: 'Причина',
+        status: {
+          online: 'Онлайн',
+          offline: 'Оффлайн',
+          pause: 'Пауза',
+        },
       },
 
       auditors: {

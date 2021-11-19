@@ -497,6 +497,11 @@ export default {
         historyTo: 'До',
         historyDuration: 'Тривалість',
         payload: 'Причина',
+        status: {
+          online: 'Онлайн',
+          offline: 'Офлайн',
+          pause: 'Пауза',
+        },
       },
 
       auditors: {
