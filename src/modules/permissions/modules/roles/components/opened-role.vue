@@ -54,7 +54,7 @@ export default {
         text: this.$t('objects.general'),
         value: 'general',
       }, {
-        text: this.$tc('objects.permissions.roles.permissions', 2),
+        text: this.$tc('objects.permissions.roles.permissions.permissions', 2),
         value: 'permissions',
       }, {
         text: this.$tc('objects.permissions.roles.applicationsAccess.applicationsAccess', 2),

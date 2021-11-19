@@ -63,8 +63,8 @@
             </template>
             <template slot="state" slot-scope="{ item }">
               <wt-indicator
-                :color="statusIndicatorColor(item.status)"
-                :text="statusIndicatorText(item.status)"
+                :color="statusIndicatorColor[item.status]"
+                :text="statusIndicatorText[item.status]"
               ></wt-indicator>
             </template>
             <template slot="time" slot-scope="{ item }">
@@ -109,7 +109,8 @@
 import { mapState, mapActions } from 'vuex';
 import getNamespacedState from '@webitel/ui-sdk/src/store/helpers/getNamespacedState';
 import HistoryPopup from './agent-history-popup.vue';
-import tableComponentMixin from '../../../../../app/mixins/objectPagesMixins/objectTableMixin/tableComponentMixin';
+import tableComponentMixin
+  from '../../../../../app/mixins/objectPagesMixins/objectTableMixin/tableComponentMixin';
 import RouteNames from '../../../../../app/router/_internals/RouteNames.enum';
 
 export default {
@@ -137,6 +138,20 @@ export default {
         },
       ];
     },
+    statusIndicatorColor() {
+      return {
+        online: 'success',
+        pause: 'primary',
+        offline: 'disabled',
+      };
+    },
+    statusIndicatorText() {
+      return {
+        online: this.$t('objects.ccenter.agents.status.online'),
+        pause: this.$t('objects.ccenter.agents.status.pause'),
+        offline: this.$t('objects.ccenter.agents.status.offline'),
+      };
+    },
   },
 
   methods: {
@@ -153,27 +168,6 @@ export default {
     },
     closeHistoryPopup() {
       this.openHistory(null);
-    },
-    statusIndicatorColor(state) {
-      console.info('rc');
-      switch (state) {
-        case 'online':
-          return 'success';
-        case 'pause':
-          return 'primary';
-        default:
-          return 'disabled';
-      }
-      },
-    statusIndicatorText(state) {
-      switch (state) {
-        case 'online':
-          return 'Online';
-        case 'pause':
-          return 'Pause';
-        default:
-          return 'Offline';
-      }
     },
   },
 };

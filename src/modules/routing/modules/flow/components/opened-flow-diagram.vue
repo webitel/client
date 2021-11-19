@@ -63,8 +63,6 @@ export default {
         this.diagram.on(WtFlowDiagram.Event.SAVE, onSave);
         this.diagram.on(WtFlowDiagram.Event.CLOSE, this.close.bind(this));
 
-        console.info(JSON.stringify(this.itemInstance.payload));
-
         this.isLoading = false;
       };
       document.head.appendChild(script);

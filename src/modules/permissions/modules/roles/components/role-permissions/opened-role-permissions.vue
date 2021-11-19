@@ -11,9 +11,10 @@
       @close="closeDelete"
     ></delete-confirmation-popup>
 
-
     <header class="content-header">
-      <h3 class="content-title">{{ $tc('objects.permissions.roles.permissions', 2) }}</h3>
+      <h3 class="content-title">
+        {{ $tc('objects.permissions.roles.permissions.permissions', 2) }}
+      </h3>
       <div class="content-header__actions-wrap">
         <wt-search-bar
           v-model="search"
@@ -44,10 +45,10 @@
         :grid-actions="!disableUserInput"
       >
         <template slot="name" slot-scope="{ item }">
-          {{ item.name }}
+          {{ permissionNameLocale[item.id] }}
         </template>
         <template slot="usage" slot-scope="{ item }">
-          {{ item.usage }}
+          {{ permissionUsageLocale[item.id] }}
         </template>
         <template slot="actions" slot-scope="{ item, index }">
           <edit-action
@@ -102,6 +103,30 @@ export default {
         { value: 'name', text: this.$t('objects.name') },
         { value: 'usage', text: this.$t('objects.permissions.roles.usage') },
       ];
+    },
+    permissionNameLocale() {
+      return {
+        add: this.$t('objects.permissions.roles.permissions.add'),
+        delete: this.$t('objects.permissions.roles.permissions.delete'),
+        read: this.$t('objects.permissions.roles.permissions.read'),
+        write: this.$t('objects.permissions.roles.permissions.write'),
+        eavesdrop_call: this.$t('objects.permissions.roles.permissions.eavesdropCall'),
+        playback_record_file: this.$t('objects.permissions.roles.permissions.playbackRecordFile'),
+        export_data_grid: this.$t('objects.permissions.roles.permissions.exportDataGrid'),
+        view_cdr_phone_numbers: this.$t('objects.permissions.roles.permissions.viewCdrPhoneNumbers'),
+      };
+    },
+    permissionUsageLocale() {
+      return {
+        add: this.$t('objects.permissions.roles.permissions.addDescription'),
+        delete: this.$t('objects.permissions.roles.permissions.deleteDescription'),
+        read: this.$t('objects.permissions.roles.permissions.readDescription'),
+        write: this.$t('objects.permissions.roles.permissions.writeDescription'),
+        eavesdrop_call: this.$t('objects.permissions.roles.permissions.eavesdropCallDescription'),
+        playback_record_file: this.$t('objects.permissions.roles.permissions.playbackRecordFileDescription'),
+        export_data_grid: this.$t('objects.permissions.roles.permissions.exportDataGridDescription'),
+        view_cdr_phone_numbers: this.$t('objects.permissions.roles.permissions.viewCdrPhoneNumbersDescription'),
+      };
     },
   },
   methods: {
