@@ -565,6 +565,7 @@ export default {
         waiting: 'Очікування',
         ringtone: 'Мелодія',
         priority: 'Пріоритет',
+        blacklist: 'Стоп лист',
         newQueue: 'Нова черга',
         newQueueDescription: 'Типи черг',
         outboundIVRQueue: 'Вихідна IVR-черга',

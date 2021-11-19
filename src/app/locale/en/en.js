@@ -567,6 +567,7 @@ export default {
         ringtone: 'Ringtone',
         priority: 'Priority',
         newQueue: 'New queue',
+        blacklist: 'Stop list',
         newQueueDescription: 'New queue descriotion',
         outboundIVRQueue: 'Outbound IVR queue',
         outboundIVR: 'Outbound IVR',
