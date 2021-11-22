@@ -6,6 +6,7 @@
 </template>
 
 <script>
+import { mapActions } from 'vuex';
 import openedTabComponentMixin
   from '../../../../../app/mixins/objectPagesMixins/openedObjectTabMixin/openedTabComponentMixin';
 import usersAPI from '../../../../directory/modules/users/api/users';
@@ -29,6 +30,12 @@ export default {
     },
   },
   methods: {
+    ...mapActions({
+      resetItemId(dispatch) {
+        return dispatch(`${this.namespace}/SET_ITEM_ID`, 0);
+      },
+    }),
+
     async initDiagram() {
       const flowDiagramUrl = process.env.VUE_APP_FLOW_DIAGRAM_URL;
       const script = document.createElement('script');
@@ -50,6 +57,7 @@ export default {
         };
         const WtFlowDiagram = window.WtFlowDiagram.default;
         this.diagram = new WtFlowDiagram('#flow-diagram', params);
+
         const onSave = async ({ name, schema, payload }) => {
           await Promise.all([
             this.setItemProp({ prop: 'name', value: name }),
@@ -60,7 +68,14 @@ export default {
             this.save(resolve);
           });
         };
+
+        const onSaveAs = async (params) => {
+          await this.resetItemId();
+          return onSave(params);
+        };
+
         this.diagram.on(WtFlowDiagram.Event.SAVE, onSave);
+        this.diagram.on(WtFlowDiagram.Event.SAVE_AS, onSaveAs);
         this.diagram.on(WtFlowDiagram.Event.CLOSE, this.close.bind(this));
 
         this.isLoading = false;
