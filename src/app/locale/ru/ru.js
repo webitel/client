@@ -575,7 +575,7 @@ export default {
         queues: 'Очередь | Очереди',
         allQueues: 'Все очереди',
         type: 'Тип',
-        state: 'Статус',
+        state: 'Состояние',
         active: 'Активная',
         notActive: 'Не активная',
         activeCalls: 'Активные звонки',
