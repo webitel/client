@@ -604,13 +604,12 @@ const router = new Router({
 });
 
 router.beforeEach((to, from, next) => {
-  if (!(to.fullPath === '/auth')) {
+  if (!(to.path === '/auth')) {
     if (!localStorage.getItem('access-token')) {
       next('/auth');
     }
   }
   next();
 });
-
 
 export default router;
