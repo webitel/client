@@ -8,7 +8,7 @@
         <wt-select
           v-model="itemInstance.permission"
           :v="$v.itemInstance.permission"
-          :label="$tc('objects.permissions.roles.permissions', 1)"
+          :label="$tc('objects.permissions.roles.permissions.permissions', 1)"
           :search-method="loadPermissionsList"
           :clearable="false"
           required
@@ -33,8 +33,10 @@
 <script>
 import { mapState, mapActions } from 'vuex';
 import { required } from 'vuelidate/lib/validators';
+import { snakeToCamel } from '@webitel/ui-sdk/src/scripts/caseConverters';
 import RolesAPI from '../../api/roles';
-import nestedObjectMixin from '../../../../../../app/mixins/objectPagesMixins/openedObjectMixin/nestedObjectMixin';
+import nestedObjectMixin
+  from '../../../../../../app/mixins/objectPagesMixins/openedObjectMixin/nestedObjectMixin';
 
 export default {
   name: 'opened-role-permissions-popup',
@@ -64,8 +66,12 @@ export default {
     }),
     // override mixin map state
     itemInstance: {
-      get() { return this.itemInstanceValue; },
-      set(value) { this.itemInstanceValue = value; },
+      get() {
+        return this.itemInstanceValue;
+      },
+      set(value) {
+        this.itemInstanceValue = value;
+      },
     },
     computeDisabled() {
       return this.checkValidations();
@@ -98,13 +104,20 @@ export default {
     },
     async loadPermissionsList(params) {
       const response = await RolesAPI.getPermissionsOptions(params);
-      response.items = response.items.filter((permission) => (
-        this.permissions.every((addedPermission) => addedPermission.id !== permission.id)
-      ));
+      response.items = response.items
+        .filter((permission) => (
+          this.permissions.every((addedPermission) => addedPermission.id !== permission.id)
+        ))
+        .map((permission) => ({
+          ...permission,
+          name: this.$t(`objects.permissions.roles.permissions.${snakeToCamel(permission.id)}`),
+        }));
       return response;
     },
-    loadItem() {},
-    resetState() {},
+    loadItem() {
+    },
+    resetState() {
+    },
   },
 };
 </script>

@@ -44,6 +44,11 @@ const actions = {
     return MembersAPI.deleteBulk(context.state.parentId, ids);
   },
   DELETE_ALL: (context) => MembersAPI.deleteBulk(context.state.parentId, []),
+  RESET_MEMBERS: (context) => {
+    const response = MembersAPI.resetMembers(context.state);
+    context.dispatch('LOAD_DATA_LIST');
+    return response;
+  },
   SET_PARENT_ITEM_ID: (context, id) => {
     context.commit('SET_PARENT_ITEM_ID', id);
     return context.dispatch('LOAD_PARENT_QUEUE');
@@ -106,11 +111,6 @@ const mutations = {
   },
   DELETE_VARIABLE_PAIR: (state, index) => {
     state.itemInstance.variables.splice(index, 1);
-  },
-  REMOVE_ITEMS: (state, indexs) => {
-    for (const item of indexs) {
-      state.dataList.splice(item, 1);
-    }
   },
 };
 

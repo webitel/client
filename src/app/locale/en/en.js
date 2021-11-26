@@ -248,7 +248,25 @@ export default {
       allRoles: 'All roles',
       searchPlaceholder: 'role ..',
       roles: {
-        permissions: 'Role permission | Role permissions',
+        permissions: {
+          permissions: 'Role permission | Role permissions',
+          add: 'Add',
+          delete: 'Delete',
+          read: 'Select',
+          write: 'Update',
+          eavesdropCall: 'Eavesdrop call',
+          playbackRecordFile: 'Playback record file',
+          exportDataGrid: 'Export data grid',
+          viewCdrPhoneNumbers: 'View CDR phone numbers',
+          addDescription: 'Grants permission to create any objects',
+          deleteDescription: 'Grants permission to remove any objects',
+          readDescription: 'Grants permission to select any objects',
+          writeDescription: 'Grants permission to modify any objects',
+          eavesdropCallDescription: 'Grants permission to eavesdrop on an active conversation',
+          playbackRecordFileDescription: 'Grants permission to playback call-record files',
+          exportDataGridDescription: 'Grants permission to export data grid to a file',
+          viewCdrPhoneNumbersDescription: 'View CDR phone numbers',
+        },
         addPermission: 'Add role permission',
         usage: 'Usage',
         applicationsAccess: {
@@ -498,6 +516,11 @@ export default {
         historyFrom: 'From',
         historyTo: 'To',
         historyDuration: 'Duration',
+        status: {
+          online: 'Online',
+          offline: 'Offline',
+          pause: 'Pause',
+        },
       },
 
       auditors: {
@@ -532,6 +555,12 @@ export default {
         destination: 'Destination',
         display: 'Display number',
         priority: 'Priority',
+        resetMembers: {
+          resetMembers: 'Reset members',
+          description: 'Are you sure you want to reset attempts of unsuccessful members?',
+          reset: 'Reset',
+          successResetCount: 'Successfully reset {count} members',
+        },
         endCause: {
           sysShutdown: 'System shutdown1',
           dbError: 'Database error',
@@ -556,6 +585,7 @@ export default {
         ringtone: 'Ringtone',
         priority: 'Priority',
         newQueue: 'New queue',
+        blacklist: 'Stop list',
         newQueueDescription: 'New queue descriotion',
         outboundIVRQueue: 'Outbound IVR queue',
         outboundIVR: 'Outbound IVR',

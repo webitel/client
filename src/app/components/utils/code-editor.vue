@@ -22,7 +22,7 @@
 </template>
 
 <script>
-import { editor } from 'monaco-editor/esm/vs/editor/editor.api.js';
+import { editor } from 'monaco-editor';
 import Monaco from '../../utils/monacoSingleton';
 
 Monaco.getInstance(); // creates Monaco editor instance

@@ -17,6 +17,7 @@ export default [
     value: 'state',
     locale: 'reusable.state',
     field: 'enabled',
+    width: '100px',
     sort: SortSymbols.NONE,
   },
 ];

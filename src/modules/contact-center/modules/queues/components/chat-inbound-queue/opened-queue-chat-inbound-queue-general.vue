@@ -24,7 +24,7 @@
       ></wt-select>
       <wt-select
           :value="itemInstance.dncList"
-          :label="$tc('objects.lookups.blacklist.blacklist', 1)"
+          :label="$t('objects.ccenter.queues.blacklist')"
           :search-method="loadDropdownOptionsBlacklistList"
           :disabled="disableUserInput"
           @input="setItemProp({ prop: 'dncList', value: $event })"

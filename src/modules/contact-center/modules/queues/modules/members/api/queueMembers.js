@@ -4,6 +4,7 @@ import {
   SdkGetterApiConsumer,
   SdkCreatorApiConsumer,
   SdkUpdaterApiConsumer,
+  SdkPatcherApiConsumer,
   SdkDeleterApiConsumer,
 } from 'webitel-sdk/esm2015/api-consumers';
 import deepCopy from 'deep-copy';
@@ -45,7 +46,8 @@ const defaultSingleObjectCommunication = {
 };
 
 const mapDefaultCommunications = (item) => (
-    item.communications ? item.communications.map((comm) => ({ ...defaultSingleObjectCommunication, ...comm })) : []
+    item.communications ? item.communications
+      .map((comm) => ({ ...defaultSingleObjectCommunication, ...comm })) : []
 );
 
 const _getMembersList = (getList) => function ({
@@ -100,11 +102,16 @@ const itemUpdater = new SdkUpdaterApiConsumer(memberService.updateMember,
   { fieldsToSend, preRequestHandler });
 const itemDeleter = new SdkDeleterApiConsumer(memberService.deleteMember);
 
+const resetMembersApiConsumer = new SdkPatcherApiConsumer(memberService.resetMembers);
+
 const getMembersList = (params) => listGetter.getList(params);
 const getMember = (params) => itemGetter.getNestedItem(params);
 const addMember = (params) => itemCreator.createNestedItem(params);
 const updateMember = (params) => itemUpdater.updateNestedItem(params);
 const deleteMember = (params) => itemDeleter.deleteNestedItem(params);
+
+const resetMembers = ({ parentId }) => resetMembersApiConsumer
+  .patchItem({ id: parentId, changes: {} });
 
 export const deleteMembersBulk = async (queueId, ids) => {
   try {
@@ -133,6 +140,7 @@ const QueueMembersAPI = {
   update: updateMember,
   delete: deleteMember,
   deleteBulk: deleteMembersBulk,
+  resetMembers,
 };
 
 export default QueueMembersAPI;

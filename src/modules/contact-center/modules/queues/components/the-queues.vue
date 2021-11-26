@@ -62,7 +62,7 @@
             </template>
 
             <template slot="type" slot-scope="{ item }">
-              {{ computeQueueType(item.type) }}
+              {{ queueTypeLocale[item.type] }}
             </template>
             <template slot="activeCalls" slot-scope="{ item }">
               {{ item.active }}
@@ -116,7 +116,8 @@
 
 <script>
 import QueuePopup from './create-queue-popup.vue';
-import tableComponentMixin from '../../../../../app/mixins/objectPagesMixins/objectTableMixin/tableComponentMixin';
+import tableComponentMixin
+  from '../../../../../app/mixins/objectPagesMixins/objectTableMixin/tableComponentMixin';
 import QueueType from '../store/_internals/enums/QueueType.enum';
 import getQueueSubRoute from '../store/_internals/scripts/getQueueSubRoute';
 import RouteNames from '../../../../../app/router/_internals/RouteNames.enum';
@@ -137,6 +138,19 @@ export default {
         { name: this.$tc('objects.ccenter.queues.queues', 2), route: '/contact-center/queues' },
       ];
     },
+
+    queueTypeLocale() {
+      return {
+        [QueueType.OFFLINE_QUEUE]: this.$t('objects.ccenter.queues.offlineQueue'),
+        [QueueType.INBOUND_QUEUE]: this.$t('objects.ccenter.queues.inboundQueue'),
+        [QueueType.OUTBOUND_IVR_QUEUE]: this.$t('objects.ccenter.queues.outboundIVRQueue'),
+        [QueueType.PREVIEW_DIALER]: this.$t('objects.ccenter.queues.previewDialer'),
+        [QueueType.PROGRESSIVE_DIALER]: this.$t('objects.ccenter.queues.progressiveDialer'),
+        [QueueType.PREDICTIVE_DIALER]: this.$t('objects.ccenter.queues.predictiveDialer'),
+        [QueueType.CHAT_INBOUND_QUEUE]: this.$t('objects.ccenter.queues.chatInboundQueue'),
+        [QueueType.TASK_QUEUE]: this.$t('objects.ccenter.queues.taskQueue'),
+      };
+    },
   },
 
   methods: {
@@ -145,29 +159,6 @@ export default {
         name: `${RouteNames.MEMBERS}`,
         params: { queueId: item.id },
       });
-    },
-
-    computeQueueType(type) {
-      switch (type) {
-        case QueueType.OFFLINE_QUEUE:
-          return 'Offline Queue';
-        case QueueType.INBOUND_QUEUE:
-          return 'Inbound Queue';
-        case QueueType.OUTBOUND_IVR_QUEUE:
-          return 'Outbound IVR Queue';
-        case QueueType.PREVIEW_DIALER:
-          return 'Preview Dialer';
-        case QueueType.PROGRESSIVE_DIALER:
-          return 'Progressive Dialer';
-        case QueueType.PREDICTIVE_DIALER:
-          return 'Predictive Dialer';
-        case QueueType.CHAT_INBOUND_QUEUE:
-          return 'Chat Inbound Queue';
-        case QueueType.TASK_QUEUE:
-          return 'Task Queue';
-        default:
-          return 'Unknown';
-      }
     },
 
     create() {
