@@ -604,7 +604,9 @@ const router = new Router({
 });
 
 router.beforeEach((to, from, next) => {
+  console.info(to);
   if (!(to.path === '/auth')) {
+    console.info('auth', to);
     if (!localStorage.getItem('access-token')) {
       next('/auth');
     }
