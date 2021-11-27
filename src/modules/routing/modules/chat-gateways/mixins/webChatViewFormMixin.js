@@ -18,8 +18,12 @@ export default {
     selectedLanguage: {},
     color: {
       a: 1,
-      hsl: { h: 42, s: 1, l: 0.5, a: 1 },
-      rgba: { r: 255, g: 179, b: 0, a: 1 },
+      hsl: {
+ h: 42, s: 1, l: 0.5, a: 1,
+},
+      rgba: {
+ r: 255, g: 179, b: 0, a: 1,
+},
     },
   }),
   computed: {
@@ -70,17 +74,17 @@ export default {
     restoreLanguage(value) {
       if (value) {
         this.selectedLanguage = this.languages.find((language) => language.value === value);
-      };
+      }
     },
     restorePosition(value) {
       if (value) {
         this.selectedPosition = this.positionOptions.find((position) => position.value === value);
-      };
+      }
     },
     restoreBorderRadius(value) {
       if (value) {
         this.selectedBorderRadius = this.borderRadiusOptions.find((type) => type.value === value);
-      };
+      }
     },
     setColor(value) {
       this.color = value;

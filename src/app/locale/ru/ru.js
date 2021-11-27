@@ -137,7 +137,6 @@ export default {
     importJSON: 'Импортировать JSON',
     addNew: 'Добавить',
 
-
     deleteConfirmation: {
       title: 'Подтвердите удаление',
       askingAlert: 'Вы уверенны, что хотите удалить {count} запись? | Вы уверенны, что хотите удалить {count} записей?',

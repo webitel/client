@@ -14,7 +14,6 @@
                 </h3>
             </header>
 
-
             <vuetable
                     class="devices-table"
                     :api-mode="false"
@@ -29,7 +28,6 @@
                 <template slot="valid-till" slot-scope="props">
                     <div>{{test[props.rowIndex].validTill.toLocaleDateString('ru-RU')}}</div>
                 </template>
-
 
                 <template slot="actions" slot-scope="props">
                         <i class="vuetable-action icon-icon_edit"
@@ -46,7 +44,6 @@
     import { _actionsTableField_1 } from '@/app/utils/tableFieldPresets';
     import objectHeader from '../../../../../../app/components/utils/object-utils/the-object-header';
     import license from './opened-license';
-
 
     export default {
         name: 'the-customers',

@@ -33,7 +33,7 @@
 import {
   maxValue, minValue, numeric, required,
 } from 'vuelidate/lib/validators';
-import { mapActions, mapState } from 'vuex';
+import { mapActions } from 'vuex';
 import { sipAccountValidator, gatewayHostValidator, ipValidator } from '../../../../../app/utils/validators';
 import RegisterGeneral from './opened-register-sip-gateway-general.vue';
 import TrunkingConfiguration from './opened-trunking-sip-gateway-configuration.vue';

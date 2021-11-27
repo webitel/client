@@ -105,7 +105,6 @@ const permissions = new PermissionsStoreModule()
   .generateAPIActions(PERMISSIONS_API_URL)
   .getModule();
 
-
 const calendars = new ObjectStoreModule({ resettableState, headers })
   .attachAPIModule(CalendarsAPI)
   .generateAPIActions()

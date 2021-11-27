@@ -19,7 +19,7 @@ const actions = {
       * is based on this property. Previously, this prop was set it api consumers, but now
       * admin-specific were replaced by webitel-sdk consumers and i supposed it will be
       * weird to set this property in each api file through defaultListObject */
-      items = items.map((item) => ({...item, _isSelected: false }));
+      items = items.map((item) => ({ ...item, _isSelected: false }));
       context.commit('SET_DATA_LIST', items);
       context.commit('SET_IS_NEXT', next);
     } catch (err) {

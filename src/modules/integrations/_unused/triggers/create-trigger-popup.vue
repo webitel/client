@@ -50,7 +50,6 @@
             };
         },
 
-
         methods: {
             selectPopupOption(option) {
                 this.selectedOption = option;

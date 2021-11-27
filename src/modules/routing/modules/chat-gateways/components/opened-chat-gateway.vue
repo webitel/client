@@ -30,7 +30,9 @@
 
 <script>
 
-import { required, minValue, maxValue, minLength, numeric, url } from 'vuelidate/lib/validators';
+import {
+ required, minValue, maxValue, minLength, numeric, url,
+} from 'vuelidate/lib/validators';
 import openedObjectMixin
   from '../../../../../app/mixins/objectPagesMixins/openedObjectMixin/openedObjectMixin';
 import OpenedChatTelegram from './opened-chat-gateway-telegram-general-tab.vue';

@@ -202,7 +202,6 @@ $line-current: rgba(255, 193, 7, 0.2);
     border: none !important;
   }
 
-
   // scrollbar hints canvas
   .decorationsOverviewRuler {
     display: none;

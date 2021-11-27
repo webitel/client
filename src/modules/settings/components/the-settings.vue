@@ -56,14 +56,12 @@
   </wt-page-wrapper>
 </template>
 
-
 <script>
 import getNamespacedState from '@webitel/ui-sdk/src/store/helpers/getNamespacedState';
 import { sameAs, required } from 'vuelidate/lib/validators';
 import { mapState } from 'vuex';
 import { changePassword } from '../api/settings';
 import objectHeader from '../../../app/components/utils/object-utils/the-object-header.vue';
-
 
 export default {
   name: 'the-settings',

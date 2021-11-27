@@ -34,8 +34,8 @@
 </template>
 
 <script>
-    import openedTabComponentMixin from '@/app/mixins/objectPagesMixins/openedObjectTabMixin/openedTabComponentMixin';
     import { mapActions } from 'vuex';
+    import openedTabComponentMixin from '@/app/mixins/objectPagesMixins/openedObjectTabMixin/openedTabComponentMixin';
     import { DigitalOceanRegions } from '../../api/storage';
 
     export default {
