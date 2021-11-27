@@ -12,7 +12,6 @@ import registerGateway
 import trunkingGateway
   from '../store/_internals/gatewaySchema/trunkingGateway';
 
-
 const baseUrl = '/sip/gateways';
 const fieldsToSend = ['name', 'proxy', 'id', 'host', 'ipacl', 'account', 'username', 'expires',
   'account', 'registrar', 'name', 'register', 'password', 'schema', 'usage', 'enable'];

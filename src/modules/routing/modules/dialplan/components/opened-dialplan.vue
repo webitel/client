@@ -33,7 +33,6 @@ import { required } from 'vuelidate/lib/validators';
 import General from './opened-dialplan-general.vue';
 import openedObjectMixin from '../../../../../app/mixins/objectPagesMixins/openedObjectMixin/openedObjectMixin';
 
-
 export default {
   name: 'opened-dialplan',
   mixins: [openedObjectMixin],

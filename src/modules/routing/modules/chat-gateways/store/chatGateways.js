@@ -10,7 +10,6 @@ import telegramChatGateway from './_internals/providers/telegramChatGateway';
 import viberChatGateway from './_internals/providers/viberChatGateway';
 import webChatGateway from './_internals/providers/webChatGateway';
 
-
 const resettableState = {
   itemInstance: {
     ...defaultChatGateway(),

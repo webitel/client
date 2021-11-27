@@ -362,8 +362,8 @@ const createProposals = (range) =>
       label: '"sendEmail"',
       range,
       kind: monaco.languages.CompletionItemKind.Function,
-      documentation: 'Отправка Email сообщения\n' +
-        '\n',
+      documentation: 'Отправка Email сообщения\n'
+        + '\n',
       insertText: JSON.stringify({
         sendEmail: {
           cc: [
@@ -382,7 +382,7 @@ const createProposals = (range) =>
           },
           subject: '[webitel](${caller_id_name}) Email notification',
           to: [
-            '${customer_email}'
+            '${customer_email}',
           ],
         },
       }, null, 4),
@@ -408,7 +408,7 @@ const createProposals = (range) =>
       }, null, 4),
     },
 
-    //Call's applications
+    // Call's applications
     {
       label: '"ringReady"',
       range,
@@ -830,8 +830,8 @@ const createProposals = (range) =>
         memberInfo: {
           bucket_i: 1,
           completed: false,
-          destination: "${caller_id_number}",
-          name: "Customer Name",
+          destination: '${caller_id_number}',
+          name: 'Customer Name',
           queue_ids: [
             8,
           ],
@@ -939,7 +939,7 @@ const createProposals = (range) =>
             ],
           },
           hours: 24,
-          number: "380932327757",
+          number: '380932327757',
           set: {
             my_ag: 'agent_id',
             my_ext: 'extension',

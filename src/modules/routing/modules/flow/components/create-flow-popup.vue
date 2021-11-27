@@ -160,7 +160,6 @@ export default {
     transition: var(--transition);
     cursor: pointer;
 
-
     &:hover, &.active {
       border-color: var(--main-accent-color);
     }
@@ -182,6 +181,4 @@ export default {
     text-overflow: ellipsis;
   }
 }
-
-
 </style>

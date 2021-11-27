@@ -57,7 +57,6 @@ const OpenedQueue = () => import('../../modules/contact-center/modules/queues/co
 const Storage = () => import('../../modules/integrations/modules/storage/components/the-storage');
 const OpenedStorage = () => import('../../modules/integrations/modules/storage/components/opened-storage');
 
-
 Vue.use(Router);
 
 const router = new Router({
@@ -150,7 +149,6 @@ const router = new Router({
           component: OpenedUser,
         },
         // ----------DIRECTORY END------------
-
 
         // ----------ROUTING------------
         {
@@ -264,7 +262,6 @@ const router = new Router({
           component: OpenedChatGateways,
         },
         // ----------ROUTING END------------
-
 
         // ----------LOOKUPS------------
         {
@@ -381,7 +378,6 @@ const router = new Router({
           component: OpenedAgentPauseCause,
         },
         // ----------LOOKUPS END------------
-
 
         // --------------CONTACT CENTER-------------
         {
@@ -546,7 +542,6 @@ const router = new Router({
         },
         // --------------CONTACT CENTER END-------------
 
-
         // ----------INTEGRATIONS-----------------
         {
           path: '/integrations/storage',
@@ -564,7 +559,6 @@ const router = new Router({
           component: OpenedStorage,
         },
         // --------------INTEGRATIONS END-------------
-
 
         // ----------PERMISSIONS-----------------
         {

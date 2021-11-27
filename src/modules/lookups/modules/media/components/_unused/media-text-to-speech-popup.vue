@@ -38,9 +38,9 @@
 </template>
 
 <script>
+    import { required } from 'vuelidate/lib/validators';
     import editComponentMixin from '@/app/mixins/baseMixins/baseObjectMixin/baseObjectMixin';
     import divider from '@/app/components/utils/divider';
-    import { required } from 'vuelidate/lib/validators';
     import mediaTextToSpeechPopupSettings from './media-text-to-speech-popup-settings';
     import mediaTextToSpeechPopupGeneral from './media-text-to-speech-popup-general';
 

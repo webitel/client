@@ -32,7 +32,6 @@
         @close="closeDelete"
       ></delete-confirmation-popup>
 
-
       <section class="main-section__wrapper">
         <header class="content-header">
           <h3 class="content-title">{{ $t('objects.directory.devices.allDevices') }}</h3>

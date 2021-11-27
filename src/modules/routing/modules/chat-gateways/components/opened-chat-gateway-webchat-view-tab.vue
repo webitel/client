@@ -115,7 +115,6 @@ const getConfig = (userConfig) => Object.keys(defaultConfig)
     [key]: userConfig[key] || defaultConfig[key],
   }), {});
 
-
 const SCRIPT_URL = window.location.origin;
 const SERVER_URL = SCRIPT_URL.replace(/^http/, 'ws');
 

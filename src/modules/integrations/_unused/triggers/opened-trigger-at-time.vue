@@ -26,8 +26,8 @@
 </template>
 
 <script>
-    import editComponentMixin from '@/app/mixins/baseMixins/baseObjectMixin/baseObjectMixin';
     import { required } from 'vuelidate/lib/validators';
+    import editComponentMixin from '@/app/mixins/baseMixins/baseObjectMixin/baseObjectMixin';
     import openedTriggerAtTimeGeneral from './opened-trigger-at-time-general';
 
     export default {
