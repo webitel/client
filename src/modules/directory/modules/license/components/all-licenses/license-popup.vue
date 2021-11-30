@@ -28,7 +28,7 @@
 <script>
 import { mapActions } from 'vuex';
 import { required } from 'vuelidate/lib/validators';
-import validationMixin from '../../../../../app/mixins/baseMixins/openedObjectValidationMixin/openedObjectValidationMixin';
+import validationMixin from '../../../../../../app/mixins/baseMixins/openedObjectValidationMixin/openedObjectValidationMixin';
 
 export default {
   name: 'license-popup',

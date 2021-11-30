@@ -28,7 +28,6 @@ export default {
 
   data: () => ({
     isLoaded: false,
-    popupTriggerIf: false,
   }),
 
   created() {
