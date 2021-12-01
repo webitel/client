@@ -4,6 +4,11 @@ import headers from './_internals/headers';
 import users from '../modules/users/store/users';
 
 const actions = {
+  AFTER_SET_DATA_LIST_HOOK: (context, payload) => {
+    context.dispatch('directory/license/users/INITIALIZE_HEADERS', null, { root: true });
+    return payload;
+  },
+
   UPD_ITEM: (context, certificate) => LicenseAPI.update(certificate),
   UPDATE_ITEM: async (context, payload) => {
     await context.dispatch('UPD_ITEM', payload);

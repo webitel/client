@@ -6,11 +6,13 @@
       </object-header>
     </template>
     <template slot="main">
-      <wt-tabs
-        v-model="currentTab"
-        :tabs="tabs"
-      ></wt-tabs>
-      <component :is="currentTab.value"></component>
+      <section class="main-section__wrapper">
+        <wt-tabs
+          v-model="currentTab"
+          :tabs="tabs"
+        ></wt-tabs>
+        <component :is="currentTab.value"></component>
+      </section>
     </template>
   </wt-page-wrapper>
 </template>
@@ -42,11 +44,11 @@ export default {
     tabs() {
       const allLicenses = {
         value: 'all-licenses',
-        text: 'Alllll licenses',
+        text: this.$t('objects.directory.license.allLicenses'),
       };
       const licensesByUser = {
         value: 'licenses-by-user',
-        text: 'LICENSES BY USER',
+        text: this.$tc('objects.directory.users.users', 2),
       };
       return [allLicenses, licensesByUser];
     },

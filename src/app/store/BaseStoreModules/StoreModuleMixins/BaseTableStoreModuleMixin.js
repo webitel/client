@@ -12,6 +12,10 @@ const state = {
 };
 
 const actions = {
+  // HOOKS TO BE OVERRIDEN, IF NEEDED
+  BEFORE_SET_DATA_LIST_HOOK: (context, { items, next }) => ({ items, next }),
+  AFTER_SET_DATA_LIST_HOOK: (context, { items, next }) => ({ items, next }),
+
   LOAD_DATA_LIST: async (context) => {
     try {
       let { items = [], next = false } = await context.dispatch('GET_LIST');
@@ -20,8 +24,10 @@ const actions = {
       * admin-specific were replaced by webitel-sdk consumers and i supposed it will be
       * weird to set this property in each api file through defaultListObject */
       items = items.map((item) => ({ ...item, _isSelected: false }));
-      context.commit('SET_DATA_LIST', items);
-      context.commit('SET_IS_NEXT', next);
+      const afterHook = await context.dispatch('BEFORE_SET_DATA_LIST_HOOK', { items, next });
+      context.commit('SET_DATA_LIST', afterHook.items);
+      context.commit('SET_IS_NEXT', afterHook.next);
+      context.dispatch('AFTER_SET_DATA_LIST_HOOK', afterHook);
     } catch (err) {
       console.error(err);
     }
@@ -50,6 +56,7 @@ const actions = {
     const page = 1;
     context.commit('SET_PAGE', page);
   },
+  SET_HEADERS: (context, headers) => context.commit('SET_HEADERS', headers),
   SORT: async (context, { header, nextSortOrder }) => {
     const sort = nextSortOrder
       ? `${sortToQueryAdapter(nextSortOrder)}${header.field}`

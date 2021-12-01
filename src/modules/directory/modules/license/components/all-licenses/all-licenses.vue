@@ -1,12 +1,12 @@
 <template>
-  <section class="main-section__wrapper">
+  <div>
     <license-popup
       v-if="isLicensePopup"
       @close="isLicensePopup = false"
     ></license-popup>
     <header class="content-header">
       <h3 class="content-title">
-        {{ $t('objects.directory.license.allLicenses') }}
+<!--        {{ $t('objects.directory.license.allLicenses') }}-->
       </h3>
       <div class="content-header__actions-wrap">
         <wt-search-bar
@@ -95,7 +95,7 @@
         @change="loadList"
       ></wt-pagination>
     </div>
-  </section>
+  </div>
 </template>
 
 <script>
