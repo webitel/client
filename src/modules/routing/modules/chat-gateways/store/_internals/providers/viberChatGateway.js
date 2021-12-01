@@ -7,7 +7,7 @@ const viberChatGateway = () => ({
   metadata: {
     token: '',
     botName: '',
-    eventTypes: '',
+    // eventTypes: '',
   },
 });
 
