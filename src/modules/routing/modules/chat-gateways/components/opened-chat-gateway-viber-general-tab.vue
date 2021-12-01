@@ -40,12 +40,12 @@
         :disabled="disableUserInput"
         @input="setFlow"
       ></wt-select>
-      <wt-input
-        :value="itemInstance.metadata.eventTypes"
-        :label="$t('objects.routing.chatGateways.metadata.eventTypes')"
-        :disabled="disableUserInput"
-        @input="setItemMetadata({ prop: 'eventTypes', value: $event })"
-      ></wt-input>
+<!--      <wt-input-->
+<!--        :value="itemInstance.metadata.eventTypes"-->
+<!--        :label="$t('objects.routing.chatGateways.metadata.eventTypes')"-->
+<!--        :disabled="disableUserInput"-->
+<!--        @input="setItemMetadata({ prop: 'eventTypes', value: $event })"-->
+<!--      ></wt-input>-->
     </form>
   </section>
 </template>
