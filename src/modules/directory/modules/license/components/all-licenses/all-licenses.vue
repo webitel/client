@@ -4,6 +4,10 @@
       v-if="isLicensePopup"
       @close="isLicensePopup = false"
     ></license-popup>
+    <license-users-popup
+      v-if="isLicenseUsersPopup"
+      @close="isLicensePopup = false"
+    ></license-users-popup>
     <header class="content-header">
       <h3 class="content-title">
 <!--        {{ $t('objects.directory.license.allLicenses') }}-->
@@ -71,7 +75,9 @@
         </template>
 
         <template slot="used" slot-scope="{ item }">
-          {{ item.limit - item.remain }}
+          <item-link :link="itemLink(item)">
+            {{ item.limit - item.remain }}
+          </item-link>
         </template>
 
         <template slot="competitive" slot-scope="{ item }">
@@ -100,7 +106,8 @@
 
 <script>
 import copy from 'clipboard-copy';
-import licensePopup from './license-popup.vue';
+import LicensePopup from './license-popup.vue';
+import LicenseUsersPopup from '../../modules/license-users/components/license-users-popup.vue';
 import tableComponentMixin from '../../../../../../app/mixins/objectPagesMixins/objectTableMixin/tableComponentMixin';
 
 let copiedIdTimeout = null;
@@ -108,13 +115,17 @@ let copiedIdTimeout = null;
 export default {
   name: 'all-licenses',
   mixins: [tableComponentMixin],
-  components: { licensePopup },
+  components: { LicensePopup, LicenseUsersPopup },
   data: () => ({
     namespace: 'directory/license',
     isLicensePopup: false,
     copiedId: null,
   }),
-
+  computed: {
+    isLicenseUsersPopup() {
+      return true;
+    },
+  },
   methods: {
     async copy(id) {
       try {
