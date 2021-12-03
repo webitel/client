@@ -37,14 +37,16 @@ const actions = {
     try {
       const licenseId = license.value; // "value" from license col header is its id
       const licenseIndex = user._license.findIndex(({ id }) => id === licenseId);
+      const changes = { license: [...user._license] };
       if (licenseIndex !== -1) {
-        /* i decided to mutate user directly to avoid all dataList redraw */
-        user._license.splice(licenseIndex, 1);
+        changes.license.splice(licenseIndex, 1);
       } else {
-        /* i decided to mutate user directly to avoid all dataList redraw */
-        user._license.push({ id: licenseId });
+        changes.license.push({ id: licenseId });
       }
-      await context.dispatch('PATCH_ITEM', { id: user.id, changes: { license: [...user._license] } });
+      await context.dispatch('PATCH_ITEM', { id: user.id, changes });
+      /* i decided to mutate user directly to avoid all dataList redraw */
+      // eslint-disable-next-line no-param-reassign
+      user._license = changes.license;
       /* i decided to mutate user directly to avoid all dataList redraw */
       // eslint-disable-next-line no-param-reassign
       user.license[license.name] = !user.license[license.name];

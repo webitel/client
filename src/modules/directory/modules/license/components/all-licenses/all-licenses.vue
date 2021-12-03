@@ -64,7 +64,13 @@
           </div>
         </template>
         <template slot="product" slot-scope="{ item }">
-          {{ item.product }}
+          <div class="all-licenses__product-cell">
+            <wt-icon
+              icon="license"
+              icon-prefix="adm"
+            ></wt-icon>
+            {{ item.product }}
+          </div>
         </template>
 
         <template slot="valid-from" slot-scope="{ item }">
@@ -75,6 +81,16 @@
           {{ prettifyDate(item.notAfter) }}
         </template>
 
+        <template slot="used" slot-scope="{ item }">
+          <item-link :link="itemLink(item)">
+            <wt-icon
+              icon="license-users"
+              icon-prefix="adm"
+            ></wt-icon>
+            {{ item.limit - item.remain }}
+          </item-link>
+        </template>
+
         <template slot="competitive" slot-scope="{ item }">
           {{ item.competitive ? $t('reusable.true') : '' }}
         </template>
@@ -83,16 +99,6 @@
           <wt-badge :class="statusClass(item.notAfter)" class="license-status">
             {{ statusText(item.notAfter) }}
           </wt-badge>
-        </template>
-
-        <template slot="used" slot-scope="{ item }">
-          <item-link :link="itemLink(item)">
-            <wt-icon
-              icon="user"
-              icon-prefix="adm"
-            ></wt-icon>
-            {{ item.limit - item.remain }}
-          </item-link>
         </template>
       </wt-table>
       <wt-pagination
@@ -204,6 +210,15 @@ export default {
         opacity: 1;
       }
     }
+  }
+}
+
+.all-licenses__product-cell {
+  display: flex;
+  align-items: center;
+
+  .wt-icon {
+    margin-right: var(--spacing--xs);
   }
 }
 
