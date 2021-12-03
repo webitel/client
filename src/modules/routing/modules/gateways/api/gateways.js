@@ -54,7 +54,7 @@ itemGetter.responseHandler = (response) => {
   return coerceTrunkingResponse(response);
 };
 
-const getGatewayList = (params) => listGetter.getList({ ...params, searchQuery: 'q' });
+const getGatewayList = (params) => listGetter.getList(params);
 const getGateway = (params) => itemGetter.getItem(params);
 const addGateway = (params) => itemCreator.createItem(params);
 const updateGateway = (params) => itemUpdater.updateItem(params);

@@ -92,7 +92,7 @@ itemGetter.responseHandler = (response) => {
   return response;
 };
 
-const getChatGatewayList = (params) => listGetter.getList({ ...params, searchQuery: 'q' });
+const getChatGatewayList = (params) => listGetter.getList(params);
 const getChatGateway = (params) => itemGetter.getItem(params);
 const addChatGateway = (params) => itemCreator.createItem(params);
 const updateChatGateway = (params) => itemUpdater.updateItem(params);

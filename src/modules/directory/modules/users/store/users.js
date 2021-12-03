@@ -40,7 +40,7 @@ const actions = {
     const dnd = value ? 'dnd' : '';
     const changes = { status: dnd };
     try {
-      await context.dispatch('PATCH_ITEM', { id: item.id, changes });
+      await UsersAPI.patchUserPresence({ id: item.id, changes });
     } catch (err) {
       throw err;
     } finally {

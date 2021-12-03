@@ -18,5 +18,5 @@ const listGetter = new EndpointListGetterApiConsumer({ baseUrl, instance }, {
 }).setGetListMethod(_getObjclassDefaultList);
 const itemPatcher = new EndpointPatcherApiConsumer({ baseUrl, instance }, { nestedUrl: 'grantor' });
 
-export const getObjclassDefaultList = (params) => listGetter.getList({ ...params, searchQuery: 'q' });
+export const getObjclassDefaultList = (params) => listGetter.getList(params);
 export const patchObjclassDefaultMode = (params) => itemPatcher.patchNestedItem(params);

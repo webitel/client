@@ -1,24 +1,25 @@
 <template>
-  <div>
+  <div class="all-licenses">
     <license-popup
       v-if="isLicensePopup"
       @close="isLicensePopup = false"
     ></license-popup>
     <license-users-popup
       v-if="isLicenseUsersPopup"
-      @close="isLicensePopup = false"
+      :namespace="namespace"
+      @close="closeLicenseUsersPopup"
     ></license-users-popup>
     <header class="content-header">
       <h3 class="content-title">
-<!--        {{ $t('objects.directory.license.allLicenses') }}-->
+        <!--        {{ $t('objects.directory.license.allLicenses') }}-->
       </h3>
       <div class="content-header__actions-wrap">
         <wt-search-bar
           :value="search"
           debounce
+          @enter="loadList"
           @input="setSearch"
           @search="loadList"
-          @enter="loadList"
         ></wt-search-bar>
         <wt-table-actions
           :icons="['refresh']"
@@ -26,21 +27,21 @@
         ></wt-table-actions>
         <wt-icon-btn
           v-if="hasCreateAccess"
+          :tooltip="$t('iconHints.add')"
           class="icon-action"
           icon="plus"
-          :tooltip="$t('iconHints.add')"
           @click="isLicensePopup = true"
         ></wt-icon-btn>
       </div>
     </header>
 
     <wt-loader v-show="!isLoaded"></wt-loader>
-    <div class="table-wrapper" v-show="isLoaded">
+    <div v-show="isLoaded" class="table-wrapper">
       <wt-table
-        :headers="headers"
         :data="dataList"
-        :selectable="false"
         :grid-actions="false"
+        :headers="headers"
+        :selectable="false"
         sortable
         @sort="sort"
       >
@@ -48,17 +49,17 @@
           <div class="license__id-column">
             <wt-icon-btn
               v-show="copiedId !== item.id"
+              :tooltip="$t('objects.copy')"
               class="license__id-column__icon-btn license__id-column__icon-btn--copy"
               icon="copy"
-              :tooltip="$t('objects.copy')"
               @click="copy(item.id)"
             ></wt-icon-btn>
             <wt-icon-btn
               v-show="copiedId === item.id"
-              class="license__id-column__icon-btn license__id-column__icon-btn--tick"
-              icon="done"
-              color="true"
               :tooltip="$t('objects.copied')"
+              class="license__id-column__icon-btn license__id-column__icon-btn--tick"
+              color="true"
+              icon="done"
             ></wt-icon-btn>
           </div>
         </template>
@@ -74,31 +75,35 @@
           {{ prettifyDate(item.notAfter) }}
         </template>
 
-        <template slot="used" slot-scope="{ item }">
-          <item-link :link="itemLink(item)">
-            {{ item.limit - item.remain }}
-          </item-link>
-        </template>
-
         <template slot="competitive" slot-scope="{ item }">
           {{ item.competitive ? $t('reusable.true') : '' }}
         </template>
 
         <template slot="status" slot-scope="{ item }">
-          <wt-badge class="license-status" :class="statusClass(item.notAfter)">
+          <wt-badge :class="statusClass(item.notAfter)" class="license-status">
             {{ statusText(item.notAfter) }}
           </wt-badge>
         </template>
+
+        <template slot="used" slot-scope="{ item }">
+          <item-link :link="itemLink(item)">
+            <wt-icon
+              icon="user"
+              icon-prefix="adm"
+            ></wt-icon>
+            {{ item.limit - item.remain }}
+          </item-link>
+        </template>
       </wt-table>
       <wt-pagination
-        :size="size"
         :next="isNext"
         :prev="page > 1"
+        :size="size"
         debounce
+        @change="loadList"
+        @input="setSize"
         @next="nextPage"
         @prev="prevPage"
-        @input="setSize"
-        @change="loadList"
       ></wt-pagination>
     </div>
   </div>
@@ -106,9 +111,10 @@
 
 <script>
 import copy from 'clipboard-copy';
-import LicensePopup from './license-popup.vue';
-import LicenseUsersPopup from '../../modules/license-users/components/license-users-popup.vue';
 import tableComponentMixin from '../../../../../../app/mixins/objectPagesMixins/objectTableMixin/tableComponentMixin';
+import RouteNames from '../../../../../../app/router/_internals/RouteNames.enum';
+import LicenseUsersPopup from '../../modules/license-users/components/license-users-popup.vue';
+import LicensePopup from './license-popup.vue';
 
 let copiedIdTimeout = null;
 
@@ -120,10 +126,11 @@ export default {
     namespace: 'directory/license',
     isLicensePopup: false,
     copiedId: null,
+    routeName: RouteNames.LICENSE,
   }),
   computed: {
     isLicenseUsersPopup() {
-      return true;
+      return !!this.$route.params.id;
     },
   },
   methods: {
@@ -138,6 +145,10 @@ export default {
       } catch (err) {
         throw err;
       }
+    },
+
+    closeLicenseUsersPopup() {
+      this.$router.push({ name: this.routeName }); // remove license id
     },
 
     prettifyDate(date) {
@@ -164,7 +175,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.license {
+.all-licenses {
   --license--valid: rgba(255, 234, 0, 0.3);
   --license--90: rgba(255, 234, 0, 0.3);
   --license--30: rgba(255, 68, 68, 0.3);
@@ -194,6 +205,10 @@ export default {
       }
     }
   }
+}
+
+.name-link .wt-icon {
+  margin-right: var(--spacing--xs);
 }
 
 .license-status {

@@ -35,11 +35,23 @@
 
   /*
    wrapper class for table content overflow: visible preserving table scroll itself
-  .table-wrapper>.table-wrapper__scroll-wrapper>.wt-table
+  .table-wrapper>.table-wrapper__visible-scroll-wrapper>.wt-table
    */
-  .table-wrapper__scroll-wrapper {
+  .table-wrapper__visible-scroll-wrapper {
     height: 100%;
     overflow: visible;
+
+    .wt-table {
+      overflow: visible;
+    }
+  }
+
+  .table-wrapper__scroll-wrapper {
+    @extend %wt-scrollbar;
+
+    height: 100%;
+    min-height: 0;
+    overflow: auto;
 
     .wt-table {
       overflow: visible;

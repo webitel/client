@@ -37,7 +37,7 @@
 
     <wt-loader v-show="!isLoaded"></wt-loader>
     <div class="table-wrapper" v-show="isLoaded">
-      <div class="table-wrapper__scroll-wrapper">
+      <div class="table-wrapper__visible-scroll-wrapper">
         <wt-table
           :headers="headers"
           :data="dataList"

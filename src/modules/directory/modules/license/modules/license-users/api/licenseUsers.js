@@ -1,10 +1,12 @@
 import { EndpointListGetterApiConsumer } from 'webitel-sdk/esm2015/api-consumers';
 import instance from '../../../../../../../app/api/instance';
 
-const baseUrl = '/license';
-const nestedUrl = '/users';
+const baseUrl = '/products';
+const nestedUrl = 'users';
 
-const defaultListObject = {};
+const defaultListObject = {
+  sessions: 0,
+};
 
 const listGetter = new EndpointListGetterApiConsumer({
   baseUrl,

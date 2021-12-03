@@ -14,7 +14,7 @@ const actions = {
       value: id,
       name: product,
       text: product.concat(` (${new Date(+notAfter).toLocaleDateString()})`),
-      field: 'license',
+      field: `license.${id}`,
       show: index < 5, // show only first 4 licenses
       sort: SortSymbols.NONE,
     }));
@@ -25,6 +25,7 @@ const actions = {
     const licenseHeaders = context.state.headers.slice(1); // without "name" column
     const _items = items.map((item) => ({
       ...item,
+      _license: item.license || [], // save "default" format for api license patching
       license: licenseHeaders.reduce((licenses, { name }) => ({
         ...licenses,
         [name]: item.license && item.license.some(({ prod }) => prod === name),
@@ -32,9 +33,18 @@ const actions = {
     }));
     return { items: _items, ...rest };
   },
-  TOGGLE_USER_LICENSE: (context, { user, license }) => {
+  TOGGLE_USER_LICENSE: async (context, { user, license }) => {
     try {
-      // TODO: API PATCH
+      const licenseId = license.value; // "value" from license col header is its id
+      const licenseIndex = user._license.findIndex(({ id }) => id === licenseId);
+      if (licenseIndex !== -1) {
+        /* i decided to mutate user directly to avoid all dataList redraw */
+        user._license.splice(licenseIndex, 1);
+      } else {
+        /* i decided to mutate user directly to avoid all dataList redraw */
+        user._license.push({ id: licenseId });
+      }
+      await context.dispatch('PATCH_ITEM', { id: user.id, changes: { license: [...user._license] } });
       /* i decided to mutate user directly to avoid all dataList redraw */
       // eslint-disable-next-line no-param-reassign
       user.license[license.name] = !user.license[license.name];

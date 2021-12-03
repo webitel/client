@@ -1,10 +1,10 @@
 <template>
   <router-link
-    class="nameLink"
-    :to="link"
     :target="target"
+    :to="link"
+    class="name-link nameLink"
   >
-  <slot>{{ text }}</slot>
+    <slot>{{ text }}</slot>
   </router-link>
 </template>
 
@@ -29,5 +29,8 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-
+.name-link {
+  display: flex;
+  align-items: center;
+}
 </style>

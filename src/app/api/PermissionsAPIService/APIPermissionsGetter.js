@@ -6,8 +6,6 @@ import instance from '../instance';
 export default class APIPermissionsGetter {
   _nestedUrl = 'acl';
 
-  _searchQuery = 'q';
-
   constructor(url) {
     this.baseUrl = url;
     this.listGetter = new EndpointListGetterApiConsumer({ baseUrl: this.baseUrl, instance }, {
@@ -43,9 +41,6 @@ export default class APIPermissionsGetter {
   }
 
   async getList(params) {
-    return this.listGetter.getNestedList({
-      searchQuery: this._searchQuery,
-      ...params,
-    });
+    return this.listGetter.getNestedList(params);
   }
 }

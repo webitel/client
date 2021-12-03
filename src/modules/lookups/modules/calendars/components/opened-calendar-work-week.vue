@@ -5,7 +5,7 @@
     </header>
 
     <div class="table-wrapper">
-      <div class="table-wrapper__scroll-wrapper">
+      <div class="table-wrapper__visible-scroll-wrapper">
         <wt-table
           :headers="headers"
           :data="dataList"
