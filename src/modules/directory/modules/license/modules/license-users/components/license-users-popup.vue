@@ -4,8 +4,15 @@
     overflow
     @close="close"
   >
-    <template slot="title">
-      {{ license.product }}
+    <template slot="header">
+      <h3 class="license-users-popup__title">
+        <wt-icon
+          icon="license"
+          icon-prefix="adm"
+          size="lg"
+        ></wt-icon>
+        {{ license.product }}
+      </h3>
     </template>
     <template slot="main">
       <wt-search-bar
@@ -99,6 +106,16 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+.license-users-popup__title {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  .wt-icon {
+    margin-right: var(--spacing--lg);
+  }
+}
+
 .wt-search-bar {
   margin: var(--spacing--lg) 0;
 }

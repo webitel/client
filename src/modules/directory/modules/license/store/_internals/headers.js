@@ -28,6 +28,12 @@ export default [
     sort: SortSymbols.NONE,
   },
   {
+    value: 'used',
+    locale: 'objects.directory.license.used',
+    field: 'used',
+    sort: SortSymbols.NONE,
+  },
+  {
     value: 'limit',
     locale: 'objects.directory.license.limit',
     field: 'limit',
@@ -44,12 +50,6 @@ export default [
     locale: 'objects.directory.license.status',
     width: '120px',
     field: 'not_after',
-    sort: SortSymbols.NONE,
-  },
-  {
-    value: 'used',
-    locale: 'objects.directory.license.used',
-    field: 'used',
     sort: SortSymbols.NONE,
   },
 ];
