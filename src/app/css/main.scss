@@ -15,8 +15,8 @@ body {
 
 //reset ul styles
 ul {
-  padding: 0;
   margin: 0;
+  padding: 0;
   list-style-type: none;
 }
 
@@ -30,8 +30,8 @@ h1, h2, h3, h4, h5, h6, p {
 }
 
 a {
-  color: #000;
   text-decoration: none;
+  color: #000;
 }
 
 .mb-0 {
@@ -65,12 +65,12 @@ a {
   position: relative;
 
   &:before {
-    content: '';
     position: absolute;
+    right: 0;
     bottom: 6px;
     left: 0;
-    right: 0;
     height: 1px;
+    content: '';
   }
 }
 
@@ -83,22 +83,22 @@ $srollbar-border-radius: 4px;
   &::-webkit-scrollbar {
     width: 4px;
     height: 6px;
-    background-color: $scrollbar-bg-color;
     cursor: pointer;
+    background-color: $scrollbar-bg-color;
   }
 
   // scrollable element
   &::-webkit-scrollbar-thumb {
     width: 4px;
     height: 6px;
-    background-color: $srollbar-thumb-color;
     border-radius: $srollbar-border-radius;
+    background-color: $srollbar-thumb-color;
   }
 }
 
 .hidden {
-  opacity: 0;
   pointer-events: none;
+  opacity: 0;
 }
 
 .value-pair-wrap {

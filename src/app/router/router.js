@@ -134,6 +134,11 @@ const router = new Router({
           component: License,
         },
         {
+          path: '/directory/license/:id',
+          name: `${RouteNames.LICENSE}-edit`,
+          component: License,
+        },
+        {
           path: '/directory/users',
           name: RouteNames.USERS,
           component: Users,

@@ -47,8 +47,8 @@ const permissionsListGetter = new EndpointListGetterApiConsumer(
   { baseUrl: PERMISSIONS_LIST_URL, instance },
 );
 
-const getRoleList = (params) => listGetter.getList({ ...params, searchQuery: 'q' });
-const getExtendedRoles = (params) => extendedRolesListGetter.getList({ ...params, searchQuery: 'q' });
+const getRoleList = (params) => listGetter.getList(params);
+const getExtendedRoles = (params) => extendedRolesListGetter.getList(params);
 const getRole = (params) => itemGetter.getItem(params);
 const addRole = (params) => itemCreator.createItem(params);
 const updateRole = (params) => itemUpdater.updateItem(params);

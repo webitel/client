@@ -39,10 +39,16 @@ export default {
     }),
     headers() {
       if (!this.headersValue) return [];
-      return this.headersValue.map((header) => ({
-        ...header,
-        text: typeof header.locale === 'string' ? this.$t(header.locale) : this.$tc(...header.locale),
-      }));
+      return this.headersValue.map((header) => {
+        // set "false" if no locale prop
+        const localizedText = !header.locale || typeof header.locale === 'string'
+          ? this.$t(header.locale)
+          : this.$tc(...header.locale);
+        return {
+          ...header,
+          text: localizedText || header.text,
+        };
+      });
     },
   },
   methods: {

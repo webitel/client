@@ -72,7 +72,7 @@ const historyListGetter = new EndpointListGetterApiConsumer(
   { listResponseHandler: getDeviceHistoryResponseHandler },
 ).setGetListMethod(_getDeviceHistory);
 
-const getDeviceList = (params) => listGetter.getList({ searchQuery: 'q', ...params });
+const getDeviceList = (params) => listGetter.getList(params);
 const getDevice = (params) => itemGetter.getItem(params);
 const addDevice = async (params) => itemCreator.createItem(params);
 const updateDevice = (params) => itemUpdater.updateItem(params);

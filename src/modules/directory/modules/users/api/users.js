@@ -1,16 +1,29 @@
 import {
-  EndpointListGetterApiConsumer,
-  EndpointGetterApiConsumer,
   EndpointCreatorApiConsumer,
-  EndpointUpdaterApiConsumer,
-  EndpointPatcherApiConsumer,
   EndpointDeleterApiConsumer,
+  EndpointGetterApiConsumer,
+  EndpointListGetterApiConsumer,
+  EndpointPatcherApiConsumer,
+  EndpointUpdaterApiConsumer,
 } from 'webitel-sdk/esm2015/api-consumers';
 import instance from '../../../../../app/api/instance';
 
 const baseUrl = '/users';
-const fieldsToSend = ['name', 'username', 'password', 'extension', 'status', 'note', 'roles', 'license', 'devices', 'device',
-  'profile', 'profile', 'email'];
+const fieldsToSend = [
+  'name',
+  'username',
+  'password',
+  'extension',
+  'status',
+  'note',
+  'roles',
+  'license',
+  'devices',
+  'device',
+  'profile',
+  'profile',
+  'email',
+];
 
 const defaultListObject = {
   name: '',
@@ -74,23 +87,40 @@ const preRequestHandler = (item) => {
   return item;
 };
 
-const listGetter = new EndpointListGetterApiConsumer({ baseUrl, instance }, { defaultListObject });
+const listGetter = new EndpointListGetterApiConsumer({
+  baseUrl,
+  instance,
+}, { defaultListObject });
 const itemGetter = new EndpointGetterApiConsumer({ baseUrl, instance },
   { defaultSingleObject, itemResponseHandler });
 const itemCreator = new EndpointCreatorApiConsumer({ baseUrl, instance },
   { fieldsToSend, preRequestHandler });
 const itemUpdater = new EndpointUpdaterApiConsumer({ baseUrl, instance },
   { fieldsToSend, preRequestHandler });
-const itemPatcher = new EndpointPatcherApiConsumer({ baseUrl, instance }, { fieldsToSend });
+const itemPatcher = new EndpointPatcherApiConsumer({
+  baseUrl,
+  instance,
+}, { fieldsToSend });
 const itemDeleter = new EndpointDeleterApiConsumer({ baseUrl, instance });
 
-const getUsersList = (params) => listGetter.getList({ searchQuery: 'q', ...params });
+const userLogoutCreatorApiConsumer = new EndpointCreatorApiConsumer({
+  baseUrl,
+  instance,
+}, { nestedUrl: 'logout' });
+
+const getUsersList = (params) => listGetter.getList(params);
 const getUser = (params) => itemGetter.getItem(params);
 const addUser = (params) => itemCreator.createItem(params);
 const updateUser = (params) => itemUpdater.updateItem(params);
-const patchUser = (params) => itemPatcher.patchItem(params, 'presence');
+const patchUser = (params) => itemPatcher.patchItem(params);
+const patchUserPresence = (params) => itemPatcher.patchItem(params, 'presence');
 const deleteUser = (params) => itemDeleter.deleteItem(params);
 const getUsersLookup = (params) => listGetter.getLookup(params);
+
+const logoutUser = ({ id }) => userLogoutCreatorApiConsumer.createNestedItem({
+  parentId: id,
+  itemInstance: {},
+});
 
 const UsersAPI = {
   getList: getUsersList,
@@ -100,6 +130,8 @@ const UsersAPI = {
   update: updateUser,
   delete: deleteUser,
   getLookup: getUsersLookup,
+  patchUserPresence,
+  logoutUser,
 };
 
 export default UsersAPI;

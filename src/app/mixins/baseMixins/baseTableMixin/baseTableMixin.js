@@ -28,12 +28,10 @@ export default {
 
   data: () => ({
     isLoaded: false,
-    popupTriggerIf: false,
   }),
 
   created() {
-    if (this.setParentId) this.setParentId(this.parentId);
-    this.loadList();
+    this.initTableView();
   },
 
   computed: {
@@ -47,6 +45,10 @@ export default {
   },
 
   methods: {
+    initTableView() {
+      if (this.setParentId) this.setParentId(this.parentId);
+      this.loadList();
+    },
     async loadList() {
       this.isLoaded = false;
       try {
