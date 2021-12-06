@@ -35,16 +35,15 @@
         @input="setItemProp({ prop: 'pathPattern', value: $event })"
       ></wt-input>
       <wt-select
-        v-if="!this.id"
-        :value="service"
+        :value="computeCurrentService"
         :options="serviceOptions"
         :label="$t('objects.integrations.storage.service')"
-        :disabled="disableUserInput"
+        :disabled="disableService"
         track-by="value"
         @input="setService"
       ></wt-select>
       <wt-select
-        v-if="service.value !== 'custom'"
+        v-if="!isCustom"
         :value="itemInstance.properties.region"
         :v="v.itemInstance.properties.region"
         :options="computeRegionOptions"
@@ -56,7 +55,7 @@
         @input="setItemProp({ prop: 'region', value: $event })"
       ></wt-select>
       <wt-input
-        v-if="service.value === 'custom'"
+        v-if="isCustom"
         :value="itemInstance.properties.endpoint"
         :v="v.itemInstance.properties.endpoint"
         :label="$t('objects.integrations.storage.s3Endpoint')"
@@ -65,7 +64,7 @@
         @input="setItemProp({ prop: 'endpoint', value: $event })"
       ></wt-input>
       <wt-input
-        v-if="service.value === 'custom'"
+        v-if="isCustom"
         :value="itemInstance.properties.region"
         :v="v.itemInstance.properties.region"
         :label="$t('objects.integrations.storage.region')"
@@ -79,7 +78,8 @@
 
 <script>
 import { mapActions, mapState } from 'vuex';
-import openedTabComponentMixin from '../../../../../app/mixins/objectPagesMixins/openedObjectTabMixin/openedTabComponentMixin';
+import openedTabComponentMixin
+  from '../../../../../app/mixins/objectPagesMixins/openedObjectTabMixin/openedTabComponentMixin';
 import AWSRegions from '../store/_internals/lookups/AWSRegions.lookup';
 import DigitalOceanRegions from '../store/_internals/lookups/DigitalOceanRegions.lookup';
 
@@ -88,22 +88,59 @@ export default {
   mixins: [openedTabComponentMixin],
   data: () => ({
     service: {},
+    endpoints: {
+      aws: 'amazonaws.com',
+      do: 'digitaloceanspaces.com',
+    },
     serviceOptions: [
-      { name: 'AWS S3 Bucket', value: 'aws' },
-      { name: 'Digital Ocean Spaces', value: 'do' },
-      { name: 'Custom', value: 'custom' }],
+      {
+        name: 'AWS S3 Bucket',
+        value: 'aws',
+      },
+      {
+        name: 'Digital Ocean Spaces',
+        value: 'do',
+      },
+      {
+        name: 'Custom',
+        value: 'custom',
+      }],
     AWSRegions,
     DigitalOceanRegions,
   }),
 
   created() {
-    if (!this.id) this.setService({ name: 'AWS S3 Bucket', value: 'aws' });
+    if (!this.id) {
+      this.setService({
+        name: 'AWS S3 Bucket',
+        value: 'aws',
+      });
+    }
   },
 
   computed: {
     ...mapState('integrations/storage', {
       id: (state) => state.itemId,
     }),
+
+    endpoint() {
+      return this.itemInstance.properties.endpoint;
+    },
+
+    isCustom() {
+      if (this.endpoint === this.endpoints.aws || this.endpoint === this.endpoints.do) return false;
+      return true;
+    },
+
+    computeCurrentService() {
+      if (this.endpoint === this.endpoints.aws) {
+        return this.serviceOptions[0].name;
+      }
+      if (this.endpoint === this.endpoints.do) {
+        return this.serviceOptions[1].name;
+      }
+      return this.serviceOptions[2].name;
+    },
 
     computeRegionOptions() {
       if (this.itemInstance.properties.endpoint.includes('aws')) {
@@ -113,6 +150,10 @@ export default {
         return this.DigitalOceanRegions;
       }
       return [];
+    },
+
+    disableService() {
+      return this.disableUserInput || this.id;
     },
   },
 
@@ -124,14 +165,32 @@ export default {
     setService(value) {
       this.service = value;
       if (this.service.value === 'aws') {
-        this.setItemProp({ prop: 'endpoint', value: 'amazonaws.com' });
-        this.setItemProp({ prop: 'region', value: {} });
+        this.setItemProp({
+          prop: 'endpoint',
+          value: this.endpoints.aws,
+        });
+        this.setItemProp({
+          prop: 'region',
+          value: {},
+        });
       } else if (this.service.value === 'do') {
-        this.setItemProp({ prop: 'endpoint', value: 'digitaloceanspaces.com' });
-        this.setItemProp({ prop: 'region', value: {} });
+        this.setItemProp({
+          prop: 'endpoint',
+          value: this.endpoints.do,
+        });
+        this.setItemProp({
+          prop: 'region',
+          value: {},
+        });
       } else {
-        this.setItemProp({ prop: 'endpoint', value: '' });
-        this.setItemProp({ prop: 'region', value: '' });
+        this.setItemProp({
+          prop: 'endpoint',
+          value: '',
+        });
+        this.setItemProp({
+          prop: 'region',
+          value: '',
+        });
       }
     },
   },
