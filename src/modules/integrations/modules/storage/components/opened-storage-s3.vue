@@ -35,7 +35,7 @@
         @input="setItemProp({ prop: 'pathPattern', value: $event })"
       ></wt-input>
       <wt-select
-        :value="computeCurrentService"
+        :value="service"
         :options="serviceOptions"
         :label="$t('objects.integrations.storage.service')"
         :disabled="disableService"
@@ -46,7 +46,7 @@
         v-if="!isCustom"
         :value="itemInstance.properties.region"
         :v="v.itemInstance.properties.region"
-        :options="computeRegionOptions"
+        :options="regionOptions"
         :label="$t('objects.integrations.storage.region')"
         :disabled="disableUserInput"
         track-by="value"
@@ -82,72 +82,51 @@ import openedTabComponentMixin
   from '../../../../../app/mixins/objectPagesMixins/openedObjectTabMixin/openedTabComponentMixin';
 import AWSRegions from '../store/_internals/lookups/AWSRegions.lookup';
 import DigitalOceanRegions from '../store/_internals/lookups/DigitalOceanRegions.lookup';
+import Service from '../store/_internals/lookups/Service.lookup';
 
 export default {
   name: 'opened-storage-aws',
   mixins: [openedTabComponentMixin],
   data: () => ({
-    service: {},
-    endpoints: {
-      aws: 'amazonaws.com',
-      do: 'digitaloceanspaces.com',
-    },
-    serviceOptions: [
-      {
-        name: 'AWS S3 Bucket',
-        value: 'aws',
-      },
-      {
-        name: 'Digital Ocean Spaces',
-        value: 'do',
-      },
-      {
-        name: 'Custom',
-        value: 'custom',
-      }],
-    AWSRegions,
-    DigitalOceanRegions,
+    selectedService: {},
   }),
-
-  created() {
-    if (!this.id) {
-      this.setService({
-        name: 'AWS S3 Bucket',
-        value: 'aws',
-      });
-    }
-  },
 
   computed: {
     ...mapState('integrations/storage', {
       id: (state) => state.itemId,
     }),
 
+    serviceOptions() {
+      return Object.values(Service).map((option) => ({
+        name: option.name,
+        value: option.value,
+      }));
+    },
+
     endpoint() {
       return this.itemInstance.properties.endpoint;
     },
 
     isCustom() {
-      if (this.endpoint === this.endpoints.aws || this.endpoint === this.endpoints.do) return false;
-      return true;
+      return !(this.endpoint === Service.aws.endpoint || this.endpoint === Service.do.endpoint);
     },
 
-    computeCurrentService() {
-      if (this.endpoint === this.endpoints.aws) {
-        return this.serviceOptions[0].name;
+    service() {
+      if (this.endpoint === Service.aws.endpoint) {
+        return Service.aws.name;
       }
-      if (this.endpoint === this.endpoints.do) {
-        return this.serviceOptions[1].name;
+      if (this.endpoint === Service.do.endpoint) {
+        return Service.do.name;
       }
-      return this.serviceOptions[2].name;
+      return Service.custom.name;
     },
 
-    computeRegionOptions() {
-      if (this.itemInstance.properties.endpoint.includes('aws')) {
-        return this.AWSRegions;
+    regionOptions() {
+      if (this.endpoint.includes(Service.aws.endpoint)) {
+        return AWSRegions;
       }
-      if (this.itemInstance.properties.endpoint.includes('digitalocean')) {
-        return this.DigitalOceanRegions;
+      if (this.endpoint.includes(Service.do.endpoint)) {
+        return DigitalOceanRegions;
       }
       return [];
     },
@@ -163,20 +142,20 @@ export default {
     }),
 
     setService(value) {
-      this.service = value;
-      if (this.service.value === 'aws') {
+      this.selectedService = value;
+      if (this.selectedService.value === Service.aws.value) {
         this.setItemProp({
           prop: 'endpoint',
-          value: this.endpoints.aws,
+          value: Service.aws.endpoint,
         });
         this.setItemProp({
           prop: 'region',
           value: {},
         });
-      } else if (this.service.value === 'do') {
+      } else if (this.selectedService.value === Service.do.value) {
         this.setItemProp({
           prop: 'endpoint',
-          value: this.endpoints.do,
+          value: Service.do.endpoint,
         });
         this.setItemProp({
           prop: 'region',
