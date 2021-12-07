@@ -1,4 +1,5 @@
 import Storage from '../enums/Storage.enum';
+import Service from '../lookups/Service.lookup';
 import defaultStorage from './defaults/defaultStorage';
 
 const s3Storage = () => ({
@@ -9,7 +10,7 @@ const s3Storage = () => ({
     accessKey: '',
     bucketName: '',
     region: {},
-    endpoint: '',
+    endpoint: Service.AWS.endpoint,
     pathPattern: '$DOMAIN/$Y/$M/$D',
   },
 });

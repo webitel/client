@@ -37,11 +37,12 @@ import Backblaze from './_unused/opened-storage-backblaze.vue';
 import Dropbox from './_unused/opened-storage-dropbox.vue';
 import Drive from './_unused/opened-storage-drive.vue';
 import openedObjectMixin from '../../../../../app/mixins/objectPagesMixins/openedObjectMixin/openedObjectMixin';
+import storageMixin from '../../../mixins/storageMixin';
 import Storage from '../store/_internals/enums/Storage.enum';
 
 export default {
   name: 'opened-storage',
-  mixins: [openedObjectMixin],
+  mixins: [openedObjectMixin, storageMixin],
   components: {
     General,
     Local,
@@ -157,7 +158,7 @@ export default {
         { name: this.$t('objects.integrations.integrations') },
         { name: this.$t('objects.integrations.storage.storage'), route: baseUrl },
         {
-          name: this.id ? this.pathName : this.$t('objects.new'),
+          name: this.id ? `${this.pathName} (${this.service.name})` : this.$t('objects.new'),
           route: this.id ? `${url}/${this.id}` : `${url}/new`,
         },
       ];
