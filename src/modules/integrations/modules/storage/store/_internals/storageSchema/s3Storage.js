@@ -10,7 +10,7 @@ const s3Storage = () => ({
     accessKey: '',
     bucketName: '',
     region: {},
-    endpoint: Service.aws.endpoint,
+    endpoint: Service.AWS.endpoint,
     pathPattern: '$DOMAIN/$Y/$M/$D',
   },
 });

@@ -87,20 +87,13 @@ import Service from '../store/_internals/lookups/Service.lookup';
 export default {
   name: 'opened-storage-aws',
   mixins: [openedTabComponentMixin],
-  data: () => ({
-    selectedService: {},
-  }),
-
   computed: {
     ...mapState('integrations/storage', {
       id: (state) => state.itemId,
     }),
 
     serviceOptions() {
-      return Object.values(Service).map((option) => ({
-        name: option.name,
-        value: option.value,
-      }));
+      return Object.values(Service).map((services) => services);
     },
 
     endpoint() {
@@ -108,24 +101,24 @@ export default {
     },
 
     isCustom() {
-      return !(this.endpoint === Service.aws.endpoint || this.endpoint === Service.do.endpoint);
+      return !(this.endpoint === Service.AWS.endpoint || this.endpoint === Service.DO.endpoint);
     },
 
     service() {
-      if (this.endpoint === Service.aws.endpoint) {
-        return Service.aws.name;
+      if (this.endpoint === Service.AWS.endpoint) {
+        return Service.AWS.name;
       }
-      if (this.endpoint === Service.do.endpoint) {
-        return Service.do.name;
+      if (this.endpoint === Service.DO.endpoint) {
+        return Service.DO.name;
       }
-      return Service.custom.name;
+      return Service.CUSTOM.name;
     },
 
     regionOptions() {
-      if (this.endpoint.includes(Service.aws.endpoint)) {
+      if (this.endpoint.includes(Service.AWS.endpoint)) {
         return AWSRegions;
       }
-      if (this.endpoint.includes(Service.do.endpoint)) {
+      if (this.endpoint.includes(Service.DO.endpoint)) {
         return DigitalOceanRegions;
       }
       return [];
@@ -142,35 +135,14 @@ export default {
     }),
 
     setService(value) {
-      this.selectedService = value;
-      if (this.selectedService.value === Service.aws.value) {
-        this.setItemProp({
-          prop: 'endpoint',
-          value: Service.aws.endpoint,
-        });
-        this.setItemProp({
-          prop: 'region',
-          value: {},
-        });
-      } else if (this.selectedService.value === Service.do.value) {
-        this.setItemProp({
-          prop: 'endpoint',
-          value: Service.do.endpoint,
-        });
-        this.setItemProp({
-          prop: 'region',
-          value: {},
-        });
-      } else {
-        this.setItemProp({
-          prop: 'endpoint',
-          value: '',
-        });
-        this.setItemProp({
-          prop: 'region',
-          value: '',
-        });
-      }
+      this.setItemProp({
+        prop: 'endpoint',
+        value: value.endpoint,
+      });
+      this.setItemProp({
+        prop: 'region',
+        value: this.isCustom ? '' : {},
+      });
     },
   },
 };
