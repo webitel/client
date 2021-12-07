@@ -80,38 +80,25 @@
 import { mapActions, mapState } from 'vuex';
 import openedTabComponentMixin
   from '../../../../../app/mixins/objectPagesMixins/openedObjectTabMixin/openedTabComponentMixin';
+import storageMixin from '../../../mixins/storageMixin';
 import AWSRegions from '../store/_internals/lookups/AWSRegions.lookup';
 import DigitalOceanRegions from '../store/_internals/lookups/DigitalOceanRegions.lookup';
 import Service from '../store/_internals/lookups/Service.lookup';
 
 export default {
   name: 'opened-storage-aws',
-  mixins: [openedTabComponentMixin],
+  mixins: [openedTabComponentMixin, storageMixin],
   computed: {
     ...mapState('integrations/storage', {
       id: (state) => state.itemId,
     }),
 
     serviceOptions() {
-      return Object.values(Service).map((services) => services);
-    },
-
-    endpoint() {
-      return this.itemInstance.properties.endpoint;
+      return Object.values(Service);
     },
 
     isCustom() {
       return !(this.endpoint === Service.AWS.endpoint || this.endpoint === Service.DO.endpoint);
-    },
-
-    service() {
-      if (this.endpoint === Service.AWS.endpoint) {
-        return Service.AWS.name;
-      }
-      if (this.endpoint === Service.DO.endpoint) {
-        return Service.DO.name;
-      }
-      return Service.CUSTOM.name;
     },
 
     regionOptions() {
@@ -125,7 +112,7 @@ export default {
     },
 
     disableService() {
-      return this.disableUserInput || this.id;
+      return this.disableUserInput || !!this.id;
     },
   },
 
@@ -134,14 +121,14 @@ export default {
       setItemProp: 'SET_ITEM_PROPERTIES_PROPERTY',
     }),
 
-    setService(value) {
+    setService({ endpoint }) {
       this.setItemProp({
         prop: 'endpoint',
-        value: value.endpoint,
+        value: endpoint,
       });
       this.setItemProp({
         prop: 'region',
-        value: this.isCustom ? '' : {},
+        value: '',
       });
     },
   },
