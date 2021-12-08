@@ -768,7 +768,7 @@ export default {
         driveEmail: 'Google Email',
         driveKey: 'Private key',
         s3Endpoint: 'Endpoint',
-        service: 'Service',
+        service: 'Сервіс',
       },
 
       tokens: {
