@@ -1,12 +1,15 @@
 <template>
   <section>
     <header class="content-header">
-      <wt-icon icon-prefix="messenger" icon="web-chat" size="sm"></wt-icon>
+      <wt-icon icon="web-chat" icon-prefix="messenger" size="sm"></wt-icon>
       <h3 class="content-title">{{ $t('objects.routing.chatGateways.webchat') }}</h3>
     </header>
     <section class="webchat-view-main">
       <section class="chat-preview-section">
         <div id="chat-preview"></div>
+        <section class="chat-button-preview-section">
+          <div id="chat-button-preview"></div>
+        </section>
         <div class="copy-button-wrapper">
           <wt-button wide @click="copyCode">
             {{ buttonLabel }}
@@ -17,71 +20,61 @@
         <form class="object-input-grid object-input-grid__1-col">
           <wt-select
             v-model="selectedLanguage"
-            :options="languages"
-            :label="$t('objects.routing.chatGateways.metadata.language')"
-            :disabled="disableUserInput"
             :clearable="false"
+            :disabled="disableUserInput"
+            :label="$t('objects.routing.chatGateways.metadata.language')"
+            :options="languages"
             track-by="name"
             @input="setItemMetadata({ prop: 'lang', value: $event.value })"
           ></wt-select>
           <wt-select
             v-model="selectedPosition"
-            :options="positionOptions"
-            :label="$t('objects.routing.dialplan.position')"
-            :disabled="disableUserInput"
             :clearable="false"
+            :disabled="disableUserInput"
+            :label="$t('objects.routing.dialplan.position')"
+            :options="positionOptions"
             track-by="name"
             @input="setItemMetadata({ prop: 'position', value: $event.value })"
           ></wt-select>
           <wt-select
             v-model="selectedBorderRadius"
-            :options="borderRadiusOptions"
-            :label="$t('objects.routing.chatGateways.metadata.borderRadius')"
-            :disabled="disableUserInput"
             :clearable="false"
+            :disabled="disableUserInput"
+            :label="$t('objects.routing.chatGateways.metadata.borderRadius')"
+            :options="borderRadiusOptions"
             track-by="name"
             @input="setItemMetadata({ prop: 'borderRadiusStyle', value: $event.value })"
           ></wt-select>
           <wt-input
-            :value="itemInstance.metadata.logoUrl"
-            :v="v.itemInstance.metadata.logoUrl"
+            :disabled="disableUserInput"
             :label="$t('objects.routing.chatGateways.metadata.logoUrl')"
             :label-props="{
               hint: this.$t('objects.routing.chatGateways.metadata.logoHint'),
               hintPosition: 'right',
              }"
-            :disabled="disableUserInput"
+            :v="v.itemInstance.metadata.logoUrl"
+            :value="itemInstance.metadata.logoUrl"
             @input="setItemMetadata({ prop: 'logoUrl', value: $event })"
           ></wt-input>
           <section class="switcher-section">
             <wt-switcher
-              :value="itemInstance.metadata.timeoutIsActive"
               :label="this.$t('objects.routing.chatGateways.metadata.openTimeout')"
+              :value="itemInstance.metadata.timeoutIsActive"
               @change="setItemMetadata({ prop: 'timeoutIsActive', value: $event })"
             ></wt-switcher>
             <wt-input
-              :value="itemInstance.metadata.openTimeout"
-              :v="v.itemInstance.metadata.openTimeout"
-              :label="this.$t('date.sec')"
               :disabled="disableOpenTimeout"
+              :label="this.$t('date.sec')"
+              :v="v.itemInstance.metadata.openTimeout"
+              :value="itemInstance.metadata.openTimeout"
               @input="setItemMetadata({ prop: 'openTimeout', value: $event })"
             ></wt-input>
           </section>
           <section>
             <div class="colorpicker-section">
-              <div class="slider-wrapper">
-                <wt-label>{{ this.$t('objects.routing.chatGateways.metadata.btnColor') }}</wt-label>
-                <color-picker :value="color" @input="setColor"></color-picker>
-                <wt-label>{{ this.$t('objects.routing.chatGateways.metadata.btnOpacity') }}
-                </wt-label>
-                <div class="opacity-wrapper">
-                  <opacity-picker :value="color" @change="setAlpha"></opacity-picker>
-                </div>
-              </div>
+              <wt-label>{{ this.$t('objects.routing.chatGateways.metadata.btnColor') }}</wt-label>
+              <color-picker :value="color" class="colorpicker" @input="setColor"/>
             </div>
-          </section>
-          <section class="chat-button-preview-section">
-            <div id="chat-button-preview"></div>
           </section>
         </form>
       </section>
@@ -91,8 +84,8 @@
 
 <script>
 import clipboardCopy from 'clipboard-copy';
+import { Chrome } from 'vue-color';
 import { mapActions } from 'vuex';
-import { Slider, Alpha } from 'vue-color';
 import openedTabComponentMixin
   from '../../../../../app/mixins/objectPagesMixins/openedObjectTabMixin/openedTabComponentMixin';
 import webChatPreviewMixin from '../mixins/webChatPreviewMixin';
@@ -163,8 +156,7 @@ export default {
   name: 'opened-chat-gateway-webchat-view-tab',
   mixins: [openedTabComponentMixin, webChatViewFormMixin, webChatPreviewMixin],
   components: {
-    ColorPicker: Slider,
-    OpacityPicker: Alpha,
+    ColorPicker: Chrome,
   },
   methods: {
     ...mapActions({
@@ -210,8 +202,31 @@ export default {
       z-index: 1;
     }
 
-    .copy-button-wrapper {
+    .chat-button-preview-section {
+      align-self: center;
+      justify-self: center;
+      position: relative;
+      width: 100px;
+      height: 100px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
       margin-top: var(--component-spacing);
+    }
+
+    .chat-button-preview-section::after {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      bottom: 0;
+      right: 0;
+      background: url("../assets/transparent-img.svg") repeat;
+      opacity: 0.3;
+    }
+
+    .copy-button-wrapper {
+      margin: var(--component-spacing) 0;
     }
   }
 
@@ -226,76 +241,13 @@ export default {
     .colorpicker-section {
       position: relative;
       display: flex;
+      flex-direction: column;
       justify-content: center;
-      align-items: center;
-      grid-column-gap: var(--component-spacing);
+      grid-gap: var(--component-spacing);
 
-      .wt-label {
-        margin: var(--component-spacing);
+      .colorpicker {
+        width: 100%;
       }
-
-      .slider-wrapper ::v-deep {
-        width: 80%;
-        margin: auto;
-
-        .vc-slider {
-          width: 100%;
-
-          .vc-hue {
-            width: 100%;
-            border-radius: 8px;
-          }
-        }
-
-        .vc-slider-swatches {
-          display: none;
-        }
-      }
-
-      .opacity-wrapper ::v-deep {
-        position: relative;
-        height: 12px;
-        margin: var(--component-spacing) auto;
-
-        .vc-checkerboard {
-          border-radius: 8px;
-        }
-
-        .vc-alpha-gradient {
-          border-radius: 8px;
-        }
-
-        .vc-alpha-picker {
-          width: 14px;
-          height: 14px;
-          border-radius: 6px;
-          transform: translate(-6px, -2px);
-          background-color: rgb(248, 248, 248);
-          box-shadow: 0 1px 4px 0 rgba(0, 0, 0, 0.37);
-        }
-      }
-    }
-
-    .chat-button-preview-section {
-      align-self: center;
-      justify-self: center;
-      position: relative;
-      width: 100px;
-      height: 100px;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-    }
-
-    .chat-button-preview-section::after {
-      content: '';
-      position: absolute;
-      top: 0;
-      left: 0;
-      bottom: 0;
-      right: 0;
-      background: url("../assets/transparent-img.svg") repeat;
-      opacity: 0.3;
     }
   }
 }

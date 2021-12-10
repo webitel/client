@@ -474,7 +474,6 @@ export default {
           language: 'Мова',
           view: 'Вигляд',
           position: 'Сторона',
-          btnOpacity: 'Прозорість кнопки',
           btnColor: 'Колір кнопки',
           logoUrl: 'URL логотипу',
           logoHint: 'Підтримуваний формат логотипу - \'JPEG\' or \'PNG\', 24x24px',

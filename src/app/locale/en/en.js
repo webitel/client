@@ -474,7 +474,6 @@ export default {
           language: 'Language',
           view: 'View',
           position: 'Position',
-          btnOpacity: 'Button Opacity',
           btnColor: 'Button Color',
           logoUrl: 'Logo URL',
           logoHint: 'Supported logo format is \'JPEG\' or \'PNG\', 24x24px',
