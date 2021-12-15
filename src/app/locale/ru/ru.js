@@ -197,6 +197,7 @@ export default {
         status: 'Статус',
         competitive: 'Конкурентная',
         searchPlaceholder: 'Серия, продукт',
+        domain: 'Домен',
         daysToExpire: {
           '0': 'Истечение срока действия',
           '30': '30 или меньше',

@@ -102,7 +102,6 @@ export default {
 
   objects: {
     administration: 'Administration',
-
     general: 'General',
     new: 'New',
     add: 'Add',
@@ -198,6 +197,7 @@ export default {
         status: 'Status',
         competitive: 'Competitive',
         searchPlaceholder: 'Serial, product',
+        domain: 'Domain',
         daysToExpire: {
           '0': 'Expired',
           '30': '30 or less',
