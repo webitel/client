@@ -102,7 +102,6 @@ export default {
 
   objects: {
     administration: 'Управління',
-
     general: 'Загальне',
     new: 'Новий',
     add: 'Додати',
@@ -198,6 +197,7 @@ export default {
         status: 'Статус',
         competitive: 'Конкурентна',
         searchPlaceholder: 'Серія, продукт',
+        domain: 'Домен',
         daysToExpire: {
           '0': 'Час дії вичерпано',
           '30': '30 або менше',

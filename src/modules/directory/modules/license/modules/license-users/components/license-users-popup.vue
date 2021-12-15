@@ -34,6 +34,11 @@
             sortable
             @sort="sort"
           >
+            <template slot="domain" slot-scope="{ item }">
+              <div v-if="item.domain">
+                {{ item.domain.name }}
+              </div>
+            </template>
             <template slot="name" slot-scope="{ item }">
               <div v-if="item.user">
                 {{ item.user.name }}
