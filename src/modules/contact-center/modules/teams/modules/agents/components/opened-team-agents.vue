@@ -69,6 +69,12 @@
           {{ item.name }}
         </item-link>
       </template>
+      <template slot="state" slot-scope="{ item }">
+        <wt-indicator
+          :color="statusIndicatorColor[item.status]"
+          :text="statusIndicatorText[item.status]"
+        ></wt-indicator>
+      </template>
       <template slot="supervisor" slot-scope="{ item }">
         <one-plus-many
           :collection="item.supervisor"
@@ -110,10 +116,11 @@ import AgentPopup from './opened-team-agent-popup.vue';
 import openedObjectTableTabMixin from '../../../../../../../app/mixins/objectPagesMixins/openedObjectTableTabMixin/openedObjectTableTabMixin';
 import RouteNames from '../../../../../../../app/router/_internals/RouteNames.enum';
 import agentSupervisorsAndSkillsPopupMixin from '../../../../../mixins/agentSupervisorsAndSkillsPopupMixin';
+import agentStatusMixin from '../../../../../mixins/agentStatusMixin';
 
 export default {
   name: 'opened-team-agents',
-  mixins: [openedObjectTableTabMixin, agentSupervisorsAndSkillsPopupMixin],
+  mixins: [openedObjectTableTabMixin, agentSupervisorsAndSkillsPopupMixin, agentStatusMixin],
   components: { AgentPopup, ObjectListPopup },
   data: () => ({
     subNamespace: 'agents',

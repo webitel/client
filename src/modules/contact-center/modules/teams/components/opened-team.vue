@@ -29,7 +29,6 @@
 
 <script>
 import { numeric, required } from 'vuelidate/lib/validators';
-import { mapState } from 'vuex';
 import General from './opened-team-general.vue';
 import Supervisors from '../modules/supervisors/components/opened-team-supervisors.vue';
 import Agents from '../modules/agents/components/opened-team-agents.vue';

@@ -112,10 +112,11 @@ import HistoryPopup from './agent-history-popup.vue';
 import tableComponentMixin
   from '../../../../../app/mixins/objectPagesMixins/objectTableMixin/tableComponentMixin';
 import RouteNames from '../../../../../app/router/_internals/RouteNames.enum';
+import agentStatusMixin from '../../../mixins/agentStatusMixin';
 
 export default {
   name: 'the-agents',
-  mixins: [tableComponentMixin],
+  mixins: [tableComponentMixin, agentStatusMixin],
   components: { HistoryPopup },
 
   data: () => ({
@@ -137,20 +138,6 @@ export default {
           route: '/contact-center/agents',
         },
       ];
-    },
-    statusIndicatorColor() {
-      return {
-        online: 'success',
-        pause: 'primary',
-        offline: 'disabled',
-      };
-    },
-    statusIndicatorText() {
-      return {
-        online: this.$t('objects.ccenter.agents.status.online'),
-        pause: this.$t('objects.ccenter.agents.status.pause'),
-        offline: this.$t('objects.ccenter.agents.status.offline'),
-      };
     },
   },
 
