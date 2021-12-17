@@ -11,6 +11,7 @@ const agentService = new AgentServiceApiFactory(configuration, '', instance);
 
 const defaultListObject = {
   name: '',
+  status: '',
   supervisor: {},
   skills: [],
 };
@@ -24,7 +25,7 @@ const getTeamAgents = (getList) => function ({
                                              }) {
   // parent id == team id
   if (!parentId) return;
-  const fields = ['id', 'name', 'supervisor', 'skills'];
+  const fields = ['id', 'name', 'status', 'supervisor', 'skills'];
   const params = [page, size, search, sort, fields, undefined, undefined, undefined, parentId];
   // eslint-disable-next-line consistent-return
   return getList(params);

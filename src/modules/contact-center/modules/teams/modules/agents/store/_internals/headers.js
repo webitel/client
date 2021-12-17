@@ -8,6 +8,12 @@ export default [
     sort: SortSymbols.NONE,
   },
   {
+    value: 'state',
+    locale: 'objects.ccenter.agents.state',
+    field: 'status',
+    sort: SortSymbols.NONE,
+  },
+  {
     value: 'supervisor',
     locale: ['objects.ccenter.agents.supervisors', 1],
     field: 'supervisor',
