@@ -270,7 +270,7 @@ export default {
         addPermission: 'Надати дозвіл',
         usage: 'Використання',
         applicationsAccess: {
-          applicationsAccess: 'Апплікація | Апплікації',
+          applicationsAccess: 'Застосунок | Застосунки',
           access: 'Доступ',
         },
       },
