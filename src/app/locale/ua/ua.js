@@ -576,7 +576,6 @@ export default {
         queues: 'Черга | Черги',
         allQueues: 'Всі черги',
         type: 'Тип',
-        team: 'Команда',
         state: 'Стан',
         active: 'Активна',
         notActive: 'Не активна',
