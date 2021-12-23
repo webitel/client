@@ -9,6 +9,7 @@ const agentService = new AgentServiceApiFactory(configuration, '', instance);
 
 const defaultListObject = {
   name: '',
+  status: '',
   supervisor: {},
   skills: [],
 };
@@ -22,7 +23,7 @@ const getQueueAgents = (getList) => function ({
                                               }) {
   // parent id == queue id
   if (!parentId) return;
-  const fields = ['id', 'name', 'supervisor', 'skills'];
+  const fields = ['id', 'name', 'status', 'supervisor', 'skills'];
   const params = [page, size, search, sort, fields, undefined, undefined,
     undefined, undefined, undefined, undefined, undefined, undefined, parentId];
   // eslint-disable-next-line consistent-return

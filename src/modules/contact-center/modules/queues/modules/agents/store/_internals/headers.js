@@ -14,6 +14,12 @@ export default [
     sort: SortSymbols.NONE,
   },
   {
+    value: 'state',
+    locale: 'objects.ccenter.agents.state',
+    field: 'status',
+    sort: SortSymbols.NONE,
+  },
+  {
     value: 'skills',
     locale: ['objects.lookups.skills.skills', 1],
     field: 'skills',
