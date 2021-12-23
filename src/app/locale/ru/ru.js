@@ -575,6 +575,7 @@ export default {
         queues: 'Очередь | Очереди',
         allQueues: 'Все очереди',
         type: 'Тип',
+        team: 'Команда',
         state: 'Состояние',
         active: 'Активная',
         notActive: 'Не активная',

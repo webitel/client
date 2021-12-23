@@ -72,6 +72,9 @@
             <template slot="priority" slot-scope="{ item } ">
               {{ item.priority }}
             </template>
+            <template slot="team" slot-scope="{ item } ">
+              {{ item.team.name }}
+            </template>
             <template slot="state" slot-scope="{ item, index }">
               <wt-switcher
                 :value="item.enabled"

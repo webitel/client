@@ -577,6 +577,7 @@ export default {
         queues: 'Queue | Queues',
         allQueues: 'All queues',
         type: 'Type',
+        team: 'Team',
         state: 'State',
         active: 'Active',
         notActive: 'Not active',
