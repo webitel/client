@@ -73,7 +73,9 @@
               {{ item.priority }}
             </template>
             <template slot="team" slot-scope="{ item } ">
-              {{ item.team.name }}
+              <item-link v-if="item.team" :link="itemTeamLink(item)" target="_blank">
+                {{ item.team.name }}
+              </item-link>
             </template>
             <template slot="state" slot-scope="{ item, index }">
               <wt-switcher
@@ -161,6 +163,12 @@ export default {
         name: `${RouteNames.MEMBERS}`,
         params: { queueId: item.id },
       });
+    },
+    itemTeamLink({ team }) {
+      return {
+        name: `${RouteNames.TEAMS}-edit`,
+        params: { id: team.id },
+      };
     },
 
     create() {
