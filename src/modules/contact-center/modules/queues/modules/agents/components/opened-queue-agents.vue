@@ -52,6 +52,12 @@
           @input="readSupervisor(item)"
         ></one-plus-many>
       </template>
+      <template slot="state" slot-scope="{ item }">
+        <wt-indicator
+          :color="statusIndicatorColor[item.status]"
+          :text="statusIndicatorText[item.status]"
+        ></wt-indicator>
+      </template>
       <template slot="skills" slot-scope="{ item }">
         <one-plus-many
           :collection="item.skills"
@@ -86,10 +92,11 @@ import ObjectListPopup from '../../../../../../../app/components/utils/object-li
 import openedObjectTableTabMixin from '../../../../../../../app/mixins/objectPagesMixins/openedObjectTableTabMixin/openedObjectTableTabMixin';
 import RouteNames from '../../../../../../../app/router/_internals/RouteNames.enum';
 import agentSupervisorsAndSkillsPopupMixin from '../../../../../mixins/agentSupervisorsAndSkillsPopupMixin';
+import agentStatusMixin from '../../../../../mixins/agentStatusMixin';
 
 export default {
   name: 'opened-queue-agents',
-  mixins: [openedObjectTableTabMixin, agentSupervisorsAndSkillsPopupMixin],
+  mixins: [openedObjectTableTabMixin, agentSupervisorsAndSkillsPopupMixin, agentStatusMixin],
   components: { ObjectListPopup },
   data: () => ({
     subNamespace: 'agents',
