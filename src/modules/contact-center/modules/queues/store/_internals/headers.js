@@ -32,6 +32,12 @@ export default [
     sort: SortSymbols.NONE,
   },
   {
+    value: 'team',
+    locale: ['objects.ccenter.teams.teams', 1],
+    field: 'team',
+    sort: SortSymbols.NONE,
+  },
+  {
     value: 'state',
     locale: 'objects.ccenter.queues.state',
     field: 'enabled',
