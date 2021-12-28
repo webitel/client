@@ -72,11 +72,12 @@ import getNamespacedState from '@webitel/ui-sdk/src/store/helpers/getNamespacedS
 import { mapActions, mapState } from 'vuex';
 import openedObjectTableTabMixin
   from '../../../../../../../app/mixins/objectPagesMixins/openedObjectTableTabMixin/openedObjectTableTabMixin';
+import resetOnDestroyMixin from '../../../../../../../app/mixins/baseMixins/resetOnDestroyMixin/resetOnDestroyMixin';
 import UserLogoutControl from './user-logout-control.vue';
 
 export default {
   name: 'license-users-popup',
-  mixins: [openedObjectTableTabMixin],
+  mixins: [resetOnDestroyMixin, openedObjectTableTabMixin],
   components: { UserLogoutControl },
   data: () => ({
     subNamespace: 'licenseUsers',
@@ -96,6 +97,9 @@ export default {
       },
       logoutUser(dispatch, payload) {
         return dispatch(`${this.namespace}/${this.subNamespace}/LOGOUT_USER`, payload);
+      },
+      resetState(dispatch, payload) {
+        return dispatch(`${this.namespace}/${this.subNamespace}/RESET_STATE`, payload);
       },
     }),
     async initTableView() {
