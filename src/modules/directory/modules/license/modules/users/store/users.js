@@ -26,9 +26,9 @@ const actions = {
     const _items = items.map((item) => ({
       ...item,
       _license: item.license || [], // save "default" format for api license patching
-      license: licenseHeaders.reduce((licenses, { name }) => ({
+      license: licenseHeaders.reduce((licenses, { value: licenseId }) => ({
         ...licenses,
-        [name]: item.license && item.license.some(({ prod }) => prod === name),
+        [licenseId]: item.license && item.license.some(({ id }) => id === licenseId),
       }), {}),
     }));
     return { items: _items, ...rest };
@@ -49,7 +49,7 @@ const actions = {
       user._license = changes.license;
       /* i decided to mutate user directly to avoid all dataList redraw */
       // eslint-disable-next-line no-param-reassign
-      user.license[license.name] = !user.license[license.name];
+      user.license[licenseId] = !user.license[licenseId];
     } catch (err) {
       throw err;
     }
