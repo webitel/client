@@ -122,6 +122,7 @@ const sortableConfig = {
   ghostClass: 'sortable-ghost', // Class name for the drop placeholder
   chosenClass: 'sortable-chosen', // Class name for the chosen item
   dragClass: 'sortable-drag', // Class name for the dragging item
+  handle: '.dialplan__draggable-icon', // handle's class
 
   direction: 'vertical', // Direction of Sortable (will be detected automatically if not given)
 
