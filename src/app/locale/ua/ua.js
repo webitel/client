@@ -642,7 +642,7 @@ export default {
         waitForResultStatus: 'Очікування результату дзвінка',
         retryAbandoned: 'Відновлювати втрачених абонентів',
         playbackFile: 'Програти файл',
-        bucketRatio: 'Співвідношення',
+        bucketPriority: 'Пріоритет',
         amd: 'AMD',
         enabled: 'Увімкнути автовизначення',
         allowNotSure: 'Невизначені',

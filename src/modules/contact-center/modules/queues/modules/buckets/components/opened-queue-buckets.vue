@@ -48,8 +48,15 @@
         <template slot="name" slot-scope="{ item }">
           {{ item.bucket.name }}
         </template>
-        <template slot="capacity" slot-scope="{ item }">
-          {{ item.ratio }}
+        <template slot="priority" slot-scope="{ item }">
+          {{ item.priority }}
+        </template>
+        <template slot="state" slot-scope="{ item, index }">
+          <wt-switcher
+            :value="!item.disabled"
+            :disabled="!hasEditAccess"
+            @change="patchItem({ item, index, prop: 'disabled', value: !$event })"
+          ></wt-switcher>
         </template>
         <template slot="actions" slot-scope="{ item }">
           <edit-action

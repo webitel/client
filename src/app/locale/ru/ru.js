@@ -641,7 +641,7 @@ export default {
         minDuration: 'Минимально успешная длительность звонка',
         maxAttempts: 'Максимальное количество попыток дозвониться',
         waitForResultStatus: 'Ожидание результата звонка',
-        bucketRatio: 'Соотношение',
+        bucketPriority: 'Приоритет',
         amd: 'AMD',
         enabled: 'Включить автоопределение',
         allowNotSure: 'Неопределенные',
