@@ -35,8 +35,8 @@ const itemCreator = new SdkCreatorApiConsumer(queueBucketsService.createQueueBuc
 const itemUpdater = new SdkUpdaterApiConsumer(queueBucketsService.updateQueueBucket,
   { fieldsToSend, preRequestHandler });
 const itemDeleter = new SdkDeleterApiConsumer(queueBucketsService.deleteQueueBucket);
-// eslint-disable-next-line max-len
-const itemPatcher = new SdkPatcherApiConsumer(queueBucketsService.patchQueueBucket, { fieldsToSend });
+const itemPatcher = new SdkPatcherApiConsumer(queueBucketsService.patchQueueBucket,
+  { fieldsToSend });
 
 const getQueueBucketsList = (params) => listGetter.getNestedList(params);
 const getQueueBucket = (params) => itemGetter.getNestedItem(params);
