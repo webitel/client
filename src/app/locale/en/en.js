@@ -643,7 +643,7 @@ export default {
         minDuration: 'Minimum succeed call duration',
         maxAttempts: 'Max call attempts',
         waitForResultStatus: 'Wait for result status',
-        bucketRatio: 'Ratio',
+        bucketPriority: 'Priority',
         amd: 'AMD',
         enabled: 'Use AMD',
         allowNotSure: 'Transfer NOTSURE to an agent',

@@ -5,21 +5,24 @@ import {
   SdkCreatorApiConsumer,
   SdkUpdaterApiConsumer,
   SdkDeleterApiConsumer,
+  SdkPatcherApiConsumer,
 } from 'webitel-sdk/esm2015/api-consumers';
 import instance from '../../../../../../../app/api/instance';
 import configuration from '../../../../../../../app/api/openAPIConfig';
 
 const queueBucketsService = new QueueBucketServiceApiFactory(configuration, '', instance);
 
-const fieldsToSend = ['bucket', 'ratio', 'queueId'];
-
 const defaultListObject = {
-  ratio: 0,
+  priority: 0,
+  disabled: false,
 };
 
 const defaultSingleObject = {
-  ratio: 0,
+  priority: 0,
+  disabled: false,
 };
+
+const fieldsToSend = ['bucket', 'priority', 'queueId', 'disabled'];
 
 const preRequestHandler = (item, parentId) => ({ ...item, queueId: parentId });
 
@@ -32,12 +35,15 @@ const itemCreator = new SdkCreatorApiConsumer(queueBucketsService.createQueueBuc
 const itemUpdater = new SdkUpdaterApiConsumer(queueBucketsService.updateQueueBucket,
   { fieldsToSend, preRequestHandler });
 const itemDeleter = new SdkDeleterApiConsumer(queueBucketsService.deleteQueueBucket);
+// eslint-disable-next-line max-len
+const itemPatcher = new SdkPatcherApiConsumer(queueBucketsService.patchQueueBucket, { fieldsToSend });
 
 const getQueueBucketsList = (params) => listGetter.getNestedList(params);
 const getQueueBucket = (params) => itemGetter.getNestedItem(params);
 const addQueueBucket = (params) => itemCreator.createNestedItem(params);
 const updateQueueBucket = (params) => itemUpdater.updateNestedItem(params);
 const deleteQueueBucket = (params) => itemDeleter.deleteNestedItem(params);
+const patchQueueBucket = (params) => itemPatcher.patchNestedItem(params);
 
 const QueueBucketsAPI = {
   getList: getQueueBucketsList,
@@ -45,6 +51,7 @@ const QueueBucketsAPI = {
   add: addQueueBucket,
   update: updateQueueBucket,
   delete: deleteQueueBucket,
+  patch: patchQueueBucket,
 };
 
 export default QueueBucketsAPI;

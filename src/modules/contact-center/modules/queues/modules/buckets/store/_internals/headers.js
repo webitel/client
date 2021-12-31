@@ -8,9 +8,15 @@ export default [
     sort: SortSymbols.NONE,
   },
   {
-    value: 'ratio',
-    locale: 'objects.ccenter.queues.bucketRatio',
-    field: 'ratio',
+    value: 'priority',
+    locale: 'objects.ccenter.queues.bucketPriority',
+    field: 'priority',
+    sort: SortSymbols.NONE,
+  },
+  {
+    value: 'state',
+    locale: 'objects.ccenter.queues.state',
+    field: 'disabled',
     sort: SortSymbols.NONE,
   },
 ];
