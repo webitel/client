@@ -15,12 +15,12 @@
           @input="setItemProp({ prop: 'bucket', value: $event })"
         ></wt-select>
         <wt-input
-          :value="itemInstance.ratio"
-          :v="$v.itemInstance.ratio"
-          :label="$t('objects.ccenter.queues.bucketRatio')"
+          :value="itemInstance.priority"
+          :v="$v.itemInstance.priority"
+          :label="$t('objects.ccenter.queues.bucketPriority')"
           type="number"
           required
-          @input="setItemProp({ prop: 'ratio', value: $event })"
+          @input="setItemProp({ prop: 'priority', value: $event })"
         ></wt-input>
       </form>
     </template>
@@ -55,7 +55,7 @@ export default {
   validations: {
     itemInstance: {
       bucket: { required },
-      ratio: {
+      priority: {
         numeric,
         minValue: minValue(0),
         required,
