@@ -46,7 +46,7 @@
           slot-scope="{ item }"
         >
           <wt-checkbox
-            :selected="item.license[license.name]"
+            :selected="item.license[license.value]"
             :key="key"
             :disabled="!hasEditAccess"
             @change="toggleUserLicense({ user: item, license })"

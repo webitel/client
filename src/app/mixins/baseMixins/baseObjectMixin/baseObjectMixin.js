@@ -1,5 +1,6 @@
 import { mapActions } from 'vuex';
 import openedObjectValidationMixin from '../openedObjectValidationMixin/openedObjectValidationMixin';
+import resetOnDestroyMixin from '../resetOnDestroyMixin/resetOnDestroyMixin';
 
 /**
  * @fileOverview abstract mixin,
@@ -10,10 +11,7 @@ import openedObjectValidationMixin from '../openedObjectValidationMixin/openedOb
  * @extends openedObjectValidationMixin, openedObjectAccessControlMixin
  */
 export default {
-  mixins: [openedObjectValidationMixin],
-  destroyed() {
-    this.resetState();
-  },
+  mixins: [resetOnDestroyMixin, openedObjectValidationMixin],
 
   computed: {
     computePrimaryText() {
@@ -45,9 +43,6 @@ export default {
       },
       updateItem(dispatch, payload) {
         return dispatch(`${this.namespace}/UPDATE_ITEM`, payload);
-      },
-      resetState(dispatch, payload) {
-        return dispatch(`${this.namespace}/RESET_ITEM_STATE`, payload);
       },
     }),
 
