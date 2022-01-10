@@ -1,58 +1,60 @@
 <template>
   <section>
     <header class="content-header">
-      <wt-icon icon-prefix="messenger" icon="infobip" size="sm"></wt-icon>
+      <wt-icon icon="infobip" icon-prefix="messenger" size="sm"></wt-icon>
       <h3 class="content-title">{{ $t('objects.routing.chatGateways.infobip') }}</h3>
     </header>
     <form class="object-input-grid">
       <wt-input
-        :value="itemInstance.name"
-        :v="v.itemInstance.name"
-        :label="$t('objects.name')"
         :disabled="disableUserInput"
+        :label="$t('objects.name')"
+        :v="v.itemInstance.name"
+        :value="itemInstance.name"
         @input="setItemProp({ prop: 'name', value: $event })"
       ></wt-input>
       <wt-input
-        :value="itemInstance.metadata.apiKey"
-        :v="v.itemInstance.metadata.apiKey"
-        :label="$t('objects.routing.chatGateways.metadata.apiKey')"
         :disabled="disableUserInput"
+        :label="$t('objects.routing.chatGateways.metadata.apiKey')"
+        :v="v.itemInstance.metadata.apiKey"
+        :value="itemInstance.metadata.apiKey"
         @input="setItemMetadata({ prop: 'apiKey', value: $event })"
       ></wt-input>
-      <wt-input
-        :value="itemInstance.uri"
-        :v="v.itemInstance.uri"
-        :label="$t('objects.routing.chatGateways.uri')"
+      <copy-input
         :disabled="!isUriEditable"
+        :label="$t('objects.routing.chatGateways.uri')"
+        :v="v.itemInstance.uri"
+        :value="itemInstance.uri"
+        required
         @input="setItemProp({ prop: 'uri', value: $event })"
-      ></wt-input>
+      ></copy-input>
       <wt-input
-        :value="itemInstance.metadata.number"
-        :v="v.itemInstance.metadata.number"
-        :label="$t('objects.routing.chatGateways.metadata.number')"
         :disabled="disableUserInput"
+        :label="$t('objects.routing.chatGateways.metadata.number')"
+        :v="v.itemInstance.metadata.number"
+        :value="itemInstance.metadata.number"
         @input="setItemMetadata({ prop: 'number', value: $event })"
       ></wt-input>
       <wt-select
-        :value="itemInstance.flow"
-        :v="v.itemInstance.flow"
+        :disabled="disableUserInput"
         :label="$t('objects.routing.flow.flow')"
         :search-method="loadDropdownOptionsList"
-        :disabled="disableUserInput"
+        :v="v.itemInstance.flow"
+        :value="itemInstance.flow"
         @input="setFlow"
       ></wt-select>
       <wt-input
-        :value="itemInstance.metadata.url"
-        :v="v.itemInstance.metadata.url"
-        :label="$t('objects.routing.chatGateways.metadata.baseUrl')"
         :disabled="disableUserInput"
+        :label="$t('objects.routing.chatGateways.metadata.baseUrl')"
+        :v="v.itemInstance.metadata.url"
+        :value="itemInstance.metadata.url"
         @input="setItemMetadata({ prop: 'url', value: $event })"
       ></wt-input>
-      <!--      Empty div in order to have correct page design--> <div></div>
+      <!--      Empty div in order to have correct page design-->
+      <div></div>
       <wt-input
-        :value="itemInstance.metadata.scenarioKey"
-        :label="$t('objects.routing.chatGateways.metadata.scenarioKey')"
         :disabled="disableUserInput"
+        :label="$t('objects.routing.chatGateways.metadata.scenarioKey')"
+        :value="itemInstance.metadata.scenarioKey"
         @input="setItemMetadata({ prop: 'scenarioKey', value: $event })"
       ></wt-input>
     </form>
@@ -61,11 +63,14 @@
 
 <script>
 import { mapActions } from 'vuex';
+import CopyInput from '../../../../../app/components/utils/copy-input.vue';
+import openedTabComponentMixin
+  from '../../../../../app/mixins/objectPagesMixins/openedObjectTabMixin/openedTabComponentMixin';
 import FlowsAPI from '../../flow/api/flow';
-import openedTabComponentMixin from '../../../../../app/mixins/objectPagesMixins/openedObjectTabMixin/openedTabComponentMixin';
 
 export default {
   name: 'opened-chat-gateway-infobip-general-tab',
+  components: { CopyInput },
   mixins: [openedTabComponentMixin],
   computed: {
     isUriEditable() {
@@ -81,9 +86,15 @@ export default {
 
     setFlow(value) {
       if (!this.itemInstance.name) {
-        this.setItemProp({ prop: 'name', value: value.name });
+        this.setItemProp({
+          prop: 'name',
+          value: value.name,
+        });
       }
-      this.setItemProp({ prop: 'flow', value });
+      this.setItemProp({
+        prop: 'flow',
+        value,
+      });
     },
 
     loadDropdownOptionsList(params) {

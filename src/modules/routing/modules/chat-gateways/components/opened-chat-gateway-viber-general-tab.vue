@@ -1,62 +1,73 @@
 <template>
   <section>
     <header class="content-header">
-      <wt-icon icon-prefix="messenger" icon="viber" size="sm"></wt-icon>
+      <wt-icon icon="viber" icon-prefix="messenger" size="sm"></wt-icon>
       <h3 class="content-title">{{ $t('objects.routing.chatGateways.viber') }}</h3>
     </header>
     <form class="object-input-grid">
       <wt-input
-        :value="itemInstance.name"
-        :v="v.itemInstance.name"
-        :label="$t('objects.name')"
         :disabled="disableUserInput"
+        :label="$t('objects.name')"
+        :v="v.itemInstance.name"
+        :value="itemInstance.name"
         @input="setItemProp({ prop: 'name', value: $event })"
       ></wt-input>
       <wt-input
-        :value="itemInstance.metadata.token"
-        :v="v.itemInstance.metadata.token"
-        :label="$tc('objects.directory.users.token', 1)"
         :disabled="disableUserInput"
+        :label="$tc('objects.directory.users.token', 1)"
+        :v="v.itemInstance.metadata.token"
+        :value="itemInstance.metadata.token"
         @input="setItemMetadata({ prop: 'token', value: $event })"
       ></wt-input>
-      <wt-input
-        :value="itemInstance.uri"
-        :v="v.itemInstance.uri"
-        :label="$t('objects.routing.chatGateways.uri')"
+      <copy-input
         :disabled="!isUriEditable"
+        :label="$t('objects.routing.chatGateways.uri')"
+        :v="v.itemInstance.uri"
+        :value="itemInstance.uri"
+        required
+        @input="setItemProp({ prop: 'uri', value: $event })"
+      ></copy-input>
+      <wt-input
+        :disabled="!isUriEditable"
+        :label="$t('objects.routing.chatGateways.uri')"
+        :v="v.itemInstance.uri"
+        :value="itemInstance.uri"
         @input="setItemProp({ prop: 'uri', value: $event })"
       ></wt-input>
       <wt-input
-        :value="itemInstance.metadata.botName"
-        :label="$t('objects.routing.chatGateways.metadata.botName')"
         :disabled="disableUserInput"
+        :label="$t('objects.routing.chatGateways.metadata.botName')"
+        :value="itemInstance.metadata.botName"
         @input="setItemMetadata({ prop: 'botName', value: $event })"
       ></wt-input>
       <wt-select
-        :value="itemInstance.flow"
-        :v="v.itemInstance.flow"
+        :disabled="disableUserInput"
         :label="$t('objects.routing.flow.flow')"
         :search-method="loadDropdownOptionsList"
-        :disabled="disableUserInput"
+        :v="v.itemInstance.flow"
+        :value="itemInstance.flow"
         @input="setFlow"
       ></wt-select>
-<!--      <wt-input-->
-<!--        :value="itemInstance.metadata.eventTypes"-->
-<!--        :label="$t('objects.routing.chatGateways.metadata.eventTypes')"-->
-<!--        :disabled="disableUserInput"-->
-<!--        @input="setItemMetadata({ prop: 'eventTypes', value: $event })"-->
-<!--      ></wt-input>-->
+      <!--      <wt-input-->
+      <!--        :value="itemInstance.metadata.eventTypes"-->
+      <!--        :label="$t('objects.routing.chatGateways.metadata.eventTypes')"-->
+      <!--        :disabled="disableUserInput"-->
+      <!--        @input="setItemMetadata({ prop: 'eventTypes', value: $event })"-->
+      <!--      ></wt-input>-->
     </form>
   </section>
 </template>
 
 <script>
 import { mapActions } from 'vuex';
+import CopyInput from '../../../../../app/components/utils/copy-input';
+import openedTabComponentMixin
+  from '../../../../../app/mixins/objectPagesMixins/openedObjectTabMixin/openedTabComponentMixin';
 import FlowsAPI from '../../flow/api/flow';
-import openedTabComponentMixin from '../../../../../app/mixins/objectPagesMixins/openedObjectTabMixin/openedTabComponentMixin';
 
 export default {
   name: 'opened-chat-viber-general-tab',
+  components: { CopyInput },
   mixins: [openedTabComponentMixin],
   computed: {
     isUriEditable() {
@@ -72,9 +83,15 @@ export default {
 
     setFlow(value) {
       if (!this.itemInstance.name) {
-        this.setItemProp({ prop: 'name', value: value.name });
+        this.setItemProp({
+          prop: 'name',
+          value: value.name,
+        });
       }
-      this.setItemProp({ prop: 'flow', value });
+      this.setItemProp({
+        prop: 'flow',
+        value,
+      });
     },
 
     loadDropdownOptionsList(params) {

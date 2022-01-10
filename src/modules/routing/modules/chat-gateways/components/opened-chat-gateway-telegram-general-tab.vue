@@ -1,38 +1,40 @@
 <template>
   <section>
     <header class="content-header">
-      <wt-icon icon-prefix="messenger" icon="telegram" size="sm"></wt-icon>
+      <wt-icon icon="telegram" icon-prefix="messenger" size="sm"></wt-icon>
       <h3 class="content-title">{{ $t('objects.routing.chatGateways.telegram') }}</h3>
     </header>
     <form class="object-input-grid">
       <wt-input
-        :value="itemInstance.name"
-        :v="v.itemInstance.name"
-        :label="$t('objects.name')"
         :disabled="disableUserInput"
+        :label="$t('objects.name')"
+        :v="v.itemInstance.name"
+        :value="itemInstance.name"
         @input="setItemProp({ prop: 'name', value: $event })"
       ></wt-input>
       <wt-input
-        :value="itemInstance.metadata.token"
-        :v="v.itemInstance.metadata.token"
-        :label="$t('objects.routing.chatGateways.metadata.telegramToken')"
         :disabled="disableUserInput"
+        :label="$t('objects.routing.chatGateways.metadata.telegramToken')"
+        :v="v.itemInstance.metadata.token"
+        :value="itemInstance.metadata.token"
         @input="setItemMetadata({ prop: 'token', value: $event })"
       ></wt-input>
-      <wt-input
-        :value="itemInstance.uri"
-        :v="v.itemInstance.uri"
-        :label="$t('objects.routing.chatGateways.uri')"
+      <copy-input
         :disabled="!isUriEditable"
+        :label="$t('objects.routing.chatGateways.uri')"
+        :v="v.itemInstance.uri"
+        :value="itemInstance.uri"
+        required
         @input="setItemProp({ prop: 'uri', value: $event })"
-      ></wt-input>
-      <!--      Empty div in order to have correct page design--> <div></div>
+      ></copy-input>
+      <!--      Empty div in order to have correct page design-->
+      <div></div>
       <wt-select
-        :value="itemInstance.flow"
-        :v="v.itemInstance.flow"
+        :disabled="disableUserInput"
         :label="$t('objects.routing.flow.flow')"
         :search-method="loadDropdownOptionsList"
-        :disabled="disableUserInput"
+        :v="v.itemInstance.flow"
+        :value="itemInstance.flow"
         @input="setFlow"
       ></wt-select>
     </form>
@@ -41,12 +43,16 @@
 
 <script>
 import { mapActions } from 'vuex';
+import CopyInput from '../../../../../app/components/utils/copy-input.vue';
+import openedTabComponentMixin
+  from '../../../../../app/mixins/objectPagesMixins/openedObjectTabMixin/openedTabComponentMixin';
 import FlowsAPI from '../../flow/api/flow';
-import openedTabComponentMixin from '../../../../../app/mixins/objectPagesMixins/openedObjectTabMixin/openedTabComponentMixin';
 
 export default {
   name: 'opened-chat-telegram-general-tab',
+  components: { CopyInput },
   mixins: [openedTabComponentMixin],
+  comments: { CopyInput },
   computed: {
     isUriEditable() {
       return !this.disableUserInput && this.$route.path.includes('/new');
@@ -61,9 +67,15 @@ export default {
 
     setFlow(value) {
       if (!this.itemInstance.name) {
-        this.setItemProp({ prop: 'name', value: value.name });
+        this.setItemProp({
+          prop: 'name',
+          value: value.name,
+        });
       }
-      this.setItemProp({ prop: 'flow', value });
+      this.setItemProp({
+        prop: 'flow',
+        value,
+      });
     },
 
     loadDropdownOptionsList(params) {
