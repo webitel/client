@@ -661,6 +661,7 @@ export default {
         greeting: 'Максимальная длина приветствия (мс)',
         initialSilence: 'Максимальная продолжительность тишины перед приветствием (мс)',
         statisticTime: 'Интервал пересчета',
+        communications: 'Тип связи',
         queueStrategy: {
           fifo: 'FIFO (Первый зашёл Первый вышел)',
           lifo: 'LIFO (Последний зашёл Первый вышел)',

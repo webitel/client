@@ -35,8 +35,10 @@ const fieldsToSend = ['maxCapacity', 'minCapacity', 'queueId', 'lvl', 'buckets',
 
 const preRequestHandler = (item, parentId) => ({ ...item, queueId: parentId });
 
-const listGetter = new SdkListGetterApiConsumer(queueSkillService.searchQueueSkill, { defaultListObject });
-const itemGetter = new SdkGetterApiConsumer(queueSkillService.readQueueSkill, { defaultSingleObject });
+const listGetter = new SdkListGetterApiConsumer(queueSkillService.searchQueueSkill,
+  { defaultListObject });
+const itemGetter = new SdkGetterApiConsumer(queueSkillService.readQueueSkill,
+  { defaultSingleObject });
 const itemCreator = new SdkCreatorApiConsumer(queueSkillService.createQueueSkill,
   { fieldsToSend, preRequestHandler });
 const itemPatcher = new SdkPatcherApiConsumer(queueSkillService.patchQueueSkill, { fieldsToSend });

@@ -5,6 +5,7 @@ import headers from './_internals/headers';
 const resettableItemState = {
   itemInstance: {
     resourceGroup: {},
+    communication: {},
   },
 };
 
