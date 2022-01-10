@@ -5,9 +5,9 @@
         <headline-nav :path="path"></headline-nav>
         <template slot="actions">
           <download-files-btn
-            :is-files-loading="isFilesLoading"
             :files-download-progress="filesDownloadProgress"
             :files-zipping-progress="filesZippingProgress"
+            :is-files-loading="isFilesLoading"
             @export-files="exportFiles(null, { fields: undefined })"
           ></download-files-btn>
         </template>
@@ -28,16 +28,16 @@
             <wt-search-bar
               :value="search"
               debounce
+              @enter="loadList"
               @input="setSearch"
               @search="loadList"
-              @enter="loadList"
             ></wt-search-bar>
             <wt-icon-btn
               v-if="hasDeleteAccess"
-              class="icon-action"
               :class="{'hidden': anySelected}"
-              icon="bucket"
               :tooltip="actionPanelDeleteTooltip"
+              class="icon-action"
+              icon="bucket"
               @click="callDelete(selectedRows)"
             ></wt-icon-btn>
             <wt-table-actions
@@ -49,10 +49,10 @@
         <vue-dropzone
           v-if="hasCreateAccess"
           id="dropzone"
-          :options="dropzoneOptions"
           :destroy-dropzone="false"
-          use-custom-slot
+          :options="dropzoneOptions"
           duplicate-check
+          use-custom-slot
           @vdropzone-files-added="onFilesAdded"
           @vdropzone-success="onFileSuccess"
           @vdropzone-error="onFileError"
@@ -66,10 +66,10 @@
           </div>
           <div
             v-show="!isLoadingFiles"
-            class="dz-custom-message"
             :title="$t('iconHints.upload')"
+            class="dz-custom-message"
           >
-            <wt-icon icon="upload" color="accent"></wt-icon>
+            <wt-icon color="accent" icon="upload"></wt-icon>
             <div class="dz-message-text">
               <span class="dz-message-text__accent">
                 {{ $t('objects.lookups.media.dragPlaceholder') }}
@@ -80,10 +80,10 @@
         </vue-dropzone>
 
         <wt-loader v-show="!isLoaded"></wt-loader>
-        <div class="table-wrapper" v-show="isLoaded">
+        <div v-show="isLoaded" class="table-wrapper">
           <wt-table
-            :headers="headers"
             :data="dataList"
+            :headers="headers"
             sortable
             @sort="sort"
           >
@@ -101,17 +101,17 @@
             </template>
             <template slot="actions" slot-scope="{ item, index }">
               <wt-icon-btn
+                :tooltip="$t('iconHints.download')"
                 class="table-action"
                 icon="download"
-                :tooltip="$t('iconHints.download')"
                 tooltip-position="left"
                 @click="downloadFile(item)"
               ></wt-icon-btn>
               <div class="table-action table-action--iframe-wrap">
                 <wt-icon-btn
-                  icon="play"
                   v-show="index !== playingIndex || !currentlyPlaying"
                   :tooltip="$t('iconHints.play')"
+                  icon="play"
                   tooltip-position="left"
                   @click="play(index)"
                 ></wt-icon-btn>
@@ -127,23 +127,23 @@
             </template>
           </wt-table>
           <wt-pagination
-            :size="size"
             :next="isNext"
             :prev="page > 1"
+            :size="size"
             debounce
+            @change="loadList"
+            @input="setSize"
             @next="nextPage"
             @prev="prevPage"
-            @input="setSize"
-            @change="loadList"
           ></wt-pagination>
         </div>
 
         <wt-player
           v-show="audioLink"
           :src="audioLink"
-          @play="currentlyPlaying = true"
-          @pause="currentlyPlaying = false"
           @close="closePlayer"
+          @pause="currentlyPlaying = false"
+          @play="currentlyPlaying = true"
         ></wt-player>
       </section>
     </template>
@@ -151,10 +151,10 @@
 </template>
 
 <script>
-import vueDropzone from 'vue2-dropzone';
 import exportFilesMixin from '@webitel/ui-sdk/src/modules/FilesExport/mixins/exportFilesMixin';
-import prettifyFileSize from '@webitel/ui-sdk/src/scripts/prettifyFileSize';
 import eventBus from '@webitel/ui-sdk/src/scripts/eventBus';
+import prettifyFileSize from '@webitel/ui-sdk/src/scripts/prettifyFileSize';
+import vueDropzone from 'vue2-dropzone';
 import DownloadFilesBtn from '../../../../../app/components/utils/download-files-btn.vue';
 import tableComponentMixin from '../../../../../app/mixins/objectPagesMixins/objectTableMixin/tableComponentMixin';
 import { download } from '../../../../../app/utils/download';
@@ -202,7 +202,10 @@ export default {
     path() {
       return [
         { name: this.$t('objects.lookups.lookups') },
-        { name: this.$tc('objects.lookups.media.mediaFiles', 2), route: '/lookups/media' },
+        {
+          name: this.$tc('objects.lookups.media.mediaFiles', 2),
+          route: '/lookups/media',
+        },
       ];
     },
   },
@@ -237,7 +240,10 @@ export default {
     // used for updating loaded files number on UI
     onFileError(file, message) {
       this.loadedCount += 1;
-      eventBus.$emit('notification', { type: 'error', text: message.message });
+      eventBus.$emit('notification', {
+        type: 'error',
+        text: message.message,
+      });
     },
 
     // dropzone event firing on all files loaded and sent
@@ -255,14 +261,15 @@ export default {
 
     closePlayer() {
       this.playingIndex = null;
-      this.audioLink = null;
+      this.audioLink = '';
     },
     getMediaList: MediaAPI.getList,
     prettifyDate(date) {
       return new Date(+date).toLocaleDateString();
     },
     prettifyFormat(format) {
-      return format.split('/').pop();
+      return format.split('/')
+        .pop();
     },
     prettifyFileSize,
   },
