@@ -50,7 +50,7 @@
             {{ item.resourceGroup.name }}
           </div>
         </template>
-        <template slot="communication-type" slot-scope="{ item }">
+        <template slot="communication" slot-scope="{ item }">
           <div v-if="item.communication">
             {{ item.communication.name }}
           </div>

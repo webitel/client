@@ -8,7 +8,7 @@ export default [
     sort: SortSymbols.NONE,
   },
   {
-    value: 'communication-type',
+    value: 'communication',
     locale: 'objects.ccenter.queues.communications',
     field: 'communication',
     sort: SortSymbols.NONE,
