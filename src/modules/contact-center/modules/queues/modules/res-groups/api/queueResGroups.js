@@ -11,7 +11,7 @@ import configuration from '../../../../../../../app/api/openAPIConfig';
 
 const queueResService = new QueueResourcesServiceApiFactory(configuration, '', instance);
 
-const fieldsToSend = ['resourceGroup', 'queueId'];
+const fieldsToSend = ['resourceGroup', 'queueId', 'communication'];
 
 const preRequestHandler = (item, parentId) => ({ ...item, queueId: parentId });
 

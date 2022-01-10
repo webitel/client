@@ -662,6 +662,8 @@ export default {
         greeting: 'Максимальна довжина привітання (мс)',
         initialSilence: 'Максимальна тривалість тиші перед привітанням (мс)',
         statisticTime: 'Інтервал перерахунку',
+        communications: 'Тип зв\'язку',
+
         queueStrategy: {
           fifo: 'FIFO (Першим зайшов, першим вийшов)',
           lifo: 'LIFO (Останнім зайшов, першим вийшов)',

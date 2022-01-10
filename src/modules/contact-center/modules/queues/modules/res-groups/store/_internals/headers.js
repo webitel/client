@@ -7,4 +7,10 @@ export default [
     field: 'resource_group',
     sort: SortSymbols.NONE,
   },
+  {
+    value: 'communication-type',
+    locale: 'objects.ccenter.queues.communications',
+    field: 'communication',
+    sort: SortSymbols.NONE,
+  },
 ];

@@ -6,14 +6,14 @@
     ></resource-popup>
 
     <header class="content-header">
-      <h3 class="content-title">{{ $tc('objects.ccenter.res.res', 2) }}</h3>
+      <h3 class="content-title">{{ $tc('objects.ccenter.resGroups.resGroups', 2) }}</h3>
       <div class="content-header__actions-wrap">
         <wt-search-bar
           :value="search"
           debounce
+          @enter="loadList"
           @input="setSearch"
           @search="loadList"
-          @enter="loadList"
         ></wt-search-bar>
         <wt-icon-btn
           v-if="!disableUserInput"
@@ -37,17 +37,22 @@
     </header>
 
     <wt-loader v-show="!isLoaded"></wt-loader>
-    <div class="table-wrapper" v-show="isLoaded">
+    <div v-show="isLoaded" class="table-wrapper">
       <wt-table
-        :headers="headers"
         :data="dataList"
         :grid-actions="!disableUserInput"
+        :headers="headers"
         sortable
         @sort="sort"
       >
         <template slot="name" slot-scope="{ item }">
           <div v-if="item.resourceGroup">
             {{ item.resourceGroup.name }}
+          </div>
+        </template>
+        <template slot="communication-type" slot-scope="{ item }">
+          <div v-if="item.communication">
+            {{ item.communication.name }}
           </div>
         </template>
         <template slot="actions" slot-scope="{ item, index }">
@@ -60,22 +65,23 @@
         </template>
       </wt-table>
       <wt-pagination
-        :size="size"
         :next="isNext"
         :prev="page > 1"
+        :size="size"
         debounce
+        @change="loadList"
+        @input="setSize"
         @next="nextPage"
         @prev="prevPage"
-        @input="setSize"
-        @change="loadList"
       ></wt-pagination>
     </div>
   </section>
 </template>
 
 <script>
+import openedObjectTableTabMixin
+  from '../../../../../../../app/mixins/objectPagesMixins/openedObjectTableTabMixin/openedObjectTableTabMixin';
 import resourcePopup from './opened-queue-resources-popup.vue';
-import openedObjectTableTabMixin from '../../../../../../../app/mixins/objectPagesMixins/openedObjectTableTabMixin/openedObjectTableTabMixin';
 
 export default {
   name: 'opened-queue-resources',

@@ -663,6 +663,7 @@ export default {
         greeting: 'Greeting (ms)',
         initialSilence: 'Initial silence (ms)',
         statisticTime: 'Recalculation interval',
+        communications: 'Communication type',
         queueStrategy: {
           fifo: 'FIFO (First In First Out)',
           lifo: 'LIFO (Last In First Out)',
