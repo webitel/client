@@ -36,6 +36,7 @@ const predictiveDialer = () => ({
     strictCircuit: false,
     statisticTime: 60,
     endless: false,
+    perNumbers: false,
   },
 });
 

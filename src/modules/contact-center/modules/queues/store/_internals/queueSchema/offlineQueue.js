@@ -15,6 +15,7 @@ const offlineQueue = () => ({
   payload: {
     originateTimeout: 60, // required
     recordings: false,
+    perNumbers: false,
   },
 });
 

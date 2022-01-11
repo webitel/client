@@ -25,6 +25,7 @@ const progressiveDialer = () => ({
     amd: amd(),
     strictCircuit: false,
     endless: false,
+    perNumbers: false,
   },
 });
 

@@ -18,6 +18,12 @@
         @change="setItemPayloadProp({ prop: 'recordings', value: $event })"
       ></wt-switcher>
       <wt-switcher
+        :value="itemInstance.payload.perNumbers"
+        :label="$t('objects.ccenter.queues.perNumbers')"
+        :disabled="disableUserInput"
+        @change="setItemPayloadProp({ prop: 'perNumbers', value: $event })"
+      ></wt-switcher>
+      <wt-switcher
         :value="itemInstance.processing"
         :label="$t('objects.ccenter.queues.processing')"
         :disabled="disableUserInput"
