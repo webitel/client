@@ -20,6 +20,7 @@
         @input="setItemMetadata({ prop: 'apiKey', value: $event })"
       ></wt-input>
       <copy-input
+        :additional-copy-value="computeFullUrlToCopy"
         :disabled="!isUriEditable"
         :label="$t('objects.routing.chatGateways.uri')"
         :v="v.itemInstance.uri"
@@ -67,11 +68,12 @@ import CopyInput from '../../../../../app/components/utils/copy-input.vue';
 import openedTabComponentMixin
   from '../../../../../app/mixins/objectPagesMixins/openedObjectTabMixin/openedTabComponentMixin';
 import FlowsAPI from '../../flow/api/flow';
+import uriCopyMixin from '../mixins/uriCopyMixin';
 
 export default {
   name: 'opened-chat-gateway-infobip-general-tab',
   components: { CopyInput },
-  mixins: [openedTabComponentMixin],
+  mixins: [openedTabComponentMixin, uriCopyMixin],
   computed: {
     isUriEditable() {
       return !this.disableUserInput && this.$route.path.includes('/new');
