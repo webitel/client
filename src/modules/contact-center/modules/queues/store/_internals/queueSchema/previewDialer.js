@@ -23,6 +23,7 @@ const previewDialer = () => ({
     allowGreetingAgent: false,
     strictCircuit: false,
     endless: false,
+    perNumbers: false,
   },
 });
 

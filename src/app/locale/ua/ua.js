@@ -652,6 +652,7 @@ export default {
         maxCalls: 'Ліміт дзвінків',
         maxCallsHint: 'Якщо значення дорівнює 0, дайлер не буде дзвонити',
         recordings: 'Запис',
+        perNumbers: 'Спроби дозвону на кожен номер',
         maxWordLength: 'Максимальна тривалість речення (мс)',
         maxNumberOfWords: 'Максимальна кількість слів в привітанні',
         betweenWordsSilence: 'Тривалість тиші між словами (мс)',

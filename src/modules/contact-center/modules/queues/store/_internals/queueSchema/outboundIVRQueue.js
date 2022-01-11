@@ -20,6 +20,7 @@ const outboundIVRQueue = () => ({
     recordings: false,
     amd: amd(),
     strictCircuit: false,
+    perNumbers: false,
   },
 });
 

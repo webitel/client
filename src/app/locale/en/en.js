@@ -653,6 +653,7 @@ export default {
         maxCalls: 'Max calls',
         maxCallsHint: 'If value is 0, dialer won\'t call',
         recordings: 'Recording',
+        perNumbers: 'Dialing Attempts per each phone number',
         maxWordLength: 'Maximum word length (ms)',
         maxNumberOfWords: 'Maximum number of words',
         betweenWordsSilence: 'Between words silence (ms)',
