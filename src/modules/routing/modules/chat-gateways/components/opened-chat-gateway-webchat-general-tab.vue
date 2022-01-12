@@ -20,7 +20,7 @@
         @input="setItemMetadata({ prop: 'allowOrigin', value: $event })"
       ></wt-tags-input>
       <copy-input
-        :additional-copy-value="computeFullUrlToCopy"
+        :copy-modifier="modifyUriCopy"
         :disabled="!isUriEditable"
         :label="$t('objects.routing.chatGateways.uri')"
         :v="v.itemInstance.uri"
@@ -74,16 +74,14 @@
 
 <script>
 import { mapActions } from 'vuex';
-import CopyInput from '../../../../../app/components/utils/copy-input.vue';
 import openedTabComponentMixin
   from '../../../../../app/mixins/objectPagesMixins/openedObjectTabMixin/openedTabComponentMixin';
 import FlowsAPI from '../../flow/api/flow';
-import uriCopyMixin from '../mixins/uriCopyMixin';
+import copyModifierMixin from '../mixins/copyModifierMixin';
 
 export default {
   name: 'opened-chat-webchat-general-tab',
-  components: { CopyInput },
-  mixins: [openedTabComponentMixin, uriCopyMixin],
+  mixins: [openedTabComponentMixin, copyModifierMixin],
   computed: {
     isUriEditable() {
       return !this.disableUserInput && this.$route.path.includes('/new');

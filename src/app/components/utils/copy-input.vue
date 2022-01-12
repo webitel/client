@@ -38,11 +38,8 @@ export default {
     value: {
       type: String,
     },
-    /* In case if we have some additional, or another string witch we need to copy we may use
-      the "additionalCopyValue" */
-    additionalCopyValue: {
-      type: String,
-      default: '',
+    copyModifier: {
+      type: Function,
     },
     label: {
       type: String,
@@ -82,8 +79,8 @@ export default {
   methods: {
     copy() {
       let copyValue;
-      if (this.additionalCopyValue.length !== 0) {
-        copyValue = this.additionalCopyValue;
+      if (this.copyModifier) {
+        copyValue = this.copyModifier(this.value);
       } else {
         copyValue = this.value;
       }
