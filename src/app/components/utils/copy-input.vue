@@ -2,28 +2,28 @@
   <div class="copy-input">
     <wt-input
       ref="copy-input"
-      :value="value"
-      :label="label"
-      :v="v"
-      :required="required"
       :disabled="disabled"
+      :label="label"
+      :required="required"
+      :v="v"
+      :value="value"
       @input="input"
     ></wt-input>
 
-    <div class="copy-input__icon-extension" :style="iconExtensionStyle">
+    <div :style="iconExtensionStyle" class="copy-input__icon-extension">
       <wt-icon-btn
         v-show="!isCopied"
+        :tooltip="$t('objects.copy')"
         class="copy-input__icon-btn copy-input__icon-btn--copy"
         icon="copy"
-        :tooltip="$t('objects.copy')"
         @click="copy"
       ></wt-icon-btn>
       <wt-icon-btn
         v-show="isCopied"
-        class="copy-input__icon-btn copy-input__icon-btn--tick"
-        icon="done"
-        color="true"
         :tooltip="$t('objects.copied')"
+        class="copy-input__icon-btn copy-input__icon-btn--tick"
+        color="true"
+        icon="done"
       ></wt-icon-btn>
     </div>
   </div>
@@ -37,6 +37,9 @@ export default {
   props: {
     value: {
       type: String,
+    },
+    copyModifier: {
+      type: Function,
     },
     label: {
       type: String,
@@ -75,7 +78,13 @@ export default {
 
   methods: {
     copy() {
-      clipboardCopy(this.value);
+      let copyValue;
+      if (this.copyModifier) {
+        copyValue = this.copyModifier(this.value);
+      } else {
+        copyValue = this.value;
+      }
+      clipboardCopy(copyValue);
       this.isCopied = true;
       setTimeout(() => {
         this.isCopied = false;

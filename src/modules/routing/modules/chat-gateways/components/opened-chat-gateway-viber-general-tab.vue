@@ -20,6 +20,7 @@
         @input="setItemMetadata({ prop: 'token', value: $event })"
       ></wt-input>
       <copy-input
+        :copy-modifier="modifyUriCopy"
         :disabled="!isUriEditable"
         :label="$t('objects.routing.chatGateways.uri')"
         :v="v.itemInstance.uri"
@@ -27,13 +28,6 @@
         required
         @input="setItemProp({ prop: 'uri', value: $event })"
       ></copy-input>
-      <wt-input
-        :disabled="!isUriEditable"
-        :label="$t('objects.routing.chatGateways.uri')"
-        :v="v.itemInstance.uri"
-        :value="itemInstance.uri"
-        @input="setItemProp({ prop: 'uri', value: $event })"
-      ></wt-input>
       <wt-input
         :disabled="disableUserInput"
         :label="$t('objects.routing.chatGateways.metadata.botName')"
@@ -60,15 +54,14 @@
 
 <script>
 import { mapActions } from 'vuex';
-import CopyInput from '../../../../../app/components/utils/copy-input';
 import openedTabComponentMixin
   from '../../../../../app/mixins/objectPagesMixins/openedObjectTabMixin/openedTabComponentMixin';
 import FlowsAPI from '../../flow/api/flow';
+import uriCopyMixin from '../mixins/uriCopyMixin';
 
 export default {
   name: 'opened-chat-viber-general-tab',
-  components: { CopyInput },
-  mixins: [openedTabComponentMixin],
+  mixins: [openedTabComponentMixin, uriCopyMixin],
   computed: {
     isUriEditable() {
       return !this.disableUserInput && this.$route.path.includes('/new');
