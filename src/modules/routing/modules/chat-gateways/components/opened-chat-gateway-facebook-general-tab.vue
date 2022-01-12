@@ -59,11 +59,11 @@ import { mapActions } from 'vuex';
 import openedTabComponentMixin
   from '../../../../../app/mixins/objectPagesMixins/openedObjectTabMixin/openedTabComponentMixin';
 import FlowsAPI from '../../flow/api/flow';
-import copyModifierMixin from '../mixins/copyModifierMixin';
+import uriCopyMixin from '../mixins/uriCopyMixin';
 
 export default {
   name: 'opened-chat-gateway-facebook-general-tab',
-  mixins: [openedTabComponentMixin, copyModifierMixin],
+  mixins: [openedTabComponentMixin, uriCopyMixin],
   computed: {
     isUriEditable() {
       return !this.disableUserInput && this.$route.path.includes('/new');
