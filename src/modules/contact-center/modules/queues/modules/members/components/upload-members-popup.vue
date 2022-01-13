@@ -14,7 +14,7 @@ import CommunicationsAPI from '../../../../../../lookups/modules/communications/
 import QueueMembersAPI from '../api/queueMembers';
 
 const findCommunicationIdByName = ({ communications, code }) => {
-  return communications.find((communication) => communication.code === code).id;
+  return communications.find((communication) => communication.code === code)?.id;
 };
 
 export default {
