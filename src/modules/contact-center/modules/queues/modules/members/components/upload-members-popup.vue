@@ -10,7 +10,12 @@
 <script>
 import uploadCSVWrapperComponentMixin
   from '../../../../../../_shared/upload-csv-popup/mixins/uploadCSVWrapperComponentMixin';
+import CommunicationsAPI from '../../../../../../lookups/modules/communications/api/communications';
 import QueueMembersAPI from '../api/queueMembers';
+
+const findCommunicationIdByName = ({ communications, code }) => {
+  return communications.find((communication) => communication.code === code)?.id;
+};
 
 export default {
   name: 'upload-members-popup',
@@ -23,6 +28,7 @@ export default {
   },
   data: () => ({
     bulk: [],
+    allCommunications: null,
     mappingFields: [
       {
         name: 'name',
@@ -71,8 +77,8 @@ export default {
         csv: [],
       },
       {
-        text: 'Communication typeId',
-        name: 'typeId',
+        text: 'Communication code',
+        name: 'type',
         required: true,
         multiple: true,
         csv: [],
@@ -95,6 +101,11 @@ export default {
       } catch (err) {
         throw err;
       }
+    },
+
+    async getCommunicationTypes() {
+      const communications = await CommunicationsAPI.getList({ size: 999 });
+      this.allCommunications = communications.items;
     },
 
     normalizeData(data) {
@@ -122,12 +133,16 @@ export default {
         normalizedItem.communications = [];
         const commLength = Math.max(
           normalizedItem.destination.length,
-          normalizedItem.typeId.length,
+          normalizedItem.type.length,
         );
         for (let index = 0; index < commLength; index += 1) {
+          const id = findCommunicationIdByName({
+            communications: this.allCommunications,
+            code: normalizedItem.type[index],
+          });
           const communication = {
             destination: normalizedItem.destination[index],
-            type: { id: normalizedItem.typeId[index] },
+            type: { id },
           };
           if (normalizedItem.commPriority && normalizedItem.commPriority[index]) {
             communication.priority = normalizedItem.commPriority[index];
@@ -138,13 +153,16 @@ export default {
           normalizedItem.communications.push(communication);
         }
         delete normalizedItem.destination;
-        delete normalizedItem.typeId;
+        delete normalizedItem.type;
         delete normalizedItem.commPriority;
         delete normalizedItem.description;
 
         return normalizedItem;
       });
     },
+  },
+  created() {
+    this.getCommunicationTypes();
   },
 };
 </script>
