@@ -14,8 +14,7 @@ import CommunicationsAPI from '../../../../../../lookups/modules/communications/
 import QueueMembersAPI from '../api/queueMembers';
 
 const findCommunicationIdByName = ({ communications, code }) => {
-  const communicationType = communications.find((communication) => communication.code === code);
-  return communicationType?.id;
+  return communications.find((communication) => communication.code === code).id;
 };
 
 export default {
@@ -105,7 +104,8 @@ export default {
     },
 
     async getCommunicationTypes() {
-      this.allCommunications = await CommunicationsAPI.getList({ size: 999 });
+      const communications = await CommunicationsAPI.getList({ size: 999 });
+      this.allCommunications = communications.items;
     },
 
     normalizeData(data) {
@@ -137,7 +137,7 @@ export default {
         );
         for (let index = 0; index < commLength; index += 1) {
           const id = findCommunicationIdByName({
-            communications: this.allCommunications.items,
+            communications: this.allCommunications,
             code: normalizedItem.type[index],
           });
           const communication = {
