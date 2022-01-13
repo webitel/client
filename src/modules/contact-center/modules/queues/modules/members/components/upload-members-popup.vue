@@ -10,7 +10,10 @@
 <script>
 import uploadCSVWrapperComponentMixin
   from '../../../../../../_shared/upload-csv-popup/mixins/uploadCSVWrapperComponentMixin';
+import getCommunicationTypes from '../api/communicationTypes';
 import QueueMembersAPI from '../api/queueMembers';
+
+const findTypeIdByName = ({ types, name }) => types.find(type => type.code === name).id;
 
 export default {
   name: 'upload-members-popup',
@@ -23,6 +26,7 @@ export default {
   },
   data: () => ({
     bulk: [],
+    allCommunicationTypes: null,
     mappingFields: [
       {
         name: 'name',
@@ -71,8 +75,8 @@ export default {
         csv: [],
       },
       {
-        text: 'Communication typeId',
-        name: 'typeId',
+        text: 'Communication type',
+        name: 'type',
         required: true,
         multiple: true,
         csv: [],
@@ -95,6 +99,10 @@ export default {
       } catch (err) {
         throw err;
       }
+    },
+
+    async getAllTypes() {
+        this.allCommunicationTypes = await getCommunicationTypes();
     },
 
     normalizeData(data) {
@@ -122,12 +130,16 @@ export default {
         normalizedItem.communications = [];
         const commLength = Math.max(
           normalizedItem.destination.length,
-          normalizedItem.typeId.length,
+          normalizedItem.type.length,
         );
         for (let index = 0; index < commLength; index += 1) {
+          const id = findTypeIdByName({
+            types: this.allCommunicationTypes,
+            name: normalizedItem.type[index],
+          });
           const communication = {
             destination: normalizedItem.destination[index],
-            type: { id: normalizedItem.typeId[index] },
+            type: { id },
           };
           if (normalizedItem.commPriority && normalizedItem.commPriority[index]) {
             communication.priority = normalizedItem.commPriority[index];
@@ -138,13 +150,16 @@ export default {
           normalizedItem.communications.push(communication);
         }
         delete normalizedItem.destination;
-        delete normalizedItem.typeId;
+        delete normalizedItem.type;
         delete normalizedItem.commPriority;
         delete normalizedItem.description;
 
         return normalizedItem;
       });
     },
+  },
+  created() {
+    this.getAllTypes();
   },
 };
 </script>
