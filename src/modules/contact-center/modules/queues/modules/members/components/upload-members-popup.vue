@@ -10,10 +10,13 @@
 <script>
 import uploadCSVWrapperComponentMixin
   from '../../../../../../_shared/upload-csv-popup/mixins/uploadCSVWrapperComponentMixin';
-import getCommunicationTypes from '../api/communicationTypes';
+import CommunicationsAPI from '../../../../../../lookups/modules/communications/api/communications';
 import QueueMembersAPI from '../api/queueMembers';
 
-const findTypeIdByName = ({ types, name }) => types.find(type => type.code === name).id;
+const findCommunicationIdByName = ({ communications, code }) => {
+  const communicationType = communications.find((communication) => communication.code === code);
+  return communicationType?.id;
+};
 
 export default {
   name: 'upload-members-popup',
@@ -26,7 +29,7 @@ export default {
   },
   data: () => ({
     bulk: [],
-    allCommunicationTypes: null,
+    allCommunications: null,
     mappingFields: [
       {
         name: 'name',
@@ -75,7 +78,7 @@ export default {
         csv: [],
       },
       {
-        text: 'Communication type',
+        text: 'Communication code',
         name: 'type',
         required: true,
         multiple: true,
@@ -101,8 +104,8 @@ export default {
       }
     },
 
-    async getAllTypes() {
-        this.allCommunicationTypes = await getCommunicationTypes();
+    async getCommunicationTypes() {
+      this.allCommunications = await CommunicationsAPI.getList({ size: 999 });
     },
 
     normalizeData(data) {
@@ -133,9 +136,9 @@ export default {
           normalizedItem.type.length,
         );
         for (let index = 0; index < commLength; index += 1) {
-          const id = findTypeIdByName({
-            types: this.allCommunicationTypes,
-            name: normalizedItem.type[index],
+          const id = findCommunicationIdByName({
+            communications: this.allCommunications.items,
+            code: normalizedItem.type[index],
           });
           const communication = {
             destination: normalizedItem.destination[index],
@@ -159,7 +162,7 @@ export default {
     },
   },
   created() {
-    this.getAllTypes();
+    this.getCommunicationTypes();
   },
 };
 </script>
