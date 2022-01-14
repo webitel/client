@@ -505,7 +505,7 @@ export default {
         isSupervisor: 'Супервизор',
         stateTime: 'Длительность',
         addSkill: 'Добавить навык',
-        addSubordinate: 'Добавить подчинённого агента',
+        addSubordinate: 'Добавить подчинённого оператора',
         statusHistory: 'История состояний',
         historyState: 'Состояние',
         historyChannel: 'Канал',
