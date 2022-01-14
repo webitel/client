@@ -8,7 +8,7 @@ const resettableItemState = {
   itemInstance: {
     name: '',
     priority: 0,
-    expireAt: Date.now() + 7 * 24 * 60 * 60 * 1000,
+    expireAt: Date.now() + 12 * 60 * 60 * 1000,
     bucket: {},
     timezone: {},
     communications: [],
