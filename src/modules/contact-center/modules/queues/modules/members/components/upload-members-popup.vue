@@ -152,6 +152,12 @@ export default {
           }
           normalizedItem.communications.push(communication);
         }
+
+        const containsNotExistingType = normalizedItem.communications.some(communication => {
+          return !communication.type.id
+        });
+        if (containsNotExistingType) throw new Error();
+
         delete normalizedItem.destination;
         delete normalizedItem.type;
         delete normalizedItem.commPriority;
