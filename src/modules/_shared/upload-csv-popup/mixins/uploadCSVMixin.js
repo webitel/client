@@ -179,6 +179,10 @@ export default {
             ));
         }
       } catch (err) {
+        if (err.message === 'Communication type error') {
+          // eslint-disable-next-line no-throw-literal
+          throw `An error occurred during saving ${(processedChunkIndex - 1) * chunkSize}-${processedChunkIndex * chunkSize} data chunk: Incorrect communication code`
+        }
         // eslint-disable-next-line no-throw-literal
         throw `An error occurred during saving ${(processedChunkIndex - 1) * chunkSize}-${processedChunkIndex * chunkSize} data chunk: ${JSON.stringify(err)}`;
       }

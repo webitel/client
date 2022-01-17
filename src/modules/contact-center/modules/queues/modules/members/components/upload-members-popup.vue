@@ -156,7 +156,7 @@ export default {
         const containsNotExistingType = normalizedItem.communications.some(communication => {
           return !communication.type.id
         });
-        if (containsNotExistingType) throw new Error();
+        if (containsNotExistingType) throw new Error('Communication type error');
 
         delete normalizedItem.destination;
         delete normalizedItem.type;
