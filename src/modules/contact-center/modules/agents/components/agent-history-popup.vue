@@ -1,29 +1,29 @@
 <template>
-  <wt-popup @close="close" overflow>
+  <wt-popup overflow @close="close">
     <template slot="title">{{ $t('objects.ccenter.agents.statusHistory') }}</template>
     <template slot="main">
       <section class="history-popup">
         <div class="history-popup__filters">
           <wt-datetimepicker
-            :value="from"
             :label="$t('objects.from')"
+            :value="from"
             @change="setFrom"
           ></wt-datetimepicker>
           <wt-datetimepicker
-            :value="to"
             :label="$t('objects.to')"
+            :value="to"
             @change="setTo"
           ></wt-datetimepicker>
         </div>
         <div class="table-wrapper">
           <wt-table
-            :headers="headers"
             :data="dataList"
             :grid-actions="false"
+            :headers="headers"
             :selectable="false"
           >
             <template slot="state" slot-scope="{ item }">
-              {{ item.state }}
+              {{ $t(`${agentStateLocales[item.state]}`) }}
             </template>
             <template slot="channel" slot-scope="{ item }">
               {{ item.channel }}
@@ -63,12 +63,14 @@
 <script>
 import convertDuration from '@webitel/ui-sdk/src/scripts/convertDuration';
 import historyPopupMixin from '../../../../../app/mixins/objectPagesMixins/historyPopupMixin/historyPopupMixin';
+import agentStateLocales from '../_internals/agentStateLocales.lookup';
 
 export default {
   name: 'agent-history-popup',
   mixins: [historyPopupMixin],
   data: () => ({
     namespace: 'ccenter/agents/history',
+    agentStateLocales,
   }),
 
   computed: {
