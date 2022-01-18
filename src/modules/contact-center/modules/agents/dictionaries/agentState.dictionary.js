@@ -1,6 +1,6 @@
 import { AgentStatus, ChannelState, ChannelType } from 'webitel-sdk';
 
-const agentStateLocales = Object.freeze({
+const agentState = Object.freeze({
   [AgentStatus.Online]: 'objects.agent.status.online',
   [AgentStatus.Offline]: 'objects.agent.status.offline',
   [AgentStatus.Pause]: 'objects.agent.status.pause',
@@ -19,4 +19,4 @@ const agentStateLocales = Object.freeze({
   [ChannelType.Email]: 'channel.type.email',
   [ChannelType.Chat]: 'channel.type.chat',
 });
-export default agentStateLocales;
+export default agentState;

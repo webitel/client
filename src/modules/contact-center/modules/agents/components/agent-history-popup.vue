@@ -23,7 +23,7 @@
             :selectable="false"
           >
             <template slot="state" slot-scope="{ item }">
-              {{ $t(`${agentStateLocales[item.state]}`) }}
+              {{ $t(`${agentState[item.state]}`) }}
             </template>
             <template slot="channel" slot-scope="{ item }">
               {{ item.channel }}
@@ -63,14 +63,14 @@
 <script>
 import convertDuration from '@webitel/ui-sdk/src/scripts/convertDuration';
 import historyPopupMixin from '../../../../../app/mixins/objectPagesMixins/historyPopupMixin/historyPopupMixin';
-import agentStateLocales from '../_internals/agentStateLocales.lookup';
+import agentState from '../dictionaries/agentState.dictionary';
 
 export default {
   name: 'agent-history-popup',
   mixins: [historyPopupMixin],
   data: () => ({
     namespace: 'ccenter/agents/history',
-    agentStateLocales,
+    agentState,
   }),
 
   computed: {
