@@ -25,8 +25,9 @@
             <template slot="state" slot-scope="{ item }">
               {{ $t(`${agentState[item.state]}`) }}
             </template>
-            <template slot="channel" slot-scope="{ item }">
-              {{ item.channel }}
+            <template v-if="$te(`channel.type.${item.channel}`)"
+                      slot="channel" slot-scope="{ item }">
+              {{ $t(`channel.type.${item.channel}`) }}
             </template>
             <template slot="from" slot-scope="{ item }">
               {{ prettifyTime(item.joinedAt) }}

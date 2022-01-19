@@ -10,6 +10,7 @@ const agentState = Object.freeze({
   [ChannelState.Offering]: 'channel.state.offering',
   [ChannelState.Answered]: 'channel.state.answered',
   [ChannelState.Active]: 'channel.state.active',
+  [ChannelState.Bridged]: 'channel.state.bridged',
   [ChannelState.Hold]: 'channel.state.bridged',
   [ChannelState.Missed]: 'channel.state.hold',
   [ChannelState.WrapTime]: 'channel.state.wrapTime',
