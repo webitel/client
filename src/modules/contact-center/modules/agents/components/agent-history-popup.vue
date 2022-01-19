@@ -25,7 +25,7 @@
             <template slot="state" slot-scope="{ item }">
               {{ $t(`${agentState[item.state]}`) }}
             </template>
-            <template v-if="$te(`channel.type.${item.channel}`)"
+            <template v-if="item.channel"
                       slot="channel" slot-scope="{ item }">
               {{ $t(`channel.type.${item.channel}`) }}
             </template>
