@@ -7,22 +7,28 @@ process.env.VUE_APP_SUPERVISOR_URL = process.env.NODE_ENV === 'production' ? '/s
 process.env.VUE_APP_AUDIT_URL = process.env.NODE_ENV === 'production' ? '/audit' : 'https://dev.webitel.com/audit';
 process.env.VUE_APP_HISTORY_URL = process.env.NODE_ENV === 'production' ? '/history' : 'https://dev.webitel.com/history';
 process.env.VUE_APP_GRAFANA_URL = process.env.NODE_ENV === 'production' ? '/grafana' : 'https://dev.webitel.com/grafana';
+process.env.VUE_APP_OMNI_WIDGET_URL = process.env.NODE_ENV === 'production' ? '/omni-widget' : 'https://dev.webitel.com/omni-widget';
+process.env.VUE_APP_FLOW_DIAGRAM_URL = process.env.NODE_ENV === 'production' ? '/flow-diagram' : 'https://dev.webitel.com/flow-diagram';
+
+process.env.VUE_APP_PACKAGE_VERSION = require('./package.json').version;
 
 const MonacoWebpackPlugin = require('monaco-editor-webpack-plugin');
-
+const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
 
 module.exports = {
     publicPath: '/',
+    transpileDependencies: ['@webitel/ui-sdk/src'],
     lintOnSave: true,
-    productionSourceMap: process.env.NODE_ENV !== 'production' || process.env.SOURCE_MAP,
+    productionSourceMap: false && process.env.NODE_ENV !== 'production' || process.env.SOURCE_MAP,
     css: {
         loaderOptions: {
             sass: {
-                data: `
+              implementation: require('sass'),
+              additionalData: `
                       @import '~@webitel/ui-sdk/src/css/main.scss';
-                      @import "@/assets/css/main.scss";
-                      @import "@/assets/css/objects/objects.scss";
-                      @import "@/assets/css/media.scss";
+                      @import "@/app/css/main.scss";
+                      @import "@/app/css/objects/objects.scss";
+                      @import "@/app/css/media.scss";
                     `,
             },
         },
@@ -31,12 +37,6 @@ module.exports = {
         config.optimization.splitChunks = {
             chunks: 'all',
         };
-        // exclude sprites default building
-        config.module.rule('svg').exclude.add(/^(.*sprites).*\.svg/);
-
-        // use svg-sprite-loader to process icons sprite
-        config.module.rule('svg-sprite').test(/^(.*sprites).*\.svg/)
-            .use('svg-sprite-loader').loader('svg-sprite-loader').options({ symbolId: () => '' });
 
         config.module
             .rule('eslint')
@@ -51,5 +51,21 @@ module.exports = {
             ], // массив строк с нужными фичами
             // https://github.com/Microsoft/monaco-editor-webpack-plugin#options
         }]);
+
+      config.plugin('webpack-bundle-analyzer').use(new BundleAnalyzerPlugin({
+        // analyzerHost: '127.0.0.1:8082',
+        // analyzerMode: 'static',
+        analyzerMode: 'disabled',
+      }));
+
+      config.module
+        .rule('svg')
+        .exclude.add(/^(.*sprite).*\.svg/); // same as in svg-sprite-loader
+
+      config.module
+        .rule('svg-sprite')
+        .test(/^(.*sprite).*\.svg/) // same as in svg-url-loader
+        .use('svg-sprite-loader')
+        .loader('svg-sprite-loader');
     },
 };

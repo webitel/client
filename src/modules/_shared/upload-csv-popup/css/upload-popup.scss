@@ -1,0 +1,64 @@
+.upload-popup {
+  .object-input-grid {
+    grid-auto-rows: minmax(40px, auto); // override default
+  }
+
+  ::v-deep .wt-popup__popup {
+    min-height: 40vh; // to place loader in the center, till file is parsed
+  }
+
+  .upload-popup__reading-file-loader {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+  }
+
+  .upload-popup-form__form {
+      @extend .object-input-grid;
+      margin: var(--component-spacing) 0;
+  }
+
+  .upload-popup__parsing-preview-loader {
+    margin: auto;
+  }
+
+  .upload-popup-form__file-preview .wt-table {
+    max-width: 60vw;
+    overflow: auto;
+  }
+
+  .upload-popup-mapping {
+    .upload-popup-mapping-item {
+      @extend .object-input-grid;
+      margin-bottom: var(--component-spacing);
+
+      &__field {
+        @extend %typo-body-lg;
+        align-self: center;
+
+        &.upload-popup-mapping-item__field--title {
+          @extend %typo-strong-lg;
+        }
+      }
+
+      &__select ::v-deep {
+        .wt-label, .wt-input-info {
+          display: none;
+        }
+      }
+    }
+  }
+
+  .upload-popup-form__error-stack-trace {
+    padding: var(--component-padding);
+    margin-top: var(--component-spacing);
+    color: var(--false-color);
+    background: var(--secondary-color);
+    border-radius: var(--border-radius);
+  }
+
+  .upload-tooltip {
+    @extend %typo-body-sm;
+  }
+}

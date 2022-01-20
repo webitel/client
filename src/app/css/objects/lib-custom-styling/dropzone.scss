@@ -1,0 +1,42 @@
+@import '~vue2-dropzone/dist/vue2Dropzone.min.css';
+
+#dropzone {
+  min-height: 57px;
+  margin-bottom: 36px;
+  border: 2px dashed var(--accent-color);
+  border-radius: var(--border-radius);
+
+  &:hover {
+    background: #fff;
+  }
+
+  .dz-message {
+    margin: 0;
+
+    .dz-custom-message {
+      display: flex;
+      align-items: center;
+      width: fit-content;
+      width: -moz-fit-content;
+      margin: auto;
+
+      .dz-message-text {
+        margin-left: 18px;
+      }
+
+      i, .dz-message-text__accent {
+        color: var(--accent-color);
+      }
+    }
+  }
+
+  &.dz-started {
+    .dz-message {
+      display: block;
+    }
+  }
+
+  .dz-preview {
+    display: none;
+  }
+}

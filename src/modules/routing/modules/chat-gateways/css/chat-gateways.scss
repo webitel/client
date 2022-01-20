@@ -1,0 +1,8 @@
+.content-header {
+  display: flex;
+  justify-content: flex-start;
+
+  .wt-icon {
+    margin-right: var(--icon-spacing);
+  }
+}
