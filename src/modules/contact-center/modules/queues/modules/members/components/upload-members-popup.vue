@@ -112,6 +112,7 @@ export default {
       return data.map((item) => {
         const normalizedItem = {
           ...item,
+          code: [...item.type],
         };
 
         if (normalizedItem.timezoneId) {
@@ -133,18 +134,18 @@ export default {
         normalizedItem.communications = [];
         const commLength = Math.max(
           normalizedItem.destination.length,
-          normalizedItem.type.length,
+          normalizedItem.code.length,
         );
         for (let index = 0; index < commLength; index += 1) {
           let id;
           try {
             id = findCommunicationIdByName({
                                              communications: this.allCommunications,
-                                             code: normalizedItem.type[index],
+                                             code: normalizedItem.code[index],
                                            });
           } catch (err) {
-            console.info(err, normalizedItem.type);
-            throw new Error(`cannot find communication: ${normalizedItem.type[index]}`);
+            console.info(err, normalizedItem.code);
+            throw new Error(`cannot find communication: ${normalizedItem.code[index]}`);
           }
           const communication = {
             destination: normalizedItem.destination[index],
