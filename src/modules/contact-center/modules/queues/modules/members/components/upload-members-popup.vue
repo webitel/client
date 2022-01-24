@@ -1,8 +1,8 @@
 <template>
   <upload-csv-popup
     v-model="mappingFields"
-    :file="file"
     :add-bulk-items="saveBulkData"
+    :file="file"
     @close="close"
   ></upload-csv-popup>
 </template>
@@ -111,8 +111,7 @@ export default {
     normalizeData(data) {
       return data.map((item) => {
         const normalizedItem = {
-          ...item,
-          code: [...item.type],
+          ...item
         };
 
         if (normalizedItem.timezoneId) {
@@ -134,18 +133,17 @@ export default {
         normalizedItem.communications = [];
         const commLength = Math.max(
           normalizedItem.destination.length,
-          normalizedItem.code.length,
+          normalizedItem.type.length,
         );
         for (let index = 0; index < commLength; index += 1) {
           let id;
           try {
             id = findCommunicationIdByName({
-                                             communications: this.allCommunications,
-                                             code: normalizedItem.code[index],
-                                           });
+              communications: this.allCommunications,
+              code: normalizedItem.type[index],
+            });
           } catch (err) {
-            console.info(err, normalizedItem.code);
-            throw new Error(`cannot find communication: ${normalizedItem.code[index]}`);
+            throw new ReferenceError(`cannot find communication: ${normalizedItem.type[index]}`);
           }
           const communication = {
             destination: normalizedItem.destination[index],

@@ -180,7 +180,6 @@ export default {
         }
       } catch (err) {
         const errMessage = JSON.stringify(err instanceof Error ? err.message : err);
-        console.info(errMessage);
         // eslint-disable-next-line no-throw-literal
         throw new Error(`An error occurred during saving ${(processedChunkIndex - 1) * chunkSize}-${processedChunkIndex * chunkSize} data chunk: ${errMessage}`);
       }
