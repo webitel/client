@@ -13,9 +13,9 @@ import uploadCSVWrapperComponentMixin
 import CommunicationsAPI from '../../../../../../lookups/modules/communications/api/communications';
 import QueueMembersAPI from '../api/queueMembers';
 
-const findCommunicationIdByName = ({ communications, code }) => {
-  return communications.find((communication) => communication.code === code)?.id;
-};
+const findCommunicationIdByName = ({ communications, code }) => (
+  communications.find((communication) => communication.code === code).id
+);
 
 export default {
   name: 'upload-members-popup',
@@ -136,10 +136,16 @@ export default {
           normalizedItem.type.length,
         );
         for (let index = 0; index < commLength; index += 1) {
-          const id = findCommunicationIdByName({
-            communications: this.allCommunications,
-            code: normalizedItem.type[index],
-          });
+          let id;
+          try {
+            id = findCommunicationIdByName({
+                                             communications: this.allCommunications,
+                                             code: normalizedItem.type[index],
+                                           });
+          } catch (err) {
+            console.info(err, normalizedItem.type);
+            throw new Error(`cannot find communication: ${normalizedItem.type[index]}`);
+          }
           const communication = {
             destination: normalizedItem.destination[index],
             type: { id },
@@ -152,11 +158,6 @@ export default {
           }
           normalizedItem.communications.push(communication);
         }
-
-        const containsNotExistingType = normalizedItem.communications.some(communication => {
-          return !communication.type.id
-        });
-        if (containsNotExistingType) throw new Error('Communication type error');
 
         delete normalizedItem.destination;
         delete normalizedItem.type;
