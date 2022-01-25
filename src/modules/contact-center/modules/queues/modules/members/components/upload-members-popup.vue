@@ -159,7 +159,6 @@ export default {
         }
 
         delete normalizedItem.destination;
-        delete normalizedItem.type;
         delete normalizedItem.code;
         delete normalizedItem.commPriority;
         delete normalizedItem.description;
