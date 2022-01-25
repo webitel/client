@@ -179,8 +179,9 @@ export default {
             ));
         }
       } catch (err) {
+        const errMessage = JSON.stringify(err instanceof Error ? err.message : err);
         // eslint-disable-next-line no-throw-literal
-        throw `An error occurred during saving ${(processedChunkIndex - 1) * chunkSize}-${processedChunkIndex * chunkSize} data chunk: ${JSON.stringify(err)}`;
+        throw new Error(`An error occurred during saving ${(processedChunkIndex - 1) * chunkSize}-${processedChunkIndex * chunkSize} data chunk: ${errMessage}`);
       }
     },
     close() {
