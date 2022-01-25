@@ -53,11 +53,6 @@
               :grid-actions="false"
             ></wt-table>
           </article>
-          <article
-            v-show="!isParsingPreview && parseErrorStackTrace"
-            class="upload-popup-form__error-stack-trace"
-          >{{ parseErrorStackTrace }}
-          </article>
         </section>
 
         <!--        FIELDS MAPPING-->
@@ -100,6 +95,11 @@
           </li>
         </ul>
       </section>
+      <article
+        v-show="!isParsingPreview && parseErrorStackTrace"
+        class="upload-popup-form__error-stack-trace"
+      >{{ parseErrorStackTrace }}
+      </article>
     </template>
     <template
       v-if="!isReadingFile"
