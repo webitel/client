@@ -78,7 +78,7 @@ export default {
       },
       {
         text: 'Communication code',
-        name: 'type',
+        name: 'code',
         required: true,
         multiple: true,
         csv: [],
@@ -111,7 +111,7 @@ export default {
     normalizeData(data) {
       return data.map((item) => {
         const normalizedItem = {
-          ...item
+          ...item,
         };
 
         if (normalizedItem.timezoneId) {
@@ -133,17 +133,17 @@ export default {
         normalizedItem.communications = [];
         const commLength = Math.max(
           normalizedItem.destination.length,
-          normalizedItem.type.length,
+          normalizedItem.code.length,
         );
         for (let index = 0; index < commLength; index += 1) {
           let id;
           try {
             id = findCommunicationIdByName({
               communications: this.allCommunications,
-              code: normalizedItem.type[index],
+              code: normalizedItem.code[index],
             });
           } catch (err) {
-            throw new ReferenceError(`cannot find communication: ${normalizedItem.type[index]}`);
+            throw new ReferenceError(`cannot find communication: ${normalizedItem.code[index]}`);
           }
           const communication = {
             destination: normalizedItem.destination[index],
@@ -160,6 +160,7 @@ export default {
 
         delete normalizedItem.destination;
         delete normalizedItem.type;
+        delete normalizedItem.code;
         delete normalizedItem.commPriority;
         delete normalizedItem.description;
 
