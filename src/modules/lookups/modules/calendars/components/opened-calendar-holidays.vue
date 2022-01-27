@@ -120,7 +120,7 @@ export default {
     }),
     loadList() {
       this.dataList = this.holidayList
-        .filter((holiday) => holiday.name.includes(this.search))
+        .filter((holiday) => holiday.name.toLowerCase().includes(this.search.toLowerCase()))
         .map((holiday) => ({ ...holiday, _isSelected: false }));
     },
     setRepeatValue(payload) {
