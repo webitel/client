@@ -8,13 +8,6 @@
     <header class="content-header">
       <h3 class="content-title">{{ $tc('objects.ccenter.queues.hooks.hooks', 2) }}</h3>
       <div class="content-header__actions-wrap">
-        <wt-search-bar
-          :value="search"
-          debounce
-          @enter="loadList"
-          @input="setSearch"
-          @search="loadList"
-        ></wt-search-bar>
         <wt-icon-btn
           v-if="!disableUserInput"
           :class="{'hidden': anySelected}"
