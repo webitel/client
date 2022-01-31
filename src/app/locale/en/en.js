@@ -519,6 +519,7 @@ export default {
           online: 'Online',
           offline: 'Offline',
           pause: 'Pause',
+          breakOut: 'Break Out',
         },
       },
 

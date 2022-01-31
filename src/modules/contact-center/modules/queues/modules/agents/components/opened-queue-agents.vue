@@ -2,16 +2,16 @@
   <section>
     <object-list-popup
       v-if="isSupervisorPopup"
-      :title="$tc('objects.ccenter.agents.supervisors', 2)"
       :data-list="openedItemSupervisors"
       :headers="openedItemSupervisorHeaders"
+      :title="$tc('objects.ccenter.agents.supervisors', 2)"
       @close="closeSupervisorPopup"
     ></object-list-popup>
     <object-list-popup
       v-if="isSkillsPopup"
-      :title="$tc('objects.lookups.skills.skills', 2)"
       :data-list="openedItemSkills"
       :headers="openedItemSkillsHeaders"
+      :title="$tc('objects.lookups.skills.skills', 2)"
       @close="closeSkillsPopup"
     ></object-list-popup>
 
@@ -34,45 +34,45 @@
 
     <wt-loader v-show="!isLoaded"></wt-loader>
     <div v-show="isLoaded" class="table-wrapper">
-    <wt-table
-        :headers="headers"
+      <wt-table
         :data="dataList"
         :grid-actions="false"
+        :headers="headers"
         sortable
         @sort="sort"
-    >
-      <template slot="name" slot-scope="{ item }">
-        <item-link :link="itemLink(item)" target="_blank">
-          {{ item.name }}
-        </item-link>
-      </template>
-      <template slot="supervisor" slot-scope="{ item }">
-        <one-plus-many
-          :collection="item.supervisor"
-          @input="readSupervisor(item)"
-        ></one-plus-many>
-      </template>
-      <template slot="state" slot-scope="{ item }">
-        <wt-indicator
-          :color="statusIndicatorColor[item.status]"
-          :text="statusIndicatorText[item.status]"
-        ></wt-indicator>
-      </template>
-      <template slot="skills" slot-scope="{ item }">
-        <one-plus-many
-          :collection="item.skills"
-          @input="readSkills(item)"
-        ></one-plus-many>
-      </template>
-      <template slot="actions" slot-scope="{ item }">
-        <edit-action
-          @click="edit(item)"
-        ></edit-action>
-        <delete-action
-          @click="callDelete(item)"
-        ></delete-action>
-      </template>
-    </wt-table>
+      >
+        <template slot="name" slot-scope="{ item }">
+          <item-link :link="itemLink(item)" target="_blank">
+            {{ item.name }}
+          </item-link>
+        </template>
+        <template slot="supervisor" slot-scope="{ item }">
+          <one-plus-many
+            :collection="item.supervisor"
+            @input="readSupervisor(item)"
+          ></one-plus-many>
+        </template>
+        <template slot="state" slot-scope="{ item }">
+          <wt-indicator
+            :color="statusIndicatorColor[snakeToCamel(item.status)]"
+            :text="statusIndicatorText[snakeToCamel(item.status)]"
+          ></wt-indicator>
+        </template>
+        <template slot="skills" slot-scope="{ item }">
+          <one-plus-many
+            :collection="item.skills"
+            @input="readSkills(item)"
+          ></one-plus-many>
+        </template>
+        <template slot="actions" slot-scope="{ item }">
+          <edit-action
+            @click="edit(item)"
+          ></edit-action>
+          <delete-action
+            @click="callDelete(item)"
+          ></delete-action>
+        </template>
+      </wt-table>
       <wt-pagination
         :next="isNext"
         :prev="page > 1"
@@ -88,11 +88,13 @@
 </template>
 
 <script>
+import { snakeToCamel } from '@webitel/ui-sdk/src/scripts/caseConverters';
 import ObjectListPopup from '../../../../../../../app/components/utils/object-list-popup/object-list-popup.vue';
-import openedObjectTableTabMixin from '../../../../../../../app/mixins/objectPagesMixins/openedObjectTableTabMixin/openedObjectTableTabMixin';
+import openedObjectTableTabMixin
+  from '../../../../../../../app/mixins/objectPagesMixins/openedObjectTableTabMixin/openedObjectTableTabMixin';
 import RouteNames from '../../../../../../../app/router/_internals/RouteNames.enum';
-import agentSupervisorsAndSkillsPopupMixin from '../../../../../mixins/agentSupervisorsAndSkillsPopupMixin';
 import agentStatusMixin from '../../../../../mixins/agentStatusMixin';
+import agentSupervisorsAndSkillsPopupMixin from '../../../../../mixins/agentSupervisorsAndSkillsPopupMixin';
 
 export default {
   name: 'opened-queue-agents',
@@ -104,6 +106,9 @@ export default {
 
     isDeleteConfirmation: false,
   }),
+  methods: {
+    snakeToCamel,
+  },
 };
 </script>
 

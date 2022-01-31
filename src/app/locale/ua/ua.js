@@ -518,6 +518,7 @@ export default {
           online: 'Онлайн',
           offline: 'Офлайн',
           pause: 'Пауза',
+          breakOut: 'Примусова пауза',
         },
       },
 
