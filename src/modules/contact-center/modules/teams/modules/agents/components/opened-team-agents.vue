@@ -71,8 +71,8 @@
       </template>
       <template slot="state" slot-scope="{ item }">
         <wt-indicator
-          :color="statusIndicatorColor[item.status]"
-          :text="statusIndicatorText[item.status]"
+          :color="statusIndicatorColor[snakeToCamel(item.status)]"
+          :text="statusIndicatorText[snakeToCamel(item.status)]"
         ></wt-indicator>
       </template>
       <template slot="supervisor" slot-scope="{ item }">
@@ -111,6 +111,7 @@
 </template>
 
 <script>
+import { snakeToCamel } from '@webitel/ui-sdk/src/scripts/caseConverters';
 import ObjectListPopup from '../../../../../../../app/components/utils/object-list-popup/object-list-popup.vue';
 import AgentPopup from './opened-team-agent-popup.vue';
 import openedObjectTableTabMixin from '../../../../../../../app/mixins/objectPagesMixins/openedObjectTableTabMixin/openedObjectTableTabMixin';
@@ -141,6 +142,7 @@ export default {
     closeSkillsPopup() {
       this.isSkillsPopup = false;
     },
+    snakeToCamel,
   },
 };
 </script>

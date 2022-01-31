@@ -517,6 +517,7 @@ export default {
           online: 'Онлайн',
           offline: 'Оффлайн',
           pause: 'Пауза',
+          breakOut: 'Принудительный перерыв',
         },
       },
 
