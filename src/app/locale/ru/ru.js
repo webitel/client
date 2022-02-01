@@ -609,6 +609,8 @@ export default {
         members: 'Абонент | Абоненты',
         timing: 'Настройка дозвона абонентов',
         discardAbandonedAfter: 'Кол-во секунд до полного удаления абонента',
+        maxIdleAgent: 'Ожидание ответа оператора',
+        maxIdleClient: 'Ожидание ответа абонента',
         timeoutWithNoAgents: 'Время ожидания, когда нет агентов',
         timeBaseScore: 'Рейтинг звонка',
         processing: 'Ожидание результата звонка',

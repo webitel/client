@@ -17,6 +17,8 @@ const chatInboundQueue = () => ({
     timeBaseScore: TimeBaseScore.QUEUE, // required
     maxWaitTime: 60 * 60, // required
     stickyAgentSec: 5,
+    maxIdleAgent: 60 * 60, // hour
+    maxIdleClient: 60 * 60, // hour
   },
 });
 
