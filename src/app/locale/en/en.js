@@ -611,6 +611,8 @@ export default {
         members: 'Member | Members',
         timing: 'Timing',
         discardAbandonedAfter: 'Discard abandoned after',
+        maxIdleAgent: 'Agent response timeout',
+        maxIdleClient: 'Customer response timeout',
         timeoutWithNoAgents: 'Timeout with no agents',
         timeBaseScore: 'Time base score',
         processing: 'Waiting for call result',
