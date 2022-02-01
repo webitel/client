@@ -42,7 +42,7 @@
         :headers="headers"
         :data="dataList"
         :selectable="false"
-        :grid-actions="false"
+        :grid-actions="hasTableActions"
         sortable
         @sort="sort"
       >
@@ -89,6 +89,11 @@
             @input="changeDeleteAccessMode({ item, mode: $event })"
           ></wt-select>
         </template>
+          <template slot="actions" slot-scope="{ item }">
+            <delete-action
+              @click="changeReadAccessMode({ item, mode: { id: accessMode.FORBIDDEN }})"
+            ></delete-action>
+          </template>
       </wt-table>
       </div>
       <wt-pagination
@@ -107,9 +112,10 @@
 
 <script>
 import { mapState } from 'vuex';
+import permissionsTabMixin
+  from '../../../../../../../app/mixins/objectPagesMixins/permissionsTabMixin/permissionsTabMixin';
 import RoleColumn from '../../../../../../_shared/permissions-tab/components/_internals/permissions-role-column.vue';
 import RolePopup from '../../../../../../_shared/permissions-tab/components/permissions-tab-role-popup.vue';
-import permissionsTabMixin from '../../../../../../../app/mixins/objectPagesMixins/permissionsTabMixin/permissionsTabMixin';
 
 export default {
   name: 'opened-object-permissions-obac',

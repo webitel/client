@@ -15,34 +15,34 @@
         <wt-search-bar
           :value="search"
           debounce
+          @enter="loadList"
           @input="setSearch"
           @search="loadList"
-          @enter="loadList"
         ></wt-search-bar>
         <wt-icon-btn
+          :tooltip="$t('iconHints.reload')"
           class="icon-action"
           icon="refresh"
-          :tooltip="$t('iconHints.reload')"
           @click="loadList"
         ></wt-icon-btn>
         <wt-icon-btn
           v-if="hasEditAccess"
+          :tooltip="$t('iconHints.add')"
           class="icon-action"
           icon="plus"
-          :tooltip="$t('iconHints.add')"
           @click="openRoleSelectPopup"
         ></wt-icon-btn>
       </div>
     </header>
 
     <wt-loader v-show="!isLoaded"></wt-loader>
-    <div class="table-wrapper" v-show="isLoaded">
+    <div v-show="isLoaded" class="table-wrapper">
       <div class="table-wrapper__visible-scroll-wrapper">
         <wt-table
-          :headers="headers"
           :data="dataList"
+          :grid-actions="!disableUserInput"
+          :headers="headers"
           :selectable="false"
-          :grid-actions="false"
           sortable
           @sort="sort"
         >
@@ -56,58 +56,67 @@
 
           <template slot="read" slot-scope="{ item }">
             <wt-select
-              :value="item.access.r"
-              :options="accessOptions"
               :clearable="false"
               :disabled="!hasEditAccess"
+              :options="accessOptions"
+              :value="item.access.r"
               @input="changeReadAccessMode({ item, mode: $event })"
             ></wt-select>
           </template>
 
           <template slot="edit" slot-scope="{ item }">
             <wt-select
-              :value="item.access.w"
-              :options="accessOptions"
               :clearable="false"
               :disabled="!hasEditAccess"
+              :options="accessOptions"
+              :value="item.access.w"
               @input="changeUpdateAccessMode({ item, mode: $event })"
             ></wt-select>
           </template>
 
           <template slot="delete" slot-scope="{ item }">
             <wt-select
-              :value="item.access.d"
-              :options="accessOptions"
               :clearable="false"
               :disabled="!hasEditAccess"
+              :options="accessOptions"
+              :value="item.access.d"
               @input="changeDeleteAccessMode({ item, mode: $event })"
             ></wt-select>
+          </template>
+          <template slot="actions" slot-scope="{ item }">
+            <delete-action
+              @click="changeReadAccessMode({ item, mode: { id: accessMode.FORBIDDEN }})"
+            ></delete-action>
           </template>
         </wt-table>
       </div>
       <wt-pagination
-        :size="size"
         :next="isNext"
         :prev="page > 1"
+        :size="size"
         debounce
+        @change="loadList"
+        @input="setSize"
         @next="nextPage"
         @prev="prevPage"
-        @input="setSize"
-        @change="loadList"
       ></wt-pagination>
     </div>
   </section>
 </template>
 
 <script>
+import permissionsTabMixin
+  from '../../../../../../../app/mixins/objectPagesMixins/permissionsTabMixin/permissionsTabMixin';
 import RoleColumn from '../../../../../../_shared/permissions-tab/components/_internals/permissions-role-column.vue';
 import RolePopup from './opened-object-permissions-rbac-role-popup.vue';
-import permissionsTabMixin from '../../../../../../../app/mixins/objectPagesMixins/permissionsTabMixin/permissionsTabMixin';
 
 export default {
   name: 'opened-object-permissions-rbac',
   mixins: [permissionsTabMixin],
-  components: { RolePopup, RoleColumn },
+  components: {
+    RolePopup,
+    RoleColumn,
+  },
   data: () => ({
     subNamespace: 'rbac',
     headerTitle: '',
