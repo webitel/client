@@ -67,6 +67,11 @@
             @input="changeDeleteAccessMode({ item, mode: $event })"
           ></wt-select>
         </template>
+        <template slot="actions" slot-scope="{ item }">
+          <delete-action
+            @click="changeReadAccessMode({ item, mode: { id: accessMode.FORBIDDEN }})"
+          ></delete-action>
+        </template>
       </wt-table>
       </div>
       <wt-pagination
