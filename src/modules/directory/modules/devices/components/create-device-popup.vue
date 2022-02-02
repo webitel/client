@@ -93,10 +93,10 @@ export default {
 }
 
 .popup-options__item-header {
-  @extend %typo-strong-md;
+  @extend %typo-subtitle-2;
 }
 
 .popup-options__item-text {
-  @extend %typo-body-md;
+  @extend %typo-body-2;
 }
 </style>

@@ -118,7 +118,7 @@
         }
 
         .popup-options__item-text {
-            @extend %typo-body-md;
+            @extend %typo-body-2;
             margin: 0;
             /*font-size: 0.9em;*/
         }

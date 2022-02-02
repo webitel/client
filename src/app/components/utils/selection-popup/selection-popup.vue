@@ -120,7 +120,7 @@ export default {
     }
 
     .popup-options__item-header {
-      @extend %typo-strong-md;
+      @extend %typo-subtitle-2;
     }
   }
 }

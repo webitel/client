@@ -213,7 +213,7 @@ $scrollbar-bg-color: #EAEAEA;
     border-radius: var(--border-radius);
 
     .chart-title {
-      @extend %typo-heading-md;
+      @extend %typo-heading-2;
       margin: 0 0 26px;
     }
   }
@@ -239,12 +239,12 @@ $scrollbar-bg-color: #EAEAEA;
     border-radius: var(--border-radius);
 
     .dashboard-news__title {
-      @extend %typo-heading-md;
+      @extend %typo-heading-2;
       margin: 0 0 28px;
     }
 
     .dashboard-news__list {
-      @extend %typo-body-md;
+      @extend %typo-body-2;
       position: absolute;
       top: calc(32px + 22px + 28px); // top padding + h3 line height + h3 margin-bottom
       left: 41px;

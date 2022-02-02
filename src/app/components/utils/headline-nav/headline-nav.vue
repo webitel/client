@@ -60,7 +60,7 @@ export default {
 }
 
 .headline-nav__nav__title {
-  @extend %typo-heading-sm;
+  @extend %typo-heading-1;
 }
 
 .headline-nav__nav__text {

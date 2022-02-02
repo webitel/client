@@ -120,7 +120,7 @@ export default {
   position: relative;
 
   ::v-deep .wt-label {
-    @extend %typo-body-md;
+    @extend %typo-body-2;
     // change margin due to icon size in label (18px default label height -> 24px with icon)
     margin-bottom: 4px;
   }

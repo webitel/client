@@ -306,7 +306,7 @@ export default {
 }
 
 .members__destinations-num {
-  @extend %typo-body-md;
+  @extend %typo-body-2;
 
   margin-left: 20px;
   text-decoration: underline;

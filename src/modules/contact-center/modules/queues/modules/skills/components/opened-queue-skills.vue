@@ -153,7 +153,7 @@ export default {
 
 <style lang="scss" scoped>
 .hidden-num {
-  @extend %typo-body-md;
+  @extend %typo-body-2;
 
   margin-left: 33px;
   text-decoration: underline;

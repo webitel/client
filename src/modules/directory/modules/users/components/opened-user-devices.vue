@@ -57,12 +57,12 @@ export default {
 
 <style lang="scss" scoped>
 .hint-link__wrap {
-  @extend %typo-body-md;
+  @extend %typo-body-2;
   margin-top: 8px;
 }
 
 .hint-link__link {
-  @extend %typo-strong-md;
+  @extend %typo-subtitle-2;
   text-decoration: underline;
 }
 </style>
