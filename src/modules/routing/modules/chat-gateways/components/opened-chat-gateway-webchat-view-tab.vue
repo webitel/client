@@ -191,7 +191,7 @@ export default {
   width: 50%;
   min-width: 760px;
   display: flex;
-  gap: var(--component-spacing);
+  gap: var(--spacing-sm);
 
   .chat-preview-section ::v-deep {
     flex-basis: max-content;
@@ -211,7 +211,7 @@ export default {
       display: flex;
       justify-content: center;
       align-items: center;
-      margin-top: var(--component-spacing);
+      margin-top: var(--spacing-sm);
     }
 
     .chat-button-preview-section::after {
@@ -226,14 +226,14 @@ export default {
     }
 
     .copy-button-wrapper {
-      margin: var(--component-spacing) 0;
+      margin: var(--spacing-sm) 0;
     }
   }
 
   .chat-config-section {
     .switcher-section {
       display: flex;
-      gap: var(--component-spacing);
+      gap: var(--spacing-sm);
       flex-shrink: 0;
       align-items: center;
     }
@@ -243,7 +243,7 @@ export default {
       display: flex;
       flex-direction: column;
       justify-content: center;
-      grid-gap: var(--component-spacing);
+      grid-gap: var(--spacing-sm);
 
       .colorpicker {
         width: 100%;

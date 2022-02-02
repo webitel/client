@@ -109,7 +109,7 @@ export default {
 
 <style lang="scss" scoped>
 .wt-table-column-select {
-  margin-left: var(--component-spacing);
+  margin-left: var(--spacing-sm);
 }
 
 ::v-deep .wt-table__th {

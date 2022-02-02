@@ -95,7 +95,7 @@ export default {
       cursor: pointer;
 
       .wt-icon {
-        margin-right: var(--icon-spacing);
+        margin-right: var(--spacing-xs);
       }
 
       &:last-child {

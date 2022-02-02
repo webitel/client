@@ -52,7 +52,7 @@ export default {
 <style lang="scss" scoped>
 .permissions-role-defaults-popup {
   .permissions-role-select:not(:last-child) {
-    margin-bottom: var(--component-spacing);
+    margin-bottom: var(--spacing-sm);
   }
 }
 </style>

@@ -218,12 +218,12 @@ export default {
   align-items: center;
 
   .wt-icon {
-    margin-right: var(--spacing--xs);
+    margin-right: var(--spacing-2xs);
   }
 }
 
 .name-link .wt-icon {
-  margin-right: var(--spacing--xs);
+  margin-right: var(--spacing-2xs);
 }
 
 .license-status {

@@ -31,6 +31,6 @@ export default {
 
 <style lang="scss" scoped>
 .wt-chip {
-  margin-left: var(--component-spacing);
+  margin-left: var(--spacing-sm);
 }
 </style>

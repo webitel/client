@@ -285,7 +285,7 @@ export default {
   .wt-loader {
     display: inline-block;
     margin-bottom: 3px;
-    margin-right: var(--icon-spacing);
+    margin-right: var(--spacing-xs);
   }
 }
 
