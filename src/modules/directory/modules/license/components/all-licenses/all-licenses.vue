@@ -96,9 +96,9 @@
         </template>
 
         <template slot="status" slot-scope="{ item }">
-          <wt-badge :class="statusClass(item.notAfter)" class="license-status">
+          <wt-chip :class="statusClass(item.notAfter)" class="license-status">
             {{ statusText(item.notAfter) }}
-          </wt-badge>
+          </wt-chip>
         </template>
       </wt-table>
       <wt-pagination

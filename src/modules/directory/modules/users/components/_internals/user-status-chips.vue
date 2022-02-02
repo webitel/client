@@ -1,21 +1,21 @@
 <template>
   <div class="user-status-chips">
-    <wt-badge
+    <wt-chip
       class="user-status-chips__chips"
       :color="isWeb ? 'main' : 'outline'"
-    >Web</wt-badge>
-    <wt-badge
+    >Web</wt-chip>
+    <wt-chip
       class="user-status-chips__chips"
       :color="isSip ? 'main' : 'outline'"
-    >SIP</wt-badge>
-    <wt-badge
+    >SIP</wt-chip>
+    <wt-chip
       class="user-status-chips__chips"
       :color="isDlg ? 'main' : 'outline'"
-    >Dlg</wt-badge>
-    <wt-badge
+    >Dlg</wt-chip>
+    <wt-chip
       class="user-status-chips__chips"
       :color="isDnd ? 'main' : 'outline'"
-    >DnD</wt-badge>
+    >DnD</wt-chip>
   </div>
 </template>
 
