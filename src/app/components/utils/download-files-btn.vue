@@ -50,7 +50,7 @@ export default {
   top: 100%;
   padding: 10px 15px;
   margin-top: 10px;
-  background: var(--main-primary-color);
+  background: var(--main-color);
   box-shadow: var(--box-shadow);
   border-radius: var(--border-radius);
 

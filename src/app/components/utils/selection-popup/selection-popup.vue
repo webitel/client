@@ -103,7 +103,7 @@ export default {
       }
 
       &:hover, &.active {
-        border-color: var(--main-accent-color);
+        border-color: var(--accent-color);
       }
 
       .wt-icon-btn {

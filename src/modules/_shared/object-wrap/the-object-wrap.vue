@@ -32,7 +32,7 @@ export default {
   display: flex;
   flex-direction: column;
   min-height: 100%;
-  background: var(--main-page-bg-color);
+  background: var(--page-bg-color);
 }
 
 .object-content-wrap {

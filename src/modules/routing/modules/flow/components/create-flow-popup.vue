@@ -161,7 +161,7 @@ export default {
     cursor: pointer;
 
     &:hover, &.active {
-      border-color: var(--main-accent-color);
+      border-color: var(--accent-color);
     }
 
     .wt-icon-btn {
