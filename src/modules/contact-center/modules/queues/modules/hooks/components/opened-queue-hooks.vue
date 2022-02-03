@@ -8,24 +8,25 @@
     <header class="content-header">
       <h3 class="content-title">{{ $tc('objects.ccenter.queues.hooks.hooks', 2) }}</h3>
       <div class="content-header__actions-wrap">
-        <wt-icon-btn
-          v-if="!disableUserInput"
-          :class="{'hidden': anySelected}"
-          :tooltip="actionPanelDeleteTooltip"
-          class="icon-action"
-          icon="bucket"
-          @click="callDelete(selectedRows)"
-        ></wt-icon-btn>
         <wt-table-actions
           :icons="['refresh']"
           @input="tableActionsHandler"
-        ></wt-table-actions>
-        <wt-icon-btn
-          v-if="!disableUserInput"
-          class="icon-action"
-          icon="plus"
-          @click="create"
-        ></wt-icon-btn>
+        >
+          <wt-icon-btn
+            v-if="!disableUserInput"
+            :class="{'hidden': anySelected}"
+            :tooltip="actionPanelDeleteTooltip"
+            class="icon-action"
+            icon="bucket"
+            @click="callDelete(selectedRows)"
+          ></wt-icon-btn>
+          <wt-icon-btn
+            v-if="!disableUserInput"
+            class="icon-action"
+            icon="plus"
+            @click="create"
+          ></wt-icon-btn>
+        </wt-table-actions>
       </div>
     </header>
 

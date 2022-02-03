@@ -15,12 +15,13 @@
         <wt-table-actions
           :icons="['refresh']"
           @input="tableActionsHandler"
-        ></wt-table-actions>
-        <wt-table-column-select
-          :headers="headers"
-          :static-headers="staticHeaders"
-          @change="changeVisibleHeaders"
-        ></wt-table-column-select>
+        >
+          <wt-table-column-select
+            :headers="headers"
+            :static-headers="staticHeaders"
+            @change="changeVisibleHeaders"
+          ></wt-table-column-select>
+        </wt-table-actions>
       </div>
     </header>
 
@@ -108,10 +109,6 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.wt-table-column-select {
-  margin-left: var(--spacing-sm);
-}
-
 ::v-deep .wt-table__th {
   word-break: normal;
 }

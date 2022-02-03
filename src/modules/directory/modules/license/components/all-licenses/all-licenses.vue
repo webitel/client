@@ -24,14 +24,15 @@
         <wt-table-actions
           :icons="['refresh']"
           @input="tableActionsHandler"
-        ></wt-table-actions>
-        <wt-icon-btn
-          v-if="hasCreateAccess"
-          :tooltip="$t('iconHints.add')"
-          class="icon-action"
-          icon="plus"
-          @click="isLicensePopup = true"
-        ></wt-icon-btn>
+        >
+          <wt-icon-btn
+            v-if="hasCreateAccess"
+            :tooltip="$t('iconHints.add')"
+            class="icon-action"
+            icon="plus"
+            @click="isLicensePopup = true"
+          ></wt-icon-btn>
+        </wt-table-actions>
       </div>
     </header>
 

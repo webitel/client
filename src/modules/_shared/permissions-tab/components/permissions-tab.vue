@@ -13,13 +13,14 @@
         <wt-table-actions
           :icons="['refresh']"
           @input="tableActionsHandler"
-        ></wt-table-actions>
-        <wt-icon-btn
-          v-if="!disableUserInput"
-          class="icon-action"
-          icon="plus"
-          @click="openRoleSelectPopup"
-        ></wt-icon-btn>
+        >
+          <wt-icon-btn
+            v-if="!disableUserInput"
+            class="icon-action"
+            icon="plus"
+            @click="openRoleSelectPopup"
+          ></wt-icon-btn>
+        </wt-table-actions>
       </div>
     </header>
 

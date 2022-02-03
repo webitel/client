@@ -47,29 +47,30 @@
             <!--                @search="loadList"-->
             <!--                @enter="loadList"-->
             <!--            ></wt-search-bar>-->
-            <wt-icon-btn
-              v-if="hasEditAccess"
-              icon="clear"
-              :tooltip="$t('objects.ccenter.members.resetMembers.resetMembers')"
-              @click="openResetPopup"
-            ></wt-icon-btn>
-            <wt-icon-btn
-              v-if="hasEditAccess && isNotInboundMember"
-              class="icon-action"
-              icon="bucket"
-              :tooltip="actionPanelDeleteTooltip"
-              @click="callDelete(selectedRows)"
-            ></wt-icon-btn>
-            <upload-file-icon-btn
-              v-if="hasEditAccess && isNotInboundMember"
-              class="icon-action"
-              accept=".csv"
-              @change="processCSV"
-            ></upload-file-icon-btn>
             <wt-table-actions
               :icons="['refresh']"
               @input="tableActionsHandler"
-            ></wt-table-actions>
+            >
+              <wt-icon-btn
+                v-if="hasEditAccess"
+                icon="clear"
+                :tooltip="$t('objects.ccenter.members.resetMembers.resetMembers')"
+                @click="openResetPopup"
+              ></wt-icon-btn>
+              <wt-icon-btn
+                v-if="hasEditAccess && isNotInboundMember"
+                class="icon-action"
+                icon="bucket"
+                :tooltip="actionPanelDeleteTooltip"
+                @click="callDelete(selectedRows)"
+              ></wt-icon-btn>
+              <upload-file-icon-btn
+                v-if="hasEditAccess && isNotInboundMember"
+                class="icon-action"
+                accept=".csv"
+                @change="processCSV"
+              ></upload-file-icon-btn>
+            </wt-table-actions>
           </div>
         </header>
 
