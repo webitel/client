@@ -25,7 +25,7 @@ export default {
   display: flex;
   align-items: center;
   .permissions-role-icon {
-    margin-right: var(--component-spacing);
+    margin-right: var(--spacing-sm);
   }
 }
 </style>

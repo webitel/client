@@ -7,9 +7,9 @@
       @click.prevent="inputHandler"
       @keypress.enter.prevent="inputHandler"
     >{{ collection[0].name }}</a>
-    <wt-badge v-if="collection.length > 1">
+    <wt-chip v-if="collection.length > 1">
       +{{ collection.length - 1 }}
-    </wt-badge>
+    </wt-chip>
   </div>
 </template>
 
@@ -30,7 +30,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.wt-badge {
-  margin-left: var(--component-spacing);
+.wt-chip {
+  margin-left: var(--spacing-sm);
 }
 </style>

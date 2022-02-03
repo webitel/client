@@ -44,18 +44,18 @@ export default {
 
 <style lang="scss" scoped>
 .files-counter {
-  @extend %typo-body-sm;
+  @extend %typo-caption;
   position: absolute;
   right: 0;
   top: 100%;
   padding: 10px 15px;
   margin-top: 10px;
-  background: var(--main-primary-color);
+  background: var(--main-color);
   box-shadow: var(--box-shadow);
   border-radius: var(--border-radius);
 
   &__count {
-    @extend %typo-strong-sm;
+    @extend %typo-caption;
   }
 }
 </style>

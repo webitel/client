@@ -141,10 +141,6 @@ export default {
 $line-numbers-current: #E5DBB9;
 $line-current: rgba(255, 193, 7, 0.2);
 
-.code-editor ::v-deep .wt-label {
-  margin-bottom: var(--label-margin);
-}
-
 .code-editor__wrapper {
   position: relative;
   width: 100%;

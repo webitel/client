@@ -16,7 +16,7 @@
 
   .upload-popup-form__form {
       @extend .object-input-grid;
-      margin: var(--component-spacing) 0;
+      margin: var(--spacing-sm) 0;
   }
 
   .upload-popup__parsing-preview-loader {
@@ -31,14 +31,14 @@
   .upload-popup-mapping {
     .upload-popup-mapping-item {
       @extend .object-input-grid;
-      margin-bottom: var(--component-spacing);
+      margin-bottom: var(--spacing-sm);
 
       &__field {
-        @extend %typo-body-lg;
+        @extend %typo-body-1;
         align-self: center;
 
         &.upload-popup-mapping-item__field--title {
-          @extend %typo-strong-lg;
+          @extend %typo-subtitle-1;
         }
       }
 
@@ -51,14 +51,14 @@
   }
 
   .upload-popup-form__error-stack-trace {
-    padding: var(--component-padding);
-    margin-top: var(--component-spacing);
+    padding: var(--spacing-sm);
+    margin-top: var(--spacing-sm);
     color: var(--false-color);
     background: var(--secondary-color);
     border-radius: var(--border-radius);
   }
 
   .upload-tooltip {
-    @extend %typo-body-sm;
+    @extend %typo-caption;
   }
 }

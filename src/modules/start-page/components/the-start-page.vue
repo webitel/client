@@ -74,9 +74,9 @@ export default {
   --button-min-height: 60px;
   --wrapper-width: 60%;
   --wrapper-height: calc(
-    var(--component-padding) * 2
+    var(--spacing-sm) * 2
     + var(--button-min-height) * 6
-    + var(--component-padding) * 5
+    + var(--spacing-sm) * 5
   );
 
   --lvl-1-bg: hsla(var(--_secondary-color), var(--_opacity--default));
@@ -108,8 +108,8 @@ export default {
   height: var(--wrapper-height);
   display: grid;
   grid-template-columns: repeat(2, 1fr);
-  grid-gap: var(--component-spacing);
-  padding: var(--component-padding);
+  grid-gap: var(--spacing-sm);
+  padding: var(--spacing-sm);
   margin: auto;
   background: var(--main-color);
   border-radius: var(--border-radius);

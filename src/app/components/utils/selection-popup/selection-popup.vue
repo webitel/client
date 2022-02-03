@@ -95,7 +95,7 @@ export default {
       cursor: pointer;
 
       .wt-icon {
-        margin-right: var(--icon-spacing);
+        margin-right: var(--spacing-xs);
       }
 
       &:last-child {
@@ -103,7 +103,7 @@ export default {
       }
 
       &:hover, &.active {
-        border-color: var(--main-accent-color);
+        border-color: var(--accent-color);
       }
 
       .wt-icon-btn {
@@ -120,7 +120,7 @@ export default {
     }
 
     .popup-options__item-header {
-      @extend %typo-strong-md;
+      @extend %typo-subtitle-2;
     }
   }
 }

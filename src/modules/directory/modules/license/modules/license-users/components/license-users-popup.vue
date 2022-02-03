@@ -121,12 +121,12 @@ export default {
   justify-content: center;
 
   .wt-icon {
-    margin-right: var(--spacing--lg);
+    margin-right: var(--spacing-sm);
   }
 }
 
 .wt-search-bar {
-  margin: var(--spacing--lg) 0;
+  margin: var(--spacing-sm) 0;
 }
 
 .table-wrapper {

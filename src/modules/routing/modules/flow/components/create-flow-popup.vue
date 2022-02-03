@@ -161,7 +161,7 @@ export default {
     cursor: pointer;
 
     &:hover, &.active {
-      border-color: var(--main-accent-color);
+      border-color: var(--accent-color);
     }
 
     .wt-icon-btn {
@@ -174,7 +174,7 @@ export default {
   }
 
   &__title {
-    @extend %typo-strong-md;
+    @extend %typo-subtitle-2;
     text-align: center;
     grid-column-start: 2;
     overflow: hidden;

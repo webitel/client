@@ -155,7 +155,7 @@ export default {
 .settings-section {
   display: flex;
   flex-direction: column;
-  gap: var(--component-spacing);
+  gap: var(--spacing-sm);
   flex: 0 1 50%;
   min-width: 200px;
 

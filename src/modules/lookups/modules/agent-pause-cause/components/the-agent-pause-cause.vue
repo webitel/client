@@ -27,18 +27,19 @@
               @search="loadList"
               @enter="loadList"
             ></wt-search-bar>
-            <wt-icon-btn
-              v-if="hasDeleteAccess"
-              class="icon-action"
-              :class="{'hidden': anySelected}"
-              icon="bucket"
-              :tooltip="actionPanelDeleteTooltip"
-              @click="callDelete(selectedRows)"
-            ></wt-icon-btn>
             <wt-table-actions
               :icons="['refresh']"
               @input="tableActionsHandler"
-            ></wt-table-actions>
+            >
+              <wt-icon-btn
+                v-if="hasDeleteAccess"
+                class="icon-action"
+                :class="{'hidden': anySelected}"
+                icon="bucket"
+                :tooltip="actionPanelDeleteTooltip"
+                @click="callDelete(selectedRows)"
+              ></wt-icon-btn>
+            </wt-table-actions>
           </div>
         </header>
 
