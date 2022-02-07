@@ -1,5 +1,10 @@
 <template>
-  <wt-popup class="selection-popup" :min-width="minWidth" @close="close">
+  <wt-popup
+    class="selection-popup"
+    overflow
+    :min-width="minWidth"
+    @close="close"
+  >
     <template slot="title">{{ title }}</template>
     <template slot="main">
       <ul class="popup-options">
