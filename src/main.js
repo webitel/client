@@ -7,6 +7,9 @@ import i18n from './app/locale/i18n';
 import './app/plugins/webitel-ui';
 
 // import './assets/lib/bootstrap-grid.min.css';
+import './app/css/1.scss';
+// import './app/css/main.scss';
+// import './app/css/objects/objects.scss';
 
 import './app/assets/icons/sprite';
 

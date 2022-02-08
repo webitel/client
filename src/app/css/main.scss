@@ -1,4 +1,8 @@
 @import '~@webitel/ui-sdk/src/css/main';
+@import './objects/lib-custom-styling/dropzone';
+@import './objects/table-page';
+@import './objects/history-popup';
+@import './objects/objects';
 
 
 //disables scrollbar on 100vh auth on small laptops

@@ -25,10 +25,7 @@ module.exports = {
             sass: {
               implementation: require('sass'),
               additionalData: `
-                      @import '~@webitel/ui-sdk/src/css/main.scss';
-                      @import "@/app/css/main.scss";
-                      @import "@/app/css/objects/objects.scss";
-                      @import "@/app/css/media.scss";
+                      @import '@/app/css/main.scss';
                     `,
             },
         },
