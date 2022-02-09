@@ -11,14 +11,6 @@
       <h3 class="content-title">
         {{ $tc('objects.permissions.roles.applicationsAccess.applicationsAccess', 2) }}
       </h3>
-      <div class="content-header__actions-wrap">
-        <wt-search-bar
-          v-model="search"
-          debounce
-          @enter="loadList"
-          @search="loadList"
-        ></wt-search-bar>
-      </div>
     </header>
 
     <div class="table-wrapper">
