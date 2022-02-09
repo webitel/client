@@ -12,6 +12,7 @@
 }
 
 .start-nav__category-option {
+  @extend %typo-body-1;
   box-sizing: border-box;
   text-align: left;
   display: flex;

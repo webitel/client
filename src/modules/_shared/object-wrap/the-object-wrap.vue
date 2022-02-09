@@ -29,7 +29,6 @@ export default {
 
 // main content itself, without nav but with main header
 .object {
-  display: flex;
   flex-direction: column;
   min-height: 100%;
   background: var(--page-bg-color);
