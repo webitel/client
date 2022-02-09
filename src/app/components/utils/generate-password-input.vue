@@ -7,7 +7,7 @@
         :placeholder="$t('objects.password')"
         :required="required"
         :disabled="disabled"
-        :label-props="{ hint: $t('objects.directory.passwordInfo') }"
+        :label-props="{ hint: $t('objects.directory.passwordInfo'), hintPosition: 'right' }"
         @input="input"
     >
       <template
