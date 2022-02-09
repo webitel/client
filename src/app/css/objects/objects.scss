@@ -76,7 +76,7 @@
   margin: var(--spacing-sm) 0;
 
   .content-title {
-    @extend %typo-subtitle-1;
+    @extend %typo-heading-3;
 
     + .hint {
       top: -2px;
