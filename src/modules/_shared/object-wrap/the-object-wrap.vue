@@ -29,6 +29,7 @@ export default {
 
 // main content itself, without nav but with main header
 .object {
+  display: flex;
   flex-direction: column;
   min-height: 100%;
   background: var(--page-bg-color);
@@ -37,13 +38,5 @@ export default {
 .object-content-wrap {
   flex-grow: 1;
   display: flex;
-
-  & > * {
-    box-sizing: border-box;
-    width: 100%; // FIXME: delete after complete refactor with wt-page-wrapper
-    &:not(.wt-page-wrapper) {
-      padding: 20px 30px;
-    }
-  }
 }
 </style>
