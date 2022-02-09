@@ -5,72 +5,74 @@
     </header>
     <form class="object-input-grid">
       <wt-select
-        :value="itemInstance.user"
-        :v="v.itemInstance.user"
-        :label="$tc('objects.directory.users.users', 1)"
-        :search-method="loadUsersOptions"
         :clearable="false"
         :disabled="disableUserInput"
+        :label="$tc('objects.directory.users.users', 1)"
+        :search-method="loadUsersOptions"
+        :v="v.itemInstance.user"
+        :value="itemInstance.user"
         required
         @input="setItemProp({ prop: 'user', value: $event })"
       ></wt-select>
       <wt-switcher
-        :value="itemInstance.isSupervisor"
-        :label="$t('objects.ccenter.agents.isSupervisor')"
         :disabled="disableUserInput"
+        :label="$t('objects.ccenter.agents.isSupervisor')"
+        :value="itemInstance.isSupervisor"
         @change="setItemProp({ prop: 'isSupervisor', value: $event })"
       ></wt-switcher>
       <wt-select
-        :value="itemInstance.team"
+        :disabled="disableUserInput"
         :label="$tc('objects.ccenter.teams.teams', 1)"
         :search-method="loadTeamsOptions"
-        :disabled="disableUserInput"
+        :v="v.itemInstance.team"
+        :value="itemInstance.team"
+        required
         @input="setItemProp({ prop: 'team', value: $event })"
       ></wt-select>
       <wt-select
         v-show="!itemInstance.isSupervisor"
-        :value="itemInstance.supervisor"
+        :close-on-select="false"
+        :disabled="disableUserInput"
         :label="$tc('objects.ccenter.agents.supervisors', 1)"
         :search-method="loadSupervisorsOptions"
-        :disabled="disableUserInput"
-        :close-on-select="false"
+        :value="itemInstance.supervisor"
         multiple
         @input="setItemProp({ prop: 'supervisor', value: $event })"
       ></wt-select>
       <wt-select
-        :value="itemInstance.auditor"
+        :close-on-select="false"
+        :disabled="disableUserInput"
         :label="$tc('objects.ccenter.auditors.auditors', 1)"
         :search-method="loadAuditorsOptions"
-        :disabled="disableUserInput"
-        :close-on-select="false"
+        :value="itemInstance.auditor"
         multiple
         @input="setItemProp({ prop: 'auditor', value: $event })"
       ></wt-select>
       <wt-select
-        :value="itemInstance.region"
+        :disabled="disableUserInput"
         :label="$tc('objects.lookups.regions.regions', 1)"
         :search-method="loadRegionsOptions"
-        :disabled="disableUserInput"
+        :value="itemInstance.region"
         @input="setItemProp({ prop: 'region', value: $event })"
       ></wt-select>
       <wt-input
-        :value="itemInstance.progressiveCount"
-        :v="v.itemInstance.progressiveCount"
-        :label="$t('objects.ccenter.agents.progressiveCount')"
         :disabled="disableUserInput"
+        :label="$t('objects.ccenter.agents.progressiveCount')"
         :min-value="0"
-        type="number"
+        :v="v.itemInstance.progressiveCount"
+        :value="itemInstance.progressiveCount"
         required
+        type="number"
         @input="setItemProp({ prop: 'progressiveCount', value: +$event })"
       ></wt-input>
       <wt-input
-        :value="itemInstance.chatCount"
-        :v="v.itemInstance.chatCount"
-        :label="$t('objects.ccenter.agents.chatCount')"
         :disabled="disableUserInput"
+        :label="$t('objects.ccenter.agents.chatCount')"
         :min-value="0"
-        type="number"
+        :v="v.itemInstance.chatCount"
+        :value="itemInstance.chatCount"
         required
+        type="number"
         @input="setItemProp({ prop: 'chatCount', value: +$event })"
       ></wt-input>
     </form>
@@ -78,11 +80,12 @@
 </template>
 
 <script>
-import AgentsAPI from '../api/agents';
-import TeamsAPI from '../../teams/api/teams';
+import openedTabComponentMixin
+  from '../../../../../app/mixins/objectPagesMixins/openedObjectTabMixin/openedTabComponentMixin';
 import UsersAPI from '../../../../directory/modules/users/api/users';
 import RegionsAPI from '../../../../lookups/modules/regions/api/regions';
-import openedTabComponentMixin from '../../../../../app/mixins/objectPagesMixins/openedObjectTabMixin/openedTabComponentMixin';
+import TeamsAPI from '../../teams/api/teams';
+import AgentsAPI from '../api/agents';
 
 export default {
   name: 'opened-agent-general',
