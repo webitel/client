@@ -40,7 +40,7 @@ export default {
     },
     headers() {
       return [
-        { value: 'bucket', text: this.$tc('objects.lookups.buckets.buckets', 1) },
+        { value: 'bucket', text: this.$t('reusable.name') },
       ];
     },
   },
