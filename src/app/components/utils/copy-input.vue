@@ -1,10 +1,7 @@
 <template>
   <div class="copy-input">
     <wt-input
-      :disabled="disabled"
-      :label="label"
-      :required="required"
-      :v="v"
+      v-bind="{ ...$attrs }"
       :value="value"
       @input="input"
     >
@@ -39,20 +36,6 @@ export default {
     },
     copyModifier: {
       type: Function,
-    },
-    label: {
-      type: String,
-    },
-    v: {
-      type: Object,
-    },
-    required: {
-      type: Boolean,
-      default: false,
-    },
-    disabled: {
-      type: Boolean,
-      default: false,
     },
   },
   data() {

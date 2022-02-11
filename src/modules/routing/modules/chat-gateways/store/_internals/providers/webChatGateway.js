@@ -1,4 +1,6 @@
 import MessengerType from 'webitel-sdk/esm2015/enums/messenger-type.enum';
+import WebchatAlternativeChannel
+  from '../../../enum/WebchatAlternativeChannel.enum';
 import defaultChatGateway from '../defaults/defaultChatGateway';
 
 const webChatGateway = () => ({
@@ -18,6 +20,17 @@ const webChatGateway = () => ({
     position: '',
     timeoutIsActive: false,
     openTimeout: '',
+    alternativeChannels: Object
+      .values(WebchatAlternativeChannel)
+      .reduce((channels, channel) => (
+        {
+          ...channels,
+          [channel]: {
+            url: '',
+            enabled: false,
+          },
+        }
+      ), {}),
   },
 });
 
