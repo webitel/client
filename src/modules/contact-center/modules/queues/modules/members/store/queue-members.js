@@ -72,7 +72,7 @@ const actions = {
   },
   DELETE_SINGLE_COMMUNICATION: (context, deleted) => {
     const communications = [...context.state.itemInstance.communications];
-    const itemIndex = communications.map((item) => item.type.id).indexOf(deleted.type.id);
+    const itemIndex = communications.findIndex((item) => item.type.id === deleted.type.id);
     communications.splice(itemIndex, 1);
     context.commit('SET_ITEM_PROPERTY', { prop: 'communications', value: communications });
   },

@@ -36,7 +36,7 @@ const actions = {
   },
   DELETE_SINGLE_PERMISSION: (context, deleted) => {
     const permissions = [...context.state.itemInstance.permissions];
-    const itemIndex = permissions.map((item) => item.id).indexOf(deleted.id);
+    const itemIndex = permissions.findIndex((item) => item.id === deleted.id);
     permissions.splice(itemIndex, 1);
     context.commit('SET_ITEM_PROPERTY', { prop: 'permissions', value: permissions });
   },
