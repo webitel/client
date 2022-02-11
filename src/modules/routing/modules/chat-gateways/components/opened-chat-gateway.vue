@@ -35,12 +35,13 @@ import {
 } from 'vuelidate/lib/validators';
 import openedObjectMixin
   from '../../../../../app/mixins/objectPagesMixins/openedObjectMixin/openedObjectMixin';
-import OpenedChatTelegram from './opened-chat-gateway-telegram-general-tab.vue';
-import OpenedChatFacebook from './opened-chat-gateway-facebook-general-tab.vue';
-import OpenedChatInfobip from './opened-chat-gateway-infobip-general-tab.vue';
-import OpenedViewWebchat from './opened-chat-gateway-webchat-view-tab.vue';
-import OpenedWebchat from './opened-chat-gateway-webchat-general-tab.vue';
-import OpenedViberChat from './opened-chat-gateway-viber-general-tab.vue';
+import OpenedChatTelegram from './telegram/opened-chat-gateway-telegram-general-tab.vue';
+import OpenedChatFacebook from './facebook/opened-chat-gateway-facebook-general-tab.vue';
+import OpenedChatInfobip from './infobip/opened-chat-gateway-infobip-general-tab.vue';
+import OpenedViberChat from './viber/opened-chat-gateway-viber-general-tab.vue';
+import OpenedWebchat from './webchat/opened-chat-gateway-webchat-general-tab.vue';
+import OpenedWebchatView from './webchat/opened-chat-gateway-webchat-view-tab.vue';
+import OpenedWebchatAlternativeChannels from './webchat/opened-chat-gateway-webchat-alternative-channels-tab.vue';
 
 export default {
   name: 'opened-chat-gateway',
@@ -49,9 +50,10 @@ export default {
     OpenedChatTelegram,
     OpenedChatFacebook,
     OpenedChatInfobip,
-    OpenedWebchat,
     OpenedViberChat,
-    OpenedViewWebchat,
+    OpenedWebchat,
+    OpenedWebchatView,
+    OpenedWebchatAlternativeChannels,
   },
 
   data: () => ({
@@ -165,26 +167,35 @@ export default {
         text: this.$t('objects.routing.chatGateways.telegram'),
         value: 'OpenedChatTelegram',
       };
+
       const facebookChat = {
         text: this.$t('objects.routing.chatGateways.facebook'),
         value: 'OpenedChatFacebook',
       };
+
       const infobipChat = {
         text: this.$t('objects.routing.chatGateways.infobip'),
         value: 'OpenedChatInfobip',
       };
+
       const viberChat = {
         text: this.$t('objects.routing.chatGateways.viber'),
         value: 'OpenedViberChat',
       };
+
       const webChat = {
-        text: this.$t('objects.routing.chatGateways.webchat'),
+        text: this.$t('objects.routing.chatGateways.webchat.webchat'),
         value: 'OpenedWebchat',
       };
       const webchatView = {
-        text: this.$t('objects.routing.chatGateways.metadata.view'),
-        value: 'OpenedViewWebchat',
+        text: this.$t('objects.routing.chatGateways.webchat.view.view'),
+        value: 'OpenedWebchatView',
       };
+      const webchatAlternativeChannels = {
+        text: this.$t('objects.routing.chatGateways.webchat.alternativeChannels.alternativeChanngels'),
+        value: 'OpenedWebchatAlternativeChannels',
+      };
+
       switch (this.chatType) {
         case 'telegram':
           return [telegramChat];
@@ -195,15 +206,15 @@ export default {
         case 'viber':
           return [viberChat];
         case 'webchat':
-          return [webChat, webchatView];
+          return [webChat, webchatView, webchatAlternativeChannels];
         default:
           return [];
       }
     },
 
     chatGatewayTitle() {
-      const type = this.chatType;
-      return this.$t(`objects.routing.chatGateways.${type}`).concat(' ', this.$tc('objects.routing.gateways.gateways', 1));
+      return this.$t(`objects.routing.chatGateways.${this.chatType}`)
+                 .concat(' ', this.$tc('objects.routing.gateways.gateways', 1));
     },
 
     path() {

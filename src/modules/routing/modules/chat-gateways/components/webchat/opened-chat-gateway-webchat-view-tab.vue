@@ -87,9 +87,9 @@ import clipboardCopy from 'clipboard-copy';
 import { Chrome } from 'vue-color';
 import { mapActions } from 'vuex';
 import openedTabComponentMixin
-  from '../../../../../app/mixins/objectPagesMixins/openedObjectTabMixin/openedTabComponentMixin';
-import webChatPreviewMixin from '../mixins/webChatPreviewMixin';
-import webChatViewFormMixin from '../mixins/webChatViewFormMixin';
+  from '../../../../../../app/mixins/objectPagesMixins/openedObjectTabMixin/openedTabComponentMixin';
+import webChatPreviewMixin from '../../mixins/webChatPreviewMixin';
+import webChatViewFormMixin from '../../mixins/webChatViewFormMixin';
 
 const defaultConfig = {
   wsUrl: '',
@@ -185,7 +185,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-@import "../css/chat-gateways";
+@import '../../css/chat-gateways';
 
 .webchat-view-main {
   width: 50%;
@@ -221,7 +221,7 @@ export default {
       left: 0;
       bottom: 0;
       right: 0;
-      background: url("../assets/transparent-img.svg") repeat;
+      background: url('../../assets/transparent-img.svg') repeat;
       opacity: 0.3;
     }
 

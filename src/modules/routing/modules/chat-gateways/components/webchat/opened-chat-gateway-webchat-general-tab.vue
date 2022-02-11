@@ -75,9 +75,9 @@
 <script>
 import { mapActions } from 'vuex';
 import openedTabComponentMixin
-  from '../../../../../app/mixins/objectPagesMixins/openedObjectTabMixin/openedTabComponentMixin';
-import FlowsAPI from '../../flow/api/flow';
-import uriCopyMixin from '../mixins/uriCopyMixin';
+  from '../../../../../../app/mixins/objectPagesMixins/openedObjectTabMixin/openedTabComponentMixin';
+import FlowsAPI from '../../../flow/api/flow';
+import uriCopyMixin from '../../mixins/uriCopyMixin';
 
 export default {
   name: 'opened-chat-webchat-general-tab',
@@ -115,6 +115,6 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-@import "../css/chat-gateways";
+@import '../../css/chat-gateways';
 
 </style>
