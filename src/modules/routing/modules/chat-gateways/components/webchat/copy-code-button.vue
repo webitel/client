@@ -16,6 +16,7 @@ const defaultConfig = {
   logoUrl: '',
   position: 'right',
   openTimeout: false,
+  alternativeChannels: null,
 };
 
 const SCRIPT_URL = window.location.origin;
@@ -27,6 +28,13 @@ const getConfig = (userConfig) => Object.keys(defaultConfig)
                                           [key]: userConfig[key] || defaultConfig[key],
                                         }), {});
 
+const minifyAltChannels = (altChannels) => (
+  Object.entries(altChannels)
+        .reduce((channels, [channelName, { enabled, url }]) => (
+          enabled && url ? { ...channels, [channelName]: url } : channels
+        ), {})
+);
+
 const generateCode = ({
                         btnOpacity,
                         accentColor,
@@ -36,6 +44,7 @@ const generateCode = ({
                         position,
                         openTimeout,
                         uri,
+                        alternativeChannels,
                       }) => `
       const script = document.createElement('script');
       script.src = '${SCRIPT_URL}/omni-widget/WtOmniWidget.umd.js';
@@ -53,7 +62,8 @@ const generateCode = ({
             lang: "${lang}",
             logoUrl: "${logoUrl}",
             position: "${position}",
-            openTimeout: ${openTimeout}
+            openTimeout: ${openTimeout},
+            alternativeChannels: ${JSON.stringify(minifyAltChannels(alternativeChannels))},
          };
 
         const app = new WtOmniWidget('#wt-omnichannel-widget', config);
