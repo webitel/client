@@ -9,6 +9,12 @@
         :secondary-action="close"
       >
         <headline-nav :path="path"></headline-nav>
+        <template slot="actions">
+          <webchat-copy-code-button
+            v-if="isWebchat"
+            :item-instance="itemInstance"
+          ></webchat-copy-code-button>
+        </template>
       </object-header>
     </template>
 
@@ -42,6 +48,7 @@ import OpenedViberChat from './viber/opened-chat-gateway-viber-general-tab.vue';
 import OpenedWebchat from './webchat/opened-chat-gateway-webchat-general-tab.vue';
 import OpenedWebchatView from './webchat/opened-chat-gateway-webchat-view-tab.vue';
 import OpenedWebchatAlternativeChannels from './webchat/opened-chat-gateway-webchat-alternative-channels-tab.vue';
+import WebchatCopyCodeButton from './webchat/copy-code-button.vue';
 
 export default {
   name: 'opened-chat-gateway',
@@ -54,6 +61,7 @@ export default {
     OpenedWebchat,
     OpenedWebchatView,
     OpenedWebchatAlternativeChannels,
+    WebchatCopyCodeButton,
   },
 
   data: () => ({
@@ -228,6 +236,10 @@ export default {
           route: this.id ? `${url}/${this.id}` : `${url}/new`,
         },
       ];
+    },
+
+    isWebchat() {
+      return this.chatType === 'webchat';
     },
   },
   methods: {

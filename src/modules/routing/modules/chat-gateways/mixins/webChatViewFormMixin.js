@@ -1,6 +1,5 @@
 export default {
   data: () => ({
-    isCopied: false,
     selectedBorderRadius: {},
     selectedPosition: {},
     selectedLanguage: {},
@@ -47,9 +46,6 @@ export default {
       // value: 'static',
       // }
       ];
-    },
-    buttonLabel() {
-      return this.isCopied ? this.$t('objects.copied') : this.$t('objects.routing.chatGateways.metadata.copy');
     },
     disableOpenTimeout() {
       return !this.itemInstance.metadata.timeoutIsActive || this.disableUserInput;

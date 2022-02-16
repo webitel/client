@@ -8,22 +8,21 @@
       </slot>
     </template>
     <template slot="actions">
-      <slot name="actions">
-        <wt-button
+      <slot name="actions"></slot>
+      <wt-button
           v-if="!hidePrimary"
           :disabled="primaryDisabled"
           @click="primaryAction"
         >
           {{ primaryText || $t('objects.add') }}
         </wt-button>
-        <wt-button
+      <wt-button
           v-if="!hideSecondary"
           color="secondary"
           @click="secondaryAction"
         >
           {{ secondaryText || $t('objects.close') }}
         </wt-button>
-      </slot>
     </template>
   </wt-headline>
 </template>
