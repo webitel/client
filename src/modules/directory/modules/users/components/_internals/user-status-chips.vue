@@ -51,7 +51,7 @@ export default {
 <style lang="scss" scoped>
 .user-status-chips {
   display: grid;
-  grid-template-columns: repeat(4, 50px);
+  grid-template-columns: repeat(4, 70px);
   grid-gap: 10px;
 }
 
