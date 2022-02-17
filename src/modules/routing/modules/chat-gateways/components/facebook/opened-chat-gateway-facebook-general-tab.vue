@@ -2,7 +2,7 @@
   <section>
     <header class="content-header">
       <wt-icon icon="facebook" icon-prefix="messenger" size="sm"></wt-icon>
-      <h3 class="content-title">{{ $t('objects.routing.chatGateways.facebook') }}</h3>
+      <h3 class="content-title">{{ $t('objects.routing.chatGateways.facebook.facebook') }}</h3>
     </header>
     <form class="object-input-grid">
       <wt-input

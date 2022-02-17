@@ -2,7 +2,7 @@
   <section>
     <header class="content-header">
       <wt-icon icon="web-chat" icon-prefix="messenger" size="sm"></wt-icon>
-      <h3 class="content-title">{{ $t('objects.routing.chatGateways.webchat') }}</h3>
+      <h3 class="content-title">{{ $t('objects.routing.chatGateways.webchat.webchat') }}</h3>
     </header>
     <section class="webchat-view-main">
       <section class="chat-preview-section">
@@ -17,7 +17,7 @@
             v-model="selectedLanguage"
             :clearable="false"
             :disabled="disableUserInput"
-            :label="$t('objects.routing.chatGateways.metadata.language')"
+            :label="$t('objects.routing.chatGateways.webchat.view.language')"
             :options="languages"
             track-by="name"
             @input="setItemMetadata({ prop: 'lang', value: $event.value })"
@@ -26,7 +26,7 @@
             v-model="selectedPosition"
             :clearable="false"
             :disabled="disableUserInput"
-            :label="$t('objects.routing.dialplan.position')"
+            :label="$t('objects.routing.chatGateways.webchat.view.position')"
             :options="positionOptions"
             track-by="name"
             @input="setItemMetadata({ prop: 'position', value: $event.value })"
@@ -35,16 +35,16 @@
             v-model="selectedBorderRadius"
             :clearable="false"
             :disabled="disableUserInput"
-            :label="$t('objects.routing.chatGateways.metadata.borderRadius')"
+            :label="$t('objects.routing.chatGateways.webchat.view.borderRadius')"
             :options="borderRadiusOptions"
             track-by="name"
             @input="setItemMetadata({ prop: 'borderRadiusStyle', value: $event.value })"
           ></wt-select>
           <wt-input
             :disabled="disableUserInput"
-            :label="$t('objects.routing.chatGateways.metadata.logoUrl')"
+            :label="$t('objects.routing.chatGateways.webchat.view.logoUrl')"
             :label-props="{
-              hint: this.$t('objects.routing.chatGateways.metadata.logoHint'),
+              hint: this.$t('objects.routing.chatGateways.webchat.view.logoHint'),
               hintPosition: 'right',
              }"
             :v="v.itemInstance.metadata.logoUrl"
@@ -53,7 +53,7 @@
           ></wt-input>
           <section class="switcher-section">
             <wt-switcher
-              :label="this.$t('objects.routing.chatGateways.metadata.openTimeout')"
+              :label="this.$t('objects.routing.chatGateways.webchat.view.openTimeout')"
               :value="itemInstance.metadata.timeoutIsActive"
               @change="setItemMetadata({ prop: 'timeoutIsActive', value: $event })"
             ></wt-switcher>
@@ -67,7 +67,9 @@
           </section>
           <section>
             <div class="colorpicker-section">
-              <wt-label>{{ this.$t('objects.routing.chatGateways.metadata.btnColor') }}</wt-label>
+              <wt-label>
+                {{ this.$t('objects.routing.chatGateways.webchat.view.btnColor') }}
+              </wt-label>
               <color-picker :value="color" class="colorpicker" @input="setColor"/>
             </div>
           </section>

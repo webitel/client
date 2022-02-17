@@ -2,7 +2,7 @@
   <section>
     <header class="content-header">
       <wt-icon icon="viber" icon-prefix="messenger" size="sm"></wt-icon>
-      <h3 class="content-title">{{ $t('objects.routing.chatGateways.viber') }}</h3>
+      <h3 class="content-title">{{ $t('objects.routing.chatGateways.viber.viber') }}</h3>
     </header>
     <form class="object-input-grid">
       <wt-input

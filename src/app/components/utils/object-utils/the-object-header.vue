@@ -64,7 +64,7 @@ export default {
 <style lang="scss" scoped>
 .wt-headline {
   .wt-button {
-    margin-left: 20px;
+    margin-left: var(--spacing-sm);
 
     &:first-child {
       margin-left: 0;

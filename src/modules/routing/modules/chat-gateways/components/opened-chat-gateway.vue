@@ -172,22 +172,22 @@ export default {
 
     tabs() {
       const telegramChat = {
-        text: this.$t('objects.routing.chatGateways.telegram'),
+        text: this.$t('objects.routing.chatGateways.telegram.telegram'),
         value: 'OpenedChatTelegram',
       };
 
       const facebookChat = {
-        text: this.$t('objects.routing.chatGateways.facebook'),
+        text: this.$t('objects.routing.chatGateways.facebook.facebook'),
         value: 'OpenedChatFacebook',
       };
 
       const infobipChat = {
-        text: this.$t('objects.routing.chatGateways.infobip'),
+        text: this.$t('objects.routing.chatGateways.infobip.infobip'),
         value: 'OpenedChatInfobip',
       };
 
       const viberChat = {
-        text: this.$t('objects.routing.chatGateways.viber'),
+        text: this.$t('objects.routing.chatGateways.viber.viber'),
         value: 'OpenedViberChat',
       };
 
@@ -200,7 +200,7 @@ export default {
         value: 'OpenedWebchatView',
       };
       const webchatAlternativeChannels = {
-        text: this.$t('objects.routing.chatGateways.webchat.alternativeChannels.alternativeChanngels'),
+        text: this.$t('objects.routing.chatGateways.webchat.alternativeChannels.alternativeChannels'),
         value: 'OpenedWebchatAlternativeChannels',
       };
 
@@ -221,7 +221,7 @@ export default {
     },
 
     chatGatewayTitle() {
-      return this.$t(`objects.routing.chatGateways.${this.chatType}`)
+      return this.$t(`objects.routing.chatGateways.${this.chatType}.${this.chatType}`)
                  .concat(' ', this.$tc('objects.routing.gateways.gateways', 1));
     },
 

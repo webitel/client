@@ -1,5 +1,5 @@
 <template>
-  <wt-button wide @click="copyCode">
+  <wt-button @click="copyCode">
     {{ text }}
   </wt-button>
 </template>
@@ -91,7 +91,7 @@ export default {
   }),
   computed: {
     text() {
-      return this.isCopied ? this.$t('objects.copied') : this.$t('objects.routing.chatGateways.metadata.copy');
+      return this.isCopied ? this.$t('objects.copied') : this.$t('objects.routing.chatGateways.webchat.copyCode');
     },
   },
   methods: {

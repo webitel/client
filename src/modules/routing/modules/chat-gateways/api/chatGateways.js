@@ -6,8 +6,10 @@ import {
   EndpointPatcherApiConsumer,
   EndpointDeleterApiConsumer,
 } from 'webitel-sdk/esm2015/api-consumers';
+import deepmerge from 'deepmerge';
 import MessengerType from 'webitel-sdk/esm2015/enums/messenger-type.enum';
 import instance from '../../../../../app/api/instance';
+import webChatGateway from '../store/_internals/providers/webChatGateway';
 
 const baseUrl = '/chat/bots';
 
@@ -60,17 +62,17 @@ const webChatResponseConverter = (data) => {
     data.metadata.handshakeTimeout = parseTimeoutSeconds(data.metadata.handshakeTimeout);
   }
   data.metadata.timeoutIsActive = data.metadata.timeoutIsActive === 'true';
-  return data;
+
+  return deepmerge(webChatGateway(), data);
 };
 
 const preRequestHandler = (item) => {
   switch (item.provider) {
     case MessengerType.WEB_CHAT:
-      item = webchatRequestConverter(item);
-      break;
+      return webchatRequestConverter(item);
     default:
+      return item;
   }
-  return item;
 };
 
 const listGetter = new EndpointListGetterApiConsumer({ baseUrl, instance }, { defaultListObject });
@@ -85,11 +87,10 @@ const itemDeleter = new EndpointDeleterApiConsumer({ baseUrl, instance });
 itemGetter.responseHandler = (response) => {
   switch (response.provider) {
     case MessengerType.WEB_CHAT:
-      response = webChatResponseConverter(response);
-      break;
+      return webChatResponseConverter(response);
     default:
+      return response;
   }
-  return response;
 };
 
 const getChatGatewayList = (params) => listGetter.getList(params);

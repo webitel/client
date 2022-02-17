@@ -2,13 +2,13 @@
   <section>
     <header class="content-header">
       <wt-icon icon="web-chat" icon-prefix="messenger" size="sm"></wt-icon>
-      <h3 class="content-title">{{ $t('objects.routing.chatGateways.webchat') }}</h3>
+      <h3 class="content-title">{{ $t('objects.routing.chatGateways.webchat.webchat') }}</h3>
     </header>
     <form class="object-input-grid object-input-grid__1-col object-input-grid__w50">
       <div
-        class="webchat-alternative-channel"
         v-for="(channel) of alternativeChannels"
         :key="channel"
+        class="webchat-alternative-channel"
       >
         <wt-icon
           :icon="channelIcon[channel]"
@@ -16,7 +16,7 @@
         ></wt-icon>
         <copy-input
           :disabled="disableUserInput"
-          :placeholder="$t('objects.routing.chatGateways.webchat.alternativeChannels.url')"
+          :placeholder="$t(channelUrlPlaceholder[channel])"
           :value="itemInstance.metadata.alternativeChannels[channel].url"
           @input="setAltChannelValue({ channel, prop: 'url', value: $event })"
         ></copy-input>
@@ -34,19 +34,28 @@
 import { mapActions } from 'vuex';
 import openedTabComponentMixin
   from '../../../../../../app/mixins/objectPagesMixins/openedObjectTabMixin/openedTabComponentMixin';
-import uriCopyMixin from '../../mixins/uriCopyMixin';
 import WebchatAlternativeChannel from '../../enum/WebchatAlternativeChannel.enum';
+import uriCopyMixin from '../../mixins/uriCopyMixin';
 
 export default {
   name: 'opened-chat-webchat-alternative-channels-tab',
   mixins: [openedTabComponentMixin, uriCopyMixin],
   data: () => ({
+    alternativeChannels: Object.values(WebchatAlternativeChannel),
     channelIcon: {
       ...Object.values(WebchatAlternativeChannel)
                .reduce((channels, channel) => ({ ...channels, [channel]: `messenger-${channel}` }), {}),
       [WebchatAlternativeChannel.EMAIL]: 'mail--color',
     },
-    alternativeChannels: Object.values(WebchatAlternativeChannel),
+    channelUrlPlaceholder: {
+      ...Object.values(WebchatAlternativeChannel)
+               .reduce((channels, channel) => ({
+                 ...channels,
+                 [channel]: `objects.routing.chatGateways.${channel}.${channel}`,
+               }), {}),
+      [WebchatAlternativeChannel.EMAIL]: 'objects.routing.chatGateways.webchat.alternativeChannels.email',
+      [WebchatAlternativeChannel.WHATSAPP]: 'objects.routing.chatGateways.webchat.alternativeChannels.whatsapp',
+    },
   }),
   methods: {
     ...mapActions({

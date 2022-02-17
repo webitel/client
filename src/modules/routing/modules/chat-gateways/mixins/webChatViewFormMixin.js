@@ -25,19 +25,19 @@ export default {
     },
     borderRadiusOptions() {
       return [{
-        name: this.$t('objects.routing.chatGateways.metadata.square'),
+        name: this.$t('objects.routing.chatGateways.webchat.view.square'),
         value: 'square',
       }, {
-        name: this.$t('objects.routing.chatGateways.metadata.rounded'),
+        name: this.$t('objects.routing.chatGateways.webchat.view.rounded'),
         value: 'rounded',
       }];
     },
     positionOptions() {
       return [{
-        name: this.$t('objects.routing.chatGateways.metadata.right'),
+        name: this.$t('objects.routing.chatGateways.webchat.view.right'),
         value: 'right',
       }, {
-        name: this.$t('objects.routing.chatGateways.metadata.left'),
+        name: this.$t('objects.routing.chatGateways.webchat.view.left'),
         value: 'left',
       },
       // Uncomment position static if needed. Not available until documentation is ready.
