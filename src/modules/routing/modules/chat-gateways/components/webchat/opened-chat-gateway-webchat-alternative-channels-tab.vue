@@ -11,7 +11,7 @@
         :key="channel"
       >
         <wt-icon
-          :icon="`messenger-${channel}`"
+          :icon="channelIcon[channel]"
           size="lg"
         ></wt-icon>
         <copy-input
@@ -41,6 +41,11 @@ export default {
   name: 'opened-chat-webchat-alternative-channels-tab',
   mixins: [openedTabComponentMixin, uriCopyMixin],
   data: () => ({
+    channelIcon: {
+      ...Object.values(WebchatAlternativeChannel)
+               .reduce((channels, channel) => ({ ...channels, [channel]: `messenger-${channel}` }), {}),
+      [WebchatAlternativeChannel.EMAIL]: 'mail--color',
+    },
     alternativeChannels: Object.values(WebchatAlternativeChannel),
   }),
   methods: {
