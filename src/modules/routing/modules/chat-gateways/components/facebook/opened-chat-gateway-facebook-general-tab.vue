@@ -1,8 +1,8 @@
 <template>
   <section>
     <header class="content-header">
-      <wt-icon icon="infobip" icon-prefix="messenger" size="sm"></wt-icon>
-      <h3 class="content-title">{{ $t('objects.routing.chatGateways.infobip') }}</h3>
+      <wt-icon icon="facebook" icon-prefix="messenger" size="sm"></wt-icon>
+      <h3 class="content-title">{{ $t('objects.routing.chatGateways.facebook.facebook') }}</h3>
     </header>
     <form class="object-input-grid">
       <wt-input
@@ -14,10 +14,10 @@
       ></wt-input>
       <wt-input
         :disabled="disableUserInput"
-        :label="$t('objects.routing.chatGateways.metadata.apiKey')"
-        :v="v.itemInstance.metadata.apiKey"
-        :value="itemInstance.metadata.apiKey"
-        @input="setItemMetadata({ prop: 'apiKey', value: $event })"
+        :label="$t('objects.routing.chatGateways.metadata.accessToken')"
+        :v="v.itemInstance.metadata.AccessToken"
+        :value="itemInstance.metadata.AccessToken"
+        @input="setItemMetadata({ prop: 'AccessToken', value: $event })"
       ></wt-input>
       <copy-input
         :copy-modifier="modifyUriCopy"
@@ -30,10 +30,10 @@
       ></copy-input>
       <wt-input
         :disabled="disableUserInput"
-        :label="$t('objects.routing.chatGateways.metadata.number')"
-        :v="v.itemInstance.metadata.number"
-        :value="itemInstance.metadata.number"
-        @input="setItemMetadata({ prop: 'number', value: $event })"
+        :label="$t('objects.routing.chatGateways.metadata.verifyToken')"
+        :v="v.itemInstance.metadata.VerifyToken"
+        :value="itemInstance.metadata.VerifyToken"
+        @input="setItemMetadata({ prop: 'VerifyToken', value: $event })"
       ></wt-input>
       <wt-select
         :disabled="disableUserInput"
@@ -45,18 +45,10 @@
       ></wt-select>
       <wt-input
         :disabled="disableUserInput"
-        :label="$t('objects.routing.chatGateways.metadata.baseUrl')"
+        :label="$t('objects.routing.chatGateways.metadata.facebookApiUrl')"
         :v="v.itemInstance.metadata.url"
         :value="itemInstance.metadata.url"
         @input="setItemMetadata({ prop: 'url', value: $event })"
-      ></wt-input>
-      <!--      Empty div in order to have correct page design-->
-      <div></div>
-      <wt-input
-        :disabled="disableUserInput"
-        :label="$t('objects.routing.chatGateways.metadata.scenarioKey')"
-        :value="itemInstance.metadata.scenarioKey"
-        @input="setItemMetadata({ prop: 'scenarioKey', value: $event })"
       ></wt-input>
     </form>
   </section>
@@ -65,12 +57,12 @@
 <script>
 import { mapActions } from 'vuex';
 import openedTabComponentMixin
-  from '../../../../../app/mixins/objectPagesMixins/openedObjectTabMixin/openedTabComponentMixin';
-import FlowsAPI from '../../flow/api/flow';
-import uriCopyMixin from '../mixins/uriCopyMixin';
+  from '../../../../../../app/mixins/objectPagesMixins/openedObjectTabMixin/openedTabComponentMixin';
+import FlowsAPI from '../../../flow/api/flow';
+import uriCopyMixin from '../../mixins/uriCopyMixin';
 
 export default {
-  name: 'opened-chat-gateway-infobip-general-tab',
+  name: 'opened-chat-gateway-facebook-general-tab',
   mixins: [openedTabComponentMixin, uriCopyMixin],
   computed: {
     isUriEditable() {
@@ -105,5 +97,5 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-@import "../css/chat-gateways";
+@import '../../css/chat-gateways';
 </style>

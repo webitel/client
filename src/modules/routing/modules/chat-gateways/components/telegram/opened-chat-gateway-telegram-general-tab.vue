@@ -2,7 +2,7 @@
   <section>
     <header class="content-header">
       <wt-icon icon="telegram" icon-prefix="messenger" size="sm"></wt-icon>
-      <h3 class="content-title">{{ $t('objects.routing.chatGateways.telegram') }}</h3>
+      <h3 class="content-title">{{ $t('objects.routing.chatGateways.telegram.telegram') }}</h3>
     </header>
     <form class="object-input-grid">
       <wt-input
@@ -45,9 +45,9 @@
 <script>
 import { mapActions } from 'vuex';
 import openedTabComponentMixin
-  from '../../../../../app/mixins/objectPagesMixins/openedObjectTabMixin/openedTabComponentMixin';
-import FlowsAPI from '../../flow/api/flow';
-import uriCopyMixin from '../mixins/uriCopyMixin';
+  from '../../../../../../app/mixins/objectPagesMixins/openedObjectTabMixin/openedTabComponentMixin';
+import FlowsAPI from '../../../flow/api/flow';
+import uriCopyMixin from '../../mixins/uriCopyMixin';
 
 export default {
   name: 'opened-chat-telegram-general-tab',
@@ -85,5 +85,5 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-@import "../css/chat-gateways";
+@import '../../css/chat-gateways';
 </style>

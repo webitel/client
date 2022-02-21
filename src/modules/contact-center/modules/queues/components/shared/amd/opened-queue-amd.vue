@@ -1,5 +1,8 @@
 <template>
   <section>
+    <header class="content-header">
+      <h3 class="content-title">{{ $t('objects.ccenter.queues.amd') }}</h3>
+    </header>
     <form class="object-input-grid">
       <wt-switcher
         :value="itemInstance.payload.amd.enabled"

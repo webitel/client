@@ -4,7 +4,7 @@ export default {
   components: { CopyInput },
   methods: {
     modifyUriCopy(value) {
-      const baseUrl = window.location.origin;
+      const baseUrl = window.location.origin.replace('http', 'ws');
       return `${baseUrl}/chat${value}`;
     },
   },

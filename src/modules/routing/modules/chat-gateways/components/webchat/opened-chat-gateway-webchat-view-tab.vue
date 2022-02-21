@@ -2,7 +2,7 @@
   <section>
     <header class="content-header">
       <wt-icon icon="web-chat" icon-prefix="messenger" size="sm"></wt-icon>
-      <h3 class="content-title">{{ $t('objects.routing.chatGateways.webchat') }}</h3>
+      <h3 class="content-title">{{ $t('objects.routing.chatGateways.webchat.webchat') }}</h3>
     </header>
     <section class="webchat-view-main">
       <section class="chat-preview-section">
@@ -10,11 +10,6 @@
         <section class="chat-button-preview-section">
           <div id="chat-button-preview"></div>
         </section>
-        <div class="copy-button-wrapper">
-          <wt-button wide @click="copyCode">
-            {{ buttonLabel }}
-          </wt-button>
-        </div>
       </section>
       <section class="chat-config-section">
         <form class="object-input-grid object-input-grid__1-col">
@@ -22,7 +17,7 @@
             v-model="selectedLanguage"
             :clearable="false"
             :disabled="disableUserInput"
-            :label="$t('objects.routing.chatGateways.metadata.language')"
+            :label="$t('objects.routing.chatGateways.webchat.view.language')"
             :options="languages"
             track-by="name"
             @input="setItemMetadata({ prop: 'lang', value: $event.value })"
@@ -31,7 +26,7 @@
             v-model="selectedPosition"
             :clearable="false"
             :disabled="disableUserInput"
-            :label="$t('objects.routing.dialplan.position')"
+            :label="$t('objects.routing.chatGateways.webchat.view.position')"
             :options="positionOptions"
             track-by="name"
             @input="setItemMetadata({ prop: 'position', value: $event.value })"
@@ -40,16 +35,16 @@
             v-model="selectedBorderRadius"
             :clearable="false"
             :disabled="disableUserInput"
-            :label="$t('objects.routing.chatGateways.metadata.borderRadius')"
+            :label="$t('objects.routing.chatGateways.webchat.view.borderRadius')"
             :options="borderRadiusOptions"
             track-by="name"
             @input="setItemMetadata({ prop: 'borderRadiusStyle', value: $event.value })"
           ></wt-select>
           <wt-input
             :disabled="disableUserInput"
-            :label="$t('objects.routing.chatGateways.metadata.logoUrl')"
+            :label="$t('objects.routing.chatGateways.webchat.view.logoUrl')"
             :label-props="{
-              hint: this.$t('objects.routing.chatGateways.metadata.logoHint'),
+              hint: this.$t('objects.routing.chatGateways.webchat.view.logoHint'),
               hintPosition: 'right',
              }"
             :v="v.itemInstance.metadata.logoUrl"
@@ -58,7 +53,7 @@
           ></wt-input>
           <section class="switcher-section">
             <wt-switcher
-              :label="this.$t('objects.routing.chatGateways.metadata.openTimeout')"
+              :label="this.$t('objects.routing.chatGateways.webchat.view.openTimeout')"
               :value="itemInstance.metadata.timeoutIsActive"
               @change="setItemMetadata({ prop: 'timeoutIsActive', value: $event })"
             ></wt-switcher>
@@ -72,7 +67,9 @@
           </section>
           <section>
             <div class="colorpicker-section">
-              <wt-label>{{ this.$t('objects.routing.chatGateways.metadata.btnColor') }}</wt-label>
+              <wt-label>
+                {{ this.$t('objects.routing.chatGateways.webchat.view.btnColor') }}
+              </wt-label>
               <color-picker :value="color" class="colorpicker" @input="setColor"/>
             </div>
           </section>
@@ -83,74 +80,12 @@
 </template>
 
 <script>
-import clipboardCopy from 'clipboard-copy';
 import { Chrome } from 'vue-color';
 import { mapActions } from 'vuex';
 import openedTabComponentMixin
-  from '../../../../../app/mixins/objectPagesMixins/openedObjectTabMixin/openedTabComponentMixin';
-import webChatPreviewMixin from '../mixins/webChatPreviewMixin';
-import webChatViewFormMixin from '../mixins/webChatViewFormMixin';
-
-const defaultConfig = {
-  wsUrl: '',
-  borderRadiusStyle: 'square',
-  lang: 'en',
-  accentColor: 'hsl(42, 100%, 50%)',
-  btnOpacity: 1,
-  logoUrl: '',
-  position: 'right',
-  openTimeout: false,
-};
-
-const getConfig = (userConfig) => Object.keys(defaultConfig)
-  .reduce((config, key) => ({
-    ...config,
-    [key]: userConfig[key] || defaultConfig[key],
-  }), {});
-
-const SCRIPT_URL = window.location.origin;
-const SERVER_URL = SCRIPT_URL.replace(/^http/, 'ws');
-
-const generateCode = ({
-                        btnOpacity,
-                        accentColor,
-                        borderRadiusStyle,
-                        lang,
-                        logoUrl,
-                        position,
-                        openTimeout,
-                        uri,
-                      }) => `
-      const script = document.createElement('script');
-      script.src = '${SCRIPT_URL}/omni-widget/WtOmniWidget.umd.js';
-      script.onload = function () {
-        const body = document.querySelector('body');
-        const widgetEl = document.createElement('div');
-        widgetEl.setAttribute('id', 'wt-omnichannel-widget');
-        body.appendChild(widgetEl);
-
-        const config = {
-            wsUrl: "${SERVER_URL}/chat${uri}",
-            borderRadiusStyle: "${borderRadiusStyle}",
-            accentColor: "${accentColor}",
-            btnOpacity: "${btnOpacity}",
-            lang: "${lang}",
-            logoUrl: "${logoUrl}",
-            position: "${position}",
-            openTimeout: ${openTimeout}
-         };
-
-        const app = new WtOmniWidget('#wt-omnichannel-widget', config);
-      };
-      document.head.appendChild(script);
-
-      const link = document.createElement('link');
-      link.href = '${SCRIPT_URL}/omni-widget/WtOmniWidget.css';
-      link.type = 'text/css';
-      link.rel = 'stylesheet';
-      link.media = 'screen,print';
-      document.head.appendChild(link);
-    `;
+  from '../../../../../../app/mixins/objectPagesMixins/openedObjectTabMixin/openedTabComponentMixin';
+import webChatPreviewMixin from '../../mixins/webChatPreviewMixin';
+import webChatViewFormMixin from '../../mixins/webChatViewFormMixin';
 
 export default {
   name: 'opened-chat-gateway-webchat-view-tab',
@@ -164,28 +99,12 @@ export default {
         return dispatch(`${this.namespace}/SET_ITEM_METADATA`, payload);
       },
     }),
-    copyCode() {
-      const openTimeout = this.itemInstance.metadata.timeoutIsActive
-        ? this.itemInstance.metadata.openTimeout
-        : false;
-      const config = getConfig(this.itemInstance.metadata);
-      const code = generateCode({
-        ...config,
-        openTimeout,
-        uri: this.itemInstance.uri,
-      });
-      clipboardCopy(code);
-      this.isCopied = true;
-      setTimeout(() => {
-        this.isCopied = false;
-      }, 1500);
-    },
   },
 };
 </script>
 
 <style lang="scss" scoped>
-@import "../css/chat-gateways";
+@import '../../css/chat-gateways';
 
 .webchat-view-main {
   width: 50%;
@@ -221,12 +140,8 @@ export default {
       left: 0;
       bottom: 0;
       right: 0;
-      background: url("../assets/transparent-img.svg") repeat;
+      background: url('../../assets/transparent-img.svg') repeat;
       opacity: 0.3;
-    }
-
-    .copy-button-wrapper {
-      margin: var(--spacing-sm) 0;
     }
   }
 
