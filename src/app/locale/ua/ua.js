@@ -121,7 +121,7 @@ export default {
     password: 'Пароль',
     history: 'Історія',
     copy: 'Копіювати',
-    copied: 'Скопійовано в буфер обміну',
+    copied: 'Скопійовано!',
     createdAt: 'Коли створено',
     createdBy: 'Ким створено',
     importCSV: 'Імпортувати CSV',
