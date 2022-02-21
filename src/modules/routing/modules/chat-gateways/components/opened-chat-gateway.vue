@@ -2,10 +2,10 @@
   <wt-page-wrapper :actions-panel="false">
     <template slot="header">
       <object-header
-        :primary-action="save"
-        :primary-text="computePrimaryText"
         :hide-primary="!hasSaveActionAccess"
+        :primary-action="save"
         :primary-disabled="computeDisabled"
+        :primary-text="computePrimaryText"
         :secondary-action="close"
       >
         <headline-nav :path="path"></headline-nav>
@@ -13,6 +13,7 @@
           <webchat-copy-code-button
             v-if="isWebchat"
             :item-instance="itemInstance"
+            @copied="handleWebchatCodeCopied"
           ></webchat-copy-code-button>
         </template>
       </object-header>
@@ -26,8 +27,8 @@
         ></wt-tabs>
         <component
           :is="currentTab.value"
-          :v="$v"
           :namespace="namespace"
+          :v="$v"
         ></component>
       </div>
     </template>
@@ -35,20 +36,17 @@
 </template>
 
 <script>
-
-import {
- required, minValue, maxValue, minLength, numeric, url,
-} from 'vuelidate/lib/validators';
-import openedObjectMixin
-  from '../../../../../app/mixins/objectPagesMixins/openedObjectMixin/openedObjectMixin';
-import OpenedChatTelegram from './telegram/opened-chat-gateway-telegram-general-tab.vue';
+import { maxValue, minLength, minValue, numeric, required, url } from 'vuelidate/lib/validators';
+import { mapActions } from 'vuex';
+import openedObjectMixin from '../../../../../app/mixins/objectPagesMixins/openedObjectMixin/openedObjectMixin';
 import OpenedChatFacebook from './facebook/opened-chat-gateway-facebook-general-tab.vue';
 import OpenedChatInfobip from './infobip/opened-chat-gateway-infobip-general-tab.vue';
+import OpenedChatTelegram from './telegram/opened-chat-gateway-telegram-general-tab.vue';
 import OpenedViberChat from './viber/opened-chat-gateway-viber-general-tab.vue';
+import WebchatCopyCodeButton from './webchat/copy-code-button.vue';
+import OpenedWebchatAlternativeChannels from './webchat/opened-chat-gateway-webchat-alternative-channels-tab.vue';
 import OpenedWebchat from './webchat/opened-chat-gateway-webchat-general-tab.vue';
 import OpenedWebchatView from './webchat/opened-chat-gateway-webchat-view-tab.vue';
-import OpenedWebchatAlternativeChannels from './webchat/opened-chat-gateway-webchat-alternative-channels-tab.vue';
-import WebchatCopyCodeButton from './webchat/copy-code-button.vue';
 
 export default {
   name: 'opened-chat-gateway',
@@ -243,6 +241,11 @@ export default {
     },
   },
   methods: {
+    ...mapActions({
+                    handleWebchatCodeCopied(dispatch, payload) {
+                      return dispatch(`${this.namespace}/RESET_WEBCHAT_COPY_DIRTY_FLAG`, payload);
+                    },
+                  }),
     async loadPageData() {
       await this.setId(this.$route.params.id);
       return this.loadItem(this.chatType.toUpperCase());

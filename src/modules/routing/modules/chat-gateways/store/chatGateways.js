@@ -28,9 +28,15 @@ const actions = {
   SET_ITEM_METADATA: (context, payload) => {
     context.commit('SET_ITEM_METADATA', payload);
     context.commit('SET_ITEM_PROPERTY', { prop: '_dirty', value: true });
+    context.commit('SET_ITEM_METADATA', { prop: '_btnCodeDirty', value: true });
   },
   SET_WEBCHAT_ALTERNATIVE_CHANNEL_VALUE: (context, { channel, prop, value }) => {
     context.commit('SET_WEBCHAT_ALTERNATIVE_CHANNEL_VALUE', { channel, prop, value });
+    context.commit('SET_ITEM_METADATA', { prop: '_btnCodeDirty', value: true });
+    context.commit('SET_ITEM_PROPERTY', { prop: '_dirty', value: true });
+  },
+  RESET_WEBCHAT_COPY_DIRTY_FLAG: (context) => {
+    context.commit('SET_ITEM_METADATA', { prop: '_btnCodeDirty', value: false });
     context.commit('SET_ITEM_PROPERTY', { prop: '_dirty', value: true });
   },
 };
@@ -43,7 +49,7 @@ const mutations = {
     state.itemInstance = facebookChatGateway();
   },
   SET_WEBCHAT_ITEM: (state) => {
-    state.itemInstance = webChatGateway();
+    state.itemInstance = webChatGateway(true);
   },
   SET_INFOBIP_ITEM: (state) => {
     state.itemInstance = infobipChatGateway();

@@ -44,6 +44,8 @@ const webchatRequestConverter = (data) => {
   if (data.metadata.openTimeout) {
     data.metadata.openTimeout = `${data.metadata.openTimeout}`;
   }
+  data.metadata.alternativeChannels = JSON.stringify(data.metadata.alternativeChannels);
+  data.metadata._btnCodeDirty = data.metadata._btnCodeDirty.toString();
   data.metadata.timeoutIsActive = `${data.metadata.timeoutIsActive}`;
   return data;
 };
@@ -61,6 +63,10 @@ const webChatResponseConverter = (data) => {
   if (data.metadata.handshakeTimeout) {
     data.metadata.handshakeTimeout = parseTimeoutSeconds(data.metadata.handshakeTimeout);
   }
+  if (data.metadata.alternativeChannels) {
+    data.metadata.alternativeChannels = JSON.parse(data.metadata.alternativeChannels);
+  }
+  data.metadata._btnCodeDirty = (data.metadata._btnCodeDirty === 'true');
   data.metadata.timeoutIsActive = data.metadata.timeoutIsActive === 'true';
 
   return deepmerge(webChatGateway(), data);

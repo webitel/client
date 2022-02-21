@@ -18,7 +18,7 @@
           :disabled="disableUserInput"
           :placeholder="$t(channelUrlPlaceholder[channel])"
           :value="itemInstance.metadata.alternativeChannels[channel].url"
-          @input="setAltChannelValue({ channel, prop: 'url', value: $event })"
+          @input="handleUrlInput({ channel, value: $event })"
         ></copy-input>
         <wt-switcher
           :disabled="disableUserInput"
@@ -63,6 +63,12 @@ export default {
         return dispatch(`${this.namespace}/SET_WEBCHAT_ALTERNATIVE_CHANNEL_VALUE`, payload);
       },
     }),
+    handleUrlInput({ channel, value }) {
+      this.setAltChannelValue({ channel, prop: 'url', value });
+      if (!value) {
+        this.setAltChannelValue({ channel, prop: 'enabled', value: false });
+      }
+    },
   },
 };
 </script>

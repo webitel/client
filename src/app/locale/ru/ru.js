@@ -460,6 +460,7 @@ export default {
         webchat: {
           webchat: 'Web chat',
           copyCode: 'Скопировать код',
+          copyCodeHint: 'Необходимо перегенерировать и вставить код Виджета на сайт после каждой модификации настроек',
           view: {
             borderRadius: 'Вид кнопки',
             language: 'Язык',

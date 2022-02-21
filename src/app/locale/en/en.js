@@ -460,6 +460,7 @@ export default {
         webchat: {
           webchat: 'Web chat',
           copyCode: 'Copy code for site',
+          copyCodeHint: 'You must regenerate and reinsert Widget code to website each time after Widget settings modification',
           view: {
             view: 'View',
             borderRadius: 'Button Shape',

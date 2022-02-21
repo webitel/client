@@ -9,7 +9,7 @@
     "test:unit": "vue-cli-service test:unit"
   },
   "dependencies": {
-    "@webitel/ui-sdk": "^1.0.19",
+    "@webitel/ui-sdk": "^1.0.20",
     "axios": "^0.25.0",
     "clipboard-copy": "^4.0.1",
     "core-js": "^3.6.4",

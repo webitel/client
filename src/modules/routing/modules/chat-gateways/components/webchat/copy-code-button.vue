@@ -1,6 +1,14 @@
 <template>
-  <wt-button @click="copyCode">
+  <wt-button
+    :color="color"
+    @click="copyCode"
+  >
     {{ text }}
+    <wt-icon-btn
+      v-show="!isCopied"
+      icon="rounded-info"
+      :tooltip="$t('objects.routing.chatGateways.webchat.copyCodeHint')"
+    ></wt-icon-btn>
   </wt-button>
 </template>
 
@@ -93,6 +101,9 @@ export default {
     text() {
       return this.isCopied ? this.$t('objects.copied') : this.$t('objects.routing.chatGateways.webchat.copyCode');
     },
+    color() {
+      return this.itemInstance.metadata?._btnCodeDirty ? 'primary' : 'secondary';
+    },
   },
   methods: {
     copyCode() {
@@ -110,11 +121,20 @@ export default {
       setTimeout(() => {
         this.isCopied = false;
       }, 1500);
+
+      this.$emit('copied');
     },
   },
 };
 </script>
 
 <style lang="scss" scoped>
-
+.wt-button {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--spacing-xs);
+  ::v-deep .wt-tooltip {
+    width: 400px;
+  }
+}
 </style>

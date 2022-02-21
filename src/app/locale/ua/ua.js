@@ -445,13 +445,22 @@ export default {
       chatGateways: {
         chatGateways: 'Текстовий шлюз | Текстові шлюзи',
         allChatGateways: 'Всі текстові шлюзи',
-        telegram: 'Telegram',
-        infobip: 'Infobip',
-        facebook: 'Facebook',
-        viber: 'Viber',
+        telegram: {
+          telegram: 'Telegram',
+        },
+        infobip: {
+          infobip: 'Infobip',
+        },
+        facebook: {
+          facebook: 'Facebook',
+        },
+        viber: {
+          viber: 'Viber',
+        },
         webchat: {
           webchat: 'Web chat',
           copyCode: 'Копіювати код',
+          copyCodeHint: 'Необхідно перегенерувати та вставити код Віджета на сайт після кожної модифікації налаштувань',
           view: {
             borderRadius: 'Вигляд кнопки',
             language: 'Мова',
