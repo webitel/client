@@ -4,58 +4,60 @@ import Auth from '@webitel/ui-sdk/src/modules/Userinfo/components/the-auth.vue';
 import RouteNames from './_internals/RouteNames.enum';
 
 const ApplicationHub = () => import('../../modules/application-hub/components/application-hub.vue');
-const ModuleWrap = () => import('../../modules/_shared/object-wrap/the-object-wrap');
-const Home = () => import('../../modules/_unused/home/components/the-home');
-const StartPage = () => import('../../modules/start-page/components/the-start-page');
-const Settings = () => import('../../modules/settings/components/the-settings');
-const AccessDenied = () => import('../../modules/error-pages/components/the-access-denied-component');
-const NotFound = () => import('../../modules/error-pages/components/the-not-found-component');
-const PermissionsRoles = () => import('../../modules/permissions/modules/roles/components/the-roles');
-const OpenedPermissionsRoles = () => import('../../modules/permissions/modules/roles/components/opened-role');
-const PermissionsObjects = () => import('../../modules/permissions/modules/objects/components/the-objects-permissions');
-const OpenedPermissionsObjects = () => import('../../modules/permissions/modules/objects/components/opened-object-permissions');
-const Devices = () => import('../../modules/directory/modules/devices/components/the-devices');
-const OpenedDevice = () => import('../../modules/directory/modules/devices/components/opened-device');
-const Users = () => import('../../modules/directory/modules/users/components/the-users');
-const OpenedUser = () => import('../../modules/directory/modules/users/components/opened-user');
-const License = () => import('../../modules/directory/modules/license/components/the-license');
-const Blacklists = () => import('../../modules/lookups/modules/blacklists/components/the-blacklists');
-const Media = () => import('../../modules/lookups/modules/media/components/the-media');
-const OpenedBlacklist = () => import('../../modules/lookups/modules/blacklists/components/opened-blacklist');
-const Calendars = () => import('../../modules/lookups/modules/calendars/components/the-calendars');
-const OpenedCalendar = () => import('../../modules/lookups/modules/calendars/components/opened-calendar');
-const CommunicationTypes = () => import('../../modules/lookups/modules/communications/components/the-communication-types');
-const OpenedCommunicationType = () => import('../../modules/lookups/modules/communications/components/opened-communication-type');
-const Regions = () => import('../../modules/lookups/modules/regions/components/the-regions');
-const OpenedRegion = () => import('../../modules/lookups/modules/regions/components/opened-region');
-const AgentPauseCause = () => import('../../modules/lookups/modules/agent-pause-cause/components/the-agent-pause-cause');
-const OpenedAgentPauseCause = () => import('../../modules/lookups/modules/agent-pause-cause/components/opened-agent-pause-cause');
-const SipGateways = () => import('../../modules/routing/modules/gateways/components/the-sip-gateways');
-const OpenedGateway = () => import('../../modules/routing/modules/gateways/components/opened-sip-gateway');
-const ChatGateways = () => import('../../modules/routing/modules/chat-gateways/components/the-chat-gateways');
-const OpenedChatGateways = () => import('../../modules/routing/modules/chat-gateways/components/opened-chat-gateway');
-const Flow = () => import('../../modules/routing/modules/flow/components/the-flow');
-const OpenedFlow = () => import('../../modules/routing/modules/flow/components/opened-flow');
-const Dialplan = () => import('../../modules/routing/modules/dialplan/components/the-dialplan');
-const OpenedDialplan = () => import('../../modules/routing/modules/dialplan/components/opened-dialplan');
-const TheResources = () => import('../../modules/contact-center/modules/resources/components/the-resources');
-const OpenedResource = () => import('../../modules/contact-center/modules/resources/components/opened-resource');
-const ResourceGroups = () => import('../../modules/contact-center/modules/resource-groups/components/the-resource-groups');
-const OpenedResourceGroup = () => import('../../modules/contact-center/modules/resource-groups/components/opened-resource-group');
-const Agents = () => import('../../modules/contact-center/modules/agents/components/the-agents');
-const OpenedAgent = () => import('../../modules/contact-center/modules/agents/components/opened-agent');
-const Teams = () => import('../../modules/contact-center/modules/teams/components/the-teams');
-const OpenedTeam = () => import('../../modules/contact-center/modules/teams/components/opened-team');
-const AgentSkills = () => import('../../modules/lookups/modules/agent-skills/components/the-agent-skills');
-const OpenedAgentSkill = () => import('../../modules/lookups/modules/agent-skills/components/opened-agent-skill');
-const Buckets = () => import('../../modules/lookups/modules/buckets/components/the-buckets');
-const OpenedBucket = () => import('../../modules/lookups/modules/buckets/components/opened-bucket');
-const Queues = () => import('../../modules/contact-center/modules/queues/components/the-queues');
-const Members = () => import('../../modules/contact-center/modules/queues/modules/members/components/the-queue-members');
-const OpenedMember = () => import('../../modules/contact-center/modules/queues/modules/members/components/opened-queue-member');
-const OpenedQueue = () => import('../../modules/contact-center/modules/queues/components/opened-queue');
-const Storage = () => import('../../modules/integrations/modules/storage/components/the-storage');
-const OpenedStorage = () => import('../../modules/integrations/modules/storage/components/opened-storage');
+const ModuleWrap = () => import('../../modules/_shared/object-wrap/the-object-wrap.vue');
+const Home = () => import('../../modules/_unused/home/components/the-home.vue');
+const StartPage = () => import('../../modules/start-page/components/the-start-page.vue');
+const Settings = () => import('../../modules/settings/components/the-settings.vue');
+const AccessDenied = () => import('../../modules/error-pages/components/the-access-denied-component.vue');
+const NotFound = () => import('../../modules/error-pages/components/the-not-found-component.vue');
+const PermissionsRoles = () => import('../../modules/permissions/modules/roles/components/the-roles.vue');
+const OpenedPermissionsRoles = () => import('../../modules/permissions/modules/roles/components/opened-role.vue');
+const PermissionsObjects = () => import('../../modules/permissions/modules/objects/components/the-objects-permissions.vue');
+const OpenedPermissionsObjects = () => import('../../modules/permissions/modules/objects/components/opened-object-permissions.vue');
+const Devices = () => import('../../modules/directory/modules/devices/components/the-devices.vue');
+const OpenedDevice = () => import('../../modules/directory/modules/devices/components/opened-device.vue');
+const Users = () => import('../../modules/directory/modules/users/components/the-users.vue');
+const OpenedUser = () => import('../../modules/directory/modules/users/components/opened-user.vue');
+const License = () => import('../../modules/directory/modules/license/components/the-license.vue');
+const Blacklists = () => import('../../modules/lookups/modules/blacklists/components/the-blacklists.vue');
+const Media = () => import('../../modules/lookups/modules/media/components/the-media.vue');
+const OpenedBlacklist = () => import('../../modules/lookups/modules/blacklists/components/opened-blacklist.vue');
+const Calendars = () => import('../../modules/lookups/modules/calendars/components/the-calendars.vue');
+const OpenedCalendar = () => import('../../modules/lookups/modules/calendars/components/opened-calendar.vue');
+const CommunicationTypes = () => import('../../modules/lookups/modules/communications/components/the-communication-types.vue');
+const OpenedCommunicationType = () => import('../../modules/lookups/modules/communications/components/opened-communication-type.vue');
+const Regions = () => import('../../modules/lookups/modules/regions/components/the-regions.vue');
+const OpenedRegion = () => import('../../modules/lookups/modules/regions/components/opened-region.vue');
+const AgentPauseCause = () => import('../../modules/lookups/modules/agent-pause-cause/components/the-agent-pause-cause.vue');
+const OpenedAgentPauseCause = () => import('../../modules/lookups/modules/agent-pause-cause/components/opened-agent-pause-cause.vue');
+const SipGateways = () => import('../../modules/routing/modules/gateways/components/the-sip-gateways.vue');
+const OpenedGateway = () => import('../../modules/routing/modules/gateways/components/opened-sip-gateway.vue');
+const ChatGateways = () => import('../../modules/routing/modules/chat-gateways/components/the-chat-gateways.vue');
+const OpenedChatGateways = () => import('../../modules/routing/modules/chat-gateways/components/opened-chat-gateway.vue');
+const Flow = () => import('../../modules/routing/modules/flow/components/the-flow.vue');
+const OpenedFlow = () => import('../../modules/routing/modules/flow/components/opened-flow.vue');
+const Dialplan = () => import('../../modules/routing/modules/dialplan/components/the-dialplan.vue');
+const OpenedDialplan = () => import('../../modules/routing/modules/dialplan/components/opened-dialplan.vue');
+const Chatplan = () => import('../../modules/routing/modules/chatplan/components/the-chatplan.vue');
+const OpenedChatplan = () => import('../../modules/routing/modules/chatplan/components/opened-chatplan.vue');
+const TheResources = () => import('../../modules/contact-center/modules/resources/components/the-resources.vue');
+const OpenedResource = () => import('../../modules/contact-center/modules/resources/components/opened-resource.vue');
+const ResourceGroups = () => import('../../modules/contact-center/modules/resource-groups/components/the-resource-groups.vue');
+const OpenedResourceGroup = () => import('../../modules/contact-center/modules/resource-groups/components/opened-resource-group.vue');
+const Agents = () => import('../../modules/contact-center/modules/agents/components/the-agents.vue');
+const OpenedAgent = () => import('../../modules/contact-center/modules/agents/components/opened-agent.vue');
+const Teams = () => import('../../modules/contact-center/modules/teams/components/the-teams.vue');
+const OpenedTeam = () => import('../../modules/contact-center/modules/teams/components/opened-team.vue');
+const AgentSkills = () => import('../../modules/lookups/modules/agent-skills/components/the-agent-skills.vue');
+const OpenedAgentSkill = () => import('../../modules/lookups/modules/agent-skills/components/opened-agent-skill.vue');
+const Buckets = () => import('../../modules/lookups/modules/buckets/components/the-buckets.vue');
+const OpenedBucket = () => import('../../modules/lookups/modules/buckets/components/opened-bucket.vue');
+const Queues = () => import('../../modules/contact-center/modules/queues/components/the-queues.vue');
+const Members = () => import('../../modules/contact-center/modules/queues/modules/members/components/the-queue-members.vue');
+const OpenedMember = () => import('../../modules/contact-center/modules/queues/modules/members/components/opened-queue-member.vue');
+const OpenedQueue = () => import('../../modules/contact-center/modules/queues/components/opened-queue.vue');
+const Storage = () => import('../../modules/integrations/modules/storage/components/the-storage.vue');
+const OpenedStorage = () => import('../../modules/integrations/modules/storage/components/opened-storage.vue');
 
 Vue.use(Router);
 
@@ -210,6 +212,21 @@ const router = new Router({
           path: '/routing/sip-gateways/trunking/:id',
           name: `${RouteNames.GATEWAYS}-trunk-edit`,
           component: OpenedGateway,
+        },
+        {
+          path: '/routing/chatplan',
+          name: RouteNames.CHATPLAN,
+          component: Chatplan,
+        },
+        {
+          path: '/routing/chatplan/new',
+          name: `${RouteNames.CHATPLAN}-new`,
+          component: OpenedChatplan,
+        },
+        {
+          path: '/routing/chatplan/:id',
+          name: `${RouteNames.CHATPLAN}-edit`,
+          component: OpenedChatplan,
         },
         {
           path: '/routing/chat-gateways',

@@ -36,6 +36,10 @@ const nav = Object.freeze([{
       locale: `WebitelApplications.${WebitelApplications.ADMIN}.sections.${AdminSections.GATEWAYS}`,
       route: 'sip-gateways',
     }, {
+      value: AdminSections.CHATPLAN,
+      locale: `WebitelApplications.${WebitelApplications.ADMIN}.sections.${AdminSections.CHATPLAN}`,
+      route: 'chatplan',
+    }, {
       value: AdminSections.CHAT_GATEWAYS,
       locale: `WebitelApplications.${WebitelApplications.ADMIN}.sections.${AdminSections.CHAT_GATEWAYS}`,
       route: 'chat-gateways',
