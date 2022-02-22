@@ -414,6 +414,11 @@ export default {
         position: 'Position',
       },
 
+      chatplan: {
+        chatplan: 'Chatplan | Chatplans',
+        allChatplans: 'All chatplans',
+      },
+
       gateways: {
         gateways: 'Gateway | Gateways',
         allGateways: 'All gateways',
