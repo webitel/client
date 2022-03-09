@@ -2,8 +2,8 @@ import ObjectStoreModule
   from '../../../../../app/store/BaseStoreModules/StoreModules/ObjectStoreModule';
 import proxy from '../../../../../app/utils/editProxy';
 import ChatGatewaysAPI from '../api/chatGateways';
-import headers from './_internals/headers';
 import defaultChatGateway from './_internals/defaults/defaultChatGateway';
+import headers from './_internals/headers';
 import facebookChatGateway from './_internals/providers/facebookChatGateway';
 import infobipChatGateway from './_internals/providers/infobipChatGateway';
 import telegramChatGateway from './_internals/providers/telegramChatGateway';
@@ -28,15 +28,28 @@ const actions = {
   SET_ITEM_METADATA: (context, payload) => {
     context.commit('SET_ITEM_METADATA', payload);
     context.commit('SET_ITEM_PROPERTY', { prop: '_dirty', value: true });
+  },
+  SET_WEBCHAT_ITEM_METADATA: async (context, payload) => {
+    await context.dispatch('SET_ITEM_METADATA', payload);
     context.commit('SET_ITEM_METADATA', { prop: '_btnCodeDirty', value: true });
   },
-  SET_WEBCHAT_ALTERNATIVE_CHANNEL_VALUE: (context, { channel, prop, value }) => {
-    context.commit('SET_WEBCHAT_ALTERNATIVE_CHANNEL_VALUE', { channel, prop, value });
+  SET_WEBCHAT_ALTERNATIVE_CHANNEL_VALUE: (
+    context,
+    { channel, prop, value },
+  ) => {
+    context.commit('SET_WEBCHAT_ALTERNATIVE_CHANNEL_VALUE', {
+      channel,
+      prop,
+      value,
+    });
     context.commit('SET_ITEM_METADATA', { prop: '_btnCodeDirty', value: true });
     context.commit('SET_ITEM_PROPERTY', { prop: '_dirty', value: true });
   },
   RESET_WEBCHAT_COPY_DIRTY_FLAG: (context) => {
-    context.commit('SET_ITEM_METADATA', { prop: '_btnCodeDirty', value: false });
+    context.commit('SET_ITEM_METADATA', {
+      prop: '_btnCodeDirty',
+      value: false,
+    });
     context.commit('SET_ITEM_PROPERTY', { prop: '_dirty', value: true });
   },
 };

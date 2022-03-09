@@ -96,7 +96,7 @@ export default {
   methods: {
     ...mapActions({
       setItemMetadata(dispatch, payload) {
-        return dispatch(`${this.namespace}/SET_ITEM_METADATA`, payload);
+        return dispatch(`${this.namespace}/SET_WEBCHAT_ITEM_METADATA`, payload);
       },
     }),
   },
