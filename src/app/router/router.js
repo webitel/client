@@ -619,13 +619,13 @@ const router = new Router({
   ],
 });
 
-router.beforeEach((to, from, next) => {
-  if (!(to.path === '/auth')) {
-    if (!localStorage.getItem('access-token')) {
-      next('/auth');
+  router.beforeEach((to, from, next) => {
+    if (!(to.path === '/auth')) {
+      if (!localStorage.getItem('access-token')) {
+        next('/auth');
+      }
     }
-  }
-  next();
-});
+    next();
+  });
 
 export default router;
