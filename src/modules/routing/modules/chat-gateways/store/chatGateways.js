@@ -10,6 +10,8 @@ import telegramChatGateway from './_internals/providers/telegramChatGateway';
 import viberChatGateway from './_internals/providers/viberChatGateway';
 import webChatGateway from './_internals/providers/webChatGateway';
 
+import facebookPages from '../modules/facebook/store/facebookPages';
+
 const resettableState = {
   itemInstance: {
     ...defaultChatGateway(),
@@ -81,6 +83,7 @@ const mutations = {
 const chatGateways = new ObjectStoreModule({ resettableState, headers })
   .attachAPIModule(ChatGatewaysAPI)
   .generateAPIActions()
+  .setChildModules({ facebookPages })
   .getModule({ actions, mutations });
 
 export default chatGateways;

@@ -14,10 +14,10 @@
       ></wt-input>
       <wt-input
         :disabled="disableUserInput"
-        :label="$t('objects.routing.chatGateways.metadata.accessToken')"
-        :v="v.itemInstance.metadata.AccessToken"
-        :value="itemInstance.metadata.AccessToken"
-        @input="setItemMetadata({ prop: 'AccessToken', value: $event })"
+        :label="$t('objects.routing.chatGateways.facebook.metadata.clientId')"
+        :v="v.itemInstance.metadata.clientId"
+        :value="itemInstance.metadata.clientId"
+        @input="setItemMetadata({ prop: 'clientId', value: $event })"
       ></wt-input>
       <copy-input
         :copy-modifier="modifyUriCopy"
@@ -30,10 +30,10 @@
       ></copy-input>
       <wt-input
         :disabled="disableUserInput"
-        :label="$t('objects.routing.chatGateways.metadata.verifyToken')"
-        :v="v.itemInstance.metadata.VerifyToken"
-        :value="itemInstance.metadata.VerifyToken"
-        @input="setItemMetadata({ prop: 'VerifyToken', value: $event })"
+        :label="$t('objects.routing.chatGateways.facebook.metadata.clientSecret')"
+        :v="v.itemInstance.metadata.clientSecret"
+        :value="itemInstance.metadata.clientSecret"
+        @input="setItemMetadata({ prop: 'clientSecret', value: $event })"
       ></wt-input>
       <wt-select
         :disabled="disableUserInput"
@@ -43,13 +43,6 @@
         :value="itemInstance.flow"
         @input="setFlow"
       ></wt-select>
-      <wt-input
-        :disabled="disableUserInput"
-        :label="$t('objects.routing.chatGateways.metadata.facebookApiUrl')"
-        :v="v.itemInstance.metadata.url"
-        :value="itemInstance.metadata.url"
-        @input="setItemMetadata({ prop: 'url', value: $event })"
-      ></wt-input>
     </form>
   </section>
 </template>

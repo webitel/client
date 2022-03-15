@@ -5,9 +5,8 @@ const facebookChatGateway = () => ({
   ...defaultChatGateway(),
   provider: MessengerType.FACEBOOK,
   metadata: {
-    AccessToken: '',
-    VerifyToken: '',
-    url: 'https://graph.facebook.com/v11.0/me/messages?access_token=',
+    clientId: '',
+    clientSecret: '',
   },
 });
 
