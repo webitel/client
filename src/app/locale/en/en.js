@@ -458,6 +458,16 @@ export default {
         },
         facebook: {
           facebook: 'Facebook',
+          metadata: {
+            clientId: 'App ID',
+            clientSecret: 'App Secret',
+          },
+          pages: {
+            pages: 'Pages',
+            addOrRemovePages: 'Add or remove pages',
+            accounts: 'Accounts',
+            subscription: 'Webhook subscription',
+          },
         },
         viber: {
           viber: 'Viber',
@@ -495,8 +505,6 @@ export default {
           number: 'Number',
           baseUrl: 'Base URL',
           scenarioKey: 'Scenario Key',
-          accessToken: 'Facebook Page Access Token',
-          verifyToken: 'App Webhook Verify Token',
           sendApi: 'Send API',
           allowOrigin: 'Allow Origin',
           readTimeout: 'Read Timeout (sec)',

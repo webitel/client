@@ -39,13 +39,17 @@
 import { maxValue, minLength, minValue, numeric, required, url } from 'vuelidate/lib/validators';
 import { mapActions } from 'vuex';
 import openedObjectMixin from '../../../../../app/mixins/objectPagesMixins/openedObjectMixin/openedObjectMixin';
+
 import OpenedChatFacebook from './facebook/opened-chat-gateway-facebook-general-tab.vue';
+import OpenedChatFacebookPages from '../modules/facebook/components/facebook-pages-tab.vue';
+
 import OpenedChatInfobip from './infobip/opened-chat-gateway-infobip-general-tab.vue';
 import OpenedChatTelegram from './telegram/opened-chat-gateway-telegram-general-tab.vue';
 import OpenedViberChat from './viber/opened-chat-gateway-viber-general-tab.vue';
 import WebchatCopyCodeButton from './webchat/copy-code-button.vue';
-import OpenedWebchatAlternativeChannels from './webchat/opened-chat-gateway-webchat-alternative-channels-tab.vue';
+
 import OpenedWebchat from './webchat/opened-chat-gateway-webchat-general-tab.vue';
+import OpenedWebchatAlternativeChannels from './webchat/opened-chat-gateway-webchat-alternative-channels-tab.vue';
 import OpenedWebchatView from './webchat/opened-chat-gateway-webchat-view-tab.vue';
 
 export default {
@@ -54,6 +58,7 @@ export default {
   components: {
     OpenedChatTelegram,
     OpenedChatFacebook,
+    OpenedChatFacebookPages,
     OpenedChatInfobip,
     OpenedViberChat,
     OpenedWebchat,
@@ -89,8 +94,8 @@ export default {
           itemInstance: {
             ...defaults,
             metadata: {
-              AccessToken: { required },
-              VerifyToken: { required },
+              clientId: { required },
+              clientSecret: { required },
               url: { required },
             },
           },
@@ -178,6 +183,11 @@ export default {
         text: this.$t('objects.routing.chatGateways.facebook.facebook'),
         value: 'OpenedChatFacebook',
       };
+      const facebookChatPages = {
+        text: this.$t('objects.routing.chatGateways.facebook.pages.pages'),
+        value: 'OpenedChatFacebookPages',
+      };
+      const facebook = this.id ? [facebookChat, facebookChatPages] : [facebookChat];
 
       const infobipChat = {
         text: this.$t('objects.routing.chatGateways.infobip.infobip'),
@@ -206,7 +216,7 @@ export default {
         case 'telegram':
           return [telegramChat];
         case 'facebook':
-          return [facebookChat];
+          return facebook;
         case 'infobip':
           return [infobipChat];
         case 'viber':

@@ -1,5 +1,6 @@
 import { mapActions, mapState } from 'vuex';
 import getNamespacedState from '@webitel/ui-sdk/src/store/helpers/getNamespacedState';
+import ObjectListPopup from '../../../components/utils/object-list-popup/object-list-popup.vue';
 import openedTabComponentMixin from '../openedObjectTabMixin/openedTabComponentMixin';
 import baseTableMixin from '../../baseMixins/baseTableMixin/baseTableMixin';
 import OnePlusMany from '../../../components/utils/table-cell/one-plus-many-table-cell/one-plus-many-table-cell.vue';
@@ -14,7 +15,7 @@ import OnePlusMany from '../../../components/utils/table-cell/one-plus-many-tabl
  */
 export default {
   mixins: [openedTabComponentMixin, baseTableMixin],
-  components: { OnePlusMany },
+  components: { OnePlusMany, ObjectListPopup },
   watch: {
     parentId(value) {
       this.setParentId(value);

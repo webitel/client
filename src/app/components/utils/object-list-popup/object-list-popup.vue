@@ -7,9 +7,9 @@
       <section>
         <wt-table
           :data="dataList"
-          :headers="headers"
-          :selectable="false"
           :grid-actions="false"
+          :headers="tableHeaders"
+          :selectable="false"
         ></wt-table>
       </section>
     </template>
@@ -30,12 +30,17 @@ export default {
     },
     headers: {
       type: Array,
-      default: () => [
-        { value: 'name', text: 'name' },
-      ],
+      description: 'Or default "name" header',
     },
   },
-
+  computed: {
+    tableHeaders() {
+      const defaultHeaders = [
+        { value: 'name', text: this.$t('reusable.name') },
+      ];
+      return this.headers || defaultHeaders;
+    },
+  },
   methods: {
     close() {
       this.$emit('close');
