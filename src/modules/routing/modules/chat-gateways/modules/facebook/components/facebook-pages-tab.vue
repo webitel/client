@@ -53,6 +53,7 @@ import { mapActions } from 'vuex';
 import openedObjectTableTabMixin
   from '../../../../../../../app/mixins/objectPagesMixins/openedObjectTableTabMixin/openedObjectTableTabMixin';
 import openFacebookWindow from '../scripts/openFacebookWindow';
+import getChatOriginUrl from '../../../scripts/getChatOriginUrl';
 
 export default {
   name: 'opened-chat-gateway-facebook-pages-tab',
@@ -63,9 +64,10 @@ export default {
   }),
   computed: {
     baseUrl() {
-      const baseUrl = process.env.VUE_APP_CHAT_URL;
+      const originUrl = getChatOriginUrl();
+      const chatUrl = process.env.VUE_APP_CHAT_URL;
       const uri = this.$store.getters[`${this.namespace}/${this.subNamespace}/BASE_URL`];
-      return `${baseUrl}/${uri}`;
+      return `${originUrl}${chatUrl}/${uri}`;
     },
   },
   methods: {

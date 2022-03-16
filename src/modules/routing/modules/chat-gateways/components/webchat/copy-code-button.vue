@@ -14,6 +14,7 @@
 
 <script>
 import clipboardCopy from 'clipboard-copy';
+import getChatOriginUrl from '../../scripts/getChatOriginUrl';
 
 const defaultConfig = {
   wsUrl: '',
@@ -27,8 +28,10 @@ const defaultConfig = {
   alternativeChannels: null,
 };
 
-const SCRIPT_URL = window.location.origin;
-const SERVER_URL = SCRIPT_URL.replace(/^http/, 'ws');
+const SCRIPT_URL = getChatOriginUrl();
+const CHAT_URL = process.env.VUE_APP_CHAT_URL;
+
+const SERVER_URL = SCRIPT_URL.replace(/^http/, 'ws').concat(CHAT_URL);
 
 const getConfig = (userConfig) => Object.keys(defaultConfig)
                                         .reduce((config, key) => ({
@@ -63,7 +66,7 @@ const generateCode = ({
         body.appendChild(widgetEl);
 
         const config = {
-            wsUrl: "${SERVER_URL}/chat${uri}",
+            wsUrl: "${SERVER_URL}${uri}",
             borderRadiusStyle: "${borderRadiusStyle}",
             accentColor: "${accentColor}",
             btnOpacity: "${btnOpacity}",
