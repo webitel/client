@@ -1,5 +1,7 @@
 process.env.VUE_APP_API_URL = process.env.NODE_ENV === 'production' ? '/api' : 'https://dev.webitel.com/api';
-process.env.VUE_APP_CHAT_URL = process.env.NODE_ENV === 'production' ? '/' : 'https://dev.webitel.com';
+
+process.env.VUE_APP_CHAT_URL = process.env.NODE_ENV === 'production' ? '/chat' : '';
+process.env.VUE_APP_CHAT_ORIGIN = process.env.NODE_ENV === 'production' ? window.location.origin : 'https://dev.webitel.com';
 
 process.env.VUE_APP_AUTH_MODULE_URL = process.env.NODE_ENV === 'production' ? '/app/auth' : 'http://dev.webitel.com/app/auth';
 

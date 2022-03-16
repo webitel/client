@@ -63,9 +63,10 @@ export default {
   }),
   computed: {
     baseUrl() {
-      const baseUrl = process.env.VUE_APP_CHAT_URL;
+      const originUrl = process.env.VUE_APP_CHAT_ORIGIN;
+      const chatUrl = process.env.VUE_APP_CHAT_URL;
       const uri = this.$store.getters[`${this.namespace}/${this.subNamespace}/BASE_URL`];
-      return `${baseUrl}/${uri}`;
+      return `${originUrl}${chatUrl}/${uri}`;
     },
   },
   methods: {
