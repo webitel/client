@@ -1,17 +1,3 @@
-process.env.VUE_APP_API_URL = process.env.NODE_ENV === 'production' ? '/api' : 'https://dev.webitel.com/api';
-// process.env.VUE_APP_CHAT_URL = process.env.NODE_ENV === 'production' ? '/chat' : '';
-
-process.env.VUE_APP_AUTH_MODULE_URL = process.env.NODE_ENV === 'production' ? '/app/auth' : 'http://dev.webitel.com/app/auth';
-
-process.env.VUE_APP_ADMIN_URL = process.env.NODE_ENV === 'production' ? '/admin' : 'https://dev.webitel.com/admin';
-process.env.VUE_APP_AGENT_URL = process.env.NODE_ENV === 'production' ? '/workspace' : 'https://dev.webitel.com/workspace';
-process.env.VUE_APP_SUPERVISOR_URL = process.env.NODE_ENV === 'production' ? '/supervisor' : 'https://dev.webitel.com/supervisor';
-process.env.VUE_APP_AUDIT_URL = process.env.NODE_ENV === 'production' ? '/audit' : 'https://dev.webitel.com/audit';
-process.env.VUE_APP_HISTORY_URL = process.env.NODE_ENV === 'production' ? '/history' : 'https://dev.webitel.com/history';
-process.env.VUE_APP_GRAFANA_URL = process.env.NODE_ENV === 'production' ? '/grafana' : 'https://dev.webitel.com/grafana';
-process.env.VUE_APP_OMNI_WIDGET_URL = process.env.NODE_ENV === 'production' ? '/omni-widget' : 'https://dev.webitel.com/omni-widget';
-process.env.VUE_APP_FLOW_DIAGRAM_URL = process.env.NODE_ENV === 'production' ? '/flow-diagram' : 'https://dev.webitel.com/flow-diagram';
-
 process.env.VUE_APP_PACKAGE_VERSION = require('./package.json').version;
 
 const MonacoWebpackPlugin = require('monaco-editor-webpack-plugin');
