@@ -96,7 +96,6 @@ export default {
             metadata: {
               clientId: { required },
               clientSecret: { required },
-              url: { required },
             },
           },
         };
