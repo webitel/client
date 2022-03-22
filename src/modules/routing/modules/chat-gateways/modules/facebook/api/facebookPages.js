@@ -1,10 +1,11 @@
+import path from 'path';
 import axios from 'axios';
 import instance from '../../../../../../../app/api/instance';
 import defaultInterceptorsSetup
   from '../../../../../../../app/api/interceptors/defaultInterceptorsSetup';
 import getChatOriginUrl from '../../../scripts/getChatOriginUrl';
 
-const chatBaseUrl = getChatOriginUrl().concat(process.env.VUE_APP_CHAT_URL);
+const chatBaseUrl = path.join(getChatOriginUrl(), process.env.VUE_APP_CHAT_URL);
 
 const facebookPagesInstance = axios.create({
                                              ...instance.config,
