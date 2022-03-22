@@ -1,7 +1,7 @@
 <template>
   <wt-page-wrapper :actions-panel="false">
     <template slot="header">
-      <object-header>
+      <object-header hide-primary>
         <headline-nav :path="path"></headline-nav>
         <template slot="actions">
           <download-files-btn
@@ -153,7 +153,6 @@
 
 <script>
 import exportFilesMixin from '@webitel/ui-sdk/src/modules/FilesExport/mixins/exportFilesMixin';
-import eventBus from '@webitel/ui-sdk/src/scripts/eventBus';
 import prettifyFileSize from '@webitel/ui-sdk/src/scripts/prettifyFileSize';
 import vueDropzone from 'vue2-dropzone';
 import DownloadFilesBtn from '../../../../../app/components/utils/download-files-btn.vue';
@@ -187,7 +186,7 @@ export default {
         url: `${API_URL}/storage/media?access_token=${token}`,
         thumbnailWidth: 150,
         // maxFilesize: 0.5,
-        acceptedFiles: '.mp3, .wav, .mpeg',
+        // acceptedFiles: '.mp3, .wav, .mpeg',
         uploadMultiple: true,
       },
     };
@@ -241,9 +240,9 @@ export default {
     // used for updating loaded files number on UI
     onFileError(file, message) {
       this.loadedCount += 1;
-      eventBus.$emit('notification', {
+      this.$eventBus.$emit('notification', {
         type: 'error',
-        text: message.message,
+        text: message.message || message,
       });
     },
 
