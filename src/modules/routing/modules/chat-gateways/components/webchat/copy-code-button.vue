@@ -13,6 +13,7 @@
 </template>
 
 <script>
+import path from 'path';
 import clipboardCopy from 'clipboard-copy';
 import getChatOriginUrl from '../../scripts/getChatOriginUrl';
 
@@ -31,7 +32,7 @@ const defaultConfig = {
 const SCRIPT_URL = getChatOriginUrl();
 const CHAT_URL = process.env.VUE_APP_CHAT_URL;
 
-const SERVER_URL = SCRIPT_URL.replace(/^http/, 'ws').concat(CHAT_URL);
+const SERVER_URL = new URL(path.normalize(CHAT_URL), SCRIPT_URL.replace(/^http/, 'ws'));
 
 const getConfig = (userConfig) => Object.keys(defaultConfig)
                                         .reduce((config, key) => ({
@@ -58,7 +59,7 @@ const generateCode = ({
                         alternativeChannels,
                       }) => `
       const script = document.createElement('script');
-      script.src = '${SCRIPT_URL}/omni-widget/WtOmniWidget.umd.js';
+      script.src = '${new URL(path.normalize('/omni-widget/WtOmniWidget.umd.js'), SCRIPT_URL)}';
       script.onload = function () {
         const body = document.querySelector('body');
         const widgetEl = document.createElement('div');
@@ -66,7 +67,7 @@ const generateCode = ({
         body.appendChild(widgetEl);
 
         const config = {
-            wsUrl: "${SERVER_URL}${uri}",
+            wsUrl: "${new URL(path.normalize(uri), SERVER_URL)}",
             borderRadiusStyle: "${borderRadiusStyle}",
             accentColor: "${accentColor}",
             btnOpacity: "${btnOpacity}",
@@ -82,7 +83,7 @@ const generateCode = ({
       document.head.appendChild(script);
 
       const link = document.createElement('link');
-      link.href = '${SCRIPT_URL}/omni-widget/WtOmniWidget.css';
+      link.href = '${new URL(path.normalize('/omni-widget/WtOmniWidget.css'), SCRIPT_URL)}';
       link.type = 'text/css';
       link.rel = 'stylesheet';
       link.media = 'screen,print';

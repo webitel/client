@@ -3,19 +3,19 @@ import FacebookPagesAPI from '../api/facebookPages';
 import headers from './_internals/headers';
 
 const getters = {
-  BASE_URL: (s, g, rootState) => rootState.routing.chatGateways.itemInstance.uri,
+  CHAT_URI: (s, g, rootState) => rootState.routing.chatGateways.itemInstance.uri,
 };
 
 const actions = {
   LOAD_DATA_LIST: async (context) => {
-    const baseUrl = context.getters.BASE_URL;
-    const items = await context.dispatch('GET_LIST', { baseUrl });
+    const uri = context.getters.CHAT_URI;
+    const items = await context.dispatch('GET_LIST', { uri });
     context.commit('SET_DATA_LIST', items);
   },
   UPDATE_SUBSCRIPTION_STATE: async (context, { value, item }) => {
     try {
-      const baseUrl = context.getters.BASE_URL;
-      await FacebookPagesAPI.updateSubscribe({ baseUrl, value, id: item.id });
+      const uri = context.getters.CHAT_URI;
+      await FacebookPagesAPI.updateSubscribe({ uri, value, id: item.id });
     } finally {
       await context.dispatch('LOAD_DATA_LIST');
     }

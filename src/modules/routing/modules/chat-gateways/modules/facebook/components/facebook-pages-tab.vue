@@ -49,6 +49,7 @@
 </template>
 
 <script>
+import path from 'path';
 import { mapActions } from 'vuex';
 import openedObjectTableTabMixin
   from '../../../../../../../app/mixins/objectPagesMixins/openedObjectTableTabMixin/openedObjectTableTabMixin';
@@ -66,8 +67,8 @@ export default {
     baseUrl() {
       const originUrl = getChatOriginUrl();
       const chatUrl = process.env.VUE_APP_CHAT_URL;
-      const uri = this.$store.getters[`${this.namespace}/${this.subNamespace}/BASE_URL`];
-      return `${originUrl}${chatUrl}/${uri}`;
+      const uri = this.$store.getters[`${this.namespace}/${this.subNamespace}/CHAT_URI`];
+      return new URL(path.join(chatUrl, uri), originUrl);
     },
   },
   methods: {
