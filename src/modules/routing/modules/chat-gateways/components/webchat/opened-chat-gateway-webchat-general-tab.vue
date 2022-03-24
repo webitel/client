@@ -73,6 +73,7 @@
 </template>
 
 <script>
+import path from "path";
 import { mapActions } from 'vuex';
 import openedTabComponentMixin
   from '../../../../../../app/mixins/objectPagesMixins/openedObjectTabMixin/openedTabComponentMixin';
@@ -109,6 +110,10 @@ export default {
 
     loadDropdownOptionsList(params) {
       return FlowsAPI.getLookup(params);
+    },
+    modifyUriCopy(value) {
+      const base = window.location.origin.replace('http', 'ws');
+      return new URL(path.join(process.env.VUE_APP_CHAT_URL, value), base);
     },
   },
 };
