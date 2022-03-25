@@ -593,14 +593,13 @@ export default {
           successResetCount: 'Successfully reset {count} members',
         },
         endCause: {
-          sysShutdown: 'System shutdown1',
-          dbError: 'Database error',
           abandoned: 'Abandoned',
           timeout: 'Timeout',
           cancel: 'Cancel',
-          successful: 'Successful',
-          queueNotImplement: 'Queue not implemented',
-          unknown: 'Unknown',
+          success: 'Success',
+          failed: 'Failed',
+          missed: 'Missed',
+          expired: 'Expired',
         },
       },
 
