@@ -1,31 +1,27 @@
 <template>
   <div class="copy-input">
     <wt-input
-      ref="copy-input"
-      :disabled="disabled"
-      :label="label"
-      :required="required"
-      :v="v"
+      v-bind="{ ...$attrs }"
       :value="value"
       @input="input"
-    ></wt-input>
-
-    <div :style="iconExtensionStyle" class="copy-input__icon-extension">
-      <wt-icon-btn
-        v-show="!isCopied"
-        :tooltip="$t('objects.copy')"
-        class="copy-input__icon-btn copy-input__icon-btn--copy"
-        icon="copy"
-        @click="copy"
-      ></wt-icon-btn>
-      <wt-icon-btn
-        v-show="isCopied"
-        :tooltip="$t('objects.copied')"
-        class="copy-input__icon-btn copy-input__icon-btn--tick"
-        color="true"
-        icon="done"
-      ></wt-icon-btn>
-    </div>
+    >
+      <template slot="after-input">
+        <wt-icon-btn
+          v-show="!isCopied"
+          :tooltip="$t('objects.copy')"
+          class="copy-input__icon-btn copy-input__icon-btn--copy"
+          icon="copy"
+          @click="copy"
+        ></wt-icon-btn>
+        <wt-icon-btn
+          v-show="isCopied"
+          :tooltip="$t('objects.copied')"
+          class="copy-input__icon-btn copy-input__icon-btn--tick"
+          color="true"
+          icon="done"
+        ></wt-icon-btn>
+      </template>
+    </wt-input>
   </div>
 </template>
 
@@ -41,20 +37,6 @@ export default {
     copyModifier: {
       type: Function,
     },
-    label: {
-      type: String,
-    },
-    v: {
-      type: Object,
-    },
-    required: {
-      type: Boolean,
-      default: false,
-    },
-    disabled: {
-      type: Boolean,
-      default: false,
-    },
   },
   data() {
     return {
@@ -65,15 +47,6 @@ export default {
 
   mounted() {
     this.isMounted = true;
-  },
-
-  computed: {
-    iconExtensionStyle() {
-      if (!this.isMounted) return '';
-      const inputHeight = this.$refs['copy-input'].$el.querySelector('input').offsetHeight;
-      const magicHeightNumber = -3; // dunno why, but it centers icons
-      return `top: ${inputHeight + magicHeightNumber}px;`;
-    },
   },
 
   methods: {
@@ -119,13 +92,6 @@ export default {
       }
     }
   }
-}
-
-.copy-input__icon-extension {
-  display: flex;
-  position: absolute;
-  // top: 35px; // middle of input field
-  right: 9px; // input right padding
 }
 
 .copy-input__icon-btn {

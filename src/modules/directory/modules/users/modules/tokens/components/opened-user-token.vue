@@ -18,7 +18,10 @@
     <header class="content-header">
       <h3 class="content-title">{{ $tc('objects.directory.users.token', 2) }}</h3>
 
-      <div class="content-header__actions-wrap">
+      <wt-table-actions
+        :icons="['refresh']"
+        @input="tableActionsHandler"
+      >
         <wt-icon-btn
           v-if="!disableUserInput"
           class="icon-action"
@@ -27,10 +30,6 @@
           :tooltip="actionPanelDeleteTooltip"
           @click="callDelete(selectedRows)"
         ></wt-icon-btn>
-        <wt-table-actions
-          :icons="['refresh']"
-          @input="tableActionsHandler"
-        ></wt-table-actions>
         <wt-icon-btn
           v-if="!disableUserInput"
           class="icon-action"
@@ -38,7 +37,7 @@
           :tooltip="$t('iconHints.add')"
           @click="create"
         ></wt-icon-btn>
-      </div>
+      </wt-table-actions>
     </header>
 
     <wt-loader v-show="!isLoaded"></wt-loader>

@@ -151,13 +151,6 @@
     $card-bg--hover: #fff;
     $transition: 0.6s;
 
-    // helper class
-    .typo-application-hub {
-        font-family: 'Montserrat Regular', monospace;
-        font-size: (12px);
-        line-height: (15px);
-    }
-
     // main wrapper, with header and nav
     .application-hub-wrap {
         width: 100%;
@@ -238,7 +231,7 @@
 
     // title text
     .application-link__title {
-        @extend .typo-application-hub;
+        @extend %typo-body-2;
         margin: 16px 0 0 10px;
     }
 

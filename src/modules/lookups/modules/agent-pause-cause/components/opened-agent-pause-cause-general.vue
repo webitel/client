@@ -61,6 +61,6 @@ export default {
 
 <style lang="scss" scoped>
 .form-checkbox-wrapper .wt-checkbox:not(:last-child) {
-  margin-bottom: var(--component-spacing);
+  margin-bottom: var(--spacing-sm);
 }
 </style>

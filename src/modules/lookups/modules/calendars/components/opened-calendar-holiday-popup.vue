@@ -116,6 +116,6 @@ export default {
 <style lang="scss" scoped>
 .popup-input-form {
   display: grid;
-  grid-gap: var(--component-spacing);
+  grid-gap: var(--spacing-sm);
 }
 </style>

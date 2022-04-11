@@ -2,7 +2,7 @@
   <section>
     <header class="content-header">
       <wt-icon icon="web-chat" icon-prefix="messenger" size="sm"></wt-icon>
-      <h3 class="content-title">{{ $t('objects.routing.chatGateways.webchat') }}</h3>
+      <h3 class="content-title">{{ $t('objects.routing.chatGateways.webchat.webchat') }}</h3>
     </header>
     <form class="object-input-grid">
       <wt-input
@@ -73,11 +73,12 @@
 </template>
 
 <script>
+import path from "path";
 import { mapActions } from 'vuex';
 import openedTabComponentMixin
-  from '../../../../../app/mixins/objectPagesMixins/openedObjectTabMixin/openedTabComponentMixin';
-import FlowsAPI from '../../flow/api/flow';
-import uriCopyMixin from '../mixins/uriCopyMixin';
+  from '../../../../../../app/mixins/objectPagesMixins/openedObjectTabMixin/openedTabComponentMixin';
+import FlowsAPI from '../../../flow/api/flow';
+import uriCopyMixin from '../../mixins/uriCopyMixin';
 
 export default {
   name: 'opened-chat-webchat-general-tab',
@@ -90,7 +91,7 @@ export default {
   methods: {
     ...mapActions({
       setItemMetadata(dispatch, payload) {
-        return dispatch(`${this.namespace}/SET_ITEM_METADATA`, payload);
+        return dispatch(`${this.namespace}/SET_WEBCHAT_ITEM_METADATA`, payload);
       },
     }),
 
@@ -110,11 +111,15 @@ export default {
     loadDropdownOptionsList(params) {
       return FlowsAPI.getLookup(params);
     },
+    modifyUriCopy(value) {
+      const base = window.location.origin.replace('http', 'ws');
+      return new URL(path.join(process.env.VUE_APP_CHAT_URL, value), base);
+    },
   },
 };
 </script>
 
 <style lang="scss" scoped>
-@import "../css/chat-gateways";
+@import '../../css/chat-gateways';
 
 </style>

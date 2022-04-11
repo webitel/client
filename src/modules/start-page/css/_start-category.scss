@@ -7,11 +7,12 @@
 
 .start-nav__category-option__wrapper {
   &:not(:last-child) {
-    margin-bottom: var(--component-spacing);
+    margin-bottom: var(--spacing-sm);
   }
 }
 
 .start-nav__category-option {
+  @extend %typo-body-1;
   box-sizing: border-box;
   text-align: left;
   display: flex;
@@ -23,6 +24,6 @@
   transition: var(--transition);
 
   .wt-icon {
-    margin-right: var(--icon-spacing);
+    margin-right: var(--spacing-xs);
   }
 }

@@ -18,6 +18,20 @@
           :disabled="disableUserInput"
           @input="setItemPayloadProp({ prop: 'discardAbandonedAfter', value: +$event })"
       ></wt-timepicker>
+      <wt-timepicker
+        :value="itemInstance.payload.maxIdleAgent"
+        :v="v.itemInstance.payload.maxIdleAgent"
+        :label="$t('objects.ccenter.queues.maxIdleAgent')"
+        :disabled="disableUserInput"
+        @input="setItemPayloadProp({ prop: 'maxIdleAgent', value: +$event })"
+      ></wt-timepicker>
+      <wt-timepicker
+        :value="itemInstance.payload.maxIdleClient"
+        :v="v.itemInstance.payload.maxIdleClient"
+        :label="$t('objects.ccenter.queues.maxIdleClient')"
+        :disabled="disableUserInput"
+        @input="setItemPayloadProp({ prop: 'maxIdleClient', value: +$event })"
+      ></wt-timepicker>
       <wt-switcher
         :value="itemInstance.processing"
         :label="$t('objects.ccenter.queues.processing')"

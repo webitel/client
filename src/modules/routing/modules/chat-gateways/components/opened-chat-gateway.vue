@@ -2,13 +2,20 @@
   <wt-page-wrapper :actions-panel="false">
     <template slot="header">
       <object-header
-        :primary-action="save"
-        :primary-text="computePrimaryText"
         :hide-primary="!hasSaveActionAccess"
+        :primary-action="save"
         :primary-disabled="computeDisabled"
+        :primary-text="computePrimaryText"
         :secondary-action="close"
       >
         <headline-nav :path="path"></headline-nav>
+        <template slot="actions">
+          <webchat-copy-code-button
+            v-if="isWebchat"
+            :item-instance="itemInstance"
+            @copied="handleWebchatCodeCopied"
+          ></webchat-copy-code-button>
+        </template>
       </object-header>
     </template>
 
@@ -20,8 +27,8 @@
         ></wt-tabs>
         <component
           :is="currentTab.value"
-          :v="$v"
           :namespace="namespace"
+          :v="$v"
         ></component>
       </div>
     </template>
@@ -29,18 +36,21 @@
 </template>
 
 <script>
+import { maxValue, minLength, minValue, numeric, required, url } from 'vuelidate/lib/validators';
+import { mapActions } from 'vuex';
+import openedObjectMixin from '../../../../../app/mixins/objectPagesMixins/openedObjectMixin/openedObjectMixin';
 
-import {
- required, minValue, maxValue, minLength, numeric, url,
-} from 'vuelidate/lib/validators';
-import openedObjectMixin
-  from '../../../../../app/mixins/objectPagesMixins/openedObjectMixin/openedObjectMixin';
-import OpenedChatTelegram from './opened-chat-gateway-telegram-general-tab.vue';
-import OpenedChatFacebook from './opened-chat-gateway-facebook-general-tab.vue';
-import OpenedChatInfobip from './opened-chat-gateway-infobip-general-tab.vue';
-import OpenedViewWebchat from './opened-chat-gateway-webchat-view-tab.vue';
-import OpenedWebchat from './opened-chat-gateway-webchat-general-tab.vue';
-import OpenedViberChat from './opened-chat-gateway-viber-general-tab.vue';
+import OpenedChatFacebook from './facebook/opened-chat-gateway-facebook-general-tab.vue';
+import OpenedChatFacebookPages from '../modules/facebook/components/facebook-pages-tab.vue';
+
+import OpenedChatInfobip from './infobip/opened-chat-gateway-infobip-general-tab.vue';
+import OpenedChatTelegram from './telegram/opened-chat-gateway-telegram-general-tab.vue';
+import OpenedViberChat from './viber/opened-chat-gateway-viber-general-tab.vue';
+import WebchatCopyCodeButton from './webchat/copy-code-button.vue';
+
+import OpenedWebchat from './webchat/opened-chat-gateway-webchat-general-tab.vue';
+import OpenedWebchatAlternativeChannels from './webchat/opened-chat-gateway-webchat-alternative-channels-tab.vue';
+import OpenedWebchatView from './webchat/opened-chat-gateway-webchat-view-tab.vue';
 
 export default {
   name: 'opened-chat-gateway',
@@ -48,10 +58,13 @@ export default {
   components: {
     OpenedChatTelegram,
     OpenedChatFacebook,
+    OpenedChatFacebookPages,
     OpenedChatInfobip,
-    OpenedWebchat,
     OpenedViberChat,
-    OpenedViewWebchat,
+    OpenedWebchat,
+    OpenedWebchatView,
+    OpenedWebchatAlternativeChannels,
+    WebchatCopyCodeButton,
   },
 
   data: () => ({
@@ -81,9 +94,8 @@ export default {
           itemInstance: {
             ...defaults,
             metadata: {
-              AccessToken: { required },
-              VerifyToken: { required },
-              url: { required },
+              clientId: { required },
+              clientSecret: { required },
             },
           },
         };
@@ -162,48 +174,62 @@ export default {
 
     tabs() {
       const telegramChat = {
-        text: this.$t('objects.routing.chatGateways.telegram'),
+        text: this.$t('objects.routing.chatGateways.telegram.telegram'),
         value: 'OpenedChatTelegram',
       };
+
       const facebookChat = {
-        text: this.$t('objects.routing.chatGateways.facebook'),
+        text: this.$t('objects.routing.chatGateways.facebook.facebook'),
         value: 'OpenedChatFacebook',
       };
+      const facebookChatPages = {
+        text: this.$t('objects.routing.chatGateways.facebook.pages.pages'),
+        value: 'OpenedChatFacebookPages',
+      };
+      const facebook = this.id ? [facebookChat, facebookChatPages] : [facebookChat];
+
       const infobipChat = {
-        text: this.$t('objects.routing.chatGateways.infobip'),
+        text: this.$t('objects.routing.chatGateways.infobip.infobip'),
         value: 'OpenedChatInfobip',
       };
+
       const viberChat = {
-        text: this.$t('objects.routing.chatGateways.viber'),
+        text: this.$t('objects.routing.chatGateways.viber.viber'),
         value: 'OpenedViberChat',
       };
+
       const webChat = {
-        text: this.$t('objects.routing.chatGateways.webchat'),
+        text: this.$t('objects.routing.chatGateways.webchat.webchat'),
         value: 'OpenedWebchat',
       };
       const webchatView = {
-        text: this.$t('objects.routing.chatGateways.metadata.view'),
-        value: 'OpenedViewWebchat',
+        text: this.$t('objects.routing.chatGateways.webchat.view.view'),
+        value: 'OpenedWebchatView',
       };
+      const webchatAlternativeChannels = {
+        text: this.$t('objects.routing.chatGateways.webchat.alternativeChannels.alternativeChannels'),
+        value: 'OpenedWebchatAlternativeChannels',
+      };
+
       switch (this.chatType) {
         case 'telegram':
           return [telegramChat];
         case 'facebook':
-          return [facebookChat];
+          return facebook;
         case 'infobip':
           return [infobipChat];
         case 'viber':
           return [viberChat];
         case 'webchat':
-          return [webChat, webchatView];
+          return [webChat, webchatView, webchatAlternativeChannels];
         default:
           return [];
       }
     },
 
     chatGatewayTitle() {
-      const type = this.chatType;
-      return this.$t(`objects.routing.chatGateways.${type}`).concat(' ', this.$tc('objects.routing.gateways.gateways', 1));
+      return this.$t(`objects.routing.chatGateways.${this.chatType}.${this.chatType}`)
+                 .concat(' ', this.$tc('objects.routing.gateways.gateways', 1));
     },
 
     path() {
@@ -218,8 +244,17 @@ export default {
         },
       ];
     },
+
+    isWebchat() {
+      return this.chatType === 'webchat';
+    },
   },
   methods: {
+    ...mapActions({
+                    handleWebchatCodeCopied(dispatch, payload) {
+                      return dispatch(`${this.namespace}/RESET_WEBCHAT_COPY_DIRTY_FLAG`, payload);
+                    },
+                  }),
     async loadPageData() {
       await this.setId(this.$route.params.id);
       return this.loadItem(this.chatType.toUpperCase());

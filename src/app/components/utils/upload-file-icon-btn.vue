@@ -42,6 +42,7 @@ export default {
 <style lang="scss">
 .upload-file-icon-btn {
   position: relative;
+  line-height: 0;
 
   .upload-file-icon-btn__input {
     position: absolute;

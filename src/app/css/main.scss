@@ -1,13 +1,13 @@
 @import '~@webitel/ui-sdk/src/css/main';
+@import './objects/lib-custom-styling/dropzone';
+@import './objects/table-page';
+@import './objects/history-popup';
+@import './objects/objects';
 
-
-* {
-  box-sizing: border-box;
-  font-family: 'Montserrat Medium', monospace;
-}
 
 //disables scrollbar on 100vh auth on small laptops
 body {
+  @extend %typo-body-1;
   display: flex;
   min-width: 100%;
   min-height: 100%;

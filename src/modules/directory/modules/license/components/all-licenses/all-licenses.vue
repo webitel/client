@@ -24,14 +24,15 @@
         <wt-table-actions
           :icons="['refresh']"
           @input="tableActionsHandler"
-        ></wt-table-actions>
-        <wt-icon-btn
-          v-if="hasCreateAccess"
-          :tooltip="$t('iconHints.add')"
-          class="icon-action"
-          icon="plus"
-          @click="isLicensePopup = true"
-        ></wt-icon-btn>
+        >
+          <wt-icon-btn
+            v-if="hasCreateAccess"
+            :tooltip="$t('iconHints.add')"
+            class="icon-action"
+            icon="plus"
+            @click="isLicensePopup = true"
+          ></wt-icon-btn>
+        </wt-table-actions>
       </div>
     </header>
 
@@ -96,9 +97,9 @@
         </template>
 
         <template slot="status" slot-scope="{ item }">
-          <wt-badge :class="statusClass(item.notAfter)" class="license-status">
+          <wt-chip :class="statusClass(item.notAfter)" class="license-status">
             {{ statusText(item.notAfter) }}
-          </wt-badge>
+          </wt-chip>
         </template>
       </wt-table>
       <wt-pagination
@@ -218,12 +219,12 @@ export default {
   align-items: center;
 
   .wt-icon {
-    margin-right: var(--spacing--xs);
+    margin-right: var(--spacing-2xs);
   }
 }
 
 .name-link .wt-icon {
-  margin-right: var(--spacing--xs);
+  margin-right: var(--spacing-2xs);
 }
 
 .license-status {

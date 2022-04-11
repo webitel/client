@@ -1,8 +1,8 @@
 <template>
   <section>
     <header class="content-header">
-      <wt-icon icon="infobip" icon-prefix="messenger" size="sm"></wt-icon>
-      <h3 class="content-title">{{ $t('objects.routing.chatGateways.infobip') }}</h3>
+      <wt-icon icon="viber" icon-prefix="messenger" size="sm"></wt-icon>
+      <h3 class="content-title">{{ $t('objects.routing.chatGateways.viber.viber') }}</h3>
     </header>
     <form class="object-input-grid">
       <wt-input
@@ -14,10 +14,10 @@
       ></wt-input>
       <wt-input
         :disabled="disableUserInput"
-        :label="$t('objects.routing.chatGateways.metadata.apiKey')"
-        :v="v.itemInstance.metadata.apiKey"
-        :value="itemInstance.metadata.apiKey"
-        @input="setItemMetadata({ prop: 'apiKey', value: $event })"
+        :label="$tc('objects.directory.users.token', 1)"
+        :v="v.itemInstance.metadata.token"
+        :value="itemInstance.metadata.token"
+        @input="setItemMetadata({ prop: 'token', value: $event })"
       ></wt-input>
       <copy-input
         :copy-modifier="modifyUriCopy"
@@ -30,10 +30,9 @@
       ></copy-input>
       <wt-input
         :disabled="disableUserInput"
-        :label="$t('objects.routing.chatGateways.metadata.number')"
-        :v="v.itemInstance.metadata.number"
-        :value="itemInstance.metadata.number"
-        @input="setItemMetadata({ prop: 'number', value: $event })"
+        :label="$t('objects.routing.chatGateways.metadata.botName')"
+        :value="itemInstance.metadata.botName"
+        @input="setItemMetadata({ prop: 'botName', value: $event })"
       ></wt-input>
       <wt-select
         :disabled="disableUserInput"
@@ -43,21 +42,12 @@
         :value="itemInstance.flow"
         @input="setFlow"
       ></wt-select>
-      <wt-input
-        :disabled="disableUserInput"
-        :label="$t('objects.routing.chatGateways.metadata.baseUrl')"
-        :v="v.itemInstance.metadata.url"
-        :value="itemInstance.metadata.url"
-        @input="setItemMetadata({ prop: 'url', value: $event })"
-      ></wt-input>
-      <!--      Empty div in order to have correct page design-->
-      <div></div>
-      <wt-input
-        :disabled="disableUserInput"
-        :label="$t('objects.routing.chatGateways.metadata.scenarioKey')"
-        :value="itemInstance.metadata.scenarioKey"
-        @input="setItemMetadata({ prop: 'scenarioKey', value: $event })"
-      ></wt-input>
+      <!--      <wt-input-->
+      <!--        :value="itemInstance.metadata.eventTypes"-->
+      <!--        :label="$t('objects.routing.chatGateways.metadata.eventTypes')"-->
+      <!--        :disabled="disableUserInput"-->
+      <!--        @input="setItemMetadata({ prop: 'eventTypes', value: $event })"-->
+      <!--      ></wt-input>-->
     </form>
   </section>
 </template>
@@ -65,12 +55,12 @@
 <script>
 import { mapActions } from 'vuex';
 import openedTabComponentMixin
-  from '../../../../../app/mixins/objectPagesMixins/openedObjectTabMixin/openedTabComponentMixin';
-import FlowsAPI from '../../flow/api/flow';
-import uriCopyMixin from '../mixins/uriCopyMixin';
+  from '../../../../../../app/mixins/objectPagesMixins/openedObjectTabMixin/openedTabComponentMixin';
+import FlowsAPI from '../../../flow/api/flow';
+import uriCopyMixin from '../../mixins/uriCopyMixin';
 
 export default {
-  name: 'opened-chat-gateway-infobip-general-tab',
+  name: 'opened-chat-viber-general-tab',
   mixins: [openedTabComponentMixin, uriCopyMixin],
   computed: {
     isUriEditable() {
@@ -105,5 +95,5 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-@import "../css/chat-gateways";
+@import '../../css/chat-gateways';
 </style>

@@ -64,11 +64,11 @@ export default {
 }
 
 .token-created-popup__token__token {
-  @extend %typo-strong-md;
+  @extend %typo-subtitle-2;
   text-align: center;
 }
 
 .token-created-popup__text {
-  @extend %typo-body-lg;
+  @extend %typo-body-1;
 }
 </style>

@@ -47,29 +47,30 @@
             <!--                @search="loadList"-->
             <!--                @enter="loadList"-->
             <!--            ></wt-search-bar>-->
-            <wt-icon-btn
-              v-if="hasEditAccess"
-              icon="clear"
-              :tooltip="$t('objects.ccenter.members.resetMembers.resetMembers')"
-              @click="openResetPopup"
-            ></wt-icon-btn>
-            <wt-icon-btn
-              v-if="hasEditAccess && isNotInboundMember"
-              class="icon-action"
-              icon="bucket"
-              :tooltip="actionPanelDeleteTooltip"
-              @click="callDelete(selectedRows)"
-            ></wt-icon-btn>
-            <upload-file-icon-btn
-              v-if="hasEditAccess && isNotInboundMember"
-              class="icon-action"
-              accept=".csv"
-              @change="processCSV"
-            ></upload-file-icon-btn>
             <wt-table-actions
               :icons="['refresh']"
               @input="tableActionsHandler"
-            ></wt-table-actions>
+            >
+              <wt-icon-btn
+                v-if="hasEditAccess"
+                icon="clear"
+                :tooltip="$t('objects.ccenter.members.resetMembers.resetMembers')"
+                @click="openResetPopup"
+              ></wt-icon-btn>
+              <wt-icon-btn
+                v-if="hasEditAccess && isNotInboundMember"
+                class="icon-action"
+                icon="bucket"
+                :tooltip="actionPanelDeleteTooltip"
+                @click="callDelete(selectedRows)"
+              ></wt-icon-btn>
+              <upload-file-icon-btn
+                v-if="hasEditAccess && isNotInboundMember"
+                class="icon-action"
+                accept=".csv"
+                @change="processCSV"
+              ></upload-file-icon-btn>
+            </wt-table-actions>
           </div>
         </header>
 
@@ -87,7 +88,7 @@
               </span>
             </template>
             <template slot="createdAt" slot-scope="{ item }">
-              {{ prettifyDate(item.createdAt) }}
+              {{ prettifyDateTime(item.createdAt) }}
             </template>
             <template slot="offeringAt" slot-scope="{ item }">
               <div v-if="item.minOfferingAt">
@@ -98,7 +99,13 @@
               {{ item.priority }}
             </template>
             <template slot="endCause" slot-scope="{ item }">
-              {{ prettifyStopCause(item.stopCause) }}
+              <div v-if="item.stopCause">
+                {{
+                  $te(`objects.ccenter.members.endCause.${item.stopCause.toLowerCase()}`)
+                    ? $t(`objects.ccenter.members.endCause.${item.stopCause.toLowerCase()}`)
+                    : item.stopCause
+                }}
+              </div>
             </template>
             <template slot="destination" slot-scope="{ item }">
               <div class="members__destinations-wrapper" v-if="item.communications.length">
@@ -194,33 +201,6 @@ export default {
   },
 
   methods: {
-    prettifyStopCause(cause) {
-      if (!cause) return '';
-
-      switch (cause) {
-        case 'shutdown':
-          return this.$t('objects.ccenter.members.endCause.sysShutdown');
-        case 'database_error':
-          return this.$t('objects.ccenter.members.endCause.dbError');
-        case 'abandoned':
-          return this.$t('objects.ccenter.members.endCause.abandoned');
-        case 'timeout':
-          return this.$t('objects.ccenter.members.endCause.timeout');
-        case 'cancel':
-          return this.$t('objects.ccenter.members.endCause.cancel');
-        case 'success':
-          return this.$t('objects.ccenter.members.endCause.successful');
-        case 'QUEUE_NOT_IMPLEMENT':
-          return this.$t('objects.ccenter.members.endCause.queueNotImplement');
-        default:
-          return cause;
-      }
-    },
-
-    prettifyDate(createdAt) {
-      return new Date(+createdAt).toLocaleDateString();
-    },
-
     prettifyDateTime(timestamp) {
       return new Date(+timestamp).toLocaleString();
     },
@@ -306,7 +286,7 @@ export default {
 }
 
 .members__destinations-num {
-  @extend %typo-body-md;
+  @extend %typo-body-2;
 
   margin-left: 20px;
   text-decoration: underline;

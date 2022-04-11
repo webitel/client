@@ -24,27 +24,27 @@ export default {
     options() {
       const telegram = {
         value: 'telegram',
-        title: this.$t('objects.routing.chatGateways.telegram'),
+        title: this.$t('objects.routing.chatGateways.telegram.telegram'),
         icon: 'messenger-telegram',
       };
       const infobip = {
         value: 'infobip',
-        title: this.$t('objects.routing.chatGateways.infobip'),
+        title: this.$t('objects.routing.chatGateways.infobip.infobip'),
         icon: 'messenger-infobip',
       };
       const facebook = {
         value: 'facebook',
-        title: this.$t('objects.routing.chatGateways.facebook'),
+        title: this.$t('objects.routing.chatGateways.facebook.facebook'),
         icon: 'messenger-facebook',
       };
       const viber = {
         value: 'viber',
-        title: this.$t('objects.routing.chatGateways.viber'),
+        title: this.$t('objects.routing.chatGateways.viber.viber'),
         icon: 'messenger-viber',
       };
       const webchat = {
         value: 'webchat',
-        title: this.$t('objects.routing.chatGateways.webchat'),
+        title: this.$t('objects.routing.chatGateways.webchat.webchat'),
         icon: 'messenger-web-chat',
       };
       return [telegram, infobip, facebook, viber, webchat];

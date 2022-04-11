@@ -9,6 +9,7 @@ export default {
   mixins: [openedTabComponentMixin, tableComponentMixin],
   data: () => ({
     isRoleSelectPopup: false,
+    accessMode: AccessMode,
   }),
   destroyed() {
     this.resetState();

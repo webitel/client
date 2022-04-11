@@ -9,13 +9,13 @@ export default {
       return this.$store.getters[`${this.namespace}/${this.subNamespace}/GET_ITEM_PROP_BY_ID`](this.openedItemId, 'supervisor');
     },
     openedItemSupervisorHeaders() {
-      return [{ value: 'name', text: this.$tc('objects.ccenter.agents.supervisors', 1) }];
+      return [{ value: 'name', text: this.$t('reusable.name') }];
     },
     openedItemSkills() {
       return this.$store.getters[`${this.namespace}/${this.subNamespace}/GET_ITEM_PROP_BY_ID`](this.openedItemId, 'skills');
     },
     openedItemSkillsHeaders() {
-      return [{ value: 'name', text: this.$tc('objects.lookups.skills.skills', 1) }];
+      return [{ value: 'name', text: this.$t('reusable.name') }];
     },
   },
   methods: {

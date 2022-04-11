@@ -6,8 +6,12 @@ import store from './app/store/store';
 import i18n from './app/locale/i18n';
 import './app/plugins/webitel-ui';
 
-// import './assets/lib/bootstrap-grid.min.css';
-import './app/css/fonts.scss';
+/*
+Don't know why, but without this empty file import styles just breaking :/
+I suppose, it's a problem with webpack or sass/sass loader.
+I think, this issue should go on migration to Vue 3, so I left it "as is".
+ */
+import './app/css/do-not-delete-me.scss';
 
 import './app/assets/icons/sprite';
 

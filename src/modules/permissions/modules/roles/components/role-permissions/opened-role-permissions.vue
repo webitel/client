@@ -16,12 +16,6 @@
         {{ $tc('objects.permissions.roles.permissions.permissions', 2) }}
       </h3>
       <div class="content-header__actions-wrap">
-        <wt-search-bar
-          v-model="search"
-          debounce
-          @enter="loadList"
-          @search="loadList"
-        ></wt-search-bar>
         <wt-icon-btn
           v-if="!disableUserInput"
           :tooltip="actionPanelDeleteTooltip"

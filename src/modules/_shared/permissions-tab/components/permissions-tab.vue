@@ -13,13 +13,14 @@
         <wt-table-actions
           :icons="['refresh']"
           @input="tableActionsHandler"
-        ></wt-table-actions>
-        <wt-icon-btn
-          v-if="!disableUserInput"
-          class="icon-action"
-          icon="plus"
-          @click="openRoleSelectPopup"
-        ></wt-icon-btn>
+        >
+          <wt-icon-btn
+            v-if="!disableUserInput"
+            class="icon-action"
+            icon="plus"
+            @click="openRoleSelectPopup"
+          ></wt-icon-btn>
+        </wt-table-actions>
       </div>
     </header>
 
@@ -66,6 +67,11 @@
             :disabled="disableUserInput"
             @input="changeDeleteAccessMode({ item, mode: $event })"
           ></wt-select>
+        </template>
+        <template slot="actions" slot-scope="{ item }">
+          <delete-action
+            @click="changeReadAccessMode({ item, mode: { id: accessMode.FORBIDDEN }})"
+          ></delete-action>
         </template>
       </wt-table>
       </div>

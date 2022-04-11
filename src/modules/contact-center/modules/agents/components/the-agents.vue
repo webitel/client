@@ -28,31 +28,32 @@
             <wt-search-bar
               :value="search"
               debounce
+              @enter="loadList"
               @input="setSearch"
               @search="loadList"
-              @enter="loadList"
             ></wt-search-bar>
-            <wt-icon-btn
-              v-if="hasDeleteAccess"
-              class="icon-action"
-              :class="{'hidden': anySelected}"
-              icon="bucket"
-              :tooltip="actionPanelDeleteTooltip"
-              @click="callDelete(selectedRows)"
-            ></wt-icon-btn>
             <wt-table-actions
               :icons="['refresh']"
               @input="tableActionsHandler"
-            ></wt-table-actions>
+            >
+              <wt-icon-btn
+                v-if="hasDeleteAccess"
+                :class="{'hidden': anySelected}"
+                :tooltip="actionPanelDeleteTooltip"
+                class="icon-action"
+                icon="bucket"
+                @click="callDelete(selectedRows)"
+              ></wt-icon-btn>
+            </wt-table-actions>
           </div>
         </header>
 
         <wt-loader v-show="!isLoaded"></wt-loader>
-        <div class="table-wrapper" v-show="isLoaded">
+        <div v-show="isLoaded" class="table-wrapper">
           <wt-table
-            :headers="headers"
             :data="dataList"
             :grid-actions="hasTableActions"
+            :headers="headers"
             sortable
             @sort="sort"
           >
@@ -63,8 +64,8 @@
             </template>
             <template slot="state" slot-scope="{ item }">
               <wt-indicator
-                :color="statusIndicatorColor[item.status]"
-                :text="statusIndicatorText[item.status]"
+                :color="statusIndicatorColor[snakeToCamel(item.status)]"
+                :text="statusIndicatorText[snakeToCamel(item.status)]"
               ></wt-indicator>
             </template>
             <template slot="time" slot-scope="{ item }">
@@ -90,14 +91,14 @@
             </template>
           </wt-table>
           <wt-pagination
-            :size="size"
             :next="isNext"
             :prev="page > 1"
+            :size="size"
             debounce
+            @change="loadList"
+            @input="setSize"
             @next="nextPage"
             @prev="prevPage"
-            @input="setSize"
-            @change="loadList"
           ></wt-pagination>
         </div>
       </section>
@@ -106,13 +107,13 @@
 </template>
 
 <script>
-import { mapState, mapActions } from 'vuex';
+import { snakeToCamel } from '@webitel/ui-sdk/src/scripts/caseConverters';
 import getNamespacedState from '@webitel/ui-sdk/src/store/helpers/getNamespacedState';
-import HistoryPopup from './agent-history-popup.vue';
-import tableComponentMixin
-  from '../../../../../app/mixins/objectPagesMixins/objectTableMixin/tableComponentMixin';
+import { mapActions, mapState } from 'vuex';
+import tableComponentMixin from '../../../../../app/mixins/objectPagesMixins/objectTableMixin/tableComponentMixin';
 import RouteNames from '../../../../../app/router/_internals/RouteNames.enum';
 import agentStatusMixin from '../../../mixins/agentStatusMixin';
+import HistoryPopup from './agent-history-popup.vue';
 
 export default {
   name: 'the-agents',
@@ -156,6 +157,7 @@ export default {
     closeHistoryPopup() {
       this.openHistory(null);
     },
+    snakeToCamel,
   },
 };
 </script>

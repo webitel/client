@@ -1,43 +1,42 @@
 <template>
   <div class="generate-password-input">
     <wt-input
-        ref="input-password"
         :value="passwordRepresentation"
         :v="v"
         :label="$t('objects.password')"
         :placeholder="$t('objects.password')"
         :required="required"
         :disabled="disabled"
-        :label-props="{ hint: $t('objects.directory.passwordInfo') }"
+        :label-props="{ hint: $t('objects.directory.passwordInfo'), hintPosition: 'right' }"
         @input="input"
-    ></wt-input>
-
-    <div
-      v-if="!disabled"
-      class="generate-password-input__icon-extension"
-      :style="iconExtensionStyle"
     >
-      <wt-icon-btn
-          v-show="passwordRepresentation && !isCopied"
-          class="generate-password-input__icon-btn generate-password-input__icon-btn--copy"
-          icon="copy"
-          :tooltip="$t('objects.copy')"
-          @click="copyPassword"
-      ></wt-icon-btn>
-      <wt-icon-btn
-          v-show="passwordRepresentation && isCopied"
-          class="generate-password-input__icon-btn generate-password-input__icon-btn--tick"
-          icon="done"
-          color="true"
-          :tooltip="$t('objects.copied')"
-      ></wt-icon-btn>
-      <wt-icon-btn
-          class="generate-password-input__icon-btn generate-password-input__icon-btn--generate"
-          icon="generate"
-          :tooltip="$t('iconHints.generate')"
-          @click="generatePassword"
-      ></wt-icon-btn>
-    </div>
+      <template
+          v-if="!disabled"
+          slot="after-input"
+        >
+          <wt-icon-btn
+            v-show="passwordRepresentation && !isCopied"
+            class="generate-password-input__icon-btn generate-password-input__icon-btn--copy"
+            icon="copy"
+            :tooltip="$t('objects.copy')"
+            @click="copyPassword"
+          ></wt-icon-btn>
+          <wt-icon-btn
+            v-show="passwordRepresentation && isCopied"
+            class="generate-password-input__icon-btn generate-password-input__icon-btn--tick"
+            icon="done"
+            color="true"
+            :tooltip="$t('objects.copied')"
+          ></wt-icon-btn>
+          <wt-icon-btn
+            class="generate-password-input__icon-btn generate-password-input__icon-btn--generate"
+            icon="generate"
+            :tooltip="$t('iconHints.generate')"
+            @click="generatePassword"
+          ></wt-icon-btn>
+        </template>
+    </wt-input>
+
   </div>
 </template>
 
@@ -80,13 +79,6 @@ export default {
     passwordRepresentation() {
       return this.value.length <= MIN_HASH_SIZE ? this.value : '';
     },
-
-    iconExtensionStyle() {
-      if (!this.isMounted) return '';
-      const inputHeight = this.$refs['input-password'].$el.querySelector('input').offsetHeight;
-      const magicHeightNumber = -3; // dunno why, but it centers icons
-      return `top: ${inputHeight + magicHeightNumber}px;`;
-    },
   },
 
   methods: {
@@ -118,12 +110,6 @@ export default {
 <style lang="scss" scoped>
 .generate-password-input {
   position: relative;
-
-  ::v-deep .wt-label {
-    @extend %typo-body-md;
-    // change margin due to icon size in label (18px default label height -> 24px with icon)
-    margin-bottom: 4px;
-  }
 }
 
 .generate-password-input__label-wrapper {
@@ -131,15 +117,8 @@ export default {
   align-items: center;
 }
 
-.generate-password-input__icon-extension {
-  display: flex;
-  position: absolute;
- // top: 35px; // middle of input field
-  right: 9px; // input right padding
-}
-
 .generate-password-input__icon-btn {
-  margin-left: 10px;
+  margin-left: var(--spacing-xs);
 
   ::v-deep .wt-tooltip {
     overflow-wrap: normal;

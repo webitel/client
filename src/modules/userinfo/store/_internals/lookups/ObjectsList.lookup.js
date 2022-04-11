@@ -12,7 +12,8 @@ export default Object.freeze([
   { field: 'flow', name: AdminSections.FLOW, route: RouteNames.FLOW },                          // scope: flow
   { field: 'acr_routing', name: AdminSections.DIALPLAN, route: RouteNames.DIALPLAN },                  // scope: acr_routing
   { field: 'gateways', name: AdminSections.GATEWAYS, route: RouteNames.GATEWAYS },                  // scope: gateways
-  { field: 'chats', name: AdminSections.CHAT_GATEWAYS, route: RouteNames.CHAT_GATEWAYS }, // scope: chats
+  { field: 'acr_routing', name: AdminSections.CHATPLAN, route: RouteNames.CHATPLAN },      // scope: acr_routing
+  { field: 'chats', name: AdminSections.CHAT_GATEWAYS, route: RouteNames.CHAT_GATEWAYS },     // scope: chats
 
   // LOOKUPS
   { field: 'cc_list', name: AdminSections.BLACKLIST, route: RouteNames.BLACKLIST },                // scope: cc_list

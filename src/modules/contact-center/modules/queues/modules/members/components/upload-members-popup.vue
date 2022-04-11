@@ -1,8 +1,8 @@
 <template>
   <upload-csv-popup
     v-model="mappingFields"
-    :file="file"
     :add-bulk-items="saveBulkData"
+    :file="file"
     @close="close"
   ></upload-csv-popup>
 </template>
@@ -13,9 +13,9 @@ import uploadCSVWrapperComponentMixin
 import CommunicationsAPI from '../../../../../../lookups/modules/communications/api/communications';
 import QueueMembersAPI from '../api/queueMembers';
 
-const findCommunicationIdByName = ({ communications, code }) => {
-  return communications.find((communication) => communication.code === code)?.id;
-};
+const findCommunicationIdByName = ({ communications, code }) => (
+  communications.find((communication) => communication.code === code).id
+);
 
 export default {
   name: 'upload-members-popup',
@@ -78,7 +78,7 @@ export default {
       },
       {
         text: 'Communication code',
-        name: 'type',
+        name: 'code',
         required: true,
         multiple: true,
         csv: [],
@@ -133,13 +133,18 @@ export default {
         normalizedItem.communications = [];
         const commLength = Math.max(
           normalizedItem.destination.length,
-          normalizedItem.type.length,
+          normalizedItem.code.length,
         );
         for (let index = 0; index < commLength; index += 1) {
-          const id = findCommunicationIdByName({
-            communications: this.allCommunications,
-            code: normalizedItem.type[index],
-          });
+          let id;
+          try {
+            id = findCommunicationIdByName({
+              communications: this.allCommunications,
+              code: normalizedItem.code[index],
+            });
+          } catch (err) {
+            throw new ReferenceError(`cannot find communication: ${normalizedItem.code[index]}`);
+          }
           const communication = {
             destination: normalizedItem.destination[index],
             type: { id },
@@ -152,8 +157,9 @@ export default {
           }
           normalizedItem.communications.push(communication);
         }
+
         delete normalizedItem.destination;
-        delete normalizedItem.type;
+        delete normalizedItem.code;
         delete normalizedItem.commPriority;
         delete normalizedItem.description;
 

@@ -2,13 +2,15 @@ import ObjectStoreModule
   from '../../../../../app/store/BaseStoreModules/StoreModules/ObjectStoreModule';
 import proxy from '../../../../../app/utils/editProxy';
 import ChatGatewaysAPI from '../api/chatGateways';
-import headers from './_internals/headers';
 import defaultChatGateway from './_internals/defaults/defaultChatGateway';
+import headers from './_internals/headers';
 import facebookChatGateway from './_internals/providers/facebookChatGateway';
 import infobipChatGateway from './_internals/providers/infobipChatGateway';
 import telegramChatGateway from './_internals/providers/telegramChatGateway';
 import viberChatGateway from './_internals/providers/viberChatGateway';
 import webChatGateway from './_internals/providers/webChatGateway';
+
+import facebookPages from '../modules/facebook/store/facebookPages';
 
 const resettableState = {
   itemInstance: {
@@ -29,6 +31,29 @@ const actions = {
     context.commit('SET_ITEM_METADATA', payload);
     context.commit('SET_ITEM_PROPERTY', { prop: '_dirty', value: true });
   },
+  SET_WEBCHAT_ITEM_METADATA: async (context, payload) => {
+    await context.dispatch('SET_ITEM_METADATA', payload);
+    context.commit('SET_ITEM_METADATA', { prop: '_btnCodeDirty', value: true });
+  },
+  SET_WEBCHAT_ALTERNATIVE_CHANNEL_VALUE: (
+    context,
+    { channel, prop, value },
+  ) => {
+    context.commit('SET_WEBCHAT_ALTERNATIVE_CHANNEL_VALUE', {
+      channel,
+      prop,
+      value,
+    });
+    context.commit('SET_ITEM_METADATA', { prop: '_btnCodeDirty', value: true });
+    context.commit('SET_ITEM_PROPERTY', { prop: '_dirty', value: true });
+  },
+  RESET_WEBCHAT_COPY_DIRTY_FLAG: (context) => {
+    context.commit('SET_ITEM_METADATA', {
+      prop: '_btnCodeDirty',
+      value: false,
+    });
+    context.commit('SET_ITEM_PROPERTY', { prop: '_dirty', value: true });
+  },
 };
 
 const mutations = {
@@ -39,7 +64,7 @@ const mutations = {
     state.itemInstance = facebookChatGateway();
   },
   SET_WEBCHAT_ITEM: (state) => {
-    state.itemInstance = webChatGateway();
+    state.itemInstance = webChatGateway(true);
   },
   SET_INFOBIP_ITEM: (state) => {
     state.itemInstance = infobipChatGateway();
@@ -50,11 +75,15 @@ const mutations = {
   SET_ITEM_METADATA: (state, { prop, value }) => {
     state.itemInstance.metadata[prop] = value;
   },
+  SET_WEBCHAT_ALTERNATIVE_CHANNEL_VALUE: (state, { channel, prop, value }) => {
+    state.itemInstance.metadata.alternativeChannels[channel][prop] = value;
+  },
 };
 
 const chatGateways = new ObjectStoreModule({ resettableState, headers })
   .attachAPIModule(ChatGatewaysAPI)
   .generateAPIActions()
+  .setChildModules({ facebookPages })
   .getModule({ actions, mutations });
 
 export default chatGateways;
