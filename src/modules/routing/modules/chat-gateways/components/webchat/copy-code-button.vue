@@ -32,7 +32,7 @@ const defaultConfig = {
 const SCRIPT_URL = getChatOriginUrl();
 const CHAT_URL = process.env.VUE_APP_CHAT_URL;
 
-const SERVER_URL = new URL(path.normalize(CHAT_URL), SCRIPT_URL.replace(/^http/, 'ws'));
+const WS_SERVER_URL = SCRIPT_URL.replace(/^http/, 'ws');
 
 const getConfig = (userConfig) => Object.keys(defaultConfig)
                                         .reduce((config, key) => ({
@@ -67,7 +67,7 @@ const generateCode = ({
         body.appendChild(widgetEl);
 
         const config = {
-            wsUrl: "${new URL(path.normalize(uri), SERVER_URL)}",
+            wsUrl: "${new URL(path.join(CHAT_URL, uri), WS_SERVER_URL)}",
             borderRadiusStyle: "${borderRadiusStyle}",
             accentColor: "${accentColor}",
             btnOpacity: "${btnOpacity}",
