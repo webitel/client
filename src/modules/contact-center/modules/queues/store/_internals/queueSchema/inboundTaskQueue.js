@@ -1,10 +1,10 @@
+import { QueueType } from 'webitel-sdk/esm2015/enums';
 import queue from './defaults/defaultQueue';
-import QueueType from '../enums/QueueType.enum';
 import { Strategy } from '../enums/Strategy.enum';
 
-const taskQueue = () => ({
+const inboundTaskQueue = () => ({
   ...queue(),
-  type: QueueType.TASK_QUEUE,
+  type: QueueType.INBOUND_TASK_QUEUE,
   team: {}, // required
   strategy: Strategy.FIFO, // required
   doSchema: {},
@@ -20,4 +20,4 @@ const taskQueue = () => ({
   },
 });
 
-export default taskQueue;
+export default inboundTaskQueue;

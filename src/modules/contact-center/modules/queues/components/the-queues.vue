@@ -120,10 +120,10 @@
 </template>
 
 <script>
+import { QueueType } from 'webitel-sdk/esm2015/enums';
 import QueuePopup from './create-queue-popup.vue';
 import tableComponentMixin
   from '../../../../../app/mixins/objectPagesMixins/objectTableMixin/tableComponentMixin';
-import QueueType from '../store/_internals/enums/QueueType.enum';
 import getQueueSubRoute from '../store/_internals/scripts/getQueueSubRoute';
 import RouteNames from '../../../../../app/router/_internals/RouteNames.enum';
 
@@ -153,7 +153,7 @@ export default {
         [QueueType.PROGRESSIVE_DIALER]: this.$t('objects.ccenter.queues.progressiveDialer'),
         [QueueType.PREDICTIVE_DIALER]: this.$t('objects.ccenter.queues.predictiveDialer'),
         [QueueType.CHAT_INBOUND_QUEUE]: this.$t('objects.ccenter.queues.chatInboundQueue'),
-        [QueueType.TASK_QUEUE]: this.$t('objects.ccenter.queues.taskQueue'),
+        [QueueType.INBOUND_TASK_QUEUE]: this.$t('objects.ccenter.queues.inboundTaskQueue'),
       };
     },
   },

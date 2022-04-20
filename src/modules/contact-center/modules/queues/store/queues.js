@@ -1,4 +1,5 @@
 import deepMerge from 'deepmerge';
+import { QueueType } from 'webitel-sdk/esm2015/enums';
 import agents from '../modules/agents/store/queue-agents';
 import buckets from '../modules/buckets/store/queue-buckets';
 import skills from '../modules/skills/store/queue-skills';
@@ -11,7 +12,6 @@ import ObjectStoreModule
   from '../../../../../app/store/BaseStoreModules/StoreModules/ObjectStoreModule';
 import PermissionsStoreModule
   from '../../../../../app/store/BaseStoreModules/StoreModules/PermissionsStoreModule/PermissionsStoreModule';
-import QueueType from './_internals/enums/QueueType.enum';
 import defaultQueueState from './_internals/queueSchema/defaults/defaultQueue';
 import defaultInboundQueueState from './_internals/queueSchema/inboundQueue';
 import defaultOutboundIVRQueueState from './_internals/queueSchema/outboundIVRQueue';
@@ -20,7 +20,7 @@ import defaultPreviewDialerState from './_internals/queueSchema/previewDialer';
 import defaultProgressiveDialerState from './_internals/queueSchema/progressiveDialer';
 import defaultPredictiveDialerState from './_internals/queueSchema/predictiveDialer';
 import defaultChatInboundQueueState from './_internals/queueSchema/chatInboundQueue';
-import defaultTaskQueueState from './_internals/queueSchema/taskQueue';
+import defaultInboundTaskQueueState from './_internals/queueSchema/inboundTaskQueue';
 import proxy from '../../../../../app/utils/editProxy';
 import headers from './_internals/headers';
 
@@ -60,8 +60,8 @@ const actions = {
       case QueueType.CHAT_INBOUND_QUEUE:
         item = deepMerge(defaultChatInboundQueueState(), item);
         break;
-      case QueueType.TASK_QUEUE:
-        item = deepMerge(defaultTaskQueueState(), item);
+      case QueueType.INBOUND_TASK_QUEUE:
+        item = deepMerge(defaultInboundTaskQueueState(), item);
         break;
     }
     context.commit('SET_ITEM', proxy(item));

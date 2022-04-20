@@ -1,4 +1,4 @@
-import QueueType from '../enums/QueueType.enum';
+import { QueueType } from 'webitel-sdk/esm2015/enums';
 
 export default (queueType) => {
   switch (queueType) {
@@ -16,8 +16,8 @@ export default (queueType) => {
       return 'predictive-dialer';
     case QueueType.CHAT_INBOUND_QUEUE:
       return 'chat-inbound-queue';
-    case QueueType.TASK_QUEUE:
-      return 'task-queue';
+    case QueueType.INBOUND_TASK_QUEUE:
+      return 'inbound-task-queue';
     default:
       return 'unknown';
   }

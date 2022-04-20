@@ -57,13 +57,6 @@
         @input="setItemProp({ prop: 'team', value: $event })"
       ></wt-select>
       <wt-select
-        :value="itemInstance.ringtone"
-        :label="$t('objects.ccenter.queues.playbackFile')"
-        :search-method="loadDropdownOptionsMediaList"
-        :disabled="disableUserInput"
-        @input="setItemProp({ prop: 'ringtone', value: $event })"
-      ></wt-select>
-      <wt-select
         :value="itemInstance.doSchema"
         :label="$t('objects.ccenter.queues.preSchema')"
         :search-method="loadDropdownOptionsSchemaList"
@@ -89,15 +82,14 @@
 
 <script>
 import CalendarsAPI from '../../../../../lookups/modules/calendars/api/calendars';
-import BlacklistsAPI from '../../../../../lookups/modules/blacklists/api/blacklists';
 import TeamsAPI from '../../../teams/api/teams';
+import BlacklistsAPI from '../../../../../lookups/modules/blacklists/api/blacklists';
 import FlowsAPI from '../../../../../routing/modules/flow/api/flow';
 import { StrategyList } from '../../store/_internals/enums/Strategy.enum';
 import openedTabComponentMixin from '../../../../../../app/mixins/objectPagesMixins/openedObjectTabMixin/openedTabComponentMixin';
-import MediaAPI from '../../../../../lookups/modules/media/api/media';
 
 export default {
-  name: 'opened-queue-offline-queue-general',
+  name: 'opened-offline-queue-general',
   mixins: [openedTabComponentMixin],
   computed: {
     strategy: {
@@ -131,13 +123,9 @@ export default {
     loadDropdownOptionsSchemaList(params) {
       return FlowsAPI.getLookup(params);
     },
-    loadDropdownOptionsMediaList(params) {
-      return MediaAPI.getLookup(params);
-    },
   },
 };
 </script>
 
 <style lang="scss" scoped>
-
 </style>

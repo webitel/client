@@ -171,7 +171,7 @@ import openedTabComponentMixin from '../../../../../../app/mixins/objectPagesMix
 import StatisticTimeList from '../../store/_internals/lookups/StatisticTime.lookup';
 
 export default {
-  name: 'opened-queue-outbound-ivr-timing',
+  name: 'opened-outbound-ivr-timing',
   mixins: [openedTabComponentMixin],
   methods: {
     ...mapActions({

@@ -54,7 +54,7 @@ import { mapActions } from 'vuex';
 import openedTabComponentMixin from '../../../../../../app/mixins/objectPagesMixins/openedObjectTabMixin/openedTabComponentMixin';
 
 export default {
-  name: 'opened-queue-outbound-ivr-timing',
+  name: 'opened-outbound-ivr-timing',
   mixins: [openedTabComponentMixin],
   methods: {
     ...mapActions({

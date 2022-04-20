@@ -48,12 +48,14 @@
         required
       ></wt-select>
       <wt-select
-        :value="itemInstance.team"
-        :label="$tc('objects.ccenter.teams.teams', 1)"
-        :search-method="loadDropdownOptionsTeamList"
-        :clearable="true"
+        :value="itemInstance.schema"
+        :v="v.itemInstance.schema"
+        :label="$t('objects.routing.schema')"
+        :search-method="loadDropdownOptionsSchemaList"
+        :clearable="false"
         :disabled="disableUserInput"
-        @input="setItemProp({ prop: 'team', value: $event })"
+        required
+        @input="setItemProp({ prop: 'schema', value: $event })"
       ></wt-select>
       <wt-select
         :value="itemInstance.doSchema"
@@ -80,17 +82,15 @@
 </template>
 
 <script>
-import CalendarsAPI from '../../../../../lookups/modules/calendars/api/calendars';
-import BlacklistsAPI from '../../../../../lookups/modules/blacklists/api/blacklists';
-import TeamsAPI from '../../../teams/api/teams';
-import FlowsAPI from '../../../../../routing/modules/flow/api/flow';
 import { StrategyList } from '../../store/_internals/enums/Strategy.enum';
 import openedTabComponentMixin from '../../../../../../app/mixins/objectPagesMixins/openedObjectTabMixin/openedTabComponentMixin';
+import CalendarsAPI from '../../../../../lookups/modules/calendars/api/calendars';
+import BlacklistsAPI from '../../../../../lookups/modules/blacklists/api/blacklists';
+import FlowsAPI from '../../../../../routing/modules/flow/api/flow';
 
 export default {
-  name: 'opened-queue-progressive-dialer-general',
+  name: 'opened-outbound-ivr-general',
   mixins: [openedTabComponentMixin],
-
   computed: {
     strategy: {
       get() {
@@ -116,9 +116,6 @@ export default {
     },
     loadDropdownOptionsBlacklistList(params) {
       return BlacklistsAPI.getLookup(params);
-    },
-    loadDropdownOptionsTeamList(params) {
-      return TeamsAPI.getLookup(params);
     },
     loadDropdownOptionsSchemaList(params) {
       return FlowsAPI.getLookup(params);

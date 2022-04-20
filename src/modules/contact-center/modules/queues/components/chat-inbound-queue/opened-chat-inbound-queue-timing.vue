@@ -80,7 +80,7 @@ import openedTabComponentMixin from '../../../../../../app/mixins/objectPagesMix
 import { TimeBaseScore } from '../../store/_internals/enums/TimeBaseScore.enum';
 
 export default {
-  name: 'opened-queue-inbound-queue-timing',
+  name: 'opened-inbound-queue-timing',
   mixins: [openedTabComponentMixin],
   computed: {
     timeBaseScoreOptions() {

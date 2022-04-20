@@ -60,10 +60,10 @@ export default {
         title: this.$t('objects.ccenter.queues.chatInboundQueue'),
         description: this.$t('objects.ccenter.queues.chatInboundQueueDescription'),
       };
-      const taskQueue = {
-        value: 'task-queue',
-        title: this.$t('objects.ccenter.queues.taskQueue'),
-        description: this.$t('objects.ccenter.queues.taskQueueDescription'),
+      const inboundTaskQueue = {
+        value: 'inbound-task-queue',
+        title: this.$t('objects.ccenter.queues.inboundTaskQueue'),
+        description: this.$t('objects.ccenter.queues.inboundTaskQueueDescription'),
       };
       return [
         offline,
@@ -73,7 +73,7 @@ export default {
         progressiveDialer,
         predictiveDialer,
         chatInboundQueue,
-        taskQueue,
+        inboundTaskQueue,
       ];
     },
   },

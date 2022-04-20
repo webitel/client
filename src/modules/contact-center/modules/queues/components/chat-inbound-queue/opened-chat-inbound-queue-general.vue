@@ -74,7 +74,7 @@ import BlacklistsAPI from '../../../../../lookups/modules/blacklists/api/blackli
 import { StrategyList } from '../../store/_internals/enums/Strategy.enum';
 
 export default {
-  name: 'opened-queue-chat-inbound-queue-general',
+  name: 'opened-chat-inbound-queue-general',
   mixins: [openedTabComponentMixin],
 
   computed: {

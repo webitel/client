@@ -29,23 +29,24 @@
 </template>
 
 <script>
+import { QueueType } from 'webitel-sdk/esm2015/enums';
 import { required, minValue } from 'vuelidate/lib/validators';
-import OfflineQueueGeneral from './offline-queue/opened-queue-offline-queue-general.vue';
-import OfflineQueueTiming from './offline-queue/opened-queue-offline-queue-timing.vue';
-import InboundQueueGeneral from './inbound-queue/opened-queue-inbound-queue-general.vue';
-import InboundQueueTiming from './inbound-queue/opened-queue-inbound-queue-timing.vue';
-import OutboundIvrQueueGeneral from './outbound-ivr-queue/opened-queue-outbound-ivr-general.vue';
-import OutboundIvrQueueTiming from './outbound-ivr-queue/opened-queue-outbound-ivr-timing.vue';
-import PreviewDialerGeneral from './preview-dialer/opened-queue-preview-dialer-general.vue';
-import PreviewDialerTiming from './preview-dialer/opened-queue-preview-dialer-timing.vue';
-import ProgressiveDialerGeneral from './progressive-dialer/opened-queue-progressive-dialer-general.vue';
-import ProgressiveDialerTiming from './progressive-dialer/opened-queue-progressive-dialer-timing.vue';
-import PredictiveDialerGeneral from './predictive-dialer/opened-queue-predictive-dialer-general.vue';
-import PredictiveDialerTiming from './predictive-dialer/opened-queue-predictive-dialer-timing.vue';
-import ChatInboundQueueGeneral from './chat-inbound-queue/opened-queue-chat-inbound-queue-general.vue';
-import ChatInboundQueueTiming from './chat-inbound-queue/opened-queue-chat-inbound-queue-timing.vue';
-import TaskQueueGeneral from './task-queue/opened-queue-task-queue-general.vue';
-import TaskQueueTiming from './task-queue/opened-queue-task-queue-timing.vue';
+import OfflineQueueGeneral from './offline-queue/opened-offline-queue-general.vue';
+import OfflineQueueTiming from './offline-queue/opened-offline-queue-timing.vue';
+import InboundQueueGeneral from './inbound-queue/opened-inbound-queue-general.vue';
+import InboundQueueTiming from './inbound-queue/opened-inbound-queue-timing.vue';
+import OutboundIvrQueueGeneral from './outbound-ivr-queue/opened-outbound-ivr-general.vue';
+import OutboundIvrQueueTiming from './outbound-ivr-queue/opened-outbound-ivr-timing.vue';
+import PreviewDialerGeneral from './preview-dialer/opened-preview-dialer-general.vue';
+import PreviewDialerTiming from './preview-dialer/opened-preview-dialer-timing.vue';
+import ProgressiveDialerGeneral from './progressive-dialer/opened-progressive-dialer-general.vue';
+import ProgressiveDialerTiming from './progressive-dialer/opened-progressive-dialer-timing.vue';
+import PredictiveDialerGeneral from './predictive-dialer/opened-predictive-dialer-general.vue';
+import PredictiveDialerTiming from './predictive-dialer/opened-predictive-dialer-timing.vue';
+import ChatInboundQueueGeneral from './chat-inbound-queue/opened-chat-inbound-queue-general.vue';
+import ChatInboundQueueTiming from './chat-inbound-queue/opened-chat-inbound-queue-timing.vue';
+import InboundTaskQueueGeneral from './inbound-task-queue/opened-queue-inbound-task-queue-general.vue';
+import InboundTaskQueueTiming from './inbound-task-queue/opened-queue-inbound-task-queue-timing.vue';
 import Agents from '../modules/agents/components/opened-queue-agents.vue';
 import Skills from '../modules/skills/components/opened-queue-skills.vue';
 import Resources from '../modules/res-groups/components/opened-queue-resources.vue';
@@ -55,7 +56,6 @@ import Amd from './shared/amd/opened-queue-amd.vue';
 import Variables from './shared/variables/opened-queue-variables.vue';
 import Logs from '../modules/logs/components/opened-queue-logs.vue';
 import openedObjectMixin from '../../../../../app/mixins/objectPagesMixins/openedObjectMixin/openedObjectMixin';
-import QueueType from '../store/_internals/enums/QueueType.enum';
 
 export default {
   name: 'opened-queue',
@@ -75,8 +75,8 @@ export default {
     PredictiveDialerTiming,
     ChatInboundQueueGeneral,
     ChatInboundQueueTiming,
-    TaskQueueGeneral,
-    TaskQueueTiming,
+    InboundTaskQueueGeneral,
+    InboundTaskQueueTiming,
     Agents,
     Skills,
     Resources,
@@ -181,7 +181,7 @@ export default {
             },
           },
         };
-      case QueueType.TASK_QUEUE:
+      case QueueType.INBOUND_TASK_QUEUE:
         return {
           itemInstance: {
             ...defaults,
@@ -206,7 +206,7 @@ export default {
       if (this.$route.path.includes('preview-dialer')) return QueueType.PREVIEW_DIALER;
       if (this.$route.path.includes('progressive-dialer')) return QueueType.PROGRESSIVE_DIALER;
       if (this.$route.path.includes('predictive-dialer')) return QueueType.PREDICTIVE_DIALER;
-      if (this.$route.path.includes('task-queue')) return QueueType.TASK_QUEUE;
+      if (this.$route.path.includes('inbound-task-queue')) return QueueType.INBOUND_TASK_QUEUE;
       return 'unknown';
     },
 
@@ -299,12 +299,12 @@ export default {
         value: 'chat-inbound-queue-timing',
       }, agents, skills, hooks];
 
-      const taskQueueTabs = [{
+      const inboundTaskQueueTabs = [{
         text: this.$t('objects.general'),
-        value: 'task-queue-general',
+        value: 'inbound-task-queue-general',
       }, {
         text: this.$t('objects.ccenter.queues.timing'),
-        value: 'task-queue-timing',
+        value: 'inbound-task-queue-timing',
       }, agents, skills, buckets, hooks];
 
       let tabs = [];
@@ -330,8 +330,8 @@ export default {
         case QueueType.CHAT_INBOUND_QUEUE:
           tabs = chatInboundQueueTabs;
           break;
-        case QueueType.TASK_QUEUE:
-          tabs = taskQueueTabs;
+        case QueueType.INBOUND_TASK_QUEUE:
+          tabs = inboundTaskQueueTabs;
           break;
         default:
       }
@@ -373,9 +373,9 @@ export default {
           title = this.$t(`${localeRoot}.chatInboundQueue`);
           queueUrl = 'chat-inbound-queue';
           break;
-        case QueueType.TASK_QUEUE:
-          title = this.$t(`${localeRoot}.taskQueue`);
-          queueUrl = 'task-queue';
+        case QueueType.INBOUND_TASK_QUEUE:
+          title = this.$t(`${localeRoot}.inboundTaskQueue`);
+          queueUrl = 'inbound-task-queue';
           break;
         default:
       }

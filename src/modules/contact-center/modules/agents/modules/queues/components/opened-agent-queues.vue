@@ -57,8 +57,8 @@
 </template>
 
 <script>
+import { QueueType } from 'webitel-sdk/esm2015/enums';
 import openedObjectTableTabMixin from '../../../../../../../app/mixins/objectPagesMixins/openedObjectTableTabMixin/openedObjectTableTabMixin';
-import QueueType from '../../../../queues/store/_internals/enums/QueueType.enum';
 
 export default {
   name: 'opened-agent-queues',
@@ -84,7 +84,7 @@ export default {
           return 'Predictive Dialer';
         case QueueType.CHAT_INBOUND_QUEUE:
           return 'Chat Inbound Queue';
-        case QueueType.TASK_QUEUE:
+        case QueueType.INBOUND_TASK_QUEUE:
           return 'Task Queue';
         default:
           return 'Unknown';

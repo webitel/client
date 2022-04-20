@@ -31,6 +31,7 @@
       ></wt-select>
       <wt-input
         :value="itemInstance.priority"
+        :v="v.itemInstance.priority"
         :label="$t('objects.ccenter.queues.priority')"
         :disabled="disableUserInput"
         type="number"
@@ -48,7 +49,6 @@
       ></wt-select>
       <wt-select
         :value="itemInstance.team"
-        :v="v.itemInstance.team"
         :label="$tc('objects.ccenter.teams.teams', 1)"
         :search-method="loadDropdownOptionsTeamList"
         :clearable="true"
@@ -88,7 +88,7 @@ import { StrategyList } from '../../store/_internals/enums/Strategy.enum';
 import openedTabComponentMixin from '../../../../../../app/mixins/objectPagesMixins/openedObjectTabMixin/openedTabComponentMixin';
 
 export default {
-  name: 'opened-queue-task-queue-general',
+  name: 'opened-progressive-dialer-general',
   mixins: [openedTabComponentMixin],
 
   computed: {

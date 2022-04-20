@@ -71,7 +71,7 @@ import BlacklistsAPI from '../../../../../lookups/modules/blacklists/api/blackli
 import MediaAPI from '../../../../../lookups/modules/media/api/media';
 
 export default {
-  name: 'opened-queue-inbound-queue-general',
+  name: 'opened-inbound-queue-general',
   mixins: [openedTabComponentMixin],
   methods: {
     loadDropdownOptionsCalendarList(params) {

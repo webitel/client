@@ -553,13 +553,13 @@ const router = new Router({
           component: OpenedQueue,
         },
         {
-          path: '/contact-center/queues/task-queue/new',
-          name: `${RouteNames.QUEUES}-task-queue-new`,
+          path: '/contact-center/queues/inbound-task-queue/new',
+          name: `${RouteNames.QUEUES}-inbound-task-queue-new`,
           component: OpenedQueue,
         },
         {
-          path: '/contact-center/queues/task-queue/:id',
-          name: `${RouteNames.QUEUES}-task-queue-edit`,
+          path: '/contact-center/queues/inbound-task-queue/:id',
+          name: `${RouteNames.QUEUES}-inbound-task-queue-edit`,
           component: OpenedQueue,
         },
         // --------------CONTACT CENTER END-------------

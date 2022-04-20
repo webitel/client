@@ -31,7 +31,6 @@
       ></wt-select>
       <wt-input
         :value="itemInstance.priority"
-        :v="v.itemInstance.priority"
         :label="$t('objects.ccenter.queues.priority')"
         :disabled="disableUserInput"
         type="number"
@@ -89,7 +88,7 @@ import { StrategyList } from '../../store/_internals/enums/Strategy.enum';
 import openedTabComponentMixin from '../../../../../../app/mixins/objectPagesMixins/openedObjectTabMixin/openedTabComponentMixin';
 
 export default {
-  name: 'opened-queue-preview-dialer-general',
+  name: 'opened-inbound-task-queue-general',
   mixins: [openedTabComponentMixin],
 
   computed: {
