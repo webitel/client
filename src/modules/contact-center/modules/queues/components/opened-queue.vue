@@ -1,11 +1,11 @@
 <template>
-  <wt-page-wrapper :actions-panel="false">
+  <wt-page-wrapper :actions-panel="false" v-if="showQueuePage">
     <template slot="header">
       <object-header
-        :primary-action="save"
-        :primary-text="computePrimaryText"
         :hide-primary="!hasSaveActionAccess"
+        :primary-action="save"
         :primary-disabled="computeDisabled"
+        :primary-text="computePrimaryText"
         :secondary-action="close"
       >
         <headline-nav :path="path"></headline-nav>
@@ -20,12 +20,13 @@
         ></wt-tabs>
         <component
           :is="currentTab.value"
-          :v="$v"
           :namespace="namespace"
+          :v="$v"
         ></component>
       </div>
     </template>
   </wt-page-wrapper>
+  <wt-loader v-else></wt-loader>
 </template>
 
 <script>
@@ -56,6 +57,7 @@ import Amd from './shared/amd/opened-queue-amd.vue';
 import Variables from './shared/variables/opened-queue-variables.vue';
 import Logs from '../modules/logs/components/opened-queue-logs.vue';
 import openedObjectMixin from '../../../../../app/mixins/objectPagesMixins/openedObjectMixin/openedObjectMixin';
+import QueueTypeProperties from '../lookups/QueueTypeProperties.lookup';
 
 export default {
   name: 'opened-queue',
@@ -97,7 +99,7 @@ export default {
       calendar: { required },
       priority: { minValue: minValue(0) },
     };
-    switch (this.queueType) {
+    switch (+this.queueType) {
       case QueueType.OFFLINE_QUEUE:
         return {
           itemInstance: {
@@ -198,19 +200,23 @@ export default {
   },
 
   computed: {
+    showQueuePage() {
+      return !!this.itemInstance.type;
+    },
     queueType() {
-      if (this.$route.path.includes('offline-queue')) return QueueType.OFFLINE_QUEUE;
-      if (this.$route.path.includes('chat-inbound-queue')) return QueueType.CHAT_INBOUND_QUEUE;
-      if (this.$route.path.includes('inbound-queue')) return QueueType.INBOUND_QUEUE;
-      if (this.$route.path.includes('outbound-ivr')) return QueueType.OUTBOUND_IVR_QUEUE;
-      if (this.$route.path.includes('preview-dialer')) return QueueType.PREVIEW_DIALER;
-      if (this.$route.path.includes('progressive-dialer')) return QueueType.PROGRESSIVE_DIALER;
-      if (this.$route.path.includes('predictive-dialer')) return QueueType.PREDICTIVE_DIALER;
-      if (this.$route.path.includes('inbound-task-queue')) return QueueType.INBOUND_TASK_QUEUE;
-      return 'unknown';
+      // || '0' prevents errors when itemInstance type is async setting
+      return this.itemInstance.type || '0';
     },
 
     tabs() {
+      const general = (queue) => ({
+        text: this.$t('objects.general'),
+        value: `${queue}-general`,
+      });
+      const timing = (queue) => ({
+        text: this.$t('objects.ccenter.queues.timing'),
+        value: `${queue}-timing`,
+      });
       const agents = {
         text: this.$tc('objects.ccenter.agents.agents', 2),
         value: 'agents',
@@ -243,146 +249,88 @@ export default {
         text: this.$tc('objects.ccenter.queues.logs.logs', 2),
         value: 'logs',
       };
-      const offlineQueueTabs = [{
-        text: this.$t('objects.general'),
-        value: 'offline-queue-general',
-      }, {
-        text: this.$t('objects.ccenter.queues.timing'),
-        value: 'offline-queue-timing',
-      }, agents, skills, resources, buckets, hooks];
 
-      const inboundQueueTabs = [{
-        text: this.$t('objects.general'),
-        value: 'inbound-queue-general',
-      }, {
-        text: this.$t('objects.ccenter.queues.timing'),
-        value: 'inbound-queue-timing',
-      }, agents, skills, hooks];
+      const queueTabsMap = {
+        [QueueType.OFFLINE_QUEUE]: [
+          general('offline-queue'),
+          timing('offline-queue'),
+          agents,
+          skills,
+          resources,
+          buckets,
+          hooks,
+        ],
+        [QueueType.INBOUND_QUEUE]: [general('inbound-queue'), timing('inbound-queue'), agents, skills, hooks],
+        [QueueType.OUTBOUND_IVR_QUEUE]: [
+          general('outbound-ivr-queue'),
+          timing('outbound-ivr-queue'),
+          resources,
+          buckets,
+          hooks,
+          amd,
+        ],
+        [QueueType.PREVIEW_DIALER]: [
+          general('preview-dialer'),
+          timing('preview-dialer'),
+          agents,
+          skills,
+          resources,
+          buckets,
+          hooks,
+        ],
+        [QueueType.PROGRESSIVE_DIALER]: [
+          general('progressive-dialer'),
+          timing('progressive-dialer'),
+          agents,
+          skills,
+          resources,
+          buckets,
+          hooks,
+          amd,
+        ],
+        [QueueType.PREDICTIVE_DIALER]: [
+          general('predictive-dialer'),
+          timing('predictive-dialer'),
+          agents,
+          skills,
+          resources,
+          buckets,
+          hooks,
+          amd,
+        ],
+        [QueueType.CHAT_INBOUND_QUEUE]: [
+          general('chat-inbound-queue'),
+          timing('chat-inbound-queue'),
+          agents,
+          skills,
+          hooks,
+        ],
+        [QueueType.INBOUND_TASK_QUEUE]: [
+          general('inbound-task-queue'),
+          timing('inbound-task-queue'),
+          agents,
+          skills,
+          buckets,
+          hooks,
+        ],
+      };
+      const tabs = [
+        ...queueTabsMap[this.queueType],
+        variables,
+        logs,
+      ];
 
-      const outboundIVRQueueTabs = [{
-        text: this.$t('objects.general'),
-        value: 'outbound-ivr-queue-general',
-      }, {
-        text: this.$t('objects.ccenter.queues.timing'),
-        value: 'outbound-ivr-queue-timing',
-      }, resources, buckets, hooks, amd];
-
-      const previewDialerTabs = [{
-        text: this.$t('objects.general'),
-        value: 'preview-dialer-general',
-      }, {
-        text: this.$t('objects.ccenter.queues.timing'),
-        value: 'preview-dialer-timing',
-      }, agents, skills, resources, buckets, hooks];
-
-      const progressiveDialerTabs = [{
-        text: this.$t('objects.general'),
-        value: 'progressive-dialer-general',
-      }, {
-        text: this.$t('objects.ccenter.queues.timing'),
-        value: 'progressive-dialer-timing',
-      }, agents, skills, resources, buckets, hooks, amd];
-
-      const predictiveDialerTabs = [{
-        text: this.$t('objects.general'),
-        value: 'predictive-dialer-general',
-      }, {
-        text: this.$t('objects.ccenter.queues.timing'),
-        value: 'predictive-dialer-timing',
-      }, agents, skills, resources, buckets, hooks, amd];
-
-      const chatInboundQueueTabs = [{
-        text: this.$t('objects.general'),
-        value: 'chat-inbound-queue-general',
-      }, {
-        text: this.$t('objects.ccenter.queues.timing'),
-        value: 'chat-inbound-queue-timing',
-      }, agents, skills, hooks];
-
-      const inboundTaskQueueTabs = [{
-        text: this.$t('objects.general'),
-        value: 'inbound-task-queue-general',
-      }, {
-        text: this.$t('objects.ccenter.queues.timing'),
-        value: 'inbound-task-queue-timing',
-      }, agents, skills, buckets, hooks];
-
-      let tabs = [];
-      switch (this.queueType) {
-        case QueueType.OFFLINE_QUEUE:
-          tabs = offlineQueueTabs;
-          break;
-        case QueueType.INBOUND_QUEUE:
-          tabs = inboundQueueTabs;
-          break;
-        case QueueType.OUTBOUND_IVR_QUEUE:
-          tabs = outboundIVRQueueTabs;
-          break;
-        case QueueType.PREVIEW_DIALER:
-          tabs = previewDialerTabs;
-          break;
-        case QueueType.PROGRESSIVE_DIALER:
-          tabs = progressiveDialerTabs;
-          break;
-        case QueueType.PREDICTIVE_DIALER:
-          tabs = predictiveDialerTabs;
-          break;
-        case QueueType.CHAT_INBOUND_QUEUE:
-          tabs = chatInboundQueueTabs;
-          break;
-        case QueueType.INBOUND_TASK_QUEUE:
-          tabs = inboundTaskQueueTabs;
-          break;
-        default:
-      }
-      tabs = tabs.concat(variables, logs);
       if (this.id) tabs.push(this.permissionsTab);
       return tabs;
     },
 
     path() {
-      const localeRoot = 'objects.ccenter.queues';
-      let title = '';
-      let queueUrl = '';
-      switch (this.queueType) {
-        case QueueType.OFFLINE_QUEUE:
-          title = this.$t(`${localeRoot}.offlineQueue`);
-          queueUrl = 'offline-queue';
-          break;
-        case QueueType.INBOUND_QUEUE:
-          title = this.$t(`${localeRoot}.inboundQueue`);
-          queueUrl = 'inbound-queue';
-          break;
-        case QueueType.OUTBOUND_IVR_QUEUE:
-          title = this.$t(`${localeRoot}.outboundIVRQueue`);
-          queueUrl = 'outbound-ivr-queue';
-          break;
-        case QueueType.PREVIEW_DIALER:
-          title = this.$t(`${localeRoot}.previewDialer`);
-          queueUrl = 'preview-dialer';
-          break;
-        case QueueType.PROGRESSIVE_DIALER:
-          title = this.$t(`${localeRoot}.progressiveDialer`);
-          queueUrl = 'progressive-dialer';
-          break;
-        case QueueType.PREDICTIVE_DIALER:
-          title = this.$t(`${localeRoot}.predictiveDialer`);
-          queueUrl = 'predictive-dialer';
-          break;
-        case QueueType.CHAT_INBOUND_QUEUE:
-          title = this.$t(`${localeRoot}.chatInboundQueue`);
-          queueUrl = 'chat-inbound-queue';
-          break;
-        case QueueType.INBOUND_TASK_QUEUE:
-          title = this.$t(`${localeRoot}.inboundTaskQueue`);
-          queueUrl = 'inbound-task-queue';
-          break;
-        default:
-      }
+      const title = this.$t(QueueTypeProperties[this.queueType].locale);
+      const queueUrl = QueueTypeProperties[this.queueType].subpath;
       const baseUrl = '/contact-center/queues';
       return [
         { name: this.$t('objects.ccenter.ccenter') },
-        { name: this.$tc(`${localeRoot}.queues`, 2), route: baseUrl },
+        { name: this.$tc('objects.ccenter.queues.queues', 2), route: baseUrl },
         {
           name: `${(this.id ? this.pathName : this.$t('objects.new'))} (${title})`,
           route: `${baseUrl}/${queueUrl}/${this.id ? this.id : 'new'}`,
@@ -393,7 +341,7 @@ export default {
   methods: {
     async loadPageData() {
       await this.setId(this.$route.params.id);
-      return this.loadItem(this.queueType);
+      return this.loadItem(this.$route.query.type);
     },
   },
 };

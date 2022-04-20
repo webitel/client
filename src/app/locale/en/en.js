@@ -619,7 +619,7 @@ export default {
         newQueueDescription: 'New queue descriotion',
         outboundIVRQueue: 'Outbound IVR queue',
         outboundIVR: 'Outbound IVR',
-        outboundIVRDescription: 'An Outbound IVR allows an organization to automatically engage customers through multiple channels such as automated voice calls, SMS messages, email or social media posts using personalized notifications.',
+        outboundIVRQueueDescription: 'An Outbound IVR allows an organization to automatically engage customers through multiple channels such as automated voice calls, SMS messages, email or social media posts using personalized notifications.',
         inboundQueue: 'Inbound queue',
         inboundQueueDescription: 'An Inbound queue is that it\'s where callers are placed on hold, in a queue, while they wait to speak with a live agent.',
         offlineQueue: 'Offline queue',

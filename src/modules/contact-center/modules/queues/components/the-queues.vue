@@ -62,7 +62,7 @@
             </template>
 
             <template slot="type" slot-scope="{ item }">
-              {{ queueTypeLocale[item.type] }}
+              {{ $t(QueueTypeProperties[item.type].locale) }}
             </template>
             <template slot="activeCalls" slot-scope="{ item }">
               {{ item.active }}
@@ -120,11 +120,10 @@
 </template>
 
 <script>
-import { QueueType } from 'webitel-sdk/esm2015/enums';
+import QueueTypeProperties from '../lookups/QueueTypeProperties.lookup';
 import QueuePopup from './create-queue-popup.vue';
 import tableComponentMixin
   from '../../../../../app/mixins/objectPagesMixins/objectTableMixin/tableComponentMixin';
-import getQueueSubRoute from '../store/_internals/scripts/getQueueSubRoute';
 import RouteNames from '../../../../../app/router/_internals/RouteNames.enum';
 
 export default {
@@ -134,6 +133,7 @@ export default {
   data: () => ({
     namespace: 'ccenter/queues',
     isQueueSelectPopup: false,
+    QueueTypeProperties,
   }),
 
   computed: {
@@ -142,19 +142,6 @@ export default {
         { name: this.$t('objects.ccenter.ccenter') },
         { name: this.$tc('objects.ccenter.queues.queues', 2), route: '/contact-center/queues' },
       ];
-    },
-
-    queueTypeLocale() {
-      return {
-        [QueueType.OFFLINE_QUEUE]: this.$t('objects.ccenter.queues.offlineQueue'),
-        [QueueType.INBOUND_QUEUE]: this.$t('objects.ccenter.queues.inboundQueue'),
-        [QueueType.OUTBOUND_IVR_QUEUE]: this.$t('objects.ccenter.queues.outboundIVRQueue'),
-        [QueueType.PREVIEW_DIALER]: this.$t('objects.ccenter.queues.previewDialer'),
-        [QueueType.PROGRESSIVE_DIALER]: this.$t('objects.ccenter.queues.progressiveDialer'),
-        [QueueType.PREDICTIVE_DIALER]: this.$t('objects.ccenter.queues.predictiveDialer'),
-        [QueueType.CHAT_INBOUND_QUEUE]: this.$t('objects.ccenter.queues.chatInboundQueue'),
-        [QueueType.INBOUND_TASK_QUEUE]: this.$t('objects.ccenter.queues.inboundTaskQueue'),
-      };
     },
   },
 
@@ -177,9 +164,8 @@ export default {
     },
 
     edit(item) {
-      const type = getQueueSubRoute(item.type);
       this.$router.push({
-        name: `${RouteNames.QUEUES}-${type}-edit`,
+        name: `${RouteNames.QUEUES}-edit`,
         params: { id: item.id },
       });
     },

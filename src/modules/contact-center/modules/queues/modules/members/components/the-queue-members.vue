@@ -153,7 +153,6 @@ import uploadPopup from './upload-members-popup.vue';
 import ResetPopup from './reset-members-popup.vue';
 import UploadFileIconBtn from '../../../../../../../app/components/utils/upload-file-icon-btn.vue';
 import tableComponentMixin from '../../../../../../../app/mixins/objectPagesMixins/objectTableMixin/tableComponentMixin';
-import getQueueSubRoute from '../../../store/_internals/scripts/getQueueSubRoute';
 import RouteNames from '../../../../../../../app/router/_internals/RouteNames.enum';
 
 export default {
@@ -189,8 +188,7 @@ export default {
       return !(this.parentQueue.type === 1);
     },
     path() {
-      const queueSubRoute = getQueueSubRoute(this.parentQueue.type);
-      const queueUrl = `/contact-center/queues/${queueSubRoute}/${this.parentQueue.id}`;
+      const queueUrl = `/contact-center/queues/${this.parentQueue.id}`;
       const membersUrl = `/contact-center/queues/${this.parentQueue.id}/members`;
       return [
         { name: this.$t('objects.ccenter.ccenter') },

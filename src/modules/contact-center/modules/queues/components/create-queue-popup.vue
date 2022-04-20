@@ -10,6 +10,7 @@
 </template>
 
 <script>
+import QueueTypeProperties from '../lookups/QueueTypeProperties.lookup';
 import SelectionPopup from '../../../../../app/components/utils/selection-popup/selection-popup.vue';
 
 export default {
@@ -25,56 +26,11 @@ export default {
 
   computed: {
     options() {
-      const offline = {
-        value: 'offline-queue',
-        title: this.$t('objects.ccenter.queues.offlineQueue'),
-        description: this.$t('objects.ccenter.queues.offlineQueueDescription'),
-      };
-      const inbound = {
-        value: 'inbound-queue',
-        title: this.$t('objects.ccenter.queues.inboundQueue'),
-        description: this.$t('objects.ccenter.queues.inboundQueueDescription'),
-      };
-      const outboundIVR = {
-        value: 'outbound-ivr',
-        title: this.$t('objects.ccenter.queues.outboundIVR'),
-        description: this.$t('objects.ccenter.queues.outboundIVRDescription'),
-      };
-      const previewDialer = {
-        value: 'preview-dialer',
-        title: this.$t('objects.ccenter.queues.previewDialer'),
-        description: this.$t('objects.ccenter.queues.previewDialerDescription'),
-      };
-      const progressiveDialer = {
-        value: 'progressive-dialer',
-        title: this.$t('objects.ccenter.queues.progressiveDialer'),
-        description: this.$t('objects.ccenter.queues.progressiveDialerDescription'),
-      };
-      const predictiveDialer = {
-        value: 'predictive-dialer',
-        title: this.$t('objects.ccenter.queues.predictiveDialer'),
-        description: this.$t('objects.ccenter.queues.predictiveDialerDescription'),
-      };
-      const chatInboundQueue = {
-        value: 'chat-inbound-queue',
-        title: this.$t('objects.ccenter.queues.chatInboundQueue'),
-        description: this.$t('objects.ccenter.queues.chatInboundQueueDescription'),
-      };
-      const inboundTaskQueue = {
-        value: 'inbound-task-queue',
-        title: this.$t('objects.ccenter.queues.inboundTaskQueue'),
-        description: this.$t('objects.ccenter.queues.inboundTaskQueueDescription'),
-      };
-      return [
-        offline,
-        inbound,
-        outboundIVR,
-        previewDialer,
-        progressiveDialer,
-        predictiveDialer,
-        chatInboundQueue,
-        inboundTaskQueue,
-      ];
+      return Object.entries(QueueTypeProperties).map(([type, { locale }]) => ({
+        type,
+        title: this.$t(locale),
+        description: this.$t(`${locale}Description`),
+      }));
     },
   },
 
@@ -87,7 +43,7 @@ export default {
     },
     createQueue() {
       if (this.selected) {
-        this.$router.push(`/contact-center/queues/${this.selected.value}/new`);
+        this.$router.push({ path: '/contact-center/queues/new', query: { type: this.selected.type } });
       }
     },
   },

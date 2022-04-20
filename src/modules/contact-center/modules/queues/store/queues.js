@@ -21,11 +21,24 @@ import defaultProgressiveDialerState from './_internals/queueSchema/progressiveD
 import defaultPredictiveDialerState from './_internals/queueSchema/predictiveDialer';
 import defaultChatInboundQueueState from './_internals/queueSchema/chatInboundQueue';
 import defaultInboundTaskQueueState from './_internals/queueSchema/inboundTaskQueue';
+import defaultOutboundTaskQueueState from './_internals/queueSchema/outboundTaskQueue';
 import proxy from '../../../../../app/utils/editProxy';
 import headers from './_internals/headers';
 
 const resettableState = {
   itemInstance: defaultQueueState(),
+};
+
+const queueStateMap = {
+  [QueueType.OFFLINE_QUEUE]: defaultOfflineQueueState,
+  [QueueType.INBOUND_QUEUE]: defaultInboundQueueState,
+  [QueueType.OUTBOUND_IVR_QUEUE]: defaultOutboundIVRQueueState,
+  [QueueType.PREVIEW_DIALER]: defaultPreviewDialerState,
+  [QueueType.PROGRESSIVE_DIALER]: defaultProgressiveDialerState,
+  [QueueType.PREDICTIVE_DIALER]: defaultPredictiveDialerState,
+  [QueueType.CHAT_INBOUND_QUEUE]: defaultChatInboundQueueState,
+  [QueueType.INBOUND_TASK_QUEUE]: defaultInboundTaskQueueState,
+  [QueueType.OUTBOUND_TASK_QUEUE]: defaultOutboundTaskQueueState,
 };
 
 const actions = {
@@ -38,33 +51,8 @@ const actions = {
     }
   },
   SET_TYPED_ITEM: (context, { type, item = {} }) => {
-    switch (type) {
-      case QueueType.OFFLINE_QUEUE:
-        item = deepMerge(defaultOfflineQueueState(), item);
-        break;
-      case QueueType.INBOUND_QUEUE:
-        item = deepMerge(defaultInboundQueueState(), item);
-        break;
-      case QueueType.OUTBOUND_IVR_QUEUE:
-        item = deepMerge(defaultOutboundIVRQueueState(), item);
-        break;
-      case QueueType.PREVIEW_DIALER:
-        item = deepMerge(defaultPreviewDialerState(), item);
-        break;
-      case QueueType.PROGRESSIVE_DIALER:
-        item = deepMerge(defaultProgressiveDialerState(), item);
-        break;
-      case QueueType.PREDICTIVE_DIALER:
-        item = deepMerge(defaultPredictiveDialerState(), item);
-        break;
-      case QueueType.CHAT_INBOUND_QUEUE:
-        item = deepMerge(defaultChatInboundQueueState(), item);
-        break;
-      case QueueType.INBOUND_TASK_QUEUE:
-        item = deepMerge(defaultInboundTaskQueueState(), item);
-        break;
-    }
-    context.commit('SET_ITEM', proxy(item));
+    const typedItem = deepMerge(queueStateMap[type](), item);
+    context.commit('SET_ITEM', proxy(typedItem));
   },
   SET_ITEM_PAYLOAD_PROPERTY: (context, payload) => {
     context.commit('SET_ITEM_PAYLOAD_PROPERTY', payload);
