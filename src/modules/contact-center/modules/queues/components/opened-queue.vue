@@ -32,24 +32,8 @@
 <script>
 import { QueueType } from 'webitel-sdk/esm2015/enums';
 import { required, minValue } from 'vuelidate/lib/validators';
-import OfflineQueueGeneral from './offline-queue/opened-offline-queue-general.vue';
-import OfflineQueueTiming from './offline-queue/opened-offline-queue-timing.vue';
-import InboundQueueGeneral from './inbound-queue/opened-inbound-queue-general.vue';
-import InboundQueueTiming from './inbound-queue/opened-inbound-queue-timing.vue';
-import OutboundIvrQueueGeneral from './outbound-ivr-queue/opened-outbound-ivr-general.vue';
-import OutboundIvrQueueTiming from './outbound-ivr-queue/opened-outbound-ivr-timing.vue';
-import PreviewDialerGeneral from './preview-dialer/opened-preview-dialer-general.vue';
-import PreviewDialerTiming from './preview-dialer/opened-preview-dialer-timing.vue';
-import ProgressiveDialerGeneral from './progressive-dialer/opened-progressive-dialer-general.vue';
-import ProgressiveDialerTiming from './progressive-dialer/opened-progressive-dialer-timing.vue';
-import PredictiveDialerGeneral from './predictive-dialer/opened-predictive-dialer-general.vue';
-import PredictiveDialerTiming from './predictive-dialer/opened-predictive-dialer-timing.vue';
-import ChatInboundQueueGeneral from './chat-inbound-queue/opened-chat-inbound-queue-general.vue';
-import ChatInboundQueueTiming from './chat-inbound-queue/opened-chat-inbound-queue-timing.vue';
-import InboundTaskQueueGeneral from './inbound-task-queue/opened-inbound-task-queue-general.vue';
-import InboundTaskQueueTiming from './inbound-task-queue/opened-inbound-task-queue-timing.vue';
-import OutboundTaskQueueGeneral from './outbound-task-queue/opened-outbound-task-queue-general.vue';
-import OutboundTaskQueueTiming from './outbound-task-queue/opened-outbound-task-queue-timing.vue';
+import General from './opened-queue-general.vue';
+import Timing from './opened-queue-timing.vue';
 import Agents from '../modules/agents/components/opened-queue-agents.vue';
 import Skills from '../modules/skills/components/opened-queue-skills.vue';
 import Resources from '../modules/res-groups/components/opened-queue-resources.vue';
@@ -65,24 +49,8 @@ export default {
   name: 'opened-queue',
   mixins: [openedObjectMixin],
   components: {
-    OfflineQueueGeneral,
-    OfflineQueueTiming,
-    InboundQueueGeneral,
-    InboundQueueTiming,
-    OutboundIvrQueueGeneral,
-    OutboundIvrQueueTiming,
-    PreviewDialerGeneral,
-    PreviewDialerTiming,
-    ProgressiveDialerGeneral,
-    ProgressiveDialerTiming,
-    PredictiveDialerGeneral,
-    PredictiveDialerTiming,
-    ChatInboundQueueGeneral,
-    ChatInboundQueueTiming,
-    InboundTaskQueueGeneral,
-    InboundTaskQueueTiming,
-    OutboundTaskQueueGeneral,
-    OutboundTaskQueueTiming,
+    General,
+    Timing,
     Agents,
     Skills,
     Resources,
@@ -218,21 +186,21 @@ export default {
 
   computed: {
     showQueuePage() {
-      return !!this.itemInstance.type;
+      return this.itemInstance.type != null;
     },
     queueType() {
       return this.itemInstance.type;
     },
 
     tabs() {
-      const general = (queue) => ({
+      const general = {
         text: this.$t('objects.general'),
-        value: `${queue}-general`,
-      });
-      const timing = (queue) => ({
+        value: 'general',
+      };
+      const timing = {
         text: this.$t('objects.ccenter.queues.timing'),
-        value: `${queue}-timing`,
-      });
+        value: 'timing',
+      };
       const agents = {
         text: this.$tc('objects.ccenter.agents.agents', 2),
         value: 'agents',
@@ -267,78 +235,22 @@ export default {
       };
 
       const queueTabsMap = {
-        [QueueType.OFFLINE_QUEUE]: [
-          general('offline-queue'),
-          timing('offline-queue'),
-          agents,
-          skills,
-          resources,
-          buckets,
-          hooks,
-        ],
-        [QueueType.INBOUND_QUEUE]: [general('inbound-queue'), timing('inbound-queue'), agents, skills, hooks],
-        [QueueType.OUTBOUND_IVR_QUEUE]: [
-          general('outbound-ivr-queue'),
-          timing('outbound-ivr-queue'),
-          resources,
-          buckets,
-          hooks,
-          amd,
-        ],
-        [QueueType.PREVIEW_DIALER]: [
-          general('preview-dialer'),
-          timing('preview-dialer'),
-          agents,
-          skills,
-          resources,
-          buckets,
-          hooks,
-        ],
-        [QueueType.PROGRESSIVE_DIALER]: [
-          general('progressive-dialer'),
-          timing('progressive-dialer'),
-          agents,
-          skills,
-          resources,
-          buckets,
-          hooks,
-          amd,
-        ],
-        [QueueType.PREDICTIVE_DIALER]: [
-          general('predictive-dialer'),
-          timing('predictive-dialer'),
-          agents,
-          skills,
-          resources,
-          buckets,
-          hooks,
-          amd,
-        ],
-        [QueueType.CHAT_INBOUND_QUEUE]: [
-          general('chat-inbound-queue'),
-          timing('chat-inbound-queue'),
-          agents,
-          skills,
-          hooks,
-        ],
-        [QueueType.INBOUND_TASK_QUEUE]: [
-          general('inbound-task-queue'),
-          timing('inbound-task-queue'),
-          agents,
-          skills,
-          buckets,
-          hooks,
-        ],
-        [QueueType.OUTBOUND_TASK_QUEUE]: [
-          general('outbound-task-queue'),
-          timing('outbound-task-queue'),
-          buckets,
-          hooks,
-        ],
+        [QueueType.OFFLINE_QUEUE]: [agents, skills, resources, buckets],
+        [QueueType.INBOUND_QUEUE]: [agents, skills],
+        [QueueType.OUTBOUND_IVR_QUEUE]: [resources, buckets, amd],
+        [QueueType.PREVIEW_DIALER]: [agents, skills, resources, buckets],
+        [QueueType.PROGRESSIVE_DIALER]: [agents, skills, resources, buckets, amd],
+        [QueueType.PREDICTIVE_DIALER]: [agents, skills, resources, buckets, amd],
+        [QueueType.CHAT_INBOUND_QUEUE]: [agents, skills],
+        [QueueType.INBOUND_TASK_QUEUE]: [agents, skills, buckets],
+        [QueueType.OUTBOUND_TASK_QUEUE]: [buckets],
       };
       const tabs = [
+        general,
+        timing,
         // cannot destructure undefined, if queueType loading in progress
         ...(queueTabsMap[this.queueType] || []),
+        hooks,
         variables,
         logs,
       ];
@@ -365,11 +277,6 @@ export default {
     async loadPageData() {
       await this.setId(this.$route.params.id);
       return this.loadItem(this.$route.query.type);
-    },
-  },
-  watch: {
-    tabs() {
-      // [this.currentTab] = this.tabs;
     },
   },
 };
