@@ -641,7 +641,7 @@ export default {
         callLimit: 'Call limit',
         variables: 'Variables',
         members: 'Member | Members',
-        timing: 'Timing',
+        params: 'Parameters',
         discardAbandonedAfter: 'Discard abandoned after',
         maxIdleAgent: 'Agent response timeout',
         maxIdleClient: 'Customer response timeout',

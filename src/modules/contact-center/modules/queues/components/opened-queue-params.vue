@@ -1,7 +1,7 @@
 <template>
   <section>
     <header class="content-header">
-      <h3 class="content-title">{{ $t('objects.ccenter.queues.timing') }}</h3>
+      <h3 class="content-title">{{ $t('objects.ccenter.queues.params') }}</h3>
     </header>
     <form class="object-input-grid">
       <wt-timepicker
@@ -237,7 +237,7 @@ import QueueTypeProperties from '../lookups/QueueTypeProperties.lookup';
 import StatisticTimeList from '../store/_internals/lookups/StatisticTime.lookup';
 
 export default {
-  name: 'opened-queue-timing',
+  name: 'opened-queue-params',
   mixins: [openedTabComponentMixin],
   computed: {
     statisticTime: {

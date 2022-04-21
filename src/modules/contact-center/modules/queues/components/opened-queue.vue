@@ -33,7 +33,7 @@
 import { QueueType } from 'webitel-sdk/esm2015/enums';
 import { required, minValue } from 'vuelidate/lib/validators';
 import General from './opened-queue-general.vue';
-import Timing from './opened-queue-timing.vue';
+import Params from './opened-queue-params.vue';
 import Agents from '../modules/agents/components/opened-queue-agents.vue';
 import Skills from '../modules/skills/components/opened-queue-skills.vue';
 import Resources from '../modules/res-groups/components/opened-queue-resources.vue';
@@ -50,7 +50,7 @@ export default {
   mixins: [openedObjectMixin],
   components: {
     General,
-    Timing,
+    Params,
     Agents,
     Skills,
     Resources,
@@ -197,9 +197,9 @@ export default {
         text: this.$t('objects.general'),
         value: 'general',
       };
-      const timing = {
-        text: this.$t('objects.ccenter.queues.timing'),
-        value: 'timing',
+      const params = {
+        text: this.$t('objects.ccenter.queues.params'),
+        value: 'params',
       };
       const agents = {
         text: this.$tc('objects.ccenter.agents.agents', 2),
@@ -247,7 +247,7 @@ export default {
       };
       const tabs = [
         general,
-        timing,
+        params,
         // cannot destructure undefined, if queueType loading in progress
         ...(queueTabsMap[this.queueType] || []),
         hooks,
