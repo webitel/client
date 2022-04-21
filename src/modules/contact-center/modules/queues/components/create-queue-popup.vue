@@ -1,11 +1,10 @@
 <template>
   <selection-popup
+    v-model="selected"
     :title="$t('objects.ccenter.queues.newQueue')"
-    :selected="selected"
     :options="options"
-    @change="selectOption"
     @select="createQueue"
-    @close="close"
+    @close="$emit('close')"
   ></selection-popup>
 </template>
 
@@ -21,7 +20,8 @@ export default {
   }),
 
   created() {
-    this.selectOption(this.options[0]);
+    // eslint-disable-next-line prefer-destructuring
+    this.selected = this.options[0];
   },
 
   computed: {
@@ -35,16 +35,8 @@ export default {
   },
 
   methods: {
-    close() {
-      this.$emit('close');
-    },
-    selectOption(option) {
-      this.selected = option;
-    },
     createQueue() {
-      if (this.selected) {
-        this.$router.push({ path: '/contact-center/queues/new', query: { type: this.selected.type } });
-      }
+      this.$router.push({ path: '/contact-center/queues/new', query: { type: this.selected.type } });
     },
   },
 

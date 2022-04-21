@@ -8,6 +8,7 @@ const agentService = new AgentServiceApiFactory(configuration, '', instance);
 const defaultListObject = {
   countMembers: 0,
   waitingMembers: 0,
+  type: 0,
 };
 
 const _getAgentQueues = (getList) => function ({

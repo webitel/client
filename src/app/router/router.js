@@ -1,9 +1,6 @@
 import Vue from 'vue';
 import Router from 'vue-router';
 import Auth from '@webitel/ui-sdk/src/modules/Userinfo/components/the-auth.vue';
-import { QueueType } from 'webitel-sdk/esm2015/enums';
-import QueueTypeProperties
-  from '../../modules/contact-center/modules/queues/lookups/QueueTypeProperties.lookup';
 import RouteNames from './_internals/RouteNames.enum';
 
 const ApplicationHub = () => import('../../modules/application-hub/components/application-hub.vue');
@@ -496,96 +493,6 @@ const router = new Router({
           name: `${RouteNames.QUEUES}-edit`,
           component: OpenedQueue,
         },
-        // {
-        //   path: `/contact-center/queues/${QueueTypeProperties[QueueType.OUTBOUND_IVR_QUEUE].subpath}/new`,
-        //   name: `${RouteNames.QUEUES}-${QueueTypeProperties[QueueType.OUTBOUND_IVR_QUEUE].subpath}-new`,
-        //   component: OpenedQueue,
-        // },
-        // {
-        //   path: `/contact-center/queues/${QueueTypeProperties[QueueType.OUTBOUND_IVR_QUEUE].subpath}/:id`,
-        //   name: `${RouteNames.QUEUES}-${QueueTypeProperties[QueueType.OUTBOUND_IVR_QUEUE].subpath}-edit`,
-        //   component: OpenedQueue,
-        // },
-        // {
-        //   path: `/contact-center/queues/${QueueTypeProperties[QueueType.INBOUND_QUEUE].subpath}/new`,
-        //   name: `${RouteNames.QUEUES}-${QueueTypeProperties[QueueType.INBOUND_QUEUE].subpath}-new`,
-        //   component: OpenedQueue,
-        // },
-        // {
-        //   path: `/contact-center/queues/${QueueTypeProperties[QueueType.INBOUND_QUEUE].subpath}/:id`,
-        //   name: `${RouteNames.QUEUES}-${QueueTypeProperties[QueueType.INBOUND_QUEUE].subpath}-edit`,
-        //   component: OpenedQueue,
-        // },
-        // {
-        //   path: `/contact-center/queues/${QueueTypeProperties[QueueType.OFFLINE_QUEUE].subpath}/new`,
-        //   name: `${RouteNames.QUEUES}-${QueueTypeProperties[QueueType.INBOUND_QUEUE].subpath}-new`,
-        //   component: OpenedQueue,
-        // },
-        // {
-        //   path: `/contact-center/queues/${QueueTypeProperties[QueueType.INBOUND_QUEUE].subpath}/:id`,
-        //   name: `${RouteNames.QUEUES}-${QueueTypeProperties[QueueType.INBOUND_QUEUE].subpath}-edit`,
-        //   component: OpenedQueue,
-        // },
-        // {
-        //   path: '/contact-center/queues/preview-dialer/new',
-        //   name: `${RouteNames.QUEUES}-preview-dialer-new`,
-        //   component: OpenedQueue,
-        // },
-        // {
-        //   path: '/contact-center/queues/preview-dialer/:id',
-        //   name: `${RouteNames.QUEUES}-preview-dialer-edit`,
-        //   component: OpenedQueue,
-        // },
-        // {
-        //   path: '/contact-center/queues/progressive-dialer/new',
-        //   name: `${RouteNames.QUEUES}-progressive-dialer-new`,
-        //   component: OpenedQueue,
-        // },
-        // {
-        //   path: '/contact-center/queues/progressive-dialer/:id',
-        //   name: `${RouteNames.QUEUES}-progressive-dialer-edit`,
-        //   component: OpenedQueue,
-        // },
-        // {
-        //   path: '/contact-center/queues/predictive-dialer/new',
-        //   name: `${RouteNames.QUEUES}-predictive-dialer-new`,
-        //   component: OpenedQueue,
-        // },
-        // {
-        //   path: '/contact-center/queues/predictive-dialer/:id',
-        //   name: `${RouteNames.QUEUES}-predictive-dialer-edit`,
-        //   component: OpenedQueue,
-        // },
-        // {
-        //   path: '/contact-center/queues/chat-inbound-queue/new',
-        //   name: `${RouteNames.QUEUES}-chat-inbound-queue-new`,
-        //   component: OpenedQueue,
-        // },
-        // {
-        //   path: '/contact-center/queues/chat-inbound-queue/:id',
-        //   name: `${RouteNames.QUEUES}-chat-inbound-queue-edit`,
-        //   component: OpenedQueue,
-        // },
-        // {
-        //   path: '/contact-center/queues/inbound-task-queue/new',
-        //   name: `${RouteNames.QUEUES}-inbound-task-queue-new`,
-        //   component: OpenedQueue,
-        // },
-        // {
-        //   path: '/contact-center/queues/inbound-task-queue/:id',
-        //   name: `${RouteNames.QUEUES}-inbound-task-queue-edit`,
-        //   component: OpenedQueue,
-        // },
-        // {
-        //   path: '/contact-center/queues/outbound-task-queue/new',
-        //   name: `${RouteNames.QUEUES}-outbound-task-queue-new`,
-        //   component: OpenedQueue,
-        // },
-        // {
-        //   path: '/contact-center/queues/outbound-task-queue/:id',
-        //   name: `${RouteNames.QUEUES}-outbound-task-queue-edit`,
-        //   component: OpenedQueue,
-        // },
         // --------------CONTACT CENTER END-------------
 
         // ----------INTEGRATIONS-----------------

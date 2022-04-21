@@ -204,8 +204,7 @@ export default {
       return !!this.itemInstance.type;
     },
     queueType() {
-      // || '0' prevents errors when itemInstance type is async setting
-      return this.itemInstance.type || '0';
+      return this.itemInstance.type;
     },
 
     tabs() {
@@ -315,7 +314,8 @@ export default {
         ],
       };
       const tabs = [
-        ...queueTabsMap[this.queueType],
+        // cannot destructure undefined, if queueType loading in progress
+        ...(queueTabsMap[this.queueType] || []),
         variables,
         logs,
       ];
@@ -342,6 +342,11 @@ export default {
     async loadPageData() {
       await this.setId(this.$route.params.id);
       return this.loadItem(this.$route.query.type);
+    },
+  },
+  watch: {
+    tabs() {
+      [this.currentTab] = this.tabs;
     },
   },
 };
