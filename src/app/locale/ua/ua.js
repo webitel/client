@@ -633,6 +633,8 @@ export default {
         chatInboundQueueDescription: 'Така ж вхідна черга, але для чатів',
         inboundTaskQueue: 'Вхідна черга задач',
         inboundTaskQueueDescription: 'Вхідна черга задач',
+        outboundTaskQueue: 'Вихідна черга задач',
+        outboundTaskQueueDescription: 'Вихідна черга задач',
         strategy: 'Стратегія',
         timezone: 'Часова зона',
         callLimit: 'Максимальна кількість одночасних дзвінків',

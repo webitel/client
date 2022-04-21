@@ -632,6 +632,8 @@ export default {
         chatInboundQueueDescription: 'То же самое, что и Входящая очередь, но с чатами',
         inboundTaskQueue: 'Входящая очередь задач',
         inboundTaskQueueDescription: 'Входящая очередь задач',
+        outboundTaskQueue: 'Исходящая очередь задач',
+        ouboundTaskQueueDescription: 'Исходящая очередь задач',
         strategy: 'Стратегия',
         timezone: 'Часовая зона',
         callLimit: 'Максимальное количество одновременных звонков',

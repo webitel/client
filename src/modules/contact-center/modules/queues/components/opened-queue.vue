@@ -46,8 +46,10 @@ import PredictiveDialerGeneral from './predictive-dialer/opened-predictive-diale
 import PredictiveDialerTiming from './predictive-dialer/opened-predictive-dialer-timing.vue';
 import ChatInboundQueueGeneral from './chat-inbound-queue/opened-chat-inbound-queue-general.vue';
 import ChatInboundQueueTiming from './chat-inbound-queue/opened-chat-inbound-queue-timing.vue';
-import InboundTaskQueueGeneral from './inbound-task-queue/opened-queue-inbound-task-queue-general.vue';
-import InboundTaskQueueTiming from './inbound-task-queue/opened-queue-inbound-task-queue-timing.vue';
+import InboundTaskQueueGeneral from './inbound-task-queue/opened-inbound-task-queue-general.vue';
+import InboundTaskQueueTiming from './inbound-task-queue/opened-inbound-task-queue-timing.vue';
+import OutboundTaskQueueGeneral from './outbound-task-queue/opened-outbound-task-queue-general.vue';
+import OutboundTaskQueueTiming from './outbound-task-queue/opened-outbound-task-queue-timing.vue';
 import Agents from '../modules/agents/components/opened-queue-agents.vue';
 import Skills from '../modules/skills/components/opened-queue-skills.vue';
 import Resources from '../modules/res-groups/components/opened-queue-resources.vue';
@@ -79,6 +81,8 @@ export default {
     ChatInboundQueueTiming,
     InboundTaskQueueGeneral,
     InboundTaskQueueTiming,
+    OutboundTaskQueueGeneral,
+    OutboundTaskQueueTiming,
     Agents,
     Skills,
     Resources,
@@ -191,6 +195,19 @@ export default {
             payload: {
               maxAttempts: { required },
               waitBetweenRetries: { required, minValue: minValue(0) },
+            },
+          },
+        };
+      case QueueType.OUTBOUND_TASK_QUEUE:
+        return {
+          itemInstance: {
+            ...defaults,
+            strategy: { required },
+            payload: {
+              maxAttempts: { required },
+              originateTimeout: { required, minValue: minValue(0) },
+              waitBetweenRetries: { required, minValue: minValue(0) },
+              minDuration: { minValue: minValue(0) },
             },
           },
         };
@@ -312,6 +329,12 @@ export default {
           buckets,
           hooks,
         ],
+        [QueueType.OUTBOUND_TASK_QUEUE]: [
+          general('outbound-task-queue'),
+          timing('outbound-task-queue'),
+          buckets,
+          hooks,
+        ],
       };
       const tabs = [
         // cannot destructure undefined, if queueType loading in progress
@@ -346,7 +369,7 @@ export default {
   },
   watch: {
     tabs() {
-      [this.currentTab] = this.tabs;
+      // [this.currentTab] = this.tabs;
     },
   },
 };

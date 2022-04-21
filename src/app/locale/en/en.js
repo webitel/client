@@ -634,6 +634,8 @@ export default {
         chatInboundQueueDescription: 'The same as inbound queue, but with chats',
         inboundTaskQueue: 'Inbound task queue',
         inboundTaskQueueDescription: 'Inbound task queue',
+        outboundTaskQueue: 'Outbound task queue',
+        outboundTaskQueueDescription: 'Outbound task queue',
         strategy: 'Strategy',
         timezone: 'Timezone',
         callLimit: 'Call limit',
