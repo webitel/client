@@ -45,7 +45,7 @@
 import openedTabComponentMixin from '../../../../../../../app/mixins/objectPagesMixins/openedObjectTabMixin/openedTabComponentMixin';
 
 export default {
-  name: 'opened-queue-outbound-ivr-variables',
+  name: 'opened-queue-variables',
   mixins: [openedTabComponentMixin],
 };
 </script>

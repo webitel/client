@@ -65,6 +65,10 @@ export default {
       default: 480,
     },
   },
+  model: {
+    prop: 'selected',
+    event: 'change',
+  },
   methods: {
     add() {
       this.$emit('select', this.selected);

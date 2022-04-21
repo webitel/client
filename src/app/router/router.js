@@ -64,6 +64,7 @@ Vue.use(Router);
 const router = new Router({
   mode: 'history',
   base: process.env.BASE_URL,
+                            // eslint-disable-next-line no-unused-vars
   scrollBehavior(to, from, savedPosition) {
     return { x: 0, y: 0 };
   },
@@ -483,83 +484,13 @@ const router = new Router({
           component: OpenedMember,
         },
         {
-          path: '/contact-center/queues/outbound-ivr/new',
-          name: `${RouteNames.QUEUES}-outbound-ivr-new`,
+          path: '/contact-center/queues/new',
+          name: `${RouteNames.QUEUES}-new`,
           component: OpenedQueue,
         },
         {
-          path: '/contact-center/queues/outbound-ivr/:id',
-          name: `${RouteNames.QUEUES}-outbound-ivr-edit`,
-          component: OpenedQueue,
-        },
-        {
-          path: '/contact-center/queues/inbound-queue/new',
-          name: `${RouteNames.QUEUES}-inbound-queue-new`,
-          component: OpenedQueue,
-        },
-        {
-          path: '/contact-center/queues/inbound-queue/:id',
-          name: `${RouteNames.QUEUES}-inbound-queue-edit`,
-          component: OpenedQueue,
-        },
-        {
-          path: '/contact-center/queues/offline-queue/new',
-          name: `${RouteNames.QUEUES}-offline-queue-new`,
-          component: OpenedQueue,
-        },
-        {
-          path: '/contact-center/queues/offline-queue/:id',
-          name: `${RouteNames.QUEUES}-offline-queue-edit`,
-          component: OpenedQueue,
-        },
-        {
-          path: '/contact-center/queues/preview-dialer/new',
-          name: `${RouteNames.QUEUES}-preview-dialer-new`,
-          component: OpenedQueue,
-        },
-        {
-          path: '/contact-center/queues/preview-dialer/:id',
-          name: `${RouteNames.QUEUES}-preview-dialer-edit`,
-          component: OpenedQueue,
-        },
-        {
-          path: '/contact-center/queues/progressive-dialer/new',
-          name: `${RouteNames.QUEUES}-progressive-dialer-new`,
-          component: OpenedQueue,
-        },
-        {
-          path: '/contact-center/queues/progressive-dialer/:id',
-          name: `${RouteNames.QUEUES}-progressive-dialer-edit`,
-          component: OpenedQueue,
-        },
-        {
-          path: '/contact-center/queues/predictive-dialer/new',
-          name: `${RouteNames.QUEUES}-predictive-dialer-new`,
-          component: OpenedQueue,
-        },
-        {
-          path: '/contact-center/queues/predictive-dialer/:id',
-          name: `${RouteNames.QUEUES}-predictive-dialer-edit`,
-          component: OpenedQueue,
-        },
-        {
-          path: '/contact-center/queues/chat-inbound-queue/new',
-          name: `${RouteNames.QUEUES}-chat-inbound-queue-new`,
-          component: OpenedQueue,
-        },
-        {
-          path: '/contact-center/queues/chat-inbound-queue/:id',
-          name: `${RouteNames.QUEUES}-chat-inbound-queue-edit`,
-          component: OpenedQueue,
-        },
-        {
-          path: '/contact-center/queues/task-queue/new',
-          name: `${RouteNames.QUEUES}-task-queue-new`,
-          component: OpenedQueue,
-        },
-        {
-          path: '/contact-center/queues/task-queue/:id',
-          name: `${RouteNames.QUEUES}-task-queue-edit`,
+          path: '/contact-center/queues/:id',
+          name: `${RouteNames.QUEUES}-edit`,
           component: OpenedQueue,
         },
         // --------------CONTACT CENTER END-------------
