@@ -20,6 +20,14 @@ module.exports = {
             },
         },
     },
+  configureWebpack: {
+      resolve: {
+        fallback: {
+          // path: false,
+          // stream: require.resolve('stream-browserify'),
+        },
+      },
+  },
     chainWebpack: (config) => {
       config.plugin('polyfills').use(NodePolyfillPlugin)
 
