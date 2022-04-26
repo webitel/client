@@ -1,7 +1,7 @@
 process.env.VUE_APP_PACKAGE_VERSION = require('./package.json').version;
 
 const MonacoWebpackPlugin = require('monaco-editor-webpack-plugin');
-const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
+// const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
 
 module.exports = {
     publicPath: '/',
@@ -37,11 +37,11 @@ module.exports = {
             // https://github.com/Microsoft/monaco-editor-webpack-plugin#options
         }]);
 
-      config.plugin('webpack-bundle-analyzer').use(new BundleAnalyzerPlugin({
+      // config.plugin('webpack-bundle-analyzer').use(new BundleAnalyzerPlugin({
         // analyzerHost: '127.0.0.1:8082',
         // analyzerMode: 'static',
-        analyzerMode: 'disabled',
-      }));
+        // analyzerMode: 'disabled',
+      // }));
 
       config.module
         .rule('svg')
