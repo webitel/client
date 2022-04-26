@@ -3,9 +3,11 @@ process.env.VUE_APP_PACKAGE_VERSION = require('./package.json').version;
 const MonacoWebpackPlugin = require('monaco-editor-webpack-plugin');
 // const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
 
+const NodePolyfillPlugin = require('node-polyfill-webpack-plugin');
+
 module.exports = {
     publicPath: '/',
-    transpileDependencies: ['@webitel/ui-sdk/src'],
+    transpileDependencies: true,
     lintOnSave: true,
     productionSourceMap: false && process.env.NODE_ENV !== 'production' || process.env.SOURCE_MAP,
     css: {
@@ -19,15 +21,8 @@ module.exports = {
         },
     },
     chainWebpack: (config) => {
-        config.optimization.splitChunks = {
-            chunks: 'all',
-        };
+      config.plugin('polyfills').use(NodePolyfillPlugin)
 
-        config.module
-            .rule('eslint')
-            .use('eslint-loader')
-            .tap((opts) => ({ ...opts, emitWarning: true }));
-        // config.devtool('source-map');
         config.plugin('monaco-editor-webpack-plugin').use(MonacoWebpackPlugin, [{
             output: '', // папка, куда собирать скрипты воркеров
             languages: ['json'], // массив строк с названиями языков, для которых нужна подсветка
@@ -37,11 +32,11 @@ module.exports = {
             // https://github.com/Microsoft/monaco-editor-webpack-plugin#options
         }]);
 
-      // config.plugin('webpack-bundle-analyzer').use(new BundleAnalyzerPlugin({
-        // analyzerHost: '127.0.0.1:8082',
-        // analyzerMode: 'static',
-        // analyzerMode: 'disabled',
-      // }));
+//       // config.plugin('webpack-bundle-analyzer').use(new BundleAnalyzerPlugin({
+//         // analyzerHost: '127.0.0.1:8082',
+//         // analyzerMode: 'static',
+//         // analyzerMode: 'disabled',
+//       // }));
 
       config.module
         .rule('svg')
