@@ -16,6 +16,8 @@ import bucketsAPI from '../../../../lookups/modules/buckets/api/buckets';
 import queuesAPI from '../../../../contact-center/modules/queues/api/queues';
 import gatewaysAPI from '../../gateways/api/gateways';
 import flowsAPI from '../api/flow';
+import BlacklistsAPI from '../../../../lookups/modules/blacklists/api/blacklists';
+import CommunicationsAPI from '../../../../lookups/modules/communications/api/communications';
 
 export default {
   name: 'opened-flow-diagram',
@@ -52,6 +54,8 @@ export default {
               queues: queuesAPI.getLookup,
               buckets: bucketsAPI.getLookup,
               gateways: gatewaysAPI.getLookup,
+              lists: BlacklistsAPI.getLookup,
+              communications: CommunicationsAPI.getLookup,
             },
           },
         };
