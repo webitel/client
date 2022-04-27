@@ -13,10 +13,30 @@ import configuration from '../../../../../app/api/openAPIConfig';
 
 const queueService = new QueueServiceApiFactory(configuration, '', instance);
 
-const fieldsToSend = ['name', 'type', 'strategy', 'team', 'priority', 'dncList', 'schema',
-  'payload', 'maxOfRetry', 'timeout', 'secBetweenRetries', 'variables', 'calendar', 'description',
-  'enabled', 'ringtone', 'doSchema', 'afterSchema', 'processing', 'processingSec', 'processingRenewalSec',
-  'stickyAgent'];
+const fieldsToSend = [
+  'name',
+  'type',
+  'strategy',
+  'team',
+  'priority',
+  'dncList',
+  'schema',
+  'payload',
+  'maxOfRetry',
+  'timeout',
+  'secBetweenRetries',
+  'variables',
+  'calendar',
+  'description',
+  'enabled',
+  'ringtone',
+  'doSchema',
+  'afterSchema',
+  'processing',
+  'processingSec',
+  'processingRenewalSec',
+  'stickyAgent',
+];
 
 const defaultListObject = {
   type: 0,
@@ -45,7 +65,10 @@ const itemResponseHandler = (response) => {
     if (response.variables) {
       // eslint-disable-next-line no-param-reassign
       response.variables = Object.keys(response.variables)
-        .map((key) => ({ key, value: response.variables[key] }));
+                                 .map((key) => ({
+                                   key,
+                                   value: response.variables[key],
+                                 }));
     }
     return deepMerge(defaultSingleObject, response);
   } catch (err) {
@@ -54,14 +77,45 @@ const itemResponseHandler = (response) => {
 };
 
 const listGetter = new SdkListGetterApiConsumer(queueService.searchQueue, { defaultListObject });
-const itemGetter = new SdkGetterApiConsumer(queueService.readQueue,
-  { defaultSingleObject, itemResponseHandler });
-const itemCreator = new SdkCreatorApiConsumer(queueService.createQueue,
-  { fieldsToSend, preRequestHandler });
-const itemUpdater = new SdkUpdaterApiConsumer(queueService.updateQueue,
-  { fieldsToSend, preRequestHandler });
+const itemGetter = new SdkGetterApiConsumer(
+  queueService.readQueue,
+  {
+    defaultSingleObject,
+    itemResponseHandler,
+  },
+);
+const itemCreator = new SdkCreatorApiConsumer(
+  queueService.createQueue,
+  {
+    fieldsToSend,
+    preRequestHandler,
+  },
+);
+const itemUpdater = new SdkUpdaterApiConsumer(
+  queueService.updateQueue,
+  {
+    fieldsToSend,
+    preRequestHandler,
+  },
+);
 const itemPatcher = new SdkPatcherApiConsumer(queueService.patchQueue, { fieldsToSend });
 const itemDeleter = new SdkDeleterApiConsumer(queueService.deleteQueue);
+
+const _getQueuesLookup = (getList) => function ({
+  page,
+  size,
+  search,
+  sort,
+  fields = ['id', 'name', 'type'],
+  ids,
+  type,
+                                               }) {
+  const params = [page, size, search, sort, fields, ids, type];
+  return getList(params);
+};
+
+const lookupListGetter = new SdkListGetterApiConsumer(queueService.searchQueue)
+  .setGetListMethod(_getQueuesLookup);
 
 const getQueuesList = (params) => listGetter.getList(params);
 const getQueue = (params) => itemGetter.getItem(params);
@@ -69,7 +123,7 @@ const addQueue = (params) => itemCreator.createItem(params);
 const updateQueue = (params) => itemUpdater.updateItem(params);
 const patchQueue = (params) => itemPatcher.patchItem(params);
 const deleteQueue = (params) => itemDeleter.deleteItem(params);
-const getQueuesLookup = (params) => listGetter.getLookup(params);
+const getQueuesLookup = (params) => lookupListGetter.getList(params);
 
 const QueuesAPI = {
   getList: getQueuesList,
