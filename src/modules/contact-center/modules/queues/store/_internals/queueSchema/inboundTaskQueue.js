@@ -16,6 +16,7 @@ const inboundTaskQueue = () => ({
   payload: {
     maxAttempts: 3, // required
     waitBetweenRetries: 30 * 60, // required
+    maxCalls: 10,
     waitBetweenRetriesDesc: false,
   },
 });

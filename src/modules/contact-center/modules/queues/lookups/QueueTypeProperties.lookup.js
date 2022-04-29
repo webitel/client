@@ -178,6 +178,7 @@ const QueueTypeProperties = Object.freeze({
                                                 'afterSchema',
                                                 // params specific
                                                 'maxAttempts',
+                                                'maxCalls',
                                                 'waitBetweenRetries',
                                                 'waitBetweenRetriesDesc',
                                                 'processing',
