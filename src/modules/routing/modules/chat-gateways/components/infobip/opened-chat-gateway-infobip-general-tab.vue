@@ -28,13 +28,12 @@
         required
         @input="setItemProp({ prop: 'uri', value: $event })"
       ></copy-input>
-      <wt-input
-        :disabled="disableUserInput"
-        :label="$t('objects.routing.chatGateways.metadata.number')"
-        :v="v.itemInstance.metadata.number"
-        :value="itemInstance.metadata.number"
-        @input="setItemMetadata({ prop: 'number', value: $event })"
-      ></wt-input>
+<!--      <wt-input-->
+<!--        :disabled="disableUserInput"-->
+<!--        :label="$t('objects.routing.chatGateways.metadata.number')"-->
+<!--        :value="itemInstance.metadata.number"-->
+<!--        @input="setItemMetadata({ prop: 'number', value: $event })"-->
+<!--      ></wt-input>-->
       <wt-select
         :disabled="disableUserInput"
         :label="$t('objects.routing.flow.flow')"
@@ -49,14 +48,6 @@
         :v="v.itemInstance.metadata.url"
         :value="itemInstance.metadata.url"
         @input="setItemMetadata({ prop: 'url', value: $event })"
-      ></wt-input>
-      <!--      Empty div in order to have correct page design-->
-      <div></div>
-      <wt-input
-        :disabled="disableUserInput"
-        :label="$t('objects.routing.chatGateways.metadata.scenarioKey')"
-        :value="itemInstance.metadata.scenarioKey"
-        @input="setItemMetadata({ prop: 'scenarioKey', value: $event })"
       ></wt-input>
     </form>
   </section>

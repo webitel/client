@@ -105,7 +105,6 @@ export default {
             ...defaults,
             metadata: {
               apiKey: { required },
-              number: { required },
               url: { required },
             },
           },

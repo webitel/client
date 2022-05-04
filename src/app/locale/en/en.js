@@ -504,7 +504,6 @@ export default {
           apiKey: 'Api Key',
           number: 'Number',
           baseUrl: 'Base URL',
-          scenarioKey: 'Scenario Key',
           sendApi: 'Send API',
           allowOrigin: 'Allow Origin',
           readTimeout: 'Read Timeout (sec)',

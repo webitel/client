@@ -6,9 +6,8 @@ const infobipChatGateway = () => ({
   provider: MessengerType.INFOBIP,
   metadata: {
     apiKey: '',
-    number: '',
+    // number: '',
     url: '',
-    scenarioKey: '',
   },
 });
 
