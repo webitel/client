@@ -10,13 +10,12 @@ const outboundTaskQueue = () => ({
   doSchema: {},
   afterSchema: {},
   payload: {
-    minDuration: 3,
+
     maxAttempts: 3, // required
     originateTimeout: 60, // required
     waitBetweenRetries: 30 * 60, // required
     waitBetweenRetriesDesc: false,
     maxCalls: 10,
-    recordings: false,
     strictCircuit: false,
     perNumbers: false,
   },

@@ -12,6 +12,7 @@ const QueueTypeProperties = Object.freeze({
                                                 'team',
                                                 'doSchema',
                                                 'afterSchema',
+                                                'formSchema',
                                                 // params specific
                                                 'originateTimeout',
                                                 'recordings',
@@ -28,6 +29,7 @@ const QueueTypeProperties = Object.freeze({
                                                 // general specific
                                                 'team',
                                                 'ringtone',
+                                                'formSchema',
                                                 // params specific
                                                 'maxWaitTime',
                                                 'discardAbandonedAfter',
@@ -69,6 +71,7 @@ const QueueTypeProperties = Object.freeze({
                                                 'team',
                                                 'doSchema',
                                                 'afterSchema',
+                                                'formSchema',
                                                 // params specific
                                                 'originateTimeout',
                                                 'maxAttempts',
@@ -95,6 +98,8 @@ const QueueTypeProperties = Object.freeze({
                                                 'team',
                                                 'doSchema',
                                                 'afterSchema',
+                                                'formSchema',
+                                                'ringtone',
                                                 // params specific
                                                 'originateTimeout',
                                                 'maxAttempts',
@@ -122,6 +127,7 @@ const QueueTypeProperties = Object.freeze({
                                                 'ringtone',
                                                 'doSchema',
                                                 'afterSchema',
+                                                'formSchema',
                                                 // params specific
                                                 'originateTimeout',
                                                 'maxWaitTime',
@@ -155,6 +161,7 @@ const QueueTypeProperties = Object.freeze({
                                                 // general specific
                                                 'strategy',
                                                 'team',
+                                                'formSchema',
                                                 // params specific
                                                 'maxWaitTime',
                                                 'discardAbandonedAfter',
@@ -176,6 +183,7 @@ const QueueTypeProperties = Object.freeze({
                                                 'team',
                                                 'doSchema',
                                                 'afterSchema',
+                                                'formSchema',
                                                 // params specific
                                                 'maxAttempts',
                                                 'maxCalls',
@@ -200,11 +208,9 @@ const QueueTypeProperties = Object.freeze({
                                                 'originateTimeout',
                                                 'maxAttempts',
                                                 'waitBetweenRetries',
-                                                'minDuration',
                                                 'maxCalls',
                                                 'waitBetweenRetriesDesc',
                                                 'strictCircuit',
-                                                'recordings',
                                                 'perNumbers',
                                               ],
                                             },

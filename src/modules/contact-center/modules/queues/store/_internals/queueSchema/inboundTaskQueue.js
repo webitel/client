@@ -9,6 +9,7 @@ const inboundTaskQueue = () => ({
   strategy: Strategy.FIFO, // required
   doSchema: {},
   afterSchema: {},
+  formSchema: {},
   processing: false,
   processingSec: 30,
   processingRenewalSec: 15,

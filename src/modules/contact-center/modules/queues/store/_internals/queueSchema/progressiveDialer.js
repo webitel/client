@@ -10,6 +10,8 @@ const progressiveDialer = () => ({
   strategy: Strategy.FIFO, // required
   doSchema: {},
   afterSchema: {},
+  formSchema: {},
+  ringtone: {},
   processing: false,
   processingSec: 30,
   processingRenewalSec: 15,
