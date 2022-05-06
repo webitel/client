@@ -682,6 +682,7 @@ export default {
         allowGreetingAgent: 'Разрешить приветствие',
         preSchema: 'Схема предварительного набора',
         afterSchema: 'Схема посленабора',
+        formSchema: 'Динамическая страница рабочей области оператора',
         maxCalls: 'Лимит звонков',
         maxCallsHint: 'Если значение равно 0, дайлер не будет звонить',
         recordings: 'Запись',

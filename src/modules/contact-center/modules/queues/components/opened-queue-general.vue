@@ -87,6 +87,16 @@
 
       <!--      v-if-->
       <wt-select
+        v-if="specificControls.formSchema"
+        :disabled="disableUserInput"
+        :label="$t('objects.ccenter.queues.formSchema')"
+        :search-method="loadDropdownOptionsSchemaList"
+        :value="itemInstance.formSchema"
+        @input="setItemProp({ prop: 'formSchema', value: $event })"
+      ></wt-select>
+
+      <!--      v-if-->
+      <wt-select
         v-if="specificControls.doSchema"
         :disabled="disableUserInput"
         :label="$t('objects.ccenter.queues.preSchema')"

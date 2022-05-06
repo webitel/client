@@ -32,6 +32,7 @@ const fieldsToSend = [
   'ringtone',
   'doSchema',
   'afterSchema',
+  'formSchema',
   'processing',
   'processingSec',
   'processingRenewalSec',

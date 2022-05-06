@@ -7,6 +7,7 @@ const inboundQueue = () => ({
   type: QueueType.INBOUND_QUEUE,
   team: {}, // required
   ringtone: {},
+  formSchema: {},
   processing: false,
   processingSec: 30,
   processingRenewalSec: 15,

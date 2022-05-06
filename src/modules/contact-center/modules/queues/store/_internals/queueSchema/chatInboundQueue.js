@@ -8,6 +8,7 @@ const chatInboundQueue = () => ({
   type: QueueType.CHAT_INBOUND_QUEUE,
   team: {}, // required
   strategy: Strategy.FIFO, // required
+  formSchema: {},
   processing: false,
   processingSec: 30,
   processingRenewalSec: 15,

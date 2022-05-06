@@ -684,6 +684,7 @@ export default {
         allowGreetingAgent: 'Allow greeting agent',
         preSchema: 'Pre-executive schema',
         afterSchema: 'After-executive schema',
+        formSchema: 'Dynamic workspace pages',
         maxCalls: 'Max calls',
         maxCallsHint: 'If value is 0, dialer won\'t call',
         recordings: 'Recording',
