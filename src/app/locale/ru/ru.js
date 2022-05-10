@@ -476,6 +476,9 @@ export default {
           webchat: 'Web chat',
           copyCode: 'Скопировать код',
           copyCodeHint: 'Необходимо перегенерировать и вставить код Виджета на сайт после каждой модификации настроек',
+          metadata: {
+            mediaMaxSize: 'Максимальный размер файла (Мб)',
+          },
           view: {
             borderRadius: 'Вид кнопки',
             language: 'Язык',

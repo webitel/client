@@ -476,6 +476,9 @@ export default {
           webchat: 'Web chat',
           copyCode: 'Copy code for site',
           copyCodeHint: 'You must regenerate and reinsert Widget code to website each time after Widget settings modification',
+          metadata: {
+            mediaMaxSize: 'Max media size (Mb)',
+          },
           view: {
             view: 'View',
             borderRadius: 'Button Shape',
