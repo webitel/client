@@ -50,14 +50,18 @@
         :value="itemInstance.metadata.writeTimeout"
         @input="setItemMetadata({ prop: 'writeTimeout', value: $event })"
       ></wt-input>
-      <!--      Empty div in order to have correct page design-->
-      <div></div>
       <wt-input
         :disabled="disableUserInput"
         :label="$t('objects.routing.chatGateways.metadata.handshakeTimeout')"
         :v="v.itemInstance.metadata.handshakeTimeout"
         :value="itemInstance.metadata.handshakeTimeout"
         @input="setItemMetadata({ prop: 'handshakeTimeout', value: $event })"
+      ></wt-input>
+      <wt-input
+        v-model="mediaMaxSize"
+        :disabled="disableUserInput"
+        :label="$t('objects.routing.chatGateways.webchat.metadata.mediaMaxSize')"
+        type="number"
       ></wt-input>
       <!--      If the input below is not commented - please add an empty <div></div> here in order to have correct page design -->
       <!--      The following input should be commented. Now the maximum message size is default, -->
@@ -73,7 +77,7 @@
 </template>
 
 <script>
-import path from "path";
+import path from 'path';
 import { mapActions } from 'vuex';
 import openedTabComponentMixin
   from '../../../../../../app/mixins/objectPagesMixins/openedObjectTabMixin/openedTabComponentMixin';
@@ -86,6 +90,16 @@ export default {
   computed: {
     isUriEditable() {
       return !this.disableUserInput && this.$route.path.includes('/new');
+    },
+    mediaMaxSize: {
+      get() {
+        const bToMb = (b) => (b || 0) / 1024 / 1024;
+        return bToMb(this.itemInstance.metadata.mediaMaxSize);
+      },
+      set(value) {
+        const mbToB = (mb) => `${(mb || 0) * 1024 * 1024}`;
+        this.setItemMetadata({ prop: 'mediaMaxSize', value: mbToB(value) });
+      },
     },
   },
   methods: {
