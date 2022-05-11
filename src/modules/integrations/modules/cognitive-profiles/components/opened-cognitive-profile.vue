@@ -30,17 +30,15 @@
 
 <script>
 import { required } from 'vuelidate/lib/validators';
-import General from './opened-blacklist-general.vue';
-import Numbers from '../modules/numbers/components/opened-blacklist-numbers.vue';
+import General from './opened-cognitive-profile-general.vue';
 import openedObjectMixin from '../../../../../app/mixins/objectPagesMixins/openedObjectMixin/openedObjectMixin';
 
 export default {
-  name: 'opened-blacklist',
+  name: 'opened-cognitive-profile',
   mixins: [openedObjectMixin],
-  components: { General, Numbers },
-
+  components: { General },
   data: () => ({
-    namespace: 'lookups/blacklists',
+    namespace: 'lookups/skills',
   }),
 
   validations: {
@@ -54,25 +52,15 @@ export default {
       const tabs = [{
         text: this.$t('objects.general'),
         value: 'general',
-      }, {
-        text: this.$tc('objects.lookups.blacklist.number', 2),
-        value: 'numbers',
       }];
-
-      const permissions = {
-        text: this.$tc('objects.permissions.permissions', 2),
-        value: 'permissions',
-      };
-
-      if (this.id) tabs.push(permissions);
       return tabs;
     },
 
     path() {
-      const baseUrl = '/lookups/blacklist';
+      const baseUrl = '/integrations/cognitive-profiles';
       return [
-        { name: this.$t('objects.lookups.lookups') },
-        { name: this.$tc('objects.lookups.blacklist.blacklist', 2), route: baseUrl },
+        { name: this.$t('objects.integrations.integrations') },
+        { name: this.$tc('objects.integrations.cognitiveProfiles.cognitiveProfiles', 2), route: baseUrl },
         {
           name: this.id ? this.pathName : this.$t('objects.new'),
           route: this.id ? `${baseUrl}/${this.id}` : `${baseUrl}/new`,
@@ -83,6 +71,6 @@ export default {
 };
 </script>
 
-<style lang="scss" scoped>
+<style scoped>
 
 </style>

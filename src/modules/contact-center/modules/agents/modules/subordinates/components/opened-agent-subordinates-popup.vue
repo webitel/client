@@ -3,7 +3,7 @@
     <template slot="title">
       {{ $t('objects.ccenter.agents.addSubordinate') }}
     </template>
-    <template slot="main">
+    <template v-slot:main>
       <form>
         <wt-select
           :value="itemInstance.agent"

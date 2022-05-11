@@ -3,7 +3,7 @@
     <template slot="title">
       {{ title }}
     </template>
-    <template slot="main">
+    <template v-slot:main>
       <section>
         <wt-table
           :data="dataList"

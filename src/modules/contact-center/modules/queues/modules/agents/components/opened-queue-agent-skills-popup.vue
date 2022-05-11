@@ -3,7 +3,7 @@
     <template slot="title">
       {{ $tc('objects.lookups.skills.skills', 2) }}
     </template>
-    <template slot="main">
+    <template v-slot:main>
       <section>
         <wt-table
           :data="dataList"

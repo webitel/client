@@ -58,6 +58,8 @@ const OpenedMember = () => import('../../modules/contact-center/modules/queues/m
 const OpenedQueue = () => import('../../modules/contact-center/modules/queues/components/opened-queue.vue');
 const Storage = () => import('../../modules/integrations/modules/storage/components/the-storage.vue');
 const OpenedStorage = () => import('../../modules/integrations/modules/storage/components/opened-storage.vue');
+const CognitiveProfiles = () => import('../../modules/integrations/modules/cognitive-profiles/components/the-cognitive-profiles.vue');
+const OpenedCognitiveProfile = () => import('../../modules/integrations/modules/cognitive-profiles/components/opened-cognitive-profile.vue');
 
 Vue.use(Router);
 
@@ -510,6 +512,21 @@ const router = new Router({
           path: '/integrations/storage/:type/:id',
           name: `${RouteNames.STORAGE}-edit`,
           component: OpenedStorage,
+        },
+        {
+          path: '/integrations/cognitive-profile',
+          name: RouteNames.COGNITIVE_PROFILES,
+          component: CognitiveProfiles,
+        },
+        {
+          path: '/integrations/cognitive-profile/new',
+          name: `${RouteNames.COGNITIVE_PROFILES}-new`,
+          component: OpenedCognitiveProfile,
+        },
+        {
+          path: '/integrations/cognitive-profile/:id',
+          name: `${RouteNames.COGNITIVE_PROFILES}-edit`,
+          component: OpenedCognitiveProfile,
         },
         // --------------INTEGRATIONS END-------------
 

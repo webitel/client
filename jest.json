@@ -1,8 +1,8 @@
 {
   "stats": {
-    "duration": 61204,
-    "start": "2022-04-26T18:47:08.473Z",
-    "end": "2022-04-26T18:48:09.677Z",
+    "duration": 50807,
+    "start": "2022-05-10T15:06:07.726Z",
+    "end": "2022-05-10T15:06:58.533Z",
     "passes": 5,
     "failures": 0,
     "tests": 5
@@ -12,31 +12,31 @@
     {
       "title": "renders a component",
       "fullTitle": "CreateQueuePopup renders a component",
-      "duration": 31246,
-      "errorCount": 0
-    },
-    {
-      "title": "renders a component",
-      "fullTitle": "OpenedQueueParams renders a component",
-      "duration": 41743,
+      "duration": 26934,
       "errorCount": 0
     },
     {
       "title": "renders a component",
       "fullTitle": "OpenedQueueGeneral renders a component",
-      "duration": 41748,
+      "duration": 36226,
+      "errorCount": 0
+    },
+    {
+      "title": "renders a component",
+      "fullTitle": "OpenedQueueParams renders a component",
+      "duration": 36212,
       "errorCount": 0
     },
     {
       "title": "renders a component",
       "fullTitle": "TheQueues renders a component",
-      "duration": 41767,
+      "duration": 36254,
       "errorCount": 0
     },
     {
       "title": "renders a component",
       "fullTitle": "OpenedQueue renders a component",
-      "duration": 43809,
+      "duration": 37920,
       "errorCount": 0
     }
   ],

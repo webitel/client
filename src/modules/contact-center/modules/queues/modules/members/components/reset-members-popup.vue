@@ -5,7 +5,7 @@
     @close="close"
   >
     <template slot="title">{{ $t('objects.ccenter.members.resetMembers.resetMembers') }}</template>
-    <template slot="main">
+    <template v-slot:main>
       <p>
         {{ $t('objects.ccenter.members.resetMembers.description') }}
       </p>

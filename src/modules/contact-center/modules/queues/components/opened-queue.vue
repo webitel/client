@@ -1,6 +1,6 @@
 <template>
   <wt-page-wrapper :actions-panel="false" v-if="showQueuePage">
-    <template slot="header">
+    <template v-slot:header>
       <object-header
         :hide-primary="!hasSaveActionAccess"
         :primary-action="save"
@@ -12,7 +12,7 @@
       </object-header>
     </template>
 
-    <template slot="main">
+    <template v-slot:main>
       <div class="tabs-page-wrapper">
         <wt-tabs
           v-model="currentTab"

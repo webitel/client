@@ -1,6 +1,6 @@
 <template>
   <wt-page-wrapper :actions-panel="false">
-    <template slot="header">
+    <template v-slot:header>
       <object-header
         :hide-primary="!hasCreateAccess"
         :primary-action="create"
@@ -9,7 +9,7 @@
       </object-header>
     </template>
 
-    <template slot="main">
+    <template v-slot:main>
       <create-flow-popup
         v-if="isCreateFlowPopup"
         @close="isCreateFlowPopup = false"

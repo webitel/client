@@ -1,7 +1,7 @@
 <template>
   <wt-popup overflow @close="close">
     <template slot="title">{{ $t('objects.directory.devices.deviceHistory') }}</template>
-    <template slot="main">
+    <template v-slot:main>
       <section class="history-popup">
         <div class="history-popup__filters">
           <wt-datetimepicker

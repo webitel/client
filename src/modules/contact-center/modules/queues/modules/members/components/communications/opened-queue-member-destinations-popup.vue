@@ -3,7 +3,7 @@
     <template slot="title">
       {{ $tc('objects.ccenter.queues.destination', 2) }}
     </template>
-    <template slot="main">
+    <template v-slot:main>
       <section class="destinations-popup">
         <wt-table
             class="popup-table"

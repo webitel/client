@@ -7,7 +7,7 @@
     <template slot="title">
       {{ $t('objects.importCSV') }}
     </template>
-    <template slot="main">
+    <template v-slot:main>
       <wt-loader
         v-show="isReadingFile"
         class="upload-popup__reading-file-loader"

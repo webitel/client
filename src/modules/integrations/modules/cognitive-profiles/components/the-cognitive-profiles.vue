@@ -18,7 +18,7 @@
 
       <section class="main-section__wrapper">
         <header class="content-header">
-          <h3 class="content-title">{{ $t('objects.ccenter.resGroups.allResGroups') }} </h3>
+          <h3 class="content-title">{{ $t('objects.integrations.cognitiveProfiles.all') }}</h3>
           <div class="content-header__actions-wrap">
             <wt-search-bar
               :value="search"
@@ -52,23 +52,21 @@
             sortable
             @sort="sort"
           >
-            <template slot="name" slot-scope="{ item }">
-              <span class="nameLink" @click="edit(item)">
+            <template v-slot:name="{ item }">
+              <item-link :link="itemLink(item)">
                 {{ item.name }}
-              </span>
+              </item-link>
             </template>
-
-            <template slot="communication" slot-scope="{ item }">
-              <div v-if="item.communication">
-                {{ item.communication.name }}
-              </div>
+            <template v-slot:provider="{ item }">
+              {{ item.provider }}
             </template>
-
-            <template slot="description" slot-scope="{ item }">
-              {{ item.description }}
+            <template v-slot:service="{ item }">
+              {{ item.service }}
             </template>
-
-            <template slot="actions" slot-scope="{ item }">
+            <template v-slot:default="{ item }">
+              {{ item.default }}
+            </template>
+            <template v-slot:actions="{ item }">
               <edit-action
                 v-if="hasEditAccess"
                 @click="edit(item)"
@@ -100,20 +98,24 @@ import tableComponentMixin from '../../../../../app/mixins/objectPagesMixins/obj
 import RouteNames from '../../../../../app/router/_internals/RouteNames.enum';
 
 export default {
-  name: 'the-resource-groups',
+  name: 'the-cognitive-profiles',
   mixins: [tableComponentMixin],
   data: () => ({
-    namespace: 'ccenter/resGroups',
-    routeName: RouteNames.RESOURCE_GROUPS,
+    namespace: 'integrations/cognitiveProfiles',
+    routeName: RouteNames.COGNITIVE_PROFILES,
   }),
 
   computed: {
     path() {
       return [
-        { name: this.$t('objects.ccenter.ccenter') },
-        { name: this.$tc('objects.ccenter.resGroups.resGroups', 2), route: '/contact-center/resource-groups' },
+        { name: this.$t('objects.integrations.integrations') },
+        { name: this.$tc('objects.integrations.cognitiveProfiles.cognitiveProfiles', 2), route: '/integrations/cognitive-profiles' },
       ];
     },
   },
 };
 </script>
+
+<style scoped>
+
+</style>

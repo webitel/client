@@ -6,7 +6,7 @@
     @close="close"
   >
     <template slot="title">{{ title }}</template>
-    <template slot="main">
+    <template v-slot:main>
       <ul class="popup-options">
         <li
           class="popup-options__item-wrap"
