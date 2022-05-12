@@ -44,6 +44,7 @@
         :label="$t('objects.integrations.cognitiveProfiles.properties.region')"
         :options="MicrosoftRegions"
         :value="itemInstance.properties.region"
+        :clearable="false"
         required
         @input="setItemPropertiesProp({ prop: 'region', value: $event })"
       ></wt-select>
