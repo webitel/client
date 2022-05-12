@@ -514,7 +514,7 @@ const router = new Router({
           component: OpenedStorage,
         },
         {
-          path: '/integrations/cognitive-profile',
+          path: '/integrations/cognitive-profiles',
           name: RouteNames.COGNITIVE_PROFILES,
           component: CognitiveProfiles,
         },

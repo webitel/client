@@ -3,8 +3,8 @@
         <dropdown-select
                 :value="itemInstance.settings.provider"
                 :options="providerOptions"
-                :label="$t('objects.lookups.media.provider')"
-                :placeholder="$t('objects.lookups.media.provider')"
+                :label="$t('objects.provider')"
+                :placeholder="$t('objects.provider')"
         ></dropdown-select>
 
         <dropdown-select

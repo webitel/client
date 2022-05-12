@@ -9,20 +9,26 @@ export default [
   },
   {
     value: 'provider',
-    locale: 'objects.reusable.provider',
+    locale: 'objects.provider',
     field: 'provider',
     sort: SortSymbols.NONE,
   },
   {
     value: 'service',
-    locale: 'objects.reusable.service',
+    locale: 'objects.service',
     field: 'service',
     sort: SortSymbols.NONE,
   },
   {
     value: 'default',
-    locale: 'objects.reusable.default',
+    locale: 'objects.default',
     field: 'default',
+    sort: SortSymbols.NONE,
+  },
+  {
+    value: 'state',
+    locale: 'reusable.state',
+    field: 'enabled',
     sort: SortSymbols.NONE,
   },
 ];

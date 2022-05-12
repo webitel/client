@@ -38,12 +38,15 @@ export default {
   mixins: [openedObjectMixin],
   components: { General },
   data: () => ({
-    namespace: 'lookups/skills',
+    namespace: 'integrations/cognitiveProfiles',
   }),
 
   validations: {
     itemInstance: {
       name: { required },
+      service: { required },
+      properties: { required },
+      provider: { required },
     },
   },
 
@@ -53,6 +56,7 @@ export default {
         text: this.$t('objects.general'),
         value: 'general',
       }];
+      if (this.id) tabs.push(this.permissionsTab);
       return tabs;
     },
 

@@ -18,14 +18,21 @@
 
       <section class="main-section__wrapper">
         <header class="content-header">
-          <h3 class="content-title">{{ $t('objects.integrations.cognitiveProfiles.all') }}</h3>
+          <h3 class="content-title">
+            {{
+              $t(
+                'objects.all',
+                { entity: $tc('objects.integrations.cognitiveProfiles.cognitiveProfiles', 2) },
+              )
+            }}
+          </h3>
           <div class="content-header__actions-wrap">
             <wt-search-bar
               :value="search"
               debounce
+              @enter="loadList"
               @input="setSearch"
               @search="loadList"
-              @enter="loadList"
             ></wt-search-bar>
             <wt-table-actions
               :icons="['refresh']"
@@ -33,10 +40,10 @@
             >
               <wt-icon-btn
                 v-if="hasDeleteAccess"
-                class="icon-action"
                 :class="{'hidden': anySelected}"
-                icon="bucket"
                 :tooltip="actionPanelDeleteTooltip"
+                class="icon-action"
+                icon="bucket"
                 @click="callDelete(selectedRows)"
               ></wt-icon-btn>
             </wt-table-actions>
@@ -44,11 +51,11 @@
         </header>
 
         <wt-loader v-show="!isLoaded"></wt-loader>
-        <div class="table-wrapper" v-show="isLoaded">
+        <div v-show="isLoaded" class="table-wrapper">
           <wt-table
-            :headers="headers"
             :data="dataList"
             :grid-actions="hasTableActions"
+            :headers="headers"
             sortable
             @sort="sort"
           >
@@ -63,8 +70,19 @@
             <template v-slot:service="{ item }">
               {{ item.service }}
             </template>
-            <template v-slot:default="{ item }">
-              {{ item.default }}
+            <template v-slot:default="{ item, index }">
+              <wt-radio
+                :value="true"
+                :selected="item.default"
+                @input="changeDefaultProfile({ item, index, value: $event })"
+              ></wt-radio>
+            </template>
+            <template v-slot:state="{ item, index }">
+              <wt-switcher
+                :disabled="!hasEditAccess"
+                :value="item.enabled"
+                @change="patchItem({ index, item, prop: 'enabled', value: $event })"
+              ></wt-switcher>
             </template>
             <template v-slot:actions="{ item }">
               <edit-action
@@ -78,14 +96,14 @@
             </template>
           </wt-table>
           <wt-pagination
-            :size="size"
             :next="isNext"
             :prev="page > 1"
+            :size="size"
             debounce
+            @change="loadList"
+            @input="setSize"
             @next="nextPage"
             @prev="prevPage"
-            @input="setSize"
-            @change="loadList"
           ></wt-pagination>
         </div>
       </section>
@@ -109,8 +127,20 @@ export default {
     path() {
       return [
         { name: this.$t('objects.integrations.integrations') },
-        { name: this.$tc('objects.integrations.cognitiveProfiles.cognitiveProfiles', 2), route: '/integrations/cognitive-profiles' },
+        {
+          name: this.$tc('objects.integrations.cognitiveProfiles.cognitiveProfiles', 2),
+          route: '/integrations/cognitive-profiles',
+        },
       ];
+    },
+  },
+  methods: {
+    changeDefaultProfile({ index, item, value }) {
+      if (!item.default) {
+        this.patchItem({
+          index, item, prop: 'default', value,
+        });
+      }
     },
   },
 };
