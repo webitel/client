@@ -2,13 +2,11 @@ import { shallowMount } from '@vue/test-utils';
 import deepmerge from 'deepmerge';
 import openedObjectMixinMock
   from '../../../../../../../tests/unit/mocks/mixinMocks/openedObjectMixin.mock';
-import OpenedQueue from '../opened-queue.vue';
+import OpenedCognitiveProfile from '../opened-cognitive-profile.vue';
 
-describe('OpenedQueue', () => {
+describe('OpenedCognitiveProfile', () => {
   it('renders a component', () => {
-    const mock = jest.fn();
-    jest.spyOn(OpenedQueue.methods, 'loadPageData').mockImplementation(mock);
-    const wrapper = shallowMount(OpenedQueue, deepmerge.all([
+    const wrapper = shallowMount(OpenedCognitiveProfile, deepmerge.all([
       openedObjectMixinMock(),
       {},
     ]));

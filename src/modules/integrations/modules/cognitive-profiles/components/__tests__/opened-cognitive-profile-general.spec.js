@@ -1,18 +1,19 @@
 import { shallowMount } from '@vue/test-utils';
 import deepmerge from 'deepmerge';
+import OpenedCognitiveProfileGeneral
+  from '../opened-cognitive-profile-general.vue';
 import OpenedTabComponentMixinMock
   from '../../../../../../../tests/unit/mocks/mixinMocks/openedTabComponentMixin.mock';
-import OpenedQueueGeneral from '../opened-queue-general.vue';
 
-describe('OpenedQueueGeneral', () => {
+describe('OpenedCognitiveProfileGeneral', () => {
   const computed = {
     itemInstance: () => ({
-      type: 1,
+      properties: {},
     }),
   };
 
   it('renders a component', () => {
-    const wrapper = shallowMount(OpenedQueueGeneral, deepmerge.all([
+    const wrapper = shallowMount(OpenedCognitiveProfileGeneral, deepmerge.all([
       OpenedTabComponentMixinMock(),
       {
         computed,
