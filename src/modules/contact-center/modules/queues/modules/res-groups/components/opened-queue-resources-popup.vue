@@ -3,7 +3,7 @@
     <template slot="title">
       {{ $tc('objects.ccenter.resGroups.resGroups', 1) }}
     </template>
-    <template slot="main">
+    <template v-slot:main>
       <form>
         <wt-select
           :value="itemInstance.resourceGroup"

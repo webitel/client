@@ -1,11 +1,11 @@
 <template>
   <wt-page-wrapper :actions-panel="false">
-    <template slot="header">
+    <template v-slot:header>
       <object-header hide-primary>
         {{ $t('settings.settings') }}
       </object-header>
     </template>
-    <template slot="main">
+    <template v-slot:main>
       <!--This wrapper "settings-section" is needed to place the "settings-section__setting"
       in a column and give them half the width of the screen-->
       <section class="settings-section">

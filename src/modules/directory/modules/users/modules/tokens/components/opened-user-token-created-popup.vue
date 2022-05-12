@@ -3,7 +3,7 @@
     <template slot="title">
       {{ $t('objects.directory.users.tokenPopupHeader') }}
     </template>
-    <template slot="main">
+    <template v-slot:main>
       <div class='token-created-popup__token__wrapper'>
         <div class='token-created-popup__token__token'>{{ token }}</div>
       </div>

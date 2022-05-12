@@ -1,7 +1,7 @@
 <template>
   <wt-popup min-width="480" @close="close">
     <template slot="title">{{ $t('objects.directory.devices.newDevice') }}</template>
-    <template slot="main">
+    <template v-slot:main>
       <section>
         <ul class="popup-options">
           <li

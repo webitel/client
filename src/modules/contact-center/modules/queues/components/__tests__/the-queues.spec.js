@@ -1,18 +1,11 @@
 import { shallowMount } from '@vue/test-utils';
+import tableComponentComputedMock
+  from '../../../../../../../tests/unit/mocks/tableComponentComputed.mock';
 import TheQueues from '../the-queues.vue';
 
 describe('TheQueues', () => {
-  const computed = {
-    headersValue: () => [],
-    dataList: () => [],
-    page: () => 1,
-    size: () => 1,
-    search: () => '',
-    isNext: () => false,
-  };
-
   it('renders a component', () => {
-    const wrapper = shallowMount(TheQueues, { computed });
+    const wrapper = shallowMount(TheQueues, { computed: tableComponentComputedMock() });
     expect(wrapper.exists()).toBe(true);
   });
 });

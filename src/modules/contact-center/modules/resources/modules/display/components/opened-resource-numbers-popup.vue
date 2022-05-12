@@ -3,7 +3,7 @@
     <template slot="title">
       {{ $tc('objects.ccenter.res.numbers', 1) }}
     </template>
-    <template slot="main">
+    <template v-slot:main>
       <form>
         <wt-input
           :value="itemInstance.display"

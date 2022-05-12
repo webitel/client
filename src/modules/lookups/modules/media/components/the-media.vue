@@ -1,6 +1,6 @@
 <template>
   <wt-page-wrapper :actions-panel="false">
-    <template slot="header">
+    <template v-slot:header>
       <object-header hide-primary>
         <headline-nav :path="path"></headline-nav>
         <template slot="actions">
@@ -14,7 +14,7 @@
       </object-header>
     </template>
 
-    <template slot="main">
+    <template v-slot:main>
       <delete-confirmation-popup
         v-show="deleteConfirmation.isDeleteConfirmationPopup"
         :payload="deleteConfirmation"

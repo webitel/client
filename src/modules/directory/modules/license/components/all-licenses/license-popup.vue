@@ -3,7 +3,7 @@
     <template slot="title">
       {{ $t('objects.directory.license.importLicense') }}
     </template>
-    <template slot="main">
+    <template v-slot:main>
       <form>
         <wt-input
           v-model="itemInstance.certificate"

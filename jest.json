@@ -1,42 +1,60 @@
 {
   "stats": {
-    "duration": 61204,
-    "start": "2022-04-26T18:47:08.473Z",
-    "end": "2022-04-26T18:48:09.677Z",
-    "passes": 5,
+    "duration": 24410,
+    "start": "2022-05-12T13:09:54.172Z",
+    "end": "2022-05-12T13:10:18.582Z",
+    "passes": 8,
     "failures": 0,
-    "tests": 5
+    "tests": 8
   },
   "failures": [],
   "passes": [
     {
       "title": "renders a component",
       "fullTitle": "CreateQueuePopup renders a component",
-      "duration": 31246,
+      "duration": 8460,
       "errorCount": 0
     },
     {
       "title": "renders a component",
-      "fullTitle": "OpenedQueueParams renders a component",
-      "duration": 41743,
-      "errorCount": 0
-    },
-    {
-      "title": "renders a component",
-      "fullTitle": "OpenedQueueGeneral renders a component",
-      "duration": 41748,
+      "fullTitle": "TheCognitiveProfiles renders a component",
+      "duration": 10548,
       "errorCount": 0
     },
     {
       "title": "renders a component",
       "fullTitle": "TheQueues renders a component",
-      "duration": 41767,
+      "duration": 10591,
+      "errorCount": 0
+    },
+    {
+      "title": "renders a component",
+      "fullTitle": "OpenedQueueParams renders a component",
+      "duration": 10716,
+      "errorCount": 0
+    },
+    {
+      "title": "renders a component",
+      "fullTitle": "OpenedCognitiveProfile renders a component",
+      "duration": 10946,
       "errorCount": 0
     },
     {
       "title": "renders a component",
       "fullTitle": "OpenedQueue renders a component",
-      "duration": 43809,
+      "duration": 10906,
+      "errorCount": 0
+    },
+    {
+      "title": "renders a component",
+      "fullTitle": "OpenedQueueGeneral renders a component",
+      "duration": 11021,
+      "errorCount": 0
+    },
+    {
+      "title": "renders a component",
+      "fullTitle": "OpenedCognitiveProfileGeneral renders a component",
+      "duration": 2900,
       "errorCount": 0
     }
   ],

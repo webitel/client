@@ -3,7 +3,7 @@
     <template slot="title">
       {{ $tc('objects.lookups.skills.skills', 1) }}
     </template>
-    <template slot="main">
+    <template v-slot:main>
       <form>
         <wt-select
           :value="itemInstance.skill"

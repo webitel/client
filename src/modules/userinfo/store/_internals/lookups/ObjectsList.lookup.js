@@ -35,6 +35,7 @@ export default Object.freeze([
 
   // INTEGRATIONS
   { field: 'storage_profile', name: AdminSections.STORAGE, route: RouteNames.STORAGE },                   // scope: storage_profile
+  { field: 'cognitive_profile', name: AdminSections.COGNITIVE_PROFILES, route: RouteNames.COGNITIVE_PROFILES }, // scope: cognitive_profile
 
   // PERMISSIONS
   { field: null, name: AdminSections.OBJECTS, route: RouteNames.OBJECTS },                // permissions: add

@@ -1,12 +1,12 @@
 <template>
   <wt-page-wrapper :actions-panel="false">
-    <template slot="header">
+    <template v-slot:header>
       <object-header hide-primary>
         <headline-nav :path="path"></headline-nav>
       </object-header>
     </template>
 
-    <template slot="main">
+    <template v-slot:main>
       <section class="main-section__wrapper">
         <header class="content-header">
           <h3 class="content-title">

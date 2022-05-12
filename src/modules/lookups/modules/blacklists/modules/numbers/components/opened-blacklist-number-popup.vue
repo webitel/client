@@ -3,7 +3,7 @@
     <template slot="title">
       {{ $t('objects.lookups.blacklist.newNumber') }}
     </template>
-    <template slot="main">
+    <template v-slot:main>
       <form>
         <wt-input
           :value="itemInstance.number"

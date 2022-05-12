@@ -21,7 +21,7 @@ export default [
   },
   {
     value: 'provider',
-    locale: 'objects.routing.chatGateways.provider',
+    locale: 'objects.provider',
     field: 'provider',
     sort: SortSymbols.NONE,
   },

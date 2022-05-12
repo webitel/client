@@ -8,7 +8,7 @@
     <template slot="title">
       {{ $t('objects.permissions.object.newPermissionRole') }}
     </template>
-    <template slot="main">
+    <template v-slot:main>
       <permissions-role-select
         v-model="newGrantee"
         :placeholder="$tc('objects.permissions.permissionsRole', 1)"

@@ -1,6 +1,6 @@
 <template>
   <wt-page-wrapper class="members" :actions-panel="false">
-    <template slot="header">
+    <template v-slot:header>
       <object-header
         :hide-primary="!hasEditAccess || !isNotInboundMember"
         :primary-action="create"
@@ -9,7 +9,7 @@
         <headline-nav :path="path"></headline-nav>
       </object-header>
     </template>
-    <template slot="main">
+    <template v-slot:main>
       <destinations-popup
         v-if="isDestinationsPopup"
         :communications="communicationsOnPopup"

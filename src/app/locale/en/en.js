@@ -101,6 +101,7 @@ export default {
   },
 
   objects: {
+    all: 'All {entity}',
     administration: 'Administration',
     general: 'General',
     new: 'New',
@@ -136,6 +137,12 @@ export default {
     to: 'To',
     importJSON: 'Import JSON',
     addNew: 'Add new',
+    provider: 'Provider',
+    default: 'Default',
+    service: 'Service',
+    tts: 'Text-to-Speech',
+    stt: 'Speech-to-Text',
+    key: 'Key',
 
     deleteConfirmation: {
       title: 'Confirm deletion',
@@ -328,7 +335,6 @@ export default {
         size: 'Size',
         textToSpeech: 'Text to speech',
         popupSettings: 'Settings',
-        provider: 'Provider',
         lang: 'Language',
         voice: 'Voice',
         token: 'Token',
@@ -501,7 +507,6 @@ export default {
           },
         },
         uri: 'URI',
-        provider: 'Provider',
         newChatGateway: 'New chat gateway',
         metadata: {
           apiKey: 'Api Key',
@@ -809,7 +814,13 @@ export default {
         driveEmail: 'Google Email',
         driveKey: 'Private key',
         s3Endpoint: 'Endpoint',
-        service: 'Service',
+      },
+
+      cognitiveProfiles: {
+        cognitiveProfiles: 'Cognitive profile | Cognitive profiles',
+        properties: {
+          region: 'Region',
+        },
       },
 
       tokens: {

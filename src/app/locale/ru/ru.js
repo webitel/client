@@ -101,6 +101,7 @@ export default {
   },
 
   objects: {
+    all: 'Все {entity}',
     administration: 'Управление',
     general: 'Общее',
     new: 'Новый объект',
@@ -136,6 +137,12 @@ export default {
     to: 'До',
     importJSON: 'Импортировать JSON',
     addNew: 'Добавить',
+    provider: 'Провайдер',
+    default: 'По умолчанию',
+    service: 'Сервис',
+    tts: 'Text-to-Speech',
+    stt: 'Speech-to-Text',
+    key: 'Ключ',
 
     deleteConfirmation: {
       title: 'Подтвердите удаление',
@@ -328,7 +335,6 @@ export default {
         size: 'Размер',
         textToSpeech: 'Синтез речи',
         popupSettings: 'Настройки',
-        provider: 'Провайдер',
         lang: 'Язык',
         voice: 'Голос',
         token: 'Токен',
@@ -501,7 +507,6 @@ export default {
           },
         },
         uri: 'URI',
-        provider: 'Провайдер',
         newChatGateway: 'Новый текстовый шлюз',
         metadata: {
           apiKey: 'Api Key',
@@ -806,7 +811,13 @@ export default {
         driveEmail: 'Google Email',
         driveKey: 'Private key',
         s3Endpoint: 'Endpoint',
-        service: 'Сервис',
+      },
+
+      cognitiveProfiles: {
+        cognitiveProfiles: 'Голосовой профиль | Голосовые профили',
+        properties: {
+          region: 'Регион',
+        },
       },
 
       tokens: {

@@ -1,6 +1,6 @@
 <template>
   <wt-page-wrapper :actions-panel="false">
-    <template slot="header">
+    <template v-slot:header>
       <object-header
         :primary-text="computePrimaryText"
         :primary-action="save"
@@ -12,7 +12,7 @@
       </object-header>
     </template>
 
-    <template slot="main">
+    <template v-slot:main>
       <div class="main-container">
         <wt-tabs
           v-model="currentTab"
@@ -37,7 +37,7 @@ import Backblaze from './_unused/opened-storage-backblaze.vue';
 import Dropbox from './_unused/opened-storage-dropbox.vue';
 import Drive from './_unused/opened-storage-drive.vue';
 import openedObjectMixin from '../../../../../app/mixins/objectPagesMixins/openedObjectMixin/openedObjectMixin';
-import storageMixin from '../../../mixins/storageMixin';
+import storageMixin from '../mixins/storageMixin';
 import Storage from '../store/_internals/enums/Storage.enum';
 
 export default {

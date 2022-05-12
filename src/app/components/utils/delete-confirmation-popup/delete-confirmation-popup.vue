@@ -5,7 +5,7 @@
     @close="close"
   >
     <template slot="title">{{ $t('objects.deleteConfirmation.title') }}</template>
-    <template slot="main">
+    <template v-slot:main>
       <p>
         {{ deleteMessage }}
         {{ $t('objects.deleteConfirmation.undoneActionAlert') }}

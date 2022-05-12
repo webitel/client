@@ -37,7 +37,7 @@
       <wt-select
         :value="service"
         :options="serviceOptions"
-        :label="$t('objects.integrations.storage.service')"
+        :label="$t('objects.service')"
         :disabled="disableService"
         track-by="value"
         @input="setService"
@@ -80,7 +80,7 @@
 import { mapActions, mapState } from 'vuex';
 import openedTabComponentMixin
   from '../../../../../app/mixins/objectPagesMixins/openedObjectTabMixin/openedTabComponentMixin';
-import storageMixin from '../../../mixins/storageMixin';
+import storageMixin from '../mixins/storageMixin';
 import AWSRegions from '../store/_internals/lookups/AWSRegions.lookup';
 import DigitalOceanRegions from '../store/_internals/lookups/DigitalOceanRegions.lookup';
 import Service from '../store/_internals/lookups/Service.lookup';

@@ -1,6 +1,6 @@
 <template>
   <wt-page-wrapper :actions-panel="false" class="gateways">
-    <template slot="header">
+    <template v-slot:header>
       <object-header
         :hide-primary="!hasCreateAccess"
         :primary-action="create"
@@ -8,7 +8,7 @@
         <headline-nav :path="path"></headline-nav>
       </object-header>
     </template>
-    <template slot="main">
+    <template v-slot:main>
       <gateway-popup
         v-if="isGatewayPopup"
         @close="isGatewayPopup = false"

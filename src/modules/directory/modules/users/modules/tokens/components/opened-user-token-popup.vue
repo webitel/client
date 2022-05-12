@@ -3,7 +3,7 @@
     <template slot="title">
       {{ $tc('objects.directory.users.token', 2) }}
     </template>
-    <template slot="main">
+    <template v-slot:main>
       <wt-input
         :value="itemInstance.usage"
         :label="$t('objects.name')"
