@@ -36,6 +36,7 @@
         :disabled="disableUserInput"
         :label="$t('objects.key')"
         :value="itemInstance.properties.key"
+        :v="v.itemInstance.properties.key"
         required
         @input="setItemPropertiesProp({ prop: 'key', value: $event })"
       ></wt-input>
@@ -44,6 +45,7 @@
         :label="$t('objects.integrations.cognitiveProfiles.properties.region')"
         :options="MicrosoftRegions"
         :value="itemInstance.properties.region"
+        :v="v.itemInstance.properties.region"
         :clearable="false"
         required
         @input="setItemPropertiesProp({ prop: 'region', value: $event })"
