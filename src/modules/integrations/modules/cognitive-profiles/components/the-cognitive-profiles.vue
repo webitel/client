@@ -135,11 +135,15 @@ export default {
     },
   },
   methods: {
-    changeDefaultProfile({ index, item, value }) {
+    async changeDefaultProfile({ index, item, value }) {
       if (!item.default) {
-        this.patchItem({
-          index, item, prop: 'default', value,
-        });
+        try {
+          await this.patchItem({
+            index, item, prop: 'default', value,
+          });
+        } finally {
+          this.loadList();
+        }
       }
     },
   },
