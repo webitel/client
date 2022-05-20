@@ -462,8 +462,8 @@ export default {
         infobip: {
           infobip: 'Infobip',
         },
-        facebook: {
-          facebook: 'Facebook',
+        messenger: {
+          messenger: 'Messenger',
           metadata: {
             clientId: 'App ID',
             clientSecret: 'App Secret',
@@ -521,7 +521,7 @@ export default {
           botName: 'Bot Name',
           eventTypes: 'Event Types',
           telegramToken: 'Telegram BOT API Token',
-          facebookApiUrl: 'Facebook API URL',
+          messengerApiUrl: 'Messenger API URL',
         },
       },
 

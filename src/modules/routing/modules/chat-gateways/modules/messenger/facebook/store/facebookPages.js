@@ -1,4 +1,4 @@
-import ObjectStoreModule from '../../../../../../../app/store/BaseStoreModules/StoreModules/ObjectStoreModule';
+import ObjectStoreModule from '../../../../../../../../app/store/BaseStoreModules/StoreModules/ObjectStoreModule';
 import FacebookPagesAPI from '../api/facebookPages';
 import headers from './_internals/headers';
 

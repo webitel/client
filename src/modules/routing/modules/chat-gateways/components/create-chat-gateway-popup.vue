@@ -32,10 +32,10 @@ export default {
         title: this.$t('objects.routing.chatGateways.infobip.infobip'),
         icon: 'messenger-infobip',
       };
-      const facebook = {
-        value: 'facebook',
-        title: this.$t('objects.routing.chatGateways.facebook.facebook'),
-        icon: 'messenger-facebook',
+      const messenger = {
+        value: 'messenger',
+        title: this.$t('objects.routing.chatGateways.messenger.messenger'),
+        icon: 'messenger-messenger',
       };
       const viber = {
         value: 'viber',
@@ -47,7 +47,7 @@ export default {
         title: this.$t('objects.routing.chatGateways.webchat.webchat'),
         icon: 'messenger-web-chat',
       };
-      return [telegram, infobip, facebook, viber, webchat];
+      return [telegram, infobip, messenger, viber, webchat];
     },
   },
 

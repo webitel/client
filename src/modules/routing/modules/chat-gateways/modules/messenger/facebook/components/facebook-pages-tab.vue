@@ -3,11 +3,11 @@
     <object-list-popup
       v-show="accountsOnPopup"
       :data-list="accountsOnPopup"
-      :title="$t('objects.routing.chatGateways.facebook.pages.accounts')"
+      :title="$t('objects.routing.chatGateways.messenger.pages.accounts')"
       @close="closeAccountsPopup"
     ></object-list-popup>
     <header class="content-header">
-      <h3 class="content-title">{{ $t('objects.routing.chatGateways.facebook.pages.pages') }}</h3>
+      <h3 class="content-title">{{ $t('objects.routing.chatGateways.messenger.pages.pages') }}</h3>
       <div class="content-header__actions-wrap">
         <wt-table-actions
           :icons="['refresh']"
@@ -16,7 +16,7 @@
           <wt-button
             v-if="!disableUserInput"
             @click="addOrRemovePages"
-          >{{ $t('objects.routing.chatGateways.facebook.pages.addOrRemovePages') }}
+          >{{ $t('objects.routing.chatGateways.messenger.pages.addOrRemovePages') }}
           </wt-button>
         </wt-table-actions>
       </div>
@@ -52,12 +52,12 @@
 import path from 'path';
 import { mapActions } from 'vuex';
 import openedObjectTableTabMixin
-  from '../../../../../../../app/mixins/objectPagesMixins/openedObjectTableTabMixin/openedObjectTableTabMixin';
+  from '../../../../../../../../app/mixins/objectPagesMixins/openedObjectTableTabMixin/openedObjectTableTabMixin';
 import openFacebookWindow from '../scripts/openFacebookWindow';
-import getChatOriginUrl from '../../../scripts/getChatOriginUrl';
+import getChatOriginUrl from '../../../../scripts/getChatOriginUrl';
 
 export default {
-  name: 'opened-chat-gateway-facebook-pages-tab',
+  name: 'opened-chat-gateway-messenger-pages-tab',
   mixins: [openedObjectTableTabMixin],
   data: () => ({
     subNamespace: 'facebookPages',

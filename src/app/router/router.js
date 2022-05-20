@@ -247,13 +247,13 @@ const router = new Router({
           component: OpenedChatGateways,
         },
         {
-          path: '/routing/chat-gateways/facebook/new',
-          name: `${RouteNames.CHAT_GATEWAYS}-facebook-new`,
+          path: '/routing/chat-gateways/messenger/new',
+          name: `${RouteNames.CHAT_GATEWAYS}-messenger-new`,
           component: OpenedChatGateways,
         },
         {
-          path: '/routing/chat-gateways/facebook/:id',
-          name: `${RouteNames.CHAT_GATEWAYS}-facebook-edit`,
+          path: '/routing/chat-gateways/messenger/:id',
+          name: `${RouteNames.CHAT_GATEWAYS}-messenger-edit`,
           component: OpenedChatGateways,
         },
         {

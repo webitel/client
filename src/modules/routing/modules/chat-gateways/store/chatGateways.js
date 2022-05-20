@@ -4,13 +4,13 @@ import proxy from '../../../../../app/utils/editProxy';
 import ChatGatewaysAPI from '../api/chatGateways';
 import defaultChatGateway from './_internals/defaults/defaultChatGateway';
 import headers from './_internals/headers';
-import facebookChatGateway from './_internals/providers/facebookChatGateway';
+import messengerChatGateway from './_internals/providers/messengerChatGateway';
 import infobipChatGateway from './_internals/providers/infobipChatGateway';
 import telegramChatGateway from './_internals/providers/telegramChatGateway';
 import viberChatGateway from './_internals/providers/viberChatGateway';
 import webChatGateway from './_internals/providers/webChatGateway';
 
-import facebookPages from '../modules/facebook/store/facebookPages';
+import facebookPages from '../modules/messenger/facebook/store/facebookPages';
 
 const resettableState = {
   itemInstance: {
@@ -60,8 +60,8 @@ const mutations = {
   SET_TELEGRAM_ITEM: (state) => {
     state.itemInstance = telegramChatGateway();
   },
-  SET_FACEBOOK_ITEM: (state) => {
-    state.itemInstance = facebookChatGateway();
+  SET_MESSENGER_ITEM: (state) => {
+    state.itemInstance = messengerChatGateway();
   },
   SET_WEBCHAT_ITEM: (state) => {
     state.itemInstance = webChatGateway(true);
