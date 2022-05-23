@@ -32,6 +32,14 @@
         :headers="headers"
         :selectable="false"
       >
+        <template slot="id" slot-scope="{ item }">
+          <copy-action
+            :value="item.id"
+            :tooltips="{
+              copy: item.id,
+            }"
+          ></copy-action>
+        </template>
         <template slot="accounts" slot-scope="{ item }">
           <one-plus-many
             :collection="item.accounts"

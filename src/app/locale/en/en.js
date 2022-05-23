@@ -143,6 +143,7 @@ export default {
     tts: 'Text-to-Speech',
     stt: 'Speech-to-Text',
     key: 'Key',
+    ID: 'ID',
 
     deleteConfirmation: {
       title: 'Confirm deletion',
