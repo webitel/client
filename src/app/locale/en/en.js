@@ -143,6 +143,7 @@ export default {
     tts: 'Text-to-Speech',
     stt: 'Speech-to-Text',
     key: 'Key',
+    ID: 'ID',
 
     deleteConfirmation: {
       title: 'Confirm deletion',
@@ -462,17 +463,20 @@ export default {
         infobip: {
           infobip: 'Infobip',
         },
-        facebook: {
-          facebook: 'Facebook',
+        messenger: {
+          messenger: 'Messenger',
+          addOrRemovePages: 'Add or remove pages',
+          accounts: 'Accounts',
           metadata: {
             clientId: 'App ID',
             clientSecret: 'App Secret',
           },
-          pages: {
-            pages: 'Pages',
-            addOrRemovePages: 'Add or remove pages',
-            accounts: 'Accounts',
+          facebook: {
+            pages: 'Facebook pages',
             subscription: 'Webhook subscription',
+          },
+          instagram: {
+            instagram: 'Instagram',
           },
         },
         viber: {
@@ -521,7 +525,7 @@ export default {
           botName: 'Bot Name',
           eventTypes: 'Event Types',
           telegramToken: 'Telegram BOT API Token',
-          facebookApiUrl: 'Facebook API URL',
+          messengerApiUrl: 'Messenger API URL',
         },
       },
 

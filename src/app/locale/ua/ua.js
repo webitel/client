@@ -143,6 +143,7 @@ export default {
     tts: 'Text-to-Speech',
     stt: 'Speech-to-Text',
     key: 'Ключ',
+    ID: 'ID',
 
     deleteConfirmation: {
       title: 'Підтвердіть видалення',
@@ -462,17 +463,20 @@ export default {
         infobip: {
           infobip: 'Infobip',
         },
-        facebook: {
-          facebook: 'Facebook',
+        messenger: {
+          messenger: 'Messenger',
+          addOrRemovePages: 'Додати або видалити сторінки',
+          accounts: 'Аккаунти',
           metadata: {
             clientId: 'App ID',
             clientSecret: 'App Secret',
           },
-          pages: {
-            pages: 'Сторінки',
-            addOrRemovePages: 'Додати або видалити сторінки',
-            accounts: 'Аккаунти',
+          facebook: {
+            pages: 'Facebook сторінки',
             subscription: 'Webhook підписки',
+          },
+          instagram: {
+            instagram: 'Instagram',
           },
         },
         viber: {
@@ -521,7 +525,7 @@ export default {
           botName: 'Bot Name',
           eventTypes: 'Event Types',
           telegramToken: 'Telegram BOT API Token',
-          facebookApiUrl: 'Facebook API URL',
+          messengerApiUrl: 'Messenger API URL',
         },
       },
 

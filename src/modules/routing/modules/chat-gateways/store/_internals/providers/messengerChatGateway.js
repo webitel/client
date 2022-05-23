@@ -1,13 +1,13 @@
 import MessengerType from 'webitel-sdk/esm2015/enums/messenger-type.enum';
 import defaultChatGateway from '../defaults/defaultChatGateway';
 
-const facebookChatGateway = () => ({
+const messengerChatGateway = () => ({
   ...defaultChatGateway(),
-  provider: MessengerType.FACEBOOK,
+  provider: MessengerType.MESSENGER,
   metadata: {
     clientId: '',
     clientSecret: '',
   },
 });
 
-export default facebookChatGateway;
+export default messengerChatGateway;

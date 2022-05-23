@@ -3,11 +3,13 @@
     <object-list-popup
       v-show="accountsOnPopup"
       :data-list="accountsOnPopup"
-      :title="$t('objects.routing.chatGateways.facebook.pages.accounts')"
+      :title="$t('objects.routing.chatGateways.messenger.accounts')"
       @close="closeAccountsPopup"
     ></object-list-popup>
     <header class="content-header">
-      <h3 class="content-title">{{ $t('objects.routing.chatGateways.facebook.pages.pages') }}</h3>
+      <h3 class="content-title">
+        {{ $t('objects.routing.chatGateways.messenger.instagram.instagram') }}
+      </h3>
       <div class="content-header__actions-wrap">
         <wt-table-actions
           :icons="['refresh']"
@@ -16,7 +18,7 @@
           <wt-button
             v-if="!disableUserInput"
             @click="addOrRemovePages"
-          >{{ $t('objects.routing.chatGateways.facebook.pages.addOrRemovePages') }}
+          >{{ $t('objects.routing.chatGateways.messenger.addOrRemovePages') }}
           </wt-button>
         </wt-table-actions>
       </div>
@@ -30,18 +32,22 @@
         :headers="headers"
         :selectable="false"
       >
+        <template slot="id" slot-scope="{ item }">
+          <copy-action
+            :value="item.id"
+            :tooltips="{
+              copy: item.id,
+            }"
+          ></copy-action>
+        </template>
+        <template slot="instagram" slot-scope="{ item }">
+          {{ item.instagram.username }}
+        </template>
         <template slot="accounts" slot-scope="{ item }">
           <one-plus-many
             :collection="item.accounts"
             @input="openAccountsPopup(item)"
           ></one-plus-many>
-        </template>
-        <template slot="subscription" slot-scope="{ item }">
-          <wt-switcher
-            :disabled="!hasEditAccess"
-            :value="!!item.subscribedFields"
-            @change="updateSubscriptionState({ item, value: $event })"
-          ></wt-switcher>
         </template>
       </wt-table>
     </div>
@@ -52,15 +58,15 @@
 import path from 'path';
 import { mapActions } from 'vuex';
 import openedObjectTableTabMixin
-  from '../../../../../../../app/mixins/objectPagesMixins/openedObjectTableTabMixin/openedObjectTableTabMixin';
-import openFacebookWindow from '../scripts/openFacebookWindow';
-import getChatOriginUrl from '../../../scripts/getChatOriginUrl';
+  from '../../../../../../../../app/mixins/objectPagesMixins/openedObjectTableTabMixin/openedObjectTableTabMixin';
+import openMessengerWindow from '../../facebook/scripts/openMessengerWindow';
+import getChatOriginUrl from '../../../../scripts/getChatOriginUrl';
 
 export default {
-  name: 'opened-chat-gateway-facebook-pages-tab',
+  name: 'opened-chat-gateway-instagram-tab',
   mixins: [openedObjectTableTabMixin],
   data: () => ({
-    subNamespace: 'facebookPages',
+    subNamespace: 'instagram',
     accountsOnPopup: null,
   }),
   computed: {
@@ -85,7 +91,7 @@ export default {
     },
     addOrRemovePages() {
       const url = `${this.baseUrl}?pages=setup`;
-      openFacebookWindow({ url, listener: this.addOrRemovePagesWindowHandler });
+      openMessengerWindow({ url, listener: this.addOrRemovePagesWindowHandler });
     },
     openAccountsPopup(item) {
       this.accountsOnPopup = item.accounts;

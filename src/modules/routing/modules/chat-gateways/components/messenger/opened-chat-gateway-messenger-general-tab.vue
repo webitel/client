@@ -1,8 +1,8 @@
 <template>
   <section>
     <header class="content-header">
-      <wt-icon icon="facebook" icon-prefix="messenger" size="sm"></wt-icon>
-      <h3 class="content-title">{{ $t('objects.routing.chatGateways.facebook.facebook') }}</h3>
+      <wt-icon icon="messenger" icon-prefix="messenger" size="sm"></wt-icon>
+      <h3 class="content-title">{{ $t('objects.routing.chatGateways.messenger.messenger') }}</h3>
     </header>
     <form class="object-input-grid">
       <wt-input
@@ -14,7 +14,7 @@
       ></wt-input>
       <wt-input
         :disabled="disableUserInput"
-        :label="$t('objects.routing.chatGateways.facebook.metadata.clientId')"
+        :label="$t('objects.routing.chatGateways.messenger.metadata.clientId')"
         :v="v.itemInstance.metadata.clientId"
         :value="itemInstance.metadata.clientId"
         @input="setItemMetadata({ prop: 'clientId', value: $event })"
@@ -30,7 +30,7 @@
       ></copy-input>
       <wt-input
         :disabled="disableUserInput"
-        :label="$t('objects.routing.chatGateways.facebook.metadata.clientSecret')"
+        :label="$t('objects.routing.chatGateways.messenger.metadata.clientSecret')"
         :v="v.itemInstance.metadata.clientSecret"
         :value="itemInstance.metadata.clientSecret"
         @input="setItemMetadata({ prop: 'clientSecret', value: $event })"
@@ -55,7 +55,7 @@ import FlowsAPI from '../../../flow/api/flow';
 import uriCopyMixin from '../../mixins/uriCopyMixin';
 
 export default {
-  name: 'opened-chat-gateway-facebook-general-tab',
+  name: 'opened-chat-gateway-messenger-general-tab',
   mixins: [openedTabComponentMixin, uriCopyMixin],
   computed: {
     isUriEditable() {
