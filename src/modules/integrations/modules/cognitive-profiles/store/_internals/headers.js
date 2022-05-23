@@ -20,15 +20,15 @@ export default [
     sort: SortSymbols.NONE,
   },
   {
-    value: 'default',
-    locale: 'objects.default',
-    field: 'default',
-    sort: SortSymbols.NONE,
-  },
-  {
     value: 'state',
     locale: 'reusable.state',
     field: 'enabled',
+    sort: SortSymbols.NONE,
+  },
+  {
+    value: 'default',
+    locale: 'objects.default',
+    field: 'default',
     sort: SortSymbols.NONE,
   },
 ];
