@@ -16,6 +16,9 @@ describe('OpenedCognitiveProfileGeneral', () => {
     const wrapper = shallowMount(OpenedCognitiveProfileGeneral, deepmerge.all([
       OpenedTabComponentMixinMock(),
       {
+        propsData: {
+          v: { itemInstance: { properties: {} } },
+        },
         computed,
       },
     ]));

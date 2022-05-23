@@ -45,7 +45,10 @@ export default {
     itemInstance: {
       name: { required },
       service: { required },
-      properties: { required },
+      properties: {
+        key: { required },
+        region: { required },
+      },
       provider: { required },
     },
   },
