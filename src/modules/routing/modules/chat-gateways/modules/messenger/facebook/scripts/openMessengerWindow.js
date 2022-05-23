@@ -3,7 +3,7 @@
 
 let windowRef = null;
 
-const openFacebookWindow = ({ url, name = 'Add or remove pages', listener }) => {
+const openMessengerWindow = ({ url, name = 'Add or remove pages', listener }) => {
   const windowFeatures = 'toolbar=no, menubar=no, width=600, height=700, top=100, left=100';
 
   if (windowRef) windowRef.close();
@@ -13,4 +13,4 @@ const openFacebookWindow = ({ url, name = 'Add or remove pages', listener }) => 
   windowRef.opener.addEventListener('message', listener, false);
 };
 
-export default openFacebookWindow;
+export default openMessengerWindow;

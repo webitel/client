@@ -5,10 +5,10 @@ export default [
   },
   {
     value: 'accounts',
-    locale: 'objects.routing.chatGateways.messenger.pages.accounts',
+    locale: 'objects.routing.chatGateways.messenger.accounts',
   },
   {
     value: 'subscription',
-    locale: 'objects.routing.chatGateways.messenger.pages.subscription',
+    locale: 'objects.routing.chatGateways.messenger.facebook.subscription',
   },
 ];

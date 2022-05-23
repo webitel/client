@@ -41,7 +41,8 @@ import { mapActions } from 'vuex';
 import openedObjectMixin from '../../../../../app/mixins/objectPagesMixins/openedObjectMixin/openedObjectMixin';
 
 import OpenedChatMessenger from './messenger/opened-chat-gateway-messenger-general-tab.vue';
-import OpenedChatFacebookPages from '../modules/messenger/facebook/components/facebook-pages-tab.vue';
+import OpenedChatFacebook from '../modules/messenger/facebook/components/facebook-tab.vue';
+import OpenedChatInstagram from '../modules/messenger/instagram/components/instagram-tab.vue';
 
 import OpenedChatInfobip from './infobip/opened-chat-gateway-infobip-general-tab.vue';
 import OpenedChatTelegram from './telegram/opened-chat-gateway-telegram-general-tab.vue';
@@ -58,7 +59,8 @@ export default {
   components: {
     OpenedChatTelegram,
     OpenedChatMessenger,
-    OpenedChatFacebookPages,
+    OpenedChatFacebook,
+    OpenedChatInstagram,
     OpenedChatInfobip,
     OpenedViberChat,
     OpenedWebchat,
@@ -182,10 +184,18 @@ export default {
         value: 'OpenedChatMessenger',
       };
       const facebookChatPages = {
-        text: this.$t('objects.routing.chatGateways.messenger.pages.pages'),
-        value: 'OpenedChatFacebookPages',
+        text: this.$t('objects.routing.chatGateways.messenger.facebook.pages'),
+        value: 'OpenedChatFacebook',
       };
-      const messenger = this.id ? [messengerChat, facebookChatPages] : [messengerChat];
+      const instagramChatPages = {
+        text: this.$t('objects.routing.chatGateways.messenger.instagram.instagram'),
+        value: 'OpenedChatInstagram',
+      };
+      const messenger = this.id ? [
+        messengerChat,
+        facebookChatPages,
+        instagramChatPages,
+      ] : [messengerChat];
 
       const infobipChat = {
         text: this.$t('objects.routing.chatGateways.infobip.infobip'),

@@ -464,15 +464,18 @@ export default {
         },
         messenger: {
           messenger: 'Messenger',
+          addOrRemovePages: 'Add or remove pages',
+          accounts: 'Accounts',
           metadata: {
             clientId: 'App ID',
             clientSecret: 'App Secret',
           },
-          pages: {
-            pages: 'Pages',
-            addOrRemovePages: 'Add or remove pages',
-            accounts: 'Accounts',
+          facebook: {
+            pages: 'Facebook pages',
             subscription: 'Webhook subscription',
+          },
+          instagram: {
+            instagram: 'Instagram',
           },
         },
         viber: {

@@ -3,11 +3,13 @@
     <object-list-popup
       v-show="accountsOnPopup"
       :data-list="accountsOnPopup"
-      :title="$t('objects.routing.chatGateways.messenger.pages.accounts')"
+      :title="$t('objects.routing.chatGateways.messenger.accounts')"
       @close="closeAccountsPopup"
     ></object-list-popup>
     <header class="content-header">
-      <h3 class="content-title">{{ $t('objects.routing.chatGateways.messenger.pages.pages') }}</h3>
+      <h3 class="content-title">
+        {{ $t('objects.routing.chatGateways.messenger.facebook.pages') }}
+      </h3>
       <div class="content-header__actions-wrap">
         <wt-table-actions
           :icons="['refresh']"
@@ -16,7 +18,7 @@
           <wt-button
             v-if="!disableUserInput"
             @click="addOrRemovePages"
-          >{{ $t('objects.routing.chatGateways.messenger.pages.addOrRemovePages') }}
+          >{{ $t('objects.routing.chatGateways.messenger.addOrRemovePages') }}
           </wt-button>
         </wt-table-actions>
       </div>
@@ -53,14 +55,14 @@ import path from 'path';
 import { mapActions } from 'vuex';
 import openedObjectTableTabMixin
   from '../../../../../../../../app/mixins/objectPagesMixins/openedObjectTableTabMixin/openedObjectTableTabMixin';
-import openFacebookWindow from '../scripts/openFacebookWindow';
+import openMessengerWindow from '../scripts/openMessengerWindow';
 import getChatOriginUrl from '../../../../scripts/getChatOriginUrl';
 
 export default {
-  name: 'opened-chat-gateway-messenger-pages-tab',
+  name: 'opened-chat-gateway-facebook-tab',
   mixins: [openedObjectTableTabMixin],
   data: () => ({
-    subNamespace: 'facebookPages',
+    subNamespace: 'facebook',
     accountsOnPopup: null,
   }),
   computed: {
@@ -85,7 +87,7 @@ export default {
     },
     addOrRemovePages() {
       const url = `${this.baseUrl}?pages=setup`;
-      openFacebookWindow({ url, listener: this.addOrRemovePagesWindowHandler });
+      openMessengerWindow({ url, listener: this.addOrRemovePagesWindowHandler });
     },
     openAccountsPopup(item) {
       this.accountsOnPopup = item.accounts;

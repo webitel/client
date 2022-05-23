@@ -1,5 +1,5 @@
 import ObjectStoreModule from '../../../../../../../../app/store/BaseStoreModules/StoreModules/ObjectStoreModule';
-import FacebookPagesAPI from '../api/facebookPages';
+import InstagramAPI from '../api/instagram';
 import headers from './_internals/headers';
 
 const getters = {
@@ -15,16 +15,16 @@ const actions = {
   UPDATE_SUBSCRIPTION_STATE: async (context, { value, item }) => {
     try {
       const uri = context.getters.CHAT_URI;
-      await FacebookPagesAPI.updateSubscribe({ uri, value, id: item.id });
+      await InstagramAPI.updateSubscribe({ uri, value, id: item.id });
     } finally {
       await context.dispatch('LOAD_DATA_LIST');
     }
   },
 };
 
-const facebookPages = new ObjectStoreModule({ headers })
-  .attachAPIModule(FacebookPagesAPI)
+const instagram = new ObjectStoreModule({ headers })
+  .attachAPIModule(InstagramAPI)
   .generateAPIActions()
   .getModule({ getters, actions });
 
-export default facebookPages;
+export default instagram;
