@@ -68,12 +68,13 @@
               {{ item.provider }}
             </template>
             <template v-slot:service="{ item }">
-              {{ item.service }}
+              {{ $t(`objects.${item.service.toLowerCase()}`) }}
             </template>
             <template v-slot:default="{ item, index }">
               <wt-radio
-                :value="true"
                 :selected="item.default"
+                :disabled="!item.enabled"
+                :value="true"
                 @input="changeDefaultProfile({ item, index, value: $event })"
               ></wt-radio>
             </template>
@@ -81,7 +82,7 @@
               <wt-switcher
                 :disabled="!hasEditAccess"
                 :value="item.enabled"
-                @change="patchItem({ index, item, prop: 'enabled', value: $event })"
+                @change="changeState({ item, index, value: $event })"
               ></wt-switcher>
             </template>
             <template v-slot:actions="{ item }">
@@ -136,14 +137,21 @@ export default {
   },
   methods: {
     async changeDefaultProfile({ index, item, value }) {
-      if (!item.default) {
-        try {
-          await this.patchItem({
-            index, item, prop: 'default', value,
-          });
-        } finally {
-          this.loadList();
-        }
+      try {
+        await this.patchItem({
+          index, item, prop: 'default', value,
+        });
+        if (value) this.loadList();
+      } catch {
+        this.loadList();
+      }
+    },
+    async changeState({ item, index, value }) {
+      await this.patchItem({
+        item, index, prop: 'enabled', value,
+      });
+      if (item.default && !value) {
+        await this.changeDefaultProfile({ item, index, value: false });
       }
     },
   },
