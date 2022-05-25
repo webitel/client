@@ -34,6 +34,7 @@ import { QueueType } from 'webitel-sdk/esm2015/enums';
 import { required, minValue } from 'vuelidate/lib/validators';
 import General from './opened-queue-general.vue';
 import Params from './opened-queue-params.vue';
+import Processing from './opened-queue-processing.vue';
 import Agents from '../modules/agents/components/opened-queue-agents.vue';
 import Skills from '../modules/skills/components/opened-queue-skills.vue';
 import Resources from '../modules/res-groups/components/opened-queue-resources.vue';
@@ -51,6 +52,7 @@ export default {
   components: {
     General,
     Params,
+    Processing,
     Agents,
     Skills,
     Resources,
@@ -201,6 +203,10 @@ export default {
         text: this.$t('objects.ccenter.queues.params'),
         value: 'params',
       };
+      const processing = {
+        text: this.$t('objects.ccenter.queues.processing.processing'),
+        value: 'processing',
+      };
       const agents = {
         text: this.$tc('objects.ccenter.agents.agents', 2),
         value: 'agents',
@@ -235,14 +241,14 @@ export default {
       };
 
       const queueTabsMap = {
-        [QueueType.OFFLINE_QUEUE]: [agents, skills, resources, buckets],
-        [QueueType.INBOUND_QUEUE]: [agents, skills],
+        [QueueType.OFFLINE_QUEUE]: [processing, agents, skills, resources, buckets],
+        [QueueType.INBOUND_QUEUE]: [processing, agents, skills],
         [QueueType.OUTBOUND_IVR_QUEUE]: [resources, buckets, amd],
-        [QueueType.PREVIEW_DIALER]: [agents, skills, resources, buckets],
-        [QueueType.PROGRESSIVE_DIALER]: [agents, skills, resources, buckets, amd],
-        [QueueType.PREDICTIVE_DIALER]: [agents, skills, resources, buckets, amd],
-        [QueueType.CHAT_INBOUND_QUEUE]: [agents, skills],
-        [QueueType.INBOUND_TASK_QUEUE]: [agents, skills, buckets],
+        [QueueType.PREVIEW_DIALER]: [processing, agents, skills, resources, buckets],
+        [QueueType.PROGRESSIVE_DIALER]: [processing, agents, skills, resources, buckets, amd],
+        [QueueType.PREDICTIVE_DIALER]: [processing, agents, skills, resources, buckets, amd],
+        [QueueType.CHAT_INBOUND_QUEUE]: [processing, agents, skills],
+        [QueueType.INBOUND_TASK_QUEUE]: [processing, agents, skills, buckets],
         [QueueType.OUTBOUND_TASK_QUEUE]: [buckets],
       };
       const tabs = [

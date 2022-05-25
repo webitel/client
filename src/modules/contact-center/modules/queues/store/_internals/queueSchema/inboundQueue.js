@@ -1,17 +1,15 @@
 import { QueueType } from 'webitel-sdk/esm2015/enums';
 import queue from './defaults/defaultQueue';
 import { TimeBaseScore } from '../enums/TimeBaseScore.enum';
+import processing from './defaults/processing';
 
 const inboundQueue = () => ({
   ...queue(),
   type: QueueType.INBOUND_QUEUE,
   team: {}, // required
   ringtone: {},
-  formSchema: {},
-  processing: false,
-  processingSec: 30,
-  processingRenewalSec: 15,
   stickyAgent: false,
+  processing: processing(),
   payload: {
     discardAbandonedAfter: 0,
     timeBaseScore: TimeBaseScore.QUEUE, // required

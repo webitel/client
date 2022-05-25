@@ -177,31 +177,6 @@
         @change="setItemPayloadProp({ prop: 'allowGreetingAgent', value: $event })"
       ></wt-switcher>
       <wt-switcher
-        v-if="specificControls.processing"
-        :disabled="disableUserInput"
-        :label="$t('objects.ccenter.queues.processing')"
-        :value="itemInstance.processing"
-        @change="setItemProp({ prop: 'processing', value: $event })"
-      ></wt-switcher>
-      <wt-input
-        v-if="specificControls.processingSec"
-        v-show="itemInstance.processing"
-        :disabled="disableUserInput"
-        :label="$t('objects.ccenter.queues.processingSec')"
-        :value="itemInstance.processingSec"
-        type="number"
-        @input="setItemProp({ prop: 'processingSec', value: +$event })"
-      ></wt-input>
-      <wt-input
-        v-if="specificControls.processingRenewalSec"
-        v-show="itemInstance.processing"
-        :disabled="disableUserInput"
-        :label="$t('objects.ccenter.queues.processingRenewalSec')"
-        :value="itemInstance.processingRenewalSec"
-        type="number"
-        @input="setItemProp({ prop: 'processingRenewalSec', value: +$event })"
-      ></wt-input>
-      <wt-switcher
         v-if="specificControls.endless"
         v-show="!itemInstance.processing"
         :disabled="disableUserInput"

@@ -2,6 +2,7 @@ import { QueueType } from 'webitel-sdk/esm2015/enums';
 import queue from './defaults/defaultQueue';
 import amd from './defaults/amd';
 import { Strategy } from '../enums/Strategy.enum';
+import processing from './defaults/processing';
 
 const progressiveDialer = () => ({
   ...queue(),
@@ -10,12 +11,9 @@ const progressiveDialer = () => ({
   strategy: Strategy.FIFO, // required
   doSchema: {},
   afterSchema: {},
-  formSchema: {},
   ringtone: {},
-  processing: false,
-  processingSec: 30,
-  processingRenewalSec: 15,
   stickyAgent: false,
+  processing: processing(),
   payload: {
     maxAttempts: 3, // required
     originateTimeout: 60, // required

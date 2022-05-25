@@ -58,6 +58,10 @@ const actions = {
     context.commit('SET_ITEM_PAYLOAD_PROPERTY', payload);
     context.commit('SET_ITEM_PROPERTY', { prop: '_dirty', value: true });
   },
+  SET_ITEM_PROCESSING_PROPERTY: (context, payload) => {
+    context.commit('SET_ITEM_PROCESSING_PROPERTY', payload);
+    context.commit('SET_ITEM_PROPERTY', { prop: '_dirty', value: true });
+  },
   SET_AMD_ITEM_PROPERTY: (context, payload) => {
     context.commit('SET_AMD_ITEM_PROPERTY', payload);
     context.commit('SET_ITEM_PROPERTY', { prop: '_dirty', value: true });
@@ -87,6 +91,9 @@ const actions = {
 const mutations = {
   SET_ITEM_PAYLOAD_PROPERTY: (state, { prop, value }) => {
     state.itemInstance.payload[prop] = value;
+  },
+  SET_ITEM_PROCESSING_PROPERTY: (state, { prop, value }) => {
+    state.itemInstance.processing[prop] = value;
   },
   SET_AMD_ITEM_PROPERTY: (state, { prop, value }) => {
     state.itemInstance.payload.amd[prop] = value;
