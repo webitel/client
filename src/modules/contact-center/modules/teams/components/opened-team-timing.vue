@@ -14,6 +14,15 @@
         @input="setItemProp({ prop: 'maxNoAnswer', value: +$event })"
       ></wt-input>
       <wt-input
+        :value="itemInstance.noAnswerDelayTime"
+        :v="v.itemInstance.noAnswerDelayTime"
+        :label="$t('objects.ccenter.teams.noAnswerDelayTime')"
+        :disabled="disableUserInput"
+        type="number"
+        required
+        @input="setItemProp({ prop: 'noAnswerDelayTime', value: +$event })"
+      ></wt-input>
+      <wt-input
         :value="itemInstance.callTimeout"
         :v="v.itemInstance.callTimeout"
         :label="$t('objects.ccenter.teams.callTimeout')"
@@ -23,6 +32,15 @@
         @input="setItemProp({ prop: 'callTimeout', value: +$event })"
       ></wt-input>
       <wt-input
+        :value="itemInstance.inviteChatTimeout"
+        :v="v.itemInstance.inviteChatTimeout"
+        :label="$t('objects.ccenter.teams.inviteChatTimeout')"
+        :disabled="disableUserInput"
+        type="number"
+        required
+        @input="setItemProp({ prop: 'inviteChatTimeout', value: +$event })"
+      ></wt-input>
+      <wt-input
         :value="itemInstance.wrapUpTime"
         :v="v.itemInstance.wrapUpTime"
         :label="$t('objects.ccenter.teams.wrapUpTime')"
@@ -30,15 +48,6 @@
         type="number"
         required
         @input="setItemProp({ prop: 'wrapUpTime', value: +$event })"
-      ></wt-input>
-      <wt-input
-        :value="itemInstance.noAnswerDelayTime"
-        :v="v.itemInstance.noAnswerDelayTime"
-        :label="$t('objects.ccenter.teams.noAnswerDelayTime')"
-        :disabled="disableUserInput"
-        type="number"
-        required
-        @input="setItemProp({ prop: 'noAnswerDelayTime', value: +$event })"
       ></wt-input>
     </form>
   </section>

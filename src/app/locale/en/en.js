@@ -576,6 +576,7 @@ export default {
         timing: 'Timing',
         maxNoAnswer: 'Max no answer',
         callTimeout: 'Call timeout',
+        inviteChatTimeout: 'Chat accept timeout',
         wrapUpTime: 'Wrap up time',
         noAnswerDelayTime: 'No answer delay time',
         strategies: {
