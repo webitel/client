@@ -57,6 +57,7 @@ export default {
       wrapUpTime: { numeric, required },
       noAnswerDelayTime: { numeric, required },
       callTimeout: { numeric, required },
+      inviteChatTimeout: { numeric, required },
     },
   },
   computed: {
