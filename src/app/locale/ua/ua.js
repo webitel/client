@@ -575,6 +575,7 @@ export default {
         timing: 'Параметри додзвону',
         maxNoAnswer: 'Максимальна кількість дзвінків без відповіді',
         callTimeout: 'Тривалість виклику',
+        inviteChatTimeout: 'Час прийняття чату',
         wrapUpTime: 'Тривалість паузи між дзвінками',
         noAnswerDelayTime: 'Час очікування при відсутності відповіді оператора',
         strategies: {
