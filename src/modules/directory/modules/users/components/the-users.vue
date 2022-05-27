@@ -35,14 +35,12 @@
               :icons="['refresh']"
               @input="tableActionsHandler"
             >
-              <wt-icon-btn
+              <delete-all-action
                 v-if="hasDeleteAccess"
-                class="icon-action"
                 :class="{'hidden': anySelected}"
-                icon="bucket"
-                :tooltip="actionPanelDeleteTooltip"
+                :selected-count="selectedRows.length"
                 @click="callDelete(selectedRows)"
-              ></wt-icon-btn>
+              ></delete-all-action>
               <upload-file-icon-btn
                 v-if="hasCreateAccess"
                 class="icon-action"

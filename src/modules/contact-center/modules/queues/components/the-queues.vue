@@ -34,14 +34,12 @@
               :icons="['refresh']"
               @input="tableActionsHandler"
             >
-              <wt-icon-btn
+              <delete-all-action
                 v-if="hasDeleteAccess"
-                class="icon-action"
                 :class="{'hidden': anySelected}"
-                icon="bucket"
-                :tooltip="actionPanelDeleteTooltip"
+                :selected-count="selectedRows.length"
                 @click="callDelete(selectedRows)"
-              ></wt-icon-btn>
+              ></delete-all-action>
             </wt-table-actions>
           </div>
         </header>
@@ -86,13 +84,15 @@
               ></wt-switcher>
             </template>
             <template slot="actions" slot-scope="{ item }">
-              <wt-icon-btn
-                class="table-action"
-                icon="queue-member"
-                :tooltip="$t('iconHints.members')"
-                tooltip-position="left"
-                @click="openMembers(item)"
-              ></wt-icon-btn>
+              <wt-tooltip class="table-action">
+                <template v-slot:activator>
+                  <wt-icon-btn
+                    icon="queue-member"
+                    @click="openMembers(item)"
+                  ></wt-icon-btn>
+                </template>
+                  {{ $t('iconHints.members') }}
+              </wt-tooltip>
               <edit-action
                 v-if="hasEditAccess"
                 @click="edit(item, index)"

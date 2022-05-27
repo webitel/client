@@ -1,11 +1,15 @@
 <template>
-  <wt-icon-btn
-    :icon="copied ? 'done' : 'copy'"
-    :tooltip="copied ? copiedTooltip : copyTooltip"
-    tooltip-position="right"
-    class="copy-action"
-    @click="copy"
-  ></wt-icon-btn>
+  <wt-tooltip>
+    <template v-slot:activator>
+      <wt-icon-btn
+        v-bind="$attrs"
+        :icon="copied ? 'done' : 'copy'"
+        class="copy-action"
+        @click="copy"
+      ></wt-icon-btn>
+    </template>
+    {{ copied ? copiedTooltip : copyTooltip }}
+  </wt-tooltip>
 </template>
 
 <script>

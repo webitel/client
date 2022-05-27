@@ -19,19 +19,19 @@
           @search="loadList"
           @enter="loadList"
         ></wt-search-bar>
-        <wt-icon-btn
-          class="icon-action"
-          icon="refresh"
-          :tooltip="$t('iconHints.reload')"
-          @click="loadList"
-        ></wt-icon-btn>
-        <wt-icon-btn
+        <wt-tooltip>
+          <template v-slot:activator>
+            <wt-icon-btn
+              icon="refresh"
+              @click="loadList"
+            ></wt-icon-btn>
+          </template>
+            {{ $t('iconHints.reload') }}
+        </wt-tooltip>
+        <add-action
           v-if="hasEditAccess"
-          class="icon-action"
-          icon="plus"
-          :tooltip="$t('iconHints.add')"
           @click="openRoleSelectPopup"
-        ></wt-icon-btn>
+        ></add-action>
       </div>
     </header>
 
@@ -112,6 +112,7 @@
 
 <script>
 import { mapState } from 'vuex';
+import AddAction from '../../../../../../../app/components/actions/add-action';
 import permissionsTabMixin
   from '../../../../../../../app/mixins/objectPagesMixins/permissionsTabMixin/permissionsTabMixin';
 import RoleColumn from '../../../../../../_shared/permissions-tab/components/_internals/permissions-role-column.vue';
@@ -120,7 +121,7 @@ import RolePopup from '../../../../../../_shared/permissions-tab/components/perm
 export default {
   name: 'opened-object-permissions-obac',
   mixins: [permissionsTabMixin],
-  components: { RolePopup, RoleColumn },
+  components: { AddAction, RolePopup, RoleColumn },
   data: () => ({
     subNamespace: 'obac',
     headerTitle: '',

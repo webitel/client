@@ -1,8 +1,4 @@
 import ObjectHeader from '../../../components/utils/object-utils/the-object-header.vue';
-import EditAction from '../../../components/utils/table-cell/default-table-actions/edit-action.vue';
-import DeleteAction from '../../../components/utils/table-cell/default-table-actions/delete-action.vue';
-import HistoryAction from '../../../components/utils/table-cell/default-table-actions/history-action.vue';
-import CopyAction from '../../../components/utils/table-cell/default-table-actions/copy-action.vue';
 import itemLinkMixin from './itemLinkMixin';
 import tableActionsHandlerMixin from './tableActionsMixin';
 import deleteMixin from './deleteMixin/tableDeleteMixin';
@@ -22,10 +18,6 @@ export default {
   ],
   components: {
     ObjectHeader,
-    EditAction,
-    DeleteAction,
-    HistoryAction,
-    CopyAction,
   },
 
   data: () => ({

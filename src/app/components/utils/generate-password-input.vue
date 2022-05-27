@@ -12,28 +12,21 @@
     >
       <template
           v-if="!disabled"
-          slot="after-input"
+          v-slot:after-input
         >
-          <wt-icon-btn
-            v-show="passwordRepresentation && !isCopied"
-            class="generate-password-input__icon-btn generate-password-input__icon-btn--copy"
-            icon="copy"
-            :tooltip="$t('objects.copy')"
-            @click="copyPassword"
-          ></wt-icon-btn>
-          <wt-icon-btn
-            v-show="passwordRepresentation && isCopied"
-            class="generate-password-input__icon-btn generate-password-input__icon-btn--tick"
-            icon="done"
-            color="true"
-            :tooltip="$t('objects.copied')"
-          ></wt-icon-btn>
-          <wt-icon-btn
-            class="generate-password-input__icon-btn generate-password-input__icon-btn--generate"
-            icon="generate"
-            :tooltip="$t('iconHints.generate')"
-            @click="generatePassword"
-          ></wt-icon-btn>
+        <copy-action
+          v-show="passwordRepresentation"
+          :value="value"
+        ></copy-action>
+        <wt-tooltip class="generate-password-input__icon-btn generate-password-input__icon-btn--generate">
+          <template v-slot:activator>
+            <wt-icon-btn
+              icon="generate"
+              @click="generatePassword"
+            ></wt-icon-btn>
+          </template>
+          {{ $t('iconHints.generate') }}
+        </wt-tooltip>
         </template>
     </wt-input>
 
@@ -41,8 +34,6 @@
 </template>
 
 <script>
-import clipboardCopy from 'clipboard-copy';
-
 const MIN_HASH_SIZE = 59;
 
 export default {
@@ -92,14 +83,6 @@ export default {
       this.input(value);
     },
 
-    copyPassword() {
-      clipboardCopy(this.value);
-      this.isCopied = true;
-      setTimeout(() => {
-        this.isCopied = false;
-      }, 1500);
-    },
-
     input(value) {
       this.$emit('input', value);
     },
@@ -119,18 +102,5 @@ export default {
 
 .generate-password-input__icon-btn {
   margin-left: var(--spacing-xs);
-
-  ::v-deep .wt-tooltip {
-    overflow-wrap: normal;
-    white-space: nowrap;
-  }
-
-  &--tick {
-    pointer-events: none;
-
-    ::v-deep .wt-tooltip {
-      opacity: 1;
-    }
-  }
 }
 </style>

@@ -51,19 +51,21 @@
               :icons="['refresh']"
               @input="tableActionsHandler"
             >
-              <wt-icon-btn
-                v-if="hasEditAccess"
-                icon="clear"
-                :tooltip="$t('objects.ccenter.members.resetMembers.resetMembers')"
-                @click="openResetPopup"
-              ></wt-icon-btn>
-              <wt-icon-btn
+              <wt-tooltip v-if="hasEditAccess">
+                <template v-slot:activator>
+                  <wt-icon-btn
+                    icon="clear"
+                    @click="openResetPopup"
+                  ></wt-icon-btn>
+                </template>
+                  {{ $t('objects.ccenter.members.resetMembers.resetMembers') }}
+              </wt-tooltip>
+              <delete-all-action
                 v-if="hasEditAccess && isNotInboundMember"
-                class="icon-action"
-                icon="bucket"
-                :tooltip="actionPanelDeleteTooltip"
+                :class="{'hidden': anySelected}"
+                :selected-count="selectedRows.length"
                 @click="callDelete(selectedRows)"
-              ></wt-icon-btn>
+              ></delete-all-action>
               <upload-file-icon-btn
                 v-if="hasEditAccess && isNotInboundMember"
                 class="icon-action"

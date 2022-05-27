@@ -16,13 +16,12 @@
         {{ $tc('objects.permissions.roles.permissions.permissions', 2) }}
       </h3>
       <div class="content-header__actions-wrap">
-        <wt-icon-btn
+        <delete-all-action
           v-if="!disableUserInput"
-          :tooltip="actionPanelDeleteTooltip"
-          class="icon-action"
-          icon="bucket"
+          :class="{'hidden': anySelected}"
+          :selected-count="selectedRows.length"
           @click="callDelete(selectedRows)"
-        ></wt-icon-btn>
+        ></delete-all-action>
         <wt-icon-btn
           v-if="!disableUserInput"
           class="icon-action"

@@ -22,21 +22,16 @@
         :icons="['refresh']"
         @input="tableActionsHandler"
       >
-        <wt-icon-btn
+        <delete-all-action
           v-if="!disableUserInput"
-          class="icon-action"
           :class="{'hidden': anySelected}"
-          icon="bucket"
-          :tooltip="actionPanelDeleteTooltip"
+          :selected-count="selectedRows.length"
           @click="callDelete(selectedRows)"
-        ></wt-icon-btn>
-        <wt-icon-btn
+        ></delete-all-action>
+        <add-action
           v-if="!disableUserInput"
-          class="icon-action"
-          icon="plus"
-          :tooltip="$t('iconHints.add')"
           @click="create"
-        ></wt-icon-btn>
+        ></add-action>
       </wt-table-actions>
     </header>
 
@@ -82,6 +77,7 @@
 </template>
 
 <script>
+import AddAction from '../../../../../../../app/components/actions/add-action';
 import TokenPopup from './opened-user-token-popup.vue';
 import TokenCreatedPopup from './opened-user-token-created-popup.vue';
 import openedObjectTableTabMixin
@@ -90,7 +86,7 @@ import openedObjectTableTabMixin
 export default {
   name: 'opened-user-tokens',
   mixins: [openedObjectTableTabMixin],
-  components: { TokenPopup, TokenCreatedPopup },
+  components: { AddAction, TokenPopup, TokenCreatedPopup },
   data: () => ({
     subNamespace: 'tokens',
     isPopup: false,

@@ -47,14 +47,12 @@
               :icons="['refresh']"
               @input="tableActionsHandler"
             >
-              <wt-icon-btn
+              <delete-all-action
                 v-if="hasDeleteAccess"
-                class="icon-action"
                 :class="{'hidden': anySelected}"
-                icon="bucket"
-                :tooltip="actionPanelDeleteTooltip"
+                :selected-count="selectedRows.length"
                 @click="callDelete(selectedRows)"
-              ></wt-icon-btn>
+              ></delete-all-action>
               <upload-file-icon-btn
                 v-if="hasCreateAccess"
                 class="icon-action"
@@ -100,13 +98,10 @@
             </template>
 
             <template slot="actions" slot-scope="{ item }">
-              <wt-icon-btn
+              <history-action
                 class="table-action"
-                icon="history"
-                :tooltip="$t('iconHints.history')"
-                tooltip-position="left"
                 @click="openHistory(item.id)"
-              ></wt-icon-btn>
+              ></history-action>
               <edit-action
                 v-if="hasEditAccess"
                 @click="edit(item)"
@@ -136,6 +131,7 @@
 <script>
 import { mapActions, mapState } from 'vuex';
 import getNamespacedState from '@webitel/ui-sdk/src/store/helpers/getNamespacedState';
+import HistoryAction from '../../../../../app/components/actions/history-action';
 import HistoryPopup from './device-history-popup.vue';
 import UploadPopup from './upload-devices-popup.vue';
 import DevicePopup from './create-device-popup.vue';
@@ -147,6 +143,7 @@ export default {
   name: 'the-devices',
   mixins: [tableComponentMixin],
   components: {
+    HistoryAction,
     HistoryPopup,
     UploadPopup,
     DevicePopup,

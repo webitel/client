@@ -4,11 +4,9 @@
     @click="copyCode"
   >
     {{ text }}
-    <wt-icon-btn
-      v-show="!isCopied"
-      icon="rounded-info"
-      :tooltip="$t('objects.routing.chatGateways.webchat.copyCodeHint')"
-    ></wt-icon-btn>
+    <wt-hint v-show="!isCopied">
+      {{ $t('objects.routing.chatGateways.webchat.copyCodeHint') }}
+    </wt-hint>
   </wt-button>
 </template>
 
@@ -137,8 +135,5 @@ export default {
   display: inline-flex;
   align-items: center;
   gap: var(--spacing-xs);
-  ::v-deep .wt-tooltip {
-    width: 400px;
-  }
 }
 </style>
