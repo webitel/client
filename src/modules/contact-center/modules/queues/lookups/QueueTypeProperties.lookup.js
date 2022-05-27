@@ -12,14 +12,16 @@ const QueueTypeProperties = Object.freeze({
                                                 'team',
                                                 'doSchema',
                                                 'afterSchema',
-                                                'formSchema',
                                                 // params specific
                                                 'originateTimeout',
                                                 'recordings',
                                                 'perNumbers',
-                                                'processing',
-                                                'processingSec',
-                                                'processingRenewalSec',
+
+                                                // processing specific
+                                                'taskProcessing.enabled',
+                                                'taskProcessing.formSchema',
+                                                'taskProcessing.sec',
+                                                'taskProcessing.processingRenewalSec',
                                               ],
                                             },
                                             [QueueType.INBOUND_QUEUE]: {
@@ -29,16 +31,18 @@ const QueueTypeProperties = Object.freeze({
                                                 // general specific
                                                 'team',
                                                 'ringtone',
-                                                'formSchema',
                                                 // params specific
                                                 'maxWaitTime',
                                                 'discardAbandonedAfter',
                                                 'allowGreetingAgent',
-                                                'processing',
-                                                'processingSec',
-                                                'processingRenewalSec',
                                                 'stickyAgent',
                                                 'stickyAgentSec',
+
+                                                // processing specific
+                                                'taskProcessing.enabled',
+                                                'taskProcessing.formSchema',
+                                                'taskProcessing.sec',
+                                                'taskProcessing.processingRenewalSec',
                                               ],
                                             },
                                             [QueueType.OUTBOUND_IVR_QUEUE]: {
@@ -71,7 +75,6 @@ const QueueTypeProperties = Object.freeze({
                                                 'team',
                                                 'doSchema',
                                                 'afterSchema',
-                                                'formSchema',
                                                 // params specific
                                                 'originateTimeout',
                                                 'maxAttempts',
@@ -82,11 +85,14 @@ const QueueTypeProperties = Object.freeze({
                                                 'recordings',
                                                 'perNumbers',
                                                 'allowGreetingAgent',
-                                                'processing',
-                                                'processingSec',
-                                                'processingRenewalSec',
                                                 'endless',
                                                 'stickyAgent',
+
+                                                // processing specific
+                                                'taskProcessing.enabled',
+                                                'taskProcessing.formSchema',
+                                                'taskProcessing.sec',
+                                                'taskProcessing.processingRenewalSec',
                                               ],
                                             },
                                             [QueueType.PROGRESSIVE_DIALER]: {
@@ -98,7 +104,6 @@ const QueueTypeProperties = Object.freeze({
                                                 'team',
                                                 'doSchema',
                                                 'afterSchema',
-                                                'formSchema',
                                                 'ringtone',
                                                 // params specific
                                                 'originateTimeout',
@@ -110,11 +115,14 @@ const QueueTypeProperties = Object.freeze({
                                                 'recordings',
                                                 'perNumbers',
                                                 'allowGreetingAgent',
-                                                'processing',
-                                                'processingSec',
-                                                'processingRenewalSec',
                                                 'endless',
                                                 'stickyAgent',
+
+                                                // processing specific
+                                                'taskProcessing.enabled',
+                                                'taskProcessing.formSchema',
+                                                'taskProcessing.sec',
+                                                'taskProcessing.processingRenewalSec',
                                               ],
                                             },
                                             [QueueType.PREDICTIVE_DIALER]: {
@@ -127,7 +135,6 @@ const QueueTypeProperties = Object.freeze({
                                                 'ringtone',
                                                 'doSchema',
                                                 'afterSchema',
-                                                'formSchema',
                                                 // params specific
                                                 'originateTimeout',
                                                 'maxWaitTime',
@@ -147,11 +154,14 @@ const QueueTypeProperties = Object.freeze({
                                                 'recordings',
                                                 'perNumbers',
                                                 'allowGreetingAgent',
-                                                'processing',
-                                                'processingSec',
-                                                'processingRenewalSec',
                                                 'endless',
                                                 'stickyAgent',
+
+                                                // processing specific
+                                                'taskProcessing.enabled',
+                                                'taskProcessing.formSchema',
+                                                'taskProcessing.sec',
+                                                'taskProcessing.processingRenewalSec',
                                               ],
                                             },
                                             [QueueType.CHAT_INBOUND_QUEUE]: {
@@ -161,17 +171,19 @@ const QueueTypeProperties = Object.freeze({
                                                 // general specific
                                                 'strategy',
                                                 'team',
-                                                'formSchema',
                                                 // params specific
                                                 'maxWaitTime',
                                                 'discardAbandonedAfter',
                                                 'maxIdleAgent',
                                                 'maxIdleClient',
-                                                'processing',
-                                                'processingSec',
-                                                'processingRenewalSec',
                                                 'stickyAgent',
                                                 'stickyAgentSec',
+
+                                                // processing specific
+                                                'taskProcessing.enabled',
+                                                'taskProcessing.formSchema',
+                                                'taskProcessing.sec',
+                                                'taskProcessing.processingRenewalSec',
                                               ],
                                             },
                                             [QueueType.INBOUND_TASK_QUEUE]: {
@@ -183,16 +195,18 @@ const QueueTypeProperties = Object.freeze({
                                                 'team',
                                                 'doSchema',
                                                 'afterSchema',
-                                                'formSchema',
                                                 // params specific
                                                 'maxAttempts',
                                                 'maxCalls',
                                                 'waitBetweenRetries',
                                                 'waitBetweenRetriesDesc',
-                                                'processing',
-                                                'processingSec',
-                                                'processingRenewalSec',
                                                 'stickyAgent',
+
+                                                // processing specific
+                                                'taskProcessing.enabled',
+                                                'taskProcessing.formSchema',
+                                                'taskProcessing.sec',
+                                                'taskProcessing.processingRenewalSec',
                                               ],
                                             },
                                             [QueueType.OUTBOUND_TASK_QUEUE]: {

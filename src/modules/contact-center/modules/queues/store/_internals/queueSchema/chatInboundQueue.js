@@ -2,6 +2,7 @@ import { QueueType } from 'webitel-sdk/esm2015/enums';
 import queue from './defaults/defaultQueue';
 import { Strategy } from '../enums/Strategy.enum';
 import { TimeBaseScore } from '../enums/TimeBaseScore.enum';
+import processing from './defaults/processing';
 
 const chatInboundQueue = () => ({
   ...queue(),
@@ -9,10 +10,8 @@ const chatInboundQueue = () => ({
   team: {}, // required
   strategy: Strategy.FIFO, // required
   formSchema: {},
-  processing: false,
-  processingSec: 30,
-  processingRenewalSec: 15,
   stickyAgent: false,
+  taskProcessing: processing(),
   payload: {
     discardAbandonedAfter: 0,
     timeBaseScore: TimeBaseScore.QUEUE, // required

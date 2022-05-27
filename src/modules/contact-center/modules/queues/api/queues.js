@@ -1,3 +1,4 @@
+import isEmpty from '@webitel/ui-sdk/src/scripts/isEmpty';
 import deepMerge from 'deepmerge';
 import { QueueServiceApiFactory } from 'webitel-sdk';
 import {
@@ -10,6 +11,7 @@ import {
 } from 'webitel-sdk/esm2015/api-consumers';
 import instance from '../../../../../app/api/instance';
 import configuration from '../../../../../app/api/openAPIConfig';
+import processing from '../store/_internals/queueSchema/defaults/processing';
 
 const queueService = new QueueServiceApiFactory(configuration, '', instance);
 
@@ -22,6 +24,7 @@ const fieldsToSend = [
   'dncList',
   'schema',
   'payload',
+  'taskProcessing',
   'maxOfRetry',
   'timeout',
   'secBetweenRetries',
@@ -32,10 +35,6 @@ const fieldsToSend = [
   'ringtone',
   'doSchema',
   'afterSchema',
-  'formSchema',
-  'processing',
-  'processingSec',
-  'processingRenewalSec',
   'stickyAgent',
 ];
 
@@ -50,6 +49,8 @@ const defaultListObject = {
 
 const defaultSingleObject = {
   type: 0,
+  formSchema: {},
+  taskProcessing: {},
 };
 
 const preRequestHandler = (item) => {
@@ -70,6 +71,15 @@ const itemResponseHandler = (response) => {
                                    key,
                                    value: response.variables[key],
                                  }));
+    }
+    if (isEmpty(response.taskProcessing)) {
+      // eslint-disable-next-line no-param-reassign
+      response.taskProcessing = processing({
+        enabled: !!response.processing,
+        formSchema: response.formSchema,
+        sec: response.processingSec || 0,
+        processingRenewalSec: response.processingRenewalSec || 0,
+      });
     }
     return deepMerge(defaultSingleObject, response);
   } catch (err) {

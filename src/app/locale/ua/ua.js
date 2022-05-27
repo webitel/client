@@ -658,9 +658,6 @@ export default {
         maxIdleClient: 'Очікування відповіді абонента',
         timeoutWithNoAgents: 'Час очікування, коли немає операторів',
         timeBaseScore: 'Рейтинг дзвінка',
-        processing: 'Очікування результату дзвінка',
-        processingSec: 'Час постобробки (сек)',
-        processingRenewalSec: 'Запропонувати продовження через (сек)',
         endless: 'Не припиняти набір',
         stickyAgent: 'Липкість',
         stickyAgentSec: 'Час очікування липкості (сек)',
@@ -696,7 +693,6 @@ export default {
         allowGreetingAgent: 'Дозволити привітання',
         preSchema: 'Схема попереднього набору',
         afterSchema: 'Схема подальшого набору',
-        formSchema: 'Динамічна сторінка робочої області оператора',
         maxCalls: 'Ліміт дзвінків',
         maxCallsHint: 'Якщо значення дорівнює 0, дайлер не буде дзвонити',
         recordings: 'Запис',
@@ -712,7 +708,13 @@ export default {
         initialSilence: 'Максимальна тривалість тиші перед привітанням (мс)',
         statisticTime: 'Інтервал перерахунку',
         communications: 'Тип зв\'язку',
-
+        processing: {
+          processing: 'Обробка',
+          enabled: 'Очікування результату задачі',
+          formSchema: 'Схема динамічної обробки',
+          sec: 'Час обробки (сек)',
+          processingRenewalSec: 'Запропонувати продовження після (сек)',
+        },
         queueStrategy: {
           fifo: 'FIFO (Першим зайшов, першим вийшов)',
           lifo: 'LIFO (Останнім зайшов, першим вийшов)',
