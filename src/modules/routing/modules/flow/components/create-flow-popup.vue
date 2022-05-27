@@ -22,11 +22,7 @@
             :class="{'active': diagram === selected}"
           >
             <h4 class="popup-flow-editor__title">{{ diagram.title }}</h4>
-            <wt-icon-btn
-              icon="rounded-info"
-              color="outline"
-              :tooltip="diagram.description"
-            ></wt-icon-btn>
+            <wt-hint>{{ diagram.description }}</wt-hint>
           </div>
         </article>
 
@@ -41,12 +37,7 @@
             :class="{'active': code === selected}"
           >
             <h4 class="popup-flow-editor__title">{{ code.title }}</h4>
-            <wt-icon-btn
-              icon="rounded-info"
-              color="outline"
-              :tooltip="code.description"
-              tooltip-position="left"
-            ></wt-icon-btn>
+            <wt-hint>{{ code.description }}</wt-hint>
           </div>
         </article>
       </section>
@@ -164,12 +155,8 @@ export default {
       border-color: var(--accent-color);
     }
 
-    .wt-icon-btn {
+    .wt-tooltip {
       margin-left: auto;
-
-      ::v-deep .wt-tooltip {
-        width: 300px;
-      }
     }
   }
 

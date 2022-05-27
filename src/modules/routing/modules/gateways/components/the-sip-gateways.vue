@@ -34,14 +34,13 @@
               :icons="['refresh']"
               @input="tableActionsHandler"
             >
-              <wt-icon-btn
+              <delete-all-action
                 v-if="hasDeleteAccess"
-                class="icon-action"
                 :class="{'hidden': anySelected}"
-                icon="bucket"
-                :tooltip="actionPanelDeleteTooltip"
+                :selected-count="selectedRows.length"
                 @click="callDelete(selectedRows)"
-              ></wt-icon-btn></wt-table-actions>
+              ></delete-all-action>
+            </wt-table-actions>
           </div>
         </header>
 

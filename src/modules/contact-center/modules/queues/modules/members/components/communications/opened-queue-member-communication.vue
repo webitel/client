@@ -17,13 +17,12 @@
           :class="{'invalid': v.itemInstance.communications.$error}"
       >{{ $tc('objects.lookups.communications.communications', 2) }}</h3>
       <div class="content-header__actions-wrap">
-        <wt-icon-btn
+        <delete-all-action
           v-if="!disableUserInput"
-          class="icon-action"
-          icon="bucket"
-          :tooltip="actionPanelDeleteTooltip"
+          :class="{'hidden': anySelected}"
+          :selected-count="selectedRows.length"
           @click="callDelete(selectedRows)"
-        ></wt-icon-btn>
+        ></delete-all-action>
         <wt-icon-btn
           v-if="!disableUserInput"
           class="icon-action"

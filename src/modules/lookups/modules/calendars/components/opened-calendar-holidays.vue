@@ -20,14 +20,12 @@
         @enter="loadList"
         @search="loadList"
       ></wt-search-bar>
-      <wt-icon-btn
-        v-if="!disableUserInput"
-        :class="{'hidden': anySelected}"
-        :tooltip="actionPanelDeleteTooltip"
-        class="icon-action"
-        icon="bucket"
-        @click="callDelete(selectedRows)"
-      ></wt-icon-btn>
+        <delete-all-action
+          v-if="!disableUserInput"
+          :class="{'hidden': anySelected}"
+          :selected-count="selectedRows.length"
+          @click="callDelete(selectedRows)"
+        ></delete-all-action>
       <wt-icon-btn
         v-if="!disableUserInput"
         class="icon-action"

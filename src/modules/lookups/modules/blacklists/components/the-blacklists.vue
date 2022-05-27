@@ -31,14 +31,12 @@
               :icons="['refresh']"
               @input="tableActionsHandler"
             >
-              <wt-icon-btn
+              <delete-all-action
                 v-if="hasDeleteAccess"
-                class="icon-action"
                 :class="{'hidden': anySelected}"
-                icon="bucket"
-                :tooltip="actionPanelDeleteTooltip"
+                :selected-count="selectedRows.length"
                 @click="callDelete(selectedRows)"
-              ></wt-icon-btn>
+              ></delete-all-action>
             </wt-table-actions>
           </div>
         </header>
@@ -61,13 +59,9 @@
               {{ item.count }}
             </template>
             <template slot="actions" slot-scope="{ item }">
-              <wt-icon-btn
-                class="table-action"
-                icon="download"
-                :tooltip="$t('iconHints.download')"
-                tooltip-position="left"
+              <download-action
                 @click="download(item)"
-              ></wt-icon-btn>
+              ></download-action>
               <edit-action
                 v-if="hasEditAccess"
                 @click="edit(item)"
@@ -96,12 +90,14 @@
 
 <script>
 import exportCSVMixin from '@webitel/ui-sdk/src/modules/CSVExport/mixins/exportCSVMixin';
+import DownloadAction from '../../../../../app/components/actions/download-action';
 import tableComponentMixin from '../../../../../app/mixins/objectPagesMixins/objectTableMixin/tableComponentMixin';
 import BlacklistNumbersAPI from '../modules/numbers/api/blacklistNumbers';
 import RouteNames from '../../../../../app/router/_internals/RouteNames.enum';
 
 export default {
   name: 'the-blacklists',
+  components: { DownloadAction },
   mixins: [exportCSVMixin, tableComponentMixin],
   data: () => ({
     namespace: 'lookups/blacklists',

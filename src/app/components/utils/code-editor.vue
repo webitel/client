@@ -9,14 +9,16 @@
         class="code-editor__editor"
         ref="editor"
       ></div>
-      <wt-icon-btn
-        class="code-editor__fullscreen-btn"
-        :icon="fullscreenIcon"
-        :size="fullscreenIconSize"
-        :tooltip="fullscreenIconTooltip"
-        tooltip-position="left"
-        @click="toggleFullscreen"
-      ></wt-icon-btn>
+      <wt-tooltip class="code-editor__fullscreen-btn">
+        <template v-slot:activator>
+          <wt-icon-btn
+            :icon="fullscreenIcon"
+            :size="fullscreenIconSize"
+            @click="toggleFullscreen"
+          ></wt-icon-btn>
+        </template>
+        {{ fullscreenIconTooltip }}
+      </wt-tooltip>
     </div>
   </div>
 </template>
@@ -158,7 +160,7 @@ $line-current: rgba(255, 193, 7, 0.2);
   }
 }
 
-.wt-icon-btn.code-editor__fullscreen-btn {
+.code-editor__fullscreen-btn {
   position: absolute;
   top: 0;
   right: 15px; // default scroll width

@@ -2,13 +2,10 @@
   <section>
     <header class="content-header">
       <h3 class="content-title">{{ $t('objects.routing.gateways.trunkingACLTitle') }}</h3>
-      <wt-icon-btn
+      <add-action
         v-if="!disableUserInput"
-        class="icon-action"
-        icon="plus"
-        :tooltip="$t('iconHints.add')"
         @click="addVariable"
-      ></wt-icon-btn>
+      ></add-action>
     </header>
     <form class="object-input-grid grid-w50">
       <div class="variables">
@@ -41,12 +38,10 @@
             type="number"
             @input="setVariableProp({ index: key, prop: 'port', value: $event })"
           ></wt-input>
-          <wt-icon-btn
+          <delete-action
             v-if="!disableUserInput"
-            icon="bucket"
-            :tooltip="$t('iconHints.delete')"
             @click="deleteVariable(key)"
-          ></wt-icon-btn>
+          ></delete-action>
         </div>
       </div>
     </form>
@@ -70,7 +65,7 @@ export default {
   grid-template-columns: 117px 1fr 80px 24px;
   align-items: flex-start;
 
-  .wt-icon-btn {
+  .wt-tooltip {
     margin-top: 34px; // MAGIC NUMBER TO VISUALLY ALIGN ICON AT VERTICAL CENTER
   }
 }

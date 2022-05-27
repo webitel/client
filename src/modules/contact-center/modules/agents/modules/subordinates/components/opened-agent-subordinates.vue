@@ -33,14 +33,12 @@
           :icons="['refresh']"
           @input="tableActionsHandler"
         >
-          <wt-icon-btn
+          <delete-all-action
             v-if="!disableUserInput"
             :class="{'hidden': anySelected}"
-            :tooltip="actionPanelDeleteTooltip"
-            class="icon-action"
-            icon="bucket"
+            :selected-count="selectedRows.length"
             @click="callDelete(selectedRows)"
-          ></wt-icon-btn>
+          ></delete-all-action>
           <wt-icon-btn
             v-if="!disableUserInput"
             class="icon-action"

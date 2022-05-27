@@ -29,14 +29,12 @@
           :icons="['refresh']"
           @input="tableActionsHandler"
         >
-          <wt-icon-btn
+          <delete-all-action
             v-if="!disableUserInput"
             :class="{'hidden': anySelected}"
-            :tooltip="actionPanelDeleteTooltip"
-            class="icon-action"
-            icon="bucket"
+            :selected-count="selectedRows.length"
             @click="callDelete(selectedRows)"
-          ></wt-icon-btn>
+          ></delete-all-action>
           <wt-icon-btn
             v-if="!disableUserInput"
             class="icon-action"
@@ -63,13 +61,15 @@
         </template>
 
         <template slot="actions" slot-scope="{ item }">
-          <wt-icon-btn
-            class="table-action"
-            icon="queue-member"
-            :tooltip="$tc('objects.ccenter.agents.subordinates', 2)"
-            tooltip-position="left"
-            @click="openSubordinates(item)"
-          ></wt-icon-btn>
+          <wt-tooltip class="table-action">
+            <template v-slot:activator>
+              <wt-icon-btn
+                icon="queue-member"
+                @click="openSubordinates(item)"
+              ></wt-icon-btn>
+            </template>
+              {{ $tc('objects.ccenter.agents.subordinates', 2) }}
+          </wt-tooltip>
           <edit-action
             @click="edit(item)"
           ></edit-action>
