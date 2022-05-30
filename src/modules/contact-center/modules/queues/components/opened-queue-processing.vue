@@ -31,13 +31,13 @@
         @input="setItemProcessingProp({ prop: 'sec', value: +$event })"
       ></wt-input>
       <wt-input
-        v-if="specificControls['taskProcessing.processingRenewalSec']"
+        v-if="specificControls['taskProcessing.renewalSec']"
         v-show="itemInstance.taskProcessing.enabled"
         :disabled="disableUserInput"
-        :label="$t('objects.ccenter.queues.processing.processingRenewalSec')"
-        :value="itemInstance.taskProcessing.processingRenewalSec"
+        :label="$t('objects.ccenter.queues.processing.renewalSec')"
+        :value="itemInstance.taskProcessing.renewalSec"
         type="number"
-        @input="setItemProcessingProp({ prop: 'processingRenewalSec', value: +$event })"
+        @input="setItemProcessingProp({ prop: 'renewalSec', value: +$event })"
       ></wt-input>
     </form>
   </section>

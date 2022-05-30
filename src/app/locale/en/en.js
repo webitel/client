@@ -714,7 +714,7 @@ export default {
           enabled: 'Waiting for call result',
           formSchema: 'Dynamic processing schema',
           sec: 'Postprocessing time (sec)',
-          processingRenewalSec: 'Notify to continue after (sec)',
+          renewalSec: 'Notify to continue after (sec)',
         },
         queueStrategy: {
           fifo: 'FIFO (First In First Out)',
