@@ -21,7 +21,7 @@ const QueueTypeProperties = Object.freeze({
                                                 'taskProcessing.enabled',
                                                 'taskProcessing.formSchema',
                                                 'taskProcessing.sec',
-                                                'taskProcessing.processingRenewalSec',
+                                                'taskProcessing.renewalSec',
                                               ],
                                             },
                                             [QueueType.INBOUND_QUEUE]: {
@@ -42,7 +42,7 @@ const QueueTypeProperties = Object.freeze({
                                                 'taskProcessing.enabled',
                                                 'taskProcessing.formSchema',
                                                 'taskProcessing.sec',
-                                                'taskProcessing.processingRenewalSec',
+                                                'taskProcessing.renewalSec',
                                               ],
                                             },
                                             [QueueType.OUTBOUND_IVR_QUEUE]: {
@@ -92,7 +92,7 @@ const QueueTypeProperties = Object.freeze({
                                                 'taskProcessing.enabled',
                                                 'taskProcessing.formSchema',
                                                 'taskProcessing.sec',
-                                                'taskProcessing.processingRenewalSec',
+                                                'taskProcessing.renewalSec',
                                               ],
                                             },
                                             [QueueType.PROGRESSIVE_DIALER]: {
@@ -122,7 +122,7 @@ const QueueTypeProperties = Object.freeze({
                                                 'taskProcessing.enabled',
                                                 'taskProcessing.formSchema',
                                                 'taskProcessing.sec',
-                                                'taskProcessing.processingRenewalSec',
+                                                'taskProcessing.renewalSec',
                                               ],
                                             },
                                             [QueueType.PREDICTIVE_DIALER]: {
@@ -161,7 +161,7 @@ const QueueTypeProperties = Object.freeze({
                                                 'taskProcessing.enabled',
                                                 'taskProcessing.formSchema',
                                                 'taskProcessing.sec',
-                                                'taskProcessing.processingRenewalSec',
+                                                'taskProcessing.renewalSec',
                                               ],
                                             },
                                             [QueueType.CHAT_INBOUND_QUEUE]: {
@@ -183,7 +183,7 @@ const QueueTypeProperties = Object.freeze({
                                                 'taskProcessing.enabled',
                                                 'taskProcessing.formSchema',
                                                 'taskProcessing.sec',
-                                                'taskProcessing.processingRenewalSec',
+                                                'taskProcessing.renewalSec',
                                               ],
                                             },
                                             [QueueType.INBOUND_TASK_QUEUE]: {
@@ -206,7 +206,7 @@ const QueueTypeProperties = Object.freeze({
                                                 'taskProcessing.enabled',
                                                 'taskProcessing.formSchema',
                                                 'taskProcessing.sec',
-                                                'taskProcessing.processingRenewalSec',
+                                                'taskProcessing.renewalSec',
                                               ],
                                             },
                                             [QueueType.OUTBOUND_TASK_QUEUE]: {

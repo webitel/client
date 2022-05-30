@@ -78,7 +78,7 @@ const itemResponseHandler = (response) => {
         enabled: !!response.processing,
         formSchema: response.formSchema,
         sec: response.processingSec || 0,
-        processingRenewalSec: response.processingRenewalSec || 0,
+        renewalSec: response.processingRenewalSec || 0,
       });
     }
     return deepMerge(defaultSingleObject, response);
