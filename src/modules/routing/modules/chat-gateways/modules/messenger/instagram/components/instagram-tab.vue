@@ -90,7 +90,7 @@ export default {
       }
     },
     addOrRemovePages() {
-      const url = `${this.baseUrl}?pages=setup`;
+      const url = `${this.baseUrl}?instagram=setup`;
       openMessengerWindow({ url, listener: this.addOrRemovePagesWindowHandler });
     },
     openAccountsPopup(item) {
