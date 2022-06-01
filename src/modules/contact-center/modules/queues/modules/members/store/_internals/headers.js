@@ -37,4 +37,10 @@ export default [
     field: 'stop_cause',
     sort: SortSymbols.NONE,
   },
+  {
+    value: 'attempts',
+    locale: 'objects.ccenter.members.attempts',
+    field: 'attempts',
+    sort: SortSymbols.NONE,
+  },
 ];

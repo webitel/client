@@ -14,7 +14,7 @@ export default class NestedObjectStoreModule extends BaseStoreModule {
     GET_ITEM_PROP_BY_ID: (state, getters) => (itemId, prop) => (
       getters.GET_ITEM_BY_ID(itemId)[prop]
     ),
-  }
+  };
 
   actions = {
     ...BaseTableModule.getActions(),

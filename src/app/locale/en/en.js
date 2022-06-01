@@ -598,6 +598,7 @@ export default {
         destination: 'Destination',
         display: 'Display number',
         priority: 'Priority',
+        attempts: 'Attempts',
         resetMembers: {
           resetMembers: 'Reset members',
           description: 'Are you sure you want to reset attempts of unsuccessful members?',

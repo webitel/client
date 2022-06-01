@@ -1,5 +1,5 @@
 <template>
-  <wt-page-wrapper class="members" :actions-panel="false">
+  <wt-page-wrapper class="members">
     <template v-slot:header>
       <object-header
         :hide-primary="!hasEditAccess || !isNotInboundMember"
@@ -8,6 +8,11 @@
       >
         <headline-nav :path="path"></headline-nav>
       </object-header>
+    </template>
+    <template v-slot:actions-panel>
+      <the-queue-members-filters
+        :namespace="filtersNamespace"
+      ></the-queue-members-filters>
     </template>
     <template v-slot:main>
       <destinations-popup
@@ -39,14 +44,9 @@
         <header class="content-header">
           <h3 class="content-title">{{ $t('objects.ccenter.members.allMembers') }}</h3>
           <div class="content-header__actions-wrap">
-            <!--            TODO: NO API -->
-            <!--            <wt-search-bar-->
-            <!--                :value="search"-->
-            <!--                debounce-->
-            <!--                @input="setSearch"-->
-            <!--                @search="loadList"-->
-            <!--                @enter="loadList"-->
-            <!--            ></wt-search-bar>-->
+            <filter-search
+              :namespace="filtersNamespace"
+            ></filter-search>
             <wt-table-actions
               :icons="['refresh']"
               @input="tableActionsHandler"
@@ -82,6 +82,7 @@
             :headers="headers"
             :data="dataList"
             :grid-actions="hasEditAccess && isNotInboundMember"
+            sortable
             @sort="sort"
           >
             <template slot="name" slot-scope="{ item }">
@@ -148,6 +149,7 @@
 </template>
 
 <script>
+import FilterSearch from '@webitel/ui-sdk/src/modules/QueryFilters/components/filter-search.vue';
 import { mapActions, mapState } from 'vuex';
 import getNamespacedState from '@webitel/ui-sdk/src/store/helpers/getNamespacedState';
 import destinationsPopup from './communications/opened-queue-member-destinations-popup.vue';
@@ -156,15 +158,18 @@ import ResetPopup from './reset-members-popup.vue';
 import UploadFileIconBtn from '../../../../../../../app/components/utils/upload-file-icon-btn.vue';
 import tableComponentMixin from '../../../../../../../app/mixins/objectPagesMixins/objectTableMixin/tableComponentMixin';
 import RouteNames from '../../../../../../../app/router/_internals/RouteNames.enum';
+import TheQueueMembersFilters from '../modules/filters/components/the-queue-members-filters.vue';
 
 export default {
   name: 'the-queue-members',
   mixins: [tableComponentMixin],
   components: {
+    FilterSearch,
     uploadPopup,
     destinationsPopup,
     ResetPopup,
     UploadFileIconBtn,
+    TheQueueMembersFilters,
   },
   data: () => ({
     namespace: 'ccenter/queues/members',
@@ -197,6 +202,9 @@ export default {
         { name: this.parentQueue.name, route: queueUrl },
         { name: this.$tc('objects.ccenter.members.members', 2), route: membersUrl },
       ];
+    },
+    filtersNamespace() {
+      return `${this.namespace}/filters`;
     },
   },
 
@@ -276,6 +284,13 @@ export default {
       },
     }),
 
+  },
+  watch: {
+    '$route.query': {
+      async handler() {
+        await this.loadList();
+      },
+    },
   },
 };
 </script>
