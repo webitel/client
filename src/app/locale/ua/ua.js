@@ -597,6 +597,7 @@ export default {
         destination: 'Призначення',
         display: 'Відображення номера',
         priority: 'Пріоритет',
+        attempts: 'Спроб',
         resetMembers: {
           resetMembers: 'Перезапустити абонентів',
           description: 'Ви впевнені, що бажаєте перезапустити усі неуспішні спроби повторно?',

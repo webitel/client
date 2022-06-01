@@ -596,6 +596,7 @@ export default {
         destination: 'Назначение',
         display: 'Отображение номера',
         priority: 'Приоритет',
+        attempts: 'Попыток',
         resetMembers: {
           resetMembers: 'Перезапустить абонентов',
           description: 'Вы действительно хотите перезапустить повторный дозвон по неудачным попыткам абонентов?',
