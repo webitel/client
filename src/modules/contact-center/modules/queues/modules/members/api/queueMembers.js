@@ -74,8 +74,11 @@ const _getMembersList = (getList) => function({
                                                 priorityTo,
                                                 cause,
                                               }) {
-  const params = [parentId, page, size, search, sort, fields, ids, bucket,
-    undefined, from, to, undefined, undefined, cause, priorityFrom, priorityTo];
+  const params = [
+    parentId, page, size, search, sort, fields, ids, bucket,
+    undefined, from, to, undefined, undefined, cause, priorityFrom, priorityTo,
+  ];
+
   return getList(params);
 };
 
@@ -139,9 +142,24 @@ const deleteMember = (params) => itemDeleter.deleteNestedItem(params);
 const resetMembers = ({ parentId }) => resetMembersApiConsumer
 .patchItem({ id: parentId, changes: {} });
 
-export const deleteMembersBulk = async (queueId, ids) => {
+export const deleteMembersBulk = async (queueId, {
+  search,
+  ids,
+  from,
+  to,
+  bucket,
+  priority,
+  cause,
+}) => {
   try {
-    await memberService.deleteMembers(queueId, { ids });
+    await memberService.deleteMembers(queueId, {
+      ids,
+      q: search,
+      createdAt: (from || to) ? { from, to } : undefined,
+      priority,
+      stopCause: cause,
+      bucketId: bucket,
+    });
   } catch (err) {
     throw err;
   }

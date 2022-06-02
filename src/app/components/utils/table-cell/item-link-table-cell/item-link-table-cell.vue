@@ -2,7 +2,7 @@
   <router-link
     :target="target"
     :to="link"
-    class="name-link nameLink"
+    class="name-link"
   >
     <slot>{{ text }}</slot>
   </router-link>
@@ -32,5 +32,11 @@ export default {
 .name-link {
   display: flex;
   align-items: center;
+  cursor: pointer;
+  transition: var(--transition);
+
+  &:hover {
+    text-decoration: underline;
+  }
 }
 </style>

@@ -13,8 +13,8 @@ import BucketsAPI
 const state = {
   search: new BaseFilterSchema(),
   from: new BaseFilterSchema({
-    value: new Date().setHours(0, 0, 0, 0),
-    defaultValue: new Date().setHours(0, 0, 0, 0),
+    value: new Date(0).setHours(0, 0, 0, 0),
+    defaultValue: new Date(0).setHours(0, 0, 0, 0),
   }),
   to: new BaseFilterSchema({
     value: new Date().setHours(23, 59, 59, 0),

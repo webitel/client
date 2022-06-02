@@ -44,7 +44,10 @@ const actions = {
     const ids = deleted.map((item) => item.id);
     return MembersAPI.deleteBulk(context.state.parentId, ids);
   },
-  DELETE_ALL: (context) => MembersAPI.deleteBulk(context.state.parentId, []),
+  DELETE_FILTERED: (context, query = context.getters['filters/GET_FILTERS']) => {
+    return MembersAPI.deleteBulk(context.state.parentId, query);
+  },
+  DELETE_ALL: (context) => MembersAPI.deleteBulk(context.state.parentId, { id: [] }),
   RESET_MEMBERS: (context) => {
     const response = MembersAPI.resetMembers(context.state);
     context.dispatch('LOAD_DATA_LIST');

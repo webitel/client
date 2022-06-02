@@ -60,12 +60,15 @@
                 </template>
                   {{ $t('objects.ccenter.members.resetMembers.resetMembers') }}
               </wt-tooltip>
-              <delete-all-action
+              <wt-context-menu
                 v-if="hasEditAccess && isNotInboundMember"
-                :class="{'hidden': anySelected}"
-                :selected-count="selectedRows.length"
-                @click="callDelete(selectedRows)"
-              ></delete-all-action>
+                :options="deleteOptions"
+                @click="$event.option.method.call()"
+              >
+                <template v-slot:activator>
+                  <delete-action></delete-action>
+                </template>
+              </wt-context-menu>
               <upload-file-icon-btn
                 v-if="hasEditAccess && isNotInboundMember"
                 class="icon-action"
@@ -86,9 +89,9 @@
             @sort="sort"
           >
             <template slot="name" slot-scope="{ item }">
-              <span class="nameLink" @click="edit(item)">
+              <item-link :link="editLink(item)">
                 {{ item.name }}
-              </span>
+              </item-link>
             </template>
             <template slot="createdAt" slot-scope="{ item }">
               {{ prettifyDateTime(item.createdAt) }}
@@ -150,15 +153,16 @@
 
 <script>
 import FilterSearch from '@webitel/ui-sdk/src/modules/QueryFilters/components/filter-search.vue';
-import { mapActions, mapState } from 'vuex';
 import getNamespacedState from '@webitel/ui-sdk/src/store/helpers/getNamespacedState';
-import destinationsPopup from './communications/opened-queue-member-destinations-popup.vue';
-import uploadPopup from './upload-members-popup.vue';
-import ResetPopup from './reset-members-popup.vue';
+import { mapActions, mapState } from 'vuex';
 import UploadFileIconBtn from '../../../../../../../app/components/utils/upload-file-icon-btn.vue';
-import tableComponentMixin from '../../../../../../../app/mixins/objectPagesMixins/objectTableMixin/tableComponentMixin';
+import tableComponentMixin
+  from '../../../../../../../app/mixins/objectPagesMixins/objectTableMixin/tableComponentMixin';
 import RouteNames from '../../../../../../../app/router/_internals/RouteNames.enum';
 import TheQueueMembersFilters from '../modules/filters/components/the-queue-members-filters.vue';
+import destinationsPopup from './communications/opened-queue-member-destinations-popup.vue';
+import ResetPopup from './reset-members-popup.vue';
+import uploadPopup from './upload-members-popup.vue';
 
 export default {
   name: 'the-queue-members',
@@ -206,6 +210,33 @@ export default {
     filtersNamespace() {
       return `${this.namespace}/filters`;
     },
+    deleteOptions() {
+      const loadListAfterDecorator = (method) => async (...args) => {
+        try {
+          await method(...args);
+        } finally {
+          await this.loadList();
+        }
+      };
+      const all = {
+        text: this.$t('iconHints.deleteAll'),
+        method: loadListAfterDecorator(this.deleteAll),
+      };
+      const filtered = {
+        text: this.$t('iconHints.deleteFiltered'),
+        method: loadListAfterDecorator(this.deleteFiltered),
+      };
+
+      const selectedCount = this.selectedRows.length;
+      const selected = {
+        text: this.$t('iconHints.deleteSelected', { count: selectedCount }),
+        method: loadListAfterDecorator(this.deleteSelected.bind(this, this.selectedRows)),
+      };
+
+      const options = [all, filtered];
+      if (selectedCount) options.push(selected);
+      return options;
+    },
   },
 
   methods: {
@@ -251,11 +282,11 @@ export default {
       });
     },
 
-    edit(item) {
-      this.$router.push({
+    editLink(item) {
+      return {
         name: `${RouteNames.MEMBERS}-edit`,
         params: { queueId: this.parentId, id: item.id },
-      });
+      };
     },
 
     close() {
@@ -281,6 +312,16 @@ export default {
       },
       resetMembers(dispatch, payload) {
         return dispatch(`${this.namespace}/RESET_MEMBERS`, payload);
+      },
+
+      deleteSelected(dispatch, payload) {
+        return dispatch(`${this.namespace}/DELETE_BULK`, payload);
+      },
+      deleteFiltered(dispatch, payload) {
+        return dispatch(`${this.namespace}/DELETE_FILTERED`, payload);
+      },
+      deleteAll(dispatch, payload) {
+        return dispatch(`${this.namespace}/DELETE_ALL`, payload);
       },
     }),
 
