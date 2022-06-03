@@ -892,6 +892,7 @@ export default {
     delete: 'Удалить',
     deleteAll: 'Удалить все объекты',
     deleteSelected: 'Удалить {count} выбраных объктов',
+    deleteFiltered: 'Удалить все отфильтрованные объекты',
     generate: 'Создать',
     add: 'Добавить',
     history: 'История',

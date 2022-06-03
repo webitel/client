@@ -45,9 +45,8 @@ export default {
     },
     async loadList() {
       this.isLoaded = false;
-      const { query } = this.$route;
       try {
-        await this.loadDataList({ ...query });
+        await this.loadDataList(this.$route.query);
       } catch (e) {
       } finally {
         this.isLoaded = true;

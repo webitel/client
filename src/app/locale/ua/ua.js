@@ -892,6 +892,7 @@ export default {
     delete: 'Видалити',
     deleteAll: 'Видалити всі об\'єкти',
     deleteSelected: 'Видалити {count} обраних об\'єктів',
+    deleteFiltered: 'Видалити всі відфільтровані об\'єкти',
     generate: 'Створити',
     add: 'Додати',
     history: 'Історія',

@@ -16,7 +16,7 @@ const actions = {
   BEFORE_SET_DATA_LIST_HOOK: (context, { items, next }) => ({ items, next }),
   AFTER_SET_DATA_LIST_HOOK: (context, { items, next }) => ({ items, next }),
 
-  LOAD_DATA_LIST: async (context, query) => {
+  LOAD_DATA_LIST: async (context, query = context.getters['filters/GET_FILTERS']) => {
     try {
       let { items = [], next = false } = await context.dispatch('GET_LIST', query);
       /* we should set _isSelected property to all items in tables cause their checkbox selection

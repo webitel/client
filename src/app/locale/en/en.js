@@ -895,6 +895,7 @@ export default {
     delete: 'Delete',
     deleteAll: 'Delete all items',
     deleteSelected: 'Delete {count} selected items',
+    deleteFiltered: 'Delete all filtered items',
     generate: 'Generate',
     add: 'Add',
     history: 'History',
