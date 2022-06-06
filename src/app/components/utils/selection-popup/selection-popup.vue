@@ -19,7 +19,9 @@
             v-if="option.icon" :icon="option.icon" size="sm"
           ></wt-icon>
           <h4 class="popup-options__item-header">{{ option.title }}</h4>
-          <wt-tooltip>
+          <wt-tooltip
+            popper-class="selection-popup__tooltip-popper"
+          >
             <template v-slot:activator>
               <wt-icon-btn
                 v-if="option.description"
@@ -129,5 +131,11 @@ export default {
       @extend %typo-subtitle-2;
     }
   }
+}
+</style>
+
+<style>
+.selection-popup__tooltip-popper {
+  max-width: 480px;
 }
 </style>
