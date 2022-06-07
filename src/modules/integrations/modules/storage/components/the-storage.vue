@@ -136,9 +136,6 @@ export default {
     create() {
       this.$router.push({ name: `${RouteNames.STORAGE}-new`, params: { type: Storage.S3 } });
     },
-    edit(item) {
-      this.$router.push(this.editLink(item));
-    },
     editLink({ type, id }) {
       return { name: `${RouteNames.STORAGE}-edit`, params: { type, id } };
     },

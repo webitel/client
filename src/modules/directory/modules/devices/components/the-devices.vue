@@ -131,7 +131,7 @@
 <script>
 import { mapActions, mapState } from 'vuex';
 import getNamespacedState from '@webitel/ui-sdk/src/store/helpers/getNamespacedState';
-import HistoryAction from '../../../../../app/components/actions/history-action';
+import HistoryAction from '../../../../../app/components/actions/history-action.vue';
 import HistoryPopup from './device-history-popup.vue';
 import UploadPopup from './upload-devices-popup.vue';
 import DevicePopup from './create-device-popup.vue';
@@ -181,15 +181,15 @@ export default {
       this.isDeviceSelectPopup = true;
     },
 
-    edit(item) {
+    editLink(item) {
       const name = item.hotdesk
         ? `${RouteNames.DEVICES}-hotdesk-edit`
         : `${RouteNames.DEVICES}-edit`;
 
-      this.$router.push({
+      return {
         name,
         params: { id: item.id },
-      });
+      };
     },
 
     processCSV(files) {
