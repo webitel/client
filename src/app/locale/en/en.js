@@ -692,6 +692,7 @@ export default {
         amd: 'AMD',
         enabled: 'Use AMD',
         allowNotSure: 'Transfer NOTSURE to an agent',
+        silenceNotSure: 'Transfer silence to an agent',
         allowGreetingAgent: 'Allow greeting agent',
         preSchema: 'Pre-executive schema',
         afterSchema: 'After-executive schema',
