@@ -79,6 +79,13 @@
         :disabled="disableUserInput"
         @change="setAmdItemProp({ prop: 'allowNotSure', value: $event })"
       ></wt-switcher>
+      <wt-switcher
+        v-if="itemInstance.payload.amd.allowNotSure"
+        :value="itemInstance.payload.amd.silenceNotSure"
+        :label="$t('objects.ccenter.queues.silenceNotSure')"
+        :disabled="disableUserInput"
+        @change="setAmdItemProp({ prop: 'silenceNotSure', value: $event })"
+      ></wt-switcher>
     </form>
   </section>
 </template>
