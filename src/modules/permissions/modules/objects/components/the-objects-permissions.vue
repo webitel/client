@@ -39,7 +39,7 @@
           >
             <template slot="name" slot-scope="{ item }">
               <item-link :link="editLink(item)">
-                {{ item.name }}
+                {{ item.class }}
               </item-link>
             </template>
 

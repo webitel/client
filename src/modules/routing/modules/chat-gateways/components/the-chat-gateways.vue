@@ -152,12 +152,12 @@ export default {
     create() {
       this.isChatGatewayPopup = true;
     },
-    edit(item) {
+    editLink(item) {
       const type = getMessengerType(item.provider);
-      this.$router.push({
+      return {
         name: `${RouteNames.CHAT_GATEWAYS}-${type}-edit`,
         params: { id: item.id },
-      });
+      };
     },
   },
 };

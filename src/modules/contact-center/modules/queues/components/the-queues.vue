@@ -162,13 +162,6 @@ export default {
     create() {
       this.isQueueSelectPopup = true;
     },
-
-    edit(item) {
-      this.$router.push({
-        name: `${RouteNames.QUEUES}-edit`,
-        params: { id: item.id },
-      });
-    },
   },
 
 };

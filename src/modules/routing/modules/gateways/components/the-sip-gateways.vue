@@ -130,14 +130,14 @@ export default {
       this.isGatewayPopup = true;
     },
 
-    edit(item) {
+    editLink(item) {
       const name = item.register
         ? `${RouteNames.GATEWAYS}-reg-edit` : `${RouteNames.GATEWAYS}-trunk-edit`;
 
-      this.$router.push({
+      return {
         name,
         params: { id: item.id },
-      });
+      };
     },
 
     computeStatusText(stateCode) {
