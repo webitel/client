@@ -1,7 +1,7 @@
 <template>
   <section>
     <header class="content-header">
-      <h3 class="content-title">{{ $t('objects.ccenter.queues.params') }}</h3>
+      <h3 class="content-title">{{ $t('objects.ccenter.queues.processing.processing') }}</h3>
     </header>
     <form class="object-input-grid">
       <wt-switcher
