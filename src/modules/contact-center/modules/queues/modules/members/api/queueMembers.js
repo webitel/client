@@ -72,11 +72,13 @@ const _getMembersList = (getList) => function({
                                                 bucket,
                                                 priorityFrom,
                                                 priorityTo,
+                                                priority,
                                                 cause,
                                               }) {
   const params = [
     parentId, page, size, search, sort, fields, ids, bucket,
-    undefined, from, to, undefined, undefined, cause, priorityFrom, priorityTo,
+    undefined, from, to, undefined, undefined, cause,
+    priorityFrom || priority?.from, priorityTo || priority?.to,
   ];
 
   return getList(params);
