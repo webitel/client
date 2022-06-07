@@ -691,6 +691,7 @@ export default {
         amd: 'AMD',
         enabled: 'Увімкнути автовизначення',
         allowNotSure: 'Невизначені',
+        silenceNotSure: 'Тиша',
         allowGreetingAgent: 'Дозволити привітання',
         preSchema: 'Схема попереднього набору',
         afterSchema: 'Схема подальшого набору',

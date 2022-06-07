@@ -690,6 +690,7 @@ export default {
         amd: 'AMD',
         enabled: 'Включить автоопределение',
         allowNotSure: 'Неопределенные',
+        silenceNotSure: 'Тишина',
         allowGreetingAgent: 'Разрешить приветствие',
         preSchema: 'Схема предварительного набора',
         afterSchema: 'Схема посленабора',
