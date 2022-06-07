@@ -610,7 +610,7 @@ export default {
           cancel: 'Скасований',
           success: 'Успішний',
           failed: 'Неуспішний',
-          missed: 'Втрачений',
+          missed: 'Пропущений',
           expired: 'Час вийшов',
         },
       },
