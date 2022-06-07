@@ -82,7 +82,7 @@ export default {
       this.$router.push({ name: `${this.routeName}-new` });
     },
     edit(item) {
-      this.$router.push(this.editLink(item) || this.itemLink(item));
+      this.$router.push(this.editLink(item));
     },
     sort(...params) {
       this.dispatchSort({ header: params[0], nextSortOrder: params[1] });

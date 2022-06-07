@@ -64,7 +64,7 @@
         @sort="sort"
     >
       <template slot="name" slot-scope="{ item }">
-        <item-link :link="itemLink(item)" target="_blank">
+        <item-link :link="editLink(item)" target="_blank">
           {{ item.name }}
         </item-link>
       </template>
@@ -124,7 +124,7 @@ export default {
   components: { AgentPopup, ObjectListPopup },
   data: () => ({
     subNamespace: 'agents',
-    tableObjectRouteName: RouteNames.AGENTS, // this.itemLink() computing
+    tableObjectRouteName: RouteNames.AGENTS, // this.editLink() computing
     isAgentPopup: false,
  }),
 

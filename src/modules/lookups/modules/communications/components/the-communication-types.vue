@@ -53,9 +53,9 @@
             @sort="sort"
           >
             <template slot="name" slot-scope="{ item }">
-              <span class="nameLink" @click="edit(item)">
+              <item-link :link="editLink(item)">
                 {{ item.name }}
-              </span>
+              </item-link>
             </template>
             <template slot="code" slot-scope="{ item }">
               {{ item.code }}

@@ -67,7 +67,7 @@
         </template>
 
         <template slot="used" slot-scope="{ item }">
-          <item-link :link="itemLink(item)">
+          <item-link :link="editLink(item)">
             <wt-icon
               icon="license-users"
               icon-prefix="adm"

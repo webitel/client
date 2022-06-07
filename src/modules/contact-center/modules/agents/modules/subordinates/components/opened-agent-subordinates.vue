@@ -59,7 +59,7 @@
         @sort="sort"
       >
         <template slot="name" slot-scope="{ item }">
-          <item-link :link="itemLink(item)" target="_blank">
+          <item-link :link="editLink(item)" target="_blank">
             {{ item.name }}
           </item-link>
         </template>
@@ -112,7 +112,7 @@ export default {
   components: { SubordinatePopup, ObjectListPopup },
   data: () => ({
     subNamespace: 'subordinates', // used in mixin map actions
-    tableObjectRouteName: RouteNames.AGENTS, // this.itemLink() computing
+    tableObjectRouteName: RouteNames.AGENTS, // this.editLink() computing
     isSubordinatePopup: false,
 
     isDeleteConfirmation: false,

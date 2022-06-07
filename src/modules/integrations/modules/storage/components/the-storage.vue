@@ -55,7 +55,7 @@
             @sort="sort"
           >
             <template slot="name" slot-scope="{ item }">
-              <item-link :link="itemLink(item)">
+              <item-link :link="editLink(item)">
                 {{ item.name }}
               </item-link>
             </template>
@@ -137,9 +137,9 @@ export default {
       this.$router.push({ name: `${RouteNames.STORAGE}-new`, params: { type: Storage.S3 } });
     },
     edit(item) {
-      this.$router.push(this.itemLink(item));
+      this.$router.push(this.editLink(item));
     },
-    itemLink({ type, id }) {
+    editLink({ type, id }) {
       return { name: `${RouteNames.STORAGE}-edit`, params: { type, id } };
     },
     closeStorageSelectPopup() {

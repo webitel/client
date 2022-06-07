@@ -38,9 +38,9 @@
             @sort="sort"
           >
             <template slot="name" slot-scope="{ item }">
-              <span class="nameLink" @click="edit(item)">
-                {{ item.class }}
-              </span>
+              <item-link :link="editLink(item)">
+                {{ item.name }}
+              </item-link>
             </template>
 
             <template slot="obac" slot-scope="{ item, index }">

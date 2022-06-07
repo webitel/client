@@ -58,7 +58,7 @@
             @sort="sort"
           >
             <template v-slot:name="{ item }">
-              <item-link :link="itemLink(item)">
+              <item-link :link="editLink(item)">
                 {{ item.name }}
               </item-link>
             </template>
