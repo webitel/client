@@ -3,7 +3,7 @@
     <template slot="title">
       {{ $t('objects.importJSON') }}
     </template>
-    <template slot="main">
+    <template v-slot:main>
       <form>
         <wt-checkbox
           v-model="create"

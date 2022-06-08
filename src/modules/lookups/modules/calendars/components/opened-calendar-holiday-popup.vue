@@ -3,7 +3,7 @@
     <template slot="title">
       {{ $tc('objects.lookups.calendars.holidays', 1) }}
     </template>
-    <template slot="main">
+    <template v-slot:main>
       <form class="popup-input-form">
         <wt-input
           v-model="itemInstance.name"

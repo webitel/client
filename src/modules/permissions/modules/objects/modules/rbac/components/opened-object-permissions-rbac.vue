@@ -19,19 +19,19 @@
           @input="setSearch"
           @search="loadList"
         ></wt-search-bar>
-        <wt-icon-btn
-          :tooltip="$t('iconHints.reload')"
-          class="icon-action"
-          icon="refresh"
-          @click="loadList"
-        ></wt-icon-btn>
-        <wt-icon-btn
+        <wt-tooltip>
+          <template v-slot:activator>
+            <wt-icon-btn
+              icon="refresh"
+              @click="loadList"
+            ></wt-icon-btn>
+          </template>
+          {{ $t('iconHints.reload') }}
+        </wt-tooltip>
+        <add-action
           v-if="hasEditAccess"
-          :tooltip="$t('iconHints.add')"
-          class="icon-action"
-          icon="plus"
           @click="openRoleSelectPopup"
-        ></wt-icon-btn>
+        ></add-action>
       </div>
     </header>
 
@@ -105,6 +105,7 @@
 </template>
 
 <script>
+import AddAction from '../../../../../../../app/components/actions/add-action';
 import permissionsTabMixin
   from '../../../../../../../app/mixins/objectPagesMixins/permissionsTabMixin/permissionsTabMixin';
 import RoleColumn from '../../../../../../_shared/permissions-tab/components/_internals/permissions-role-column.vue';
@@ -114,6 +115,7 @@ export default {
   name: 'opened-object-permissions-rbac',
   mixins: [permissionsTabMixin],
   components: {
+    AddAction,
     RolePopup,
     RoleColumn,
   },

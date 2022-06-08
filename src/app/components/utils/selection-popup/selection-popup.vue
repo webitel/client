@@ -1,29 +1,36 @@
 <template>
   <wt-popup
+    :min-width="minWidth"
     class="selection-popup"
     overflow
-    :min-width="minWidth"
     @close="close"
   >
     <template slot="title">{{ title }}</template>
-    <template slot="main">
+    <template v-slot:main>
       <ul class="popup-options">
         <li
-          class="popup-options__item-wrap"
           v-for="(option, key) of options"
-          :class="{'active': option === selected}"
           :key="key"
+          :class="{'active': option === selected}"
+          class="popup-options__item-wrap"
           @click="selectOption(option)"
         >
           <wt-icon
-            v-if="option.icon" :icon="option.icon" size="sm"></wt-icon>
+            v-if="option.icon" :icon="option.icon" size="sm"
+          ></wt-icon>
           <h4 class="popup-options__item-header">{{ option.title }}</h4>
-          <wt-icon-btn
-            v-if="option.description"
-            icon="rounded-info"
-            color="outline"
-            :tooltip="option.description"
-          ></wt-icon-btn>
+          <wt-tooltip
+            popper-class="selection-popup__tooltip-popper"
+          >
+            <template v-slot:activator>
+              <wt-icon-btn
+                v-if="option.description"
+                color="outline"
+                icon="rounded-info"
+              ></wt-icon-btn>
+            </template>
+            {{ option.description }}
+          </wt-tooltip>
         </li>
       </ul>
       <!--Slot for displaying specific template styling-->
@@ -65,6 +72,10 @@ export default {
       default: 480,
     },
   },
+  model: {
+    prop: 'selected',
+    event: 'change',
+  },
   methods: {
     add() {
       this.$emit('select', this.selected);
@@ -92,12 +103,12 @@ export default {
       position: relative;
       display: flex;
       align-items: center;
-      padding: 7px 10px;
       margin-bottom: 10px;
+      padding: 7px 10px;
+      cursor: pointer;
+      transition: var(--transition);
       border: 1px solid var(--form-border-color);
       border-radius: var(--border-radius);
-      transition: var(--transition);
-      cursor: pointer;
 
       .wt-icon {
         margin-right: var(--spacing-xs);
@@ -111,16 +122,8 @@ export default {
         border-color: var(--accent-color);
       }
 
-      .wt-icon-btn {
+      .wt-tooltip {
         margin-left: auto;
-
-        ::v-deep .wt-tooltip {
-          width: 300px;
-          top: 50%;
-          right: calc(100% + 10px);
-          left: auto;
-          transform: translate(0, -50%);
-        }
       }
     }
 
@@ -128,5 +131,11 @@ export default {
       @extend %typo-subtitle-2;
     }
   }
+}
+</style>
+
+<style>
+.selection-popup__tooltip-popper {
+  max-width: 480px;
 }
 </style>

@@ -1,6 +1,6 @@
 <template>
   <wt-page-wrapper class="dialplan" :actions-panel="false">
-    <template slot="header">
+    <template v-slot:header>
       <object-header
         :hide-primary="!hasCreateAccess"
         :primary-action="create"
@@ -9,7 +9,7 @@
       </object-header>
     </template>
 
-    <template slot="main">
+    <template v-slot:main>
       <delete-confirmation-popup
         v-show="deleteConfirmation.isDeleteConfirmationPopup"
         :payload="deleteConfirmation"
@@ -31,14 +31,12 @@
               :icons="['refresh']"
               @input="tableActionsHandler"
             >
-              <wt-icon-btn
+              <delete-all-action
                 v-if="hasDeleteAccess"
-                class="icon-action"
                 :class="{'hidden': anySelected}"
-                icon="bucket"
-                :tooltip="actionPanelDeleteTooltip"
+                :selected-count="selectedRows.length"
                 @click="callDelete(selectedRows)"
-              ></wt-icon-btn>
+              ></delete-all-action>
             </wt-table-actions>
           </div>
         </header>
@@ -54,7 +52,7 @@
             @sort="sort"
           >
             <template slot="name" slot-scope="{ item }">
-              <item-link :link="itemLink(item)">
+              <item-link :link="editLink(item)">
                 {{ item.name }}
               </item-link>
             </template>
@@ -74,13 +72,15 @@
               ></wt-switcher>
             </template>
             <template slot="actions" slot-scope="{ item }">
-              <wt-icon-btn
-                class="table-action dialplan__draggable-icon"
-                icon="move"
-                v-if="hasEditAccess"
-                :tooltip="$t('iconHints.draggable')"
-                tooltip-position="left"
-              ></wt-icon-btn>
+              <wt-tooltip class="table-action dialplan__draggable-icon">
+                <template v-slot:activator>
+                  <wt-icon-btn
+                    icon="move"
+                    v-if="hasEditAccess"
+                  ></wt-icon-btn>
+                </template>
+                  {{ $t('iconHints.draggable') }}
+              </wt-tooltip>
               <edit-action
                 v-if="hasEditAccess"
                 @click="edit(item)"

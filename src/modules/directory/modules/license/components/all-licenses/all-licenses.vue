@@ -25,13 +25,10 @@
           :icons="['refresh']"
           @input="tableActionsHandler"
         >
-          <wt-icon-btn
+          <add-action
             v-if="hasCreateAccess"
-            :tooltip="$t('iconHints.add')"
-            class="icon-action"
-            icon="plus"
             @click="isLicensePopup = true"
-          ></wt-icon-btn>
+          ></add-action>
         </wt-table-actions>
       </div>
     </header>
@@ -47,22 +44,9 @@
         @sort="sort"
       >
         <template slot="id" slot-scope="{ item }">
-          <div class="license__id-column">
-            <wt-icon-btn
-              v-show="copiedId !== item.id"
-              :tooltip="$t('objects.copy')"
-              class="license__id-column__icon-btn license__id-column__icon-btn--copy"
-              icon="copy"
-              @click="copy(item.id)"
-            ></wt-icon-btn>
-            <wt-icon-btn
-              v-show="copiedId === item.id"
-              :tooltip="$t('objects.copied')"
-              class="license__id-column__icon-btn license__id-column__icon-btn--tick"
-              color="true"
-              icon="done"
-            ></wt-icon-btn>
-          </div>
+          <copy-action
+            :value="item.id"
+          ></copy-action>
         </template>
         <template slot="product" slot-scope="{ item }">
           <div class="all-licenses__product-cell">
@@ -83,7 +67,7 @@
         </template>
 
         <template slot="used" slot-scope="{ item }">
-          <item-link :link="itemLink(item)">
+          <item-link :link="editLink(item)">
             <wt-icon
               icon="license-users"
               icon-prefix="adm"
@@ -117,22 +101,19 @@
 </template>
 
 <script>
-import copy from 'clipboard-copy';
+import AddAction from '../../../../../../app/components/actions/add-action';
 import tableComponentMixin from '../../../../../../app/mixins/objectPagesMixins/objectTableMixin/tableComponentMixin';
 import RouteNames from '../../../../../../app/router/_internals/RouteNames.enum';
 import LicenseUsersPopup from '../../modules/license-users/components/license-users-popup.vue';
 import LicensePopup from './license-popup.vue';
 
-let copiedIdTimeout = null;
-
 export default {
   name: 'all-licenses',
   mixins: [tableComponentMixin],
-  components: { LicensePopup, LicenseUsersPopup },
+  components: { AddAction, LicensePopup, LicenseUsersPopup },
   data: () => ({
     namespace: 'directory/license',
     isLicensePopup: false,
-    copiedId: null,
     routeName: RouteNames.LICENSE,
   }),
   computed: {
@@ -141,19 +122,6 @@ export default {
     },
   },
   methods: {
-    async copy(id) {
-      try {
-        await copy(id);
-        this.copiedId = id;
-        if (copiedIdTimeout) window.clearTimeout(copiedIdTimeout);
-        copiedIdTimeout = setTimeout(() => {
-          this.copiedId = null;
-        }, 1500);
-      } catch (err) {
-        throw err;
-      }
-    },
-
     closeLicenseUsersPopup() {
       this.$router.push({ name: this.routeName }); // remove license id
     },
@@ -187,31 +155,6 @@ export default {
   --license--90: rgba(255, 234, 0, 0.3);
   --license--30: rgba(255, 68, 68, 0.3);
   --license--0: rgba(0, 0, 0, 0.1);
-}
-
-.license__id-column {
-  display: flex;
-  align-items: center;
-
-  .license__id-column__icon-btn {
-    ::v-deep .wt-tooltip {
-      top: 0;
-      right: auto;
-      left: calc(100% + 10px);
-      display: block;
-      transform: translateY(-10px);
-      white-space: nowrap;
-      overflow-wrap: normal;
-    }
-
-    &--tick {
-      pointer-events: none;
-
-      ::v-deep .wt-tooltip {
-        opacity: 1;
-      }
-    }
-  }
 }
 
 .all-licenses__product-cell {

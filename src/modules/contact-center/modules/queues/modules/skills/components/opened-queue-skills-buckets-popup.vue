@@ -3,7 +3,7 @@
     <template slot="title">
       {{ $tc('objects.lookups.buckets.buckets', 2) }}
     </template>
-    <template slot="main">
+    <template v-slot:main>
       <section class="agent-buckets-popup">
         <wt-table
           :data="dataList"

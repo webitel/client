@@ -1,24 +1,33 @@
+import eventBus from '@webitel/ui-sdk/src/scripts/eventBus';
+import deepCopy from 'deep-copy';
 import { MemberServiceApiFactory } from 'webitel-sdk';
 import {
-  SdkListGetterApiConsumer,
-  SdkGetterApiConsumer,
   SdkCreatorApiConsumer,
-  SdkUpdaterApiConsumer,
-  SdkPatcherApiConsumer,
   SdkDeleterApiConsumer,
+  SdkGetterApiConsumer,
+  SdkListGetterApiConsumer,
+  SdkPatcherApiConsumer,
+  SdkUpdaterApiConsumer,
 } from 'webitel-sdk/esm2015/api-consumers';
-import deepCopy from 'deep-copy';
-import eventBus from '@webitel/ui-sdk/src/scripts/eventBus';
 import instance from '../../../../../../../app/api/instance';
 import configuration from '../../../../../../../app/api/openAPIConfig';
 import sanitizer from '../../../../../../../app/api/utils/sanitizer';
 
 const memberService = new MemberServiceApiFactory(configuration, '', instance);
 
-const fieldsToSend = ['queueId', 'name', 'priority', 'bucket', 'timezone', 'communications',
-  'variables', 'expireAt', 'minOfferingAt'];
+const fieldsToSend = [
+  'queueId', 'name', 'priority', 'bucket', 'timezone', 'communications',
+  'variables', 'expireAt', 'minOfferingAt',
+];
 
-const communicationsFieldsToSend = ['destination', 'display', 'priority', 'type', 'resource', 'description'];
+const communicationsFieldsToSend = [
+  'destination',
+  'display',
+  'priority',
+  'type',
+  'resource',
+  'description',
+];
 
 const defaultListObject = {
   createdAt: 'unknown',
@@ -46,18 +55,32 @@ const defaultSingleObjectCommunication = {
 };
 
 const mapDefaultCommunications = (item) => (
-    item.communications ? item.communications
-      .map((comm) => ({ ...defaultSingleObjectCommunication, ...comm })) : []
+  item.communications ? item.communications
+  .map((comm) => ({ ...defaultSingleObjectCommunication, ...comm })) : []
 );
 
-const _getMembersList = (getList) => function ({
-                                                 page,
-                                                 size,
-                                                 // search,
-                                                 // sort,
-                                                 parentId,
-                                               }) {
-  const params = [parentId, page, size];
+const _getMembersList = (getList) => function({
+                                                page,
+                                                size,
+                                                search,
+                                                sort,
+                                                fields,
+                                                ids,
+                                                parentId,
+                                                from,
+                                                to,
+                                                bucket,
+                                                priorityFrom,
+                                                priorityTo,
+                                                priority,
+                                                cause,
+                                              }) {
+  const params = [
+    parentId, page, size, search, sort, fields, ids, bucket,
+    undefined, from, to, undefined, undefined, cause,
+    priorityFrom || priority?.from, priorityTo || priority?.to,
+  ];
+
   return getList(params);
 };
 
@@ -83,7 +106,7 @@ const itemResponseHandler = (response) => {
 
 const preRequestHandler = (item) => {
   item.communications
-    .forEach((item) => sanitizer(item, communicationsFieldsToSend));
+  .forEach((item) => sanitizer(item, communicationsFieldsToSend));
   const variables = item.variables.reduce((variables, variable) => ({
     ...variables,
     [variable.key]: variable.value,
@@ -91,15 +114,23 @@ const preRequestHandler = (item) => {
   return { ...item, variables };
 };
 
-const listGetter = new SdkListGetterApiConsumer(memberService.searchMemberInQueue,
-  { defaultListObject, listResponseHandler })
-  .setGetListMethod(_getMembersList);
-const itemGetter = new SdkGetterApiConsumer(memberService.readMember,
-  { defaultSingleObject, itemResponseHandler });
-const itemCreator = new SdkCreatorApiConsumer(memberService.createMember,
-  { fieldsToSend, preRequestHandler });
-const itemUpdater = new SdkUpdaterApiConsumer(memberService.updateMember,
-  { fieldsToSend, preRequestHandler });
+const listGetter = new SdkListGetterApiConsumer(
+  memberService.searchMemberInQueue,
+  { defaultListObject, listResponseHandler },
+)
+.setGetListMethod(_getMembersList);
+const itemGetter = new SdkGetterApiConsumer(
+  memberService.readMember,
+  { defaultSingleObject, itemResponseHandler },
+);
+const itemCreator = new SdkCreatorApiConsumer(
+  memberService.createMember,
+  { fieldsToSend, preRequestHandler },
+);
+const itemUpdater = new SdkUpdaterApiConsumer(
+  memberService.updateMember,
+  { fieldsToSend, preRequestHandler },
+);
 const itemDeleter = new SdkDeleterApiConsumer(memberService.deleteMember);
 
 const resetMembersApiConsumer = new SdkPatcherApiConsumer(memberService.resetMembers);
@@ -111,11 +142,26 @@ const updateMember = (params) => itemUpdater.updateNestedItem(params);
 const deleteMember = (params) => itemDeleter.deleteNestedItem(params);
 
 const resetMembers = ({ parentId }) => resetMembersApiConsumer
-  .patchItem({ id: parentId, changes: {} });
+.patchItem({ id: parentId, changes: {} });
 
-export const deleteMembersBulk = async (queueId, ids) => {
+export const deleteMembersBulk = async (queueId, {
+  search,
+  ids,
+  from,
+  to,
+  bucket,
+  priority,
+  cause,
+}) => {
   try {
-    await memberService.deleteMembers(queueId, { ids });
+    await memberService.deleteMembers(queueId, {
+      ids,
+      q: search,
+      createdAt: (from || to) ? { from, to } : undefined,
+      priority,
+      stopCause: cause,
+      bucketId: bucket,
+    });
   } catch (err) {
     throw err;
   }
@@ -126,7 +172,10 @@ const addMembersBulk = async (queueId, items) => {
   const body = { queueId, items: itemsCopy };
   try {
     await memberService.createMemberBulk(queueId, body);
-    eventBus.$emit('notification', { type: 'info', text: 'Successfully added' });
+    eventBus.$emit('notification', {
+      type: 'info',
+      text: 'Successfully added',
+    });
   } catch (err) {
     throw err;
   }

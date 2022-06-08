@@ -4,7 +4,7 @@ export default {
   components: { ItemLink },
   data: () => ({}),
   methods: {
-    itemLink({ id }) {
+    editLink({ id }) {
       const routeName = this.routeName || this.tableObjectRouteName;
       return { name: `${routeName}-edit`, params: { id } };
     },

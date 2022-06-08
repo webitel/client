@@ -3,7 +3,7 @@
     <template slot="title">
       {{ $t('objects.permissions.roles.addPermission') }}
     </template>
-    <template slot="main">
+    <template v-slot:main>
       <form>
         <wt-select
           v-model="itemInstance.permission"

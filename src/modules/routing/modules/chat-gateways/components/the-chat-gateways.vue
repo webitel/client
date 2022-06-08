@@ -1,6 +1,6 @@
 <template>
   <wt-page-wrapper :actions-panel="false" class="chat-gateways">
-    <template slot="header">
+    <template v-slot:header>
       <object-header
         :hide-primary="!hasCreateAccess"
         :primary-action="create"
@@ -9,7 +9,7 @@
       </object-header>
     </template>
 
-    <template slot="main">
+    <template v-slot:main>
       <create-chat-gateway-popup
         v-if="isChatGatewayPopup"
         @close="isChatGatewayPopup = false"
@@ -35,14 +35,12 @@
               :icons="['refresh']"
               @input="tableActionsHandler"
             >
-              <wt-icon-btn
+              <delete-all-action
                 v-if="hasDeleteAccess"
-                class="icon-action"
                 :class="{'hidden': anySelected}"
-                icon="bucket"
-                :tooltip="actionPanelDeleteTooltip"
+                :selected-count="selectedRows.length"
                 @click="callDelete(selectedRows)"
-              ></wt-icon-btn>
+              ></delete-all-action>
             </wt-table-actions>
           </div>
         </header>
@@ -58,9 +56,9 @@
             @sort="sort"
           >
             <template slot="name" slot-scope="{ item }">
-              <span class="nameLink" @click="edit(item)">
+              <item-link :link="editLink(item)">
                 {{ item.name }}
-              </span>
+              </item-link>
             </template>
 
             <template slot="uri" slot-scope="{ item }">
@@ -124,7 +122,7 @@ import CreateChatGatewayPopup from './create-chat-gateway-popup.vue';
 import RouteNames from '../../../../../app/router/_internals/RouteNames.enum';
 
 const iconType = {
-  [MessengerType.FACEBOOK]: 'facebook',
+  [MessengerType.FACEBOOK]: 'messenger',
   [MessengerType.INFOBIP]: 'infobip',
   [MessengerType.VIBER]: 'viber',
   [MessengerType.WEB_CHAT]: 'web-chat',
@@ -154,12 +152,12 @@ export default {
     create() {
       this.isChatGatewayPopup = true;
     },
-    edit(item) {
+    editLink(item) {
       const type = getMessengerType(item.provider);
-      this.$router.push({
+      return {
         name: `${RouteNames.CHAT_GATEWAYS}-${type}-edit`,
         params: { id: item.id },
-      });
+      };
     },
   },
 };

@@ -1,4 +1,4 @@
-import parse from 'csv-parse';
+import { parse } from 'csv-parse';
 import debounce from '@webitel/ui-sdk/src/scripts/debounce';
 import isEmpty from '@webitel/ui-sdk/src/scripts/isEmpty';
 

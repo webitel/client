@@ -58,12 +58,15 @@ const OpenedMember = () => import('../../modules/contact-center/modules/queues/m
 const OpenedQueue = () => import('../../modules/contact-center/modules/queues/components/opened-queue.vue');
 const Storage = () => import('../../modules/integrations/modules/storage/components/the-storage.vue');
 const OpenedStorage = () => import('../../modules/integrations/modules/storage/components/opened-storage.vue');
+const CognitiveProfiles = () => import('../../modules/integrations/modules/cognitive-profiles/components/the-cognitive-profiles.vue');
+const OpenedCognitiveProfile = () => import('../../modules/integrations/modules/cognitive-profiles/components/opened-cognitive-profile.vue');
 
 Vue.use(Router);
 
 const router = new Router({
   mode: 'history',
   base: process.env.BASE_URL,
+                            // eslint-disable-next-line no-unused-vars
   scrollBehavior(to, from, savedPosition) {
     return { x: 0, y: 0 };
   },
@@ -244,13 +247,13 @@ const router = new Router({
           component: OpenedChatGateways,
         },
         {
-          path: '/routing/chat-gateways/facebook/new',
-          name: `${RouteNames.CHAT_GATEWAYS}-facebook-new`,
+          path: '/routing/chat-gateways/messenger/new',
+          name: `${RouteNames.CHAT_GATEWAYS}-messenger-new`,
           component: OpenedChatGateways,
         },
         {
-          path: '/routing/chat-gateways/facebook/:id',
-          name: `${RouteNames.CHAT_GATEWAYS}-facebook-edit`,
+          path: '/routing/chat-gateways/messenger/:id',
+          name: `${RouteNames.CHAT_GATEWAYS}-messenger-edit`,
           component: OpenedChatGateways,
         },
         {
@@ -483,83 +486,13 @@ const router = new Router({
           component: OpenedMember,
         },
         {
-          path: '/contact-center/queues/outbound-ivr/new',
-          name: `${RouteNames.QUEUES}-outbound-ivr-new`,
+          path: '/contact-center/queues/new',
+          name: `${RouteNames.QUEUES}-new`,
           component: OpenedQueue,
         },
         {
-          path: '/contact-center/queues/outbound-ivr/:id',
-          name: `${RouteNames.QUEUES}-outbound-ivr-edit`,
-          component: OpenedQueue,
-        },
-        {
-          path: '/contact-center/queues/inbound-queue/new',
-          name: `${RouteNames.QUEUES}-inbound-queue-new`,
-          component: OpenedQueue,
-        },
-        {
-          path: '/contact-center/queues/inbound-queue/:id',
-          name: `${RouteNames.QUEUES}-inbound-queue-edit`,
-          component: OpenedQueue,
-        },
-        {
-          path: '/contact-center/queues/offline-queue/new',
-          name: `${RouteNames.QUEUES}-offline-queue-new`,
-          component: OpenedQueue,
-        },
-        {
-          path: '/contact-center/queues/offline-queue/:id',
-          name: `${RouteNames.QUEUES}-offline-queue-edit`,
-          component: OpenedQueue,
-        },
-        {
-          path: '/contact-center/queues/preview-dialer/new',
-          name: `${RouteNames.QUEUES}-preview-dialer-new`,
-          component: OpenedQueue,
-        },
-        {
-          path: '/contact-center/queues/preview-dialer/:id',
-          name: `${RouteNames.QUEUES}-preview-dialer-edit`,
-          component: OpenedQueue,
-        },
-        {
-          path: '/contact-center/queues/progressive-dialer/new',
-          name: `${RouteNames.QUEUES}-progressive-dialer-new`,
-          component: OpenedQueue,
-        },
-        {
-          path: '/contact-center/queues/progressive-dialer/:id',
-          name: `${RouteNames.QUEUES}-progressive-dialer-edit`,
-          component: OpenedQueue,
-        },
-        {
-          path: '/contact-center/queues/predictive-dialer/new',
-          name: `${RouteNames.QUEUES}-predictive-dialer-new`,
-          component: OpenedQueue,
-        },
-        {
-          path: '/contact-center/queues/predictive-dialer/:id',
-          name: `${RouteNames.QUEUES}-predictive-dialer-edit`,
-          component: OpenedQueue,
-        },
-        {
-          path: '/contact-center/queues/chat-inbound-queue/new',
-          name: `${RouteNames.QUEUES}-chat-inbound-queue-new`,
-          component: OpenedQueue,
-        },
-        {
-          path: '/contact-center/queues/chat-inbound-queue/:id',
-          name: `${RouteNames.QUEUES}-chat-inbound-queue-edit`,
-          component: OpenedQueue,
-        },
-        {
-          path: '/contact-center/queues/task-queue/new',
-          name: `${RouteNames.QUEUES}-task-queue-new`,
-          component: OpenedQueue,
-        },
-        {
-          path: '/contact-center/queues/task-queue/:id',
-          name: `${RouteNames.QUEUES}-task-queue-edit`,
+          path: '/contact-center/queues/:id',
+          name: `${RouteNames.QUEUES}-edit`,
           component: OpenedQueue,
         },
         // --------------CONTACT CENTER END-------------
@@ -579,6 +512,21 @@ const router = new Router({
           path: '/integrations/storage/:type/:id',
           name: `${RouteNames.STORAGE}-edit`,
           component: OpenedStorage,
+        },
+        {
+          path: '/integrations/cognitive-profiles',
+          name: RouteNames.COGNITIVE_PROFILES,
+          component: CognitiveProfiles,
+        },
+        {
+          path: '/integrations/cognitive-profile/new',
+          name: `${RouteNames.COGNITIVE_PROFILES}-new`,
+          component: OpenedCognitiveProfile,
+        },
+        {
+          path: '/integrations/cognitive-profile/:id',
+          name: `${RouteNames.COGNITIVE_PROFILES}-edit`,
+          component: OpenedCognitiveProfile,
         },
         // --------------INTEGRATIONS END-------------
 

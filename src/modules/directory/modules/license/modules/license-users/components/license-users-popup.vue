@@ -4,7 +4,7 @@
     overflow
     @close="close"
   >
-    <template slot="header">
+    <template v-slot:header>
       <h3 class="license-users-popup__title">
         <wt-icon
           icon="license"
@@ -14,7 +14,7 @@
         {{ license.product }}
       </h3>
     </template>
-    <template slot="main">
+    <template v-slot:main>
       <wt-search-bar
         :value="search"
         debounce

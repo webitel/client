@@ -1,6 +1,6 @@
 <template>
   <wt-page-wrapper :actions-panel="false">
-    <template slot="header">
+    <template v-slot:header>
       <object-header
         :hide-primary="!hasCreateAccess"
         :primary-action="create"
@@ -9,7 +9,7 @@
       </object-header>
     </template>
 
-    <template slot="main">
+    <template v-slot:main>
       <delete-confirmation-popup
         v-show="deleteConfirmation.isDeleteConfirmationPopup"
         :payload="deleteConfirmation"
@@ -36,14 +36,12 @@
               :icons="['refresh']"
               @input="tableActionsHandler"
             >
-              <wt-icon-btn
+              <delete-all-action
                 v-if="hasDeleteAccess"
                 :class="{'hidden': anySelected}"
-                :tooltip="actionPanelDeleteTooltip"
-                class="icon-action"
-                icon="bucket"
+                :selected-count="selectedRows.length"
                 @click="callDelete(selectedRows)"
-              ></wt-icon-btn>
+              ></delete-all-action>
             </wt-table-actions>
           </div>
         </header>
@@ -58,7 +56,7 @@
             @sort="sort"
           >
             <template slot="name" slot-scope="{ item }">
-              <item-link :link="itemLink(item)">
+              <item-link :link="editLink(item)">
                 {{ item.name }}
               </item-link>
             </template>

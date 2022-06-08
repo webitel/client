@@ -36,6 +36,7 @@ export default Object.freeze({
 
   // INTEGRATIONS
   STORAGE: 'storage',
+  COGNITIVE_PROFILES: 'cognitive-profiles',
 
   // PERMISSIONS
   OBJECTS: 'objects',

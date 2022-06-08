@@ -101,6 +101,7 @@ export default {
   },
 
   objects: {
+    all: 'All {entity}',
     administration: 'Administration',
     general: 'General',
     new: 'New',
@@ -136,6 +137,13 @@ export default {
     to: 'To',
     importJSON: 'Import JSON',
     addNew: 'Add new',
+    provider: 'Provider',
+    default: 'Default',
+    service: 'Service',
+    tts: 'Text-to-Speech',
+    stt: 'Speech-to-Text',
+    key: 'Key',
+    ID: 'ID',
 
     deleteConfirmation: {
       title: 'Confirm deletion',
@@ -328,7 +336,6 @@ export default {
         size: 'Size',
         textToSpeech: 'Text to speech',
         popupSettings: 'Settings',
-        provider: 'Provider',
         lang: 'Language',
         voice: 'Voice',
         token: 'Token',
@@ -456,17 +463,20 @@ export default {
         infobip: {
           infobip: 'Infobip',
         },
-        facebook: {
-          facebook: 'Facebook',
+        messenger: {
+          messenger: 'Messenger',
+          addOrRemovePages: 'Add or remove pages',
+          accounts: 'Accounts',
           metadata: {
             clientId: 'App ID',
             clientSecret: 'App Secret',
           },
-          pages: {
-            pages: 'Pages',
-            addOrRemovePages: 'Add or remove pages',
-            accounts: 'Accounts',
+          facebook: {
+            pages: 'Facebook pages',
             subscription: 'Webhook subscription',
+          },
+          instagram: {
+            instagram: 'Instagram',
           },
         },
         viber: {
@@ -476,6 +486,9 @@ export default {
           webchat: 'Web chat',
           copyCode: 'Copy code for site',
           copyCodeHint: 'You must regenerate and reinsert Widget code to website each time after Widget settings modification',
+          metadata: {
+            mediaMaxSize: 'Max media size (Mb)',
+          },
           view: {
             view: 'View',
             borderRadius: 'Button Shape',
@@ -498,13 +511,11 @@ export default {
           },
         },
         uri: 'URI',
-        provider: 'Provider',
         newChatGateway: 'New chat gateway',
         metadata: {
           apiKey: 'Api Key',
           number: 'Number',
           baseUrl: 'Base URL',
-          scenarioKey: 'Scenario Key',
           sendApi: 'Send API',
           allowOrigin: 'Allow Origin',
           readTimeout: 'Read Timeout (sec)',
@@ -514,7 +525,7 @@ export default {
           botName: 'Bot Name',
           eventTypes: 'Event Types',
           telegramToken: 'Telegram BOT API Token',
-          facebookApiUrl: 'Facebook API URL',
+          messengerApiUrl: 'Messenger API URL',
         },
       },
 
@@ -565,6 +576,7 @@ export default {
         timing: 'Timing',
         maxNoAnswer: 'Max no answer',
         callTimeout: 'Call timeout',
+        inviteChatTimeout: 'Chat accept timeout',
         wrapUpTime: 'Wrap up time',
         noAnswerDelayTime: 'No answer delay time',
         strategies: {
@@ -586,6 +598,7 @@ export default {
         destination: 'Destination',
         display: 'Display number',
         priority: 'Priority',
+        attempts: 'Attempts',
         resetMembers: {
           resetMembers: 'Reset members',
           description: 'Are you sure you want to reset attempts of unsuccessful members?',
@@ -619,7 +632,7 @@ export default {
         newQueueDescription: 'New queue descriotion',
         outboundIVRQueue: 'Outbound IVR queue',
         outboundIVR: 'Outbound IVR',
-        outboundIVRDescription: 'An Outbound IVR allows an organization to automatically engage customers through multiple channels such as automated voice calls, SMS messages, email or social media posts using personalized notifications.',
+        outboundIVRQueueDescription: 'An Outbound IVR allows an organization to automatically engage customers through multiple channels such as automated voice calls, SMS messages, email or social media posts using personalized notifications.',
         inboundQueue: 'Inbound queue',
         inboundQueueDescription: 'An Inbound queue is that it\'s where callers are placed on hold, in a queue, while they wait to speak with a live agent.',
         offlineQueue: 'Offline queue',
@@ -632,22 +645,21 @@ export default {
         predictiveDialerDescription: 'A predictive dialer calls multiple numbers at one time. As soon as a customer answers, an agent is connected to them.',
         chatInboundQueue: 'Chat inbound queue',
         chatInboundQueueDescription: 'The same as inbound queue, but with chats',
-        taskQueue: 'Task queue',
-        taskQueueDescription: 'Task queue',
+        inboundTaskQueue: 'Inbound task queue',
+        inboundTaskQueueDescription: 'Inbound task queue',
+        outboundTaskQueue: 'Outbound task queue',
+        outboundTaskQueueDescription: 'Outbound task queue',
         strategy: 'Strategy',
         timezone: 'Timezone',
         callLimit: 'Call limit',
         variables: 'Variables',
         members: 'Member | Members',
-        timing: 'Timing',
+        params: 'Parameters',
         discardAbandonedAfter: 'Discard abandoned after',
         maxIdleAgent: 'Agent response timeout',
         maxIdleClient: 'Customer response timeout',
         timeoutWithNoAgents: 'Timeout with no agents',
         timeBaseScore: 'Time base score',
-        processing: 'Waiting for call result',
-        processingSec: 'Postprocessing time (sec)',
-        processingRenewalSec: 'Notify to continue after (sec)',
         endless: 'Endless',
         stickyAgent: 'Sticky',
         stickyAgentSec: 'Sticky agent (sec)',
@@ -680,6 +692,7 @@ export default {
         amd: 'AMD',
         enabled: 'Use AMD',
         allowNotSure: 'Transfer NOTSURE to an agent',
+        silenceNotSure: 'Transfer silence to an agent',
         allowGreetingAgent: 'Allow greeting agent',
         preSchema: 'Pre-executive schema',
         afterSchema: 'After-executive schema',
@@ -698,6 +711,13 @@ export default {
         initialSilence: 'Initial silence (ms)',
         statisticTime: 'Recalculation interval',
         communications: 'Communication type',
+        processing: {
+          processing: 'Processing',
+          enabled: 'Waiting for call result',
+          formSchema: 'Dynamic processing schema',
+          sec: 'Postprocessing time (sec)',
+          renewalSec: 'Notify to continue after (sec)',
+        },
         queueStrategy: {
           fifo: 'FIFO (First In First Out)',
           lifo: 'LIFO (Last In First Out)',
@@ -804,7 +824,13 @@ export default {
         driveEmail: 'Google Email',
         driveKey: 'Private key',
         s3Endpoint: 'Endpoint',
-        service: 'Service',
+      },
+
+      cognitiveProfiles: {
+        cognitiveProfiles: 'Cognitive profile | Cognitive profiles',
+        properties: {
+          region: 'Region',
+        },
       },
 
       tokens: {
@@ -870,6 +896,7 @@ export default {
     delete: 'Delete',
     deleteAll: 'Delete all items',
     deleteSelected: 'Delete {count} selected items',
+    deleteFiltered: 'Delete all filtered items',
     generate: 'Generate',
     add: 'Add',
     history: 'History',

@@ -1,6 +1,6 @@
 <template>
   <wt-page-wrapper :actions-panel="false">
-    <template slot="header">
+    <template v-slot:header>
       <object-header
         :hide-primary="!hasCreateAccess"
         :primary-action="create"
@@ -9,7 +9,7 @@
       </object-header>
     </template>
 
-    <template slot="main">
+    <template v-slot:main>
       <delete-confirmation-popup
         v-show="deleteConfirmation.isDeleteConfirmationPopup"
         :payload="deleteConfirmation"
@@ -31,14 +31,12 @@
               :icons="['refresh']"
               @input="tableActionsHandler"
             >
-              <wt-icon-btn
+              <delete-all-action
                 v-if="hasDeleteAccess"
-                class="icon-action"
                 :class="{'hidden': anySelected}"
-                icon="bucket"
-                :tooltip="actionPanelDeleteTooltip"
+                :selected-count="selectedRows.length"
                 @click="callDelete(selectedRows)"
-              ></wt-icon-btn>
+              ></delete-all-action>
             </wt-table-actions>
           </div>
         </header>
@@ -53,7 +51,7 @@
             @sort="sort"
           >
             <template slot="name" slot-scope="{ item }">
-              <item-link :link="itemLink(item)">
+              <item-link :link="editLink(item)">
                 {{ item.name }}
               </item-link>
             </template>
@@ -61,13 +59,9 @@
               {{ item.count }}
             </template>
             <template slot="actions" slot-scope="{ item }">
-              <wt-icon-btn
-                class="table-action"
-                icon="download"
-                :tooltip="$t('iconHints.download')"
-                tooltip-position="left"
+              <download-action
                 @click="download(item)"
-              ></wt-icon-btn>
+              ></download-action>
               <edit-action
                 v-if="hasEditAccess"
                 @click="edit(item)"
@@ -96,12 +90,14 @@
 
 <script>
 import exportCSVMixin from '@webitel/ui-sdk/src/modules/CSVExport/mixins/exportCSVMixin';
+import DownloadAction from '../../../../../app/components/actions/download-action';
 import tableComponentMixin from '../../../../../app/mixins/objectPagesMixins/objectTableMixin/tableComponentMixin';
 import BlacklistNumbersAPI from '../modules/numbers/api/blacklistNumbers';
 import RouteNames from '../../../../../app/router/_internals/RouteNames.enum';
 
 export default {
   name: 'the-blacklists',
+  components: { DownloadAction },
   mixins: [exportCSVMixin, tableComponentMixin],
   data: () => ({
     namespace: 'lookups/blacklists',

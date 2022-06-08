@@ -101,6 +101,7 @@ export default {
   },
 
   objects: {
+    all: 'Всі {entity}',
     administration: 'Управління',
     general: 'Загальне',
     new: 'Новий',
@@ -136,6 +137,13 @@ export default {
     to: 'До',
     importJSON: 'Імпортувати JSON',
     addNew: 'Додати',
+    provider: 'Провайдер',
+    default: 'За замовчуванням',
+    service: 'Сервіс',
+    tts: 'Text-to-Speech',
+    stt: 'Speech-to-Text',
+    key: 'Ключ',
+    ID: 'ID',
 
     deleteConfirmation: {
       title: 'Підтвердіть видалення',
@@ -328,7 +336,6 @@ export default {
         size: 'Розмір',
         textToSpeech: 'Синтез мовлення',
         popupSettings: 'Налаштування',
-        provider: 'Провайдер',
         lang: 'Мова',
         voice: 'Голос',
         token: 'Токен',
@@ -456,17 +463,20 @@ export default {
         infobip: {
           infobip: 'Infobip',
         },
-        facebook: {
-          facebook: 'Facebook',
+        messenger: {
+          messenger: 'Messenger',
+          addOrRemovePages: 'Додати або видалити сторінки',
+          accounts: 'Аккаунти',
           metadata: {
             clientId: 'App ID',
             clientSecret: 'App Secret',
           },
-          pages: {
-            pages: 'Сторінки',
-            addOrRemovePages: 'Додати або видалити сторінки',
-            accounts: 'Аккаунти',
+          facebook: {
+            pages: 'Facebook сторінки',
             subscription: 'Webhook підписки',
+          },
+          instagram: {
+            instagram: 'Instagram',
           },
         },
         viber: {
@@ -476,6 +486,9 @@ export default {
           webchat: 'Web chat',
           copyCode: 'Копіювати код',
           copyCodeHint: 'Необхідно перегенерувати та вставити код Віджета на сайт після кожної модифікації налаштувань',
+          metadata: {
+            mediaMaxSize: 'Максимальний розмір файла (Мб)',
+          },
           view: {
             borderRadius: 'Вигляд кнопки',
             language: 'Мова',
@@ -498,13 +511,11 @@ export default {
           },
         },
         uri: 'URI',
-        provider: 'Провайдер',
         newChatGateway: 'Новий текстовий шлюз',
         metadata: {
           apiKey: 'Api Key',
           number: 'Number',
           baseUrl: 'Base URL',
-          scenarioKey: 'Scenario Key',
           sendApi: 'Send API',
           allowOrigin: 'Allow Origin',
           readTimeout: 'Read Timeout (sec)',
@@ -514,7 +525,7 @@ export default {
           botName: 'Bot Name',
           eventTypes: 'Event Types',
           telegramToken: 'Telegram BOT API Token',
-          facebookApiUrl: 'Facebook API URL',
+          messengerApiUrl: 'Messenger API URL',
         },
       },
 
@@ -564,6 +575,7 @@ export default {
         timing: 'Параметри додзвону',
         maxNoAnswer: 'Максимальна кількість дзвінків без відповіді',
         callTimeout: 'Тривалість виклику',
+        inviteChatTimeout: 'Час прийняття чату',
         wrapUpTime: 'Тривалість паузи між дзвінками',
         noAnswerDelayTime: 'Час очікування при відсутності відповіді оператора',
         strategies: {
@@ -585,6 +597,7 @@ export default {
         destination: 'Призначення',
         display: 'Відображення номера',
         priority: 'Пріоритет',
+        attempts: 'Спроб',
         resetMembers: {
           resetMembers: 'Перезапустити абонентів',
           description: 'Ви впевнені, що бажаєте перезапустити усі неуспішні спроби повторно?',
@@ -597,7 +610,7 @@ export default {
           cancel: 'Скасований',
           success: 'Успішний',
           failed: 'Неуспішний',
-          missed: 'Втрачений',
+          missed: 'Пропущений',
           expired: 'Час вийшов',
         },
       },
@@ -618,7 +631,7 @@ export default {
         newQueueDescription: 'Типи черг',
         outboundIVRQueue: 'Вихідна IVR-черга',
         outboundIVR: 'Вихідний IVR',
-        outboundIVRDescription: 'Вихідний IVR дозволяє організації автоматично залучати клієнтів по кількох каналах, таких як автоматичні голосові виклики, SMS-повідомлення, електронна пошта або повідомлення в соцмережах з використанням персоналізованих сповіщень.',
+        outboundIVRQueueDescription: 'Вихідний IVR дозволяє організації автоматично залучати клієнтів по кількох каналах, таких як автоматичні голосові виклики, SMS-повідомлення, електронна пошта або повідомлення в соцмережах з використанням персоналізованих сповіщень.',
         inboundQueue: 'Вхідна черга',
         inboundQueueDescription: 'Абоненти вхідної черги знаходяться в режимі очікування, щоб поспілкуватися з живим оператором.',
         offlineQueue: 'Офлайн черга',
@@ -631,22 +644,21 @@ export default {
         predictiveDialerDescription: 'Вихідна кампанія без попереднього резервування оператора для максимального скорочення часу очікування дзвінка.',
         chatInboundQueue: 'Вхідна черга чатів',
         chatInboundQueueDescription: 'Така ж вхідна черга, але для чатів',
-        taskQueue: 'Черга задач',
-        taskQueueDescription: 'Черга задач',
+        inboundTaskQueue: 'Вхідна черга задач',
+        inboundTaskQueueDescription: 'Вхідна черга задач',
+        outboundTaskQueue: 'Вихідна черга задач',
+        outboundTaskQueueDescription: 'Вихідна черга задач',
         strategy: 'Стратегія',
         timezone: 'Часова зона',
         callLimit: 'Максимальна кількість одночасних дзвінків',
         variables: 'Змінні',
         members: 'Абонент | Абоненти',
-        timing: 'Налаштування додзвону абонентів',
+        params: 'Налаштування додзвону абонентів',
         discardAbandonedAfter: 'Кількість секунд до повного видалення абонента',
         maxIdleAgent: 'Очікування відповіді оператора',
         maxIdleClient: 'Очікування відповіді абонента',
         timeoutWithNoAgents: 'Час очікування, коли немає операторів',
         timeBaseScore: 'Рейтинг дзвінка',
-        processing: 'Очікування результату дзвінка',
-        processingSec: 'Час постобробки (сек)',
-        processingRenewalSec: 'Запропонувати продовження через (сек)',
         endless: 'Не припиняти набір',
         stickyAgent: 'Липкість',
         stickyAgentSec: 'Час очікування липкості (сек)',
@@ -679,6 +691,7 @@ export default {
         amd: 'AMD',
         enabled: 'Увімкнути автовизначення',
         allowNotSure: 'Невизначені',
+        silenceNotSure: 'Тиша',
         allowGreetingAgent: 'Дозволити привітання',
         preSchema: 'Схема попереднього набору',
         afterSchema: 'Схема подальшого набору',
@@ -697,7 +710,13 @@ export default {
         initialSilence: 'Максимальна тривалість тиші перед привітанням (мс)',
         statisticTime: 'Інтервал перерахунку',
         communications: 'Тип зв\'язку',
-
+        processing: {
+          processing: 'Обробка',
+          enabled: 'Очікування результату задачі',
+          formSchema: 'Схема динамічної обробки',
+          sec: 'Час обробки (сек)',
+          renewalSec: 'Запропонувати продовження після (сек)',
+        },
         queueStrategy: {
           fifo: 'FIFO (Першим зайшов, першим вийшов)',
           lifo: 'LIFO (Останнім зайшов, першим вийшов)',
@@ -803,7 +822,13 @@ export default {
         driveEmail: 'Google Email',
         driveKey: 'Private key',
         s3Endpoint: 'Endpoint',
-        service: 'Сервіс',
+      },
+
+      cognitiveProfiles: {
+        cognitiveProfiles: 'Голосовий профіль | Голосові профілі',
+        properties: {
+          region: 'Регіон',
+        },
       },
 
       tokens: {
@@ -868,6 +893,7 @@ export default {
     delete: 'Видалити',
     deleteAll: 'Видалити всі об\'єкти',
     deleteSelected: 'Видалити {count} обраних об\'єктів',
+    deleteFiltered: 'Видалити всі відфільтровані об\'єкти',
     generate: 'Створити',
     add: 'Додати',
     history: 'Історія',

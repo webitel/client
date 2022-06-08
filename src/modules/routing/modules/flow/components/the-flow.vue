@@ -1,6 +1,6 @@
 <template>
   <wt-page-wrapper :actions-panel="false">
-    <template slot="header">
+    <template v-slot:header>
       <object-header
         :hide-primary="!hasCreateAccess"
         :primary-action="create"
@@ -9,7 +9,7 @@
       </object-header>
     </template>
 
-    <template slot="main">
+    <template v-slot:main>
       <create-flow-popup
         v-if="isCreateFlowPopup"
         @close="isCreateFlowPopup = false"
@@ -40,14 +40,12 @@
               :icons="['refresh']"
               @input="tableActionsHandler"
             >
-              <wt-icon-btn
+              <delete-all-action
                 v-if="hasDeleteAccess"
-                class="icon-action"
                 :class="{'hidden': anySelected}"
-                icon="bucket"
-                :tooltip="actionPanelDeleteTooltip"
+                :selected-count="selectedRows.length"
                 @click="callDelete(selectedRows)"
-              ></wt-icon-btn>
+              ></delete-all-action>
               <upload-file-icon-btn
                 v-if="hasCreateAccess"
                 class="icon-action"
@@ -68,7 +66,7 @@
             @sort="sort"
           >
             <template slot="name" slot-scope="{ item }">
-              <item-link :link="itemLink(item)">
+              <item-link :link="editLink(item)">
                 {{ item.name }}
               </item-link>
             </template>
@@ -81,13 +79,9 @@
               </div>
             </template>
             <template slot="actions" slot-scope="{ item }">
-            <wt-icon-btn
-              class="table-action"
-              icon="download"
-              :tooltip="$t('iconHints.download')"
-              tooltip-position="left"
+            <download-action
               @click="download(item)"
-            ></wt-icon-btn>
+            ></download-action>
             <edit-action
               v-if="hasEditAccess"
               @click="edit(item)"
@@ -115,6 +109,7 @@
 </template>
 
 <script>
+import DownloadAction from '../../../../../app/components/actions/download-action';
 import tableComponentMixin from '../../../../../app/mixins/objectPagesMixins/objectTableMixin/tableComponentMixin';
 import CreateFlowPopup from './create-flow-popup.vue';
 import UploadPopup from './upload-flow-popup.vue';
@@ -127,6 +122,7 @@ export default {
   name: 'the-flow',
   mixins: [tableComponentMixin],
   components: {
+    DownloadAction,
     CreateFlowPopup,
     UploadPopup,
     UploadFileIconBtn,
@@ -174,7 +170,7 @@ export default {
     /**
      @overrides itemLinkMixin.js
      */
-    itemLink({ id, editor }) {
+    editLink({ id, editor }) {
       const routeName = this.routeName || this.tableObjectRouteName;
       return { name: `${routeName}-edit`, params: { id }, hash: editor ? '#diagram' : '#code' };
     },

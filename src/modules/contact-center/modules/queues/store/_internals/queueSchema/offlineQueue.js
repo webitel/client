@@ -1,6 +1,7 @@
+import { QueueType } from 'webitel-sdk/esm2015/enums';
 import queue from './defaults/defaultQueue';
-import QueueType from '../enums/QueueType.enum';
 import { Strategy } from '../enums/Strategy.enum';
+import processing from './defaults/processing';
 
 const offlineQueue = () => ({
   ...queue(),
@@ -9,9 +10,7 @@ const offlineQueue = () => ({
   strategy: Strategy.FIFO, // required
   doSchema: {},
   afterSchema: {},
-  processing: false,
-  processingSec: 30,
-  processingRenewalSec: 15,
+  taskProcessing: processing(),
   payload: {
     originateTimeout: 60, // required
     recordings: false,

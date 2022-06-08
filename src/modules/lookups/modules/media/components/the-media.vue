@@ -1,6 +1,6 @@
 <template>
   <wt-page-wrapper :actions-panel="false">
-    <template slot="header">
+    <template v-slot:header>
       <object-header hide-primary>
         <headline-nav :path="path"></headline-nav>
         <template slot="actions">
@@ -14,7 +14,7 @@
       </object-header>
     </template>
 
-    <template slot="main">
+    <template v-slot:main>
       <delete-confirmation-popup
         v-show="deleteConfirmation.isDeleteConfirmationPopup"
         :payload="deleteConfirmation"
@@ -36,14 +36,12 @@
               :icons="['refresh']"
               @input="tableActionsHandler"
             >
-              <wt-icon-btn
+              <delete-all-action
                 v-if="hasDeleteAccess"
                 :class="{'hidden': anySelected}"
-                :tooltip="actionPanelDeleteTooltip"
-                class="icon-action"
-                icon="bucket"
+                :selected-count="selectedRows.length"
                 @click="callDelete(selectedRows)"
-              ></wt-icon-btn>
+              ></delete-all-action>
             </wt-table-actions>
           </div>
         </header>
@@ -101,21 +99,19 @@
               {{ prettifyFileSize(item.size) }}
             </template>
             <template slot="actions" slot-scope="{ item, index }">
-              <wt-icon-btn
-                :tooltip="$t('iconHints.download')"
-                class="table-action"
-                icon="download"
-                tooltip-position="left"
+              <download-action
                 @click="downloadFile(item)"
-              ></wt-icon-btn>
+              ></download-action>
               <div class="table-action table-action--iframe-wrap">
-                <wt-icon-btn
-                  v-show="index !== playingIndex || !currentlyPlaying"
-                  :tooltip="$t('iconHints.play')"
-                  icon="play"
-                  tooltip-position="left"
-                  @click="play(index)"
-                ></wt-icon-btn>
+                <wt-tooltip v-show="index !== playingIndex || !currentlyPlaying">
+                  <template v-slot:activator>
+                    <wt-icon-btn
+                      icon="play"
+                      @click="play(index)"
+                    ></wt-icon-btn>
+                  </template>
+                    {{ $t('iconHints.play') }}
+                </wt-tooltip>
                 <iframe
                   v-show="index === playingIndex && currentlyPlaying"
                   :src="`${baseUrl}animations/equalizer/eq.html`"
@@ -155,6 +151,7 @@
 import exportFilesMixin from '@webitel/ui-sdk/src/modules/FilesExport/mixins/exportFilesMixin';
 import prettifyFileSize from '@webitel/ui-sdk/src/scripts/prettifyFileSize';
 import vueDropzone from 'vue2-dropzone';
+import DownloadAction from '../../../../../app/components/actions/download-action';
 import DownloadFilesBtn from '../../../../../app/components/utils/download-files-btn.vue';
 import tableComponentMixin from '../../../../../app/mixins/objectPagesMixins/objectTableMixin/tableComponentMixin';
 import { download } from '../../../../../app/utils/download';
@@ -167,6 +164,7 @@ export default {
   name: 'the-media',
   mixins: [exportFilesMixin, tableComponentMixin],
   components: {
+    DownloadAction,
     DownloadFilesBtn,
     vueDropzone,
   },

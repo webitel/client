@@ -2,12 +2,10 @@
   <section>
     <header class="content-header">
       <h3 class="content-title">{{ $t('objects.ccenter.resGroups.timerange') }}</h3>
-      <wt-icon-btn
+      <add-action
         v-if="!disableUserInput"
-        :tooltip="$t('iconHints.add')"
-        icon="plus"
         @click="addVariable"
-      ></wt-icon-btn>
+      ></add-action>
     </header>
     <form class="object-input-grid">
       <div>
@@ -32,13 +30,11 @@
             required
           >
           </wt-timepicker>
-          <wt-icon-btn
+          <delete-action
             v-if="key !== 0"
-            icon="bucket"
-            :tooltip="$t('iconHints.delete')"
             :disabled="disableUserInput"
             @click="deleteVariable(key)"
-          ></wt-icon-btn>
+          ></delete-action>
         </div>
       </div>
     </form>

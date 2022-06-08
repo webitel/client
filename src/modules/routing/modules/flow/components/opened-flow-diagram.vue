@@ -16,6 +16,8 @@ import bucketsAPI from '../../../../lookups/modules/buckets/api/buckets';
 import queuesAPI from '../../../../contact-center/modules/queues/api/queues';
 import gatewaysAPI from '../../gateways/api/gateways';
 import flowsAPI from '../api/flow';
+import BlacklistsAPI from '../../../../lookups/modules/blacklists/api/blacklists';
+import CommunicationsAPI from '../../../../lookups/modules/communications/api/communications';
 
 export default {
   name: 'opened-flow-diagram',
@@ -52,6 +54,8 @@ export default {
               queues: queuesAPI.getLookup,
               buckets: bucketsAPI.getLookup,
               gateways: gatewaysAPI.getLookup,
+              lists: BlacklistsAPI.getLookup,
+              communications: CommunicationsAPI.getLookup,
             },
           },
         };
@@ -74,11 +78,14 @@ export default {
           return onSave(params);
         };
 
+        const onInitialize = () => {
+          this.isLoading = false;
+        };
+
         this.diagram.on(WtFlowDiagram.Event.SAVE, onSave);
         this.diagram.on(WtFlowDiagram.Event.SAVE_AS, onSaveAs);
         this.diagram.on(WtFlowDiagram.Event.CLOSE, this.close.bind(this));
-
-        this.isLoading = false;
+        this.diagram.on(WtFlowDiagram.Event.INITIALIZE, onInitialize);
       };
       document.head.appendChild(script);
 
@@ -127,5 +134,16 @@ export default {
     left: 50%;
     transform: translate(-50%, -50%);
   }
+}
+
+.overlay {
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  background: rgba(255, 0, 0, 0.3);
+  z-index: 10000;
+  pointer-events: none;
 }
 </style>

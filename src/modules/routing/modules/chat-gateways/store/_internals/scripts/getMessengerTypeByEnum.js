@@ -5,7 +5,8 @@ export default (messengerType) => {
     case MessengerType.WEB_CHAT:
       return 'webchat';
     case MessengerType.FACEBOOK:
-      return 'facebook';
+    case MessengerType.MESSENGER:
+      return 'messenger';
     case MessengerType.INFOBIP:
       return 'infobip';
     case MessengerType.VIBER:

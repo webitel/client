@@ -1,46 +1,44 @@
 module.exports = {
-    moduleFileExtensions: [
-        'js',
-        'json',
-        'vue',
-        'jsx',
-    ],
+    preset: '@vue/cli-plugin-unit-jest',
     transform: {
-        '.*\\.(vue)$': '<rootDir>/node_modules/vue-jest',
-        '^.+\\.js$': '<rootDir>/node_modules/babel-jest',
-        '^.+\\.vue$': 'vue-jest',
-        '.+\\.(css|styl|less|sass|scss|svg|png|jpg|ttf|woff|woff2)$': 'jest-transform-stub',
-        '^.+\\.jsx?$': 'babel-jest',
+        '^.+\\.jsx?$': '<rootDir>/node_modules/babel-jest',
     },
-    collectCoverage: false,
-    collectCoverageFrom: [
-        // "**/*.{js,vue}",
-        // "src/components/objects/permissions/**/*{.js,vue}",
-        'src/**/*.{js,vue}',
-        '!**/node_modules/**',
-    ],
-    plugins: [
-        {
-            src: ',~/plugins/vuelidate',
-            ssr: true,
-        },
-    ],
     transformIgnorePatterns: [
-        '/node_modules/(?!vuetable-2)',
+        // '/node_modules/(?!@webitel/ui-sdk/src|@webitel/cc-ui-sdk/src|webitel-sdk).+\\.js$',
     ],
     moduleNameMapper: {
-        '^@/(.*)$': '<rootDir>/src/$1',
-        'monaco-editor': '<rootDir>/node_modules/monaco-editor-webpack-plugin',
+        '\\.(jpg|ico|jpeg|png|gif|eot|otf|webp|svg|ttf|woff|woff2|mp4|webm|wav|mp3|m4a|aac|oga)$': '<rootDir>/tests/unit/mocks/file.mock.js',
+        '\\.(css|less)$': '<rootDir>/tests/unit/mocks/file.mock.js',
     },
-    snapshotSerializers: [
-        'jest-serializer-vue',
+    reporters: ['default', 'bamboo-jest-reporter'],
+    collectCoverage: true,
+    // coverageThreshold: {
+    //   global: {
+    //     branches: 80,
+    //     functions: 80,
+    //     statements: 80,
+    //     lines: 80,
+    //   },
+    // },
+    collectCoverageFrom: [
+        '!src/**/api/**/*.{js,vue}',
+
+        // 'src/**.components/**/*.{js,vue}',
+
+        // 'src/**/store/**/*.{js,vue}',
+
+        // 'src/**/shared/**/*.{js,vue}',
+
+        'src/**/*.{js,vue}',
+
+        // '!src/components/utils/*.{js,vue}',
+        '!src/**/index.js', // No need to cover bootstrap file
+        '!src/**/main.js', // No need to cover bootstrap file
     ],
-    testMatch: [
-        '**/tests/unit/**/*.spec.(js|jsx|ts|tsx)|**/__tests__/*.(js|jsx|ts|tsx)',
+    setupFiles: [
+        // 'jest-canvas-mock',
+        './tests/config/config.js',
+        './src/app/plugins/webitel-ui.js',
     ],
-    testURL: 'http://localhost/',
-    watchPlugins: [
-        'jest-watch-typeahead/filename',
-        'jest-watch-typeahead/testname',
-    ],
+    setupFilesAfterEnv: ['./tests/config/jest.config.js'],
 };

@@ -27,7 +27,7 @@
         </template>
 
         <template slot="type" slot-scope="{ item }">
-          {{ computeQueueType(item.type) }}
+          {{ $t(QueueTypeProperties[item.type].locale) }}
         </template>
 
         <template slot="count" slot-scope="{ item }">
@@ -57,40 +57,16 @@
 </template>
 
 <script>
+import QueueTypeProperties from '../../../../queues/lookups/QueueTypeProperties.lookup';
 import openedObjectTableTabMixin from '../../../../../../../app/mixins/objectPagesMixins/openedObjectTableTabMixin/openedObjectTableTabMixin';
-import QueueType from '../../../../queues/store/_internals/enums/QueueType.enum';
 
 export default {
   name: 'opened-agent-queues',
   mixins: [openedObjectTableTabMixin],
   data: () => ({
     subNamespace: 'queues',
+    QueueTypeProperties,
   }),
-
-  methods: {
-    computeQueueType(type) {
-      switch (type) {
-        case QueueType.OFFLINE_QUEUE:
-          return 'Offline Queue';
-        case QueueType.INBOUND_QUEUE:
-          return 'Inbound Queue';
-        case QueueType.OUTBOUND_IVR_QUEUE:
-          return 'Outbound IVR Queue';
-        case QueueType.PREVIEW_DIALER:
-          return 'Preview Dialer';
-        case QueueType.PROGRESSIVE_DIALER:
-          return 'Progressive Dialer';
-        case QueueType.PREDICTIVE_DIALER:
-          return 'Predictive Dialer';
-        case QueueType.CHAT_INBOUND_QUEUE:
-          return 'Chat Inbound Queue';
-        case QueueType.TASK_QUEUE:
-          return 'Task Queue';
-        default:
-          return 'Unknown';
-      }
-    },
-  },
 };
 </script>
 

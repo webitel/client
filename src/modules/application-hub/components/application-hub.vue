@@ -52,41 +52,71 @@
     import WebitelApplications from '@webitel/ui-sdk/src/enums/WebitelApplications/WebitelApplications.enum';
     import CcHeader from '../../_reusable/app-header/components/app-header.vue';
 
+    import admPicDark from '../assets/img/dark/admin-pic--dark.svg';
+    import admPicLight from '../assets/img/light/admin-pic--light.svg';
+    import admTitleDark from '../assets/img/dark/admin-title--dark.svg';
+    import admTitleLight from '../assets/img/light/admin-title--light.svg';
+
+    import agentPicDark from '../assets/img/dark/agent-pic--dark.svg';
+    import agentPicLight from '../assets/img/light/agent-pic--light.svg';
+    import agentTitleDark from '../assets/img/dark/agent-title--dark.svg';
+    import agentTitleLight from '../assets/img/light/agent-title--light.svg';
+
+    import auditPicDark from '../assets/img/dark/audit-pic--dark.svg';
+    import auditPicLight from '../assets/img/light/audit-pic--light.svg';
+    import auditTitleDark from '../assets/img/dark/audit-title--dark.svg';
+    import auditTitleLight from '../assets/img/light/audit-title--light.svg';
+
+    import historyPicDark from '../assets/img/dark/history-pic--dark.svg';
+    import historyPicLight from '../assets/img/light/history-pic--light.svg';
+    import historyTitleDark from '../assets/img/dark/history-title--dark.svg';
+    import historyTitleLight from '../assets/img/light/history-title--light.svg';
+
+    import supervisorPicDark from '../assets/img/dark/supervisor-pic--dark.svg';
+    import supervisorPicLight from '../assets/img/light/supervisor-pic--light.svg';
+    import supervisorTitleDark from '../assets/img/dark/supervisor-title--dark.svg';
+    import supervisorTitleLight from '../assets/img/light/supervisor-title--light.svg';
+
+    import grafanaPicDark from '../assets/img/dark/grafana-pic--dark.svg';
+    import grafanaPicLight from '../assets/img/light/grafana-pic--light.svg';
+    import grafanaTitleDark from '../assets/img/dark/grafana-title--dark.svg';
+    import grafanaTitleLight from '../assets/img/light/grafana-title--light.svg';
+
     const picAdmin = {
-        picDark: require('../assets/img/dark/admin-pic--dark.svg'),
-        picLight: require('../assets/img/light/admin-pic--light.svg'),
-        titleDark: require('../assets/img/dark/admin-title--dark.svg'),
-        titleLight: require('../assets/img/light/admin-title--light.svg'),
+        picDark: admPicDark,
+        picLight: admPicLight,
+        titleDark: admTitleDark,
+        titleLight: admTitleLight,
     };
     const picAgent = {
-        picDark: require('../assets/img/dark/agent-pic--dark.svg'),
-        picLight: require('../assets/img/light/agent-pic--light.svg'),
-        titleDark: require('../assets/img/dark/agent-title--dark.svg'),
-        titleLight: require('../assets/img/light/agent-title--light.svg'),
+        picDark: agentPicDark,
+        picLight: agentPicLight,
+        titleDark: agentTitleDark,
+        titleLight: agentTitleLight,
     };
     const picAudit = {
-        picDark: require('../assets/img/dark/audit-pic--dark.svg'),
-        picLight: require('../assets/img/light/audit-pic--light.svg'),
-        titleDark: require('../assets/img/dark/audit-title--dark.svg'),
-        titleLight: require('../assets/img/light/audit-title--light.svg'),
+        picDark: auditPicDark,
+        picLight: auditPicLight,
+        titleDark: auditTitleDark,
+        titleLight: auditTitleLight,
     };
     const picHistory = {
-        picDark: require('../assets/img/dark/history-pic--dark.svg'),
-        picLight: require('../assets/img/light/history-pic--light.svg'),
-        titleDark: require('../assets/img/dark/history-title--dark.svg'),
-        titleLight: require('../assets/img/light/history-title--light.svg'),
+        picDark: historyPicDark,
+        picLight: historyPicLight,
+        titleDark: historyTitleDark,
+        titleLight: historyTitleLight,
     };
     const picSupervisor = {
-        picDark: require('../assets/img/dark/supervisor-pic--dark.svg'),
-        picLight: require('../assets/img/light/supervisor-pic--light.svg'),
-        titleDark: require('../assets/img/dark/supervisor-title--dark.svg'),
-        titleLight: require('../assets/img/light/supervisor-title--light.svg'),
+        picDark: supervisorPicDark,
+        picLight: supervisorPicLight,
+        titleDark: supervisorTitleDark,
+        titleLight: supervisorTitleLight,
     };
     const picGrafana = {
-        picDark: require('../assets/img/dark/grafana-pic--dark.svg'),
-        picLight: require('../assets/img/light/grafana-pic--light.svg'),
-        titleDark: require('../assets/img/dark/grafana-title--dark.svg'),
-        titleLight: require('../assets/img/light/grafana-title--light.svg'),
+        picDark: grafanaPicDark,
+        picLight: grafanaPicLight,
+        titleDark: grafanaTitleDark,
+        titleLight: grafanaTitleLight,
     };
 
     export default {

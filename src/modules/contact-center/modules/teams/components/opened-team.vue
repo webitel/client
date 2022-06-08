@@ -1,6 +1,6 @@
 <template>
   <wt-page-wrapper :actions-panel="false">
-    <template slot="header">
+    <template v-slot:header>
     <object-header
       :primary-action="save"
       :primary-disabled="computeDisabled"
@@ -11,7 +11,7 @@
       <headline-nav :path="path"></headline-nav>
     </object-header>
     </template>
-    <template slot="main">
+    <template v-slot:main>
       <div class="main-container">
         <wt-tabs
           v-model="currentTab"
@@ -57,6 +57,7 @@ export default {
       wrapUpTime: { numeric, required },
       noAnswerDelayTime: { numeric, required },
       callTimeout: { numeric, required },
+      inviteChatTimeout: { numeric, required },
     },
   },
   computed: {

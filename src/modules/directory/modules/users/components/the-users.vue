@@ -1,6 +1,6 @@
 <template>
   <wt-page-wrapper class="users" :actions-panel="false">
-    <template slot="header">
+    <template v-slot:header>
       <object-header
         :hide-primary="!hasCreateAccess"
         :primary-action="create"
@@ -8,7 +8,7 @@
         <headline-nav :path="path"></headline-nav>
       </object-header>
     </template>
-    <template slot="main">
+    <template v-slot:main>
       <upload-popup
         v-if="isUploadPopup"
         :file="csvFile"
@@ -35,14 +35,12 @@
               :icons="['refresh']"
               @input="tableActionsHandler"
             >
-              <wt-icon-btn
+              <delete-all-action
                 v-if="hasDeleteAccess"
-                class="icon-action"
                 :class="{'hidden': anySelected}"
-                icon="bucket"
-                :tooltip="actionPanelDeleteTooltip"
+                :selected-count="selectedRows.length"
                 @click="callDelete(selectedRows)"
-              ></wt-icon-btn>
+              ></delete-all-action>
               <upload-file-icon-btn
                 v-if="hasCreateAccess"
                 class="icon-action"
@@ -63,9 +61,9 @@
             @sort="sort"
           >
             <template slot="name" slot-scope="{ item }">
-               <span class="nameLink" @click="edit(item)">
-                 {{ item.name }}
-               </span>
+              <item-link :link="editLink(item)">
+                {{ item.name }}
+              </item-link>
             </template>
             <template slot="status" slot-scope="{ item }">
               <user-status :presence="item.presence"/>

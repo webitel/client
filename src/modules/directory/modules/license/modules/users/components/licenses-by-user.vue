@@ -36,7 +36,7 @@
         @sort="sort"
       >
         <template slot="name" slot-scope="{ item }">
-          <item-link :link="itemLink(item)" target="_blank">
+          <item-link :link="editLink(item)" target="_blank">
             {{ item.name }}
           </item-link>
         </template>
@@ -101,7 +101,7 @@ export default {
     changeVisibleHeaders(headers) {
       this.setHeaders(headers);
     },
-    itemLink({ id }) {
+    editLink({ id }) {
       return { name: `${RouteNames.USERS}-edit`, params: { id } };
     },
   },

@@ -4,7 +4,7 @@ unused
 /dist
 /coverage
 .eslintignore
-package-lock.json
+jest.json
 
 # local env files
 .env.local

@@ -1,6 +1,6 @@
 <template>
   <wt-page-wrapper class="queues" :actions-panel="false">
-    <template slot="header">
+    <template v-slot:header>
       <object-header
         :hide-primary="!hasCreateAccess"
         :primary-action="create"
@@ -8,7 +8,7 @@
         <headline-nav :path="path"></headline-nav>
       </object-header>
     </template>
-    <template slot="main">
+    <template v-slot:main>
       <queue-popup
         v-if="isQueueSelectPopup"
         @close="isQueueSelectPopup = false"
@@ -34,14 +34,12 @@
               :icons="['refresh']"
               @input="tableActionsHandler"
             >
-              <wt-icon-btn
+              <delete-all-action
                 v-if="hasDeleteAccess"
-                class="icon-action"
                 :class="{'hidden': anySelected}"
-                icon="bucket"
-                :tooltip="actionPanelDeleteTooltip"
+                :selected-count="selectedRows.length"
                 @click="callDelete(selectedRows)"
-              ></wt-icon-btn>
+              ></delete-all-action>
             </wt-table-actions>
           </div>
         </header>
@@ -56,13 +54,13 @@
             @sort="sort"
           >
             <template slot="name" slot-scope="{ item }">
-              <span class="nameLink" @click="edit(item)">
+              <item-link :link="editLink(item)">
                 {{ item.name }}
-              </span>
+              </item-link>
             </template>
 
             <template slot="type" slot-scope="{ item }">
-              {{ queueTypeLocale[item.type] }}
+              {{ $t(QueueTypeProperties[item.type].locale) }}
             </template>
             <template slot="activeCalls" slot-scope="{ item }">
               {{ item.active }}
@@ -86,13 +84,15 @@
               ></wt-switcher>
             </template>
             <template slot="actions" slot-scope="{ item }">
-              <wt-icon-btn
-                class="table-action"
-                icon="queue-member"
-                :tooltip="$t('iconHints.members')"
-                tooltip-position="left"
-                @click="openMembers(item)"
-              ></wt-icon-btn>
+              <wt-tooltip class="table-action">
+                <template v-slot:activator>
+                  <wt-icon-btn
+                    icon="queue-member"
+                    @click="openMembers(item)"
+                  ></wt-icon-btn>
+                </template>
+                  {{ $t('iconHints.members') }}
+              </wt-tooltip>
               <edit-action
                 v-if="hasEditAccess"
                 @click="edit(item, index)"
@@ -120,11 +120,10 @@
 </template>
 
 <script>
+import QueueTypeProperties from '../lookups/QueueTypeProperties.lookup';
 import QueuePopup from './create-queue-popup.vue';
 import tableComponentMixin
   from '../../../../../app/mixins/objectPagesMixins/objectTableMixin/tableComponentMixin';
-import QueueType from '../store/_internals/enums/QueueType.enum';
-import getQueueSubRoute from '../store/_internals/scripts/getQueueSubRoute';
 import RouteNames from '../../../../../app/router/_internals/RouteNames.enum';
 
 export default {
@@ -134,6 +133,8 @@ export default {
   data: () => ({
     namespace: 'ccenter/queues',
     isQueueSelectPopup: false,
+    QueueTypeProperties,
+    routeName: RouteNames.QUEUES,
   }),
 
   computed: {
@@ -142,19 +143,6 @@ export default {
         { name: this.$t('objects.ccenter.ccenter') },
         { name: this.$tc('objects.ccenter.queues.queues', 2), route: '/contact-center/queues' },
       ];
-    },
-
-    queueTypeLocale() {
-      return {
-        [QueueType.OFFLINE_QUEUE]: this.$t('objects.ccenter.queues.offlineQueue'),
-        [QueueType.INBOUND_QUEUE]: this.$t('objects.ccenter.queues.inboundQueue'),
-        [QueueType.OUTBOUND_IVR_QUEUE]: this.$t('objects.ccenter.queues.outboundIVRQueue'),
-        [QueueType.PREVIEW_DIALER]: this.$t('objects.ccenter.queues.previewDialer'),
-        [QueueType.PROGRESSIVE_DIALER]: this.$t('objects.ccenter.queues.progressiveDialer'),
-        [QueueType.PREDICTIVE_DIALER]: this.$t('objects.ccenter.queues.predictiveDialer'),
-        [QueueType.CHAT_INBOUND_QUEUE]: this.$t('objects.ccenter.queues.chatInboundQueue'),
-        [QueueType.TASK_QUEUE]: this.$t('objects.ccenter.queues.taskQueue'),
-      };
     },
   },
 
@@ -174,14 +162,6 @@ export default {
 
     create() {
       this.isQueueSelectPopup = true;
-    },
-
-    edit(item) {
-      const type = getQueueSubRoute(item.type);
-      this.$router.push({
-        name: `${RouteNames.QUEUES}-${type}-edit`,
-        params: { id: item.id },
-      });
     },
   },
 

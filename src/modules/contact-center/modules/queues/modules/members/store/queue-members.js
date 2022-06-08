@@ -2,6 +2,7 @@ import MembersAPI from '../api/queueMembers';
 import QueuesAPI from '../../../api/queues';
 import NestedObjectStoreModule from '../../../../../../../app/store/BaseStoreModules/StoreModules/NestedObjectStoreModule';
 import headers from './_internals/headers';
+import filters from '../modules/filters/store/filters';
 
 const resettableItemState = {
   parentQueue: {},
@@ -41,9 +42,12 @@ const actions = {
   DELETE_SINGLE: (context, { id }) => context.dispatch('DELETE_ITEM', id),
   DELETE_BULK: (context, deleted) => {
     const ids = deleted.map((item) => item.id);
-    return MembersAPI.deleteBulk(context.state.parentId, ids);
+    return MembersAPI.deleteBulk(context.state.parentId, { ids });
   },
-  DELETE_ALL: (context) => MembersAPI.deleteBulk(context.state.parentId, []),
+  DELETE_FILTERED: (context, query = context.getters['filters/GET_FILTERS']) => {
+    return MembersAPI.deleteBulk(context.state.parentId, query);
+  },
+  DELETE_ALL: (context) => MembersAPI.deleteBulk(context.state.parentId, { id: [] }),
   RESET_MEMBERS: (context) => {
     const response = MembersAPI.resetMembers(context.state);
     context.dispatch('LOAD_DATA_LIST');
@@ -117,6 +121,7 @@ const mutations = {
 const queueMembers = new NestedObjectStoreModule({ resettableItemState, headers })
   .attachAPIModule(MembersAPI)
   .generateAPIActions()
+  .setChildModules({ filters })
   .getModule({ actions, mutations });
 
 export default queueMembers;

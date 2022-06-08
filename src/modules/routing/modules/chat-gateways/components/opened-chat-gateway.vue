@@ -1,6 +1,6 @@
 <template>
   <wt-page-wrapper :actions-panel="false">
-    <template slot="header">
+    <template v-slot:header>
       <object-header
         :hide-primary="!hasSaveActionAccess"
         :primary-action="save"
@@ -19,7 +19,7 @@
       </object-header>
     </template>
 
-    <template slot="main">
+    <template v-slot:main>
       <div class="main-container">
         <wt-tabs
           v-model="currentTab"
@@ -40,8 +40,9 @@ import { maxValue, minLength, minValue, numeric, required, url } from 'vuelidate
 import { mapActions } from 'vuex';
 import openedObjectMixin from '../../../../../app/mixins/objectPagesMixins/openedObjectMixin/openedObjectMixin';
 
-import OpenedChatFacebook from './facebook/opened-chat-gateway-facebook-general-tab.vue';
-import OpenedChatFacebookPages from '../modules/facebook/components/facebook-pages-tab.vue';
+import OpenedChatMessenger from './messenger/opened-chat-gateway-messenger-general-tab.vue';
+import OpenedChatFacebook from '../modules/messenger/facebook/components/facebook-tab.vue';
+import OpenedChatInstagram from '../modules/messenger/instagram/components/instagram-tab.vue';
 
 import OpenedChatInfobip from './infobip/opened-chat-gateway-infobip-general-tab.vue';
 import OpenedChatTelegram from './telegram/opened-chat-gateway-telegram-general-tab.vue';
@@ -57,8 +58,9 @@ export default {
   mixins: [openedObjectMixin],
   components: {
     OpenedChatTelegram,
+    OpenedChatMessenger,
     OpenedChatFacebook,
-    OpenedChatFacebookPages,
+    OpenedChatInstagram,
     OpenedChatInfobip,
     OpenedViberChat,
     OpenedWebchat,
@@ -89,7 +91,7 @@ export default {
             },
           },
         };
-      case 'facebook':
+      case 'messenger':
         return {
           itemInstance: {
             ...defaults,
@@ -105,7 +107,6 @@ export default {
             ...defaults,
             metadata: {
               apiKey: { required },
-              number: { required },
               url: { required },
             },
           },
@@ -157,8 +158,8 @@ export default {
       if (this.$route.path.includes('telegram')) {
         return 'telegram';
       }
-      if (this.$route.path.includes('facebook')) {
-        return 'facebook';
+      if (this.$route.path.includes('messenger')) {
+        return 'messenger';
       }
       if (this.$route.path.includes('infobip')) {
         return 'infobip';
@@ -178,15 +179,23 @@ export default {
         value: 'OpenedChatTelegram',
       };
 
-      const facebookChat = {
-        text: this.$t('objects.routing.chatGateways.facebook.facebook'),
-        value: 'OpenedChatFacebook',
+      const messengerChat = {
+        text: this.$t('objects.routing.chatGateways.messenger.messenger'),
+        value: 'OpenedChatMessenger',
       };
       const facebookChatPages = {
-        text: this.$t('objects.routing.chatGateways.facebook.pages.pages'),
-        value: 'OpenedChatFacebookPages',
+        text: this.$t('objects.routing.chatGateways.messenger.facebook.pages'),
+        value: 'OpenedChatFacebook',
       };
-      const facebook = this.id ? [facebookChat, facebookChatPages] : [facebookChat];
+      const instagramChatPages = {
+        text: this.$t('objects.routing.chatGateways.messenger.instagram.instagram'),
+        value: 'OpenedChatInstagram',
+      };
+      const messenger = this.id ? [
+        messengerChat,
+        facebookChatPages,
+        instagramChatPages,
+      ] : [messengerChat];
 
       const infobipChat = {
         text: this.$t('objects.routing.chatGateways.infobip.infobip'),
@@ -214,8 +223,8 @@ export default {
       switch (this.chatType) {
         case 'telegram':
           return [telegramChat];
-        case 'facebook':
-          return facebook;
+        case 'messenger':
+          return messenger;
         case 'infobip':
           return [infobipChat];
         case 'viber':

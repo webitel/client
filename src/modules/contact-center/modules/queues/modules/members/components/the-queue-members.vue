@@ -1,6 +1,6 @@
 <template>
-  <wt-page-wrapper class="members" :actions-panel="false">
-    <template slot="header">
+  <wt-page-wrapper class="members">
+    <template v-slot:header>
       <object-header
         :hide-primary="!hasEditAccess || !isNotInboundMember"
         :primary-action="create"
@@ -9,7 +9,12 @@
         <headline-nav :path="path"></headline-nav>
       </object-header>
     </template>
-    <template slot="main">
+    <template v-slot:actions-panel>
+      <the-queue-members-filters
+        :namespace="filtersNamespace"
+      ></the-queue-members-filters>
+    </template>
+    <template v-slot:main>
       <destinations-popup
         v-if="isDestinationsPopup"
         :communications="communicationsOnPopup"
@@ -39,31 +44,31 @@
         <header class="content-header">
           <h3 class="content-title">{{ $t('objects.ccenter.members.allMembers') }}</h3>
           <div class="content-header__actions-wrap">
-            <!--            TODO: NO API -->
-            <!--            <wt-search-bar-->
-            <!--                :value="search"-->
-            <!--                debounce-->
-            <!--                @input="setSearch"-->
-            <!--                @search="loadList"-->
-            <!--                @enter="loadList"-->
-            <!--            ></wt-search-bar>-->
+            <filter-search
+              :namespace="filtersNamespace"
+            ></filter-search>
             <wt-table-actions
               :icons="['refresh']"
               @input="tableActionsHandler"
             >
-              <wt-icon-btn
-                v-if="hasEditAccess"
-                icon="clear"
-                :tooltip="$t('objects.ccenter.members.resetMembers.resetMembers')"
-                @click="openResetPopup"
-              ></wt-icon-btn>
-              <wt-icon-btn
+              <wt-tooltip v-if="hasEditAccess">
+                <template v-slot:activator>
+                  <wt-icon-btn
+                    icon="clear"
+                    @click="openResetPopup"
+                  ></wt-icon-btn>
+                </template>
+                  {{ $t('objects.ccenter.members.resetMembers.resetMembers') }}
+              </wt-tooltip>
+              <wt-context-menu
                 v-if="hasEditAccess && isNotInboundMember"
-                class="icon-action"
-                icon="bucket"
-                :tooltip="actionPanelDeleteTooltip"
-                @click="callDelete(selectedRows)"
-              ></wt-icon-btn>
+                :options="deleteOptions"
+                @click="$event.option.method.call()"
+              >
+                <template v-slot:activator>
+                  <delete-action></delete-action>
+                </template>
+              </wt-context-menu>
               <upload-file-icon-btn
                 v-if="hasEditAccess && isNotInboundMember"
                 class="icon-action"
@@ -80,12 +85,13 @@
             :headers="headers"
             :data="dataList"
             :grid-actions="hasEditAccess && isNotInboundMember"
+            sortable
             @sort="sort"
           >
             <template slot="name" slot-scope="{ item }">
-              <span class="nameLink" @click="edit(item)">
+              <item-link :link="editLink(item)">
                 {{ item.name }}
-              </span>
+              </item-link>
             </template>
             <template slot="createdAt" slot-scope="{ item }">
               {{ prettifyDateTime(item.createdAt) }}
@@ -146,24 +152,28 @@
 </template>
 
 <script>
-import { mapActions, mapState } from 'vuex';
+import FilterSearch from '@webitel/ui-sdk/src/modules/QueryFilters/components/filter-search.vue';
 import getNamespacedState from '@webitel/ui-sdk/src/store/helpers/getNamespacedState';
-import destinationsPopup from './communications/opened-queue-member-destinations-popup.vue';
-import uploadPopup from './upload-members-popup.vue';
-import ResetPopup from './reset-members-popup.vue';
+import { mapActions, mapState } from 'vuex';
 import UploadFileIconBtn from '../../../../../../../app/components/utils/upload-file-icon-btn.vue';
-import tableComponentMixin from '../../../../../../../app/mixins/objectPagesMixins/objectTableMixin/tableComponentMixin';
-import getQueueSubRoute from '../../../store/_internals/scripts/getQueueSubRoute';
+import tableComponentMixin
+  from '../../../../../../../app/mixins/objectPagesMixins/objectTableMixin/tableComponentMixin';
 import RouteNames from '../../../../../../../app/router/_internals/RouteNames.enum';
+import TheQueueMembersFilters from '../modules/filters/components/the-queue-members-filters.vue';
+import destinationsPopup from './communications/opened-queue-member-destinations-popup.vue';
+import ResetPopup from './reset-members-popup.vue';
+import uploadPopup from './upload-members-popup.vue';
 
 export default {
   name: 'the-queue-members',
   mixins: [tableComponentMixin],
   components: {
+    FilterSearch,
     uploadPopup,
     destinationsPopup,
     ResetPopup,
     UploadFileIconBtn,
+    TheQueueMembersFilters,
   },
   data: () => ({
     namespace: 'ccenter/queues/members',
@@ -189,14 +199,43 @@ export default {
       return !(this.parentQueue.type === 1);
     },
     path() {
-      const queueSubRoute = getQueueSubRoute(this.parentQueue.type);
-      const queueUrl = `/contact-center/queues/${queueSubRoute}/${this.parentQueue.id}`;
+      const queueUrl = `/contact-center/queues/${this.parentQueue.id}`;
       const membersUrl = `/contact-center/queues/${this.parentQueue.id}/members`;
       return [
         { name: this.$t('objects.ccenter.ccenter') },
         { name: this.parentQueue.name, route: queueUrl },
         { name: this.$tc('objects.ccenter.members.members', 2), route: membersUrl },
       ];
+    },
+    filtersNamespace() {
+      return `${this.namespace}/filters`;
+    },
+    deleteOptions() {
+      const loadListAfterDecorator = (method) => async (...args) => {
+        try {
+          await method(...args);
+        } finally {
+          await this.loadList();
+        }
+      };
+      const all = {
+        text: this.$t('iconHints.deleteAll'),
+        method: loadListAfterDecorator(this.deleteAll),
+      };
+      const filtered = {
+        text: this.$t('iconHints.deleteFiltered'),
+        method: loadListAfterDecorator(this.deleteFiltered),
+      };
+
+      const selectedCount = this.selectedRows.length;
+      const selected = {
+        text: this.$t('iconHints.deleteSelected', { count: selectedCount }),
+        method: loadListAfterDecorator(this.deleteSelected.bind(this, this.selectedRows)),
+      };
+
+      const options = [all, filtered];
+      if (selectedCount) options.push(selected);
+      return options;
     },
   },
 
@@ -243,11 +282,11 @@ export default {
       });
     },
 
-    edit(item) {
-      this.$router.push({
+    editLink(item) {
+      return {
         name: `${RouteNames.MEMBERS}-edit`,
         params: { queueId: this.parentId, id: item.id },
-      });
+      };
     },
 
     close() {
@@ -274,8 +313,25 @@ export default {
       resetMembers(dispatch, payload) {
         return dispatch(`${this.namespace}/RESET_MEMBERS`, payload);
       },
+
+      deleteSelected(dispatch, payload) {
+        return dispatch(`${this.namespace}/DELETE_BULK`, payload);
+      },
+      deleteFiltered(dispatch, payload) {
+        return dispatch(`${this.namespace}/DELETE_FILTERED`, payload);
+      },
+      deleteAll(dispatch, payload) {
+        return dispatch(`${this.namespace}/DELETE_ALL`, payload);
+      },
     }),
 
+  },
+  watch: {
+    '$route.query': {
+      async handler() {
+        await this.loadList();
+      },
+    },
   },
 };
 </script>

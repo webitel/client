@@ -4,7 +4,7 @@
       {{ $tc('objects.permissions.roles.applicationsAccess.applicationsAccess', 1) }}:
       {{ $t(`WebitelApplications.${editedApp}.name`) }}
     </template>
-    <template slot="main">
+    <template v-slot:main>
       <form>
         <wt-checkbox
           v-for="(sec, key) of appSectionsAccess"

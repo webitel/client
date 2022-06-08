@@ -3,7 +3,7 @@
     <template slot="title">
       {{ $tc('objects.lookups.communications.communications', 1) }}
     </template>
-    <template slot="main">
+    <template v-slot:main>
       <form class="object-input-grid object-input-grid__1-col">
         <wt-input
           v-model="itemInstance.destination"

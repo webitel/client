@@ -1,6 +1,6 @@
 <template>
   <wt-page-wrapper :actions-panel="false" class="gateways">
-    <template slot="header">
+    <template v-slot:header>
       <object-header
         :hide-primary="!hasCreateAccess"
         :primary-action="create"
@@ -8,7 +8,7 @@
         <headline-nav :path="path"></headline-nav>
       </object-header>
     </template>
-    <template slot="main">
+    <template v-slot:main>
       <gateway-popup
         v-if="isGatewayPopup"
         @close="isGatewayPopup = false"
@@ -34,14 +34,13 @@
               :icons="['refresh']"
               @input="tableActionsHandler"
             >
-              <wt-icon-btn
+              <delete-all-action
                 v-if="hasDeleteAccess"
-                class="icon-action"
                 :class="{'hidden': anySelected}"
-                icon="bucket"
-                :tooltip="actionPanelDeleteTooltip"
+                :selected-count="selectedRows.length"
                 @click="callDelete(selectedRows)"
-              ></wt-icon-btn></wt-table-actions>
+              ></delete-all-action>
+            </wt-table-actions>
           </div>
         </header>
 
@@ -55,9 +54,9 @@
             @sort="sort"
           >
             <template slot="name" slot-scope="{ item }">
-              <span class="nameLink" @click="edit(item)">
+              <item-link :link="editLink(item)">
                 {{ item.name }}
-              </span>
+              </item-link>
             </template>
             <template slot="proxy" slot-scope="{ item }">
               {{ item.proxy }}
@@ -131,14 +130,14 @@ export default {
       this.isGatewayPopup = true;
     },
 
-    edit(item) {
+    editLink(item) {
       const name = item.register
         ? `${RouteNames.GATEWAYS}-reg-edit` : `${RouteNames.GATEWAYS}-trunk-edit`;
 
-      this.$router.push({
+      return {
         name,
         params: { id: item.id },
-      });
+      };
     },
 
     computeStatusText(stateCode) {

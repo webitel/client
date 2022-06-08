@@ -38,15 +38,12 @@
           :icons="['refresh']"
           @input="tableActionsHandler"
         >
-
-          <wt-icon-btn
+          <delete-all-action
             v-if="!disableUserInput"
             :class="{'hidden': anySelected}"
-            :tooltip="actionPanelDeleteTooltip"
-            class="icon-action"
-            icon="bucket"
+            :selected-count="selectedRows.length"
             @click="callDelete(selectedRows)"
-          ></wt-icon-btn>
+          ></delete-all-action>
           <wt-icon-btn
             v-if="!disableUserInput"
             class="icon-action"
@@ -67,7 +64,7 @@
         @sort="sort"
     >
       <template slot="name" slot-scope="{ item }">
-        <item-link :link="itemLink(item)" target="_blank">
+        <item-link :link="editLink(item)" target="_blank">
           {{ item.name }}
         </item-link>
       </template>
@@ -127,7 +124,7 @@ export default {
   components: { AgentPopup, ObjectListPopup },
   data: () => ({
     subNamespace: 'agents',
-    tableObjectRouteName: RouteNames.AGENTS, // this.itemLink() computing
+    tableObjectRouteName: RouteNames.AGENTS, // this.editLink() computing
     isAgentPopup: false,
  }),
 

@@ -5,29 +5,16 @@
       :value="value"
       @input="input"
     >
-      <template slot="after-input">
-        <wt-icon-btn
-          v-show="!isCopied"
-          :tooltip="$t('objects.copy')"
-          class="copy-input__icon-btn copy-input__icon-btn--copy"
-          icon="copy"
-          @click="copy"
-        ></wt-icon-btn>
-        <wt-icon-btn
-          v-show="isCopied"
-          :tooltip="$t('objects.copied')"
-          class="copy-input__icon-btn copy-input__icon-btn--tick"
-          color="true"
-          icon="done"
-        ></wt-icon-btn>
+      <template v-slot:after-input>
+        <copy-action
+          :value="copyValue"
+        ></copy-action>
       </template>
     </wt-input>
   </div>
 </template>
 
 <script>
-import clipboardCopy from 'clipboard-copy';
-
 export default {
   name: 'copy-input',
   props: {
@@ -48,22 +35,19 @@ export default {
   mounted() {
     this.isMounted = true;
   },
-
-  methods: {
-    copy() {
+  computed: {
+    copyValue() {
       let copyValue;
       if (this.copyModifier) {
         copyValue = this.copyModifier(this.value);
       } else {
         copyValue = this.value;
       }
-      clipboardCopy(copyValue);
-      this.isCopied = true;
-      setTimeout(() => {
-        this.isCopied = false;
-      }, 1500);
+      return copyValue;
     },
+  },
 
+  methods: {
     input(value) {
       this.$emit('input', value);
     },
@@ -82,32 +66,10 @@ export default {
 
   .wt-icon-btn {
     margin-right: 10px;
-
-    ::v-deep {
-      .wt-tooltip {
-        top: 50%;
-        left: auto;
-        width: 280px;
-        transform: translate(0, -50%);
-      }
-    }
   }
 }
 
 .copy-input__icon-btn {
   margin-left: 10px;
-
-  ::v-deep .wt-tooltip {
-    overflow-wrap: normal;
-    white-space: nowrap;
-  }
-
-  &--tick {
-    pointer-events: none;
-
-    ::v-deep .wt-tooltip {
-      opacity: 1;
-    }
-  }
 }
 </style>

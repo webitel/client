@@ -1,7 +1,8 @@
+import { QueueType } from 'webitel-sdk/esm2015/enums';
 import queue from './defaults/defaultQueue';
 import amd from './defaults/amd';
-import QueueType from '../enums/QueueType.enum';
 import { Strategy } from '../enums/Strategy.enum';
+import processing from './defaults/processing';
 
 const predictiveDialer = () => ({
   ...queue(),
@@ -11,10 +12,8 @@ const predictiveDialer = () => ({
   doSchema: {},
   afterSchema: {},
   ringtone: {},
-  processing: false,
-  processingSec: 30,
-  processingRenewalSec: 15,
   stickyAgent: false,
+  taskProcessing: processing(),
   payload: {
     maxWaitTime: 10,
     maxAttempts: 3, // required
