@@ -258,10 +258,9 @@ export default {
         ...(queueTabsMap[this.queueType] || []),
         hooks,
         variables,
-        logs,
       ];
 
-      if (this.id) tabs.push(this.permissionsTab);
+      if (this.id) tabs.push(this.permissionsTab, logs);
       return tabs;
     },
 
