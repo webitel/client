@@ -21,7 +21,7 @@ const webChatGateway = (_btnCodeDirty = false) => ({
     position: '',
     timeoutIsActive: false,
     openTimeout: '',
-    mediaMaxSize: 10 * 1024 * 1024, // 10mb
+    mediaMaxSize: `${10 * 1024 * 1024}`, // 10mb
     alternativeChannels: Object
       .values(WebchatAlternativeChannel)
       .reduce((channels, channel) => (
