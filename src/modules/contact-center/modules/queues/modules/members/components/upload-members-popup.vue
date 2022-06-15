@@ -129,6 +129,9 @@ export default {
             [variablesMappings.csv[index].text]: variable, // csv is arr of tags { text }
           }), {});
         }
+        if (!normalizedItem.priority) {
+          normalizedItem.priority = '0';
+        }
 
         normalizedItem.communications = [];
         const commLength = Math.max(
