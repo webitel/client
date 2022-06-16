@@ -43,7 +43,7 @@ export default {
       {
         name: 'priority',
         required: false,
-        csv: '',
+        csv: 0,
       },
       {
         text: 'Expire',
@@ -128,6 +128,9 @@ export default {
             ...variables,
             [variablesMappings.csv[index].text]: variable, // csv is arr of tags { text }
           }), {});
+        }
+        if (!normalizedItem.priority) {
+          normalizedItem.priority = 0;
         }
 
         normalizedItem.communications = [];
