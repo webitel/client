@@ -2,9 +2,9 @@ import { QueueType } from 'webitel-sdk/esm2015/enums';
 import queue from './defaults/defaultQueue';
 import { Strategy } from '../enums/Strategy.enum';
 
-const outboundTaskQueue = () => ({
+const outboundJobQueue = () => ({
   ...queue(),
-  type: QueueType.OUTBOUND_TASK_QUEUE,
+  type: QueueType.OUTBOUND_JOB_QUEUE,
   strategy: Strategy.FIFO, // required
   schema: {},
   doSchema: {},
@@ -21,4 +21,4 @@ const outboundTaskQueue = () => ({
   },
 });
 
-export default outboundTaskQueue;
+export default outboundJobQueue;
