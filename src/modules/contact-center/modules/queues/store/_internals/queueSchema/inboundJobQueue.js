@@ -3,9 +3,9 @@ import queue from './defaults/defaultQueue';
 import { Strategy } from '../enums/Strategy.enum';
 import processing from './defaults/processing';
 
-const inboundTaskQueue = () => ({
+const inboundJobQueue = () => ({
   ...queue(),
-  type: QueueType.INBOUND_TASK_QUEUE,
+  type: QueueType.INBOUND_JOB_QUEUE,
   team: {}, // required
   strategy: Strategy.FIFO, // required
   doSchema: {},
@@ -20,4 +20,4 @@ const inboundTaskQueue = () => ({
   },
 });
 
-export default inboundTaskQueue;
+export default inboundJobQueue;

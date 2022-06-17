@@ -157,7 +157,7 @@ export default {
             },
           },
         };
-      case QueueType.INBOUND_TASK_QUEUE:
+      case QueueType.INBOUND_JOB_QUEUE:
         return {
           itemInstance: {
             ...defaults,
@@ -168,7 +168,7 @@ export default {
             },
           },
         };
-      case QueueType.OUTBOUND_TASK_QUEUE:
+      case QueueType.OUTBOUND_JOB_QUEUE:
         return {
           itemInstance: {
             ...defaults,
@@ -248,8 +248,8 @@ export default {
         [QueueType.PROGRESSIVE_DIALER]: [processing, agents, skills, resources, buckets, amd],
         [QueueType.PREDICTIVE_DIALER]: [processing, agents, skills, resources, buckets, amd],
         [QueueType.CHAT_INBOUND_QUEUE]: [processing, agents, skills],
-        [QueueType.INBOUND_TASK_QUEUE]: [processing, agents, skills, buckets],
-        [QueueType.OUTBOUND_TASK_QUEUE]: [buckets],
+        [QueueType.INBOUND_JOB_QUEUE]: [processing, agents, skills, buckets],
+        [QueueType.OUTBOUND_JOB_QUEUE]: [buckets],
       };
       const tabs = [
         general,

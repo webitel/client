@@ -186,9 +186,9 @@ const QueueTypeProperties = Object.freeze({
                                                 'taskProcessing.renewalSec',
                                               ],
                                             },
-                                            [QueueType.INBOUND_TASK_QUEUE]: {
-                                              locale: baseLocale.concat('.inboundTaskQueue'),
-                                              subpath: 'inbound-task-queue',
+                                            [QueueType.INBOUND_JOB_QUEUE]: {
+                                              locale: baseLocale.concat('.inboundJobQueue'),
+                                              subpath: 'inbound-job-queue',
                                               controls: [
                                                 // general specific
                                                 'strategy',
@@ -209,9 +209,9 @@ const QueueTypeProperties = Object.freeze({
                                                 'taskProcessing.renewalSec',
                                               ],
                                             },
-                                            [QueueType.OUTBOUND_TASK_QUEUE]: {
-                                              locale: baseLocale.concat('.outboundTaskQueue'),
-                                              subpath: 'outbound-task-queue',
+                                            [QueueType.OUTBOUND_JOB_QUEUE]: {
+                                              locale: baseLocale.concat('.outboundJobQueue'),
+                                              subpath: 'outbound-job-queue',
                                               controls: [
                                                 // general specific
                                                 'strategy',
