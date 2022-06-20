@@ -55,6 +55,7 @@ export default {
       team: { required },
       progressiveCount: { required },
       chatCount: { required },
+      greetingMedia: {},
     },
   },
 

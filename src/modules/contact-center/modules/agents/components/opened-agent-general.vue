@@ -55,6 +55,14 @@
         :value="itemInstance.region"
         @input="setItemProp({ prop: 'region', value: $event })"
       ></wt-select>
+      <wt-select
+        :disabled="disableUserInput"
+        :label="$tc('objects.lookups.media.mediaFiles', 1)"
+        :search-method="loadMediaOptions"
+        :value="itemInstance.greetingMedia.name"
+        :v="v.itemInstance.greetingMedia.name"
+        @input="setItemProp({ prop: 'greetingMedia', value: $event })"
+      ></wt-select>
       <wt-input
         :disabled="disableUserInput"
         :label="$t('objects.ccenter.agents.progressiveCount')"
@@ -86,6 +94,7 @@ import UsersAPI from '../../../../directory/modules/users/api/users';
 import RegionsAPI from '../../../../lookups/modules/regions/api/regions';
 import TeamsAPI from '../../teams/api/teams';
 import AgentsAPI from '../api/agents';
+import MediaAPI from '../../../../lookups/modules/media/api/media';
 
 export default {
   name: 'opened-agent-general',
@@ -105,6 +114,9 @@ export default {
     },
     loadRegionsOptions(params) {
       return RegionsAPI.getLookup(params);
+    },
+    loadMediaOptions(params) {
+      return MediaAPI.getLookup(params);
     },
   },
 };
