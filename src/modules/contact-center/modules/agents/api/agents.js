@@ -12,7 +12,7 @@ import configuration from '../../../../../app/api/openAPIConfig';
 
 const agentService = new AgentServiceApiFactory(configuration, '', instance);
 
-const fieldsToSend = ['user', 'team', 'supervisor', 'auditor', 'region', 'progressiveCount',
+const fieldsToSend = ['user', 'team', 'supervisor', 'auditor', 'region', 'greetingMedia', 'progressiveCount',
   'chatCount', 'isSupervisor'];
 
 const convertStatusDuration = (value) => {
@@ -41,6 +41,7 @@ const defaultSingleObject = {
   chatCount: 0,
   isSupervisor: false,
   description: '',
+  greetingMedia: {},
 };
 
 const getSupervisorsList = (getList) => function ({
