@@ -56,12 +56,27 @@ const preRequestHandler = (item) => {
   };
 };
 
+const _getProfilesList = (getList) => function ({
+                                                 page,
+                                                 size,
+                                                 search,
+                                                 sort,
+                                                 fields,
+                                                 ids,
+                                                 service,
+                                                 enabled,
+                                               }) {
+  const params = [page, size, search, sort, fields, ids, service, enabled];
+  return getList(params);
+};
+
 const listGetter = new SdkListGetterApiConsumer(
   cognitiveProfilesService.searchCognitiveProfile,
   {
     defaultListObject,
   },
-);
+).setGetListMethod(_getProfilesList);
+
 const itemGetter = new SdkGetterApiConsumer(
   cognitiveProfilesService.readCognitiveProfile,
   {
@@ -96,6 +111,8 @@ const patch = (params) => itemPatcher.patchItem(params);
 const update = (params) => itemUpdater.updateItem(params);
 const deleteItem = (params) => itemDeleter.deleteItem(params);
 
+const getLookup = (params) => listGetter.getLookup(params);
+
 const CognitiveProfilesAPI = {
   getList,
   get,
@@ -103,6 +120,7 @@ const CognitiveProfilesAPI = {
   patch,
   update,
   delete: deleteItem,
+  getLookup,
 };
 
 export default CognitiveProfilesAPI;

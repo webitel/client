@@ -3,8 +3,8 @@
     <template v-slot:header>
     <object-header
       :primary-action="save"
-      :primary-disabled="computeDisabled"
-      :primary-text="computePrimaryText"
+      :primary-disabled="disabledSave"
+      :primary-text="saveText"
       :hide-primary="!hasSaveActionAccess"
       :secondary-action="close"
     >

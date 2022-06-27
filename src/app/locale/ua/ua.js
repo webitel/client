@@ -1,9 +1,6 @@
 /* eslint-disable quote-props */
 
 export default {
-  reusable: {
-    state: 'Стан',
-  },
   auth: {
     register: 'Створити',
     login: 'Вхід',
@@ -342,6 +339,12 @@ export default {
         key: 'Ключ',
         dragPlaceholder: 'Завантаження файлів',
         dragPlaceholderHere: 'тут.',
+        tts: {
+          textType: {
+            textType: 'Тип тексту',
+            ssml: 'SSML',
+          },
+        },
       },
       regions: {
         regions: 'Розташування | Розташування',
