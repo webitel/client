@@ -18,7 +18,7 @@
     </template>
     <template slot="actions">
       <wt-button
-        :disabled="computeDisabled"
+        :disabled="disabledSave"
         @click="save"
       >{{ $t('objects.save') }}
       </wt-button>

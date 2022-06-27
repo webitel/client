@@ -2,10 +2,10 @@
   <wt-page-wrapper :actions-panel="false">
     <template v-slot:header>
       <object-header
-        :primary-text="computePrimaryText"
+        :primary-text="saveText"
         :primary-action="save"
         :hide-primary="!hasSaveActionAccess"
-        :primary-disabled="computeDisabled"
+        :primary-disabled="disabledSave"
         :secondary-action="close"
       >
         <headline-nav :path="path"></headline-nav>

@@ -3,9 +3,9 @@
     <template v-slot:header>
       <object-header
         :primary-action="save"
-        :primary-text="computePrimaryText"
+        :primary-text="saveText"
         :hide-primary="!hasSaveActionAccess"
-        :primary-disabled="computeDisabled"
+        :primary-disabled="disabledSave"
         :secondary-action="close"
       >
         <headline-nav :path="path"></headline-nav>

@@ -4,8 +4,8 @@
       <object-header
         :hide-primary="!hasSaveActionAccess"
         :primary-action="save"
-        :primary-disabled="computeDisabled"
-        :primary-text="computePrimaryText"
+        :primary-disabled="disabledSave"
+        :primary-text="saveText"
         :secondary-action="close"
       >
         <headline-nav :path="path"></headline-nav>

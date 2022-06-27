@@ -1,9 +1,6 @@
 /* eslint-disable quote-props */
 
 export default {
-  reusable: {
-    state: 'State',
-  },
   auth: {
     register: 'Register',
     login: 'Login',
@@ -342,6 +339,12 @@ export default {
         key: 'Key',
         dragPlaceholder: 'Drag and drop files',
         dragPlaceholderHere: 'here.',
+        tts: {
+          textType: {
+            textType: 'Text type',
+            ssml: 'SSML',
+          },
+        },
       },
       regions: {
         regions: 'Location | Locations',
