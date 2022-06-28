@@ -157,6 +157,7 @@ export default {
     async generate() {
       try {
         this.isGenerating = true;
+        this.audioUrl = '';
         const params = {
           profileId: this.draft.profile.id,
           textType: this.draft.textType.value,
