@@ -2,7 +2,7 @@
   <wt-page-wrapper :actions-panel="false" class="license">
     <template v-slot:header>
       <object-header :hide-primary="true">
-        <headline-nav :path="path"></headline-nav>
+        <wt-headline-nav :path="path"></wt-headline-nav>
       </object-header>
     </template>
     <template v-slot:main>
@@ -18,7 +18,6 @@
 </template>
 
 <script>
-import HeadlineNav from '../../../../../app/components/utils/headline-nav/headline-nav.vue';
 import ObjectHeader from '../../../../../app/components/utils/object-utils/the-object-header.vue';
 import AllLicenses from './all-licenses/all-licenses.vue';
 import LicensesByUser from '../modules/users/components/licenses-by-user.vue';
@@ -29,7 +28,6 @@ export default {
     AllLicenses,
     LicensesByUser,
     ObjectHeader,
-    HeadlineNav,
   },
   data: () => ({
     currentTab: { value: 'all-licenses' },

@@ -59,6 +59,7 @@ const preRequestHandler = (item) => {
     if (!variable.key) return variables;
     return { ...variables, [variable.key]: variable.value };
   }, {});
+  console.info(item);
   return item;
 };
 

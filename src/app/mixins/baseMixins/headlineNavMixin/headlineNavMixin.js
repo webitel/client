@@ -1,10 +1,8 @@
-import HeadlineNav from '../../../components/utils/headline-nav/headline-nav.vue';
 
 export default {
   data: () => ({
     pathName: '',
   }),
-  components: { HeadlineNav },
   watch: {
     'itemInstance._dirty': {
       handler(value) {

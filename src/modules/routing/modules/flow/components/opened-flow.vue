@@ -14,7 +14,7 @@
         :primary-disabled="disabledSave"
         :secondary-action="close"
       >
-        <headline-nav :path="path"></headline-nav>
+        <wt-headline-nav :path="path"></wt-headline-nav>
       </object-header>
     </template>
 

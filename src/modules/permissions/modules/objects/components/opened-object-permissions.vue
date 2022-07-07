@@ -5,7 +5,7 @@
         :secondary-action="close"
         hide-primary
       >
-        <headline-nav :path="path"></headline-nav>
+        <wt-headline-nav :path="path"></wt-headline-nav>
       </object-header>
     </template>
 

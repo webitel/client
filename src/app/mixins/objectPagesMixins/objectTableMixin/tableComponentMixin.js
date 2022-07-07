@@ -1,6 +1,5 @@
 import { mapActions, mapState } from 'vuex';
 import getNamespacedState from '@webitel/ui-sdk/src/store/helpers/getNamespacedState';
-import HeadlineNav from '../../../components/utils/headline-nav/headline-nav.vue';
 import baseTableMixin from '../../baseMixins/baseTableMixin/baseTableMixin';
 import objectTableAccessControlMixin from './_internals/objectTableAccessControlMixin';
 
@@ -15,7 +14,6 @@ import objectTableAccessControlMixin from './_internals/objectTableAccessControl
  */
 export default {
   mixins: [baseTableMixin, objectTableAccessControlMixin],
-  components: { HeadlineNav },
   computed: {
     ...mapState({
       headersValue(state) {

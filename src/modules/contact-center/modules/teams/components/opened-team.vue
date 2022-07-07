@@ -8,7 +8,7 @@
       :hide-primary="!hasSaveActionAccess"
       :secondary-action="close"
     >
-      <headline-nav :path="path"></headline-nav>
+      <wt-headline-nav :path="path"></wt-headline-nav>
     </object-header>
     </template>
     <template v-slot:main>
