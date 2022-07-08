@@ -68,7 +68,7 @@ import MicrosoftRegions from '../../../lookups/microsoft/MicrosoftRegions.lookup
 import CognitiveProfileServices from '../lookups/CognitiveProfileServices.lookup';
 
 export default {
-  name: 'opened-agent-skill-general',
+  name: 'opened-cognitive-profile-general',
   mixins: [openedTabComponentMixin],
   data: () => ({
     MicrosoftRegions,
