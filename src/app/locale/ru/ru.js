@@ -833,6 +833,12 @@ export default {
           region: 'Регион',
         },
       },
+      emailProfiles: {
+        emailProfiles: 'Email профиль | Email профили',
+        mailbox: 'Почтовый ящик',
+        smtpPort: 'SMTP Порт',
+        imapPort: 'IMAP Порт',
+      },
 
       tokens: {
         tokens: 'Токен | Токены',

@@ -59,7 +59,9 @@ const OpenedQueue = () => import('../../modules/contact-center/modules/queues/co
 const Storage = () => import('../../modules/integrations/modules/storage/components/the-storage.vue');
 const OpenedStorage = () => import('../../modules/integrations/modules/storage/components/opened-storage.vue');
 const CognitiveProfiles = () => import('../../modules/integrations/modules/cognitive-profiles/components/the-cognitive-profiles.vue');
+const EmailProfiles = () => import('../../modules/integrations/modules/email-profiles/components/the-email-profiles.vue');
 const OpenedCognitiveProfile = () => import('../../modules/integrations/modules/cognitive-profiles/components/opened-cognitive-profile.vue');
+const OpenedEmailProfile = () => import('../../modules/integrations/modules/email-profiles/components/opened-email-profile.vue');
 
 Vue.use(Router);
 
@@ -527,6 +529,21 @@ const router = new Router({
           path: '/integrations/cognitive-profile/:id',
           name: `${RouteNames.COGNITIVE_PROFILES}-edit`,
           component: OpenedCognitiveProfile,
+        },
+        {
+          path: '/integrations/email-profiles',
+          name: RouteNames.EMAIL_PROFILES,
+          component: EmailProfiles,
+        },
+        {
+          path: '/integrations/email-profile/new',
+          name: `${RouteNames.EMAIL_PROFILES}-new`,
+          component: OpenedEmailProfile,
+        },
+        {
+          path: '/integrations/email-profile/:id',
+          name: `${RouteNames.EMAIL_PROFILES}-edit`,
+          component: OpenedEmailProfile,
         },
         // --------------INTEGRATIONS END-------------
 

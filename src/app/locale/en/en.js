@@ -835,6 +835,12 @@ export default {
           region: 'Region',
         },
       },
+      emailProfiles: {
+        emailProfiles: 'Email profile | Email profiles',
+        mailbox: 'Mailbox',
+        smtpPort: 'SMTP Port',
+        imapPort: 'IMAP Port',
+      },
 
       tokens: {
         tokens: 'Token | Tokens',

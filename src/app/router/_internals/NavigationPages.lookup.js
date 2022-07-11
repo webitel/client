@@ -118,6 +118,10 @@ const nav = Object.freeze([{
       value: AdminSections.COGNITIVE_PROFILES,
       locale: `WebitelApplications.${WebitelApplications.ADMIN}.sections.${AdminSections.COGNITIVE_PROFILES}`,
       route: 'cognitive-profiles',
+    }, {
+      value: AdminSections.EMAIL_PROFILES,
+      locale: `WebitelApplications.${WebitelApplications.ADMIN}.sections.${AdminSections.EMAIL_PROFILES}`,
+      route: 'email-profiles',
     }],
   }, {
     value: 'permissions',
