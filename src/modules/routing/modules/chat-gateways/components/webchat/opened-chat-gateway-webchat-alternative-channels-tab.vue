@@ -4,7 +4,7 @@
       <wt-icon icon="web-chat" icon-prefix="messenger" size="sm"></wt-icon>
       <h3 class="content-title">{{ $t('objects.routing.chatGateways.webchat.webchat') }}</h3>
     </header>
-    <form class="object-input-grid object-input-grid__1-col object-input-grid__w50">
+    <div class="object-input-grid object-input-grid__1-col object-input-grid__w50">
       <div
         v-for="(channel) of alternativeChannels"
         :key="channel"
@@ -26,7 +26,7 @@
           @change="setAltChannelValue({ channel, prop: 'enabled', value: $event })"
         ></wt-switcher>
       </div>
-    </form>
+    </div>
   </section>
 </template>
 

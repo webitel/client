@@ -90,7 +90,6 @@
 </template>
 
 <script>
-import PasswordInput from '../../../../../app/components/utils/generate-password-input.vue';
 import openedTabComponentMixin
   from '../../../../../app/mixins/objectPagesMixins/openedObjectTabMixin/openedTabComponentMixin';
 import FlowsAPI from '../../../../routing/modules/flow/api/flow';
@@ -98,7 +97,6 @@ import FlowsAPI from '../../../../routing/modules/flow/api/flow';
 export default {
   name: 'opened-email-profile-general',
   mixins: [openedTabComponentMixin],
-  components: { PasswordInput },
   data: () => ({}),
   methods: {
     loadFlows(params) {

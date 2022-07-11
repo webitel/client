@@ -42,8 +42,7 @@ export default {
     }),
 
     async save() {
-      const invalid = this.checkValidations();
-      if (!invalid) {
+      if (!this.disabledSave) {
         if (this.id) {
           await this.updateItem();
         } else {
