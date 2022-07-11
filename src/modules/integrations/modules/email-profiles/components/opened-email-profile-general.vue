@@ -48,12 +48,6 @@
       ></wt-input>
       <wt-input
         :disabled="disableUserInput"
-        :label="$t('objects.integrations.emailProfiles.domainId')"
-        :value="itemInstance.domainId"
-        @input="setItemProp({ prop: 'domainId', value: $event })"
-      ></wt-input>
-      <wt-input
-        :disabled="disableUserInput"
         :label="$t('objects.integrations.emailProfiles.imapPort')"
         :number-max="65535"
         :number-min="0"
@@ -74,11 +68,12 @@
         type="number"
         @input="setItemProp({ prop: 'smtpPort', value: $event })"
       ></wt-input>
-      <password-input
+      <wt-input
         :disabled="disableUserInput"
         :value="itemInstance.password"
+        :label="$t('objects.password')"
         @input="setItemProp({ prop: 'password', value: $event })"
-      ></password-input>
+      ></wt-input>
       <wt-textarea
         :disabled="disableUserInput"
         :label="$t('objects.description')"

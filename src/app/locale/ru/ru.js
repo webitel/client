@@ -836,7 +836,6 @@ export default {
       emailProfiles: {
         emailProfiles: 'Email профиль | Email профили',
         mailbox: 'Почтовый ящик',
-        domainId: 'Id домена',
         smtpPort: 'SMTP Порт',
         imapPort: 'IMAP Порт',
       },
