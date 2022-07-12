@@ -31,8 +31,8 @@ const defaultListObject = {
 };
 
 const defaultSingleObject = {
-  imapPort: false,
-  smtpPort: false,
+  imapPort: 0,
+  smtpPort: 0,
 };
 
 const itemResponseHandler = (response) => {

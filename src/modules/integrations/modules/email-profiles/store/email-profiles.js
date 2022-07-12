@@ -11,13 +11,13 @@ const resettableState = {
     domainId: '',
     enabled: true,
     host: '',
-    imapPort: 0,
+    imapPort: 993,
     login: '',
     mailbox: '',
     name: '',
     password: '',
     schema: {},
-    smtpPort: 0,
+    smtpPort: 587,
   },
 };
 
