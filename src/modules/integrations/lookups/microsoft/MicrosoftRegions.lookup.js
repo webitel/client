@@ -26,7 +26,7 @@ const MicrosoftRegions = Object.freeze([
   'West US 3',
 ].map((name) => ({
   name,
-  id: name.replace(' ', '').toLowerCase(),
+  id: name.replaceAll(' ', '').toLowerCase(),
 })));
 
 export default MicrosoftRegions;

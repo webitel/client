@@ -1,4 +1,5 @@
 import { StorageProviderType } from 'webitel-sdk';
+import { MicrosoftLanguage } from 'webitel-sdk/esm2015/enums';
 import ObjectStoreModule
   from '../../../../../app/store/BaseStoreModules/StoreModules/ObjectStoreModule';
 import PermissionsStoreModule
@@ -20,6 +21,7 @@ const resettableState = {
     properties: {
       key: '',
       region: MicrosoftRegions[0],
+      locale: MicrosoftLanguage['en-US'],
     },
     description: '',
   },

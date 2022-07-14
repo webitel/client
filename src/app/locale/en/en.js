@@ -833,6 +833,7 @@ export default {
         cognitiveProfiles: 'Cognitive profile | Cognitive profiles',
         properties: {
           region: 'Region',
+          locale: 'Locale',
         },
       },
       emailProfiles: {
