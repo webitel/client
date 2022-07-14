@@ -831,6 +831,7 @@ export default {
         cognitiveProfiles: 'Голосовий профіль | Голосові профілі',
         properties: {
           region: 'Регіон',
+          locale: 'Мова',
         },
       },
       emailProfiles: {
