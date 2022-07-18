@@ -340,6 +340,7 @@ export default {
         dragPlaceholder: 'Drag and drop files',
         dragPlaceholderHere: 'here.',
         tts: {
+          hint: 'Create an audio file',
           textType: {
             textType: 'Text type',
             ssml: 'SSML',

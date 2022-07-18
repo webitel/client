@@ -6,6 +6,8 @@ import {
 } from 'webitel-sdk/esm2015/api-consumers';
 import eventBus from '@webitel/ui-sdk/src/scripts/eventBus';
 import instance from '../../../../../app/api/instance';
+import errorEventBusNotificationResponseInterceptor
+  from '../../../../../app/api/interceptors/response/errorEventBusNotificationResponse.interceptor';
 import configuration from '../../../../../app/api/openAPIConfig';
 
 const mediaService = new MediaFileServiceApiFactory(configuration, '', instance);
@@ -36,17 +38,21 @@ export const downloadMedia = async (id) => {
   }
 };
 
+const addMediaInstance = axios.create({
+  headers: {
+    'content-type': 'multipart/form-data',
+  },
+});
+
+addMediaInstance.interceptors.response.use(...errorEventBusNotificationResponseInterceptor.default);
+
 const addMedia = async (params) => {
   const url = `${baseUrl}/storage/media?access_token=${token}`;
-  const config = {
-    headers: {
-      'content-type': 'multipart/form-data',
-    },
-  };
+
   const formData = new FormData();
   formData.append('file', params.itemInstance);
   try {
-    const response = await axios.post(url, formData, config);
+    const response = await addMediaInstance.post(url, formData);
     eventBus.$emit('notification', { type: 'info', text: 'Successfully added' });
     return response;
   } catch (err) {
