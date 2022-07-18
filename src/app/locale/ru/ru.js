@@ -831,12 +831,12 @@ export default {
         cognitiveProfiles: 'Голосовой профиль | Голосовые профили',
         properties: {
           region: 'Регион',
+          locale: 'Язык',
         },
       },
       emailProfiles: {
         emailProfiles: 'Email профиль | Email профили',
         mailbox: 'Почтовый ящик',
-        domainId: 'Id домена',
         smtpPort: 'SMTP Порт',
         imapPort: 'IMAP Порт',
       },

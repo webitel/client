@@ -833,12 +833,12 @@ export default {
         cognitiveProfiles: 'Cognitive profile | Cognitive profiles',
         properties: {
           region: 'Region',
+          locale: 'Locale',
         },
       },
       emailProfiles: {
         emailProfiles: 'Email profile | Email profiles',
         mailbox: 'Mailbox',
-        domainId: 'Domain Id',
         smtpPort: 'SMTP Port',
         imapPort: 'IMAP Port',
       },

@@ -61,7 +61,7 @@ export default {
           value: 'general',
         },
       ];
-      if (this.id) tabs.push(this.permissionsTab);
+      // if (this.id) tabs.push(this.permissionsTab);
       return tabs;
     },
 

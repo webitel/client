@@ -42,6 +42,17 @@
       ></wt-input>
       <wt-select
         :disabled="disableUserInput"
+        :label="$t('objects.integrations.cognitiveProfiles.properties.locale')"
+        :options="MicrosoftLanguageOptions"
+        :value="itemInstance.properties.locale"
+        :v="v.itemInstance.properties.locale"
+        :clearable="false"
+        :track-by="null"
+        required
+        @input="setItemPropertiesProp({ prop: 'locale', value: $event })"
+      ></wt-select>
+      <wt-select
+        :disabled="disableUserInput"
         :label="$t('objects.integrations.cognitiveProfiles.properties.region')"
         :options="MicrosoftRegions"
         :value="itemInstance.properties.region"
@@ -62,6 +73,7 @@
 
 <script>
 import { mapActions } from 'vuex';
+import { MicrosoftLanguage } from 'webitel-sdk/esm2015/enums';
 import openedTabComponentMixin
   from '../../../../../app/mixins/objectPagesMixins/openedObjectTabMixin/openedTabComponentMixin';
 import MicrosoftRegions from '../../../lookups/microsoft/MicrosoftRegions.lookup';
@@ -73,6 +85,7 @@ export default {
   data: () => ({
     MicrosoftRegions,
     CognitiveProfileServices,
+    MicrosoftLanguageOptions: Object.values(MicrosoftLanguage),
   }),
   methods: {
     ...mapActions({
