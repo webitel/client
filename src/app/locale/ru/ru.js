@@ -340,6 +340,7 @@ export default {
         dragPlaceholder: 'Загрузка файлов',
         dragPlaceholderHere: 'здесь.',
         tts: {
+          hint: 'Создать аудиофайл',
           textType: {
             textType: 'Тип текста',
             ssml: 'SSML',

@@ -1,11 +1,16 @@
 <template>
   <div class="tts">
-    <wt-icon-btn
-      v-show="!isOpened"
-      :tooltip="$t('reusable.tts')"
-      icon="tts-download"
-      @click="openPopup"
-    ></wt-icon-btn>
+    <wt-tooltip>
+      <template v-slot:activator>
+        <wt-icon-btn
+          v-show="!isOpened"
+          icon="tts-download"
+          @click="openPopup"
+        ></wt-icon-btn>
+      </template>
+      {{ $t('objects.lookups.media.tts.hint') }}
+    </wt-tooltip>
+
     <wt-popup
       v-show="isOpened"
       :min-width="480"
@@ -61,6 +66,10 @@
             :label="$t('vocabulary.text')"
             :v="$v.draft.text"
           ></wt-textarea>
+        </form>
+      </template>
+      <template v-slot:actions>
+        <div class="tts__footer-wrapper">
           <wt-player
             v-if="audioUrl"
             :autoplay="false"
@@ -69,28 +78,31 @@
             :src="audioUrl"
             position="static"
           ></wt-player>
-        </form>
-      </template>
-      <template v-slot:actions>
-        <wt-button
-          v-if="audio"
-          :disabled="disabled"
-          :loading="isSaving"
-          @click="save"
-        >{{ $t('reusable.save') }}
-        </wt-button>
-        <wt-button
-          :color="audio ? 'secondary' : 'primary'"
-          :disabled="disabled"
-          :loading="isGenerating"
-          @click="generate"
-        >{{ $t('reusable.generate') }}
-        </wt-button>
-        <wt-button
-          color="secondary"
-          @click="closePopup"
-        >{{ $t('reusable.close') }}
-        </wt-button>
+          <div class="tts__footer-actions-wrapper">
+            <wt-button
+              v-if="audio"
+              :disabled="disabled"
+              :loading="isSaving"
+              wide
+              @click="save"
+            >{{ $t('reusable.save') }}
+            </wt-button>
+            <wt-button
+              :color="audio ? 'secondary' : 'primary'"
+              :disabled="disabled"
+              :loading="isGenerating"
+              wide
+              @click="generate"
+            >{{ $t('reusable.generate') }}
+            </wt-button>
+            <wt-button
+              color="secondary"
+              wide
+              @click="closePopup"
+            >{{ $t('reusable.close') }}
+            </wt-button>
+          </div>
+        </div>
       </template>
     </wt-popup>
   </div>
@@ -202,5 +214,17 @@ export default {
 <style lang="scss" scoped>
 .tts {
   line-height: 0;
+}
+
+.tts__footer-wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: var(--popup-actions-padding);
+  width: 100%;
+}
+
+.tts__footer-actions-wrapper {
+  display: flex;
+  gap: var(--popup-actions-padding);
 }
 </style>
