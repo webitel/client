@@ -7,10 +7,9 @@ import {
   SdkPatcherApiConsumer,
   SdkUpdaterApiConsumer,
 } from 'webitel-sdk/esm2015/api-consumers';
+import { MicrosoftRegion } from 'webitel-sdk/esm2015/lookups';
 import instance from '../../../../../app/api/instance';
 import configuration from '../../../../../app/api/openAPIConfig';
-import MicrosoftRegions
-  from '../../../lookups/microsoft/MicrosoftRegions.lookup';
 import CognitiveProfileServices
   from '../lookups/CognitiveProfileServices.lookup';
 
@@ -42,7 +41,7 @@ const itemResponseHandler = (response) => {
     .find(({ value }) => value === response.service),
     properties: {
       ...response.properties,
-      region: MicrosoftRegions
+      region: MicrosoftRegion
       .find(({ id }) => id === response.properties.region) || {},
     },
   };

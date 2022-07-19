@@ -54,7 +54,7 @@
       <wt-select
         :disabled="disableUserInput"
         :label="$t('objects.integrations.cognitiveProfiles.properties.region')"
-        :options="MicrosoftRegions"
+        :options="MicrosoftRegion"
         :value="itemInstance.properties.region"
         :v="v.itemInstance.properties.region"
         :clearable="false"
@@ -74,16 +74,16 @@
 <script>
 import { mapActions } from 'vuex';
 import { MicrosoftLanguage } from 'webitel-sdk/esm2015/enums';
+import { MicrosoftRegion } from 'webitel-sdk/esm2015/lookups';
 import openedTabComponentMixin
   from '../../../../../app/mixins/objectPagesMixins/openedObjectTabMixin/openedTabComponentMixin';
-import MicrosoftRegions from '../../../lookups/microsoft/MicrosoftRegions.lookup';
 import CognitiveProfileServices from '../lookups/CognitiveProfileServices.lookup';
 
 export default {
   name: 'opened-cognitive-profile-general',
   mixins: [openedTabComponentMixin],
   data: () => ({
-    MicrosoftRegions,
+    MicrosoftRegion,
     CognitiveProfileServices,
     MicrosoftLanguageOptions: Object.values(MicrosoftLanguage),
   }),

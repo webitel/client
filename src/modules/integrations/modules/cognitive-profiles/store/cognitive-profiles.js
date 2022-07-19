@@ -1,11 +1,10 @@
 import { StorageProviderType } from 'webitel-sdk';
 import { MicrosoftLanguage } from 'webitel-sdk/esm2015/enums';
+import { MicrosoftRegion } from 'webitel-sdk/esm2015/lookups';
 import ObjectStoreModule
   from '../../../../../app/store/BaseStoreModules/StoreModules/ObjectStoreModule';
 import PermissionsStoreModule
   from '../../../../../app/store/BaseStoreModules/StoreModules/PermissionsStoreModule/PermissionsStoreModule';
-import MicrosoftRegions
-  from '../../../lookups/microsoft/MicrosoftRegions.lookup';
 import CognitiveProfilesAPI from '../api/cognitiveProfiles';
 import CognitiveProfileServices
   from '../lookups/CognitiveProfileServices.lookup';
@@ -20,7 +19,7 @@ const resettableState = {
     service: CognitiveProfileServices[0],
     properties: {
       key: '',
-      region: MicrosoftRegions[0],
+      region: MicrosoftRegion[0],
       locale: MicrosoftLanguage['en-US'],
     },
     description: '',
