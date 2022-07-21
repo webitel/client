@@ -3,7 +3,7 @@ import defaultChatGateway from '../defaults/defaultChatGateway';
 
 const messengerChatGateway = () => ({
   ...defaultChatGateway(),
-  provider: MessengerType.MESSENGER,
+  provider: MessengerType.FACEBOOK,
   metadata: {
     clientId: '',
     clientSecret: '',
