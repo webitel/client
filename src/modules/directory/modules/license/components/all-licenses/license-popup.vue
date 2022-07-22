@@ -4,7 +4,7 @@
       {{ $t('objects.directory.license.importLicense') }}
     </template>
     <template v-slot:main>
-      <form>
+      <form @submit.prevent="save">
         <wt-input
           v-model="itemInstance.certificate"
           :v="$v.itemInstance.certificate"

@@ -1,7 +1,7 @@
 <template>
   <router-link
     :target="target"
-    :to="link"
+    :to="to"
     class="name-link"
   >
     <slot>{{ text }}</slot>
@@ -23,6 +23,20 @@ export default {
     target: {
       type: String,
       default: '_self',
+    },
+    routeName: {
+      type: String,
+    },
+    id: {
+      type: [String, Number],
+    },
+  },
+  computed: {
+    to() {
+      return this.link || {
+        name: `${this.routeName}-edit`,
+        params: { id: this.id },
+      };
     },
   },
 };

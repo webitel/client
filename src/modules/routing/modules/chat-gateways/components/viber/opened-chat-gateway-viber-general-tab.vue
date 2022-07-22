@@ -4,7 +4,7 @@
       <wt-icon icon="viber" icon-prefix="messenger" size="sm"></wt-icon>
       <h3 class="content-title">{{ $t('objects.routing.chatGateways.viber.viber') }}</h3>
     </header>
-    <form class="object-input-grid">
+    <div class="object-input-grid">
       <wt-input
         :disabled="disableUserInput"
         :label="$t('objects.name')"
@@ -48,7 +48,7 @@
       <!--        :disabled="disableUserInput"-->
       <!--        @input="setItemMetadata({ prop: 'eventTypes', value: $event })"-->
       <!--      ></wt-input>-->
-    </form>
+    </div>
   </section>
 </template>
 

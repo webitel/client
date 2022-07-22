@@ -7,7 +7,7 @@
         @click="addVariable"
       ></add-action>
     </header>
-    <form class="object-input-grid">
+    <div class="object-input-grid">
       <div>
         <div class="range" v-for="(range, key) in itemInstance.time">
           <wt-timepicker
@@ -37,7 +37,7 @@
           ></delete-action>
         </div>
       </div>
-    </form>
+    </div>
   </section>
 </template>
 

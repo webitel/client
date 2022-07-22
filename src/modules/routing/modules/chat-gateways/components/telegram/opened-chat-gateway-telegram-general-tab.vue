@@ -4,7 +4,7 @@
       <wt-icon icon="telegram" icon-prefix="messenger" size="sm"></wt-icon>
       <h3 class="content-title">{{ $t('objects.routing.chatGateways.telegram.telegram') }}</h3>
     </header>
-    <form class="object-input-grid">
+    <div class="object-input-grid">
       <wt-input
         :disabled="disableUserInput"
         :label="$t('objects.name')"
@@ -38,7 +38,7 @@
         :value="itemInstance.flow"
         @input="setFlow"
       ></wt-select>
-    </form>
+    </div>
   </section>
 </template>
 

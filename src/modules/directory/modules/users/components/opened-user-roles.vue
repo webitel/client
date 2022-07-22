@@ -3,7 +3,7 @@
     <header class="content-header">
       <h3 class="content-title">{{ $tc('objects.permissions.permissionsRole') }}</h3>
     </header>
-    <form class="object-input-grid">
+    <div class="object-input-grid">
       <wt-select
         :value="itemInstance.roles"
         :label="$tc('objects.permissions.permissionsRole')"
@@ -13,7 +13,7 @@
         multiple
         @input="setItemProp({ prop: 'roles', value: $event })"
       ></wt-select>
-    </form>
+    </div>
   </section>
 </template>
 

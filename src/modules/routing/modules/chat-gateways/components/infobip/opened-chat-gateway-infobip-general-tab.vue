@@ -4,7 +4,7 @@
       <wt-icon icon="infobip" icon-prefix="messenger" size="sm"></wt-icon>
       <h3 class="content-title">{{ $t('objects.routing.chatGateways.infobip.infobip') }}</h3>
     </header>
-    <form class="object-input-grid">
+    <div class="object-input-grid">
       <wt-input
         :disabled="disableUserInput"
         :label="$t('objects.name')"
@@ -49,7 +49,7 @@
         :value="itemInstance.metadata.url"
         @input="setItemMetadata({ prop: 'url', value: $event })"
       ></wt-input>
-    </form>
+    </div>
   </section>
 </template>
 

@@ -3,7 +3,7 @@
     <header class="content-header">
       <h3 class="content-title">{{ $t('objects.generalInfo') }}</h3>
     </header>
-    <form class="object-input-grid">
+    <div class="object-input-grid">
       <wt-input
         :value="itemInstance.name"
         :v="v.itemInstance.name"
@@ -45,7 +45,7 @@
           @change="setItemProp({prop: 'allowAgent', value: $event })"
         ></wt-checkbox>
       </div>
-    </form>
+    </div>
   </section>
 </template>
 

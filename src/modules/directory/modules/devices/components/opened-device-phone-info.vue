@@ -3,7 +3,7 @@
     <header class="content-header">
       <h3 class="content-title">{{ $t('objects.directory.devices.phoneInfo') }}</h3>
     </header>
-    <form class="object-input-grid">
+    <div class="object-input-grid">
       <wt-select
         :value="itemInstance.phone"
         :label="$t('objects.directory.devices.phone')"
@@ -37,7 +37,7 @@
         :disabled="disableUserInput"
         @input="setItemProp({ prop: 'mac', value: $event })"
       ></wt-input>
-    </form>
+    </div>
   </section>
 </template>
 

@@ -7,7 +7,7 @@
         @click="addVariable"
       ></add-action>
     </header>
-    <form class="object-input-grid grid-w50">
+    <div class="object-input-grid grid-w50">
       <div class="variables">
         <div
           class="value-pair"
@@ -44,7 +44,7 @@
           ></delete-action>
         </div>
       </div>
-    </form>
+    </div>
   </section>
 </template>
 
