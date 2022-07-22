@@ -167,9 +167,9 @@ export const deleteMembersBulk = async (queueId, {
   }
 };
 
-const addMembersBulk = async (queueId, items) => {
+const addMembersBulk = async (queueId, fileName, items) => {
   const itemsCopy = deepCopy(items);
-  const body = { queueId, items: itemsCopy };
+  const body = { queueId, fileName, items: itemsCopy };
   try {
     await memberService.createMemberBulk(queueId, body);
     eventBus.$emit('notification', {
