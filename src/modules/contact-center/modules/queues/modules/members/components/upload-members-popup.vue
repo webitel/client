@@ -97,7 +97,7 @@ export default {
     saveBulkData(data) {
       try {
         const normalizedData = this.normalizeData(data);
-        return QueueMembersAPI.addBulk(this.parentId, normalizedData);
+        return QueueMembersAPI.addBulk(this.parentId, this.file.name, normalizedData);
       } catch (err) {
         throw err;
       }
