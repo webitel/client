@@ -3,7 +3,7 @@
     <header class="content-header">
       <h3 class="content-title">{{ $t('objects.integrations.storage.s3') }}</h3>
     </header>
-    <form class="object-input-grid">
+    <div class="object-input-grid">
       <wt-input
         :value="itemInstance.properties.keyId"
         :v="v.itemInstance.properties.keyId"
@@ -72,7 +72,7 @@
         required
         @input="setItemProp({ prop: 'region', value: $event })"
       ></wt-input>
-    </form>
+    </div>
   </section>
 </template>
 

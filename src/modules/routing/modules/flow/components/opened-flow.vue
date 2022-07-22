@@ -21,9 +21,8 @@
     <template v-slot:main>
       <form
         class="main-container"
-        @submit="console.log('rrr')"
+        @submit.prevent="save"
       >
-        <form @submit="console.log('ttt')"><wt-input></wt-input> <wt-input></wt-input></form>
         <wt-tabs
           v-model="currentTab"
           :tabs="tabs"

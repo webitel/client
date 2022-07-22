@@ -4,7 +4,7 @@
       {{ $tc('objects.lookups.calendars.holidays', 1) }}
     </template>
     <template v-slot:main>
-      <form class="popup-input-form">
+      <div class="popup-input-form">
         <wt-input
           v-model="itemInstance.name"
           :v="$v.itemInstance.name"
@@ -19,7 +19,7 @@
           v-model="itemInstance.repeat"
           :label="$t('objects.lookups.calendars.repeat')"
         ></wt-switcher>
-      </form>
+      </div>
     </template>
     <template slot="actions">
       <wt-button

@@ -26,6 +26,7 @@
           :v="$v"
           :namespace="namespace"
         ></component>
+        <input type="submit" hidden> <!--  submit form on Enter  -->
       </form>
     </template>
   </wt-page-wrapper>
