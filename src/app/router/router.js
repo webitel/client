@@ -239,53 +239,13 @@ const router = new Router({
           component: ChatGateways,
         },
         {
-          path: '/routing/chat-gateways/telegram/new',
-          name: `${RouteNames.CHAT_GATEWAYS}-telegram-new`,
+          path: '/routing/chat-gateways/new',
+          name: `${RouteNames.CHAT_GATEWAYS}-new`,
           component: OpenedChatGateways,
         },
         {
-          path: '/routing/chat-gateways/telegram/:id',
-          name: `${RouteNames.CHAT_GATEWAYS}-telegram-edit`,
-          component: OpenedChatGateways,
-        },
-        {
-          path: '/routing/chat-gateways/messenger/new',
-          name: `${RouteNames.CHAT_GATEWAYS}-messenger-new`,
-          component: OpenedChatGateways,
-        },
-        {
-          path: '/routing/chat-gateways/messenger/:id',
-          name: `${RouteNames.CHAT_GATEWAYS}-messenger-edit`,
-          component: OpenedChatGateways,
-        },
-        {
-          path: '/routing/chat-gateways/webchat/new',
-          name: `${RouteNames.CHAT_GATEWAYS}-webchat-new`,
-          component: OpenedChatGateways,
-        },
-        {
-          path: '/routing/chat-gateways/webchat/:id',
-          name: `${RouteNames.CHAT_GATEWAYS}-webchat-edit`,
-          component: OpenedChatGateways,
-        },
-        {
-          path: '/routing/chat-gateways/infobip/new',
-          name: `${RouteNames.CHAT_GATEWAYS}-infobip-new`,
-          component: OpenedChatGateways,
-        },
-        {
-          path: '/routing/chat-gateways/infobip/:id',
-          name: `${RouteNames.CHAT_GATEWAYS}-infobip-edit`,
-          component: OpenedChatGateways,
-        },
-        {
-          path: '/routing/chat-gateways/viber/new',
-          name: `${RouteNames.CHAT_GATEWAYS}-viber-new`,
-          component: OpenedChatGateways,
-        },
-        {
-          path: '/routing/chat-gateways/viber/:id',
-          name: `${RouteNames.CHAT_GATEWAYS}-viber-edit`,
+          path: '/routing/chat-gateways/:id',
+          name: `${RouteNames.CHAT_GATEWAYS}-edit`,
           component: OpenedChatGateways,
         },
         // ----------ROUTING END------------

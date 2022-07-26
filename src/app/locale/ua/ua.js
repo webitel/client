@@ -461,8 +461,8 @@ export default {
       chatGateways: {
         chatGateways: 'Текстовий шлюз | Текстові шлюзи',
         allChatGateways: 'Всі текстові шлюзи',
-        telegram: {
-          telegram: 'Telegram',
+        telegramBot: {
+          telegramBot: 'Telegram Bot',
         },
         infobip: {
           infobip: 'Infobip',

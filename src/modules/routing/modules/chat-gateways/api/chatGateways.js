@@ -7,8 +7,8 @@ import {
   EndpointDeleterApiConsumer,
 } from 'webitel-sdk/esm2015/api-consumers';
 import deepmerge from 'deepmerge';
-import MessengerType from 'webitel-sdk/esm2015/enums/messenger-type.enum';
 import instance from '../../../../../app/api/instance';
+import ChatGatewayProvider from '../enum/ChatGatewayProvider.enum';
 import webChatGateway from '../store/_internals/providers/webChatGateway';
 
 const baseUrl = '/chat/bots';
@@ -74,7 +74,7 @@ const webChatResponseConverter = (data) => {
 
 const preRequestHandler = (item) => {
   switch (item.provider) {
-    case MessengerType.WEB_CHAT:
+    case ChatGatewayProvider.WEBCHAT:
       return webchatRequestConverter(item);
     default:
       return item;
@@ -92,7 +92,7 @@ const itemDeleter = new EndpointDeleterApiConsumer({ baseUrl, instance });
 
 itemGetter.responseHandler = (response) => {
   switch (response.provider) {
-    case MessengerType.WEB_CHAT:
+    case ChatGatewayProvider.WEBCHAT:
       return webChatResponseConverter(response);
     default:
       return response;

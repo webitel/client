@@ -461,8 +461,8 @@ export default {
       chatGateways: {
         chatGateways: 'Chat gateway | Chat gateways',
         allChatGateways: 'All chat gateways',
-        telegram: {
-          telegram: 'Telegram',
+        telegramBot: {
+          telegramBot: 'Telegram Bot',
         },
         infobip: {
           infobip: 'Infobip',

@@ -1,19 +1,12 @@
-import MessengerType from 'webitel-sdk/esm2015/enums/messenger-type.enum';
+import ChatGatewayProvider from '../../../enum/ChatGatewayProvider.enum';
 
 export default (messengerType) => {
   switch (messengerType) {
-    case MessengerType.WEB_CHAT:
-      return 'webchat';
-    case MessengerType.FACEBOOK:
-    case MessengerType.MESSENGER:
-      return 'messenger';
-    case MessengerType.INFOBIP:
+    case ChatGatewayProvider.INFOBIP:
       return 'infobip';
-    case MessengerType.VIBER:
-      return 'viber';
-    case MessengerType.TELEGRAM:
+    case ChatGatewayProvider.TELEGRAM_BOT:
       return 'telegram';
     default:
-      return 'unknown';
+      return messengerType;
   }
 };

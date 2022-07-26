@@ -1,5 +1,5 @@
 <template>
-  <wt-page-wrapper :actions-panel="false">
+  <wt-page-wrapper v-if="showPage" :actions-panel="false">
     <template v-slot:header>
       <object-header
         :hide-primary="!hasSaveActionAccess"
@@ -30,6 +30,7 @@
         ></wt-tabs>
         <component
           :is="currentTab.value"
+          v-if="currentTab"
           :namespace="namespace"
           :v="$v"
         ></component>
@@ -43,18 +44,19 @@
 import { maxValue, minLength, minValue, numeric, required, url } from 'vuelidate/lib/validators';
 import { mapActions } from 'vuex';
 import openedObjectMixin from '../../../../../app/mixins/objectPagesMixins/openedObjectMixin/openedObjectMixin';
-
-import OpenedChatMessenger from './messenger/opened-chat-gateway-messenger-general-tab.vue';
+import ChatGatewayProvider from '../enum/ChatGatewayProvider.enum';
 import OpenedChatFacebook from '../modules/messenger/facebook/components/facebook-tab.vue';
 import OpenedChatInstagram from '../modules/messenger/instagram/components/instagram-tab.vue';
 
 import OpenedChatInfobip from './infobip/opened-chat-gateway-infobip-general-tab.vue';
-import OpenedChatTelegram from './telegram/opened-chat-gateway-telegram-general-tab.vue';
+
+import OpenedChatMessenger from './messenger/opened-chat-gateway-messenger-general-tab.vue';
+import OpenedChatTelegram from './telegram-bot/opened-chat-gateway-telegram-general-tab.vue';
 import OpenedViberChat from './viber/opened-chat-gateway-viber-general-tab.vue';
 import WebchatCopyCodeButton from './webchat/copy-code-button.vue';
+import OpenedWebchatAlternativeChannels from './webchat/opened-chat-gateway-webchat-alternative-channels-tab.vue';
 
 import OpenedWebchat from './webchat/opened-chat-gateway-webchat-general-tab.vue';
-import OpenedWebchatAlternativeChannels from './webchat/opened-chat-gateway-webchat-alternative-channels-tab.vue';
 import OpenedWebchatView from './webchat/opened-chat-gateway-webchat-view-tab.vue';
 
 export default {
@@ -86,7 +88,7 @@ export default {
       },
     };
     switch (this.chatType) {
-      case 'telegram':
+      case ChatGatewayProvider.TELEGRAM_BOT:
         return {
           itemInstance: {
             ...defaults,
@@ -95,7 +97,7 @@ export default {
             },
           },
         };
-      case 'messenger':
+      case ChatGatewayProvider.MESSENGER:
         return {
           itemInstance: {
             ...defaults,
@@ -105,7 +107,7 @@ export default {
             },
           },
         };
-      case 'infobip':
+      case ChatGatewayProvider.INFOBIP:
         return {
           itemInstance: {
             ...defaults,
@@ -115,7 +117,7 @@ export default {
             },
           },
         };
-      case 'webchat':
+      case ChatGatewayProvider.WEBCHAT:
         return {
           itemInstance: {
             ...defaults,
@@ -143,7 +145,7 @@ export default {
             },
           },
         };
-      case 'viber':
+      case ChatGatewayProvider.VIBER:
         return {
           itemInstance: {
             ...defaults,
@@ -158,28 +160,16 @@ export default {
   },
 
   computed: {
+    showPage() {
+      return this.itemInstance.provider !== null;
+    },
     chatType() {
-      if (this.$route.path.includes('telegram')) {
-        return 'telegram';
-      }
-      if (this.$route.path.includes('messenger')) {
-        return 'messenger';
-      }
-      if (this.$route.path.includes('infobip')) {
-        return 'infobip';
-      }
-      if (this.$route.path.includes('viber')) {
-        return 'viber';
-      }
-      if (this.$route.path.includes('webchat')) {
-        return 'webchat';
-      }
-      return '';
+      return this.itemInstance.provider;
     },
 
     tabs() {
       const telegramChat = {
-        text: this.$t('objects.routing.chatGateways.telegram.telegram'),
+        text: this.$t('objects.routing.chatGateways.telegramBot.telegramBot'),
         value: 'OpenedChatTelegram',
       };
 
@@ -225,15 +215,15 @@ export default {
       };
 
       switch (this.chatType) {
-        case 'telegram':
+        case ChatGatewayProvider.TELEGRAM_BOT:
           return [telegramChat];
-        case 'messenger':
+        case ChatGatewayProvider.MESSENGER:
           return messenger;
-        case 'infobip':
+        case ChatGatewayProvider.INFOBIP:
           return [infobipChat];
-        case 'viber':
+        case ChatGatewayProvider.VIBER:
           return [viberChat];
-        case 'webchat':
+        case ChatGatewayProvider.WEBCHAT:
           return [webChat, webchatView, webchatAlternativeChannels];
         default:
           return [];
@@ -241,36 +231,52 @@ export default {
     },
 
     chatGatewayTitle() {
-      return this.$t(`objects.routing.chatGateways.${this.chatType}.${this.chatType}`)
-                 .concat(' ', this.$tc('objects.routing.gateways.gateways', 1));
+      let chatTypeLocale;
+      switch (this.chatType) {
+        case ChatGatewayProvider.INFOBIP:
+          chatTypeLocale = 'infobip';
+          break;
+        case ChatGatewayProvider.TELEGRAM_BOT:
+          chatTypeLocale = 'telegramBot';
+          break;
+          case ChatGatewayProvider.MESSENGER:
+        case ChatGatewayProvider.VIBER:
+        case ChatGatewayProvider.WEBCHAT:
+          chatTypeLocale = this.chatType;
+          break;
+        default:
+          return this.$tc('objects.routing.gateways.gateways', 1);
+      }
+      return this.$t(`objects.routing.chatGateways.${chatTypeLocale}.${chatTypeLocale}`)
+      .concat(' ', this.$tc('objects.routing.gateways.gateways', 1));
     },
 
     path() {
       const baseUrl = '/routing/chat-gateways';
-      const url = baseUrl.concat(`/${this.chatType}`);
       return [
         { name: this.$t('objects.routing.routing') },
         { name: this.$tc('objects.routing.chatGateways.chatGateways', 2), route: baseUrl },
         {
           name: `${(this.id ? this.pathName : this.$t('objects.new'))} ${this.chatGatewayTitle}`,
-          route: this.id ? `${url}/${this.id}` : `${url}/new`,
+          route: this.id ? `${baseUrl}/${this.id}` : `${baseUrl}/new`,
         },
       ];
     },
 
     isWebchat() {
-      return this.chatType === 'webchat';
+      return this.chatType === ChatGatewayProvider.WEBCHAT;
     },
   },
   methods: {
     ...mapActions({
-                    handleWebchatCodeCopied(dispatch, payload) {
-                      return dispatch(`${this.namespace}/RESET_WEBCHAT_COPY_DIRTY_FLAG`, payload);
-                    },
-                  }),
+      handleWebchatCodeCopied(dispatch, payload) {
+        return dispatch(`${this.namespace}/RESET_WEBCHAT_COPY_DIRTY_FLAG`, payload);
+      },
+    }),
     async loadPageData() {
       await this.setId(this.$route.params.id);
-      return this.loadItem(this.chatType.toUpperCase());
+      await this.loadItem(this.$route.query.type);
+      this.setInitialTab();
     },
   },
 };

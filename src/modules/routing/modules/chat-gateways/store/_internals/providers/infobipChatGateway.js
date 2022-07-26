@@ -1,9 +1,9 @@
-import MessengerType from 'webitel-sdk/esm2015/enums/messenger-type.enum';
+import ChatGatewayProvider from '../../../enum/ChatGatewayProvider.enum';
 import defaultChatGateway from '../defaults/defaultChatGateway';
 
 const infobipChatGateway = () => ({
   ...defaultChatGateway(),
-  provider: MessengerType.INFOBIP,
+  provider: ChatGatewayProvider.INFOBIP,
   metadata: {
     apiKey: '',
     // number: '',
