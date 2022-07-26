@@ -12,7 +12,7 @@
         </section>
       </section>
       <section class="chat-config-section">
-        <form class="object-input-grid object-input-grid__1-col">
+        <div class="object-input-grid object-input-grid__1-col">
           <wt-select
             v-model="selectedLanguage"
             :clearable="false"
@@ -73,7 +73,7 @@
               <color-picker :value="color" class="colorpicker" @input="setColor"/>
             </div>
           </section>
-        </form>
+        </div>
       </section>
     </section>
   </section>

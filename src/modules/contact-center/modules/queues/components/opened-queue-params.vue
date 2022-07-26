@@ -3,7 +3,7 @@
     <header class="content-header">
       <h3 class="content-title">{{ $t('objects.ccenter.queues.params') }}</h3>
     </header>
-    <form class="object-input-grid">
+    <div class="object-input-grid">
       <wt-timepicker
         v-if="specificControls.originateTimeout"
         :disabled="disableUserInput"
@@ -200,7 +200,7 @@
         type="number"
         @input="setItemPayloadProp({ prop: 'stickyAgentSec', value: +$event })"
       ></wt-input>
-    </form>
+    </div>
   </section>
 </template>
 

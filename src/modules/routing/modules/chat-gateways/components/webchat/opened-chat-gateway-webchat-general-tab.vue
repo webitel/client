@@ -4,7 +4,7 @@
       <wt-icon icon="web-chat" icon-prefix="messenger" size="sm"></wt-icon>
       <h3 class="content-title">{{ $t('objects.routing.chatGateways.webchat.webchat') }}</h3>
     </header>
-    <form class="object-input-grid">
+    <div class="object-input-grid">
       <wt-input
         :disabled="disableUserInput"
         :label="$t('objects.name')"
@@ -72,7 +72,7 @@
       <!--        :disabled="disableUserInput"-->
       <!--        @input="setItemMetadata({ prop: 'messageSizeMax', value: $event })"-->
       <!--      ></wt-input>-->
-    </form>
+    </div>
   </section>
 </template>
 

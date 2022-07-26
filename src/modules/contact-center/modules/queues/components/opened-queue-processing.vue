@@ -3,7 +3,7 @@
     <header class="content-header">
       <h3 class="content-title">{{ $t('objects.ccenter.queues.processing.processing') }}</h3>
     </header>
-    <form class="object-input-grid">
+    <div class="object-input-grid">
       <wt-switcher
         v-if="specificControls['taskProcessing.enabled']"
         :disabled="disableUserInput"
@@ -39,7 +39,7 @@
         type="number"
         @input="setItemProcessingProp({ prop: 'renewalSec', value: +$event })"
       ></wt-input>
-    </form>
+    </div>
   </section>
 </template>
 

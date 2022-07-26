@@ -2,7 +2,7 @@
   <div>
     <header class="content-header">
       <h3 class="content-title">
-<!--        {{ $tc('objects.directory.users.users', 2) }}-->
+        <!--        {{ $tc('objects.directory.users.users', 2) }}-->
       </h3>
       <div class="content-header__actions-wrap">
         <wt-search-bar
@@ -36,7 +36,10 @@
         @sort="sort"
       >
         <template slot="name" slot-scope="{ item }">
-          <item-link :link="editLink(item)" target="_blank">
+          <item-link
+            :id="item.id"
+            :route-name="RouteNames.USERS"
+          >
             {{ item.name }}
           </item-link>
         </template>
@@ -47,9 +50,9 @@
           slot-scope="{ item }"
         >
           <wt-checkbox
-            :selected="item.license[license.value]"
             :key="key"
             :disabled="!hasEditAccess"
+            :selected="item.license[license.value]"
             @change="toggleUserLicense({ user: item, license })"
           ></wt-checkbox>
         </template>
@@ -100,9 +103,6 @@ export default {
     }),
     changeVisibleHeaders(headers) {
       this.setHeaders(headers);
-    },
-    editLink({ id }) {
-      return { name: `${RouteNames.USERS}-edit`, params: { id } };
     },
   },
 };

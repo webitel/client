@@ -3,7 +3,7 @@
     <header class="content-header">
       <h3 class="content-title">{{ $t('objects.generalInfo') }}</h3>
     </header>
-    <form class="object-input-grid">
+    <div class="object-input-grid">
       <wt-select
         :clearable="false"
         :disabled="disableUserInput"
@@ -83,7 +83,7 @@
         type="number"
         @input="setItemProp({ prop: 'chatCount', value: +$event })"
       ></wt-input>
-    </form>
+    </div>
   </section>
 </template>
 

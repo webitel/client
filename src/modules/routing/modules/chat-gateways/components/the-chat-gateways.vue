@@ -66,9 +66,13 @@
             </template>
 
             <template slot="flow" slot-scope="{ item }">
-              <div v-if="item.flow">
+              <item-link
+                v-if="item.flow"
+                :route-name="RouteNames.FLOW"
+                :id="item.flow.id"
+              >
                 {{ item.flow.name }}
-              </div>
+              </item-link>
             </template>
 
             <template slot="provider" slot-scope="{ item }">

@@ -3,7 +3,7 @@
     <header class="content-header">
       <h3 class="content-title">{{ $t('objects.generalInfo') }}</h3>
     </header>
-    <form class="object-input-grid">
+    <div class="object-input-grid">
       <wt-input
         :disabled="disableUserInput"
         :label="$t('objects.name')"
@@ -80,12 +80,11 @@
         :value="itemInstance.description"
         @input="setItemProp({ prop: 'description', value: $event })"
       ></wt-textarea>
-    </form>
+    </div>
   </section>
 </template>
 
 <script>
-import PasswordInput from '../../../../../app/components/utils/generate-password-input.vue';
 import openedTabComponentMixin
   from '../../../../../app/mixins/objectPagesMixins/openedObjectTabMixin/openedTabComponentMixin';
 import FlowsAPI from '../../../../routing/modules/flow/api/flow';
@@ -93,7 +92,6 @@ import FlowsAPI from '../../../../routing/modules/flow/api/flow';
 export default {
   name: 'opened-email-profile-general',
   mixins: [openedTabComponentMixin],
-  components: { PasswordInput },
   data: () => ({}),
   methods: {
     loadFlows(params) {

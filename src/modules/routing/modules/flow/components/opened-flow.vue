@@ -19,7 +19,10 @@
     </template>
 
     <template v-slot:main>
-      <div class="main-container">
+      <form
+        class="main-container"
+        @submit.prevent="save"
+      >
         <wt-tabs
           v-model="currentTab"
           :tabs="tabs"
@@ -29,7 +32,8 @@
           :v="$v"
           :namespace="namespace"
         ></component>
-      </div>
+        <input type="submit" hidden> <!--  submit form on Enter  -->
+      </form>
     </template>
   </wt-page-wrapper>
 </template>
