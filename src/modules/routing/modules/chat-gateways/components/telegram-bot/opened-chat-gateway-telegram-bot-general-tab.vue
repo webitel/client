@@ -2,7 +2,9 @@
   <section>
     <header class="content-header">
       <wt-icon icon="telegram" icon-prefix="messenger" size="sm"></wt-icon>
-      <h3 class="content-title">{{ $t('objects.routing.chatGateways.telegram.telegram') }}</h3>
+      <h3 class="content-title">
+        {{ $t('objects.routing.chatGateways.telegramBot.telegramBot') }}
+      </h3>
     </header>
     <div class="object-input-grid">
       <wt-input
@@ -50,7 +52,7 @@ import FlowsAPI from '../../../flow/api/flow';
 import uriCopyMixin from '../../mixins/uriCopyMixin';
 
 export default {
-  name: 'opened-chat-telegram-general-tab',
+  name: 'opened-chat-telegram-bot-general-tab',
   mixins: [openedTabComponentMixin, uriCopyMixin],
   computed: {
     isUriEditable() {

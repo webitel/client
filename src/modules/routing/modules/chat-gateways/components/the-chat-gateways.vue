@@ -118,19 +118,18 @@
 </template>
 
 <script>
-import MessengerType from 'webitel-sdk/esm2015/enums/messenger-type.enum';
 import tableComponentMixin
   from '../../../../../app/mixins/objectPagesMixins/objectTableMixin/tableComponentMixin';
-import getMessengerType from '../store/_internals/scripts/getMessengerTypeByEnum';
+import ChatGatewayProvider from '../enum/ChatGatewayProvider.enum';
 import CreateChatGatewayPopup from './create-chat-gateway-popup.vue';
 import RouteNames from '../../../../../app/router/_internals/RouteNames.enum';
 
 const iconType = {
-  [MessengerType.FACEBOOK]: 'messenger',
-  [MessengerType.INFOBIP]: 'infobip',
-  [MessengerType.VIBER]: 'viber',
-  [MessengerType.WEB_CHAT]: 'web-chat',
-  [MessengerType.TELEGRAM]: 'telegram',
+  [ChatGatewayProvider.MESSENGER]: 'messenger',
+  [ChatGatewayProvider.INFOBIP]: 'infobip',
+  [ChatGatewayProvider.VIBER]: 'viber',
+  [ChatGatewayProvider.WEBCHAT]: 'web-chat',
+  [ChatGatewayProvider.TELEGRAM_BOT]: 'telegram',
 };
 
 export default {
@@ -141,6 +140,7 @@ export default {
     namespace: 'routing/chatGateways',
     isChatGatewayPopup: false,
     iconType,
+    routeName: RouteNames.CHAT_GATEWAYS,
   }),
 
   computed: {
@@ -155,13 +155,6 @@ export default {
   methods: {
     create() {
       this.isChatGatewayPopup = true;
-    },
-    editLink(item) {
-      const type = getMessengerType(item.provider);
-      return {
-        name: `${RouteNames.CHAT_GATEWAYS}-${type}-edit`,
-        params: { id: item.id },
-      };
     },
   },
 };

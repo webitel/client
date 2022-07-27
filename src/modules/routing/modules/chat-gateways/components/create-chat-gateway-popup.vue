@@ -1,17 +1,18 @@
 <template>
   <selection-popup
-    :title="$t('objects.routing.chatGateways.newChatGateway')"
     :options="options"
     :selected="selected"
+    :title="$t('objects.routing.chatGateways.newChatGateway')"
     @change="selectOption"
-    @select="createGateway"
     @close="close"
+    @select="createGateway"
   ></selection-popup>
 </template>
 
 <script>
-import RouteNames from '../../../../../app/router/_internals/RouteNames.enum';
 import SelectionPopup from '../../../../../app/components/utils/selection-popup/selection-popup.vue';
+import RouteNames from '../../../../../app/router/_internals/RouteNames.enum';
+import ChatGatewayProvider from '../enum/ChatGatewayProvider.enum';
 
 export default {
   name: 'create-chat-gateway-popup',
@@ -22,32 +23,37 @@ export default {
   }),
   computed: {
     options() {
-      const telegram = {
-        value: 'telegram',
-        title: this.$t('objects.routing.chatGateways.telegram.telegram'),
+      const telegramBot = {
+        value: ChatGatewayProvider.TELEGRAM_BOT,
+        title: this.$t('objects.routing.chatGateways.telegramBot.telegramBot'),
+        icon: 'messenger-telegram',
+      };
+      const telegramApp = {
+        value: ChatGatewayProvider.TELEGRAM_APP,
+        title: this.$t('objects.routing.chatGateways.telegramApp.telegramApp'),
         icon: 'messenger-telegram',
       };
       const infobip = {
-        value: 'infobip',
+        value: ChatGatewayProvider.INFOBIP,
         title: this.$t('objects.routing.chatGateways.infobip.infobip'),
         icon: 'messenger-infobip',
       };
       const messenger = {
-        value: 'messenger',
+        value: ChatGatewayProvider.MESSENGER,
         title: this.$t('objects.routing.chatGateways.messenger.messenger'),
         icon: 'messenger-messenger',
       };
       const viber = {
-        value: 'viber',
+        value: ChatGatewayProvider.VIBER,
         title: this.$t('objects.routing.chatGateways.viber.viber'),
         icon: 'messenger-viber',
       };
       const webchat = {
-        value: 'webchat',
+        value: ChatGatewayProvider.WEBCHAT,
         title: this.$t('objects.routing.chatGateways.webchat.webchat'),
         icon: 'messenger-web-chat',
       };
-      return [telegram, infobip, messenger, viber, webchat];
+      return [telegramBot, telegramApp, infobip, messenger, viber, webchat];
     },
   },
 
@@ -56,7 +62,10 @@ export default {
       this.selected = option;
     },
     createGateway() {
-      this.$router.push({ name: `${RouteNames.CHAT_GATEWAYS}-${this.selected.value}-new` });
+      this.$router.push({
+        name: `${RouteNames.CHAT_GATEWAYS}-new`,
+        query: { type: this.selected.value },
+      });
     },
     close() {
       this.$emit('close');

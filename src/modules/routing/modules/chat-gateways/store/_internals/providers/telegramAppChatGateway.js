@@ -1,14 +1,13 @@
 import ChatGatewayProvider from '../../../enum/ChatGatewayProvider.enum';
 import defaultChatGateway from '../defaults/defaultChatGateway';
 
-const viberChatGateway = () => ({
+const telegramBotChatGateway = () => ({
   ...defaultChatGateway(),
-  provider: ChatGatewayProvider.VIBER,
+  provider: ChatGatewayProvider.TELEGRAM_APP,
   metadata: {
-    token: '',
-    botName: '',
-    // eventTypes: '',
+    apiId: '',
+    apiHash: '',
   },
 });
 
-export default viberChatGateway;
+export default telegramBotChatGateway;

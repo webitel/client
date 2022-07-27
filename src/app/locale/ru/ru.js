@@ -461,8 +461,15 @@ export default {
       chatGateways: {
         chatGateways: 'Текстовый шлюз | Текстовые шлюзы',
         allChatGateways: 'Все текстовые шлюзы',
-        telegram: {
-          telegram: 'Telegram',
+        telegramBot: {
+          telegramBot: 'Telegram Бот',
+        },
+        telegramApp: {
+          telegramApp: 'Telegram Приложение',
+          metadata: {
+            apiId: 'API идентификатор',
+            apiHash: 'API хэш',
+          },
         },
         infobip: {
           infobip: 'Infobip',
