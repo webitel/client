@@ -9,6 +9,8 @@ import defaultChatGateway from './_internals/defaults/defaultChatGateway';
 import headers from './_internals/headers';
 import messengerChatGateway from './_internals/providers/messengerChatGateway';
 import infobipChatGateway from './_internals/providers/infobipChatGateway';
+import telegramAppChatGateway
+  from './_internals/providers/telegramAppChatGateway';
 import telegramBotChatGateway from './_internals/providers/telegramBotChatGateway';
 import viberChatGateway from './_internals/providers/viberChatGateway';
 import webChatGateway from './_internals/providers/webChatGateway';
@@ -24,6 +26,7 @@ const resettableState = {
 
 const chatGatewayStateMap = {
   [ChatGatewayProvider.TELEGRAM_BOT]: telegramBotChatGateway,
+  [ChatGatewayProvider.TELEGRAM_APP]: telegramAppChatGateway,
   [ChatGatewayProvider.WEBCHAT]: webChatGateway,
   [ChatGatewayProvider.INFOBIP]: infobipChatGateway,
   [ChatGatewayProvider.MESSENGER]: messengerChatGateway,

@@ -464,6 +464,13 @@ export default {
         telegramBot: {
           telegramBot: 'Telegram Bot',
         },
+        telegramApp: {
+          telegramApp: 'Telegram App',
+          metadata: {
+            apiId: 'API id',
+            apiHash: 'API hash',
+          },
+        },
         infobip: {
           infobip: 'Infobip',
         },

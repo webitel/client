@@ -23,9 +23,14 @@ export default {
   }),
   computed: {
     options() {
-      const telegram = {
+      const telegramBot = {
         value: ChatGatewayProvider.TELEGRAM_BOT,
         title: this.$t('objects.routing.chatGateways.telegramBot.telegramBot'),
+        icon: 'messenger-telegram',
+      };
+      const telegramApp = {
+        value: ChatGatewayProvider.TELEGRAM_APP,
+        title: this.$t('objects.routing.chatGateways.telegramApp.telegramApp'),
         icon: 'messenger-telegram',
       };
       const infobip = {
@@ -48,7 +53,7 @@ export default {
         title: this.$t('objects.routing.chatGateways.webchat.webchat'),
         icon: 'messenger-web-chat',
       };
-      return [telegram, infobip, messenger, viber, webchat];
+      return [telegramBot, telegramApp, infobip, messenger, viber, webchat];
     },
   },
 

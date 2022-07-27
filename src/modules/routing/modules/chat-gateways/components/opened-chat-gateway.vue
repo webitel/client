@@ -51,10 +51,11 @@ import OpenedChatInstagram from '../modules/messenger/instagram/components/insta
 import OpenedChatInfobip from './infobip/opened-chat-gateway-infobip-general-tab.vue';
 
 import OpenedChatMessenger from './messenger/opened-chat-gateway-messenger-general-tab.vue';
-import OpenedChatTelegram from './telegram-bot/opened-chat-gateway-telegram-general-tab.vue';
+import OpenedChatTelegramBot from './telegram-bot/opened-chat-gateway-telegram-bot-general-tab.vue';
 import OpenedViberChat from './viber/opened-chat-gateway-viber-general-tab.vue';
 import WebchatCopyCodeButton from './webchat/copy-code-button.vue';
 import OpenedWebchatAlternativeChannels from './webchat/opened-chat-gateway-webchat-alternative-channels-tab.vue';
+import OpenedChatTelegramApp from './telegram-app/opened-chat-gateway-telegram-app-general-tab.vue';
 
 import OpenedWebchat from './webchat/opened-chat-gateway-webchat-general-tab.vue';
 import OpenedWebchatView from './webchat/opened-chat-gateway-webchat-view-tab.vue';
@@ -63,7 +64,8 @@ export default {
   name: 'opened-chat-gateway',
   mixins: [openedObjectMixin],
   components: {
-    OpenedChatTelegram,
+    OpenedChatTelegramBot,
+    OpenedChatTelegramApp,
     OpenedChatMessenger,
     OpenedChatFacebook,
     OpenedChatInstagram,
@@ -97,6 +99,16 @@ export default {
             },
           },
         };
+      case ChatGatewayProvider.TELEGRAM_APP:
+        return {
+          itemInstance: {
+            ...defaults,
+            metadata: {
+              apiId: { required, numeric },
+              apiHash: { required },
+            },
+          },
+        };
       case ChatGatewayProvider.MESSENGER:
         return {
           itemInstance: {
@@ -113,7 +125,7 @@ export default {
             ...defaults,
             metadata: {
               apiKey: { required },
-              url: { required },
+              url: { required, url },
             },
           },
         };
@@ -168,11 +180,14 @@ export default {
     },
 
     tabs() {
-      const telegramChat = {
+      const telegramBotChat = {
         text: this.$t('objects.routing.chatGateways.telegramBot.telegramBot'),
-        value: 'OpenedChatTelegram',
+        value: 'OpenedChatTelegramBot',
       };
-
+      const telegramAppChat = {
+        text: this.$t('objects.routing.chatGateways.telegramApp.telegramApp'),
+        value: 'OpenedChatTelegramApp',
+      };
       const messengerChat = {
         text: this.$t('objects.routing.chatGateways.messenger.messenger'),
         value: 'OpenedChatMessenger',
@@ -216,7 +231,9 @@ export default {
 
       switch (this.chatType) {
         case ChatGatewayProvider.TELEGRAM_BOT:
-          return [telegramChat];
+          return [telegramBotChat];
+        case ChatGatewayProvider.TELEGRAM_APP:
+          return [telegramAppChat];
         case ChatGatewayProvider.MESSENGER:
           return messenger;
         case ChatGatewayProvider.INFOBIP:
