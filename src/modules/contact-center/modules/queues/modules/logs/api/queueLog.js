@@ -14,8 +14,8 @@ const _getQueueLogs = (getList) => function ({
   // parent id == queue id
   const joinedAtFrom = 100000000;
   const joinedAtTo = Date.now();
-  const params = [page, size, joinedAtFrom, joinedAtTo, undefined, parentId,
-    undefined, undefined, undefined, undefined, undefined, sort];
+  const params = [page, size, undefined, sort, undefined, joinedAtFrom, joinedAtTo, undefined,
+    parentId, undefined, undefined, undefined, undefined, undefined];
   return getList(params);
 };
 
