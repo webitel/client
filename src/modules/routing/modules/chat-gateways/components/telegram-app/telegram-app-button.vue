@@ -1,7 +1,8 @@
 <template>
   <div class="telegram-app-button">
     <p v-if="isAuthorized">
-      {{ $t('signedas') }} {{ state.account.FirstName }} {{ state.account.LastName }}
+      {{ $t('objects.routing.chatGateways.telegramApp.signedAs') }}
+      {{ state.account.FirstName }} {{ state.account.LastName }}
     </p>
     <button
       class="telegram-app-button__button"
@@ -34,7 +35,7 @@ export default {
       return this.state.authorized;
     },
     btnText() {
-      return this.isAuthorized ? this.$t('reusable.logout') : this.$t('joinn');
+      return this.isAuthorized ? this.$t('vocabulary.logout') : this.$t('objects.routing.chatGateways.telegramApp.joinTelegram');
     },
   },
   methods: {
@@ -71,7 +72,7 @@ export default {
   display: block;
   overflow: hidden;
   width: fit-content;
-  margin: 0;
+  margin: 9px auto;
   padding: 9px 21px 11px;
   cursor: pointer;
   font-size: 16px;
