@@ -119,10 +119,10 @@ const _getQueuesLookup = (getList) => function ({
   search,
   sort,
   fields = ['id', 'name', 'type'],
-  ids,
+                                                  id,
   type,
                                                }) {
-  const params = [page, size, search, sort, fields, ids, type];
+  const params = [page, size, search, sort, fields, id, type];
   return getList(params);
 };
 
