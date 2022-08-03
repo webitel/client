@@ -42,7 +42,7 @@ const actions = {
   DELETE_SINGLE: (context, { id }) => context.dispatch('DELETE_ITEM', id),
   DELETE_BULK: (context, deleted) => {
     const ids = deleted.map((item) => item.id);
-    return MembersAPI.deleteBulk(context.state.parentId, { ids });
+    return MembersAPI.deleteBulk(context.state.parentId, { id });
   },
   DELETE_FILTERED: (context, query = context.getters['filters/GET_FILTERS']) => {
     return MembersAPI.deleteBulk(context.state.parentId, query);

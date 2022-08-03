@@ -65,7 +65,7 @@ const _getMembersList = (getList) => function({
                                                 search,
                                                 sort,
                                                 fields,
-                                                ids,
+                                                id,
                                                 parentId,
                                                 from,
                                                 to,
@@ -76,7 +76,7 @@ const _getMembersList = (getList) => function({
                                                 cause,
                                               }) {
   const params = [
-    parentId, page, size, search, sort, fields, ids, bucket,
+    parentId, page, size, search, sort, fields, id, bucket,
     undefined, from, to, undefined, undefined, cause,
     priorityFrom || priority?.from, priorityTo || priority?.to,
   ];
@@ -146,7 +146,7 @@ const resetMembers = ({ parentId }) => resetMembersApiConsumer
 
 export const deleteMembersBulk = async (queueId, {
   search,
-  ids,
+  id,
   from,
   to,
   bucket,
@@ -155,7 +155,7 @@ export const deleteMembersBulk = async (queueId, {
 }) => {
   try {
     await memberService.deleteMembers(queueId, {
-      ids,
+      id,
       q: search,
       createdAt: (from || to) ? { from, to } : undefined,
       priority,
