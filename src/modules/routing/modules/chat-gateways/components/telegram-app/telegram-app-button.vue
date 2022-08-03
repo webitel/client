@@ -1,12 +1,16 @@
 <template>
-  <button
-    class="telegram-app-button"
-    type="button"
-    wide
-    @click="handleButtonClick"
-  >
-    Joinnnn Telegram!
-  </button>
+  <div class="telegram-app-button">
+    <p v-if="isAuthorized">
+      {{ $t('signedas') }} {{ state.account.FirstName }} {{ state.account.LastName }}
+    </p>
+    <button
+      class="telegram-app-button__button"
+      type="button"
+      @click="handleButtonClick"
+    >
+      {{ btnText }}
+    </button>
+  </div>
 </template>
 
 <script>
@@ -23,29 +27,50 @@ export default {
     },
   },
   data: () => ({
-    isAuthorized: false,
+    state: {},
   }),
+  computed: {
+    isAuthorized() {
+      return this.state.authorized;
+    },
+    btnText() {
+      return this.isAuthorized ? this.$t('reusable.logout') : this.$t('joinn');
+    },
+  },
   methods: {
-    handleButtonClick() {
+    async handleButtonClick() {
       if (this.isAuthorized) {
-        chatGatewaysTelegramAppAPI.logout(this.uri);
+        try {
+          await chatGatewaysTelegramAppAPI.logout(this.uri);
+        } finally {
+          await this.loadAuth();
+        }
       } else {
         const url = `${chatBaseUrl}${this.uri}?auth`;
-        openMessengerWindow({ url, listener: (e) => console.log(e) });
+        openMessengerWindow({
+          url,
+          listener: ({ data }) => { if (data.status === 'success') this.loadAuth(); },
+        });
       }
+    },
+    async loadAuth() {
+      this.state = await chatGatewaysTelegramAppAPI.getAuth(this.uri);
     },
   },
   created() {
-    chatGatewaysTelegramAppAPI.getAuth(this.uri);
+    this.loadAuth();
   },
 };
 </script>
 
 <style lang="scss" scoped>
 .telegram-app-button {
-  width: fit-content;
-  display: inline-block;
+  text-align: center;
+}
+.telegram-app-button__button {
+  display: block;
   overflow: hidden;
+  width: fit-content;
   margin: 0;
   padding: 9px 21px 11px;
   cursor: pointer;

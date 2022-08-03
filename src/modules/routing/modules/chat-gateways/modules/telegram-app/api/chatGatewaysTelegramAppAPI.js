@@ -5,7 +5,10 @@ const getAuth = (uri) => {
   return chatInstance.get(url);
 };
 
-const logout = (uri) => uri;
+const logout = (uri) => {
+  const url = `${uri}?logout=`;
+  return chatInstance.post(url, {});
+};
 
 const ChatGatewaysTelegramAppAPI = {
   getAuth,
