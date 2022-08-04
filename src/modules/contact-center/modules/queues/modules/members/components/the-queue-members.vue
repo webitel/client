@@ -125,6 +125,15 @@
             <template slot="type" slot-scope="{ item }">
               {{ item.type }}
             </template>
+            <template slot="agent" slot-scope="{ item }">
+              <item-link
+                v-if="item.agent"
+                :route-name="RouteNames.AGENTS"
+                :id="item.agent.id"
+              >
+                {{ item.agent.name }}
+              </item-link>
+            </template>
 
             <template slot="actions" slot-scope="{ item }">
               <edit-action

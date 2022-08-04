@@ -51,6 +51,7 @@ export default {
     filters: [
       { type: 'enum', filterQuery: 'cause' },
       { type: 'api', filterQuery: 'bucket' },
+      { type: 'api', filterQuery: 'agent' },
     ],
   }),
   methods: {
