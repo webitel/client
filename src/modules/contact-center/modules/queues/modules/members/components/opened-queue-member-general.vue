@@ -40,6 +40,13 @@
         :disabled="disableUserInput"
         @input="setItemProp({ prop: 'bucket', value: $event })"
       ></wt-select>
+      <wt-select
+        :value="itemInstance.agent"
+        :label="$tc('objects.ccenter.agents.agents', 1)"
+        :search-method="loadDropdownOptionsAgentsList"
+        :disabled="disableUserInput"
+        @input="setItemProp({ prop: 'agent', value: $event })"
+      ></wt-select>
     </form>
   </section>
 </template>
@@ -47,6 +54,7 @@
 <script>
 import BucketsAPI from '../../../../../../lookups/modules/buckets/api/buckets';
 import CalendarsAPI from '../../../../../../lookups/modules/calendars/api/calendars';
+import AgentsAPI from '../../../../agents/api/agents';
 import openedTabComponentMixin from '../../../../../../../app/mixins/objectPagesMixins/openedObjectTabMixin/openedTabComponentMixin';
 
 export default {
@@ -64,6 +72,9 @@ export default {
     },
     loadDropdownOptionsTimezoneList(params) {
       return CalendarsAPI.getTimezonesLookup(params);
+    },
+    loadDropdownOptionsAgentsList(params) {
+      return AgentsAPI.getLookup(params);
     },
   },
 };

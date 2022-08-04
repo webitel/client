@@ -12,6 +12,7 @@ const resettableItemState = {
     expireAt: Date.now() + 12 * 60 * 60 * 1000,
     bucket: {},
     timezone: {},
+    agent: {},
     communications: [],
     variables: [],
   },

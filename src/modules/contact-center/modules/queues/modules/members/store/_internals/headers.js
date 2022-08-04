@@ -43,4 +43,10 @@ export default [
     field: 'attempts',
     sort: SortSymbols.NONE,
   },
+  {
+    value: 'agent',
+    locale: ['objects.ccenter.agents.agents', 1],
+    field: 'agent',
+    sort: SortSymbols.NONE,
+  },
 ];

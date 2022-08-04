@@ -17,7 +17,7 @@ const memberService = new MemberServiceApiFactory(configuration, '', instance);
 
 const fieldsToSend = [
   'queueId', 'name', 'priority', 'bucket', 'timezone', 'communications',
-  'variables', 'expireAt', 'minOfferingAt',
+  'variables', 'expireAt', 'minOfferingAt', 'agent',
 ];
 
 const communicationsFieldsToSend = [
@@ -41,6 +41,7 @@ const defaultSingleObject = {
   expireAt: 0,
   bucket: {},
   timezone: {},
+  agent: {},
   communications: [],
   variables: [],
 };
@@ -74,11 +75,13 @@ const _getMembersList = (getList) => function({
                                                 priorityTo,
                                                 priority,
                                                 cause,
+                                                agent,
                                               }) {
   const params = [
     parentId, page, size, search, sort, fields, id, bucket,
     undefined, from, to, undefined, undefined, cause,
     priorityFrom || priority?.from, priorityTo || priority?.to,
+    undefined, undefined, undefined, agent,
   ];
 
   return getList(params);
