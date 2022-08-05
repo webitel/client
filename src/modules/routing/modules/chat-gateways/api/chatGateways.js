@@ -89,6 +89,7 @@ const itemUpdater = new EndpointUpdaterApiConsumer({ baseUrl, instance },
   { fieldsToSend, preRequestHandler });
 const itemPatcher = new EndpointPatcherApiConsumer({ baseUrl, instance }, { fieldsToSend });
 const itemDeleter = new EndpointDeleterApiConsumer({ baseUrl, instance });
+const lookupGetter = new EndpointListGetterApiConsumer({ baseUrl, instance });
 
 itemGetter.responseHandler = (response) => {
   switch (response.provider) {
@@ -105,6 +106,7 @@ const addChatGateway = (params) => itemCreator.createItem(params);
 const updateChatGateway = (params) => itemUpdater.updateItem(params);
 const patchChatGateway = (params) => itemPatcher.patchItem(params);
 const deleteChatGateway = (params) => itemDeleter.deleteItem(params);
+const getLookup = (params) => lookupGetter.getLookup(params);
 
 const ChatGatewaysAPI = {
   getList: getChatGatewayList,
@@ -113,6 +115,7 @@ const ChatGatewaysAPI = {
   patch: patchChatGateway,
   update: updateChatGateway,
   delete: deleteChatGateway,
+  getLookup,
 };
 
 export default ChatGatewaysAPI;

@@ -18,6 +18,7 @@ import gatewaysAPI from '../../gateways/api/gateways';
 import flowsAPI from '../api/flow';
 import BlacklistsAPI from '../../../../lookups/modules/blacklists/api/blacklists';
 import CommunicationsAPI from '../../../../lookups/modules/communications/api/communications';
+import ChatGatewaysAPI from '../../chat-gateways/api/chatGateways';
 
 export default {
   name: 'opened-flow-diagram',
@@ -56,6 +57,8 @@ export default {
               gateways: gatewaysAPI.getLookup,
               lists: BlacklistsAPI.getLookup,
               communications: CommunicationsAPI.getLookup,
+              chatGateways: ({ provider, ...rest }) => ChatGatewaysAPI
+                .getLookup({ rest: { provider }, ...rest }),
             },
           },
         };
