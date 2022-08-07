@@ -753,6 +753,16 @@ export default {
           duration: 'Duration',
           viewNumber: 'View number',
           result: 'Result',
+          resultName: {
+            abandoned: 'Abandoned',
+            cancel: 'Cancel',
+            success: 'Success',
+            failed: 'Failed',
+            missed: 'Missed',
+            timeout: 'Timeout',
+            endless: 'Endless',
+            transferred: 'Transferred',
+          },
         },
         hooks: {
           hooks: 'Hook | Hooks',

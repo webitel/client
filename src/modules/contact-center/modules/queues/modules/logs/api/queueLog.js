@@ -5,22 +5,34 @@ import configuration from '../../../../../../../app/api/openAPIConfig';
 
 const queueMemberAttemptsService = new MemberServiceApiFactory(configuration, '', instance);
 
-const _getQueueLogs = (getList) => function ({
-                                               parentId,
-                                               page = 1,
-                                               size = 10,
-                                               sort = '+joined_at',
-                                             }) {
+const _getQueueLogs = (getList) => function({
+                                              parentId,
+                                              page = 1,
+                                              size = 10,
+                                              search,
+                                              sort = '+joined_at',
+                                              fields,
+                                              joinedAtFrom,
+                                              joinedAtTo,
+                                              result,
+                                              leavingAtFrom,
+                                              leavingAtTo,
+                                              offeringAtFrom,
+                                              offeringAtTo,
+                                              durationFrom,
+                                              durationTo,
+                                            }) {
   // parent id == queue id
-  const joinedAtFrom = 100000000;
-  const joinedAtTo = Date.now();
-  const params = [page, size, undefined, sort, undefined, joinedAtFrom, joinedAtTo, undefined,
-    parentId, undefined, undefined, undefined, undefined, undefined];
+  const params = [
+    page, size, search, sort, fields, joinedAtFrom, joinedAtTo, undefined,
+    parentId, undefined, undefined, undefined, result, leavingAtFrom,
+    leavingAtTo, offeringAtFrom, offeringAtTo, durationFrom, durationTo,
+  ];
   return getList(params);
 };
 
 const listGetter = new SdkListGetterApiConsumer(queueMemberAttemptsService.searchAttemptsHistory)
-  .setGetListMethod(_getQueueLogs);
+.setGetListMethod(_getQueueLogs);
 
 const getQueueLogs = (params) => listGetter.getList(params);
 

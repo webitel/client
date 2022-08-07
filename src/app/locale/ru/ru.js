@@ -752,6 +752,16 @@ export default {
           duration: 'Длительность',
           viewNumber: 'Номер',
           result: 'Результат',
+          resultName: {
+            abandoned: 'Abandoned',
+            cancel: 'Cancel',
+            success: 'Success',
+            failed: 'Failed',
+            missed: 'Missed',
+            timeout: 'Timeout',
+            endless: 'Endless',
+            transferred: 'Transferred',
+          },
         },
         hooks: {
           hooks: 'Хук | Хуки',
