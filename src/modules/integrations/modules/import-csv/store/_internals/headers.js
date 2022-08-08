@@ -8,33 +8,9 @@ export default [
     sort: SortSymbols.NONE,
   },
   {
-    value: 'charSet',
-    locale: 'objects.CSV.charSet',
-    field: 'charSet',
-    sort: SortSymbols.NONE,
-  },
-  {
-    value: 'separator',
-    locale: 'objects.CSV.separator',
-    field: 'separator',
-    sort: SortSymbols.NONE,
-  },
-  {
-    value: 'Skip headers',
-    locale: 'objects.CSV.skipHeaders',
-    field: 'Skip headers',
-    sort: SortSymbols.NONE,
-  },
-  {
-    value: 'Clear member',
-    locale: 'objects.CSV.clearMember',
-    field: 'Clear member',
-    sort: SortSymbols.NONE,
-  },
-  {
-    value: 'Queue',
-    locale: ['objects.ccenter.queues.queues', 1],
-    field: 'Queue',
+    value: 'source',
+    locale: 'objects.integrations.importCsv.source',
+    field: 'source',
     sort: SortSymbols.NONE,
   },
 ];

@@ -1,6 +1,7 @@
+import { StorageImportSourceType } from 'webitel-sdk';
 import ObjectStoreModule
   from '../../../../../app/store/BaseStoreModules/StoreModules/ObjectStoreModule';
-import PermissionsStoreModule from '../../../../../app/store/BaseStoreModules/StoreModules/PermissionsStoreModule/PermissionsStoreModule';
+// import PermissionsStoreModule from '../../../../../app/store/BaseStoreModules/StoreModules/PermissionsStoreModule/PermissionsStoreModule';
 import ImportCsvAPI from '../api/importCsv';
 import headers from './_internals/headers';
 
@@ -8,89 +9,96 @@ const resettableState = {
   itemInstance: {
     description: '',
     name: '',
-    source_id: '',
-    source_type: '',
+    source: {},
+    sourceType: StorageImportSourceType.Dialer,
     parameters: {
-      charSet: '',
-      separator: '',
+      charset: { name: 'UTF-8', value: 'utf-8' },
+      separator: ',',
       skipHeaders: true,
-      clearMember: true,
-      queues: {},
-      mappingFields: [
-        {
-          name: 'name',
+      mappings: {
+        name: {
+          text: 'Name',
           required: true,
-          csv: '',
+          csv: 'name',
         },
-        {
-          name: 'timezoneId',
+        timezone: {
+          text: 'Timezone Id',
           required: false,
-          csv: '',
+          csv: 'timezone',
         },
-        {
-          name: 'priority',
+        priority: {
+          text: 'Priority',
           required: false,
           csv: 0,
         },
-        {
-          text: 'Expire',
+        expireAt: {
+          text: 'Expire At',
           name: 'expireAt',
           required: false,
-          csv: '',
+          csv: 'expire',
         },
-        {
-          name: 'bucketId',
+        bucket: {
+          text: 'Bucket Id',
           required: false,
-          csv: '',
+          csv: 'bucket',
         },
-        {
-          name: 'variables',
+        variables: {
+          text: 'Variables',
           required: false,
           multiple: true,
-          csv: [],
+          csv: [{ text: 'variable' }],
         },
-        {
+        commDestination: {
           text: 'Communication destination',
-          name: 'destination',
           required: true,
           multiple: true,
-          csv: [],
+          csv: [{ text: 'destination' }],
         },
-        {
+        commPriority: {
           text: 'Communication priority',
-          name: 'commPriority',
           required: false,
           multiple: true,
-          csv: [],
+          csv: [{ text: 'priority' }],
         },
-        {
+        commCode: {
           text: 'Communication code',
-          name: 'code',
           required: true,
           multiple: true,
-          csv: [],
+          csv: [{ text: 'code' }],
         },
-        {
+        commDescription: {
           text: 'Communication description',
-          name: 'description',
           required: false,
           multiple: true,
-          csv: [],
+          csv: [{ text: 'description' }],
         },
-      ],
+      },
     },
   },
 };
 
- const PERMISSIONS_API_URL = '/storage/import_csv';
- const permissions = new PermissionsStoreModule()
- .generateAPIActions(PERMISSIONS_API_URL)
- .getModule();
+const actions = {
+  SET_ITEM_PARAMETERS_PROP: (context, { prop, value }) => {
+    const parameters = {
+      ...context.state.itemInstance.parameters,
+      [prop]: value,
+    };
+    return context.dispatch('SET_ITEM_PROPERTY', {
+      prop: 'parameters',
+      value: parameters,
+    });
+  },
+};
 
-const importCSV = new ObjectStoreModule({ resettableState, headers })
+// const PERMISSIONS_API_URL = '/storage/import_csv';
+// const permissions = new PermissionsStoreModule()
+// .generateAPIActions(PERMISSIONS_API_URL)
+// .getModule();
+
+const importCsv = new ObjectStoreModule({ resettableState, headers })
 .attachAPIModule(ImportCsvAPI)
 .generateAPIActions()
-.setChildModules({ permissions })
-.getModule({});
+// .setChildModules({ permissions })
+.getModule({ actions });
 
-export default importCSV;
+export default importCsv;

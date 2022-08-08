@@ -19,7 +19,12 @@
       <section class="main-section__wrapper">
         <header class="content-header">
           <h3 class="content-title">
-            {{$t('objects.importCSV')}}
+            {{
+              $t(
+                'objects.all',
+                { entity: $tc('objects.integrations.importCsv.importCsv', 2) },
+              )
+            }}
           </h3>
           <div class="content-header__actions-wrap">
             <wt-search-bar
@@ -57,17 +62,14 @@
                 {{ item.name }}
               </item-link>
             </template>
-            <template v-slot:flow="{ item }">
-              <item-link :link="flowLink(item)">
-                {{ item.schema.name }}
+            <template v-slot:source="{ item }">
+              <item-link
+                v-if="item.source"
+                :id="item.source.id"
+                :route-name="RouteNames.QUEUES"
+              >
+                {{ item.source.name }}
               </item-link>
-            </template>
-            <template v-slot:state="{ item, index }">
-              <wt-switcher
-                :disabled="!hasEditAccess"
-                :value="item.enabled"
-                @change="changeState({ item, index, value: $event })"
-              ></wt-switcher>
             </template>
             <template v-slot:actions="{ item }">
               <edit-action
@@ -101,7 +103,7 @@ import tableComponentMixin from '../../../../../app/mixins/objectPagesMixins/obj
 import RouteNames from '../../../../../app/router/_internals/RouteNames.enum';
 
 export default {
-  name: 'import-csv',
+  name: 'the-import-csv',
   mixins: [tableComponentMixin],
   data: () => ({
     namespace: 'integrations/importCsv',
@@ -113,36 +115,10 @@ export default {
       return [
         { name: this.$t('objects.integrations.integrations') },
         {
-          name: this.$tc('objects.importCSV'),
+          name: this.$tc('objects.integrations.importCsv.importCsv', 2),
           route: '/integrations/import-csv',
         },
       ];
-    },
-  },
-  methods: {
-    async changeDefaultProfile({ index, item, value }) {
-      try {
-        await this.patchItem({
-          index, item, prop: 'default', value,
-        });
-        if (value) this.loadList();
-      } catch {
-        this.loadList();
-      }
-    },
-    async changeState({ item, index, value }) {
-      await this.patchItem({
-        item, index, prop: 'enabled', value,
-      });
-      if (item.default && !value) {
-        await this.changeDefaultProfile({ item, index, value: false });
-      }
-    },
-    flowLink({ schema }) {
-      return {
-        name: `${RouteNames.FLOW}-edit`,
-        params: { id: schema.id },
-      };
     },
   },
 };

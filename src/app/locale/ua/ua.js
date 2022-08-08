@@ -850,6 +850,15 @@ export default {
         imapPort: 'IMAP Порт',
       },
 
+      importCsv: {
+        importCsv: 'Імпорт CSV файлу | Импорти CSV файлів',
+        source: 'Призначення імпорту',
+        settings: 'Налаштування',
+        mappings: 'Маппінги полів',
+        mappingsHint: 'У цій секції необхідно вказати назви колонок CSV файлу у полях нижче у відповідності до їх заголовків',
+        columnHeader: '{name} колонка',
+      },
+
       tokens: {
         tokens: 'Токен | Токени',
         allTokens: 'Всі токени',

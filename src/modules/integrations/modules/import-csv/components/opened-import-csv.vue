@@ -26,42 +26,55 @@
           :namespace="namespace"
           :v="$v"
         ></component>
-        <input type="submit" hidden> <!--  submit form on Enter  -->
+        <input hidden type="submit"> <!--  submit form on Enter  -->
       </form>
     </template>
   </wt-page-wrapper>
 </template>
 
 <script>
-import { maxValue, minValue, required } from 'vuelidate/lib/validators';
+import { required } from 'vuelidate/lib/validators';
 import openedObjectMixin from '../../../../../app/mixins/objectPagesMixins/openedObjectMixin/openedObjectMixin';
 import General from './opened-import-csv-general.vue';
+import Settings from './opened-import-csv-settings.vue';
 
 export default {
   name: 'opened-import-csv',
   mixins: [openedObjectMixin],
-  components: { General },
+  components: {
+    General,
+    Settings,
+  },
   data: () => ({
     namespace: 'integrations/importCsv',
   }),
-  /*validations: {
-    itemInstance: {
-      name: { required },
-      schema: { required },
-      host: { required },
-      imapPort: { required, minValue: minValue(0), maxValue: maxValue(65535) },
-      smtpPort: { required, minValue: minValue(0), maxValue: maxValue(65535) },
-      login: { required },
-      mailbox: { required },
-    },
-  },*/
-
+  validations() {
+    return {
+      itemInstance: {
+        name: { required },
+        source: { required },
+        parameters: {
+          charset: { required },
+          separator: { required },
+          skipHeaders: { required },
+          mappings: Object.entries(this.itemInstance.parameters.mappings)
+          .reduce((mappings, [name, { required: reqField }]) => (reqField
+            ? { ...mappings, [name]: { csv: { required } } }
+            : mappings), {}),
+        },
+      },
+    };
+  },
   computed: {
     tabs() {
       const tabs = [
         {
           text: this.$t('objects.general'),
           value: 'general',
+        },
+        {
+          text: this.$t('objects.integrations.importCsv.settings'),
+          value: 'settings',
         },
       ];
       // if (this.id) tabs.push(this.permissionsTab);
@@ -72,7 +85,7 @@ export default {
       const baseUrl = '/integrations/import-csv';
       return [
         { name: this.$t('objects.integrations.integrations') },
-        { name: this.$tc('objects.importCSV'), route: baseUrl },
+        { name: this.$tc('objects.integrations.importCsv.importCsv'), route: baseUrl },
         {
           name: this.id ? this.pathName : this.$t('objects.new'),
           route: this.id ? `${baseUrl}/${this.id}` : `${baseUrl}/new`,

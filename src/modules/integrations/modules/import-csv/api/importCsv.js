@@ -16,7 +16,7 @@ const fieldsToSend = [
   'description',
   'name',
   'parameters',
-  'sourceId',
+  'source',
   'sourceType',
 ];
 
