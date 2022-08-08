@@ -122,6 +122,10 @@ const nav = Object.freeze([{
       value: AdminSections.EMAIL_PROFILES,
       locale: `WebitelApplications.${WebitelApplications.ADMIN}.sections.${AdminSections.EMAIL_PROFILES}`,
       route: 'email-profiles',
+    }, {
+      value: AdminSections.IMPORT_CSV,
+      locale: `WebitelApplications.${WebitelApplications.ADMIN}.sections.${AdminSections.IMPORT_CSV}`,
+      route: 'import-csv',
     }],
   }, {
     value: 'permissions',

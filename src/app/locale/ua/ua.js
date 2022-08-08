@@ -154,6 +154,7 @@ export default {
       separator: 'Розділювач',
       CSVColumn: 'CSV поле',
       fieldName: 'Назва поля',
+      clearMember: 'Очистити абонента',
     },
     generalInfo: 'Загальна інформація',
     objectHeader: {},

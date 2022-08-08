@@ -54,6 +54,7 @@ export default {
     separator: ',',
     charsetOptions: [],
     charset: { name: 'UTF-8', value: 'utf-8' },
+    clearMember: true,
   }),
   computed: {
     csvColumns() {

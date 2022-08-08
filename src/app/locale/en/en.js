@@ -154,6 +154,7 @@ export default {
       separator: 'Separator',
       CSVColumn: 'CSV column',
       fieldName: 'Field name',
+      clearMember: 'Clear member',
     },
     generalInfo: 'General info',
     objectHeader: {},
