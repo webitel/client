@@ -467,6 +467,8 @@ export default {
         },
         telegramApp: {
           telegramApp: 'Telegram App',
+          signedAs: 'You\'re signed as',
+          joinTelegram: 'Sign in to Telegram',
           metadata: {
             apiId: 'API id',
             apiHash: 'API hash',
@@ -752,6 +754,16 @@ export default {
           duration: 'Duration',
           viewNumber: 'View number',
           result: 'Result',
+          resultName: {
+            abandoned: 'Abandoned',
+            cancel: 'Cancel',
+            success: 'Success',
+            failed: 'Failed',
+            missed: 'Missed',
+            timeout: 'Timeout',
+            endless: 'Endless',
+            transferred: 'Transferred',
+          },
         },
         hooks: {
           hooks: 'Hook | Hooks',

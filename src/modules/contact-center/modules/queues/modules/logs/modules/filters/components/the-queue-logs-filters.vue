@@ -1,14 +1,34 @@
 <template>
   <wt-filters-panel-wrapper @reset="resetFilters">
     <filter-datetime
-      :label="$t('reusable.from')"
+      :label="`${$t('objects.ccenter.queues.logs.joinedAt')}: ${$t('reusable.from')}`"
       :namespace="namespace"
-      filter-query="from"
+      filter-query="joinedAtFrom"
     ></filter-datetime>
     <filter-datetime
-      :label="$t('reusable.to')"
+      :label="`${$t('objects.ccenter.queues.logs.joinedAt')}: ${$t('reusable.to')}`"
       :namespace="namespace"
-      filter-query="to"
+      filter-query="joinedAtTo"
+    ></filter-datetime>
+    <filter-datetime
+      :label="`${$t('objects.ccenter.queues.logs.leavingAt')}: ${$t('reusable.from')}`"
+      :namespace="namespace"
+      filter-query="leavingAtFrom"
+    ></filter-datetime>
+    <filter-datetime
+      :label="`${$t('objects.ccenter.queues.logs.leavingAt')}: ${$t('reusable.to')}`"
+      :namespace="namespace"
+      filter-query="leavingAtTo"
+    ></filter-datetime>
+    <filter-datetime
+      :label="`${$t('objects.ccenter.queues.logs.offeringAt')}: ${$t('reusable.from')}`"
+      :namespace="namespace"
+      filter-query="offeringAtFrom"
+    ></filter-datetime>
+    <filter-datetime
+      :label="`${$t('objects.ccenter.queues.logs.offeringAt')}: ${$t('reusable.to')}`"
+      :namespace="namespace"
+      filter-query="offeringAtTo"
     ></filter-datetime>
     <component
       :is="`abstract-${filter.type}-filter`"
@@ -19,9 +39,9 @@
       class="history-filters__filter"
     ></component>
     <filter-from-to
-      :label="$t('objects.ccenter.members.priority')"
+      :label="$t('objects.ccenter.queues.logs.duration')"
       :namespace="namespace"
-      filter-query="priority"
+      filter-query="duration"
     ></filter-from-to>
   </wt-filters-panel-wrapper>
 </template>
@@ -34,7 +54,7 @@ import FilterFromTo from '@webitel/ui-sdk/src/modules/QueryFilters/components/fi
 import { mapActions } from 'vuex';
 
 export default {
-  name: 'the-queue-members-filters',
+  name: 'the-queue-logs-filters',
   components: {
     FilterDatetime,
     FilterFromTo,
@@ -49,9 +69,7 @@ export default {
   },
   data: () => ({
     filters: [
-      { type: 'enum', filterQuery: 'cause' },
-      { type: 'api', filterQuery: 'bucket' },
-      { type: 'api', filterQuery: 'agent' },
+      { type: 'enum', filterQuery: 'result' },
     ],
   }),
   methods: {
@@ -64,6 +82,9 @@ export default {
       this.$router.push({ query: null });
       this.resetFilterValues();
     },
+  },
+  destroyed() {
+    this.resetFilters();
   },
 };
 </script>

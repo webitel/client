@@ -61,11 +61,11 @@ const _getProfilesList = (getList) => function ({
                                                  search,
                                                  sort,
                                                  fields,
-                                                 ids,
+                                                 id,
                                                  service,
                                                  enabled,
                                                }) {
-  const params = [page, size, search, sort, fields, ids, service, enabled];
+  const params = [page, size, search, sort, fields, id, service, enabled];
   return getList(params);
 };
 

@@ -76,8 +76,8 @@
             </template>
 
             <template slot="provider" slot-scope="{ item }">
-              <wt-icon v-if="iconType[item.provider]" icon-prefix="messenger"
-                       :icon="iconType[item.provider]" size="sm"/>
+              <wt-icon v-if="iconType[item.provider]"
+                       :icon="iconType[item.provider]"/>
               <p v-else> {{ item.provider }} </p>
             </template>
 
@@ -125,11 +125,12 @@ import CreateChatGatewayPopup from './create-chat-gateway-popup.vue';
 import RouteNames from '../../../../../app/router/_internals/RouteNames.enum';
 
 const iconType = {
-  [ChatGatewayProvider.MESSENGER]: 'messenger',
-  [ChatGatewayProvider.INFOBIP]: 'infobip',
-  [ChatGatewayProvider.VIBER]: 'viber',
-  [ChatGatewayProvider.WEBCHAT]: 'web-chat',
-  [ChatGatewayProvider.TELEGRAM_BOT]: 'telegram',
+  [ChatGatewayProvider.MESSENGER]: 'messenger-messenger',
+  [ChatGatewayProvider.INFOBIP]: 'messenger-infobip',
+  [ChatGatewayProvider.VIBER]: 'messenger-viber',
+  [ChatGatewayProvider.WEBCHAT]: 'messenger-web-chat',
+  [ChatGatewayProvider.TELEGRAM_BOT]: 'telegram-bot',
+  [ChatGatewayProvider.TELEGRAM_APP]: 'messenger-telegram',
 };
 
 export default {

@@ -1,5 +1,5 @@
 <template>
-  <wt-page-wrapper :actions-panel="false" v-if="showQueuePage">
+  <wt-page-wrapper v-if="showQueuePage">
     <template v-slot:header>
       <object-header
         :hide-primary="!hasSaveActionAccess"
@@ -10,6 +10,16 @@
       >
         <wt-headline-nav :path="path"></wt-headline-nav>
       </object-header>
+    </template>
+
+    <template
+      v-slot:actions-panel
+      v-if="currentTab.filters"
+    >
+      <component
+        :is="currentTab.filters"
+        :namespace="currentTab.filtersNamespace"
+      ></component>
     </template>
 
     <template v-slot:main>
@@ -47,6 +57,7 @@ import Hooks from '../modules/hooks/components/opened-queue-hooks.vue';
 import Amd from './shared/amd/opened-queue-amd.vue';
 import Variables from './shared/variables/opened-queue-variables.vue';
 import Logs from '../modules/logs/components/opened-queue-logs.vue';
+import LogsFilters from '../modules/logs/modules/filters/components/the-queue-logs-filters.vue';
 import openedObjectMixin from '../../../../../app/mixins/objectPagesMixins/openedObjectMixin/openedObjectMixin';
 import QueueTypeProperties from '../lookups/QueueTypeProperties.lookup';
 
@@ -65,6 +76,7 @@ export default {
     Amd,
     Variables,
     Logs,
+    LogsFilters,
   },
 
   data: () => ({
@@ -242,6 +254,8 @@ export default {
       const logs = {
         text: this.$tc('objects.ccenter.queues.logs.logs', 2),
         value: 'logs',
+        filters: 'logs-filters',
+        filtersNamespace: `${this.namespace}/log/filters`,
       };
 
       const queueTabsMap = {
@@ -287,7 +301,21 @@ export default {
       await this.setId(this.$route.params.id);
       return this.loadItem(this.$route.query.type);
     },
+  //   setStartTab() {
+  //     const tab = this.tabs.find(({ value }) => value === this.$route.hash.slice(1));
+  //     if (tab) this.currentTab = tab;
+  //   },
+  //   handleTabChange(tab) {
+  //     this.currentTab = tab;
+  //     /**
+  //      * This method has an issue in it cause "filters reset" resets hash too
+  //      */
+  //     this.$router.push({ name: this.$route.name, hash: `#${this.currentTab.value}` });
+  //   },
   },
+  // created() {
+  //   this.setStartTab();
+  // },
 };
 </script>
 

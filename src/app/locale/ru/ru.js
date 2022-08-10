@@ -467,6 +467,8 @@ export default {
         },
         telegramApp: {
           telegramApp: 'Telegram Приложение',
+          signedAs: 'Вы авторизированы как',
+          joinTelegram: 'Sign in to Telegram',
           metadata: {
             apiId: 'API идентификатор',
             apiHash: 'API хэш',
@@ -751,6 +753,16 @@ export default {
           duration: 'Длительность',
           viewNumber: 'Номер',
           result: 'Результат',
+          resultName: {
+            abandoned: 'Abandoned',
+            cancel: 'Cancel',
+            success: 'Success',
+            failed: 'Failed',
+            missed: 'Missed',
+            timeout: 'Timeout',
+            endless: 'Endless',
+            transferred: 'Transferred',
+          },
         },
         hooks: {
           hooks: 'Хук | Хуки',
