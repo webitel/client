@@ -20,8 +20,8 @@ import defaultPreviewDialerState from './_internals/queueSchema/previewDialer';
 import defaultProgressiveDialerState from './_internals/queueSchema/progressiveDialer';
 import defaultPredictiveDialerState from './_internals/queueSchema/predictiveDialer';
 import defaultChatInboundQueueState from './_internals/queueSchema/chatInboundQueue';
-import defaultInboundTaskQueueState from './_internals/queueSchema/inboundTaskQueue';
-import defaultOutboundTaskQueueState from './_internals/queueSchema/outboundTaskQueue';
+import defaultInboundJobQueueState from './_internals/queueSchema/inboundJobQueue';
+import defaultOutboundJobQueueState from './_internals/queueSchema/outboundJobQueue';
 import proxy from '../../../../../app/utils/editProxy';
 import headers from './_internals/headers';
 
@@ -37,8 +37,8 @@ const queueStateMap = {
   [QueueType.PROGRESSIVE_DIALER]: defaultProgressiveDialerState,
   [QueueType.PREDICTIVE_DIALER]: defaultPredictiveDialerState,
   [QueueType.CHAT_INBOUND_QUEUE]: defaultChatInboundQueueState,
-  [QueueType.INBOUND_TASK_QUEUE]: defaultInboundTaskQueueState,
-  [QueueType.OUTBOUND_TASK_QUEUE]: defaultOutboundTaskQueueState,
+  [QueueType.INBOUND_JOB_QUEUE]: defaultInboundJobQueueState,
+  [QueueType.OUTBOUND_JOB_QUEUE]: defaultOutboundJobQueueState,
 };
 
 const actions = {

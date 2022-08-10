@@ -1,9 +1,6 @@
 /* eslint-disable quote-props */
 
 export default {
-  reusable: {
-    state: 'State',
-  },
   auth: {
     register: 'Register',
     login: 'Login',
@@ -157,6 +154,7 @@ export default {
       separator: 'Separator',
       CSVColumn: 'CSV column',
       fieldName: 'Field name',
+      clearMember: 'Clear member',
     },
     generalInfo: 'General info',
     objectHeader: {},
@@ -342,6 +340,13 @@ export default {
         key: 'Key',
         dragPlaceholder: 'Drag and drop files',
         dragPlaceholderHere: 'here.',
+        tts: {
+          hint: 'Create an audio file',
+          textType: {
+            textType: 'Text type',
+            ssml: 'SSML',
+          },
+        },
       },
       regions: {
         regions: 'Location | Locations',
@@ -457,8 +462,17 @@ export default {
       chatGateways: {
         chatGateways: 'Chat gateway | Chat gateways',
         allChatGateways: 'All chat gateways',
-        telegram: {
-          telegram: 'Telegram',
+        telegramBot: {
+          telegramBot: 'Telegram Bot',
+        },
+        telegramApp: {
+          telegramApp: 'Telegram App',
+          signedAs: 'You\'re signed as',
+          joinTelegram: 'Sign in to Telegram',
+          metadata: {
+            apiId: 'API id',
+            apiHash: 'API hash',
+          },
         },
         infobip: {
           infobip: 'Infobip',
@@ -645,10 +659,10 @@ export default {
         predictiveDialerDescription: 'A predictive dialer calls multiple numbers at one time. As soon as a customer answers, an agent is connected to them.',
         chatInboundQueue: 'Chat inbound queue',
         chatInboundQueueDescription: 'The same as inbound queue, but with chats',
-        inboundTaskQueue: 'Inbound task queue',
-        inboundTaskQueueDescription: 'Inbound task queue',
-        outboundTaskQueue: 'Outbound task queue',
-        outboundTaskQueueDescription: 'Outbound task queue',
+        inboundJobQueue: 'Inbound job queue',
+        inboundJobQueueDescription: 'Inbound job queue',
+        outboundJobQueue: 'Outbound job queue',
+        outboundJobQueueDescription: 'Outbound job queue',
         strategy: 'Strategy',
         timezone: 'Timezone',
         callLimit: 'Call limit',
@@ -686,7 +700,7 @@ export default {
         timeout: 'Timeout',
         maxNumberOfRetry: 'Max number of retry',
         minDuration: 'Minimum succeed call duration',
-        maxAttempts: 'Max call attempts',
+        maxAttempts: 'Max attempts',
         waitForResultStatus: 'Wait for result status',
         bucketPriority: 'Priority',
         amd: 'AMD',
@@ -696,7 +710,7 @@ export default {
         allowGreetingAgent: 'Allow greeting agent',
         preSchema: 'Pre-executive schema',
         afterSchema: 'After-executive schema',
-        maxCalls: 'Max calls',
+        maxCalls: 'Max tasks',
         maxCallsHint: 'If value is 0, dialer won\'t call',
         recordings: 'Recording',
         perNumbers: 'Dialing Attempts per each phone number',
@@ -740,6 +754,16 @@ export default {
           duration: 'Duration',
           viewNumber: 'View number',
           result: 'Result',
+          resultName: {
+            abandoned: 'Abandoned',
+            cancel: 'Cancel',
+            success: 'Success',
+            failed: 'Failed',
+            missed: 'Missed',
+            timeout: 'Timeout',
+            endless: 'Endless',
+            transferred: 'Transferred',
+          },
         },
         hooks: {
           hooks: 'Hook | Hooks',
@@ -830,6 +854,25 @@ export default {
         cognitiveProfiles: 'Cognitive profile | Cognitive profiles',
         properties: {
           region: 'Region',
+          locale: 'Locale',
+        },
+      },
+      emailProfiles: {
+        emailProfiles: 'Email profile | Email profiles',
+        mailbox: 'Mailbox',
+        smtpPort: 'SMTP Port',
+        imapPort: 'IMAP Port',
+      },
+
+      importCsv: {
+        importCsv: 'Import CSV from file | Imports of CSV from file',
+        source: 'Import destination',
+        settings: 'Settings',
+        mappings: 'Field mappings',
+        mappingsHint: 'In this section you should provide names of CSV file columns in inputs below in accordance with its labels',
+        columnHeader: '{name} column',
+        members: {
+          clearMembers: 'Purge existing members',
         },
       },
 

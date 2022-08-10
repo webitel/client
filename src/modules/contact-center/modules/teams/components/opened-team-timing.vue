@@ -3,7 +3,7 @@
     <header class="content-header">
       <h3 class="content-title">{{ $t('objects.ccenter.teams.timing') }}</h3>
     </header>
-    <form class="object-input-grid">
+    <div class="object-input-grid">
       <wt-input
         :value="itemInstance.maxNoAnswer"
         :v="v.itemInstance.maxNoAnswer"
@@ -49,7 +49,7 @@
         required
         @input="setItemProp({ prop: 'wrapUpTime', value: +$event })"
       ></wt-input>
-    </form>
+    </div>
   </section>
 </template>
 

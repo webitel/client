@@ -20,6 +20,7 @@ const resettableState = {
     progressiveCount: 1,
     chatCount: 1,
     isSupervisor: false,
+    greetingMedia: {},
   },
 };
 

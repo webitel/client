@@ -9,6 +9,7 @@ import QueryFiltersStoreModule
 import { MemberStopCause } from 'webitel-sdk/esm2015/enums';
 import BucketsAPI
   from '../../../../../../../../lookups/modules/buckets/api/buckets';
+import AgentsAPI from '../../../../../../agents/api/agents';
 
 const state = {
   search: new BaseFilterSchema(),
@@ -31,6 +32,10 @@ const state = {
   bucket: new ApiFilterSchema({
     API: BucketsAPI.getLookup,
     locale: { label: ['objects.lookups.buckets.buckets', 1] },
+  }),
+  agent: new ApiFilterSchema({
+    API: AgentsAPI.getLookup,
+    locale: { label: ['objects.ccenter.agents.agents', 1] },
   }),
   priority: new BaseFilterSchema({
     value: { from: 0, to: undefined },

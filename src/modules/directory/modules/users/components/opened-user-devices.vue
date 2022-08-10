@@ -3,7 +3,7 @@
     <header class="content-header">
       <h3 class="content-title">{{ $tc('objects.directory.devices.devices', 2) }}</h3>
     </header>
-    <form class="object-input-grid">
+    <div class="object-input-grid">
       <wt-select
         :value="itemInstance.device"
         :options="itemInstance.devices"
@@ -32,7 +32,7 @@
           </router-link>
         </div>
       </div>
-    </form>
+    </div>
   </section>
 </template>
 

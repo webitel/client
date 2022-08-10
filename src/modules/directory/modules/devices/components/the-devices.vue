@@ -5,7 +5,7 @@
         :hide-primary="!hasCreateAccess"
         :primary-action="create"
       >
-        <headline-nav :path="path"></headline-nav>
+        <wt-headline-nav :path="path"></wt-headline-nav>
       </object-header>
     </template>
 
@@ -84,9 +84,13 @@
             </template>
 
             <template slot="user" slot-scope="{ item }">
-              <div v-if="item.user">
+              <item-link
+                v-if="item.user"
+                :route-name="RouteNames.USERS"
+                :id="item.user.id"
+              >
                 {{ item.user.name }}
-              </div>
+              </item-link>
             </template>
 
             <!--state classes are specified in table-status component-->

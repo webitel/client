@@ -1,12 +1,17 @@
+import { kebabToSnake } from '@webitel/ui-sdk/src/scripts/caseConverters';
+import deepMerge from 'deepmerge';
 import ObjectStoreModule
   from '../../../../../app/store/BaseStoreModules/StoreModules/ObjectStoreModule';
 import proxy from '../../../../../app/utils/editProxy';
 import ChatGatewaysAPI from '../api/chatGateways';
+import ChatGatewayProvider from '../enum/ChatGatewayProvider.enum';
 import defaultChatGateway from './_internals/defaults/defaultChatGateway';
 import headers from './_internals/headers';
 import messengerChatGateway from './_internals/providers/messengerChatGateway';
 import infobipChatGateway from './_internals/providers/infobipChatGateway';
-import telegramChatGateway from './_internals/providers/telegramChatGateway';
+import telegramAppChatGateway
+  from './_internals/providers/telegramAppChatGateway';
+import telegramBotChatGateway from './_internals/providers/telegramBotChatGateway';
 import viberChatGateway from './_internals/providers/viberChatGateway';
 import webChatGateway from './_internals/providers/webChatGateway';
 
@@ -19,14 +24,27 @@ const resettableState = {
   },
 };
 
+const chatGatewayStateMap = {
+  [ChatGatewayProvider.TELEGRAM_BOT]: telegramBotChatGateway,
+  [ChatGatewayProvider.TELEGRAM_APP]: telegramAppChatGateway,
+  [ChatGatewayProvider.WEBCHAT]: webChatGateway,
+  [ChatGatewayProvider.INFOBIP]: infobipChatGateway,
+  [ChatGatewayProvider.MESSENGER]: messengerChatGateway,
+  [ChatGatewayProvider.VIBER]: viberChatGateway,
+};
+
 const actions = {
-  LOAD_ITEM: async (context, provider) => {
+  LOAD_ITEM: async (context, type) => {
     if (context.state.itemId) {
       const item = await context.dispatch('GET_ITEM');
-      context.commit('SET_ITEM', proxy(item));
+      context.dispatch('SET_TYPED_ITEM', { item, type: item.provider });
     } else {
-      context.commit(`SET_${provider}_ITEM`);
+      context.dispatch('SET_TYPED_ITEM', { type });
     }
+  },
+  SET_TYPED_ITEM: (context, { type, item = {} }) => {
+    const typedItem = deepMerge(chatGatewayStateMap[type](), item);
+    context.commit('SET_ITEM', proxy(typedItem));
   },
   SET_ITEM_METADATA: (context, payload) => {
     context.commit('SET_ITEM_METADATA', payload);
@@ -58,8 +76,8 @@ const actions = {
 };
 
 const mutations = {
-  SET_TELEGRAM_ITEM: (state) => {
-    state.itemInstance = telegramChatGateway();
+  SET_TELEGRAM_BOT_ITEM: (state) => {
+    state.itemInstance = telegramBotChatGateway();
   },
   SET_MESSENGER_ITEM: (state) => {
     state.itemInstance = messengerChatGateway();

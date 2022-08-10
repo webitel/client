@@ -4,11 +4,13 @@
       {{ $tc('objects.directory.users.token', 2) }}
     </template>
     <template v-slot:main>
-      <wt-input
-        :value="itemInstance.usage"
-        :label="$t('objects.name')"
-        @input="setItemProp({ prop: 'usage', value: $event })"
-      ></wt-input>
+      <form @submit.prevent="save">
+        <wt-input
+          :value="itemInstance.usage"
+          :label="$t('objects.name')"
+          @input="setItemProp({ prop: 'usage', value: $event })"
+        ></wt-input>
+      </form>
     </template>
     <template slot="actions">
       <wt-button @click="save">

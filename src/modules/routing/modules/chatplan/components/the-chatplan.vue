@@ -5,7 +5,7 @@
         :hide-primary="!hasCreateAccess"
         :primary-action="create"
       >
-        <headline-nav :path="path"></headline-nav>
+        <wt-headline-nav :path="path"></wt-headline-nav>
       </object-header>
     </template>
 
@@ -59,8 +59,11 @@
               {{ item.pattern }}
             </template>
             <template slot="schema" slot-scope="{ item }">
-              <item-link v-if="item.schema" :link="itemFlowLink(item)" target="_blank">
-                {{ item.schema.name }}
+              <item-link
+                v-if="item.schema"
+                :route-name="RouteNames.FLOW"
+                :id="item.schema.id"
+              >{{ item.schema.name }}
               </item-link>
             </template>
             <template slot="state" slot-scope="{ item, index }">
@@ -118,12 +121,6 @@ export default {
     },
   },
   methods: {
-    itemFlowLink({ schema }) {
-      return {
-        name: `${RouteNames.FLOW}-edit`,
-        params: { id: schema.id },
-      };
-    },
     ...mapActions({
       patchProperty(dispatch, payload) {
         return dispatch(`${this.namespace}/PATCH_ITEM_PROPERTY`, payload);

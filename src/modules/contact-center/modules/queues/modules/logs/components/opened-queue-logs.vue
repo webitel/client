@@ -3,14 +3,9 @@
     <header class="content-header">
       <h3 class="content-title">{{ $tc('objects.ccenter.queues.logs.logs', 1) }}</h3>
       <div class="content-header__actions-wrap">
-<!--        API IS NOT IMPLEMENTED-->
-<!--        <wt-search-bar-->
-<!--          :value="search"-->
-<!--          debounce-->
-<!--          @enter="loadList"-->
-<!--          @input="setSearch"-->
-<!--          @search="loadList"-->
-<!--        ></wt-search-bar>-->
+        <filter-search
+          :namespace="filtersNamespace"
+        ></filter-search>
         <wt-table-actions
           :icons="['refresh']"
           @input="tableActionsHandler"
@@ -74,6 +69,7 @@
 </template>
 
 <script>
+import FilterSearch from '@webitel/ui-sdk/src/modules/QueryFilters/components/filter-search.vue';
 import convertDuration from '@webitel/ui-sdk/src/scripts/convertDuration';
 import openedObjectTableTabMixin
   from '../../../../../../../app/mixins/objectPagesMixins/openedObjectTableTabMixin/openedObjectTableTabMixin';
@@ -81,10 +77,15 @@ import openedObjectTableTabMixin
 export default {
   name: 'opened-queue-logs',
   mixins: [openedObjectTableTabMixin],
+  components: { FilterSearch },
   data: () => ({
     subNamespace: 'log',
   }),
-
+  computed: {
+    filtersNamespace() {
+      return `${this.namespace}/${this.subNamespace}/filters`;
+    },
+  },
   methods: {
     formatDate(value) {
       if (!value) return '';
@@ -93,6 +94,13 @@ export default {
 
     calcDuration(item) {
       return convertDuration((item.leavingAt - item.joinedAt) / 1000);
+    },
+  },
+  watch: {
+    '$route.query': {
+      async handler() {
+        await this.loadList();
+      },
     },
   },
 };

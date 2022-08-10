@@ -1,0 +1,101 @@
+<template>
+  <wt-page-wrapper :actions-panel="false">
+    <template v-slot:header>
+      <object-header
+        :hide-primary="!hasSaveActionAccess"
+        :primary-action="save"
+        :primary-disabled="disabledSave"
+        :primary-text="saveText"
+        :secondary-action="close"
+      >
+        <wt-headline-nav :path="path"></wt-headline-nav>
+      </object-header>
+    </template>
+
+    <template v-slot:main>
+      <form
+        class="main-container"
+        @submit.prevent="save"
+      >
+        <wt-tabs
+          v-model="currentTab"
+          :tabs="tabs"
+        ></wt-tabs>
+        <component
+          :is="currentTab.value"
+          :namespace="namespace"
+          :v="$v"
+        ></component>
+        <input hidden type="submit"> <!--  submit form on Enter  -->
+      </form>
+    </template>
+  </wt-page-wrapper>
+</template>
+
+<script>
+import { required } from 'vuelidate/lib/validators';
+import openedObjectMixin from '../../../../../app/mixins/objectPagesMixins/openedObjectMixin/openedObjectMixin';
+import General from './opened-import-csv-general.vue';
+import Settings from './opened-import-csv-settings.vue';
+
+export default {
+  name: 'opened-import-csv',
+  mixins: [openedObjectMixin],
+  components: {
+    General,
+    Settings,
+  },
+  data: () => ({
+    namespace: 'integrations/importCsv',
+  }),
+  validations() {
+    return {
+      itemInstance: {
+        name: { required },
+        source: { required },
+        parameters: {
+          charset: { required },
+          separator: { required },
+          skipHeaders: { required },
+          mappings: Object.entries(this.itemInstance.parameters.mappings)
+          .reduce((mappings, [name, { required: reqField }]) => (reqField
+            ? { ...mappings, [name]: { csv: { required } } }
+            : mappings), {}),
+        },
+      },
+    };
+  },
+  computed: {
+    tabs() {
+      const tabs = [
+        {
+          text: this.$t('objects.general'),
+          value: 'general',
+        },
+        {
+          text: this.$t('objects.integrations.importCsv.settings'),
+          value: 'settings',
+        },
+      ];
+      // if (this.id) tabs.push(this.permissionsTab);
+      return tabs;
+    },
+
+    path() {
+      const baseUrl = '/integrations/import-csv';
+      return [
+        { name: this.$t('objects.integrations.integrations') },
+        { name: this.$tc('objects.integrations.importCsv.importCsv'), route: baseUrl },
+        {
+          name: this.id ? this.pathName : this.$t('objects.new'),
+          route: this.id ? `${baseUrl}/${this.id}` : `${baseUrl}/new`,
+        },
+      ];
+    },
+  },
+};
+</script>
+
+<style scoped>
+
+</style>

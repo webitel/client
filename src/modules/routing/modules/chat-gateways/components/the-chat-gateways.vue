@@ -5,7 +5,7 @@
         :hide-primary="!hasCreateAccess"
         :primary-action="create"
       >
-        <headline-nav :path="path"></headline-nav>
+        <wt-headline-nav :path="path"></wt-headline-nav>
       </object-header>
     </template>
 
@@ -66,14 +66,18 @@
             </template>
 
             <template slot="flow" slot-scope="{ item }">
-              <div v-if="item.flow">
+              <item-link
+                v-if="item.flow"
+                :route-name="RouteNames.FLOW"
+                :id="item.flow.id"
+              >
                 {{ item.flow.name }}
-              </div>
+              </item-link>
             </template>
 
             <template slot="provider" slot-scope="{ item }">
-              <wt-icon v-if="iconType[item.provider]" icon-prefix="messenger"
-                       :icon="iconType[item.provider]" size="sm"/>
+              <wt-icon v-if="iconType[item.provider]"
+                       :icon="iconType[item.provider]"/>
               <p v-else> {{ item.provider }} </p>
             </template>
 
@@ -114,19 +118,19 @@
 </template>
 
 <script>
-import MessengerType from 'webitel-sdk/esm2015/enums/messenger-type.enum';
 import tableComponentMixin
   from '../../../../../app/mixins/objectPagesMixins/objectTableMixin/tableComponentMixin';
-import getMessengerType from '../store/_internals/scripts/getMessengerTypeByEnum';
+import ChatGatewayProvider from '../enum/ChatGatewayProvider.enum';
 import CreateChatGatewayPopup from './create-chat-gateway-popup.vue';
 import RouteNames from '../../../../../app/router/_internals/RouteNames.enum';
 
 const iconType = {
-  [MessengerType.FACEBOOK]: 'messenger',
-  [MessengerType.INFOBIP]: 'infobip',
-  [MessengerType.VIBER]: 'viber',
-  [MessengerType.WEB_CHAT]: 'web-chat',
-  [MessengerType.TELEGRAM]: 'telegram',
+  [ChatGatewayProvider.MESSENGER]: 'messenger-messenger',
+  [ChatGatewayProvider.INFOBIP]: 'messenger-infobip',
+  [ChatGatewayProvider.VIBER]: 'messenger-viber',
+  [ChatGatewayProvider.WEBCHAT]: 'messenger-web-chat',
+  [ChatGatewayProvider.TELEGRAM_BOT]: 'telegram-bot',
+  [ChatGatewayProvider.TELEGRAM_APP]: 'messenger-telegram',
 };
 
 export default {
@@ -137,6 +141,7 @@ export default {
     namespace: 'routing/chatGateways',
     isChatGatewayPopup: false,
     iconType,
+    routeName: RouteNames.CHAT_GATEWAYS,
   }),
 
   computed: {
@@ -151,13 +156,6 @@ export default {
   methods: {
     create() {
       this.isChatGatewayPopup = true;
-    },
-    editLink(item) {
-      const type = getMessengerType(item.provider);
-      return {
-        name: `${RouteNames.CHAT_GATEWAYS}-${type}-edit`,
-        params: { id: item.id },
-      };
     },
   },
 };

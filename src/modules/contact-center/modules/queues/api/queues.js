@@ -59,6 +59,7 @@ const preRequestHandler = (item) => {
     if (!variable.key) return variables;
     return { ...variables, [variable.key]: variable.value };
   }, {});
+  console.info(item);
   return item;
 };
 
@@ -118,10 +119,10 @@ const _getQueuesLookup = (getList) => function ({
   search,
   sort,
   fields = ['id', 'name', 'type'],
-  ids,
+                                                  id,
   type,
                                                }) {
-  const params = [page, size, search, sort, fields, ids, type];
+  const params = [page, size, search, sort, fields, id, type];
   return getList(params);
 };
 

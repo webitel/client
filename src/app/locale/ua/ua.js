@@ -1,9 +1,6 @@
 /* eslint-disable quote-props */
 
 export default {
-  reusable: {
-    state: 'Стан',
-  },
   auth: {
     register: 'Створити',
     login: 'Вхід',
@@ -157,6 +154,7 @@ export default {
       separator: 'Розділювач',
       CSVColumn: 'CSV поле',
       fieldName: 'Назва поля',
+      clearMember: 'Очистити абонента',
     },
     generalInfo: 'Загальна інформація',
     objectHeader: {},
@@ -342,6 +340,13 @@ export default {
         key: 'Ключ',
         dragPlaceholder: 'Завантаження файлів',
         dragPlaceholderHere: 'тут.',
+        tts: {
+          hint: 'Створити аудіофайл',
+          textType: {
+            textType: 'Тип тексту',
+            ssml: 'SSML',
+          },
+        },
       },
       regions: {
         regions: 'Розташування | Розташування',
@@ -457,8 +462,17 @@ export default {
       chatGateways: {
         chatGateways: 'Текстовий шлюз | Текстові шлюзи',
         allChatGateways: 'Всі текстові шлюзи',
-        telegram: {
-          telegram: 'Telegram',
+        telegramBot: {
+          telegramBot: 'Telegram Бот',
+        },
+        telegramApp: {
+          telegramApp: 'Telegram Застосунок',
+          signedAs: 'Ви авторизовані як',
+          joinTelegram: 'Sign in to Telegram',
+          metadata: {
+            apiId: 'API ідентифікатор',
+            apiHash: 'API хеш',
+          },
         },
         infobip: {
           infobip: 'Infobip',
@@ -644,10 +658,10 @@ export default {
         predictiveDialerDescription: 'Вихідна кампанія без попереднього резервування оператора для максимального скорочення часу очікування дзвінка.',
         chatInboundQueue: 'Вхідна черга чатів',
         chatInboundQueueDescription: 'Така ж вхідна черга, але для чатів',
-        inboundTaskQueue: 'Вхідна черга задач',
-        inboundTaskQueueDescription: 'Вхідна черга задач',
-        outboundTaskQueue: 'Вихідна черга задач',
-        outboundTaskQueueDescription: 'Вихідна черга задач',
+        inboundJobQueue: 'Вхідна черга завдань',
+        inboundJobQueueDescription: 'Вхідна черга завдань',
+        outboundJobQueue: 'Вихідна черга завдань',
+        outboundJobQueueDescription: 'Вихідна черга завдань',
         strategy: 'Стратегія',
         timezone: 'Часова зона',
         callLimit: 'Максимальна кількість одночасних дзвінків',
@@ -668,7 +682,7 @@ export default {
         offeringAt: 'Передзвонити в',
         destination: 'Призначення | Призначення',
         expire: 'Закінчується',
-        originateTimeout: 'Тривалість додзвону',
+        originateTimeout: 'Час очікування',
         maxAgentLine: 'Кількість одночасних дзвінків на оператора',
         maxAgentLose: 'Максимальна кількість неприйнятих дзвінків для припинення донабору ліній',
         minAttempts: 'Кількість спроб для переходу в предиктивний режим',
@@ -677,13 +691,13 @@ export default {
         playbackSilence: 'Тиша перед програванням аудіофайлу (мс.)',
         targetAbandonedRate: 'Target abandoned rate',
         maxWaitTime: 'Максимальний час очікування',
-        waitBetweenRetries: 'Час між спробами додзвону',
-        waitBetweenRetriesDesc: 'Сортування передзвонів абонентам за спаданням',
+        waitBetweenRetries: 'Час між спробами',
+        waitBetweenRetriesDesc: 'Сортування нових спроб за спаданням',
         strictCircuit: 'Strict circuit',
         timeout: 'Час перерви між дзвінками',
         maxNumberOfRetry: 'Максимальна кількість повторів додзвону',
         minDuration: 'Мінімальна тривалість успішного дзвінка',
-        maxAttempts: 'Максимальна кількість спроб додзвону',
+        maxAttempts: 'Максимальна кількість спроб',
         waitForResultStatus: 'Очікування результату дзвінка',
         retryAbandoned: 'Відновлювати втрачених абонентів',
         playbackFile: 'Програти файл',
@@ -695,10 +709,10 @@ export default {
         allowGreetingAgent: 'Дозволити привітання',
         preSchema: 'Схема попереднього набору',
         afterSchema: 'Схема подальшого набору',
-        maxCalls: 'Ліміт дзвінків',
+        maxCalls: 'Ліміт задач',
         maxCallsHint: 'Якщо значення дорівнює 0, дайлер не буде дзвонити',
         recordings: 'Запис',
-        perNumbers: 'Спроби дозвону на кожен номер',
+        perNumbers: 'Ініціація на кожен номер',
         maxWordLength: 'Максимальна тривалість речення (мс)',
         maxNumberOfWords: 'Максимальна кількість слів в привітанні',
         betweenWordsSilence: 'Тривалість тиші між словами (мс)',
@@ -739,6 +753,16 @@ export default {
           duration: 'Тривалість',
           viewNumber: 'Номер',
           result: 'Результат',
+          resultName: {
+            abandoned: 'Abandoned',
+            cancel: 'Cancel',
+            success: 'Success',
+            failed: 'Failed',
+            missed: 'Missed',
+            timeout: 'Timeout',
+            endless: 'Endless',
+            transferred: 'Transferred',
+          },
         },
         hooks: {
           hooks: 'Хук | Хуки',
@@ -828,6 +852,25 @@ export default {
         cognitiveProfiles: 'Голосовий профіль | Голосові профілі',
         properties: {
           region: 'Регіон',
+          locale: 'Мова',
+        },
+      },
+      emailProfiles: {
+        emailProfiles: 'Email профіль | Email профілі',
+        mailbox: 'Почтова скринька',
+        smtpPort: 'SMTP Порт',
+        imapPort: 'IMAP Порт',
+      },
+
+      importCsv: {
+        importCsv: 'Імпорт CSV файлу | Импорти CSV файлів',
+        source: 'Призначення імпорту',
+        settings: 'Налаштування',
+        mappings: 'Маппінги полів',
+        mappingsHint: 'У цій секції необхідно вказати назви колонок CSV файлу у полях нижче у відповідності до їх заголовків',
+        columnHeader: 'Колонка {name}',
+        members: {
+          clearMembers: 'Видалити існуючих абонентів',
         },
       },
 

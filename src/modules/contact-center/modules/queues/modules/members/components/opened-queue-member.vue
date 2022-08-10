@@ -3,12 +3,12 @@
     <template v-slot:header>
       <object-header
         :primary-action="save"
-        :primary-disabled="computeDisabled"
+        :primary-disabled="disabledSave"
         :hide-primary="!hasSaveActionAccess"
-        :primary-text="computePrimaryText"
+        :primary-text="saveText"
         :secondary-action="close"
       >
-        <headline-nav :path="path"></headline-nav>
+        <wt-headline-nav :path="path"></wt-headline-nav>
       </object-header>
     </template>
     <template v-slot:main>

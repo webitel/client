@@ -17,7 +17,7 @@ const memberService = new MemberServiceApiFactory(configuration, '', instance);
 
 const fieldsToSend = [
   'queueId', 'name', 'priority', 'bucket', 'timezone', 'communications',
-  'variables', 'expireAt', 'minOfferingAt',
+  'variables', 'expireAt', 'minOfferingAt', 'agent', 'stopCause',
 ];
 
 const communicationsFieldsToSend = [
@@ -41,6 +41,7 @@ const defaultSingleObject = {
   expireAt: 0,
   bucket: {},
   timezone: {},
+  agent: {},
   communications: [],
   variables: [],
 };
@@ -65,7 +66,7 @@ const _getMembersList = (getList) => function({
                                                 search,
                                                 sort,
                                                 fields,
-                                                ids,
+                                                id,
                                                 parentId,
                                                 from,
                                                 to,
@@ -74,11 +75,13 @@ const _getMembersList = (getList) => function({
                                                 priorityTo,
                                                 priority,
                                                 cause,
+                                                agent,
                                               }) {
   const params = [
-    parentId, page, size, search, sort, fields, ids, bucket,
+    parentId, page, size, search, sort, fields, id, bucket,
     undefined, from, to, undefined, undefined, cause,
     priorityFrom || priority?.from, priorityTo || priority?.to,
+    undefined, undefined, undefined, agent,
   ];
 
   return getList(params);
@@ -146,7 +149,7 @@ const resetMembers = ({ parentId }) => resetMembersApiConsumer
 
 export const deleteMembersBulk = async (queueId, {
   search,
-  ids,
+  id,
   from,
   to,
   bucket,
@@ -155,7 +158,7 @@ export const deleteMembersBulk = async (queueId, {
 }) => {
   try {
     await memberService.deleteMembers(queueId, {
-      ids,
+      id,
       q: search,
       createdAt: (from || to) ? { from, to } : undefined,
       priority,
@@ -167,9 +170,9 @@ export const deleteMembersBulk = async (queueId, {
   }
 };
 
-const addMembersBulk = async (queueId, items) => {
+const addMembersBulk = async (queueId, fileName, items) => {
   const itemsCopy = deepCopy(items);
-  const body = { queueId, items: itemsCopy };
+  const body = { queueId, fileName, items: itemsCopy };
   try {
     await memberService.createMemberBulk(queueId, body);
     eventBus.$emit('notification', {
