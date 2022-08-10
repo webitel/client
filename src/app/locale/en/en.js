@@ -154,6 +154,7 @@ export default {
       separator: 'Separator',
       CSVColumn: 'CSV column',
       fieldName: 'Field name',
+      clearMember: 'Clear member',
     },
     generalInfo: 'General info',
     objectHeader: {},
@@ -861,6 +862,18 @@ export default {
         mailbox: 'Mailbox',
         smtpPort: 'SMTP Port',
         imapPort: 'IMAP Port',
+      },
+
+      importCsv: {
+        importCsv: 'Import CSV from file | Imports of CSV from file',
+        source: 'Import destination',
+        settings: 'Settings',
+        mappings: 'Field mappings',
+        mappingsHint: 'In this section you should provide names of CSV file columns in inputs below in accordance with its labels',
+        columnHeader: '{name} column',
+        members: {
+          clearMembers: 'Purge existing members',
+        },
       },
 
       tokens: {
