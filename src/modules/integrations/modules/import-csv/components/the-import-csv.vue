@@ -72,6 +72,10 @@
               </item-link>
             </template>
             <template v-slot:actions="{ item }">
+              <upload-action
+                v-if="hasUploadAccess"
+                :item="item"
+              ></upload-action>
               <edit-action
                 v-if="hasEditAccess"
                 @click="edit(item)"
@@ -101,10 +105,12 @@
 <script>
 import tableComponentMixin from '../../../../../app/mixins/objectPagesMixins/objectTableMixin/tableComponentMixin';
 import RouteNames from '../../../../../app/router/_internals/RouteNames.enum';
+import UploadAction from './import-csv-upload-action.vue';
 
 export default {
   name: 'the-import-csv',
   mixins: [tableComponentMixin],
+  components: { UploadAction },
   data: () => ({
     namespace: 'integrations/importCsv',
     routeName: RouteNames.IMPORT_CSV,
@@ -119,6 +125,9 @@ export default {
           route: '/integrations/import-csv',
         },
       ];
+    },
+    hasUploadAccess() {
+      return true;
     },
   },
 };

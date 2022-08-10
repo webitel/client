@@ -1,3 +1,4 @@
+import deepCopy from 'deep-copy';
 import { ImportTemplateServiceApiFactory } from 'webitel-sdk';
 import {
   SdkCreatorApiConsumer,
@@ -20,16 +21,29 @@ const fieldsToSend = [
   'sourceType',
 ];
 
+/*
+* We need to preserve fields order because we draw them dynamically so that
+* we convert it to array before sending to backend and back
+* */
 const itemResponseHandler = (response) => {
+  // eslint-disable-next-line no-param-reassign
+  response.parameters.mappings = response.parameters.mappings
+  .reduce((mappings, { name, ...rest }) => ({ ...mappings, [name]: { ...rest } }), {});
   return {
     ...response,
   };
 };
 
+/*
+* We need to preserve fields order because we draw them dynamically so that
+* we convert it to array before sending to backend and back
+* */
 const preRequestHandler = (item) => {
-  return {
-    ...item,
-  };
+  const mappings = Object.entries(item.parameters.mappings)
+  .map(([name, value]) => ({ name, ...value }));
+  const _item = deepCopy(item);
+  _item.parameters.mappings = mappings;
+  return _item;
 };
 
 const listGetter = new SdkListGetterApiConsumer(

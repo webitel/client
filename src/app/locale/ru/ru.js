@@ -856,7 +856,10 @@ export default {
         settings: 'Настройки',
         mappings: 'Маппинги полей',
         mappingsHint: 'В этой секции необходимо указать названия колонок CSV файла в полях ниже в соответствии с их заголовками',
-        columnHeader: '{name} колонка',
+        columnHeader: 'Колонка {name}',
+        members: {
+          clearMembers: 'Удалить существующих абонентов',
+        },
       },
 
       tokens: {

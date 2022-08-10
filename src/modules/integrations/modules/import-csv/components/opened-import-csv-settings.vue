@@ -24,9 +24,13 @@
         :label="$t('objects.CSV.skipHeaders')"
         :value="itemInstance.parameters.skipHeaders"
         disabled
-        @input="setItemParamsProp({ prop: 'skipHeaders', value: $event })"
+        @change="setItemParamsProp({ prop: 'skipHeaders', value: $event })"
       ></wt-switcher>
-      <div></div>
+      <wt-switcher
+        :label="$t('objects.integrations.importCsv.members.clearMembers')"
+        :value="itemInstance.parameters.clearMembers"
+        @change="setItemParamsProp({ prop: 'clearMembers', value: $event })"
+      ></wt-switcher>
       <header class="content-header">
         <h3 class="content-title">
           {{ $t('objects.integrations.importCsv.mappings') }}
@@ -36,10 +40,10 @@
       <div></div>
       <component
         :is="multiple ? 'wt-tags-input' : 'wt-input'"
-        v-for="({ multiple, name, text, required, csv }) of mappingsList"
+        v-for="({ multiple, name, locale, required, csv }) of mappingsList"
         :key="name"
         :disabled="disableUserInput"
-        :label="$t('objects.integrations.importCsv.columnHeader', { name: text || name })"
+        :label="$t('objects.integrations.importCsv.columnHeader', { name: localizeName(locale) })"
         :required="required"
         :v="v.itemInstance.parameters.mappings[name]
          ? v.itemInstance.parameters.mappings[name].csv
@@ -66,7 +70,7 @@ export default {
   computed: {
     mappingsList() {
       return Object.entries(this.itemInstance.parameters.mappings)
-        .reduce((list, [name, value]) => [...list, { name, ...value }], []);
+      .reduce((list, [name, value]) => [...list, { name, ...value }], []);
     },
   },
   methods: {
@@ -79,6 +83,15 @@ export default {
       const mappings = deepCopy(this.itemInstance.parameters.mappings);
       mappings[name].csv = value;
       this.setItemParamsProp({ prop: 'mappings', value: mappings });
+    },
+    localizeName(locale) {
+      if (Array.isArray(locale)) {
+        if (typeof locale[1] === 'number') return this.$tc(...locale);
+        return locale.reduce((text, _locale) => {
+          return `${text} ${this.localizeName(_locale)}`;
+        }, '');
+      }
+      return this.$t(locale);
     },
   },
 };

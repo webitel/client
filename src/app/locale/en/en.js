@@ -859,6 +859,9 @@ export default {
         mappings: 'Field mappings',
         mappingsHint: 'In this section you should provide names of CSV file columns in inputs below in accordance with its labels',
         columnHeader: '{name} column',
+        members: {
+          clearMembers: 'Purge existing members',
+        },
       },
 
       tokens: {

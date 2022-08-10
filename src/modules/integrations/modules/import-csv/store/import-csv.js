@@ -15,59 +15,59 @@ const resettableState = {
       charset: { name: 'UTF-8', value: 'utf-8' },
       separator: ',',
       skipHeaders: true,
+      clearMembers: false,
       mappings: {
         name: {
-          text: 'Name',
+          locale: 'reusable.name',
           required: true,
           csv: 'name',
         },
-        timezone: {
-          text: 'Timezone Id',
+        timezoneId: {
+          locale: 'objects.lookups.calendars.timezone',
           required: false,
           csv: 'timezone',
         },
         priority: {
-          text: 'Priority',
+          locale: 'vocabulary.priority',
           required: false,
-          csv: 0,
+          csv: 'priority',
         },
         expireAt: {
-          text: 'Expire At',
-          name: 'expireAt',
+          locale: 'objects.ccenter.queues.expire',
           required: false,
           csv: 'expire',
         },
-        bucket: {
-          text: 'Bucket Id',
+        bucketId: {
+          locale: ['objects.lookups.buckets.buckets', 1],
           required: false,
           csv: 'bucket',
         },
         variables: {
-          text: 'Variables',
+          locale: ['vocabulary.variables', 2],
           required: false,
           multiple: true,
           csv: [{ text: 'variable' }],
         },
-        commDestination: {
-          text: 'Communication destination',
+        destination: {
+          locale: [['objects.lookups.communications.communications', 1], 'objects.ccenter.members.destination'],
           required: true,
           multiple: true,
           csv: [{ text: 'destination' }],
         },
         commPriority: {
-          text: 'Communication priority',
+          locale: [['objects.lookups.communications.communications', 1], 'vocabulary.priority'],
           required: false,
           multiple: true,
-          csv: [{ text: 'priority' }],
+          csv: [{ text: 'comm_priority' }],
         },
-        commCode: {
-          text: 'Communication code',
+        code: {
+          locale: [['objects.lookups.communications.communications', 1], 'objects.lookups.communications.code'],
           required: true,
           multiple: true,
           csv: [{ text: 'code' }],
         },
-        commDescription: {
-          text: 'Communication description',
+        description: {
+          locale: [['objects.lookups.communications.communications', 1], 'objects.description'],
           required: false,
           multiple: true,
           csv: [{ text: 'description' }],
