@@ -41,6 +41,9 @@ export default {
     parentId() {
       return this.item.source.id;
     },
+    mappingFields() {
+      return this.item.parameters.mappings;
+    },
   },
   methods: {
     processCSV(files) {
