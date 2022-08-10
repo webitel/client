@@ -154,6 +154,7 @@ export default {
       separator: 'Розділювач',
       CSVColumn: 'CSV поле',
       fieldName: 'Назва поля',
+      clearMember: 'Очистити абонента',
     },
     generalInfo: 'Загальна інформація',
     objectHeader: {},
@@ -859,6 +860,18 @@ export default {
         mailbox: 'Почтова скринька',
         smtpPort: 'SMTP Порт',
         imapPort: 'IMAP Порт',
+      },
+
+      importCsv: {
+        importCsv: 'Імпорт CSV файлу | Импорти CSV файлів',
+        source: 'Призначення імпорту',
+        settings: 'Налаштування',
+        mappings: 'Маппінги полів',
+        mappingsHint: 'У цій секції необхідно вказати назви колонок CSV файлу у полях нижче у відповідності до їх заголовків',
+        columnHeader: 'Колонка {name}',
+        members: {
+          clearMembers: 'Видалити існуючих абонентів',
+        },
       },
 
       tokens: {
