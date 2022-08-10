@@ -3,7 +3,7 @@
     <header class="content-header">
       <h3 class="content-title">{{ $t('objects.generalInfo') }}</h3>
     </header>
-    <form class="object-input-grid">
+    <div class="object-input-grid">
       <wt-input
         :disabled="disableUserInput"
         :label="$t('objects.name')"
@@ -42,8 +42,19 @@
       ></wt-input>
       <wt-select
         :disabled="disableUserInput"
+        :label="$t('objects.integrations.cognitiveProfiles.properties.locale')"
+        :options="MicrosoftLanguageOptions"
+        :value="itemInstance.properties.locale"
+        :v="v.itemInstance.properties.locale"
+        :clearable="false"
+        :track-by="null"
+        required
+        @input="setItemPropertiesProp({ prop: 'locale', value: $event })"
+      ></wt-select>
+      <wt-select
+        :disabled="disableUserInput"
         :label="$t('objects.integrations.cognitiveProfiles.properties.region')"
-        :options="MicrosoftRegions"
+        :options="MicrosoftRegion"
         :value="itemInstance.properties.region"
         :v="v.itemInstance.properties.region"
         :clearable="false"
@@ -56,23 +67,25 @@
         :value="itemInstance.description"
         @input="setItemProp({ prop: 'description', value: $event })"
       ></wt-textarea>
-    </form>
+    </div>
   </section>
 </template>
 
 <script>
 import { mapActions } from 'vuex';
+import { MicrosoftLanguage } from 'webitel-sdk/esm2015/enums';
+import { MicrosoftRegion } from 'webitel-sdk/esm2015/lookups';
 import openedTabComponentMixin
   from '../../../../../app/mixins/objectPagesMixins/openedObjectTabMixin/openedTabComponentMixin';
-import MicrosoftRegions from '../../../lookups/microsoft/MicrosoftRegions.lookup';
 import CognitiveProfileServices from '../lookups/CognitiveProfileServices.lookup';
 
 export default {
-  name: 'opened-agent-skill-general',
+  name: 'opened-cognitive-profile-general',
   mixins: [openedTabComponentMixin],
   data: () => ({
-    MicrosoftRegions,
+    MicrosoftRegion,
     CognitiveProfileServices,
+    MicrosoftLanguageOptions: Object.values(MicrosoftLanguage),
   }),
   methods: {
     ...mapActions({

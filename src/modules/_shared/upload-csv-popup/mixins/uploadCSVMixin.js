@@ -31,7 +31,6 @@ export default {
     },
     mappingFields: {
       type: Array,
-      required: true,
       description: '[{ name: String, required: Boolean, csv: String, multiple: Boolean }]',
     },
     addBulkItems: {
@@ -49,11 +48,6 @@ export default {
     isParsingPreview: false,
     parseErrorStackTrace: '',
     csvPreview: [[]],
-
-    skipHeaders: true,
-    separator: ',',
-    charsetOptions: [],
-    charset: { name: 'UTF-8', value: 'utf-8' },
   }),
   computed: {
     csvColumns() {
@@ -98,6 +92,10 @@ export default {
     },
   },
   methods: {
+    handleSave() {
+      this.$emit('save');
+      return this.processCSV();
+    },
     handleParseOptionsChange() {
       this.processCSVPreview();
       this.resetMappings();

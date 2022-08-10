@@ -2,7 +2,7 @@
   <wt-page-wrapper :actions-panel="false">
     <template v-slot:header>
       <object-header hide-primary>
-        <headline-nav :path="path"></headline-nav>
+        <wt-headline-nav :path="path"></wt-headline-nav>
         <template slot="actions">
           <download-files-btn
             :files-download-progress="filesDownloadProgress"
@@ -42,6 +42,9 @@
                 :selected-count="selectedRows.length"
                 @click="callDelete(selectedRows)"
               ></delete-all-action>
+              <text-to-speech-popup
+                @opened="closePlayer"
+              ></text-to-speech-popup>
             </wt-table-actions>
           </div>
         </header>
@@ -151,11 +154,12 @@
 import exportFilesMixin from '@webitel/ui-sdk/src/modules/FilesExport/mixins/exportFilesMixin';
 import prettifyFileSize from '@webitel/ui-sdk/src/scripts/prettifyFileSize';
 import vueDropzone from 'vue2-dropzone';
-import DownloadAction from '../../../../../app/components/actions/download-action';
+import DownloadAction from '../../../../../app/components/actions/download-action.vue';
 import DownloadFilesBtn from '../../../../../app/components/utils/download-files-btn.vue';
 import tableComponentMixin from '../../../../../app/mixins/objectPagesMixins/objectTableMixin/tableComponentMixin';
 import { download } from '../../../../../app/utils/download';
 import MediaAPI from '../api/media';
+import TextToSpeechPopup from '../modules/text-to-speech/components/text-to-speech-popup.vue';
 
 const token = localStorage.getItem('access-token');
 const API_URL = process.env.VUE_APP_API_URL;
@@ -167,6 +171,7 @@ export default {
     DownloadAction,
     DownloadFilesBtn,
     vueDropzone,
+    TextToSpeechPopup,
   },
   data() {
     return {

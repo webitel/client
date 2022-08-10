@@ -3,7 +3,7 @@
     <header class="content-header">
       <h3 class="content-title">{{ $t('objects.generalInfo') }}</h3>
     </header>
-    <form class="object-input-grid">
+    <div class="object-input-grid">
       <wt-input
         :value="itemInstance.name"
         :v="v.itemInstance.name"
@@ -39,7 +39,7 @@
         :min-value="0"
         @input="setItemProp({ prop: 'priority', value: $event })"
       ></wt-input>
-    </form>
+    </div>
   </section>
 </template>
 

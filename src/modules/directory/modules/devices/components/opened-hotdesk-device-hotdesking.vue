@@ -3,7 +3,7 @@
     <header class="content-header">
       <h3 class="content-title">{{ $t('objects.directory.devices.hotdesk') }}</h3>
     </header>
-    <form class="object-input-grid">
+    <div class="object-input-grid">
       <wt-tags-input
         :value="itemInstance.hotdesks"
         :v="v.itemInstance.hotdesks"
@@ -14,7 +14,7 @@
         :disabled="disableUserInput"
         @input="setItemProp({ prop: 'hotdesks', value: $event })"
       ></wt-tags-input>
-    </form>
+    </div>
   </section>
 </template>
 

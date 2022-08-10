@@ -1,19 +1,32 @@
 <template>
-  <wt-page-wrapper :actions-panel="false" v-if="showQueuePage">
+  <wt-page-wrapper v-if="showQueuePage">
     <template v-slot:header>
       <object-header
         :hide-primary="!hasSaveActionAccess"
         :primary-action="save"
-        :primary-disabled="computeDisabled"
-        :primary-text="computePrimaryText"
+        :primary-disabled="disabledSave"
+        :primary-text="saveText"
         :secondary-action="close"
       >
-        <headline-nav :path="path"></headline-nav>
+        <wt-headline-nav :path="path"></wt-headline-nav>
       </object-header>
     </template>
 
+    <template
+      v-slot:actions-panel
+      v-if="currentTab.filters"
+    >
+      <component
+        :is="currentTab.filters"
+        :namespace="currentTab.filtersNamespace"
+      ></component>
+    </template>
+
     <template v-slot:main>
-      <div class="tabs-page-wrapper">
+      <form
+        class="tabs-page-wrapper"
+        @submit.prevent="save"
+      >
         <wt-tabs
           v-model="currentTab"
           :tabs="tabs"
@@ -23,7 +36,8 @@
           :namespace="namespace"
           :v="$v"
         ></component>
-      </div>
+        <input type="submit" hidden> <!--  submit form on Enter  -->
+      </form>
     </template>
   </wt-page-wrapper>
   <wt-loader v-else></wt-loader>
@@ -43,6 +57,7 @@ import Hooks from '../modules/hooks/components/opened-queue-hooks.vue';
 import Amd from './shared/amd/opened-queue-amd.vue';
 import Variables from './shared/variables/opened-queue-variables.vue';
 import Logs from '../modules/logs/components/opened-queue-logs.vue';
+import LogsFilters from '../modules/logs/modules/filters/components/the-queue-logs-filters.vue';
 import openedObjectMixin from '../../../../../app/mixins/objectPagesMixins/openedObjectMixin/openedObjectMixin';
 import QueueTypeProperties from '../lookups/QueueTypeProperties.lookup';
 
@@ -61,6 +76,7 @@ export default {
     Amd,
     Variables,
     Logs,
+    LogsFilters,
   },
 
   data: () => ({
@@ -157,7 +173,7 @@ export default {
             },
           },
         };
-      case QueueType.INBOUND_TASK_QUEUE:
+      case QueueType.INBOUND_JOB_QUEUE:
         return {
           itemInstance: {
             ...defaults,
@@ -168,7 +184,7 @@ export default {
             },
           },
         };
-      case QueueType.OUTBOUND_TASK_QUEUE:
+      case QueueType.OUTBOUND_JOB_QUEUE:
         return {
           itemInstance: {
             ...defaults,
@@ -238,6 +254,8 @@ export default {
       const logs = {
         text: this.$tc('objects.ccenter.queues.logs.logs', 2),
         value: 'logs',
+        filters: 'logs-filters',
+        filtersNamespace: `${this.namespace}/log/filters`,
       };
 
       const queueTabsMap = {
@@ -248,8 +266,8 @@ export default {
         [QueueType.PROGRESSIVE_DIALER]: [processing, agents, skills, resources, buckets, amd],
         [QueueType.PREDICTIVE_DIALER]: [processing, agents, skills, resources, buckets, amd],
         [QueueType.CHAT_INBOUND_QUEUE]: [processing, agents, skills],
-        [QueueType.INBOUND_TASK_QUEUE]: [processing, agents, skills, buckets],
-        [QueueType.OUTBOUND_TASK_QUEUE]: [buckets],
+        [QueueType.INBOUND_JOB_QUEUE]: [processing, agents, skills, buckets],
+        [QueueType.OUTBOUND_JOB_QUEUE]: [buckets],
       };
       const tabs = [
         general,
@@ -258,10 +276,9 @@ export default {
         ...(queueTabsMap[this.queueType] || []),
         hooks,
         variables,
-        logs,
       ];
 
-      if (this.id) tabs.push(this.permissionsTab);
+      if (this.id) tabs.push(this.permissionsTab, logs);
       return tabs;
     },
 
@@ -284,7 +301,21 @@ export default {
       await this.setId(this.$route.params.id);
       return this.loadItem(this.$route.query.type);
     },
+  //   setStartTab() {
+  //     const tab = this.tabs.find(({ value }) => value === this.$route.hash.slice(1));
+  //     if (tab) this.currentTab = tab;
+  //   },
+  //   handleTabChange(tab) {
+  //     this.currentTab = tab;
+  //     /**
+  //      * This method has an issue in it cause "filters reset" resets hash too
+  //      */
+  //     this.$router.push({ name: this.$route.name, hash: `#${this.currentTab.value}` });
+  //   },
   },
+  // created() {
+  //   this.setStartTab();
+  // },
 };
 </script>
 

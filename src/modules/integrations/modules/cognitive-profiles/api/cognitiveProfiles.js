@@ -7,10 +7,9 @@ import {
   SdkPatcherApiConsumer,
   SdkUpdaterApiConsumer,
 } from 'webitel-sdk/esm2015/api-consumers';
+import { MicrosoftRegion } from 'webitel-sdk/esm2015/lookups';
 import instance from '../../../../../app/api/instance';
 import configuration from '../../../../../app/api/openAPIConfig';
-import MicrosoftRegions
-  from '../../../lookups/microsoft/MicrosoftRegions.lookup';
 import CognitiveProfileServices
   from '../lookups/CognitiveProfileServices.lookup';
 
@@ -42,7 +41,7 @@ const itemResponseHandler = (response) => {
     .find(({ value }) => value === response.service),
     properties: {
       ...response.properties,
-      region: MicrosoftRegions
+      region: MicrosoftRegion
       .find(({ id }) => id === response.properties.region) || {},
     },
   };
@@ -56,12 +55,27 @@ const preRequestHandler = (item) => {
   };
 };
 
+const _getProfilesList = (getList) => function ({
+                                                 page,
+                                                 size,
+                                                 search,
+                                                 sort,
+                                                 fields,
+                                                 id,
+                                                 service,
+                                                 enabled,
+                                               }) {
+  const params = [page, size, search, sort, fields, id, service, enabled];
+  return getList(params);
+};
+
 const listGetter = new SdkListGetterApiConsumer(
   cognitiveProfilesService.searchCognitiveProfile,
   {
     defaultListObject,
   },
-);
+).setGetListMethod(_getProfilesList);
+
 const itemGetter = new SdkGetterApiConsumer(
   cognitiveProfilesService.readCognitiveProfile,
   {
@@ -96,6 +110,8 @@ const patch = (params) => itemPatcher.patchItem(params);
 const update = (params) => itemUpdater.updateItem(params);
 const deleteItem = (params) => itemDeleter.deleteItem(params);
 
+const getLookup = (params) => listGetter.getLookup(params);
+
 const CognitiveProfilesAPI = {
   getList,
   get,
@@ -103,6 +119,7 @@ const CognitiveProfilesAPI = {
   patch,
   update,
   delete: deleteItem,
+  getLookup,
 };
 
 export default CognitiveProfilesAPI;

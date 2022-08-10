@@ -59,7 +59,11 @@ const OpenedQueue = () => import('../../modules/contact-center/modules/queues/co
 const Storage = () => import('../../modules/integrations/modules/storage/components/the-storage.vue');
 const OpenedStorage = () => import('../../modules/integrations/modules/storage/components/opened-storage.vue');
 const CognitiveProfiles = () => import('../../modules/integrations/modules/cognitive-profiles/components/the-cognitive-profiles.vue');
+const EmailProfiles = () => import('../../modules/integrations/modules/email-profiles/components/the-email-profiles.vue');
+const ImportCsv = () => import('../../modules/integrations/modules/import-csv/components/the-import-csv.vue');
 const OpenedCognitiveProfile = () => import('../../modules/integrations/modules/cognitive-profiles/components/opened-cognitive-profile.vue');
+const OpenedEmailProfile = () => import('../../modules/integrations/modules/email-profiles/components/opened-email-profile.vue');
+const OpenedImportCsv = () => import('../../modules/integrations/modules/import-csv/components/opened-import-csv.vue');
 
 Vue.use(Router);
 
@@ -237,53 +241,13 @@ const router = new Router({
           component: ChatGateways,
         },
         {
-          path: '/routing/chat-gateways/telegram/new',
-          name: `${RouteNames.CHAT_GATEWAYS}-telegram-new`,
+          path: '/routing/chat-gateways/new',
+          name: `${RouteNames.CHAT_GATEWAYS}-new`,
           component: OpenedChatGateways,
         },
         {
-          path: '/routing/chat-gateways/telegram/:id',
-          name: `${RouteNames.CHAT_GATEWAYS}-telegram-edit`,
-          component: OpenedChatGateways,
-        },
-        {
-          path: '/routing/chat-gateways/messenger/new',
-          name: `${RouteNames.CHAT_GATEWAYS}-messenger-new`,
-          component: OpenedChatGateways,
-        },
-        {
-          path: '/routing/chat-gateways/messenger/:id',
-          name: `${RouteNames.CHAT_GATEWAYS}-messenger-edit`,
-          component: OpenedChatGateways,
-        },
-        {
-          path: '/routing/chat-gateways/webchat/new',
-          name: `${RouteNames.CHAT_GATEWAYS}-webchat-new`,
-          component: OpenedChatGateways,
-        },
-        {
-          path: '/routing/chat-gateways/webchat/:id',
-          name: `${RouteNames.CHAT_GATEWAYS}-webchat-edit`,
-          component: OpenedChatGateways,
-        },
-        {
-          path: '/routing/chat-gateways/infobip/new',
-          name: `${RouteNames.CHAT_GATEWAYS}-infobip-new`,
-          component: OpenedChatGateways,
-        },
-        {
-          path: '/routing/chat-gateways/infobip/:id',
-          name: `${RouteNames.CHAT_GATEWAYS}-infobip-edit`,
-          component: OpenedChatGateways,
-        },
-        {
-          path: '/routing/chat-gateways/viber/new',
-          name: `${RouteNames.CHAT_GATEWAYS}-viber-new`,
-          component: OpenedChatGateways,
-        },
-        {
-          path: '/routing/chat-gateways/viber/:id',
-          name: `${RouteNames.CHAT_GATEWAYS}-viber-edit`,
+          path: '/routing/chat-gateways/:id',
+          name: `${RouteNames.CHAT_GATEWAYS}-edit`,
           component: OpenedChatGateways,
         },
         // ----------ROUTING END------------
@@ -527,6 +491,36 @@ const router = new Router({
           path: '/integrations/cognitive-profile/:id',
           name: `${RouteNames.COGNITIVE_PROFILES}-edit`,
           component: OpenedCognitiveProfile,
+        },
+        {
+          path: '/integrations/email-profiles',
+          name: RouteNames.EMAIL_PROFILES,
+          component: EmailProfiles,
+        },
+        {
+          path: '/integrations/email-profile/new',
+          name: `${RouteNames.EMAIL_PROFILES}-new`,
+          component: OpenedEmailProfile,
+        },
+        {
+          path: '/integrations/email-profile/:id',
+          name: `${RouteNames.EMAIL_PROFILES}-edit`,
+          component: OpenedEmailProfile,
+        },
+        {
+          path: '/integrations/import-csv',
+          name: RouteNames.IMPORT_CSV,
+          component: ImportCsv,
+        },
+        {
+          path: '/integrations/import-csv/new',
+          name: `${RouteNames.IMPORT_CSV}-new`,
+          component: OpenedImportCsv,
+        },
+        {
+          path: '/integrations/import-csv/:id',
+          name: `${RouteNames.IMPORT_CSV}-edit`,
+          component: OpenedImportCsv,
         },
         // --------------INTEGRATIONS END-------------
 

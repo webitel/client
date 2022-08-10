@@ -3,7 +3,7 @@
     <header class="content-header">
       <h3 class="content-title">{{ $t('objects.ccenter.res.failure') }}</h3>
     </header>
-    <form class="object-input-grid grid-w50">
+    <div class="object-input-grid grid-w50">
       <wt-input
         :value="itemInstance.maxErrors"
         :label="$t('objects.ccenter.res.maxErrors')"
@@ -26,7 +26,7 @@
         type="number"
         @input="setItemProp({ prop: 'failureDialDelay', value: +$event })"
       ></wt-input>
-    </form>
+    </div>
   </section>
 </template>
 

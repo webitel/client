@@ -21,7 +21,6 @@ const fieldsToSend = [
   'devices',
   'device',
   'profile',
-  'profile',
   'email',
 ];
 

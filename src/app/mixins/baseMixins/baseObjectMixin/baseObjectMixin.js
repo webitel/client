@@ -14,22 +14,17 @@ export default {
   mixins: [resetOnDestroyMixin, openedObjectValidationMixin],
 
   computed: {
-    computePrimaryText() {
+    saveText() {
       // if it's a new item
       // OR any fields have changed
       return !this.id || this.itemInstance._dirty
         ? this.$t('objects.save') : this.$t('objects.saved');
     },
 
-    computeDisabled() {
+    disabledSave() {
       // if there's a validation problem
       // OR it's edit and any fields haven't changed
       return this.checkValidations() || (!this.itemInstance._dirty && !!this.id);
-    },
-
-    computeTitle() {
-      return this.$route.params.id && this.$route.params.id !== 'new'
-        ? this.$t('objects.edit') : this.$t('objects.new');
     },
   },
 
@@ -47,8 +42,7 @@ export default {
     }),
 
     async save() {
-      const invalid = this.checkValidations();
-      if (!invalid) {
+      if (!this.disabledSave) {
         if (this.id) {
           await this.updateItem();
         } else {

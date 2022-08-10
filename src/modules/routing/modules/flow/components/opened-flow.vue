@@ -8,18 +8,21 @@
   <wt-page-wrapper v-else :actions-panel="false">
     <template v-slot:header>
       <object-header
-        :primary-text="computePrimaryText"
+        :primary-text="saveText"
         :primary-action="save"
         :hide-primary="!hasSaveActionAccess"
-        :primary-disabled="computeDisabled"
+        :primary-disabled="disabledSave"
         :secondary-action="close"
       >
-        <headline-nav :path="path"></headline-nav>
+        <wt-headline-nav :path="path"></wt-headline-nav>
       </object-header>
     </template>
 
     <template v-slot:main>
-      <div class="main-container">
+      <form
+        class="main-container"
+        @submit.prevent="save"
+      >
         <wt-tabs
           v-model="currentTab"
           :tabs="tabs"
@@ -29,7 +32,8 @@
           :v="$v"
           :namespace="namespace"
         ></component>
-      </div>
+        <input type="submit" hidden> <!--  submit form on Enter  -->
+      </form>
     </template>
   </wt-page-wrapper>
 </template>

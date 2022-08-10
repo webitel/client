@@ -1,9 +1,6 @@
 /* eslint-disable quote-props */
 
 export default {
-  reusable: {
-    state: 'Состояние',
-  },
   auth: {
     register: 'Создать',
     login: 'Вход',
@@ -157,6 +154,7 @@ export default {
       separator: 'Разделитель',
       CSVColumn: 'CSV поле',
       fieldName: 'Название поля',
+      clearMember: 'Очистить абонента',
     },
     generalInfo: 'Общая информация',
     objectHeader: {},
@@ -342,6 +340,13 @@ export default {
         key: 'Ключ',
         dragPlaceholder: 'Загрузка файлов',
         dragPlaceholderHere: 'здесь.',
+        tts: {
+          hint: 'Создать аудиофайл',
+          textType: {
+            textType: 'Тип текста',
+            ssml: 'SSML',
+          },
+        },
       },
       regions: {
         regions: 'Площадка | Площадки',
@@ -457,8 +462,17 @@ export default {
       chatGateways: {
         chatGateways: 'Текстовый шлюз | Текстовые шлюзы',
         allChatGateways: 'Все текстовые шлюзы',
-        telegram: {
-          telegram: 'Telegram',
+        telegramBot: {
+          telegramBot: 'Telegram Бот',
+        },
+        telegramApp: {
+          telegramApp: 'Telegram Приложение',
+          signedAs: 'Вы авторизированы как',
+          joinTelegram: 'Sign in to Telegram',
+          metadata: {
+            apiId: 'API идентификатор',
+            apiHash: 'API хэш',
+          },
         },
         infobip: {
           infobip: 'Infobip',
@@ -643,10 +657,10 @@ export default {
         predictiveDialerDescription: 'Исходящая кампания без предварительного резервирования оператора для максимального сокращения времени ожидания звонка.',
         chatInboundQueue: 'Входящая очередь чатов',
         chatInboundQueueDescription: 'То же самое, что и Входящая очередь, но с чатами',
-        inboundTaskQueue: 'Входящая очередь задач',
-        inboundTaskQueueDescription: 'Входящая очередь задач',
-        outboundTaskQueue: 'Исходящая очередь задач',
-        ouboundTaskQueueDescription: 'Исходящая очередь задач',
+        inboundJobQueue: 'Входящая очередь заданий',
+        inboundJobQueueDescription: 'Входящая очередь заданий',
+        outboundJobQueue: 'Исходящая очередь заданий',
+        ouboundJobQueueDescription: 'Исходящая очередь заданий',
         strategy: 'Стратегия',
         timezone: 'Часовая зона',
         callLimit: 'Максимальное количество одновременных звонков',
@@ -667,7 +681,7 @@ export default {
         offeringAt: 'Перезвонить в',
         destination: 'Назначение | Назначения',
         expire: 'Истекает',
-        originateTimeout: 'Длительность дозвона',
+        originateTimeout: 'Длительность ожидания',
         maxAgentLine: 'Количество одновременных звонков на оператора',
         maxAgentLose: 'Максимальное количество непринятых звонков для прекращения донабора линий',
         minAttempts: 'Количество попыток для перехода в предиктивный режим',
@@ -676,15 +690,15 @@ export default {
         playbackSilence: 'Тишина перед проигрыванием аудиофайла (мс.)',
         targetAbandonedRate: 'Target abandoned rate',
         maxWaitTime: 'Максимальное время ожидания',
-        waitBetweenRetries: 'Время между попытками дозвона',
-        waitBetweenRetriesDesc: 'Сортировка перезвона абонентам по спаданию',
+        waitBetweenRetries: 'Время между попытками',
+        waitBetweenRetriesDesc: 'Сортировка новых попыток по спаданию',
         strictCircuit: 'Strict circuit',
         retryAbandoned: 'Возобновлять потерянных абонентов',
         playbackFile: 'Проиграть файл',
         timeout: 'Время перерыва между звонками',
         maxNumberOfRetry: 'Максимальное количество попыток звонков',
         minDuration: 'Минимально успешная длительность звонка',
-        maxAttempts: 'Максимальное количество попыток дозвониться',
+        maxAttempts: 'Максимальное количество попыток',
         waitForResultStatus: 'Ожидание результата звонка',
         bucketPriority: 'Приоритет',
         amd: 'AMD',
@@ -695,10 +709,10 @@ export default {
         preSchema: 'Схема предварительного набора',
         afterSchema: 'Схема посленабора',
         formSchema: '',
-        maxCalls: 'Лимит звонков',
+        maxCalls: 'Лимит задач',
         maxCallsHint: 'Если значение равно 0, дайлер не будет звонить',
         recordings: 'Запись',
-        perNumbers: 'Попытки набора для каждого номера',
+        perNumbers: 'Инициация для каждого номера',
         maxWordLength: 'Максимальная продолжительность предложения (мс)',
         maxNumberOfWords: 'Максимальное кол-во слов в приветствии',
         betweenWordsSilence: 'Продолжительность тишины между словами (мс)',
@@ -739,6 +753,16 @@ export default {
           duration: 'Длительность',
           viewNumber: 'Номер',
           result: 'Результат',
+          resultName: {
+            abandoned: 'Abandoned',
+            cancel: 'Cancel',
+            success: 'Success',
+            failed: 'Failed',
+            missed: 'Missed',
+            timeout: 'Timeout',
+            endless: 'Endless',
+            transferred: 'Transferred',
+          },
         },
         hooks: {
           hooks: 'Хук | Хуки',
@@ -828,6 +852,25 @@ export default {
         cognitiveProfiles: 'Голосовой профиль | Голосовые профили',
         properties: {
           region: 'Регион',
+          locale: 'Язык',
+        },
+      },
+      emailProfiles: {
+        emailProfiles: 'Email профиль | Email профили',
+        mailbox: 'Почтовый ящик',
+        smtpPort: 'SMTP Порт',
+        imapPort: 'IMAP Порт',
+      },
+
+      importCsv: {
+        importCsv: 'Импорт CSV файла | Импорты CSV файлов',
+        source: 'Назначение импорта',
+        settings: 'Настройки',
+        mappings: 'Маппинги полей',
+        mappingsHint: 'В этой секции необходимо указать названия колонок CSV файла в полях ниже в соответствии с их заголовками',
+        columnHeader: 'Колонка {name}',
+        members: {
+          clearMembers: 'Удалить существующих абонентов',
         },
       },
 
@@ -840,7 +883,7 @@ export default {
       },
 
       triggers: {
-        triggers: 'Триггер| Триггеры',
+        triggers: 'Триггер | Триггеры',
         allTriggers: 'Все триггеры',
         type: 'Тип',
         schema: 'Схема',

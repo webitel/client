@@ -7,8 +7,8 @@ import {
   EndpointDeleterApiConsumer,
 } from 'webitel-sdk/esm2015/api-consumers';
 import deepmerge from 'deepmerge';
-import MessengerType from 'webitel-sdk/esm2015/enums/messenger-type.enum';
 import instance from '../../../../../app/api/instance';
+import ChatGatewayProvider from '../enum/ChatGatewayProvider.enum';
 import webChatGateway from '../store/_internals/providers/webChatGateway';
 
 const baseUrl = '/chat/bots';
@@ -74,7 +74,7 @@ const webChatResponseConverter = (data) => {
 
 const preRequestHandler = (item) => {
   switch (item.provider) {
-    case MessengerType.WEB_CHAT:
+    case ChatGatewayProvider.WEBCHAT:
       return webchatRequestConverter(item);
     default:
       return item;
@@ -89,10 +89,11 @@ const itemUpdater = new EndpointUpdaterApiConsumer({ baseUrl, instance },
   { fieldsToSend, preRequestHandler });
 const itemPatcher = new EndpointPatcherApiConsumer({ baseUrl, instance }, { fieldsToSend });
 const itemDeleter = new EndpointDeleterApiConsumer({ baseUrl, instance });
+const lookupGetter = new EndpointListGetterApiConsumer({ baseUrl, instance });
 
 itemGetter.responseHandler = (response) => {
   switch (response.provider) {
-    case MessengerType.WEB_CHAT:
+    case ChatGatewayProvider.WEBCHAT:
       return webChatResponseConverter(response);
     default:
       return response;
@@ -105,6 +106,7 @@ const addChatGateway = (params) => itemCreator.createItem(params);
 const updateChatGateway = (params) => itemUpdater.updateItem(params);
 const patchChatGateway = (params) => itemPatcher.patchItem(params);
 const deleteChatGateway = (params) => itemDeleter.deleteItem(params);
+const getLookup = (params) => lookupGetter.getLookup(params);
 
 const ChatGatewaysAPI = {
   getList: getChatGatewayList,
@@ -113,6 +115,7 @@ const ChatGatewaysAPI = {
   patch: patchChatGateway,
   update: updateChatGateway,
   delete: deleteChatGateway,
+  getLookup,
 };
 
 export default ChatGatewaysAPI;
