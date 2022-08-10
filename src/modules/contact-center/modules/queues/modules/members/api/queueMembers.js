@@ -17,7 +17,7 @@ const memberService = new MemberServiceApiFactory(configuration, '', instance);
 
 const fieldsToSend = [
   'queueId', 'name', 'priority', 'bucket', 'timezone', 'communications',
-  'variables', 'expireAt', 'minOfferingAt', 'agent',
+  'variables', 'expireAt', 'minOfferingAt', 'agent', 'stopCause',
 ];
 
 const communicationsFieldsToSend = [
