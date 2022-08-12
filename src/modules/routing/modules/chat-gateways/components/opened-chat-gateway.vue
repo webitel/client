@@ -52,6 +52,8 @@ import OpenedChatInfobip from './infobip/opened-chat-gateway-infobip-general-tab
 
 import OpenedChatMessenger from './messenger/opened-chat-gateway-messenger-general-tab.vue';
 import OpenedChatTelegramBot from './telegram-bot/opened-chat-gateway-telegram-bot-general-tab.vue';
+import OpenedChatGatewayTemplates from './_shared/opened-chat-gateway-templates-tab.vue';
+
 import OpenedViberChat from './viber/opened-chat-gateway-viber-general-tab.vue';
 import WebchatCopyCodeButton from './webchat/copy-code-button.vue';
 import OpenedWebchatAlternativeChannels from './webchat/opened-chat-gateway-webchat-alternative-channels-tab.vue';
@@ -64,6 +66,7 @@ export default {
   name: 'opened-chat-gateway',
   mixins: [openedObjectMixin],
   components: {
+    OpenedChatGatewayTemplates,
     OpenedChatTelegramBot,
     OpenedChatTelegramApp,
     OpenedChatMessenger,
@@ -184,6 +187,10 @@ export default {
         text: this.$t('objects.routing.chatGateways.telegramBot.telegramBot'),
         value: 'OpenedChatTelegramBot',
       };
+      const botTemplates = {
+        text: this.$t('objects.routing.chatGateways.templates.templates'),
+        value: 'OpenedChatGatewayTemplates',
+      };
       const telegramAppChat = {
         text: this.$t('objects.routing.chatGateways.telegramApp.telegramApp'),
         value: 'OpenedChatTelegramApp',
@@ -205,6 +212,7 @@ export default {
         facebookChatPages,
         instagramChatPages,
       ] : [messengerChat];
+      messenger.push(botTemplates);
 
       const infobipChat = {
         text: this.$t('objects.routing.chatGateways.infobip.infobip'),
@@ -231,17 +239,17 @@ export default {
 
       switch (this.chatType) {
         case ChatGatewayProvider.TELEGRAM_BOT:
-          return [telegramBotChat];
+          return [telegramBotChat, botTemplates];
         case ChatGatewayProvider.TELEGRAM_APP:
-          return [telegramAppChat];
+          return [telegramAppChat, botTemplates];
         case ChatGatewayProvider.MESSENGER:
           return messenger;
         case ChatGatewayProvider.INFOBIP:
-          return [infobipChat];
+          return [infobipChat, botTemplates];
         case ChatGatewayProvider.VIBER:
-          return [viberChat];
+          return [viberChat, botTemplates];
         case ChatGatewayProvider.WEBCHAT:
-          return [webChat, webchatView, webchatAlternativeChannels];
+          return [webChat, webchatView, webchatAlternativeChannels, botTemplates];
         default:
           return [];
       }

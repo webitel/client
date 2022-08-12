@@ -460,6 +460,13 @@ export default {
       },
 
       chatGateways: {
+        templates: {
+          templates: 'Шаблоны',
+          title: 'Title',
+          close: 'Close',
+          join: 'Join',
+          left: 'Left',
+        },
         chatGateways: 'Текстовый шлюз | Текстовые шлюзы',
         allChatGateways: 'Все текстовые шлюзы',
         telegramBot: {

@@ -50,6 +50,10 @@ const actions = {
     context.commit('SET_ITEM_METADATA', payload);
     context.commit('SET_ITEM_PROPERTY', { prop: '_dirty', value: true });
   },
+  SET_TEMPLATE: async (context, payload) => {
+    context.commit('SET_TEMPLATE', payload);
+    context.commit('SET_ITEM_PROPERTY', { prop: '_dirty', value: true });
+  },
   SET_WEBCHAT_ITEM_METADATA: async (context, payload) => {
     await context.dispatch('SET_ITEM_METADATA', payload);
     context.commit('SET_ITEM_METADATA', { prop: '_btnCodeDirty', value: true });
@@ -96,6 +100,9 @@ const mutations = {
   },
   SET_WEBCHAT_ALTERNATIVE_CHANNEL_VALUE: (state, { channel, prop, value }) => {
     state.itemInstance.metadata.alternativeChannels[channel][prop] = value;
+  },
+  SET_TEMPLATE: (state, { prop, value }) => {
+    state.itemInstance.updates[prop] = value;
   },
 };
 

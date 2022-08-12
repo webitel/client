@@ -13,7 +13,7 @@ import webChatGateway from '../store/_internals/providers/webChatGateway';
 
 const baseUrl = '/chat/bots';
 
-const fieldsToSend = ['name', 'uri', 'flow', 'enabled', 'provider', 'metadata'];
+const fieldsToSend = ['name', 'uri', 'flow', 'enabled', 'provider', 'metadata', 'updates'];
 
 const defaultListObject = { // default object prototype, to merge response with it to get all fields
   enabled: false,
@@ -22,6 +22,12 @@ const defaultListObject = { // default object prototype, to merge response with 
   flow: {},
   provider: '',
   metadata: {},
+  updates: {
+    title: '',
+    close: '',
+    join: '',
+    left: '',
+  },
 };
 
 const convertWebchatSeconds = (num) => `${num}s`;

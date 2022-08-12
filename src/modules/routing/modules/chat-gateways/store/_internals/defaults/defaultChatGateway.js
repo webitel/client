@@ -7,6 +7,12 @@ const defaultChatGateway = () => ({
   enabled: false,
   provider: '',
   metadata: {},
+  updates: {
+    title: '',
+    close: '',
+    join: '',
+    left: '',
+  },
 });
 
 export default defaultChatGateway;
