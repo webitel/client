@@ -462,10 +462,10 @@ export default {
       chatGateways: {
         templates: {
           templates: 'Templates',
-          title: 'Title',
-          close: 'Close',
-          join: 'Join',
-          left: 'Left',
+          title: 'New chat',
+          close: 'Chat complete',
+          join: 'Chat member',
+          left: 'Left member',
         },
         chatGateways: 'Chat gateway | Chat gateways',
         allChatGateways: 'All chat gateways',

@@ -462,10 +462,10 @@ export default {
       chatGateways: {
         templates: {
           templates: 'Шаблоны',
-          title: 'Title',
-          close: 'Close',
-          join: 'Join',
-          left: 'Left',
+          title: 'Новый диалог',
+          close: 'Диалог завершен',
+          join: 'Новый участник',
+          left: 'Покинул участник',
         },
         chatGateways: 'Текстовый шлюз | Текстовые шлюзы',
         allChatGateways: 'Все текстовые шлюзы',
