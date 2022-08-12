@@ -460,6 +460,13 @@ export default {
       },
 
       chatGateways: {
+        templates: {
+          templates: 'Шаблони',
+          title: 'Новий діалог',
+          close: 'Діалог завершено',
+          join: 'Новий учасник',
+          left: 'Покинув учасник',
+        },
         chatGateways: 'Текстовий шлюз | Текстові шлюзи',
         allChatGateways: 'Всі текстові шлюзи',
         telegramBot: {

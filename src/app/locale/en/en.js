@@ -460,6 +460,13 @@ export default {
 
       },
       chatGateways: {
+        templates: {
+          templates: 'Templates',
+          title: 'New chat',
+          close: 'Chat complete',
+          join: 'Chat member',
+          left: 'Left member',
+        },
         chatGateways: 'Chat gateway | Chat gateways',
         allChatGateways: 'All chat gateways',
         telegramBot: {
