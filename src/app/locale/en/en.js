@@ -528,7 +528,8 @@ export default {
           alternativeChannels: {
             alternativeChannels: 'Alternative Channels',
             email: 'Email',
-            whatsapp: 'Whatsapp',
+            whatsapp: 'WhatsApp',
+            telegram: 'Telegram',
           },
         },
         uri: 'URI',

@@ -528,7 +528,8 @@ export default {
           alternativeChannels: {
             alternativeChannels: 'Альтернативні канали',
             email: 'Електронна пошта',
-            whatsapp: 'Whatsapp',
+            whatsapp: 'WhatsApp',
+            telegram: 'Telegram',
           },
         },
         uri: 'URI',
