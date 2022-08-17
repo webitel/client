@@ -814,7 +814,7 @@ export default {
       integrations: 'Интеграции',
 
       storage: {
-        storage: 'Хранилище',
+        storage: 'Хранилища',
         allStorages: 'Все хранилища',
         type: 'Тип',
         maxSize: 'Объем хранилища (GB)',
