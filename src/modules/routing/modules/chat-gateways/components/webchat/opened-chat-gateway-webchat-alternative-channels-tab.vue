@@ -55,6 +55,7 @@ export default {
                }), {}),
       [WebchatAlternativeChannel.EMAIL]: 'objects.routing.chatGateways.webchat.alternativeChannels.email',
       [WebchatAlternativeChannel.WHATSAPP]: 'objects.routing.chatGateways.webchat.alternativeChannels.whatsapp',
+      [WebchatAlternativeChannel.TELEGRAM]: 'objects.routing.chatGateways.webchat.alternativeChannels.telegram',
     },
   }),
   methods: {

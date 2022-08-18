@@ -460,6 +460,13 @@ export default {
       },
 
       chatGateways: {
+        templates: {
+          templates: 'Шаблоны',
+          title: 'Новый диалог',
+          close: 'Диалог завершен',
+          join: 'Новый участник',
+          left: 'Покинул участник',
+        },
         chatGateways: 'Текстовый шлюз | Текстовые шлюзы',
         allChatGateways: 'Все текстовые шлюзы',
         telegramBot: {
@@ -521,7 +528,8 @@ export default {
           alternativeChannels: {
             alternativeChannels: 'Альтерантивные каналы',
             email: 'Электронная почта',
-            whatsapp: 'Whatsapp',
+            whatsapp: 'WhatsApp',
+            telegram: 'Telegram',
           },
         },
         uri: 'URI',
@@ -660,7 +668,7 @@ export default {
         inboundJobQueue: 'Входящая очередь заданий',
         inboundJobQueueDescription: 'Входящая очередь заданий',
         outboundJobQueue: 'Исходящая очередь заданий',
-        ouboundJobQueueDescription: 'Исходящая очередь заданий',
+        outboundJobQueueDescription: 'Исходящая очередь заданий',
         strategy: 'Стратегия',
         timezone: 'Часовая зона',
         callLimit: 'Максимальное количество одновременных звонков',
@@ -815,7 +823,7 @@ export default {
       integrations: 'Интеграции',
 
       storage: {
-        storage: 'Хранилище',
+        storage: 'Хранилища',
         allStorages: 'Все хранилища',
         type: 'Тип',
         maxSize: 'Объем хранилища (GB)',
@@ -935,7 +943,7 @@ export default {
     edit: 'Редактировать',
     delete: 'Удалить',
     deleteAll: 'Удалить все объекты',
-    deleteSelected: 'Удалить {count} выбраных объктов',
+    deleteSelected: 'Удалить {count} выбранных объектов',
     deleteFiltered: 'Удалить все отфильтрованные объекты',
     generate: 'Создать',
     add: 'Добавить',
