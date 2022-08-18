@@ -10,26 +10,6 @@
       :namespace="namespace"
       filter-query="joinedAtTo"
     ></filter-datetime>
-    <filter-datetime
-      :label="`${$t('objects.ccenter.queues.logs.leavingAt')}: ${$t('reusable.from')}`"
-      :namespace="namespace"
-      filter-query="leavingAtFrom"
-    ></filter-datetime>
-    <filter-datetime
-      :label="`${$t('objects.ccenter.queues.logs.leavingAt')}: ${$t('reusable.to')}`"
-      :namespace="namespace"
-      filter-query="leavingAtTo"
-    ></filter-datetime>
-    <filter-datetime
-      :label="`${$t('objects.ccenter.queues.logs.offeringAt')}: ${$t('reusable.from')}`"
-      :namespace="namespace"
-      filter-query="offeringAtFrom"
-    ></filter-datetime>
-    <filter-datetime
-      :label="`${$t('objects.ccenter.queues.logs.offeringAt')}: ${$t('reusable.to')}`"
-      :namespace="namespace"
-      filter-query="offeringAtTo"
-    ></filter-datetime>
     <component
       :is="`abstract-${filter.type}-filter`"
       v-for="(filter, key) of filters"
