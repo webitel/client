@@ -16,22 +16,6 @@ const state = {
     value: new Date().setHours(23, 59, 59, 0),
     defaultValue: new Date().setHours(23, 59, 59, 0),
   }),
-  leavingAtFrom: new BaseFilterSchema({
-    value: new Date().setHours(0, 0, 0, 0),
-    defaultValue: new Date().setHours(0, 0, 0, 0),
-  }),
-  leavingAtTo: new BaseFilterSchema({
-    value: new Date().setHours(23, 59, 59, 0),
-    defaultValue: new Date().setHours(23, 59, 59, 0),
-  }),
-  offeringAtFrom: new BaseFilterSchema({
-    value: new Date().setHours(0, 0, 0, 0),
-    defaultValue: new Date().setHours(0, 0, 0, 0),
-  }),
-  offeringAtTo: new BaseFilterSchema({
-    value: new Date().setHours(23, 59, 59, 0),
-    defaultValue: new Date().setHours(23, 59, 59, 0),
-  }),
   result: new EnumFilterSchema({
     options: Object.values(CallReportingStatus)
     .map((value) => ({
