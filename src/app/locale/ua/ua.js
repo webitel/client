@@ -874,7 +874,7 @@ export default {
         importCsv: 'Імпорт CSV файлу | Импорти CSV файлів',
         source: 'Призначення імпорту',
         settings: 'Налаштування',
-        mappings: 'Маппінги полів',
+        mappings: 'Мапінги полів',
         mappingsHint: 'У цій секції необхідно вказати назви колонок CSV файлу у полях нижче у відповідності до їх заголовків',
         columnHeader: 'Колонка {name}',
         members: {
