@@ -1,7 +1,16 @@
 <template>
   <section class="flow-diagram">
-    <wt-loader v-show="isLoading"></wt-loader>
-    <div id="flow-diagram" v-show="!isLoading"></div>
+<!--    full page overlay is needed to prevent flow-diagram on-load glitching bugs -->
+    <div
+      class="flow-diagram__loading-overlay"
+      v-show="isLoading"
+    >
+      <wt-loader></wt-loader>
+    </div>
+    <div
+      id="flow-diagram"
+      v-show="!isLoading"
+    ></div>
   </section>
 </template>
 
@@ -130,6 +139,17 @@ export default {
   left: 0;
   bottom: 0;
   z-index: 100;
+}
+
+.flow-diagram__loading-overlay {
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  background: var(--page-bg-color);
+  z-index: 10000;
+  pointer-events: none;
 
   .wt-loader {
     position: absolute;
@@ -137,16 +157,5 @@ export default {
     left: 50%;
     transform: translate(-50%, -50%);
   }
-}
-
-.overlay {
-  position: fixed;
-  top: 0;
-  right: 0;
-  bottom: 0;
-  left: 0;
-  background: rgba(255, 0, 0, 0.3);
-  z-index: 10000;
-  pointer-events: none;
 }
 </style>
