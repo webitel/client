@@ -54,7 +54,8 @@
               <wt-tooltip v-if="hasEditAccess">
                 <template v-slot:activator>
                   <wt-icon-btn
-                    icon="clear"
+                    icon="member-reset"
+                    icon-prefix="adm"
                     @click="openResetPopup"
                   ></wt-icon-btn>
                 </template>
