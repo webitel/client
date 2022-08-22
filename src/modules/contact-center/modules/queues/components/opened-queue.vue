@@ -1,5 +1,8 @@
 <template>
-  <wt-page-wrapper v-if="showQueuePage">
+  <wt-page-wrapper
+    v-if="showQueuePage"
+    :actions-panel="!!currentTab.filters"
+  >
     <template v-slot:header>
       <object-header
         :hide-primary="!hasSaveActionAccess"
@@ -12,10 +15,7 @@
       </object-header>
     </template>
 
-    <template
-      v-slot:actions-panel
-      v-if="currentTab.filters"
-    >
+    <template v-slot:actions-panel>
       <component
         :is="currentTab.filters"
         :namespace="currentTab.filtersNamespace"
