@@ -1,58 +1,52 @@
 <template>
   <selection-popup
-    :title="$t('objects.routing.flow.createFlowSelectionPopup')"
     :selected="selected"
-    @change="selectOption"
-    @select="create"
+    :title="$t('objects.routing.flow.createFlowSelectionPopup')"
     @close="close"
+    @select="create"
   >
     <!--Main flow popup content deed to make in "after-section"
      because in another case a tooltip will display incorrectly,
      and in general this is a specific case-->
-    <template slot="after-section">
-      <section class="popup-flows">
-        <article class="popup-flow-editor">
-          <!--Change images to SVG!!!-->
-          <div class="popup-flow-editor__img-wrapper">
-            <img :src="diagram.image" :alt="diagram.alt">
-          </div>
-          <div
-            class="popup-flow-editor__button-wrapper"
-            @click="selectOption(diagram)"
-            :class="{'active': diagram === selected}"
-          >
-            <h4 class="popup-flow-editor__title">{{ diagram.title }}</h4>
-            <wt-hint>{{ diagram.description }}</wt-hint>
-          </div>
-        </article>
+    <template v-slot:after-section>
+      <div class="create-flow-popup__main-wrapper">
 
-        <article class="popup-flow-editor">
-          <!--Change images to SVG!!!-->
-          <div class="popup-flow-editor__img-wrapper">
-            <img :src="code.image" :alt="code.alt">
-          </div>
-          <div
-            class="popup-flow-editor__button-wrapper"
-            @click="selectOption(code)"
-            :class="{'active': code === selected}"
+        <section class="popup-flows">
+          <button
+            v-for="(editor) of editorOptions"
+            :class="{ 'active': editor === selected }"
+            class="popup-flow-editor"
+            @click="selected = editor"
           >
-            <h4 class="popup-flow-editor__title">{{ code.title }}</h4>
-            <wt-hint>{{ code.description }}</wt-hint>
-          </div>
-        </article>
-      </section>
+            <div class="popup-flow-editor__img-wrapper">
+              <img :alt="editor.alt" :src="editor.image">
+            </div>
+            <p class="popup-flow-editor__title">
+              {{ editor.title }}
+              <wt-hint>{{ editor.description }}</wt-hint>
+            </p>
+          </button>
+        </section>
+        <wt-select
+          v-model="type"
+          :clearable="false"
+          :label="$t('vocabulary.type')"
+          :options="typeOptions"
+          track-by="value"
+        ></wt-select>
+      </div>
     </template>
   </selection-popup>
 </template>
 
 <script>
 import { mapActions } from 'vuex';
-import SelectionPopup
-  from '../../../../../app/components/utils/selection-popup/selection-popup.vue';
+import { EngineRoutingSchemaType } from 'webitel-sdk';
+import SelectionPopup from '../../../../../app/components/utils/selection-popup/selection-popup.vue';
 import RouteNames from '../../../../../app/router/_internals/RouteNames.enum';
-// Change images to SVG!!!
-import codeSelectionPic from '../assets/code-selection-pic.png';
-import diagramSelectionPic from '../assets/diagram-selection-pic.png';
+import codeSelectionPic from '../assets/code-selection-pic.svg';
+import diagramSelectionPic from '../assets/diagram-selection-pic.svg';
+import FlowEditor from '../enums/FlowEditor.enum';
 
 export default {
   name: 'create-flow-popup',
@@ -60,63 +54,82 @@ export default {
 
   data: () => ({
     namespace: 'routing/flow',
-    selected: null,
+    selected: {},
+    type: {},
+    typeOptions: Object.values(EngineRoutingSchemaType)
+      .filter((type) => type !== EngineRoutingSchemaType.Default)
+      .map((value) => ({
+        value,
+        locale: `objects.flow.type.${value}`,
+      })),
   }),
   computed: {
-    diagram() {
-      return {
-        value: 'diagram',
+    editorOptions() {
+      const diagram = {
+        value: FlowEditor.DIAGRAM,
         title: this.$t('objects.routing.flow.diagram.diagram'),
         description: this.$t('objects.routing.flow.diagram.description'),
         image: diagramSelectionPic,
         alt: this.$t('objects.routing.flow.diagram.diagram'),
       };
-    },
-    code() {
-      return {
-        value: 'code',
+      const code = {
+        value: FlowEditor.CODE,
         title: this.$t('objects.routing.flow.code.code'),
         description: this.$t('objects.routing.flow.code.description'),
         image: codeSelectionPic,
         alt: this.$t('objects.routing.flow.code.code'),
       };
+      return [diagram, code];
     },
   },
 
   methods: {
     ...mapActions({
-      setEditorValue(dispatch, payload) {
+      setItemProp(dispatch, payload) {
         return dispatch(`${this.namespace}/SET_ITEM_PROPERTY`, payload);
       },
     }),
-    selectOption(option) {
-      this.selected = option;
+
+    create() {
       if (this.selected.value === 'diagram') {
-        this.setEditorValue({
+        this.setItemProp({
           prop: 'editor',
           value: true,
         });
       } else {
-        this.setEditorValue({
+        this.setItemProp({
           prop: 'editor',
           value: false,
         });
       }
-    },
-    create() {
+      this.setItemProp({
+        prop: 'type',
+        value: this.type.value,
+      });
       this.$router.push({
         name: `${RouteNames.FLOW}-new`,
-        hash: `#${this.selected.value}`,
+        query: { editor: this.selected.value },
       });
     },
     close() {
       this.$emit('close');
     },
+    initializeFields() {
+      [this.selected] = this.editorOptions;
+      [this.type] = this.typeOptions;
+    },
+  },
+  mounted() {
+    this.initializeFields();
   },
 };
 </script>
 
 <style lang="scss" scoped>
+// setup pic width and height to prevent layout shift after pic load
+$pic-width: 206px;
+$pic-height: 136px;
+
 //Change some selection-popup styles
 .selection-popup ::v-deep {
   .popup-options {
@@ -128,44 +141,51 @@ export default {
   }
 }
 
+.create-flow-popup__main-wrapper {
+  display: flex;
+  flex-direction: column;
+  margin: 0 var(--spacing-xs);
+  gap: var(--spacing-sm);
+}
+
 //Create new specific styles
 .popup-flows {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr)); // https://stackoverflow.com/a/61240964
-  gap: 20px;
+  gap: var(--spacing-xs);
 }
 
 .popup-flow-editor {
-  &__img-wrapper {
-    width: 206px; // pic original width
-    margin: auto;
+  padding: var(--spacing-xs) 0;
+  cursor: pointer;
+  transition: var(--transition);
+  border: 1px solid var(--secondary-color-50);
+  border-radius: var(--border-radius);
+
+  &:hover, &.active {
+    border-color: var(--accent-color);
   }
 
-  &__button-wrapper {
-    display: grid;
-    grid-template-columns: 24px 1fr 24px;
+  .popup-flow-editor__img-wrapper {
+    width: $pic-width;
+    height: $pic-height;
+  }
+
+  &__title {
+    position: relative;
+    display: flex;
     align-items: center;
-    padding: 7px 10px;
-    border: 1px solid var(--form-border-color);
-    border-radius: var(--border-radius);
-    transition: var(--transition);
-    cursor: pointer;
-
-    &:hover, &.active {
-      border-color: var(--accent-color);
-    }
-
-    .wt-tooltip {
-      margin-left: auto;
-    }
+    justify-content: center;
+    margin-left: calc(var(--icon-md-size) + var(--spacing-xs)); // visually center text
+    gap: var(--spacing-xs);
   }
 
   &__title {
     @extend %typo-subtitle-2;
-    text-align: center;
-    grid-column-start: 2;
     overflow: hidden;
+    text-align: center;
     text-overflow: ellipsis;
+    grid-column-start: 2;
   }
 }
 </style>

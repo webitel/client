@@ -54,7 +54,7 @@ export default {
       script.src = `${flowDiagramUrl}/WtFlowDiagram.umd.min.js`;
       script.onload = () => {
         const params = {
-          diagram: this.isEdit ? this.itemInstance : null, // if edit, restore diagram
+          diagram: this.itemInstance, // if edit, restore diagram
           config: {
             search: {
               users: usersAPI.getLookup,
