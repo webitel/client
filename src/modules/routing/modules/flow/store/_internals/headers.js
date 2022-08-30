@@ -13,4 +13,10 @@ export default [
     field: 'editor',
     sort: SortSymbols.NONE,
   },
+  {
+    value: 'type',
+    locale: 'vocabulary.type',
+    field: 'type',
+    sort: SortSymbols.NONE,
+  },
 ];

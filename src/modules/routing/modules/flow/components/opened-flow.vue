@@ -65,7 +65,7 @@ export default {
 
   computed: {
     isDiagram() {
-      return this.$route.hash === '#diagram';
+      return this.$route.query.editor === 'diagram';
     },
     tabs() {
       const tabs = [{

@@ -78,6 +78,9 @@
                 {{ $t('objects.routing.flow.code.code') }}
               </div>
             </template>
+            <template v-slot:type="{ item }">
+              {{ item.type ? $t(`objects.flow.type.${item.type}`) : '' }}
+            </template>
             <template slot="actions" slot-scope="{ item }">
             <download-action
               @click="download(item)"
@@ -109,7 +112,7 @@
 </template>
 
 <script>
-import DownloadAction from '../../../../../app/components/actions/download-action';
+import DownloadAction from '../../../../../app/components/actions/download-action.vue';
 import tableComponentMixin from '../../../../../app/mixins/objectPagesMixins/objectTableMixin/tableComponentMixin';
 import CreateFlowPopup from './create-flow-popup.vue';
 import UploadPopup from './upload-flow-popup.vue';
@@ -117,6 +120,7 @@ import UploadFileIconBtn from '../../../../../app/components/utils/upload-file-i
 import FlowsAPI from '../api/flow';
 import { downloadAsJSON } from '../../../../../app/utils/download';
 import RouteNames from '../../../../../app/router/_internals/RouteNames.enum';
+import FlowEditor from '../enums/FlowEditor.enum';
 
 export default {
   name: 'the-flow',
@@ -172,7 +176,13 @@ export default {
      */
     editLink({ id, editor }) {
       const routeName = this.routeName || this.tableObjectRouteName;
-      return { name: `${routeName}-edit`, params: { id }, hash: editor ? '#diagram' : '#code' };
+      return {
+        name: `${routeName}-edit`,
+        params: { id },
+        query: {
+          editor: editor ? FlowEditor.DIAGRAM : FlowEditor.CODE,
+        },
+      };
     },
   },
 };
