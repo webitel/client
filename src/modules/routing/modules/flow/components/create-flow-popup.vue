@@ -102,13 +102,12 @@ export default {
           value: false,
         });
       }
-      this.setItemProp({
-        prop: 'type',
-        value: this.type.value,
-      });
       this.$router.push({
         name: `${RouteNames.FLOW}-new`,
-        query: { editor: this.selected.value },
+        query: {
+          editor: this.selected.value,
+          type: this.type.value,
+        },
       });
     },
     close() {
