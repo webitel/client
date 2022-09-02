@@ -1,17 +1,20 @@
-import { RoutingSchemaServiceApiFactory } from 'webitel-sdk';
 import {
-  SdkListGetterApiConsumer,
-  SdkGetterApiConsumer,
+  EngineRoutingSchemaType,
+  RoutingSchemaServiceApiFactory,
+} from 'webitel-sdk';
+import {
   SdkCreatorApiConsumer,
-  SdkUpdaterApiConsumer,
   SdkDeleterApiConsumer,
+  SdkGetterApiConsumer,
+  SdkListGetterApiConsumer,
+  SdkUpdaterApiConsumer,
 } from 'webitel-sdk/esm2015/api-consumers';
 import instance from '../../../../../app/api/instance';
 import configuration from '../../../../../app/api/openAPIConfig';
 
 const flowService = new RoutingSchemaServiceApiFactory(configuration, '', instance);
 
-const fieldsToSend = ['name', 'schema', 'payload', 'editor'];
+const fieldsToSend = ['name', 'schema', 'type', 'payload', 'editor'];
 
 const preRequestHandler = (item) => {
   // eslint-disable-next-line no-param-reassign
@@ -23,13 +26,42 @@ const defaultListObject = {
   editor: false,
 };
 
-const listGetter = new SdkListGetterApiConsumer(flowService.searchRoutingSchema,
-  { defaultListObject });
+const _getFlowsList = (getList) => function({
+                                              page,
+                                              size,
+                                              search,
+                                              sort,
+                                              fields,
+                                              ids,
+                                              name,
+                                              type,
+                                            }) {
+  const params = [
+    page,
+    size,
+    search,
+    sort,
+    fields,
+    ids,
+    name,
+    type.concat(EngineRoutingSchemaType.Default),
+  ];
+  return getList(params);
+};
+
+const listGetter = new SdkListGetterApiConsumer(
+  flowService.searchRoutingSchema,
+  { defaultListObject },
+).setGetListMethod(_getFlowsList);
 const itemGetter = new SdkGetterApiConsumer(flowService.readRoutingSchema);
-const itemCreator = new SdkCreatorApiConsumer(flowService.createRoutingSchema,
-  { fieldsToSend, preRequestHandler });
-const itemUpdater = new SdkUpdaterApiConsumer(flowService.updateRoutingSchema,
-  { fieldsToSend, preRequestHandler });
+const itemCreator = new SdkCreatorApiConsumer(
+  flowService.createRoutingSchema,
+  { fieldsToSend, preRequestHandler },
+);
+const itemUpdater = new SdkUpdaterApiConsumer(
+  flowService.updateRoutingSchema,
+  { fieldsToSend, preRequestHandler },
+);
 const itemDeleter = new SdkDeleterApiConsumer(flowService.deleteRoutingSchema);
 
 itemGetter.responseHandler = (response) => ({

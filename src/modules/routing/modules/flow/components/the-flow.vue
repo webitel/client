@@ -1,5 +1,5 @@
 <template>
-  <wt-page-wrapper :actions-panel="false">
+  <wt-page-wrapper>
     <template v-slot:header>
       <object-header
         :hide-primary="!hasCreateAccess"
@@ -7,6 +7,12 @@
       >
         <wt-headline-nav :path="path"></wt-headline-nav>
       </object-header>
+    </template>
+
+    <template v-slot:actions-panel>
+      <the-flow-filters
+        :namespace="filtersNamespace"
+      ></the-flow-filters>
     </template>
 
     <template v-slot:main>
@@ -29,13 +35,9 @@
         <header class="content-header">
           <h3 class="content-title">{{ $t('objects.routing.flow.allFlowSchemas') }}</h3>
           <div class="content-header__actions-wrap">
-            <wt-search-bar
-              :value="search"
-              debounce
-              @input="setSearch"
-              @search="loadList"
-              @enter="loadList"
-            ></wt-search-bar>
+            <filter-search
+              :namespace="filtersNamespace"
+            ></filter-search>
             <wt-table-actions
               :icons="['refresh']"
               @input="tableActionsHandler"
@@ -112,6 +114,7 @@
 </template>
 
 <script>
+import FilterSearch from '@webitel/ui-sdk/src/modules/QueryFilters/components/filter-search.vue';
 import DownloadAction from '../../../../../app/components/actions/download-action.vue';
 import tableComponentMixin from '../../../../../app/mixins/objectPagesMixins/objectTableMixin/tableComponentMixin';
 import CreateFlowPopup from './create-flow-popup.vue';
@@ -121,6 +124,7 @@ import FlowsAPI from '../api/flow';
 import { downloadAsJSON } from '../../../../../app/utils/download';
 import RouteNames from '../../../../../app/router/_internals/RouteNames.enum';
 import FlowEditor from '../enums/FlowEditor.enum';
+import TheFlowFilters from '../modules/filters/components/the-flow-filters.vue';
 
 export default {
   name: 'the-flow',
@@ -130,6 +134,8 @@ export default {
     CreateFlowPopup,
     UploadPopup,
     UploadFileIconBtn,
+    TheFlowFilters,
+    FilterSearch,
   },
   data: () => ({
     namespace: 'routing/flow',
@@ -146,8 +152,10 @@ export default {
         { name: this.$tc('objects.routing.flow.flow', 2), route: '/routing/flow' },
       ];
     },
+    filtersNamespace() {
+      return `${this.namespace}/filters`;
+    },
   },
-
   methods: {
     create() {
       this.isCreateFlowPopup = true;
@@ -183,6 +191,13 @@ export default {
           editor: editor ? FlowEditor.DIAGRAM : FlowEditor.CODE,
         },
       };
+    },
+  },
+  watch: {
+    '$route.query': {
+      async handler() {
+        await this.loadList();
+      },
     },
   },
 };
