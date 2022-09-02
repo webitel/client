@@ -52,7 +52,7 @@ export default {
 
 <style lang="scss" scoped>
 .flow-type-filter {
-  display: flex;
+  display: flex !important; // overwrite .filters-panel-wrapper--opened dblock style
   align-items: flex-end;
   flex-wrap: wrap;
   gap: var(--spacing-xs);
