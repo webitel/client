@@ -70,12 +70,16 @@ itemGetter.responseHandler = (response) => ({
   editor: !!response.editor,
 });
 
+const lookupGetter = new SdkListGetterApiConsumer(
+  flowService.searchRoutingSchema,
+);
+
 const getFlowList = (params) => listGetter.getList(params);
 const getFlow = (params) => itemGetter.getItem(params);
 const addFlow = (params) => itemCreator.createItem(params);
 const updateFlow = (params) => itemUpdater.updateItem(params);
 const deleteFlow = (params) => itemDeleter.deleteItem(params);
-const getFlowsLookup = (params) => listGetter.getLookup(params);
+const getFlowsLookup = (params) => lookupGetter.getLookup(params);
 
 const FlowsAPI = {
   getList: getFlowList,

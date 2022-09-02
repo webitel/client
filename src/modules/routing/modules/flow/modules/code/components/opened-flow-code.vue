@@ -43,7 +43,7 @@ export default {
         FlowAppAutocomplete[app]
           ? [...apps, FlowAppAutocomplete[app]]
           : apps
-      ), []) || [];
+      ), []) || Object.values(FlowAppAutocomplete);
     },
   },
 };
