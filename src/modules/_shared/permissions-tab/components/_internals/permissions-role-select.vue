@@ -3,6 +3,7 @@
     class="permissions-role-select"
     v-bind="$attrs"
     v-on="$listeners"
+    option-label="name"
   >
     <template slot="singleLabel" slot-scope="{ option, optionLabel }">
           <span class="multiselect__single-label permissions-tab-role-popup__select-option">
