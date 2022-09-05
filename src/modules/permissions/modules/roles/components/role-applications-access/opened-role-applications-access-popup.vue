@@ -1,5 +1,5 @@
 <template>
-  <wt-popup min-width="480" overflow @close="close">
+  <wt-popup min-width="480" @close="close">
     <template slot="title">
       {{ $tc('objects.permissions.roles.applicationsAccess.applicationsAccess', 1) }}:
       {{ $t(`WebitelApplications.${editedApp}.name`) }}
