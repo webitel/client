@@ -66,7 +66,7 @@ export default {
 
   computed: {
     isDiagram() {
-      return this.$route.query.editor === 'diagram';
+      return this.$route.query.editor === 'diagram' || this.itemInstance.editor;
     },
     type() {
       return this.$route.query.type || this.itemInstance.type;
@@ -104,7 +104,7 @@ export default {
       callback();
     },
     initType() {
-      if (this.type) this.setItemProp({ prop: 'type', value: this.type });
+      if (!this.itemInstance.type && this.type) this.setItemProp({ prop: 'type', value: this.type });
     },
   },
   mounted() {
