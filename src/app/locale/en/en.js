@@ -632,7 +632,7 @@ export default {
           timeout: 'Timeout',
           cancel: 'Cancel',
           success: 'Success',
-          failed: 'Failed',
+          failed: 'Abandoned',
           missed: 'Missed',
           expired: 'Expired',
         },
