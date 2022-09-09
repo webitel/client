@@ -23,18 +23,10 @@ const defaultSingleObject = {
 };
 
 const itemResponseHandler = (response) => {
-  if (response.hotdesks) {
-    // eslint-disable-next-line no-param-reassign
-    response.hotdesks = response.hotdesks.map((item) => ({ name: item }));
-  }
   return response;
 };
 
 const preRequestHandler = (item) => {
-  if (item.hotdesks) {
-    // eslint-disable-next-line no-param-reassign
-    item.hotdesks = item.hotdesks.map((item) => item.name || item.text);
-  }
   // eslint-disable-next-line no-param-reassign
   if (!item.password) delete item.password;
   return item;

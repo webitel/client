@@ -40,7 +40,7 @@ export default {
           const variablesMappings = this.mappingFields.find((field) => field.name === 'variables');
           normalizedItem.variables = item.variables.reduce((variables, variable, index) => ({
             ...variables,
-            [variablesMappings.csv[index].text]: variable, // csv is arr of tags { text }
+            [variablesMappings.csv[index]]: variable, // csv is arr of tags
           }), {});
         }
         if (!normalizedItem.priority) {
