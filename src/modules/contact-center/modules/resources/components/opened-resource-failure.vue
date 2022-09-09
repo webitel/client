@@ -5,24 +5,24 @@
     </header>
     <div class="object-input-grid grid-w50">
       <wt-input
-        :value="itemInstance.maxErrors"
-        :label="$t('objects.ccenter.res.maxErrors')"
         :disabled="disableUserInput"
+        :label="$t('objects.ccenter.res.maxErrors')"
+        :value="itemInstance.maxErrors"
         type="number"
         @input="setItemProp({ prop: 'maxErrors', value: +$event })"
       ></wt-input>
       <wt-tags-input
-        :value="itemInstance.errorIds"
-        :autocomplete-items="errorIdsAutocomplete"
-        :label="$t('objects.ccenter.res.errorCodes')"
-        :add-only-from-autocomplete="false"
         :disabled="disableUserInput"
+        :label="$t('objects.ccenter.res.errorCodes')"
+        :options="errorIdsAutocomplete"
+        :value="itemInstance.errorIds"
+        taggable
         @input="setItemProp({ prop: 'errorIds', value: $event })"
       ></wt-tags-input>
       <wt-input
-        :value="itemInstance.failureDialDelay"
-        :label="$t('objects.ccenter.res.failureDialDelay')"
         :disabled="disableUserInput"
+        :label="$t('objects.ccenter.res.failureDialDelay')"
+        :value="itemInstance.failureDialDelay"
         type="number"
         @input="setItemProp({ prop: 'failureDialDelay', value: +$event })"
       ></wt-input>
@@ -31,7 +31,8 @@
 </template>
 
 <script>
-import openedTabComponentMixin from '../../../../../app/mixins/objectPagesMixins/openedObjectTabMixin/openedTabComponentMixin';
+import openedTabComponentMixin
+  from '../../../../../app/mixins/objectPagesMixins/openedObjectTabMixin/openedTabComponentMixin';
 
 export default {
   name: 'opened-resource-failure',
@@ -39,11 +40,11 @@ export default {
 
   data: () => ({
     errorIdsAutocomplete: [
-      { name: '1xx' },
-      { name: '2xx' },
-      { name: '3xx' },
-      { name: '4xx' },
-      { name: '5xx' },
+      '1xx',
+      '2xx',
+      '3xx',
+      '4xx',
+      '5xx',
     ],
   }),
 };

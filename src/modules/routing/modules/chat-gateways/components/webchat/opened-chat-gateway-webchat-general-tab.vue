@@ -13,10 +13,10 @@
         @input="setItemProp({ prop: 'name', value: $event })"
       ></wt-input>
       <wt-tags-input
-        :add-only-from-autocomplete="false"
         :disabled="disableUserInput"
         :label="$t('objects.routing.chatGateways.metadata.allowOrigin')"
         :value="itemInstance.metadata.allowOrigin"
+        taggable
         @input="setItemMetadata({ prop: 'allowOrigin', value: $event })"
       ></wt-tags-input>
       <copy-input

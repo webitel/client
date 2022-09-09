@@ -45,7 +45,7 @@ const webchatRequestConverter = (data) => {
     data.metadata.handshakeTimeout = convertWebchatSeconds(data.metadata.handshakeTimeout);
   }
   if (data.metadata.allowOrigin) {
-    data.metadata.allowOrigin = data.metadata.allowOrigin.map((obj) => obj.text).join();
+    data.metadata.allowOrigin = data.metadata.allowOrigin.join();
   }
   if (data.metadata.openTimeout) {
     data.metadata.openTimeout = `${data.metadata.openTimeout}`;
@@ -58,7 +58,7 @@ const webchatRequestConverter = (data) => {
 
 const webChatResponseConverter = (data) => {
   data.metadata.allowOrigin = data.metadata.allowOrigin
-    ? data.metadata.allowOrigin.split(',').map((origin) => ({ text: origin }))
+    ? data.metadata.allowOrigin.split(',')
     : [];
   if (data.metadata.readTimeout) {
     data.metadata.readTimeout = parseTimeoutSeconds(data.metadata.readTimeout);
