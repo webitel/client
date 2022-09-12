@@ -50,6 +50,11 @@
             {{ item.destination.description }}
           </div>
         </template>
+        <template slot="attempts" slot-scope="{ item }">
+          <div v-if="item.destination">
+            {{ item.destination.attempts }}
+          </div>
+        </template>
         <template slot="result" slot-scope="{ item }">
           {{ item.result }}
         </template>
