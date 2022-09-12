@@ -44,6 +44,12 @@ export default [
     sort: SortSymbols.NONE,
   },
   {
+    value: 'attempts',
+    locale: 'objects.ccenter.queues.logs.attempts',
+    field: 'attempts',
+    sort: SortSymbols.NONE,
+  },
+  {
     value: 'result',
     locale: 'objects.ccenter.queues.logs.result',
     field: 'result',

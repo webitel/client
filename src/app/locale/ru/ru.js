@@ -761,6 +761,7 @@ export default {
           duration: 'Длительность',
           viewNumber: 'Номер',
           result: 'Результат',
+          attempts: 'Попытка',
           resultName: {
             abandoned: 'Abandoned',
             cancel: 'Cancel',
