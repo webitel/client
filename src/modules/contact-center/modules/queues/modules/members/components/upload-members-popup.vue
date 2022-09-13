@@ -85,6 +85,11 @@ export default {
         multiple: true,
         csv: [],
       },
+      {
+        name: 'Agent',
+        required: false,
+        csv: '',
+      },
     ],
   }),
 };
