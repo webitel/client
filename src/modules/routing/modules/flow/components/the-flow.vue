@@ -83,6 +83,15 @@
             <template v-slot:type="{ item }">
               {{ item.type ? $t(`objects.flow.type.${item.type}`) : '' }}
             </template>
+            <template v-slot:tags="{ item }">
+              <div class="the-flow__tags" v-if="item.tags">
+                <wt-chip
+                  v-for="(tag, key) of item.tags"
+                  :key="key"
+                >{{ tag.name }}
+                </wt-chip>
+              </div>
+            </template>
             <template slot="actions" slot-scope="{ item }">
             <download-action
               @click="download(item)"
@@ -202,3 +211,11 @@ export default {
   },
 };
 </script>
+
+<style lang="scss" scoped>
+.the-flow__tags {
+  display: flex;
+  gap: var(--spacing-xs);
+  flex-wrap: wrap;
+}
+</style>

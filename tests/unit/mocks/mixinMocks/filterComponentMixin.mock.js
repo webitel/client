@@ -1,6 +1,8 @@
 const filterComponentMixinMock = () => ({
   computed: {
-    filterSchema: () => ({}),
+    filterSchema: () => ({
+      locale: {},
+    }),
   },
   mocks: {
     $route: {

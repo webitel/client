@@ -3,7 +3,7 @@
     <header class="content-header">
       <h3 class="content-title">{{ $t('objects.generalInfo') }}</h3>
     </header>
-    <div class="object-input-grid object-input-grid__1-col object-input-grid__w50">
+    <div class="object-input-grid">
       <wt-input
         :disabled="disableUserInput"
         :label="$t('objects.name')"
@@ -12,6 +12,15 @@
         required
         @input="setItemProp({ prop: 'name', value: $event })"
       ></wt-input>
+      <wt-tags-input
+        :disabled="disableUserInput"
+        :label="$tc('vocabulary.tag', 2)"
+        :value="itemInstance.tags"
+        :search-method="loadFlowTagOptions"
+        track-by="name"
+        taggable
+        @input="setItemProp({ prop: 'tags', value: $event })"
+      ></wt-tags-input>
     </div>
     <code-editor
       :autocomplete="autocomplete"
@@ -30,6 +39,7 @@ import CodeEditor from '../../../../../../../app/components/utils/code-editor.vu
 import openedTabComponentMixin
   from '../../../../../../../app/mixins/objectPagesMixins/openedObjectTabMixin/openedTabComponentMixin';
 import FlowAppAutocomplete from '../lookups/FlowAppAutocomplete.lookup';
+import FlowsAPI from '../../../api/flow';
 
 export default {
   name: 'opened-flow-code',
@@ -45,6 +55,9 @@ export default {
           : apps
       ), []) || Object.values(FlowAppAutocomplete);
     },
+  },
+  methods: {
+    loadFlowTagOptions: FlowsAPI.getFlowTags,
   },
 };
 </script>

@@ -14,7 +14,7 @@ import configuration from '../../../../../app/api/openAPIConfig';
 
 const flowService = new RoutingSchemaServiceApiFactory(configuration, '', instance);
 
-const fieldsToSend = ['name', 'schema', 'type', 'payload', 'editor'];
+const fieldsToSend = ['name', 'schema', 'type', 'payload', 'editor', 'tags'];
 
 const preRequestHandler = (item) => {
   // eslint-disable-next-line no-param-reassign
@@ -23,7 +23,20 @@ const preRequestHandler = (item) => {
 };
 
 const defaultListObject = {
+  type: EngineRoutingSchemaType.Default,
   editor: false,
+};
+
+const defaultSingleObject = {
+  tags: [],
+  editor: false,
+};
+
+const itemResponseHandler = (response) => {
+  return {
+    ...response,
+    schema: JSON.stringify(response.schema, null, 4),
+  };
 };
 
 const _getFlowsList = (getList) => function({
@@ -35,6 +48,7 @@ const _getFlowsList = (getList) => function({
                                               ids,
                                               name,
                                               type,
+                                              tags,
                                             }) {
   const params = [
     page,
@@ -45,6 +59,8 @@ const _getFlowsList = (getList) => function({
     ids,
     name,
     type.concat(EngineRoutingSchemaType.Default),
+    undefined,
+    tags,
   ];
   return getList(params);
 };
@@ -53,25 +69,33 @@ const listGetter = new SdkListGetterApiConsumer(
   flowService.searchRoutingSchema,
   { defaultListObject },
 ).setGetListMethod(_getFlowsList);
-const itemGetter = new SdkGetterApiConsumer(flowService.readRoutingSchema);
+
+const itemGetter = new SdkGetterApiConsumer(
+  flowService.readRoutingSchema,
+  {
+    defaultSingleObject,
+    itemResponseHandler,
+  },
+);
+
 const itemCreator = new SdkCreatorApiConsumer(
   flowService.createRoutingSchema,
   { fieldsToSend, preRequestHandler },
 );
+
 const itemUpdater = new SdkUpdaterApiConsumer(
   flowService.updateRoutingSchema,
   { fieldsToSend, preRequestHandler },
 );
-const itemDeleter = new SdkDeleterApiConsumer(flowService.deleteRoutingSchema);
 
-itemGetter.responseHandler = (response) => ({
-  ...response,
-  schema: JSON.stringify(response.schema, null, 4),
-  editor: !!response.editor,
-});
+const itemDeleter = new SdkDeleterApiConsumer(flowService.deleteRoutingSchema);
 
 const lookupGetter = new SdkListGetterApiConsumer(
   flowService.searchRoutingSchema,
+);
+
+const flowTagsListGetter = new SdkListGetterApiConsumer(
+  flowService.searchRoutingSchemaTags,
 );
 
 const getFlowList = (params) => listGetter.getList(params);
@@ -80,6 +104,7 @@ const addFlow = (params) => itemCreator.createItem(params);
 const updateFlow = (params) => itemUpdater.updateItem(params);
 const deleteFlow = (params) => itemDeleter.deleteItem(params);
 const getFlowsLookup = (params) => lookupGetter.getLookup(params);
+const getFlowTags = (params) => flowTagsListGetter.getList(params);
 
 const FlowsAPI = {
   getList: getFlowList,
@@ -88,6 +113,7 @@ const FlowsAPI = {
   update: updateFlow,
   delete: deleteFlow,
   getLookup: getFlowsLookup,
+  getFlowTags,
 };
 
 export default FlowsAPI;

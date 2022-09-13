@@ -56,7 +56,6 @@ export default {
   align-items: flex-end;
   flex-wrap: wrap;
   gap: var(--spacing-xs);
-  grid-column: 1 / 3;
   margin-bottom: var(--spacing-xs);
 }
 </style>
