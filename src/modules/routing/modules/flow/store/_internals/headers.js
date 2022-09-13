@@ -19,4 +19,10 @@ export default [
     field: 'type',
     sort: SortSymbols.NONE,
   },
+  {
+    value: 'tags',
+    locale: ['vocabulary.tag', 2],
+    field: 'tags',
+    sort: SortSymbols.NONE,
+  },
 ];
