@@ -700,6 +700,7 @@ export default {
         playbackSilence: 'Playback silence',
         targetAbandonedRate: 'Target abandoned rate',
         maxWaitTime: 'Max wait time',
+        maxWaitingSize: 'Max wait count',
         waitBetweenRetries: 'Wait between retries',
         waitBetweenRetriesDesc: 'Sort members retries by descending',
         strictCircuit: 'Strict circuit',

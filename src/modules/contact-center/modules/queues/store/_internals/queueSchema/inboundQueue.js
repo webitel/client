@@ -16,6 +16,7 @@ const inboundQueue = () => ({
     maxWaitTime: 60 * 60, // required
     allowGreetingAgent: false,
     stickyAgentSec: 5,
+    maxWaitingSize: 0,
   },
 });
 

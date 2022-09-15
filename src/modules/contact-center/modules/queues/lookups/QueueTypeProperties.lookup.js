@@ -33,6 +33,7 @@ const QueueTypeProperties = Object.freeze({
                                                 'ringtone',
                                                 // params specific
                                                 'maxWaitTime',
+                                                'maxWaitingSize',
                                                 'discardAbandonedAfter',
                                                 'allowGreetingAgent',
                                                 'stickyAgent',
@@ -173,6 +174,7 @@ const QueueTypeProperties = Object.freeze({
                                                 'team',
                                                 // params specific
                                                 'maxWaitTime',
+                                                'maxWaitingSize',
                                                 'discardAbandonedAfter',
                                                 'maxIdleAgent',
                                                 'maxIdleClient',
