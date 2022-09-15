@@ -134,6 +134,14 @@
         type="number"
         @input="setItemPayloadProp({ prop: 'maxCalls', value: +$event })"
       ></wt-input>
+      <wt-input
+        v-if="specificControls.maxWaitingSize"
+        :disabled="disableUserInput"
+        :label="$t('objects.ccenter.queues.maxWaitingSize')"
+        :value="itemInstance.payload.maxWaitingSize"
+        type="number"
+        @input="setItemPayloadProp({ prop: 'maxWaitingSize', value: +$event })"
+      ></wt-input>
       <wt-switcher
         v-if="specificControls.waitBetweenRetriesDesc"
         :disabled="disableUserInput"

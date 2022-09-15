@@ -698,6 +698,7 @@ export default {
         playbackSilence: 'Тишина перед проигрыванием аудиофайла (мс.)',
         targetAbandonedRate: 'Target abandoned rate',
         maxWaitTime: 'Максимальное время ожидания',
+        maxWaitingSize: 'Максимальное количество ожидания',
         waitBetweenRetries: 'Время между попытками',
         waitBetweenRetriesDesc: 'Сортировка новых попыток по спаданию',
         strictCircuit: 'Strict circuit',
