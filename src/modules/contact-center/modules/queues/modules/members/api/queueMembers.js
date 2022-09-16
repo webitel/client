@@ -153,6 +153,7 @@ export const deleteMembersBulk = async (queueId, {
   from,
   to,
   bucket,
+  agent,
   priority,
   cause,
 }) => {
@@ -164,6 +165,7 @@ export const deleteMembersBulk = async (queueId, {
       priority,
       stopCause: cause,
       bucketId: bucket,
+      agentId: agent,
     });
   } catch (err) {
     throw err;
