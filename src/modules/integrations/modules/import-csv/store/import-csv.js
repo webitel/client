@@ -42,6 +42,11 @@ const resettableState = {
           required: false,
           csv: '',
         },
+        agentId: {
+          locale: ['objects.ccenter.agents.agents', 1],
+          required: false,
+          csv: '',
+        },
         variables: {
           locale: ['vocabulary.variables', 2],
           required: false,
