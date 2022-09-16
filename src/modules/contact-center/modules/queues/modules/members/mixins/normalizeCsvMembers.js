@@ -36,6 +36,10 @@ export default {
           normalizedItem.bucket = { id: item.bucketId };
           delete normalizedItem.bucketId;
         }
+        if (normalizedItem.agentId) {
+          normalizedItem.agent = { id: item.agentId };
+          delete normalizedItem.agentId;
+        }
         if (normalizedItem.variables) {
           const variablesMappings = this.mappingFields.find((field) => field.name === 'variables');
           normalizedItem.variables = item.variables.reduce((variables, variable, index) => ({

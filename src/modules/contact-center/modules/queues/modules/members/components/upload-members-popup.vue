@@ -52,6 +52,11 @@ export default {
         csv: '',
       },
       {
+        name: 'agentId',
+        required: false,
+        csv: '',
+      },
+      {
         name: 'variables',
         required: false,
         multiple: true,
