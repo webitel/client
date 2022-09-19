@@ -2,15 +2,15 @@ import CommunicationsAPI
   from '../../../../../../lookups/modules/communications/api/communications';
 import QueueMembersAPI from '../api/queueMembers';
 
-const findCommunicationIdByName = ({ communications, code }) => (
+const findCommunicationIdByCode = ({ communications, code }) => (
   communications.find((communication) => communication.code === code).id
 );
 
 export default {
   methods: {
-    saveBulkData(data) {
+    async saveBulkData(data) {
       try {
-        const normalizedData = this.normalizeData(data);
+        const normalizedData = await this.normalizeData(data);
         return QueueMembersAPI.addBulk(this.parentId, this.file.name, normalizedData);
       } catch (err) {
         throw err;
@@ -18,11 +18,13 @@ export default {
     },
 
     async getCommunicationTypes() {
-      const communications = await CommunicationsAPI.getList({ size: 999 });
+      const communications = await CommunicationsAPI.getList({ size: 5000 });
       this.allCommunications = communications.items;
     },
 
-    normalizeData(data) {
+    async normalizeData(data) {
+      await this.getCommunicationTypes();
+
       return data.map((item) => {
         const normalizedItem = {
           ...item,
@@ -52,14 +54,14 @@ export default {
         }
 
         normalizedItem.communications = [];
-        const commLength = Math.max(
+        const commLength = Math.min(
           normalizedItem.destination.length,
           normalizedItem.code.length,
         );
         for (let index = 0; index < commLength; index += 1) {
           let id;
           try {
-            id = findCommunicationIdByName({
+            id = findCommunicationIdByCode({
               communications: this.allCommunications,
               code: normalizedItem.code[index],
             });
@@ -87,8 +89,5 @@ export default {
         return normalizedItem;
       });
     },
-  },
-  created() {
-    this.getCommunicationTypes();
   },
 };

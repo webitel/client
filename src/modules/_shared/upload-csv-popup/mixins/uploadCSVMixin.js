@@ -139,7 +139,7 @@ export default {
       return data.map((dataItem) => (
         nonEmptyMappingFields.reduce((normalizedItem, { name, csv }) => ({
           ...normalizedItem,
-          [name]: dataItem[csv],
+          [name]: Array.isArray(csv) ? csv.map((csv) => dataItem[csv]) : dataItem[csv],
         }), {})
       ));
     },
