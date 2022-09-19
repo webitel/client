@@ -2,16 +2,16 @@
   <diagram
     v-if="isDiagram"
     :namespace="namespace"
-    @save="saveDiagram"
     @close="close"
+    @save="saveDiagram"
   ></diagram>
   <wt-page-wrapper v-else :actions-panel="false">
     <template v-slot:header>
       <object-header
-        :primary-text="saveText"
-        :primary-action="save"
         :hide-primary="!hasSaveActionAccess"
+        :primary-action="save"
         :primary-disabled="disabledSave"
+        :primary-text="saveText"
         :secondary-action="close"
       >
         <wt-headline-nav :path="path"></wt-headline-nav>
@@ -29,21 +29,21 @@
         ></wt-tabs>
         <component
           :is="currentTab.value"
-          :v="$v"
           :namespace="namespace"
+          :v="$v"
         ></component>
-        <input type="submit" hidden> <!--  submit form on Enter  -->
+        <input hidden type="submit"> <!--  submit form on Enter  -->
       </form>
     </template>
   </wt-page-wrapper>
 </template>
 
 <script>
-import { mapActions } from 'vuex';
 import { required } from 'vuelidate/lib/validators';
-import Diagram from '../modules/diagram/components/opened-flow-diagram.vue';
-import JsonSchema from '../modules/code/components/opened-flow-code.vue';
+import { mapActions } from 'vuex';
 import openedObjectMixin from '../../../../../app/mixins/objectPagesMixins/openedObjectMixin/openedObjectMixin';
+import JsonSchema from '../modules/code/components/opened-flow-code.vue';
+import Diagram from '../modules/diagram/components/opened-flow-diagram.vue';
 
 export default {
   name: 'opened-flow',
@@ -72,22 +72,27 @@ export default {
       return this.$route.query.type || this.itemInstance.type;
     },
     tabs() {
-      const tabs = [{
-        text: this.$t('objects.general'),
-        value: 'json-schema',
-      }];
+      const tabs = [
+        {
+          text: this.$t('objects.general'),
+          value: 'json-schema',
+        },
+      ];
       return tabs;
     },
 
     path() {
       const baseUrl = '/routing/flow';
+      const itemPathName = this.$te(`objects.flow.type.${this.type}`)
+        ? `(${this.$t(`objects.flow.type.${this.type}`)})`
+        : '';
       return [
         { name: this.$t('objects.routing.routing') },
         { name: this.$tc('objects.routing.flow.flow', 2), route: baseUrl },
         {
           name: this.id
-            ? `${this.pathName} (${this.$t(`objects.flow.type.${this.type}`)})`
-            : `${this.$t('objects.new')} (${this.$t(`objects.flow.type.${this.type}`)})`,
+            ? `${this.pathName} ${itemPathName}`
+            : `${this.$t('objects.new')} ${itemPathName}`,
           route: this.id ? `${baseUrl}/${this.id}` : `${baseUrl}/new`,
         },
       ];
