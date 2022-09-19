@@ -43,7 +43,9 @@ export default {
       this.setValue({ filter: this.filterQuery, value });
       this.setValueToQuery({ filterQuery: this.filterQuery, value });
     },
-    restoreValue(value) {
+    restoreValue(_value) {
+      // if only 1 checkbox is seelcted, returned value is string
+      const value = Array.isArray(_value) ? _value : [_value];
       this.setValue({ filter: this.filterQuery, value });
     },
   },

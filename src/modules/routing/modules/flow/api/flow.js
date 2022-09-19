@@ -49,6 +49,7 @@ const _getFlowsList = (getList) => function({
                                               type,
                                               tags,
                                             }) {
+  console.info(type);
   const params = [
     page,
     size,
@@ -57,7 +58,10 @@ const _getFlowsList = (getList) => function({
     fields,
     ids,
     name,
-    type.concat(EngineRoutingSchemaType.Default),
+    Array.isArray(type) ? type.concat(EngineRoutingSchemaType.Default) : [
+      type,
+      EngineRoutingSchemaType.Default,
+    ],
     undefined,
     tags,
   ];
