@@ -23,6 +23,7 @@ const preRequestHandler = (item) => {
 };
 
 const defaultListObject = {
+  type: EngineRoutingSchemaType.Default,
   editor: false,
 };
 
