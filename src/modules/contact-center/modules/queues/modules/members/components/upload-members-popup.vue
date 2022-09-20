@@ -10,6 +10,8 @@
 <script>
 import uploadCSVWrapperComponentMixin
   from '../../../../../../_shared/upload-csv-popup/mixins/uploadCSVWrapperComponentMixin';
+import ImportCsvMemberMappings
+  from '../../../../../../integrations/modules/import-csv/lookups/ImportCsvMemberMappings.lookup';
 import normalizeCsvMembers from '../mixins/normalizeCsvMembers';
 
 export default {
@@ -24,73 +26,10 @@ export default {
   data: () => ({
     bulk: [],
     allCommunications: null,
-    mappingFields: [
-      {
-        name: 'name',
-        required: true,
-        csv: '',
-      },
-      {
-        name: 'timezoneId',
-        required: false,
-        csv: '',
-      },
-      {
-        name: 'priority',
-        required: false,
-        csv: 0,
-      },
-      {
-        text: 'Expire',
-        name: 'expireAt',
-        required: false,
-        csv: '',
-      },
-      {
-        name: 'bucketId',
-        required: false,
-        csv: '',
-      },
-      {
-        name: 'agentId',
-        required: false,
-        csv: '',
-      },
-      {
-        name: 'variables',
-        required: false,
-        multiple: true,
-        csv: [],
-      },
-      {
-        text: 'Communication destination',
-        name: 'destination',
-        required: true,
-        multiple: true,
-        csv: [],
-      },
-      {
-        text: 'Communication priority',
-        name: 'commPriority',
-        required: false,
-        multiple: true,
-        csv: [],
-      },
-      {
-        text: 'Communication code',
-        name: 'code',
-        required: true,
-        multiple: true,
-        csv: [],
-      },
-      {
-        text: 'Communication description',
-        name: 'description',
-        required: false,
-        multiple: true,
-        csv: [],
-      },
-    ],
+    mappingFields: Object.entries(ImportCsvMemberMappings).map(([name, mapping]) => ({
+      ...mapping,
+      name,
+    })),
   }),
 };
 </script>

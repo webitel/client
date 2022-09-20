@@ -40,15 +40,14 @@
       <div></div>
       <component
         :is="multiple ? 'wt-tags-input' : 'wt-input'"
-        v-for="({ multiple, name, locale, required, csv }) of mappingsList"
+        v-for="({ multiple, name, locale, required }) of mappingsList"
         :key="name"
         :disabled="disableUserInput"
         :label="$t('objects.integrations.importCsv.columnHeader', { name: localizeName(locale) })"
         :required="required"
-        :v="v.itemInstance.parameters.mappings[name]
-         ? v.itemInstance.parameters.mappings[name].csv
-          : null"
-        :value="csv"
+        :v="v.itemInstance.parameters.mappings[name]"
+        :value="itemInstance.parameters.mappings[name]"
+        taggable
         @input="handleMappingInput({ name, value: $event })"
       ></component>
       <!--        <wt-tags-input></wt-tags-input>-->
@@ -61,7 +60,7 @@ import deepCopy from 'deep-copy';
 import { mapActions } from 'vuex';
 import openedTabComponentMixin
   from '../../../../../app/mixins/objectPagesMixins/openedObjectTabMixin/openedTabComponentMixin';
-// import uploadCSVMixin from '../../../../../modules/_shared/upload-csv-popup/mixins/uploadCSVMixin';
+import ImportCsvMemberMappings from '../lookups/ImportCsvMemberMappings.lookup';
 
 export default {
   name: 'opened-import-csv-settings',
@@ -69,7 +68,7 @@ export default {
   data: () => ({}),
   computed: {
     mappingsList() {
-      return Object.entries(this.itemInstance.parameters.mappings)
+      return Object.entries(ImportCsvMemberMappings)
       .reduce((list, [name, value]) => [...list, { name, ...value }], []);
     },
   },
@@ -81,7 +80,7 @@ export default {
     }),
     handleMappingInput({ name, value }) {
       const mappings = deepCopy(this.itemInstance.parameters.mappings);
-      mappings[name].csv = value;
+      mappings[name] = value;
       this.setItemParamsProp({ prop: 'mappings', value: mappings });
     },
     localizeName(locale) {

@@ -7,7 +7,7 @@
     <upload-csv-preview-popup
       v-if="file"
       :file="file"
-      :mapping-fields="item.parameters.mappings"
+      :mapping-fields="mappingFields"
       :separator="item.parameters.separator"
       :charset="item.parameters.charset.value"
       :skip-headers="item.parameters.skipHeaders"
@@ -23,6 +23,7 @@ import UploadFileIconBtn from '../../../../../app/components/utils/upload-file-i
 import UploadCsvPreviewPopup from '../../../../_shared/upload-csv-popup/components/upload-csv-preview-popup.vue';
 import normalizeCsvMembers from '../../../../contact-center/modules/queues/modules/members/mixins/normalizeCsvMembers';
 import QueueMembersAPI from '../../../../contact-center/modules/queues/modules/members/api/queueMembers';
+import ImportCsvMemberMappings from '../lookups/ImportCsvMemberMappings.lookup';
 
 export default {
   name: 'import-csv-upload-action',
@@ -42,7 +43,11 @@ export default {
       return this.item.source.id;
     },
     mappingFields() {
-      return this.item.parameters.mappings;
+      return Object.entries(ImportCsvMemberMappings).map(([name, mapping]) => ({
+        ...mapping,
+        name,
+        csv: this.item.parameters.mappings[name],
+      }));
     },
   },
   methods: {
@@ -50,7 +55,6 @@ export default {
       const file = files[0];
       if (file) {
         this.file = file;
-        // this.isUploadPopup = true;
       }
     },
     handleSave() {
