@@ -30,6 +30,7 @@ const defaultListObject = {
 const defaultSingleObject = {
   tags: [],
   editor: false,
+  type: EngineRoutingSchemaType.Default,
 };
 
 const itemResponseHandler = (response) => {
@@ -50,7 +51,6 @@ const _getFlowsList = (getList) => function({
                                               type,
                                               tags,
                                             }) {
-  console.info(type);
   const params = [
     page,
     size,
