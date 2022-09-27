@@ -126,6 +126,10 @@ const nav = Object.freeze([{
       value: AdminSections.IMPORT_CSV,
       locale: `WebitelApplications.${WebitelApplications.ADMIN}.sections.${AdminSections.IMPORT_CSV}`,
       route: 'import-csv',
+    }, {
+        value: AdminSections.TRIGGERS,
+        locale: `WebitelApplications.${WebitelApplications.ADMIN}.sections.${AdminSections.TRIGGERS}`,
+        route: 'triggers',
     }],
   }, {
     value: 'permissions',

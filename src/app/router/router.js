@@ -61,9 +61,11 @@ const OpenedStorage = () => import('../../modules/integrations/modules/storage/c
 const CognitiveProfiles = () => import('../../modules/integrations/modules/cognitive-profiles/components/the-cognitive-profiles.vue');
 const EmailProfiles = () => import('../../modules/integrations/modules/email-profiles/components/the-email-profiles.vue');
 const ImportCsv = () => import('../../modules/integrations/modules/import-csv/components/the-import-csv.vue');
+const Triggers = () => import('../../modules/integrations/modules/triggers/components/the-triggers.vue');
 const OpenedCognitiveProfile = () => import('../../modules/integrations/modules/cognitive-profiles/components/opened-cognitive-profile.vue');
 const OpenedEmailProfile = () => import('../../modules/integrations/modules/email-profiles/components/opened-email-profile.vue');
 const OpenedImportCsv = () => import('../../modules/integrations/modules/import-csv/components/opened-import-csv.vue');
+const OpenedTrigger = () => import('../../modules/integrations/modules/triggers/components/opened-triggers.vue');
 
 Vue.use(Router);
 
@@ -521,6 +523,21 @@ const router = new Router({
           path: '/integrations/import-csv/:id',
           name: `${RouteNames.IMPORT_CSV}-edit`,
           component: OpenedImportCsv,
+        },
+        {
+          path: '/integrations/triggers',
+          name: RouteNames.TRIGGERS,
+          component: Triggers,
+        },
+        {
+          path: '/integrations/triggers/new',
+          name: `${RouteNames.TRIGGERS}-new`,
+          component: OpenedTrigger,
+        },
+        {
+          path: '/integrations/triggers/:id',
+          name: `${RouteNames.TRIGGERS}-edit`,
+          component: OpenedTrigger,
         },
         // --------------INTEGRATIONS END-------------
 
