@@ -734,6 +734,22 @@ const FlowAppAutocomplete = Object.freeze({
       },
     },
   },
+  [FlowApp.FORM_RICH_TEXT_EDITOR]: {
+    label: FlowApp.FORM_RICH_TEXT_EDITOR,
+    documentation: FlowApp.FORM_RICH_TEXT_EDITOR,
+    insertText: {
+      formComponent: {
+        id: '',
+        view: {
+          label: '',
+          hint: '',
+          initialValue: '',
+          output: 'html',
+          component: 'rich-text-editor',
+        },
+      },
+    },
+  },
   [FlowApp.GENERATE_FORM]: {
     label: FlowApp.GENERATE_FORM,
     documentation: FlowApp.GENERATE_FORM,
