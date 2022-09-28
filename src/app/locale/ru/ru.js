@@ -870,6 +870,9 @@ export default {
         mailbox: 'Почтовый ящик',
         smtpPort: 'SMTP Порт',
         imapPort: 'IMAP Порт',
+        smtpHost: 'SMTP Хост',
+        imapHost: 'IMAP Хост',
+        fetchInterval: 'Интервал обновления',
       },
 
       importCsv: {
