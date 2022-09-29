@@ -872,6 +872,9 @@ export default {
         mailbox: 'Mailbox',
         smtpPort: 'SMTP Port',
         imapPort: 'IMAP Port',
+        smtpHost: 'SMTP Host',
+        imapHost: 'IMAP Host',
+        fetchInterval: 'Refresh interval',
       },
 
       importCsv: {

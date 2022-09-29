@@ -14,24 +14,6 @@
       ></wt-input>
       <wt-input
         :disabled="disableUserInput"
-        :label="$t('vocabulary.host')"
-        :v="v.itemInstance.host"
-        :value="itemInstance.host"
-        required
-        @input="setItemProp({ prop: 'host', value: $event })"
-      ></wt-input>
-      <wt-select
-        :clearable="false"
-        :disabled="disableUserInput"
-        :label="$tc('objects.routing.flow.flow', 1)"
-        :search-method="loadFlows"
-        :v="v.itemInstance.schema"
-        :value="itemInstance.schema"
-        required
-        @input="setItemProp({ prop: 'schema', value: $event })"
-      ></wt-select>
-      <wt-input
-        :disabled="disableUserInput"
         :label="$t('vocabulary.login')"
         :v="v.itemInstance.login"
         :value="itemInstance.login"
@@ -40,11 +22,25 @@
       ></wt-input>
       <wt-input
         :disabled="disableUserInput"
+        :value="itemInstance.password"
+        :label="$t('objects.password')"
+        @input="setItemProp({ prop: 'password', value: $event })"
+      ></wt-input>
+      <wt-input
+        :disabled="disableUserInput"
         :label="$t('objects.integrations.emailProfiles.mailbox')"
         :v="v.itemInstance.mailbox"
         :value="itemInstance.mailbox"
         required
         @input="setItemProp({ prop: 'mailbox', value: $event })"
+      ></wt-input>
+      <wt-input
+        :disabled="disableUserInput"
+        :label="$t('objects.integrations.emailProfiles.imapHost')"
+        :v="v.itemInstance.imapHost"
+        :value="itemInstance.imapHost"
+        required
+        @input="setItemProp({ prop: 'imapHost', value: $event })"
       ></wt-input>
       <wt-input
         :disabled="disableUserInput"
@@ -59,6 +55,14 @@
       ></wt-input>
       <wt-input
         :disabled="disableUserInput"
+        :label="$t('objects.integrations.emailProfiles.smtpHost')"
+        :v="v.itemInstance.smtpHost"
+        :value="itemInstance.smtpHost"
+        required
+        @input="setItemProp({ prop: 'smtpHost', value: $event })"
+      ></wt-input>
+      <wt-input
+        :disabled="disableUserInput"
         :label="$t('objects.integrations.emailProfiles.smtpPort')"
         :number-max="65535"
         :number-min="0"
@@ -68,12 +72,23 @@
         type="number"
         @input="setItemProp({ prop: 'smtpPort', value: $event })"
       ></wt-input>
-      <wt-input
+      <wt-select
+        :clearable="false"
         :disabled="disableUserInput"
-        :value="itemInstance.password"
-        :label="$t('objects.password')"
-        @input="setItemProp({ prop: 'password', value: $event })"
-      ></wt-input>
+        :label="$tc('objects.routing.flow.flow', 1)"
+        :search-method="loadFlows"
+        :v="v.itemInstance.schema"
+        :value="itemInstance.schema"
+        required
+        @input="setItemProp({ prop: 'schema', value: $event })"
+      ></wt-select>
+      <wt-timepicker
+        :disabled="disableUserInput"
+        :label="$t('objects.integrations.emailProfiles.fetchInterval')"
+        :v="v.itemInstance.fetchInterval"
+        :value="itemInstance.fetchInterval"
+        @input="setItemProp({ prop: 'fetchInterval', value: +$event })"
+      ></wt-timepicker>
       <wt-textarea
         :disabled="disableUserInput"
         :label="$t('objects.description')"
