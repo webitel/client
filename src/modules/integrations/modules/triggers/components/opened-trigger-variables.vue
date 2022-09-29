@@ -1,7 +1,7 @@
 <template>
   <section>
     <header class="content-header">
-      <h3 class="content-title">{{ $t('vocabulary.variables', 2) }}</h3>
+      <h3 class="content-title">{{ $tc('vocabulary.variables', 2) }}</h3>
       <add-action
         v-if="!disableUserInput"
         @click="addVariable"
@@ -16,13 +16,13 @@
         >
           <wt-input
             :disabled="disableUserInput"
-            :placeholder="$t('objects.ccenter.queues.varKey')"
+            :placeholder="$tc('vocabulary.keys', 1)"
             :value="variable.key"
             @input="setVariableProp({index: key, prop: 'key', value: $event})"
           ></wt-input>
           <wt-input
             :disabled="disableUserInput"
-            :placeholder="$t('objects.ccenter.queues.varVal')"
+            :placeholder="$tc('vocabulary.values', 1)"
             :value="variable.value"
             @input="setVariableProp({index: key, prop: 'value', value: $event})"
           ></wt-input>
@@ -41,7 +41,7 @@ import openedTabComponentMixin
   from '../../../../../app/mixins/objectPagesMixins/openedObjectTabMixin/openedTabComponentMixin';
 
 export default {
-  name: 'opened-triggers-variables',
+  name: 'opened-trigger-variables',
   components: {},
 
   mixins: [openedTabComponentMixin],

@@ -65,7 +65,7 @@ const Triggers = () => import('../../modules/integrations/modules/triggers/compo
 const OpenedCognitiveProfile = () => import('../../modules/integrations/modules/cognitive-profiles/components/opened-cognitive-profile.vue');
 const OpenedEmailProfile = () => import('../../modules/integrations/modules/email-profiles/components/opened-email-profile.vue');
 const OpenedImportCsv = () => import('../../modules/integrations/modules/import-csv/components/opened-import-csv.vue');
-const OpenedTrigger = () => import('../../modules/integrations/modules/triggers/components/opened-triggers.vue');
+const OpenedTrigger = () => import('../../modules/integrations/modules/triggers/components/opened-trigger.vue');
 
 Vue.use(Router);
 

@@ -16,9 +16,9 @@
         :clearable="false"
         :disabled="disableUserInput"
         :label="$t('objects.integrations.triggers.type')"
+        :options="TriggerTypes"
         :v="v.itemInstance.type"
         :value="itemInstance.type"
-        required
         track-by="value"
         @input="setItemProp({ prop: 'type', value: $event })"
       ></wt-select>
@@ -27,9 +27,20 @@
         :v="v.itemInstance.schema"
         :label="$tc('objects.integrations.triggers.schema')"
         :clearable="false"
+        :search-method="loadDropdownOptionsList"
         :disabled="disableUserInput"
         required
         @input="setItemProp({ prop: 'schema', value: $event })"
+      ></wt-select>
+      <wt-select
+        :value="itemInstance.timezone"
+        :v="v.itemInstance.timezone"
+        :label="$tc('date.timezone', 1)"
+        :search-method="loadTimezones"
+        :disabled="disableUserInput"
+        :clearable="false"
+        required
+        @input="setItemProp({ prop: 'timezone', value: $event })"
       ></wt-select>
       <wt-textarea
         :disabled="disableUserInput"
@@ -44,10 +55,24 @@
 <script>
 import openedTabComponentMixin
   from '../../../../../app/mixins/objectPagesMixins/openedObjectTabMixin/openedTabComponentMixin';
+import CalendarsAPI from '../../../../lookups/modules/calendars/api/calendars';
+import FlowsAPI from '../../../../routing/modules/flow/api/flow';
+import TriggerTypes from '../lookups/TriggerTypes.lookup';
 
 export default {
-  name: 'opened-triggers-general',
+  name: 'opened-trigger-general',
   mixins: [openedTabComponentMixin],
+  data: () => ({
+    TriggerTypes,
+  }),
+  methods: {
+    loadDropdownOptionsList(params) {
+      return FlowsAPI.getLookup(params);
+    },
+    loadTimezones(params) {
+      return CalendarsAPI.getTimezonesLookup(params);
+    },
+  },
 };
 </script>
 

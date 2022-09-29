@@ -34,12 +34,12 @@
 
 <script>
 import { required } from 'vuelidate/lib/validators';
-import General from './opened-triggers-general.vue';
-import Variables from './opened-triggers-variables.vue';
+import General from './opened-trigger-general.vue';
+import Variables from './opened-trigger-variables.vue';
 import openedObjectMixin from '../../../../../app/mixins/objectPagesMixins/openedObjectMixin/openedObjectMixin';
 
 export default {
-  name: 'opened-triggers',
+  name: 'opened-trigger',
   mixins: [openedObjectMixin],
   components: {
     General,
@@ -64,7 +64,7 @@ export default {
         value: 'general',
       };
       const variables = {
-        text: this.$tc('objects.ccenter.queues.variables', 2),
+        text: this.$tc('vocabulary.variables', 2),
         value: 'variables',
       };
 
@@ -87,11 +87,6 @@ export default {
         },
       ];
     },
-  },
-  mounted() {
-    console.log(this.id);
-    console.log(this.pathName);
-    console.log(this.itemInstance.name);
   },
 };
 </script>

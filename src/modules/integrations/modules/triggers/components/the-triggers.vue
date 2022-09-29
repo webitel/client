@@ -63,7 +63,13 @@
               </item-link>
             </template>
             <template v-slot:type="{ item }">
-              {{ item.type }}
+              {{ $t(`${TriggerTypes.find((type) => type.value === item.type).locale}`) }}
+            </template>
+            <template v-slot:schema="{ item }">
+              <div
+                v-if="item.schema"
+              >{{ item.schema.name }}
+              </div>
             </template>
             <template v-slot:state="{ item, index }">
               <wt-switcher
@@ -72,10 +78,11 @@
                 @change="changeState({ item, index, value: $event })"
               ></wt-switcher>
             </template>
-            <template v-slot:schema="{ item }">
-              {{ item.schema.name }}
-            </template>
             <template v-slot:actions="{ item }">
+              <wt-icon-btn
+                icon="trigger-start"
+                icon-prefix="adm"
+              ></wt-icon-btn>
               <edit-action
                 v-if="hasEditAccess"
                 @click="edit(item)"
@@ -105,6 +112,7 @@
 <script>
 import tableComponentMixin from '../../../../../app/mixins/objectPagesMixins/objectTableMixin/tableComponentMixin';
 import RouteNames from '../../../../../app/router/_internals/RouteNames.enum';
+import TriggerTypes from '../lookups/TriggerTypes.lookup';
 
 export default {
   name: 'the-triggers',
@@ -112,8 +120,8 @@ export default {
   data: () => ({
     namespace: 'integrations/triggers',
     routeName: RouteNames.TRIGGERS,
+    TriggerTypes,
   }),
-
   computed: {
     path() {
       return [
