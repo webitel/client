@@ -37,7 +37,6 @@ import path from 'path';
 import { mapActions } from 'vuex';
 import openedTabComponentMixin
   from '../../../../../../../app/mixins/objectPagesMixins/openedObjectTabMixin/openedTabComponentMixin';
-import FlowsAPI from '../../../../flow/api/flow';
 import uriCopyMixin from '../../../mixins/uriCopyMixin';
 
 export default {
@@ -51,7 +50,7 @@ export default {
   methods: {
     ...mapActions({
       setItemMetadata(dispatch, payload) {
-        return dispatch(`${this.namespace}/SET_WEBCHAT_ITEM_METADATA`, payload);
+        return dispatch(`${this.namespace}/SET_ITEM_METADATA`, payload);
       },
     }),
     modifyUriCopy(value) {

@@ -5,6 +5,12 @@
       <h3 class="content-title">{{ $t('objects.routing.chatGateways.webchat.webchat') }}</h3>
     </header>
     <div class="object-input-grid">
+      <wt-switcher
+        :value="itemInstance.metadata.chat.enabled"
+        :label="$t('objects.enabled')"
+        @change="setChatMetadata({ prop: 'enabled', value: $event })"
+      ></wt-switcher>
+      <div></div>
       <wt-input
         :disabled="disableUserInput"
         :label="$t('objects.routing.chatGateways.metadata.readTimeout')"
@@ -34,23 +40,23 @@
         :value="itemInstance.metadata.handshakeTimeout"
         @input="setItemMetadata({ prop: 'handshakeTimeout', value: $event })"
       ></wt-input>
+      <wt-switcher
+        :label="this.$t('objects.routing.chatGateways.webchat.view.openTimeout')"
+        :value="itemInstance.metadata.timeoutIsActive"
+        @change="setChatMetadata({ prop: 'timeoutIsActive', value: $event })"
+      ></wt-switcher>
+      <wt-input
+        :disabled="disableOpenTimeout"
+        :label="this.$t('objects.routing.chatGateways.webchat.view.openTimeoutSec')"
+        :v="v.itemInstance.metadata.openTimeout"
+        :value="itemInstance.metadata.openTimeout"
+        @input="setChatMetadata({ prop: 'openTimeout', value: $event })"
+      ></wt-input>
       <wt-input
         v-model="mediaMaxSize"
         :disabled="disableUserInput"
         :label="$t('objects.routing.chatGateways.webchat.metadata.mediaMaxSize')"
         type="number"
-      ></wt-input>
-      <wt-switcher
-        :label="this.$t('objects.routing.chatGateways.webchat.view.openTimeout')"
-        :value="itemInstance.metadata.timeoutIsActive"
-        @change="setItemMetadata({ prop: 'timeoutIsActive', value: $event })"
-      ></wt-switcher>
-      <wt-input
-        :disabled="disableOpenTimeout"
-        :label="this.$t('date.sec')"
-        :v="v.itemInstance.metadata.openTimeout"
-        :value="itemInstance.metadata.openTimeout"
-        @input="setItemMetadata({ prop: 'openTimeout', value: $event })"
       ></wt-input>
     </div>
   </section>
@@ -84,6 +90,9 @@ export default {
     ...mapActions({
       setItemMetadata(dispatch, payload) {
         return dispatch(`${this.namespace}/SET_WEBCHAT_ITEM_METADATA`, payload);
+      },
+      setChatMetadata(dispatch, payload) {
+        return dispatch(`${this.namespace}/SET_WEBCHAT_CHAT_METADATA`, payload);
       },
     }),
 

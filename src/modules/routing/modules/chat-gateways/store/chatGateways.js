@@ -57,6 +57,16 @@ const actions = {
     await context.dispatch('SET_ITEM_METADATA', payload);
     context.commit('SET_ITEM_METADATA', { prop: '_btnCodeDirty', value: true });
   },
+  SET_WEBCHAT_CHAT_METADATA: (context, { prop, value }) => {
+    const chat = { ...context.state.itemInstance.metadata.chat };
+    chat[prop] = value;
+    return context.dispatch('SET_WEBCHAT_ITEM_METADATA', { prop: 'chat', value: chat });
+  },
+  SET_WEBCHAT_APPOINTMENT_METADATA: (context, { prop, value }) => {
+    const appointment = { ...context.state.itemInstance.metadata.appointment };
+    appointment[prop] = value;
+    return context.dispatch('SET_WEBCHAT_ITEM_METADATA', { prop: 'appointment', value: appointment });
+  },
   SET_WEBCHAT_ALTERNATIVE_CHANNEL_VALUE: (
     context,
     { channel, prop, value },

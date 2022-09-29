@@ -35,7 +35,7 @@ const webChatGateway = (_btnCodeDirty = false) => ({
       url: '',
       queue: {},
       communicationType: {},
-      duration: {},
+      duration: '30m',
       days: 3,
       availableAgents: 1,
       successMessage: '',
