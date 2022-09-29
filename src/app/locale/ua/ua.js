@@ -141,6 +141,7 @@ export default {
     stt: 'Speech-to-Text',
     key: 'Ключ',
     ID: 'ID',
+    email: 'Адреса електронної пошти',
 
     deleteConfirmation: {
       title: 'Підтвердіть видалення',

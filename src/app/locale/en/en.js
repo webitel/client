@@ -141,6 +141,7 @@ export default {
     stt: 'Speech-to-Text',
     key: 'Key',
     ID: 'ID',
+    email: 'Email',
 
     deleteConfirmation: {
       title: 'Confirm deletion',
