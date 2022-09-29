@@ -13,7 +13,7 @@
 <script>
 import path from 'path';
 import clipboardCopy from 'clipboard-copy';
-import getChatOriginUrl from '../../scripts/getChatOriginUrl';
+import getChatOriginUrl from '../../../scripts/getChatOriginUrl';
 
 const defaultConfig = {
   wsUrl: '',

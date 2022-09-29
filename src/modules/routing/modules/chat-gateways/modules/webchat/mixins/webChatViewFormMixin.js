@@ -47,9 +47,6 @@ export default {
       // }
       ];
     },
-    disableOpenTimeout() {
-      return !this.itemInstance.metadata.timeoutIsActive || this.disableUserInput;
-    },
   },
   methods: {
     restoreLanguage(value) {

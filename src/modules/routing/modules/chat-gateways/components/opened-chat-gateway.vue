@@ -41,7 +41,9 @@
 </template>
 
 <script>
-import { maxValue, minLength, minValue, numeric, required, url } from 'vuelidate/lib/validators';
+import {
+  maxValue, minLength, minValue, numeric, required, url,
+} from 'vuelidate/lib/validators';
 import { mapActions } from 'vuex';
 import openedObjectMixin from '../../../../../app/mixins/objectPagesMixins/openedObjectMixin/openedObjectMixin';
 import ChatGatewayProvider from '../enum/ChatGatewayProvider.enum';
@@ -55,12 +57,13 @@ import OpenedChatTelegramBot from './telegram-bot/opened-chat-gateway-telegram-b
 import OpenedChatGatewayTemplates from './_shared/opened-chat-gateway-templates-tab.vue';
 
 import OpenedViberChat from './viber/opened-chat-gateway-viber-general-tab.vue';
-import WebchatCopyCodeButton from './webchat/copy-code-button.vue';
-import OpenedWebchatAlternativeChannels from './webchat/opened-chat-gateway-webchat-alternative-channels-tab.vue';
 import OpenedChatTelegramApp from './telegram-app/opened-chat-gateway-telegram-app-general-tab.vue';
 
-import OpenedWebchat from './webchat/opened-chat-gateway-webchat-general-tab.vue';
-import OpenedWebchatView from './webchat/opened-chat-gateway-webchat-view-tab.vue';
+import OpenedWebchat from '../modules/webchat/components/opened-chat-gateway-webchat-general-tab.vue';
+import OpenedWebchatView from '../modules/webchat/components/opened-chat-gateway-webchat-view-tab.vue';
+import WebchatCopyCodeButton from '../modules/webchat/components/copy-code-button.vue';
+import OpenedWebchatAlternativeChannels from '../modules/webchat/components/opened-chat-gateway-webchat-alternative-channels-tab.vue';
+import OpenedWebchatAppointments from '../modules/webchat/components/opened-chat-gateway-webchat-appointments-tab.vue';
 
 export default {
   name: 'opened-chat-gateway',
@@ -78,6 +81,7 @@ export default {
     OpenedWebchatView,
     OpenedWebchatAlternativeChannels,
     WebchatCopyCodeButton,
+    OpenedWebchatAppointments,
   },
 
   data: () => ({
@@ -225,7 +229,7 @@ export default {
       };
 
       const webChat = {
-        text: this.$t('objects.routing.chatGateways.webchat.webchat'),
+        text: this.$t('objects.general'),
         value: 'OpenedWebchat',
       };
       const webchatView = {

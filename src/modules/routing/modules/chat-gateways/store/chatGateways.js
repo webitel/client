@@ -1,4 +1,3 @@
-import { kebabToSnake } from '@webitel/ui-sdk/src/scripts/caseConverters';
 import deepMerge from 'deepmerge';
 import ObjectStoreModule
   from '../../../../../app/store/BaseStoreModules/StoreModules/ObjectStoreModule';
