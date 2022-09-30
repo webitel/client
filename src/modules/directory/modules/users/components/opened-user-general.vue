@@ -11,6 +11,12 @@
         @input="setItemProp({ prop: 'name', value: $event })"
       ></wt-input>
       <wt-input
+        :value="itemInstance.email"
+        :label="$t('objects.email')"
+        :disabled="disableUserInput"
+        @input="setItemProp({ prop: 'email', value: $event })"
+      ></wt-input>
+      <wt-input
         :value="itemInstance.username"
         :v="v.itemInstance.username"
         :label="$t('objects.directory.users.login')"
