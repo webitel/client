@@ -11,11 +11,17 @@ import BucketsAPI
   from '../../../../../../../../lookups/modules/buckets/api/buckets';
 import AgentsAPI from '../../../../../../agents/api/agents';
 
+const defaultDateFrom = () => {
+  const dateNow = new Date();
+  dateNow.setMonth(dateNow.getMonth() - 1, 1);
+  return dateNow.setHours(0, 0, 0, 0);
+};
+
 const state = {
   search: new BaseFilterSchema(),
   from: new BaseFilterSchema({
-    value: new Date(0).setHours(0, 0, 0, 0),
-    defaultValue: new Date(0).setHours(0, 0, 0, 0),
+    value: defaultDateFrom(),
+    defaultValue: defaultDateFrom(),
   }),
   to: new BaseFilterSchema({
     value: new Date().setHours(23, 59, 59, 0),
@@ -23,10 +29,10 @@ const state = {
   }),
   cause: new EnumFilterSchema({
     options: Object.values(MemberStopCause)
-    .map((value) => ({
-      value,
-      locale: `objects.ccenter.members.endCause.${value}`,
-    })),
+      .map((value) => ({
+        value,
+        locale: `objects.ccenter.members.endCause.${value}`,
+      })),
     locale: { label: 'objects.ccenter.queues.endCause' },
   }),
   bucket: new ApiFilterSchema({
