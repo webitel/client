@@ -82,6 +82,7 @@
               <wt-icon-btn
                 icon="trigger-start"
                 icon-prefix="adm"
+                @click="startTrigger(item)"
               ></wt-icon-btn>
               <edit-action
                 v-if="hasEditAccess"
@@ -110,6 +111,7 @@
 </template>
 
 <script>
+import { mapActions } from 'vuex';
 import tableComponentMixin from '../../../../../app/mixins/objectPagesMixins/objectTableMixin/tableComponentMixin';
 import RouteNames from '../../../../../app/router/_internals/RouteNames.enum';
 import TriggerTypes from '../lookups/TriggerTypes.lookup';
@@ -139,6 +141,11 @@ export default {
         item, index, prop: 'enabled', value,
       });
     },
+    ...mapActions({
+      startTrigger(dispatch, payload) {
+        return dispatch(`${this.namespace}/START_TRIGGER`, payload);
+      },
+    }),
   },
 };
 </script>

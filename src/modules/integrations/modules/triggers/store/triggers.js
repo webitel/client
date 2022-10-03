@@ -6,6 +6,7 @@ import TriggerTypes from '../lookups/TriggerTypes.lookup';
 
 const resettableState = {
   itemInstance: {
+    id: 0,
     description: '',
     enabled: true,
     name: '',
@@ -14,6 +15,7 @@ const resettableState = {
     timezone: {},
     type: TriggerTypes[0],
     variables: [],
+    expression: '0 */1 12 * * *',
   },
 };
 
@@ -24,12 +26,17 @@ const actions = {
     context.commit('SET_ITEM_PROPERTY', { prop: '_dirty', value: true });
   },
   SET_VARIABLE_PROP: (context, { index, prop, value }) => {
+    console.log(context);
     context.commit('SET_VARIABLE_PROP', { index, prop, value });
     context.commit('SET_ITEM_PROPERTY', { prop: '_dirty', value: true });
   },
   DELETE_VARIABLE_PAIR: (context, index) => {
     context.commit('DELETE_VARIABLE_PAIR', index);
     context.commit('SET_ITEM_PROPERTY', { prop: '_dirty', value: true });
+  },
+  START_TRIGGER: async (context, item) => {
+    const response = await TriggersAPI.start(context, item);
+    return response;
   },
 };
 

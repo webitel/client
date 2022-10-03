@@ -1,3 +1,4 @@
+import eventBus from '@webitel/ui-sdk/src/scripts/eventBus';
 import { TriggerServiceApiFactory } from 'webitel-sdk';
 import {
   SdkCreatorApiConsumer,
@@ -10,6 +11,9 @@ import {
 import instance from '../../../../../app/api/instance';
 import configuration from '../../../../../app/api/openAPIConfig';
 import TriggerTypes from '../lookups/TriggerTypes.lookup';
+
+const token = localStorage.getItem('access-token');
+const baseUrl = process.env.VUE_APP_API_URL;
 
 const triggersService = new TriggerServiceApiFactory(configuration, '', instance);
 
@@ -91,6 +95,18 @@ const itemUpdater = new SdkUpdaterApiConsumer(
 );
 const itemDeleter = new SdkDeleterApiConsumer(triggersService.deleteTrigger);
 
+const startTrigger = async (params, item) => {
+  const url = `${baseUrl}/trigger/${item.id}/job?access_token=${token}`;
+
+  try {
+    const response = await instance.post(url, item);
+    eventBus.$emit('notification', { type: 'info', text: 'Successfully added' });
+    return response;
+  } catch (err) {
+    throw err;
+  }
+};
+
 const getList = (params) => listGetter.getList(params);
 const get = (params) => itemGetter.getItem(params);
 const add = (params) => itemCreator.createItem(params);
@@ -108,6 +124,7 @@ const TriggersAPI = {
   update,
   delete: deleteItem,
   getLookup,
+  start: startTrigger,
 };
 
 export default TriggersAPI;
