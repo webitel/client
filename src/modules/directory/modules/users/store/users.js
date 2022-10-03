@@ -7,6 +7,7 @@ import headers from './_internals/headers';
 const resettableState = {
   itemInstance: {
     name: '',
+    email: '',
     username: '',
     password: '',
     extension: '',
