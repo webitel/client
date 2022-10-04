@@ -19,7 +19,7 @@ const fieldsToSend = [
   'roles',
   'license',
   'devices',
-  'device',
+  // 'device',
   'profile',
   'email',
 ];

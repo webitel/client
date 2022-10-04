@@ -16,6 +16,7 @@
         :label="$t('objects.routing.chatGateways.metadata.readTimeout')"
         :v="v.itemInstance.metadata.readTimeout"
         :value="itemInstance.metadata.readTimeout"
+        type="number"
         @input="setItemMetadata({ prop: 'readTimeout', value: $event })"
       ></wt-input>
       <wt-select
@@ -31,6 +32,7 @@
         :label="$t('objects.routing.chatGateways.metadata.writeTimeout')"
         :v="v.itemInstance.metadata.writeTimeout"
         :value="itemInstance.metadata.writeTimeout"
+        type="number"
         @input="setItemMetadata({ prop: 'writeTimeout', value: $event })"
       ></wt-input>
       <wt-input
@@ -38,18 +40,20 @@
         :label="$t('objects.routing.chatGateways.metadata.handshakeTimeout')"
         :v="v.itemInstance.metadata.handshakeTimeout"
         :value="itemInstance.metadata.handshakeTimeout"
+        type="number"
         @input="setItemMetadata({ prop: 'handshakeTimeout', value: $event })"
       ></wt-input>
       <wt-switcher
-        :label="this.$t('objects.routing.chatGateways.webchat.view.openTimeout')"
-        :value="itemInstance.metadata.timeoutIsActive"
+        :label="this.$t('objects.routing.chatGateways.webchat.chat.openTimeout')"
+        :value="itemInstance.metadata.chat.timeoutIsActive"
         @change="setChatMetadata({ prop: 'timeoutIsActive', value: $event })"
       ></wt-switcher>
       <wt-input
         :disabled="disableOpenTimeout"
-        :label="this.$t('objects.routing.chatGateways.webchat.view.openTimeoutSec')"
-        :v="v.itemInstance.metadata.openTimeout"
-        :value="itemInstance.metadata.openTimeout"
+        :label="this.$t('objects.routing.chatGateways.webchat.chat.openTimeoutSec')"
+        :v="v.itemInstance.metadata.chat.openTimeout"
+        :value="itemInstance.metadata.chat.openTimeout"
+        type="number"
         @input="setChatMetadata({ prop: 'openTimeout', value: $event })"
       ></wt-input>
       <wt-input
@@ -73,7 +77,7 @@ export default {
   mixins: [openedTabComponentMixin],
   computed: {
     disableOpenTimeout() {
-      return !this.itemInstance.metadata.timeoutIsActive || this.disableUserInput;
+      return !this.itemInstance.metadata.chat.timeoutIsActive || this.disableUserInput;
     },
     mediaMaxSize: {
       get() {

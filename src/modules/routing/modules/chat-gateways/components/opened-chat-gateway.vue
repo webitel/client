@@ -157,11 +157,13 @@ export default {
                 minValue: minValue(10),
                 maxValue: maxValue(60),
               },
-              openTimeout: {
-                numeric,
-                minValue: minValue(0),
-              },
               view: { logoUrl: { url } },
+              chat: {
+                openTimeout: {
+                  numeric,
+                  minValue: minValue(0),
+                },
+              },
               appointment: this.itemInstance.metadata.appointment.enabled ? {
                 queue: { required },
                 communicationType: { required },

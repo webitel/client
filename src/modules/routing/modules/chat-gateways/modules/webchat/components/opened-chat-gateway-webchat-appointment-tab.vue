@@ -34,7 +34,7 @@
         :v="v.itemInstance.metadata.appointment.duration"
         :options="durationOptions"
         :track-by="null"
-        @input="setAppointmentMetadata({ prop: 'communicationType', value: $event })"
+        @input="setAppointmentMetadata({ prop: 'duration', value: $event })"
       ></wt-select>
       <wt-input
         :value="itemInstance.metadata.appointment.days"
@@ -66,7 +66,7 @@
       <wt-textarea
         :value="itemInstance.metadata.appointment.successMessage"
         :label="$t('objects.routing.chatGateways.webchat.appointment.successMessage')"
-        @change="setAppointmentMetadata({ prop: 'successMessage', value: $event })"
+        @input="setAppointmentMetadata({ prop: 'successMessage', value: $event })"
       ></wt-textarea>
     </div>
   </section>
@@ -76,6 +76,8 @@
 import { mapActions } from 'vuex';
 import openedTabComponentMixin
   from '../../../../../../../app/mixins/objectPagesMixins/openedObjectTabMixin/openedTabComponentMixin';
+import QueuesAPI from '../../../../../../contact-center/modules/queues/api/queues';
+import CommunicationsAPI from '../../../../../../lookups/modules/communications/api/communications';
 
 export default {
   name: 'opened-chat-gateway-webchat-appointment-tab',
@@ -89,8 +91,8 @@ export default {
         return dispatch(`${this.namespace}/SET_WEBCHAT_APPOINTMENT_METADATA`, payload);
       },
     }),
-    searchQueues() {},
-    searchCommunications() {},
+    searchQueues: QueuesAPI.getLookup,
+    searchCommunications: CommunicationsAPI.getLookup,
   },
 };
 </script>

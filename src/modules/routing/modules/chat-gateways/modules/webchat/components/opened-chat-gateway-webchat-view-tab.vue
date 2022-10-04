@@ -47,8 +47,8 @@
               hint: this.$t('objects.routing.chatGateways.webchat.view.logoHint'),
               hintPosition: 'right',
              }"
-            :v="v.itemInstance.metadata.logoUrl"
-            :value="itemInstance.metadata.logoUrl"
+            :v="v.itemInstance.metadata.view.logoUrl"
+            :value="itemInstance.metadata.view.logoUrl"
             @input="setItemMetadata({ prop: 'logoUrl', value: $event })"
           ></wt-input>
           <section>
@@ -82,7 +82,7 @@ export default {
   methods: {
     ...mapActions({
       setItemMetadata(dispatch, payload) {
-        return dispatch(`${this.namespace}/SET_WEBCHAT_ITEM_METADATA`, payload);
+        return dispatch(`${this.namespace}/SET_WEBCHAT_VIEW_METADATA`, payload);
       },
     }),
   },

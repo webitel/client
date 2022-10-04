@@ -11,51 +11,62 @@
 </template>
 
 <script>
-import path from 'path';
+import isEmpty from '@webitel/ui-sdk/src/scripts/isEmpty';
 import clipboardCopy from 'clipboard-copy';
+import path from 'path';
 import getChatOriginUrl from '../../../scripts/getChatOriginUrl';
-
-const defaultConfig = {
-  wsUrl: '',
-  borderRadiusStyle: 'square',
-  lang: 'en',
-  accentColor: 'hsl(42, 100%, 50%)',
-  btnOpacity: 1,
-  logoUrl: '',
-  position: 'right',
-  openTimeout: false,
-  alternativeChannels: null,
-};
 
 const SCRIPT_URL = getChatOriginUrl();
 const CHAT_URL = process.env.VUE_APP_CHAT_URL;
 
 const WS_SERVER_URL = SCRIPT_URL.replace(/^http/, 'ws');
 
-const getConfig = (userConfig) => Object.keys(defaultConfig)
-                                        .reduce((config, key) => ({
-                                          ...config,
-                                          [key]: userConfig[key] || defaultConfig[key],
-                                        }), {});
+const filterEmptyValues = (obj) => Object
+  .entries(obj)
+  .reduce((acc, [key, value]) => (isEmpty(value) ? acc : { ...acc, [key]: value }), {});
 
-const minifyAltChannels = (altChannels) => (
-  Object.entries(altChannels)
-        .reduce((channels, [channelName, { enabled, url }]) => (
-          enabled && url ? { ...channels, [channelName]: url } : channels
-        ), {})
-);
+const processViewConfig = (view) => filterEmptyValues(view);
 
-const generateCode = ({
-                        btnOpacity,
-                        accentColor,
-                        borderRadiusStyle,
-                        lang,
-                        logoUrl,
-                        position,
-                        openTimeout,
-                        uri,
-                        alternativeChannels,
-                      }) => `
+const processChatConfig = ({
+  enabled,
+  timeoutIsActive,
+  openTimeout,
+  ...rest
+                           }, uri) => {
+  if (!enabled) return undefined;
+  const result = { ...filterEmptyValues(rest) };
+  if (timeoutIsActive) result.openTimeout = +openTimeout;
+  result.url = new URL(path.join(CHAT_URL, uri), WS_SERVER_URL);
+  return result;
+};
+
+const processAppointmentConfig = ({
+  enabled,
+  queue,
+  communicationType,
+  days,
+  duration,
+  availableAgents,
+  ...rest
+                                  }, uri) => {
+  if (!enabled) return undefined;
+  const result = { ...filterEmptyValues(rest) };
+  result.url = new URL(path.join(CHAT_URL, uri), SCRIPT_URL);
+  return result;
+};
+
+const processAlternativeChannelsConfig = (channels) => {
+  const minifyAltChannels = (altChannels) => (
+    Object.entries(altChannels)
+          .reduce((channels, [channelName, { enabled, url }]) => (
+            enabled && url ? { ...channels, [channelName]: url } : channels
+          ), {})
+  );
+  const result = minifyAltChannels(channels);
+  return isEmpty(result) ? undefined : result;
+};
+
+const generateCode = (config) => `
       const script = document.createElement('script');
       script.src = '${new URL(path.normalize('/omni-widget/WtOmniWidget.umd.js'), SCRIPT_URL)}';
       script.onload = function () {
@@ -64,17 +75,7 @@ const generateCode = ({
         widgetEl.setAttribute('id', 'wt-omnichannel-widget');
         body.appendChild(widgetEl);
 
-        const config = {
-            wsUrl: "${new URL(path.join(CHAT_URL, uri), WS_SERVER_URL)}",
-            borderRadiusStyle: "${borderRadiusStyle}",
-            accentColor: "${accentColor}",
-            btnOpacity: "${btnOpacity}",
-            lang: "${lang}",
-            logoUrl: "${logoUrl}",
-            position: "${position}",
-            openTimeout: ${openTimeout},
-            alternativeChannels: ${JSON.stringify(minifyAltChannels(alternativeChannels))},
-         };
+        const config = ${JSON.stringify(config, null, 4)};
 
         const app = new WtOmniWidget('#wt-omnichannel-widget', config);
       };
@@ -109,15 +110,23 @@ export default {
   },
   methods: {
     copyCode() {
-      const openTimeout = this.itemInstance.metadata.timeoutIsActive
-        ? this.itemInstance.metadata.openTimeout
-        : false;
-      const config = getConfig(this.itemInstance.metadata);
+      const view = processViewConfig(this.itemInstance.metadata.view);
+      const chat = processChatConfig(this.itemInstance.metadata.chat, this.itemInstance.uri);
+      const appointment = processAppointmentConfig(
+        this.itemInstance.metadata.appointment,
+        this.itemInstance.uri,
+      );
+      const alternativeChannels = processAlternativeChannelsConfig(
+        this.itemInstance.metadata.alternativeChannels,
+      );
+
       const code = generateCode({
-                                  ...config,
-                                  openTimeout,
-                                  uri: this.itemInstance.uri,
-                                });
+        view,
+        chat,
+        appointment,
+        alternativeChannels,
+      });
+
       clipboardCopy(code);
       this.isCopied = true;
       setTimeout(() => {

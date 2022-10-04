@@ -57,6 +57,11 @@ const actions = {
     await context.dispatch('SET_ITEM_METADATA', payload);
     context.commit('SET_ITEM_METADATA', { prop: '_btnCodeDirty', value: true });
   },
+  SET_WEBCHAT_VIEW_METADATA: (context, { prop, value }) => {
+    const view = { ...context.state.itemInstance.metadata.view };
+    view[prop] = value;
+    return context.dispatch('SET_WEBCHAT_ITEM_METADATA', { prop: 'view', value: view });
+  },
   SET_WEBCHAT_CHAT_METADATA: (context, { prop, value }) => {
     const chat = { ...context.state.itemInstance.metadata.chat };
     chat[prop] = value;

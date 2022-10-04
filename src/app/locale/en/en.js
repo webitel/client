@@ -523,7 +523,19 @@ export default {
             right: 'Right',
             left: 'Left',
             static: 'Static',
+          },
+          chat: {
+            chat: 'Chat',
             openTimeout: 'Open Timeout',
+            openTimeoutSec: 'Open Timeout Sec',
+          },
+          appointment: {
+            appointment: 'Appointment',
+            days: 'Days',
+            availableAgents: 'Available agents',
+            showEmailField: 'Show email field',
+            showMessageField: 'Show message field',
+            successMessage: 'Success message',
           },
           alternativeChannels: {
             alternativeChannels: 'Alternative Channels',
