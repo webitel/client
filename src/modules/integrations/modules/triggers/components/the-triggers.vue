@@ -63,7 +63,7 @@
               </item-link>
             </template>
             <template v-slot:type="{ item }">
-              {{ $t(`${TriggerTypes.find((type) => type.value === item.type).locale}`) }}
+              {{ $t(`objects.integrations.triggers.${item.type}`) }}
             </template>
             <template v-slot:schema="{ item }">
               <div

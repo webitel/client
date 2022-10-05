@@ -12,9 +12,6 @@ import instance from '../../../../../app/api/instance';
 import configuration from '../../../../../app/api/openAPIConfig';
 import TriggerTypes from '../lookups/TriggerTypes.lookup';
 
-const token = localStorage.getItem('access-token');
-const baseUrl = process.env.VUE_APP_API_URL;
-
 const triggersService = new TriggerServiceApiFactory(configuration, '', instance);
 
 const fieldsToSend = [
@@ -96,7 +93,7 @@ const itemUpdater = new SdkUpdaterApiConsumer(
 const itemDeleter = new SdkDeleterApiConsumer(triggersService.deleteTrigger);
 
 const startTrigger = async (params, item) => {
-  const url = `${baseUrl}/trigger/${item.id}/job?access_token=${token}`;
+  const url = `/trigger/${item.id}/job`;
 
   try {
     const response = await instance.post(url, item);

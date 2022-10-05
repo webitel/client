@@ -901,7 +901,7 @@ export default {
         newTriggerDescription: 'Choose a template to get going or start from scratch with a blank canvas',
         onEvent: 'On event',
         onEventDescription: 'An event-based JSON Schema scheduler',
-        atTime: 'At time',
+        cron: 'At time',
         atTimeDescription: 'A time-based JSON Schema scheduler',
         event: 'Event',
       },
