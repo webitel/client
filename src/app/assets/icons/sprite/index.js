@@ -9,3 +9,4 @@ import './adm-routing.svg';
 import './adm-role.svg';
 import './adm-user.svg';
 import './adm-member-reset.svg';
+import './adm-trigger-start.svg';

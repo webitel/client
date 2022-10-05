@@ -39,6 +39,7 @@ export default Object.freeze({
   COGNITIVE_PROFILES: 'cognitive-profiles',
   EMAIL_PROFILES: 'email-profiles',
   IMPORT_CSV: 'import-csv',
+  TRIGGERS: 'triggers',
 
   // PERMISSIONS
   OBJECTS: 'objects',

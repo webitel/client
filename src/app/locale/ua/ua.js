@@ -917,7 +917,7 @@ export default {
         newTriggerDescription: 'Оберіть шаблон або почніть з нуля',
         onEvent: 'On event',
         onEventDescription: 'An event-based JSON Schema scheduler',
-        atTime: 'At time',
+        cron: 'At time',
         atTimeDescription: 'A time-based JSON Schema scheduler',
         event: 'Event',
       },
