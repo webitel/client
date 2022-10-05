@@ -7,9 +7,7 @@ import OpenedTabComponentMixinMock
 
 describe('OpenedTriggerGeneral', () => {
   const computed = {
-    itemInstance: () => ({
-      properties: {},
-    }),
+    itemInstance: () => ({}),
   };
 
   it('renders a component', () => {
@@ -17,7 +15,7 @@ describe('OpenedTriggerGeneral', () => {
       OpenedTabComponentMixinMock(),
       {
         propsData: {
-          v: { itemInstance: { properties: {} } },
+          v: { itemInstance: {} },
         },
         computed,
       },
