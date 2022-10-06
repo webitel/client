@@ -120,7 +120,7 @@ export default {
     history: 'History',
     copy: 'Copy',
     copied: 'Copied to clipboard!',
-    createdAt: 'Created at',
+    createdAt: 'Created',
     createdBy: 'Created by',
     importCSV: 'Import CSV',
     online: 'Online',
@@ -142,6 +142,7 @@ export default {
     key: 'Key',
     ID: 'ID',
     email: 'Email address',
+    updatedAt: 'Modified',
 
     deleteConfirmation: {
       title: 'Confirm deletion',

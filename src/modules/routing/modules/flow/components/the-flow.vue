@@ -92,6 +92,16 @@
                 </wt-chip>
               </div>
             </template>
+
+
+            <template v-slot:createdAt="{ item }">
+              {{ new Date(parseInt(item.createdAt)).toLocaleDateString()}}
+            </template>
+
+            <template v-slot:updatedAt="{ item }">
+              {{ new Date(parseInt(item.updatedAt)).toLocaleDateString()}}
+            </template>
+
             <template slot="actions" slot-scope="{ item }">
             <download-action
               @click="download(item)"
