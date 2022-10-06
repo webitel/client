@@ -120,7 +120,7 @@ export default {
     history: 'Історія',
     copy: 'Копіювати',
     copied: 'Скопійовано!',
-    createdAt: 'Коли створено',
+    createdAt: 'Створено',
     createdBy: 'Ким створено',
     importCSV: 'Імпортувати CSV',
     online: 'Онлайн',
@@ -142,6 +142,7 @@ export default {
     key: 'Ключ',
     ID: 'ID',
     email: 'Адреса електронної пошти',
+    updatedAt: 'Змінено',
 
     deleteConfirmation: {
       title: 'Підтвердіть видалення',

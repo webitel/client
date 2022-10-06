@@ -25,4 +25,16 @@ export default [
     field: 'tags',
     sort: SortSymbols.NONE,
   },
+  {
+    value: 'createdAt',
+    locale: 'objects.createdAt',
+    field: 'created_at',
+    sort: SortSymbols.NONE,
+  },
+  {
+    value: 'updatedAt',
+    locale: 'objects.updatedAt',
+    field: 'updated_at',
+    sort: SortSymbols.NONE,
+  },
 ];
