@@ -95,11 +95,11 @@
 
 
             <template v-slot:createdAt="{ item }">
-              {{ new Date(parseInt(item.createdAt)).toLocaleDateString()}}
+              {{ new Date(+item.createdAt).toLocaleDateString()}}
             </template>
 
             <template v-slot:updatedAt="{ item }">
-              {{ new Date(parseInt(item.updatedAt)).toLocaleDateString()}}
+              {{ new Date(+item.updatedAt).toLocaleDateString()}}
             </template>
 
             <template slot="actions" slot-scope="{ item }">
