@@ -780,6 +780,21 @@ const FlowAppAutocomplete = Object.freeze({
       },
     },
   },
+  [FlowApp.GET_EMAIL]: {
+    label: FlowApp.GET_EMAIL,
+    documentation: FlowApp.GET_EMAIL,
+    insertText: {
+      [FlowApp.GET_EMAIL]: {
+        email: {
+          id: '',
+          messageId: '',
+        },
+        set: {
+          myA: 'attachments',
+        },
+      },
+    },
+  },
 });
 
 export default FlowAppAutocomplete;
