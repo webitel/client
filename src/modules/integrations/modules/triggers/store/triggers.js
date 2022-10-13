@@ -34,7 +34,7 @@ const actions = {
     context.commit('DELETE_VARIABLE_PAIR', index);
     context.commit('SET_ITEM_PROPERTY', { prop: '_dirty', value: true });
   },
-  START_TRIGGER: async (context, item) => await TriggersAPI.start(context, item),
+  START_TRIGGER: async (context, item) => TriggersAPI.start(context, item),
 };
 
 const mutations = {
