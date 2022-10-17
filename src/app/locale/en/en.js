@@ -143,6 +143,7 @@ export default {
     ID: 'ID',
     email: 'Email address',
     updatedAt: 'Modified',
+    expireAt: 'Expire At',
 
     deleteConfirmation: {
       title: 'Confirm deletion',

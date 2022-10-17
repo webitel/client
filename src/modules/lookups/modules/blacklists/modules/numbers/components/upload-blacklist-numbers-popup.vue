@@ -20,6 +20,7 @@ export default {
       type: [Number, String],
       required: true, // required to create new numbers
     },
+
   },
   data: () => ({
     mappingFields: [
@@ -27,6 +28,13 @@ export default {
         name: 'number',
         required: true,
         csv: '',
+      },
+      {
+        datePicker: {
+          name: 'expireAt',
+          required: false,
+          csv: '',
+        },
       },
       {
         name: 'description',

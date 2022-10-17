@@ -119,7 +119,7 @@ export default {
 
   methods: {
     async download({ id }) {
-      return this.exportCSV({ parentId: id, fields: ['number', 'description'] });
+      return this.exportCSV({ parentId: id, fields: ['number', 'expireAt', 'description'] });
     },
     getBlacklistNumbersList: BlacklistNumbersAPI.getList,
   },

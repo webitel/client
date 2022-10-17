@@ -12,6 +12,17 @@
         required
         @input="setItemProp({ prop: 'name', value: $event })"
       ></wt-input>
+
+      <wt-datetimepicker
+        :label="$t('objects.expireAt')"
+        :value="itemInstance.date"
+        :v-model="expiredAt"
+        @input="setExpiredAt({ prop: 'expiredAt'})"
+      >
+      </wt-datetimepicker>
+
+      {{ setExpiredAt }}
+
       <wt-textarea
         :value="itemInstance.description"
         :label="$t('objects.description')"
@@ -23,10 +34,39 @@
 </template>
 
 <script>
-import openedTabComponentMixin from '../../../../../app/mixins/objectPagesMixins/openedObjectTabMixin/openedTabComponentMixin';
+
+import openedTabComponentMixin
+  from '../../../../../app/mixins/objectPagesMixins/openedObjectTabMixin/openedTabComponentMixin';
 
 export default {
   name: 'opened-blacklist-general',
   mixins: [openedTabComponentMixin],
+
+  data() {
+    return {
+      expiredAt: new Date(),
+      time: new Date(),
+    };
+  },
+  computed: {
+    setExpiredAt() {
+      const expiredAt = new Date(this.expiredAt);
+      if (typeof this.time === 'string') {
+        const hours = this.time.match(/^(\d+)/)[1];
+        const minutes = this.time.match(/:(\d+)/)[1];
+        expiredAt.setHours(hours);
+        expiredAt.setMinutes(minutes);
+      } else {
+        expiredAt.setHours(this.time.getHours());
+        expiredAt.setMinutes(this.time.getMinutes());
+      }
+      return expiredAt;
+    },
+  },
+  methods: {
+
+  },
+
 };
+
 </script>

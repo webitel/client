@@ -143,6 +143,7 @@ export default {
     ID: 'ID',
     email: 'Адрес электронной почты',
     updatedAt: 'Изменено',
+    expireAt: 'Действительний до',
 
     deleteConfirmation: {
       title: 'Подтвердите удаление',

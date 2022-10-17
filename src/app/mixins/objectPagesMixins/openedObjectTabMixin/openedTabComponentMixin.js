@@ -43,5 +43,6 @@ export default {
         return dispatch(`${this.namespace}/SET_VARIABLE_PROP`, payload);
       },
     }),
+
   },
 };
