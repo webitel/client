@@ -68,6 +68,7 @@ export default {
     numeric: 'Should be numeric',
     requiredArrayValue: 'Array should not be empty',
     isPositiveValue: 'Value should be positive number',
+    cron: 'Invalid cron expression',
   },
 
   nav: {
@@ -923,6 +924,7 @@ export default {
         cron: 'At time',
         atTimeDescription: 'A time-based JSON Schema scheduler',
         event: 'Event',
+        expression: 'Expression',
       },
     },
 

@@ -34,6 +34,7 @@
 
 <script>
 import { required } from 'vuelidate/lib/validators';
+import { isValidCron } from 'cron-validator';
 import General from './opened-trigger-general.vue';
 import Variables from './opened-trigger-variables.vue';
 import openedObjectMixin from '../../../../../app/mixins/objectPagesMixins/openedObjectMixin/openedObjectMixin';
@@ -54,6 +55,10 @@ export default {
       name: { required },
       schema: { required },
       timezone: { required },
+      expression: {
+        required,
+        cron: (value) => isValidCron(value, { seconds: true }),
+      },
     },
   },
 

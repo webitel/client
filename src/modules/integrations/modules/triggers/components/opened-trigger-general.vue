@@ -42,6 +42,21 @@
         required
         @input="setItemProp({ prop: 'timezone', value: $event })"
       ></wt-select>
+      <div class="crontab">
+        <wt-input
+          :disabled="disableUserInput"
+          :label="$t('objects.integrations.triggers.expression')"
+          :v="v.itemInstance.expression"
+          :value="itemInstance.expression"
+          :custom-validators="cronValidator"
+          required
+          @input="setItemProp({ prop: 'expression', value: $event })"
+        ></wt-input>
+        <p
+          class="crontab__parsed"
+          v-show="!v.itemInstance.expression.$error"
+        >{{ parsedCron }}</p>
+      </div>
       <wt-textarea
         :disabled="disableUserInput"
         :label="$t('objects.description')"
@@ -53,6 +68,11 @@
 </template>
 
 <script>
+import cronstrue from 'cronstrue';
+import 'cronstrue/locales/en.min';
+import 'cronstrue/locales/ru.min';
+import 'cronstrue/locales/uk.min';
+
 import openedTabComponentMixin
   from '../../../../../app/mixins/objectPagesMixins/openedObjectTabMixin/openedTabComponentMixin';
 import CalendarsAPI from '../../../../lookups/modules/calendars/api/calendars';
@@ -65,6 +85,18 @@ export default {
   data: () => ({
     TriggerTypes,
   }),
+  computed: {
+    parsedCron() {
+      const locale = this.$i18n.locale === 'ua' ? 'uk' : this.$i18n.locale; // change ua locale code
+      return cronstrue.toString(this.itemInstance.expression, {
+        locale,
+        throwExceptionOnParseError: false,
+      });
+    },
+    cronValidator() {
+      return [{ name: 'cron', text: this.$t('validation.cron') }];
+    },
+  },
   methods: {
     loadDropdownOptionsList(params) {
       return FlowsAPI.getLookup(params);
@@ -76,6 +108,8 @@ export default {
 };
 </script>
 
-<style scoped>
-
+<style lang="scss" scoped>
+.crontab__parsed {
+  margin-top: var(--spacing-xs);
+}
 </style>

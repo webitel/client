@@ -68,6 +68,7 @@ export default {
     numeric: 'Должны быть цифры',
     requiredArrayValue: 'Поле не должно быть пустым',
     isPositiveValue: 'Значение должно быть больше нуля',
+    cron: 'Некорректное cron-выражение',
   },
 
   nav: {
@@ -921,6 +922,7 @@ export default {
         cron: 'At time',
         atTimeDescription: 'A time-based JSON Schema scheduler',
         event: 'Event',
+        expression: 'Выражение',
       },
     },
     pagination: {
