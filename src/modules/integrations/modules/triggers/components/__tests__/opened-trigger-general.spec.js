@@ -1,9 +1,8 @@
 import { shallowMount } from '@vue/test-utils';
 import deepmerge from 'deepmerge';
-import OpenedTriggerGeneral
-  from '../opened-trigger-general.vue';
 import OpenedTabComponentMixinMock
   from '../../../../../../../tests/unit/mocks/mixinMocks/openedTabComponentMixin.mock';
+import OpenedTriggerGeneral from '../opened-trigger-general.vue';
 
 describe('OpenedTriggerGeneral', () => {
   const computed = {
@@ -14,8 +13,13 @@ describe('OpenedTriggerGeneral', () => {
     const wrapper = shallowMount(OpenedTriggerGeneral, deepmerge.all([
       OpenedTabComponentMixinMock(),
       {
+        i18n: {},
         propsData: {
-          v: { itemInstance: {} },
+          v: {
+            itemInstance: {
+              expression: {},
+            },
+          },
         },
         computed,
       },
