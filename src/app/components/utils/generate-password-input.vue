@@ -14,10 +14,10 @@
           v-if="!disabled"
           v-slot:after-input
         >
-        <copy-action
+        <wt-copy-action
           v-show="passwordRepresentation"
           :value="value"
-        ></copy-action>
+        ></wt-copy-action>
         <wt-tooltip class="generate-password-input__icon-btn generate-password-input__icon-btn--generate">
           <template v-slot:activator>
             <wt-icon-btn
