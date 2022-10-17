@@ -33,6 +33,7 @@ const defaultListObject = {
 
 const defaultSingleObject = {
   timeout: 0,
+  variables: {},
 };
 
 const itemResponseHandler = (response) => {

@@ -72,6 +72,7 @@ import cronstrue from 'cronstrue';
 import 'cronstrue/locales/en.min';
 import 'cronstrue/locales/ru.min';
 import 'cronstrue/locales/uk.min';
+import { EngineRoutingSchemaType } from 'webitel-sdk';
 
 import openedTabComponentMixin
   from '../../../../../app/mixins/objectPagesMixins/openedObjectTabMixin/openedTabComponentMixin';
@@ -99,7 +100,7 @@ export default {
   },
   methods: {
     loadDropdownOptionsList(params) {
-      return FlowsAPI.getLookup(params);
+      return FlowsAPI.getLookup({ ...params, type: [EngineRoutingSchemaType.Service] });
     },
     loadTimezones(params) {
       return CalendarsAPI.getTimezonesLookup(params);
