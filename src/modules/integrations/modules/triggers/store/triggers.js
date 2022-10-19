@@ -26,7 +26,6 @@ const actions = {
     context.commit('SET_ITEM_PROPERTY', { prop: '_dirty', value: true });
   },
   SET_VARIABLE_PROP: (context, { index, prop, value }) => {
-    console.log(context);
     context.commit('SET_VARIABLE_PROP', { index, prop, value });
     context.commit('SET_ITEM_PROPERTY', { prop: '_dirty', value: true });
   },

@@ -17,6 +17,7 @@
         :label="$tc('vocabulary.tag', 2)"
         :value="itemInstance.tags"
         :search-method="loadFlowTagOptions"
+        option-label="name"
         track-by="name"
         taggable
         @input="setItemProp({ prop: 'tags', value: $event })"

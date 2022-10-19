@@ -69,6 +69,28 @@ const _getFlowsList = (getList) => function({
   return getList(params);
 };
 
+const _getFlowsLookup = (getList) => function({
+                                              page,
+                                              size,
+                                              search,
+                                              sort,
+                                              fields,
+                                              ids,
+                                              type,
+                                            }) {
+  const params = [
+    page,
+    size,
+    search,
+    sort,
+    fields,
+    ids,
+    undefined,
+    type,
+  ];
+  return getList(params);
+};
+
 const listGetter = new SdkListGetterApiConsumer(
   flowService.searchRoutingSchema,
   { defaultListObject },
@@ -96,7 +118,7 @@ const itemDeleter = new SdkDeleterApiConsumer(flowService.deleteRoutingSchema);
 
 const lookupGetter = new SdkListGetterApiConsumer(
   flowService.searchRoutingSchema,
-);
+).setGetListMethod(_getFlowsLookup);
 
 const flowTagsListGetter = new SdkListGetterApiConsumer(
   flowService.searchRoutingSchemaTags,
