@@ -795,6 +795,24 @@ const FlowAppAutocomplete = Object.freeze({
       },
     },
   },
+  [FlowApp.FORM_FILE]: {
+    label: FlowApp.FORM_FILE,
+    documentation: FlowApp.FORM_FILE,
+    insertText: {
+      [FlowApp.FORM_FILE]: {
+        id: 'id',
+        view: {
+          initialValue: [{
+            name: 'Google-logo',
+            url: 'https://www.google.com.ua/images/branding/googlelogo/1x/googlelogo_light_color_272x92dp.png',
+          }],
+          label: 'Logo',
+          hint: 'Hint',
+          readonly: true,
+        },
+      },
+    },
+  },
 });
 
 export default FlowAppAutocomplete;
