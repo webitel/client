@@ -1,12 +1,13 @@
 <template>
   <wt-tags-input
-    class="flow-tags-filter"
     :close-on-select="filterSchema.closeOnSelect"
     :label="label"
     :multiple="filterSchema.multiple"
     :search-method="search"
     :track-by="filterSchema.storedProp"
     :value="filterSchema.value"
+    class="flow-tags-filter"
+    option-label="name"
     v-bind="$attrs"
     @input="handleInput"
     @reset="setValueToQuery({ value, filterQuery, storedProp: filterSchema.storedProp })"
