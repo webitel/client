@@ -526,19 +526,7 @@ export default {
             right: 'Справа',
             left: 'Слева',
             static: 'Статическая',
-          },
-          chat: {
-            chat: 'Чат',
-            openTimeout: 'Включить задержку открытия',
-            openTimeoutSec: 'Время задержки открытия',
-          },
-          appointment: {
-            appointment: 'Заказ звонка',
-            days: 'Количество дней',
-            availableAgents: 'Свободные агенты',
-            showEmailField: 'Показать поле ввода почты',
-            showMessageField: 'Показать поле ввода сообщения',
-            successMessage: 'Сообщение об успехе',
+            openTimeout: 'Задержка открытия',
           },
           alternativeChannels: {
             alternativeChannels: 'Альтерантивные каналы',

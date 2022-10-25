@@ -47,10 +47,24 @@
               hint: this.$t('objects.routing.chatGateways.webchat.view.logoHint'),
               hintPosition: 'right',
              }"
-            :v="v.itemInstance.metadata.view.logoUrl"
-            :value="itemInstance.metadata.view.logoUrl"
+            :v="v.itemInstance.metadata.logoUrl"
+            :value="itemInstance.metadata.logoUrl"
             @input="setItemMetadata({ prop: 'logoUrl', value: $event })"
           ></wt-input>
+          <section class="switcher-section">
+            <wt-switcher
+              :label="this.$t('objects.routing.chatGateways.webchat.view.openTimeout')"
+              :value="itemInstance.metadata.timeoutIsActive"
+              @change="setItemMetadata({ prop: 'timeoutIsActive', value: $event })"
+            ></wt-switcher>
+            <wt-input
+              :disabled="disableOpenTimeout"
+              :label="this.$t('date.sec')"
+              :v="v.itemInstance.metadata.openTimeout"
+              :value="itemInstance.metadata.openTimeout"
+              @input="setItemMetadata({ prop: 'openTimeout', value: $event })"
+            ></wt-input>
+          </section>
           <section>
             <div class="colorpicker-section">
               <wt-label>
@@ -69,9 +83,9 @@
 import { Chrome } from 'vue-color';
 import { mapActions } from 'vuex';
 import openedTabComponentMixin
-  from '../../../../../../../app/mixins/objectPagesMixins/openedObjectTabMixin/openedTabComponentMixin';
-import webChatPreviewMixin from '../mixins/webChatPreviewMixin';
-import webChatViewFormMixin from '../mixins/webChatViewFormMixin';
+  from '../../../../../../app/mixins/objectPagesMixins/openedObjectTabMixin/openedTabComponentMixin';
+import webChatPreviewMixin from '../../mixins/webChatPreviewMixin';
+import webChatViewFormMixin from '../../mixins/webChatViewFormMixin';
 
 export default {
   name: 'opened-chat-gateway-webchat-view-tab',
@@ -82,7 +96,7 @@ export default {
   methods: {
     ...mapActions({
       setItemMetadata(dispatch, payload) {
-        return dispatch(`${this.namespace}/SET_WEBCHAT_VIEW_METADATA`, payload);
+        return dispatch(`${this.namespace}/SET_WEBCHAT_ITEM_METADATA`, payload);
       },
     }),
   },
@@ -90,7 +104,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-@import '../../../css/chat-gateways';
+@import '../../css/chat-gateways';
 
 .webchat-view-main {
   width: 50%;
@@ -126,12 +140,19 @@ export default {
       left: 0;
       bottom: 0;
       right: 0;
-      background: url('../../../assets/transparent-img.svg') repeat;
+      background: url('../../assets/transparent-img.svg') repeat;
       opacity: 0.3;
     }
   }
 
   .chat-config-section {
+    .switcher-section {
+      display: flex;
+      gap: var(--spacing-sm);
+      flex-shrink: 0;
+      align-items: center;
+    }
+
     .colorpicker-section {
       position: relative;
       display: flex;

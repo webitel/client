@@ -34,7 +34,7 @@
           :namespace="namespace"
           :v="$v"
         ></component>
-        <input hidden type="submit"> <!--  submit form on Enter  -->
+        <input type="submit" hidden> <!--  submit form on Enter  -->
       </form>
     </template>
   </wt-page-wrapper>
@@ -47,23 +47,20 @@ import openedObjectMixin from '../../../../../app/mixins/objectPagesMixins/opene
 import ChatGatewayProvider from '../enum/ChatGatewayProvider.enum';
 import OpenedChatFacebook from '../modules/messenger/facebook/components/facebook-tab.vue';
 import OpenedChatInstagram from '../modules/messenger/instagram/components/instagram-tab.vue';
-import WebchatCopyCodeButton from '../modules/webchat/components/copy-code-button.vue';
-import OpenedWebchatAlternativeChannels
-  from '../modules/webchat/components/opened-chat-gateway-webchat-alternative-channels-tab.vue';
-import OpenedWebchatAppointment from '../modules/webchat/components/opened-chat-gateway-webchat-appointment-tab.vue';
-import OpenedWebchatChat from '../modules/webchat/components/opened-chat-gateway-webchat-chat-tab.vue';
-
-import OpenedWebchat from '../modules/webchat/components/opened-chat-gateway-webchat-general-tab.vue';
-import OpenedWebchatView from '../modules/webchat/components/opened-chat-gateway-webchat-view-tab.vue';
-import OpenedChatGatewayTemplates from './_shared/opened-chat-gateway-templates-tab.vue';
 
 import OpenedChatInfobip from './infobip/opened-chat-gateway-infobip-general-tab.vue';
 
 import OpenedChatMessenger from './messenger/opened-chat-gateway-messenger-general-tab.vue';
-import OpenedChatTelegramApp from './telegram-app/opened-chat-gateway-telegram-app-general-tab.vue';
 import OpenedChatTelegramBot from './telegram-bot/opened-chat-gateway-telegram-bot-general-tab.vue';
+import OpenedChatGatewayTemplates from './_shared/opened-chat-gateway-templates-tab.vue';
 
 import OpenedViberChat from './viber/opened-chat-gateway-viber-general-tab.vue';
+import WebchatCopyCodeButton from './webchat/copy-code-button.vue';
+import OpenedWebchatAlternativeChannels from './webchat/opened-chat-gateway-webchat-alternative-channels-tab.vue';
+import OpenedChatTelegramApp from './telegram-app/opened-chat-gateway-telegram-app-general-tab.vue';
+
+import OpenedWebchat from './webchat/opened-chat-gateway-webchat-general-tab.vue';
+import OpenedWebchatView from './webchat/opened-chat-gateway-webchat-view-tab.vue';
 
 export default {
   name: 'opened-chat-gateway',
@@ -81,8 +78,6 @@ export default {
     OpenedWebchatView,
     OpenedWebchatAlternativeChannels,
     WebchatCopyCodeButton,
-    OpenedWebchatChat,
-    OpenedWebchatAppointment,
   },
 
   data: () => ({
@@ -157,27 +152,11 @@ export default {
                 minValue: minValue(10),
                 maxValue: maxValue(60),
               },
-              view: { logoUrl: { url } },
-              chat: {
-                openTimeout: {
-                  numeric,
-                  minValue: minValue(0),
-                },
+              openTimeout: {
+                numeric,
+                minValue: minValue(0),
               },
-              appointment: this.itemInstance.metadata.appointment.enabled ? {
-                queue: { required },
-                communicationType: { required },
-                duration: { required },
-                days: {
-                  required,
-                  minValue: minValue(1),
-                  maxValue: maxValue(7),
-                },
-                availableAgents: {
-                  required,
-                  minValue: minValue(1),
-                },
-              } : {},
+              logoUrl: { url },
             },
           },
         };
@@ -246,20 +225,12 @@ export default {
       };
 
       const webChat = {
-        text: this.$t('objects.general'),
+        text: this.$t('objects.routing.chatGateways.webchat.webchat'),
         value: 'OpenedWebchat',
       };
       const webchatView = {
         text: this.$t('objects.routing.chatGateways.webchat.view.view'),
         value: 'OpenedWebchatView',
-      };
-      const webchatChat = {
-        text: this.$t('objects.routing.chatGateways.webchat.chat.chat'),
-        value: 'OpenedWebchatChat',
-      };
-      const webchatAppointment = {
-        text: this.$t('objects.routing.chatGateways.webchat.appointment.appointment'),
-        value: 'OpenedWebchatAppointment',
       };
       const webchatAlternativeChannels = {
         text: this.$t('objects.routing.chatGateways.webchat.alternativeChannels.alternativeChannels'),
@@ -278,14 +249,7 @@ export default {
         case ChatGatewayProvider.VIBER:
           return [viberChat, botTemplates];
         case ChatGatewayProvider.WEBCHAT:
-          return [
-            webChat,
-            botTemplates,
-            webchatView,
-            webchatChat,
-            webchatAppointment,
-            webchatAlternativeChannels,
-          ];
+          return [webChat, webchatView, webchatAlternativeChannels, botTemplates];
         default:
           return [];
       }
@@ -300,7 +264,7 @@ export default {
         case ChatGatewayProvider.TELEGRAM_BOT:
           chatTypeLocale = 'telegramBot';
           break;
-        case ChatGatewayProvider.MESSENGER:
+          case ChatGatewayProvider.MESSENGER:
         case ChatGatewayProvider.VIBER:
         case ChatGatewayProvider.WEBCHAT:
           chatTypeLocale = this.chatType;
@@ -309,7 +273,7 @@ export default {
           return this.$tc('objects.routing.gateways.gateways', 1);
       }
       return this.$t(`objects.routing.chatGateways.${chatTypeLocale}.${chatTypeLocale}`)
-                 .concat(' ', this.$tc('objects.routing.gateways.gateways', 1));
+      .concat(' ', this.$tc('objects.routing.gateways.gateways', 1));
     },
 
     path() {

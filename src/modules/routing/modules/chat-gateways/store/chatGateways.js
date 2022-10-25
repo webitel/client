@@ -1,3 +1,4 @@
+import { kebabToSnake } from '@webitel/ui-sdk/src/scripts/caseConverters';
 import deepMerge from 'deepmerge';
 import ObjectStoreModule
   from '../../../../../app/store/BaseStoreModules/StoreModules/ObjectStoreModule';
@@ -56,21 +57,6 @@ const actions = {
   SET_WEBCHAT_ITEM_METADATA: async (context, payload) => {
     await context.dispatch('SET_ITEM_METADATA', payload);
     context.commit('SET_ITEM_METADATA', { prop: '_btnCodeDirty', value: true });
-  },
-  SET_WEBCHAT_VIEW_METADATA: (context, { prop, value }) => {
-    const view = { ...context.state.itemInstance.metadata.view };
-    view[prop] = value;
-    return context.dispatch('SET_WEBCHAT_ITEM_METADATA', { prop: 'view', value: view });
-  },
-  SET_WEBCHAT_CHAT_METADATA: (context, { prop, value }) => {
-    const chat = { ...context.state.itemInstance.metadata.chat };
-    chat[prop] = value;
-    return context.dispatch('SET_WEBCHAT_ITEM_METADATA', { prop: 'chat', value: chat });
-  },
-  SET_WEBCHAT_APPOINTMENT_METADATA: (context, { prop, value }) => {
-    const appointment = { ...context.state.itemInstance.metadata.appointment };
-    appointment[prop] = value;
-    return context.dispatch('SET_WEBCHAT_ITEM_METADATA', { prop: 'appointment', value: appointment });
   },
   SET_WEBCHAT_ALTERNATIVE_CHANNEL_VALUE: (
     context,

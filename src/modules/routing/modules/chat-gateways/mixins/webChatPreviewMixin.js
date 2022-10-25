@@ -15,7 +15,7 @@ export default {
   methods: {
     getPreviewConfig(previewMode) {
       return {
-        ...this.itemInstance.metadata.view,
+        ...this.itemInstance.metadata,
         position: 'static',
         _previewMode: previewMode,
       };

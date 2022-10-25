@@ -5,18 +5,34 @@
       <h3 class="content-title">{{ $t('objects.routing.chatGateways.webchat.webchat') }}</h3>
     </header>
     <div class="object-input-grid">
-      <wt-switcher
-        :value="itemInstance.metadata.chat.enabled"
-        :label="$t('objects.enabled')"
-        @change="setChatMetadata({ prop: 'enabled', value: $event })"
-      ></wt-switcher>
-      <div></div>
+      <wt-input
+        :disabled="disableUserInput"
+        :label="$t('objects.name')"
+        :v="v.itemInstance.name"
+        :value="itemInstance.name"
+        @input="setItemProp({ prop: 'name', value: $event })"
+      ></wt-input>
+      <wt-tags-input
+        :disabled="disableUserInput"
+        :label="$t('objects.routing.chatGateways.metadata.allowOrigin')"
+        :value="itemInstance.metadata.allowOrigin"
+        taggable
+        @input="setItemMetadata({ prop: 'allowOrigin', value: $event })"
+      ></wt-tags-input>
+      <copy-input
+        :copy-modifier="modifyUriCopy"
+        :disabled="!isUriEditable"
+        :label="$t('objects.routing.chatGateways.uri')"
+        :v="v.itemInstance.uri"
+        :value="itemInstance.uri"
+        required
+        @input="setItemProp({ prop: 'uri', value: $event })"
+      ></copy-input>
       <wt-input
         :disabled="disableUserInput"
         :label="$t('objects.routing.chatGateways.metadata.readTimeout')"
         :v="v.itemInstance.metadata.readTimeout"
         :value="itemInstance.metadata.readTimeout"
-        type="number"
         @input="setItemMetadata({ prop: 'readTimeout', value: $event })"
       ></wt-input>
       <wt-select
@@ -32,7 +48,6 @@
         :label="$t('objects.routing.chatGateways.metadata.writeTimeout')"
         :v="v.itemInstance.metadata.writeTimeout"
         :value="itemInstance.metadata.writeTimeout"
-        type="number"
         @input="setItemMetadata({ prop: 'writeTimeout', value: $event })"
       ></wt-input>
       <wt-input
@@ -40,21 +55,7 @@
         :label="$t('objects.routing.chatGateways.metadata.handshakeTimeout')"
         :v="v.itemInstance.metadata.handshakeTimeout"
         :value="itemInstance.metadata.handshakeTimeout"
-        type="number"
         @input="setItemMetadata({ prop: 'handshakeTimeout', value: $event })"
-      ></wt-input>
-      <wt-switcher
-        :label="this.$t('objects.routing.chatGateways.webchat.chat.openTimeout')"
-        :value="itemInstance.metadata.chat.timeoutIsActive"
-        @change="setChatMetadata({ prop: 'timeoutIsActive', value: $event })"
-      ></wt-switcher>
-      <wt-input
-        :disabled="disableOpenTimeout"
-        :label="this.$t('objects.routing.chatGateways.webchat.chat.openTimeoutSec')"
-        :v="v.itemInstance.metadata.chat.openTimeout"
-        :value="itemInstance.metadata.chat.openTimeout"
-        type="number"
-        @input="setChatMetadata({ prop: 'openTimeout', value: $event })"
       ></wt-input>
       <wt-input
         v-model="mediaMaxSize"
@@ -62,22 +63,33 @@
         :label="$t('objects.routing.chatGateways.webchat.metadata.mediaMaxSize')"
         type="number"
       ></wt-input>
+      <!--      If the input below is not commented - please add an empty <div></div> here in order to have correct page design -->
+      <!--      The following input should be commented. Now the maximum message size is default, -->
+      <!--      but in future it could be useful allowing admins to set max size of json file-->
+      <!--      <wt-input-->
+      <!--        :value="itemInstance.metadata.messageSizeMax"-->
+      <!--        :label="$t('objects.routing.chatGateways.metadata.messageSize')"-->
+      <!--        :disabled="disableUserInput"-->
+      <!--        @input="setItemMetadata({ prop: 'messageSizeMax', value: $event })"-->
+      <!--      ></wt-input>-->
     </div>
   </section>
 </template>
 
 <script>
+import path from 'path';
 import { mapActions } from 'vuex';
 import openedTabComponentMixin
-  from '../../../../../../../app/mixins/objectPagesMixins/openedObjectTabMixin/openedTabComponentMixin';
-import FlowsAPI from '../../../../flow/api/flow';
+  from '../../../../../../app/mixins/objectPagesMixins/openedObjectTabMixin/openedTabComponentMixin';
+import FlowsAPI from '../../../flow/api/flow';
+import uriCopyMixin from '../../mixins/uriCopyMixin';
 
 export default {
   name: 'opened-chat-webchat-general-tab',
-  mixins: [openedTabComponentMixin],
+  mixins: [openedTabComponentMixin, uriCopyMixin],
   computed: {
-    disableOpenTimeout() {
-      return !this.itemInstance.metadata.chat.timeoutIsActive || this.disableUserInput;
+    isUriEditable() {
+      return !this.disableUserInput && this.$route.path.includes('/new');
     },
     mediaMaxSize: {
       get() {
@@ -94,9 +106,6 @@ export default {
     ...mapActions({
       setItemMetadata(dispatch, payload) {
         return dispatch(`${this.namespace}/SET_WEBCHAT_ITEM_METADATA`, payload);
-      },
-      setChatMetadata(dispatch, payload) {
-        return dispatch(`${this.namespace}/SET_WEBCHAT_CHAT_METADATA`, payload);
       },
     }),
 
@@ -116,11 +125,15 @@ export default {
     loadDropdownOptionsList(params) {
       return FlowsAPI.getLookup(params);
     },
+    modifyUriCopy(value) {
+      const base = window.location.origin.replace('http', 'ws');
+      return new URL(path.join(process.env.VUE_APP_CHAT_URL, value), base);
+    },
   },
 };
 </script>
 
 <style lang="scss" scoped>
-@import '../../../css/chat-gateways';
+@import '../../css/chat-gateways';
 
 </style>

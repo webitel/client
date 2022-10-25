@@ -526,19 +526,7 @@ export default {
             right: 'Справа',
             left: 'Зліва',
             static: 'Статична',
-          },
-          chat: {
-            chat: 'Чат',
-            openTimeout: 'Ввімкнути затримку відкриття',
-            openTimeoutSec: 'Час затримки відкриття',
-          },
-          appointment: {
-            appointment: 'Замовлення дзвінка',
-            days: 'Кількість днів',
-            availableAgents: 'Вільні агенти',
-            showEmailField: 'Показати поле вводу пошти',
-            showMessageField: 'Показати поле вводу повідомлення',
-            successMessage: 'Повідомлення про успіх',
+            openTimeout: 'Затримка відкриття',
           },
           alternativeChannels: {
             alternativeChannels: 'Альтернативні канали',

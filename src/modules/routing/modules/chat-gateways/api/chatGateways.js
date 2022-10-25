@@ -47,12 +47,12 @@ const webchatRequestConverter = (data) => {
   if (data.metadata.allowOrigin) {
     data.metadata.allowOrigin = data.metadata.allowOrigin.join();
   }
-
-  data.metadata.view = JSON.stringify(data.metadata.view);
-  data.metadata.chat = JSON.stringify(data.metadata.chat);
-  data.metadata.appointment = JSON.stringify(data.metadata.appointment);
+  if (data.metadata.openTimeout) {
+    data.metadata.openTimeout = `${data.metadata.openTimeout}`;
+  }
   data.metadata.alternativeChannels = JSON.stringify(data.metadata.alternativeChannels);
   data.metadata._btnCodeDirty = data.metadata._btnCodeDirty.toString();
+  data.metadata.timeoutIsActive = `${data.metadata.timeoutIsActive}`;
   return data;
 };
 
@@ -69,19 +69,11 @@ const webChatResponseConverter = (data) => {
   if (data.metadata.handshakeTimeout) {
     data.metadata.handshakeTimeout = parseTimeoutSeconds(data.metadata.handshakeTimeout);
   }
-  if (data.metadata.view) {
-    data.metadata.view = JSON.parse(data.metadata.view);
-  }
-  if (data.metadata.chat) {
-    data.metadata.chat = JSON.parse(data.metadata.chat);
-  }
-  if (data.metadata.appointment) {
-    data.metadata.appointment = JSON.parse(data.metadata.appointment);
-  }
   if (data.metadata.alternativeChannels) {
     data.metadata.alternativeChannels = JSON.parse(data.metadata.alternativeChannels);
   }
   data.metadata._btnCodeDirty = (data.metadata._btnCodeDirty === 'true');
+  data.metadata.timeoutIsActive = data.metadata.timeoutIsActive === 'true';
 
   return deepmerge(webChatGateway(), data);
 };
