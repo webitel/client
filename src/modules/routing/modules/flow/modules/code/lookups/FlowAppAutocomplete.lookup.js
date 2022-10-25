@@ -809,6 +809,7 @@ const FlowAppAutocomplete = Object.freeze({
           label: 'Logo',
           hint: 'Hint',
           readonly: true,
+          component: 'form-file',
         },
       },
     },
