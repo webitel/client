@@ -42,6 +42,15 @@
         required
         @input="setItemProp({ prop: 'timezone', value: $event })"
       ></wt-select>
+      <wt-input
+        :disabled="disableUserInput"
+        :label="$t('objects.integrations.triggers.timeout')"
+        :v="v.itemInstance.timeout"
+        :value="itemInstance.timeout"
+        type="number"
+        :number-min="0"
+        @input="setItemProp({ prop: 'timeout', value: $event })"
+      ></wt-input>
       <div class="crontab">
         <wt-input
           :disabled="disableUserInput"

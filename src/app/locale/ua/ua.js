@@ -911,6 +911,7 @@ export default {
         atTimeDescription: 'A time-based JSON Schema scheduler',
         event: 'Event',
         expression: 'Вираз',
+        timeout: 'Затримка',
       },
     },
     pagination: {

@@ -66,10 +66,13 @@
               {{ $t(`objects.integrations.triggers.${item.type}`) }}
             </template>
             <template v-slot:schema="{ item }">
-              <div
+              <item-link
                 v-if="item.schema"
-              >{{ item.schema.name }}
-              </div>
+                :route-name="RouteNames.FLOW"
+                :id="item.schema.id"
+              >
+                {{ item.schema.name }}
+              </item-link>
             </template>
             <template v-slot:state="{ item, index }">
               <wt-switcher

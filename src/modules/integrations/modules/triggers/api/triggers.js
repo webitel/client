@@ -98,7 +98,7 @@ const startTrigger = async (params, item) => {
 
   try {
     const response = await instance.post(url, item);
-    eventBus.$emit('notification', { type: 'info', text: 'Successfully added' });
+    eventBus.$emit('notification', { type: 'info', text: 'Successfully ran' });
     return response;
   } catch (err) {
     throw err;
