@@ -33,7 +33,7 @@
 </template>
 
 <script>
-import { required } from 'vuelidate/lib/validators';
+import { required, numeric, minValue } from 'vuelidate/lib/validators';
 import { isValidCron } from 'cron-validator';
 import General from './opened-trigger-general.vue';
 import Variables from './opened-trigger-variables.vue';
@@ -55,6 +55,10 @@ export default {
       name: { required },
       schema: { required },
       timezone: { required },
+      timeout: {
+        numeric,
+        minValue: minValue(0),
+      },
       expression: {
         required,
         cron: (value) => isValidCron(value, { seconds: true }),

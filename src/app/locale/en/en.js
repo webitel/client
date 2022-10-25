@@ -913,6 +913,7 @@ export default {
         atTimeDescription: 'A time-based JSON Schema scheduler',
         event: 'Event',
         expression: 'Expression',
+        timeout: 'Timeout',
       },
     },
 
