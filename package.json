@@ -10,7 +10,7 @@
     "prepare": "husky install"
   },
   "dependencies": {
-    "@webitel/flow-ui-sdk": "^0.1.11",
+    "@webitel/flow-ui-sdk": "^0.1.12",
     "@webitel/ui-sdk": "^2.1.18-1",
     "axios": "^0.27.1",
     "clipboard-copy": "^4.0.1",
