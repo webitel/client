@@ -12,6 +12,7 @@ const progressiveDialer = () => ({
   doSchema: {},
   afterSchema: {},
   ringtone: {},
+  grantee: {},
   stickyAgent: false,
   taskProcessing: processing(),
   payload: {

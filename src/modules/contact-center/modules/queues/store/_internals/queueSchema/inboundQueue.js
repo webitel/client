@@ -8,6 +8,7 @@ const inboundQueue = () => ({
   type: QueueType.INBOUND_QUEUE,
   team: {}, // required
   ringtone: {},
+  grantee: {},
   stickyAgent: false,
   taskProcessing: processing(),
   payload: {
