@@ -10,6 +10,7 @@ const outboundIVRQueue = () => ({
   schema: {},
   doSchema: {},
   afterSchema: {},
+  grantee: {},
   payload: {
     minDuration: 3,
     maxAttempts: 3, // required

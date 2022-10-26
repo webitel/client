@@ -36,6 +36,7 @@ const fieldsToSend = [
   'doSchema',
   'afterSchema',
   'stickyAgent',
+  'grantee',
 ];
 
 const defaultListObject = {

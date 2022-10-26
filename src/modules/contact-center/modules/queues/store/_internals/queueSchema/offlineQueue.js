@@ -10,6 +10,7 @@ const offlineQueue = () => ({
   strategy: Strategy.FIFO, // required
   doSchema: {},
   afterSchema: {},
+  grantee: {},
   taskProcessing: processing(),
   payload: {
     originateTimeout: 60, // required

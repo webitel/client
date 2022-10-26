@@ -10,6 +10,7 @@ const previewDialer = () => ({
   strategy: Strategy.FIFO, // required
   doSchema: {},
   afterSchema: {},
+  grantee: {},
   stickyAgent: false,
   taskProcessing: processing(),
   payload: {
