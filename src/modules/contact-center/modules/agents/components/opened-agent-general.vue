@@ -59,8 +59,7 @@
         :disabled="disableUserInput"
         :label="$tc('objects.lookups.media.mediaFiles', 1)"
         :search-method="loadMediaOptions"
-        :value="itemInstance.greetingMedia.name"
-        :v="v.itemInstance.greetingMedia.name"
+        :value="itemInstance.greetingMedia"
         @input="setItemProp({ prop: 'greetingMedia', value: $event })"
       ></wt-select>
       <wt-input
