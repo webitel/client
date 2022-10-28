@@ -111,12 +111,12 @@
 <script>
 import { required } from 'vuelidate/lib/validators';
 import { StorageServiceType } from 'webitel-sdk';
+import TtsMicrosoftLanguage from 'webitel-sdk/esm2015/enums/cloud-providers/microsoft/microsoft-language.enum';
 import validationMixin
   from '../../../../../../../app/mixins/baseMixins/openedObjectValidationMixin/openedObjectValidationMixin';
 import CognitiveProfilesAPI from '../../../../../../integrations/modules/cognitive-profiles/api/cognitiveProfiles';
 import MediaAPI from '../../../api/media';
 import TextToSpeechAPI from '../api/TextToSpeechAPI';
-import TtsMicrosoftLanguage from '../enums/TtsMicrosoftLanguage.enum';
 import TtsMicrosoftVoice from '../enums/TtsMicrosoftVoice.enum';
 import TtsTextType from '../lookups/TtsTextType.lookup';
 
@@ -124,7 +124,7 @@ const getModel = () => ({
   name: '',
   profile: {},
   textType: TtsTextType[0],
-  language: TtsMicrosoftLanguage.find((lang) => lang.includes('en-US')),
+  language: TtsMicrosoftLanguage['en-US'],
   voice: TtsMicrosoftVoice[0],
   text: '',
   format: 'wav',
@@ -137,7 +137,7 @@ export default {
     isOpened: false,
     draft: {},
     textTypeOptions: TtsTextType,
-    TtsMicrosoftLanguage,
+    TtsMicrosoftLanguage: Object.values(TtsMicrosoftLanguage),
     TtsMicrosoftVoice,
     audio: null,
     audioUrl: '',
