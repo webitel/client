@@ -49,7 +49,9 @@ export default {
     itemInstance: {
       name: { required },
       schema: { required },
-      host: { required },
+      imapHost: { required },
+      smtpHost: { required },
+      fetchInterval: { required },
       imapPort: { required, minValue: minValue(0), maxValue: maxValue(65535) },
       smtpPort: { required, minValue: minValue(0), maxValue: maxValue(65535) },
       login: { required },

@@ -10,6 +10,7 @@
         :disabled="disableUserInput"
         @input="setItemProp({ prop: 'name', value: $event })"
       ></wt-input>
+
       <wt-input
         :value="itemInstance.username"
         :v="v.itemInstance.username"
@@ -33,6 +34,14 @@
         :disabled="disableUserInput"
         @input="setItemProp({ prop: 'extension', value: $event })"
       ></wt-input>
+
+      <wt-input
+        :value="itemInstance.email"
+        :label="$t('objects.email')"
+        :disabled="disableUserInput"
+        @input="setItemProp({ prop: 'email', value: $event })"
+      ></wt-input>
+
     </div>
   </section>
 </template>

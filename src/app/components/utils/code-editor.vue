@@ -24,10 +24,8 @@
 </template>
 
 <script>
-import { editor } from 'monaco-editor';
-import Monaco from '../../utils/monacoSingleton';
+import { editor, languages } from 'monaco-editor';
 
-Monaco.getInstance(); // creates Monaco editor instance
 // https://microsoft.github.io/monaco-editor/api/interfaces/monaco.editor.ieditorconstructionoptions.html
 
 const defaultSizeConfig = {
@@ -51,6 +49,8 @@ const config = {
   readOnly: false,
 };
 
+let autocompleteDisposed = null;
+
 export default {
   name: 'code-editor',
   props: {
@@ -63,7 +63,10 @@ export default {
       type: String,
       default: '',
     },
-    proposals: Function,
+    autocomplete: {
+      type: Array,
+      default: () => [],
+    },
     disabled: {
       type: Boolean,
       default: false,
@@ -85,12 +88,6 @@ export default {
       }
     },
   },
-  mounted() {
-    this.initEditor();
-  },
-  destroyed() {
-    this.editor.dispose();
-  },
   computed: {
     fullscreenIcon() {
       return this.isFullscreen ? 'collapse' : 'expand';
@@ -109,7 +106,6 @@ export default {
       this.handleDisabled();
       config.value = this.value || '[]';
       this.editor = editor.create(this.$refs.editor, config);
-
       this.editor.onDidChangeModelContent((event) => {
         const value = this.editor.getValue();
         if (this.value !== value) {
@@ -120,6 +116,31 @@ export default {
       // eslint-disable-next-line no-unused-vars
       this.editor.onDidChangeModelDecorations((event) => {
         this.checkSyntaxError();
+      });
+
+      this.setupAutocomplete();
+    },
+    setupAutocomplete() {
+      autocompleteDisposed = languages.registerCompletionItemProvider('json', {
+        provideCompletionItems: (model, position) => {
+          const word = model.getWordUntilPosition(position);
+          const range = {
+            startLineNumber: position.lineNumber,
+            startColumn: word.startColumn,
+            endLineNumber: position.lineNumber,
+            endColumn: word.endColumn,
+          };
+          return {
+            suggestions: this.autocomplete
+            .map(({ label, documentation, insertText }) => ({
+                label,
+                range,
+                kind: languages.CompletionItemKind.Function,
+                documentation,
+                insertText: JSON.stringify(insertText, null, 4),
+            })),
+          };
+        },
       });
     },
     toggleFullscreen() {
@@ -135,6 +156,13 @@ export default {
     handleDisabled() {
       if (this.disabled) config.readOnly = true;
     },
+  },
+  mounted() {
+    this.initEditor();
+  },
+  destroyed() {
+    this.editor.dispose();
+    autocompleteDisposed.dispose();
   },
 };
 </script>

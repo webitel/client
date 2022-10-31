@@ -86,10 +86,8 @@
               v-else
               class="upload-popup-mapping-item__select"
               v-model="field.csv"
-              :autocomplete-items="csvColumns"
+              :options="csvColumns"
               :placeholder="field.text || field.name"
-              autocomplete-filter-duplicates
-              add-only-from-autocomplete
             ></wt-tags-input>
             <div class="upload-tooltip" v-if="field.tooltip">{{field.tooltip}}</div>
           </li>

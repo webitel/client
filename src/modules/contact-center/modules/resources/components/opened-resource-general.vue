@@ -5,68 +5,68 @@
     </header>
     <div class="object-input-grid">
       <wt-input
-        :value="itemInstance.name"
-        :v="v.itemInstance.name"
-        :label="$t('objects.name')"
         :disabled="disableUserInput"
+        :label="$t('objects.name')"
+        :v="v.itemInstance.name"
+        :value="itemInstance.name"
         required
         @input="setItemProp({ prop: 'name', value: $event })"
       ></wt-input>
       <wt-select
-        :value="itemInstance.gateway"
-        :v="v.itemInstance.gateway"
-        :label="$tc('objects.routing.gateways.gateways', 1)"
-        :search-method="loadDropdownOptionsList"
         :clearable="false"
         :disabled="disableUserInput"
+        :label="$tc('objects.routing.gateways.gateways', 1)"
+        :search-method="loadDropdownOptionsList"
+        :v="v.itemInstance.gateway"
+        :value="itemInstance.gateway"
         required
         @input="setItemProp({ prop: 'gateway', value: $event })"
       ></wt-select>
       <wt-input
-        :value="itemInstance.cps"
-        :v="v.itemInstance.cps"
-        :label="$t('objects.ccenter.res.cps')"
         :disabled="disableUserInput"
-        type="number"
+        :label="$t('objects.ccenter.res.cps')"
+        :v="v.itemInstance.cps"
+        :value="itemInstance.cps"
         required
+        type="number"
         @input="setItemProp({ prop: 'cps', value: +$event })"
       ></wt-input>
       <wt-input
-        :value="itemInstance.limit"
-        :v="v.itemInstance.limit"
-        :label="$t('objects.ccenter.res.limit')"
         :disabled="disableUserInput"
-        type="number"
+        :label="$t('objects.ccenter.res.limit')"
+        :v="v.itemInstance.limit"
+        :value="itemInstance.limit"
         required
+        type="number"
         @input="setItemProp({ prop: 'limit', value: +$event })"
       ></wt-input>
       <wt-select
-        :value="itemInstance.parameters.cidType"
+        :disabled="disableUserInput"
         :label="$t('objects.ccenter.res.cidType')"
         :options="CidTypeList"
         :track-by="null"
-        :disabled="disableUserInput"
+        :value="itemInstance.parameters.cidType"
         @input="setItemParameterProp({ prop: 'cidType', value: $event })"
       ></wt-select>
       <wt-select
-        :value="itemInstance.parameters.ignoreEarlyMedia"
+        :disabled="disableUserInput"
         :label="$t('objects.ccenter.res.ignoreEarlyMedia')"
         :options="EarlyMediaList"
         :track-by="null"
-        :disabled="disableUserInput"
+        :value="itemInstance.parameters.ignoreEarlyMedia"
         @input="setItemParameterProp({ prop: 'ignoreEarlyMedia', value: $event })"
       ></wt-select>
       <wt-textarea
-        :value="itemInstance.description"
-        :label="$t('objects.description')"
         :disabled="disableUserInput"
+        :label="$t('objects.description')"
+        :value="itemInstance.description"
         @input="setItemProp({ prop: 'description', value: $event })"
       ></wt-textarea>
       <wt-tags-input
-        :value="itemInstance.patterns"
-        :label="$t('objects.ccenter.res.patterns')"
-        :add-only-from-autocomplete="false"
         :disabled="disableUserInput"
+        :label="$t('objects.ccenter.res.patterns')"
+        :value="itemInstance.patterns"
+        taggable
         @input="setItemProp({ prop: 'patterns', value: $event })"
       ></wt-tags-input>
     </div>
@@ -75,9 +75,9 @@
 
 <script>
 import { mapActions } from 'vuex';
-import GatewaysAPI from '../../../../routing/modules/gateways/api/gateways';
 import openedTabComponentMixin
   from '../../../../../app/mixins/objectPagesMixins/openedObjectTabMixin/openedTabComponentMixin';
+import GatewaysAPI from '../../../../routing/modules/gateways/api/gateways';
 import CidTypeList from '../lookups/CidType.lookup';
 import EarlyMediaList from '../lookups/EarlyMedia.lookup';
 

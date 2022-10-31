@@ -137,11 +137,9 @@ export default {
     normalizeCSVData(data) {
       const nonEmptyMappingFields = this.mappingFields.filter((field) => !isEmpty(field.csv));
       return data.map((dataItem) => (
-        nonEmptyMappingFields.reduce((normalizedItem, { name, csv, multiple }) => ({
+        nonEmptyMappingFields.reduce((normalizedItem, { name, csv }) => ({
           ...normalizedItem,
-          [name]: multiple // if multiple is true, csv is arr of tags { text }
-            ? csv.reduce((list, { text }) => [...list, dataItem[text]], [])
-            : dataItem[csv],
+          [name]: Array.isArray(csv) ? csv.map((csv) => dataItem[csv]) : dataItem[csv],
         }), {})
       ));
     },

@@ -68,6 +68,7 @@ export default {
     numeric: 'Должны быть цифры',
     requiredArrayValue: 'Поле не должно быть пустым',
     isPositiveValue: 'Значение должно быть больше нуля',
+    cron: 'Некорректное cron-выражение',
   },
 
   nav: {
@@ -120,7 +121,7 @@ export default {
     history: 'История',
     copy: 'Копировать',
     copied: 'Скопировано!',
-    createdAt: 'Создан в',
+    createdAt: 'Создано',
     createdBy: 'Кем создан',
     importCSV: 'Импортировать CSV',
     online: 'Онлайн',
@@ -141,6 +142,8 @@ export default {
     stt: 'Speech-to-Text',
     key: 'Ключ',
     ID: 'ID',
+    email: 'Адрес электронной почты',
+    updatedAt: 'Изменено',
 
     deleteConfirmation: {
       title: 'Подтвердите удаление',
@@ -462,10 +465,10 @@ export default {
       chatGateways: {
         templates: {
           templates: 'Шаблоны',
-          title: 'Новый диалог',
-          close: 'Диалог завершен',
-          join: 'Новый участник',
-          left: 'Покинул участник',
+          title: 'Анонимное имя абонента в Workspace',
+          close: 'Сообщение завершения чата',
+          join: 'Сообщение присоединения оператора',
+          left: 'Сообщение отключения оператора',
         },
         chatGateways: 'Текстовый шлюз | Текстовые шлюзы',
         allChatGateways: 'Все текстовые шлюзы',
@@ -698,6 +701,7 @@ export default {
         playbackSilence: 'Тишина перед проигрыванием аудиофайла (мс.)',
         targetAbandonedRate: 'Target abandoned rate',
         maxWaitTime: 'Максимальное время ожидания',
+        maxWaitingSize: 'Максимальное количество ожидания',
         waitBetweenRetries: 'Время между попытками',
         waitBetweenRetriesDesc: 'Сортировка новых попыток по спаданию',
         strictCircuit: 'Strict circuit',
@@ -761,6 +765,7 @@ export default {
           duration: 'Длительность',
           viewNumber: 'Номер',
           result: 'Результат',
+          attempts: 'Попытка',
           resultName: {
             abandoned: 'Abandoned',
             cancel: 'Cancel',
@@ -868,6 +873,9 @@ export default {
         mailbox: 'Почтовый ящик',
         smtpPort: 'SMTP Порт',
         imapPort: 'IMAP Порт',
+        smtpHost: 'SMTP Хост',
+        imapHost: 'IMAP Хост',
+        fetchInterval: 'Интервал обновления',
       },
 
       importCsv: {
@@ -899,9 +907,11 @@ export default {
         newTriggerDescription: 'Choose a template to get going or start from scratch with a blank canvas',
         onEvent: 'On event',
         onEventDescription: 'An event-based JSON Schema scheduler',
-        atTime: 'At time',
+        cron: 'At time',
         atTimeDescription: 'A time-based JSON Schema scheduler',
         event: 'Event',
+        expression: 'Выражение',
+        timeout: 'Задержка',
       },
     },
     pagination: {

@@ -6,9 +6,9 @@
       @input="input"
     >
       <template v-slot:after-input>
-        <copy-action
+        <wt-copy-action
           :value="copyValue"
-        ></copy-action>
+        ></wt-copy-action>
       </template>
     </wt-input>
   </div>

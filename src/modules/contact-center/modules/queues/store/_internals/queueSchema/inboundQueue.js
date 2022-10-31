@@ -8,6 +8,7 @@ const inboundQueue = () => ({
   type: QueueType.INBOUND_QUEUE,
   team: {}, // required
   ringtone: {},
+  grantee: {},
   stickyAgent: false,
   taskProcessing: processing(),
   payload: {
@@ -16,6 +17,7 @@ const inboundQueue = () => ({
     maxWaitTime: 60 * 60, // required
     allowGreetingAgent: false,
     stickyAgentSec: 5,
+    maxWaitingSize: 0,
   },
 });
 

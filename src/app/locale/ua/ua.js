@@ -68,6 +68,7 @@ export default {
     numeric: 'Мають бути цифри',
     requiredArrayValue: 'Поле не може бути пустим',
     isPositiveValue: 'Значення має бути додатнім числом',
+    cron: 'Некорректний cron-вираз',
   },
 
   nav: {
@@ -120,7 +121,7 @@ export default {
     history: 'Історія',
     copy: 'Копіювати',
     copied: 'Скопійовано!',
-    createdAt: 'Коли створено',
+    createdAt: 'Створено',
     createdBy: 'Ким створено',
     importCSV: 'Імпортувати CSV',
     online: 'Онлайн',
@@ -141,6 +142,8 @@ export default {
     stt: 'Speech-to-Text',
     key: 'Ключ',
     ID: 'ID',
+    email: 'Адреса електронної пошти',
+    updatedAt: 'Змінено',
 
     deleteConfirmation: {
       title: 'Підтвердіть видалення',
@@ -462,10 +465,10 @@ export default {
       chatGateways: {
         templates: {
           templates: 'Шаблони',
-          title: 'Новий діалог',
-          close: 'Діалог завершено',
-          join: 'Новий учасник',
-          left: 'Покинув учасник',
+          title: 'Анонімне ім\'я абонента у Workspace',
+          close: 'Повідомлення завершення чату',
+          join: 'Повідомлення приєднання оператора',
+          left: 'Повідомлення від\'єднання оператора',
         },
         chatGateways: 'Текстовий шлюз | Текстові шлюзи',
         allChatGateways: 'Всі текстові шлюзи',
@@ -699,6 +702,7 @@ export default {
         playbackSilence: 'Тиша перед програванням аудіофайлу (мс.)',
         targetAbandonedRate: 'Target abandoned rate',
         maxWaitTime: 'Максимальний час очікування',
+        maxWaitingSize: 'Максимальна кількість очікування',
         waitBetweenRetries: 'Час між спробами',
         waitBetweenRetriesDesc: 'Сортування нових спроб за спаданням',
         strictCircuit: 'Strict circuit',
@@ -761,6 +765,7 @@ export default {
           duration: 'Тривалість',
           viewNumber: 'Номер',
           result: 'Результат',
+          attempts: 'Спроба',
           resultName: {
             abandoned: 'Abandoned',
             cancel: 'Cancel',
@@ -868,6 +873,9 @@ export default {
         mailbox: 'Почтова скринька',
         smtpPort: 'SMTP Порт',
         imapPort: 'IMAP Порт',
+        smtpHost: 'SMTP Хост',
+        imapHost: 'IMAP Хост',
+        fetchInterval: 'Інтервал оновлення',
       },
 
       importCsv: {
@@ -899,9 +907,11 @@ export default {
         newTriggerDescription: 'Оберіть шаблон або почніть з нуля',
         onEvent: 'On event',
         onEventDescription: 'An event-based JSON Schema scheduler',
-        atTime: 'At time',
+        cron: 'At time',
         atTimeDescription: 'A time-based JSON Schema scheduler',
         event: 'Event',
+        expression: 'Вираз',
+        timeout: 'Затримка',
       },
     },
     pagination: {

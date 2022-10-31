@@ -5,7 +5,7 @@ const onFulfilled = (response) => response;
 const onReject = (error) => {
   eventBus.$emit('notification', {
     type: 'error',
-    text: error.response.data.detail,
+    text: error.response.data.detail || error.response.data.message,
   });
   return Promise.reject(error);
 };

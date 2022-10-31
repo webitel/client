@@ -68,6 +68,7 @@ export default {
     numeric: 'Should be numeric',
     requiredArrayValue: 'Array should not be empty',
     isPositiveValue: 'Value should be positive number',
+    cron: 'Invalid cron expression',
   },
 
   nav: {
@@ -120,7 +121,7 @@ export default {
     history: 'History',
     copy: 'Copy',
     copied: 'Copied to clipboard!',
-    createdAt: 'Created at',
+    createdAt: 'Created',
     createdBy: 'Created by',
     importCSV: 'Import CSV',
     online: 'Online',
@@ -141,6 +142,8 @@ export default {
     stt: 'Speech-to-Text',
     key: 'Key',
     ID: 'ID',
+    email: 'Email address',
+    updatedAt: 'Modified',
 
     deleteConfirmation: {
       title: 'Confirm deletion',
@@ -462,10 +465,10 @@ export default {
       chatGateways: {
         templates: {
           templates: 'Templates',
-          title: 'New chat',
-          close: 'Chat complete',
-          join: 'Chat member',
-          left: 'Left member',
+          title: 'Workspace member\'s name',
+          close: 'Chat complete message',
+          join: 'Agent joining message',
+          left: 'Agent disconnection message',
         },
         chatGateways: 'Chat gateway | Chat gateways',
         allChatGateways: 'All chat gateways',
@@ -700,6 +703,7 @@ export default {
         playbackSilence: 'Playback silence',
         targetAbandonedRate: 'Target abandoned rate',
         maxWaitTime: 'Max wait time',
+        maxWaitingSize: 'Max wait count',
         waitBetweenRetries: 'Wait between retries',
         waitBetweenRetriesDesc: 'Sort members retries by descending',
         strictCircuit: 'Strict circuit',
@@ -762,6 +766,7 @@ export default {
           duration: 'Duration',
           viewNumber: 'View number',
           result: 'Result',
+          attempts: 'Attempt',
           resultName: {
             abandoned: 'Abandoned',
             cancel: 'Cancel',
@@ -870,6 +875,9 @@ export default {
         mailbox: 'Mailbox',
         smtpPort: 'SMTP Port',
         imapPort: 'IMAP Port',
+        smtpHost: 'SMTP Host',
+        imapHost: 'IMAP Host',
+        fetchInterval: 'Refresh interval',
       },
 
       importCsv: {
@@ -901,9 +909,11 @@ export default {
         newTriggerDescription: 'Choose a template to get going or start from scratch with a blank canvas',
         onEvent: 'On event',
         onEventDescription: 'An event-based JSON Schema scheduler',
-        atTime: 'At time',
+        cron: 'At time',
         atTimeDescription: 'A time-based JSON Schema scheduler',
         event: 'Event',
+        expression: 'Expression',
+        timeout: 'Timeout',
       },
     },
 

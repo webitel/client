@@ -17,17 +17,17 @@
 <script>
 import { mapActions } from 'vuex';
 import openedTabComponentMixin
-  from '../../../../../app/mixins/objectPagesMixins/openedObjectTabMixin/openedTabComponentMixin';
-import usersAPI from '../../../../directory/modules/users/api/users';
-import calendarsAPI from '../../../../lookups/modules/calendars/api/calendars';
-import mediaAPI from '../../../../lookups/modules/media/api/media';
-import bucketsAPI from '../../../../lookups/modules/buckets/api/buckets';
-import queuesAPI from '../../../../contact-center/modules/queues/api/queues';
-import gatewaysAPI from '../../gateways/api/gateways';
-import flowsAPI from '../api/flow';
-import BlacklistsAPI from '../../../../lookups/modules/blacklists/api/blacklists';
-import CommunicationsAPI from '../../../../lookups/modules/communications/api/communications';
-import ChatGatewaysAPI from '../../chat-gateways/api/chatGateways';
+  from '../../../../../../../app/mixins/objectPagesMixins/openedObjectTabMixin/openedTabComponentMixin';
+import usersAPI from '../../../../../../directory/modules/users/api/users';
+import calendarsAPI from '../../../../../../lookups/modules/calendars/api/calendars';
+import mediaAPI from '../../../../../../lookups/modules/media/api/media';
+import bucketsAPI from '../../../../../../lookups/modules/buckets/api/buckets';
+import queuesAPI from '../../../../../../contact-center/modules/queues/api/queues';
+import gatewaysAPI from '../../../../gateways/api/gateways';
+import FlowsAPI from '../../../api/flow';
+import BlacklistsAPI from '../../../../../../lookups/modules/blacklists/api/blacklists';
+import CommunicationsAPI from '../../../../../../lookups/modules/communications/api/communications';
+import ChatGatewaysAPI from '../../../../chat-gateways/api/chatGateways';
 
 export default {
   name: 'opened-flow-diagram',
@@ -54,12 +54,12 @@ export default {
       script.src = `${flowDiagramUrl}/WtFlowDiagram.umd.min.js`;
       script.onload = () => {
         const params = {
-          diagram: this.isEdit ? this.itemInstance : null, // if edit, restore diagram
+          diagram: this.itemInstance, // if edit, restore diagram
           config: {
             search: {
               users: usersAPI.getLookup,
               calendars: calendarsAPI.getLookup,
-              flows: flowsAPI.getLookup,
+              flows: FlowsAPI.getLookup,
               media: mediaAPI.getLookup,
               queues: queuesAPI.getLookup,
               buckets: bucketsAPI.getLookup,
@@ -68,15 +68,24 @@ export default {
               communications: CommunicationsAPI.getLookup,
               chatGateways: ({ provider, ...rest }) => ChatGatewaysAPI
                 .getLookup({ rest: { provider }, ...rest }),
+              flowTags: FlowsAPI.getFlowTags,
             },
           },
         };
         const WtFlowDiagram = window.WtFlowDiagram.default;
         this.diagram = new WtFlowDiagram('#flow-diagram', params);
 
-        const onSave = async ({ name, schema, payload }) => {
+        const onSave = async ({
+                                name,
+                                type,
+                                tags,
+                                schema,
+                                payload,
+                              }) => {
           await Promise.all([
             this.setItemProp({ prop: 'name', value: name }),
+            this.setItemProp({ prop: 'type', value: type }),
+            this.setItemProp({ prop: 'tags', value: tags }),
             this.setItemProp({ prop: 'schema', value: schema }),
             this.setItemProp({ prop: 'payload', value: payload }),
           ]);

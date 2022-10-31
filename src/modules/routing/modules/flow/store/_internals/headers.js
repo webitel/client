@@ -13,4 +13,28 @@ export default [
     field: 'editor',
     sort: SortSymbols.NONE,
   },
+  {
+    value: 'type',
+    locale: 'vocabulary.type',
+    field: 'type',
+    sort: SortSymbols.NONE,
+  },
+  {
+    value: 'tags',
+    locale: ['vocabulary.tag', 2],
+    field: 'tags',
+    sort: SortSymbols.NONE,
+  },
+  {
+    value: 'createdAt',
+    locale: 'objects.createdAt',
+    field: 'created_at',
+    sort: SortSymbols.NONE,
+  },
+  {
+    value: 'updatedAt',
+    locale: 'objects.updatedAt',
+    field: 'updated_at',
+    sort: SortSymbols.NONE,
+  },
 ];

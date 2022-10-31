@@ -105,6 +105,17 @@
         @input="setItemProp({ prop: 'afterSchema', value: $event })"
       ></wt-select>
 
+      <!--      v-if-->
+      <wt-select
+        v-if="specificControls.grantee"
+        :clearable="true"
+        :disabled="disableUserInput"
+        :label="$t('objects.permissions.object.grantee')"
+        :search-method="loadDropdownOptionsRoleList"
+        :value="itemInstance.grantee"
+        @input="setItemProp({ prop: 'grantee', value: $event })"
+      ></wt-select>
+
       <wt-textarea
         :disabled="disableUserInput"
         :label="$t('objects.description')"
@@ -122,6 +133,7 @@ import BlacklistsAPI from '../../../../lookups/modules/blacklists/api/blacklists
 import MediaAPI from '../../../../lookups/modules/media/api/media';
 import TeamsAPI from '../../teams/api/teams';
 import FlowsAPI from '../../../../routing/modules/flow/api/flow';
+import RolesAPI from '../../../../permissions/modules/roles/api/roles';
 import { StrategyList } from '../store/_internals/enums/Strategy.enum';
 import openedTabComponentMixin
   from '../../../../../app/mixins/objectPagesMixins/openedObjectTabMixin/openedTabComponentMixin';
@@ -171,6 +183,9 @@ export default {
     },
     loadDropdownOptionsMediaList(params) {
       return MediaAPI.getLookup(params);
+    },
+    loadDropdownOptionsRoleList(params) {
+      return RolesAPI.getLookup(params);
     },
   },
 };

@@ -37,6 +37,7 @@ import { required } from 'vuelidate/lib/validators';
 import openedObjectMixin from '../../../../../app/mixins/objectPagesMixins/openedObjectMixin/openedObjectMixin';
 import General from './opened-import-csv-general.vue';
 import Settings from './opened-import-csv-settings.vue';
+import ImportCsvMemberMappings from '../lookups/ImportCsvMemberMappings.lookup';
 
 export default {
   name: 'opened-import-csv',
@@ -57,9 +58,9 @@ export default {
           charset: { required },
           separator: { required },
           skipHeaders: { required },
-          mappings: Object.entries(this.itemInstance.parameters.mappings)
+          mappings: Object.entries(ImportCsvMemberMappings)
           .reduce((mappings, [name, { required: reqField }]) => (reqField
-            ? { ...mappings, [name]: { csv: { required } } }
+            ? { ...mappings, [name]: { required } }
             : mappings), {}),
         },
       },

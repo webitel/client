@@ -12,6 +12,7 @@ const QueueTypeProperties = Object.freeze({
                                                 'team',
                                                 'doSchema',
                                                 'afterSchema',
+                                                'grantee',
                                                 // params specific
                                                 'originateTimeout',
                                                 'recordings',
@@ -31,8 +32,11 @@ const QueueTypeProperties = Object.freeze({
                                                 // general specific
                                                 'team',
                                                 'ringtone',
+                                                'grantee',
+
                                                 // params specific
                                                 'maxWaitTime',
+                                                'maxWaitingSize',
                                                 'discardAbandonedAfter',
                                                 'allowGreetingAgent',
                                                 'stickyAgent',
@@ -54,6 +58,8 @@ const QueueTypeProperties = Object.freeze({
                                                 'schema',
                                                 'doSchema',
                                                 'afterSchema',
+                                                'grantee',
+
                                                 // params specific
                                                 'originateTimeout',
                                                 'maxAttempts',
@@ -75,6 +81,8 @@ const QueueTypeProperties = Object.freeze({
                                                 'team',
                                                 'doSchema',
                                                 'afterSchema',
+                                                'grantee',
+
                                                 // params specific
                                                 'originateTimeout',
                                                 'maxAttempts',
@@ -105,6 +113,8 @@ const QueueTypeProperties = Object.freeze({
                                                 'doSchema',
                                                 'afterSchema',
                                                 'ringtone',
+                                                'grantee',
+
                                                 // params specific
                                                 'originateTimeout',
                                                 'maxAttempts',
@@ -135,6 +145,8 @@ const QueueTypeProperties = Object.freeze({
                                                 'ringtone',
                                                 'doSchema',
                                                 'afterSchema',
+                                                'grantee',
+
                                                 // params specific
                                                 'originateTimeout',
                                                 'maxWaitTime',
@@ -173,6 +185,7 @@ const QueueTypeProperties = Object.freeze({
                                                 'team',
                                                 // params specific
                                                 'maxWaitTime',
+                                                'maxWaitingSize',
                                                 'discardAbandonedAfter',
                                                 'maxIdleAgent',
                                                 'maxIdleClient',

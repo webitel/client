@@ -5,13 +5,13 @@
     </header>
     <div class="object-input-grid">
       <wt-tags-input
-        :value="itemInstance.hotdesks"
-        :v="v.itemInstance.hotdesks"
+        :custom-validators="hotDeskNameValidator"
+        :disabled="disableUserInput"
         :label="$t('objects.directory.devices.hostName')"
         :label-props=" { hint: $t('objects.directory.devices.hotdeskInputHint') }"
-        :custom-validators="hotDeskNameValidator"
-        :add-only-from-autocomplete="false"
-        :disabled="disableUserInput"
+        :v="v.itemInstance.hotdesks"
+        :value="itemInstance.hotdesks"
+        taggable
         @input="setItemProp({ prop: 'hotdesks', value: $event })"
       ></wt-tags-input>
     </div>

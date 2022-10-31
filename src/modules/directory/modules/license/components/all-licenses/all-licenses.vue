@@ -44,9 +44,9 @@
         @sort="sort"
       >
         <template slot="id" slot-scope="{ item }">
-          <copy-action
+          <wt-copy-action
             :value="item.id"
-          ></copy-action>
+          ></wt-copy-action>
         </template>
         <template slot="product" slot-scope="{ item }">
           <div class="all-licenses__product-cell">
