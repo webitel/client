@@ -501,6 +501,8 @@ export default {
           },
           instagram: {
             instagram: 'Instagram',
+            comments: 'Відслідковувати коментарі',
+            mentions: 'Відслідковувати згадування',
           },
         },
         viber: {
