@@ -10,6 +10,20 @@
       <h3 class="content-title">
         {{ $t('objects.routing.chatGateways.messenger.instagram.instagram') }}
       </h3>
+      <div class="content-header__form-wrap">
+        <wt-switcher
+          :disabled="disableUserInput"
+          :label="$t('objects.routing.chatGateways.messenger.instagram.comments')"
+          :value="itemInstance.metadata.instagramComments"
+          @change="setItemMetadata({ prop: 'instagramComments', value: $event })"
+        ></wt-switcher>
+        <wt-switcher
+          :disabled="disableUserInput"
+          :label="$t('objects.routing.chatGateways.messenger.instagram.mentions')"
+          :value="itemInstance.metadata.instagramMentions"
+          @change="setItemMetadata({ prop: 'instagramMentions', value: $event })"
+        ></wt-switcher>
+      </div>
       <div class="content-header__actions-wrap">
         <wt-table-actions
           :icons="['refresh']"
@@ -34,10 +48,10 @@
       >
         <template slot="id" slot-scope="{ item }">
           <wt-copy-action
-            :value="item.id"
             :tooltips="{
               copy: item.id,
             }"
+            :value="item.id"
           ></wt-copy-action>
         </template>
         <template slot="instagram" slot-scope="{ item }">
@@ -59,8 +73,8 @@ import path from 'path';
 import { mapActions } from 'vuex';
 import openedObjectTableTabMixin
   from '../../../../../../../../app/mixins/objectPagesMixins/openedObjectTableTabMixin/openedObjectTableTabMixin';
-import openMessengerWindow from '../../facebook/scripts/openMessengerWindow';
 import getChatOriginUrl from '../../../../scripts/getChatOriginUrl';
+import openMessengerWindow from '../../facebook/scripts/openMessengerWindow';
 
 export default {
   name: 'opened-chat-gateway-instagram-tab',
@@ -79,10 +93,13 @@ export default {
   },
   methods: {
     ...mapActions({
-                    updateSubscriptionState(dispatch, payload) {
-                      return dispatch(`${this.namespace}/${this.subNamespace}/UPDATE_SUBSCRIPTION_STATE`, payload);
-                    },
-                  }),
+      setItemMetadata(dispatch, payload) {
+        return dispatch(`${this.namespace}/SET_ITEM_METADATA`, payload);
+      },
+      updateSubscriptionState(dispatch, payload) {
+        return dispatch(`${this.namespace}/${this.subNamespace}/UPDATE_SUBSCRIPTION_STATE`, payload);
+      },
+    }),
     addOrRemovePagesWindowHandler({ data }) {
       if (data.status === 'success') this.loadList();
       else if (data.status === 'error') {
@@ -104,4 +121,9 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+.content-header__form-wrap {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-xs);
+}
 </style>

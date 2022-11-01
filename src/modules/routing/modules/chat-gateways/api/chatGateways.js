@@ -56,6 +56,12 @@ const webchatRequestConverter = (data) => {
   return data;
 };
 
+const messengerRequestConverter = (data) => {
+  data.metadata.instagramComments = data.metadata.instagramComments.toString();
+  data.metadata.instagramMentions = data.metadata.instagramMentions.toString();
+  return data;
+};
+
 const webChatResponseConverter = (data) => {
   data.metadata.allowOrigin = data.metadata.allowOrigin
     ? data.metadata.allowOrigin.split(',')
@@ -78,17 +84,36 @@ const webChatResponseConverter = (data) => {
   return deepmerge(webChatGateway(), data);
 };
 
+const messengerResponseConverter = (item) => {
+  item.metadata.instagramComments = item.metadata.instagramComments === 'true';
+  item.metadata.instagramMentions = item.metadata.instagramMentions === 'true';
+  return item;
+};
+
 const preRequestHandler = (item) => {
   switch (item.provider) {
     case ChatGatewayProvider.WEBCHAT:
       return webchatRequestConverter(item);
+    case ChatGatewayProvider.MESSENGER:
+      return messengerRequestConverter(item);
     default:
       return item;
   }
 };
 
+const itemResponseHandler = (response) => {
+  switch (response.provider) {
+    case ChatGatewayProvider.WEBCHAT:
+      return webChatResponseConverter(response);
+    case ChatGatewayProvider.MESSENGER:
+      return messengerResponseConverter(response);
+    default:
+      return response;
+  }
+};
+
 const listGetter = new EndpointListGetterApiConsumer({ baseUrl, instance }, { defaultListObject });
-const itemGetter = new EndpointGetterApiConsumer({ baseUrl, instance });
+const itemGetter = new EndpointGetterApiConsumer({ baseUrl, instance }, { itemResponseHandler });
 const itemCreator = new EndpointCreatorApiConsumer({ baseUrl, instance },
   { fieldsToSend, preRequestHandler });
 const itemUpdater = new EndpointUpdaterApiConsumer({ baseUrl, instance },
@@ -96,15 +121,6 @@ const itemUpdater = new EndpointUpdaterApiConsumer({ baseUrl, instance },
 const itemPatcher = new EndpointPatcherApiConsumer({ baseUrl, instance }, { fieldsToSend });
 const itemDeleter = new EndpointDeleterApiConsumer({ baseUrl, instance });
 const lookupGetter = new EndpointListGetterApiConsumer({ baseUrl, instance });
-
-itemGetter.responseHandler = (response) => {
-  switch (response.provider) {
-    case ChatGatewayProvider.WEBCHAT:
-      return webChatResponseConverter(response);
-    default:
-      return response;
-  }
-};
 
 const getChatGatewayList = (params) => listGetter.getList(params);
 const getChatGateway = (params) => itemGetter.getItem(params);
