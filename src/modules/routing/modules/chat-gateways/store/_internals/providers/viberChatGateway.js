@@ -7,6 +7,8 @@ const viberChatGateway = () => ({
   metadata: {
     token: '',
     botName: '',
+    btnBackColor: '#1d2733',
+    btnFontColor: '#ffffff',
     // eventTypes: '',
   },
 });
