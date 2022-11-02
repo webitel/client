@@ -62,6 +62,14 @@ const messengerRequestConverter = (data) => {
   return data;
 };
 
+const viberRequestConverter = (item) => {
+  item.metadata['btn.back.color'] = item.metadata.btnBackColor;
+  delete item.metadata.btnBackColor;
+  item.metadata['btn.font.color'] = item.metadata.btnFontColor;
+  delete item.metadata.btnFontColor;
+  return item;
+};
+
 const webChatResponseConverter = (data) => {
   data.metadata.allowOrigin = data.metadata.allowOrigin
     ? data.metadata.allowOrigin.split(',')
@@ -90,12 +98,20 @@ const messengerResponseConverter = (item) => {
   return item;
 };
 
+const viberResponseConverter = (item) => {
+  if (item.metadata['btn.back.color']) item.metadata.btnBackColor = item.metadata['btn.back.color'];
+  if (item.metadata['btn.font.color']) item.metadata.btnFontColor = item.metadata['btn.font.color'];
+  return item;
+};
+
 const preRequestHandler = (item) => {
   switch (item.provider) {
     case ChatGatewayProvider.WEBCHAT:
       return webchatRequestConverter(item);
     case ChatGatewayProvider.MESSENGER:
       return messengerRequestConverter(item);
+    case ChatGatewayProvider.VIBER:
+      return viberRequestConverter(item);
     default:
       return item;
   }
@@ -107,6 +123,8 @@ const itemResponseHandler = (response) => {
       return webChatResponseConverter(response);
     case ChatGatewayProvider.MESSENGER:
       return messengerResponseConverter(response);
+    case ChatGatewayProvider.VIBER:
+      return viberResponseConverter(response);
     default:
       return response;
   }

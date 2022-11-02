@@ -42,26 +42,50 @@
         :value="itemInstance.flow"
         @input="setFlow"
       ></wt-select>
-      <!--      <wt-input-->
-      <!--        :value="itemInstance.metadata.eventTypes"-->
-      <!--        :label="$t('objects.routing.chatGateways.metadata.eventTypes')"-->
-      <!--        :disabled="disableUserInput"-->
-      <!--        @input="setItemMetadata({ prop: 'eventTypes', value: $event })"-->
-      <!--      ></wt-input>-->
+      <div></div>
+      <div class="opened-chat-gateway-viber-color-picker">
+        <wt-label>{{ $t('objects.routing.chatGateways.viber.btnBackColor') }}</wt-label>
+        <color-picker
+          :value="itemInstance.metadata.btnBackColor"
+          @input="setItemMetadata({ prop: 'btnBackColor', value: $event.hex })"
+        ></color-picker>
+        <wt-button
+          color="secondary"
+          @click="resetBtnColor('btnBackColor')"
+        >{{ $t('vocabulary.reset') }}
+        </wt-button>
+      </div>
+      <div class="opened-chat-gateway-viber-color-picker">
+        <wt-label>{{ $t('objects.routing.chatGateways.viber.btnFontColor') }}</wt-label>
+        <color-picker
+          :value="itemInstance.metadata.btnFontColor"
+          @input="setItemMetadata({ prop: 'btnFontColor', value: $event.hex })"
+        ></color-picker>
+        <wt-button
+          color="secondary"
+          @click="resetBtnColor('btnFontColor')"
+        >{{ $t('vocabulary.reset') }}
+        </wt-button>
+      </div>
     </div>
   </section>
 </template>
 
 <script>
 import { mapActions } from 'vuex';
+import { Chrome } from 'vue-color';
 import openedTabComponentMixin
   from '../../../../../../app/mixins/objectPagesMixins/openedObjectTabMixin/openedTabComponentMixin';
 import FlowsAPI from '../../../flow/api/flow';
 import uriCopyMixin from '../../mixins/uriCopyMixin';
+import viberChatGateway from '../../store/_internals/providers/viberChatGateway';
 
 export default {
   name: 'opened-chat-viber-general-tab',
   mixins: [openedTabComponentMixin, uriCopyMixin],
+  components: {
+    ColorPicker: Chrome,
+  },
   computed: {
     isUriEditable() {
       return !this.disableUserInput && this.$route.path.includes('/new');
@@ -87,6 +111,11 @@ export default {
       });
     },
 
+    resetBtnColor(prop) {
+      const value = viberChatGateway().metadata[prop];
+      return this.setItemMetadata({ prop, value });
+    },
+
     loadDropdownOptionsList(params) {
       return FlowsAPI.getLookup(params);
     },
@@ -96,4 +125,10 @@ export default {
 
 <style lang="scss" scoped>
 @import '../../css/chat-gateways';
+
+.opened-chat-gateway-viber-color-picker {
+  .wt-button {
+    margin-top: var(--spacing-sm);
+  }
+}
 </style>

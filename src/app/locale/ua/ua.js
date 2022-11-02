@@ -507,6 +507,8 @@ export default {
         },
         viber: {
           viber: 'Viber',
+          btnBackColor: 'Колір фону кнопки',
+          btnFontColor: 'Колір тексту кнопки',
         },
         webchat: {
           webchat: 'Web chat',
