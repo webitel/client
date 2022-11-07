@@ -13,7 +13,7 @@
             :disabled="disabledSave"
             :options="saveOptions"
             @click="save"
-            @click:option="handleSaveOptionClick"
+            @click:option="({ callback }) => callback()"
           >{{ $t('objects.save') }}
           </wt-button-select>
         </template>
@@ -102,7 +102,7 @@ export default {
     },
     saveOptions() {
       const saveAsNew = {
-        text: this.$t('objects.saveAsNew'),
+        text: this.$t('objects.saveAs'),
         callback: this.saveAs,
       };
       return [saveAsNew];
@@ -125,11 +125,9 @@ export default {
       ]);
       return this.loadItem();
     },
-    handleSaveOptionClick({ callback }) {
-      return callback();
-    },
     saveAs() {
       this.setItemProp({ prop: 'endCause', value: '' });
+      this.setItemProp({ prop: 'stopCause', value: '' });
       this.setItemProp({ prop: 'attempts', value: 0 });
       this.setItemProp({ prop: 'id', value: '' });
       this.setId(null);
