@@ -1,0 +1,72 @@
+<template>
+  <section>
+    <header class="content-header">
+      <wt-icon icon="viber" icon-prefix="messenger" size="sm"></wt-icon>
+      <h3 class="content-title">{{ $t('objects.routing.chatGateways.viber.style.style') }}</h3>
+    </header>
+    <div class="object-input-grid">
+      <div class="opened-chat-gateway-viber-color-picker">
+        <wt-label>{{ $t('objects.routing.chatGateways.viber.style.btnBackColor') }}</wt-label>
+        <color-picker
+          :value="itemInstance.metadata.btnBackColor"
+          @input="setItemMetadata({ prop: 'btnBackColor', value: $event.hex })"
+        ></color-picker>
+        <wt-button
+          color="secondary"
+          @click="resetBtnColor('btnBackColor')"
+        >{{ $t('vocabulary.reset') }}
+        </wt-button>
+      </div>
+      <div class="opened-chat-gateway-viber-color-picker">
+        <wt-label>{{ $t('objects.routing.chatGateways.viber.style.btnFontColor') }}</wt-label>
+        <color-picker
+          :value="itemInstance.metadata.btnFontColor"
+          @input="setItemMetadata({ prop: 'btnFontColor', value: $event.hex })"
+        ></color-picker>
+        <wt-button
+          color="secondary"
+          @click="resetBtnColor('btnFontColor')"
+        >{{ $t('vocabulary.reset') }}
+        </wt-button>
+      </div>
+    </div>
+  </section>
+</template>
+
+<script>
+import { mapActions } from 'vuex';
+import { Chrome } from 'vue-color';
+import openedTabComponentMixin
+  from '../../../../../../app/mixins/objectPagesMixins/openedObjectTabMixin/openedTabComponentMixin';
+import viberChatGateway from '../../store/_internals/providers/viberChatGateway';
+
+export default {
+  name: 'opened-chat-viber-general-tab',
+  mixins: [openedTabComponentMixin],
+  components: {
+    ColorPicker: Chrome,
+  },
+  methods: {
+    ...mapActions({
+      setItemMetadata(dispatch, payload) {
+        return dispatch(`${this.namespace}/SET_ITEM_METADATA`, payload);
+      },
+    }),
+
+    resetBtnColor(prop) {
+      const value = viberChatGateway().metadata[prop];
+      return this.setItemMetadata({ prop, value });
+    },
+  },
+};
+</script>
+
+<style lang="scss" scoped>
+@import '../../css/chat-gateways';
+
+.opened-chat-gateway-viber-color-picker {
+  .wt-button {
+    margin-top: var(--spacing-sm);
+  }
+}
+</style>

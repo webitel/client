@@ -41,7 +41,9 @@
 </template>
 
 <script>
-import { maxValue, minLength, minValue, numeric, required, url } from 'vuelidate/lib/validators';
+import {
+  maxValue, minLength, minValue, numeric, required, url,
+} from 'vuelidate/lib/validators';
 import { mapActions } from 'vuex';
 import openedObjectMixin from '../../../../../app/mixins/objectPagesMixins/openedObjectMixin/openedObjectMixin';
 import ChatGatewayProvider from '../enum/ChatGatewayProvider.enum';
@@ -55,6 +57,8 @@ import OpenedChatTelegramBot from './telegram-bot/opened-chat-gateway-telegram-b
 import OpenedChatGatewayTemplates from './_shared/opened-chat-gateway-templates-tab.vue';
 
 import OpenedViberChat from './viber/opened-chat-gateway-viber-general-tab.vue';
+import OpenedViberChatStyle from './viber/opened-chat-gateway-viber-style-tab.vue';
+
 import WebchatCopyCodeButton from './webchat/copy-code-button.vue';
 import OpenedWebchatAlternativeChannels from './webchat/opened-chat-gateway-webchat-alternative-channels-tab.vue';
 import OpenedChatTelegramApp from './telegram-app/opened-chat-gateway-telegram-app-general-tab.vue';
@@ -74,6 +78,7 @@ export default {
     OpenedChatInstagram,
     OpenedChatInfobip,
     OpenedViberChat,
+    OpenedViberChatStyle,
     OpenedWebchat,
     OpenedWebchatView,
     OpenedWebchatAlternativeChannels,
@@ -223,6 +228,10 @@ export default {
         text: this.$t('objects.routing.chatGateways.viber.viber'),
         value: 'OpenedViberChat',
       };
+      const viberStyle = {
+        text: this.$t('objects.routing.chatGateways.viber.style.style'),
+        value: 'OpenedViberChatStyle',
+      };
 
       const webChat = {
         text: this.$t('objects.routing.chatGateways.webchat.webchat'),
@@ -247,7 +256,7 @@ export default {
         case ChatGatewayProvider.INFOBIP:
           return [infobipChat, botTemplates];
         case ChatGatewayProvider.VIBER:
-          return [viberChat, botTemplates];
+          return [viberChat, viberStyle, botTemplates];
         case ChatGatewayProvider.WEBCHAT:
           return [webChat, webchatView, webchatAlternativeChannels, botTemplates];
         default:
