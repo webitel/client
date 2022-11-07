@@ -110,6 +110,7 @@ export default {
     delete: 'Удалить',
     save: 'Сохранить',
     saved: 'Сохранено',
+    saveAs: 'Сохранить как нового',
     close: 'Закрыть',
     name: 'Имя',
     description: 'Описание',

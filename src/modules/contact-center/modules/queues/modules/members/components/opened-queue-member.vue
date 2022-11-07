@@ -8,6 +8,15 @@
         :primary-text="saveText"
         :secondary-action="close"
       >
+        <template v-slot:primary-action>
+          <wt-button-select
+            :disabled="disabledSave"
+            :options="saveOptions"
+            @click="save"
+            @click:option="({ callback }) => callback()"
+          >{{ $t('objects.save') }}
+          </wt-button-select>
+        </template>
         <wt-headline-nav :path="path"></wt-headline-nav>
       </object-header>
     </template>
@@ -63,16 +72,18 @@ export default {
       },
     }),
     tabs() {
-      return [{
-        text: this.$t('objects.general'),
-        value: 'general',
-      }, {
-        text: this.$tc('objects.lookups.communications.communications', 1),
-        value: 'communication',
-      }, {
-        text: this.$tc('objects.ccenter.queues.variables', 2),
-        value: 'variables',
-      }];
+      return [
+        {
+          text: this.$t('objects.general'),
+          value: 'general',
+        }, {
+          text: this.$tc('objects.lookups.communications.communications', 1),
+          value: 'communication',
+        }, {
+          text: this.$tc('objects.ccenter.queues.variables', 2),
+          value: 'variables',
+        },
+      ];
     },
 
     path() {
@@ -89,12 +100,22 @@ export default {
     hasSaveActionAccess() {
       return this.hasEditAccess;
     },
+    saveOptions() {
+      const saveAsNew = {
+        text: this.$t('objects.saveAs'),
+        callback: this.saveAs,
+      };
+      return [saveAsNew];
+    },
   },
 
   methods: {
     ...mapActions({
       setParentId(dispatch, payload) {
         return dispatch(`${this.namespace}/SET_PARENT_ITEM_ID`, payload);
+      },
+      setItemProp(dispatch, payload) {
+        return dispatch(`${this.namespace}/SET_ITEM_PROPERTY`, payload);
       },
     }),
     async loadPageData() {
@@ -103,6 +124,14 @@ export default {
         this.setId(this.$route.params.id),
       ]);
       return this.loadItem();
+    },
+    saveAs() {
+      this.setItemProp({ prop: 'endCause', value: '' });
+      this.setItemProp({ prop: 'stopCause', value: '' });
+      this.setItemProp({ prop: 'attempts', value: 0 });
+      this.setItemProp({ prop: 'id', value: '' });
+      this.setId(null);
+      this.save();
     },
   },
 };
