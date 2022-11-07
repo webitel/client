@@ -110,6 +110,7 @@ export default {
     delete: 'Delete',
     save: 'Save',
     saved: 'Saved',
+    saveAsNew: 'Save as',
     close: 'Close',
     name: 'Name',
     description: 'Description',
