@@ -65,6 +65,9 @@ export default {
       this.resetFilterValues();
     },
   },
+  destroyed() {
+    this.resetFilters();
+  },
 };
 </script>
 
