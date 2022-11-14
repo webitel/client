@@ -921,6 +921,17 @@ export default {
         event: 'Event',
         expression: 'Вираз',
         timeout: 'Затримка',
+        logs: {
+          logs: 'Історія запуску',
+          startedAt: 'Початок',
+          result: 'Результат',
+          resultName: {
+            idle: 'Неактивний',
+            active: 'Активний',
+            done: 'Завершений',
+            error: 'Помилка',
+          },
+        },
       },
     },
     pagination: {

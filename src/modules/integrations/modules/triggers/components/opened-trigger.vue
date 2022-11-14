@@ -37,6 +37,8 @@ import { required, numeric, minValue } from 'vuelidate/lib/validators';
 import { isValidCron } from 'cron-validator';
 import General from './opened-trigger-general.vue';
 import Variables from './opened-trigger-variables.vue';
+import Logs from '../modules/logs/components/opened-trigger-logs.vue';
+import LogsFilters from '../modules/logs/modules/filters/components/the-triggers-filters.vue';
 import openedObjectMixin from '../../../../../app/mixins/objectPagesMixins/openedObjectMixin/openedObjectMixin';
 
 export default {
@@ -45,6 +47,8 @@ export default {
   components: {
     General,
     Variables,
+    Logs,
+    LogsFilters,
   },
   data: () => ({
     namespace: 'integrations/triggers',
@@ -76,10 +80,17 @@ export default {
         text: this.$tc('vocabulary.variables', 2),
         value: 'variables',
       };
+      const logs = {
+        text: this.$t('objects.integrations.triggers.logs.logs'),
+        value: 'logs',
+        filters: 'logs-filters',
+        filtersNamespace: `${this.namespace}/log/filters`,
+      };
 
       const tabs = [
         general,
         variables,
+        logs,
       ];
 
       return tabs;
