@@ -7,8 +7,8 @@ const triggerLogsService = new TriggerServiceApiFactory(configuration, '', insta
 
 const _getTriggerLogs = (getList) => function({
                                                 parentId,
-                                                page = 1,
-                                                size = 10,
+                                                page,
+                                                size,
                                                 q,
                                                 sort,
                                                 fields,
@@ -17,9 +17,23 @@ const _getTriggerLogs = (getList) => function({
                                                 durationFrom,
                                                 durationTo,
                                                 result,
-                                            }) {
+                                              }) {
 
-  const params = [parentId, page, size, q, sort, fields, undefined, undefined, startedAtFrom, startedAtTo, durationFrom, durationTo, result];
+  const params = [
+    parentId,
+    page,
+    size,
+    q,
+    sort,
+    fields,
+    undefined,
+    undefined,
+    startedAtFrom,
+    startedAtTo,
+    durationFrom,
+    durationTo,
+    result,
+  ];
   return getList(params);
 };
 
