@@ -6,17 +6,20 @@ import configuration from '../../../../../../../app/api/openAPIConfig';
 const triggerLogsService = new TriggerServiceApiFactory(configuration, '', instance);
 
 const _getTriggerLogs = (getList) => function({
-                                                triggerId,
+                                                parentId,
                                                 page = 1,
                                                 size = 10,
                                                 q,
                                                 sort,
                                                 fields,
-                                                createdAtFrom,
-                                                createdAtTo,
-                                                options,
+                                                startedAtFrom,
+                                                startedAtTo,
+                                                durationFrom,
+                                                durationTo,
+                                                result,
                                             }) {
-  const params = [triggerId, page, size, q, sort, fields, createdAtFrom, createdAtTo, options];
+
+  const params = [parentId, page, size, q, sort, fields, undefined, undefined, startedAtFrom, startedAtTo, durationFrom, durationTo, result];
   return getList(params);
 };
 

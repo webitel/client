@@ -4,7 +4,7 @@ import EnumFilterSchema
   from '@webitel/ui-sdk/src/modules/QueryFilters/classes/EnumFilterSchema';
 import QueryFiltersStoreModule
   from '@webitel/ui-sdk/src/modules/QueryFilters/store/QueryFiltersStoreModule';
-import { CallReportingStatus } from 'webitel-sdk';
+import { EngineTriggerJobState } from 'webitel-sdk';
 
 const state = {
   startedAtFrom: new BaseFilterSchema({
@@ -16,7 +16,7 @@ const state = {
     defaultValue: new Date().setHours(23, 59, 59, 0),
   }),
   result: new EnumFilterSchema({
-    options: Object.values(CallReportingStatus)
+    options: Object.values(EngineTriggerJobState)
     .map((value) => ({
       value,
       locale: `objects.integrations.triggers.logs.resultName.${value}`,

@@ -34,7 +34,7 @@ import FilterFromTo from '@webitel/ui-sdk/src/modules/QueryFilters/components/fi
 import { mapActions } from 'vuex';
 
 export default {
-  name: 'the-triggers-filters',
+  name: 'the-triggers-logs-filters',
   components: {
     FilterDatetime,
     FilterFromTo,

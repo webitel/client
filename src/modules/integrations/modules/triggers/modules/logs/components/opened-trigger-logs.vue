@@ -40,7 +40,6 @@
 
 <script>
 import convertDuration from '@webitel/ui-sdk/src/scripts/convertDuration';
-import { mapGetters } from 'vuex';
 import openedObjectTableTabMixin
   from '../../../../../../../app/mixins/objectPagesMixins/openedObjectTableTabMixin/openedObjectTableTabMixin';
 
@@ -62,7 +61,7 @@ export default {
     },
 
     calcDuration(item) {
-      return convertDuration((11000000000000 - item.startedAt) / 1000);
+      return convertDuration((item.stoppedAt - item.startedAt) / 1000);
     },
   },
   watch: {

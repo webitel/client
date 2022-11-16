@@ -10,7 +10,7 @@ export default [
   {
     value: 'duration',
     locale: 'vocabulary.duration',
-    field: 'stopped_at',
+    field: 'started_at',
     sort: SortSymbols.NONE,
   },
   {

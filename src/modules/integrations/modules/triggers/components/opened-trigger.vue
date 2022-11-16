@@ -1,5 +1,5 @@
 <template>
-  <wt-page-wrapper :actions-panel="false">
+  <wt-page-wrapper :actions-panel="!!currentTab.filters">
     <template v-slot:header>
       <object-header
         :primary-text="saveText"
@@ -10,6 +10,13 @@
       >
         <wt-headline-nav :path="path"></wt-headline-nav>
       </object-header>
+    </template>
+
+    <template v-slot:actions-panel>
+      <component
+        :is="currentTab.filters"
+        :namespace="currentTab.filtersNamespace"
+      ></component>
     </template>
 
     <template v-slot:main>
@@ -38,7 +45,7 @@ import { isValidCron } from 'cron-validator';
 import General from './opened-trigger-general.vue';
 import Variables from './opened-trigger-variables.vue';
 import Logs from '../modules/logs/components/opened-trigger-logs.vue';
-import LogsFilters from '../modules/logs/modules/filters/components/the-triggers-filters.vue';
+import LogsFilters from '../modules/logs/modules/filters/components/the-triggers-logs-filters.vue';
 import openedObjectMixin from '../../../../../app/mixins/objectPagesMixins/openedObjectMixin/openedObjectMixin';
 
 export default {
@@ -90,9 +97,8 @@ export default {
       const tabs = [
         general,
         variables,
-        logs,
       ];
-
+      if (this.id) tabs.push(logs);
       return tabs;
     },
 
