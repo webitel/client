@@ -922,6 +922,17 @@ export default {
         event: 'Event',
         expression: 'Expression',
         timeout: 'Timeout',
+        logs: {
+          logs: 'Running history',
+          startedAt: 'Start',
+          result: 'Result',
+          resultName: {
+            idle: 'Idle',
+            active: 'Active',
+            done: 'Done',
+            error: 'Error',
+          },
+        },
       },
     },
 

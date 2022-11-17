@@ -920,6 +920,17 @@ export default {
         event: 'Event',
         expression: 'Выражение',
         timeout: 'Задержка',
+        logs: {
+          logs: 'История запуска',
+          startedAt: 'Начало',
+          result: 'Результат',
+          resultName: {
+            idle: 'Неактивний',
+            active: 'Активний',
+            done: 'Завершенный',
+            error: 'Ошибка',
+          },
+        },
       },
     },
     pagination: {
