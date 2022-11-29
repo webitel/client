@@ -36,7 +36,7 @@ const processChatConfig = ({
   if (!enabled) return undefined;
   const result = { ...filterEmptyValues(rest) };
   if (timeoutIsActive) result.openTimeout = +openTimeout;
-  result.url = new URL(path.join(CHAT_URL, uri), WS_SERVER_URL);
+  result.url = new URL(path.join(CHAT_URL, uri), SCRIPT_URL);
   return result;
 };
 
@@ -51,7 +51,7 @@ const processAppointmentConfig = ({
                                   }, uri) => {
   if (!enabled) return undefined;
   const result = { ...filterEmptyValues(rest) };
-  result.url = new URL(path.join(CHAT_URL, uri), SCRIPT_URL);
+  result.url = new URL(path.join(CHAT_URL.replace('chat', 'appointment'), uri), WS_SERVER_URL);
   return result;
 };
 
