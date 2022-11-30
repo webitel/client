@@ -68,10 +68,15 @@ const actions = {
     return context.dispatch('LOAD_DATA_LIST');
   },
   UPDATE_HEADER_SORT: (context, { header, nextSortOrder }) => {
-    const headers = context.state.headers.map((oldHeader) => ({
-      ...oldHeader,
-      sort: oldHeader.field === header.field ? nextSortOrder : SortSymbols.NONE,
-    }));
+     const headers = context.state.headers.map((oldHeader) => {
+       // eslint-disable-next-line no-prototype-builtins
+       if (oldHeader.hasOwnProperty('sort')) {
+         return {
+           ...oldHeader,
+           sort: oldHeader.field === header.field ? nextSortOrder : SortSymbols.NONE,
+         };
+       } return oldHeader;
+     });
     context.commit('SET_HEADERS', headers);
   },
   PATCH_ITEM_PROPERTY: async (context, {
