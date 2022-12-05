@@ -61,7 +61,7 @@ export default {
     },
 
     calcDuration(item) {
-      return convertDurationWithMilliseconds((item.stoppedAt - item.startedAt) / 1000);
+      return convertDurationWithMilliseconds(item.stoppedAt - item.startedAt);
     },
   },
   watch: {
