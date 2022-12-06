@@ -54,6 +54,9 @@ export default {
     settings: 'Налаштування',
     changePassword: 'Змінити пароль',
     language: 'Мова',
+    webPhone: 'Web-телефон',
+    useWebPhone: 'Використовувати Web-телефон',
+    useStun: 'Використовувати STUN',
   },
 
   validation: {

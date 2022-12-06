@@ -51,6 +51,29 @@
             ></wt-select>
           </form>
         </section>
+        <section class="settings-section__setting">
+          <header class="content-header">
+            <h3 class="content-title">{{ $t('settings.webPhone') }}</h3>
+          </header>
+          <form>
+            <div class="settings-section__wrapper">
+              <p class="">{{ $t('settings.useWebPhone') }}</p>
+              <wt-switcher
+                v-model="webrtc"
+                @change="changeWebPhone"
+              ></wt-switcher>
+            </div>
+            <div
+              v-if="webrtc"
+              class="settings-section__wrapper">
+              <p class="">{{ $t('settings.useStun') }}</p>
+              <wt-switcher
+                v-model="stun"
+                @change="changeWebPhone"
+              ></wt-switcher>
+            </div>
+          </form>
+        </section>
       </section>
     </template>
   </wt-page-wrapper>
@@ -60,7 +83,7 @@
 import getNamespacedState from '@webitel/ui-sdk/src/store/helpers/getNamespacedState';
 import { sameAs, required } from 'vuelidate/lib/validators';
 import { mapState } from 'vuex';
-import { changePassword } from '../api/settings';
+import { changePassword, changeWebPhone } from '../api/settings';
 import objectHeader from '../../../app/components/utils/object-utils/the-object-header.vue';
 
 export default {
@@ -72,6 +95,8 @@ export default {
     newPassword: '',
     confirmNewPassword: '',
     isPasswordPatching: false,
+    webrtc: false,
+    stun: false,
     language: {
       name: 'English',
       id: 'en',
@@ -137,6 +162,19 @@ export default {
       }
     },
 
+    changeWebPhone() {
+        try {
+          // eslint-disable-next-line max-len
+          changeWebPhone({ ...this.$data, webrtc: this.webrtc, stun: !this.webrtc ? false : this.stun });
+          this.$eventBus.$emit('notification', {
+            type: 'info',
+            text: 'Webphone is successfully updated!',
+          });
+        } catch (err) {
+          throw err;
+        }
+    },
+
     changeLanguage(value) {
       localStorage.setItem('lang', value.id);
       this.language = value;
@@ -162,6 +200,11 @@ export default {
   .wt-button {
     display: block;
     margin: 3px 0 0 auto;
+  }
+
+  &__wrapper {
+    display: flex;
+    justify-content: space-between;
   }
 }
 </style>
