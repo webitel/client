@@ -20,8 +20,8 @@
         <template slot="duration" slot-scope="{ item }">
           {{ calcDuration(item) }}
         </template>
-        <template slot="result" slot-scope="{ item }">
-          {{ item.result }}
+        <template slot="state" slot-scope="{ item }">
+          {{ $t(`objects.integrations.triggers.logs.resultName.${item.state}`) }}
         </template>
       </wt-table>
       <wt-pagination
@@ -39,7 +39,7 @@
 </template>
 
 <script>
-import convertDuration from '@webitel/ui-sdk/src/scripts/convertDuration';
+import convertDurationWithMilliseconds from '../scripts/convertDurationWithMilliseconds';
 import openedObjectTableTabMixin
   from '../../../../../../../app/mixins/objectPagesMixins/openedObjectTableTabMixin/openedObjectTableTabMixin';
 
@@ -61,7 +61,7 @@ export default {
     },
 
     calcDuration(item) {
-      return convertDuration((item.stoppedAt - item.startedAt) / 1000);
+      return convertDurationWithMilliseconds(item.stoppedAt - item.startedAt);
     },
   },
   watch: {
