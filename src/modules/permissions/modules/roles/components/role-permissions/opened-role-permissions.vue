@@ -107,6 +107,8 @@ export default {
         playback_record_file: this.$t('objects.permissions.roles.permissions.playbackRecordFile'),
         export_data_grid: this.$t('objects.permissions.roles.permissions.exportDataGrid'),
         view_cdr_phone_numbers: this.$t('objects.permissions.roles.permissions.viewCdrPhoneNumbers'),
+        manage_user_roles: this.$t('objects.permissions.roles.permissions.manageUserRoles'),
+        manage_user_license: this.$t('objects.permissions.roles.permissions.manageUserLicense'),
       };
     },
     permissionUsageLocale() {
@@ -119,6 +121,8 @@ export default {
         playback_record_file: this.$t('objects.permissions.roles.permissions.playbackRecordFileDescription'),
         export_data_grid: this.$t('objects.permissions.roles.permissions.exportDataGridDescription'),
         view_cdr_phone_numbers: this.$t('objects.permissions.roles.permissions.viewCdrPhoneNumbersDescription'),
+        manage_user_roles: this.$t('objects.permissions.roles.permissions.manageUserRolesDescription'),
+        manage_user_license: this.$t('objects.permissions.roles.permissions.manageUserLicenseDescription'),
       };
     },
   },
