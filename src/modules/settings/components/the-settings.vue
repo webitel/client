@@ -57,16 +57,16 @@
           </header>
           <form>
             <div class="settings-section__wrapper">
-              <p class="">{{ $t('settings.useWebPhone') }}</p>
+              <p>{{ $t('settings.useWebPhone') }}</p>
               <wt-switcher
                 v-model="webrtc"
                 @change="changeWebPhone"
               ></wt-switcher>
             </div>
             <div
-              v-if="webrtc"
+              v-show="webrtc"
               class="settings-section__wrapper">
-              <p class="">{{ $t('settings.useStun') }}</p>
+              <p>{{ $t('settings.useStun') }}</p>
               <wt-switcher
                 v-model="stun"
                 @change="changeWebPhone"
@@ -165,11 +165,7 @@ export default {
     changeWebPhone() {
         try {
           // eslint-disable-next-line max-len
-          changeWebPhone({ ...this.$data, webrtc: this.webrtc, stun: !this.webrtc ? false : this.stun });
-          this.$eventBus.$emit('notification', {
-            type: 'info',
-            text: 'Webphone is successfully updated!',
-          });
+          changeWebPhone({ webrtc: this.webrtc, stun: !this.webrtc ? false : this.stun });
         } catch (err) {
           throw err;
         }
