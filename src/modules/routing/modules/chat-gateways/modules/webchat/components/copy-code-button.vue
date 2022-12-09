@@ -51,7 +51,7 @@ const processAppointmentConfig = ({
                                   }, uri) => {
   if (!enabled) return undefined;
   const result = { ...filterEmptyValues(rest) };
-  result.url = new URL(path.join(CHAT_URL.replace('chat', 'appointment'), uri), SCRIPT_URL);
+  result.url = new URL(path.join(CHAT_URL.replace('chat', 'appointments'), uri), SCRIPT_URL);
   return result;
 };
 
