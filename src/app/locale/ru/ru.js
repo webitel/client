@@ -269,7 +269,7 @@ export default {
           exportDataGrid: 'Экспортировать данные',
           viewCdrPhoneNumbers: 'Просмотр незашифрованных номеров телефонов',
           manageUserRoles: 'Управление ролями пользователей',
-          manageUserLicense: 'Управление лицензией пользователей',
+          manageUserLicense: 'Управление лицензиями пользователей',
           addDescription: 'Предоставляет разрешение на создание объектов',
           deleteDescription: 'Предоставляет разрешение на удаление объектов',
           readDescription: 'Предоставляет разрешение на выбор объектов',
