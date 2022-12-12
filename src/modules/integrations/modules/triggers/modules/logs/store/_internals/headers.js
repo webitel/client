@@ -13,7 +13,7 @@ export default [
   },
   {
     value: 'state',
-    locale: 'reusable.state',
+    locale: 'objects.integrations.triggers.logs.result',
     field: 'state',
     sort: SortSymbols.NONE,
   },
