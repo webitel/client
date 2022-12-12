@@ -54,6 +54,9 @@ export default {
     settings: 'Settings',
     changePassword: 'Change password',
     language: 'Language',
+    webPhone: 'WebPhone',
+    useWebPhone: 'Use WebPhone',
+    useStun: 'Use STUN',
   },
 
   validation: {
