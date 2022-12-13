@@ -132,6 +132,7 @@ export default {
   }
 
   .chat-config-section {
+    width: 50%;
     .colorpicker-section {
       position: relative;
       display: flex;
