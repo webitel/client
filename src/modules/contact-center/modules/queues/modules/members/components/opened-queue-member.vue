@@ -10,8 +10,8 @@
       >
         <template v-slot:primary-action>
           <wt-button-select
-            :disabled="disabledSave"
             :options="saveOptions"
+            color="secondary"
             @click="save"
             @click:option="({ callback }) => callback()"
           >{{ $t('objects.save') }}
