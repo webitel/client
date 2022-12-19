@@ -83,7 +83,7 @@
 import getNamespacedState from '@webitel/ui-sdk/src/store/helpers/getNamespacedState';
 import { sameAs, required } from 'vuelidate/lib/validators';
 import { mapState } from 'vuex';
-import { changePassword, changeWebPhone } from '../api/settings';
+import { changePassword, changeWebPhone, getWebPhone } from '../api/settings';
 import objectHeader from '../../../app/components/utils/object-utils/the-object-header.vue';
 
 export default {
@@ -182,6 +182,15 @@ export default {
       if (lang) this.language = this.languageOptions.find((item) => item.id === lang);
     },
   },
+  mounted() {
+    getWebPhone().then((response) => {
+      if (response.status !== '404') {
+        this.webrtc = response.webrtc;
+        this.stun = response.stun;
+      };
+    });
+  },
+
 };
 </script>
 

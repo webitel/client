@@ -21,7 +21,17 @@ export const changeWebPhone = async (changes) => {
   }
 };
 
+export const getWebPhone = async () => {
+  const url = 'user/settings/phone';
+  try {
+    return await instance.get(url);
+  } catch (err) {
+    return err;
+  }
+};
+
 export default {
   changePassword,
   changeWebPhone,
+  getWebPhone,
 };
