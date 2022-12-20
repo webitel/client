@@ -1,6 +1,6 @@
 import InterceptorType from './InterceptorType.enum';
 
-const applyInterceptors = (instance, interceptors = []) => {
+const applyInterceptors = ({ instance, interceptors = [] }) => {
   interceptors.forEach(({ type, interceptor }) => {
     if (type === InterceptorType.REQUEST
       || type === InterceptorType.RESPONSE) {

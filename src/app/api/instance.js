@@ -1,6 +1,13 @@
 import axios from 'axios';
 import defaultInterceptorsSetup from './interceptors/defaultInterceptorsSetup';
 
+// config with specific properties which doesn't fit to axios config
+export const config = {
+  errors: {
+    silent: false,
+  },
+};
+
 // global API configuration
 // 'X-Webitel-Access' ~ 'X-Access-Token'
 const instance = axios.create({
@@ -12,6 +19,7 @@ const instance = axios.create({
   },
 });
 
-defaultInterceptorsSetup(instance);
+console.info(2);
+defaultInterceptorsSetup({ instance, config });
 
 export default instance;

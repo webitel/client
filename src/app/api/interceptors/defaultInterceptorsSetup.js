@@ -16,7 +16,7 @@ const DO_NOT_CONVERT_KEYS = [
   'errorIds',
 ];
 
-const defaultInterceptorsSetup = (instance) => {
+const defaultInterceptorsSetup = ({ instance, config }) => {
   const interceptors = [
     {
       type: InterceptorType.REQUEST,
@@ -29,7 +29,7 @@ const defaultInterceptorsSetup = (instance) => {
 
     {
       type: InterceptorType.RESPONSE,
-      interceptor: errorEventBusNotificationResponse.default,
+      interceptor: errorEventBusNotificationResponse.setup(config),
     },
     {
       type: InterceptorType.RESPONSE,
@@ -41,7 +41,7 @@ const defaultInterceptorsSetup = (instance) => {
     },
   ];
 
-  applyInterceptors(instance, interceptors);
+  applyInterceptors({ instance, interceptors });
   return instance;
 };
 
