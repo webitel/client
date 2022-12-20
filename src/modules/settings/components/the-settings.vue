@@ -182,13 +182,14 @@ export default {
       if (lang) this.language = this.languageOptions.find((item) => item.id === lang);
     },
   },
-  mounted() {
-    getWebPhone().then((response) => {
-      if (response.status !== '404') {
-        this.webrtc = response.webrtc;
-        this.stun = response.stun;
-      };
-    });
+  async mounted() {
+    try {
+      const response = await getWebPhone();
+      this.webrtc = response.webrtc;
+      this.stun = response.stun;
+    } catch (error) {
+      throw error
+    }
   },
 
 };
