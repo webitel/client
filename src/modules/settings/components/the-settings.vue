@@ -56,7 +56,7 @@
             <h3 class="content-title">{{ $t('settings.webPhone') }}</h3>
           </header>
           <form>
-            <div class="settings-section__wrapper">
+            <div class="settings-section__wrapper settings-section__switcher">
               <p>{{ $t('settings.useWebPhone') }}</p>
               <wt-switcher
                 v-model="webrtc"
@@ -95,7 +95,7 @@ export default {
     newPassword: '',
     confirmNewPassword: '',
     isPasswordPatching: false,
-    webrtc: false,
+    webrtc: true,
     stun: false,
     language: {
       name: 'English',
@@ -211,6 +211,10 @@ export default {
   &__wrapper {
     display: flex;
     justify-content: space-between;
+  }
+
+  &__switcher {
+    margin-bottom: var(--spacing-xs);
   }
 }
 </style>
