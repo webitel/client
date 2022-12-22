@@ -27,9 +27,12 @@ export const changeWebPhone = async (changes) => {
 export const getWebPhone = async () => {
   const url = 'user/settings/phone';
   try {
+    config.errors.silent = true;
     return await instance.get(url);
   } catch (err) {
-    return err;
+    throw err;
+  } finally {
+    config.errors.silent = false;
   }
 };
 
