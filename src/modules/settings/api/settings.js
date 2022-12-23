@@ -11,12 +11,7 @@ export const changeWebPhone = async (changes) => {
 
   try {
     config.errors.silent = true;
-    const response = await instance.put(url, changes);
-    this.$eventBus.$emit('notification', {
-      type: 'info',
-      text: 'Webphone is successfully updated!',
-    });
-    return response;
+    return await instance.put(url, changes);
   } catch (err) {
     throw err;
   } finally {
@@ -27,9 +22,12 @@ export const changeWebPhone = async (changes) => {
 export const getWebPhone = async () => {
   const url = 'user/settings/phone';
   try {
+    config.errors.silent = true;
     return await instance.get(url);
   } catch (err) {
-    return err;
+    throw err;
+  } finally {
+    config.errors.silent = false;
   }
 };
 
