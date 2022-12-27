@@ -78,7 +78,7 @@ export default {
           value: 'settings',
         },
       ];
-      // if (this.id) tabs.push(this.permissionsTab);
+      if (this.id) tabs.push(this.permissionsTab);
       return tabs;
     },
 
