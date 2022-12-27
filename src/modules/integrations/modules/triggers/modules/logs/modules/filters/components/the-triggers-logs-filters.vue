@@ -1,14 +1,14 @@
 <template>
   <wt-filters-panel-wrapper @reset="resetFilters">
     <filter-datetime
-      :label="$t('reusable.from')"
+      :label="`${$t('objects.integrations.triggers.logs.startedAt')}: ${$t('reusable.from')}`"
       :namespace="namespace"
-      filter-query="from"
+      filter-query="startedAtFrom"
     ></filter-datetime>
     <filter-datetime
-      :label="$t('reusable.to')"
+      :label="`${$t('objects.integrations.triggers.logs.startedAt')}: ${$t('reusable.to')}`"
       :namespace="namespace"
-      filter-query="to"
+      filter-query="startedAtTo"
     ></filter-datetime>
     <component
       :is="`abstract-${filter.type}-filter`"
@@ -19,9 +19,9 @@
       class="history-filters__filter"
     ></component>
     <filter-from-to
-      :label="$t('objects.ccenter.members.priority')"
+      :label="$t('vocabulary.duration')"
       :namespace="namespace"
-      filter-query="priority"
+      filter-query="duration"
     ></filter-from-to>
   </wt-filters-panel-wrapper>
 </template>
@@ -34,7 +34,7 @@ import FilterFromTo from '@webitel/ui-sdk/src/modules/QueryFilters/components/fi
 import { mapActions } from 'vuex';
 
 export default {
-  name: 'the-queue-members-filters',
+  name: 'the-triggers-logs-filters',
   components: {
     FilterDatetime,
     FilterFromTo,
@@ -49,9 +49,7 @@ export default {
   },
   data: () => ({
     filters: [
-      { type: 'enum', filterQuery: 'cause' },
-      { type: 'api', filterQuery: 'bucket' },
-      { type: 'api', filterQuery: 'agent' },
+      { type: 'enum', filterQuery: 'result' },
     ],
   }),
   methods: {

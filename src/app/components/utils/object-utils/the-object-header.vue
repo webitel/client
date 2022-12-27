@@ -9,13 +9,15 @@
     </template>
     <template slot="actions">
       <slot name="actions"></slot>
-      <wt-button
+      <slot name="primary-action">
+        <wt-button
           v-if="!hidePrimary"
           :disabled="primaryDisabled"
           @click="primaryAction"
         >
           {{ primaryText || $t('objects.add') }}
         </wt-button>
+      </slot>
       <wt-button
           v-if="!hideSecondary"
           color="secondary"

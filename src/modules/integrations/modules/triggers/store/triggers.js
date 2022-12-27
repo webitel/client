@@ -1,5 +1,6 @@
 import ObjectStoreModule
   from '../../../../../app/store/BaseStoreModules/StoreModules/ObjectStoreModule';
+import log from '../modules/logs/store/trigger-logs';
 import TriggersAPI from '../api/triggers';
 import headers from './_internals/headers';
 import TriggerTypes from '../lookups/TriggerTypes.lookup';
@@ -51,6 +52,7 @@ const mutations = {
 const triggers = new ObjectStoreModule({ resettableState, headers })
 .attachAPIModule(TriggersAPI)
 .generateAPIActions()
+.setChildModules({ log })
 .getModule({ actions, mutations });
 
 export default triggers;

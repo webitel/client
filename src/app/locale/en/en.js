@@ -54,6 +54,9 @@ export default {
     settings: 'Settings',
     changePassword: 'Change password',
     language: 'Language',
+    webPhone: 'WebPhone',
+    useWebPhone: 'Use WebPhone',
+    useStun: 'Use STUN',
   },
 
   validation: {
@@ -110,6 +113,7 @@ export default {
     delete: 'Delete',
     save: 'Save',
     saved: 'Saved',
+    saveAs: 'Save as',
     close: 'Close',
     name: 'Name',
     description: 'Description',
@@ -267,6 +271,8 @@ export default {
           playbackRecordFile: 'Playback record file',
           exportDataGrid: 'Export data grid',
           viewCdrPhoneNumbers: 'View CDR phone numbers',
+          manageUserRoles: 'Manage user roles',
+          manageUserLicense: 'Manage user license',
           addDescription: 'Grants permission to create any objects',
           deleteDescription: 'Grants permission to remove any objects',
           readDescription: 'Grants permission to select any objects',
@@ -275,6 +281,8 @@ export default {
           playbackRecordFileDescription: 'Grants permission to playback call-record files',
           exportDataGridDescription: 'Grants permission to export data grid to a file',
           viewCdrPhoneNumbersDescription: 'View CDR phone numbers',
+          manageUserRolesDescription: 'Grants permission to manage a set of user roles',
+          manageUserLicenseDescription: 'Grants permission to manage a set of user license',
         },
         addPermission: 'Add role permission',
         usage: 'Usage',
@@ -533,7 +541,19 @@ export default {
             right: 'Right',
             left: 'Left',
             static: 'Static',
+          },
+          chat: {
+            chat: 'Chat',
             openTimeout: 'Open Timeout',
+            openTimeoutSec: 'Open Timeout Sec',
+          },
+          appointment: {
+            appointment: 'Appointment',
+            days: 'Days',
+            availableAgents: 'Available agents',
+            showEmailField: 'Show email field',
+            showMessageField: 'Show message field',
+            successMessage: 'Success message',
           },
           alternativeChannels: {
             alternativeChannels: 'Alternative Channels',
@@ -921,6 +941,17 @@ export default {
         event: 'Event',
         expression: 'Expression',
         timeout: 'Timeout',
+        logs: {
+          logs: 'Running history',
+          startedAt: 'Start',
+          result: 'Result',
+          resultName: {
+            idle: 'Idle',
+            active: 'Active',
+            done: 'Done',
+            error: 'Error',
+          },
+        },
       },
     },
 

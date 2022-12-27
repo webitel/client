@@ -47,9 +47,6 @@ export default {
       // }
       ];
     },
-    disableOpenTimeout() {
-      return !this.itemInstance.metadata.timeoutIsActive || this.disableUserInput;
-    },
   },
   methods: {
     restoreLanguage(value) {
@@ -92,11 +89,11 @@ export default {
       }
     },
     restoreConfig() {
-      this.restoreLanguage(this.itemInstance.metadata.lang);
-      this.restorePosition(this.itemInstance.metadata.position);
-      this.restoreBorderRadius(this.itemInstance.metadata.borderRadiusStyle);
-      this.restoreColor(this.itemInstance.metadata.accentColor);
-      this.restoreOpacity(this.itemInstance.metadata.btnOpacity);
+      this.restoreLanguage(this.itemInstance.metadata.view.lang);
+      this.restorePosition(this.itemInstance.metadata.view.position);
+      this.restoreBorderRadius(this.itemInstance.metadata.view.borderRadiusStyle);
+      this.restoreColor(this.itemInstance.metadata.view.accentColor);
+      this.restoreOpacity(this.itemInstance.metadata.view.btnOpacity);
     },
   },
   created() {

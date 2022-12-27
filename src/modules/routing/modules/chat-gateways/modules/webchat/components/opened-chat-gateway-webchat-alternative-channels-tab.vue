@@ -33,9 +33,9 @@
 <script>
 import { mapActions } from 'vuex';
 import openedTabComponentMixin
-  from '../../../../../../app/mixins/objectPagesMixins/openedObjectTabMixin/openedTabComponentMixin';
-import WebchatAlternativeChannel from '../../enum/WebchatAlternativeChannel.enum';
-import uriCopyMixin from '../../mixins/uriCopyMixin';
+  from '../../../../../../../app/mixins/objectPagesMixins/openedObjectTabMixin/openedTabComponentMixin';
+import WebchatAlternativeChannel from '../../../enum/WebchatAlternativeChannel.enum';
+import uriCopyMixin from '../../../mixins/uriCopyMixin';
 
 export default {
   name: 'opened-chat-webchat-alternative-channels-tab',
@@ -75,7 +75,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-@import '../../css/chat-gateways';
+@import '../../../css/chat-gateways';
 
 .webchat-alternative-channel {
   display: flex;

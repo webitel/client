@@ -15,9 +15,12 @@ export default {
   methods: {
     getPreviewConfig(previewMode) {
       return {
-        ...this.itemInstance.metadata,
-        position: 'static',
-        _previewMode: previewMode,
+        view: {
+          ...this.itemInstance.metadata.view,
+          position: 'static',
+          _previewMode: previewMode,
+        },
+        chat: {}, // show chat btn
       };
     },
     initWidgetPreview() {

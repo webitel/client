@@ -51,6 +51,29 @@
             ></wt-select>
           </form>
         </section>
+        <section class="settings-section__setting">
+          <header class="content-header">
+            <h3 class="content-title">{{ $t('settings.webPhone') }}</h3>
+          </header>
+          <form>
+            <div class="settings-section__wrapper settings-section__switcher">
+              <p>{{ $t('settings.useWebPhone') }}</p>
+              <wt-switcher
+                v-model="webrtc"
+                @change="changeWebPhone"
+              ></wt-switcher>
+            </div>
+            <div
+              v-show="webrtc"
+              class="settings-section__wrapper">
+              <p>{{ $t('settings.useStun') }}</p>
+              <wt-switcher
+                v-model="stun"
+                @change="changeWebPhone"
+              ></wt-switcher>
+            </div>
+          </form>
+        </section>
       </section>
     </template>
   </wt-page-wrapper>
@@ -60,7 +83,7 @@
 import getNamespacedState from '@webitel/ui-sdk/src/store/helpers/getNamespacedState';
 import { sameAs, required } from 'vuelidate/lib/validators';
 import { mapState } from 'vuex';
-import { changePassword } from '../api/settings';
+import { changePassword, changeWebPhone, getWebPhone } from '../api/settings';
 import objectHeader from '../../../app/components/utils/object-utils/the-object-header.vue';
 
 export default {
@@ -72,6 +95,8 @@ export default {
     newPassword: '',
     confirmNewPassword: '',
     isPasswordPatching: false,
+    webrtc: true,
+    stun: false,
     language: {
       name: 'English',
       id: 'en',
@@ -137,6 +162,15 @@ export default {
       }
     },
 
+    changeWebPhone() {
+        try {
+          // eslint-disable-next-line max-len
+          changeWebPhone({ webrtc: this.webrtc, stun: !this.webrtc ? false : this.stun });
+        } catch (err) {
+          throw err;
+        }
+    },
+
     changeLanguage(value) {
       localStorage.setItem('lang', value.id);
       this.language = value;
@@ -148,6 +182,16 @@ export default {
       if (lang) this.language = this.languageOptions.find((item) => item.id === lang);
     },
   },
+  async mounted() {
+    try {
+      const response = await getWebPhone();
+      this.webrtc = response.webrtc;
+      this.stun = response.stun;
+    } catch (error) {
+      throw error
+    }
+  },
+
 };
 </script>
 
@@ -162,6 +206,15 @@ export default {
   .wt-button {
     display: block;
     margin: 3px 0 0 auto;
+  }
+
+  &__wrapper {
+    display: flex;
+    justify-content: space-between;
+  }
+
+  &__switcher {
+    margin-bottom: var(--spacing-xs);
   }
 }
 </style>

@@ -7,8 +7,8 @@ const messengerChatGateway = () => ({
   metadata: {
     clientId: '',
     clientSecret: '',
-    instagramComments: true,
-    instagramMentions: true,
+    instagramComments: false,
+    instagramMentions: false,
   },
 });
 
