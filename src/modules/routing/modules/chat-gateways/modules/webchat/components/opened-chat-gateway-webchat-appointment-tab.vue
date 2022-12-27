@@ -2,7 +2,7 @@
   <section>
     <header class="content-header">
       <wt-icon icon="web-chat" icon-prefix="messenger" size="sm"></wt-icon>
-      <h3 class="content-title">{{ $t('objects.routing.chatGateways.webchat.webchat') }}</h3>
+      <h3 class="content-title">{{ $t('objects.routing.chatGateways.webchat.appointment.appointment') }}</h3>
     </header>
     <div class="object-input-grid">
       <wt-switcher
