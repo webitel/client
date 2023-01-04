@@ -102,24 +102,15 @@
               {{ prettifyFileSize(item.size) }}
             </template>
             <template slot="actions" slot-scope="{ item, index }">
+              <media-file-preview-table-action
+                :playing="index === playingIndex && currentlyPlaying"
+                :type="item.mimeType"
+                @open="openFile(item)"
+                @play="play(index)"
+              ></media-file-preview-table-action>
               <download-action
                 @click="downloadFile(item)"
               ></download-action>
-              <div class="table-action table-action--iframe-wrap">
-                <wt-tooltip v-show="index !== playingIndex || !currentlyPlaying">
-                  <template v-slot:activator>
-                    <wt-icon-btn
-                      icon="play"
-                      @click="play(index)"
-                    ></wt-icon-btn>
-                  </template>
-                    {{ $t('iconHints.play') }}
-                </wt-tooltip>
-                <iframe
-                  v-show="index === playingIndex && currentlyPlaying"
-                  :src="`${baseUrl}animations/equalizer/eq.html`"
-                ></iframe>
-              </div>
               <delete-action
                 v-if="hasDeleteAccess"
                 @click="callDelete(item)"
@@ -160,6 +151,7 @@ import tableComponentMixin from '../../../../../app/mixins/objectPagesMixins/obj
 import { download } from '../../../../../app/utils/download';
 import MediaAPI from '../api/media';
 import TextToSpeechPopup from '../modules/text-to-speech/components/text-to-speech-popup.vue';
+import MediaFilePreviewTableAction from './media-file-preview-table-action.vue';
 
 const token = localStorage.getItem('access-token');
 const API_URL = process.env.VUE_APP_API_URL;
@@ -172,11 +164,11 @@ export default {
     DownloadFilesBtn,
     vueDropzone,
     TextToSpeechPopup,
+    MediaFilePreviewTableAction,
   },
   data() {
     return {
       namespace: 'lookups/media',
-      baseUrl: process.env.BASE_URL, // to resolve iframe equalizer path after build
 
       isLoadingFiles: false,
       loadedCount: 0,
@@ -214,6 +206,10 @@ export default {
   },
 
   methods: {
+    openFile({ id }) {
+      const url = `${API_URL}/storage/media/${id}/stream?access_token=${token}`;
+      window.open(url, '_blank');
+    },
     async downloadFile({ id, name }) {
       const url = `${API_URL}/storage/media/${id}/download?access_token=${token}`;
       download(url, name);
@@ -272,7 +268,7 @@ export default {
     },
     prettifyFormat(format) {
       return format.split('/')
-        .pop();
+      .pop();
     },
     prettifyFileSize,
   },
@@ -282,19 +278,13 @@ export default {
 <style lang="scss" scoped>
 .progress-count {
   display: flex;
-  justify-content: center;
   align-items: center;
+  justify-content: center;
 
   .wt-loader {
     display: inline-block;
-    margin-bottom: 3px;
     margin-right: var(--spacing-xs);
+    margin-bottom: 3px;
   }
-}
-
-.table-action--iframe-wrap {
-  width: var(--icon-md-size);
-  height: var(--icon-md-size);
-  overflow: hidden;
 }
 </style>
