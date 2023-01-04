@@ -556,7 +556,7 @@ export default {
             successMessage: 'Сообщение об успехе',
           },
           alternativeChannels: {
-            alternativeChannels: 'Альтерантивные каналы',
+            alternativeChannels: 'Альтернативные каналы',
             email: 'Электронная почта',
             whatsapp: 'WhatsApp',
             telegram: 'Telegram',

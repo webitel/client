@@ -288,11 +288,11 @@ export default {
         case ChatGatewayProvider.WEBCHAT:
           return [
             webChat,
-            botTemplates,
             webchatView,
             webchatChat,
             webchatAppointment,
             webchatAlternativeChannels,
+            botTemplates,
           ];
         default:
           return [];
