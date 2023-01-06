@@ -58,6 +58,16 @@
         :label="$t('objects.routing.chatGateways.webchat.appointment.showMessageField')"
         @change="setAppointmentMetadata({ prop: 'showMessageField', value: $event })"
       ></wt-switcher>
+      <wt-input
+        :value="itemInstance.metadata.appointment.successTitle"
+        :label="$t('objects.routing.chatGateways.webchat.appointment.successTitle')"
+        @input="setAppointmentMetadata({ prop: 'successTitle', value: $event })"
+      ></wt-input>
+      <wt-input
+        :value="itemInstance.metadata.appointment.successSubtitle"
+        :label="$t('objects.routing.chatGateways.webchat.appointment.successSubtitle')"
+        @input="setAppointmentMetadata({ prop: 'successSubtitle', value: $event })"
+      ></wt-input>
       <wt-textarea
         :value="itemInstance.metadata.appointment.successMessage"
         :label="$t('objects.routing.chatGateways.webchat.appointment.successMessage')"

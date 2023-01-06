@@ -554,7 +554,8 @@ export default {
             availableAgents: 'Вільні агенти',
             showEmailField: 'Показати поле вводу пошти',
             showMessageField: 'Показати поле вводу повідомлення',
-            successMessage: 'Повідомлення про успіх',
+            successTitle: '',
+            successSubtitle: '',
           },
           alternativeChannels: {
             alternativeChannels: 'Альтернативні канали',

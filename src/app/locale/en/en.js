@@ -553,7 +553,8 @@ export default {
             availableAgents: 'Available agents',
             showEmailField: 'Show email field',
             showMessageField: 'Show message field',
-            successMessage: 'Success message',
+            successTitle: '',
+            successSubtitle: '',
           },
           alternativeChannels: {
             alternativeChannels: 'Alternative Channels',

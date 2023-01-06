@@ -553,7 +553,8 @@ export default {
             availableAgents: 'Свободные агенты',
             showEmailField: 'Показать поле ввода почты',
             showMessageField: 'Показать поле ввода сообщения',
-            successMessage: 'Сообщение об успехе',
+            successTitle: '',
+            successSubtitle: '',
           },
           alternativeChannels: {
             alternativeChannels: 'Альтернативные каналы',

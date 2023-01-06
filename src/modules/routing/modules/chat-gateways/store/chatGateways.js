@@ -46,6 +46,7 @@ const actions = {
     context.commit('SET_ITEM', proxy(typedItem));
   },
   SET_ITEM_METADATA: (context, payload) => {
+    console.log('SET_ITEM_METADATA', payload);
     context.commit('SET_ITEM_METADATA', payload);
     context.commit('SET_ITEM_PROPERTY', { prop: '_dirty', value: true });
   },
@@ -63,11 +64,13 @@ const actions = {
     return context.dispatch('SET_WEBCHAT_ITEM_METADATA', { prop: 'view', value: view });
   },
   SET_WEBCHAT_CHAT_METADATA: (context, { prop, value }) => {
+    console.log('SET_WEBCHAT_CHAT_METADATA', { prop, value });
     const chat = { ...context.state.itemInstance.metadata.chat };
     chat[prop] = value;
     return context.dispatch('SET_WEBCHAT_ITEM_METADATA', { prop: 'chat', value: chat });
   },
   SET_WEBCHAT_APPOINTMENT_METADATA: (context, { prop, value }) => {
+    console.log('SET_WEBCHAT_APPOINTMENT_METADATA', { prop, value });
     const appointment = { ...context.state.itemInstance.metadata.appointment };
     appointment[prop] = value;
     return context.dispatch('SET_WEBCHAT_ITEM_METADATA', { prop: 'appointment', value: appointment });

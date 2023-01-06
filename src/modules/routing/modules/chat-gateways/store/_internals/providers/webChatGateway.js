@@ -39,6 +39,8 @@ const webChatGateway = (_btnCodeDirty = false) => ({
       days: 3,
       availableAgents: 1,
       successMessage: '',
+      successTitle: '',
+      successSubtitle: '',
       showEmailField: false,
       showMessageField: false,
     },
