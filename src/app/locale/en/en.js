@@ -553,8 +553,11 @@ export default {
             availableAgents: 'Available agents',
             showEmailField: 'Show email field',
             showMessageField: 'Show message field',
-            successTitle: '',
-            successSubtitle: '',
+            successFieldsTitle: 'Result page text',
+            successTitleLabel: 'Heading text',
+            successSubtitleLabel: 'Subheading text',
+            successTitleText: 'Congratulations!\n You have an appointment',
+            successSubtitleText: 'Call us and get the rates for you airfare before you set up an appointment',
           },
           alternativeChannels: {
             alternativeChannels: 'Alternative Channels',

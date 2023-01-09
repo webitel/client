@@ -553,8 +553,11 @@ export default {
             availableAgents: 'Свободные агенты',
             showEmailField: 'Показать поле ввода почты',
             showMessageField: 'Показать поле ввода сообщения',
-            successTitle: '',
-            successSubtitle: '',
+            successFieldsTitle: 'Тест та странице результата',
+            successTitleLabel: 'Заголовок',
+            successSubtitleLabel: 'Подзаголовок',
+            successTitleText: 'Congratulations!\n You have an appointment',
+            successSubtitleText: 'Call us and get the rates for you airfare before you set up an appointment',
           },
           alternativeChannels: {
             alternativeChannels: 'Альтернативные каналы',

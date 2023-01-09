@@ -554,8 +554,11 @@ export default {
             availableAgents: 'Вільні агенти',
             showEmailField: 'Показати поле вводу пошти',
             showMessageField: 'Показати поле вводу повідомлення',
-            successTitle: '',
-            successSubtitle: '',
+            successFieldsTitle: 'Текст на сторінці результату',
+            successTitleLabel: 'Заголовок',
+            successSubtitleLabel: 'Підзаголовок',
+            successTitleText: 'Щиро вітаю!\nУ вас призначена зустріч',
+            successSubtitleText: 'Зателефонуйте нам і дізнайтеся тарифи на авіаквитки, перш ніж призначити зустріч',
           },
           alternativeChannels: {
             alternativeChannels: 'Альтернативні канали',

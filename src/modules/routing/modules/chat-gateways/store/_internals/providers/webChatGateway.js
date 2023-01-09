@@ -2,6 +2,7 @@ import ChatGatewayProvider from '../../../enum/ChatGatewayProvider.enum';
 import WebchatAlternativeChannel
   from '../../../enum/WebchatAlternativeChannel.enum';
 import defaultChatGateway from '../defaults/defaultChatGateway';
+import i18n from '../../../../../../../app/locale/i18n';
 
 const webChatGateway = (_btnCodeDirty = false) => ({
   ...defaultChatGateway(),
@@ -39,8 +40,8 @@ const webChatGateway = (_btnCodeDirty = false) => ({
       days: 3,
       availableAgents: 1,
       successMessage: '',
-      successTitle: '',
-      successSubtitle: '',
+      successTitle: i18n.t('objects.routing.chatGateways.webchat.appointment.successTitleText'),
+      successSubtitle: i18n.t('objects.routing.chatGateways.webchat.appointment.successSubtitleText'),
       showEmailField: false,
       showMessageField: false,
     },
