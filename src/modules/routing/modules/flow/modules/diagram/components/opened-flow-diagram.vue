@@ -1,15 +1,15 @@
 <template>
   <section class="flow-diagram">
-<!--    full page overlay is needed to prevent flow-diagram on-load glitching bugs -->
+    <!--    full page overlay is needed to prevent flow-diagram on-load glitching bugs -->
     <div
-      class="flow-diagram__loading-overlay"
       v-show="isLoading"
+      class="flow-diagram__loading-overlay"
     >
       <wt-loader></wt-loader>
     </div>
     <div
-      id="flow-diagram"
       v-show="!isLoading"
+      id="flow-diagram"
     ></div>
   </section>
 </template>
@@ -18,16 +18,16 @@
 import { mapActions } from 'vuex';
 import openedTabComponentMixin
   from '../../../../../../../app/mixins/objectPagesMixins/openedObjectTabMixin/openedTabComponentMixin';
-import usersAPI from '../../../../../../directory/modules/users/api/users';
-import calendarsAPI from '../../../../../../lookups/modules/calendars/api/calendars';
-import mediaAPI from '../../../../../../lookups/modules/media/api/media';
-import bucketsAPI from '../../../../../../lookups/modules/buckets/api/buckets';
 import queuesAPI from '../../../../../../contact-center/modules/queues/api/queues';
+import usersAPI from '../../../../../../directory/modules/users/api/users';
+import BlacklistsAPI from '../../../../../../lookups/modules/blacklists/api/blacklists';
+import bucketsAPI from '../../../../../../lookups/modules/buckets/api/buckets';
+import calendarsAPI from '../../../../../../lookups/modules/calendars/api/calendars';
+import CommunicationsAPI from '../../../../../../lookups/modules/communications/api/communications';
+import mediaAPI from '../../../../../../lookups/modules/media/api/media';
+import ChatGatewaysAPI from '../../../../chat-gateways/api/chatGateways';
 import gatewaysAPI from '../../../../gateways/api/gateways';
 import FlowsAPI from '../../../api/flow';
-import BlacklistsAPI from '../../../../../../lookups/modules/blacklists/api/blacklists';
-import CommunicationsAPI from '../../../../../../lookups/modules/communications/api/communications';
-import ChatGatewaysAPI from '../../../../chat-gateways/api/chatGateways';
 
 export default {
   name: 'opened-flow-diagram',
@@ -54,7 +54,14 @@ export default {
       script.src = `${flowDiagramUrl}/WtFlowDiagram.umd.min.js`;
       script.onload = () => {
         const params = {
-          diagram: this.itemInstance, // if edit, restore diagram
+          // if edit, restore diagram
+          diagram: {
+            ...this.itemInstance,
+            // parse payload to restore it from stringify onSave because of case-convertion
+            payload: typeof this.itemInstance.payload === 'string'
+              ? JSON.parse(this.itemInstance.payload)
+              : this.itemInstance.payload,
+          },
           config: {
             search: {
               users: usersAPI.getLookup,
@@ -67,7 +74,7 @@ export default {
               lists: BlacklistsAPI.getLookup,
               communications: CommunicationsAPI.getLookup,
               chatGateways: ({ provider, ...rest }) => ChatGatewaysAPI
-                .getLookup({ rest: { provider }, ...rest }),
+              .getLookup({ rest: { provider }, ...rest }),
               flowTags: FlowsAPI.getFlowTags,
             },
           },
@@ -87,7 +94,7 @@ export default {
             this.setItemProp({ prop: 'type', value: type }),
             this.setItemProp({ prop: 'tags', value: tags }),
             this.setItemProp({ prop: 'schema', value: schema }),
-            this.setItemProp({ prop: 'payload', value: payload }),
+            this.setItemProp({ prop: 'payload', value: JSON.stringify(payload) }), // stringify payload to prevent it from case-convertion
           ]);
           return new Promise((resolve) => {
             this.save(resolve);
@@ -141,24 +148,24 @@ export default {
 
 <style lang="scss" scoped>
 .flow-diagram {
-  padding: 0 !important; // override .object-content-wrap > *
   position: fixed;
+  z-index: 100;
   top: 0;
   right: 0;
-  left: 0;
   bottom: 0;
-  z-index: 100;
+  left: 0;
+  padding: 0 !important; // override .object-content-wrap > *
 }
 
 .flow-diagram__loading-overlay {
   position: fixed;
+  z-index: 10000;
   top: 0;
   right: 0;
   bottom: 0;
   left: 0;
-  background: var(--page-bg-color);
-  z-index: 10000;
   pointer-events: none;
+  background: var(--page-bg-color);
 
   .wt-loader {
     position: absolute;
