@@ -1,5 +1,8 @@
 const amd = () => ({
   enabled: false,
+  ai: false,
+  positive: [],
+  playback: {},
   allowNotSure: false,
   silenceNotSure: false,
   maxWordLength: 5000,
