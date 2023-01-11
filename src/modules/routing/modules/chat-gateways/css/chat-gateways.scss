@@ -7,13 +7,23 @@
   }
 }
 
-.object-input-grid {
-  .wt-switcher {
-    &:first-child {
-      grid-column-start: 1;
-      grid-column-end: 3;
-      //grid-row-start: 1;
-      //grid-row-end: 3;
-    }
+.wt-input,
+.wt-select {
+  max-width: 921px;
+}
+
+.wt-switcher {
+  margin-bottom: var(--spacing-sm);
+}
+
+.success-settings {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-sm);
+
+  .title {
+    @extend %typo-heading-3;
   }
 }
+
+
