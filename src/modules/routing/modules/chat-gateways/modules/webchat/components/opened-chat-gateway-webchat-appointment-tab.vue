@@ -64,16 +64,23 @@
       ></wt-switcher>
       <div class="success-settings">
        <span class="title">
-         {{ $t('objects.routing.chatGateways.webchat.appointment.successFieldsTitle') }}
+         {{ $t('objects.routing.chatGateways.webchat.appointment.resultPageText') }}
        </span>
+        <wt-switcher
+          :value="successTitleSwitcher"
+          :label="$t('objects.routing.chatGateways.webchat.appointment.showDefaultHeading')"
+          @change="handleSuccessTitle"
+        ></wt-switcher>
        <wt-input
          :value="itemInstance.metadata.appointment.successTitle"
-         :label="$t('objects.routing.chatGateways.webchat.appointment.successTitleLabel')"
+         :label="$t('objects.routing.chatGateways.webchat.appointment.headingText')"
+         :disabled="successTitleSwitcher"
          @input="setAppointmentMetadata({ prop: 'successTitle', value: $event })"
        ></wt-input>
       <wt-input
         :value="itemInstance.metadata.appointment.successSubtitle"
-        :label="$t('objects.routing.chatGateways.webchat.appointment.successSubtitleLabel')"
+        :label="$t('objects.routing.chatGateways.webchat.appointment.subheadingText')"
+        :disabled="successTitleSwitcher"
         @input="setAppointmentMetadata({ prop: 'successSubtitle', value: $event })"
       ></wt-input>
       </div>
@@ -93,6 +100,7 @@ export default {
   mixins: [openedTabComponentMixin],
   data: () => ({
     durationOptions: ['15m', '30m', '45m', '60m'],
+    successTitleSwitcher: false,
   }),
   methods: {
     ...mapActions({
@@ -102,6 +110,13 @@ export default {
     }),
     searchQueues: QueuesAPI.getLookup,
     searchCommunications: CommunicationsAPI.getLookup,
+    handleSuccessTitle() {
+      this.successTitleSwitcher = !this.successTitleSwitcher;
+      if (this.successTitleSwitcher) {
+        this.setAppointmentMetadata({ prop: 'successTitle', value: '' });
+        this.setAppointmentMetadata({ prop: 'successSubtitle', value: '' });
+      }
+    },
   },
 };
 </script>

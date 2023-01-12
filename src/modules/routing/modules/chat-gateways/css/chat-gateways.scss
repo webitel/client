@@ -24,6 +24,10 @@
   .title {
     @extend %typo-heading-3;
   }
+
+  .wt-switcher {
+    margin-bottom: 0;
+  }
 }
 
 
