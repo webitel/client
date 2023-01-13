@@ -40,6 +40,7 @@ const webChatGateway = (_btnCodeDirty = false) => ({
       availableAgents: 1,
       successTitle: '',
       successSubtitle: '',
+      showDefaultHeading: false,
       showEmailField: false,
       showMessageField: false,
     },

@@ -47,10 +47,15 @@ const processAppointmentConfig = ({
   days,
   duration,
   availableAgents,
+  showDefaultHeading,
   ...rest
                                   }, uri) => {
   if (!enabled) return undefined;
   const result = { ...filterEmptyValues(rest) };
+  if (showDefaultHeading) {
+    delete result.successTitle;
+    delete result.successSubtitle;
+  }
   result.url = new URL(path.join(CHAT_URL.replace('chat', 'appointments'), uri), SCRIPT_URL);
   return result;
 };
