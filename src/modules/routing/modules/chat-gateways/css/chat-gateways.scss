@@ -7,27 +7,4 @@
   }
 }
 
-.wt-input,
-.wt-select {
-  max-width: 921px;
-}
-
-.wt-switcher {
-  margin-bottom: var(--spacing-sm);
-}
-
-.success-settings {
-  display: flex;
-  flex-direction: column;
-  gap: var(--spacing-sm);
-
-  .title {
-    @extend %typo-heading-3;
-  }
-
-  .wt-switcher {
-    margin-bottom: 0;
-  }
-}
-
 
