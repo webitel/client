@@ -48,14 +48,18 @@ const processAppointmentConfig = ({
   duration,
   availableAgents,
   showDefaultHeading,
+  successTitle,
+  successSubtitle,
   ...rest
-                                  }, uri) => {
+  }, uri) => {
   if (!enabled) return undefined;
-  const result = { ...filterEmptyValues(rest) };
-  if (showDefaultHeading) {
-    delete result.successTitle;
-    delete result.successSubtitle;
+  if (!showDefaultHeading) {
+    // eslint-disable-next-line no-param-reassign
+    rest.successTitle = successTitle;
+    // eslint-disable-next-line no-param-reassign
+    rest.successSubtitle = successSubtitle;
   }
+  const result = { ...filterEmptyValues(rest) };
   result.url = new URL(path.join(CHAT_URL.replace('chat', 'appointments'), uri), SCRIPT_URL);
   return result;
 };

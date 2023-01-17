@@ -59,7 +59,7 @@
         @change="setAppointmentMetadata({ prop: 'showMessageField', value: $event })"
       ></wt-switcher>
       <div class="success-settings">
-       <span class="title">
+       <span class="success-settings__title">
          {{ $t('objects.routing.chatGateways.webchat.appointment.resultPageText') }}
        </span>
         <wt-switcher
@@ -122,7 +122,7 @@ export default {
   flex-direction: column;
   gap: var(--spacing-sm);
 
-  .title {
+  &__title {
     @extend %typo-heading-3;
   }
 }
