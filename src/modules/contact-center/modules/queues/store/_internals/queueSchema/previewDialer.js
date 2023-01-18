@@ -20,6 +20,7 @@ const previewDialer = () => ({
     waitBetweenRetriesDesc: false,
     maxCalls: 10,
     recordings: false,
+    recordAll: false,
     allowGreetingAgent: false,
     strictCircuit: false,
     endless: false,

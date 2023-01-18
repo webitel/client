@@ -171,6 +171,13 @@
         @change="setItemPayloadProp({ prop: 'recordings', value: $event })"
       ></wt-switcher>
       <wt-switcher
+        v-if="specificControls.recordings && itemInstance.payload.recordings"
+        :disabled="disableUserInput"
+        :label="$t('objects.ccenter.queues.recordAll')"
+        :value="itemInstance.payload.recordAll"
+        @change="setItemPayloadProp({ prop: 'recordAll', value: $event })"
+      ></wt-switcher>
+      <wt-switcher
         v-if="specificControls.perNumbers"
         :disabled="disableUserInput"
         :label="$t('objects.ccenter.queues.perNumbers')"
