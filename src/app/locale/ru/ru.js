@@ -553,7 +553,10 @@ export default {
             availableAgents: 'Свободные агенты',
             showEmailField: 'Показать поле ввода почты',
             showMessageField: 'Показать поле ввода сообщения',
-            successMessage: 'Сообщение об успехе',
+            resultPageText: 'Тест та странице результата',
+            headingText: 'Заголовок',
+            subheadingText: 'Подзаголовок',
+            showDefaultHeading: 'Показать стандартный заголовок и подзаголовок на странице результата',
           },
           alternativeChannels: {
             alternativeChannels: 'Альтернативные каналы',

@@ -554,7 +554,10 @@ export default {
             availableAgents: 'Вільні агенти',
             showEmailField: 'Показати поле вводу пошти',
             showMessageField: 'Показати поле вводу повідомлення',
-            successMessage: 'Повідомлення про успіх',
+            resultPageText: 'Текст на сторінці результату',
+            headingText: 'Заголовок',
+            subheadingText: 'Підзаголовок',
+            showDefaultHeading: 'Показати стандартний заголовок та підзаголовок на сторінці результату',
           },
           alternativeChannels: {
             alternativeChannels: 'Альтернативні канали',

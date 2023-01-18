@@ -553,7 +553,10 @@ export default {
             availableAgents: 'Available agents',
             showEmailField: 'Show email field',
             showMessageField: 'Show message field',
-            successMessage: 'Success message',
+            resultPageText: 'Result page text',
+            headingText: 'Heading text',
+            subheadingText: 'Subheading text',
+            showDefaultHeading: 'Show default heading and subheading on result page',
           },
           alternativeChannels: {
             alternativeChannels: 'Alternative Channels',

@@ -37,6 +37,14 @@
         @input="setAppointmentMetadata({ prop: 'duration', value: $event })"
       ></wt-select>
       <wt-input
+        :value="itemInstance.metadata.appointment.availableAgents"
+        :v="v.itemInstance.metadata.appointment.availableAgents"
+        :label="$t('objects.routing.chatGateways.webchat.appointment.availableAgents')"
+        type="number"
+        :number-min="1"
+        @input="setAppointmentMetadata({ prop: 'availableAgents', value: $event })"
+      ></wt-input>
+      <wt-input
         :value="itemInstance.metadata.appointment.days"
         :v="v.itemInstance.metadata.appointment.days"
         :label="$t('objects.routing.chatGateways.webchat.appointment.days')"
@@ -45,24 +53,33 @@
         :number-max="7"
         @input="setAppointmentMetadata({ prop: 'days', value: $event })"
       ></wt-input>
-      <wt-input
-        :value="itemInstance.metadata.appointment.availableAgents"
-        :v="v.itemInstance.metadata.appointment.availableAgents"
-        :label="$t('objects.routing.chatGateways.webchat.appointment.availableAgents')"
-        type="number"
-        :number-min="1"
-        @input="setAppointmentMetadata({ prop: 'availableAgents', value: $event })"
-      ></wt-input>
       <wt-switcher
         :value="itemInstance.metadata.appointment.showMessageField"
         :label="$t('objects.routing.chatGateways.webchat.appointment.showMessageField')"
         @change="setAppointmentMetadata({ prop: 'showMessageField', value: $event })"
       ></wt-switcher>
-      <wt-textarea
-        :value="itemInstance.metadata.appointment.successMessage"
-        :label="$t('objects.routing.chatGateways.webchat.appointment.successMessage')"
-        @input="setAppointmentMetadata({ prop: 'successMessage', value: $event })"
-      ></wt-textarea>
+      <div class="success-settings">
+       <span class="success-settings__title">
+         {{ $t('objects.routing.chatGateways.webchat.appointment.resultPageText') }}
+       </span>
+        <wt-switcher
+          :value="itemInstance.metadata.appointment.showDefaultHeading"
+          :label="$t('objects.routing.chatGateways.webchat.appointment.showDefaultHeading')"
+          @change="setAppointmentMetadata({ prop: 'showDefaultHeading', value: $event })"
+        ></wt-switcher>
+        <wt-input
+          :value="itemInstance.metadata.appointment.successTitle"
+          :label="$t('objects.routing.chatGateways.webchat.appointment.headingText')"
+          :disabled="itemInstance.metadata.appointment.showDefaultHeading"
+          @input="setAppointmentMetadata({ prop: 'successTitle', value: $event })"
+        ></wt-input>
+        <wt-input
+          :value="itemInstance.metadata.appointment.successSubtitle"
+          :label="$t('objects.routing.chatGateways.webchat.appointment.subheadingText')"
+          :disabled="itemInstance.metadata.appointment.showDefaultHeading"
+          @input="setAppointmentMetadata({ prop: 'successSubtitle', value: $event })"
+        ></wt-input>
+      </div>
       <wt-switcher
         :value="itemInstance.metadata.appointment.showEmailField"
         :label="$t('objects.routing.chatGateways.webchat.appointment.showEmailField')"
@@ -100,4 +117,13 @@ export default {
 <style lang="scss" scoped>
 @import '../../../css/chat-gateways';
 
+.success-settings {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-sm);
+
+  &__title {
+    @extend %typo-heading-3;
+  }
+}
 </style>
