@@ -19,6 +19,7 @@ const outboundIVRQueue = () => ({
     waitBetweenRetriesDesc: false,
     maxCalls: 10,
     recordings: false,
+    recordAll: false,
     amd: amd(),
     strictCircuit: false,
     perNumbers: false,
