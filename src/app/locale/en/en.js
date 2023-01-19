@@ -758,6 +758,7 @@ export default {
         maxCalls: 'Max tasks',
         maxCallsHint: 'If value is 0, dialer won\'t call',
         recordings: 'Recording',
+        recordAll: 'Start record after answer',
         perNumbers: 'Dialing Attempts per each phone number',
         maxWordLength: 'Maximum word length (ms)',
         maxNumberOfWords: 'Maximum number of words',
