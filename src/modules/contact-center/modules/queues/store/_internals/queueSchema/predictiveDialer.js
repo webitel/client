@@ -38,6 +38,7 @@ const predictiveDialer = () => ({
     statisticTime: 60,
     endless: false,
     perNumbers: false,
+    stickyAgentSec: 5,
   },
 });
 
