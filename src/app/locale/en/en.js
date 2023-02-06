@@ -414,7 +414,7 @@ export default {
       json: 'JSON',
 
       flow: {
-        flow: 'Flow',
+        flow: 'Flow schema | Flow schemas',
         allFlowSchemas: 'All flow schemas',
         createFlowSelectionPopup: 'Create new flow',
         createNew: 'Create new?',
