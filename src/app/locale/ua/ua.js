@@ -395,7 +395,7 @@ export default {
         code: 'Код',
       },
       pauseCause: {
-        pauseCause: 'Статуси операторів',
+        pauseCause: 'Статуси оператора',
         allPauseCause: 'Всі причини паузи оператора',
         limit: 'Ліміт (хв)',
         min: 'хвилин',
@@ -414,8 +414,8 @@ export default {
       json: 'JSON',
 
       flow: {
-        flow: 'Схема',
-        allFlowSchemas: 'Всі схеми дзвінків',
+        flow: 'Схема | Схеми',
+        allFlowSchemas: 'Всі схеми',
         createFlowSelectionPopup: 'Створити нову схему',
         createNew: 'Створити нову схему?',
         editor: 'Редактор',
@@ -863,7 +863,7 @@ export default {
       integrations: 'Інтеграції',
 
       storage: {
-        storage: 'Сховище',
+        storage: 'Сховища',
         allStorages: 'Всі сховища',
         type: 'Тип',
         maxSize: 'Об\'єм сховища (GB)',
@@ -914,7 +914,8 @@ export default {
       },
 
       importCsv: {
-        importCsv: 'Імпорт CSV файлу | Импорти CSV файлів',
+        importCsv: 'Імпорт даних з CSV файлу | Імпорт даних з CSV файлів',
+        allImportsCsv: 'Всі імпорти даних з CSV файлів',
         source: 'Призначення імпорту',
         settings: 'Налаштування',
         mappings: 'Мапінги полів',

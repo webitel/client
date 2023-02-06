@@ -395,7 +395,7 @@ export default {
         code: 'Code',
       },
       pauseCause: {
-        pauseCause: 'Agent status',
+        pauseCause: 'Agent statuses',
         allPauseCause: 'All agent pause causes',
         limit: 'Limit (min)',
         min: 'min',
@@ -916,6 +916,7 @@ export default {
 
       importCsv: {
         importCsv: 'Import CSV from file | Imports of CSV from file',
+        allImportsCsv: 'All imports data from CSV files',
         source: 'Import destination',
         settings: 'Settings',
         mappings: 'Field mappings',

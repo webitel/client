@@ -77,7 +77,7 @@
         v-if="specificControls.schema"
         :clearable="false"
         :disabled="disableUserInput"
-        :label="$t('objects.routing.schema')"
+        :label="$tc('objects.routing.flow.flow', 1)"
         :search-method="loadDropdownOptionsSchemaList"
         :v="v.itemInstance.schema"
         :value="itemInstance.schema"
