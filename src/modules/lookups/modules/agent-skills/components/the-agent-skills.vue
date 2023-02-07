@@ -101,7 +101,7 @@ export default {
     path() {
       return [
         { name: this.$t('objects.lookups.lookups') },
-        { name: this.$tc('objects.lookups.skills.agentSkills', 1), route: '/lookups/skills' },
+        { name: this.$tc('objects.lookups.skills.agentSkills', 2), route: '/lookups/skills' },
       ];
     },
   },
