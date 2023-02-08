@@ -34,7 +34,7 @@
       <div></div>
       <wt-select
         :disabled="disableUserInput"
-        :label="$t('objects.routing.flow.flow')"
+        :label="$tc('objects.routing.flow.flow', 1)"
         :search-method="loadDropdownOptionsList"
         :v="v.itemInstance.flow"
         :value="itemInstance.flow"

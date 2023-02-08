@@ -9,7 +9,7 @@ export default [
   },
   {
     value: 'schema',
-    locale: ['objects.routing.schema', 1],
+    locale: ['objects.routing.flow.flow', 1],
     field: 'schema',
     sort: SortSymbols.NONE,
   },
