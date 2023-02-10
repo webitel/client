@@ -430,7 +430,7 @@ export default {
       },
 
       dialplan: {
-        dialplan: 'Dialplan',
+        dialplan: 'Dialplans',
         dialplanRules: 'Dialplan rules',
         pattern: 'Destination number',
         dialplanRule: 'Dialplan rule',

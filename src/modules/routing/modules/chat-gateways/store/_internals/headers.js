@@ -15,7 +15,7 @@ export default [
   },
   {
     value: 'flow',
-    locale: 'objects.routing.flow.flow',
+    locale: ['objects.routing.flow.flow', 1],
     field: 'flow',
     sort: SortSymbols.NONE,
   },
