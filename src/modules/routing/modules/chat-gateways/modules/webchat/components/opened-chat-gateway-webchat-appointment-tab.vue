@@ -67,18 +67,18 @@
           :label="$t('objects.routing.chatGateways.webchat.appointment.showDefaultHeading')"
           @change="setAppointmentMetadata({ prop: 'showDefaultHeading', value: $event })"
         ></wt-switcher>
-        <wt-input
+        <wt-textarea
           :value="itemInstance.metadata.appointment.successTitle"
           :label="$t('objects.routing.chatGateways.webchat.appointment.headingText')"
           :disabled="itemInstance.metadata.appointment.showDefaultHeading"
-          @input="setAppointmentMetadata({ prop: 'successTitle', value: $event })"
-        ></wt-input>
-        <wt-input
+          @input="handleInput({ prop: 'successTitle', value: $event })"
+        ></wt-textarea>
+        <wt-textarea
           :value="itemInstance.metadata.appointment.successSubtitle"
           :label="$t('objects.routing.chatGateways.webchat.appointment.subheadingText')"
           :disabled="itemInstance.metadata.appointment.showDefaultHeading"
-          @input="setAppointmentMetadata({ prop: 'successSubtitle', value: $event })"
-        ></wt-input>
+          @input="handleInput({ prop: 'successSubtitle', value: $event })"
+        ></wt-textarea>
       </div>
       <wt-switcher
         :value="itemInstance.metadata.appointment.showEmailField"
@@ -110,6 +110,9 @@ export default {
     }),
     searchQueues: QueuesAPI.getLookup,
     searchCommunications: CommunicationsAPI.getLookup,
+    handleInput({ prop, value }) {
+      this.setAppointmentMetadata({ prop, value: value.trimStart().replace(/\s{2,}/g, ' ') });
+    },
   },
 };
 </script>
