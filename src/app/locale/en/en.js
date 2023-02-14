@@ -512,6 +512,12 @@ export default {
             comments: 'Track comments',
             mentions: 'Track mentions',
           },
+          whatsapp: {
+            whatsapp: 'Whatsapp',
+            token: 'Token',
+            status: 'Status',
+            number: 'Phone number',
+          },
         },
         viber: {
           viber: 'Viber',
