@@ -16,6 +16,7 @@ import webChatGateway from './_internals/providers/webChatGateway';
 
 import facebook from '../modules/messenger/facebook/store/facebook';
 import instagram from '../modules/messenger/instagram/store/instagram';
+import whatsapp from '../modules/messenger/whatsapp/store/whatsapp';
 
 const resettableState = {
   itemInstance: {
@@ -123,7 +124,7 @@ const mutations = {
 const chatGateways = new ObjectStoreModule({ resettableState, headers })
   .attachAPIModule(ChatGatewaysAPI)
   .generateAPIActions()
-  .setChildModules({ facebook, instagram })
+  .setChildModules({ facebook, instagram, whatsapp })
   .getModule({ actions, mutations });
 
 export default chatGateways;

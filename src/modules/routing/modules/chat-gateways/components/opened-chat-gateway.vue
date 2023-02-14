@@ -49,6 +49,7 @@ import openedObjectMixin from '../../../../../app/mixins/objectPagesMixins/opene
 import ChatGatewayProvider from '../enum/ChatGatewayProvider.enum';
 import OpenedChatFacebook from '../modules/messenger/facebook/components/facebook-tab.vue';
 import OpenedChatInstagram from '../modules/messenger/instagram/components/instagram-tab.vue';
+import OpenedChatWhatsapp from '../modules/messenger/whatsapp/components/whatsapp-tab.vue';
 import WebchatCopyCodeButton from '../modules/webchat/components/copy-code-button.vue';
 import OpenedWebchatAlternativeChannels
   from '../modules/webchat/components/opened-chat-gateway-webchat-alternative-channels-tab.vue';
@@ -78,6 +79,7 @@ export default {
     OpenedChatMessenger,
     OpenedChatFacebook,
     OpenedChatInstagram,
+    OpenedChatWhatsapp,
     OpenedChatInfobip,
     OpenedViberChat,
     OpenedViberChatStyle,
@@ -232,10 +234,15 @@ export default {
         text: this.$t('objects.routing.chatGateways.messenger.instagram.instagram'),
         value: 'OpenedChatInstagram',
       };
+      const whatsappChatPages = {
+        text: this.$t('objects.routing.chatGateways.messenger.whatsapp.whatsapp'),
+        value: 'OpenedChatWhatsapp',
+      };
       const messenger = this.id ? [
         messengerChat,
         facebookChatPages,
         instagramChatPages,
+        whatsappChatPages,
       ] : [messengerChat];
       messenger.push(botTemplates);
 

@@ -512,6 +512,12 @@ export default {
             comments: 'Отслеживать комментарии',
             mentions: 'Отслеживать упоминания',
           },
+          whatsapp: {
+            whatsapp: 'Whatsapp',
+            token: 'Токен',
+            status: 'Статус',
+            number: 'Номер телефона',
+          },
         },
         viber: {
           viber: 'Viber',
