@@ -517,7 +517,7 @@ export default {
             token: 'Токен',
             status: 'Статус',
             number: 'Номер телефона',
-            review: '',
+            review: 'Рассмотрение',
           },
         },
         viber: {
