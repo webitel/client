@@ -8,6 +8,10 @@ export default [
     locale: 'objects.routing.chatGateways.messenger.whatsapp.number',
   },
   {
+    value: 'review',
+    locale: 'objects.routing.chatGateways.messenger.whatsapp.review',
+  },
+  {
     value: 'status',
     locale: 'objects.routing.chatGateways.messenger.whatsapp.status',
   },
