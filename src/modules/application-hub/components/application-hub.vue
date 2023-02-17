@@ -2,6 +2,7 @@
     <div class="application-hub-wrap">
         <cc-header/>
         <nav class="application-hub">
+          <div class="application-hub__background"></div>
             <ul class="application-hub__list">
                 <li
                         class="application-hub__card"
@@ -15,26 +16,16 @@
                     >
                         <div class="application-link__pic">
                             <img
-                                    class="application-link__pic__img application-link__pic__img__dark"
-                                    :src="app.pic.picDark"
-                                    :alt="`${app.name}-pic`"
-                            >
-                            <img
-                                    class="application-link__pic__img application-link__pic__img__light"
-                                    :src="app.pic.picLight"
+                                    class="application-link__pic__img application-link__pic__img"
+                                    :src="app.pic.pic"
                                     :alt="`${app.name}-pic`"
                             >
                         </div>
                         <div class="application-link__text-wrap">
                             <div class="application-link__title-pic">
                                 <img
-                                        class="application-link__title-pic__img application-link__title-pic__img__dark"
-                                        :src="app.pic.titleDark"
-                                        :alt="`${app.name}`"
-                                >
-                                <img
-                                        class="application-link__title-pic__img application-link__title-pic__img__light"
-                                        :src="app.pic.titleLight"
+                                        class="application-link__title-pic__img application-link__title-pic__img"
+                                        :src="app.pic.title"
                                         :alt="`${app.name}`"
                                 >
                             </div>
@@ -52,71 +43,47 @@
     import WebitelApplications from '@webitel/ui-sdk/src/enums/WebitelApplications/WebitelApplications.enum';
     import CcHeader from '../../_reusable/app-header/components/app-header.vue';
 
-    import admPicDark from '../assets/img/dark/admin-pic--dark.svg';
-    import admPicLight from '../assets/img/light/admin-pic--light.svg';
-    import admTitleDark from '../assets/img/dark/admin-title--dark.svg';
-    import admTitleLight from '../assets/img/light/admin-title--light.svg';
+    import admPic from '../assets/img/pictures/admin.svg';
+    import admTitle from '../assets/img/titles/admin.svg';
 
-    import agentPicDark from '../assets/img/dark/agent-pic--dark.svg';
-    import agentPicLight from '../assets/img/light/agent-pic--light.svg';
-    import agentTitleDark from '../assets/img/dark/agent-title--dark.svg';
-    import agentTitleLight from '../assets/img/light/agent-title--light.svg';
+    import agentPic from '../assets/img/pictures/workspace.svg';
+    import agentTitle from '../assets/img/titles/agent.svg';
 
-    import auditPicDark from '../assets/img/dark/audit-pic--dark.svg';
-    import auditPicLight from '../assets/img/light/audit-pic--light.svg';
-    import auditTitleDark from '../assets/img/dark/audit-title--dark.svg';
-    import auditTitleLight from '../assets/img/light/audit-title--light.svg';
+    import auditPic from '../assets/img/pictures/audit.svg';
+    import auditTitle from '../assets/img/titles/audit.svg';
 
-    import historyPicDark from '../assets/img/dark/history-pic--dark.svg';
-    import historyPicLight from '../assets/img/light/history-pic--light.svg';
-    import historyTitleDark from '../assets/img/dark/history-title--dark.svg';
-    import historyTitleLight from '../assets/img/light/history-title--light.svg';
+    import historyPic from '../assets/img/pictures/history.svg';
+    import historyTitle from '../assets/img/titles/history.svg';
 
-    import supervisorPicDark from '../assets/img/dark/supervisor-pic--dark.svg';
-    import supervisorPicLight from '../assets/img/light/supervisor-pic--light.svg';
-    import supervisorTitleDark from '../assets/img/dark/supervisor-title--dark.svg';
-    import supervisorTitleLight from '../assets/img/light/supervisor-title--light.svg';
+    import supervisorPic from '../assets/img/pictures/supervisor.svg';
+    import supervisorTitle from '../assets/img/titles/supervisor.svg';
 
-    import grafanaPicDark from '../assets/img/dark/grafana-pic--dark.svg';
-    import grafanaPicLight from '../assets/img/light/grafana-pic--light.svg';
-    import grafanaTitleDark from '../assets/img/dark/grafana-title--dark.svg';
-    import grafanaTitleLight from '../assets/img/light/grafana-title--light.svg';
+    import grafanaPic from '../assets/img/pictures/analytics.svg';
+    import grafanaTitle from '../assets/img/titles/analytics.svg';
 
     const picAdmin = {
-        picDark: admPicDark,
-        picLight: admPicLight,
-        titleDark: admTitleDark,
-        titleLight: admTitleLight,
+        pic: admPic,
+        title: admTitle,
     };
     const picAgent = {
-        picDark: agentPicDark,
-        picLight: agentPicLight,
-        titleDark: agentTitleDark,
-        titleLight: agentTitleLight,
+        pic: agentPic,
+        title: agentTitle,
     };
     const picAudit = {
-        picDark: auditPicDark,
-        picLight: auditPicLight,
-        titleDark: auditTitleDark,
-        titleLight: auditTitleLight,
+        pic: auditPic,
+        title: auditTitle,
     };
     const picHistory = {
-        picDark: historyPicDark,
-        picLight: historyPicLight,
-        titleDark: historyTitleDark,
-        titleLight: historyTitleLight,
+        pic: historyPic,
+        title: historyTitle,
     };
     const picSupervisor = {
-        picDark: supervisorPicDark,
-        picLight: supervisorPicLight,
-        titleDark: supervisorTitleDark,
-        titleLight: supervisorTitleLight,
+        pic: supervisorPic,
+        title: supervisorTitle,
     };
     const picGrafana = {
-        picDark: grafanaPicDark,
-        picLight: grafanaPicLight,
-        titleDark: grafanaTitleDark,
-        titleLight: grafanaTitleLight,
+        pic: grafanaPic,
+        title: grafanaTitle,
     };
 
     export default {
@@ -194,13 +161,27 @@
     }
 
     .application-hub {
-        flex-grow: 1;
-        width: 100%;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        padding: 30px 0;
-        background: $application-hub-bg-color;
+      position: relative;
+      flex-grow: 1;
+      width: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 30px 0;
+      background: $application-hub-bg-color;
+
+      &__background {
+        position: absolute;
+        right: 0;
+        top: 0;
+        z-index: 0;
+        min-height: 100%;
+        min-width: 100%;
+        height: 1080px;
+        width: 1920px;
+        background: url("../assets/img/background.png") no-repeat;
+        background-size: cover;
+      }
     }
 
     // ul
@@ -267,17 +248,17 @@
 
     // specific @hover toggled styles (default)
     .application-hub__card {
-        .application-link__pic__img__dark,
-        .application-link__title-pic__img__dark {
-            opacity: 1;
-            pointer-events: auto;
-        }
+        .application-link__pic__img,
+        //.application-link__title-pic__img {
+        //    opacity: 1;
+        //    pointer-events: auto;
+        //}
 
-        .application-link__pic__img__light,
-        .application-link__title-pic__img__light {
-            opacity: 0;
-            pointer-events: none;
-        }
+        //.application-link__pic__img__light,
+        //.application-link__title-pic__img__light {
+        //    opacity: 0;
+        //    pointer-events: none;
+        //}
 
         .application-link__title {
             color: #fff;
@@ -288,17 +269,17 @@
     .application-hub__card:hover {
         background: $card-bg--hover;
 
-        .application-link__pic__img__dark,
-        .application-link__title-pic__img__dark {
-            opacity: 0;
-            pointer-events: none;
+        .application-link__pic__img,
+        .application-link__title-pic__img {
+            //opacity: 0;
+            //pointer-events: none;
         }
 
-        .application-link__pic__img__light,
-        .application-link__title-pic__img__light {
-            opacity: 1;
-            pointer-events: auto;
-        }
+        //.application-link__pic__img__light,
+        //.application-link__title-pic__img__light {
+        //    opacity: 1;
+        //    pointer-events: auto;
+        //}
 
         .application-link__title {
             color: #000;
