@@ -135,7 +135,7 @@
                     pic: picGrafana,
                 };
 
-                const apps = [agentApp, supervisorApp, historyApp, adminApp];
+                const apps = [agentApp, supervisorApp, historyApp, adminApp, auditApp];
                 if (this.$config.ON_SITE) apps.push(grafanaApp);
                 return apps.filter(({ name }) => this.checkAccess(name));
             },
@@ -144,7 +144,6 @@
 </script>
 
 <style lang="scss" scoped>
-    $application-hub-bg-color: #171A2A;
     $card-bg--hover: #fff;
     $transition: 0.6s;
 
@@ -158,6 +157,11 @@
         .cc-header {
             flex: 0 0 54px;
         }
+
+      @media screen and (max-width: 320px) {
+        height: fit-content;
+        overflow: hidden;
+      }
     }
 
     .application-hub {
@@ -167,8 +171,7 @@
       display: flex;
       align-items: center;
       justify-content: center;
-      padding: 30px 0;
-      background: $application-hub-bg-color;
+      padding: var(--spacing-sm) 0;
 
       &__background {
         position: absolute;
@@ -182,84 +185,86 @@
         background: url("../assets/img/background.png") no-repeat;
         background-size: cover;
       }
+
+      @media screen and (max-width: 320px) {
+        display: block;
+      }
     }
 
     // ul
     .application-hub__card {
-      width: 570px;
-      height: 163px;
+      width: 408px;
+      height: 124px;
       border-radius: var(--border-radius);
       transition: var(--transition);
       box-sizing: border-box;
+
+      @media screen and (max-width: 960px) {
+        width: 278px;
+        height: 78px;
+      }
     }
 
     // ul > li's
     .application-hub__list {
         display: grid;
-        grid-template-columns: 570px 570px;
-        grid-column-gap: 20px;
-        grid-row-gap: 1px;
+        grid-template-columns: 1fr 1fr;
+        grid-gap: var(--page-wrapper-section-gap);
+
+      @media screen and (max-width: 600px) {
+        grid-template-columns: 1fr;
+      }
     }
 
     // a tag
     .application-link {
         display: flex;
         align-items: center;
-        width: 100%;
-        height: 100%;
-        padding: 16px 31px;
-        color: #fff;
+        padding: var(--page-wrapper-section-padding);
     }
 
     // notebook pic wrap, with 2 abs positioned img's
     .application-link__pic {
-        position: relative;
-        width: 230px;
-        height: 132px;
+      z-index: 1;
 
-        &__img {
-            position: absolute;
-          transition: var(--transition);
+      &__img {
+        @media screen and (max-width: 960px) {
+          width: 80px;
         }
+      }
     }
 
     // text pic + heading
     .application-link__text-wrap {
-        margin-left: 14px;
+      z-index: 1;
+        margin-left: var(--spacing-sm);
     }
 
     // title pic wrap, with 2 abs positioned img's
     .application-link__title-pic {
-        position: relative;
-        width: 100%;
-        height: 42px;
 
-        &__img {
-            position: absolute;
-          transition: var(--transition);
+      &__img {
+        @media screen and (max-width: 960px) {
+          width: 136px;
         }
+      }
     }
 
     // title text
     .application-link__title {
-        @extend %typo-body-2;
-        margin: 16px 0 0 10px;
+      @extend %typo-body-1;
+
+      @media screen and (max-width: 960px) {
+        //styleName: TYPOGRAPHY/body 2;
+        //can`t use @extend in media
+        //https://stackoverflow.com/questions/14840918/extending-selectors-from-within-media-queries-with-sass
+        font-size: 12px;
+        line-height: 16px;
+      }
     }
 
     // specific @hover toggled styles (default)
     .application-hub__card {
-        .application-link__pic__img,
-        //.application-link__title-pic__img {
-        //    opacity: 1;
-        //    pointer-events: auto;
-        //}
-
-        //.application-link__pic__img__light,
-        //.application-link__title-pic__img__light {
-        //    opacity: 0;
-        //    pointer-events: none;
-        //}
-
         .application-link__title {
             color: #fff;
         }
@@ -267,37 +272,29 @@
 
     // specific @hover toggled styles (hovered)
     .application-hub__card:hover {
-        background: $card-bg--hover;
+      z-index: 1;
+      background: #FFFFFF4D;
 
-        .application-link__pic__img,
+
+      .application-link__pic__img,
         .application-link__title-pic__img {
             //opacity: 0;
             //pointer-events: none;
         }
-
-        //.application-link__pic__img__light,
-        //.application-link__title-pic__img__light {
-        //    opacity: 1;
-        //    pointer-events: auto;
-        //}
-
-        .application-link__title {
-            color: #000;
-        }
     }
 
     // 1280 still has desired grid template
-    @media screen and (max-width: 1279px) {
-        .application-hub__list {
-            display: grid;
-            grid-template-columns: 570px;
-        }
-    }
+    //@media screen and (max-width: 1279px) {
+    //    .application-hub__list {
+    //        display: grid;
+    //        grid-template-columns: 570px;
+    //    }
+    //}
 
     // minimum height
-    @media screen and (max-height: 610px) {
-        .application-hub-wrap {
-            min-height: 610px;
-        }
-    }
+    //@media screen and (max-height: 610px) {
+    //    .application-hub-wrap {
+    //        min-height: 610px;
+    //    }
+    //}
 </style>
