@@ -4,12 +4,12 @@ export default [
     locale: 'objects.name',
   },
   {
-    value: 'number',
-    locale: 'objects.routing.chatGateways.messenger.whatsapp.number',
-  },
-  {
     value: 'review',
     locale: 'objects.routing.chatGateways.messenger.whatsapp.review',
+  },
+  {
+    value: 'number',
+    locale: 'objects.routing.chatGateways.messenger.whatsapp.number',
   },
   {
     value: 'status',
