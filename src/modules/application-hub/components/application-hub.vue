@@ -24,10 +24,15 @@
                         <div class="application-link__text-wrap">
                             <div class="application-link__title-pic">
                                 <img
-                                        class="application-link__title-pic__img application-link__title-pic__img"
-                                        :src="app.pic.title"
-                                        :alt="`${app.name}`"
+                                  class="application-link__title-pic__img application-link__title-pic__img-medium"
+                                  :src="app.pic.title.md"
+                                  :alt="`${app.name}`"
                                 >
+                              <img
+                                class="application-link__title-pic__img application-link__title-pic__img-small"
+                                :src="app.pic.title.sm"
+                                :alt="`${app.name}-title`"
+                              >
                             </div>
                             <h1 class="application-link__title">{{app.title}}</h1>
                         </div>
@@ -44,46 +49,70 @@
     import CcHeader from '../../_reusable/app-header/components/app-header.vue';
 
     import admPic from '../assets/img/pictures/admin.svg';
-    import admTitle from '../assets/img/titles/admin.svg';
+    import admTitleMd from '../assets/img/titles/admin-medium.svg';
+    import admTitleSm from '../assets/img/titles/admin-small.svg';
 
     import agentPic from '../assets/img/pictures/workspace.svg';
-    import agentTitle from '../assets/img/titles/agent.svg';
+    import agentTitleMd from '../assets/img/titles/agent-medium.svg';
+    import agentTitleSm from '../assets/img/titles/agent-small.svg';
 
     import auditPic from '../assets/img/pictures/audit.svg';
-    import auditTitle from '../assets/img/titles/audit.svg';
+    import auditTitleMd from '../assets/img/titles/audit-medium.svg';
+    import auditTitleSm from '../assets/img/titles/audit-small.svg';
 
     import historyPic from '../assets/img/pictures/history.svg';
-    import historyTitle from '../assets/img/titles/history.svg';
+    import historyTitleMd from '../assets/img/titles/history-medium.svg';
+    import historyTitleSm from '../assets/img/titles/history-small.svg';
 
     import supervisorPic from '../assets/img/pictures/supervisor.svg';
-    import supervisorTitle from '../assets/img/titles/supervisor.svg';
+    import supervisorTitleMd from '../assets/img/titles/supervisor-medium.svg';
+    import supervisorTitleSm from '../assets/img/titles/supervisor-small.svg';
 
     import grafanaPic from '../assets/img/pictures/analytics.svg';
-    import grafanaTitle from '../assets/img/titles/analytics.svg';
+    import grafanaTitleMd from '../assets/img/titles/analytics-medium.svg';
+    import grafanaTitleSm from '../assets/img/titles/analytics-small.svg';
 
     const picAdmin = {
         pic: admPic,
-        title: admTitle,
+        title: {
+          md: admTitleMd,
+          sm: admTitleSm,
+        }
     };
     const picAgent = {
         pic: agentPic,
-        title: agentTitle,
+        title: {
+          md: agentTitleMd,
+          sm: agentTitleSm,
+        }
     };
     const picAudit = {
         pic: auditPic,
-        title: auditTitle,
+        title: {
+          md: auditTitleMd,
+          sm: auditTitleSm,
+        }
     };
     const picHistory = {
         pic: historyPic,
-        title: historyTitle,
+        title: {
+          md: historyTitleMd,
+          sm: historyTitleSm,
+        }
     };
     const picSupervisor = {
         pic: supervisorPic,
-        title: supervisorTitle,
+        title: {
+          md: supervisorTitleMd,
+          sm: supervisorTitleSm,
+        }
     };
     const picGrafana = {
         pic: grafanaPic,
-        title: grafanaTitle,
+        title: {
+          md: grafanaTitleMd,
+          sm: grafanaTitleSm,
+        }
     };
 
     export default {
@@ -153,15 +182,15 @@
         min-height: 100vh;
         display: flex;
         flex-direction: column;
+      //overflow: hidden;
 
         .cc-header {
             flex: 0 0 54px;
         }
 
-      @media screen and (max-width: 320px) {
-        height: fit-content;
-        overflow: hidden;
-      }
+      //@media screen and (max-width: 320px) {
+      //  height: fit-content;
+      //}
     }
 
     .application-hub {
@@ -172,6 +201,7 @@
       align-items: center;
       justify-content: center;
       padding: var(--spacing-sm) 0;
+      overflow: hidden;
 
       &__background {
         position: absolute;
@@ -192,6 +222,18 @@
     }
 
     // ul
+    .application-hub__list {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      grid-gap: var(--page-wrapper-section-gap);
+
+      @media screen and (max-width: 600px) {
+        grid-template-columns: 1fr;
+      }
+    }
+
+
+    // ul > li's
     .application-hub__card {
       width: 408px;
       height: 124px;
@@ -202,17 +244,6 @@
       @media screen and (max-width: 960px) {
         width: 278px;
         height: 78px;
-      }
-    }
-
-    // ul > li's
-    .application-hub__list {
-        display: grid;
-        grid-template-columns: 1fr 1fr;
-        grid-gap: var(--page-wrapper-section-gap);
-
-      @media screen and (max-width: 600px) {
-        grid-template-columns: 1fr;
       }
     }
 
@@ -243,9 +274,16 @@
     // title pic wrap, with 2 abs positioned img's
     .application-link__title-pic {
 
-      &__img {
-        @media screen and (max-width: 960px) {
-          width: 136px;
+      &__img-small {
+        display: none;
+      }
+
+      @media screen and (max-width: 960px) {
+        &__img-small {
+          display: block;
+        }
+        &__img-medium {
+          display: none;
         }
       }
     }
@@ -255,9 +293,9 @@
       @extend %typo-body-1;
 
       @media screen and (max-width: 960px) {
-        //styleName: TYPOGRAPHY/body 2;
-        //can`t use @extend in media
-        //https://stackoverflow.com/questions/14840918/extending-selectors-from-within-media-queries-with-sass
+        // @extend %typo-body-2;
+        // can`t use @extend in media
+        // https://stackoverflow.com/questions/14840918/extending-selectors-from-within-media-queries-with-sass
         font-size: 12px;
         line-height: 16px;
       }
@@ -273,7 +311,8 @@
     // specific @hover toggled styles (hovered)
     .application-hub__card:hover {
       z-index: 1;
-      background: #FFFFFF4D;
+      background: rgba(255, 255, 255, 0.3);
+      background-blend-mode: soft-light;
 
 
       .application-link__pic__img,
@@ -282,19 +321,4 @@
             //pointer-events: none;
         }
     }
-
-    // 1280 still has desired grid template
-    //@media screen and (max-width: 1279px) {
-    //    .application-hub__list {
-    //        display: grid;
-    //        grid-template-columns: 570px;
-    //    }
-    //}
-
-    // minimum height
-    //@media screen and (max-height: 610px) {
-    //    .application-hub-wrap {
-    //        min-height: 610px;
-    //    }
-    //}
 </style>
