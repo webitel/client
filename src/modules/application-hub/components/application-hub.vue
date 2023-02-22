@@ -16,7 +16,7 @@
                     >
                         <div class="application-link__pic">
                             <img
-                                    class="application-link__pic__img application-link__pic__img"
+                                    class="application-link__pic__img"
                                     :src="app.pic.pic"
                                     :alt="`${app.name}-pic`"
                             >
@@ -173,24 +173,20 @@
 </script>
 
 <style lang="scss" scoped>
-    $card-bg--hover: #fff;
-    $transition: 0.6s;
+    $card-bg-hover: rgba(255, 255, 255, 0.1);
+    $transition: 0.4s;
 
     // main wrapper, with header and nav
     .application-hub-wrap {
         width: 100%;
         min-height: 100vh;
+      height: fit-content;
         display: flex;
         flex-direction: column;
-      //overflow: hidden;
 
         .cc-header {
             flex: 0 0 54px;
         }
-
-      //@media screen and (max-width: 320px) {
-      //  height: fit-content;
-      //}
     }
 
     .application-hub {
@@ -200,7 +196,6 @@
       display: flex;
       align-items: center;
       justify-content: center;
-      padding: var(--spacing-sm) 0;
       overflow: hidden;
 
       &__background {
@@ -215,10 +210,6 @@
         background: url("../assets/img/background.png") no-repeat;
         background-size: cover;
       }
-
-      @media screen and (max-width: 320px) {
-        display: block;
-      }
     }
 
     // ul
@@ -227,8 +218,9 @@
       grid-template-columns: 1fr 1fr;
       grid-gap: var(--page-wrapper-section-gap);
 
-      @media screen and (max-width: 600px) {
+      @media screen and (max-width: $viewport-xs) {
         grid-template-columns: 1fr;
+        grid-gap: 0;
       }
     }
 
@@ -238,10 +230,10 @@
       width: 408px;
       height: 124px;
       border-radius: var(--border-radius);
-      transition: var(--transition);
+      transition: $transition;
       box-sizing: border-box;
 
-      @media screen and (max-width: 960px) {
+      @media screen and (max-width: $viewport-sm) {
         width: 278px;
         height: 78px;
       }
@@ -254,12 +246,12 @@
         padding: var(--page-wrapper-section-padding);
     }
 
-    // notebook pic wrap, with 2 abs positioned img's
+    // notebook pic wrap
     .application-link__pic {
       z-index: 1;
 
       &__img {
-        @media screen and (max-width: 960px) {
+        @media screen and (max-width: $viewport-sm) {
           width: 80px;
         }
       }
@@ -276,23 +268,33 @@
 
       &__img-small {
         display: none;
-      }
 
-      @media screen and (max-width: 960px) {
-        &__img-small {
+        @media screen and (max-width: $viewport-sm) {
           display: block;
         }
-        &__img-medium {
+      }
+
+      &__img-medium {
+        @media screen and (max-width: $viewport-sm) {
           display: none;
         }
+      }
+
+      @media screen and (max-width: $viewport-sm) {
+        margin-bottom: var(--spacing-xs);
+      }
+
+      @media screen and (max-width: $viewport-xs) {
+        margin-bottom: 0;
       }
     }
 
     // title text
     .application-link__title {
       @extend %typo-body-1;
+      color: var(--main-color);
 
-      @media screen and (max-width: 960px) {
+      @media screen and (max-width: $viewport-sm) {
         // @extend %typo-body-2;
         // can`t use @extend in media
         // https://stackoverflow.com/questions/14840918/extending-selectors-from-within-media-queries-with-sass
@@ -301,24 +303,17 @@
       }
     }
 
-    // specific @hover toggled styles (default)
-    .application-hub__card {
-        .application-link__title {
-            color: #fff;
-        }
-    }
-
     // specific @hover toggled styles (hovered)
     .application-hub__card:hover {
       z-index: 1;
-      background: rgba(255, 255, 255, 0.3);
-      background-blend-mode: soft-light;
+      background: $card-bg-hover;
 
+      .application-link__pic {
+        mix-blend-mode: soft-light;
+      }
 
-      .application-link__pic__img,
-        .application-link__title-pic__img {
-            //opacity: 0;
-            //pointer-events: none;
-        }
+      .application-link__text-wrap {
+        mix-blend-mode: soft-light;
+      }
     }
 </style>
