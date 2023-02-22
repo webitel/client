@@ -84,7 +84,7 @@ export default {
 
   @media (#{$media} and #{$media-width-sm}) {
     --wrapper-width: 80%;
-    --wrapper-height: 440px;
+    --wrapper-height: 472px;
   }
 
   @media (#{$media} and #{$media-width-xs}) {

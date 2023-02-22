@@ -9,8 +9,12 @@ const getters = {
 const actions = {
   LOAD_DATA_LIST: async (context) => {
     const uri = context.getters.CHAT_URI;
-    const items = await context.dispatch('GET_LIST', { uri });
-    context.commit('SET_DATA_LIST', items);
+    let items = [];
+    try {
+      items = await context.dispatch('GET_LIST', { uri });
+    } finally {
+      context.commit('SET_DATA_LIST', items);
+    }
   },
   UPDATE_SUBSCRIPTION_STATE: async (context, { value, item }) => {
     try {

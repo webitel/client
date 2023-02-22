@@ -45,6 +45,9 @@
         <template slot="number" slot-scope="{ item }">
           {{ item.phoneNumbers[0].displayPhoneNumber }}
         </template>
+        <template slot="review" slot-scope="{ item }">
+          {{ item.phoneNumbers[0].nameStatus }}
+        </template>
         <template slot="status" slot-scope="{ item }">
           {{ item.phoneNumbers[0].status }}
         </template>

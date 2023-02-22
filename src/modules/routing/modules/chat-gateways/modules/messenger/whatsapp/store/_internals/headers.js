@@ -4,6 +4,10 @@ export default [
     locale: 'objects.name',
   },
   {
+    value: 'review',
+    locale: 'objects.routing.chatGateways.messenger.whatsapp.review',
+  },
+  {
     value: 'number',
     locale: 'objects.routing.chatGateways.messenger.whatsapp.number',
   },
