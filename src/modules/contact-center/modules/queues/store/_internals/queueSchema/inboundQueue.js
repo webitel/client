@@ -18,6 +18,7 @@ const inboundQueue = () => ({
     allowGreetingAgent: false,
     stickyAgentSec: 5,
     maxWaitingSize: 0,
+    autoAnswerTone: null,
   },
 });
 

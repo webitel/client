@@ -725,6 +725,7 @@ export default {
         endless: 'Endless',
         stickyAgent: 'Sticky',
         stickyAgentSec: 'Sticky agent (sec)',
+        autoAnswerTone: 'Auto answer warning tone',
         varKey: 'Key',
         varVal: 'Value',
         endCause: 'End cause',

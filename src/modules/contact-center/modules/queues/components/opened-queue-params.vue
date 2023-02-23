@@ -215,6 +215,15 @@
         type="number"
         @input="setItemPayloadProp({ prop: 'stickyAgentSec', value: +$event })"
       ></wt-input>
+      <wt-select
+        v-if="specificControls.autoAnswerTone"
+        :clearable="true"
+        :disabled="disableUserInput"
+        v-model="autoAnswerTone"
+        :label="$t('objects.ccenter.queues.autoAnswerTone')"
+        :options="dropdownOptionsAutoAnswerToneList"
+        track-by="value"
+      ></wt-select>
     </div>
   </section>
 </template>
@@ -225,11 +234,26 @@ import openedTabComponentMixin
   from '../../../../../app/mixins/objectPagesMixins/openedObjectTabMixin/openedTabComponentMixin';
 import QueueTypeProperties from '../lookups/QueueTypeProperties.lookup';
 import StatisticTimeList from '../store/_internals/lookups/StatisticTime.lookup';
+import {
+  StrategyList
+} from "@/modules/contact-center/modules/queues/store/_internals/enums/Strategy.enum";
+import {
+  ToneList
+} from "@/modules/contact-center/modules/queues/store/_internals/enums/Tone.enum";
 
 export default {
   name: 'opened-queue-params',
   mixins: [openedTabComponentMixin],
   computed: {
+    autoAnswerTone: {
+      get() {
+        return this.dropdownOptionsAutoAnswerToneList
+          .find((tone) => tone.value === this.itemInstance.payload.autoAnswerTone);
+      },
+      set(value) {
+        this.setItemPayloadProp({ prop: 'autoAnswerTone', value: value.value });
+      },
+    },
     statisticTime: {
       get() {
         return this.dropdownOptionsStatisticTimeList
@@ -252,6 +276,9 @@ export default {
         value: time.value,
         name: this.$t(`objects.ccenter.queues.time.${time.name}`),
       }));
+    },
+    dropdownOptionsAutoAnswerToneList() {
+      return ToneList;
     },
   },
   methods: {

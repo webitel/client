@@ -723,6 +723,7 @@ export default {
         endless: 'Не прекращать дозвон',
         stickyAgent: 'Липкость',
         stickyAgentSec: 'Время ожидания липкости (сек)',
+        autoAnswerTone: 'Сигнал предупреждения автоответа',
         varKey: 'Ключ',
         varVal: 'Значение',
         endCause: 'Причина прекращения',

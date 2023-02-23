@@ -28,6 +28,7 @@ const progressiveDialer = () => ({
     strictCircuit: false,
     endless: false,
     perNumbers: false,
+    autoAnswerTone: null,
   },
 });
 
