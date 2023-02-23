@@ -277,9 +277,7 @@ export default {
         name: this.$t(`objects.ccenter.queues.time.${time.name}`),
       }));
     },
-    dropdownOptionsAutoAnswerToneList() {
-      return ToneList;
-    },
+    dropdownOptionsAutoAnswerToneList: () => (ToneList),
   },
   methods: {
     ...mapActions({
