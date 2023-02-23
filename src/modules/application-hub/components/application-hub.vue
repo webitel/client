@@ -178,11 +178,11 @@
 
     // main wrapper, with header and nav
     .application-hub-wrap {
-        width: 100%;
-        min-height: 100vh;
+      width: 100%;
+      min-height: 100vh;
       height: fit-content;
-        display: flex;
-        flex-direction: column;
+      display: flex;
+      flex-direction: column;
 
         .cc-header {
             flex: 0 0 54px;
@@ -223,7 +223,6 @@
         grid-gap: 0;
       }
     }
-
 
     // ul > li's
     .application-hub__card {
