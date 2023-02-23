@@ -234,12 +234,7 @@ import openedTabComponentMixin
   from '../../../../../app/mixins/objectPagesMixins/openedObjectTabMixin/openedTabComponentMixin';
 import QueueTypeProperties from '../lookups/QueueTypeProperties.lookup';
 import StatisticTimeList from '../store/_internals/lookups/StatisticTime.lookup';
-import {
-  StrategyList
-} from "@/modules/contact-center/modules/queues/store/_internals/enums/Strategy.enum";
-import {
-  ToneList
-} from "@/modules/contact-center/modules/queues/store/_internals/enums/Tone.enum";
+import ToneList from '../store/_internals/enums/Tone.enum';
 
 export default {
   name: 'opened-queue-params',

@@ -1,4 +1,4 @@
-export const ToneList = Object.freeze([
+export default Object.freeze([
   { name: 'None', value: 'none' },
   { name: 'Default', value: 'default' },
   { name: 'AT&T 1', value: 'at1' },
