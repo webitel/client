@@ -215,6 +215,15 @@
         type="number"
         @input="setItemPayloadProp({ prop: 'stickyAgentSec', value: +$event })"
       ></wt-input>
+      <wt-select
+        v-if="specificControls.autoAnswerTone"
+        clearable
+        :disabled="disableUserInput"
+        v-model="autoAnswerTone"
+        :label="$t('objects.ccenter.queues.autoAnswerTone')"
+        :options="ToneList"
+        track-by="value"
+      ></wt-select>
     </div>
   </section>
 </template>
@@ -225,11 +234,24 @@ import openedTabComponentMixin
   from '../../../../../app/mixins/objectPagesMixins/openedObjectTabMixin/openedTabComponentMixin';
 import QueueTypeProperties from '../lookups/QueueTypeProperties.lookup';
 import StatisticTimeList from '../store/_internals/lookups/StatisticTime.lookup';
+import ToneList from '../store/_internals/lookups/Tone.lookup';
 
 export default {
   name: 'opened-queue-params',
   mixins: [openedTabComponentMixin],
+  data: () => ({
+    ToneList,
+  }),
   computed: {
+    autoAnswerTone: {
+      get() {
+        return this.ToneList
+          .find((tone) => tone.value === this.itemInstance.payload.autoAnswerTone);
+      },
+      set(value) {
+        this.setItemPayloadProp({ prop: 'autoAnswerTone', value: value.value });
+      },
+    },
     statisticTime: {
       get() {
         return this.dropdownOptionsStatisticTimeList

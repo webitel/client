@@ -725,6 +725,7 @@ export default {
         endless: 'Не припиняти набір',
         stickyAgent: 'Липкість',
         stickyAgentSec: 'Час очікування липкості (сек)',
+        autoAnswerTone: 'Попереджувальний сигнал автоматичної відповіді',
         varKey: 'Ключ',
         varVal: 'Значення',
         endCause: 'Причина припинення',
