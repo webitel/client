@@ -1,7 +1,10 @@
 <template>
     <div class="application-hub-wrap">
         <cc-header/>
-        <nav class="application-hub">
+        <nav
+          class="application-hub"
+          :class="{ 'application-hub--sm': $breakpoint.smAndDown}"
+        >
           <div class="application-hub__background"></div>
             <ul class="application-hub__list">
                 <li
@@ -36,11 +39,8 @@
                                 :alt="`${app.name}-title`"
                               >
                             </div>
-                            <h1
-                              class="application-link__title"
-                              :class="{ 'application-link__title--sm': $breakpoint.smAndDown  }"
-                            >
-                              {{app.title}}
+                            <h1 class="application-link__title">
+                              {{ app.title }}
                             </h1>
                         </div>
                     </a>
@@ -258,10 +258,6 @@
     .application-link__title {
       @extend %typo-body-1;
       color: var(--main-color);
-
-      &--sm {
-        @extend %typo-body-2;
-      }
     }
 
     // specific @hover toggled styles (hovered)
@@ -275,6 +271,13 @@
 
       .application-link__text-wrap {
         mix-blend-mode: soft-light;
+      }
+    }
+
+    .application-hub--sm {
+      // title text
+      .application-link__title {
+        @extend %typo-body-2;
       }
     }
 
