@@ -175,9 +175,6 @@
                 if (this.$config.ON_SITE) apps.push(grafanaApp);
                 return apps.filter(({ name }) => this.checkAccess(name));
             },
-          breakpoint() {
-            return this.$breakpoint;
-          }
         },
     };
 </script>
@@ -296,6 +293,17 @@
       .application-hub__list {
         grid-template-columns: 1fr;
         grid-gap: 0;
+      }
+    }
+
+    @media screen and (max-width: 320px) {
+      .application-hub__card {
+        width: 100%;
+        border-radius: 0;
+      }
+
+      .application-hub__list {
+        width: 100%;
       }
     }
 </style>
