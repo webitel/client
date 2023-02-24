@@ -24,21 +24,21 @@
                         <div class="application-link__text-wrap">
                             <div class="application-link__title-pic">
                                 <img
-                                  v-if="breakpoint.mdAndUp"
+                                  v-if="$breakpoint.mdAndUp"
                                   class="application-link__title-pic__img application-link__title-pic__img-medium"
                                   :src="app.pic.title.md"
                                   :alt="`${app.name}`"
                                 >
                               <img
-                                v-if="breakpoint.smAndDown"
-                                class="application-link__title-pic__img application-link__title-pic__img-small"
+                                v-else
+                                class="application-link__title-pic__img application-link__title-pic__img--sm"
                                 :src="app.pic.title.sm"
                                 :alt="`${app.name}-title`"
                               >
                             </div>
                             <h1
                               class="application-link__title"
-                              :class="{ 'application-link__title-small': breakpoint.smAndDown  }"
+                              :class="{ 'application-link__title--sm': $breakpoint.smAndDown  }"
                             >
                               {{app.title}}
                             </h1>
@@ -176,9 +176,8 @@
                 return apps.filter(({ name }) => this.checkAccess(name));
             },
           breakpoint() {
-            console.log(this.$breakpoint)
             return this.$breakpoint;
-          },
+          }
         },
     };
 </script>
@@ -229,11 +228,6 @@
       display: grid;
       grid-template-columns: 1fr 1fr;
       grid-gap: var(--page-wrapper-section-gap);
-
-      @media screen and (max-width: $viewport-xs) {
-        grid-template-columns: 1fr;
-        grid-gap: 0;
-      }
     }
 
     // ul > li's
@@ -243,11 +237,6 @@
       border-radius: var(--border-radius);
       transition: $transition;
       box-sizing: border-box;
-
-      @media screen and (max-width: $viewport-sm) {
-        width: 278px;
-        height: 78px;
-      }
     }
 
     // a tag
@@ -260,12 +249,6 @@
     // notebook pic wrap
     .application-link__pic {
       z-index: 1;
-
-      &__img {
-        @media screen and (max-width: $viewport-sm) {
-          width: 80px;
-        }
-      }
     }
 
     // text pic + heading
@@ -279,7 +262,7 @@
       @extend %typo-body-1;
       color: var(--main-color);
 
-      &-small {
+      &--sm {
         @extend %typo-body-2;
       }
     }
@@ -295,6 +278,24 @@
 
       .application-link__text-wrap {
         mix-blend-mode: soft-light;
+      }
+    }
+
+    @media screen and (max-width: $viewport-sm) {
+      .application-hub__card {
+        width: 278px;
+        height: 78px;
+      }
+
+      .application-link__pic__img {
+        width: 80px;
+      }
+    }
+
+    @media screen and (max-width: $viewport-xs) {
+      .application-hub__list {
+        grid-template-columns: 1fr;
+        grid-gap: 0;
       }
     }
 </style>
