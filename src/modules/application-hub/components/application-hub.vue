@@ -28,7 +28,7 @@
                             <div class="application-link__title-pic">
                                 <img
                                   v-if="$breakpoint.mdAndUp"
-                                  class="application-link__title-pic__img application-link__title-pic__img-medium"
+                                  class="application-link__title-pic__img application-link__title-pic__img--md"
                                   :src="app.pic.title.md"
                                   :alt="`${app.name}`"
                                 >
@@ -296,17 +296,6 @@
       .application-hub__list {
         grid-template-columns: 1fr;
         grid-gap: 0;
-      }
-    }
-
-    @media screen and (max-width: 320px) {
-      .application-hub__card {
-        width: 100%;
-        border-radius: 0;
-      }
-
-      .application-hub__list {
-        width: 100%;
       }
     }
 </style>
