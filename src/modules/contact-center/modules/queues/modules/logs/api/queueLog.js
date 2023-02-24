@@ -15,6 +15,7 @@ const _getQueueLogs = (getList) => function({
                                               joinedAtFrom,
                                               joinedAtTo,
                                               result,
+                                              agent,
                                               leavingAtFrom,
                                               leavingAtTo,
                                               offeringAtFrom,
@@ -25,7 +26,7 @@ const _getQueueLogs = (getList) => function({
   // parent id == queue id
   const params = [
     page, size, search, sort, fields, joinedAtFrom, joinedAtTo, undefined,
-    parentId, undefined, undefined, undefined, result, leavingAtFrom,
+    parentId, undefined, undefined, agent, result, leavingAtFrom,
     leavingAtTo, offeringAtFrom, offeringAtTo, durationFrom, durationTo,
   ];
   return getList(params);
