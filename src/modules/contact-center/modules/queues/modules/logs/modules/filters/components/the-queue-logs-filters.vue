@@ -50,6 +50,7 @@ export default {
   data: () => ({
     filters: [
       { type: 'enum', filterQuery: 'result' },
+      { type: 'api', filterQuery: 'agent' },
     ],
   }),
   methods: {
