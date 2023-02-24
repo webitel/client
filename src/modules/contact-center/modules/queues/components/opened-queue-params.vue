@@ -217,11 +217,11 @@
       ></wt-input>
       <wt-select
         v-if="specificControls.autoAnswerTone"
-        :clearable="true"
+        clearable
         :disabled="disableUserInput"
         v-model="autoAnswerTone"
         :label="$t('objects.ccenter.queues.autoAnswerTone')"
-        :options="dropdownOptionsAutoAnswerToneList"
+        :options="ToneList"
         track-by="value"
       ></wt-select>
     </div>
@@ -234,15 +234,18 @@ import openedTabComponentMixin
   from '../../../../../app/mixins/objectPagesMixins/openedObjectTabMixin/openedTabComponentMixin';
 import QueueTypeProperties from '../lookups/QueueTypeProperties.lookup';
 import StatisticTimeList from '../store/_internals/lookups/StatisticTime.lookup';
-import ToneList from '../store/_internals/enums/Tone.enum';
+import ToneList from '../store/_internals/lookups/Tone.lookup';
 
 export default {
   name: 'opened-queue-params',
   mixins: [openedTabComponentMixin],
+  data: () => ({
+    ToneList,
+  }),
   computed: {
     autoAnswerTone: {
       get() {
-        return this.dropdownOptionsAutoAnswerToneList
+        return this.ToneList
           .find((tone) => tone.value === this.itemInstance.payload.autoAnswerTone);
       },
       set(value) {
@@ -272,7 +275,6 @@ export default {
         name: this.$t(`objects.ccenter.queues.time.${time.name}`),
       }));
     },
-    dropdownOptionsAutoAnswerToneList: () => (ToneList),
   },
   methods: {
     ...mapActions({
