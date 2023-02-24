@@ -6,6 +6,7 @@ import store from './app/store/store';
 import i18n from './app/locale/i18n';
 import './app/plugins/webitel-ui';
 import './app/plugins/webitel-flow-ui';
+import './app/plugins/breakpoint';
 import './app/components/actions';
 
 /*

@@ -17,24 +17,31 @@
                         <div class="application-link__pic">
                             <img
                                     class="application-link__pic__img"
-                                    :src="app.pic.pic"
+                                    :src="app.pic.img"
                                     :alt="`${app.name}-pic`"
                             >
                         </div>
                         <div class="application-link__text-wrap">
                             <div class="application-link__title-pic">
                                 <img
+                                  v-if="breakpoint.mdAndUp"
                                   class="application-link__title-pic__img application-link__title-pic__img-medium"
                                   :src="app.pic.title.md"
                                   :alt="`${app.name}`"
                                 >
                               <img
+                                v-if="breakpoint.smAndDown"
                                 class="application-link__title-pic__img application-link__title-pic__img-small"
                                 :src="app.pic.title.sm"
                                 :alt="`${app.name}-title`"
                               >
                             </div>
-                            <h1 class="application-link__title">{{app.title}}</h1>
+                            <h1
+                              class="application-link__title"
+                              :class="{ 'application-link__title-small': breakpoint.smAndDown  }"
+                            >
+                              {{app.title}}
+                            </h1>
                         </div>
                     </a>
                 </li>
@@ -73,42 +80,42 @@
     import grafanaTitleSm from '../assets/img/titles/analytics-small.svg';
 
     const picAdmin = {
-        pic: admPic,
+        img: admPic,
         title: {
           md: admTitleMd,
           sm: admTitleSm,
         }
     };
     const picAgent = {
-        pic: agentPic,
+        img: agentPic,
         title: {
           md: agentTitleMd,
           sm: agentTitleSm,
         }
     };
     const picAudit = {
-        pic: auditPic,
+        img: auditPic,
         title: {
           md: auditTitleMd,
           sm: auditTitleSm,
         }
     };
     const picHistory = {
-        pic: historyPic,
+        img: historyPic,
         title: {
           md: historyTitleMd,
           sm: historyTitleSm,
         }
     };
     const picSupervisor = {
-        pic: supervisorPic,
+        img: supervisorPic,
         title: {
           md: supervisorTitleMd,
           sm: supervisorTitleSm,
         }
     };
     const picGrafana = {
-        pic: grafanaPic,
+        img: grafanaPic,
         title: {
           md: grafanaTitleMd,
           sm: grafanaTitleSm,
@@ -164,10 +171,14 @@
                     pic: picGrafana,
                 };
 
-                const apps = [agentApp, supervisorApp, historyApp, adminApp, auditApp];
+                const apps = [agentApp, supervisorApp, historyApp, adminApp];
                 if (this.$config.ON_SITE) apps.push(grafanaApp);
                 return apps.filter(({ name }) => this.checkAccess(name));
             },
+          breakpoint() {
+            console.log(this.$breakpoint)
+            return this.$breakpoint;
+          },
         },
     };
 </script>
@@ -199,6 +210,7 @@
       overflow: hidden;
 
       &__background {
+        // full size of image and position absolute with top-left fixation for correct picture cropping on smaller breakpoints
         position: absolute;
         right: 0;
         top: 0;
@@ -262,43 +274,13 @@
         margin-left: var(--spacing-sm);
     }
 
-    // title pic wrap, with 2 abs positioned img's
-    .application-link__title-pic {
-
-      &__img-small {
-        display: none;
-
-        @media screen and (max-width: $viewport-sm) {
-          display: block;
-        }
-      }
-
-      &__img-medium {
-        @media screen and (max-width: $viewport-sm) {
-          display: none;
-        }
-      }
-
-      @media screen and (max-width: $viewport-sm) {
-        margin-bottom: var(--spacing-xs);
-      }
-
-      @media screen and (max-width: $viewport-xs) {
-        margin-bottom: 0;
-      }
-    }
-
     // title text
     .application-link__title {
       @extend %typo-body-1;
       color: var(--main-color);
 
-      @media screen and (max-width: $viewport-sm) {
-        // @extend %typo-body-2;
-        // can`t use @extend in media
-        // https://stackoverflow.com/questions/14840918/extending-selectors-from-within-media-queries-with-sass
-        font-size: 12px;
-        line-height: 16px;
+      &-small {
+        @extend %typo-body-2;
       }
     }
 
