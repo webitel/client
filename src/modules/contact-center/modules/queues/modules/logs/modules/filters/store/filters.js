@@ -1,3 +1,5 @@
+import ApiFilterSchema
+  from '@webitel/ui-sdk/src/modules/QueryFilters/classes/ApiFilterSchema';
 import BaseFilterSchema
   from '@webitel/ui-sdk/src/modules/QueryFilters/classes/BaseFilterSchema';
 import EnumFilterSchema
@@ -5,6 +7,7 @@ import EnumFilterSchema
 import QueryFiltersStoreModule
   from '@webitel/ui-sdk/src/modules/QueryFilters/store/QueryFiltersStoreModule';
 import { CallReportingStatus } from 'webitel-sdk';
+import AgentsAPI from '../../../../../../agents/api/agents';
 
 const state = {
   search: new BaseFilterSchema(),
@@ -23,6 +26,10 @@ const state = {
       locale: `objects.ccenter.queues.logs.resultName.${value}`,
     })),
     locale: { label: 'objects.ccenter.queues.logs.result' },
+  }),
+  agent: new ApiFilterSchema({
+    API: AgentsAPI.getLookup,
+    locale: { label: ['objects.ccenter.agents.agents', 1] },
   }),
   duration: new BaseFilterSchema({
     value: { from: 0, to: undefined },

@@ -395,7 +395,7 @@ export default {
         code: 'Code',
       },
       pauseCause: {
-        pauseCause: 'Agent status',
+        pauseCause: 'Agent statuses',
         allPauseCause: 'All agent pause causes',
         limit: 'Limit (min)',
         min: 'min',
@@ -414,7 +414,7 @@ export default {
       json: 'JSON',
 
       flow: {
-        flow: 'Flow',
+        flow: 'Flow schema | Flow schemas',
         allFlowSchemas: 'All flow schemas',
         createFlowSelectionPopup: 'Create new flow',
         createNew: 'Create new?',
@@ -430,7 +430,7 @@ export default {
       },
 
       dialplan: {
-        dialplan: 'Dialplan',
+        dialplan: 'Dialplans',
         dialplanRules: 'Dialplan rules',
         pattern: 'Destination number',
         dialplanRule: 'Dialplan rule',
@@ -512,6 +512,13 @@ export default {
             comments: 'Track comments',
             mentions: 'Track mentions',
           },
+          whatsapp: {
+            whatsapp: 'Whatsapp',
+            token: 'Token',
+            status: 'Status',
+            number: 'Phone number',
+            review: 'Review',
+          },
         },
         viber: {
           viber: 'Viber',
@@ -553,7 +560,10 @@ export default {
             availableAgents: 'Available agents',
             showEmailField: 'Show email field',
             showMessageField: 'Show message field',
-            successMessage: 'Success message',
+            resultPageText: 'Result page text',
+            headingText: 'Heading text',
+            subheadingText: 'Subheading text',
+            showDefaultHeading: 'Show default heading and subheading on result page',
           },
           alternativeChannels: {
             alternativeChannels: 'Alternative Channels',
@@ -715,6 +725,7 @@ export default {
         endless: 'Endless',
         stickyAgent: 'Sticky',
         stickyAgentSec: 'Sticky agent (sec)',
+        autoAnswerTone: 'Auto answer warning tone',
         varKey: 'Key',
         varVal: 'Value',
         endCause: 'End cause',
@@ -913,6 +924,7 @@ export default {
 
       importCsv: {
         importCsv: 'Import CSV from file | Imports of CSV from file',
+        allImportsCsv: 'All imports data from CSV files',
         source: 'Import destination',
         settings: 'Settings',
         mappings: 'Field mappings',

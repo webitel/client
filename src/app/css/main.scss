@@ -13,6 +13,10 @@ body {
   min-height: 100%;
 }
 
+* {
+  box-sizing: border-box;
+}
+
 //reset ul styles
 ul {
   margin: 0;

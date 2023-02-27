@@ -41,6 +41,7 @@ const QueueTypeProperties = Object.freeze({
                                                 'allowGreetingAgent',
                                                 'stickyAgent',
                                                 'stickyAgentSec',
+                                                'autoAnswerTone',
 
                                                 // processing specific
                                                 'taskProcessing.enabled',
@@ -127,6 +128,7 @@ const QueueTypeProperties = Object.freeze({
                                                 'allowGreetingAgent',
                                                 'endless',
                                                 'stickyAgent',
+                                                'autoAnswerTone',
 
                                                 // processing specific
                                                 'taskProcessing.enabled',
@@ -169,6 +171,7 @@ const QueueTypeProperties = Object.freeze({
                                                 'endless',
                                                 'stickyAgent',
                                                 'stickyAgentSec',
+                                                'autoAnswerTone',
 
                                                 // processing specific
                                                 'taskProcessing.enabled',

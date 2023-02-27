@@ -16,7 +16,7 @@
 
 <script>
 import { chatBaseUrl } from '../../api/chatInstance';
-import openMessengerWindow from '../../modules/messenger/facebook/scripts/openMessengerWindow';
+import openMessengerWindow from '../../modules/messenger/_shared/scripts/openMessengerWindow';
 import chatGatewaysTelegramAppAPI from '../../modules/telegram-app/api/chatGatewaysTelegramAppAPI';
 
 export default {

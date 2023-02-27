@@ -19,12 +19,7 @@
       <section class="main-section__wrapper">
         <header class="content-header">
           <h3 class="content-title">
-            {{
-              $t(
-                'objects.all',
-                { entity: $tc('objects.integrations.importCsv.importCsv', 2) },
-              )
-            }}
+            {{ $t('objects.integrations.importCsv.allImportsCsv') }}
           </h3>
           <div class="content-header__actions-wrap">
             <wt-search-bar

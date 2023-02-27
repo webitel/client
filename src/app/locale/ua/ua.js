@@ -395,7 +395,7 @@ export default {
         code: 'Код',
       },
       pauseCause: {
-        pauseCause: 'Статуси операторів',
+        pauseCause: 'Статуси оператора',
         allPauseCause: 'Всі причини паузи оператора',
         limit: 'Ліміт (хв)',
         min: 'хвилин',
@@ -414,8 +414,8 @@ export default {
       json: 'JSON',
 
       flow: {
-        flow: 'Схема',
-        allFlowSchemas: 'Всі схеми дзвінків',
+        flow: 'Схема | Схеми',
+        allFlowSchemas: 'Всі схеми',
         createFlowSelectionPopup: 'Створити нову схему',
         createNew: 'Створити нову схему?',
         editor: 'Редактор',
@@ -512,6 +512,13 @@ export default {
             comments: 'Відслідковувати коментарі',
             mentions: 'Відслідковувати згадування',
           },
+          whatsapp: {
+            whatsapp: 'Whatsapp',
+            token: 'Токен',
+            status: 'Статус',
+            number: 'Номер телефону',
+            review: 'Розгляд',
+          },
         },
         viber: {
           viber: 'Viber',
@@ -554,7 +561,10 @@ export default {
             availableAgents: 'Вільні агенти',
             showEmailField: 'Показати поле вводу пошти',
             showMessageField: 'Показати поле вводу повідомлення',
-            successMessage: 'Повідомлення про успіх',
+            resultPageText: 'Текст на сторінці результату',
+            headingText: 'Заголовок',
+            subheadingText: 'Підзаголовок',
+            showDefaultHeading: 'Показати стандартний заголовок та підзаголовок на сторінці результату',
           },
           alternativeChannels: {
             alternativeChannels: 'Альтернативні канали',
@@ -715,6 +725,7 @@ export default {
         endless: 'Не припиняти набір',
         stickyAgent: 'Липкість',
         stickyAgentSec: 'Час очікування липкості (сек)',
+        autoAnswerTone: 'Попереджувальний сигнал автоматичної відповіді',
         varKey: 'Ключ',
         varVal: 'Значення',
         endCause: 'Причина припинення',
@@ -860,7 +871,7 @@ export default {
       integrations: 'Інтеграції',
 
       storage: {
-        storage: 'Сховище',
+        storage: 'Сховища',
         allStorages: 'Всі сховища',
         type: 'Тип',
         maxSize: 'Об\'єм сховища (GB)',
@@ -911,7 +922,8 @@ export default {
       },
 
       importCsv: {
-        importCsv: 'Імпорт CSV файлу | Импорти CSV файлів',
+        importCsv: 'Імпорт даних з CSV файлу | Імпорт даних з CSV файлів',
+        allImportsCsv: 'Всі імпорти даних з CSV файлів',
         source: 'Призначення імпорту',
         settings: 'Налаштування',
         mappings: 'Мапінги полів',

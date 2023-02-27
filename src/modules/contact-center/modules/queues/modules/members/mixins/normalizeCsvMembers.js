@@ -53,32 +53,60 @@ export default {
           normalizedItem.priority = 0;
         }
 
+        // start filling communications from parsed item
         normalizedItem.communications = [];
+
+        // decide how many communications we should fill
+        // if there's destination without code or code without destination,
+        // there's no point to even try to fill it because it would be an error,
+        // so we find minimum communications count
         const commLength = Math.min(
           normalizedItem.destination.length,
           normalizedItem.code.length,
         );
+
+        // now fill each communication one by one
         for (let index = 0; index < commLength; index += 1) {
           let id;
           try {
+            // try to get the communication type Id
             id = findCommunicationIdByCode({
               communications: this.allCommunications,
               code: normalizedItem.code[index],
             });
           } catch (err) {
-            throw new ReferenceError(`cannot find communication: ${normalizedItem.code[index]}`);
+            // if there's no id, show console error
+            console.error(`cannot find communication: ${normalizedItem.code[index]}`);
           }
+
+          // if there's no (required) id or destination, skip to the next one
+          if (!id || !normalizedItem.destination[index]) break;
+
+          // if there's actually an Id, continue processing
           const communication = {
             destination: normalizedItem.destination[index],
             type: { id },
           };
+
+          // fill communication priority, if present
           if (normalizedItem.commPriority && normalizedItem.commPriority[index]) {
             communication.priority = normalizedItem.commPriority[index];
           }
+
+          // fill communication description, if present
           if (normalizedItem.description && normalizedItem.description[index]) {
             communication.description = normalizedItem.description[index];
           }
+
+          // and add this communication to list
           normalizedItem.communications.push(communication);
+        }
+
+        /* in the end, check if there's any communications
+          remember: we skip communications where's no destination or code
+         */
+        if (!normalizedItem.communications.length) {
+          throw new RangeError('No valid communications were passed!');
         }
 
         delete normalizedItem.destination;

@@ -395,7 +395,7 @@ export default {
         code: 'Код',
       },
       pauseCause: {
-        pauseCause: 'Статусы операторов',
+        pauseCause: 'Статусы оператора',
         allPauseCause: 'Все причины паузы оператора',
         limit: 'Лимит (мин)',
         min: 'Минут',
@@ -414,8 +414,8 @@ export default {
       json: 'JSON',
 
       flow: {
-        flow: 'Схема',
-        allFlowSchemas: 'Все схемы звонков',
+        flow: 'Схема | Схемы',
+        allFlowSchemas: 'Все схемы',
         createFlowSelectionPopup: 'Создать новую схему',
         createNew: 'Создать новую схему?',
         editor: 'Редактор',
@@ -512,6 +512,13 @@ export default {
             comments: 'Отслеживать комментарии',
             mentions: 'Отслеживать упоминания',
           },
+          whatsapp: {
+            whatsapp: 'Whatsapp',
+            token: 'Токен',
+            status: 'Статус',
+            number: 'Номер телефона',
+            review: 'Рассмотрение',
+          },
         },
         viber: {
           viber: 'Viber',
@@ -553,10 +560,13 @@ export default {
             availableAgents: 'Свободные агенты',
             showEmailField: 'Показать поле ввода почты',
             showMessageField: 'Показать поле ввода сообщения',
-            successMessage: 'Сообщение об успехе',
+            resultPageText: 'Текст та странице результата',
+            headingText: 'Заголовок',
+            subheadingText: 'Подзаголовок',
+            showDefaultHeading: 'Показать стандартный заголовок и подзаголовок на странице результата',
           },
           alternativeChannels: {
-            alternativeChannels: 'Альтерантивные каналы',
+            alternativeChannels: 'Альтернативные каналы',
             email: 'Электронная почта',
             whatsapp: 'WhatsApp',
             telegram: 'Telegram',
@@ -713,6 +723,7 @@ export default {
         endless: 'Не прекращать дозвон',
         stickyAgent: 'Липкость',
         stickyAgentSec: 'Время ожидания липкости (сек)',
+        autoAnswerTone: 'Сигнал предупреждения автоответа',
         varKey: 'Ключ',
         varVal: 'Значение',
         endCause: 'Причина прекращения',
@@ -910,7 +921,8 @@ export default {
       },
 
       importCsv: {
-        importCsv: 'Импорт CSV файла | Импорты CSV файлов',
+        importCsv: 'Импорт данных из CSV файла | Импорт данных из CSV файлов',
+        allImportsCsv: 'Все импорты данных из CSV файлов',
         source: 'Назначение импорта',
         settings: 'Настройки',
         mappings: 'Маппинги полей',

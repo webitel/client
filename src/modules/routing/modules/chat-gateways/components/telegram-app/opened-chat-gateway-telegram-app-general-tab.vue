@@ -3,7 +3,7 @@
     <header class="content-header">
       <wt-icon icon="telegram" icon-prefix="messenger" size="sm"></wt-icon>
       <h3 class="content-title">
-        {{ $t('objects.routing.chatGateways.telegramBot.telegramBot') }}
+        {{ $t('objects.routing.chatGateways.telegramApp.telegramApp') }}
       </h3>
     </header>
     <div class="object-input-grid">
@@ -24,7 +24,7 @@
       ></wt-input>
       <wt-select
         :disabled="disableUserInput"
-        :label="$t('objects.routing.flow.flow')"
+        :label="$tc('objects.routing.flow.flow', 1)"
         :search-method="loadDropdownOptionsList"
         :v="v.itemInstance.flow"
         :value="itemInstance.flow"

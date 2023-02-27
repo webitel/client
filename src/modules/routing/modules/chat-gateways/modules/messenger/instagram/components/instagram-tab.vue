@@ -74,7 +74,7 @@ import { mapActions } from 'vuex';
 import openedObjectTableTabMixin
   from '../../../../../../../../app/mixins/objectPagesMixins/openedObjectTableTabMixin/openedObjectTableTabMixin';
 import getChatOriginUrl from '../../../../scripts/getChatOriginUrl';
-import openMessengerWindow from '../../facebook/scripts/openMessengerWindow';
+import openMessengerWindow from '../../_shared/scripts/openMessengerWindow';
 
 export default {
   name: 'opened-chat-gateway-instagram-tab',
