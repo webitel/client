@@ -11,7 +11,7 @@
         <li
           v-for="(option, key) of options"
           :key="key"
-          :class="{'active': option === selected}"
+          :class="{'active': option.value === selected.value }"
           class="popup-options__item-wrap"
           @click="selectOption(option)"
         >

@@ -14,7 +14,7 @@
         <section class="popup-flows">
           <button
             v-for="(editor) of editorOptions"
-            :class="{ 'active': editor === selected }"
+            :class="{ 'active': editor.value === selected.value }"
             class="popup-flow-editor"
             @click="selected = editor"
           >
