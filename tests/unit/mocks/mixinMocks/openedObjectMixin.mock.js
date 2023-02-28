@@ -8,9 +8,11 @@ const openedObjectMixinMock = () => deepmerge.all([
   openedObjectValidationMixinMock(),
   openedObjectAccessControlMixinMock(),
   {
-    mocks: {
-      $store: {
-        dispatch: () => {},
+    global: {
+      mocks: {
+        $store: {
+          dispatch: () => {},
+        },
       },
     },
     computed: {

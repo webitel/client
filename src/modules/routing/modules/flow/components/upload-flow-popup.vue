@@ -34,7 +34,7 @@
 
 <script>
 import { useVuelidate } from '@vuelidate/core';
-import required from '@vuelidate/validators';
+import { required } from '@vuelidate/validators';
 import FlowsAPI from '../api/flow';
 
 export default {

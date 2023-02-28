@@ -2,7 +2,7 @@ import { shallowMount } from '@vue/test-utils';
 import OpenedQueueParams from '../opened-queue-params.vue';
 
 describe('OpenedQueueParams', () => {
-  const propsData = {
+  const props = {
     v: {
       itemInstance: {
         payload: {},
@@ -14,15 +14,18 @@ describe('OpenedQueueParams', () => {
       type: 1,
       payload: {},
     }),
+    specificControls: () => ({}),
   };
 
   it('renders a component', () => {
     const wrapper = shallowMount(OpenedQueueParams, {
       computed,
-      propsData,
-      mocks: {
-        $route: {
-          name: 'jest',
+      props,
+      global: {
+        mocks: {
+          $route: {
+            name: 'jest',
+          },
         },
       },
     });

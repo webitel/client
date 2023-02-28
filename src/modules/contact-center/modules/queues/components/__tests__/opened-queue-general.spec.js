@@ -9,6 +9,7 @@ describe('OpenedQueueGeneral', () => {
     itemInstance: () => ({
       type: 1,
     }),
+    specificControls: () => ({}),
   };
 
   it('renders a component', () => {

@@ -4,7 +4,7 @@ import TheFlowFilters from '../the-flow-filters.vue';
 describe('TheFlowFilters', () => {
   it('renders a component', () => {
     const wrapper = shallowMount(TheFlowFilters, {
-      propsData: {
+      props: {
         namespace: 'jest',
       },
     });

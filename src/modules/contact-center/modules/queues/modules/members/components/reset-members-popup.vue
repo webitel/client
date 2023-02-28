@@ -30,6 +30,7 @@
 <script>
 export default {
   name: 'reset-members-popup',
+  inject: ['$eventBus'],
   props: {
     callback: {
       type: Function,

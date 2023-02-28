@@ -14,7 +14,7 @@ describe('OpenedTriggerVariables', () => {
     const wrapper = shallowMount(OpenedTriggerVariables, deepmerge.all([
       OpenedTabComponentMixinMock(),
       {
-        propsData: {
+        props: {
           v: { itemInstance: {} },
         },
         computed,

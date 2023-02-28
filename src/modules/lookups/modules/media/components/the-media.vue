@@ -166,6 +166,7 @@ export default {
     TextToSpeechPopup,
     MediaFilePreviewTableAction,
   },
+  inject: ['$eventBus'],
   data() {
     return {
       namespace: 'lookups/media',

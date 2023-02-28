@@ -69,6 +69,7 @@ import getChatOriginUrl from '../../../../scripts/getChatOriginUrl';
 export default {
   name: 'opened-chat-gateway-facebook-tab',
   mixins: [openedObjectTableTabMixin],
+  inject: ['$eventBus'],
   data: () => ({
     subNamespace: 'facebook',
     accountsOnPopup: null,

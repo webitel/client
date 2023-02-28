@@ -92,6 +92,7 @@ export default {
   components: {
     objectHeader,
   },
+  inject: ['$eventBus'],
   data: () => ({
     newPassword: '',
     confirmNewPassword: '',

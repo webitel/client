@@ -5,9 +5,11 @@ const v = () => ({
 });
 
 const openedObjectValidationMixinMock = () => ({
-  propsData: { v: v() },
-  mocks: {
-    $v: v(),
+  props: { v: v() },
+  global: {
+    mocks: {
+      v$: v(),
+    },
   },
 });
 

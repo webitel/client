@@ -17,6 +17,16 @@ describe('BaseObjectMixin', () => {
           return true;
         },
       },
+      global: {
+        mocks: {
+          v$: {
+            itemInstance: {
+              $error: true,
+              $touch: jest.fn(),
+            },
+          },
+        },
+      },
     });
     expect(wrapper.exists()).toBe(true);
     expect(wrapper.vm.disabledSave).toBe(true);

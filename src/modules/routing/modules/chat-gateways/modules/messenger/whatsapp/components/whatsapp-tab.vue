@@ -79,6 +79,7 @@ import WhatsappAPI from '../api/whatsapp';
 export default {
   name: 'opened-chat-gateway-whatsapp-tab',
   mixins: [openedObjectTableTabMixin],
+  inject: ['$eventBus'],
   data: () => ({
     subNamespace: 'whatsapp',
   }),

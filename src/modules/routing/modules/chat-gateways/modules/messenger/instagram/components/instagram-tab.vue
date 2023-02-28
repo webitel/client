@@ -79,6 +79,7 @@ import openMessengerWindow from '../../_shared/scripts/openMessengerWindow';
 export default {
   name: 'opened-chat-gateway-instagram-tab',
   mixins: [openedObjectTableTabMixin],
+  inject: ['$eventBus'],
   data: () => ({
     subNamespace: 'instagram',
     accountsOnPopup: null,
