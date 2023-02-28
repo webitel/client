@@ -1,13 +1,13 @@
 <template>
   <wt-popup min-width="480" overflow @close="close">
-    <template slot="title">
+    <template v-slot:title>
       {{ $tc('objects.lookups.calendars.holidays', 1) }}
     </template>
     <template v-slot:main>
       <div class="popup-input-form">
         <wt-input
           v-model="itemInstance.name"
-          :v="$v.itemInstance.name"
+          :v="v$.itemInstance.name"
           :label="$t('objects.name')"
           required
         ></wt-input>
@@ -21,7 +21,7 @@
         ></wt-switcher>
       </div>
     </template>
-    <template slot="actions">
+    <template v-slot:actions>
       <wt-button
         :disabled="computeDisabled"
         @click="save"
@@ -37,7 +37,8 @@
 </template>
 
 <script>
-import { required } from 'vuelidate/lib/validators';
+import { useVuelidate } from '@vuelidate/core';
+import { required } from '@vuelidate/validators';
 import { mapActions, mapState } from 'vuex';
 import getNamespacedState from '@webitel/ui-sdk/src/store/helpers/getNamespacedState';
 import nestedObjectMixin from '../../../../../app/mixins/objectPagesMixins/openedObjectMixin/nestedObjectMixin';
@@ -57,6 +58,9 @@ export default {
       date: Date.now(),
       repeat: true,
     },
+  }),
+  setup: () => ({
+    v$: useVuelidate(),
   }),
   validations: {
     itemInstance: {

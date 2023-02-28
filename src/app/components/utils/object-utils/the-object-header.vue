@@ -1,13 +1,13 @@
 <template>
   <wt-headline>
-    <template slot="title-wrapper">
+    <template v-slot:title-wrapper>
       <slot>
         <template slot="title">
           <slot name="title"></slot>
         </template>
       </slot>
     </template>
-    <template slot="actions">
+    <template v-slot:actions>
       <slot name="actions"></slot>
       <slot name="primary-action">
         <wt-button

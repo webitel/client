@@ -23,7 +23,7 @@
         ></wt-tabs>
         <component
           :is="currentTab.value"
-          :v="$v"
+          :v="v$"
           :namespace="namespace"
         ></component>
         <input type="submit" hidden> <!--  submit form on Enter  -->
@@ -33,7 +33,8 @@
 </template>
 
 <script>
-import { required, minValue } from 'vuelidate/lib/validators';
+import { useVuelidate } from '@vuelidate/core';
+import { required, minValue } from '@vuelidate/validators';
 import General from './opened-storage-general.vue';
 import Local from './_unused/opened-storage-local.vue';
 import S3 from './opened-storage-s3.vue';
@@ -58,7 +59,9 @@ export default {
   data: () => ({
     namespace: 'integrations/storage',
   }),
-
+  setup: () => ({
+    v$: useVuelidate(),
+  }),
   validations() {
     const itemInstanceDefaults = {
       name: { required },

@@ -53,37 +53,37 @@
             sortable
             @sort="sort"
           >
-            <template slot="name" slot-scope="{ item }">
+            <template v-slot:name="{ item }">
               <item-link :link="editLink(item)">
                 {{ item.name }}
               </item-link>
             </template>
 
-            <template slot="type" slot-scope="{ item }">
+            <template v-slot:type="{ item }">
               {{ $t(QueueTypeProperties[item.type].locale) }}
             </template>
-            <template slot="activeCalls" slot-scope="{ item }">
+            <template v-slot:activeCalls="{ item }">
               {{ item.active }}
             </template>
-            <template slot="waiting" slot-scope="{ item }">
+            <template v-slot:waiting="{ item }">
               {{ item.waiting }}
             </template>
-            <template slot="priority" slot-scope="{ item } ">
+            <template v-slot:priority="{ item } ">
               {{ item.priority }}
             </template>
-            <template slot="team" slot-scope="{ item } ">
+            <template v-slot:team="{ item } ">
               <item-link v-if="item.team" :link="itemTeamLink(item)" target="_blank">
                 {{ item.team.name }}
               </item-link>
             </template>
-            <template slot="state" slot-scope="{ item, index }">
+            <template v-slot:state="{ item, index }">
               <wt-switcher
                 :value="item.enabled"
                 :disabled="!hasEditAccess"
                 @change="patchItem({ item, index, prop: 'enabled', value: $event})"
               ></wt-switcher>
             </template>
-            <template slot="actions" slot-scope="{ item }">
+            <template v-slot:actions="{ item }">
               <wt-tooltip class="table-action">
                 <template v-slot:activator>
                   <wt-icon-btn

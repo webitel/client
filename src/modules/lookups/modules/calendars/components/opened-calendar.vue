@@ -23,7 +23,7 @@
         ></wt-tabs>
         <component
           :is="currentTab.value"
-          :v="$v"
+          :v="v$"
           :namespace="namespace"
         ></component>
         <input type="submit" hidden> <!--  submit form on Enter  -->
@@ -33,7 +33,8 @@
 </template>
 
 <script>
-import { required } from 'vuelidate/lib/validators';
+import { useVuelidate } from '@vuelidate/core';
+import { helpers, required } from '@vuelidate/validators';
 import General from './opened-calendar-general.vue';
 import WorkWeek from './opened-calendar-work-week.vue';
 import Holidays from './opened-calendar-holidays.vue';
@@ -48,14 +49,16 @@ export default {
     namespace: 'lookups/calendars',
   }),
 
-  // by vuelidate
+  setup: () => ({
+    v$: useVuelidate(),
+  }),
   validations: {
     itemInstance: {
       name: { required },
       timezone: { required },
       accepts: {
         timerangeNotIntersect,
-        $each: { timerangeStartLessThanEnd },
+        $each: helpers.forEach({ timerangeStartLessThanEnd }),
       },
     },
   },

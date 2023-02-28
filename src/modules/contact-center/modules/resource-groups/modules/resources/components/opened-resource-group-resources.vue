@@ -49,25 +49,25 @@
         sortable
         @sort="sort"
       >
-        <template slot="name" slot-scope="{ item }">
+        <template v-slot:name="{ item }">
           <div v-if="item.resource">
             {{ item.resource.name }}
           </div>
         </template>
 
-        <template slot="priority" slot-scope="{ item }">
+        <template v-slot:priority="{ item }">
           <div v-if="item.priority">
             {{ item.priority }}
           </div>
         </template>
 
-        <template slot="reserveResource" slot-scope="{ item }">
+        <template v-slot:reserveResource="{ item }">
           <div v-if="item.reserveResource">
             {{ item.reserveResource.name }}
           </div>
         </template>
 
-        <template slot="actions" slot-scope="{ item }">
+        <template v-slot:actions="{ item }">
           <edit-action
             @click="edit(item)"
           ></edit-action>

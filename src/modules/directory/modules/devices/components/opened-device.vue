@@ -24,7 +24,7 @@
         </wt-tabs>
         <component
           :is="currentTab.value"
-          :v="$v"
+          :v="v$"
           :namespace="namespace"
         ></component>
         <input type="submit" hidden> <!--  submit form on Enter  -->
@@ -34,8 +34,9 @@
 </template>
 
 <script>
+import { useVuelidate } from '@vuelidate/core';
 import { mapActions } from 'vuex';
-import { required, requiredUnless } from 'vuelidate/lib/validators';
+import { required, requiredUnless } from '@vuelidate/validators';
 import { ipValidator, macValidator } from '../../../../../app/utils/validators';
 import PhoneInfo from './opened-device-phone-info.vue';
 import General from './opened-device-general.vue';
@@ -57,7 +58,9 @@ export default {
   data: () => ({
     namespace: 'directory/devices',
   }),
-
+  setup: () => ({
+    v$: useVuelidate(),
+  }),
   validations() {
     let itemInstance = {
       name: { required },

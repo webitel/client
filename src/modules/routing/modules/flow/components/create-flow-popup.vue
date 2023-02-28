@@ -130,12 +130,12 @@ $pic-width: 206px;
 $pic-height: 136px;
 
 //Change some selection-popup styles
-.selection-popup ::v-deep {
-  .popup-options {
+.selection-popup {
+  :deep(.popup-options) {
     display: none;
   }
 
-  .wt-button {
+  :deep(.wt-button) {
     flex: 1;
   }
 }

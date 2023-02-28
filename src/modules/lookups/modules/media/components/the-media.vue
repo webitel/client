@@ -3,7 +3,7 @@
     <template v-slot:header>
       <object-header hide-primary>
         <wt-headline-nav :path="path"></wt-headline-nav>
-        <template slot="actions">
+        <template v-slot:actions>
           <download-files-btn
             :files-download-progress="filesDownloadProgress"
             :files-zipping-progress="filesZippingProgress"
@@ -89,19 +89,19 @@
             sortable
             @sort="sort"
           >
-            <template slot="name" slot-scope="{ item }">
+            <template v-slot:name="{ item }">
               {{ item.name }}
             </template>
-            <template slot="createdAt" slot-scope="{ item }">
+            <template v-slot:createdAt="{ item }">
               {{ prettifyDate(item.createdAt) }}
             </template>
-            <template slot="format" slot-scope="{ item }">
+            <template v-slot:format="{ item }">
               {{ prettifyFormat(item.mimeType) }}
             </template>
-            <template slot="size" slot-scope="{ item }">
+            <template v-slot:size="{ item }">
               {{ prettifyFileSize(item.size) }}
             </template>
-            <template slot="actions" slot-scope="{ item, index }">
+            <template v-slot:actions="{ item, index }">
               <media-file-preview-table-action
                 :playing="index === playingIndex && currentlyPlaying"
                 :type="item.mimeType"

@@ -1,5 +1,4 @@
-import Vue from 'vue';
-import Router from 'vue-router';
+import { createRouter, createWebHistory } from 'vue-router';
 import Auth from '@webitel/ui-sdk/src/modules/Userinfo/components/the-auth.vue';
 import RouteNames from './_internals/RouteNames.enum';
 
@@ -67,14 +66,11 @@ const OpenedEmailProfile = () => import('../../modules/integrations/modules/emai
 const OpenedImportCsv = () => import('../../modules/integrations/modules/import-csv/components/opened-import-csv.vue');
 const OpenedTrigger = () => import('../../modules/integrations/modules/triggers/components/opened-trigger.vue');
 
-Vue.use(Router);
-
-const router = new Router({
-  mode: 'history',
-  base: process.env.BASE_URL,
+const router = createRouter({
+  history: createWebHistory(process.env.BASE_URL),
                             // eslint-disable-next-line no-unused-vars
   scrollBehavior(to, from, savedPosition) {
-    return { x: 0, y: 0 };
+    return { left: 0, top: 0 };
   },
   routes: [
     {
@@ -571,7 +567,7 @@ const router = new Router({
       ],
     },
     {
-      path: '*',
+      path: '/:pathMatch(.*)*',
       name: RouteNames.PAGE_404,
       component: NotFound,
     },

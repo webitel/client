@@ -54,28 +54,28 @@
             sortable
             @sort="sort"
           >
-            <template slot="name" slot-scope="{ item }">
+            <template v-slot:name="{ item }">
               <item-link :link="editLink(item)">
                 {{ item.name }}
               </item-link>
             </template>
-            <template slot="type" slot-scope="{ item }">
+            <template v-slot:type="{ item }">
               {{ prettifyType(item.type) }}
             </template>
-            <template slot="maxSize" slot-scope="{ item }">
+            <template v-slot:maxSize="{ item }">
               {{ item.maxSize }}
             </template>
-            <template slot="expireDays" slot-scope="{ item }">
+            <template v-slot:expireDays="{ item }">
               {{ item.expireDays }}
             </template>
-            <template slot="state" slot-scope="{ item, index }">
+            <template v-slot:state="{ item, index }">
               <wt-switcher
                 :value="!item.disabled"
                 :disabled="!hasEditAccess"
                 @change="patchProperty({ index, prop: 'disabled', value: !$event })"
               ></wt-switcher>
             </template>
-            <template slot="actions" slot-scope="{ item }">
+            <template v-slot:actions="{ item }">
               <edit-action
                 v-if="hasEditAccess"
                 @click="edit(item)"

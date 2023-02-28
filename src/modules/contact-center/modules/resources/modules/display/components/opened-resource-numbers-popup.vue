@@ -7,7 +7,7 @@
       <form>
         <wt-input
           :value="itemInstance.display"
-          :v="$v.itemInstance.display"
+          :v="v$.itemInstance.display"
           :label="$tc('objects.ccenter.res.numbers', 1)"
           required
           @input="setItemProp({ prop: 'display', value: $event })"
@@ -30,7 +30,8 @@
 </template>
 
 <script>
-import { required } from 'vuelidate/lib/validators';
+import { useVuelidate } from '@vuelidate/core';
+import { required } from '@vuelidate/validators';
 import nestedObjectMixin from '../../../../../../../app/mixins/objectPagesMixins/openedObjectMixin/nestedObjectMixin';
 
 export default {
@@ -40,6 +41,9 @@ export default {
     namespace: 'ccenter/res/numbers',
   }),
 
+  setup: () => ({
+    v$: useVuelidate(),
+  }),
   validations: {
     itemInstance: {
       display: { required },

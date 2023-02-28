@@ -32,7 +32,7 @@
         :headers="headers"
         :selectable="false"
       >
-        <template slot="id" slot-scope="{ item }">
+        <template v-slot:id="{ item }">
           <wt-copy-action
             :value="item.id"
             :tooltips="{
@@ -40,13 +40,13 @@
             }"
           ></wt-copy-action>
         </template>
-        <template slot="accounts" slot-scope="{ item }">
+        <template v-slot:accounts="{ item }">
           <one-plus-many
             :collection="item.accounts"
             @input="openAccountsPopup(item)"
           ></one-plus-many>
         </template>
-        <template slot="subscription" slot-scope="{ item }">
+        <template v-slot:subscription="{ item }">
           <wt-switcher
             :disabled="!hasEditAccess"
             :value="!!item.subscribedFields"

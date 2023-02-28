@@ -55,26 +55,26 @@
             sortable
             @sort="sort"
           >
-            <template slot="name" slot-scope="{ item }">
+            <template v-slot:name="{ item }">
               <item-link :link="editLink(item)">
                 {{ item.name }}
               </item-link>
             </template>
-            <template slot="state" slot-scope="{ item }">
+            <template v-slot:state="{ item }">
               <wt-indicator
                 :color="statusIndicatorColor[snakeToCamel(item.status)]"
                 :text="statusIndicatorText[snakeToCamel(item.status)]"
               ></wt-indicator>
             </template>
-            <template slot="time" slot-scope="{ item }">
+            <template v-slot:time="{ item }">
               {{ item.statusDuration }}
             </template>
-            <template slot="team" slot-scope="{ item }">
+            <template v-slot:team="{ item }">
               <item-link v-if="item.team" :link="itemTeamLink(item)" target="_blank">
                 {{ item.team.name }}
               </item-link>
             </template>
-            <template slot="actions" slot-scope="{ item }">
+            <template v-slot:actions="{ item }">
               <history-action
                 @click="openHistory(item.id)"
               ></history-action>

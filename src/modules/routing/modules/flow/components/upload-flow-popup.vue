@@ -1,6 +1,6 @@
 <template>
   <wt-popup min-width="480" overflow @close="close">
-    <template slot="title">
+    <template v-slot:title>
       {{ $t('objects.importJSON') }}
     </template>
     <template v-slot:main>
@@ -11,13 +11,13 @@
         ></wt-checkbox>
         <wt-input
           v-model="flow.name"
-          :v="$v.flow.name"
+          :v="v$.flow.name"
           :label="$t('objects.name')"
           required
         ></wt-input>
       </form>
     </template>
-    <template slot="actions">
+    <template v-slot:actions>
       <wt-button
         :disabled="computeDisabledSave"
         @click="save"
@@ -33,7 +33,8 @@
 </template>
 
 <script>
-import required from 'vuelidate/src/validators/required';
+import { useVuelidate } from '@vuelidate/core';
+import required from '@vuelidate/validators';
 import FlowsAPI from '../api/flow';
 
 export default {
@@ -47,6 +48,9 @@ export default {
     create: true,
     fileReader: null,
     flow: { name: 'file.name' },
+  }),
+  setup: () => ({
+    v$: useVuelidate(),
   }),
   validations: {
     flow: {
@@ -62,10 +66,10 @@ export default {
   },
   computed: {
     computeDisabledSave() {
-      this.$v.$touch();
+      this.v$.$touch();
       // if its still pending or an error is returned do not submit
-      return this.$v.$pending
-        || this.$v.$error;
+      return this.v$.$pending
+        || this.v$.$error;
     },
   },
   methods: {

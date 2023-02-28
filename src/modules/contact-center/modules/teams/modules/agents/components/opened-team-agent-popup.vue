@@ -7,7 +7,7 @@
       <form>
         <wt-select
           :value="itemInstance.agent"
-          :v="$v.itemInstance.agent"
+          :v="v$.itemInstance.agent"
           :label="$tc('objects.ccenter.agents.agents', 1)"
           :search-method="loadAgentsOptions"
           :clearable="false"
@@ -32,7 +32,8 @@
 </template>
 
 <script>
-import { required } from 'vuelidate/lib/validators';
+import { useVuelidate } from '@vuelidate/core';
+import { required } from '@vuelidate/validators';
 import AgentsAPI from '../../../../agents/api/agents';
 import nestedObjectMixin from '../../../../../../../app/mixins/objectPagesMixins/openedObjectMixin/nestedObjectMixin';
 
@@ -44,6 +45,9 @@ export default {
     namespace: 'ccenter/teams/agents',
   }),
 
+  setup: () => ({
+    v$: useVuelidate(),
+  }),
   validations: {
     itemInstance: {
       agent: { required },

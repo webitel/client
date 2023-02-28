@@ -7,7 +7,7 @@
       <form>
         <wt-select
           :value="itemInstance.skill"
-          :v="$v.itemInstance.skill"
+          :v="v$.itemInstance.skill"
           :label="$tc('objects.lookups.skills.skills', 1)"
           :search-method="loadDropdownOptionsList"
           :clearable="false"
@@ -16,7 +16,7 @@
         ></wt-select>
         <wt-input
           :value="itemInstance.capacity"
-          :v="$v.itemInstance.capacity"
+          :v="v$.itemInstance.capacity"
           :label="$t('objects.lookups.skills.capacity')"
           :number-min="0"
           :number-max="100"
@@ -42,9 +42,10 @@
 </template>
 
 <script>
+import { useVuelidate } from '@vuelidate/core';
 import {
  maxValue, minValue, numeric, required,
-} from 'vuelidate/lib/validators';
+} from '@vuelidate/validators';
 import SkillsAPI from '../../../../../../lookups/modules/agent-skills/api/agentSkills';
 import nestedObjectMixin from '../../../../../../../app/mixins/objectPagesMixins/openedObjectMixin/nestedObjectMixin';
 
@@ -55,6 +56,9 @@ export default {
     namespace: 'ccenter/agents/skills',
   }),
 
+  setup: () => ({
+    v$: useVuelidate(),
+  }),
   validations: {
     itemInstance: {
       skill: { required },

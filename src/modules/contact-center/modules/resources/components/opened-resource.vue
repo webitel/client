@@ -22,7 +22,7 @@
         ></wt-tabs>
         <component
           :is="currentTab.value"
-          :v="$v"
+          :v="v$"
           :namespace="namespace"
         ></component>
         <input type="submit" hidden> <!--  submit form on Enter  -->
@@ -32,7 +32,8 @@
 </template>
 
 <script>
-import { required, minValue, maxValue } from 'vuelidate/lib/validators';
+import { useVuelidate } from '@vuelidate/core';
+import { required, minValue, maxValue } from '@vuelidate/validators';
 import { mapState } from 'vuex';
 import General from './opened-resource-general.vue';
 import Numbers from '../modules/display/components/opened-resource-numbers.vue';
@@ -52,7 +53,9 @@ export default {
     namespace: 'ccenter/res',
   }),
 
-  // by vuelidate
+  setup: () => ({
+    v$: useVuelidate(),
+  }),
   validations: {
     itemInstance: {
       name: { required },

@@ -5,7 +5,7 @@
     overflow
     @close="close"
   >
-    <template slot="title">{{ title }}</template>
+    <template v-slot:title>{{ title }}</template>
     <template v-slot:main>
       <ul class="popup-options">
         <li
@@ -37,7 +37,7 @@
       <slot name="after-section"></slot>
     </template>
 
-    <template slot="actions">
+    <template v-slot:actions>
       <wt-button
         :disabled="!selected"
         @click="add"

@@ -7,13 +7,13 @@
       <form class="object-input-grid object-input-grid__1-col">
         <wt-input
           v-model="itemInstance.destination"
-          :v="$v.itemInstance.destination"
+          :v="v$.itemInstance.destination"
           :label="$t('objects.ccenter.members.destination')"
           required
         ></wt-input>
         <wt-select
           v-model="itemInstance.type"
-          :v="$v.itemInstance.type"
+          :v="v$.itemInstance.type"
           :label="$tc('objects.lookups.communications.communications', 1)"
           :search-method="loadCommTypes"
           :clearable="false"
@@ -55,8 +55,9 @@
 </template>
 
 <script>
+import { useVuelidate } from '@vuelidate/core';
 import deepCopy from 'deep-copy';
-import { required } from 'vuelidate/lib/validators';
+import { required } from '@vuelidate/validators';
 import { mapActions, mapState } from 'vuex';
 import getNamespacedState from '@webitel/ui-sdk/src/store/helpers/getNamespacedState';
 import ResourcesAPI from '../../../../../resources/api/resources';
@@ -81,6 +82,10 @@ export default {
       resource: {},
       description: '',
     },
+  }),
+
+  setup: () => ({
+    v$: useVuelidate(),
   }),
   validations: {
     itemInstance: {

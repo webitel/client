@@ -22,22 +22,22 @@
             :headers="headers"
             :selectable="false"
           >
-            <template slot="state" slot-scope="{ item }">
+            <template v-slot:state="{ item }">
               {{ $t(`${agentState[item.state]}`) }}
             </template>
             <template v-if="item.channel"
-                      slot="channel" slot-scope="{ item }">
+                      v-slot:channel="{ item }">
               {{ $t(`channel.type.${item.channel}`) }}
             </template>
-            <template slot="from" slot-scope="{ item }">
+            <template v-slot:from="{ item }">
               {{ prettifyTime(item.joinedAt) }}
             </template>
-            <template slot="to" slot-scope="{ item }">
+            <template v-slot:to="{ item }">
               <div v-if="item.duration">
                 {{ calcStatusTo(item) }}
               </div>
             </template>
-            <template slot="duration" slot-scope="{ item }">
+            <template v-slot:duration="{ item }">
               {{ convertDuration(item.duration) }}
             </template>
           </wt-table>

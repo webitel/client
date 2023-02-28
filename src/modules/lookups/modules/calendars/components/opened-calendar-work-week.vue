@@ -12,12 +12,12 @@
           :grid-actions="!disableUserInput"
           :selectable="false"
         >
-          <template slot="name" slot-scope="{ item, index }">
+          <template v-slot:name="{ item, index }">
             <span v-if="isDayStart(index)">
               {{ weekdaysList[item.day] }}
             </span>
           </template>
-          <template slot="start" slot-scope="{ item, index }">
+          <template v-slot:start="{ item, index }">
             <wt-timepicker
               :value="minToSec(item.start)"
               format="hh:mm"
@@ -25,7 +25,7 @@
               @input="setItemProp({prop: 'start', index, value: secToMin($event)})"
             ></wt-timepicker>
           </template>
-          <template slot="end" slot-scope="{ item, index }">
+          <template v-slot:end="{ item, index }">
             <wt-timepicker
               :value="minToSec(item.end)"
               format="hh:mm"
@@ -33,14 +33,14 @@
               @input="setItemProp({prop: 'end', index, value: secToMin($event)})"
             ></wt-timepicker>
           </template>
-          <template slot="state" slot-scope="{ item, index }">
+          <template v-slot:state="{ item, index }">
             <wt-switcher
               :value="!item.disabled"
               :disabled="disableUserInput"
               @change="setItemProp({prop: 'disabled', index, value: !$event})"
             ></wt-switcher>
           </template>
-          <template slot="actions" slot-scope="{ item, index }">
+          <template v-slot:actions="{ item, index }">
             <add-action
               v-if="isDayStart(index)"
               @click="addWorkRange(item.day)"
@@ -112,7 +112,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.wt-timepicker ::v-deep .wt-label {
+.wt-timepicker :deep(.wt-label) {
   display: none;
 }
 </style>
