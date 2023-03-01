@@ -36,12 +36,12 @@ export default {
       const infobip = {
         value: ChatGatewayProvider.INFOBIP,
         title: this.$t('objects.routing.chatGateways.infobip.infobip'),
-        icon: 'messenger-infobip',
+        icon: ['messenger-infobip', 'send-arrow', 'messenger-whatsapp'],
       };
       const messenger = {
         value: ChatGatewayProvider.MESSENGER,
         title: this.$t('objects.routing.chatGateways.messenger.messenger'),
-        icon: 'messenger-messenger',
+        icon: ['messenger-messenger', 'send-arrow', 'messenger-facebook', 'instagram', 'messenger-whatsapp'],
       };
       const viber = {
         value: ChatGatewayProvider.VIBER,
