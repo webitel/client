@@ -3,35 +3,28 @@
     :options="options"
     :selected="selected"
     :title="$t('objects.routing.chatGateways.newChatGateway')"
+    @change="selectOption"
     @close="close"
     @select="createGateway"
   >
-    <template #main>
-      <ul class="popup-options">
-        <li
-          v-for="(option, key) of options"
-          :key="key"
-          :class="{'active': option === selected}"
-          class="popup-options__item-wrap"
-          @click="selectOption(option)"
-        >
+    <template v-slot:option="props">
           <wt-icon
-            v-if="option.icon && !Array.isArray(option.icon)" :icon="option.icon" size="sm"
+            v-if="props.option.icon && !Array.isArray(props.option.icon)"
+            :icon="props.option.icon"
+            size="sm"
           ></wt-icon>
           <div
-            v-if="Array.isArray(option.icon)"
+            v-if="Array.isArray(props.option.icon)"
             class="popup-options__icons-wrap"
           >
             <wt-icon
-              v-for="(icon, key) of option.icon"
+              v-for="(icon, key) of props.option.icon"
               :icon="icon"
               :key="key"
               size="sm"
             ></wt-icon>
           </div>
-          <h4 class="popup-options__item-header">{{ option.title }}</h4>
-        </li>
-      </ul>
+          <h4 class="popup-options__item-header">{{ props.option.title }}</h4>
     </template>
   </selection-popup>
 </template>
@@ -102,14 +95,22 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-@import './src/app/css/objects/selection-popup.scss';
 
-.selection-popup .popup-options {
-  margin-top: 0;
-  padding-right: 0;
-
-  &__icons-wrap {
-    display: flex;
+.selection-popup {
+  .popup-options__item-wrap {
+    .wt-icon {
+      margin-right: var(--spacing-xs);
+    }
   }
+
+  .popup-options__item-header {
+    @extend %typo-subtitle-2;
+  }
+
+  .popup-options__icons-wrap {
+      display: flex;
+  }
+
 }
+
 </style>
