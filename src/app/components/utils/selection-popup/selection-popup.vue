@@ -7,43 +7,34 @@
   >
     <template slot="title">{{ title }}</template>
     <template v-slot:main>
-      <ul class="popup-options">
-        <li
-          v-for="(option, key) of options"
-          :key="key"
-          :class="{'active': option === selected}"
-          class="popup-options__item-wrap"
-          @click="selectOption(option)"
-        >
-          <wt-icon
-            v-if="option.icon && !Array.isArray(option.icon)" :icon="option.icon" size="sm"
-          ></wt-icon>
-          <div
-              v-if="Array.isArray(option.icon)"
-              class="popup-options__icons-wrap"
+        <slot name="main">
+        <ul class="popup-options">
+          <li
+            v-for="(option, key) of options"
+            :key="key"
+            :class="{'active': option === selected}"
+            class="popup-options__item-wrap"
+            @click="selectOption(option)"
           >
             <wt-icon
-                v-for="(icon, key) of option.icon"
-                :icon="icon"
-                :key="key"
-                size="sm"
+              v-if="option.icon" :icon="option.icon" size="sm"
             ></wt-icon>
-          </div>
-          <h4 class="popup-options__item-header">{{ option.title }}</h4>
-          <wt-tooltip
-            popper-class="selection-popup__tooltip-popper"
-          >
-            <template v-slot:activator>
-              <wt-icon-btn
-                v-if="option.description"
-                color="outline"
-                icon="rounded-info"
-              ></wt-icon-btn>
-            </template>
-            {{ option.description }}
-          </wt-tooltip>
-        </li>
-      </ul>
+            <h4 class="popup-options__item-header">{{ option.title }}</h4>
+            <wt-tooltip
+              popper-class="selection-popup__tooltip-popper"
+            >
+              <template v-slot:activator>
+                <wt-icon-btn
+                  v-if="option.description"
+                  color="outline"
+                  icon="rounded-info"
+                ></wt-icon-btn>
+              </template>
+              {{ option.description }}
+            </wt-tooltip>
+          </li>
+        </ul>
+        </slot>
       <!--Slot for displaying specific template styling-->
       <slot name="after-section"></slot>
     </template>
@@ -105,50 +96,5 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.selection-popup {
-  .popup-options {
-    margin-top: 20px;
-    padding-right: 10px;
-
-    .popup-options__item-wrap {
-      position: relative;
-      display: flex;
-      align-items: center;
-      margin-bottom: 10px;
-      padding: 7px 10px;
-      cursor: pointer;
-      transition: var(--transition);
-      border: 1px solid var(--form-border-color);
-      border-radius: var(--border-radius);
-
-      .wt-icon {
-        margin-right: var(--spacing-xs);
-      }
-
-      &:last-child {
-        margin-bottom: 0;
-      }
-
-      &:hover, &.active {
-        border-color: var(--accent-color);
-      }
-
-      .wt-tooltip {
-        margin-left: auto;
-      }
-    }
-
-    .popup-options__item-header {
-      @extend %typo-subtitle-2;
-    }
-
-    &__icons-wrap {
-      display: flex;
-    }
-  }
-}
-
-.selection-popup__tooltip-popper {
-  max-width: 480px;
-}
+@import './src/app/css/objects/selection-popup.scss';
 </style>
