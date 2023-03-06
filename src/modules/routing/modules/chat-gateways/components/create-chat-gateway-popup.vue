@@ -6,7 +6,8 @@
     @change="selectOption"
     @close="close"
     @select="createGateway"
-  ></selection-popup>
+  >
+  </selection-popup>
 </template>
 
 <script>

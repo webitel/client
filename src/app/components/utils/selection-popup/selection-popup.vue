@@ -15,6 +15,7 @@
           class="popup-options__item-wrap"
           @click="selectOption(option)"
         >
+          <slot name="icon">
           <wt-icon
             v-if="option.icon && !Array.isArray(option.icon)" :icon="option.icon" size="sm"
           ></wt-icon>
