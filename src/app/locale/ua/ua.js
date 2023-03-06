@@ -497,6 +497,7 @@ export default {
         },
         messenger: {
           messenger: 'Messenger',
+          meta: 'Meta',
           addOrRemovePages: 'Додати або видалити сторінки',
           accounts: 'Аккаунти',
           metadata: {
