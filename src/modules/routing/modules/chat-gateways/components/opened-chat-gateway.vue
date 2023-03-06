@@ -223,7 +223,7 @@ export default {
         value: 'OpenedChatTelegramApp',
       };
       const messengerChat = {
-        text: this.$t('objects.routing.chatGateways.messenger.meta'),
+        text: this.$t('objects.routing.chatGateways.messenger.messenger'),
         value: 'OpenedChatMessenger',
       };
       const facebookChatPages = {
