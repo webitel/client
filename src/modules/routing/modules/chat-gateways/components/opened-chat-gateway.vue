@@ -223,7 +223,7 @@ export default {
         value: 'OpenedChatTelegramApp',
       };
       const messengerChat = {
-        text: this.$t('objects.routing.chatGateways.messenger.messenger'),
+        text: this.$t('objects.routing.chatGateways.messenger.meta'),
         value: 'OpenedChatMessenger',
       };
       const facebookChatPages = {
@@ -310,20 +310,22 @@ export default {
       let chatTypeLocale;
       switch (this.chatType) {
         case ChatGatewayProvider.INFOBIP:
-          chatTypeLocale = 'infobip';
+          chatTypeLocale = 'infobip.infobip';
           break;
         case ChatGatewayProvider.TELEGRAM_BOT:
-          chatTypeLocale = 'telegramBot';
+          chatTypeLocale = 'telegramBot.telegramBot';
           break;
         case ChatGatewayProvider.MESSENGER:
+          chatTypeLocale = `${this.chatType}.meta`;
+          break;
         case ChatGatewayProvider.VIBER:
         case ChatGatewayProvider.WEBCHAT:
-          chatTypeLocale = this.chatType;
+          chatTypeLocale = `${this.chatType}.${this.chatType}`;
           break;
         default:
           return this.$tc('objects.routing.gateways.gateways', 1);
       }
-      return this.$t(`objects.routing.chatGateways.${chatTypeLocale}.${chatTypeLocale}`)
+      return this.$t(`objects.routing.chatGateways.${chatTypeLocale}`)
                  .concat(' ', this.$tc('objects.routing.gateways.gateways', 1));
     },
 

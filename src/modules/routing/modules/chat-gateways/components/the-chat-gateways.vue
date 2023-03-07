@@ -134,7 +134,7 @@ import CreateChatGatewayPopup from './create-chat-gateway-popup.vue';
 import RouteNames from '../../../../../app/router/_internals/RouteNames.enum';
 
 const iconType = {
-  [ChatGatewayProvider.MESSENGER]: 'messenger-messenger',
+  [ChatGatewayProvider.MESSENGER]: 'meta',
   [ChatGatewayProvider.INFOBIP]: 'messenger-infobip',
   [ChatGatewayProvider.VIBER]: 'messenger-viber',
   [ChatGatewayProvider.WEBCHAT]: 'messenger-web-chat',

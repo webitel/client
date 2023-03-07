@@ -496,7 +496,7 @@ export default {
           infobip: 'Infobip',
         },
         messenger: {
-          messenger: 'Meta',
+          meta: 'Meta',
           addOrRemovePages: 'Add or remove pages',
           accounts: 'Accounts',
           metadata: {

@@ -496,7 +496,7 @@ export default {
           infobip: 'Infobip',
         },
         messenger: {
-          messenger: 'Meta',
+          meta: 'Meta',
           addOrRemovePages: 'Додати або видалити сторінки',
           accounts: 'Аккаунти',
           metadata: {
