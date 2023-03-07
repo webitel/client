@@ -1,6 +1,6 @@
 <template>
   <wt-popup min-width="480" @close="close">
-    <template slot="title">
+    <template v-slot:title>
       {{ $t('objects.directory.license.importLicense') }}
     </template>
     <template v-slot:main>
@@ -14,7 +14,7 @@
         ></wt-input>
       </form>
     </template>
-    <template slot="actions">
+    <template v-slot:actions>
       <wt-button :disabled="invalid" @click="save">
         {{ $t('objects.add') }}
       </wt-button>

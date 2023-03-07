@@ -9,7 +9,7 @@
       </div>
       <h4 class='token-created-popup__text'>{{ $t('objects.directory.users.tokenPopupText') }}</h4>
     </template>
-    <template slot="actions">
+    <template v-slot:actions>
       <wt-button @click="copy">
         {{ $t('objects.directory.users.tokenPopupCopy') }}
       </wt-button>

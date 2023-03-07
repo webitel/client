@@ -1,6 +1,6 @@
 <template>
   <wt-popup min-width="480" @close="close">
-    <template slot="title">
+    <template v-slot:title>
       {{ $tc('objects.lookups.communications.communications', 1) }}
     </template>
     <template v-slot:main>
@@ -39,7 +39,7 @@
         ></wt-textarea>
       </form>
     </template>
-    <template slot="actions">
+    <template v-slot:actions>
       <wt-button
         :disabled="computeDisabled"
         @click="save"

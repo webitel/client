@@ -1,6 +1,6 @@
 <template>
   <wt-popup min-width="480" overflow @close="close">
-    <template slot="title">
+    <template v-slot:title>
       {{ $tc('objects.ccenter.res.res', 1) }}
     </template>
     <template v-slot:main>
@@ -30,7 +30,7 @@
         ></wt-select>
       </form>
     </template>
-    <template slot="actions">
+    <template v-slot:actions>
       <wt-button
         :disabled="disabledSave"
         @click="save"

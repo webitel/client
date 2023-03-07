@@ -12,7 +12,7 @@
         ></wt-input>
       </form>
     </template>
-    <template slot="actions">
+    <template v-slot:actions>
       <wt-button @click="save">
         {{ $t('objects.add') }}
       </wt-button>

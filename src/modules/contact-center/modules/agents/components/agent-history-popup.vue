@@ -1,6 +1,6 @@
 <template>
   <wt-popup overflow @close="close">
-    <template slot="title">{{ $t('objects.ccenter.agents.statusHistory') }}</template>
+    <template v-slot:title>{{ $t('objects.ccenter.agents.statusHistory') }}</template>
     <template v-slot:main>
       <section class="history-popup">
         <div class="history-popup__filters">
@@ -54,7 +54,7 @@
         </div>
       </section>
     </template>
-    <template slot="actions">
+    <template v-slot:actions>
       <wt-button @click="close">{{ $t('objects.ok') }}</wt-button>
       <wt-button color="secondary" @click="close"> {{ $t('objects.close') }}</wt-button>
     </template>

@@ -1,6 +1,6 @@
 <template>
   <wt-popup @close="close">
-    <template slot="title">
+    <template v-slot:title>
       {{ $tc('objects.ccenter.queues.destination', 2) }}
     </template>
     <template v-slot:main>
