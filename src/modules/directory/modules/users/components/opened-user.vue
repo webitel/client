@@ -24,7 +24,7 @@
         <component
           :is="currentTab.value"
           :namespace="namespace"
-          :v="$v"
+          :v="v$"
         ></component>
         <input type="submit" hidden> <!--  submit form on Enter  -->
       </form>
@@ -33,7 +33,8 @@
 </template>
 
 <script>
-import { required, requiredIf, requiredUnless } from 'vuelidate/lib/validators';
+import { useVuelidate } from '@vuelidate/core';
+import { helpers, required, requiredIf, requiredUnless } from '@vuelidate/validators';
 import openedObjectMixin from '../../../../../app/mixins/objectPagesMixins/openedObjectMixin/openedObjectMixin';
 import Tokens from '../modules/tokens/components/opened-user-token.vue';
 import Devices from './opened-user-devices.vue';
@@ -57,6 +58,9 @@ export default {
     namespace: 'directory/users',
   }),
 
+  setup: () => ({
+    v$: useVuelidate(),
+  }),
   validations: {
     itemInstance: {
       username: { required },
@@ -64,10 +68,10 @@ export default {
         required: requiredUnless('id'),
       },
       variables: {
-        $each: {
+        $each: helpers.forEach({
           key: { required: requiredIf('value') },
           value: { required: requiredIf('key') },
-        },
+        }),
       },
     },
   },

@@ -50,15 +50,15 @@
             sortable
             @sort="sort"
           >
-            <template slot="name" slot-scope="{ item }">
+            <template v-slot:name="{ item }">
               <item-link :link="editLink(item)">
                 {{ item.name }}
               </item-link>
             </template>
-            <template slot="strategy" slot-scope="{ item }">
+            <template v-slot:strategy="{ item }">
               {{ computeStrategyDisplay(item.strategy) }}
             </template>
-            <template slot="actions" slot-scope="{ item }">
+            <template v-slot:actions="{ item }">
               <edit-action
                 v-if="hasEditAccess"
                 @click="edit(item)"

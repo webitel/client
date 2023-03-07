@@ -16,6 +16,7 @@ import OnePlusMany from '../../../components/utils/table-cell/one-plus-many-tabl
 export default {
   mixins: [openedTabComponentMixin, baseTableMixin],
   components: { OnePlusMany, ObjectListPopup },
+  inject: ['$eventBus'],
   watch: {
     parentId(value) {
       this.setParentId(value);

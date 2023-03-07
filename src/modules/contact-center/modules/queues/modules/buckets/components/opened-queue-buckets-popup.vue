@@ -1,13 +1,13 @@
 <template>
   <wt-popup min-width="480" overflow @close="close">
-    <template slot="title">
+    <template v-slot:title>
       {{ $tc('objects.lookups.buckets.buckets', 1) }}
     </template>
     <template v-slot:main>
       <form>
         <wt-select
           :value="itemInstance.bucket"
-          :v="$v.itemInstance.bucket"
+          :v="v$.itemInstance.bucket"
           :label="$tc('objects.lookups.buckets.buckets', 1)"
           :search-method="loadBucketsOptions"
           :clearable="false"
@@ -16,7 +16,7 @@
         ></wt-select>
         <wt-input
           :value="itemInstance.priority"
-          :v="$v.itemInstance.priority"
+          :v="v$.itemInstance.priority"
           :label="$t('objects.ccenter.queues.bucketPriority')"
           type="number"
           required
@@ -24,7 +24,7 @@
         ></wt-input>
       </form>
     </template>
-    <template slot="actions">
+    <template v-slot:actions>
       <wt-button
         :disabled="disabledSave"
         @click="save"
@@ -40,7 +40,8 @@
 </template>
 
 <script>
-import { minValue, numeric, required } from 'vuelidate/lib/validators';
+import { useVuelidate } from '@vuelidate/core';
+import { minValue, numeric, required } from '@vuelidate/validators';
 import BucketsAPI from '../../../../../../lookups/modules/buckets/api/buckets';
 import nestedObjectMixin from '../../../../../../../app/mixins/objectPagesMixins/openedObjectMixin/nestedObjectMixin';
 
@@ -52,6 +53,9 @@ export default {
     namespace: 'ccenter/queues/buckets',
   }),
 
+  setup: () => ({
+    v$: useVuelidate(),
+  }),
   validations: {
     itemInstance: {
       bucket: { required },

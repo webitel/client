@@ -1,6 +1,6 @@
 <template>
   <wt-popup class="token-created-popup" @close="close">
-    <template slot="title">
+    <template v-slot:title>
       {{ $t('objects.directory.users.tokenPopupHeader') }}
     </template>
     <template v-slot:main>
@@ -9,7 +9,7 @@
       </div>
       <h4 class='token-created-popup__text'>{{ $t('objects.directory.users.tokenPopupText') }}</h4>
     </template>
-    <template slot="actions">
+    <template v-slot:actions>
       <wt-button @click="copy">
         {{ $t('objects.directory.users.tokenPopupCopy') }}
       </wt-button>

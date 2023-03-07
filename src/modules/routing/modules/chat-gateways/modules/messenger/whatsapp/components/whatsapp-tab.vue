@@ -39,19 +39,19 @@
         :headers="headers"
         :selectable="false"
       >
-        <template slot="name" slot-scope="{ item }">
+        <template v-slot:name="{ item }">
           {{ item.phoneNumbers[0].verifiedName }}
         </template>
-        <template slot="number" slot-scope="{ item }">
+        <template v-slot:number="{ item }">
           {{ item.phoneNumbers[0].displayPhoneNumber }}
         </template>
-        <template slot="review" slot-scope="{ item }">
+        <template v-slot:review="{ item }">
           {{ item.phoneNumbers[0].nameStatus }}
         </template>
-        <template slot="status" slot-scope="{ item }">
+        <template v-slot:status="{ item }">
           {{ item.phoneNumbers[0].status }}
         </template>
-        <template slot="subscription" slot-scope="{ item }">
+        <template v-slot:subscription="{ item }">
           <wt-switcher
             :disabled="!hasEditAccess"
             :value="!!item.subscribedFields"
@@ -79,6 +79,7 @@ import WhatsappAPI from '../api/whatsapp';
 export default {
   name: 'opened-chat-gateway-whatsapp-tab',
   mixins: [openedObjectTableTabMixin],
+  inject: ['$eventBus'],
   data: () => ({
     subNamespace: 'whatsapp',
   }),

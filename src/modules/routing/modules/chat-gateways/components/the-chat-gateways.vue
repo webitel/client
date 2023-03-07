@@ -55,17 +55,17 @@
             sortable
             @sort="sort"
           >
-            <template slot="name" slot-scope="{ item }">
+            <template v-slot:name="{ item }">
               <item-link :link="editLink(item)">
                 {{ item.name }}
               </item-link>
             </template>
 
-            <template slot="uri" slot-scope="{ item }">
+            <template v-slot:uri="{ item }">
               {{ item.uri }}
             </template>
 
-            <template slot="flow" slot-scope="{ item }">
+            <template v-slot:flow="{ item }">
               <item-link
                 v-if="item.flow"
                 :route-name="RouteNames.FLOW"
@@ -75,7 +75,7 @@
               </item-link>
             </template>
 
-            <template slot="provider" slot-scope="{ item }">
+            <template v-slot:provider="{ item }">
               <wt-icon v-if="iconType[item.provider] && !Array.isArray(providerIcon(item.provider))"
                        :icon="iconType[item.provider]"
               />
@@ -90,7 +90,7 @@
               <p v-else> {{ item.provider }} </p>
             </template>
 
-            <template slot="enabled" slot-scope="{ item, index }">
+            <template v-slot:enabled="{ item, index }">
               <wt-switcher
                 :value="item.enabled"
                 :disabled="!hasEditAccess"
@@ -98,7 +98,7 @@
               ></wt-switcher>
             </template>
 
-            <template slot="actions" slot-scope="{ item }">
+            <template v-slot:actions="{ item }">
               <edit-action
                 v-if="hasEditAccess"
                 @click="edit(item)"

@@ -1,6 +1,6 @@
 <template>
   <wt-popup min-width="480" @close="close">
-    <template slot="title">
+    <template v-slot:title>
       {{ $tc('objects.ccenter.agents.subordinates', 2) }}
     </template>
     <template v-slot:main>
@@ -11,7 +11,7 @@
           :selectable="false"
           :grid-actions="false"
         >
-          <template slot="subordinate" slot-scope="{ item }">
+          <template v-slot:subordinate="{ item }">
             {{ item.user.name }}
           </template>
         </wt-table>

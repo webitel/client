@@ -34,12 +34,12 @@
             sortable
             @sort="sort"
           >
-            <template slot="domain" slot-scope="{ item }">
+            <template v-slot:domain="{ item }">
               <div v-if="item.domain">
                 {{ item.domain.name }}
               </div>
             </template>
-            <template slot="name" slot-scope="{ item }">
+            <template v-slot:name="{ item }">
               <item-link
                 v-if="item.user"
                 :route-name="RouteNames.USERS"
@@ -47,7 +47,7 @@
               >{{ item.user.name }}
               </item-link>
             </template>
-            <template slot="used" slot-scope="{ item }">
+            <template v-slot:used="{ item }">
               <user-logout-control
                 :item="item"
                 @logout="logoutUser"

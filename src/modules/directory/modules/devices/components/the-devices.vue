@@ -73,17 +73,17 @@
             @sort="sort"
           >
 
-            <template slot="name" slot-scope="{ item }">
+            <template v-slot:name="{ item }">
               <item-link :link="editLink(item)">
                 {{ item.name }}
               </item-link>
             </template>
 
-            <template slot="account" slot-scope="{ item }">
+            <template v-slot:account="{ item }">
               {{ item.account }}
             </template>
 
-            <template slot="user" slot-scope="{ item }">
+            <template v-slot:user="{ item }">
               <item-link
                 v-if="item.user"
                 :route-name="RouteNames.USERS"
@@ -94,14 +94,14 @@
             </template>
 
             <!--state classes are specified in table-status component-->
-            <template slot="state" slot-scope="{ item }">
+            <template v-slot:state="{ item }">
               <wt-indicator
                 :color="stateClass(item.reged ? 1 : 0)"
                 :text="stateText(item.reged ? 1 : 0)"
               ></wt-indicator>
             </template>
 
-            <template slot="actions" slot-scope="{ item }">
+            <template v-slot:actions="{ item }">
               <history-action
                 class="table-action"
                 @click="openHistory(item.id)"

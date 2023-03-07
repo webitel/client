@@ -1,13 +1,13 @@
 <template>
   <wt-popup min-width="480" overflow @close="close">
-    <template slot="title">
+    <template v-slot:title>
       {{ $tc('objects.ccenter.res.res', 1) }}
     </template>
     <template v-slot:main>
       <form>
         <wt-select
           :value="itemInstance.resource"
-          :v="$v.itemInstance.resource"
+          :v="v$.itemInstance.resource"
           :label="$tc('objects.ccenter.res.res', 1)"
           :search-method="loadDropdownOptionsList"
           :clearable="false"
@@ -22,7 +22,7 @@
         ></wt-input>
         <wt-select
           :value="itemInstance.reserveResource"
-          :v="$v.itemInstance.reserveResource"
+          :v="v$.itemInstance.reserveResource"
           :label="$tc('objects.ccenter.res.reserveResource', 1)"
           :search-method="loadDropdownOptionsList"
           :clearable="true"
@@ -30,7 +30,7 @@
         ></wt-select>
       </form>
     </template>
-    <template slot="actions">
+    <template v-slot:actions>
       <wt-button
         :disabled="disabledSave"
         @click="save"
@@ -46,7 +46,8 @@
 </template>
 
 <script>
-import { required } from 'vuelidate/lib/validators';
+import { useVuelidate } from '@vuelidate/core';
+import { required } from '@vuelidate/validators';
 import ResourcesAPI from '../../../../resources/api/resources';
 import nestedObjectMixin from '../../../../../../../app/mixins/objectPagesMixins/openedObjectMixin/nestedObjectMixin';
 
@@ -57,6 +58,9 @@ export default {
     namespace: 'ccenter/resGroups/res',
   }),
 
+  setup: () => ({
+    v$: useVuelidate(),
+  }),
   validations: {
     itemInstance: {
       resource: { required },

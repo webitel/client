@@ -29,7 +29,7 @@
         ></wt-tabs>
         <component
           :is="currentTab.value"
-          :v="$v"
+          :v="v$"
           :namespace="namespace"
         ></component>
         <input type="submit" hidden> <!--  submit form on Enter  -->
@@ -39,8 +39,9 @@
 </template>
 
 <script>
+import { useVuelidate } from '@vuelidate/core';
 import { mapActions } from 'vuex';
-import { required } from 'vuelidate/lib/validators';
+import { required } from '@vuelidate/validators';
 import Diagram from '../modules/diagram/components/opened-flow-diagram.vue';
 import JsonSchema from '../modules/code/components/opened-flow-code.vue';
 import openedObjectMixin from '../../../../../app/mixins/objectPagesMixins/openedObjectMixin/openedObjectMixin';
@@ -56,7 +57,9 @@ export default {
     namespace: 'routing/flow',
   }),
 
-  // by vuelidate
+  setup: () => ({
+    v$: useVuelidate(),
+  }),
   validations: {
     itemInstance: {
       name: { required },

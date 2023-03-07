@@ -1,13 +1,13 @@
 <template>
   <wt-popup min-width="480" overflow @close="close">
-    <template slot="title">
+    <template v-slot:title>
       {{ $t('objects.permissions.roles.addPermission') }}
     </template>
     <template v-slot:main>
       <form>
         <wt-select
           v-model="itemInstance.permission"
-          :v="$v.itemInstance.permission"
+          :v="v$.itemInstance.permission"
           :label="$tc('objects.permissions.roles.permissions.permissions', 1)"
           :search-method="loadPermissionsList"
           :clearable="false"
@@ -15,7 +15,7 @@
         ></wt-select>
       </form>
     </template>
-    <template slot="actions">
+    <template v-slot:actions>
       <wt-button
         :disabled="computeDisabled"
         @click="save"
@@ -31,8 +31,9 @@
 </template>
 
 <script>
+import { useVuelidate } from '@vuelidate/core';
 import { mapState, mapActions } from 'vuex';
-import { required } from 'vuelidate/lib/validators';
+import { required } from '@vuelidate/validators';
 import { snakeToCamel } from '@webitel/ui-sdk/src/scripts/caseConverters';
 import RolesAPI from '../../api/roles';
 import nestedObjectMixin
@@ -51,6 +52,9 @@ export default {
     itemInstanceValue: {
       permission: {},
     },
+  }),
+  setup: () => ({
+    v$: useVuelidate(),
   }),
   validations: {
     itemInstance: {

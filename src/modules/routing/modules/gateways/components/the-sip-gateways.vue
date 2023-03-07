@@ -53,28 +53,28 @@
             sortable
             @sort="sort"
           >
-            <template slot="name" slot-scope="{ item }">
+            <template v-slot:name="{ item }">
               <item-link :link="editLink(item)">
                 {{ item.name }}
               </item-link>
             </template>
-            <template slot="proxy" slot-scope="{ item }">
+            <template v-slot:proxy="{ item }">
               {{ item.proxy }}
             </template>
-            <template slot="state" slot-scope="{ item, index }">
+            <template v-slot:state="{ item, index }">
               <wt-switcher
                 :value="item.enable"
                 :disabled="!hasEditAccess"
                 @change="patchItem({ item, index, prop: 'enable', value: $event })"
               ></wt-switcher>
             </template>
-            <template slot="status" slot-scope="{ item }">
+            <template v-slot:status="{ item }">
               <wt-indicator
                 :color="computeStatusClass(item.rState)"
                 :text="computeStatusText(item.rState)"
               ></wt-indicator>
             </template>
-            <template slot="actions" slot-scope="{ item }">
+            <template v-slot:actions="{ item }">
               <edit-action
                 v-if="hasEditAccess"
                 @click="edit(item)"

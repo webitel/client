@@ -50,17 +50,17 @@
             sortable
             @sort="sort"
           >
-            <template slot="name" slot-scope="{ item }">
+            <template v-slot:name="{ item }">
               <item-link :link="editLink(item)">
                 {{ item.name }}
               </item-link>
             </template>
-            <template slot="gateway" slot-scope="{ item }">
+            <template v-slot:gateway="{ item }">
               <div v-if="item.gateway">
                 {{ item.gateway.name }}
               </div>
             </template>
-            <template slot="state" slot-scope="{ item, index }">
+            <template v-slot:state="{ item, index }">
               <wt-switcher
                 class="test__resources__enable-switcher"
                 :value="item.enabled"
@@ -68,7 +68,7 @@
                 @change="patchItem({ index, item, prop: 'enabled', value: $event })"
               ></wt-switcher>
             </template>
-            <template slot="actions" slot-scope="{ item }">
+            <template v-slot:actions="{ item }">
               <edit-action
                 v-if="hasEditAccess"
                 @click="edit(item)"

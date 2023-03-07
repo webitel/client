@@ -25,7 +25,7 @@
           ></wt-select>
           <wt-input
             :value="acl.ip"
-            :v="v.itemInstance.ipacl.$each[key].ip"
+            :v="v.itemInstance.ipacl.$each.$response.$data[key].ip"
             :label="$t('objects.routing.ip')"
             :disabled="disableUserInput"
             required

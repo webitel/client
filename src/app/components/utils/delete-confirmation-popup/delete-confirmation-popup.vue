@@ -4,14 +4,14 @@
     min-width="480"
     @close="close"
   >
-    <template slot="title">{{ $t('objects.deleteConfirmation.title') }}</template>
+    <template v-slot:title>{{ $t('objects.deleteConfirmation.title') }}</template>
     <template v-slot:main>
       <p>
         {{ deleteMessage }}
         {{ $t('objects.deleteConfirmation.undoneActionAlert') }}
       </p>
     </template>
-    <template slot="actions">
+    <template v-slot:actions>
       <wt-button
         color="secondary"
         :disabled="isDeleting"

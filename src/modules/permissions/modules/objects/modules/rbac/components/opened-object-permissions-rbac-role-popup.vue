@@ -1,6 +1,6 @@
 <template>
   <wt-popup class="permissions-role-defaults-popup" min-width="480" overflow @close="close">
-    <template slot="title">
+    <template v-slot:title>
       {{ $t('objects.permissions.object.newPermissionRole') }}
     </template>
     <template v-slot:main>
@@ -17,7 +17,7 @@
         :clearable="false"
       ></permissions-role-select>
     </template>
-    <template slot="actions">
+    <template v-slot:actions>
       <wt-button @click="save">{{ $t('objects.add') }}</wt-button>
       <wt-button color="secondary" @click="close">{{ $t('objects.close') }}</wt-button>
     </template>

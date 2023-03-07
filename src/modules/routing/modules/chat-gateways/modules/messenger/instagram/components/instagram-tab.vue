@@ -46,7 +46,7 @@
         :headers="headers"
         :selectable="false"
       >
-        <template slot="id" slot-scope="{ item }">
+        <template v-slot:id="{ item }">
           <wt-copy-action
             :tooltips="{
               copy: item.id,
@@ -54,10 +54,10 @@
             :value="item.id"
           ></wt-copy-action>
         </template>
-        <template slot="instagram" slot-scope="{ item }">
+        <template v-slot:instagram="{ item }">
           {{ item.instagram.username }}
         </template>
-        <template slot="accounts" slot-scope="{ item }">
+        <template v-slot:accounts="{ item }">
           <one-plus-many
             :collection="item.accounts"
             @input="openAccountsPopup(item)"
@@ -79,6 +79,7 @@ import openMessengerWindow from '../../_shared/scripts/openMessengerWindow';
 export default {
   name: 'opened-chat-gateway-instagram-tab',
   mixins: [openedObjectTableTabMixin],
+  inject: ['$eventBus'],
   data: () => ({
     subNamespace: 'instagram',
     accountsOnPopup: null,

@@ -20,25 +20,25 @@
         sortable
         @sort="sort"
       >
-        <template slot="name" slot-scope="{ item }">
+        <template v-slot:name="{ item }">
           <div v-if="item.queue">
             {{ item.queue.name }}
           </div>
         </template>
 
-        <template slot="type" slot-scope="{ item }">
+        <template v-slot:type="{ item }">
           {{ $t(QueueTypeProperties[item.type].locale) }}
         </template>
 
-        <template slot="count" slot-scope="{ item }">
+        <template v-slot:count="{ item }">
           {{ item.countMembers }}
         </template>
 
-        <template slot="waiting" slot-scope="{ item }">
+        <template v-slot:waiting="{ item }">
           {{ item.waitingMembers }}
         </template>
 
-        <template slot="strategy" slot-scope="{ item }">
+        <template v-slot:strategy="{ item }">
           {{ item.strategy }}
         </template>
       </wt-table>

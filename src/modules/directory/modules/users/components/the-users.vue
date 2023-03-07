@@ -60,28 +60,28 @@
             sortable
             @sort="sort"
           >
-            <template slot="name" slot-scope="{ item }">
+            <template v-slot:name="{ item }">
               <item-link :link="editLink(item)">
                 {{ item.name }}
               </item-link>
             </template>
-            <template slot="status" slot-scope="{ item }">
+            <template v-slot:status="{ item }">
               <user-status :presence="item.presence"/>
             </template>
-            <template slot="username" slot-scope="{ item }">
+            <template v-slot:username="{ item }">
               {{ item.username }}
             </template>
-            <template slot="extensions" slot-scope="{ item }">
+            <template v-slot:extensions="{ item }">
               {{ item.extension }}
             </template>
-            <template slot="DnD" slot-scope="{ item }">
+            <template v-slot:DnD="{ item }">
               <wt-switcher
                 :value="getDND(item.presence)"
                 :disabled="!hasEditAccess"
                 @change="setDND({item, value: $event})"
               ></wt-switcher>
             </template>
-            <template slot="actions" slot-scope="{ item }">
+            <template v-slot:actions="{ item }">
               <edit-action
                 v-if="hasEditAccess"
                 @click="edit(item)"

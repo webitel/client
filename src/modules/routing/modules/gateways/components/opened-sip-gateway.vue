@@ -23,7 +23,7 @@
           ></wt-tabs>
           <component
             :is="currentTab.value"
-            :v="$v"
+            :v="v$"
             :namespace="namespace"
           ></component>
           <input type="submit" hidden> <!--  submit form on Enter  -->
@@ -34,9 +34,11 @@
 
 <script>
 
+import { useVuelidate } from '@vuelidate/core';
 import {
+  helpers,
   maxValue, minValue, numeric, required,
-} from 'vuelidate/lib/validators';
+} from '@vuelidate/validators';
 import { mapActions } from 'vuex';
 import { sipAccountValidator, gatewayHostValidator, ipValidator } from '../../../../../app/utils/validators';
 import RegisterGeneral from './opened-register-sip-gateway-general.vue';
@@ -56,7 +58,9 @@ export default {
   data: () => ({
     namespace: 'routing/gateways',
   }),
-
+  setup: () => ({
+    v$: useVuelidate(),
+  }),
   validations() {
     if (this.isRegister) {
       return {
@@ -78,9 +82,9 @@ export default {
         host: { gatewayHostValidator, required },
         proxy: { gatewayHostValidator, required },
         ipacl: {
-          $each: {
+          $each: helpers.forEach({
             ip: { ipValidator, required },
-          },
+          }),
         },
       },
     };

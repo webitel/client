@@ -4,13 +4,13 @@
     min-width="480"
     @close="close"
   >
-    <template slot="title">{{ $t('objects.ccenter.members.resetMembers.resetMembers') }}</template>
+    <template v-slot:title>{{ $t('objects.ccenter.members.resetMembers.resetMembers') }}</template>
     <template v-slot:main>
       <p>
         {{ $t('objects.ccenter.members.resetMembers.description') }}
       </p>
     </template>
-    <template slot="actions">
+    <template v-slot:actions>
       <wt-button
         color="secondary"
         :disabled="isResetting"
@@ -30,6 +30,7 @@
 <script>
 export default {
   name: 'reset-members-popup',
+  inject: ['$eventBus'],
   props: {
     callback: {
       type: Function,

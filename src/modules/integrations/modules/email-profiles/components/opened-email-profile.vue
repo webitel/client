@@ -24,7 +24,7 @@
         <component
           :is="currentTab.value"
           :namespace="namespace"
-          :v="$v"
+          :v="v$"
         ></component>
         <input type="submit" hidden> <!--  submit form on Enter  -->
       </form>
@@ -33,7 +33,8 @@
 </template>
 
 <script>
-import { maxValue, minValue, required } from 'vuelidate/lib/validators';
+import { useVuelidate } from '@vuelidate/core';
+import { maxValue, minValue, required } from '@vuelidate/validators';
 import openedObjectMixin from '../../../../../app/mixins/objectPagesMixins/openedObjectMixin/openedObjectMixin';
 import General from './opened-email-profile-general.vue';
 
@@ -45,6 +46,9 @@ export default {
     namespace: 'integrations/emailProfiles',
   }),
 
+  setup: () => ({
+    v$: useVuelidate(),
+  }),
   validations: {
     itemInstance: {
       name: { required },

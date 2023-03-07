@@ -24,7 +24,7 @@
         <component
           :is="currentTab.value"
           :namespace="namespace"
-          :v="$v"
+          :v="v$"
         ></component>
         <input hidden type="submit"> <!--  submit form on Enter  -->
       </form>
@@ -33,7 +33,8 @@
 </template>
 
 <script>
-import { required } from 'vuelidate/lib/validators';
+import { useVuelidate } from '@vuelidate/core';
+import { required } from '@vuelidate/validators';
 import openedObjectMixin from '../../../../../app/mixins/objectPagesMixins/openedObjectMixin/openedObjectMixin';
 import General from './opened-import-csv-general.vue';
 import Settings from './opened-import-csv-settings.vue';
@@ -48,6 +49,9 @@ export default {
   },
   data: () => ({
     namespace: 'integrations/importCsv',
+  }),
+  setup: () => ({
+    v$: useVuelidate(),
   }),
   validations() {
     return {

@@ -1,20 +1,20 @@
 <template>
   <wt-popup min-width="480" @close="close">
-    <template slot="title">
+    <template v-slot:title>
       {{ $t('objects.directory.license.importLicense') }}
     </template>
     <template v-slot:main>
       <form @submit.prevent="save">
         <wt-input
           v-model="itemInstance.certificate"
-          :v="$v.itemInstance.certificate"
+          :v="v$.itemInstance.certificate"
           :label="$t('objects.directory.license.licenseKey')"
           required
           @input="updateValidations"
         ></wt-input>
       </form>
     </template>
-    <template slot="actions">
+    <template v-slot:actions>
       <wt-button :disabled="invalid" @click="save">
         {{ $t('objects.add') }}
       </wt-button>
@@ -26,8 +26,9 @@
 </template>
 
 <script>
+import { useVuelidate } from '@vuelidate/core';
 import { mapActions } from 'vuex';
-import { required } from 'vuelidate/lib/validators';
+import { required } from '@vuelidate/validators';
 import validationMixin from '../../../../../../app/mixins/baseMixins/openedObjectValidationMixin/openedObjectValidationMixin';
 
 export default {
@@ -41,6 +42,9 @@ export default {
     invalid: true,
   }),
 
+  setup: () => ({
+    v$: useVuelidate(),
+  }),
   validations: {
     itemInstance: {
       certificate: { required },

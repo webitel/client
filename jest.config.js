@@ -5,6 +5,7 @@ module.exports = {
     },
     transformIgnorePatterns: [
         // '/node_modules/(?!@webitel/ui-sdk/src|@webitel/cc-ui-sdk/src|webitel-sdk).+\\.js$',
+        'jest-runner',
     ],
     moduleNameMapper: {
         '\\.(jpg|ico|jpeg|png|gif|eot|otf|webp|svg|ttf|woff|woff2|mp4|webm|wav|mp3|m4a|aac|oga)$': '<rootDir>/tests/unit/mocks/file.mock.js',
@@ -38,7 +39,10 @@ module.exports = {
     setupFiles: [
         // 'jest-canvas-mock',
         './tests/config/config.js',
-        './src/app/plugins/webitel-ui.js',
     ],
     setupFilesAfterEnv: ['./tests/config/jest.config.js'],
+    // https://github.com/vuejs/vue-jest/issues/479
+    testEnvironmentOptions: {
+        customExportConditions: ['node', 'node-addons'],
+    },
 };

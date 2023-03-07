@@ -4,7 +4,7 @@ import MediaFilePreviewTableAction from '../media-file-preview-table-action.vue'
 describe('MediaFilePreviewTableAction', () => {
   it('renders a component', () => {
     const wrapper = shallowMount(MediaFilePreviewTableAction, {
-      propsData: {
+      props: {
         type: '',
       },
     });

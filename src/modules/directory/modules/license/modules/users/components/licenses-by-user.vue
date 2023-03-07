@@ -35,7 +35,7 @@
         sortable
         @sort="sort"
       >
-        <template slot="name" slot-scope="{ item }">
+        <template v-slot:name="{ item }">
           <item-link
             :id="item.id"
             :route-name="RouteNames.USERS"
@@ -46,8 +46,7 @@
 
         <template
           v-for="(license, key) of licenseHeaders"
-          :slot="license.value"
-          slot-scope="{ item }"
+          v-slot:[license.value]="{ item }"
         >
           <wt-checkbox
             :key="key"
@@ -109,7 +108,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-::v-deep .wt-table__th {
+:deep(.wt-table__th) {
   word-break: normal;
 }
 </style>

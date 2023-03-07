@@ -98,16 +98,16 @@ export default {
   display: flex;
   gap: var(--spacing-sm);
 
-  .chat-preview-section ::v-deep {
+  .chat-preview-section {
     flex-basis: max-content;
     display: flex;
     flex-direction: column;
 
-    #wt-omni-widget.wt-omni-widget--position-static {
+    :deep(#wt-omni-widget.wt-omni-widget--position-static) {
       z-index: 1;
     }
 
-    .chat-button-preview-section {
+    :deep(.chat-button-preview-section) {
       align-self: center;
       justify-self: center;
       position: relative;
@@ -119,7 +119,7 @@ export default {
       margin-top: var(--spacing-sm);
     }
 
-    .chat-button-preview-section::after {
+    :deep(.chat-button-preview-section::after) {
       content: '';
       position: absolute;
       top: 0;

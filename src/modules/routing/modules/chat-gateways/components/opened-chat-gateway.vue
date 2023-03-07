@@ -9,7 +9,7 @@
         :secondary-action="close"
       >
         <wt-headline-nav :path="path"></wt-headline-nav>
-        <template slot="actions">
+        <template v-slot:actions>
           <webchat-copy-code-button
             v-if="isWebchat"
             :item-instance="itemInstance"
@@ -32,7 +32,7 @@
           :is="currentTab.value"
           v-if="currentTab"
           :namespace="namespace"
-          :v="$v"
+          :v="v$"
         ></component>
         <input hidden type="submit"> <!--  submit form on Enter  -->
       </form>
@@ -41,9 +41,10 @@
 </template>
 
 <script>
+import { useVuelidate } from '@vuelidate/core';
 import {
   maxValue, minLength, minValue, numeric, required, url,
-} from 'vuelidate/lib/validators';
+} from '@vuelidate/validators';
 import { mapActions } from 'vuex';
 import openedObjectMixin from '../../../../../app/mixins/objectPagesMixins/openedObjectMixin/openedObjectMixin';
 import ChatGatewayProvider from '../enum/ChatGatewayProvider.enum';
@@ -94,7 +95,9 @@ export default {
   data: () => ({
     namespace: 'routing/chatGateways',
   }),
-
+  setup: () => ({
+    v$: useVuelidate(),
+  }),
   validations() {
     const defaults = {
       name: { required },

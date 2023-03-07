@@ -37,13 +37,13 @@
         :headers="headers"
         :grid-actions="!disableUserInput"
       >
-        <template slot="name" slot-scope="{ item }">
+        <template v-slot:name="{ item }">
           {{ permissionNameLocale[item.id] }}
         </template>
-        <template slot="usage" slot-scope="{ item }">
+        <template v-slot:usage="{ item }">
           {{ permissionUsageLocale[item.id] }}
         </template>
-        <template slot="actions" slot-scope="{ item, index }">
+        <template v-slot:actions="{ item, index }">
           <edit-action
             @click="edit(index)"
           ></edit-action>

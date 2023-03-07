@@ -4,7 +4,7 @@
     min-width="680"
     @close="close"
   >
-    <template slot="title">
+    <template v-slot:title>
       {{ $t('objects.importCSV') }}
     </template>
     <template v-slot:main>
@@ -43,7 +43,7 @@
     </template>
     <template
       v-if="!isReadingFile"
-      slot="actions"
+      v-slot:actions
     >
       <wt-button
         :loading="isParsingCSV"
