@@ -22,7 +22,7 @@
         ></wt-tabs>
         <component
           :is="currentTab.value"
-          :v="$v"
+          :v="v$"
           :namespace="namespace"
         ></component>
         <input type="submit" hidden> <!--  submit form on Enter  -->
@@ -32,7 +32,8 @@
 </template>
 
 <script>
-import { required } from 'vuelidate/lib/validators';
+import { useVuelidate } from '@vuelidate/core';
+import { required } from '@vuelidate/validators';
 import General from './opened-role-general.vue';
 import Permissions from './role-permissions/opened-role-permissions.vue';
 import ApplicationsAccess from './role-applications-access/opened-role-applications-access.vue';
@@ -46,6 +47,9 @@ export default {
     namespace: 'permissions/roles',
   }),
 
+  setup: () => ({
+    v$: useVuelidate(),
+  }),
   validations: {
     itemInstance: {
       name: { required },

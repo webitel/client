@@ -5,7 +5,7 @@
     v-on="$listeners"
     option-label="name"
   >
-    <template slot="singleLabel" slot-scope="{ option, optionLabel }">
+    <template v-slot:singleLabel="{ option, optionLabel }">
           <span class="multiselect__single-label permissions-tab-role-popup__select-option">
             <permissions-role-icon
               :user="option.user"
@@ -14,7 +14,7 @@
           </span>
     </template>
 
-    <template slot="option" slot-scope="{ option, optionLabel }">
+    <template v-slot:option="{ option, optionLabel }">
           <span class="permissions-tab-role-popup__select-option">
             <permissions-role-icon
               :user="option.user"

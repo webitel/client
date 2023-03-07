@@ -5,13 +5,13 @@
     overflow
     @close="close"
   >
-    <template slot="title">{{ title }}</template>
+    <template v-slot:title>{{ title }}</template>
     <template v-slot:main>
       <ul class="popup-options">
         <li
           v-for="(option, key) of options"
           :key="key"
-          :class="{'active': option === selected}"
+          :class="{'active': option.value === selected.value }"
           class="popup-options__item-wrap"
           @click="selectOption(option)"
         >
@@ -39,7 +39,7 @@
       <slot name="after-section"></slot>
     </template>
 
-    <template slot="actions">
+    <template v-slot:actions>
       <wt-button
         :disabled="!selected"
         @click="add"

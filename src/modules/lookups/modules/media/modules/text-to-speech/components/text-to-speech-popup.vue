@@ -24,14 +24,14 @@
           <wt-input
             v-model="draft.name"
             :label="$t('reusable.name')"
-            :v="$v.draft.name"
+            :v="v$.draft.name"
           ></wt-input>
           <wt-select
             v-model="draft.profile"
             :clearable="false"
             :label="$tc('objects.integrations.cognitiveProfiles.cognitiveProfiles', 1)"
             :search-method="searchProfiles"
-            :v="$v.draft.profile"
+            :v="v$.draft.profile"
           ></wt-select>
           <wt-select
             v-model="draft.textType"
@@ -64,7 +64,7 @@
           <wt-textarea
             v-model="draft.text"
             :label="$t('vocabulary.text')"
-            :v="$v.draft.text"
+            :v="v$.draft.text"
           ></wt-textarea>
         </form>
       </template>
@@ -109,7 +109,8 @@
 </template>
 
 <script>
-import { required } from 'vuelidate/lib/validators';
+import { useVuelidate } from '@vuelidate/core';
+import { required } from '@vuelidate/validators';
 import { StorageServiceType } from 'webitel-sdk';
 import TtsMicrosoftLanguage from 'webitel-sdk/esm2015/enums/cloud-providers/microsoft/microsoft-language.enum';
 import validationMixin
@@ -143,6 +144,9 @@ export default {
     audioUrl: '',
     isGenerating: false,
     isSaving: false,
+  }),
+  setup: () => ({
+    v$: useVuelidate(),
   }),
   validations: {
     draft: {

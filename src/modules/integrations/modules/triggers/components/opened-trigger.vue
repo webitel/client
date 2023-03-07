@@ -30,7 +30,7 @@
         ></wt-tabs>
         <component
           :is="currentTab.value"
-          :v="$v"
+          :v="v$"
           :namespace="namespace"
         ></component>
         <input type="submit" hidden> <!--  submit form on Enter  -->
@@ -40,7 +40,8 @@
 </template>
 
 <script>
-import { required, numeric, minValue } from 'vuelidate/lib/validators';
+import { useVuelidate } from '@vuelidate/core';
+import { required, numeric, minValue } from '@vuelidate/validators';
 import { isValidCron } from 'cron-validator';
 import General from './opened-trigger-general.vue';
 import Variables from './opened-trigger-variables.vue';
@@ -61,6 +62,9 @@ export default {
     namespace: 'integrations/triggers',
   }),
 
+  setup: () => ({
+    v$: useVuelidate(),
+  }),
   validations: {
     itemInstance: {
       name: { required },

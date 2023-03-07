@@ -16,14 +16,14 @@
         >
           <wt-input
             :value="variable.key"
-            :v="v.itemInstance.variables.$each[key].key"
+            :v="v.itemInstance.variables.$each.$response.$data[key].key"
             :placeholder="$t('objects.directory.users.varKey')"
             :disabled="disableUserInput"
             @input="setVariableProp({index: key, prop: 'key', value: $event})"
           ></wt-input>
           <wt-input
             :value="variable.value"
-            :v="v.itemInstance.variables.$each[key].value"
+            :v="v.itemInstance.variables.$each.$response.$data[key].value"
             :placeholder="$t('objects.directory.users.varVal')"
             :disabled="disableUserInput"
             @input="setVariableProp({index: key, prop: 'value', value: $event})"

@@ -61,15 +61,15 @@
       sortable
       @sort="sort"
     >
-      <template slot="number" slot-scope="{ item }">
+      <template v-slot:number="{ item }">
         {{ item.number }}
       </template>
 
-      <template slot="description" slot-scope="{ item }">
+      <template v-slot:description="{ item }">
         {{ item.description }}
       </template>
 
-      <template slot="actions" slot-scope="{ item }">
+      <template v-slot:actions="{ item }">
         <edit-action
           @click="edit(item)"
         ></edit-action>

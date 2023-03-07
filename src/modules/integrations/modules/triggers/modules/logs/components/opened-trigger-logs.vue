@@ -14,13 +14,13 @@
         sortable
         @sort="sort"
       >
-        <template slot="startedAt" slot-scope="{ item }">
+        <template v-slot:startedAt="{ item }">
           {{ formatDate(item.startedAt) }}
         </template>
-        <template slot="duration" slot-scope="{ item }">
+        <template v-slot:duration="{ item }">
           {{ calcDuration(item) }}
         </template>
-        <template slot="state" slot-scope="{ item }">
+        <template v-slot:state="{ item }">
           {{ $t(`objects.integrations.triggers.logs.resultName.${item.state}`) }}
         </template>
       </wt-table>

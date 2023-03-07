@@ -23,7 +23,7 @@
         ></wt-tabs>
         <component
           :is="currentTab.value"
-          :v="$v"
+          :v="v$"
           :namespace="namespace"
         ></component>
         <input type="submit" hidden> <!--  submit form on Enter  -->
@@ -33,8 +33,8 @@
 </template>
 
 <script>
-import { required } from 'vuelidate/lib/validators';
-import { mapState } from 'vuex';
+import { required } from '@vuelidate/validators';
+import { useVuelidate }from '@vuelidate/core';
 import General from './opened-region-general.vue';
 import openedObjectMixin from '../../../../../app/mixins/objectPagesMixins/openedObjectMixin/openedObjectMixin';
 
@@ -45,7 +45,9 @@ export default {
   data: () => ({
     namespace: 'lookups/regions',
   }),
-
+  setup: () => ({
+    v$: useVuelidate(),
+  }),
   validations: {
     itemInstance: {
       name: { required },

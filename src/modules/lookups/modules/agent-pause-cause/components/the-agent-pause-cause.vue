@@ -50,36 +50,36 @@
             sortable
             @sort="sort"
           >
-            <template slot="name" slot-scope="{ item }">
+            <template v-slot:name="{ item }">
               <item-link :link="editLink(item)">
                 {{ item.name }}
               </item-link>
             </template>
-            <template slot="limit" slot-scope="{ item }">
+            <template v-slot:limit="{ item }">
               {{ prettifyPauseCauseLimit(item.limitMin) }}
             </template>
-            <template slot="allowAdmin" slot-scope="{ item, index }">
+            <template v-slot:allowAdmin="{ item, index }">
               <wt-checkbox
                 :selected="item.allowAdmin"
                 :disabled="!hasEditAccess"
                 @change="changeAdminPermissions({ item, index, value: $event })"
               ></wt-checkbox>
             </template>
-            <template slot="allowSupervisor" slot-scope="{ item, index }">
+            <template v-slot:allowSupervisor="{ item, index }">
               <wt-checkbox
                 :selected="item.allowSupervisor"
                 :disabled="!hasEditAccess"
                 @change="changeSupervisorPermissions({ item, index, value: $event })"
               ></wt-checkbox>
             </template>
-            <template slot="allowAgent" slot-scope="{ item, index }">
+            <template v-slot:allowAgent="{ item, index }">
               <wt-checkbox
                 :selected="item.allowAgent"
                 :disabled="!hasEditAccess"
                 @change="changeAgentPermissions({ item, index, value: $event })"
               ></wt-checkbox>
             </template>
-            <template slot="actions" slot-scope="{ item }">
+            <template v-slot:actions="{ item }">
               <edit-action
                 v-if="hasEditAccess"
                 @click="edit(item)"

@@ -14,7 +14,7 @@
         <section class="popup-flows">
           <button
             v-for="(editor) of editorOptions"
-            :class="{ 'active': editor === selected }"
+            :class="{ 'active': editor.value === selected.value }"
             class="popup-flow-editor"
             @click="selected = editor"
           >
@@ -130,12 +130,12 @@ $pic-width: 206px;
 $pic-height: 136px;
 
 //Change some selection-popup styles
-.selection-popup ::v-deep {
-  .popup-options {
+.selection-popup {
+  :deep(.popup-options) {
     display: none;
   }
 
-  .wt-button {
+  :deep(.wt-button) {
     flex: 1;
   }
 }

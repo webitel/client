@@ -4,9 +4,11 @@ const filterComponentMixinMock = () => ({
       locale: {},
     }),
   },
-  mocks: {
-    $route: {
-      query: {},
+  global: {
+    mocks: {
+      $route: {
+        query: {},
+      },
     },
   },
 });

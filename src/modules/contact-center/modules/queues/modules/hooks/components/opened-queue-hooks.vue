@@ -37,20 +37,20 @@
         sortable
         @sort="sort"
       >
-        <template slot="event" slot-scope="{ item }">
+        <template v-slot:event="{ item }">
           {{ $t(`objects.ccenter.queues.hooks.eventTypes.${item.event}`) }}
         </template>
-        <template slot="schema" slot-scope="{ item }">
+        <template v-slot:schema="{ item }">
           {{ item.schema.name }}
         </template>
-        <template slot="state" slot-scope="{ item, index }">
+        <template v-slot:state="{ item, index }">
           <wt-switcher
             :value="item.enabled"
             :disabled="!hasEditAccess"
             @change="patchItem({ item, index, prop: 'enabled', value: $event })"
           ></wt-switcher>
         </template>
-        <template slot="actions" slot-scope="{ item }">
+        <template v-slot:actions="{ item }">
           <edit-action
             @click="edit(item)"
           ></edit-action>

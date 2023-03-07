@@ -11,7 +11,7 @@
           :selectable="false"
           :grid-actions="false"
         >
-          <template slot="bucket" slot-scope="{ item }">
+          <template v-slot:bucket="{ item }">
             {{ item.name }}
           </template>
         </wt-table>

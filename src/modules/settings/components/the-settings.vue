@@ -16,14 +16,14 @@
           <form @submit="changePassword">
             <wt-input
               v-model="newPassword"
-              :v="$v.newPassword"
+              :v="v$.newPassword"
               :label="$t('auth.password')"
               type="password"
               required
             ></wt-input>
             <wt-input
               v-model="confirmNewPassword"
-              :v="$v.confirmNewPassword"
+              :v="v$.confirmNewPassword"
               :label="$t('auth.confirmPassword')"
               type="password"
               required
@@ -80,8 +80,9 @@
 </template>
 
 <script>
+import { useVuelidate } from '@vuelidate/core';
 import getNamespacedState from '@webitel/ui-sdk/src/store/helpers/getNamespacedState';
-import { sameAs, required } from 'vuelidate/lib/validators';
+import { sameAs, required } from '@vuelidate/validators';
 import { mapState } from 'vuex';
 import { changePassword, changeWebPhone, getWebPhone } from '../api/settings';
 import objectHeader from '../../../app/components/utils/object-utils/the-object-header.vue';
@@ -91,6 +92,7 @@ export default {
   components: {
     objectHeader,
   },
+  inject: ['$eventBus'],
   data: () => ({
     newPassword: '',
     confirmNewPassword: '',
@@ -117,6 +119,9 @@ export default {
     ],
   }),
 
+  setup: () => ({
+    v$: useVuelidate(),
+  }),
   validations: {
     newPassword: {
       required,
@@ -137,8 +142,8 @@ export default {
       },
     }),
     disablePasswordChange() {
-      this.$v.$touch();
-      return this.$v.$pending || this.$v.$error;
+      this.v$.$touch();
+      return this.v$.$pending || this.v$.$error;
     },
   },
 

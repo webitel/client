@@ -11,7 +11,7 @@
           :selectable="false"
           :grid-actions="false"
         >
-          <template slot="skill" slot-scope="{ item }">
+          <template v-slot:skill="{ item }">
             {{ item.name }}
           </template>
         </wt-table>

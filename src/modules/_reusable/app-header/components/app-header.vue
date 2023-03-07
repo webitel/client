@@ -24,6 +24,7 @@ import router from '../../../../app/router/router';
 export default {
   name: 'app-header',
   mixins: [navMixin],
+  inject: ['$config'],
   data: () => ({
     buildInfo: {
       release: process.env.VUE_APP_PACKAGE_VERSION,

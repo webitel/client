@@ -14,7 +14,7 @@ describe('OpenedTriggerGeneral', () => {
       OpenedTabComponentMixinMock(),
       {
         i18n: {},
-        propsData: {
+        props: {
           v: {
             itemInstance: {
               expression: {},

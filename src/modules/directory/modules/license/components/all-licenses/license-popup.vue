@@ -7,7 +7,7 @@
       <form @submit.prevent="save">
         <wt-input
           v-model="itemInstance.certificate"
-          :v="$v.itemInstance.certificate"
+          :v="v$.itemInstance.certificate"
           :label="$t('objects.directory.license.licenseKey')"
           required
           @input="updateValidations"
@@ -26,8 +26,9 @@
 </template>
 
 <script>
+import { useVuelidate } from '@vuelidate/core';
 import { mapActions } from 'vuex';
-import { required } from 'vuelidate/lib/validators';
+import { required } from '@vuelidate/validators';
 import validationMixin from '../../../../../../app/mixins/baseMixins/openedObjectValidationMixin/openedObjectValidationMixin';
 
 export default {
@@ -41,6 +42,9 @@ export default {
     invalid: true,
   }),
 
+  setup: () => ({
+    v$: useVuelidate(),
+  }),
   validations: {
     itemInstance: {
       certificate: { required },

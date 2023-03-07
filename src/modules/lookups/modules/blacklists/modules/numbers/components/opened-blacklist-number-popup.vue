@@ -1,13 +1,13 @@
 <template>
   <wt-popup min-width="480" overflow @close="close">
-    <template slot="title">
+    <template v-slot:title>
       {{ $t('objects.lookups.blacklist.newNumber') }}
     </template>
     <template v-slot:main>
       <form>
         <wt-input
           :value="itemInstance.number"
-          :v="$v.itemInstance.number"
+          :v="v$.itemInstance.number"
           :label="$tc('objects.lookups.blacklist.number', 1)"
           required
           @input="setItemProp({ prop: 'number', value: $event })"
@@ -19,7 +19,7 @@
         ></wt-textarea>
       </form>
     </template>
-    <template slot="actions">
+    <template v-slot:actions>
       <wt-button
         :disabled="disabledSave"
         @click="save"
@@ -35,7 +35,8 @@
 </template>
 
 <script>
-import { required } from 'vuelidate/lib/validators';
+import { useVuelidate } from '@vuelidate/core';
+import { required } from '@vuelidate/validators';
 import nestedObjectMixin from '../../../../../../../app/mixins/objectPagesMixins/openedObjectMixin/nestedObjectMixin';
 
 export default {
@@ -45,6 +46,9 @@ export default {
     namespace: 'lookups/blacklists/numbers',
   }),
 
+  setup: () => ({
+    v$: useVuelidate(),
+  }),
   validations: {
     itemInstance: {
       number: { required },

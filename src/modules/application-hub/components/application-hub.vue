@@ -125,7 +125,7 @@
     export default {
         name: 'the-application-hub',
         components: { CcHeader },
-
+         inject: ['$config'],
         computed: {
           ...mapGetters('userinfo', {
             checkAccess: 'CHECK_APP_ACCESS',

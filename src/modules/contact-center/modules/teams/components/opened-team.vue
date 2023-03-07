@@ -22,7 +22,7 @@
         ></wt-tabs>
         <component
           :is="currentTab.value"
-          :v="$v"
+          :v="v$"
           :namespace="namespace"
         ></component>
         <input type="submit" hidden> <!--  submit form on Enter  -->
@@ -32,7 +32,8 @@
 </template>
 
 <script>
-import { numeric, required } from 'vuelidate/lib/validators';
+import { useVuelidate } from '@vuelidate/core';
+import { numeric, required } from '@vuelidate/validators';
 import General from './opened-team-general.vue';
 import Supervisors from '../modules/supervisors/components/opened-team-supervisors.vue';
 import Agents from '../modules/agents/components/opened-team-agents.vue';
@@ -53,6 +54,9 @@ export default {
     namespace: 'ccenter/teams',
   }),
 
+  setup: () => ({
+    v$: useVuelidate(),
+  }),
   validations: {
     itemInstance: {
       name: { required },

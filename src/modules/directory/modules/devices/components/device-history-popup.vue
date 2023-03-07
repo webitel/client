@@ -22,13 +22,13 @@
             :selectable="false"
             :grid-actions="false"
           >
-            <template slot="loggedIn" slot-scope="{ item }">
+            <template v-slot:loggedIn="{ item }">
               {{ prettifyTime(item.loggedIn) }}
             </template>
-            <template slot="loggedOut" slot-scope="{ item }">
+            <template v-slot:loggedOut="{ item }">
               {{ prettifyTime(item.loggedOut) }}
             </template>
-            <template slot="user" slot-scope="{ item }">
+            <template v-slot:user="{ item }">
               <div v-if="item.user">
                 {{ item.user.name }}
               </div>

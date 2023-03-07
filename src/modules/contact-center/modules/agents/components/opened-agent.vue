@@ -23,7 +23,7 @@
         <component
           :is="currentTab.value"
           :namespace="namespace"
-          :v="$v"
+          :v="v$"
         ></component>
         <input type="submit" hidden> <!--  submit form on Enter  -->
       </form>
@@ -32,7 +32,8 @@
 </template>
 
 <script>
-import { required } from 'vuelidate/lib/validators';
+import { useVuelidate } from '@vuelidate/core';
+import { required } from '@vuelidate/validators';
 import openedObjectMixin from '../../../../../app/mixins/objectPagesMixins/openedObjectMixin/openedObjectMixin';
 import Queues from '../modules/queues/components/opened-agent-queues.vue';
 import Skills from '../modules/skills/components/opened-agent-skills.vue';
@@ -52,7 +53,9 @@ export default {
   data: () => ({
     namespace: 'ccenter/agents',
   }),
-
+  setup: () => ({
+    v$: useVuelidate(),
+  }),
   validations: {
     itemInstance: {
       user: { required },

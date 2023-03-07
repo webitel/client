@@ -50,21 +50,21 @@
         sortable
         @sort="sort"
       >
-        <template slot="name" slot-scope="{ item }">
+        <template v-slot:name="{ item }">
           <div v-if="item.skill">
             {{ item.skill.name }}
           </div>
         </template>
 
-        <template slot="capacity" slot-scope="{ item }">
+        <template v-slot:capacity="{ item }">
           {{ item.minCapacity }} - {{ item.maxCapacity }}
         </template>
 
-        <template slot="lvl" slot-scope="{ item }">
+        <template v-slot:lvl="{ item }">
           {{ item.lvl }}
         </template>
 
-        <template slot="buckets" slot-scope="{ item }">
+        <template v-slot:buckets="{ item }">
           <div>{{ getFirstBucket(item.buckets) }}
             <span class="hidden-num"
                   @click="readBuckets(item)"
@@ -72,14 +72,14 @@
             >+{{ item.buckets.length - 1 }}</span>
           </div>
         </template>
-        <template slot="state" slot-scope="{ item, index }">
+        <template v-slot:state="{ item, index }">
           <wt-switcher
             :value="item.enabled"
             :disabled="!hasEditAccess"
             @change="patchItem({ item, index, prop: 'enabled', value: $event })"
           ></wt-switcher>
         </template>
-        <template slot="actions" slot-scope="{ item }">
+        <template v-slot:actions="{ item }">
           <edit-action
             @click="edit(item)"
           ></edit-action>

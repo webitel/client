@@ -11,7 +11,7 @@
           :selectable="false"
           :grid-actions="false"
         >
-          <template slot="subordinate" slot-scope="{ item }">
+          <template v-slot:subordinate="{ item }">
             {{ item.user.name }}
           </template>
         </wt-table>

@@ -20,16 +20,16 @@
         :grid-actions="!disableUserInput"
         :selectable="false"
       >
-        <template slot="name" slot-scope="{ item }">
+        <template v-slot:name="{ item }">
           {{ item.displayName }}
         </template>
-        <template slot="access" slot-scope="{ item }">
+        <template v-slot:access="{ item }">
           <wt-switcher
             :value="item.enabled"
             @change="updateAccess({ app: item.name, value: $event })"
           ></wt-switcher>
         </template>
-        <template slot="actions" slot-scope="{ item }">
+        <template v-slot:actions="{ item }">
           <edit-action
             v-if="item.isEditAction"
             @click="edit(item)"

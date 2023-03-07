@@ -43,12 +43,12 @@
         sortable
         @sort="sort"
       >
-        <template slot="id" slot-scope="{ item }">
+        <template v-slot:id="{ item }">
           <wt-copy-action
             :value="item.id"
           ></wt-copy-action>
         </template>
-        <template slot="product" slot-scope="{ item }">
+        <template v-slot:product="{ item }">
           <div class="all-licenses__product-cell">
             <wt-icon
               icon="license"
@@ -58,15 +58,15 @@
           </div>
         </template>
 
-        <template slot="valid-from" slot-scope="{ item }">
+        <template v-slot:valid-from="{ item }">
           {{ prettifyDate(item.notBefore) }}
         </template>
 
-        <template slot="valid-till" slot-scope="{ item }">
+        <template v-slot:valid-till="{ item }">
           {{ prettifyDate(item.notAfter) }}
         </template>
 
-        <template slot="used" slot-scope="{ item }">
+        <template v-slot:used="{ item }">
           <item-link :link="editLink(item)">
             <wt-icon
               icon="license-users"
@@ -76,11 +76,11 @@
           </item-link>
         </template>
 
-        <template slot="competitive" slot-scope="{ item }">
+        <template v-slot:competitive="{ item }">
           {{ item.competitive ? $t('reusable.true') : '' }}
         </template>
 
-        <template slot="status" slot-scope="{ item }">
+        <template v-slot:status="{ item }">
           <wt-chip :class="statusClass(item.notAfter)" class="license-status">
             {{ statusText(item.notAfter) }}
           </wt-chip>

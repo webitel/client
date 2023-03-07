@@ -1,4 +1,3 @@
-import Vue from 'vue';
 import AddAction from './add-action.vue';
 import DeleteAction from './delete-action.vue';
 import DeleteAllAction from './delete-all-action.vue';
@@ -15,6 +14,4 @@ const actions = [
   HistoryAction,
 ];
 
-actions.forEach((component) => {
-  Vue.component(component.name, component);
-});
+export default actions;

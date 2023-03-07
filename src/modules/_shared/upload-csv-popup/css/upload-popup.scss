@@ -3,7 +3,7 @@
     grid-auto-rows: minmax(40px, auto); // override default
   }
 
-  ::v-deep .wt-popup__popup {
+  :deep(.wt-popup__popup) {
     min-height: 40vh; // to place loader in the center, till file is parsed
   }
 
@@ -42,10 +42,9 @@
         }
       }
 
-      &__select ::v-deep {
-        .wt-label, .wt-input-info {
-          display: none;
-        }
+      &__select :deep(.wt-label),
+      &__select :deep(.wt-input-info){
+        display: none;
       }
     }
   }
