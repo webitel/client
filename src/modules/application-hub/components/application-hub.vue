@@ -84,42 +84,42 @@
         title: {
           md: admTitleMd,
           sm: admTitleSm,
-        }
+        },
     };
     const picAgent = {
         img: agentPic,
         title: {
           md: agentTitleMd,
           sm: agentTitleSm,
-        }
+        },
     };
     const picAudit = {
         img: auditPic,
         title: {
           md: auditTitleMd,
           sm: auditTitleSm,
-        }
+        },
     };
     const picHistory = {
         img: historyPic,
         title: {
           md: historyTitleMd,
           sm: historyTitleSm,
-        }
+        },
     };
     const picSupervisor = {
         img: supervisorPic,
         title: {
           md: supervisorTitleMd,
           sm: supervisorTitleSm,
-        }
+        },
     };
     const picGrafana = {
         img: grafanaPic,
         title: {
           md: grafanaTitleMd,
           sm: grafanaTitleSm,
-        }
+        },
     };
 
     export default {
