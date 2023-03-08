@@ -8,7 +8,6 @@
       <wt-loader></wt-loader>
     </div>
     <div
-      v-show="!isLoading"
       id="flow-diagram"
     ></div>
   </section>
