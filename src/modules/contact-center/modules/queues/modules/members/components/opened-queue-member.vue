@@ -40,7 +40,7 @@
 import { useVuelidate } from '@vuelidate/core';
 import { mapActions, mapState } from 'vuex';
 import getNamespacedState from '@webitel/ui-sdk/src/store/helpers/getNamespacedState';
-import required from '@vuelidate/validators';
+import { required } from '@vuelidate/validators';
 import General from './opened-queue-member-general.vue';
 import Communication from './communications/opened-queue-member-communication.vue';
 import Variables from './opened-queue-member-variables.vue';
