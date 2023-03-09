@@ -76,10 +76,14 @@
             </template>
 
             <template v-slot:provider="{ item }">
-              <wt-icon v-if="iconType[item.provider] && !Array.isArray(providerIcon(item.provider))"
-                       :icon="iconType[item.provider]"
+              <wt-icon
+                v-if="iconType[item.provider] && !Array.isArray(providerIcon(item.provider))"
+                :icon="iconType[item.provider]"
               />
-              <div v-else-if="iconType[item.provider] && Array.isArray(providerIcon(item.provider))">
+              <div
+                v-else-if="iconType[item.provider] && Array.isArray(providerIcon(item.provider))"
+                class="provider-icons-wrapper"
+              >
                 <wt-icon
                   v-for="(icon, key) of providerIcon(item.provider)"
                   :icon="icon"
@@ -178,3 +182,13 @@ export default {
   },
 };
 </script>
+
+<style lang="scss" scoped>
+
+.table-wrapper {
+  .provider-icons-wrapper {
+    display: flex;
+  }
+}
+
+</style>
