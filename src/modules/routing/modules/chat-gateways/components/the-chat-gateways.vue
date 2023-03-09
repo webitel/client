@@ -76,8 +76,17 @@
             </template>
 
             <template slot="provider" slot-scope="{ item }">
-              <wt-icon v-if="iconType[item.provider]"
-                       :icon="iconType[item.provider]"/>
+              <wt-icon v-if="iconType[item.provider] && !Array.isArray(providerIcon(item.provider))"
+                       :icon="iconType[item.provider]"
+              />
+              <div v-else-if="iconType[item.provider] && Array.isArray(providerIcon(item.provider))">
+                <wt-icon
+                  v-for="(icon, key) of providerIcon(item.provider)"
+                  :icon="icon"
+                  :key="key"
+                  size="md"
+                ></wt-icon>
+              </div>
               <p v-else> {{ item.provider }} </p>
             </template>
 
@@ -157,6 +166,15 @@ export default {
     create() {
       this.isChatGatewayPopup = true;
     },
+    providerIcon(value) {
+      switch (value) {
+        case ChatGatewayProvider.INFOBIP:
+          return [iconType[value], 'send-arrow', 'messenger-whatsapp'];
+        case ChatGatewayProvider.MESSENGER:
+          return [iconType[value], 'send-arrow', 'messenger-facebook', 'instagram', 'messenger-whatsapp'];
+        default: return iconType[value];
+      }
+    }
   },
 };
 </script>

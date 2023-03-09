@@ -15,9 +15,21 @@
           class="popup-options__item-wrap"
           @click="selectOption(option)"
         >
+          <slot name="icon">
           <wt-icon
-            v-if="option.icon" :icon="option.icon" size="sm"
+            v-if="option.icon && !Array.isArray(option.icon)" :icon="option.icon" size="sm"
           ></wt-icon>
+          <div
+              v-if="Array.isArray(option.icon)"
+              class="popup-options__icons-wrap"
+          >
+            <wt-icon
+                v-for="(icon, key) of option.icon"
+                :icon="icon"
+                :key="key"
+                size="sm"
+            ></wt-icon>
+          </div>
           <h4 class="popup-options__item-header">{{ option.title }}</h4>
           <wt-tooltip
             popper-class="selection-popup__tooltip-popper"
@@ -130,11 +142,13 @@ export default {
     .popup-options__item-header {
       @extend %typo-subtitle-2;
     }
+
+    &__icons-wrap {
+      display: flex;
+    }
   }
 }
-</style>
 
-<style>
 .selection-popup__tooltip-popper {
   max-width: 480px;
 }
