@@ -1,8 +1,8 @@
 <template>
   <section>
     <header class="content-header">
-      <wt-icon icon="messenger" icon-prefix="messenger" size="sm"></wt-icon>
-      <h3 class="content-title">{{ $t('objects.routing.chatGateways.messenger.messenger') }}</h3>
+      <wt-icon icon="meta" size="md"></wt-icon>
+      <h3 class="content-title">{{ $t('objects.routing.chatGateways.messenger.meta') }}</h3>
     </header>
     <div class="object-input-grid">
       <wt-input

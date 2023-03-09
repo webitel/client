@@ -60,8 +60,8 @@ export default {
       };
       const messenger = {
         value: ChatGatewayProvider.MESSENGER,
-        title: this.$t('objects.routing.chatGateways.messenger.messenger'),
-        icon: ['messenger-messenger', 'send-arrow', 'messenger-facebook', 'instagram', 'messenger-whatsapp'],
+        title: this.$t('objects.routing.chatGateways.messenger.meta'),
+        icon: ['meta', 'send-arrow', 'messenger-facebook', 'instagram', 'messenger-whatsapp'],
       };
       const viber = {
         value: ChatGatewayProvider.VIBER,
