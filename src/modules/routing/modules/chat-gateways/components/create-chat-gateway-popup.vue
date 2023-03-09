@@ -39,7 +39,7 @@ export default {
   components: { SelectionPopup },
 
   data: () => ({
-    selected: null,
+    selected: {},
   }),
   computed: {
     options() {
