@@ -15,22 +15,24 @@
           class="popup-options__item-wrap"
           @click="selectOption(option)"
         >
-          <wt-icon
-            v-if="option.icon" :icon="option.icon" size="sm"
-          ></wt-icon>
-          <h4 class="popup-options__item-header">{{ option.title }}</h4>
-          <wt-tooltip
-            popper-class="selection-popup__tooltip-popper"
-          >
-            <template v-slot:activator>
-              <wt-icon-btn
-                v-if="option.description"
-                color="outline"
-                icon="rounded-info"
-              ></wt-icon-btn>
-            </template>
-            {{ option.description }}
-          </wt-tooltip>
+          <slot name="option" v-bind:option="option">
+            <wt-icon
+              v-if="option.icon" :icon="option.icon" size="sm"
+            ></wt-icon>
+            <h4 class="popup-options__item-header">{{ option.title }}</h4>
+            <wt-tooltip
+              popper-class="selection-popup__tooltip-popper"
+            >
+              <template v-slot:activator>
+                <wt-icon-btn
+                  v-if="option.description"
+                  color="outline"
+                  icon="rounded-info"
+                ></wt-icon-btn>
+              </template>
+              {{ option.description }}
+            </wt-tooltip>
+          </slot>
         </li>
       </ul>
       <!--Slot for displaying specific template styling-->
@@ -130,11 +132,13 @@ export default {
     .popup-options__item-header {
       @extend %typo-subtitle-2;
     }
+
+    &__icons-wrap {
+      display: flex;
+    }
   }
 }
-</style>
 
-<style>
 .selection-popup__tooltip-popper {
   max-width: 480px;
 }
