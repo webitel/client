@@ -15,34 +15,24 @@
           class="popup-options__item-wrap"
           @click="selectOption(option)"
         >
-          <slot name="icon">
-          <wt-icon
-            v-if="option.icon && !Array.isArray(option.icon)" :icon="option.icon" size="sm"
-          ></wt-icon>
-          <div
-              v-if="Array.isArray(option.icon)"
-              class="popup-options__icons-wrap"
-          >
+          <slot name="option" v-bind:option="option">
             <wt-icon
-                v-for="(icon, key) of option.icon"
-                :icon="icon"
-                :key="key"
-                size="sm"
+              v-if="option.icon" :icon="option.icon" size="sm"
             ></wt-icon>
-          </div>
-          <h4 class="popup-options__item-header">{{ option.title }}</h4>
-          <wt-tooltip
-            popper-class="selection-popup__tooltip-popper"
-          >
-            <template v-slot:activator>
-              <wt-icon-btn
-                v-if="option.description"
-                color="outline"
-                icon="rounded-info"
-              ></wt-icon-btn>
-            </template>
-            {{ option.description }}
-          </wt-tooltip>
+            <h4 class="popup-options__item-header">{{ option.title }}</h4>
+            <wt-tooltip
+              popper-class="selection-popup__tooltip-popper"
+            >
+              <template v-slot:activator>
+                <wt-icon-btn
+                  v-if="option.description"
+                  color="outline"
+                  icon="rounded-info"
+                ></wt-icon-btn>
+              </template>
+              {{ option.description }}
+            </wt-tooltip>
+          </slot>
         </li>
       </ul>
       <!--Slot for displaying specific template styling-->

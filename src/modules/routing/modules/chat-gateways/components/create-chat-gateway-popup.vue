@@ -7,6 +7,25 @@
     @close="close"
     @select="createGateway"
   >
+    <template v-slot:option="{ option }">
+      <wt-icon
+        v-if="option.icon && !Array.isArray(option.icon)"
+        :icon="option.icon"
+        size="sm"
+      ></wt-icon>
+      <div
+        v-if="Array.isArray(option.icon)"
+        class="popup-options__icons-wrap"
+      >
+        <wt-icon
+          v-for="(icon, key) of option.icon"
+          :icon="icon"
+          :key="key"
+          size="sm"
+        ></wt-icon>
+      </div>
+      <h4 class="popup-options__item-header">{{ option.title }}</h4>
+    </template>
   </selection-popup>
 </template>
 
@@ -74,3 +93,19 @@ export default {
   },
 };
 </script>
+
+<style lang="scss" scoped>
+.selection-popup {
+  .popup-options__item-wrap {
+    .wt-icon {
+      margin-right: var(--spacing-xs);
+    }
+  }
+  .popup-options__item-header {
+    @extend %typo-subtitle-2;
+  }
+  .popup-options__icons-wrap {
+    display: flex;
+  }
+}
+</style>
