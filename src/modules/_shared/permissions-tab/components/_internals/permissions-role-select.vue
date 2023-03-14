@@ -7,18 +7,22 @@
   >
     <template v-slot:singleLabel="{ option, optionLabel }">
           <span class="multiselect__single-label permissions-tab-role-popup__select-option">
-            <permissions-role-icon
-              :user="option.user"
-            ></permissions-role-icon>
+            <wt-icon
+              class="permissions-role-icon"
+              :icon="option.user ? 'user' : 'role'"
+              color="active"
+            ></wt-icon>
             {{ option[optionLabel] || option }}
           </span>
     </template>
 
     <template v-slot:option="{ option, optionLabel }">
           <span class="permissions-tab-role-popup__select-option">
-            <permissions-role-icon
-              :user="option.user"
-            ></permissions-role-icon>
+            <wt-icon
+              class="permissions-role-icon"
+              :icon="option.user ? 'user' : 'role'"
+              color="active"
+            ></wt-icon>
             {{ option[optionLabel] || option }}
           </span>
     </template>
@@ -26,11 +30,9 @@
 </template>
 
 <script>
-import PermissionsRoleIcon from './permissions-role-icon.vue';
 
 export default {
   name: 'permissions-role-select',
-  components: { PermissionsRoleIcon },
 };
 </script>
 
