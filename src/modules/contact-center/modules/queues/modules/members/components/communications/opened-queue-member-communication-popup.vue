@@ -29,6 +29,11 @@
           :label="$t('objects.ccenter.members.display')"
         ></wt-input>
         <wt-input
+          v-model="itemInstance.dtmf"
+          :v="v$.itemInstance.dtmf"
+          :label="$t('objects.ccenter.members.dtmf')"
+        ></wt-input>
+        <wt-input
           v-model="itemInstance.priority"
           :label="$t('objects.ccenter.members.priority')"
           type="number"
@@ -64,6 +69,8 @@ import ResourcesAPI from '../../../../../resources/api/resources';
 import CommunicationsAPI from '../../../../../../../lookups/modules/communications/api/communications';
 import nestedObjectMixin from '../../../../../../../../app/mixins/objectPagesMixins/openedObjectMixin/nestedObjectMixin';
 
+const digitsDtmfOnly = v => /^[\d|w|W]*$/g.test(v)
+
 export default {
   name: 'opened-agent-skills-popup',
   mixins: [nestedObjectMixin],
@@ -81,6 +88,7 @@ export default {
       type: {},
       resource: {},
       description: '',
+      dtmf: '',
     },
   }),
 
@@ -91,6 +99,7 @@ export default {
     itemInstance: {
       destination: { required },
       type: { required },
+      dtmf: { digitsDtmfOnly },
     },
   },
   created() {

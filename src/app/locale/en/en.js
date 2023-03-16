@@ -659,6 +659,7 @@ export default {
         addMember: 'Add member',
         destination: 'Destination',
         display: 'Display number',
+        dtmf: 'DTMF',
         priority: 'Priority',
         attempts: 'Attempts',
         resetMembers: {
