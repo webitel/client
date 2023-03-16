@@ -156,6 +156,10 @@ export default {
   padding: 0 !important; // override .object-content-wrap > *
 }
 
+#flow-diagram {
+  height: 100%;
+}
+
 .flow-diagram__loading-overlay {
   position: fixed;
   z-index: 10000;
