@@ -65,11 +65,10 @@ import deepCopy from 'deep-copy';
 import { required } from '@vuelidate/validators';
 import { mapActions, mapState } from 'vuex';
 import getNamespacedState from '@webitel/ui-sdk/src/store/helpers/getNamespacedState';
+import { digitsDtmfOnly } from '../../validation/dtmf'
 import ResourcesAPI from '../../../../../resources/api/resources';
 import CommunicationsAPI from '../../../../../../../lookups/modules/communications/api/communications';
 import nestedObjectMixin from '../../../../../../../../app/mixins/objectPagesMixins/openedObjectMixin/nestedObjectMixin';
-
-const digitsDtmfOnly = v => /^[\d|w|W]*$/g.test(v)
 
 export default {
   name: 'opened-agent-skills-popup',

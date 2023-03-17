@@ -1,6 +1,7 @@
 import CommunicationsAPI
   from '../../../../../../lookups/modules/communications/api/communications';
 import QueueMembersAPI from '../api/queueMembers';
+import { digitsDtmfOnly } from '../validation/dtmf'
 
 const findCommunicationIdByCode = ({ communications, code }) => (
   communications.find((communication) => communication.code === code).id
@@ -98,6 +99,14 @@ export default {
             communication.description = normalizedItem.description[index];
           }
 
+          // fill communication dtmf, if present
+          if (normalizedItem.dtmf && normalizedItem.dtmf[index]) {
+            if (!digitsDtmfOnly(normalizedItem.dtmf[index])) {
+              throw new SyntaxError('No valid DTMF were passed!');
+            }
+            communication.dtmf = normalizedItem.dtmf[index];
+          }
+
           // and add this communication to list
           normalizedItem.communications.push(communication);
         }
@@ -113,6 +122,7 @@ export default {
         delete normalizedItem.code;
         delete normalizedItem.commPriority;
         delete normalizedItem.description;
+        delete normalizedItem.dtmf;
 
         return normalizedItem;
       });
