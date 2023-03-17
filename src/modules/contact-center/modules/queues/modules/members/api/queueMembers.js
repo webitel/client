@@ -27,6 +27,7 @@ const communicationsFieldsToSend = [
   'type',
   'resource',
   'description',
+  'dtmf',
 ];
 
 const defaultListObject = {
@@ -53,6 +54,7 @@ const defaultSingleObjectCommunication = {
   type: {},
   resource: {},
   description: '',
+  dtmf: '',
 };
 
 const mapDefaultCommunications = (item) => (

@@ -659,6 +659,7 @@ export default {
         addMember: 'Додати абонента',
         destination: 'Призначення',
         display: 'Відображення номера',
+        dtmf: 'DTMF',
         priority: 'Пріоритет',
         attempts: 'Спроб',
         resetMembers: {

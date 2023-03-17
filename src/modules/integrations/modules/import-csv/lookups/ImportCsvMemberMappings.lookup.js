@@ -59,6 +59,12 @@ const ImportCsvMemberMappings = {
     multiple: true,
     csv: [],
   },
+  dtmf: {
+    locale: ['objects.ccenter.members.dtmf', 1],
+    required: false,
+    multiple: true,
+    csv: [],
+  },
 };
 
 export default ImportCsvMemberMappings;

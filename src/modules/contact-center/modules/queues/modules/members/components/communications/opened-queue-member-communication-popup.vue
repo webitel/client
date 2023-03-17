@@ -29,6 +29,11 @@
           :label="$t('objects.ccenter.members.display')"
         ></wt-input>
         <wt-input
+          v-model="itemInstance.dtmf"
+          :v="v$.itemInstance.dtmf"
+          :label="$t('objects.ccenter.members.dtmf')"
+        ></wt-input>
+        <wt-input
           v-model="itemInstance.priority"
           :label="$t('objects.ccenter.members.priority')"
           type="number"
@@ -60,6 +65,7 @@ import deepCopy from 'deep-copy';
 import { required } from '@vuelidate/validators';
 import { mapActions, mapState } from 'vuex';
 import getNamespacedState from '@webitel/ui-sdk/src/store/helpers/getNamespacedState';
+import { digitsDtmfOnly } from '../../validation/dtmf'
 import ResourcesAPI from '../../../../../resources/api/resources';
 import CommunicationsAPI from '../../../../../../../lookups/modules/communications/api/communications';
 import nestedObjectMixin from '../../../../../../../../app/mixins/objectPagesMixins/openedObjectMixin/nestedObjectMixin';
@@ -81,6 +87,7 @@ export default {
       type: {},
       resource: {},
       description: '',
+      dtmf: '',
     },
   }),
 
@@ -91,6 +98,7 @@ export default {
     itemInstance: {
       destination: { required },
       type: { required },
+      dtmf: { digitsDtmfOnly },
     },
   },
   created() {
