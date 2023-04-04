@@ -1,4 +1,3 @@
-import proxy from '../../../../../app/utils/editProxy';
 import GatewaysAPI from '../api/gateways';
 import ObjectStoreModule from '../../../../../app/store/BaseStoreModules/StoreModules/ObjectStoreModule';
 import registerGateway from './_internals/gatewaySchema/registerGateway';
@@ -9,7 +8,7 @@ const actions = {
   LOAD_REGISTER_ITEM: async (context) => {
     if (context.state.itemId) {
       const item = await context.dispatch('GET_ITEM');
-      context.commit('SET_ITEM', proxy(item));
+      context.commit('SET_ITEM', item);
     } else {
       context.commit('SET_REGISTER_ITEM');
     }
@@ -17,7 +16,7 @@ const actions = {
   LOAD_TRUNKING_ITEM: async (context) => {
     if (context.state.itemId) {
       const item = await context.dispatch('GET_ITEM');
-      context.commit('SET_ITEM', proxy(item));
+      context.commit('SET_ITEM', item);
     } else {
       context.commit('SET_TRUNKING_ITEM');
     }

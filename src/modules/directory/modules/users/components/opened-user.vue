@@ -65,12 +65,12 @@ export default {
     itemInstance: {
       username: { required },
       password: {
-        required: requiredUnless('id'),
+        required: requiredUnless((value, item) => !!item.id),
       },
       variables: {
         $each: helpers.forEach({
-          key: { required: requiredIf('value') },
-          value: { required: requiredIf('key') },
+          key: { required: requiredIf((value, item) => !!item.value) },
+          value: { required: requiredIf((value, item) => !!item.key) },
         }),
       },
     },

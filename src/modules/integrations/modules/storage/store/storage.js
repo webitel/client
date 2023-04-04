@@ -8,7 +8,6 @@ import defaultS3StorageState from './_internals/storageSchema/s3Storage';
 import defaultBackblazeStorageState from './_internals/storageSchema/backblazeStorage';
 import defaultDropboxStorageState from './_internals/storageSchema/dropboxStorage';
 import defaultDriveStorageState from './_internals/storageSchema/driveStorage';
-import proxy from '../../../../../app/utils/editProxy';
 import headers from './_internals/headers';
 
 const resettableState = {
@@ -42,7 +41,7 @@ const actions = {
         item = deepMerge(defaultDriveStorageState(), item);
         break;
     }
-    context.commit('SET_ITEM', proxy(item));
+    context.commit('SET_ITEM', item);
   },
   SET_ITEM_PROPERTIES_PROPERTY: (context, payload) => {
     context.commit('SET_ITEM_PROPERTIES_PROPERTY', payload);

@@ -22,7 +22,6 @@ import defaultPredictiveDialerState from './_internals/queueSchema/predictiveDia
 import defaultChatInboundQueueState from './_internals/queueSchema/chatInboundQueue';
 import defaultInboundJobQueueState from './_internals/queueSchema/inboundJobQueue';
 import defaultOutboundJobQueueState from './_internals/queueSchema/outboundJobQueue';
-import proxy from '../../../../../app/utils/editProxy';
 import headers from './_internals/headers';
 
 const resettableState = {
@@ -52,7 +51,7 @@ const actions = {
   },
   SET_TYPED_ITEM: (context, { type, item = {} }) => {
     const typedItem = deepMerge(queueStateMap[type](), item);
-    context.commit('SET_ITEM', proxy(typedItem));
+    context.commit('SET_ITEM', typedItem);
   },
   SET_ITEM_PAYLOAD_PROPERTY: (context, payload) => {
     context.commit('SET_ITEM_PAYLOAD_PROPERTY', payload);
