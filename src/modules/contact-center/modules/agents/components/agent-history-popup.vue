@@ -25,9 +25,10 @@
             <template v-slot:state="{ item }">
               {{ $t(`${agentState[item.state]}`) }}
             </template>
-            <template v-if="item.channel"
-                      v-slot:channel="{ item }">
+            <template v-slot:channel="{ item }">
+              <span v-if="item.channel">
               {{ $t(`channel.type.${item.channel}`) }}
+              </span>
             </template>
             <template v-slot:from="{ item }">
               {{ prettifyTime(item.joinedAt) }}
