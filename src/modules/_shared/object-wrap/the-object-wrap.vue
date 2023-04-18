@@ -34,6 +34,7 @@ export default {
   display: flex;
   flex-direction: column;
   min-height: 100%;
+  max-width: 100%;
   background: var(--page-bg-color);
 }
 
