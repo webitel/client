@@ -50,7 +50,7 @@ export default {
       certificate: { required },
     },
   },
-  created() {
+  mounted() {
     this.updateValidations();
   },
 
