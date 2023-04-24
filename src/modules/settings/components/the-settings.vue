@@ -116,19 +116,25 @@ export default {
         name: 'Українська',
         id: 'ua',
       },
+      {
+        name: 'Español',
+        id: 'es',
+      },
     ],
   }),
 
   setup: () => ({
     v$: useVuelidate(),
   }),
-  validations: {
-    newPassword: {
-      required,
-    },
-    confirmNewPassword: {
-      sameAs: sameAs('newPassword'),
-    },
+  validations() {
+    return {
+      newPassword: {
+        required,
+      },
+      confirmNewPassword: {
+        sameAs: sameAs(this.newPassword),
+      },
+    };
   },
 
   created() {
