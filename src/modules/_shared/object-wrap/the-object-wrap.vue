@@ -25,7 +25,6 @@ export default {
   display: flex;
   width: 100%;
   min-height: 100%;
-  overflow-y: scroll;
 }
 
 // main content itself, without nav but with main header
