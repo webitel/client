@@ -6,11 +6,10 @@
     <template v-slot:main>
       <form @submit.prevent="save">
         <wt-input
-          v-model="itemInstance.certificate"
-          :v="v$.itemInstance.certificate"
+          v-model="certificate"
+          :v="v$.certificate"
           :label="$t('objects.directory.license.licenseKey')"
           required
-          @input="updateValidations"
         ></wt-input>
       </form>
     </template>
@@ -29,49 +28,43 @@
 import { useVuelidate } from '@vuelidate/core';
 import { mapActions } from 'vuex';
 import { required } from '@vuelidate/validators';
-import validationMixin from '../../../../../../app/mixins/baseMixins/openedObjectValidationMixin/openedObjectValidationMixin';
 
 export default {
   name: 'license-popup',
-  mixins: [validationMixin],
   data: () => ({
     namespace: 'directory/license',
-    itemInstance: {
-      certificate: '',
-    },
-    invalid: true,
+    certificate: '',
   }),
 
   setup: () => ({
     v$: useVuelidate(),
   }),
   validations: {
-    itemInstance: {
-      certificate: { required },
+    certificate: { required, $autoDirty: true },
+  },
+  computed: {
+    invalid() {
+      return this.v$.$error;
     },
   },
-  mounted() {
-    this.updateValidations();
-  },
-
   methods: {
     ...mapActions({
       updateItem(dispatch, payload) {
         return dispatch(`${this.namespace}/UPDATE_ITEM`, payload);
       },
     }),
-    updateValidations() {
-      this.invalid = this.checkValidations();
-    },
     async save() {
       if (!this.invalid) {
-      await this.updateItem(this.itemInstance);
+      await this.updateItem({ certificate: this.certificate });
       this.close();
       }
     },
     close() {
       this.$emit('close');
     },
+  },
+  mounted() {
+    this.v$.$touch();
   },
 };
 </script>
