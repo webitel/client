@@ -4,16 +4,18 @@
     <template v-slot:main>
       <section class="history-popup">
         <div class="history-popup__filters">
-          <wt-datetimepicker
+          <wt-datepicker
             :label="$t('objects.from')"
             :value="from"
-            @change="setFrom"
-          ></wt-datetimepicker>
-          <wt-datetimepicker
+            mode="datetime"
+            @input="setFrom"
+          ></wt-datepicker>
+          <wt-datepicker
             :label="$t('objects.to')"
             :value="to"
-            @change="setTo"
-          ></wt-datetimepicker>
+            mode="datetime"
+            @input="setTo"
+          ></wt-datepicker>
         </div>
         <div class="table-wrapper">
           <wt-table
