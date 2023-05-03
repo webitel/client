@@ -51,9 +51,7 @@
           </div>
         </template>
         <template slot="attempts" slot-scope="{ item }">
-          <div v-if="item.destination">
-            {{ item.destination.attempts }}
-          </div>
+          {{ item.attempts || 0 }}
         </template>
         <template slot="result" slot-scope="{ item }">
           {{ item.result }}
