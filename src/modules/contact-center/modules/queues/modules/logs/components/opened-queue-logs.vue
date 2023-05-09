@@ -51,9 +51,7 @@
           </div>
         </template>
         <template v-slot:attempts="{ item }">
-          <div v-if="item.destination">
-            {{ item.destination.attempts }}
-          </div>
+          {{ item.attempts || 0 }}
         </template>
         <template v-slot:result="{ item }">
           {{ item.result }}
