@@ -60,7 +60,7 @@
               <p>{{ $t('settings.useWebPhone') }}</p>
               <wt-switcher
                 v-model="webrtc"
-                @change="changeWebPhone"
+                @change="changeWebrtc"
               ></wt-switcher>
             </div>
             <div
@@ -69,7 +69,7 @@
               <p>{{ $t('settings.useStun') }}</p>
               <wt-switcher
                 v-model="stun"
-                @change="changeWebPhone"
+                @change="changeStun"
               ></wt-switcher>
             </div>
           </form>
@@ -173,13 +173,23 @@ export default {
       }
     },
 
-    changeWebPhone() {
+    async changeWebrtc(value) {
         try {
-          // eslint-disable-next-line max-len
-          changeWebPhone({ webrtc: this.webrtc, stun: !this.webrtc ? false : this.stun });
+          this.webrtc = value;
+          if (!value) this.stun = false;
+          await changeWebPhone({ webrtc: this.webrtc, stun: this.stun });
         } catch (err) {
           throw err;
         }
+    },
+
+    async changeStun(value) {
+      try {
+        this.stun = !this.webrtc ? false : value;
+        await changeWebPhone({ webrtc: this.webrtc, stun: this.stun });
+      } catch (err) {
+        throw err;
+      }
     },
 
     changeLanguage(value) {
