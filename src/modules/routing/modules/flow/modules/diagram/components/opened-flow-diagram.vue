@@ -73,7 +73,7 @@ export default {
               gateways: gatewaysAPI.getLookup,
               lists: BlacklistsAPI.getLookup,
               communications: CommunicationsAPI.getLookup,
-              roles: RolesAPI.getLookup,
+              roles: () => RolesAPI.getExtendedRoles({ fields: ['name', 'id', 'user'] }),
               chatGateways: ({ provider, ...rest }) => ChatGatewaysAPI
               .getLookup({ rest: { provider }, ...rest }),
               flowTags: FlowsAPI.getFlowTags,
