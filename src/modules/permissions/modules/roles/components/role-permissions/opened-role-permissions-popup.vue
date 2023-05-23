@@ -107,7 +107,7 @@ export default {
       this.close();
     },
     async loadPermissionsList(params) {
-      const response = await RolesAPI.getPermissionsOptions(params);
+      const response = await RolesAPI.getPermissionsOptions({ ...params, size: 5000 });
       response.items = response.items
         .filter((permission) => (
           this.permissions.every((addedPermission) => addedPermission.id !== permission.id)
