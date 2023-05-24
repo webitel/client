@@ -723,6 +723,7 @@ export default {
         discardAbandonedAfter: 'Кількість секунд до повного видалення абонента',
         maxIdleAgent: 'Очікування відповіді оператора',
         maxIdleClient: 'Очікування відповіді абонента',
+        maxIdleDialog: 'Максимальний час очікування повідомлення',
         timeoutWithNoAgents: 'Час очікування, коли немає операторів',
         timeBaseScore: 'Рейтинг дзвінка',
         endless: 'Не припиняти набір',

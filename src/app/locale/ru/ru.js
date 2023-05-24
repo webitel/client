@@ -721,6 +721,7 @@ export default {
         discardAbandonedAfter: 'Кол-во секунд до полного удаления абонента',
         maxIdleAgent: 'Ожидание ответа оператора',
         maxIdleClient: 'Ожидание ответа абонента',
+        maxIdleDialog: 'Максимальное время ожидания сообщения',
         timeoutWithNoAgents: 'Время ожидания, когда нет агентов',
         timeBaseScore: 'Рейтинг звонка',
         endless: 'Не прекращать дозвон',
