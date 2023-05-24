@@ -48,14 +48,12 @@ export default {
         return this.$tc(
           'objects.deleteConfirmation.askingAlert',
           2,
-          null,
           { count: this.$t('objects.deleteConfirmation.deleteAll') },
         );
       }
       return this.$tc(
         'objects.deleteConfirmation.askingAlert',
         this.payload.deleteCount === 1 ? 1 : 2,
-        null,
         { count: this.payload.deleteCount },
       );
     },
