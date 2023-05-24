@@ -19,6 +19,7 @@ const chatInboundQueue = () => ({
     stickyAgentSec: 5,
     maxIdleAgent: 60 * 60, // hour
     maxIdleClient: 60 * 60, // hour
+    maxIdleDialog: 0,
     maxWaitingSize: 0,
   },
 });

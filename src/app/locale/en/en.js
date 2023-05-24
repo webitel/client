@@ -723,6 +723,7 @@ export default {
         discardAbandonedAfter: 'Discard abandoned after',
         maxIdleAgent: 'Agent response timeout',
         maxIdleClient: 'Customer response timeout',
+        maxIdleDialog: 'Maximum response timeout',
         timeoutWithNoAgents: 'Timeout with no agents',
         timeBaseScore: 'Time base score',
         endless: 'Endless',
