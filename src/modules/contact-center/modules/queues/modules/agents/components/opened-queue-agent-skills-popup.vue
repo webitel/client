@@ -1,6 +1,6 @@
 <template>
   <wt-popup min-width="480" @close="close">
-    <template slot="title">
+    <template v-slot:title>
       {{ $tc('objects.lookups.skills.skills', 2) }}
     </template>
     <template v-slot:main>
@@ -11,7 +11,7 @@
           :selectable="false"
           :grid-actions="false"
         >
-          <template slot="skill" slot-scope="{ item }">
+          <template v-slot:skill="{ item }">
             {{ item.name }}
           </template>
         </wt-table>

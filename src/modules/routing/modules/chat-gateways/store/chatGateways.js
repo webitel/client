@@ -1,7 +1,6 @@
 import deepMerge from 'deepmerge';
 import ObjectStoreModule
   from '../../../../../app/store/BaseStoreModules/StoreModules/ObjectStoreModule';
-import proxy from '../../../../../app/utils/editProxy';
 import ChatGatewaysAPI from '../api/chatGateways';
 import ChatGatewayProvider from '../enum/ChatGatewayProvider.enum';
 import defaultChatGateway from './_internals/defaults/defaultChatGateway';
@@ -44,7 +43,7 @@ const actions = {
   },
   SET_TYPED_ITEM: (context, { type, item = {} }) => {
     const typedItem = deepMerge(chatGatewayStateMap[type](), item);
-    context.commit('SET_ITEM', proxy(typedItem));
+    context.commit('SET_ITEM', typedItem);
   },
   SET_ITEM_METADATA: (context, payload) => {
     context.commit('SET_ITEM_METADATA', payload);

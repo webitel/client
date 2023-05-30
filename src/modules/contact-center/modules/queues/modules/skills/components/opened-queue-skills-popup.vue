@@ -1,13 +1,13 @@
 <template>
   <wt-popup min-width="480" overflow @close="close">
-    <template slot="title">
+    <template v-slot:title>
       {{ $tc('objects.lookups.skills.skills', 1) }}
     </template>
     <template v-slot:main>
       <form>
         <wt-select
           :value="itemInstance.skill"
-          :v="$v.itemInstance.skill"
+          :v="v$.itemInstance.skill"
           :label="$tc('objects.lookups.skills.skills', 1)"
           :search-method="loadSkillsOptions"
           :clearable="false"
@@ -16,7 +16,7 @@
         ></wt-select>
         <wt-input
           :value="itemInstance.lvl"
-          :v="$v.itemInstance.lvl"
+          :v="v$.itemInstance.lvl"
           :label="$t('objects.lookups.skills.lvl')"
           type="number"
           @input="setItemProp({ prop: 'lvl', value: +$event })"
@@ -24,7 +24,7 @@
         <div class="input-row-wrap">
           <wt-input
             :value="itemInstance.minCapacity"
-            :v="$v.itemInstance.minCapacity"
+            :v="v$.itemInstance.minCapacity"
             :custom-validators="minCapacityCustomValidator"
             :label="$t('objects.lookups.skills.minCapacity')"
             :number-min="0"
@@ -34,7 +34,7 @@
           ></wt-input>
           <wt-input
             :value="itemInstance.maxCapacity"
-            :v="$v.itemInstance.maxCapacity"
+            :v="v$.itemInstance.maxCapacity"
             :custom-validators="maxCapacityCustomValidator"
             :label="$t('objects.lookups.skills.maxCapacity')"
             :number-min="0"
@@ -53,7 +53,7 @@
         ></wt-select>
       </form>
     </template>
-    <template slot="actions">
+    <template v-slot:actions>
       <wt-button
         :disabled="disabledSave"
         @click="save"
@@ -69,7 +69,8 @@
 </template>
 
 <script>
-import { required, minValue, maxValue } from 'vuelidate/lib/validators';
+import { useVuelidate } from '@vuelidate/core';
+import { required, minValue, maxValue } from '@vuelidate/validators';
 import { lessOrEqualTo, moreOrEqualTo } from '../../../../../../../app/utils/validators';
 import BucketsAPI from '../../../../../../lookups/modules/buckets/api/buckets';
 import SkillsAPI from '../../../../../../lookups/modules/agent-skills/api/agentSkills';
@@ -82,6 +83,9 @@ export default {
     namespace: 'ccenter/queues/skills',
   }),
 
+  setup: () => ({
+    v$: useVuelidate(),
+  }),
   validations: {
     itemInstance: {
       skill: { required },

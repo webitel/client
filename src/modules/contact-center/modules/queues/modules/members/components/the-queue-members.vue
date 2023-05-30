@@ -89,23 +89,23 @@
             sortable
             @sort="sort"
           >
-            <template slot="name" slot-scope="{ item }">
+            <template v-slot:name="{ item }">
               <item-link :link="editLink(item)">
                 {{ item.name }}
               </item-link>
             </template>
-            <template slot="createdAt" slot-scope="{ item }">
+            <template v-slot:createdAt="{ item }">
               {{ prettifyDateTime(item.createdAt) }}
             </template>
-            <template slot="offeringAt" slot-scope="{ item }">
+            <template v-slot:offeringAt="{ item }">
               <div v-if="item.minOfferingAt">
                 {{ prettifyDateTime(item.minOfferingAt) }}
               </div>
             </template>
-            <template slot="priority" slot-scope="{ item }">
+            <template v-slot:priority="{ item }">
               {{ item.priority }}
             </template>
-            <template slot="endCause" slot-scope="{ item }">
+            <template v-slot:endCause="{ item }">
               <div v-if="item.stopCause">
                 {{
                   $te(`objects.ccenter.members.endCause.${item.stopCause.toLowerCase()}`)
@@ -114,7 +114,7 @@
                 }}
               </div>
             </template>
-            <template slot="destination" slot-scope="{ item }">
+            <template v-slot:destination="{ item }">
               <div class="members__destinations-wrapper" v-if="item.communications.length">
                 {{ item.communications[0].destination }}
                 <span class="members__destinations-num"
@@ -123,10 +123,10 @@
                 >+{{ item.communications.length - 1 }}</span>
               </div>
             </template>
-            <template slot="type" slot-scope="{ item }">
+            <template v-slot:type="{ item }">
               {{ item.type }}
             </template>
-            <template slot="agent" slot-scope="{ item }">
+            <template v-slot:agent="{ item }">
               <item-link
                 v-if="item.agent"
                 :route-name="RouteNames.AGENTS"
@@ -136,7 +136,7 @@
               </item-link>
             </template>
 
-            <template slot="actions" slot-scope="{ item }">
+            <template v-slot:actions="{ item }">
               <edit-action
                 @click="edit(item)"
               ></edit-action>

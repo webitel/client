@@ -273,6 +273,7 @@ export default {
           viewCdrPhoneNumbers: 'Перегляд незашифрованих номерів телефонів',
           manageUserRoles: 'Управління ролями користувачів',
           manageUserLicense: 'Управління ліцензіями користувачів',
+          changeUserPassword: 'Змінювати паролі користувачів',
           addDescription: 'Надає дозвіл на створення об’єктів',
           deleteDescription: 'Надає дозвіл на видалення об’єктів',
           readDescription: 'Надає дозвіл на вибір об’єктів',
@@ -283,6 +284,7 @@ export default {
           viewCdrPhoneNumbersDescription: 'Надає дозвіл на відображення  незашифрованих телефонних номерів',
           manageUserRolesDescription: 'Надає дозвіл на керування набором ролей користувачів',
           manageUserLicenseDescription: 'Надає дозвіл на керування набором ліцензій користувача',
+          changeUserPasswordDescription: 'Надає дозвіл на зміну пароля користувача',
         },
         addPermission: 'Надати дозвіл',
         usage: 'Використання',
@@ -496,7 +498,7 @@ export default {
           infobip: 'Infobip',
         },
         messenger: {
-          messenger: 'Messenger',
+          meta: 'Meta',
           addOrRemovePages: 'Додати або видалити сторінки',
           accounts: 'Аккаунти',
           metadata: {
@@ -659,6 +661,7 @@ export default {
         addMember: 'Додати абонента',
         destination: 'Призначення',
         display: 'Відображення номера',
+        dtmf: 'DTMF',
         priority: 'Пріоритет',
         attempts: 'Спроб',
         resetMembers: {
@@ -720,6 +723,7 @@ export default {
         discardAbandonedAfter: 'Кількість секунд до повного видалення абонента',
         maxIdleAgent: 'Очікування відповіді оператора',
         maxIdleClient: 'Очікування відповіді абонента',
+        maxIdleDialog: 'Максимальний час очікування повідомлення',
         timeoutWithNoAgents: 'Час очікування, коли немає операторів',
         timeBaseScore: 'Рейтинг дзвінка',
         endless: 'Не припиняти набір',

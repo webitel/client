@@ -1,5 +1,6 @@
 <template>
-  <wt-tooltip>
+  <div class="delete-all-action">
+    <wt-tooltip>
     <template v-slot:activator>
       <wt-icon-btn
         v-bind="$attrs"
@@ -10,6 +11,7 @@
     </template>
     {{ actionPanelDeleteTooltip }}
   </wt-tooltip>
+  </div>
 </template>
 
 <script>
@@ -31,5 +33,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-
+.delete-all-action {
+  line-height: 0;
+}
 </style>

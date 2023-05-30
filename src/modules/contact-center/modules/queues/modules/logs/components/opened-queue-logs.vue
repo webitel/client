@@ -23,37 +23,37 @@
         sortable
         @sort="sort"
       >
-        <template slot="destination" slot-scope="{ item }">
+        <template v-slot:destination="{ item }">
           <div v-if="item.destination">
             {{ item.destination.destination }}
           </div>
         </template>
-        <template slot="agent" slot-scope="{ item }">
+        <template v-slot:agent="{ item }">
           <div v-if="item.agent">
             {{ item.agent.name }}
           </div>
         </template>
-        <template slot="joinedAt" slot-scope="{ item }">
+        <template v-slot:joinedAt="{ item }">
           {{ formatDate(item.joinedAt) }}
         </template>
-        <template slot="leavingAt" slot-scope="{ item }">
+        <template v-slot:leavingAt="{ item }">
           {{ formatDate(item.leavingAt) }}
         </template>
-        <template slot="offeringAt" slot-scope="{ item }">
+        <template v-slot:offeringAt="{ item }">
           {{ formatDate(item.offeringAt) }}
         </template>
-        <template slot="duration" slot-scope="{ item }">
+        <template v-slot:duration="{ item }">
           {{ calcDuration(item) }}
         </template>
-        <template slot="viewNumber" slot-scope="{ item }">
+        <template v-slot:viewNumber="{ item }">
           <div v-if="item.destination">
             {{ item.destination.description }}
           </div>
         </template>
-        <template slot="attempts" slot-scope="{ item }">
+        <template v-slot:attempts="{ item }">
           {{ item.attempts || 0 }}
         </template>
-        <template slot="result" slot-scope="{ item }">
+        <template v-slot:result="{ item }">
           {{ item.result }}
         </template>
       </wt-table>

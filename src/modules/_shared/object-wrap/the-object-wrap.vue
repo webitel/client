@@ -22,16 +22,18 @@ export default {
 <style lang="scss" scoped>
 // outer wrap of module- page
 .object-wrap {
+  display: flex;
   width: 100%;
   min-height: 100%;
-  overflow-y: scroll;
 }
 
 // main content itself, without nav but with main header
 .object {
+  flex-grow: 1;
   display: flex;
   flex-direction: column;
   min-height: 100%;
+  max-width: 100%;
   background: var(--page-bg-color);
 }
 

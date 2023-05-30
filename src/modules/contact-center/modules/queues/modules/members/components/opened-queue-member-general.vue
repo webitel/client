@@ -19,12 +19,13 @@
         type="number"
         @input="setItemProp({ prop: 'priority', value: +$event })"
       ></wt-input>
-      <wt-datetimepicker
+      <wt-datepicker
         :value="itemInstance.expireAt"
         :label="$t('objects.ccenter.queues.expire')"
         :disabled="disableUserInput"
-        @change="setItemProp({ prop: 'expireAt', value: $event })"
-      ></wt-datetimepicker>
+        mode="datetime"
+        @input="setItemProp({ prop: 'expireAt', value: $event })"
+      ></wt-datepicker>
       <wt-select
         :value="itemInstance.timezone"
         :label="$t('objects.ccenter.queues.timezone')"

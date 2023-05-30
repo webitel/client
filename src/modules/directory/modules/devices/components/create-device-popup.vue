@@ -1,6 +1,6 @@
 <template>
   <wt-popup min-width="480" @close="close">
-    <template slot="title">{{ $t('objects.directory.devices.newDevice') }}</template>
+    <template v-slot:title>{{ $t('objects.directory.devices.newDevice') }}</template>
     <template v-slot:main>
       <section>
         <ul class="popup-options">
@@ -17,7 +17,7 @@
         </ul>
       </section>
     </template>
-    <template slot="actions">
+    <template v-slot:actions>
       <wt-button @click="createItemInstance">{{ $t('objects.add') }}</wt-button>
       <wt-button color="secondary" @click="close">{{ $t('objects.close') }}</wt-button>
     </template>

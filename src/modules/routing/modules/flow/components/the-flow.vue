@@ -67,12 +67,12 @@
             sortable
             @sort="sort"
           >
-            <template slot="name" slot-scope="{ item }">
+            <template v-slot:name="{ item }">
               <item-link :link="editLink(item)">
                 {{ item.name }}
               </item-link>
             </template>
-            <template slot="editor" slot-scope="{ item }">
+            <template v-slot:editor="{ item }">
               <div v-if="item.editor">
                 {{ $t('objects.routing.flow.diagram.diagram') }}
               </div>
@@ -102,7 +102,7 @@
               {{ new Date(+item.updatedAt).toLocaleDateString()}}
             </template>
 
-            <template slot="actions" slot-scope="{ item }">
+            <template v-slot:actions="{ item }">
             <download-action
               @click="download(item)"
             ></download-action>

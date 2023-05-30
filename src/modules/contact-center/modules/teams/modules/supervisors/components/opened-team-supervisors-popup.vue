@@ -1,13 +1,13 @@
 <template>
   <wt-popup min-width="480" overflow @close="close">
-    <template slot="title">
+    <template v-slot:title>
       {{ $tc('objects.ccenter.agents.supervisors', 1) }}
     </template>
     <template v-slot:main>
       <form>
         <wt-select
           :value="itemInstance.agent"
-          :v="$v.itemInstance.agent"
+          :v="v$.itemInstance.agent"
           :label="$tc('objects.ccenter.agents.agents', 1)"
           :search-method="loadAgentsOptions"
           :clearable="false"
@@ -16,7 +16,7 @@
         ></wt-select>
       </form>
     </template>
-    <template slot="actions">
+    <template v-slot:actions>
       <wt-button
         :disabled="disabledSave"
         @click="save"
@@ -32,7 +32,8 @@
 </template>
 
 <script>
-import { required } from 'vuelidate/lib/validators';
+import { useVuelidate } from '@vuelidate/core';
+import { required } from '@vuelidate/validators';
 import { mapState } from 'vuex';
 import getNamespacedState from '@webitel/ui-sdk/src/store/helpers/getNamespacedState';
 import AgentsAPI from '../../../../agents/api/agents';
@@ -48,6 +49,9 @@ export default {
     namespace: 'ccenter/teams/supervisors',
   }),
 
+  setup: () => ({
+    v$: useVuelidate(),
+  }),
   validations: {
     itemInstance: {
       agent: { required },

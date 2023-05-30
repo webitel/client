@@ -90,7 +90,7 @@
         v-if="specificControls.doSchema"
         :disabled="disableUserInput"
         :label="$t('objects.ccenter.queues.preSchema')"
-        :search-method="loadDropdownOptionsSchemaList"
+        :search-method="loadDropdownOptionsServiceSchemaList"
         :value="itemInstance.doSchema"
         @input="setItemProp({ prop: 'doSchema', value: $event })"
       ></wt-select>
@@ -100,7 +100,7 @@
         v-if="specificControls.afterSchema"
         :disabled="disableUserInput"
         :label="$t('objects.ccenter.queues.afterSchema')"
-        :search-method="loadDropdownOptionsSchemaList"
+        :search-method="loadDropdownOptionsServiceSchemaList"
         :value="itemInstance.afterSchema"
         @input="setItemProp({ prop: 'afterSchema', value: $event })"
       ></wt-select>
@@ -127,6 +127,7 @@
 </template>
 
 <script>
+import { EngineRoutingSchemaType } from 'webitel-sdk';
 import QueueTypeProperties from '../lookups/QueueTypeProperties.lookup';
 import CalendarsAPI from '../../../../lookups/modules/calendars/api/calendars';
 import BlacklistsAPI from '../../../../lookups/modules/blacklists/api/blacklists';
@@ -180,6 +181,9 @@ export default {
     },
     loadDropdownOptionsSchemaList(params) {
       return FlowsAPI.getLookup(params);
+    },
+    loadDropdownOptionsServiceSchemaList(params) {
+      return FlowsAPI.getLookup({ ...params, type: [EngineRoutingSchemaType.Service] });
     },
     loadDropdownOptionsMediaList(params) {
       return MediaAPI.getLookup(params);

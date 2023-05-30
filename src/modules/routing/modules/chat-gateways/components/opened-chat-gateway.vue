@@ -9,7 +9,7 @@
         :secondary-action="close"
       >
         <wt-headline-nav :path="path"></wt-headline-nav>
-        <template slot="actions">
+        <template v-slot:actions>
           <webchat-copy-code-button
             v-if="isWebchat"
             :item-instance="itemInstance"
@@ -32,7 +32,7 @@
           :is="currentTab.value"
           v-if="currentTab"
           :namespace="namespace"
-          :v="$v"
+          :v="v$"
         ></component>
         <input hidden type="submit"> <!--  submit form on Enter  -->
       </form>
@@ -41,9 +41,10 @@
 </template>
 
 <script>
+import { useVuelidate } from '@vuelidate/core';
 import {
   maxValue, minLength, minValue, numeric, required, url,
-} from 'vuelidate/lib/validators';
+} from '@vuelidate/validators';
 import { mapActions } from 'vuex';
 import openedObjectMixin from '../../../../../app/mixins/objectPagesMixins/openedObjectMixin/openedObjectMixin';
 import ChatGatewayProvider from '../enum/ChatGatewayProvider.enum';
@@ -94,7 +95,9 @@ export default {
   data: () => ({
     namespace: 'routing/chatGateways',
   }),
-
+  setup: () => ({
+    v$: useVuelidate(),
+  }),
   validations() {
     const defaults = {
       name: { required },
@@ -223,7 +226,7 @@ export default {
         value: 'OpenedChatTelegramApp',
       };
       const messengerChat = {
-        text: this.$t('objects.routing.chatGateways.messenger.messenger'),
+        text: this.$t('objects.routing.chatGateways.messenger.meta'),
         value: 'OpenedChatMessenger',
       };
       const facebookChatPages = {
@@ -310,20 +313,22 @@ export default {
       let chatTypeLocale;
       switch (this.chatType) {
         case ChatGatewayProvider.INFOBIP:
-          chatTypeLocale = 'infobip';
+          chatTypeLocale = 'infobip.infobip';
           break;
         case ChatGatewayProvider.TELEGRAM_BOT:
-          chatTypeLocale = 'telegramBot';
+          chatTypeLocale = 'telegramBot.telegramBot';
           break;
         case ChatGatewayProvider.MESSENGER:
+          chatTypeLocale = `${this.chatType}.meta`;
+          break;
         case ChatGatewayProvider.VIBER:
         case ChatGatewayProvider.WEBCHAT:
-          chatTypeLocale = this.chatType;
+          chatTypeLocale = `${this.chatType}.${this.chatType}`;
           break;
         default:
           return this.$tc('objects.routing.gateways.gateways', 1);
       }
-      return this.$t(`objects.routing.chatGateways.${chatTypeLocale}.${chatTypeLocale}`)
+      return this.$t(`objects.routing.chatGateways.${chatTypeLocale}`)
                  .concat(' ', this.$tc('objects.routing.gateways.gateways', 1));
     },
 

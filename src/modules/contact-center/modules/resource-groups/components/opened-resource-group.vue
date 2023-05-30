@@ -22,7 +22,7 @@
         ></wt-tabs>
         <component
           :is="currentTab.value"
-          :v="$v"
+          :v="v$"
           :namespace="namespace"
         ></component>
         <input type="submit" hidden> <!--  submit form on Enter  -->
@@ -32,7 +32,8 @@
 </template>
 
 <script>
-import { required } from 'vuelidate/lib/validators';
+import { useVuelidate } from '@vuelidate/core';
+import { helpers, required } from '@vuelidate/validators';
 import { requiredArrayValue, timerangeNotIntersect, timerangeStartLessThanEnd } from '../../../../../app/utils/validators';
 import General from './opened-resource-group-general.vue';
 import Resources from '../modules/resources/components/opened-resource-group-resources.vue';
@@ -51,6 +52,9 @@ export default {
     namespace: 'ccenter/resGroups',
   }),
 
+  setup: () => ({
+    v$: useVuelidate(),
+  }),
   // by vuelidate
   validations: {
     itemInstance: {
@@ -59,9 +63,9 @@ export default {
       time: {
         requiredArrayValue,
         timerangeNotIntersect,
-        $each: {
+        $each: helpers.forEach({
           timerangeStartLessThanEnd,
-        },
+        }),
       },
     },
   },

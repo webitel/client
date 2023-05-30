@@ -58,24 +58,24 @@
         sortable
         @sort="sort"
       >
-        <template slot="name" slot-scope="{ item }">
+        <template v-slot:name="{ item }">
           <item-link :link="editLink(item)" target="_blank">
             {{ item.name }}
           </item-link>
         </template>
-        <template slot="supervisor" slot-scope="{ item }">
+        <template v-slot:supervisor="{ item }">
           <one-plus-many
             :collection="item.supervisor"
             @input="readSupervisor(item)"
           ></one-plus-many>
         </template>
-        <template slot="skills" slot-scope="{ item }">
+        <template v-slot:skills="{ item }">
           <one-plus-many
             :collection="item.skills"
             @input="readSkills(item)"
           ></one-plus-many>
         </template>
-        <template slot="actions" slot-scope="{ item }">
+        <template v-slot:actions="{ item }">
           <edit-action
             @click="edit(item)"
           ></edit-action>

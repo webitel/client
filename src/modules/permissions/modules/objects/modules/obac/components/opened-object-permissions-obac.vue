@@ -46,11 +46,11 @@
         sortable
         @sort="sort"
       >
-        <template slot="grantee" slot-scope="{ item }">
+        <template v-slot:grantee="{ item }">
           <role-column :role="item.grantee"></role-column>
         </template>
 
-        <template slot="create" slot-scope="{ item }">
+        <template v-slot:create="{ item }">
           <wt-select
             :value="item.access.x"
             :options="accessOptions"
@@ -60,7 +60,7 @@
           ></wt-select>
         </template>
 
-        <template slot="read" slot-scope="{ item }">
+        <template v-slot:read="{ item }">
           <wt-select
             :value="item.access.r"
             :options="accessOptions"
@@ -70,7 +70,7 @@
           ></wt-select>
         </template>
 
-        <template slot="edit" slot-scope="{ item }">
+        <template v-slot:edit="{ item }">
           <wt-select
             :value="item.access.w"
             :options="accessOptions"
@@ -80,7 +80,7 @@
           ></wt-select>
         </template>
 
-        <template slot="delete" slot-scope="{ item }">
+        <template v-slot:delete="{ item }">
           <wt-select
             :value="item.access.d"
             :options="accessOptions"
@@ -89,7 +89,7 @@
             @input="changeDeleteAccessMode({ item, mode: $event })"
           ></wt-select>
         </template>
-          <template slot="actions" slot-scope="{ item }">
+          <template v-slot:actions="{ item }">
             <delete-action
               @click="changeReadAccessMode({ item, mode: { id: accessMode.FORBIDDEN }})"
             ></delete-action>

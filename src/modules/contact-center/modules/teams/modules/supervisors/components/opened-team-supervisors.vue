@@ -54,13 +54,13 @@
         sortable
         @sort="sort"
       >
-        <template slot="name" slot-scope="{ item }">
+        <template v-slot:name="{ item }">
           <item-link :link="editLink(item)" target="_blank">
             {{ item.name }}
           </item-link>
         </template>
 
-        <template slot="actions" slot-scope="{ item }">
+        <template v-slot:actions="{ item }">
           <wt-tooltip class="table-action">
             <template v-slot:activator>
               <wt-icon-btn

@@ -1,6 +1,6 @@
 <template>
   <wt-popup @close="close">
-    <template slot="title">
+    <template v-slot:title>
       {{ $tc('objects.ccenter.queues.destination', 2) }}
     </template>
     <template v-slot:main>
@@ -12,21 +12,21 @@
             :selectable="false"
             :grid-actions="false"
         >
-          <template slot="destination" slot-scope="{ item }">
+          <template v-slot:destination="{ item }">
             {{ item.destination }}
           </template>
-          <template slot="type" slot-scope="{ item }">
+          <template v-slot:type="{ item }">
             <div v-if="item.type">
               {{ item.type.name }}
             </div>
           </template>
-          <template slot="priority" slot-scope="{ item }">
+          <template v-slot:priority="{ item }">
             {{ item.priority }}
           </template>
         </wt-table>
       </section>
     </template>
-    <template slot="actions">
+    <template v-slot:actions>
       <wt-button @click="close">{{ $t('objects.ok') }}</wt-button>
       <wt-button color="secondary" @click="close">{{ $t('objects.close') }}</wt-button>
     </template>

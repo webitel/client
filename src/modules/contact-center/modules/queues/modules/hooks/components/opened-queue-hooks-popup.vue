@@ -1,13 +1,13 @@
 <template>
   <wt-popup min-width="480" overflow @close="close">
-    <template slot="title">
+    <template v-slot:title>
       {{ $tc('objects.ccenter.queues.hooks.hooks', 1) }}
     </template>
     <template v-slot:main>
       <form>
         <wt-select
           v-model="event"
-          :v="$v.itemInstance.event"
+          :v="v$.itemInstance.event"
           :label="$t('objects.ccenter.queues.hooks.event')"
           :options="eventOptions"
           :clearable="false"
@@ -16,7 +16,7 @@
         ></wt-select>
         <wt-select
           :value="itemInstance.schema"
-          :v="$v.itemInstance.schema"
+          :v="v$.itemInstance.schema"
           :label="$tc('objects.routing.flow.flow', 1)"
           :search-method="loadFlowOptions"
           :clearable="false"
@@ -25,7 +25,7 @@
         ></wt-select>
       </form>
     </template>
-    <template slot="actions">
+    <template v-slot:actions>
       <wt-button
         :disabled="disabledSave"
         @click="save"
@@ -41,7 +41,8 @@
 </template>
 
 <script>
-import { required } from 'vuelidate/lib/validators';
+import { useVuelidate } from '@vuelidate/core';
+import { required } from '@vuelidate/validators';
 import nestedObjectMixin from '../../../../../../../app/mixins/objectPagesMixins/openedObjectMixin/nestedObjectMixin';
 import FlowsAPI from '../../../../../../routing/modules/flow/api/flow';
 import HookEvent from '../enum/HookEvent.enum';
@@ -53,6 +54,9 @@ export default {
     namespace: 'ccenter/queues/hooks',
   }),
 
+  setup: () => ({
+    v$: useVuelidate(),
+  }),
   validations: {
     itemInstance: {
       event: { required },

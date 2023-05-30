@@ -44,17 +44,17 @@
         sortable
         @sort="sort"
       >
-        <template slot="name" slot-scope="{ item }">
+        <template v-slot:name="{ item }">
           <div v-if="item.resourceGroup">
             {{ item.resourceGroup.name }}
           </div>
         </template>
-        <template slot="communication" slot-scope="{ item }">
+        <template v-slot:communication="{ item }">
           <div v-if="item.communication">
             {{ item.communication.name }}
           </div>
         </template>
-        <template slot="actions" slot-scope="{ item, index }">
+        <template v-slot:actions="{ item, index }">
           <edit-action
             @click="edit(item)"
           ></edit-action>

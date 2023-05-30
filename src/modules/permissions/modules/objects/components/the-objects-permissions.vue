@@ -37,13 +37,13 @@
             sortable
             @sort="sort"
           >
-            <template slot="name" slot-scope="{ item }">
+            <template v-slot:name="{ item }">
               <item-link :link="editLink(item)">
                 {{ item.class }}
               </item-link>
             </template>
 
-            <template slot="obac" slot-scope="{ item, index }">
+            <template v-slot:obac="{ item, index }">
               <wt-switcher
                 :value="item.obac"
                 :disabled="!hasEditAccess"
@@ -51,14 +51,14 @@
               ></wt-switcher>
             </template>
 
-            <template slot="rbac" slot-scope="{ item, index }">
+            <template v-slot:rbac="{ item, index }">
               <wt-switcher
                 :value="item.rbac"
                 :disabled="!hasEditAccess"
                 @change="toggleObjectRbac({ item, index, value: $event })"
               ></wt-switcher>
             </template>
-            <template slot="actions" slot-scope="{ item }">
+            <template v-slot:actions="{ item }">
               <edit-action
                 v-if="hasEditAccess"
                 @click="edit(item)"

@@ -1,19 +1,19 @@
 <template>
   <wt-popup min-width="480" @close="close">
-    <template slot="title">
+    <template v-slot:title>
       {{ $tc('objects.lookups.communications.communications', 1) }}
     </template>
     <template v-slot:main>
       <form class="object-input-grid object-input-grid__1-col">
         <wt-input
           v-model="itemInstance.destination"
-          :v="$v.itemInstance.destination"
+          :v="v$.itemInstance.destination"
           :label="$t('objects.ccenter.members.destination')"
           required
         ></wt-input>
         <wt-select
           v-model="itemInstance.type"
-          :v="$v.itemInstance.type"
+          :v="v$.itemInstance.type"
           :label="$tc('objects.lookups.communications.communications', 1)"
           :search-method="loadCommTypes"
           :clearable="false"
@@ -29,6 +29,11 @@
           :label="$t('objects.ccenter.members.display')"
         ></wt-input>
         <wt-input
+          v-model="itemInstance.dtmf"
+          :v="v$.itemInstance.dtmf"
+          :label="$t('objects.ccenter.members.dtmf')"
+        ></wt-input>
+        <wt-input
           v-model="itemInstance.priority"
           :label="$t('objects.ccenter.members.priority')"
           type="number"
@@ -39,7 +44,7 @@
         ></wt-textarea>
       </form>
     </template>
-    <template slot="actions">
+    <template v-slot:actions>
       <wt-button
         :disabled="computeDisabled"
         @click="save"
@@ -55,10 +60,12 @@
 </template>
 
 <script>
+import { useVuelidate } from '@vuelidate/core';
 import deepCopy from 'deep-copy';
-import { required } from 'vuelidate/lib/validators';
+import { required } from '@vuelidate/validators';
 import { mapActions, mapState } from 'vuex';
 import getNamespacedState from '@webitel/ui-sdk/src/store/helpers/getNamespacedState';
+import { digitsDtmfOnly } from '../../validation/dtmf'
 import ResourcesAPI from '../../../../../resources/api/resources';
 import CommunicationsAPI from '../../../../../../../lookups/modules/communications/api/communications';
 import nestedObjectMixin from '../../../../../../../../app/mixins/objectPagesMixins/openedObjectMixin/nestedObjectMixin';
@@ -80,12 +87,18 @@ export default {
       type: {},
       resource: {},
       description: '',
+      dtmf: '',
     },
+  }),
+
+  setup: () => ({
+    v$: useVuelidate(),
   }),
   validations: {
     itemInstance: {
       destination: { required },
       type: { required },
+      dtmf: { digitsDtmfOnly },
     },
   },
   created() {

@@ -1,6 +1,6 @@
 <template>
   <wt-popup min-width="480" @close="close">
-    <template slot="title">
+    <template v-slot:title>
       {{ $tc('objects.permissions.roles.applicationsAccess.applicationsAccess', 1) }}:
       {{ $t(`WebitelApplications.${editedApp}.name`) }}
     </template>
@@ -16,7 +16,7 @@
         ></wt-checkbox>
       </form>
     </template>
-    <template slot="actions">
+    <template v-slot:actions>
       <wt-button
         @click="close"
       >{{ $t('objects.ok') }}

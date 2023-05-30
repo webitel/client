@@ -193,6 +193,7 @@ const QueueTypeProperties = Object.freeze({
                                                 'discardAbandonedAfter',
                                                 'maxIdleAgent',
                                                 'maxIdleClient',
+                                                'maxIdleDialog',
                                                 'stickyAgent',
                                                 'stickyAgentSec',
 

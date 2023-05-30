@@ -14,7 +14,7 @@ describe('OpenedEmailProfileGeneral', () => {
     const wrapper = shallowMount(OpenedEmailProfileGeneral, deepmerge.all([
       OpenedTabComponentMixinMock(),
       {
-        propsData: {
+        props: {
           v: { itemInstance: { properties: {} } },
         },
         computed,

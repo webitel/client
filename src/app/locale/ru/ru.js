@@ -273,6 +273,7 @@ export default {
           viewCdrPhoneNumbers: 'Просмотр незашифрованных номеров телефонов',
           manageUserRoles: 'Управление ролями пользователей',
           manageUserLicense: 'Управление лицензиями пользователей',
+          changeUserPassword: 'Изменять пароли пользователей',
           addDescription: 'Предоставляет разрешение на создание объектов',
           deleteDescription: 'Предоставляет разрешение на удаление объектов',
           readDescription: 'Предоставляет разрешение на выбор объектов',
@@ -283,6 +284,7 @@ export default {
           viewCdrPhoneNumbersDescription: 'Предоставляет разрешение на отображение незашифрованных телефонных номеров',
           manageUserRolesDescription: 'Предоставляет разрешение на управление набором ролей пользователей',
           manageUserLicenseDescription: 'Предоставляет разрешение на управление набором пользовательских лицензий',
+          changeUserPasswordDescription: 'Предоставляет разрешение на изменение пароля пользователя',
         },
         addPermission: 'Добавить право доступа для роли',
         usage: 'Использование',
@@ -496,7 +498,7 @@ export default {
           infobip: 'Infobip',
         },
         messenger: {
-          messenger: 'Messenger',
+          meta: 'Meta',
           addOrRemovePages: 'Добавить или удалить страницы',
           accounts: 'Аккаунты',
           metadata: {
@@ -657,6 +659,7 @@ export default {
         addMember: 'добавить абонента',
         destination: 'Назначение',
         display: 'Отображение номера',
+        dtmf: 'DTMF',
         priority: 'Приоритет',
         attempts: 'Попыток',
         resetMembers: {
@@ -718,6 +721,7 @@ export default {
         discardAbandonedAfter: 'Кол-во секунд до полного удаления абонента',
         maxIdleAgent: 'Ожидание ответа оператора',
         maxIdleClient: 'Ожидание ответа абонента',
+        maxIdleDialog: 'Максимальное время ожидания сообщения',
         timeoutWithNoAgents: 'Время ожидания, когда нет агентов',
         timeBaseScore: 'Рейтинг звонка',
         endless: 'Не прекращать дозвон',

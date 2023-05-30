@@ -8,7 +8,6 @@
       <wt-loader></wt-loader>
     </div>
     <div
-      v-show="!isLoading"
       id="flow-diagram"
     ></div>
   </section>
@@ -28,6 +27,7 @@ import mediaAPI from '../../../../../../lookups/modules/media/api/media';
 import ChatGatewaysAPI from '../../../../chat-gateways/api/chatGateways';
 import gatewaysAPI from '../../../../gateways/api/gateways';
 import FlowsAPI from '../../../api/flow';
+import RolesAPI from '../../../../../../permissions/modules/roles/api/roles';
 
 export default {
   name: 'opened-flow-diagram',
@@ -73,6 +73,7 @@ export default {
               gateways: gatewaysAPI.getLookup,
               lists: BlacklistsAPI.getLookup,
               communications: CommunicationsAPI.getLookup,
+              roles: () => RolesAPI.getExtendedRoles({ fields: ['name', 'id', 'user'] }),
               chatGateways: ({ provider, ...rest }) => ChatGatewaysAPI
               .getLookup({ rest: { provider }, ...rest }),
               flowTags: FlowsAPI.getFlowTags,
@@ -155,6 +156,10 @@ export default {
   bottom: 0;
   left: 0;
   padding: 0 !important; // override .object-content-wrap > *
+}
+
+#flow-diagram {
+  height: 100%;
 }
 
 .flow-diagram__loading-overlay {

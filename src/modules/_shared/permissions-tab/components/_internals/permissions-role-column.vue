@@ -1,16 +1,18 @@
 <template>
   <div class="permissions-role-column">
-    <permissions-role-icon :user="role.user"></permissions-role-icon>
+    <wt-icon
+      class="permissions-role-icon"
+      :icon="role.user ? 'user' : 'role'"
+      color="active"
+    ></wt-icon>
     {{ role.name }}
   </div>
 </template>
 
 <script>
-import PermissionsRoleIcon from './permissions-role-icon.vue';
 
 export default {
   name: 'permissions-role-column',
-  components: { PermissionsRoleIcon },
   props: {
     role: {
       type: Object,

@@ -273,6 +273,7 @@ export default {
           viewCdrPhoneNumbers: 'View CDR phone numbers',
           manageUserRoles: 'Manage user roles',
           manageUserLicense: 'Manage user license',
+          changeUserPassword: 'Change user password',
           addDescription: 'Grants permission to create any objects',
           deleteDescription: 'Grants permission to remove any objects',
           readDescription: 'Grants permission to select any objects',
@@ -283,6 +284,7 @@ export default {
           viewCdrPhoneNumbersDescription: 'View CDR phone numbers',
           manageUserRolesDescription: 'Grants permission to manage a set of user roles',
           manageUserLicenseDescription: 'Grants permission to manage a set of user license',
+          changeUserPasswordDescription: 'Grants permission to change the users password',
         },
         addPermission: 'Add role permission',
         usage: 'Usage',
@@ -496,7 +498,7 @@ export default {
           infobip: 'Infobip',
         },
         messenger: {
-          messenger: 'Messenger',
+          meta: 'Meta',
           addOrRemovePages: 'Add or remove pages',
           accounts: 'Accounts',
           metadata: {
@@ -659,6 +661,7 @@ export default {
         addMember: 'Add member',
         destination: 'Destination',
         display: 'Display number',
+        dtmf: 'DTMF',
         priority: 'Priority',
         attempts: 'Attempts',
         resetMembers: {
@@ -720,6 +723,7 @@ export default {
         discardAbandonedAfter: 'Discard abandoned after',
         maxIdleAgent: 'Agent response timeout',
         maxIdleClient: 'Customer response timeout',
+        maxIdleDialog: 'Maximum response timeout',
         timeoutWithNoAgents: 'Timeout with no agents',
         timeBaseScore: 'Time base score',
         endless: 'Endless',

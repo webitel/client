@@ -45,7 +45,6 @@ const defaultListObject = {
   active: 0,
   waiting: 0,
   priority: '0',
-  team: {},
 };
 
 const defaultSingleObject = {

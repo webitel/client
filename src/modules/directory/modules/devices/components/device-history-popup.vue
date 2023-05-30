@@ -1,19 +1,21 @@
 <template>
   <wt-popup overflow @close="close">
-    <template slot="title">{{ $t('objects.directory.devices.deviceHistory') }}</template>
+    <template v-slot:title>{{ $t('objects.directory.devices.deviceHistory') }}</template>
     <template v-slot:main>
       <section class="history-popup">
         <div class="history-popup__filters">
-          <wt-datetimepicker
+          <wt-datepicker
             :value="from"
             :label="$t('objects.from')"
-            @change="setFrom"
-          ></wt-datetimepicker>
-          <wt-datetimepicker
+            mode="datetime"
+            @input="setFrom"
+          ></wt-datepicker>
+          <wt-datepicker
             :value="to"
             :label="$t('objects.to')"
-            @change="setTo"
-          ></wt-datetimepicker>
+            mode="datetime"
+            @input="setTo"
+          ></wt-datepicker>
         </div>
         <div class="table-wrapper">
           <wt-table
@@ -22,13 +24,13 @@
             :selectable="false"
             :grid-actions="false"
           >
-            <template slot="loggedIn" slot-scope="{ item }">
+            <template v-slot:loggedIn="{ item }">
               {{ prettifyTime(item.loggedIn) }}
             </template>
-            <template slot="loggedOut" slot-scope="{ item }">
+            <template v-slot:loggedOut="{ item }">
               {{ prettifyTime(item.loggedOut) }}
             </template>
-            <template slot="user" slot-scope="{ item }">
+            <template v-slot:user="{ item }">
               <div v-if="item.user">
                 {{ item.user.name }}
               </div>
@@ -47,7 +49,7 @@
         </div>
       </section>
     </template>
-    <template slot="actions">
+    <template v-slot:actions>
       <wt-button @click="close">{{ $t('objects.ok') }}</wt-button>
       <wt-button color="secondary" @click="close"> {{ $t('objects.close') }}</wt-button>
     </template>

@@ -34,7 +34,7 @@
         <component
           :is="currentTab.value"
           :namespace="namespace"
-          :v="$v"
+          :v="v$"
         ></component>
         <input type="submit" hidden> <!--  submit form on Enter  -->
       </form>
@@ -44,8 +44,9 @@
 </template>
 
 <script>
+import { useVuelidate } from '@vuelidate/core';
 import { QueueType } from 'webitel-sdk/esm2015/enums';
-import { required, minValue } from 'vuelidate/lib/validators';
+import { required, minValue } from '@vuelidate/validators';
 import General from './opened-queue-general.vue';
 import Params from './opened-queue-params.vue';
 import Processing from './opened-queue-processing.vue';
@@ -82,7 +83,9 @@ export default {
   data: () => ({
     namespace: 'ccenter/queues',
   }),
-
+  setup: () => ({
+    v$: useVuelidate(),
+  }),
   validations() {
     const defaults = {
       name: { required },

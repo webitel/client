@@ -25,6 +25,7 @@
 
 <script>
 import { editor, languages } from 'monaco-editor';
+import { markRaw } from 'vue';
 
 // https://microsoft.github.io/monaco-editor/api/interfaces/monaco.editor.ieditorconstructionoptions.html
 
@@ -105,7 +106,8 @@ export default {
     initEditor() {
       this.handleDisabled();
       config.value = this.value || '[]';
-      this.editor = editor.create(this.$refs.editor, config);
+      // https://twitter.com/xanf_ua/status/1607423628387438593
+      this.editor = markRaw(editor.create(this.$refs.editor, config));
       this.editor.onDidChangeModelContent((event) => {
         const value = this.editor.getValue();
         if (this.value !== value) {

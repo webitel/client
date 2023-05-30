@@ -45,6 +45,14 @@
         @input="setItemPayloadProp({ prop: 'maxIdleClient', value: +$event })"
       ></wt-timepicker>
       <wt-timepicker
+        v-if="specificControls.maxIdleDialog"
+        :disabled="disableUserInput"
+        :label="$t('objects.ccenter.queues.maxIdleDialog')"
+        :v="v.itemInstance.payload.maxIdleDialog"
+        :value="itemInstance.payload.maxIdleDialog"
+        @input="setItemPayloadProp({ prop: 'maxIdleDialog', value: +$event })"
+      ></wt-timepicker>
+      <wt-timepicker
         v-if="specificControls.waitBetweenRetries"
         :disabled="disableUserInput"
         :label="$t('objects.ccenter.queues.waitBetweenRetries')"

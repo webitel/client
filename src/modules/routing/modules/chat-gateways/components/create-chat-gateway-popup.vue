@@ -8,23 +8,23 @@
     @select="createGateway"
   >
     <template v-slot:option="{ option }">
-      <wt-icon
-        v-if="option.icon && !Array.isArray(option.icon)"
-        :icon="option.icon"
-        size="sm"
-      ></wt-icon>
-      <div
-        v-if="Array.isArray(option.icon)"
-        class="popup-options__icons-wrap"
-      >
-        <wt-icon
-          v-for="(icon, key) of option.icon"
-          :icon="icon"
-          :key="key"
-          size="sm"
-        ></wt-icon>
-      </div>
-      <h4 class="popup-options__item-header">{{ option.title }}</h4>
+          <wt-icon
+            v-if="option.icon && !Array.isArray(option.icon)"
+            :icon="option.icon"
+            size="sm"
+          ></wt-icon>
+          <div
+            v-if="Array.isArray(option.icon)"
+            class="popup-options__icons-wrap"
+          >
+            <wt-icon
+              v-for="(icon, key) of option.icon"
+              :icon="icon"
+              :key="key"
+              size="sm"
+            ></wt-icon>
+          </div>
+          <h4 class="popup-options__item-header">{{ option.title }}</h4>
     </template>
   </selection-popup>
 </template>
@@ -39,7 +39,7 @@ export default {
   components: { SelectionPopup },
 
   data: () => ({
-    selected: null,
+    selected: {},
   }),
   computed: {
     options() {
@@ -60,8 +60,8 @@ export default {
       };
       const messenger = {
         value: ChatGatewayProvider.MESSENGER,
-        title: this.$t('objects.routing.chatGateways.messenger.messenger'),
-        icon: ['messenger-messenger', 'send-arrow', 'messenger-facebook', 'instagram', 'messenger-whatsapp'],
+        title: this.$t('objects.routing.chatGateways.messenger.meta'),
+        icon: ['meta', 'send-arrow', 'messenger-facebook', 'instagram', 'messenger-whatsapp'],
       };
       const viber = {
         value: ChatGatewayProvider.VIBER,
@@ -95,17 +95,22 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+
 .selection-popup {
   .popup-options__item-wrap {
     .wt-icon {
       margin-right: var(--spacing-xs);
     }
   }
+
   .popup-options__item-header {
     @extend %typo-subtitle-2;
   }
+
   .popup-options__icons-wrap {
-    display: flex;
+      display: flex;
   }
+
 }
+
 </style>

@@ -27,6 +27,7 @@ export default {
   computed: {
     options() {
       return Object.entries(QueueTypeProperties).map(([type, { locale }]) => ({
+        value: type, // popup identifies selected option by "value"
         type,
         title: this.$t(locale),
         description: this.$t(`${locale}Description`),

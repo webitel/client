@@ -1,19 +1,21 @@
 <template>
   <wt-popup overflow @close="close">
-    <template slot="title">{{ $t('objects.ccenter.agents.statusHistory') }}</template>
+    <template v-slot:title>{{ $t('objects.ccenter.agents.statusHistory') }}</template>
     <template v-slot:main>
       <section class="history-popup">
         <div class="history-popup__filters">
-          <wt-datetimepicker
+          <wt-datepicker
             :label="$t('objects.from')"
             :value="from"
-            @change="setFrom"
-          ></wt-datetimepicker>
-          <wt-datetimepicker
+            mode="datetime"
+            @input="setFrom"
+          ></wt-datepicker>
+          <wt-datepicker
             :label="$t('objects.to')"
             :value="to"
-            @change="setTo"
-          ></wt-datetimepicker>
+            mode="datetime"
+            @input="setTo"
+          ></wt-datepicker>
         </div>
         <div class="table-wrapper">
           <wt-table
@@ -22,22 +24,23 @@
             :headers="headers"
             :selectable="false"
           >
-            <template slot="state" slot-scope="{ item }">
+            <template v-slot:state="{ item }">
               {{ $t(`${agentState[item.state]}`) }}
             </template>
-            <template v-if="item.channel"
-                      slot="channel" slot-scope="{ item }">
+            <template v-slot:channel="{ item }">
+              <span v-if="item.channel">
               {{ $t(`channel.type.${item.channel}`) }}
+              </span>
             </template>
-            <template slot="from" slot-scope="{ item }">
+            <template v-slot:from="{ item }">
               {{ prettifyTime(item.joinedAt) }}
             </template>
-            <template slot="to" slot-scope="{ item }">
+            <template v-slot:to="{ item }">
               <div v-if="item.duration">
                 {{ calcStatusTo(item) }}
               </div>
             </template>
-            <template slot="duration" slot-scope="{ item }">
+            <template v-slot:duration="{ item }">
               {{ convertDuration(item.duration) }}
             </template>
           </wt-table>
@@ -54,7 +57,7 @@
         </div>
       </section>
     </template>
-    <template slot="actions">
+    <template v-slot:actions>
       <wt-button @click="close">{{ $t('objects.ok') }}</wt-button>
       <wt-button color="secondary" @click="close"> {{ $t('objects.close') }}</wt-button>
     </template>

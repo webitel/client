@@ -38,22 +38,22 @@
         :data="dataList"
         :grid-actions="!disableUserInput"
       >
-        <template slot="destination" slot-scope="{ item }">
+        <template v-slot:destination="{ item }">
           {{ item.destination }}
         </template>
-        <template slot="state" slot-scope="{ item }">
+        <template v-slot:state="{ item }">
           {{ item.state }}
         </template>
-        <template slot="attempts" slot-scope="{ item }">
+        <template v-slot:attempts="{ item }">
           {{ item.attempts }}
         </template>
-        <template slot="type" slot-scope="{ item }">
+        <template v-slot:type="{ item }">
           {{ item.type.name }}
         </template>
-        <template slot="priority" slot-scope="{ item }">
+        <template v-slot:priority="{ item }">
           {{ item.priority }}
         </template>
-        <template slot="actions" slot-scope="{ index, item }">
+        <template v-slot:actions="{ index, item }">
           <edit-action
             @click="edit(index)"
           ></edit-action>

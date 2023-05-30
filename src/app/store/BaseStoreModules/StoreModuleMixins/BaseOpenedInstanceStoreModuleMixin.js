@@ -1,5 +1,4 @@
 import deepCopy from 'deep-copy';
-import proxy from '../../../utils/editProxy';
 
 const state = {
   itemId: 0,
@@ -17,11 +16,12 @@ const actions = {
   LOAD_ITEM: async (context) => {
     if (context.state.itemId) {
       const item = await context.dispatch('GET_ITEM');
-      context.commit('SET_ITEM', proxy(item));
+      context.commit('SET_ITEM', item);
     }
   },
   SET_ITEM_PROPERTY: (context, payload) => {
     context.commit('SET_ITEM_PROPERTY', payload);
+    context.commit('SET_ITEM_PROPERTY', { prop: '_dirty', value: true });
   },
   RESET_ITEM_STATE: async (context) => {
     context.commit('RESET_ITEM_STATE');

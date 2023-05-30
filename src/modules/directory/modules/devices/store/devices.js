@@ -3,7 +3,6 @@ import DevicesAPI from '../api/devices';
 import ObjectStoreModule from '../../../../../app/store/BaseStoreModules/StoreModules/ObjectStoreModule';
 import PermissionsStoreModule from '../../../../../app/store/BaseStoreModules/StoreModules/PermissionsStoreModule/PermissionsStoreModule';
 import HistoryStoreModule from '../../../../../app/store/BaseStoreModules/StoreModules/HistoryStoreModule/HistoryStoreModule';
-import proxy from '../../../../../app/utils/editProxy';
 import defaultDevice from './_internals/deviceSchema/defaults/defaultDevice';
 import hotdeskDevice from './_internals/deviceSchema/hotdeskDevice';
 import headers from './_internals/headers';
@@ -27,7 +26,7 @@ const actions = {
     } else {
       item = deepMerge(defaultDevice(), item);
     }
-    context.commit('SET_ITEM', proxy(item));
+    context.commit('SET_ITEM', item);
   },
 };
 

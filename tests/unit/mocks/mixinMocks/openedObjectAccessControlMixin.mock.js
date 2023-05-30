@@ -1,8 +1,10 @@
 const openedObjectAccessControlMixinMock = () => ({
-  mocks: {
-    $route: {
-      name: '',
-      params: { id: 1 },
+  global: {
+    mocks: {
+      $route: {
+        name: '',
+        params: { id: 1 },
+      },
     },
   },
 });

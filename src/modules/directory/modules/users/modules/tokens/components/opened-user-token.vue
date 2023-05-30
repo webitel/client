@@ -44,18 +44,18 @@
         sortable
         @sort="sort"
       >
-        <template slot="usage" slot-scope="{ item }">
+        <template v-slot:usage="{ item }">
           {{ item.usage }}
         </template>
-        <template slot="createdBy" slot-scope="{ item }">
+        <template v-slot:createdBy="{ item }">
           <div v-if="item.createdBy">
             {{ item.createdBy.name }}
           </div>
         </template>
-        <template slot="createdAt" slot-scope="{ item }">
+        <template v-slot:createdAt="{ item }">
           {{ prettifyDate(item.createdAt) }}
         </template>
-        <template slot="actions" slot-scope="{ item }">
+        <template v-slot:actions="{ item }">
           <wt-icon-btn
             icon="bucket"
             @click="callDelete(item)"
@@ -77,7 +77,7 @@
 </template>
 
 <script>
-import AddAction from '../../../../../../../app/components/actions/add-action';
+import AddAction from '../../../../../../../app/components/actions/add-action.vue';
 import TokenPopup from './opened-user-token-popup.vue';
 import TokenCreatedPopup from './opened-user-token-created-popup.vue';
 import openedObjectTableTabMixin

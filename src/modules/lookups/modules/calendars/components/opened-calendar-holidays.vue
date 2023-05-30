@@ -41,17 +41,17 @@
         :data="dataList"
         :grid-actions="!disableUserInput"
       >
-        <template slot="date" slot-scope="{ item }">
+        <template v-slot:date="{ item }">
           {{ prettifyDate(item.date) }}
         </template>
-        <template slot="repeat" slot-scope="{ item, index }">
+        <template v-slot:repeat="{ item, index }">
           <wt-switcher
             :value="item.repeat"
             :disabled="disableUserInput"
             @change="setRepeatValue({ prop: 'repeat', index, value: $event })"
           ></wt-switcher>
         </template>
-        <template slot="actions" slot-scope="{ item, index }">
+        <template v-slot:actions="{ item, index }">
           <edit-action
             @click="edit(index)"
           ></edit-action>

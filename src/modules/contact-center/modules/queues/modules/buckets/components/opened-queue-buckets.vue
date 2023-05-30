@@ -44,20 +44,20 @@
         sortable
         @sort="sort"
       >
-        <template slot="name" slot-scope="{ item }">
+        <template v-slot:name="{ item }">
           {{ item.bucket.name }}
         </template>
-        <template slot="priority" slot-scope="{ item }">
+        <template v-slot:priority="{ item }">
           {{ item.priority }}
         </template>
-        <template slot="state" slot-scope="{ item, index }">
+        <template v-slot:state="{ item, index }">
           <wt-switcher
             :value="!item.disabled"
             :disabled="!hasEditAccess"
             @change="patchItem({ item, index, prop: 'disabled', value: !$event })"
           ></wt-switcher>
         </template>
-        <template slot="actions" slot-scope="{ item }">
+        <template v-slot:actions="{ item }">
           <edit-action
             @click="edit(item)"
           ></edit-action>

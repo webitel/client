@@ -16,14 +16,14 @@
           <form @submit="changePassword">
             <wt-input
               v-model="newPassword"
-              :v="$v.newPassword"
+              :v="v$.newPassword"
               :label="$t('auth.password')"
               type="password"
               required
             ></wt-input>
             <wt-input
               v-model="confirmNewPassword"
-              :v="$v.confirmNewPassword"
+              :v="v$.confirmNewPassword"
               :label="$t('auth.confirmPassword')"
               type="password"
               required
@@ -60,7 +60,7 @@
               <p>{{ $t('settings.useWebPhone') }}</p>
               <wt-switcher
                 v-model="webrtc"
-                @change="changeWebPhone"
+                @change="changeWebrtc"
               ></wt-switcher>
             </div>
             <div
@@ -69,7 +69,7 @@
               <p>{{ $t('settings.useStun') }}</p>
               <wt-switcher
                 v-model="stun"
-                @change="changeWebPhone"
+                @change="changeStun"
               ></wt-switcher>
             </div>
           </form>
@@ -80,8 +80,9 @@
 </template>
 
 <script>
+import { useVuelidate } from '@vuelidate/core';
 import getNamespacedState from '@webitel/ui-sdk/src/store/helpers/getNamespacedState';
-import { sameAs, required } from 'vuelidate/lib/validators';
+import { sameAs, required } from '@vuelidate/validators';
 import { mapState } from 'vuex';
 import { changePassword, changeWebPhone, getWebPhone } from '../api/settings';
 import objectHeader from '../../../app/components/utils/object-utils/the-object-header.vue';
@@ -91,6 +92,7 @@ export default {
   components: {
     objectHeader,
   },
+  inject: ['$eventBus'],
   data: () => ({
     newPassword: '',
     confirmNewPassword: '',
@@ -114,16 +116,25 @@ export default {
         name: 'Українська',
         id: 'ua',
       },
+      {
+        name: 'Español',
+        id: 'es',
+      },
     ],
   }),
 
-  validations: {
-    newPassword: {
-      required,
-    },
-    confirmNewPassword: {
-      sameAs: sameAs('newPassword'),
-    },
+  setup: () => ({
+    v$: useVuelidate(),
+  }),
+  validations() {
+    return {
+      newPassword: {
+        required,
+      },
+      confirmNewPassword: {
+        sameAs: sameAs(this.newPassword),
+      },
+    };
   },
 
   created() {
@@ -137,8 +148,8 @@ export default {
       },
     }),
     disablePasswordChange() {
-      this.$v.$touch();
-      return this.$v.$pending || this.$v.$error;
+      this.v$.$touch();
+      return this.v$.$pending || this.v$.$error;
     },
   },
 
@@ -162,13 +173,23 @@ export default {
       }
     },
 
-    changeWebPhone() {
+    async changeWebrtc(value) {
         try {
-          // eslint-disable-next-line max-len
-          changeWebPhone({ webrtc: this.webrtc, stun: !this.webrtc ? false : this.stun });
+          this.webrtc = value;
+          if (!value) this.stun = false;
+          await changeWebPhone({ webrtc: this.webrtc, stun: this.stun });
         } catch (err) {
           throw err;
         }
+    },
+
+    async changeStun(value) {
+      try {
+        this.stun = !this.webrtc ? false : value;
+        await changeWebPhone({ webrtc: this.webrtc, stun: this.stun });
+      } catch (err) {
+        throw err;
+      }
     },
 
     changeLanguage(value) {

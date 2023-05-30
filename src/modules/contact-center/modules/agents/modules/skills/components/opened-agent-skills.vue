@@ -44,22 +44,22 @@
         sortable
         @sort="sort"
       >
-        <template slot="name" slot-scope="{ item }">
+        <template v-slot:name="{ item }">
           <div v-if="item.skill">
             {{ item.skill.name }}
           </div>
         </template>
-        <template slot="capacity" slot-scope="{ item }">
+        <template v-slot:capacity="{ item }">
           {{ item.capacity }}
         </template>
-        <template slot="state" slot-scope="{ item, index }">
+        <template v-slot:state="{ item, index }">
           <wt-switcher
             :value="item.enabled"
             :disabled="!hasEditAccess"
             @change="patchItem({ item, index, prop: 'enabled', value: $event })"
           ></wt-switcher>
         </template>
-        <template slot="actions" slot-scope="{ item }">
+        <template v-slot:actions="{ item }">
           <edit-action
             @click="edit(item)"
           ></edit-action>

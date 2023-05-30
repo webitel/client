@@ -4,12 +4,14 @@ import UploadFlowPopup from '../upload-flow-popup.vue';
 describe('UploadFlowPopup', () => {
   it('renders a component', () => {
     const wrapper = shallowMount(UploadFlowPopup, {
-      propsData: {
+      props: {
         file: new File([], '321'),
       },
-      mocks: {
-        $v: {
-          $touch: jest.fn(),
+      global: {
+        mocks: {
+          v$: {
+            $touch: jest.fn(),
+          },
         },
       },
     });
