@@ -28,6 +28,7 @@ import ChatGatewaysAPI from '../../../../chat-gateways/api/chatGateways';
 import gatewaysAPI from '../../../../gateways/api/gateways';
 import FlowsAPI from '../../../api/flow';
 import RolesAPI from '../../../../../../permissions/modules/roles/api/roles';
+import AgentsAPI from '../../../../../../contact-center/modules/agents/api/agents';
 
 export default {
   name: 'opened-flow-diagram',
@@ -73,6 +74,7 @@ export default {
               gateways: gatewaysAPI.getLookup,
               lists: BlacklistsAPI.getLookup,
               communications: CommunicationsAPI.getLookup,
+              agents: AgentsAPI.getLookup,
               roles: () => RolesAPI.getExtendedRoles({ fields: ['name', 'id', 'user'] }),
               chatGateways: ({ provider, ...rest }) => ChatGatewaysAPI
               .getLookup({ rest: { provider }, ...rest }),
