@@ -10,6 +10,10 @@
     </template>
 
     <template v-slot:main>
+      <create-cognitive-profile-popup
+        v-if="isCognitiveProfilePopup"
+        @close="isCognitiveProfilePopup = false"
+      ></create-cognitive-profile-popup>
       <delete-confirmation-popup
         v-show="deleteConfirmation.isDeleteConfirmationPopup"
         :payload="deleteConfirmation"
@@ -113,13 +117,18 @@
 <script>
 import tableComponentMixin from '../../../../../app/mixins/objectPagesMixins/objectTableMixin/tableComponentMixin';
 import RouteNames from '../../../../../app/router/_internals/RouteNames.enum';
+import CreateCognitiveProfilePopup from './create-cognitive-profile-popup.vue';
 
 export default {
   name: 'the-cognitive-profiles',
   mixins: [tableComponentMixin],
+  components: {
+    CreateCognitiveProfilePopup,
+  },
   data: () => ({
     namespace: 'integrations/cognitiveProfiles',
     routeName: RouteNames.COGNITIVE_PROFILES,
+    isCognitiveProfilePopup: false,
   }),
 
   computed: {
@@ -134,6 +143,9 @@ export default {
     },
   },
   methods: {
+    create() {
+      this.isCognitiveProfilePopup = true;
+    },
     async changeDefaultProfile({ index, item, value }) {
       try {
         await this.patchItem({

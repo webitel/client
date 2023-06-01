@@ -1,9 +1,9 @@
 import { shallowMount } from '@vue/test-utils';
 import deepmerge from 'deepmerge';
 import OpenedCognitiveProfileGeneral
-  from '../opened-cognitive-profile-general.vue';
+  from '../opened-cognitive-profile-microsoft.vue';
 import OpenedTabComponentMixinMock
-  from '../../../../../../../tests/unit/mocks/mixinMocks/openedTabComponentMixin.mock';
+  from '../../../../../../../../tests/unit/mocks/mixinMocks/openedTabComponentMixin.mock';
 
 describe('OpenedCognitiveProfileGeneral', () => {
   const computed = {
