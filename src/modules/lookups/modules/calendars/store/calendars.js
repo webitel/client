@@ -47,23 +47,27 @@ const actions = {
     };
     value.splice(dayIndex, 0, dayItem);
     context.commit('SET_ITEM_PROPERTY', { prop: 'accepts', value });
+    context.commit('SET_ITEM_PROPERTY', { prop: '_dirty', value: true });
   },
 
   REMOVE_ACCEPT_ITEM: (context, index) => {
     const value = context.state.itemInstance.accepts;
     value.splice(index, 1);
     context.commit('SET_ITEM_PROPERTY', { prop: 'accepts', value });
+    context.commit('SET_ITEM_PROPERTY', { prop: '_dirty', value: true });
   },
 
   ADD_EXCEPT_ITEM: (context, item) => {
     const value = context.state.itemInstance.excepts.concat(item);
     context.commit('SET_ITEM_PROPERTY', { prop: 'excepts', value });
+    context.commit('SET_ITEM_PROPERTY', { prop: '_dirty', value: true });
   },
 
   UPDATE_EXCEPT_ITEM: (context, { index, item }) => {
     const value = context.state.itemInstance.excepts;
     value.splice(index, 1, item);
     context.commit('SET_ITEM_PROPERTY', { prop: 'excepts', value });
+    context.commit('SET_ITEM_PROPERTY', { prop: '_dirty', value: true });
   },
 
   DELETE_EXCEPT_ITEM: async (context, deleted) => {
@@ -79,8 +83,12 @@ const actions = {
   },
   DELETE_SINGLE_EXCEPT_ITEM: async (context, item) => {
     const { excepts } = context.state.itemInstance;
-    excepts.splice(excepts.findIndex((except) => except.name === item.name && except.date === item.date), 1);
+    excepts.splice(
+      excepts.findIndex((except) => except.name === item.name && except.date === item.date),
+      1,
+    );
     context.commit('SET_ITEM_PROPERTY', { prop: 'excepts', value: excepts });
+    context.commit('SET_ITEM_PROPERTY', { prop: '_dirty', value: true });
   },
   DELETE_BULK_EXCEPT_ITEMS: async (context, deleted) => Promise.allSettled(deleted.map((item) => context.dispatch('DELETE_SINGLE_EXCEPT_ITEM', item))),
 
