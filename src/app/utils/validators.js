@@ -65,6 +65,6 @@ export const regExpValidator = (value) => {
   try {
     return new RegExp(value) instanceof RegExp;
   } catch (e) {
-    return false;
+    console.log('Regular expression is not valid', e);
   }
 };
