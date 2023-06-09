@@ -412,7 +412,7 @@ export default {
       protocol: 'Протокол',
       port: 'Порт',
       configuration: 'Конфигурация',
-      schema: 'Схема',
+      schema: 'Схема звонка',
       json: 'JSON',
 
       flow: {

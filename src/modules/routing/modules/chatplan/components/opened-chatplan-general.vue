@@ -15,7 +15,7 @@
       <wt-select
         :value="itemInstance.schema"
         :v="v.itemInstance.schema"
-        :label="$tc('objects.routing.schema', 1)"
+        :label="$tc('objects.routing.flow.flow', 1)"
         :search-method="loadFlows"
         :clearable="false"
         :disabled="disableUserInput"
