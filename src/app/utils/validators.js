@@ -60,3 +60,11 @@ export const timerangeNotIntersect = (array) => {
 
 export const lessOrEqualTo = (comparedProp) => (value, vm) => value <= vm[comparedProp];
 export const moreOrEqualTo = (comparedProp) => (value, vm) => value >= vm[comparedProp];
+
+export const regExpValidator = (value) => {
+  try {
+    return new RegExp(value) instanceof RegExp;
+  } catch (e) {
+    return false;
+  }
+};
