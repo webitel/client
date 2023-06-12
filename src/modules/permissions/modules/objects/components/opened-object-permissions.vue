@@ -58,10 +58,7 @@ export default {
       return [
         { name: this.$t('objects.permissions.permissions') },
         { name: this.$t('objects.permissions.object.object'), route: baseUrl },
-        {
-          name: this.pathName,
-          route: `${baseUrl}/${this.id}`,
-        },
+        { name: this.pathName, route: `${baseUrl}/${this.id}` },
       ];
     },
   },
@@ -71,6 +68,13 @@ export default {
     setPathName() {
       this.pathName = this.itemInstance.class;
     },
+  },
+  mounted() {
+    // override headlineNavMixin
+    const unwatch = this.$watch('itemInstance.class', () => {
+      this.setPathName();
+      unwatch();
+    });
   },
 };
 </script>
