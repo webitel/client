@@ -5,7 +5,6 @@ unused
 /coverage
 .eslintignore
 jest.json
-package-lock.json
 
 # local env files
 .env.local
