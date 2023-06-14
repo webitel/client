@@ -1034,4 +1034,7 @@ export default {
     expand: 'Розгорнути',
     collapse: 'Згорнути',
   },
+  errors: {
+    invalidJson: 'Некоректний JSON',
+  },
 };

@@ -8,7 +8,11 @@ describe('OpenedCognitiveProfile', () => {
   it('renders a component', () => {
     const wrapper = shallowMount(OpenedCognitiveProfile, deepmerge.all([
       openedObjectMixinMock(),
-      {},
+      {
+        // computed: {
+        //   itemInstance: () => ({ provider: 'jest' }),
+        // },
+      },
     ]));
     expect(wrapper.exists()).toBe(true);
   });

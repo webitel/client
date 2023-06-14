@@ -1033,4 +1033,7 @@ export default {
     expand: 'Развернуть',
     collapse: 'Свернуть',
   },
+  errors: {
+    invalidJson: 'Некорректный JSON',
+  },
 };

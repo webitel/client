@@ -1,11 +1,11 @@
 import { shallowMount } from '@vue/test-utils';
 import deepmerge from 'deepmerge';
-import OpenedCognitiveProfileMicrosoft
-  from '../opened-cognitive-profile-microsoft.vue';
+import OpenedCognitiveProfileGoogle
+  from '../opened-cognitive-profile-google.vue';
 import OpenedTabComponentMixinMock
   from '../../../../../../../../tests/unit/mocks/mixinMocks/openedTabComponentMixin.mock';
 
-describe('OpenedCognitiveProfileMicrosoft', () => {
+describe('OpenedCognitiveProfileGoogle', () => {
   const computed = {
     itemInstance: () => ({
       properties: {},
@@ -13,11 +13,11 @@ describe('OpenedCognitiveProfileMicrosoft', () => {
   };
 
   it('renders a component', () => {
-    const wrapper = shallowMount(OpenedCognitiveProfileMicrosoft, deepmerge.all([
+    const wrapper = shallowMount(OpenedCognitiveProfileGoogle, deepmerge.all([
       OpenedTabComponentMixinMock(),
       {
         props: {
-          v: { itemInstance: { properties: {} } },
+          v: { itemInstance: { properties: { key: { $error: false } } } },
         },
         computed,
       },

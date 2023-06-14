@@ -4,6 +4,7 @@ const openedObjectAccessControlMixinMock = () => ({
       $route: {
         name: '',
         params: { id: 1 },
+        query: {},
       },
     },
   },

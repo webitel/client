@@ -23,7 +23,7 @@
       ></wt-select>
       <wt-select
         :clearable="false"
-        :disabled="disableUserInput"
+        :disabled="true || disableUserInput"
         :label="$t('objects.service')"
         :options="CognitiveProfileServices"
         :v="v.itemInstance.service"
@@ -32,34 +32,49 @@
         track-by="value"
         @input="setItemProp({ prop: 'service', value: $event })"
       ></wt-select>
-      <wt-input
-        :disabled="disableUserInput"
-        :label="$t('objects.key')"
-        :value="itemInstance.properties.key"
-        :v="v.itemInstance.properties.key"
-        required
-        @input="setItemPropertiesProp({ prop: 'key', value: $event })"
-      ></wt-input>
+      <div class="google-key">
+        <wt-label
+          :invalid="v.itemInstance.properties.key.$error"
+        >{{ $t('objects.key') }}*
+        </wt-label>
+        <div v-if="!keyFilename">
+          <wt-button
+            color="secondary"
+            :disabled="disableUserInput"
+            :loading="isKeyLoading"
+            wide
+            @click="triggerFileInput"
+          >{{ $t('reusable.upload') }}
+          </wt-button>
+          <input
+            ref="googleKeyInput"
+            class="google-key__input"
+            type="file"
+            accept="application/json"
+            @input="handleFileInput"
+          >
+        </div>
+        <div
+          v-else
+          class="google-key__file-preview-wrap"
+        >
+          {{ keyFilename }}
+          <wt-icon-action
+            action="delete"
+            @click="handleFileDelete"
+          ></wt-icon-action>
+        </div>
+      </div>
       <wt-select
         :disabled="disableUserInput"
         :label="$t('objects.integrations.cognitiveProfiles.properties.locale')"
-        :options="MicrosoftLanguageOptions"
+        :options="LanguageOptions"
         :value="itemInstance.properties.locale"
         :v="v.itemInstance.properties.locale"
         :clearable="false"
         :track-by="null"
         required
         @input="setItemPropertiesProp({ prop: 'locale', value: $event })"
-      ></wt-select>
-      <wt-select
-        :disabled="disableUserInput"
-        :label="$t('objects.integrations.cognitiveProfiles.properties.region')"
-        :options="MicrosoftRegion"
-        :value="itemInstance.properties.region"
-        :v="v.itemInstance.properties.region"
-        :clearable="false"
-        required
-        @input="setItemPropertiesProp({ prop: 'region', value: $event })"
       ></wt-select>
       <wt-textarea
         :disabled="disableUserInput"
@@ -74,7 +89,6 @@
 <script>
 import { mapActions } from 'vuex';
 import { MicrosoftLanguage } from 'webitel-sdk/esm2015/enums';
-import { MicrosoftRegion } from 'webitel-sdk/esm2015/lookups';
 import openedTabComponentMixin
   from '../../../../../../app/mixins/objectPagesMixins/openedObjectTabMixin/openedTabComponentMixin';
 import CognitiveProfileServices from '../../lookups/CognitiveProfileServices.lookup';
@@ -82,10 +96,12 @@ import CognitiveProfileServices from '../../lookups/CognitiveProfileServices.loo
 export default {
   name: 'opened-cognitive-profile-google',
   mixins: [openedTabComponentMixin],
+  inject: ['$eventBus'],
   data: () => ({
-    MicrosoftRegion,
     CognitiveProfileServices,
-    MicrosoftLanguageOptions: Object.values(MicrosoftLanguage),
+    LanguageOptions: Object.values(MicrosoftLanguage),
+    keyFilename: '',
+    isKeyLoading: false,
   }),
   methods: {
     ...mapActions({
@@ -93,10 +109,47 @@ export default {
         return dispatch(`${this.namespace}/SET_ITEM_PROPERTIES_PROP`, payload);
       },
     }),
+    triggerFileInput() {
+      this.$refs.googleKeyInput.click();
+    },
+    handleFileInput(event) {
+      this.isKeyLoading = true;
+      const reader = new FileReader();
+      reader.onload = (e) => {
+        try {
+          const value = JSON.parse(e.target.result);
+          this.setItemPropertiesProp({ prop: 'key', value });
+          this.keyFilename = event.target.files[0].name;
+        } catch (err) {
+          this.$eventBus.$emit('notification', { type: 'error', text: this.$t('errors.invalidJson') });
+        } finally {
+          this.isKeyLoading = false;
+          this.$refs.googleKeyInput.value = '';
+        }
+      };
+      reader.readAsText(event.target.files[0]);
+    },
+    handleFileDelete() {
+      this.setItemPropertiesProp({ prop: 'key', value: '' });
+      this.keyFilename = '';
+    },
   },
 };
 </script>
 
-<style scoped>
+<style lang="scss" scoped>
+.google-key__input {
+  width: 0;
+  height: 0;
+}
 
+.google-key__file-preview-wrap {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: var(--spacing-xs) var(--spacing-sm);
+  background: var(--secondary-color-50);
+  border-radius: var(--border-radius);
+  flex-wrap: nowrap;
+}
 </style>
