@@ -37,6 +37,7 @@ import { useVuelidate } from '@vuelidate/core';
 import { required } from '@vuelidate/validators';
 import General from './opened-dialplan-general.vue';
 import openedObjectMixin from '../../../../../app/mixins/objectPagesMixins/openedObjectMixin/openedObjectMixin';
+import { regExpValidator } from '@/app/utils/validators';
 
 export default {
   name: 'opened-dialplan',
@@ -53,7 +54,7 @@ export default {
     itemInstance: {
       name: { required },
       schema: { required },
-      pattern: { required },
+      pattern: { required, regExpValidator },
     },
   },
 

@@ -61,11 +61,13 @@ const actions = {
   ADD_MEMBER_COMMUNICATION: (context, item) => {
     const value = context.state.itemInstance.communications.concat(item);
     context.commit('SET_ITEM_PROPERTY', { prop: 'communications', value });
+    context.commit('SET_ITEM_PROPERTY', { prop: '_dirty', value: true });
   },
   UPDATE_MEMBER_COMMUNICATION: (context, { index, item }) => {
     const value = [...context.state.itemInstance.communications];
     value.splice(index, 1, item);
     context.commit('SET_ITEM_PROPERTY', { prop: 'communications', value });
+    context.commit('SET_ITEM_PROPERTY', { prop: '_dirty', value: true });
   },
   DELETE_MEMBER_COMMUNICATION: (context, deleted) => {
     let action = 'DELETE_SINGLE_COMMUNICATION';
