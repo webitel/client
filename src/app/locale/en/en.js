@@ -1036,4 +1036,7 @@ export default {
     expand: 'Expand',
     collapse: 'Collapse',
   },
+  errors: {
+    invalidJson: 'JSON is invalid',
+  },
 };
