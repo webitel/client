@@ -6,7 +6,7 @@ const state = {
   dataList: [],
   size: 10,
   search: '',
-  page: 1,
+  page: 99999,
   sort: '',
   isNextPage: false,
 };

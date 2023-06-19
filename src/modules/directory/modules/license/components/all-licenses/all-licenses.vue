@@ -34,7 +34,15 @@
     </header>
 
     <wt-loader v-show="!isLoaded"></wt-loader>
-    <div v-show="isLoaded" class="table-wrapper">
+    <wt-dummy
+      v-if="dummyValue && isLoaded"
+      :src="dummyValue.src"
+      :locale="dummyValue.locale"
+      class="dummy-wrapper"
+    ></wt-dummy>
+    <div
+      v-show="dataList.length && isLoaded"
+      class="table-wrapper">
       <wt-table
         :data="dataList"
         :grid-actions="false"
@@ -106,6 +114,7 @@ import tableComponentMixin from '../../../../../../app/mixins/objectPagesMixins/
 import RouteNames from '../../../../../../app/router/_internals/RouteNames.enum';
 import LicenseUsersPopup from '../../modules/license-users/components/license-users-popup.vue';
 import LicensePopup from './license-popup.vue';
+import DummyAfterSearch from '../../../../../../app/assets/dummy/adm-dummy-after-search.svg';
 
 export default {
   name: 'all-licenses',
@@ -119,6 +128,14 @@ export default {
   computed: {
     isLicenseUsersPopup() {
       return !!this.$route.params.id;
+    },
+    dummyValue() {
+      if (this.search && !this.dataList.length) {
+        return {
+          src: DummyAfterSearch,
+          locale: this.$t('objects.emptyResultSearch'),
+        };
+      } return '';
     },
   },
   methods: {
@@ -151,6 +168,9 @@ export default {
 
 <style lang="scss" scoped>
 .all-licenses {
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
   --license--valid: rgba(255, 234, 0, 0.3);
   --license--90: rgba(255, 234, 0, 0.3);
   --license--30: rgba(255, 68, 68, 0.3);
@@ -190,5 +210,8 @@ export default {
   &.days0 {
     background: var(--license--0);
   }
+}
+.dummy-wrapper {
+  height: 100%;
 }
 </style>

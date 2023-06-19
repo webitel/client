@@ -64,7 +64,16 @@
         </header>
 
         <wt-loader v-show="!isLoaded"></wt-loader>
-        <div class="table-wrapper" v-show="isLoaded">
+        <wt-dummy
+          v-if="dummyValue && isLoaded"
+          :src="dummyValue.src"
+          :locale="dummyValue.locale"
+          class="dummy-wrapper"
+        ></wt-dummy>
+        <div
+          v-show="dataList.length && isLoaded"
+          class="table-wrapper"
+        >
           <wt-table
             :headers="headers"
             :data="dataList"
@@ -142,6 +151,8 @@ import DevicePopup from './create-device-popup.vue';
 import UploadFileIconBtn from '../../../../../app/components/utils/upload-file-icon-btn.vue';
 import tableComponentMixin from '../../../../../app/mixins/objectPagesMixins/objectTableMixin/tableComponentMixin';
 import RouteNames from '../../../../../app/router/_internals/RouteNames.enum';
+import Dummy from '../../../../../app/assets/dummy/adm-dummy.svg';
+import DummyAfterSearch from '../../../../../app/assets/dummy/adm-dummy-after-search.svg';
 
 export default {
   name: 'the-devices',
@@ -158,6 +169,7 @@ export default {
     isUploadPopup: false,
     isDeviceSelectPopup: false,
     csvFile: null,
+    dummyValue: '',
   }),
 
   computed: {
@@ -243,8 +255,35 @@ export default {
       }
     },
   },
+  watch: {
+    dataList: {
+      handler() {
+        if (!this.dataList.length) {
+          if (this.search) {
+            return this.dummyValue = {
+              src: DummyAfterSearch,
+              locale: this.$t('objects.emptyResultSearch'),
+            };
+          } else return this.dummyValue = {
+            src: Dummy,
+            locale: this.$t('objects.emptyWorkspace'),
+          };
+        } else return this.dummyValue = '';
+      },
+      immediate: true,
+    },
+  },
 };
 </script>
 
 <style lang="scss" scoped>
+.devices {
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+}
+
+.dummy-wrapper {
+  height: 100%;
+}
 </style>

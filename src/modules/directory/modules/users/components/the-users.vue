@@ -52,7 +52,15 @@
         </header>
 
         <wt-loader v-show="!isLoaded"></wt-loader>
-        <div class="table-wrapper" v-show="isLoaded">
+        <wt-dummy
+          v-if="dummyValue && isLoaded"
+          :src="dummyValue.src"
+          :locale="dummyValue.locale"
+          class="dummy-wrapper"
+        ></wt-dummy>
+        <div
+          v-show="dataList.length && isLoaded"
+          class="table-wrapper">
           <wt-table
             :headers="headers"
             :data="dataList"
@@ -115,6 +123,7 @@ import UserStatus from './_internals/user-status-chips.vue';
 import UploadFileIconBtn from '../../../../../app/components/utils/upload-file-icon-btn.vue';
 import tableComponentMixin from '../../../../../app/mixins/objectPagesMixins/objectTableMixin/tableComponentMixin';
 import RouteNames from '../../../../../app/router/_internals/RouteNames.enum';
+import DummyAfterSearch from '../../../../../app/assets/dummy/adm-dummy-after-search.svg';
 
 export default {
   name: 'the-users',
@@ -133,6 +142,14 @@ export default {
         { name: this.$t('objects.directory.directory') },
         { name: this.$tc('objects.directory.users.users', 2), route: '/directory/users' },
       ];
+    },
+    dummyValue() {
+      if (this.search && !this.dataList.length) {
+        return {
+          src: DummyAfterSearch,
+          locale: this.$t('objects.emptyResultSearch'),
+        };
+      } return '';
     },
   },
 
@@ -167,4 +184,13 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+.users {
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+}
+
+.dummy-wrapper {
+  height: 100%;
+}
 </style>

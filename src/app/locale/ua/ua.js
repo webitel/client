@@ -148,6 +148,8 @@ export default {
     ID: 'ID',
     email: 'Адреса електронної пошти',
     updatedAt: 'Змінено',
+    emptyWorkspace: 'Записи у розділі ще не створені',
+    emptyResultSearch: 'Пошук не дав результатів',
 
     deleteConfirmation: {
       title: 'Підтвердіть видалення',
