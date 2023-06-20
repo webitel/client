@@ -4,7 +4,10 @@ import headers from './_internals/headers';
 
 const resettableItemState = {
   itemInstance: {
-    agent: {},
+    name: '',
+    team: {},
+    capacity: 10,
+    enabled: true,
   },
 };
 

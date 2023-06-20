@@ -9,20 +9,20 @@ export default [
   },
   {
     value: 'team',
-    locale: 'objects.ccenter.agents.state',
+    locale: ['objects.ccenter.teams.teams', 1],
     field: 'team',
     sort: SortSymbols.NONE,
   },
   {
     value: 'capacity',
-    locale: ['objects.ccenter.agents.supervisors', 1],
+    locale: 'objects.lookups.skills.capacity',
     field: 'capacity',
     sort: SortSymbols.NONE,
   },
   {
     value: 'state',
-    locale: ['objects.lookups.skills.skills', 2],
-    field: 'state',
+    locale: 'objects.lookups.skills.state',
+    field: 'enabled',
     sort: SortSymbols.NONE,
   },
 ];
