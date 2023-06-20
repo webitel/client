@@ -111,14 +111,13 @@
 <script>
 import AddAction from '../../../../../../app/components/actions/add-action';
 import tableComponentMixin from '../../../../../../app/mixins/objectPagesMixins/objectTableMixin/tableComponentMixin';
-import dummyMixin from '../../../../../../app/mixins/dummyMixin';
 import RouteNames from '../../../../../../app/router/_internals/RouteNames.enum';
 import LicenseUsersPopup from '../../modules/license-users/components/license-users-popup.vue';
 import LicensePopup from './license-popup.vue';
 
 export default {
   name: 'all-licenses',
-  mixins: [tableComponentMixin, dummyMixin],
+  mixins: [tableComponentMixin],
   components: { AddAction, LicensePopup, LicenseUsersPopup },
   data: () => ({
     namespace: 'directory/license',

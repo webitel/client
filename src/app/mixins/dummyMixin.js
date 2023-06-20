@@ -4,19 +4,29 @@ import DummyAfterSearch from '../assets/dummy/adm-dummy-after-search.svg';
 export default {
   data: () => ({
     dummyValue: '',
+    dummyPic: Dummy,
+    dummyPicAfterSearch: DummyAfterSearch,
   }),
+  computed: {
+    dummyLocale() {
+      return this.$t('objects.emptyWorkspace');
+    },
+    dummyLocaleAfterSearch() {
+      return this.$t('objects.emptyResultSearch');
+    },
+  },
   watch: {
     dataList: {
       handler() {
         if (!this.dataList.length) {
-          if (this.search) {
+          if (this.search || Object.values(this.$route.query).some((query) => query.length) ) {
             return this.dummyValue = {
-              src: DummyAfterSearch,
-              locale: this.$t('objects.emptyResultSearch'),
+              src: this.dummyPicAfterSearch,
+              locale: this.dummyLocaleAfterSearch,
             };
           } else return this.dummyValue = {
-            src: Dummy,
-            locale: this.$t('objects.emptyWorkspace'),
+            src: this.dummyPic,
+            locale: this.dummyLocale,
           };
         } else return this.dummyValue = '';
       },

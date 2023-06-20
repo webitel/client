@@ -2,6 +2,7 @@ import { mapActions, mapState } from 'vuex';
 import getNamespacedState from '@webitel/ui-sdk/src/store/helpers/getNamespacedState';
 import baseTableMixin from '../../baseMixins/baseTableMixin/baseTableMixin';
 import objectTableAccessControlMixin from './_internals/objectTableAccessControlMixin';
+import dummyMixin from '../../dummyMixin';
 
 /**
  * @fileOverview contains main tables (like the-agents.vue) common logic
@@ -13,7 +14,7 @@ import objectTableAccessControlMixin from './_internals/objectTableAccessControl
  * @extends baseTableMixin, objectTableAccessControlMixin
  */
 export default {
-  mixins: [baseTableMixin, objectTableAccessControlMixin],
+  mixins: [baseTableMixin, objectTableAccessControlMixin, dummyMixin],
   computed: {
     ...mapState({
       headersValue(state) {

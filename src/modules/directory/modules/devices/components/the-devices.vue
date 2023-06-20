@@ -150,12 +150,11 @@ import UploadPopup from './upload-devices-popup.vue';
 import DevicePopup from './create-device-popup.vue';
 import UploadFileIconBtn from '../../../../../app/components/utils/upload-file-icon-btn.vue';
 import tableComponentMixin from '../../../../../app/mixins/objectPagesMixins/objectTableMixin/tableComponentMixin';
-import dummyMixin from '../../../../../app/mixins/dummyMixin';
 import RouteNames from '../../../../../app/router/_internals/RouteNames.enum';
 
 export default {
   name: 'the-devices',
-  mixins: [tableComponentMixin, dummyMixin],
+  mixins: [tableComponentMixin],
   components: {
     HistoryAction,
     HistoryPopup,

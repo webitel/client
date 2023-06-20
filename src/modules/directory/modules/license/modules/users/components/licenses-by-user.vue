@@ -82,12 +82,11 @@
 import { mapActions } from 'vuex';
 import tableComponentMixin
   from '../../../../../../../app/mixins/objectPagesMixins/objectTableMixin/tableComponentMixin';
-import dummyMixin from '../../../../../../../app/mixins/dummyMixin';
 import RouteNames from '../../../../../../../app/router/_internals/RouteNames.enum';
 
 export default {
   name: 'licenses-by-user',
-  mixins: [tableComponentMixin, dummyMixin],
+  mixins: [tableComponentMixin],
   data: () => ({
     namespace: 'directory/license/users',
     staticHeaders: ['name'],
