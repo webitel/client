@@ -1,5 +1,6 @@
 import Dummy from '../assets/dummy/adm-dummy.svg';
 import DummyAfterSearch from '../assets/dummy/adm-dummy-after-search.svg';
+import IsEmpty from '@webitel/ui-sdk/src/scripts/isEmpty';
 
 export default {
   data: () => ({
@@ -19,7 +20,7 @@ export default {
     dataList: {
       handler() {
         if (!this.dataList.length) {
-          if (this.search || Object.values(this.$route.query).some((query) => query.length) ) {
+          if (IsEmpty(this.$route?.query) ? this.search : Object.values(this.$route.query).some((query) => query.length)) {
             return this.dummyValue = {
               src: this.dummyPicAfterSearch,
               locale: this.dummyLocaleAfterSearch,
