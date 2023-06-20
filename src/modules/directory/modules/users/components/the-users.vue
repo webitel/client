@@ -1,5 +1,5 @@
 <template>
-  <wt-page-wrapper class="users" :actions-panel="false">
+  <wt-page-wrapper class="users content-wrapper" :actions-panel="false">
     <template v-slot:header>
       <object-header
         :hide-primary="!hasCreateAccess"
@@ -52,7 +52,15 @@
         </header>
 
         <wt-loader v-show="!isLoaded"></wt-loader>
-        <div class="table-wrapper" v-show="isLoaded">
+        <wt-dummy
+          v-if="dummyValue && isLoaded"
+          :src="dummyValue.src"
+          :locale="dummyValue.locale"
+          class="dummy-wrapper"
+        ></wt-dummy>
+        <div
+          v-show="dataList.length && isLoaded"
+          class="table-wrapper">
           <wt-table
             :headers="headers"
             :data="dataList"
@@ -114,11 +122,12 @@ import UploadPopup from './upload-users-popup.vue';
 import UserStatus from './_internals/user-status-chips.vue';
 import UploadFileIconBtn from '../../../../../app/components/utils/upload-file-icon-btn.vue';
 import tableComponentMixin from '../../../../../app/mixins/objectPagesMixins/objectTableMixin/tableComponentMixin';
+import dummyMixin from '../../../../../app/mixins/dummyMixin';
 import RouteNames from '../../../../../app/router/_internals/RouteNames.enum';
 
 export default {
   name: 'the-users',
-  mixins: [tableComponentMixin],
+  mixins: [tableComponentMixin, dummyMixin],
   components: { UploadPopup, UserStatus, UploadFileIconBtn },
   data: () => ({
     isUploadPopup: false,

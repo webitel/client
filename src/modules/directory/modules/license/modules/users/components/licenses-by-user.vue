@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="content-wrapper">
     <header class="content-header">
       <h3 class="content-title">
         <!--        {{ $tc('objects.directory.users.users', 2) }}-->
@@ -26,7 +26,15 @@
     </header>
 
     <wt-loader v-show="!isLoaded"></wt-loader>
-    <div v-show="isLoaded" class="table-wrapper">
+    <wt-dummy
+      v-if="dummyValue && isLoaded"
+      :src="dummyValue.src"
+      :locale="dummyValue.locale"
+      class="dummy-wrapper"
+    ></wt-dummy>
+    <div
+      v-show="dataList.length && isLoaded"
+      class="table-wrapper">
       <wt-table
         :data="dataList"
         :grid-actions="false"
@@ -74,11 +82,12 @@
 import { mapActions } from 'vuex';
 import tableComponentMixin
   from '../../../../../../../app/mixins/objectPagesMixins/objectTableMixin/tableComponentMixin';
+import dummyMixin from '../../../../../../../app/mixins/dummyMixin';
 import RouteNames from '../../../../../../../app/router/_internals/RouteNames.enum';
 
 export default {
   name: 'licenses-by-user',
-  mixins: [tableComponentMixin],
+  mixins: [tableComponentMixin, dummyMixin],
   data: () => ({
     namespace: 'directory/license/users',
     staticHeaders: ['name'],

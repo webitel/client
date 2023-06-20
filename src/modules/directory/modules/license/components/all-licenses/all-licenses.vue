@@ -1,5 +1,5 @@
 <template>
-  <div class="all-licenses">
+  <div class="all-licenses content-wrapper">
     <license-popup
       v-if="isLicensePopup"
       @close="isLicensePopup = false"
@@ -34,7 +34,15 @@
     </header>
 
     <wt-loader v-show="!isLoaded"></wt-loader>
-    <div v-show="isLoaded" class="table-wrapper">
+    <wt-dummy
+      v-if="dummyValue && isLoaded"
+      :src="dummyValue.src"
+      :locale="dummyValue.locale"
+      class="dummy-wrapper"
+    ></wt-dummy>
+    <div
+      v-show="dataList.length && isLoaded"
+      class="table-wrapper">
       <wt-table
         :data="dataList"
         :grid-actions="false"
@@ -103,13 +111,14 @@
 <script>
 import AddAction from '../../../../../../app/components/actions/add-action';
 import tableComponentMixin from '../../../../../../app/mixins/objectPagesMixins/objectTableMixin/tableComponentMixin';
+import dummyMixin from '../../../../../../app/mixins/dummyMixin';
 import RouteNames from '../../../../../../app/router/_internals/RouteNames.enum';
 import LicenseUsersPopup from '../../modules/license-users/components/license-users-popup.vue';
 import LicensePopup from './license-popup.vue';
 
 export default {
   name: 'all-licenses',
-  mixins: [tableComponentMixin],
+  mixins: [tableComponentMixin, dummyMixin],
   components: { AddAction, LicensePopup, LicenseUsersPopup },
   data: () => ({
     namespace: 'directory/license',
