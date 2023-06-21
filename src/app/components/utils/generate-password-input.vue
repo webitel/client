@@ -93,6 +93,7 @@ export default {
 <style lang="scss" scoped>
 .generate-password-input {
   position: relative;
+  z-index: 1;
 }
 
 .generate-password-input__label-wrapper {
