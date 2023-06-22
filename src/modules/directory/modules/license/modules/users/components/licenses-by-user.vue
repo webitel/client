@@ -29,7 +29,7 @@
     <wt-dummy
       v-if="dummyValue && isLoaded"
       :src="dummyValue.src"
-      :locale="dummyValue.locale"
+      :locale="$t(dummyValue.locale)"
       class="dummy-wrapper"
     ></wt-dummy>
     <div
@@ -80,6 +80,7 @@
 
 <script>
 import { mapActions } from 'vuex';
+import { useDummy } from '../../../../../../../app/composables/useDummy';
 import tableComponentMixin
   from '../../../../../../../app/mixins/objectPagesMixins/objectTableMixin/tableComponentMixin';
 import RouteNames from '../../../../../../../app/router/_internals/RouteNames.enum';
@@ -88,9 +89,13 @@ export default {
   name: 'licenses-by-user',
   mixins: [tableComponentMixin],
   data: () => ({
-    namespace: 'directory/license/users',
     staticHeaders: ['name'],
   }),
+  setup() {
+    const namespace = 'directory/license/users';
+    const { dummyValue } = useDummy(namespace);
+    return { namespace, dummyValue };
+  },
   computed: {
     licenseHeaders() {
       return this.headers.slice(1); // except 1st column "name"
