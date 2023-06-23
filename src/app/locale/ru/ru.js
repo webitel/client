@@ -874,6 +874,7 @@ export default {
     },
     integrations: {
       integrations: 'Интеграции',
+      emptyWorkspace: 'Профили в разделе еще не созданы',
 
       storage: {
         storage: 'Хранилища',
@@ -907,6 +908,7 @@ export default {
         driveEmail: 'Google Email',
         driveKey: 'Private key',
         s3Endpoint: 'Endpoint',
+        emptyWorkspace: 'Записи в разделе еще не созданы',
       },
 
       cognitiveProfiles: {

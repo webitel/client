@@ -876,6 +876,7 @@ export default {
 
     integrations: {
       integrations: 'Integrations',
+      emptyWorkspace: 'There are no profiles yet',
 
       storage: {
         storage: 'Storage',
@@ -909,6 +910,7 @@ export default {
         driveEmail: 'Google Email',
         driveKey: 'Private key',
         s3Endpoint: 'Endpoint',
+        emptyWorkspace: 'There are no records yet',
       },
 
       cognitiveProfiles: {
