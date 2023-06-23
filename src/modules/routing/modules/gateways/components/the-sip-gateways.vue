@@ -45,7 +45,15 @@
         </header>
 
         <wt-loader v-show="!isLoaded"></wt-loader>
-        <div class="table-wrapper" v-show="isLoaded">
+        <wt-dummy
+          v-if="dummy && isLoaded"
+          :src="dummy.src"
+          :text="$t(dummy.text)"
+          class="dummy-wrapper"
+        ></wt-dummy>
+        <div
+          v-show="dataList.length && isLoaded"
+          class="table-wrapper">
           <wt-table
             :headers="headers"
             :data="dataList"
@@ -105,6 +113,9 @@
 import GatewayPopup from './create-gateway-popup.vue';
 import tableComponentMixin from '../../../../../app/mixins/objectPagesMixins/objectTableMixin/tableComponentMixin';
 import RouteNames from '../../../../../app/router/_internals/RouteNames.enum';
+import { useDummy } from '../../../../../app/composables/useDummy';
+
+const namespace = 'routing/gateways';
 
 export default {
   name: 'the-sip-gateways',
@@ -112,9 +123,14 @@ export default {
   components: { GatewayPopup },
 
   data: () => ({
-    namespace: 'routing/gateways',
+    namespace,
     isGatewayPopup: false,
   }),
+
+  setup() {
+    const { dummy } = useDummy({ namespace });
+    return { dummy };
+  },
 
   computed: {
     path() {

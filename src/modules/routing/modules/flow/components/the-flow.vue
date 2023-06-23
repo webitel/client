@@ -59,7 +59,15 @@
         </header>
 
         <wt-loader v-show="!isLoaded"></wt-loader>
-        <div class="table-wrapper" v-show="isLoaded">
+        <wt-dummy
+          v-if="dummy && isLoaded"
+          :src="dummy.src"
+          :text="$t(dummy.text)"
+          class="dummy-wrapper"
+        ></wt-dummy>
+        <div
+          v-show="dataList.length && isLoaded"
+          class="table-wrapper">
           <wt-table
             :headers="headers"
             :data="dataList"
@@ -144,6 +152,9 @@ import { downloadAsJSON } from '../../../../../app/utils/download';
 import RouteNames from '../../../../../app/router/_internals/RouteNames.enum';
 import FlowEditor from '../enums/FlowEditor.enum';
 import TheFlowFilters from '../modules/filters/components/the-flow-filters.vue';
+import { useDummy } from '../../../../../app/composables/useDummy';
+
+const namespace = 'routing/flow';
 
 export default {
   name: 'the-flow',
@@ -157,12 +168,17 @@ export default {
     FilterSearch,
   },
   data: () => ({
-    namespace: 'routing/flow',
+    namespace,
     routeName: RouteNames.FLOW,
     isUploadPopup: false,
     jsonFile: null,
     isCreateFlowPopup: false,
   }),
+
+  setup() {
+    const { dummy } = useDummy({ namespace });
+    return { dummy };
+  },
 
   computed: {
     path() {
