@@ -46,6 +46,8 @@
           v-if="dummy && isLoaded"
           :src="dummy.src"
           :text="$t(dummy.text)"
+          :show-action="$t(dummy.text).includes('yet')"
+          @create="create"
           class="dummy-wrapper"
         ></wt-dummy>
         <div
