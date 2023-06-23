@@ -18,7 +18,9 @@
           v-show="passwordRepresentation"
           :value="value"
         ></wt-copy-action>
-        <wt-tooltip class="generate-password-input__icon-btn generate-password-input__icon-btn--generate">
+        <wt-tooltip
+          class="generate-password-input__icon-btn generate-password-input__icon-btn--generate"
+        >
           <template v-slot:activator>
             <wt-icon-btn
               icon="generate"
