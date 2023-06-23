@@ -1,5 +1,5 @@
 <template>
-  <wt-page-wrapper class="users" :actions-panel="false">
+  <wt-page-wrapper class="users content-wrapper" :actions-panel="false">
     <template v-slot:header>
       <object-header
         :hide-primary="!hasCreateAccess"
@@ -52,7 +52,15 @@
         </header>
 
         <wt-loader v-show="!isLoaded"></wt-loader>
-        <div class="table-wrapper" v-show="isLoaded">
+        <wt-dummy
+          v-if="dummyValue && isLoaded"
+          :src="dummyValue.src"
+          :locale="dummyValue.locale"
+          class="dummy-wrapper"
+        ></wt-dummy>
+        <div
+          v-show="dataList.length && isLoaded"
+          class="table-wrapper">
           <wt-table
             :headers="headers"
             :data="dataList"

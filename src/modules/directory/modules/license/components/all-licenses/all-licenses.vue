@@ -1,5 +1,5 @@
 <template>
-  <div class="all-licenses">
+  <div class="all-licenses content-wrapper">
     <license-popup
       v-if="isLicensePopup"
       @close="isLicensePopup = false"
@@ -34,7 +34,15 @@
     </header>
 
     <wt-loader v-show="!isLoaded"></wt-loader>
-    <div v-show="isLoaded" class="table-wrapper">
+    <wt-dummy
+      v-if="dummyValue && isLoaded"
+      :src="dummyValue.src"
+      :locale="dummyValue.locale"
+      class="dummy-wrapper"
+    ></wt-dummy>
+    <div
+      v-show="dataList.length && isLoaded"
+      class="table-wrapper">
       <wt-table
         :data="dataList"
         :grid-actions="false"

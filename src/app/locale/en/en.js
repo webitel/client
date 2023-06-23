@@ -148,6 +148,8 @@ export default {
     ID: 'ID',
     email: 'Email address',
     updatedAt: 'Modified',
+    emptyWorkspace: 'There are no records yet',
+    emptyResultSearch: 'Your search yielded no results',
 
     deleteConfirmation: {
       title: 'Confirm deletion',
