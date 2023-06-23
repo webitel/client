@@ -4,24 +4,20 @@ import { useRoute } from 'vue-router';
 import IsEmpty from '@webitel/ui-sdk/src/scripts/isEmpty';
 import getNamespacedState
   from '@webitel/ui-sdk/src/store/helpers/getNamespacedState';
-import Dummy from '../assets/dummy/adm-dummy.svg';
-import DummyAfterSearch from '../assets/dummy/adm-dummy-after-search.svg';
+import defaultDummyPic from '../assets/dummy/adm-dummy.svg';
+import defaultDummyPicAfterSearch from '../assets/dummy/adm-dummy-after-search.svg';
 
-export function useDummy(
-  namespace,
-  myDimmyPic,
-  myDummyPicAfterSearch,
-  myDummyLocale,
-  myDummyLocaleAfterSearch,
-) {
+export function useDummy({
+                           namespace,
+                           dummyPic = defaultDummyPic,
+                           dummyPicAfterSearch = defaultDummyPicAfterSearch,
+                           dummyText = 'objects.emptyWorkspace',
+                           dummyTextAfterSearch = 'objects.emptyResultSearch',
+                         }) {
   const store = useStore();
   const route = useRoute();
 
-  let dummyValue = ref('');
-  const dummyPic = myDimmyPic || Dummy;
-  const dummyPicAfterSearch = myDummyPicAfterSearch || DummyAfterSearch;
-  const dummyLocale = myDummyLocale || 'objects.emptyWorkspace';
-  const dummyLocaleAfterSearch = myDummyLocaleAfterSearch || 'objects.emptyResultSearch';
+  const dummy = ref('');
 
   const dataList = computed(() => getNamespacedState(store.state, namespace).dataList);
   const search = computed(() => getNamespacedState(store.state, namespace).search);
@@ -30,15 +26,15 @@ export function useDummy(
     if (!dataList.value.length) {
       if (IsEmpty(route?.query) ? search.value : Object.values(route.query)
       .some((query) => query.length)) {
-        return dummyValue.value = {
+        return dummy.value = {
           src: dummyPicAfterSearch,
-          locale: dummyLocaleAfterSearch,
+          text: dummyTextAfterSearch,
         };
-      } else return dummyValue.value = {
+      } else return dummy.value = {
         src: dummyPic,
-        locale: dummyLocale,
+        text: dummyText,
       };
-    } else return dummyValue.value = '';
+    } else return dummy.value = '';
   }, { deep: true });
-  return { dummyValue };
+  return { dummy };
 };

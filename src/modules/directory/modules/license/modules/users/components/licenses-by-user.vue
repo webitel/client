@@ -27,9 +27,9 @@
 
     <wt-loader v-show="!isLoaded"></wt-loader>
     <wt-dummy
-      v-if="dummyValue && isLoaded"
-      :src="dummyValue.src"
-      :locale="$t(dummyValue.locale)"
+      v-if="dummy && isLoaded"
+      :src="dummy.src"
+      :text="$t(dummy.text)"
       class="dummy-wrapper"
     ></wt-dummy>
     <div
@@ -85,16 +85,18 @@ import tableComponentMixin
   from '../../../../../../../app/mixins/objectPagesMixins/objectTableMixin/tableComponentMixin';
 import RouteNames from '../../../../../../../app/router/_internals/RouteNames.enum';
 
+const namespace = 'directory/license/users';
+
 export default {
   name: 'licenses-by-user',
   mixins: [tableComponentMixin],
   data: () => ({
     staticHeaders: ['name'],
+    namespace,
   }),
   setup() {
-    const namespace = 'directory/license/users';
-    const { dummyValue } = useDummy(namespace);
-    return { namespace, dummyValue };
+    const { dummy } = useDummy({ namespace });
+    return { dummy };
   },
   computed: {
     licenseHeaders() {
