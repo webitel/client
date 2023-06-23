@@ -76,6 +76,7 @@
         required
         @input="setItemPropertiesProp({ prop: 'locale', value: $event })"
       ></wt-select>
+      <div></div>
       <wt-textarea
         :disabled="disableUserInput"
         :label="$t('objects.description')"
