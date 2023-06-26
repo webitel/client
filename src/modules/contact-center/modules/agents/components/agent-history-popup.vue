@@ -17,7 +17,15 @@
             @input="setTo"
           ></wt-datepicker>
         </div>
-        <div class="table-wrapper">
+        <wt-dummy
+          v-if="dummy && isLoaded"
+          :src="dummy.src"
+          :text="$t(dummy.text)"
+          class="dummy-wrapper"
+        ></wt-dummy>
+        <div
+          v-show="dataList.length && isLoaded"
+          class="table-wrapper">
           <wt-table
             :data="dataList"
             :grid-actions="false"
@@ -68,6 +76,7 @@
 import convertDuration from '@webitel/ui-sdk/src/scripts/convertDuration';
 import historyPopupMixin from '../../../../../app/mixins/objectPagesMixins/historyPopupMixin/historyPopupMixin';
 import agentState from '../dictionaries/agentState.dictionary';
+import dummyPic from '../assets/adm-agent-history.svg';
 
 export default {
   name: 'agent-history-popup',
@@ -86,6 +95,12 @@ export default {
         { value: 'to', text: this.$t('objects.ccenter.agents.historyTo') },
         { value: 'duration', text: this.$t('objects.ccenter.agents.historyDuration') },
       ];
+    },
+    dummy() {
+      return !this.dataList.length && {
+          src: dummyPic,
+          text: 'objects.ccenter.agents.emptyPopup',
+      };
     },
   },
 

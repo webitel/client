@@ -42,7 +42,17 @@
         </header>
 
         <wt-loader v-show="!isLoaded"></wt-loader>
-        <div class="table-wrapper" v-show="isLoaded">
+        <wt-dummy
+          v-if="dummy && isLoaded"
+          :src="dummy.src"
+          :text="$t(dummy.text)"
+          :show-action="$t(dummy.text).includes('yet')"
+          @create="create"
+          class="dummy-wrapper"
+        ></wt-dummy>
+        <div
+          v-show="dataList.length && isLoaded"
+          class="table-wrapper">
           <wt-table
             :headers="headers"
             :data="dataList"
@@ -98,14 +108,22 @@
 <script>
 import tableComponentMixin from '../../../../../app/mixins/objectPagesMixins/objectTableMixin/tableComponentMixin';
 import RouteNames from '../../../../../app/router/_internals/RouteNames.enum';
+import { useDummy } from '../../../../../app/composables/useDummy';
+
+const namespace = 'ccenter/res';
 
 export default {
   name: 'the-resources',
   mixins: [tableComponentMixin],
   data: () => ({
-    namespace: 'ccenter/res',
+    namespace,
     routeName: RouteNames.RESOURCES,
   }),
+
+  setup() {
+    const { dummy } = useDummy({ namespace });
+    return { dummy };
+  },
 
   computed: {
     path() {

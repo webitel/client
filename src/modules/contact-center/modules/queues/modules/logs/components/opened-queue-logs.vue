@@ -1,5 +1,5 @@
 <template>
-  <section>
+  <section class="content-wrapper">
     <header class="content-header">
       <h3 class="content-title">{{ $tc('objects.ccenter.queues.logs.logs', 1) }}</h3>
       <div class="content-header__actions-wrap">
@@ -14,7 +14,15 @@
     </header>
 
     <wt-loader v-show="!isLoaded"></wt-loader>
-    <div v-show="isLoaded" class="table-wrapper">
+    <wt-dummy
+      v-if="dummy && isLoaded"
+      :src="dummy.src"
+      :text="$t(dummy.text)"
+      class="dummy-wrapper"
+    ></wt-dummy>
+    <div
+      v-show="dataList.length && isLoaded"
+      class="table-wrapper">
       <wt-table
         :headers="headers"
         :data="dataList"
@@ -76,14 +84,23 @@ import FilterSearch from '@webitel/ui-sdk/src/modules/QueryFilters/components/fi
 import convertDuration from '@webitel/ui-sdk/src/scripts/convertDuration';
 import openedObjectTableTabMixin
   from '../../../../../../../app/mixins/objectPagesMixins/openedObjectTableTabMixin/openedObjectTableTabMixin';
+import { useDummy } from '../../../../../../../app/composables/useDummy';
+
+const namespace = 'ccenter/queues';
+const subNamespace = 'log';
 
 export default {
   name: 'opened-queue-logs',
   mixins: [openedObjectTableTabMixin],
   components: { FilterSearch },
   data: () => ({
-    subNamespace: 'log',
+    namespace,
+    subNamespace,
   }),
+  setup() {
+    const { dummy } = useDummy({ namespace: `${namespace}/${subNamespace}` });
+    return { dummy };
+  },
   computed: {
     filtersNamespace() {
       return `${this.namespace}/${this.subNamespace}/filters`;

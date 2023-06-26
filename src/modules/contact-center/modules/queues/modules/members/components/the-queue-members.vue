@@ -81,7 +81,15 @@
         </header>
 
         <wt-loader v-show="!isLoaded"></wt-loader>
-        <div class="table-wrapper" v-show="isLoaded">
+        <wt-dummy
+          v-if="dummy && isLoaded"
+          :src="dummy.src"
+          :text="$t(dummy.text)"
+          class="dummy-wrapper"
+        ></wt-dummy>
+        <div
+          v-show="dataList.length && isLoaded"
+          class="table-wrapper">
           <wt-table
             :headers="headers"
             :data="dataList"
@@ -173,6 +181,7 @@ import TheQueueMembersFilters from '../modules/filters/components/the-queue-memb
 import destinationsPopup from './communications/opened-queue-member-destinations-popup.vue';
 import ResetPopup from './reset-members-popup.vue';
 import uploadPopup from './upload-members-popup.vue';
+import dummyPic from '../assets/adm-queue-members.svg';
 
 export default {
   name: 'the-queue-members',
@@ -246,6 +255,12 @@ export default {
       const options = [all, filtered];
       if (selectedCount) options.push(selected);
       return options;
+    },
+    dummy() {
+      return !this.dataList.length && {
+        src: dummyPic,
+        text: 'objects.ccenter.members.emptyWorkspace',
+      };
     },
   },
 
