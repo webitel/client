@@ -1,7 +1,7 @@
 import {
   EndpointListGetterApiConsumer,
 } from 'webitel-sdk/esm2015/api-consumers';
-import instance from '../../../../../app/api/instance';
+import instance from '../../../../../app/api/old/instance';
 
 const LICENSE_URL = '/license';
 const CUSTOMER_URL = '/customer';

@@ -7,7 +7,7 @@ import {
   EndpointDeleterApiConsumer,
 } from 'webitel-sdk/esm2015/api-consumers';
 import deepmerge from 'deepmerge';
-import instance from '../../../../../app/api/instance';
+import instance from '../../../../../app/api/old/instance';
 import ChatGatewayProvider from '../enum/ChatGatewayProvider.enum';
 import webChatGateway from '../store/_internals/providers/webChatGateway';
 

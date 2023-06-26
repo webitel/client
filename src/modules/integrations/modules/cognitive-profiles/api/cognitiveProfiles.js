@@ -8,7 +8,7 @@ import {
   SdkUpdaterApiConsumer,
 } from 'webitel-sdk/esm2015/api-consumers';
 import { MicrosoftRegion } from 'webitel-sdk/esm2015/lookups';
-import instance from '../../../../../app/api/instance';
+import instance from '../../../../../app/api/old/instance';
 import configuration from '../../../../../app/api/openAPIConfig';
 import CognitiveProfileServices
   from '../lookups/CognitiveProfileServices.lookup';

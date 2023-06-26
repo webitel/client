@@ -6,7 +6,7 @@ import {
   EndpointPatcherApiConsumer,
   EndpointUpdaterApiConsumer,
 } from 'webitel-sdk/esm2015/api-consumers';
-import instance from '../../../../../app/api/instance';
+import instance from '../../../../../app/api/old/instance';
 
 const baseUrl = '/users';
 const fieldsToSend = [
