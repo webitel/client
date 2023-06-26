@@ -909,7 +909,6 @@ export default {
         driveEmail: 'Google Email',
         driveKey: 'Private key',
         s3Endpoint: 'Endpoint',
-        emptyWorkspace: 'Записи у розділі ще не створені',
       },
 
       cognitiveProfiles: {

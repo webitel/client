@@ -138,7 +138,6 @@ export default {
     const { dummy } = useDummy({
       namespace,
       dummyPic,
-      dummyText: 'objects.integrations.storage.emptyWorkspace',
     });
     return { dummy };
   },
