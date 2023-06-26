@@ -2,9 +2,9 @@ import {
   EndpointListGetterApiConsumer,
   EndpointPatcherApiConsumer,
 } from 'webitel-sdk/esm2015/api-consumers';
-import instance from '../../../../../../../app/api/instance';
+import instance from '../../../../../../../app/api/old/instance';
 import APIPermissionsGetter
-  from '../../../../../../../app/api/PermissionsAPIService/APIPermissionsGetter';
+  from '../../../../../../../app/api/old/PermissionsAPIService/APIPermissionsGetter';
 
 const baseUrl = '/acl/objclass';
 

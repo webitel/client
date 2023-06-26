@@ -5,9 +5,9 @@ import {
   SdkDeleterApiConsumer,
 } from 'webitel-sdk/esm2015/api-consumers';
 import eventBus from '@webitel/ui-sdk/src/scripts/eventBus';
-import instance from '../../../../../app/api/instance';
+import instance from '../../../../../app/api/old/instance';
 import errorEventBusNotificationResponseInterceptor
-  from '../../../../../app/api/interceptors/response/errorEventBusNotificationResponse.interceptor';
+  from '../../../../../app/api/old/interceptors/response/errorEventBusNotificationResponse.interceptor';
 import configuration from '../../../../../app/api/openAPIConfig';
 
 const mediaService = new MediaFileServiceApiFactory(configuration, '', instance);

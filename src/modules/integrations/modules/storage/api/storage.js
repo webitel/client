@@ -7,7 +7,7 @@ import {
   SdkPatcherApiConsumer,
   SdkDeleterApiConsumer,
 } from 'webitel-sdk/esm2015/api-consumers';
-import instance from '../../../../../app/api/instance';
+import instance from '../../../../../app/api/old/instance';
 import configuration from '../../../../../app/api/openAPIConfig';
 import AWSRegions from '../store/_internals/lookups/AWSRegions.lookup';
 import DigitalOceanRegions from '../store/_internals/lookups/DigitalOceanRegions.lookup';

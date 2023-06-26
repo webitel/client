@@ -7,7 +7,7 @@ import {
   EndpointDeleterApiConsumer,
 } from 'webitel-sdk/esm2015/api-consumers';
 import ApplicationsAccess from '@webitel/ui-sdk/src/modules/Userinfo/classes/ApplicationsAccess';
-import instance from '../../../../../app/api/instance';
+import instance from '../../../../../app/api/old/instance';
 
 const baseUrl = '/roles';
 

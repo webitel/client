@@ -1,5 +1,5 @@
 import { EndpointPatcherApiConsumer } from 'webitel-sdk/esm2015/api-consumers';
-import instance, { config } from '../../../app/api/instance';
+import instance, { config } from '../../../app/api/old/instance';
 
 const baseUrl = 'users';
 const itemPatcher = new EndpointPatcherApiConsumer({ baseUrl, instance });
