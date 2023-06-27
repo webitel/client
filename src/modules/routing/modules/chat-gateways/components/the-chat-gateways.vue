@@ -46,7 +46,17 @@
         </header>
 
         <wt-loader v-show="!isLoaded"></wt-loader>
-        <div class="table-wrapper" v-show="isLoaded">
+        <wt-dummy
+          v-if="dummy && isLoaded"
+          :src="dummy.src"
+          :text="$t(dummy.text)"
+          :show-action="dummy.showAction"
+          @create="create"
+          class="dummy-wrapper"
+        ></wt-dummy>
+        <div
+          v-show="dataList.length && isLoaded"
+          class="table-wrapper">
 
           <wt-table
             :headers="headers"
@@ -56,9 +66,9 @@
             @sort="sort"
           >
             <template v-slot:name="{ item }">
-              <item-link :link="editLink(item)">
+              <wt-item-link :link="editLink(item)">
                 {{ item.name }}
-              </item-link>
+              </wt-item-link>
             </template>
 
             <template v-slot:uri="{ item }">
@@ -66,13 +76,12 @@
             </template>
 
             <template v-slot:flow="{ item }">
-              <item-link
+              <wt-item-link
                 v-if="item.flow"
                 :route-name="RouteNames.FLOW"
                 :id="item.flow.id"
-              >
-                {{ item.flow.name }}
-              </item-link>
+              >{{ item.flow.name }}
+              </wt-item-link>
             </template>
 
             <template v-slot:provider="{ item }">
@@ -136,6 +145,7 @@ import tableComponentMixin
 import ChatGatewayProvider from '../enum/ChatGatewayProvider.enum';
 import CreateChatGatewayPopup from './create-chat-gateway-popup.vue';
 import RouteNames from '../../../../../app/router/_internals/RouteNames.enum';
+import { useDummy } from '../../../../../app/composables/useDummy';
 
 const iconType = {
   [ChatGatewayProvider.MESSENGER]: 'meta',
@@ -146,16 +156,23 @@ const iconType = {
   [ChatGatewayProvider.TELEGRAM_APP]: 'messenger-telegram',
 };
 
+const namespace = 'routing/chatGateways';
+
 export default {
   name: 'the-chat-gateways',
   mixins: [tableComponentMixin],
   components: { CreateChatGatewayPopup },
   data: () => ({
-    namespace: 'routing/chatGateways',
+    namespace,
     isChatGatewayPopup: false,
     iconType,
     routeName: RouteNames.CHAT_GATEWAYS,
   }),
+
+  setup() {
+    const { dummy } = useDummy({ namespace, showAction: true });
+    return { dummy };
+  },
 
   computed: {
     path() {
@@ -178,7 +195,7 @@ export default {
           return [iconType[value], 'send-arrow', 'messenger-facebook', 'instagram', 'messenger-whatsapp'];
         default: return iconType[value];
       }
-    }
+    },
   },
 };
 </script>

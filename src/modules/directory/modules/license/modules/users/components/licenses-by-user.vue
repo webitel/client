@@ -1,9 +1,6 @@
 <template>
   <div class="content-wrapper">
     <header class="content-header">
-      <h3 class="content-title">
-        <!--        {{ $tc('objects.directory.users.users', 2) }}-->
-      </h3>
       <div class="content-header__actions-wrap">
         <wt-search-bar
           :value="search"
@@ -44,12 +41,11 @@
         @sort="sort"
       >
         <template v-slot:name="{ item }">
-          <item-link
+          <wt-item-link
             :id="item.id"
             :route-name="RouteNames.USERS"
-          >
-            {{ item.name }}
-          </item-link>
+          >{{ item.name }}
+          </wt-item-link>
         </template>
 
         <template

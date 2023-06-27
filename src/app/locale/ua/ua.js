@@ -623,6 +623,7 @@ export default {
         historyTo: 'До',
         historyDuration: 'Тривалість',
         payload: 'Причина',
+        emptyPopup: 'Будь ласка, перевірте налаштування фільтрів',
         status: {
           online: 'Онлайн',
           offline: 'Офлайн',
@@ -666,6 +667,7 @@ export default {
         dtmf: 'DTMF',
         priority: 'Пріоритет',
         attempts: 'Спроб',
+        emptyWorkspace: 'Абонентів не знайдено',
         resetMembers: {
           resetMembers: 'Перезапустити абонентів',
           description: 'Ви впевнені, що бажаєте перезапустити усі неуспішні спроби повторно?',
@@ -875,6 +877,7 @@ export default {
     },
     integrations: {
       integrations: 'Інтеграції',
+      emptyWorkspace: 'Профілі у розділі ще не створені',
 
       storage: {
         storage: 'Сховища',

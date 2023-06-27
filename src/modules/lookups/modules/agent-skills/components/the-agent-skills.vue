@@ -42,7 +42,17 @@
         </header>
 
         <wt-loader v-show="!isLoaded"></wt-loader>
-        <div class="table-wrapper" v-show="isLoaded">
+        <wt-dummy
+          v-if="dummy && isLoaded"
+          :src="dummy.src"
+          :text="$t(dummy.text)"
+          :show-action="dummy.showAction"
+          @create="create"
+          class="dummy-wrapper"
+        ></wt-dummy>
+        <div
+          v-show="dataList.length && isLoaded"
+          class="table-wrapper">
           <wt-table
             :headers="headers"
             :data="dataList"
@@ -51,9 +61,9 @@
             @sort="sort"
           >
             <template v-slot:name="{ item }">
-              <item-link :link="editLink(item)">
+              <wt-item-link :link="editLink(item)">
                 {{ item.name }}
-              </item-link>
+              </wt-item-link>
             </template>
             <template v-slot:description="{ item }">
               {{ item.description }}
@@ -88,14 +98,22 @@
 <script>
 import tableComponentMixin from '../../../../../app/mixins/objectPagesMixins/objectTableMixin/tableComponentMixin';
 import RouteNames from '../../../../../app/router/_internals/RouteNames.enum';
+import { useDummy } from '../../../../../app/composables/useDummy';
+
+const namespace = 'lookups/skills';
 
 export default {
   name: 'the-agent-skills',
   mixins: [tableComponentMixin],
   data: () => ({
-    namespace: 'lookups/skills',
+    namespace,
     routeName: RouteNames.SKILLS,
   }),
+
+  setup() {
+    const { dummy } = useDummy({ namespace, showAction: true });
+    return { dummy };
+  },
 
   computed: {
     path() {

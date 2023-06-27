@@ -59,7 +59,17 @@
         </header>
 
         <wt-loader v-show="!isLoaded"></wt-loader>
-        <div class="table-wrapper" v-show="isLoaded">
+        <wt-dummy
+          v-if="dummy && isLoaded"
+          :src="dummy.src"
+          :text="$t(dummy.text)"
+          :show-action="dummy.showAction"
+          @create="create"
+          class="dummy-wrapper"
+        ></wt-dummy>
+        <div
+          v-show="dataList.length && isLoaded"
+          class="table-wrapper">
           <wt-table
             :headers="headers"
             :data="dataList"
@@ -68,9 +78,9 @@
             @sort="sort"
           >
             <template v-slot:name="{ item }">
-              <item-link :link="editLink(item)">
+              <wt-item-link :link="editLink(item)">
                 {{ item.name }}
-              </item-link>
+              </wt-item-link>
             </template>
             <template v-slot:editor="{ item }">
               <div v-if="item.editor">
@@ -144,6 +154,9 @@ import { downloadAsJSON } from '../../../../../app/utils/download';
 import RouteNames from '../../../../../app/router/_internals/RouteNames.enum';
 import FlowEditor from '../enums/FlowEditor.enum';
 import TheFlowFilters from '../modules/filters/components/the-flow-filters.vue';
+import { useDummy } from '../../../../../app/composables/useDummy';
+
+const namespace = 'routing/flow';
 
 export default {
   name: 'the-flow',
@@ -157,12 +170,17 @@ export default {
     FilterSearch,
   },
   data: () => ({
-    namespace: 'routing/flow',
+    namespace,
     routeName: RouteNames.FLOW,
     isUploadPopup: false,
     jsonFile: null,
     isCreateFlowPopup: false,
   }),
+
+  setup() {
+    const { dummy } = useDummy({ namespace, showAction: true });
+    return { dummy };
+  },
 
   computed: {
     path() {
@@ -198,9 +216,6 @@ export default {
       const filename = `${name}-schema`;
       downloadAsJSON(flow, filename);
     },
-    /**
-     @overrides itemLinkMixin.js
-     */
     editLink({ id, editor }) {
       const routeName = this.routeName || this.tableObjectRouteName;
       return {

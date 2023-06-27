@@ -49,7 +49,18 @@
         </header>
 
         <wt-loader v-show="!isLoaded"></wt-loader>
-        <div v-show="isLoaded" class="table-wrapper">
+        <wt-dummy
+          v-if="dummy && isLoaded"
+          :src="dummy.src"
+          :text="$t(dummy.text)"
+          :show-action="dummy.showAction"
+          @create="create"
+          class="dummy-wrapper"
+        ></wt-dummy>
+        <div
+          v-show="dataList.length && isLoaded"
+          class="table-wrapper"
+        >
           <wt-table
             :data="dataList"
             :grid-actions="hasTableActions"
@@ -58,14 +69,14 @@
             @sort="sort"
           >
             <template v-slot:name="{ item }">
-              <item-link :link="editLink(item)">
+              <wt-item-link :link="editLink(item)">
                 {{ item.name }}
-              </item-link>
+              </wt-item-link>
             </template>
             <template v-slot:flow="{ item }">
-              <item-link :link="flowLink(item)">
+              <wt-item-link :link="flowLink(item)">
                 {{ item.schema.name }}
-              </item-link>
+              </wt-item-link>
             </template>
             <template v-slot:state="{ item, index }">
               <wt-switcher
@@ -104,14 +115,28 @@
 <script>
 import tableComponentMixin from '../../../../../app/mixins/objectPagesMixins/objectTableMixin/tableComponentMixin';
 import RouteNames from '../../../../../app/router/_internals/RouteNames.enum';
+import { useDummy } from '../../../../../app/composables/useDummy';
+import dummyPic from '../assets/adm-dummy-email-profile.svg';
+
+const namespace = 'integrations/emailProfiles';
 
 export default {
   name: 'the-email-profiles',
   mixins: [tableComponentMixin],
   data: () => ({
-    namespace: 'integrations/emailProfiles',
+    namespace,
     routeName: RouteNames.EMAIL_PROFILES,
   }),
+
+  setup() {
+    const { dummy } = useDummy({
+      namespace,
+      showAction: true,
+      dummyPic,
+      dummyText: 'objects.integrations.emptyWorkspace',
+    });
+    return { dummy };
+  },
 
   computed: {
     path() {
@@ -124,6 +149,7 @@ export default {
       ];
     },
   },
+
   methods: {
     async changeDefaultProfile({ index, item, value }) {
       try {

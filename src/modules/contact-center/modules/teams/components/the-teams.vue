@@ -42,7 +42,17 @@
         </header>
 
         <wt-loader v-show="!isLoaded"></wt-loader>
-        <div v-show="isLoaded" class="table-wrapper">
+        <wt-dummy
+          v-if="dummy && isLoaded"
+          :src="dummy.src"
+          :text="$t(dummy.text)"
+          :show-action="dummy.showAction"
+          @create="create"
+          class="dummy-wrapper"
+        ></wt-dummy>
+        <div
+          v-show="dataList.length && isLoaded"
+          class="table-wrapper">
           <wt-table
             :data="dataList"
             :headers="headers"
@@ -51,9 +61,9 @@
             @sort="sort"
           >
             <template v-slot:name="{ item }">
-              <item-link :link="editLink(item)">
+              <wt-item-link :link="editLink(item)">
                 {{ item.name }}
-              </item-link>
+              </wt-item-link>
             </template>
             <template v-slot:strategy="{ item }">
               {{ computeStrategyDisplay(item.strategy) }}
@@ -89,14 +99,22 @@
 import { kebabToCamel } from '@webitel/ui-sdk/src/scripts/caseConverters';
 import tableComponentMixin from '../../../../../app/mixins/objectPagesMixins/objectTableMixin/tableComponentMixin';
 import RouteNames from '../../../../../app/router/_internals/RouteNames.enum';
+import { useDummy } from '../../../../../app/composables/useDummy';
+
+const namespace = 'ccenter/teams';
 
 export default {
   name: 'the-teams',
   mixins: [tableComponentMixin],
   data: () => ({
-    namespace: 'ccenter/teams',
+    namespace,
     routeName: RouteNames.TEAMS,
   }),
+
+  setup() {
+    const { dummy } = useDummy({ namespace, showAction: true });
+    return { dummy };
+  },
 
   computed: {
     path() {

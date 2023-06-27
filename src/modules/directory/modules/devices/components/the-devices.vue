@@ -1,5 +1,5 @@
 <template>
-  <wt-page-wrapper class="devices content-wrapper" :actions-panel="false">
+  <wt-page-wrapper class="devices" :actions-panel="false">
     <template v-slot:header>
       <object-header
         :hide-primary="!hasCreateAccess"
@@ -65,9 +65,11 @@
 
         <wt-loader v-show="!isLoaded"></wt-loader>
         <wt-dummy
-          v-if="dummyValue && isLoaded"
-          :src="dummyValue.src"
-          :locale="dummyValue.locale"
+          v-if="dummy && isLoaded"
+          :src="dummy.src"
+          :text="$t(dummy.text)"
+          :show-action="dummy.showAction"
+          @create="create"
           class="dummy-wrapper"
         ></wt-dummy>
         <div
@@ -83,9 +85,9 @@
           >
 
             <template v-slot:name="{ item }">
-              <item-link :link="editLink(item)">
+              <wt-item-link :link="editLink(item)">
                 {{ item.name }}
-              </item-link>
+              </wt-item-link>
             </template>
 
             <template v-slot:account="{ item }">
@@ -93,13 +95,13 @@
             </template>
 
             <template v-slot:user="{ item }">
-              <item-link
+              <wt-item-link
                 v-if="item.user"
                 :route-name="RouteNames.USERS"
                 :id="item.user.id"
               >
                 {{ item.user.name }}
-              </item-link>
+              </wt-item-link>
             </template>
 
             <!--state classes are specified in table-status component-->
@@ -151,6 +153,9 @@ import DevicePopup from './create-device-popup.vue';
 import UploadFileIconBtn from '../../../../../app/components/utils/upload-file-icon-btn.vue';
 import tableComponentMixin from '../../../../../app/mixins/objectPagesMixins/objectTableMixin/tableComponentMixin';
 import RouteNames from '../../../../../app/router/_internals/RouteNames.enum';
+import { useDummy } from '../../../../../app/composables/useDummy';
+
+const namespace = 'directory/devices';
 
 export default {
   name: 'the-devices',
@@ -163,11 +168,16 @@ export default {
     UploadFileIconBtn,
   },
   data: () => ({
-    namespace: 'directory/devices',
+    namespace,
     isUploadPopup: false,
     isDeviceSelectPopup: false,
     csvFile: null,
   }),
+
+  setup() {
+    const { dummy } = useDummy({ namespace, showAction: true });
+    return { dummy };
+  },
 
   computed: {
     ...mapState({

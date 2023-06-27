@@ -9,6 +9,7 @@ import defaultDummyPicAfterSearch from '../assets/dummy/adm-dummy-after-search.s
 
 export function useDummy({
                            namespace,
+                           showAction,
                            dummyPic = defaultDummyPic,
                            dummyPicAfterSearch = defaultDummyPicAfterSearch,
                            dummyText = 'objects.emptyWorkspace',
@@ -33,6 +34,7 @@ export function useDummy({
       } else return dummy.value = {
         src: dummyPic,
         text: dummyText,
+        showAction,
       };
     } else return dummy.value = '';
   }, { deep: true });

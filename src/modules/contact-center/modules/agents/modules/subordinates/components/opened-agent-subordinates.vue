@@ -50,7 +50,15 @@
     </header>
 
     <wt-loader v-show="!isLoaded"></wt-loader>
-    <div v-show="isLoaded" class="table-wrapper">
+    <wt-dummy
+      v-if="dummy && isLoaded"
+      :src="dummy.src"
+      :text="$t(dummy.text)"
+      class="dummy-wrapper"
+    ></wt-dummy>
+    <div
+      v-show="dataList.length && isLoaded"
+      class="table-wrapper">
       <wt-table
         :data="dataList"
         :headers="headers"
@@ -59,9 +67,11 @@
         @sort="sort"
       >
         <template v-slot:name="{ item }">
-          <item-link :link="editLink(item)" target="_blank">
+          <wt-item-link
+            :link="editLink(item)"
+            target="_blank">
             {{ item.name }}
-          </item-link>
+          </wt-item-link>
         </template>
         <template v-slot:supervisor="{ item }">
           <one-plus-many
@@ -105,18 +115,27 @@ import openedObjectTableTabMixin
 import RouteNames from '../../../../../../../app/router/_internals/RouteNames.enum';
 import SubordinatePopup from './opened-agent-subordinates-popup.vue';
 import agentSupervisorsAndSkillsPopupMixin from '../../../../../mixins/agentSupervisorsAndSkillsPopupMixin';
+import { useDummy } from '../../../../../../../app/composables/useDummy';
+
+const namespace = 'ccenter/agents';
+const subNamespace = 'subordinates';
 
 export default {
   name: 'opened-agent-subordinates',
   mixins: [openedObjectTableTabMixin, agentSupervisorsAndSkillsPopupMixin],
   components: { SubordinatePopup, ObjectListPopup },
   data: () => ({
-    subNamespace: 'subordinates', // used in mixin map actions
+    namespace,
+    subNamespace, // used in mixin map actions
     tableObjectRouteName: RouteNames.AGENTS, // this.editLink() computing
     isSubordinatePopup: false,
 
     isDeleteConfirmation: false,
   }),
+  setup() {
+    const { dummy } = useDummy({ namespace: `${namespace}/${subNamespace}` });
+    return { dummy };
+  },
   methods: {
     openPopup() {
       return this.openSubordinatePopup();

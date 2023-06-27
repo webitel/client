@@ -1,7 +1,12 @@
+import { reactive } from 'vue';
 import { shallowMount } from '@vue/test-utils';
 import TheMedia from '../the-media.vue';
 import tableComponentComputedMock
   from '../../../../../../../tests/unit/mocks/tableComponentComputed.mock';
+import { useDummy } from '../../../../../../app/composables/useDummy';
+
+jest.mock('../../../../../../app/composables/useDummy');
+useDummy.mockImplementation(() => ({ store: reactive({}) }));
 
 describe('TheMedia', () => {
     it('renders a component', () => {

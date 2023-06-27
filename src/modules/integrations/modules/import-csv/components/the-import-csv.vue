@@ -44,7 +44,17 @@
         </header>
 
         <wt-loader v-show="!isLoaded"></wt-loader>
-        <div v-show="isLoaded" class="table-wrapper">
+        <wt-dummy
+          v-if="dummy && isLoaded"
+          :src="dummy.src"
+          :text="$t(dummy.text)"
+          :show-action="dummy.showAction"
+          @create="create"
+          class="dummy-wrapper"
+        ></wt-dummy>
+        <div
+          v-show="dataList.length && isLoaded"
+          class="table-wrapper">
           <wt-table
             :data="dataList"
             :grid-actions="hasTableActions"
@@ -53,18 +63,18 @@
             @sort="sort"
           >
             <template v-slot:name="{ item }">
-              <item-link :link="editLink(item)">
+              <wt-item-link :link="editLink(item)">
                 {{ item.name }}
-              </item-link>
+              </wt-item-link>
             </template>
             <template v-slot:source="{ item }">
-              <item-link
+              <wt-item-link
                 v-if="item.source"
                 :id="item.source.id"
                 :route-name="RouteNames.QUEUES"
               >
                 {{ item.source.name }}
-              </item-link>
+              </wt-item-link>
             </template>
             <template v-slot:actions="{ item }">
               <upload-action
@@ -101,15 +111,23 @@
 import tableComponentMixin from '../../../../../app/mixins/objectPagesMixins/objectTableMixin/tableComponentMixin';
 import RouteNames from '../../../../../app/router/_internals/RouteNames.enum';
 import UploadAction from './import-csv-upload-action.vue';
+import { useDummy } from '../../../../../app/composables/useDummy';
+
+const namespace = 'integrations/importCsv';
 
 export default {
   name: 'the-import-csv',
   mixins: [tableComponentMixin],
   components: { UploadAction },
   data: () => ({
-    namespace: 'integrations/importCsv',
+    namespace,
     routeName: RouteNames.IMPORT_CSV,
   }),
+
+  setup() {
+    const { dummy } = useDummy({ namespace, showAction: true });
+    return { dummy };
+  },
 
   computed: {
     path() {

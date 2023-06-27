@@ -46,7 +46,18 @@
         </header>
 
         <wt-loader v-show="!isLoaded"></wt-loader>
-        <div class="table-wrapper" v-show="isLoaded">
+        <wt-dummy
+          v-if="dummy && isLoaded"
+          :src="dummy.src"
+          :text="$t(dummy.text)"
+          :show-action="dummy.showAction"
+          @create="create"
+          class="dummy-wrapper"
+        ></wt-dummy>
+        <div
+          v-show="dataList.length && isLoaded"
+          class="table-wrapper"
+        >
           <wt-table
             :headers="headers"
             :data="dataList"
@@ -55,9 +66,9 @@
             @sort="sort"
           >
             <template v-slot:name="{ item }">
-              <item-link :link="editLink(item)">
+              <wt-item-link :link="editLink(item)">
                 {{ item.name }}
-              </item-link>
+              </wt-item-link>
             </template>
             <template v-slot:type="{ item }">
               {{ prettifyType(item.type) }}
@@ -108,16 +119,30 @@ import StoragePopup from './_unused/create-storage-popup.vue';
 import tableComponentMixin from '../../../../../app/mixins/objectPagesMixins/objectTableMixin/tableComponentMixin';
 import RouteNames from '../../../../../app/router/_internals/RouteNames.enum';
 import Storage from '../store/_internals/enums/Storage.enum';
+import { useDummy } from '../../../../../app/composables/useDummy';
+import dummyPic from '../assets/adm-dummy-storage.svg';
+
+const namespace = 'integrations/storage';
 
 export default {
   name: 'the-storage',
   mixins: [tableComponentMixin],
   components: { StoragePopup },
   data: () => ({
-    namespace: 'integrations/storage',
+    namespace,
     routeName: RouteNames.STORAGE,
     isStorageSelectPopup: false,
   }),
+
+  setup() {
+    const { dummy } = useDummy({
+      namespace,
+      showAction: true,
+      dummyPic,
+    });
+    return { dummy };
+  },
+
   computed: {
     path() {
       return [
