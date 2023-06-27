@@ -63,18 +63,18 @@
             @sort="sort"
           >
             <template v-slot:name="{ item }">
-              <item-link :link="editLink(item)">
+              <wt-item-link :link="editLink(item)">
                 {{ item.name }}
-              </item-link>
+              </wt-item-link>
             </template>
             <template v-slot:source="{ item }">
-              <item-link
+              <wt-item-link
                 v-if="item.source"
                 :id="item.source.id"
                 :route-name="RouteNames.QUEUES"
               >
                 {{ item.source.name }}
-              </item-link>
+              </wt-item-link>
             </template>
             <template v-slot:actions="{ item }">
               <upload-action

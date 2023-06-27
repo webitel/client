@@ -78,9 +78,9 @@
             @sort="sort"
           >
             <template v-slot:name="{ item }">
-              <item-link :link="editLink(item)">
+              <wt-item-link :link="editLink(item)">
                 {{ item.name }}
-              </item-link>
+              </wt-item-link>
             </template>
             <template v-slot:editor="{ item }">
               <div v-if="item.editor">
@@ -216,9 +216,6 @@ export default {
       const filename = `${name}-schema`;
       downloadAsJSON(flow, filename);
     },
-    /**
-     @overrides itemLinkMixin.js
-     */
     editLink({ id, editor }) {
       const routeName = this.routeName || this.tableObjectRouteName;
       return {
