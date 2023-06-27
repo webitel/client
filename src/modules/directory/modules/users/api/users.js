@@ -6,7 +6,7 @@ import applyTransform, {
   camelToSnake, handleUnauthorized,
   merge, notify, snakeToCamel,
   starToSearch, log, sanitize,
-  generateUrl,
+  generateUrl, mergeEach,
 } from '@webitel/ui-sdk/src/api/transformers';
 import deepCopy from 'deep-copy';
 import instance from '../../../../../app/api/instance';
@@ -53,7 +53,7 @@ const getUsersList = async (params) => {
     ]);
     return {
       items: applyTransform(items, [
-        merge(defaultObject),
+        mergeEach(defaultObject),
       ]),
       next,
     };
@@ -64,6 +64,7 @@ const getUsersList = async (params) => {
     ]);
   }
 };
+
 const getUser = async ({ itemId: id }) => {
   const defaultObject = {
     roles: [],
