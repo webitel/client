@@ -64,9 +64,9 @@
             @sort="sort"
           >
             <template v-slot:name="{ item }">
-              <item-link :link="editLink(item)">
+              <wt-item-link :link="editLink(item)">
                 {{ item.name }}
-              </item-link>
+              </wt-item-link>
             </template>
 
             <template v-slot:type="{ item }">
@@ -82,9 +82,12 @@
               {{ item.priority }}
             </template>
             <template v-slot:team="{ item } ">
-              <item-link v-if="item.team" :link="itemTeamLink(item)" target="_blank">
+              <wt-item-link
+                v-if="item.team"
+                :link="itemTeamLink(item)"
+                target="_blank">
                 {{ item.team.name }}
-              </item-link>
+              </wt-item-link>
             </template>
             <template v-slot:state="{ item, index }">
               <wt-switcher

@@ -10,9 +10,6 @@
       @close="closeLicenseUsersPopup"
     ></license-users-popup>
     <header class="content-header">
-      <h3 class="content-title">
-        <!--        {{ $t('objects.directory.license.allLicenses') }}-->
-      </h3>
       <div class="content-header__actions-wrap">
         <wt-search-bar
           :value="search"
@@ -75,13 +72,15 @@
         </template>
 
         <template v-slot:used="{ item }">
-          <item-link :link="editLink(item)">
-            <wt-icon
+          <wt-item-link
+            :link="editLink(item)"
+            class="name-link"
+          ><wt-icon
               icon="license-users"
               icon-prefix="adm"
             ></wt-icon>
             {{ item.limit - item.remain }}
-          </item-link>
+          </wt-item-link>
         </template>
 
         <template v-slot:competitive="{ item }">

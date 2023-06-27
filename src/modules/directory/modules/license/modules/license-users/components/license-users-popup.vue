@@ -40,12 +40,12 @@
               </div>
             </template>
             <template v-slot:name="{ item }">
-              <item-link
+              <wt-item-link
                 v-if="item.user"
                 :route-name="RouteNames.USERS"
                 :id="item.user.id"
               >{{ item.user.name }}
-              </item-link>
+              </wt-item-link>
             </template>
             <template v-slot:used="{ item }">
               <user-logout-control

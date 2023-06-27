@@ -61,20 +61,20 @@
             @sort="sort"
           >
             <template v-slot:name="{ item }">
-              <item-link :link="editLink(item)">
+              <wt-item-link :link="editLink(item)">
                 {{ item.name }}
-              </item-link>
+              </wt-item-link>
             </template>
             <template v-slot:pattern="{ item }">
               {{ item.pattern }}
             </template>
             <template v-slot:schema="{ item }">
-              <item-link
+              <wt-item-link
                 v-if="item.schema"
                 :route-name="RouteNames.FLOW"
                 :id="item.schema.id"
               >{{ item.schema.name }}
-              </item-link>
+              </wt-item-link>
             </template>
             <template v-slot:state="{ item, index }">
               <wt-switcher

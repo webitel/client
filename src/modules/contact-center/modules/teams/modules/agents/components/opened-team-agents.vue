@@ -72,9 +72,11 @@
         @sort="sort"
     >
       <template v-slot:name="{ item }">
-        <item-link :link="editLink(item)" target="_blank">
+        <wt-item-link
+          :link="editLink(item)"
+          target="_blank">
           {{ item.name }}
-        </item-link>
+        </wt-item-link>
       </template>
       <template v-slot:state="{ item }">
         <wt-indicator
