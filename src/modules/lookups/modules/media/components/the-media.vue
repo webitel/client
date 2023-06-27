@@ -49,7 +49,7 @@
           </div>
         </header>
         <vue-dropzone
-          v-if="hasCreateAccess && !dummy && isLoaded"
+          v-if="hasCreateAccess"
           id="dropzone"
           :destroy-dropzone="false"
           :options="dropzoneOptions"

@@ -46,7 +46,7 @@
           v-if="dummy && isLoaded"
           :src="dummy.src"
           :text="$t(dummy.text)"
-          :show-action="$t(dummy.text).includes('yet')"
+          :show-action="dummy.showAction"
           @create="create"
           class="dummy-wrapper"
         ></wt-dummy>
@@ -120,10 +120,7 @@ export default {
   }),
 
   setup() {
-    const { dummy } = useDummy({
-      namespace,
-      dummyPic,
-    });
+    const { dummy } = useDummy({ namespace, showAction: true, dummyPic });
     return { dummy };
   },
 

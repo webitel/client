@@ -1,4 +1,4 @@
-import { ref } from 'vue';
+import { reactive } from 'vue';
 import { shallowMount } from '@vue/test-utils';
 import TheFlow from '../the-flow.vue';
 import tableComponentComputedMock
@@ -6,7 +6,7 @@ import tableComponentComputedMock
 import { useDummy } from '../../../../../../app/composables/useDummy';
 
 jest.mock('../../../../../../app/composables/useDummy');
-useDummy.mockImplementation(() => ({ reloadSortable: ref(false) }));
+useDummy.mockImplementation(() => ({ store: reactive({}) }));
 
 describe('TheFlow', () => {
     it('renders a component', () => {
