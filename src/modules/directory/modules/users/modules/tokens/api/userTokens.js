@@ -1,22 +1,78 @@
 import {
-  EndpointListGetterApiConsumer,
-  EndpointCreatorApiConsumer,
-  EndpointDeleterApiConsumer,
-} from 'webitel-sdk/esm2015/api-consumers';
-import instance from '../../../../../../../app/api/old/instance';
+  getDefaultGetListResponse,
+  getDefaultGetParams,
+} from '@webitel/ui-sdk/src/api/defaults';
+import applyTransform, {
+  camelToSnake, generateUrl, handleUnauthorized,
+  merge, notify, sanitize, snakeToCamel,
+  starToSearch, log,
+} from '@webitel/ui-sdk/src/api/transformers';
+import instance from '../../../../../../../app/api/instance';
 
 const baseUrl = '/users';
-const nestedUrl = '/tokens';
+const nestedUrl = 'tokens';
 const fieldsToSend = ['token', 'usage'];
 
-const listGetter = new EndpointListGetterApiConsumer({ baseUrl, instance }, { nestedUrl });
-const itemCreator = new EndpointCreatorApiConsumer({ baseUrl, instance },
-  { fieldsToSend, nestedUrl });
-const itemDeleter = new EndpointDeleterApiConsumer({ baseUrl, instance }, { nestedUrl });
+const getTokensList = async ({ parentId, ...rest }) => {
+  const fieldsToSend = ['page', 'size', 'q', 'fields', 'id'];
 
-const getTokensList = (params) => listGetter.getNestedList(params);
-const addToken = (params) => itemCreator.createNestedItem(params);
-const deleteToken = (params) => itemDeleter.deleteNestedItem(params);
+  const url = applyTransform(rest, [
+    log,
+    merge(getDefaultGetParams()),
+    starToSearch('search'),
+    (params) => ({ ...params, q: params.search }),
+    sanitize(fieldsToSend),
+    camelToSnake(),
+    generateUrl(`${baseUrl}/${parentId}/${nestedUrl}`),
+  ]);
+  try {
+    const response = await instance.get(url);
+    const { items, next } = applyTransform(response.data, [
+      snakeToCamel(),
+      merge(getDefaultGetListResponse()),
+    ]);
+    return {
+      items,
+      next,
+    };
+  } catch (err) {
+    throw applyTransform(err, [
+      handleUnauthorized,
+      notify,
+    ]);
+  }
+};
+const addToken = async ({ itemInstance, parentId }) => {
+  const item = applyTransform(itemInstance, [
+    sanitize(fieldsToSend),
+    camelToSnake(),
+  ]);
+  const url = `${baseUrl}/${parentId}/${nestedUrl}`;
+  try {
+    const response = await instance.post(url, item);
+    return applyTransform(response.data, [
+      snakeToCamel(),
+    ]);
+  } catch (err) {
+    throw applyTransform(err, [
+      handleUnauthorized,
+      notify,
+    ]);
+  }
+};
+const deleteToken = async ({ id, parentId }) => {
+  const url = `${baseUrl}/${parentId}/${nestedUrl}/${id}`;
+  console.info(url);
+  try {
+    const response = await instance.delete(url);
+    return applyTransform(response.data, []);
+  } catch (err) {
+    throw applyTransform(err, [
+      handleUnauthorized,
+      notify,
+    ]);
+  }
+};
 
 const UserTokensAPI = {
   getList: getTokensList,

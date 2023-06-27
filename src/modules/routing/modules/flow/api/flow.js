@@ -10,7 +10,7 @@ import applyTransform, {
   snakeToCamel,
   handleUnauthorized,
   notify,
-  sanitize,
+  sanitize, mergeEach,
 } from '@webitel/ui-sdk/src/api/transformers';
 import {
   getDefaultGetListResponse,
@@ -66,7 +66,7 @@ const getFlowList = async (params) => {
     ]);
     return {
       items: applyTransform(items, [
-        merge(defaultObject),
+        mergeEach(defaultObject),
       ]),
       next,
     };
