@@ -53,7 +53,18 @@
         </header>
 
         <wt-loader v-show="!isLoaded"></wt-loader>
-        <div v-show="isLoaded" class="table-wrapper">
+        <wt-dummy
+          v-if="dummy && isLoaded"
+          :src="dummy.src"
+          :text="$t(dummy.text)"
+          :show-action="dummy.showAction"
+          @create="create"
+          class="dummy-wrapper"
+        ></wt-dummy>
+        <div
+          v-show="dataList.length && isLoaded"
+          class="table-wrapper"
+        >
           <wt-table
             :data="dataList"
             :grid-actions="hasTableActions"
@@ -118,6 +129,10 @@
 import tableComponentMixin from '../../../../../app/mixins/objectPagesMixins/objectTableMixin/tableComponentMixin';
 import RouteNames from '../../../../../app/router/_internals/RouteNames.enum';
 import CreateCognitiveProfilePopup from './create-cognitive-profile-popup.vue';
+import { useDummy } from '../../../../../app/composables/useDummy';
+import dummyPic from '../assets/adm-dummy-cognitive-profiles.svg';
+
+const namespace = 'integrations/cognitiveProfiles';
 
 export default {
   name: 'the-cognitive-profiles',
@@ -126,10 +141,20 @@ export default {
     CreateCognitiveProfilePopup,
   },
   data: () => ({
-    namespace: 'integrations/cognitiveProfiles',
+    namespace,
     routeName: RouteNames.COGNITIVE_PROFILES,
     isCognitiveProfilePopup: false,
   }),
+
+  setup() {
+    const { dummy } = useDummy({
+      namespace,
+      showAction: true,
+      dummyPic,
+      dummyText: 'objects.integrations.emptyWorkspace',
+    });
+    return { dummy };
+  },
 
   computed: {
     path() {
@@ -142,6 +167,7 @@ export default {
       ];
     },
   },
+
   methods: {
     create() {
       this.isCognitiveProfilePopup = true;

@@ -82,7 +82,15 @@
         </vue-dropzone>
 
         <wt-loader v-show="!isLoaded"></wt-loader>
-        <div v-show="isLoaded" class="table-wrapper">
+        <wt-dummy
+          v-if="dummy && isLoaded"
+          :src="dummy.src"
+          :text="$t(dummy.text)"
+          class="dummy-wrapper"
+        ></wt-dummy>
+        <div
+          v-show="dataList.length && isLoaded"
+          class="table-wrapper">
           <wt-table
             :data="dataList"
             :headers="headers"
@@ -152,9 +160,11 @@ import { download } from '../../../../../app/utils/download';
 import MediaAPI from '../api/media';
 import TextToSpeechPopup from '../modules/text-to-speech/components/text-to-speech-popup.vue';
 import MediaFilePreviewTableAction from './media-file-preview-table-action.vue';
+import { useDummy } from '../../../../../app/composables/useDummy';
 
 const token = localStorage.getItem('access-token');
 const API_URL = process.env.VUE_APP_API_URL;
+const namespace = 'lookups/media';
 
 export default {
   name: 'the-media',
@@ -169,7 +179,7 @@ export default {
   inject: ['$eventBus'],
   data() {
     return {
-      namespace: 'lookups/media',
+      namespace,
 
       isLoadingFiles: false,
       loadedCount: 0,
@@ -187,12 +197,9 @@ export default {
       },
     };
   },
-  created() {
-    this.initFilesExport({
-      fetchMethod: this.getMediaList, // API call method
-      filename: 'media', // name of downloaded file. default is 'files'
-      filesURL: (id) => `${API_URL}/storage/media/${id}/download?access_token=${token}`, // Function. accepts file id param, and generates download link for file
-    });
+  setup() {
+    const { dummy } = useDummy({ namespace });
+    return { dummy };
   },
   computed: {
     path() {
@@ -272,6 +279,13 @@ export default {
       .pop();
     },
     prettifyFileSize,
+  },
+  created() {
+    this.initFilesExport({
+      fetchMethod: this.getMediaList, // API call method
+      filename: 'media', // name of downloaded file. default is 'files'
+      filesURL: (id) => `${API_URL}/storage/media/${id}/download?access_token=${token}`, // Function. accepts file id param, and generates download link for file
+    });
   },
 };
 </script>

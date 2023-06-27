@@ -621,6 +621,7 @@ export default {
         historyTo: 'До',
         historyDuration: 'Длительность',
         payload: 'Причина',
+        emptyPopup: 'Пожалуйста, проверьте настройки фильтров',
         status: {
           online: 'Онлайн',
           offline: 'Оффлайн',
@@ -664,6 +665,7 @@ export default {
         dtmf: 'DTMF',
         priority: 'Приоритет',
         attempts: 'Попыток',
+        emptyWorkspace: 'Абоненты не найдены',
         resetMembers: {
           resetMembers: 'Перезапустить абонентов',
           description: 'Вы действительно хотите перезапустить повторный дозвон по неудачным попыткам абонентов?',
@@ -874,6 +876,7 @@ export default {
     },
     integrations: {
       integrations: 'Интеграции',
+      emptyWorkspace: 'Профили в разделе еще не созданы',
 
       storage: {
         storage: 'Хранилища',

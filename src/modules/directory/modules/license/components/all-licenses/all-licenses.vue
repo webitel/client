@@ -35,9 +35,9 @@
 
     <wt-loader v-show="!isLoaded"></wt-loader>
     <wt-dummy
-      v-if="dummyValue && isLoaded"
-      :src="dummyValue.src"
-      :locale="dummyValue.locale"
+      v-if="dummy && isLoaded"
+      :src="dummy.src"
+      :text="$t(dummy.text)"
       class="dummy-wrapper"
     ></wt-dummy>
     <div
@@ -114,16 +114,23 @@ import tableComponentMixin from '../../../../../../app/mixins/objectPagesMixins/
 import RouteNames from '../../../../../../app/router/_internals/RouteNames.enum';
 import LicenseUsersPopup from '../../modules/license-users/components/license-users-popup.vue';
 import LicensePopup from './license-popup.vue';
+import { useDummy } from '../../../../../../app/composables/useDummy';
+
+const namespace = 'directory/license';
 
 export default {
   name: 'all-licenses',
   mixins: [tableComponentMixin],
   components: { AddAction, LicensePopup, LicenseUsersPopup },
   data: () => ({
-    namespace: 'directory/license',
+    namespace,
     isLicensePopup: false,
     routeName: RouteNames.LICENSE,
   }),
+  setup() {
+    const { dummy } = useDummy({ namespace });
+    return { dummy };
+  },
   computed: {
     isLicenseUsersPopup() {
       return !!this.$route.params.id;

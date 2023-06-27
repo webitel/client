@@ -1,5 +1,5 @@
 <template>
-  <wt-page-wrapper class="users content-wrapper" :actions-panel="false">
+  <wt-page-wrapper class="users" :actions-panel="false">
     <template v-slot:header>
       <object-header
         :hide-primary="!hasCreateAccess"
@@ -53,9 +53,9 @@
 
         <wt-loader v-show="!isLoaded"></wt-loader>
         <wt-dummy
-          v-if="dummyValue && isLoaded"
-          :src="dummyValue.src"
-          :locale="dummyValue.locale"
+          v-if="dummy && isLoaded"
+          :src="dummy.src"
+          :text="$t(dummy.text)"
           class="dummy-wrapper"
         ></wt-dummy>
         <div
@@ -123,6 +123,9 @@ import UserStatus from './_internals/user-status-chips.vue';
 import UploadFileIconBtn from '../../../../../app/components/utils/upload-file-icon-btn.vue';
 import tableComponentMixin from '../../../../../app/mixins/objectPagesMixins/objectTableMixin/tableComponentMixin';
 import RouteNames from '../../../../../app/router/_internals/RouteNames.enum';
+import { useDummy } from '../../../../../app/composables/useDummy';
+
+const namespace = 'directory/users';
 
 export default {
   name: 'the-users',
@@ -131,9 +134,14 @@ export default {
   data: () => ({
     isUploadPopup: false,
     csvFile: null,
-    namespace: 'directory/users',
+    namespace,
     routeName: RouteNames.USERS,
   }),
+
+  setup() {
+    const { dummy } = useDummy({ namespace });
+    return { dummy };
+  },
 
   computed: {
     path() {

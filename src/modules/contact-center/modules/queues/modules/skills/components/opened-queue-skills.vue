@@ -1,5 +1,5 @@
 <template>
-  <section>
+  <section class="content-wrapper">
     <skill-buckets-popup
       v-if="isSkillBucketsPopup"
       :itemId="this.agentId"
@@ -42,7 +42,15 @@
     </header>
 
     <wt-loader v-show="!isLoaded"></wt-loader>
-    <div v-show="isLoaded" class="table-wrapper">
+    <wt-dummy
+      v-if="dummy && isLoaded"
+      :src="dummy.src"
+      :text="$t(dummy.text)"
+      class="dummy-wrapper"
+    ></wt-dummy>
+    <div
+      v-show="dataList.length && isLoaded"
+      class="table-wrapper">
       <wt-table
         :headers="headers"
         :data="dataList"
@@ -107,20 +115,27 @@ import SkillBucketsPopup from './opened-queue-skills-buckets-popup.vue';
 import SkillPopup from './opened-queue-skills-popup.vue';
 import openedObjectTableTabMixin
   from '../../../../../../../app/mixins/objectPagesMixins/openedObjectTableTabMixin/openedObjectTableTabMixin';
+import { useDummy } from '../../../../../../../app/composables/useDummy';
+
+const namespace = 'ccenter/queues';
+const subNamespace = 'skills';
 
 export default {
   name: 'opened-queue-skills',
   mixins: [openedObjectTableTabMixin],
   components: { SkillPopup, SkillBucketsPopup },
   data: () => ({
-    subNamespace: 'skills',
+    namespace,
+    subNamespace,
     isSkillBucketsPopup: null,
     isSkillPopup: false,
     agentId: 0,
-
     isDeleteConfirmation: false,
   }),
-
+  setup() {
+    const { dummy } = useDummy({ namespace: `${namespace}/${subNamespace}` });
+    return { dummy };
+  },
   methods: {
     getFirstBucket(buckets) {
       if (buckets.length > 0) {
