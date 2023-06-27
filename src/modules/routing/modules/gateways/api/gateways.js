@@ -6,7 +6,7 @@ import {
   EndpointPatcherApiConsumer,
   EndpointDeleterApiConsumer,
 } from 'webitel-sdk/esm2015/api-consumers';
-import instance from '../../../../../app/api/instance';
+import instance from '../../../../../app/api/old/instance';
 import registerGateway
   from '../store/_internals/gatewaySchema/registerGateway';
 import trunkingGateway

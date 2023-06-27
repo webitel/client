@@ -64,7 +64,18 @@
         </header>
 
         <wt-loader v-show="!isLoaded"></wt-loader>
-        <div class="table-wrapper" v-show="isLoaded">
+        <wt-dummy
+          v-if="dummy && isLoaded"
+          :src="dummy.src"
+          :text="$t(dummy.text)"
+          :show-action="dummy.showAction"
+          @create="create"
+          class="dummy-wrapper"
+        ></wt-dummy>
+        <div
+          v-show="dataList.length && isLoaded"
+          class="table-wrapper"
+        >
           <wt-table
             :headers="headers"
             :data="dataList"
@@ -142,6 +153,9 @@ import DevicePopup from './create-device-popup.vue';
 import UploadFileIconBtn from '../../../../../app/components/utils/upload-file-icon-btn.vue';
 import tableComponentMixin from '../../../../../app/mixins/objectPagesMixins/objectTableMixin/tableComponentMixin';
 import RouteNames from '../../../../../app/router/_internals/RouteNames.enum';
+import { useDummy } from '../../../../../app/composables/useDummy';
+
+const namespace = 'directory/devices';
 
 export default {
   name: 'the-devices',
@@ -154,11 +168,16 @@ export default {
     UploadFileIconBtn,
   },
   data: () => ({
-    namespace: 'directory/devices',
+    namespace,
     isUploadPopup: false,
     isDeviceSelectPopup: false,
     csvFile: null,
   }),
+
+  setup() {
+    const { dummy } = useDummy({ namespace, showAction: true });
+    return { dummy };
+  },
 
   computed: {
     ...mapState({

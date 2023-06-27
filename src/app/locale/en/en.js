@@ -148,6 +148,8 @@ export default {
     ID: 'ID',
     email: 'Email address',
     updatedAt: 'Modified',
+    emptyWorkspace: 'There are no records yet',
+    emptyResultSearch: 'Your search yielded no results',
 
     deleteConfirmation: {
       title: 'Confirm deletion',
@@ -621,6 +623,7 @@ export default {
         historyFrom: 'From',
         historyTo: 'To',
         historyDuration: 'Duration',
+        emptyPopup: 'Please check the filters query',
         status: {
           online: 'Online',
           offline: 'Offline',
@@ -664,6 +667,7 @@ export default {
         dtmf: 'DTMF',
         priority: 'Priority',
         attempts: 'Attempts',
+        emptyWorkspace: 'No members were found',
         resetMembers: {
           resetMembers: 'Reset members',
           description: 'Are you sure you want to reset attempts of unsuccessful members?',
@@ -874,6 +878,7 @@ export default {
 
     integrations: {
       integrations: 'Integrations',
+      emptyWorkspace: 'There are no profiles yet',
 
       storage: {
         storage: 'Storage',
@@ -1035,5 +1040,8 @@ export default {
     prevPage: 'Previous page',
     expand: 'Expand',
     collapse: 'Collapse',
+  },
+  errors: {
+    invalidJson: 'JSON is invalid',
   },
 };

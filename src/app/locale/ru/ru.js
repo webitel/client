@@ -148,6 +148,8 @@ export default {
     ID: 'ID',
     email: 'Адрес электронной почты',
     updatedAt: 'Изменено',
+    emptyWorkspace: 'Записи в разделе еще не созданы',
+    emptyResultSearch: 'Поиск не дал результатов',
 
     deleteConfirmation: {
       title: 'Подтвердите удаление',
@@ -619,6 +621,7 @@ export default {
         historyTo: 'До',
         historyDuration: 'Длительность',
         payload: 'Причина',
+        emptyPopup: 'Пожалуйста, проверьте настройки фильтров',
         status: {
           online: 'Онлайн',
           offline: 'Оффлайн',
@@ -662,6 +665,7 @@ export default {
         dtmf: 'DTMF',
         priority: 'Приоритет',
         attempts: 'Попыток',
+        emptyWorkspace: 'Абоненты не найдены',
         resetMembers: {
           resetMembers: 'Перезапустить абонентов',
           description: 'Вы действительно хотите перезапустить повторный дозвон по неудачным попыткам абонентов?',
@@ -872,6 +876,7 @@ export default {
     },
     integrations: {
       integrations: 'Интеграции',
+      emptyWorkspace: 'Профили в разделе еще не созданы',
 
       storage: {
         storage: 'Хранилища',
@@ -1032,5 +1037,8 @@ export default {
     prevPage: 'Предыдущая страница',
     expand: 'Развернуть',
     collapse: 'Свернуть',
+  },
+  errors: {
+    invalidJson: 'Некорректный JSON',
   },
 };

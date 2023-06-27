@@ -47,7 +47,17 @@
         </header>
 
         <wt-loader v-show="!isLoaded"></wt-loader>
-        <div v-show="isLoaded" class="table-wrapper">
+        <wt-dummy
+          v-if="dummy && isLoaded"
+          :src="dummy.src"
+          :text="$t(dummy.text)"
+          :show-action="dummy.showAction"
+          @create="create"
+          class="dummy-wrapper"
+        ></wt-dummy>
+        <div
+          v-show="dataList.length && isLoaded"
+          class="table-wrapper">
           <wt-table
             :data="dataList"
             :grid-actions="hasTableActions"
@@ -112,6 +122,9 @@ import tableComponentMixin from '../../../../../app/mixins/objectPagesMixins/obj
 import RouteNames from '../../../../../app/router/_internals/RouteNames.enum';
 import agentStatusMixin from '../../../mixins/agentStatusMixin';
 import HistoryPopup from './agent-history-popup.vue';
+import { useDummy } from '../../../../../app/composables/useDummy';
+
+const namespace = 'ccenter/agents';
 
 export default {
   name: 'the-agents',
@@ -119,9 +132,14 @@ export default {
   components: { HistoryPopup },
 
   data: () => ({
-    namespace: 'ccenter/agents',
+    namespace,
     routeName: RouteNames.AGENTS,
   }),
+
+  setup() {
+    const { dummy } = useDummy({ namespace, showAction: true });
+    return { dummy };
+  },
 
   computed: {
     ...mapState({

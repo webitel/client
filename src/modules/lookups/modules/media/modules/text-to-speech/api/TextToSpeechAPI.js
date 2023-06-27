@@ -1,7 +1,7 @@
 import eventBus from '@webitel/ui-sdk/src/scripts/eventBus';
 import qs from 'query-string';
 import { objCamelToSnake } from '@webitel/ui-sdk/src/scripts/caseConverters';
-import instance from '../../../../../../../app/api/instance';
+import instance from '../../../../../../../app/api/old/instance';
 
 const getTtsStreamUrl = (params, apiUrl = false) => {
   const baseUrl = '/storage/tts/stream';

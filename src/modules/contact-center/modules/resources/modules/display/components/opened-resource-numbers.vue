@@ -41,7 +41,15 @@
     </header>
 
     <wt-loader v-show="!isLoaded"></wt-loader>
-    <div v-show="isLoaded" class="table-wrapper">
+    <wt-dummy
+      v-if="dummy && isLoaded"
+      :src="dummy.src"
+      :text="$t(dummy.text)"
+      class="dummy-wrapper"
+    ></wt-dummy>
+    <div
+      v-show="dataList.length && isLoaded"
+      class="table-wrapper">
       <wt-table
         :headers="headers"
         :data="dataList"
@@ -78,15 +86,25 @@
 <script>
 import NumberPopup from './opened-resource-numbers-popup.vue';
 import openedObjectTableTabMixin from '../../../../../../../app/mixins/objectPagesMixins/openedObjectTableTabMixin/openedObjectTableTabMixin';
+import { useDummy } from '../../../../../../../app/composables/useDummy';
+
+const namespace = 'ccenter/res';
+const subNamespace = 'numbers';
 
 export default {
   name: 'opened-resource-number',
   mixins: [openedObjectTableTabMixin],
   components: { NumberPopup },
   data: () => ({
-    subNamespace: 'numbers',
+    namespace,
+    subNamespace,
     isNumberPopup: false,
   }),
+
+  setup() {
+    const { dummy } = useDummy({ namespace: `${namespace}/${subNamespace}` });
+    return { dummy };
+  },
 
   methods: {
     openPopup() {

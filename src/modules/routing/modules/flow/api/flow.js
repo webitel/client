@@ -2,13 +2,20 @@ import {
   EngineRoutingSchemaType,
   RoutingSchemaServiceApiFactory,
 } from 'webitel-sdk';
+import applyTransform, {
+  log,
+  merge,
+  starToSearch,
+  camelToSnake,
+  snakeToCamel,
+  handleUnauthorized,
+  notify,
+  sanitize,
+} from '@webitel/ui-sdk/src/api/transformers';
 import {
-  SdkCreatorApiConsumer,
-  SdkDeleterApiConsumer,
-  SdkGetterApiConsumer,
-  SdkListGetterApiConsumer,
-  SdkUpdaterApiConsumer,
-} from 'webitel-sdk/esm2015/api-consumers';
+  getDefaultGetListResponse,
+  getDefaultGetParams,
+} from '@webitel/ui-sdk/src/api/defaults';
 import instance from '../../../../../app/api/instance';
 import configuration from '../../../../../app/api/openAPIConfig';
 
@@ -16,42 +23,13 @@ const flowService = new RoutingSchemaServiceApiFactory(configuration, '', instan
 
 const fieldsToSend = ['name', 'schema', 'type', 'payload', 'editor', 'tags'];
 
-const preRequestHandler = (item) => {
-  // eslint-disable-next-line no-param-reassign
-  if (typeof item.schema === 'string') item.schema = JSON.parse(item.schema);
-  return item;
-};
-
-const defaultListObject = {
-  type: EngineRoutingSchemaType.Default,
-  editor: false,
-};
-
-const defaultSingleObject = {
-  tags: [],
-  editor: false,
-  type: EngineRoutingSchemaType.Default,
-};
-
-const itemResponseHandler = (response) => {
-  return {
-    ...response,
-    schema: JSON.stringify(response.schema, null, 4),
+const getFlowList = async (params) => {
+  const defaultObject = {
+    type: EngineRoutingSchemaType.Default,
+    editor: false,
   };
-};
 
-const _getFlowsList = (getList) => function({
-                                              page,
-                                              size,
-                                              search,
-                                              sort,
-                                              fields,
-                                              ids,
-                                              name,
-                                              type,
-                                              tags,
-                                            }) {
-  const params = [
+  const {
     page,
     size,
     search,
@@ -59,78 +37,205 @@ const _getFlowsList = (getList) => function({
     fields,
     ids,
     name,
-    Array.isArray(type) ? type.concat(EngineRoutingSchemaType.Default) : [
-      type,
-      EngineRoutingSchemaType.Default,
-    ],
-    undefined,
+    type,
     tags,
-  ];
-  return getList(params);
+  } = applyTransform(params, [
+    merge(getDefaultGetParams()),
+    starToSearch('q'),
+    camelToSnake(),
+  ]);
+  try {
+    const response = await flowService.searchRoutingSchema(
+      page,
+      size,
+      search,
+      sort,
+      fields,
+      ids,
+      name,
+      Array.isArray(type) ? type.concat(EngineRoutingSchemaType.Default) : [
+        type,
+        EngineRoutingSchemaType.Default,
+      ],
+      undefined,
+      tags,
+    );
+    const { items, next } = applyTransform(response.data, [
+      snakeToCamel(),
+      merge(getDefaultGetListResponse()),
+    ]);
+    return {
+      items: applyTransform(items, [
+        merge(defaultObject),
+      ]),
+      next,
+    };
+  } catch (err) {
+    throw applyTransform(err, [
+      handleUnauthorized,
+      notify,
+    ]);
+  }
+};
+const getFlow = async ({ itemId: id }) => {
+  const defaultObject = {
+    tags: [],
+    editor: false,
+    type: EngineRoutingSchemaType.Default,
+  };
+
+  const itemResponseHandler = (item) => ({
+      ...item,
+      schema: JSON.stringify(item.schema, null, 4),
+  });
+
+  try {
+    const response = await flowService.readRoutingSchema(id);
+    return applyTransform(response.data, [
+      snakeToCamel(),
+      merge(defaultObject),
+      itemResponseHandler,
+    ]);
+  } catch (err) {
+    throw applyTransform(err, [
+      handleUnauthorized,
+      notify,
+    ]);
+  }
 };
 
-const _getFlowsLookup = (getList) => function({
-                                              page,
-                                              size,
-                                              search,
-                                              sort,
-                                              fields,
-                                              ids,
-                                              type,
-                                            }) {
-  const params = [
+const preRequestHandler = (item) => ({
+  ...item,
+   schema: typeof item.schema === 'string' ? JSON.parse(item.schema) : item.schema,
+});
+
+const addFlow = async ({ itemInstance }) => {
+  const item = applyTransform(itemInstance, [
+    preRequestHandler,
+    sanitize(fieldsToSend),
+    camelToSnake(),
+  ]);
+  try {
+    const response = await flowService.createRoutingSchema(item);
+    return applyTransform(response.data, [
+      snakeToCamel(),
+    ]);
+  } catch (err) {
+    throw applyTransform(err, [
+      handleUnauthorized,
+      notify,
+    ]);
+  }
+};
+const updateFlow = async ({ itemInstance, itemId: id }) => {
+  const item = applyTransform(itemInstance, [
+    preRequestHandler,
+    sanitize(fieldsToSend),
+    camelToSnake(),
+  ]);
+  try {
+    const response = await flowService.updateRoutingSchema(id, item);
+    return applyTransform(response.data, [
+      snakeToCamel(),
+    ]);
+  } catch (err) {
+    throw applyTransform(err, [
+      handleUnauthorized,
+      notify,
+    ]);
+  }
+};
+
+const deleteFlow = async ({ id }) => {
+  try {
+    const response = await flowService.deleteRoutingSchema(id);
+    return applyTransform(response.data, []);
+  } catch (err) {
+    throw applyTransform(err, [
+      handleUnauthorized,
+      notify,
+    ]);
+  }
+};
+
+const getFlowsLookup = async (params) => {
+  const {
+    page,
+    size,
+    search,
+    sort,
+    fields = ['id', 'name'],
+    ids,
+    type,
+  } = applyTransform(params, [
+    merge(getDefaultGetParams()),
+    starToSearch(),
+    camelToSnake(),
+  ]);
+  try {
+    const response = await flowService.searchRoutingSchema(
+      page,
+      size,
+      search,
+      sort,
+      fields,
+      ids,
+      undefined,
+      type,
+    );
+    const { items, next } = applyTransform(response.data, [
+      snakeToCamel(),
+      merge(getDefaultGetListResponse()),
+    ]);
+    return {
+      items,
+      next,
+    };
+  } catch (err) {
+    throw applyTransform(err, [
+      handleUnauthorized,
+      notify,
+    ]);
+  }
+};
+
+const getFlowTags = async (params) => {
+  const {
     page,
     size,
     search,
     sort,
     fields,
     ids,
-    undefined,
-    type,
-  ];
-  return getList(params);
+  } = applyTransform(params, [
+    merge(getDefaultGetParams()),
+    starToSearch(),
+    camelToSnake(),
+  ]);
+  try {
+    const response = await flowService.searchRoutingSchemaTags(
+      page,
+      size,
+      search,
+      sort,
+      fields,
+      ids,
+    );
+    const { items, next } = applyTransform(response.data, [
+      snakeToCamel(),
+      merge(getDefaultGetListResponse()),
+    ]);
+    return {
+      items,
+      next,
+    };
+  } catch (err) {
+    throw applyTransform(err, [
+      handleUnauthorized,
+      notify,
+    ]);
+  }
 };
-
-const listGetter = new SdkListGetterApiConsumer(
-  flowService.searchRoutingSchema,
-  { defaultListObject },
-).setGetListMethod(_getFlowsList);
-
-const itemGetter = new SdkGetterApiConsumer(
-  flowService.readRoutingSchema,
-  {
-    defaultSingleObject,
-    itemResponseHandler,
-  },
-);
-
-const itemCreator = new SdkCreatorApiConsumer(
-  flowService.createRoutingSchema,
-  { fieldsToSend, preRequestHandler },
-);
-
-const itemUpdater = new SdkUpdaterApiConsumer(
-  flowService.updateRoutingSchema,
-  { fieldsToSend, preRequestHandler },
-);
-
-const itemDeleter = new SdkDeleterApiConsumer(flowService.deleteRoutingSchema);
-
-const lookupGetter = new SdkListGetterApiConsumer(
-  flowService.searchRoutingSchema,
-).setGetListMethod(_getFlowsLookup);
-
-const flowTagsListGetter = new SdkListGetterApiConsumer(
-  flowService.searchRoutingSchemaTags,
-);
-
-const getFlowList = (params) => listGetter.getList(params);
-const getFlow = (params) => itemGetter.getItem(params);
-const addFlow = (params) => itemCreator.createItem(params);
-const updateFlow = (params) => itemUpdater.updateItem(params);
-const deleteFlow = (params) => itemDeleter.deleteItem(params);
-const getFlowsLookup = (params) => lookupGetter.getLookup(params);
-const getFlowTags = (params) => flowTagsListGetter.getList(params);
 
 const FlowsAPI = {
   getList: getFlowList,

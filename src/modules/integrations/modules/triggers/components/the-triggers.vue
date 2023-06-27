@@ -49,7 +49,17 @@
         </header>
 
         <wt-loader v-show="!isLoaded"></wt-loader>
-        <div v-show="isLoaded" class="table-wrapper">
+        <wt-dummy
+          v-if="dummy && isLoaded"
+          :src="dummy.src"
+          :text="$t(dummy.text)"
+          :show-action="dummy.showAction"
+          @create="create"
+          class="dummy-wrapper"
+        ></wt-dummy>
+        <div
+          v-show="dataList.length && isLoaded"
+          class="table-wrapper">
           <wt-table
             :data="dataList"
             :grid-actions="hasTableActions"
@@ -118,15 +128,22 @@ import { mapActions } from 'vuex';
 import tableComponentMixin from '../../../../../app/mixins/objectPagesMixins/objectTableMixin/tableComponentMixin';
 import RouteNames from '../../../../../app/router/_internals/RouteNames.enum';
 import TriggerTypes from '../lookups/TriggerTypes.lookup';
+import { useDummy } from '../../../../../app/composables/useDummy';
+
+const namespace = 'integrations/triggers';
 
 export default {
   name: 'the-triggers',
   mixins: [tableComponentMixin],
   data: () => ({
-    namespace: 'integrations/triggers',
+    namespace,
     routeName: RouteNames.TRIGGERS,
     TriggerTypes,
   }),
+  setup() {
+    const { dummy } = useDummy({ namespace, showAction: true });
+    return { dummy };
+  },
   computed: {
     path() {
       return [

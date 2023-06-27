@@ -1,32 +1,37 @@
+import deepMerge from 'deepmerge';
 import { StorageProviderType } from 'webitel-sdk';
-import { MicrosoftLanguage } from 'webitel-sdk/esm2015/enums';
-import { MicrosoftRegion } from 'webitel-sdk/esm2015/lookups';
 import ObjectStoreModule
   from '../../../../../app/store/BaseStoreModules/StoreModules/ObjectStoreModule';
 import PermissionsStoreModule
   from '../../../../../app/store/BaseStoreModules/StoreModules/PermissionsStoreModule/PermissionsStoreModule';
 import CognitiveProfilesAPI from '../api/cognitiveProfiles';
-import CognitiveProfileServices
-  from '../lookups/CognitiveProfileServices.lookup';
+import defaultCognitiveProfile from '../schemas/defaultCognitiveProfile';
+import microsoftCognitiveProfile from '../schemas/microsoftCognitiveProfile';
+import googleCognitiveProfile from '../schemas/googleCognitiveProfile';
 import headers from './_internals/headers';
 
 const resettableState = {
   itemInstance: {
-    name: '',
-    default: false,
-    enabled: true,
-    provider: StorageProviderType.Microsoft,
-    service: CognitiveProfileServices[0],
-    properties: {
-      key: '',
-      region: MicrosoftRegion[0],
-      locale: MicrosoftLanguage['en-US'],
-    },
-    description: '',
+    ...defaultCognitiveProfile(),
   },
 };
 
+const stateMap = {
+  [StorageProviderType.Microsoft]: microsoftCognitiveProfile,
+  [StorageProviderType.Google]: googleCognitiveProfile,
+};
+
 const actions = {
+  LOAD_ITEM: async (context, type) => {
+    let typedItem;
+    if (context.state.itemId) {
+      const item = await context.dispatch('GET_ITEM');
+      typedItem = deepMerge(stateMap[item.provider](), item);
+    } else {
+      typedItem = stateMap[type]();
+    }
+    context.commit('SET_ITEM', typedItem);
+  },
   SET_ITEM_PROPERTIES_PROP: (context, { prop, value }) => {
     const properties = {
       ...context.state.itemInstance.properties,

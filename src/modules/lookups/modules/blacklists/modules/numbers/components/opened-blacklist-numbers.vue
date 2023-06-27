@@ -53,7 +53,15 @@
     </header>
 
     <wt-loader v-show="!isLoaded"></wt-loader>
-    <div v-show="isLoaded" class="table-wrapper">
+    <wt-dummy
+      v-if="dummy && isLoaded"
+      :src="dummy.src"
+      :text="$t(dummy.text)"
+      class="dummy-wrapper"
+    ></wt-dummy>
+    <div
+      v-show="dataList.length && isLoaded"
+      class="table-wrapper">
     <wt-table
       :headers="headers"
       :data="dataList"
@@ -97,6 +105,10 @@ import openedObjectTableTabMixin from '../../../../../../../app/mixins/objectPag
 import numberPopup from './opened-blacklist-number-popup.vue';
 import uploadPopup from './upload-blacklist-numbers-popup.vue';
 import UploadFileIconBtn from '../../../../../../../app/components/utils/upload-file-icon-btn.vue';
+import { useDummy } from '../../../../../../../app/composables/useDummy';
+
+const namespace = 'lookups/blacklists';
+const subNamespace = 'numbers';
 
 export default {
   name: 'opened-blacklist-numbers',
@@ -104,11 +116,17 @@ export default {
   components: { numberPopup, uploadPopup, UploadFileIconBtn },
   data() {
     return {
-      subNamespace: 'numbers',
+      namespace,
+      subNamespace,
       isNumberPopup: false,
       isUploadPopup: false,
       csvFile: null,
     };
+  },
+
+  setup() {
+    const { dummy } = useDummy({ namespace: `${namespace}/${subNamespace}` });
+    return { dummy };
   },
 
   methods: {

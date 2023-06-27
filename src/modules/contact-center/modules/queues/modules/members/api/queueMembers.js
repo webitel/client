@@ -9,9 +9,9 @@ import {
   SdkPatcherApiConsumer,
   SdkUpdaterApiConsumer,
 } from 'webitel-sdk/esm2015/api-consumers';
-import instance from '../../../../../../../app/api/instance';
+import instance from '../../../../../../../app/api/old/instance';
 import configuration from '../../../../../../../app/api/openAPIConfig';
-import sanitizer from '../../../../../../../app/api/utils/sanitizer';
+import sanitizer from '../../../../../../../app/api/old/utils/sanitizer';
 
 const memberService = new MemberServiceApiFactory(configuration, '', instance);
 

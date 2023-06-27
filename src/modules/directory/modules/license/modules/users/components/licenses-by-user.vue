@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="content-wrapper">
     <header class="content-header">
       <h3 class="content-title">
         <!--        {{ $tc('objects.directory.users.users', 2) }}-->
@@ -26,7 +26,15 @@
     </header>
 
     <wt-loader v-show="!isLoaded"></wt-loader>
-    <div v-show="isLoaded" class="table-wrapper">
+    <wt-dummy
+      v-if="dummy && isLoaded"
+      :src="dummy.src"
+      :text="$t(dummy.text)"
+      class="dummy-wrapper"
+    ></wt-dummy>
+    <div
+      v-show="dataList.length && isLoaded"
+      class="table-wrapper">
       <wt-table
         :data="dataList"
         :grid-actions="false"
@@ -72,17 +80,24 @@
 
 <script>
 import { mapActions } from 'vuex';
+import { useDummy } from '../../../../../../../app/composables/useDummy';
 import tableComponentMixin
   from '../../../../../../../app/mixins/objectPagesMixins/objectTableMixin/tableComponentMixin';
 import RouteNames from '../../../../../../../app/router/_internals/RouteNames.enum';
+
+const namespace = 'directory/license/users';
 
 export default {
   name: 'licenses-by-user',
   mixins: [tableComponentMixin],
   data: () => ({
-    namespace: 'directory/license/users',
     staticHeaders: ['name'],
+    namespace,
   }),
+  setup() {
+    const { dummy } = useDummy({ namespace });
+    return { dummy };
+  },
   computed: {
     licenseHeaders() {
       return this.headers.slice(1); // except 1st column "name"
