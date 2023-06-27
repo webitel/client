@@ -1,28 +1,18 @@
 <template>
   <section>
-    <agent-popup
+    <skill-popup
       v-if="isAgentPopup"
       @close="closePopup"
-    ></agent-popup>
+    ></skill-popup>
+    <change-skill-popup
+      v-if="agentSkillPopup"
+      @close="closeAgentSkillPopup"
+    ></change-skill-popup>
     <delete-confirmation-popup
       v-show="deleteConfirmation.isDeleteConfirmationPopup"
       :payload="deleteConfirmation"
       @close="closeDelete"
     ></delete-confirmation-popup>
-    <object-list-popup
-      v-if="isSupervisorPopup"
-      :title="$tc('objects.ccenter.agents.supervisors', 2)"
-      :data-list="openedItemSupervisors"
-      :headers="openedItemSupervisorHeaders"
-      @close="closeSupervisorPopup"
-    ></object-list-popup>
-    <object-list-popup
-      v-if="isSkillsPopup"
-      :title="$tc('objects.lookups.skills.skills', 2)"
-      :data-list="openedItemSkills"
-      :headers="openedItemSkillsHeaders"
-      @close="closeSkillsPopup"
-    ></object-list-popup>
 
     <header class="content-header">
       <h3 class="content-title">{{ $t('objects.ccenter.agents.allAgents') }}</h3>
@@ -46,6 +36,12 @@
           <wt-icon-btn
             v-if="!disableUserInput"
             class="icon-action"
+            icon="arrow-mix"
+            @click="openAgentSkillPopup"
+          ></wt-icon-btn>
+          <wt-icon-btn
+            v-if="!disableUserInput"
+            class="icon-action"
             icon="plus"
             @click="create"
           ></wt-icon-btn>
@@ -60,6 +56,7 @@
 
     <div v-show="isLoaded" class="table-wrapper">
       {{headers}}
+      {{dataList}}
       <wt-table
       :headers="headers"
       :data="dataList"
@@ -83,8 +80,11 @@
           type="number"
         ></wt-input>
       </template>
-      <template v-slot:state="{ item }">
-        <wt-switcher v-model="item.enabled"></wt-switcher>
+      <template v-slot:state="{ item, index }">
+        <wt-switcher
+          :value="item.enabled"
+          @change="patchItem({ item, index, prop: 'enabled', value: $event });"
+        ></wt-switcher>
       </template>
       <template v-slot:actions="{ item }">
         <edit-action
@@ -115,15 +115,19 @@ import openedObjectTableTabMixin from '../../../../../../../app/mixins/objectPag
 import RouteNames from '../../../../../../../app/router/_internals/RouteNames.enum';
 import agentSupervisorsAndSkillsPopupMixin from '../../../../../mixins/agentSupervisorsAndSkillsPopupMixin';
 import agentStatusMixin from '../../../../../mixins/agentStatusMixin';
+import SkillPopup from './opened-skill-agent-popup.vue';
+import ChangeSkillPopup from './opened-skill-agent-change-popup.vue';
 
 export default {
   name: 'opened-skill-agents',
   mixins: [openedObjectTableTabMixin, agentSupervisorsAndSkillsPopupMixin, agentStatusMixin],
+  components: { SkillPopup, ChangeSkillPopup },
 
   data: () => ({
     subNamespace: 'agents',
     tableObjectRouteName: RouteNames.AGENTS, // this.editLink() computing
     isAgentPopup: false,
+    agentSkillPopup: false,
  }),
 
   methods: {
@@ -133,11 +137,11 @@ export default {
     closePopup() {
       this.isAgentPopup = false;
     },
-    openSkillsPopup() {
-      this.isSkillsPopup = true;
+    openAgentSkillPopup() {
+      this.agentSkillPopup = true;
     },
-    closeSkillsPopup() {
-      this.isSkillsPopup = false;
+    closeAgentSkillPopup() {
+      this.agentSkillPopup = false;
     },
     snakeToCamel,
   },

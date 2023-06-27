@@ -1,5 +1,5 @@
 <template>
-  <wt-popup min-width="900" overflow @close="close">
+  <wt-popup min-width="480" overflow @close="close">
     <template v-slot:title>
       {{ $tc('objects.ccenter.agents.agents', 1) }}
     </template>
@@ -24,11 +24,10 @@
 <script>
 import { useVuelidate } from '@vuelidate/core';
 import { required } from '@vuelidate/validators';
- // import AgentsAPI from '../../../../agents/api/agents';
 import nestedObjectMixin from '../../../../../../../app/mixins/objectPagesMixins/openedObjectMixin/nestedObjectMixin';
 
 export default {
-  name: 'opened-skill-agent-popup',
+  name: 'opened-skill-agent-change--popup',
   mixins: [nestedObjectMixin],
 
   data: () => ({

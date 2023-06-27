@@ -7,7 +7,7 @@ const resettableItemState = {
     name: '',
     team: {},
     capacity: 10,
-    enabled: true,
+    enabled: false,
   },
 };
 

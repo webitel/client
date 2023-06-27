@@ -13,7 +13,7 @@ const defaultListObject = {
   name: '',
   team: {},
   capacity: 10,
-  enabled: true,
+  enabled: false,
 };
 
 const getSkillAgents = (getList) => function ({
@@ -47,6 +47,7 @@ const addTeamAgent = ({ parentId, itemInstance }) => {
   const changes = { team: { id: parentId } };
   return itemPatcher.patchItem({ id, changes });
 };
+const patchAgentSkill = (params) => itemPatcher.patchNestedItem(params);
 const deleteTeamAgent = ({ id }) => {
   const changes = { team: { id: null } };
   return itemPatcher.patchItem({ id, changes });
@@ -64,6 +65,7 @@ const SkillAgentsAPI = {
   getList: getSkillAgentsList,
   get: getSkillAgent,
   add: addTeamAgent,
+  patch: patchAgentSkill,
   update: updateTeamAgent,
   delete: deleteTeamAgent,
 };
