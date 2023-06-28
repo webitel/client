@@ -1,38 +1,139 @@
-import { RoutingChatPlanServiceApiFactory } from 'webitel-sdk';
 import {
-  SdkListGetterApiConsumer,
-  SdkGetterApiConsumer,
-  SdkCreatorApiConsumer,
-  SdkUpdaterApiConsumer,
-  SdkPatcherApiConsumer,
-  SdkDeleterApiConsumer,
-} from 'webitel-sdk/esm2015/api-consumers';
-import instance from '../../../../../app/api/old/instance';
+  getDefaultGetListResponse,
+  getDefaultGetParams,
+} from '@webitel/ui-sdk/src/api/defaults';
+import applyTransform, {
+  camelToSnake, handleUnauthorized,
+  merge, mergeEach, notify, sanitize, snakeToCamel,
+  starToSearch,
+} from '@webitel/ui-sdk/src/api/transformers';
+import { RoutingChatPlanServiceApiFactory } from 'webitel-sdk';
+import instance from '../../../../../app/api/instance';
 import configuration from '../../../../../app/api/openAPIConfig';
 
 const chatplanService = new RoutingChatPlanServiceApiFactory(configuration, '', instance);
 
+const getChatplanList = async (params) => {
+  const defaultObject = { enabled: false };
+
+  const {
+    page,
+    size,
+    search,
+    sort,
+    fields,
+    id,
+  } = applyTransform(params, [
+    merge(getDefaultGetParams()),
+    starToSearch('search'),
+    camelToSnake(),
+  ]);
+
+  try {
+    const response = await chatplanService.searchChatPlan(
+      page,
+      size,
+      search,
+      sort,
+      fields,
+      id,
+    );
+    const { items, next } = applyTransform(response.data, [
+      snakeToCamel(),
+      merge(getDefaultGetListResponse()),
+    ]);
+    return {
+      items: applyTransform(items, [
+        mergeEach(defaultObject),
+      ]),
+      next,
+    };
+  } catch (err) {
+    throw applyTransform(err, [
+      handleUnauthorized,
+      notify,
+    ]);
+  }
+};
+const getChatplan = async ({ itemId: id }) => {
+  try {
+    const response = await chatplanService.readChatPlan(id);
+    return applyTransform(response.data, [
+      snakeToCamel(),
+    ]);
+  } catch (err) {
+    throw applyTransform(err, [
+      handleUnauthorized,
+      notify,
+    ]);
+  }
+};
+
 const fieldsToSend = ['name', 'schema', 'description', 'enabled'];
 
-const defaultListObject = { enabled: false };
+const addChatplan = async ({ itemInstance }) => {
+  const item = applyTransform(itemInstance, [
+    sanitize(fieldsToSend),
+    camelToSnake(),
+  ]);
+  try {
+    const response = await chatplanService.createChatPlan(item);
+    return applyTransform(response.data, [
+      snakeToCamel(),
+    ]);
+  } catch (err) {
+    throw applyTransform(err, [
+      handleUnauthorized,
+      notify,
+    ]);
+  }
+};
+const patchChatplan = async ({ id, changes }) => {
+  const body = applyTransform(changes, [
+    sanitize(fieldsToSend),
+    camelToSnake(),
+  ]);
+  try {
+    const response = await chatplanService.patchChatPlan(id, body);
+    return applyTransform(response.data, [
+      snakeToCamel(),
+    ]);
+  } catch (err) {
+    throw applyTransform(err, [
+      handleUnauthorized,
+      notify,
+    ]);
+  }
+};
+const updateChatplan = async ({ itemInstance, itemId: id }) => {
+  const item = applyTransform(itemInstance, [
+    sanitize(fieldsToSend),
+    camelToSnake(),
+  ]);
+  try {
+    const response = await chatplanService.updateChatPlan(id, item);
+    return applyTransform(response.data, [
+      snakeToCamel(),
+    ]);
+  } catch (err) {
+    throw applyTransform(err, [
+      handleUnauthorized,
+      notify,
+    ]);
+  }
+};
 
-const listGetter = new SdkListGetterApiConsumer(chatplanService.searchChatPlan,
-  { defaultListObject });
-const itemGetter = new SdkGetterApiConsumer(chatplanService.readChatPlan);
-const itemCreator = new SdkCreatorApiConsumer(chatplanService.createChatPlan,
-  { fieldsToSend });
-const itemUpdater = new SdkUpdaterApiConsumer(chatplanService.updateChatPlan,
-  { fieldsToSend });
-const itemPatcher = new SdkPatcherApiConsumer(chatplanService.patchChatPlan,
-  { fieldsToSend });
-const itemDeleter = new SdkDeleterApiConsumer(chatplanService.deleteChatPlan);
-
-const getChatplanList = (params) => listGetter.getList(params);
-const getChatplan = (params) => itemGetter.getItem(params);
-const addChatplan = (params) => itemCreator.createItem(params);
-const patchChatplan = (params) => itemPatcher.patchItem(params);
-const updateChatplan = (params) => itemUpdater.updateItem(params);
-const deleteChatplan = (params) => itemDeleter.deleteItem(params);
+const deleteChatplan = async ({ id }) => {
+  try {
+    const response = await chatplanService.deleteChatPlan(id);
+    return applyTransform(response.data, []);
+  } catch (err) {
+    throw applyTransform(err, [
+      handleUnauthorized,
+      notify,
+    ]);
+  }
+};
 
 const ChatplanAPI = {
   getList: getChatplanList,
