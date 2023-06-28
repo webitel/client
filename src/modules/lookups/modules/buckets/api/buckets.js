@@ -1,30 +1,125 @@
-import { BucketServiceApiFactory } from 'webitel-sdk';
 import {
-  SdkListGetterApiConsumer,
-  SdkGetterApiConsumer,
-  SdkCreatorApiConsumer,
-  SdkUpdaterApiConsumer,
-  SdkDeleterApiConsumer,
-} from 'webitel-sdk/esm2015/api-consumers';
-import instance from '../../../../../app/api/old/instance';
+  getDefaultGetListResponse,
+  getDefaultGetParams,
+} from '@webitel/ui-sdk/src/api/defaults';
+import applyTransform, {
+  camelToSnake,
+  handleUnauthorized,
+  merge, notify, sanitize, snakeToCamel,
+  starToSearch,
+} from '@webitel/ui-sdk/src/api/transformers';
+import { BucketServiceApiFactory } from 'webitel-sdk';
+import instance from '../../../../../app/api/instance';
 import configuration from '../../../../../app/api/openAPIConfig';
 
 const bucketService = new BucketServiceApiFactory(configuration, '', instance);
 
+const getBucketsList = async (params) => {
+  const {
+    page,
+    size,
+    search,
+    sort,
+    fields,
+    id,
+  } = applyTransform(params, [
+    merge(getDefaultGetParams()),
+    starToSearch('search'),
+  ]);
+
+  try {
+    const response = await bucketService.searchBucket(
+      page,
+      size,
+      search,
+      sort,
+      fields,
+      id,
+    );
+    const { items, next } = applyTransform(response.data, [
+      snakeToCamel(),
+      merge(getDefaultGetListResponse()),
+    ]);
+    return {
+      items,
+      next,
+    };
+  } catch (err) {
+    throw applyTransform(err, [
+      handleUnauthorized,
+      notify,
+    ]);
+  }
+};
+
+const getBucket = async ({ itemId: id }) => {
+  try {
+    const response = await bucketService.readBucket(id);
+    return applyTransform(response.data, [
+      snakeToCamel(),
+    ]);
+  } catch (err) {
+    throw applyTransform(err, [
+      handleUnauthorized,
+      notify,
+    ]);
+  }
+};
+
 const fieldsToSend = ['name', 'description'];
 
-const listGetter = new SdkListGetterApiConsumer(bucketService.searchBucket);
-const itemGetter = new SdkGetterApiConsumer(bucketService.readBucket);
-const itemCreator = new SdkCreatorApiConsumer(bucketService.createBucket, { fieldsToSend });
-const itemUpdater = new SdkUpdaterApiConsumer(bucketService.updateBucket, { fieldsToSend });
-const itemDeleter = new SdkDeleterApiConsumer(bucketService.deleteBucket);
+const addBucket = async ({ itemInstance }) => {
+  const item = applyTransform(itemInstance, [
+    sanitize(fieldsToSend),
+    camelToSnake(),
+  ]);
+  try {
+    const response = await bucketService.createBucket(item);
+    return applyTransform(response.data, [
+      snakeToCamel(),
+    ]);
+  } catch (err) {
+    throw applyTransform(err, [
+      handleUnauthorized,
+      notify,
+    ]);
+  }
+};
 
-const getBucketsList = (params) => listGetter.getList(params);
-const getBucket = (params) => itemGetter.getItem(params);
-const addBucket = (params) => itemCreator.createItem(params);
-const updateBucket = (params) => itemUpdater.updateItem(params);
-const deleteBucket = (params) => itemDeleter.deleteItem(params);
-const getBucketsLookup = (params) => listGetter.getLookup(params);
+const updateBucket = async ({ itemInstance, itemId: id }) => {
+  const item = applyTransform(itemInstance, [
+    sanitize(fieldsToSend),
+    camelToSnake(),
+  ]);
+  try {
+    const response = await bucketService.updateBucket(id, item);
+    return applyTransform(response.data, [
+      snakeToCamel(),
+    ]);
+  } catch (err) {
+    throw applyTransform(err, [
+      handleUnauthorized,
+      notify,
+    ]);
+  }
+};
+
+const deleteBucket = async ({ id }) => {
+  try {
+    const response = await bucketService.deleteBucket(id);
+    return applyTransform(response.data, []);
+  } catch (err) {
+    throw applyTransform(err, [
+      handleUnauthorized,
+      notify,
+    ]);
+  }
+};
+
+const getBucketsLookup = (params) => getBucketsList({
+  ...params,
+  fields: params.fields || ['id', 'name'],
+});
 
 const BucketsAPI = {
   getList: getBucketsList,

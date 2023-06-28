@@ -1,80 +1,216 @@
-import { CalendarServiceApiFactory } from 'webitel-sdk';
 import {
-  SdkListGetterApiConsumer,
-  SdkGetterApiConsumer,
-  SdkCreatorApiConsumer,
-  SdkUpdaterApiConsumer,
-  SdkDeleterApiConsumer,
-} from 'webitel-sdk/esm2015/api-consumers';
-import instance from '../../../../../app/api/old/instance';
+  getDefaultGetListResponse,
+  getDefaultGetParams,
+} from '@webitel/ui-sdk/src/api/defaults';
+import applyTransform, {
+  camelToSnake,
+  handleUnauthorized,
+  merge, notify, sanitize, snakeToCamel,
+  starToSearch,
+} from '@webitel/ui-sdk/src/api/transformers';
+import deepCopy from 'deep-copy';
+import { CalendarServiceApiFactory } from 'webitel-sdk';
+
+import instance from '../../../../../app/api/instance';
 import configuration from '../../../../../app/api/openAPIConfig';
 
 const calendarService = new CalendarServiceApiFactory(configuration, '', instance);
+
+const getCalendarList = async (params) => {
+  const {
+    page,
+    size,
+    search,
+    sort,
+    fields,
+    id,
+  } = applyTransform(params, [
+    merge(getDefaultGetParams()),
+    starToSearch('search'),
+  ]);
+
+  try {
+    const response = await calendarService.searchCalendar(
+      page,
+      size,
+      search,
+      sort,
+      fields,
+      id,
+    );
+    const { items, next } = applyTransform(response.data, [
+      snakeToCamel(),
+      merge(getDefaultGetListResponse()),
+    ]);
+    return {
+      items,
+      next,
+    };
+  } catch (err) {
+    throw applyTransform(err, [
+      handleUnauthorized,
+      notify,
+    ]);
+  }
+};
+
+const getCalendar = async ({ itemId: id }) => {
+  const itemResponseHandler = (item) => {
+    const copy = deepCopy(item);
+    const defaultSingleObject = {
+      name: '',
+      timezone: {},
+      description: '',
+      startAt: Date.now(),
+      endAt: Date.now(),
+      expires: !!(copy.startAt || copy.endAt),
+      accepts: [],
+      excepts: [],
+    };
+    // eslint-disable-next-line no-param-reassign
+    copy.accepts = copy.accepts.map((accept) => ({
+      day: accept.day || 0,
+      disabled: accept.disabled || false,
+      start: accept.startTimeOfDay || 0,
+      end: accept.endTimeOfDay || 0,
+    }));
+    if (copy.excepts) {
+      // eslint-disable-next-line no-param-reassign
+      copy.excepts = copy.excepts.map((except) => ({
+        name: except.name || '',
+        date: except.date || 0,
+        repeat: except.repeat || false,
+      }));
+    }
+    return { ...defaultSingleObject, ...copy };
+  };
+
+  try {
+    const response = await calendarService.readCalendar(id);
+    return applyTransform(response.data, [
+      snakeToCamel(),
+      itemResponseHandler,
+    ]);
+  } catch (err) {
+    throw applyTransform(err, [
+      handleUnauthorized,
+      notify,
+    ]);
+  }
+};
 
 const fieldsToSend = ['name', 'description', 'timezone', 'startAt', 'endAt', 'day',
   'accepts', 'excepts', 'startTimeOfDay', 'endTimeOfDay', 'disabled', 'date', 'repeat'];
 
 const preRequestHandler = (item) => {
-  delete item.timezone.offset;
-  if (!item.expires) {
-    delete item.startAt;
-    delete item.endAt;
+  const copy = deepCopy(item);
+  delete copy.timezone.offset;
+  if (!copy.expires) {
+    delete copy.startAt;
+    delete copy.endAt;
   }
 
-  item.accepts = item.accepts.map((accept) => ({
+  copy.accepts = copy.accepts.map((accept) => ({
     day: accept.day,
     disabled: accept.disabled,
     startTimeOfDay: accept.start,
     endTimeOfDay: accept.end,
   }));
-  return item;
+  return copy;
 };
 
-const itemResponseHandler = (response) => {
-  const defaultSingleObject = {
-    name: '',
-    timezone: {},
-    description: '',
-    startAt: Date.now(),
-    endAt: Date.now(),
-    expires: !!(response.startAt || response.endAt),
-    accepts: [],
-    excepts: [],
-  };
-  // eslint-disable-next-line no-param-reassign
-  response.accepts = response.accepts.map((accept) => ({
-    day: accept.day || 0,
-    disabled: accept.disabled || false,
-    start: accept.startTimeOfDay || 0,
-    end: accept.endTimeOfDay || 0,
-  }));
-  if (response.excepts) {
-    // eslint-disable-next-line no-param-reassign
-    response.excepts = response.excepts.map((except) => ({
-      name: except.name || '',
-      date: except.date || 0,
-      repeat: except.repeat || false,
-    }));
+const addCalendar = async ({ itemInstance }) => {
+  const item = applyTransform(itemInstance, [
+    preRequestHandler,
+    sanitize(fieldsToSend),
+    camelToSnake(),
+  ]);
+  try {
+    const response = await calendarService.createCalendar(item);
+    return applyTransform(response.data, [
+      snakeToCamel(),
+    ]);
+  } catch (err) {
+    throw applyTransform(err, [
+      handleUnauthorized,
+      notify,
+    ]);
   }
-  return { ...defaultSingleObject, ...response };
 };
 
-const listGetter = new SdkListGetterApiConsumer(calendarService.searchCalendar);
-const itemGetter = new SdkGetterApiConsumer(calendarService.readCalendar, { itemResponseHandler });
-const timezoneGetter = new SdkListGetterApiConsumer(calendarService.searchTimezones);
-const itemCreator = new SdkCreatorApiConsumer(calendarService.createCalendar,
-  { fieldsToSend, preRequestHandler });
-const itemUpdater = new SdkUpdaterApiConsumer(calendarService.updateCalendar,
-  { fieldsToSend, preRequestHandler });
-const itemDeleter = new SdkDeleterApiConsumer(calendarService.deleteCalendar);
+const updateCalendar = async ({ itemInstance, itemId: id }) => {
+  const item = applyTransform(itemInstance, [
+    preRequestHandler,
+    sanitize(fieldsToSend),
+    camelToSnake(),
+  ]);
+  try {
+    const response = await calendarService.updateCalendar(id, item);
+    return applyTransform(response.data, [
+      snakeToCamel(),
+    ]);
+  } catch (err) {
+    throw applyTransform(err, [
+      handleUnauthorized,
+      notify,
+    ]);
+  }
+};
 
-const getCalendarList = (params) => listGetter.getList(params);
-const getCalendar = (params) => itemGetter.getItem(params);
-const addCalendar = (params) => itemCreator.createItem(params);
-const updateCalendar = (params) => itemUpdater.updateItem(params);
-const deleteCalendar = (params) => itemDeleter.deleteItem(params);
-const getCalendarsLookup = (params) => listGetter.getLookup(params);
-const getTimezonesLookup = (params) => timezoneGetter.getLookup(params);
+const deleteCalendar = async ({ id }) => {
+  try {
+    const response = await calendarService.deleteCalendar(id);
+    return applyTransform(response.data, []);
+  } catch (err) {
+    throw applyTransform(err, [
+      handleUnauthorized,
+      notify,
+    ]);
+  }
+};
+
+const getCalendarsLookup = (params) => getCalendarList({
+  ...params,
+  fields: params.fields || ['id', 'name'],
+});
+
+const getTimezonesLookup = async (params) => {
+  const {
+    page,
+    size,
+    search,
+    sort,
+    fields,
+    id,
+  } = applyTransform(params, [
+    merge(getDefaultGetParams()),
+    starToSearch('search'),
+  ]);
+
+  try {
+    const response = await calendarService.searchTimezones(
+      page,
+      size,
+      search,
+      sort,
+      fields,
+      id,
+    );
+    const { items, next } = applyTransform(response.data, [
+      snakeToCamel(),
+      merge(getDefaultGetListResponse()),
+    ]);
+    return {
+      items,
+      next,
+    };
+  } catch (err) {
+    throw applyTransform(err, [
+      handleUnauthorized,
+      notify,
+    ]);
+  }
+};
 
 const CalendarsAPI = {
   getList: getCalendarList,

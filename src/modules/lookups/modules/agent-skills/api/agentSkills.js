@@ -24,7 +24,6 @@ const getSkillsList = async (params) => {
   } = applyTransform(params, [
     merge(getDefaultGetParams()),
     starToSearch('search'),
-    camelToSnake(),
   ]);
 
   try {
