@@ -1,13 +1,15 @@
+import {
+  getDefaultGetListResponse,
+  getDefaultGetParams,
+} from '@webitel/ui-sdk/src/api/defaults';
+import applyTransform, {
+  camelToSnake, handleUnauthorized,
+  merge, mergeEach, notify, snakeToCamel,
+  starToSearch,
+} from '@webitel/ui-sdk/src/api/transformers';
 import axios from 'axios';
 import { MediaFileServiceApiFactory } from 'webitel-sdk';
-import {
-  SdkListGetterApiConsumer,
-  SdkDeleterApiConsumer,
-} from 'webitel-sdk/esm2015/api-consumers';
-import eventBus from '@webitel/ui-sdk/src/scripts/eventBus';
-import instance from '../../../../../app/api/old/instance';
-import errorEventBusNotificationResponseInterceptor
-  from '../../../../../app/api/old/interceptors/response/errorEventBusNotificationResponse.interceptor';
+import instance from '../../../../../app/api/instance';
 import configuration from '../../../../../app/api/openAPIConfig';
 
 const mediaService = new MediaFileServiceApiFactory(configuration, '', instance);
@@ -15,17 +17,53 @@ const mediaService = new MediaFileServiceApiFactory(configuration, '', instance)
 const token = localStorage.getItem('access-token');
 const baseUrl = process.env.VUE_APP_API_URL;
 
-const listGetter = new SdkListGetterApiConsumer(mediaService.searchMediaFile);
-const itemDeleter = new SdkDeleterApiConsumer(mediaService.deleteMediaFile);
+const getMediaList = async (params) => {
+  const {
+    page,
+    size,
+    search,
+    sort,
+    fields,
+    id,
+  } = applyTransform(params, [
+    merge(getDefaultGetParams()),
+    starToSearch('search'),
+  ]);
 
-const getMediaList = (params) => listGetter.getList(params);
+  try {
+    const response = await mediaService.searchMediaFile(
+      page,
+      size,
+      search,
+      sort,
+      fields,
+      id,
+    );
+    const { items, next } = applyTransform(response.data, [
+      snakeToCamel(),
+      merge(getDefaultGetListResponse()),
+    ]);
+    return {
+      items,
+      next,
+    };
+  } catch (err) {
+    throw applyTransform(err, [
+      handleUnauthorized,
+      notify,
+    ]);
+  }
+};
 
 const getMedia = async ({ itemId }) => {
   const url = `${baseUrl}/storage/media/${itemId}/stream?access_token=${token}`;
   try {
     return await instance.get(url);
   } catch (err) {
-    throw err;
+    throw applyTransform(err, [
+      handleUnauthorized,
+      notify,
+    ]);
   }
 };
 
@@ -34,7 +72,10 @@ export const downloadMedia = async (id) => {
   try {
     return await instance.get(url);
   } catch (err) {
-    throw err;
+    throw applyTransform(err, [
+      handleUnauthorized,
+      notify,
+    ]);
   }
 };
 
@@ -44,8 +85,6 @@ const addMediaInstance = axios.create({
   },
 });
 
-addMediaInstance.interceptors.response.use(...errorEventBusNotificationResponseInterceptor.default);
-
 const addMedia = async (params) => {
   const url = `${baseUrl}/storage/media?access_token=${token}`;
 
@@ -53,16 +92,34 @@ const addMedia = async (params) => {
   formData.append('file', params.itemInstance);
   try {
     const response = await addMediaInstance.post(url, formData);
-    eventBus.$emit('notification', { type: 'info', text: 'Successfully added' });
+    applyTransform(response, [
+      notify(() => ({ type: 'info', text: 'Successfully added' })),
+    ]);
     return response;
   } catch (err) {
-    throw err;
+    throw applyTransform(err, [
+      handleUnauthorized,
+      notify,
+    ]);
   }
 };
 
-const deleteMedia = (params) => itemDeleter.deleteItem(params);
+const deleteMedia = async ({ id }) => {
+  try {
+    const response = await mediaService.deleteMediaFile(id);
+    return applyTransform(response.data, []);
+  } catch (err) {
+    throw applyTransform(err, [
+      handleUnauthorized,
+      notify,
+    ]);
+  }
+};
 
-const getMediaLookup = (params) => listGetter.getLookup(params);
+const getMediaLookup = (params) => getMediaList({
+  ...params,
+  fields: params.fields || ['id', 'name'],
+});
 
 const MediaAPI = {
   getList: getMediaList,
