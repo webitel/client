@@ -99,8 +99,8 @@ export default {
             this.setItemProp({ prop: 'schema', value: schema }),
             this.setItemProp({ prop: 'payload', value: JSON.stringify(payload) }), // stringify payload to prevent it from case-convertion
           ]);
-          return new Promise((resolve) => {
-            this.save(resolve);
+          return new Promise((resolve, reject) => {
+            this.save({ resolve, reject });
           });
         };
 
