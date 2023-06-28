@@ -1,124 +1,281 @@
+import {
+  getDefaultGetListResponse,
+  getDefaultGetParams,
+} from '@webitel/ui-sdk/src/api/defaults';
+import applyTransform, {
+  camelToSnake,
+  handleUnauthorized,
+  merge, mergeEach, notify, sanitize, snakeToCamel,
+  starToSearch,
+} from '@webitel/ui-sdk/src/api/transformers';
 import convertDuration from '@webitel/ui-sdk/src/scripts/convertDuration';
 import { AgentServiceApiFactory } from 'webitel-sdk';
-import {
-  SdkListGetterApiConsumer,
-  SdkGetterApiConsumer,
-  SdkCreatorApiConsumer,
-  SdkUpdaterApiConsumer,
-  SdkDeleterApiConsumer,
-} from 'webitel-sdk/esm2015/api-consumers';
-import instance from '../../../../../app/api/old/instance';
+import instance from '../../../../../app/api/instance';
 import configuration from '../../../../../app/api/openAPIConfig';
 
 const agentService = new AgentServiceApiFactory(configuration, '', instance);
-
-const fieldsToSend = ['user', 'team', 'supervisor', 'auditor', 'region', 'greetingMedia', 'progressiveCount',
-  'chatCount', 'isSupervisor'];
 
 const convertStatusDuration = (value) => {
   if (value > 60 * 60 * 24) return '>24:00:00';
   return convertDuration(value);
 };
 
-const listResponseHandler = (response) => {
-  const items = response.items.map((item) => ({
-    ...item,
-    statusDuration: convertStatusDuration(item.statusDuration),
-  }));
-  return {
-    ...response,
-    items,
+const getAgentsList = async (params) => {
+  const listResponseHandler = (items) => {
+    return items.map((item) => ({
+      ...item,
+      statusDuration: convertStatusDuration(item.statusDuration),
+    }));
   };
+
+  const {
+    page,
+    size,
+    search,
+    sort,
+    fields,
+    id,
+    isSupervisor,
+    isNotSupervisor,
+    notTeamId,
+    supervisorId,
+  } = applyTransform(params, [
+    merge(getDefaultGetParams()),
+    starToSearch('search'),
+  ]);
+
+  try {
+    const response = await agentService.searchAgent(
+      page,
+      size,
+      search,
+      sort,
+      fields,
+      id,
+      undefined,
+      supervisorId,
+      undefined,
+      undefined,
+      undefined,
+      isSupervisor,
+      undefined,
+      undefined,
+      isNotSupervisor,
+      undefined,
+      undefined,
+      notTeamId,
+    );
+    const { items, next } = applyTransform(response.data, [
+      snakeToCamel(),
+      merge(getDefaultGetListResponse()),
+    ]);
+    return {
+      items: applyTransform(items, [
+        listResponseHandler,
+      ]),
+      next,
+    };
+  } catch (err) {
+    throw applyTransform(err, [
+      handleUnauthorized,
+      notify,
+    ]);
+  }
 };
 
-const defaultSingleObject = {
-  user: {},
-  team: {},
-  supervisor: [],
-  auditor: [],
-  region: {},
-  progressiveCount: 0,
-  chatCount: 0,
-  isSupervisor: false,
-  description: '',
-  greetingMedia: {},
+const getAgent = async ({ itemId: id }) => {
+  const defaultObject = {
+    user: {},
+    team: {},
+    supervisor: [],
+    auditor: [],
+    region: {},
+    progressiveCount: 0,
+    chatCount: 0,
+    isSupervisor: false,
+    description: '',
+    greetingMedia: {},
+  };
+
+  try {
+    const response = await agentService.readAgent(id);
+    return applyTransform(response.data, [
+      snakeToCamel(),
+      merge(defaultObject),
+    ]);
+  } catch (err) {
+    throw applyTransform(err, [
+      handleUnauthorized,
+      notify,
+    ]);
+  }
 };
 
-const getSupervisorsList = (getList) => function ({
-                                                    page = 1,
-                                                    size = 10,
-                                                    search,
-                                                    fields,
-                                                    notTeamId,
-                                                  }) {
-  const isSupervisor = true;
-  const params = [page, size, search, undefined, fields, undefined, undefined,
-    undefined, undefined, undefined, undefined, isSupervisor, undefined, undefined, undefined,
-    undefined, undefined, notTeamId];
-  return getList(params);
+const fieldsToSend = [
+  'user',
+  'team',
+  'supervisor',
+  'auditor',
+  'region',
+  'greetingMedia',
+  'progressiveCount',
+  'chatCount',
+  'isSupervisor',
+];
+
+const addAgent = async ({ itemInstance }) => {
+  const item = applyTransform(itemInstance, [
+    sanitize(fieldsToSend),
+    camelToSnake(),
+  ]);
+  try {
+    const response = await agentService.createAgent(item);
+    return applyTransform(response.data, [
+      snakeToCamel(),
+    ]);
+  } catch (err) {
+    throw applyTransform(err, [
+      handleUnauthorized,
+      notify,
+    ]);
+  }
 };
 
-const _getRegularAgentsList = (getList) => function ({
-                                                       page = 1,
-                                                       size = 10,
-                                                       search,
-                                                       fields,
-                                                     }) {
-  const isNotSupervisor = true;
-  const params = [page, size, search, undefined, fields, undefined, undefined,
-    undefined, undefined, undefined, undefined, undefined, undefined, undefined, isNotSupervisor];
-  return getList(params);
+const patchAgent = async ({ changes, id }) => {
+  const body = applyTransform(changes, [
+    sanitize(fieldsToSend),
+    camelToSnake(),
+  ]);
+  try {
+    const response = await agentService.patchAgent(id, body);
+    return applyTransform(response.data, [
+      snakeToCamel(),
+    ]);
+  } catch (err) {
+    throw applyTransform(err, [
+      handleUnauthorized,
+      notify,
+    ]);
+  }
 };
 
-const _getAgentHistory = (getList) => function ({
-                                                  parentId,
-                                                  from,
-                                                  to,
-                                                  page,
-                                                  size,
-                                                }) {
-  // parentId -- agent id
-  const sort = '-joined_at';
-  const params = [page, size, from, to, parentId, sort];
-  return getList(params);
+const updateAgent = async ({ itemInstance, itemId: id }) => {
+  const item = applyTransform(itemInstance, [
+    sanitize(fieldsToSend),
+    camelToSnake(),
+  ]);
+  try {
+    const response = await agentService.updateAgent(id, item);
+    return applyTransform(response.data, [
+      snakeToCamel(),
+    ]);
+  } catch (err) {
+    throw applyTransform(err, [
+      handleUnauthorized,
+      notify,
+    ]);
+  }
 };
 
-const listGetter = new SdkListGetterApiConsumer(agentService.searchAgent, {
-  listResponseHandler,
+const deleteAgent = async ({ id }) => {
+  try {
+    const response = await agentService.deleteAgent(id);
+    return applyTransform(response.data, []);
+  } catch (err) {
+    throw applyTransform(err, [
+      handleUnauthorized,
+      notify,
+    ]);
+  }
+};
+
+const getAgentsLookup = (params) => getAgentsList({
+  ...params,
+  fields: params.fields || ['id', 'name'],
 });
-const itemGetter = new SdkGetterApiConsumer(agentService.readAgent, { defaultSingleObject });
-const itemCreator = new SdkCreatorApiConsumer(agentService.createAgent, { fieldsToSend });
-const itemUpdater = new SdkUpdaterApiConsumer(agentService.updateAgent, { fieldsToSend });
-const itemDeleter = new SdkDeleterApiConsumer(agentService.deleteAgent);
 
-const historyListGetter = new SdkListGetterApiConsumer(agentService.searchAgentStateHistory)
-  .setGetListMethod(_getAgentHistory);
+const getAgentHistory = async (params) => {
+  const {
+    parentId,
+    from,
+    to,
+    page,
+    size,
+    sort = '-joined_at',
+  } = applyTransform(params, [
+    merge(getDefaultGetParams()),
+    starToSearch('search'),
+  ]);
 
-const supervisorsListGetter = new SdkListGetterApiConsumer(agentService.searchAgent)
-  .setGetListMethod(getSupervisorsList);
-const regularAgentListGetter = new SdkListGetterApiConsumer(agentService.searchAgent)
-  .setGetListMethod(_getRegularAgentsList);
-const newAgentUsersGetter = new SdkListGetterApiConsumer(
-  agentService.searchLookupUsersAgentNotExists,
-);
+  try {
+    const response = await agentService.searchAgentStateHistory(
+      page, size, from, to, parentId, sort,
+    );
+    const { items, next } = applyTransform(response.data, [
+      snakeToCamel(),
+      merge(getDefaultGetListResponse()),
+    ]);
+    return {
+      items,
+      next,
+    };
+  } catch (err) {
+    throw applyTransform(err, [
+      handleUnauthorized,
+      notify,
+    ]);
+  }
+};
 
-const getAgentsList = (params) => listGetter.getList(params);
-const getAgent = (params) => itemGetter.getItem(params);
-const addAgent = (params) => itemCreator.createItem(params);
-const updateAgent = (params) => itemUpdater.updateItem(params);
-const deleteAgent = (params) => itemDeleter.deleteItem(params);
-const getAgentsLookup = (params) => listGetter.getLookup(params);
+const getAgentUsersOptions = async (params) => {
+  const {
+    page,
+    size,
+    search,
+    sort,
+    fields,
+    id,
+  } = applyTransform(params, [
+    merge(getDefaultGetParams()),
+    starToSearch('search'),
+  ]);
 
-const getAgentHistory = (params) => historyListGetter.getList(params);
+  try {
+    const response = await agentService.searchLookupUsersAgentNotExists(
+      page,
+      size,
+      search,
+    );
+    const { items, next } = applyTransform(response.data, [
+      snakeToCamel(),
+      merge(getDefaultGetListResponse()),
+    ]);
+    return {
+      items,
+      next,
+    };
+  } catch (err) {
+    throw applyTransform(err, [
+      handleUnauthorized,
+      notify,
+    ]);
+  }
+};
+const getSupervisorOptions = async (params) => {
+  const isSupervisor = true;
+  return getAgentsList({ ...params, isSupervisor });
+};
 
-const getAgentUsersOptions = (params) => newAgentUsersGetter.getLookup(params);
-const getSupervisorOptions = (params) => supervisorsListGetter.getLookup(params);
-const getRegularAgentsOptions = (params) => regularAgentListGetter.getLookup(params);
+const getRegularAgentsOptions = async (params) => {
+  const isNotSupervisor = true;
+  return getAgentsList({ ...params, isNotSupervisor });
+};
 
 const AgentsAPI = {
   getList: getAgentsList,
   get: getAgent,
   add: addAgent,
+  patch: patchAgent,
   update: updateAgent,
   delete: deleteAgent,
   getLookup: getAgentsLookup,

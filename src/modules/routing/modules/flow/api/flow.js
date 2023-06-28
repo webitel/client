@@ -35,13 +35,13 @@ const getFlowList = async (params) => {
     search,
     sort,
     fields,
-    ids,
+    id,
     name,
     type,
     tags,
   } = applyTransform(params, [
     merge(getDefaultGetParams()),
-    starToSearch('q'),
+    starToSearch('search'),
     camelToSnake(),
   ]);
   try {
@@ -51,7 +51,7 @@ const getFlowList = async (params) => {
       search,
       sort,
       fields,
-      ids,
+      id,
       name,
       Array.isArray(type) ? type.concat(EngineRoutingSchemaType.Default) : [
         type,

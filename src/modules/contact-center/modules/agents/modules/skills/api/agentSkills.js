@@ -1,50 +1,148 @@
-import { AgentSkillServiceApiFactory } from 'webitel-sdk';
 import {
-  SdkListGetterApiConsumer,
-  SdkGetterApiConsumer,
-  SdkCreatorApiConsumer,
-  SdkUpdaterApiConsumer,
-  SdkPatcherApiConsumer,
-  SdkDeleterApiConsumer,
-} from 'webitel-sdk/esm2015/api-consumers';
-import instance from '../../../../../../../app/api/old/instance';
+  getDefaultGetListResponse,
+  getDefaultGetParams,
+} from '@webitel/ui-sdk/src/api/defaults';
+import applyTransform, {
+  camelToSnake,
+  handleUnauthorized,
+  merge, mergeEach, notify, sanitize, snakeToCamel,
+  starToSearch,
+} from '@webitel/ui-sdk/src/api/transformers';
+import { AgentSkillServiceApiFactory } from 'webitel-sdk';
+import instance from '../../../../../../../app/api/instance';
 import configuration from '../../../../../../../app/api/openAPIConfig';
 
 const agentSkillService = new AgentSkillServiceApiFactory(configuration, '', instance);
 
-const defaultListObject = {
+const defaultObject = {
   skill: {},
   capacity: 0,
   enabled: false,
 };
 
-const defaultSingleObject = {
-  skill: {},
-  capacity: 0,
-  enabled: false,
+const getAgentSkillsList = async (params) => {
+  const {
+    parentId,
+    page,
+    size,
+    search,
+    sort,
+    fields,
+    id,
+  } = applyTransform(params, [
+    merge(getDefaultGetParams()),
+    starToSearch('search'),
+  ]);
+
+  try {
+    const response = await agentSkillService.searchAgentSkill(
+      parentId,
+      page,
+      size,
+      search,
+      sort,
+      fields,
+      id,
+    );
+    const { items, next } = applyTransform(response.data, [
+      snakeToCamel(),
+      merge(getDefaultGetListResponse()),
+    ]);
+    return {
+      items: applyTransform(items, [
+        mergeEach(defaultObject),
+      ]),
+      next,
+    };
+  } catch (err) {
+    throw applyTransform(err, [
+      handleUnauthorized,
+      notify,
+    ]);
+  }
+};
+
+const getAgentSkill = async ({ parentId, itemId: id }) => {
+  try {
+    const response = await agentSkillService.readAgentSkill(parentId, id);
+    return applyTransform(response.data, [
+      snakeToCamel(),
+    ]);
+  } catch (err) {
+    throw applyTransform(err, [
+      handleUnauthorized,
+      notify,
+    ]);
+  }
 };
 
 const fieldsToSend = ['capacity', 'agentId', 'skill', 'enabled'];
 
-const preRequestHandler = (item, parentId) => ({ ...item, agentId: parentId });
+const addAgentSkill = async ({ parentId, itemInstance }) => {
+  const item = applyTransform(itemInstance, [
+    sanitize(fieldsToSend),
+    camelToSnake(),
+  ]);
+  try {
+    const response = await agentSkillService.createAgentSkill(parentId, item);
+    return applyTransform(response.data, [
+      snakeToCamel(),
+    ]);
+  } catch (err) {
+    throw applyTransform(err, [
+      handleUnauthorized,
+      notify,
+    ]);
+  }
+};
 
-const listGetter = new SdkListGetterApiConsumer(agentSkillService.searchAgentSkill,
-  { defaultListObject });
-const itemGetter = new SdkGetterApiConsumer(agentSkillService.readAgentSkill,
-  { defaultSingleObject });
-const itemCreator = new SdkCreatorApiConsumer(agentSkillService.createAgentSkill,
-  { fieldsToSend, preRequestHandler });
-const itemPatcher = new SdkPatcherApiConsumer(agentSkillService.patchAgentSkill, { fieldsToSend });
-const itemUpdater = new SdkUpdaterApiConsumer(agentSkillService.updateAgentSkill,
-  { fieldsToSend, preRequestHandler });
-const itemDeleter = new SdkDeleterApiConsumer(agentSkillService.deleteAgentSkill);
+const patchAgentSkill = async ({ parentId, id, changes }) => {
+  const item = applyTransform(changes, [
+    sanitize(fieldsToSend),
+    camelToSnake(),
+  ]);
+  try {
+    const response = await agentSkillService.patchAgentSkill(parentId, id, item);
+    return applyTransform(response.data, [
+      snakeToCamel(),
+    ]);
+  } catch (err) {
+    throw applyTransform(err, [
+      handleUnauthorized,
+      notify,
+    ]);
+  }
+};
 
-const getAgentSkillsList = (params) => listGetter.getNestedList(params);
-const getAgentSkill = (params) => itemGetter.getNestedItem(params);
-const addAgentSkill = (params) => itemCreator.createNestedItem(params);
-const patchAgentSkill = (params) => itemPatcher.patchNestedItem(params);
-const updateAgentSkill = (params) => itemUpdater.updateNestedItem(params);
-const deleteAgentSkill = (params) => itemDeleter.deleteNestedItem(params);
+const updateAgentSkill = async ({ parentId, itemInstance, itemId: id }) => {
+  const item = applyTransform(itemInstance, [
+    sanitize(fieldsToSend),
+    camelToSnake(),
+  ]);
+  try {
+    const response = await agentSkillService.updateAgentSkill(parentId, id, item);
+    return applyTransform(response.data, [
+      snakeToCamel(),
+    ]);
+  } catch (err) {
+    throw applyTransform(err, [
+      handleUnauthorized,
+      notify,
+    ]);
+  }
+};
+
+const deleteAgentSkill = async ({ parentId, id }) => {
+  try {
+    const response = await agentSkillService.deleteAgentSkill(parentId, id);
+    return applyTransform(response.data, []);
+  } catch (err) {
+    throw applyTransform(err, [
+      handleUnauthorized,
+      notify,
+    ]);
+  }
+};
 
 const AgentSkillsAPI = {
   getList: getAgentSkillsList,

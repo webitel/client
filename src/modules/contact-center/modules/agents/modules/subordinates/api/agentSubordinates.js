@@ -1,44 +1,41 @@
+import applyTransform, {
+  handleUnauthorized, notify,
+  snakeToCamel,
+} from '@webitel/ui-sdk/src/api/transformers';
 import { AgentServiceApiFactory } from 'webitel-sdk';
-import {
-  SdkListGetterApiConsumer,
-  SdkGetterApiConsumer,
-  SdkPatcherApiConsumer,
-} from 'webitel-sdk/esm2015/api-consumers';
-import instance from '../../../../../../../app/api/old/instance';
+import AgentsAPI from '../../../api/agents';
+import instance from '../../../../../../../app/api/instance';
 import configuration from '../../../../../../../app/api/openAPIConfig';
 
 const subordinateService = new AgentServiceApiFactory(configuration, '', instance);
 
-const defaultListObject = {
-  name: '',
-  skills: [],
+export const getAgentSubordinatesList = (params) => {
+  const cleanedParams = {
+    ...params,
+    fields: ['id', 'name', 'supervisor', 'skills'],
+    supervisorId: params.parentId,
+  };
+  delete cleanedParams.parentId;
+  return AgentsAPI.getList(cleanedParams);
 };
 
-const getSubordinatesList = (getList) => function ({
-                                                     page,
-                                                     size,
-                                                     search,
-                                                     sort,
-                                                     parentId,
-                                                   }) {
-  const fields = ['id', 'name', 'supervisor', 'skills'];
-  const params = [page, size, search, sort, fields, undefined,
-    undefined, parentId];
-  return getList(params);
+export const getAgentSubordinate = async ({ itemId: id }) => {
+  const subordinateGetterResponseHandler = (agent) => ({ agent });
+
+  try {
+    const response = await subordinateService.readAgent(id);
+    return applyTransform(response.data, [
+      snakeToCamel(),
+      subordinateGetterResponseHandler,
+    ]);
+  } catch (err) {
+    throw applyTransform(err, [
+      handleUnauthorized,
+      notify,
+    ]);
+  }
 };
 
-const subordinateGetterResponseHandler = (agent) => ({ agent });
-
-const listGetter = new SdkListGetterApiConsumer(subordinateService.searchAgent,
-  { defaultListObject })
-  .setGetListMethod(getSubordinatesList);
-const itemGetter = new SdkGetterApiConsumer(subordinateService.readAgent, {
-  itemResponseHandler: subordinateGetterResponseHandler,
-});
-const itemPatcher = new SdkPatcherApiConsumer(subordinateService.patchAgent);
-
-export const getAgentSubordinatesList = (params) => listGetter.getList(params);
-export const getAgentSubordinate = (params) => itemGetter.getItem(params);
 export const addAgentSubordinate = ({ parentId, itemInstance }) => {
   const { id, supervisor } = itemInstance.agent;
   // Set and .map() from obj to string and backwards is used to prevent duplicates
@@ -46,7 +43,7 @@ export const addAgentSubordinate = ({ parentId, itemInstance }) => {
     ...new Set(supervisor.map((sup) => sup.id).concat(parentId)),
   ].map((id) => ({ id }));
   const changes = { supervisor: newSupervisor };
-  return itemPatcher.patchItem({ id, changes });
+  return AgentsAPI.patch({ id, changes });
 };
 export const deleteAgentSubordinate = ({ id, parentId, dataList }) => {
   /* deleted subordinate is in dataList,
@@ -54,7 +51,7 @@ export const deleteAgentSubordinate = ({ id, parentId, dataList }) => {
   const subordinate = dataList.find((sup) => sup.id === id);
   const newSupervisor = subordinate.supervisor.filter(({ id }) => id !== parentId);
   const changes = { supervisor: newSupervisor };
-  return itemPatcher.patchItem({ id, changes });
+  return AgentsAPI.patch({ id, changes });
 };
 export const updateAgentSubordinate = async ({
                                                parentId,

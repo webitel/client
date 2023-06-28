@@ -1,35 +1,65 @@
+import {
+  getDefaultGetListResponse,
+  getDefaultGetParams,
+} from '@webitel/ui-sdk/src/api/defaults';
+import applyTransform, {
+  handleUnauthorized,
+  merge, mergeEach, notify, snakeToCamel,
+  starToSearch,
+} from '@webitel/ui-sdk/src/api/transformers';
 import { AgentServiceApiFactory } from 'webitel-sdk';
-import { SdkListGetterApiConsumer } from 'webitel-sdk/esm2015/api-consumers';
-import instance from '../../../../../../../app/api/old/instance';
+import instance from '../../../../../../../app/api/instance';
 import configuration from '../../../../../../../app/api/openAPIConfig';
 
 const agentService = new AgentServiceApiFactory(configuration, '', instance);
 
-const defaultListObject = {
-  countMembers: 0,
-  waitingMembers: 0,
-  type: 0,
+const getAgentQueuesList = async (params) => {
+  const defaultObject = {
+    countMembers: 0,
+    waitingMembers: 0,
+    type: 0,
+  };
+
+  const {
+    parentId,
+    page,
+    size,
+    search,
+    sort,
+    fields,
+    id,
+  } = applyTransform(params, [
+    merge(getDefaultGetParams()),
+    starToSearch('search'),
+  ]);
+
+  try {
+    const response = await agentService.searchAgentInQueue(
+      parentId,
+      page,
+      size,
+      search,
+      sort,
+      fields,
+      id,
+    );
+    const { items, next } = applyTransform(response.data, [
+      snakeToCamel(),
+      merge(getDefaultGetListResponse()),
+    ]);
+    return {
+      items: applyTransform(items, [
+        mergeEach(defaultObject),
+      ]),
+      next,
+    };
+  } catch (err) {
+    throw applyTransform(err, [
+      handleUnauthorized,
+      notify,
+    ]);
+  }
 };
-
-const _getAgentQueues = (getList) => function ({
-                                                    page = 1,
-                                                    size = 10,
-                                                    search,
-                                                    sort,
-                                                    fields,
-                                                    parentId,
-                                                  }) {
-  // parentId -- agent id
-  const params = [parentId, page, size, search, sort, fields, undefined, undefined,
-    undefined, undefined, undefined, undefined];
-  return getList(params);
-};
-
-const listGetter = new SdkListGetterApiConsumer(agentService.searchAgentInQueue,
-  { defaultListObject })
-  .setGetListMethod(_getAgentQueues);
-
-const getAgentQueuesList = (params) => listGetter.getNestedList(params);
 
 const AgentQueuesAPI = {
   getList: getAgentQueuesList,

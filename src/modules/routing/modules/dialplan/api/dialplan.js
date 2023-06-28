@@ -1,45 +1,158 @@
-import { RoutingOutboundCallServiceApiFactory } from 'webitel-sdk';
 import {
-  SdkListGetterApiConsumer,
-  SdkGetterApiConsumer,
-  SdkCreatorApiConsumer,
-  SdkUpdaterApiConsumer,
-  SdkPatcherApiConsumer,
-  SdkDeleterApiConsumer,
-} from 'webitel-sdk/esm2015/api-consumers';
-import eventBus from '@webitel/ui-sdk/src/scripts/eventBus';
-import instance from '../../../../../app/api/old/instance';
+  getDefaultGetListResponse,
+  getDefaultGetParams,
+} from '@webitel/ui-sdk/src/api/defaults';
+import applyTransform, {
+  camelToSnake, handleUnauthorized,
+  merge, mergeEach, notify, sanitize, snakeToCamel,
+  starToSearch,
+} from '@webitel/ui-sdk/src/api/transformers';
+import {
+  RoutingOutboundCallServiceApiFactory,
+} from 'webitel-sdk';
+import instance from '../../../../../app/api/instance';
 import configuration from '../../../../../app/api/openAPIConfig';
 
 const dialplanService = new RoutingOutboundCallServiceApiFactory(configuration, '', instance);
 
+const getDialplanList = async (params) => {
+  const defaultObject = { disabled: false };
+
+  const {
+    page,
+    size,
+    search,
+    sort,
+    fields,
+    id,
+  } = applyTransform(params, [
+    merge(getDefaultGetParams()),
+    starToSearch('search'),
+  ]);
+
+  try {
+    const response = await dialplanService.searchRoutingOutboundCall(
+      page,
+      size,
+      search,
+      sort,
+      fields,
+      id,
+    );
+    const { items, next } = applyTransform(response.data, [
+      snakeToCamel(),
+      merge(getDefaultGetListResponse()),
+    ]);
+    return {
+      items: applyTransform(items, [
+        mergeEach(defaultObject),
+      ]),
+      next,
+    };
+  } catch (err) {
+    throw applyTransform(err, [
+      handleUnauthorized,
+      notify,
+    ]);
+  }
+};
+
+const getDialplan = async ({ itemId: id }) => {
+  try {
+    const response = await dialplanService.readRoutingOutboundCall(id);
+    return applyTransform(response.data, [
+      snakeToCamel(),
+    ]);
+  } catch (err) {
+    throw applyTransform(err, [
+      handleUnauthorized,
+      notify,
+    ]);
+  }
+};
+
 const fieldsToSend = ['name', 'schema', 'pattern', 'description', 'disabled'];
 
-const defaultListObject = { disabled: false };
+const addDialplan = async ({ itemInstance }) => {
+  const item = applyTransform(itemInstance, [
+    sanitize(fieldsToSend),
+    camelToSnake(),
+  ]);
+  try {
+    const response = await dialplanService.createRoutingOutboundCall(item);
+    return applyTransform(response.data, [
+      snakeToCamel(),
+    ]);
+  } catch (err) {
+    throw applyTransform(err, [
+      handleUnauthorized,
+      notify,
+    ]);
+  }
+};
 
-const listGetter = new SdkListGetterApiConsumer(dialplanService.searchRoutingOutboundCall,
-  { defaultListObject });
-const itemGetter = new SdkGetterApiConsumer(dialplanService.readRoutingOutboundCall);
-const itemCreator = new SdkCreatorApiConsumer(dialplanService.createRoutingOutboundCall,
-  { fieldsToSend });
-const itemUpdater = new SdkUpdaterApiConsumer(dialplanService.updateRoutingOutboundCall,
-  { fieldsToSend });
-const itemPatcher = new SdkPatcherApiConsumer(dialplanService.patchRoutingOutboundCall,
-  { fieldsToSend });
-const itemDeleter = new SdkDeleterApiConsumer(dialplanService.deleteRoutingOutboundCall);
+const updateDialplan = async ({ itemInstance, itemId: id }) => {
+  const item = applyTransform(itemInstance, [
+    sanitize(fieldsToSend),
+    camelToSnake(),
+  ]);
+  try {
+    const response = await dialplanService.updateRoutingOutboundCall(id, item);
+    return applyTransform(response.data, [
+      snakeToCamel(),
+    ]);
+  } catch (err) {
+    throw applyTransform(err, [
+      handleUnauthorized,
+      notify,
+    ]);
+  }
+};
 
-const getDialplanList = (params) => listGetter.getList(params);
-const getDialplan = (params) => itemGetter.getItem(params);
-const addDialplan = (params) => itemCreator.createItem(params);
-const patchDialplan = (params) => itemPatcher.patchItem(params);
-const updateDialplan = (params) => itemUpdater.updateItem(params);
-const deleteDialplan = (params) => itemDeleter.deleteItem(params);
+const patchDialplan = async ({ id, changes }) => {
+  const body = applyTransform(changes, [
+    sanitize(fieldsToSend),
+    camelToSnake(),
+  ]);
+  try {
+    const response = await dialplanService.patchRoutingOutboundCall(id, body);
+    return applyTransform(response.data, [
+      snakeToCamel(),
+    ]);
+  } catch (err) {
+    throw applyTransform(err, [
+      handleUnauthorized,
+      notify,
+    ]);
+  }
+};
+
+const deleteDialplan = async ({ id }) => {
+  try {
+    const response = await dialplanService.deleteRoutingOutboundCall(id);
+    return applyTransform(response.data, []);
+  } catch (err) {
+    throw applyTransform(err, [
+      handleUnauthorized,
+      notify,
+    ]);
+  }
+};
+
 const moveDialplan = async ({ fromId, toId }) => {
   try {
-    await dialplanService.movePositionRoutingOutboundCall(fromId, toId, {});
-    eventBus.$emit('notification', { type: 'info', text: 'Successfully updated' });
+    const response = await dialplanService.movePositionRoutingOutboundCall(fromId, toId, {});
+    return applyTransform(response.data, [
+      notify(({ callback }) => callback({
+        type: 'info',
+        text: 'Successfully saved',
+      })),
+    ]);
   } catch (err) {
-    throw err;
+    throw applyTransform(err, [
+      handleUnauthorized,
+      notify,
+    ]);
   }
 };
 
