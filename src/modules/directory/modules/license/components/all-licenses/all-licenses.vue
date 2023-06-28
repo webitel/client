@@ -10,6 +10,9 @@
       @close="closeLicenseUsersPopup"
     ></license-users-popup>
     <header class="content-header">
+      <h3 class="content-title">
+        <!--        {{ $t('objects.directory.license.allLicenses') }}-->
+      </h3>
       <div class="content-header__actions-wrap">
         <wt-search-bar
           :value="search"

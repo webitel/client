@@ -108,7 +108,7 @@ export default {
     routeName: RouteNames.ROLES,
   }),
   setup() {
-    const { dummy } = useDummy({ namespace });
+    const { dummy } = useDummy({ namespace, hiddenText: true });
     return { dummy };
   },
   computed: {

@@ -139,7 +139,7 @@ export default {
   }),
 
   setup() {
-    const { dummy } = useDummy({ namespace });
+    const { dummy } = useDummy({ namespace, hiddenText: true });
     return { dummy };
   },
 
