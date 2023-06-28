@@ -98,9 +98,9 @@
             @sort="sort"
           >
             <template v-slot:name="{ item }">
-              <item-link :link="editLink(item)">
+              <wt-item-link :link="editLink(item)">
                 {{ item.name }}
-              </item-link>
+              </wt-item-link>
             </template>
             <template v-slot:createdAt="{ item }">
               {{ prettifyDateTime(item.createdAt) }}
@@ -135,13 +135,12 @@
               {{ item.type }}
             </template>
             <template v-slot:agent="{ item }">
-              <item-link
+              <wt-item-link
                 v-if="item.agent"
                 :route-name="RouteNames.AGENTS"
                 :id="item.agent.id"
-              >
-                {{ item.agent.name }}
-              </item-link>
+              >{{ item.agent.name }}
+              </wt-item-link>
             </template>
 
             <template v-slot:actions="{ item }">

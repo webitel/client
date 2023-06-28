@@ -66,9 +66,9 @@
             @sort="sort"
           >
             <template v-slot:name="{ item }">
-              <item-link :link="editLink(item)">
+              <wt-item-link :link="editLink(item)">
                 {{ item.name }}
-              </item-link>
+              </wt-item-link>
             </template>
 
             <template v-slot:uri="{ item }">
@@ -76,13 +76,12 @@
             </template>
 
             <template v-slot:flow="{ item }">
-              <item-link
+              <wt-item-link
                 v-if="item.flow"
                 :route-name="RouteNames.FLOW"
                 :id="item.flow.id"
-              >
-                {{ item.flow.name }}
-              </item-link>
+              >{{ item.flow.name }}
+              </wt-item-link>
             </template>
 
             <template v-slot:provider="{ item }">
@@ -196,7 +195,7 @@ export default {
           return [iconType[value], 'send-arrow', 'messenger-facebook', 'instagram', 'messenger-whatsapp'];
         default: return iconType[value];
       }
-    }
+    },
   },
 };
 </script>

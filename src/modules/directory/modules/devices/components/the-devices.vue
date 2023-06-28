@@ -85,9 +85,9 @@
           >
 
             <template v-slot:name="{ item }">
-              <item-link :link="editLink(item)">
+              <wt-item-link :link="editLink(item)">
                 {{ item.name }}
-              </item-link>
+              </wt-item-link>
             </template>
 
             <template v-slot:account="{ item }">
@@ -95,13 +95,13 @@
             </template>
 
             <template v-slot:user="{ item }">
-              <item-link
+              <wt-item-link
                 v-if="item.user"
                 :route-name="RouteNames.USERS"
                 :id="item.user.id"
               >
                 {{ item.user.name }}
-              </item-link>
+              </wt-item-link>
             </template>
 
             <!--state classes are specified in table-status component-->
