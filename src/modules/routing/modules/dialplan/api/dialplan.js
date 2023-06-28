@@ -57,6 +57,7 @@ const getDialplanList = async (params) => {
     ]);
   }
 };
+
 const getDialplan = async ({ itemId: id }) => {
   try {
     const response = await dialplanService.readRoutingOutboundCall(id);
@@ -72,6 +73,7 @@ const getDialplan = async ({ itemId: id }) => {
 };
 
 const fieldsToSend = ['name', 'schema', 'pattern', 'description', 'disabled'];
+
 const addDialplan = async ({ itemInstance }) => {
   const item = applyTransform(itemInstance, [
     sanitize(fieldsToSend),
@@ -89,6 +91,7 @@ const addDialplan = async ({ itemInstance }) => {
     ]);
   }
 };
+
 const updateDialplan = async ({ itemInstance, itemId: id }) => {
   const item = applyTransform(itemInstance, [
     sanitize(fieldsToSend),
