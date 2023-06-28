@@ -103,6 +103,9 @@ export default {
       },
     }),
     async saveDiagram(callback) {
+      // TODO: remove this log
+      console.log('saveDiagram callback', callback);
+      console.log('saveDiagram callback()', callback());
       await this.save();
       callback();
     },
