@@ -99,10 +99,8 @@ export default {
             this.setItemProp({ prop: 'schema', value: schema }),
             this.setItemProp({ prop: 'payload', value: JSON.stringify(payload) }), // stringify payload to prevent it from case-convertion
           ]);
-          return new Promise((resolve) => {
-            // TODO: remove this log
-            console.log('resolve inside Promise', resolve);
-            this.save(resolve);
+          return new Promise((resolve, reject) => {
+            this.save({ resolve, reject });
           });
         };
 
@@ -130,8 +128,6 @@ export default {
       document.head.appendChild(link);
     },
     save(callback) {
-      // TODO: remove this log
-      console.log('save(callback)', callback);
       this.$emit('save', callback);
     },
     close() {

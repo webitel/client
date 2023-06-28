@@ -102,12 +102,13 @@ export default {
         return dispatch(`${this.namespace}/SET_ITEM_PROPERTY`, payload);
       },
     }),
-    async saveDiagram(callback) {
-      // TODO: remove this log
-      console.log('saveDiagram callback', callback);
-      console.log('saveDiagram callback()', callback());
-      await this.save();
-      callback();
+    async saveDiagram({ resolve, reject }) {
+      try {
+        await this.save();
+        resolve();
+      } catch (err) {
+        reject(err);
+      }
     },
     initType() {
       if (!this.itemInstance.type && this.type) this.setItemProp({ prop: 'type', value: this.type });
