@@ -5,13 +5,6 @@
         :hide-primary="!hasCreateAccess"
         :primary-action="create"
       >
-        <template v-slot:actions>
-          <wt-button
-            color="secondary"
-          >
-            123
-          </wt-button>
-        </template>
         <wt-headline-nav :path="path"></wt-headline-nav>
       </object-header>
     </template>
@@ -74,9 +67,6 @@
             </template>
             <template v-slot:description="{ item }">
               {{ item.description }}
-            </template>
-            <template v-slot:agents="{ item }">
-              {{ item.agents }}
             </template>
             <template v-slot:actions="{ item }">
               <edit-action
