@@ -110,7 +110,7 @@ export default {
     isDeleteConfirmation: false,
   }),
   setup() {
-    const { dummy } = useDummy({ namespace: `${namespace}/${subNamespace}` });
+    const { dummy } = useDummy({ namespace: `${namespace}/${subNamespace}`, hiddenText: true });
     return { dummy };
   },
   methods: {

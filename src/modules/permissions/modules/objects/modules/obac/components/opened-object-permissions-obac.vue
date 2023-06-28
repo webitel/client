@@ -140,7 +140,7 @@ export default {
     headerTitle: '',
   }),
   setup() {
-    const { dummy } = useDummy({ namespace: `${namespace}/${subNamespace}` });
+    const { dummy } = useDummy({ namespace: `${namespace}/${subNamespace}`, hiddenText: true });
     return { dummy };
   },
   computed: {

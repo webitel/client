@@ -111,13 +111,19 @@ export default {
       ];
     },
     dummy() {
-      if (!this.dataListValue.length && this.searchValue) {
+      if (!this.dataListValue.length) {
+        if (this.searchValue) {
           return {
             src: dummyPic,
             text: 'objects.emptyResultSearch',
           };
+        } else {
+          return {
+            src: dummyPic,
+            text: '',
+          }
         }
-      return '';
+      } else return '';
     },
   },
 
