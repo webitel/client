@@ -46,7 +46,15 @@
     </header>
 
     <wt-loader v-show="!isLoaded"></wt-loader>
-    <div v-show="isLoaded" class="table-wrapper">
+    <wt-dummy
+      v-if="dummy && isLoaded"
+      :src="dummy.src"
+      :text="$t(dummy.text)"
+      class="dummy-wrapper"
+    ></wt-dummy>
+    <div
+      v-show="dataList.length && isLoaded"
+      class="table-wrapper">
       <wt-table
         :headers="headers"
         :data="dataList"
@@ -55,9 +63,11 @@
         @sort="sort"
       >
         <template v-slot:name="{ item }">
-          <item-link :link="editLink(item)" target="_blank">
+          <wt-item-link
+            :link="editLink(item)"
+            target="_blank">
             {{ item.name }}
-          </item-link>
+          </wt-item-link>
         </template>
 
         <template v-slot:actions="{ item }">
@@ -97,18 +107,28 @@ import SupervisorPopup from './opened-team-supervisors-popup.vue';
 import SupervisorSubordinatesPopup from './opened-team-supervisor-subordinates-popup.vue';
 import openedObjectTableTabMixin from '../../../../../../../app/mixins/objectPagesMixins/openedObjectTableTabMixin/openedObjectTableTabMixin';
 import RouteNames from '../../../../../../../app/router/_internals/RouteNames.enum';
+import { useDummy } from '../../../../../../../app/composables/useDummy';
+
+const namespace = 'ccenter/teams';
+const subNamespace = 'supervisors';
 
 export default {
   name: 'opened-team-supervisors',
   mixins: [openedObjectTableTabMixin],
   components: { SupervisorPopup, SupervisorSubordinatesPopup },
   data: () => ({
-    subNamespace: 'supervisors',
+    namespace,
+    subNamespace,
     tableObjectRouteName: RouteNames.AGENTS, // this.editLink() computing
     supervisorId: null,
     isSupervisorPopup: false,
     isSupervisorSubordinatesPopup: false,
   }),
+
+  setup() {
+    const { dummy } = useDummy({ namespace: `${namespace}/${subNamespace}`, hiddenText: true });
+    return { dummy };
+  },
 
   methods: {
     openSubordinates({ id }) {

@@ -1,31 +1,120 @@
-import { ListServiceApiFactory } from 'webitel-sdk';
 import {
-  SdkListGetterApiConsumer,
-  SdkGetterApiConsumer,
-  SdkCreatorApiConsumer,
-  SdkUpdaterApiConsumer,
-  SdkDeleterApiConsumer,
-} from 'webitel-sdk/esm2015/api-consumers';
+  getDefaultGetListResponse,
+  getDefaultGetParams,
+} from '@webitel/ui-sdk/src/api/defaults';
+import applyTransform, {
+  camelToSnake, handleUnauthorized,
+  merge, notify, sanitize, snakeToCamel,
+  starToSearch,
+} from '@webitel/ui-sdk/src/api/transformers';
+import { ListServiceApiFactory } from 'webitel-sdk';
 import instance from '../../../../../../../app/api/instance';
 import configuration from '../../../../../../../app/api/openAPIConfig';
 
 const listService = new ListServiceApiFactory(configuration, '', instance);
 
+const getBlacklistNumbersList = async (params) => {
+  const {
+    parentId,
+    page,
+    size,
+    search,
+    sort,
+    fields,
+    id,
+  } = applyTransform(params, [
+    merge(getDefaultGetParams()),
+    starToSearch('search'),
+  ]);
+
+  try {
+    const response = await listService.searchListCommunication(
+      parentId,
+      page,
+      size,
+      search,
+      sort,
+      fields,
+      id,
+    );
+    const { items, next } = applyTransform(response.data, [
+      snakeToCamel(),
+      merge(getDefaultGetListResponse()),
+    ]);
+    return {
+      items,
+      next,
+    };
+  } catch (err) {
+    throw applyTransform(err, [
+      handleUnauthorized,
+      notify,
+    ]);
+  }
+};
+
+const getBlacklistNumber = async ({ itemId: id, parentId }) => {
+  try {
+    const response = await listService.readListCommunication(parentId, id);
+    return applyTransform(response.data, [
+      snakeToCamel(),
+    ]);
+  } catch (err) {
+    throw applyTransform(err, [
+      handleUnauthorized,
+      notify,
+    ]);
+  }
+};
+
 const fieldsToSend = ['listId', 'description', 'number'];
 
-const listGetter = new SdkListGetterApiConsumer(listService.searchListCommunication);
-const itemGetter = new SdkGetterApiConsumer(listService.readListCommunication);
-const itemCreator = new SdkCreatorApiConsumer(listService.createListCommunication,
-  { fieldsToSend });
-const itemUpdater = new SdkUpdaterApiConsumer(listService.updateListCommunication,
-  { fieldsToSend });
-const itemDeleter = new SdkDeleterApiConsumer(listService.deleteListCommunication);
+const addBlacklistNumber = async ({ parentId, itemInstance }) => {
+  const item = applyTransform(itemInstance, [
+    sanitize(fieldsToSend),
+    camelToSnake(),
+  ]);
+  try {
+    const response = await listService.createListCommunication(parentId, item);
+    return applyTransform(response.data, [
+      snakeToCamel(),
+    ]);
+  } catch (err) {
+    throw applyTransform(err, [
+      handleUnauthorized,
+      notify,
+    ]);
+  }
+};
+const updateBlacklistNumber = async ({ parentId, itemInstance, itemId: id }) => {
+  const item = applyTransform(itemInstance, [
+    sanitize(fieldsToSend),
+    camelToSnake(),
+  ]);
+  try {
+    const response = await listService.updateListCommunication(parentId, id, item);
+    return applyTransform(response.data, [
+      snakeToCamel(),
+    ]);
+  } catch (err) {
+    throw applyTransform(err, [
+      handleUnauthorized,
+      notify,
+    ]);
+  }
+};
 
-const getBlacklistNumbersList = (params) => listGetter.getNestedList(params);
-const getBlacklistNumber = (params) => itemGetter.getNestedItem(params);
-const addBlacklistNumber = (params) => itemCreator.createNestedItem(params);
-const updateBlacklistNumber = (params) => itemUpdater.updateNestedItem(params);
-const deleteBlacklistNumber = (params) => itemDeleter.deleteNestedItem(params);
+const deleteBlacklistNumber = async ({ parentId, id }) => {
+  try {
+    const response = await listService.deleteListCommunication(parentId, id);
+    return applyTransform(response.data, []);
+  } catch (err) {
+    throw applyTransform(err, [
+      handleUnauthorized,
+      notify,
+    ]);
+  }
+};
 
 const BlacklistNumbersAPI = {
   getList: getBlacklistNumbersList,

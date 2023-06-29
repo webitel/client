@@ -1,5 +1,5 @@
 <template>
-  <section>
+  <section class="content-wrapper">
     <object-list-popup
       v-if="isSupervisorPopup"
       :data-list="openedItemSupervisors"
@@ -33,7 +33,15 @@
     </header>
 
     <wt-loader v-show="!isLoaded"></wt-loader>
-    <div v-show="isLoaded" class="table-wrapper">
+    <wt-dummy
+      v-if="dummy && isLoaded"
+      :src="dummy.src"
+      :text="$t(dummy.text)"
+      class="dummy-wrapper"
+    ></wt-dummy>
+    <div
+      v-show="dataList.length && isLoaded"
+      class="table-wrapper">
       <wt-table
         :data="dataList"
         :grid-actions="false"
@@ -42,9 +50,11 @@
         @sort="sort"
       >
         <template v-slot:name="{ item }">
-          <item-link :link="editLink(item)" target="_blank">
+          <wt-item-link
+            :link="editLink(item)"
+            target="_blank">
             {{ item.name }}
-          </item-link>
+          </wt-item-link>
         </template>
         <template v-slot:supervisor="{ item }">
           <one-plus-many
@@ -95,17 +105,25 @@ import openedObjectTableTabMixin
 import RouteNames from '../../../../../../../app/router/_internals/RouteNames.enum';
 import agentStatusMixin from '../../../../../mixins/agentStatusMixin';
 import agentSupervisorsAndSkillsPopupMixin from '../../../../../mixins/agentSupervisorsAndSkillsPopupMixin';
+import { useDummy } from '../../../../../../../app/composables/useDummy';
+
+const namespace = 'ccenter/queues';
+const subNamespace = 'agents';
 
 export default {
   name: 'opened-queue-agents',
   mixins: [openedObjectTableTabMixin, agentSupervisorsAndSkillsPopupMixin, agentStatusMixin],
   components: { ObjectListPopup },
   data: () => ({
-    subNamespace: 'agents',
+    namespace,
+    subNamespace,
     tableObjectRouteName: RouteNames.AGENTS, // this.editLink() computing
-
     isDeleteConfirmation: false,
   }),
+  setup() {
+    const { dummy } = useDummy({ namespace: `${namespace}/${subNamespace}`, hiddenText: true });
+    return { dummy };
+  },
   methods: {
     snakeToCamel,
   },

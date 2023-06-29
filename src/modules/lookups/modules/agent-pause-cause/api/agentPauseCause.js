@@ -1,53 +1,156 @@
-import { AgentPauseCauseServiceApiFactory } from 'webitel-sdk';
 import {
-  SdkListGetterApiConsumer,
-  SdkGetterApiConsumer,
-  SdkCreatorApiConsumer,
-  SdkUpdaterApiConsumer,
-  SdkPatcherApiConsumer,
-  SdkDeleterApiConsumer,
-} from 'webitel-sdk/esm2015/api-consumers';
+  getDefaultGetListResponse,
+  getDefaultGetParams,
+} from '@webitel/ui-sdk/src/api/defaults';
+import applyTransform, {
+  camelToSnake, handleUnauthorized,
+  merge, mergeEach, notify, sanitize, snakeToCamel,
+  starToSearch,
+} from '@webitel/ui-sdk/src/api/transformers';
+import { AgentPauseCauseServiceApiFactory } from 'webitel-sdk';
 import instance from '../../../../../app/api/instance';
 import configuration from '../../../../../app/api/openAPIConfig';
 
 const pauseCauseService = new AgentPauseCauseServiceApiFactory(configuration, '', instance);
 
+const getPauseCauseList = async (params) => {
+  const defaultObject = {
+    name: '',
+    limitMin: 0,
+    allowAdmin: false,
+    allowSupervisor: false,
+    allowAgent: false,
+  };
+
+  const {
+    page,
+    size,
+    search,
+    sort,
+    fields,
+    id,
+  } = applyTransform(params, [
+    merge(getDefaultGetParams()),
+    starToSearch('search'),
+    camelToSnake(),
+  ]);
+
+  try {
+    const response = await pauseCauseService.searchAgentPauseCause(
+      page,
+      size,
+      search,
+      sort,
+      fields,
+      id,
+    );
+    const { items, next } = applyTransform(response.data, [
+      snakeToCamel(),
+      merge(getDefaultGetListResponse()),
+    ]);
+    return {
+      items: applyTransform(items, [
+        mergeEach(defaultObject),
+      ]),
+      next,
+    };
+  } catch (err) {
+    throw applyTransform(err, [
+      handleUnauthorized,
+      notify,
+    ]);
+  }
+};
+
+const getPauseCause = async ({ itemId: id }) => {
+  const defaultObject = {
+    name: '',
+    limitMin: 0,
+    allowAdmin: false,
+    allowSupervisor: false,
+    allowAgent: false,
+  };
+
+  try {
+    const response = await pauseCauseService.readAgentPauseCause(id);
+    return applyTransform(response.data, [
+      snakeToCamel(),
+      merge(defaultObject),
+    ]);
+  } catch (err) {
+    throw applyTransform(err, [
+      handleUnauthorized,
+      notify,
+    ]);
+  }
+};
+
 const fieldsToSend = ['name', 'limitMin', 'allowAdmin', 'allowSupervisor', 'allowAgent', 'description'];
 
-const defaultListObject = {
-  name: '',
-  limitMin: 0,
-  allowAdmin: false,
-  allowSupervisor: false,
-  allowAgent: false,
+const addPauseCause = async ({ itemInstance }) => {
+  const item = applyTransform(itemInstance, [
+    sanitize(fieldsToSend),
+    camelToSnake(),
+  ]);
+  try {
+    const response = await pauseCauseService.createAgentPauseCause(item);
+    return applyTransform(response.data, [
+      snakeToCamel(),
+    ]);
+  } catch (err) {
+    throw applyTransform(err, [
+      handleUnauthorized,
+      notify,
+    ]);
+  }
 };
 
-const defaultSingleObject = {
-  name: '',
-  limitMin: 0,
-  allowAdmin: false,
-  allowSupervisor: false,
-  allowAgent: false,
+const patchPauseCause = async ({ id, changes }) => {
+  const body = applyTransform(changes, [
+    sanitize(fieldsToSend),
+    camelToSnake(),
+  ]);
+  try {
+    const response = await pauseCauseService.patchAgentPauseCause(id, body);
+    return applyTransform(response.data, [
+      snakeToCamel(),
+    ]);
+  } catch (err) {
+    throw applyTransform(err, [
+      handleUnauthorized,
+      notify,
+    ]);
+  }
+};
+const updatePauseCause = async ({ itemInstance, itemId: id }) => {
+  const item = applyTransform(itemInstance, [
+    sanitize(fieldsToSend),
+    camelToSnake(),
+  ]);
+  try {
+    const response = await pauseCauseService.updateAgentPauseCause(id, item);
+    return applyTransform(response.data, [
+      snakeToCamel(),
+    ]);
+  } catch (err) {
+    throw applyTransform(err, [
+      handleUnauthorized,
+      notify,
+    ]);
+  }
 };
 
-const listGetter = new SdkListGetterApiConsumer(pauseCauseService.searchAgentPauseCause,
-  { defaultListObject });
-const itemGetter = new SdkGetterApiConsumer(pauseCauseService.readAgentPauseCause,
-  { defaultSingleObject });
-const itemCreator = new SdkCreatorApiConsumer(pauseCauseService.createAgentPauseCause,
-  { fieldsToSend });
-const itemPatcher = new SdkPatcherApiConsumer(pauseCauseService.patchAgentPauseCause,
-  { fieldsToSend });
-const itemUpdater = new SdkUpdaterApiConsumer(pauseCauseService.updateAgentPauseCause,
-  { fieldsToSend });
-const itemDeleter = new SdkDeleterApiConsumer(pauseCauseService.deleteAgentPauseCause);
-
-const getPauseCauseList = (params) => listGetter.getList(params);
-const getPauseCause = (params) => itemGetter.getItem(params);
-const addPauseCause = (params) => itemCreator.createItem(params);
-const patchPauseCause = (params) => itemPatcher.patchItem(params);
-const updatePauseCause = (params) => itemUpdater.updateItem(params);
-const deletePauseCause = (params) => itemDeleter.deleteItem(params);
+const deletePauseCause = async ({ id }) => {
+  try {
+    const response = await pauseCauseService.deleteAgentPauseCause(id);
+    return applyTransform(response.data, []);
+  } catch (err) {
+    throw applyTransform(err, [
+      handleUnauthorized,
+      notify,
+    ]);
+  }
+};
 
 const AgentPauseCauseAPI = {
   getList: getPauseCauseList,

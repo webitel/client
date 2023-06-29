@@ -148,6 +148,8 @@ export default {
     ID: 'ID',
     email: 'Адреса електронної пошти',
     updatedAt: 'Змінено',
+    emptyWorkspace: 'Записи у розділі ще не створені',
+    emptyResultSearch: 'Пошук не дав результатів',
 
     deleteConfirmation: {
       title: 'Підтвердіть видалення',
@@ -621,6 +623,7 @@ export default {
         historyTo: 'До',
         historyDuration: 'Тривалість',
         payload: 'Причина',
+        emptyPopup: 'Будь ласка, перевірте налаштування фільтрів',
         status: {
           online: 'Онлайн',
           offline: 'Офлайн',
@@ -664,6 +667,7 @@ export default {
         dtmf: 'DTMF',
         priority: 'Пріоритет',
         attempts: 'Спроб',
+        emptyWorkspace: 'Абонентів не знайдено',
         resetMembers: {
           resetMembers: 'Перезапустити абонентів',
           description: 'Ви впевнені, що бажаєте перезапустити усі неуспішні спроби повторно?',
@@ -873,6 +877,7 @@ export default {
     },
     integrations: {
       integrations: 'Інтеграції',
+      emptyWorkspace: 'Профілі у розділі ще не створені',
 
       storage: {
         storage: 'Сховища',
@@ -1033,5 +1038,8 @@ export default {
     prevPage: 'Попередня сторінка',
     expand: 'Розгорнути',
     collapse: 'Згорнути',
+  },
+  errors: {
+    invalidJson: 'Некоректний JSON',
   },
 };

@@ -41,7 +41,15 @@
     </header>
 
     <wt-loader v-show="!isLoaded"></wt-loader>
-    <div v-show="isLoaded" class="table-wrapper">
+    <wt-dummy
+      v-if="dummy && isLoaded"
+      :src="dummy.src"
+      :text="$t(dummy.text)"
+      class="dummy-wrapper"
+    ></wt-dummy>
+    <div
+      v-show="dataList.length && isLoaded"
+      class="table-wrapper">
       <wt-table
         :headers="headers"
         :data="dataList"
@@ -93,15 +101,24 @@
 <script>
 import ResPopup from './opened-resource-group-resource-popup.vue';
 import openedObjectTableTabMixin from '../../../../../../../app/mixins/objectPagesMixins/openedObjectTableTabMixin/openedObjectTableTabMixin';
+import { useDummy } from '../../../../../../../app/composables/useDummy';
+
+const namespace = 'ccenter/resGroups';
+const subNamespace = 'res';
 
 export default {
   name: 'opened-resource-group-resources',
   mixins: [openedObjectTableTabMixin],
   components: { ResPopup },
   data: () => ({
-    subNamespace: 'res',
+    namespace,
+    subNamespace,
     isResPopup: false,
   }),
+  setup() {
+    const { dummy } = useDummy({ namespace: `${namespace}/${subNamespace}`, hiddenText: true });
+    return { dummy };
+  },
   methods: {
     openPopup() {
       this.isResPopup = true;

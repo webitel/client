@@ -8,7 +8,7 @@ import {
   SdkUpdaterApiConsumer,
 } from 'webitel-sdk/esm2015/api-consumers';
 import { MicrosoftRegion } from 'webitel-sdk/esm2015/lookups';
-import instance from '../../../../../app/api/instance';
+import instance from '../../../../../app/api/old/instance';
 import configuration from '../../../../../app/api/openAPIConfig';
 import CognitiveProfileServices
   from '../lookups/CognitiveProfileServices.lookup';
@@ -35,27 +35,34 @@ const defaultSingleObject = {
 };
 
 const itemResponseHandler = (response) => {
-  return {
+  const result = {
     ...response,
     service: CognitiveProfileServices
     .find(({ value }) => value === response.service),
     properties: {
       ...response.properties,
-      region: MicrosoftRegion
-      .find(({ id }) => id === response.properties.region) || {},
     },
   };
+  if (result.properties.region) {
+    result.properties.region = MicrosoftRegion
+    .find(({ id }) => id === result.properties.region) || {};
+  }
+  return result;
 };
 
 const preRequestHandler = (item) => {
-  return {
+  const result = {
     ...item,
     service: item.service.value,
-    properties: { ...item.properties, region: item.properties.region.id },
+    properties: { ...item.properties },
   };
+  if (result.properties.region) {
+    result.properties.region = item.properties.region.id;
+  }
+  return result;
 };
 
-const _getProfilesList = (getList) => function ({
+const _getProfilesList = (getList) => function({
                                                  page,
                                                  size,
                                                  search,

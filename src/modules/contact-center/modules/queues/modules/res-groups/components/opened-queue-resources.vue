@@ -1,5 +1,5 @@
 <template>
-  <section>
+  <section class="content-wrapper">
     <resource-popup
       v-if="isResGroupPopup"
       @close="closePopup"
@@ -36,7 +36,15 @@
     </header>
 
     <wt-loader v-show="!isLoaded"></wt-loader>
-    <div v-show="isLoaded" class="table-wrapper">
+    <wt-dummy
+      v-if="dummy && isLoaded"
+      :src="dummy.src"
+      :text="$t(dummy.text)"
+      class="dummy-wrapper"
+    ></wt-dummy>
+    <div
+      v-show="dataList.length && isLoaded"
+      class="table-wrapper">
       <wt-table
         :data="dataList"
         :grid-actions="!disableUserInput"
@@ -81,18 +89,25 @@
 import openedObjectTableTabMixin
   from '../../../../../../../app/mixins/objectPagesMixins/openedObjectTableTabMixin/openedObjectTableTabMixin';
 import resourcePopup from './opened-queue-resources-popup.vue';
+import { useDummy } from '../../../../../../../app/composables/useDummy';
+
+const namespace = 'ccenter/queues';
+const subNamespace = 'resGroups';
 
 export default {
   name: 'opened-queue-resources',
   mixins: [openedObjectTableTabMixin],
   components: { resourcePopup },
   data: () => ({
-    subNamespace: 'resGroups',
+    namespace,
+    subNamespace,
     isResGroupPopup: false,
-
     isDeleteConfirmation: false,
   }),
-
+  setup() {
+    const { dummy } = useDummy({ namespace: `${namespace}/${subNamespace}`, hiddenText: true });
+    return { dummy };
+  },
   methods: {
     openPopup() {
       this.isResGroupPopup = true;

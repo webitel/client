@@ -36,7 +36,15 @@
     </header>
 
     <wt-loader v-show="!isLoaded"></wt-loader>
-    <div v-show="isLoaded" class="table-wrapper">
+    <wt-dummy
+      v-if="dummy && isLoaded"
+      :src="dummy.src"
+      :text="$t(dummy.text)"
+      class="dummy-wrapper"
+    ></wt-dummy>
+    <div
+      v-show="dataList.length && isLoaded"
+      class="table-wrapper">
       <div class="table-wrapper__visible-scroll-wrapper">
         <wt-table
           :data="dataList"
@@ -110,6 +118,10 @@ import permissionsTabMixin
   from '../../../../../../../app/mixins/objectPagesMixins/permissionsTabMixin/permissionsTabMixin';
 import RoleColumn from '../../../../../../_shared/permissions-tab/components/_internals/permissions-role-column.vue';
 import RolePopup from './opened-object-permissions-rbac-role-popup.vue';
+import { useDummy } from '../../../../../../../app/composables/useDummy';
+
+const namespace = 'permissions/objects';
+const subNamespace = 'rbac';
 
 export default {
   name: 'opened-object-permissions-rbac',
@@ -120,9 +132,14 @@ export default {
     RoleColumn,
   },
   data: () => ({
-    subNamespace: 'rbac',
+    namespace,
+    subNamespace,
     headerTitle: '',
   }),
+  setup() {
+    const { dummy } = useDummy({ namespace: `${namespace}/${subNamespace}`, hiddenText: true });
+    return { dummy };
+  },
 };
 
 </script>

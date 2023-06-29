@@ -1,35 +1,131 @@
-import { ListServiceApiFactory } from 'webitel-sdk';
 import {
-  SdkListGetterApiConsumer,
-  SdkGetterApiConsumer,
-  SdkCreatorApiConsumer,
-  SdkUpdaterApiConsumer,
-  SdkDeleterApiConsumer,
-} from 'webitel-sdk/esm2015/api-consumers';
+  getDefaultGetListResponse,
+  getDefaultGetParams,
+} from '@webitel/ui-sdk/src/api/defaults';
+import applyTransform, {
+  camelToSnake, handleUnauthorized,
+  merge, mergeEach, notify, sanitize, snakeToCamel,
+  starToSearch,
+} from '@webitel/ui-sdk/src/api/transformers';
+import { ListServiceApiFactory } from 'webitel-sdk';
 import instance from '../../../../../app/api/instance';
 import configuration from '../../../../../app/api/openAPIConfig';
 
 const listService = new ListServiceApiFactory(configuration, '', instance);
 
-const fieldsToSend = ['name', 'description'];
+const getBlacklistList = async (params) => {
+  const defaultObject = {
+    name: '',
+    count: 0,
+  };
 
-const defaultListObject = {
-  name: '',
-  count: 0,
+  const {
+    page,
+    size,
+    search,
+    sort,
+    fields,
+    id,
+  } = applyTransform(params, [
+    merge(getDefaultGetParams()),
+    starToSearch('search'),
+    camelToSnake(),
+  ]);
+
+  try {
+    const response = await listService.searchList(
+      page,
+      size,
+      search,
+      sort,
+      fields,
+      id,
+    );
+    const { items, next } = applyTransform(response.data, [
+      snakeToCamel(),
+      merge(getDefaultGetListResponse()),
+    ]);
+    return {
+      items: applyTransform(items, [
+        mergeEach(defaultObject),
+      ]),
+      next,
+    };
+  } catch (err) {
+    throw applyTransform(err, [
+      handleUnauthorized,
+      notify,
+    ]);
+  }
 };
 
-const listGetter = new SdkListGetterApiConsumer(listService.searchList, { defaultListObject });
-const itemGetter = new SdkGetterApiConsumer(listService.readList);
-const itemCreator = new SdkCreatorApiConsumer(listService.createList, { fieldsToSend });
-const itemUpdater = new SdkUpdaterApiConsumer(listService.updateList, { fieldsToSend });
-const itemDeleter = new SdkDeleterApiConsumer(listService.deleteList);
+const getBlacklist = async ({ itemId: id }) => {
+  try {
+    const response = await listService.readList(id);
+    return applyTransform(response.data, [
+      snakeToCamel(),
+    ]);
+  } catch (err) {
+    throw applyTransform(err, [
+      handleUnauthorized,
+      notify,
+    ]);
+  }
+};
 
-const getBlacklistList = (params) => listGetter.getList(params);
-const getBlacklist = (params) => itemGetter.getItem(params);
-const addBlacklist = (params) => itemCreator.createItem(params);
-const updateBlacklist = (params) => itemUpdater.updateItem(params);
-const deleteBlacklist = (params) => itemDeleter.deleteItem(params);
-const getBlacklistsLookup = (params) => listGetter.getLookup(params);
+const fieldsToSend = ['name', 'description'];
+
+const addBlacklist = async ({ itemInstance }) => {
+  const item = applyTransform(itemInstance, [
+    sanitize(fieldsToSend),
+    camelToSnake(),
+  ]);
+  try {
+    const response = await listService.createList(item);
+    return applyTransform(response.data, [
+      snakeToCamel(),
+    ]);
+  } catch (err) {
+    throw applyTransform(err, [
+      handleUnauthorized,
+      notify,
+    ]);
+  }
+};
+
+const updateBlacklist = async ({ itemInstance, itemId: id }) => {
+  const item = applyTransform(itemInstance, [
+    sanitize(fieldsToSend),
+    camelToSnake(),
+  ]);
+  try {
+    const response = await listService.updateList(id, item);
+    return applyTransform(response.data, [
+      snakeToCamel(),
+    ]);
+  } catch (err) {
+    throw applyTransform(err, [
+      handleUnauthorized,
+      notify,
+    ]);
+  }
+};
+
+const deleteBlacklist = async ({ id }) => {
+  try {
+    const response = await listService.deleteList(id);
+    return applyTransform(response.data, []);
+  } catch (err) {
+    throw applyTransform(err, [
+      handleUnauthorized,
+      notify,
+    ]);
+  }
+};
+const getBlacklistsLookup = (params) => getBlacklistList({
+  ...params,
+  fields: params.fields || ['id', 'name'],
+});
 
 const BlacklistsAPI = {
   getList: getBlacklistList,

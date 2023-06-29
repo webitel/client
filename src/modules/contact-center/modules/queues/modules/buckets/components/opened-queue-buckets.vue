@@ -1,5 +1,5 @@
 <template>
-  <section>
+  <section class="content-wrapper">
     <bucket-popup
       v-if="isBucketPopup"
       @close="closePopup"
@@ -36,7 +36,15 @@
     </header>
 
     <wt-loader v-show="!isLoaded"></wt-loader>
-    <div v-show="isLoaded" class="table-wrapper">
+    <wt-dummy
+      v-if="dummy && isLoaded"
+      :src="dummy.src"
+      :text="$t(dummy.text)"
+      class="dummy-wrapper"
+    ></wt-dummy>
+    <div
+      v-show="dataList.length && isLoaded"
+      class="table-wrapper">
       <wt-table
         :headers="headers"
         :data="dataList"
@@ -84,18 +92,25 @@
 import BucketPopup from './opened-queue-buckets-popup.vue';
 import openedObjectTableTabMixin
   from '../../../../../../../app/mixins/objectPagesMixins/openedObjectTableTabMixin/openedObjectTableTabMixin';
+import { useDummy } from '../../../../../../../app/composables/useDummy';
+
+const namespace = 'ccenter/queues';
+const subNamespace = 'buckets';
 
 export default {
   name: 'opened-queue-outbound-ivr-buckets',
   mixins: [openedObjectTableTabMixin],
   components: { BucketPopup },
   data: () => ({
-    subNamespace: 'buckets',
+    namespace,
+    subNamespace,
     isBucketPopup: null,
-
     isDeleteConfirmation: false,
   }),
-
+  setup() {
+    const { dummy } = useDummy({ namespace: `${namespace}/${subNamespace}`, hiddenText: true });
+    return { dummy };
+  },
   methods: {
     openPopup() {
       this.isBucketPopup = true;

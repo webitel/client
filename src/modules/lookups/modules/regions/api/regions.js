@@ -1,30 +1,125 @@
-import { RegionServiceApiFactory } from 'webitel-sdk';
 import {
-  SdkListGetterApiConsumer,
-  SdkGetterApiConsumer,
-  SdkCreatorApiConsumer,
-  SdkUpdaterApiConsumer,
-  SdkDeleterApiConsumer,
-} from 'webitel-sdk/esm2015/api-consumers';
+  getDefaultGetListResponse,
+  getDefaultGetParams,
+} from '@webitel/ui-sdk/src/api/defaults';
+import applyTransform, {
+  camelToSnake,
+  handleUnauthorized,
+  merge, mergeEach, notify, sanitize, snakeToCamel,
+  starToSearch,
+} from '@webitel/ui-sdk/src/api/transformers';
+import { RegionServiceApiFactory } from 'webitel-sdk';
 import instance from '../../../../../app/api/instance';
 import configuration from '../../../../../app/api/openAPIConfig';
 
 const regionService = new RegionServiceApiFactory(configuration, '', instance);
 
+const getRegionsList = async (params) => {
+  const {
+    page,
+    size,
+    search,
+    sort,
+    fields,
+    id,
+  } = applyTransform(params, [
+    merge(getDefaultGetParams()),
+    starToSearch('search'),
+  ]);
+
+  try {
+    const response = await regionService.searchRegion(
+      page,
+      size,
+      search,
+      sort,
+      fields,
+      id,
+    );
+    const { items, next } = applyTransform(response.data, [
+      snakeToCamel(),
+      merge(getDefaultGetListResponse()),
+    ]);
+    return {
+      items,
+      next,
+    };
+  } catch (err) {
+    throw applyTransform(err, [
+      handleUnauthorized,
+      notify,
+    ]);
+  }
+};
+
+const getRegion = async ({ itemId: id }) => {
+  try {
+    const response = await regionService.readRegion(id);
+    return applyTransform(response.data, [
+      snakeToCamel(),
+    ]);
+  } catch (err) {
+    throw applyTransform(err, [
+      handleUnauthorized,
+      notify,
+    ]);
+  }
+};
+
 const fieldsToSend = ['name', 'timezone', 'description'];
 
-const listGetter = new SdkListGetterApiConsumer(regionService.searchRegion);
-const itemGetter = new SdkGetterApiConsumer(regionService.readRegion);
-const itemCreator = new SdkCreatorApiConsumer(regionService.createRegion, { fieldsToSend });
-const itemUpdater = new SdkUpdaterApiConsumer(regionService.updateRegion, { fieldsToSend });
-const itemDeleter = new SdkDeleterApiConsumer(regionService.deleteRegion);
+const addRegion = async ({ itemInstance }) => {
+  const item = applyTransform(itemInstance, [
+    sanitize(fieldsToSend),
+    camelToSnake(),
+  ]);
+  try {
+    const response = await regionService.createRegion(item);
+    return applyTransform(response.data, [
+      snakeToCamel(),
+    ]);
+  } catch (err) {
+    throw applyTransform(err, [
+      handleUnauthorized,
+      notify,
+    ]);
+  }
+};
 
-const getRegionsList = (params) => listGetter.getList(params);
-const getRegion = (params) => itemGetter.getItem(params);
-const addRegion = (params) => itemCreator.createItem(params);
-const updateRegion = (params) => itemUpdater.updateItem(params);
-const deleteRegion = (params) => itemDeleter.deleteItem(params);
-const getRegionsLookup = (params) => listGetter.getLookup(params);
+const updateRegion = async ({ itemInstance, itemId: id }) => {
+  const item = applyTransform(itemInstance, [
+    sanitize(fieldsToSend),
+    camelToSnake(),
+  ]);
+  try {
+    const response = await regionService.updateRegion(id, item);
+    return applyTransform(response.data, [
+      snakeToCamel(),
+    ]);
+  } catch (err) {
+    throw applyTransform(err, [
+      handleUnauthorized,
+      notify,
+    ]);
+  }
+};
+
+const deleteRegion = async ({ id }) => {
+  try {
+    const response = await regionService.deleteRegion(id);
+    return applyTransform(response.data, []);
+  } catch (err) {
+    throw applyTransform(err, [
+      handleUnauthorized,
+      notify,
+    ]);
+  }
+};
+
+const getRegionsLookup = (params) => getRegionsList({
+  ...params,
+  fields: params.fields || ['id', 'name'],
+});
 
 const RegionsAPI = {
   getList: getRegionsList,

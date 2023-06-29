@@ -36,13 +36,12 @@
 import { useVuelidate } from '@vuelidate/core';
 import { required } from '@vuelidate/validators';
 import General from './opened-agent-skill-general.vue';
-import Agents from '../modules/agents/components/opened-skill-agents.vue';
 import openedObjectMixin from '../../../../../app/mixins/objectPagesMixins/openedObjectMixin/openedObjectMixin';
 
 export default {
   name: 'opened-agent-skill',
   mixins: [openedObjectMixin],
-  components: { General, Agents },
+  components: { General },
   data: () => ({
     namespace: 'lookups/skills',
   }),
@@ -61,9 +60,6 @@ export default {
       const tabs = [{
         text: this.$t('objects.general'),
         value: 'general',
-      }, {
-        text: this.$tc('objects.ccenter.agents.agents', 2),
-        value: 'agents',
       }];
       return tabs;
     },

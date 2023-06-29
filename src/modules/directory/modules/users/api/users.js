@@ -1,11 +1,14 @@
 import {
-  EndpointCreatorApiConsumer,
-  EndpointDeleterApiConsumer,
-  EndpointGetterApiConsumer,
-  EndpointListGetterApiConsumer,
-  EndpointPatcherApiConsumer,
-  EndpointUpdaterApiConsumer,
-} from 'webitel-sdk/esm2015/api-consumers';
+  getDefaultGetListResponse,
+  getDefaultGetParams,
+} from '@webitel/ui-sdk/src/api/defaults';
+import applyTransform, {
+  camelToSnake, handleUnauthorized,
+  merge, notify, snakeToCamel,
+  starToSearch, log, sanitize,
+  generateUrl, mergeEach,
+} from '@webitel/ui-sdk/src/api/transformers';
+import deepCopy from 'deep-copy';
 import instance from '../../../../../app/api/instance';
 
 const baseUrl = '/users';
@@ -24,102 +27,216 @@ const fieldsToSend = [
   'email',
 ];
 
-const defaultListObject = {
-  name: '',
-  status: '',
-  state: true,
-  dnd: false,
+const getUsersList = async (params) => {
+  const fieldsToSend = ['page', 'size', 'q', 'fields', 'id'];
+
+  const defaultObject = {
+    name: '',
+    status: '',
+    state: true,
+    dnd: false,
+  };
+
+  const url = applyTransform(params, [
+    merge(getDefaultGetParams()),
+    starToSearch('search'),
+    (params) => ({ ...params, q: params.search }),
+    sanitize(fieldsToSend),
+    camelToSnake(),
+    generateUrl(baseUrl),
+  ]);
+  try {
+    const response = await instance.get(url);
+    const { items, next } = applyTransform(response.data, [
+      snakeToCamel(),
+      merge(getDefaultGetListResponse()),
+    ]);
+    return {
+      items: applyTransform(items, [
+        mergeEach(defaultObject),
+      ]),
+      next,
+    };
+  } catch (err) {
+    throw applyTransform(err, [
+      handleUnauthorized,
+      notify,
+    ]);
+  }
 };
 
-const defaultSingleObject = {
-  name: '',
-  username: '',
-  password: '',
-  extension: '',
-  roles: [],
-  license: [],
-  devices: [],
-  device: {},
-  variables: [
-    { key: '', value: '' },
-  ],
-};
+const getUser = async ({ itemId: id }) => {
+  const defaultObject = {
+    roles: [],
+    license: [],
+    devices: [],
+    device: {},
+    variables: [
+      { key: '', value: '' },
+    ],
+  };
 
-const itemResponseHandler = (response) => {
-  const user = { ...defaultSingleObject, ...response };
-  if (user.license) {
-    user.license.forEach((item) => {
-      // eslint-disable-next-line no-param-reassign
-      item.name = item.prod;
-    });
+  const itemResponseHandler = (item) => {
+    const copy = deepCopy(item);
+    if (copy.license) {
+      copy.license.forEach((item) => {
+        // eslint-disable-next-line no-param-reassign
+        item.name = item.prod;
+      });
+    }
+    if (copy.profile) {
+      copy.variables = Object.keys(copy.profile).map((key) => ({
+        key,
+        value: copy.profile[key],
+      }));
+    } else {
+      copy.variables = [{ key: '', value: '' }];
+    }
+    return copy;
+  };
+
+  const url = `${baseUrl}/${id}`;
+
+  try {
+    const response = await instance.get(url);
+    return applyTransform(response.data, [
+      snakeToCamel(),
+      merge(defaultObject),
+      itemResponseHandler,
+    ]);
+  } catch (err) {
+    throw applyTransform(err, [
+      handleUnauthorized,
+      notify,
+    ]);
   }
-  if (user.profile) {
-    user.variables = Object.keys(user.profile).map((key) => ({
-      key,
-      value: user.profile[key],
-    }));
-  } else {
-    user.variables = [{ key: '', value: '' }];
-  }
-  return user;
 };
 
 const preRequestHandler = (item) => {
+  const copy = deepCopy(item);
+  if (item.device && !item.device.id) delete copy.device;
   // eslint-disable-next-line no-param-reassign
-  if (item.device && !item.device.id) delete item.device;
+  if (copy.roles) copy.roles.forEach((copy) => delete copy.text);
   // eslint-disable-next-line no-param-reassign
-  if (item.roles) item.roles.forEach((item) => delete item.text);
-  // eslint-disable-next-line no-param-reassign
-  if (item.devices) item.devices.forEach((item) => delete item.text);
-  if (item.license) {
-    // eslint-disable-next-line no-param-reassign
-    item.license = item.license.map((item) => ({ id: item.id }));
+  if (copy.devices) copy.devices.forEach((copy) => delete copy.text);
+  if (copy.license) {
+    copy.license = copy.license.map((copy) => ({ id: copy.id }));
   }
-  // eslint-disable-next-line no-param-reassign
-  item.profile = {};
-  if (item.variables) {
-    item.variables.forEach((variable) => {
-      // eslint-disable-next-line no-param-reassign
-      item.profile[variable.key] = variable.value;
+  copy.profile = {};
+  if (copy.variables) {
+    copy.variables.forEach((variable) => {
+      copy.profile[variable.key] = variable.value;
     });
   }
-  return item;
+  return copy;
 };
 
-const listGetter = new EndpointListGetterApiConsumer({
-  baseUrl,
-  instance,
-}, { defaultListObject });
-const itemGetter = new EndpointGetterApiConsumer({ baseUrl, instance },
-  { defaultSingleObject, itemResponseHandler });
-const itemCreator = new EndpointCreatorApiConsumer({ baseUrl, instance },
-  { fieldsToSend, preRequestHandler });
-const itemUpdater = new EndpointUpdaterApiConsumer({ baseUrl, instance },
-  { fieldsToSend, preRequestHandler });
-const itemPatcher = new EndpointPatcherApiConsumer({
-  baseUrl,
-  instance,
-}, { fieldsToSend });
-const itemDeleter = new EndpointDeleterApiConsumer({ baseUrl, instance });
+const addUser = async ({ itemInstance }) => {
+  const item = applyTransform(itemInstance, [
+    preRequestHandler,
+    sanitize(fieldsToSend),
+    camelToSnake(),
+  ]);
+  try {
+    const response = await instance.post(baseUrl, item);
+    return applyTransform(response.data, [
+      snakeToCamel(),
+    ]);
+  } catch (err) {
+    throw applyTransform(err, [
+      handleUnauthorized,
+      notify,
+    ]);
+  }
+};
+const updateUser = async ({ itemInstance, itemId: id }) => {
+  const item = applyTransform(itemInstance, [
+    preRequestHandler,
+    sanitize(fieldsToSend),
+    camelToSnake(),
+  ]);
 
-const userLogoutCreatorApiConsumer = new EndpointCreatorApiConsumer({
-  baseUrl,
-  instance,
-}, { nestedUrl: 'logout' });
+  const url = `${baseUrl}/${id}`;
+  try {
+    const response = await instance.put(url, item);
+    return applyTransform(response.data, [
+      snakeToCamel(),
+    ]);
+  } catch (err) {
+    throw applyTransform(err, [
+      handleUnauthorized,
+      notify,
+    ]);
+  }
+};
+const patchUser = async ({ changes, id }) => {
+  const body = applyTransform(changes, [
+    sanitize(fieldsToSend),
+    camelToSnake(),
+  ]);
+  const url = `${baseUrl}/${id}`;
+  try {
+    const response = await instance.patch(url, body);
+    return applyTransform(response.data, [
+      snakeToCamel(),
+    ]);
+  } catch (err) {
+    throw applyTransform(err, [
+      handleUnauthorized,
+      notify,
+    ]);
+  }
+};
 
-const getUsersList = (params) => listGetter.getList(params);
-const getUser = (params) => itemGetter.getItem(params);
-const addUser = (params) => itemCreator.createItem(params);
-const updateUser = (params) => itemUpdater.updateItem(params);
-const patchUser = (params) => itemPatcher.patchItem(params);
-const patchUserPresence = (params) => itemPatcher.patchItem(params, 'presence');
-const deleteUser = (params) => itemDeleter.deleteItem(params);
-const getUsersLookup = (params) => listGetter.getLookup(params);
+const patchUserPresence = async ({ changes, id }) => {
+  const body = applyTransform(changes, [
+    sanitize(fieldsToSend),
+    camelToSnake(),
+  ]);
+  const url = `${baseUrl}/${id}/presence`;
+  try {
+    const response = await instance.patch(url, body);
+    return applyTransform(response.data, [
+      snakeToCamel(),
+    ]);
+  } catch (err) {
+    throw applyTransform(err, [
+      handleUnauthorized,
+      notify,
+    ]);
+  }
+};
 
-const logoutUser = ({ id }) => userLogoutCreatorApiConsumer.createNestedItem({
-  parentId: id,
-  itemInstance: {},
+const deleteUser = async ({ id }) => {
+  const url = `${baseUrl}/${id}`;
+  try {
+    const response = await instance.delete(url);
+    return applyTransform(response.data, []);
+  } catch (err) {
+    throw applyTransform(err, [
+      handleUnauthorized,
+      notify,
+    ]);
+  }
+};
+
+const getUsersLookup = (params) => getUsersList({
+  ...params,
+  fields: params.fields || ['id', 'name'],
 });
+
+const logoutUser = async ({ id }) => {
+  const url = `${baseUrl}/${id}/logout`;
+  try {
+    const response = await instance.post(url, {});
+    return applyTransform(response.data, []);
+  } catch (err) {
+    throw applyTransform(err, [
+      handleUnauthorized,
+      notify,
+    ]);
+  }
+};
 
 const UsersAPI = {
   getList: getUsersList,

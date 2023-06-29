@@ -1,5 +1,8 @@
 <template>
-  <wt-page-wrapper :actions-panel="false">
+  <wt-page-wrapper
+    v-if="showPage"
+    :actions-panel="false"
+  >
     <template v-slot:header>
       <object-header
         :primary-text="saveText"
@@ -22,7 +25,7 @@
           :tabs="tabs"
         ></wt-tabs>
         <component
-          :is="currentTab.value"
+          :is="currentTab && currentTab.value"
           :v="v$"
           :namespace="namespace"
         ></component>
@@ -35,13 +38,19 @@
 <script>
 import { useVuelidate } from '@vuelidate/core';
 import { required } from '@vuelidate/validators';
-import General from './opened-cognitive-profile-general.vue';
+import { StorageProviderType } from 'webitel-sdk';
+import deepmerge from 'deepmerge';
+import Microsoft from './microsoft/opened-cognitive-profile-microsoft.vue';
+import Google from './google/opened-cognitive-profile-google.vue';
 import openedObjectMixin from '../../../../../app/mixins/objectPagesMixins/openedObjectMixin/openedObjectMixin';
 
 export default {
   name: 'opened-cognitive-profile',
   mixins: [openedObjectMixin],
-  components: { General },
+  components: {
+    Microsoft,
+    Google,
+  },
   data: () => ({
     namespace: 'integrations/cognitiveProfiles',
   }),
@@ -49,24 +58,58 @@ export default {
   setup: () => ({
     v$: useVuelidate(),
   }),
-  validations: {
-    itemInstance: {
-      name: { required },
-      service: { required },
-      properties: {
-        key: { required },
-        region: { required },
+  validations() {
+    const defaults = {
+      itemInstance: {
+        name: { required },
+        service: { required },
+        provider: { required },
       },
-      provider: { required },
-    },
+    };
+    switch (this.provider) {
+      case StorageProviderType.Microsoft:
+        return deepmerge(defaults, {
+          itemInstance: {
+            properties: {
+              key: { required },
+              region: { required },
+            },
+          },
+        });
+      case StorageProviderType.Google:
+        return deepmerge(defaults, {
+          itemInstance: {
+            properties: {
+              key: { required },
+            },
+          },
+        });
+      default:
+        return defaults;
+    }
   },
 
   computed: {
+    showPage() {
+      return this.provider !== null;
+    },
+    provider() {
+      return this.itemInstance.provider;
+    },
     tabs() {
-      const tabs = [{
-        text: this.$t('objects.general'),
-        value: 'general',
-      }];
+      const microsoft = {
+        text: StorageProviderType.Microsoft,
+        value: 'Microsoft',
+      };
+
+      const google = {
+        text: StorageProviderType.Google,
+        value: 'Google',
+      };
+
+      const tabs = [];
+      if (this.provider === StorageProviderType.Microsoft) tabs.push(microsoft);
+      else if (this.provider === StorageProviderType.Google) tabs.push(google);
       if (this.id) tabs.push(this.permissionsTab);
       return tabs;
     },
@@ -81,6 +124,13 @@ export default {
           route: this.id ? `${baseUrl}/${this.id}` : `${baseUrl}/new`,
         },
       ];
+    },
+  },
+  methods: {
+    async loadPageData() {
+      await this.setId(this.$route.params.id);
+      await this.loadItem(this.$route.query.type);
+      this.setInitialTab();
     },
   },
 };

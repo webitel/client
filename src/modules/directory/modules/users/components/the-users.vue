@@ -52,7 +52,15 @@
         </header>
 
         <wt-loader v-show="!isLoaded"></wt-loader>
-        <div class="table-wrapper" v-show="isLoaded">
+        <wt-dummy
+          v-if="dummy && isLoaded"
+          :src="dummy.src"
+          :text="$t(dummy.text)"
+          class="dummy-wrapper"
+        ></wt-dummy>
+        <div
+          v-show="dataList.length && isLoaded"
+          class="table-wrapper">
           <wt-table
             :headers="headers"
             :data="dataList"
@@ -61,9 +69,9 @@
             @sort="sort"
           >
             <template v-slot:name="{ item }">
-              <item-link :link="editLink(item)">
+              <wt-item-link :link="editLink(item)">
                 {{ item.name }}
-              </item-link>
+              </wt-item-link>
             </template>
             <template v-slot:status="{ item }">
               <user-status :presence="item.presence"/>
@@ -115,6 +123,9 @@ import UserStatus from './_internals/user-status-chips.vue';
 import UploadFileIconBtn from '../../../../../app/components/utils/upload-file-icon-btn.vue';
 import tableComponentMixin from '../../../../../app/mixins/objectPagesMixins/objectTableMixin/tableComponentMixin';
 import RouteNames from '../../../../../app/router/_internals/RouteNames.enum';
+import { useDummy } from '../../../../../app/composables/useDummy';
+
+const namespace = 'directory/users';
 
 export default {
   name: 'the-users',
@@ -123,9 +134,14 @@ export default {
   data: () => ({
     isUploadPopup: false,
     csvFile: null,
-    namespace: 'directory/users',
+    namespace,
     routeName: RouteNames.USERS,
   }),
+
+  setup() {
+    const { dummy } = useDummy({ namespace, hiddenText: true });
+    return { dummy };
+  },
 
   computed: {
     path() {

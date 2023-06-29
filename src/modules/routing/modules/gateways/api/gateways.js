@@ -1,11 +1,12 @@
 import {
-  EndpointListGetterApiConsumer,
-  EndpointGetterApiConsumer,
-  EndpointCreatorApiConsumer,
-  EndpointUpdaterApiConsumer,
-  EndpointPatcherApiConsumer,
-  EndpointDeleterApiConsumer,
-} from 'webitel-sdk/esm2015/api-consumers';
+  getDefaultGetListResponse,
+  getDefaultGetParams,
+} from '@webitel/ui-sdk/src/api/defaults';
+import applyTransform, {
+  camelToSnake, generateUrl, handleUnauthorized,
+  merge, mergeEach, notify, sanitize, snakeToCamel,
+  starToSearch,
+} from '@webitel/ui-sdk/src/api/transformers';
 import instance from '../../../../../app/api/instance';
 import registerGateway
   from '../store/_internals/gatewaySchema/registerGateway';
@@ -13,54 +14,161 @@ import trunkingGateway
   from '../store/_internals/gatewaySchema/trunkingGateway';
 
 const baseUrl = '/sip/gateways';
+
+const getGatewayList = async (params) => {
+  const fieldsToSend = ['page', 'size', 'q', 'fields', 'id'];
+
+  const defaultObject = {
+    name: '',
+    proxy: '',
+    enable: false,
+  };
+
+  const url = applyTransform(params, [
+    merge(getDefaultGetParams()),
+    starToSearch('search'),
+    (params) => ({ ...params, q: params.search }),
+    sanitize(fieldsToSend),
+    camelToSnake(),
+    generateUrl(baseUrl),
+  ]);
+  try {
+    const response = await instance.get(url);
+    const { items, next } = applyTransform(response.data, [
+      snakeToCamel(),
+      merge(getDefaultGetListResponse()),
+    ]);
+    return {
+      items: applyTransform(items, [
+        mergeEach(defaultObject),
+      ]),
+      next,
+    };
+  } catch (err) {
+    throw applyTransform(err, [
+      handleUnauthorized,
+      notify,
+    ]);
+  }
+};
+
+const getGateway = async ({ itemId: id }) => {
+  const coerceTrunkingResponse = (response) => {
+    const defaultIPacl = {
+      ip: '',
+      proto: 'any',
+      port: null,
+    };
+
+    const result = { ...trunkingGateway(), ...response };
+    result.ipacl = result.ipacl.map((acl) => (
+      { ...defaultIPacl, ...acl }
+    ));
+    return result;
+  };
+
+  const coerceRegisterResponse = (response) => {
+    const result = { ...registerGateway(), ...response };
+    return result;
+  };
+
+  const itemResponseHandler = (response) => {
+    if (response.register) return coerceRegisterResponse(response);
+    return coerceTrunkingResponse(response);
+  };
+
+  const url = `${baseUrl}/${id}`;
+
+  try {
+    const response = await instance.get(url);
+    return applyTransform(response.data, [
+      snakeToCamel(),
+      itemResponseHandler,
+    ]);
+  } catch (err) {
+    throw applyTransform(err, [
+      handleUnauthorized,
+      notify,
+    ]);
+  }
+};
+
 const fieldsToSend = ['name', 'proxy', 'id', 'host', 'ipacl', 'account', 'username', 'expires',
   'account', 'registrar', 'name', 'register', 'password', 'schema', 'usage', 'enable'];
 
-const defaultListObject = { // default object prototype, to merge response with it to get all fields
-  name: '',
-  proxy: '',
-  enable: false,
-  id: 0,
+const addGateway = async ({ itemInstance }) => {
+  const item = applyTransform(itemInstance, [
+    sanitize(fieldsToSend),
+    camelToSnake(),
+  ]);
+  try {
+    const response = await instance.post(baseUrl, item);
+    return applyTransform(response.data, [
+      snakeToCamel(),
+    ]);
+  } catch (err) {
+    throw applyTransform(err, [
+      handleUnauthorized,
+      notify,
+    ]);
+  }
+};
+const updateGateway = async ({ itemInstance, itemId: id }) => {
+  const item = applyTransform(itemInstance, [
+    sanitize(fieldsToSend),
+    camelToSnake(),
+  ]);
+
+  const url = `${baseUrl}/${id}`;
+  try {
+    const response = await instance.put(url, item);
+    return applyTransform(response.data, [
+      snakeToCamel(),
+    ]);
+  } catch (err) {
+    throw applyTransform(err, [
+      handleUnauthorized,
+      notify,
+    ]);
+  }
 };
 
-const coerceTrunkingResponse = (response) => {
-  const defaultIPacl = {
-    ip: '',
-    proto: 'any',
-    port: null,
-  };
-
-  const result = { ...trunkingGateway(), ...response };
-  result.ipacl = result.ipacl.map((acl) => (
-    { ...defaultIPacl, ...acl }
-  ));
-  return result;
+const patchGateway = async ({ changes, id }) => {
+  const body = applyTransform(changes, [
+    sanitize(fieldsToSend),
+    camelToSnake(),
+  ]);
+  const url = `${baseUrl}/${id}`;
+  try {
+    const response = await instance.patch(url, body);
+    return applyTransform(response.data, [
+      snakeToCamel(),
+    ]);
+  } catch (err) {
+    throw applyTransform(err, [
+      handleUnauthorized,
+      notify,
+    ]);
+  }
 };
 
-const coerceRegisterResponse = (response) => {
-  const result = { ...registerGateway(), ...response };
-  return result;
+const deleteGateway = async ({ id }) => {
+  const url = `${baseUrl}/${id}`;
+  try {
+    const response = await instance.delete(url);
+    return applyTransform(response.data, []);
+  } catch (err) {
+    throw applyTransform(err, [
+      handleUnauthorized,
+      notify,
+    ]);
+  }
 };
 
-const listGetter = new EndpointListGetterApiConsumer({ baseUrl, instance }, { defaultListObject });
-const itemGetter = new EndpointGetterApiConsumer({ baseUrl, instance });
-const itemCreator = new EndpointCreatorApiConsumer({ baseUrl, instance }, { fieldsToSend });
-const itemUpdater = new EndpointUpdaterApiConsumer({ baseUrl, instance }, { fieldsToSend });
-const itemPatcher = new EndpointPatcherApiConsumer({ baseUrl, instance }, { fieldsToSend });
-const itemDeleter = new EndpointDeleterApiConsumer({ baseUrl, instance });
-
-itemGetter.responseHandler = (response) => {
-  if (response.register) return coerceRegisterResponse(response);
-  return coerceTrunkingResponse(response);
-};
-
-const getGatewayList = (params) => listGetter.getList(params);
-const getGateway = (params) => itemGetter.getItem(params);
-const addGateway = (params) => itemCreator.createItem(params);
-const updateGateway = (params) => itemUpdater.updateItem(params);
-const patchGateway = (params) => itemPatcher.patchItem(params);
-const deleteGateway = (params) => itemDeleter.deleteItem(params);
-const getGatewaysLookup = (params) => listGetter.getLookup(params);
+const getGatewaysLookup = (params) => getGatewayList({
+  ...params,
+  fields: params.fields || ['id', 'name'],
+});
 
 const GatewaysAPI = {
   getList: getGatewayList,

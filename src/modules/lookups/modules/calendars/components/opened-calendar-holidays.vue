@@ -35,7 +35,15 @@
       </div>
     </header>
 
-    <div class="table-wrapper">
+    <wt-dummy
+      v-if="dummy"
+      :src="dummy.src"
+      :text="$t(dummy.text)"
+      class="dummy-wrapper"
+    ></wt-dummy>
+    <div
+      v-show="dataListValue.length"
+      class="table-wrapper">
       <wt-table
         :headers="headers"
         :data="dataList"
@@ -68,6 +76,7 @@
 import { mapActions, mapState } from 'vuex';
 import holidayPopup from './opened-calendar-holiday-popup.vue';
 import openedObjectTableTabMixin from '../../../../../app/mixins/objectPagesMixins/openedObjectTableTabMixin/openedObjectTableTabMixin';
+import dummyPic from '../../../../../app/assets/dummy/adm-dummy-after-search.svg';
 
 export default {
   name: 'opened-calendar-holidays',
@@ -79,11 +88,7 @@ export default {
     isHolidayPopup: false,
     editedIndex: null,
   }),
-  watch: {
-    holidayList() {
-      this.loadList();
-    },
-  },
+
   computed: {
     ...mapState('lookups/calendars', {
       holidayList: (state) => state.itemInstance.excepts,
@@ -104,6 +109,21 @@ export default {
         { value: 'date', text: this.$t('objects.lookups.calendars.date') },
         { value: 'repeat', text: this.$t('objects.lookups.calendars.repeat') },
       ];
+    },
+    dummy() {
+      if (!this.dataListValue.length) {
+        if (this.searchValue) {
+          return {
+            src: dummyPic,
+            text: 'objects.emptyResultSearch',
+          };
+        } else {
+          return {
+            src: dummyPic,
+            text: '',
+          }
+        }
+      } else return '';
     },
   },
 
@@ -143,6 +163,12 @@ export default {
       this.editedIndex = null;
     },
     setParentId() {
+    },
+  },
+
+  watch: {
+    holidayList() {
+      this.loadList();
     },
   },
 };

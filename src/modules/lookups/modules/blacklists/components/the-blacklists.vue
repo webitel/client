@@ -42,7 +42,18 @@
         </header>
 
         <wt-loader v-show="!isLoaded"></wt-loader>
-        <div class="table-wrapper" v-show="isLoaded">
+        <wt-dummy
+          v-if="dummy && isLoaded"
+          :src="dummy.src"
+          :text="$t(dummy.text)"
+          :show-action="dummy.showAction"
+          @create="create"
+          class="dummy-wrapper"
+        ></wt-dummy>
+        <div
+          v-show="dataList.length && isLoaded"
+          class="table-wrapper"
+        >
           <wt-table
             :headers="headers"
             :data="dataList"
@@ -51,9 +62,9 @@
             @sort="sort"
           >
             <template v-slot:name="{ item }">
-              <item-link :link="editLink(item)">
+              <wt-item-link :link="editLink(item)">
                 {{ item.name }}
-              </item-link>
+              </wt-item-link>
             </template>
             <template v-slot:numbers="{ item }">
               {{ item.count }}
@@ -94,18 +105,23 @@ import DownloadAction from '../../../../../app/components/actions/download-actio
 import tableComponentMixin from '../../../../../app/mixins/objectPagesMixins/objectTableMixin/tableComponentMixin';
 import BlacklistNumbersAPI from '../modules/numbers/api/blacklistNumbers';
 import RouteNames from '../../../../../app/router/_internals/RouteNames.enum';
+import { useDummy } from '../../../../../app/composables/useDummy';
+import dummyPic from '../assets/adm-dummy-blacklist.svg';
+
+const namespace = 'lookups/blacklists';
 
 export default {
   name: 'the-blacklists',
   components: { DownloadAction },
   mixins: [exportCSVMixin, tableComponentMixin],
   data: () => ({
-    namespace: 'lookups/blacklists',
+    namespace,
     routeName: RouteNames.BLACKLIST,
   }),
 
-  created() {
-    this.initCSVExport(this.getBlacklistNumbersList, { filename: 'numbers' });
+  setup() {
+    const { dummy } = useDummy({ namespace, showAction: true, dummyPic });
+    return { dummy };
   },
 
   computed: {
@@ -122,6 +138,10 @@ export default {
       return this.exportCSV({ parentId: id, fields: ['number', 'description'] });
     },
     getBlacklistNumbersList: BlacklistNumbersAPI.getList,
+  },
+
+  created() {
+    this.initCSVExport(this.getBlacklistNumbersList, { filename: 'numbers' });
   },
 };
 </script>

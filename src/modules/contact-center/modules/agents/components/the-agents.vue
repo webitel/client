@@ -47,7 +47,17 @@
         </header>
 
         <wt-loader v-show="!isLoaded"></wt-loader>
-        <div v-show="isLoaded" class="table-wrapper">
+        <wt-dummy
+          v-if="dummy && isLoaded"
+          :src="dummy.src"
+          :text="$t(dummy.text)"
+          :show-action="dummy.showAction"
+          @create="create"
+          class="dummy-wrapper"
+        ></wt-dummy>
+        <div
+          v-show="dataList.length && isLoaded"
+          class="table-wrapper">
           <wt-table
             :data="dataList"
             :grid-actions="hasTableActions"
@@ -56,9 +66,9 @@
             @sort="sort"
           >
             <template v-slot:name="{ item }">
-              <item-link :link="editLink(item)">
+              <wt-item-link :link="editLink(item)">
                 {{ item.name }}
-              </item-link>
+              </wt-item-link>
             </template>
             <template v-slot:state="{ item }">
               <wt-indicator
@@ -70,9 +80,12 @@
               {{ item.statusDuration }}
             </template>
             <template v-slot:team="{ item }">
-              <item-link v-if="item.team" :link="itemTeamLink(item)" target="_blank">
+              <wt-item-link
+                v-if="item.team"
+                :link="itemTeamLink(item)"
+                target="_blank">
                 {{ item.team.name }}
-              </item-link>
+              </wt-item-link>
             </template>
             <template v-slot:actions="{ item }">
               <history-action
@@ -112,6 +125,9 @@ import tableComponentMixin from '../../../../../app/mixins/objectPagesMixins/obj
 import RouteNames from '../../../../../app/router/_internals/RouteNames.enum';
 import agentStatusMixin from '../../../mixins/agentStatusMixin';
 import HistoryPopup from './agent-history-popup.vue';
+import { useDummy } from '../../../../../app/composables/useDummy';
+
+const namespace = 'ccenter/agents';
 
 export default {
   name: 'the-agents',
@@ -119,9 +135,14 @@ export default {
   components: { HistoryPopup },
 
   data: () => ({
-    namespace: 'ccenter/agents',
+    namespace,
     routeName: RouteNames.AGENTS,
   }),
+
+  setup() {
+    const { dummy } = useDummy({ namespace, showAction: true });
+    return { dummy };
+  },
 
   computed: {
     ...mapState({

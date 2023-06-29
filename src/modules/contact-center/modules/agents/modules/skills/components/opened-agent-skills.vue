@@ -36,7 +36,15 @@
     </header>
 
     <wt-loader v-show="!isLoaded"></wt-loader>
-    <div v-show="isLoaded" class="table-wrapper">
+    <wt-dummy
+      v-if="dummy && isLoaded"
+      :src="dummy.src"
+      :text="$t(dummy.text)"
+      class="dummy-wrapper"
+    ></wt-dummy>
+    <div
+      v-show="dataList.length && isLoaded"
+      class="table-wrapper">
       <wt-table
         :data="dataList"
         :headers="headers"
@@ -86,17 +94,25 @@
 import { mapActions } from 'vuex';
 import SkillPopup from './opened-agent-skills-popup.vue';
 import openedObjectTableTabMixin from '../../../../../../../app/mixins/objectPagesMixins/openedObjectTableTabMixin/openedObjectTableTabMixin';
+import { useDummy } from '../../../../../../../app/composables/useDummy';
+
+const namespace = 'ccenter/agents';
+const subNamespace = 'skills';
 
 export default {
   name: 'opened-agent-skills',
   mixins: [openedObjectTableTabMixin],
   components: { SkillPopup },
   data: () => ({
-    subNamespace: 'skills',
+    namespace,
+    subNamespace,
     isSkillPopup: false,
-
     isDeleteConfirmation: false,
   }),
+  setup() {
+    const { dummy } = useDummy({ namespace: `${namespace}/${subNamespace}`, hiddenText: true });
+    return { dummy };
+  },
   methods: {
     ...mapActions({
       patchItem(dispatch, payload) {

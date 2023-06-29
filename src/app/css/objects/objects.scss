@@ -22,15 +22,6 @@
   }
 }
 
-// table name highlight with link to edit
-.nameLink {
-  cursor: pointer;
-
-  &:hover {
-    text-decoration: underline;
-  }
-}
-
 // ----- old styles
 
 // inner content section
@@ -52,6 +43,14 @@
 
 .main-section__wrapper {
   width: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.content-wrapper {
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
 }
 
 .btn-controls {
@@ -159,4 +158,8 @@
       //border-bottom: 1px solid rgba(0, 0, 0, 0.1);
     }
   }
+}
+
+.dummy-wrapper {
+  height: 100%;
 }
