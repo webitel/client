@@ -30,10 +30,11 @@
           ></wt-switcher>
         </template>
         <template v-slot:actions="{ item }">
-          <edit-action
+          <wt-icon-action
             v-if="item.isEditAction"
+            action="edit"
             @click="edit(item)"
-          ></edit-action>
+          ></wt-icon-action>
         </template>
       </wt-table>
     </div>

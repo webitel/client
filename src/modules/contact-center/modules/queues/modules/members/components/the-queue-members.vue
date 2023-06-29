@@ -67,7 +67,9 @@
                 @click="$event.option.method.call()"
               >
                 <template v-slot:activator>
-                  <delete-action></delete-action>
+                  <wt-icon-action
+                    action="delete"
+                  ></wt-icon-action>
                 </template>
               </wt-context-menu>
               <upload-file-icon-btn
@@ -144,12 +146,15 @@
             </template>
 
             <template v-slot:actions="{ item }">
-              <edit-action
+              <wt-icon-action
+                action="edit"
                 @click="edit(item)"
-              ></edit-action>
-              <delete-action
+              ></wt-icon-action>
+              <wt-icon-action
+                action="delete"
+                class="table-action"
                 @click="callDelete(item)"
-              ></delete-action>
+              ></wt-icon-action>
             </template>
           </wt-table>
           <wt-pagination

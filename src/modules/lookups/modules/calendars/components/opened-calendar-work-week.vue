@@ -41,14 +41,16 @@
             ></wt-switcher>
           </template>
           <template v-slot:actions="{ item, index }">
-            <add-action
+            <wt-icon-action
               v-if="isDayStart(index)"
+              action="add"
               @click="addWorkRange(item.day)"
-            ></add-action>
-            <delete-action
+            ></wt-icon-action>
+            <wt-icon-action
               v-else
+              action="delete"
               @click="remove(index)"
-            ></delete-action>
+            ></wt-icon-action>
           </template>
         </wt-table>
       </div>
@@ -58,12 +60,10 @@
 
 <script>
 import { mapActions, mapState } from 'vuex';
-import AddAction from '../../../../../app/components/actions/add-action';
 import openedTabComponentMixin from '../../../../../app/mixins/objectPagesMixins/openedObjectTabMixin/openedTabComponentMixin';
 
 export default {
   name: 'opened-calendar-work-week',
-  components: { AddAction },
   mixins: [openedTabComponentMixin],
   computed: {
     ...mapState('lookups/calendars', {

@@ -2,10 +2,11 @@
   <section>
     <header class="content-header">
       <h3 class="content-title">{{ $t('objects.directory.users.variables') }}</h3>
-      <add-action
+      <wt-icon-action
         v-if="!disableUserInput"
+        action="add"
         @click="addVariable"
-      ></add-action>
+      ></wt-icon-action>
     </header>
     <div class="object-input-grid">
       <div class="variables">
@@ -28,11 +29,12 @@
             :disabled="disableUserInput"
             @input="setVariableProp({index: key, prop: 'value', value: $event})"
           ></wt-input>
-          <delete-action
-            class="value-pair__delete-button"
+          <wt-icon-action
             v-if="!disableUserInput"
+            action="delete"
+            class="value-pair__delete-button"
             @click="deleteVariable(key)"
-          ></delete-action>
+          ></wt-icon-action>
         </div>
       </div>
     </div>

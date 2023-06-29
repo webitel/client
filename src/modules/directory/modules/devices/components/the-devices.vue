@@ -113,18 +113,22 @@
             </template>
 
             <template v-slot:actions="{ item }">
-              <history-action
+              <wt-icon-action
+                action="history"
                 class="table-action"
                 @click="openHistory(item.id)"
-              ></history-action>
-              <edit-action
+              ></wt-icon-action>
+              <wt-icon-action
                 v-if="hasEditAccess"
+                action="edit"
                 @click="edit(item)"
-              ></edit-action>
-              <delete-action
+              ></wt-icon-action>
+              <wt-icon-action
                 v-if="hasDeleteAccess"
+                action="delete"
+                class="table-action"
                 @click="callDelete(item)"
-              ></delete-action>
+              ></wt-icon-action>
             </template>
           </wt-table>
           <wt-pagination
@@ -146,7 +150,6 @@
 <script>
 import { mapActions, mapState } from 'vuex';
 import getNamespacedState from '@webitel/ui-sdk/src/store/helpers/getNamespacedState';
-import HistoryAction from '../../../../../app/components/actions/history-action.vue';
 import HistoryPopup from './device-history-popup.vue';
 import UploadPopup from './upload-devices-popup.vue';
 import DevicePopup from './create-device-popup.vue';
@@ -161,7 +164,6 @@ export default {
   name: 'the-devices',
   mixins: [tableComponentMixin],
   components: {
-    HistoryAction,
     HistoryPopup,
     UploadPopup,
     DevicePopup,

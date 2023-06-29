@@ -28,10 +28,11 @@
           :selected-count="selectedRows.length"
           @click="callDelete(selectedRows)"
         ></delete-all-action>
-        <add-action
+        <wt-icon-action
           v-if="!disableUserInput"
+          action="add"
           @click="create"
-        ></add-action>
+        ></wt-icon-action>
       </wt-table-actions>
     </header>
 
@@ -77,7 +78,6 @@
 </template>
 
 <script>
-import AddAction from '../../../../../../../app/components/actions/add-action.vue';
 import TokenPopup from './opened-user-token-popup.vue';
 import TokenCreatedPopup from './opened-user-token-created-popup.vue';
 import openedObjectTableTabMixin
@@ -86,7 +86,7 @@ import openedObjectTableTabMixin
 export default {
   name: 'opened-user-tokens',
   mixins: [openedObjectTableTabMixin],
-  components: { AddAction, TokenPopup, TokenCreatedPopup },
+  components: { TokenPopup, TokenCreatedPopup },
   data: () => ({
     subNamespace: 'tokens',
     isPopup: false,
