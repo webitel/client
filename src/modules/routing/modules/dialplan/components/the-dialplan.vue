@@ -94,14 +94,17 @@
                 </template>
                   {{ $t('iconHints.draggable') }}
               </wt-tooltip>
-              <edit-action
+              <wt-icon-action
                 v-if="hasEditAccess"
+                action="edit"
                 @click="edit(item)"
-              ></edit-action>
-              <delete-action
+              ></wt-icon-action>
+              <wt-icon-action
                 v-if="hasDeleteAccess"
+                action="delete"
+                class="table-action"
                 @click="callDelete(item)"
-              ></delete-action>
+              ></wt-icon-action>
             </template>
           </wt-table>
           <wt-pagination

@@ -28,10 +28,11 @@
           </template>
             {{ $t('iconHints.reload') }}
         </wt-tooltip>
-        <add-action
+        <wt-icon-action
           v-if="hasEditAccess"
+          action="add"
           @click="openRoleSelectPopup"
-        ></add-action>
+        ></wt-icon-action>
       </div>
     </header>
 
@@ -98,9 +99,11 @@
           ></wt-select>
         </template>
           <template v-slot:actions="{ item }">
-            <delete-action
+            <wt-icon-action
+              action="delete"
+              class="table-action"
               @click="changeReadAccessMode({ item, mode: { id: accessMode.FORBIDDEN }})"
-            ></delete-action>
+            ></wt-icon-action>
           </template>
       </wt-table>
       </div>
@@ -120,7 +123,6 @@
 
 <script>
 import { mapState } from 'vuex';
-import AddAction from '../../../../../../../app/components/actions/add-action';
 import permissionsTabMixin
   from '../../../../../../../app/mixins/objectPagesMixins/permissionsTabMixin/permissionsTabMixin';
 import RoleColumn from '../../../../../../_shared/permissions-tab/components/_internals/permissions-role-column.vue';
@@ -133,7 +135,7 @@ const subNamespace = 'obac';
 export default {
   name: 'opened-object-permissions-obac',
   mixins: [permissionsTabMixin],
-  components: { AddAction, RolePopup, RoleColumn },
+  components: { RolePopup, RoleColumn },
   data: () => ({
     namespace,
     subNamespace,

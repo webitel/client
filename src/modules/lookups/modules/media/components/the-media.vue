@@ -116,13 +116,17 @@
                 @open="openFile(item)"
                 @play="play(index)"
               ></media-file-preview-table-action>
-              <download-action
+              <wt-icon-action
+                action="download"
+                class="table-action"
                 @click="downloadFile(item)"
-              ></download-action>
-              <delete-action
+              ></wt-icon-action>
+              <wt-icon-action
                 v-if="hasDeleteAccess"
+                action="delete"
+                class="table-action"
                 @click="callDelete(item)"
-              ></delete-action>
+              ></wt-icon-action>
             </template>
           </wt-table>
           <wt-pagination
@@ -153,7 +157,6 @@
 import exportFilesMixin from '@webitel/ui-sdk/src/modules/FilesExport/mixins/exportFilesMixin';
 import prettifyFileSize from '@webitel/ui-sdk/src/scripts/prettifyFileSize';
 import vueDropzone from 'vue2-dropzone';
-import DownloadAction from '../../../../../app/components/actions/download-action.vue';
 import DownloadFilesBtn from '../../../../../app/components/utils/download-files-btn.vue';
 import tableComponentMixin from '../../../../../app/mixins/objectPagesMixins/objectTableMixin/tableComponentMixin';
 import { download } from '../../../../../app/utils/download';
@@ -170,7 +173,6 @@ export default {
   name: 'the-media',
   mixins: [exportFilesMixin, tableComponentMixin],
   components: {
-    DownloadAction,
     DownloadFilesBtn,
     vueDropzone,
     TextToSpeechPopup,
