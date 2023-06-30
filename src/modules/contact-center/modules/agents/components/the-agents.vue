@@ -88,17 +88,21 @@
               </wt-item-link>
             </template>
             <template v-slot:actions="{ item }">
-              <history-action
+              <wt-icon-action
+                action="history"
                 @click="openHistory(item.id)"
-              ></history-action>
-              <edit-action
+              ></wt-icon-action>
+              <wt-icon-action
                 v-if="hasEditAccess"
+                action="edit"
                 @click="edit(item)"
-              ></edit-action>
-              <delete-action
+              ></wt-icon-action>
+              <wt-icon-action
                 v-if="hasDeleteAccess"
+                action="delete"
+                class="table-action"
                 @click="callDelete(item)"
-              ></delete-action>
+              ></wt-icon-action>
             </template>
           </wt-table>
           <wt-pagination

@@ -69,9 +69,10 @@
           ></wt-select>
         </template>
         <template v-slot:actions="{ item }">
-          <delete-action
+          <wt-icon-action
+            action="delete"
             @click="changeReadAccessMode({ item, mode: { id: accessMode.FORBIDDEN }})"
-          ></delete-action>
+          ></wt-icon-action>
         </template>
       </wt-table>
       </div>

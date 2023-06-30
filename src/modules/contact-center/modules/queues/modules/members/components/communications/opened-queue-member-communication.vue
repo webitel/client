@@ -54,12 +54,15 @@
           {{ item.priority }}
         </template>
         <template v-slot:actions="{ index, item }">
-          <edit-action
+          <wt-icon-action
+            action="edit"
             @click="edit(index)"
-          ></edit-action>
-          <delete-action
+          ></wt-icon-action>
+          <wt-icon-action
+            action="delete"
+            class="table-action"
             @click="callDelete(item)"
-          ></delete-action>
+          ></wt-icon-action>
         </template>
       </wt-table>
     </div>

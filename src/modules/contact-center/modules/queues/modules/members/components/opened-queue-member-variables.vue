@@ -2,10 +2,11 @@
   <section>
     <header class="content-header">
       <h3 class="content-title">{{ $t('objects.ccenter.queues.variables') }}</h3>
-      <add-action
+      <wt-icon-action
         v-if="!disableUserInput"
+        action="add"
         @click="addVariable"
-      ></add-action>
+      ></wt-icon-action>
     </header>
     <form class="object-input-grid">
       <div class="variables">
@@ -26,10 +27,12 @@
             :disabled="disableUserInput"
             @input="setVariableProp({index: key, prop: 'value', value: $event})"
           ></wt-input>
-          <delete-action
+          <wt-icon-action
             v-if="!disableUserInput"
+            action="delete"
+            class="table-action"
             @click="deleteVariable(key)"
-          ></delete-action>
+          ></wt-icon-action>
         </div>
       </div>
     </form>

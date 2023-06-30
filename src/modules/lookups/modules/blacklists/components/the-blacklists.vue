@@ -70,17 +70,21 @@
               {{ item.count }}
             </template>
             <template v-slot:actions="{ item }">
-              <download-action
+              <wt-icon-action
+                action="download"
                 @click="download(item)"
-              ></download-action>
-              <edit-action
+              ></wt-icon-action>
+              <wt-icon-action
                 v-if="hasEditAccess"
+                action="edit"
                 @click="edit(item)"
-              ></edit-action>
-              <delete-action
+              ></wt-icon-action>
+              <wt-icon-action
                 v-if="hasDeleteAccess"
+                action="delete"
+                class="table-action"
                 @click="callDelete(item)"
-              ></delete-action>
+              ></wt-icon-action>
             </template>
           </wt-table>
           <wt-pagination
@@ -101,7 +105,6 @@
 
 <script>
 import exportCSVMixin from '@webitel/ui-sdk/src/modules/CSVExport/mixins/exportCSVMixin';
-import DownloadAction from '../../../../../app/components/actions/download-action';
 import tableComponentMixin from '../../../../../app/mixins/objectPagesMixins/objectTableMixin/tableComponentMixin';
 import BlacklistNumbersAPI from '../modules/numbers/api/blacklistNumbers';
 import RouteNames from '../../../../../app/router/_internals/RouteNames.enum';
@@ -112,7 +115,6 @@ const namespace = 'lookups/blacklists';
 
 export default {
   name: 'the-blacklists',
-  components: { DownloadAction },
   mixins: [exportCSVMixin, tableComponentMixin],
   data: () => ({
     namespace,

@@ -2,10 +2,11 @@
   <section>
     <header class="content-header">
       <h3 class="content-title">{{ $t('objects.routing.gateways.trunkingACLTitle') }}</h3>
-      <add-action
+      <wt-icon-action
         v-if="!disableUserInput"
+        action="add"
         @click="addVariable"
-      ></add-action>
+      ></wt-icon-action>
     </header>
     <div class="object-input-grid grid-w50">
       <div class="variables">
@@ -38,10 +39,12 @@
             type="number"
             @input="setVariableProp({ index: key, prop: 'port', value: $event })"
           ></wt-input>
-          <delete-action
+          <wt-icon-action
             v-if="!disableUserInput"
+            action="delete"
+            class="table-action"
             @click="deleteVariable(key)"
-          ></delete-action>
+          ></wt-icon-action>
         </div>
       </div>
     </div>

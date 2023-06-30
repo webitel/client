@@ -113,17 +113,21 @@
             </template>
 
             <template v-slot:actions="{ item }">
-            <download-action
+            <wt-icon-action
+              action="download"
               @click="download(item)"
-            ></download-action>
-            <edit-action
-              v-if="hasEditAccess"
-              @click="edit(item)"
-            ></edit-action>
-            <delete-action
-              v-if="hasDeleteAccess"
-              @click="callDelete(item)"
-            ></delete-action>
+            ></wt-icon-action>
+              <wt-icon-action
+                v-if="hasEditAccess"
+                action="edit"
+                @click="edit(item)"
+              ></wt-icon-action>
+              <wt-icon-action
+                v-if="hasDeleteAccess"
+                action="delete"
+                class="table-action"
+                @click="callDelete(item)"
+              ></wt-icon-action>
           </template>
           </wt-table>
           <wt-pagination
@@ -144,7 +148,6 @@
 
 <script>
 import FilterSearch from '@webitel/ui-sdk/src/modules/QueryFilters/components/filter-search.vue';
-import DownloadAction from '../../../../../app/components/actions/download-action.vue';
 import tableComponentMixin from '../../../../../app/mixins/objectPagesMixins/objectTableMixin/tableComponentMixin';
 import CreateFlowPopup from './create-flow-popup.vue';
 import UploadPopup from './upload-flow-popup.vue';
@@ -162,7 +165,6 @@ export default {
   name: 'the-flow',
   mixins: [tableComponentMixin],
   components: {
-    DownloadAction,
     CreateFlowPopup,
     UploadPopup,
     UploadFileIconBtn,

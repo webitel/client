@@ -25,10 +25,11 @@
           :icons="['refresh']"
           @input="tableActionsHandler"
         >
-          <add-action
+          <wt-icon-action
             v-if="hasCreateAccess"
+            action="add"
             @click="isLicensePopup = true"
-          ></add-action>
+          ></wt-icon-action>
         </wt-table-actions>
       </div>
     </header>
@@ -111,7 +112,6 @@
 </template>
 
 <script>
-import AddAction from '../../../../../../app/components/actions/add-action';
 import tableComponentMixin from '../../../../../../app/mixins/objectPagesMixins/objectTableMixin/tableComponentMixin';
 import RouteNames from '../../../../../../app/router/_internals/RouteNames.enum';
 import LicenseUsersPopup from '../../modules/license-users/components/license-users-popup.vue';
@@ -123,7 +123,7 @@ const namespace = 'directory/license';
 export default {
   name: 'all-licenses',
   mixins: [tableComponentMixin],
-  components: { AddAction, LicensePopup, LicenseUsersPopup },
+  components: { LicensePopup, LicenseUsersPopup },
   data: () => ({
     namespace,
     isLicensePopup: false,

@@ -63,12 +63,15 @@
           </div>
         </template>
         <template v-slot:actions="{ item, index }">
-          <edit-action
+          <wt-icon-action
+            action="edit"
             @click="edit(item)"
-          ></edit-action>
-          <delete-action
+          ></wt-icon-action>
+          <wt-icon-action
+            action="delete"
+            class="table-action"
             @click="callDelete(item)"
-          ></delete-action>
+          ></wt-icon-action>
         </template>
       </wt-table>
       <wt-pagination
