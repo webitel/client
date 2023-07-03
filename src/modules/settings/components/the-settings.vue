@@ -1,9 +1,9 @@
 <template>
   <wt-page-wrapper :actions-panel="false">
     <template v-slot:header>
-      <object-header hide-primary>
+      <wt-page-header hide-primary>
         {{ $t('settings.settings') }}
-      </object-header>
+      </wt-page-header>
     </template>
     <template v-slot:main>
       <!--This wrapper "settings-section" is needed to place the "settings-section__setting"
@@ -85,13 +85,9 @@ import getNamespacedState from '@webitel/ui-sdk/src/store/helpers/getNamespacedS
 import { sameAs, required } from '@vuelidate/validators';
 import { mapState } from 'vuex';
 import { changePassword, changeWebPhone, getWebPhone } from '../api/settings';
-import objectHeader from '../../../app/components/utils/object-utils/the-object-header.vue';
 
 export default {
   name: 'the-settings',
-  components: {
-    objectHeader,
-  },
   inject: ['$eventBus'],
   data: () => ({
     newPassword: '',

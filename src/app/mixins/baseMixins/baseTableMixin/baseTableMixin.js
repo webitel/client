@@ -1,4 +1,3 @@
-import ObjectHeader from '../../../components/utils/object-utils/the-object-header.vue';
 import itemLinkMixin from './itemLinkMixin';
 import tableActionsHandlerMixin from './tableActionsMixin';
 import deleteMixin from './deleteMixin/tableDeleteMixin';
@@ -16,9 +15,6 @@ export default {
     itemLinkMixin,
     tableActionsHandlerMixin,
   ],
-  components: {
-    ObjectHeader,
-  },
 
   data: () => ({
     isLoaded: false,

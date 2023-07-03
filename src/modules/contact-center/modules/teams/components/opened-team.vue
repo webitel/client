@@ -1,7 +1,7 @@
 <template>
   <wt-page-wrapper :actions-panel="false">
     <template v-slot:header>
-    <object-header
+    <wt-page-header
       :primary-action="save"
       :primary-disabled="disabledSave"
       :primary-text="saveText"
@@ -9,7 +9,7 @@
       :secondary-action="close"
     >
       <wt-headline-nav :path="path"></wt-headline-nav>
-    </object-header>
+    </wt-page-header>
     </template>
     <template v-slot:main>
       <form

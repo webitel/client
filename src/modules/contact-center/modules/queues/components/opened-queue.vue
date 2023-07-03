@@ -4,7 +4,7 @@
     :actions-panel="!!currentTab.filters"
   >
     <template v-slot:header>
-      <object-header
+      <wt-page-header
         :hide-primary="!hasSaveActionAccess"
         :primary-action="save"
         :primary-disabled="disabledSave"
@@ -12,7 +12,7 @@
         :secondary-action="close"
       >
         <wt-headline-nav :path="path"></wt-headline-nav>
-      </object-header>
+      </wt-page-header>
     </template>
 
     <template v-slot:actions-panel>
