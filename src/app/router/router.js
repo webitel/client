@@ -4,7 +4,6 @@ import RouteNames from './_internals/RouteNames.enum';
 
 const ApplicationHub = () => import('../../modules/application-hub/components/application-hub.vue');
 const ModuleWrap = () => import('../../modules/_shared/object-wrap/the-object-wrap.vue');
-const Home = () => import('../../modules/_unused/home/components/the-home.vue');
 const StartPage = () => import('../../modules/start-page/components/the-start-page.vue');
 const Settings = () => import('../../modules/settings/components/the-settings.vue');
 const AccessDenied = () => import('../../modules/error-pages/components/the-access-denied-component.vue');
@@ -92,12 +91,6 @@ const router = createRouter({
       path: '/admin',
       component: ModuleWrap,
       children: [
-        {
-          path: '/admin',
-          name: RouteNames.HOME,
-          component: Home,
-          redirect: '/start',
-        },
         {
           path: '/start',
           name: RouteNames.START,

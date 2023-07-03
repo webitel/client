@@ -1,7 +1,7 @@
 <template>
   <wt-page-wrapper :actions-panel="false">
     <template v-slot:header>
-      <object-header
+      <wt-page-header
         :primary-action="save"
         :primary-disabled="disabledSave"
         :hide-primary="!hasSaveActionAccess"
@@ -18,7 +18,7 @@
           </wt-button-select>
         </template>
         <wt-headline-nav :path="path"></wt-headline-nav>
-      </object-header>
+      </wt-page-header>
     </template>
     <template v-slot:main>
       <div class="main-container">

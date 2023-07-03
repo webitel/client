@@ -7,7 +7,7 @@
   ></diagram>
   <wt-page-wrapper v-else :actions-panel="false">
     <template v-slot:header>
-      <object-header
+      <wt-page-header
         :primary-text="saveText"
         :primary-action="save"
         :hide-primary="!hasSaveActionAccess"
@@ -15,7 +15,7 @@
         :secondary-action="close"
       >
         <wt-headline-nav :path="path"></wt-headline-nav>
-      </object-header>
+      </wt-page-header>
     </template>
 
     <template v-slot:main>

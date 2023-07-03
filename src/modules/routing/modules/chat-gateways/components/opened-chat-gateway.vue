@@ -1,7 +1,7 @@
 <template>
   <wt-page-wrapper v-if="showPage" :actions-panel="false">
     <template v-slot:header>
-      <object-header
+      <wt-page-header
         :hide-primary="!hasSaveActionAccess"
         :primary-action="save"
         :primary-disabled="disabledSave"
@@ -16,7 +16,7 @@
             @copied="handleWebchatCodeCopied"
           ></webchat-copy-code-button>
         </template>
-      </object-header>
+      </wt-page-header>
     </template>
 
     <template v-slot:main>

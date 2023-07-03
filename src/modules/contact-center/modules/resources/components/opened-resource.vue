@@ -1,15 +1,15 @@
 <template>
   <wt-page-wrapper :actions-panel="false">
     <template v-slot:header>
-      <object-header
-      :primary-action="save"
-      :primary-disabled="disabledSave"
-      :hide-primary="!hasSaveActionAccess"
-      :primary-text="saveText"
-      :secondary-action="close"
-    >
+      <wt-page-header
+        :primary-action="save"
+        :primary-disabled="disabledSave"
+        :hide-primary="!hasSaveActionAccess"
+        :primary-text="saveText"
+        :secondary-action="close"
+      >
       <wt-headline-nav :path="path"></wt-headline-nav>
-    </object-header>
+    </wt-page-header>
     </template>
     <template v-slot:main>
       <form
@@ -34,7 +34,6 @@
 <script>
 import { useVuelidate } from '@vuelidate/core';
 import { required, minValue, maxValue } from '@vuelidate/validators';
-import { mapState } from 'vuex';
 import General from './opened-resource-general.vue';
 import Numbers from '../modules/display/components/opened-resource-numbers.vue';
 import Failure from './opened-resource-failure.vue';

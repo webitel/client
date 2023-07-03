@@ -1,7 +1,7 @@
 <template>
   <wt-page-wrapper :actions-panel="false">
     <template v-slot:header>
-      <object-header
+      <wt-page-header
         :primary-text="saveText"
         :primary-action="save"
         :hide-primary="!hasSaveActionAccess"
@@ -9,7 +9,7 @@
         :secondary-action="close"
       >
         <wt-headline-nav :path="path"></wt-headline-nav>
-      </object-header>
+      </wt-page-header>
     </template>
 
     <template v-slot:main>
@@ -34,7 +34,7 @@
 
 <script>
 import { required } from '@vuelidate/validators';
-import { useVuelidate }from '@vuelidate/core';
+import { useVuelidate } from '@vuelidate/core';
 import General from './opened-region-general.vue';
 import openedObjectMixin from '../../../../../app/mixins/objectPagesMixins/openedObjectMixin/openedObjectMixin';
 
