@@ -21,6 +21,8 @@ import configuration from '../../../../../app/api/openAPIConfig';
 
 const flowService = new RoutingSchemaServiceApiFactory(configuration, '', instance);
 
+const doNotConvertKeys = ['schema'];
+
 const fieldsToSend = ['name', 'schema', 'type', 'payload', 'editor', 'tags'];
 
 const getFlowList = async (params) => {
@@ -42,7 +44,7 @@ const getFlowList = async (params) => {
   } = applyTransform(params, [
     merge(getDefaultGetParams()),
     starToSearch('search'),
-    camelToSnake(),
+    camelToSnake(doNotConvertKeys),
   ]);
   try {
     const response = await flowService.searchRoutingSchema(
@@ -61,7 +63,7 @@ const getFlowList = async (params) => {
       tags,
     );
     const { items, next } = applyTransform(response.data, [
-      snakeToCamel(),
+      snakeToCamel(doNotConvertKeys),
       merge(getDefaultGetListResponse()),
     ]);
     return {
@@ -92,7 +94,7 @@ const getFlow = async ({ itemId: id }) => {
   try {
     const response = await flowService.readRoutingSchema(id);
     return applyTransform(response.data, [
-      snakeToCamel(),
+      snakeToCamel(doNotConvertKeys),
       merge(defaultObject),
       itemResponseHandler,
     ]);
@@ -113,12 +115,12 @@ const addFlow = async ({ itemInstance }) => {
   const item = applyTransform(itemInstance, [
     preRequestHandler,
     sanitize(fieldsToSend),
-    camelToSnake(),
+    camelToSnake(doNotConvertKeys),
   ]);
   try {
     const response = await flowService.createRoutingSchema(item);
     return applyTransform(response.data, [
-      snakeToCamel(),
+      snakeToCamel(doNotConvertKeys),
     ]);
   } catch (err) {
     throw applyTransform(err, [
@@ -131,12 +133,12 @@ const updateFlow = async ({ itemInstance, itemId: id }) => {
   const item = applyTransform(itemInstance, [
     preRequestHandler,
     sanitize(fieldsToSend),
-    camelToSnake(),
+    camelToSnake(doNotConvertKeys),
   ]);
   try {
     const response = await flowService.updateRoutingSchema(id, item);
     return applyTransform(response.data, [
-      snakeToCamel(),
+      snakeToCamel(doNotConvertKeys),
     ]);
   } catch (err) {
     throw applyTransform(err, [
@@ -158,46 +160,10 @@ const deleteFlow = async ({ id }) => {
   }
 };
 
-const getFlowsLookup = async (params) => {
-  const {
-    page,
-    size,
-    search,
-    sort,
-    fields = ['id', 'name'],
-    ids,
-    type,
-  } = applyTransform(params, [
-    merge(getDefaultGetParams()),
-    starToSearch(),
-    camelToSnake(),
-  ]);
-  try {
-    const response = await flowService.searchRoutingSchema(
-      page,
-      size,
-      search,
-      sort,
-      fields,
-      ids,
-      undefined,
-      type,
-    );
-    const { items, next } = applyTransform(response.data, [
-      snakeToCamel(),
-      merge(getDefaultGetListResponse()),
-    ]);
-    return {
-      items,
-      next,
-    };
-  } catch (err) {
-    throw applyTransform(err, [
-      handleUnauthorized,
-      notify,
-    ]);
-  }
-};
+const getFlowsLookup = (params) => getFlowList({
+  ...params,
+  fields: params.fields || ['id', 'name'],
+});
 
 const getFlowTags = async (params) => {
   const {
@@ -210,7 +176,7 @@ const getFlowTags = async (params) => {
   } = applyTransform(params, [
     merge(getDefaultGetParams()),
     starToSearch(),
-    camelToSnake(),
+    camelToSnake(doNotConvertKeys),
   ]);
   try {
     const response = await flowService.searchRoutingSchemaTags(
@@ -222,7 +188,7 @@ const getFlowTags = async (params) => {
       ids,
     );
     const { items, next } = applyTransform(response.data, [
-      snakeToCamel(),
+      snakeToCamel(doNotConvertKeys),
       merge(getDefaultGetListResponse()),
     ]);
     return {
