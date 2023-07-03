@@ -55,8 +55,8 @@ const getFlowList = async (params) => {
       fields,
       id,
       name,
-      Array.isArray(type) ? type.concat(EngineRoutingSchemaType.Default) : [
-        type,
+      type.includes(EngineRoutingSchemaType.Default) ? type : [
+        ...type,
         EngineRoutingSchemaType.Default,
       ],
       undefined,
@@ -87,8 +87,8 @@ const getFlow = async ({ itemId: id }) => {
   };
 
   const itemResponseHandler = (item) => ({
-      ...item,
-      schema: JSON.stringify(item.schema, null, 4),
+    ...item,
+    schema: JSON.stringify(item.schema, null, 4),
   });
 
   try {
@@ -108,7 +108,9 @@ const getFlow = async ({ itemId: id }) => {
 
 const preRequestHandler = (item) => ({
   ...item,
-   schema: typeof item.schema === 'string' ? JSON.parse(item.schema) : item.schema,
+  schema: typeof item.schema === 'string'
+    ? JSON.parse(item.schema)
+    : item.schema,
 });
 
 const addFlow = async ({ itemInstance }) => {
@@ -162,7 +164,7 @@ const deleteFlow = async ({ id }) => {
 
 const getFlowsLookup = (params) => getFlowList({
   ...params,
-  fields: params.fields || ['id', 'name'],
+  fields: params.fields || ['id', 'name', 'type'],
 });
 
 const getFlowTags = async (params) => {

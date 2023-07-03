@@ -45,6 +45,7 @@
 
 <script>
 import { mapActions } from 'vuex';
+import { EngineRoutingSchemaType } from 'webitel-sdk';
 import openedTabComponentMixin
   from '../../../../../app/mixins/objectPagesMixins/openedObjectTabMixin/openedTabComponentMixin';
 import FlowsAPI from '../../../../routing/modules/flow/api/flow';
@@ -69,7 +70,10 @@ export default {
       },
     }),
     loadDropdownOptionsSchemaList(params) {
-      return FlowsAPI.getLookup(params);
+      return FlowsAPI.getLookup({
+        ...params,
+        type: [EngineRoutingSchemaType.Processing, EngineRoutingSchemaType.Default],
+      });
     },
   },
 };
