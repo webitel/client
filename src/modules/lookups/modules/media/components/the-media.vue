@@ -1,7 +1,7 @@
 <template>
   <wt-page-wrapper :actions-panel="false">
     <template v-slot:header>
-      <object-header hide-primary>
+      <wt-page-header hide-primary>
         <wt-headline-nav :path="path"></wt-headline-nav>
         <template v-slot:actions>
           <download-files-btn
@@ -11,7 +11,7 @@
             @export-files="exportFiles(null, { fields: undefined })"
           ></download-files-btn>
         </template>
-      </object-header>
+      </wt-page-header>
     </template>
 
     <template v-slot:main>

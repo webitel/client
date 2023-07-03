@@ -1,9 +1,9 @@
 <template>
   <wt-page-wrapper :actions-panel="false">
     <template v-slot:header>
-      <object-header hide-primary>
+      <wt-page-header hide-primary>
         <wt-headline-nav :path="path"></wt-headline-nav>
-      </object-header>
+      </wt-page-header>
     </template>
 
     <template v-slot:main>

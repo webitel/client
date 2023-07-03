@@ -1,9 +1,9 @@
 <template>
   <wt-page-wrapper :actions-panel="false" class="license">
     <template v-slot:header>
-      <object-header :hide-primary="true">
+      <wt-page-header :hide-primary="true">
         <wt-headline-nav :path="path"></wt-headline-nav>
-      </object-header>
+      </wt-page-header>
     </template>
     <template v-slot:main>
       <section class="main-section__wrapper">
@@ -18,7 +18,6 @@
 </template>
 
 <script>
-import ObjectHeader from '../../../../../app/components/utils/object-utils/the-object-header.vue';
 import AllLicenses from './all-licenses/all-licenses.vue';
 import LicensesByUser from '../modules/users/components/licenses-by-user.vue';
 
@@ -27,7 +26,6 @@ export default {
   components: {
     AllLicenses,
     LicensesByUser,
-    ObjectHeader,
   },
   data: () => ({
     currentTab: { value: 'all-licenses' },

@@ -1,13 +1,13 @@
 <template>
   <wt-page-wrapper class="members">
     <template v-slot:header>
-      <object-header
+      <wt-page-header
         :hide-primary="!hasEditAccess || !isNotInboundMember"
         :primary-action="create"
         :secondary-action="close"
       >
         <wt-headline-nav :path="path"></wt-headline-nav>
-      </object-header>
+      </wt-page-header>
     </template>
     <template v-slot:actions-panel>
       <the-queue-members-filters

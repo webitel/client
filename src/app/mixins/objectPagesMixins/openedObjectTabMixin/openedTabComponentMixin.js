@@ -1,6 +1,5 @@
 import { mapState, mapActions } from 'vuex';
 import getNamespacedState from '@webitel/ui-sdk/src/store/helpers/getNamespacedState';
-import ObjectHeader from '../../../components/utils/object-utils/the-object-header.vue';
 
 import openedObjectValidationMixin
   from '../../baseMixins/openedObjectValidationMixin/openedObjectValidationMixin';
@@ -14,7 +13,6 @@ import openedObjectTabAccessControlMixin from './_internals/openedObjectTabAcces
  */
 export default {
   mixins: [openedObjectValidationMixin, openedObjectTabAccessControlMixin],
-  components: { ObjectHeader },
   props: {
     namespace: {
       type: String,
