@@ -113,14 +113,12 @@
 import { snakeToCamel } from '@webitel/ui-sdk/src/scripts/caseConverters';
 import openedObjectTableTabMixin from '../../../../../../../app/mixins/objectPagesMixins/openedObjectTableTabMixin/openedObjectTableTabMixin';
 import RouteNames from '../../../../../../../app/router/_internals/RouteNames.enum';
-import agentSupervisorsAndSkillsPopupMixin from '../../../../../mixins/agentSupervisorsAndSkillsPopupMixin';
-import agentStatusMixin from '../../../../../mixins/agentStatusMixin';
 import SkillPopup from './opened-skill-agent-popup.vue';
 import ChangeSkillPopup from './opened-skill-agent-change-popup.vue';
 
 export default {
   name: 'opened-skill-agents',
-  mixins: [openedObjectTableTabMixin, agentSupervisorsAndSkillsPopupMixin, agentStatusMixin],
+  mixins: [openedObjectTableTabMixin],
   components: { SkillPopup, ChangeSkillPopup },
 
   data: () => ({
