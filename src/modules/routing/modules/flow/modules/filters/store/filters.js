@@ -1,13 +1,20 @@
-import BaseFilterSchema
-  from '@webitel/ui-sdk/src/modules/QueryFilters/classes/BaseFilterSchema';
 import ApiFilterSchema
   from '@webitel/ui-sdk/src/modules/QueryFilters/classes/ApiFilterSchema';
-import QueryFiltersStoreModule
-  from '@webitel/ui-sdk/src/modules/QueryFilters/store/QueryFiltersStoreModule';
 import { EngineRoutingSchemaType } from 'webitel-sdk';
+import BaseFilterSchema from '../../../../../../_shared/filters/store/BaseFilterSchema';
+import FiltersStoreModule
+  from '../../../../../../_shared/filters/store/FiltersStoreModule';
 import FlowsAPI from '../../../api/flow';
 
 const state = {
+  page: new BaseFilterSchema({
+    value: 1,
+    defaultValue: 1,
+  }),
+  size: new BaseFilterSchema({
+    value: 10,
+    defaultValue: 10,
+  }),
   search: new BaseFilterSchema(),
   type: new BaseFilterSchema({
     value: [
@@ -22,6 +29,8 @@ const state = {
       EngineRoutingSchemaType.Service,
       EngineRoutingSchemaType.Processing,
     ],
+    // if only 1 checkbox is selected, returned value is string
+    restore: (value) => (Array.isArray(value) ? value : [value]),
   }),
   tags: new ApiFilterSchema({
     value: [],
@@ -32,4 +41,4 @@ const state = {
   }),
 };
 
-export default new QueryFiltersStoreModule({ state }).getModule();
+export default new FiltersStoreModule().getModule({ state });

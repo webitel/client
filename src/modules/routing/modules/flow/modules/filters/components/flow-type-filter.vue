@@ -27,29 +27,32 @@
   </div>
 </template>
 
-<script>
-import baseFilterMixin from '@webitel/ui-sdk/src/modules/QueryFilters/mixins/baseFilterMixin/baseFilterMixin';
+<script setup>
 import { EngineRoutingSchemaType } from 'webitel-sdk';
+import { useStore } from 'vuex';
+import { computed } from 'vue';
+import getNamespacedState from '@webitel/ui-sdk/src/store/helpers/getNamespacedState';
 
-export default {
-  name: 'flow-type-filter',
-  mixins: [baseFilterMixin],
-  data: () => ({
-    EngineRoutingSchemaType,
-    filterQuery: 'type',
-  }),
-  methods: {
-    handleChange(value) {
-      this.setValue({ filter: this.filterQuery, value });
-      this.setValueToQuery({ filterQuery: this.filterQuery, value });
-    },
-    restoreValue(_value) {
-      // if only 1 checkbox is seelcted, returned value is string
-      const value = Array.isArray(_value) ? _value : [_value];
-      this.setValue({ filter: this.filterQuery, value });
-    },
+const props = defineProps({
+  namespace: {
+    type: String,
+    required: true,
   },
-};
+});
+
+const store = useStore();
+
+const filter = 'type';
+
+const filterSchema = computed(() => getNamespacedState(store.state, props.namespace)[filter]);
+
+function setValue(payload) {
+  return store.dispatch(`${props.namespace}/SET_FILTER`, payload);
+}
+
+function handleChange(value) {
+  setValue({ filter, value });
+}
 </script>
 
 <style lang="scss" scoped>

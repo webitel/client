@@ -148,6 +148,7 @@
 
 <script>
 import FilterSearch from '@webitel/ui-sdk/src/modules/QueryFilters/components/filter-search.vue';
+import { mapActions } from 'vuex';
 import tableComponentMixin from '../../../../../app/mixins/objectPagesMixins/objectTableMixin/tableComponentMixin';
 import CreateFlowPopup from './create-flow-popup.vue';
 import UploadPopup from './upload-flow-popup.vue';
@@ -196,6 +197,11 @@ export default {
     },
   },
   methods: {
+    ...mapActions({
+      restoreFilters(dispatch, payload) {
+        return dispatch(`${this.filtersNamespace}/RESTORE_FILTERS`, payload);
+      },
+    }),
     create() {
       this.isCreateFlowPopup = true;
     },
@@ -235,6 +241,9 @@ export default {
         await this.loadList();
       },
     },
+  },
+  created() {
+    this.restoreFilters();
   },
 };
 </script>
