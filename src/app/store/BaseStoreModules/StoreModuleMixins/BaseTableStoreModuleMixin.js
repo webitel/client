@@ -1,4 +1,7 @@
-import { SortSymbols, sortToQueryAdapter } from '@webitel/ui-sdk/src/scripts/sortQueryAdapters';
+import {
+  SortSymbols,
+  sortToQueryAdapter,
+} from '@webitel/ui-sdk/src/scripts/sortQueryAdapters';
 import deepCopy from 'deep-copy';
 
 const state = {
@@ -17,15 +20,30 @@ const actions = {
   AFTER_SET_DATA_LIST_HOOK: (context, { items, next }) => ({ items, next }),
 
   LOAD_DATA_LIST: async (context, _query) => {
+    /*
+    https://my.webitel.com/browse/WTEL-3560
+    preventively disable isNext to handle case when user is clicking
+     "next" faster than actual request is made
+     */
+    context.commit('SET_IS_NEXT', false);
+
     const query = { ...context.getters['filters/GET_FILTERS'], ..._query };
     try {
-      let { items = [], next = false } = await context.dispatch('GET_LIST', query);
+      let {
+        items = [],
+        next = false,
+      } = await context.dispatch('GET_LIST', query);
+
       /* we should set _isSelected property to all items in tables cause their checkbox selection
       * is based on this property. Previously, this prop was set it api consumers, but now
       * admin-specific were replaced by webitel-sdk consumers and i supposed it will be
       * weird to set this property in each api file through defaultListObject */
       items = items.map((item) => ({ ...item, _isSelected: false }));
-      const afterHook = await context.dispatch('BEFORE_SET_DATA_LIST_HOOK', { items, next });
+
+      const afterHook = await context.dispatch('BEFORE_SET_DATA_LIST_HOOK', {
+        items,
+        next,
+      });
       context.commit('SET_DATA_LIST', afterHook.items);
       context.commit('SET_IS_NEXT', afterHook.next);
       context.dispatch('AFTER_SET_DATA_LIST_HOOK', afterHook);
@@ -68,15 +86,18 @@ const actions = {
     return context.dispatch('LOAD_DATA_LIST');
   },
   UPDATE_HEADER_SORT: (context, { header, nextSortOrder }) => {
-     const headers = context.state.headers.map((oldHeader) => {
-       // eslint-disable-next-line no-prototype-builtins
-       if (oldHeader.sort !== undefined) {
-         return {
-           ...oldHeader,
-           sort: oldHeader.field === header.field ? nextSortOrder : SortSymbols.NONE,
-         };
-       } return oldHeader;
-     });
+    const headers = context.state.headers.map((oldHeader) => {
+      // eslint-disable-next-line no-prototype-builtins
+      if (oldHeader.sort !== undefined) {
+        return {
+          ...oldHeader,
+          sort: oldHeader.field === header.field
+            ? nextSortOrder
+            : SortSymbols.NONE,
+        };
+      }
+      return oldHeader;
+    });
     context.commit('SET_HEADERS', headers);
   },
   PATCH_ITEM_PROPERTY: async (context, {
@@ -115,7 +136,10 @@ const actions = {
       throw err;
     }
   },
-  DELETE_BULK: async (context, deleted) => Promise.allSettled(deleted.map((item) => context.dispatch('DELETE_SINGLE', item))),
+  DELETE_BULK: async (
+    context,
+    deleted,
+  ) => Promise.allSettled(deleted.map((item) => context.dispatch('DELETE_SINGLE', item))),
   // REMOVE_ITEM: async (context, index) => {
   //   const id = context.state.dataList[index].id;
   //   context.commit('REMOVE_ITEM', index);
