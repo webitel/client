@@ -21,6 +21,10 @@ import configuration from '../../../../../app/api/openAPIConfig';
 
 const flowService = new RoutingSchemaServiceApiFactory(configuration, '', instance);
 
+/*
+CONVERT "SCHEMA" FIELD TO JSON TO PREVENT ITS CHANGE
+BY CAMEL-SNAKE TRANSFORMERS
+ */
 const doNotConvertKeys = ['schema'];
 
 const fieldsToSend = ['name', 'schema', 'type', 'payload', 'editor', 'tags'];
@@ -30,6 +34,20 @@ const getFlowList = async (params) => {
     type: EngineRoutingSchemaType.Default,
     editor: false,
   };
+
+  const paramsCopy = {
+    ...params,
+  };
+
+  if (paramsCopy.type) {
+    const _type = Array.isArray(paramsCopy.type)
+      ? paramsCopy.type
+      : [paramsCopy.type];
+    if (!paramsCopy.type.includes(EngineRoutingSchemaType.Default)) {
+      _type.push(EngineRoutingSchemaType.Default);
+    }
+    paramsCopy.type = _type;
+  }
 
   const {
     page,
@@ -41,11 +59,12 @@ const getFlowList = async (params) => {
     name,
     type,
     tags,
-  } = applyTransform(params, [
+  } = applyTransform(paramsCopy, [
     merge(getDefaultGetParams()),
     starToSearch('search'),
     camelToSnake(doNotConvertKeys),
   ]);
+
   try {
     const response = await flowService.searchRoutingSchema(
       page,
@@ -55,10 +74,7 @@ const getFlowList = async (params) => {
       fields,
       id,
       name,
-      type.includes(EngineRoutingSchemaType.Default) ? type : [
-        ...type,
-        EngineRoutingSchemaType.Default,
-      ],
+      type,
       undefined,
       tags,
     );
