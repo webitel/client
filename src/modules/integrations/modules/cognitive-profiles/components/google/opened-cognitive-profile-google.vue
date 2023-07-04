@@ -37,7 +37,7 @@
           :invalid="v.itemInstance.properties.key.$error"
         >{{ $t('objects.key') }}*
         </wt-label>
-        <div v-if="!keyFilename">
+        <div v-if="!itemInstance.properties.keyFilename">
           <wt-button
             color="secondary"
             :disabled="disableUserInput"
@@ -58,7 +58,7 @@
           v-else
           class="google-key__file-preview-wrap"
         >
-          {{ keyFilename }}
+          {{ itemInstance.properties.keyFilename }}
           <wt-icon-action
             action="delete"
             @click="handleFileDelete"
@@ -101,7 +101,6 @@ export default {
   data: () => ({
     CognitiveProfileServices,
     LanguageOptions: Object.values(MicrosoftLanguage),
-    keyFilename: '',
     isKeyLoading: false,
   }),
   methods: {
@@ -120,7 +119,7 @@ export default {
         try {
           const value = JSON.parse(e.target.result);
           this.setItemPropertiesProp({ prop: 'key', value });
-          this.keyFilename = event.target.files[0].name;
+          this.setItemPropertiesProp({ prop: 'keyFilename', value: event.target.files[0].name });
         } catch (err) {
           this.$eventBus.$emit('notification', { type: 'error', text: this.$t('errors.invalidJson') });
         } finally {
@@ -132,7 +131,7 @@ export default {
     },
     handleFileDelete() {
       this.setItemPropertiesProp({ prop: 'key', value: '' });
-      this.keyFilename = '';
+      this.setItemPropertiesProp({ prop: 'keyFilename', value: '' });
     },
   },
 };
