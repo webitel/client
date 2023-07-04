@@ -28,7 +28,7 @@ const fieldsToSend = [
 ];
 
 const getUsersList = async (params) => {
-  const fieldsToSend = ['page', 'size', 'q', 'fields', 'id'];
+  const fieldsToSend = ['page', 'size', 'q', 'sort', 'fields', 'id'];
 
   const defaultObject = {
     name: '',
@@ -149,6 +149,7 @@ const addUser = async ({ itemInstance }) => {
     ]);
   }
 };
+
 const updateUser = async ({ itemInstance, itemId: id }) => {
   const item = applyTransform(itemInstance, [
     preRequestHandler,
@@ -169,6 +170,7 @@ const updateUser = async ({ itemInstance, itemId: id }) => {
     ]);
   }
 };
+
 const patchUser = async ({ changes, id }) => {
   const body = applyTransform(changes, [
     sanitize(fieldsToSend),

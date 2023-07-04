@@ -1,34 +1,29 @@
 import {
-  EndpointListGetterApiConsumer,
-  EndpointGetterApiConsumer,
-  EndpointCreatorApiConsumer,
-  EndpointUpdaterApiConsumer,
-  EndpointPatcherApiConsumer,
-  EndpointDeleterApiConsumer,
-} from 'webitel-sdk/esm2015/api-consumers';
+  getDefaultGetListResponse,
+  getDefaultGetParams,
+} from '@webitel/ui-sdk/src/api/defaults';
+import applyTransform, {
+  camelToSnake, handleUnauthorized,
+  merge, notify, snakeToCamel,
+  starToSearch, log, sanitize,
+  generateUrl, mergeEach,
+} from '@webitel/ui-sdk/src/api/transformers';
+import deepCopy from 'deep-copy';
 import deepmerge from 'deepmerge';
-import instance from '../../../../../app/api/old/instance';
+import instance from '../../../../../app/api/instance';
 import ChatGatewayProvider from '../enum/ChatGatewayProvider.enum';
 import webChatGateway from '../store/_internals/providers/webChatGateway';
 
 const baseUrl = '/chat/bots';
-
-const fieldsToSend = ['name', 'uri', 'flow', 'enabled', 'provider', 'metadata', 'updates'];
-
-const defaultListObject = { // default object prototype, to merge response with it to get all fields
-  enabled: false,
-  name: '',
-  uri: '',
-  flow: {},
-  provider: '',
-  metadata: {},
-  updates: {
-    title: '',
-    close: '',
-    join: '',
-    left: '',
-  },
-};
+const fieldsToSend = [
+  'name',
+  'uri',
+  'flow',
+  'enabled',
+  'provider',
+  'metadata',
+  'updates'
+];
 
 const convertWebchatSeconds = (num) => `${num}s`;
 
@@ -125,36 +120,168 @@ const preRequestHandler = (item) => {
   }
 };
 
-const itemResponseHandler = (response) => {
-  switch (response.provider) {
-    case ChatGatewayProvider.WEBCHAT:
-      return webChatResponseConverter(response);
-    case ChatGatewayProvider.MESSENGER:
-      return messengerResponseConverter(response);
-    case ChatGatewayProvider.VIBER:
-      return viberResponseConverter(response);
-    default:
-      return response;
+
+// const listGetter = new EndpointListGetterApiConsumer({ baseUrl, instance }, { defaultListObject });
+const getChatGatewayList = async (params) => {
+  const fieldsToSend = ['page', 'size', 'q', 'sort', 'fields', 'id'];
+
+  const defaultObject = {
+    // default object prototype, to merge response with it to get all fields
+    enabled: false,
+    name: '',
+    uri: '',
+    flow: {},
+    provider: '',
+    metadata: {},
+    updates: {
+      title: '',
+      close: '',
+      join: '',
+      left: '',
+    },
+  };
+
+  const url = applyTransform(params, [
+    merge(getDefaultGetParams()),
+    starToSearch('search'),
+    (params) => ({ ...params, q: params.search }),
+    sanitize(fieldsToSend),
+    camelToSnake(),
+    generateUrl(baseUrl),
+  ]);
+  try {
+    const response = await instance.get(url);
+    const { items, next } = applyTransform(response.data, [
+      snakeToCamel(),
+      merge(getDefaultGetListResponse()),
+    ]);
+    return {
+      items: applyTransform(items, [
+        mergeEach(defaultObject),
+      ]),
+      next,
+    };
+  } catch (err) {
+    throw applyTransform(err, [
+      handleUnauthorized,
+      notify,
+    ]);
   }
 };
 
-const listGetter = new EndpointListGetterApiConsumer({ baseUrl, instance }, { defaultListObject });
-const itemGetter = new EndpointGetterApiConsumer({ baseUrl, instance }, { itemResponseHandler });
-const itemCreator = new EndpointCreatorApiConsumer({ baseUrl, instance },
-  { fieldsToSend, preRequestHandler });
-const itemUpdater = new EndpointUpdaterApiConsumer({ baseUrl, instance },
-  { fieldsToSend, preRequestHandler });
-const itemPatcher = new EndpointPatcherApiConsumer({ baseUrl, instance }, { fieldsToSend });
-const itemDeleter = new EndpointDeleterApiConsumer({ baseUrl, instance });
-const lookupGetter = new EndpointListGetterApiConsumer({ baseUrl, instance });
+// const itemGetter = new EndpointGetterApiConsumer({ baseUrl, instance }, { itemResponseHandler });
+const getChatGateway = async ({ itemId: id }) => {
 
-const getChatGatewayList = (params) => listGetter.getList(params);
-const getChatGateway = (params) => itemGetter.getItem(params);
-const addChatGateway = (params) => itemCreator.createItem(params);
-const updateChatGateway = (params) => itemUpdater.updateItem(params);
-const patchChatGateway = (params) => itemPatcher.patchItem(params);
-const deleteChatGateway = (params) => itemDeleter.deleteItem(params);
-const getLookup = (params) => lookupGetter.getLookup(params);
+  const itemResponseHandler = (response) => {
+    switch (response.provider) {
+      case ChatGatewayProvider.WEBCHAT:
+        return webChatResponseConverter(response);
+      case ChatGatewayProvider.MESSENGER:
+        return messengerResponseConverter(response);
+      case ChatGatewayProvider.VIBER:
+        return viberResponseConverter(response);
+      default:
+        return response;
+    }
+  };
+
+  const url = `${baseUrl}/${id}`;
+
+  try {
+    const response = await instance.get(url);
+    return applyTransform(response.data, [
+      snakeToCamel(),
+      itemResponseHandler,
+    ]);
+  } catch (err) {
+    throw applyTransform(err, [
+      handleUnauthorized,
+      notify,
+    ]);
+  }
+};
+
+// const itemCreator = new EndpointCreatorApiConsumer({ baseUrl, instance }, { fieldsToSend, preRequestHandler });
+const addChatGateway = async ({ itemInstance }) => {
+  const item = applyTransform(itemInstance, [
+    preRequestHandler,
+    sanitize(fieldsToSend),
+    camelToSnake(),
+  ]);
+  try {
+    const response = await instance.post(baseUrl, item);
+    return applyTransform(response.data, [
+      snakeToCamel(),
+    ]);
+  } catch (err) {
+    throw applyTransform(err, [
+      handleUnauthorized,
+      notify,
+    ]);
+  }
+};
+
+// const itemUpdater = new EndpointUpdaterApiConsumer({ baseUrl, instance }, { fieldsToSend, preRequestHandler });
+const updateChatGateway = async ({ itemInstance, itemId: id }) => {
+  const item = applyTransform(itemInstance, [
+    preRequestHandler,
+    sanitize(fieldsToSend),
+    camelToSnake(),
+  ]);
+
+  const url = `${baseUrl}/${id}`;
+  try {
+    const response = await instance.put(url, item);
+    return applyTransform(response.data, [
+      snakeToCamel(),
+    ]);
+  } catch (err) {
+    throw applyTransform(err, [
+      handleUnauthorized,
+      notify,
+    ]);
+  }
+};
+
+// const itemPatcher = new EndpointPatcherApiConsumer({ baseUrl, instance }, { fieldsToSend });
+const patchChatGateway = async ({ changes, id }) => {
+  const body = applyTransform(changes, [
+    sanitize(fieldsToSend),
+    camelToSnake(),
+  ]);
+  const url = `${baseUrl}/${id}`;
+  try {
+    const response = await instance.patch(url, body);
+    return applyTransform(response.data, [
+      snakeToCamel(),
+    ]);
+  } catch (err) {
+    throw applyTransform(err, [
+      handleUnauthorized,
+      notify,
+    ]);
+  }
+};
+
+// const itemDeleter = new EndpointDeleterApiConsumer({ baseUrl, instance });
+const deleteChatGateway = async ({ id }) => {
+  const url = `${baseUrl}/${id}`;
+  try {
+    const response = await instance.delete(url);
+    return applyTransform(response.data, []);
+  } catch (err) {
+    throw applyTransform(err, [
+      handleUnauthorized,
+      notify,
+    ]);
+  }
+};
+
+// const lookupGetter = new EndpointListGetterApiConsumer({ baseUrl, instance });
+const getLookup = (params) => getChatGatewayList({
+  ...params,
+  fields: params.fields || ['id', 'name'],
+});
 
 const ChatGatewaysAPI = {
   getList: getChatGatewayList,
