@@ -90,6 +90,7 @@ const router = createRouter({
     {
       path: '/admin',
       component: ModuleWrap,
+      redirect: '/start',
       children: [
         {
           path: '/start',
