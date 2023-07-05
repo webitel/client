@@ -109,7 +109,6 @@ const getQueue = async ({ itemId: id }) => {
     const copy = deepCopy(item);
     try {
       if (copy.variables) {
-        // eslint-disable-next-line no-param-reassign
         copy.variables = Object.keys(copy.variables)
                                    .map((key) => ({
                                      key,
@@ -117,7 +116,6 @@ const getQueue = async ({ itemId: id }) => {
                                    }));
       }
       if (isEmpty(copy.taskProcessing)) {
-        // eslint-disable-next-line no-param-reassign
         copy.taskProcessing = processing({
          enabled: !!copy.processing,
          formSchema: copy.formSchema,
