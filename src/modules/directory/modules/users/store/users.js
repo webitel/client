@@ -1,10 +1,18 @@
-import tokens from '../modules/tokens/store/usersTokens';
+import CardStoreModule
+  from '@webitel/ui-sdk/src/modules/CardStoreModule/store/CardStoreModule';
+import TableStoreModule
+  from '@webitel/ui-sdk/src/modules/TableStoreModule/store/TableStoreModule';
+import ApiStoreModule
+  from '@webitel/ui-sdk/src/store/BaseStoreModules/ApiStoreModule';
+import BaseStoreModule
+  from '@webitel/ui-sdk/src/store/BaseStoreModules/BaseStoreModule';
+import PermissionsStoreModule
+  from '../../../../../app/store/BaseStoreModules/StoreModules/PermissionsStoreModule/PermissionsStoreModule';
 import UsersAPI from '../api/users';
-import ObjectStoreModule from '../../../../../app/store/BaseStoreModules/StoreModules/ObjectStoreModule';
-import PermissionsStoreModule from '../../../../../app/store/BaseStoreModules/StoreModules/PermissionsStoreModule/PermissionsStoreModule';
+import tokens from '../modules/tokens/store/usersTokens';
 import headers from './_internals/headers';
 
-const resettableState = {
+const cardState = {
   itemInstance: {
     name: '',
     email: '',
@@ -23,7 +31,21 @@ const resettableState = {
   },
 };
 
-const actions = {
+const tableActions = {
+  SET_USER_DND: async (context, { item, value }) => {
+    const dnd = value ? 'dnd' : '';
+    const changes = { status: dnd };
+    try {
+      await UsersAPI.patchUserPresence({ id: item.id, changes });
+    } catch (err) {
+      throw err;
+    } finally {
+      await context.dispatch('LOAD_DATA_LIST');
+    }
+  },
+};
+
+const cardActions = {
   ADD_VARIABLE_PAIR: (context) => {
     const pair = { key: '', value: '' };
     context.commit('ADD_VARIABLE_PAIR', pair);
@@ -37,24 +59,13 @@ const actions = {
     context.commit('DELETE_VARIABLE_PAIR', index);
     context.commit('SET_ITEM_PROPERTY', { prop: '_dirty', value: true });
   },
-  SET_USER_DND: async (context, { item, value }) => {
-    const dnd = value ? 'dnd' : '';
-    const changes = { status: dnd };
-    try {
-      await UsersAPI.patchUserPresence({ id: item.id, changes });
-    } catch (err) {
-      throw err;
-    } finally {
-      await context.dispatch('LOAD_DATA_LIST');
-    }
-  },
   RESET_ITEM_STATE: (context) => {
     context.commit('RESET_ITEM_STATE');
     context.dispatch('directory/users/tokens/RESET_STATE', {}, { root: true });
   },
 };
 
-const mutations = {
+const cardMutations = {
   ADD_VARIABLE_PAIR: (state, pair) => {
     state.itemInstance.variables.push(pair);
   },
@@ -71,10 +82,29 @@ const permissions = new PermissionsStoreModule()
   .generateAPIActions(PERMISSIONS_API_URL)
   .getModule();
 
-const users = new ObjectStoreModule({ resettableState, headers })
-  .attachAPIModule(UsersAPI)
-  .generateAPIActions()
-  .setChildModules({ tokens, permissions })
-  .getModule({ actions, mutations });
+const api = new ApiStoreModule()
+  .generateAPIActions(UsersAPI)
+  .getModule();
+
+const table = new TableStoreModule({ headers })
+  .setChildModules({ api })
+  .getModule({ actions: tableActions });
+
+const card = new CardStoreModule()
+  .setChildModules({ api })
+  .getModule({
+    state: cardState,
+    actions: cardActions,
+    mutations: cardMutations,
+  });
+
+const users = new BaseStoreModule()
+  .setChildModules({
+    table,
+    card,
+    tokens,
+    permissions,
+  })
+  .getModule();
 
 export default users;

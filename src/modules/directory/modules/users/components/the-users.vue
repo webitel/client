@@ -1,5 +1,5 @@
 <template>
-  <wt-page-wrapper class="users" :actions-panel="false">
+  <wt-page-wrapper :actions-panel="false" class="users">
     <template v-slot:header>
       <wt-page-header
         :hide-primary="!hasCreateAccess"
@@ -15,8 +15,9 @@
         @close="closeCSVPopup"
       ></upload-popup>
       <delete-confirmation-popup
-        v-show="deleteConfirmation.isDeleteConfirmationPopup"
-        :payload="deleteConfirmation"
+        v-show="isDeleteConfirmationPopup"
+        :delete-count="deleteCount"
+        :callback="deleteCallback"
         @close="closeDelete"
       ></delete-confirmation-popup>
 
@@ -27,9 +28,9 @@
             <wt-search-bar
               :value="search"
               debounce
+              @enter="loadList"
               @input="setSearch"
               @search="loadList"
-              @enter="loadList"
             ></wt-search-bar>
             <wt-table-actions
               :icons="['refresh']"
@@ -43,8 +44,8 @@
               ></delete-all-action>
               <upload-file-icon-btn
                 v-if="hasCreateAccess"
-                class="icon-action"
                 accept=".csv"
+                class="icon-action"
                 @change="processCSV"
               ></upload-file-icon-btn>
             </wt-table-actions>
@@ -60,11 +61,12 @@
         ></wt-dummy>
         <div
           v-show="dataList.length && isLoaded"
-          class="table-wrapper">
+          class="table-wrapper"
+        >
           <wt-table
-            :headers="headers"
             :data="dataList"
             :grid-actions="hasTableActions"
+            :headers="headers"
             sortable
             @sort="sort"
           >
@@ -74,7 +76,7 @@
               </wt-item-link>
             </template>
             <template v-slot:status="{ item }">
-              <user-status :presence="item.presence"/>
+              <user-status :presence="item.presence" />
             </template>
             <template v-slot:username="{ item }">
               {{ item.username }}
@@ -84,8 +86,8 @@
             </template>
             <template v-slot:DnD="{ item }">
               <wt-switcher
-                :value="getDND(item.presence)"
                 :disabled="!hasEditAccess"
+                :value="getDND(item.presence)"
                 @change="setDND({item, value: $event})"
               ></wt-switcher>
             </template>
@@ -104,14 +106,14 @@
             </template>
           </wt-table>
           <wt-pagination
-            :size="size"
             :next="isNext"
             :prev="page > 1"
+            :size="size"
             debounce
+            @change="loadList"
+            @input="setSize"
             @next="nextPage"
             @prev="prevPage"
-            @input="setSize"
-            @change="loadList"
           ></wt-pagination>
         </div>
       </section>
@@ -119,70 +121,181 @@
   </wt-page-wrapper>
 </template>
 
-<script>
-import { mapActions } from 'vuex';
-import UploadPopup from './upload-users-popup.vue';
-import UserStatus from './_internals/user-status-chips.vue';
+<script setup>
+import { useTableStore } from '@webitel/ui-sdk/src/modules/TableStoreModule/composables/useTableStore';
+import { useDeleteConfirmationPopup } from '@webitel/ui-sdk/src/modules/DeleteConfirmationPopup/composables/useDeleteConfirmationPopup';
+import DeleteConfirmationPopup from '@webitel/ui-sdk/src/modules/DeleteConfirmationPopup/components/delete-confirmation-popup.vue';
+import { computed, ref } from 'vue';
+import { useI18n } from 'vue-i18n';
+import { useRouter, useRoute } from 'vue-router';
+import { useStore } from 'vuex';
 import UploadFileIconBtn from '../../../../../app/components/utils/upload-file-icon-btn.vue';
-import tableComponentMixin from '../../../../../app/mixins/objectPagesMixins/objectTableMixin/tableComponentMixin';
-import RouteNames from '../../../../../app/router/_internals/RouteNames.enum';
+import { useAccess } from '../../../../../app/composables/useAccess';
 import { useDummy } from '../../../../../app/composables/useDummy';
+import RouteNames from '../../../../../app/router/_internals/RouteNames.enum';
+import UserStatus from './_internals/user-status-chips.vue';
+import UploadPopup from './upload-users-popup.vue';
 
-const namespace = 'directory/users';
+const baseNamespace = 'directory/users';
+const routeName = RouteNames.USERS;
 
-export default {
-  name: 'the-users',
-  mixins: [tableComponentMixin],
-  components: { UploadPopup, UserStatus, UploadFileIconBtn },
-  data: () => ({
-    isUploadPopup: false,
-    csvFile: null,
-    namespace,
-    routeName: RouteNames.USERS,
-  }),
+const store = useStore();
+const router = useRouter();
+const route = useRoute();
+const { t } = useI18n();
 
-  setup() {
-    const { dummy } = useDummy({ namespace, hiddenText: true });
-    return { dummy };
-  },
+const isUploadPopup = ref(false);
+const csvFile = ref(null);
 
-  computed: {
-    path() {
-      return [
-        { name: this.$t('objects.directory.directory') },
-        { name: this.$tc('objects.directory.users.users', 2), route: '/directory/users' },
-      ];
-    },
-  },
+const {
+  namespace,
+  dataList,
+  isLoading,
+  headers,
+  isNext,
+  page,
+  size,
+  search,
+  error,
 
-  methods: {
-    ...mapActions({
-      setDND(dispatch, payload) {
-        return dispatch(`${this.namespace}/SET_USER_DND`, payload);
-      },
-    }),
+  loadData: loadList,
+  setSize,
+  nextPage,
+  prevPage,
+  patchProperty,
+  deleteData: dispatchDelete,
+  sort,
+  setHeaders,
+  setSearch,
+} = useTableStore(baseNamespace);
 
-    getDND(value) {
-      if (value && value.status) {
-        return value.status.includes('dnd');
-      }
-      return false;
-    },
+const {
+  hasCreateAccess,
+  hasEditAccess,
+  hasDeleteAccess,
 
-    processCSV(files) {
-      const file = files[0];
-      if (file) {
-        this.csvFile = file;
-        this.isUploadPopup = true;
-      }
-    },
+  hasTableActions,
+} = useAccess();
 
-    closeCSVPopup() {
-      this.loadList();
-      this.isUploadPopup = false;
-    },
-  },
-};
+const {
+  isVisible: isDeleteConfirmationPopup,
+  deleteCount,
+  deleteCallback,
+
+  askDeleteConfirmation,
+  closeDelete,
+} = useDeleteConfirmationPopup();
+
+function callDelete(item) {
+  return askDeleteConfirmation({ deleted: [item], callback: dispatchDelete });
+}
+
+// SYKA BLYAD
+const isLoaded = computed(() => !isLoading.value);
+
+const { dummy } = useDummy({ namespace, hiddenText: true });
+
+// baseTableMixin.js
+function initTableView() {
+  // if (setParentId) setParentId(this.parentId);
+  loadList(route.query);
+}
+
+initTableView();
+
+const selectedRows = computed(() => {
+  return dataList.value.filter((item) => item._isSelected);
+});
+
+// shows delete table action if some items are selected
+const anySelected = computed(() => {
+  return !selectedRows?.value?.length;
+});
+
+// itemLinkMixin.js
+function editLink({ id }) {
+  // const name = routeName || tableObjectRouteName;
+  const name = routeName;
+  return { name: `${name}-edit`, params: { id } };
+}
+
+// tableActionsMixin.js
+// function tableActionsHandler(eventName) {
+//   switch (eventName) {
+//     case 'refresh':
+//       refreshList();
+//       break;
+//     case 'columnSelect':
+//       openColumnSelect();
+//       break;
+//     case 'filterReset':
+//       resetFilters();
+//       break;
+//     case 'settings':
+//       expandFilters();
+//       break;
+//     default:
+//   }
+// }
+
+// function expandFilters() {
+//   this.isOpened = !this.isOpened;
+// }
+//
+// function refreshList() {
+//   loadList(route.query);
+// }
+//
+// function openColumnSelect() {
+//   if (isFilterFieldsOpened) isFilterFieldsOpened.value = true;
+// }
+//
+// function resetFilters() {
+//   router.replace({ query: null });
+// }
+
+
+
+// trableComponentMixin.js
+function create() {
+  return router.push({ name: `${routeName}-new` });
+}
+
+function edit(item) {
+  return router.push(editLink(item));
+}
+// end
+
+const path = computed(() => {
+  return [
+    { name: t('objects.directory.directory') },
+    { name: t('objects.directory.users.users', 2), route: '/directory/users' },
+  ];
+});
+
+function setDND(payload) {
+  return store.dispatch(`${namespace}/SET_USER_DND`, payload);
+}
+
+function getDND(value) {
+  if (value && value.status) {
+    return value.status.includes('dnd');
+  }
+  return false;
+}
+
+function processCSV(files) {
+  const file = files[0];
+  if (file) {
+    csvFile.value = file;
+    isUploadPopup.value = true;
+  }
+}
+
+function closeCSVPopup() {
+  loadList();
+  isUploadPopup.value = false;
+}
 </script>
 
 <style lang="scss" scoped>

@@ -9,7 +9,8 @@ const messages = {
   ua,
 };
 
-export default new createI18n({
+export default createI18n({
+  legacy: false,
   locale: 'en',
   fallbackLocale: 'en',
   messages,
