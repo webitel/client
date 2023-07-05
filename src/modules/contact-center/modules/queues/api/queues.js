@@ -11,7 +11,6 @@ import applyTransform, {
 import { QueueServiceApiFactory } from 'webitel-sdk';
 import isEmpty from '@webitel/ui-sdk/src/scripts/isEmpty';
 import deepCopy from 'deep-copy';
-import deepMerge from 'deepmerge';
 import instance from '../../../../../app/api/instance';
 import configuration from '../../../../../app/api/openAPIConfig';
 import processing from '../store/_internals/queueSchema/defaults/processing';
@@ -101,12 +100,12 @@ const getQueuesList = async (params) => {
 };
 
 const getQueue = async ({ itemId: id }) => {
+  const defaultObject = {
+    type: 0,
+    formSchema: {},
+    taskProcessing: {},
+  };
   const responseHandler = (item) => {
-    const defaultObject = {
-      type: 0,
-      formSchema: {},
-      taskProcessing: {},
-    };
     const copy = deepCopy(item);
     try {
       if (copy.variables) {
@@ -120,13 +119,13 @@ const getQueue = async ({ itemId: id }) => {
       if (isEmpty(copy.taskProcessing)) {
         // eslint-disable-next-line no-param-reassign
         copy.taskProcessing = processing({
-                                               enabled: !!copy.processing,
-                                               formSchema: copy.formSchema,
-                                               sec: copy.processingSec || 0,
-                                               renewalSec: copy.processingRenewalSec || 0,
-                                             });
+         enabled: !!copy.processing,
+         formSchema: copy.formSchema,
+         sec: copy.processingSec || 0,
+         renewalSec: copy.processingRenewalSec || 0,
+       });
       }
-      return deepMerge(defaultObject, copy);
+      return copy;
     } catch (err) {
       throw err;
     }
@@ -135,6 +134,7 @@ const getQueue = async ({ itemId: id }) => {
     const response = await queueService.readQueue(id);
     return applyTransform(response.data, [
       snakeToCamel(doNotConvertKeys),
+      merge(defaultObject),
       responseHandler,
     ]);
   } catch (err) {
