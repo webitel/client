@@ -22,7 +22,7 @@ const fieldsToSend = [
   'enabled',
   'provider',
   'metadata',
-  'updates'
+  'updates',
 ];
 
 const convertWebchatSeconds = (num) => `${num}s`;
@@ -30,81 +30,87 @@ const convertWebchatSeconds = (num) => `${num}s`;
 const parseTimeoutSeconds = (item) => (item.includes('s') ? parseInt(item.replace('/s', '/'), 10) : +item);
 
 const webchatRequestConverter = (data) => {
+  const copyData = deepCopy(data);
   if (data.metadata.readTimeout) {
-    data.metadata.readTimeout = convertWebchatSeconds(data.metadata.readTimeout);
+    copyData.metadata.readTimeout = convertWebchatSeconds(data.metadata.readTimeout);
   }
   if (data.metadata.writeTimeout) {
-    data.metadata.writeTimeout = convertWebchatSeconds(data.metadata.writeTimeout);
+    copyData.metadata.writeTimeout = convertWebchatSeconds(data.metadata.writeTimeout);
   }
   if (data.metadata.handshakeTimeout) {
-    data.metadata.handshakeTimeout = convertWebchatSeconds(data.metadata.handshakeTimeout);
+    copyData.metadata.handshakeTimeout = convertWebchatSeconds(data.metadata.handshakeTimeout);
   }
   if (data.metadata.allowOrigin) {
-    data.metadata.allowOrigin = data.metadata.allowOrigin.join();
+    copyData.metadata.allowOrigin = data.metadata.allowOrigin.join();
   }
 
-  data.metadata.view = JSON.stringify(data.metadata.view);
-  data.metadata.chat = JSON.stringify(data.metadata.chat);
-  data.metadata.appointment = JSON.stringify(data.metadata.appointment);
-  data.metadata.alternativeChannels = JSON.stringify(data.metadata.alternativeChannels);
-  data.metadata._btnCodeDirty = data.metadata._btnCodeDirty.toString();
-  return data;
+  copyData.metadata.view = JSON.stringify(data.metadata.view);
+  copyData.metadata.chat = JSON.stringify(data.metadata.chat);
+  copyData.metadata.appointment = JSON.stringify(data.metadata.appointment);
+  copyData.metadata.alternativeChannels = JSON.stringify(data.metadata.alternativeChannels);
+  copyData.metadata._btnCodeDirty = data.metadata._btnCodeDirty.toString();
+  return copyData;
 };
 
 const messengerRequestConverter = (data) => {
-  data.metadata.instagramComments = data.metadata.instagramComments.toString();
-  data.metadata.instagramMentions = data.metadata.instagramMentions.toString();
-  return data;
+  const copyData = deepCopy(data);
+  copyData.metadata.instagramComments = data.metadata.instagramComments.toString();
+  copyData.metadata.instagramMentions = data.metadata.instagramMentions.toString();
+  return copyData;
 };
 
 const viberRequestConverter = (item) => {
-  item.metadata['btn.back.color'] = item.metadata.btnBackColor;
-  delete item.metadata.btnBackColor;
-  item.metadata['btn.font.color'] = item.metadata.btnFontColor;
-  delete item.metadata.btnFontColor;
-  return item;
+  const copyItem = deepCopy(item);
+  copyItem.metadata['btn.back.color'] = item.metadata.btnBackColor;
+  delete copyItem.metadata.btnBackColor;
+  copyItem.metadata['btn.font.color'] = item.metadata.btnFontColor;
+  delete copyItem.metadata.btnFontColor;
+  return copyItem;
 };
 
 const webChatResponseConverter = (data) => {
-  data.metadata.allowOrigin = data.metadata.allowOrigin
+  const copyData = deepCopy(data);
+  copyData.metadata.allowOrigin = data.metadata.allowOrigin
     ? data.metadata.allowOrigin.split(',')
     : [];
   if (data.metadata.readTimeout) {
-    data.metadata.readTimeout = parseTimeoutSeconds(data.metadata.readTimeout);
+    copyData.metadata.readTimeout = parseTimeoutSeconds(data.metadata.readTimeout);
   }
   if (data.metadata.writeTimeout) {
-    data.metadata.writeTimeout = parseTimeoutSeconds(data.metadata.writeTimeout);
+    copyData.metadata.writeTimeout = parseTimeoutSeconds(data.metadata.writeTimeout);
   }
   if (data.metadata.handshakeTimeout) {
-    data.metadata.handshakeTimeout = parseTimeoutSeconds(data.metadata.handshakeTimeout);
+    copyData.metadata.handshakeTimeout = parseTimeoutSeconds(data.metadata.handshakeTimeout);
   }
   if (data.metadata.view) {
-    data.metadata.view = JSON.parse(data.metadata.view);
+    copyData.metadata.view = JSON.parse(data.metadata.view);
   }
   if (data.metadata.chat) {
-    data.metadata.chat = JSON.parse(data.metadata.chat);
+    copyData.metadata.chat = JSON.parse(data.metadata.chat);
   }
   if (data.metadata.appointment) {
-    data.metadata.appointment = JSON.parse(data.metadata.appointment);
+    copyData.metadata.appointment = JSON.parse(data.metadata.appointment);
   }
   if (data.metadata.alternativeChannels) {
-    data.metadata.alternativeChannels = JSON.parse(data.metadata.alternativeChannels);
+    copyData.metadata.alternativeChannels = JSON.parse(data.metadata.alternativeChannels);
   }
-  data.metadata._btnCodeDirty = (data.metadata._btnCodeDirty === 'true');
+  copyData.metadata._btnCodeDirty = (data.metadata._btnCodeDirty === 'true');
 
-  return deepmerge(webChatGateway(), data);
+  return deepmerge(webChatGateway(), copyData);
 };
 
 const messengerResponseConverter = (item) => {
-  item.metadata.instagramComments = item.metadata.instagramComments === 'true';
-  item.metadata.instagramMentions = item.metadata.instagramMentions === 'true';
-  return item;
+  const copyItem = deepCopy(item);
+  copyItem.metadata.instagramComments = item.metadata.instagramComments === 'true';
+  copyItem.metadata.instagramMentions = item.metadata.instagramMentions === 'true';
+  return copyItem;
 };
 
 const viberResponseConverter = (item) => {
-  if (item.metadata['btn.back.color']) item.metadata.btnBackColor = item.metadata['btn.back.color'];
-  if (item.metadata['btn.font.color']) item.metadata.btnFontColor = item.metadata['btn.font.color'];
-  return item;
+  const copyItem = deepCopy(item);
+  if (item.metadata['btn.back.color']) copyItem.metadata.btnBackColor = item.metadata['btn.back.color'];
+  if (item.metadata['btn.font.color']) copyItem.metadata.btnFontColor = item.metadata['btn.font.color'];
+  return copyItem;
 };
 
 const preRequestHandler = (item) => {
@@ -120,8 +126,6 @@ const preRequestHandler = (item) => {
   }
 };
 
-
-// const listGetter = new EndpointListGetterApiConsumer({ baseUrl, instance }, { defaultListObject });
 const getChatGatewayList = async (params) => {
   const fieldsToSend = ['page', 'size', 'q', 'sort', 'fields', 'id'];
 
@@ -169,7 +173,6 @@ const getChatGatewayList = async (params) => {
   }
 };
 
-// const itemGetter = new EndpointGetterApiConsumer({ baseUrl, instance }, { itemResponseHandler });
 const getChatGateway = async ({ itemId: id }) => {
 
   const itemResponseHandler = (response) => {
@@ -201,7 +204,6 @@ const getChatGateway = async ({ itemId: id }) => {
   }
 };
 
-// const itemCreator = new EndpointCreatorApiConsumer({ baseUrl, instance }, { fieldsToSend, preRequestHandler });
 const addChatGateway = async ({ itemInstance }) => {
   const item = applyTransform(itemInstance, [
     preRequestHandler,
@@ -221,7 +223,6 @@ const addChatGateway = async ({ itemInstance }) => {
   }
 };
 
-// const itemUpdater = new EndpointUpdaterApiConsumer({ baseUrl, instance }, { fieldsToSend, preRequestHandler });
 const updateChatGateway = async ({ itemInstance, itemId: id }) => {
   const item = applyTransform(itemInstance, [
     preRequestHandler,
@@ -243,7 +244,6 @@ const updateChatGateway = async ({ itemInstance, itemId: id }) => {
   }
 };
 
-// const itemPatcher = new EndpointPatcherApiConsumer({ baseUrl, instance }, { fieldsToSend });
 const patchChatGateway = async ({ changes, id }) => {
   const body = applyTransform(changes, [
     sanitize(fieldsToSend),
@@ -263,7 +263,6 @@ const patchChatGateway = async ({ changes, id }) => {
   }
 };
 
-// const itemDeleter = new EndpointDeleterApiConsumer({ baseUrl, instance });
 const deleteChatGateway = async ({ id }) => {
   const url = `${baseUrl}/${id}`;
   try {
@@ -277,7 +276,6 @@ const deleteChatGateway = async ({ id }) => {
   }
 };
 
-// const lookupGetter = new EndpointListGetterApiConsumer({ baseUrl, instance });
 const getLookup = (params) => getChatGatewayList({
   ...params,
   fields: params.fields || ['id', 'name'],
