@@ -1,19 +1,23 @@
-import isEmpty from '@webitel/ui-sdk/src/scripts/isEmpty';
-import deepMerge from 'deepmerge';
-import { QueueServiceApiFactory } from 'webitel-sdk';
 import {
-  SdkListGetterApiConsumer,
-  SdkGetterApiConsumer,
-  SdkCreatorApiConsumer,
-  SdkUpdaterApiConsumer,
-  SdkPatcherApiConsumer,
-  SdkDeleterApiConsumer,
-} from 'webitel-sdk/esm2015/api-consumers';
-import instance from '../../../../../app/api/old/instance';
+  getDefaultGetListResponse,
+  getDefaultGetParams,
+} from '@webitel/ui-sdk/src/api/defaults';
+import applyTransform, {
+  camelToSnake,
+  handleUnauthorized,
+  merge, mergeEach, notify, sanitize, snakeToCamel,
+  starToSearch,
+} from '@webitel/ui-sdk/src/api/transformers';
+import { QueueServiceApiFactory } from 'webitel-sdk';
+import isEmpty from '@webitel/ui-sdk/src/scripts/isEmpty';
+import deepCopy from 'deep-copy';
+import instance from '../../../../../app/api/instance';
 import configuration from '../../../../../app/api/openAPIConfig';
 import processing from '../store/_internals/queueSchema/defaults/processing';
 
 const queueService = new QueueServiceApiFactory(configuration, '', instance);
+
+const doNotConvertKeys = ['variables'];
 
 const fieldsToSend = [
   'name',
@@ -39,103 +43,178 @@ const fieldsToSend = [
   'grantee',
 ];
 
-const defaultListObject = {
-  type: 0,
-  enabled: false,
-  active: 0,
-  waiting: 0,
-  priority: '0',
-};
-
-const defaultSingleObject = {
-  type: 0,
-  formSchema: {},
-  taskProcessing: {},
-};
-
 const preRequestHandler = (item) => {
-  // eslint-disable-next-line no-param-reassign
-  item.variables = item.variables.reduce((variables, variable) => {
+  const copy = deepCopy(item);
+  copy.variables = copy.variables.reduce((variables, variable) => {
     if (!variable.key) return variables;
     return { ...variables, [variable.key]: variable.value };
   }, {});
-  console.info(item);
-  return item;
+  return copy;
 };
 
-const itemResponseHandler = (response) => {
+const getQueuesList = async (params) => {
+  const defaultObject = {
+    type: 0,
+    enabled: false,
+    active: 0,
+    waiting: 0,
+    priority: '0',
+  };
+  const {
+    page,
+    size,
+    search,
+    sort,
+    fields,
+    id,
+  } = applyTransform(params, [
+    merge(getDefaultGetParams()),
+    starToSearch('search'),
+  ]);
+
   try {
-    if (response.variables) {
-      // eslint-disable-next-line no-param-reassign
-      response.variables = Object.keys(response.variables)
-                                 .map((key) => ({
-                                   key,
-                                   value: response.variables[key],
-                                 }));
-    }
-    if (isEmpty(response.taskProcessing)) {
-      // eslint-disable-next-line no-param-reassign
-      response.taskProcessing = processing({
-        enabled: !!response.processing,
-        formSchema: response.formSchema,
-        sec: response.processingSec || 0,
-        renewalSec: response.processingRenewalSec || 0,
-      });
-    }
-    return deepMerge(defaultSingleObject, response);
+    const response = await queueService.searchQueue(
+      page,
+      size,
+      search,
+      sort,
+      fields,
+      id,
+    );
+    const { items, next } = applyTransform(response.data, [
+      snakeToCamel(doNotConvertKeys),
+      merge(getDefaultGetListResponse()),
+    ]);
+    return {
+      items: applyTransform(items, [
+        mergeEach(defaultObject),
+      ]),
+      next,
+    };
   } catch (err) {
-    throw err;
+    throw applyTransform(err, [
+      handleUnauthorized,
+      notify,
+    ]);
   }
 };
 
-const listGetter = new SdkListGetterApiConsumer(queueService.searchQueue, { defaultListObject });
-const itemGetter = new SdkGetterApiConsumer(
-  queueService.readQueue,
-  {
-    defaultSingleObject,
-    itemResponseHandler,
-  },
-);
-const itemCreator = new SdkCreatorApiConsumer(
-  queueService.createQueue,
-  {
-    fieldsToSend,
-    preRequestHandler,
-  },
-);
-const itemUpdater = new SdkUpdaterApiConsumer(
-  queueService.updateQueue,
-  {
-    fieldsToSend,
-    preRequestHandler,
-  },
-);
-const itemPatcher = new SdkPatcherApiConsumer(queueService.patchQueue, { fieldsToSend });
-const itemDeleter = new SdkDeleterApiConsumer(queueService.deleteQueue);
-
-const _getQueuesLookup = (getList) => function ({
-  page,
-  size,
-  search,
-  sort,
-  fields = ['id', 'name', 'type'],
-                                                  id,
-  type,
-                                               }) {
-  const params = [page, size, search, sort, fields, id, type];
-  return getList(params);
+const getQueue = async ({ itemId: id }) => {
+  const defaultObject = {
+    type: 0,
+    formSchema: {},
+    taskProcessing: {},
+  };
+  const responseHandler = (item) => {
+    const copy = deepCopy(item);
+    try {
+      if (copy.variables) {
+        copy.variables = Object.keys(copy.variables)
+                                   .map((key) => ({
+                                     key,
+                                     value: copy.variables[key],
+                                   }));
+      }
+      if (isEmpty(copy.taskProcessing)) {
+        copy.taskProcessing = processing({
+         enabled: !!copy.processing,
+         formSchema: copy.formSchema,
+         sec: copy.processingSec || 0,
+         renewalSec: copy.processingRenewalSec || 0,
+       });
+      }
+      return copy;
+    } catch (err) {
+      throw err;
+    }
+  };
+  try {
+    const response = await queueService.readQueue(id);
+    return applyTransform(response.data, [
+      snakeToCamel(doNotConvertKeys),
+      merge(defaultObject),
+      responseHandler,
+    ]);
+  } catch (err) {
+    throw applyTransform(err, [
+      handleUnauthorized,
+      notify,
+    ]);
+  }
 };
 
-const lookupListGetter = new SdkListGetterApiConsumer(queueService.searchQueue)
-  .setGetListMethod(_getQueuesLookup);
+const addQueue = async ({ itemInstance }) => {
+  const item = applyTransform(itemInstance, [
+    preRequestHandler,
+    sanitize(fieldsToSend),
+    camelToSnake(doNotConvertKeys),
+  ]);
+  try {
+    const response = await queueService.createQueue(item);
+    return applyTransform(response.data, [
+      snakeToCamel(doNotConvertKeys),
+    ]);
+  } catch (err) {
+    throw applyTransform(err, [
+      handleUnauthorized,
+      notify,
+    ]);
+  }
+};
 
-const getQueuesList = (params) => listGetter.getList(params);
-const getQueue = (params) => itemGetter.getItem(params);
-const addQueue = (params) => itemCreator.createItem(params);
-const updateQueue = (params) => itemUpdater.updateItem(params);
-const patchQueue = (params) => itemPatcher.patchItem(params);
-const deleteQueue = (params) => itemDeleter.deleteItem(params);
-const getQueuesLookup = (params) => lookupListGetter.getList(params);
+const updateQueue = async ({ itemInstance, itemId: id }) => {
+  const item = applyTransform(itemInstance, [
+    preRequestHandler,
+    sanitize(fieldsToSend),
+    camelToSnake(doNotConvertKeys),
+  ]);
+  try {
+    const response = await queueService.updateQueue(id, item);
+    return applyTransform(response.data, [
+      snakeToCamel(doNotConvertKeys),
+    ]);
+  } catch (err) {
+    throw applyTransform(err, [
+      handleUnauthorized,
+      notify,
+    ]);
+  }
+};
+
+const patchQueue = async ({ id, changes }) => {
+  const item = applyTransform(changes, [
+    sanitize(fieldsToSend),
+    camelToSnake(doNotConvertKeys),
+  ]);
+  try {
+    const response = await queueService.patchQueue(id, item);
+    return applyTransform(response.data, [
+      snakeToCamel(doNotConvertKeys),
+    ]);
+  } catch (err) {
+    throw applyTransform(err, [
+      handleUnauthorized,
+      notify,
+    ]);
+  }
+};
+
+const deleteQueue = async ({ id }) => {
+  try {
+    const response = await queueService.deleteQueue(id);
+    return applyTransform(response.data, []);
+  } catch (err) {
+    throw applyTransform(err, [
+      handleUnauthorized,
+      notify,
+    ]);
+  }
+};
+
+const getQueuesLookup = (params) => getQueuesList({
+  ...params,
+  fields: params.fields || ['id', 'name', 'type'],
+});
 
 const QueuesAPI = {
   getList: getQueuesList,
