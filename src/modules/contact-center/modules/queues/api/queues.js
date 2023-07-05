@@ -18,6 +18,8 @@ import processing from '../store/_internals/queueSchema/defaults/processing';
 
 const queueService = new QueueServiceApiFactory(configuration, '', instance);
 
+const doNotConvertKeys = ['variables'];
+
 const fieldsToSend = [
   'name',
   'type',
@@ -43,13 +45,12 @@ const fieldsToSend = [
 ];
 
 const preRequestHandler = (item) => {
-  const copyItem = deepCopy(item);
-  copyItem.variables = copyItem.variables.reduce((variables, variable) => {
+  const copy = deepCopy(item);
+  copy.variables = copy.variables.reduce((variables, variable) => {
     if (!variable.key) return variables;
     return { ...variables, [variable.key]: variable.value };
   }, {});
-  console.info(copyItem);
-  return copyItem;
+  return copy;
 };
 
 const getQueuesList = async (params) => {
@@ -82,7 +83,7 @@ const getQueuesList = async (params) => {
       id,
     );
     const { items, next } = applyTransform(response.data, [
-      snakeToCamel(),
+      snakeToCamel(doNotConvertKeys),
       merge(getDefaultGetListResponse()),
     ]);
     return {
@@ -100,32 +101,32 @@ const getQueuesList = async (params) => {
 };
 
 const getQueue = async ({ itemId: id }) => {
-  const itemResponseHandler = (item) => {
-    const defaultSingleObject = {
+  const responseHandler = (item) => {
+    const defaultObject = {
       type: 0,
       formSchema: {},
       taskProcessing: {},
     };
-    const copyItem = deepCopy(item);
+    const copy = deepCopy(item);
     try {
-      if (copyItem.variables) {
+      if (copy.variables) {
         // eslint-disable-next-line no-param-reassign
-        copyItem.variables = Object.keys(copyItem.variables)
+        copy.variables = Object.keys(copy.variables)
                                    .map((key) => ({
                                      key,
-                                     value: copyItem.variables[key],
+                                     value: copy.variables[key],
                                    }));
       }
-      if (isEmpty(copyItem.taskProcessing)) {
+      if (isEmpty(copy.taskProcessing)) {
         // eslint-disable-next-line no-param-reassign
-        copyItem.taskProcessing = processing({
-                                               enabled: !!copyItem.processing,
-                                               formSchema: copyItem.formSchema,
-                                               sec: copyItem.processingSec || 0,
-                                               renewalSec: copyItem.processingRenewalSec || 0,
+        copy.taskProcessing = processing({
+                                               enabled: !!copy.processing,
+                                               formSchema: copy.formSchema,
+                                               sec: copy.processingSec || 0,
+                                               renewalSec: copy.processingRenewalSec || 0,
                                              });
       }
-      return deepMerge(defaultSingleObject, copyItem);
+      return deepMerge(defaultObject, copy);
     } catch (err) {
       throw err;
     }
@@ -133,8 +134,8 @@ const getQueue = async ({ itemId: id }) => {
   try {
     const response = await queueService.readQueue(id);
     return applyTransform(response.data, [
-      snakeToCamel(),
-      itemResponseHandler,
+      snakeToCamel(doNotConvertKeys),
+      responseHandler,
     ]);
   } catch (err) {
     throw applyTransform(err, [
@@ -148,12 +149,12 @@ const addQueue = async ({ itemInstance }) => {
   const item = applyTransform(itemInstance, [
     preRequestHandler,
     sanitize(fieldsToSend),
-    camelToSnake(),
+    camelToSnake(doNotConvertKeys),
   ]);
   try {
     const response = await queueService.createQueue(item);
     return applyTransform(response.data, [
-      snakeToCamel(),
+      snakeToCamel(doNotConvertKeys),
     ]);
   } catch (err) {
     throw applyTransform(err, [
@@ -167,12 +168,12 @@ const updateQueue = async ({ itemInstance, itemId: id }) => {
   const item = applyTransform(itemInstance, [
     preRequestHandler,
     sanitize(fieldsToSend),
-    camelToSnake(),
+    camelToSnake(doNotConvertKeys),
   ]);
   try {
     const response = await queueService.updateQueue(id, item);
     return applyTransform(response.data, [
-      snakeToCamel(),
+      snakeToCamel(doNotConvertKeys),
     ]);
   } catch (err) {
     throw applyTransform(err, [
@@ -185,12 +186,12 @@ const updateQueue = async ({ itemInstance, itemId: id }) => {
 const patchQueue = async ({ id, changes }) => {
   const item = applyTransform(changes, [
     sanitize(fieldsToSend),
-    camelToSnake(),
+    camelToSnake(doNotConvertKeys),
   ]);
   try {
     const response = await queueService.patchQueue(id, item);
     return applyTransform(response.data, [
-      snakeToCamel(),
+      snakeToCamel(doNotConvertKeys),
     ]);
   } catch (err) {
     throw applyTransform(err, [
