@@ -824,6 +824,17 @@ const FlowAppAutocomplete = Object.freeze({
       },
     },
   },
+  [FlowApp.WHILE]: {
+    label: FlowApp.WHILE,
+    documentation: FlowApp.WHILE,
+    insertText: {
+      [FlowApp.WHILE]: {
+        condition: '${myVar} < 10',
+        maxSteps: '1000',
+        do: [],
+      },
+    },
+  },
 });
 
 export default FlowAppAutocomplete;
