@@ -811,6 +811,19 @@ const FlowAppAutocomplete = Object.freeze({
       },
     },
   },
+  [FlowApp.CHAT_HISTORY]: {
+    label: FlowApp.CHAT_HISTORY,
+    documentation: FlowApp.CHAT_HISTORY,
+    insertText: {
+      [FlowApp.CHAT_HISTORY]: {
+        conversationId: '${id}',
+        variable: 'my_var',
+        format: 'html',
+        timeout: '3000',
+        limit: '150',
+      },
+    },
+  },
 });
 
 export default FlowAppAutocomplete;
