@@ -65,7 +65,7 @@ const getList = async (params) => {
       id,
     );
     const { items, next } = applyTransform(response.data, [
-      snakeToCamel(),
+      snakeToCamel(doNotConvertKeys),
       merge(getDefaultGetListResponse()),
     ]);
     return {

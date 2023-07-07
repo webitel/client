@@ -1,7 +1,7 @@
 import CommunicationsAPI
   from '../../../../../../lookups/modules/communications/api/communications';
 import QueueMembersAPI from '../api/queueMembers';
-import { digitsDtmfOnly } from '../validation/dtmf'
+import { digitsDtmfOnly } from '../validation/dtmf';
 
 const findCommunicationIdByCode = ({ communications, code }) => (
   communications.find((communication) => communication.code === code).id
