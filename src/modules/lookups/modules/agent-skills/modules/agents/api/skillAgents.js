@@ -1,73 +1,164 @@
-import { AgentServiceApiFactory } from 'webitel-sdk';
 import {
-  SdkListGetterApiConsumer,
-  SdkGetterApiConsumer,
-  SdkPatcherApiConsumer,
-} from 'webitel-sdk/esm2015/api-consumers';
+  getDefaultGetListResponse,
+  getDefaultGetParams,
+} from '@webitel/ui-sdk/src/api/defaults';
+import applyTransform, {
+  camelToSnake,
+  handleUnauthorized,
+  merge, mergeEach, notify, sanitize, snakeToCamel,
+  starToSearch,
+} from '@webitel/ui-sdk/src/api/transformers';
+import { SkillServiceApiFactory } from 'webitel-sdk';
 import instance from '../../../../../../../app/api/instance';
 import configuration from '../../../../../../../app/api/openAPIConfig';
 
-const agentService = new AgentServiceApiFactory(configuration, '', instance);
+const skillService = new SkillServiceApiFactory(configuration, '', instance);
 
-const defaultListObject = {
-  name: '',
+const defaultObject = {
+  skill: {},
   team: {},
   capacity: 10,
   enabled: false,
 };
 
-const getSkillAgents = (getList) => function ({
-                                               parentId,
-                                               page = 1,
-                                               size = 10,
-                                               search,
-                                               sort,
-                                             }) {
-  // parent id == team id
-  if (!parentId) return;
-  const fields = ['id', 'name', 'team', 'capacity', 'enabled'];
-  const params = [page, size, search, sort, fields, undefined, undefined, undefined, parentId];
-  // eslint-disable-next-line consistent-return
-  return getList(params);
-};
+const getAgentSkillsList = async (params) => {
+  const {
+    parentId,
+    page,
+    size,
+    search,
+    sort,
+    fields,
+    id,
+    agentId,
+  } = applyTransform(params, [
+    merge(getDefaultGetParams()),
+    starToSearch('search'),
+  ]);
 
-const agentGetterResponseHandler = (agent) => ({ agent });
-
-const listGetter = new SdkListGetterApiConsumer(agentService.searchAgent, { defaultListObject })
-  .setGetListMethod(getSkillAgents);
-const itemGetter = new SdkGetterApiConsumer(agentService.readAgent, {
-  itemResponseHandler: agentGetterResponseHandler,
-});
-const itemPatcher = new SdkPatcherApiConsumer(agentService.patchAgent);
-
-const getSkillAgentsList = (params) => listGetter.getList(params);
-const getSkillAgent = (params) => itemGetter.getItem(params);
-const addTeamAgent = ({ parentId, itemInstance }) => {
-  const { id } = itemInstance.agent;
-  const changes = { team: { id: parentId } };
-  return itemPatcher.patchItem({ id, changes });
-};
-const patchAgentSkill = (params) => itemPatcher.patchNestedItem(params);
-const deleteTeamAgent = ({ id }) => {
-  const changes = { team: { id: null } };
-  return itemPatcher.patchItem({ id, changes });
-};
-const updateTeamAgent = async ({ parentId, itemId, itemInstance }) => {
   try {
-    await addTeamAgent({ parentId, itemInstance });
-    await deleteTeamAgent({ id: itemId });
+    const response = await skillService.searchSkillAgent(
+      parentId,
+      page,
+      size,
+      search,
+      sort,
+      fields,
+      id,
+      agentId,
+    );
+    const { items, next } = applyTransform(response.data, [
+      snakeToCamel(),
+      merge(getDefaultGetListResponse()),
+    ]);
+    return {
+      items: applyTransform(items, [
+        mergeEach(defaultObject),
+      ]),
+      next,
+    };
   } catch (err) {
-    throw err;
+    throw applyTransform(err, [
+      handleUnauthorized,
+      notify,
+    ]);
   }
 };
 
-const SkillAgentsAPI = {
-  getList: getSkillAgentsList,
-  get: getSkillAgent,
-  add: addTeamAgent,
-  patch: patchAgentSkill,
-  update: updateTeamAgent,
-  delete: deleteTeamAgent,
+const getAgentSkill = async ({ parentId, itemId: id }) => {
+  try {
+    const response = await skillService.readSkill(id, parentId);
+    return applyTransform(response.data, [
+      snakeToCamel(),
+    ]);
+  } catch (err) {
+    throw applyTransform(err, [
+      handleUnauthorized,
+      notify,
+    ]);
+  }
 };
 
-export default SkillAgentsAPI;
+const fieldsToSend = ['capacity', 'skill', 'team', 'enabled', 'teamId'];
+
+const addAgentSkill = async ({ id, itemInstance }) => {
+  const item = applyTransform(itemInstance, [
+    sanitize(fieldsToSend),
+    camelToSnake(),
+  ]);
+  try {
+    const response = await skillService.createSkill(id, item);
+    return applyTransform(response.data, [
+      snakeToCamel(),
+    ]);
+  } catch (err) {
+    throw applyTransform(err, [
+      handleUnauthorized,
+      notify,
+    ]);
+  }
+};
+
+const patchAgentSkill = async ({ parentId, changes }) => {
+  const body = applyTransform(changes, [
+    sanitize(fieldsToSend),
+    camelToSnake(),
+  ]);
+  try {
+    const response = await skillService.patchSkillAgent(parentId, body);
+    console.log(response.data);
+    return applyTransform(response.data.items[0], [
+      snakeToCamel(),
+    ]);
+  } catch (err) {
+    throw applyTransform(err, [
+      handleUnauthorized,
+      notify,
+    ]);
+  }
+};
+
+const updateAgentSkill = async ({ id, itemInstance }) => {
+  const item = applyTransform(itemInstance, [
+    sanitize(fieldsToSend),
+    camelToSnake(),
+  ]);
+  try {
+    const response = await skillService.updateSkill(id, item);
+    return applyTransform(response.data, [
+      snakeToCamel(),
+    ]);
+  } catch (err) {
+    throw applyTransform(err, [
+      handleUnauthorized,
+      notify,
+    ]);
+  }
+};
+
+const deleteAgentSkill = async ({ id, itemInstance }) => {
+  const item = applyTransform(itemInstance, [
+    sanitize(fieldsToSend),
+    camelToSnake(),
+  ]);
+  try {
+    const response = await skillService.deleteSkillAgent(id, item);
+    return applyTransform(response.data, []);
+  } catch (err) {
+    throw applyTransform(err, [
+      handleUnauthorized,
+      notify,
+    ]);
+  }
+};
+
+const AgentSkillsAPI = {
+  getList: getAgentSkillsList,
+  get: getAgentSkill,
+  add: addAgentSkill,
+  patch: patchAgentSkill,
+  update: updateAgentSkill,
+  delete: deleteAgentSkill,
+};
+
+export default AgentSkillsAPI;

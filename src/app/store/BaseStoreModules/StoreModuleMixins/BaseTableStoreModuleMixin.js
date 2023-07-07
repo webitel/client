@@ -84,7 +84,9 @@ const actions = {
   }) => {
     await context.commit('PATCH_ITEM_PROPERTY', { index, prop, value });
     const id = item?.id || context.state.dataList[index].id;
-    const changes = { [prop]: value };
+    // TODO: remove
+    const teamId = item?.team?.id;
+    const changes = { [prop]: value, teamId };
     try {
       await context.dispatch('PATCH_ITEM', { id, changes });
       context.commit('PATCH_ITEM_PROPERTY', {

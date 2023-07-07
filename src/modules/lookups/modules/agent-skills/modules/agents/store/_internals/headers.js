@@ -4,7 +4,7 @@ export default [
   {
     value: 'name',
     locale: 'objects.name',
-    field: 'name',
+    field: 'skill',
     sort: SortSymbols.NONE,
   },
   {

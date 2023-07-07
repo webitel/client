@@ -55,7 +55,6 @@
     </header>
 
     <div v-show="isLoaded" class="table-wrapper">
-      {{headers}}
       {{dataList}}
       <wt-table
       :headers="headers"
@@ -66,7 +65,7 @@
     >
       <template v-slot:name="{ item }">
         <item-link :link="editLink(item)" target="_blank">
-          {{ item.name }}
+          {{ item.skill.name }}
         </item-link>
       </template>
       <template v-slot:team="{ item }">
@@ -83,16 +82,19 @@
       <template v-slot:state="{ item, index }">
         <wt-switcher
           :value="item.enabled"
-          @change="patchItem({ item, index, prop: 'enabled', value: $event });"
+          @change="patchItem({ item, index, prop: 'enabled', value: $event })"
         ></wt-switcher>
       </template>
       <template v-slot:actions="{ item }">
-        <edit-action
+        <wt-icon-action
+          action="edit"
           @click="edit(item)"
-        ></edit-action>
-        <delete-action
+        ></wt-icon-action>
+        <wt-icon-action
+          action="delete"
+          class="table-action"
           @click="callDelete(item)"
-        ></delete-action>
+        ></wt-icon-action>
       </template>
     </wt-table>
       <wt-pagination
@@ -116,13 +118,16 @@ import RouteNames from '../../../../../../../app/router/_internals/RouteNames.en
 import SkillPopup from './opened-skill-agent-popup.vue';
 import ChangeSkillPopup from './opened-skill-agent-change-popup.vue';
 
+const namespace = 'lookups/skills';
+const subNamespace = 'agents';
 export default {
   name: 'opened-skill-agents',
   mixins: [openedObjectTableTabMixin],
   components: { SkillPopup, ChangeSkillPopup },
 
   data: () => ({
-    subNamespace: 'agents',
+    namespace,
+    subNamespace,
     tableObjectRouteName: RouteNames.AGENTS, // this.editLink() computing
     isAgentPopup: false,
     agentSkillPopup: false,

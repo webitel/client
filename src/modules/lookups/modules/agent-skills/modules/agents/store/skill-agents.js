@@ -1,19 +1,19 @@
-import skillAgentsAPI from '../api/skillAgents';
+import AgentSkillAPI from '../api/skillAgents';
 import NestedObjectStoreModule from '../../../../../../../app/store/BaseStoreModules/StoreModules/NestedObjectStoreModule';
 import headers from './_internals/headers';
 
 const resettableItemState = {
   itemInstance: {
-    name: '',
+    skill: {},
     team: {},
     capacity: 10,
     enabled: false,
   },
 };
 
-const skillAgents = new NestedObjectStoreModule({ resettableItemState, headers })
-  .attachAPIModule(skillAgentsAPI)
-  .generateAPIActions()
-  .getModule();
+const agentSkills = new NestedObjectStoreModule({ resettableItemState, headers })
+.attachAPIModule(AgentSkillAPI)
+.generateAPIActions()
+.getModule();
 
-export default skillAgents;
+export default agentSkills;
