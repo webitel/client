@@ -87,10 +87,6 @@
       </template>
       <template v-slot:actions="{ item }">
         <wt-icon-action
-          action="edit"
-          @click="edit(item)"
-        ></wt-icon-action>
-        <wt-icon-action
           action="delete"
           class="table-action"
           @click="callDelete(item)"
