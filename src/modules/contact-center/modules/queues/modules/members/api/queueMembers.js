@@ -1,17 +1,29 @@
+import {
+  getDefaultGetListResponse,
+  getDefaultGetParams,
+} from '@webitel/ui-sdk/src/api/defaults';
+import applyTransform, {
+  camelToSnake,
+  handleUnauthorized,
+  merge, mergeEach, notify, sanitize, snakeToCamel,
+  starToSearch,
+} from '@webitel/ui-sdk/src/api/transformers';
 import eventBus from '@webitel/ui-sdk/src/scripts/eventBus';
+import isEmpty from '@webitel/ui-sdk/src/scripts/isEmpty';
 import deepCopy from 'deep-copy';
 import { MemberServiceApiFactory } from 'webitel-sdk';
-import {
-  SdkCreatorApiConsumer,
-  SdkDeleterApiConsumer,
-  SdkGetterApiConsumer,
-  SdkListGetterApiConsumer,
-  SdkPatcherApiConsumer,
-  SdkUpdaterApiConsumer,
-} from 'webitel-sdk/esm2015/api-consumers';
-import instance from '../../../../../../../app/api/old/instance';
+// import {
+//   SdkCreatorApiConsumer,
+//   SdkDeleterApiConsumer,
+//   SdkGetterApiConsumer,
+//   SdkListGetterApiConsumer,
+//   SdkPatcherApiConsumer,
+//   SdkUpdaterApiConsumer,
+// } from 'webitel-sdk/esm2015/api-consumers';
+import instance from '../../../../../../../app/api/instance';
 import configuration from '../../../../../../../app/api/openAPIConfig';
 import sanitizer from '../../../../../../../app/api/old/utils/sanitizer';
+import processing from '../store/_internals/queueSchema/defaults/processing';
 
 const memberService = new MemberServiceApiFactory(configuration, '', instance);
 
@@ -30,23 +42,6 @@ const communicationsFieldsToSend = [
   'dtmf',
 ];
 
-const defaultListObject = {
-  createdAt: 'unknown',
-  priority: 0,
-};
-
-const defaultSingleObject = {
-  createdAt: 'unknown',
-  priority: '0',
-  name: 'member',
-  expireAt: 0,
-  bucket: {},
-  timezone: {},
-  agent: {},
-  communications: [],
-  variables: [],
-};
-
 const defaultSingleObjectCommunication = {
   destination: '',
   display: '',
@@ -59,7 +54,7 @@ const defaultSingleObjectCommunication = {
 
 const mapDefaultCommunications = (item) => (
   item.communications ? item.communications
-  .map((comm) => ({ ...defaultSingleObjectCommunication, ...comm })) : []
+                            .map((comm) => ({ ...defaultSingleObjectCommunication, ...comm })) : []
 );
 
 const _getMembersList = (getList) => function({
@@ -89,29 +84,9 @@ const _getMembersList = (getList) => function({
   return getList(params);
 };
 
-const listResponseHandler = (response) => {
-  const items = response.items.map((item) => ({
-    ...item,
-    communications: mapDefaultCommunications(item),
-  }));
-  return { items, next: response.next };
-};
-
-const itemResponseHandler = (response) => {
-  let variables = [];
-  if (response.variables) {
-    variables = Object.keys(response.variables).map((key) => ({
-      key,
-      value: response.variables[key],
-    }));
-  }
-  const communications = mapDefaultCommunications(response);
-  return { ...response, variables, communications };
-};
-
 const preRequestHandler = (item) => {
   item.communications
-  .forEach((item) => sanitizer(item, communicationsFieldsToSend));
+      .forEach((item) => sanitizer(item, communicationsFieldsToSend));
   const variables = item.variables.reduce((variables, variable) => ({
     ...variables,
     [variable.key]: variable.value,
@@ -119,35 +94,153 @@ const preRequestHandler = (item) => {
   return { ...item, variables };
 };
 
-const listGetter = new SdkListGetterApiConsumer(
-  memberService.searchMemberInQueue,
-  { defaultListObject, listResponseHandler },
-)
-.setGetListMethod(_getMembersList);
-const itemGetter = new SdkGetterApiConsumer(
-  memberService.readMember,
-  { defaultSingleObject, itemResponseHandler },
-);
-const itemCreator = new SdkCreatorApiConsumer(
-  memberService.createMember,
-  { fieldsToSend, preRequestHandler },
-);
-const itemUpdater = new SdkUpdaterApiConsumer(
-  memberService.updateMember,
-  { fieldsToSend, preRequestHandler },
-);
-const itemDeleter = new SdkDeleterApiConsumer(memberService.deleteMember);
+// const listGetter = new SdkListGetterApiConsumer(memberService.searchMemberInQueue,
+// { defaultListObject, listResponseHandler }).setGetListMethod(_getMembersList);
+const getMembersList = async (params) => {
+  const defaultObject = {
+    createdAt: 'unknown',
+    priority: 0,
+  };
+const listHandler = (items) => {
+  return items.map((item) => ({
+    ...item,
+    communications: mapDefaultCommunications(item),
+  }));
+};
+  const {
+    page,
+    size,
+    search,
+    sort,
+    fields,
+    id,
+  } = applyTransform(params, [
+    merge(getDefaultGetParams()),
+    starToSearch('search'),
+  ]);
 
-const resetMembersApiConsumer = new SdkPatcherApiConsumer(memberService.resetMembers);
+  try {
+    const response = await memberService.searchMemberInQueue(
+      page,
+      size,
+      search,
+      sort,
+      fields,
+      id,
+    );
+    const { items, next } = applyTransform(response.data, [
+      snakeToCamel(),
+      merge(getDefaultGetListResponse()),
+    ]);
+    return {
+      items: applyTransform(items, [
+        mergeEach(defaultObject),
+        listHandler,
+      ]),
+      next,
+    };
+  } catch (err) {
+    throw applyTransform(err, [
+      handleUnauthorized,
+      notify,
+    ]);
+  }
+};
+// const itemGetter = new SdkGetterApiConsumer(memberService.readMember,
+// { defaultSingleObject, itemResponseHandler });
+const getMember = async (queueId, id) => {
+  const defaultObject = {
+    createdAt: 'unknown',
+      priority: '0',
+      name: 'member',
+      expireAt: 0,
+      bucket: {},
+      timezone: {},
+      agent: {},
+      communications: [],
+      variables: [],
+  };
+  const responseHandler = (response) => {
+    let variables = [];
+    if (response.variables) {
+      variables = Object.keys(response.variables).map((key) => ({
+        key,
+        value: response.variables[key],
+      }));
+    }
+    const communications = mapDefaultCommunications(response);
+    return { ...response, variables, communications };
+  };
 
-const getMembersList = (params) => listGetter.getList(params);
-const getMember = (params) => itemGetter.getNestedItem(params);
-const addMember = (params) => itemCreator.createNestedItem(params);
-const updateMember = (params) => itemUpdater.updateNestedItem(params);
-const deleteMember = (params) => itemDeleter.deleteNestedItem(params);
+  try {
+    const response = await memberService.readMember(queueId, id);
+    return applyTransform(response.data, [
+      snakeToCamel(),
+      merge(defaultObject),
+      responseHandler,
+    ]);
+  } catch (err) {
+    throw applyTransform(err, [
+      handleUnauthorized,
+      notify,
+    ]);
+  }
+};
+// const itemCreator = new SdkCreatorApiConsumer(memberService.createMember,
+// { fieldsToSend, preRequestHandler });
+const addMember = async ({ queueId, itemInstance }) => {
+  const item = applyTransform(itemInstance, [
+    preRequestHandler,
+    sanitize(fieldsToSend),
+    camelToSnake(),
+  ]);
+  try {
+    const response = await memberService.createMember(queueId, item);
+    return applyTransform(response.data, [
+      snakeToCamel(),
+    ]);
+  } catch (err) {
+    throw applyTransform(err, [
+      handleUnauthorized,
+      notify,
+    ]);
+  }
+};
+// const itemUpdater = new SdkUpdaterApiConsumer(memberService.updateMember,
+// { fieldsToSend, preRequestHandler });
+const updateMember = async ({ itemInstance, itemId: id, queueId }) => {
+  const item = applyTransform(itemInstance, [
+    preRequestHandler,
+    sanitize(fieldsToSend),
+    camelToSnake(),
+  ]);
+  try {
+    const response = await memberService.updateMember(queueId, id, item);
+    return applyTransform(response.data, [
+      snakeToCamel(),
+    ]);
+  } catch (err) {
+    throw applyTransform(err, [
+      handleUnauthorized,
+      notify,
+    ]);
+  }
+};
+// const itemDeleter = new SdkDeleterApiConsumer(memberService.deleteMember);
+const deleteMember = async ({ queueId, id }) => {
+  try {
+    const response = await memberService.deleteMember(queueId, id);
+    return applyTransform(response.data, []);
+  } catch (err) {
+    throw applyTransform(err, [
+      handleUnauthorized,
+      notify,
+    ]);
+  }
+};
 
-const resetMembers = ({ parentId }) => resetMembersApiConsumer
-.patchItem({ id: parentId, changes: {} });
+// const resetMembersApiConsumer = new SdkPatcherApiConsumer(memberService.resetMembers);
+const resetMembers = ({ parentId }) => resetMembersApiConsumer.patchItem({ id: parentId, changes: {} });
 
 export const deleteMembersBulk = async (queueId, {
   search,
