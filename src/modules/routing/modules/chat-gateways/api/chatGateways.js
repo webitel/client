@@ -1,11 +1,3 @@
-// import {
-//   EndpointListGetterApiConsumer,
-//   EndpointGetterApiConsumer,
-//   EndpointCreatorApiConsumer,
-//   EndpointUpdaterApiConsumer,
-//   EndpointPatcherApiConsumer,
-//   EndpointDeleterApiConsumer,
-// } from 'webitel-sdk/esm2015/api-consumers';
 import {
   getDefaultGetListResponse,
   getDefaultGetParams,

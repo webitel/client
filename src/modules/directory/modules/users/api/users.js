@@ -5,7 +5,7 @@ import {
 import applyTransform, {
   camelToSnake, handleUnauthorized,
   merge, notify, snakeToCamel,
-  starToSearch, log, sanitize,
+  starToSearch, sanitize,
   generateUrl, mergeEach,
 } from '@webitel/ui-sdk/src/api/transformers';
 import deepCopy from 'deep-copy';
