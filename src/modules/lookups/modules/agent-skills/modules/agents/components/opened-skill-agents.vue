@@ -36,20 +36,22 @@
           <wt-icon-btn
             v-if="!disableUserInput"
             class="icon-action"
+            :class="{'hidden': anySelected}"
             icon="arrow-mix"
             @click="openAgentSkillPopup"
           ></wt-icon-btn>
+          <delete-all-action
+            v-if="!disableUserInput"
+            :class="{'hidden': anySelected}"
+            :selected-count="selectedRows.length"
+            @click="callDelete(selectedRows)"
+          ></delete-all-action>
           <wt-icon-btn
             v-if="!disableUserInput"
             class="icon-action"
             icon="plus"
             @click="create"
           ></wt-icon-btn>
-          <delete-all-action
-            v-if="!disableUserInput"
-            :selected-count="selectedRows.length"
-            @click="callDelete(selectedRows)"
-          ></delete-all-action>
         </wt-table-actions>
       </div>
     </header>

@@ -141,13 +141,13 @@ const updateAgentSkill = async ({ id, itemInstance }) => {
   }
 };
 
-const deleteAgentSkill = async ({ id, itemInstance }) => {
-  const item = applyTransform(itemInstance, [
-    sanitize(fieldsToSend),
-    camelToSnake(),
-  ]);
+const deleteAgentSkill = async ({ parentId, id }) => {
+  const itemId = { id: [id] };
   try {
-    const response = await skillService.deleteSkillAgent(id, item);
+    const response = await skillService.deleteSkillAgent(
+      parentId,
+      itemId,
+    );
     return applyTransform(response.data, []);
   } catch (err) {
     throw applyTransform(err, [
