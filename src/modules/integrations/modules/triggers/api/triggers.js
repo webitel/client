@@ -1,19 +1,22 @@
 import eventBus from '@webitel/ui-sdk/src/scripts/eventBus';
 import { TriggerServiceApiFactory } from 'webitel-sdk';
 import {
-  SdkCreatorApiConsumer,
-  SdkDeleterApiConsumer,
-  SdkGetterApiConsumer,
-  SdkListGetterApiConsumer,
-  SdkPatcherApiConsumer,
-  SdkUpdaterApiConsumer,
-} from 'webitel-sdk/esm2015/api-consumers';
-import instance from '../../../../../app/api/old/instance';
+  getDefaultGetListResponse,
+  getDefaultGetParams,
+} from '@webitel/ui-sdk/src/api/defaults';
+import applyTransform, {
+  camelToSnake, handleUnauthorized,
+  merge, notify, snakeToCamel,
+  starToSearch, sanitize, mergeEach,
+} from '@webitel/ui-sdk/src/api/transformers';
+import deepCopy from 'deep-copy';
+import instance from '../../../../../app/api/instance';
 import configuration from '../../../../../app/api/openAPIConfig';
 import TriggerTypes from '../lookups/TriggerTypes.lookup';
 
 const triggersService = new TriggerServiceApiFactory(configuration, '', instance);
 
+const doNotConvertKeys = ['variables']
 const fieldsToSend = [
   'description',
   'enabled',
@@ -27,29 +30,7 @@ const fieldsToSend = [
   'expression',
 ];
 
-const defaultListObject = {
-  enabled: false,
-};
 
-const defaultSingleObject = {
-  timeout: 0,
-  variables: {},
-};
-
-const itemResponseHandler = (response) => {
-  if (response.variables) {
-    // eslint-disable-next-line no-param-reassign
-    response.variables = Object.keys(response.variables)
-    .map((key) => ({
-      key,
-      value: response.variables[key],
-    }));
-  }
-  return {
-    ...response,
-    type: TriggerTypes.find(({ value }) => value === response.type),
-  };
-};
 const preRequestHandler = (item) => {
   item.variables = item.variables.reduce((variables, variable) => {
     if (!variable.key) return variables;
@@ -60,38 +41,161 @@ const preRequestHandler = (item) => {
     type: item.type.value,
   };
 };
-const listGetter = new SdkListGetterApiConsumer(
-  triggersService.searchTrigger,
-  {
-    defaultListObject,
-  },
-);
-const itemGetter = new SdkGetterApiConsumer(
-  triggersService.readTrigger,
-  {
-    defaultSingleObject,
-    itemResponseHandler,
-  },
-);
-const itemCreator = new SdkCreatorApiConsumer(
-  triggersService.createTrigger,
-  {
-    fieldsToSend,
+
+const getList = async (params) => {
+  const defaultObject = {
+    enabled: false,
+  };
+
+  const {
+    page,
+    size,
+    search,
+    sort,
+    fields,
+    id,
+    schemaId,
+  } = applyTransform(params, [
+    merge(getDefaultGetParams()),
+    starToSearch('search'),
+  ]);
+
+  try {
+    const response = await triggersService.searchTrigger(
+      page,
+      size,
+      search,
+      sort,
+      fields,
+      id,
+      schemaId,
+    );
+    const { items, next } = applyTransform(response.data, [
+      snakeToCamel(doNotConvertKeys),
+      merge(getDefaultGetListResponse()),
+    ]);
+    return {
+      items: applyTransform(items, [
+        mergeEach(defaultObject),
+      ]),
+      next,
+    };
+  } catch (err) {
+    throw applyTransform(err, [
+      handleUnauthorized,
+      notify,
+    ]);
+  }
+};
+
+const get = async ({ itemId: id }) => {
+  const defaultObject = {
+    timeout: 0,
+    variables: {},
+  };
+
+  const responseHandler = (response) => {
+    if (response.variables) {
+      const copy = deepCopy(response);
+      copy.variables = Object.keys(copy.variables)
+        .map((key) => ({
+          key,
+          value: copy.variables[key],
+        }));
+    }
+    return {
+      ...response,
+      type: TriggerTypes.find(({ value }) => value === response.type),
+    };
+  };
+
+  try {
+    const response = await triggersService.readTrigger(id);
+    return applyTransform(response.data, [
+      snakeToCamel(doNotConvertKeys),
+      merge(defaultObject),
+      responseHandler,
+    ]);
+  } catch (err) {
+    throw applyTransform(err, [
+      handleUnauthorized,
+      notify,
+    ]);
+  }
+};
+
+const add = async ({ itemInstance }) => {
+  const item = applyTransform(itemInstance, [
     preRequestHandler,
-  },
-);
-const itemPatcher = new SdkPatcherApiConsumer(
-  triggersService.patchTrigger,
-  { fieldsToSend },
-);
-const itemUpdater = new SdkUpdaterApiConsumer(
-  triggersService.updateTrigger,
-  {
-    fieldsToSend,
+    sanitize(fieldsToSend),
+    camelToSnake(doNotConvertKeys),
+  ]);
+  try {
+    const response = await triggersService.createTrigger(item);
+    return applyTransform(response.data, [
+      snakeToCamel(doNotConvertKeys),
+    ]);
+  } catch (err) {
+    throw applyTransform(err, [
+      handleUnauthorized,
+      notify,
+    ]);
+  }
+};
+
+const patch = async ({ changes, id }) => {
+  const body = applyTransform(changes, [
+    sanitize(fieldsToSend),
+    camelToSnake(doNotConvertKeys),
+  ]);
+  try {
+    const response = await triggersService.patchTrigger(id, body);
+    return applyTransform(response.data, [
+      snakeToCamel(doNotConvertKeys),
+    ]);
+  } catch (err) {
+    throw applyTransform(err, [
+      handleUnauthorized,
+      notify,
+    ]);
+  }
+};
+
+const update = async ({ itemInstance, itemId: id }) => {
+  const item = applyTransform(itemInstance, [
     preRequestHandler,
-  },
-);
-const itemDeleter = new SdkDeleterApiConsumer(triggersService.deleteTrigger);
+    sanitize(fieldsToSend),
+    camelToSnake(doNotConvertKeys),
+  ]);
+  try {
+    const response = await triggersService.updateTrigger(id, item);
+    return applyTransform(response.data, [
+      snakeToCamel(doNotConvertKeys),
+    ]);
+  } catch (err) {
+    throw applyTransform(err, [
+      handleUnauthorized,
+      notify,
+    ]);
+  }
+};
+
+const deleteItem = async ({ id }) => {
+  try {
+    const response = await triggersService.deleteTrigger(id);
+    return applyTransform(response.data, []);
+  } catch (err) {
+    throw applyTransform(err, [
+      handleUnauthorized,
+      notify,
+    ]);
+  }
+};
+
+const getLookup = (params) => getList({
+  ...params,
+  fields: params.fields || ['id', 'name'],
+});
 
 const startTrigger = async (params, item) => {
   const url = `/trigger/${item.id}/job`;
@@ -104,15 +208,6 @@ const startTrigger = async (params, item) => {
     throw err;
   }
 };
-
-const getList = (params) => listGetter.getList(params);
-const get = (params) => itemGetter.getItem(params);
-const add = (params) => itemCreator.createItem(params);
-const patch = (params) => itemPatcher.patchItem(params);
-const update = (params) => itemUpdater.updateItem(params);
-const deleteItem = (params) => itemDeleter.deleteItem(params);
-
-const getLookup = (params) => listGetter.getLookup(params);
 
 const TriggersAPI = {
   getList,
