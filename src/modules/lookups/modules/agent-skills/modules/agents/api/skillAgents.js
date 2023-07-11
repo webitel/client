@@ -15,6 +15,7 @@ import configuration from '../../../../../../../app/api/openAPIConfig';
 const skillService = new SkillServiceApiFactory(configuration, '', instance);
 
 const defaultObject = {
+  agent: {},
   skill: {},
   team: {},
   capacity: 10,
@@ -79,7 +80,7 @@ const getAgentSkill = async ({ parentId, itemId: id }) => {
   }
 };
 
-const fieldsToSend = ['capacity', 'skill', 'team', 'enabled', 'id'];
+const fieldsToSend = ['capacity', 'skill', 'team', 'enabled', 'id', 'agent'];
 
 const addAgentSkill = async ({ id, itemInstance }) => {
   const item = applyTransform(itemInstance, [

@@ -4,6 +4,7 @@ import headers from './_internals/headers';
 
 const resettableItemState = {
   itemInstance: {
+    agent: {},
     skill: {},
     team: {},
     capacity: 10,

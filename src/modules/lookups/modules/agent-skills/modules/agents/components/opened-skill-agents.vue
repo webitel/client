@@ -65,7 +65,7 @@
     >
       <template v-slot:name="{ item }">
         <item-link :link="editLink(item)" target="_blank">
-          {{ item.skill.name }}
+          {{ item.agent.name }}
         </item-link>
       </template>
       <template v-slot:team="{ item }">

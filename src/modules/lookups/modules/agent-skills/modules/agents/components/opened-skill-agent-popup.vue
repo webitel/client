@@ -1,7 +1,7 @@
 <template>
   <wt-popup min-width="900" overflow @close="close">
     <template v-slot:title>
-      {{ $tc('objects.ccenter.agents.agents', 1) }}
+      Assign skill to agents
     </template>
     <template v-slot:main>
 
