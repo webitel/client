@@ -17,9 +17,7 @@ const fieldsToSend = ['name', 'description', 'permissions', 'metadata'];
 
 const preRequestHandler = (item) => {
   const copy = deepCopy(item);
-  console.log('copy.metadata.access:', copy.metadata.access);
   copy.metadata.access = ApplicationsAccess.minify(copy.metadata.access);
-  console.log('copy.metadata.access:', copy.metadata.access);
   return copy;
 };
 
@@ -52,8 +50,7 @@ const getRoleList = async (params) => {
     ]);
   }
 };
-// const itemGetter = new EndpointGetterApiConsumer({ baseUrl, instance },
-//   { defaultSingleObject, itemResponseHandler });
+
 const getRole = async ({ itemId: id }) => {
   const defaultObject = {
     name: '',
@@ -84,7 +81,7 @@ const getRole = async ({ itemId: id }) => {
     ]);
   }
 };
-// const extendedRolesListGetter = new EndpointListGetterApiConsumer({ baseUrl, instance });
+
 const getExtendedRoles = async (params) => {
   const fieldsToSend = ['page', 'size', 'q', 'sort', 'fields', 'id'];
 
@@ -113,8 +110,7 @@ const getExtendedRoles = async (params) => {
     ]);
   }
 };
-// const itemCreator = new EndpointCreatorApiConsumer({ baseUrl, instance },
-//   { fieldsToSend, preRequestHandler });
+
 const addRole = async ({ itemInstance }) => {
   const item = applyTransform(itemInstance, [
     preRequestHandler,
@@ -133,11 +129,11 @@ const addRole = async ({ itemInstance }) => {
     ]);
   }
 };
-// const itemUpdater = new EndpointUpdaterApiConsumer({ baseUrl, instance },
-//   { fieldsToSend, preRequestHandler });
-const updateRole = async ({ itemInstance, itemId: id }) => {
+
+const updateRole = async ({ itemInstance, id }) => {
   const item = applyTransform(itemInstance, [
     preRequestHandler,
+    log,
     sanitize(fieldsToSend),
     camelToSnake(),
   ]);
@@ -155,7 +151,7 @@ const updateRole = async ({ itemInstance, itemId: id }) => {
     ]);
   }
 };
-// const itemDeleter = new EndpointDeleterApiConsumer({ baseUrl, instance });
+
 const deleteRole = async ({ id }) => {
   const url = `${baseUrl}/${id}`;
   try {
@@ -175,9 +171,7 @@ const getRolesLookup = (params) => getRoleList({
 });
 
 const PERMISSIONS_LIST_URL = '/permissions';
-// const permissionsListGetter = new EndpointListGetterApiConsumer(
-//   { baseUrl: PERMISSIONS_LIST_URL, instance },
-// );
+
 const getPermissionsOptions = async (params) => {
   const fieldsToSend = ['page', 'size', 'q', 'sort', 'fields', 'id'];
 
