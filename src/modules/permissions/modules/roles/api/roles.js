@@ -130,7 +130,7 @@ const addRole = async ({ itemInstance }) => {
   }
 };
 
-const updateRole = async ({ itemInstance, id }) => {
+const updateRole = async ({ itemInstance, itemId: id }) => {
   const item = applyTransform(itemInstance, [
     preRequestHandler,
     log,
