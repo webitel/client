@@ -1,12 +1,4 @@
 import { QueueSkillServiceApiFactory } from 'webitel-sdk';
-// import {
-//   SdkListGetterApiConsumer,
-//   SdkGetterApiConsumer,
-//   SdkCreatorApiConsumer,
-//   SdkUpdaterApiConsumer,
-//   SdkPatcherApiConsumer,
-//   SdkDeleterApiConsumer,
-// } from 'webitel-sdk/esm2015/api-consumers';
 import {
   getDefaultGetListResponse,
   getDefaultGetParams,
@@ -22,38 +14,15 @@ import configuration from '../../../../../../../app/api/openAPIConfig';
 
 const queueSkillService = new QueueSkillServiceApiFactory(configuration, '', instance);
 
-// const defaultListObject = {
-//   agent: {},
-//   minCapacity: 0,
-//   maxCapacity: 0,
-//   buckets: [],
-//   lvl: 0,
-//   enabled: false,
-// };
-
-// const defaultSingleObject = {
-//   agent: {},
-//   minCapacity: 0,
-//   maxCapacity: 0,
-//   buckets: [],
-//   lvl: 0,
-//   enabled: false,
-// };
-
-const doNotConvertKeys = ['variables'];
-
 const fieldsToSend = ['maxCapacity', 'minCapacity', 'queueId', 'lvl', 'buckets', 'skill',
   'enabled'];
 
-const preRequestHandler = (item, parentId) => {
-  console.log(item, 'parentId:', parentId);
-  console.log({ ...item, queueId: parentId });
+const preRequestHandler = (parentId) => (item) => {
   return { ...item, queueId: parentId }
 };
 
-// const listGetter = new SdkListGetterApiConsumer(queueSkillService.searchQueueSkill,
-//   { defaultListObject });
 export const getQueueSkillsList = async (params) => {
+  const fieldsToSend = ['page', 'size', 'sort', 'fields', 'id', 'parentId'];
 
   const defaultObject = {
     agent: {},
@@ -72,10 +41,10 @@ export const getQueueSkillsList = async (params) => {
     fields,
     id,
     parentId,
-    skillId,
   } = applyTransform(params, [
     merge(getDefaultGetParams()),
     starToSearch('search'),
+    sanitize(fieldsToSend),
   ]);
 
   try {
@@ -87,7 +56,6 @@ export const getQueueSkillsList = async (params) => {
       sort,
       fields,
       id,
-      skillId,
     );
     const { items, next } = applyTransform(response.data, [
       snakeToCamel(),
@@ -107,8 +75,6 @@ export const getQueueSkillsList = async (params) => {
   }
 };
 
-// const itemGetter = new SdkGetterApiConsumer(queueSkillService.readQueueSkill,
-//   { defaultSingleObject });
 export const getQueueSkill = async ({ parentId, itemId: id }) => {
 
   const defaultObject = {
@@ -123,7 +89,7 @@ export const getQueueSkill = async ({ parentId, itemId: id }) => {
   try {
     const response = await queueSkillService.readQueueSkill(parentId, id);
     return applyTransform(response.data, [
-      snakeToCamel(doNotConvertKeys),
+      snakeToCamel(),
       merge(defaultObject),
     ]);
   } catch (err) {
@@ -134,19 +100,16 @@ export const getQueueSkill = async ({ parentId, itemId: id }) => {
   }
 };
 
-// const itemCreator = new SdkCreatorApiConsumer(queueSkillService.createQueueSkill,
-//   { fieldsToSend, preRequestHandler });
 export const addQueueSkill = async ({ parentId, itemInstance }) => {
-  console.log('parentId add:', parentId);
   const item = applyTransform(itemInstance, [
-    preRequestHandler,
+    preRequestHandler(parentId),
     sanitize(fieldsToSend),
-    camelToSnake(doNotConvertKeys),
+    camelToSnake(),
   ]);
   try {
     const response = await queueSkillService.createQueueSkill(parentId, item);
     return applyTransform(response.data, [
-      snakeToCamel(doNotConvertKeys),
+      snakeToCamel(),
     ]);
   } catch (err) {
     throw applyTransform(err, [
@@ -156,17 +119,15 @@ export const addQueueSkill = async ({ parentId, itemInstance }) => {
   }
 };
 
-// const itemPatcher = new SdkPatcherApiConsumer(queueSkillService.patchQueueSkill,
-//   { fieldsToSend });
 export const patchQueueSkill = async ({ changes, itemId: id, parentId }) => {
   const body = applyTransform(changes, [
     sanitize(fieldsToSend),
-    camelToSnake(doNotConvertKeys),
+    camelToSnake(),
   ]);
   try {
     const response = await queueSkillService.patchQueueSkill(parentId, id, body);
     return applyTransform(response.data, [
-      snakeToCamel(doNotConvertKeys),
+      snakeToCamel(),
     ]);
   } catch (err) {
     throw applyTransform(err, [
@@ -176,18 +137,16 @@ export const patchQueueSkill = async ({ changes, itemId: id, parentId }) => {
   }
 };
 
-// const itemUpdater = new SdkUpdaterApiConsumer(queueSkillService.updateQueueSkill,
-//   { fieldsToSend, preRequestHandler });
-export const updateQueueSkill = async ({ itemInstance, itemId: id, parentId}) => {
+export const updateQueueSkill = async ({ itemInstance, itemId: id, parentId }) => {
   const item = applyTransform(itemInstance, [
-    preRequestHandler,
+    preRequestHandler(parentId),
     sanitize(fieldsToSend),
-    camelToSnake(doNotConvertKeys),
+    camelToSnake(),
   ]);
   try {
     const response = await queueSkillService.updateQueueSkill(parentId, id, item);
     return applyTransform(response.data, [
-      snakeToCamel(doNotConvertKeys),
+      snakeToCamel(),
     ]);
   } catch (err) {
     throw applyTransform(err, [
@@ -197,7 +156,6 @@ export const updateQueueSkill = async ({ itemInstance, itemId: id, parentId}) =>
   }
 };
 
-// const itemDeleter = new SdkDeleterApiConsumer(queueSkillService.deleteQueueSkill);
 export const deleteQueueSkill = async ({ parentId, id }) => {
   try {
     const response = await queueSkillService.deleteQueueSkill(parentId, id);
