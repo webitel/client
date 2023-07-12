@@ -4,16 +4,13 @@ import { useRoute } from 'vue-router';
 import IsEmpty from '@webitel/ui-sdk/src/scripts/isEmpty';
 import getNamespacedState
   from '@webitel/ui-sdk/src/store/helpers/getNamespacedState';
-import defaultDummyPic from '../assets/dummy/adm-dummy.svg';
 import defaultDummyPicAfterSearch from '../assets/dummy/adm-dummy-after-search.svg';
 
 export function useDummy({
                            namespace,
                            showAction,
                            hiddenText,
-                           dummyPic = defaultDummyPic,
                            dummyPicAfterSearch = defaultDummyPicAfterSearch,
-                           dummyText = 'objects.emptyWorkspace',
                            dummyTextAfterSearch = 'objects.emptyResultSearch',
                          }) {
   const store = useStore();
@@ -33,8 +30,6 @@ export function useDummy({
           text: dummyTextAfterSearch,
         };
       } else return dummy.value = {
-        src: dummyPic,
-        text: hiddenText ? '' : dummyText,
         showAction,
       };
     } else return dummy.value = '';
