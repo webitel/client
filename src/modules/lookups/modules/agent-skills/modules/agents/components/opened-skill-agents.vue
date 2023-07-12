@@ -5,6 +5,7 @@
       @close="closePopup"
     ></skill-popup>
     <change-skill-popup
+      :selected-rows="selectedRows"
       v-if="agentSkillPopup"
       @close="closeAgentSkillPopup"
     ></change-skill-popup>
@@ -84,7 +85,7 @@
       <template v-slot:state="{ item, index }">
         <wt-switcher
           :value="item.enabled"
-          @change="patchItem({ item, index, prop: 'enabled', value: $event })"
+          @change="patchItem({ item, index, prop: 'enabled', value: $event });"
         ></wt-switcher>
       </template>
       <template v-slot:actions="{ item }">
