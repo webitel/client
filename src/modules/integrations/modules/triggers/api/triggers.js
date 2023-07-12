@@ -201,12 +201,23 @@ const getLookup = (params) => getList({
 const startTrigger = async (params, item) => {
   const url = `/trigger/${item.id}/job`;
 
+  const body = applyTransform(item, [
+    camelToSnake(),
+  ]);
   try {
-    const response = await instance.post(url, item);
-    eventBus.$emit('notification', { type: 'info', text: 'Successfully ran' });
-    return response;
+    const response = await instance.post(url, body);
+    return applyTransform(response.data, [
+      snakeToCamel(),
+      notify(({ callback }) => callback({
+        type: 'info',
+        text: 'Successfully ran'
+      })),
+    ]);
   } catch (err) {
-    throw err;
+    throw applyTransform(err, [
+      handleUnauthorized,
+      notify,
+    ]);
   }
 };
 
