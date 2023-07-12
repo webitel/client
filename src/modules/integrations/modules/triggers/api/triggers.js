@@ -43,6 +43,7 @@ const preRequestHandler = (item) => {
 };
 
 const getList = async (params) => {
+  const fieldsToSend = ['page', 'size', 'search', 'sort', 'fields', 'id', 'schemaId'];
   const defaultObject = {
     enabled: false,
   };
@@ -58,6 +59,7 @@ const getList = async (params) => {
   } = applyTransform(params, [
     merge(getDefaultGetParams()),
     starToSearch('search'),
+    sanitize(fieldsToSend),
   ]);
 
   try {
