@@ -1,4 +1,3 @@
-import eventBus from '@webitel/ui-sdk/src/scripts/eventBus';
 import { TriggerServiceApiFactory } from 'webitel-sdk';
 import {
   getDefaultGetListResponse,
@@ -203,12 +202,12 @@ const startTrigger = async (params, item) => {
   const url = `/trigger/${item.id}/job`;
 
   const body = applyTransform(item, [
-    camelToSnake(),
+    camelToSnake(doNotConvertKeys),
   ]);
   try {
     const response = await instance.post(url, body);
     return applyTransform(response.data, [
-      snakeToCamel(),
+      snakeToCamel(doNotConvertKeys),
       notify(({ callback }) => callback({
         type: 'info',
         text: 'Successfully ran'
