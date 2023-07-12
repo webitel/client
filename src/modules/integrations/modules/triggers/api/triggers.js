@@ -30,7 +30,6 @@ const fieldsToSend = [
   'expression',
 ];
 
-
 const preRequestHandler = (item) => {
   const copy = deepCopy(item);
   copy.variables = copy.variables.reduce((variables, variable) => {
