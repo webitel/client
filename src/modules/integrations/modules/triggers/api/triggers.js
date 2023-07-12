@@ -32,13 +32,14 @@ const fieldsToSend = [
 
 
 const preRequestHandler = (item) => {
-  item.variables = item.variables.reduce((variables, variable) => {
+  const copy = deepCopy(item);
+  copy.variables = copy.variables.reduce((variables, variable) => {
     if (!variable.key) return variables;
     return { ...variables, [variable.key]: variable.value };
   }, {});
   return {
-    ...item,
-    type: item.type.value,
+    ...copy,
+    type: copy.type.value,
   };
 };
 
@@ -95,8 +96,8 @@ const get = async ({ itemId: id }) => {
   };
 
   const responseHandler = (response) => {
+    const copy = deepCopy(response);
     if (response.variables) {
-      const copy = deepCopy(response);
       copy.variables = Object.keys(copy.variables)
         .map((key) => ({
           key,
@@ -104,8 +105,8 @@ const get = async ({ itemId: id }) => {
         }));
     }
     return {
-      ...response,
-      type: TriggerTypes.find(({ value }) => value === response.type),
+      ...copy,
+      type: TriggerTypes.find(({ value }) => value === copy.type),
     };
   };
 
