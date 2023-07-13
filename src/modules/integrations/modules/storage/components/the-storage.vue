@@ -49,7 +49,7 @@
         <wt-dummy
           v-if="dummy && isLoaded"
           :src="dummy.src"
-          :text="$t(dummy.text)"
+          :text="dummy.text && $t(dummy.text)"
           :show-action="dummy.showAction"
           @create="create"
           class="dummy-wrapper"
