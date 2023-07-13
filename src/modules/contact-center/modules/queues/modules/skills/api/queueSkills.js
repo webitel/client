@@ -1,57 +1,171 @@
 import { QueueSkillServiceApiFactory } from 'webitel-sdk';
 import {
-  SdkListGetterApiConsumer,
-  SdkGetterApiConsumer,
-  SdkCreatorApiConsumer,
-  SdkUpdaterApiConsumer,
-  SdkPatcherApiConsumer,
-  SdkDeleterApiConsumer,
-} from 'webitel-sdk/esm2015/api-consumers';
-import instance from '../../../../../../../app/api/old/instance';
+  getDefaultGetListResponse,
+  getDefaultGetParams,
+} from '@webitel/ui-sdk/src/api/defaults';
+import applyTransform, {
+  camelToSnake,
+  handleUnauthorized,
+  merge, mergeEach, notify, sanitize, snakeToCamel,
+  starToSearch,
+} from '@webitel/ui-sdk/src/api/transformers';
+import instance from '../../../../../../../app/api/instance';
 import configuration from '../../../../../../../app/api/openAPIConfig';
 
 const queueSkillService = new QueueSkillServiceApiFactory(configuration, '', instance);
 
-const defaultListObject = {
-  agent: {},
-  minCapacity: 0,
-  maxCapacity: 0,
-  buckets: [],
-  lvl: 0,
-  enabled: false,
-};
-
-const defaultSingleObject = {
-  agent: {},
-  minCapacity: 0,
-  maxCapacity: 0,
-  buckets: [],
-  lvl: 0,
-  enabled: false,
-};
-
 const fieldsToSend = ['maxCapacity', 'minCapacity', 'queueId', 'lvl', 'buckets', 'skill',
   'enabled'];
 
-const preRequestHandler = (item, parentId) => ({ ...item, queueId: parentId });
+const preRequestHandler = (parentId) => (item) => ({ ...item, queueId: parentId });
 
-const listGetter = new SdkListGetterApiConsumer(queueSkillService.searchQueueSkill,
-  { defaultListObject });
-const itemGetter = new SdkGetterApiConsumer(queueSkillService.readQueueSkill,
-  { defaultSingleObject });
-const itemCreator = new SdkCreatorApiConsumer(queueSkillService.createQueueSkill,
-  { fieldsToSend, preRequestHandler });
-const itemPatcher = new SdkPatcherApiConsumer(queueSkillService.patchQueueSkill, { fieldsToSend });
-const itemUpdater = new SdkUpdaterApiConsumer(queueSkillService.updateQueueSkill,
-  { fieldsToSend, preRequestHandler });
-const itemDeleter = new SdkDeleterApiConsumer(queueSkillService.deleteQueueSkill);
+export const getQueueSkillsList = async (params) => {
+  const fieldsToSend = ['page', 'size', 'search', 'sort', 'fields', 'id', 'parentId', 'skillId'];
 
-export const getQueueSkillsList = (params) => listGetter.getNestedList(params);
-export const getQueueSkill = (params) => itemGetter.getNestedItem(params);
-export const addQueueSkill = (params) => itemCreator.createNestedItem(params);
-export const patchQueueSkill = (params) => itemPatcher.patchNestedItem(params);
-export const updateQueueSkill = (params) => itemUpdater.updateNestedItem(params);
-export const deleteQueueSkill = (params) => itemDeleter.deleteNestedItem(params);
+  const defaultObject = {
+    agent: {},
+    minCapacity: 0,
+    maxCapacity: 0,
+    buckets: [],
+    lvl: 0,
+    enabled: false,
+  };
+
+  const {
+    page,
+    size,
+    search,
+    sort,
+    fields,
+    id,
+    parentId,
+    skillId,
+  } = applyTransform(params, [
+    merge(getDefaultGetParams()),
+    starToSearch('search'),
+    sanitize(fieldsToSend),
+  ]);
+
+  try {
+    const response = await queueSkillService.searchQueueSkill(
+      parentId,
+      page,
+      size,
+      search,
+      sort,
+      fields,
+      id,
+      skillId,
+    );
+    const { items, next } = applyTransform(response.data, [
+      snakeToCamel(),
+      merge(getDefaultGetListResponse()),
+    ]);
+    return {
+      items: applyTransform(items, [
+        mergeEach(defaultObject),
+      ]),
+      next,
+    };
+  } catch (err) {
+    throw applyTransform(err, [
+      handleUnauthorized,
+      notify,
+    ]);
+  }
+};
+
+export const getQueueSkill = async ({ parentId, itemId: id }) => {
+  const defaultObject = {
+    agent: {},
+    minCapacity: 0,
+    maxCapacity: 0,
+    buckets: [],
+    lvl: 0,
+    enabled: false,
+  };
+
+  try {
+    const response = await queueSkillService.readQueueSkill(parentId, id);
+    return applyTransform(response.data, [
+      snakeToCamel(),
+      merge(defaultObject),
+    ]);
+  } catch (err) {
+    throw applyTransform(err, [
+      handleUnauthorized,
+      notify,
+    ]);
+  }
+};
+
+export const addQueueSkill = async ({ parentId, itemInstance }) => {
+  const item = applyTransform(itemInstance, [
+    preRequestHandler(parentId),
+    sanitize(fieldsToSend),
+    camelToSnake(),
+  ]);
+  try {
+    const response = await queueSkillService.createQueueSkill(parentId, item);
+    return applyTransform(response.data, [
+      snakeToCamel(),
+    ]);
+  } catch (err) {
+    throw applyTransform(err, [
+      handleUnauthorized,
+      notify,
+    ]);
+  }
+};
+
+export const patchQueueSkill = async ({ changes, id, parentId }) => {
+  const body = applyTransform(changes, [
+    sanitize(fieldsToSend),
+    camelToSnake(),
+  ]);
+  try {
+    const response = await queueSkillService.patchQueueSkill(parentId, id, body);
+    return applyTransform(response.data, [
+      snakeToCamel(),
+    ]);
+  } catch (err) {
+    throw applyTransform(err, [
+      handleUnauthorized,
+      notify,
+    ]);
+  }
+};
+
+export const updateQueueSkill = async ({ itemInstance, itemId: id, parentId }) => {
+  const item = applyTransform(itemInstance, [
+    preRequestHandler(parentId),
+    sanitize(fieldsToSend),
+    camelToSnake(),
+  ]);
+  try {
+    const response = await queueSkillService.updateQueueSkill(parentId, id, item);
+    return applyTransform(response.data, [
+      snakeToCamel(),
+    ]);
+  } catch (err) {
+    throw applyTransform(err, [
+      handleUnauthorized,
+      notify,
+    ]);
+  }
+};
+
+export const deleteQueueSkill = async ({ parentId, id }) => {
+  try {
+    const response = await queueSkillService.deleteQueueSkill(parentId, id);
+    return applyTransform(response.data, []);
+  } catch (err) {
+    throw applyTransform(err, [
+      handleUnauthorized,
+      notify,
+    ]);
+  }
+};
 
 const QueueSkillsAPI = {
   getList: getQueueSkillsList,
