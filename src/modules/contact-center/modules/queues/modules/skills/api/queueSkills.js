@@ -7,7 +7,7 @@ import applyTransform, {
   camelToSnake,
   handleUnauthorized,
   merge, mergeEach, notify, sanitize, snakeToCamel,
-  starToSearch, log,
+  starToSearch,
 } from '@webitel/ui-sdk/src/api/transformers';
 import instance from '../../../../../../../app/api/instance';
 import configuration from '../../../../../../../app/api/openAPIConfig';
@@ -17,12 +17,10 @@ const queueSkillService = new QueueSkillServiceApiFactory(configuration, '', ins
 const fieldsToSend = ['maxCapacity', 'minCapacity', 'queueId', 'lvl', 'buckets', 'skill',
   'enabled'];
 
-const preRequestHandler = (parentId) => (item) => {
-  return { ...item, queueId: parentId }
-};
+const preRequestHandler = (parentId) => (item) => ({ ...item, queueId: parentId });
 
 export const getQueueSkillsList = async (params) => {
-  const fieldsToSend = ['page', 'size', 'sort', 'fields', 'id', 'parentId'];
+  const fieldsToSend = ['page', 'size', 'search', 'sort', 'fields', 'id', 'parentId', 'skillId'];
 
   const defaultObject = {
     agent: {},
@@ -41,6 +39,7 @@ export const getQueueSkillsList = async (params) => {
     fields,
     id,
     parentId,
+    skillId,
   } = applyTransform(params, [
     merge(getDefaultGetParams()),
     starToSearch('search'),
@@ -56,6 +55,7 @@ export const getQueueSkillsList = async (params) => {
       sort,
       fields,
       id,
+      skillId,
     );
     const { items, next } = applyTransform(response.data, [
       snakeToCamel(),
@@ -76,7 +76,6 @@ export const getQueueSkillsList = async (params) => {
 };
 
 export const getQueueSkill = async ({ parentId, itemId: id }) => {
-
   const defaultObject = {
     agent: {},
     minCapacity: 0,
@@ -119,7 +118,7 @@ export const addQueueSkill = async ({ parentId, itemInstance }) => {
   }
 };
 
-export const patchQueueSkill = async ({ changes, itemId: id, parentId }) => {
+export const patchQueueSkill = async ({ changes, id, parentId }) => {
   const body = applyTransform(changes, [
     sanitize(fieldsToSend),
     camelToSnake(),
