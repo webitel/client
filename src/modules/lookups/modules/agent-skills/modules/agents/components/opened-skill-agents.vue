@@ -31,7 +31,9 @@
         >
           <wt-switcher
             :labelLeft="true"
+            v-model="stateForAll"
             :label="'State for all'"
+            @change="changeStateForAll"
           >
           </wt-switcher>
           <wt-icon-btn
@@ -130,6 +132,7 @@ export default {
     tableObjectRouteName: RouteNames.AGENTS, // this.editLink() computing
     isAgentPopup: false,
     agentSkillPopup: false,
+    stateForAll: false,
  }),
 
   methods: {
@@ -146,6 +149,12 @@ export default {
       this.agentSkillPopup = false;
     },
     snakeToCamel,
+    changeStateForAll() {
+      this.dataList.forEach((item, index) => {
+        // TODO: Rewrite to BULK_PATCH
+        this.patchItem({ item, index, prop: 'enabled', value: !this.stateForAll });
+      });
+    },
   },
 };
 </script>
