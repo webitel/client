@@ -20,7 +20,7 @@
         <wt-dummy
           v-if="dummy && isLoaded"
           :src="dummy.src"
-          :text="$t(dummy.text)"
+          :text="dummy.text && $t(dummy.text)"
           class="dummy-wrapper"
         ></wt-dummy>
         <div
