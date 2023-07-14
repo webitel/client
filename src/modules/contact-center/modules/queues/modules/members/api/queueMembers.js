@@ -1,4 +1,3 @@
-import eventBus from '@webitel/ui-sdk/src/scripts/eventBus';
 import deepCopy from 'deep-copy';
 import {
   getDefaultGetListResponse,
@@ -11,14 +10,6 @@ import applyTransform, {
   starToSearch,
 } from '@webitel/ui-sdk/src/api/transformers';
 import { MemberServiceApiFactory } from 'webitel-sdk';
-// import {
-//   SdkCreatorApiConsumer,
-//   SdkDeleterApiConsumer,
-//   SdkGetterApiConsumer,
-//   SdkListGetterApiConsumer,
-//   SdkPatcherApiConsumer,
-//   SdkUpdaterApiConsumer,
-// } from 'webitel-sdk/esm2015/api-consumers';
 import instance from '../../../../../../../app/api/instance';
 import configuration from '../../../../../../../app/api/openAPIConfig';
 // import sanitizer from '../../../../../../../app/api/old/utils/sanitizer';
@@ -50,41 +41,17 @@ const defaultSingleObjectCommunication = {
   dtmf: '',
 };
 
-const mapDefaultCommunications = (item) => (
-  item.communications ? item.communications
-  .map((comm) => ({ ...defaultSingleObjectCommunication, ...comm })) : []
-);
-
-const _getMembersList = (getList) => function({
-    page,
-    size,
-    search,
-    sort,
-    fields,
-    id,
-    parentId,
-    from,
-    to,
-    bucket,
-    priorityFrom,
-    priorityTo,
-    priority,
-    cause,
-    agent,
-  }) {
-  const params = [
-    parentId, page, size, search, sort, fields, id, bucket,
-    undefined, from, to, undefined, undefined, cause,
-    priorityFrom || priority?.from, priorityTo || priority?.to,
-    undefined, undefined, undefined, agent,
-  ];
-
-  return getList(params);
+const mapDefaultCommunications = (item) => {
+  console.log('mapDefaultCommunications item:', item);
+  const copy = item.communications ? item.communications
+  .map((comm) => ({ ...defaultSingleObjectCommunication, ...comm })) : [];
+  console.log('copy:', copy)
+  return copy;
 };
 
 const preRequestHandler = (item) => {
   item.communications
-  .forEach((item) => sanitizer(item, communicationsFieldsToSend)); //переробити на аплій трансформ? подивитись, як працює новий санітайс
+  .forEach((item) => sanitize(item, communicationsFieldsToSend)); //переробити на аплій трансформ? подивитись, як працює новий санітайс
   const variables = item.variables.reduce((variables, variable) => ({
     ...variables,
     [variable.key]: variable.value,
@@ -92,26 +59,18 @@ const preRequestHandler = (item) => {
   return { ...item, variables };
 };
 
-// const listGetter = new SdkListGetterApiConsumer(
-//   memberService.searchMemberInQueue,
-//   { defaultListObject, listResponseHandler },
-// )
-// .setGetListMethod(_getMembersList);
 const getMembersList = async (params) => {
   const fieldsToSend = ['page', 'size', 'search', 'sort', 'fields', 'id', 'parentId'];
-
   const defaultObject = {
     createdAt: 'unknown',
     priority: 0,
-  };
-
-  const responseHandler = (response) => {
-    const items = response.items.map((item) => ({
+  }
+  const listHandler = (items) => {
+    return items.map((item) => ({
       ...item,
       communications: mapDefaultCommunications(item),
     }));
-    return { items, next: response.next };
-  }; // переробити, це треба робити в return items:
+  };
 
   const {
     page,
@@ -165,6 +124,7 @@ const getMembersList = async (params) => {
     return {
       items: applyTransform(items, [
         mergeEach(defaultObject),
+        listHandler,
       ]),
       next,
     };
@@ -176,10 +136,6 @@ const getMembersList = async (params) => {
   }
 };
 
-// const itemGetter = new SdkGetterApiConsumer(
-//   memberService.readMember,
-//   { defaultSingleObject, itemResponseHandler },
-// );
 const getMember = async ({ parentId, itemId: id }) => {
   const defaultObject = {
     createdAt: 'unknown',
@@ -220,10 +176,6 @@ const getMember = async ({ parentId, itemId: id }) => {
   }
 };
 
-// const itemCreator = new SdkCreatorApiConsumer(
-//   memberService.createMember,
-//   { fieldsToSend, preRequestHandler },
-// );
 const addMember = async ({ parentId, itemInstance }) => {
   const item = applyTransform(itemInstance, [
     preRequestHandler,
@@ -243,18 +195,14 @@ const addMember = async ({ parentId, itemInstance }) => {
   }
 };
 
-// const itemUpdater = new SdkUpdaterApiConsumer(
-//   memberService.updateMember,
-//   { fieldsToSend, preRequestHandler },
-// );
 const updateMember = async ({ itemInstance, itemId: id, parentId }) => {
-  const item = applyTransform(itemInstance, [
-    preRequestHandler(parentId),
+  const body = applyTransform(itemInstance, [
+    preRequestHandler,
     sanitize(fieldsToSend),
     camelToSnake(),
   ]);
   try {
-    const response = await memberService.updateMember(parentId, id, item);
+    const response = await memberService.updateMember(parentId, id, body);
     return applyTransform(response.data, [
       snakeToCamel(),
     ]);
@@ -266,7 +214,6 @@ const updateMember = async ({ itemInstance, itemId: id, parentId }) => {
   }
 };
 
-// const itemDeleter = new SdkDeleterApiConsumer(memberService.deleteMember);
 const deleteMember = async ({ parentId, id }) => {
   try {
     const response = await memberService.deleteMember(parentId, id);
@@ -279,16 +226,7 @@ const deleteMember = async ({ parentId, id }) => {
   }
 };
 
-// const resetMembersApiConsumer = new SdkPatcherApiConsumer(memberService.resetMembers);
-
-// const resetMembers = ({ parentId }) => resetMembersApiConsumer
-// .patchItem({ id: parentId, changes: {} });
-
 const resetMembers = async ({ parentId }) => {
-  // const body = applyTransform(changes, [
-  //   sanitize(fieldsToSend),
-  //   camelToSnake(),
-  // ]);
   try {
     const response = await memberService.resetMembers(parentId, {});
     return applyTransform(response.data, [
@@ -301,21 +239,36 @@ const resetMembers = async ({ parentId }) => {
     ]);
   }
 };
-const addMembersBulk = async (queueId, fileName, items) => {
-  const itemsCopy = deepCopy(items);
-  const body = { queueId, fileName, items: itemsCopy };
+
+const addMembersBulk = async (parentId, fileName, items) => {
+  const body = { parentId, fileName, items };
+  // try {
+  //   await memberService.createMemberBulk(queueId, body);
+  //   eventBus.$emit('notification', {
+  //     type: 'info',
+  //     text: 'Successfully added',
+  //   });
+  // } catch (err) {
+  //   throw err;
+  // }
   try {
-    await memberService.createMemberBulk(queueId, body);
-    eventBus.$emit('notification', {
-      type: 'info',
-      text: 'Successfully added',
-    });
+    const response = await memberService.createMemberBulk(parentId, body);
+    return applyTransform(response.data, [
+      snakeToCamel(),
+      notify(({ callback }) => callback({
+        type: 'info',
+        text: 'Successfully added',
+      })),
+    ]);
   } catch (err) {
-    throw err;
+    throw applyTransform(err, [
+      handleUnauthorized,
+      notify,
+    ]);
   }
 };
 
-export const deleteMembersBulk = async (queueId, {
+export const deleteMembersBulk = async (parentId, {
   search,
   id,
   from,
@@ -324,17 +277,22 @@ export const deleteMembersBulk = async (queueId, {
   priority,
   cause,
 }) => {
+  const body = {
+    id,
+    q: search,
+    createdAt: (from || to) ? { from, to } : undefined,
+    priority,
+    stopCause: cause,
+    bucketId: bucket,
+  };
   try {
-    await memberService.deleteMembers(queueId, {
-      id,
-      q: search,
-      createdAt: (from || to) ? { from, to } : undefined,
-      priority,
-      stopCause: cause,
-      bucketId: bucket,
-    });
+    const response = await memberService.deleteMembers(parentId, body);
+    return applyTransform(response.data, []);
   } catch (err) {
-    throw err;
+    throw applyTransform(err, [
+      handleUnauthorized,
+      notify,
+    ]);
   }
 };
 
