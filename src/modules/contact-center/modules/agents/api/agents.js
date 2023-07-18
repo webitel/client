@@ -4,7 +4,7 @@ import {
 } from '@webitel/ui-sdk/src/api/defaults';
 import applyTransform, {
   camelToSnake,
-  handleUnauthorized,
+  handleUnauthorized, log,
   merge, mergeEach, notify, sanitize, snakeToCamel,
   starToSearch,
 } from '@webitel/ui-sdk/src/api/transformers';
@@ -35,6 +35,8 @@ const getAgentsList = async (params) => {
     sort,
     fields,
     id,
+    team,
+    skill,
     isSupervisor,
     isNotSupervisor,
     notTeamId,
@@ -54,11 +56,11 @@ const getAgentsList = async (params) => {
       id,
       undefined,
       supervisorId,
-      undefined,
+      team,
       undefined,
       undefined,
       isSupervisor,
-      undefined,
+      skill,
       undefined,
       isNotSupervisor,
       undefined,

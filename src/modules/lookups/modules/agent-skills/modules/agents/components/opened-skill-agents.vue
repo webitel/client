@@ -1,9 +1,15 @@
 <template>
   <section>
     <skill-popup
+      @open-agent-skill-state-popup="openAgentSkillStatePopup"
       v-if="isAgentPopup"
       @close="closePopup"
     ></skill-popup>
+    <skill-state-popup
+      @previous-agent-state-popup="openAgentSkillStatePopup"
+      v-if="agentSkillStatePopup"
+      @close="closeAgentSkillStatePopup"
+    ></skill-state-popup>
     <change-skill-popup
       :selected-rows="selectedRows"
       v-if="agentSkillPopup"
@@ -117,14 +123,17 @@ import { snakeToCamel } from '@webitel/ui-sdk/src/scripts/caseConverters';
 import openedObjectTableTabMixin from '../../../../../../../app/mixins/objectPagesMixins/openedObjectTableTabMixin/openedObjectTableTabMixin';
 import RouteNames from '../../../../../../../app/router/_internals/RouteNames.enum';
 import SkillPopup from './opened-skill-agent-popup.vue';
+import SkillStatePopup from './opened-skill-agent-state-popup.vue';
 import ChangeSkillPopup from './opened-skill-agent-change-popup.vue';
+import { mapState } from 'vuex';
+import getNamespacedState from '@webitel/ui-sdk/src/store/helpers/getNamespacedState';
 
 const namespace = 'lookups/skills';
 const subNamespace = 'agents';
 export default {
   name: 'opened-skill-agents',
   mixins: [openedObjectTableTabMixin],
-  components: { SkillPopup, ChangeSkillPopup },
+  components: { SkillPopup, ChangeSkillPopup, SkillStatePopup },
 
   data: () => ({
     namespace,
@@ -132,6 +141,7 @@ export default {
     tableObjectRouteName: RouteNames.AGENTS, // this.editLink() computing
     isAgentPopup: false,
     agentSkillPopup: false,
+    agentSkillStatePopup: false,
     stateForAll: false,
  }),
 
@@ -145,8 +155,14 @@ export default {
     openAgentSkillPopup() {
       this.agentSkillPopup = true;
     },
+    openAgentSkillStatePopup() {
+      this.agentSkillStatePopup = true;
+    },
     closeAgentSkillPopup() {
       this.agentSkillPopup = false;
+    },
+    closeAgentSkillStatePopup() {
+      this.agentSkillStatePopup = false;
     },
     snakeToCamel,
     changeStateForAll() {
@@ -156,6 +172,13 @@ export default {
       });
     },
   },
+  // computed: {
+  //   ...mapState({
+  //     itemId(state) {
+  //       return getNamespacedState(state, this.namespace).itemId;
+  //     },
+  //   }),
+  // },
 };
 </script>
 
