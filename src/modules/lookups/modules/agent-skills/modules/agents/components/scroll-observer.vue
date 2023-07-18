@@ -29,6 +29,7 @@
       setObserver() {
         if (this.options && !this.observer) { // if parent rendered and we can set root within options
           this.observer = new IntersectionObserver(([entry]) => {
+            console.info(entry);
             if (entry && entry.isIntersecting) {
               this.$emit('intersect');
             }
@@ -40,6 +41,10 @@
   };
 </script>
 
-<style scoped>
-
+<style lang="scss" scoped>
+//.observer {
+//  width: 100%;
+//  height: 50px;
+//  background: red;
+//}
 </style>

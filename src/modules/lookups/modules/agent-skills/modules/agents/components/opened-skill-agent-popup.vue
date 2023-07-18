@@ -23,9 +23,7 @@
         multiple
       >
       </wt-select>
-      <div
-        ref="scroll-wrap"
-        class="table-wrapper">
+      <div ref="scroll-wrap" class="scroll-wrap">
         <wt-table
           :headers="headers"
           :data="dataList"
@@ -85,9 +83,6 @@ export default {
   setup: () => ({
     v$: useVuelidate(),
   }),
-  created() {
-    this.loadDataList();
-  },
   validations: {
     itemInstance: {
       agent: { required },
@@ -108,9 +103,9 @@ export default {
       return {
         page: this.dataPage,
         size: this.dataSize,
-        search: this.dataSearch,
-        team,
-        skill,
+        // search: this.dataSearch,
+        // team,
+        // skill,
       };
     },
   },
@@ -126,4 +121,16 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+.wt-popup {
+  :deep(.wt-popup__main) {
+    display: flex;
+    flex-direction: column;
+  }
+
+  :deep(.scroll-wrap) {
+    flex-grow: 1;
+    min-height: 0;
+    overflow: auto;
+  }
+}
 </style>
