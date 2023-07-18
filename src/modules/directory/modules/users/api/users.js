@@ -28,7 +28,7 @@ const fieldsToSend = [
 ];
 
 const getUsersList = async (params) => {
-  const fieldsToSend = ['page', 'size', 'q', 'fields', 'id'];
+  const fieldsToSend = ['page', 'size', 'sort', 'q', 'fields', 'id'];
 
   const defaultObject = {
     name: '',
