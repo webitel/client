@@ -1,4 +1,3 @@
-import deepCopy from 'deep-copy';
 import {
   getDefaultGetListResponse,
   getDefaultGetParams,
@@ -12,7 +11,6 @@ import applyTransform, {
 import { MemberServiceApiFactory } from 'webitel-sdk';
 import instance from '../../../../../../../app/api/instance';
 import configuration from '../../../../../../../app/api/openAPIConfig';
-// import sanitizer from '../../../../../../../app/api/old/utils/sanitizer';
 
 const memberService = new MemberServiceApiFactory(configuration, '', instance);
 
@@ -42,11 +40,8 @@ const defaultSingleObjectCommunication = {
 };
 
 const mapDefaultCommunications = (item) => {
-  console.log('mapDefaultCommunications item:', item);
-  const copy = item.communications ? item.communications
+  return item.communications ? item.communications
   .map((comm) => ({ ...defaultSingleObjectCommunication, ...comm })) : [];
-  console.log('copy:', copy)
-  return copy;
 };
 
 const preRequestHandler = (item) => {
@@ -242,15 +237,6 @@ const resetMembers = async ({ parentId }) => {
 
 const addMembersBulk = async (parentId, fileName, items) => {
   const body = { parentId, fileName, items };
-  // try {
-  //   await memberService.createMemberBulk(queueId, body);
-  //   eventBus.$emit('notification', {
-  //     type: 'info',
-  //     text: 'Successfully added',
-  //   });
-  // } catch (err) {
-  //   throw err;
-  // }
   try {
     const response = await memberService.createMemberBulk(parentId, body);
     return applyTransform(response.data, [
