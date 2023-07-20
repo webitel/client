@@ -14,8 +14,9 @@ import configuration from '../../../../../../../app/api/openAPIConfig';
 const agentService = new AgentServiceApiFactory(configuration, '', instance);
 
 const getQueueAgentsList = async (params) => {
-  const fieldsToSend = ['page', 'size', 'search', 'sort', 'fields', 'id', 'parentId'];
   const fields = ['id', 'name', 'status', 'supervisor', 'skills'];
+  const fieldsToSend = ['page', 'size', 'search', 'sort', 'parentId'];
+
 
   const defaultObject = {
     name: '',
@@ -25,11 +26,11 @@ const getQueueAgentsList = async (params) => {
   };
 
   const {
-    parentId,
     page = 1,
     size = 10,
     search,
     sort,
+    parentId,
   } = applyTransform(params, [
     merge(getDefaultGetParams()),
     starToSearch('search'),
