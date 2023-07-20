@@ -14,6 +14,8 @@ import configuration from '../../../../../../../app/api/openAPIConfig';
 
 const agentSkillService = new AgentSkillServiceApiFactory(configuration, '', instance);
 
+const fieldsToSend = ['capacity', 'agentId', 'skill', 'enabled'];
+
 const defaultObject = {
   skill: {},
   capacity: 0,
@@ -21,16 +23,16 @@ const defaultObject = {
 };
 
 const getAgentSkillsList = async (params) => {
-  const fieldsToSend = ['page', 'size', 'search', 'sort', 'fields', 'id'];
+  const fieldsToSend = ['page', 'size', 'search', 'sort', 'fields', 'id', 'parentId'];
 
   const {
-    parentId,
     page,
     size,
     search,
     sort,
     fields,
     id,
+    parentId,
   } = applyTransform(params, [
     merge(getDefaultGetParams()),
     starToSearch('search'),
@@ -78,8 +80,6 @@ const getAgentSkill = async ({ parentId, itemId: id }) => {
     ]);
   }
 };
-
-const fieldsToSend = ['capacity', 'agentId', 'skill', 'enabled'];
 
 const addAgentSkill = async ({ parentId, itemInstance }) => {
   const item = applyTransform(itemInstance, [

@@ -20,14 +20,14 @@ const getQueueAgentsList = async (params) => {
   };
 
   const fields = ['id', 'name', 'status', 'supervisor', 'skills'];
-  const fieldsToSend = ['page', 'size', 'search', 'sort', 'fields', 'id'];
+  const fieldsToSend = ['page', 'size', 'search', 'sort', 'parentId'];
 
   const {
-    parentId,
     page = 1,
     size = 10,
     search,
     sort,
+    parentId,
   } = applyTransform(params, [
     merge(getDefaultGetParams()),
     starToSearch('search'),
