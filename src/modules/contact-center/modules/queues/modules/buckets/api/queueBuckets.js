@@ -1,49 +1,159 @@
 import { QueueBucketServiceApiFactory } from 'webitel-sdk';
-import {
-  SdkListGetterApiConsumer,
-  SdkGetterApiConsumer,
-  SdkCreatorApiConsumer,
-  SdkUpdaterApiConsumer,
-  SdkDeleterApiConsumer,
-  SdkPatcherApiConsumer,
-} from 'webitel-sdk/esm2015/api-consumers';
-import instance from '../../../../../../../app/api/old/instance';
+import instance from '../../../../../../../app/api/instance';
 import configuration from '../../../../../../../app/api/openAPIConfig';
+import applyTransform, {
+  camelToSnake,
+  handleUnauthorized,
+  merge, mergeEach, notify,
+  sanitize, snakeToCamel,
+  starToSearch
+} from '@webitel/ui-sdk/src/api/transformers';
+import { getDefaultGetListResponse, getDefaultGetParams } from '@webitel/ui-sdk/src/api/defaults';
 
 const queueBucketsService = new QueueBucketServiceApiFactory(configuration, '', instance);
 
-const defaultListObject = {
-  priority: 0,
-  disabled: false,
-};
-
-const defaultSingleObject = {
-  priority: 0,
-  disabled: false,
-};
-
 const fieldsToSend = ['bucket', 'priority', 'queueId', 'disabled'];
 
-const preRequestHandler = (item, parentId) => ({ ...item, queueId: parentId });
+const preRequestHandler = (parentId) => (item) => ({ ...item, queueId: parentId });
 
-const listGetter = new SdkListGetterApiConsumer(queueBucketsService.searchQueueBucket,
-  { defaultListObject });
-const itemGetter = new SdkGetterApiConsumer(queueBucketsService.readQueueBucket,
-  { defaultSingleObject });
-const itemCreator = new SdkCreatorApiConsumer(queueBucketsService.createQueueBucket,
-  { fieldsToSend, preRequestHandler });
-const itemUpdater = new SdkUpdaterApiConsumer(queueBucketsService.updateQueueBucket,
-  { fieldsToSend, preRequestHandler });
-const itemDeleter = new SdkDeleterApiConsumer(queueBucketsService.deleteQueueBucket);
-const itemPatcher = new SdkPatcherApiConsumer(queueBucketsService.patchQueueBucket,
-  { fieldsToSend });
+const getQueueBucketsList = async (params) => {
+  const fieldsToSend = ['page', 'size', 'search', 'sort', 'fields', 'id', 'parentId'];
 
-const getQueueBucketsList = (params) => listGetter.getNestedList(params);
-const getQueueBucket = (params) => itemGetter.getNestedItem(params);
-const addQueueBucket = (params) => itemCreator.createNestedItem(params);
-const updateQueueBucket = (params) => itemUpdater.updateNestedItem(params);
-const deleteQueueBucket = (params) => itemDeleter.deleteNestedItem(params);
-const patchQueueBucket = (params) => itemPatcher.patchNestedItem(params);
+  const defaultObject = {
+    priority: 0,
+    disabled: false,
+  };
+
+  const {
+    page,
+    size,
+    search,
+    sort,
+    fields,
+    id,
+    parentId,
+  } = applyTransform(params, [
+    merge(getDefaultGetParams()),
+    starToSearch('search'),
+    sanitize(fieldsToSend),
+  ]);
+
+  try {
+    const response = await queueBucketsService.searchQueueBucket(
+      parentId,
+      page,
+      size,
+      search,
+      sort,
+      fields,
+      id,
+    );
+    const { items, next } = applyTransform(response.data, [
+      snakeToCamel(),
+      merge(getDefaultGetListResponse()),
+    ]);
+    return {
+      items: applyTransform(items, [
+        mergeEach(defaultObject),
+      ]),
+      next,
+    };
+  } catch (err) {
+    throw applyTransform(err, [
+      handleUnauthorized,
+      notify,
+    ]);
+  }
+};
+
+const getQueueBucket = async ({ parentId, itemId: id }) => {
+  const defaultObject = {
+    priority: 0,
+    disabled: false,
+  };
+
+  try {
+    const response = await queueBucketsService.readQueueBucket(parentId, id);
+    return applyTransform(response.data, [
+      snakeToCamel(),
+      merge(defaultObject),
+    ]);
+  } catch (err) {
+    throw applyTransform(err, [
+      handleUnauthorized,
+      notify,
+    ]);
+  }
+};
+
+const addQueueBucket = async ({ parentId, itemInstance }) => {
+  const item = applyTransform(itemInstance, [
+    preRequestHandler(parentId),
+    sanitize(fieldsToSend),
+    camelToSnake(),
+  ]);
+  try {
+    const response = await queueBucketsService.createQueueBucket(parentId, item);
+    return applyTransform(response.data, [
+      snakeToCamel(),
+    ]);
+  } catch (err) {
+    throw applyTransform(err, [
+      handleUnauthorized,
+      notify,
+    ]);
+  }
+};
+
+const updateQueueBucket = async ({ itemInstance, itemId: id, parentId }) => {
+  const item = applyTransform(itemInstance, [
+    preRequestHandler(parentId),
+    sanitize(fieldsToSend),
+    camelToSnake(),
+  ]);
+  try {
+    const response = await queueBucketsService.updateQueueBucket(parentId, id, item);
+    return applyTransform(response.data, [
+      snakeToCamel(),
+    ]);
+  } catch (err) {
+    throw applyTransform(err, [
+      handleUnauthorized,
+      notify,
+    ]);
+  }
+};
+
+const patchQueueBucket = async ({ changes, id, parentId }) => {
+  const body = applyTransform(changes, [
+    sanitize(fieldsToSend),
+    camelToSnake(),
+  ]);
+  try {
+    const response = await queueBucketsService.patchQueueBucket(parentId, id, body);
+    return applyTransform(response.data, [
+      snakeToCamel(),
+    ]);
+  } catch (err) {
+    throw applyTransform(err, [
+      handleUnauthorized,
+      notify,
+    ]);
+  }
+};
+
+const deleteQueueBucket = async ({ parentId, id }) => {
+  try {
+    const response = await queueBucketsService.deleteQueueBucket(parentId, id);
+    return applyTransform(response.data, []);
+  } catch (err) {
+    throw applyTransform(err, [
+      handleUnauthorized,
+      notify,
+    ]);
+  }
+};
+
 
 const QueueBucketsAPI = {
   getList: getQueueBucketsList,
