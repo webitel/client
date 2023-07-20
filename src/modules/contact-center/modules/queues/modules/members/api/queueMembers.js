@@ -46,7 +46,7 @@ const mapDefaultCommunications = (item) => {
 
 const preRequestHandler = (item) => {
   item.communications
-  .forEach((item) => sanitize(item, communicationsFieldsToSend)); //переробити на аплій трансформ? подивитись, як працює новий санітайс
+  .forEach((item) => sanitize(item, communicationsFieldsToSend));
   const variables = item.variables.reduce((variables, variable) => ({
     ...variables,
     [variable.key]: variable.value,
@@ -55,7 +55,23 @@ const preRequestHandler = (item) => {
 };
 
 const getMembersList = async (params) => {
-  const fieldsToSend = ['page', 'size', 'search', 'sort', 'fields', 'id', 'parentId'];
+  const fieldsToSend = [
+    'page',
+    'size',
+    'search',
+    'sort',
+    'fields',
+    'id',
+    'parentId',
+    'from',
+    'to',
+    'bucket',
+    'priorityFrom',
+    'priorityTo',
+    'priority',
+    'cause',
+    'agent',
+  ];
   const defaultObject = {
     createdAt: 'unknown',
     priority: 0,
