@@ -14,22 +14,10 @@ import configuration from '../../../../../../../app/api/openAPIConfig';
 
 const queueHookService = new QueueHookServiceApiFactory(configuration, '', instance);
 
-// const defaultListObject = {
-//   enabled: false,
-// };
-//
-// const defaultSingleObject = {
-//   event: '',
-//   properties: [],
-//   schema: {},
-//   enabled: false,
-// };
-
 const fieldsToSend = ['event', 'properties', 'schema', 'enabled'];
 
 const preRequestHandler = (parentId) => (item) => ({ ...item, queueId: parentId });
 
-// const listGetter = new SdkListGetterApiConsumer(queueHookService.searchQueueHook, { defaultListObject });
 const getQueueHooksList = async (params) => {
   const fieldsToSend = ['page', 'size', 'search', 'sort', 'fields', 'id', 'parentId'];
 
@@ -79,8 +67,6 @@ const getQueueHooksList = async (params) => {
   }
 };
 
-// const itemGetter = new SdkGetterApiConsumer(queueHookService.readQueueHook, { defaultSingleObject });
-// const getQueueHook = (params) => itemGetter.getNestedItem(params);
 const getQueueHook = async ({ parentId, itemId: id }) => {
   const defaultObject = {
     event: '',
@@ -103,8 +89,6 @@ const getQueueHook = async ({ parentId, itemId: id }) => {
   }
 };
 
-// const itemCreator = new SdkCreatorApiConsumer(queueHookService.createQueueHook,
-//   { fieldsToSend, preRequestHandler });
 const addQueueHook = async ({ parentId, itemInstance }) => {
   const item = applyTransform(itemInstance, [
     preRequestHandler(parentId),
@@ -124,9 +108,7 @@ const addQueueHook = async ({ parentId, itemInstance }) => {
   }
 };
 
-// const itemPatcher = new SdkPatcherApiConsumer(queueHookService.patchQueueHook);
 const patchQueueHook = async ({ changes, id, parentId }) => {
-  const fieldsToSend = ['page', 'size', 'search', 'sort', 'fields', 'id', 'parentId'];
   const body = applyTransform(changes, [
     sanitize(fieldsToSend),
     camelToSnake(),
@@ -145,8 +127,6 @@ const patchQueueHook = async ({ changes, id, parentId }) => {
   }
 };
 
-// const itemUpdater = new SdkUpdaterApiConsumer(queueHookService.updateQueueHook,
-//   { fieldsToSend, preRequestHandler });
 const updateQueueHook = async ({ itemInstance, itemId: id, parentId }) => {
   const item = applyTransform(itemInstance, [
     preRequestHandler(parentId),
@@ -166,7 +146,6 @@ const updateQueueHook = async ({ itemInstance, itemId: id, parentId }) => {
   }
 };
 
-// const itemDeleter = new SdkDeleterApiConsumer(queueHookService.deleteQueueHook);
 const deleteQueueHook = async ({ parentId, id }) => {
   try {
     const response = await queueHookService.deleteQueueHook(parentId, id);
