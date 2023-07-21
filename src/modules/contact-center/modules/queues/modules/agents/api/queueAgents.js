@@ -3,7 +3,7 @@ import instance from '../../../../../../../app/api/instance';
 import configuration from '../../../../../../../app/api/openAPIConfig';
 import applyTransform, {
   handleUnauthorized,
-  merge, mergeEach, notify, sanitize,
+  merge, mergeEach, notify,
   snakeToCamel,
   starToSearch
 } from '@webitel/ui-sdk/src/api/transformers';
@@ -20,7 +20,6 @@ const getQueueAgentsList = async (params) => {
   };
 
   const fields = ['id', 'name', 'status', 'supervisor', 'skills'];
-  const fieldsToSend = ['page', 'size', 'search', 'sort', 'parentId'];
 
   const {
     page = 1,
@@ -31,7 +30,6 @@ const getQueueAgentsList = async (params) => {
   } = applyTransform(params, [
     merge(getDefaultGetParams()),
     starToSearch('search'),
-    sanitize(fieldsToSend),
   ]);
 
   try {
