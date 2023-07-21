@@ -19,8 +19,6 @@ const fieldsToSend = ['event', 'properties', 'schema', 'enabled'];
 const preRequestHandler = (parentId) => (item) => ({ ...item, queueId: parentId });
 
 const getQueueHooksList = async (params) => {
-  const fieldsToSend = ['page', 'size', 'search', 'sort', 'fields', 'id', 'parentId'];
-
   const defaultObject = {
     enabled: false,
   };
@@ -36,7 +34,6 @@ const getQueueHooksList = async (params) => {
   } = applyTransform(params, [
     merge(getDefaultGetParams()),
     starToSearch('search'),
-    sanitize(fieldsToSend),
   ]);
 
   try {
