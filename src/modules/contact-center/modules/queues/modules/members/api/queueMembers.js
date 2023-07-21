@@ -4,7 +4,7 @@ import {
 } from '@webitel/ui-sdk/src/api/defaults';
 import applyTransform, {
   camelToSnake,
-  handleUnauthorized,
+  handleUnauthorized, log,
   merge, mergeEach, notify, sanitize, snakeToCamel,
   starToSearch,
 } from '@webitel/ui-sdk/src/api/transformers';
@@ -55,23 +55,6 @@ const preRequestHandler = (item) => {
 };
 
 const getMembersList = async (params) => {
-  const fieldsToSend = [
-    'page',
-    'size',
-    'search',
-    'sort',
-    'fields',
-    'id',
-    'parentId',
-    'from',
-    'to',
-    'bucket',
-    'priorityFrom',
-    'priorityTo',
-    'priority',
-    'cause',
-    'agent',
-  ];
   const defaultObject = {
     createdAt: 'unknown',
     priority: 0,
@@ -102,7 +85,6 @@ const getMembersList = async (params) => {
   } = applyTransform(params, [
     merge(getDefaultGetParams()),
     starToSearch('search'),
-    sanitize(fieldsToSend),
   ]);
 
   try {
