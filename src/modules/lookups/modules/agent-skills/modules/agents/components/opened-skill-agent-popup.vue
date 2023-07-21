@@ -4,31 +4,36 @@
       Assign skill to agents
     </template>
     <template v-slot:main>
-      <wt-search-bar
-        v-model="dataSearch"
-        @change="loadDataList"
-      >
-      </wt-search-bar>
-      <wt-select
-        :search-method="loadTeams"
-        v-model="teamSearch"
-        @input="loadDataList"
-        multiple
-      >
-      </wt-select>
-      <wt-select
-        :search-method="loadSkills"
-        v-model="skillSearch"
-        @input="loadDataList"
-        multiple
-      >
-      </wt-select>
+      <div class="opened-skill-agent-popup__filters">
+        <wt-search-bar
+          v-model="dataSearch"
+          @change="loadDataList"
+        >
+        </wt-search-bar>
+        <wt-select
+          :placeholder="$tc('objects.ccenter.teams.teams', 1)"
+          :search-method="loadTeams"
+          v-model="teamSearch"
+          @input="loadDataList"
+          multiple
+        >
+        </wt-select>
+        <wt-select
+          :placeholder="$tc('objects.lookups.skills.skills', 1)"
+          :search-method="loadSkills"
+          v-model="skillSearch"
+          @input="loadDataList"
+          multiple
+        >
+        </wt-select>
+      </div>
       <div ref="scroll-wrap" class="scroll-wrap">
         <wt-table
           :headers="headers"
           :data="dataList"
           :grid-actions="false"
           sortable
+          @sort="sort"
         >
           <template v-slot:name="{ item }">
             {{ item.name }}
@@ -45,7 +50,8 @@
     </template>
     <template v-slot:actions>
       <wt-button
-        :disabled="disabledSave"
+        :disabled="!selectedRows.length"
+        @click="openAgentSkillStatePopup"
       >{{ $t('objects.add') }}
       </wt-button>
       <wt-button
@@ -58,8 +64,6 @@
 </template>
 
 <script>
-import { useVuelidate } from '@vuelidate/core';
-import { required } from '@vuelidate/validators';
 import AgentsAPI from '../../../../../../contact-center/modules/agents/api/agents';
 import TeamsAPI from '../../../../../../contact-center/modules/teams/api/teams';
 import SkillsAPI from '../../../api/agentSkills';
@@ -80,33 +84,34 @@ export default {
     skillSearch: [],
   }),
 
-  setup: () => ({
-    v$: useVuelidate(),
-  }),
-  validations: {
-    itemInstance: {
-      agent: { required },
-    },
-  },
-
   methods: {
     fetch: AgentsAPI.getList,
     loadTeams: TeamsAPI.getLookup,
     loadSkills: SkillsAPI.getLookup,
     openAgentSkillStatePopup() {
-      this.$emit('openAgentSkillStatePopup');
       this.close();
+      this.selectingAgents();
+      this.$emit('openAgentSkillStatePopup');
     },
     collectParams() {
-      const team = this.teamSearch.map(({id}) => id);
-      const skill = this.skillSearch.map(({id}) => id);
+      const team = this.teamSearch.map(({ id }) => id);
+      const skill = this.skillSearch.map(({ id }) => id);
       return {
         page: this.dataPage,
         size: this.dataSize,
-        // search: this.dataSearch,
-        // team,
-        // skill,
+        search: this.dataSearch,
+        team,
+        skill,
       };
+    },
+    sort(...params) {
+      this.dispatchSort({ header: params[0], nextSortOrder: params[1] });
+    },
+    dispatchSort(dispatch, payload) {
+      return dispatch(`${this.namespace}/${this.subNamespace}/SORT`, payload);
+    },
+    selectingAgents() {
+      this.$emit('selectingAgents', this.selectedRows);
     },
   },
   computed: {
@@ -115,6 +120,9 @@ export default {
         { value: 'name', text: this.$t('reusable.name') },
         { value: 'team', text: this.$tc('objects.ccenter.teams.teams', 1) },
       ];
+    },
+    selectedRows() {
+      return this.dataList.filter((item) => item._isSelected);
     },
   },
 };
@@ -132,5 +140,10 @@ export default {
     min-height: 0;
     overflow: auto;
   }
+}
+
+.opened-skill-agent-popup__filters {
+  display: flex;
+  gap: 8px;
 }
 </style>

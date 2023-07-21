@@ -2,10 +2,12 @@
   <section>
     <skill-popup
       @open-agent-skill-state-popup="openAgentSkillStatePopup"
+      @selecting-agents="selectingAgents"
       v-if="isAgentPopup"
       @close="closePopup"
     ></skill-popup>
     <skill-state-popup
+      @change-agents-state="changeAgentsState"
       @previous-agent-state-popup="openAgentSkillStatePopup"
       v-if="agentSkillStatePopup"
       @close="closeAgentSkillStatePopup"
@@ -66,11 +68,12 @@
     </header>
 
     <div v-show="isLoaded" class="table-wrapper">
-      {{dataList}}
+      {{dataList}}<br>
+      {{parentId}}
       <wt-table
       :headers="headers"
       :data="dataList"
-      :grid-actions="!disableUserInput"
+      :grid-actions="false"
       sortable
       @sort="sort"
     >
@@ -125,6 +128,7 @@ import RouteNames from '../../../../../../../app/router/_internals/RouteNames.en
 import SkillPopup from './opened-skill-agent-popup.vue';
 import SkillStatePopup from './opened-skill-agent-state-popup.vue';
 import ChangeSkillPopup from './opened-skill-agent-change-popup.vue';
+import AgentSkillsAPI from '../api/skillAgents';
 import { mapState } from 'vuex';
 import getNamespacedState from '@webitel/ui-sdk/src/store/helpers/getNamespacedState';
 
@@ -143,6 +147,7 @@ export default {
     agentSkillPopup: false,
     agentSkillStatePopup: false,
     stateForAll: false,
+    agentsSelectedRows: [],
  }),
 
   methods: {
@@ -169,6 +174,16 @@ export default {
       this.dataList.forEach((item, index) => {
         // TODO: Rewrite to BULK_PATCH
         this.patchItem({ item, index, prop: 'enabled', value: !this.stateForAll });
+      });
+    },
+    selectingAgents(selectedRows) {
+     this.agentsSelectedRows = selectedRows;
+    },
+    changeAgentsState(agentsState) {
+      const { parentId } = this;
+      this.agentsSelectedRows.forEach((el) => {
+        const itemInstance = { ...el, ...agentsState };
+        AgentSkillsAPI.add({ parentId, itemInstance });
       });
     },
   },

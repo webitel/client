@@ -29,9 +29,10 @@ export default {
   methods: {
     setData(items) {
       if (this.dataPage === 1) {
-        this.dataList = items; // if component is re-rendered, reset persistent storage data
+        this.dataList = items.map((items) => ({ ...items, _isSelected: false }));
       } else {
-        this.dataList = [...this.dataList, ...items];
+        this.dataList = [...this.dataList, ...items]
+        .map((items) => ({ ...items, _isSelected: false }));
       }
     },
 

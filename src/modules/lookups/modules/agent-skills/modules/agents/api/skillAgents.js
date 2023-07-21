@@ -80,15 +80,15 @@ const getAgentSkill = async ({ parentId, itemId: id }) => {
   }
 };
 
-const fieldsToSend = ['capacity', 'skill', 'team', 'enabled', 'id', 'agent'];
+const fieldsToSend = ['capacity', 'skill', 'team', 'enabled', 'id', 'agent', 'user', 'state'];
 
-const addAgentSkill = async ({ id, itemInstance }) => {
+const addAgentSkill = async ({ parentId, itemInstance }) => {
   const item = applyTransform(itemInstance, [
     sanitize(fieldsToSend),
     camelToSnake(),
   ]);
   try {
-    const response = await skillService.createSkill(id, item);
+    const response = await skillService.createSkillAgent(parentId, item);
     return applyTransform(response.data, [
       snakeToCamel(),
     ]);

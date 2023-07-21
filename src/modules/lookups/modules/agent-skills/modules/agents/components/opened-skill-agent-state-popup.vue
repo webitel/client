@@ -5,12 +5,12 @@
     </template>
     <template v-slot:main>
       <wt-input
-        v-model="agentCapacity"
+        v-model="agentsState.capacity"
         :label="$t('objects.lookups.skills.capacity')"
         type="number"
       ></wt-input>
       <wt-switcher
-        v-model="agentState"
+        v-model="agentsState.state"
         :labelLeft="true"
         :label="'State'"
       >
@@ -18,8 +18,7 @@
     </template>
     <template v-slot:actions>
       <wt-button
-        :disabled="disabledSave"
-        @click="save"
+        @click="changeAgentsState"
       >{{ $t('objects.add') }}
       </wt-button>
       <wt-button
@@ -33,8 +32,6 @@
 </template>
 
 <script>
-import { useVuelidate } from '@vuelidate/core';
-import { required } from '@vuelidate/validators';
 import nestedObjectMixin from '../../../../../../../app/mixins/objectPagesMixins/openedObjectMixin/nestedObjectMixin';
 
 export default {
@@ -45,20 +42,19 @@ export default {
     namespace: 'ccenter/teams/agents',
     agentCapacity: 1,
     agentState: true,
-  }),
-  setup: () => ({
-    v$: useVuelidate(),
-  }),
-  validations: {
-    itemInstance: {
-      agent: { required },
+    agentsState: {
+      capacity: 1,
+      state: true,
     },
-  },
-
+  }),
   methods: {
     previousAgentStatePopup() {
-      this.$emit('previousAgentStatePopup');
       this.close();
+      this.$emit('previousAgentStatePopup');
+    },
+    changeAgentsState() {
+      this.close();
+      this.$emit('changeAgentsState', this.agentsState);
     },
   },
 };
