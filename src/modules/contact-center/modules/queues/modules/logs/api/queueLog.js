@@ -5,7 +5,7 @@ import {
 } from '@webitel/ui-sdk/src/api/defaults';
 import applyTransform, {
   handleUnauthorized,
-  merge, notify, sanitize, snakeToCamel,
+  merge, notify, snakeToCamel,
   starToSearch,
 } from '@webitel/ui-sdk/src/api/transformers';
 import instance from '../../../../../../../app/api/instance';
@@ -14,26 +14,6 @@ import configuration from '../../../../../../../app/api/openAPIConfig';
 const queueMemberAttemptsService = new MemberServiceApiFactory(configuration, '', instance);
 
 const getQueueLogs = async (params) => {
-  const fieldsToSend = [
-    'page',
-    'size',
-    'search',
-    'sort',
-    'fields',
-    'id',
-    'parentId',
-    'joinedAtFrom',
-    'joinedAtTo',
-    'result',
-    'agent',
-    'leavingAtFrom',
-    'leavingAtTo',
-    'offeringAtFrom',
-    'offeringAtTo',
-    'durationFrom',
-    'durationTo',
-  ];
-
   const {
     parentId,
     page = 1,
@@ -54,7 +34,6 @@ const getQueueLogs = async (params) => {
   } = applyTransform(params, [
     merge(getDefaultGetParams()),
     starToSearch('search'),
-    sanitize(fieldsToSend),
   ]);
 
   try {
