@@ -23,8 +23,6 @@ const defaultObject = {
 };
 
 const getAgentSkillsList = async (params) => {
-  const fieldsToSend = ['page', 'size', 'search', 'sort', 'fields', 'id', 'parentId'];
-
   const {
     page,
     size,
@@ -36,7 +34,6 @@ const getAgentSkillsList = async (params) => {
   } = applyTransform(params, [
     merge(getDefaultGetParams()),
     starToSearch('search'),
-    sanitize(fieldsToSend),
   ]);
 
   try {
