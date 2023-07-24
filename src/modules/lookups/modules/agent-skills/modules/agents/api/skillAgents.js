@@ -105,7 +105,10 @@ const patchAgentSkill = async ({ parentId, changes, id }) => {
     sanitize(fieldsToSend),
     camelToSnake(),
   ]);
-  const itemId = { id: [id] };
+  let itemId;
+  if (id) {
+    itemId = { id: [id] };
+  }
   try {
     const response = await skillService.patchSkillAgent(
       parentId,

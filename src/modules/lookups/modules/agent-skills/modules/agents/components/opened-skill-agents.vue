@@ -69,7 +69,7 @@
           <wt-input
             v-model="item.capacity"
             type="number"
-            @input="patchItem({ item, index, prop: 'capacity', value: $event });"
+            @input="handlePatchInput(item, index, 'capacity', $event)"
           ></wt-input>
         </template>
         <template v-slot:state="{ item, index }">
@@ -106,21 +106,15 @@ import openedObjectTableTabMixin from '../../../../../../../app/mixins/objectPag
 import RouteNames from '../../../../../../../app/router/_internals/RouteNames.enum';
 import objectTableAccessControlMixin
   from '../../../../../../../app/mixins/objectPagesMixins/objectTableMixin/_internals/objectTableAccessControlMixin';
+import AgentSkillsAPI from '../api/skillAgents';
 
-const namespace = 'lookups/skills';
-const subNamespace = 'agents';
 export default {
   name: 'opened-skill-agents',
   mixins: [openedObjectTableTabMixin, objectTableAccessControlMixin],
-  props: {
-    selectedSkillsRows: {
-      type: Object,
-      required: false,
-    },
-  },
+
   data: () => ({
-    namespace,
-    subNamespace,
+    namespace: 'lookups/skills',
+    subNamespace: 'agents',
     tableObjectRouteName: RouteNames.AGENTS, // this.editLink() computing
     isAgentPopup: false,
     agentSkillPopup: false,
@@ -129,15 +123,21 @@ export default {
   }),
   methods: {
     changeStateForAll() {
-      this.dataList.forEach((item, index) => {
-        // TODO: Rewrite to BULK_PATCH
-        this.patchItem({
-          item,
-          index,
-          prop: 'enabled',
-          value: !this.stateForAll,
-        });
-      });
+      const { parentId } = this;
+      const changes = {
+        enabled: !this.stateForAll,
+      };
+      AgentSkillsAPI.patch({ parentId, changes });
+    },
+    handlePatchInput(item, index, propertyToPatch, $event) {
+      this.debounce(() => {
+        this.patchItem({ item, index, prop: propertyToPatch, value: $event });
+      }, 500);
+    },
+
+    debounce(func, delay) {
+      clearTimeout(this.debounceTimeout);
+      this.debounceTimeout = setTimeout(func, delay);
     },
   },
 };
