@@ -608,6 +608,7 @@ export default {
         subordinates: 'Подчинённый оператор | Подчинённые операторы',
         allAgents: 'Все операторы',
         state: 'Статус',
+        stateForAll: 'Состояние для всех',
         progressiveCount: 'Количество одновременных звонков',
         chatCount: 'Количество одновременных чатов',
         isSupervisor: 'Супервизор',

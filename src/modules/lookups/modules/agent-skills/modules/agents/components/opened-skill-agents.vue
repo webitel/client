@@ -23,7 +23,7 @@
           <wt-switcher
             :labelLeft="true"
             v-model="stateForAll"
-            :label="'State for all'"
+            :label="$t('objects.ccenter.agents.stateForAll')"
             @change="changeStateForAll"
           >
           </wt-switcher>
@@ -59,14 +59,10 @@
         @sort="sort"
       >
         <template v-slot:name="{ item }">
-          <item-link :link="editLink(item)" target="_blank">
-            {{ item.agent.name }}
-          </item-link>
+          {{ item.agent.name }}
         </template>
         <template v-slot:team="{ item }">
-          <item-link :link="editLink(item)" target="_blank">
-            {{ item.team.name }}
-          </item-link>
+          {{ item.team.name }}
         </template>
         <template v-slot:capacity="{ item, index }">
           <wt-input
