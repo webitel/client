@@ -68,45 +68,47 @@
     </header>
 
     <div v-show="isLoaded" class="table-wrapper">
-      {{dataList}}<br>
-      {{parentId}}
+      {{ dataList }}<br>
+      {{ parentId }}
       <wt-table
-      :headers="headers"
-      :data="dataList"
-      :grid-actions="false"
-      sortable
-      @sort="sort"
-    >
-      <template v-slot:name="{ item }">
-        <item-link :link="editLink(item)" target="_blank">
-          {{ item.agent.name }}
-        </item-link>
-      </template>
-      <template v-slot:team="{ item }">
-        <item-link :link="editLink(item)" target="_blank">
-          {{ item.team.name }}
-        </item-link>
-      </template>
-      <template v-slot:capacity="{ item }">
-        <wt-input
-          v-model="item.capacity"
-          type="number"
-        ></wt-input>
-      </template>
-      <template v-slot:state="{ item, index }">
-        <wt-switcher
-          :value="item.enabled"
-          @change="patchItem({ item, index, prop: 'enabled', value: $event });"
-        ></wt-switcher>
-      </template>
-      <template v-slot:actions="{ item }">
-        <wt-icon-action
-          action="delete"
-          class="table-action"
-          @click="callDelete(item)"
-        ></wt-icon-action>
-      </template>
-    </wt-table>
+        :headers="headers"
+        :data="dataList"
+        :grid-actions="hasTableActions"
+        sortable
+        @sort="sort"
+      >
+        <template v-slot:name="{ item }">
+          <item-link :link="editLink(item)" target="_blank">
+            {{ item.agent.name }}
+          </item-link>
+        </template>
+        <template v-slot:team="{ item }">
+          <item-link :link="editLink(item)" target="_blank">
+            {{ item.team.name }}
+          </item-link>
+        </template>
+        <template v-slot:capacity="{ item, index }">
+          <wt-input
+            v-model="item.capacity"
+            type="number"
+            @input="patchItem({ item, index, prop: 'capacity', value: $event });"
+          ></wt-input>
+        </template>
+        <template v-slot:state="{ item, index }">
+          <wt-switcher
+            :value="item.enabled"
+            @change="patchItem({ item, index, prop: 'enabled', value: $event });"
+          ></wt-switcher>
+        </template>
+        <template v-slot:actions="{ item }">
+          <wt-icon-action
+            v-if="hasDeleteAccess"
+            action="delete"
+            class="table-action"
+            @click="callDelete(item)"
+          ></wt-icon-action>
+        </template>
+      </wt-table>
       <wt-pagination
         :next="isNext"
         :prev="page > 1"
@@ -125,6 +127,8 @@
 import { snakeToCamel } from '@webitel/ui-sdk/src/scripts/caseConverters';
 import openedObjectTableTabMixin from '../../../../../../../app/mixins/objectPagesMixins/openedObjectTableTabMixin/openedObjectTableTabMixin';
 import RouteNames from '../../../../../../../app/router/_internals/RouteNames.enum';
+import objectTableAccessControlMixin
+  from '../../../../../../../app/mixins/objectPagesMixins/objectTableMixin/_internals/objectTableAccessControlMixin';
 import SkillPopup from './opened-skill-agent-popup.vue';
 import SkillStatePopup from './opened-skill-agent-state-popup.vue';
 import ChangeSkillPopup from './opened-skill-agent-change-popup.vue';
@@ -134,7 +138,7 @@ const namespace = 'lookups/skills';
 const subNamespace = 'agents';
 export default {
   name: 'opened-skill-agents',
-  mixins: [openedObjectTableTabMixin],
+  mixins: [openedObjectTableTabMixin, objectTableAccessControlMixin],
   components: { SkillPopup, ChangeSkillPopup, SkillStatePopup },
   props: {
     selectedSkillsRows: {
