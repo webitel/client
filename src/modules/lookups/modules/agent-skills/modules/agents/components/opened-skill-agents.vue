@@ -40,7 +40,7 @@
           <wt-switcher
             :labelLeft="true"
             v-model="stateForAll"
-            :label="'State for all'"
+            :label="$t('objects.ccenter.agents.stateForAll')"
             @change="changeStateForAll"
           >
           </wt-switcher>
@@ -177,7 +177,12 @@ export default {
     changeStateForAll() {
       this.dataList.forEach((item, index) => {
         // TODO: Rewrite to BULK_PATCH
-        this.patchItem({ item, index, prop: 'enabled', value: !this.stateForAll });
+        this.patchItem({
+          item,
+          index,
+          prop: 'enabled',
+          value: !this.stateForAll,
+        });
       });
     },
     selectingAgents(selectedRows) {
