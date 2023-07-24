@@ -13,4 +13,10 @@ export default [
     field: 'description',
     sort: SortSymbols.NONE,
   },
+  {
+    value: 'agents',
+    locale: ['objects.ccenter.agents.agents', 2],
+    field: 'agents',
+    sort: SortSymbols.NONE,
+  },
 ];
