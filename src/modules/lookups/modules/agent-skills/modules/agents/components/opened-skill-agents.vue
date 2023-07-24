@@ -78,14 +78,10 @@
         @sort="sort"
       >
         <template v-slot:name="{ item }">
-          <item-link :link="editLink(item)" target="_blank">
             {{ item.agent.name }}
-          </item-link>
         </template>
         <template v-slot:team="{ item }">
-          <item-link :link="editLink(item)" target="_blank">
             {{ item.team.name }}
-          </item-link>
         </template>
         <template v-slot:capacity="{ item, index }">
           <wt-input
