@@ -54,7 +54,7 @@
       <wt-table
         :headers="headers"
         :data="dataList"
-        :grid-actions="false"
+        :grid-actions="hasTableActions"
         sortable
         @sort="sort"
       >
@@ -68,10 +68,11 @@
             {{ item.team.name }}
           </item-link>
         </template>
-        <template v-slot:capacity="{ item }">
+        <template v-slot:capacity="{ item, index }">
           <wt-input
             v-model="item.capacity"
             type="number"
+            @input="patchItem({ item, index, prop: 'capacity', value: $event });"
           ></wt-input>
         </template>
         <template v-slot:state="{ item, index }">
@@ -82,6 +83,7 @@
         </template>
         <template v-slot:actions="{ item }">
           <wt-icon-action
+            v-if="hasDeleteAccess"
             action="delete"
             class="table-action"
             @click="callDelete(item)"
@@ -106,11 +108,14 @@
 import { snakeToCamel } from '@webitel/ui-sdk/src/scripts/caseConverters';
 import openedObjectTableTabMixin from '../../../../../../../app/mixins/objectPagesMixins/openedObjectTableTabMixin/openedObjectTableTabMixin';
 import RouteNames from '../../../../../../../app/router/_internals/RouteNames.enum';
+import objectTableAccessControlMixin
+  from '../../../../../../../app/mixins/objectPagesMixins/objectTableMixin/_internals/objectTableAccessControlMixin';
+
 const namespace = 'lookups/skills';
 const subNamespace = 'agents';
 export default {
   name: 'opened-skill-agents',
-  mixins: [openedObjectTableTabMixin],
+  mixins: [openedObjectTableTabMixin, objectTableAccessControlMixin],
   props: {
     selectedSkillsRows: {
       type: Object,
@@ -141,7 +146,12 @@ export default {
     changeStateForAll() {
       this.dataList.forEach((item, index) => {
         // TODO: Rewrite to BULK_PATCH
-        this.patchItem({ item, index, prop: 'enabled', value: !this.stateForAll });
+        this.patchItem({
+          item,
+          index,
+          prop: 'enabled',
+          value: !this.stateForAll,
+        });
       });
     },
   },
