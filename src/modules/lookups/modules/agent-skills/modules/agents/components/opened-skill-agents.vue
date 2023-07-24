@@ -21,7 +21,7 @@
           @input="tableActionsHandler"
         >
           <wt-switcher
-            :labelLeft="true"
+            :label-left="true"
             v-model="stateForAll"
             :label="$t('objects.ccenter.agents.stateForAll')"
             @change="changeStateForAll"
@@ -32,7 +32,6 @@
             class="icon-action"
             :class="{'hidden': anySelected}"
             icon="arrow-mix"
-            @click="openAgentSkillPopup"
           ></wt-icon-btn>
           <delete-all-action
             v-if="!disableUserInput"
@@ -62,7 +61,9 @@
           {{ item.agent.name }}
         </template>
         <template v-slot:team="{ item }">
-          {{ item.team.name }}
+          <div v-if="item.team">
+            {{ item.team.name }}
+          </div>
         </template>
         <template v-slot:capacity="{ item, index }">
           <wt-input
@@ -101,7 +102,6 @@
 </template>
 
 <script>
-import { snakeToCamel } from '@webitel/ui-sdk/src/scripts/caseConverters';
 import openedObjectTableTabMixin from '../../../../../../../app/mixins/objectPagesMixins/openedObjectTableTabMixin/openedObjectTableTabMixin';
 import RouteNames from '../../../../../../../app/router/_internals/RouteNames.enum';
 import objectTableAccessControlMixin
@@ -126,19 +126,8 @@ export default {
     agentSkillPopup: false,
     agentSkillStatePopup: false,
     stateForAll: false,
-    agentsSelectedRows: [],
   }),
   methods: {
-    openPopup() {
-      this.isAgentPopup = true;
-    },
-    closePopup() {
-      this.isAgentPopup = false;
-    },
-    openAgentSkillPopup() {
-      this.agentSkillPopup = true;
-    },
-    snakeToCamel,
     changeStateForAll() {
       this.dataList.forEach((item, index) => {
         // TODO: Rewrite to BULK_PATCH
