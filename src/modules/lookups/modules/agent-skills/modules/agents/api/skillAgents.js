@@ -80,7 +80,7 @@ const getAgentSkill = async ({ parentId, itemId: id }) => {
   }
 };
 
-const fieldsToSend = ['capacity', 'skill', 'team', 'enabled', 'id', 'agent', 'user', 'state'];
+const fieldsToSend = ['capacity', 'skill', 'team', 'enabled', 'id', 'agent', 'user'];
 
 const addAgentSkill = async ({ parentId, itemInstance }) => {
   const item = applyTransform(itemInstance, [

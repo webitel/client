@@ -37,6 +37,7 @@ import nestedObjectMixin from '../../../../../../../app/mixins/objectPagesMixins
 export default {
   name: 'opened-skill-agent-popup',
   mixins: [nestedObjectMixin],
+  emits: ['previousAgentStatePopup', 'changeAgentsState'],
 
   data: () => ({
     namespace: 'ccenter/teams/agents',
@@ -44,13 +45,13 @@ export default {
     agentState: true,
     agentsState: {
       capacity: 1,
-      state: true,
+      enabled: true,
     },
   }),
   methods: {
     previousAgentStatePopup() {
-      this.close();
       this.$emit('previousAgentStatePopup');
+      this.close();
     },
     changeAgentsState() {
       this.close();

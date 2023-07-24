@@ -8,7 +8,7 @@
     ></skill-popup>
     <skill-state-popup
       @change-agents-state="changeAgentsState"
-      @previous-agent-state-popup="openAgentSkillStatePopup"
+      @previous-agent-state-popup="closeAgentSkillStatePopup();openPopup();"
       v-if="agentSkillStatePopup"
       @close="closeAgentSkillStatePopup"
     ></skill-state-popup>
@@ -129,8 +129,6 @@ import SkillPopup from './opened-skill-agent-popup.vue';
 import SkillStatePopup from './opened-skill-agent-state-popup.vue';
 import ChangeSkillPopup from './opened-skill-agent-change-popup.vue';
 import AgentSkillsAPI from '../api/skillAgents';
-import { mapState } from 'vuex';
-import getNamespacedState from '@webitel/ui-sdk/src/store/helpers/getNamespacedState';
 
 const namespace = 'lookups/skills';
 const subNamespace = 'agents';
@@ -138,6 +136,12 @@ export default {
   name: 'opened-skill-agents',
   mixins: [openedObjectTableTabMixin],
   components: { SkillPopup, ChangeSkillPopup, SkillStatePopup },
+  props: {
+    selectedSkillsRows: {
+      type: Object,
+      required: false,
+    },
+  },
 
   data: () => ({
     namespace,
@@ -160,11 +164,11 @@ export default {
     openAgentSkillPopup() {
       this.agentSkillPopup = true;
     },
-    openAgentSkillStatePopup() {
-      this.agentSkillStatePopup = true;
-    },
     closeAgentSkillPopup() {
       this.agentSkillPopup = false;
+    },
+    openAgentSkillStatePopup() {
+      this.agentSkillStatePopup = true;
     },
     closeAgentSkillStatePopup() {
       this.agentSkillStatePopup = false;
@@ -177,23 +181,17 @@ export default {
       });
     },
     selectingAgents(selectedRows) {
-     this.agentsSelectedRows = selectedRows;
+      this.agentsSelectedRows = selectedRows.map((obj) => ({
+        id: obj.id,
+      }));
     },
     changeAgentsState(agentsState) {
       const { parentId } = this;
-      this.agentsSelectedRows.forEach((el) => {
-        const itemInstance = { ...el, ...agentsState };
-        AgentSkillsAPI.add({ parentId, itemInstance });
-      });
+      const itemInstance = { ...agentsState };
+      itemInstance.agent = [].concat(this.agentsSelectedRows);
+      AgentSkillsAPI.add({ parentId, itemInstance });
     },
   },
-  // computed: {
-  //   ...mapState({
-  //     itemId(state) {
-  //       return getNamespacedState(state, this.namespace).itemId;
-  //     },
-  //   }),
-  // },
 };
 </script>
 

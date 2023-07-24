@@ -4,6 +4,7 @@
       <wt-page-header
         :hide-primary="!hasCreateAccess"
         :primary-action="create"
+        :secondary-action="openPopup"
       >
         <wt-headline-nav :path="path"></wt-headline-nav>
       </wt-page-header>
@@ -15,7 +16,18 @@
         :payload="deleteConfirmation"
         @close="closeDelete"
       ></delete-confirmation-popup>
-
+      <skill-popup
+        @open-agent-skill-state-popup="openAgentSkillStatePopup"
+        @selecting-agents="selectingAgents"
+        v-if="isAgentPopup"
+        @close="closePopup"
+      ></skill-popup>
+      <skill-state-popup
+        @change-agents-state="changeAgentsState"
+        @previous-agent-state-popup="closeAgentSkillStatePopup();openPopup();"
+        v-if="agentSkillStatePopup"
+        @close="closeAgentSkillStatePopup"
+      ></skill-state-popup>
       <section class="main-section__wrapper">
         <header class="content-header">
           <h3 class="content-title">{{ $t('objects.lookups.skills.allSkills') }}</h3>
@@ -105,15 +117,21 @@
 import tableComponentMixin from '../../../../../app/mixins/objectPagesMixins/objectTableMixin/tableComponentMixin';
 import RouteNames from '../../../../../app/router/_internals/RouteNames.enum';
 import { useDummy } from '../../../../../app/composables/useDummy';
+import AgentSkillsAPI from '../modules/agents/api/skillAgents';
+import SkillPopup from '../modules/agents/components/opened-skill-agent-popup.vue';
+import SkillStatePopup from '../modules/agents/components/opened-skill-agent-state-popup.vue';
 
 const namespace = 'lookups/skills';
 
 export default {
   name: 'the-agent-skills',
   mixins: [tableComponentMixin],
+  components: { SkillPopup, SkillStatePopup },
   data: () => ({
     namespace,
     routeName: RouteNames.SKILLS,
+    isAgentPopup: false,
+    agentSkillStatePopup: false,
   }),
 
   setup() {
@@ -127,6 +145,31 @@ export default {
         { name: this.$t('objects.lookups.lookups') },
         { name: this.$tc('objects.lookups.skills.agentSkills', 2), route: '/lookups/skills' },
       ];
+    },
+  },
+  methods: {
+    openPopup() {
+      this.isAgentPopup = true;
+    },
+    closePopup() {
+      this.isAgentPopup = false;
+    },
+    openAgentSkillStatePopup() {
+      this.agentSkillStatePopup = true;
+    },
+    closeAgentSkillStatePopup() {
+      this.agentSkillStatePopup = false;
+    },
+    selectingAgents(selectedRows) {
+      this.agentsSelectedRows = selectedRows.map((obj) => ({
+        id: obj.id,
+      }));
+    },
+    changeAgentsState(agentsState) {
+      const { parentId } = this;
+      const itemInstance = { ...agentsState };
+      itemInstance.agent = [].concat(this.agentsSelectedRows);
+      AgentSkillsAPI.add({ parentId, itemInstance });
     },
   },
 };
