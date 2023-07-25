@@ -58,7 +58,7 @@
         @sort="sort"
       >
         <template v-slot:name="{ item }">
-          {{ item.agent.name }}
+            {{ item.agent.name }}
         </template>
         <template v-slot:team="{ item }">
           <div v-if="item.team">
@@ -122,12 +122,13 @@ export default {
     stateForAll: false,
   }),
   methods: {
-    changeStateForAll() {
+    async changeStateForAll() {
       const { parentId } = this;
       const changes = {
         enabled: !this.stateForAll,
       };
-      AgentSkillsAPI.patch({ parentId, changes });
+      await AgentSkillsAPI.patch({ parentId, changes });
+      this.loadDataList();
     },
     handlePatchInput(item, index, propertyToPatch, $event) {
       this.debounce(() => {
