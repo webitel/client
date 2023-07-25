@@ -166,12 +166,13 @@ export default {
     closeAgentSkillStatePopup() {
       this.agentSkillStatePopup = false;
     },
-    changeStateForAll() {
+    async changeStateForAll() {
       const { parentId } = this;
       const changes = {
         enabled: !this.stateForAll,
       };
-      AgentSkillsAPI.patch({ parentId, changes });
+      await AgentSkillsAPI.patch({ parentId, changes });
+      this.loadDataList();
     },
     selectingAgents(selectedRows) {
       this.agentsSelectedRows = selectedRows.map((obj) => ({
