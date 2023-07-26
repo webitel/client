@@ -114,6 +114,7 @@ import objectTableAccessControlMixin
   from '../../../../../../../app/mixins/objectPagesMixins/objectTableMixin/_internals/objectTableAccessControlMixin';
 import AgentSkillsAPI from '../api/skillAgents';
 import ChangeSkillPopup from './opened-skill-agent-change-popup.vue';
+import debounce from '@webitel/ui-sdk/src/scripts/debounce'
 
 export default {
   name: 'opened-skill-agents',
@@ -144,20 +145,15 @@ export default {
       this.loadDataList();
     },
     handlePatchInput(payload) {
-      this.debounce(() => {
-        this.patchItem(payload);
-      }, 500);
+      this.patchItem(payload);
     },
-
     async handlePatchEnabled(payload) {
       await this.patchItem(payload);
       await this.loadDataList();
     },
-
-    debounce(func, delay) {
-      clearTimeout(this.debounceTimeout);
-      this.debounceTimeout = setTimeout(func, delay);
-    },
+  },
+  mounted() {
+    this.handlePatchInput = debounce(this.handlePatchInput);
   },
 };
 </script>
