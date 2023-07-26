@@ -39,7 +39,7 @@
         >
           <wt-switcher
             :label-left="true"
-            v-model="stateForAll"
+            :value="aggs.enabled"
             :label="$t('objects.ccenter.agents.stateForAll')"
             @change="changeStateForAll"
           >
@@ -69,7 +69,7 @@
 
     <div v-show="isLoaded" class="table-wrapper">
       {{ dataList }}<br>
-      {{ parentId }}
+      {{aggs}}
       <wt-table
         :headers="headers"
         :data="dataList"
@@ -89,13 +89,13 @@
           <wt-input
             v-model="item.capacity"
             type="number"
-            @input="handlePatchInput(item, index, 'capacity', $event)"
+            @input="handlePatchInput({item, index, prop:'capacity', value:$event})"
           ></wt-input>
         </template>
         <template v-slot:state="{ item, index }">
           <wt-switcher
             :value="item.enabled"
-            @change="patchItem({ item, index, prop: 'enabled', value: $event });"
+            @change="handlePatchEnabled({ item, index, prop: 'enabled', value: $event })"
           ></wt-switcher>
         </template>
         <template v-slot:actions="{ item }">
@@ -143,7 +143,6 @@ export default {
     isAgentPopup: false,
     agentSkillPopup: false,
     agentSkillStatePopup: false,
-    stateForAll: false,
     agentsSelectedRows: [],
  }),
 
@@ -166,10 +165,10 @@ export default {
     closeAgentSkillStatePopup() {
       this.agentSkillStatePopup = false;
     },
-    async changeStateForAll() {
+    async changeStateForAll(enabled) {
       const { parentId } = this;
       const changes = {
-        enabled: !this.stateForAll,
+        enabled,
       };
       await AgentSkillsAPI.patch({ parentId, changes });
       this.loadDataList();
@@ -185,10 +184,15 @@ export default {
       itemInstance.agent = [].concat(this.agentsSelectedRows);
       AgentSkillsAPI.add({ parentId, itemInstance });
     },
-    handlePatchInput(item, index, propertyToPatch, $event) {
+    handlePatchInput(payload) {
       this.debounce(() => {
-        this.patchItem({ item, index, prop: propertyToPatch, value: $event });
+        this.patchItem(payload);
       }, 500);
+    },
+
+    async handlePatchEnabled(payload) {
+      await this.patchItem(payload);
+      await this.loadDataList();
     },
 
     debounce(func, delay) {

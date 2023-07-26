@@ -4,6 +4,7 @@ import deepCopy from 'deep-copy';
 const state = {
   headers: [],
   dataList: [],
+  aggs: {},
   size: 10,
   search: '',
   page: 1,
@@ -13,21 +14,22 @@ const state = {
 
 const actions = {
   // HOOKS TO BE OVERRIDEN, IF NEEDED
-  BEFORE_SET_DATA_LIST_HOOK: (context, { items, next }) => ({ items, next }),
+  BEFORE_SET_DATA_LIST_HOOK: (context, { items, next, aggs }) => ({ items, next, aggs }),
   AFTER_SET_DATA_LIST_HOOK: (context, { items, next }) => ({ items, next }),
 
   LOAD_DATA_LIST: async (context, _query) => {
     const query = { ...context.getters['filters/GET_FILTERS'], ..._query };
     try {
-      let { items = [], next = false } = await context.dispatch('GET_LIST', query);
+      let { items = [], next = false, aggs = {} } = await context.dispatch('GET_LIST', query);
       /* we should set _isSelected property to all items in tables cause their checkbox selection
       * is based on this property. Previously, this prop was set it api consumers, but now
       * admin-specific were replaced by webitel-sdk consumers and i supposed it will be
       * weird to set this property in each api file through defaultListObject */
       items = items.map((item) => ({ ...item, _isSelected: false }));
-      const afterHook = await context.dispatch('BEFORE_SET_DATA_LIST_HOOK', { items, next });
+      const afterHook = await context.dispatch('BEFORE_SET_DATA_LIST_HOOK', { items, next, aggs });
       context.commit('SET_DATA_LIST', afterHook.items);
       context.commit('SET_IS_NEXT', afterHook.next);
+      context.commit('AGGS', afterHook.aggs);
       context.dispatch('AFTER_SET_DATA_LIST_HOOK', afterHook);
     } catch (err) {
       console.error(err);
@@ -145,6 +147,9 @@ const mutations = {
   },
   SET_IS_NEXT: (state, next) => {
     state.isNextPage = next;
+  },
+  AGGS: (state, aggs) => {
+    state.aggs = aggs;
   },
   SET_HEADERS: (state, headers) => {
     state.headers = headers;
