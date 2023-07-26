@@ -130,6 +130,7 @@ import SkillPopup from './opened-skill-agent-popup.vue';
 import SkillStatePopup from './opened-skill-agent-state-popup.vue';
 import ChangeSkillPopup from './opened-skill-agent-change-popup.vue';
 import AgentSkillsAPI from '../api/skillAgents';
+import debounce from '@webitel/ui-sdk/src/scripts/debounce'
 
 export default {
   name: 'opened-skill-agents',
@@ -185,20 +186,16 @@ export default {
       AgentSkillsAPI.add({ parentId, itemInstance });
     },
     handlePatchInput(payload) {
-      this.debounce(() => {
-        this.patchItem(payload);
-      }, 500);
+      this.patchItem(payload);
     },
 
     async handlePatchEnabled(payload) {
       await this.patchItem(payload);
       await this.loadDataList();
     },
-
-    debounce(func, delay) {
-      clearTimeout(this.debounceTimeout);
-      this.debounceTimeout = setTimeout(func, delay);
-    },
+  },
+  mounted() {
+    this.handlePatchInput = debounce(this.handlePatchInput);
   },
 };
 </script>
