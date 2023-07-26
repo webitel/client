@@ -48,7 +48,7 @@ const getAgentSkillsList = async (params) => {
       id,
       agentId,
     );
-    const { items, next } = applyTransform(response.data, [
+    const { items, next, aggs } = applyTransform(response.data, [
       snakeToCamel(),
       merge(getDefaultGetListResponse()),
     ]);
@@ -57,6 +57,7 @@ const getAgentSkillsList = async (params) => {
         mergeEach(defaultObject),
       ]),
       next,
+      aggs,
     };
   } catch (err) {
     throw applyTransform(err, [
