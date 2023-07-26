@@ -335,8 +335,8 @@ export default {
         addBucket: 'Додати кошик',
       },
       blacklist: {
-        blacklist: 'Список обдзвону | Списки обдзвону',
-        allBlacklists: 'Всі списки обдзвону',
+        blacklist: 'Список | Списки',
+        allBlacklists: 'Всі списки',
         number: 'Номер | Номери',
         newNumber: 'Новий номер',
         numbersCount: 'Номери',

@@ -335,8 +335,8 @@ export default {
         addBucket: 'Add bucket',
       },
       blacklist: {
-        blacklist: 'Call list | Call lists',
-        allBlacklists: 'All call lists',
+        blacklist: 'List | Lists',
+        allBlacklists: 'All lists',
         number: 'Number | Numbers',
         newNumber: 'New number',
         numbersCount: 'Numbers',
