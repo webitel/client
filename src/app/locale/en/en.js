@@ -612,6 +612,7 @@ export default {
         progressiveCount: 'Progressive call count',
         chatCount: 'Chat count',
         state: 'Status',
+        stateForAll: 'State for all',
         isSupervisor: 'Supervisor',
         stateTime: 'Status time',
         addSkill: 'Add skill',
