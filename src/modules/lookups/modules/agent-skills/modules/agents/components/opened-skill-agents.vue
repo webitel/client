@@ -1,5 +1,10 @@
 <template>
   <section>
+    <change-skill-popup
+      :selected-rows="selectedRows"
+      v-if="agentSkillPopup"
+      @close="closeAgentSkillPopup"
+    ></change-skill-popup>
     <delete-confirmation-popup
       v-show="deleteConfirmation.isDeleteConfirmationPopup"
       :payload="deleteConfirmation"
@@ -32,6 +37,7 @@
             class="icon-action"
             :class="{'hidden': anySelected}"
             icon="arrow-mix"
+            @click="openAgentSkillPopup"
           ></wt-icon-btn>
           <delete-all-action
             v-if="!disableUserInput"
@@ -107,10 +113,12 @@ import RouteNames from '../../../../../../../app/router/_internals/RouteNames.en
 import objectTableAccessControlMixin
   from '../../../../../../../app/mixins/objectPagesMixins/objectTableMixin/_internals/objectTableAccessControlMixin';
 import AgentSkillsAPI from '../api/skillAgents';
+import ChangeSkillPopup from './opened-skill-agent-change-popup.vue';
 
 export default {
   name: 'opened-skill-agents',
   mixins: [openedObjectTableTabMixin, objectTableAccessControlMixin],
+  components: { ChangeSkillPopup },
 
   data: () => ({
     namespace: 'lookups/skills',
@@ -121,6 +129,12 @@ export default {
     agentSkillStatePopup: false,
   }),
   methods: {
+    openAgentSkillPopup() {
+      this.agentSkillPopup = true;
+    },
+    closeAgentSkillPopup() {
+      this.agentSkillPopup = false;
+    },
     async changeStateForAll(enabled) {
       const { parentId } = this;
       const changes = {
