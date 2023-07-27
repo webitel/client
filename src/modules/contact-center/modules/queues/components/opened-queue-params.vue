@@ -110,14 +110,6 @@
         @input="setItemPayloadProp({ prop: 'maxAgentLine', value: +$event })"
       ></wt-input>
       <wt-input
-        v-if="specificControls.maxAbandonedRate"
-        :disabled="disableUserInput"
-        :label="$t('objects.ccenter.queues.maxAbandonedRate')"
-        :value="itemInstance.payload.maxAbandonedRate"
-        type="number"
-        @input="setItemPayloadProp({ prop: 'maxAbandonedRate', value: +$event })"
-      ></wt-input>
-      <wt-input
         v-if="specificControls.abandonRateAdjustment"
         :disabled="disableUserInput"
         :label="$t('objects.ccenter.queues.abandonRateAdjustment')"
@@ -157,6 +149,14 @@
         :value="itemInstance.payload.waitBetweenRetriesDesc"
         @change="setItemPayloadProp({ prop: 'waitBetweenRetriesDesc', value: $event })"
       ></wt-switcher>
+      <wt-input
+        v-if="specificControls.targetAbandonedRate"
+        :disabled="disableUserInput"
+        :label="$t('objects.ccenter.queues.targetAbandonedRate')"
+        :value="itemInstance.payload.targetAbandonedRate"
+        type="number"
+        @input="setItemPayloadProp({ prop: 'targetAbandonedRate', value: +$event })"
+      ></wt-input>
       <wt-switcher
         v-if="specificControls.strictCircuit"
         :disabled="disableUserInput"
@@ -164,6 +164,14 @@
         :value="itemInstance.payload.strictCircuit"
         @change="setItemPayloadProp({ prop: 'strictCircuit', value: $event })"
       ></wt-switcher>
+      <wt-input
+        v-if="specificControls.maxAbandonedRate"
+        :disabled="disableUserInput"
+        :label="$t('objects.ccenter.queues.maxAbandonedRate')"
+        :value="itemInstance.payload.maxAbandonedRate"
+        type="number"
+        @input="setItemPayloadProp({ prop: 'maxAbandonedRate', value: +$event })"
+      ></wt-input>
       <wt-switcher
         v-if="specificControls.retryAbandoned"
         :disabled="disableUserInput"
@@ -171,6 +179,25 @@
         :value="itemInstance.payload.retryAbandoned"
         @change="setItemPayloadProp({ prop: 'retryAbandoned', value: $event })"
       ></wt-switcher>
+      <div v-if="specificControls.loadFactor" >
+        <label class="wt-label">{{$t('objects.ccenter.queues.loadFactor')}}</label>
+        <div class="load-factor">
+          <wt-slider style="margin-top: 17px"
+                     :value="itemInstance.payload.loadFactor"
+                     :min="1"
+                     :max="100"
+                     :step="1"
+                     @input="setItemPayloadProp({ prop: 'loadFactor', value: +$event })"></wt-slider>
+          <wt-input
+            :disabled="true"
+            :value="itemInstance.payload.loadFactor"
+            :min="0"
+            :max="100"
+            @input="setItemPayloadProp({ prop: 'loadFactor', value: +$event })"
+            type="number"
+          ></wt-input>
+        </div>
+      </div>
       <wt-switcher
         v-if="specificControls.recordings"
         :disabled="disableUserInput"
@@ -295,4 +322,10 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+.load-factor {
+  display: grid;
+  grid-template-columns: 5fr 1fr;
+  align-items: center;
+  gap: var(--spacing-sm);
+}
 </style>
