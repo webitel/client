@@ -179,22 +179,23 @@
         :value="itemInstance.payload.retryAbandoned"
         @change="setItemPayloadProp({ prop: 'retryAbandoned', value: $event })"
       ></wt-switcher>
-      <div v-if="specificControls.loadFactor" >
-        <label class="wt-label">{{$t('objects.ccenter.queues.loadFactor')}}</label>
+      <div v-if="specificControls.loadFactor">
+        <wt-label>{{ $t('objects.ccenter.queues.loadFactor') }}</wt-label>
         <div class="load-factor">
-          <wt-slider style="margin-top: 17px"
-                     :value="itemInstance.payload.loadFactor"
-                     :min="1"
-                     :max="100"
-                     :step="1"
-                     @input="setItemPayloadProp({ prop: 'loadFactor', value: +$event })"></wt-slider>
+          <wt-slider
+            :value="itemInstance.payload.loadFactor"
+            :min="1"
+            :max="100"
+            :step="1"
+            @input="setItemPayloadProp({ prop: 'loadFactor', value: +$event })"
+          ></wt-slider>
           <wt-input
-            :disabled="true"
             :value="itemInstance.payload.loadFactor"
             :min="0"
             :max="100"
-            @input="setItemPayloadProp({ prop: 'loadFactor', value: +$event })"
             type="number"
+            disabled
+            @input="setItemPayloadProp({ prop: 'loadFactor', value: +$event })"
           ></wt-input>
         </div>
       </div>
@@ -281,7 +282,7 @@ export default {
     autoAnswerTone: {
       get() {
         return this.ToneList
-          .find((tone) => tone.value === this.itemInstance.payload.autoAnswerTone);
+        .find((tone) => tone.value === this.itemInstance.payload.autoAnswerTone);
       },
       set(value) {
         this.setItemPayloadProp({ prop: 'autoAnswerTone', value: value.value });
@@ -290,7 +291,7 @@ export default {
     statisticTime: {
       get() {
         return this.dropdownOptionsStatisticTimeList
-                   .find((time) => time.value === this.itemInstance.payload.statisticTime);
+        .find((time) => time.value === this.itemInstance.payload.statisticTime);
       },
       set(value) {
         this.setItemPayloadProp({ prop: 'statisticTime', value: value.value });
@@ -298,10 +299,10 @@ export default {
     },
     specificControls() {
       return QueueTypeProperties[this.itemInstance.type].controls
-                                                        .reduce((controls, control) => ({
-                                                          ...controls,
-                                                          [control]: true,
-                                                        }), {});
+      .reduce((controls, control) => ({
+        ...controls,
+        [control]: true,
+      }), {});
     },
 
     dropdownOptionsStatisticTimeList() {
@@ -313,10 +314,10 @@ export default {
   },
   methods: {
     ...mapActions({
-                    setItemPayloadProp(dispatch, payload) {
-                      return dispatch(`${this.namespace}/SET_ITEM_PAYLOAD_PROPERTY`, payload);
-                    },
-                  }),
+      setItemPayloadProp(dispatch, payload) {
+        return dispatch(`${this.namespace}/SET_ITEM_PAYLOAD_PROPERTY`, payload);
+      },
+    }),
   },
 };
 </script>
@@ -327,5 +328,9 @@ export default {
   grid-template-columns: 5fr 1fr;
   align-items: center;
   gap: var(--spacing-sm);
+
+  .wt-slider {
+    height: auto;
+  }
 }
 </style>
