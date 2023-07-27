@@ -46,6 +46,9 @@ export default {
       isNext(state) {
         return getNamespacedState(state, `${this.namespace}/${this.subNamespace}`).isNextPage;
       },
+      aggs(state) {
+        return getNamespacedState(state, `${this.namespace}/${this.subNamespace}`).aggs;
+      },
     }),
     headers() {
       if (!this.headersValue) return [];

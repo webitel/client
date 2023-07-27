@@ -68,6 +68,9 @@
             <template v-slot:description="{ item }">
               {{ item.description }}
             </template>
+            <template v-slot:agents="{ item }">
+              {{ item.agents }}
+            </template>
             <template v-slot:actions="{ item }">
               <wt-icon-action
                 v-if="hasEditAccess"

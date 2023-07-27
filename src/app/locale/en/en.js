@@ -335,8 +335,8 @@ export default {
         addBucket: 'Add bucket',
       },
       blacklist: {
-        blacklist: 'Call list | Call lists',
-        allBlacklists: 'All call lists',
+        blacklist: 'List | Lists',
+        allBlacklists: 'All lists',
         number: 'Number | Numbers',
         newNumber: 'New number',
         numbersCount: 'Numbers',
@@ -612,6 +612,7 @@ export default {
         progressiveCount: 'Progressive call count',
         chatCount: 'Chat count',
         state: 'Status',
+        stateForAll: 'State for all',
         isSupervisor: 'Supervisor',
         stateTime: 'Status time',
         addSkill: 'Add skill',

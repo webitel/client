@@ -335,8 +335,8 @@ export default {
         addBucket: 'Добавить корзину',
       },
       blacklist: {
-        blacklist: 'Список обзвона | Списки обзвона',
-        allBlacklists: 'Все списки обзвона',
+        blacklist: 'Список | Списки',
+        allBlacklists: 'Все списки',
         number: 'Номер | Номера',
         newNumber: 'Новый номер',
         numbersCount: 'Номера',
@@ -608,6 +608,7 @@ export default {
         subordinates: 'Подчинённый оператор | Подчинённые операторы',
         allAgents: 'Все операторы',
         state: 'Статус',
+        stateForAll: 'Состояние для всех',
         progressiveCount: 'Количество одновременных звонков',
         chatCount: 'Количество одновременных чатов',
         isSupervisor: 'Супервизор',
