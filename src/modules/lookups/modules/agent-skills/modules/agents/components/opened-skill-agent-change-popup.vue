@@ -6,14 +6,16 @@
     <template v-slot:main>
       {{selectedAgents}}<br>
       {{itemInstance.selectedSkill}}
-      <wt-select
-        v-model="itemInstance.selectedSkill"
-        :v="v$.itemInstance.selectedSkill"
-        :label="$t('objects.lookups.skills.changeSkillTo')"
-        :search-method="loadDropdownOptionsList"
-        :clearable="false"
-        required
-      ></wt-select>
+      <div class="mb-16">
+        <wt-select
+          v-model="itemInstance.selectedSkill"
+          :v="v$.itemInstance.selectedSkill"
+          :label="$t('objects.lookups.skills.changeSkillTo')"
+          :search-method="loadDropdownOptionsList"
+          :clearable="false"
+          required
+        ></wt-select>
+      </div>
       <wt-switcher
         v-model="selectedSkillState"
         :labelLeft="true"
