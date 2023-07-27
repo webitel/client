@@ -1,14 +1,14 @@
 <template>
   <wt-popup min-width="480" overflow @close="close">
     <template v-slot:title>
-      Change agent`s skill
+      {{ $t('objects.lookups.skills.changeAgentsSkill') }}
     </template>
     <template v-slot:main>
       <div class="mb-16">
         <wt-select
           v-model="itemInstance.selectedSkill"
           :v="v$.itemInstance.selectedSkill"
-          :label="'Change skill to'"
+          :label="$t('objects.lookups.skills.changeSkillTo')"
           :search-method="loadDropdownOptionsList"
           :clearable="false"
           required
@@ -25,7 +25,7 @@
       <wt-button
         :disabled="computeDisabled"
         @click="changeAgentsSkill"
-      >{{ 'Change' }}
+      >{{ $t('objects.change') }}
       </wt-button>
       <wt-button
         color="secondary"
@@ -109,4 +109,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+.mb-16 {
+  margin-bottom: var(--spacing-sm);
+}
 </style>

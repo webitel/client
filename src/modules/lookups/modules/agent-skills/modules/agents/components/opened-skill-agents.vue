@@ -28,7 +28,7 @@
           <wt-switcher
             :label-left="true"
             :value="aggs.enabled"
-            :label="$t('objects.ccenter.agents.stateForAll')"
+            :label="$t('objects.lookups.skills.stateForAll')"
             @change="changeStateForAll"
           >
           </wt-switcher>
