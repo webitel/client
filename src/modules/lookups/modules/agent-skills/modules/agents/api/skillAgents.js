@@ -113,7 +113,7 @@ const patchAgentSkill = async ({ parentId, changes, id }) => {
   try {
     const response = await skillService.patchSkillAgent(
       parentId,
-      { ...sanitizedChanges, ...itemId },
+      { ...sanitizedChanges, id },
     );
     return applyTransform(response.data, [
       snakeToCamel(),

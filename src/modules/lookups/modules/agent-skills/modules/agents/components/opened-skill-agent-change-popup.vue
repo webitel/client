@@ -44,6 +44,7 @@ import { required } from '@vuelidate/validators';
 import { mapActions } from 'vuex';
 import nestedObjectMixin from '../../../../../../../app/mixins/objectPagesMixins/openedObjectMixin/nestedObjectMixin';
 import SkillsAPI from '../../../api/agentSkills';
+import AgentSkillsAPI from '../api/skillAgents';
 
 const namespace = 'lookups/skills';
 const subNamespace = 'agents';
@@ -82,13 +83,15 @@ export default {
         return dispatch(`${this.namespace}/${this.subNamespace}/PATCH_ITEM_PROPERTY`, payload);
       },
     }),
-    changeAgentsSkill() {
-      this.selectedAgents.forEach((item, index) => {
-        // TODO: Rewrite to BULK_PATCH
-        this.patchItem({ item, index, prop: 'skill', value: this.itemInstance.selectedSkill });
-        this.patchItem({ item, index, prop: 'enabled', value: this.selectedSkillState });
-      });
-      this.save();
+    async changeAgentsSkill() {
+      const id = this.selectedAgents.map((item) => item.agent.id);
+      const parentId = this.id;
+      const changes = {
+        enabled: this.selectedSkillState,
+        skill: this.itemInstance.selectedSkill,
+      };
+      await AgentSkillsAPI.patch({ parentId, changes, id });
+      await this.save();
     },
   },
   computed: {
