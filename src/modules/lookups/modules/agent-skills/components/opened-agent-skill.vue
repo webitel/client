@@ -62,10 +62,14 @@ export default {
         text: this.$t('objects.general'),
         value: 'general',
       },
-      {
+     ];
+
+      const agents = {
         text: this.$tc('objects.ccenter.agents.agents', 2),
         value: 'agents',
-      }];
+      };
+
+      if (this.id) tabs.push(agents);
       return tabs;
     },
 

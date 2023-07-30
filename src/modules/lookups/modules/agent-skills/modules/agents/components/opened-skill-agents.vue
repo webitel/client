@@ -66,7 +66,7 @@
         </wt-table-actions>
       </div>
     </header>
-
+    <wt-loader v-show="!isLoaded"></wt-loader>
     <div v-show="isLoaded" class="table-wrapper">
       {{ dataList }}<br>
       {{aggs}}
@@ -122,6 +122,7 @@
 </template>
 
 <script>
+import debounce from '@webitel/ui-sdk/src/scripts/debounce';
 import openedObjectTableTabMixin from '../../../../../../../app/mixins/objectPagesMixins/openedObjectTableTabMixin/openedObjectTableTabMixin';
 import RouteNames from '../../../../../../../app/router/_internals/RouteNames.enum';
 import objectTableAccessControlMixin
@@ -130,7 +131,6 @@ import SkillPopup from './opened-skill-agent-popup.vue';
 import SkillStatePopup from './opened-skill-agent-state-popup.vue';
 import ChangeSkillPopup from './opened-skill-agent-change-popup.vue';
 import AgentSkillsAPI from '../api/skillAgents';
-import debounce from '@webitel/ui-sdk/src/scripts/debounce'
 
 export default {
   name: 'opened-skill-agents',
