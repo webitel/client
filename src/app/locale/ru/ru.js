@@ -340,6 +340,7 @@ export default {
         number: 'Номер | Номера',
         newNumber: 'Новый номер',
         numbersCount: 'Номера',
+        expire: 'Срок действия',
       },
       media: {
         mediaFiles: 'Медиафайл| Медиафайлы',
