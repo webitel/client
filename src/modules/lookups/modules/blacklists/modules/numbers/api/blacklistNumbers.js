@@ -67,7 +67,7 @@ const getBlacklistNumber = async ({ itemId: id, parentId }) => {
   }
 };
 
-const fieldsToSend = ['listId', 'description', 'number'];
+const fieldsToSend = ['listId', 'description', 'number', 'expireAt'];
 
 const addBlacklistNumber = async ({ parentId, itemInstance }) => {
   const item = applyTransform(itemInstance, [

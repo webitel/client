@@ -4,7 +4,7 @@
       {{ $t('objects.lookups.blacklist.newNumber') }}
     </template>
     <template v-slot:main>
-      <form>
+      <form class="object-input-grid object-input-grid__1-col">
         <wt-input
           :value="itemInstance.number"
           :v="v$.itemInstance.number"
@@ -12,6 +12,12 @@
           required
           @input="setItemProp({ prop: 'number', value: $event })"
         ></wt-input>
+        <wt-datepicker
+          :value="itemInstance.expireAt"
+          :label="$t('objects.lookups.blacklist.expireAt')"
+          mode="datetime"
+          @input="setItemProp({ prop: 'expireAt', value: $event })"
+        ></wt-datepicker>
         <wt-textarea
           :value="itemInstance.description"
           :label="$t('objects.description')"
