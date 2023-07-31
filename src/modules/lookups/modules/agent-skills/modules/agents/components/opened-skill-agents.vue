@@ -54,7 +54,7 @@
         </wt-table-actions>
       </div>
     </header>
-
+    <wt-loader v-show="!isLoaded"></wt-loader>
     <div v-show="isLoaded" class="table-wrapper">
       <wt-table
         :headers="headers"

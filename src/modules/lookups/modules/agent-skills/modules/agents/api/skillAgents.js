@@ -107,8 +107,11 @@ const patchAgentSkill = async ({ parentId, changes, id }) => {
     camelToSnake(),
   ]);
   let itemId;
-  if (id) {
+  //TODO: refactor this shi...
+  if (id && typeof id === 'string') {
     itemId = { id: [id] };
+  } else if (id && typeof id === 'object') {
+    itemId = { id };
   }
   try {
     const response = await skillService.patchSkillAgent(

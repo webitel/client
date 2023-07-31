@@ -39,14 +39,16 @@
 <script>
 import { useVuelidate } from '@vuelidate/core';
 import { required } from '@vuelidate/validators';
-import { mapActions } from 'vuex';
-import nestedObjectMixin from '../../../../../../../app/mixins/objectPagesMixins/openedObjectMixin/nestedObjectMixin';
+import getNamespacedState from '@webitel/ui-sdk/src/store/helpers/getNamespacedState';
+import { mapActions, mapState } from 'vuex';
 import SkillsAPI from '../../../api/agentSkills';
 import AgentSkillsAPI from '../api/skillAgents';
+import openedObjectValidationMixin
+  from '../../../../../../../app/mixins/baseMixins/openedObjectValidationMixin/openedObjectValidationMixin';
 
 export default {
   name: 'opened-skill-agent-change-popup',
-  mixins: [nestedObjectMixin],
+  mixins: [openedObjectValidationMixin],
   data: () => ({
     namespace: 'lookups/skills',
     subNamespace: 'agents',
@@ -70,23 +72,31 @@ export default {
     },
   },
   methods: {
+    ...mapActions({
+      loadDataList(dispatch, payload) {
+        return dispatch(`${this.namespace}/${this.subNamespace}/LOAD_DATA_LIST`, payload);
+      },
+    }),
     loadDropdownOptionsList(params) {
       return SkillsAPI.getLookup(params);
     },
-    ...mapActions({
-      patchItem(dispatch, payload) {
-        return dispatch(`${this.namespace}/${this.subNamespace}/PATCH_ITEM_PROPERTY`, payload);
-      },
-    }),
     async changeAgentsSkill() {
-      const id = this.selectedAgents.map((item) => item.agent.id);
+      const id = this.selectedAgents.map((item) => item.id);
       const parentId = this.id;
       const changes = {
         enabled: this.selectedSkillState,
         skill: this.itemInstance.selectedSkill,
       };
       await AgentSkillsAPI.patch({ parentId, changes, id });
-      await this.save();
+      const params = {
+        page: 1,
+        size: 10,
+      };
+      await this.loadDataList(params);
+      this.close();
+    },
+    close() {
+      this.$emit('close');
     },
   },
   computed: {
@@ -104,6 +114,11 @@ export default {
     computeDisabled() {
       return this.checkValidations();
     },
+    ...mapState({
+      id(state) {
+        return getNamespacedState(state, this.namespace).itemId;
+      },
+    }),
   },
 };
 </script>
