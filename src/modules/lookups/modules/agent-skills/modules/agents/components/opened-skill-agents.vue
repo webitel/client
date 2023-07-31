@@ -1,16 +1,16 @@
 <template>
   <section>
     <change-skill-popup
-      :selected-rows="selectedRows"
       v-if="agentSkillPopup"
+      :selected-agents="selectedRows"
       @close="closeAgentSkillPopup"
+      @change-agents-skill="changeAgentsSkill"
     ></change-skill-popup>
     <delete-confirmation-popup
       v-show="deleteConfirmation.isDeleteConfirmationPopup"
       :payload="deleteConfirmation"
       @close="closeDelete"
     ></delete-confirmation-popup>
-
     <header class="content-header">
       <h3 class="content-title">{{ $t('objects.ccenter.agents.allAgents') }}</h3>
       <div class="content-header__actions-wrap">
@@ -144,10 +144,17 @@ export default {
       await AgentSkillsAPI.patch({ parentId, changes });
       this.loadDataList();
     },
+    async changeAgentsSkill({ changes, id }) {
+      const { parentId } = this;
+      await AgentSkillsAPI.patch({ parentId, changes, id });
+      await this.loadDataList();
+    },
     handlePatchInput(payload) {
+      payload.item.id = [payload.item.id];
       this.patchItem(payload);
     },
     async handlePatchEnabled(payload) {
+      payload.item.id = [payload.item.id];
       await this.patchItem(payload);
       await this.loadDataList();
     },

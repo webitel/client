@@ -4,10 +4,10 @@
       {{ $t('objects.lookups.skills.changeAgentsSkill') }}
     </template>
     <template v-slot:main>
-      <div class="mb-16">
+      <div class="skill-select-wrapper">
         <wt-select
-          v-model="itemInstance.selectedSkill"
-          :v="v$.itemInstance.selectedSkill"
+          v-model="itemInstance.skill"
+          :v="v$.itemInstance.skill"
           :label="$t('objects.lookups.skills.changeSkillTo')"
           :search-method="loadDropdownOptionsList"
           :clearable="false"
@@ -15,8 +15,8 @@
         ></wt-select>
       </div>
       <wt-switcher
-        v-model="selectedSkillState"
-        :labelLeft="true"
+        v-model="skillState"
+        label-left
         :label="$t('objects.lookups.skills.state')"
       >
       </wt-switcher>
@@ -39,27 +39,25 @@
 <script>
 import { useVuelidate } from '@vuelidate/core';
 import { required } from '@vuelidate/validators';
-import getNamespacedState from '@webitel/ui-sdk/src/store/helpers/getNamespacedState';
-import { mapActions, mapState } from 'vuex';
 import SkillsAPI from '../../../api/agentSkills';
-import AgentSkillsAPI from '../api/skillAgents';
 import openedObjectValidationMixin
   from '../../../../../../../app/mixins/baseMixins/openedObjectValidationMixin/openedObjectValidationMixin';
 
 export default {
   name: 'opened-skill-agent-change-popup',
   mixins: [openedObjectValidationMixin],
+  emits: ['close', 'changeAgentsSkill'],
   data: () => ({
     namespace: 'lookups/skills',
     subNamespace: 'agents',
-    itemInstanceValue: {
-      selectedSkill: {},
+    itemInstance: {
+      skill: {},
     },
-    selectedSkillState: false,
+    skillState: false,
   }),
   props: {
-    selectedRows: {
-      type: Object,
+    selectedAgents: {
+      type: Array,
       required: true,
     },
   },
@@ -68,31 +66,20 @@ export default {
   }),
   validations: {
     itemInstance: {
-      selectedSkill: { required },
+      skill: { required },
     },
   },
   methods: {
-    ...mapActions({
-      loadDataList(dispatch, payload) {
-        return dispatch(`${this.namespace}/${this.subNamespace}/LOAD_DATA_LIST`, payload);
-      },
-    }),
     loadDropdownOptionsList(params) {
       return SkillsAPI.getLookup(params);
     },
-    async changeAgentsSkill() {
+    changeAgentsSkill() {
       const id = this.selectedAgents.map((item) => item.id);
-      const parentId = this.id;
       const changes = {
-        enabled: this.selectedSkillState,
-        skill: this.itemInstance.selectedSkill,
+        enabled: this.skillState,
+        skill: this.itemInstance.skill,
       };
-      await AgentSkillsAPI.patch({ parentId, changes, id });
-      const params = {
-        page: 1,
-        size: 10,
-      };
-      await this.loadDataList(params);
+      this.$emit('changeAgentsSkill', { changes, id });
       this.close();
     },
     close() {
@@ -100,31 +87,15 @@ export default {
     },
   },
   computed: {
-    selectedAgents() {
-      return this.selectedRows;
-    },
-    itemInstance: {
-      get() {
-        return this.itemInstanceValue;
-      },
-      set(value) {
-        this.itemInstanceValue = value;
-      },
-    },
     computeDisabled() {
       return this.checkValidations();
     },
-    ...mapState({
-      id(state) {
-        return getNamespacedState(state, this.namespace).itemId;
-      },
-    }),
   },
 };
 </script>
 
 <style lang="scss" scoped>
-.mb-16 {
+.skill-select-wrapper {
   margin-bottom: var(--spacing-sm);
 }
 </style>
