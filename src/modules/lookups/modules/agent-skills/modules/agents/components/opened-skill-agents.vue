@@ -1,11 +1,16 @@
 <template>
   <section>
+    <change-skill-popup
+      v-if="agentSkillPopup"
+      :selected-agents="selectedRows"
+      @close="closeAgentSkillPopup"
+      @change="change"
+    ></change-skill-popup>
     <delete-confirmation-popup
       v-show="deleteConfirmation.isDeleteConfirmationPopup"
       :payload="deleteConfirmation"
       @close="closeDelete"
     ></delete-confirmation-popup>
-
     <header class="content-header">
       <h3 class="content-title">{{ $t('objects.ccenter.agents.allAgents') }}</h3>
       <div class="content-header__actions-wrap">
@@ -23,7 +28,7 @@
           <wt-switcher
             :label-left="true"
             :value="aggs.enabled"
-            :label="$t('objects.ccenter.agents.stateForAll')"
+            :label="$t('objects.lookups.skills.stateForAll')"
             @change="changeStateForAll"
           >
           </wt-switcher>
@@ -32,6 +37,7 @@
             class="icon-action"
             :class="{'hidden': anySelected}"
             icon="arrow-mix"
+            @click="openAgentSkillPopup"
           ></wt-icon-btn>
           <delete-all-action
             v-if="!disableUserInput"
@@ -48,7 +54,7 @@
         </wt-table-actions>
       </div>
     </header>
-
+    <wt-loader v-show="!isLoaded"></wt-loader>
     <div v-show="isLoaded" class="table-wrapper">
       <wt-table
         :headers="headers"
@@ -108,10 +114,12 @@ import RouteNames from '../../../../../../../app/router/_internals/RouteNames.en
 import objectTableAccessControlMixin
   from '../../../../../../../app/mixins/objectPagesMixins/objectTableMixin/_internals/objectTableAccessControlMixin';
 import AgentSkillsAPI from '../api/skillAgents';
+import ChangeSkillPopup from './opened-skill-agent-change-popup.vue';
 
 export default {
   name: 'opened-skill-agents',
   mixins: [openedObjectTableTabMixin, objectTableAccessControlMixin],
+  components: { ChangeSkillPopup },
 
   data: () => ({
     namespace: 'lookups/skills',
@@ -122,20 +130,57 @@ export default {
     agentSkillStatePopup: false,
   }),
   methods: {
+    openAgentSkillPopup() {
+      this.agentSkillPopup = true;
+    },
+    closeAgentSkillPopup() {
+      this.agentSkillPopup = false;
+    },
     async changeStateForAll(enabled) {
       const { parentId } = this;
       const changes = {
         enabled,
       };
-      await AgentSkillsAPI.patch({ parentId, changes });
-      this.loadDataList();
+      try {
+        await AgentSkillsAPI.patch({ parentId, changes });
+      } catch (e) {
+        console.error(e);
+      } finally {
+        await this.loadDataList();
+      }
+    },
+    async change({ changes, id }) {
+      const { parentId } = this;
+      try {
+        await AgentSkillsAPI.patch({ parentId, changes, id });
+      } catch (e) {
+        console.error(e);
+      } finally {
+        await this.loadDataList();
+      }
     },
     handlePatchInput(payload) {
-      this.patchItem(payload);
+      const modifiedIdPayload = this.payloadIdModifier(payload);
+      this.patchItem(modifiedIdPayload);
     },
     async handlePatchEnabled(payload) {
-      await this.patchItem(payload);
-      await this.loadDataList();
+      const modifiedIdPayload = this.payloadIdModifier(payload);
+      try {
+        await this.patchItem(modifiedIdPayload);
+      } catch (e) {
+        console.error(e);
+      } finally {
+        await this.loadDataList();
+      }
+    },
+    payloadIdModifier(payload) {
+      return {
+        ...payload,
+        item: {
+          ...payload.item,
+          id: [payload.item.id],
+        },
+      };
     },
   },
   mounted() {

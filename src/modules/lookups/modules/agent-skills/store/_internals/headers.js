@@ -14,9 +14,15 @@ export default [
     sort: SortSymbols.NONE,
   },
   {
-    value: 'agents',
-    locale: ['objects.ccenter.agents.agents', 2],
-    field: 'agents',
+    value: 'totalAgents',
+    locale: 'objects.lookups.skills.totalAgents',
+    field: 'total_agents',
+    sort: SortSymbols.NONE,
+  },
+  {
+    value: 'activeAgents',
+    locale: 'objects.lookups.skills.activeSkillAgents',
+    field: 'active_agents',
     sort: SortSymbols.NONE,
   },
 ];

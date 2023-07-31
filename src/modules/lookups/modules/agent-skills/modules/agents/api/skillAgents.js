@@ -106,14 +106,10 @@ const patchAgentSkill = async ({ parentId, changes, id }) => {
     sanitize(fieldsToSend),
     camelToSnake(),
   ]);
-  let itemId;
-  if (id) {
-    itemId = { id: [id] };
-  }
   try {
     const response = await skillService.patchSkillAgent(
       parentId,
-      { ...sanitizedChanges, ...itemId },
+      { ...sanitizedChanges, id },
     );
     return applyTransform(response.data, [
       snakeToCamel(),
