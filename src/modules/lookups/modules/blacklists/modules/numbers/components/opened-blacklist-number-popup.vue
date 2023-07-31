@@ -4,7 +4,7 @@
       {{ $t('objects.lookups.blacklist.newNumber') }}
     </template>
     <template v-slot:main>
-      <form class="opened-blacklist-number-popup-wrapper">
+      <form class="opened-blacklist-number-popup__wrapper">
         <wt-input
           :value="itemInstance.number"
           :v="v$.itemInstance.number"
@@ -81,7 +81,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.opened-blacklist-number-popup-wrapper {
+.opened-blacklist-number-popup__wrapper {
   display: flex;
   flex-direction: column;
   gap: var(--spacing-sm);
