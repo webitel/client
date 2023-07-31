@@ -347,6 +347,7 @@ export default {
         newNumber: 'New number',
         numbersCount: 'Numbers',
         expireAt: 'Expire',
+        temporary: 'Temporary',
       },
       media: {
         mediaFiles: 'Media file | Media files',
