@@ -4,7 +4,7 @@
       {{ $t('objects.lookups.blacklist.newNumber') }}
     </template>
     <template v-slot:main>
-      <form class="object-input-grid object-input-grid__1-col">
+      <form class="object-input-grid object-input-grid__1-col object-input-grid__1-switcher">
         <wt-input
           :value="itemInstance.number"
           :v="v$.itemInstance.number"
@@ -12,7 +12,12 @@
           required
           @input="setItemProp({ prop: 'number', value: $event })"
         ></wt-input>
+        <wt-switcher
+          v-model="showExpireDate"
+          :label="$t('objects.lookups.blacklist.temporary')"
+        ></wt-switcher>
         <wt-datepicker
+          v-if="showExpireDate"
           :value="itemInstance.expireAt"
           :label="$t('objects.lookups.blacklist.expireAt')"
           mode="datetime"
@@ -50,6 +55,7 @@ export default {
   mixins: [nestedObjectMixin],
   data: () => ({
     namespace: 'lookups/blacklists/numbers',
+    showExpireDate: false,
   }),
 
   setup: () => ({
@@ -60,8 +66,22 @@ export default {
       number: { required },
     },
   },
+  watch: {
+    showExpireDate() {
+      if (this.itemInstance.expireAt && this.showExpireDate) return;
+      this.setItemProp({ prop: 'expireAt', value: this.showExpireDate ? Date.now() : 0 });
+    },
+    'itemInstance.id': {
+      handler() {
+        if (this.itemInstance.expireAt) this.showExpireDate = true;
+      },
+    },
+  },
 };
 </script>
 
 <style lang="scss" scoped>
+.object-input-grid__1-switcher {
+  grid-auto-rows: minmax(5px, auto);
+}
 </style>

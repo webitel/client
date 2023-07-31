@@ -341,6 +341,7 @@ export default {
         newNumber: 'Новый номер',
         numbersCount: 'Номера',
         expireAt: 'Срок действия',
+        temporary: 'Временный',
       },
       media: {
         mediaFiles: 'Медиафайл| Медиафайлы',
