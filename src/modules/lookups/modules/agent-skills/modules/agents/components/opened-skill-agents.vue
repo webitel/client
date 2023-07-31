@@ -1,5 +1,17 @@
 <template>
   <section>
+    <skill-popup
+      @open-agent-skill-state-popup="openAgentSkillStatePopup"
+      @selecting-agents="selectingAgents"
+      v-if="isAgentPopup"
+      @close="closeAgentPopup"
+    ></skill-popup>
+    <skill-state-popup
+      @change-agents-state="changeAgentsState"
+      @previous-agent-state-popup="closeAgentSkillStatePopup();openAgentPopup();"
+      v-if="agentSkillStatePopup"
+      @close="closeAgentSkillStatePopup"
+    ></skill-state-popup>
     <change-skill-popup
       v-if="agentSkillPopup"
       :selected-agents="selectedRows"
@@ -49,7 +61,7 @@
             v-if="!disableUserInput"
             class="icon-action"
             icon="plus"
-            @click="create"
+            @click="openAgentPopup"
           ></wt-icon-btn>
         </wt-table-actions>
       </div>
@@ -115,11 +127,13 @@ import objectTableAccessControlMixin
   from '../../../../../../../app/mixins/objectPagesMixins/objectTableMixin/_internals/objectTableAccessControlMixin';
 import AgentSkillsAPI from '../api/skillAgents';
 import ChangeSkillPopup from './opened-skill-agent-change-popup.vue';
+import SkillPopup from './opened-skill-agent-popup.vue';
+import SkillStatePopup from './opened-skill-agent-state-popup.vue';
 
 export default {
   name: 'opened-skill-agents',
   mixins: [openedObjectTableTabMixin, objectTableAccessControlMixin],
-  components: { ChangeSkillPopup },
+  components: { SkillPopup, SkillStatePopup, ChangeSkillPopup },
 
   data: () => ({
     namespace: 'lookups/skills',
@@ -128,13 +142,26 @@ export default {
     isAgentPopup: false,
     agentSkillPopup: false,
     agentSkillStatePopup: false,
+    agentsSelectedRows: [],
   }),
   methods: {
+    openAgentPopup() {
+      this.isAgentPopup = true;
+    },
+    closeAgentPopup() {
+      this.isAgentPopup = false;
+    },
     openAgentSkillPopup() {
       this.agentSkillPopup = true;
     },
     closeAgentSkillPopup() {
       this.agentSkillPopup = false;
+    },
+    openAgentSkillStatePopup() {
+      this.agentSkillStatePopup = true;
+    },
+    closeAgentSkillStatePopup() {
+      this.agentSkillStatePopup = false;
     },
     async changeStateForAll(enabled) {
       const { parentId } = this;
@@ -181,6 +208,19 @@ export default {
           id: [payload.item.id],
         },
       };
+    },
+
+    selectingAgents(selectedRows) {
+      this.agentsSelectedRows = selectedRows.map((obj) => ({
+        id: obj.id,
+      }));
+    },
+    async changeAgentsState(agentsState) {
+      const { parentId } = this;
+      const itemInstance = { ...agentsState };
+      itemInstance.agent = [].concat(this.agentsSelectedRows);
+      await AgentSkillsAPI.add({ parentId, itemInstance });
+      await this.loadList();
     },
   },
   mounted() {
