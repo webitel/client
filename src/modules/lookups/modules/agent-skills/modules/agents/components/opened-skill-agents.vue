@@ -4,7 +4,7 @@
       v-if="agentSkillPopup"
       :selected-agents="selectedRows"
       @close="closeAgentSkillPopup"
-      @change-agents-skill="changeAgentsSkill"
+      @change="change"
     ></change-skill-popup>
     <delete-confirmation-popup
       v-show="deleteConfirmation.isDeleteConfirmationPopup"
@@ -141,22 +141,46 @@ export default {
       const changes = {
         enabled,
       };
-      await AgentSkillsAPI.patch({ parentId, changes });
-      this.loadDataList();
+      try {
+        await AgentSkillsAPI.patch({ parentId, changes });
+      } catch (e) {
+        console.error(e);
+      } finally {
+        await this.loadDataList();
+      }
     },
-    async changeAgentsSkill({ changes, id }) {
+    async change({ changes, id }) {
       const { parentId } = this;
-      await AgentSkillsAPI.patch({ parentId, changes, id });
-      await this.loadDataList();
+      try {
+        await AgentSkillsAPI.patch({ parentId, changes, id });
+      } catch (e) {
+        console.error(e);
+      } finally {
+        await this.loadDataList();
+      }
     },
     handlePatchInput(payload) {
-      payload.item.id = [payload.item.id];
-      this.patchItem(payload);
+      const modifiedIdPayload = this.payloadIdModifier(payload);
+      this.patchItem(modifiedIdPayload);
     },
     async handlePatchEnabled(payload) {
-      payload.item.id = [payload.item.id];
-      await this.patchItem(payload);
-      await this.loadDataList();
+      const modifiedIdPayload = this.payloadIdModifier(payload);
+      try {
+        await this.patchItem(modifiedIdPayload);
+      } catch (e) {
+        console.error(e);
+      } finally {
+        await this.loadDataList();
+      }
+    },
+    payloadIdModifier(payload) {
+      return {
+        ...payload,
+        item: {
+          ...payload.item,
+          id: [payload.item.id],
+        },
+      };
     },
   },
   mounted() {

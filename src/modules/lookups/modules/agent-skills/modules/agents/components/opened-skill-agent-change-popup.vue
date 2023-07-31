@@ -24,7 +24,7 @@
     <template v-slot:actions>
       <wt-button
         :disabled="computeDisabled"
-        @click="changeAgentsSkill"
+        @click="change"
       >{{ $t('objects.change') }}
       </wt-button>
       <wt-button
@@ -46,7 +46,13 @@ import openedObjectValidationMixin
 export default {
   name: 'opened-skill-agent-change-popup',
   mixins: [openedObjectValidationMixin],
-  emits: ['close', 'changeAgentsSkill'],
+  props: {
+    selectedAgents: {
+      type: Array,
+      required: true,
+    },
+  },
+  emits: ['close', 'change'],
   data: () => ({
     namespace: 'lookups/skills',
     subNamespace: 'agents',
@@ -55,12 +61,6 @@ export default {
     },
     skillState: false,
   }),
-  props: {
-    selectedAgents: {
-      type: Array,
-      required: true,
-    },
-  },
   setup: () => ({
     v$: useVuelidate(),
   }),
@@ -73,13 +73,13 @@ export default {
     loadDropdownOptionsList(params) {
       return SkillsAPI.getLookup(params);
     },
-    changeAgentsSkill() {
+    change() {
       const id = this.selectedAgents.map((item) => item.id);
       const changes = {
         enabled: this.skillState,
         skill: this.itemInstance.skill,
       };
-      this.$emit('changeAgentsSkill', { changes, id });
+      this.$emit('change', { changes, id });
       this.close();
     },
     close() {
