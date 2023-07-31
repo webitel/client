@@ -330,6 +330,8 @@ export default {
         stateForAll: 'Стан для всіх',
         changeSkillTo: 'Замінити навичку на',
         changeAgentsSkill: 'Замінити навичку операторам',
+        totalAgents: 'Всього операторів',
+        activeSkillAgents: 'З активною навичкою',
         minCapacityLessOrEqualToMaxCapacityValidator: 'Має бути менше або рівне Максимальному потенціалу',
         maxCapacityMoreOrEqualToMinCapacityValidator: 'Має бути більше або рівне Мінімальному потенціалу',
       },

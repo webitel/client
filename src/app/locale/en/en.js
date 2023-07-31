@@ -332,6 +332,8 @@ export default {
         stateForAll: 'State for all',
         changeSkillTo: 'Change skill to',
         changeAgentsSkill: 'Change agent`s skill',
+        totalAgents: 'Total agents',
+        activeSkillAgents: 'Active skill agents',
       },
       buckets: {
         buckets: 'Bucket | Buckets',

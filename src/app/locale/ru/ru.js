@@ -332,6 +332,8 @@ export default {
         stateForAll: 'Состояние для всех',
         changeSkillTo: 'Заменить навык на',
         changeAgentsSkill: 'Заменить навык операторам',
+        totalAgents: 'Всего операторов',
+        activeSkillAgents: 'С активным навыком',
       },
       buckets: {
         buckets: 'Корзина | Корзины',

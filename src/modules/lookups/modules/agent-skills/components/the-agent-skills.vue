@@ -68,8 +68,11 @@
             <template v-slot:description="{ item }">
               {{ item.description }}
             </template>
-            <template v-slot:agents="{ item }">
-              {{ item.agents }}
+            <template v-slot:totalAgents="{ item }">
+              {{ item.totalAgents }}
+            </template>
+            <template v-slot:activeAgents="{ item }">
+              {{ item.activeAgents }}
             </template>
             <template v-slot:actions="{ item }">
               <wt-icon-action
