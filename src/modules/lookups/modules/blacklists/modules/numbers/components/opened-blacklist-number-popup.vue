@@ -14,7 +14,7 @@
         ></wt-input>
         <wt-datepicker
           :value="itemInstance.expireAt"
-          :label="$t('objects.lookups.blacklist.expire')"
+          :label="$t('objects.lookups.blacklist.expireAt')"
           mode="datetime"
           @input="setItemProp({ prop: 'expireAt', value: $event })"
         ></wt-datepicker>

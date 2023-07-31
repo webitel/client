@@ -340,7 +340,7 @@ export default {
         number: 'Number | Numbers',
         newNumber: 'New number',
         numbersCount: 'Numbers',
-        expire: 'Expire',
+        expireAt: 'Expire',
       },
       media: {
         mediaFiles: 'Media file | Media files',

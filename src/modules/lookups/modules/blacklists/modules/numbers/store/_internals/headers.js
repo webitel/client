@@ -15,7 +15,7 @@ export default [
   },
   {
     value: 'expireAt',
-    locale: 'objects.lookups.blacklist.expire',
+    locale: 'objects.lookups.blacklist.expireAt',
     field: 'expire_at',
     sort: SortSymbols.NONE,
   },
