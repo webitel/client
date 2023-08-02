@@ -8,7 +8,7 @@ import applyTransform, {
   starToSearch,
   camelToSnake,
   snakeToCamel,
-  handleUnauthorized,
+  
   notify,
   sanitize, mergeEach,
 } from '@webitel/ui-sdk/src/api/transformers';
@@ -90,7 +90,7 @@ const getFlowList = async (params) => {
     };
   } catch (err) {
     throw applyTransform(err, [
-      handleUnauthorized,
+      
       notify,
     ]);
   }
@@ -116,7 +116,7 @@ const getFlow = async ({ itemId: id }) => {
     ]);
   } catch (err) {
     throw applyTransform(err, [
-      handleUnauthorized,
+      
       notify,
     ]);
   }
@@ -142,7 +142,7 @@ const addFlow = async ({ itemInstance }) => {
     ]);
   } catch (err) {
     throw applyTransform(err, [
-      handleUnauthorized,
+      
       notify,
     ]);
   }
@@ -160,7 +160,7 @@ const updateFlow = async ({ itemInstance, itemId: id }) => {
     ]);
   } catch (err) {
     throw applyTransform(err, [
-      handleUnauthorized,
+      
       notify,
     ]);
   }
@@ -172,7 +172,7 @@ const deleteFlow = async ({ id }) => {
     return applyTransform(response.data, []);
   } catch (err) {
     throw applyTransform(err, [
-      handleUnauthorized,
+      
       notify,
     ]);
   }
@@ -215,7 +215,7 @@ const getFlowTags = async (params) => {
     };
   } catch (err) {
     throw applyTransform(err, [
-      handleUnauthorized,
+      
       notify,
     ]);
   }
