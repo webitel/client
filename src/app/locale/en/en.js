@@ -115,6 +115,7 @@ export default {
     saved: 'Saved',
     saveAs: 'Save as',
     close: 'Close',
+    next: 'Next',
     back: 'Back',
     change: 'Change',
     name: 'Name',
@@ -335,6 +336,9 @@ export default {
         changeAgentsSkill: 'Change agent`s skill',
         totalAgents: 'Total agents',
         activeSkillAgents: 'Active skill agents',
+        assignSkillToAgents: 'Assign skill to agents',
+        assignUser: 'Assign user',
+        selectCapacityAndState: 'Select capacity and state',
       },
       buckets: {
         buckets: 'Bucket | Buckets',

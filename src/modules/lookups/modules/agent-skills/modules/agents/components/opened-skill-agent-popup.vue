@@ -1,7 +1,7 @@
 <template>
   <wt-popup min-width="900" @close="close">
     <template v-slot:title>
-      Assign skill to agents
+      {{ $t('objects.lookups.skills.assignSkillToAgents') }}
     </template>
     <template v-slot:main>
       <div class="opened-skill-agent-popup__filters">
@@ -54,7 +54,7 @@
       <wt-button
         :disabled="!selectedRows.length"
         @click="openAgentSkillStatePopup"
-      >{{ $t('objects.add') }}
+      >{{ $t('objects.next') }}
       </wt-button>
       <wt-button
         color="secondary"

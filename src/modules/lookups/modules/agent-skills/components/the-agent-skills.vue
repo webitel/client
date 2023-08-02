@@ -11,7 +11,7 @@
             @click="openAgentPopup"
             :disabled="!selectedRows.length"
           >
-            {{ 'Assign user' }}
+            {{ $t('objects.lookups.skills.assignUser') }}
           </wt-button>
         </template>
         <wt-headline-nav :path="path"></wt-headline-nav>

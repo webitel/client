@@ -1,20 +1,23 @@
 <template>
   <wt-popup min-width="480" overflow @close="close">
     <template v-slot:title>
-      Select capacity and state
+      {{ $t('objects.lookups.skills.selectCapacityAndState') }}
     </template>
     <template v-slot:main>
-      <wt-input
-        v-model="agentsState.capacity"
-        :label="$t('objects.lookups.skills.capacity')"
-        type="number"
-      ></wt-input>
-      <wt-switcher
-        v-model="agentsState.enabled"
-        :labelLeft="true"
-        :label="$t('objects.lookups.skills.state')"
-      >
-      </wt-switcher>
+      <div class="state-change-content">
+        <wt-input
+          class="state-change-content__input"
+          v-model="agentsState.capacity"
+          :label="$t('objects.lookups.skills.capacity')"
+          type="number"
+        ></wt-input>
+        <wt-switcher
+          v-model="agentsState.enabled"
+          :labelLeft="true"
+          :label="$t('objects.lookups.skills.state')"
+        >
+        </wt-switcher>
+      </div>
     </template>
     <template v-slot:actions>
       <wt-button
@@ -24,7 +27,7 @@
       <wt-button
         color="secondary"
         @click="previousAgentStatePopup"
-      ><!--TODO: write locales for this button-->
+      >
         {{ $t('objects.back') }}
       </wt-button>
     </template>
@@ -61,4 +64,16 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+.state-change-content {
+  display: flex;
+  gap: 16px;
+  align-items: center;
+  padding: 32px 0;
+  justify-content: center;
+  &__input {
+    max-width: 200px;
+    display: flex;
+    gap: 16px
+  }
+}
 </style>
