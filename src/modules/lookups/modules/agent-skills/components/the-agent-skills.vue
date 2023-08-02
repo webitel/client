@@ -5,6 +5,15 @@
         :hide-primary="!hasCreateAccess"
         :primary-action="create"
       >
+        <template v-slot:actions>
+          <wt-button
+            color="secondary"
+            @click="openAgentPopup"
+            :disabled="!selectedRows.length"
+          >
+            {{ 'Assign user' }}
+          </wt-button>
+        </template>
         <wt-headline-nav :path="path"></wt-headline-nav>
       </wt-page-header>
     </template>
@@ -15,6 +24,18 @@
         :payload="deleteConfirmation"
         @close="closeDelete"
       ></delete-confirmation-popup>
+      <skill-popup
+        @open-agent-skill-state-popup="openAgentSkillStatePopup"
+        @selecting-agents="selectingAgents"
+        v-if="isAgentPopup"
+        @close="closeAgentPopup"
+      ></skill-popup>
+      <skill-state-popup
+        @change-agents-state="changeAgentsState"
+        @previous-agent-state-popup="closeAgentSkillStatePopup();openAgentPopup();"
+        v-if="agentSkillStatePopup"
+        @close="closeAgentSkillStatePopup"
+      ></skill-state-popup>
 
       <section class="main-section__wrapper">
         <header class="content-header">
@@ -108,15 +129,21 @@
 import tableComponentMixin from '../../../../../app/mixins/objectPagesMixins/objectTableMixin/tableComponentMixin';
 import RouteNames from '../../../../../app/router/_internals/RouteNames.enum';
 import { useDummy } from '../../../../../app/composables/useDummy';
+import AgentSkillsAPI from '../modules/agents/api/skillAgents';
+import SkillPopup from '../modules/agents/components/opened-skill-agent-popup.vue';
+import SkillStatePopup from '../modules/agents/components/opened-skill-agent-state-popup.vue';
 
 const namespace = 'lookups/skills';
 
 export default {
   name: 'the-agent-skills',
   mixins: [tableComponentMixin],
+  components: { SkillPopup, SkillStatePopup },
   data: () => ({
     namespace,
     routeName: RouteNames.SKILLS,
+    isAgentPopup: false,
+    agentSkillStatePopup: false,
   }),
 
   setup() {
@@ -130,6 +157,43 @@ export default {
         { name: this.$t('objects.lookups.lookups') },
         { name: this.$tc('objects.lookups.skills.agentSkills', 2), route: '/lookups/skills' },
       ];
+    },
+    selectedRows() {
+      return this.dataList.filter((item) => item._isSelected);
+    },
+  },
+  methods: {
+    openAgentPopup() {
+      this.isAgentPopup = true;
+    },
+    closeAgentPopup() {
+      this.isAgentPopup = false;
+    },
+    openAgentSkillStatePopup() {
+      this.agentSkillStatePopup = true;
+    },
+    closeAgentSkillStatePopup() {
+      this.agentSkillStatePopup = false;
+    },
+    selectingAgents(selectedRows) {
+      this.agentsSelectedRows = selectedRows.map((obj) => ({
+        id: obj.id,
+      }));
+    },
+    async changeAgentsState(agentsState) {
+      const itemInstance = { ...agentsState };
+      itemInstance.agent = [].concat(this.agentsSelectedRows);
+      try {
+        await this.selectedRows.forEach((el) => {
+          const parentId = el.id;
+          AgentSkillsAPI.add({ parentId, itemInstance });
+        });
+      } catch (e) {
+        console.error(e);
+      } finally {
+        // TODO: loadDataList doesnt update Total agents column
+        await this.loadDataList();
+      }
     },
   },
 };

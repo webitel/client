@@ -115,6 +115,7 @@ export default {
     saved: 'Saved',
     saveAs: 'Save as',
     close: 'Close',
+    back: 'Back',
     change: 'Change',
     name: 'Name',
     description: 'Description',

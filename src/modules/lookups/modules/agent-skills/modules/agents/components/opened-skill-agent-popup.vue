@@ -39,7 +39,9 @@
             {{ item.name }}
           </template>
           <template v-slot:team="{ item }">
-            {{ item?.team?.name }}
+            <div v-if="item.team">
+              {{ item.team.name }}
+            </div>
           </template>
         </wt-table>
         <scroll-observer
@@ -64,6 +66,8 @@
 </template>
 
 <script>
+import { SortSymbols } from '@webitel/ui-sdk/src/scripts/sortQueryAdapters';
+import { mapActions } from 'vuex';
 import AgentsAPI from '../../../../../../contact-center/modules/agents/api/agents';
 import TeamsAPI from '../../../../../../contact-center/modules/teams/api/teams';
 import SkillsAPI from '../../../api/agentSkills';
@@ -107,9 +111,11 @@ export default {
     sort(...params) {
       this.dispatchSort({ header: params[0], nextSortOrder: params[1] });
     },
-    dispatchSort(dispatch, payload) {
-      return dispatch(`${this.namespace}/${this.subNamespace}/SORT`, payload);
-    },
+    ...mapActions({
+      dispatchSort(dispatch, payload) {
+        return dispatch(`${this.namespace}/${this.subNamespace}/SORT`, payload);
+      },
+    }),
     selectingAgents() {
       this.$emit('selectingAgents', this.selectedRows);
     },
@@ -117,8 +123,8 @@ export default {
   computed: {
     headers() {
       return [
-        { value: 'name', text: this.$t('reusable.name') },
-        { value: 'team', text: this.$tc('objects.ccenter.teams.teams', 1) },
+        { value: 'name', field: 'name', text: this.$t('reusable.name'), sort: SortSymbols.NONE },
+        { value: 'team', field: 'team', text: this.$tc('objects.ccenter.teams.teams', 1), sort: SortSymbols.NONE },
       ];
     },
     selectedRows() {

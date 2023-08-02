@@ -10,9 +10,9 @@
         type="number"
       ></wt-input>
       <wt-switcher
-        v-model="agentsState.state"
+        v-model="agentsState.enabled"
         :labelLeft="true"
-        :label="'State'"
+        :label="$t('objects.lookups.skills.state')"
       >
       </wt-switcher>
     </template>
@@ -25,7 +25,7 @@
         color="secondary"
         @click="previousAgentStatePopup"
       ><!--TODO: write locales for this button-->
-        {{ 'Back' }}
+        {{ $t('objects.back') }}
       </wt-button>
     </template>
   </wt-popup>

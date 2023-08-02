@@ -115,6 +115,7 @@ export default {
     saved: 'Збережено',
     saveAs: 'Зберігти як нового',
     close: 'Закрити',
+    back: 'Назад',
     change: 'Замінити',
     name: 'Ім\'я',
     description: 'Опис',

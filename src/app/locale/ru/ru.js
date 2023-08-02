@@ -115,6 +115,7 @@ export default {
     saved: 'Сохранено',
     saveAs: 'Сохранить как нового',
     close: 'Закрыть',
+    back: 'Назад',
     change: 'Заменить',
     name: 'Имя',
     description: 'Описание',
