@@ -42,7 +42,8 @@ export default {
   mixins: [nestedObjectMixin],
   emits: ['previousAgentStatePopup', 'changeAgentsState'],
   data: () => ({
-    namespace: 'lookups/teams/agents',
+    namespace: 'lookups/skills',
+    subNamespace: 'agents',
     agentCapacity: 1,
     agentState: true,
     agentsState: {

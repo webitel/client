@@ -7,14 +7,17 @@
       <div class="opened-skill-agent-popup__filters">
         <wt-search-bar
           v-model="dataSearch"
-          @change="loadDataList"
+          @input="setSearch"
+          @search="loadDataList"
+          @enter="loadDataList"
         >
         </wt-search-bar>
         <wt-select
+          v-model="teamSearch"
           :placeholder="$tc('objects.ccenter.teams.teams', 1)"
           :search-method="loadTeams"
-          v-model="teamSearch"
-          @input="loadDataList"
+          :clearable="false"
+          @input="handleTeamSearch"
           multiple
         >
         </wt-select>
@@ -22,7 +25,8 @@
           :placeholder="$tc('objects.lookups.skills.skills', 1)"
           :search-method="loadSkills"
           v-model="skillSearch"
-          @input="loadDataList"
+          :clearable="false"
+          @input="handleSkillSearch"
           multiple
         >
         </wt-select>
@@ -74,14 +78,16 @@ import SkillsAPI from '../../../api/agentSkills';
 import nestedObjectMixin from '../../../../../../../app/mixins/objectPagesMixins/openedObjectMixin/nestedObjectMixin';
 import infiniteScrollMixin from './infiniteScrollMixin';
 import ScrollObserver from './scroll-observer.vue';
+import BaseTableStoreModuleMixin
+  from '../../../../../../../app/store/BaseStoreModules/StoreModuleMixins/BaseTableStoreModuleMixin';
 
 export default {
   name: 'opened-skill-agent-popup',
-  mixins: [nestedObjectMixin, infiniteScrollMixin],
+  mixins: [nestedObjectMixin, infiniteScrollMixin, BaseTableStoreModuleMixin],
   components: { ScrollObserver },
 
   data: () => ({
-    namespace: 'lookups/teams/agents',
+    namespace: 'ccenter/agents',
     agents: {},
     dataList: [],
     teamSearch: [],
@@ -89,6 +95,19 @@ export default {
   }),
 
   methods: {
+    async handleSearch(value, paramsArray) {
+      const uniqValues = value.filter(
+        (item) => !paramsArray.some((entry) => entry.id === item.id),
+      );
+      paramsArray.push(...uniqValues);
+      await this.loadDataList();
+    },
+    async handleTeamSearch(value) {
+      await this.handleSearch(value, this.teamSearch);
+    },
+    async handleSkillSearch(value) {
+      await this.handleSearch(value, this.skillSearch);
+    },
     fetch: AgentsAPI.getList,
     loadTeams: TeamsAPI.getLookup,
     loadSkills: SkillsAPI.getLookup,
@@ -113,7 +132,10 @@ export default {
     },
     ...mapActions({
       dispatchSort(dispatch, payload) {
-        return dispatch(`${this.namespace}/${this.subNamespace}/SORT`, payload);
+        return dispatch(`${this.namespace}/SORT`, payload);
+      },
+      setSearch(dispatch, payload) {
+        return dispatch(`${this.namespace}/SET_SEARCH`, payload);
       },
     }),
     selectingAgents() {
@@ -123,8 +145,18 @@ export default {
   computed: {
     headers() {
       return [
-        { value: 'name', field: 'name', text: this.$t('reusable.name'), sort: SortSymbols.NONE },
-        { value: 'team', field: 'team', text: this.$tc('objects.ccenter.teams.teams', 1), sort: SortSymbols.NONE },
+        {
+          value: 'name',
+          field: 'name',
+          text: this.$t('reusable.name'),
+          sort: SortSymbols.NONE,
+        },
+        {
+          value: 'team',
+          field: 'team',
+          text: this.$tc('objects.ccenter.teams.teams', 1),
+          sort: SortSymbols.NONE,
+        },
       ];
     },
     selectedRows() {
