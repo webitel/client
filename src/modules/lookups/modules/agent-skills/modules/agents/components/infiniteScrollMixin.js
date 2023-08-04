@@ -44,6 +44,7 @@ export default {
     async loadDataList() {
       if (!this.dataList.length) this.isLoading = true;
       const params = this.collectParams();
+      params.notSkillId = this.notSkillId;
       const { items, next } = await this.fetch(params);
       this.isNext = next;
       this.setData(items);
@@ -68,9 +69,6 @@ export default {
       if (this.dataSort) params.sort = this.dataSort;
       if (this.dataFilters) params.filters = this.dataFilters;
       return params;
-    },
-
-    fetch() {
     },
   },
 };

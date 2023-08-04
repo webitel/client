@@ -1,5 +1,5 @@
 <template>
-  <wt-popup min-width="900" @close="close">
+  <wt-popup min-width="1440" @close="close">
     <template v-slot:title>
       {{ $t('objects.lookups.skills.assignSkillToAgents') }}
     </template>
@@ -10,6 +10,7 @@
           @input="setSearch"
           @search="loadDataList"
           @enter="loadDataList"
+          class="opened-skill-agent-popup__input"
         >
         </wt-search-bar>
         <wt-select
@@ -19,6 +20,7 @@
           :clearable="false"
           @input="handleTeamSearch"
           multiple
+          class="opened-skill-agent-popup__input"
         >
         </wt-select>
         <wt-select
@@ -28,8 +30,14 @@
           :clearable="false"
           @input="handleSkillSearch"
           multiple
+          class="opened-skill-agent-popup__input"
         >
         </wt-select>
+        <wt-icon-btn
+          class="icon-action"
+          icon="clear"
+          @click="resetFilters"
+        ></wt-icon-btn>
       </div>
       <div ref="scroll-wrap" class="scroll-wrap">
         <wt-table
@@ -94,6 +102,12 @@ export default {
     skillSearch: [],
   }),
 
+  props: {
+    notSkillId: {
+      required: true,
+    },
+  },
+
   methods: {
     async handleSearch(value, paramsArray) {
       const uniqValues = value.filter(
@@ -141,6 +155,14 @@ export default {
     selectingAgents() {
       this.$emit('selectingAgents', this.selectedRows);
     },
+    async resetFilters() {
+      // TODO : finish reset
+      this.$router.push({ query: null });
+      this.teamSearch = [];
+      this.skillSearch = [];
+      this.dataSearch = '';
+      await this.loadDataList();
+    },
   },
   computed: {
     headers() {
@@ -182,6 +204,11 @@ export default {
 
 .opened-skill-agent-popup__filters {
   display: flex;
-  gap: 8px;
+  align-items: center;
+  gap: var(--spacing-xs);
+}
+
+.opened-skill-agent-popup__input {
+  width: calc((100% - var(--spacing-md)) / 3);
 }
 </style>

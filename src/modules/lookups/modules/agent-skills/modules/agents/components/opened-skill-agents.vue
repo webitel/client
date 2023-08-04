@@ -1,6 +1,7 @@
 <template>
   <section>
     <skill-popup
+      :not-skill-id="parentId"
       @open-agent-skill-state-popup="openAgentSkillStatePopup"
       @selecting-agents="selectingAgents"
       v-if="isAgentPopup"

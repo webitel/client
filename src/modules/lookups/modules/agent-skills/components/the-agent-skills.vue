@@ -25,6 +25,7 @@
         @close="closeDelete"
       ></delete-confirmation-popup>
       <skill-popup
+        :not-skill-id="selectedRowsId"
         @open-agent-skill-state-popup="openAgentSkillStatePopup"
         @selecting-agents="selectingAgents"
         v-if="isAgentPopup"
@@ -160,6 +161,9 @@ export default {
     },
     selectedRows() {
       return this.dataList.filter((item) => item._isSelected);
+    },
+    selectedRowsId() {
+      return this.selectedRows.map((item) => item.id);
     },
   },
   methods: {

@@ -67,14 +67,14 @@ export default {
 <style lang="scss" scoped>
 .state-change-content {
   display: flex;
-  gap: 16px;
+  gap: var(--spacing-sm);
   align-items: center;
-  padding: 32px 0;
+  padding: var(--spacing-lg) 0;
   justify-content: center;
   &__input {
     max-width: 200px;
     display: flex;
-    gap: 16px
+    gap: var(--spacing-sm);
   }
 }
 </style>
