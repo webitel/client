@@ -66,7 +66,7 @@ const getCommunication = async ({ itemId: id }) => {
   }
 };
 
-const fieldsToSend = ['code', 'name', 'description'];
+ const fieldsToSend = ['code', 'name', 'description', 'channel'];
 
 const addCommunication = async ({ itemInstance }) => {
   const item = applyTransform(itemInstance, [

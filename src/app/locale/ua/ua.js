@@ -405,6 +405,11 @@ export default {
         allCommunications: 'Всі типи зв\'язку',
         addCommunication: 'Додати тип зв\'язку',
         code: 'Код',
+        channels: {
+          phone: 'Телефон',
+          email: 'Електронна пошта',
+          messaging: 'Повідомлення',
+        },
       },
       pauseCause: {
         pauseCause: 'Статуси оператора',

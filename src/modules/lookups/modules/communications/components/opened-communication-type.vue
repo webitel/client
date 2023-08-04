@@ -53,6 +53,7 @@ export default {
     itemInstance: {
       name: { required },
       code: { required },
+      channel: { required },
     },
   },
 

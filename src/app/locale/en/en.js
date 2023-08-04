@@ -405,6 +405,11 @@ export default {
         allCommunications: 'All communication types',
         addCommunication: 'Add communication',
         code: 'Code',
+        channels: {
+          phone: 'Phone',
+          email: 'Email',
+          messaging: 'Messaging',
+        },
       },
       pauseCause: {
         pauseCause: 'Agent statuses',
