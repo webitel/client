@@ -68,7 +68,9 @@
               </wt-item-link>
             </template>
             <template v-slot:channel="{ item }">
-              {{ computeChannelDisplay(item.channel) }}
+              <div
+                v-if="item.channel">
+                {{ $t(`objects.lookups.communications.channels.${item.channel}`) }}</div>
             </template>
             <template v-slot:code="{ item }">
               {{ item.code }}
@@ -133,12 +135,6 @@ export default {
         { name: this.$t('objects.lookups.lookups') },
         { name: this.$tc('objects.lookups.communications.communications', 2), route: '/lookups/communications' },
       ];
-    },
-  },
-  methods: {
-    computeChannelDisplay(name) {
-      if (!name) return '';
-      return this.$t(`objects.lookups.communications.channels.${name.toLowerCase()}`);
     },
   },
 };

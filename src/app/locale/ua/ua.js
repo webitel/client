@@ -1,5 +1,7 @@
 /* eslint-disable quote-props */
 
+import { EngineCommunicationChannels } from 'webitel-sdk';
+
 export default {
   auth: {
     register: 'Створити',
@@ -406,9 +408,9 @@ export default {
         addCommunication: 'Додати тип зв\'язку',
         code: 'Код',
         channels: {
-          phone: 'Телефон',
-          email: 'Електронна пошта',
-          messaging: 'Повідомлення',
+          [EngineCommunicationChannels.Phone]: 'Телефон',
+          [EngineCommunicationChannels.Email]: 'Електронна пошта',
+          [EngineCommunicationChannels.Messaging]: 'Повідомлення',
         },
       },
       pauseCause: {
