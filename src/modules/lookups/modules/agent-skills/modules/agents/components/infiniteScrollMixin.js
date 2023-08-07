@@ -29,9 +29,9 @@ export default {
   methods: {
     setData(items) {
       if (this.dataPage === 1) {
-        this.dataList = items.map((items) => ({ ...items, _isSelected: false }));
+        this.state.dataList = items.map((items) => ({ ...items, _isSelected: false }));
       } else {
-        this.dataList = [...this.dataList, ...items]
+        this.state.dataList = [...this.state.dataList, ...items]
         .map((items) => ({ ...items, _isSelected: false }));
       }
     },
@@ -42,7 +42,7 @@ export default {
     },
 
     async loadDataList() {
-      if (!this.dataList.length) this.isLoading = true;
+      if (!this.state.dataList.length) this.isLoading = true;
       const params = this.collectParams();
       params.notSkillId = this.notSkillId;
       const { items, next } = await this.fetch(params);

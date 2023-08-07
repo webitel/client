@@ -42,7 +42,7 @@
       <div ref="scroll-wrap" class="scroll-wrap">
         <wt-table
           :headers="headers"
-          :data="dataList"
+          :data="state.dataList"
           :grid-actions="false"
           sortable
           @sort="sort"
@@ -78,28 +78,34 @@
 </template>
 
 <script>
-import { SortSymbols } from '@webitel/ui-sdk/src/scripts/sortQueryAdapters';
+import { SortSymbols, sortToQueryAdapter } from '@webitel/ui-sdk/src/scripts/sortQueryAdapters';
 import { mapActions } from 'vuex';
 import AgentsAPI from '../../../../../../contact-center/modules/agents/api/agents';
 import TeamsAPI from '../../../../../../contact-center/modules/teams/api/teams';
 import SkillsAPI from '../../../api/agentSkills';
-import nestedObjectMixin from '../../../../../../../app/mixins/objectPagesMixins/openedObjectMixin/nestedObjectMixin';
 import infiniteScrollMixin from './infiniteScrollMixin';
 import ScrollObserver from './scroll-observer.vue';
-import BaseTableStoreModuleMixin
-  from '../../../../../../../app/store/BaseStoreModules/StoreModuleMixins/BaseTableStoreModuleMixin';
 
 export default {
   name: 'opened-skill-agent-popup',
-  mixins: [nestedObjectMixin, infiniteScrollMixin, BaseTableStoreModuleMixin],
+  mixins: [infiniteScrollMixin],
   components: { ScrollObserver },
 
   data: () => ({
     namespace: 'ccenter/agents',
     agents: {},
-    dataList: [],
     teamSearch: [],
     skillSearch: [],
+    state: {
+      headers: [],
+      dataList: [],
+      aggs: {},
+      size: 10,
+      search: '',
+      page: 1,
+      sort: '',
+      isNextPage: false,
+    },
   }),
 
   props: {
@@ -109,6 +115,41 @@ export default {
   },
 
   methods: {
+    close() {
+      this.$emit('close');
+    },
+    async sortDataList(header, nextSortOrder) {
+      const sort = nextSortOrder
+        ? `${sortToQueryAdapter(nextSortOrder)}${header.field}`
+        : nextSortOrder;
+
+      this.state.sort = sort;
+      await this.updateHeaderSort(header, nextSortOrder);
+      await this.resetPage(this.state);
+      await this.fetch(this.state);
+    },
+
+    async updateHeaderSort(header, nextSortOrder) {
+      console.log(this.state.headers);
+      const headers = this.state.headers.map((oldHeader) => {
+        if (oldHeader.sort !== undefined) {
+          return {
+            ...oldHeader,
+            sort: oldHeader.field === header.field
+              ? nextSortOrder
+              : SortSymbols.NONE,
+          };
+        }
+        return oldHeader;
+      });
+      this.state.headers = headers;
+      console.log(headers);
+    },
+
+    async resetPage() {
+      const page = 1;
+      this.state.page = page;
+    },
     async handleSearch(value, paramsArray) {
       const uniqValues = value.filter(
         (item) => !paramsArray.some((entry) => entry.id === item.id),
@@ -142,12 +183,9 @@ export default {
       };
     },
     sort(...params) {
-      this.dispatchSort({ header: params[0], nextSortOrder: params[1] });
+      this.sortDataList(params[0], params[1]);
     },
     ...mapActions({
-      dispatchSort(dispatch, payload) {
-        return dispatch(`${this.namespace}/SORT`, payload);
-      },
       setSearch(dispatch, payload) {
         return dispatch(`${this.namespace}/SET_SEARCH`, payload);
       },
@@ -182,7 +220,7 @@ export default {
       ];
     },
     selectedRows() {
-      return this.dataList.filter((item) => item._isSelected);
+      return this.state.dataList.filter((item) => item._isSelected);
     },
   },
 };
