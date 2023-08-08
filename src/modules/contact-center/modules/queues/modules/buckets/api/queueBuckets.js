@@ -3,7 +3,7 @@ import instance from '../../../../../../../app/api/instance';
 import configuration from '../../../../../../../app/api/openAPIConfig';
 import applyTransform, {
   camelToSnake,
-  handleUnauthorized,
+  
   merge, mergeEach, notify,
   sanitize, snakeToCamel,
   starToSearch
@@ -60,7 +60,7 @@ const getQueueBucketsList = async (params) => {
     };
   } catch (err) {
     throw applyTransform(err, [
-      handleUnauthorized,
+      
       notify,
     ]);
   }
@@ -80,7 +80,7 @@ const getQueueBucket = async ({ parentId, itemId: id }) => {
     ]);
   } catch (err) {
     throw applyTransform(err, [
-      handleUnauthorized,
+      
       notify,
     ]);
   }
@@ -99,7 +99,7 @@ const addQueueBucket = async ({ parentId, itemInstance }) => {
     ]);
   } catch (err) {
     throw applyTransform(err, [
-      handleUnauthorized,
+      
       notify,
     ]);
   }
@@ -118,7 +118,7 @@ const updateQueueBucket = async ({ itemInstance, itemId: id, parentId }) => {
     ]);
   } catch (err) {
     throw applyTransform(err, [
-      handleUnauthorized,
+      
       notify,
     ]);
   }
@@ -136,7 +136,7 @@ const patchQueueBucket = async ({ changes, id, parentId }) => {
     ]);
   } catch (err) {
     throw applyTransform(err, [
-      handleUnauthorized,
+      
       notify,
     ]);
   }
@@ -148,7 +148,7 @@ const deleteQueueBucket = async ({ parentId, id }) => {
     return applyTransform(response.data, []);
   } catch (err) {
     throw applyTransform(err, [
-      handleUnauthorized,
+      
       notify,
     ]);
   }

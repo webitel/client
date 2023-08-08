@@ -13,4 +13,10 @@ export default [
     field: 'description',
     sort: SortSymbols.NONE,
   },
+  {
+    value: 'expireAt',
+    locale: 'objects.lookups.blacklist.expireAt',
+    field: 'expire_at',
+    sort: SortSymbols.NONE,
+  },
 ];

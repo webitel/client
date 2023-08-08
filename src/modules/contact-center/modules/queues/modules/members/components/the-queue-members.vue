@@ -83,14 +83,14 @@
         </header>
 
         <wt-loader v-show="!isLoaded"></wt-loader>
-        <wt-dummy
-          v-if="dummy && isLoaded"
-          :src="dummy.src"
-          :text="dummy.text && $t(dummy.text)"
-          class="dummy-wrapper"
-        ></wt-dummy>
+<!--        <wt-dummy-->
+<!--          v-if="dummy && isLoaded"-->
+<!--          :src="dummy.src"-->
+<!--          :text="dummy.text && $t(dummy.text)"-->
+<!--          class="dummy-wrapper"-->
+<!--        ></wt-dummy>-->
         <div
-          v-show="dataList.length && isLoaded"
+          v-show="isLoaded"
           class="table-wrapper">
           <wt-table
             :headers="headers"
@@ -260,12 +260,16 @@ export default {
       if (selectedCount) options.push(selected);
       return options;
     },
-    dummy() {
-      return !this.dataList.length && {
-        src: dummyPic,
-        text: 'objects.ccenter.members.emptyWorkspace',
-      };
-    },
+
+    /* https://my.webitel.com/browse/WTEL-3697 */
+    /* Temporarily disabled functionality due to problems with pagination */
+
+    // dummy() {
+    //   return !this.dataList.length && {
+    //     src: dummyPic,
+    //     text: 'objects.ccenter.members.emptyWorkspace',
+    //   };
+    // },
   },
 
   methods: {

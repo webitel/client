@@ -3,7 +3,7 @@ import {
   getDefaultGetParams,
 } from '@webitel/ui-sdk/src/api/defaults';
 import applyTransform, {
-  camelToSnake, generateUrl, handleUnauthorized,
+  camelToSnake, generateUrl, 
   merge, notify, sanitize, snakeToCamel,
   starToSearch, log,
 } from '@webitel/ui-sdk/src/api/transformers';
@@ -37,7 +37,7 @@ const getTokensList = async ({ parentId, ...rest }) => {
     };
   } catch (err) {
     throw applyTransform(err, [
-      handleUnauthorized,
+      
       notify,
     ]);
   }
@@ -55,7 +55,7 @@ const addToken = async ({ itemInstance, parentId }) => {
     ]);
   } catch (err) {
     throw applyTransform(err, [
-      handleUnauthorized,
+      
       notify,
     ]);
   }
@@ -68,7 +68,7 @@ const deleteToken = async ({ id, parentId }) => {
     return applyTransform(response.data, []);
   } catch (err) {
     throw applyTransform(err, [
-      handleUnauthorized,
+      
       notify,
     ]);
   }

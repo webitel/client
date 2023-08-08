@@ -1,4 +1,8 @@
 import axios from 'axios';
+import updateTokenInterceptor
+  from '@webitel/ui-sdk/src/api/interceptors/request/updateToken.interceptor';
+import handleUnauthorizedInterceptor
+  from '@webitel/ui-sdk/src/api/interceptors/response/handleUnauthorized.interceptor';
 import defaultInterceptorsSetup from './interceptors/defaultInterceptorsSetup';
 
 // config with specific properties which doesn't fit to axios config
@@ -20,5 +24,8 @@ const instance = axios.create({
 });
 
 defaultInterceptorsSetup({ instance, config });
+
+instance.interceptors.request.use(...updateTokenInterceptor);
+instance.interceptors.response.use(...handleUnauthorizedInterceptor);
 
 export default instance;

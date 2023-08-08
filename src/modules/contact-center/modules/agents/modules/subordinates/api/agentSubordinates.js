@@ -1,5 +1,5 @@
 import applyTransform, {
-  handleUnauthorized, notify,
+   notify,
   snakeToCamel,
 } from '@webitel/ui-sdk/src/api/transformers';
 import { AgentServiceApiFactory } from 'webitel-sdk';
@@ -30,7 +30,7 @@ export const getAgentSubordinate = async ({ itemId: id }) => {
     ]);
   } catch (err) {
     throw applyTransform(err, [
-      handleUnauthorized,
+      
       notify,
     ]);
   }

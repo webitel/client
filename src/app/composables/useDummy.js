@@ -10,6 +10,8 @@ export function useDummy({
                            namespace,
                            showAction,
                            hiddenText,
+                           dummyPic,
+                           dummyText,
                            dummyPicAfterSearch = defaultDummyPicAfterSearch,
                            dummyTextAfterSearch = 'objects.emptyResultSearch',
                          }) {
@@ -30,7 +32,10 @@ export function useDummy({
           text: dummyTextAfterSearch,
         };
       } else return dummy.value = {
-        showAction,
+          src: dummyPic,
+          text: dummyText,
+          showAction,
+          hiddenText,
       };
     } else return dummy.value = '';
   }, { deep: true });
