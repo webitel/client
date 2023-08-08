@@ -5,7 +5,6 @@ import {
 } from '@webitel/ui-sdk/src/api/defaults';
 import applyTransform, {
   camelToSnake,
-  handleUnauthorized,
   merge, mergeEach, notify, sanitize, snakeToCamel,
   starToSearch,
 } from '@webitel/ui-sdk/src/api/transformers';
@@ -58,7 +57,6 @@ const getQueueHooksList = async (params) => {
     };
   } catch (err) {
     throw applyTransform(err, [
-      handleUnauthorized,
       notify,
     ]);
   }
@@ -80,7 +78,6 @@ const getQueueHook = async ({ parentId, itemId: id }) => {
     ]);
   } catch (err) {
     throw applyTransform(err, [
-      handleUnauthorized,
       notify,
     ]);
   }
@@ -99,7 +96,6 @@ const addQueueHook = async ({ parentId, itemInstance }) => {
     ]);
   } catch (err) {
     throw applyTransform(err, [
-      handleUnauthorized,
       notify,
     ]);
   }
@@ -118,7 +114,6 @@ const patchQueueHook = async ({ changes, id, parentId }) => {
     ]);
   } catch (err) {
     throw applyTransform(err, [
-      handleUnauthorized,
       notify,
     ]);
   }
@@ -137,7 +132,6 @@ const updateQueueHook = async ({ itemInstance, itemId: id, parentId }) => {
     ]);
   } catch (err) {
     throw applyTransform(err, [
-      handleUnauthorized,
       notify,
     ]);
   }
@@ -149,7 +143,6 @@ const deleteQueueHook = async ({ parentId, id }) => {
     return applyTransform(response.data, []);
   } catch (err) {
     throw applyTransform(err, [
-      handleUnauthorized,
       notify,
     ]);
   }
