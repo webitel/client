@@ -6,15 +6,15 @@
     <template v-slot:main>
       <div class="state-change-content">
         <wt-input
-          class="state-change-content__input"
           v-model="agentsState.capacity"
           :label="$t('objects.lookups.skills.capacity')"
+          class="state-change-content__input"
           type="number"
         ></wt-input>
         <wt-switcher
           v-model="agentsState.enabled"
-          :labelLeft="true"
           :label="$t('objects.lookups.skills.state')"
+          :labelLeft="true"
         >
         </wt-switcher>
       </div>
@@ -35,11 +35,8 @@
 </template>
 
 <script>
-import nestedObjectMixin from '../../../../../../../app/mixins/objectPagesMixins/openedObjectMixin/nestedObjectMixin';
-
 export default {
   name: 'opened-skill-agent-popup',
-  mixins: [nestedObjectMixin],
   emits: ['previousAgentStatePopup', 'changeAgentsState'],
   data: () => ({
     namespace: 'lookups/skills',
@@ -60,6 +57,9 @@ export default {
       this.close();
       this.$emit('changeAgentsState', this.agentsState);
     },
+    close() {
+      this.$emit('close');
+    },
   },
 };
 </script>
@@ -67,13 +67,14 @@ export default {
 <style lang="scss" scoped>
 .state-change-content {
   display: flex;
-  gap: var(--spacing-sm);
   align-items: center;
-  padding: var(--spacing-lg) 0;
   justify-content: center;
+  padding: var(--spacing-lg) 0;
+  gap: var(--spacing-sm);
+
   &__input {
-    max-width: 200px;
     display: flex;
+    max-width: 200px;
     gap: var(--spacing-sm);
   }
 }

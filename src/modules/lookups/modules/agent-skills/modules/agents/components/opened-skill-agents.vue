@@ -1,23 +1,23 @@
 <template>
   <section>
     <skill-popup
+      v-if="isAgentPopup"
       :not-skill-id="parentId"
+      @close="closeAgentPopup"
       @open-agent-skill-state-popup="openAgentSkillStatePopup"
       @selecting-agents="selectingAgents"
-      v-if="isAgentPopup"
-      @close="closeAgentPopup"
     ></skill-popup>
     <skill-state-popup
-      @change-agents-state="changeAgentsState"
-      @previous-agent-state-popup="closeAgentSkillStatePopup();openAgentPopup();"
       v-if="agentSkillStatePopup"
       @close="closeAgentSkillStatePopup"
+      @change-agents-state="changeAgentsState"
+      @previous-agent-state-popup="closeAgentSkillStatePopup();openAgentPopup();"
     ></skill-state-popup>
     <change-skill-popup
       v-if="agentSkillPopup"
       :selected-agents="selectedRows"
-      @close="closeAgentSkillPopup"
       @change="change"
+      @close="closeAgentSkillPopup"
     ></change-skill-popup>
     <delete-confirmation-popup
       v-show="deleteConfirmation.isDeleteConfirmationPopup"
@@ -39,16 +39,16 @@
           @input="tableActionsHandler"
         >
           <wt-switcher
+            :label="$t('objects.lookups.skills.stateForAll')"
             :label-left="true"
             :value="aggs.enabled"
-            :label="$t('objects.lookups.skills.stateForAll')"
             @change="changeStateForAll"
           >
           </wt-switcher>
           <wt-icon-btn
             v-if="!disableUserInput"
-            class="icon-action"
             :class="{'hidden': anySelected}"
+            class="icon-action"
             icon="arrow-mix"
             @click="openAgentSkillPopup"
           ></wt-icon-btn>
@@ -70,14 +70,14 @@
     <wt-loader v-show="!isLoaded"></wt-loader>
     <div v-show="isLoaded" class="table-wrapper">
       <wt-table
-        :headers="headers"
         :data="dataList"
         :grid-actions="hasTableActions"
+        :headers="headers"
         sortable
         @sort="sort"
       >
         <template v-slot:name="{ item }">
-            {{ item.agent.name }}
+          {{ item.agent.name }}
         </template>
         <template v-slot:team="{ item }">
           <div v-if="item.team">
@@ -122,10 +122,11 @@
 
 <script>
 import debounce from '@webitel/ui-sdk/src/scripts/debounce';
-import openedObjectTableTabMixin from '../../../../../../../app/mixins/objectPagesMixins/openedObjectTableTabMixin/openedObjectTableTabMixin';
-import RouteNames from '../../../../../../../app/router/_internals/RouteNames.enum';
 import objectTableAccessControlMixin
   from '../../../../../../../app/mixins/objectPagesMixins/objectTableMixin/_internals/objectTableAccessControlMixin';
+import openedObjectTableTabMixin
+  from '../../../../../../../app/mixins/objectPagesMixins/openedObjectTableTabMixin/openedObjectTableTabMixin';
+import RouteNames from '../../../../../../../app/router/_internals/RouteNames.enum';
 import AgentSkillsAPI from '../api/skillAgents';
 import ChangeSkillPopup from './opened-skill-agent-change-popup.vue';
 import SkillPopup from './opened-skill-agent-popup.vue';

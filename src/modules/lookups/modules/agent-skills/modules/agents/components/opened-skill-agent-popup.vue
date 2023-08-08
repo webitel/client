@@ -1,37 +1,39 @@
 <template>
-  <wt-popup min-width="1440" @close="close">
+  <wt-popup
+    min-width="768"
+    width="1440"
+    @close="close"
+  >
     <template v-slot:title>
       {{ $t('objects.lookups.skills.assignSkillToAgents') }}
     </template>
     <template v-slot:main>
       <div class="opened-skill-agent-popup__filters">
         <wt-search-bar
-          v-model="state.search"
-          debounce
-          @input="setSearch"
-          @search="loadDataList"
-          @enter="loadDataList"
+          :value="state.search"
           class="opened-skill-agent-popup__input"
+          debounce
+          @enter="handleSearch"
+          @input="setSearch"
+          @search="handleSearch"
         >
         </wt-search-bar>
         <wt-select
-          v-model="teamSearch"
           :placeholder="$tc('objects.ccenter.teams.teams', 1)"
           :search-method="loadTeams"
-          :clearable="false"
-          @input="handleTeamSearch"
-          multiple
+          :value="teamSearch"
           class="opened-skill-agent-popup__input"
+          multiple
+          @input="handleTeamSearch"
         >
         </wt-select>
         <wt-select
           :placeholder="$tc('objects.lookups.skills.skills', 1)"
           :search-method="loadSkills"
-          v-model="skillSearch"
-          :clearable="false"
-          @input="handleSkillSearch"
-          multiple
+          :value="skillSearch"
           class="opened-skill-agent-popup__input"
+          multiple
+          @input="handleSkillSearch"
         >
         </wt-select>
         <wt-icon-btn
@@ -42,9 +44,9 @@
       </div>
       <div ref="scroll-wrap" class="scroll-wrap">
         <wt-table
-          :headers="state.headers"
           :data="state.dataList"
           :grid-actions="false"
+          :headers="state.headers"
           sortable
           @sort="sort"
         >
@@ -142,17 +144,7 @@ export default {
 
       this.state.sort = sort;
       await this.updateHeaderSort(header, nextSortOrder);
-      const { items } = await AgentsAPI.getList(
-        {
-          size: this.state.size,
-          search: this.state.search,
-          page: 1,
-          sort: this.state.sort,
-          isNextPage: this.state.isNextPage,
-          notSkillId: this.notSkillId,
-        },
-      );
-      this.state.dataList = [...items];
+      return this.loadDataList();
     },
 
     async updateHeaderSort(header, nextSortOrder) {
@@ -170,22 +162,32 @@ export default {
       this.state.headers = headers;
     },
 
-    setSearch(e) {
-     this.state.search = e;
+    setSearch(value) {
+      this.state.search = value;
     },
-    async handleSearch(value, paramsArray) {
-      this.state.dataList = [];
-      const uniqValues = value.filter(
-        (item) => !paramsArray.some((entry) => entry.id === item.id),
-      );
-      paramsArray.push(...uniqValues);
-      await this.loadDataList();
+    async handleSearch() {
+      this.state.page = 1;
+      this.loadDataList();
     },
     async handleTeamSearch(value) {
-      await this.handleSearch(value, this.teamSearch);
+      this.state.page = 1;
+      this.teamSearch = value;
+      this.state.dataList = [];
+      const uniqValues = value.filter(
+        (item) => !this.teamSearch.some((entry) => entry.id === item.id),
+      );
+      this.teamSearch.push(...uniqValues);
+      await this.loadDataList();
     },
     async handleSkillSearch(value) {
-      await this.handleSearch(value, this.skillSearch);
+      this.state.page = 1;
+      this.skillSearch = value;
+      this.state.dataList = [];
+      const uniqValues = value.filter(
+        (item) => !this.skillSearch.some((entry) => entry.id === item.id),
+      );
+      this.skillSearch.push(...uniqValues);
+      await this.loadDataList();
     },
     fetch: AgentsAPI.getList,
     loadTeams: TeamsAPI.getLookup,
@@ -208,16 +210,17 @@ export default {
       };
     },
     sort(...params) {
+      this.state.page = 1;
       this.sortDataList(params[0], params[1]);
     },
     selectingAgents() {
       this.$emit('selectingAgents', this.selectedRows);
     },
     async resetFilters() {
-      this.$router.push({ query: null });
       this.teamSearch = [];
       this.skillSearch = [];
       this.state.search = '';
+      this.state.page = 1;
       await this.loadDataList();
     },
   },
@@ -241,6 +244,7 @@ export default {
 .scroll-wrap {
   height: 65vh;
 }
+
 .wt-popup {
   :deep(.wt-popup__main) {
     display: flex;
@@ -248,9 +252,9 @@ export default {
   }
 
   :deep(.scroll-wrap) {
+    overflow: auto;
     flex-grow: 1;
     min-height: 0;
-    overflow: auto;
   }
 }
 
