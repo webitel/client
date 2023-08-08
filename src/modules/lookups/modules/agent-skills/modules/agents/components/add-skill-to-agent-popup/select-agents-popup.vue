@@ -134,7 +134,6 @@ async function loadDataList() {
   const params = {
     size,
     ...filters.value,
-    fields: headers.map(({ field }) => field),
     team: filters.value.teams.map(({ id }) => id),
     skill: filters.value.skills.map(({ id }) => id),
     notSkillId: props.skillId,

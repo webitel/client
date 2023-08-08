@@ -22,6 +22,7 @@
     </template>
     <template v-slot:actions>
       <wt-button
+        :disabled="v$.$error"
         @click="emit('select', state)"
       >{{ $t('objects.add') }}
       </wt-button>
@@ -35,7 +36,9 @@
 </template>
 
 <script setup>
-import { reactive } from 'vue';
+import { useVuelidate } from '@vuelidate/core';
+import { maxValue, minValue } from '@vuelidate/validators';
+import { computed, onMounted, reactive } from 'vue';
 
 const emit = defineEmits([
   'select',
@@ -47,6 +50,17 @@ const state = reactive({
   capacity: 10,
   enabled: false,
 });
+
+const rules = computed(() => ({
+  capacity: {
+    minValue: minValue(0),
+    maxValue: maxValue(100),
+  },
+}));
+
+const v$ = useVuelidate(rules, state, { $autoDirty: true });
+
+onMounted(() => v$.value.$touch());
 </script>
 
 <style lang="scss" scoped>

@@ -1,18 +1,11 @@
 <template>
   <section>
-    <skill-popup
-      v-if="isAgentPopup"
-      :not-skill-id="parentId"
-      @close="closeAgentPopup"
-      @open-agent-skill-state-popup="openAgentSkillStatePopup"
-      @selecting-agents="selectingAgents"
-    ></skill-popup>
-    <skill-state-popup
-      v-if="agentSkillStatePopup"
-      @close="closeAgentSkillStatePopup"
-      @change-agents-state="changeAgentsState"
-      @previous-agent-state-popup="closeAgentSkillStatePopup();openAgentPopup();"
-    ></skill-state-popup>
+    <add-skill-to-agent-popup
+      v-if="isAddSkillToAgentPopup"
+      :skill-id="parentId"
+      @close="isAddSkillToAgentPopup = false"
+      @saved="loadDataList"
+    ></add-skill-to-agent-popup>
     <change-skill-popup
       v-if="agentSkillPopup"
       :selected-agents="selectedRows"
@@ -62,7 +55,7 @@
             v-if="!disableUserInput"
             class="icon-action"
             icon="plus"
-            @click="openAgentPopup"
+            @click="isAddSkillToAgentPopup = true"
           ></wt-icon-btn>
         </wt-table-actions>
       </div>
@@ -128,14 +121,13 @@ import openedObjectTableTabMixin
   from '../../../../../../../app/mixins/objectPagesMixins/openedObjectTableTabMixin/openedObjectTableTabMixin';
 import RouteNames from '../../../../../../../app/router/_internals/RouteNames.enum';
 import AgentSkillsAPI from '../api/skillAgents';
+import AddSkillToAgentPopup from './add-skill-to-agent-popup/add-skill-to-agent-popup.vue';
 import ChangeSkillPopup from './replace-agent-skill-popup.vue';
-import SkillPopup from './add-skill-to-agent-popup/select-agents-popup.vue';
-import SkillStatePopup from './add-skill-to-agent-popup/config-agent-skill-popup.vue';
 
 export default {
   name: 'opened-skill-agents',
   mixins: [openedObjectTableTabMixin, objectTableAccessControlMixin],
-  components: { SkillPopup, SkillStatePopup, ChangeSkillPopup },
+  components: { AddSkillToAgentPopup, ChangeSkillPopup },
 
   data: () => ({
     namespace: 'lookups/skills',
@@ -143,27 +135,15 @@ export default {
     tableObjectRouteName: RouteNames.AGENTS, // this.editLink() computing
     isAgentPopup: false,
     agentSkillPopup: false,
-    agentSkillStatePopup: false,
     agentsSelectedRows: [],
+    isAddSkillToAgentPopup: false,
   }),
   methods: {
-    openAgentPopup() {
-      this.isAgentPopup = true;
-    },
-    closeAgentPopup() {
-      this.isAgentPopup = false;
-    },
     openAgentSkillPopup() {
       this.agentSkillPopup = true;
     },
     closeAgentSkillPopup() {
       this.agentSkillPopup = false;
-    },
-    openAgentSkillStatePopup() {
-      this.agentSkillStatePopup = true;
-    },
-    closeAgentSkillStatePopup() {
-      this.agentSkillStatePopup = false;
     },
     async changeStateForAll(enabled) {
       const { parentId } = this;
@@ -210,19 +190,6 @@ export default {
           id: [payload.item.id],
         },
       };
-    },
-
-    selectingAgents(selectedRows) {
-      this.agentsSelectedRows = selectedRows.map((obj) => ({
-        id: obj.id,
-      }));
-    },
-    async changeAgentsState(agentsState) {
-      const { parentId } = this;
-      const itemInstance = { ...agentsState };
-      itemInstance.agent = [].concat(this.agentsSelectedRows);
-      await AgentSkillsAPI.add({ parentId, itemInstance });
-      await this.loadList();
     },
   },
   mounted() {
