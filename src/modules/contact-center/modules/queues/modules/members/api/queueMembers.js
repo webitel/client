@@ -4,7 +4,6 @@ import {
 } from '@webitel/ui-sdk/src/api/defaults';
 import applyTransform, {
   camelToSnake,
-  handleUnauthorized,
   merge, mergeEach, notify, sanitize, snakeToCamel,
   starToSearch,
 } from '@webitel/ui-sdk/src/api/transformers';
@@ -123,7 +122,6 @@ const getMembersList = async (params) => {
     };
   } catch (err) {
     throw applyTransform(err, [
-      handleUnauthorized,
       notify,
     ]);
   }
@@ -163,7 +161,6 @@ const getMember = async ({ parentId, itemId: id }) => {
     ]);
   } catch (err) {
     throw applyTransform(err, [
-      handleUnauthorized,
       notify,
     ]);
   }
@@ -182,7 +179,6 @@ const addMember = async ({ parentId, itemInstance }) => {
     ]);
   } catch (err) {
     throw applyTransform(err, [
-      handleUnauthorized,
       notify,
     ]);
   }
@@ -201,7 +197,6 @@ const updateMember = async ({ itemInstance, itemId: id, parentId }) => {
     ]);
   } catch (err) {
     throw applyTransform(err, [
-      handleUnauthorized,
       notify,
     ]);
   }
@@ -213,7 +208,6 @@ const deleteMember = async ({ parentId, id }) => {
     return applyTransform(response.data, []);
   } catch (err) {
     throw applyTransform(err, [
-      handleUnauthorized,
       notify,
     ]);
   }
@@ -227,7 +221,6 @@ const resetMembers = async ({ parentId }) => {
     ]);
   } catch (err) {
     throw applyTransform(err, [
-      handleUnauthorized,
       notify,
     ]);
   }
@@ -246,7 +239,6 @@ const addMembersBulk = async (parentId, fileName, items) => {
     ]);
   } catch (err) {
     throw applyTransform(err, [
-      handleUnauthorized,
       notify,
     ]);
   }
@@ -274,7 +266,6 @@ export const deleteMembersBulk = async (parentId, {
     return applyTransform(response.data, []);
   } catch (err) {
     throw applyTransform(err, [
-      handleUnauthorized,
       notify,
     ]);
   }
