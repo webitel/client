@@ -81,15 +81,18 @@ const actions = {
     const communications = [...context.state.itemInstance.communications];
     communications.splice(communications.indexOf(deleted), 1);
     context.commit('SET_ITEM_PROPERTY', { prop: 'communications', value: communications });
+    context.commit('SET_ITEM_PROPERTY', { prop: '_dirty', value: true });
   },
   DELETE_BULK_COMMUNICATIONS: (context, deleted) => {
     const communications = context.state.itemInstance.communications
       .filter((comm) => !deleted.some((delComm) => delComm.destination === comm.destination));
     context.commit('SET_ITEM_PROPERTY', { prop: 'communications', value: communications });
+    context.commit('SET_ITEM_PROPERTY', { prop: '_dirty', value: true });
   },
   DELETE_ALL_COMMUNICATIONS: (context) => {
     const communications = [];
     context.commit('SET_ITEM_PROPERTY', { prop: 'communications', value: communications });
+    context.commit('SET_ITEM_PROPERTY', { prop: '_dirty', value: true });
   },
   ADD_VARIABLE_PAIR: (context) => {
     const pair = { key: '', value: '' };

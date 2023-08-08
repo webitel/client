@@ -33,6 +33,11 @@ export default {
         required: false,
         csv: '',
       },
+      {
+        name: 'expireAt',
+        required: false,
+        csv: '',
+      },
     ],
   }),
 

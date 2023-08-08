@@ -59,16 +59,16 @@
         </header>
 
         <wt-loader v-show="!isLoaded"></wt-loader>
-        <wt-dummy
-          v-if="dummy && isLoaded"
-          :src="dummy.src"
-          :text="dummy.text && $t(dummy.text)"
-          :show-action="dummy.showAction"
-          @create="create"
-          class="dummy-wrapper"
-        ></wt-dummy>
+<!--        <wt-dummy-->
+<!--          v-if="dummy && isLoaded"-->
+<!--          :src="dummy.src"-->
+<!--          :text="dummy.text && $t(dummy.text)"-->
+<!--          :show-action="dummy.showAction"-->
+<!--          @create="create"-->
+<!--          class="dummy-wrapper"-->
+<!--        ></wt-dummy>-->
         <div
-          v-show="dataList.length && isLoaded"
+          v-show="isLoaded"
           class="table-wrapper">
           <wt-table
             :headers="headers"
@@ -179,10 +179,13 @@ export default {
     isCreateFlowPopup: false,
   }),
 
-  setup() {
-    const { dummy } = useDummy({ namespace, showAction: true });
-    return { dummy };
-  },
+  /* https://my.webitel.com/browse/WTEL-3697 */
+  /* Temporarily disabled functionality due to problems with pagination */
+
+  // setup() {
+  //   const { dummy } = useDummy({ namespace, showAction: true });
+  //   return { dummy };
+  // },
 
   computed: {
     path() {

@@ -68,6 +68,12 @@
             <template v-slot:description="{ item }">
               {{ item.description }}
             </template>
+            <template v-slot:totalAgents="{ item }">
+              {{ item.totalAgents }}
+            </template>
+            <template v-slot:activeAgents="{ item }">
+              {{ item.activeAgents }}
+            </template>
             <template v-slot:actions="{ item }">
               <wt-icon-action
                 v-if="hasEditAccess"
