@@ -3,7 +3,7 @@ import {
   getDefaultGetParams,
 } from '@webitel/ui-sdk/src/api/defaults';
 import applyTransform, {
-  camelToSnake, 
+  camelToSnake,
   merge, notify, snakeToCamel,
   starToSearch, log, sanitize,
   generateUrl, mergeEach,
@@ -59,7 +59,6 @@ const getUsersList = async (params) => {
     };
   } catch (err) {
     throw applyTransform(err, [
-      
       notify,
     ]);
   }
@@ -106,7 +105,6 @@ const getUser = async ({ itemId: id }) => {
     ]);
   } catch (err) {
     throw applyTransform(err, [
-      
       notify,
     ]);
   }
@@ -144,7 +142,6 @@ const addUser = async ({ itemInstance }) => {
     ]);
   } catch (err) {
     throw applyTransform(err, [
-      
       notify,
     ]);
   }
@@ -164,7 +161,6 @@ const updateUser = async ({ itemInstance, itemId: id }) => {
     ]);
   } catch (err) {
     throw applyTransform(err, [
-      
       notify,
     ]);
   }
@@ -182,7 +178,6 @@ const patchUser = async ({ changes, id }) => {
     ]);
   } catch (err) {
     throw applyTransform(err, [
-      
       notify,
     ]);
   }
@@ -201,20 +196,19 @@ const patchUserPresence = async ({ changes, id }) => {
     ]);
   } catch (err) {
     throw applyTransform(err, [
-      
       notify,
     ]);
   }
 };
 
 const deleteUser = async ({ id }) => {
-  const url = `${baseUrl}/${id}`;
+  const url = `${baseUrl}/${id}?permanent=true`;
+  // permanent=true for complete deletion
   try {
     const response = await instance.delete(url);
     return applyTransform(response.data, []);
   } catch (err) {
     throw applyTransform(err, [
-      
       notify,
     ]);
   }
@@ -232,7 +226,7 @@ const logoutUser = async ({ id }) => {
     return applyTransform(response.data, []);
   } catch (err) {
     throw applyTransform(err, [
-      
+
       notify,
     ]);
   }
