@@ -8,10 +8,9 @@
         <template v-slot:actions>
           <wt-button
             color="secondary"
-            @click="openAgentPopup"
+            @click="isAddSkillToAgentPopup = true"
             :disabled="!selectedRows.length"
-          >
-            {{ $t('objects.lookups.skills.assignUser') }}
+          >{{ $t('objects.lookups.skills.assignUser') }}
           </wt-button>
         </template>
         <wt-headline-nav :path="path"></wt-headline-nav>
@@ -24,19 +23,13 @@
         :payload="deleteConfirmation"
         @close="closeDelete"
       ></delete-confirmation-popup>
-      <skill-popup
-        :not-skill-id="selectedRowsId"
-        @open-agent-skill-state-popup="openAgentSkillStatePopup"
-        @selecting-agents="selectingAgents"
-        v-if="isAgentPopup"
-        @close="closeAgentPopup"
-      ></skill-popup>
-      <skill-state-popup
-        @change-agents-state="changeAgentsState"
-        @previous-agent-state-popup="closeAgentSkillStatePopup();openAgentPopup();"
-        v-if="agentSkillStatePopup"
-        @close="closeAgentSkillStatePopup"
-      ></skill-state-popup>
+
+      <add-skill-to-agent-popup
+        v-if="isAddSkillToAgentPopup"
+        :skill-id="selectedRowsId"
+        @close="isAddSkillToAgentPopup = false"
+        @saved="loadDataList"
+      ></add-skill-to-agent-popup>
 
       <section class="main-section__wrapper">
         <header class="content-header">
@@ -130,21 +123,18 @@
 import tableComponentMixin from '../../../../../app/mixins/objectPagesMixins/objectTableMixin/tableComponentMixin';
 import RouteNames from '../../../../../app/router/_internals/RouteNames.enum';
 import { useDummy } from '../../../../../app/composables/useDummy';
-import AgentSkillsAPI from '../modules/agents/api/skillAgents';
-import SkillPopup from '../modules/agents/components/opened-skill-agent-popup.vue';
-import SkillStatePopup from '../modules/agents/components/opened-skill-agent-state-popup.vue';
+import AddSkillToAgentPopup from '../modules/agents/components/add-skill-to-agent-popup/add-skill-to-agent-popup.vue';
 
 const namespace = 'lookups/skills';
 
 export default {
   name: 'the-agent-skills',
   mixins: [tableComponentMixin],
-  components: { SkillPopup, SkillStatePopup },
+  components: { AddSkillToAgentPopup },
   data: () => ({
     namespace,
     routeName: RouteNames.SKILLS,
-    isAgentPopup: false,
-    agentSkillStatePopup: false,
+    isAddSkillToAgentPopup: false,
   }),
 
   setup() {
@@ -164,40 +154,6 @@ export default {
     },
     selectedRowsId() {
       return this.selectedRows.map((item) => item.id);
-    },
-  },
-  methods: {
-    openAgentPopup() {
-      this.isAgentPopup = true;
-    },
-    closeAgentPopup() {
-      this.isAgentPopup = false;
-    },
-    openAgentSkillStatePopup() {
-      this.agentSkillStatePopup = true;
-    },
-    closeAgentSkillStatePopup() {
-      this.agentSkillStatePopup = false;
-    },
-    selectingAgents(selectedRows) {
-      this.agentsSelectedRows = selectedRows.map((obj) => ({
-        id: obj.id,
-      }));
-    },
-    async changeAgentsState(agentsState) {
-      const itemInstance = { ...agentsState };
-      itemInstance.agent = [].concat(this.agentsSelectedRows);
-      try {
-        await this.selectedRows.forEach((el) => {
-          const parentId = el.id;
-          AgentSkillsAPI.add({ parentId, itemInstance });
-        });
-      } catch (e) {
-        console.error(e);
-      } finally {
-        // TODO: loadDataList doesnt update Total agents column
-        await this.loadDataList();
-      }
     },
   },
 };

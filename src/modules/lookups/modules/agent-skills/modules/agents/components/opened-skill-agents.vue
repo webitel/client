@@ -128,9 +128,9 @@ import openedObjectTableTabMixin
   from '../../../../../../../app/mixins/objectPagesMixins/openedObjectTableTabMixin/openedObjectTableTabMixin';
 import RouteNames from '../../../../../../../app/router/_internals/RouteNames.enum';
 import AgentSkillsAPI from '../api/skillAgents';
-import ChangeSkillPopup from './opened-skill-agent-change-popup.vue';
-import SkillPopup from './opened-skill-agent-popup.vue';
-import SkillStatePopup from './opened-skill-agent-state-popup.vue';
+import ChangeSkillPopup from './replace-agent-skill-popup.vue';
+import SkillPopup from './add-skill-to-agent-popup/select-agents-popup.vue';
+import SkillStatePopup from './add-skill-to-agent-popup/config-agent-skill-popup.vue';
 
 export default {
   name: 'opened-skill-agents',
