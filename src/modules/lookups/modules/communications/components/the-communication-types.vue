@@ -67,6 +67,11 @@
                 {{ item.name }}
               </wt-item-link>
             </template>
+            <template v-slot:channel="{ item }">
+              <div
+                v-if="item.channel">
+                {{ $t(`objects.lookups.communications.channels.${item.channel}`) }}</div>
+            </template>
             <template v-slot:code="{ item }">
               {{ item.code }}
             </template>
