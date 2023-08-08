@@ -28,17 +28,11 @@ export default {
 
   methods: {
     setData(items) {
-      if (this.dataPage === 1) {
-        this.state.dataList = items.map((items) => ({ ...items, _isSelected: false }));
+      if (this.state.page === 1) {
+        this.state.dataList = items.map((item) => ({ ...item, _isSelected: false }));
       } else {
-        this.state.dataList = [...this.state.dataList, ...items]
-        .map((items) => ({ ...items, _isSelected: false }));
+        this.state.dataList.push(...items.map((item) => ({ ...item, _isSelected: false })));
       }
-    },
-
-    resetData() {
-      this.dataPage = 1;
-      this.loadDataList();
     },
 
     async loadDataList() {
@@ -48,7 +42,7 @@ export default {
       const { items, next } = await this.fetch(params);
       this.isNext = next;
       this.setData(items);
-      this.dataPage += 1;
+      this.state.page += 1;
       this.isLoading = false;
     },
 
@@ -61,12 +55,12 @@ export default {
 
     collectParams() {
       const params = {
-        page: this.dataPage,
-        size: this.dataSize,
-        search: this.dataSearch,
+        page: this.state.page,
+        size: this.state.size,
+        search: this.state.search,
       };
       if (this.dataFields) params.fields = this.dataFields;
-      if (this.dataSort) params.sort = this.dataSort;
+      if (this.state.sort) params.sort = this.state.sort;
       if (this.dataFilters) params.filters = this.dataFilters;
       return params;
     },

@@ -6,7 +6,8 @@
     <template v-slot:main>
       <div class="opened-skill-agent-popup__filters">
         <wt-search-bar
-          v-model="dataSearch"
+          v-model="state.search"
+          debounce
           @input="setSearch"
           @search="loadDataList"
           @enter="loadDataList"
@@ -41,7 +42,7 @@
       </div>
       <div ref="scroll-wrap" class="scroll-wrap">
         <wt-table
-          :headers="headers"
+          :headers="state.headers"
           :data="state.dataList"
           :grid-actions="false"
           sortable
@@ -79,7 +80,8 @@
 
 <script>
 import { SortSymbols, sortToQueryAdapter } from '@webitel/ui-sdk/src/scripts/sortQueryAdapters';
-import { mapActions } from 'vuex';
+import getNamespacedState from '@webitel/ui-sdk/src/store/helpers/getNamespacedState';
+import { mapState } from 'vuex';
 import AgentsAPI from '../../../../../../contact-center/modules/agents/api/agents';
 import TeamsAPI from '../../../../../../contact-center/modules/teams/api/teams';
 import SkillsAPI from '../../../api/agentSkills';
@@ -91,22 +93,37 @@ export default {
   mixins: [infiniteScrollMixin],
   components: { ScrollObserver },
 
-  data: () => ({
-    namespace: 'ccenter/agents',
-    agents: {},
-    teamSearch: [],
-    skillSearch: [],
-    state: {
-      headers: [],
-      dataList: [],
-      aggs: {},
-      size: 10,
-      search: '',
-      page: 1,
-      sort: '',
-      isNextPage: false,
-    },
-  }),
+  data() {
+    return {
+      namespace: 'lookups/teams/agents',
+      agents: {},
+      teamSearch: [],
+      skillSearch: [],
+      state: {
+        headers: [
+          {
+            value: 'name',
+            field: 'name',
+            text: this.$t('reusable.name'),
+            sort: SortSymbols.NONE,
+          },
+          {
+            value: 'team',
+            field: 'team',
+            text: this.$tc('objects.ccenter.teams.teams', 1),
+            sort: SortSymbols.NONE,
+          },
+        ],
+        dataList: [],
+        aggs: {},
+        size: 20,
+        search: '',
+        page: 1,
+        sort: '',
+        isNextPage: false,
+      },
+    };
+  },
 
   props: {
     notSkillId: {
@@ -125,12 +142,20 @@ export default {
 
       this.state.sort = sort;
       await this.updateHeaderSort(header, nextSortOrder);
-      await this.resetPage(this.state);
-      await this.fetch(this.state);
+      const { items } = await AgentsAPI.getList(
+        {
+          size: this.state.size,
+          search: this.state.search,
+          page: 1,
+          sort: this.state.sort,
+          isNextPage: this.state.isNextPage,
+          notSkillId: this.notSkillId,
+        },
+      );
+      this.state.dataList = [...items];
     },
 
     async updateHeaderSort(header, nextSortOrder) {
-      console.log(this.state.headers);
       const headers = this.state.headers.map((oldHeader) => {
         if (oldHeader.sort !== undefined) {
           return {
@@ -143,14 +168,13 @@ export default {
         return oldHeader;
       });
       this.state.headers = headers;
-      console.log(headers);
     },
 
-    async resetPage() {
-      const page = 1;
-      this.state.page = page;
+    setSearch(e) {
+     this.state.search = e;
     },
     async handleSearch(value, paramsArray) {
+      this.state.dataList = [];
       const uniqValues = value.filter(
         (item) => !paramsArray.some((entry) => entry.id === item.id),
       );
@@ -175,9 +199,10 @@ export default {
       const team = this.teamSearch.map(({ id }) => id);
       const skill = this.skillSearch.map(({ id }) => id);
       return {
-        page: this.dataPage,
-        size: this.dataSize,
-        search: this.dataSearch,
+        page: this.state.page,
+        size: this.state.size,
+        search: this.state.search,
+        sort: this.state.sort,
         team,
         skill,
       };
@@ -185,48 +210,37 @@ export default {
     sort(...params) {
       this.sortDataList(params[0], params[1]);
     },
-    ...mapActions({
-      setSearch(dispatch, payload) {
-        return dispatch(`${this.namespace}/SET_SEARCH`, payload);
-      },
-    }),
     selectingAgents() {
       this.$emit('selectingAgents', this.selectedRows);
     },
     async resetFilters() {
-      // TODO : finish reset
       this.$router.push({ query: null });
       this.teamSearch = [];
       this.skillSearch = [];
-      this.dataSearch = '';
+      this.state.search = '';
       await this.loadDataList();
     },
   },
   computed: {
-    headers() {
-      return [
-        {
-          value: 'name',
-          field: 'name',
-          text: this.$t('reusable.name'),
-          sort: SortSymbols.NONE,
-        },
-        {
-          value: 'team',
-          field: 'team',
-          text: this.$tc('objects.ccenter.teams.teams', 1),
-          sort: SortSymbols.NONE,
-        },
-      ];
-    },
     selectedRows() {
       return this.state.dataList.filter((item) => item._isSelected);
     },
+    ...mapState({
+      id(state) {
+        return getNamespacedState(state, this.namespace).itemId;
+      },
+      itemInstance(state) {
+        return getNamespacedState(state, this.namespace).itemInstance;
+      },
+    }),
   },
 };
 </script>
 
 <style lang="scss" scoped>
+.scroll-wrap {
+  height: 65vh;
+}
 .wt-popup {
   :deep(.wt-popup__main) {
     display: flex;
