@@ -3,7 +3,7 @@ import {
   getDefaultGetParams,
 } from '@webitel/ui-sdk/src/api/defaults';
 import applyTransform, {
-  camelToSnake, handleUnauthorized,
+  camelToSnake, 
   merge, mergeEach, notify, snakeToCamel,
   starToSearch,
 } from '@webitel/ui-sdk/src/api/transformers';
@@ -49,7 +49,7 @@ const getMediaList = async (params) => {
     };
   } catch (err) {
     throw applyTransform(err, [
-      handleUnauthorized,
+      
       notify,
     ]);
   }
@@ -61,7 +61,7 @@ const getMedia = async ({ itemId }) => {
     return await instance.get(url);
   } catch (err) {
     throw applyTransform(err, [
-      handleUnauthorized,
+      
       notify,
     ]);
   }
@@ -73,7 +73,7 @@ export const downloadMedia = async (id) => {
     return await instance.get(url);
   } catch (err) {
     throw applyTransform(err, [
-      handleUnauthorized,
+      
       notify,
     ]);
   }
@@ -98,7 +98,7 @@ const addMedia = async (params) => {
     return response;
   } catch (err) {
     throw applyTransform(err, [
-      handleUnauthorized,
+      
       notify,
     ]);
   }
@@ -110,7 +110,7 @@ const deleteMedia = async ({ id }) => {
     return applyTransform(response.data, []);
   } catch (err) {
     throw applyTransform(err, [
-      handleUnauthorized,
+      
       notify,
     ]);
   }

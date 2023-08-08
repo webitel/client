@@ -159,6 +159,8 @@ const QueueTypeProperties = Object.freeze({
                                                 'maxAgentLose',
                                                 'maxAgentLine',
                                                 'maxAbandonedRate',
+                                                'targetAbandonedRate',
+                                                'loadFactor',
                                                 'abandonRateAdjustment',
                                                 'playbackSilence',
                                                 'maxCalls',

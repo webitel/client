@@ -4,7 +4,7 @@ import {
 } from '@webitel/ui-sdk/src/api/defaults';
 import applyTransform, {
   camelToSnake,
-  handleUnauthorized,
+  
   merge, notify, sanitize, snakeToCamel,
   starToSearch,
 } from '@webitel/ui-sdk/src/api/transformers';
@@ -48,7 +48,7 @@ const getCalendarList = async (params) => {
     };
   } catch (err) {
     throw applyTransform(err, [
-      handleUnauthorized,
+      
       notify,
     ]);
   }
@@ -93,7 +93,7 @@ const getCalendar = async ({ itemId: id }) => {
     ]);
   } catch (err) {
     throw applyTransform(err, [
-      handleUnauthorized,
+      
       notify,
     ]);
   }
@@ -132,7 +132,7 @@ const addCalendar = async ({ itemInstance }) => {
     ]);
   } catch (err) {
     throw applyTransform(err, [
-      handleUnauthorized,
+      
       notify,
     ]);
   }
@@ -151,7 +151,7 @@ const updateCalendar = async ({ itemInstance, itemId: id }) => {
     ]);
   } catch (err) {
     throw applyTransform(err, [
-      handleUnauthorized,
+      
       notify,
     ]);
   }
@@ -163,7 +163,7 @@ const deleteCalendar = async ({ id }) => {
     return applyTransform(response.data, []);
   } catch (err) {
     throw applyTransform(err, [
-      handleUnauthorized,
+      
       notify,
     ]);
   }
@@ -206,7 +206,7 @@ const getTimezonesLookup = async (params) => {
     };
   } catch (err) {
     throw applyTransform(err, [
-      handleUnauthorized,
+      
       notify,
     ]);
   }

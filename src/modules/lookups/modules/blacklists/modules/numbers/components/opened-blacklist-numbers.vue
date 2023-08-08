@@ -77,6 +77,10 @@
         {{ item.description }}
       </template>
 
+      <template v-slot:expireAt="{ item }">
+        {{ prettifyDate(item.expireAt) }}
+      </template>
+
       <template v-slot:actions="{ item }">
         <wt-icon-action
           action="edit"
@@ -149,6 +153,9 @@ export default {
     },
     closePopup() {
       this.isNumberPopup = false;
+    },
+    prettifyDate(date) {
+      if (date) return new Date(+date).toLocaleDateString();
     },
   },
 };

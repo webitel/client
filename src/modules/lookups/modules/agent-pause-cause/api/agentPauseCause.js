@@ -3,7 +3,7 @@ import {
   getDefaultGetParams,
 } from '@webitel/ui-sdk/src/api/defaults';
 import applyTransform, {
-  camelToSnake, handleUnauthorized,
+  camelToSnake, 
   merge, mergeEach, notify, sanitize, snakeToCamel,
   starToSearch,
 } from '@webitel/ui-sdk/src/api/transformers';
@@ -56,7 +56,7 @@ const getPauseCauseList = async (params) => {
     };
   } catch (err) {
     throw applyTransform(err, [
-      handleUnauthorized,
+      
       notify,
     ]);
   }
@@ -79,7 +79,7 @@ const getPauseCause = async ({ itemId: id }) => {
     ]);
   } catch (err) {
     throw applyTransform(err, [
-      handleUnauthorized,
+      
       notify,
     ]);
   }
@@ -99,7 +99,7 @@ const addPauseCause = async ({ itemInstance }) => {
     ]);
   } catch (err) {
     throw applyTransform(err, [
-      handleUnauthorized,
+      
       notify,
     ]);
   }
@@ -117,7 +117,7 @@ const patchPauseCause = async ({ id, changes }) => {
     ]);
   } catch (err) {
     throw applyTransform(err, [
-      handleUnauthorized,
+      
       notify,
     ]);
   }
@@ -134,7 +134,7 @@ const updatePauseCause = async ({ itemInstance, itemId: id }) => {
     ]);
   } catch (err) {
     throw applyTransform(err, [
-      handleUnauthorized,
+      
       notify,
     ]);
   }
@@ -146,7 +146,7 @@ const deletePauseCause = async ({ id }) => {
     return applyTransform(response.data, []);
   } catch (err) {
     throw applyTransform(err, [
-      handleUnauthorized,
+      
       notify,
     ]);
   }
