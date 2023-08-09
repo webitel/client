@@ -117,6 +117,8 @@ export default {
     saved: 'Сохранено',
     saveAs: 'Сохранить как нового',
     close: 'Закрыть',
+    next: 'Далее',
+    back: 'Назад',
     change: 'Заменить',
     name: 'Имя',
     description: 'Описание',
@@ -336,6 +338,9 @@ export default {
         changeAgentsSkill: 'Заменить навык операторам',
         totalAgents: 'Всего операторов',
         activeSkillAgents: 'С активным навыком',
+        assignSkillToAgents: 'Назначить навык операторам',
+        assignAgent: 'Назначить оператора',
+        selectCapacityAndState: 'Выбрать потенциал и состояние',
       },
       buckets: {
         buckets: 'Корзина | Корзины',

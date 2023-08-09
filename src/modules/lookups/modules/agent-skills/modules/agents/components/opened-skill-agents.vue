@@ -1,10 +1,16 @@
 <template>
   <section>
+    <add-skill-to-agent-popup
+      v-if="isAddSkillToAgentPopup"
+      :skill-id="parentId"
+      @close="isAddSkillToAgentPopup = false"
+      @saved="loadDataList"
+    ></add-skill-to-agent-popup>
     <change-skill-popup
       v-if="agentSkillPopup"
       :selected-agents="selectedRows"
-      @close="closeAgentSkillPopup"
       @change="change"
+      @close="closeAgentSkillPopup"
     ></change-skill-popup>
     <delete-confirmation-popup
       v-show="deleteConfirmation.isDeleteConfirmationPopup"
@@ -26,16 +32,16 @@
           @input="tableActionsHandler"
         >
           <wt-switcher
+            :label="$t('objects.lookups.skills.stateForAll')"
             :label-left="true"
             :value="aggs.enabled"
-            :label="$t('objects.lookups.skills.stateForAll')"
             @change="changeStateForAll"
           >
           </wt-switcher>
           <wt-icon-btn
             v-if="!disableUserInput"
-            class="icon-action"
             :class="{'hidden': anySelected}"
+            class="icon-action"
             icon="arrow-mix"
             @click="openAgentSkillPopup"
           ></wt-icon-btn>
@@ -49,7 +55,7 @@
             v-if="!disableUserInput"
             class="icon-action"
             icon="plus"
-            @click="create"
+            @click="isAddSkillToAgentPopup = true"
           ></wt-icon-btn>
         </wt-table-actions>
       </div>
@@ -57,14 +63,14 @@
     <wt-loader v-show="!isLoaded"></wt-loader>
     <div v-show="isLoaded" class="table-wrapper">
       <wt-table
-        :headers="headers"
         :data="dataList"
         :grid-actions="hasTableActions"
+        :headers="headers"
         sortable
         @sort="sort"
       >
         <template v-slot:name="{ item }">
-            {{ item.agent.name }}
+          {{ item.agent.name }}
         </template>
         <template v-slot:team="{ item }">
           <div v-if="item.team">
@@ -109,25 +115,26 @@
 
 <script>
 import debounce from '@webitel/ui-sdk/src/scripts/debounce';
-import openedObjectTableTabMixin from '../../../../../../../app/mixins/objectPagesMixins/openedObjectTableTabMixin/openedObjectTableTabMixin';
-import RouteNames from '../../../../../../../app/router/_internals/RouteNames.enum';
 import objectTableAccessControlMixin
   from '../../../../../../../app/mixins/objectPagesMixins/objectTableMixin/_internals/objectTableAccessControlMixin';
+import openedObjectTableTabMixin
+  from '../../../../../../../app/mixins/objectPagesMixins/openedObjectTableTabMixin/openedObjectTableTabMixin';
+import RouteNames from '../../../../../../../app/router/_internals/RouteNames.enum';
 import AgentSkillsAPI from '../api/skillAgents';
-import ChangeSkillPopup from './opened-skill-agent-change-popup.vue';
+import AddSkillToAgentPopup from './add-skill-to-agent-popup/add-skill-to-agent-popup.vue';
+import ChangeSkillPopup from './replace-agent-skill-popup.vue';
 
 export default {
   name: 'opened-skill-agents',
   mixins: [openedObjectTableTabMixin, objectTableAccessControlMixin],
-  components: { ChangeSkillPopup },
+  components: { AddSkillToAgentPopup, ChangeSkillPopup },
 
   data: () => ({
     namespace: 'lookups/skills',
     subNamespace: 'agents',
     tableObjectRouteName: RouteNames.AGENTS, // this.editLink() computing
-    isAgentPopup: false,
     agentSkillPopup: false,
-    agentSkillStatePopup: false,
+    isAddSkillToAgentPopup: false,
   }),
   methods: {
     openAgentSkillPopup() {
