@@ -11,7 +11,6 @@
       <div class="opened-skill-agent-popup__filters">
         <wt-search-bar
           :value="filters.search"
-          class="opened-skill-agent-popup__input"
           debounce
           @enter="handleFilterChange"
           @input="filters.search = $event"
@@ -21,7 +20,6 @@
           :placeholder="$t('objects.ccenter.teams.teams', 1)"
           :search-method="TeamsAPI.getLookup"
           :value="filters.teams"
-          class="opened-skill-agent-popup__input"
           multiple
           @input="handleTeamsSelect"
         ></wt-select>
@@ -29,7 +27,6 @@
           :placeholder="$t('objects.lookups.skills.skills', 1)"
           :search-method="SkillsAPI.getLookup"
           :value="filters.skills"
-          class="opened-skill-agent-popup__input"
           multiple
           @input="handleSkillsSelect"
         ></wt-select>

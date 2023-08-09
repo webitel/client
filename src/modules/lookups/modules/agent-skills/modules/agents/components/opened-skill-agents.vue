@@ -133,9 +133,7 @@ export default {
     namespace: 'lookups/skills',
     subNamespace: 'agents',
     tableObjectRouteName: RouteNames.AGENTS, // this.editLink() computing
-    isAgentPopup: false,
     agentSkillPopup: false,
-    agentsSelectedRows: [],
     isAddSkillToAgentPopup: false,
   }),
   methods: {
