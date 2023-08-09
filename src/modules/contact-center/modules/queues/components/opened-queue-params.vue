@@ -78,12 +78,13 @@
         track-by="value"
       ></wt-select>
       <wt-input
-        v-if="specificControls.maxAttempts"
+        v-if="specificControls.maxCalls"
         :disabled="disableUserInput"
-        :label="$t('objects.ccenter.queues.maxAttempts')"
-        :value="itemInstance.payload.maxAttempts"
+        :label="$t('objects.ccenter.queues.maxCalls')"
+        :label-props="{ hint: $t('objects.ccenter.queues.maxCallsHint') }"
+        :value="itemInstance.payload.maxCalls"
         type="number"
-        @input="setItemPayloadProp({ prop: 'maxAttempts', value: +$event })"
+        @input="setItemPayloadProp({ prop: 'maxCalls', value: +$event })"
       ></wt-input>
       <wt-input
         v-if="specificControls.minAttempts"
@@ -94,12 +95,12 @@
         @input="setItemPayloadProp({ prop: 'minAttempts', value: +$event })"
       ></wt-input>
       <wt-input
-        v-if="specificControls.maxAgentLose"
+        v-if="specificControls.maxAttempts"
         :disabled="disableUserInput"
-        :label="$t('objects.ccenter.queues.maxAgentLose')"
-        :value="itemInstance.payload.maxAgentLose"
+        :label="$t('objects.ccenter.queues.maxAttempts')"
+        :value="itemInstance.payload.maxAttempts"
         type="number"
-        @input="setItemPayloadProp({ prop: 'maxAgentLose', value: +$event })"
+        @input="setItemPayloadProp({ prop: 'maxAttempts', value: +$event })"
       ></wt-input>
       <wt-input
         v-if="specificControls.maxAgentLine"
@@ -110,12 +111,12 @@
         @input="setItemPayloadProp({ prop: 'maxAgentLine', value: +$event })"
       ></wt-input>
       <wt-input
-        v-if="specificControls.abandonRateAdjustment"
+        v-if="specificControls.maxAgentLose"
         :disabled="disableUserInput"
-        :label="$t('objects.ccenter.queues.abandonRateAdjustment')"
-        :value="itemInstance.payload.abandonRateAdjustment"
+        :label="$t('objects.ccenter.queues.maxAgentLose')"
+        :value="itemInstance.payload.maxAgentLose"
         type="number"
-        @input="setItemPayloadProp({ prop: 'abandonRateAdjustment', value: +$event })"
+        @input="setItemPayloadProp({ prop: 'maxAgentLose', value: +$event })"
       ></wt-input>
       <wt-input
         v-if="specificControls.playbackSilence"
@@ -126,14 +127,22 @@
         @input="setItemPayloadProp({ prop: 'playbackSilence', value: +$event })"
       ></wt-input>
       <wt-input
-        v-if="specificControls.maxCalls"
+        v-if="specificControls.abandonRateAdjustment"
         :disabled="disableUserInput"
-        :label="$t('objects.ccenter.queues.maxCalls')"
-        :label-props="{ hint: $t('objects.ccenter.queues.maxCallsHint') }"
-        :value="itemInstance.payload.maxCalls"
+        :label="$t('objects.ccenter.queues.abandonRateAdjustment')"
+        :value="itemInstance.payload.abandonRateAdjustment"
         type="number"
-        @input="setItemPayloadProp({ prop: 'maxCalls', value: +$event })"
+        @input="setItemPayloadProp({ prop: 'abandonRateAdjustment', value: +$event })"
       ></wt-input>
+      <wt-select
+        v-if="specificControls.autoAnswerTone"
+        clearable
+        :disabled="disableUserInput"
+        v-model="autoAnswerTone"
+        :label="$t('objects.ccenter.queues.autoAnswerTone')"
+        :options="ToneList"
+        track-by="value"
+      ></wt-select>
       <wt-input
         v-if="specificControls.maxWaitingSize"
         :disabled="disableUserInput"
@@ -142,13 +151,6 @@
         type="number"
         @input="setItemPayloadProp({ prop: 'maxWaitingSize', value: +$event })"
       ></wt-input>
-      <wt-switcher
-        v-if="specificControls.waitBetweenRetriesDesc"
-        :disabled="disableUserInput"
-        :label="$t('objects.ccenter.queues.waitBetweenRetriesDesc')"
-        :value="itemInstance.payload.waitBetweenRetriesDesc"
-        @change="setItemPayloadProp({ prop: 'waitBetweenRetriesDesc', value: $event })"
-      ></wt-switcher>
       <wt-input
         v-if="specificControls.targetAbandonedRate"
         :disabled="disableUserInput"
@@ -158,11 +160,11 @@
         @input="setItemPayloadProp({ prop: 'targetAbandonedRate', value: +$event })"
       ></wt-input>
       <wt-switcher
-        v-if="specificControls.strictCircuit"
+        v-if="specificControls.waitBetweenRetriesDesc"
         :disabled="disableUserInput"
-        :label="$t('objects.ccenter.queues.strictCircuit')"
-        :value="itemInstance.payload.strictCircuit"
-        @change="setItemPayloadProp({ prop: 'strictCircuit', value: $event })"
+        :label="$t('objects.ccenter.queues.waitBetweenRetriesDesc')"
+        :value="itemInstance.payload.waitBetweenRetriesDesc"
+        @change="setItemPayloadProp({ prop: 'waitBetweenRetriesDesc', value: $event })"
       ></wt-switcher>
       <wt-input
         v-if="specificControls.maxAbandonedRate"
@@ -173,11 +175,11 @@
         @input="setItemPayloadProp({ prop: 'maxAbandonedRate', value: +$event })"
       ></wt-input>
       <wt-switcher
-        v-if="specificControls.retryAbandoned"
+        v-if="specificControls.strictCircuit"
         :disabled="disableUserInput"
-        :label="$t('objects.ccenter.queues.retryAbandoned')"
-        :value="itemInstance.payload.retryAbandoned"
-        @change="setItemPayloadProp({ prop: 'retryAbandoned', value: $event })"
+        :label="$t('objects.ccenter.queues.strictCircuit')"
+        :value="itemInstance.payload.strictCircuit"
+        @change="setItemPayloadProp({ prop: 'strictCircuit', value: $event })"
       ></wt-switcher>
       <div v-if="specificControls.loadFactor">
         <wt-label>{{ $t('objects.ccenter.queues.loadFactor') }}</wt-label>
@@ -194,11 +196,24 @@
             :min="0"
             :max="100"
             type="number"
-            disabled
             @input="setItemPayloadProp({ prop: 'loadFactor', value: +$event })"
           ></wt-input>
         </div>
       </div>
+      <wt-switcher
+        v-if="specificControls.retryAbandoned"
+        :disabled="disableUserInput"
+        :label="$t('objects.ccenter.queues.retryAbandoned')"
+        :value="itemInstance.payload.retryAbandoned"
+        @change="setItemPayloadProp({ prop: 'retryAbandoned', value: $event })"
+      ></wt-switcher>
+      <wt-switcher
+        v-if="specificControls.perNumbers"
+        :disabled="disableUserInput"
+        :label="$t('objects.ccenter.queues.perNumbers')"
+        :value="itemInstance.payload.perNumbers"
+        @change="setItemPayloadProp({ prop: 'perNumbers', value: $event })"
+      ></wt-switcher>
       <wt-switcher
         v-if="specificControls.recordings"
         :disabled="disableUserInput"
@@ -214,19 +229,13 @@
         @change="setItemPayloadProp({ prop: 'recordAll', value: $event })"
       ></wt-switcher>
       <wt-switcher
-        v-if="specificControls.perNumbers"
-        :disabled="disableUserInput"
-        :label="$t('objects.ccenter.queues.perNumbers')"
-        :value="itemInstance.payload.perNumbers"
-        @change="setItemPayloadProp({ prop: 'perNumbers', value: $event })"
-      ></wt-switcher>
-      <wt-switcher
         v-if="specificControls.allowGreetingAgent"
         :disabled="disableUserInput"
         :label="$t('objects.ccenter.queues.allowGreetingAgent')"
         :value="itemInstance.payload.allowGreetingAgent"
         @change="setItemPayloadProp({ prop: 'allowGreetingAgent', value: $event })"
       ></wt-switcher>
+      <div></div>
       <wt-switcher
         v-if="specificControls.endless"
         v-show="!itemInstance.processing"
@@ -242,6 +251,7 @@
         :value="itemInstance.stickyAgent"
         @change="setItemProp({ prop: 'stickyAgent', value: $event })"
       ></wt-switcher>
+      <div></div>
       <wt-input
         v-if="specificControls.stickyAgentSec"
         v-show="itemInstance.stickyAgent"
@@ -251,15 +261,6 @@
         type="number"
         @input="setItemPayloadProp({ prop: 'stickyAgentSec', value: +$event })"
       ></wt-input>
-      <wt-select
-        v-if="specificControls.autoAnswerTone"
-        clearable
-        :disabled="disableUserInput"
-        v-model="autoAnswerTone"
-        :label="$t('objects.ccenter.queues.autoAnswerTone')"
-        :options="ToneList"
-        track-by="value"
-      ></wt-select>
     </div>
   </section>
 </template>
