@@ -7,10 +7,10 @@
       >
         <template v-slot:actions>
           <wt-button
+            :disabled="!selectedRows.length"
             color="secondary"
             @click="isAddSkillToAgentPopup = true"
-            :disabled="!selectedRows.length"
-          >{{ $t('objects.lookups.skills.assignUser') }}
+          >{{ $t('objects.lookups.skills.assignAgent') }}
           </wt-button>
         </template>
         <wt-headline-nav :path="path"></wt-headline-nav>
@@ -38,9 +38,9 @@
             <wt-search-bar
               :value="search"
               debounce
+              @enter="loadList"
               @input="setSearch"
               @search="loadList"
-              @enter="loadList"
             ></wt-search-bar>
             <wt-table-actions
               :icons="['refresh']"
@@ -59,19 +59,20 @@
         <wt-loader v-show="!isLoaded"></wt-loader>
         <wt-dummy
           v-if="dummy && isLoaded"
+          :show-action="dummy.showAction"
           :src="dummy.src"
           :text="dummy.text && $t(dummy.text)"
-          :show-action="dummy.showAction"
-          @create="create"
           class="dummy-wrapper"
+          @create="create"
         ></wt-dummy>
         <div
           v-show="dataList.length && isLoaded"
-          class="table-wrapper">
+          class="table-wrapper"
+        >
           <wt-table
-            :headers="headers"
             :data="dataList"
             :grid-actions="hasTableActions"
+            :headers="headers"
             sortable
             @sort="sort"
           >
@@ -104,14 +105,14 @@
             </template>
           </wt-table>
           <wt-pagination
-            :size="size"
             :next="isNext"
             :prev="page > 1"
+            :size="size"
             debounce
+            @change="loadList"
+            @input="setSize"
             @next="nextPage"
             @prev="prevPage"
-            @input="setSize"
-            @change="loadList"
           ></wt-pagination>
         </div>
       </section>
@@ -120,9 +121,9 @@
 </template>
 
 <script>
+import { useDummy } from '../../../../../app/composables/useDummy';
 import tableComponentMixin from '../../../../../app/mixins/objectPagesMixins/objectTableMixin/tableComponentMixin';
 import RouteNames from '../../../../../app/router/_internals/RouteNames.enum';
-import { useDummy } from '../../../../../app/composables/useDummy';
 import AddSkillToAgentPopup from '../modules/agents/components/add-skill-to-agent-popup/add-skill-to-agent-popup.vue';
 
 const namespace = 'lookups/skills';

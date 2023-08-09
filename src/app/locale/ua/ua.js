@@ -335,7 +335,7 @@ export default {
         totalAgents: 'Всього операторів',
         activeSkillAgents: 'З активною навичкою',
         assignSkillToAgents: 'Назначити навичку операторам',
-        assignUser: 'Призначити оператора',
+        assignAgent: 'Призначити оператора',
         selectCapacityAndState: 'Вибрати потенціал і стан',
         minCapacityLessOrEqualToMaxCapacityValidator: 'Має бути менше або рівне Максимальному потенціалу',
         maxCapacityMoreOrEqualToMinCapacityValidator: 'Має бути більше або рівне Мінімальному потенціалу',

@@ -337,7 +337,7 @@ export default {
         totalAgents: 'Total agents',
         activeSkillAgents: 'Active skill agents',
         assignSkillToAgents: 'Assign skill to agents',
-        assignUser: 'Assign user',
+        assignAgent: 'Assign agent',
         selectCapacityAndState: 'Select capacity and state',
       },
       buckets: {

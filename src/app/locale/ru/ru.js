@@ -337,7 +337,7 @@ export default {
         totalAgents: 'Всего операторов',
         activeSkillAgents: 'С активным навыком',
         assignSkillToAgents: 'Назначить навык операторам',
-        assignUser: 'Назначить оператора',
+        assignAgent: 'Назначить оператора',
         selectCapacityAndState: 'Выбрать потенциал и состояние',
       },
       buckets: {

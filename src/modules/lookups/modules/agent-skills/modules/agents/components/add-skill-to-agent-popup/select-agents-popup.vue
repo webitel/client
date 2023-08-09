@@ -117,7 +117,7 @@ const headers = reactive([
   },
 ]);
 const dataList = ref([]);
-const page = ref(1);
+const page = ref(0);
 const isNext = ref(false);
 
 const infiniteScrollWrap = ref(null);
@@ -204,12 +204,12 @@ useInfiniteScroll(
 }
 
 .wt-popup {
-  :deep(.wt-popup__main) {
+  .wt-popup__main {
     display: flex;
     flex-direction: column;
   }
 
-  :deep(.scroll-wrap) {
+  .scroll-wrap {
     overflow: auto;
     flex-grow: 1;
     min-height: 0;
@@ -217,12 +217,10 @@ useInfiniteScroll(
 }
 
 .opened-skill-agent-popup__filters {
-  display: flex;
-  align-items: center;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr) var(--spacing-md);
   gap: var(--spacing-xs);
+  align-items: center;
 }
 
-.opened-skill-agent-popup__input {
-  width: calc((100% - var(--spacing-md)) / 3);
-}
 </style>
