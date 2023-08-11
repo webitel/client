@@ -56,28 +56,32 @@ import WebitelApplications from '@webitel/ui-sdk/src/enums/WebitelApplications/W
 import CcHeader from '../../_reusable/app-header/components/app-header.vue';
 
 import admPic from '../assets/img/pictures/admin.svg';
-import admTitleMd from '../assets/img/titles/admin-medium.svg';
-import admTitleSm from '../assets/img/titles/admin-small.svg';
+import admTitleMd from '../assets/img/titles/admin-md.svg';
+import admTitleSm from '../assets/img/titles/admin-sm.svg';
 
 import agentPic from '../assets/img/pictures/workspace.svg';
-import agentTitleMd from '../assets/img/titles/agent-medium.svg';
-import agentTitleSm from '../assets/img/titles/agent-small.svg';
+import agentTitleMd from '../assets/img/titles/agent-md.svg';
+import agentTitleSm from '../assets/img/titles/agent-sm.svg';
 
 import auditPic from '../assets/img/pictures/audit.svg';
-import auditTitleMd from '../assets/img/titles/audit-medium.svg';
-import auditTitleSm from '../assets/img/titles/audit-small.svg';
+import auditTitleMd from '../assets/img/titles/audit-md.svg';
+import auditTitleSm from '../assets/img/titles/audit-sm.svg';
 
 import historyPic from '../assets/img/pictures/history.svg';
-import historyTitleMd from '../assets/img/titles/history-medium.svg';
-import historyTitleSm from '../assets/img/titles/history-small.svg';
+import historyTitleMd from '../assets/img/titles/history-md.svg';
+import historyTitleSm from '../assets/img/titles/history-sm.svg';
 
 import supervisorPic from '../assets/img/pictures/supervisor.svg';
-import supervisorTitleMd from '../assets/img/titles/supervisor-medium.svg';
-import supervisorTitleSm from '../assets/img/titles/supervisor-small.svg';
+import supervisorTitleMd from '../assets/img/titles/supervisor-md.svg';
+import supervisorTitleSm from '../assets/img/titles/supervisor-sm.svg';
 
 import grafanaPic from '../assets/img/pictures/analytics.svg';
-import grafanaTitleMd from '../assets/img/titles/analytics-medium.svg';
-import grafanaTitleSm from '../assets/img/titles/analytics-small.svg';
+import grafanaTitleMd from '../assets/img/titles/analytics-md.svg';
+import grafanaTitleSm from '../assets/img/titles/analytics-sm.svg';
+
+import crmPic from '../assets/img/pictures/crm.svg';
+import crmTitleMd from '../assets/img/titles/crm-md.svg';
+import crmTitleSm from '../assets/img/titles/crm-sm.svg';
 
 const picAdmin = {
   img: admPic,
@@ -119,6 +123,13 @@ const picGrafana = {
   title: {
     md: grafanaTitleMd,
     sm: grafanaTitleSm,
+  },
+};
+const picCrm = {
+  img: crmPic,
+  title: {
+    md: crmTitleMd,
+    sm: crmTitleSm,
   },
 };
 
@@ -171,7 +182,14 @@ export default {
         pic: picGrafana,
       };
 
-      const apps = [agentApp, supervisorApp, historyApp, adminApp, auditApp];
+      const crmApp = {
+        name: WebitelApplications.CRM,
+        title: this.$t(`WebitelApplications.${WebitelApplications.CRM}.name`),
+        href: process.env.VUE_APP_CRM_URL,
+        pic: picCrm,
+      };
+
+      const apps = [agentApp, supervisorApp, historyApp, adminApp, auditApp, crmApp];
       if (this.$config.ON_SITE) apps.push(grafanaApp);
       return apps.filter(({ name }) => this.checkAccess(name));
     },

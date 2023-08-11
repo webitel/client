@@ -2,15 +2,19 @@
   <wt-app-header>
     <wt-navigation-bar
       v-if="isAdminAccess"
-      :current-app="currentApp" :nav="nav"
+      :current-app="currentApp"
+      :nav="nav"
     ></wt-navigation-bar>
-    <wt-app-navigator :current-app="currentApp" :apps="apps"></wt-app-navigator>
+    <wt-app-navigator
+      :current-app="currentApp"
+      :apps="apps"
+    ></wt-app-navigator>
     <wt-header-actions
       :user="user"
       :build-info="buildInfo"
       @settings="settings"
       @logout="logoutUser"
-    />
+    ></wt-header-actions>
   </wt-app-header>
 </template>
 
@@ -67,7 +71,11 @@ export default {
         name: WebitelApplications.ANALYTICS,
         href: process.env.VUE_APP_GRAFANA_URL,
       };
-      const apps = [admin, supervisor, agent, history, audit];
+      const crm = {
+        name: WebitelApplications.CRM,
+        href: process.env.VUE_APP_CRM_URL,
+      };
+      const apps = [admin, supervisor, agent, history, audit, crm];
       if (this.$config?.ON_SITE) apps.push(grafana);
       return apps.filter(({ name }) => this.checkAccess(name));
     },
