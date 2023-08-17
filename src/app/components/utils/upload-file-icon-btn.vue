@@ -20,6 +20,7 @@
 </template>
 
 <script>
+
 export default {
   name: 'upload-file-icon-btn',
   props: {
