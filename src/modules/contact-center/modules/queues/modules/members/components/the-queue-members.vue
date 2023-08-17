@@ -6,6 +6,19 @@
         :primary-action="create"
         :secondary-action="close"
       >
+        <template v-slot:primary-action>
+          <wt-button-select
+            :options="saveOptions"
+            @click="create"
+            @click:option="({ callback }) => callback()"
+          >{{ $t('objects.add') }}</wt-button-select>
+          <input
+            ref="file-input"
+            class="upload-file-input"
+            type="file"
+            :accept="'.csv'"
+            @change="inputFileHandler">
+        </template>
         <wt-headline-nav :path="path"></wt-headline-nav>
       </wt-page-header>
     </template>
@@ -72,12 +85,6 @@
                   ></wt-icon-action>
                 </template>
               </wt-context-menu>
-              <upload-file-icon-btn
-                v-if="hasEditAccess && isNotInboundMember"
-                class="icon-action"
-                accept=".csv"
-                @change="processCSV"
-              ></upload-file-icon-btn>
             </wt-table-actions>
           </div>
         </header>
@@ -177,7 +184,6 @@
 import FilterSearch from '@webitel/ui-sdk/src/modules/QueryFilters/components/filter-search.vue';
 import getNamespacedState from '@webitel/ui-sdk/src/store/helpers/getNamespacedState';
 import { mapActions, mapState } from 'vuex';
-import UploadFileIconBtn from '../../../../../../../app/components/utils/upload-file-icon-btn.vue';
 import tableComponentMixin
   from '../../../../../../../app/mixins/objectPagesMixins/objectTableMixin/tableComponentMixin';
 import RouteNames from '../../../../../../../app/router/_internals/RouteNames.enum';
@@ -195,7 +201,6 @@ export default {
     uploadPopup,
     destinationsPopup,
     ResetPopup,
-    UploadFileIconBtn,
     TheQueueMembersFilters,
   },
   data: () => ({
@@ -261,6 +266,14 @@ export default {
       return options;
     },
 
+    saveOptions() {
+      const importCsv = {
+        text: this.$tc('objects.integrations.importCsv.importCsv', 2),
+        callback: this.triggerFileInput,
+      };
+      return [importCsv];
+    },
+
     /* https://my.webitel.com/browse/WTEL-3697 */
     /* Temporarily disabled functionality due to problems with pagination */
 
@@ -306,6 +319,20 @@ export default {
     closeCSVPopup() {
       this.loadList();
       this.isUploadPopup = false;
+    },
+
+    triggerFileInput() {
+      this.$refs['file-input'].click();
+    },
+
+    inputFileHandler(event) {
+      const { files } = event.target;
+      this.processCSV(files);
+      this.clearFileInput();
+    },
+
+    clearFileInput() {
+      this.$refs['file-input'].value = null;
     },
 
     create() {
@@ -380,5 +407,10 @@ export default {
   margin-left: 20px;
   text-decoration: underline;
   cursor: pointer;
+}
+
+.upload-file-input {
+  position: absolute;
+  visibility: hidden;
 }
 </style>
