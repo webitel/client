@@ -87,6 +87,14 @@
         @input="setItemPayloadProp({ prop: 'maxCalls', value: +$event })"
       ></wt-input>
       <wt-input
+        v-if="specificControls.minOnlineAgents"
+        :disabled="disableUserInput"
+        :label="$t('objects.ccenter.queues.minOnlineAgents')"
+        :value="itemInstance.payload.minOnlineAgents"
+        type="number"
+        @input="setItemPayloadProp({ prop: 'minOnlineAgents', value: +$event })"
+      ></wt-input>
+      <wt-input
         v-if="specificControls.minAttempts"
         :disabled="disableUserInput"
         :label="$t('objects.ccenter.queues.minAttempts')"

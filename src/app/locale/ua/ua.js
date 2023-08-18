@@ -778,6 +778,7 @@ export default {
         maxNumberOfRetry: 'Максимальна кількість повторів додзвону',
         minDuration: 'Мінімальна тривалість успішного дзвінка',
         maxAttempts: 'Максимальна кількість спроб',
+        minOnlineAgents: 'Ліміт операторів для виходу в паузу ',
         waitForResultStatus: 'Очікування результату дзвінка',
         retryAbandoned: 'Відновлювати втрачених абонентів',
         playbackFile: 'Програти файл',

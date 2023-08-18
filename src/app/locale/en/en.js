@@ -780,6 +780,7 @@ export default {
         maxNumberOfRetry: 'Max number of retry',
         minDuration: 'Minimum succeed call duration',
         maxAttempts: 'Max attempts',
+        minOnlineAgents: 'Limit agents to take a pause',
         waitForResultStatus: 'Wait for result status',
         bucketPriority: 'Priority',
         amd: 'AMD',
