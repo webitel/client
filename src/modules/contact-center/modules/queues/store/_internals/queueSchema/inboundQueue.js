@@ -19,6 +19,7 @@ const inboundQueue = () => ({
     stickyAgentSec: 5,
     maxWaitingSize: 0,
     autoAnswerTone: null,
+    minOnlineAgents: 0,
   },
 });
 

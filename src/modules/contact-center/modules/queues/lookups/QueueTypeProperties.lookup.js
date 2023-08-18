@@ -17,6 +17,7 @@ const QueueTypeProperties = Object.freeze({
                                                 'originateTimeout',
                                                 'recordings',
                                                 'perNumbers',
+                                                'minOnlineAgents',
 
                                                 // processing specific
                                                 'taskProcessing.enabled',
@@ -42,6 +43,7 @@ const QueueTypeProperties = Object.freeze({
                                                 'stickyAgent',
                                                 'stickyAgentSec',
                                                 'autoAnswerTone',
+                                                'minOnlineAgents',
 
                                                 // processing specific
                                                 'taskProcessing.enabled',
@@ -96,6 +98,7 @@ const QueueTypeProperties = Object.freeze({
                                                 'allowGreetingAgent',
                                                 'endless',
                                                 'stickyAgent',
+                                                'minOnlineAgents',
 
                                                 // processing specific
                                                 'taskProcessing.enabled',
@@ -129,6 +132,7 @@ const QueueTypeProperties = Object.freeze({
                                                 'endless',
                                                 'stickyAgent',
                                                 'autoAnswerTone',
+                                                'minOnlineAgents',
 
                                                 // processing specific
                                                 'taskProcessing.enabled',
@@ -174,6 +178,7 @@ const QueueTypeProperties = Object.freeze({
                                                 'stickyAgent',
                                                 'stickyAgentSec',
                                                 'autoAnswerTone',
+                                                'minOnlineAgents',
 
                                                 // processing specific
                                                 'taskProcessing.enabled',
@@ -198,6 +203,7 @@ const QueueTypeProperties = Object.freeze({
                                                 'maxIdleDialog',
                                                 'stickyAgent',
                                                 'stickyAgentSec',
+                                                'minOnlineAgents',
 
                                                 // processing specific
                                                 'taskProcessing.enabled',
@@ -221,6 +227,7 @@ const QueueTypeProperties = Object.freeze({
                                                 'waitBetweenRetries',
                                                 'waitBetweenRetriesDesc',
                                                 'stickyAgent',
+                                                'minOnlineAgents',
 
                                                 // processing specific
                                                 'taskProcessing.enabled',

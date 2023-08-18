@@ -21,6 +21,7 @@ const chatInboundQueue = () => ({
     maxIdleClient: 60 * 60, // hour
     maxIdleDialog: 0,
     maxWaitingSize: 0,
+    minOnlineAgents: 0,
   },
 });
 
