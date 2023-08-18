@@ -41,6 +41,7 @@ const predictiveDialer = () => ({
     perNumbers: false,
     stickyAgentSec: 5,
     autoAnswerTone: null,
+    minOnlineAgents: 0,
   },
 });
 

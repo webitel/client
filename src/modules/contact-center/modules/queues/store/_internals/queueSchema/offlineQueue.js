@@ -17,6 +17,7 @@ const offlineQueue = () => ({
     recordings: false,
     recordAll: false,
     perNumbers: false,
+    minOnlineAgents: 0,
   },
 });
 

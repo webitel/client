@@ -25,6 +25,7 @@ const previewDialer = () => ({
     strictCircuit: false,
     endless: false,
     perNumbers: false,
+    minOnlineAgents: 0,
   },
 });
 

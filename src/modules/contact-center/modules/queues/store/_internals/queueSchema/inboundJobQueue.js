@@ -17,6 +17,7 @@ const inboundJobQueue = () => ({
     waitBetweenRetries: 30 * 60, // required
     maxCalls: 10,
     waitBetweenRetriesDesc: false,
+    minOnlineAgents: 0,
   },
 });
 
