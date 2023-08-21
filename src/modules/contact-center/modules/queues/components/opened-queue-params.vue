@@ -290,8 +290,14 @@ export default {
   computed: {
     autoAnswerTone: {
       get() {
-        return this.ToneList
-        .find((tone) => tone.value === this.itemInstance.payload.autoAnswerTone);
+        if (this.itemInstance.payload.autoAnswerTone) {
+          return this.ToneList
+          .find((tone) => tone.value === this.itemInstance.payload.autoAnswerTone);
+        }
+        if (this.itemInstance.type === 4 || this.itemInstance.type === 5 || this.itemInstance.type === 1) {
+          return this.ToneList.find((tone) => tone.value === 'default');
+        }
+        return;
       },
       set(value) {
         this.setItemPayloadProp({ prop: 'autoAnswerTone', value: value.value });
