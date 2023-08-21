@@ -275,6 +275,7 @@
 
 <script>
 import { mapActions } from 'vuex';
+import { QueueType } from 'webitel-sdk/esm2015/enums';
 import openedTabComponentMixin
   from '../../../../../app/mixins/objectPagesMixins/openedObjectTabMixin/openedTabComponentMixin';
 import QueueTypeProperties from '../lookups/QueueTypeProperties.lookup';
@@ -294,7 +295,12 @@ export default {
           return this.ToneList
           .find((tone) => tone.value === this.itemInstance.payload.autoAnswerTone);
         }
-        if (this.itemInstance.type === 4 || this.itemInstance.type === 5 || this.itemInstance.type === 1) {
+        /* https://my.webitel.com/browse/WTEL-3268 */
+        /* For queues with types INBOUND_QUEUE, PROGRESSIVE_DIALER, */
+        /* PREDICTIVE_DIALER add a default alert tone if there is no value */
+        if (this.itemInstance.type === QueueType.INBOUND_QUEUE
+          || this.itemInstance.type === QueueType.PROGRESSIVE_DIALER
+          || this.itemInstance.type === QueueType.PREDICTIVE_DIALER) {
           return this.ToneList.find((tone) => tone.value === 'default');
         }
         return;
