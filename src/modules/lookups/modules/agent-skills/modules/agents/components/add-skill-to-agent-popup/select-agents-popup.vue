@@ -215,9 +215,10 @@ useInfiniteScroll(
 
 .opened-skill-agent-popup__filters {
   display: grid;
+  align-items: center;
+  margin-bottom: var(--spacing-sm);
   grid-template-columns: repeat(3, 1fr) var(--spacing-md);
   gap: var(--spacing-xs);
-  align-items: center;
 }
 
 </style>
