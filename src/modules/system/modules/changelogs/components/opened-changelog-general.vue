@@ -49,8 +49,6 @@
 </template>
 
 <script>
-import { useVuelidate } from '@vuelidate/core';
-import { minValue, required } from '@vuelidate/validators';
 import changelogs from '../api/changelogs';
 import storage from '../../../../integrations/modules/storage/api/storage';
 import openedTabComponentMixin
@@ -59,17 +57,6 @@ import openedTabComponentMixin
 export default {
   name: 'opened-changelog-general',
   mixins: [openedTabComponentMixin],
-  setup: () => ({
-    v$: useVuelidate(),
-  }),
-  validations: {
-    itemInstance: {
-      object: { required },
-      storage: { required },
-      daysToStore: { required, minValue: minValue(1) },
-      period: { required, minValue: minValue(1) },
-    },
-  },
   methods: {
     getObjectsList: changelogs.getObjectsList,
     getStorageList: storage.getLookup,

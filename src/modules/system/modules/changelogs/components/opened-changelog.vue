@@ -1,5 +1,7 @@
 <template>
-  <wt-page-wrapper :actions-panel="false">
+  <wt-page-wrapper
+    :actions-panel="!!currentTab.filters"
+  >
     <template v-slot:header>
       <wt-page-header
         :primary-text="saveText"
@@ -10,6 +12,13 @@
       >
         <wt-headline-nav :path="path"></wt-headline-nav>
       </wt-page-header>
+    </template>
+
+    <template v-slot:actions-panel>
+      <component
+        :is="currentTab.filters"
+        :namespace="currentTab.filtersNamespace"
+      ></component>
     </template>
 
     <template v-slot:main>
@@ -34,25 +43,32 @@
 
 <script>
 import { useVuelidate } from '@vuelidate/core';
-import { required } from '@vuelidate/validators';
+import { minValue, required } from '@vuelidate/validators';
 import General from './opened-changelog-general.vue';
 import Logs from '../modules/logs/components/opened-changelog-logs.vue';
+import LogsFilters from '../modules/logs/modules/filters/components/opened-changelog-logs-filters.vue';
 import openedObjectMixin from '../../../../../app/mixins/objectPagesMixins/openedObjectMixin/openedObjectMixin';
 
 export default {
   name: 'opened-changelog',
   mixins: [openedObjectMixin],
-  components: { General, Logs },
+  components: {
+    General,
+    Logs,
+    LogsFilters,
+  },
   data: () => ({
     namespace: 'system/changelogs',
   }),
-
   setup: () => ({
     v$: useVuelidate(),
   }),
   validations: {
     itemInstance: {
-      name: { required },
+      object: { required },
+      storage: { required },
+      daysToStore: { required, minValue: minValue(1) },
+      period: { required, minValue: minValue(1) },
     },
   },
 
@@ -67,6 +83,8 @@ export default {
       const logs = {
         text: this.$tc('objects.system.changelogs.logs.logs', 2),
         value: 'logs',
+        filters: 'logs-filters',
+        filtersNamespace: `${this.namespace}/logs/filters`,
       };
       if (this.id) tabs.push(logs);
       return tabs;
