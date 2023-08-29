@@ -3,7 +3,7 @@ import {
   getDefaultGetParams,
 } from '@webitel/ui-sdk/src/api/defaults';
 import applyTransform, {
-  camelToSnake, generateUrl, 
+  camelToSnake, generateUrl,
   merge, notify, sanitize, snakeToCamel,
   starToSearch, log, mergeEach,
 } from '@webitel/ui-sdk/src/api/transformers';
@@ -13,7 +13,7 @@ const LICENSE_URL = '/license';
 const CUSTOMER_URL = '/customer';
 
 const getLicenseList = async (params) => {
-  const fieldsToSend = ['page', 'size', 'q', 'fields', 'id'];
+  const fieldsToSend = ['page', 'size', 'q', 'sort', 'fields', 'id'];
 
   const defaultObject = {
     remain: 0,
@@ -43,7 +43,7 @@ const getLicenseList = async (params) => {
     };
   } catch (err) {
     throw applyTransform(err, [
-      
+
       notify,
     ]);
   }
@@ -54,7 +54,7 @@ const updateLicense = async (data) => {
     return applyTransform(response.data, []);
   } catch (err) {
     throw applyTransform(err, [
-      
+
       notify,
     ]);
   }
