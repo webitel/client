@@ -87,14 +87,6 @@
         @input="setItemPayloadProp({ prop: 'maxCalls', value: +$event })"
       ></wt-input>
       <wt-input
-        v-if="specificControls.minOnlineAgents"
-        :disabled="disableUserInput"
-        :label="$t('objects.ccenter.queues.minOnlineAgents')"
-        :value="itemInstance.payload.minOnlineAgents"
-        type="number"
-        @input="setItemPayloadProp({ prop: 'minOnlineAgents', value: +$event })"
-      ></wt-input>
-      <wt-input
         v-if="specificControls.minAttempts"
         :disabled="disableUserInput"
         :label="$t('objects.ccenter.queues.minAttempts')"
@@ -167,13 +159,14 @@
         type="number"
         @input="setItemPayloadProp({ prop: 'targetAbandonedRate', value: +$event })"
       ></wt-input>
-      <wt-switcher
-        v-if="specificControls.waitBetweenRetriesDesc"
+      <wt-input
+        v-if="specificControls.minOnlineAgents"
         :disabled="disableUserInput"
-        :label="$t('objects.ccenter.queues.waitBetweenRetriesDesc')"
-        :value="itemInstance.payload.waitBetweenRetriesDesc"
-        @change="setItemPayloadProp({ prop: 'waitBetweenRetriesDesc', value: $event })"
-      ></wt-switcher>
+        :label="$t('objects.ccenter.queues.minOnlineAgents')"
+        :value="itemInstance.payload.minOnlineAgents"
+        type="number"
+        @input="setItemPayloadProp({ prop: 'minOnlineAgents', value: +$event })"
+      ></wt-input>
       <wt-input
         v-if="specificControls.maxAbandonedRate"
         :disabled="disableUserInput"
@@ -183,11 +176,11 @@
         @input="setItemPayloadProp({ prop: 'maxAbandonedRate', value: +$event })"
       ></wt-input>
       <wt-switcher
-        v-if="specificControls.strictCircuit"
+        v-if="specificControls.waitBetweenRetriesDesc"
         :disabled="disableUserInput"
-        :label="$t('objects.ccenter.queues.strictCircuit')"
-        :value="itemInstance.payload.strictCircuit"
-        @change="setItemPayloadProp({ prop: 'strictCircuit', value: $event })"
+        :label="$t('objects.ccenter.queues.waitBetweenRetriesDesc')"
+        :value="itemInstance.payload.waitBetweenRetriesDesc"
+        @change="setItemPayloadProp({ prop: 'waitBetweenRetriesDesc', value: $event })"
       ></wt-switcher>
       <div v-if="specificControls.loadFactor">
         <wt-label>{{ $t('objects.ccenter.queues.loadFactor') }}</wt-label>
@@ -209,11 +202,11 @@
         </div>
       </div>
       <wt-switcher
-        v-if="specificControls.retryAbandoned"
+        v-if="specificControls.strictCircuit"
         :disabled="disableUserInput"
-        :label="$t('objects.ccenter.queues.retryAbandoned')"
-        :value="itemInstance.payload.retryAbandoned"
-        @change="setItemPayloadProp({ prop: 'retryAbandoned', value: $event })"
+        :label="$t('objects.ccenter.queues.strictCircuit')"
+        :value="itemInstance.payload.strictCircuit"
+        @change="setItemPayloadProp({ prop: 'strictCircuit', value: $event })"
       ></wt-switcher>
       <wt-switcher
         v-if="specificControls.perNumbers"
@@ -223,11 +216,11 @@
         @change="setItemPayloadProp({ prop: 'perNumbers', value: $event })"
       ></wt-switcher>
       <wt-switcher
-        v-if="specificControls.recordings"
+        v-if="specificControls.retryAbandoned"
         :disabled="disableUserInput"
-        :label="$t('objects.ccenter.queues.recordings')"
-        :value="itemInstance.payload.recordings"
-        @change="setItemPayloadProp({ prop: 'recordings', value: $event })"
+        :label="$t('objects.ccenter.queues.retryAbandoned')"
+        :value="itemInstance.payload.retryAbandoned"
+        @change="setItemPayloadProp({ prop: 'retryAbandoned', value: $event })"
       ></wt-switcher>
       <wt-switcher
         v-if="specificControls.recordings && itemInstance.payload.recordings"
@@ -237,13 +230,20 @@
         @change="setItemPayloadProp({ prop: 'recordAll', value: $event })"
       ></wt-switcher>
       <wt-switcher
+        v-if="specificControls.recordings"
+        :disabled="disableUserInput"
+        :label="$t('objects.ccenter.queues.recordings')"
+        :value="itemInstance.payload.recordings"
+        @change="setItemPayloadProp({ prop: 'recordings', value: $event })"
+      ></wt-switcher>
+      <div></div>
+      <wt-switcher
         v-if="specificControls.allowGreetingAgent"
         :disabled="disableUserInput"
         :label="$t('objects.ccenter.queues.allowGreetingAgent')"
         :value="itemInstance.payload.allowGreetingAgent"
         @change="setItemPayloadProp({ prop: 'allowGreetingAgent', value: $event })"
       ></wt-switcher>
-      <div></div>
       <wt-switcher
         v-if="specificControls.endless"
         v-show="!itemInstance.processing"
@@ -252,6 +252,7 @@
         :value="itemInstance.payload.endless"
         @change="setItemPayloadProp({ prop: 'endless', value: $event })"
       ></wt-switcher>
+      <div></div>
       <wt-switcher
         v-if="specificControls.stickyAgent"
         :disabled="disableUserInput"
