@@ -1,5 +1,6 @@
 <template>
   <wt-popup
+    class="opened-skill-agent-popup"
     min-width="768"
     width="1440"
     @close="cancel"
@@ -195,30 +196,32 @@ useInfiniteScroll(
 );
 </script>
 
-<style lang="scss" scoped>
-.scroll-wrap {
-  height: 65vh;
-}
+<style lang="scss">
+.opened-skill-agent-popup {
+  &__filters {
+    display: grid;
+    align-items: center;
+    margin-bottom: var(--spacing-sm);
+    grid-template-columns: repeat(3, 1fr) var(--spacing-md);
+    gap: var(--spacing-xs);
+  }
 
-.wt-popup {
-  .wt-popup__main {
-    display: flex;
-    flex-direction: column;
+  &.wt-popup {
+    .wt-popup__main {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .scroll-wrap {
+      overflow: auto;
+      flex-grow: 1;
+      min-height: 0;
+    }
   }
 
   .scroll-wrap {
-    overflow: auto;
-    flex-grow: 1;
-    min-height: 0;
+    height: 65vh;
   }
-}
-
-.opened-skill-agent-popup__filters {
-  display: grid;
-  align-items: center;
-  margin-bottom: var(--spacing-sm);
-  grid-template-columns: repeat(3, 1fr) var(--spacing-md);
-  gap: var(--spacing-xs);
 }
 
 </style>
