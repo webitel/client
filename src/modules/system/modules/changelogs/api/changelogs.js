@@ -7,16 +7,16 @@ import applyTransform, {
   merge, mergeEach, notify, sanitize, snakeToCamel,
   starToSearch,
 } from '@webitel/ui-sdk/src/api/transformers';
-import {
-  RoutingOutboundCallServiceApiFactory,
-} from 'webitel-sdk';
+import { ConfigServiceApiFactory } from 'webitel-sdk';
 import instance from '../../../../../app/api/instance';
 import configuration from '../../../../../app/api/openAPIConfig';
 
-const dialplanService = new RoutingOutboundCallServiceApiFactory(configuration, '', instance);
+const service = new ConfigServiceApiFactory(configuration, '', instance);
 
-const getDialplanList = async (params) => {
-  const defaultObject = { disabled: false };
+const getList = async (params) => {
+  const defaultObject = {
+    enabled: false,
+  };
 
   const {
     page,
@@ -31,7 +31,7 @@ const getDialplanList = async (params) => {
   ]);
 
   try {
-    const response = await dialplanService.searchRoutingOutboundCall(
+    const response = await service.getAll(
       page,
       size,
       search,
@@ -51,71 +51,67 @@ const getDialplanList = async (params) => {
     };
   } catch (err) {
     throw applyTransform(err, [
-
       notify,
     ]);
   }
 };
 
-const getDialplan = async ({ itemId: id }) => {
+const get = async ({ itemId: id }) => {
   try {
-    const response = await dialplanService.readRoutingOutboundCall(id);
+    const response = await service.getById(id);
     return applyTransform(response.data, [
       snakeToCamel(),
     ]);
   } catch (err) {
     throw applyTransform(err, [
-
       notify,
     ]);
   }
 };
 
-const fieldsToSend = ['name', 'schema', 'pattern', 'description', 'disabled'];
+const fieldsToSend = ['object', 'storage', 'daysToStore', 'period', 'enabled'];
 
-const addDialplan = async ({ itemInstance }) => {
+const add = async ({ itemInstance }) => {
   const item = applyTransform(itemInstance, [
     sanitize(fieldsToSend),
     camelToSnake(),
   ]);
   try {
-    const response = await dialplanService.createRoutingOutboundCall(item);
+    const response = await service.insert(item);
     return applyTransform(response.data, [
       snakeToCamel(),
     ]);
   } catch (err) {
     throw applyTransform(err, [
-
       notify,
     ]);
   }
 };
 
-const updateDialplan = async ({ itemInstance, itemId: id }) => {
+const update = async ({ itemInstance, itemId: id }) => {
   const item = applyTransform(itemInstance, [
     sanitize(fieldsToSend),
     camelToSnake(),
   ]);
   try {
-    const response = await dialplanService.updateRoutingOutboundCall(id, item);
+    const response = await service.update(id, item);
     return applyTransform(response.data, [
       snakeToCamel(),
     ]);
   } catch (err) {
     throw applyTransform(err, [
-
       notify,
     ]);
   }
 };
 
-const patchDialplan = async ({ id, changes }) => {
+const patch = async ({ id, changes }) => {
   const body = applyTransform(changes, [
     sanitize(fieldsToSend),
     camelToSnake(),
   ]);
   try {
-    const response = await dialplanService.patchRoutingOutboundCall(id, body);
+    const response = await service.patchUpdate(id, body);
     return applyTransform(response.data, [
       snakeToCamel(),
     ]);
@@ -126,43 +122,49 @@ const patchDialplan = async ({ id, changes }) => {
   }
 };
 
-const deleteDialplan = async ({ id }) => {
+const deleteItem = async ({ id }) => {
   try {
-    const response = await dialplanService.deleteRoutingOutboundCall(id);
+    const response = await service._delete(id);
     return applyTransform(response.data, []);
   } catch (err) {
     throw applyTransform(err, [
-
       notify,
     ]);
   }
 };
 
-const moveDialplan = async ({ fromId, toId }) => {
+const getLookup = (params) => getList({
+  ...params,
+  fields: params.fields || ['id', 'object'],
+});
+
+const getObjectsList = async () => {
   try {
-    const response = await dialplanService.movePositionRoutingOutboundCall(fromId, toId, {});
-    return applyTransform(response.data, [
-      notify(({ callback }) => callback({
-        type: 'info',
-        text: 'Successfully saved',
-      })),
+    const response = await service.getSystemObjects();
+    const { items, next } = applyTransform(response.data, [
+      snakeToCamel(),
+      merge(getDefaultGetListResponse()),
     ]);
+    return {
+      items,
+      next,
+    };
   } catch (err) {
     throw applyTransform(err, [
-
       notify,
     ]);
   }
 };
 
-const DialplanAPI = {
-  getList: getDialplanList,
-  get: getDialplan,
-  add: addDialplan,
-  update: updateDialplan,
-  delete: deleteDialplan,
-  patch: patchDialplan,
-  moveDialplan,
+const ChangelogsAPI = {
+  getList,
+  get,
+  add,
+  update,
+  patch,
+  delete: deleteItem,
+  getLookup,
+  getObjectsList,
 };
 
-export default DialplanAPI;
+export default ChangelogsAPI;

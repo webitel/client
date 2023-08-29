@@ -15,7 +15,8 @@ const convertScope = (initialScope) => {
     }, {});
   }
 
-  // temporary add full access to lookups and flow permissions as soon as they haven't implemented on backend
+  // temporary add full access to lookups and flow permissions
+  // as soon as they haven't implemented on backend
   const flow = ObjectsList.find((obj) => obj.name === AdminSections.FLOW);
   const communications = ObjectsList.find((obj) => obj.name === AdminSections.COMMUNICATIONS);
   const skills = ObjectsList.find((obj) => obj.name === AdminSections.SKILLS);

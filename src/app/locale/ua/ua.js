@@ -95,6 +95,9 @@ export default {
     permissions: {
       permissions: 'Дозволи',
     },
+    system: {
+      system: 'Система',
+    },
   },
 
   home: {
@@ -997,6 +1000,15 @@ export default {
             done: 'Завершений',
             error: 'Помилка',
           },
+        },
+      },
+    },
+    system: {
+      system: 'Система',
+      changelogs: {
+        changelogs: 'Журнал змін | Журнали змін',
+        logs: {
+          logs: 'Лог | Логи',
         },
       },
     },

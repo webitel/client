@@ -6,8 +6,9 @@ import lookups from '../../modules/lookups/store/lookups';
 import ccenter from '../../modules/contact-center/store/ccenter';
 import integrations from '../../modules/integrations/store/integrations';
 import permissions from '../../modules/permissions/store/permissions';
+import system from '../../modules/system/store/system';
 
-export default new createStore({
+export default createStore({
   strict: false,
   modules: {
     userinfo,
@@ -17,5 +18,6 @@ export default new createStore({
     ccenter,
     integrations,
     permissions,
+    system,
   },
 });

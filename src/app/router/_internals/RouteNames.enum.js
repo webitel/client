@@ -45,6 +45,9 @@ export default Object.freeze({
   OBJECTS: 'objects',
   ROLES: 'roles',
 
+  // SYSTEM
+  CHANGELOGS: 'changelogs',
+
   SETTINGS_PAGE: 'settings',
   PAGE_403: 'access-denied',
   PAGE_404: '',

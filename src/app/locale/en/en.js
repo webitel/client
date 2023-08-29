@@ -95,6 +95,9 @@ export default {
     permissions: {
       permissions: 'Permissions',
     },
+    system: {
+      system: 'System',
+    },
   },
 
   home: {
@@ -998,6 +1001,15 @@ export default {
             done: 'Done',
             error: 'Error',
           },
+        },
+      },
+    },
+    system: {
+      system: 'System',
+      changelogs: {
+        changelogs: 'Changelog | Changelogs',
+        logs: {
+          logs: 'Log | Logs',
         },
       },
     },

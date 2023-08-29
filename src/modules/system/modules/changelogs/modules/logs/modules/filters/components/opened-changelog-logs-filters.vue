@@ -1,0 +1,74 @@
+<template>
+  <wt-filters-panel-wrapper @reset="resetFilters">
+    <filter-datetime
+      :label="`${
+        $t('objects.system.changelogs.logs.changesMadeOn')}: ${$t('reusable.from').toLowerCase()
+      }`"
+      :namespace="namespace"
+      filter-query="from"
+    ></filter-datetime>
+    <filter-datetime
+      :label="`${
+        $t('objects.system.changelogs.logs.changesMadeOn')}: ${$t('reusable.to').toLowerCase()
+      }`"
+      :namespace="namespace"
+      filter-query="to"
+    ></filter-datetime>
+    <component
+      :is="`abstract-${filter.type}-filter`"
+      v-for="(filter, key) of filters"
+      :key="key"
+      :filter-query="filter.filterQuery"
+      :namespace="namespace"
+      class="history-filters__filter"
+    ></component>
+  </wt-filters-panel-wrapper>
+</template>
+
+<script>
+import AbstractApiFilter from '@webitel/ui-sdk/src/modules/QueryFilters/components/abstract-api-filter.vue';
+import AbstractEnumFilter from '@webitel/ui-sdk/src/modules/QueryFilters/components/abstract-enum-filter.vue';
+import FilterDatetime from '@webitel/ui-sdk/src/modules/QueryFilters/components/filter-datetime.vue';
+import FilterFromTo from '@webitel/ui-sdk/src/modules/QueryFilters/components/filter-from-to.vue';
+import { mapActions } from 'vuex';
+
+export default {
+  name: 'opened-changelog-logs-filters',
+  components: {
+    FilterDatetime,
+    FilterFromTo,
+    AbstractApiFilter,
+    AbstractEnumFilter,
+  },
+  props: {
+    namespace: {
+      type: String,
+      required: true,
+    },
+  },
+  data: () => ({
+    filters: [
+      { type: 'enum', filterQuery: 'action' },
+      { type: 'api', filterQuery: 'user' },
+    ],
+  }),
+  methods: {
+    ...mapActions({
+      resetFilterValues(dispatch, payload) {
+        return dispatch(`${this.namespace}/RESET_FILTERS`, payload);
+      },
+    }),
+    resetFilters() {
+      this.$router.push({ query: null });
+      this.resetFilterValues();
+    },
+  },
+  destroyed() {
+    this.resetFilters();
+  },
+};
+</script>
+
+<style lang="scss" scoped>
+
+</style>

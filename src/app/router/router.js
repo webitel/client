@@ -64,6 +64,8 @@ const OpenedCognitiveProfile = () => import('../../modules/integrations/modules/
 const OpenedEmailProfile = () => import('../../modules/integrations/modules/email-profiles/components/opened-email-profile.vue');
 const OpenedImportCsv = () => import('../../modules/integrations/modules/import-csv/components/opened-import-csv.vue');
 const OpenedTrigger = () => import('../../modules/integrations/modules/triggers/components/opened-trigger.vue');
+const Changelogs = () => import('../../modules/system/modules/changelogs/components/the-changelogs.vue');
+const OpenedChangelog = () => import('../../modules/system/modules/changelogs/components/opened-changelog.vue');
 
 const router = createRouter({
   history: createWebHistory(process.env.BASE_URL),
@@ -558,6 +560,23 @@ const router = createRouter({
           component: OpenedPermissionsObjects,
         },
         // ----------PERMISSIONS END-----------------
+
+       // ----------SYSTEM START-----------------
+        {
+          path: '/system/changelogs',
+          name: RouteNames.CHANGELOGS,
+          component: Changelogs,
+        },
+        {
+          path: '/system/changelogs/new',
+          name: `${RouteNames.CHANGELOGS}-new`,
+          component: OpenedChangelog,
+        },
+        {
+          path: '/system/changelogs/:id',
+          name: `${RouteNames.CHANGELOGS}-edit`,
+          component: OpenedChangelog,
+        },
       ],
     },
     {
@@ -565,6 +584,7 @@ const router = createRouter({
       name: RouteNames.PAGE_404,
       component: NotFound,
     },
+    // ----------SYSTEM END-----------------
   ],
 });
 

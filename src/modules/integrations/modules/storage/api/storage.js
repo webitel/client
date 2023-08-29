@@ -80,6 +80,8 @@ const patchStorage = (params) => itemPatcher.patchItem(params);
 const updateStorage = (params) => itemUpdater.updateItem(params);
 const deleteStorage = (params) => itemDeleter.deleteItem(params);
 
+const getLookup = (params) => getStorageList({ fields: ['id', 'name'], ...params });
+
 const StorageAPI = {
   getList: getStorageList,
   get: getStorage,
@@ -87,6 +89,7 @@ const StorageAPI = {
   patch: patchStorage,
   update: updateStorage,
   delete: deleteStorage,
+  getLookup,
 };
 
 export default StorageAPI;
