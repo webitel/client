@@ -1,12 +1,14 @@
 import { QueueResourcesServiceApiFactory } from 'webitel-sdk';
 import {
-  SdkListGetterApiConsumer,
-  SdkGetterApiConsumer,
-  SdkCreatorApiConsumer,
-  SdkUpdaterApiConsumer,
-  SdkDeleterApiConsumer,
-} from 'webitel-sdk/esm2015/api-consumers';
-import instance from '../../../../../../../app/api/old/instance';
+  getDefaultGetListResponse,
+  getDefaultGetParams,
+} from '@webitel/ui-sdk/src/api/defaults';
+import applyTransform, {
+  camelToSnake,
+  merge, mergeEach, notify, sanitize, snakeToCamel,
+  starToSearch,
+} from '@webitel/ui-sdk/src/api/transformers';
+import instance from '../../../../../../../app/api/instance';
 import configuration from '../../../../../../../app/api/openAPIConfig';
 
 const queueResService = new QueueResourcesServiceApiFactory(configuration, '', instance);
@@ -15,19 +17,113 @@ const fieldsToSend = ['resourceGroup', 'queueId', 'communication'];
 
 const preRequestHandler = (item, parentId) => ({ ...item, queueId: parentId });
 
-const listGetter = new SdkListGetterApiConsumer(queueResService.searchQueueResourceGroup);
-const itemGetter = new SdkGetterApiConsumer(queueResService.readQueueResourceGroup);
-const itemCreator = new SdkCreatorApiConsumer(queueResService.createQueueResourceGroup,
-  { fieldsToSend, preRequestHandler });
-const itemUpdater = new SdkUpdaterApiConsumer(queueResService.updateQueueResourceGroup,
-  { fieldsToSend, preRequestHandler });
-const itemDeleter = new SdkDeleterApiConsumer(queueResService.deleteQueueResourceGroup);
+// const listGetter = new SdkListGetterApiConsumer(queueResService.searchQueueResourceGroup);
+const getQueueResGroupsList = async (params) => {
+  const {
+    parentId,
+    page,
+    size,
+    search,
+    sort,
+    fields,
+    id,
+  } = applyTransform(params, [
+    merge(getDefaultGetParams()),
+    starToSearch('search'),
+  ]);
 
-const getQueueResGroupsList = (params) => listGetter.getNestedList(params);
-const getQueueResGroup = (params) => itemGetter.getNestedItem(params);
-const addQueueResGroup = (params) => itemCreator.createNestedItem(params);
-const updateQueueResGroup = (params) => itemUpdater.updateNestedItem(params);
-const deleteQueueResGroup = (params) => itemDeleter.deleteNestedItem(params);
+  try {
+    const response = await queueResService.searchQueueResourceGroup(
+      parentId,
+      page,
+      size,
+      search,
+      sort,
+      fields,
+      id,
+    );
+    const { items, next } = applyTransform(response.data, [
+      snakeToCamel(),
+      merge(getDefaultGetListResponse()),
+    ]);
+    return {
+      items,
+      next,
+    };
+  } catch (err) {
+    throw applyTransform(err, [
+      notify,
+    ]);
+  }
+};
+
+// const itemGetter = new SdkGetterApiConsumer(queueResService.readQueueResourceGroup);
+const getQueueResGroup = async ({ parentId, itemId: id, domainId }) => {
+  try {
+    const response = await queueResService.readQueueResourceGroup(parentId, id, domainId);
+    return applyTransform(response.data, [
+      snakeToCamel(),
+    ]);
+  } catch (err) {
+    throw applyTransform(err, [
+
+      notify,
+    ]);
+  }
+};
+
+// const itemCreator = new SdkCreatorApiConsumer(queueResService.createQueueResourceGroup,
+//   { fieldsToSend, preRequestHandler });
+const addQueueResGroup = async ({ parentId, itemInstance }) => {
+  const item = applyTransform(itemInstance, [
+    sanitize(fieldsToSend),
+    camelToSnake(),
+  ]);
+  try {
+    const response = await queueResService.createQueueResourceGroup(parentId, item);
+    return applyTransform(response.data, [
+      snakeToCamel(),
+    ]);
+  } catch (err) {
+    throw applyTransform(err, [
+
+      notify,
+    ]);
+  }
+};
+
+// const itemUpdater = new SdkUpdaterApiConsumer(queueResService.updateQueueResourceGroup,
+//   { fieldsToSend, preRequestHandler });
+const updateQueueResGroup = async ({ parentId, itemInstance, itemId: id }) => {
+  const item = applyTransform(itemInstance, [
+    sanitize(fieldsToSend),
+    camelToSnake(),
+  ]);
+  try {
+    const response = await queueResService.updateQueueResourceGroup(parentId, id, item);
+    return applyTransform(response.data, [
+      snakeToCamel(),
+    ]);
+  } catch (err) {
+    throw applyTransform(err, [
+
+      notify,
+    ]);
+  }
+};
+
+// const itemDeleter = new SdkDeleterApiConsumer(queueResService.deleteQueueResourceGroup);
+const deleteQueueResGroup = async ({ parentId, id, domainId }) => {
+  try {
+    const response = await queueResService.deleteQueueResourceGroup(parentId, id, domainId);
+    return applyTransform(response.data, []);
+  } catch (err) {
+    throw applyTransform(err, [
+
+      notify,
+    ]);
+  }
+};
 
 const QueueResourceGroupsAPI = {
   getList: getQueueResGroupsList,
