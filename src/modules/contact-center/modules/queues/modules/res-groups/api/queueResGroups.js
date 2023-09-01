@@ -71,8 +71,6 @@ const getQueueResGroup = async ({ parentId, itemId: id, domainId }) => {
   }
 };
 
-// const itemCreator = new SdkCreatorApiConsumer(queueResService.createQueueResourceGroup,
-//   { fieldsToSend, preRequestHandler });
 const addQueueResGroup = async ({ parentId, itemInstance }) => {
   const item = applyTransform(itemInstance, [
     preRequestHandler,
@@ -91,8 +89,6 @@ const addQueueResGroup = async ({ parentId, itemInstance }) => {
   }
 };
 
-// const itemUpdater = new SdkUpdaterApiConsumer(queueResService.updateQueueResourceGroup,
-//   { fieldsToSend, preRequestHandler });
 const updateQueueResGroup = async ({ parentId, itemInstance, itemId: id }) => {
   const item = applyTransform(itemInstance, [
     preRequestHandler,
