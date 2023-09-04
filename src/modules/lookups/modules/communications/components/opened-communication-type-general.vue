@@ -13,14 +13,13 @@
         @input="setItemProp({ prop: 'name', value: $event })"
       ></wt-input>
       <wt-select
-        :value="itemInstance.channel"
+        v-model="channel"
         :v="v.itemInstance.channel"
         :label="$t('vocabulary.channel')"
         :options="channelOptions"
         :disabled="savedChannel || disableUserInput"
         required
         track-by="value"
-        @input="setItemProp({ prop: 'channel', value: $event.value })"
       ></wt-select>
       <wt-input
         :value="itemInstance.code"
@@ -51,6 +50,14 @@ export default {
     savedChannel: '',
   }),
   computed: {
+    channel: {
+      get() {
+        return this.channelOptions.find((channel) => channel.value === this.itemInstance.channel);
+      },
+      set(value) {
+        this.setItemProp({ prop: 'channel', value: value.value });
+      },
+    },
     channelOptions() {
       return Object.values(EngineCommunicationChannels)
       .filter((channel) => channel !== EngineCommunicationChannels.Undefined)
