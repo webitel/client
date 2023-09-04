@@ -1,12 +1,14 @@
 import { AgentTeamServiceApiFactory } from 'webitel-sdk';
 import {
-  SdkListGetterApiConsumer,
-  SdkGetterApiConsumer,
-  SdkCreatorApiConsumer,
-  SdkUpdaterApiConsumer,
-  SdkDeleterApiConsumer,
-} from 'webitel-sdk/esm2015/api-consumers';
-import instance from '../../../../../app/api/old/instance';
+  getDefaultGetListResponse,
+  getDefaultGetParams,
+} from '@webitel/ui-sdk/src/api/defaults';
+import applyTransform, {
+  camelToSnake,
+  merge, notify, sanitize, snakeToCamel,
+  starToSearch,
+} from '@webitel/ui-sdk/src/api/transformers';
+import instance from '../../../../../app/api/instance';
 import configuration from '../../../../../app/api/openAPIConfig';
 
 const teamService = new AgentTeamServiceApiFactory(configuration, '', instance);
@@ -14,32 +16,129 @@ const teamService = new AgentTeamServiceApiFactory(configuration, '', instance);
 const fieldsToSend = ['name', 'description', 'strategy', 'admin', 'maxNoAnswer', 'wrapUpTime',
   'noAnswerDelayTime', 'callTimeout', 'inviteChatTimeout'];
 
-const defaultSingleObject = {
-  name: '',
-  strategy: {},
-  admin: [],
-  description: '',
-  busyDelayTime: 0,
-  callTimeout: 0,
-  maxNoAnswer: 0,
-  noAnswerDelayTime: 0,
-  inviteChatTimeout: 0,
-  rejectDelayTime: 0,
-  wrapUpTime: 0,
+const getTeamsList = async (params) => {
+  const {
+    page,
+    size,
+    search,
+    sort,
+    fields,
+    id,
+    strategy,
+    adminId,
+  } = applyTransform(params, [
+    merge(getDefaultGetParams()),
+    starToSearch('search'),
+  ]);
+
+  try {
+    const response = await teamService.searchAgentTeam(
+      page,
+      size,
+      search,
+      sort,
+      fields,
+      id,
+      strategy,
+      adminId,
+    );
+    const { items, next } = applyTransform(response.data, [
+      snakeToCamel(),
+      merge(getDefaultGetListResponse()),
+    ]);
+    return {
+      items,
+      next,
+    };
+  } catch (err) {
+    throw applyTransform(err, [
+      notify,
+    ]);
+  }
 };
 
-const listGetter = new SdkListGetterApiConsumer(teamService.searchAgentTeam);
-const itemGetter = new SdkGetterApiConsumer(teamService.readAgentTeam, { defaultSingleObject });
-const itemCreator = new SdkCreatorApiConsumer(teamService.createAgentTeam, { fieldsToSend });
-const itemUpdater = new SdkUpdaterApiConsumer(teamService.updateAgentTeam, { fieldsToSend });
-const itemDeleter = new SdkDeleterApiConsumer(teamService.deleteAgentTeam);
 
-const getTeamsList = (params) => listGetter.getList(params);
-const getTeam = (params) => itemGetter.getItem(params);
-const addTeam = (params) => itemCreator.createItem(params);
-const updateTeam = (params) => itemUpdater.updateItem(params);
-const deleteTeam = (params) => itemDeleter.deleteItem(params);
-const getTeamsLookup = (params) => listGetter.getLookup(params);
+const getTeam = async ({ itemId: id }) => {
+  const defaultObject = {
+    name: '',
+    strategy: {},
+    admin: [],
+    description: '',
+    busyDelayTime: 0,
+    callTimeout: 0,
+    maxNoAnswer: 0,
+    noAnswerDelayTime: 0,
+    inviteChatTimeout: 0,
+    rejectDelayTime: 0,
+    wrapUpTime: 0,
+  };
+
+  try {
+    const response = await teamService.readAgentTeam(id);
+    return applyTransform(response.data, [
+      snakeToCamel(),
+      merge(defaultObject),
+    ]);
+  } catch (err) {
+    throw applyTransform(err, [
+      notify,
+    ]);
+  }
+};
+
+
+const addTeam = async ({ itemInstance }) => {
+  const item = applyTransform(itemInstance, [
+    sanitize(fieldsToSend),
+    camelToSnake(),
+  ]);
+  try {
+    const response = await teamService.createAgentTeam(item);
+    return applyTransform(response.data, [
+      snakeToCamel(),
+    ]);
+  } catch (err) {
+    throw applyTransform(err, [
+      notify,
+    ]);
+  }
+};
+
+
+const updateTeam = async ({ itemInstance, itemId: id }) => {
+  const item = applyTransform(itemInstance, [
+    sanitize(fieldsToSend),
+    camelToSnake(),
+  ]);
+  try {
+    const response = await teamService.updateAgentTeam(id, item);
+    return applyTransform(response.data, [
+      snakeToCamel(),
+    ]);
+  } catch (err) {
+    throw applyTransform(err, [
+      notify,
+    ]);
+  }
+};
+
+
+const deleteTeam = async ({ id }) => {
+  try {
+    const response = await teamService.deleteAgentTeam(id);
+    return applyTransform(response.data, []);
+  } catch (err) {
+    throw applyTransform(err, [
+      notify,
+    ]);
+  }
+};
+
+
+const getTeamsLookup = (params) => getTeamsList({
+  ...params,
+  fields: params.fields || ['id', 'name'],
+});
 
 const TeamsAPI = {
   getList: getTeamsList,
