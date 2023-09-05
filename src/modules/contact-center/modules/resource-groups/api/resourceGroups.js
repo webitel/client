@@ -16,19 +16,6 @@ const resGrService = new OutboundResourceGroupServiceApiFactory(configuration, '
 
 const fieldsToSend = ['name', 'description', 'strategy', 'communication', 'time'];
 
-// const defaultSingleObject = {
-//   name: '',
-//   strategy: '',
-//   description: '',
-//   communication: {},
-//   time: [
-//     {
-//       start: 0,
-//       finish: 0,
-//     },
-//   ],
-// };
-
 
 const preRequestHandler = (item) => {
   const copy = deepCopy(item);
@@ -39,7 +26,7 @@ const preRequestHandler = (item) => {
   return copy;
 };
 
-// const listGetter = new SdkListGetterApiConsumer(resGrService.searchOutboundResourceGroup);
+
 const getResGroupList = async (params) => {
   const {
     page,
@@ -78,8 +65,6 @@ const getResGroupList = async (params) => {
 };
 
 
-// const itemGetter = new SdkGetterApiConsumer(resGrService.readOutboundResourceGroup,
-//   { defaultSingleObject, itemResponseHandler });
 const getResGroup = async ({ itemId: id }) => {
   const defaultObject = {
       name: '',
@@ -117,8 +102,6 @@ const getResGroup = async ({ itemId: id }) => {
 };
 
 
-// const itemCreator = new SdkCreatorApiConsumer(resGrService.createOutboundResourceGroup,
-//   { fieldsToSend, preRequestHandler });
 const addResGroup = async ({ itemInstance }) => {
   const item = applyTransform(itemInstance, [
     preRequestHandler,
@@ -138,8 +121,6 @@ const addResGroup = async ({ itemInstance }) => {
 };
 
 
-// const itemUpdater = new SdkUpdaterApiConsumer(resGrService.updateOutboundResourceGroup,
-//   { fieldsToSend, preRequestHandler });
 const updateResGroup = async ({ itemInstance, itemId: id }) => {
   const item = applyTransform(itemInstance, [
     preRequestHandler,
