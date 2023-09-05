@@ -1,13 +1,13 @@
 import { OutboundResourceServiceApiFactory } from 'webitel-sdk';
 import applyTransform, {
   camelToSnake,
-  merge, mergeEach, notify,
+  merge, notify,
   sanitize, snakeToCamel,
-  starToSearch
+  starToSearch,
 } from '@webitel/ui-sdk/src/api/transformers';
+import { getDefaultGetListResponse, getDefaultGetParams } from '@webitel/ui-sdk/src/api/defaults';
 import instance from '../../../../../../../app/api/instance';
 import configuration from '../../../../../../../app/api/openAPIConfig';
-import { getDefaultGetListResponse, getDefaultGetParams } from '@webitel/ui-sdk/src/api/defaults';
 
 const resService = new OutboundResourceServiceApiFactory(configuration, '', instance);
 
@@ -15,7 +15,7 @@ const fieldsToSend = ['display', 'resourceId'];
 
 const preRequestHandler = (parentId) => (item) => ({ ...item, resourceId: parentId });
 
-// const listGetter = new SdkListGetterApiConsumer(resService.searchOutboundResourceDisplay);
+
 const getResDisplayList = async (params) => {
   const {
     page,
@@ -55,7 +55,7 @@ const getResDisplayList = async (params) => {
   }
 };
 
-// const itemGetter = new SdkGetterApiConsumer(resService.readOutboundResourceDisplay);
+
 const getResDisplay = async ({ parentId, itemId: id }) => {
   try {
     const response = await resService.readOutboundResourceDisplay(parentId, id);
@@ -69,8 +69,7 @@ const getResDisplay = async ({ parentId, itemId: id }) => {
   }
 };
 
-// const itemCreator = new SdkCreatorApiConsumer(resService.createOutboundResourceDisplay,
-//   { fieldsToSend, preRequestHandler });
+
 const addResDisplay = async ({ parentId, itemInstance }) => {
   const item = applyTransform(itemInstance, [
     preRequestHandler(parentId),
@@ -89,8 +88,7 @@ const addResDisplay = async ({ parentId, itemInstance }) => {
   }
 };
 
-// const itemUpdater = new SdkUpdaterApiConsumer(resService.updateOutboundResourceDisplay,
-//   { fieldsToSend, preRequestHandler });
+
 const updateResDisplay = async ({ itemInstance, itemId: id, parentId }) => {
   const item = applyTransform(itemInstance, [
     preRequestHandler(parentId),
@@ -109,7 +107,7 @@ const updateResDisplay = async ({ itemInstance, itemId: id, parentId }) => {
   }
 };
 
-// const itemDeleter = new SdkDeleterApiConsumer(resService.deleteOutboundResourceDisplay);
+
 const deleteResDisplay = async ({ parentId, id }) => {
   try {
     const response = await resService.deleteOutboundResourceDisplay(parentId, id);
