@@ -23,7 +23,6 @@ const fieldsToSend = [
 const preRequestHandler = (item) => {
   const copy = deepCopy(item);
   copy.maxSuccessivelyErrors = copy.maxErrors;
-  // eslint-disable-next-line no-param-reassign
   copy.rps = copy.cps;
   return copy;
 };
