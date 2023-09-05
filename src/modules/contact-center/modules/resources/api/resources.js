@@ -8,9 +8,9 @@ import applyTransform, {
   merge, mergeEach, notify, sanitize, snakeToCamel,
   starToSearch,
 } from '@webitel/ui-sdk/src/api/transformers';
+import deepCopy from 'deep-copy';
 import instance from '../../../../../app/api/instance';
 import configuration from '../../../../../app/api/openAPIConfig';
-import deepCopy from 'deep-copy';
 
 const resService = new OutboundResourceServiceApiFactory(configuration, '', instance);
 
