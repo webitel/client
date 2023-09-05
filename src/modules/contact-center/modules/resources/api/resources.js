@@ -21,11 +21,11 @@ const fieldsToSend = [
 ];
 
 const preRequestHandler = (item) => {
+  const copy = deepCopy(item);
+  copy.maxSuccessivelyErrors = copy.maxErrors;
   // eslint-disable-next-line no-param-reassign
-  item.maxSuccessivelyErrors = item.maxErrors;
-  // eslint-disable-next-line no-param-reassign
-  item.rps = item.cps;
-  return item;
+  copy.rps = copy.cps;
+  return copy;
 };
 
 
@@ -137,7 +137,6 @@ const addResource = async ({ itemInstance }) => {
 
 
 const updateResource = async ({ itemInstance, itemId: id }) => {
-  console.log('updateResource id:', id);
   const item = applyTransform(itemInstance, [
     preRequestHandler,
     sanitize(fieldsToSend),
