@@ -1,13 +1,14 @@
 import { BackendProfileServiceApiFactory } from 'webitel-sdk';
 import {
-  SdkListGetterApiConsumer,
-  SdkGetterApiConsumer,
-  SdkCreatorApiConsumer,
-  SdkUpdaterApiConsumer,
-  SdkPatcherApiConsumer,
-  SdkDeleterApiConsumer,
-} from 'webitel-sdk/esm2015/api-consumers';
-import instance from '../../../../../app/api/old/instance';
+  getDefaultGetListResponse,
+  getDefaultGetParams,
+} from '@webitel/ui-sdk/src/api/defaults';
+import applyTransform, {
+  camelToSnake,
+  merge, mergeEach, notify, sanitize, snakeToCamel,
+  starToSearch,
+} from '@webitel/ui-sdk/src/api/transformers';
+import instance from '../../../../../app/api/instance';
 import configuration from '../../../../../app/api/openAPIConfig';
 import AWSRegions from '../store/_internals/lookups/AWSRegions.lookup';
 import DigitalOceanRegions from '../store/_internals/lookups/DigitalOceanRegions.lookup';
@@ -62,25 +63,180 @@ const preRequestHandler = (item) => {
   return item;
 };
 
-const listGetter = new SdkListGetterApiConsumer(storageService.searchBackendProfile,
-  { defaultListObject, listResponseHandler });
-const itemGetter = new SdkGetterApiConsumer(storageService.readBackendProfile,
-  { defaultSingleObject, itemResponseHandler });
-const itemCreator = new SdkCreatorApiConsumer(storageService.createBackendProfile,
-  { fieldsToSend, preRequestHandler });
-const itemPatcher = new SdkPatcherApiConsumer(storageService.patchBackendProfile, { fieldsToSend });
-const itemUpdater = new SdkUpdaterApiConsumer(storageService.updateBackendProfile,
-  { fieldsToSend, preRequestHandler });
-const itemDeleter = new SdkDeleterApiConsumer(storageService.deleteBackendProfile);
+// const listGetter = new SdkListGetterApiConsumer(storageService.searchBackendProfile,
+//   { defaultListObject, listResponseHandler });
+const getStorageList = async (params) => {
+  const listResponseHandler = (items) => {
+    return items.map((item) => ({
+      ...item,
+      statusDuration: convertStatusDuration(item.statusDuration),
+    }));
+  };
 
-const getStorageList = (params) => listGetter.getList(params);
-const getStorage = (params) => itemGetter.getItem(params);
-const addStorage = (params) => itemCreator.createItem(params);
-const patchStorage = (params) => itemPatcher.patchItem(params);
-const updateStorage = (params) => itemUpdater.updateItem(params);
-const deleteStorage = (params) => itemDeleter.deleteItem(params);
+  const {
+    page,
+    size,
+    search,
+    sort,
+    fields,
+    id,
+    team,
+    skill,
+    isSupervisor,
+    isNotSupervisor,
+    notTeamId,
+    supervisorId,
+    notSkillId,
+  } = applyTransform(params, [
+    merge(getDefaultGetParams()),
+    starToSearch('search'),
+  ]);
 
-const getLookup = (params) => getStorageList({ fields: ['id', 'name'], ...params });
+  try {
+    const response = await agentService.searchAgent(
+      page,
+      size,
+      search,
+      sort,
+      fields,
+      id,
+      undefined,
+      supervisorId,
+      team,
+      undefined,
+      undefined,
+      isSupervisor,
+      skill,
+      undefined,
+      isNotSupervisor,
+      undefined,
+      undefined,
+      notTeamId,
+      notSkillId,
+    );
+    const { items, next } = applyTransform(response.data, [
+      snakeToCamel(),
+      merge(getDefaultGetListResponse()),
+    ]);
+    return {
+      items: applyTransform(items, [
+        listResponseHandler,
+      ]),
+      next,
+    };
+  } catch (err) {
+    throw applyTransform(err, [
+      notify,
+    ]);
+  }
+};
+
+
+// const itemGetter = new SdkGetterApiConsumer(storageService.readBackendProfile,
+//   { defaultSingleObject, itemResponseHandler });
+const getStorage = async ({ itemId: id }) => {
+  const defaultObject = {
+    user: {},
+    team: {},
+    supervisor: [],
+    auditor: [],
+    region: {},
+    progressiveCount: 0,
+    chatCount: 0,
+    isSupervisor: false,
+    description: '',
+    greetingMedia: {},
+  };
+
+  try {
+    const response = await agentService.readAgent(id);
+    return applyTransform(response.data, [
+      snakeToCamel(),
+      merge(defaultObject),
+    ]);
+  } catch (err) {
+    throw applyTransform(err, [
+      notify,
+    ]);
+  }
+};
+
+
+// const itemCreator = new SdkCreatorApiConsumer(storageService.createBackendProfile,
+//   { fieldsToSend, preRequestHandler });
+const addStorage = async ({ itemInstance }) => {
+  const item = applyTransform(itemInstance, [
+    sanitize(fieldsToSend),
+    camelToSnake(),
+  ]);
+  try {
+    const response = await agentService.createAgent(item);
+    return applyTransform(response.data, [
+      snakeToCamel(),
+    ]);
+  } catch (err) {
+    throw applyTransform(err, [
+      notify,
+    ]);
+  }
+};
+
+
+// const itemPatcher = new SdkPatcherApiConsumer(storageService.patchBackendProfile, { fieldsToSend });
+const patchStorage = async ({ changes, id }) => {
+  const body = applyTransform(changes, [
+    sanitize(fieldsToSend),
+    camelToSnake(),
+  ]);
+  try {
+    const response = await agentService.patchAgent(id, body);
+    return applyTransform(response.data, [
+      snakeToCamel(),
+    ]);
+  } catch (err) {
+    throw applyTransform(err, [
+      notify,
+    ]);
+  }
+};
+
+
+// const itemUpdater = new SdkUpdaterApiConsumer(storageService.updateBackendProfile,
+//   { fieldsToSend, preRequestHandler });
+const updateStorage = async ({ itemInstance, itemId: id }) => {
+  const item = applyTransform(itemInstance, [
+    sanitize(fieldsToSend),
+    camelToSnake(),
+  ]);
+  try {
+    const response = await agentService.updateAgent(id, item);
+    return applyTransform(response.data, [
+      snakeToCamel(),
+    ]);
+  } catch (err) {
+    throw applyTransform(err, [
+      notify,
+    ]);
+  }
+};
+
+
+// const itemDeleter = new SdkDeleterApiConsumer(storageService.deleteBackendProfile);
+const deleteStorage = async ({ id }) => {
+  try {
+    const response = await agentService.deleteAgent(id);
+    return applyTransform(response.data, []);
+  } catch (err) {
+    throw applyTransform(err, [
+      notify,
+    ]);
+  }
+};
+
+const getLookup = (params) => getStorageList({
+  ...params,
+  fields: params.fields || ['id', 'name'],
+});
 
 const StorageAPI = {
   getList: getStorageList,
