@@ -1,13 +1,14 @@
 import { EmailProfileServiceApiFactory } from 'webitel-sdk';
 import {
-  SdkCreatorApiConsumer,
-  SdkDeleterApiConsumer,
-  SdkGetterApiConsumer,
-  SdkListGetterApiConsumer,
-  SdkPatcherApiConsumer,
-  SdkUpdaterApiConsumer,
-} from 'webitel-sdk/esm2015/api-consumers';
-import instance from '../../../../../app/api/old/instance';
+  getDefaultGetListResponse,
+  getDefaultGetParams,
+} from '@webitel/ui-sdk/src/api/defaults';
+import applyTransform, {
+  camelToSnake,
+  merge, mergeEach, notify, sanitize, snakeToCamel,
+  starToSearch,
+} from '@webitel/ui-sdk/src/api/transformers';
+import instance from '../../../../../app/api/instance';
 import configuration from '../../../../../app/api/openAPIConfig';
 
 const emailProfilesService = new EmailProfileServiceApiFactory(configuration, '', instance);
@@ -28,69 +29,149 @@ const fieldsToSend = [
   'smtpPort',
 ];
 
-const defaultListObject = {
-  enabled: false,
-};
-
-const defaultSingleObject = {
-  imapPort: 0,
-  smtpPort: 0,
-};
-
-const itemResponseHandler = (response) => {
-  return {
-    ...response,
-  };
-};
-
-const preRequestHandler = (item) => {
-  return {
+const preRequestHandler = (item) => ({
     ...item,
+  });
+
+const getList = async (params) => {
+  const defaultObject = {
+    enabled: false,
   };
+
+  const {
+    page,
+    size,
+    search,
+    sort,
+    fields,
+  } = applyTransform(params, [
+    merge(getDefaultGetParams()),
+    starToSearch('search'),
+  ]);
+
+  try {
+    const response = await emailProfilesService.searchEmailProfile(
+      page,
+      size,
+      search,
+      sort,
+      fields,
+    );
+    const { items, next } = applyTransform(response.data, [
+      snakeToCamel(),
+      merge(getDefaultGetListResponse()),
+    ]);
+    return {
+      items: applyTransform(items, [
+        mergeEach(defaultObject),
+      ]),
+      next,
+    };
+  } catch (err) {
+    throw applyTransform(err, [
+      notify,
+    ]);
+  }
 };
 
-const listGetter = new SdkListGetterApiConsumer(
-  emailProfilesService.searchEmailProfile,
-  {
-    defaultListObject,
-  },
-);
 
-const itemGetter = new SdkGetterApiConsumer(
-  emailProfilesService.readEmailProfile,
-  {
-    defaultSingleObject,
-    itemResponseHandler,
-  },
-);
-const itemCreator = new SdkCreatorApiConsumer(
-  emailProfilesService.createEmailProfile,
-  {
-    fieldsToSend,
+const get = async ({ itemId: id }) => {
+  const defaultObject = {
+    imapPort: 0,
+    smtpPort: 0,
+  };
+
+  const responseHandler = (response) => ({
+      ...response,
+    });
+
+  try {
+    const response = await emailProfilesService.readEmailProfile(id);
+    return applyTransform(response.data, [
+      snakeToCamel(),
+      merge(defaultObject),
+      responseHandler,
+    ]);
+  } catch (err) {
+    throw applyTransform(err, [
+      notify,
+    ]);
+  }
+};
+
+
+const add = async ({ itemInstance }) => {
+  const item = applyTransform(itemInstance, [
     preRequestHandler,
-  },
-);
-const itemPatcher = new SdkPatcherApiConsumer(
-  emailProfilesService.patchEmailProfile,
-  { fieldsToSend },
-);
-const itemUpdater = new SdkUpdaterApiConsumer(
-  emailProfilesService.updateEmailProfile,
-  {
-    fieldsToSend,
+    sanitize(fieldsToSend),
+    camelToSnake(),
+  ]);
+  try {
+    const response = await emailProfilesService.createEmailProfile(item);
+    return applyTransform(response.data, [
+      snakeToCamel(),
+    ]);
+  } catch (err) {
+    throw applyTransform(err, [
+      notify,
+    ]);
+  }
+};
+
+
+const patch = async ({ changes, id }) => {
+  const body = applyTransform(changes, [
+    sanitize(fieldsToSend),
+    camelToSnake(),
+  ]);
+  try {
+    const response = await emailProfilesService.patchEmailProfile(id, body);
+    return applyTransform(response.data, [
+      snakeToCamel(),
+    ]);
+  } catch (err) {
+    throw applyTransform(err, [
+      notify,
+    ]);
+  }
+};
+
+
+const update = async ({ itemInstance, itemId: id }) => {
+  const item = applyTransform(itemInstance, [
     preRequestHandler,
-  },
-);
-const itemDeleter = new SdkDeleterApiConsumer(emailProfilesService.deleteEmailProfile);
+    sanitize(fieldsToSend),
+    camelToSnake(),
+  ]);
+  try {
+    const response = await emailProfilesService.updateEmailProfile(id, item);
+    return applyTransform(response.data, [
+      snakeToCamel(),
+    ]);
+  } catch (err) {
+    throw applyTransform(err, [
+      notify,
+    ]);
+  }
+};
 
-const getList = (params) => listGetter.getList(params);
-const get = (params) => itemGetter.getItem(params);
-const add = (params) => itemCreator.createItem(params);
-const patch = (params) => itemPatcher.patchItem(params);
-const update = (params) => itemUpdater.updateItem(params);
-const deleteItem = (params) => itemDeleter.deleteItem(params);
 
-const getLookup = (params) => listGetter.getLookup(params);
+const deleteItem = async ({ id }) => {
+  try {
+    const response = await emailProfilesService.deleteEmailProfile(id);
+    return applyTransform(response.data, []);
+  } catch (err) {
+    throw applyTransform(err, [
+      notify,
+    ]);
+  }
+};
+
+
+const getLookup = (params) => getList({
+  ...params,
+  fields: params.fields || ['id', 'name'],
+});
 
 const EmailProfilesAPI = {
   getList,
