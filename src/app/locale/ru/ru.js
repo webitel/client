@@ -781,7 +781,7 @@ export default {
         maxNumberOfRetry: 'Максимальное количество попыток звонков',
         minDuration: 'Минимально успешная длительность звонка',
         maxAttempts: 'Максимальное количество попыток',
-        minOnlineAgents: 'Лимит опеторов для выхода в паузу',
+        minOnlineAgents: 'Лимит операторов для выхода в паузу',
         waitForResultStatus: 'Ожидание результата звонка',
         bucketPriority: 'Приоритет',
         amd: 'AMD',
