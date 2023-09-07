@@ -26,30 +26,6 @@ const fieldsToSend = [
   'properties',
 ];
 
-// const defaultListObject = {
-//   default: false,
-//   enabled: false,
-// };
-
-// const defaultSingleObject = {
-//   properties: {},
-// };
-
-// const itemResponseHandler = (response) => {
-//   const result = {
-//     ...response,
-//     service: CognitiveProfileServices
-//     .find(({ value }) => value === response.service),
-//     properties: {
-//       ...response.properties,
-//     },
-//   };
-//   if (result.properties.region) {
-//     result.properties.region = MicrosoftRegion
-//     .find(({ id }) => id === result.properties.region) || {};
-//   }
-//   return result;
-// };
 
 const preRequestHandler = (item) => {
   const result = {
@@ -63,31 +39,12 @@ const preRequestHandler = (item) => {
   return result;
 };
 
-// const _getProfilesList = (getList) => function({
-//                                                  page,
-//                                                  size,
-//                                                  search,
-//                                                  sort,
-//                                                  fields,
-//                                                  id,
-//                                                  service,
-//                                                  enabled,
-//                                                }) {
-//   const params = [page, size, search, sort, fields, id, service, enabled];
-//   return getList(params);
-// };
 
-// const listGetter = new SdkListGetterApiConsumer(
-//   cognitiveProfilesService.searchCognitiveProfile,
-//   {
-//     defaultListObject,
-//   },
-// ).setGetListMethod(_getProfilesList);
 const getList = async (params) => {
   const defaultObject = {
     default: false,
     enabled: false,
-  }
+  };
 
   const {
     page,
@@ -132,13 +89,6 @@ const getList = async (params) => {
 };
 
 
-// const itemGetter = new SdkGetterApiConsumer(
-//   cognitiveProfilesService.readCognitiveProfile,
-//   {
-//     defaultSingleObject,
-//     itemResponseHandler,
-//   },
-// );
 const get = async ({ itemId: id }) => {
   const defaultObject = {
     properties: {},
@@ -175,13 +125,6 @@ const get = async ({ itemId: id }) => {
 };
 
 
-// const itemCreator = new SdkCreatorApiConsumer(
-//   cognitiveProfilesService.createCognitiveProfile,
-//   {
-//     fieldsToSend,
-//     preRequestHandler,
-//   },
-// );
 const add = async ({ itemInstance }) => {
   const item = applyTransform(itemInstance, [
     preRequestHandler,
@@ -201,10 +144,6 @@ const add = async ({ itemInstance }) => {
 };
 
 
-// const itemPatcher = new SdkPatcherApiConsumer(
-//   cognitiveProfilesService.patchCognitiveProfile,
-//   { fieldsToSend },
-// );
 const patch = async ({ changes, id }) => {
   const body = applyTransform(changes, [
     sanitize(fieldsToSend),
@@ -223,13 +162,6 @@ const patch = async ({ changes, id }) => {
 };
 
 
-// const itemUpdater = new SdkUpdaterApiConsumer(
-//   cognitiveProfilesService.updateCognitiveProfile,
-//   {
-//     fieldsToSend,
-//     preRequestHandler,
-//   },
-// );
 const update = async ({ itemInstance, itemId: id }) => {
   const item = applyTransform(itemInstance, [
     preRequestHandler,
@@ -249,7 +181,6 @@ const update = async ({ itemInstance, itemId: id }) => {
 };
 
 
-// const itemDeleter = new SdkDeleterApiConsumer(cognitiveProfilesService.deleteCognitiveProfile);
 const deleteItem = async ({ id }) => {
   try {
     const response = await cognitiveProfilesService.deleteCognitiveProfile(id);

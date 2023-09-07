@@ -1,3 +1,4 @@
+import deepCopy from 'deep-copy';
 import { BackendProfileServiceApiFactory } from 'webitel-sdk';
 import {
   getDefaultGetListResponse,
@@ -18,59 +19,30 @@ const storageService = new BackendProfileServiceApiFactory(configuration, '', in
 
 const fieldsToSend = ['name', 'maxSize', 'priority', 'properties', 'expireDays', 'type', 'disabled'];
 
-const defaultListObject = {
-  disabled: false,
-  maxSize: 0,
-  expireDays: 0,
-  priority: 0,
-};
-
-const defaultSingleObject = {
-  maxSize: 0,
-  expireDays: 0,
-  priority: 0,
-};
-
-const listResponseHandler = (response) => {
-  const items = response.items.map((item) => (
-    { ...item, type: StorageTypeAdapter.backendToEnum(item.type) }
-    ));
-  return { ...response, items };
-};
-
-const itemResponseHandler = (response) => {
-  if (response.properties.region) {
-    if (response.properties.endpoint.includes('aws')) {
-      // eslint-disable-next-line no-param-reassign
-      response.properties.region = AWSRegions
-        .find((item) => item.value === response.properties.region);
-    } else if (response.properties.endpoint.includes('digitalocean')) {
-      // eslint-disable-next-line no-param-reassign
-      response.properties.region = DigitalOceanRegions
-        .find((item) => item.value === response.properties.region);
-    }
-  }
-  return { ...response, type: StorageTypeAdapter.backendToEnum(response.type) };
-};
 
 const preRequestHandler = (item) => {
-  if (item.properties.region && item.properties.region.value) {
-    // eslint-disable-next-line no-param-reassign
-    item.properties.region = item.properties.region.value;
+  const copy = deepCopy(item);
+  if (copy.properties.region && copy.properties.region.value) {
+    copy.properties.region = copy.properties.region.value;
   }
-  // eslint-disable-next-line no-param-reassign
-  item.type = StorageTypeAdapter.enumToBackend(item.type);
-  return item;
+  copy.type = StorageTypeAdapter.enumToBackend(copy.type);
+  return copy;
 };
 
-// const listGetter = new SdkListGetterApiConsumer(storageService.searchBackendProfile,
-//   { defaultListObject, listResponseHandler });
+
 const getStorageList = async (params) => {
-  const listResponseHandler = (items) => {
-    return items.map((item) => ({
-      ...item,
-      statusDuration: convertStatusDuration(item.statusDuration),
-    }));
+  const defaultObject = {
+    disabled: false,
+    maxSize: 0,
+    expireDays: 0,
+    priority: 0,
+  };
+
+  const responseHandler = (response) => {
+    const items = response.items.map((item) => (
+      { ...item, type: StorageTypeAdapter.backendToEnum(item.type) }
+    ));
+    return { ...response, items };
   };
 
   const {
@@ -80,47 +52,28 @@ const getStorageList = async (params) => {
     sort,
     fields,
     id,
-    team,
-    skill,
-    isSupervisor,
-    isNotSupervisor,
-    notTeamId,
-    supervisorId,
-    notSkillId,
   } = applyTransform(params, [
     merge(getDefaultGetParams()),
     starToSearch('search'),
   ]);
 
   try {
-    const response = await agentService.searchAgent(
+    const response = await storageService.searchBackendProfile(
       page,
       size,
       search,
       sort,
       fields,
       id,
-      undefined,
-      supervisorId,
-      team,
-      undefined,
-      undefined,
-      isSupervisor,
-      skill,
-      undefined,
-      isNotSupervisor,
-      undefined,
-      undefined,
-      notTeamId,
-      notSkillId,
     );
     const { items, next } = applyTransform(response.data, [
       snakeToCamel(),
       merge(getDefaultGetListResponse()),
+      responseHandler,
     ]);
     return {
       items: applyTransform(items, [
-        listResponseHandler,
+        mergeEach(defaultObject),
       ]),
       next,
     };
@@ -132,27 +85,33 @@ const getStorageList = async (params) => {
 };
 
 
-// const itemGetter = new SdkGetterApiConsumer(storageService.readBackendProfile,
-//   { defaultSingleObject, itemResponseHandler });
 const getStorage = async ({ itemId: id }) => {
   const defaultObject = {
-    user: {},
-    team: {},
-    supervisor: [],
-    auditor: [],
-    region: {},
-    progressiveCount: 0,
-    chatCount: 0,
-    isSupervisor: false,
-    description: '',
-    greetingMedia: {},
+    maxSize: 0,
+    expireDays: 0,
+    priority: 0,
+  };
+
+  const responseHandler = (response) => {
+    const copy = deepCopy(response);
+    if (copy.properties.region) {
+      if (copy.properties.endpoint.includes('aws')) {
+        copy.properties.region = AWSRegions
+          .find((item) => item.value === copy.properties.region);
+      } else if (copy.properties.endpoint.includes('digitalocean')) {
+        copy.properties.region = DigitalOceanRegions
+          .find((item) => item.value === copy.properties.region);
+      }
+    }
+    return { ...copy, type: StorageTypeAdapter.backendToEnum(copy.type) };
   };
 
   try {
-    const response = await agentService.readAgent(id);
+    const response = await storageService.readBackendProfile(id);
     return applyTransform(response.data, [
       snakeToCamel(),
       merge(defaultObject),
+      responseHandler,
     ]);
   } catch (err) {
     throw applyTransform(err, [
@@ -162,15 +121,14 @@ const getStorage = async ({ itemId: id }) => {
 };
 
 
-// const itemCreator = new SdkCreatorApiConsumer(storageService.createBackendProfile,
-//   { fieldsToSend, preRequestHandler });
 const addStorage = async ({ itemInstance }) => {
   const item = applyTransform(itemInstance, [
+    preRequestHandler,
     sanitize(fieldsToSend),
     camelToSnake(),
   ]);
   try {
-    const response = await agentService.createAgent(item);
+    const response = await storageService.createBackendProfile(item);
     return applyTransform(response.data, [
       snakeToCamel(),
     ]);
@@ -182,14 +140,32 @@ const addStorage = async ({ itemInstance }) => {
 };
 
 
-// const itemPatcher = new SdkPatcherApiConsumer(storageService.patchBackendProfile, { fieldsToSend });
+const updateStorage = async ({ itemInstance, itemId: id }) => {
+  const item = applyTransform(itemInstance, [
+    preRequestHandler,
+    sanitize(fieldsToSend),
+    camelToSnake(),
+  ]);
+  try {
+    const response = await storageService.updateBackendProfile(id, item);
+    return applyTransform(response.data, [
+      snakeToCamel(),
+    ]);
+  } catch (err) {
+    throw applyTransform(err, [
+      notify,
+    ]);
+  }
+};
+
+
 const patchStorage = async ({ changes, id }) => {
   const body = applyTransform(changes, [
     sanitize(fieldsToSend),
     camelToSnake(),
   ]);
   try {
-    const response = await agentService.patchAgent(id, body);
+    const response = await storageService.patchBackendProfile(id, body);
     return applyTransform(response.data, [
       snakeToCamel(),
     ]);
@@ -201,30 +177,9 @@ const patchStorage = async ({ changes, id }) => {
 };
 
 
-// const itemUpdater = new SdkUpdaterApiConsumer(storageService.updateBackendProfile,
-//   { fieldsToSend, preRequestHandler });
-const updateStorage = async ({ itemInstance, itemId: id }) => {
-  const item = applyTransform(itemInstance, [
-    sanitize(fieldsToSend),
-    camelToSnake(),
-  ]);
-  try {
-    const response = await agentService.updateAgent(id, item);
-    return applyTransform(response.data, [
-      snakeToCamel(),
-    ]);
-  } catch (err) {
-    throw applyTransform(err, [
-      notify,
-    ]);
-  }
-};
-
-
-// const itemDeleter = new SdkDeleterApiConsumer(storageService.deleteBackendProfile);
 const deleteStorage = async ({ id }) => {
   try {
-    const response = await agentService.deleteAgent(id);
+    const response = await storageService.deleteBackendProfile(id);
     return applyTransform(response.data, []);
   } catch (err) {
     throw applyTransform(err, [
