@@ -4,7 +4,6 @@ import {
 } from '@webitel/ui-sdk/src/api/defaults';
 import applyTransform, {
   camelToSnake,
-  
   merge, notify, sanitize, snakeToCamel,
   starToSearch,
 } from '@webitel/ui-sdk/src/api/transformers';
@@ -74,7 +73,6 @@ const getList = async (params) => {
     };
   } catch (err) {
     throw applyTransform(err, [
-      
       notify,
     ]);
   }
@@ -88,7 +86,6 @@ const get = async ({ itemId: id }) => {
     ]);
   } catch (err) {
     throw applyTransform(err, [
-      
       notify,
     ]);
   }
@@ -114,7 +111,6 @@ const add = async ({ itemInstance }) => {
     ]);
   } catch (err) {
     throw applyTransform(err, [
-      
       notify,
     ]);
   }
@@ -132,7 +128,6 @@ const patch = async ({ changes, id }) => {
     ]);
   } catch (err) {
     throw applyTransform(err, [
-      
       notify,
     ]);
   }
@@ -150,7 +145,6 @@ const update = async ({ itemInstance, itemId: id }) => {
     ]);
   } catch (err) {
     throw applyTransform(err, [
-      
       notify,
     ]);
   }
@@ -162,7 +156,6 @@ const deleteItem = async ({ id }) => {
     return applyTransform(response.data, []);
   } catch (err) {
     throw applyTransform(err, [
-      
       notify,
     ]);
   }

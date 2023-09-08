@@ -236,7 +236,6 @@
         :value="itemInstance.payload.recordings"
         @change="setItemPayloadProp({ prop: 'recordings', value: $event })"
       ></wt-switcher>
-      <div></div>
       <wt-switcher
         v-if="specificControls.allowGreetingAgent"
         :disabled="disableUserInput"
@@ -252,7 +251,6 @@
         :value="itemInstance.payload.endless"
         @change="setItemPayloadProp({ prop: 'endless', value: $event })"
       ></wt-switcher>
-      <div></div>
       <wt-switcher
         v-if="specificControls.stickyAgent"
         :disabled="disableUserInput"
@@ -260,7 +258,6 @@
         :value="itemInstance.stickyAgent"
         @change="setItemProp({ prop: 'stickyAgent', value: $event })"
       ></wt-switcher>
-      <div></div>
       <wt-input
         v-if="specificControls.stickyAgentSec"
         v-show="itemInstance.stickyAgent"
