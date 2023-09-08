@@ -1006,8 +1006,12 @@ export default {
       system: 'Система',
       changelogs: {
         changelogs: 'Журнал изменений | Журналы изменений',
+        objects: 'Объект | Объекты',
+        daysToStore: 'Дней хранения',
+        period: 'Период',
         logs: {
           logs: 'Лог | Логи',
+          actions: 'Операция | Операции',
         },
       },
     },

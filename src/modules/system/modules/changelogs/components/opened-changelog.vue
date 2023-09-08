@@ -102,6 +102,18 @@ export default {
       ];
     },
   },
+  methods: {
+    setPathName() {
+      this.pathName = this.itemInstance.object.name;
+    },
+  },
+  mounted() {
+    // override headlineNavMixin
+    const unwatch = this.$watch('itemInstance.object', () => {
+      this.setPathName();
+      unwatch();
+    });
+  },
 };
 </script>
 

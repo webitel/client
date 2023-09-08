@@ -4,6 +4,7 @@ import {
   getDefaultGetParams,
 } from '@webitel/ui-sdk/src/api/defaults';
 import applyTransform, {
+  sanitize,
   merge, notify, snakeToCamel,
   starToSearch,
 } from '@webitel/ui-sdk/src/api/transformers';
@@ -13,6 +14,8 @@ import configuration from '../../../../../../../app/api/openAPIConfig';
 const service = new LoggerServiceApiFactory(configuration, '', instance);
 
 const getList = async (params) => {
+  const fieldsToSend = ['parentId', 'page', 'size', 'search', 'sort', 'fields', 'action', 'user', 'from', 'to', 'userIp'];
+
   const {
     parentId,
     page,
@@ -20,19 +23,31 @@ const getList = async (params) => {
     search,
     sort,
     fields,
+    action,
+    user,
+    from,
+    to,
+    userIp,
   } = applyTransform(params, [
+    sanitize(fieldsToSend),
     merge(getDefaultGetParams()),
     starToSearch('search'),
   ]);
 
   try {
-    const response = await service.getByConfigId(
+    const response = await service.searchLogByConfigId(
       parentId,
       page,
       size,
       search,
       sort,
       fields,
+      user,
+      undefined,
+      action,
+      userIp,
+      from,
+      to,
     );
     const { items, next } = applyTransform(response.data, [
       snakeToCamel(),

@@ -3,9 +3,9 @@
     <header class="content-header">
       <h3 class="content-title">{{ $t('objects.system.changelogs.logs.logs', 2) }}</h3>
       <div class="content-header__actions-wrap">
-        <filter-search
-          :namespace="filtersNamespace"
-        ></filter-search>
+<!--        <filter-search-->
+<!--          :namespace="filtersNamespace"-->
+<!--        ></filter-search>-->
         <wt-table-actions
           :icons="['refresh']"
           @input="tableActionsHandler"
@@ -51,7 +51,7 @@
 import FilterSearch from '@webitel/ui-sdk/src/modules/QueryFilters/components/filter-search.vue';
 import openedObjectTableTabMixin
   from '../../../../../../../app/mixins/objectPagesMixins/openedObjectTableTabMixin/openedObjectTableTabMixin';
-import { useDummy } from '../../../../../../../app/composables/useDummy';
+// import { useDummy } from '../../../../../../../app/composables/useDummy';
 
 const namespace = 'system/changelogs';
 const subNamespace = 'logs';

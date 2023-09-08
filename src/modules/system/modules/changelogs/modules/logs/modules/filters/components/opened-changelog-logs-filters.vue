@@ -1,19 +1,5 @@
 <template>
   <wt-filters-panel-wrapper @reset="resetFilters">
-    <filter-datetime
-      :label="`${
-        $t('objects.system.changelogs.logs.changesMadeOn')}: ${$t('reusable.from').toLowerCase()
-      }`"
-      :namespace="namespace"
-      filter-query="from"
-    ></filter-datetime>
-    <filter-datetime
-      :label="`${
-        $t('objects.system.changelogs.logs.changesMadeOn')}: ${$t('reusable.to').toLowerCase()
-      }`"
-      :namespace="namespace"
-      filter-query="to"
-    ></filter-datetime>
     <component
       :is="`abstract-${filter.type}-filter`"
       v-for="(filter, key) of filters"
@@ -22,6 +8,20 @@
       :namespace="namespace"
       class="history-filters__filter"
     ></component>
+    <filter-datetime
+      :label="`${
+        $t('reusable.modifiedAt')}: ${$t('reusable.from').toLowerCase()
+      }`"
+      :namespace="namespace"
+      filter-query="from"
+    ></filter-datetime>
+    <filter-datetime
+      :label="`${
+        $t('reusable.modifiedAt')}: ${$t('reusable.to').toLowerCase()
+      }`"
+      :namespace="namespace"
+      filter-query="to"
+    ></filter-datetime>
   </wt-filters-panel-wrapper>
 </template>
 

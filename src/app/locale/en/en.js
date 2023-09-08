@@ -1008,8 +1008,12 @@ export default {
       system: 'System',
       changelogs: {
         changelogs: 'Changelog | Changelogs',
+        objects: 'Object | Objects',
+        daysToStore: 'Days to store',
+        period: 'Period',
         logs: {
           logs: 'Log | Logs',
+          actions: 'Operation | Operations',
         },
       },
     },

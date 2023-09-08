@@ -10,6 +10,7 @@
         :clearable="false"
         :label="$t('objects.system.changelogs.objects', 1)"
         :disabled="itemInstance.id || disableUserInput"
+        :v="v.itemInstance.object"
         required
         @input="setItemProp({ prop: 'object', value: $event })"
       ></wt-select>
@@ -19,13 +20,15 @@
         :clearable="false"
         :label="$t('objects.integrations.storage.storage', 1)"
         :disabled="disableUserInput"
+        :v="v.itemInstance.storage"
         required
-        @input="setItemProp({ prop: 'object', value: $event })"
+        @input="setItemProp({ prop: 'storage', value: $event })"
       ></wt-select>
       <wt-input
         :value="itemInstance.daysToStore"
         :label="$t('objects.system.changelogs.daysToStore')"
         :disabled="disableUserInput"
+        :v="v.itemInstance.daysToStore"
         type="number"
         required
         @input="setItemProp({ prop: 'daysToStore', value: +$event })"
@@ -34,6 +37,7 @@
         :value="itemInstance.period"
         :label="$t('objects.system.changelogs.period')"
         :disabled="disableUserInput"
+        :v="v.itemInstance.period"
         type="number"
         required
         @input="setItemProp({ prop: 'period', value: +$event })"

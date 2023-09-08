@@ -1,3 +1,4 @@
+import { LoggerACTION } from 'webitel-sdk';
 import ApiFilterSchema
   from '@webitel/ui-sdk/src/modules/QueryFilters/classes/ApiFilterSchema';
 import BaseFilterSchema
@@ -12,11 +13,11 @@ import UsersAPI
 const state = {
   search: new BaseFilterSchema(),
   action: new EnumFilterSchema({
-    locale: { label: ['objects.users.users', 1] },
-    options: [],
+    locale: { label: ['objects.system.changelogs.logs.actions', 1] },
+    options: Object.values(LoggerACTION),
   }),
   user: new ApiFilterSchema({
-    locale: { label: ['objects.users.users', 1] },
+    locale: { label: ['reusable.modifiedBy', 1] },
     API: UsersAPI.getLookup,
   }),
   from: new BaseFilterSchema({

@@ -31,7 +31,7 @@ const getList = async (params) => {
   ]);
 
   try {
-    const response = await service.getAll(
+    const response = await service.searchConfig(
       page,
       size,
       search,
@@ -58,7 +58,7 @@ const getList = async (params) => {
 
 const get = async ({ itemId: id }) => {
   try {
-    const response = await service.getById(id);
+    const response = await service.readConfig(id);
     return applyTransform(response.data, [
       snakeToCamel(),
     ]);
@@ -77,7 +77,7 @@ const add = async ({ itemInstance }) => {
     camelToSnake(),
   ]);
   try {
-    const response = await service.insert(item);
+    const response = await service.createConfig(item);
     return applyTransform(response.data, [
       snakeToCamel(),
     ]);
@@ -94,7 +94,7 @@ const update = async ({ itemInstance, itemId: id }) => {
     camelToSnake(),
   ]);
   try {
-    const response = await service.update(id, item);
+    const response = await service.updateConfig(id, item);
     return applyTransform(response.data, [
       snakeToCamel(),
     ]);
@@ -111,7 +111,7 @@ const patch = async ({ id, changes }) => {
     camelToSnake(),
   ]);
   try {
-    const response = await service.patchUpdate(id, body);
+    const response = await service.patchConfig(id, body);
     return applyTransform(response.data, [
       snakeToCamel(),
     ]);
@@ -124,7 +124,7 @@ const patch = async ({ id, changes }) => {
 
 const deleteItem = async ({ id }) => {
   try {
-    const response = await service._delete(id);
+    const response = await service.deleteConfig(id);
     return applyTransform(response.data, []);
   } catch (err) {
     throw applyTransform(err, [
@@ -140,7 +140,7 @@ const getLookup = (params) => getList({
 
 const getObjectsList = async () => {
   try {
-    const response = await service.getSystemObjects();
+    const response = await service.readSystemObjects();
     const { items, next } = applyTransform(response.data, [
       snakeToCamel(),
       merge(getDefaultGetListResponse()),
