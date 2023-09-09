@@ -204,6 +204,8 @@ export default {
         tokenPopupText: 'Download your key file now or copy it. If you do not download the key file now, you will not be able to retrieve your token key again. To help protect your security, store your token key securely and do not share it.',
         tokenPopupCopy: 'Copy to clipboard',
         tokenPopupSave: 'Save as TXT',
+        userIp: 'User IP',
+        userId: 'User ID',
       },
       license: {
         customers: 'Customers',
@@ -1014,6 +1016,7 @@ export default {
         logs: {
           logs: 'Log | Logs',
           actions: 'Operation | Operations',
+          records: 'Record | Records',
         },
       },
     },

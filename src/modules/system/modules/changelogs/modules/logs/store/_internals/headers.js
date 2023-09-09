@@ -21,7 +21,7 @@ export default [
     },
     {
       value: 'userIp',
-      locale: 'objects.system.changelogs.logs.userIp',
+      locale: 'objects.directory.users.userIp',
       field: 'user_ip',
       sort: SortSymbols.NONE,
     },
