@@ -1,6 +1,6 @@
 /* eslint-disable quote-props */
 
-import { EngineCommunicationChannels } from 'webitel-sdk';
+import { EngineCommunicationChannels, LoggerAction } from 'webitel-sdk';
 
 export default {
   auth: {
@@ -1011,10 +1011,16 @@ export default {
         objects: 'Объект | Объекты',
         daysToStore: 'Дней хранения',
         period: 'Период',
+        storage: 'Выгрузить в',
         logs: {
           logs: 'Лог | Логи',
           actions: 'Операция | Операции',
           records: 'Запись | Записи',
+          actionType: {
+            [LoggerAction.Create]: 'Создание',
+            [LoggerAction.Delete]: 'Удаление',
+            [LoggerAction.Update]: 'Редактирование',
+          },
         },
       },
     },

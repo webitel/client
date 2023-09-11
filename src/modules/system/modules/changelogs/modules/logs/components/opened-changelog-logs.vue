@@ -34,7 +34,7 @@
         @sort="sort"
       >
         <template v-slot:action="{ item }">
-          {{ item.action }}
+          {{ $t(`objects.system.changelogs.logs.actionType.${item.action}`) }}
         </template>
         <template v-slot:date="{ item }">
           {{ new Date(+item.date).toLocaleString() }}

@@ -18,7 +18,7 @@
         :value="itemInstance.storage"
         :search-method="getStorageList"
         :clearable="false"
-        :label="$t('objects.integrations.storage.storage', 1)"
+        :label="$t('objects.system.changelogs.storage')"
         :disabled="disableUserInput"
         :v="v.itemInstance.storage"
         required
