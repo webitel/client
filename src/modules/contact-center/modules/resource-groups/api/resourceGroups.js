@@ -71,12 +71,7 @@ const getResGroup = async ({ itemId: id }) => {
       strategy: '',
       description: '',
       communication: {},
-      time: [
-        {
-          start: 0,
-          finish: 0,
-        },
-      ],
+      time: [],
   };
 
   const responseHandler = (response) => {
