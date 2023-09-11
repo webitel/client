@@ -3,6 +3,10 @@
     <header class="content-header">
       <h3 class="content-title">{{ $t('objects.system.changelogs.logs.logs', 2) }}</h3>
       <div class="content-header__actions-wrap">
+        <wt-icon-action
+          action="download"
+          @click="exportCSV({ parentId })"
+        ></wt-icon-action>
         <wt-table-actions
           :icons="['refresh']"
           @input="tableActionsHandler"
@@ -73,6 +77,8 @@
 </template>
 
 <script>
+import ExportCSVMixin from '@webitel/ui-sdk/src/modules/CSVExport/mixins/exportCSVMixin';
+import LogsAPI from '../api/logs';
 import RouteNames from '../../../../../../../app/router/_internals/RouteNames.enum';
 import openedObjectTableTabMixin
   from '../../../../../../../app/mixins/objectPagesMixins/openedObjectTableTabMixin/openedObjectTableTabMixin';
@@ -83,7 +89,7 @@ const subNamespace = 'logs';
 
 export default {
   name: 'opened-changelog-logs',
-  mixins: [openedObjectTableTabMixin],
+  mixins: [openedObjectTableTabMixin, ExportCSVMixin],
   data: () => ({
     namespace,
     subNamespace,
@@ -103,6 +109,11 @@ export default {
         await this.loadList();
       },
     },
+  },
+  created() {
+    this.initCSVExport(LogsAPI.getList, {
+      filename: `${this.itemInstance.object.name}-logs-at-${new Date().toLocaleString()}`,
+    });
   },
 };
 </script>
