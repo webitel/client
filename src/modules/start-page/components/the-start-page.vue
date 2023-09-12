@@ -75,8 +75,8 @@ export default {
   --wrapper-width: 60%;
   --wrapper-height: calc(
     var(--spacing-sm) * 2
-    + var(--button-min-height) * 6
-    + var(--spacing-sm) * 5
+    + var(--button-min-height) * 7
+    + var(--spacing-2xs) * 6
   );
 
   --lvl-1-bg: hsla(var(--_secondary-color), var(--_opacity--default));
@@ -84,7 +84,6 @@ export default {
 
   @media (#{$media} and #{$media-width-sm}) {
     --wrapper-width: 80%;
-    --wrapper-height: 472px;
   }
 
   @media (#{$media} and #{$media-width-xs}) {

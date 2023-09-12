@@ -8,3 +8,4 @@ import './adm-permissions.svg';
 import './adm-routing.svg';
 import './adm-member-reset.svg';
 import './adm-trigger-start.svg';
+import './adm-system.svg';
