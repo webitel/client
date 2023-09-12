@@ -138,9 +138,9 @@ const getLookup = (params) => getList({
   fields: params.fields || ['id', 'object'],
 });
 
-const getObjectsList = async () => {
+const getObjectsList = async ({ includeExisting } = {}) => {
   try {
-    const response = await service.readSystemObjects();
+    const response = await service.readSystemObjects(includeExisting);
     const { items, next } = applyTransform(response.data, [
       snakeToCamel(),
       merge(getDefaultGetListResponse()),

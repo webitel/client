@@ -7,8 +7,8 @@ import EnumFilterSchema
   from '@webitel/ui-sdk/src/modules/QueryFilters/classes/EnumFilterSchema';
 import QueryFiltersStoreModule
   from '@webitel/ui-sdk/src/modules/QueryFilters/store/QueryFiltersStoreModule';
-import UsersAPI
-  from '../../../../../../../../directory/modules/users/api/users';
+import ChangelogsAPI
+  from '../../../../../../../../system/modules/changelogs/api/changelogs';
 
 const state = {
   search: new BaseFilterSchema(),
@@ -18,9 +18,9 @@ const state = {
     .filter((action) => action !== LoggerAction.DefaultNoAction && action !== LoggerAction.Read)
     .map((action) => ({ value: action, locale: `objects.system.changelogs.logs.actionType.${action}` })),
   }),
-  user: new ApiFilterSchema({
-    locale: { label: ['reusable.modifiedBy', 1] },
-    API: UsersAPI.getLookup,
+  object: new ApiFilterSchema({
+    locale: { label: ['objects.system.changelogs.objects', 1] },
+    API: (params) => ChangelogsAPI.getObjectsList({ ...params, includeExisting: true }),
   }),
   from: new BaseFilterSchema({
     value: new Date().setHours(0, 0, 0, 0),

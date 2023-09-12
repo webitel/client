@@ -1016,7 +1016,7 @@ export default {
         logs: {
           logs: 'Лог | Логи',
           actions: 'Операція | Операції',
-          records: 'Запис | Записи',
+          records: 'ID запису | ID записів',
           actionType: {
             [LoggerAction.Create]: 'Створення',
             [LoggerAction.Delete]: 'Видалення',

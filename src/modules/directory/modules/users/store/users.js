@@ -1,4 +1,5 @@
 import tokens from '../modules/tokens/store/usersTokens';
+import logs from '../modules/logs/store/logs';
 import UsersAPI from '../api/users';
 import ObjectStoreModule from '../../../../../app/store/BaseStoreModules/StoreModules/ObjectStoreModule';
 import PermissionsStoreModule from '../../../../../app/store/BaseStoreModules/StoreModules/PermissionsStoreModule/PermissionsStoreModule';
@@ -74,7 +75,7 @@ const permissions = new PermissionsStoreModule()
 const users = new ObjectStoreModule({ resettableState, headers })
   .attachAPIModule(UsersAPI)
   .generateAPIActions()
-  .setChildModules({ tokens, permissions })
+  .setChildModules({ tokens, logs, permissions })
   .getModule({ actions, mutations });
 
 export default users;

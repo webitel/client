@@ -1017,7 +1017,7 @@ export default {
         logs: {
           logs: 'Log | Logs',
           actions: 'Operation | Operations',
-          records: 'Record | Records',
+          records: 'Record ID | Records ID',
           actionType: {
             [LoggerAction.Create]: 'Create',
             [LoggerAction.Delete]: 'Delete',

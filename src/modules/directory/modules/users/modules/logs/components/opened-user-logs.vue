@@ -39,24 +39,13 @@
         <template v-slot:date="{ item }">
           {{ new Date(+item.date).toLocaleString() }}
         </template>
-        <template v-slot:user="{ item }">
-          <wt-item-link
-            v-if="item.user"
-            :id="item.user.id"
-            :route-name="usersRouteName"
-          >{{ item.user.name }}
-          </wt-item-link>
-        </template>
-        <template v-slot:userId="{ item }">
-          <wt-item-link
-            v-if="item.user"
-            :id="item.user.id"
-            :route-name="usersRouteName"
-          >{{ item.user.id }}
-          </wt-item-link>
-        </template>
         <template v-slot:object="{ item }">
-          {{ item.object.name }}
+          <wt-item-link
+            v-if="item.object"
+            :id="item.configId"
+            :route-name="changelogsRouteName"
+          >{{ item.object.name }}
+          </wt-item-link>
         </template>
         <template v-slot:record="{ item }">
           <record-link
@@ -79,26 +68,26 @@
 </template>
 
 <script>
-import { LoggerAvailableSystemObjects } from 'webitel-sdk';
 import ExportCSVMixin from '@webitel/ui-sdk/src/modules/CSVExport/mixins/exportCSVMixin';
 import LogsAPI from '../api/logs';
 import RouteNames from '../../../../../../../app/router/_internals/RouteNames.enum';
+import RecordLink
+  from '../../../../../../system/modules/changelogs/modules/logs/components/changelog-logs-record-link.vue';
 import openedObjectTableTabMixin
   from '../../../../../../../app/mixins/objectPagesMixins/openedObjectTableTabMixin/openedObjectTableTabMixin';
-import RecordLink from './changelog-logs-record-link.vue';
-// import { useDummy } from '../../../../../../../app/composables/useDummy';
+// import { useDummy } from '.  ./../../../../../../app/composables/useDummy';
 
-const namespace = 'system/changelogs';
+const namespace = 'directory/users';
 const subNamespace = 'logs';
 
 export default {
-  name: 'opened-changelog-logs',
+  name: 'opened-users-logs',
   mixins: [openedObjectTableTabMixin, ExportCSVMixin],
   components: { RecordLink },
   data: () => ({
     namespace,
     subNamespace,
-    usersRouteName: RouteNames.USERS,
+    changelogsRouteName: RouteNames.CHANGELOGS,
   }),
 
   /* https://my.webitel.com/browse/WTEL-3697 */
@@ -117,7 +106,7 @@ export default {
   },
   created() {
     this.initCSVExport(LogsAPI.getList, {
-      filename: `${this.itemInstance.object.name}-logs-at-${new Date().toLocaleString()}`,
+      filename: `${this.itemInstance.name}-logs-at-${new Date().toLocaleString()}`,
     });
   },
 };
