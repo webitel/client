@@ -122,7 +122,7 @@
 <script>
 import { mapActions } from 'vuex';
 import openedTabComponentMixin from '../../../../../../../app/mixins/objectPagesMixins/openedObjectTabMixin/openedTabComponentMixin';
-import AmdAiLabels from '../../../lookups/AmdAiLabels.lookup';
+import AmdAiLabels from '../../../enums/AmdAiLabels.enum';
 import MediaAPI from '../../../../../../lookups/modules/media/api/media';
 
 export default {

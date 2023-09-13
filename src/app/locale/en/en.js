@@ -814,6 +814,7 @@ export default {
         initialSilence: 'Initial silence (ms)',
         statisticTime: 'Recalculation interval',
         communications: 'Communication type',
+        manualDistribution: 'Manual distribution',
         processing: {
           processing: 'Processing',
           enabled: 'Waiting for call result',

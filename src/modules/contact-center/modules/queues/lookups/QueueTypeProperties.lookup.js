@@ -44,6 +44,7 @@ const QueueTypeProperties = Object.freeze({
                                                 'stickyAgentSec',
                                                 'autoAnswerTone',
                                                 'minOnlineAgents',
+                                                'manualDistribution',
 
                                                 // processing specific
                                                 'taskProcessing.enabled',
@@ -204,6 +205,7 @@ const QueueTypeProperties = Object.freeze({
                                                 'stickyAgent',
                                                 'stickyAgentSec',
                                                 'minOnlineAgents',
+                                                'manualDistribution',
 
                                                 // processing specific
                                                 'taskProcessing.enabled',

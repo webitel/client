@@ -22,6 +22,7 @@ const chatInboundQueue = () => ({
     maxIdleDialog: 0,
     maxWaitingSize: 0,
     minOnlineAgents: 0,
+    manualDistribution: false,
   },
 });
 

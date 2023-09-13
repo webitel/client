@@ -267,6 +267,13 @@
         type="number"
         @input="setItemPayloadProp({ prop: 'stickyAgentSec', value: +$event })"
       ></wt-input>
+      <wt-switcher
+        v-if="specificControls.manualDistribution"
+        :disabled="disableUserInput"
+        :label="$t('objects.ccenter.queues.manualDistribution')"
+        :value="itemInstance.payload.manualDistribution"
+        @change="setItemPayloadProp({ prop: 'manualDistribution', value: $event })"
+      ></wt-switcher>
     </div>
   </section>
 </template>

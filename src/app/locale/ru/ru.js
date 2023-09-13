@@ -813,6 +813,7 @@ export default {
         initialSilence: 'Максимальная продолжительность тишины перед приветствием (мс)',
         statisticTime: 'Интервал пересчета',
         communications: 'Тип связи',
+        manualDistribution: 'Ручное распредение',
         processing: {
           processing: 'Обработка',
           enabled: 'Ожидание результата задачи',

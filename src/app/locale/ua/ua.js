@@ -814,6 +814,7 @@ export default {
         initialSilence: 'Максимальна тривалість тиші перед привітанням (мс)',
         statisticTime: 'Інтервал перерахунку',
         communications: 'Тип зв\'язку',
+        manualDistribution: 'Ручне розподілення',
         processing: {
           processing: 'Обробка',
           enabled: 'Очікування результату задачі',

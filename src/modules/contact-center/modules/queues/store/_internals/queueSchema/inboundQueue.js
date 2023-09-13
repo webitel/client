@@ -20,6 +20,7 @@ const inboundQueue = () => ({
     maxWaitingSize: 0,
     autoAnswerTone: null,
     minOnlineAgents: 0,
+    manualDistribution: false,
   },
 });
 
