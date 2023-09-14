@@ -5,6 +5,14 @@
         :hide-primary="!hasCreateAccess"
         :primary-action="create"
       >
+        <template v-slot:actions>
+          <wt-button
+            :disabled="!selectedRows.length"
+            color="secondary"
+            @click="isAddSkillToAgentPopup = true"
+          >{{ $t('objects.lookups.skills.assignAgent') }}
+          </wt-button>
+        </template>
         <wt-headline-nav :path="path"></wt-headline-nav>
       </wt-page-header>
     </template>
@@ -16,6 +24,13 @@
         @close="closeDelete"
       ></delete-confirmation-popup>
 
+      <add-skill-to-agent-popup
+        v-if="isAddSkillToAgentPopup"
+        :skill-id="selectedRowsId"
+        @close="isAddSkillToAgentPopup = false"
+        @saved="loadDataList"
+      ></add-skill-to-agent-popup>
+
       <section class="main-section__wrapper">
         <header class="content-header">
           <h3 class="content-title">{{ $t('objects.lookups.skills.allSkills') }}</h3>
@@ -23,9 +38,9 @@
             <wt-search-bar
               :value="search"
               debounce
+              @enter="loadList"
               @input="setSearch"
               @search="loadList"
-              @enter="loadList"
             ></wt-search-bar>
             <wt-table-actions
               :icons="['refresh']"
@@ -44,19 +59,20 @@
         <wt-loader v-show="!isLoaded"></wt-loader>
         <wt-dummy
           v-if="dummy && isLoaded"
+          :show-action="dummy.showAction"
           :src="dummy.src"
           :text="dummy.text && $t(dummy.text)"
-          :show-action="dummy.showAction"
-          @create="create"
           class="dummy-wrapper"
+          @create="create"
         ></wt-dummy>
         <div
           v-show="dataList.length && isLoaded"
-          class="table-wrapper">
+          class="table-wrapper"
+        >
           <wt-table
-            :headers="headers"
             :data="dataList"
             :grid-actions="hasTableActions"
+            :headers="headers"
             sortable
             @sort="sort"
           >
@@ -89,14 +105,14 @@
             </template>
           </wt-table>
           <wt-pagination
-            :size="size"
             :next="isNext"
             :prev="page > 1"
+            :size="size"
             debounce
+            @change="loadList"
+            @input="setSize"
             @next="nextPage"
             @prev="prevPage"
-            @input="setSize"
-            @change="loadList"
           ></wt-pagination>
         </div>
       </section>
@@ -105,18 +121,21 @@
 </template>
 
 <script>
+import { useDummy } from '../../../../../app/composables/useDummy';
 import tableComponentMixin from '../../../../../app/mixins/objectPagesMixins/objectTableMixin/tableComponentMixin';
 import RouteNames from '../../../../../app/router/_internals/RouteNames.enum';
-import { useDummy } from '../../../../../app/composables/useDummy';
+import AddSkillToAgentPopup from '../modules/agents/components/add-skill-to-agent-popup/add-skill-to-agent-popup.vue';
 
 const namespace = 'lookups/skills';
 
 export default {
   name: 'the-agent-skills',
   mixins: [tableComponentMixin],
+  components: { AddSkillToAgentPopup },
   data: () => ({
     namespace,
     routeName: RouteNames.SKILLS,
+    isAddSkillToAgentPopup: false,
   }),
 
   setup() {
@@ -130,6 +149,12 @@ export default {
         { name: this.$t('objects.lookups.lookups') },
         { name: this.$tc('objects.lookups.skills.agentSkills', 2), route: '/lookups/skills' },
       ];
+    },
+    selectedRows() {
+      return this.dataList.filter((item) => item._isSelected);
+    },
+    selectedRowsId() {
+      return this.selectedRows.map((item) => item.id);
     },
   },
 };
