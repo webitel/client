@@ -43,7 +43,6 @@ const getList = async (params) => {
       sort,
       fields,
       user,
-      undefined,
       action,
       userIp,
       from,
