@@ -69,7 +69,7 @@ const get = async ({ itemId: id }) => {
   }
 };
 
-const fieldsToSend = ['object', 'storage', 'daysToStore', 'period', 'enabled'];
+const fieldsToSend = ['object', 'storage', 'daysToStore', 'period', 'enabled', 'description'];
 
 const add = async ({ itemInstance }) => {
   const item = applyTransform(itemInstance, [
