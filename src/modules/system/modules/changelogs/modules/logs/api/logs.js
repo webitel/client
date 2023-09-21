@@ -40,7 +40,7 @@ const getList = async (params) => {
       page,
       size,
       search,
-      sort,
+      sort || '-date',
       fields,
       user,
       action,
