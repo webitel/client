@@ -3,7 +3,7 @@ import {
   getDefaultGetParams,
 } from '@webitel/ui-sdk/src/api/defaults';
 import applyTransform, {
-  camelToSnake, generateUrl, 
+  camelToSnake, generateUrl,
   log,
   merge, mergeEach, notify, sanitize, snakeToCamel, starToSearch,
 } from '@webitel/ui-sdk/src/api/transformers';
@@ -13,7 +13,7 @@ const baseUrl = '/products';
 const nestedUrl = 'users';
 
 const getList = async ({ parentId, ...rest }) => {
-  const fieldsToSend = ['page', 'size', 'q', 'fields', 'id'];
+  const fieldsToSend = ['page', 'size', 'q', 'sort', 'fields', 'id'];
 
   const defaultObject = {
     sessions: 0,
@@ -42,7 +42,7 @@ const getList = async ({ parentId, ...rest }) => {
     };
   } catch (err) {
     throw applyTransform(err, [
-      
+
       notify,
     ]);
   }
