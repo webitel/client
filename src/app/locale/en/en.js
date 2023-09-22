@@ -1010,7 +1010,7 @@ export default {
     system: {
       system: 'System',
       changelogs: {
-        changelogs: 'Changelog | Changelogs',
+        changelogs: 'Change log | Change logs',
         objects: 'Object | Objects',
         daysToStore: 'Days to store',
         period: 'Period',

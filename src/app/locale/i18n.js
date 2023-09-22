@@ -10,7 +10,7 @@ const messages = {
 };
 
 export default new createI18n({
-  locale: 'en',
+  locale: 'ua',
   fallbackLocale: 'en',
   messages,
 });
