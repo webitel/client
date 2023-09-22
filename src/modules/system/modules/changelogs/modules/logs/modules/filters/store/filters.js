@@ -16,16 +16,7 @@ const state = {
     locale: { label: ['objects.system.changelogs.logs.actions', 1] },
     options: Object.values(LoggerAction)
     .filter((action) => action !== LoggerAction.DefaultNoAction && action !== LoggerAction.Read)
-    .map((action, index) => {
-      console.log('action:', action);
-      const newSome = {
-        value: `${action}1`,
-        locale: `objects.system.changelogs.logs.actionType.${action}`
-      };
-      console.log(newSome);
-      return newSome
-      }
-    ),
+    .map((action) => ({ value: action, locale: `objects.system.changelogs.logs.actionType.${action}` })),
   }),
   user: new ApiFilterSchema({
     locale: { label: ['reusable.modifiedBy', 1] },
