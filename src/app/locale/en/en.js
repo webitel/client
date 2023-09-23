@@ -1013,7 +1013,6 @@ export default {
         changelogs: 'Changelog | Changelogs',
         objects: 'Object | Objects',
         daysToStore: 'Days to store',
-        period: 'Period',
         storage: 'Download to',
         logs: {
           logs: 'Log | Logs',
@@ -1025,6 +1024,16 @@ export default {
             [LoggerAction.Update]: 'Edit',
           },
         },
+        period: {
+          period: 'Period',
+          options: {
+            daily: 'Daily',
+            weekly: 'Weekly',
+            fortnightly: 'Fortnightly',
+            monthly: 'Monthly',
+          },
+        },
+
       },
     },
 

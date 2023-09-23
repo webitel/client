@@ -1012,7 +1012,6 @@ export default {
         changelogs: 'Журнал змін | Журнали змін',
         objects: 'Об\'єкт | Об\'єкти',
         daysToStore: 'Днів зберігання',
-        period: 'Період',
         storage: 'Вивантажити в',
         logs: {
           logs: 'Лог | Логи',
@@ -1022,6 +1021,15 @@ export default {
             [LoggerAction.Create]: 'Створення',
             [LoggerAction.Delete]: 'Видалення',
             [LoggerAction.Update]: 'Редагування',
+          },
+        },
+        period: {
+          period: 'Період',
+          options: {
+            daily: 'Щодня',
+            weekly: 'Щотижня',
+            fortnightly: 'Кожні два тижня',
+            monthly: 'Щомісяця',
           },
         },
       },
