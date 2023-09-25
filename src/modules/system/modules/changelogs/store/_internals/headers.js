@@ -3,7 +3,7 @@ import { SortSymbols } from '@webitel/ui-sdk/src/scripts/sortQueryAdapters';
 export default [
   {
     value: 'object',
-    locale: 'objects.name',
+    locale: 'objects.system.changelogs.objects',
     field: 'object',
     sort: SortSymbols.NONE,
   },

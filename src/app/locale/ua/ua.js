@@ -1015,7 +1015,7 @@ export default {
         storage: 'Вивантажити в',
         logs: {
           logs: 'Лог | Логи',
-          actions: 'Операція | Операції',
+          actions: 'Дія | Дії',
           records: 'ID запису | ID записів',
           actionType: {
             [LoggerAction.Create]: 'Створення',
