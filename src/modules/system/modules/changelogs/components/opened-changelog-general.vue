@@ -34,7 +34,7 @@
         @input="setItemProp({ prop: 'daysToStore', value: +$event })"
       ></wt-input>
       <wt-select
-        :value="period"
+        :value="currentPeriod"
         :options="periodOptions"
         :label="$t('objects.system.changelogs.period.period')"
         :disabled="disableUserInput"
@@ -60,16 +60,16 @@ import openedTabComponentMixin
 export default {
   name: 'opened-changelog-general',
   mixins: [openedTabComponentMixin],
-  data: () => ({
-    period: {},
-  }),
   computed: {
+    currentPeriod() {
+      return this.periodOptions.find((period) => period.id === this.itemInstance.period);
+    },
     periodOptions() {
       return [
-        { name: this.$t('objects.system.changelogs.period.options.daily'), id: '1' },
-        { name: this.$t('objects.system.changelogs.period.options.weekly'), id: '7' },
-        { name: this.$t('objects.system.changelogs.period.options.fortnightly'), id: '14' },
-        { name: this.$t('objects.system.changelogs.period.options.monthly'), id: '30' },
+        { name: this.$t('objects.system.changelogs.period.options.daily'), id: 1 },
+        { name: this.$t('objects.system.changelogs.period.options.weekly'), id: 7 },
+        { name: this.$t('objects.system.changelogs.period.options.fortnightly'), id: 14 },
+        { name: this.$t('objects.system.changelogs.period.options.monthly'), id: 30 },
       ];
     }
   },
