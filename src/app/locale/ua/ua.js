@@ -298,7 +298,7 @@ export default {
           manageUserRolesDescription: 'Надає дозвіл на керування набором ролей користувачів',
           manageUserLicenseDescription: 'Надає дозвіл на керування набором ліцензій користувача',
           changeUserPasswordDescription: 'Надає дозвіл на зміну пароля користувача',
-          systemSettingDescription: 'Надає дозвіл на керування',
+          systemSettingDescription: 'Надає дозвіл на керування розділом системних налаштувань',
         },
         addPermission: 'Надати дозвіл',
         usage: 'Використання',
