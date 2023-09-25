@@ -20,7 +20,7 @@
         <header class="content-header">
           <h3 class="content-title">
             {{ $t('objects.all', {
-            entity: $t('objects.system.changelogs.changelogs', 2).toLowerCase(),
+            entity: $tc('objects.system.changelogs.changelogs', 2).toLowerCase(),
           }) }}
           </h3>
           <div class="content-header__actions-wrap">
@@ -130,7 +130,7 @@ export default {
     path() {
       return [
         { name: this.$t('objects.system.system') },
-        { name: this.$tc('objects.system.changelogs.changelogs', 2), route: '/system/changelogs' },
+        { name: this.$tc('objects.system.changelogs.changelogs', 1), route: '/system/changelogs' },
       ];
     },
   },
