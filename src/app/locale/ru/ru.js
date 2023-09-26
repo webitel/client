@@ -985,6 +985,7 @@ export default {
         allTriggers: 'Все триггеры',
         type: 'Тип',
         schema: 'Схема',
+        state: 'Состояние',
         newTrigger: 'Новый триггер',
         newTriggerDescription: 'Choose a template to get going or start from scratch with a blank canvas',
         onEvent: 'On event',
@@ -1014,6 +1015,7 @@ export default {
         objects: 'Объект | Объекты',
         daysToStore: 'Дней хранения',
         storage: 'Выгрузить в',
+        state: 'Состояние',
         logs: {
           logs: 'Лог | Логи',
           actions: 'Действие | Действия',

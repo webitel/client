@@ -9,7 +9,7 @@ export default [
   },
   {
     value: 'state',
-    locale: 'objects.enabled',
+    locale: 'objects.system.changelogs.state',
     field: 'enabled',
     sort: SortSymbols.NONE,
   },

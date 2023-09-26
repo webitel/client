@@ -987,6 +987,7 @@ export default {
         allTriggers: 'All triggers',
         type: 'Type',
         schema: 'Schema',
+        state: 'State',
         newTrigger: 'New trigger',
         newTriggerDescription: 'Choose a template to get going or start from scratch with a blank canvas',
         onEvent: 'On event',
@@ -1016,6 +1017,7 @@ export default {
         objects: 'Object | Objects',
         daysToStore: 'Days to store',
         storage: 'Download to',
+        state: 'State',
         logs: {
           logs: 'Log | Logs',
           actions: 'Operation | Operations',

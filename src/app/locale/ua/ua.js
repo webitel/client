@@ -986,6 +986,7 @@ export default {
         allTriggers: 'Всі тригери',
         type: 'Тип',
         schema: 'Схема',
+        state: 'Стан',
         newTrigger: 'Новий тригер',
         newTriggerDescription: 'Оберіть шаблон або почніть з нуля',
         onEvent: 'On event',
@@ -1015,6 +1016,7 @@ export default {
         objects: 'Об\'єкт | Об\'єкти',
         daysToStore: 'Днів зберігання',
         storage: 'Вивантажити в',
+        state: 'Стан',
         logs: {
           logs: 'Лог | Логи',
           actions: 'Дія | Дії',
