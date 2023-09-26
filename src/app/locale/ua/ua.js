@@ -986,7 +986,6 @@ export default {
         allTriggers: 'Всі тригери',
         type: 'Тип',
         schema: 'Схема',
-        state: 'Стан',
         newTrigger: 'Новий тригер',
         newTriggerDescription: 'Оберіть шаблон або почніть з нуля',
         onEvent: 'On event',

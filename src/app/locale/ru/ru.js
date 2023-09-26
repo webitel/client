@@ -985,7 +985,6 @@ export default {
         allTriggers: 'Все триггеры',
         type: 'Тип',
         schema: 'Схема',
-        state: 'Состояние',
         newTrigger: 'Новый триггер',
         newTriggerDescription: 'Choose a template to get going or start from scratch with a blank canvas',
         onEvent: 'On event',
