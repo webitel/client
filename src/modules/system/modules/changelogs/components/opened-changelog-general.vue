@@ -39,7 +39,7 @@
         :label="$t('objects.system.changelogs.period.period')"
         :disabled="disableUserInput"
         :clearable="false"
-        @input="setPeriod"
+        @input="this.setItemProp({ prop: 'period', value: $event.id })"
       ></wt-select>
       <wt-textarea
         :value="itemInstance.description"
@@ -71,15 +71,11 @@ export default {
         { name: this.$t('objects.system.changelogs.period.options.fortnightly'), id: 14 },
         { name: this.$t('objects.system.changelogs.period.options.monthly'), id: 30 },
       ];
-    }
+    },
   },
   methods: {
     getObjectsList: changelogs.getObjectsList,
     getStorageList: storage.getLookup,
-    setPeriod (item)  {
-      this.period = item;
-      this.setItemProp({ prop: 'period', value: item.id });
-    },
   },
 };
 </script>
