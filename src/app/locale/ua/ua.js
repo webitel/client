@@ -1015,7 +1015,6 @@ export default {
         objects: 'Об\'єкт | Об\'єкти',
         daysToStore: 'Днів зберігання',
         storage: 'Вивантажити в',
-        state: 'Стан',
         logs: {
           logs: 'Лог | Логи',
           actions: 'Дія | Дії',

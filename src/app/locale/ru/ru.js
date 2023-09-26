@@ -1014,7 +1014,6 @@ export default {
         objects: 'Объект | Объекты',
         daysToStore: 'Дней хранения',
         storage: 'Выгрузить в',
-        state: 'Состояние',
         logs: {
           logs: 'Лог | Логи',
           actions: 'Действие | Действия',

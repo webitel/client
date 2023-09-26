@@ -1016,7 +1016,6 @@ export default {
         objects: 'Object | Objects',
         daysToStore: 'Days to store',
         storage: 'Download to',
-        state: 'State',
         logs: {
           logs: 'Log | Logs',
           actions: 'Operation | Operations',
