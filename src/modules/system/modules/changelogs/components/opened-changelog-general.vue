@@ -33,15 +33,14 @@
         required
         @input="setItemProp({ prop: 'daysToStore', value: +$event })"
       ></wt-input>
-      <wt-input
-        :value="itemInstance.period"
-        :label="$t('objects.system.changelogs.period')"
+      <wt-select
+        :value="currentPeriod"
+        :options="periodOptions"
+        :label="$t('objects.system.changelogs.period.period')"
         :disabled="disableUserInput"
-        :v="v.itemInstance.period"
-        type="number"
-        required
-        @input="setItemProp({ prop: 'period', value: +$event })"
-      ></wt-input>
+        :clearable="false"
+        @input="this.setItemProp({ prop: 'period', value: $event.id })"
+      ></wt-select>
       <wt-textarea
         :value="itemInstance.description"
         :label="$t('objects.description')"
@@ -61,6 +60,19 @@ import openedTabComponentMixin
 export default {
   name: 'opened-changelog-general',
   mixins: [openedTabComponentMixin],
+  computed: {
+    currentPeriod() {
+      return this.periodOptions.find((period) => period.id === this.itemInstance.period);
+    },
+    periodOptions() {
+      return [
+        { name: this.$t('objects.system.changelogs.period.options.daily'), id: 1 },
+        { name: this.$t('objects.system.changelogs.period.options.weekly'), id: 7 },
+        { name: this.$t('objects.system.changelogs.period.options.fortnightly'), id: 14 },
+        { name: this.$t('objects.system.changelogs.period.options.monthly'), id: 30 },
+      ];
+    },
+  },
   methods: {
     getObjectsList: changelogs.getObjectsList,
     getStorageList: storage.getLookup,
