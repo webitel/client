@@ -36,6 +36,11 @@ const actions = {
         aggs = {},
       } = await context.dispatch('GET_LIST', query);
 
+      /* [WTEL-3793]
+      * When deleting the last item from list,
+      * if there are other items on the previous page, you need to go back */
+      if (!items.length && context.state.page > 1) context.dispatch('PREV_PAGE');
+
       /* we should set _isSelected property to all items in tables cause their checkbox selection
       * is based on this property. Previously, this prop was set it api consumers, but now
       * admin-specific were replaced by webitel-sdk consumers and i supposed it will be
