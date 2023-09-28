@@ -66,9 +66,9 @@ export default {
   validations: {
     itemInstance: {
       object: { required },
-      storage: { required },
+      // storage: { required },
       daysToStore: { required, minValue: minValue(1) },
-      period: { required, minValue: minValue(1) },
+      // period: { required, minValue: minValue(1) },
     },
   },
 
