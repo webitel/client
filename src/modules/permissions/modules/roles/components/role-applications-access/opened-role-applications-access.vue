@@ -33,6 +33,7 @@
           <wt-icon-action
             v-if="item.isEditAction"
             action="edit"
+            :disabled="!item.enabled"
             @click="edit(item)"
           ></wt-icon-action>
         </template>

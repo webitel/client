@@ -1,7 +1,6 @@
 <template>
   <wt-app-header>
     <wt-navigation-bar
-      v-if="isAdminAccess"
       :current-app="currentApp"
       :nav="nav"
     ></wt-navigation-bar>
@@ -43,9 +42,6 @@ export default {
     ...mapGetters('userinfo', {
       checkAccess: 'CHECK_APP_ACCESS',
     }),
-    isAdminAccess() {
-      return this.checkAccess(WebitelApplications.ADMIN);
-    },
     apps() {
       const agent = {
         name: WebitelApplications.AGENT,

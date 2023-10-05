@@ -40,12 +40,6 @@ export default {
   },
 
   computed: {
-    ...mapGetters('userinfo', {
-      checkAppAccess: 'CHECK_APP_ACCESS',
-    }),
-    hasAccess() {
-      return this.checkAppAccess(WebitelApplications.ADMIN);
-    },
     categories() {
       return this.nav;
     },
