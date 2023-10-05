@@ -169,6 +169,11 @@ const nav = Object.freeze([
         locale: `WebitelApplications.${WebitelApplications.ADMIN}.sections.${AdminSections.CHANGELOGS}`,
         route: 'changelogs',
       },
+      {
+        value: AdminSections.SETTINGS,
+        locale: `WebitelApplications.${WebitelApplications.ADMIN}.sections.${AdminSections.SETTINGS}`,
+        route: 'settings',
+      },
     ],
   },
 ]);
