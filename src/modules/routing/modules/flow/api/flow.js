@@ -110,7 +110,11 @@ const getFlow = async ({ itemId: id }) => {
   try {
     const response = await flowService.readRoutingSchema(id);
     return applyTransform(response.data, [
-      snakeToCamel(doNotConvertKeys),
+      ({ payload, schema, ...rest }) => ({
+        payload,
+        schema,
+        ...snakeToCamel(doNotConvertKeys)(rest),
+      }),
       merge(defaultObject),
       itemResponseHandler,
     ]);
@@ -155,7 +159,11 @@ const updateFlow = async ({ itemInstance, itemId: id }) => {
   const item = applyTransform(itemInstance, [
     preRequestHandler,
     sanitize(fieldsToSend),
-    camelToSnake(doNotConvertKeys),
+    ({ payload, schema, ...rest }) => ({
+      payload,
+      schema,
+      ...camelToSnake(doNotConvertKeys)(rest),
+    }),
   ]);
   try {
     const response = await flowService.updateRoutingSchema(id, item);
