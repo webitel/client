@@ -73,13 +73,22 @@ const actions = {
       value: permissions,
     });
   },
-  UPDATE_APPLICATION_ACCESS: (context, { app, value }) => {
+  UPDATE_APPLICATION_ACCESS: async (context, { app, value }) => {
     const metadata = deepCopy(context.state.itemInstance.metadata);
     metadata.access[app]._enabled = value;
-    return context.dispatch('SET_ITEM_PROPERTY', {
+    await context.dispatch('SET_ITEM_PROPERTY', {
       prop: 'metadata',
       value: metadata,
     });
+    const appSections = Object.keys(metadata.access[app])
+    .filter((section) => section.at(0) !== '_');
+    return Promise.allSettled(appSections.map((section) => (
+      context.dispatch('UPDATE_APPLICATION_SECTION_ACCESS', {
+        app,
+        section,
+        value,
+      })
+    )));
   },
   UPDATE_APPLICATION_SECTION_ACCESS: (context, { app, section, value }) => {
     const metadata = deepCopy(context.state.itemInstance.metadata);
