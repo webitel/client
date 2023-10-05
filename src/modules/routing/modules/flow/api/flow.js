@@ -8,7 +8,7 @@ import applyTransform, {
   starToSearch,
   camelToSnake,
   snakeToCamel,
-  
+
   notify,
   sanitize, mergeEach,
 } from '@webitel/ui-sdk/src/api/transformers';
@@ -90,7 +90,7 @@ const getFlowList = async (params) => {
     };
   } catch (err) {
     throw applyTransform(err, [
-      
+
       notify,
     ]);
   }
@@ -116,7 +116,7 @@ const getFlow = async ({ itemId: id }) => {
     ]);
   } catch (err) {
     throw applyTransform(err, [
-      
+
       notify,
     ]);
   }
@@ -133,7 +133,11 @@ const addFlow = async ({ itemInstance }) => {
   const item = applyTransform(itemInstance, [
     preRequestHandler,
     sanitize(fieldsToSend),
-    camelToSnake(doNotConvertKeys),
+    ({ payload, schema, ...rest }) => ({
+      payload,
+      schema,
+      ...camelToSnake(doNotConvertKeys)(rest),
+    }),
   ]);
   try {
     const response = await flowService.createRoutingSchema(item);
@@ -142,7 +146,7 @@ const addFlow = async ({ itemInstance }) => {
     ]);
   } catch (err) {
     throw applyTransform(err, [
-      
+
       notify,
     ]);
   }
@@ -160,7 +164,7 @@ const updateFlow = async ({ itemInstance, itemId: id }) => {
     ]);
   } catch (err) {
     throw applyTransform(err, [
-      
+
       notify,
     ]);
   }
@@ -172,7 +176,7 @@ const deleteFlow = async ({ id }) => {
     return applyTransform(response.data, []);
   } catch (err) {
     throw applyTransform(err, [
-      
+
       notify,
     ]);
   }
@@ -215,7 +219,7 @@ const getFlowTags = async (params) => {
     };
   } catch (err) {
     throw applyTransform(err, [
-      
+
       notify,
     ]);
   }
