@@ -146,7 +146,11 @@ const addFlow = async ({ itemInstance }) => {
   try {
     const response = await flowService.createRoutingSchema(item);
     return applyTransform(response.data, [
-      snakeToCamel(doNotConvertKeys),
+      ({ payload, schema, ...rest }) => ({
+        payload,
+        schema,
+        ...snakeToCamel(doNotConvertKeys)(rest),
+      }),
     ]);
   } catch (err) {
     throw applyTransform(err, [
@@ -168,7 +172,11 @@ const updateFlow = async ({ itemInstance, itemId: id }) => {
   try {
     const response = await flowService.updateRoutingSchema(id, item);
     return applyTransform(response.data, [
-      snakeToCamel(doNotConvertKeys),
+      ({ payload, schema, ...rest }) => ({
+        payload,
+        schema,
+        ...snakeToCamel(doNotConvertKeys)(rest),
+      }),
     ]);
   } catch (err) {
     throw applyTransform(err, [
