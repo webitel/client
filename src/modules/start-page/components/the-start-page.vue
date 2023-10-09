@@ -1,5 +1,5 @@
 <template>
-  <section v-if="hasAccess" class="start-nav">
+  <section class="start-nav">
     <article class="start-nav__wrapper">
       <category-lvl-1
         :categories="categories"
@@ -17,7 +17,6 @@
       ></category-lvl-2>
     </article>
   </section>
-  <wt-error-page v-else type="403" @back="$router.push('/')"></wt-error-page>
 </template>
 
 <script>
