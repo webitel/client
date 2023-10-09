@@ -100,6 +100,7 @@ export default {
             strategy: { required },
             payload: {
               originateTimeout: { required, minValue: minValue(0) },
+              minOnlineAgents: { minValue: minValue(0) },
             },
           },
         };
@@ -111,6 +112,7 @@ export default {
               timeBaseScore: { required },
               maxWaitTime: { required, minValue: minValue(0) },
               discardAbandonedAfter: { minValue: minValue(0) },
+              minOnlineAgents: { minValue: minValue(0) },
             },
           },
         };
@@ -124,6 +126,7 @@ export default {
               originateTimeout: { required, minValue: minValue(0) },
               waitBetweenRetries: { required, minValue: minValue(0) },
               minDuration: { minValue: minValue(0) },
+              minOnlineAgents: { minValue: minValue(0) },
             },
           },
         };
@@ -136,6 +139,7 @@ export default {
               maxAttempts: { required },
               originateTimeout: { required, minValue: minValue(0) },
               waitBetweenRetries: { required, minValue: minValue(0) },
+              minOnlineAgents: { minValue: minValue(0) },
             },
           },
         };
@@ -148,6 +152,7 @@ export default {
               maxAttempts: { required },
               originateTimeout: { required, minValue: minValue(0) },
               waitBetweenRetries: { required, minValue: minValue(0) },
+              minOnlineAgents: { minValue: minValue(0) },
             },
           },
         };
@@ -161,6 +166,7 @@ export default {
               originateTimeout: { required, minValue: minValue(0) },
               waitBetweenRetries: { required, minValue: minValue(0) },
               maxWaitTime: { minValue: minValue(0) },
+              minOnlineAgents: { minValue: minValue(0) },
             },
           },
         };
@@ -173,6 +179,7 @@ export default {
               timeBaseScore: { required },
               maxWaitTime: { required, minValue: minValue(0) },
               discardAbandonedAfter: { minValue: minValue(0) },
+              minOnlineAgents: { minValue: minValue(0) },
             },
           },
         };
@@ -184,6 +191,7 @@ export default {
             payload: {
               maxAttempts: { required },
               waitBetweenRetries: { required, minValue: minValue(0) },
+              minOnlineAgents: { minValue: minValue(0) },
             },
           },
         };
@@ -197,6 +205,7 @@ export default {
               originateTimeout: { required, minValue: minValue(0) },
               waitBetweenRetries: { required, minValue: minValue(0) },
               minDuration: { minValue: minValue(0) },
+              minOnlineAgents: { minValue: minValue(0) },
             },
           },
         };
