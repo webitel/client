@@ -67,6 +67,7 @@ const OpenedImportCsv = () => import('../../modules/integrations/modules/import-
 const OpenedTrigger = () => import('../../modules/integrations/modules/triggers/components/opened-trigger.vue');
 const Changelogs = () => import('../../modules/system/modules/changelogs/components/the-changelogs.vue');
 const OpenedChangelog = () => import('../../modules/system/modules/changelogs/components/opened-changelog.vue');
+const TheSettings = () => import('../../modules/system/modules/settings/components/the-settings.vue');
 
 const checkAppAccess = (to, from, next) => {
   const hasReadAccess = store.getters['userinfo/CHECK_APP_ACCESS'](store.getters['userinfo/THIS_APP']);
@@ -685,6 +686,12 @@ const router = createRouter({
           path: '/system/changelogs/:id',
           name: `${RouteNames.CHANGELOGS}-edit`,
           component: OpenedChangelog,
+          beforeEnter: checkRouteAccess,
+        },
+        {
+          path: '/system/settings',
+          name: RouteNames.SETTINGS,
+          component: TheSettings,
           beforeEnter: checkRouteAccess,
         },
       ],
