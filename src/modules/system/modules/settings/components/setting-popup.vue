@@ -35,7 +35,7 @@
       </wt-button>
       <wt-button
         color="secondary"
-        @click="$emit('close')"
+        @click="close"
       >
         {{ $t('reusable.cancel') }}
       </wt-button>
