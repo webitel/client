@@ -48,6 +48,19 @@ const getList = async (params) => {
   }
 };
 
+const get = async ({ itemId: id }) => {
+  try {
+    const response = await service.readSystemSetting(id);
+    return applyTransform(response.data, [
+      snakeToCamel(),
+    ]);
+  } catch (err) {
+    throw applyTransform(err, [
+      notify,
+    ]);
+  }
+};
+
 const fieldsToSend = ['name', 'value'];
 
 const add = async ({ itemInstance }) => {
@@ -98,6 +111,7 @@ const deleteItem = async ({ id }) => {
 const SettingsAPI = {
   getList,
   add,
+  get,
   update,
   delete: deleteItem,
 };

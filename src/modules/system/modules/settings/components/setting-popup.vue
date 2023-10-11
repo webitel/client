@@ -13,7 +13,7 @@
           :value="itemInstance.name"
           :v="v$.itemInstance.name"
           :label="$t('reusable.name')"
-          :disabled="itemId"
+          :disabled="id"
           required
           @input="setItemProp({ prop: 'name', value: $event })"
         ></wt-input>
@@ -28,7 +28,7 @@
     </template>
     <template v-slot:actions>
       <wt-button
-        :disabled="computeDisabledSave"
+        :disabled="disabledSave"
         @click="save"
       >
         {{ $t('reusable.save') }}
@@ -44,13 +44,15 @@
 </template>
 
 <script>
-import { mapActions, mapState } from 'vuex';
 import { useVuelidate } from '@vuelidate/core';
 import { required } from '@vuelidate/validators';
-import getNamespacedState from '@webitel/ui-sdk/src/store/helpers/getNamespacedState';
+import openedObjectMixin from '../../../../../app/mixins/objectPagesMixins/openedObjectMixin/openedObjectMixin';
+import openedTabComponentMixin
+  from '../../../../../app/mixins/objectPagesMixins/openedObjectTabMixin/openedTabComponentMixin';
 
 export default {
   name: 'settings-popup',
+  mixins: [openedObjectMixin, openedTabComponentMixin],
   props: {
     namespace: {
       type: String,
@@ -65,50 +67,27 @@ export default {
       value: { required },
     },
   },
-  computed: {
-    ...mapState({
-      itemId(state) {
-        return getNamespacedState(state, this.namespace).itemId;
-      },
-      itemInstance(state) {
-        return getNamespacedState(state, this.namespace).itemInstance;
-      },
-    }),
-    computeDisabledSave() {
-      this.v$.$touch();
-      // if its still pending or an error is returned do not submit
-      return this.v$.$pending || this.v$.$error;
-    },
-  },
   methods: {
-    ...mapActions({
-      setItem(dispatch, payload) {
-        return dispatch(`${this.namespace}/SET_ITEM`, payload);
-      },
-      addItem(dispatch, payload) {
-        return dispatch(`${this.namespace}/ADD_ITEM`, payload);
-      },
-      updateItem(dispatch, payload) {
-        return dispatch(`${this.namespace}/UPDATE_ITEM`, payload);
-      },
-      setItemProp(dispatch, payload) {
-        return dispatch(`${this.namespace}/SET_ITEM_PROPERTY`, payload);
-      },
-    }),
     async save() {
-      if (this.itemId) {
-        await this.updateItem({ itemInstance: this.itemInstance, itemId: this.itemId });
-      } else {
-        await this.addItem({ itemInstance: this.itemInstance });
+      if (!this.disabledSave) {
+        if (this.id) {
+          await this.updateItem();
+        } else {
+          try {
+            await this.addItem();
+          } catch (err) {
+            throw err;
+          }
+        }
+        this.close();
       }
-      this.close();
+    },
+    async loadPageData() {
+      await this.setId(this.itemInstance.id);
     },
     close() {
       this.$emit('close');
     },
-  },
-  unmounted() {
-    this.setItem({});
   },
 };
 </script>

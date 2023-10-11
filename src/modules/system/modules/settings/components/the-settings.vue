@@ -3,8 +3,8 @@
   <template v-slot:header>
     <wt-page-header
       :hide-primary="!hasCreateAccess"
-      :primary-action="toggleIsSettingPopup"
-      :hide-secondary="true"
+      :primary-action="() => isSettingPopup = true"
+      hide-secondary
     >
       <wt-headline-nav :path="path"></wt-headline-nav>
     </wt-page-header>
@@ -14,7 +14,7 @@
     <setting-popup
       v-if="isSettingPopup"
       :namespace="namespace"
-      @close="toggleIsSettingPopup"
+      @close="isSettingPopup = false"
     ></setting-popup>
 
     <delete-confirmation-popup
@@ -133,10 +133,7 @@ export default {
     }),
     editSetting(item) {
       this.setItem(item);
-      this.toggleIsSettingPopup();
-    },
-    toggleIsSettingPopup() {
-      this.isSettingPopup = !this.isSettingPopup;
+      this.isSettingPopup = true;
     },
   },
 };
