@@ -53,7 +53,7 @@ export default {
   },
 
   settings: {
-    settings: 'Настройки',
+    settings: 'Настройка | Настройки',
     changePassword: 'Изменить пароль',
     language: 'Язык',
     webPhone: 'Web-телефон',

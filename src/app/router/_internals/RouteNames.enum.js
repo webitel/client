@@ -47,6 +47,7 @@ export default Object.freeze({
 
   // SYSTEM
   CHANGELOGS: 'changelogs',
+  SETTINGS: 'settings',
 
   SETTINGS_PAGE: 'settings',
   PAGE_403: 'access-denied',
