@@ -82,8 +82,8 @@ export default {
         this.close();
       }
     },
-    async loadPageData() {
-      await this.setId(this.itemInstance.id);
+    loadPageData() {
+      return this.setId(this.itemInstance.id);
     },
     close() {
       this.$emit('close');
