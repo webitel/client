@@ -71,7 +71,7 @@
             :title="$t('iconHints.upload')"
             class="dz-custom-message"
           >
-            <wt-icon color="accent" icon="upload"></wt-icon>
+            <wt-icon color="primary" icon="upload"></wt-icon>
             <div class="dz-message-text">
               <span class="dz-message-text__accent">
                 {{ $t('objects.lookups.media.dragPlaceholder') }}

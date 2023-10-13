@@ -18,7 +18,7 @@
       >{{ $t('reusable.cancel') }}
       </wt-button>
       <wt-button
-        color="danger"
+        color="error"
         :loading="isResetting"
         @click="confirm"
       >{{ $t('objects.ccenter.members.resetMembers.reset') }}

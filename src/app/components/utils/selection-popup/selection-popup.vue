@@ -26,7 +26,7 @@
               <template v-slot:activator>
                 <wt-icon-btn
                   v-if="option.description"
-                  color="outline"
+                  color="info"
                   icon="rounded-info"
                 ></wt-icon-btn>
               </template>

@@ -3,7 +3,6 @@
     <wt-icon
       class="permissions-role-icon"
       :icon="role.user ? 'user' : 'role'"
-      color="active"
     ></wt-icon>
     {{ role.name }}
   </div>
