@@ -13,6 +13,7 @@
   <template v-slot:main>
     <setting-popup
       v-if="isSettingPopup"
+      :id="id"
       :namespace="namespace"
       @close="isSettingPopup = false"
     ></setting-popup>
@@ -41,7 +42,14 @@
           <wt-table-actions
             :icons="['refresh']"
             @input="tableActionsHandler"
-          ></wt-table-actions>
+          >
+            <delete-all-action
+              v-if="hasDeleteAccess"
+              :class="{'hidden': anySelected}"
+              :selected-count="selectedRows.length"
+              @click="callDelete(selectedRows)"
+            ></delete-all-action>
+          </wt-table-actions>
         </div>
       </header>
 
@@ -98,7 +106,8 @@
 </template>
 
 <script>
-import { mapActions } from 'vuex';
+import { mapActions, mapState } from 'vuex';
+import getNamespacedState from '@webitel/ui-sdk/src/store/helpers/getNamespacedState';
 import { useDummy } from '../../../../../app/composables/useDummy';
 import tableComponentMixin from '../../../../../app/mixins/objectPagesMixins/objectTableMixin/tableComponentMixin';
 import SettingPopup from './setting-popup.vue';
@@ -118,6 +127,11 @@ export default {
     return { dummy };
   },
   computed: {
+    ...mapState({
+      id(state) {
+        return getNamespacedState(state, this.namespace).itemId;
+      },
+    }),
     path() {
       return [
         { name: this.$t('objects.system.system') },
@@ -127,12 +141,12 @@ export default {
   },
   methods: {
     ...mapActions({
-      setItem(dispatch, payload) {
-        return dispatch(`${namespace}/SET_ITEM`, payload);
+      setItemId(dispatch, payload) {
+        return dispatch(`${namespace}/SET_ITEM_ID`, payload);
       },
     }),
     editSetting(item) {
-      this.setItem(item);
+      this.setItemId(item.id);
       this.isSettingPopup = true;
     },
   },
