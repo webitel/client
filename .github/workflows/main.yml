@@ -1,4 +1,4 @@
-name: Workspace CI
+name: Admin CI
 
 on:
   push:
