@@ -2,7 +2,7 @@
   <wt-page-wrapper :actions-panel="false">
     <template v-slot:header>
       <wt-page-header hide-primary>
-        {{ $t('settings.settings') }}
+        {{ $tc('settings.settings', 2) }}
       </wt-page-header>
     </template>
     <template v-slot:main>

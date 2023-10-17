@@ -53,7 +53,7 @@ export default {
   },
 
   settings: {
-    settings: 'Налаштування',
+    settings: 'Налаштування | Налаштування',
     changePassword: 'Змінити пароль',
     language: 'Мова',
     webPhone: 'Web-телефон',
@@ -785,7 +785,7 @@ export default {
         maxNumberOfRetry: 'Максимальна кількість повторів додзвону',
         minDuration: 'Мінімальна тривалість успішного дзвінка',
         maxAttempts: 'Максимальна кількість спроб',
-        minOnlineAgents: 'Ліміт операторів для виходу в паузу ',
+        minOnlineAgents: 'Доступ до паузи, якщо кількість операторів онлайн більше ніж:',
         waitForResultStatus: 'Очікування результату дзвінка',
         retryAbandoned: 'Відновлювати втрачених абонентів',
         playbackFile: 'Програти файл',

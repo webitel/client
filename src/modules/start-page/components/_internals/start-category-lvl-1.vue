@@ -9,7 +9,7 @@
         class="start-nav__category-option start-nav__category-option--lvl-1"
         :class="{ 'start-nav__category-option--selected': selected.value === category.value }"
         @click="select(category)">
-        <wt-icon icon-prefix="adm" color="active" :icon="category.value"></wt-icon>
+        <wt-icon icon-prefix="adm" :icon="category.value"></wt-icon>
         {{ category.name }}
       </button>
       <div v-show="selected.value === category.value">

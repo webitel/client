@@ -10,7 +10,6 @@
             <wt-icon
               class="permissions-role-icon"
               :icon="option.user ? 'user' : 'role'"
-              color="active"
             ></wt-icon>
             {{ option[optionLabel] || option }}
           </span>
@@ -21,7 +20,6 @@
             <wt-icon
               class="permissions-role-icon"
               :icon="option.user ? 'user' : 'role'"
-              color="active"
             ></wt-icon>
             {{ option[optionLabel] || option }}
           </span>

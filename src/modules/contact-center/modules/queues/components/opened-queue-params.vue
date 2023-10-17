@@ -164,6 +164,7 @@
         :disabled="disableUserInput"
         :label="$t('objects.ccenter.queues.minOnlineAgents')"
         :value="itemInstance.payload.minOnlineAgents"
+        :v="v.itemInstance.payload.minOnlineAgents"
         type="number"
         @input="setItemPayloadProp({ prop: 'minOnlineAgents', value: +$event })"
       ></wt-input>

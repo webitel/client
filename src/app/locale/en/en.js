@@ -53,7 +53,7 @@ export default {
   },
 
   settings: {
-    settings: 'Settings',
+    settings: 'Setting | Settings',
     changePassword: 'Change password',
     language: 'Language',
     webPhone: 'WebPhone',
@@ -787,7 +787,7 @@ export default {
         maxNumberOfRetry: 'Max number of retry',
         minDuration: 'Minimum succeed call duration',
         maxAttempts: 'Max attempts',
-        minOnlineAgents: 'Limit agents to take a pause',
+        minOnlineAgents: 'Access to pause when there are more online agents than:',
         waitForResultStatus: 'Wait for result status',
         bucketPriority: 'Priority',
         amd: 'AMD',

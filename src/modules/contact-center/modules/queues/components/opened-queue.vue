@@ -47,6 +47,7 @@
 import { useVuelidate } from '@vuelidate/core';
 import { QueueType } from 'webitel-sdk/esm2015/enums';
 import { required, minValue } from '@vuelidate/validators';
+import deepmerge from 'deepmerge';
 import General from './opened-queue-general.vue';
 import Params from './opened-queue-params.vue';
 import Processing from './opened-queue-processing.vue';
@@ -88,36 +89,38 @@ export default {
   }),
   validations() {
     const defaults = {
-      name: { required },
-      calendar: { required },
-      priority: { minValue: minValue(0) },
+      itemInstance: {
+        name: { required },
+        calendar: { required },
+        priority: { minValue: minValue(0) },
+        payload: {
+          minOnlineAgents: { minValue: minValue(0) },
+        },
+      },
     };
     switch (+this.queueType) {
       case QueueType.OFFLINE_QUEUE:
-        return {
+        return deepmerge(defaults, {
           itemInstance: {
-            ...defaults,
             strategy: { required },
             payload: {
               originateTimeout: { required, minValue: minValue(0) },
             },
           },
-        };
+        });
       case QueueType.INBOUND_QUEUE:
-        return {
+        return deepmerge(defaults, {
           itemInstance: {
-            ...defaults,
             payload: {
               timeBaseScore: { required },
               maxWaitTime: { required, minValue: minValue(0) },
               discardAbandonedAfter: { minValue: minValue(0) },
             },
           },
-        };
+        });
       case QueueType.OUTBOUND_IVR_QUEUE:
-        return {
+        return deepmerge(defaults, {
           itemInstance: {
-            ...defaults,
             strategy: { required },
             payload: {
               maxAttempts: { required },
@@ -126,11 +129,10 @@ export default {
               minDuration: { minValue: minValue(0) },
             },
           },
-        };
+        });
       case QueueType.PREVIEW_DIALER:
-        return {
+        return deepmerge(defaults, {
           itemInstance: {
-            ...defaults,
             strategy: { required },
             payload: {
               maxAttempts: { required },
@@ -138,11 +140,10 @@ export default {
               waitBetweenRetries: { required, minValue: minValue(0) },
             },
           },
-        };
+        });
       case QueueType.PROGRESSIVE_DIALER:
-        return {
+        return deepmerge(defaults, {
           itemInstance: {
-            ...defaults,
             strategy: { required },
             payload: {
               maxAttempts: { required },
@@ -150,11 +151,10 @@ export default {
               waitBetweenRetries: { required, minValue: minValue(0) },
             },
           },
-        };
+        });
       case QueueType.PREDICTIVE_DIALER:
-        return {
+        return deepmerge(defaults, {
           itemInstance: {
-            ...defaults,
             strategy: { required },
             payload: {
               maxAttempts: { required },
@@ -163,11 +163,10 @@ export default {
               maxWaitTime: { minValue: minValue(0) },
             },
           },
-        };
+        });
       case QueueType.CHAT_INBOUND_QUEUE:
-        return {
+        return deepmerge(defaults, {
           itemInstance: {
-            ...defaults,
             strategy: { required },
             payload: {
               timeBaseScore: { required },
@@ -175,22 +174,20 @@ export default {
               discardAbandonedAfter: { minValue: minValue(0) },
             },
           },
-        };
+        });
       case QueueType.INBOUND_JOB_QUEUE:
-        return {
+        return deepmerge(defaults, {
           itemInstance: {
-            ...defaults,
             strategy: { required },
             payload: {
               maxAttempts: { required },
               waitBetweenRetries: { required, minValue: minValue(0) },
             },
           },
-        };
+        });
       case QueueType.OUTBOUND_JOB_QUEUE:
-        return {
+        return deepmerge(defaults, {
           itemInstance: {
-            ...defaults,
             strategy: { required },
             payload: {
               maxAttempts: { required },
@@ -199,7 +196,7 @@ export default {
               minDuration: { minValue: minValue(0) },
             },
           },
-        };
+        });
       default:
         return {};
     }

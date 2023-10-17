@@ -19,7 +19,7 @@
       >{{ $t('reusable.cancel') }}
       </wt-button>
       <wt-button
-        color="danger"
+        color="error"
         :loading="isDeleting"
         @click="confirm"
       >{{ $t('reusable.delete') }}

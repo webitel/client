@@ -53,7 +53,7 @@ export default {
   },
 
   settings: {
-    settings: 'Настройки',
+    settings: 'Настройка | Настройки',
     changePassword: 'Изменить пароль',
     language: 'Язык',
     webPhone: 'Web-телефон',
@@ -785,7 +785,7 @@ export default {
         maxNumberOfRetry: 'Максимальное количество попыток звонков',
         minDuration: 'Минимально успешная длительность звонка',
         maxAttempts: 'Максимальное количество попыток',
-        minOnlineAgents: 'Лимит операторов для выхода в паузу',
+        minOnlineAgents: 'Доступ к паузе, если количество операторов онлайн больше чем:',
         waitForResultStatus: 'Ожидание результата звонка',
         bucketPriority: 'Приоритет',
         amd: 'AMD',
