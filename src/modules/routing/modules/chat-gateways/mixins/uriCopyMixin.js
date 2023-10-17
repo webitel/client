@@ -6,7 +6,7 @@ export default {
   methods: {
     modifyUriCopy(value) {
       const base = window.location.origin;
-      return new URL(path.join(process.env.VUE_APP_CHAT_URL, value), base).toString();
+      return new URL(path.join(import.meta.env.VITE_CHAT_URL, value), base).toString();
     },
   },
 };

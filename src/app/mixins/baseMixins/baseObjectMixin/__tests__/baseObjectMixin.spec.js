@@ -22,7 +22,7 @@ describe('BaseObjectMixin', () => {
           v$: {
             itemInstance: {
               $error: true,
-              $touch: jest.fn(),
+              $touch: vi.fn(),
             },
           },
         },

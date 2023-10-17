@@ -87,7 +87,7 @@ export default {
   computed: {
     baseUrl() {
       const originUrl = getChatOriginUrl();
-      const chatUrl = process.env.VUE_APP_CHAT_URL;
+      const chatUrl = import.meta.env.VITE_CHAT_URL;
       const uri = this.$store.getters[`${this.namespace}/${this.subNamespace}/CHAT_URI`];
       return new URL(path.join(chatUrl, uri), originUrl);
     },

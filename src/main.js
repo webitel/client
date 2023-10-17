@@ -18,7 +18,7 @@ I think, this issue should go on migration to Vue 3, so I left it "as is".
 import './app/css/do-not-delete-me.scss';
 
 const fetchConfig = async () => {
-  const response = await fetch(`${process.env.BASE_URL}config.json`);
+  const response = await fetch(`${import.meta.env.BASE_URL}config.json`);
   return response.json();
 };
 

@@ -4,7 +4,6 @@ unused
 /dist
 /coverage
 .eslintignore
-jest.json
 
 # local env files
 .env.local
