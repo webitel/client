@@ -162,7 +162,7 @@ $pic-height: 136px;
   border-radius: var(--border-radius);
 
   &:hover, &.active {
-    border-color: var(--accent-color);
+    border-color: var(--primary-color);
   }
 
   .popup-flow-editor__img-wrapper {
