@@ -26,7 +26,7 @@ export default {
     },
   },
   data: () => ({
-    baseUrl: process.env.BASE_URL, // to resolve iframe equalizer path after build
+    baseUrl: import.meta.env.BASE_URL, // to resolve iframe equalizer path after build
   }),
 };
 </script>

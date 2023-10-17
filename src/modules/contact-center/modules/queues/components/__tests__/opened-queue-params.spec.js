@@ -24,7 +24,7 @@ describe('OpenedQueueParams', () => {
       global: {
         mocks: {
           $route: {
-            name: 'jest',
+            name: 'vi',
           },
         },
       },
