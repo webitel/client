@@ -15,6 +15,7 @@ import '@webitel/ui-sdk/dist/img/sprite';
 const globals = {
   $baseURL: import.meta.env.BASE_URL,
 };
+
 // init plugin
 export default [WebitelUI, { eventBus, globals }];
 // add plugin locales to main i18n
