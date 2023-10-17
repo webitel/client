@@ -960,6 +960,14 @@ export default {
         imapHost: 'IMAP Host',
         fetchInterval: 'Refresh interval',
       },
+      singleSignOn: {
+        allTypes: 'All types',
+        singleSignOn: 'Single Sign-on',
+        type: 'Type',
+        clientId: 'Client id',
+        clientSecret: 'Client secret',
+        discoveryUrl: 'Discovery url',
+      },
 
       importCsv: {
         importCsv: 'Import CSV from file | Imports of CSV from file',
