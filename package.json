@@ -6,7 +6,8 @@
     "dev": "vite",
     "build": "vite build",
     "test:unit": "vitest",
-    "prepare": "husky install"
+    "prepare": "husky install",
+    "lint:fix": "eslint --fix --ext .js,.vue src"
   },
   "dependencies": {
     "@vue/compat": "^3.2.47",

@@ -7,21 +7,21 @@
       :filter-query="filter.filterQuery"
       :namespace="namespace"
       class="history-filters__filter"
-    ></component>
+    />
     <filter-datetime
       :label="`${
         $t('reusable.modifiedAt')}: ${$t('reusable.from').toLowerCase()
       }`"
       :namespace="namespace"
       filter-query="from"
-    ></filter-datetime>
+    />
     <filter-datetime
       :label="`${
         $t('reusable.modifiedAt')}: ${$t('reusable.to').toLowerCase()
       }`"
       :namespace="namespace"
       filter-query="to"
-    ></filter-datetime>
+    />
   </wt-filters-panel-wrapper>
 </template>
 
@@ -33,7 +33,7 @@ import FilterFromTo from '@webitel/ui-sdk/src/modules/QueryFilters/components/fi
 import { mapActions } from 'vuex';
 
 export default {
-  name: 'opened-user-logs-filters',
+  name: 'OpenedUserLogsFilters',
   components: {
     FilterDatetime,
     FilterFromTo,
@@ -63,7 +63,7 @@ export default {
       this.resetFilterValues();
     },
   },
-  destroyed() {
+  unmounted() {
     this.resetFilters();
   },
 };

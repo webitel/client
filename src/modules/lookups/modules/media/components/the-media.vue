@@ -1,29 +1,31 @@
 <template>
   <wt-page-wrapper :actions-panel="false">
-    <template v-slot:header>
+    <template #header>
       <wt-page-header hide-primary>
-        <wt-headline-nav :path="path"></wt-headline-nav>
-        <template v-slot:actions>
+        <wt-headline-nav :path="path" />
+        <template #actions>
           <download-files-btn
             :files-download-progress="filesDownloadProgress"
             :files-zipping-progress="filesZippingProgress"
             :is-files-loading="isFilesLoading"
             @export-files="exportFiles(null, { fields: undefined })"
-          ></download-files-btn>
+          />
         </template>
       </wt-page-header>
     </template>
 
-    <template v-slot:main>
+    <template #main>
       <delete-confirmation-popup
         v-show="deleteConfirmation.isDeleteConfirmationPopup"
         :payload="deleteConfirmation"
         @close="closeDelete"
-      ></delete-confirmation-popup>
+      />
 
       <section class="main-section__wrapper">
         <header class="content-header">
-          <h3 class="content-title">{{ $t('objects.lookups.media.allMediaFiles') }}</h3>
+          <h3 class="content-title">
+            {{ $t('objects.lookups.media.allMediaFiles') }}
+          </h3>
           <div class="content-header__actions-wrap">
             <wt-search-bar
               :value="search"
@@ -31,7 +33,7 @@
               @enter="loadList"
               @input="setSearch"
               @search="loadList"
-            ></wt-search-bar>
+            />
             <wt-table-actions
               :icons="['refresh']"
               @input="tableActionsHandler"
@@ -41,10 +43,10 @@
                 :class="{'hidden': anySelected}"
                 :selected-count="selectedRows.length"
                 @click="callDelete(selectedRows)"
-              ></delete-all-action>
+              />
               <text-to-speech-popup
                 @opened="closePlayer"
-              ></text-to-speech-popup>
+              />
             </wt-table-actions>
           </div>
         </header>
@@ -62,7 +64,7 @@
         >
           <div v-show="isLoadingFiles">
             <div class="progress-count">
-              <wt-loader size="sm"></wt-loader>
+              <wt-loader size="sm" />
               <p>{{ loadedCount }}/{{ allLoadingCount }}</p>
             </div>
           </div>
@@ -71,7 +73,10 @@
             :title="$t('iconHints.upload')"
             class="dz-custom-message"
           >
-            <wt-icon color="primary" icon="upload"></wt-icon>
+            <wt-icon
+              color="primary"
+              icon="upload"
+            />
             <div class="dz-message-text">
               <span class="dz-message-text__accent">
                 {{ $t('objects.lookups.media.dragPlaceholder') }}
@@ -81,52 +86,53 @@
           </div>
         </vue-dropzone>
 
-        <wt-loader v-show="!isLoaded"></wt-loader>
+        <wt-loader v-show="!isLoaded" />
         <wt-dummy
           v-if="dummy && isLoaded"
           :src="dummy.src"
           :text="dummy.text && $t(dummy.text)"
           class="dummy-wrapper"
-        ></wt-dummy>
+        />
         <div
           v-show="dataList.length && isLoaded"
-          class="table-wrapper">
+          class="table-wrapper"
+        >
           <wt-table
             :data="dataList"
             :headers="headers"
             sortable
             @sort="sort"
           >
-            <template v-slot:name="{ item }">
+            <template #name="{ item }">
               {{ item.name }}
             </template>
-            <template v-slot:createdAt="{ item }">
+            <template #createdAt="{ item }">
               {{ prettifyDate(item.createdAt) }}
             </template>
-            <template v-slot:format="{ item }">
+            <template #format="{ item }">
               {{ prettifyFormat(item.mimeType) }}
             </template>
-            <template v-slot:size="{ item }">
+            <template #size="{ item }">
               {{ prettifyFileSize(item.size) }}
             </template>
-            <template v-slot:actions="{ item, index }">
+            <template #actions="{ item, index }">
               <media-file-preview-table-action
                 :playing="index === playingIndex && currentlyPlaying"
                 :type="item.mimeType"
                 @open="openFile(item)"
                 @play="play(index)"
-              ></media-file-preview-table-action>
+              />
               <wt-icon-action
                 action="download"
                 class="table-action"
                 @click="downloadFile(item)"
-              ></wt-icon-action>
+              />
               <wt-icon-action
                 v-if="hasDeleteAccess"
                 action="delete"
                 class="table-action"
                 @click="callDelete(item)"
-              ></wt-icon-action>
+              />
             </template>
           </wt-table>
           <wt-pagination
@@ -138,7 +144,7 @@
             @input="setSize"
             @next="nextPage"
             @prev="prevPage"
-          ></wt-pagination>
+          />
         </div>
 
         <wt-player
@@ -147,7 +153,7 @@
           @close="closePlayer"
           @pause="currentlyPlaying = false"
           @play="currentlyPlaying = true"
-        ></wt-player>
+        />
       </section>
     </template>
   </wt-page-wrapper>
@@ -158,27 +164,31 @@ import exportFilesMixin from '@webitel/ui-sdk/src/modules/FilesExport/mixins/exp
 import prettifyFileSize from '@webitel/ui-sdk/src/scripts/prettifyFileSize';
 import vueDropzone from 'vue2-dropzone';
 import DownloadFilesBtn from '../../../../../app/components/utils/download-files-btn.vue';
+import { useDummy } from '../../../../../app/composables/useDummy';
 import tableComponentMixin from '../../../../../app/mixins/objectPagesMixins/objectTableMixin/tableComponentMixin';
 import { download } from '../../../../../app/utils/download';
 import MediaAPI from '../api/media';
 import TextToSpeechPopup from '../modules/text-to-speech/components/text-to-speech-popup.vue';
 import MediaFilePreviewTableAction from './media-file-preview-table-action.vue';
-import { useDummy } from '../../../../../app/composables/useDummy';
 
 const token = localStorage.getItem('access-token');
 const API_URL = import.meta.env.VITE_API_URL;
 const namespace = 'lookups/media';
 
 export default {
-  name: 'the-media',
-  mixins: [exportFilesMixin, tableComponentMixin],
+  name: 'TheMedia',
   components: {
     DownloadFilesBtn,
     vueDropzone,
     TextToSpeechPopup,
     MediaFilePreviewTableAction,
   },
+  mixins: [exportFilesMixin, tableComponentMixin],
   inject: ['$eventBus'],
+  setup() {
+    const { dummy } = useDummy({ namespace, hiddenText: true });
+    return { dummy };
+  },
   data() {
     return {
       namespace,
@@ -199,10 +209,6 @@ export default {
       },
     };
   },
-  setup() {
-    const { dummy } = useDummy({ namespace, hiddenText: true });
-    return { dummy };
-  },
   computed: {
     path() {
       return [
@@ -213,6 +219,13 @@ export default {
         },
       ];
     },
+  },
+  created() {
+    this.initFilesExport({
+      fetchMethod: this.getMediaList, // API call method
+      filename: 'media', // name of downloaded file. default is 'files'
+      filesURL: (id) => `${API_URL}/storage/media/${id}/download?access_token=${token}`, // Function. accepts file id param, and generates download link for file
+    });
   },
 
   methods: {
@@ -281,13 +294,6 @@ export default {
       .pop();
     },
     prettifyFileSize,
-  },
-  created() {
-    this.initFilesExport({
-      fetchMethod: this.getMediaList, // API call method
-      filename: 'media', // name of downloaded file. default is 'files'
-      filesURL: (id) => `${API_URL}/storage/media/${id}/download?access_token=${token}`, // Function. accepts file id param, and generates download link for file
-    });
   },
 };
 </script>

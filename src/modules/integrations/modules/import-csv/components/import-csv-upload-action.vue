@@ -3,32 +3,32 @@
     <upload-file-icon-btn
       accept=".csv"
       @change="processCSV"
-    ></upload-file-icon-btn>
+    />
     <upload-csv-preview-popup
       v-if="file"
+      :add-bulk-items="saveBulkData"
+      :charset="item.parameters.charset.value"
       :file="file"
       :mapping-fields="mappingFields"
       :separator="item.parameters.separator"
-      :charset="item.parameters.charset.value"
       :skip-headers="item.parameters.skipHeaders"
-      :add-bulk-items="saveBulkData"
       @close="file = null"
       @save="handleSave"
-    ></upload-csv-preview-popup>
+    />
   </div>
 </template>
 
 <script>
 import UploadFileIconBtn from '../../../../../app/components/utils/upload-file-icon-btn.vue';
 import UploadCsvPreviewPopup from '../../../../_shared/upload-csv-popup/components/upload-csv-preview-popup.vue';
-import normalizeCsvMembers from '../../../../contact-center/modules/queues/modules/members/mixins/normalizeCsvMembers';
 import QueueMembersAPI from '../../../../contact-center/modules/queues/modules/members/api/queueMembers';
+import normalizeCsvMembers from '../../../../contact-center/modules/queues/modules/members/mixins/normalizeCsvMembers';
 import ImportCsvMemberMappings from '../lookups/ImportCsvMemberMappings.lookup';
 
 export default {
-  name: 'import-csv-upload-action',
-  mixins: [normalizeCsvMembers],
+  name: 'ImportCsvUploadAction',
   components: { UploadFileIconBtn, UploadCsvPreviewPopup },
+  mixins: [normalizeCsvMembers],
   props: {
     item: {
       type: Object,

@@ -1,30 +1,36 @@
 <template>
-  <wt-popup min-width="480" overflow @close="close">
-    <template v-slot:title>
+  <wt-popup
+    min-width="480"
+    overflow
+    @close="close"
+  >
+    <template #title>
       {{ $t('objects.permissions.roles.addPermission') }}
     </template>
-    <template v-slot:main>
+    <template #main>
       <form>
         <wt-select
           v-model="itemInstance.permission"
-          :v="v$.itemInstance.permission"
+          :clearable="false"
           :label="$tc('objects.permissions.roles.permissions.permissions', 1)"
           :search-method="loadPermissionsList"
-          :clearable="false"
+          :v="v$.itemInstance.permission"
           required
-        ></wt-select>
+        />
       </form>
     </template>
-    <template v-slot:actions>
+    <template #actions>
       <wt-button
         :disabled="computeDisabled"
         @click="save"
-      >{{ $t('objects.add') }}
+      >
+        {{ $t('objects.add') }}
       </wt-button>
       <wt-button
         color="secondary"
         @click="close"
-      >{{ $t('objects.close') }}
+      >
+        {{ $t('objects.close') }}
       </wt-button>
     </template>
   </wt-popup>
@@ -32,29 +38,28 @@
 
 <script>
 import { useVuelidate } from '@vuelidate/core';
-import { mapState, mapActions } from 'vuex';
 import { required } from '@vuelidate/validators';
 import { snakeToCamel } from '@webitel/ui-sdk/src/scripts/caseConverters';
+import { mapActions, mapState } from 'vuex';
+import nestedObjectMixin from '../../../../../../app/mixins/objectPagesMixins/openedObjectMixin/nestedObjectMixin';
 import RolesAPI from '../../api/roles';
-import nestedObjectMixin
-  from '../../../../../../app/mixins/objectPagesMixins/openedObjectMixin/nestedObjectMixin';
 
 export default {
-  name: 'opened-role-permissions-popup',
+  name: 'OpenedRolePermissionsPopup',
   mixins: [nestedObjectMixin],
   props: {
     editedIndex: {
       type: [Number, Object], // "null" object
     },
   },
+  setup: () => ({
+    v$: useVuelidate(),
+  }),
   data: () => ({
     namespace: 'permissions/roles',
     itemInstanceValue: {
       permission: {},
     },
-  }),
-  setup: () => ({
-    v$: useVuelidate(),
   }),
   validations: {
     itemInstance: {
@@ -109,13 +114,13 @@ export default {
     async loadPermissionsList(params) {
       const response = await RolesAPI.getPermissionsOptions({ ...params, size: 5000 });
       response.items = response.items
-        .filter((permission) => (
-          this.permissions.every((addedPermission) => addedPermission.id !== permission.id)
-        ))
-        .map((permission) => ({
-          ...permission,
-          name: this.$t(`objects.permissions.roles.permissions.${snakeToCamel(permission.id)}`),
-        }));
+      .filter((permission) => (
+        this.permissions.every((addedPermission) => addedPermission.id !== permission.id)
+      ))
+      .map((permission) => ({
+        ...permission,
+        name: this.$t(`objects.permissions.roles.permissions.${snakeToCamel(permission.id)}`),
+      }));
       return response;
     },
     loadItem() {

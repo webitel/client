@@ -1,7 +1,7 @@
 import { QueueType } from 'webitel-sdk/esm2015/enums';
-import queue from './defaults/defaultQueue';
 import { Strategy } from '../enums/Strategy.enum';
 import { TimeBaseScore } from '../enums/TimeBaseScore.enum';
+import queue from './defaults/defaultQueue';
 import processing from './defaults/processing';
 
 const chatInboundQueue = () => ({

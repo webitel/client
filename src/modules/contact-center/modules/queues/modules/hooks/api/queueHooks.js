@@ -1,13 +1,17 @@
-import { QueueHookServiceApiFactory } from 'webitel-sdk';
 import {
   getDefaultGetListResponse,
   getDefaultGetParams,
 } from '@webitel/ui-sdk/src/api/defaults';
 import applyTransform, {
   camelToSnake,
-  merge, mergeEach, notify, sanitize, snakeToCamel,
+  merge,
+  mergeEach,
+  notify,
+  sanitize,
+  snakeToCamel,
   starToSearch,
 } from '@webitel/ui-sdk/src/api/transformers';
+import { QueueHookServiceApiFactory } from 'webitel-sdk';
 import instance from '../../../../../../../app/api/instance';
 import configuration from '../../../../../../../app/api/openAPIConfig';
 
@@ -15,7 +19,10 @@ const queueHookService = new QueueHookServiceApiFactory(configuration, '', insta
 
 const fieldsToSend = ['event', 'properties', 'schema', 'enabled'];
 
-const preRequestHandler = (parentId) => (item) => ({ ...item, queueId: parentId });
+const preRequestHandler = (parentId) => (item) => ({
+  ...item,
+  queueId: parentId,
+});
 
 const getQueueHooksList = async (params) => {
   const defaultObject = {

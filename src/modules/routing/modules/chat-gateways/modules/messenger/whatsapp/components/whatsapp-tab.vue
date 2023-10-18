@@ -4,7 +4,7 @@
       v-show="deleteConfirmation.isDeleteConfirmationPopup"
       :payload="deleteConfirmation"
       @close="closeDelete"
-    ></delete-confirmation-popup>
+    />
 
     <header class="content-header">
       <h3 class="content-title">
@@ -17,7 +17,7 @@
         :label="$t('objects.routing.chatGateways.messenger.whatsapp.token')"
         :value="itemInstance.metadata.whatsappToken"
         @input="setItemMetadata({ prop: 'whatsappToken', value: $event })"
-      ></wt-input>
+      />
     </div>
     <div class="whatsapp-tab__actions-wrap">
       <wt-table-actions
@@ -27,44 +27,48 @@
         <wt-button
           v-if="!disableUserInput"
           @click="addOrRemovePages"
-        >{{ $t('objects.routing.chatGateways.messenger.addOrRemovePages') }}
+        >
+          {{ $t('objects.routing.chatGateways.messenger.addOrRemovePages') }}
         </wt-button>
       </wt-table-actions>
     </div>
-    <wt-loader v-show="!isLoaded"></wt-loader>
-    <div v-show="isLoaded" class="table-wrapper">
+    <wt-loader v-show="!isLoaded" />
+    <div
+      v-show="isLoaded"
+      class="table-wrapper"
+    >
       <wt-table
         :data="dataList"
         :grid-actions="!disableUserInput"
         :headers="headers"
         :selectable="false"
       >
-        <template v-slot:name="{ item }">
+        <template #name="{ item }">
           {{ item.phoneNumbers[0].verifiedName }}
         </template>
-        <template v-slot:number="{ item }">
+        <template #number="{ item }">
           {{ item.phoneNumbers[0].displayPhoneNumber }}
         </template>
-        <template v-slot:review="{ item }">
+        <template #review="{ item }">
           {{ item.phoneNumbers[0].nameStatus }}
         </template>
-        <template v-slot:status="{ item }">
+        <template #status="{ item }">
           {{ item.phoneNumbers[0].status }}
         </template>
-        <template v-slot:subscription="{ item }">
+        <template #subscription="{ item }">
           <wt-switcher
             :disabled="!hasEditAccess"
             :value="!!item.subscribedFields"
             @change="updateSubscriptionState({ item, value: $event })"
-          ></wt-switcher>
+          />
         </template>
-        <template v-slot:actions="{ item }">
+        <template #actions="{ item }">
           <wt-icon-action
             v-if="hasDeleteAccess"
             action="delete"
             class="table-action"
             @click="callDelete(item)"
-          ></wt-icon-action>
+          />
         </template>
       </wt-table>
     </div>
@@ -79,7 +83,7 @@ import openMessengerWindow from '../../_shared/scripts/openMessengerWindow';
 import WhatsappAPI from '../api/whatsapp';
 
 export default {
-  name: 'opened-chat-gateway-whatsapp-tab',
+  name: 'OpenedChatGatewayWhatsappTab',
   mixins: [openedObjectTableTabMixin],
   inject: ['$eventBus'],
   data: () => ({

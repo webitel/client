@@ -4,7 +4,10 @@ import {
 } from '@webitel/ui-sdk/src/api/defaults';
 import applyTransform, {
   camelToSnake,
-  merge, notify, sanitize, snakeToCamel,
+  merge,
+  notify,
+  sanitize,
+  snakeToCamel,
   starToSearch,
 } from '@webitel/ui-sdk/src/api/transformers';
 import { SystemSettingServiceApiFactory } from 'webitel-sdk';

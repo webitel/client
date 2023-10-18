@@ -1,19 +1,27 @@
-import {
-  EndpointListGetterApiConsumer,
-  EndpointGetterApiConsumer,
-  EndpointCreatorApiConsumer,
-  EndpointUpdaterApiConsumer,
-  EndpointPatcherApiConsumer,
-  EndpointDeleterApiConsumer,
-} from 'webitel-sdk/esm2015/api-consumers';
 import deepmerge from 'deepmerge';
+import {
+  EndpointCreatorApiConsumer,
+  EndpointDeleterApiConsumer,
+  EndpointGetterApiConsumer,
+  EndpointListGetterApiConsumer,
+  EndpointPatcherApiConsumer,
+  EndpointUpdaterApiConsumer,
+} from 'webitel-sdk/esm2015/api-consumers';
 import instance from '../../../../../app/api/old/instance';
 import ChatGatewayProvider from '../enum/ChatGatewayProvider.enum';
 import webChatGateway from '../store/_internals/providers/webChatGateway';
 
 const baseUrl = '/chat/bots';
 
-const fieldsToSend = ['name', 'uri', 'flow', 'enabled', 'provider', 'metadata', 'updates'];
+const fieldsToSend = [
+  'name',
+  'uri',
+  'flow',
+  'enabled',
+  'provider',
+  'metadata',
+  'updates',
+];
 
 const defaultListObject = { // default object prototype, to merge response with it to get all fields
   enabled: false,
@@ -32,7 +40,9 @@ const defaultListObject = { // default object prototype, to merge response with 
 
 const convertWebchatSeconds = (num) => `${num}s`;
 
-const parseTimeoutSeconds = (item) => (item.includes('s') ? parseInt(item.replace('/s', '/'), 10) : +item);
+const parseTimeoutSeconds = (item) => (item.includes('s')
+  ? parseInt(item.replace('/s', '/'), 10)
+  : +item);
 
 const webchatRequestConverter = (data) => {
   if (data.metadata.readTimeout) {
@@ -138,13 +148,26 @@ const itemResponseHandler = (response) => {
   }
 };
 
-const listGetter = new EndpointListGetterApiConsumer({ baseUrl, instance }, { defaultListObject });
-const itemGetter = new EndpointGetterApiConsumer({ baseUrl, instance }, { itemResponseHandler });
-const itemCreator = new EndpointCreatorApiConsumer({ baseUrl, instance },
-  { fieldsToSend, preRequestHandler });
-const itemUpdater = new EndpointUpdaterApiConsumer({ baseUrl, instance },
-  { fieldsToSend, preRequestHandler });
-const itemPatcher = new EndpointPatcherApiConsumer({ baseUrl, instance }, { fieldsToSend });
+const listGetter = new EndpointListGetterApiConsumer({
+  baseUrl,
+  instance,
+}, { defaultListObject });
+const itemGetter = new EndpointGetterApiConsumer({
+  baseUrl,
+  instance,
+}, { itemResponseHandler });
+const itemCreator = new EndpointCreatorApiConsumer(
+  { baseUrl, instance },
+  { fieldsToSend, preRequestHandler },
+);
+const itemUpdater = new EndpointUpdaterApiConsumer(
+  { baseUrl, instance },
+  { fieldsToSend, preRequestHandler },
+);
+const itemPatcher = new EndpointPatcherApiConsumer({
+  baseUrl,
+  instance,
+}, { fieldsToSend });
 const itemDeleter = new EndpointDeleterApiConsumer({ baseUrl, instance });
 const lookupGetter = new EndpointListGetterApiConsumer({ baseUrl, instance });
 

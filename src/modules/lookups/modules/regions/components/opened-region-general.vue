@@ -1,43 +1,46 @@
 <template>
   <section>
     <header class="content-header">
-      <h3 class="content-title">{{ $t('objects.generalInfo') }}</h3>
+      <h3 class="content-title">
+        {{ $t('objects.generalInfo') }}
+      </h3>
     </header>
     <div class="object-input-grid">
       <wt-input
-        :value="itemInstance.name"
-        :v="v.itemInstance.name"
-        :label="$t('objects.name')"
         :disabled="disableUserInput"
+        :label="$t('objects.name')"
+        :v="v.itemInstance.name"
+        :value="itemInstance.name"
         required
         @input="setItemProp({ prop: 'name', value: $event })"
-      ></wt-input>
+      />
       <wt-select
-        :value="itemInstance.timezone"
-        :v="v.itemInstance.timezone"
-        :label="$tc('objects.lookups.timezone.timezone', 1)"
-        :search-method="loadTimezones"
         :clearable="false"
         :disabled="disableUserInput"
+        :label="$tc('objects.lookups.timezone.timezone', 1)"
+        :search-method="loadTimezones"
+        :v="v.itemInstance.timezone"
+        :value="itemInstance.timezone"
         required
         @input="setItemProp({ prop: 'timezone', value: $event })"
-      ></wt-select>
+      />
       <wt-textarea
-        :value="itemInstance.description"
-        :label="$t('objects.description')"
         :disabled="disableUserInput"
+        :label="$t('objects.description')"
+        :value="itemInstance.description"
         @input="setItemProp({ prop: 'description', value: $event })"
-      ></wt-textarea>
+      />
     </div>
   </section>
 </template>
 
 <script>
+import openedTabComponentMixin
+  from '../../../../../app/mixins/objectPagesMixins/openedObjectTabMixin/openedTabComponentMixin';
 import CalendarsAPI from '../../calendars/api/calendars';
-import openedTabComponentMixin from '../../../../../app/mixins/objectPagesMixins/openedObjectTabMixin/openedTabComponentMixin';
 
 export default {
-  name: 'opened-region-general',
+  name: 'OpenedRegionGeneral',
   mixins: [openedTabComponentMixin],
   methods: {
     loadTimezones(params) {

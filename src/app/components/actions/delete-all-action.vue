@@ -1,22 +1,22 @@
 <template>
   <div class="delete-all-action">
     <wt-tooltip>
-    <template v-slot:activator>
-      <wt-icon-btn
-        v-bind="$attrs"
-        class="icon-action"
-        icon="bucket"
-        @click="$emit('click')"
-      ></wt-icon-btn>
-    </template>
-    {{ actionPanelDeleteTooltip }}
-  </wt-tooltip>
+      <template #activator>
+        <wt-icon-btn
+          class="icon-action"
+          icon="bucket"
+          v-bind="$attrs"
+          @click="$emit('click')"
+        />
+      </template>
+      {{ actionPanelDeleteTooltip }}
+    </wt-tooltip>
   </div>
 </template>
 
 <script>
 export default {
-  name: 'delete-all-action',
+  name: 'DeleteAllAction',
   props: {
     selectedCount: {
       type: Number,

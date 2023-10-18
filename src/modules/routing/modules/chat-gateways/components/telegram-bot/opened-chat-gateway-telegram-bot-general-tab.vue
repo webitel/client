@@ -1,7 +1,11 @@
 <template>
   <section>
     <header class="content-header">
-      <wt-icon icon="telegram" icon-prefix="messenger" size="sm"></wt-icon>
+      <wt-icon
+        icon="telegram"
+        icon-prefix="messenger"
+        size="sm"
+      />
       <h3 class="content-title">
         {{ $t('objects.routing.chatGateways.telegramBot.telegramBot') }}
       </h3>
@@ -13,14 +17,14 @@
         :v="v.itemInstance.name"
         :value="itemInstance.name"
         @input="setItemProp({ prop: 'name', value: $event })"
-      ></wt-input>
+      />
       <wt-input
         :disabled="disableUserInput"
         :label="$t('objects.routing.chatGateways.metadata.telegramToken')"
         :v="v.itemInstance.metadata.token"
         :value="itemInstance.metadata.token"
         @input="setItemMetadata({ prop: 'token', value: $event })"
-      ></wt-input>
+      />
       <copy-input
         :copy-modifier="modifyUriCopy"
         :disabled="!isUriEditable"
@@ -29,9 +33,9 @@
         :value="itemInstance.uri"
         required
         @input="setItemProp({ prop: 'uri', value: $event })"
-      ></copy-input>
+      />
       <!--      Empty div in order to have correct page design-->
-      <div></div>
+      <div />
       <wt-select
         :disabled="disableUserInput"
         :label="$tc('objects.routing.flow.flow', 1)"
@@ -39,7 +43,7 @@
         :v="v.itemInstance.flow"
         :value="itemInstance.flow"
         @input="setFlow"
-      ></wt-select>
+      />
     </div>
   </section>
 </template>
@@ -52,7 +56,7 @@ import FlowsAPI from '../../../flow/api/flow';
 import uriCopyMixin from '../../mixins/uriCopyMixin';
 
 export default {
-  name: 'opened-chat-telegram-bot-general-tab',
+  name: 'OpenedChatTelegramBotGeneralTab',
   mixins: [openedTabComponentMixin, uriCopyMixin],
   computed: {
     isUriEditable() {

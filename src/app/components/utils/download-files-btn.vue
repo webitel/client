@@ -3,14 +3,18 @@
     <wt-button
       :loading="isFilesLoading"
       @click="exportFiles"
-    >{{ $t('utils.downloadFilesBtn.downloadFiles') }}
+    >
+      {{ $t('utils.downloadFilesBtn.downloadFiles') }}
     </wt-button>
-    <div v-show="isFilesLoading" class="files-counter">
+    <div
+      v-show="isFilesLoading"
+      class="files-counter"
+    >
       <div>
         {{ $t('utils.downloadFilesBtn.filesLoaded') }}
         <span class="files-counter__count">
-            {{ filesDownloadProgress }}
-          </span>
+          {{ filesDownloadProgress }}
+        </span>
       </div>
       <div v-show="filesZippingProgress">
         {{ $t('utils.downloadFilesBtn.zippingProgress') }}
@@ -22,7 +26,7 @@
 
 <script>
 export default {
-  name: 'download-files-btn',
+  name: 'DownloadFilesBtn',
   props: {
     isFilesLoading: {
       type: Boolean,
@@ -46,13 +50,13 @@ export default {
 .files-counter {
   @extend %typo-caption;
   position: absolute;
-  right: 0;
   top: 100%;
-  padding: 10px 15px;
+  right: 0;
   margin-top: 10px;
+  padding: 10px 15px;
+  border-radius: var(--border-radius);
   background: var(--main-color);
   box-shadow: var(--box-shadow);
-  border-radius: var(--border-radius);
 
   &__count {
     @extend %typo-caption;

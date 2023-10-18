@@ -4,34 +4,36 @@
       v-if="isHolidayPopup"
       :edited-index="editedIndex"
       @close="closePopup"
-    ></holiday-popup>
+    />
     <delete-confirmation-popup
       v-show="deleteConfirmation.isDeleteConfirmationPopup"
       :payload="deleteConfirmation"
       @close="closeDelete"
-    ></delete-confirmation-popup>
+    />
 
     <header class="content-header">
-      <h3 class="content-title">{{ $tc('objects.lookups.calendars.holidays', 2) }}</h3>
+      <h3 class="content-title">
+        {{ $tc('objects.lookups.calendars.holidays', 2) }}
+      </h3>
       <div class="content-header__actions-wrap">
-      <wt-search-bar
-        v-model="search"
-        debounce
-        @enter="loadList"
-        @search="loadList"
-      ></wt-search-bar>
+        <wt-search-bar
+          v-model="search"
+          debounce
+          @enter="loadList"
+          @search="loadList"
+        />
         <delete-all-action
           v-if="!disableUserInput"
           :class="{'hidden': anySelected}"
           :selected-count="selectedRows.length"
           @click="callDelete(selectedRows)"
-        ></delete-all-action>
-      <wt-icon-btn
-        v-if="!disableUserInput"
-        class="icon-action"
-        icon="plus"
-        @click="create"
-      ></wt-icon-btn>
+        />
+        <wt-icon-btn
+          v-if="!disableUserInput"
+          class="icon-action"
+          icon="plus"
+          @click="create"
+        />
       </div>
     </header>
 
@@ -40,35 +42,36 @@
       :src="dummy.src"
       :text="dummy.text && $t(dummy.text)"
       class="dummy-wrapper"
-    ></wt-dummy>
+    />
     <div
       v-show="dataListValue.length"
-      class="table-wrapper">
+      class="table-wrapper"
+    >
       <wt-table
-        :headers="headers"
         :data="dataList"
         :grid-actions="!disableUserInput"
+        :headers="headers"
       >
-        <template v-slot:date="{ item }">
+        <template #date="{ item }">
           {{ prettifyDate(item.date) }}
         </template>
-        <template v-slot:repeat="{ item, index }">
+        <template #repeat="{ item, index }">
           <wt-switcher
-            :value="item.repeat"
             :disabled="disableUserInput"
+            :value="item.repeat"
             @change="setRepeatValue({ prop: 'repeat', index, value: $event })"
-          ></wt-switcher>
+          />
         </template>
-        <template v-slot:actions="{ item, index }">
+        <template #actions="{ item, index }">
           <wt-icon-action
             action="edit"
             @click="edit(index)"
-          ></wt-icon-action>
+          />
           <wt-icon-action
             action="delete"
             class="table-action"
             @click="callDelete(item)"
-          ></wt-icon-action>
+          />
         </template>
       </wt-table>
     </div>
@@ -77,14 +80,15 @@
 
 <script>
 import { mapActions, mapState } from 'vuex';
-import holidayPopup from './opened-calendar-holiday-popup.vue';
-import openedObjectTableTabMixin from '../../../../../app/mixins/objectPagesMixins/openedObjectTableTabMixin/openedObjectTableTabMixin';
 import dummyPic from '../../../../../app/assets/dummy/adm-dummy-after-search.svg';
+import openedObjectTableTabMixin
+  from '../../../../../app/mixins/objectPagesMixins/openedObjectTableTabMixin/openedObjectTableTabMixin';
+import holidayPopup from './opened-calendar-holiday-popup.vue';
 
 export default {
-  name: 'opened-calendar-holidays',
-  mixins: [openedObjectTableTabMixin],
+  name: 'OpenedCalendarHolidays',
   components: { holidayPopup },
+  mixins: [openedObjectTableTabMixin],
   data: () => ({
     dataListValue: [],
     searchValue: '',
@@ -124,7 +128,7 @@ export default {
           return {
             src: dummyPic,
             text: '',
-          }
+          };
         }
       } else return '';
     },
@@ -141,8 +145,8 @@ export default {
     }),
     loadList() {
       this.dataList = this.holidayList
-        .filter((holiday) => holiday.name.toLowerCase().includes(this.search.toLowerCase()))
-        .map((holiday) => ({ ...holiday, _isSelected: false }));
+      .filter((holiday) => holiday.name.toLowerCase().includes(this.search.toLowerCase()))
+      .map((holiday) => ({ ...holiday, _isSelected: false }));
     },
     setRepeatValue(payload) {
       this.setExceptItemProperty(payload);

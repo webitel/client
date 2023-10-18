@@ -1,9 +1,9 @@
 <template>
   <div class="permissions-role-column">
     <wt-icon
-      class="permissions-role-icon"
       :icon="role.user ? 'user' : 'role'"
-    ></wt-icon>
+      class="permissions-role-icon"
+    />
     {{ role.name }}
   </div>
 </template>
@@ -11,7 +11,7 @@
 <script>
 
 export default {
-  name: 'permissions-role-column',
+  name: 'PermissionsRoleColumn',
   props: {
     role: {
       type: Object,
@@ -25,6 +25,7 @@ export default {
 .permissions-role-column {
   display: flex;
   align-items: center;
+
   .permissions-role-icon {
     margin-right: var(--spacing-sm);
   }

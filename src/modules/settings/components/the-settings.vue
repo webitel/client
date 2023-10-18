@@ -1,59 +1,66 @@
 <template>
   <wt-page-wrapper :actions-panel="false">
-    <template v-slot:header>
+    <template #header>
       <wt-page-header hide-primary>
         {{ $tc('settings.settings', 2) }}
       </wt-page-header>
     </template>
-    <template v-slot:main>
+    <template #main>
       <!--This wrapper "settings-section" is needed to place the "settings-section__setting"
       in a column and give them half the width of the screen-->
       <section class="settings-section">
         <article class="settings-section__setting">
           <header class="content-header">
-            <h3 class="content-title">{{ $t('settings.changePassword') }}</h3>
+            <h3 class="content-title">
+              {{ $t('settings.changePassword') }}
+            </h3>
           </header>
           <form @submit="changePassword">
             <wt-input
               v-model="newPassword"
-              :v="v$.newPassword"
               :label="$t('auth.password')"
-              type="password"
+              :v="v$.newPassword"
               required
-            ></wt-input>
+              type="password"
+            />
             <wt-input
               v-model="confirmNewPassword"
-              :v="v$.confirmNewPassword"
               :label="$t('auth.confirmPassword')"
-              type="password"
+              :v="v$.confirmNewPassword"
               required
-            ></wt-input>
+              type="password"
+            />
             <wt-button
               :disabled="disablePasswordChange"
               :loading="isPasswordPatching"
               type="submit"
               @click.prevent="changePassword"
-            >{{ $t('objects.save') }}
+            >
+              {{ $t('objects.save') }}
             </wt-button>
           </form>
         </article>
         <section class="settings-section__setting">
           <header class="content-header">
-            <h3 class="content-title">{{ $t('settings.language') }}</h3>
+            <h3 class="content-title">
+              {{ $t('settings.language') }}
+            </h3>
           </header>
           <form>
             <wt-select
-              class="language-list"
-              :value="language"
-              :options="languageOptions"
               :label="$t('settings.language')"
+              :options="languageOptions"
+              :value="language"
+              class="language-list"
               @input="changeLanguage"
-            ></wt-select>
+            />
           </form>
         </section>
         <section class="settings-section__setting">
           <header class="content-header">
-            <h3 class="content-title">{{ $t('settings.webPhone') }}</h3>
+            <h3 class="content-title">
+              {{ $t('settings.webPhone') }}
+            </h3>
           </header>
           <form>
             <div class="settings-section__wrapper settings-section__switcher">
@@ -61,16 +68,17 @@
               <wt-switcher
                 v-model="webrtc"
                 @change="changeWebrtc"
-              ></wt-switcher>
+              />
             </div>
             <div
               v-show="webrtc"
-              class="settings-section__wrapper">
+              class="settings-section__wrapper"
+            >
               <p>{{ $t('settings.useStun') }}</p>
               <wt-switcher
                 v-model="stun"
                 @change="changeStun"
-              ></wt-switcher>
+              />
             </div>
           </form>
         </section>
@@ -81,14 +89,18 @@
 
 <script>
 import { useVuelidate } from '@vuelidate/core';
+import { required, sameAs } from '@vuelidate/validators';
 import getNamespacedState from '@webitel/ui-sdk/src/store/helpers/getNamespacedState';
-import { sameAs, required } from '@vuelidate/validators';
 import { mapState } from 'vuex';
 import { changePassword, changeWebPhone, getWebPhone } from '../api/settings';
 
 export default {
-  name: 'the-settings',
+  name: 'TheSettings',
   inject: ['$eventBus'],
+
+  setup: () => ({
+    v$: useVuelidate(),
+  }),
   data: () => ({
     newPassword: '',
     confirmNewPassword: '',
@@ -118,10 +130,6 @@ export default {
       },
     ],
   }),
-
-  setup: () => ({
-    v$: useVuelidate(),
-  }),
   validations() {
     return {
       newPassword: {
@@ -148,6 +156,15 @@ export default {
       return this.v$.$pending || this.v$.$error;
     },
   },
+  async mounted() {
+    try {
+      const response = await getWebPhone();
+      this.webrtc = response.webrtc;
+      this.stun = response.stun;
+    } catch (error) {
+      throw error;
+    }
+  },
 
   methods: {
     async changePassword() {
@@ -170,13 +187,13 @@ export default {
     },
 
     async changeWebrtc(value) {
-        try {
-          this.webrtc = value;
-          if (!value) this.stun = false;
-          await changeWebPhone({ webrtc: this.webrtc, stun: this.stun });
-        } catch (err) {
-          throw err;
-        }
+      try {
+        this.webrtc = value;
+        if (!value) this.stun = false;
+        await changeWebPhone({ webrtc: this.webrtc, stun: this.stun });
+      } catch (err) {
+        throw err;
+      }
     },
 
     async changeStun(value) {
@@ -199,15 +216,6 @@ export default {
       if (lang) this.language = this.languageOptions.find((item) => item.id === lang);
     },
   },
-  async mounted() {
-    try {
-      const response = await getWebPhone();
-      this.webrtc = response.webrtc;
-      this.stun = response.stun;
-    } catch (error) {
-      throw error
-    }
-  },
 
 };
 </script>
@@ -215,10 +223,10 @@ export default {
 <style lang="scss" scoped>
 .settings-section {
   display: flex;
-  flex-direction: column;
-  gap: var(--spacing-sm);
   flex: 0 1 50%;
+  flex-direction: column;
   min-width: 200px;
+  gap: var(--spacing-sm);
 
   .wt-button {
     display: block;

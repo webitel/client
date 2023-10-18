@@ -5,11 +5,11 @@
       v-show="isLoading"
       class="flow-diagram__loading-overlay"
     >
-      <wt-loader></wt-loader>
+      <wt-loader />
     </div>
     <div
       id="flow-diagram"
-    ></div>
+    />
   </section>
 </template>
 
@@ -17,6 +17,7 @@
 import { mapActions } from 'vuex';
 import openedTabComponentMixin
   from '../../../../../../../app/mixins/objectPagesMixins/openedObjectTabMixin/openedTabComponentMixin';
+import AgentsAPI from '../../../../../../contact-center/modules/agents/api/agents';
 import queuesAPI from '../../../../../../contact-center/modules/queues/api/queues';
 import usersAPI from '../../../../../../directory/modules/users/api/users';
 import BlacklistsAPI from '../../../../../../lookups/modules/blacklists/api/blacklists';
@@ -24,14 +25,13 @@ import bucketsAPI from '../../../../../../lookups/modules/buckets/api/buckets';
 import calendarsAPI from '../../../../../../lookups/modules/calendars/api/calendars';
 import CommunicationsAPI from '../../../../../../lookups/modules/communications/api/communications';
 import mediaAPI from '../../../../../../lookups/modules/media/api/media';
+import RolesAPI from '../../../../../../permissions/modules/roles/api/roles';
 import ChatGatewaysAPI from '../../../../chat-gateways/api/chatGateways';
 import gatewaysAPI from '../../../../gateways/api/gateways';
 import FlowsAPI from '../../../api/flow';
-import RolesAPI from '../../../../../../permissions/modules/roles/api/roles';
-import AgentsAPI from '../../../../../../contact-center/modules/agents/api/agents';
 
 export default {
-  name: 'opened-flow-diagram',
+  name: 'OpenedFlowDiagram',
   mixins: [openedTabComponentMixin],
   data: () => ({
     diagram: null,

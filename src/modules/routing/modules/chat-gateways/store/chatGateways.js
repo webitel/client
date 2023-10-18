@@ -3,19 +3,20 @@ import ObjectStoreModule
   from '../../../../../app/store/BaseStoreModules/StoreModules/ObjectStoreModule';
 import ChatGatewaysAPI from '../api/chatGateways';
 import ChatGatewayProvider from '../enum/ChatGatewayProvider.enum';
-import defaultChatGateway from './_internals/defaults/defaultChatGateway';
-import headers from './_internals/headers';
-import messengerChatGateway from './_internals/providers/messengerChatGateway';
-import infobipChatGateway from './_internals/providers/infobipChatGateway';
-import telegramAppChatGateway
-  from './_internals/providers/telegramAppChatGateway';
-import telegramBotChatGateway from './_internals/providers/telegramBotChatGateway';
-import viberChatGateway from './_internals/providers/viberChatGateway';
-import webChatGateway from './_internals/providers/webChatGateway';
 
 import facebook from '../modules/messenger/facebook/store/facebook';
 import instagram from '../modules/messenger/instagram/store/instagram';
 import whatsapp from '../modules/messenger/whatsapp/store/whatsapp';
+import defaultChatGateway from './_internals/defaults/defaultChatGateway';
+import headers from './_internals/headers';
+import infobipChatGateway from './_internals/providers/infobipChatGateway';
+import messengerChatGateway from './_internals/providers/messengerChatGateway';
+import telegramAppChatGateway
+  from './_internals/providers/telegramAppChatGateway';
+import telegramBotChatGateway
+  from './_internals/providers/telegramBotChatGateway';
+import viberChatGateway from './_internals/providers/viberChatGateway';
+import webChatGateway from './_internals/providers/webChatGateway';
 
 const resettableState = {
   itemInstance: {
@@ -60,17 +61,26 @@ const actions = {
   SET_WEBCHAT_VIEW_METADATA: (context, { prop, value }) => {
     const view = { ...context.state.itemInstance.metadata.view };
     view[prop] = value;
-    return context.dispatch('SET_WEBCHAT_ITEM_METADATA', { prop: 'view', value: view });
+    return context.dispatch('SET_WEBCHAT_ITEM_METADATA', {
+      prop: 'view',
+      value: view,
+    });
   },
   SET_WEBCHAT_CHAT_METADATA: (context, { prop, value }) => {
     const chat = { ...context.state.itemInstance.metadata.chat };
     chat[prop] = value;
-    return context.dispatch('SET_WEBCHAT_ITEM_METADATA', { prop: 'chat', value: chat });
+    return context.dispatch('SET_WEBCHAT_ITEM_METADATA', {
+      prop: 'chat',
+      value: chat,
+    });
   },
   SET_WEBCHAT_APPOINTMENT_METADATA: (context, { prop, value }) => {
     const appointment = { ...context.state.itemInstance.metadata.appointment };
     appointment[prop] = value;
-    return context.dispatch('SET_WEBCHAT_ITEM_METADATA', { prop: 'appointment', value: appointment });
+    return context.dispatch('SET_WEBCHAT_ITEM_METADATA', {
+      prop: 'appointment',
+      value: appointment,
+    });
   },
   SET_WEBCHAT_ALTERNATIVE_CHANNEL_VALUE: (
     context,
@@ -121,9 +131,9 @@ const mutations = {
 };
 
 const chatGateways = new ObjectStoreModule({ resettableState, headers })
-  .attachAPIModule(ChatGatewaysAPI)
-  .generateAPIActions()
-  .setChildModules({ facebook, instagram, whatsapp })
-  .getModule({ actions, mutations });
+.attachAPIModule(ChatGatewaysAPI)
+.generateAPIActions()
+.setChildModules({ facebook, instagram, whatsapp })
+.getModule({ actions, mutations });
 
 export default chatGateways;

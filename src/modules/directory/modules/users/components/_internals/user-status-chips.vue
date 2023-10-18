@@ -1,27 +1,35 @@
 <template>
   <div class="user-status-chips">
     <wt-chip
-      class="user-status-chips__chips"
       :color="isWeb ? 'main' : 'outline'"
-    >Web</wt-chip>
-    <wt-chip
       class="user-status-chips__chips"
+    >
+      Web
+    </wt-chip>
+    <wt-chip
       :color="isSip ? 'main' : 'outline'"
-    >SIP</wt-chip>
-    <wt-chip
       class="user-status-chips__chips"
+    >
+      SIP
+    </wt-chip>
+    <wt-chip
       :color="isDlg ? 'main' : 'outline'"
-    >Dlg</wt-chip>
-    <wt-chip
       class="user-status-chips__chips"
+    >
+      Dlg
+    </wt-chip>
+    <wt-chip
       :color="isDnd ? 'main' : 'outline'"
-    >DnD</wt-chip>
+      class="user-status-chips__chips"
+    >
+      DnD
+    </wt-chip>
   </div>
 </template>
 
 <script>
 export default {
-  name: 'user-status-chips',
+  name: 'UserStatusChips',
   props: {
     presence: {
       type: Object,

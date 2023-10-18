@@ -6,8 +6,8 @@ import PermissionsStoreModule
   from '../../../../../app/store/BaseStoreModules/StoreModules/PermissionsStoreModule/PermissionsStoreModule';
 import CognitiveProfilesAPI from '../api/cognitiveProfiles';
 import defaultCognitiveProfile from '../schemas/defaultCognitiveProfile';
-import microsoftCognitiveProfile from '../schemas/microsoftCognitiveProfile';
 import googleCognitiveProfile from '../schemas/googleCognitiveProfile';
+import microsoftCognitiveProfile from '../schemas/microsoftCognitiveProfile';
 import headers from './_internals/headers';
 
 const resettableState = {

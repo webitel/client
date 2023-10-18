@@ -5,20 +5,22 @@
       :skill-id="parentId"
       @close="isAddSkillToAgentPopup = false"
       @saved="loadDataList"
-    ></add-skill-to-agent-popup>
+    />
     <change-skill-popup
       v-if="agentSkillPopup"
       :selected-agents="selectedRows"
       @change="change"
       @close="closeAgentSkillPopup"
-    ></change-skill-popup>
+    />
     <delete-confirmation-popup
       v-show="deleteConfirmation.isDeleteConfirmationPopup"
       :payload="deleteConfirmation"
       @close="closeDelete"
-    ></delete-confirmation-popup>
+    />
     <header class="content-header">
-      <h3 class="content-title">{{ $t('objects.ccenter.agents.allAgents') }}</h3>
+      <h3 class="content-title">
+        {{ $t('objects.ccenter.agents.allAgents') }}
+      </h3>
       <div class="content-header__actions-wrap">
         <wt-search-bar
           :value="search"
@@ -26,7 +28,7 @@
           @enter="loadList"
           @input="setSearch"
           @search="loadList"
-        ></wt-search-bar>
+        />
         <wt-table-actions
           :icons="['refresh']"
           @input="tableActionsHandler"
@@ -36,32 +38,34 @@
             :label-left="true"
             :value="aggs.enabled"
             @change="changeStateForAll"
-          >
-          </wt-switcher>
+          />
           <wt-icon-btn
             v-if="!disableUserInput"
             :class="{'hidden': anySelected}"
             class="icon-action"
             icon="arrow-mix"
             @click="openAgentSkillPopup"
-          ></wt-icon-btn>
+          />
           <delete-all-action
             v-if="!disableUserInput"
             :class="{'hidden': anySelected}"
             :selected-count="selectedRows.length"
             @click="callDelete(selectedRows)"
-          ></delete-all-action>
+          />
           <wt-icon-btn
             v-if="!disableUserInput"
             class="icon-action"
             icon="plus"
             @click="isAddSkillToAgentPopup = true"
-          ></wt-icon-btn>
+          />
         </wt-table-actions>
       </div>
     </header>
-    <wt-loader v-show="!isLoaded"></wt-loader>
-    <div v-show="isLoaded" class="table-wrapper">
+    <wt-loader v-show="!isLoaded" />
+    <div
+      v-show="isLoaded"
+      class="table-wrapper"
+    >
       <wt-table
         :data="dataList"
         :grid-actions="hasTableActions"
@@ -69,34 +73,34 @@
         sortable
         @sort="sort"
       >
-        <template v-slot:name="{ item }">
+        <template #name="{ item }">
           {{ item.agent.name }}
         </template>
-        <template v-slot:team="{ item }">
+        <template #team="{ item }">
           <div v-if="item.team">
             {{ item.team.name }}
           </div>
         </template>
-        <template v-slot:capacity="{ item, index }">
+        <template #capacity="{ item, index }">
           <wt-input
             v-model="item.capacity"
             type="number"
             @input="handlePatchInput({item, index, prop:'capacity', value:$event})"
-          ></wt-input>
+          />
         </template>
-        <template v-slot:state="{ item, index }">
+        <template #state="{ item, index }">
           <wt-switcher
             :value="item.enabled"
             @change="handlePatchEnabled({ item, index, prop: 'enabled', value: $event })"
-          ></wt-switcher>
+          />
         </template>
-        <template v-slot:actions="{ item }">
+        <template #actions="{ item }">
           <wt-icon-action
             v-if="hasDeleteAccess"
             action="delete"
             class="table-action"
             @click="callDelete(item)"
-          ></wt-icon-action>
+          />
         </template>
       </wt-table>
       <wt-pagination
@@ -108,7 +112,7 @@
         @input="setSize"
         @next="nextPage"
         @prev="prevPage"
-      ></wt-pagination>
+      />
     </div>
   </section>
 </template>
@@ -125,9 +129,9 @@ import AddSkillToAgentPopup from './add-skill-to-agent-popup/add-skill-to-agent-
 import ChangeSkillPopup from './replace-agent-skill-popup.vue';
 
 export default {
-  name: 'opened-skill-agents',
-  mixins: [openedObjectTableTabMixin, objectTableAccessControlMixin],
+  name: 'OpenedSkillAgents',
   components: { AddSkillToAgentPopup, ChangeSkillPopup },
+  mixins: [openedObjectTableTabMixin, objectTableAccessControlMixin],
 
   data: () => ({
     namespace: 'lookups/skills',
@@ -136,6 +140,9 @@ export default {
     agentSkillPopup: false,
     isAddSkillToAgentPopup: false,
   }),
+  mounted() {
+    this.handlePatchInput = debounce(this.handlePatchInput);
+  },
   methods: {
     openAgentSkillPopup() {
       this.agentSkillPopup = true;
@@ -189,9 +196,6 @@ export default {
         },
       };
     },
-  },
-  mounted() {
-    this.handlePatchInput = debounce(this.handlePatchInput);
   },
 };
 </script>

@@ -1,6 +1,9 @@
 <template>
-  <wt-page-wrapper v-if="showPage" :actions-panel="false">
-    <template v-slot:header>
+  <wt-page-wrapper
+    v-if="showPage"
+    :actions-panel="false"
+  >
+    <template #header>
       <wt-page-header
         :hide-primary="!hasSaveActionAccess"
         :primary-action="save"
@@ -8,18 +11,18 @@
         :primary-text="saveText"
         :secondary-action="close"
       >
-        <wt-headline-nav :path="path"></wt-headline-nav>
-        <template v-slot:actions>
+        <wt-headline-nav :path="path" />
+        <template #actions>
           <webchat-copy-code-button
             v-if="isWebchat"
             :item-instance="itemInstance"
             @copied="handleWebchatCodeCopied"
-          ></webchat-copy-code-button>
+          />
         </template>
       </wt-page-header>
     </template>
 
-    <template v-slot:main>
+    <template #main>
       <form
         class="main-container"
         @submit.prevent="save"
@@ -27,14 +30,17 @@
         <wt-tabs
           v-model="currentTab"
           :tabs="tabs"
-        ></wt-tabs>
+        />
         <component
           :is="currentTab.value"
           v-if="currentTab"
           :namespace="namespace"
           :v="v$"
-        ></component>
-        <input hidden type="submit"> <!--  submit form on Enter  -->
+        />
+        <input
+          hidden
+          type="submit"
+        > <!--  submit form on Enter  -->
       </form>
     </template>
   </wt-page-wrapper>
@@ -42,9 +48,7 @@
 
 <script>
 import { useVuelidate } from '@vuelidate/core';
-import {
-  maxValue, minLength, minValue, numeric, required, url,
-} from '@vuelidate/validators';
+import { maxValue, minLength, minValue, numeric, required, url } from '@vuelidate/validators';
 import { mapActions } from 'vuex';
 import openedObjectMixin from '../../../../../app/mixins/objectPagesMixins/openedObjectMixin/openedObjectMixin';
 import ChatGatewayProvider from '../enum/ChatGatewayProvider.enum';
@@ -71,8 +75,7 @@ import OpenedViberChat from './viber/opened-chat-gateway-viber-general-tab.vue';
 import OpenedViberChatStyle from './viber/opened-chat-gateway-viber-style-tab.vue';
 
 export default {
-  name: 'opened-chat-gateway',
-  mixins: [openedObjectMixin],
+  name: 'OpenedChatGateway',
   components: {
     OpenedChatGatewayTemplates,
     OpenedChatTelegramBot,
@@ -91,12 +94,13 @@ export default {
     OpenedWebchatChat,
     OpenedWebchatAppointment,
   },
+  mixins: [openedObjectMixin],
+  setup: () => ({
+    v$: useVuelidate(),
+  }),
 
   data: () => ({
     namespace: 'routing/chatGateways',
-  }),
-  setup: () => ({
-    v$: useVuelidate(),
   }),
   validations() {
     const defaults = {
@@ -329,7 +333,7 @@ export default {
           return this.$tc('objects.routing.gateways.gateways', 1);
       }
       return this.$t(`objects.routing.chatGateways.${chatTypeLocale}`)
-                 .concat(' ', this.$tc('objects.routing.gateways.gateways', 1));
+      .concat(' ', this.$tc('objects.routing.gateways.gateways', 1));
     },
 
     path() {

@@ -4,19 +4,21 @@
       v-if="isPopup"
       @close="closePopup"
       @token-created="openTokenCreatedPopup"
-    ></token-popup>
+    />
     <token-created-popup
       v-if="isTokenGenerated"
       @close="closeTokenCreatedPopup"
-    ></token-created-popup>
+    />
     <delete-confirmation-popup
       v-show="deleteConfirmation.isDeleteConfirmationPopup"
       :payload="deleteConfirmation"
       @close="closeDelete"
-    ></delete-confirmation-popup>
+    />
 
     <header class="content-header">
-      <h3 class="content-title">{{ $tc('objects.directory.users.token', 2) }}</h3>
+      <h3 class="content-title">
+        {{ $tc('objects.directory.users.token', 2) }}
+      </h3>
 
       <wt-table-actions
         :icons="['refresh']"
@@ -27,66 +29,69 @@
           :class="{'hidden': anySelected}"
           :selected-count="selectedRows.length"
           @click="callDelete(selectedRows)"
-        ></delete-all-action>
+        />
         <wt-icon-action
           v-if="!disableUserInput"
           action="add"
           @click="create"
-        ></wt-icon-action>
+        />
       </wt-table-actions>
     </header>
 
-    <wt-loader v-show="!isLoaded"></wt-loader>
-    <div class="table-wrapper" v-show="isLoaded">
+    <wt-loader v-show="!isLoaded" />
+    <div
+      v-show="isLoaded"
+      class="table-wrapper"
+    >
       <wt-table
-        :headers="headers"
         :data="dataList"
         :grid-actions="!disableUserInput"
+        :headers="headers"
         sortable
         @sort="sort"
       >
-        <template v-slot:usage="{ item }">
+        <template #usage="{ item }">
           {{ item.usage }}
         </template>
-        <template v-slot:createdBy="{ item }">
+        <template #createdBy="{ item }">
           <div v-if="item.createdBy">
             {{ item.createdBy.name }}
           </div>
         </template>
-        <template v-slot:createdAt="{ item }">
+        <template #createdAt="{ item }">
           {{ prettifyDate(item.createdAt) }}
         </template>
-        <template v-slot:actions="{ item }">
+        <template #actions="{ item }">
           <wt-icon-btn
             icon="bucket"
             @click="callDelete(item)"
-          ></wt-icon-btn>
+          />
         </template>
       </wt-table>
       <wt-pagination
-        :size="size"
         :next="isNext"
         :prev="page > 1"
+        :size="size"
         debounce
+        @change="loadList"
+        @input="setSize"
         @next="nextPage"
         @prev="prevPage"
-        @input="setSize"
-        @change="loadList"
-      ></wt-pagination>
+      />
     </div>
   </section>
 </template>
 
 <script>
-import TokenPopup from './opened-user-token-popup.vue';
-import TokenCreatedPopup from './opened-user-token-created-popup.vue';
 import openedObjectTableTabMixin
   from '../../../../../../../app/mixins/objectPagesMixins/openedObjectTableTabMixin/openedObjectTableTabMixin';
+import TokenCreatedPopup from './opened-user-token-created-popup.vue';
+import TokenPopup from './opened-user-token-popup.vue';
 
 export default {
-  name: 'opened-user-tokens',
-  mixins: [openedObjectTableTabMixin],
+  name: 'OpenedUserTokens',
   components: { TokenPopup, TokenCreatedPopup },
+  mixins: [openedObjectTableTabMixin],
   data: () => ({
     subNamespace: 'tokens',
     isPopup: false,

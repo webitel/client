@@ -5,7 +5,10 @@ export default {
   methods: {
     callDelete(deleted) {
       if (this.isDeleteConfirmation) {
-        this.askDeleteConfirmation({ deleted, callback: this.makeDelete.bind(this, deleted) });
+        this.askDeleteConfirmation({
+          deleted,
+          callback: this.makeDelete.bind(this, deleted),
+        });
       } else this.makeDelete(deleted);
     },
     makeDelete(deleted) {

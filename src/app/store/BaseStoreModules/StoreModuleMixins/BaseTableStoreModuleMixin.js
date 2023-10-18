@@ -17,7 +17,11 @@ const state = {
 
 const actions = {
   // HOOKS TO BE OVERRIDEN, IF NEEDED
-  BEFORE_SET_DATA_LIST_HOOK: (context, { items, next, aggs }) => ({ items, next, aggs }),
+  BEFORE_SET_DATA_LIST_HOOK: (context, { items, next, aggs }) => ({
+    items,
+    next,
+    aggs,
+  }),
   AFTER_SET_DATA_LIST_HOOK: (context, { items, next }) => ({ items, next }),
 
   LOAD_DATA_LIST: async (context, _query) => {
@@ -39,7 +43,8 @@ const actions = {
       /* [https://my.webitel.com/browse/WTEL-3793]
       * When deleting the last item from list,
       * if there are other items on the previous page, you need to go back */
-      if (!items.length && context.state.page > 1) return context.dispatch('PREV_PAGE');
+      if (!items.length && context.state.page >
+        1) return context.dispatch('PREV_PAGE');
 
       /* we should set _isSelected property to all items in tables cause their checkbox selection
       * is based on this property. Previously, this prop was set it api consumers, but now

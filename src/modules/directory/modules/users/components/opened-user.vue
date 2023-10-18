@@ -2,7 +2,7 @@
   <wt-page-wrapper
     :actions-panel="!!currentTab.filters"
   >
-    <template v-slot:header>
+    <template #header>
       <wt-page-header
         :hide-primary="!hasSaveActionAccess"
         :primary-action="save"
@@ -10,18 +10,18 @@
         :primary-text="saveText"
         :secondary-action="close"
       >
-        <wt-headline-nav :path="path"></wt-headline-nav>
+        <wt-headline-nav :path="path" />
       </wt-page-header>
     </template>
 
-    <template v-slot:actions-panel>
+    <template #actions-panel>
       <component
         :is="currentTab.filters"
         :namespace="currentTab.filtersNamespace"
-      ></component>
+      />
     </template>
 
-    <template v-slot:main>
+    <template #main>
       <form
         class="main-container"
         @submit.prevent="save"
@@ -29,13 +29,16 @@
         <wt-tabs
           v-model="currentTab"
           :tabs="tabs"
-        ></wt-tabs>
+        />
         <component
           :is="currentTab.value"
           :namespace="namespace"
           :v="v$"
-        ></component>
-        <input type="submit" hidden> <!--  submit form on Enter  -->
+        />
+        <input
+          hidden
+          type="submit"
+        > <!--  submit form on Enter  -->
       </form>
     </template>
   </wt-page-wrapper>
@@ -43,22 +46,19 @@
 
 <script>
 import { useVuelidate } from '@vuelidate/core';
-import {
-  helpers, required, requiredIf, requiredUnless,
-} from '@vuelidate/validators';
+import { helpers, required, requiredIf, requiredUnless } from '@vuelidate/validators';
 import openedObjectMixin from '../../../../../app/mixins/objectPagesMixins/openedObjectMixin/openedObjectMixin';
-import Tokens from '../modules/tokens/components/opened-user-token.vue';
 import Logs from '../modules/logs/components/opened-user-logs.vue';
+import LogsFilters from '../modules/logs/modules/filters/components/opened-user-logs-filters.vue';
+import Tokens from '../modules/tokens/components/opened-user-token.vue';
 import Devices from './opened-user-devices.vue';
 import General from './opened-user-general.vue';
 import License from './opened-user-license.vue';
 import Roles from './opened-user-roles.vue';
 import Variables from './opened-user-variables.vue';
-import LogsFilters from '../modules/logs/modules/filters/components/opened-user-logs-filters.vue';
 
 export default {
-  name: 'opened-user',
-  mixins: [openedObjectMixin],
+  name: 'OpenedUser',
   components: {
     General,
     Roles,
@@ -69,12 +69,13 @@ export default {
     Logs,
     LogsFilters,
   },
-  data: () => ({
-    namespace: 'directory/users',
-  }),
+  mixins: [openedObjectMixin],
 
   setup: () => ({
     v$: useVuelidate(),
+  }),
+  data: () => ({
+    namespace: 'directory/users',
   }),
   validations: {
     itemInstance: {

@@ -4,24 +4,28 @@
     min-width="480"
     @close="close"
   >
-    <template v-slot:title>{{ $t('objects.ccenter.members.resetMembers.resetMembers') }}</template>
-    <template v-slot:main>
+    <template #title>
+      {{ $t('objects.ccenter.members.resetMembers.resetMembers') }}
+    </template>
+    <template #main>
       <p>
         {{ $t('objects.ccenter.members.resetMembers.description') }}
       </p>
     </template>
-    <template v-slot:actions>
+    <template #actions>
       <wt-button
-        color="secondary"
         :disabled="isResetting"
+        color="secondary"
         @click="cancel"
-      >{{ $t('reusable.cancel') }}
+      >
+        {{ $t('reusable.cancel') }}
       </wt-button>
       <wt-button
-        color="error"
         :loading="isResetting"
+        color="error"
         @click="confirm"
-      >{{ $t('objects.ccenter.members.resetMembers.reset') }}
+      >
+        {{ $t('objects.ccenter.members.resetMembers.reset') }}
       </wt-button>
     </template>
   </wt-popup>
@@ -29,7 +33,7 @@
 
 <script>
 export default {
-  name: 'reset-members-popup',
+  name: 'ResetMembersPopup',
   inject: ['$eventBus'],
   props: {
     callback: {
@@ -40,8 +44,7 @@ export default {
   data: () => ({
     isResetting: false,
   }),
-  computed: {
-  },
+  computed: {},
   methods: {
     close() {
       this.$emit('close');

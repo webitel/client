@@ -29,10 +29,10 @@ const state = {
   }),
   cause: new EnumFilterSchema({
     options: Object.values(MemberStopCause)
-      .map((value) => ({
-        value,
-        locale: `objects.ccenter.members.endCause.${value}`,
-      })),
+    .map((value) => ({
+      value,
+      locale: `objects.ccenter.members.endCause.${value}`,
+    })),
     locale: { label: 'objects.ccenter.queues.endCause' },
   }),
   bucket: new ApiFilterSchema({

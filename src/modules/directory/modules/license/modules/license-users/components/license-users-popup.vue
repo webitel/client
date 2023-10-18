@@ -4,27 +4,30 @@
     overflow
     @close="close"
   >
-    <template v-slot:header>
+    <template #header>
       <h3 class="license-users-popup__title">
         <wt-icon
           icon="license"
           icon-prefix="adm"
           size="lg"
-        ></wt-icon>
+        />
         {{ license.product }}
       </h3>
     </template>
-    <template v-slot:main>
+    <template #main>
       <wt-search-bar
         :value="search"
         debounce
         @enter="loadList"
         @input="setSearch"
         @search="loadList"
-      ></wt-search-bar>
+      />
 
-      <wt-loader v-show="!isLoaded"></wt-loader>
-      <div v-show="isLoaded" class="table-wrapper">
+      <wt-loader v-show="!isLoaded" />
+      <div
+        v-show="isLoaded"
+        class="table-wrapper"
+      >
         <div class="table-wrapper__scroll-wrapper">
           <wt-table
             :data="dataList"
@@ -34,24 +37,25 @@
             sortable
             @sort="sort"
           >
-            <template v-slot:domain="{ item }">
+            <template #domain="{ item }">
               <div v-if="item.domain">
                 {{ item.domain.name }}
               </div>
             </template>
-            <template v-slot:name="{ item }">
+            <template #name="{ item }">
               <wt-item-link
                 v-if="item.user"
-                :route-name="RouteNames.USERS"
                 :id="item.user.id"
-              >{{ item.user.name }}
+                :route-name="RouteNames.USERS"
+              >
+                {{ item.user.name }}
               </wt-item-link>
             </template>
-            <template v-slot:used="{ item }">
+            <template #used="{ item }">
               <user-logout-control
                 :item="item"
                 @logout="logoutUser"
-              ></user-logout-control>
+              />
             </template>
           </wt-table>
         </div>
@@ -64,7 +68,7 @@
           @input="setSize"
           @next="nextPage"
           @prev="prevPage"
-        ></wt-pagination>
+        />
       </div>
     </template>
   </wt-popup>
@@ -79,9 +83,9 @@ import openedObjectTableTabMixin
 import UserLogoutControl from './user-logout-control.vue';
 
 export default {
-  name: 'license-users-popup',
-  mixins: [resetOnDestroyMixin, openedObjectTableTabMixin],
+  name: 'LicenseUsersPopup',
   components: { UserLogoutControl },
+  mixins: [resetOnDestroyMixin, openedObjectTableTabMixin],
   data: () => ({
     subNamespace: 'licenseUsers',
   }),
