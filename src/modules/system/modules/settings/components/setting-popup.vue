@@ -25,15 +25,8 @@
           v-if="itemInstance.name"
         >
           <component
-            :is="`wt-${componentType}`"
-            :value="itemInstance.value"
-            :v="v$.itemInstance.value"
-            :required="componentType === 'input'"
-            :label="$tc('vocabulary.values', 1)"
-            :type="valueType === 'number' && 'number'"
-            @change="setItemProp({ prop: 'value', value: $event })"
-            @input="setItemProp({ prop: 'value', value: $event })"
-           ></component>
+            v-bind="componentConfig"
+          ></component>
         </div>
       </form>
     </template>
@@ -88,8 +81,41 @@ export default {
     valueType() {
       return SettingsValueTypes[this.itemInstance.name];
     },
-    componentType() {
-      return this.valueType === 'boolean' ? 'switcher' : 'input';
+    componentConfig() {
+      const defaultConfig = {
+        value: this.itemInstance.value,
+        v: this.v$.itemInstance.value,
+        required: true,
+        label: this.$tc('vocabulary.values', 1),
+      };
+
+      const defaultBooleanConfig = {
+        ...defaultConfig,
+        is: 'wt-switcher',
+        'v-on': {
+          change: (event) => this.setItemProp({ prop: 'value', value: event }),
+        },
+      };
+      const defaultNumberConfig = {
+        ...defaultConfig,
+        is: 'wt-input',
+        type: 'number',
+        'v-on': {
+          input: (event) => this.setItemProp({ prop: 'value', value: event }),
+        },
+      };
+
+      switch (this.itemInstance.name) {
+        case EngineSystemSettingName.EnableOmnichannel: {
+          return defaultBooleanConfig;
+        }
+        case EngineSystemSettingName.MemberChunkSize: {
+          return defaultNumberConfig;
+        }
+        default: {
+          return {};
+        }
+      }
     },
   },
   methods: {
@@ -124,9 +150,9 @@ export default {
       return response;
     },
     setDefaultValue(event) {
-        this.setItemProp({ prop: 'name', value: event });
-        if (this.valueType === 'boolean') this.setItemProp({ prop: 'value', value: false });
-        if (this.valueType === 'number') this.setItemProp({ prop: 'value', value: 0 });
+      this.setItemProp({ prop: 'name', value: event });
+      if (this.valueType === 'boolean') this.setItemProp({ prop: 'value', value: false });
+      if (this.valueType === 'number') this.setItemProp({ prop: 'value', value: 0 });
     },
   },
 };
