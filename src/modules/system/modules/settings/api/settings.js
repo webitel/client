@@ -51,6 +51,19 @@ const getList = async (params) => {
   }
 };
 
+const get = async ({ itemId: id }) => {
+  try {
+    const response = await service.readSystemSetting(id);
+    return applyTransform(response.data, [
+      snakeToCamel(),
+    ]);
+  } catch (err) {
+    throw applyTransform(err, [
+      notify,
+    ]);
+  }
+};
+
 const fieldsToSend = ['id', 'name', 'value'];
 
 const add = async ({ itemInstance }) => {
@@ -87,6 +100,11 @@ const update = async ({ itemInstance, itemId: id }) => {
   }
 };
 
+const getLookup = (params) => getList({
+  ...params,
+  fields: params.fields || ['name'],
+});
+
 const deleteItem = async ({ id }) => {
   try {
     const response = await service.deleteSystemSetting(id);
@@ -100,9 +118,11 @@ const deleteItem = async ({ id }) => {
 
 const SettingsAPI = {
   getList,
+  get,
   add,
   update,
   delete: deleteItem,
+  getLookup,
 };
 
 export default SettingsAPI;

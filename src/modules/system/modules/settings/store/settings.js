@@ -4,9 +4,6 @@ import SettingsAPI from '../api/settings';
 import headers from './_internals/headers';
 
 const actions = {
-  SET_ITEM: async (context, item) => {
-    context.commit('SET_ITEM', item);
-  },
   ADD_ITEM: async (context) => {
     if (!context.state.itemId) {
       const { id } = await context.dispatch('POST_ITEM');
